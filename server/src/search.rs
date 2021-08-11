@@ -38,8 +38,9 @@ struct MSHit {
     name: String,
     arch_name: Option<String>,
     r#type: String,
+    type_common_name: String,
     parent_building: Vec<String>,
-    parent_ids: Vec<String>,
+    parent_keywords: Vec<String>,
     address: Option<String>,
     usage: Option<String>,
     rank: i32,
@@ -56,7 +57,7 @@ pub async fn do_search(q: String, client: web::Data<Client>) -> Result<SearchRes
             id: r.id,
             r#type: r.r#type,
             name: r.name,
-            subtext: format!("{:?}, {:?}", r.arch_name, r.usage),
+            subtext: format!("{:?}, {}", r.arch_name, r.type_common_name),
         })
     }
 
