@@ -25,13 +25,13 @@ def test_specific_queries(queries):
             search = {
                 "query": q["query"],
                 "target": q["target"],
-                "hits": r["hits"],
-                "num_results": r["nbHits"],
-                "time_ms": r["processingTimeMs"],
+                "hits": r["results"],
+                "num_results": r["nb_hits"],
+                "time_ms": r["time_ms"],
             }
 
             try:
-                search["target_pos"] = list(map(lambda s: s["id"] == target_id, r["hits"])).index(True)
+                search["target_pos"] = list(map(lambda s: s["id"] == target_id, r["results"])).index(True)
             except ValueError:
                 search["target_pos"] = -1
 
@@ -153,9 +153,9 @@ def _print_specific_queries_result(searches, cmp=None):
                 s_cmp = colored(" ----", "white")
             else:
                 if cmp_search["grade"] < search["grade"]:
-                    s_cmp = colored(" +{}".format(round(search["grade"] - cmp_search["grade"], 1)), "green", attrs=["bold"])
+                    s_cmp = colored(" +{}".format(round(search["grade"] - cmp_search["grade"], 1)), "red", attrs=["bold"])
                 elif cmp_search["grade"] > search["grade"]:
-                    s_cmp = colored(" -{}".format(round(cmp_search["grade"] - search["grade"], 1)), "red", attrs=["bold"])
+                    s_cmp = colored(" -{}".format(round(cmp_search["grade"] - search["grade"], 1)), "green", attrs=["bold"])
                 else:
                     s_cmp = "     "
 
@@ -209,7 +209,9 @@ def _print_specific_queries_result(searches, cmp=None):
         ))
 
     num_searches = sum(map(lambda s: len(s["query"]) + 1, searches))
-    print("Performed {} searches".format(num_searches))
+    avg_search_times = sum(map(lambda s: s["partial_time_avg"] * len(s["query"]), searches)) / \
+                       sum(map(lambda s:                         len(s["query"]), searches))
+    print("Performed {} searches, {}ms (partial) average".format(num_searches, round(avg_search_times, 1)))
 
 
 if __name__ == "__main__":
@@ -217,9 +219,9 @@ if __name__ == "__main__":
         test_queries = yaml.safe_load(f.read())
 
     cprint("=== Specific queries ===", attrs=['bold'])
-    #with open(os.path.join(os.path.dirname(__file__), "cmp-210811.json")) as f:
-    #    cmp = json.load(f)
-    cmp = None
+    with open(os.path.join(os.path.dirname(__file__), "cmp-210811.json")) as f:
+        cmp = json.load(f)
+    #cmp = None
 
     searches = test_specific_queries(test_queries["entry_queries"])
     _print_specific_queries_result(searches, cmp)

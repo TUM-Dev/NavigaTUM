@@ -23,6 +23,7 @@ entry_queries:
 - {target: "5604.EG.011",  query: "5604.00.011",       }
 - {target: "5601.EG.001",  query: "5601.EG.001",       }
 - {target: "5608.03.011",  query: "03.08.011",         }
+- {target: "5602.EG.001",  query: "mi hs 1",           }
 - {target: "5508.01.801",  query: "MW 1801",           }
 - {target: "5508.01.801",  query: "1801 maschinen",    }
 - {target: "5503.EG.337",  query: "Raum 0337 mw",      }
