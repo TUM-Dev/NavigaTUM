@@ -1,8 +1,6 @@
 use std::collections::HashMap;
 use std::time::Instant;
-//use std::time::Duration;
 
-//use actix_web::client::Client;
 use actix_web::client::{Client, ClientBuilder, Connector};
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
@@ -47,16 +45,12 @@ struct MSHit {
     rank: i32,
 }
 
-pub async fn do_search(q: String/*, client: &Client*/) -> Result<SearchResults> {
+pub async fn do_search(q: String) -> Result<SearchResults> {
     let start_time = Instant::now();
 
     let client = ClientBuilder::new()
-                    .connector(
-                        Connector::new()
-                            //.conn_keep_alive(Duration::new(30, 0))
-                            .finish(),
-                    )
-                    .finish();
+        .connector(Connector::new().finish())
+        .finish();
 
     let ms_results = do_meilisearch(&q, &client).await?;
 
@@ -71,8 +65,6 @@ pub async fn do_search(q: String/*, client: &Client*/) -> Result<SearchResults> 
     }
 
     let time_ms = start_time.elapsed().as_millis();
-
-    //println!("{:p} {:?}", &client, time_ms);
 
     let results = SearchResults {
         results: results,
@@ -99,4 +91,3 @@ async fn do_meilisearch(q: &String, client: &Client) -> Result<MSResults> {
     let resp_str = std::str::from_utf8(resp_bytes.as_ref()).unwrap();
     Ok(serde_json::from_str(resp_str)?)
 }
-

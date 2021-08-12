@@ -28,7 +28,6 @@ async fn get_handler(web::Path(id): web::Path<String>) -> Result<HttpResponse> {
 async fn search_handler(
     _req: HttpRequest,
     web::Path(q): web::Path<String>,
-    /*client: web::Data<Client>,*/
 ) -> Result<HttpResponse> {
     let search_results = search::do_search(q).await?;
     let result_json = serde_json::to_string(&search_results)?;
@@ -49,17 +48,6 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(cors)
             .wrap(middleware::Compress::default())
-            /*.app_data(
-                web::Data::new(
-                ClientBuilder::new()
-                    .connector(
-                        Connector::new()
-                            .conn_keep_alive(Duration::new(30, 0))
-                            .finish(),
-                    )
-                    .finish().clone()
-                )
-            )*/
             .service(get_handler)
             .service(search_handler)
     })

@@ -19,7 +19,7 @@ def test_specific_queries(queries):
         target_id = q["target"].replace(".", "-")
 
         def do_search(q_str):
-            url = SEARCH_ENDPOINT + urllib.parse.quote_plus(q_str)
+            url = SEARCH_ENDPOINT + urllib.parse.quote(q_str)
             r = requests.get(url).json()
 
             search = {
