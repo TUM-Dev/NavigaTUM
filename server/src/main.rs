@@ -1,6 +1,5 @@
 #[macro_use]
 extern crate lazy_static;
-use serde_json;
 use std::fs;
 
 use actix_cors::Cors;
@@ -51,7 +50,7 @@ async fn main() -> std::io::Result<()> {
             .service(get_handler)
             .service(search_handler)
     })
-    .bind("127.0.0.1:8080")?
+    .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "127.0.0.1:8080".to_string()))?
     .run()
     .await
 }
