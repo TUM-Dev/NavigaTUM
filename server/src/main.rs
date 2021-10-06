@@ -4,8 +4,31 @@ use std::fs;
 
 use actix_cors::Cors;
 use actix_web::{get, http, middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result};
+use structopt::StructOpt;
 
 mod search;
+mod feedback;
+
+
+const MAX_JSON_PAYLOAD: usize = 1024 * 1024;  // 1 MB
+
+#[derive(StructOpt, Debug)]
+#[structopt(name = "server")]
+pub struct Opt {
+    // Feedback
+    /// GitLab instance domain
+    #[structopt(short = "g", long)]
+    gitlab_domain: Option<String>,
+
+    /// GitLab access token
+    #[structopt(short = "t", long)]
+    gitlab_token: Option<String>,
+
+    /// GitLab feedback project id
+    #[structopt(short = "f", long)]
+    feedback_project: Option<i32>,
+}
+
 
 lazy_static! {
     static ref JSON_DATA: serde_json::map::Map<String, serde_json::Value> = {
@@ -43,20 +66,29 @@ async fn source_code_handler() -> Result<HttpResponse> {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    let opt = Opt::from_args();
+
     // This causes lazy_static to evaluate
     JSON_DATA.contains_key("");
 
-    HttpServer::new(|| {
+    let state_feedback = web::Data::new(feedback::init_state(opt));
+
+    HttpServer::new(move || {
         let cors = Cors::default().allow_any_origin();
                                   //.allowed_origin("localhost")
                                   //.allowed_origin("https://fs.tum.de");
 
+        let json_config = web::JsonConfig::default().limit(MAX_JSON_PAYLOAD);
+
         App::new()
             .wrap(cors)
             .wrap(middleware::Compress::default())
+            .app_data(json_config)
             .service(get_handler)
             .service(search_handler)
             .service(source_code_handler)
+            .service(web::scope("/feedback").configure(feedback::configure)
+                                            .app_data(state_feedback.clone()))
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?
     .run()
