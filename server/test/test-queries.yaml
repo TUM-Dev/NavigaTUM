@@ -8,6 +8,7 @@
 entry_queries:
 # site/area/campus queries
 - {target: "garching-hochbrueck", query: "hochbrück", }
+- {target: "wzw",                 query: "wzw", }
 # building queries
 - {target: "5301", query: "5301",                   }
 - {target: "5620", query: "interims I",             }
@@ -49,6 +50,7 @@ entry_queries:
 - {target: "5604.EG.038",  query: "praktikumsraum mi", among: 2}  # there are two basic lab course rooms, this is one of them
 - {target: "5604.EG.036",  query: "physik labor mi",   among: 3}  # "5604.02.033" is a valid result before the two lab course rooms
 - {target: "0104.U1.403",  query: "n1403",             among: 2}  # This is "N-1403@0104", but "N1403@0104" can be before this
+- {target: "5101.EG.257",  query: "fachschaft pyhsik"}  # typo + it's "Fachschaftsbüro" in the data
 # other queries
 #- {target: , query: "mathe bib",               }
 #- {target: , query: "tb innenstadt",           }

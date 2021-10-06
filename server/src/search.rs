@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::time::Instant;
+use futures::join;
 
 use actix_web::client::{Client, ClientBuilder, Connector};
 use serde::{Deserialize, Serialize};
@@ -37,9 +38,17 @@ struct SearchInput {
 /// Returned search results by this
 #[derive(Serialize, Debug)]
 pub struct SearchResults {
-    results: Vec<ResultEntry>,
-    nb_hits: i32,
+    sections: Vec<SearchResultsSection>,
     time_ms: u128,
+}
+
+#[derive(Serialize, Debug)]
+pub struct SearchResultsSection {
+    facet: String,
+    entries: Vec<ResultEntry>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    n_visible: Option<usize>,
+    nb_hits: i32,
 }
 
 #[derive(Serialize, Debug)]
@@ -48,6 +57,30 @@ pub struct ResultEntry {
     r#type: String,
     name: String,
     subtext: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    subtext_bold: Option<String>,
+}
+
+/// Input into MeiliSearch
+struct MSSearchArgs<'a> {
+    q: &'a str,
+    filter: Option<MSSearchFilter>,
+    limit: u8,
+}
+
+#[derive(Debug)]
+struct MSSearchFilter {
+    facet: Vec::<String>,
+}
+
+#[derive(Serialize)]
+struct MSQuery<'a> {
+    q: &'a str,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    filter: Option<Vec::<Vec::<String>>>,
+    limit: u8,
+    #[serde(rename = "facetsDistribution")]
+    facets_distribution: Vec::<String>,
 }
 
 /// Result format of MeiliSearch.
@@ -57,13 +90,14 @@ struct MSResults {
     hits: Vec<MSHit>,
     #[serde(rename = "nbHits")]
     nb_hits: i32,
-    #[serde(rename = "processingTimeMs")]
-    processing_time_ms: i32,
+    #[serde(rename = "facetsDistribution")]
+    facets_distribution: MSFacetDistribution,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 #[allow(dead_code)]
 struct MSHit {
+    ms_id: String,
     id: String,
     name: String,
     arch_name: Option<String>,
@@ -76,77 +110,30 @@ struct MSHit {
     rank: i32,
 }
 
+#[derive(Deserialize, Debug)]
+struct MSFacetDistribution {
+    facet: HashMap<String, i32>
+}
+
 pub async fn do_search(q: String) -> Result<SearchResults> {
     let start_time = Instant::now();
 
     let parsed = parse_input_query(&q);
-    let new_input_query = build_query_string(parsed.tokens);
-
-    // MeiliSearch does automatically split tokens, but for the kind of tokens
-    // in the entry index, this is unreliable. For this reason, we split the tokens
-    // at common positions and forward the split queries to MeiliSearch, which does
-    // also auto-merge them up to three word. We can later account for this by moving
-    // correctly merged tokens back up in results.
-    // Note: This process seems to account for +0.2ms request time on average because
-    //       it increases the number of tokens.
-    let tokens_by_space = new_input_query.split_whitespace();
-    let mut q_splitted_vec = Vec::<String>::new();
-    for token in tokens_by_space {
-        // Tokens like "AB123" (alpha and then numeric) are split int "AB 123".
-        // Currently, a maximum of one split is done here.
-        let mut has_done_split = false;
-
-        // Numeric only strings
-        // It is common that room names are given with four-digist with the first digit
-        // being the level. So in this special case we do a split at this point, however
-        // only if the query has less than three tokens (TODO), so MeiliSearch still auto-merges.
-        // This is important because then we can assume it is still possible to reorder
-        // the results and put exact merged results back up.
-        if !has_done_split &&
-           token.len() == 4 &&
-           token.chars().all(char::is_numeric) {
-            let mut chars = token.chars();
-            let first_char = chars.next().unwrap();
-            if first_char == '0' || first_char == '1' || first_char == '2' {
-                q_splitted_vec.push(first_char.to_string());
-                q_splitted_vec.push(chars.as_str().to_string());
-                has_done_split = true;
-            }
-        }
-
-        if !has_done_split {
-            q_splitted_vec.push(token.to_string());
-        }
-    }
-    let q_splitted = q_splitted_vec.join(" ");
 
     let client = ClientBuilder::new()
         .connector(Connector::new().finish())
         .finish();
 
-    let ms_results = do_meilisearch(&q_splitted, client).await?;
-
-    let results: Vec<ResultEntry> = ms_results
-        .hits
-        .iter()
-        .map(|r| ResultEntry {
-            id: r.id.to_string(),
-            r#type: r.r#type.to_string(),
-            name: r.name.to_string(),
-            subtext: format!("{:?}, {}", r.arch_name, r.type_common_name),
-        })
-        .collect();
+    let results_sections = do_geoentry_search(client, &parsed.tokens).await;
 
     let time_ms = start_time.elapsed().as_millis();
     Ok(SearchResults {
-        results,
-        nb_hits: ms_results.nb_hits,
+        sections: results_sections,
         time_ms,
     })
 }
 
-fn build_query_string(search_tokens: Vec::<SearchToken>) -> String {
-    //let s_parts = Vec::<String>::new();
+fn build_query_string(search_tokens: &Vec::<SearchToken>) -> String {
     let mut s = String::from("");
     for token in search_tokens {
         if token.closed && !token.quoted {
@@ -301,9 +288,167 @@ fn tokenize_input_query(q: &str) -> Vec::<InputToken> {
     tokens
 }
 
-async fn do_meilisearch(q: &str, client: Client) -> Result<MSResults> {
-    let mut post_data = HashMap::new();
-    post_data.insert("q", q);
+async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>) -> Vec::<SearchResultsSection> {
+    // Determine what to search for
+
+    // Currently ranking is designed to put buildings at the top if they equally
+    // match the term compared to a room. For this reason there is only a search
+    // for all entries and only rooms, as matching (and relevant) buildings can be
+    // expected to be at the top of the merged search. However sometimes a lot of
+    // buildings will be hidden (e.g. building parts), so the extra room search ....
+
+    let q_default = build_query_string(&search_tokens);
+
+    let res_merged = do_meilisearch(client.clone(), MSSearchArgs {
+        q: &q_default,
+        filter: None,
+        limit: 20  // This is the MeiliSearch default
+    });
+    let res_buildings = do_building_search_closed_query(client.clone(), &search_tokens);
+    let res_rooms = do_room_search(client.clone(), &search_tokens);
+
+    let results = join!(res_merged, res_buildings, res_rooms);
+
+    // First look up which buildings did match even with a closed query.
+    // We can consider them more relevant.
+    let mut closed_matching_buildings = Vec::<String>::new();
+    for hit in results.1.unwrap().hits {
+        closed_matching_buildings.push(hit.id);
+    }
+
+    let mut section_buildings = SearchResultsSection {
+        facet: "sites_buildings".to_string(),
+        entries: Vec::<ResultEntry>::new(),
+        n_visible: None,
+        nb_hits: results.0.as_ref().unwrap().facets_distribution.facet.get("site").unwrap_or_else(|| { &0 }) +
+                 results.0.as_ref().unwrap().facets_distribution.facet.get("building").unwrap_or_else(|| { &0 }) ,
+    };
+    let mut section_rooms = SearchResultsSection {
+        facet: "rooms".to_string(),
+        entries: Vec::<ResultEntry>::new(),
+        n_visible: None,
+        nb_hits: results.2.as_ref().unwrap().nb_hits,
+    };
+
+    // TODO: Collapse joined buildings
+    // let mut observed_joined_buildings = Vec::<String>::new();
+    let mut observed_ids = Vec::<String>::new();
+    for hit in [results.0.unwrap().hits, results.2.unwrap().hits].concat() {
+        if observed_ids.contains(&hit.id) { continue };  // No duplicates
+
+        // Find out where it matches TODO: Improve
+        let highlighted_name = highlight_matches(&hit.name, &search_tokens);
+        let highlighted_arch_name = match &hit.arch_name {
+            Some(arch_name) => highlight_matches(arch_name, &search_tokens),
+            None => String::from("")
+        };
+
+        match hit.r#type.as_str() {
+            "campus" | "site" | "area" | "building" | "joined_building" => {
+                if section_buildings.entries.len() < 5 {
+
+                    section_buildings.entries.push(ResultEntry {
+                        id: hit.id.to_string(),
+                        r#type: hit.r#type.to_string(),
+                        name: highlighted_name,
+                        subtext: format!("{}", hit.type_common_name),
+                        subtext_bold: None,
+                    });
+                }
+            },
+            "room" | "virtual_room" => {
+                if section_rooms.entries.len() < 5 ||
+                   (section_rooms.entries.len() < 10 && section_buildings.entries.len() == 0 ) {
+
+                    section_rooms.entries.push(ResultEntry {
+                        id: hit.id.to_string(),
+                        r#type: hit.r#type.to_string(),
+                        name: highlighted_name,
+                        subtext: format!("{}", if hit.parent_building.len() > 0 { &hit.parent_building[0] } else { "" }),
+                        subtext_bold: Some(highlighted_arch_name),
+                    });
+
+                    // The first room in the results 'freezes' the number of visible buildings
+                    if section_buildings.n_visible.is_none() &&
+                       section_rooms.entries.len() == 1 {
+                        section_buildings.n_visible = Some(section_buildings.entries.len());
+                    }
+                }
+            },
+            _ => {}
+        };
+
+        observed_ids.push(hit.id);
+    }
+
+    match section_buildings.n_visible {
+        Some(0) => vec![section_rooms, section_buildings],
+        _ => vec![section_buildings, section_rooms],
+    }
+}
+
+async fn do_building_search_closed_query(client: Client, search_tokens: &Vec::<SearchToken>) -> Result<MSResults> {
+    let q = format!("{} ", build_query_string(search_tokens));
+
+    do_meilisearch(client, MSSearchArgs {
+        q: &q,
+        filter: Some(MSSearchFilter { facet: vec!["site".to_string(), "building".to_string()] }),
+        limit: 20
+    }).await
+}
+
+async fn do_room_search(client: Client, search_tokens: &Vec::<SearchToken>) -> Result<MSResults> {
+    let mut q = String::from("");
+    for token in search_tokens {
+        // It is common that room names are given with four-digits with the first digit
+        // being the level. In this case we add splitted terms as well, which could give
+        // results if the 4-digit-token doesn't, but still the 4-digit-token should usually
+        // take precedence.
+        let s = if token.s.len() == 4 &&
+                   match token.s.chars().next().unwrap() {
+                       '0' | '1' | '2' => true,
+                       _ => false
+                   } &&
+                   token.s.chars().all(char::is_numeric) {
+            format!("{} {} {}", token.s, token.s.get(0..1).unwrap(), token.s.get(1..4).unwrap())
+        } else {
+            token.s.clone()
+        };
+
+        if token.closed && !token.quoted {
+            q.push_str(&format!("{} ", s));
+        } else {
+            q.push_str(&s);
+        }
+    }
+
+    do_meilisearch(client, MSSearchArgs {
+        q: &q,
+        filter: Some(MSSearchFilter { facet: vec!["room".to_string()] }),
+        limit: 5
+    }).await
+}
+
+async fn do_meilisearch(client: Client, args: MSSearchArgs<'_>) -> Result<MSResults> {
+    let post_data = MSQuery {
+        q: args.q,
+        filter: match args.filter {
+            Some(f) => {
+                let mut f_array = Vec::<Vec::<String>>::new();
+                // Currently only facets, but later also more filters
+                let mut sub_f_array = Vec::<String>::new();
+                for facet in f.facet {
+                    sub_f_array.push(format!("facet = {}", facet));  // TODO: Put in quotes?
+                }
+                f_array.push(sub_f_array);
+
+                Some(f_array)
+            },
+            _ => None
+        },
+        limit: args.limit,
+        facets_distribution: vec!["facet".to_string()],
+    };
 
     let resp_bytes = client
         .post(
@@ -319,4 +464,31 @@ async fn do_meilisearch(q: &str, client: Client) -> Result<MSResults> {
 
     let resp_str = std::str::from_utf8(resp_bytes.as_ref()).unwrap();
     Ok(serde_json::from_str(resp_str)?)
+}
+
+fn highlight_matches(s: &String, search_tokens: &Vec::<SearchToken>) -> String {
+    // Note: This does not hightlight the matches that were actually used.
+    //       e.g. "hs" will highlight "Versuchsraum"
+    //                                       ^^
+    // TODO: This could in some cases be misleading
+    let mut s_highlighted = s.to_string();
+
+    for token in search_tokens {
+        let s_lower = s_highlighted.to_lowercase();
+        let mut offset = 0;
+        for (start_i, pattern) in s_lower.match_indices(&token.s) {
+            if start_i > 0 && s_highlighted.get(..(start_i + offset)).unwrap().chars().last().unwrap().is_alphabetic() &&
+               pattern.chars().next().unwrap().is_alphabetic() {
+                continue;
+            }
+
+            s_highlighted = format!("{}\u{0019}{}\u{0017}{}",
+                                    s_highlighted.get(..(start_i+offset)).unwrap(),
+                                    s_highlighted.get((start_i+offset)..(start_i+offset+pattern.len())).unwrap(),
+                                    s_highlighted.get((start_i+offset+pattern.len())..).unwrap());
+            offset += 2;
+        }
+    }
+
+    s_highlighted.to_string()
 }

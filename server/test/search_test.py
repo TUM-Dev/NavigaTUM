@@ -2,6 +2,7 @@ import sys
 import os
 import urllib
 import json
+import itertools
 
 import requests
 import yaml
@@ -16,7 +17,7 @@ def test_specific_queries(queries):
     searches = []
 
     for q in Bar("Querying", suffix="%(index)d / %(max)d").iter(queries):
-        target_id = q["target"].replace(".", "-")
+        target_id = q["target"]
 
         def do_search(q_str):
             url = SEARCH_ENDPOINT + urllib.parse.quote(q_str)
@@ -25,13 +26,13 @@ def test_specific_queries(queries):
             search = {
                 "query": q["query"],
                 "target": q["target"],
-                "hits": r["results"],
-                "num_results": r["nb_hits"],
+                "hits": list(itertools.chain(*[s["entries"] for s in r["sections"]])),
+                "num_results": sum([s["nb_hits"] for s in r["sections"]]),
                 "time_ms": r["time_ms"],
             }
 
             try:
-                search["target_pos"] = list(map(lambda s: s["id"] == target_id, r["results"])).index(True)
+                search["target_pos"] = list(map(lambda s: s["id"] == target_id, search["hits"])).index(True)
             except ValueError:
                 search["target_pos"] = -1
 

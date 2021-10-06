@@ -43,6 +43,8 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(|| {
         let cors = Cors::default().allow_any_origin();
+                                  //.allowed_origin("localhost")
+                                  //.allowed_origin("https://fs.tum.de");
 
         App::new()
             .wrap(cors)
@@ -50,7 +52,7 @@ async fn main() -> std::io::Result<()> {
             .service(get_handler)
             .service(search_handler)
     })
-    .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "127.0.0.1:8080".to_string()))?
+    .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?
     .run()
     .await
 }
