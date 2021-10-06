@@ -36,6 +36,11 @@ async fn search_handler(
         .body(result_json))
 }
 
+#[get("/source_code")]
+async fn source_code_handler() -> Result<HttpResponse> {
+    Ok(HttpResponse::Ok().body("https://git.fs.tum.de/navigatum/navigatum-server".to_string()))
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     // This causes lazy_static to evaluate
@@ -51,6 +56,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Compress::default())
             .service(get_handler)
             .service(search_handler)
+            .service(source_code_handler)
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?
     .run()

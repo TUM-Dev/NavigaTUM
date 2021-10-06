@@ -453,7 +453,7 @@ async fn do_meilisearch(client: Client, args: MSSearchArgs<'_>) -> Result<MSResu
     let resp_bytes = client
         .post(
             std::env::var("MEILISEARCH_URL")
-                .unwrap_or_else(|_| "http://localhost:7700/indexes/obj/search".to_string()),
+                .unwrap_or_else(|_| "http://localhost:7700/indexes/entries/search".to_string()),
         )
         .send_json(&post_data)
         .await
