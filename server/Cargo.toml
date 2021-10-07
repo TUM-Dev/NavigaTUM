@@ -1,5 +1,5 @@
 [package]
-name = "server"
+name = "navigatum-server"
 version = "0.1.0"
 authors = ["Markus A <ge75sig@mytum.de>"]
 edition = "2018"

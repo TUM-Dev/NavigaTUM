@@ -1,29 +1,53 @@
-# Official language image. Look for the different tagged releases at:
-# https://hub.docker.com/r/library/rust/tags/
-image: "rust:latest"
+stages:
+  - build
+  - deploy
 
-# Optional: Pick zero or more services to be used on all builds.
-# Only needed when using a docker container to run your tests in.
-# Check out: http://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-a-service
-# services:
-#   - mysql:latest
-#   - redis:latest
-#   - postgres:latest
+build:
+  # Official language image. Look for the different tagged releases at:
+  # https://hub.docker.com/r/library/rust/tags/
+  image: "rust:buster"
 
-# Optional: Install a C compiler, cmake and git into the container.
-# You will often need this when you (or any of your dependencies) depends on C code.
-# before_script:
-#   - apt-get update -yqq
-#   - apt-get install -yqq --no-install-recommends build-essential
+  # Optional: Pick zero or more services to be used on all builds.
+  # Only needed when using a docker container to run your tests in.
+  # Check out: http://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-a-service
+  # services:
+  #   - mysql:latest
+  #   - redis:latest
+  #   - postgres:latest
 
-# Use cargo to test the project
-build:cargo:
+  # Optional: Install a C compiler, cmake and git into the container.
+  # You will often need this when you (or any of your dependencies) depends on C code.
+  # before_script:
+  #   - apt-get update -yqq
+  #   - apt-get install -yqq --no-install-recommends build-essential
+  stage: build
+  variables:
+    CARGO_HOME: $CI_PROJECT_DIR/.cargo
   script:
     - rustc --version && cargo --version  # Print version info for debugging
-    - cargo build --workspace
+    - cargo build --release --workspace
+  artifacts:
+    paths:
+      - target/release/navigatum-server
+    expire_in: 1 week
   cache:
     key:
       files:
         - Cargo.lock
     paths:
       - target
+      - .cargo
+
+deploy:
+  image: alpine:latest
+  stage: deploy
+  tags:
+    - deployment
+  script:
+    - chmod og= $ID_RSA_SCP
+    - chmod og= $ID_RSA_RESTART
+    - apk update && apk add openssh-client
+    - scp -i $ID_RSA_SCP -o StrictHostKeyChecking=no $CI_PROJECT_DIR/target/release/navigatum-server $SERVER_USER@$SERVER_HOST:$SERVER_PATH
+    - ssh -i $ID_RSA_RESTART -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST placeholder-command-ignored-by-server
+  only:
+    - master
