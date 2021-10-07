@@ -66,6 +66,8 @@ async fn source_code_handler() -> Result<HttpResponse> {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    env_logger::init();
+
     let opt = Opt::from_args();
 
     // This causes lazy_static to evaluate
@@ -74,14 +76,20 @@ async fn main() -> std::io::Result<()> {
     let state_feedback = web::Data::new(feedback::init_state(opt));
 
     HttpServer::new(move || {
-        let cors = Cors::default().allow_any_origin();
-                                  //.allowed_origin("localhost")
-                                  //.allowed_origin("https://fs.tum.de");
+        let cors = Cors::default().allow_any_origin()
+                                  //.allowed_origin("http://localhost:8000")
+                                  //.allowed_origin("https://fs.tum.de")
+                                  .allow_any_header()
+                                  .allowed_methods(vec!["GET", "POST"])
+                                  .max_age(3600);
 
         let json_config = web::JsonConfig::default().limit(MAX_JSON_PAYLOAD);
 
+        let logger = middleware::Logger::default();
+
         App::new()
             .wrap(cors)
+            .wrap(logger)
             .wrap(middleware::Compress::default())
             .app_data(json_config)
             .service(get_handler)

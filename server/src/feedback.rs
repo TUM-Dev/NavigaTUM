@@ -1,6 +1,6 @@
 use std::sync::Mutex;
 use std::time::Instant;
-use actix_web::{get, post, web, HttpResponse};
+use actix_web::{post, web, HttpResponse};
 use actix_web::client::Client;
 use serde::{Deserialize, Serialize};
 
@@ -76,10 +76,11 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
 }
 
 
-#[get("/get_token")]
+#[post("/get_token")]
 async fn get_token(state: web::Data<AppStateFeedback>) -> HttpResponse {
     if !state.available {
         return HttpResponse::ServiceUnavailable()
+            .content_type("plain/text")
             .body("Feedback is currently not configured on this server.")
     }
 
@@ -95,6 +96,7 @@ async fn get_token(state: web::Data<AppStateFeedback>) -> HttpResponse {
 
     if token.len() >= RATE_LIMIT_DAY || num_token_last_hour >= RATE_LIMIT_HOUR {
         HttpResponse::TooManyRequests()
+            .content_type("plain/text")
             .body("Too many token generated recently. Please try again later.".to_string())
     } else {
         // Simple numbers as random token for now
@@ -108,7 +110,7 @@ async fn get_token(state: web::Data<AppStateFeedback>) -> HttpResponse {
         };
 
         token.push(new_token);
-        HttpResponse::Ok().json(GenerateTokenResult { token: token_value.to_string() })
+        HttpResponse::Created().json(GenerateTokenResult { token: token_value.to_string() })
     }
 }
 
@@ -120,6 +122,7 @@ async fn send_feedback(
 ) -> HttpResponse {
     if !state.available {
         return HttpResponse::ServiceUnavailable()
+            .content_type("plain/text")
             .body("Feedback is currently not configured on this server.")
     }
 
@@ -129,11 +132,15 @@ async fn send_feedback(
 
     if let Some(t) = token {
         if t.creation.elapsed().as_secs() < TOKEN_MIN_AGE {
-            return HttpResponse::Forbidden().body("Token not old enough, please wait.")
+            return HttpResponse::Forbidden().content_type("plain/text")
+                                            .body("Token not old enough, please wait.")
+                                            
         } else if t.creation.elapsed().as_secs() > TOKEN_MAX_AGE {
-            return HttpResponse::Forbidden().body("Token expired.")
+            return HttpResponse::Forbidden().content_type("plain/text")
+                                            .body("Token expired.")
         } else if t.used {
-            return HttpResponse::Forbidden().body("Token already used.")
+            return HttpResponse::Forbidden().content_type("plain/text")
+                                            .body("Token already used.")
         }
 
         let post_data = CreateIssuePostData {
@@ -146,6 +153,11 @@ async fn send_feedback(
             }),
             confidential: req_data.privacy.as_str() == "internal",
         };
+
+        if post_data.title.len() < 3 || post_data.description.len() < 10 {
+            return HttpResponse::UnprocessableEntity().content_type("plain/text")
+                                                      .body("Subject or body missing or too short.")
+        }
 
         let resp = Client::new()
             .post(
@@ -166,7 +178,8 @@ async fn send_feedback(
             }
         }).unwrap()
     } else {
-        HttpResponse::Forbidden().body("Invalid token".to_string())
+        HttpResponse::Forbidden().content_type("plain/text")
+                                 .body("Invalid token".to_string())
     }
 }
 
