@@ -59,6 +59,8 @@ pub struct ResultEntry {
     subtext: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     subtext_bold: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    parsed_id: Option<String>,
 }
 
 /// Input into MeiliSearch
@@ -353,6 +355,7 @@ async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>) 
                         name: highlighted_name,
                         subtext: format!("{}", hit.type_common_name),
                         subtext_bold: None,
+                        parsed_id: None,
                     });
                 }
             },
@@ -360,12 +363,42 @@ async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>) 
                 if section_rooms.entries.len() < 5 ||
                    (section_rooms.entries.len() < 10 && section_buildings.entries.len() == 0 ) {
 
+                    // Test whether the query matches some common room id formats.
+                    // This is hardcoded here for now and should be changed in the future.
+                    let parsed_id = if search_tokens.len() == 2 &&
+                        match search_tokens[0].s.as_str() {
+                            "mi" => hit.id.starts_with("560") || hit.id.starts_with("561"),
+                            "mw" => hit.id.starts_with("550") || hit.id.starts_with("551"),
+                            "ph" => hit.id.starts_with("5101"),
+                            "ch" => hit.id.starts_with("540"),
+                            _ => false
+                        } &&
+                        !search_tokens[1].s.contains("@") &&
+                        hit.arch_name.is_some() &&
+                        hit.arch_name.as_ref().unwrap().starts_with(&search_tokens[1].s) {
+                        let arch_id = hit.arch_name.as_ref().unwrap().split("@").next().unwrap();
+                        Some(format!(
+                                "\u{0019}{} {}\u{0017}{}",
+                                search_tokens[0].s.to_uppercase(),
+                                arch_id.get(..search_tokens[1].s.len()).unwrap(),
+                                arch_id.get(search_tokens[1].s.len()..).unwrap_or_default(),
+                        ))
+                    } else {
+                        None
+                    };
+
+
                     section_rooms.entries.push(ResultEntry {
                         id: hit.id.to_string(),
                         r#type: hit.r#type.to_string(),
                         name: highlighted_name,
                         subtext: format!("{}", if hit.parent_building.len() > 0 { &hit.parent_building[0] } else { "" }),
-                        subtext_bold: Some(highlighted_arch_name),
+                        subtext_bold: if parsed_id.is_some() {
+                            Some(hit.arch_name.unwrap_or_default())
+                        } else {
+                            Some(highlighted_arch_name)
+                        },
+                        parsed_id: parsed_id,
                     });
 
                     // The first room in the results 'freezes' the number of visible buildings
