@@ -258,18 +258,18 @@ fn tokenize_input_query(q: &str) -> Vec::<InputToken> {
         }
 
         if (!within_quotes && c.is_whitespace() && i > token_start) ||  // whitespace
-           ((within_quotes || !c.is_whitespace()) && i+1 == q.len()) ||  // end of string
+           ((within_quotes || !c.is_whitespace()) && i+c.len_utf8() == q.len()) ||  // end of string
            (c == '"') {  // end of quotes
             tokens.push(InputToken {
                 // Note: The trim_end also trims within unclosed quotes at the end of the query,
                 //       but currently I don't think this is an issue.
-                s: q.get(token_start..=i).unwrap().trim_end().to_lowercase(),
+                s: q.get(token_start..i+c.len_utf8()).unwrap().trim_end().to_lowercase(),
                 regular_split: true,
                 // `closed` indicates whether the token has been closed (by whitespace or quote)
                 // at the end, when this is the last token. This is relevant because MeiliSearch
                 // treats whitespace at the end differently, and we might want to imitate that
                 // behaviour.
-                closed: !(i+1 == q.len() && (within_quotes || (c != '"' && !c.is_whitespace()))),
+                closed: !(i+c.len_utf8() == q.len() && (within_quotes || (c != '"' && !c.is_whitespace()))),
             });
 
             token_start = i + 1;
