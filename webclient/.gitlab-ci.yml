@@ -1,21 +1,42 @@
 stages:
   - build
+  - deploy
 
-image: node:latest
-cache:
-  key:
-    files:
-      - package.json
-  paths:
-   - node_modules
-   - yarn.lock
-
-before_script:
-  - yarn
 
 build:
+  image: node:latest
   stage: build
+  before_script:
+    - yarn
   script:
    - cp $CONFIG_FILE config.js
    - node_modules/gulp/bin/gulp.js --gulpfile ./gulpfile.js release
    - rm -r build/tmp
+  cache:
+    - key:
+        files:
+          - package.json
+      paths:
+       - node_modules
+       - yarn.lock
+    - key: "$CI_COMMIT_SHORT_SHA"
+      paths:
+       - build
+
+deploy:
+  image: alpine:latest
+  stage: deploy
+  tags:
+    - deployment
+  script:
+    - mv build app
+    - chmod og= $ID_RSA_SCP
+    - apk update && apk add openssh-client
+    - scp -r -i $ID_RSA_SCP -o StrictHostKeyChecking=no $CI_PROJECT_DIR/app $SERVER_USER@$SERVER_HOST:$SERVER_PATH
+  cache:
+    - key: "$CI_COMMIT_SHORT_SHA"
+      paths:
+       - build
+
+  only:
+    - main
