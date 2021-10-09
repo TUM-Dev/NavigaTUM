@@ -8,10 +8,10 @@ cache:
       - package.json
   paths:
    - node_modules
-   - package-lock.json
+   - yarn.lock
 
 before_script:
-  - npm install --include=dev
+  - yarn
 
 build:
   stage: build

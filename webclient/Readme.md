@@ -6,16 +6,24 @@ This repository contains the JavaScript based webclient for Navigatum.
 ### Dependencies
 You need the following dependencies to get started:
 - Node (for Gulp)
+- [Yarn](https://yarnpkg.com/getting-started/install)
 - [Gulp](https://gulpjs.com/)
 - Python (for testing)
+
+Installing *Yarn* and *Gulp* with npm:
+```bash
+sudo npm install -g yarn gulp
+```
 
 ### Test data
 TBD
 
 ### Building
 
-Install all node packages:
+Install all  packages:
 ```bash
+yarn
+# alternatively, if you do not use yarn:
 npm install
 ```
 
