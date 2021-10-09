@@ -1,0 +1,21 @@
+stages:
+  - build
+
+image: node:latest
+cache:
+  key:
+    files:
+      - package.json
+  paths:
+   - node_modules
+   - package-lock.json
+
+before_script:
+  - npm install --include=dev
+
+build:
+  stage: build
+  script:
+   - cp $CONFIG_FILE config.js
+   - node_modules/gulp/bin/gulp.js --gulpfile ./gulpfile.js release
+   - rm -r build/tmp
