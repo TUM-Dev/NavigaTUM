@@ -29,7 +29,7 @@ deploy:
   tags:
     - deployment
   script:
-    - mv build app
+    - cp -r build app
     - chmod og= $ID_RSA_SCP
     - apk update && apk add openssh-client
     - scp -r -i $ID_RSA_SCP -o StrictHostKeyChecking=no $CI_PROJECT_DIR/app $SERVER_USER@$SERVER_HOST:$SERVER_PATH
@@ -37,6 +37,21 @@ deploy:
     - key: "$CI_COMMIT_SHORT_SHA"
       paths:
        - build
+  only:
+    - main
 
+pages:
+  image: alpine:latest
+  stage: deploy
+  script:
+    - cp -r build public
+    - cp _redirects public/
+  cache:
+    - key: "$CI_COMMIT_SHORT_SHA"
+      paths:
+       - build
+  artifacts:
+    paths:
+      - public
   only:
     - main
