@@ -106,8 +106,10 @@ var navigatum = (function () {
         init: function() {
             // Init Vue.js
             this.router = new VueRouter({
-                //mode: 'history',
-                //base: "/* @echo app_prefix */",
+                /* @if target="release" */
+                mode: 'history',
+                base: "/* @echo app_prefix */",
+                /* @endif */
                 routes: this.routes,
                 scrollBehavior: function (to, from, savedPosition) {
                     if (savedPosition) {
