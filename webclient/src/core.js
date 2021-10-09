@@ -379,12 +379,12 @@ var navigatum = (function () {
         // a cookie did not work.
         setLang: function(lang) {
             localStorage.setItem("lang", lang);
-            document.cookie = "lang=" + lang + ";Max-Age=31536000;SameSite=Lax";
+            document.cookie = "lang=" + lang + ";Max-Age=31536000;SameSite=Lax;Path=/* @echo app_prefix */";
             window.location.reload(true);
         },
         setTheme: function(theme) {
             localStorage.setItem("theme", theme);
-            document.cookie = "theme=" + theme + ";Max-Age=31536000;SameSite=Lax";
+            document.cookie = "theme=" + theme + ";Max-Age=31536000;SameSite=Lax;Path=/* @echo app_prefix */";
             window.location.reload(true);
         },
     }
