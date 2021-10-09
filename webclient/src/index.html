@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="${{_lang_}}$">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- @if view="main" -->
+    <!-- For some reason currently only works with Chrome -->
+    <link rel="preload" href="<!-- @echo api_prefix -->get/root" as="fetch" crossorigin>
+    <!-- @endif -->
+    <!-- @if view="view" -->
+    <link rel="preconnect" href="<!-- @echo api_prefix -->">
+    <!-- @endif -->
+
+    <link rel="icon" href="<!-- @echo app_prefix -->assets/favicon.ico">
+    <!-- Title updated by JS later during pageload -->
+    <title>NavigaTUM</title>
+    
+    <!-- Minified CSS for above the fold parts inlined here -->
+    <style><!-- inject:core:css --><!-- endinject --></style>
+    
+    <!-- The rest is loaded async, code from https://web.dev/defer-non-critical-css/ -->
+    <!-- This can also be cached then -->
+    <link rel="preload" href="<!-- @echo app_prefix -->css/view-<!-- @echo view -->-rest-<!-- @echo theme -->.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- Polyfills -->
+    <script>
+        if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent) ||  // IE
+           window.fetch === undefined)  // No fetch
+            document.write('<script src="<!-- @echo app_prefix -->js/polyfills.js"><\/script>');
+    </script>
+
+    <!-- JS resources specified here are executed in order by "defer" -->
+    <!-- The app-core-for-view-*.js might fetch/update content before any data is
+         even displayed.
+         It might be inlined in the future. Might depend on the view. -->
+    <script defer src="<!-- @echo app_prefix -->js/app-core-for-view-<!-- @echo view -->-${{ _lang_ }}$<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
+    <!-- vue.js is not inlined because it should be cached. The init call is appended to it. -->
+    <script defer src="<!-- @echo app_prefix -->js/vue<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
+    <!-- app-rest-for-view-*.js contains all components not yet included in core -->
+    <script defer src="<!-- @echo app_prefix -->js/app-rest-for-view-<!-- @echo view -->-${{ _lang_ }}$<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
+
+    <!-- At this point we might lazy-load other rarely used views -->
+  </head>
+  <body>
+    <!-- BEGIN of Vue.js template code -->
+    <div id="app">
+
+      <header class="navbar" id="navbar">
+        <div class="container grid-lg">
+          <div class="columns">
+            <div class="column hide-lg">
+              <router-link to="/">
+              <img id="logo" src="<!-- @echo app_prefix -->assets/logo2.min2.svg" alt="Logo" />  <!-- 7px for logo1 -->
+              </router-link>
+            </div>
+            <div class="column col-8 col-lg-11 col-mx-auto">
+              <div class="form-autocomplete">
+                <div class="input-group has-icon-left">
+                  <input id="search"
+                         type="text"
+                         class="form-input input-lg"
+                         placeholder="${{_.search.placeholder}}$"
+                         v-model="search.query"
+                         @input="searchinput"
+                         @focus="searchfocus"
+                         @blur="searchblur"
+                         @keydown="searchkeydown"
+                         autocomplete="off">
+                  <i class="form-icon icon icon-search"></i>
+                  <button class="btn btn-primary input-group-btn btn-lg">
+                    ${{_.search.action}}$
+                  </button>
+                </div>
+                <!-- Autocomplete -->
+                <ul class="menu"
+                    v-bind:class="{'d-none': !search.focused || (search.autocomplete.sections.length == 0)}"
+                    v-cloak>
+
+                  <!--<li class="search-comment filter">
+                    Suche einschränken auf:
+                    <a class="bt btn-link btn-sm">Räume</a>
+                  </li>-->
+
+                  <template v-for="s in search.autocomplete.sections">
+                    <li class="divider"
+                        v-if-DISABLED="search.autocomplete.sections.length > 1"
+                        v-bind:data-content="s.name"></li>
+                    <li v-for="(e, i) in s.entries"
+                        v-if="s.n_visible === undefined || (s.n_visible !== undefined && i < s.n_visible) || s.expanded"
+                        class="menu-item">
+                      <a v-bind:class="{active: e.id == search.autocomplete.highlighted}"
+                         @click="searchGoTo(e.id, true)"
+                         @mousedown="search.keep_focus = true"
+                         @mouseover="search.autocomplete.highlighted = null">
+                        <div class="tile">
+                          <div class="tile-icon">
+                            <template v-if="e.type == 'room' || e.type == 'virtual_room'">
+                               <i v-if="e.parsed_id" class="icon icon-search"></i>
+                               <i v-else class="icon icon-location"></i>
+                            </template>
+                            <img v-else
+                                 class="avatar avatar-sm"
+                                 src="<!-- @echo app_prefix -->assets/thumb-building.png">
+                          </div>
+                          <div class="tile-content">
+                            <span class="tile-title">
+                              <span v-if="e.parsed_id" v-html="e.parsed_id"></span>
+                              <i v-if="e.parsed_id" class="icon icon-caret"></i>
+                              <span v-html="e.name" v-bind:style="{'opacity': e.parsed_id ? 0.5 : 1}"></span>
+                            </span>
+                            <small class="tile-subtitle text-gray">
+                              {{ e.subtext }}<template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
+                            </small>
+                          </div>
+                        </div>
+                      </a>
+                      <!--<div class="menu-badge">
+                        <label class="label label-primary">2</label>
+                      </div>-->
+                    </li>
+
+                    <li class="search-comment nb_results">
+                      <a v-if="!s.expanded && s.n_visible < s.entries.length"
+                         @mousedown="search.keep_focus = true"
+                         @click="searchExpand(s)">
+                        +{{ s.entries.length - s.n_visible }} ${{_.search.hidden}}$,
+                      </a>
+                      <template>
+                        {{ s.nb_hits > 20 ? "${{_.search.approx}}$ " : "" }}{{ s.nb_hits }}
+                        {{ s.nb_hits === 1 ? "${{_.search.result}}$" : "${{_.search.results}}$" }}
+                      </template>
+                    </li>
+                  </template>
+
+                  <!--<li class="search-comment actions">
+                    <div>
+                      <button class="btn btn-sm">
+                        <i class="icon icon-arrow-right"></i> in Gebäude Suchen
+                      </button>
+                    </div>
+                    <div>
+                      <button class="btn btn-sm">
+                        <i class="icon icon-location"></i> Hörsäle
+                      </button>
+                    </div>
+                    <div>
+                      <button class="btn btn-sm">
+                        <i class="icon icon-location"></i> Seminarräume
+                      </button>
+                    </div>
+                  </li>-->
+                  
+                  <!--<li class="divider" data-content="Veranstaltungen"></li>
+                  <li class="menu-item">
+                    <a href="#">
+                      <div class="tile">
+                        <div class="tile-icon">
+                          <i class="icon icon-time"></i>
+                        </div>
+                        <div class="tile-content">
+                          <span class="tile-title">
+                            Advanced Practical Course Games Engineering: Building Information Modeling (IN7106)
+                          </span>
+                          <small class="tile-subtitle text-gray">
+                            Übung mit 4 Gruppen
+                          </small>
+                        </div>
+                      </div>
+                    </a>
+                    <div class="menu-badge" style="display: none;">
+                      <label class="label label-primary">frei</label>
+                    </div>
+                  </li>-->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- General error message toast -->
+      <div id="content-header" class="container grid-lg" v-cloak>
+        <div class="columns">
+          <div class="column col-lg-11 col-mx-auto">    
+            <div class="toast toast-error" v-if="error.msg">
+              {{ error.msg }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page content container -->
+      <div id="content"
+           class="container grid-lg visible"
+           v-bind:class="{ search_focus: search.focused }">
+        <div class="columns">
+          <div class="column col-lg-11 col-mx-auto">    
+            <router-view></router-view>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading indicator -->
+      <div id="loading-page" v-cloak>
+        <div class="loading loading-lg"></div>
+      </div>
+
+      <div style="margin-bottom: 30px"></div>
+      <div style="padding-bottom: 70px" class="show-xs"></div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="container grid-lg">
+          <div class="columns">
+            <div class="column col-lg-11 col-mx-auto">
+              <div class="columns">
+
+                <div class="column col-auto links">
+                  <router-link to="/about/${{_.footer.about.link}}$">${{_.footer.about.text}}$</router-link><br>
+                  <a onclick="open_feedback()" class="c-hand">${{_.footer.feedback.text}}$</a><br>
+                  <router-link to="/about/${{_.footer.api.link}}$">${{_.footer.api.text}}$</router-link>
+                </div>
+                <div class="column col-auto links">
+                  <router-link to="/about/${{_.footer.contact.link}}$">${{_.footer.contact.text}}$</router-link><br>
+                  <router-link to="/about/${{_.footer.privacy.link}}$">${{_.footer.privacy.text}}$</router-link><br>
+                  <router-link to="">${{_.footer.imprint.text}}$</router-link>
+                </div>
+                <div class="column col"></div>
+                <div class="column col-auto settings">
+                  <div class="show-xs" style="height: 20px;"></div>
+                  <div class="columns">
+                    <div class="column col">
+                      <label for="setting-lang"><small>${{_.footer.language}}$</small></label>
+                    </div>
+                    <div class="column col-auto">
+                      <div class="btn-group btn-group-block" id="setting-lang">
+                        <!-- @if "${{_lang_}}$"="de" -->
+                        <button class="btn btn-sm active" disabled>DE</button>
+                        <button class="btn btn-sm" @click="setLang('en')">EN</button>
+                        <!-- @endif -->
+                        <!-- @if "${{_lang_}}$"="en" -->
+                        <button class="btn btn-sm" @click="setLang('de')">DE</button>
+                        <button class="btn btn-sm active" disabled>EN</button>
+                        <!-- @endif -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="columns">
+                    <div class="column col">
+                      <label for="setting-theme"><small>${{_.footer.theme}}$</small></label>
+                    </div>
+                    <div class="column col-auto">
+                      <div class="btn-group btn-group-block" id="setting-theme">
+                        <!-- @if theme="light" -->
+                        <button class="btn btn-sm active" disabled>${{_.footer.theme_light}}$</button>
+                        <button class="btn btn-sm" @click="setTheme('dark')">${{_.footer.theme_dark}}$</button>
+                        <!-- @endif -->
+                        <!-- @if theme="dark" -->
+                        <button class="btn btn-sm" @click="setTheme('light')">${{_.footer.theme_light}}$</button>
+                        <button class="btn btn-sm active" disabled>${{_.footer.theme_dark}}$</button>
+                        <!-- @endif -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- END of Vue.js template code -->
+
+    <!-- Feedback modal -->
+    <div class="modal" id="feedback-modal">
+      <a id="feedback-overlay" class="modal-overlay" aria-label="Close"></a>
+      <div class="modal-container">
+        <div class="modal-header">
+          <button class="btn btn-clear float-right"
+                  aria-label="Close" id="feedback-close"></button>
+          <div class="modal-title h5">${{_.feedback.title}}$</div>
+        </div>
+        <div class="modal-body">
+          <div class="content">
+            <div id="feedback-error"></div>
+            <div class="form-group">
+              <label class="form-label" for="feedback-subject">${{_.feedback.subject}}$</label>
+              <div class="input-group">
+                <select class="form-select" id="feedback-category">
+                  <option value="general">${{_.feedback.type.general}}$</option>
+                  <option value="bug">${{_.feedback.type.bug}}$</option>
+                  <option value="features">${{_.feedback.type.features}}$</option>
+                  <option value="search">${{_.feedback.type.search}}$</option>
+                  <option value="entry">${{_.feedback.type.entry}}$</option>
+                </select>
+                <input class="form-input"
+                       type="text"
+                       placeholder="${{_.feedback.subject}}$"
+                       id="feedback-subject">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="feedback-body">${{_.feedback.message}}$</label>
+              <textarea class="form-input"
+                        id="feedback-body"
+                        placeholder="${{_.feedback.message}}$"
+                        rows="4">
+              </textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-checkbox">
+                <input type="checkbox" id="feedback-privacy">
+                <i class="form-icon"></i> ${{_.feedback.public}}$
+              </label>
+            </div>
+
+            <div class="buttons">
+              <button class="btn" id="feedback-cancel">${{_.feedback.cancel}}$</button>
+              <button class="btn btn-primary" id="feedback-send">${{_.feedback.send}}$</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+        function open_feedback(category, subject, body) {
+            if (window.feedback) {
+                window.feedback.open_form(category, subject, body)
+            } else {
+                window.feedback_preload = {category: category, subject: subject, body: body};
+                var s = document.createElement("script");
+                s.type = "text/javascript";
+                    s.src = "<!-- @echo app_prefix -->js/feedback-${{_lang_}}$.min.js";
+                document.head.appendChild(s);
+            }
+        }
+    </script>
+
+
+    <!-- At this point we might already include the displayed data -->
+
+    <!-- Post-load uncritital CSS if browser does not support preload -->
+    <script>
+        // c.f. https://github.com/w3c/preload/issues/7#issuecomment-566791118
+        var relList = document.createElement('link').relList;
+        if (!(relList && relList.supports && relList.supports('preload'))) {
+            document.write('<link rel="stylesheet" href="<!-- @echo app_prefix -->css/view-<!-- @echo view -->-rest-<!-- @echo theme -->.min.css" />');
+        }
+    </script>
+  </body>
+</html>

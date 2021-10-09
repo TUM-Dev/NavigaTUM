@@ -1,0 +1,276 @@
+@import "src/variables.scss";
+
+/* === General === */
+html {
+    height: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 80%;  // optimized for desktop view, not really relevant on mobile
+    position: relative;
+}
+
+// v-cloak is set until vue loaded
+[v-cloak] {
+    display: none;
+}
+
+#loading-page {
+    display: block;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    pointer-events: none;
+}
+#loading-page > .loading {
+    margin: 0 auto;
+    display: block;
+    position: static;
+}
+#loading-page > .loading::after {
+    border-bottom-color: transparent;
+    border-left-color: #ccc;
+}
+#loading-page:not([v-cloak]) {
+    display: none;
+
+    &.show {
+        display: block;
+        opacity: 1;
+        animation: loading-in .07s linear .1s;
+        animation-fill-mode: both;
+    }
+}
+
+@keyframes loading-in {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+// --- Menu general
+
+#app .menu .menu-item > a {  // Overwrite spectre
+    &:focus, &:hover {
+        background: $theme-accent;
+        color: #fff;
+    }
+}
+
+#app .menu .menu-item + .menu-item {
+    margin-top: 0;
+}
+
+// --- Cards
+#app .card {
+    box-shadow: $card-shadow;
+    border-radius: 4px;
+}
+
+/* === Navbar === */
+
+#navbar {
+    padding: 10px 0;
+    box-shadow: 0 2px 3px $header-shadow-color;
+
+    .input-group button {
+        //background: #0065bd;
+        border: none;
+    }
+
+    width: 100%;
+    position: fixed;
+    background: $header-color;
+    top: 0;
+    z-index: 2000;
+}
+
+#logo {
+    height: 24px;
+    margin-top: 9px;
+}
+
+// --- Autocomplete
+
+.form-autocomplete {
+    .menu {
+        box-shadow: $autocomplete-box-shadow;
+
+        .menu-item {
+            &> a {
+                cursor: pointer;
+
+                &.active {
+                    color: #fff;
+                    background-color: $theme-accent;
+                }
+
+                em {
+                    color: $theme-accent;
+                    font-style: normal;
+                    font-weight: bold;
+                }
+
+                &:focus em, &:hover em, &.active em {
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    .tile-content {
+        max-width: 100%;
+        margin-bottom: -5px;
+        line-height: 100%;
+        padding-bottom: .2rem;
+    }
+
+    .tile-title {
+        margin-right: 3px;
+
+        i.icon-caret {
+            transform: rotate(-90deg);
+        }
+    }
+
+    .tile-subtitle {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
+        padding-right: 16px;
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: middle;
+        margin-top: -5px;
+        // Correction for Chrome
+        padding-top: 2px;
+        height: 1.2rem;
+    }
+}
+
+.menu .search-comment {
+    margin: -8px -8px 0 -8px;
+    padding: 6px 16px;
+    font-size: 14px;
+    color: $autocomplete-comment-color;
+
+    &.filter {
+        color: $autocomplete-filter-text;
+        background-color: $autocomplete-filter-bg;
+        border-bottom: 1px solid $border-light;
+
+        > a {
+            display: inline;
+        }
+    }
+
+    &.nb_results {
+        margin: -4px 0;
+        padding: 4px 8px;
+
+        > a {
+            cursor: pointer;
+        }
+    }
+
+    &.actions {
+        margin: -4px 0px;
+        padding: 4px 8px;
+        overflow-x: auto;
+        white-space: nowrap;
+        margin-left: 32px;
+
+        div {
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        button {
+            margin-top: 6px;
+            margin-bottom: 3px;
+        }
+    }
+}
+
+/* === Content === */
+#content-header {
+    margin-top: 70px;  // 10px + 60px for header
+}
+#content.visible {
+    /* For some reason (I assume because the 'visible' class is not set when vue loads),
+     * this class gets removed if vue adds/removes the 'search_focus' class. For this reason
+     * opacity on page navigation is set as style property in JS. It is only guaranteed that
+     * this class is there on page-load. */
+    transition: opacity .07s;
+}
+#content.search_focus {
+    opacity: .7;
+}
+
+/* === Feedback === */
+#feedback-modal {
+    z-index: 3000;
+
+    .modal-container {
+        max-height: 95vh;
+        box-shadow: $feedback-box-shadow;
+    }
+
+    .modal-header {
+        
+    }
+
+    .buttons {
+        text-align: right;
+    }
+}
+#feedback-overlay {
+    background: $feedback-overlay-bg;
+}
+#feedback-error {
+    color: $error-color;
+}
+#feedback-category {
+    flex: none;
+}
+
+
+/* === Footer === */
+footer {
+    padding: 8px 0 16px 0;
+    background: $footer-color;
+    bottom: -130px;
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    .links {
+        text-align: left;
+        margin-right: 16px;
+
+        a, router-link {
+            font-size: 12px;
+        }
+    }
+
+    .settings {
+        .columns {
+            margin-top: 8px;
+            min-width: 180px;  // IE bug
+        }
+
+        .btn-group {
+            min-width: 100px;
+
+            .btn {
+                border-color: transparent;
+
+                &:disabled {
+                    background-color: $footer-setting-bg-disabled;
+                }
+            }
+        }
+    }
+}

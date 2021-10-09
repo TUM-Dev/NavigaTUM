@@ -1,0 +1,231 @@
+@import "src/variables.scss";
+
+#view-view {
+    /* --- General --- */
+    h1 {
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    h2 {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    /* --- Header --- */
+    .header-image-mobile {
+        margin: -10px -23px 10px;
+
+        > img {
+            background-color: $image-loading-bg;
+        }
+    }
+
+    .breadcrumb {
+        margin-top: 0px;
+        font-size: 12px;
+    }
+
+    .entry-header {
+        .title {
+            position: relative;
+
+            & > div {
+                position: absolute;
+                left: -32px;
+                opacity: 0;
+                transition: opacity .2s;
+            }
+
+            &:hover > div {
+                opacity: 1;
+            }
+        }
+
+        .subtitle {
+            span {
+                color: $text-gray;
+            }
+        }
+
+        .divider {
+            margin-bottom: 22px;
+        }
+    }
+
+    /* --- Interactive map display --- */
+    #interactive-map-container {
+        margin-bottom: 10px;
+        aspect-ratio: 4 / 3;  // Not yet supported by all browsers
+
+        > div {
+            padding-bottom: 75%;  // 4:3 aspect ratio
+            border: 1px solid $border-light;
+            background-color: $container-loading-bg;
+
+            position: relative;
+        }
+    }
+
+    #interactive-map {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+
+    /* --- Roomfinder display --- */
+    .roomfinder-map-container {
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 6px;
+
+        > div {  // Image source label
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+            padding: 1px 5px;
+            color: #262626;
+            background-color: #ffffff91;
+            font-size: 10px;
+        }
+    }
+    #roomfinder-map-cross {
+        position: absolute;
+        transition: transform .3s;
+        pointer-events: none;
+    }
+    #roomfinder-map-img {
+        width: 100%;
+        display: block;
+    }
+    #roomfinder-map-select > label {
+        padding: 0.05rem 0.3rem;
+    }
+
+    .accordion-body {
+        ul {
+            font-size: 12px;
+        }
+
+        a {
+            cursor: pointer;
+
+            &.selected {
+                background: #f2f2f2;
+            }
+        }
+    }
+
+    /* --- Information Section (mobile) --- */
+    .mobile-info-section {
+            margin-top: 15px;
+
+            & > .info-table {
+            margin-top: 16px;
+        }
+    }
+
+    /* --- Information Card (desktop) --- */
+    .card-body .toast {
+        margin-top: 12px;
+    }
+    #map-container .toast {  // Mobile
+        margin-bottom: 9px;
+        font-size: .7rem;
+    }
+
+    /* --- Info table --- */
+    .info-table {
+        width: 100%;
+        border-collapse: collapse;
+
+        td {
+            vertical-align: top;
+            padding: 4px 0px;
+
+            &:last-child {
+                padding-left: 10px;
+            }
+        }
+
+        tr {
+            border-bottom: 1px solid $border-light;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+
+    /* --- Sections general --- */
+    section {
+        margin-top: 40px;
+
+        .content {
+            margin-top: 15px;
+        }
+    }
+
+    /* --- Sections --- */
+    #building-overview {
+        a {
+            text-decoration: none !important;
+        }
+
+        .tile {
+            border: .05rem solid $card-border;
+            padding: 8px;
+            border-radius: .1rem;
+        }
+
+        button {
+            margin-top: 8px;
+        }
+    }
+
+    #rooms-overview {
+        .panel-title {
+            font-weight: bold;
+        }
+
+        .panel-body {
+            padding-bottom: 4px;
+
+            .menu {
+                padding: 0;
+                box-shadow: none;
+
+                .menu-item a, .menu-item label {
+                    cursor: pointer;
+                    user-select: none;
+                }
+            }
+
+            .divider {
+                margin: 6px 0;
+            }
+        }
+
+        .panel-footer {
+            color: $text-gray;
+        }
+    }
+    #rooms-overview-select .panel-body {
+        max-height: 500px + 8px;
+    }
+    #rooms-overview-list .panel-body {
+        max-height: 500px;
+    }
+}
+
+// 'xs' (mobile)
+@media (max-width:480px) {
+    #view-view {
+        #rooms-overview-select .panel-body {
+            max-height: 260px;
+        }
+        #rooms-overview-list .panel-body {
+            max-height: 275px;
+        }
+    }
+}
