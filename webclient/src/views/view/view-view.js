@@ -215,12 +215,12 @@ navigatum.registerView('view', {
             // Using the #map-container since the bounding rect is still all zero
             // if we switched here from interactive map
             var rect = document.getElementById("map-container").getBoundingClientRect();
-            // -1023px, -1023px is top left corner
-            this.state.map.roomfinder.x = -1023 + (map.x / map.width)  * rect.width;
+            // -1023px, -1023px is top left corner, 16px = 2*8px is element padding
+            this.state.map.roomfinder.x = -1023 + (map.x / map.width)  * (rect.width - 16);
 
             // We cannot use "height" here as it might be still zero before layouting
             // finished, so we use the aspect ratio here.
-            this.state.map.roomfinder.y = -1023 + (map.y / map.height) * rect.width * (map.height / map.width);
+            this.state.map.roomfinder.y = -1023 + (map.y / map.height) * (rect.width - 16) * (map.height / map.width);
 
             this.state.map.roomfinder.width = map.width;
             this.state.map.roomfinder.height = map.height;
