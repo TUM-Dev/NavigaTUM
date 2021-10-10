@@ -20,11 +20,11 @@ navigatum.registerModule("interactive-map", (function() {
                 // Add CSS first (required by Leaflet)
                 var el_css  = document.createElement("link");
                 el_css.rel = "stylesheet";
-                el_css.href = "/* @echo app_prefix */css/leaflet-1.7.1.css";
+                el_css.href = "/* @echo app_prefix */css/leaflet-1.7.1-with-plugins.css";
                 head.appendChild(el_css);
                 // JS should trigger init on load
                 var el_js = document.createElement("script");
-                el_js.src = "/* @echo app_prefix */js/leaflet-1.7.1.min.js";
+                el_js.src = "/* @echo app_prefix */js/leaflet-1.7.1-with-plugins.min.js";
                 el_js.onload = function() {
                     initLeaflet(_this);
                     resolve();
@@ -34,6 +34,12 @@ navigatum.registerModule("interactive-map", (function() {
         },
         initMap: function(id) {
             var map = L.map('interactive-map');
+            // Gesture handling currently only on mobile
+            if (window.matchMedia &&
+                window.matchMedia("only screen and (max-width: 480px)").matches) {
+                map.gestureHandling.enable();
+            }
+            console.log(map);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);

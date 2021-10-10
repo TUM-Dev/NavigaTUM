@@ -434,11 +434,15 @@ gulp.task('assets', copy_assets);
 
 // --- Vendor src Pipeline ---
 function copy_vendor_css() {
-    return gulp.src(['vendor/leaflet-1.7.1.css'])
+    return gulp.src(['vendor/leaflet-1.7.1.css',
+                     'vendor/leaflet-gesture-handling-1.2.1.min.css'])
+               .pipe(concat('leaflet-1.7.1-with-plugins.css'))
                .pipe(gulp.dest('build/css'))
 }
 function copy_vendor_js() {
-    return gulp.src(['vendor/leaflet-1.7.1.min.js'])
+    return gulp.src(['vendor/leaflet-1.7.1.min.js',
+                     'vendor/leaflet-gesture-handling-1.2.1.min.js'])
+               .pipe(concat('leaflet-1.7.1-with-plugins.min.js'))
                .pipe(gulp.dest('build/js'))
 }
 gulp.task('vendor', gulp.parallel(copy_vendor_css, copy_vendor_js));
