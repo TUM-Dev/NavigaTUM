@@ -51,3 +51,31 @@ deploy:
     - ssh -i $ID_RSA_RESTART -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST placeholder-command-ignored-by-server
   only:
     - master
+
+build_container:
+  image: docker:stable
+  stage: deploy
+  tags:
+    - container
+  services:
+   - name: docker:dind
+     alias: dockerdaemon
+  variables:
+    # Tell docker CLI how to talk to Docker daemon.
+    DOCKER_HOST: tcp://dockerdaemon:2375/
+    # Use the overlayfs driver for improved performance.
+    DOCKER_DRIVER: overlay2
+    # Disable TLS since we're running inside local network.
+    DOCKER_TLS_CERTDIR: ""
+  script:
+    - mkdir data
+    - apk add wget
+    - wget $DATA_PATH -O data/api_data.json
+    - docker build -t navigatum-server .
+    - docker save --output navigatum-server.tar navigatum-server
+  artifacts:
+    paths:
+      - navigatum-server.tar
+  only:
+    - master
+
