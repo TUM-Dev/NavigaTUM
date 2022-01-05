@@ -12,6 +12,9 @@ def merge_roomfinder_buildings(data):
     """
     with open("external/buildings_roomfinder.json") as f:
         buildings = json.load(f)
+        
+    with open("sources/10_patches-roomfinder-buildings.yaml") as f:
+        patches = yaml.safe_load(f.read())
 
     error = False
     for b in buildings:
@@ -19,6 +22,10 @@ def merge_roomfinder_buildings(data):
         # They might be integrated customly somewhere else, but here we ignore these.
         if b["b_id"] == "0000":
             continue
+        
+        for wrong, correct in patches["replacements"].items():
+            if b["b_id"] == wrong:
+                b["b_id"] = correct
 
         # Find the corresponding building in the existing data
         internal_id = None
@@ -32,7 +39,7 @@ def merge_roomfinder_buildings(data):
                     break
 
         if internal_id is None:
-            print(f"Error: building id '{b['b_id']}' not found in base data")
+            print(f"Error: building id '{b['b_id']}' not found in base data. Add it to the areatree")
             error = True
             continue
 
@@ -46,8 +53,10 @@ def merge_roomfinder_buildings(data):
             "b_roomCount":  b["b_roomCount"],
         }
         
-        b_data.setdefault("coords", _get_roomfinder_coords(b))
-        b_data.setdefault("maps", {})["roomfinder"] = _get_roomfinder_maps(b)
+        if "utm_zone" in b:
+            b_data.setdefault("coords", _get_roomfinder_coords(b))
+        if "maps" in b:
+            b_data.setdefault("maps", {})["roomfinder"] = _get_roomfinder_maps(b)
         
         b_data.setdefault("props", {}).setdefault("ids", {}).setdefault("b_id", b["b_id"])
 
@@ -113,8 +122,10 @@ def merge_roomfinder_rooms(data):
             "r_level": r["r_level"]
         }
         
-        r_data.setdefault("coords", _get_roomfinder_coords(r))
-        r_data.setdefault("maps", {})["roomfinder"] = _get_roomfinder_maps(r)
+        if "utm_zone" in r:
+            r_data.setdefault("coords", _get_roomfinder_coords(r))
+        if "maps" in r:
+            r_data.setdefault("maps", {})["roomfinder"] = _get_roomfinder_maps(r)
     
     if error:
         raise RuntimeError("One or more errors, aborting")

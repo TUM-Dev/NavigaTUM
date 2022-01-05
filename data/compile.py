@@ -1,6 +1,6 @@
 import json
 
-from processors import *
+from processors import areatree, check, images, maps, merge, patch, roomfinder, search, sections, structure, tumonline
 
 
 def main():

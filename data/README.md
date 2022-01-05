@@ -8,7 +8,7 @@ The code to retrieve external data, as well as externally retrieved data is not 
 
 ⚠️ A lot of this code is more a work in progress than finished. Especially features such as POIs, custom maps or other data types such as events are drafted but not yet fully implemented.
 
-Also, new external data might break the scripts from time to time, as either the external data has errors or we make assumptions here that turn out to be wrong.
+Also, new external data might break the scripts from time to time, as either rooms or buildings are removed, the external data has errors or we make assumptions here that turn out to be wrong.
 
 # Getting started
 

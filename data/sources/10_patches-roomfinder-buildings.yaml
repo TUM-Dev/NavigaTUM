@@ -1,0 +1,3 @@
+replacements:
+  # Some entries wrongly use the full name as building id
+  "CiO/SG Institute West, Bibliot": "2334"
