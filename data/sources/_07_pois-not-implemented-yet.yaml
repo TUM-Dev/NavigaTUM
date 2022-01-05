@@ -1,0 +1,15 @@
+parabelrutsche:
+  parent: "mi"
+  name: "Parabelrutsche"
+
+  usage:
+    name: "Gravitatives Transportmittel"
+    categories: ["multi-floor"]
+
+  props:
+    generic:
+      - "Formel": "..."
+
+  sections:
+    article:
+      de: ""
