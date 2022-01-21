@@ -28,8 +28,7 @@ External data is stored in the `external/` subdirectory.
 
 (a) If you do have access to gitlab.lrz.de (e.g. if you are a TUM student) you can obtain the full data with the external sub-repository:
 ```bash
-mkdir external && cd external
-git clone https://gitlab.lrz.de/navigatum/navigatum-external-data
+git clone https://gitlab.lrz.de/navigatum/navigatum-external-data external
 ```
 
 (b) Else you can use an example subset that contains data from the Roomfinder, which is publicly available:
