@@ -76,9 +76,8 @@ async fn main() -> std::io::Result<()> {
     let state_feedback = web::Data::new(feedback::init_state(opt));
 
     HttpServer::new(move || {
-        let cors = Cors::default().allow_any_origin()
-                                  //.allowed_origin("http://localhost:8000")
-                                  //.allowed_origin("https://fs.tum.de")
+        let cors = Cors::default().allowed_origin("http://localhost:8080")
+                                  .allowed_origin("new.roomfinder.tum.sexy")
                                   .allow_any_header()
                                   .allowed_methods(vec!["GET", "POST"])
                                   .max_age(3600);
