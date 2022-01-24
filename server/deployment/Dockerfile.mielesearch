@@ -1,0 +1,7 @@
+FROM getmeili/meilisearch:latest
+
+EXPOSE 7070
+COPY ./configure_MeileSearch.bash /configure_MeileSearch.bash
+
+# run configuration after 5 s, to be shure that the server properly initalised
+ENTRYPOINT (sleep 5 && /configure_MeileSearch.bash) & ./meilisearch
