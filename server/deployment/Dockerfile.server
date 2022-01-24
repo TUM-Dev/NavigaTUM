@@ -1,0 +1,36 @@
+FROM rust:latest as build
+
+# create a new empty shell project
+RUN USER=root cargo new --bin navigatum-server
+WORKDIR /server
+
+# copy over your manifests
+COPY ../Cargo.lock ./Cargo.lock
+COPY ../Cargo.toml ./Cargo.toml
+
+# this build step will cache your dependencies
+RUN rustc --version && cargo --version
+RUN cargo build --release
+RUN rm src/*.rs
+
+# copy your source tree
+COPY ../src ./src
+
+# get api_data.json
+RUN wget ---directory-prefix ./data $ROOMFINDER_URL/cdn/api_data.json
+
+# build for release
+RUN rm ./target/release/deps/navigatum-server* && cargo build --release
+
+# our final base
+FROM debian:buster-slim
+
+# copy the build artifact from the build stage
+COPY --from=build /navigatum-server/target/release/navigatum-server .
+
+# set the startup command to run your binary
+EXPOSE 8080/tcp
+ENV PATH=/server
+CMD ["./navigatum-server"]
+
+# dockerfile is written after https://dev.to/rogertorres/first-steps-with-docker-rust-30oi
