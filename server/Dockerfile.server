@@ -5,8 +5,8 @@ RUN USER=root cargo new --bin navigatum-server
 WORKDIR /server
 
 # copy over your manifests
-COPY ../Cargo.lock ./Cargo.lock
-COPY ../Cargo.toml ./Cargo.toml
+COPY ./Cargo.lock ./Cargo.lock
+COPY ./Cargo.toml ./Cargo.toml
 
 # this build step will cache your dependencies
 RUN rustc --version && cargo --version
@@ -14,7 +14,7 @@ RUN cargo build --release
 RUN rm src/*.rs
 
 # copy your source tree
-COPY ../src ./src
+COPY ./src ./src
 
 # get api_data.json
 RUN wget ---directory-prefix ./data $ROOMFINDER_URL/cdn/api_data.json
