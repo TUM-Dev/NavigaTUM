@@ -1,7 +1,8 @@
 FROM getmeili/meilisearch:latest
 
-EXPOSE 7070
+EXPOSE 7700
+RUN apk add --no-cache jq
 COPY ./configure_MeileSearch.bash /configure_MeileSearch.bash
-
+COPY ./search_data.json /search_data.json
 # run configuration after 5 s, to be shure that the server properly initalised
 ENTRYPOINT (sleep 5 && /configure_MeileSearch.bash) & ./meilisearch
