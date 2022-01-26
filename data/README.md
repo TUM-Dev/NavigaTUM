@@ -16,7 +16,7 @@ Also, new external data might break the scripts from time to time, as either roo
 You need the following dependencies to get started:
 - *Python* (at least version 3.6)
 - The following Python packages:
-  `pip install pyyaml utm`
+  `pip install -r requirements.txt`
 
 ## Cloning the repo
 ```bash
