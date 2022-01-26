@@ -83,6 +83,156 @@ And if you want to delete the index, run:
 curl -X DELETE 'http://127.0.0.1:7700/indexes/entries'
 ```
 
+## API
+
+### get
+
+```
+GET <endpoint>/get/:id
+```
+
+This returns the full data available for the entry (room/building) available as JSON.
+The exact data format is specified in the *navigatum-data* repository, but it is esentially structured like this:
+
+e.g. with `GET <endpoint>/get/5602.EG.001`:
+
+```js
+{
+    "id": "5602.EG.001",
+    "type": "room",  // or "building", "joined_building",  ...
+    "type_common_name": "Hörsaal",
+    "name": "5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)",
+    "parent_names": ["Standorte", "Garching Forschungszentrum", ...],
+    "parents": ["root", "garching", ...],  // IDs to the names above
+
+    "coords": {
+        "lat": 48.26244490906312,
+        "lon": 11.669122601167174,
+        "source": "roomfinder"
+    },
+    "maps": {
+        "default": "interactive",  // else: "roomfinder"
+        "roomfinder": {
+            "available": [
+                {
+                    "name": "FMI Übersicht",
+                    "id": 142,
+                    "scale": "2000",  // Scale 1:2000
+                    "height": 461,  // Map image dimensions
+                    "width": 639,
+                    "x": 499,  // Position on map image
+                    "y": 189
+                },
+                ...
+            ],
+            default: "142"
+        }
+    },
+
+    "props": {
+        "computed": [  // Date for the info-card table
+            {
+                "name": "Raumkennung",
+                "text": "5602.EG.001"
+            },
+            ...
+        ]
+    },
+
+    "sections": {
+        // Info sections with more details, currently only for buildings etc.
+    }
+}
+```
+
+### search
+
+```
+GET <endpoint>/search/:query
+```
+
+Search entries – this endpoint is designed to support search-as-you-type results.
+
+Instead of simply returning a list, the search results are returned in a way to provide
+a richer experience by splitting them up into sections. You might not necessarily need to
+implement all types of sections, or all sections features (if you just want to show a list).
+The order of sections is a suggested order to display them, but you may change this as
+you like.
+
+Some fields support highlighting the query terms and it uses DC3 (`\x19` or `\u{0019}`) and
+DC1 (`\x17` or `\u{0017}`) to mark the beginning/end of a highlighted sequence
+([See Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+Some text-renderers will ignore them, but in case you do not want to use them, you might want
+to remove them from the responses (there is no query parameter for this yet).
+
+The general response format looks like this:
+```js
+{
+    "sections": [{ see below }, ...],
+    "time_ms": 7  // Time the search took in the server side
+}
+```
+
+The following sections are currently implemented:
+
+**Rooms:**  
+```js
+{
+    "facet": "rooms",
+    "entries": [
+        {
+            "id": "5502.01.250",
+            "type": "room",
+            // Name of this search result, highlighted
+            "name": "5502.01.\u0019250\u0017 (Hörsaal)",
+            // Subtext to show below the search result. Usually contains
+            // the context of where this rooms is located in.
+            // Currently not highlighted.
+            "subtext": "Maschinenwesen (MW)",
+            // Subtext to show below the search (by default in bold and after the
+            // non-bold subtext). Usually contains the arch-id of the room, which is
+            // another common room id format, and supports highlighting.
+            "subtext_bold": "1\u0019250\u0017@5502",
+
+            // This is an optional feature, that is only supported for some rooms.
+            // It might be displayed instead or before the name, to show that a
+            // different room id format has matched, that was probably used.
+            // See the image below for an example.
+            // Supports highlighting.
+            "parsed_id": "\u0019MW 250\u00171"
+        }
+    ],
+    "nb_hits": 30  // The estimated (not exact) number of hits for that query
+}
+```
+
+Example of how `parsed_id` might be displayed:
+![](doc/example_parsed-id.png)
+
+
+**Buildings / Sites:**  
+```js
+{
+    "facet": "sites_buildings",
+    "entries": [
+        {
+            "id": "mw",
+            "type": "joined_building",
+            // Name of this search result, highlighted
+            "name": "Maschinenwesen (\u0019MW\u0017)",
+            // Subtext to show below the search result. Usually contains
+            // the what type of result this is.
+            // Currently not highlighted.
+            "subtext": "Gebäudekomplex"
+        }
+    ],
+    "n_visible": 5,  // How many of the above entries should be displayed by default. The number is usually from 0-5.
+                     // More results might be displayed when clicking "expand".
+    "nb_hits": 19  // The estimated (not exact) number of hits for that query
+}
+```
+
+
 ## License
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
