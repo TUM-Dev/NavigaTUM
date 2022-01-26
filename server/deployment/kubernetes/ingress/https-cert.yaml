@@ -11,5 +11,5 @@ spec:
         - roomapi.tum.sexy
     secretName: roomapi.tum.sexy
     issuerRef:
-        name: letsencrypt-staging
+        name: letsencrypt-production
         kind: ClusterIssuer
