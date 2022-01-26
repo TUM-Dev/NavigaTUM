@@ -35,8 +35,9 @@ curl --silent -X POST 'http://localhost:7700/indexes/entries/settings/filterable
 
 
 SEARCH_DATA_FILE=$WORK_DIR/search_data.json
-echo -e "\n\n> Downloading search data to '$SEARCH_DATA_FILE'\n"
-wget --directory-prefix $WORK_DIR $ROOMFINDER_URL/cdn/search_data.json
+echo -e "\n\n> Downloading/moving search data to '$SEARCH_DATA_FILE'\n"
+mv ./search_data.json $WORK_DIR/search_data.json
+#wget --directory-prefix $WORK_DIR $ROOMFINDER_URL/cdn/search_data.json
 echo "SEARCH_DATA_FILE ($SEARCH_DATA_FILE):"
 ls -lah $SEARCH_DATA_FILE
 echo -e "\n> Upload entries data:\n"
