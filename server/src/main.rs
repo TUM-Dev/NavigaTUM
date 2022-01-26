@@ -77,7 +77,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         let cors = Cors::default().allowed_origin("http://localhost:8080")
-                                  .allowed_origin("new.roomfinder.tum.sexy")
+                                  .allowed_origin("roomapi.tum.sexy")
                                   .allow_any_header()
                                   .allowed_methods(vec!["GET", "POST"])
                                   .max_age(3600);

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ROOMFINDER_URL="https://new.roomfinder.tum.sexy"
+ROOMFINDER_URL="https://roomapi.tum.sexy"
 
 # fail on first error
 set -e
