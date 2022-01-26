@@ -17,7 +17,7 @@ spec:
         spec:
             containers:
                 - name: navigatum-data
-                  image: ghcr.io/TUM-Dev/navigatum-data:main
+                  image: ghcr.io/tum-dev/navigatum-data:main
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 8000

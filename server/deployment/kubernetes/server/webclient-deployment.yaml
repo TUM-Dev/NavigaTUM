@@ -17,7 +17,7 @@ spec:
         spec:
             containers:
                 - name: navigatum-webclient
-                  image: ghcr.io/TUM-Dev/navigatum-webclient:main
+                  image: ghcr.io/tum-dev/navigatum-webclient:main
                   imagePullPolicy: Always
                   envFrom:
                       - configMapRef:
