@@ -61,7 +61,7 @@ async fn search_handler(
 
 #[get("/source_code")]
 async fn source_code_handler() -> Result<HttpResponse> {
-    Ok(HttpResponse::Ok().body("https://git.fs.tum.de/navigatum/navigatum-server".to_string()))
+    Ok(HttpResponse::Ok().body("https://github.com/TUM-Dev/navigatum-server".to_string()))
 }
 
 #[actix_web::main]

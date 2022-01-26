@@ -17,7 +17,7 @@ spec:
         spec:
             containers:
                 - name: navigatum-data
-                  image: ghcr.io/navigatum/navigatum-data:latest
+                  image: ghcr.io/TUM-Dev/navigatum-data:latest
                   imagePullPolicy: Always
                   envFrom:
                       - configMapRef:

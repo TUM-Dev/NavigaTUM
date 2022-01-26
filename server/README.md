@@ -24,7 +24,7 @@ cd navigatum
 Then, clone this repository
 
 ```bash
-git clone https://git.fs.tum.de/navigatum/navigatum-server.git
+git clone https://github.com/TUM-Dev/navigatum-server.git
 cd navigatum-server
 ```
 

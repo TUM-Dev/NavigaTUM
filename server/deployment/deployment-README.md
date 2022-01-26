@@ -4,10 +4,10 @@ This Project details how to deploy the navigatum-API, the webclient and the CDN
 
 The documentation for the spectific sub-services can be found in the respective repos:
 
-- Issues: <https://git.fs.tum.de/navigatum/navigatum-issues>
-- Data: <https://git.fs.tum.de/navigatum/navigatum-data>
-- API/Server: <https://git.fs.tum.de/navigatum/navigatum-server>
-- Website: <https://git.fs.tum.de/navigatum/navigatum-webclient>
+- Issues: <https://github.com/TUM-Dev/navigatum-issues>
+- Data: <https://github.com/TUM-Dev/navigatum-data>
+- API/Server: <https://github.com/TUM-Dev/navigatum-server>
+- Website: <https://github.com/TUM-Dev/navigatum-webclient>
 
 ## General description
 

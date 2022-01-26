@@ -17,7 +17,7 @@ spec:
         spec:
             containers:
                 - name: navigatum-server
-                  image: ghcr.io/navigatum/navigatum-server:latest
+                  image: ghcr.io/TUM-Dev/navigatum-server:latest
                   imagePullPolicy: Always
                   envFrom:
                       - configMapRef:
@@ -26,7 +26,7 @@ spec:
                       - containerPort: 8080
                         name: navigatum-server-api
                 - name: MieliSearch
-                  image: ghcr.io/navigatum/navigatum-MieliSearch:latest
+                  image: ghcr.io/TUM-Dev/navigatum-MieliSearch:latest
                   imagePullPolicy: Always
                   envFrom:
                       - configMapRef:
