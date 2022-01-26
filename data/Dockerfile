@@ -7,7 +7,6 @@ RUN mkdir /build
 COPY output/* /build/
 COPY external/maps/* /build/maps/
 COPY sources/img/* /build/img/
-COPY sources/img/* /build/img/
 
 FROM nginx as production-stage
 RUN mkdir /cdn
