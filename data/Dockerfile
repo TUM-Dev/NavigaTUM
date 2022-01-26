@@ -2,7 +2,8 @@ FROM ubuntu:latest as build-stage
 WORKDIR /app
 # install requirements
 COPY requirements.txt .
-RUN apt-get install python3
+RUN sudo apt update  -y
+RUN apt-get install -y python3
 RUN pip3 install -r requirements.txt
 
 # collect data
