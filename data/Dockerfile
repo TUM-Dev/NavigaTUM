@@ -5,11 +5,11 @@ COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
 # collect data
-COPY * .
-RUN ls -lah .
+ADD . .
+RUN ls -a .
 RUN rm ./output/*
-RUN python3 compile.py
-RUN ls -lah ./output
+RUN python3 compile.py && test -f "./output/search_data.json" && test -f "./output/api_data.json"
+RUN ls -a ./output
 
 # put all data into the cdn folder
 RUN mkdir /build
