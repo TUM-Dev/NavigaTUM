@@ -12,8 +12,10 @@ RUN python3 compile.py && test -f "./output/search_data.json" && test -f "./outp
 # put all data into the cdn folder
 COPY external/maps/* /output/maps/
 COPY sources/img/* /output/img/
+RUN ls -a /output
 
 FROM nginx as production-stage
 RUN mkdir /cdn
 COPY --from=build-stage /output /cdn
+RUN ls -a /cdn
 COPY nginx.conf /etc/nginx/nginx.conf
