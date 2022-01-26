@@ -1,0 +1,10 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: navigatum-temp-auth
+  labels:
+      app: navigatum
+  namespace: navigatum
+spec:
+  basicAuth:
+    secret: navigatum-temp-authsecret

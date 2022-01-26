@@ -1,0 +1,67 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+    name: navigatum-ingress
+    labels:
+        app: navigatum
+    namespace: navigatum
+spec:
+    entryPoints:
+        - websecure
+    routes:
+        - kind: Rule
+          match: Host(`new.roomfinder.tum.sexy`) && PathPrefix(`/api/`)
+          priority: 11
+          services:
+              - name: navigatum-svc
+                port: 7000
+        - kind: Rule
+          match: Host(`new.roomfinder.tum.sexy`) && PathPrefix(`/cdn/`)
+          priority: 10
+          services:
+              - name: navigatum-svc
+                port: 8000
+        - kind: Rule
+          match: Host(`new.roomfinder.tum.sexy`)
+          priority: 9
+          services:
+              - name: navigatum-svc
+                port: 9000
+          middlewares:
+              - name: navigatum-temp-auth
+    tls:
+        secretName: new.roomfinder.tum.sexy
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+    name: navigatum-ingress-http
+    labels:
+        app: navigatum
+    namespace: navigatum
+spec:
+    entryPoints:
+        - web
+    routes:
+        # cdn and api can be reached via http, while the website redirects to https
+        - kind: Rule
+          match: Host(`new.roomfinder.tum.sexy`) && PathPrefix(`/api/`)
+          priority: 11
+          services:
+              - name: navigatum-svc
+                port: 7000
+        - kind: Rule
+          match: Host(`new.roomfinder.tum.sexy`) && PathPrefix(`/cdn/`)
+          priority: 10
+          services:
+              - name: navigatum-svc
+                port: 8000
+        - kind: Rule
+          match: Host(`new.roomfinder.tum.sexy`)
+          priority: 9
+          services:
+              - name: noop@internal
+                kind: TraefikService
+          middlewares:
+              - name: https
+              - name: navigatum-temp-auth

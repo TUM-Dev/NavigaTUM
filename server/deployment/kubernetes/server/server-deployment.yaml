@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: navigatum-server-deployment
+    labels:
+        app: navigatum
+    namespace: navigatum
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: navigatum
+    template:
+        metadata:
+            labels:
+                app: navigatum
+        spec:
+            containers:
+                - name: navigatum-server
+                  image: ghcr.io/navigatum/navigatum-server:latest
+                  imagePullPolicy: Always
+                  envFrom:
+                      - configMapRef:
+                            name: navigatum-config
+                  ports:
+                      - containerPort: 8080
+                        name: navigatum-server-api
+                - name: MieliSearch
+                  image: ghcr.io/navigatum/navigatum-MieliSearch:latest
+                  imagePullPolicy: Always
+                  envFrom:
+                      - configMapRef:
+                            name: navigatum-config
+                  ports:
+                      - containerPort: 7700
+                        name: navigatum-MieliSearch

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: navigatum-data-deployment
+    labels:
+        app: navigatum
+    namespace: navigatum
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: navigatum
+    template:
+        metadata:
+            labels:
+                app: navigatum
+        spec:
+            containers:
+                - name: navigatum-data
+                  image: ghcr.io/navigatum/navigatum-data:latest
+                  imagePullPolicy: Always
+                  envFrom:
+                      - configMapRef:
+                            name: navigatum-config
+                  ports:
+                      - containerPort: 8000
+                        name: navigatum-ressources-cdn

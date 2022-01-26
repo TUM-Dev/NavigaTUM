@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: navigatum-config
+    labels:
+        app: navigatum
+    namespace: navigatum
+data:
+    ALLOWED_HOSTS: 'new.roomfinder.tum.sexy'

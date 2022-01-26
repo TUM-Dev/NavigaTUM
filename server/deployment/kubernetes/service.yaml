@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: navigatum-svc
+    labels:
+        app: navigatum
+    namespace: navigatum
+spec:
+    type: ClusterIP
+    selector:
+        app: navigatum
+    ports:
+        - name: navigatum-MieliSearch
+          port: 7700
+          targetPort: 7700
+        - name: navigatum-server-api
+          port: 7000
+          targetPort: 8080
+        - name: navigatum-ressources-cdn
+          port: 8000
+          targetPort: 80
+        - name: navigatum-webclient
+          port: 9000
+          targetPort: 80
+        
