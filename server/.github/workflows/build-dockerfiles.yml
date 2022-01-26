@@ -40,7 +40,7 @@ jobs:
               with:
                   context: .
                   push: true
-                  file: "{context}/Dockerfile.server"
+                  file: "./Dockerfile.server"
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
 
@@ -74,6 +74,6 @@ jobs:
               with:
                   context: ./deployment
                   push: true
-                  file: "{context}/Dockerfile.mielesearch"
+                  file: "./deployment/Dockerfile.mielesearch"
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
