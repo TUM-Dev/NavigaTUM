@@ -33,4 +33,4 @@ spec:
                             name: navigatum-config
                   ports:
                       - containerPort: 7700
-                        name: navigatum-mielisearch
+                        name: mieli-search
