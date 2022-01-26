@@ -5,7 +5,8 @@ COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
 # collect data
-COPY . .
+COPY * .
+RUN ls -lah .
 RUN rm ./output/*
 RUN python3 compile.py
 RUN ls -lah ./output
