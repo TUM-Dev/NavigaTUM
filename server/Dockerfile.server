@@ -15,8 +15,7 @@ RUN cargo chef cook --release --recipe-path recipe.json
 # Build navigatum-server
 COPY src ./src
 # get api_data.json
-#RUN wget ---directory-prefix ./data $ROOMFINDER_URL/cdn/api_data.json
-COPY data/api_data.json data/api_data.json
+RUN wget --directory-prefix ./data https://roomapi.tum.sexy/cdn/api_data.json
 RUN cargo build --release
 
 # We do not need the Rust toolchain to run the binary!
