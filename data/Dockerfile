@@ -1,9 +1,7 @@
-FROM ubuntu:latest as build-stage
+FROM python:3.9.10-bullseye as build-stage
 WORKDIR /app
 # install requirements
 COPY requirements.txt .
-RUN apt-get update  -y
-RUN apt-get install -y python3
 RUN pip3 install -r requirements.txt
 
 # collect data
