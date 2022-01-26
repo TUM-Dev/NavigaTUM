@@ -6,8 +6,7 @@ RUN pip3 install -r requirements.txt
 
 # collect data
 ADD . .
-RUN ls -a ./output
-RUN rm ./output/*
+RUN rm -fr output && mkdir output
 RUN python3 compile.py && test -f "./output/search_data.json" && test -f "./output/api_data.json"
 RUN ls -a ./output
 
