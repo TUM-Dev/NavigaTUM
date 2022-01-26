@@ -24,4 +24,4 @@ spec:
                             name: navigatum-config
                   ports:
                       - containerPort: 8000
-                        name: navigatum-webclient
+                        name: navigatum-web

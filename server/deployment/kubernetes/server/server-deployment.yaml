@@ -24,9 +24,9 @@ spec:
                             name: navigatum-config
                   ports:
                       - containerPort: 8080
-                        name: navigatum-server-api
-                - name: MieliSearch
-                  image: ghcr.io/TUM-Dev/navigatum-MieliSearch:latest
+                        name: navigatum-api
+                - name: mieli_search
+                  image: ghcr.io/TUM-Dev/navigatum-mieli_search:latest
                   imagePullPolicy: Always
                   envFrom:
                       - configMapRef:

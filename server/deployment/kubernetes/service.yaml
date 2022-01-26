@@ -13,13 +13,13 @@ spec:
         - name: navigatum-mielisearch
           port: 7700
           targetPort: 7700
-        - name: navigatum-server-api
+        - name: navigatum-api
           port: 7000
           targetPort: 8080
-        - name: navigatum-ressources-cdn
+        - name: navigatum-cdn
           port: 8000
           targetPort: 80
-        - name: navigatum-webclient
+        - name: navigatum-web
           port: 9000
           targetPort: 80
         
