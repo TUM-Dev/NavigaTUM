@@ -12,32 +12,32 @@ Also, new external data might break the scripts from time to time, as either roo
 
 # Getting started
 
-### Dependencies
+## Dependencies
 You need the following dependencies to get started:
 - *Python* (at least version 3.6)
 - The following Python packages:
   `pip install pyyaml utm`
 
-### Cloning the repo
+## Cloning the repo
 ```bash
 git clone https://git.fs.tum.de/navigatum/navigatum-data
 ```
 
-### Getting external data
-External data is stored in the `external/` subdirectory.
-
-(a) If you do have access to gitlab.lrz.de (e.g. if you are a TUM student) you can obtain the full data with the external sub-repository:
-```bash
-git clone https://gitlab.lrz.de/navigatum/navigatum-external-data external
-```
-
-(b) Else you can use an example subset that contains data from the Roomfinder, which is publicly available:
-```bash
-cp external_example external
-```
+## Getting external data
+External data (and the scraper) is stored in the `external/` subdirectory.
 Note that the data processing scripts generally assume that real TUMOnline data is available, so this might break.
 
-### Compiling the data
+Run it with:
+```bash
+python external/main.py
+```
+
+You can optinally comment out parts of the downloader that should not be downloaded.
+The final data will be stored in the `cache` subdirectory as json files. To force a redownload, delete them.
+
+All JSON files in the root directory are the most recent scraped results.
+ 
+## Compiling the data
 ```bash
 mkdir output
 python compile.py
@@ -45,7 +45,7 @@ python compile.py
 
 The exported datasets will be stored in `output/` as JSON files.
 
-### Directory structure
+## Directory structure
 ```bash
 navigatum-data
 ├── external/    # 🠔 This is the sub-repository containing externally retrieved data
@@ -58,7 +58,7 @@ navigatum-data
 └── data-format_*.yaml # 🠔 Data format specification
 ```
 
-### How the data looks like
+## How the data looks like
 ```json
 {
 	"entry-id": {
