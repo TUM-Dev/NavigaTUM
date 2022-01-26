@@ -9,6 +9,7 @@ ADD . .
 RUN rm -fr output && mkdir output
 RUN python3 compile.py && test -f "./output/search_data.json" && test -f "./output/api_data.json"
 
+RUN ls -a /output
 # put all data into the cdn folder
 COPY external/maps/* /output/maps/
 COPY sources/img/* /output/img/
