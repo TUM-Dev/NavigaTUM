@@ -8,16 +8,12 @@ RUN pip3 install -r requirements.txt
 ADD . .
 RUN rm -fr output && mkdir output
 RUN python3 compile.py && test -f "./output/search_data.json" && test -f "./output/api_data.json"
-RUN ls -a ./output
 
 # put all data into the cdn folder
-RUN mkdir /build
-COPY output/* /build/
-RUN ls -a /build
-COPY external/maps/* /build/maps/
-COPY sources/img/* /build/img/
+COPY external/maps/* /output/maps/
+COPY sources/img/* /output/img/
 
 FROM nginx as production-stage
 RUN mkdir /cdn
-COPY --from=build-stage /build /cdn
+COPY --from=build-stage /output /cdn
 COPY nginx.conf /etc/nginx/nginx.conf
