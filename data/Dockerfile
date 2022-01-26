@@ -1,6 +1,12 @@
-FROM gcr.io/distroless/cc-debian10 as build-stage
+FROM ubuntu:latest as build-stage
 WORKDIR /app
+# install requirements
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
 # collect data
+COPY . .
+RUN python compile.py
 
 # put all data into the cdn folder
 RUN mkdir /build
