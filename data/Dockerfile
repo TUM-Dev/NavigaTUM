@@ -2,11 +2,11 @@ FROM ubuntu:latest as build-stage
 WORKDIR /app
 # install requirements
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # collect data
 COPY . .
-RUN python compile.py
+RUN python3 compile.py
 
 # put all data into the cdn folder
 RUN mkdir /build
