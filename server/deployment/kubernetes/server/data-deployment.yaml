@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: navigatum-data-deployment
+    name: navigatum-data
     labels:
         app: navigatum
     namespace: navigatum
@@ -19,9 +19,6 @@ spec:
                 - name: navigatum-data
                   image: ghcr.io/TUM-Dev/navigatum-data:latest
                   imagePullPolicy: Always
-                  envFrom:
-                      - configMapRef:
-                            name: navigatum-config
                   ports:
                       - containerPort: 8000
                         name: navigatum-ressources-cdn

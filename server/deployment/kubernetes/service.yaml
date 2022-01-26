@@ -10,7 +10,7 @@ spec:
     selector:
         app: navigatum
     ports:
-        - name: navigatum-MieliSearch
+        - name: navigatum-mielisearch
           port: 7700
           targetPort: 7700
         - name: navigatum-server-api

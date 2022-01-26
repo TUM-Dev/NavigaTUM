@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: navigatum-server-deployment
+    name: navigatum-server
     labels:
         app: navigatum
     namespace: navigatum
@@ -33,4 +33,4 @@ spec:
                             name: navigatum-config
                   ports:
                       - containerPort: 7700
-                        name: navigatum-MieliSearch
+                        name: navigatum-mielisearch
