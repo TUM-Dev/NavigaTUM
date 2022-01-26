@@ -13,6 +13,7 @@ RUN ls -a ./output
 # put all data into the cdn folder
 RUN mkdir /build
 COPY output/* /build/
+RUN ls -a /build
 COPY external/maps/* /build/maps/
 COPY sources/img/* /build/img/
 
