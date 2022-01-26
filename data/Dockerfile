@@ -9,14 +9,11 @@ ADD . .
 RUN rm -fr output && mkdir output
 RUN python3 compile.py && test -f "./output/search_data.json" && test -f "./output/api_data.json"
 
-RUN ls -a /output
 # put all data into the cdn folder
-COPY external/maps/* /output/maps/
-COPY sources/img/* /output/img/
-RUN ls -a /output
+COPY external/maps/* ./output/maps/
+COPY sources/img/* ./output/img/
 
 FROM nginx as production-stage
 RUN mkdir /cdn
-COPY --from=build-stage /output /cdn
-RUN ls -a /cdn
+COPY --from=build-stage /app/output /cdn
 COPY nginx.conf /etc/nginx/nginx.conf
