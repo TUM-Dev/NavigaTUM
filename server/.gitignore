@@ -1,2 +1,4 @@
 /target
 Cargo.lock
+data/*
+deployment/search_data.json

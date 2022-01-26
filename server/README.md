@@ -66,7 +66,7 @@ curl -i -X PUT 'http://127.0.0.1:7700/indexes/entries/documents' --header 'conte
 # Configure index
 curl -X POST 'http://localhost:7700/indexes/entries/settings/ranking-rules' --data '["words","typo","rank:desc","exactness","proximity","attribute"]'
 
-curl -X POST 'http://localhost:7700/indexes/entries/settings/synonyms' --data @../navigatum-server/search_synonyms.json
+# curl -X POST 'http://localhost:7700/indexes/entries/settings/synonyms' --data @../navigatum-server/search_synonyms.json
 
 curl -X POST 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --data '[ "ms_id", "name", "arch_name", "type", "type_common_name", "parent_building", "parent_keywords", "address", "usage" ]'
 ```

@@ -1,0 +1,34 @@
+FROM rust:latest AS chef 
+# We only pay the installation cost once, 
+# it will be cached from the second build onwards
+RUN cargo install cargo-chef 
+WORKDIR /navigatum-server
+
+FROM chef AS planner
+COPY . .
+RUN cargo chef prepare  --recipe-path recipe.json
+
+FROM chef AS build
+COPY --from=planner /navigatum-server/recipe.json recipe.json
+# Build dependencies - this is the caching Docker layer!
+RUN cargo chef cook --release --recipe-path recipe.json
+# Build navigatum-server
+COPY src ./src
+# get api_data.json
+#RUN wget ---directory-prefix ./data $ROOMFINDER_URL/cdn/api_data.json
+COPY data/api_data.json data/api_data.json
+RUN cargo build --release
+
+# We do not need the Rust toolchain to run the binary!
+FROM chef AS runtime
+WORKDIR /navigatum-server
+COPY --from=build /navigatum-server/Cargo* ./
+COPY --from=build /navigatum-server/target/ ./target/
+COPY --from=build /navigatum-server/data/ ./data/
+COPY --from=build /navigatum-server/src/ ./src/
+ENTRYPOINT cargo run --release
+
+#COPY --from=build /navigatum-server/data/ ./data/
+#COPY --from=build /navigatum-server/target/release/navigatum-server ./navigatum-server
+#ENV PATH=/navigatum-server/
+#CMD ["navigatum-server"]
