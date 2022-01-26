@@ -2,7 +2,7 @@ FROM ubuntu:latest as build-stage
 WORKDIR /app
 # install requirements
 COPY requirements.txt .
-RUN sudo apt update  -y
+RUN apt-get update  -y
 RUN apt-get install -y python3
 RUN pip3 install -r requirements.txt
 
