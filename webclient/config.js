@@ -4,10 +4,10 @@ var config = {
     // running at "example.com/app/".
     // Setting it to "" makes paths relative. This only works for
     // hash-based navigation in development builds.
-    app_prefix: "",
+    app_prefix: "/",
     // Prefix for 'cdn' content, e.g. images.
     cdn_prefix: "/cdn/",
     // Prefix for API requests
-    api_prefix: "http://localhost:8080/",
+    api_prefix: "https://roomapi.tum.sexy/api/",
 };
 module.exports = config;

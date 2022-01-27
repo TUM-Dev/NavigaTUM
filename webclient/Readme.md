@@ -27,12 +27,6 @@ yarn
 npm install
 ```
 
-Copy the configuration file:
-```bash
-# The default configuration is pre-configured for local testing.
-cp config.default.js config.js
-```
-
 And run Gulp to build the client. The build files will be written to `build/`.
 ```bash
 # Run development build
