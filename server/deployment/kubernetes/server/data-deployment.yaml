@@ -24,8 +24,8 @@ spec:
                         name: navigatum-cdn
                   resources:
                     requests:
-                      cpu: 100m
+                      cpu: 50m
                       memory: 200Mi
                     limits:
-                      cpu: 250m
+                      cpu: 150m
                       memory: 500Mi
