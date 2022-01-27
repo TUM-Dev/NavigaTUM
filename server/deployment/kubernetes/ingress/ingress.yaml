@@ -64,4 +64,3 @@ spec:
                 kind: TraefikService
           middlewares:
               - name: https
-              - name: navigatum-temp-auth
