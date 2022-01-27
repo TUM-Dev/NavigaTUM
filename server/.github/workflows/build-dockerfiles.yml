@@ -46,7 +46,7 @@ jobs:
 
     build-and-push-meili-search:
         env:
-            IMAGE_NAME: navigatum-mieli-search
+            IMAGE_NAME: navigatum-mieli
         runs-on: ubuntu-latest
         permissions:
             contents: read
