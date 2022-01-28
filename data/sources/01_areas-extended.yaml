@@ -36,12 +36,13 @@ root:
         - {name: "Viehhausen (Versuchsstation)", id: "viehhausen"}
     - name: "Sonstige"
       id: null
-      n_visible: 4
+      n_visible: 5
       children:
         - {name: "MRI Klinikum rechts der Isar", id: "mri"}
         - {name: "Campus im Olympiapark", id: "olympiapark"}
         - {name: "Campus Straubing", id: "cs"}
         - {name: "Garching Hochbrück", id: "garching-hochbrueck"}
+        - {name: "Taufkirchen / Ottobrunn", id: "taufkirchen-ottobrunn"}
 
 # ========= Stammgelände =========
 stammgelaende:
@@ -406,6 +407,13 @@ mri-imse:
   coords: {lat: 48.14030, lon: 11.60119}
   osm: ["way/117602301"]
 
+1725:
+  coords: {lat: 48.12768, lon: 11.60264}
+  osm: ["way/100168381"]
+  
+1740:
+  coords: {lat: 48.13890, lon: 11.60234}
+  osm: ["way/120904782"]
 
 # ========= Campus Heilbronn =========
 heilbronn:
@@ -422,10 +430,33 @@ heilbronn:
   osm: ["way/443802898"]
 
   
-# ========= Others in Munich =========
+# ========= Others in Munich and around =========
+2808:
+  coords: {lat: 48.02197, lon: 12.55369}
+
 2201:  # To be removed
   coords: {lat: 48.15517, lon: 11.55493}
 
+2908:
+  coords: {lat: 48.14465, lon: 11.55536}
+  osm: ["way/264305950"]
+  
+2909:
+  coords: {lat: 48.14469, lon: 11.55598}
+  osm: ["way/59543687"]
+  
+2944:
+  coords: {lat: 48.15666, lon: 11.55183}
+  osm: ["node/8822946149"]
+  
+3401:
+  coords: {lat: 48.14111, lon: 11.58044}
+  osm: ["node/4921250903"]
+  
+# ========= Straubing =========
+3505:
+  coords: {lat: 48.88657, lon: 12.58209}
+  osm: ["way/35877603"]
 
 # ========= Freising / WZW =========
 wzw:
@@ -437,7 +468,10 @@ wzw:
 
 wzw-berg:
   coords: {lat: 48.39558, lon: 11.72773}
-  
+
+4155:
+  coords: {lat: 48.39547, lon: 11.72988}
+
 wzw-mitte:
   coords: {lat: 48.39953, lon: 11.72019}
 
@@ -447,6 +481,31 @@ wzw-mitte:
 staudensichtungsgarten:
   coords: {lat: 48.40107, lon: 11.72743}
   osm: ["way/35334722"]  # ("leisure: garden", not a building)
+
+# uncertain, but trafo stations anyway
+4202:
+  coords: {lat: 48.40289, lon: 11.72364}
+4281:
+  coords: {lat: 48.39904, lon: 11.72854}
+4319:
+  coords: {lat: 48.40242, lon: 11.72368}
+  
+# Grünschwaige; All buildings have the same coords atm
+4801: {coords: {lat: 48.38307, lon: 11.83503}}
+4802: {coords: {lat: 48.38307, lon: 11.83503}}
+4803: {coords: {lat: 48.38307, lon: 11.83503}}
+4804: {coords: {lat: 48.38307, lon: 11.83503}}
+4805: {coords: {lat: 48.38307, lon: 11.83503}}
+4806: {coords: {lat: 48.38307, lon: 11.83503}}
+4807: {coords: {lat: 48.38307, lon: 11.83503}}
+4808: {coords: {lat: 48.38307, lon: 11.83503}}
+4809: {coords: {lat: 48.38307, lon: 11.83503}}
+4810: {coords: {lat: 48.38307, lon: 11.83503}}
+4811: {coords: {lat: 48.38307, lon: 11.83503}}
+4812: {coords: {lat: 48.38307, lon: 11.83503}}
+4813: {coords: {lat: 48.38307, lon: 11.83503}}
+4814: {coords: {lat: 48.38307, lon: 11.83503}}
+4815: {coords: {lat: 48.38307, lon: 11.83503}}
   
 # ========= Campus Garching =========
 garching:
@@ -469,12 +528,41 @@ physik-main:
 5101:
   osm: ["relation/3277929", "node/1240863070"]  # last one is bib
 
+5126:  # CALA
+  coords: {lat: 48.26929, lon: 11.67459}
+  osm: ["way/308082257"]
+  
 mll:
   coords: {lat: 48.26839, lon: 11.67818}
 
 frm-2:
   coords: {lat: 48.26574, lon: 11.67569}
 
+5131:
+  coords: {lat: 48.26729, lon: 11.67379}
+  
+5142:
+  coords: {lat: 48.26772, lon: 11.67775}
+  osm: ["way/683348599"]
+
+5143:
+  coords: {lat: 48.26809, lon: 11.67781} # not sure about exact coords
+  osm: ["way/683348597"]
+  
+5160:  # UCN-Testanlage Container
+  coords: {lat: 48.26826, lon: 11.67866}
+  osm: ["way/159713511"]
+
+5257:
+  coords: {lat: 48.26616, lon: 11.67343}
+  osm: ["way/774866202"]
+  
+# estimates, exact position uncertain (RCM-BMA/ELA-Container and RCM-Büro-Containerbau)
+5268:
+  coords: {lat: 48.26501, lon: 11.67426}
+5269:
+  coords: {lat: 48.26501, lon: 11.67426}
+  
 5304:
   coords: {lat: 48.26799, lon: 11.67216}
 
@@ -492,6 +580,7 @@ chemie:
   coords: {lat: 48.2699, lon: 11.6694}
   osm: ["way/683348602"]
 
+# --- Maschinenwesen ---
 mw:
   coords: {lat: 48.26562, lon: 11.66921}
   osm: ["way/179243746",  # Main "zig zag" building
@@ -499,6 +588,11 @@ mw:
         "way/503719307", "way/503719306",  # North building (two parts)
         "way/539911567", "way/539911566"]  # Windtunnel (connecting building and tunnel itself)
 
+5519:
+  coords: {lat: 48.26427, lon: 11.66876}
+  osm: ["way/386179757"]
+
+        
 5532:  # StudiTUM
   osm: ["way/476929995"]
     
@@ -530,6 +624,14 @@ mi:
               - {name: "Mathematik Raum", subtext: "89 Arbeitsplätze", id: "00.05.011"}
               - {name: "Bode Raum", subtext: ""}
 
+5622:  # Sportanlage / Dusche
+  coords: {lat: 48.26350, lon: 11.66821}
+  
+5901:  # EI (current status)
+  coords: {lat: 48.26566, lon: 11.66256}
+  osm: ["relation/11039458"]
+
+              
 # --- Galileo ---
 galileo:
   coords: {lat: 48.26541, lon: 11.67226}
@@ -595,7 +697,25 @@ garching-hochbrueck:
 8111:  # Schleißheimerstr. 90a:
   osm: ["way/185254463", "node/4177892778"]
 
+# ========= Others =========
+9101:  # Garmisch-Partenkirchen
+  coords: {lat: 47.49358, lon: 11.09618}
+  osm: ["way/156823137"]
 
+# ========= Taufkirchen / Ottobrunn =========
+# cf. way/979575285
+taufkirchen-ottobrunn:
+  coords: {lat: 48.05453, lon: 11.65308}
 
+9376:
+  coords: {lat: 48.04672, lon: 11.65797}
+  osm: ["way/543899732"]
+  
+9377:
+  coords: {lat: 48.05453, lon: 11.65308}
+
+9378:
+  coords: {lat: 48.05226, lon: 11.65557}
+  osm: ["way/30081572"]
 
 
