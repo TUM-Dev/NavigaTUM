@@ -73,7 +73,6 @@
       1527:Klinik for Psychosomatische Medizin (Bau 527, Station N1a, Tagesklinik N0a):
     2522:TranslaTUM Center for Translational Cancer Research (Bau 522):
     1523:Sportmedizin Prävention, ehem. IMSE (Bau 523):
-    :Grillparzerstraße 18, Institut für Medizinische Statistik und Epidemiologie (IMSE):mri-imse[building]
     1524:Sportorthopädie (Haus 524):
     1531:Trogerstr. 4/Einsteinstr. 65 (Bau 531):
     1532:Trogerstr. 6 (Bau 532):
@@ -107,12 +106,15 @@
     1561:Urologie (Bau 561):
     -1711:Bau 711:
     -1712:Bau 712:
-    1713:Nigerstr. 3 (AM), Bau 713, TUM MeDiCAL, Studiendekanat im Lern- und Trainingszentrum (LUTZ):
+    1713:Nigerstr. 3, Bau 713, TUM MeDiCAL, Studiendekanat im Lern- und Trainingszentrum (LUTZ):
     1716:Ismaninger Str. 19, Brustzentrum / Mammadiagnostik (Bau 716):
     1717:Ismaninger Str. 33, Hörzentrum (Bau 717):
     -1718:Bau 718:
     -1719:Bau 719:
-    1724:Prinzregentenstr. 68 (AM) MRI (Bau 724):
+    1720:Grillparzerstraße 16-18, Institut für Medizinische Statistik und Epidemiologie (IMSE):mri-imse[building]
+    1724:Prinzregentenstr. 68 (Bau 724):
+    -1725:Institut für Allgemein-Medizin (Orleanstr. 47):
+    1740:TUM ForTe (Neherstr. 1):
   16:Am Biederstein (MRI Außenstelle):biederstein[site]
     1601:Altbau 1, Vorklinik. Inst. (Bau 601):
     1602:Altbau 2+3, Anatomisches Institut (Bau 602):
@@ -161,7 +163,7 @@
     -2352:Olympiapark:  # ist wirklich der Park, hat ein 1m2 "Raum"
     2360:Pfortencontainer C1:
     2361:Umkleide-Werkstatt-Container C2:
-    294:Institutsgebäude Sportmedizin, Uptown München:uptown-muenchen[joined_building]
+    :Institutsgebäude Sportmedizin, Uptown München:uptown-muenchen[joined_building]
       2940:Campus C, Georg-Brauchle-Ring 56/58:
       2941:Campus D, Georg-Brauchle-Ring 60/62:
   2353:Eislaufstadion Ost (Olympia):
@@ -182,21 +184,26 @@
     2801:Marchioninistr. 17:
   2804:Deutsches Museum Bibliotheksgebäude:
   2805:Dachau, Karl-Benz-Straße:
-  2806:Werkstattgebäude National Museum (NR):
-  2807:Pinakothek der Moderne (NR):
-  2905,2906,2907,2926:Sonstige Gebäude Innenstadt:innenstadt-sonstige
-    2905:Schellingstraße 33 (AM):
-    2906:Karlstraße 45/47 (AM):
+  2806:Werkstattgebäude National Museum (Nutzung):
+  2807:Pinakothek der Moderne (Nutzung):
+  2808:Forschungszentrum für Bauchemie (Dr. Albert-Frank-Str. 32):
+  :Sonstige Gebäude Innenstadt:innenstadt-sonstige
+    2905:Schellingstraße 33:
+    2906:Karlstraße 45/47:
     2907:Marsstraße 20, 21, 22:
-    2926:Leopoldstraße 139/145 (AM):
+    2908:Marsstraße 40:
+    2909:Denisstr. 1b Rückgebäude:
+    2926:Leopoldstraße 139/145:
+    2944:Munich Urban Colab (Freddie-Mercury-Straße 5):
   :Campus Straubing (CS), Biotechnologie und Nachhaltigkeit:cs[campus]
     2927:Petersgasse 18 (PG 18):
     2929:Schulgasse 20 (SG 20):
     2930:Hörsaal Rentamtsberg 1:
     3501:Schulgasse 16 (SG 16):
-    3502:Schulgasse 22 (SG 22) (AM):
-    3503:Petersgasse 5 (PG 05) (AM):
+    3502:Schulgasse 22 (SG 22):
+    3503:Petersgasse 5 (PG 05):
     3504:Schulgasse 22a (SG 22a):
+    3505:Hörsaal und Forschungsgebäude (Uferstraße 53):
     3515:Am Essigberg 3:
   3035:Helmholtz Biologikum:
   3100:Projektbüro Biodiversitäts-Exploratorium-Hainich-Dün:
@@ -226,7 +233,9 @@
     3123:Flüssiggastank:
     3124:unterirdischer Wasserbehälter:
   3201:Eichenau Lindenweg:
-  3402:Residenzbereich Hofkapelle (NR):
+  340:Residenz München (Nutzung):residenz[joined_building]
+    3401:Akademiegebäude in der Residenz:
+    3402:Residenzbereich Hofkapelle:
   39:ZHS Wassersportplatz Starnberg:starnberg[site]
     3901:Kiosk:
     3902:Wohn-/Unterrichtsgebäude:
@@ -265,6 +274,7 @@
         4131:Aquatische Systembiologie "Mühle", Mühlenweg 22:
         4132:Aquatische Systembiologie "Wagnerhaus", Mühlenweg 18:
       4153:Hochschulsport / Sprachenzentrum:
+      4155:Kustermannhalle (HSWT Gebäude A9):
       4156:Flaschenkeller Staatsbrauerei:
       4176:A1 Hochschule Freising-Triesdorf:
       418,419:Stallungen Veitshof:veitshof[site]
@@ -282,6 +292,7 @@
         4191:Fahrsilo:
         4192:ehem. Wasserwerk:
     42:Gebiet 4200 Mitte:wzw-mitte
+      -4202:Trafostation V:
       4205:Lagerhalle Verwaltungsstelle:
       4210:Agrarsystemtechnik:
       4211:Landesanstalt für Landwirtschaft (LfL) Bürogebäude 14:
@@ -328,6 +339,7 @@
       4277:Forstwissenschaften:
       4278:LWF Bay. Landesanstalt für Wald und Forstwirtschaft:
       4279:LWF Erweiterungsbau:
+      -4281:Trafostation XI:
       4298:Tentomax HS Weihenstephan (auf Parkplatz):
       4299:Hochschulgemeinde Freising:
     43:Gebiet 4300 Nord / Hochfeld:wzw-nord
@@ -344,6 +356,7 @@
       4315,4316:Lagerhalle:wzw-lagerhalle
         4315:Lagerhalle (Straßenseite):
         4316:Lagerhalle (Feldseite):
+      -4319:Trafostation VI:
       4320:Energiezentrale Heizhaus:
       :Gebäudemanagement GM:wzw-gm
         4321:Verwaltung:
@@ -389,6 +402,22 @@
       4616:Güllebehälter:
       4620:Versuchsfelder:
     4800:Halle Achering:
+    :Staatsgut Grünschwaige (Versuchsstation für Futterbau):gruenschwaige
+      4801:Verwaltungsgebäude:
+      4802:Mehrzweckhalle:
+      4803:Schweinestall:
+      4804:Getreidelager:
+      4805:Futtersilo:
+      4806:Schafstall:
+      4807:Lagerscheune:
+      4808:Stallgebäude:
+      4809:Gerätescheune:
+      4810:Strohscheune 1:
+      4811:Strohscheune 2:
+      4812:Maschinenhalle:
+      4813:Baur-Haus:
+      4814:Fahrsilo:
+      4815:Grastrockner:
     49:Versuchsstation Roggenstein:roggenstein[site]
       4901:Wohngebäude, Verwaltung, VTS:
       4902:Doktor. Haus:
@@ -421,8 +450,13 @@
       5123:LMU Physik Werkstattgebäude:
       5124:WSI Container:
       5125:Laboratory for Extreme Photonics (LEX), LMU:
+      5126:CALA (LMU, Centre for Advanced Laser Applications):
       5130:Telefonzentrale:
+      5131:FRM-Poststelle:
       5140:Physik I Container:
+      5142:Parkhaus P1:
+      -5143:Versorgungsstation:
+      5160:UCN-Testanlage (Container):
     52:FRM II Forschungsreaktor Neutronenquelle und Heinz Maier-Leibnitz Zentrum (MLZ):frm-2
       5202:Flachbau 2+3 (Zyklotron):
       5203:Bürogebäude (GRS-Altbau), Hochschulreferat 6 – Sicherheit und Strahlenschutz, Zentrale Reisekostenstelle:
@@ -457,6 +491,9 @@
       5252:RCM-Gasversorgung:
       5253:Horizontalbrunnen:
       5256:RCM-Laborbau:
+      5257:Werkstatt u. Bürogebäude FRM II (UYW):
+      -5268:RCM-BMA/ELA-Container:
+      -5269:RCM-Büro-Containerbau:
       5272:WMI Bayerische Akademie der Wissenschaft:
     5301:Institute for Advanced Study (IAS):
     5302:(Alte) Mensa Garching:
@@ -492,6 +529,7 @@
       5515:Zentrum für Schlüsselkompetenzen:
       5517:Prüfstandgebäude (auch Physik):
       5518:Gasflaschenlager (auch Physik):
+      5519:FTM Fahrzeughalle:
       5530:IGSSE, Exzellenzzentrum Garching, TUM.Family, Prüfungsamt:
     5531:Ingeborg Ortner-Kinderhaus:
     5532:StudiTUM Garching:
@@ -509,7 +547,9 @@
       5611:Finger 11 (BT11):
       5612:Finger 12 (BT12):
       5613:Finger 13 (BT13):
+    -5622:Sportanlage Garching / Dusch Container:
     5701:Munich School of BioEngineering, IMETUM:
+    5901:Elektro- und Informationstechnik (EI, ZEITlab):5901,ei-garching[building]
     812:Galileo Garching:galileo[joined_building]
       8120:Conference Center:
       8121:Courtyard Hotel:
@@ -534,4 +574,9 @@
     8102:Business Campus Garching (BC2), Parkring 35-39:
     8111:Schleißheimerstr. 90a:
   9001:TUM Science & Study Center Raitenhaslach:
+  9101:Garmisch-Partenkirchen (A, Bahnhofstr. 37):
   9201:TUM FZ Friedrich N. Schwarz Berchtesgaden:
+  93:Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie):taufkirchen-ottobrunn
+    9376:Airbus Standort 76.C:
+    9377:Lise-Meitner-Straße 9-11:
+    9378:TUM Panasonic (Caroline-Herschel-Straße 100):
