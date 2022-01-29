@@ -1,0 +1,96 @@
+/* === Shared === */
+$success-color: #6cc872;
+$warning-color: #f49e2f;
+$error-color: #bb331b;
+
+$theme-accent: #0065bd;  // TUM blue
+
+/* === Light mode (default) === */
+// This is not in an @if block because sass requires the variables
+// to be declared outside an @if scope.
+// -- Custom vars
+$header-color: #fff;
+$header-shadow-color: rgba(0,0,0,.1);
+$autocomplete-box-shadow: 0 .05rem .2rem rgba(48,55,66,.3);
+$autocomplete-comment-color: #777;
+$autocomplete-filter-bg: #f8f8f8;
+$autocomplete-filter-text: $autocomplete-comment-color;
+$footer-color: #fafafa;
+$footer-setting-bg-disabled: #999;
+$feedback-overlay-bg: rgba(247,248,249,.75);
+$feedback-box-shadow: 0 .2rem .5rem rgba(48,55,66,.3);
+
+$text-gray: #aaa;
+$border-default: #e1e1e1;
+$border-light: #eee;
+
+$card-border: $border-default;
+$card-shadow: 3px 3px 4px rgba(106, 106, 106, 0.03);
+$card-shadow-dark: 3px 3px 4px rgba(106, 106, 106, 0.05);
+
+$image-loading-bg: #eee;
+$container-loading-bg: #fbfbfb;
+
+$code-bg: #fcf2f2;
+
+// -- Overwriting
+$primary-color: $theme-accent;
+$body-font-color: #3b4351;
+
+$bg-color: #f7f8f9;
+
+
+/* === Dark mode === */
+@if $theme == "dark" {
+    // -- Custom vars
+    $header-color: #1b1c1e;
+    $header-shadow-color: rgba(0,0,0,.4);
+    $autocomplete-box-shadow: 0 .05rem .2rem rgba(0, 0, 0, 0.6);
+    $autocomplete-comment-color: #777;
+    $autocomplete-filter-bg: #232526;
+    $autocomplete-filter-text: #999;
+    $footer-color: #1b1c1e;
+    $footer-setting-bg-disabled: #333;
+    $feedback-overlay-bg: rgba(0, 0, 0, 0.7);
+    $feedback-box-shadow: 0 .2rem .5rem rgba(0, 0, 0, 0.5);
+
+    $text-gray: #aaa;
+    $border-default: #444;
+    $border-light: #444;
+
+    $card-border: $border-default;
+    $card-shadow: 3px 3px 4px rgba(0,0,0,.2);
+    $card-shadow-dark: $card-shadow;
+
+    $image-loading-bg: #444;
+    $container-loading-bg: #2a2b2f;
+
+    $code-bg: #201e1e;
+
+    // -- not implemented anywhere yet
+    $link-color: #59b2ff;
+
+    // -- Overwriting
+    $primary-color: #59b2ff !global;
+    $primary-color-dark: lighten($primary-color, 3%) !global;
+    $primary-color-light: darken($primary-color, 3%) !global;
+    $secondary-color: #213d55 !global;
+    $secondary-color-dark: lighten($secondary-color, 3%) !global;
+    $secondary-color-light: darken($secondary-color, 3%) !global;
+    $link-color: $primary-color !global;
+    $link-color-dark: lighten($link-color, 5%) !global;
+    $link-color-light: darken($link-color, 5%) !global;
+    $body-font-color: #d2d7df !global;
+    $dark-color: #9aa0aa !global;//#3e396b;
+
+    // Also sets body background
+    $light-color: #17181a !global;
+    //      #0d0e13,         #13141a (also footer), link colors: #59b2ff,
+    //    .. 1px solid #e1e1e140 on border
+    $border-color: $border-default !global;
+    $border-color-light: #353535 !global;
+    $border-color-dark: #767c84 !global;
+
+    $bg-color: #222428 !global;
+    $bg-color-dark: $bg-color !global;
+}

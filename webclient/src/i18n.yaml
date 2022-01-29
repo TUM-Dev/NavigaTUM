@@ -1,0 +1,99 @@
+search:
+  placeholder: {de: "Suche", en: "Search"}
+  action: {de: "Go", en: "Go"}
+  hidden: {de: "ausgeblendet", en: "hidden"}
+  result: {de: "Ergebnis", en: "result"}
+  results: {de: "Ergebnisse", en: "results"}
+  approx: {de: "ca.", en: "approx."}
+footer:
+  contact:
+    text: {de: "Kontakt", en: "Contact"}
+    link: {de: "kontakt", en: "contact"}
+  privacy:
+    text: {de: "Datenschutz", en: "Privacy"}
+    link: {de: "datenschutz", en: "privacy"}
+  imprint:
+    text: {de: "Impressum", en: "Imprint"}
+  about:
+    text: {de: "Über NavigaTUM", en: "About NavigaTUM"}
+    link: {de: "ueber-navigatum", en: "about-navigatum"}
+  feedback:
+    text: {de: "Feedback senden", en: "Feedback"}
+  api:
+    text: {de: "API", en: "API"}
+    link: {de: "api", en: "api"}
+  language: {de: "Sprache", en: "Language"}
+  theme: {de: "Theme", en: "Theme"}
+  theme_light: {de: "hell", en: "light"}
+  theme_dark: {de: "dunkel", en: "dark"}
+feedback:
+  title: {de: "Feedback senden", en: "Send Feedback"}
+  subject: {de: "Betreff", en: "Subject"}
+  type:
+    general: {de: "Allgemein", en: "General"}
+    bug: {de: "Fehler", en: "Bug"}
+    features: {de: "Features", en: "Features"}
+    search: {de: "Suche", en: "Search"}
+    entry: {de: "Eintrag", en: "Entry"}
+  mail: {de: "E-Mail (optional)", en: "E-Mail (optional)"}
+  message: {de: "Nachricht", en: "Message"}
+  public:
+    de: "Mein Feedback darf für alle mit einem Fachschaftsaccount sichtbar sein"
+    en: "My feedback may be visible for everyone with a 'Fachschaftsaccount'"
+  send: {de: "Senden", en: "Send"}
+  cancel: {de: "Abbrechen", en: "Cancel"}
+  error:
+    token_req_failed:
+      de: "Unerwarteter Fehler beim Laden des Feedback-Formulars. Das Senden von Feedback ist gerade vermutlich nicht möglich. Bitte schreibe stattdessen eine Mail."
+      en: "Unexpected error when loading the feedback form. Sending feedback is currently probably not possible. Please send a mail instead."
+    429:
+      de: "Feedback senden ist aktuell nicht möglich aufgrund von rate-limiting. Bitte versuche es später nochmal oder schreibe eine Mail."
+      en: "Sending feedback is currently not possible due to rate-limiting. Please try again in a while or send a mail."
+    503:
+      de: "Das Senden von Feedback ist auf dem Server aktuell nicht konfiguriert."
+      en: "Sending feedback is currently not configured on the server."
+    token_unexpected_status:
+      de: "Unerwarteter Status Code beim Abrufen eines Feedback Tokens: "
+      en: "Unexpected status code when retrieving a feedback token: "
+    send_no_token:
+      de: "Ein unerwarteter Fehler ist aufgetreten (Kein Token). Bitte kopiere den Text und öffne das Formular nochmal."
+      en: "An unexpected error occured (no token). Please copy the text and re-open the form."
+    too_short_subject:
+      de: "Fehler: Betreff fehlt oder ist zu kurz"
+      en: "Error: Subject missing or too short"
+    too_short_body:
+      de: "Fehler: Nachricht fehlt oder ist zu kurz"
+      en: "Error: Message missing or too short"
+    send_invalid_token:
+      de: "Formular-Token ungültig (vermutlich abgelaufen). Bitte kopiere den text und öffne das Formular nochmal."
+      en: "Invalid form token (probably expired). Please copy the text and re-open the form."
+    send_unexpected_status:
+      de: "Unerwarteter Status Code: "
+      en: "Unexpected status code: "
+    send_req_failed:
+      de: "Unerwarteter Fehler beim Senden des Feedback-Formulars. Das Senden von Feedback ist gerade vermutlich nicht möglich. Bitte schreibe stattdessen eine Mail."
+      en: "Unexpected error when sending the feedback form. Sending feedback is currently probably not possible. Please send a mail instead."
+
+core_js:
+  error:
+    404:
+      de: "404 Nicht gefunden"
+      en: "404 Not found"
+    500:
+      de: "500 Interner Serverfehler"
+      en: "500 Internal Server Error"
+    503:
+      de: "503 Dienst nicht verfügbar – Bitte probiere es in Kürze wieder"
+      en: "503 Service Unavailable – Please try again soon"
+    status:
+      de: "Unerwarteter Status-Code: "
+      en: "Unexpected status code: "
+    network:
+      de: "Netzwerkfehler, bitte überprüfe, dass du mit dem Internet verbunden bist."
+      en: "Network Error, please verify that you are connected to the Internet"
+    unknown:
+      de: "Unbekannter Fehler"
+      en: "Unknown Error"
+    view_load_timeout:
+      de: "Seite konnte nicht geladen werden: Timeout"
+      en: "Page could not be loaded: Timeout"

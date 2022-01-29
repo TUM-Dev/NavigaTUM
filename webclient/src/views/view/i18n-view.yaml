@@ -1,0 +1,33 @@
+view_view:
+  header:
+    copy_link: {de: "Link kopieren", en: "Copy link"}
+    feedback:
+      de: "Problem melden oder Änderung vorschlagen"
+      en: "Report issue or suggest changes"
+    favorites: {de: "Zu Favoriten hinzufügen", en: "Add to favorites"}
+  map:
+    interactive: {de: "Interaktive Karte", en: "Interactive Map"}
+    roomfinder: {de: "Lagepläne", en: "Site Plans"}
+    img_source: {de: "Bildquelle", en: "Image source"}
+  info_title: {de: "Informationen", en: "Information"}
+  buildings_overview:
+    title: {de: "Gebäude / Gebiete", en: "Buildings / Areas"}
+    more: {de: "mehr", en: "more"}
+    less: {de: "weniger", en: "less"}
+  rooms_overview:
+    title: {de: "Räume", en: "Rooms"}
+    by_usage: {de: "nach Nutzung", en: "by usage"}
+    any: {de: "beliebig", en: "any"}
+    remove_selection: {de: "Auswahl löschen", en: "Remove selection"}
+    filter: {de: "Filter", en: "Filter"}
+    choose_usage: {de: "Wähle eine Nutzung aus", en: "Choose a usage"}
+    result: {de: "Ergebnis", en: "result"}
+    results_suffix: {de: "se", en: "s"}
+    filtered: {de: "gefiltert", en: "filtered"}
+  sources:
+    title: {de: "Quellen", en: "Sources"}
+    header_img: {de: "Bild", en: "Image"}
+  msg:
+    inaccurate_only_building:
+      de: "Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist nicht bekannt."
+      en: "The displayed position only shows the position of the building(part). The exact position within the building is not known."
