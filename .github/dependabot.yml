@@ -13,6 +13,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/webclient"
     schedule:
+      interval: "weekly"
   - package-ecosystem: "pip"
     directory: "/data"
     schedule:
