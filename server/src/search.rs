@@ -7,6 +7,14 @@ use serde::{Deserialize, Serialize};
 use serde_json::Result;
 
 
+#[derive(Deserialize)]
+pub struct SearchQueryArgs {
+    // Limit per facet
+    limit_buildings: Option<usize>,
+    limit_rooms: Option<usize>,
+    limit_all: Option<usize>,
+}
+
 #[derive(Debug)]
 struct InputToken {
     s: String,
@@ -117,7 +125,7 @@ struct MSFacetDistribution {
     facet: HashMap<String, i32>
 }
 
-pub async fn do_search(q: String) -> Result<SearchResults> {
+pub async fn do_search(q: String, args: SearchQueryArgs) -> Result<SearchResults> {
     let start_time = Instant::now();
 
     let parsed = parse_input_query(&q);
@@ -126,7 +134,7 @@ pub async fn do_search(q: String) -> Result<SearchResults> {
         .connector(Connector::new().finish())
         .finish();
 
-    let results_sections = do_geoentry_search(client, &parsed.tokens).await;
+    let results_sections = do_geoentry_search(client, &parsed.tokens, args).await;
 
     let time_ms = start_time.elapsed().as_millis();
     Ok(SearchResults {
@@ -290,7 +298,7 @@ fn tokenize_input_query(q: &str) -> Vec::<InputToken> {
     tokens
 }
 
-async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>) -> Vec::<SearchResultsSection> {
+async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>, args: SearchQueryArgs) -> Vec::<SearchResultsSection> {
     // Determine what to search for
 
     // Currently ranking is designed to put buildings at the top if they equally
@@ -304,10 +312,11 @@ async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>) 
     let res_merged = do_meilisearch(client.clone(), MSSearchArgs {
         q: &q_default,
         filter: None,
-        limit: 20  // This is the MeiliSearch default
+        limit: args.limit_all.unwrap_or(20) as u8  // This is the MeiliSearch default
     });
-    let res_buildings = do_building_search_closed_query(client.clone(), &search_tokens);
-    let res_rooms = do_room_search(client.clone(), &search_tokens);
+    // Building limit multiplied by two because we might do reordering later
+    let res_buildings = do_building_search_closed_query(client.clone(), &search_tokens, 2*args.limit_buildings.unwrap_or(5) as u8);
+    let res_rooms = do_room_search(client.clone(), &search_tokens, args.limit_rooms.unwrap_or(5) as u8);
 
     let results = join!(res_merged, res_buildings, res_rooms);
 
@@ -347,7 +356,7 @@ async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>) 
 
         match hit.r#type.as_str() {
             "campus" | "site" | "area" | "building" | "joined_building" => {
-                if section_buildings.entries.len() < 5 {
+                if section_buildings.entries.len() < args.limit_buildings.unwrap_or(5) {
 
                     section_buildings.entries.push(ResultEntry {
                         id: hit.id.to_string(),
@@ -360,8 +369,8 @@ async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>) 
                 }
             },
             "room" | "virtual_room" => {
-                if section_rooms.entries.len() < 5 ||
-                   (section_rooms.entries.len() < 10 && section_buildings.entries.len() == 0 ) {
+                if section_rooms.entries.len() < args.limit_rooms.unwrap_or(5) ||
+                   (section_rooms.entries.len() < (args.limit_rooms.unwrap_or(5) + args.limit_buildings.unwrap_or(5)) && section_buildings.entries.len() == 0 ) {
 
                     // Test whether the query matches some common room id formats.
                     // This is hardcoded here for now and should be changed in the future.
@@ -420,17 +429,17 @@ async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>) 
     }
 }
 
-async fn do_building_search_closed_query(client: Client, search_tokens: &Vec::<SearchToken>) -> Result<MSResults> {
+async fn do_building_search_closed_query(client: Client, search_tokens: &Vec::<SearchToken>, limit: u8) -> Result<MSResults> {
     let q = format!("{} ", build_query_string(search_tokens));
 
     do_meilisearch(client, MSSearchArgs {
         q: &q,
         filter: Some(MSSearchFilter { facet: vec!["site".to_string(), "building".to_string()] }),
-        limit: 20
+        limit: limit
     }).await
 }
 
-async fn do_room_search(client: Client, search_tokens: &Vec::<SearchToken>) -> Result<MSResults> {
+async fn do_room_search(client: Client, search_tokens: &Vec::<SearchToken>, limit: u8) -> Result<MSResults> {
     let mut q = String::from("");
     for token in search_tokens {
         // It is common that room names are given with four-digits with the first digit
@@ -458,7 +467,7 @@ async fn do_room_search(client: Client, search_tokens: &Vec::<SearchToken>) -> R
     do_meilisearch(client, MSSearchArgs {
         q: &q,
         filter: Some(MSSearchFilter { facet: vec!["room".to_string()] }),
-        limit: 5
+        limit: limit
     }).await
 }
 

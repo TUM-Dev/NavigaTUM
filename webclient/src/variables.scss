@@ -31,6 +31,9 @@ $card-shadow-dark: 3px 3px 4px rgba(106, 106, 106, 0.05);
 $image-loading-bg: #eee;
 $container-loading-bg: #fbfbfb;
 
+$search-border: #f0f0f0;
+$search-border-hover: #dadee4;
+
 $code-bg: #fcf2f2;
 
 // -- Overwriting
@@ -64,6 +67,9 @@ $bg-color: #f7f8f9;
 
     $image-loading-bg: #444;
     $container-loading-bg: #2a2b2f;
+    
+    $search-border: #353535;
+    $search-border-hover: #444;
 
     $code-bg: #201e1e;
 
