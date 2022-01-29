@@ -13,7 +13,8 @@ All functionality is also available via an API.
 ## Screenshots
 | | | |
 |-|-|-|
-|![](resources/webclient-screenshot-1.png)|![](resources/webclient-screenshot-2.png)|![](resources/webclient-screenshot-3.png)|
+|<img src="resources/webclient-screenshot-1.png" width="300px" />|<img src="resources/webclient-screenshot-2.png" width="300px" />|<img src="resources/webclient-screenshot-3.png" width="300px" />|
+
 
 ## License
 All code is licensed under the GNU GPL v3:
