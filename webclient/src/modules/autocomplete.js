@@ -11,6 +11,54 @@ navigatum.registerModule("autocomplete", (function() {
         return visible;
     }
     
+    function extract_facets(data) {
+        var sections = [];
+        for (var i in data.sections) {
+            var entries = [];
+            for (var j in data.sections[i].entries) {
+                // Search uses DC3 and DC1 to mark the beginning/end 
+                // of a highlighted sequence:
+                // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets
+                var e = data.sections[i].entries[j];
+                var name = new Option(e.name).innerHTML
+                                            .replace(/\x19/g, "<em>")
+                                            .replace(/\x17/g, "</em>");
+                var parsed_id = new Option(e.parsed_id).innerHTML
+                                                .replace(/\x19/g, "<em>")
+                                                .replace(/\x17/g, "</em>");
+                var subtext_bold = new Option(e.subtext_bold).innerHTML
+                                                .replace(/\x19/g, "<em>")
+                                                .replace(/\x17/g, "</em>");
+                entries.push({
+                    id: e.id,
+                    name: name,
+                    type: e.type,
+                    subtext: e.subtext,
+                    subtext_bold: subtext_bold,
+                    parsed_id: parsed_id,
+                });
+            }
+            
+            if (data.sections[i].facet == "sites_buildings") {
+                sections.push({
+                    name: "${{ _.search.sections.buildings }}$",
+                    expanded: false,
+                    entries: entries,
+                    nb_hits: data.sections[i].nb_hits,
+                    n_visible: data.sections[i].n_visible,
+                });
+            } else if (data.sections[i].facet == "rooms") {
+                sections.push({
+                    name: "${{ _.search.sections.rooms }}$",
+                    entries: entries,
+                    nb_hits: data.sections[i].nb_hits,
+                });
+            }
+        }
+        
+        return sections;
+    }
+    
     return {
         init: function() {},
         oninput: function(q) {
@@ -22,53 +70,12 @@ navigatum.registerModule("autocomplete", (function() {
                 cached_fetch.fetch(navigatum.api_base + 'search/' + window.encodeURI(q),
                                    {cache: "no-cache"})
                     .then(data => {
-                        var sections = [];
-                        for (var i in data.sections) {
-                            var entries = [];
-                            for (var j in data.sections[i].entries) {
-                                // Search uses DC3 and DC1 to mark the beginning/end 
-                                // of a highlighted sequence:
-                                // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets
-                                var e = data.sections[i].entries[j];
-                                var name = new Option(e.name).innerHTML
-                                                             .replace(/\x19/g, "<em>")
-                                                             .replace(/\x17/g, "</em>");
-                                var parsed_id = new Option(e.parsed_id).innerHTML
-                                                                   .replace(/\x19/g, "<em>")
-                                                                   .replace(/\x17/g, "</em>");
-                                var subtext_bold = new Option(e.subtext_bold).innerHTML
-                                                                   .replace(/\x19/g, "<em>")
-                                                                   .replace(/\x17/g, "</em>");
-                                entries.push({
-                                    id: e.id,
-                                    name: name,
-                                    type: e.type,
-                                    subtext: e.subtext,
-                                    subtext_bold: subtext_bold,
-                                    parsed_id: parsed_id,
-                                });
-                            }
-                            
-                            if (data.sections[i].facet == "sites_buildings") {
-                                sections.push({
-                                    name: "Gebäude / Standorte",
-                                    expanded: false,
-                                    entries: entries,
-                                    nb_hits: data.sections[i].nb_hits,
-                                    n_visible: data.sections[i].n_visible,
-                                });
-                            } else if (data.sections[i].facet == "rooms") {
-                                sections.push({
-                                    name: "Räume",
-                                    entries: entries,
-                                    nb_hits: data.sections[i].nb_hits,
-                                });
-                            }
-                        }
+                        var sections = extract_facets(data)
                         navigatum.app.search.autocomplete.sections = sections;
                     });
             }
         },
+        extract_facets: extract_facets,
         onkeydown: function(e) {
             switch (e.keyCode) {
                 case 27:  // ESC
@@ -100,6 +107,8 @@ navigatum.registerModule("autocomplete", (function() {
                 case 13: // Enter
                     if (navigatum.app.search.autocomplete.highlighted !== null) {
                         navigatum.app.searchGoTo(navigatum.app.search.autocomplete.highlighted, true);
+                    } else {
+                        navigatum.app.searchGo(true);
                     }
                     break;
             }
