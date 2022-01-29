@@ -1,0 +1,109 @@
+# Note: URLs to CC licenses are automatically inserted
+
+# --- Stammgelände ---
+stammgelaende:
+  0:
+    author: "Maximilian Dörrbecker"
+    source: {text: "Wikimedia Commons",
+             url: "https://commons.wikimedia.org/wiki/File:M%C3%BCnchen_-_TU_M%C3%BCnchen_(Luftbild).jpg"}
+    license: "CC-BY-SA 2.5"
+    meta:
+      date: "2007-04-13"
+  1:
+    author: {text: "Fred Romero", url: "https://www.flickr.com/people/129231073@N06"}
+    source: {text: "Wikimedia Commons",
+             url: "https://commons.wikimedia.org/wiki/File:M%C3%BCnchen_-_Technische_Universit%C3%A4t_(2).jpg"}
+    license: "CC-BY 2.0"
+    meta:
+      date: "2013-08-14"
+      loc: "geo:48.148165,11.566747"
+
+tb-stammgelaende:
+  0:
+    author: "MaxEmanuel"
+    source: {text: "Wikimedia Commons",
+             url: "https://commons.wikimedia.org/wiki/File:Universit%C3%A4tsbibliothek_der_Technischen_Universit%C3%A4t_M%C3%BCnchen_5.jpg"}
+    license: "CC0 1.0"
+    meta:
+      date: "2021-07-20"
+      geo: "geo:48.149986,11.568888"
+  1:
+    author: "MaxEmanuel"
+    source: {text: "Wikimedia Commons",
+             url: "https://commons.wikimedia.org/wiki/File:Universit%C3%A4tsbibliothek_der_Technischen_Universit%C3%A4t_M%C3%BCnchen.jpg"}
+    license: "CC0 1.0"
+    meta:
+      date: "2021-07-20"
+      geo: "geo:48.149986,11.568888"
+
+"0102":
+  0:
+    author: "AHert"
+    source: {text: "Wikimedia Commons",
+             url: "https://commons.wikimedia.org/wiki/File:TUM-N2_Muenchen-02.jpg"}
+    license: "CC-BY-SA 3.0"
+    meta:
+      date: "2011-08-14"
+
+"0501":
+  0:
+    author: "Mattes"
+    source: {text: "Wikimedia Commons",
+             url: "https://commons.wikimedia.org/wiki/File:Technische_Universit%C3%A4t_M%C3%BCnchen,_Arcisstra%C3%9Fe_21_%E2%80%94_Eingangsbereich_mit_Fahnen.JPG"}
+    license: "CC-BY-SA 2.0"
+    meta:
+      date: "2013-03-10"
+      
+
+# --- Garching ---
+garching:
+  0:
+    author: "'Graf-flugplatz'"
+    source: {text: "Wikimedia Commons",
+             url: "https://commons.wikimedia.org/wiki/File:110403022-TUM.JPG"}
+    license: "CC-BY-SA 3.0"
+    meta:
+      date: "2011-04-03"
+  1:
+    author: "Bayerische Vermessungsverwaltung"
+    source: {text: "www.geodaten.bayern.de", url: "https://www.geodaten.bayern.de"}
+    license: "CC-BY 3.0"
+    meta:
+      date: "2020-04-25"
+
+mi:
+  0:
+    author: "Filip Skubacz"
+      
+mw:
+  0:
+    author: {text: "Renardo la vulpo",
+             url: "https://commons.wikimedia.org/wiki/User:Renardo_la_vulpo"}
+    source: {text: "Wikimedia Commons",
+             url: "https://commons.wikimedia.org/wiki/File:Garching,_Eberhard-von-Kuenheim-Bau,_2.jpeg"}
+    license: "CC-BY-SA 4.0"
+    meta:
+      date: "2015-10-09"
+      loc: "geo:48.265797,11.671356"
+
+tb-chemie:
+  0:
+    author: "Universitätsbibliothek der TUM"
+    source: {text: "Wikimedia Commons",
+             url: "https://commons.wikimedia.org/wiki/File:TB_Chemie.jpg"}
+    license: "CC-BY-SA 4.0"
+    meta:
+      date: "2011-09-26"
+
+      
+# --- Freising / WZW ---
+chemie:
+  0:
+    author: "'Graf-flugplatz'"
+    source: {text: "Wikimedia Commons",
+             url: "https://commons.wikimedia.org/wiki/File:110910047-TUM.jpg"}
+    license: "CC-BY-SA 3.0"
+    meta:
+      date: "2011-09-10"
+      loc: "geo:48.26838,11.661398"
+      
