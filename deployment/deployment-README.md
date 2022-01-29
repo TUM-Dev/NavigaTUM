@@ -12,10 +12,10 @@ The documentation for the spectific sub-services can be found in the respective 
 ## General description
 
 The general request-flowpath is the following:  
-![Flowchart, on how the requests are routed](resources/Flowchart.svg)  
+![Flowchart, on how the requests are routed](../resources/Flowchart.svg)  
   
 The project is layed out in this sense:  
-![deployment diagram, of how the different components interact](resources/Deployment_Overview.svg)  
+![deployment diagram, of how the different components interact](../resources/Deployment_Overview.svg)  
   
 Genreral information:
 

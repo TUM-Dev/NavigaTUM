@@ -207,7 +207,7 @@ The following sections are currently implemented:
 ```
 
 Example of how `parsed_id` might be displayed:
-![](doc/example_parsed-id.png)
+![](../resources/example_parsed-id.png)
 
 
 **Buildings / Sites:**  
