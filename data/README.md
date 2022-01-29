@@ -18,28 +18,33 @@ You need the following dependencies to get started:
 - The following Python packages:
   `pip install -r requirements.txt`
 
-## Cloning the repo
-```bash
-git clone https://git.fs.tum.de/navigatum/navigatum-data
-```
-
 ## Getting external data
 External data (and the scraper) is stored in the `external/` subdirectory.
-Note that the data processing scripts generally assume that real TUMOnline data is available, so this might break.
 
-Run it with:
+By default, the latest scraped data is already included in this directory, so that you do not need
+to run the scraping yourself and skip to the next step.
+
+However if you want to update the scraped data, open `external/main.py` and comment out all
+steps depending on what specific data you want to scrape (Note that some steps depend on previous
+steps. In this case, the downloader will automatically run these as well).
+
+Then, start scraping with:
 ```bash
-python external/main.py
+cd external
+python main.py
 ```
 
-You can optinally comment out parts of the downloader that should not be downloaded.
-The final data will be stored in the `cache` subdirectory as json files. To force a redownload, delete them.
+The data will be stored in the `cache` subdirectory as json files. To force a redownload, delete them.
 
-All JSON files in the root directory are the most recent scraped results.
- 
+As a last step, move the `.json` files from the cache directory into the external directory, so that
+it contains the most recent scraped results, and then go back:
+```bash
+mv cache/buildings* cache/rooms* cache/maps* cache/usages* .
+cd ..
+```
+
 ## Compiling the data
 ```bash
-mkdir output
 python compile.py
 ```
 
