@@ -15,6 +15,36 @@ All functionality is also available via an API.
 |-|-|-|
 |<img src="resources/webclient-screenshot-1.png" width="300px" />|<img src="resources/webclient-screenshot-2.png" width="300px" />|<img src="resources/webclient-screenshot-3.png" width="300px" />|
 
+## Getting started
+NavigaTUM consists of three parts + deployment resources.
+
+- `data/` contains the code to obtain and process the data
+- `server/` contains the API server written in Rust, including MeiliSearch as a search backend
+- `webclient/` contains a JS based web-frontend for the API
+- `deployment/` contains deployment related configuration
+
+Depending on what you want to work on, you do not need to set up all of them.
+The following steps assume you have just cloned the repository and are in the
+root directory of it.
+
+### Data
+In case you do not want to work on the data processing, you can instead
+download the latest compiled files:
+```bash
+wget -P data/output https://roomapi.tum.sexy/cdn/api_data.json 
+wget -P data/output https://roomapi.tum.sexy/cdn/search_data.json
+```
+
+Else you can follow the steps in the [data documentation](data/).
+
+### Server
+Follow the steps in the [server documentation](server/).
+
+### Webclient
+Follow the steps in the [webclient documentation](webclient/).
+If you want to soley run the webclient locally, you can skip the "Data" and
+"Server" steps above and edit the webclient configuration to use the public
+API as is described in the webclient documentation.
 
 ## License
 All code is licensed under the GNU GPL v3:
