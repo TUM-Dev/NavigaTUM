@@ -24,6 +24,9 @@ NavigaTUM consists of three parts + deployment resources.
 - `deployment/` contains deployment related configuration
 
 Depending on what you want to work on, you do not need to set up all of them.
+For an overview how the components work, have a look at the
+[deployment documentation](deployment/deployment-README.md).
+
 The following steps assume you have just cloned the repository and are in the
 root directory of it.
 
