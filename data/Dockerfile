@@ -1,4 +1,4 @@
-FROM python:3.9.10-bullseye as build-stage
+FROM python:3.10.2-bullseye as build-stage
 WORKDIR /app
 # install requirements
 COPY requirements.txt .
