@@ -1,4 +1,4 @@
-const config = require('./config');
+var config;  // Allocated at the bottom of the script
 
 const gulp        = require('gulp');
 const addsrc      = require('gulp-add-src');
@@ -466,5 +466,12 @@ exports.build = gulp.series(
     gulp.series('pages_src', 'pages_out', 'legacy_js')
 );
 
-exports.default = gulp.series(done => { config.target = "develop"; done(); }, exports.build);
-exports.release = gulp.series(done => { config.target = "release"; done(); }, exports.build);
+exports.default = gulp.series(done => {
+    config = require('./config-local');
+    config.target = "develop"; done();
+}, exports.build);
+
+exports.release = gulp.series(done => {
+    config = require('./config');
+    config.target = "release"; done();
+}, exports.build);
