@@ -49,8 +49,9 @@ async fn get_handler(web::Path(id): web::Path<String>) -> Result<HttpResponse> {
 async fn search_handler(
     _req: HttpRequest,
     web::Path(q): web::Path<String>,
+    web::Query(args): web::Query<search::SearchQueryArgs>
 ) -> Result<HttpResponse> {
-    let search_results = search::do_search(q).await?;
+    let search_results = search::do_search(q, args).await?;
     let result_json = serde_json::to_string(&search_results)?;
 
     Ok(HttpResponse::Ok()
