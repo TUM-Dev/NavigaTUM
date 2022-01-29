@@ -6,9 +6,9 @@ on:
             - 'main'
     workflow_dispatch:
 
-env:
-    REGISTRY: ghcr.io
-    CARGO_TERM_COLOR: always
+permissions:
+    contents: read
+    packages: write
 jobs:
   build-and-push-data:
     uses: ./.github/workflows/docker-build.yml
