@@ -6,14 +6,14 @@ search:
   results: {de: "Ergebnisse", en: "results"}
   approx: {de: "ca.", en: "approx."}
 footer:
-  contact:
-    text: {de: "Kontakt", en: "Contact"}
-    link: {de: "kontakt", en: "contact"}
+  sourcecode:
+    text: {de: "Source Code", en: "Source Code"}
   privacy:
     text: {de: "Datenschutz", en: "Privacy"}
-    link: {de: "datenschutz", en: "privacy"}
+    link: {de: "datenschutz", en: "datenschutz"}
   imprint:
     text: {de: "Impressum", en: "Imprint"}
+    link: {de: "impressum", en: "impressum"}
   about:
     text: {de: "Über NavigaTUM", en: "About NavigaTUM"}
     link: {de: "ueber-navigatum", en: "about-navigatum"}
@@ -38,8 +38,8 @@ feedback:
   mail: {de: "E-Mail (optional)", en: "E-Mail (optional)"}
   message: {de: "Nachricht", en: "Message"}
   public:
-    de: "Mein Feedback darf für alle mit einem Fachschaftsaccount sichtbar sein"
-    en: "My feedback may be visible for everyone with a 'Fachschaftsaccount'"
+    de: "Mein Feedback darf anonym, aber öffentlich auf die <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub Projektseite</a>. Bitte schreibe uns sonst über app@tum.de."
+    en: "My feedback may be published anonymously, but also publicly on the <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub project page</a>. Please write us via app@tum.de else."
   send: {de: "Senden", en: "Send"}
   cancel: {de: "Abbrechen", en: "Cancel"}
   error:

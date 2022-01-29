@@ -2,7 +2,7 @@
 
 NavigaTUM ist ein von Studierenden entwickeltes, nicht-offizielles Tool, um sich bei der
 [TUM](https://tum.de) zurechtzufinden.
-Du kannst gerne selbst mitmachen, der Code ist Open Source verfügbar.
+Du kannst gerne selbst mitmachen, [der Code ist Open Source verfügbar](https://github.com/TUM-Dev/navigatum).
 
 ## Datenquellen
 Die Daten in NavigaTUM sollten möglichst umfangreich, aktuell und hilfreich sein.
