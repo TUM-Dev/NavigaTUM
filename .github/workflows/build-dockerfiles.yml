@@ -1,0 +1,36 @@
+name: Create and publish the Docker images
+
+on:
+    push:
+        branches:
+            - 'main'
+    workflow_dispatch:
+
+env:
+    REGISTRY: ghcr.io
+    CARGO_TERM_COLOR: always
+jobs:
+  build-and-push-data:
+    uses: ./.github/workflows/build-docker.yml
+    with:
+      image_suffix: data
+      context: ./data
+      dockerfile: Dockerfile
+  build-and-push-server:
+    uses: ./.github/workflows/build-docker.yml
+    with:
+      image_suffix: server
+      context: ./server
+      dockerfile: Dockerfile.server
+  build-and-push-mieli-seach:
+    uses: ./.github/workflows/build-docker.yml
+    with:
+      image_suffix: mieli-seach
+      context: ./server
+      dockerfile: Dockerfile.mielesearch
+  build-and-push-webclient:
+    uses: ./.github/workflows/build-docker.yml
+    with:
+      image_suffix: webclient
+      context: ./webclient
+      dockerfile: Dockerfile

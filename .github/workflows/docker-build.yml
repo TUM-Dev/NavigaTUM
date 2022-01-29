@@ -1,14 +1,24 @@
 name: Create and publish a Docker image
 
 on:
-    push:
-        branches:
-            - 'main'
     workflow_dispatch:
+        inputs:
+            image_suffix:
+                required: true
+                description: Suffix of generated dockerimages' name
+                type: string
+            context:
+                required: true
+                description: Context, docker build is executed in
+                type: string
+            dockerfile:
+                required: true
+                description: Dockerfile location (relative to context)
+                type: string
 
 env:
     REGISTRY: ghcr.io
-    IMAGE_NAME: ${{ github.repository }}
+    IMAGE_NAME: ${{ github.repository_owner }}/navigatum-${{ inputs.image_suffix }}
 
 jobs:
     build-and-push-image:
@@ -37,7 +47,8 @@ jobs:
             - name: Build and push Docker image
               uses: docker/build-push-action@v2
               with:
-                  context: .
+                  context: ${{ inputs.context }}
                   push: true
+                  file: "${{ inputs.context }}/${{ inputs.dockerfile }}"
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
