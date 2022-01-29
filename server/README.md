@@ -229,6 +229,16 @@ Example of how `parsed_id` might be displayed:
 }
 ```
 
+#### Query parameters
+Limits are not stable yet.
+
+|name|default|description|
+|-|-|-|
+|`limit_buildings`|5|Maximum number of buildings/sites to return|
+|`limit_rooms`|5|Maximum number of rooms to return|
+|`limit_all`|20|Overall maximum number of results|
+
+
 
 ## License
 This program is free software: you can redistribute it and/or modify

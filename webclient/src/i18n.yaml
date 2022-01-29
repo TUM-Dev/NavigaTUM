@@ -5,6 +5,9 @@ search:
   result: {de: "Ergebnis", en: "result"}
   results: {de: "Ergebnisse", en: "results"}
   approx: {de: "ca.", en: "approx."}
+  sections:
+    buildings: {de: "Gebäude / Standorte", en: "Buildings / Sites"}
+    rooms: {de: "Räume", en: "Rooms"}
 footer:
   contact:
     text: {de: "Kontakt", en: "Contact"}
