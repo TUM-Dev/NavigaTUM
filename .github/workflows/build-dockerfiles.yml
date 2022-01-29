@@ -22,10 +22,10 @@ jobs:
       image_suffix: server
       context: ./server
       dockerfile: Dockerfile.server
-  build-and-push-mieli-seach:
+  build-and-push-mieli-search:
     uses: ./.github/workflows/build-docker.yml
     with:
-      image_suffix: mieli-seach
+      image_suffix: mieli-search
       context: ./server
       dockerfile: Dockerfile.mielesearch
   build-and-push-webclient:
