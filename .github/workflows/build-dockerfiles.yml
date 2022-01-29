@@ -11,25 +11,25 @@ env:
     CARGO_TERM_COLOR: always
 jobs:
   build-and-push-data:
-    uses: ./.github/workflows/build-docker.yml
+    uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: data
       context: ./data
       dockerfile: Dockerfile
   build-and-push-server:
-    uses: ./.github/workflows/build-docker.yml
+    uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: server
       context: ./server
       dockerfile: Dockerfile.server
   build-and-push-mieli-search:
-    uses: ./.github/workflows/build-docker.yml
+    uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: mieli-search
       context: ./server
       dockerfile: Dockerfile.mielesearch
   build-and-push-webclient:
-    uses: ./.github/workflows/build-docker.yml
+    uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: webclient
       context: ./webclient
