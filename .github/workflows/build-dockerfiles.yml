@@ -16,21 +16,29 @@ jobs:
       image_suffix: data
       context: ./data
       dockerfile: Dockerfile
+    secrets:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build-and-push-server:
     uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: server
       context: ./server
       dockerfile: Dockerfile.server
+    secrets:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build-and-push-mieli-search:
     uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: mieli-search
       context: ./server
       dockerfile: Dockerfile.mielesearch
+    secrets:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build-and-push-webclient:
     uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: webclient
       context: ./webclient
       dockerfile: Dockerfile
+    secrets:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
