@@ -1,6 +1,8 @@
-# Navigatum Data Repository
+# NavigaTUM Data Repository
+
 This repository contains:
-- The code to compile the datasets for Navigatum
+
+- The code to compile the datasets for NavigaTUM
 - Custom data inserted into the datasets
 - Custom patches applied on the source data
 
@@ -10,15 +12,18 @@ The code to retrieve external data, as well as externally retrieved data is not 
 
 Also, new external data might break the scripts from time to time, as either rooms or buildings are removed, the external data has errors or we make assumptions here that turn out to be wrong.
 
-# Getting started
+## Getting started
 
-## Dependencies
+### Dependencies
+
 You need the following dependencies to get started:
+
 - *Python* (at least version 3.6)
 - The following Python packages:
   `pip install -r requirements.txt`
 
 ## Getting external data
+
 External data (and the scraper) is stored in the `external/` subdirectory.
 
 By default, the latest scraped data is already included in this directory, so that you do not need
@@ -29,6 +34,7 @@ steps depending on what specific data you want to scrape (Note that some steps d
 steps. In this case, the downloader will automatically run these as well).
 
 Then, start scraping with:
+
 ```bash
 cd external
 python main.py
@@ -38,21 +44,24 @@ The data will be stored in the `cache` subdirectory as json files. To force a re
 
 As a last step, move the `.json` files from the cache directory into the external directory, so that
 it contains the most recent scraped results, and then go back:
+
 ```bash
 mv cache/buildings* cache/rooms* cache/maps* cache/usages* .
 cd ..
 ```
 
-## Compiling the data
+### Compiling the data
+
 ```bash
 python compile.py
 ```
 
 The exported datasets will be stored in `output/` as JSON files.
 
-## Directory structure
+### Directory structure
+
 ```bash
-navigatum-data
+data
 ├── external/    # 🠔 This is the sub-repository containing externally retrieved data
 ├── output/      # 🠔 Here the final, compiled datasets will be stored
 ├── processors/  # 🠔 Processing code
@@ -63,19 +72,21 @@ navigatum-data
 └── data-format_*.yaml # 🠔 Data format specification
 ```
 
-## How the data looks like
+### How the data looks like
+
 ```json
 {
-	"entry-id": {
-		"id": "entry-id",
-		"type": "room",
-		... data as specified in `data-format.yaml`
-	},
-	... all other entries in the same form
+    "entry-id": {
+        "id": "entry-id",
+        "type": "room",
+        ... data as specified in `data-format.yaml`
+    },
+    ... all other entries in the same form
 }
 ```
 
-# Compilation process
+## Compilation process
+
 The data compilation is made of indiviual processing steps, where each step adds new or modifies the current data. The basic structure of the data however stays the same from the beginning on and is specified in `data-format_*.yaml`.
 
 - **Step 00**: The first step reads the base root node, areas, buildings etc. from the
@@ -99,20 +110,22 @@ The data compilation is made of indiviual processing steps, where each step adds
 - **Steps 90-99**: Process and export for search.
 - **Step 100**: Export final data (for use in the API). Some temporary data fields might be removed at this point.
 
+### Details
 
-## Details
-### Step 00 Areatree
+#### Step 00 Areatree
+
 The starting point is the data defined in the "areatree" (in `sources/00_areatree`).
 It (currently) has a custom data format to be human & machine readable while taking
 only minimal space.
 Details about the formatting are given at the head of the file.
 
-# License
-The source data (i.e. all files located in `sources/` that are not images) is made available under the Open Database License: http://opendatacommons.org/licenses/odbl/1.0/. Any rights in individual contents of the database are licensed under the Database Contents License: http://opendatacommons.org/licenses/dbcl/1.0/.
+## License
+
+The source data (i.e. all files located in `sources/` that are not images) is made available under the Open Database License: <http://opendatacommons.org/licenses/odbl/1.0/>. Any rights in individual contents of the database are licensed under the Database Contents License: <http://opendatacommons.org/licenses/dbcl/1.0/>.
 
 The images in `sources/img/` are subject to their own licensing terms, which are stated in the file `sources/img/img-sources.yaml`.
 
-*Please note that the compiled database may contain contents from external sources (i.e. all files in `external`) that do have different license terms.* 
+*Please note that the compiled database may contain contents from external sources (i.e. all files in `external`) that do have different license terms.*
 
 ---
 
@@ -129,4 +142,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see https://www.gnu.org/licenses/.
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
