@@ -36,7 +36,7 @@ lazy_static! {
     };
 }
 
-#[get("/get/{id}")]
+#[get("/api/get/{id}")]
 async fn get_handler(web::Path(id): web::Path<String>) -> Result<HttpResponse> {
     if JSON_DATA.contains_key(&id) {
         Ok(HttpResponse::Ok().json(JSON_DATA.get(&id).unwrap()))
@@ -45,7 +45,7 @@ async fn get_handler(web::Path(id): web::Path<String>) -> Result<HttpResponse> {
     }
 }
 
-#[get("/search/{q}")]
+#[get("/api/search/{q}")]
 async fn search_handler(
     _req: HttpRequest,
     web::Path(q): web::Path<String>,
@@ -58,7 +58,7 @@ async fn search_handler(
         .body(result_json))
 }
 
-#[get("/source_code")]
+#[get("/api/source_code")]
 async fn source_code_handler() -> Result<HttpResponse> {
     Ok(HttpResponse::Ok().body("https://github.com/TUM-Dev/navigatum-server".to_string()))
 }
@@ -94,7 +94,7 @@ async fn main() -> std::io::Result<()> {
             .service(search_handler)
             .service(source_code_handler)
             .service(
-                web::scope("/feedback")
+                web::scope("/api/feedback")
                     .configure(feedback::configure)
                     .app_data(state_feedback.clone()),
             )

@@ -14,11 +14,11 @@ To set the preferred language for the respone, set the `Accept-Language` to
 ### get
 
 ```
-GET <endpoint>/get/:id
+GET <endpoint>/api/get/:id
 ```
 
 ### search
 
 ```
-GET <endpoint>/search/:query
+GET <endpoint>/api/search/:query
 ```

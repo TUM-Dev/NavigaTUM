@@ -85,13 +85,13 @@ MeiliSearch provides an interactive interface at [http://localhost:7700](http://
 ### get
 
 ```
-GET <endpoint>/get/:id
+GET <endpoint>/api/get/:id
 ```
 
 This returns the full data available for the entry (room/building) available as JSON.
 The exact data format is specified in the *navigatum-data* repository, but it is esentially structured like this:
 
-e.g. with `GET <endpoint>/get/5602.EG.001`:
+e.g. with `GET <endpoint>/api/get/5602.EG.001`:
 
 ```js
 {
@@ -145,7 +145,7 @@ e.g. with `GET <endpoint>/get/5602.EG.001`:
 ### search
 
 ```
-GET <endpoint>/search/:query
+GET <endpoint>/api/search/:query
 ```
 
 Search entries – this endpoint is designed to support search-as-you-type results.
@@ -246,6 +246,6 @@ along with this program.  If not, see https://www.gnu.org/licenses/.
 
 ---
 
-Navigatum provides a `/source_code` endpoint, which returns a link to the source
+Navigatum provides a `/api/source_code` endpoint, which returns a link to the source
 repository of the running version. This is not required for modifications (as the license
 is not AGPL), but strongly encouraged.
