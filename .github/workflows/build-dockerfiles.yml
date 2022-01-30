@@ -6,9 +6,6 @@ on:
             - 'main'
     workflow_dispatch:
 
-permissions:
-    contents: read
-    packages: write
 jobs:
   build-and-push-data:
     uses: ./.github/workflows/docker-build.yml
@@ -16,21 +13,33 @@ jobs:
       image_suffix: data
       context: ./data
       dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
   build-and-push-server:
     uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: server
       context: ./server
       dockerfile: Dockerfile.server
+    permissions:
+      contents: read
+      packages: write
   build-and-push-mieli-search:
     uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: mieli-search
       context: ./server
       dockerfile: Dockerfile.mielesearch
+    permissions:
+      contents: read
+      packages: write
   build-and-push-webclient:
     uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: webclient
       context: ./webclient
       dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
