@@ -6,11 +6,10 @@ use actix_cors::Cors;
 use actix_web::{get, http, middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result};
 use structopt::StructOpt;
 
-mod search;
 mod feedback;
+mod search;
 
-
-const MAX_JSON_PAYLOAD: usize = 1024 * 1024;  // 1 MB
+const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "server")]
@@ -29,15 +28,15 @@ pub struct Opt {
     feedback_project: Option<i32>,
 }
 
-
 lazy_static! {
     static ref JSON_DATA: serde_json::map::Map<String, serde_json::Value> = {
-        let data = fs::read_to_string("data/api_data.json").expect("Cannot open data file");
+        let data = fs::read_to_string("data/api_data.json")
+            .expect("Cannot open data file. (not found at 'data/api_data.json')");
         serde_json::from_str(&data).expect("Could not parse JSON file")
     };
 }
 
-#[get("/get/{id}")]
+#[get("/api/get/{id}")]
 async fn get_handler(web::Path(id): web::Path<String>) -> Result<HttpResponse> {
     if JSON_DATA.contains_key(&id) {
         Ok(HttpResponse::Ok().json(JSON_DATA.get(&id).unwrap()))
@@ -46,7 +45,7 @@ async fn get_handler(web::Path(id): web::Path<String>) -> Result<HttpResponse> {
     }
 }
 
-#[get("/search/{q}")]
+#[get("/api/search/{q}")]
 async fn search_handler(
     _req: HttpRequest,
     web::Path(q): web::Path<String>,
@@ -60,7 +59,7 @@ async fn search_handler(
         .body(result_json))
 }
 
-#[get("/source_code")]
+#[get("/api/source_code")]
 async fn source_code_handler() -> Result<HttpResponse> {
     Ok(HttpResponse::Ok().body("https://github.com/TUM-Dev/navigatum-server".to_string()))
 }
@@ -77,10 +76,11 @@ async fn main() -> std::io::Result<()> {
     let state_feedback = web::Data::new(feedback::init_state(opt));
 
     HttpServer::new(move || {
-        let cors = Cors::default().allow_any_origin()
-                                  .allow_any_header()
-                                  .allowed_methods(vec!["GET", "POST"])
-                                  .max_age(3600);
+        let cors = Cors::default()
+            .allow_any_origin()
+            .allow_any_header()
+            .allowed_methods(vec!["GET", "POST"])
+            .max_age(3600);
 
         let json_config = web::JsonConfig::default().limit(MAX_JSON_PAYLOAD);
 
@@ -94,8 +94,11 @@ async fn main() -> std::io::Result<()> {
             .service(get_handler)
             .service(search_handler)
             .service(source_code_handler)
-            .service(web::scope("/feedback").configure(feedback::configure)
-                                            .app_data(state_feedback.clone()))
+            .service(
+                web::scope("/api/feedback")
+                    .configure(feedback::configure)
+                    .app_data(state_feedback.clone()),
+            )
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?
     .run()

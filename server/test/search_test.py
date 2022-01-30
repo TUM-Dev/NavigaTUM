@@ -10,7 +10,7 @@ from termcolor import colored, cprint
 from progress.bar import Bar
 
 
-SEARCH_ENDPOINT = "http://localhost:8080/search/"
+SEARCH_ENDPOINT = "http://localhost:8080/api/search/"
 
 
 def test_specific_queries(queries):
