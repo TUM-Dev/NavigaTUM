@@ -59,6 +59,13 @@ navigatum.registerModule("autocomplete", (function() {
         return sections;
     }
     
+    // As a simple measure against out-of-order responses
+    // to the autocompletion, we count queries and make sure
+    // that late results will not overwrite the currently
+    // visible results.
+    var query_counter = 0;
+    var latest_used_query_id = null;
+    
     return {
         init: function() {},
         oninput: function(q) {
@@ -67,11 +74,20 @@ navigatum.registerModule("autocomplete", (function() {
             if (q.length == 0) {
                 navigatum.app.search.autocomplete.sections = [];
             } else {
+                var query_id = query_counter++;
+                
+                // no-cache instructs browser, because the cached_fetch will store the reponse.
                 cached_fetch.fetch(navigatum.api_base + 'search/' + window.encodeURI(q),
-                                   {cache: "no-cache"})
+                                   {cache: "no-cache"}) 
                     .then(data => {
-                        var sections = extract_facets(data)
-                        navigatum.app.search.autocomplete.sections = sections;
+                        // Data will be cached anyway in case the user hits backspace,
+                        // but we need to discard the data here if it arrived out of order.
+                        if (!(latest_used_query_id) || query_id > latest_used_query_id) {
+                            latest_used_query_id = query_id;
+                            
+                            var sections = extract_facets(data)
+                            navigatum.app.search.autocomplete.sections = sections;
+                        }
                     });
             }
         },
