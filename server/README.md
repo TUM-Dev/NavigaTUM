@@ -1,28 +1,33 @@
-# navigatum-server
+# NavigaTUM-server
 
-This repository contains the backend server for Navigatum.
+This repository contains the backend server for NavigaTUM.
 
 ## Getting started
 
 ### 0. Install Rust
+
 Unless you haven't already, you need to [install Rust](https://www.rust-lang.org/tools/install)
 in order to compile and run this server.
 
 If you want to run the tests you need at least Python 3.6 as well.
 
 ### 1. Get the data
+
 The data is provided to the server with just a simple JSON file.
 You can create a `data` subdirectory and copy the `api_data.json`
 (and optionally `search_data.json`) file into it.
 
 Alternatively, link the output directory to the server data directory,
 so that you don't need to copy on every update:
+
 ```bash
 ln -s ../data/output data
 ```
 
 ### 2. Starting the server
+
 Run
+
 ```bash
 cargo run --release
 ```
@@ -84,14 +89,14 @@ MeiliSearch provides an interactive interface at [http://localhost:7700](http://
 
 ### get
 
-```
-GET <endpoint>/get/:id
+```HTTP
+GET https://roomapi.tum.sexy/api/get/:id
 ```
 
 This returns the full data available for the entry (room/building) available as JSON.
-The exact data format is specified in the *navigatum-data* repository, but it is esentially structured like this:
+The exact data format is specified in the [NavigaTUM-data documentation](../data/README.md), but it is essentially structured like this:
 
-e.g. with `GET <endpoint>/get/5602.EG.001`:
+e.g. with `GET https://roomapi.tum.sexy/api/get/5602.EG.001`:
 
 ```js
 {
@@ -144,8 +149,8 @@ e.g. with `GET <endpoint>/get/5602.EG.001`:
 
 ### search
 
-```
-GET <endpoint>/search/:query
+```HTTP
+GET https://roomapi.tum.sexy/api/search/:query
 ```
 
 Search entries – this endpoint is designed to support search-as-you-type results.
@@ -163,6 +168,7 @@ Some text-renderers will ignore them, but in case you do not want to use them, y
 to remove them from the responses (there is no query parameter for this yet).
 
 The general response format looks like this:
+
 ```js
 {
     "sections": [{ see below }, ...],
@@ -172,7 +178,8 @@ The general response format looks like this:
 
 The following sections are currently implemented:
 
-**Rooms:**  
+**Rooms:**
+
 ```js
 {
     "facet": "rooms",
@@ -203,11 +210,11 @@ The following sections are currently implemented:
 }
 ```
 
-Example of how `parsed_id` might be displayed:
-![](../resources/example_parsed-id.png)
+Example of how `parsed_id` might be displayed:  
+![example of displaying parsed_id](../resources/website-screenshots/example_parsed-id.png)
 
+**Buildings / Sites:**
 
-**Buildings / Sites:**  
 ```js
 {
     "facet": "sites_buildings",
@@ -230,17 +237,29 @@ Example of how `parsed_id` might be displayed:
 ```
 
 #### Query parameters
+
 Limits are not stable yet.
 
-|name|default|description|
-|-|-|-|
-|`limit_buildings`|5|Maximum number of buildings/sites to return|
-|`limit_rooms`|5|Maximum number of rooms to return|
-|`limit_all`|20|Overall maximum number of results|
+| name              | default | description                                 |
+|-------------------|---------|---------------------------------------------|
+| `limit_buildings` | 5       | Maximum number of buildings/sites to return |
+| `limit_rooms`     | 5       | Maximum number of rooms to return           |
+| `limit_all`       | 20      | Overall maximum number of results           |
 
+### source_code
 
+```HTTP
+GET https://roomapi.tum.sexy/api/source_code
+```
+
+Search entries – this endpoint is designed to support search-as-you-type results.
+
+NavigaTUM provides a `/source_code` endpoint, which returns a link to the source
+repository of the running version. This is not required for modifications (as the license
+is not AGPL), but strongly encouraged.
 
 ## License
+
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -252,10 +271,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see https://www.gnu.org/licenses/.
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ---
-
-Navigatum provides a `/source_code` endpoint, which returns a link to the source
-repository of the running version. This is not required for modifications (as the license
-is not AGPL), but strongly encouraged.
