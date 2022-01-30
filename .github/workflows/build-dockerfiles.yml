@@ -6,7 +6,9 @@ on:
             - 'main'
     workflow_dispatch:
 
-permissions: write-all
+permissions:
+    contents: read
+    packages: write
 jobs:
   build-and-push-data:
     uses: ./.github/workflows/docker-build.yml
