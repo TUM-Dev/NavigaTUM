@@ -15,6 +15,9 @@ on:
                 required: true
                 description: Dockerfile location (relative to context)
                 type: string
+        secrets:
+              GH_TOKEN:
+                required: true
 
 env:
     REGISTRY: ghcr.io
@@ -36,7 +39,7 @@ jobs:
               with:
                   registry: ${{ env.REGISTRY }}
                   username: ${{ github.actor }}
-                  password: ${{ secrets.GITHUB_TOKEN }}
+                  password: ${{ secrets.GH_TOKEN }}
 
             - name: Extract metadata (tags, labels) for Docker
               id: meta
