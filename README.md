@@ -14,9 +14,9 @@ All functionality is also available via an API.
 
 ## Screenshots
 
-<img src="./resources/website-screenshots/main-index.png" width="45%"  alt="Screenshot of the main-index of the website"/>  
-<img src="./resources/website-screenshots/building-with-internal-map.png" width="45%"  alt="Screenshot of a building including an internal map"/>  
-<img src="./resources/website-screenshots/example-search.png" width="45%"  alt="Screenshot of the search-page"/>  
+<img src="./resources/website-screenshots/main-index.png" width="75%"  alt="Screenshot of the main-index of the website"/>  
+<img src="./resources/website-screenshots/building-with-internal-map.png" width="75%"  alt="Screenshot of a building including an internal map"/>  
+<img src="./resources/website-screenshots/example-search.png" width="75%"  alt="Screenshot of the search-page"/>  
 
 ## Getting started
 
