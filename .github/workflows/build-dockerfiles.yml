@@ -6,38 +6,40 @@ on:
             - 'main'
     workflow_dispatch:
 
-env:
-    REGISTRY: ghcr.io
-
 jobs:
   build-and-push-data:
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      image_suffix: data
+      context: ./data
+      dockerfile: Dockerfile
     permissions:
       contents: read
       packages: write
-
-    steps:
-      -   name: Checkout repository
-          uses: actions/checkout@v2
-
-      -   name: Log in to the Container registry
-          uses: docker/login-action@v1
-          with:
-            registry: ${{ env.REGISTRY }}
-            username: ${{ github.actor }}
-            password: ${{ secrets.GITHUB_TOKEN }}
-
-      -   name: Extract metadata (tags, labels) for Docker
-          id: meta
-          uses: docker/metadata-action@v3
-          with:
-            images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/navigatum-data
-
-      -   name: Build and push Docker image
-          uses: docker/build-push-action@v2
-          with:
-            context: ./data
-            push: true
-            file: "./data/Dockerfile"
-            tags: ${{ steps.meta.outputs.tags }}
-            labels: ${{ steps.meta.outputs.labels }}
+  build-and-push-server:
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      image_suffix: server
+      context: ./server
+      dockerfile: Dockerfile.server
+    permissions:
+      contents: read
+      packages: write
+  build-and-push-mieli-search:
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      image_suffix: mieli-search
+      context: ./server
+      dockerfile: Dockerfile.mielesearch
+    permissions:
+      contents: read
+      packages: write
+  build-and-push-webclient:
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      image_suffix: webclient
+      context: ./webclient
+      dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
