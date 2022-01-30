@@ -15,12 +15,22 @@ Installing *Yarn* and *Gulp* with npm:
 sudo npm install -g yarn gulp
 ```
 
-### Test data
-TBD
+### Images and maps
+The frontend uses images and maps from the data, that are intended to be served
+statically via a CDN and not provided by the API.
+
+For a local environment, create a `cdn/` subdirectory and copy the relevant files
+into it:
+```bash
+mkdir cdn
+rsync -r --exclude '*.yaml' ../data/sources/img/ cdn/
+mkdir -p cdn/maps/roomfinder/gif
+cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder/gif/
+```
 
 ### Building
 
-Install all  packages:
+Install all npm packages:
 ```bash
 yarn
 # alternatively, if you do not use yarn:
@@ -31,14 +41,16 @@ And run Gulp to build the client. The build files will be written to `build/`.
 ```bash
 # Run development build
 gulp
-# or run release build
+# or run release build (will not work locally, because it uses a
+# different configuration and no hash based navigation)
 gulp release
 ```
 
 ### Testing
 If you do a development build you can use a simple webserver to test the build.
 
-Ensure that *navigatum-server* is running in the background. By default the webclient will connect to the server on `http://localhost:8080`. If not you can change the configuration in `config.js` and re-build.
+Ensure that *navigatum-server* is running in the background. By default the webclient will connect to the server on `http://localhost:8080`.
+If you want to connect to the public API instead, change `api_prefix` in `config-local.js` to `https://roomapi.tum.sexy/api/` and rebuild.
 
 Now run:
 ```bash
@@ -46,6 +58,9 @@ python -m http.server
 ```
 
 and open http://localhost:8000/build/index-view-main-light-de.html in your browser.
+
+Note that local builds served this way do not support the language and theme setting.
+You can choose a different base HTML instead.
 
 ## Build files & Serving release build
 Gulp creates a lot of index HTML files in the build process.

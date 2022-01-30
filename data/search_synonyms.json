@@ -1,0 +1,36 @@
+{
+    "Weihenstephan": ["wzw"],
+    "Innenstadt": ["Stammgelände"],
+    
+    "ph": ["Physik"],
+    "ch": ["Chemie"],
+    "Maschinenwesen": ["mw"],
+    
+    "Immathalle": ["Immatrikulationshalle"],
+    "Bib": ["Bibliothek", "Teilbibliothek"],
+    "TB": ["Teilbibliothek"],
+
+    "HS": ["Hörsaal", "Vorlesungssaal"],
+    "Hörsaal": ["HS", "Vorlesungssaal"],
+    "Seminarraum": ["Übungsraum"],
+    "Lernraum": ["Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
+    "Übungsraum": ["Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
+    "Arbeitsraum": ["Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
+    
+    "Laborraum": ["Labor"],
+    "Labor raum": ["Labor"],
+    
+    "straße": ["str"],
+    "str": ["straße"],
+    
+    "raum": ["room"],
+    
+    "ii": ["2"],
+    "2": ["ii"],
+    "iii": ["3"],
+    "3": ["iii"],
+    "iv": ["4"],
+    "4": ["iv"],
+    
+    "Interims": ["Interimshörsäle", "Interims-Audimax"]
+}
