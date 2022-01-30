@@ -1,6 +1,6 @@
 <div id="view-search" v-if="search_data">
 
-  <h1>${{ _.view_search.search_for }}$ "{{ query }}"</h1>
+  <h1>${{ _.view_search.search_for }}$ <i>"{{ query }}"</i></h1>
   <div class="divider"></div>
   
   <template v-for="s in sections">

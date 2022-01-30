@@ -1,7 +1,7 @@
 @import "src/variables.scss";
 
 #view-search {
-    padding-top: 15px;
+    padding-top: 25px;
     
     h1 {
         font-size: 1.2rem;
@@ -14,7 +14,7 @@
     }
     
     section {
-        margin-top: 20px;
+        margin-top: 40px;
         
         .search-comment {
             &.nb_results {
@@ -22,10 +22,14 @@
             }
         }
     }
+    .divider + section {
+        margin-top: 30px;
+    }
     
     ul.result-list {
         list-style: none;
         margin-left: 0;
+        margin-top: 0;
 
         li {
             padding: 8px 10px 6px 10px;
