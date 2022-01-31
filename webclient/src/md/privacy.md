@@ -1,3 +1,5 @@
+🛈 *This page is currently only available in German.*
+
 # Datenschutzerklärung
 ## Verantwortlicher
 Verantwortlicher im Sinne der Datenschutzgesetze, insbesondere der EU-Datenschutzgrundverordnung (DSGVO), ist:
