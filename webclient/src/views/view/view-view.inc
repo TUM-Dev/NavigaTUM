@@ -370,6 +370,15 @@
     <div class="columns">
         <div class="column"><h5>${{_.view_view.sources.title}}$</h5></div>
     </div>
+    <p v-if="">
+      ${{_.view_view.sources.base.title}}$:
+      <span v-for="(e, i) in view_data.sources.base">
+        <a v-if="e.url" v-bind:href="e.url">{{e.name}}</a>
+        <template v-else>{{e.name}}</template>
+        <template v-if="i<view_data.sources.base.length-1">&#32;•&#32;</template>
+      </span>
+      <span v-if="view_data.sources.patched"><br>${{_.view_view.sources.base.patched}}$</span>
+    </p>
     <p v-if="(view_data.img && view_data.img.header_small)">
       ${{_.view_view.sources.header_img}}$:
       <span>{{ view_data.img.header_small.author.text }}</span>
@@ -381,7 +390,7 @@
         </a>
         <template v-else>{{ view_data.img.header_small.source.text }}</template>
       </span>
-      <span v-if="view_data.img.header_small.license">&nbsp;•
+      <span v-if="view_data.img.header_small.license">&#32;•
         <a v-if="view_data.img.header_small.license.url"
            v-bind:href="view_data.img.header_small.license.url"
            target="_blank">

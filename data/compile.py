@@ -13,6 +13,11 @@ def main():
     
     print("-- 02 rooms extendend")
     data = merge.merge_yaml(data, "sources/02_rooms-extended.yaml")
+    
+    # Add source information for these entries, which are up to here
+    # always declared by navigatum
+    for _id, entry in data.items():
+        entry.setdefault("sources", {"base": [{"name": "NavigaTUM"}]})
 
     # --- Insert Roomfinder and TUMOnline data ---
     print("-- 10 Roomfinder buildings")
