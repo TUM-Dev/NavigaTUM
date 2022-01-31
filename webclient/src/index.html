@@ -224,9 +224,9 @@
                   <router-link to="/about/${{_.footer.api.link}}$">${{_.footer.api.text}}$</router-link>
                 </div>
                 <div class="column col-auto links">
-                  <router-link to="/about/${{_.footer.contact.link}}$">${{_.footer.contact.text}}$</router-link><br>
+                  <a href="https://github.com/TUM-Dev/navigatum" class="c-hand">${{_.footer.sourcecode.text}}$</a><br>
                   <router-link to="/about/${{_.footer.privacy.link}}$">${{_.footer.privacy.text}}$</router-link><br>
-                  <router-link to="">${{_.footer.imprint.text}}$</router-link>
+                  <router-link to="/about/${{_.footer.imprint.link}}$">${{_.footer.imprint.text}}$</router-link>
                 </div>
                 <div class="column col"></div>
                 <div class="column col-auto settings">
@@ -315,9 +315,13 @@
             </div>
 
             <div class="form-group">
-              <label class="form-checkbox">
+              <label class="form-checkbox" id="feedback-privacy-label">
                 <input type="checkbox" id="feedback-privacy">
                 <i class="form-icon"></i> ${{_.feedback.public}}$
+              </label>
+              <label class="form-checkbox" id="feedback-delete-label">
+                <input type="checkbox" id="feedback-delete">
+                <i class="form-icon"></i> ${{_.feedback.delete}}$
               </label>
             </div>
 
