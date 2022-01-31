@@ -366,11 +366,11 @@
     </div>
   </section>
 
-  <section v-if="(view_data.img && view_data.img.header_small)">
+  <section id="entry-sources">
     <div class="columns">
         <div class="column"><h5>${{_.view_view.sources.title}}$</h5></div>
     </div>
-    <p>
+    <p v-if="(view_data.img && view_data.img.header_small)">
       ${{_.view_view.sources.header_img}}$:
       <span>{{ view_data.img.header_small.author.text }}</span>
       <span v-if="view_data.img.header_small.source">•
@@ -389,6 +389,12 @@
         </a>
         <template v-else>{{ view_data.img.header_small.license.text }}</template>
       </span>
+    </p>
+    <p v-if="view_data.coords">
+      ${{_.view_view.sources.coords.title}}$:
+      <span v-if="view_data.coords.source=='navigatum'">${{_.view_view.sources.coords.navigatum}}$</span>
+      <span v-if="view_data.coords.source=='roomfinder'">${{_.view_view.sources.coords.roomfinder}}$</span>
+      <span v-if="view_data.coords.source=='inferred'">${{_.view_view.sources.coords.inferred}}$</span>
     </p>
   </section>
 
