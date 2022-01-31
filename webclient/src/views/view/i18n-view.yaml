@@ -27,6 +27,15 @@ view_view:
   sources:
     title: {de: "Quellen", en: "Sources"}
     header_img: {de: "Bild", en: "Image"}
+    coords:
+      title: {de: "Koordinaten", en: "Coordinates"}
+      navigatum: {de: "NavigaTUM", en: "NavigaTUM"}
+      roomfinder:
+        de: "<a href='https://portal.mytum.de/campus/roomfinder' target='_blank'>Roomfinder</a>"
+        en: "<a href='https://portal.mytum.de/campus/roomfinder' target='_blank'>Roomfinder</a>"
+      inferred:
+        de: "Automatisch berechnet aus den zughörigen Räumen oder Gebäuden"
+        en: "Automatically computed based on the associated rooms or buildings"
   msg:
     inaccurate_only_building:
       de: "Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist nicht bekannt."
