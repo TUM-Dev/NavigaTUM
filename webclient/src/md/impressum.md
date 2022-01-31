@@ -1,18 +1,20 @@
 # Impressum
 
-Angaben gemäß § 5 TMG, Redaktionell verantwortlich für den Inhalt dieser Webseite und Datenschutzbeauftragter ist  
+Angaben gemäß § 5 TMG
+
+Redaktionell verantwortlich für den Inhalt dieser Webseite und Datenschutzbeauftragter ist  
 Frank Elsinga
 
 in Vertretung für das ["TUM-App"-Projektteam](https://www.tum.app/imprint).
 
 **Postanschrift:**  
-Josef-Fischhaber-Straße 46
-82319 Starnberg
+Josef-Fischhaber-Straße 46  
+82319 Starnberg  
 Deutschland
 
 **Kontakt:**  
-Telefon: (0049/0)176 – 56–727-579
-Telefax: (0049/0)89 - 289–18546
+Telefon: (0049/0)176 – 56–727-579  
+Telefax: (0049/0)89 - 289–18546  
 E-Mail: app (at-symbol) tum.de
 
 <br>
