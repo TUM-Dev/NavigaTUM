@@ -53,6 +53,11 @@ def merge_roomfinder_buildings(data):
             "b_roomCount":  b["b_roomCount"],
         }
         
+        b_data.setdefault("sources", {}).setdefault("base", []).append({
+            "name": "Roomfinder",
+            "url": f"https://portal.mytum.de/displayRoomMap?@{b['b_id']}"
+        })
+        
         if "utm_zone" in b:
             b_data.setdefault("coords", _get_roomfinder_coords(b))
         if "maps" in b:
@@ -126,6 +131,12 @@ def merge_roomfinder_rooms(data):
             r_data.setdefault("coords", _get_roomfinder_coords(r))
         if "maps" in r:
             r_data.setdefault("maps", {})["roomfinder"] = _get_roomfinder_maps(r)
+            
+        # Add Roomfinder as source
+        r_data.setdefault("sources", {}).setdefault("base", []).append({
+            "name": "Roomfinder",
+            "url": f"https://portal.mytum.de/displayRoomMap?roomid={r['r_id']}&disable_decoration=yes"
+        })
     
     if error:
         raise RuntimeError("One or more errors, aborting")

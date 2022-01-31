@@ -2,6 +2,8 @@ import re
 
 
 def apply_patches(objects, patches, searchkey):
+    patched = []
+    
     patches = [(re.compile(p["if_" + searchkey]),
                 # Remove the "if_" from the patch, the rest of the items will
                 # be inserted into the entry's data.
@@ -18,6 +20,7 @@ def apply_patches(objects, patches, searchkey):
                 else:
                     for k, v in patch.items():
                         obj[k] = v
+                    patched.append(obj)
 
     for i in reversed(to_delete):
         del objects[i]
@@ -26,3 +29,5 @@ def apply_patches(objects, patches, searchkey):
         if patch_check not in applied_patches:
             print(f"Warning: The patch for {searchkey}: r'{patch_check.pattern}' was never applied. "
                    "Make sure it is still required.")
+
+    return patched
