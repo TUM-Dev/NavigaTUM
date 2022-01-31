@@ -71,10 +71,16 @@ internal_id:
   # --- Common properties for all types ---
   
   sources:  # Sources if not otherwise noted in the data
-    - {text: "TUMOnline", url: "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?$ctx=design=ca2;header=max&pRaumNr=63167", date: "2021-09-15"}
-    - {text: "Roomfinder", url: "https://portal.mytum.de/displayRoomMap?roomid=501@2903&disable_decoration=yes", date: "2021-09-15"}
-  additional_sources:
-    - {}
+    # Where the base data comes from
+    base:
+      - {name: "NavigaTUM"}
+      - {name: "TUMOnline", url: "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?$ctx=design=ca2;header=max&pRaumNr=63167"}
+      - {name: "Roomfinder", url: "https://portal.mytum.de/displayRoomMap?roomid=501@2903&disable_decoration=yes"}
+    # Whether the (external) data has been modified by patches to correct
+    # for errors.
+    patched: false
+    additional:
+      - {}
   
   img:
     thumb: "mi_0.jpg"

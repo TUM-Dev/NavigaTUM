@@ -164,6 +164,14 @@ def merge_tumonline_rooms(data):
         # TUMOnline data does not overwrite the existing data when merged
         merge_object(data, {r_data["id"]: r_data}, overwrite=False)
         
+        # Add TUMOnline as source
+        data[r_data["id"]].setdefault("sources", {}).setdefault("base", []).append({
+            "name": "TUMOnline",
+            "url": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/{r['room_link']}"
+        })
+        if r["patched"]:
+            data[r_data["id"]]["sources"]["patched"] = True
+        
     if len(missing_buildings) > 0:
         print("Warning: Ignored {} rooms for the following buildings, "
               "which were not found: {}".format(
@@ -185,12 +193,19 @@ def _clean_tumonline_rooms(to_rooms):
     with open("sources/15_patches-rooms_tumonline.yaml") as f:
         patches = yaml.safe_load(f.read())
 
-    apply_patches(to_rooms, patches["patches"], "roomcode")
+    patched_rooms = apply_patches(to_rooms, patches["patches"], "roomcode")
+    patched_room_ids = set([r["roomcode"] for r in patched_rooms])
 
     used_arch_names = {}
     used_roomcode_levels = {}
     invalid_rooms = []
     for r in to_rooms:
+        # Keep track of whether changes were made
+        r.setdefault("patched", False)
+        
+        if r["roomcode"] in patched_room_ids:
+            r["patched"] = True
+        
         # Validate the roomcode
         roomcode_parts = r["roomcode"].split(".")
         if len(roomcode_parts) != 3:
@@ -241,22 +256,27 @@ def _clean_tumonline_rooms(to_rooms):
                         arch_name_parts[0] = alt_parts[0]
                         r["arch_name"] = "@".join(arch_name_parts)
                         r["alt_name"] = ", ".join(alt_parts[1:])
+                        r["patched"] = True
                     # The same might appear the other way round (e.g. "N 1070 ZG" and "N1070ZG")
                     elif alt_parts[0][:2] in {"N ", "R "} and arch_name_parts[0] == alt_parts[0].replace(" ", ""):
                         r["alt_roomname"] = alt_parts[0]
                         r["alt_name"] = ", ".join(alt_parts[1:])
+                        r["patched"] = True
                     # The second most common mismatch is if the roomname in the alt_name is prepended
                     # with the abbrev of the building like "MW 1050"
                     elif any(map(lambda s: alt_parts[0].startswith(s), ["PH ", "MW ", "WSI ", "CH ", "MI "])):
                         r["alt_name"] = ", ".join(alt_parts[1:])
+                        r["patched"] = True
                     # If the roomname has a comma, the comparision by parts fails
                     elif "," in arch_name_parts[0] and r["alt_name"].startswith(arch_name_parts[0]):
                         r["alt_name"] = ", ".join(alt_parts[arch_name_parts[0].count(",") + 1:])
+                        r["patched"] = True
                     # The Theresianum is an exception where the roomname is the second part of the
                     # alt_name. Both are discarded since both roomcode and building name are given
                     # separately
                     elif alt_parts[0] == "Theresianum" and alt_parts[1] == arch_name_parts[0]:
                         r["alt_name"] = ", ".join(alt_parts[2:])
+                        r["patched"] = True
                     else:
                         print("Debug (alt_name / arch_name mismatch):", alt_parts[0],
                               arch_name_parts[0], r["roomcode"])
@@ -300,6 +320,7 @@ def _clean_tumonline_rooms(to_rooms):
                             r2["arch_name"] = arch_name_parts[0] + r2_parts[2][min_len:].lower() + \
                                               "@" + arch_name_parts[1]
                             used_arch_names[r["arch_name"]] = r["roomcode"]
+                        r["patched"] = True
                         continue
 
                 else:
