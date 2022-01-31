@@ -43,6 +43,7 @@ var feedback = (function() {
         document.getElementById("feedback-subject").value = subject;
         document.getElementById("feedback-body").value = body;
         document.getElementById("feedback-privacy").checked = false;
+        document.getElementById("feedback-delete").checked = false;
 
         show_error(false);
         show_loading(false);
@@ -110,6 +111,7 @@ var feedback = (function() {
         var subject = document.getElementById("feedback-subject").value;
         var body = document.getElementById("feedback-body").value;
         var privacy = document.getElementById("feedback-privacy").checked;
+        var delete_issue = document.getElementById("feedback-delete").checked;
 
         do_request("POST", "/* @echo api_prefix */feedback/feedback",
             JSON.stringify({
@@ -117,7 +119,8 @@ var feedback = (function() {
                 category: category,
                 subject: subject,
                 body: body,
-                privacy: privacy ? "default" : "internal"
+                privacy: privacy ? "y" : "n",
+                delete_issue: delete_issue ? "y" : "n",
             }),
             function(r) {
                 show_loading(false);
