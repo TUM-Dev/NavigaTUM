@@ -6,16 +6,22 @@ WORKDIR /navigatum-server
 
 FROM chef AS planner
 COPY . .
-RUN cargo chef prepare  --recipe-path recipe.json
+RUN cargo chef prepare --recipe-path recipe.json
 
 FROM chef AS build
 COPY --from=planner /navigatum-server/recipe.json recipe.json
+
 # Build dependencies - this is the caching Docker layer!
 RUN cargo chef cook --release --recipe-path recipe.json
+
 # Build navigatum-server
 COPY src ./src
+
 # get api_data.json
 RUN wget --directory-prefix ./data https://roomapi.tum.sexy/cdn/api_data.json
+# For local testing if roomapi is not avalible:
+# follow the data-docs to get api_data.json, copy it to the directory server/data and enable
+# COPY data/api_data.json data/api_data.json
 RUN cargo build --release
 
 # We do not need the Rust toolchain to run the binary!
@@ -25,9 +31,15 @@ COPY --from=build /navigatum-server/Cargo* ./
 COPY --from=build /navigatum-server/target/ ./target/
 COPY --from=build /navigatum-server/data/ ./data/
 COPY --from=build /navigatum-server/src/ ./src/
+EXPOSE 8080
 ENTRYPOINT cargo run --release
 
+# WHY does the above work, while the below does not???
+# libm.so.6 is not availible but
+#FROM ubuntu:latest AS runtime
+#RUN apt-get update -y && apt-get upgrade -y
+#WORKDIR /navigatum-server
 #COPY --from=build /navigatum-server/data/ ./data/
-#COPY --from=build /navigatum-server/target/release/navigatum-server ./navigatum-server
-#ENV PATH=/navigatum-server/
-#CMD ["navigatum-server"]
+#COPY --from=build /navigatum-server/target/debug/navigatum-server ./navigatum-server
+#EXPOSE 8080
+#CMD ./navigatum-server && ldd ./navigatum-server && tail -f /dev/null
