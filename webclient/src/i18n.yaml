@@ -10,7 +10,7 @@ footer:
     text: {de: "Source Code", en: "Source Code"}
   privacy:
     text: {de: "Datenschutz", en: "Privacy"}
-    link: {de: "datenschutz", en: "datenschutz"}
+    link: {de: "datenschutz", en: "privacy"}
   imprint:
     text: {de: "Impressum", en: "Imprint"}
     link: {de: "impressum", en: "impressum"}
@@ -38,8 +38,8 @@ feedback:
   mail: {de: "E-Mail (optional)", en: "E-Mail (optional)"}
   message: {de: "Nachricht", en: "Message"}
   public:
-    de: "Mein Feedback darf anonym, aber öffentlich auf die <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub Projektseite</a>. Bitte schreibe uns sonst über app@tum.de."
-    en: "My feedback may be published anonymously, but also publicly on the <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub project page</a>. Please write us via app@tum.de else."
+    de: "Meine Feedback Daten dürfen anonym, aber öffentlich zugänglich auf der <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub Projektseite</a> gespeichert werden. Mit der Nutzung dieses Feedbackformulars stimmst du explizit den <a href='https://docs.github.com/en/github/site-policy' target='_blank'>Nutzungsbedingungen und Datenschutzbestimmungen von GitHub</a> sowie einer möglichen Übertragung der Daten außerhalb der Europäischen Union zu. Falls du dies ablehnst, schreibe uns bitte über app@tum.de, oder einem der anderen in unserem  <a href='/about/impressum' target='_blank'>Impressum</a> gelisteten Kontaktmöglichkeiten."
+    en: "My feedback data may to be published anonymously, but publicly accessible on the <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub project page</a>. By using this feedback form, you explicitly agree to <a href='https://docs.github.com/en/github/site-policy' target='_blank'>GitHub's Terms of Service and Privacy Policy</a> and a possible transfer of your data outside of the European Union. If you do not consent to this, please write us at app@tum.de, or use one of the other contact options listed in our <a href='/about/impressum' target='_blank'>imprint</a>."
   send: {de: "Senden", en: "Send"}
   cancel: {de: "Abbrechen", en: "Cancel"}
   error:
