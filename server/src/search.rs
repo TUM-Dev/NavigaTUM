@@ -1,11 +1,10 @@
+use futures::join;
 use std::collections::HashMap;
 use std::time::Instant;
-use futures::join;
 
 use actix_web::client::{Client, ClientBuilder, Connector};
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
-
 
 #[derive(Deserialize)]
 pub struct SearchQueryArgs {
@@ -32,14 +31,14 @@ struct SearchToken {
 
 #[derive(Debug)]
 struct SearchFilter {
-    parent: Option<Vec::<String>>,
-    r#type: Option<Vec::<String>>,
-    usage: Option<Vec::<String>>,
+    parent: Option<Vec<String>>,
+    r#type: Option<Vec<String>>,
+    usage: Option<Vec<String>>,
 }
 
 #[derive(Debug)]
 struct SearchInput {
-    tokens: Vec::<SearchToken>,
+    tokens: Vec<SearchToken>,
     filter: SearchFilter,
 }
 
@@ -80,17 +79,17 @@ struct MSSearchArgs<'a> {
 
 #[derive(Debug)]
 struct MSSearchFilter {
-    facet: Vec::<String>,
+    facet: Vec<String>,
 }
 
 #[derive(Serialize)]
 struct MSQuery<'a> {
     q: &'a str,
     #[serde(skip_serializing_if = "Option::is_none")]
-    filter: Option<Vec::<Vec::<String>>>,
+    filter: Option<Vec<Vec<String>>>,
     limit: u8,
     #[serde(rename = "facetsDistribution")]
-    facets_distribution: Vec::<String>,
+    facets_distribution: Vec<String>,
 }
 
 /// Result format of MeiliSearch.
@@ -122,7 +121,7 @@ struct MSHit {
 
 #[derive(Deserialize, Debug)]
 struct MSFacetDistribution {
-    facet: HashMap<String, i32>
+    facet: HashMap<String, i32>,
 }
 
 pub async fn do_search(q: String, args: SearchQueryArgs) -> Result<SearchResults> {
@@ -143,7 +142,7 @@ pub async fn do_search(q: String, args: SearchQueryArgs) -> Result<SearchResults
     })
 }
 
-fn build_query_string(search_tokens: &Vec::<SearchToken>) -> String {
+fn build_query_string(search_tokens: &Vec<SearchToken>) -> String {
     let mut s = String::from("");
     for token in search_tokens {
         if token.closed && !token.quoted {
@@ -181,10 +180,15 @@ fn parse_input_query(q: &str) -> SearchInput {
                 if (&token.s).starts_with(prefix) {
                     is_filter = true;
 
-                    let v = token.s.trim_start_matches(prefix)
-                                   .trim_start_matches("\"")
-                                   .trim_end_matches("\"");
-                    if v.len() == 0 { continue }; // e.g. ' in: ', ' @ ', ' in:"" ' are ignored, TODO: autosuggest
+                    let v = token
+                        .s
+                        .trim_start_matches(prefix)
+                        .trim_start_matches("\"")
+                        .trim_end_matches("\"");
+                    if v.len() == 0 {
+                        // e.g. ' in: ', ' @ ', ' in:"" ' are ignored,
+                        continue; // TODO: autosuggest
+                    };
 
                     let filter = match prefix {
                         "in:" | "@" => Some(&mut search_filter.parent),
@@ -220,7 +224,7 @@ fn parse_input_query(q: &str) -> SearchInput {
     }
 }
 
-fn tokenize_input_query(q: &str) -> Vec::<InputToken> {
+fn tokenize_input_query(q: &str) -> Vec<InputToken> {
     let mut tokens = Vec::<InputToken>::new();
 
     // We don't care about unicode here since all split conditions
@@ -257,7 +261,10 @@ fn tokenize_input_query(q: &str) -> Vec::<InputToken> {
         // This is intended to split up strings like "MW1250".
         if c.is_numeric() && 0 < alphabetic_counter && alphabetic_counter <= 3 {
             tokens.push(InputToken {
-                s: q.get(token_start..=(i-1)).unwrap().trim_end().to_lowercase(),
+                s: q.get(token_start..=(i - 1))
+                    .unwrap()
+                    .trim_end()
+                    .to_lowercase(),
                 regular_split: false,
                 closed: true,
             });
@@ -267,17 +274,23 @@ fn tokenize_input_query(q: &str) -> Vec::<InputToken> {
 
         if (!within_quotes && c.is_whitespace() && i > token_start) ||  // whitespace
            ((within_quotes || !c.is_whitespace()) && i+c.len_utf8() == q.len()) ||  // end of string
-           (c == '"') {  // end of quotes
+           (c == '"')
+        {
+            // end of quotes
             tokens.push(InputToken {
                 // Note: The trim_end also trims within unclosed quotes at the end of the query,
                 //       but currently I don't think this is an issue.
-                s: q.get(token_start..i+c.len_utf8()).unwrap().trim_end().to_lowercase(),
+                s: q.get(token_start..i + c.len_utf8())
+                    .unwrap()
+                    .trim_end()
+                    .to_lowercase(),
                 regular_split: true,
                 // `closed` indicates whether the token has been closed (by whitespace or quote)
                 // at the end, when this is the last token. This is relevant because MeiliSearch
                 // treats whitespace at the end differently, and we might want to imitate that
                 // behaviour.
-                closed: !(i+c.len_utf8() == q.len() && (within_quotes || (c != '"' && !c.is_whitespace()))),
+                closed: !(i + c.len_utf8() == q.len()
+                    && (within_quotes || (c != '"' && !c.is_whitespace()))),
             });
 
             token_start = i + 1;
@@ -298,7 +311,11 @@ fn tokenize_input_query(q: &str) -> Vec::<InputToken> {
     tokens
 }
 
-async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>, args: SearchQueryArgs) -> Vec::<SearchResultsSection> {
+async fn do_geoentry_search(
+    client: Client,
+    search_tokens: &Vec<SearchToken>,
+    args: SearchQueryArgs,
+) -> Vec<SearchResultsSection> {
     // Determine what to search for
 
     // Currently ranking is designed to put buildings at the top if they equally
@@ -309,14 +326,25 @@ async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>, 
 
     let q_default = build_query_string(&search_tokens);
 
-    let res_merged = do_meilisearch(client.clone(), MSSearchArgs {
-        q: &q_default,
-        filter: None,
-        limit: args.limit_all.unwrap_or(20) as u8  // This is the MeiliSearch default
-    });
+    let res_merged = do_meilisearch(
+        client.clone(),
+        MSSearchArgs {
+            q: &q_default,
+            filter: None,
+            limit: args.limit_all.unwrap_or(20) as u8, // This is the MeiliSearch default
+        },
+    );
     // Building limit multiplied by two because we might do reordering later
-    let res_buildings = do_building_search_closed_query(client.clone(), &search_tokens, 2*args.limit_buildings.unwrap_or(5) as u8);
-    let res_rooms = do_room_search(client.clone(), &search_tokens, args.limit_rooms.unwrap_or(5) as u8);
+    let res_buildings = do_building_search_closed_query(
+        client.clone(),
+        &search_tokens,
+        2 * args.limit_buildings.unwrap_or(5) as u8,
+    );
+    let res_rooms = do_room_search(
+        client.clone(),
+        &search_tokens,
+        args.limit_rooms.unwrap_or(5) as u8,
+    );
 
     let results = join!(res_merged, res_buildings, res_rooms);
 
@@ -331,8 +359,22 @@ async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>, 
         facet: "sites_buildings".to_string(),
         entries: Vec::<ResultEntry>::new(),
         n_visible: None,
-        nb_hits: results.0.as_ref().unwrap().facets_distribution.facet.get("site").unwrap_or_else(|| { &0 }) +
-                 results.0.as_ref().unwrap().facets_distribution.facet.get("building").unwrap_or_else(|| { &0 }) ,
+        nb_hits: results
+            .0
+            .as_ref()
+            .unwrap()
+            .facets_distribution
+            .facet
+            .get("site")
+            .unwrap_or_else(|| &0)
+            + results
+                .0
+                .as_ref()
+                .unwrap()
+                .facets_distribution
+                .facet
+                .get("building")
+                .unwrap_or_else(|| &0),
     };
     let mut section_rooms = SearchResultsSection {
         facet: "rooms".to_string(),
@@ -345,19 +387,20 @@ async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>, 
     // let mut observed_joined_buildings = Vec::<String>::new();
     let mut observed_ids = Vec::<String>::new();
     for hit in [results.0.unwrap().hits, results.2.unwrap().hits].concat() {
-        if observed_ids.contains(&hit.id) { continue };  // No duplicates
+        if observed_ids.contains(&hit.id) {
+            continue;
+        }; // No duplicates
 
         // Find out where it matches TODO: Improve
         let highlighted_name = highlight_matches(&hit.name, &search_tokens);
         let highlighted_arch_name = match &hit.arch_name {
             Some(arch_name) => highlight_matches(arch_name, &search_tokens),
-            None => String::from("")
+            None => String::from(""),
         };
 
         match hit.r#type.as_str() {
             "campus" | "site" | "area" | "building" | "joined_building" => {
                 if section_buildings.entries.len() < args.limit_buildings.unwrap_or(5) {
-
                     section_buildings.entries.push(ResultEntry {
                         id: hit.id.to_string(),
                         r#type: hit.r#type.to_string(),
@@ -367,41 +410,54 @@ async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>, 
                         parsed_id: None,
                     });
                 }
-            },
+            }
             "room" | "virtual_room" => {
-                if section_rooms.entries.len() < args.limit_rooms.unwrap_or(5) ||
-                   (section_rooms.entries.len() < (args.limit_rooms.unwrap_or(5) + args.limit_buildings.unwrap_or(5)) && section_buildings.entries.len() == 0 ) {
-
+                if section_rooms.entries.len() < args.limit_rooms.unwrap_or(5)
+                    || (section_rooms.entries.len()
+                        < (args.limit_rooms.unwrap_or(5) + args.limit_buildings.unwrap_or(5))
+                        && section_buildings.entries.len() == 0)
+                {
                     // Test whether the query matches some common room id formats.
                     // This is hardcoded here for now and should be changed in the future.
-                    let parsed_id = if search_tokens.len() == 2 &&
-                        match search_tokens[0].s.as_str() {
+                    let parsed_id = if search_tokens.len() == 2
+                        && match search_tokens[0].s.as_str() {
                             "mi" => hit.id.starts_with("560") || hit.id.starts_with("561"),
                             "mw" => hit.id.starts_with("550") || hit.id.starts_with("551"),
                             "ph" => hit.id.starts_with("5101"),
                             "ch" => hit.id.starts_with("540"),
-                            _ => false
-                        } &&
-                        !search_tokens[1].s.contains("@") &&
-                        hit.arch_name.is_some() &&
-                        hit.arch_name.as_ref().unwrap().starts_with(&search_tokens[1].s) {
+                            _ => false,
+                        }
+                        && !search_tokens[1].s.contains("@")
+                        && hit.arch_name.is_some()
+                        && hit
+                            .arch_name
+                            .as_ref()
+                            .unwrap()
+                            .starts_with(&search_tokens[1].s)
+                    {
                         let arch_id = hit.arch_name.as_ref().unwrap().split("@").next().unwrap();
                         Some(format!(
-                                "\u{0019}{} {}\u{0017}{}",
-                                search_tokens[0].s.to_uppercase(),
-                                arch_id.get(..search_tokens[1].s.len()).unwrap(),
-                                arch_id.get(search_tokens[1].s.len()..).unwrap_or_default(),
+                            "\u{0019}{} {}\u{0017}{}",
+                            search_tokens[0].s.to_uppercase(),
+                            arch_id.get(..search_tokens[1].s.len()).unwrap(),
+                            arch_id.get(search_tokens[1].s.len()..).unwrap_or_default(),
                         ))
                     } else {
                         None
                     };
 
-
                     section_rooms.entries.push(ResultEntry {
                         id: hit.id.to_string(),
                         r#type: hit.r#type.to_string(),
                         name: highlighted_name,
-                        subtext: format!("{}", if hit.parent_building.len() > 0 { &hit.parent_building[0] } else { "" }),
+                        subtext: format!(
+                            "{}",
+                            if hit.parent_building.len() > 0 {
+                                &hit.parent_building[0]
+                            } else {
+                                ""
+                            }
+                        ),
                         subtext_bold: if parsed_id.is_some() {
                             Some(hit.arch_name.unwrap_or_default())
                         } else {
@@ -411,12 +467,11 @@ async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>, 
                     });
 
                     // The first room in the results 'freezes' the number of visible buildings
-                    if section_buildings.n_visible.is_none() &&
-                       section_rooms.entries.len() == 1 {
+                    if section_buildings.n_visible.is_none() && section_rooms.entries.len() == 1 {
                         section_buildings.n_visible = Some(section_buildings.entries.len());
                     }
                 }
-            },
+            }
             _ => {}
         };
 
@@ -429,30 +484,50 @@ async fn do_geoentry_search(client: Client, search_tokens: &Vec::<SearchToken>, 
     }
 }
 
-async fn do_building_search_closed_query(client: Client, search_tokens: &Vec::<SearchToken>, limit: u8) -> Result<MSResults> {
+async fn do_building_search_closed_query(
+    client: Client,
+    search_tokens: &Vec<SearchToken>,
+    limit: u8,
+) -> Result<MSResults> {
     let q = format!("{} ", build_query_string(search_tokens));
 
-    do_meilisearch(client, MSSearchArgs {
-        q: &q,
-        filter: Some(MSSearchFilter { facet: vec!["site".to_string(), "building".to_string()] }),
-        limit: limit
-    }).await
+    do_meilisearch(
+        client,
+        MSSearchArgs {
+            q: &q,
+            filter: Some(MSSearchFilter {
+                facet: vec!["site".to_string(), "building".to_string()],
+            }),
+            limit: limit,
+        },
+    )
+    .await
 }
 
-async fn do_room_search(client: Client, search_tokens: &Vec::<SearchToken>, limit: u8) -> Result<MSResults> {
+async fn do_room_search(
+    client: Client,
+    search_tokens: &Vec<SearchToken>,
+    limit: u8,
+) -> Result<MSResults> {
     let mut q = String::from("");
     for token in search_tokens {
         // It is common that room names are given with four-digits with the first digit
         // being the level. In this case we add splitted terms as well, which could give
         // results if the 4-digit-token doesn't, but still the 4-digit-token should usually
         // take precedence.
-        let s = if token.s.len() == 4 &&
-                   match token.s.chars().next().unwrap() {
-                       '0' | '1' | '2' => true,
-                       _ => false
-                   } &&
-                   token.s.chars().all(char::is_numeric) {
-            format!("{} {} {}", token.s, token.s.get(0..1).unwrap(), token.s.get(1..4).unwrap())
+        let s = if token.s.len() == 4
+            && match token.s.chars().next().unwrap() {
+                '0' | '1' | '2' => true,
+                _ => false,
+            }
+            && token.s.chars().all(char::is_numeric)
+        {
+            format!(
+                "{} {} {}",
+                token.s,
+                token.s.get(0..1).unwrap(),
+                token.s.get(1..4).unwrap()
+            )
         } else {
             token.s.clone()
         };
@@ -464,11 +539,17 @@ async fn do_room_search(client: Client, search_tokens: &Vec::<SearchToken>, limi
         }
     }
 
-    do_meilisearch(client, MSSearchArgs {
-        q: &q,
-        filter: Some(MSSearchFilter { facet: vec!["room".to_string()] }),
-        limit: limit
-    }).await
+    do_meilisearch(
+        client,
+        MSSearchArgs {
+            q: &q,
+            filter: Some(MSSearchFilter {
+                facet: vec!["room".to_string()],
+            }),
+            limit: limit,
+        },
+    )
+    .await
 }
 
 async fn do_meilisearch(client: Client, args: MSSearchArgs<'_>) -> Result<MSResults> {
@@ -476,17 +557,17 @@ async fn do_meilisearch(client: Client, args: MSSearchArgs<'_>) -> Result<MSResu
         q: args.q,
         filter: match args.filter {
             Some(f) => {
-                let mut f_array = Vec::<Vec::<String>>::new();
+                let mut f_array = Vec::<Vec<String>>::new();
                 // Currently only facets, but later also more filters
                 let mut sub_f_array = Vec::<String>::new();
                 for facet in f.facet {
-                    sub_f_array.push(format!("facet = {}", facet));  // TODO: Put in quotes?
+                    sub_f_array.push(format!("facet = {}", facet)); // TODO: Put in quotes?
                 }
                 f_array.push(sub_f_array);
 
                 Some(f_array)
-            },
-            _ => None
+            }
+            _ => None,
         },
         limit: args.limit,
         facets_distribution: vec!["facet".to_string()],
@@ -508,7 +589,7 @@ async fn do_meilisearch(client: Client, args: MSSearchArgs<'_>) -> Result<MSResu
     Ok(serde_json::from_str(resp_str)?)
 }
 
-fn highlight_matches(s: &String, search_tokens: &Vec::<SearchToken>) -> String {
+fn highlight_matches(s: &String, search_tokens: &Vec<SearchToken>) -> String {
     // Note: This does not hightlight the matches that were actually used.
     //       e.g. "hs" will highlight "Versuchsraum"
     //                                       ^^
@@ -519,15 +600,28 @@ fn highlight_matches(s: &String, search_tokens: &Vec::<SearchToken>) -> String {
         let s_lower = s_highlighted.to_lowercase();
         let mut offset = 0;
         for (start_i, pattern) in s_lower.match_indices(&token.s) {
-            if start_i > 0 && s_highlighted.get(..(start_i + offset)).unwrap().chars().last().unwrap().is_alphabetic() &&
-               pattern.chars().next().unwrap().is_alphabetic() {
+            let highlight_start = start_i + offset;
+            let highlight_end = highlight_start + pattern.len();
+            if start_i > 0
+                && s_highlighted
+                    .get(..highlight_start)
+                    .unwrap()
+                    .chars()
+                    .last()
+                    .unwrap()
+                    .is_alphabetic()
+                && pattern.chars().next().unwrap().is_alphabetic()
+            {
                 continue;
             }
 
-            s_highlighted = format!("{}\u{0019}{}\u{0017}{}",
-                                    s_highlighted.get(..(start_i+offset)).unwrap(),
-                                    s_highlighted.get((start_i+offset)..(start_i+offset+pattern.len())).unwrap(),
-                                    s_highlighted.get((start_i+offset+pattern.len())..).unwrap());
+            let pre_highlight = s_highlighted.get(..highlight_start).unwrap();
+            let highlight = s_highlighted.get(highlight_start..highlight_end).unwrap();
+            let post_highlight = s_highlighted.get(highlight_end..).unwrap();
+            s_highlighted = format!(
+                "{}\u{0019}{}\u{0017}{}",
+                pre_highlight, highlight, post_highlight
+            );
             offset += 2;
         }
     }
