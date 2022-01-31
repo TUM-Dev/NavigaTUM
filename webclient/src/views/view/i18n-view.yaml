@@ -39,7 +39,7 @@ view_view:
         de: "Roomfinder"
         en: "Roomfinder"
       inferred:
-        de: "Automatisch berechnet aus den zughörigen Räumen oder Gebäuden"
+        de: "Automatisch berechnet aus den zugehörigen Räumen oder Gebäuden"
         en: "Automatically computed based on the associated rooms or buildings"
   msg:
     inaccurate_only_building:
