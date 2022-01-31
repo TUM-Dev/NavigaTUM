@@ -432,6 +432,19 @@ function copy_assets() {
 }
 gulp.task('assets', copy_assets);
 
+// --- .well-known Pipeline ---
+// see https://well-known.dev/sites/
+function copy_well_known() {
+    return gulp.src(['src/.well-known/gpc.json', // we don't sell or share data
+                     'src/.well-known/security.txt']) // security-advice
+        .pipe(gulp.dest('build/.well-known'))
+}
+function copy_well_known_root() {
+    return gulp.src('src/.well-known/robots.txt') // disallow potentially costly api requests
+        .pipe(gulp.dest('build'))
+}
+gulp.task('well_known', gulp.parallel(copy_well_known, copy_well_known_root));
+
 // --- Vendor src Pipeline ---
 function copy_vendor_css() {
     return gulp.src(['vendor/leaflet-1.7.1.css',
@@ -462,7 +475,7 @@ function getFolders(dir) {
 exports.build = gulp.series(
     clean_build,
     i18n_compile_langfiles,
-    gulp.parallel('main_css', 'main_js', 'views', 'assets', 'vendor', 'markdown'),
+    gulp.parallel('main_css', 'main_js', 'views', 'assets', 'well_known', 'vendor', 'markdown'),
     gulp.series('pages_src', 'pages_out', 'legacy_js')
 );
 

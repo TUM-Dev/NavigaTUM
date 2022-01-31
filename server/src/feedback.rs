@@ -1,26 +1,24 @@
+use actix_web::client::Client;
+use actix_web::{post, web, HttpResponse};
+use serde::{Deserialize, Serialize};
 use std::sync::Mutex;
 use std::time::Instant;
-use actix_web::{post, web, HttpResponse};
-use actix_web::client::Client;
-use serde::{Deserialize, Serialize};
 
 extern crate rand;
 
 use rand::thread_rng;
 use rand::Rng;
 
-
 // As a very basic rate limiting, the generation of tokens
-// is limited to a fixed amout per day and hour.
+// is limited to a fixed amount per day and hour.
 const RATE_LIMIT_HOUR: usize = 20;
-const RATE_LIMIT_DAY: usize  = 50;  // = 24h
+const RATE_LIMIT_DAY: usize = 50; // = 24h
 
 // Additionally, there is a short delay until a token can be used.
 // Clients need to wait that time if (for some reason) the user submitted
 // faster than limited here.
 const TOKEN_MIN_AGE: u64 = 10;
-const TOKEN_MAX_AGE: u64 = 3600 * 12;  // 12h
-
+const TOKEN_MAX_AGE: u64 = 3600 * 12; // 12h
 
 pub struct AppStateFeedback {
     available: bool,
@@ -57,11 +55,9 @@ struct GenerateTokenResult {
     token: String,
 }
 
-
 pub fn init_state(opt: crate::Opt) -> AppStateFeedback {
-    let available = opt.gitlab_domain.is_some() &&
-                    opt.gitlab_token.is_some() &&
-                    opt.feedback_project.is_some();
+    let available =
+        opt.gitlab_domain.is_some() && opt.gitlab_token.is_some() && opt.feedback_project.is_some();
 
     AppStateFeedback {
         available: available,
@@ -71,28 +67,27 @@ pub fn init_state(opt: crate::Opt) -> AppStateFeedback {
 }
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
-    cfg.service(get_token)
-       .service(send_feedback);
+    cfg.service(get_token).service(send_feedback);
 }
-
 
 #[post("/get_token")]
 async fn get_token(state: web::Data<AppStateFeedback>) -> HttpResponse {
     if !state.available {
         return HttpResponse::ServiceUnavailable()
             .content_type("plain/text")
-            .body("Feedback is currently not configured on this server.")
+            .body("Feedback is currently not configured on this server.");
     }
 
     let mut token = state.token.lock().unwrap();
 
     // remove outdated token (no longer relevant for rate limit)
-    token.retain(|t| t.creation.elapsed().as_secs() < 3600*24 && !t.used );
+    token.retain(|t| t.creation.elapsed().as_secs() < 3600 * 24 && !t.used);
 
     let num_token_last_hour = token.len()
-                              - token.iter()
-                                     .rposition(|t| t.creation.elapsed().as_secs() > 3600*1)
-                                     .unwrap_or_else(|| {0});
+        - token
+            .iter()
+            .rposition(|t| t.creation.elapsed().as_secs() > 3600 * 1)
+            .unwrap_or_else(|| 0);
 
     if token.len() >= RATE_LIMIT_DAY || num_token_last_hour >= RATE_LIMIT_HOUR {
         HttpResponse::TooManyRequests()
@@ -110,10 +105,11 @@ async fn get_token(state: web::Data<AppStateFeedback>) -> HttpResponse {
         };
 
         token.push(new_token);
-        HttpResponse::Created().json(GenerateTokenResult { token: token_value.to_string() })
+        HttpResponse::Created().json(GenerateTokenResult {
+            token: token_value.to_string(),
+        })
     }
 }
-
 
 #[post("/feedback")]
 async fn send_feedback(
@@ -123,7 +119,7 @@ async fn send_feedback(
     if !state.available {
         return HttpResponse::ServiceUnavailable()
             .content_type("plain/text")
-            .body("Feedback is currently not configured on this server.")
+            .body("Feedback is currently not configured on this server.");
     }
 
     let mut token_list = state.token.lock().unwrap();
@@ -132,40 +128,48 @@ async fn send_feedback(
 
     if let Some(t) = token {
         if t.creation.elapsed().as_secs() < TOKEN_MIN_AGE {
-            return HttpResponse::Forbidden().content_type("plain/text")
-                                            .body("Token not old enough, please wait.")
-                                            
+            return HttpResponse::Forbidden()
+                .content_type("plain/text")
+                .body("Token not old enough, please wait.");
         } else if t.creation.elapsed().as_secs() > TOKEN_MAX_AGE {
-            return HttpResponse::Forbidden().content_type("plain/text")
-                                            .body("Token expired.")
+            return HttpResponse::Forbidden()
+                .content_type("plain/text")
+                .body("Token expired.");
         } else if t.used {
-            return HttpResponse::Forbidden().content_type("plain/text")
-                                            .body("Token already used.")
+            return HttpResponse::Forbidden()
+                .content_type("plain/text")
+                .body("Token already used.");
         }
 
         let post_data = CreateIssuePostData {
             title: format!("Form: {}", clean_feedback_data(&req_data.subject, 512)),
-            description: clean_feedback_data(&req_data.body, 1024*1024)
-                            .replace("/", "//"),  // Do not use GitLab quick actions
-            labels: format!("webform,{}", match req_data.category.as_str() {
-                "general" | "bug" | "features" | "search" | "entry" => &req_data.category,
-                _ => "other",
-            }),
+            description: clean_feedback_data(&req_data.body, 1024 * 1024).replace("/", "//"), // Do not use GitLab quick actions
+            labels: format!(
+                "webform,{}",
+                match req_data.category.as_str() {
+                    "general" | "bug" | "features" | "search" | "entry" => &req_data.category,
+                    _ => "other",
+                }
+            ),
             confidential: req_data.privacy.as_str() == "internal",
         };
 
         if post_data.title.len() < 3 || post_data.description.len() < 10 {
-            return HttpResponse::UnprocessableEntity().content_type("plain/text")
-                                                      .body("Subject or body missing or too short.")
+            return HttpResponse::UnprocessableEntity()
+                .content_type("plain/text")
+                .body("Subject or body missing or too short.");
         }
 
         let resp = Client::new()
-            .post(
-                format!("https://{}/api/v4/projects/{}/issues",
-                        state.opt.gitlab_domain.as_ref().unwrap(),
-                        state.opt.feedback_project.as_ref().unwrap())
+            .post(format!(
+                "https://{}/api/v4/projects/{}/issues",
+                state.opt.gitlab_domain.as_ref().unwrap(),
+                state.opt.feedback_project.as_ref().unwrap()
+            ))
+            .set_header(
+                "PRIVATE-TOKEN",
+                state.opt.gitlab_token.as_ref().unwrap().to_string(),
             )
-            .set_header("PRIVATE-TOKEN", state.opt.gitlab_token.as_ref().unwrap().to_string())
             .send_json(&post_data)
             .await;
 
@@ -176,20 +180,21 @@ async fn send_feedback(
             } else {
                 Ok(HttpResponse::InternalServerError().body("Failed to send".to_string()))
             }
-        }).unwrap()
+        })
+        .unwrap()
     } else {
-        HttpResponse::Forbidden().content_type("plain/text")
-                                 .body("Invalid token".to_string())
+        HttpResponse::Forbidden()
+            .content_type("plain/text")
+            .body("Invalid token".to_string())
     }
 }
-
 
 fn clean_feedback_data(s: &String, len: usize) -> String {
     if len > 0 {
         let mut s = s.clone();
         s.truncate(len);
-        s.chars().filter(|c| !c.is_control() ).collect()
+        s.chars().filter(|c| !c.is_control()).collect()
     } else {
-        s.chars().filter(|c| !c.is_control() ).collect()
+        s.chars().filter(|c| !c.is_control()).collect()
     }
 }

@@ -69,7 +69,8 @@
                          @keydown="searchkeydown"
                          autocomplete="off">
                   <i class="form-icon icon icon-search"></i>
-                  <button class="btn btn-primary input-group-btn btn-lg">
+                  <button class="btn btn-primary input-group-btn btn-lg"
+                          @click="searchGo(true)">
                     ${{_.search.action}}$
                   </button>
                 </div>
@@ -85,7 +86,7 @@
 
                   <template v-for="s in search.autocomplete.sections">
                     <li class="divider"
-                        v-if-DISABLED="search.autocomplete.sections.length > 1"
+                        DISABLED-v-if="search.autocomplete.sections.length > 1"
                         v-bind:data-content="s.name"></li>
                     <li v-for="(e, i) in s.entries"
                         v-if="s.n_visible === undefined || (s.n_visible !== undefined && i < s.n_visible) || s.expanded"

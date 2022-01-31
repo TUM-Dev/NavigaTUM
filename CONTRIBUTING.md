@@ -1,10 +1,12 @@
 # Contributing
 
 ## For big changes:
+
 When contributing to this repository, please first discuss the change you wish to make via issue,
 email, or any other method with the owners of this repository before making a change. 
 
 ## For small changes (i.e. typos/minor design tweaks):
+
 While creating an issue to refer to is most of the time a nice-to-have, it is not strictly nessesary.
 
 Please note we have a [Code of Conduct](CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.

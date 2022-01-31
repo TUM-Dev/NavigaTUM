@@ -183,6 +183,17 @@ var navigatum = (function () {
                     searchExpand: function(s) {
                         s.expanded = true;
                     },
+                    searchGo: function(clean_query) {
+                        if (this.search.query.length == 0) return;
+                               
+                        navigatum.router.push("/search/" + this.search.query);
+                        this.search.focused = false;
+                        if (clean_query) {
+                            this.search.query = "";
+                            this.search.autocomplete.sections = [];
+                        }
+                        document.getElementById("search").blur();
+                    },
                     searchGoTo: function(id, clean_query) {
                         navigatum.router.push("/view/" + id);
                         this.search.focused = false;
@@ -393,6 +404,7 @@ var navigatum = (function () {
 navigatum.routes = [
     { path: '/',         component: navigatum.getView('main') },
     { path: '/(view|campus|site|building|room)/:id', component: navigatum.getView('view') },
+    { path: '/search/:query', component: navigatum.getView('search') },
     { path: '/about/:name', component: navigatum.getView('md') },
     { path: '/:catchAll(.*)',  component: navigatum.getView('404') }
 ]
