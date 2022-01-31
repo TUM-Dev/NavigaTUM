@@ -27,8 +27,6 @@ spec:
           services:
               - name: navigatum-svc
                 port: 9000
-          middlewares:
-              - name: navigatum-temp-auth
     tls:
         secretName: roomapi.tum.sexy
 ---
