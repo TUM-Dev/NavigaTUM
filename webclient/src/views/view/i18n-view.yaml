@@ -27,12 +27,17 @@ view_view:
   sources:
     title: {de: "Quellen", en: "Sources"}
     header_img: {de: "Bild", en: "Image"}
+    base:
+      title: {de: "Basisdaten", en: "Base data"}
+      patched:
+        de: "(Bei diesem Eintrag wurden automatische Korrekturen zu externen Daten angewandt)"
+        en: "(For this entry automatic patches were applied to external data)"
     coords:
       title: {de: "Koordinaten", en: "Coordinates"}
       navigatum: {de: "NavigaTUM", en: "NavigaTUM"}
       roomfinder:
-        de: "<a href='https://portal.mytum.de/campus/roomfinder' target='_blank'>Roomfinder</a>"
-        en: "<a href='https://portal.mytum.de/campus/roomfinder' target='_blank'>Roomfinder</a>"
+        de: "Roomfinder"
+        en: "Roomfinder"
       inferred:
         de: "Automatisch berechnet aus den zughörigen Räumen oder Gebäuden"
         en: "Automatically computed based on the associated rooms or buildings"
