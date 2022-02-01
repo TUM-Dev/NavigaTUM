@@ -1,4 +1,4 @@
-FROM getmeili/meilisearch:latest
+FROM getmeili/meilisearch:v0.25.2
 
 EXPOSE 7700
 RUN apk add --no-cache jq
