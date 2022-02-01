@@ -4,16 +4,19 @@ metadata:
     name: navigatum-data
     labels:
         app: navigatum
+        deployment: cdn
     namespace: navigatum
 spec:
     replicas: 1
     selector:
         matchLabels:
             app: navigatum
+            deployment: cdn
     template:
         metadata:
             labels:
                 app: navigatum
+                deployment: cdn
         spec:
             containers:
                 - name: navigatum-data

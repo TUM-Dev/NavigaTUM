@@ -4,16 +4,19 @@ metadata:
     name: navigatum-webclient
     labels:
         app: navigatum
+        deployment: web
     namespace: navigatum
 spec:
     replicas: 1
     selector:
         matchLabels:
             app: navigatum
+            deployment: web
     template:
         metadata:
             labels:
                 app: navigatum
+                deployment: web
         spec:
             containers:
                 - name: navigatum-webclient

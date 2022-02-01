@@ -4,11 +4,13 @@ metadata:
     name: navigatum-api-svc
     labels:
         app: navigatum
+        deployment: api
     namespace: navigatum
 spec:
     type: ClusterIP
     selector:
         app: navigatum
+        deployment: api
     ports:
         - name: mieli-search
           port: 7700
@@ -23,11 +25,13 @@ metadata:
     name: navigatum-cdn-svc
     labels:
         app: navigatum
+        deployment: cdn
     namespace: navigatum
 spec:
     type: ClusterIP
     selector:
         app: navigatum
+        deployment: cdn
     ports:
         - name: navigatum-cdn
           port: 8000
@@ -44,6 +48,7 @@ spec:
     type: ClusterIP
     selector:
         app: navigatum
+        deployment: web
     ports:
         - name: navigatum-web
           port: 9000

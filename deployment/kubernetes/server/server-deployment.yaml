@@ -4,16 +4,19 @@ metadata:
     name: navigatum-server
     labels:
         app: navigatum
+        deployment: api
     namespace: navigatum
 spec:
     replicas: 1
     selector:
         matchLabels:
             app: navigatum
+            deployment: api
     template:
         metadata:
             labels:
                 app: navigatum
+                deployment: api
         spec:
             containers:
                 - name: navigatum-server
