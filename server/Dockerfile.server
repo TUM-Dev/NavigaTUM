@@ -32,6 +32,7 @@ COPY --from=build /navigatum-server/target/ ./target/
 COPY --from=build /navigatum-server/data/ ./data/
 COPY --from=build /navigatum-server/src/ ./src/
 EXPOSE 8080
+HEALTHCHECK --start-period=5m  --timeout=10s CMD curl localhost:8080/health
 ENTRYPOINT cargo run --release
 
 # WHY does the above work, while the below does not???
@@ -42,4 +43,5 @@ ENTRYPOINT cargo run --release
 #COPY --from=build /navigatum-server/data/ ./data/
 #COPY --from=build /navigatum-server/target/debug/navigatum-server ./navigatum-server
 #EXPOSE 8080
+#HEALTHCHECK --start-period=3m  --timeout=10s CMD curl localhost:8080/health
 #CMD ./navigatum-server && ldd ./navigatum-server && tail -f /dev/null

@@ -64,6 +64,13 @@ async fn source_code_handler() -> Result<HttpResponse> {
     Ok(HttpResponse::Ok().body("https://github.com/TUM-Dev/navigatum-server".to_string()))
 }
 
+#[get("/health")]
+async fn health_handler() -> Result<HttpResponse> {
+    Ok(HttpResponse::Ok()
+        .content_type("application/json")
+        .body("Healthy!"))
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init();
@@ -94,6 +101,7 @@ async fn main() -> std::io::Result<()> {
             .service(get_handler)
             .service(search_handler)
             .service(source_code_handler)
+            .service(health_handler)
             .service(
                 web::scope("/api/feedback")
                     .configure(feedback::configure)
