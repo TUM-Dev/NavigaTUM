@@ -43,7 +43,6 @@ echo
 echo "> Downloading/moving search data to '$SEARCH_DATA_FILE'"
 echo
 mv ./search_data.json "$SEARCH_DATA_FILE"
-#wget --directory-prefix $WORK_DIR $ROOMFINDER_URL/cdn/search_data.json
 echo "SEARCH_DATA_FILE ($SEARCH_DATA_FILE):"
 ls -lah "$SEARCH_DATA_FILE"
 
