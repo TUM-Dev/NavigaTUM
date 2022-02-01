@@ -18,26 +18,19 @@ RUN cargo chef cook --release --recipe-path recipe.json
 COPY src ./src
 
 # get api_data.json
-RUN wget --directory-prefix ./data https://roomapi.tum.sexy/cdn/api_data.json
+ADD https://roomapi.tum.sexy/cdn/api_data.json data/api_data.json
 # For local testing if roomapi is not avalible:
 # follow the data-docs to get api_data.json, copy it to the directory server/data and enable
 # COPY data/api_data.json data/api_data.json
-RUN cargo build --release
 
-# We do not need the Rust toolchain to run the binary!
-FROM chef AS runtime
-WORKDIR /navigatum-server
-COPY --from=build /navigatum-server/Cargo* ./
-COPY --from=build /navigatum-server/target/ ./target/
-COPY --from=build /navigatum-server/data/ ./data/
-COPY --from=build /navigatum-server/src/ ./src/
 EXPOSE 8080
 HEALTHCHECK --start-period=5m  --timeout=10s CMD curl localhost:8080/health
-ENTRYPOINT cargo run --release
+ENTRYPOINT cargo run --release | tee /dev/termination-log
 
 # WHY does the above work, while the below does not???
 # libm.so.6 is not availible but
 #FROM ubuntu:latest AS runtime
+# We do not need the Rust toolchain to run the binary!
 #RUN apt-get update -y && apt-get upgrade -y
 #WORKDIR /navigatum-server
 #COPY --from=build /navigatum-server/data/ ./data/
