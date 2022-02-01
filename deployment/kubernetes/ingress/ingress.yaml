@@ -13,19 +13,19 @@ spec:
           match: Host(`roomapi.tum.sexy`) && PathPrefix(`/api/`)
           priority: 11
           services:
-              - name: navigatum-svc
+              - name: navigatum-api-svc
                 port: 7000
         - kind: Rule
           match: Host(`roomapi.tum.sexy`) && PathPrefix(`/cdn/`)
           priority: 10
           services:
-              - name: navigatum-svc
+              - name: navigatum-cdn-svc
                 port: 8000
         - kind: Rule
           match: Host(`roomapi.tum.sexy`)
           priority: 9
           services:
-              - name: navigatum-svc
+              - name: navigatum-web-svc
                 port: 9000
     tls:
         secretName: roomapi.tum.sexy
@@ -46,13 +46,13 @@ spec:
           match: Host(`roomapi.tum.sexy`) && PathPrefix(`/api/`)
           priority: 11
           services:
-              - name: navigatum-svc
+              - name: navigatum-api-svc
                 port: 7000
         - kind: Rule
           match: Host(`roomapi.tum.sexy`) && PathPrefix(`/cdn/`)
           priority: 10
           services:
-              - name: navigatum-svc
+              - name: navigatum-cdn-svc
                 port: 8000
         - kind: Rule
           match: Host(`roomapi.tum.sexy`)

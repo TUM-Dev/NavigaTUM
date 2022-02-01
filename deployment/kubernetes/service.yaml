@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: navigatum-svc
+    name: navigatum-api-svc
     labels:
         app: navigatum
     namespace: navigatum
@@ -16,10 +16,35 @@ spec:
         - name: navigatum-api
           port: 7000
           targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: navigatum-cdn-svc
+    labels:
+        app: navigatum
+    namespace: navigatum
+spec:
+    type: ClusterIP
+    selector:
+        app: navigatum
+    ports:
         - name: navigatum-cdn
           port: 8000
           targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: navigatum-web-svc
+    labels:
+        app: navigatum
+    namespace: navigatum
+spec:
+    type: ClusterIP
+    selector:
+        app: navigatum
+    ports:
         - name: navigatum-web
           port: 9000
           targetPort: 80
-        
