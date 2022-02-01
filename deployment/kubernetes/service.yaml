@@ -43,6 +43,7 @@ metadata:
     name: navigatum-web-svc
     labels:
         app: navigatum
+        deployment: web
     namespace: navigatum
 spec:
     type: ClusterIP
