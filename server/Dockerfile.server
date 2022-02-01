@@ -31,6 +31,7 @@ COPY --from=build /navigatum-server/Cargo* ./
 COPY --from=build /navigatum-server/target/ ./target/
 COPY --from=build /navigatum-server/data/ ./data/
 COPY --from=build /navigatum-server/src/ ./src/
+EXPOSE 80
 EXPOSE 8080
 ENTRYPOINT cargo run --release
 
