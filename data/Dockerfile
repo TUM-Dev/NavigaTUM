@@ -16,6 +16,9 @@ COPY external/maps/roomfinder output/maps/roomfinder/gif
 # Synonyms are also provided via the cdn for the server container build
 COPY search_synonyms.json output/
 
+# compress data (only using gzip, because brotli on ngnix is a royal pain)
+RUN apt update && apt install -y npm && npm i -g bread-compressor-cli && bread-compressor -a gzip -s -l 4 ./output
+
 FROM nginx as production-stage
 RUN mkdir /cdn
 COPY --from=build-stage /app/output /cdn
