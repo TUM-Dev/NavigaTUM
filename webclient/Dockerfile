@@ -12,5 +12,5 @@ FROM nginx as production-stage
 RUN mkdir /app
 COPY --from=build-stage /app/build /app
 COPY nginx.conf /etc/nginx/nginx.conf
-RUN sudo apt update && sudo apt upgrade -y
+RUN apt update && apt upgrade -y
 EXPOSE 80
