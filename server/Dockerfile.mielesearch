@@ -1,8 +1,8 @@
 FROM getmeili/meilisearch:v0.25.2
 
 EXPOSE 7700
-RUN apk add --no-cache jq
 COPY ./configure_MeileSearch.sh /configure_MeileSearch.sh
-RUN wget https://roomapi.tum.sexy/cdn/search_data.json
+RUN apk add --no-cache jq && \
+ wget https://roomapi.tum.sexy/cdn/search_data.json && wget https://roomapi.tum.sexy/cdn/search_synonyms.json
 # run configuration after 5 s, to be shure that the server properly initalised
 ENTRYPOINT (sleep 5 && /configure_MeileSearch.sh) & ./meilisearch
