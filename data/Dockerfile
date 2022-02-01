@@ -12,6 +12,8 @@ RUN python3 compile.py && test -f "./output/search_data.json" && test -f "./outp
 # put all data into the cdn folder
 COPY external/maps/* ./output/maps/
 COPY sources/img/* ./output/img/
+# compress data (only using gzip, because brotli on ngnix is a royal pain)
+RUN apt update && apt install -y npm && npm i -g bread-compressor-cli && bread-compressor -a gzip -s -l 4 ./output
 
 FROM nginx as production-stage
 RUN mkdir /cdn
