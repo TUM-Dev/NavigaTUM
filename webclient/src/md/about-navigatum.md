@@ -41,6 +41,6 @@ You can find an overview where which data comes here:
         - [Building map MW](https://www.mw.tum.de/fileadmin/w00btx/mw/Fakultaet/Anfahrt/Lageplan_Gebaeude_MW.pdf)
         - [Building map Physics](https://www.ph.tum.de/about/visit/TUM_Physik_Orientierungsplan.pdf)
         - [Building map Chemistry](https://www.ch.tum.de/fileadmin/tuchfak/www/Lageplan/Infoblatt_2020-06.pdf)
-- **Rooms:** The rooms were mainly taken from TUMONline and extended with information from the Roomfinder. Exceptions are special rooms or spaces such as branch libraries.
+- **Rooms:** The rooms were mainly taken from TUMOnline and extended with information from the Roomfinder. Exceptions are special rooms or spaces such as branch libraries.
     - [Branch Libraries](https://www.ub.tum.de/en/branch-libraries)
 - **Images:** All images were collected independently and assigned to the entries.
