@@ -3,10 +3,14 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY ./ .
-RUN node_modules/gulp/bin/gulp.js --gulpfile ./gulpfile.js release && rm -fr /app/build/tmp
+RUN node_modules/gulp/bin/gulp.js --gulpfile ./gulpfile.js release && rm -fr ./build/tmp
+
+# compress data (only using gzip, because brotli on ngnix is a royal pain)
+RUN npm i -g bread-compressor-cli && bread-compressor -a gzip -s -l 4 ./build
 
 FROM nginx as production-stage
 RUN mkdir /app
 COPY --from=build-stage /app/build /app
 COPY nginx.conf /etc/nginx/nginx.conf
+RUN apt update && apt upgrade -y
 EXPOSE 80
