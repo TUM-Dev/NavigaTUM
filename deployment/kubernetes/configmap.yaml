@@ -6,4 +6,4 @@ metadata:
         app: navigatum
     namespace: navigatum
 data:
-    BIND_ADDRESS: '127.0.0.1:80'
+    ALLOWED_HOSTS: 'roomapi.tum.sexy'
