@@ -11,7 +11,6 @@ path = "src/main.rs"
 [dependencies]
 actix-web = { version = "3", features = ["rustls"] }
 lazy_static = "1.4.0"
-meilisearch-sdk = "0.13"
 serde = { version = "1.0.127", features = ["derive"] }
 serde_json = "1.0.64"
 actix-cors = "0.5.4"
