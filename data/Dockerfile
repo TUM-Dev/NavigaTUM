@@ -10,7 +10,7 @@ RUN rm -fr output && mkdir output
 RUN python3 compile.py && test -f "./output/search_data.json" && test -f "./output/api_data.json"
 
 # put all data into the cdn folder
-COPY sources/img output/img
+COPY sources/img/. output/
 COPY external/maps/roomfinder output/maps/roomfinder/gif
 
 # Synonyms are also provided via the cdn for the server container build
