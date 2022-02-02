@@ -1,7 +1,6 @@
 FROM rust:1.58 AS build
 WORKDIR /navigatum-server
-COPY src .
-COPY Cargo.toml .
+COPY . .
 
 # get api_data.json
 ADD https://roomapi.tum.sexy/cdn/api_data.json data/api_data.json
