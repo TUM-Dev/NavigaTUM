@@ -592,6 +592,9 @@ mw:
   coords: {lat: 48.26427, lon: 11.66876}
   osm: ["way/386179757"]
 
+5531:
+  # Overwrite wrong data in Roomfinder
+  coords: {lat: 48.26707, lon: 11.66630}
         
 5532:  # StudiTUM
   osm: ["way/476929995"]
