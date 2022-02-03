@@ -12,5 +12,5 @@ ADD https://roomapi.tum.sexy/cdn/api_data.json data/api_data.json
 # COPY data/api_data.json data/api_data.json
 
 EXPOSE 8080
-HEALTHCHECK --start-period=10m  --timeout=10s CMD curl --fail localhost:8080/health || exit 1
+HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8080/health || exit 1
 CMD cargo run --release

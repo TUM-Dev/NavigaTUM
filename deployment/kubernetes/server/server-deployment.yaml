@@ -28,6 +28,19 @@ spec:
                   ports:
                       - containerPort: 8080
                         name: navigatum-api
+
+                  livenessProbe:
+                      httpGet:
+                          path: /health
+                          port: navigatum-api
+                      failureThreshold: 1
+                      periodSeconds: 10
+                  startupProbe:
+                      httpGet:
+                          path: /health
+                          port: navigatum-api
+                      failureThreshold: 120 # 120*10s/60=20min
+                      periodSeconds: 10
                 - name: mieli-search
                   image: ghcr.io/tum-dev/navigatum-mieli-search:main
                   imagePullPolicy: Always
