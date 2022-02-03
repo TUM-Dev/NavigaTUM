@@ -5,7 +5,6 @@ use std::fs;
 
 use actix_cors::Cors;
 use actix_web::{get, http, middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result};
-use serde_json::to_string;
 use structopt::StructOpt;
 
 mod feedback;
