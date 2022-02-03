@@ -32,3 +32,15 @@ spec:
                     limits:
                       cpu: 150m
                       memory: 500Mi
+                  livenessProbe:
+                      httpGet:
+                          path: /health
+                          port: navigatum-cdn
+                      failureThreshold: 1
+                      periodSeconds: 10
+                  startupProbe:
+                      httpGet:
+                          path: /health
+                          port: navigatum-cdn
+                      failureThreshold: 5
+                      periodSeconds: 2
