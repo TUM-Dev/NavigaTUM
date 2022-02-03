@@ -1,7 +1,10 @@
+
+
 FROM rust:1.58 AS build
 WORKDIR /navigatum-server
 COPY . .
-
+ARG GIT_COMMIT_SHA
+ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 # get api_data.json
 ADD https://roomapi.tum.sexy/cdn/api_data.json data/api_data.json
 # For local testing if roomapi is not avalible:
