@@ -1,9 +1,11 @@
 #[macro_use]
 extern crate lazy_static;
+
 use std::fs;
 
 use actix_cors::Cors;
 use actix_web::{get, http, middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result};
+use serde_json::to_string;
 use structopt::StructOpt;
 
 mod feedback;
@@ -61,7 +63,14 @@ async fn search_handler(
 
 #[get("/api/source_code")]
 async fn source_code_handler() -> Result<HttpResponse> {
-    Ok(HttpResponse::Ok().body("https://github.com/TUM-Dev/navigatum-server".to_string()))
+    let gh_base = "https://github.com/TUM-Dev/navigatum".to_string();
+    let commit_hash = std::env::var("GIT_COMMIT_SHA");
+    if commit_hash.is_ok() {
+        let github_link = format!("{}{}{}", gh_base, "/tree/", commit_hash.unwrap());
+        Ok(HttpResponse::Ok().body(github_link))
+    } else {
+        Ok(HttpResponse::Ok().body(gh_base))
+    }
 }
 
 #[get("/health")]
