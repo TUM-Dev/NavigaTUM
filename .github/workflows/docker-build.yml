@@ -52,3 +52,5 @@ jobs:
                   file: "${{ inputs.context }}/${{ inputs.dockerfile }}"
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
+                  build-args: |
+                      GIT_COMMIT_SHA=${{ github.sha }}
