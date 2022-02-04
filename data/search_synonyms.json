@@ -13,7 +13,7 @@
     "HS": ["Hörsaal", "Vorlesungssaal"],
     "Hörsaal": ["HS", "Vorlesungssaal"],
     "Seminarraum": ["Übungsraum"],
-    "Lernraum": ["Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
+    "Lernraum": ["Lernplatz", "Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
     "Übungsraum": ["Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
     "Arbeitsraum": ["Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
     
@@ -32,5 +32,13 @@
     "iv": ["4"],
     "4": ["iv"],
     
-    "Interims": ["Interimshörsäle", "Interims-Audimax"]
+    "Interims": ["Interimshörsäle", "Interims-Audimax"],
+    
+    "Fachschaft": ["FS", "Fachschaftsbüro", "Fachschaftsraum"],
+    "FS": ["Fachschaft", "Fachschaftsbüro", "Fachschaftsraum"],
+    "Fachschaftsbüro": ["Fachschaft", "FS", "Fachschaftsraum"],
+    "Fachschaftsraum": ["Fachschaft", "FS", "Fachschaftsbüro"],
+
+    "AStA": ["SV", "Studentische Vertretung"],
+    "Studentische Vertretung": ["SV", "AStA"],
 }
