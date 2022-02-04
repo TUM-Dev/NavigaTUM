@@ -29,5 +29,5 @@ curl --silent -X POST 'http://localhost:7700/indexes/entries/settings/ranking-ru
 
 echo "synonyms:"
 ls -lah "./search_data.json"
-curl --silent -X POST 'http://localhost:7700/indexes/entries/settings/synonyms' --header 'content-type: application/json' --data "@./search_data.json"
+curl --silent -X POST 'http://localhost:7700/indexes/entries/settings/synonyms' --header 'content-type: application/json' --data "@./search_synonyms.json"
 curl --silent -X POST 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --header 'content-type: application/json' --data '[ "ms_id", "name", "arch_name", "type", "type_common_name", "parent_building", "parent_keywords", "address", "usage" ]'
