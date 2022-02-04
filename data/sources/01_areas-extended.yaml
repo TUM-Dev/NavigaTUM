@@ -577,7 +577,7 @@ chemie:
   osm: ["way/369099966"]
   
 5415:
-  coords: {lat: 48.2699, lon: 11.6694}
+  coords: {lat: 48.26965, lon: 11.67242}
   osm: ["way/683348602"]
 
 # --- Maschinenwesen ---
