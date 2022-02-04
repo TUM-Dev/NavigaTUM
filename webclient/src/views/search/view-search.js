@@ -39,7 +39,7 @@ navigatum.registerView('search', {
         loadSearchData: function(query, data) {
             this.search_data = data;
             this.query = query;
-            
+            navigatum.app.search.query = query;
             navigatum.setTitle('${{ _.view_search.search_for }}$ "' + query + '"');
             
             // Currently borrowing this functionality from autocomplete.
