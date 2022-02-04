@@ -39,11 +39,11 @@ spec:
                       httpGet:
                           path: /health
                           port: navigatum-web
-                      failureThreshold: 1
-                      periodSeconds: 10
+                      failureThreshold: 3
+                      periodSeconds: 5
                   startupProbe:
                       httpGet:
                           path: /health
                           port: navigatum-web
-                      failureThreshold: 5
-                      periodSeconds: 2
+                      failureThreshold: 60
+                      periodSeconds: 1
