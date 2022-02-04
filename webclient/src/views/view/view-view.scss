@@ -92,7 +92,7 @@
             right: 1px;
             padding: 1px 5px;
             color: #262626;
-            background-color: #ffffff91;
+            background-color: $container-loading-bg;
             font-size: 10px;
         }
     }
@@ -118,7 +118,7 @@
             cursor: pointer;
 
             &.selected {
-                background: #f2f2f2;
+                background: $roomfinder-selected-bg;
             }
         }
     }
