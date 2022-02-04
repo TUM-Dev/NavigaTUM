@@ -23,7 +23,8 @@ spec:
                   image: ghcr.io/tum-dev/navigatum-data:main
                   imagePullPolicy: Always
                   ports:
-                      - containerPort: 8000
+                      - containerPort: 80
+                        hostPort: 8000
                         name: navigatum-cdn
                   resources:
                     requests:
