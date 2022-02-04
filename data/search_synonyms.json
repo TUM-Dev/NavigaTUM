@@ -21,6 +21,7 @@
     "Rechnerarbeitsraum": ["Rechnerraum-Studenten", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
     "Rechnerraum": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
     "Rechner-Raum": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
+    "Rechnerhalle": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool", "Rechner-Raum"],
     "Computerarbeitsraum": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
     "Computerraum": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
     "Computerpool": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computer Studenten", "CIP-Raum", "CIP-Pool", "CAD-Pool", "EDV-Pool"],
@@ -118,6 +119,7 @@
     "Fachschaftsbüro": ["Fachschaft", "FS", "Fachschaftsraum"],
     "Fachschaftsraum": ["Fachschaft", "FS", "Fachschaftsbüro"],
 
-    "AStA": ["SV", "Studentische Vertretung"],
-    "Studentische Vertretung": ["SV", "AStA"],
+    "AStA": ["SV", "StuVe", "Studentische Vertretung"],
+    "Studentische Vertretung": ["SV", "StuVe", "AStA"],
+    "StuVe": ["SV", "Studentische Vertretung", "AStA"]
 }
