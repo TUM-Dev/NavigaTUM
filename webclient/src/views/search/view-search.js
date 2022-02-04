@@ -39,11 +39,7 @@ navigatum.registerView('search', {
         loadSearchData: function(query, data) {
             this.search_data = data;
             this.query = query;
-            var search= document.getElementById("search")
-            if (search.value.length === 0) {
-                // /search/:querry is called from an internal url and thus the search url is not set
-                search.value = query;
-            }
+            navigatum.app.search.query = query;
             navigatum.setTitle('${{ _.view_search.search_for }}$ "' + query + '"');
             
             // Currently borrowing this functionality from autocomplete.
