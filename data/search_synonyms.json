@@ -80,11 +80,11 @@
     "Müllzwischenlager": ["Müllager", "Müll", "Müllraum", "Abfall", "Abfallsammelstelle", "Abfälle", "Entsorgungsraum", "Müllsammelstelle"],
     "Müllsammelstelle": ["Müllager", "Müll", "Müllraum", "Abfall", "Abfallsammelstelle", "Abfälle", "Entsorgungsraum", "Müllzwischenlager"],
     
-    "Gefahrenstoffraum": ["Gefahrenstofflager", "Gefahrengutraum", "Gefahrengutlager", "Giftlager"],
-    "Gefahrenstofflager": ["Gefahrenstoffraum", "Gefahrengutraum", "Gefahrengutlager", "Giftlager"],
-    "Gefahrengutraum": ["Gefahrenstoffraum", "Gefahrenstofflager", "Gefahrengutlager", "Giftlager"],
-    "Gefahrengutlager": ["Gefahrenstoffraum", "Gefahrenstofflager", "Gefahrengutraum", "Giftlager"],
-    "Giftlager": ["Gefahrenstoffraum", "Gefahrenstofflager", "Gefahrengutraum", "Gefahrengutlager"],
+    "Gefahrstoffraum": ["Gefahrstofflager", "Gefahrgutraum", "Gefahrgutlager", "Giftlager"],
+    "Gefahrstofflager": ["Gefahrstoffraum", "Gefahrgutraum", "Gefahrgutlager", "Giftlager"],
+    "Gefahrgutraum": ["Gefahrstoffraum", "Gefahrstofflager", "Gefahrgutlager", "Giftlager"],
+    "Gefahrgutlager": ["Gefahrstoffraum", "Gefahrstofflager", "Gefahrgutraum", "Giftlager"],
+    "Giftlager": ["Gefahrstoffraum", "Gefahrstofflager", "Gefahrgutraum", "Gefahrgutlager"],
 
     "Chemikalienraum": ["Chemikalienlager", "Chemikalien"],
     "Chemikalienlager": ["Chemikalienraum", "Chemikalien"],
