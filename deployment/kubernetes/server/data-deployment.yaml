@@ -6,9 +6,6 @@ metadata:
         app: navigatum
         deployment: cdn
     namespace: navigatum
-    annotations:
-        argocd-image-updater.argoproj.io/image-list: navigatum-data=ghcr.io/tum-dev/navigatum-data:main
-        argocd-image-updater.argoproj.io/navigatum-data.update-strategy: latest
 spec:
     replicas: 1
     selector:
