@@ -8,6 +8,7 @@ metadata:
     namespace: navigatum
 spec:
     replicas: 1
+    revisionHistoryLimit: 1
     selector:
         matchLabels:
             app: navigatum
@@ -18,7 +19,6 @@ spec:
                 app: navigatum
                 deployment: cdn
         spec:
-            revisionHistoryLimit: 1
             containers:
                 - name: navigatum-data
                   image: ghcr.io/tum-dev/navigatum-data:main
