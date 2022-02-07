@@ -18,6 +18,7 @@ spec:
                 app: navigatum
                 deployment: cdn
         spec:
+            revisionHistoryLimit: 1
             containers:
                 - name: navigatum-data
                   image: ghcr.io/tum-dev/navigatum-data:main

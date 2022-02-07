@@ -18,6 +18,7 @@ spec:
                 app: navigatum
                 deployment: web
         spec:
+            revisionHistoryLimit: 1
             containers:
                 - name: navigatum-webclient
                   image: ghcr.io/tum-dev/navigatum-webclient:main
