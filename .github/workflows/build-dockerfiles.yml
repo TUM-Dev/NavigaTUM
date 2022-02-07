@@ -19,7 +19,7 @@ jobs:
   deploy-data:
     runs-on: ubuntu-latest
     needs:
-      - build-and-push-webclient
+      - build-and-push-data
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app actions run navigatum restart --kind Deployment --resource-name navigatum-data --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
