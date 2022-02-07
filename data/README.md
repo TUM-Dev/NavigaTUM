@@ -68,8 +68,18 @@ data
 ├── sources/     # 🠔 Custom data and patches
 │   ├── img/
 │   └── <custom data>
-├── compile.py         # 🠔 The main script
-└── data-format_*.yaml # 🠔 Data format specification
+├── compile.py           # 🠔 The main script
+├── data-format_*.yaml   # 🠔 Data format specification
+└── search_synonyms.json # 🠔 synonyms that MeiliSearch considers
+```
+
+Deployment related there are also these files:
+
+```bash
+data
+├── Dockerfile # 🠔 Main dockerfile, in the deployment this is sometimes called the cdn
+├── ngnix.conf # 🠔 ngnix cofigureation file used by above Dockerfile
+└── requirements.txt # 🠔 python dependencys
 ```
 
 ### How the data looks like
