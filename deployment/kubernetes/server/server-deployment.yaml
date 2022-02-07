@@ -18,6 +18,7 @@ spec:
                 app: navigatum
                 deployment: api
         spec:
+            revisionHistoryLimit: 1
             containers:
                 - name: navigatum-server
                   image: ghcr.io/tum-dev/navigatum-server:main
