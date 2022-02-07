@@ -6,10 +6,6 @@ metadata:
         app: navigatum
         deployment: api
     namespace: navigatum
-    annotations:
-        argocd-image-updater.argoproj.io/image-list: navigatum-server=ghcr.io/tum-dev/navigatum-server:main,navigatum-mieli-search=ghcr.io/tum-dev/navigatum-mieli-search:main
-        argocd-image-updater.argoproj.io/navigatum-mieli-search.update-strategy: latest
-        argocd-image-updater.argoproj.io/navigatum-server.update-strategy: latest
 spec:
     replicas: 1
     selector:
