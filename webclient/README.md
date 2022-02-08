@@ -102,7 +102,7 @@ webclient
 │   ├── md/      # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
 │   ├── modules/
 │   │   ├── autocomplete.js     # 🠔 Autocompletion for search
-│   │   └── interactive-map.js  # 🠔 Interactive map based on Leaflet
+│   │   └── interactive-map.js  # 🠔 Interactive map based on Mapbox
 │   ├── views/  # 🠔 See below
 │   ├── core.js             # 🠔 Core JS code (and JS entrypoint)
 │   ├── feedback.js         # 🠔 JS for the feedback form (separated from the rest of
