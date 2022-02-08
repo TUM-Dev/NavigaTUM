@@ -445,20 +445,15 @@ function copy_well_known_root() {
 }
 gulp.task('well_known', gulp.parallel(copy_well_known, copy_well_known_root));
 
-// --- map (currently leaflet) Pipeline ---
+// --- map (currently mapbox) Pipeline ---
 function copy_map_css() {
-    return gulp.src(['node_modules/leaflet/dist/leaflet.css',
-                     'node_modules/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css',
-                     'node_modules/mapbox-gl/dist/mapbox-gl.css'])
-               .pipe(concat('leaflet-with-plugins.css'))
+    return gulp.src(['node_modules/mapbox-gl/dist/mapbox-gl.css'])
+               .pipe(concat('mapbox.css'))
                .pipe(gulp.dest('build/css'))
 }
 function copy_map_js() {
-    return gulp.src(['node_modules/leaflet/dist/leaflet.js',
-                     'node_modules/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.js',
-                     'node_modules/mapbox-gl/dist/mapbox-gl.js',
-                     'node_modules/mapbox-gl-leaflet/leaflet-mapbox-gl.js'])
-               .pipe(concat('leaflet-with-plugins.min.js'))
+    return gulp.src(['node_modules/mapbox-gl/dist/mapbox-gl.js'])
+               .pipe(concat('mapbox.js'))
                .pipe(gulp.dest('build/js'))
 }
 gulp.task('map', gulp.parallel(copy_map_css, copy_map_js));

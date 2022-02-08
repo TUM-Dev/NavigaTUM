@@ -60,9 +60,7 @@
       <div id="interactive-map-container"
            v-bind:class="{'d-none': state.map.selected !== 'interactive'}">
         <div>
-          <div id="interactive-map" class="loading">
-              <a href="http://mapbox.com/about/maps" class='mapbox-logo' target="_blank">Mapbox</a>
-          </div>
+          <div id="interactive-map" class="loading"></div>
         </div>
       </div>
       <div class="roomfinder-map-container"

@@ -168,32 +168,45 @@ navigatum.registerView('view', {
                 navigatum.getModule("interactive-map").then(function(c) {
                     _this.map.interactive.component = c;
 
-                    var map = _this.map.interactive.map;
+                    let map = _this.map.interactive.map;
+                    let marker = _this.map.interactive.marker;
                     // The map might or might not be initialized depending on the type
                     // of navigation.
                     if (document.getElementById("interactive-map")) {
-                        if (!document.getElementById("interactive-map")
-                                    .classList.contains("leaflet-container")) {
-                            document.getElementById("interactive-map").classList.remove("loading");
+                        if (document.getElementById("interactive-map").classList.contains("mapboxgl-map")) {
+                            marker.remove()
+                        }
+                        else {
                             map = c.initMap('interactive-map');
                             _this.map.interactive.map = map;
-                        } else {
-                            // Clean old data from the map
-                            map.eachLayer(function(layer) {
-                                if (layer instanceof L.Marker)
-                                    layer.remove();
-                            });
+
+                            document.getElementById("interactive-map").classList.remove("loading");
                         }
                     }
-
-                    // Use 17 as default zoom for now, TODO: Compute
-                    var coords = _this.view_data.coords;
-                    map.setView([coords.lat, coords.lon], 17, {
-                        // Only pan visibly when interactive map was displayed
-                        animate: from_map === "interactive",
-                    });
-
-                    L.marker([coords.lat, coords.lon], {icon: c.icon}).addTo(map)
+                    // generate new Marker
+                    const markerIcon = document.createElement('span');
+                    markerIcon.id='interactive-map-marker'
+                    marker = new mapboxgl.Marker({element:markerIcon});
+                    _this.map.interactive.marker = marker;
+                    //icon: mapboxgl.icon({
+                    //    iconUrl: '/* @echo app_prefix */assets/map-marker_pin.png',
+                    //    shadowUrl: '/* @echo app_prefix */assets/map-marker_pin-shadow.png',
+                    //    iconSize:     [25, 36],
+                    //    shadowSize:   [38, 24],
+                    //    iconAnchor:   [12, 33],
+                    //    shadowAnchor: [12, 20],
+                    //    popupAnchor:  [0, -23]
+                    //}),
+                    const coords = _this.view_data.coords;
+                    marker.setLngLat([coords.lon, coords.lat]).addTo(map);
+                    // Use 16 as default zoom for now, TODO: Compute
+                    if (from_map === "interactive"){
+                        map.flyTo({center: [coords.lon, coords.lat], zoom: 16, duration: 5000});
+                    }
+                    else {
+                        map.setZoom(16);
+                        map.setCenter([coords.lon, coords.lat]);
+                    }
                 });
             });
 
