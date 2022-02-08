@@ -116,7 +116,6 @@ webclient
 │   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
 │   ├── spectre-all.scss    # 🠔 Include-script for Spectre.CSS
 │   └── variables.scss      # 🠔 Sass CSS variable definitions (also defines themes)
-├── vendor/       # 🠔 External libraries
 ├── config.js     # 🠔 Build configuration
 ├── gulpfile.js   # 🠔 Gulp configuration
 └── package.json  # 🠔 Node package definition and dependencies
