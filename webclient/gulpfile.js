@@ -445,20 +445,23 @@ function copy_well_known_root() {
 }
 gulp.task('well_known', gulp.parallel(copy_well_known, copy_well_known_root));
 
-// --- Vendor src Pipeline ---
-function copy_vendor_css() {
-    return gulp.src(['vendor/leaflet-1.7.1.css',
-                     'vendor/leaflet-gesture-handling-1.2.1.min.css'])
-               .pipe(concat('leaflet-1.7.1-with-plugins.css'))
+// --- map (currently leaflet) Pipeline ---
+function copy_map_css() {
+    return gulp.src(['node_modules/leaflet/dist/leaflet.css',
+                     'node_modules/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css',
+                     'node_modules/mapbox-gl/dist/mapbox-gl.css'])
+               .pipe(concat('leaflet-with-plugins.css'))
                .pipe(gulp.dest('build/css'))
 }
-function copy_vendor_js() {
-    return gulp.src(['vendor/leaflet-1.7.1.min.js',
-                     'vendor/leaflet-gesture-handling-1.2.1.min.js'])
-               .pipe(concat('leaflet-1.7.1-with-plugins.min.js'))
+function copy_map_js() {
+    return gulp.src(['node_modules/leaflet/dist/leaflet.js',
+                     'node_modules/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.js',
+                     'node_modules/mapbox-gl/dist/mapbox-gl.js',
+                     'node_modules/mapbox-gl-leaflet/leaflet-mapbox-gl.js'])
+               .pipe(concat('leaflet-with-plugins.min.js'))
                .pipe(gulp.dest('build/js'))
 }
-gulp.task('vendor', gulp.parallel(copy_vendor_css, copy_vendor_js));
+gulp.task('map', gulp.parallel(copy_map_css, copy_map_js));
 
 
 /* === Utils === */
@@ -475,7 +478,7 @@ function getFolders(dir) {
 exports.build = gulp.series(
     clean_build,
     i18n_compile_langfiles,
-    gulp.parallel('main_css', 'main_js', 'views', 'assets', 'well_known', 'vendor', 'markdown'),
+    gulp.parallel('main_css', 'main_js', 'views', 'assets', 'well_known', 'map', 'markdown'),
     gulp.series('pages_src', 'pages_out', 'legacy_js')
 );
 
