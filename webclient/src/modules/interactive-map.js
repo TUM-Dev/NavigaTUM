@@ -56,6 +56,12 @@ navigatum.registerModule("interactive-map", (function() {
             });
             const nav = new mapboxgl.NavigationControl();
             map.addControl(nav, 'top-left');
+            
+            // Fullscreen currently only on mobile
+            if (window.matchMedia &&
+                window.matchMedia("only screen and (max-width: 480px)").matches) {
+                map.addControl(new mapboxgl.FullscreenControl());
+            }
             //const location = new mapboxgl.GeolocateControl({
             //    positionOptions: {
             //    enableHighAccuracy: true
