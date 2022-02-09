@@ -127,7 +127,7 @@ e.g. with `GET https://roomapi.tum.sexy/api/get/5602.EG.001`:
                 },
                 ...
             ],
-            default: "142"
+            "default": "142"
         }
     },
 
@@ -252,10 +252,9 @@ Limits are not stable yet.
 GET https://roomapi.tum.sexy/api/source_code
 ```
 
-Search entries – this endpoint is designed to support search-as-you-type results.
-
-NavigaTUM provides a `/source_code` endpoint, which returns a link to the source
-repository of the running version. This is not required for modifications (as the license
+The `api/source_code` endpoint returns a link to the source-code of the
+repository at the currently running version.  
+This is not required for modifications (as the license
 is not AGPL), but strongly encouraged.
 
 ## License

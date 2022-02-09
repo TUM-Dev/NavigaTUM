@@ -1,8 +1,9 @@
 <div id="view-search" v-if="search_data">
+  <small class="search_meta">
+    ${{ _.view_search.runtime }}$: {{ search_data.time_ms }}ms –
+    <a onclick="open_feedback('search')" class="c-hand">${{_.view_search.give_feedback}}$</a>
+  </small>
 
-  <h1>${{ _.view_search.search_for }}$ <i>"{{ query }}"</i></h1>
-  <div class="divider"></div>
-  
   <template v-for="s in sections">
     <section>
       <div class="columns">
@@ -46,10 +47,4 @@
       </div>
     </section>
   </template>
-  
-  <small class="search_meta">
-    ${{ _.view_search.runtime }}$: {{ search_data.time_ms }}ms –
-    <a onclick="open_feedback('search')" class="c-hand">${{_.view_search.give_feedback}}$</a>
-  </small>
-
 </div>

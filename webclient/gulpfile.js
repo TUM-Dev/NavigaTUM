@@ -166,14 +166,14 @@ function build_feedback_js() {
 
 function copy_vue_js() {
     if (config.target === "release")
-        return gulp.src(['vendor/vue.min.js',
-                         'vendor/vue-router.min.js',
+        return gulp.src(['node_modules/vue/dist/vue.min.js',
+                         'node_modules/vue-router/dist/vue-router.min.js',
                          'src/init-call.js'])
                    .pipe(concat('vue.min.js'))
                    .pipe(gulp.dest('build/js'));
     else
-        return gulp.src(['vendor/vue.js',
-                         'vendor/vue-router.js',
+        return gulp.src(['node_modules/vue/dist/vue.js',
+                         'node_modules/vue-router/dist/vue-router.js',
                          'src/init-call.js'])
                    .pipe(concat('vue.js'))
                    .pipe(gulp.dest('build/js'));
@@ -378,7 +378,7 @@ function extract_polyfills() {
                .pipe(splitFiles())
                .pipe(first())
                // Add custom polyfills for missing browser (not ES) features
-               .pipe(addsrc('vendor/whatwg-fetch-3.6.2.umd.js'))
+               .pipe(addsrc('node_modules/whatwg-fetch/dist/fetch.umd.js'))
                .pipe(concat('polyfills.js'))
                .pipe(gulp.dest('build/tmp'));
 }
