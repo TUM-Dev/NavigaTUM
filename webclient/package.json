@@ -43,6 +43,10 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
+    "polyfill": "^0.1.0",
+    "vue": "^2.6.12",
+    "vue-router": "^3.5.1",
+    "whatwg-fetch": "^3.6.2",
     "mapbox-gl": "^2.7.0"
   }
 }
