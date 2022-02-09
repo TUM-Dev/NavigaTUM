@@ -49,7 +49,10 @@ navigatum.registerModule("interactive-map", (function() {
 
                 //preview of the following style is available at
                 // https://api.mapbox.com/styles/v1/commanderstorm/ckzdc14en003m14l9l8iqwotq.html?title=copy&access_token=pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg&zoomwheel=true&fresh=true#16.78/48.264624/11.670726
-                style: 'mapbox://styles/commanderstorm/ckzdc14en003m14l9l8iqwotq',
+                style: 'mapbox://styles/commanderstorm/ckzdc14en003m14l9l8iqwotq?optimize=true',
+                
+                center: [11.5748, 48.1400],  // Approx Munich
+                zoom: 11,  // Zoomed out so that the whole city is visible
             });
             const nav = new mapboxgl.NavigationControl();
             map.addControl(nav, 'top-left');
