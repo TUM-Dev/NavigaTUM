@@ -457,7 +457,7 @@
       5142:Parkhaus P1:
       -5143:Versorgungsstation:
       5160:UCN-Testanlage (Container):
-    52:FRM II Forschungsreaktor Neutronenquelle und Heinz Maier-Leibnitz Zentrum (MLZ):frm-2
+    52:FRM II Forschungsreaktor Neutronenquelle und Heinz Maier-Leibnitz Zentrum (MLZ):frm-2[area]
       5202:Flachbau 2+3 (Zyklotron):
       5203:Bürogebäude (GRS-Altbau), Hochschulreferat 6 – Sicherheit und Strahlenschutz, Zentrale Reisekostenstelle:
       5204:Umformtechnik und Gießereiwesen (utg) (MW25):
@@ -560,7 +560,7 @@
       5416:Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude:
       5538:Interims-Tentomax Garching MW, HS1/HS2:
       5998:Interims Tentomax Garching EL (Parkplatz), HS3/HS4:
-  6:Garching Forschungszentrum (süd-west):garching-sued-west
+  6:Garching Forschungszentrum (süd-west):garching-sued-west[site]
     61:Gebäudemanagement / Technischer Betrieb:garching-gebaeudemanagement
       6101:Heizkraftwerk:
       6102:Betriebsgebäude:
@@ -576,7 +576,7 @@
   9001:TUM Science & Study Center Raitenhaslach:
   9101:Garmisch-Partenkirchen (A, Bahnhofstr. 37):
   9201:TUM FZ Friedrich N. Schwarz Berchtesgaden:
-  93:Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie):taufkirchen-ottobrunn
+  93:Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie):taufkirchen-ottobrunn[campus]
     9376:Airbus Standort 76.C:
     9377:Lise-Meitner-Straße 9-11:
     9378:TUM Panasonic (Caroline-Herschel-Straße 100):
