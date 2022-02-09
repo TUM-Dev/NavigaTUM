@@ -6,8 +6,8 @@ var config = {
     // hash-based navigation in development builds.
     app_prefix: "",
     // Prefix for 'cdn' content, e.g. images.
-    cdn_prefix: "/cdn/",
+    cdn_prefix: "https://roomapi.tum.sexy/cdn/",
     // Prefix for API requests
-    api_prefix: "http://localhost:8080/api/",
+    api_prefix: "https://roomapi.tum.sexy/api/",
 };
 module.exports = config;
