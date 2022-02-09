@@ -80,15 +80,10 @@
         width: 100%;
     }
 
-    #interactive-map-marker {
+    .marker {
         position: absolute;
-        content: '';
-        background-color:#FF0000;
-        border-radius:50%;
-        opacity:0.75;
-        width: 25px;
-        height: 36px;
         pointer-events: none;
+        padding: 0;
     }
 
     /* --- Roomfinder display --- */

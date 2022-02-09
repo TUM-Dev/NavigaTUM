@@ -183,20 +183,8 @@ navigatum.registerView('view', {
                             document.getElementById("interactive-map").classList.remove("loading");
                         }
                     }
-                    // generate new Marker
-                    const markerIcon = document.createElement('span');
-                    markerIcon.id='interactive-map-marker'
-                    marker = new mapboxgl.Marker({element:markerIcon});
+                    marker = c.initMarker();
                     _this.map.interactive.marker = marker;
-                    //icon: mapboxgl.icon({
-                    //    iconUrl: '/* @echo app_prefix */assets/map-marker_pin.png',
-                    //    shadowUrl: '/* @echo app_prefix */assets/map-marker_pin-shadow.png',
-                    //    iconSize:     [25, 36],
-                    //    shadowSize:   [38, 24],
-                    //    iconAnchor:   [12, 33],
-                    //    shadowAnchor: [12, 20],
-                    //    popupAnchor:  [0, -23]
-                    //}),
                     const coords = _this.view_data.coords;
                     marker.setLngLat([coords.lon, coords.lat]).addTo(map);
                     // Use 16 as default zoom for now, TODO: Compute
