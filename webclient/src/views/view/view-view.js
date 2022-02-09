@@ -189,7 +189,12 @@ navigatum.registerView('view', {
                     marker.setLngLat([coords.lon, coords.lat]).addTo(map);
                     // Use 16 as default zoom for now, TODO: Compute
                     if (from_map === "interactive"){
-                        map.flyTo({center: [coords.lon, coords.lat], zoom: 16, duration: 5000});
+                        map.flyTo({
+                            center: [coords.lon, coords.lat],
+                            zoom: 16,
+                            speed: 1,
+                            maxDuration: 2000
+                        });
                     }
                     else {
                         map.setZoom(16);
