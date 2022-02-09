@@ -80,6 +80,12 @@
         width: 100%;
     }
 
+    .marker {
+        position: absolute;
+        pointer-events: none;
+        padding: 0;
+    }
+
     /* --- Roomfinder display --- */
     .roomfinder-map-container {
         overflow: hidden;
