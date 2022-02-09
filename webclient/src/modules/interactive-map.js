@@ -6,12 +6,12 @@ navigatum.registerModule("interactive-map", (function() {
                 // Add CSS first (required by Mapbox)
                 const el_css = document.createElement("link");
                 el_css.rel = "stylesheet";
-                el_css.href = "/* @echo app_prefix */css/mapbox.css";
+                el_css.href = "/* @echo app_prefix */css/mapbox/* @if target='release' */.min/* @endif */.css";
                 head.appendChild(el_css);
 
                 // JS should trigger init on load
                 const el_js = document.createElement("script");
-                el_js.src = "/* @echo app_prefix */js/mapbox.js";
+                el_js.src = "/* @echo app_prefix */js/mapbox/* @if target='release' */.min/* @endif */.js";
                 el_js.onload = () => {
                     resolve();
                 }
