@@ -19,24 +19,24 @@ navigatum.registerModule("interactive-map", (function() {
             });
         },
         initMarker: function () {
-                const markerDiv = document.createElement('div');
-                const markerIcon = document.createElement('span');
-                markerIcon.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin.png)`;
-                markerIcon.style.width = `25px`;
-                markerIcon.style.height = `36px`;
-                markerIcon.style.top = `-33px`;
-                markerIcon.style.left = `-12px`;
-                markerIcon.classList.add("marker")
-                markerDiv.appendChild(markerIcon);
-                const markerShadow = document.createElement('span');
-                markerShadow.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin-shadow.png)`;
-                markerShadow.style.width = `38px`;
-                markerShadow.style.height = `24px`;
-                markerShadow.style.top = `-20px`;
-                markerShadow.style.left = `-12px`;
-                markerShadow.classList.add("marker")
-                markerDiv.appendChild(markerShadow);
-                return new mapboxgl.Marker({element:markerDiv});
+            const markerDiv = document.createElement('div');
+            const markerIcon = document.createElement('span');
+            markerIcon.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin.png)`;
+            markerIcon.style.width = `25px`;
+            markerIcon.style.height = `36px`;
+            markerIcon.style.top = `-33px`;
+            markerIcon.style.left = `-12px`;
+            markerIcon.classList.add("marker")
+            markerDiv.appendChild(markerIcon);
+            const markerShadow = document.createElement('span');
+            markerShadow.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin-shadow.png)`;
+            markerShadow.style.width = `38px`;
+            markerShadow.style.height = `24px`;
+            markerShadow.style.top = `-20px`;
+            markerShadow.style.left = `-12px`;
+            markerShadow.classList.add("marker")
+            markerDiv.appendChild(markerShadow);
+            return new mapboxgl.Marker({element:markerDiv});
         },
         initMap: function(container_id) {
             mapboxgl.accessToken= 'pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg'
