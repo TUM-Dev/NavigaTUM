@@ -50,7 +50,7 @@ def add_img(data, path_prefix):
             continue
         
         matching_images = {
-            subdir: list(filter(lambda f: f.startswith(_id), filelist))
+            subdir: list(filter(lambda f: f.startswith(_id + "_"), filelist))
             for subdir, filelist in files.items()
         }
         
