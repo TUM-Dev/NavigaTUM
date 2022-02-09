@@ -447,13 +447,25 @@ gulp.task('well_known', gulp.parallel(copy_well_known, copy_well_known_root));
 
 // --- map (currently mapbox) Pipeline ---
 function copy_map_css() {
+    let target_filename
+    if (config.target === "release")
+        target_filename =`mapbox.min.css`
+    else
+        target_filename=`mapbox.css`
     return gulp.src(['node_modules/mapbox-gl/dist/mapbox-gl.css'])
-               .pipe(concat('mapbox.css'))
+               .pipe(concat(target_filename))
+               .pipe(gulpif(config.target === "release", htmlmin(htmlmin_options)))
                .pipe(gulp.dest('build/css'))
 }
 function copy_map_js() {
+    let target_filename
+    if (config.target === "release")
+        target_filename =`mapbox.min.js`
+    else
+        target_filename=`mapbox.js`
     return gulp.src(['node_modules/mapbox-gl/dist/mapbox-gl.js'])
-               .pipe(concat('mapbox.js'))
+               .pipe(concat(target_filename))
+               .pipe(gulpif(config.target === "release", htmlmin(htmlmin_options)))
                .pipe(gulp.dest('build/js'))
 }
 gulp.task('map', gulp.parallel(copy_map_css, copy_map_js));
