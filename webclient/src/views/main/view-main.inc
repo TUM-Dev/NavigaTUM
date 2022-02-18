@@ -30,7 +30,8 @@
           <router-link v-bind:to="'/view/' + c.id"
                        v-for="(c, i) in site.children"
                        v-bind:class="{'link-more': i >= site.n_visible}"
-                       v-bind:key="c.id">
+                       v-bind:key="c.id"
+                       v-bind:aria-label="`show the details for the building '` + c.name + `'`">
             <div class="tile tile-centered">
               <div class="tile-icon">
                 <div class="example-tile-icon">
@@ -43,17 +44,22 @@
                 </div>
               </div>
               <div class="tile-action">
-                <button class="btn btn-link">
+                <button class="btn btn-link"
+                        v-bind:aria-label="`show the details for the building '` + c.name + `'`">
                   <i class="icon icon-arrow-right"></i>
                 </button>
               </div>
             </div>
           </router-link>
-          <button class="btn btn-link btn-more" v-on:click="more(site.id)" v-if="site.children.length > site.n_visible">
+          <button class="btn btn-link btn-more"
+                  aria-label="show more buildings"
+                  v-on:click="more(site.id)" v-if="site.children.length > site.n_visible">
             <i class="icon icon-arrow-right"></i>
             ${{_.view_main.more}}$
           </button>
-          <button class="btn btn-link btn-less" v-on:click="less(site.id)">
+          <button class="btn btn-link btn-less"
+                  aria-label="show less buildings"
+                  v-on:click="less(site.id)">
             <i class="icon icon-arrow-up"></i>
             ${{_.view_main.less}}$
           </button>

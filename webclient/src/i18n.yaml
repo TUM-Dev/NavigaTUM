@@ -1,5 +1,7 @@
 search:
   placeholder: {de: "Suche", en: "Search"}
+  aria-searchlabel: {de: "Suchfeld", en: "Search-field"}
+  aria-actionlabel: {de: "Suche nach dem im Suchfeld eingetragenen Raum", en: "Search for the room-query entered in the search field"}
   action: {de: "Go", en: "Go"}
   hidden: {de: "ausgeblendet", en: "hidden"}
   result: {de: "Ergebnis", en: "result"}
@@ -32,6 +34,7 @@ footer:
 feedback:
   title: {de: "Feedback senden", en: "Send Feedback"}
   subject: {de: "Betreff", en: "Subject"}
+  category: {de: "Feedback-Kategorie", en: "Feedback category"}
   type:
     general: {de: "Allgemein", en: "General"}
     bug: {de: "Fehler", en: "Bug"}

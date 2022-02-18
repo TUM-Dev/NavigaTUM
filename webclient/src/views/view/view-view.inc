@@ -1,9 +1,10 @@
 <div id="view-view" v-if="view_data">
   <!-- Header image (on mobile) -->
   <div class="show-xs header-image-mobile">
-    <img v-if="view_data.img && view_data.img.header_small"
+    <img alt="Header-Image, showing the building"
          v-bind:src="'<!-- @echo cdn_prefix -->header-small/' + view_data.img.header_small.name"
-         class="img-responsive" alt="header image"
+         v-if="view_data.img && view_data.img.header_small"
+         class="img-responsive"
          width="512" height="210" />
   </div>
 
@@ -66,12 +67,13 @@
       <div class="roomfinder-map-container"
            v-bind:class="{'d-none': state.map.selected !== 'roomfinder'}"
            v-if="view_data.maps.roomfinder && view_data.maps.roomfinder.available">
-        <img src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.gif"
+        <img alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
+             src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.gif"
              v-bind:style="{'transform': 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)'}"
              id="roomfinder-map-cross">
-        <img alt="roomfinder map image"
-             class="img-responsive"
+        <img alt="Hand-drawn roomfinder map image"
              v-bind:src="'<!-- @echo cdn_prefix -->maps/roomfinder/gif/' + state.map.roomfinder.selected_id + '.gif'"
+             class="img-responsive"
              v-bind:width="state.map.roomfinder.width"
              v-bind:height="state.map.roomfinder.height"
              id="roomfinder-map-img">
@@ -134,10 +136,12 @@
     <div class="column col-5 col-xs-12 hide-xs">
       <div class="card">
         <div class="card-image">
-          <img v-if="view_data.img && view_data.img.header_small"
+          <img alt="Header-Image, showing the building"
                v-bind:src="'<!-- @echo cdn_prefix -->header-small/' + view_data.img.header_small.name"
-               class="img-responsive" alt="header image"
-               width="512" height="210" />
+               v-if="view_data.img && view_data.img.header_small"
+               class="img-responsive"
+               width="512"
+               height="210" />
         </div>
         <div class="card-header">
           <div class="card-title h5">${{_.view_view.info_title}}$</div>
@@ -177,7 +181,9 @@
     </div>
     <div class="card" style="width: 250px;display: inline-flex;margin-right: 8px;">
         <div class="card-image">
-            <img src="<!-- @echo cdn_prefix -- >header-small/mi_0.jpg" class="img-responsive" alt="header image" />
+            <img alt="Header-Image, showing the building"
+                 src="<!-- @echo cdn_prefix -- >header-small/mi_0.jpg"
+                 class="img-responsive"/>
         </div>
         <div class="card-header">
             <div class="card-title h6" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">Teilbibliothek Stammgelände</div>
@@ -193,7 +199,9 @@
     </div>
     <div class="card" style="width: 250px;display: inline-flex;margin-right: 8px;height: 200px;vertical-align: top;">
         <div class="card-image" style="display: none;">
-            <img alt="header image" src="<!-- @echo cdn_prefix -- >header-small/mi_0.jpg" class="img-responsive">
+            <img alt="Header-Image, showing the building"
+                 src="<!-- @echo cdn_prefix -- >header-small/mi_0.jpg"
+                 class="img-responsive">
         </div>
         <div class="card-header">
             <div class="card-title h6" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">Validierungsautomaten</div>
@@ -240,7 +248,8 @@
           <div class="tile tile-centered">
             <div class="tile-icon">
               <figure class="avatar avatar-lg">
-                <img v-bind:src="b.thumb ? '<!-- @echo cdn_prefix -->thumb/' + b.thumb : '<!-- @echo app_prefix -->assets/thumb-building.png'" alt="thumbnail">
+                <img v-bind:alt="b.thumb ? 'Thumbnail, showing a preview of the building.' : 'Default-thumbnail, as no thumbnail is available'"
+                     v-bind:src="b.thumb ? '<!-- @echo cdn_prefix -->thumb/' + b.thumb : '<!-- @echo app_prefix -->assets/thumb-building.png'">
               </figure>
             </div>
             <div class="tile-content">
@@ -248,7 +257,10 @@
               <small class="tile-subtitle text-dark">{{ b.subtext }}</small>
             </div>
             <div class="tile-action">
-              <button class="btn btn-link"><i class="icon icon-arrow-right"></i></button>
+              <button class="btn btn-link"
+                      v-bind:aria-label="`show the details for the building '`+ b.name +`'`">
+                <i class="icon icon-arrow-right"></i>
+              </button>
             </div>
           </div>
         </router-link>
@@ -332,7 +344,8 @@
                      placeholder="${{_.view_view.rooms_overview.filter}}$"
                      class="form-input">
               <button class="btn btn-primary input-group-btn"
-                      @click="state.rooms_overview.filter = ''">
+                      @click="state.rooms_overview.filter = ''"
+                      aria-label="Clear the filter">
                 <i class="icon icon-cross"></i>
               </button>
             </div>
