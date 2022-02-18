@@ -116,16 +116,19 @@
     }
 
     .accordion-body {
-        ul {
+        ul, button, li {
             font-size: 12px;
         }
 
-        a {
+        button {
+            width: 100%;
             cursor: pointer;
+            text-align: left;
+            border: 0 transparent;
+        }
 
-            &.selected {
-                background: $roomfinder-selected-bg;
-            }
+        .selected {
+            background: $roomfinder-selected-bg;
         }
     }
 
@@ -208,7 +211,9 @@
                 padding: 0;
                 box-shadow: none;
 
-                .menu-item a, .menu-item label {
+                .menu-item a,
+                .menu-item label,
+                .menu-item button {
                     cursor: pointer;
                     user-select: none;
                 }

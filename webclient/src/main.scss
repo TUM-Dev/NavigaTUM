@@ -50,7 +50,8 @@ body {
 
 // --- Menu general
 
-#app .menu .menu-item > a {  // Overwrite spectre
+#app .menu .menu-item > a,
+#app .menu .menu-item > button {  // Overwrite spectre
     &:focus, &:hover {
         background: $theme-accent;
         color: #fff;
