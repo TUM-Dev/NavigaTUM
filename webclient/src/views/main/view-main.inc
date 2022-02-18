@@ -13,10 +13,10 @@
                 <div class="panel-title h6">{{ site.name }}</div>
               </div>
               <div class="column col-auto">
-                <a class="btn btn-link"
+                <button class="btn btn-link"
                    v-bind:style="{visibility: site.id ? '' : 'hidden'}">
                   <i class="icon icon-forward"></i>
-                </a>
+                </button>
               </div>
             </div>
           </router-link>

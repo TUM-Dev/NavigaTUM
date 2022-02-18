@@ -1,7 +1,7 @@
 <div id="view-search" v-if="search_data">
   <small class="search_meta">
     ${{ _.view_search.runtime }}$: {{ search_data.time_ms }}ms –
-    <a onclick="open_feedback('search')" class="c-hand">${{_.view_search.give_feedback}}$</a>
+    <button onclick="open_feedback('search')" class="btn btn-link" aria-label="Open the feedback-form for search">${{_.view_search.give_feedback}}$</button>
   </small>
 
   <template v-for="s in sections">
