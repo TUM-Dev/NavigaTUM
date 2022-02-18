@@ -173,7 +173,7 @@
 <!--
 <div v-if="view_data.sections && view_data.sections.featured">
 <div class="columns" style="margin-top: 40px">
-    <div class="column"><h5>Featured</h5></div>
+    <div class="column"><h2>Featured</h2></div>
 </div>
 <div style="position: relative;overflow: hidden;white-space: nowrap;">
     <div style="position: absolute;height: 100%;display: flex;background: linear-gradient(-90deg, #fff0 0%, #fffd 100%);">
@@ -381,7 +381,7 @@
 
   <section id="entry-sources">
     <div class="columns">
-        <div class="column"><h5>${{_.view_view.sources.title}}$</h5></div>
+        <div class="column"><h2>${{_.view_view.sources.title}}$</h2></div>
     </div>
     <p v-if="">
       ${{_.view_view.sources.base.title}}$:
