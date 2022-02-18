@@ -52,7 +52,9 @@
           <div class="columns">
             <div class="column hide-lg">
               <router-link to="/">
-              <img id="logo" src="<!-- @echo app_prefix -->assets/logo2.min2.svg" alt="Logo" />  <!-- 7px for logo1 -->
+              <img alt="NavigaTUMs Logo"
+                   src="<!-- @echo app_prefix -->assets/logo2.min2.svg"
+                   id="logo"/>  <!-- 7px for logo1 -->
               </router-link>
             </div>
             <div class="column col-8 col-lg-11 col-mx-auto">
@@ -67,10 +69,12 @@
                          @focus="searchfocus"
                          @blur="searchblur"
                          @keydown="searchkeydown"
-                         autocomplete="off">
+                         autocomplete="off"
+                         aria-label="${{_.search.aria-searchlabel}}$">
                   <i class="form-icon icon icon-search"></i>
                   <button class="btn btn-primary input-group-btn btn-lg"
-                          @click="searchGo(false)">
+                          @click="searchGo(false)"
+                          aria-label="${{_.search.aria-actionlabel}}$">
                     ${{_.search.action}}$
                   </button>
                 </div>
@@ -102,8 +106,8 @@
                                <i v-else class="icon icon-location"></i>
                             </template>
                             <img v-else
-                                 class="avatar avatar-sm"
-                                 src="<!-- @echo app_prefix -->assets/thumb-building.png">
+                                 src="<!-- @echo app_prefix -->assets/thumb-building.png"
+                                 class="avatar avatar-sm">
                           </div>
                           <div class="tile-content">
                             <span class="tile-title">
@@ -291,7 +295,9 @@
             <div class="form-group">
               <label class="form-label" for="feedback-subject">${{_.feedback.subject}}$</label>
               <div class="input-group">
-                <select class="form-select" id="feedback-category">
+                <select class="form-select"
+                        aria-label="${{_.feedback.category}}$"
+                        id="feedback-category">
                   <option value="general">${{_.feedback.type.general}}$</option>
                   <option value="bug">${{_.feedback.type.bug}}$</option>
                   <option value="features">${{_.feedback.type.features}}$</option>
