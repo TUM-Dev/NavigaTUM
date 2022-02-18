@@ -224,11 +224,11 @@
 
                 <div class="column col-auto links">
                   <router-link to="/about/${{_.footer.about.link}}$">${{_.footer.about.text}}$</router-link><br>
-                  <a onclick="open_feedback()" class="c-hand">${{_.footer.feedback.text}}$</a><br>
+                  <button onclick="open_feedback()" class="btn btn-link"  aria-label="Open the feedback-form">${{_.footer.feedback.text}}$</button><br>
                   <router-link to="/about/${{_.footer.api.link}}$">${{_.footer.api.text}}$</router-link>
                 </div>
                 <div class="column col-auto links">
-                  <a href="https://github.com/TUM-Dev/navigatum" class="c-hand">${{_.footer.sourcecode.text}}$</a><br>
+                  <a href="https://github.com/TUM-Dev/navigatum">${{_.footer.sourcecode.text}}$</a><br>
                   <router-link to="/about/${{_.footer.privacy.link}}$">${{_.footer.privacy.text}}$</router-link><br>
                   <router-link to="/about/${{_.footer.imprint.link}}$">${{_.footer.imprint.text}}$</router-link>
                 </div>

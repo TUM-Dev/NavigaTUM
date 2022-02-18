@@ -254,8 +254,12 @@ footer {
         text-align: left;
         margin-right: 16px;
 
-        a, router-link {
+        a, router-link, button {
             font-size: 12px;
+        }
+
+        button {
+            padding: 0;
         }
     }
 
