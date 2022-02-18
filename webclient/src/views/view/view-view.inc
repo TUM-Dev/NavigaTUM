@@ -91,11 +91,14 @@
         </label>
         <div class="accordion-body" v-if="view_data.maps && view_data.maps.roomfinder">
           <ul class="menu menu-nav">
-            <li class="menu-item" v-for="(m, i) in view_data.maps.roomfinder.available">
-              <a v-on:click="loadRoomfinderMap(i, true)"
-                 v-bind:class="{selected: m.id==state.map.roomfinder.selected_id}">
+            <li class="menu-item"
+                v-for="(m, i) in view_data.maps.roomfinder.available">
+                <button class="btn btn-sm"
+                        v-bind:aria-label="`show the map '` + m.name + `' at the scale 1:` + m.scale"
+                        v-bind:class="{selected: m.id==state.map.roomfinder.selected_id}"
+                        v-on:click="loadRoomfinderMap(i, true)">
                 1:{{ m.scale }}, {{ m.name }}
-              </a>
+              </button>
             </li>
           </ul>
         </div>
