@@ -299,7 +299,7 @@
     </div>
 
     <div class="columns content">
-      <div class="column col-4 col-md-5 col-xs-12" id="rooms-overview-select">
+      <div class="column col-4 col-lg-5 col-md-6 col-sm-12" id="rooms-overview-select">
         <div class="panel">
           <div class="panel-header">
             <div class="panel-title h6">
@@ -342,7 +342,7 @@
           </div>
         </div>
       </div>
-      <div class="column col-8 col-md-7 col-xs-12 hide-l" id="rooms-overview-list">
+      <div class="column col-8 col-lg-7 col-md-6 col-sm-12 hide-l" id="rooms-overview-list">
         <div class="show-xs" style="height: 15px"></div>
         <div class="panel">
           <div class="panel-header">

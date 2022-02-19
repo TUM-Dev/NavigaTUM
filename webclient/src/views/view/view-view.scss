@@ -268,8 +268,8 @@
     }
 }
 
-// 'xs' (mobile)
-@media (max-width:480px) {
+// 'sm' (mobile)
+@media (max-width:600px) {
     #view-view {
         #rooms-overview-select .panel-body {
             max-height: 260px;
