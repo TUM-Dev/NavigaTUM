@@ -42,7 +42,9 @@ body {
         animation-fill-mode: both;
     }
 }
-
+.img-responsive {
+    background-color: $image-loading-bg;
+}
 @keyframes loading-in {
     from { opacity: 0 }
     to { opacity: 1 }
