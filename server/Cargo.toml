@@ -1,11 +1,11 @@
 [package]
-name = "navigatum-server"
+name = "server"
 version = "0.1.0"
 authors = ["Markus A <ge75sig@mytum.de>"]
 edition = "2018"
 
 [[bin]]
-name = "navigatum-server"
+name = "server"
 path = "src/main.rs"
 
 [dependencies]
