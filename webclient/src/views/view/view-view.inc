@@ -309,24 +309,28 @@
           <div class="panel-body">
             <ul class="menu">
               <li class="menu-item">
-                <a v-bind:class="{active: state.rooms_overview.selected === -1}"
+                <button class="btn"
+                        v-bind:class="{active: state.rooms_overview.selected === -1}"
                    v-on:click="updateRoomsOverview(-1)">
-                  <i class="icon icon-arrow-right"></i> ${{_.view_view.rooms_overview.any}}$
-                  <div class="menu-badge">
-                    <label class="label">{{ sections.rooms_overview.combined_count }}</label>
+                  <i class="icon icon-arrow-right"></i>
+                  <div class="menu-text">
+                    ${{_.view_view.rooms_overview.any}}$
                   </div>
-                </a>
+                  <label class="label">{{ sections.rooms_overview.combined_count }}</label>
+                </button>
               </li>
               <li class="divider" data-content=""></li>
               <li class="menu-item"
                   v-for="(u, i) in view_data.sections.rooms_overview.usages">
-                <a v-bind:class="{active: i == state.rooms_overview.selected}"
+                <button class="btn"
+                        v-bind:class="{active: i == state.rooms_overview.selected}"
                    v-on:click="updateRoomsOverview(i)">
-                  <i class="icon icon-arrow-right"></i> {{ u.name }}
-                  <div class="menu-badge">
-                    <label class="label">{{ u.count }}</label>
+                  <i class="icon icon-arrow-right"></i>
+                  <div class="menu-text">
+                    {{ u.name }}
                   </div>
-                </a>
+                  <label class="label">{{ u.count }}</label>
+                </button>
               </li>
             </ul>
           </div>

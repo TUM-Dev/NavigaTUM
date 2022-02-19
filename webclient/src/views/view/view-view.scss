@@ -120,13 +120,6 @@
             font-size: 12px;
         }
 
-        button {
-            width: 100%;
-            cursor: pointer;
-            text-align: left;
-            border: 0 transparent;
-        }
-
         .selected {
             background: $roomfinder-selected-bg;
         }
@@ -199,25 +192,54 @@
         }
     }
 
+    .menu {
+        padding: 0;
+        box-shadow: none;
+
+
+        .menu-item button {
+            text-align: left!important;
+            border: 0 transparent!important;
+            width: 100%;
+        }
+
+        .menu-item a,
+        .menu-item label,
+        .menu-item button {
+            cursor: pointer;
+            user-select: none;
+        }
+    }
+
     #rooms-overview {
+
+
+        .menu-item button  {
+            display:flex;
+            flex-direction:row;
+            box-sizing: border-box;
+            width: 100%;
+            .menu-text{
+                flex-grow: 1;
+                flex-shrink: 1;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .icon,label{
+                flex-grow: 0;
+                flex-shrink: 0;
+            }
+            .icon{
+                top: 5px;
+            }
+        }
+
         .panel-title {
             font-weight: bold;
         }
 
         .panel-body {
             padding-bottom: 4px;
-
-            .menu {
-                padding: 0;
-                box-shadow: none;
-
-                .menu-item a,
-                .menu-item label,
-                .menu-item button {
-                    cursor: pointer;
-                    user-select: none;
-                }
-            }
 
             .divider {
                 margin: 6px 0;
