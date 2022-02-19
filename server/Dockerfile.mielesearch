@@ -7,6 +7,6 @@ RUN apk add --no-cache jq
 ADD https://roomapi.tum.sexy/cdn/search_data.json search_data.json
 ADD https://roomapi.tum.sexy/cdn/search_synonyms.json search_synonyms.json
 
-# run configuration after 5 s, to be shure that the server properly initalised
+# run configuration after 10 s, to be sure that the server properly initialised
 EXPOSE 7700
-ENTRYPOINT (sleep 5 && /configure_MeileSearch.sh) & ./meilisearch
+ENTRYPOINT (sleep 10 && /configure_MeileSearch.sh) & ./meilisearch
