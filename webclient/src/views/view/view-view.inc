@@ -1,11 +1,10 @@
 <div id="view-view" v-if="view_data">
   <!-- Header image (on mobile) -->
-  <div class="show-xs header-image-mobile">
+  <div class="show-sm header-image-mobile">
     <img alt="Header-Image, showing the building"
          v-bind:src="'<!-- @echo cdn_prefix -->header-small/' + view_data.img.header_small.name"
          v-if="view_data.img && view_data.img.header_small"
-         class="img-responsive"
-         width="512" height="210" />
+         class="img-responsive"/>
   </div>
 
   <!-- Breadcrumbs -->
@@ -50,8 +49,8 @@
   <!-- First info section (map + infocard) -->
   <div class="columns">
     <!-- Map container -->
-    <div class="column col-7 col-xs-12" id="map-container">
-      <div class="show-xs">
+    <div class="column col-7 col-md-12" id="map-container">
+      <div class="show-sm">
         <div class="toast toast-warning"
              v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'">
           ${{_.view_view.msg.inaccurate_only_building}}$
@@ -120,7 +119,7 @@
     </div>
 
     <!-- Information section (on mobile) -->
-    <div class="column col-5 col-xs-12 show-xs mobile-info-section"
+    <div class="column col-5 col-sm-12 show-sm mobile-info-section"
          v-if="view_data.props && view_data.props.computed">
       <h2>Informationen</h2>
       <table class="info-table">
@@ -136,15 +135,14 @@
     <!-- Informationen card (desktop) -->
     <!-- Some elements are currently duplicate, which is not optimal but should be okay
          as long as only little information is there -->
-    <div class="column col-5 col-xs-12 hide-xs">
+    <div class="column col-5 col-md-12 hide-sm">
       <div class="card">
         <div class="card-image">
           <img alt="Header-Image, showing the building"
                v-bind:src="'<!-- @echo cdn_prefix -->header-small/' + view_data.img.header_small.name"
                v-if="view_data.img && view_data.img.header_small"
                class="img-responsive"
-               width="512"
-               height="210" />
+               width="100%"/>
         </div>
         <div class="card-header">
           <div class="card-title h5">${{_.view_view.info_title}}$</div>
@@ -244,7 +242,7 @@
       </div>-->
     </div>
     <div class="columns">
-      <div class="column col-4 col-sm-6 col-xs-12 content"
+      <div class="column col-4 col-md-12 content"
            v-for="(b, i) in view_data.sections.buildings_overview.entries"
            v-if="i < view_data.sections.buildings_overview.n_visible || state.buildings_overview.expanded">
         <router-link v-bind:to="'/view/' + b.id">
@@ -343,7 +341,7 @@
         </div>
       </div>
       <div class="column col-8 col-lg-7 col-md-6 col-sm-12 hide-l" id="rooms-overview-list">
-        <div class="show-xs" style="height: 15px"></div>
+        <div class="show-sm" style="height: 15px"></div>
         <div class="panel">
           <div class="panel-header">
             <div class="input-group">
