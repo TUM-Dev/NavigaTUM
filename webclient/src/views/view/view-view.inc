@@ -8,11 +8,18 @@
   </div>
 
   <!-- Breadcrumbs -->
-  <ul class="breadcrumb">
-    <li class="breadcrumb-item" v-for="(p, i) in view_data.parent_names">
-      <router-link v-bind="{'to': '/view/' + view_data.parents[i]}">{{ p }}</router-link>
+  <ol class="breadcrumb"
+      vocab="https://schema.org/" typeof="BreadcrumbList">
+    <li class="breadcrumb-item"
+        v-for="(p, i) in view_data.parent_names"
+        property="itemListElement" typeof="ListItem">
+      <router-link v-bind="{'to': '/view/' + view_data.parents[i]}"
+                   property="item" typeof="WebPage">
+        {{ p }}
+      </router-link>
+      <meta property="position" v-bind:content="i+1">
     </li>
-  </ul>
+  </ol>
 
   <!-- Entry header / title -->
   <div class="entry-header">
