@@ -5,8 +5,8 @@ set -e # fail on first error
 echo "----"
 echo "configure MeiliSearch"
 echo "----"
-export CURL_ERROR_ARGS=--connect-timeout 5 --max-time 10 --retry 10 --retry-delay 5 --retry-max-time 60 --retry-connrefused
-export CURL_COMMON_ARGS=$CURL_ERROR_ARGS --header 'content-type: application/json' -i
+export CURL_ERROR_ARGS="--connect-timeout 5 --max-time 10 --retry 10 --retry-delay 5 --retry-max-time 60 --retry-connrefused"
+export CURL_COMMON_ARGS="$CURL_ERROR_ARGS --header 'content-type: application/json' -i"
 
 echo
 echo "> Set primary-key"
