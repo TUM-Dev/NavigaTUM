@@ -211,7 +211,8 @@ The following sections are currently implemented:
 ```
 
 Example of how `parsed_id` might be displayed:  
-![example of displaying parsed_id](../resources/website-screenshots/example_parsed-id.png)
+![example of displaying parsed_id](../resources/website-screenshots/example_parsed-id_light.png#gh-light-mode-only)
+![example of displaying parsed_id](../resources/website-screenshots/example_parsed-id_dark.png#gh-dark-mode-only)
 
 **Buildings / Sites:**
 

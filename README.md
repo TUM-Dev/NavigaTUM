@@ -14,15 +14,12 @@ All functionality is also available via an API.
 
 ## Screenshots
 
-<img alt="Screenshot of the main-index of the website"
-     src="./resources/website-screenshots/main-index.png"
-     width="75%"/>  
-<img alt="Screenshot of a building including an internal map"
-     src="./resources/website-screenshots/building-with-internal-map.png"
-     width="75%"/>  
-<img alt="Screenshot of the search-page"
-     src="./resources/website-screenshots/example-search.png"
-     width="75%"/>  
+<img alt="Screenshot of the main-index of the website" src="./resources/website-screenshots/main-index_light.png#gh-light-mode-only" width="75%"/>
+<img alt="Screenshot of the main-index of the website" src="./resources/website-screenshots/main-index_dark.png#gh-dark-mode-only" width="75%"/> 
+<img alt="Screenshot of a building including an internal map" src="./resources/website-screenshots/building-with-internal-map_light.png#gh-light-mode-only" width="75%"/>
+<img alt="Screenshot of a building including an internal map" src="./resources/website-screenshots/building-with-internal-map_dark.png#gh-dark-mode-only" width="75%"/> 
+<img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_light.png#gh-light-mode-only" width="75%"/>
+<img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_dark.png#gh-dark-mode-only" width="75%"/> 
 
 ## Getting started
 
