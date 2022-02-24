@@ -21,7 +21,7 @@
               </template>
               <img v-else
                   class="avatar avatar-sm"
-                  src="<!-- @echo app_prefix -->assets/thumb-building.png">
+                  src="<!-- @echo app_prefix -->assets/thumb-building.webp">
             </div>
             <div class="tile-content">
               <div class="tile-title">
