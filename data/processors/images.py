@@ -3,6 +3,7 @@ import itertools
 
 import yaml
 
+from data.external.downloader import convert_to_webp
 
 KNOWN_LICENSE_URLS = {
     "CC0": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
@@ -23,37 +24,39 @@ def add_img(data, path_prefix):
     """
     with open(os.path.join(path_prefix, "img-sources.yaml")) as f:
         img_sources = yaml.safe_load(f.read())
-    
+
     files = {
-        "large":        os.listdir(os.path.join(path_prefix, "large")),
+        "large": os.listdir(os.path.join(path_prefix, "large")),
         "header-small": os.listdir(os.path.join(path_prefix, "header-small")),
-        "thumb":        os.listdir(os.path.join(path_prefix, "thumb")),
+        "thumb": os.listdir(os.path.join(path_prefix, "thumb")),
     }
-    
+
     # Check that all images have source information (to make sure it was not forgot)
     merged_filelist = list(itertools.chain(*files.values()))
     for f in merged_filelist:
-        parts = f.lower().replace(".jpg", "").split("_")
+        if ".webp" not in f:
+            f = convert_to_webp(f)
+        parts = f.lower().replace(".webp", "").split("_")
         try:
             _id = parts[0]
             _index = int(parts[1])
         except:
             print(f"Error: failed to parse image file name '{f}'")
             exit(1)
-        
+
         if _id not in img_sources or _index not in img_sources[_id]:
             print(f"Warning: No source information for image '{f}', it will not be used")
-    
+
     for _id, _source_data in img_sources.items():
         if _id not in data:
             print(f"Warning: There are images for '{_id}', but it was not found in the provided data, ignoring")
             continue
-        
+
         matching_images = {
             subdir: list(filter(lambda f: f.startswith(_id), filelist))
             for subdir, filelist in files.items()
         }
-        
+
         img_data = {}
         if len(matching_images["thumb"]) > 0:
             img_data["thumb"] = matching_images["thumb"][0]
@@ -63,22 +66,23 @@ def add_img(data, path_prefix):
             img_data["large"] = [
                 _add_source_info(f, _source_data) for f in matching_images["large"]
             ]
-        
+
         data[_id]["img"] = img_data
 
 
-
 def _add_source_info(fname, source_data):
-    parts = fname.lower().replace(".jpg", "").split("_")
+    if ".webp" not in fname:
+        fname = convert_to_webp(fname)
+    parts = fname.lower().replace(".webp", "").split("_")
     _id = parts[0]
     _index = int(parts[1])
-    
+
     def _parse(obj):
         if type(obj) is str:
             return {"text": obj, "url": None}
         else:
             return obj
-    
+
     img_data = {
         "name": fname,
         "author": _parse(source_data[_index]["author"])
@@ -91,7 +95,7 @@ def _add_source_info(fname, source_data):
             img_data["license"]["url"] = KNOWN_LICENSE_URLS[img_data["license"]["text"]]
         else:
             print(f"Warning: Unknown license url for '{img_data['license']['text']}'")
-    
+
     return img_data
 
 
