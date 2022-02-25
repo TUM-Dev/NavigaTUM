@@ -253,27 +253,31 @@ footer {
 
     text-align: center;
 
+    li {
+        list-style: none;
+    }
+
     .links {
         text-align: left;
-        margin-right: 16px;
 
         a, router-link, button {
-            font-size: 12px;
+            font-size: .8rem;
         }
 
         button {
+            height: auto;
             padding: 0;
         }
     }
 
     .settings {
-        .columns {
-            margin-top: 8px;
-            min-width: 180px;  // IE bug
+        margin: .8rem .8rem .8rem -.8rem;
+        .container > .columns > .column {
+            margin-top: calc(0.4rem - 1px);
         }
 
         .btn-group {
-            min-width: 100px;
+            min-width: 110px;
 
             .btn {
                 border-color: transparent;
