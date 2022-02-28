@@ -9,7 +9,7 @@ name = "server"
 path = "src/main.rs"
 
 [dependencies]
-actix-web = { version = "3", features = ["rustls"] }
+actix-web = { version = "4", features = ["rustls"] }
 lazy_static = "1.4.0"
 serde = { version = "1.0.127", features = ["derive"] }
 serde_json = "1.0.64"
