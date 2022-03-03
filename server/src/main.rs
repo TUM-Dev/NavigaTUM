@@ -38,7 +38,8 @@ lazy_static! {
 }
 
 #[get("/api/get/{id}")]
-async fn get_handler(web::Path(id): web::Path<String>) -> Result<HttpResponse> {
+async fn get_handler(params: web::Path<String>) -> Result<HttpResponse> {
+    let id = params.into_inner();
     if JSON_DATA.contains_key(&id) {
         Ok(HttpResponse::Ok().json(JSON_DATA.get(&id).unwrap()))
     } else {
@@ -49,14 +50,15 @@ async fn get_handler(web::Path(id): web::Path<String>) -> Result<HttpResponse> {
 #[get("/api/search/{q}")]
 async fn search_handler(
     _req: HttpRequest,
-    web::Path(q): web::Path<String>,
+    params: web::Path<String>,
     web::Query(args): web::Query<search::SearchQueryArgs>,
 ) -> Result<HttpResponse> {
+    let q = params.into_inner();
     let search_results = search::do_search(q, args).await?;
     let result_json = serde_json::to_string(&search_results)?;
 
     Ok(HttpResponse::Ok()
-        .header(http::header::CONTENT_TYPE, "application/json")
+        .insert_header((http::header::CONTENT_TYPE, "application/json"))
         .body(result_json))
 }
 
