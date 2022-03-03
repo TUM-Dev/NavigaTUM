@@ -1,5 +1,5 @@
-use actix_web::client::Client;
 use actix_web::{post, web, HttpResponse};
+use awc::Client;
 use serde::{Deserialize, Serialize};
 use std::sync::Mutex;
 use std::time::Instant;
