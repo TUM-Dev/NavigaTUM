@@ -8,6 +8,9 @@ edition = "2018"
 name = "server"
 path = "src/main.rs"
 
+[profile.release]
+strip = true
+
 [dependencies]
 actix-web = { version = "3", features = ["rustls"] }
 lazy_static = "1.4.0"
