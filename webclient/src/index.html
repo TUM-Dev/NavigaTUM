@@ -49,9 +49,9 @@
     </script>
 
     <!-- JS resources specified here are executed in order by "defer" -->
-    <!-- The app-core-for-view-*.js might fetch/update content before any data is
-         even displayed.
-         It might be inlined in the future. Might depend on the view. -->
+    <script defer src="<!-- @echo app_prefix -->js/polyfills<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
+    <!-- The app-core-for-view-*.js might fetch/update content before any data is even displayed.
+    It might be inlined in the future. Might depend on the view. -->
     <script defer src="<!-- @echo app_prefix -->js/app-core-for-view-<!-- @echo view -->-${{ _lang_ }}$<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
     <!-- vue.js is not inlined because it should be cached. The init call is appended to it. -->
     <script defer src="<!-- @echo app_prefix -->js/vue<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
