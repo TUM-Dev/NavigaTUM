@@ -363,6 +363,15 @@ gulp.task('pages_out', function(done) {
 // --- Legacy JS Pipeline ---
 function extract_polyfills() {
     return gulp.src(['src/legacy.js', 'build/js/app-core.js', 'build/js/app-rest.js'])
+        .pipe(preprocess({
+             context: {
+                 app_prefix: config.app_prefix,
+                 cdn_prefix: config.cdn_prefix,
+                 api_prefix: config.api_prefix,
+                 target: config.target
+             },
+             includeBase: 'src/js'
+         }))
                .pipe(concat('tmp-merged.js'))
                .pipe(babel({
                     presets: [[
@@ -375,8 +384,6 @@ function extract_polyfills() {
                     ]],
                     sourceType: "module"
                 }))
-               .pipe(splitFiles())
-               .pipe(first())
                // Add custom polyfills for missing browser (not ES) features
                .pipe(addsrc('node_modules/whatwg-fetch/dist/fetch.umd.js'))
                .pipe(concat('polyfills.js'))
@@ -384,10 +391,18 @@ function extract_polyfills() {
 }
 
 function insert_polyfills() {
+    let target_filename
+    if (config.target === "release")
+        target_filename =`polyfills.min.js`
+    else
+        target_filename=`polyfills.js`
+
     var bundleStream = browserify('./build/tmp/polyfills.js').bundle()
 
     return bundleStream
         .pipe(source('polyfills.js'))
+        .pipe(gulpif(config.target === "release", htmlmin(htmlmin_options)))
+        .pipe(rename(target_filename))
         .pipe(gulp.dest('build/js'))
 }
 
