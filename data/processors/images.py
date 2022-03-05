@@ -3,7 +3,7 @@ import itertools
 
 import yaml
 
-from data.external.downloader import convert_to_webp
+from utils import convert_to_webp
 
 KNOWN_LICENSE_URLS = {
     "CC0": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",

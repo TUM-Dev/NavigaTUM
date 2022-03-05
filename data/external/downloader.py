@@ -1,21 +1,19 @@
 # This script takes care of downloading data from the Roomfinder and TUMOnline
 # and caching the results
-import os
 import json
-import time
+import os
 import random
-import urllib
-import zipfile
 import string
-from PIL import Image
-
-import xmlrpc.client
+import time
+import urllib
 import xml.etree.ElementTree as ET
-from pathlib import Path
+import xmlrpc.client
+import zipfile
 
-from bs4 import BeautifulSoup, element
 import requests
+from bs4 import BeautifulSoup, element
 
+from utils import convert_to_webp
 
 roomfinder_api_url = "http://roomfinder.ze.tum.de:8192/"
 
@@ -141,23 +139,6 @@ def _guess_queries(rooms, n_rooms):
             yield c
         else:
             return
-
-
-def convert_to_webp(source: str):
-    """Convert image to WebP.
-
-    Args:
-        source (pathlib.Path): Path to source image
-
-    Returns:
-        pathlib.Path: path to new image
-    """
-    destination = Path(source).with_suffix(".webp")
-
-    image = Image.open(source)
-    image.save(destination, format="webp")
-    os.remove(source)
-    return str(destination)
 
 
 def roomfinder_maps():
