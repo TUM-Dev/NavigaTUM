@@ -7,8 +7,6 @@ if (typeof String.prototype.startsWith === 'undefined') {
   };
 }
 
-/*split*/
-
 // polyfill webp support
 const webpTestImages = [
     "UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA", // lossy
@@ -42,3 +40,6 @@ function ensure_webp_polyfilled() {
         head.appendChild(webp_js);
     }
 }
+
+/*split*/
+// This comment is here to separate these polyfills and the ones provided by babel from the rest of the code concatenated to this file to make babel work

@@ -390,6 +390,8 @@ function extract_polyfills() {
               ]],
               sourceType: "module"
           }))
+         .pipe(splitFiles())
+         .pipe(first())
          // Add custom polyfills for missing browser (not ES) features
          .pipe(addsrc('node_modules/whatwg-fetch/dist/fetch.umd.js'))
          .pipe(concat('polyfills.js'))
