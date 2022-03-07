@@ -382,7 +382,6 @@ var navigatum = (function () {
                 }
             }
         },
-        
         setTitle: function(name) {
             document.title = name + " – NavigaTUM";
         },

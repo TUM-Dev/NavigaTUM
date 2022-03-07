@@ -103,8 +103,8 @@ navigatum.registerView('view', {
         // This is called
         // - on initial page load
         // - when the view is loaded for the first time
-        // - when the view is naviated to from a different view
-        // - when the view is naviated to from the same view, but with a different entry
+        // - when the view is navigated to from a different view
+        // - when the view is navigated to from the same view, but with a different entry
         loadEntryData: function (data) {
             this.view_data = data;
             if (data === null)
