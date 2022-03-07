@@ -13,7 +13,13 @@ search:
   approx: {de: "ca.", en: "approx."}
   sections:
     buildings: {de: "Gebäude / Standorte", en: "Buildings / Sites"}
+    of_which_visible: {de: "davon sichtbar", en: "of them visible"}
     rooms: {de: "Räume", en: "Rooms"}
+    and: {de: "und", en: "and"}
+    were_found: {de: "wurden gefunden.", en: "were found."}
+    no_buildings_rooms_found:
+      de: "Keine Gebäude / Standorte oder Räume konnten gefunden werden."
+      en: "No buildings / locations or rooms could be found."
 footer:
   sourcecode:
     text: {de: "Source Code", en: "Source Code"}
