@@ -48,3 +48,28 @@ spec:
                           port: navigatum-web
                       failureThreshold: 60
                       periodSeconds: 1
+                - name: rendertron
+                  image: dockette/rendertron
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 3000
+                        name: rendertron
+                  resources:
+                    requests:
+                      cpu: 50m
+                      memory: 200Mi
+                    limits:
+                      cpu: 500m
+                      memory: 500Mi
+                  livenessProbe:
+                      httpGet:
+                          path: /
+                          port: rendertron
+                      failureThreshold: 3
+                      periodSeconds: 5
+                  startupProbe:
+                      httpGet:
+                          path: /
+                          port: rendertron
+                      failureThreshold: 20
+                      periodSeconds: 1
