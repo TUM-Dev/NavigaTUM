@@ -197,8 +197,6 @@
     .menu {
         padding: 0;
         box-shadow: none;
-
-
         .menu-item button {
             text-align: left!important;
             border: 0 transparent!important;
@@ -214,8 +212,13 @@
     }
 
     #rooms-overview {
-
-
+        #rooms-overview-select .menu-item {
+            padding: 0;
+            
+            & .icon-arrow-right {
+                margin-right: 4px;
+            }
+        }
         .menu-item button  {
             display:flex;
             flex-direction:row;
