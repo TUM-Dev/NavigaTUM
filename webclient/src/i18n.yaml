@@ -31,7 +31,7 @@ footer:
     link: {de: "impressum", en: "impressum"}
   about:
     text: {de: "Über uns", en: "About us"}
-    link: {de: "ueber-us", en: "about-us"}
+    link: {de: "ueber-uns", en: "about-us"}
   feedback:
     text: {de: "Feedback senden", en: "Feedback"}
   api:
