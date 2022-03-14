@@ -1,4 +1,4 @@
-FROM getmeili/meilisearch:v0.25.2
+FROM getmeili/meilisearch:v0.26.0
 
 COPY ./configure_MeileSearch.sh /configure_MeileSearch.sh
 RUN apk add --no-cache jq
