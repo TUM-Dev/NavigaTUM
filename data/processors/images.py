@@ -1,5 +1,6 @@
 import os
 import itertools
+from pathlib import Path
 
 import yaml
 
@@ -25,6 +26,8 @@ def add_img(data, path_prefix):
     with open(os.path.join(path_prefix, "img-sources.yaml")) as f:
         img_sources = yaml.safe_load(f.read())
 
+    convert_to_webp(Path(path_prefix))
+
     files = {
         "large": os.listdir(os.path.join(path_prefix, "large")),
         "header-small": os.listdir(os.path.join(path_prefix, "header-small")),
@@ -35,7 +38,7 @@ def add_img(data, path_prefix):
     merged_filelist = list(itertools.chain(*files.values()))
     for f in merged_filelist:
         if ".webp" not in f:
-            f = convert_to_webp(f)
+            raise RuntimeError(f"Missing webp for '{f}'")
         parts = f.lower().replace(".webp", "").split("_")
         try:
             _id = parts[0]
@@ -72,7 +75,7 @@ def add_img(data, path_prefix):
 
 def _add_source_info(fname, source_data):
     if ".webp" not in fname:
-        fname = convert_to_webp(fname)
+        fname = convert_to_webp(Path(fname))
     parts = fname.lower().replace(".webp", "").split("_")
     _id = parts[0]
     _index = int(parts[1])
