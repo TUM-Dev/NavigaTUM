@@ -26,6 +26,11 @@
                         color: $primary-color;
                     }
                 }
+
+                button {
+                    margin-top: -7px;
+                    margin-bottom: -7px;
+                }
             }
 
             a.btn {
@@ -53,7 +58,7 @@
 
             .tile-icon {
                 color: $body-font-color;
-                margin-top: -3px;
+                margin-top: -4px;
             }
 
             .tile-title {

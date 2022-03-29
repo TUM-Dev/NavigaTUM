@@ -236,45 +236,61 @@
       <footer>
         <div class="container grid-lg">
           <div class="columns">
-            <div class="column col-6 col-lg-8 col-md-12 links">
+            <div class="column col-lg-11 col-mx-auto">
               <div class="columns">
-                <ul class="column">
-                  <li>
-                    <a href="https://github.com/TUM-Dev/navigatum">${{_.footer.sourcecode.text}}$</a>
-                  </li>
-                  <li>
-                    <router-link to="/about/${{_.footer.api.link}}$">${{_.footer.api.text}}$</router-link>
-                  </li>
-                </ul>
-                <ul class="column">
-                  <li>
-                    <router-link to="/about/${{_.footer.about.link}}$">${{_.footer.about.text}}$</router-link>
-                  </li>
-                  <li>
-                    <button onclick="open_feedback()" class="btn btn-link" aria-label="Open the feedback-form">${{_.footer.feedback.text}}$</button>
-                  </li>
-                </ul>
-                <ul class="column">
-                  <li>
-                    <router-link to="/about/${{_.footer.privacy.link}}$">${{_.footer.privacy.text}}$</router-link>
-                  </li>
-                  <li>
-                    <router-link to="/about/${{_.footer.imprint.link}}$">${{_.footer.imprint.text}}$</router-link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="column col-3 hide-lg"></div>
-            <div class="column col-3 col-lg-4 col-md-12 settings">
-              <div class="container">
-                <div class="columns">
-                  <div class="column col-12 col-md-6 col-xs-12">
-                    <div class="columns">
-                      <div class="column col-ml-auto">
-                        <div class="columns">
-                          <div class="column col-mx-auto"></div>
-                          <label class="column col-auto" for="setting-theme"><small>${{_.footer.theme}}$</small></label>
-                          <div class="column col-auto btn-group btn-group-block mx-1" id="setting-theme">
+                <div class="column col-auto col-xs-12 links">
+                  <div class="columns">
+                    <ul class="column col-auto">
+                      <li>
+                        <a href="https://github.com/TUM-Dev/navigatum">${{_.footer.sourcecode.text}}$</a>
+                      </li>
+                      <li>
+                        <router-link to="/about/${{_.footer.api.link}}$">${{_.footer.api.text}}$</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/about/${{_.footer.about.link}}$">${{_.footer.about.text}}$</router-link>
+                      </li>
+                    </ul>
+                    <ul class="column">
+                      <li>
+                        <button onclick="open_feedback()" class="btn btn-link" aria-label="Open the feedback-form">${{_.footer.feedback.text}}$</button>
+                      </li>
+                      <li>
+                        <router-link to="/about/${{_.footer.privacy.link}}$">${{_.footer.privacy.text}}$</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/about/${{_.footer.imprint.link}}$">${{_.footer.imprint.text}}$</router-link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="column col-auto col-ml-auto col-xs-12 settings">
+                  <div class="show-xs divider" style="height: 20px;"></div>
+                  <div class="columns">
+                    <div class="column col-12 col-xs-8 col-mx-auto">
+                      <div class="columns setting-group">
+                        <div class="column col">
+                          <label for="setting-lang"><small>${{_.footer.language}}$</small></label>
+                        </div>
+                        <div class="column col-auto">
+                          <div class="btn-group btn-group-block" id="setting-lang">
+                            <!-- @if "${{_lang_}}$"="de" -->
+                            <button class="btn btn-sm active" disabled>DE</button>
+                            <button class="btn btn-sm" @click="setLang('en')">EN</button>
+                            <!-- @endif -->
+                            <!-- @if "${{_lang_}}$"="en" -->
+                            <button class="btn btn-sm" @click="setLang('de')">DE</button>
+                            <button class="btn btn-sm active" disabled>EN</button>
+                            <!-- @endif -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="columns setting-group">
+                        <div class="column col">
+                          <label for="setting-theme"><small>${{_.footer.theme}}$</small></label>
+                        </div>
+                        <div class="column col-auto">
+                          <div class="btn-group btn-group-block" id="setting-theme">
                             <!-- @if theme="light" -->
                             <button class="btn btn-sm active" disabled>${{_.footer.theme_light}}$</button>
                             <button class="btn btn-sm" @click="setTheme('dark')">${{_.footer.theme_dark}}$</button>
@@ -284,26 +300,8 @@
                             <button class="btn btn-sm active" disabled>${{_.footer.theme_dark}}$</button>
                             <!-- @endif -->
                           </div>
-                          <div class="column col-mx-auto show-md"></div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="column col-12 col-md-6 col-xs-12">
-                    <div class="columns">
-                      <div class="column col-mx-auto"></div>
-                      <label class="column col-auto" for="setting-lang"><small>${{_.footer.language}}$</small></label>
-                      <div class="column col-auto btn-group btn-group-block mx-1" id="setting-lang">
-                        <!-- @if "${{_lang_}}$"="de" -->
-                        <button class="btn btn-sm active" disabled>DE</button>
-                        <button class="btn btn-sm" @click="setLang('en')">EN</button>
-                        <!-- @endif -->
-                        <!-- @if "${{_lang_}}$"="en" -->
-                        <button class="btn btn-sm" @click="setLang('de')">DE</button>
-                        <button class="btn btn-sm active" disabled>EN</button>
-                        <!-- @endif -->
-                      </div>
-                      <div class="column col-mx-auto show-md"></div>
                     </div>
                   </div>
                 </div>
