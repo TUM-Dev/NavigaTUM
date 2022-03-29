@@ -1,6 +1,18 @@
-FROM rust:1.58 AS build
-WORKDIR /navigatum-server
-COPY . .
+FROM rust:1.59.0
+
+# Create a new empty shell project
+RUN USER=root cargo new --bin server
+WORKDIR /server
+
+# Copy our manifests
+COPY ./Cargo.* ./
+
+# Build only the dependencies to cache them
+RUN cargo build --release
+RUN rm src/*.rs
+
+# gather final dependencys
+COPY ./src ./src
 ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 # get api_data.json
@@ -9,6 +21,10 @@ ADD https://roomapi.tum.sexy/cdn/api_data.json data/api_data.json
 # follow the data-docs to get api_data.json, copy it to the directory server/data and enable
 # COPY data/api_data.json data/api_data.json
 
+# Build for release.
+RUN rm ./target/release/deps/server*
+RUN cargo install --path .
+
 EXPOSE 8080
 HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8080/health || exit 1
-CMD cargo run --release
+CMD ["server"]
