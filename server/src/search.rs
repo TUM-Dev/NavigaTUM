@@ -2,7 +2,7 @@ use futures::join;
 use std::collections::HashMap;
 use std::time::Instant;
 
-use actix_web::client::{Client, ClientBuilder, Connector};
+use awc::{Client, ClientBuilder, Connector};
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
 
@@ -129,9 +129,7 @@ pub async fn do_search(q: String, args: SearchQueryArgs) -> Result<SearchResults
 
     let parsed = parse_input_query(&q);
 
-    let client = ClientBuilder::new()
-        .connector(Connector::new().finish())
-        .finish();
+    let client = ClientBuilder::new().connector(Connector::new()).finish();
 
     let results_sections = do_geoentry_search(client, &parsed.tokens, args).await;
 

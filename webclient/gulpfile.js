@@ -477,7 +477,7 @@ function copy_map_css() {
         target_filename=`mapbox.css`
     return gulp.src(['node_modules/mapbox-gl/dist/mapbox-gl.css'])
                .pipe(concat(target_filename))
-               .pipe(gulpif(config.target === "release", htmlmin(htmlmin_options)))
+               .pipe(gulpif(config.target === "release", csso()))
                .pipe(gulp.dest('build/css'))
 }
 function copy_map_js() {
@@ -488,7 +488,7 @@ function copy_map_js() {
         target_filename=`mapbox.js`
     return gulp.src(['node_modules/mapbox-gl/dist/mapbox-gl.js'])
                .pipe(concat(target_filename))
-               .pipe(gulpif(config.target === "release", htmlmin(htmlmin_options)))
+               .pipe(gulpif(config.target === "release", uglify()))
                .pipe(gulp.dest('build/js'))
 }
 gulp.task('map', gulp.parallel(copy_map_css, copy_map_js));
