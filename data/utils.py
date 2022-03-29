@@ -4,7 +4,7 @@ from pathlib import Path
 from PIL import Image
 
 
-def convert_to_webp(source: str):
+def convert_to_webp(source: Path):
     """Convert image to WebP.
 
     Args:

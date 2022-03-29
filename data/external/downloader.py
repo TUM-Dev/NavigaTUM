@@ -9,6 +9,7 @@ import urllib
 import xml.etree.ElementTree as ET
 import xmlrpc.client
 import zipfile
+from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup, element
@@ -177,7 +178,7 @@ def roomfinder_maps():
         url = f"http://roomfinder.ze.tum.de:8192/getMapImage?m_id={m[1]}"
         filepath = f"maps/roomfinder/webp/{m[1]}.gif"
         _download_file(url, filepath)
-        convert_to_webp(filepath)
+        convert_to_webp(Path(filepath))
 
         map_data = {
             "id": m[1],
