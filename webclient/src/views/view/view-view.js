@@ -103,8 +103,8 @@ navigatum.registerView('view', {
         // This is called
         // - on initial page load
         // - when the view is loaded for the first time
-        // - when the view is naviated to from a different view
-        // - when the view is naviated to from the same view, but with a different entry
+        // - when the view is navigated to from a different view
+        // - when the view is navigated to from the same view, but with a different entry
         loadEntryData: function (data) {
             this.view_data = data;
             if (data === null)
@@ -135,6 +135,7 @@ navigatum.registerView('view', {
 
             // --- Additional data ---
             navigatum.setTitle(data.name);
+            navigatum.setDescription(this.genDescription(data));
 
             // --- Sections ---
             if (this.view_data.sections && this.view_data.sections.rooms_overview) {
@@ -147,6 +148,17 @@ navigatum.registerView('view', {
                 this.sections.rooms_overview.combined_count = combined_list.length;
                 this.updateRoomsOverview();
             }
+        },
+        genDescription: function(data) {
+            const details_for="${{_.view_view.meta.details_for}}$";
+            let description=`${details_for} ${data.type_common_name} ${data.name}`;
+            if (data.props.computed){
+                description+=":"
+                for (const prop of data.props.computed){
+                    description+=`\n- ${prop.name}: ${prop.text}`;
+                }
+            }
+            return description;
         },
         // --- Loading components ---
         // When these methods are called, the view has already been mounted,

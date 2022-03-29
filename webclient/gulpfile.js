@@ -361,37 +361,60 @@ gulp.task('pages_out', function(done) {
 
 
 // --- Legacy JS Pipeline ---
+function build_webp_polyfills() {
+    return gulp.src(['node_modules/webp-hero/dist-cjs/polyfills.js', 'node_modules/webp-hero/dist-cjs/webp-hero.bundle.js'])
+               .pipe(concat('webp-hero.min.js'))
+               .pipe(gulp.dest('build/js'))
+}
+
 function extract_polyfills() {
     return gulp.src(['src/legacy.js', 'build/js/app-core.js', 'build/js/app-rest.js'])
-               .pipe(concat('tmp-merged.js'))
-               .pipe(babel({
-                    presets: [[
-                        "@babel/preset-env",
-                        {
-                            targets: babel_targets,
-                            "useBuiltIns": "usage",
-                            "corejs": "3.8"
-                        }
-                    ]],
-                    sourceType: "module"
-                }))
-               .pipe(splitFiles())
-               .pipe(first())
-               // Add custom polyfills for missing browser (not ES) features
-               .pipe(addsrc('node_modules/whatwg-fetch/dist/fetch.umd.js'))
-               .pipe(concat('polyfills.js'))
-               .pipe(gulp.dest('build/tmp'));
+        .pipe(preprocess({
+             context: {
+                 app_prefix: config.app_prefix,
+                 cdn_prefix: config.cdn_prefix,
+                 api_prefix: config.api_prefix,
+                 target: config.target
+             },
+             includeBase: 'src/js'
+         }))
+         .pipe(concat('tmp-merged.js'))
+         .pipe(babel({
+              presets: [[
+                  "@babel/preset-env",
+                  {
+                      targets: babel_targets,
+                      "useBuiltIns": "usage",
+                      "corejs": "3.8"
+                  }
+              ]],
+              sourceType: "module"
+          }))
+         .pipe(splitFiles())
+         .pipe(first())
+         // Add custom polyfills for missing browser (not ES) features
+         .pipe(addsrc('node_modules/whatwg-fetch/dist/fetch.umd.js'))
+         .pipe(concat('polyfills.js'))
+         .pipe(gulp.dest('build/tmp'));
 }
 
 function insert_polyfills() {
+    let target_filename
+    if (config.target === "release")
+        target_filename =`polyfills.min.js`
+    else
+        target_filename=`polyfills.js`
+
     var bundleStream = browserify('./build/tmp/polyfills.js').bundle()
 
     return bundleStream
         .pipe(source('polyfills.js'))
+        .pipe(gulpif(config.target === "release", htmlmin(htmlmin_options)))
+        .pipe(rename(target_filename))
         .pipe(gulp.dest('build/js'))
 }
 
-gulp.task('legacy_js', gulp.series(extract_polyfills, insert_polyfills));
+gulp.task('legacy_js', gulp.parallel(build_webp_polyfills, gulp.series(extract_polyfills, insert_polyfills)));
 
 // --- I18n Pipeline ---
 function i18n_compile_langfiles() {

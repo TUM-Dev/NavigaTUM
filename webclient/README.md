@@ -19,13 +19,13 @@ sudo npm install -g yarn gulp
 The frontend uses images and maps from the data, that are intended to be served
 statically via a CDN and not provided by the API.
 
-For a local environment, create a `cdn/` subdirectory and copy the relevant files
+For a local environment, create a `cdn/` subdirectory in `weblclient/` and copy the relevant files
 into it:
 ```bash
 mkdir cdn
 rsync -r --exclude '*.yaml' ../data/sources/img/ cdn/
-mkdir -p cdn/maps/roomfinder/gif
-cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder/gif/
+mkdir -p cdn/maps/roomfinder/webp
+cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder/webp/
 ```
 
 ### Building
