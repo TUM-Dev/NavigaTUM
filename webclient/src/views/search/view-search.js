@@ -36,12 +36,39 @@ navigatum.registerView('search', {
     beforeRouteEnter: function(to, from, next) { searchNavigateTo(to, from, next, null) },
     beforeRouteUpdate: function(to, from, next) { searchNavigateTo(to, from, next, this) },
     methods: {
+        genDescription: function (data) {
+          let sections_descr=""
+            let found_total=0
+            for (const section of data.sections){
+                if (section.nb_hits) {
+                    let facet_str
+                    if (section.facet === "sites_buildings") {
+                        facet_str="${{ _.search.sections.buildings }}$"
+                        if (section.nb_hits!==section.n_visible) {
+                            const visible_str = "${{ _.search.sections.of_which_visible }}$"
+                            facet_str = `(${section.n_visible} ${visible_str}) ${facet_str}`
+                        }
+                    }
+                    else
+                        facet_str="${{ _.search.sections.rooms }}$"
+                    if (found_total>0)
+                        sections_descr+=" ${{ _.search.sections.and }}$ "
+                    sections_descr+= `${section.nb_hits} ${facet_str}`
+                }
+                found_total+=section.nb_hits
+            }
+            if (found_total===0)
+                sections_descr = "${{ _.search.sections.no_buildings_rooms_found }}$"
+            else
+                sections_descr += " ${{ _.search.sections.were_found }}$"
+            return sections_descr
+        },
         loadSearchData: function(query, data) {
             this.search_data = data;
             this.query = query;
             navigatum.app.search.query = query;
             navigatum.setTitle('${{ _.view_search.search_for }}$ "' + query + '"');
-            
+            navigatum.setDescription(this.genDescription(data));
             // Currently borrowing this functionality from autocomplete.
             // In the future it is planned that this search results page
             // has a different format.

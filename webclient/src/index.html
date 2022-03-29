@@ -1,9 +1,27 @@
 <!DOCTYPE html>
-<html lang="${{_lang_}}$">
+<html lang="${{_lang_}}$" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="${{_.meta.description}}$">
+    <meta name="author" content="@octycs and @CommanderStorm">
+    <meta name="copyright" content="GNU General Public License v3.0. Images may be licensed differently.">
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="safe for kids">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="NavigaTUM" />
+    <meta property="og:url" content="https://roomapi.tum.sexy">
+    <meta property="og:description" content="${{_.meta.description}}$" />
+    <meta property="og:image" content="<!-- @echo app_prefix -->assets/logo-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:mime" content="image/png" />
+    <meta property="og:site_name" content="NavigaTUM" />
+
     <meta name="from-view" content="<!-- @echo view -->">
     <!-- @if view="main" -->
     <!-- For some reason currently only works with Chrome -->
@@ -32,9 +50,9 @@
     </script>
 
     <!-- JS resources specified here are executed in order by "defer" -->
-    <!-- The app-core-for-view-*.js might fetch/update content before any data is
-         even displayed.
-         It might be inlined in the future. Might depend on the view. -->
+    <script defer src="<!-- @echo app_prefix -->js/polyfills<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
+    <!-- The app-core-for-view-*.js might fetch/update content before any data is even displayed.
+    It might be inlined in the future. Might depend on the view. -->
     <script defer src="<!-- @echo app_prefix -->js/app-core-for-view-<!-- @echo view -->-${{ _lang_ }}$<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
     <!-- vue.js is not inlined because it should be cached. The init call is appended to it. -->
     <script defer src="<!-- @echo app_prefix -->js/vue<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
@@ -52,7 +70,9 @@
           <div class="columns">
             <div class="column hide-lg">
               <router-link to="/">
-              <img id="logo" src="<!-- @echo app_prefix -->assets/logo2.min2.svg" alt="Logo" />  <!-- 7px for logo1 -->
+              <img alt="Logo of NavigaTUM"
+                   src="<!-- @echo app_prefix -->assets/logo2.min2.svg"
+                   id="logo"/>  <!-- 7px for logo1 -->
               </router-link>
             </div>
             <div class="column col-8 col-lg-11 col-mx-auto">
@@ -67,10 +87,12 @@
                          @focus="searchfocus"
                          @blur="searchblur"
                          @keydown="searchkeydown"
-                         autocomplete="off">
+                         autocomplete="off"
+                         aria-label="${{_.search.aria-searchlabel}}$">
                   <i class="form-icon icon icon-search"></i>
                   <button class="btn btn-primary input-group-btn btn-lg"
-                          @click="searchGo(false)">
+                          @click="searchGo(false)"
+                          aria-label="${{_.search.aria-actionlabel}}$">
                     ${{_.search.action}}$
                   </button>
                 </div>
@@ -102,8 +124,8 @@
                                <i v-else class="icon icon-location"></i>
                             </template>
                             <img v-else
-                                 class="avatar avatar-sm"
-                                 src="<!-- @echo app_prefix -->assets/thumb-building.png">
+                                 src="<!-- @echo app_prefix -->assets/thumb-building.webp"
+                                 class="avatar avatar-sm">
                           </div>
                           <div class="tile-content">
                             <span class="tile-title">
@@ -217,56 +239,73 @@
           <div class="columns">
             <div class="column col-lg-11 col-mx-auto">
               <div class="columns">
-
-                <div class="column col-auto links">
-                  <router-link to="/about/${{_.footer.about.link}}$">${{_.footer.about.text}}$</router-link><br>
-                  <a onclick="open_feedback()" class="c-hand">${{_.footer.feedback.text}}$</a><br>
-                  <router-link to="/about/${{_.footer.api.link}}$">${{_.footer.api.text}}$</router-link>
-                </div>
-                <div class="column col-auto links">
-                  <a href="https://github.com/TUM-Dev/navigatum" class="c-hand">${{_.footer.sourcecode.text}}$</a><br>
-                  <router-link to="/about/${{_.footer.privacy.link}}$">${{_.footer.privacy.text}}$</router-link><br>
-                  <router-link to="/about/${{_.footer.imprint.link}}$">${{_.footer.imprint.text}}$</router-link>
-                </div>
-                <div class="column col"></div>
-                <div class="column col-auto settings">
-                  <div class="show-xs" style="height: 20px;"></div>
+                <div class="column col-auto col-xs-12 links">
                   <div class="columns">
-                    <div class="column col">
-                      <label for="setting-lang"><small>${{_.footer.language}}$</small></label>
-                    </div>
-                    <div class="column col-auto">
-                      <div class="btn-group btn-group-block" id="setting-lang">
-                        <!-- @if "${{_lang_}}$"="de" -->
-                        <button class="btn btn-sm active" disabled>DE</button>
-                        <button class="btn btn-sm" @click="setLang('en')">EN</button>
-                        <!-- @endif -->
-                        <!-- @if "${{_lang_}}$"="en" -->
-                        <button class="btn btn-sm" @click="setLang('de')">DE</button>
-                        <button class="btn btn-sm active" disabled>EN</button>
-                        <!-- @endif -->
+                    <ul class="column col-auto">
+                      <li>
+                        <a href="https://github.com/TUM-Dev/navigatum">${{_.footer.sourcecode.text}}$</a>
+                      </li>
+                      <li>
+                        <router-link to="/about/${{_.footer.api.link}}$">${{_.footer.api.text}}$</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/about/${{_.footer.about.link}}$">${{_.footer.about.text}}$</router-link>
+                      </li>
+                    </ul>
+                    <ul class="column">
+                      <li>
+                        <button onclick="open_feedback()" class="btn btn-link" aria-label="Open the feedback-form">${{_.footer.feedback.text}}$</button>
+                      </li>
+                      <li>
+                        <router-link to="/about/${{_.footer.privacy.link}}$">${{_.footer.privacy.text}}$</router-link>
+                      </li>
+                      <li>
+                        <router-link to="/about/${{_.footer.imprint.link}}$">${{_.footer.imprint.text}}$</router-link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="column col-auto col-ml-auto col-xs-12 settings">
+                  <div class="show-xs divider" style="height: 20px;"></div>
+                  <div class="columns">
+                    <div class="column col-12 col-xs-8 col-mx-auto">
+                      <div class="columns setting-group">
+                        <div class="column col">
+                          <label for="setting-lang"><small>${{_.footer.language}}$</small></label>
+                        </div>
+                        <div class="column col-auto">
+                          <div class="btn-group btn-group-block" id="setting-lang">
+                            <!-- @if "${{_lang_}}$"="de" -->
+                            <button class="btn btn-sm active" disabled>DE</button>
+                            <button class="btn btn-sm" @click="setLang('en')">EN</button>
+                            <!-- @endif -->
+                            <!-- @if "${{_lang_}}$"="en" -->
+                            <button class="btn btn-sm" @click="setLang('de')">DE</button>
+                            <button class="btn btn-sm active" disabled>EN</button>
+                            <!-- @endif -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="columns setting-group">
+                        <div class="column col">
+                          <label for="setting-theme"><small>${{_.footer.theme}}$</small></label>
+                        </div>
+                        <div class="column col-auto">
+                          <div class="btn-group btn-group-block" id="setting-theme">
+                            <!-- @if theme="light" -->
+                            <button class="btn btn-sm active" disabled>${{_.footer.theme_light}}$</button>
+                            <button class="btn btn-sm" @click="setTheme('dark')">${{_.footer.theme_dark}}$</button>
+                            <!-- @endif -->
+                            <!-- @if theme="dark" -->
+                            <button class="btn btn-sm" @click="setTheme('light')">${{_.footer.theme_light}}$</button>
+                            <button class="btn btn-sm active" disabled>${{_.footer.theme_dark}}$</button>
+                            <!-- @endif -->
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="columns">
-                    <div class="column col">
-                      <label for="setting-theme"><small>${{_.footer.theme}}$</small></label>
-                    </div>
-                    <div class="column col-auto">
-                      <div class="btn-group btn-group-block" id="setting-theme">
-                        <!-- @if theme="light" -->
-                        <button class="btn btn-sm active" disabled>${{_.footer.theme_light}}$</button>
-                        <button class="btn btn-sm" @click="setTheme('dark')">${{_.footer.theme_dark}}$</button>
-                        <!-- @endif -->
-                        <!-- @if theme="dark" -->
-                        <button class="btn btn-sm" @click="setTheme('light')">${{_.footer.theme_light}}$</button>
-                        <button class="btn btn-sm active" disabled>${{_.footer.theme_dark}}$</button>
-                        <!-- @endif -->
-                      </div>
-                    </div>
-                  </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -278,7 +317,7 @@
 
     <!-- Feedback modal -->
     <div class="modal" id="feedback-modal">
-      <a id="feedback-overlay" class="modal-overlay" aria-label="Close"></a>
+      <div id="feedback-overlay" class="modal-overlay"></div>
       <div class="modal-container">
         <div class="modal-header">
           <button class="btn btn-clear float-right"
@@ -291,7 +330,9 @@
             <div class="form-group">
               <label class="form-label" for="feedback-subject">${{_.feedback.subject}}$</label>
               <div class="input-group">
-                <select class="form-select" id="feedback-category">
+                <select class="form-select"
+                        aria-label="${{_.feedback.category}}$"
+                        id="feedback-category">
                   <option value="general">${{_.feedback.type.general}}$</option>
                   <option value="bug">${{_.feedback.type.bug}}$</option>
                   <option value="features">${{_.feedback.type.features}}$</option>

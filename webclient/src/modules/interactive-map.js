@@ -21,7 +21,7 @@ navigatum.registerModule("interactive-map", (function() {
         initMarker: function () {
             const markerDiv = document.createElement('div');
             const markerIcon = document.createElement('span');
-            markerIcon.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin.png)`;
+            markerIcon.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin.webp)`;
             markerIcon.style.width = `25px`;
             markerIcon.style.height = `36px`;
             markerIcon.style.top = `-33px`;
@@ -29,7 +29,7 @@ navigatum.registerModule("interactive-map", (function() {
             markerIcon.classList.add("marker")
             markerDiv.appendChild(markerIcon);
             const markerShadow = document.createElement('span');
-            markerShadow.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin-shadow.png)`;
+            markerShadow.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin-shadow.webp)`;
             markerShadow.style.width = `38px`;
             markerShadow.style.height = `24px`;
             markerShadow.style.top = `-20px`;

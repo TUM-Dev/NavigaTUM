@@ -324,7 +324,9 @@ var navigatum = (function () {
             if (this.navigationState === null)
                 return;
             this.navigationState = null;
-            
+
+            navigatum.setUrl() // sets only the og:url meta tag
+
             // This timeout is required because else the browser might skip to
             // transition if the change is too fast (if resources are in cache)
             window.setTimeout(function() {
@@ -382,9 +384,16 @@ var navigatum = (function () {
                 }
             }
         },
-        
         setTitle: function(name) {
-            document.title = name + " – NavigaTUM";
+            document.title = `${name} – NavigaTUM`;
+            document.querySelector('meta[property="og:title"]').setAttribute("content", name);
+        },
+        setDescription: function (description) {
+            document.querySelector('meta[name="description"]').setAttribute("content", description);
+            document.querySelector('meta[property="og:description"]').setAttribute("content", description);
+        },
+        setUrl: function () {
+          document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
         },
         // Settings are also stored in localStorage to detect when setting
         // a cookie did not work.

@@ -588,7 +588,7 @@ async fn do_meilisearch(client: Client, args: MSSearchArgs<'_>) -> Result<MSResu
 }
 
 fn highlight_matches(s: &String, search_tokens: &Vec<SearchToken>) -> String {
-    // Note: This does not hightlight the matches that were actually used.
+    // Note: This does not highlight the matches that were actually used.
     //       e.g. "hs" will highlight "Versuchsraum"
     //                                       ^^
     // TODO: This could in some cases be misleading

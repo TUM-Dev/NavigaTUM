@@ -1,18 +1,19 @@
 # This script takes care of downloading data from the Roomfinder and TUMOnline
 # and caching the results
-import os
 import json
-import time
+import os
 import random
-import urllib
-import zipfile
 import string
-
-import xmlrpc.client
+import time
+import urllib
 import xml.etree.ElementTree as ET
-from bs4 import BeautifulSoup, element
-import requests
+import xmlrpc.client
+import zipfile
 
+import requests
+from bs4 import BeautifulSoup, element
+
+from utils import convert_to_webp
 
 roomfinder_api_url = "http://roomfinder.ze.tum.de:8192/"
 
@@ -150,16 +151,16 @@ def roomfinder_maps():
     :returns: A list of maps
     """
     cache_name = "maps_roomfinder.json"
-    
+
     maps = _cached_json(cache_name)
     if maps is not None:
         return maps
-    
+
     # The only way to get the map boundaries seems to be to download the kml with overlaid map.
     # For this api we need a room or building for each map available.
     rooms = roomfinder_rooms()
     buildings = roomfinder_buildings()
-    
+
     used_maps = {}
     for e in filter(lambda e: "maps" in e, rooms + buildings):
         for m in e["maps"]:
@@ -169,13 +170,15 @@ def roomfinder_maps():
                     used_maps[m[1]] = ("room", e["r_id"], m)
                 else:
                     used_maps[m[1]] = ("building", e["b_id"], m)
-    
+
     maps = []
     for e_type, e_id, m in used_maps.values():
         # Download as file
         url = f"http://roomfinder.ze.tum.de:8192/getMapImage?m_id={m[1]}"
-        _download_file(url, f"maps/roomfinder/gif/{m[1]}.gif")
-        
+        filepath = f"maps/roomfinder/webp/{m[1]}.gif"
+        _download_file(url, filepath)
+        convert_to_webp(filepath)
+
         map_data = {
             "id": m[1],
             "scale": m[0],
@@ -184,19 +187,19 @@ def roomfinder_maps():
             "height": m[4],
         }
         maps.append(map_data)
-        
+
         # Download as kmz to get the map boundary coordinates.
         # The world map (id 9) does not support kmz download
         if m[1] == 9:
             continue
-        
+
         if e_type == "room":
             url = f"https://portal.mytum.de/campus/roomfinder/getRoomPlacemark?roomid={urllib.parse.quote_plus(e_id)}&mapid={m[1]}"
             f_path = _download_file(url, f"maps/roomfinder/kmz/{m[1]}.kmz")
         elif e_type == "building":
             url = f"https://portal.mytum.de/campus/roomfinder/getBuildingPlacemark?b_id={e_id}&mapid={m[1]}"
             f_path = _download_file(url, f"maps/roomfinder/kmz/{m[1]}.kmz")
-        
+
         with zipfile.ZipFile(f_path, 'r') as zip_f:
             with zip_f.open("RoomFinder.kml") as f:
                 root = ET.fromstring(f.read())
@@ -211,10 +214,10 @@ def roomfinder_maps():
                     "south": latlonbox[3].text,
                     "rotation": latlonbox[4].text,
                 }
-    
+
     # Not all maps are used somewhere.
     # TODO: Download the rest
-    
+
     _write_cache_json(cache_name, maps)
     return maps
 
@@ -396,7 +399,7 @@ def tumonline_orgs():
     orgs = _cached_json(cache_name)
     if orgs is not None:
         return orgs
-    
+
     # There is also this URL, which is used to retrieve orgs that have courses,
     # but this is not merged in at the moment:
     # https://campus.tum.de/tumonline/ee/rest/brm.orm.search/organisations/chooser?$language=de&view=S_COURSE_LVEAB_ORG
@@ -404,7 +407,7 @@ def tumonline_orgs():
     headers = {
         'Accept': 'application/json'
     }
-    
+
     # This is a single request, so not cached
     r = requests.get(url, headers=headers)
     if r.status_code != 200:
@@ -412,15 +415,15 @@ def tumonline_orgs():
         print(r)
         print(r.text)
         exit(1)
-    
+
     data = json.loads(r.text)
-    
+
     try:
         results = data["resource"][0]["content"]["organisationChooserResultDto"]["searchResults"]
     except KeyError as e:
         print(e)
         exit(1)
-    
+
     orgs = {}
     for _item in results:
         orgs[_item["designation"]] = {
@@ -429,7 +432,7 @@ def tumonline_orgs():
             "name": _item["name"],
             "path": _item["orgPath"]
         }
-    
+
     _write_cache_json(cache_name, orgs)
     return orgs
 
@@ -613,11 +616,11 @@ def _get_html(url, params, cache_fname):
 
 def _download_file(url, cache_rel_path):
     cache_path = os.path.join(os.path.dirname(__file__), "cache", cache_rel_path)
-    
+
     if not os.path.exists(cache_path):
         print(f"Retrieving: '{url}'")
         urllib.request.urlretrieve(url, cache_path)
-    
+
     return cache_path
 
 
