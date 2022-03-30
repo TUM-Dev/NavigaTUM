@@ -15,9 +15,11 @@
     /* --- Header --- */
     .header-image-mobile {
         margin: -10px -23px 10px;
-
         > img {
-            background-color: $image-loading-bg;
+            min-width: 100%;
+            min-height: 100px;
+            max-height: 200px;
+            object-fit: cover;
         }
     }
 
@@ -116,16 +118,12 @@
     }
 
     .accordion-body {
-        ul {
+        ul, button, li {
             font-size: 12px;
         }
 
-        a {
-            cursor: pointer;
-
-            &.selected {
-                background: $roomfinder-selected-bg;
-            }
+        .selected {
+            background: $roomfinder-selected-bg;
         }
     }
 
@@ -196,23 +194,58 @@
         }
     }
 
+    .menu {
+        padding: 0;
+        box-shadow: none;
+        .menu-item button {
+            text-align: left!important;
+            border: 0 transparent!important;
+            width: 100%;
+        }
+
+        .menu-item a,
+        .menu-item label,
+        .menu-item button {
+            cursor: pointer;
+            user-select: none;
+        }
+    }
+
     #rooms-overview {
+        #rooms-overview-select .menu-item {
+            padding: 0;
+
+            & .icon-arrow-right {
+                margin-right: 4px;
+            }
+        }
+
+        .menu-item button  {
+            display:flex;
+            flex-direction:row;
+            box-sizing: border-box;
+            width: 100%;
+            .menu-text{
+                flex-grow: 1;
+                flex-shrink: 1;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .icon,label{
+                flex-grow: 0;
+                flex-shrink: 0;
+            }
+            .icon{
+                top: 5px;
+            }
+        }
+
         .panel-title {
             font-weight: bold;
         }
 
         .panel-body {
             padding-bottom: 4px;
-
-            .menu {
-                padding: 0;
-                box-shadow: none;
-
-                .menu-item a, .menu-item label {
-                    cursor: pointer;
-                    user-select: none;
-                }
-            }
 
             .divider {
                 margin: 6px 0;
@@ -231,7 +264,7 @@
     }
     
     #entry-sources {
-        h5 {
+        h2 {
             margin-bottom: 16px;
         }
         
@@ -241,8 +274,8 @@
     }
 }
 
-// 'xs' (mobile)
-@media (max-width:480px) {
+// 'sm' (mobile)
+@media (max-width:600px) {
     #view-view {
         #rooms-overview-select .panel-body {
             max-height: 260px;
