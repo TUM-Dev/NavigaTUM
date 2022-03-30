@@ -1,18 +1,25 @@
 <div id="view-view" v-if="view_data">
   <!-- Header image (on mobile) -->
-  <div class="show-xs header-image-mobile">
-    <img v-if="view_data.img && view_data.img.header_small"
+  <div class="show-sm header-image-mobile">
+    <img alt="Header-Image, showing the building"
          v-bind:src="'<!-- @echo cdn_prefix -->header-small/' + view_data.img.header_small.name"
-         class="img-responsive" alt="header image"
-         width="512" height="210" />
+         v-if="view_data.img && view_data.img.header_small"
+         class="img-responsive"/>
   </div>
 
   <!-- Breadcrumbs -->
-  <ul class="breadcrumb">
-    <li class="breadcrumb-item" v-for="(p, i) in view_data.parent_names">
-      <router-link v-bind="{'to': '/view/' + view_data.parents[i]}">{{ p }}</router-link>
+  <ol class="breadcrumb"
+      vocab="https://schema.org/" typeof="BreadcrumbList">
+    <li class="breadcrumb-item"
+        v-for="(p, i) in view_data.parent_names"
+        property="itemListElement" typeof="ListItem">
+      <router-link v-bind="{'to': '/view/' + view_data.parents[i]}"
+                   property="item" typeof="WebPage">
+        {{ p }}
+      </router-link>
+      <meta property="position" v-bind:content="i+1">
     </li>
-  </ul>
+  </ol>
 
   <!-- Entry header / title -->
   <div class="entry-header">
@@ -49,8 +56,8 @@
   <!-- First info section (map + infocard) -->
   <div class="columns">
     <!-- Map container -->
-    <div class="column col-7 col-xs-12" id="map-container">
-      <div class="show-xs">
+    <div class="column col-7 col-md-12" id="map-container">
+      <div class="show-sm">
         <div class="toast toast-warning"
              v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'">
           ${{_.view_view.msg.inaccurate_only_building}}$
@@ -66,12 +73,13 @@
       <div class="roomfinder-map-container"
            v-bind:class="{'d-none': state.map.selected !== 'roomfinder'}"
            v-if="view_data.maps.roomfinder && view_data.maps.roomfinder.available">
-        <img src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.gif"
+        <img alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
+             src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.webp"
              v-bind:style="{'transform': 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)'}"
              id="roomfinder-map-cross">
-        <img alt="roomfinder map image"
+        <img alt="Hand-drawn roomfinder map image"
+             v-bind:src="'<!-- @echo cdn_prefix -->maps/roomfinder/webp/' + state.map.roomfinder.selected_id + '.webp'"
              class="img-responsive"
-             v-bind:src="'<!-- @echo cdn_prefix -->maps/roomfinder/gif/' + state.map.roomfinder.selected_id + '.gif'"
              v-bind:width="state.map.roomfinder.width"
              v-bind:height="state.map.roomfinder.height"
              id="roomfinder-map-img">
@@ -89,11 +97,14 @@
         </label>
         <div class="accordion-body" v-if="view_data.maps && view_data.maps.roomfinder">
           <ul class="menu menu-nav">
-            <li class="menu-item" v-for="(m, i) in view_data.maps.roomfinder.available">
-              <a v-on:click="loadRoomfinderMap(i, true)"
-                 v-bind:class="{selected: m.id==state.map.roomfinder.selected_id}">
+            <li class="menu-item"
+                v-for="(m, i) in view_data.maps.roomfinder.available">
+                <button class="btn btn-sm"
+                        v-bind:aria-label="`show the map '` + m.name + `' at the scale 1:` + m.scale"
+                        v-bind:class="{selected: m.id==state.map.roomfinder.selected_id}"
+                        v-on:click="loadRoomfinderMap(i, true)">
                 1:{{ m.scale }}, {{ m.name }}
-              </a>
+              </button>
             </li>
           </ul>
         </div>
@@ -115,7 +126,7 @@
     </div>
 
     <!-- Information section (on mobile) -->
-    <div class="column col-5 col-xs-12 show-xs mobile-info-section"
+    <div class="column col-5 col-sm-12 show-sm mobile-info-section"
          v-if="view_data.props && view_data.props.computed">
       <h2>Informationen</h2>
       <table class="info-table">
@@ -131,13 +142,14 @@
     <!-- Informationen card (desktop) -->
     <!-- Some elements are currently duplicate, which is not optimal but should be okay
          as long as only little information is there -->
-    <div class="column col-5 col-xs-12 hide-xs">
+    <div class="column col-5 col-md-12 hide-sm">
       <div class="card">
         <div class="card-image">
-          <img v-if="view_data.img && view_data.img.header_small"
+          <img alt="Header-Image, showing the building"
                v-bind:src="'<!-- @echo cdn_prefix -->header-small/' + view_data.img.header_small.name"
-               class="img-responsive" alt="header image"
-               width="512" height="210" />
+               v-if="view_data.img && view_data.img.header_small"
+               class="img-responsive"
+               width="100%"/>
         </div>
         <div class="card-header">
           <div class="card-title h5">${{_.view_view.info_title}}$</div>
@@ -169,7 +181,7 @@
 <!--
 <div v-if="view_data.sections && view_data.sections.featured">
 <div class="columns" style="margin-top: 40px">
-    <div class="column"><h5>Featured</h5></div>
+    <div class="column"><h2>Featured</h2></div>
 </div>
 <div style="position: relative;overflow: hidden;white-space: nowrap;">
     <div style="position: absolute;height: 100%;display: flex;background: linear-gradient(-90deg, #fff0 0%, #fffd 100%);">
@@ -177,7 +189,9 @@
     </div>
     <div class="card" style="width: 250px;display: inline-flex;margin-right: 8px;">
         <div class="card-image">
-            <img src="<!-- @echo cdn_prefix -- >header-small/mi_0.jpg" class="img-responsive" alt="header image" />
+            <img alt="Header-Image, showing the building"
+                 src="<!-- @echo cdn_prefix -- >header-small/mi_0.webp"
+                 class="img-responsive"/>
         </div>
         <div class="card-header">
             <div class="card-title h6" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">Teilbibliothek Stammgelände</div>
@@ -193,7 +207,9 @@
     </div>
     <div class="card" style="width: 250px;display: inline-flex;margin-right: 8px;height: 200px;vertical-align: top;">
         <div class="card-image" style="display: none;">
-            <img alt="header image" src="<!-- @echo cdn_prefix -- >header-small/mi_0.jpg" class="img-responsive">
+            <img alt="Header-Image, showing the building"
+                 src="<!-- @echo cdn_prefix -- >header-small/mi_0.webp"
+                 class="img-responsive">
         </div>
         <div class="card-header">
             <div class="card-title h6" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">Validierungsautomaten</div>
@@ -233,14 +249,15 @@
       </div>-->
     </div>
     <div class="columns">
-      <div class="column col-4 col-sm-6 col-xs-12 content"
+      <div class="column col-4 col-md-12 content"
            v-for="(b, i) in view_data.sections.buildings_overview.entries"
            v-if="i < view_data.sections.buildings_overview.n_visible || state.buildings_overview.expanded">
         <router-link v-bind:to="'/view/' + b.id">
           <div class="tile tile-centered">
             <div class="tile-icon">
               <figure class="avatar avatar-lg">
-                <img v-bind:src="b.thumb ? '<!-- @echo cdn_prefix -->thumb/' + b.thumb : '<!-- @echo app_prefix -->assets/thumb-building.png'" alt="thumbnail">
+                <img v-bind:alt="b.thumb ? 'Thumbnail, showing a preview of the building.' : 'Default-thumbnail, as no thumbnail is available'"
+                     v-bind:src="b.thumb ? '<!-- @echo cdn_prefix -->thumb/' + b.thumb : '<!-- @echo app_prefix -->assets/thumb-building.webp'">
               </figure>
             </div>
             <div class="tile-content">
@@ -248,7 +265,10 @@
               <small class="tile-subtitle text-dark">{{ b.subtext }}</small>
             </div>
             <div class="tile-action">
-              <button class="btn btn-link"><i class="icon icon-arrow-right"></i></button>
+              <button class="btn btn-link"
+                      v-bind:aria-label="`show the details for the building '`+ b.name +`'`">
+                <i class="icon icon-arrow-right"></i>
+              </button>
             </div>
           </div>
         </router-link>
@@ -284,7 +304,7 @@
     </div>
 
     <div class="columns content">
-      <div class="column col-4 col-md-5 col-xs-12" id="rooms-overview-select">
+      <div class="column col-4 col-lg-5 col-md-6 col-sm-12" id="rooms-overview-select">
         <div class="panel">
           <div class="panel-header">
             <div class="panel-title h6">
@@ -294,24 +314,28 @@
           <div class="panel-body">
             <ul class="menu">
               <li class="menu-item">
-                <a v-bind:class="{active: state.rooms_overview.selected === -1}"
+                <button class="btn"
+                        v-bind:class="{active: state.rooms_overview.selected === -1}"
                    v-on:click="updateRoomsOverview(-1)">
-                  <i class="icon icon-arrow-right"></i> ${{_.view_view.rooms_overview.any}}$
-                  <div class="menu-badge">
-                    <label class="label">{{ sections.rooms_overview.combined_count }}</label>
+                  <i class="icon icon-arrow-right"></i>
+                  <div class="menu-text">
+                    ${{_.view_view.rooms_overview.any}}$
                   </div>
-                </a>
+                  <label class="label">{{ sections.rooms_overview.combined_count }}</label>
+                </button>
               </li>
               <li class="divider" data-content=""></li>
               <li class="menu-item"
                   v-for="(u, i) in view_data.sections.rooms_overview.usages">
-                <a v-bind:class="{active: i == state.rooms_overview.selected}"
+                <button class="btn"
+                        v-bind:class="{active: i == state.rooms_overview.selected}"
                    v-on:click="updateRoomsOverview(i)">
-                  <i class="icon icon-arrow-right"></i> {{ u.name }}
-                  <div class="menu-badge">
-                    <label class="label">{{ u.count }}</label>
+                  <i class="icon icon-arrow-right"></i>
+                  <div class="menu-text">
+                    {{ u.name }}
                   </div>
-                </a>
+                  <label class="label">{{ u.count }}</label>
+                </button>
               </li>
             </ul>
           </div>
@@ -323,8 +347,8 @@
           </div>
         </div>
       </div>
-      <div class="column col-8 col-md-7 col-xs-12 hide-l" id="rooms-overview-list">
-        <div class="show-xs" style="height: 15px"></div>
+      <div class="column col-8 col-lg-7 col-md-6 col-sm-12 hide-l" id="rooms-overview-list">
+        <div class="show-sm" style="height: 15px"></div>
         <div class="panel">
           <div class="panel-header">
             <div class="input-group">
@@ -332,7 +356,8 @@
                      placeholder="${{_.view_view.rooms_overview.filter}}$"
                      class="form-input">
               <button class="btn btn-primary input-group-btn"
-                      @click="state.rooms_overview.filter = ''">
+                      @click="state.rooms_overview.filter = ''"
+                      aria-label="Clear the filter">
                 <i class="icon icon-cross"></i>
               </button>
             </div>
@@ -368,7 +393,7 @@
 
   <section id="entry-sources">
     <div class="columns">
-        <div class="column"><h5>${{_.view_view.sources.title}}$</h5></div>
+        <div class="column"><h2>${{_.view_view.sources.title}}$</h2></div>
     </div>
     <p v-if="">
       ${{_.view_view.sources.base.title}}$:

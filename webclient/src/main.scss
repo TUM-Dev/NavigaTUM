@@ -42,7 +42,9 @@ body {
         animation-fill-mode: both;
     }
 }
-
+.img-responsive {
+    background-color: $image-loading-bg;
+}
 @keyframes loading-in {
     from { opacity: 0 }
     to { opacity: 1 }
@@ -50,7 +52,8 @@ body {
 
 // --- Menu general
 
-#app .menu .menu-item > a {  // Overwrite spectre
+#app .menu .menu-item > a,
+#app .menu .menu-item > button {  // Overwrite spectre
     &:focus, &:hover {
         background: $theme-accent;
         color: #fff;
@@ -252,21 +255,38 @@ footer {
 
     .links {
         text-align: left;
-        margin-right: 16px;
 
-        a, router-link {
-            font-size: 12px;
+        ul {
+            margin: 0;
+
+            li {
+                list-style: none;
+                margin-top: 0;
+            }
+        }
+
+        a, router-link, button {
+            font-size: .6rem;
+        }
+
+        button {
+            height: auto;
+            padding: 0;
+        }
+        button:hover {
+            text-decoration: underline;
         }
     }
 
     .settings {
-        .columns {
-            margin-top: 8px;
-            min-width: 180px;  // IE bug
+        //margin: .8rem .8rem .8rem -.8rem;
+
+        .setting-group {
+            margin-top: calc(0.4rem - 1px);
         }
 
         .btn-group {
-            min-width: 100px;
+            min-width: 110px;
 
             .btn {
                 border-color: transparent;
@@ -274,6 +294,28 @@ footer {
                 &:disabled {
                     background-color: $footer-setting-bg-disabled;
                 }
+            }
+        }
+    }
+}
+
+
+// 'xs' (mobile)
+@media (max-width:480px) {
+    footer {
+        bottom: -200px;
+
+        .links {
+            ul {
+                margin: .8rem .8rem .8rem .8rem;
+
+                li {
+                    margin-top: .4rem;
+                }
+            }
+
+            a, router-link, button {
+                font-size: .7rem;
             }
         }
     }
