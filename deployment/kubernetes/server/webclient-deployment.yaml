@@ -63,13 +63,13 @@ spec:
                       memory: 500Mi
                   livenessProbe:
                       httpGet:
-                          path: /
+                          path: /_ah/health
                           port: rendertron
                       failureThreshold: 3
                       periodSeconds: 5
                   startupProbe:
                       httpGet:
-                          path: /
+                          path: /_ah/health
                           port: rendertron
                       failureThreshold: 20
                       periodSeconds: 1
