@@ -1,0 +1,11 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix
+  labels:
+      app: navigatum
+  namespace: navigatum
+spec:
+  stripPrefix:
+    prefixes:
+      - /rendertron

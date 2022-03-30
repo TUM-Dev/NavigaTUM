@@ -27,6 +27,8 @@ spec:
           services:
               - name: navigatum-web-svc
                 port: 9100
+          middlewares:
+              - name: stripprefix
         - kind: Rule
           match: Host(`roomapi.tum.sexy`)
           priority: 8
