@@ -409,7 +409,7 @@ function insert_polyfills() {
 
     return bundleStream
         .pipe(source('polyfills.js'))
-        .pipe(gulpif(config.target === "release", htmlmin(htmlmin_options)))
+        //.pipe(gulpif(config.target === "release", htmlmin(htmlmin_options)))
         .pipe(rename(target_filename))
         .pipe(gulp.dest('build/js'))
 }
