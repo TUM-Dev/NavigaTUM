@@ -164,10 +164,12 @@ navigatum.registerView('view', {
         // When these methods are called, the view has already been mounted,
         // so we can find elements by id.
         loadMap: function() {
-            if (this.state.map.selected === "interactive")
-                this.loadInteractiveMap();
-            else if (this.state.map.selected === "roomfinder")
-                this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
+            if (navigator.userAgent !== "Rendertron") {
+                if (this.state.map.selected === "interactive")
+                    this.loadInteractiveMap();
+                else if (this.state.map.selected === "roomfinder")
+                    this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
+            }
         },
         loadInteractiveMap: function(from_ui) {
             var _this = this;
