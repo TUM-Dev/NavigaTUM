@@ -17,7 +17,6 @@ var cached_fetch = (function() {
                     this.promise_callbacks[url] = [resolve];
                     if (!options.headers)
                         options.headers = {};
-                    options.headers["Accept-Language"] = "${{_lang_}}$";
                     fetch(url, options)
                           .then(response => {
                               if (!response.ok) {
