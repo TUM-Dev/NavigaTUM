@@ -22,8 +22,14 @@ spec:
               - name: navigatum-cdn-svc
                 port: 8000
         - kind: Rule
-          match: Host(`roomapi.tum.sexy`)
+          match: Host(`roomapi.tum.sexy`) && PathPrefix(`/rendertron/`)
           priority: 9
+          services:
+              - name: navigatum-web-svc
+                port: 9100
+        - kind: Rule
+          match: Host(`roomapi.tum.sexy`)
+          priority: 8
           services:
               - name: navigatum-web-svc
                 port: 9000

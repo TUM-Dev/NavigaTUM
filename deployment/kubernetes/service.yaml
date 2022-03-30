@@ -54,3 +54,6 @@ spec:
         - name: navigatum-web
           port: 9000
           targetPort: 80
+        - name: rendertron
+          port: 9100
+          targetPort: 3000
