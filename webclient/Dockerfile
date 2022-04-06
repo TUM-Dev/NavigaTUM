@@ -6,7 +6,7 @@ COPY ./ .
 RUN node_modules/gulp/bin/gulp.js --gulpfile ./gulpfile.js release && rm -fr ./build/tmp
 
 # compress data (only using gzip, because brotli on ngnix is a royal pain)
-RUN npm i -g bread-compressor-cli && bread-compressor -a gzip -s -l 4 ./build
+RUN gzip --force --keep --recursive ./build
 
 FROM nginx as production-stage
 RUN mkdir /app
