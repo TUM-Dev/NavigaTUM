@@ -28,7 +28,6 @@
     "Computer Studenten": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
     "CIP-Raum": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
     "CIP-Pool": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "Computerpool", "CAD-Pool", "EDV-Pool"],
-    "Computerpool": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computer Studenten", "CIP-Raum", "CIP-Pool", "CAD-Pool", "EDV-Pool"],
     "CAD-Pool": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "EDV-Pool"],
     "EDV-Pool": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool"],
     
