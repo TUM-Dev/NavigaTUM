@@ -57,8 +57,6 @@ jobs:
       - run: argocd app actions run navigatum restart --kind Deployment --resource-name navigatum-server --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
   webclient-build:
     uses: ./.github/workflows/docker-build.yml
-    needs:
-      - deploy-data
     with:
       image_suffix: webclient
       context: ./webclient
