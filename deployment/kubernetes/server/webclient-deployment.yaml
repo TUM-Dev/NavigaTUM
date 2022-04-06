@@ -49,7 +49,7 @@ spec:
                       failureThreshold: 60
                       periodSeconds: 1
                 - name: rendertron
-                  image: dockette/rendertron
+                  image: dockette/rendertron:proxy
                   imagePullPolicy: Always
                   ports:
                       - containerPort: 3000
