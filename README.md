@@ -1,4 +1,5 @@
 # NavigaTUM
+[![App Status](https://argocd.frank.elsinga.de/api/badge?name=navigatum&revision=true)](https://argocd.frank.elsinga.de/applications/navigatum)
 
 NavigaTUM is a non-official tool developed by students for students, that aims to help you get around at [TUM](https://tum.de). Feel free to contribute.
 
