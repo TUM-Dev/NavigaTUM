@@ -2,5 +2,5 @@ Contact: https://github.com/TUM-Dev/navigatum/security/policy
 Expires: 2029-12-31T23:00:00.000Z
 Acknowledgments: https://github.com/TUM-Dev/navigatum/security/advisories
 Preferred-Languages: en
-Canonical: https://roomapi.tum.sexy/.well-known/security.txt
+Canonical: https://nav.tum.sexy/.well-known/security.txt
 Policy: https://github.com/TUM-Dev/navigatum/security/policy

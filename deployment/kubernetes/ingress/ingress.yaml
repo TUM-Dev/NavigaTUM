@@ -10,19 +10,19 @@ spec:
         - websecure
     routes:
         - kind: Rule
-          match: Host(`roomapi.tum.sexy`) && PathPrefix(`/api/`)
+          match: Host(`nav.tum.sexy`) && PathPrefix(`/api/`)
           priority: 11
           services:
               - name: navigatum-api-svc
                 port: 7000
         - kind: Rule
-          match: Host(`roomapi.tum.sexy`) && PathPrefix(`/cdn/`)
+          match: Host(`nav.tum.sexy`) && PathPrefix(`/cdn/`)
           priority: 10
           services:
               - name: navigatum-cdn-svc
                 port: 8000
         - kind: Rule
-          match: Host(`roomapi.tum.sexy`) && PathPrefix(`/rendertron/`)
+          match: Host(`nav.tum.sexy`) && PathPrefix(`/rendertron/`)
           priority: 9
           services:
               - name: navigatum-web-svc
@@ -30,13 +30,13 @@ spec:
           middlewares:
               - name: stripprefix
         - kind: Rule
-          match: Host(`roomapi.tum.sexy`)
+          match: Host(`nav.tum.sexy`)
           priority: 8
           services:
               - name: navigatum-web-svc
                 port: 9000
     tls:
-        secretName: roomapi.tum.sexy
+        secretName: nav.tum.sexy
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -51,19 +51,19 @@ spec:
     routes:
         # cdn and api can be reached via http, while the website redirects to https
         - kind: Rule
-          match: Host(`roomapi.tum.sexy`) && PathPrefix(`/api/`)
+          match: Host(`nav.tum.sexy`) && PathPrefix(`/api/`)
           priority: 11
           services:
               - name: navigatum-api-svc
                 port: 7000
         - kind: Rule
-          match: Host(`roomapi.tum.sexy`) && PathPrefix(`/cdn/`)
+          match: Host(`nav.tum.sexy`) && PathPrefix(`/cdn/`)
           priority: 10
           services:
               - name: navigatum-cdn-svc
                 port: 8000
         - kind: Rule
-          match: Host(`roomapi.tum.sexy`)
+          match: Host(`nav.tum.sexy`)
           priority: 9
           services:
               - name: noop@internal

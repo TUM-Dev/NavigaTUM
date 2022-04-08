@@ -8,6 +8,6 @@ var config = {
     // Prefix for 'cdn' content, e.g. images.
     cdn_prefix: "/cdn/",
     // Prefix for API requests
-    api_prefix: "https://roomapi.tum.sexy/api/",
+    api_prefix: "https://nav.tum.sexy/api/",
 };
 module.exports = config;

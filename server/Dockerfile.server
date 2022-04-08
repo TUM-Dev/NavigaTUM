@@ -16,7 +16,7 @@ COPY ./src ./src
 ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 # get api_data.json
-ADD https://roomapi.tum.sexy/cdn/api_data.json data/api_data.json
+ADD https://nav.tum.sexy/cdn/api_data.json data/api_data.json
 # For local testing if roomapi is not avalible:
 # follow the data-docs to get api_data.json, copy it to the directory server/data and enable
 # COPY data/api_data.json data/api_data.json
