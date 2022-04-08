@@ -1,15 +1,15 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-    name: roomapi.tum.sexy
+    name: nav.tum.sexy
     labels:
         app: navigatum
     namespace: navigatum
 spec:
-    commonName: roomapi.tum.sexy
+    commonName: nav.tum.sexy
     dnsNames:
-        - roomapi.tum.sexy
-    secretName: roomapi.tum.sexy
+        - nav.tum.sexy
+    secretName: nav.tum.sexy
     issuerRef:
         name: letsencrypt-production
         kind: ClusterIssuer

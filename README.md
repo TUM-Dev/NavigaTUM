@@ -44,9 +44,9 @@ In case you do not want to work on the data processing, you can instead
 download the latest compiled files:
 
 ```bash
-wget -P data/output https://roomapi.tum.sexy/cdn/api_data.json 
-wget -P data/output https://roomapi.tum.sexy/cdn/search_data.json
-wget -P data/output https://roomapi.tum.sexy/cdn/search_synonyms.json
+wget -P data/output https://nav.tum.sexy/cdn/api_data.json 
+wget -P data/output https://nav.tum.sexy/cdn/search_data.json
+wget -P data/output https://nav.tum.sexy/cdn/search_synonyms.json
 ```
 
 Else you can follow the steps in the [data documentation](data/).

@@ -90,13 +90,13 @@ MeiliSearch provides an interactive interface at [http://localhost:7700](http://
 ### get
 
 ```HTTP
-GET https://roomapi.tum.sexy/api/get/:id
+GET https://nav.tum.sexy/api/get/:id
 ```
 
 This returns the full data available for the entry (room/building) available as JSON.
 The exact data format is specified in the [NavigaTUM-data documentation](../data/README.md), but it is essentially structured like this:
 
-e.g. with `GET https://roomapi.tum.sexy/api/get/5602.EG.001`:
+e.g. with `GET https://nav.tum.sexy/api/get/5602.EG.001`:
 
 ```js
 {
@@ -150,7 +150,7 @@ e.g. with `GET https://roomapi.tum.sexy/api/get/5602.EG.001`:
 ### search
 
 ```HTTP
-GET https://roomapi.tum.sexy/api/search/:query
+GET https://nav.tum.sexy/api/search/:query
 ```
 
 Search entries – this endpoint is designed to support search-as-you-type results.
@@ -250,7 +250,7 @@ Limits are not stable yet.
 ### source_code
 
 ```HTTP
-GET https://roomapi.tum.sexy/api/source_code
+GET https://nav.tum.sexy/api/source_code
 ```
 
 The `api/source_code` endpoint returns a link to the source-code of the
