@@ -12,7 +12,7 @@ path = "src/main.rs"
 strip = true
 
 [dependencies]
-actix-web = { version = "4.0.1", features = ["rustls"] }
+actix-web = "4.0.1"
 awc = "3.0.0"
 lazy_static = "1.4.0"
 serde = { version = "1.0.136", features = ["derive"] }
