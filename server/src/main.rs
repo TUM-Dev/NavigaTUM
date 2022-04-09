@@ -54,7 +54,7 @@ async fn search_handler(
     web::Query(args): web::Query<search::SearchQueryArgs>,
 ) -> Result<HttpResponse> {
     let q = params.into_inner();
-    let search_results = search::do_search(q, args).await?;
+    let search_results = search::do_benchmarked_search(q, args).await?;
     let result_json = serde_json::to_string(&search_results)?;
 
     Ok(HttpResponse::Ok()
