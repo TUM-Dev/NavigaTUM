@@ -14,17 +14,17 @@ jobs:
       server: ${{ steps.filter.outputs.server }}
       webclient: ${{ steps.filter.outputs.webclient }}
     steps:
-      # For pull requests it's not necessary to checkout the code
-      -   uses: dorny/paths-filter@v2
-          id: filter
-          with:
-            filters: |
-              data:
-                - 'data/**'
-              server:
-                - 'server/**'
-              webclient:
-                - 'webclient/**'
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            data:
+              - 'data/**'
+            server:
+              - 'server/**'
+            webclient:
+              - 'webclient/**'
   data-build:
     needs:
       - changes
@@ -64,6 +64,8 @@ jobs:
     uses: ./.github/workflows/docker-build.yml
     needs:
       - data-deployment
+      - changes
+    if: ${{ needs.changes.outputs.server == 'true' }} || ${{ needs.changes.outputs.data == 'true' }}
     with:
       image_suffix: mieli-search
       context: ./server
