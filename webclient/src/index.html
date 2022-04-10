@@ -16,12 +16,19 @@
     <meta property="og:title" content="NavigaTUM" />
     <meta property="og:url" content="https://nav.tum.sexy">
     <meta property="og:description" content="${{_.meta.description}}$" />
+    <meta property="og:site_name" content="NavigaTUM" />
+    <!-- facebook/twitter/discord/.. -->
     <meta property="og:image" content="https://nav.tum.sexy/assets/logo-card.png" />
     <meta property="og:image:alt" content="${{_.meta.logo_alt}}$" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:mime" content="image/png" />
-    <meta property="og:site_name" content="NavigaTUM" />
+    <!-- whatsapp/.. -->
+    <meta property="og:image" content="https://nav.tum.sexy/assets/logo-card_square.png" />
+    <meta property="og:image:alt" content="${{_.meta.logo_alt}}$" />
+    <meta property="og:image:width" content="500" />
+    <meta property="og:image:height" content="500" />
+    <meta property="og:image:mime" content="image/png" />
 
     <meta name="from-view" content="<!-- @echo view -->">
     <!-- @if view="main" -->
@@ -38,7 +45,7 @@
     
     <!-- Minified CSS for above the fold parts inlined here -->
     <style><!-- inject:core:css --><!-- endinject --></style>
-    
+
     <!-- The rest is loaded async, code from https://web.dev/defer-non-critical-css/ -->
     <!-- This can also be cached then -->
     <link rel="preload" href="<!-- @echo app_prefix -->css/view-<!-- @echo view -->-rest-<!-- @echo theme -->.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
