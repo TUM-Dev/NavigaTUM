@@ -13,12 +13,15 @@ jobs:
       data: ${{ steps.filter.outputs.data }}
       server: ${{ steps.filter.outputs.server }}
       webclient: ${{ steps.filter.outputs.webclient }}
+      github: ${{ steps.filter.outputs.github }}
     steps:
       - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
         id: filter
         with:
           filters: |
+            github:
+              - '.github/**'
             data:
               - 'data/**'
             server:
@@ -28,7 +31,7 @@ jobs:
   data-build:
     needs:
       - changes
-    if: ${{ needs.changes.outputs.data == 'true' }}
+    if: ${{ needs.changes.outputs.data == 'true' }} || ${{ needs.changes.outputs.github == 'true' }}
     uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: data
@@ -42,7 +45,7 @@ jobs:
     needs:
       - data-build
       - changes
-    if: ${{ needs.changes.outputs.data == 'true' }}
+    if: ${{ needs.changes.outputs.data == 'true' }} || ${{ needs.changes.outputs.github == 'true' }}
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app actions run navigatum restart --kind Deployment --resource-name navigatum-data --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
@@ -52,7 +55,7 @@ jobs:
     needs:
       - data-deployment
       - changes
-    if: ${{ needs.changes.outputs.server == 'true' }} || ${{ needs.changes.outputs.data == 'true' }}
+    if: ${{ needs.changes.outputs.server == 'true' }} || ${{ needs.changes.outputs.data == 'true' }} || ${{ needs.changes.outputs.github == 'true' }}
     with:
       image_suffix: server
       context: ./server
@@ -65,7 +68,7 @@ jobs:
     needs:
       - data-deployment
       - changes
-    if: ${{ needs.changes.outputs.server == 'true' }} || ${{ needs.changes.outputs.data == 'true' }}
+    if: ${{ needs.changes.outputs.server == 'true' }} || ${{ needs.changes.outputs.data == 'true' }} || ${{ needs.changes.outputs.github == 'true' }}
     with:
       image_suffix: mieli-search
       context: ./server
@@ -80,7 +83,7 @@ jobs:
       - server-build
       - mieli-search-build
       - changes
-    if: ${{ needs.changes.outputs.server == 'true' }} || ${{ needs.changes.outputs.data == 'true' }}
+    if: ${{ needs.changes.outputs.server == 'true' }} || ${{ needs.changes.outputs.data == 'true' }} || ${{ needs.changes.outputs.github == 'true' }}
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app actions run navigatum restart --kind Deployment --resource-name navigatum-server --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
@@ -88,7 +91,7 @@ jobs:
     uses: ./.github/workflows/docker-build.yml
     needs:
       - changes
-    if: ${{ needs.changes.outputs.webclient == 'true' }}
+    if: ${{ needs.changes.outputs.webclient == 'true' }} || ${{ needs.changes.outputs.github == 'true' }}
     with:
       image_suffix: webclient
       context: ./webclient
@@ -102,7 +105,7 @@ jobs:
     needs:
       - webclient-build
       - changes
-    if: ${{ needs.changes.outputs.webclient == 'true' }}
+    if: ${{ needs.changes.outputs.webclient == 'true' }} || ${{ needs.changes.outputs.github == 'true' }}
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app actions run navigatum restart --kind Deployment --resource-name navigatum-webclient --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
