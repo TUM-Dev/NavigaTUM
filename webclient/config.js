@@ -6,7 +6,7 @@ var config = {
     // hash-based navigation in development builds.
     app_prefix: "/",
     // Prefix for 'cdn' content, e.g. images.
-    cdn_prefix: "/cdn/",
+    cdn_prefix: "https://nav.tum.sexy/cdn/",
     // Prefix for API requests
     api_prefix: "https://nav.tum.sexy/api/",
 };
