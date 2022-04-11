@@ -3,6 +3,8 @@ import math
 import copy
 
 import utm
+import yaml
+from PIL import Image
 
 
 def assign_coordinates(data):
@@ -128,6 +130,9 @@ def assign_roomfinder_maps(data):
     # Read the Roomfinder maps
     with open("external/maps_roomfinder.json") as f:
         maps_list = json.load(f)
+        
+    # There are also Roomfinder-like custom maps, that we assign here
+    custom_maps = _load_custom_maps()
     
     world_map = None
     for m in maps_list:
@@ -138,6 +143,7 @@ def assign_roomfinder_maps(data):
             m["latlonbox"]["south"] = float(m["latlonbox"]["south"])
             m["latlonbox"]["east"] = float(m["latlonbox"]["east"])
             m["latlonbox"]["west"] = float(m["latlonbox"]["west"])
+            m["id"] = f"rf{m['id']}"
     maps_list.remove(world_map)
     
     for _id, entry in data.items():
@@ -147,9 +153,9 @@ def assign_roomfinder_maps(data):
         if len(entry.get("maps", {}).get("roomfinder", {}).get("available", [])) > 0:
             continue
         
-        # Use maps from parent building, if the is no precise coordinate known
+        # Use maps from parent building, if there is no precise coordinate known
         if entry["type"] in {"room", "virtual_room"} and \
-           entry["coords"]["accuracy"] == "building":
+           entry["coords"].get("accuracy", None) == "building":
             building_parent = list(filter(lambda e: data[e]["type"] == "building",
                                             entry["parents"]))
             # Verification of this already done for coords, see above
@@ -168,11 +174,15 @@ def assign_roomfinder_maps(data):
                 roomfinder_map_data = entry.setdefault("maps", {}).get("roomfinder", {})
                 roomfinder_map_data.update(building_parent["maps"]["roomfinder"])
                 roomfinder_map_data["is_only_building"] = True
-            
+
             continue
         
         # TODO: Sort & unique
         available_maps = []
+        for (b_id, floor), m in custom_maps.items():
+            if entry["type"] == "room" and b_id in entry["parents"] and \
+               "tumonline_data" in entry and f".{floor}." in entry["tumonline_data"]["roomcode"]:
+                available_maps.append(m)
         lat_coord, lon_coord = (entry["coords"]["lat"], entry["coords"]["lon"])
         for m in maps_list:
             # Assuming coordinates in Central Europe
@@ -215,6 +225,8 @@ def assign_roomfinder_maps(data):
                     "name":   m["desc"],
                     "width":  m["width"],
                     "height": m["height"],
+                    "source": m.get("source", "Roomfinder"),
+                    "path":   m.get("path", f"webp/{m['id']}.webp")
                 }
                 for m in available_maps
             ],
@@ -225,21 +237,23 @@ def assign_roomfinder_maps(data):
 def build_roomfinder_maps(data):
     """ Generate the map information for the Roomfinder maps. """
     
-    # Read the Roomfinder maps
+    # Read the Roomfinder and custom maps
     with open("external/maps_roomfinder.json") as f:
         maps_list = json.load(f)
+    custom_maps = _load_custom_maps()
     
-    # For each map, we calculate the boundaries in UTM, because 
+    # For each map, we calculate the boundaries in UTM beforehand
     maps = {}
-    for m in maps_list:
+    for m in maps_list + list(custom_maps.values()):
         if "latlonbox" in m:
             latlonbox = m["latlonbox"]
             
-            zones_n = set()
-            zones_letter = set()
-            
             latlonbox["north_west"] = (float(latlonbox["north"]), float(latlonbox["west"]))
             latlonbox["south_east"] = (float(latlonbox["south"]), float(latlonbox["east"]))
+
+            # Roomfinder data is with ints as id, but we use a string based format
+            if isinstance(m["id"], int):
+                m["id"] = f"rf{m['id']}"
             
             maps[m["id"]] = m
 
@@ -249,7 +263,7 @@ def build_roomfinder_maps(data):
             for entry_map in entry["maps"]["roomfinder"]["available"]:
                 # The world map (id 9) is currently excluded, because it would need a different
                 # projection treatment.
-                if entry_map["id"] == 9:
+                if entry_map["id"] == "rf9":
                     world_map = entry_map
                     continue
                 
@@ -284,9 +298,45 @@ def build_roomfinder_maps(data):
                 # to the coordinate.
                 entry_map["x"] = round(ix)
                 entry_map["y"] = round(iy)
+                
+                # Finally, set source and filepath so that they are available for all maps
+                entry_map.setdefault("source", "Roomfinder")
+                entry_map.setdefault("path", f"webp/{entry_map['id']}.webp")
             
             if world_map is not None:
                 entry["maps"]["roomfinder"]["available"].remove(world_map)
             
 
 
+def _load_custom_maps():
+    """ Load the custom maps like Roomfinder maps """
+    with open("sources/45_custom-maps.yaml") as f:
+        custom_maps = yaml.safe_load(f.read())
+        
+    # Convert into the format used by maps_roomfinder.json:
+    maps_out = {}
+    for map_group in custom_maps:
+        base_data = {
+            "source": map_group["props"].get("source", "NavigaTUM-Contributors"),
+            # For some reason, these are given as str
+            "scale": str(map_group["props"]["scale"]),
+            "latlonbox": {
+                "north":    map_group["props"]["north"],
+                "east":     map_group["props"]["east"],
+                "west":     map_group["props"]["west"],
+                "south":    map_group["props"]["south"],
+                "rotation": map_group["props"]["rotation"],
+            }
+        }
+        for sub_map in map_group["maps"]:
+            img = Image.open("sources/img/maps/roomfinder/webp/" + sub_map["file"])
+            maps_out[(sub_map["b_id"], sub_map["floor"])] = {
+                "desc": sub_map["desc"],
+                "id": ".".join(sub_map["file"].split(".")[:-1]),
+                "path": "webp/" + sub_map["file"],
+                "width": img.width,
+                "height": img.height,
+                **base_data
+            }
+
+    return maps_out
