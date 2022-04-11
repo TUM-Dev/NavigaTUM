@@ -344,9 +344,3 @@ def _load_custom_maps():
             }
 
     return maps_out
-        
-    
-    
-    
-    
-
