@@ -174,8 +174,12 @@ def assign_roomfinder_maps(data):
                 roomfinder_map_data = entry.setdefault("maps", {}).get("roomfinder", {})
                 roomfinder_map_data.update(building_parent["maps"]["roomfinder"])
                 roomfinder_map_data["is_only_building"] = True
-            
+
             continue
+        else:
+            if entry["id"] == "3117":
+                print(entry["maps"])
+                print(entry["coords"])
         
         # TODO: Sort & unique
         available_maps = []
@@ -226,7 +230,7 @@ def assign_roomfinder_maps(data):
                     "width":  m["width"],
                     "height": m["height"],
                     "source": m.get("source", "Roomfinder"),
-                    "path":   m.get("path", f"gif/{m['id']}.gif")
+                    "path":   m.get("path", f"webp/{m['id']}.webp")
                 }
                 for m in available_maps
             ],
@@ -301,7 +305,7 @@ def build_roomfinder_maps(data):
                 
                 # Finally, set source and filepath so that they are available for all maps
                 entry_map.setdefault("source", "Roomfinder")
-                entry_map.setdefault("path", f"gif/{entry_map['id']}.gif")
+                entry_map.setdefault("path", f"webp/{entry_map['id']}.webp")
             
             if world_map is not None:
                 entry["maps"]["roomfinder"]["available"].remove(world_map)
@@ -329,11 +333,11 @@ def _load_custom_maps():
             }
         }
         for sub_map in map_group["maps"]:
-            img = Image.open("sources/img/maps/roomfinder/png/" + sub_map["file"])
+            img = Image.open("sources/img/maps/roomfinder/webp/" + sub_map["file"])
             maps_out[(sub_map["b_id"], sub_map["floor"])] = {
                 "desc": sub_map["desc"],
                 "id": ".".join(sub_map["file"].split(".")[:-1]),
-                "path": "png/" + sub_map["file"],
+                "path": "webp/" + sub_map["file"],
                 "width": img.width,
                 "height": img.height,
                 **base_data
