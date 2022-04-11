@@ -51,15 +51,12 @@ navigatum.registerView('md', {
                 var e = document.getElementById("view-md");
                 if (e === null) {
                     console.warn("Failed to update page title. Probably the page is not mounted yet or there was an error.")
-                    document.title = "NavigaTUM";
                     return;
                 }
 
                 var c = e.firstChild;
                 if (c && c.firstChild.tagName.toLowerCase() == "h1")
-                    document.title = c.firstChild.innerText + " – NavigaTUM";
-                else
-                    document.title = "NavigaTUM";
+                    navigatum.setTitle(c.firstChild.innerText)
             });
         },
     }

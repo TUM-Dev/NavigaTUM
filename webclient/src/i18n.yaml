@@ -1,5 +1,11 @@
+meta:
+  description:
+    de: "Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden."
+    en: "Navigate around TUM with excellence. This is a website to find rooms, buildings and other places at TUM easier than the current RoomFinder, developed by students."
 search:
   placeholder: {de: "Suche", en: "Search"}
+  aria-searchlabel: {de: "Suchfeld", en: "Search-field"}
+  aria-actionlabel: {de: "Suche nach dem im Suchfeld eingetragenen Raum", en: "Search for the room-query entered in the search field"}
   action: {de: "Go", en: "Go"}
   hidden: {de: "ausgeblendet", en: "hidden"}
   result: {de: "Ergebnis", en: "result"}
@@ -7,7 +13,13 @@ search:
   approx: {de: "ca.", en: "approx."}
   sections:
     buildings: {de: "Gebäude / Standorte", en: "Buildings / Sites"}
+    of_which_visible: {de: "davon sichtbar", en: "of them visible"}
     rooms: {de: "Räume", en: "Rooms"}
+    and: {de: "und", en: "and"}
+    were_found: {de: "wurden gefunden.", en: "were found."}
+    no_buildings_rooms_found:
+      de: "Keine Gebäude / Standorte oder Räume konnten gefunden werden."
+      en: "No buildings / locations or rooms could be found."
 footer:
   sourcecode:
     text: {de: "Source Code", en: "Source Code"}
@@ -18,8 +30,8 @@ footer:
     text: {de: "Impressum", en: "Imprint"}
     link: {de: "impressum", en: "impressum"}
   about:
-    text: {de: "Über NavigaTUM", en: "About NavigaTUM"}
-    link: {de: "ueber-navigatum", en: "about-navigatum"}
+    text: {de: "Über uns", en: "About us"}
+    link: {de: "ueber-uns", en: "about-us"}
   feedback:
     text: {de: "Feedback senden", en: "Feedback"}
   api:
@@ -32,6 +44,7 @@ footer:
 feedback:
   title: {de: "Feedback senden", en: "Send Feedback"}
   subject: {de: "Betreff", en: "Subject"}
+  category: {de: "Feedback-Kategorie", en: "Feedback category"}
   type:
     general: {de: "Allgemein", en: "General"}
     bug: {de: "Fehler", en: "Bug"}

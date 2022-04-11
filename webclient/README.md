@@ -19,13 +19,13 @@ sudo npm install -g yarn gulp
 The frontend uses images and maps from the data, that are intended to be served
 statically via a CDN and not provided by the API.
 
-For a local environment, create a `cdn/` subdirectory and copy the relevant files
+For a local environment, create a `cdn/` subdirectory in `weblclient/` and copy the relevant files
 into it:
 ```bash
 mkdir cdn
 rsync -r --exclude '*.yaml' ../data/sources/img/ cdn/
-mkdir -p cdn/maps/roomfinder/gif
-cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder/gif/
+mkdir -p cdn/maps/roomfinder/webp
+cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder/webp/
 ```
 
 ### Building
@@ -50,7 +50,7 @@ gulp release
 If you do a development build you can use a simple webserver to test the build.
 
 Ensure that *NavigaTUM-server* is running in the background. By default the webclient will connect to the server on `http://localhost:8080`.
-If you want to connect to the public API instead, change `api_prefix` in `config-local.js` to `https://roomapi.tum.sexy/api/` and rebuild.
+If you want to connect to the public API instead, change `api_prefix` in `config-local.js` to `https://nav.tum.sexy/api/` and rebuild.
 
 Now run:
 ```bash
@@ -102,7 +102,7 @@ webclient
 │   ├── md/      # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
 │   ├── modules/
 │   │   ├── autocomplete.js     # 🠔 Autocompletion for search
-│   │   └── interactive-map.js  # 🠔 Interactive map based on Leaflet
+│   │   └── interactive-map.js  # 🠔 Interactive map based on Mapbox
 │   ├── views/  # 🠔 See below
 │   ├── core.js             # 🠔 Core JS code (and JS entrypoint)
 │   ├── feedback.js         # 🠔 JS for the feedback form (separated from the rest of
@@ -116,7 +116,6 @@ webclient
 │   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
 │   ├── spectre-all.scss    # 🠔 Include-script for Spectre.CSS
 │   └── variables.scss      # 🠔 Sass CSS variable definitions (also defines themes)
-├── vendor/       # 🠔 External libraries
 ├── config.js     # 🠔 Build configuration
 ├── gulpfile.js   # 🠔 Gulp configuration
 └── package.json  # 🠔 Node package definition and dependencies

@@ -1,5 +1,5 @@
-use actix_web::client::Client;
 use actix_web::{post, web, HttpResponse};
+use awc::Client;
 use serde::{Deserialize, Serialize};
 use std::sync::Mutex;
 use std::time::Instant;
@@ -166,10 +166,10 @@ async fn send_feedback(
                 state.opt.gitlab_domain.as_ref().unwrap(),
                 state.opt.feedback_project.as_ref().unwrap()
             ))
-            .set_header(
+            .insert_header((
                 "PRIVATE-TOKEN",
                 state.opt.gitlab_token.as_ref().unwrap().to_string(),
-            )
+            ))
             .send_json(&post_data)
             .await;
 

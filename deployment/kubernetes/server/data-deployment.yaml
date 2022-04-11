@@ -8,6 +8,7 @@ metadata:
     namespace: navigatum
 spec:
     replicas: 1
+    revisionHistoryLimit: 1
     selector:
         matchLabels:
             app: navigatum
@@ -23,7 +24,7 @@ spec:
                   image: ghcr.io/tum-dev/navigatum-data:main
                   imagePullPolicy: Always
                   ports:
-                      - containerPort: 8000
+                      - containerPort: 80
                         name: navigatum-cdn
                   resources:
                     requests:
@@ -36,11 +37,11 @@ spec:
                       httpGet:
                           path: /health
                           port: navigatum-cdn
-                      failureThreshold: 1
-                      periodSeconds: 10
+                      failureThreshold: 3
+                      periodSeconds: 5
                   startupProbe:
                       httpGet:
                           path: /health
                           port: navigatum-cdn
-                      failureThreshold: 5
-                      periodSeconds: 2
+                      failureThreshold: 60
+                      periodSeconds: 1

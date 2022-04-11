@@ -124,7 +124,7 @@ navigatum.registerModule("autocomplete", (function() {
                     if (navigatum.app.search.autocomplete.highlighted !== null) {
                         navigatum.app.searchGoTo(navigatum.app.search.autocomplete.highlighted, true);
                     } else {
-                        navigatum.app.searchGo(true);
+                        navigatum.app.searchGo(false);
                     }
                     break;
             }

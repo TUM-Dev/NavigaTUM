@@ -69,13 +69,18 @@
         }
     }
     
-    small.search_meta {
-        display: block;
-        margin-top: 30px;
-        //color: $text-gray;
-        
-        a {
-            color: $body-font-color;
+    small {
+        button { // feedback-form, ..
+            font-size: 12px;
+            padding: 0;
+        }
+        .search_meta {
+            display: block;
+            //color: $text-gray;
+
+            a {
+                color: $body-font-color;
+            }
         }
     }
 }

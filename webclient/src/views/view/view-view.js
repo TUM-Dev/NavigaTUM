@@ -103,8 +103,8 @@ navigatum.registerView('view', {
         // This is called
         // - on initial page load
         // - when the view is loaded for the first time
-        // - when the view is naviated to from a different view
-        // - when the view is naviated to from the same view, but with a different entry
+        // - when the view is navigated to from a different view
+        // - when the view is navigated to from the same view, but with a different entry
         loadEntryData: function (data) {
             this.view_data = data;
             if (data === null)
@@ -135,6 +135,7 @@ navigatum.registerView('view', {
 
             // --- Additional data ---
             navigatum.setTitle(data.name);
+            navigatum.setDescription(this.genDescription(data));
 
             // --- Sections ---
             if (this.view_data.sections && this.view_data.sections.rooms_overview) {
@@ -148,14 +149,27 @@ navigatum.registerView('view', {
                 this.updateRoomsOverview();
             }
         },
+        genDescription: function(data) {
+            const details_for="${{_.view_view.meta.details_for}}$";
+            let description=`${details_for} ${data.type_common_name} ${data.name}`;
+            if (data.props.computed){
+                description+=":"
+                for (const prop of data.props.computed){
+                    description+=`\n- ${prop.name}: ${prop.text}`;
+                }
+            }
+            return description;
+        },
         // --- Loading components ---
         // When these methods are called, the view has already been mounted,
         // so we can find elements by id.
         loadMap: function() {
-            if (this.state.map.selected === "interactive")
-                this.loadInteractiveMap();
-            else if (this.state.map.selected === "roomfinder")
-                this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
+            if (navigator.userAgent !== "Rendertron") {
+                if (this.state.map.selected === "interactive")
+                    this.loadInteractiveMap();
+                else if (this.state.map.selected === "roomfinder")
+                    this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
+            }
         },
         loadInteractiveMap: function(from_ui) {
             var _this = this;
@@ -168,32 +182,38 @@ navigatum.registerView('view', {
                 navigatum.getModule("interactive-map").then(function(c) {
                     _this.map.interactive.component = c;
 
-                    var map = _this.map.interactive.map;
+                    let map = _this.map.interactive.map;
+                    let marker = _this.map.interactive.marker;
                     // The map might or might not be initialized depending on the type
                     // of navigation.
                     if (document.getElementById("interactive-map")) {
-                        if (!document.getElementById("interactive-map")
-                                    .classList.contains("leaflet-container")) {
-                            document.getElementById("interactive-map").classList.remove("loading");
+                        if (document.getElementById("interactive-map").classList.contains("mapboxgl-map")) {
+                            marker.remove()
+                        }
+                        else {
                             map = c.initMap('interactive-map');
                             _this.map.interactive.map = map;
-                        } else {
-                            // Clean old data from the map
-                            map.eachLayer(function(layer) {
-                                if (layer instanceof L.Marker)
-                                    layer.remove();
-                            });
+
+                            document.getElementById("interactive-map").classList.remove("loading");
                         }
                     }
-
-                    // Use 17 as default zoom for now, TODO: Compute
-                    var coords = _this.view_data.coords;
-                    map.setView([coords.lat, coords.lon], 17, {
-                        // Only pan visibly when interactive map was displayed
-                        animate: from_map === "interactive",
-                    });
-
-                    L.marker([coords.lat, coords.lon], {icon: c.icon}).addTo(map)
+                    marker = c.initMarker();
+                    _this.map.interactive.marker = marker;
+                    const coords = _this.view_data.coords;
+                    marker.setLngLat([coords.lon, coords.lat]).addTo(map);
+                    // Use 16 as default zoom for now, TODO: Compute
+                    if (from_map === "interactive"){
+                        map.flyTo({
+                            center: [coords.lon, coords.lat],
+                            zoom: 16,
+                            speed: 1,
+                            maxDuration: 2000
+                        });
+                    }
+                    else {
+                        map.setZoom(16);
+                        map.setCenter([coords.lon, coords.lat]);
+                    }
                 });
             });
 
