@@ -321,7 +321,7 @@ def _load_custom_maps():
     maps_out = {}
     for map_group in custom_maps:
         base_data = {
-            "source": map_group["props"].get("source", "NavigaTUM"),
+            "source": map_group["props"].get("source", "NavigaTUM-Contributors"),
             # For some reason, these are given as str
             "scale": str(map_group["props"]["scale"]),
             "latlonbox": {
