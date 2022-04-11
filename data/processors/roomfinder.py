@@ -190,7 +190,7 @@ def _get_roomfinder_maps(obj):
         if obj["default_map"][1] == 9:
             maps["available"].clear()
         else:
-            maps["default"] = str(obj["default_map"][1])
+            maps["default"] = f"rf{obj['default_map'][1]}"
     
     return maps
         
