@@ -164,12 +164,13 @@ navigatum.registerView('view', {
         // When these methods are called, the view has already been mounted,
         // so we can find elements by id.
         loadMap: function() {
-            if (navigator.userAgent !== "Rendertron") {
-                if (this.state.map.selected === "interactive")
-                    this.loadInteractiveMap();
-                else if (this.state.map.selected === "roomfinder")
-                    this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
+            if (navigator.userAgent === "Rendertron") {
+                return;
             }
+            if (this.state.map.selected === "interactive")
+                this.loadInteractiveMap();
+            else if (this.state.map.selected === "roomfinder")
+                this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
         },
         loadInteractiveMap: function(from_ui) {
             var _this = this;
@@ -342,6 +343,9 @@ navigatum.registerView('view', {
     },
     mounted: function () {
         this.is_mounted = true;
+        if (navigator.userAgent === "Rendertron") {
+            return;
+        }
         this.$nextTick(function () {
             // Even though 'mounted' is called there is no guarantee apparently,
             // that it really is mounted now. For this reason we try to poll now.
