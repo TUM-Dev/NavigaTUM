@@ -256,7 +256,7 @@ def build_roomfinder_maps(data):
             latlonbox["south_east"] = (float(latlonbox["south"]), float(latlonbox["east"]))
 
             # Roomfinder data is with ints as id, but we use a string based format
-            if type(m["id"]) is int:
+            if isinstance(m["id"], int):
                 m["id"] = f"rf{m['id']}"
             
             maps[m["id"]] = m
