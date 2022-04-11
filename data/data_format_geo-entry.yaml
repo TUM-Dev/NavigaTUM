@@ -103,10 +103,10 @@ internal_id:
   maps:  # (Display) required for anything except type==root
     default: one of "interactive", "roomfinder"
     roomfinder:
-      default: 101  # mapid
+      default: "rf5"  # mapid
       is_only_building: true  # optional, also true for parent building (although ignored there)
       available:  # should already be ordered by scale (lowest value first)
-        - {id: 5, scale: "4000", name: "Stammgelände Basiskarte", width: 480, height: 640,
+        - {id: "rf5", scale: "4000", name: "Stammgelände Basiskarte", width: 480, height: 640,
            x: 300, y: 500}
   
   props:  # Semantic properties (that are useful to display, but do not have their own section)

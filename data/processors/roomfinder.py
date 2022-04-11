@@ -176,7 +176,7 @@ def _get_roomfinder_maps(obj):
     if len(obj["maps"]) > 0:
         for mapdata in obj["maps"]:
             maps["available"].append({
-                "id": mapdata[1],
+                "id": f"rf{mapdata[1]}",  # Roomfinder data is with ints as id, but we use a string based format
                 "scale": mapdata[0],
                 "name": mapdata[2],
                 "width": mapdata[3],
@@ -190,7 +190,7 @@ def _get_roomfinder_maps(obj):
         if obj["default_map"][1] == 9:
             maps["available"].clear()
         else:
-            maps["default"] = str(obj["default_map"][1])
+            maps["default"] = f"rf{obj['default_map'][1]}"
     
     return maps
         
