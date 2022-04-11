@@ -176,10 +176,6 @@ def assign_roomfinder_maps(data):
                 roomfinder_map_data["is_only_building"] = True
 
             continue
-        else:
-            if entry["id"] == "3117":
-                print(entry["maps"])
-                print(entry["coords"])
         
         # TODO: Sort & unique
         available_maps = []
