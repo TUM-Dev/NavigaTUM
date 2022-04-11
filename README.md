@@ -1,4 +1,5 @@
 # NavigaTUM
+[![App Status](https://argocd.frank.elsinga.de/api/badge?name=navigatum&revision=true)](https://argocd.frank.elsinga.de/applications/navigatum)
 
 NavigaTUM is a non-official tool developed by students for students, that aims to help you get around at [TUM](https://tum.de). Feel free to contribute.
 
@@ -14,9 +15,12 @@ All functionality is also available via an API.
 
 ## Screenshots
 
-<img src="./resources/website-screenshots/main-index.png" width="75%"  alt="Screenshot of the main-index of the website"/>  
-<img src="./resources/website-screenshots/building-with-internal-map.png" width="75%"  alt="Screenshot of a building including an internal map"/>  
-<img src="./resources/website-screenshots/example-search.png" width="75%"  alt="Screenshot of the search-page"/>  
+<img alt="Screenshot of the main-index of the website" src="./resources/website-screenshots/main-index_light.png#gh-light-mode-only" width="75%"/>
+<img alt="Screenshot of the main-index of the website" src="./resources/website-screenshots/main-index_dark.png#gh-dark-mode-only" width="75%"/> 
+<img alt="Screenshot of a building including an internal map" src="./resources/website-screenshots/building-with-internal-map_light.png#gh-light-mode-only" width="75%"/>
+<img alt="Screenshot of a building including an internal map" src="./resources/website-screenshots/building-with-internal-map_dark.png#gh-dark-mode-only" width="75%"/> 
+<img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_light.png#gh-light-mode-only" width="75%"/>
+<img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_dark.png#gh-dark-mode-only" width="75%"/> 
 
 ## Getting started
 
@@ -40,8 +44,9 @@ In case you do not want to work on the data processing, you can instead
 download the latest compiled files:
 
 ```bash
-wget -P data/output https://roomapi.tum.sexy/cdn/api_data.json 
-wget -P data/output https://roomapi.tum.sexy/cdn/search_data.json
+wget -P data/output https://nav.tum.sexy/cdn/api_data.json 
+wget -P data/output https://nav.tum.sexy/cdn/search_data.json
+wget -P data/output https://nav.tum.sexy/cdn/search_synonyms.json
 ```
 
 Else you can follow the steps in the [data documentation](data/).

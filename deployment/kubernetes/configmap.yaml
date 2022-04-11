@@ -6,4 +6,4 @@ metadata:
         app: navigatum
     namespace: navigatum
 data:
-    ALLOWED_HOSTS: 'roomapi.tum.sexy'
+    ALLOWED_HOSTS: 'nav.tum.sexy'

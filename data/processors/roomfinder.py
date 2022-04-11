@@ -184,7 +184,13 @@ def _get_roomfinder_maps(obj):
             })
 
     if len(obj["default_map"]) != 0:
-        maps["default"] = str(obj["default_map"][1])
+        # If the default map is the world map, this is usually
+        # the only map available. As we don't include the world
+        # map into the available maps, return empty data here
+        if obj["default_map"][1] == 9:
+            maps["available"].clear()
+        else:
+            maps["default"] = str(obj["default_map"][1])
     
     return maps
         

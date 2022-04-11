@@ -90,13 +90,13 @@ MeiliSearch provides an interactive interface at [http://localhost:7700](http://
 ### get
 
 ```HTTP
-GET https://roomapi.tum.sexy/api/get/:id
+GET https://nav.tum.sexy/api/get/:id
 ```
 
 This returns the full data available for the entry (room/building) available as JSON.
 The exact data format is specified in the [NavigaTUM-data documentation](../data/README.md), but it is essentially structured like this:
 
-e.g. with `GET https://roomapi.tum.sexy/api/get/5602.EG.001`:
+e.g. with `GET https://nav.tum.sexy/api/get/5602.EG.001`:
 
 ```js
 {
@@ -127,7 +127,7 @@ e.g. with `GET https://roomapi.tum.sexy/api/get/5602.EG.001`:
                 },
                 ...
             ],
-            default: "142"
+            "default": "142"
         }
     },
 
@@ -150,7 +150,7 @@ e.g. with `GET https://roomapi.tum.sexy/api/get/5602.EG.001`:
 ### search
 
 ```HTTP
-GET https://roomapi.tum.sexy/api/search/:query
+GET https://nav.tum.sexy/api/search/:query
 ```
 
 Search entries – this endpoint is designed to support search-as-you-type results.
@@ -211,7 +211,8 @@ The following sections are currently implemented:
 ```
 
 Example of how `parsed_id` might be displayed:  
-![example of displaying parsed_id](../resources/website-screenshots/example_parsed-id.png)
+![example of displaying parsed_id](../resources/website-screenshots/example_parsed-id_light.png#gh-light-mode-only)
+![example of displaying parsed_id](../resources/website-screenshots/example_parsed-id_dark.png#gh-dark-mode-only)
 
 **Buildings / Sites:**
 
@@ -249,13 +250,12 @@ Limits are not stable yet.
 ### source_code
 
 ```HTTP
-GET https://roomapi.tum.sexy/api/source_code
+GET https://nav.tum.sexy/api/source_code
 ```
 
-Search entries – this endpoint is designed to support search-as-you-type results.
-
-NavigaTUM provides a `/source_code` endpoint, which returns a link to the source
-repository of the running version. This is not required for modifications (as the license
+The `api/source_code` endpoint returns a link to the source-code of the
+repository at the currently running version.  
+This is not required for modifications (as the license
 is not AGPL), but strongly encouraged.
 
 ## License

@@ -166,14 +166,14 @@ function build_feedback_js() {
 
 function copy_vue_js() {
     if (config.target === "release")
-        return gulp.src(['vendor/vue.min.js',
-                         'vendor/vue-router.min.js',
+        return gulp.src(['node_modules/vue/dist/vue.min.js',
+                         'node_modules/vue-router/dist/vue-router.min.js',
                          'src/init-call.js'])
                    .pipe(concat('vue.min.js'))
                    .pipe(gulp.dest('build/js'));
     else
-        return gulp.src(['vendor/vue.js',
-                         'vendor/vue-router.js',
+        return gulp.src(['node_modules/vue/dist/vue.js',
+                         'node_modules/vue-router/dist/vue-router.js',
                          'src/init-call.js'])
                    .pipe(concat('vue.js'))
                    .pipe(gulp.dest('build/js'));
@@ -361,37 +361,60 @@ gulp.task('pages_out', function(done) {
 
 
 // --- Legacy JS Pipeline ---
+function build_webp_polyfills() {
+    return gulp.src(['node_modules/webp-hero/dist-cjs/polyfills.js', 'node_modules/webp-hero/dist-cjs/webp-hero.bundle.js'])
+               .pipe(concat('webp-hero.min.js'))
+               .pipe(gulp.dest('build/js'))
+}
+
 function extract_polyfills() {
     return gulp.src(['src/legacy.js', 'build/js/app-core.js', 'build/js/app-rest.js'])
-               .pipe(concat('tmp-merged.js'))
-               .pipe(babel({
-                    presets: [[
-                        "@babel/preset-env",
-                        {
-                            targets: babel_targets,
-                            "useBuiltIns": "usage",
-                            "corejs": "3.8"
-                        }
-                    ]],
-                    sourceType: "module"
-                }))
-               .pipe(splitFiles())
-               .pipe(first())
-               // Add custom polyfills for missing browser (not ES) features
-               .pipe(addsrc('vendor/whatwg-fetch-3.6.2.umd.js'))
-               .pipe(concat('polyfills.js'))
-               .pipe(gulp.dest('build/tmp'));
+        .pipe(preprocess({
+             context: {
+                 app_prefix: config.app_prefix,
+                 cdn_prefix: config.cdn_prefix,
+                 api_prefix: config.api_prefix,
+                 target: config.target
+             },
+             includeBase: 'src/js'
+         }))
+         .pipe(concat('tmp-merged.js'))
+         .pipe(babel({
+              presets: [[
+                  "@babel/preset-env",
+                  {
+                      targets: babel_targets,
+                      "useBuiltIns": "usage",
+                      "corejs": "3.8"
+                  }
+              ]],
+              sourceType: "module"
+          }))
+         .pipe(splitFiles())
+         .pipe(first())
+         // Add custom polyfills for missing browser (not ES) features
+         .pipe(addsrc('node_modules/whatwg-fetch/dist/fetch.umd.js'))
+         .pipe(concat('polyfills.js'))
+         .pipe(gulp.dest('build/tmp'));
 }
 
 function insert_polyfills() {
+    let target_filename
+    if (config.target === "release")
+        target_filename =`polyfills.min.js`
+    else
+        target_filename=`polyfills.js`
+
     var bundleStream = browserify('./build/tmp/polyfills.js').bundle()
 
     return bundleStream
         .pipe(source('polyfills.js'))
+        //.pipe(gulpif(config.target === "release", htmlmin(htmlmin_options)))
+        .pipe(rename(target_filename))
         .pipe(gulp.dest('build/js'))
 }
 
-gulp.task('legacy_js', gulp.series(extract_polyfills, insert_polyfills));
+gulp.task('legacy_js', gulp.parallel(build_webp_polyfills, gulp.series(extract_polyfills, insert_polyfills)));
 
 // --- I18n Pipeline ---
 function i18n_compile_langfiles() {
@@ -445,20 +468,30 @@ function copy_well_known_root() {
 }
 gulp.task('well_known', gulp.parallel(copy_well_known, copy_well_known_root));
 
-// --- Vendor src Pipeline ---
-function copy_vendor_css() {
-    return gulp.src(['vendor/leaflet-1.7.1.css',
-                     'vendor/leaflet-gesture-handling-1.2.1.min.css'])
-               .pipe(concat('leaflet-1.7.1-with-plugins.css'))
+// --- map (currently mapbox) Pipeline ---
+function copy_map_css() {
+    let target_filename
+    if (config.target === "release")
+        target_filename =`mapbox.min.css`
+    else
+        target_filename=`mapbox.css`
+    return gulp.src(['node_modules/mapbox-gl/dist/mapbox-gl.css'])
+               .pipe(concat(target_filename))
+               .pipe(gulpif(config.target === "release", csso()))
                .pipe(gulp.dest('build/css'))
 }
-function copy_vendor_js() {
-    return gulp.src(['vendor/leaflet-1.7.1.min.js',
-                     'vendor/leaflet-gesture-handling-1.2.1.min.js'])
-               .pipe(concat('leaflet-1.7.1-with-plugins.min.js'))
+function copy_map_js() {
+    let target_filename
+    if (config.target === "release")
+        target_filename =`mapbox.min.js`
+    else
+        target_filename=`mapbox.js`
+    return gulp.src(['node_modules/mapbox-gl/dist/mapbox-gl.js'])
+               .pipe(concat(target_filename))
+               .pipe(gulpif(config.target === "release", uglify()))
                .pipe(gulp.dest('build/js'))
 }
-gulp.task('vendor', gulp.parallel(copy_vendor_css, copy_vendor_js));
+gulp.task('map', gulp.parallel(copy_map_css, copy_map_js));
 
 
 /* === Utils === */
@@ -475,7 +508,7 @@ function getFolders(dir) {
 exports.build = gulp.series(
     clean_build,
     i18n_compile_langfiles,
-    gulp.parallel('main_css', 'main_js', 'views', 'assets', 'well_known', 'vendor', 'markdown'),
+    gulp.parallel('main_css', 'main_js', 'views', 'assets', 'well_known', 'map', 'markdown'),
     gulp.series('pages_src', 'pages_out', 'legacy_js')
 );
 

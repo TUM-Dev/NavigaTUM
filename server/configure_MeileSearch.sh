@@ -2,6 +2,13 @@
 
 set -e # fail on first error
 
+curl_with_args() {
+  curl \
+   --connect-timeout 5 --max-time 10 --retry 10 --retry-delay 5 --retry-max-time 60 --retry-connrefused \
+   --header 'content-type: application/json' -i \
+   "$@"
+}
+
 echo "----"
 echo "configure MeiliSearch"
 echo "----"
@@ -9,25 +16,26 @@ echo "----"
 echo
 echo "> Set primary-key"
 echo
-curl --silent -i -X POST 'http://127.0.0.1:7700/indexes' --header 'content-type: application/json' --data '{ "uid": "entries", "primaryKey": "ms_id" }'
+curl_with_args --request POST 'http://localhost:7700/indexes' --data '{ "uid": "entries", "primaryKey": "ms_id" }'
 echo
 echo
 echo "> Set filterable attributes"
 echo
-curl --silent -X POST 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --header 'content-type: application/json' --data '["facet"]'
+curl_with_args --request POST 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --data '["facet"]'
 
 echo
 echo "> Upload entries data:"
 echo
-curl --silent -i -X PUT 'http://127.0.0.1:7700/indexes/entries/documents' --header 'content-type: application/json' --data-binary "@./search_data.json"
+ls -lah "./search_data.json"
+curl_with_args --request PUT 'http://localhost:7700/indexes/entries/documents' --data-binary "@./search_data.json"
 
 echo
 echo
 echo "> Configure index:"
 echo
-curl --silent -X POST 'http://localhost:7700/indexes/entries/settings/ranking-rules' --header 'content-type: application/json' --data '["words","typo","rank:desc","exactness","proximity","attribute"]'
+curl_with_args --request POST 'http://localhost:7700/indexes/entries/settings/ranking-rules' --data '["words", "typo", "rank:desc", "exactness", "proximity", "attribute"]'
 
 echo "synonyms:"
-ls -lah "./search_data.json"
-curl --silent -X POST 'http://localhost:7700/indexes/entries/settings/synonyms' --header 'content-type: application/json' --data "@./search_synonyms.json"
-curl --silent -X POST 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --header 'content-type: application/json' --data '[ "ms_id", "name", "arch_name", "type", "type_common_name", "parent_building", "parent_keywords", "address", "usage" ]'
+ls -lah "./search_synonyms.json"
+curl_with_args --request POST 'http://localhost:7700/indexes/entries/settings/synonyms' --data "@./search_synonyms.json"
+curl_with_args --request POST 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --data '["ms_id", "name", "arch_name", "type", "type_common_name", "parent_building", "parent_keywords", "address", "usage"]'

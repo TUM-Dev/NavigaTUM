@@ -70,6 +70,35 @@ garching:
     license: "CC-BY 3.0"
     meta:
       date: "2020-04-25"
+      
+physik:
+  0:
+    author: "'Graf-flugplatz'"
+    source: {text: "Wikimedia Commons",
+             url: "https://commons.wikimedia.org/wiki/File:110403019-TUM.JPG"}
+    license: "CC-BY-SA 3.0"
+    meta:
+      date: "2011-04-03"
+      
+physik-main:
+  0:
+    author: "Andreas Battenberg / TUM"
+    source: {text: "mediaTUM",
+             url: "https://mediatum.ub.tum.de/1232786?show_id=1273589"}
+    meta:
+      date: "2015-04-27"
+  1:
+    author: "Andreas Battenberg / TUM"
+    source: {text: "mediaTUM",
+             url: "https://mediatum.ub.tum.de/1232786?show_id=1273590"}
+    meta:
+      date: "2015-04-27"
+  2:
+    author: "Andreas Battenberg / TUM"
+    source: {text: "mediaTUM",
+             url: "https://mediatum.ub.tum.de/1232786?show_id=1273588"}
+    meta:
+      date: "2015-04-27"
 
 mi:
   0:
@@ -94,6 +123,38 @@ tb-chemie:
     license: "CC-BY-SA 4.0"
     meta:
       date: "2011-09-26"
+      
+galileo:
+  0:
+    author: "Astrid Eckert / TUM"
+    source: {text: "mediaTUM",
+             url: "https://mediatum.ub.tum.de/1232774?show_id=1599389"}
+    meta:
+      date: "2020-11-02"
+      
+"5304":
+  0:
+    author: "© Andreas Heddergott / TU Muenchen"
+    source: {text: "mediaTUM",
+             url: "https://mediatum.ub.tum.de/651288?show_id=1519378"}
+    meta:
+      date: "2019-09-11"
+  1:
+    author: "© Andreas Heddergott / TU Muenchen"
+    source: {text: "mediaTUM",
+             url: "https://mediatum.ub.tum.de/651288?show_id=1519379"}
+    meta:
+      date: "2019-09-11"
+      
+      
+# --- Garching -> StudiTUM ---
+"5532.Z1.003":
+  0:
+    author: "Uli Benz / TUM"
+    source: {text: "mediaTUM",
+             url: "https://mediatum.ub.tum.de/1232774?show_id=1475840"}
+    meta:
+      date: "2019-01-23"
 
       
 # --- Freising / WZW ---

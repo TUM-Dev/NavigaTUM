@@ -83,10 +83,10 @@ internal_id:
       - {}
   
   img:
-    thumb: "mi_0.jpg"
-    header_small: {name: "mi_0.jpg", ...}  # c.f. large
+    thumb: "mi_0.webp"
+    header_small: {name: "mi_0.webp", ...}  # c.f. large
     large:
-      - name: "mi_0.jpg"
+      - name: "mi_0.webp"
         # for each: text is required, url can also be null
         author: {text: "", url: ""}  # required
         source: {text: "", url: ""}  # optional
@@ -156,7 +156,7 @@ internal_id:
     buildings_overview:
       n_visible: 6
       entries:
-        - {name: "Display name", subtext: "Gebäudekomplex mit 512 Räumen", id: "id", thumb: "mi_0.jpg" or null}
+        - {name: "Display name", subtext: "Gebäudekomplex mit 512 Räumen", id: "id", thumb: "mi_0.webp" or null}
     rooms_overview:
       usages:
         - name: "Büro"
@@ -173,7 +173,7 @@ internal_id:
           name: "Teilbibliothek Chemie"
           subtext: "Teilbibliothek"
           id: ""
-          header_small: "tb-chemie_0.jpg"  # required
+          header_small: "tb-chemie_0.webp"  # required
   
   # --- Additional, type-dependent properties ---
   roomfinder_data:
