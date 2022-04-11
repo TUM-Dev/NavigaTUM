@@ -1,3 +1,4 @@
+use cached::proc_macro::cached;
 use futures::join;
 use std::collections::HashMap;
 use std::time::Instant;
@@ -6,7 +7,7 @@ use awc::{Client, ClientBuilder, Connector};
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone, Eq, PartialEq, Hash)]
 pub struct SearchQueryArgs {
     // Limit per facet
     limit_buildings: Option<usize>,
@@ -49,7 +50,7 @@ pub struct SearchResults {
     time_ms: u128,
 }
 
-#[derive(Serialize, Debug)]
+#[derive(Serialize, Debug, Clone)]
 pub struct SearchResultsSection {
     facet: String,
     entries: Vec<ResultEntry>,
@@ -58,7 +59,7 @@ pub struct SearchResultsSection {
     nb_hits: i32,
 }
 
-#[derive(Serialize, Debug)]
+#[derive(Serialize, Debug, Clone)]
 pub struct ResultEntry {
     id: String,
     r#type: String,
@@ -124,20 +125,24 @@ struct MSFacetDistribution {
     facet: HashMap<String, i32>,
 }
 
-pub async fn do_search(q: String, args: SearchQueryArgs) -> Result<SearchResults> {
+pub async fn do_benchmarked_search(q: String, args: SearchQueryArgs) -> Result<SearchResults> {
     let start_time = Instant::now();
 
-    let parsed = parse_input_query(&q);
-
-    let client = ClientBuilder::new().connector(Connector::new()).finish();
-
-    let results_sections = do_geoentry_search(client, &parsed.tokens, args).await;
+    let results_sections = execute_search(q, args).await;
 
     let time_ms = start_time.elapsed().as_millis();
     Ok(SearchResults {
         sections: results_sections,
         time_ms,
     })
+}
+
+// size=100 seems to be about 10M
+#[cached(size = 500)]
+async fn execute_search(q: String, args: SearchQueryArgs) -> Vec<SearchResultsSection> {
+    let parsed = parse_input_query(q);
+
+    return do_geoentry_search(&parsed.tokens, args).await;
 }
 
 fn build_query_string(search_tokens: &Vec<SearchToken>) -> String {
@@ -153,8 +158,8 @@ fn build_query_string(search_tokens: &Vec<SearchToken>) -> String {
     s
 }
 
-fn parse_input_query(q: &str) -> SearchInput {
-    let input_tokens = tokenize_input_query(&q);
+fn parse_input_query(q: String) -> SearchInput {
+    let input_tokens = tokenize_input_query(q);
 
     let mut search_tokens = Vec::<SearchToken>::new();
     let mut search_filter = SearchFilter {
@@ -222,7 +227,7 @@ fn parse_input_query(q: &str) -> SearchInput {
     }
 }
 
-fn tokenize_input_query(q: &str) -> Vec<InputToken> {
+fn tokenize_input_query(q: String) -> Vec<InputToken> {
     let mut tokens = Vec::<InputToken>::new();
 
     // We don't care about unicode here since all split conditions
@@ -310,7 +315,6 @@ fn tokenize_input_query(q: &str) -> Vec<InputToken> {
 }
 
 async fn do_geoentry_search(
-    client: Client,
     search_tokens: &Vec<SearchToken>,
     args: SearchQueryArgs,
 ) -> Vec<SearchResultsSection> {
@@ -321,6 +325,7 @@ async fn do_geoentry_search(
     // for all entries and only rooms, as matching (and relevant) buildings can be
     // expected to be at the top of the merged search. However sometimes a lot of
     // buildings will be hidden (e.g. building parts), so the extra room search ....
+    let client = ClientBuilder::new().connector(Connector::new()).finish();
 
     let q_default = build_query_string(&search_tokens);
 
