@@ -143,6 +143,7 @@ def assign_roomfinder_maps(data):
             m["latlonbox"]["south"] = float(m["latlonbox"]["south"])
             m["latlonbox"]["east"] = float(m["latlonbox"]["east"])
             m["latlonbox"]["west"] = float(m["latlonbox"]["west"])
+            m["id"] = f"rf{m['id']}"
     maps_list.remove(world_map)
     
     for _id, entry in data.items():
@@ -152,7 +153,7 @@ def assign_roomfinder_maps(data):
         if len(entry.get("maps", {}).get("roomfinder", {}).get("available", [])) > 0:
             continue
         
-        # Use maps from parent building, if the is no precise coordinate known
+        # Use maps from parent building, if there is no precise coordinate known
         if entry["type"] in {"room", "virtual_room"} and \
            entry["coords"].get("accuracy", None) == "building":
             building_parent = list(filter(lambda e: data[e]["type"] == "building",
@@ -247,11 +248,12 @@ def build_roomfinder_maps(data):
         if "latlonbox" in m:
             latlonbox = m["latlonbox"]
             
-            zones_n = set()
-            zones_letter = set()
-            
             latlonbox["north_west"] = (float(latlonbox["north"]), float(latlonbox["west"]))
             latlonbox["south_east"] = (float(latlonbox["south"]), float(latlonbox["east"]))
+
+            # Roomfinder data is with ints as id, but we use a string based format
+            if type(m["id"]) is int:
+                m["id"] = f"rf{m['id']}"
             
             maps[m["id"]] = m
 
@@ -261,7 +263,7 @@ def build_roomfinder_maps(data):
             for entry_map in entry["maps"]["roomfinder"]["available"]:
                 # The world map (id 9) is currently excluded, because it would need a different
                 # projection treatment.
-                if entry_map["id"] == 9:
+                if entry_map["id"] == "rf9":
                     world_map = entry_map
                     continue
                 
