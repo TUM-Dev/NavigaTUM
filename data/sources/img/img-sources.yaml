@@ -1,5 +1,8 @@
 # Note: URLs to CC licenses are automatically inserted
 
+# Note: thumbnail_offset (in px of the source image) can be used to shift the center of the square crop along the
+#  max(height,width) axis of the image
+
 # --- Stammgelände ---
 zentralgelaende:
   0:
@@ -1212,6 +1215,7 @@ mri:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/652209?show_id=1519378"
+    thumbnail_offset: -1000
   1:
     author: "Andreas Heddergott"
     license:
