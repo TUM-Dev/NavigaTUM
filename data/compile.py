@@ -68,8 +68,10 @@ def main():
     print("-- 45 Roomfinder maps")
     maps.assign_roomfinder_maps(data)
     maps.build_roomfinder_maps(data)
-    
-    print("-- 50 Add image information")
+
+    print("-- 50 resize and crop the images for the thumbnail and header-small formats")
+    images.refresh_headers_and_thumbs(data, "sources/img/")
+    print("-- 51 Add image information")
     images.add_img(data, "sources/img/")
     
     print("-- 80 Generate info card")
