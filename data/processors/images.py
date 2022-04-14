@@ -1,9 +1,10 @@
-import os
 import itertools
+import os
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import yaml
-
+from PIL import Image
 from utils import convert_to_webp
 
 KNOWN_LICENSE_URLS = {
@@ -17,6 +18,8 @@ KNOWN_LICENSE_URLS = {
     "CC-BY-SA 3.0": "https://creativecommons.org/licenses/by-sa/3.0/deed.en",
     "CC-BY-SA 4.0": "https://creativecommons.org/licenses/by-sa/4.0/deed.en",
 }
+THUMBNAIL_SIZE = (256, 256)
+HEADER_MAX_SIZE = 1920
 
 
 def add_img(data, path_prefix):
@@ -94,13 +97,64 @@ def _add_source_info(fname, source_data):
         img_data["source"] = _parse(source_data[_index]["source"])
     if "license" in source_data[_index]:
         img_data["license"] = _parse(source_data[_index]["license"])
-        if img_data["license"]["text"] in KNOWN_LICENSE_URLS:
-            img_data["license"]["url"] = KNOWN_LICENSE_URLS[img_data["license"]["text"]]
-        else:
-            print(f"Warning: Unknown license url for '{img_data['license']['text']}'")
+        if img_data["license"]["url"] is None:
+            if img_data["license"]["text"] in KNOWN_LICENSE_URLS:
+                img_data["license"]["url"] = KNOWN_LICENSE_URLS[img_data["license"]["text"]]
+            else:
+                print(f"Warning: Unknown license url for '{img_data['license']['text']}'")
 
     return img_data
 
 
+def _gen_thumb(img: Image, base_dir: Path, filename: str) -> None:
+    """Generate a thumbnail for the given image."""
+    w, h = img.size
+    mid_h = h // 2
+    mid_w = w // 2
+    if w < h:
+        # image is vertical
+        thumb = img.crop((0, mid_h - mid_w, w, mid_h + mid_w))
+    elif w > h:
+        # image is horizontal
+        thumb = img.crop((mid_w - mid_h, 0, mid_w + mid_h, h))
+    else:
+        # image is already square
+        thumb = img
+    thumb.thumbnail(THUMBNAIL_SIZE)
+    thumb.save(base_dir / "thumb" / filename, lossless=False, method=6, quality=50)
 
 
+def _gen_header(img: Image, base_dir: Path, filename: str) -> None:
+    """Generate a header-small for the given image."""
+    w, h = img.size
+    header = img
+    if max(w, h) > HEADER_MAX_SIZE:
+        if w < h:
+            # image is vertical
+            scaling = HEADER_MAX_SIZE / h
+            header = img.resize((int(w * scaling), HEADER_MAX_SIZE), Image.ANTIALIAS)
+        else:
+            # image is horizontal
+            scaling = HEADER_MAX_SIZE / w
+            header = img.resize((HEADER_MAX_SIZE, int(h * scaling)), Image.ANTIALIAS)
+    header.save(base_dir / "header-small" / filename, lossless=False, method=6, quality=50)
+
+
+def refresh_headers_and_thumbs(data, path):
+    """
+    Refresh the headers and thumbs for the given data.
+    This will overwrite any existing thumbs/header-small's.
+    """
+    base_dir = Path(path)
+    large_files_dir = base_dir / "large"
+
+    def _refresh_single_headers_and_thumbs(img_filepath: Path) -> None:
+        img = Image.open(img_filepath)
+        img_base_dir = img_filepath.parent.parent
+        filename = img_filepath.name
+        _gen_thumb(img, img_base_dir, filename)
+        _gen_header(img, img_base_dir, filename)
+
+    with ThreadPoolExecutor() as executor:
+        for img_path in large_files_dir.glob("*.webp"):
+            executor.submit(_refresh_single_headers_and_thumbs, img_path)
