@@ -111,17 +111,17 @@ def _add_source_info(fname, source_data):
     return img_data
 
 
-def _gen_thumb(img: Image, base_dir: Path, filename: str) -> None:
+def _gen_thumb(img: Image, base_dir: Path, filename: str, thumbnail_offset: int) -> None:
     """Generate a thumbnail for the given image."""
     w, h = img.size
     mid_h = h // 2
     mid_w = w // 2
     if w < h:
         # image is vertical
-        thumb = img.crop((0, mid_h - mid_w, w, mid_h + mid_w))
+        thumb = img.crop((0, mid_h - mid_w + thumbnail_offset, w, mid_h + mid_w + thumbnail_offset))
     elif w > h:
         # image is horizontal
-        thumb = img.crop((mid_w - mid_h, 0, mid_w + mid_h, h))
+        thumb = img.crop((mid_w - mid_h + thumbnail_offset, 0, mid_w + mid_h + thumbnail_offset, h))
     else:
         # image is already square
         thumb = img
@@ -145,7 +145,7 @@ def _gen_header(img: Image, base_dir: Path, filename: str) -> None:
     header.save(base_dir / "header-small" / filename, lossless=False, method=6, quality=50)
 
 
-def refresh_headers_and_thumbs(data, path):
+def refresh_headers_and_thumbs(path):
     """
     Refresh the headers and thumbs for the given data.
     This will overwrite any existing thumbs/header-small's.
@@ -153,13 +153,25 @@ def refresh_headers_and_thumbs(data, path):
     base_dir = Path(path)
     large_files_dir = base_dir / "large"
 
-    def _refresh_single_headers_and_thumbs(img_filepath: Path) -> None:
+    def _refresh_single_headers_and_thumbs(args: tuple[Path, int]) -> None:
+        img_filepath, thumbnail_offset = args
         img = Image.open(img_filepath)
         img_base_dir = img_filepath.parent.parent
         filename = img_filepath.name
-        _gen_thumb(img, img_base_dir, filename)
+        _gen_thumb(img, img_base_dir, filename, thumbnail_offset)
         _gen_header(img, img_base_dir, filename)
 
+    with open(base_dir / "img-sources.yaml") as f:
+        img_sources = yaml.safe_load(f.read())
     with ThreadPoolExecutor() as executor:
         for img_path in large_files_dir.glob("*.webp"):
-            executor.submit(_refresh_single_headers_and_thumbs, img_path)
+            _id, _index = parse_image_filename(img_path.name)
+
+            offset = 0
+            if _id in img_sources and _index in img_sources[_id]:
+                if "thumbnail_offset" in img_sources[_id][_index]:
+                    offset = img_sources[_id][_index]["thumbnail_offset"]
+            else:
+                print(f"Warning: No source information for image '{img_path.name}', defaulting thumbnail-crop-offset "
+                      f"to the center of the image")
+            executor.submit(_refresh_single_headers_and_thumbs, (img_path, offset))
