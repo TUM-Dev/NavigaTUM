@@ -8,7 +8,7 @@ from PIL import Image
 from utils import convert_to_webp
 
 KNOWN_LICENSE_URLS = {
-    "CC0": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "CC0 1.0": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
     "CC-BY 2.0": "https://creativecommons.org/licenses/by/2.0/deed.en",
     "CC-BY 2.5": "https://creativecommons.org/licenses/by/2.5/deed.en",
     "CC-BY 3.0": "https://creativecommons.org/licenses/by/3.0/deed.en",
@@ -40,15 +40,7 @@ def add_img(data, path_prefix):
     # Check that all images have source information (to make sure it was not forgot)
     merged_filelist = list(itertools.chain(*files.values()))
     for f in merged_filelist:
-        if ".webp" not in f:
-            raise RuntimeError(f"Missing webp for '{f}'")
-        parts = f.lower().replace(".webp", "").split("_")
-        try:
-            _id = parts[0]
-            _index = int(parts[1])
-        except:
-            print(f"Error: failed to parse image file name '{f}'")
-            exit(1)
+        _id, _index = parse_image_filename(f)
 
         if _id not in img_sources or _index not in img_sources[_id]:
             print(f"Warning: No source information for image '{f}', it will not be used")
@@ -74,6 +66,19 @@ def add_img(data, path_prefix):
             ]
 
         data[_id]["img"] = img_data
+
+
+def parse_image_filename(f: str) -> tuple[str, int]:
+    """parse the filename of an image to get the id and index"""
+    if ".webp" not in f:
+        raise RuntimeError(f"Missing webp for '{f}'")
+    parts = f.replace(".webp", "").split("_")
+    try:
+        _id = parts[0]
+        _index = int(parts[1])
+        return _id, _index
+    except Exception as e:
+        raise RuntimeError(f"Error: failed to parse image file name '{f}'") from e
 
 
 def _add_source_info(fname, source_data):
