@@ -65,7 +65,7 @@ stammgelaende:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=652205"
-tb-stammgelaende:
+"0101.01.195":
   0:
     author: "MaxEmanuel"
     license: "CC0 1.0"
@@ -857,7 +857,7 @@ mw:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232769?show_id=1165202"
-tb-chemie:
+"5401":
   0:
     author: "Universitätsbibliothek der TUM"
     license: "CC-BY-SA 4.0"
@@ -893,21 +893,20 @@ galileo:
       url: "https://mediatum.ub.tum.de/1232767?show_id=1599391"
 mri:
   0:
-    author: "Klinikum rechts der Isar"
+    author: "Astrid Eckert"
     license:
-      text: "Verwendung frei für Berichterstattung über die TU München und  das Klinikum rechts der Isar unter Nennung des Copyrights / Free for use in reporting on TU München and Klinikum rechts der Isar  with the copyright noted."
+      text: "©Astrid Eckert / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted"
       url: ""
     meta:
-      caption: "Luftbildaufnahme des Klinikums rechts der Isar aus dem Jahr 1964."
-      date: "1964"
-      faculty: "Medizin"
-      headline: "Luftbildaufnahme des Klinikums rechts der Isar aus dem Jahr 1964."
-      image_url: "https://mediatum.ub.tum.de/file/1361057/Luftaufnahme_rechts_der_Isar_1964.jpg"
-      location_name: "Klinikum rechts der Isar"
-      origin: "extern"
+      caption: "Im Erweiterungsbau der Chirurgischen Klinik befinden sich neben der  Notaufnahme, das Institut für Experimentelle Chirurgie, Kursräume für die Mikrobiologie und Klinische Chemie.  The expansion building of Chirurgical Clinic houses the emergency admission, the institute for experimental chemistry, seminar rooms for microbiology and clinical chemistry.  \r\nFoto / Photo: Astrid Eckert / TUM"
+      date: "05.02.2021"
+      faculty: "TUM School of Medicine;  faculty für Medizin"
+      headline: "Klinikum rechts der Isar der TUM / University Hospital of TUM (TUM) 2021"
+      image_url: "https://mediatum.ub.tum.de/image/1613195.jpg"
+      location: "München"
     source:
       text: "mediaTUM"
-      url: "https://mediatum.ub.tum.de/1232768?show_id=1361057"
+      url: "https://mediatum.ub.tum.de/1232769?show_id=1613195"
   1:
     author: "Klinikums rechts der Isar"
     license:
@@ -925,38 +924,6 @@ mri:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/652209?show_id=1361058"
-  2:
-    author: "Astrid Eckert"
-    license:
-      text: "©Astrid Eckert / TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted"
-      url: ""
-    meta:
-      caption: "Im Erweiterungsbau der Chirurgischen Klinik befinden sich neben der  Notaufnahme, das Institut für Experimentelle Chirurgie, Kursräume für die Mikrobiologie und Klinische Chemie.  The expansion building of Chirurgical Clinic houses the emergency admission, the institute for experimental chemistry, seminar rooms for microbiology and clinical chemistry.  \r\nFoto / Photo: Astrid Eckert / TUM"
-      date: "05.02.2021"
-      faculty: "TUM School of Medicine;  faculty für Medizin"
-      headline: "Klinikum rechts der Isar der TUM / University Hospital of TUM (TUM) 2021"
-      image_url: "https://mediatum.ub.tum.de/image/1613195.jpg"
-      location: "München"
-    source:
-      text: "mediaTUM"
-      url: "https://mediatum.ub.tum.de/1232769?show_id=1613195"
-  3:
-    author: "Klinikums rechts der Isar"
-    license:
-      text: "Verwendung frei für Berichterstattung über die TU München und das Klinikums rechts der Isarunter Nennung des Copyrights / Free for use in reporting on TU München and Klinikums rechts der Isar with the copyright noted."
-      url: ""
-    meta:
-      caption: "Luftbildaufnahme des Klinikums rechts der Isar aus dem Jahr 2017."
-      date: "2017"
-      faculty: "Medizin"
-      headline: "Luftbildaufnahme des Klinikums rechts der Isar aus dem Jahr 2017."
-      image_url: "https://mediatum.ub.tum.de/file/1361058/Luftbild_heute.jpg"
-      location_name: "Klinikum rechts der Isar"
-      origin: "extern"
-      source: "Klinikums rechts der Isar"
-    source:
-      text: "mediaTUM"
-      url: "https://mediatum.ub.tum.de/1232768?show_id=1361058"
 "frm-2":
   0:
     author: "Battenberg, Andreas / TUM"
@@ -2134,7 +2101,7 @@ mri:
       date: "2019-01-23"
 
 # --- Ottobrunn ---
-ottobrunn:
+taufkirchen-ottobrunn:
   0:
     author: "Uli Benz"
     license:
@@ -2150,22 +2117,6 @@ ottobrunn:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232768?show_id=1601027"
-"taufkirchen-ottobrunn":
-  0:
-    author: "Uli Benz"
-    license:
-      text: "©Uli Benz/ TUM; Verwendung frei für die Berichterstattung über die TUM bei Nennung des Copyrights / Free for use in reporting on TUM, with the copyright noted."
-      url: ""
-    meta:
-      caption: "Ab dem 1. Dezember ist die faculty für Luftfahrt, Raumfahrt und Geodäsie (LRG) der TUM (TUM) Mieterin eines neuen Gebäudes in der Lise-Meitner-Straße in Ottobrunn.  Die faculty für Luftfahrt, Raumfahrt und Geodäsie (LRG) wurde 2018 als 15. faculty der TUM gegründet.  \r\nVon neuen Transportsystemen über Kommunikations- und Satellitentechnik bis zur Beobachtung und Vermessung des Planeten: Im Zusammenspiel mit den geodätischen Disziplinen wird die Luft- und Raumfahrt zu einer 'Mission Erde'.  \r\nMit ihren derzeit 22 Professuren und Lehrstühlen gehört die faculty schon jetzt international zum Spitzenfeld: Das Shanghai Subject Ranking sieht sie in der Geodäsie/Fernerkundung weltweit auf Platz 8, in der Luft- und Raumfahrt auf Platz 16 \u2013 die LRG ist damit deutschlandweit unangefochten führend. Durch gezielte fachliche Verstärkungen sowie ausgedehnte Investitionen an ihren neuen Standorten in Taufkirchen/Ottobrunn und Oberpfaffenhofen wird diese Führungsrolle in den kommenden Jahren weiter ausgebaut. \r\nENGLISH VERSION: As of December 1, the Department of Aerospace and Geodesy (LRG) of the Technical University of Munich (TUM) is the tenant of a new building in Lise-Meitner-Strasse in Ottobrunn. The completely renovated building offers space for the acute needs of the department. The Department of Aerospace and Geodesy (LRG) was founded in 2018 as the 15th department of the TUM.  From novel aircraft and transport systems to communication and satellite technology to observing and mapping our planet with unprecedented precision: Aerospace and geodesy have jointly started their 'mission earth'.  \r\nWith its currently 22 professorships and chairs, the department is already playing in the Champions League of research: In the Shanghai Subject Ranking , it ranks 8th in geodesy/remote sensing and 16th in aerospace worldwide \u2013 making the LRG the undisputed number one in Germany. Through professional reinforcements as well as extensive investments at the new locations in Taufkirchen/Ottobrunn and Oberpfaffenhofen, this position will be further strengthened in the years to come and will make the LRG the largest department of its kind in Europe."
-      date: "28.02.2021"
-      faculty: "Fakultät für Luftfahrt, Raumfahrt und Geodäsie;  Department of Aerospace and Geodesy"
-      headline: "TUM Neues Gebäude der faculty Luftfahrt, Raumfahrt und Geodäsie (LRG) / New Building for Department of Aerospace, Aeronautics and Geodesy in Ottobrunn/Taufkirchen 2021"
-      image_url: "https://mediatum.ub.tum.de/image/1601037.jpg"
-      location: "Ottobrunn / Taufkirchen, Bayern, Deutschland / Bavaria, Germany"
-    source:
-      text: "mediaTUM"
-      url: "https://mediatum.ub.tum.de/1232767?show_id=1601037"
 
 "9376":
   0:

@@ -173,7 +173,7 @@ internal_id:
           name: "Teilbibliothek Chemie"
           subtext: "Teilbibliothek"
           id: ""
-          header_small: "tb-chemie_0.webp"  # required
+          header_small: "5401_0.webp"  # required
   
   # --- Additional, type-dependent properties ---
   roomfinder_data:
