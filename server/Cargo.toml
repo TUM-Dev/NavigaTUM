@@ -12,6 +12,7 @@ path = "src/main.rs"
 strip = true
 
 [dependencies]
+octocrab = "0.15.4"
 actix-web = "4.0.1"
 awc = "3.0.0"
 lazy_static = "1.4.0"
