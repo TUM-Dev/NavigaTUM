@@ -258,6 +258,89 @@ repository at the currently running version.
 This is not required for modifications (as the license
 is not AGPL), but strongly encouraged.
 
+
+## Feedback
+
+### get_token
+
+```HTTP
+POST https://nav.tum.sexy/api/feedback/get_token
+```
+
+***Do not abuse this endpoint.***
+
+You should request a token, ***if (and only if) a user is on a feedback page***
+
+As a rudimentary way of rate-limiting feedback, this endpoint returns a token. 
+To post feedback, you will need this token. 
+
+Tokens gain validity after 10s, and are invalid after 12h of being issued.
+They are not refreshable, and are only valid for one usage.
+
+Global Rate-Limiting:
+ - hourly: 20 tokens per hour
+ - daily: 50 tokens per day
+
+A token is returned via a `201 Created` response in the body in the following json format:
+
+```json
+{
+    "token": "999999999999999"
+}
+```
+
+Errors:
+- `429`: Too many requests. We are rate-limiting everyone's requests, please try again later.
+- `503`: Service unavailable, if the token could not be generated
+
+### send feedback
+
+```HTTP
+POST https://nav.tum.sexy/api/feedback/feedback
+```
+Post-Data (all fields are required):
+```ts
+{
+  token = "999999999999999", 
+    // The token optained by the get_token endpoint as shown above
+  category = "bug",  
+    // The category of the feedback.
+    // One of: "general", "bug", "feature", "search", "entry", "other"
+  subject = "A catchy title", 
+    // The subject/title of the feedback
+    // min 4 chars, max 512 chars
+  body = "A clear desription what happened where and how we should improve it",
+    // The body/desription of the feedback.
+    // min 4 chars, max 1024*1024 chars
+  privacy_checked = true,
+    // Whether the user has checked the privacy-checkbox. 
+    // We are posting the feedback publicly on github (not a EU-Company). You have to also include such a checkmark.
+    // For inspiration on how to do this, see our website.
+  delete_issue_requested = true
+    // Whether the user has requested to delete the issue.
+    // If the user has requested to delete the issue, we will delete it from github after processing it
+    // If the user has not requested to delete the issue, we will not delete it from github and it will remain as a closed issue.
+}
+```
+
+Reruns:
+a link to the GitHub issue is returned via a `201 Created` response.
+
+Errors:
+- `400`: If not all fields are present as defined above
+- `403`: Forbidden:
+  Causes (delivered via the body):
+    - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
+    - `Token not old enough, please wait.`: Tokens are only valid after 10s.
+    - `Token expired.`: Tokens are only valid for 12h.
+    - `Token already used.`: Tokens are non reusable/refreshable single-use items.
+- `422`: Unprocessable Entity: `Subject or body missing or too short.` 
+- `451`: Unavailable for legal reasons. Using this endpoint without accepting the privacy policy is not allowed. For us to post to GitHub, this has to be true
+- `500`: Internal Server Error. We have a problem communicating with GitHubs servers. Please try again later.
+- `503`: Service unavailable. We have not configured a GitHub Access Token. This could be because we are experiencing technical difficulties or intentional. Please try again later.
+
+***Important Note:*** Tokens are only used if we return a `201 Created` response. Otherwise, they are still valid
+
 ## License
 
 This program is free software: you can redistribute it and/or modify
