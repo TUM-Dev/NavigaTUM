@@ -119,12 +119,12 @@ var feedback = (function() {
                 category: category,
                 subject: subject,
                 body: body,
-                privacy: privacy ? "y" : "n",
-                delete_issue: delete_issue ? "y" : "n",
+                privacy_checked: privacy,
+                delete_issue_requested: delete_issue,
             }),
             function(r) {
                 show_loading(false);
-                if (r.status === 200) {
+                if (r.status === 201) {
                     token = null;
                     close_form();
                 } else if (r.status === 403) {
