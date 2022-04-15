@@ -375,6 +375,24 @@
         </div>
       </div>
     </div>
+    <div class="modal" id="feedback-success-modal">
+      <div id="feedback-overlay" class="modal-overlay"></div>
+      <div class="modal-container">
+        <div class="modal-header">
+          <button class="btn btn-clear float-right" aria-label="Close" id="feedback-close"></button>
+          <div class="modal-title h5">${{_.feedback.success.title}}$</div>
+        </div>
+        <div class="modal-body">
+          <div class="content">
+            <p>${{_.feedback.success.thank_you}}$</p>
+            <p>${{_.feedback.success.response_at}}$ <a id="feedback-success-url" class="btn-link" href="https://github.com/TUM-Dev/navigatum/issues">${{_.feedback.success.this_issue}}$</a></p>
+            <div class="buttons">
+              <button class="btn btn-primary" id="feedback-close">${{_.feedback.success.ok}}$</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <script>
         function open_feedback(category, subject, body) {
             if (window.feedback) {
