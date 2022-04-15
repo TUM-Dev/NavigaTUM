@@ -131,7 +131,7 @@ async fn send_feedback(
     }
 
     if !req_data.privacy_checked {
-        return HttpResponse::Forbidden()
+        return HttpResponse::UnavailableForLegalReasons()
             .body("Using this endpoint without accepting the privacy policy is not allowed.");
     };
 
