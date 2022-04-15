@@ -16,17 +16,9 @@ const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 #[structopt(name = "server")]
 pub struct Opt {
     // Feedback
-    /// GitLab instance domain
-    #[structopt(short = "g", long)]
-    gitlab_domain: Option<String>,
-
-    /// GitLab access token
+    /// GitHub personal access token
     #[structopt(short = "t", long)]
-    gitlab_token: Option<String>,
-
-    /// GitLab feedback project id
-    #[structopt(short = "f", long)]
-    feedback_project: Option<i32>,
+    github_token: Option<String>,
 }
 
 lazy_static! {
@@ -85,7 +77,13 @@ async fn health_handler() -> Result<HttpResponse> {
 async fn main() -> std::io::Result<()> {
     env_logger::init();
 
-    let opt = Opt::from_args();
+    let mut opt = Opt::from_args();
+    if opt.github_token.is_none() {
+        let github_token = std::env::var("GITHUB_TOKEN");
+        if github_token.is_ok() {
+            opt.github_token = Some(github_token.unwrap());
+        }
+    }
 
     // This causes lazy_static to evaluate
     JSON_DATA.contains_key("");

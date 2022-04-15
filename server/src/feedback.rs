@@ -1,5 +1,6 @@
+use actix_web::web::Json;
 use actix_web::{post, web, HttpResponse};
-use awc::Client;
+use octocrab::Octocrab;
 use serde::{Deserialize, Serialize};
 use std::sync::Mutex;
 use std::time::Instant;
@@ -39,15 +40,8 @@ struct FeedbackPostData {
     category: String,
     subject: String,
     body: String,
-    privacy: String,
-}
-
-#[derive(Serialize)]
-struct CreateIssuePostData {
-    title: String,
-    description: String,
-    labels: String,
-    confidential: bool,
+    privacy_checked: bool,
+    delete_issue_requested: bool,
 }
 
 #[derive(Serialize)]
@@ -56,13 +50,12 @@ struct GenerateTokenResult {
 }
 
 pub fn init_state(opt: crate::Opt) -> AppStateFeedback {
-    let available =
-        opt.gitlab_domain.is_some() && opt.gitlab_token.is_some() && opt.feedback_project.is_some();
-
+    let available = opt.github_token.is_some();
+    let token = Mutex::new(Vec::<Token>::new());
     AppStateFeedback {
-        available: available,
-        opt: opt,
-        token: Mutex::new(Vec::<Token>::new()),
+        available,
+        opt,
+        token,
     }
 }
 
@@ -118,7 +111,6 @@ async fn send_feedback(
 ) -> HttpResponse {
     if !state.available {
         return HttpResponse::ServiceUnavailable()
-            .content_type("plain/text")
             .body("Feedback is currently not configured on this server.");
     }
 
@@ -126,74 +118,79 @@ async fn send_feedback(
 
     let token = token_list.iter_mut().find(|t| t.value == req_data.token);
 
-    if let Some(t) = token {
-        if t.creation.elapsed().as_secs() < TOKEN_MIN_AGE {
-            return HttpResponse::Forbidden()
-                .content_type("plain/text")
-                .body("Token not old enough, please wait.");
-        } else if t.creation.elapsed().as_secs() > TOKEN_MAX_AGE {
-            return HttpResponse::Forbidden()
-                .content_type("plain/text")
-                .body("Token expired.");
-        } else if t.used {
-            return HttpResponse::Forbidden()
-                .content_type("plain/text")
-                .body("Token already used.");
-        }
-
-        let post_data = CreateIssuePostData {
-            title: format!("Form: {}", clean_feedback_data(&req_data.subject, 512)),
-            description: clean_feedback_data(&req_data.body, 1024 * 1024).replace("/", "//"), // Do not use GitLab quick actions
-            labels: format!(
-                "webform,{}",
-                match req_data.category.as_str() {
-                    "general" | "bug" | "features" | "search" | "entry" => &req_data.category,
-                    _ => "other",
-                }
-            ),
-            confidential: req_data.privacy.as_str() == "internal",
-        };
-
-        if post_data.title.len() < 3 || post_data.description.len() < 10 {
-            return HttpResponse::UnprocessableEntity()
-                .content_type("plain/text")
-                .body("Subject or body missing or too short.");
-        }
-
-        let resp = Client::new()
-            .post(format!(
-                "https://{}/api/v4/projects/{}/issues",
-                state.opt.gitlab_domain.as_ref().unwrap(),
-                state.opt.feedback_project.as_ref().unwrap()
-            ))
-            .insert_header((
-                "PRIVATE-TOKEN",
-                state.opt.gitlab_token.as_ref().unwrap().to_string(),
-            ))
-            .send_json(&post_data)
-            .await;
-
-        resp.and_then(|resp| {
-            if resp.status().is_success() {
-                t.used = true;
-                Ok(HttpResponse::Ok().body("Success".to_string()))
-            } else {
-                Ok(HttpResponse::InternalServerError().body("Failed to send".to_string()))
-            }
-        })
-        .unwrap()
-    } else {
-        HttpResponse::Forbidden()
-            .content_type("plain/text")
-            .body("Invalid token".to_string())
+    if token.is_none() {
+        return HttpResponse::Forbidden().body("Invalid token".to_string());
     }
+    let t = token.unwrap();
+    if t.creation.elapsed().as_secs() < TOKEN_MIN_AGE {
+        return HttpResponse::Forbidden().body("Token not old enough, please wait.");
+    } else if t.creation.elapsed().as_secs() > TOKEN_MAX_AGE {
+        return HttpResponse::Forbidden().body("Token expired.");
+    } else if t.used {
+        return HttpResponse::Forbidden().body("Token already used.");
+    }
+
+    if !req_data.privacy_checked {
+        return HttpResponse::Forbidden()
+            .body("Using this endpoint without accepting the privacy policy is not allowed.");
+    };
+
+    let (title, description, labels) = parse_request(&req_data);
+
+    if title.len() < 3 || description.len() < 10 {
+        return HttpResponse::UnprocessableEntity().body("Subject or body missing or too short.");
+    }
+    let token = state.opt.github_token.as_ref().unwrap().to_string();
+    let octocrab = Octocrab::builder().personal_token(token).build();
+    if octocrab.is_err() {
+        return HttpResponse::InternalServerError().body("Could not create Octocrab instance.");
+    }
+    let resp = octocrab
+        .unwrap()
+        .issues("TUM-Dev", "navigatum")
+        .create(title)
+        .body(description)
+        .labels(labels)
+        .send()
+        .await;
+
+    return if resp.is_ok() {
+        t.used = true;
+        HttpResponse::Created().body(resp.unwrap().html_url.to_string())
+    } else {
+        HttpResponse::InternalServerError().body("Failed create issue".to_string())
+    };
+}
+
+fn parse_request(req_data: &Json<FeedbackPostData>) -> (String, String, Vec<String>) {
+    let capitalised_category = match req_data.category.as_str() {
+        "general" => "General",
+        "bug" => "Bug",
+        "feature" => "Feature",
+        "search" => "Search",
+        "entry" => "Entry",
+        _ => "Form",
+    };
+    let raw_title = format!("[{}] {}", capitalised_category, &req_data.subject);
+    let title = clean_feedback_data(&raw_title, 512);
+    let description = clean_feedback_data(&req_data.body, 1024 * 1024);
+
+    let mut labels = vec![String::from("webform")];
+    if req_data.delete_issue_requested {
+        labels.push(String::from("delete-after-processing"));
+    }
+    match req_data.category.as_str() {
+        "general" | "bug" | "feature" | "search" | "entry" => {
+            labels.push(String::from(&req_data.category))
+        }
+        _ => {}
+    };
+    (title, description, labels)
 }
 
 fn clean_feedback_data(s: &String, len: usize) -> String {
     if len > 0 {
-        let mut s = s.clone();
-        s.truncate(len);
-        s.chars().filter(|c| !c.is_control()).collect()
+        s.chars().filter(|c| !c.is_control()).take(len).collect()
     } else {
         s.chars().filter(|c| !c.is_control()).collect()
     }
