@@ -78,6 +78,7 @@ var feedback = (function() {
 
     function close_form() {
         document.getElementById("feedback-modal").classList.remove("active");
+        document.getElementById("feedback-success-modal").classList.remove("active");
     }
 
     function may_close_form() {
@@ -106,6 +107,12 @@ var feedback = (function() {
         }
     }
 
+    function show_success(href) {
+        document.getElementById("feedback-modal").classList.remove("active");
+        document.getElementById("feedback-success-modal").classList.add("active");
+        document.getElementById("feedback-success-url").setAttribute("href", href);
+    }
+
     function send() {
         var category = document.getElementById("feedback-category").value;
         var subject = document.getElementById("feedback-subject").value;
@@ -126,7 +133,7 @@ var feedback = (function() {
                 show_loading(false);
                 if (r.status === 201) {
                     token = null;
-                    close_form();
+                    show_success(r.responseText);
                 } else if (r.status === 403) {
                     token = null;
                     show_error("${{_.feedback.error.send_invalid_token}}$ (" + r.responseText + ")", false);

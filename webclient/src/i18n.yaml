@@ -64,6 +64,22 @@ feedback:
     en: "Delete this GitHub issue when resolved."
   send: {de: "Senden", en: "Send"}
   cancel: {de: "Abbrechen", en: "Cancel"}
+  success:
+    thank_you:
+      de: "Vielen Dank für dein Feedback! Wir werden es schnellstmöglich bearbeiten."
+      en: "Thank you for giving your feedback. We will work on this as soon as possible."
+    response_at:
+      de: "Antwort auf dein Feedback findest du auf"
+      en: "You can see our response at"
+    this_issue:
+      de: "diesem GitHub Issue"
+      en: "this GitHub issue"
+    title:
+      de: "Vielen Dank!"
+      en: "Thank you!"
+    ok:
+      de: "OK"
+      en: "OK"
   error:
     token_req_failed:
       de: "Unerwarteter Fehler beim Laden des Feedback-Formulars. Das Senden von Feedback ist gerade vermutlich nicht möglich. Bitte schreibe stattdessen eine Mail."
