@@ -1,5 +1,6 @@
 import json
 
+from utils import convert_to_webp
 from processors import areatree, check, images, maps, merge, patch, roomfinder, search, sections, structure, tumonline
 
 
@@ -69,11 +70,13 @@ def main():
     maps.assign_roomfinder_maps(data)
     maps.build_roomfinder_maps(data)
 
-    print("-- 50 resize and crop the images for the thumbnail and header-small formats")
-    images.refresh_headers_and_thumbs("sources/img/")
-    print("-- 51 Add image information")
-    images.add_img(data, "sources/img/")
-    
+    print(f"-- 50 convert {images.IMAGE_BASE} to webp")
+    convert_to_webp(images.IMAGE_BASE)
+    print("-- 51 resize and crop the images for different resolutions and formats")
+    images.resize_and_crop()
+    print("-- 52 Add image information")
+    images.add_img(data)
+
     print("-- 80 Generate info card")
     sections.compute_props(data)
     

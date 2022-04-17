@@ -1215,7 +1215,9 @@ mri:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/652209?show_id=1519378"
-    thumbnail_offset: -1000
+    offsets:
+      thumb: -1000
+      header: -800
   1:
     author: "Andreas Heddergott"
     license:
