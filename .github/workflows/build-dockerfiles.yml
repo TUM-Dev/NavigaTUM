@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     # Set job outputs to values from filter step
     outputs:
-      data: ${{ steps.filter.outputs.data }}
-      server: ${{ steps.filter.outputs.server }}
+      data: ${{ steps.filter.outputs.data_server }}
+      server: ${{ steps.filter.outputs.data_server }}
       webclient: ${{ steps.filter.outputs.webclient }}
     steps:
       - uses: actions/checkout@v3
@@ -19,16 +19,14 @@ jobs:
         id: filter
         with:
           # &github is a YAML anchor
+          # the server is required in data, since apparently it is impossibly to schedule a job after another in GitHub
           filters: |
             github: &github
               - '.github/**'
-            data: &data
+            data_server:
               - *github
-              - data/**
-            server:
-              - *github
-              - *data
-              - server/**
+              - 'data/**'
+              - 'server/**'
             webclient:
               - *github
               - 'webclient/**'
@@ -48,8 +46,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - data-build
-      - changes
-    if: ${{ needs.changes.outputs.data == 'true' }}
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app actions run navigatum restart --kind Deployment --resource-name navigatum-data --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
@@ -86,8 +82,6 @@ jobs:
     needs:
       - server-build
       - mieli-search-build
-      - changes
-    if: ${{ needs.changes.outputs.server == 'true' }}
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app actions run navigatum restart --kind Deployment --resource-name navigatum-server --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
@@ -108,8 +102,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - webclient-build
-      - changes
-    if: ${{ needs.changes.outputs.webclient == 'true' }}
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app actions run navigatum restart --kind Deployment --resource-name navigatum-webclient --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
