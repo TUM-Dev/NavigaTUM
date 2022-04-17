@@ -1,5 +1,7 @@
 processors/__pycache__
 venv
 output
-/sources/img/header-small/*
-/sources/img/thumb/*
+/sources/img/thumb/
+/sources/img/header/
+/sources/img/md/
+/sources/img/sm/

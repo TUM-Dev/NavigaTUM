@@ -9,7 +9,7 @@ COPY sources/ sources/
 COPY external/ external/
 COPY processors/ processors/
 COPY *.py ./
-RUN mkdir output && mkdir sources/img/header-small && mkdir sources/img/thumb \
+RUN mkdir output \
     && python3 compile.py \
     && test -f "./output/search_data.json" \
     && test -f "./output/api_data.json" \
