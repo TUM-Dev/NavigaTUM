@@ -94,7 +94,9 @@ var feedback = (function() {
                 show_error("${{_.feedback.error.too_short_subject}}$");
             } else if (document.getElementById("feedback-body").value.length < 10) {
                 show_error("${{_.feedback.error.too_short_body}}$");
-            } else {
+            } else if (document.getElementById("feedback-privacy").checked !== true){
+                show_error("${{_.feedback.error.privacy_not_checked}}$");
+            }else {
                 show_loading(true);
                 // Token may only be used after a short delay. In case that has not passed
                 // yet, we wait until for a short time.
@@ -134,6 +136,10 @@ var feedback = (function() {
                 if (r.status === 201) {
                     token = null;
                     show_success(r.responseText);
+                } else if (r.status === 500) {
+                    show_error("${{_.feedback.error.server_error}}$ (" + r.responseText + ")", false);
+                } else if (r.status === 451) {
+                    show_error("${{_.feedback.error.privacy_not_checked}}$", false);
                 } else if (r.status === 403) {
                     token = null;
                     show_error("${{_.feedback.error.send_invalid_token}}$ (" + r.responseText + ")", false);
