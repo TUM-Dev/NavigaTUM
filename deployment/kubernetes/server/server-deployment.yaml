@@ -26,6 +26,8 @@ spec:
                   envFrom:
                       - configMapRef:
                             name: navigatum-config
+                      - secretRef:
+                            name: navigatum-github-token
                   ports:
                       - containerPort: 8080
                         name: navigatum-api
