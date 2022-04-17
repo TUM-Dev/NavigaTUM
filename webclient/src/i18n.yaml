@@ -102,6 +102,12 @@ feedback:
     too_short_body:
       de: "Fehler: Nachricht fehlt oder ist zu kurz"
       en: "Error: Message missing or too short"
+    server_error:
+      de: "Server Fehler"
+      en: "Server Error"
+    privacy_not_checked:
+      de: "Aus rechtlichen Gründen nicht zulässig: Du musst die Datenschutzerklärung akzeptiert haben, damit wir dein Feedback via GitHub verarbeiten können. Es gibt andere Möglichkeiten uns zu kontaktieren, welche im Impressum aufgelistet sind."
+      en: "Unavailable for legal reasons: You have to accept the privacy statement for us to process the feedback via GitHub. There are other means of contact listed at in our impressum."
     send_invalid_token:
       de: "Formular-Token ungültig (vermutlich abgelaufen). Bitte kopiere den text und öffne das Formular nochmal."
       en: "Invalid form token (probably expired). Please copy the text and re-open the form."
