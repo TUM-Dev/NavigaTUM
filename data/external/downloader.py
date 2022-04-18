@@ -412,18 +412,16 @@ def tumonline_orgs():
     # This is a single request, so not cached
     r = requests.get(url, headers=headers)
     if r.status_code != 200:
-        print("Failed to download organisations")
-        print(r)
-        print(r.text)
-        exit(1)
+        raise RuntimeError(f"Failed to download organisations.\n"
+                           f"request={r}\n"
+                           f"request.text={r.text}")
 
     data = json.loads(r.text)
 
     try:
         results = data["resource"][0]["content"]["organisationChooserResultDto"]["searchResults"]
     except KeyError as e:
-        print(e)
-        exit(1)
+        raise RuntimeError(e) from e
 
     orgs = {}
     for _item in results:
