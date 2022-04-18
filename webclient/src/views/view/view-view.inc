@@ -2,8 +2,8 @@
   <!-- Header image (on mobile) -->
   <div class="show-sm header-image-mobile">
     <img alt="Header-Image, showing the building"
-         v-bind:src="'<!-- @echo cdn_prefix -->header-small/' + view_data.img.header_small.name"
-         v-if="view_data.img && view_data.img.header_small"
+         v-bind:src="'<!-- @echo cdn_prefix -->header/' + view_data.img[0].name"
+         v-if="view_data.img && view_data.img[0]"
          class="img-responsive"/>
   </div>
 
@@ -146,8 +146,8 @@
       <div class="card">
         <div class="card-image">
           <img alt="Header-Image, showing the building"
-               v-bind:src="'<!-- @echo cdn_prefix -->header-small/' + view_data.img.header_small.name"
-               v-if="view_data.img && view_data.img.header_small"
+               v-bind:src="'<!-- @echo cdn_prefix -->header/' + view_data.img[0].name"
+               v-if="view_data.img && view_data.img[0]"
                class="img-responsive"
                width="100%"/>
         </div>
@@ -190,7 +190,7 @@
     <div class="card" style="width: 250px;display: inline-flex;margin-right: 8px;">
         <div class="card-image">
             <img alt="Header-Image, showing the building"
-                 src="<!-- @echo cdn_prefix -- >header-small/mi_0.webp"
+                 src="<!-- @echo cdn_prefix -- >header/mi_0.webp"
                  class="img-responsive"/>
         </div>
         <div class="card-header">
@@ -208,7 +208,7 @@
     <div class="card" style="width: 250px;display: inline-flex;margin-right: 8px;height: 200px;vertical-align: top;">
         <div class="card-image" style="display: none;">
             <img alt="Header-Image, showing the building"
-                 src="<!-- @echo cdn_prefix -- >header-small/mi_0.webp"
+                 src="<!-- @echo cdn_prefix -- >header/mi_0.webp"
                  class="img-responsive">
         </div>
         <div class="card-header">
@@ -404,24 +404,24 @@
       </span>
       <span v-if="view_data.sources.patched"><br>${{_.view_view.sources.base.patched}}$</span>
     </p>
-    <p v-if="(view_data.img && view_data.img.header_small)">
+    <p v-if="(view_data.img && view_data.img[0])">
       ${{_.view_view.sources.header_img}}$:
-      <span>{{ view_data.img.header_small.author.text }}</span>
-      <span v-if="view_data.img.header_small.source">•
-        <a v-if="view_data.img.header_small.source.url"
-           v-bind:href="view_data.img.header_small.source.url"
+      <span>{{ view_data.img[0].author.text }}</span>
+      <span v-if="view_data.img[0].source">•
+        <a v-if="view_data.img[0].source.url"
+           v-bind:href="view_data.img[0].source.url"
            target="_blank">
-          {{ view_data.img.header_small.source.text }}
+          {{ view_data.img[0].source.text }}
         </a>
-        <template v-else>{{ view_data.img.header_small.source.text }}</template>
+        <template v-else>{{ view_data.img[0].source.text }}</template>
       </span>
-      <span v-if="view_data.img.header_small.license">&#32;•
-        <a v-if="view_data.img.header_small.license.url"
-           v-bind:href="view_data.img.header_small.license.url"
+      <span v-if="view_data.img[0].license">&#32;•
+        <a v-if="view_data.img[0].license.url"
+           v-bind:href="view_data.img[0].license.url"
            target="_blank">
-          {{ view_data.img.header_small.license.text }}
+          {{ view_data.img[0].license.text }}
         </a>
-        <template v-else>{{ view_data.img.header_small.license.text }}</template>
+        <template v-else>{{ view_data.img[0].license.text }}</template>
       </span>
     </p>
     <p v-if="view_data.coords">
