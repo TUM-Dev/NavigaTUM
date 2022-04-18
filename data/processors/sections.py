@@ -1,5 +1,4 @@
 
-
 def compute_props(data):
     """
     Create the "computed" value in "props".
@@ -75,7 +74,7 @@ def generate_buildings_overview(data):
             child = data[child_id]
             if child["type"] in {"area", "site", "campus", "building", "joined_building"}:
                 buildings.append(child)
-        #for child_id in entry["children_flat"]:
+        # for child_id in entry["children_flat"]:
         #    child = data[child_id]
         #    if child["type"] == "joined_building" or \
         #       (child["type"] == "building"
@@ -101,8 +100,7 @@ def generate_buildings_overview(data):
             try:
                 child = data[child_id]
             except KeyError:
-                print(f"Error: Unknown id '{child_id}' found when generating buildings_overview for '{_id}'")
-                exit(1)
+                raise RuntimeError(f"Error: Unknown id '{child_id}' found when generating buildings_overview for '{_id}'")
             
             if child["type"] in {"building", "joined_building"}:
                 n_rooms = child["props"]["stats"].get("n_rooms", 0)
@@ -121,14 +119,14 @@ def generate_buildings_overview(data):
                     child["props"]["stats"].get("n_rooms", 0),
                 )
             else:
-                print(f"Error: Cannot generate buildings_overview subtext for type '{child['type']}', for: '{_id}', child id: '{child_id}'")
-                exit(1)
-            
+                raise RuntimeError(f"Error: Cannot generate buildings_overview subtext "
+                                   f"for type '{child['type']}', for: '{_id}', child id: '{child_id}'")
+
             b_overview["entries"].append({
                 "id": child_id,
                 "name": child["short_name"] if "short_name" in child else child["name"],
                 "subtext": subtext,
-                "thumb": child["img"]["thumb"] if "thumb" in child.get("img", {}) else None,
+                "thumb": child["img"][0]["name"] if child.get("img", []) else None,
             })
         
         
@@ -137,7 +135,7 @@ def generate_rooms_overview(data):
     Generate the "rooms_overview" section
     """
     for _id, entry in data.items():
-        #if entry["type"] not in {"building", "joined_building", "virtual_room"} or \
+        # if entry["type"] not in {"building", "joined_building", "virtual_room"} or \
         if entry["type"] not in {"area", "site", "campus", "building", "joined_building", "virtual_room"} or \
            "children_flat" not in entry:
             continue
@@ -161,7 +159,3 @@ def generate_rooms_overview(data):
             }
             for u in sorted(rooms.items(), key=lambda e: e[0])
         ]
-
-
-
-

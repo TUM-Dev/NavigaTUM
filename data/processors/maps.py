@@ -22,9 +22,8 @@ def assign_coordinates(data):
             if "coords" not in entry:
                 buildings_without_coord.add(entry["id"])
     if len(buildings_without_coord) > 0:
-        print(f"Error: No coordinates known for the following buildings: "
+        raise RuntimeError(f"Error: No coordinates known for the following buildings: "
               f"{buildings_without_coord}")
-        exit(1)
     
     # All errors are collected first before quitting in the end if any
     # error occured.
@@ -118,9 +117,7 @@ def assign_coordinates(data):
                 continue
     
     if error:
-        print("Aborting due to errors")
-        exit(1)
-                
+        raise RuntimeError("Aborting due to errors")
 
 
 def assign_roomfinder_maps(data):

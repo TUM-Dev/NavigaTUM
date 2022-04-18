@@ -83,15 +83,25 @@ internal_id:
       - {}
   
   img:
-    thumb: "mi_0.webp"
-    header_small: {name: "mi_0.webp", ...}  # c.f. large
-    large:
-      - name: "mi_0.webp"
-        # for each: text is required, url can also be null
-        author: {text: "", url: ""}  # required
-        source: {text: "", url: ""}  # optional
-        license: {text: "", url: ""}  # optional
-        comment: ""  # optional, comment is more like "Das MI von der Ost-Seite"
+    - name: "mi_0.webp" # The name of the image file.
+      #consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
+
+      # for each: text is required, url can also be null
+      author: {text: "", url: ""}
+      source: {text: "", url: ""}
+      license: {text: "", url: ""}
+
+      meta: # optional
+        date: # optional
+        location: # optional location description
+        geo: # optional coordinates in lat,lon
+        image_url: # optional, in contrast to source this points to the image itself
+        caption: # optional
+        headline: # optional
+        event: # optional, the event this image was taken at
+        faculty: # optional
+        building: # optional
+        department: # optional
 
   coords:  # required for anything except type==root
     lat: 0.0
@@ -173,7 +183,6 @@ internal_id:
           name: "Teilbibliothek Chemie"
           subtext: "Teilbibliothek"
           id: ""
-          header_small: "tb-chemie_0.webp"  # required
   
   # --- Additional, type-dependent properties ---
   roomfinder_data:
