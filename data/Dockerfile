@@ -13,7 +13,7 @@ RUN mkdir output \
     && python3 compile.py \
     && test -f "./output/search_data.json" \
     && test -f "./output/api_data.json" \
-    && cp -r sources/img output
+    && cp -r sources/img/* output
 
 # put all data into the cdn folder
 COPY external/maps/roomfinder output/maps/roomfinder/webp
