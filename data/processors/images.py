@@ -132,8 +132,8 @@ def _gen_fixed_size(img: Image.Image, fixed_size: tuple[int, int], offset: int) 
         new_img = img.copy()
     if target_w != target_h:
         # thumbnail may be more efficient, but does only handle square images
-        return new_img.resize(fixed_size, Image.BICUBIC)
-    new_img.thumbnail(fixed_size)
+        return new_img.resize(fixed_size, Image.ANTIALIAS)
+    new_img.thumbnail(fixed_size, Image.ANTIALIAS)
     return new_img
 
 
@@ -147,10 +147,10 @@ def _gen_max_size(img: Image.Image, max_size: int) -> Optional[Image.Image]:
     if w < h:
         # image is vertical
         scaling = max_size / h
-        return img.resize((int(w * scaling), max_size), Image.BICUBIC)
+        return img.resize((int(w * scaling), max_size), Image.ANTIALIAS)
     # image is horizontal
     scaling = max_size / w
-    return img.resize((max_size, int(h * scaling)), Image.BICUBIC)
+    return img.resize((max_size, int(h * scaling)), Image.ANTIALIAS)
 
 
 def _refresh_for_all_resolutions(args: tuple[Path, dict[str, int]]) -> None:
