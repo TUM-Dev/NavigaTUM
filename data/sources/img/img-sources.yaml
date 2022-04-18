@@ -18,6 +18,8 @@ zentralgelaende:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1584779"
+    offsets:
+      header: 400
   1:
     author: "Astrid Eckert"
     license:
@@ -49,6 +51,8 @@ stammgelaende:
     meta:
       date: "2013-08-14"
       geo: "48.148165,11.566747"
+    offsets:
+      header: 100
   2:
     author: "FOTAG Luftbild München"
     license:
@@ -121,6 +125,8 @@ stammgelaende:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1584779"
+    offsets:
+      header: 400
   1:
     author: "Andreas Heddergott"
     license:
@@ -148,6 +154,8 @@ stammgelaende:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1436302"
+    offsets:
+      header: 400
 "0509":
   0:
     author: "Uli Benz / TUM"
@@ -305,6 +313,8 @@ stammgelaende:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232769?show_id=1613195"
+    offsets:
+      header: 400
 "2522":
   0:
     author: "Andreas Heddergott / TUM"
@@ -420,6 +430,8 @@ olympiapark:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232768?show_id=1443375"
+    offsets:
+      header: 200
   4:
     author: "Studio Roland Schmid"
     license:
@@ -454,6 +466,8 @@ olympiapark:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232768?show_id=1443390"
+    offsets:
+      header: 700
   6:
     author: "Studio Roland Schmid"
     license:
@@ -604,6 +618,8 @@ physik-main:
       url: "https://mediatum.ub.tum.de/1232786?show_id=1273589"
     meta:
       date: "2015-04-27"
+    offsets:
+      header: -100
   1:
     author: "Andreas Battenberg / TUM"
     license:
@@ -680,6 +696,8 @@ mi:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=614629"
+    offsets:
+      header: -150
   4:
     author: "Scharger, Albert / TUM"
     license:
@@ -695,6 +713,8 @@ mi:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=608137"
+    offsets:
+      header: 300
   6:
     author: "Andreas Heddergott / TUM"
     license:
@@ -721,6 +741,8 @@ mw:
     meta:
       date: "2015-10-09"
       geo: "48.265797,11.671356"
+    offsets:
+      header: 300
   1:
     author: "Heddergott, Andreas / TUM"
     license:
@@ -751,6 +773,8 @@ mw:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1436723?show_id=1437615"
+    offsets:
+      header: 200
   3:
     author: "Benz, Uli / TUM"
     license:
@@ -765,6 +789,8 @@ mw:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=998437"
+    offsets:
+      header: -200
   4:
     author: "Heddergott, Andreas / TUM"
     license:
@@ -814,6 +840,8 @@ galileo:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1599391"
+    offsets:
+      header: 200
 mri:
   0:
     author: "Astrid Eckert"
@@ -829,6 +857,8 @@ mri:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232769?show_id=1613195"
+    offsets:
+      header: 400
   1:
     author: "Klinikums rechts der Isar"
     license:
@@ -1097,7 +1127,7 @@ mri:
       url: "https://mediatum.ub.tum.de/652209?show_id=1519378"
     offsets:
       thumb: -1000
-      header: -800
+      header: 150
   1:
     author: "Andreas Heddergott"
     license:
@@ -1137,6 +1167,8 @@ mri:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/652209?show_id=1519383"
+    offsets:
+      header: -450
 "5115":
   0:
     author: "HennArchitekten, München"
@@ -1155,6 +1187,8 @@ mri:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/652209?show_id=736488"
+    offsets:
+      header: 100
   1:
     author: "HennArchitekten, München"
     license:
@@ -1172,6 +1206,8 @@ mri:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232768?show_id=736495"
+    offsets:
+      header: 200
   2:
     author: "HennArchitekten, München"
     license:
@@ -1222,6 +1258,8 @@ mri:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232770?show_id=1252278"
+    offsets:
+      header: -50
 "5401.01.101K":
   0:
     author: "Scharger, Albert / TUM"
@@ -1338,6 +1376,8 @@ mri:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232768?show_id=1366133"
+    offsets:
+      header: 200
   4:
     author: "Uli Benz / TUM"
     license:
@@ -1713,6 +1753,8 @@ mri:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1305045"
+    offsets:
+      header: 200
   7:
     author: "Uli Benz / TUM"
     license:
@@ -1907,6 +1949,8 @@ taufkirchen-ottobrunn:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232768?show_id=1601027"
+    offsets:
+      header: 500
 
 "9376":
   0:
@@ -1924,6 +1968,8 @@ taufkirchen-ottobrunn:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232772?show_id=1278913"
+    offsets:
+      header: 200
   1:
     author: "Andreas Heddergott / TUM"
     license:
@@ -1938,6 +1984,8 @@ taufkirchen-ottobrunn:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232772?show_id=1278912"
+    offsets:
+      header: 200
   2:
     author: "Andreas Heddergott / TUM"
     license:
@@ -1953,6 +2001,8 @@ taufkirchen-ottobrunn:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232768?show_id=1278916"
+    offsets:
+      header: -200
 "9377":
   0:
     author: "Uli Benz"
@@ -1968,6 +2018,8 @@ taufkirchen-ottobrunn:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1601027"
+    offsets:
+      header: 500
   1:
     author: "Uli Benz"
     license:
@@ -2139,6 +2191,8 @@ chemie:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1435162"
+    offsets:
+      header: 400
 "4111":
   0:
     author: "TUM/ A. Heddergott"
@@ -2250,6 +2304,8 @@ chemie:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/652209?show_id=1538250"
+    offsets:
+      header: -100
 "4217":
   0:
     author: "Benz, Uli / TUM"
@@ -2265,6 +2321,8 @@ chemie:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1206522"
+    offsets:
+      header: 400
 "4218":
   0:
     author: "Benz, Uli / TUM"
@@ -2280,6 +2338,8 @@ chemie:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1206515"
+    offsets:
+      header: 200
 "4220":
   0:
     author: "Benz, Uli / TUM"
@@ -2344,6 +2404,8 @@ cs:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1487673"
+    offsets:
+      header: 250
 "3501":
   0:
     author: "Andreas Heddergott"
@@ -2359,6 +2421,8 @@ cs:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1487673"
+    offsets:
+      header: 250
 
 # --- Raitenhaslach ---
 "9001":
@@ -2435,6 +2499,8 @@ cs:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/652209?show_id=1296810"
+    offsets:
+      header: 400
   6:
     author: "Astrid Eckert"
     license:
@@ -2512,6 +2578,8 @@ cs:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1297311"
+    offsets:
+      header: 400
   4:
     author: "Astrid Eckert"
     license:
