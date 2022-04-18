@@ -54,7 +54,12 @@ def add_img(data):
         img_data = []
         for f in IMAGE_SOURCE.iterdir():
             if f.name.startswith(_id + "_"):
-                img_data.append(_add_source_info(f.name, _source_data))
+                source_info = _add_source_info(f.name, _source_data)
+                if not source_info:
+                    print(f"Warning: possibly skipped adding images for '{f}', a image was skipped because of missing "
+                          f"source information. Adding more images would violate the enumeration-consistency")
+                    break
+                img_data.append(source_info)
 
         data[_id]["img"] = img_data
 
@@ -75,26 +80,30 @@ def parse_image_filename(f: str) -> tuple[str, int]:
 def _add_source_info(fname, source_data):
     _id, _index = parse_image_filename(fname)
 
+    required_fields = ["author", "license", "source"]
+    for field in required_fields:
+        if field not in source_data[_index]:
+            print(f"Warning: No {field} information for image '{fname}', it will not be used")
+            return None
+
     def _parse(obj):
-        if type(obj) is str:
+        if isinstance(obj, str):
             return {"text": obj, "url": None}
-        else:
-            return obj
+        return obj
 
     img_data = {
         "name": fname,
-        "author": _parse(source_data[_index]["author"])
+        "author": _parse(source_data[_index]["author"]),
+        "source": _parse(source_data[_index]["source"]),
     }
-    if "source" in source_data[_index]:
-        img_data["source"] = _parse(source_data[_index]["source"])
-    if "license" in source_data[_index]:
-        img_data["license"] = _parse(source_data[_index]["license"])
-        if img_data["license"]["url"] is None:
-            if img_data["license"]["text"] in KNOWN_LICENSE_URLS:
-                img_data["license"]["url"] = KNOWN_LICENSE_URLS[img_data["license"]["text"]]
-            else:
-                print(f"Warning: Unknown license url for '{img_data['license']['text']}'")
-
+    # add license information utilising shorthands if available
+    raw_license = source_data[_index]["license"]
+    if isinstance(raw_license, str):
+        if raw_license in KNOWN_LICENSE_URLS:
+            img_data["license"] = {"text": raw_license, "url": KNOWN_LICENSE_URLS[raw_license]}
+            return img_data
+        print(f"Warning: Unknown license url for licence shorthand '{raw_license}'. No url will be added")
+    img_data["license"] = _parse(raw_license)
     return img_data
 
 
@@ -116,8 +125,8 @@ def _gen_fixed_size(img: Image.Image, fixed_size: tuple[int, int], offset: int) 
         new_img = img.crop((mid_w - int(new_width / 2) + offset, 0, mid_w + int(new_width / 2) + offset, h))
     elif target_aspect_ratio > current_aspect_ratio:
         # current image is higher than target, so we need to crop the height
-        new_height = (1/target_aspect_ratio) * w
-        new_img = img.crop((0, mid_h - int(new_height/2) + offset, w, mid_h + int(new_height/2) + offset))
+        new_height = (1 / target_aspect_ratio) * w
+        new_img = img.crop((0, mid_h - int(new_height / 2) + offset, w, mid_h + int(new_height / 2) + offset))
     else:
         # aspect ratio is the same, so no need to crop
         new_img = img.copy()
@@ -191,5 +200,5 @@ def resize_and_crop() -> None:
 
             offsets = _extract_offsets(_id, _index, img_path, img_sources)
             executor.submit(_refresh_for_all_resolutions, (img_path, offsets))
-    resize_and_crop_time = time.time()-start_time
+    resize_and_crop_time = time.time() - start_time
     print(f"Info: Resize and crop took {resize_and_crop_time:.2f}s")
