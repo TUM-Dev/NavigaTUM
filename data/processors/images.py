@@ -140,7 +140,7 @@ def _gen_fixed_size(img: Image.Image, fixed_size: tuple[int, int], offset: int) 
 def _gen_max_size(img: Image.Image, max_size: int) -> Optional[Image.Image]:
     """Generate an image with at max_size pixel in max(width, height) for the given image."""
     w, h = img.size
-    if max(w, h) < max_size:
+    if max(w, h) <= max_size:
         # since we are already smaller than the max_size, we can copy the original image.
         # To indicate this we return None
         return None
