@@ -140,7 +140,50 @@ e.g. with `GET https://nav.tum.sexy/api/get/5602.EG.001`:
             ...
         ]
     },
+    
+    img: {
+      "name": "mi_0.webp" // The name of the image file.
+      // consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
+      // You can request images by their name with 
+      
+      // GET /cdn/:size/:name
+      // e.g. GET https://nav.tum.sexy/cdn/lg/mi_0.webp
+        
+      // Availible image sizes:
+      // :size   spec
+      // lg      max 4k, aspect ratio untouched
+      // md      max 1920px, aspect ratio untouched
+      // md      max 1024px, aspect ratio untouched
+      // thumb   256x256, cropped to fit. Usially a center-crop, but sometimes offset.
+      // header  512x210, cropped to fit. Usially a center-crop, but sometimes offset.
+        
+      // for each: text is required, url can also be null
+      "author": {
+        "text": "...",
+        "url": "...",
+      },
+      "source": {
+        "text": "...",
+        "url": "...",
+      },
+      "license": {
+        "text": "...",
+        "url": "...",
+      },
 
+      "meta": {          // optional
+        "date": "",      // optional
+        "location": "",  // optional location description
+        "geo": "",       // optional coordinates in lat,lon
+        "image_url": "", // optional, in contrast to source this points to the image itself
+        "caption": "",   // optional
+        "headline": "",  // optional
+        "event": "",     // optional, the event this image was taken at
+        "faculty": "",   // optional
+        "building": "",  // optional
+        "department": "",// optional
+      }
+    },
     "sections": {
         // Info sections with more details, currently only for buildings etc.
     }
