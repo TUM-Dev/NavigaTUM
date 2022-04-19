@@ -66,7 +66,7 @@ async fn source_code_handler() -> Result<HttpResponse> {
     }
 }
 
-#[get("/health")]
+#[get("/api/health")]
 async fn health_handler() -> Result<HttpResponse> {
     Ok(HttpResponse::Ok()
         .content_type("application/json")
@@ -99,7 +99,7 @@ async fn main() -> std::io::Result<()> {
 
         let json_config = web::JsonConfig::default().limit(MAX_JSON_PAYLOAD);
 
-        let logger = middleware::Logger::default();
+        let logger = middleware::Logger::default().exclude("/api/health");
 
         App::new()
             .wrap(cors)

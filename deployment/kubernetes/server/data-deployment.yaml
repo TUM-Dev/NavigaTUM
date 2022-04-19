@@ -35,13 +35,13 @@ spec:
                       memory: 500Mi
                   livenessProbe:
                       httpGet:
-                          path: /health
+                          path: /cdn/health
                           port: navigatum-cdn
                       failureThreshold: 3
                       periodSeconds: 5
                   startupProbe:
                       httpGet:
-                          path: /health
+                          path: /cdn/health
                           port: navigatum-cdn
                       failureThreshold: 60
                       periodSeconds: 1

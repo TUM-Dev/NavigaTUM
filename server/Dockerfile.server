@@ -26,5 +26,5 @@ RUN rm ./target/release/deps/server*
 RUN cargo install --path .
 
 EXPOSE 8080
-HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8080/health || exit 1
+HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8080/api/health || exit 1
 CMD ["server"]
