@@ -24,7 +24,7 @@ ADD https://nav.tum.sexy/cdn/api_data.json data/api_data.json
 # COPY data/api_data.json data/api_data.json
 
 EXPOSE 8080
-HEALTHCHECK --start-period=5m  --timeout=10s CMD curl localhost:8080/health
+HEALTHCHECK --start-period=5m  --timeout=10s CMD curl localhost:8080/api/health
 CMD tail -f /dev/null
 #CMD cargo run --release
 
@@ -37,5 +37,5 @@ CMD tail -f /dev/null
 #COPY --from=build /navigatum-server/data/ ./data/
 #COPY --from=build /navigatum-server/target/debug/navigatum-server ./navigatum-server
 #EXPOSE 8080
-#HEALTHCHECK --start-period=3m  --timeout=10s CMD curl localhost:8080/health
+#HEALTHCHECK --start-period=3m  --timeout=10s CMD curl localhost:8080/api/health
 #CMD ./navigatum-server && ldd ./navigatum-server && tail -f /dev/null

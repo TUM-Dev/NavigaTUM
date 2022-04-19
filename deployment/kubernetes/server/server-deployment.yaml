@@ -34,13 +34,13 @@ spec:
 
                   livenessProbe:
                       httpGet:
-                          path: /health
+                          path: /api/health
                           port: navigatum-api
                       failureThreshold: 1
                       periodSeconds: 10
                   startupProbe:
                       httpGet:
-                          path: /health
+                          path: /api/health
                           port: navigatum-api
                       failureThreshold: 120 # 120*10s/60=20min
                       periodSeconds: 10
