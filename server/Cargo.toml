@@ -1,11 +1,11 @@
 [package]
-name = "server"
+name = "navigatum-server"
 version = "0.1.0"
 authors = ["Markus A <ge75sig@mytum.de>"]
 edition = "2021"
 
 [[bin]]
-name = "server"
+name = "navigatum-server"
 path = "src/main.rs"
 
 [profile.release]
