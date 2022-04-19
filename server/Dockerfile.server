@@ -1,3 +1,12 @@
+FROM python:3.10.4-bullseye as build-stage
+# get api_data.json
+ADD https://nav.tum.sexy/cdn/api_data.json data/api_data.json
+# For local testing if roomapi is not avalible:
+# follow the data-docs to get api_data.json, copy it to the directory server/data and enable
+# COPY data/api_data.json data/api_data.json
+COPY load_api_data_to_db.py load_api_data_to_db.py
+RUN python3 load_api_data_to_db.py
+
 FROM rust:1.60.0
 
 # Create a new empty shell project
@@ -13,13 +22,10 @@ RUN rm src/*.rs
 
 # gather final dependencys
 COPY ./src ./src
+COPY --from=build-stage /data/api_data.db ./data/api_data.db
 ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
-# get api_data.json
-ADD https://nav.tum.sexy/cdn/api_data.json data/api_data.json
-# For local testing if roomapi is not avalible:
-# follow the data-docs to get api_data.json, copy it to the directory server/data and enable
-# COPY data/api_data.json data/api_data.json
+
 
 # Build for release.
 RUN rm ./target/release/deps/server*
