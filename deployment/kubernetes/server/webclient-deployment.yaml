@@ -31,11 +31,11 @@ spec:
                         name: navigatum-web
                   resources:
                     requests:
-                      cpu: 50m
-                      memory: 200Mi
+                      cpu: 5m
+                      memory: 5Mi
                     limits:
                       cpu: 150m
-                      memory: 500Mi
+                      memory: 20Mi
                   livenessProbe:
                       httpGet:
                           path: /health

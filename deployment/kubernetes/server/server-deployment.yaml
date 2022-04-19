@@ -31,7 +31,13 @@ spec:
                   ports:
                       - containerPort: 8080
                         name: navigatum-api
-
+                  resources:
+                    requests:
+                      cpu: 30m
+                      memory: 500Mi
+                    limits:
+                      cpu: 1000m
+                      memory: 700Mi
                   livenessProbe:
                       httpGet:
                           path: /api/health
@@ -53,3 +59,9 @@ spec:
                   ports:
                       - containerPort: 7700
                         name: mieli-search
+                  requests:
+                    cpu: 10m
+                    memory: 25Mi
+                  limits:
+                    cpu: 1000m
+                    memory: 100Mi
