@@ -25,6 +25,7 @@ struct InputToken {
 #[derive(Debug)]
 struct SearchToken {
     s: String,
+    #[allow(dead_code)]
     regular_split: bool,
     closed: bool,
     quoted: bool,
@@ -40,6 +41,7 @@ struct SearchFilter {
 #[derive(Debug)]
 struct SearchInput {
     tokens: Vec<SearchToken>,
+    #[allow(dead_code)]
     filter: SearchFilter,
 }
 
