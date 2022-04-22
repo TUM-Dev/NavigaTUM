@@ -905,8 +905,10 @@ components:
           $ref: '#/components/schemas/Maps'
         props:
           $ref: '#/components/schemas/Props'
-        img:
-          $ref: '#/components/schemas/ImageInfo'
+        imgs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageInfo'
         ranking_factors:
           $ref: '#/components/schemas/RankingFactors'
       required:
