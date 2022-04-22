@@ -348,7 +348,7 @@ async fn do_geoentry_search(
 
     let q_default = build_query_string(&search_tokens);
 
-    let res_merged = do_meilisearch(
+    let fut_res_merged = do_meilisearch(
         client.clone(),
         MSSearchArgs {
             q: &q_default,
@@ -357,51 +357,39 @@ async fn do_geoentry_search(
         },
     );
     // Building limit multiplied by two because we might do reordering later
-    let res_buildings =
+    let fut_res_buildings =
         do_building_search_closed_query(client.clone(), &search_tokens, 2 * args.limit_buildings);
-    let res_rooms = do_room_search(client.clone(), &search_tokens, args.limit_rooms);
+    let fut_res_rooms = do_room_search(client.clone(), &search_tokens, args.limit_rooms);
 
-    let results = join!(res_merged, res_buildings, res_rooms);
+    let (res_merged, res_buildings, res_rooms) =
+        join!(fut_res_merged, fut_res_buildings, fut_res_rooms);
 
     // First look up which buildings did match even with a closed query.
     // We can consider them more relevant.
     let mut closed_matching_buildings = Vec::<String>::new();
-    for hit in results.1.unwrap().hits {
+    for hit in res_buildings.unwrap().hits {
         closed_matching_buildings.push(hit.id);
     }
 
+    let facet = &res_merged.as_ref().unwrap().facets_distribution.facet;
     let mut section_buildings = SearchResultsSection {
         facet: "sites_buildings".to_string(),
         entries: Vec::<ResultEntry>::new(),
         n_visible: None,
-        nb_hits: results
-            .0
-            .as_ref()
-            .unwrap()
-            .facets_distribution
-            .facet
-            .get("site")
-            .unwrap_or_else(|| &0)
-            + results
-                .0
-                .as_ref()
-                .unwrap()
-                .facets_distribution
-                .facet
-                .get("building")
-                .unwrap_or_else(|| &0),
+        nb_hits: facet.get("site").unwrap_or_else(|| &0)
+            + facet.get("building").unwrap_or_else(|| &0),
     };
     let mut section_rooms = SearchResultsSection {
         facet: "rooms".to_string(),
         entries: Vec::<ResultEntry>::new(),
         n_visible: None,
-        nb_hits: results.2.as_ref().unwrap().nb_hits,
+        nb_hits: res_rooms.as_ref().unwrap().nb_hits,
     };
 
     // TODO: Collapse joined buildings
     // let mut observed_joined_buildings = Vec::<String>::new();
     let mut observed_ids = Vec::<String>::new();
-    for hit in [results.0.unwrap().hits, results.2.unwrap().hits].concat() {
+    for hit in [res_merged.unwrap().hits, res_rooms.unwrap().hits].concat() {
         if observed_ids.contains(&hit.id) {
             continue;
         }; // No duplicates
