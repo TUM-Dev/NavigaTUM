@@ -25,6 +25,13 @@ All functionality is also available via an API.
 <img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_light.png#gh-light-mode-only" width="75%"/>
 <img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_dark.png#gh-dark-mode-only" width="75%"/> 
 
+## API Documentation and native clients
+
+We describe our API in an [OpenAPI 3.0](https://de.wikipedia.org/wiki/OpenAPI) compliant file.  
+You can find it [here](./openapi.yaml).  
+Using this Specification you can generate your own client to access the API in the language of your choice.
+To do this head over to the [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml) or other similar [OpenAPI tools](https://openapi.tools/).
+
 ## Getting started
 
 NavigaTUM consists of three parts + deployment resources.
@@ -64,6 +71,26 @@ Follow the steps in the [webclient documentation](webclient/).
 If you want to only run the webclient locally, you can skip the "Data" and
 "Server" steps above and edit the webclient configuration to use the public
 API as is described in the webclient documentation.
+
+### API
+
+We format our api via [openapi-format](https://www.npmjs.com/package/openapi-format).
+```bash
+npm install openapi-format
+openapi-format ./openapi.yaml --output ./openapi.yaml
+```
+
+For validating, that the specification is being followed use the [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml) in tandem with  [stoplight](stoplight.io), as they are both very imperfect tools.
+
+To making sure, that this specification is up-to-date and without holes, we run [schemathesis](https://github.com/schemathesis/schemathesis) using the following command on API Server provided by the "Server" step or the public API:
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install schemathesis
+st run --workers=auto --base-url=http://localhost:8080 --checks=all ../openapi.yaml
+```
+Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN).  
+You can exchange `--base-url=http://localhost:8080` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/search/.+`.
 
 ## License
 
