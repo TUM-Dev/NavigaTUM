@@ -1,5 +1,6 @@
 # NavigaTUM
-[![App Status](https://argocd.frank.elsinga.de/api/badge?name=navigatum&revision=true)](https://argocd.frank.elsinga.de/applications/navigatum)
+[![Deployment Status](https://argocd.frank.elsinga.de/api/badge?name=navigatum)](https://argocd.frank.elsinga.de/applications/navigatum)
+[![Website Status](https://img.shields.io/uptimerobot/ratio/m791520694-3a5056fab92b80370cbc4c1d?label=Website%20Uptime)](https://stats.uptimerobot.com/xBGmxHLMYg)
 
 NavigaTUM is a non-official tool developed by students for students, that aims to help you get around at [TUM](https://tum.de). Feel free to contribute.
 
