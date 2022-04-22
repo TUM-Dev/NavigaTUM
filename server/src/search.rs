@@ -1,5 +1,6 @@
 use cached::proc_macro::cached;
 use futures::join;
+use std::cmp::min;
 use std::collections::HashMap;
 use std::time::Instant;
 
@@ -13,6 +14,13 @@ pub struct SearchQueryArgs {
     limit_buildings: Option<usize>,
     limit_rooms: Option<usize>,
     limit_all: Option<usize>,
+}
+
+pub struct SanitisedSearchQueryArgs {
+    // Limit per facet
+    limit_buildings: usize,
+    limit_rooms: usize,
+    limit_all: usize,
 }
 
 #[derive(Debug)]
@@ -77,7 +85,7 @@ pub struct ResultEntry {
 struct MSSearchArgs<'a> {
     q: &'a str,
     filter: Option<MSSearchFilter>,
-    limit: u8,
+    limit: usize,
 }
 
 #[derive(Debug)]
@@ -90,7 +98,7 @@ struct MSQuery<'a> {
     q: &'a str,
     #[serde(skip_serializing_if = "Option::is_none")]
     filter: Option<Vec<Vec<String>>>,
-    limit: u8,
+    limit: usize,
     #[serde(rename = "facetsDistribution")]
     facets_distribution: Vec<String>,
 }
@@ -143,8 +151,17 @@ pub async fn do_benchmarked_search(q: String, args: SearchQueryArgs) -> Result<S
 #[cached(size = 500)]
 async fn execute_search(q: String, args: SearchQueryArgs) -> Vec<SearchResultsSection> {
     let parsed = parse_input_query(q);
+    let sanatised_args = sanitise_args(args);
+    return do_geoentry_search(&parsed.tokens, sanatised_args).await;
+}
 
-    return do_geoentry_search(&parsed.tokens, args).await;
+fn sanitise_args(args: SearchQueryArgs) -> SanitisedSearchQueryArgs {
+    let max_size = u16::MAX as usize;
+    SanitisedSearchQueryArgs {
+        limit_buildings: min(args.limit_buildings.unwrap_or(5), max_size),
+        limit_rooms: min(args.limit_rooms.unwrap_or(5), max_size),
+        limit_all: min(args.limit_all.unwrap_or(20), max_size),
+    }
 }
 
 fn build_query_string(search_tokens: &Vec<SearchToken>) -> String {
@@ -318,7 +335,7 @@ fn tokenize_input_query(q: String) -> Vec<InputToken> {
 
 async fn do_geoentry_search(
     search_tokens: &Vec<SearchToken>,
-    args: SearchQueryArgs,
+    args: SanitisedSearchQueryArgs,
 ) -> Vec<SearchResultsSection> {
     // Determine what to search for
 
@@ -336,20 +353,13 @@ async fn do_geoentry_search(
         MSSearchArgs {
             q: &q_default,
             filter: None,
-            limit: args.limit_all.unwrap_or(20) as u8, // This is the MeiliSearch default
+            limit: args.limit_all, // This is the MeiliSearch default
         },
     );
     // Building limit multiplied by two because we might do reordering later
-    let res_buildings = do_building_search_closed_query(
-        client.clone(),
-        &search_tokens,
-        2 * args.limit_buildings.unwrap_or(5) as u8,
-    );
-    let res_rooms = do_room_search(
-        client.clone(),
-        &search_tokens,
-        args.limit_rooms.unwrap_or(5) as u8,
-    );
+    let res_buildings =
+        do_building_search_closed_query(client.clone(), &search_tokens, 2 * args.limit_buildings);
+    let res_rooms = do_room_search(client.clone(), &search_tokens, args.limit_rooms);
 
     let results = join!(res_merged, res_buildings, res_rooms);
 
@@ -405,7 +415,7 @@ async fn do_geoentry_search(
 
         match hit.r#type.as_str() {
             "campus" | "site" | "area" | "building" | "joined_building" => {
-                if section_buildings.entries.len() < args.limit_buildings.unwrap_or(5) {
+                if section_buildings.entries.len() < args.limit_buildings {
                     section_buildings.entries.push(ResultEntry {
                         id: hit.id.to_string(),
                         r#type: hit.r#type.to_string(),
@@ -417,9 +427,8 @@ async fn do_geoentry_search(
                 }
             }
             "room" | "virtual_room" => {
-                if section_rooms.entries.len() < args.limit_rooms.unwrap_or(5)
-                    || (section_rooms.entries.len()
-                        < (args.limit_rooms.unwrap_or(5) + args.limit_buildings.unwrap_or(5))
+                if section_rooms.entries.len() < args.limit_rooms
+                    || (section_rooms.entries.len() < (args.limit_rooms + args.limit_buildings)
                         && section_buildings.entries.len() == 0)
                 {
                     // Test whether the query matches some common room id formats.
@@ -492,7 +501,7 @@ async fn do_geoentry_search(
 async fn do_building_search_closed_query(
     client: Client,
     search_tokens: &Vec<SearchToken>,
-    limit: u8,
+    limit: usize,
 ) -> Result<MSResults> {
     let q = format!("{} ", build_query_string(search_tokens));
 
@@ -512,7 +521,7 @@ async fn do_building_search_closed_query(
 async fn do_room_search(
     client: Client,
     search_tokens: &Vec<SearchToken>,
-    limit: u8,
+    limit: usize,
 ) -> Result<MSResults> {
     let mut q = String::from("");
     for token in search_tokens {
