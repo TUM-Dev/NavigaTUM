@@ -90,12 +90,125 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchResponse'
+              examples:
+                mw:
+                  value:
+                    sections:
+                      - facet: sites_buildings
+                        entries:
+                          - id: mw
+                            type: joined_building
+                            name: "Maschinenwesen (\x19MW\x17)"
+                            subtext: Gebäudekomplex
+                          - id: '5538'
+                            type: building
+                            name: "Interims-Tentomax Garching \x19MW\x17, HS1/HS2"
+                            subtext: Gebäude
+                          - id: '5501'
+                            type: building
+                            name: 'Gebäudeteil 1, Institut für Mechatronik'
+                            subtext: Gebäudeteil
+                          - id: '5502'
+                            type: building
+                            name: 'Gebäudeteil 2, Institut für Werkstoffe und Verarbeitung'
+                            subtext: Gebäudeteil
+                          - id: '5503'
+                            type: building
+                            name: 'Gebäudeteil 3, Institut für Produktionstechnik'
+                            subtext: Gebäudeteil
+                        n_visible: 5
+                        nb_hits: 20
+                      - facet: rooms
+                        entries:
+                          - id: 5510.03.002
+                            type: room
+                            name: "5510.03.002 (\x19MW\x17 2001, Empore)"
+                            subtext: Maschinenwesen (MW)
+                            subtext_bold: 3002@5510
+                          - id: 5510.01.004A
+                            type: room
+                            name: "5510.01.004A (Exp.-Bühne zu Hörsaal \x19MW\x17 2001)"
+                            subtext: Maschinenwesen (MW)
+                            subtext_bold: 1004a@5510
+                          - id: 5502.01.250
+                            type: room
+                            name: 5502.01.250 (Hörsaal)
+                            subtext: Maschinenwesen (MW)
+                            subtext_bold: 1250@5502
+                          - id: 5502.EG.250
+                            type: room
+                            name: 5502.EG.250 (Ludwig-Prandtl-Hörsaal)
+                            subtext: Maschinenwesen (MW)
+                            subtext_bold: 0250@5502
+                          - id: 5503.EG.350
+                            type: room
+                            name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
+                            subtext: Maschinenwesen (MW)
+                            subtext_bold: 0350@5503
+                        nb_hits: 3655
+                    time_ms: 16
+                nothing:
+                  value:
+                    sections:
+                      - facet: sites_buildings
+                        entries: []
+                        nb_hits: 0
+                      - facet: rooms
+                        entries: []
+                        nb_hits: 0
+                    time_ms: 6
+                interims-2:
+                  value:
+                    sections:
+                      - facet: sites_buildings
+                        entries:
+                          - id: '5416'
+                            type: building
+                            name: "\x19Interims\x17hörsäle II, Jürgen Manchot-Hörsaalgebäude"
+                            subtext: Gebäude
+                        n_visible: 1
+                        nb_hits: 1
+                      - facet: rooms
+                        entries:
+                          - id: 5416.01.004
+                            type: room
+                            name: "5416.01.004 (Hörsaal 1 \"\x19Interims\x17 II\")"
+                            subtext: 'Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude'
+                            subtext_bold: 004@5416
+                          - id: 5416.01.003
+                            type: room
+                            name: "5416.01.003 (Hörsaal \x192\x17, \"\x19Interims\x17 II\")"
+                            subtext: 'Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude'
+                            subtext_bold: 003@5416
+                          - id: 5620.01.102
+                            type: room
+                            name: "56\x192\x170.01.10\x192\x17 (Hörsaal \x192\x17, \"\x19Interims\x17 I\")"
+                            subtext: Interims-Audimax I
+                            subtext_bold: "10\x192\x17@56\x192\x170"
+                          - id: 0598.EG.001
+                            type: room
+                            name: 0598.EG.001 (Tentomax HS Stammgelände)
+                            subtext: Tentomax Stammgelände (Interims HS)
+                            subtext_bold: 0.001@0598
+                          - id: 5416.EG.010
+                            type: room
+                            name: 5416.EG.010 (IT/Audio)
+                            subtext: 'Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude'
+                            subtext_bold: 010@5416
+                        nb_hits: 23
+                    time_ms: 23
         '400':
           description: Invalid Request
           content: {}
         '404':
           description: '`search_querry` is empty. Since searching for nothing is nonsensical, we dont support this.'
-          content: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum:
+                  - Not found
+                example: Not found
         '414':
           description: The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..
           content: {}
@@ -123,86 +236,243 @@ paths:
               summary: A normal building
               value: '5304'
             garching:
-              summary: A campus
+              summary: The garching campus
+              value: garching
+            mri:
+              summary: The MRI campus
               value: garching
             mi:
               summary: 'A large, (custom named) building'
               value: mi
+            mw:
+              summary: 'An other large, (custom named) building'
+              value: mw
             fsmpi:
               summary: A regular room
               value: 5606.EG.036
+            rechnerhalle:
+              summary: A room with custom props added
+              value: 5605.EG.011
+            tb-chemie:
+              summary: A virtual room
+              value: 5401.01.100A
+            humangenetik:
+              summary: A virtual room
+              value: 1543
       responses:
         '200':
-          description: More data about the requested building
+          description: More data about the requested building/room
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/DetailsResponse'
               examples:
-                example-1:
+                mi-hs-1:
                   value:
-                    id: string
-                    type: room
-                    type_common_name: string
-                    name: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
-                    parents:
-                      - root
-                      - garching
-                    parent_names:
-                      - - Standorte
-                        - Garching Forschungszentrum
                     coords:
                       lat: 48.26244490906312
-                      lon: 48.26244490906312
+                      lon: 11.669122601167174
                       source: roomfinder
+                      utm:
+                        easting: 698084.5345
+                        northing: 5348914.6199
+                        zone_letter: U
+                        zone_number: 32
+                    id: 5602.EG.001
                     maps:
                       default: interactive
                       roomfinder:
-                        default: rf142
                         available:
-                          - name: FMI Übersicht
+                          - height: 487
+                            id: rf87
+                            name: FMI Garching BT02 EG
+                            path: webp/rf87.webp
+                            scale: '500'
+                            source: Roomfinder
+                            width: 399
+                            x: 234
+                            'y': 286
+                          - height: 461
                             id: rf142
+                            name: FMI Übersicht
+                            path: webp/rf142.webp
                             scale: '2000'
-                            height: 461
+                            source: Roomfinder
                             width: 639
                             x: 499
                             'y': 189
+                          - height: 480
+                            id: rf80
+                            name: Lageplan Campus Garching
+                            path: webp/rf80.webp
+                            scale: '10000'
+                            source: Roomfinder
+                            width: 676
+                            x: 340
+                            'y': 334
+                          - height: 603
+                            id: rf54
+                            name: München
+                            path: webp/rf54.webp
+                            scale: '200000'
+                            source: Roomfinder
+                            width: 640
+                            x: 444
+                            'y': 35
+                          - height: 515
+                            id: rf156
+                            name: München und Umgebung
+                            path: webp/rf156.webp
+                            scale: '400000'
+                            source: Roomfinder
+                            width: 420
+                            x: 265
+                            'y': 167
+                        default: rf142
+                    name: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
+                    parent_names:
+                      - Standorte
+                      - Garching Forschungszentrum
+                      - Fakultät Mathematik & Informatik (FMI oder MI)
+                      - Hörsaal 1 (BT02)
+                    parents:
+                      - root
+                      - garching
+                      - mi
+                      - '5602'
                     props:
                       computed:
                         - name: Raumkennung
                           text: 5602.EG.001
-                    img:
-                      name: mi_0.webp
-                      author:
-                        text: string
-                        url: string
-                      source:
-                        text: string
-                        url: string
-                      license:
-                        text: string
-                        url: string
-                      meta:
-                        date: string
-                        location: string
-                        geo: string
-                        image_url: string
-                        caption: string
-                        headline: string
-                        event: string
-                        faculty: string
-                        building: string
-                        department: string
-                      sections:
-                        entries:
-                          - id: string
-                            type: string
-                            name: string
-                            subtext: string
-                        n_visible: 0
+                        - name: Architekten-Name
+                          text: 00.02.001
+                        - name: Adresse
+                          text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
+                        - name: Sitzplätze
+                          text: '522'
+                    ranking_factors:
+                      rank_combined: 9
+                      rank_type: 100
+                      rank_usage: 900
+                    sources:
+                      base:
+                        - name: TUMOnline
+                          url: 'https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=12325'
+                        - name: Roomfinder
+                          url: 'https://portal.mytum.de/displayRoomMap?roomid=00.02.001@5602&disable_decoration=yes'
+                    type: room
+                    type_common_name: Hörsaal
+                    usage:
+                      din_277: NF5.1
+                      din_277_desc: Unterrichtsräume mit festem Gestühl
+                      name: Hörsaal
+                5606.EG.036:
+                  value:
+                    coords:
+                      lat: 48.26217845031176
+                      lon: 11.6686932781057
+                      source: roomfinder
+                      utm:
+                        easting: 698053.7056
+                        northing: 5348883.8982
+                        zone_letter: U
+                        zone_number: 32
+                    id: 5606.EG.036
+                    maps:
+                      default: interactive
+                      roomfinder:
+                        available:
+                          - height: 605
+                            id: rf95
+                            name: FMI Garching BT06 EG
+                            path: webp/rf95.webp
+                            scale: '500'
+                            source: Roomfinder
+                            width: 318
+                            x: 207
+                            'y': 217
+                          - height: 461
+                            id: rf142
+                            name: FMI Übersicht
+                            path: webp/rf142.webp
+                            scale: '2000'
+                            source: Roomfinder
+                            width: 639
+                            x: 443
+                            'y': 242
+                          - height: 480
+                            id: rf80
+                            name: Lageplan Campus Garching
+                            path: webp/rf80.webp
+                            scale: '10000'
+                            source: Roomfinder
+                            width: 676
+                            x: 329
+                            'y': 344
+                          - height: 603
+                            id: rf54
+                            name: München
+                            path: webp/rf54.webp
+                            scale: '200000'
+                            source: Roomfinder
+                            width: 640
+                            x: 444
+                            'y': 36
+                          - height: 515
+                            id: rf156
+                            name: München und Umgebung
+                            path: webp/rf156.webp
+                            scale: '400000'
+                            source: Roomfinder
+                            width: 420
+                            x: 265
+                            'y': 167
+                        default: rf142
+                    name: 5606.EG.036 (MPI Fachschaftsbüro im MI)
+                    parent_names:
+                      - Standorte
+                      - Garching Forschungszentrum
+                      - Fakultät Mathematik & Informatik (FMI oder MI)
+                      - Finger 06 (BT06)
+                    parents:
+                      - root
+                      - garching
+                      - mi
+                      - '5606'
+                    props:
+                      computed:
+                        - name: Raumkennung
+                          text: 5606.EG.036
+                        - name: Architekten-Name
+                          text: 00.06.036
+                        - name: Adresse
+                          text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
+                    ranking_factors:
+                      rank_combined: 1
+                      rank_type: 100
+                      rank_usage: 100
+                    sources:
+                      base:
+                        - name: NavigaTUM
+                        - name: TUMOnline
+                          url: 'https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=55601'
+                        - name: Roomfinder
+                          url: 'https://portal.mytum.de/displayRoomMap?roomid=00.06.036@5606&disable_decoration=yes'
+                    type: room
+                    type_common_name: Büro
+                    usage:
+                      din_277: NF2.1
+                      din_277_desc: Büroräume
+                      name: Büro
         '404':
           description: Invalid input
-          content: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum:
+                  - Not found
+                example: Not found
       tags:
         - core
   /api/source_code:
@@ -215,7 +485,11 @@ paths:
       responses:
         '200':
           description: The link to the source-code of the repository at the currently running version
-          content: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'https://github.com/TUM-Dev/navigatum/tree/eb10c1f4cfbbd66d37f2f9e5e13139c1fde15a4b'
       tags:
         - core
   /api/feedback/get_token:
@@ -291,10 +565,18 @@ paths:
             Forbidden. Causes are (delivered via the body):
 
               - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
-              - `Token not old enough, please wait.`: Tokens are only valid after 10s.
-              - `Token expired.`: Tokens are only valid for 12h.
-              - `Token already used.`: Tokens are non reusable/refreshable single-use items.
-          content: {}
+              - `Token not old enough, please wait`: Tokens are only valid after 10s.
+              - `Token expired`: Tokens are only valid for 12h.
+              - `Token already used`: Tokens are non reusable/refreshable single-use items.
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum:
+                  - Invalid token
+                  - Token not old enough, please wait
+                  - Token expired
+                  - Token already used
         '422':
           description: |
             Unprocessable Entity
@@ -393,7 +675,13 @@ paths:
           content: {}
         '404':
           description: Requested Resource Not Found
-          content: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum:
+                  - Not found
+                example: Not found
         '414':
           description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
           content: {}
@@ -454,7 +742,13 @@ paths:
           content: {}
         '404':
           description: Requested Resource Not Found
-          content: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum:
+                  - Not found
+                example: Not found
         '414':
           description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
           content: {}
@@ -469,7 +763,12 @@ paths:
       responses:
         '200':
           description: Ok
-          content: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum:
+                  - healthy
         '503':
           description: Service Unavailable
           content: {}
@@ -484,7 +783,12 @@ paths:
       responses:
         '200':
           description: Ok
-          content: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum:
+                  - healthy
         '503':
           description: Service Unavailable
           content: {}
@@ -499,7 +803,12 @@ paths:
       responses:
         '200':
           description: Ok
-          content: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum:
+                  - healthy
         '503':
           description: Service Unavailable
           content: {}
