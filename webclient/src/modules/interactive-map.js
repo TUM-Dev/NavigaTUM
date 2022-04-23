@@ -62,14 +62,14 @@ navigatum.registerModule("interactive-map", (function() {
                 window.matchMedia("only screen and (max-width: 480px)").matches) {
                 map.addControl(new mapboxgl.FullscreenControl());
             }
-            //const location = new mapboxgl.GeolocateControl({
-            //    positionOptions: {
-            //    enableHighAccuracy: true
-            //    },
-            //    trackUserLocation: true,
-            //    showUserHeading: true
-            //});
-            //map.addControl(location);
+            const location = new mapboxgl.GeolocateControl({
+                positionOptions: {
+                enableHighAccuracy: true
+                },
+                trackUserLocation: true,
+                showUserHeading: true
+            });
+            map.addControl(location);
             return map;
         },
     }
