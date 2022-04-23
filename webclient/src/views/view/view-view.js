@@ -202,6 +202,16 @@ navigatum.registerView('view', {
                     _this.map.interactive.marker = marker;
                     const coords = _this.view_data.coords;
                     marker.setLngLat([coords.lon, coords.lat]).addTo(map);
+                    
+                    if (_this.view_data.maps && _this.view_data.maps.overlays) {
+                        c.setOverlayImage(
+                            "/cdn/maps/overlay/mi_0.webp",
+                            _this.view_data.maps.overlays.available[0].coordinates
+                        )
+                    } else {
+                        c.setOverlayImage(null)
+                    }
+                    
                     // Use 16 as default zoom for now, TODO: Compute
                     if (from_map === "interactive"){
                         map.flyTo({

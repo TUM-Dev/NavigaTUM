@@ -1,5 +1,8 @@
 navigatum.registerModule("interactive-map", (function() {
+    var _map;
+    
     return {
+        map: undefined,
         init: function() {
             return new Promise(resolve => {
                 const head = document.getElementsByTagName("head")[0];
@@ -70,7 +73,63 @@ navigatum.registerModule("interactive-map", (function() {
             //    showUserHeading: true
             //});
             //map.addControl(location);
+            
+            _map = map;
+            
             return map;
+        },
+        setOverlayImage: function(img_url, coords) {
+            // Even if the map is initialized, it could be that
+            // it hasn't loaded yet, so we need to postpone adding
+            // the overlay layer.
+            if (!_map.loaded()) {
+                var _this = this;
+                _map.on("load", function() {
+                    _this.setOverlayImage(img_url, coords);
+                });
+                return;
+            }
+            
+            if (img_url === null) {  // Remove overlay
+                if (_map.getLayer("overlay-layer"))
+                    _map.removeLayer("overlay-layer")
+                if (_map.getLayer("overlay-bg"))
+                    _map.removeLayer("overlay-bg")
+                if (_map.getSource("overlay-src"))
+                    _map.removeSource("overlay-src")
+            } else {
+                source = _map.getSource("overlay-src");
+                if (!source) {
+                    source = _map.addSource("overlay-src", {
+                        "type": "image",
+                        "url": img_url,
+                        "coordinates": coords
+                    })
+                } else {
+                    source.url = img_url;
+                    source.coordinates = coors;
+                }
+                
+                layer = _map.getLayer("overlay-layer")
+                if (!layer) {
+                    _map.addLayer({
+                        "id": "overlay-bg",
+                        "type": "background",
+                        "paint": {
+                            "background-color": "#ffffff",
+                            "background-opacity": 0.6,
+                        }
+                    })
+                    layer = _map.addLayer({
+                        "id": "overlay-layer",
+                        "type": "raster",
+                        "source": "overlay-src",
+                        'paint': {
+                            'raster-fade-duration': 0
+                        }
+                    })
+                }
+            }
         },
     }
 })());
