@@ -1,5 +1,5 @@
 use actix_cors::Cors;
-use actix_web::{get, http, middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result};
+use actix_web::{get, middleware, web, App, HttpRequest, HttpResponse, HttpServer};
 use rusqlite::{params, Connection};
 use structopt::StructOpt;
 
@@ -18,7 +18,7 @@ pub struct Opt {
 }
 
 #[get("/api/get/{id}")]
-async fn get_handler(params: web::Path<String>) -> Result<HttpResponse> {
+async fn get_handler(params: web::Path<String>) -> HttpResponse {
     let id = params.into_inner();
     let conn = Connection::open("data/api_data.db").expect("Cannot open database");
     let mut stmt = conn
@@ -29,10 +29,10 @@ async fn get_handler(params: web::Path<String>) -> Result<HttpResponse> {
         return Ok(data);
     });
     match result {
-        Ok(data) => Ok(HttpResponse::Ok().json(data)),
-        Err(_) => Ok(HttpResponse::NotFound()
+        Ok(data) => HttpResponse::Ok().json(data),
+        Err(_) => HttpResponse::NotFound()
             .content_type("text/plain")
-            .body("Not found")),
+            .body("Not found"),
     }
 }
 
@@ -41,30 +41,30 @@ async fn search_handler(
     _req: HttpRequest,
     params: web::Path<String>,
     web::Query(args): web::Query<search::SearchQueryArgs>,
-) -> Result<HttpResponse> {
+) -> HttpResponse {
     let q = params.into_inner();
-    let search_results = search::do_benchmarked_search(q, args).await?;
-    Ok(HttpResponse::Ok().json(search_results))
+    let search_results = search::do_benchmarked_search(q, args).await;
+    HttpResponse::Ok().json(search_results)
 }
 
 #[get("/api/source_code")]
-async fn source_code_handler() -> Result<HttpResponse> {
+async fn source_code_handler() -> HttpResponse {
     let gh_base = "https://github.com/TUM-Dev/navigatum".to_string();
     let commit_hash = std::env::var("GIT_COMMIT_SHA");
     let github_link = match commit_hash {
         Ok(hash) => format!("{}/tree/{}", gh_base, hash),
         Err(_) => gh_base,
     };
-    Ok(HttpResponse::Ok()
+    HttpResponse::Ok()
         .content_type("text/plain")
-        .body(github_link))
+        .body(github_link)
 }
 
 #[get("/api/health")]
-async fn health_handler() -> Result<HttpResponse> {
-    Ok(HttpResponse::Ok()
+async fn health_handler() -> HttpResponse {
+    HttpResponse::Ok()
         .content_type("text/plain")
-        .body("healthy"))
+        .body("healthy")
 }
 
 #[actix_web::main]
