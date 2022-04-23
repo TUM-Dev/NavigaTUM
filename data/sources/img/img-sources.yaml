@@ -1,7 +1,5 @@
 # Note: URLs to CC licenses are automatically inserted
-
-# Note: thumbnail_offset (in px of the source image) can be used to shift the center of the square crop along the
-#  max(height,width) axis of the image
+# Note: offset (in px of the source image) can be used to shift the center of the square crop along the cropped axis of the image
 
 # --- Stammgelände ---
 zentralgelaende:
@@ -111,6 +109,13 @@ stammgelaende:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/652209?show_id=1436311"
+"2906":
+  0:
+    author: "Bernhard Maier"
+    license: "CC0 1.0"
+    source:
+      text: "TUM IT Support"
+
 "0501":
   0:
     author: "Astrid Eckert"
