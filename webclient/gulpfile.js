@@ -463,7 +463,8 @@ function copy_well_known() {
         .pipe(gulp.dest('build/.well-known'))
 }
 function copy_well_known_root() {
-    return gulp.src('src/.well-known/robots.txt') // disallow potentially costly api requests
+    return gulp.src(['src/.well-known/robots.txt', // disallow potentially costly api requests
+                     'googlebef9161f1176c5e0.html']) // google search console
         .pipe(gulp.dest('build'))
 }
 gulp.task('well_known', gulp.parallel(copy_well_known, copy_well_known_root));
