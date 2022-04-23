@@ -1,10 +1,6 @@
-#[macro_use]
-extern crate lazy_static;
-
-use std::fs;
-
 use actix_cors::Cors;
 use actix_web::{get, http, middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result};
+use rusqlite::{params, Connection};
 use structopt::StructOpt;
 
 mod feedback;
@@ -21,21 +17,22 @@ pub struct Opt {
     github_token: Option<String>,
 }
 
-lazy_static! {
-    static ref JSON_DATA: serde_json::map::Map<String, serde_json::Value> = {
-        let data = fs::read_to_string("data/api_data.json")
-            .expect("Cannot open data file. (not found at 'data/api_data.json')");
-        serde_json::from_str(&data).expect("Could not parse JSON file")
-    };
-}
-
 #[get("/api/get/{id}")]
 async fn get_handler(params: web::Path<String>) -> Result<HttpResponse> {
     let id = params.into_inner();
-    if JSON_DATA.contains_key(&id) {
-        Ok(HttpResponse::Ok().json(JSON_DATA.get(&id).unwrap()))
-    } else {
-        Ok(HttpResponse::NotFound().body("Not found".to_string()))
+    let conn = Connection::open("data/api_data.db").expect("Cannot open database");
+    let mut stmt = conn
+        .prepare("SELECT value FROM api_data WHERE key = ?")
+        .expect("Cannot prepare statement");
+    let result = stmt.query_row(params![id], |row| {
+        let data: String = row.get_unwrap(0);
+        return Ok(data);
+    });
+    match result {
+        Ok(data) => Ok(HttpResponse::Ok()
+            .content_type("application/json")
+            .body(data)),
+        Err(_) => Ok(HttpResponse::NotFound().body("Not found")),
     }
 }
 
@@ -84,9 +81,6 @@ async fn main() -> std::io::Result<()> {
             opt.github_token = Some(github_token.unwrap());
         }
     }
-
-    // This causes lazy_static to evaluate
-    JSON_DATA.contains_key("");
 
     let state_feedback = web::Data::new(feedback::init_state(opt));
 
