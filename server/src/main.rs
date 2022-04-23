@@ -29,10 +29,10 @@ async fn get_handler(params: web::Path<String>) -> Result<HttpResponse> {
         return Ok(data);
     });
     match result {
-        Ok(data) => Ok(HttpResponse::Ok()
-            .content_type("application/json")
-            .body(data)),
-        Err(_) => Ok(HttpResponse::NotFound().body("Not found")),
+        Ok(data) => Ok(HttpResponse::Ok().json(data)),
+        Err(_) => Ok(HttpResponse::NotFound()
+            .content_type("text/plain")
+            .body("Not found")),
     }
 }
 
@@ -44,30 +44,27 @@ async fn search_handler(
 ) -> Result<HttpResponse> {
     let q = params.into_inner();
     let search_results = search::do_benchmarked_search(q, args).await?;
-    let result_json = serde_json::to_string(&search_results)?;
-
-    Ok(HttpResponse::Ok()
-        .insert_header((http::header::CONTENT_TYPE, "application/json"))
-        .body(result_json))
+    Ok(HttpResponse::Ok().json(search_results))
 }
 
 #[get("/api/source_code")]
 async fn source_code_handler() -> Result<HttpResponse> {
     let gh_base = "https://github.com/TUM-Dev/navigatum".to_string();
     let commit_hash = std::env::var("GIT_COMMIT_SHA");
-    if commit_hash.is_ok() {
-        let github_link = format!("{}{}{}", gh_base, "/tree/", commit_hash.unwrap());
-        Ok(HttpResponse::Ok().body(github_link))
-    } else {
-        Ok(HttpResponse::Ok().body(gh_base))
-    }
+    let github_link = match commit_hash {
+        Ok(hash) => format!("{}/tree/{}", gh_base, hash),
+        Err(_) => gh_base,
+    };
+    Ok(HttpResponse::Ok()
+        .content_type("text/plain")
+        .body(github_link))
 }
 
 #[get("/api/health")]
 async fn health_handler() -> Result<HttpResponse> {
     Ok(HttpResponse::Ok()
-        .content_type("application/json")
-        .body("Healthy!"))
+        .content_type("text/plain")
+        .body("healthy"))
 }
 
 #[actix_web::main]
