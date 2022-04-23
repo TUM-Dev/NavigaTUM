@@ -135,16 +135,16 @@ struct MSFacetDistribution {
     facet: HashMap<String, i32>,
 }
 
-pub async fn do_benchmarked_search(q: String, args: SearchQueryArgs) -> Result<SearchResults> {
+pub async fn do_benchmarked_search(q: String, args: SearchQueryArgs) -> SearchResults {
     let start_time = Instant::now();
 
     let results_sections = execute_search(q, args).await;
 
     let time_ms = start_time.elapsed().as_millis();
-    Ok(SearchResults {
+    SearchResults {
         sections: results_sections,
         time_ms,
-    })
+    }
 }
 
 // size=100 seems to be about 10M
