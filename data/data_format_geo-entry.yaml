@@ -118,6 +118,14 @@ internal_id:
       available:  # should already be ordered by scale (lowest value first)
         - {id: "rf5", scale: "4000", name: "Stammgelände Basiskarte", width: 480, height: 640,
            x: 300, y: 500}
+    overlays:
+      default: 0
+      available:
+        # Coordinates are four [lon, lat] pairs, for the top left, top right,
+        # bottom right, bottom left image corners. `id` should start with 0 for
+        # the ground level and increase or decrease. `floor` should match the floor
+        # part of the TUMOnline roomcode
+        - {id: 0, floor: "EG", name: "MI Gebäude (EG)", coordinates: [[...], ...]}
   
   props:  # Semantic properties (that are useful to display, but do not have their own section)
     ids:  # navigatum internal_id is not given here, since it is known anyway

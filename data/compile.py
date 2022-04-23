@@ -69,6 +69,9 @@ def main():
     print("-- 45 Roomfinder maps")
     maps.assign_roomfinder_maps(data)
     maps.build_roomfinder_maps(data)
+    
+    print("-- 46 Overlay maps")
+    maps.add_overlay_maps(data)
 
     print(f"-- 50 convert {images.IMAGE_BASE} to webp")
     convert_to_webp(images.IMAGE_BASE)

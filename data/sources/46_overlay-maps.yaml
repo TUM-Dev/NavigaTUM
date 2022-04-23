@@ -1,0 +1,11 @@
+# Custom maps are located in sources/img/maps/overlay
+
+- props:
+    parent: "mi"
+    box:  # lon, lat
+      - [11.666739, 48.263478]
+      - [11.669666, 48.263125]
+      - [11.669222, 48.261585]
+      - [11.666331, 48.261929]
+  maps:
+    - {file: "mi_0.webp", id: 0, floor: "EG", desc: "MI Gebäude (EG) – © TUM WWW & Online Services"}

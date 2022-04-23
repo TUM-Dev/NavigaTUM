@@ -337,3 +337,36 @@ def _load_custom_maps():
             }
 
     return maps_out
+
+
+def add_overlay_maps(data):
+    """ Add the overlay maps to all entries where they apply """
+    with open("sources/46_overlay-maps.yaml") as f:
+        overlay_maps = yaml.safe_load(f.read())
+        
+    parent_lookup = {m["props"]["parent"]: m for m in overlay_maps}
+    parent_ids = set(parent_lookup.keys())
+    
+    for _id, entry in data.items():
+        candidates = set(entry["parents"]) & parent_ids
+        if len(candidates) > 1:
+            print(f"Multiple candidates as overlay map for {_id}: {candidates}. "
+                  f"Currently this is not supported! Skipping ...")
+        elif (len(candidates) == 1) ^ (_id in parent_ids):  # xor
+            overlay = parent_lookup[list(candidates)[0] if len(candidates) == 1 else _id]
+            overlay_data = entry.setdefault("maps", {}).setdefault("overlays", {})
+            overlay_data["available"] = []
+            for m in overlay["maps"]:
+                overlay_data["available"].append({
+                    "id": m["id"],
+                    "floor": m["floor"],
+                    "name": m["desc"],
+                    "coordinates": overlay["props"]["box"]
+                })
+                
+                if f".{m['floor']}." in _id:
+                    overlay_data["default"] = m["id"]
+            
+            overlay_data.setdefault("default", 0)
+    
+        
