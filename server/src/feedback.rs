@@ -1,5 +1,6 @@
 use actix_web::web::Json;
 use actix_web::{post, web, HttpResponse};
+use log::error;
 use octocrab::Octocrab;
 use serde::{Deserialize, Serialize};
 use std::sync::Mutex;
@@ -143,6 +144,7 @@ async fn send_feedback(
     let token = state.opt.github_token.as_ref().unwrap().to_string();
     let octocrab = Octocrab::builder().personal_token(token).build();
     if octocrab.is_err() {
+        error!("Error creating issue: {:?}", octocrab);
         return HttpResponse::InternalServerError().body("Could not create Octocrab instance.");
     }
     let resp = octocrab
@@ -154,11 +156,19 @@ async fn send_feedback(
         .send()
         .await;
 
-    return if resp.is_ok() {
-        t.used = true;
-        HttpResponse::Created().body(resp.unwrap().html_url.to_string())
-    } else {
-        HttpResponse::InternalServerError().body("Failed create issue".to_string())
+    return match resp {
+        Ok(issue) => {
+            t.used = true;
+            HttpResponse::Created()
+                .content_type("text/plain")
+                .body(issue.html_url.to_string())
+        }
+        Err(e) => {
+            error!("Error creating issue: {:?}", e);
+            HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Failed create issue")
+        }
     };
 }
 
