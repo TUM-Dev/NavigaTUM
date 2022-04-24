@@ -45,7 +45,7 @@
   "dependencies": {
     "mapbox-gl": "^2.7.0",
     "polyfill": "^0.1.0",
-    "vue": "^2.6.12",
+    "vue": "^3.2.33",
     "vue-router": "^3.5.1",
     "webp-hero": "^0.0.2",
     "whatwg-fetch": "^3.6.2"
