@@ -48,7 +48,7 @@ spec:
                       httpGet:
                           path: /api/health
                           port: navigatum-api
-                      failureThreshold: 240 # 2400s/60=4min
+                      failureThreshold: 240 # 240s/60=4min
                       periodSeconds: 1
                 - name: mieli-search
                   image: ghcr.io/tum-dev/navigatum-mieli-search:main
@@ -59,12 +59,13 @@ spec:
                   ports:
                       - containerPort: 7700
                         name: mieli-search
-                  requests:
-                    cpu: 10m
-                    memory: 25Mi
-                  limits:
-                    cpu: 1000m
-                    memory: 100Mi
+                  resources:
+                    requests:
+                      cpu: 10m
+                      memory: 25Mi
+                    limits:
+                      cpu: 1000m
+                      memory: 100Mi
                   livenessProbe:
                       httpGet:
                           path: /health
