@@ -237,12 +237,12 @@ def resize_and_crop() -> None:
     with ThreadPoolExecutor() as executor:
         for img_path in IMAGE_SOURCE.glob("*.webp"):
             _id, _index = parse_image_filename(img_path.name)
+            offsets = _extract_offsets(_id, _index, img_path, img_sources)
             if DEV_MODE:
-                actual_hash = _gen_file_hash(img_path, img_sources)
+                actual_hash = _gen_file_hash(img_path, offsets)
                 if actual_hash == expected_hashes_lut.get(img_path.name, ""):
                     continue  # skip this image, since it (and its offsets) have not changed
                 print(f"Info: Image '{img_path.name}' has changed, resizing and cropping...")
-            offsets = _extract_offsets(_id, _index, img_path, img_sources)
             executor.submit(_refresh_for_all_resolutions, (img_path, offsets))
     resize_and_crop_time = time.time() - start_time
     if DEV_MODE:
