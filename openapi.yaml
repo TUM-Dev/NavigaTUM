@@ -1301,7 +1301,9 @@ components:
           minLength: 15
           pattern: '[0-9]+'
         category:
-          description: The category of the feedback.
+          description: | 
+            The category of the feedback.  
+            Enum attribute is softly enforced: Any value not listed below will be replaced by "other"
           type: string
           example: bug
           enum:
