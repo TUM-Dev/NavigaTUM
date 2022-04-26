@@ -1,11 +1,16 @@
 import json
 import math
 import copy
+import os.path
 from typing import Any
 
 import utm
 import yaml
 from PIL import Image
+from pathlib import Path
+
+EXTERNAL_PATH = Path(__file__).parent.parent / "external"
+RF_MAPS_PATH = EXTERNAL_PATH / "maps" / "roomfinder"
 
 
 def assign_coordinates(data):
@@ -220,8 +225,62 @@ def _extract_available_maps(entry, custom_maps, maps_list):
         if m["latlonbox"]["south"] < lat_coord < m["latlonbox"]["north"] and \
                 m["latlonbox"]["west"] < lon_coord < m["latlonbox"]["east"]:
             available_maps.append(m)
-    # TODO: Sort & unique
+    # TODO: Sort
     return available_maps
+
+
+def _merge_str(s1: str, s2: str):
+    """Merges two strings. The Result is of the format common_prefix s1/s2 common_suffix"""
+    if s1 == s2:
+        return s1
+    prefix = os.path.commonprefix((s1, s2))
+    suffix = os.path.commonprefix((s1[::-1], s2[::-1]))[::-1]
+    s1 = s1.removeprefix(prefix).removesuffix(suffix)
+    s2 = s2.removeprefix(prefix).removesuffix(suffix)
+    return prefix + s1 + "/" + s2 + suffix
+
+
+def _merge_maps(map1, map2):
+    """Merges two Maps into one merged map"""
+    result_map = {}
+    for key in map1.keys():
+        if key == "id":
+            result_map["id"] = map1["id"]
+        elif isinstance(map1[key], dict):
+            result_map[key] = _merge_maps(map1[key], map2[key])
+        elif isinstance(map1[key], str):
+            result_map[key] = _merge_str(map1[key], map2[key])
+        elif isinstance(map1[key], int) or isinstance(map1[key], float):
+            result_map[key] = sum((map1[key], map2[key])) / 2
+        else:
+            values = map1[key]
+            raise NotImplementedError(f"the {key=} of with {type(values)=} does not have a merging-operation defined")
+    return result_map
+
+
+def _deduplicate_maps(maps_list):
+    """Remove content 1:1 duplicates from the maps_list"""
+    content_to_filename_dict = {}
+    file_renaming_table: dict[str, str] = dict()
+    for filename in RF_MAPS_PATH.iterdir():
+        with open(filename, "rb") as file:
+            content = file.read()
+            _id = filename.with_suffix("").name
+            if content in content_to_filename_dict:
+                file_renaming_table[_id] = content_to_filename_dict[content]
+            else:
+                content_to_filename_dict[content] = _id
+    # we merge the maps into the first occurrence of said map.
+    filtered_map = {m["id"]: m for m in maps_list}
+    for m in maps_list:
+        _id = m["id"]
+        if _id in file_renaming_table:
+            map1 = filtered_map.pop(_id)
+            map2 = filtered_map[file_renaming_table[_id]]
+            if filtered_map[file_renaming_table[_id]] != map1:
+                filtered_map[file_renaming_table[_id]] = _merge_maps(map1, map2)
+    maps_list = list(filtered_map.values())
+    return maps_list
 
 
 def _load_maps_list():
@@ -239,6 +298,10 @@ def _load_maps_list():
             m["latlonbox"]["west"] = float(m["latlonbox"]["west"])
             m["id"] = f"rf{m['id']}"
     maps_list.remove(world_map)
+
+    # remove 1:1 content duplicates
+    maps_list = _deduplicate_maps(maps_list)
+
     return maps_list
 
 
