@@ -1,6 +1,7 @@
 import json
 import math
 import copy
+from typing import Any
 
 import utm
 import yaml
@@ -42,8 +43,8 @@ def assign_coordinates(data):
                 error = True
                 continue
             if "utm" in entry["coords"] \
-               and (   entry["coords"]["utm"]["easting"]  == 0.
-                    or entry["coords"]["utm"]["northing"] == 0.):
+                    and (entry["coords"]["utm"]["easting"] == 0.
+                         or entry["coords"]["utm"]["northing"] == 0.):
                 print(f"Error: UTM coordinate is zero for '{_id}': "
                       f"{entry['coords']}")
                 error = True
@@ -124,13 +125,109 @@ def assign_roomfinder_maps(data):
     """
     Assign roomfinder maps to all entries if there are none yet specified.
     """
-    # Read the Roomfinder maps
-    with open("external/maps_roomfinder.json") as f:
-        maps_list = json.load(f)
-        
+    maps_list = _load_maps_list()
+
     # There are also Roomfinder-like custom maps, that we assign here
     custom_maps = _load_custom_maps()
-    
+
+    for _id, entry in data.items():
+        if entry["type"] == "root":
+            continue
+
+        if entry.get("maps", {}).get("roomfinder", {}).get("available", []):
+            continue
+
+        # Use maps from parent building, if there is no precise coordinate known
+        entry_accuracy_building = entry["coords"].get("accuracy", None) == "building"
+        if entry_accuracy_building and entry["type"] in {"room", "virtual_room"}:
+            _set_maps_from_parent(data, entry)
+            continue
+
+        available_maps = _extract_available_maps(entry, custom_maps, maps_list)
+
+        # For entries of these types only show maps that contain all (direct) children.
+        # This is to make sure that only (high scale) maps are included here that make sense.
+        # TODO: zentralgelaende
+        if entry["type"] in {"site", "campus", "area", "joined_building", "building"} \
+                and "children" in entry:
+            for m in available_maps:
+                for c in entry["children"]:
+                    lat_coord, lon_coord = data[c]["coords"]["lat"], data[c]["coords"]["lon"]
+                    if not (m["latlonbox"]["south"] < lat_coord < m["latlonbox"]["north"] and
+                            m["latlonbox"]["west"] < lon_coord < m["latlonbox"]["east"]):
+                        available_maps.remove(m)
+                        break
+
+        if not available_maps:
+            print(f"Warning: No Roomfinder maps available for '{_id}'")
+            continue
+        _save_map_data(available_maps, entry)
+
+
+def _save_map_data(available_maps, entry):
+    # Select map with lowest scale as default
+    default_map = available_maps[0]
+    for m in available_maps:
+        if int(m["scale"]) < int(default_map["scale"]):
+            default_map = m
+
+    roomfinder_map_data = {
+        "default": default_map["id"],
+        "available": [
+            {
+                "id": m["id"],
+                "scale": m["scale"],
+                "name": m["desc"],
+                "width": m["width"],
+                "height": m["height"],
+                "source": m.get("source", "Roomfinder"),
+                "path": m.get("path", f"webp/{m['id']}.webp")
+            }
+            for m in available_maps
+        ],
+    }
+    entry.setdefault("maps", {})["roomfinder"] = roomfinder_map_data
+
+
+def _set_maps_from_parent(data, entry):
+    building_parent = [e for e in entry["parents"] if data[e]["type"] == "building"]
+    # Verification of this already done for coords, see above
+    building_parent = data[building_parent[0]]
+    if not building_parent.get("maps", {}) \
+            .get("roomfinder", {}) \
+            .get("available", []):
+        roomfinder_map_data = {"is_only_building": True}
+        # Both share the reference now, assuming that the parening_parent
+        # will be processed some time later in this loop.
+        building_parent.setdefault("maps", {})["roomfinder"] = roomfinder_map_data
+        entry.setdefault("maps", {})["roomfinder"] = roomfinder_map_data
+    else:
+        # TODO: 5510.02.001
+        roomfinder_map_data = entry.setdefault("maps", {}).get("roomfinder", {})
+        roomfinder_map_data.update(building_parent["maps"]["roomfinder"])
+        roomfinder_map_data["is_only_building"] = True
+
+
+def _extract_available_maps(entry, custom_maps, maps_list):
+    available_maps = []
+    for (b_id, floor), m in custom_maps.items():
+        if entry["type"] == "room" and b_id in entry["parents"] and \
+                "tumonline_data" in entry and f".{floor}." in entry["tumonline_data"]["roomcode"]:
+            available_maps.append(m)
+    lat_coord, lon_coord = (entry["coords"]["lat"], entry["coords"]["lon"])
+    for m in maps_list:
+        # Assuming coordinates in Central Europe
+        if m["latlonbox"]["south"] < lat_coord < m["latlonbox"]["north"] and \
+                m["latlonbox"]["west"] < lon_coord < m["latlonbox"]["east"]:
+            available_maps.append(m)
+    # TODO: Sort & unique
+    return available_maps
+
+
+def _load_maps_list():
+    """Read the Roomfinder maps. The world-map is not used"""
+    with open("external/maps_roomfinder.json") as f:
+        maps_list: list[dict[str, Any]] = json.load(f)
     world_map = None
     for m in maps_list:
         if m["id"] == 9:  # World map is not used
@@ -142,94 +239,8 @@ def assign_roomfinder_maps(data):
             m["latlonbox"]["west"] = float(m["latlonbox"]["west"])
             m["id"] = f"rf{m['id']}"
     maps_list.remove(world_map)
-    
-    for _id, entry in data.items():
-        if entry["type"] == "root":
-            continue
-        
-        if len(entry.get("maps", {}).get("roomfinder", {}).get("available", [])) > 0:
-            continue
-        
-        # Use maps from parent building, if there is no precise coordinate known
-        if entry["type"] in {"room", "virtual_room"} and \
-           entry["coords"].get("accuracy", None) == "building":
-            building_parent = list(filter(lambda e: data[e]["type"] == "building",
-                                            entry["parents"]))
-            # Verification of this already done for coords, see above
-            building_parent = data[building_parent[0]]
-            
-            if len(building_parent.get("maps", {})
-                                  .get("roomfinder", {})
-                                  .get("available", [])) == 0:
-                roomfinder_map_data = {"is_only_building": True}
-                # Both share the reference now, assuming that the parening_parent
-                # will be processed some time later in this loop.
-                building_parent.setdefault("maps", {})["roomfinder"] = roomfinder_map_data
-                entry.setdefault("maps", {})["roomfinder"] = roomfinder_map_data
-            else:
-                # TODO: 5510.02.001
-                roomfinder_map_data = entry.setdefault("maps", {}).get("roomfinder", {})
-                roomfinder_map_data.update(building_parent["maps"]["roomfinder"])
-                roomfinder_map_data["is_only_building"] = True
+    return maps_list
 
-            continue
-        
-        # TODO: Sort & unique
-        available_maps = []
-        for (b_id, floor), m in custom_maps.items():
-            if entry["type"] == "room" and b_id in entry["parents"] and \
-               "tumonline_data" in entry and f".{floor}." in entry["tumonline_data"]["roomcode"]:
-                available_maps.append(m)
-        lat_coord, lon_coord = (entry["coords"]["lat"], entry["coords"]["lon"])
-        for m in maps_list:
-            # Assuming coordinates in Central Europe
-            if m["latlonbox"]["south"] < lat_coord < m["latlonbox"]["north"] and \
-               m["latlonbox"]["west"]  < lon_coord < m["latlonbox"]["east"]:
-                available_maps.append(m)
-        
-        # For entries of these types only show maps that contain all (direct) children.
-        # This is to make sure that only (high scale) maps are included here that make sense.
-        # TODO: zentralgelaende
-        if entry["type"] in {"site", "campus", "area", "joined_building", "building"} \
-           and "children" in entry:
-            exclude_maps = []
-            for m in available_maps:
-                for c in entry["children"]:
-                    lat_coord, lon_coord = (data[c]["coords"]["lat"], data[c]["coords"]["lon"])
-                    if not (m["latlonbox"]["south"] < lat_coord < m["latlonbox"]["north"] and
-                            m["latlonbox"]["west"]  < lon_coord < m["latlonbox"]["east"]):
-                        exclude_maps.append(m)
-                        break
-            for m in exclude_maps:
-                available_maps.remove(m)
-        
-        if len(available_maps) == 0:
-            print(f"Warning: No Roomfinder maps available for '{_id}'")
-            continue
-        
-        # Select map with lowest scale as default
-        default_map = available_maps[0]
-        for m in available_maps:
-            if int(m["scale"]) < int(default_map["scale"]):
-                default_map = m
-        
-        roomfinder_map_data = {
-            "default": default_map["id"],
-            "available": [
-                {
-                    "id":     m["id"],
-                    "scale":  m["scale"],
-                    "name":   m["desc"],
-                    "width":  m["width"],
-                    "height": m["height"],
-                    "source": m.get("source", "Roomfinder"),
-                    "path":   m.get("path", f"webp/{m['id']}.webp")
-                }
-                for m in available_maps
-            ],
-        }
-        entry.setdefault("maps", {})["roomfinder"] = roomfinder_map_data
-    
 
 def build_roomfinder_maps(data):
     """ Generate the map information for the Roomfinder maps. """
@@ -288,21 +299,21 @@ def build_roomfinder_maps(data):
                           entry_map["height"] / 2)
                 
                 angle = math.radians(float(box["rotation"]))
-                ix, iy = (cx + (ix0-cx)*math.cos(angle) - (iy0-cy)*math.sin(angle),
-                          cy + (ix0-cx)*math.sin(angle) + (iy0-cy)*math.cos(angle))
-                
+                ix, iy = (cx + (ix0 - cx) * math.cos(angle) - (iy0 - cy) * math.sin(angle),
+                          cy + (ix0 - cx) * math.sin(angle) + (iy0 - cy) * math.cos(angle))
+
                 # The result is the position of the pixel in this image corresponding
                 # to the coordinate.
                 entry_map["x"] = round(ix)
                 entry_map["y"] = round(iy)
-                
+
                 # Finally, set source and filepath so that they are available for all maps
                 entry_map.setdefault("source", "Roomfinder")
                 entry_map.setdefault("path", f"webp/{entry_map['id']}.webp")
-            
+
             if world_map is not None:
                 entry["maps"]["roomfinder"]["available"].remove(world_map)
-            
+
 
 
 def _load_custom_maps():
