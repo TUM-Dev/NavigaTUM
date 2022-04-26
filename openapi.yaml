@@ -232,6 +232,9 @@ paths:
           schema:
             type: string
           examples:
+            root:
+              summary: The root entry of the NavigaTUM-data
+              value: root
             '5304':
               summary: A normal building
               value: '5304'
@@ -265,7 +268,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailsResponse'
+                oneOf:
+                  - $ref: '#/components/schemas/RootResponse'
+                  - $ref: '#/components/schemas/DetailsResponse'
+                discriminator:
+                  propertyName: type
+                  mapping:
+                    root: RootResponse
+                    room: DetailsResponse
+                    building: DetailsResponse
+                    joined_building: DetailsResponse
+                    site: DetailsResponse
+                    campus: DetailsResponse
               examples:
                 mi-hs-1:
                   value:
@@ -1171,20 +1185,52 @@ components:
         - sections
         - time_ms
     DetailsResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseDetailsResponse'
+        - type: object
+          properties:
+            id:
+              description: 'The id, that was requested'
+              type: string
+            type:
+              description: The type of the entry
+              type: string
+              enum:
+                - room
+                - building
+                - joined_building
+                - site
+                - campus
+            coords:
+              $ref: '#/components/schemas/Coordinate'
+            maps:
+              $ref: '#/components/schemas/Maps'
+          required:
+            - id
+            - type
+            - coords
+            - maps
+    RootResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseDetailsResponse'
+        - type: object
+          properties:
+            id:
+              description: 'The id, that was requested'
+              type: string
+              enum:
+                - root
+            type:
+              description: The type of the entry
+              type: string
+              enum:
+                - root
+          required:
+            - id
+            - type
+    BaseDetailsResponse:
       type: object
       properties:
-        id:
-          description: 'The id, that was requested'
-          type: string
-        type:
-          description: The type of the entry
-          type: string
-          enum:
-            - room
-            - building
-            - joined_building
-            - site
-            - campus
         type_common_name:
           description: The type of the entry in a human-readable form
           type: string
@@ -1208,10 +1254,6 @@ components:
             example:
               - Standorte
               - Garching Forschungszentrum
-        coords:
-          $ref: '#/components/schemas/Coordinate'
-        maps:
-          $ref: '#/components/schemas/Maps'
         props:
           $ref: '#/components/schemas/Props'
         imgs:
@@ -1221,14 +1263,10 @@ components:
         ranking_factors:
           $ref: '#/components/schemas/RankingFactors'
       required:
-        - id
-        - type
         - type_common_name
         - name
         - parents
         - parent_names
-        - coords
-        - maps
         - props
         - ranking_factors
     RankingFactors:
