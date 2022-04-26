@@ -29,7 +29,9 @@ async fn get_handler(params: web::Path<String>) -> HttpResponse {
         return Ok(data);
     });
     match result {
-        Ok(data) => HttpResponse::Ok().json(data),
+        Ok(data) => HttpResponse::Ok()
+            .content_type("application/json")
+            .body(data), // .json(data) would have quoted the result. We instead want the content.
         Err(_) => HttpResponse::NotFound()
             .content_type("text/plain")
             .body("Not found"),
