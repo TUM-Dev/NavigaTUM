@@ -278,6 +278,7 @@ paths:
                     room: DetailsResponse
                     building: DetailsResponse
                     joined_building: DetailsResponse
+                    area: DetailsResponse
                     site: DetailsResponse
                     campus: DetailsResponse
               examples:
@@ -1199,6 +1200,7 @@ components:
                 - room
                 - building
                 - joined_building
+                - area
                 - site
                 - campus
             coords:
