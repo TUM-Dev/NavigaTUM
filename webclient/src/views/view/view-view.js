@@ -178,8 +178,7 @@ navigatum.registerView('view', {
 
             this.state.map.selected = "interactive";
 
-            // The map element should be visible when initializing
-            this.$nextTick(function () {
+            const do_map_update = function() {
                 navigatum.getModule("interactive-map").then(function(c) {
                     _this.map.interactive.component = c;
 
@@ -204,12 +203,12 @@ navigatum.registerView('view', {
                     marker.setLngLat([coords.lon, coords.lat]).addTo(map);
                     
                     if (_this.view_data.maps && _this.view_data.maps.overlays) {
-                        c.setOverlayImage(
+                        c.setOverlayImages(
                             "/cdn/maps/overlay/mi_0.webp",
                             _this.view_data.maps.overlays.available[0].coordinates
                         )
                     } else {
-                        c.setOverlayImage(null)
+                        c.setOverlayImages(null)
                     }
                     
                     // Use 16 as default zoom for now, TODO: Compute
@@ -226,7 +225,13 @@ navigatum.registerView('view', {
                         map.setCenter([coords.lon, coords.lat]);
                     }
                 });
-            });
+            }
+
+            // The map element should be visible when initializing
+            if (!document.querySelector("#interactive-map .mapboxgl-canvas"))
+                this.$nextTick(do_map_update())
+            else
+                do_map_update()
 
             // To have an animation when the roomfinder is opened some time later,
             // the cursor is set to 'zero' while the interactive map is displayed.
