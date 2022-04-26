@@ -150,6 +150,14 @@ def assign_roomfinder_maps(data):
 
         available_maps = _extract_available_maps(entry, custom_maps, maps_list)
 
+        def _sort_key(_map):
+            """sort by scale and area"""
+            scale = int(_map["scale"])
+            coords = _map["latlonbox"]
+            area = abs(coords["east"] - coords["west"]) * abs(coords["north"] - coords["south"])
+            return scale, area
+
+        available_maps.sort(key=_sort_key)
         # For entries of these types only show maps that contain all (direct) children.
         # This is to make sure that only (high scale) maps are included here that make sense.
         # TODO: zentralgelaende
@@ -225,7 +233,6 @@ def _extract_available_maps(entry, custom_maps, maps_list):
         if m["latlonbox"]["south"] < lat_coord < m["latlonbox"]["north"] and \
                 m["latlonbox"]["west"] < lon_coord < m["latlonbox"]["east"]:
             available_maps.append(m)
-    # TODO: Sort
     return available_maps
 
 
