@@ -47,3 +47,6 @@ view_view:
     inaccurate_only_building:
       de: "Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist nicht bekannt."
       en: "The displayed position only shows the position of the building(part). The exact position within the building is not known."
+    no_floor_overlay:
+      de: "Für den angezeigten Raum gibt es leider keine Indoor Karte."
+      en: "There is unfortunately no indoor map for the displayed room."
