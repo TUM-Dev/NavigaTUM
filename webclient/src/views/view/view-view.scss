@@ -88,6 +88,92 @@
         padding: 0;
     }
 
+    .mapboxgl-ctrl-group.floor-ctrl {
+        max-width: 100%;
+        display: none;
+        overflow: hidden;
+
+        &.visible {
+            display: block;
+        }
+
+        &.closed #floor-list {
+            display: none !important;
+        }
+
+        & button {
+            &.active {
+                background: #ececec;
+            }
+
+            & .arrow {
+                font-weight: normal;
+                font-size: .3rem;
+                line-height: .9rem;
+                vertical-align: top;
+            }
+        }
+
+        &.reduced > .vertical-oc, &.reduced > .horizontal-oc {
+            display: none !important;
+        }
+
+        & > .vertical-oc, & > .horizontal-oc {
+            font-weight: bold;
+            background: #ececec;
+        }
+        &.closed {
+            & > .vertical-oc, & > .horizontal-oc {
+                background: #fff;
+            }
+            &:hover > .vertical-oc, &:hover > .horizontal-oc {
+                background: #f2f2f2;
+            }
+        }
+
+        // vertical is default layout
+        & > .horizontal-oc {
+            display: none;
+        }
+
+        &.horizontal {
+            & > .horizontal-oc {
+                display: inline-block;
+            }
+            & > .vertical-oc {
+                display: none;
+            }
+
+            & #floor-list {
+                display: inline-block;
+                width: calc(100% - 29px);
+            }
+
+            & button {
+                display: inline-block;
+                border-top: none;
+                border-left: 1px solid #ddd;
+
+                &.arrow {
+                    font-size: .4rem;
+                    vertical-align: bottom;
+                    line-height: 1.1rem;
+                }
+
+                & + button {
+                    border-top: none;
+                }
+            }
+        }
+
+        // mapbox logo
+        & + .mapboxgl-ctrl {
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: -1;
+        }
+    }
+
     /* --- Roomfinder display --- */
     .roomfinder-map-container {
         overflow: hidden;
@@ -277,6 +363,15 @@
 // 'sm' (mobile)
 @media (max-width:600px) {
     #view-view {
+        // The mapbox logo is taking away space from the layer
+        // selection on the bottom left on mobile, so we move
+        // it a bit
+        .floor-ctrl.visible + .mapboxgl-ctrl {
+            position: absolute;
+            bottom: 2px;
+            left: 42px;
+        }
+
         #rooms-overview-select .panel-body {
             max-height: 260px;
         }

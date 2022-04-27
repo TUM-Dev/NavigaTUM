@@ -360,6 +360,7 @@ def add_overlay_maps(data):
                 overlay_data["available"].append({
                     "id": m["id"],
                     "floor": m["floor"],
+                    "file": m["file"],
                     "name": m["desc"],
                     "coordinates": overlay["props"]["box"]
                 })
@@ -367,6 +368,6 @@ def add_overlay_maps(data):
                 if f".{m['floor']}." in _id:
                     overlay_data["default"] = m["id"]
             
-            overlay_data.setdefault("default", 0)
+            overlay_data.setdefault("default", None)
     
         

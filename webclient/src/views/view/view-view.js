@@ -203,19 +203,23 @@ navigatum.registerView('view', {
                     marker.setLngLat([coords.lon, coords.lat]).addTo(map);
                     
                     if (_this.view_data.maps && _this.view_data.maps.overlays) {
-                        c.setOverlayImages(
-                            "/cdn/maps/overlay/mi_0.webp",
-                            _this.view_data.maps.overlays.available[0].coordinates
+                        c.setFloorOverlays(
+                            _this.view_data.maps.overlays.available,
+                            _this.view_data.maps.overlays.default
                         )
                     } else {
-                        c.setOverlayImages(null)
+                        c.setFloorOverlays(null)
                     }
                     
-                    // Use 16 as default zoom for now, TODO: Compute
+                    var default_zooms = {
+                        joined_building: 16,
+                        building: 17,
+                        room: 18,
+                    }
                     if (from_map === "interactive"){
                         map.flyTo({
                             center: [coords.lon, coords.lat],
-                            zoom: 16,
+                            zoom: default_zooms[_this.view_data.type] ? default_zooms[_this.view_data.type] : 16,
                             speed: 1,
                             maxDuration: 2000
                         });

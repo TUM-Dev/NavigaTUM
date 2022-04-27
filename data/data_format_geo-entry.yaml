@@ -119,6 +119,8 @@ internal_id:
         - {id: "rf5", scale: "4000", name: "Stammgelände Basiskarte", width: 480, height: 640,
            x: 300, y: 500}
     overlays:
+      # null would mean no overlay maps are displayed by default. For rooms this will
+      # be accompanied by a warning that no floor map is available for this room
       default: 0
       available:
         # Coordinates are four [lon, lat] pairs, for the top left, top right,

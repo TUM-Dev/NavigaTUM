@@ -1,6 +1,153 @@
 navigatum.registerModule("interactive-map", (function() {
     var _map;
-    
+
+    function FloorControl() { }
+
+    // Because mapboxgl might not be loaded yet, we need to postpone
+    // the declaration of the FloorControl class
+    function FloorControlInit() {
+        // Add Evented functionality from mapboxgl
+        FloorControl.prototype = Object.create(mapboxgl.Evented.prototype);
+
+        FloorControl.prototype.onAdd = function(map) {
+            this.map = map;
+            this.container = document.createElement("div");
+            this.container.classList.add("mapboxgl-ctrl-group");
+            this.container.classList.add("mapboxgl-ctrl");
+            this.container.classList.add("floor-ctrl");
+
+            // vertical open/collapse button
+            var vertical_oc = document.createElement("button");
+            vertical_oc.classList.add("vertical-oc");
+            vertical_oc.innerHTML = "<span id='vertical-oc-text'>EG</span>" +
+                                    "<span class='arrow'>▲</span>";
+            vertical_oc.addEventListener("click", () => { this.container.classList.toggle("closed") })
+            // horizontal (primarily on mobile)
+            var horizontal_oc = document.createElement("button");
+            horizontal_oc.classList.add("horizontal-oc");
+            horizontal_oc.innerHTML = "<span id='horizontal-oc-text'>EG</span>" +
+                                      "<span class='arrow'>❯</span>";
+            horizontal_oc.addEventListener("click", () => { this.container.classList.toggle("closed") })
+
+            this.floor_list = document.createElement("div");
+            this.floor_list.id = "floor-list"
+
+            this.container.appendChild(horizontal_oc);
+            this.container.appendChild(this.floor_list);
+            this.container.appendChild(vertical_oc);
+
+            // To change on `fullscreen` click on mobile, we need to
+            // observe window size changed
+            if (ResizeObserver) {
+                this.resize_observer = new ResizeObserver(() => {
+                    this._recalculateLayout(this.floor_list.children.length);
+                })
+                this.resize_observer.observe(document.getElementById("interactive-map"))
+            }
+
+            return this.container;
+        }
+        FloorControl.prototype.onRemove = function() {
+            this.container.parentNode.removeChild(this.container);
+            this.map = undefined;
+        }
+        FloorControl.prototype.updateFloors = function(floors, visible_id) {
+            // `floors` is null or a list of floors with data,
+            // `visible_id` is the id of the visible floor.
+            if (floors === null) {
+                this.container.classList.remove("visible");
+                this.fire("floor-changed", {file: null, coords: null});
+            } else {
+                this.floor_list.innerHTML = "";
+
+                var _this = this;
+                var click_handler_builder = function(floors, i) {  // Because JS
+                    return function() {
+                        if (floors) {
+                            _this._setActiveFloor(i, floors[i].floor);
+                            _this.fire("floor-changed", {file: floors[i].file, coords: floors[i].coordinates});
+                        } else {
+                            _this._setActiveFloor(i, "∅");
+                            _this.fire("floor-changed", {file: null, coords: null});
+                        }
+
+                        if (!_this.container.classList.contains("reduced"))
+                            _this.container.classList.add("closed");
+                    }
+                }
+                var visible_i = null;
+                for (var i in floors.reverse()) {
+                    var btn = document.createElement("button");
+                    btn.innerText = floors[i].floor;
+                    btn.addEventListener("click", click_handler_builder(floors, i));
+                    this.floor_list.appendChild(btn);
+
+                    if (floors[i].id === visible_id)
+                        visible_i = i;
+                }
+
+                if (visible_i === null) {
+                    this._setActiveFloor(this.floor_list.children.length, "∅");
+                    this.fire("floor-changed", {file: null, coords: null});
+                } else {
+                    this._setActiveFloor(visible_i, floors[visible_i].floor);
+                    this.fire("floor-changed", {file: floors[visible_i].file, coords: floors[visible_i].coordinates});
+                }
+
+                // The last button hides all overlays
+                var btn = document.createElement("button");
+                btn.innerText = "∅";
+                btn.addEventListener("click", click_handler_builder(null, this.floor_list.children.length));
+                this.floor_list.appendChild(btn);
+
+                this._recalculateLayout(this.floor_list.children.length);
+
+                this.container.classList.add("visible");
+            }
+        }
+        // Recalculate the layout for displaying n floor buttons
+        FloorControl.prototype._recalculateLayout = function(n) {
+            // Calculate required and available size to choose between
+            // vertical (default) or horizontal layout
+            var map_height = document.getElementById("interactive-map").clientHeight;
+            var top_ctrl_height = document.querySelector(".mapboxgl-ctrl-top-left").clientHeight;
+            var bottom_ctrl_height = document.querySelector(".mapboxgl-ctrl-bottom-left").clientHeight;
+            var floor_ctrl_height = document.querySelector(".floor-ctrl").clientHeight;
+
+            // The buttons have a height of 29px
+            var available_height = map_height - top_ctrl_height - bottom_ctrl_height + floor_ctrl_height;
+            var required_height = 29 * n;
+
+            // 3 or less buttons can always be displayed in reduced layout.
+            // Also, if the control takes only a small amount of space, it is always open.
+            if (n <= 3 || required_height < available_height * 0.2) {
+                this.container.classList.remove("closed");  // reduced can never be closed
+                this.container.classList.remove("horizontal");
+                this.container.classList.add("reduced");
+            } else {
+                this.container.classList.remove("reduced");
+                this.container.classList.add("closed");
+
+                // 25px = 10px reserved for top/bottom margin + 5px between control groups
+                // 29px = additional height from the open/collapse button
+                if (available_height - (required_height + 29) > 25)
+                    this.container.classList.remove("horizontal");
+                else
+                    this.container.classList.add("horizontal");
+            }
+        }
+        FloorControl.prototype._setActiveFloor = function(floor_list_i, name) {
+            for (var i = 0; i < this.floor_list.children.length; i++) {
+                if (i == floor_list_i)
+                    this.floor_list.children[i].classList.add("active");
+                else
+                    this.floor_list.children[i].classList.remove("active");
+            }
+            document.getElementById("vertical-oc-text").innerText = name;
+            document.getElementById("horizontal-oc-text").innerText = name;
+        }
+    }
+
     return {
         map: undefined,
         init: function() {
@@ -16,6 +163,7 @@ navigatum.registerModule("interactive-map", (function() {
                 const el_js = document.createElement("script");
                 el_js.src = "/* @echo app_prefix */js/mapbox/* @if target='release' */.min/* @endif */.js";
                 el_js.onload = () => {
+                    FloorControlInit();
                     resolve();
                 }
                 head.appendChild(el_js);
@@ -56,6 +204,8 @@ navigatum.registerModule("interactive-map", (function() {
                 
                 center: [11.5748, 48.1400],  // Approx Munich
                 zoom: 11,  // Zoomed out so that the whole city is visible
+
+                logoPosition: 'bottom-left',
             });
             const nav = new mapboxgl.NavigationControl();
             map.addControl(nav, 'top-left');
@@ -73,20 +223,33 @@ navigatum.registerModule("interactive-map", (function() {
             //    showUserHeading: true
             //});
             //map.addControl(location);
-            
+
             // Each source / style change causes the map to get
             // into "loading" state, so map.loaded() is not reliable
             // enough to know whether just the initial loading has
             // succeded.
             map.on("load", function() {
-                map.initial_loaded = true;
+                map.initialLoaded = true;
             })
+
+            var _this = this;
+            map.floorControl = new FloorControl();
+            map.floorControl.on("floor-changed", function(args) {
+                _this.setOverlayImage(args.file ? "/* @echo cdn_prefix */maps/overlay/" + args.file : null, args.coords);
+            })
+            map.addControl(map.floorControl, "bottom-left");
 
             _map = map;
             
             return map;
         },
-        setOverlayImages: function(img_url, coords) {
+        // Set the given overlays as available overlay images.
+        setFloorOverlays: function(overlays, default_overlay) {
+            _map.floorControl.updateFloors(overlays, default_overlay);
+        },
+        // Set the currently visible overlay image in the map,
+        // or hide it if img_url is null.
+        setOverlayImage: function(img_url, coords) {
             // Even if the map is initialized, it could be that
             // it hasn't loaded yet, so we need to postpone adding
             // the overlay layer.
@@ -95,14 +258,14 @@ navigatum.registerModule("interactive-map", (function() {
             // when source / style is changed, even though the initial
             // loading is complete (and only the initial loading seems
             // to be required to do changes here)
-            if (!_map.initial_loaded) {
+            if (!_map.initialLoaded) {
                 var _this = this;
                 _map.on("load", function() {
-                    _this.setOverlayImages(img_url, coords);
+                    _this.setOverlayImage(img_url, coords);
                 });
                 return;
             }
-            
+
             if (img_url === null) {  // Hide overlay
                 if (_map.getLayer("overlay-layer"))
                     _map.setLayoutProperty("overlay-layer", "visibility", "none")
@@ -114,13 +277,15 @@ navigatum.registerModule("interactive-map", (function() {
                     source = _map.addSource("overlay-src", {
                         "type": "image",
                         "url": img_url,
-                        "coordinates": coords
+                        "coordinates": coords,
                     })
                 } else {
-                    source.url = img_url;
-                    source.coordinates = coords;
+                    source.updateImage({
+                        "url": img_url,
+                        "coordinates": coords,
+                    });
                 }
-                
+
                 layer = _map.getLayer("overlay-layer")
                 if (!layer) {
                     _map.addLayer({
