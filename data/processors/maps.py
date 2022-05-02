@@ -348,7 +348,7 @@ def add_overlay_maps(data):
     parent_ids = set(parent_lut.keys())
     
     for _id, entry in data.items():
-        candidates = set(entry["parents"]) & parent_ids
+        candidates = parent_ids.intersection(entry["parents"])
         if len(candidates) > 1:
             print(f"Multiple candidates as overlay map for {_id}: {candidates}. "
                   f"Currently this is not supported! Skipping ...")
