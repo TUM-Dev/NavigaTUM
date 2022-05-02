@@ -352,7 +352,8 @@ def add_overlay_maps(data):
         if len(candidates) > 1:
             print(f"Multiple candidates as overlay map for {_id}: {candidates}. "
                   f"Currently this is not supported! Skipping ...")
-        elif (len(candidates) == 1) ^ (_id in parent_ids):  # xor
+        elif bool(candidates) ^ (_id in parent_ids):  
+            # either a candidate exist or _id is one of the parent ids, but not both
             overlay = parent_lut[list(candidates)[0] if len(candidates) == 1 else _id]
             overlay_data = entry.setdefault("maps", {}).setdefault("overlays", {})
             overlay_data["available"] = []
