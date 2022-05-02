@@ -19,13 +19,13 @@ navigatum.registerModule("interactive-map", (function() {
             // vertical open/collapse button
             var vertical_oc = document.createElement("button");
             vertical_oc.classList.add("vertical-oc");
-            vertical_oc.innerHTML = "<span id='vertical-oc-text'>EG</span>" +
+            vertical_oc.innerHTML = "<span id='vertical-oc-text'></span>" +
                                     "<span class='arrow'>▲</span>";
             vertical_oc.addEventListener("click", () => { this.container.classList.toggle("closed") })
             // horizontal (primarily on mobile)
             var horizontal_oc = document.createElement("button");
             horizontal_oc.classList.add("horizontal-oc");
-            horizontal_oc.innerHTML = "<span id='horizontal-oc-text'>EG</span>" +
+            horizontal_oc.innerHTML = "<span id='horizontal-oc-text'></span>" +
                                       "<span class='arrow'>❯</span>";
             horizontal_oc.addEventListener("click", () => { this.container.classList.toggle("closed") })
 
