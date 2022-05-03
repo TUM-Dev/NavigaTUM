@@ -62,6 +62,10 @@
              v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'">
           ${{_.view_view.msg.inaccurate_only_building}}$
         </div>
+        <div class="toast toast-warning"
+             v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null">
+          ${{_.view_view.msg.no_floor_overlay}}$
+        </div>
       </div>
 
       <div id="interactive-map-container"
@@ -168,6 +172,10 @@
           <div class="toast toast-warning"
                v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'">
             ${{_.view_view.msg.inaccurate_only_building}}$
+          </div>
+          <div class="toast toast-warning"
+               v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null">
+            ${{_.view_view.msg.no_floor_overlay}}$
           </div>
         </div>
         <!--<div class="card-footer">
