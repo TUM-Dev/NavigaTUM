@@ -31,7 +31,7 @@ servers:
   - url: 'http://nav.tum.sexy'
     description: http
 paths:
-  '/api/search/{search_querry}':
+  '/api/search/{search_query}':
     get:
       operationId: search
       summary: Search entries
@@ -42,7 +42,7 @@ paths:
 
         Some fields support highlighting the query terms and it uses DC3 (\x19 or \u{0019}) and DC1 (\x17 or \u{0017}) to mark the beginning/end of a highlighted sequence (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)). Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses (there is no query parameter for this yet).
       parameters:
-        - name: search_querry
+        - name: search_query
           in: path
           description: string you want to search for
           required: true
@@ -207,7 +207,7 @@ paths:
           description: Invalid Request
           content: {}
         '404':
-          description: '`search_querry` is empty. Since searching for nothing is nonsensical, we dont support this.'
+          description: '`search_query` is empty. Since searching for nothing is nonsensical, we dont support this.'
           content:
             text/plain:
               schema:
