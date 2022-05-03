@@ -76,7 +76,7 @@ paths:
             Clamped to 0..1000. If this is an problem for you, please open an issue.
           schema:
             type: integer
-            default: 5
+            default: 10
             maximum: 1000
             minimum: 0
         - name: limit_all
@@ -86,7 +86,7 @@ paths:
             Clamped to 1..1000. If this is an problem for you, please open an issue.
           schema:
             type: integer
-            default: 20
+            default: 10
             maximum: 1000
             minimum: 1
       responses:
