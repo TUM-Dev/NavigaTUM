@@ -1,6 +1,5 @@
 use cached::proc_macro::cached;
 use futures::join;
-use std::cmp::min;
 use std::collections::HashMap;
 use std::time::Instant;
 
@@ -155,12 +154,12 @@ async fn execute_search(q: String, args: SearchQueryArgs) -> Vec<SearchResultsSe
     return do_geoentry_search(&parsed.tokens, sanatised_args).await;
 }
 
+
 fn sanitise_args(args: SearchQueryArgs) -> SanitisedSearchQueryArgs {
-    let max_size = u16::MAX as usize;
     SanitisedSearchQueryArgs {
-        limit_buildings: min(args.limit_buildings.unwrap_or(5), max_size),
-        limit_rooms: min(args.limit_rooms.unwrap_or(5), max_size),
-        limit_all: min(args.limit_all.unwrap_or(20), max_size),
+        limit_buildings: args.limit_buildings.unwrap_or(5).clamp(0, 1_000),
+        limit_rooms: args.limit_rooms.unwrap_or(5).clamp(0, 1_000),
+        limit_all: args.limit_all.unwrap_or(20).clamp(1, 1_000),
     }
 }
 
