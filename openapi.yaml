@@ -627,7 +627,7 @@ paths:
       operationId: img_cdn
       summary: Get title images
       description: |
-        This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint
+        This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
         You HAVE to get the proper attribution from that endpoint and use it.
       parameters:
         - name: size
@@ -713,7 +713,7 @@ paths:
       operationId: maps_cdn
       summary: Get title images
       description: |
-        This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint
+        This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
         You HAVE to get the proper attribution from that endpoint and use it.
       parameters:
         - name: source
