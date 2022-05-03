@@ -999,6 +999,13 @@ components:
             - roomfinder
         roomfinder:
           $ref: '#/components/schemas/RoomfinderMap'
+        overlays:
+          description: |
+            null would mean no overlay maps are displayed by default.
+            For rooms you should add a warning that no floor map is available for this room
+          allOf:
+            - nullable: true
+            - $ref: '#/components/schemas/OverlayMap'
       required:
         - default
     RoomfinderMap:
@@ -1011,11 +1018,11 @@ components:
         available:
           type: array
           items:
-            $ref: '#/components/schemas/AvalibleRoomfinderMap'
+            $ref: '#/components/schemas/RoomfinderMapEntry'
       required:
         - default
         - available
-    AvalibleRoomfinderMap:
+    RoomfinderMapEntry:
       type: object
       properties:
         name:
@@ -1049,7 +1056,7 @@ components:
           format: int32
           example: 499
           minimum: 0
-        'y':
+        y:
           description: y Position on map image
           type: integer
           format: int32
@@ -1062,7 +1069,63 @@ components:
         - height
         - width
         - x
-        - 'y'
+        - y
+    OverlayMap:
+      type: object
+      properties:
+        default:
+          description: 'The floor-id of the map, that should be shown as a default'
+          type: integer
+          example: 0
+        available:
+          type: array
+          items:
+            $ref: '#/components/schemas/OverlayMapEntry'
+      required:
+        - default
+        - available
+    OverlayMapEntry:
+      type: object
+      properties:
+        id:
+          description: |
+            The machine-readable floor-id of the map.  
+            Should start with 0 for the ground level and increase or decrease.
+            We may in the future have to skip numbers, because buildings have weird floorplans.
+          type: integer
+          example: 0
+        floor:
+          description: |
+            Floor of the Map.
+            Should be used for display to the user in selectors.  
+            Matches the floor part of the TUMOnline roomcode.
+          type: string
+          example: 'EG'
+        name:
+          description: The human-readable name of the map
+          type: string
+          example: MI Gebäude (EG)
+        file:
+          description: The filename of the map
+          type: string
+          example: webp/rf95.webp
+        coordinates:
+          description: Coordinates are four [lon, lat] pairs, for the top left, top right, bottom right, bottom left image corners.
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+            minItems: 2
+            maxItems: 2
+          minItems: 4
+          maxItems: 4
+      required:
+        - id
+        - floor
+        - name
+        - file
+        - coordinates
     Rooms:
       type: object
       properties:
