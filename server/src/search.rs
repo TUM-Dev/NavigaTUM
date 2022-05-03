@@ -158,8 +158,8 @@ async fn execute_search(q: String, args: SearchQueryArgs) -> Vec<SearchResultsSe
 fn sanitise_args(args: SearchQueryArgs) -> SanitisedSearchQueryArgs {
     SanitisedSearchQueryArgs {
         limit_buildings: args.limit_buildings.unwrap_or(5).clamp(0, 1_000),
-        limit_rooms: args.limit_rooms.unwrap_or(5).clamp(0, 1_000),
-        limit_all: args.limit_all.unwrap_or(20).clamp(1, 1_000),
+        limit_rooms: args.limit_rooms.unwrap_or(10).clamp(0, 1_000),
+        limit_all: args.limit_all.unwrap_or(10).clamp(1, 1_000),
     }
 }
 
@@ -393,6 +393,12 @@ async fn do_geoentry_search(
             continue;
         }; // No duplicates
 
+        // Total limit reached (does only count visible results)
+        if section_rooms.entries.len() + section_buildings.n_visible.unwrap_or_else(|| { section_buildings.entries.len() })
+            >= args.limit_all {
+            break;
+        }
+
         // Find out where it matches TODO: Improve
         let highlighted_name = highlight_matches(&hit.name, &search_tokens);
         let highlighted_arch_name = match &hit.arch_name {
@@ -414,10 +420,7 @@ async fn do_geoentry_search(
                 }
             }
             "room" | "virtual_room" => {
-                if section_rooms.entries.len() < args.limit_rooms
-                    || (section_rooms.entries.len() < (args.limit_rooms + args.limit_buildings)
-                        && section_buildings.entries.len() == 0)
-                {
+                if section_rooms.entries.len() < args.limit_rooms {
                     // Test whether the query matches some common room id formats.
                     // This is hardcoded here for now and should be changed in the future.
                     let parsed_id = if search_tokens.len() == 2

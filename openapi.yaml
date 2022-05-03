@@ -82,7 +82,7 @@ paths:
         - name: limit_all
           in: query
           description: |
-            Overall maximum number of results.  
+            Overall maximum number of results. Only visible results are counted (i.e. hidden buildings are not counted).  
             Clamped to 1..1000. If this is an problem for you, please open an issue.
           schema:
             type: integer
