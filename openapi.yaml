@@ -61,27 +61,33 @@ paths:
               value: 5606.EG.036
         - name: limit_buildings
           in: query
-          description: Maximum number of buildings/sites to return
+          description: |
+            Maximum number of buildings/sites to return.  
+            Clamped to 0..1000. If this is an problem for you, please open an issue.
           schema:
             type: integer
             default: 5
-            maximum: 65535
+            maximum: 1000
             minimum: 0
         - name: limit_rooms
           in: query
-          description: Maximum number of rooms to return
+          description: |
+            Maximum number of rooms to return.  
+            Clamped to 0..1000. If this is an problem for you, please open an issue.
           schema:
             type: integer
             default: 5
-            maximum: 65535
+            maximum: 1000
             minimum: 0
         - name: limit_all
           in: query
-          description: Overall maximum number of results
+          description: |
+            Overall maximum number of results.  
+            Clamped to 1..1000. If this is an problem for you, please open an issue.
           schema:
             type: integer
             default: 20
-            maximum: 65535
+            maximum: 1000
             minimum: 1
       responses:
         '200':
