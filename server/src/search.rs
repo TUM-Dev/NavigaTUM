@@ -352,7 +352,7 @@ async fn do_geoentry_search(
         MSSearchArgs {
             q: &q_default,
             filter: None,
-            limit: args.limit_all, // This is the MeiliSearch default
+            limit: args.limit_all,
         },
     );
     // Building limit multiplied by two because we might do reordering later
