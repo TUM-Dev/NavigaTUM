@@ -237,7 +237,10 @@ def _extract_available_maps(entry, custom_maps, maps_list):
 
 
 def _merge_str(s1: str, s2: str):
-    """Merges two strings. The Result is of the format common_prefix s1/s2 common_suffix"""
+    """
+    Merges two strings. The Result is of the format common_prefix s1/s2 common_suffix.
+    Example: "Thierschbau 5. OG" and "Thierschbau 6. OG" -> "Thierschbau 5/6. OG"
+    """
     if s1 == s2:
         return s1
     prefix = os.path.commonprefix((s1, s2))
