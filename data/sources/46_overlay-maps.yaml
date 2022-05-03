@@ -14,6 +14,20 @@
     - {file: "mi_2.webp", id: 2, floor: "02", desc: "MI Gebäude (2.OG) – © TUM WWW & Online Services"}
     - {file: "mi_3.webp", id: 3, floor: "03", desc: "MI Gebäude (3.OG) – © TUM WWW & Online Services"}
     - {file: "mi_4.webp", id: 4, floor: "04", desc: "MI Gebäude (4.OG) – © TUM WWW & Online Services"}
+    
+- props:
+    parent: "5101"
+    box:
+      - [11.674927, 48.267740]  # 4
+      - [11.677102, 48.267489]  # 3
+      - [11.676811, 48.266465]  # 2
+      - [11.674677, 48.266736]  # 1
+  maps:
+    - {file: "5101_-2.webp", id: -2, floor: "U2", desc: "Physik I (2. UG) – © TUM WWW & Online Services"}
+    - {file: "5101_-1.webp", id: -1, floor: "U1", desc: "Physik I (1. UG) – © TUM WWW & Online Services"}
+    - {file: "5101_0.webp", id: 0, floor: "EG", desc: "Physik I (EG) – © TUM WWW & Online Services"}
+    - {file: "5101_1.webp", id: 1, floor: "01", desc: "Physik I (1. OG) – © TUM WWW & Online Services"}
+    - {file: "5101_2.webp", id: 2, floor: "02", desc: "Physik I (2. OG) – © TUM WWW & Online Services"}
 
 - props:
     parent: "5532"
