@@ -1,0 +1,29 @@
+# Custom maps are located in sources/img/maps/overlay
+
+- props:
+    parent: "mi"
+    box:  # lon, lat
+      - [11.666739, 48.263478]  # 4
+      - [11.669666, 48.263125]  # 3
+      - [11.669222, 48.261585]  # 2
+      - [11.666331, 48.261929]  # 1
+  maps:
+    - {file: "mi_-1.webp", id: -1, floor: "U1", desc: "MI Gebäude (UG) – © TUM WWW & Online Services"}
+    - {file: "mi_0.webp", id: 0, floor: "EG", desc: "MI Gebäude (EG) – © TUM WWW & Online Services"}
+    - {file: "mi_1.webp", id: 1, floor: "01", desc: "MI Gebäude (1.OG) – © TUM WWW & Online Services"}
+    - {file: "mi_2.webp", id: 2, floor: "02", desc: "MI Gebäude (2.OG) – © TUM WWW & Online Services"}
+    - {file: "mi_3.webp", id: 3, floor: "03", desc: "MI Gebäude (3.OG) – © TUM WWW & Online Services"}
+    - {file: "mi_4.webp", id: 4, floor: "04", desc: "MI Gebäude (4.OG) – © TUM WWW & Online Services"}
+
+- props:
+    parent: "5532"
+    box:
+      - [11.669863, 48.266968]
+      - [11.670536, 48.266884]
+      - [11.670476, 48.266678]
+      - [11.669808, 48.266762]
+  maps:
+    - {file: "5532_0.webp", id: 0, floor: "EG", desc: "StudiTUM Garching (EG)"}
+    - {file: "5532_1.webp", id: 1, floor: "Z1", desc: "StudiTUM Garching (ZG / 1. Etage)"}
+    - {file: "5532_2.webp", id: 2, floor: "01", desc: "StudiTUM Garching (1.OG / 2. Etage)"}
+    - {file: "5532_3.webp", id: 3, floor: "02", desc: "StudiTUM Garching (2.OG / 3. Etage)"}
