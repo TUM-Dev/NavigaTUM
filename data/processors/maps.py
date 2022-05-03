@@ -260,8 +260,10 @@ def _merge_maps(map1, map2):
             result_map[key] = _merge_maps(map1[key], map2[key])
         elif isinstance(map1[key], str):
             result_map[key] = _merge_str(map1[key], map2[key])
-        elif isinstance(map1[key], int) or isinstance(map1[key], float):
-            result_map[key] = sum((map1[key], map2[key])) / 2
+        elif isinstance(map1[key], int):
+            result_map[key] = int((map1[key] + map2[key]) / 2)
+        elif isinstance(map1[key], float):
+            result_map[key] = (map1[key] + map2[key]) / 2
         else:
             values = map1[key]
             raise NotImplementedError(f"the {key=} of with {type(values)=} does not have a merging-operation defined")
