@@ -298,21 +298,21 @@ fn tokenize_input_query(q: String) -> Vec<InputToken> {
            (c == '"')
         {
             // end of quotes
-            tokens.push(InputToken {
-                // Note: The trim_end also trims within unclosed quotes at the end of the query,
-                //       but currently I don't think this is an issue.
-                s: q.get(token_start..i + c.len_utf8())
-                    .unwrap()
-                    .trim_end()
-                    .to_lowercase(),
-                regular_split: true,
-                // `closed` indicates whether the token has been closed (by whitespace or quote)
-                // at the end, when this is the last token. This is relevant because MeiliSearch
-                // treats whitespace at the end differently, and we might want to imitate that
-                // behaviour.
-                closed: !(i + c.len_utf8() == q.len()
-                    && (within_quotes || (c != '"' && !c.is_whitespace()))),
-            });
+            let raw_token = q.get(token_start..i + c.len_utf8());
+            if let Some(token) = raw_token {
+                tokens.push(InputToken {
+                    // Note: The trim_end also trims within unclosed quotes at the end of the query,
+                    //       but currently I don't think this is an issue.
+                    s: token.trim_end().to_lowercase(),
+                    regular_split: true,
+                    // `closed` indicates whether the token has been closed (by whitespace or quote)
+                    // at the end, when this is the last token. This is relevant because MeiliSearch
+                    // treats whitespace at the end differently, and we might want to imitate that
+                    // behaviour.
+                    closed: !(i + c.len_utf8() == q.len()
+                        && (within_quotes || (c != '"' && !c.is_whitespace()))),
+                });
+            }
 
             token_start = i + 1;
         } else if !within_quotes && c.is_whitespace() {
