@@ -80,9 +80,9 @@ npm install openapi-format
 openapi-format ./openapi.yaml --output ./openapi.yaml
 ```
 
-For validating, that the specification is being followed use the [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml) in tandem with  [stoplight](stoplight.io), as they are both very imperfect tools.
+To validate that the specification is being followed, use the [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml) in tandem with [stoplight](stoplight.io), as they are both very imperfect tools.
 
-To making sure, that this specification is up-to-date and without holes, we run [schemathesis](https://github.com/schemathesis/schemathesis) using the following command on API Server provided by the "Server" step or the public API:
+To make sure that this specification is up-to-date and without holes, we run [schemathesis](https://github.com/schemathesis/schemathesis) using the following command on API Server provided by the "Server" step or the public API:
 ```bash
 python -m venv venv
 source venv/bin/activate

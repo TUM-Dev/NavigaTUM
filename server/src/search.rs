@@ -150,8 +150,8 @@ pub async fn do_benchmarked_search(q: String, args: SearchQueryArgs) -> SearchRe
 #[cached(size = 500)]
 async fn execute_search(q: String, args: SearchQueryArgs) -> Vec<SearchResultsSection> {
     let parsed = parse_input_query(q);
-    let sanatised_args = sanitise_args(args);
-    return do_geoentry_search(&parsed.tokens, sanatised_args).await;
+    let sanitised_args = sanitise_args(args);
+    return do_geoentry_search(&parsed.tokens, sanitised_args).await;
 }
 
 
