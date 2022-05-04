@@ -1,6 +1,21 @@
 # Custom maps are located in sources/img/maps/overlay
 
 - props:
+    parent: "0101"
+    box:
+      - [11.567969, 48.150949]
+      - [11.569285, 48.150577]
+      - [11.568750, 48.149706]
+      - [11.567409, 48.150095]
+  maps:
+    - {file: "0101_-1.webp", id: -1, floor: "U1", desc: "U-Trakt N1 (1. UG) – © TUM WWW & Online Services"}
+    - {file: "0101_0.webp", id: 0, floor: "EG", desc: "U-Trakt N1 (EG) – © TUM WWW & Online Services"}
+    - {file: "0101_1.webp", id: 1, floor: "Z1", desc: "U-Trakt N1 (ZG) – © TUM WWW & Online Services"}
+    - {file: "0101_2.webp", id: 2, floor: "01", desc: "U-Trakt N1 (1. OG) – © TUM WWW & Online Services"}
+    - {file: "0101_3.webp", id: 3, floor: "02", desc: "U-Trakt N1 (2. OG) – © TUM WWW & Online Services"}
+    - {file: "0101_4.webp", id: 4, floor: "DG", desc: "U-Trakt N1 (DG) – © TUM WWW & Online Services"}
+
+- props:
     parent: "mi"
     box:  # lon, lat
       - [11.666739, 48.263478]  # 4
