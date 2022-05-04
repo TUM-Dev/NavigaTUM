@@ -215,7 +215,7 @@ var navigatum = (function () {
         getData: function(id, extended) {
             return new Promise(resolve => {
                 cached_fetch.fetch(this.api_base + 'get/' +
-                                   window.encodeURI(id) + (extended ? "" : "?e=false"),
+                                   window.encodeURIComponent(id) + (extended ? "" : "?e=false"),
                                    {cache: "force-cache"})
                     .then(data => resolve(data));
             })
