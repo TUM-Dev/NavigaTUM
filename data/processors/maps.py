@@ -349,38 +349,14 @@ def build_roomfinder_maps(data):
                 if entry_map["id"] == "rf9":
                     world_map = entry_map
                     continue
-                
-                m = maps[entry_map["id"]]
-                box = m["latlonbox"]
-                
-                # For the map regions used we can assume that the lat/lon graticule is
-                # rectangular within that map. It is however not square (roughly 2:3 aspect),
-                # so for simplicity we first map it into the cartesian pixel coordinate
-                # system of the image and then apply the rotation.
-                # Note: x corrsp. to longitude, y corresp. to latitude
-                ex, ey = (entry["coords"]["lon"],
-                          entry["coords"]["lat"])
-                
-                box_delta_x = abs(box["north_west"][1] - box["south_east"][1])
-                box_delta_y = abs(box["north_west"][0] - box["south_east"][0])
-                
-                rel_x, rel_y = (abs(box["north_west"][1] - ex) / box_delta_x,
-                                abs(box["north_west"][0] - ey) / box_delta_y)
-                
-                ix0, iy0 = (rel_x * entry_map["width"],
-                            rel_y * entry_map["height"])
-                
-                cx, cy = (entry_map["width"] / 2,
-                          entry_map["height"] / 2)
-                
-                angle = math.radians(float(box["rotation"]))
-                ix, iy = (cx + (ix0 - cx) * math.cos(angle) - (iy0 - cy) * math.sin(angle),
-                          cy + (ix0 - cx) * math.sin(angle) + (iy0 - cy) * math.cos(angle))
+
+                box = maps[entry_map["id"]]["latlonbox"]
+                ix, iy = _calc_xy_of_entry_on_entrymap(entry, entry_map, box)
 
                 # The result is the position of the pixel in this image corresponding
                 # to the coordinate.
-                entry_map["x"] = round(ix)
-                entry_map["y"] = round(iy)
+                entry_map["x"] = ix
+                entry_map["y"] = iy
 
                 # Finally, set source and filepath so that they are available for all maps
                 entry_map.setdefault("source", "Roomfinder")
@@ -389,6 +365,36 @@ def build_roomfinder_maps(data):
             if world_map is not None:
                 entry["maps"]["roomfinder"]["available"].remove(world_map)
 
+
+def _calc_xy_of_entry_on_entrymap(entry, entry_map, box) -> tuple[int, int]:
+    # For the map regions used we can assume that the lat/lon graticule is
+    # rectangular within that map. It is however not square (roughly 2:3 aspect),
+    # so for simplicity we first map it into the cartesian pixel coordinate
+    # system of the image and then apply the rotation.
+    # Note: x corresponds to longitude, y to latitude
+    entry_x, entry_y = entry["coords"]["lon"], entry["coords"]["lat"]
+    box_delta_x: float = abs(box["north_west"][1] - box["south_east"][1])
+    box_delta_y: float = abs(box["north_west"][0] - box["south_east"][0])
+
+    rel_x: float = abs(box["north_west"][1] - entry_x) / box_delta_x
+    rel_y: float = abs(box["north_west"][0] - entry_y) / box_delta_y
+
+    ix0: float = rel_x * entry_map["width"]
+    iy0: float = rel_y * entry_map["height"]
+
+    cx: float = entry_map["width"] / 2
+    cy: float = entry_map["height"] / 2
+
+    angle: float = math.radians(float(box["rotation"]))
+
+    ix: float = cx + (ix0 - cx) * math.cos(angle) - (iy0 - cy) * math.sin(angle)
+    iy: float = cy + (ix0 - cx) * math.sin(angle) + (iy0 - cy) * math.cos(angle)
+    int_ix, int_iy = round(ix), round(iy)
+    if int_ix < 0:
+        print(f"Warning: entry '{entry['id']}' on map '{entry_map['id']}.webp' has a negative x coordinate: {int_ix}")
+    if int_iy < 0:
+        print(f"Warning: entry '{entry['id']}' on map '{entry_map['id']}.webp' has a negative y coordinate: {int_iy}")
+    return int_ix, int_iy
 
 
 def _load_custom_maps():
