@@ -1,7 +1,7 @@
 function searchNavigateTo(to, from, next, component) {
     navigatum.beforeNavigate(to, from);
 
-    cached_fetch.fetch(navigatum.api_base + 'search/' + window.encodeURI(to.params.query) +
+    cached_fetch.fetch(navigatum.api_base + 'search/' + window.encodeURIComponent(to.params.query) +
                        '?limit_buildings=10&limit_rooms=20&limit_all=30',
                                    {cache: "no-cache"})
         .then(resp => {
