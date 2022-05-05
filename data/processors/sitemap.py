@@ -56,15 +56,15 @@ def generate_sitemap():
             "virtual_room": "room"
         }[entry["type"]]
         url = f"https://nav.tum.sexy/{url_type_name}/{_id}"
-
+        now = datetime.now().replace(microsecond=0).astimezone().isoformat()
         if _id not in old_data or entry != old_data[_id]:
-            last_changed = datetime.now()
+            last_changed = now
             changed_count += 1
         else:
             # Try to look up the last changed date in the old sitemap
             last_changed = old_sitemaps.get(sitemap_name, {}).get(url, None)
             if last_changed is None:
-                last_changed = datetime.now()
+                last_changed = now
                 changed_count += 1
 
         # Priority is a relative measure from 0.0 to 1.0.
