@@ -185,7 +185,7 @@ var navigatum = (function () {
                     searchGo: function(clean_query) {
                         if (this.search.query.length == 0) return;
                                
-                        navigatum.router.push("/search/" + this.search.query);
+                        navigatum.router.push("/search?q=" + this.search.query);
                         this.search.focused = false;
                         if (clean_query) {
                             this.search.query = "";
@@ -412,7 +412,7 @@ var navigatum = (function () {
 navigatum.routes = [
     { path: '/',         component: navigatum.getView('main') },
     { path: '/(view|campus|site|building|room)/:id', component: navigatum.getView('view') },
-    { path: '/search/:query', component: navigatum.getView('search') },
+    { path: '/search', component: navigatum.getView('search') },
     { path: '/about/:name', component: navigatum.getView('md') },
     { path: '/:catchAll(.*)',  component: navigatum.getView('404') }
 ]

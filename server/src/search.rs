@@ -9,10 +9,18 @@ use serde_json::Result;
 
 #[derive(Deserialize, Clone, Eq, PartialEq, Hash)]
 pub struct SearchQueryArgs {
+    q: String,
     // Limit per facet
     limit_buildings: Option<usize>,
     limit_rooms: Option<usize>,
     limit_all: Option<usize>,
+}
+
+pub struct SanitisedSearchQueryArgs {
+    // Limit per facet
+    limit_buildings: usize,
+    limit_rooms: usize,
+    limit_all: usize,
 }
 
 #[derive(Debug)]
@@ -77,7 +85,7 @@ pub struct ResultEntry {
 struct MSSearchArgs<'a> {
     q: &'a str,
     filter: Option<MSSearchFilter>,
-    limit: u8,
+    limit: usize,
 }
 
 #[derive(Debug)]
@@ -90,7 +98,7 @@ struct MSQuery<'a> {
     q: &'a str,
     #[serde(skip_serializing_if = "Option::is_none")]
     filter: Option<Vec<Vec<String>>>,
-    limit: u8,
+    limit: usize,
     #[serde(rename = "facetsDistribution")]
     facets_distribution: Vec<String>,
 }
@@ -127,24 +135,34 @@ struct MSFacetDistribution {
     facet: HashMap<String, i32>,
 }
 
-pub async fn do_benchmarked_search(q: String, args: SearchQueryArgs) -> Result<SearchResults> {
+pub async fn do_benchmarked_search(args: SearchQueryArgs) -> SearchResults {
     let start_time = Instant::now();
 
-    let results_sections = execute_search(q, args).await;
+    let results_sections = execute_search(args).await;
 
     let time_ms = start_time.elapsed().as_millis();
-    Ok(SearchResults {
+    SearchResults {
         sections: results_sections,
         time_ms,
-    })
+    }
 }
 
 // size=100 seems to be about 10M
 #[cached(size = 500)]
-async fn execute_search(q: String, args: SearchQueryArgs) -> Vec<SearchResultsSection> {
+async fn execute_search(args: SearchQueryArgs) -> Vec<SearchResultsSection> {
+    let (q,sanitised_args) = sanitise_args(args);
     let parsed = parse_input_query(q);
+    return do_geoentry_search(&parsed.tokens, sanitised_args).await;
+}
 
-    return do_geoentry_search(&parsed.tokens, args).await;
+
+fn sanitise_args(args: SearchQueryArgs) -> (String, SanitisedSearchQueryArgs) {
+    let sanitised_args = SanitisedSearchQueryArgs {
+        limit_buildings: args.limit_buildings.unwrap_or(5).clamp(0, 1_000),
+        limit_rooms: args.limit_rooms.unwrap_or(10).clamp(0, 1_000),
+        limit_all: args.limit_all.unwrap_or(10).clamp(1, 1_000),
+    };
+    (args.q, sanitised_args)
 }
 
 fn build_query_string(search_tokens: &Vec<SearchToken>) -> String {
@@ -282,21 +300,21 @@ fn tokenize_input_query(q: String) -> Vec<InputToken> {
            (c == '"')
         {
             // end of quotes
-            tokens.push(InputToken {
-                // Note: The trim_end also trims within unclosed quotes at the end of the query,
-                //       but currently I don't think this is an issue.
-                s: q.get(token_start..i + c.len_utf8())
-                    .unwrap()
-                    .trim_end()
-                    .to_lowercase(),
-                regular_split: true,
-                // `closed` indicates whether the token has been closed (by whitespace or quote)
-                // at the end, when this is the last token. This is relevant because MeiliSearch
-                // treats whitespace at the end differently, and we might want to imitate that
-                // behaviour.
-                closed: !(i + c.len_utf8() == q.len()
-                    && (within_quotes || (c != '"' && !c.is_whitespace()))),
-            });
+            let raw_token = q.get(token_start..i + c.len_utf8());
+            if let Some(token) = raw_token {
+                tokens.push(InputToken {
+                    // Note: The trim_end also trims within unclosed quotes at the end of the query,
+                    //       but currently I don't think this is an issue.
+                    s: token.trim_end().to_lowercase(),
+                    regular_split: true,
+                    // `closed` indicates whether the token has been closed (by whitespace or quote)
+                    // at the end, when this is the last token. This is relevant because MeiliSearch
+                    // treats whitespace at the end differently, and we might want to imitate that
+                    // behaviour.
+                    closed: !(i + c.len_utf8() == q.len()
+                        && (within_quotes || (c != '"' && !c.is_whitespace()))),
+                });
+            }
 
             token_start = i + 1;
         } else if !within_quotes && c.is_whitespace() {
@@ -318,7 +336,7 @@ fn tokenize_input_query(q: String) -> Vec<InputToken> {
 
 async fn do_geoentry_search(
     search_tokens: &Vec<SearchToken>,
-    args: SearchQueryArgs,
+    args: SanitisedSearchQueryArgs,
 ) -> Vec<SearchResultsSection> {
     // Determine what to search for
 
@@ -331,70 +349,57 @@ async fn do_geoentry_search(
 
     let q_default = build_query_string(&search_tokens);
 
-    let res_merged = do_meilisearch(
+    let fut_res_merged = do_meilisearch(
         client.clone(),
         MSSearchArgs {
             q: &q_default,
             filter: None,
-            limit: args.limit_all.unwrap_or(20) as u8, // This is the MeiliSearch default
+            limit: args.limit_all,
         },
     );
     // Building limit multiplied by two because we might do reordering later
-    let res_buildings = do_building_search_closed_query(
-        client.clone(),
-        &search_tokens,
-        2 * args.limit_buildings.unwrap_or(5) as u8,
-    );
-    let res_rooms = do_room_search(
-        client.clone(),
-        &search_tokens,
-        args.limit_rooms.unwrap_or(5) as u8,
-    );
+    let fut_res_buildings =
+        do_building_search_closed_query(client.clone(), &search_tokens, 2 * args.limit_buildings);
+    let fut_res_rooms = do_room_search(client.clone(), &search_tokens, args.limit_rooms);
 
-    let results = join!(res_merged, res_buildings, res_rooms);
+    let (res_merged, res_buildings, res_rooms) =
+        join!(fut_res_merged, fut_res_buildings, fut_res_rooms);
 
     // First look up which buildings did match even with a closed query.
     // We can consider them more relevant.
     let mut closed_matching_buildings = Vec::<String>::new();
-    for hit in results.1.unwrap().hits {
+    for hit in res_buildings.unwrap().hits {
         closed_matching_buildings.push(hit.id);
     }
 
+    let facet = &res_merged.as_ref().unwrap().facets_distribution.facet;
     let mut section_buildings = SearchResultsSection {
         facet: "sites_buildings".to_string(),
         entries: Vec::<ResultEntry>::new(),
         n_visible: None,
-        nb_hits: results
-            .0
-            .as_ref()
-            .unwrap()
-            .facets_distribution
-            .facet
-            .get("site")
-            .unwrap_or_else(|| &0)
-            + results
-                .0
-                .as_ref()
-                .unwrap()
-                .facets_distribution
-                .facet
-                .get("building")
-                .unwrap_or_else(|| &0),
+        nb_hits: facet.get("site").unwrap_or_else(|| &0)
+            + facet.get("building").unwrap_or_else(|| &0),
     };
     let mut section_rooms = SearchResultsSection {
         facet: "rooms".to_string(),
         entries: Vec::<ResultEntry>::new(),
         n_visible: None,
-        nb_hits: results.2.as_ref().unwrap().nb_hits,
+        nb_hits: res_rooms.as_ref().unwrap().nb_hits,
     };
 
     // TODO: Collapse joined buildings
     // let mut observed_joined_buildings = Vec::<String>::new();
     let mut observed_ids = Vec::<String>::new();
-    for hit in [results.0.unwrap().hits, results.2.unwrap().hits].concat() {
+    for hit in [res_merged.unwrap().hits, res_rooms.unwrap().hits].concat() {
         if observed_ids.contains(&hit.id) {
             continue;
         }; // No duplicates
+
+        // Total limit reached (does only count visible results)
+        if section_rooms.entries.len() + section_buildings.n_visible.unwrap_or_else(|| { section_buildings.entries.len() })
+            >= args.limit_all {
+            break;
+        }
 
         // Find out where it matches TODO: Improve
         let highlighted_name = highlight_matches(&hit.name, &search_tokens);
@@ -405,7 +410,7 @@ async fn do_geoentry_search(
 
         match hit.r#type.as_str() {
             "campus" | "site" | "area" | "building" | "joined_building" => {
-                if section_buildings.entries.len() < args.limit_buildings.unwrap_or(5) {
+                if section_buildings.entries.len() < args.limit_buildings {
                     section_buildings.entries.push(ResultEntry {
                         id: hit.id.to_string(),
                         r#type: hit.r#type.to_string(),
@@ -417,11 +422,7 @@ async fn do_geoentry_search(
                 }
             }
             "room" | "virtual_room" => {
-                if section_rooms.entries.len() < args.limit_rooms.unwrap_or(5)
-                    || (section_rooms.entries.len()
-                        < (args.limit_rooms.unwrap_or(5) + args.limit_buildings.unwrap_or(5))
-                        && section_buildings.entries.len() == 0)
-                {
+                if section_rooms.entries.len() < args.limit_rooms {
                     // Test whether the query matches some common room id formats.
                     // This is hardcoded here for now and should be changed in the future.
                     let parsed_id = if search_tokens.len() == 2
@@ -492,7 +493,7 @@ async fn do_geoentry_search(
 async fn do_building_search_closed_query(
     client: Client,
     search_tokens: &Vec<SearchToken>,
-    limit: u8,
+    limit: usize,
 ) -> Result<MSResults> {
     let q = format!("{} ", build_query_string(search_tokens));
 
@@ -512,7 +513,7 @@ async fn do_building_search_closed_query(
 async fn do_room_search(
     client: Client,
     search_tokens: &Vec<SearchToken>,
-    limit: u8,
+    limit: usize,
 ) -> Result<MSResults> {
     let mut q = String::from("");
     for token in search_tokens {

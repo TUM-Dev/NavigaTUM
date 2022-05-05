@@ -1,8 +1,0 @@
-# This file serves as a reference for the data format.
-# (Note it is for documentation purposes and not fully valid yaml)
-
-internal_id:
-  # --- Core properties ---
-  
-  # Same as the internal_id above. ...
-  id: "internal_id"
