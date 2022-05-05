@@ -1,6 +1,9 @@
 FROM python:3.10.4-bullseye as build-stage
 WORKDIR /app
 
+ARG GIT_COMMIT_SHA
+ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+
 # install requirements
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
@@ -26,10 +29,6 @@ COPY search_synonyms.json output/
 RUN gzip --force --keep --recursive output/
 
 FROM nginx as production-stage
-
-ARG GIT_COMMIT_SHA
-ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 RUN mkdir /cdn
-
 COPY --from=build-stage /app/output /cdn
 COPY nginx.conf /etc/nginx/nginx.conf
