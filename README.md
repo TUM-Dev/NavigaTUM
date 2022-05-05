@@ -92,7 +92,7 @@ pip install schemathesis
 st run --workers=auto --base-url=http://localhost:8080 --checks=all ../openapi.yaml
 ```
 Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN).  
-You can exchange `--base-url=http://localhost:8080` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/search/.+`.
+You can exchange `--base-url=http://localhost:8080` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/search`.
 
 ## License
 

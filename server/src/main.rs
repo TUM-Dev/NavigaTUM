@@ -38,14 +38,12 @@ async fn get_handler(params: web::Path<String>) -> HttpResponse {
     }
 }
 
-#[get("/api/search/{q}")]
+#[get("/api/search")]
 async fn search_handler(
     _req: HttpRequest,
-    params: web::Path<String>,
     web::Query(args): web::Query<search::SearchQueryArgs>,
 ) -> HttpResponse {
-    let q = params.into_inner();
-    let search_results = search::do_benchmarked_search(q, args).await;
+    let search_results = search::do_benchmarked_search(args).await;
     HttpResponse::Ok().json(search_results)
 }
 
