@@ -18,6 +18,7 @@ const preprocess  = require('gulp-preprocess');
 const purgecss    = require('gulp-purgecss');
 const rename      = require('gulp-rename');
 const sass        = require('gulp-sass')(require('node-sass'));
+const sitemap     = require('gulp-sitemap');
 const splitFiles  = require('gulp-split-files');
 const uglify      = require('gulp-uglify');
 const yaml        = require('gulp-yaml');
@@ -455,6 +456,26 @@ function copy_assets() {
 }
 gulp.task('assets', copy_assets);
 
+// --- Sitemap Pipeline ---
+function generate_sitemap() {
+    return gulp.src(['src/md/*.md', 'src/index.html'], { read: false })
+               .pipe(rename(path => {
+                   if (path.extname === '.md') {
+                       path.dirname = 'about';
+                       path.extname = '';
+                   } else {
+                       path.dirname = '';
+                   }
+               }))
+               .pipe(sitemap({
+                   siteUrl: 'https://nav.tum.sexy/',
+                   fileName: 'sitemap-webclient.xml',
+                   changefreq: 'monthly',
+               }))
+               .pipe(gulp.dest('build'))
+}
+gulp.task('sitemap', generate_sitemap);
+
 // --- .well-known Pipeline ---
 // see https://well-known.dev/sites/
 function copy_well_known() {
@@ -509,7 +530,7 @@ function getFolders(dir) {
 exports.build = gulp.series(
     clean_build,
     i18n_compile_langfiles,
-    gulp.parallel('main_css', 'main_js', 'views', 'assets', 'well_known', 'map', 'markdown'),
+    gulp.parallel('main_css', 'main_js', 'views', 'assets', 'well_known', 'map', 'markdown', 'sitemap'),
     gulp.series('pages_src', 'pages_out', 'legacy_js')
 );
 
