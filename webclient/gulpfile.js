@@ -470,8 +470,7 @@ function generate_sitemap() {
                .pipe(sitemap({
                    siteUrl: 'https://nav.tum.sexy/',
                    fileName: 'sitemap-webclient.xml',
-                   changefreq: 'weekly',
-                   lastmod: false,
+                   changefreq: 'monthly',
                }))
                .pipe(gulp.dest('build'))
 }
