@@ -69,7 +69,7 @@ def generate_sitemap():
             "priority": priority,
         })
 
-    print(f"{changed_count} of {len(new_data)} URLs have been updated.")
+    print(f"Info: {changed_count} of {len(new_data)} URLs have been updated.")
 
     for name, sitemap in sitemaps.items():
         _write_sitemap_xml(f"output/sitemap-data-{name}.xml", sitemap)
@@ -96,7 +96,7 @@ def _download_online_sitemaps(sitemap_names):
         # We gracefully catch any problems (e.g. a 404 HTTPError), because
         # having the old sitemaps is not critical.
         except Exception as e:
-            print(f"Failed to download sitemap '{name}': {e}")
+            print(f"Warning: Failed to download sitemap '{name}': {e}")
 
     return sitemaps
 
