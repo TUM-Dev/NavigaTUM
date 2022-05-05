@@ -1094,8 +1094,8 @@ components:
         id:
           description: |
             The machine-readable floor-id of the map.  
-            Should start with 0 for the ground level and increase or decrease.
-            We may in the future have to skip numbers, because buildings have weird floorplans.
+            Should start with 0 for the ground level (defined by the main entrance) and increase or decrease.
+            It is not guaranteed that numbers are consecutive or that `1` corresponds to level `01`, because buildings sometimes have more complicated layouts. They are however always in the correct (physical) order.
           type: integer
           example: 0
         floor:
