@@ -3,9 +3,9 @@ function searchNavigateTo(to, from, next, component) {
 
     const params = new URLSearchParams()
     params.append('q', to.query.q)
-    params.append('limit_buildings','10')
-    params.append('limit_rooms','30')
-    params.append('limit_all','30')
+    params.append('limit_buildings', '10')
+    params.append('limit_rooms', '30')
+    params.append('limit_all', '30')
 
     cached_fetch.fetch(navigatum.api_base + 'search?' + params.toString(), {cache: "no-cache"})
         .then(resp => {

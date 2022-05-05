@@ -156,13 +156,13 @@ async fn execute_search(args: SearchQueryArgs) -> Vec<SearchResultsSection> {
 }
 
 
-fn sanitise_args(args: SearchQueryArgs) -> (String,SanitisedSearchQueryArgs) {
-    let sanitised_args=SanitisedSearchQueryArgs {
+fn sanitise_args(args: SearchQueryArgs) -> (String, SanitisedSearchQueryArgs) {
+    let sanitised_args = SanitisedSearchQueryArgs {
         limit_buildings: args.limit_buildings.unwrap_or(5).clamp(0, 1_000),
         limit_rooms: args.limit_rooms.unwrap_or(10).clamp(0, 1_000),
         limit_all: args.limit_all.unwrap_or(10).clamp(1, 1_000),
     };
-    (args.q,sanitised_args)
+    (args.q, sanitised_args)
 }
 
 fn build_query_string(search_tokens: &Vec<SearchToken>) -> String {
