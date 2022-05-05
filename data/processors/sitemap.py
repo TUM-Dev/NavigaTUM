@@ -43,7 +43,19 @@ def generate_sitemap():
 
         sitemap_name = entry["type"] if entry["type"] in sitemaps else "other"
 
-        url = f"https://nav.tum.sexy/view/{_id}"
+        # Just copied from the webclient. The webclient doesn't care about
+        # the prefix – if it is wrong it'll be corrected (without a redirect).
+        # However this way search engines can already index the final URL.
+        url_type_name = {
+            "campus": "campus",
+            "site": "site",
+            "area": "site",
+            "building": "building",
+            "joined_building": "building",
+            "room": "room",
+            "virtual_room": "room"
+        }[entry["type"]]
+        url = f"https://nav.tum.sexy/{url_type_name}/{_id}"
 
         if _id not in old_data or entry != old_data[_id]:
             last_changed = datetime.now()
