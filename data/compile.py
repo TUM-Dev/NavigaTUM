@@ -108,6 +108,8 @@ def main():
     if "GIT_COMMIT_SHA" in os.environ.keys():
         print("-- 101 Extra: Sitemap")
         sitemap.generate_sitemap()
+    else:
+        print("Info: Skipping sitemap generation in Dev Mode (GIT_COMMIT_SHA is unset)")
 
 
 def export_for_search(data, path):

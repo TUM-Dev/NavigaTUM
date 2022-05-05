@@ -93,9 +93,7 @@ def _download_online_sitemaps(sitemap_names):
                     lastmod = child.find(f"{xmlns}lastmod")
                     if loc is not None and lastmod is not None:
                         sitemaps[name][loc.text] = datetime.fromisoformat(lastmod.text)
-        # We gracefully catch any problems (e.g. a 404 HTTPError), because
-        # having the old sitemaps is not critical.
-        except Exception as e:
+        except urllib.request.HTTPError as e:
             print(f"Warning: Failed to download sitemap '{name}': {e}")
 
     return sitemaps
@@ -127,7 +125,7 @@ def _write_sitemapindex_xml(fname, sitemaps):
         loc = ET.SubElement(sitemap_el, "loc")
         loc.text = f"https://nav.tum.sexy/sitemap-data-{name}.xml"
         changefreq = ET.SubElement(sitemap_el, "changefreq")
-        changefreq.text = "daily"  # data sitemaps might change frequently
+        changefreq.text = "weekly"
 
     # Because sitemaps cannot be hierarchical, we have to include the
     # webclient sitemap here as well.
@@ -136,7 +134,7 @@ def _write_sitemapindex_xml(fname, sitemaps):
     loc.text = f"https://nav.tum.sexy/sitemap-webclient.xml"
     changefreq = ET.SubElement(sitemap_el, "changefreq")
     # webclient `about` pages are important, but don't change frequently
-    changefreq.text = "weekly"
+    changefreq.text = "monthly"
 
     root = ET.ElementTree(sitemapindex)
     root.write(fname, encoding="utf-8", xml_declaration=True)
