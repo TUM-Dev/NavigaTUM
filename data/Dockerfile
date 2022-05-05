@@ -1,5 +1,9 @@
 FROM python:3.10.4-bullseye as build-stage
 WORKDIR /app
+
+ARG GIT_COMMIT_SHA
+ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+
 # install requirements
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
