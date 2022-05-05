@@ -24,7 +24,8 @@ def generate_sitemap():
     # so it's unlikely that we'll hit this limit without adding a lot of
     # data. But for the case that a new type of entry is introduced, the
     # sitemap is split into one for rooms and one for the rest.
-    # Note that the root element is included, which will link to the main page.
+    # Note that the root element is not included, because it just redirects
+    # to the main page.
     sitemaps = {
         "room": [],
         "other": [],
@@ -37,6 +38,9 @@ def generate_sitemap():
 
     changed_count = 0
     for _id, entry in new_data.items():
+        if entry["type"] == "root":
+            continue
+
         sitemap_name = entry["type"] if entry["type"] in sitemaps else "other"
 
         url = f"https://nav.tum.sexy/view/{_id}"
@@ -54,11 +58,8 @@ def generate_sitemap():
         # rooms in general in the range 0 to 9, so we just add 1, divide by 10
         # and clamp to 1.0 for rooms.
         # For buildings etc. that are always >= 10, we just subtract 5
-        # to get some kind of relative measure. Also for root (which is
-        # downrated in search) we set 1.0 by hand.
-        if entry["type"] == "root":
-            priority = 1.0
-        elif entry["type"] == "room":
+        # to get some kind of relative measure.
+        if entry["type"] == "room":
             priority = min((entry["ranking_factors"]["rank_combined"] + 1) / 10, 1.0)
         else:
             priority = min((entry["ranking_factors"]["rank_combined"] - 5) / 10, 1.0)
