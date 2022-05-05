@@ -9,6 +9,7 @@ use serde_json::Result;
 
 #[derive(Deserialize, Clone, Eq, PartialEq, Hash)]
 pub struct SearchQueryArgs {
+    q: String,
     // Limit per facet
     limit_buildings: Option<usize>,
     limit_rooms: Option<usize>,
@@ -134,10 +135,10 @@ struct MSFacetDistribution {
     facet: HashMap<String, i32>,
 }
 
-pub async fn do_benchmarked_search(q: String, args: SearchQueryArgs) -> SearchResults {
+pub async fn do_benchmarked_search(args: SearchQueryArgs) -> SearchResults {
     let start_time = Instant::now();
 
-    let results_sections = execute_search(q, args).await;
+    let results_sections = execute_search(args).await;
 
     let time_ms = start_time.elapsed().as_millis();
     SearchResults {
@@ -148,19 +149,20 @@ pub async fn do_benchmarked_search(q: String, args: SearchQueryArgs) -> SearchRe
 
 // size=100 seems to be about 10M
 #[cached(size = 500)]
-async fn execute_search(q: String, args: SearchQueryArgs) -> Vec<SearchResultsSection> {
+async fn execute_search(args: SearchQueryArgs) -> Vec<SearchResultsSection> {
+    let (q,sanitised_args) = sanitise_args(args);
     let parsed = parse_input_query(q);
-    let sanitised_args = sanitise_args(args);
     return do_geoentry_search(&parsed.tokens, sanitised_args).await;
 }
 
 
-fn sanitise_args(args: SearchQueryArgs) -> SanitisedSearchQueryArgs {
-    SanitisedSearchQueryArgs {
+fn sanitise_args(args: SearchQueryArgs) -> (String,SanitisedSearchQueryArgs) {
+    let sanitised_args=SanitisedSearchQueryArgs {
         limit_buildings: args.limit_buildings.unwrap_or(5).clamp(0, 1_000),
         limit_rooms: args.limit_rooms.unwrap_or(10).clamp(0, 1_000),
         limit_all: args.limit_all.unwrap_or(10).clamp(1, 1_000),
-    }
+    };
+    (args.q,sanitised_args)
 }
 
 fn build_query_string(search_tokens: &Vec<SearchToken>) -> String {
