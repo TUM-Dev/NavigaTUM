@@ -31,7 +31,7 @@ servers:
   - url: 'http://nav.tum.sexy'
     description: http
 paths:
-  '/api/search/{search_query}':
+  '/api/search':
     get:
       operationId: search
       summary: Search entries
@@ -42,13 +42,14 @@ paths:
 
         Some fields support highlighting the query terms and it uses DC3 (\x19 or \u{0019}) and DC1 (\x17 or \u{0017}) to mark the beginning/end of a highlighted sequence (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)). Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses (there is no query parameter for this yet).
       parameters:
-        - name: search_query
-          in: path
-          description: string you want to search for
+        - name: q
+          in: query
+          description: |
+            string you want to search for.
+            Note, that the amounts returned can be controlled using the limit\* paramerters.
           required: true
           schema:
             type: string
-            minLength: 1
           examples:
             '5304':
               summary: A 'misspelled' (according to tumonline) lecture-hall
@@ -59,6 +60,15 @@ paths:
             fsmpi:
               summary: A regular room
               value: 5606.EG.036
+            interims:
+              summary: Lecture halls
+              value: interims
+            sv:
+              summary: "'common' names"
+              value: AStA
+            none:
+              summary: All rooms
+              value: ''
         - name: limit_buildings
           in: query
           description: |
