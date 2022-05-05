@@ -66,7 +66,7 @@ def add_img(data):
                     break
                 img_data.append(source_info)
 
-        data[_id]["img"] = img_data
+        data[_id]["imgs"] = img_data
 
 
 def parse_image_filename(f: str) -> tuple[str, int]:
