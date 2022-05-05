@@ -50,8 +50,10 @@ def generate_sitemap():
             changed_count += 1
         else:
             # Try to look up the last changed date in the old sitemap
-            last_changed = old_sitemaps.get(sitemap_name, {})\
-                                       .get(url, datetime.now())
+            last_changed = old_sitemaps.get(sitemap_name, {}).get(url, None)
+            if last_changed is None:
+                last_changed = datetime.now()
+                changed_count += 1
 
         # Priority is a relative measure from 0.0 to 1.0.
         # The data's `ranking_factors` have arbitrary scaling, but are for
