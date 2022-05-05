@@ -1,7 +1,8 @@
+import os
 import json
 
 from utils import convert_to_webp
-from processors import areatree, check, images, maps, merge, patch, roomfinder, search, sections, structure, tumonline
+from processors import areatree, check, images, maps, merge, patch, roomfinder, search, sections, sitemap, structure, tumonline
 
 
 def main():
@@ -102,6 +103,13 @@ def main():
     
     print("-- 100 Export: API")
     export_for_api(data, "output/api_data.json")
+
+    # Sitemap is only generated for deployment:
+    if "GIT_COMMIT_SHA" in os.environ.keys():
+        print("-- 101 Extra: Sitemap")
+        sitemap.generate_sitemap()
+    else:
+        print("Info: Skipping sitemap generation in Dev Mode (GIT_COMMIT_SHA is unset)")
 
 
 def export_for_search(data, path):
