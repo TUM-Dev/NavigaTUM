@@ -82,7 +82,7 @@ def _download_online_sitemaps(sitemap_names):
     xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
     sitemaps = {}
     for name in sitemap_names:
-        req = urllib.request.Request(f"https://nav.tum.sexy/sitemap-data-{name}.xml")
+        req = urllib.request.Request(f"https://nav.tum.sexy/cdn/sitemap-data-{name}.xml")
         try:
             with urllib.request.urlopen(req) as resp:
                 sitemap_str = resp.read().decode("utf-8")
@@ -123,7 +123,7 @@ def _write_sitemapindex_xml(fname, sitemaps):
     for name in sitemaps.keys():
         sitemap_el = ET.SubElement(sitemapindex, "sitemap")
         loc = ET.SubElement(sitemap_el, "loc")
-        loc.text = f"https://nav.tum.sexy/sitemap-data-{name}.xml"
+        loc.text = f"https://nav.tum.sexy/cdn/sitemap-data-{name}.xml"
         changefreq = ET.SubElement(sitemap_el, "changefreq")
         changefreq.text = "weekly"
 
