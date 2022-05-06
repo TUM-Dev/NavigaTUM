@@ -215,14 +215,15 @@ navigatum.registerModule("interactive-map", (function() {
                 window.matchMedia("only screen and (max-width: 480px)").matches) {
                 map.addControl(new mapboxgl.FullscreenControl());
             }
-            //const location = new mapboxgl.GeolocateControl({
-            //    positionOptions: {
-            //    enableHighAccuracy: true
-            //    },
-            //    trackUserLocation: true,
-            //    showUserHeading: true
-            //});
-            //map.addControl(location);
+
+            const location = new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true,
+                showUserHeading: true
+            });
+            map.addControl(location);
 
             // Each source / style change causes the map to get
             // into "loading" state, so map.loaded() is not reliable
