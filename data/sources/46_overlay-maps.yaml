@@ -14,6 +14,22 @@
     - {file: "0101_2.webp", id: 2, floor: "01", desc: "U-Trakt N1 (1. OG) – © TUM WWW & Online Services"}
     - {file: "0101_3.webp", id: 3, floor: "02", desc: "U-Trakt N1 (2. OG) – © TUM WWW & Online Services"}
     - {file: "0101_4.webp", id: 4, floor: "DG", desc: "U-Trakt N1 (DG) – © TUM WWW & Online Services"}
+    
+- props:
+    parent: "0505"
+    box:
+      - [11.566815, 48.150364]
+      - [11.567596, 48.150140]
+      - [11.567034, 48.149259]
+      - [11.566253, 48.149477]
+  maps:
+    - {file: "0505_-1.webp", id: -1, floor: "U1", desc: "Wirtschaftswissenschaften Z5 (1. UG) – © TUM WWW & Online Services"}
+    - {file: "0505_0.webp", id: 0, floor: "EG", desc: "Wirtschaftswissenschaften Z5 (EG) – © TUM WWW & Online Services"}
+    - {file: "0505_1.webp", id: 1, floor: "Z1", desc: "Wirtschaftswissenschaften Z5 (ZG) – © TUM WWW & Online Services"}
+    - {file: "0505_2.webp", id: 2, floor: "01", desc: "Wirtschaftswissenschaften Z5 (1. OG) – © TUM WWW & Online Services"}
+    - {file: "0505_3.webp", id: 3, floor: "02", desc: "Wirtschaftswissenschaften Z5 (2. OG) – © TUM WWW & Online Services"}
+    - {file: "0505_4.webp", id: 3, floor: "03", desc: "Wirtschaftswissenschaften Z5 (3. OG) – © TUM WWW & Online Services"}
+    - {file: "0505_5.webp", id: 3, floor: "04", desc: "Wirtschaftswissenschaften Z5 (4. OG) – © TUM WWW & Online Services"}
 
 - props:
     parent: "mi"
