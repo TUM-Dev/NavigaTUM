@@ -1,9 +1,9 @@
 import json
 import urllib.request
+import urllib.error
 import xml.etree.ElementTree as ET
 import defusedxml.ElementTree as defusedET  # supports only parse()
 from datetime import datetime
-
 
 def generate_sitemap():
     """ Generate a sitemap that diffs changes since to the currently online data """
@@ -56,15 +56,14 @@ def generate_sitemap():
             "virtual_room": "room"
         }[entry["type"]]
         url = f"https://nav.tum.sexy/{url_type_name}/{_id}"
-        now = datetime.utcnow().isoformat(timespec="seconds")
         if _id not in old_data or entry != old_data[_id]:
-            lastmod = now
+            lastmod = datetime.utcnow()
             changed_count += 1
         else:
             # Try to look up the last changed date in the old sitemap
             lastmod = old_sitemaps.get(sitemap_name, {}).get(url, None)
             if lastmod is None:
-                lastmod = now
+                lastmod = datetime.utcnow()
                 changed_count += 1
 
         # Priority is a relative measure from 0.0 to 1.0.
@@ -94,24 +93,28 @@ def generate_sitemap():
 
 def _download_online_sitemaps(sitemap_names):
     """ Download online sitemaps by their names """
-    xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
     sitemaps = {}
     for name in sitemap_names:
-        req = urllib.request.Request(f"https://nav.tum.sexy/cdn/sitemap-data-{name}.xml")
-        try:
-            with urllib.request.urlopen(req) as resp:
-                sitemap_str = resp.read().decode("utf-8")
-                sitemaps[name] = {}
-                root = defusedET.fromstring(sitemap_str)
-                for child in root.iter(f"{xmlns}url"):
-                    loc = child.find(f"{xmlns}loc")
-                    lastmod = child.find(f"{xmlns}lastmod")
-                    if loc is not None and lastmod is not None:
-                        sitemaps[name][loc.text] = datetime.fromisoformat(lastmod.text)
-        except urllib.request.HTTPError as e:
-            print(f"Warning: Failed to download sitemap '{name}': {e}")
-
+        sitemaps[name] = _download_online_sitemap(f"https://nav.tum.sexy/cdn/sitemap-data-{name}.xml")
     return sitemaps
+
+
+def _download_online_sitemap(url):
+    xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+    req = urllib.request.Request(url)
+    try:
+        with urllib.request.urlopen(req) as resp:
+            sitemap_str = resp.read().decode("utf-8")
+            sitemap = {}
+            root = defusedET.fromstring(sitemap_str)
+            for child in root.iter(f"{xmlns}url"):
+                loc = child.find(f"{xmlns}loc")
+                lastmod = child.find(f"{xmlns}lastmod")
+                if loc is not None and lastmod is not None:
+                    sitemap[loc.text] = datetime.fromisoformat(lastmod.text.rstrip("Z"))
+    except urllib.error.HTTPError as e:
+        print(f"Warning: Failed to download sitemap '{url}': {e}")
+    return sitemap
 
 
 def _write_sitemap_xml(fname, sitemap):
@@ -135,21 +138,27 @@ def _write_sitemapindex_xml(fname, sitemaps):
     """ Write the sitemapindex XML """
     sitemapindex = ET.Element("sitemapindex")
     sitemapindex.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
-    for name in sitemaps.keys():
+    for name, sitemap in sitemaps.items():
         sitemap_el = ET.SubElement(sitemapindex, "sitemap")
         loc = ET.SubElement(sitemap_el, "loc")
         loc.text = f"https://nav.tum.sexy/cdn/sitemap-data-{name}.xml"
-        changefreq = ET.SubElement(sitemap_el, "changefreq")
-        changefreq.text = "weekly"
+        # we set the lastmod to the latest lastmod of all sitemaps
+        lastmod_dates = set(site["lastmod"] for site in sitemap if "lastmod" in site)
+        if lastmod_dates:
+            lastmod = ET.SubElement(sitemap_el, "lastmod")
+            lastmod.text = max(lastmod_dates).isoformat(timespec="seconds")
 
     # Because sitemaps cannot be hierarchical, we have to include the
     # webclient sitemap here as well.
     sitemap_el = ET.SubElement(sitemapindex, "sitemap")
     loc = ET.SubElement(sitemap_el, "loc")
-    loc.text = f"https://nav.tum.sexy/sitemap-webclient.xml"
-    changefreq = ET.SubElement(sitemap_el, "changefreq")
-    # webclient `about` pages are important, but don't change frequently
-    changefreq.text = "monthly"
+    web_sitemap_url = "https://nav.tum.sexy/sitemap-webclient.xml"
+    loc.text = web_sitemap_url
+    sitemap = _download_online_sitemap(web_sitemap_url)
+    lastmod_dates = set(sitemap.values())
+    if lastmod_dates:
+        lastmod = ET.SubElement(sitemap_el, "lastmod")
+        lastmod.text = max(lastmod_dates).isoformat(timespec="seconds")
 
     root = ET.ElementTree(sitemapindex)
     root.write(fname, encoding="utf-8", xml_declaration=True)
