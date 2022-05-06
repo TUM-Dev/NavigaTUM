@@ -1,15 +1,20 @@
+import json
 import os
 import shutil
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Optional
-
+import hashlib
 import yaml
 from PIL import Image
 
 IMAGE_BASE = Path(__file__).parent.parent / "sources" / "img"
 IMAGE_SOURCE = IMAGE_BASE / "lg"
+HASH_LUT = Path(IMAGE_BASE / ".hash_lut.json")
+
+DEV_MODE = "GIT_COMMIT_SHA" not in os.environ.keys()
+
 RESOLUTIONS: list[tuple[str, int | tuple[int, int]]] = [
     ("thumb", (256, 256)),
     ("header", (512, 210)),
@@ -61,7 +66,7 @@ def add_img(data):
                     break
                 img_data.append(source_info)
 
-        data[_id]["img"] = img_data
+        data[_id]["imgs"] = img_data
 
 
 def parse_image_filename(f: str) -> tuple[str, int]:
@@ -132,8 +137,8 @@ def _gen_fixed_size(img: Image.Image, fixed_size: tuple[int, int], offset: int) 
         new_img = img.copy()
     if target_w != target_h:
         # thumbnail may be more efficient, but does only handle square images
-        return new_img.resize(fixed_size, Image.ANTIALIAS)
-    new_img.thumbnail(fixed_size, Image.ANTIALIAS)
+        return new_img.resize(fixed_size, Image.Resampling.LANCZOS)
+    new_img.thumbnail(fixed_size, Image.Resampling.LANCZOS)
     return new_img
 
 
@@ -147,10 +152,10 @@ def _gen_max_size(img: Image.Image, max_size: int) -> Optional[Image.Image]:
     if w < h:
         # image is vertical
         scaling = max_size / h
-        return img.resize((int(w * scaling), max_size), Image.ANTIALIAS)
+        return img.resize((int(w * scaling), max_size), Image.Resampling.LANCZOS)
     # image is horizontal
     scaling = max_size / w
-    return img.resize((max_size, int(h * scaling)), Image.ANTIALIAS)
+    return img.resize((max_size, int(h * scaling)), Image.Resampling.LANCZOS)
 
 
 def _refresh_for_all_resolutions(args: tuple[Path, dict[str, int]]) -> None:
@@ -173,6 +178,7 @@ def _refresh_for_all_resolutions(args: tuple[Path, dict[str, int]]) -> None:
 
 
 def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: Any) -> dict:
+    """Extract the offsets for the given image. Offsets are only available for the images, we crop"""
     for target_dir_name, size in RESOLUTIONS:
         if isinstance(size, tuple):
             if _id in img_sources and _index in img_sources[_id]:
@@ -180,6 +186,36 @@ def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: Any) ->
             else:
                 print(f"Warning: No source information for image '{img_path}', default crop-offset 0 is used")
     return {}
+
+
+def _get_hash_lut() -> dict[str, str]:
+    """Get a lookup table for the hash of the image files content and offset if present"""
+    print("Info: Since GIT_COMMIT_SHA is unset, we assume this is acting in In Dev mode.\n"
+          "Only files, with f'{sha256(file-content)}_{sha256(offset)}' not present in the .hash_lut.json will be used")
+    if HASH_LUT.is_file():
+        with open(HASH_LUT) as f:
+            return json.load(f)
+    return {}
+
+
+def _save_hash_lut(img_sources) -> None:
+    """Save the current image status to the .hash_lut.json file"""
+    hashes_lut = {}
+    for img_path in IMAGE_SOURCE.glob("*.webp"):
+        _id, _index = parse_image_filename(img_path.name)
+        offsets = _extract_offsets(_id, _index, img_path, img_sources)
+        hashes_lut[img_path.name] = _gen_file_hash(img_path, offsets)
+    with open(HASH_LUT, "w+") as f:
+        json.dump(hashes_lut, f, sort_keys=True, indent=4)
+
+
+def _gen_file_hash(img_path: Path, offsets) -> str:
+    """Generate a hash-string for the given image file and given offsets."""
+    with open(img_path, "rb") as f:
+        file_hash = hashlib.sha256(f.read(), usedforsecurity=False).hexdigest()
+        json_offsets = json.dumps(offsets, sort_keys=True).encode("utf-8")
+        offset_hash = hashlib.sha256(json_offsets, usedforsecurity=False).hexdigest()
+        return f"{file_hash}_{offset_hash}"
 
 
 def resize_and_crop() -> None:
@@ -191,14 +227,24 @@ def resize_and_crop() -> None:
         target_dir = IMAGE_BASE / target_dir_name
         if not target_dir.exists():
             target_dir.mkdir()
+    # in DEV, we can save some time by not resizing the images, if they have not changed
+    expected_hashes_lut = {}
+    if DEV_MODE:
+        expected_hashes_lut = _get_hash_lut()
     start_time = time.time()
     with open(IMAGE_BASE / "img-sources.yaml") as f:
         img_sources = yaml.safe_load(f.read())
     with ThreadPoolExecutor() as executor:
         for img_path in IMAGE_SOURCE.glob("*.webp"):
             _id, _index = parse_image_filename(img_path.name)
-
             offsets = _extract_offsets(_id, _index, img_path, img_sources)
+            if DEV_MODE:
+                actual_hash = _gen_file_hash(img_path, offsets)
+                if actual_hash == expected_hashes_lut.get(img_path.name, ""):
+                    continue  # skip this image, since it (and its offsets) have not changed
+                print(f"Info: Image '{img_path.name}' has changed, resizing and cropping...")
             executor.submit(_refresh_for_all_resolutions, (img_path, offsets))
     resize_and_crop_time = time.time() - start_time
+    if DEV_MODE:
+        _save_hash_lut(img_sources)
     print(f"Info: Resize and crop took {resize_and_crop_time:.2f}s")

@@ -77,7 +77,7 @@ navigatum.registerModule("autocomplete", (function() {
                 var query_id = query_counter++;
                 
                 // no-cache instructs browser, because the cached_fetch will store the reponse.
-                cached_fetch.fetch(navigatum.api_base + 'search/' + window.encodeURI(q),
+                cached_fetch.fetch(navigatum.api_base + 'search?q=' + window.encodeURIComponent(q),
                                    {cache: "no-cache"}) 
                     .then(data => {
                         // Data will be cached anyway in case the user hits backspace,

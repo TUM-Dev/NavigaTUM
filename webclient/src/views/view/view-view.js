@@ -178,8 +178,7 @@ navigatum.registerView('view', {
 
             this.state.map.selected = "interactive";
 
-            // The map element should be visible when initializing
-            this.$nextTick(function () {
+            const do_map_update = function() {
                 navigatum.getModule("interactive-map").then(function(c) {
                     _this.map.interactive.component = c;
 
@@ -202,11 +201,25 @@ navigatum.registerView('view', {
                     _this.map.interactive.marker = marker;
                     const coords = _this.view_data.coords;
                     marker.setLngLat([coords.lon, coords.lat]).addTo(map);
-                    // Use 16 as default zoom for now, TODO: Compute
+                    
+                    if (_this.view_data.maps && _this.view_data.maps.overlays) {
+                        c.setFloorOverlays(
+                            _this.view_data.maps.overlays.available,
+                            _this.view_data.maps.overlays.default
+                        )
+                    } else {
+                        c.setFloorOverlays(null)
+                    }
+                    
+                    var default_zooms = {
+                        joined_building: 16,
+                        building: 17,
+                        room: 18,
+                    }
                     if (from_map === "interactive"){
                         map.flyTo({
                             center: [coords.lon, coords.lat],
-                            zoom: 16,
+                            zoom: default_zooms[_this.view_data.type] ? default_zooms[_this.view_data.type] : 16,
                             speed: 1,
                             maxDuration: 2000
                         });
@@ -216,7 +229,13 @@ navigatum.registerView('view', {
                         map.setCenter([coords.lon, coords.lat]);
                     }
                 });
-            });
+            }
+
+            // The map element should be visible when initializing
+            if (!document.querySelector("#interactive-map .mapboxgl-canvas"))
+                this.$nextTick(do_map_update())
+            else
+                do_map_update()
 
             // To have an animation when the roomfinder is opened some time later,
             // the cursor is set to 'zero' while the interactive map is displayed.

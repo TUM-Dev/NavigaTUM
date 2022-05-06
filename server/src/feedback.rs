@@ -1,5 +1,6 @@
 use actix_web::web::Json;
 use actix_web::{post, web, HttpResponse};
+use log::error;
 use octocrab::Octocrab;
 use serde::{Deserialize, Serialize};
 use std::sync::Mutex;
@@ -83,25 +84,25 @@ async fn get_token(state: web::Data<AppStateFeedback>) -> HttpResponse {
             .unwrap_or_else(|| 0);
 
     if token.len() >= RATE_LIMIT_DAY || num_token_last_hour >= RATE_LIMIT_HOUR {
-        HttpResponse::TooManyRequests()
+        return HttpResponse::TooManyRequests()
             .content_type("plain/text")
-            .body("Too many token generated recently. Please try again later.".to_string())
-    } else {
-        // Simple numbers as random token for now
-        let mut rng = thread_rng();
-        let token_value: i64 = rng.gen_range(100_000_000_000_000..999_999_999_999_999);
-
-        let new_token = Token {
-            value: token_value.to_string(),
-            creation: Instant::now(),
-            used: false,
-        };
-
-        token.push(new_token);
-        HttpResponse::Created().json(GenerateTokenResult {
-            token: token_value.to_string(),
-        })
+            .body("Too many token generated recently. Please try again later.");
     }
+    // Simple numbers as random token for now
+    let mut rng = thread_rng();
+    let token_value: i64 = rng.gen_range(100_000_000_000_000..999_999_999_999_999);
+
+    let new_token = Token {
+        value: token_value.to_string(),
+        creation: Instant::now(),
+        used: false,
+    };
+
+    token.push(new_token);
+    let token_result = GenerateTokenResult {
+        token: token_value.to_string(),
+    };
+    HttpResponse::Created().json(token_result)
 }
 
 #[post("/feedback")]
@@ -111,6 +112,7 @@ async fn send_feedback(
 ) -> HttpResponse {
     if !state.available {
         return HttpResponse::ServiceUnavailable()
+            .content_type("text/plain")
             .body("Feedback is currently not configured on this server.");
     }
 
@@ -119,31 +121,46 @@ async fn send_feedback(
     let token = token_list.iter_mut().find(|t| t.value == req_data.token);
 
     if token.is_none() {
-        return HttpResponse::Forbidden().body("Invalid token".to_string());
+        return HttpResponse::Forbidden()
+            .content_type("text/plain")
+            .body("Invalid token");
     }
     let t = token.unwrap();
     if t.creation.elapsed().as_secs() < TOKEN_MIN_AGE {
-        return HttpResponse::Forbidden().body("Token not old enough, please wait.");
-    } else if t.creation.elapsed().as_secs() > TOKEN_MAX_AGE {
-        return HttpResponse::Forbidden().body("Token expired.");
-    } else if t.used {
-        return HttpResponse::Forbidden().body("Token already used.");
+        return HttpResponse::Forbidden()
+            .content_type("text/plain")
+            .body("Token not old enough, please wait.");
     }
-
+    if t.creation.elapsed().as_secs() > TOKEN_MAX_AGE {
+        return HttpResponse::Forbidden()
+            .content_type("text/plain")
+            .body("Token expired.");
+    }
+    if t.used {
+        return HttpResponse::Forbidden()
+            .content_type("text/plain")
+            .body("Token already used.");
+    }
     if !req_data.privacy_checked {
         return HttpResponse::UnavailableForLegalReasons()
-            .body("Using this endpoint without accepting the privacy policy is not allowed.");
+            .content_type("text/plain")
+            .body("Using this endpoint without accepting the privacy policy is not allowed");
     };
 
     let (title, description, labels) = parse_request(&req_data);
 
     if title.len() < 3 || description.len() < 10 {
-        return HttpResponse::UnprocessableEntity().body("Subject or body missing or too short.");
+        return HttpResponse::UnprocessableEntity()
+            .content_type("text/plain")
+            .body("Subject or body missing or too short");
     }
     let token = state.opt.github_token.as_ref().unwrap().to_string();
     let octocrab = Octocrab::builder().personal_token(token).build();
     if octocrab.is_err() {
-        return HttpResponse::InternalServerError().body("Could not create Octocrab instance.");
+        error!("Error creating issue: {:?}", octocrab);
+        return HttpResponse::InternalServerError()
+            .content_type("text/plain")
+            .body("Could not create Octocrab instance");
     }
     let resp = octocrab
         .unwrap()
@@ -154,11 +171,19 @@ async fn send_feedback(
         .send()
         .await;
 
-    return if resp.is_ok() {
-        t.used = true;
-        HttpResponse::Created().body(resp.unwrap().html_url.to_string())
-    } else {
-        HttpResponse::InternalServerError().body("Failed create issue".to_string())
+    return match resp {
+        Ok(issue) => {
+            t.used = true;
+            HttpResponse::Created()
+                .content_type("text/plain")
+                .body(issue.html_url.to_string())
+        }
+        Err(e) => {
+            error!("Error creating issue: {:?}", e);
+            HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Failed create issue")
+        }
     };
 }
 

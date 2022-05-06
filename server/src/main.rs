@@ -1,5 +1,5 @@
 use actix_cors::Cors;
-use actix_web::{get, http, middleware, web, App, HttpRequest, HttpResponse, HttpServer, Result};
+use actix_web::{get, middleware, web, App, HttpRequest, HttpResponse, HttpServer};
 use rusqlite::{params, Connection};
 use structopt::StructOpt;
 
@@ -18,7 +18,7 @@ pub struct Opt {
 }
 
 #[get("/api/get/{id}")]
-async fn get_handler(params: web::Path<String>) -> Result<HttpResponse> {
+async fn get_handler(params: web::Path<String>) -> HttpResponse {
     let id = params.into_inner();
     let conn = Connection::open("data/api_data.db").expect("Cannot open database");
     let mut stmt = conn
@@ -29,50 +29,47 @@ async fn get_handler(params: web::Path<String>) -> Result<HttpResponse> {
         return Ok(data);
     });
     match result {
-        Ok(data) => Ok(HttpResponse::Ok()
+        Ok(data) => HttpResponse::Ok()
             .content_type("application/json")
-            .body(data)),
-        Err(_) => Ok(HttpResponse::NotFound().body("Not found")),
+            .body(data), // .json(data) would have quoted the result. We instead want the content.
+        Err(_) => HttpResponse::NotFound()
+            .content_type("text/plain")
+            .body("Not found"),
     }
 }
 
-#[get("/api/search/{q}")]
+#[get("/api/search")]
 async fn search_handler(
     _req: HttpRequest,
-    params: web::Path<String>,
     web::Query(args): web::Query<search::SearchQueryArgs>,
-) -> Result<HttpResponse> {
-    let q = params.into_inner();
-    let search_results = search::do_benchmarked_search(q, args).await?;
-    let result_json = serde_json::to_string(&search_results)?;
-
-    Ok(HttpResponse::Ok()
-        .insert_header((http::header::CONTENT_TYPE, "application/json"))
-        .body(result_json))
+) -> HttpResponse {
+    let search_results = search::do_benchmarked_search(args).await;
+    HttpResponse::Ok().json(search_results)
 }
 
 #[get("/api/source_code")]
-async fn source_code_handler() -> Result<HttpResponse> {
+async fn source_code_handler() -> HttpResponse {
     let gh_base = "https://github.com/TUM-Dev/navigatum".to_string();
     let commit_hash = std::env::var("GIT_COMMIT_SHA");
-    if commit_hash.is_ok() {
-        let github_link = format!("{}{}{}", gh_base, "/tree/", commit_hash.unwrap());
-        Ok(HttpResponse::Ok().body(github_link))
-    } else {
-        Ok(HttpResponse::Ok().body(gh_base))
-    }
+    let github_link = match commit_hash {
+        Ok(hash) => format!("{}/tree/{}", gh_base, hash),
+        Err(_) => gh_base,
+    };
+    HttpResponse::Ok()
+        .content_type("text/plain")
+        .body(github_link)
 }
 
 #[get("/api/health")]
-async fn health_handler() -> Result<HttpResponse> {
-    Ok(HttpResponse::Ok()
-        .content_type("application/json")
-        .body("Healthy!"))
+async fn health_handler() -> HttpResponse {
+    HttpResponse::Ok()
+        .content_type("text/plain")
+        .body("healthy")
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    env_logger::init();
+    env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
 
     let mut opt = Opt::from_args();
     if opt.github_token.is_none() {

@@ -10,7 +10,7 @@ from termcolor import colored, cprint
 from progress.bar import Bar
 
 
-SEARCH_ENDPOINT = "http://localhost:8080/api/search/"
+SEARCH_ENDPOINT = "http://localhost:8080/api/search"
 
 
 def test_specific_queries(queries):
@@ -20,7 +20,7 @@ def test_specific_queries(queries):
         target_id = q["target"]
 
         def do_search(q_str):
-            url = SEARCH_ENDPOINT + urllib.parse.quote(q_str)
+            url = SEARCH_ENDPOINT + "?" + urllib.parse.urlencode({"q": q_str})
             r = requests.get(url).json()
 
             search = {
@@ -220,12 +220,12 @@ if __name__ == "__main__":
         test_queries = yaml.safe_load(f.read())
 
     cprint("=== Specific queries ===", attrs=['bold'])
-    with open(os.path.join(os.path.dirname(__file__), "cmp-210811.json")) as f:
-        cmp = json.load(f)
-    #cmp = None
+    #with open(os.path.join(os.path.dirname(__file__), "cmp-210811.json")) as f:
+    #    cmp = json.load(f)
+    cmp = None
 
     searches = test_specific_queries(test_queries["entry_queries"])
     _print_specific_queries_result(searches, cmp)
 
-    #with open(os.path.join(os.path.dirname(__file__), "cmp-210811.json"), "w") as f:
-    #    json.dump(searches, f)
+    with open(os.path.join(os.path.dirname(__file__), "cmp-210811.json"), "w") as f:
+        json.dump(searches, f)
