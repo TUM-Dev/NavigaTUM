@@ -45,6 +45,18 @@
     - {file: "5101_2.webp", id: 2, floor: "02", desc: "Physik I (2. OG) – © TUM WWW & Online Services"}
 
 - props:
+    parent: "5107"
+    box:
+      - [11.675397, 48.268295]
+      - [11.676124, 48.268207]
+      - [11.675977, 48.267663]
+      - [11.675249, 48.267753]
+  maps:
+    - {file: "5107_-1.webp", id: -1, floor: "U2", desc: "Physik I (2. UG) – © TUM WWW & Online Services"}
+    - {file: "5107_0.webp", id: 0, floor: "U1", desc: "Physik I (1. UG / Eingang) – © TUM WWW & Online Services"}
+    - {file: "5107_1.webp", id: 1, floor: "EG", desc: "Physik I (EG / obere Ebene) – © TUM WWW & Online Services"}
+
+- props:
     parent: "5532"
     box:
       - [11.669863, 48.266968]
