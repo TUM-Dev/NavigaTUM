@@ -56,7 +56,7 @@ def generate_sitemap():
             "virtual_room": "room"
         }[entry["type"]]
         url = f"https://nav.tum.sexy/{url_type_name}/{_id}"
-        now = datetime.now().replace(microsecond=0).astimezone().isoformat()
+        now = datetime.utcnow().isoformat(timespec="seconds") + "Z"  # + "Z" indicates UTC-Timezone
         if _id not in old_data or entry != old_data[_id]:
             last_changed = now
             changed_count += 1
