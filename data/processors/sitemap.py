@@ -56,15 +56,15 @@ def generate_sitemap():
             "virtual_room": "room"
         }[entry["type"]]
         url = f"https://nav.tum.sexy/{url_type_name}/{_id}"
-        now = datetime.utcnow().isoformat(timespec="seconds") + "Z"  # + "Z" indicates UTC-Timezone
+        now = datetime.utcnow().isoformat(timespec="seconds")
         if _id not in old_data or entry != old_data[_id]:
-            last_changed = now
+            lastmod = now
             changed_count += 1
         else:
             # Try to look up the last changed date in the old sitemap
-            last_changed = old_sitemaps.get(sitemap_name, {}).get(url, None)
-            if last_changed is None:
-                last_changed = now
+            lastmod = old_sitemaps.get(sitemap_name, {}).get(url, None)
+            if lastmod is None:
+                lastmod = now
                 changed_count += 1
 
         # Priority is a relative measure from 0.0 to 1.0.
@@ -80,7 +80,7 @@ def generate_sitemap():
 
         sitemaps[sitemap_name].append({
             "url": url,
-            "last_changed": last_changed,
+            "lastmod": lastmod,
             "priority": priority,
         })
 
@@ -123,7 +123,7 @@ def _write_sitemap_xml(fname, sitemap):
         loc = ET.SubElement(url, "loc")
         loc.text = sitemap_entry["url"]
         lastmod = ET.SubElement(url, "lastmod")
-        lastmod.text = sitemap_entry["last_changed"].isoformat()
+        lastmod.text = sitemap_entry["lastmod"].isoformat(timespec="seconds")
         priority = ET.SubElement(url, "priority")
         priority.text = str(round(sitemap_entry["priority"], 2))
 
