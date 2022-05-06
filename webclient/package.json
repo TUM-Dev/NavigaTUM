@@ -33,6 +33,7 @@
     "gulp-purgecss": "^4.0.3",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.0.0",
+    "gulp-sitemap": "^8.0.0",
     "gulp-split-files": "^1.2.3",
     "gulp-uglify": "^3.0.2",
     "gulp-yaml": "^2.0.4",

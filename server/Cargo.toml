@@ -1,19 +1,20 @@
 [package]
-name = "server"
+name = "navigatum-server"
 version = "0.1.0"
-authors = ["Markus A <ge75sig@mytum.de>"]
+authors = ["Markus A <ge75sig@mytum.de>", "Frank Elsinga <frank@elsinga.de>"]
 edition = "2021"
 
 [[bin]]
-name = "server"
+name = "navigatum-server"
 path = "src/main.rs"
 
 [profile.release]
 strip = true
 
 [dependencies]
+log = "0.4.16"
 rusqlite = "0.27.0"
-octocrab = "0.15.4"
+octocrab = "0.16.0"
 actix-web = "4.0.1"
 awc = "3.0.0"
 cached = "0.34.0"

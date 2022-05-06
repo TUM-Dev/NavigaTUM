@@ -2,8 +2,8 @@
   <!-- Header image (on mobile) -->
   <div class="show-sm header-image-mobile">
     <img alt="Header-Image, showing the building"
-         v-bind:src="'<!-- @echo cdn_prefix -->header/' + view_data.img[0].name"
-         v-if="view_data.img && view_data.img[0]"
+         v-bind:src="'<!-- @echo cdn_prefix -->header/' + view_data.imgs[0].name"
+         v-if="view_data.imgs && view_data.imgs[0]"
          class="img-responsive"/>
   </div>
 
@@ -61,6 +61,10 @@
         <div class="toast toast-warning"
              v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'">
           ${{_.view_view.msg.inaccurate_only_building}}$
+        </div>
+        <div class="toast toast-warning"
+             v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null">
+          ${{_.view_view.msg.no_floor_overlay}}$
         </div>
       </div>
 
@@ -146,8 +150,8 @@
       <div class="card">
         <div class="card-image">
           <img alt="Header-Image, showing the building"
-               v-bind:src="'<!-- @echo cdn_prefix -->header/' + view_data.img[0].name"
-               v-if="view_data.img && view_data.img[0]"
+               v-bind:src="'<!-- @echo cdn_prefix -->header/' + view_data.imgs[0].name"
+               v-if="view_data.imgs && view_data.imgs[0]"
                class="img-responsive"
                width="100%"/>
         </div>
@@ -168,6 +172,10 @@
           <div class="toast toast-warning"
                v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'">
             ${{_.view_view.msg.inaccurate_only_building}}$
+          </div>
+          <div class="toast toast-warning"
+               v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null">
+            ${{_.view_view.msg.no_floor_overlay}}$
           </div>
         </div>
         <!--<div class="card-footer">
@@ -404,24 +412,24 @@
       </span>
       <span v-if="view_data.sources.patched"><br>${{_.view_view.sources.base.patched}}$</span>
     </p>
-    <p v-if="(view_data.img && view_data.img[0])">
+    <p v-if="(view_data.imgs && view_data.imgs[0])">
       ${{_.view_view.sources.header_img}}$:
-      <span>{{ view_data.img[0].author.text }}</span>
-      <span v-if="view_data.img[0].source">•
-        <a v-if="view_data.img[0].source.url"
-           v-bind:href="view_data.img[0].source.url"
+      <span>{{ view_data.imgs[0].author.text }}</span>
+      <span v-if="view_data.imgs[0].source">•
+        <a v-if="view_data.imgs[0].source.url"
+           v-bind:href="view_data.imgs[0].source.url"
            target="_blank">
-          {{ view_data.img[0].source.text }}
+          {{ view_data.imgs[0].source.text }}
         </a>
-        <template v-else>{{ view_data.img[0].source.text }}</template>
+        <template v-else>{{ view_data.imgs[0].source.text }}</template>
       </span>
-      <span v-if="view_data.img[0].license">&#32;•
-        <a v-if="view_data.img[0].license.url"
-           v-bind:href="view_data.img[0].license.url"
+      <span v-if="view_data.imgs[0].license">&#32;•
+        <a v-if="view_data.imgs[0].license.url"
+           v-bind:href="view_data.imgs[0].license.url"
            target="_blank">
-          {{ view_data.img[0].license.text }}
+          {{ view_data.imgs[0].license.text }}
         </a>
-        <template v-else>{{ view_data.img[0].license.text }}</template>
+        <template v-else>{{ view_data.imgs[0].license.text }}</template>
       </span>
     </p>
     <p v-if="view_data.coords">

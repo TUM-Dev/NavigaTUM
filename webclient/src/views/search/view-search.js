@@ -1,18 +1,22 @@
 function searchNavigateTo(to, from, next, component) {
     navigatum.beforeNavigate(to, from);
 
-    cached_fetch.fetch(navigatum.api_base + 'search/' + window.encodeURI(to.params.query) +
-                       '?limit_buildings=10&limit_rooms=20&limit_all=30',
-                                   {cache: "no-cache"})
+    const params = new URLSearchParams()
+    params.append('q', to.query.q)
+    params.append('limit_buildings', '10')
+    params.append('limit_rooms', '30')
+    params.append('limit_all', '30')
+
+    cached_fetch.fetch(navigatum.api_base + 'search?' + params.toString(), {cache: "no-cache"})
         .then(resp => {
             if (component) {
                 next();
                 navigatum.afterNavigate(to, from);
-                component.loadSearchData(to.params.query, resp);
+                component.loadSearchData(to.query.q, resp);
             } else {
                 next(vm => {
                     navigatum.afterNavigate(to, from);
-                    vm.loadSearchData(to.params.query, resp);
+                    vm.loadSearchData(to.query.q, resp);
                 });
             }
         });
@@ -74,8 +78,7 @@ navigatum.registerView('search', {
             // has a different format.
             var _this = this;
             navigatum.getModule("autocomplete").then(function(c) {
-                var sections = c.extract_facets(data);
-                _this.sections = sections;
+                _this.sections = c.extract_facets(data);
             });
         },
     }
