@@ -150,11 +150,10 @@ pub async fn do_benchmarked_search(args: SearchQueryArgs) -> SearchResults {
 // size=100 seems to be about 10M
 #[cached(size = 500)]
 async fn execute_search(args: SearchQueryArgs) -> Vec<SearchResultsSection> {
-    let (q,sanitised_args) = sanitise_args(args);
+    let (q, sanitised_args) = sanitise_args(args);
     let parsed = parse_input_query(q);
     return do_geoentry_search(&parsed.tokens, sanitised_args).await;
 }
-
 
 fn sanitise_args(args: SearchQueryArgs) -> (String, SanitisedSearchQueryArgs) {
     let sanitised_args = SanitisedSearchQueryArgs {
@@ -396,8 +395,12 @@ async fn do_geoentry_search(
         }; // No duplicates
 
         // Total limit reached (does only count visible results)
-        if section_rooms.entries.len() + section_buildings.n_visible.unwrap_or_else(|| { section_buildings.entries.len() })
-            >= args.limit_all {
+        if section_rooms.entries.len()
+            + section_buildings
+                .n_visible
+                .unwrap_or_else(|| section_buildings.entries.len())
+            >= args.limit_all
+        {
             break;
         }
 
@@ -611,10 +614,7 @@ fn highlight_matches(s: &String, search_tokens: &Vec<SearchToken>) -> String {
 
 // Parse the search against some known room formats and improve the
 // results display in this case. Room formats are hardcoded for now.
-fn parse_room_formats(
-    search_tokens: &Vec<SearchToken>,
-    hit: &MSHit,
-) -> Option<String> {
+fn parse_room_formats(search_tokens: &Vec<SearchToken>, hit: &MSHit) -> Option<String> {
     // Some building specific roomcode formats are determined by their building prefix
     if search_tokens.len() == 2
         && match search_tokens[0].s.as_str() {
@@ -639,7 +639,6 @@ fn parse_room_formats(
             arch_id.get(..search_tokens[1].s.len()).unwrap(),
             arch_id.get(search_tokens[1].s.len()..).unwrap_or_default(),
         ))
-
     }
     // If it doesn't match some precise room format, but the search is clearly
     // matching the arch name and not the main name, then we highlight this arch name.
@@ -671,8 +670,8 @@ fn parse_room_formats(
                 _ => match hit.name.get(..4).unwrap_or_default() {
                     "5101" => Some("PH "),
                     "5107" => Some("PH II "),
-                    _ => None
-                }
+                    _ => None,
+                },
             };
             if prefix.is_some() {
                 (prefix, arch_id.to_string())
@@ -681,11 +680,17 @@ fn parse_room_formats(
                 // look nice. Since this building name here serves only as a
                 // hint, we'll crop it (with more from the end, because there
                 // is usually more entropy)
-                (None, format!(
-                    "{} {}…{}",
-                    arch_id,
-                    hit.parent_building[0].get(..7).unwrap(),
-                    hit.parent_building[0].get((hit.parent_building[0].len()-10)..).unwrap()))
+                (
+                    None,
+                    format!(
+                        "{} {}…{}",
+                        arch_id,
+                        hit.parent_building[0].get(..7).unwrap(),
+                        hit.parent_building[0]
+                            .get((hit.parent_building[0].len() - 10)..)
+                            .unwrap()
+                    ),
+                )
             } else {
                 (None, format!("{} {}", arch_id, hit.parent_building[0]))
             }
@@ -694,7 +699,9 @@ fn parse_room_formats(
             "{}\u{0019}{}\u{0017}{}",
             prefix.unwrap_or_default(),
             parsed_arch_id.get(..search_tokens[0].s.len()).unwrap(),
-            parsed_arch_id.get(search_tokens[0].s.len()..).unwrap_or_default(),
+            parsed_arch_id
+                .get(search_tokens[0].s.len()..)
+                .unwrap_or_default(),
         ))
     } else {
         None
