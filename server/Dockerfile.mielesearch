@@ -7,6 +7,5 @@ RUN apk add --no-cache jq
 ADD https://nav.tum.sexy/cdn/search_data.json search_data.json
 ADD https://nav.tum.sexy/cdn/search_synonyms.json search_synonyms.json
 
-# run configuration after 10 s, to be sure that the server properly initialised
 EXPOSE 7700
-ENTRYPOINT (sleep 10 && /configure_MeileSearch.sh) & ./meilisearch|grep -v ' "GET /health HTTP/1.1" 200'
+ENTRYPOINT ./meilisearch|grep -v ' "GET /health HTTP/1.1" 200' & /configure_MeileSearch.sh
