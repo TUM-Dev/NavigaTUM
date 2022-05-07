@@ -1,10 +1,10 @@
 use actix_cors::Cors;
-use actix_web::{get, middleware, web, App, HttpRequest, HttpResponse, HttpServer};
-use rusqlite::{params, Connection};
+use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
+
 use structopt::StructOpt;
 
+mod core;
 mod feedback;
-mod search;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
@@ -15,36 +15,6 @@ pub struct Opt {
     /// GitHub personal access token
     #[structopt(short = "t", long)]
     github_token: Option<String>,
-}
-
-#[get("/api/get/{id}")]
-async fn get_handler(params: web::Path<String>) -> HttpResponse {
-    let id = params.into_inner();
-    let conn = Connection::open("data/api_data.db").expect("Cannot open database");
-    let mut stmt = conn
-        .prepare("SELECT value FROM api_data WHERE key = ?")
-        .expect("Cannot prepare statement");
-    let result = stmt.query_row(params![id], |row| {
-        let data: String = row.get_unwrap(0);
-        return Ok(data);
-    });
-    match result {
-        Ok(data) => HttpResponse::Ok()
-            .content_type("application/json")
-            .body(data), // .json(data) would have quoted the result. We instead want the content.
-        Err(_) => HttpResponse::NotFound()
-            .content_type("text/plain")
-            .body("Not found"),
-    }
-}
-
-#[get("/api/search")]
-async fn search_handler(
-    _req: HttpRequest,
-    web::Query(args): web::Query<search::SearchQueryArgs>,
-) -> HttpResponse {
-    let search_results = search::do_benchmarked_search(args).await;
-    HttpResponse::Ok().json(search_results)
 }
 
 #[get("/api/source_code")]
@@ -97,8 +67,6 @@ async fn main() -> std::io::Result<()> {
             .wrap(logger)
             .wrap(middleware::Compress::default())
             .app_data(json_config)
-            .service(get_handler)
-            .service(search_handler)
             .service(source_code_handler)
             .service(health_handler)
             .service(
@@ -106,6 +74,7 @@ async fn main() -> std::io::Result<()> {
                     .configure(feedback::configure)
                     .app_data(state_feedback.clone()),
             )
+            .service(web::scope("/api").configure(core::configure))
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?
     .run()
