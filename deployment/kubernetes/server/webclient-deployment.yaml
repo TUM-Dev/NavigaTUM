@@ -56,8 +56,6 @@ spec:
                 - name: rendertron
                   image: dockette/rendertron
                   imagePullPolicy: Always
-                  command:
-                      -   npm run start|grep -v "/_ah/health"
                   ports:
                       - containerPort: 3000
                         name: rendertron
