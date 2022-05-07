@@ -13,6 +13,11 @@ spec:
         matchLabels:
             app: navigatum
             deployment: cdn
+    strategy:
+        rollingUpdate:
+            maxSurge: 100%
+            maxUnavailable: 0%
+        type: RollingUpdate
     template:
         metadata:
             labels:
