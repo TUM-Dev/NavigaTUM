@@ -637,7 +637,7 @@ fn parse_room_formats(search_tokens: &Vec<SearchToken>, hit: &MSHit) -> Option<S
             "\u{0019}{} {}\u{0017}{}",
             search_tokens[0].s.to_uppercase(),
             arch_id.get(..search_tokens[1].s.len()).unwrap(),
-            arch_id.get(search_tokens[1].s.len()..).unwrap_or_default(),
+            arch_id.get(search_tokens[1].s.len()..).unwrap(),
         ))
     }
     // If it doesn't match some precise room format, but the search is clearly
