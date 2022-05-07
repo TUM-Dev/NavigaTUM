@@ -13,7 +13,7 @@
 "5401.01.101K": {coords: {lat: 48.268297, lon: 11.669144}}  # Hans-Fischer-Hörsaal
 "5401.01.101I":
   name: "5401.01.101I (CIP-Raum)"  # Original name is "Rechenzentrum" ...
-  coords: {lat: 48.268766, lon: 11.669363}
+  coords: {lat: 48.268499, lon: 11.669349}
 "5406.01.650C":
   name: "5406.01.650C (Fachschaftsbüro Chemie)"  # Original name is "Büro" ...
   coords: {lat: 48.268761, lon: 11.669356}
