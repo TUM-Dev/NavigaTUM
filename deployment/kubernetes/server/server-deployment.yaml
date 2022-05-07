@@ -48,12 +48,12 @@ spec:
                           path: /api/health
                           port: navigatum-api
                       failureThreshold: 1
-                      periodSeconds: 2
+                      periodSeconds: 1
                   startupProbe:
                       httpGet:
                           path: /api/health
                           port: navigatum-api
-                      failureThreshold: 240 # 240s/60=4min
+                      failureThreshold: 60
                       periodSeconds: 1
                 - name: mieli-search
                   image: ghcr.io/tum-dev/navigatum-mieli-search:main
@@ -76,7 +76,7 @@ spec:
                           path: /health
                           port: mieli-search
                       failureThreshold: 1
-                      periodSeconds: 2
+                      periodSeconds: 1
                   startupProbe:
                       httpGet:
                           path: /health

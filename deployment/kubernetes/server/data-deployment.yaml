@@ -43,7 +43,7 @@ spec:
                           path: /cdn/health
                           port: navigatum-cdn
                       failureThreshold: 3
-                      periodSeconds: 5
+                      periodSeconds: 1
                   startupProbe:
                       httpGet:
                           path: /cdn/health

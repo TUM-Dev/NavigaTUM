@@ -71,7 +71,7 @@ spec:
                           path: /_ah/health
                           port: rendertron
                       failureThreshold: 3
-                      periodSeconds: 5
+                      periodSeconds: 1
                   startupProbe:
                       httpGet:
                           path: /_ah/health
