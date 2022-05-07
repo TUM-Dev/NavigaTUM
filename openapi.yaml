@@ -1204,7 +1204,7 @@ components:
               description: 'Subtext to show below the search (by default in bold and after the non-bold subtext). Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.'
               type: string
             parsed_id:
-              description: 'This is an optional feature, that is only supported for some rooms. It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used. See the image below for an example. Supports highlighting.'
+              description: 'This is an optional feature, that is only supported for some rooms. It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used. See the image below for an example. It will be cropped to a maximum length to not take too much space in UIs. Supports highlighting.'
               type: string
     SitesBuildingsEntry:
       type: object
