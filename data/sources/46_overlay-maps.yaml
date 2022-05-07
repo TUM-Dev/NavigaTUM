@@ -73,6 +73,18 @@
     - {file: "5107_1.webp", id: 1, floor: "EG", desc: "Physik I (EG / obere Ebene) – © TUM WWW & Online Services"}
 
 - props:
+    parent: "chemie"
+    box:
+      - [11.668565, 48.269843]
+      - [11.671489, 48.269490]
+      - [11.670974, 48.267663]
+      - [11.668063, 48.268013]
+  maps:
+    # The chemistry building is complicated in terms of layers:
+    # 'Ebene 2' (Room names) == '01' (TUMOnline) == 'EG' (physically from the main entrance)
+    - {file: "chemie_0.webp", id: 0, floor: "01", desc: "Chemie (EG / 2. Ebene)"}
+    
+- props:
     parent: "5532"
     box:
       - [11.669863, 48.266968]

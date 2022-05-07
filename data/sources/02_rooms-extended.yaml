@@ -9,6 +9,18 @@
 "5606.EG.036":
   name: "5606.EG.036 (MPI Fachschaftsbüro im MI)"
 
+# === Chemie ===
+"5401.01.101K": {coords: {lat: 48.268297, lon: 11.669144}}  # Hans-Fischer-Hörsaal
+"5401.01.101I":
+  name: "5401.01.101I (CIP-Raum)"  # Original name is "Rechenzentrum" ...
+  coords: {lat: 48.268766, lon: 11.669363}
+"5406.01.650C":
+  name: "5406.01.650C (Fachschaftsbüro Chemie)"  # Original name is "Büro" ...
+  coords: {lat: 48.268761, lon: 11.669356}
+"5402.01.220J": {coords: {lat: 48.268553, lon: 11.669633}}  # Seminarraum (approximate)
+"5402.01.221K": {coords: {lat: 48.268668, lon: 11.669672}}  # Ivar-Ugi-Hörsaal (approximate)
+"5407.01.740A": {coords: {lat: 48.268962, lon: 11.669759}}  # Übungsraum
+
   
 # === StudiTUM Garching ===
 "5532.EG.001": {coords: {lat: 48.266826, lon: 11.670113}}
