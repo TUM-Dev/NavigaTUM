@@ -4,7 +4,7 @@ set -e # fail on first error
 
 curl_with_args() {
   curl \
-   --connect-timeout 5 --max-time 10 --retry 10 --retry-delay 5 --retry-max-time 60 --retry-connrefused \
+   --connect-timeout 5 --max-time 10 --retry 30 --retry-delay 1 --retry-max-time 60 --retry-connrefused --retry-all-errors \
    --header 'content-type: application/json' -i \
    "$@"
 }
