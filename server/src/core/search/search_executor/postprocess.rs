@@ -1,5 +1,5 @@
-use crate::core::search::search_executor::meilisearch::MSHit;
-use crate::core::search::search_executor::preprocess::SearchToken;
+use super::meilisearch::MSHit;
+use super::preprocess::SearchToken;
 
 pub(super) fn highlight_matches(s: &String, search_tokens: &Vec<SearchToken>) -> String {
     // Note: This does not highlight the matches that were actually used.

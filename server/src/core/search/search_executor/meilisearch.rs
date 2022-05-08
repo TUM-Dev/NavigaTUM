@@ -1,6 +1,6 @@
 use awc::Client;
 
-use crate::core::search::search_executor::preprocess::SearchToken;
+use super::preprocess::SearchToken;
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
 use std::collections::HashMap;

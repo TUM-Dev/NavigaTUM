@@ -1,4 +1,4 @@
-use crate::core::search::search_executor::{do_geoentry_search, SearchResultsSection};
+use super::search_executor::{do_geoentry_search, SearchResultsSection};
 use actix_web::{get, web, HttpRequest, HttpResponse};
 use serde::{Deserialize, Serialize};
 use std::time::Instant;
