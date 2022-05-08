@@ -243,6 +243,13 @@ mod tokenizer_tests {
         assert_token(q.to_string(), expected.clone());
     }
 
+    #[macro_export]
+    macro_rules! assert_identical {
+        ($x:expr) => {
+            assert_tokens($x, vec![reg($x)]);
+        };
+    }
+
     #[test]
     fn empty() {
         assert_tokens("", vec![]);
@@ -252,19 +259,19 @@ mod tokenizer_tests {
 
     #[test]
     fn quoting() {
-        assert_tokens("\"", vec![reg("\"")]);
-        assert_tokens("\"\"", vec![reg("\"\"")]);
-        assert_tokens("\"\"\"", vec![reg("\"\"\"")]);
-        assert_tokens("\" \"", vec![reg("\" \"")]);
-        assert_tokens("\"a\"", vec![reg("\"a\"")]);
-        assert_tokens("\"a \"", vec![reg("\"a \"")]);
-        assert_tokens("\"a a \"", vec![reg("\"a a \"")]);
-        assert_tokens("\" a a \"", vec![reg("\" a a \"")]);
+        assert_identical!("\"");
+        assert_identical!("\"\"");
+        assert_identical!("\"\"\"");
+        assert_identical!("\" \"");
+        assert_identical!("\"a\"");
+        assert_identical!("\"a \"");
+        assert_identical!("\"a a \"");
+        assert_identical!("\" a a \"");
     }
 
     #[test]
     fn normal_splits() {
-        assert_tokens("foo", vec![reg("foo")]);
+        assert_identical!("foo");
         assert_tokens("foo foo", vec![reg("foo"), reg("foo")]);
         assert_tokens("foo\nfoo", vec![reg("foo"), reg("foo")]);
         assert_tokens("foo   foo", vec![reg("foo"), reg("foo")]);
@@ -277,5 +284,14 @@ mod tokenizer_tests {
         assert_tokens("hs1 physik", vec![irreg("hs"), reg("1"), reg("physik")]);
         assert_tokens("mw1801", vec![irreg("mw"), reg("1801")]);
         assert_tokens("mw180", vec![irreg("mw"), reg("180")]);
+    }
+
+    #[test]
+    fn quoted_irregular_splits() {
+        assert_identical!("\"hs1\"");
+        assert_identical!("\"physik hs1\"");
+        assert_identical!("\"hs1 physik\"");
+        assert_identical!("\"mw1801\"");
+        assert_identical!("\"mw180\"");
     }
 }
