@@ -13,7 +13,7 @@ pub(super) struct SearchInput {
 }
 
 impl SearchInput {
-    pub fn to_query_string(self) -> String {
+    pub fn to_query_string(&self) -> String {
         let mut s = String::from("");
         for token in self.tokens.iter() {
             if token.closed && !token.quoted {
@@ -54,7 +54,7 @@ pub(super) fn parse_input_query(q: String) -> SearchInput {
     };
     for token in input_tokens {
         // Quoted tokens are ignored. Note this also marks unclosed tokens at the end search quoted.
-        if token.s.starts_with("\"") {
+        if token.s.starts_with('"') {
             search_tokens.push(SearchToken {
                 s: token.s,
                 regular_split: token.regular_split,
@@ -64,16 +64,16 @@ pub(super) fn parse_input_query(q: String) -> SearchInput {
         } else {
             // Parse filters
             let mut is_filter = false;
-            for prefix in vec!["in:", "@", "usage:", "nutzung:", "=", "type:"] {
+            for prefix in ["in:", "@", "usage:", "nutzung:", "=", "type:"] {
                 if (&token.s).starts_with(prefix) {
                     is_filter = true;
 
                     let v = token
                         .s
                         .trim_start_matches(prefix)
-                        .trim_start_matches("\"")
-                        .trim_end_matches("\"");
-                    if v.len() == 0 {
+                        .trim_start_matches('"')
+                        .trim_end_matches('"');
+                    if v.is_empty() {
                         // e.g. ' in: ', ' @ ', ' in:"" ' are ignored,
                         continue; // TODO: autosuggest
                     };

@@ -93,7 +93,7 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs<'_>) -> Re
         .unwrap();
 
     let resp_str = std::str::from_utf8(resp_bytes.as_ref()).unwrap();
-    Ok(serde_json::from_str(resp_str)?)
+    serde_json::from_str(resp_str)
 }
 
 pub(super) async fn do_building_search_closed_query(
@@ -126,10 +126,7 @@ pub(super) async fn do_room_search(
         // results if the 4-digit-token doesn't, but still the 4-digit-token should usually
         // take precedence.
         let s = if token.s.len() == 4
-            && match token.s.chars().next().unwrap() {
-                '0' | '1' | '2' => true,
-                _ => false,
-            }
+            && matches!(token.s.chars().next().unwrap(), '0' | '1' | '2')
             && token.s.chars().all(char::is_numeric)
         {
             format!(
