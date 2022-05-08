@@ -45,7 +45,7 @@ pub async fn search_handler(
         sections: results_sections,
         time_ms,
     };
-    return HttpResponse::Ok().json(search_results);
+    HttpResponse::Ok().json(search_results)
 }
 
 fn sanitise_args(args: SearchQueryArgs) -> (String, SanitisedSearchQueryArgs) {
@@ -54,5 +54,5 @@ fn sanitise_args(args: SearchQueryArgs) -> (String, SanitisedSearchQueryArgs) {
         limit_rooms: args.limit_rooms.unwrap_or(10).clamp(0, 1_000),
         limit_all: args.limit_all.unwrap_or(10).clamp(1, 1_000),
     };
-    return (args.q, sanitised_args);
+    (args.q, sanitised_args)
 }

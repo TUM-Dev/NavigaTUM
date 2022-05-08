@@ -48,7 +48,7 @@ pub async fn do_geoentry_search(
     // buildings will be hidden (e.g. building parts), so the extra room search ....
     let client = ClientBuilder::new().connector(Connector::new()).finish();
 
-    let q_default = parsed_input.clone().to_query_string();
+    let q_default = parsed_input.to_query_string();
 
     let fut_res_merged = meilisearch::do_meilisearch(
         client.clone(),

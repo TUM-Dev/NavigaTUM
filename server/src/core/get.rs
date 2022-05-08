@@ -10,7 +10,7 @@ pub async fn get_handler(params: web::Path<String>) -> HttpResponse {
         .expect("Cannot prepare statement");
     let result = stmt.query_row(params![id], |row| {
         let data: String = row.get_unwrap(0);
-        return Ok(data);
+        Ok(data)
     });
     match result {
         Ok(data) => HttpResponse::Ok()

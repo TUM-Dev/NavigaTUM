@@ -20,8 +20,7 @@ pub(super) fn merge_search_results(
         facet: "sites_buildings".to_string(),
         entries: Vec::<super::ResultEntry>::new(),
         n_visible: None,
-        nb_hits: facet.get("site").unwrap_or_else(|| &0)
-            + facet.get("building").unwrap_or_else(|| &0),
+        nb_hits: facet.get("site").unwrap_or(&0) + facet.get("building").unwrap_or(&0),
     };
     let mut section_rooms = super::SearchResultsSection {
         facet: "rooms".to_string(),
@@ -43,15 +42,15 @@ pub(super) fn merge_search_results(
         // Total limit reached (does only count visible results)
         let current_buildings_cnt = section_buildings
             .n_visible
-            .unwrap_or_else(|| section_buildings.entries.len());
+            .unwrap_or(section_buildings.entries.len());
         if section_rooms.entries.len() + current_buildings_cnt >= args.limit_all {
             break;
         }
 
         // Find out where it matches TODO: Improve
-        let highlighted_name = highlight_matches(&hit.name, &search_tokens);
+        let highlighted_name = highlight_matches(&hit.name, search_tokens);
         let highlighted_arch_name = match &hit.arch_name {
-            Some(arch_name) => highlight_matches(arch_name, &search_tokens),
+            Some(arch_name) => highlight_matches(arch_name, search_tokens),
             None => String::from(""),
         };
 
@@ -110,7 +109,7 @@ fn push_to_rooms_queue(
     highlighted_arch_name: String,
 ) {
     // Test whether the query matches some common room id formats
-    let parsed_id = parse_room_formats(&search_tokens, &hit);
+    let parsed_id = parse_room_formats(search_tokens, hit);
 
     let subtext = match hit.parent_building.len() {
         0 => String::from(""),
@@ -167,13 +166,13 @@ fn highlight_matches(s: &String, search_tokens: &Vec<preprocess::SearchToken>) -
         }
     }
 
-    s_highlighted.to_string()
+    s_highlighted
 }
 
 // Parse the search against some known room formats and improve the
 // results display in this case. Room formats are hardcoded for now.
 fn parse_room_formats(
-    search_tokens: &Vec<preprocess::SearchToken>,
+    search_tokens: &[preprocess::SearchToken],
     hit: &meilisearch::MSHit,
 ) -> Option<String> {
     // Some building specific roomcode formats are determined by their building prefix
@@ -185,7 +184,7 @@ fn parse_room_formats(
             "ch" => hit.id.starts_with("540"),
             _ => false,
         }
-        && !search_tokens[1].s.contains("@")
+        && !search_tokens[1].s.contains('@')
         && hit.arch_name.is_some()
         && hit
             .arch_name
@@ -193,23 +192,22 @@ fn parse_room_formats(
             .unwrap()
             .starts_with(&search_tokens[1].s)
     {
-        let arch_id = hit.arch_name.as_ref().unwrap().split("@").next().unwrap();
+        let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
         Some(format!(
             "\u{0019}{} {}\u{0017}{}",
             search_tokens[0].s.to_uppercase(),
             arch_id.get(..search_tokens[1].s.len()).unwrap(),
             arch_id.get(search_tokens[1].s.len()..).unwrap(),
         ))
-    }
     // If it doesn't match some precise room format, but the search is clearly
     // matching the arch name and not the main name, then we highlight this arch name.
     // This is intentionally still restrictive and considers only the first token,
     // because we expect searches for arch names not to start with anything else.
-    else if (search_tokens.len() == 1
+    } else if (search_tokens.len() == 1
              || (search_tokens.len() > 1 && search_tokens[0].s.len() >= 3))
         //     Needs to be specific enough to be considered relevant ↑
         && !hit.name.contains(&search_tokens[0].s) // No match in the name
-        && hit.parent_building.len() > 0 // Has parent information to show in query
+        && !hit.parent_building.is_empty() // Has parent information to show in query
         && hit.arch_name.is_some()
         && hit
             .arch_name
@@ -219,10 +217,10 @@ fn parse_room_formats(
     {
         // Exclude the part after the "@" if it's not in the query and use the
         // building name instead, because this is probably more helpful
-        let (prefix, parsed_arch_id) = if search_tokens[0].s.contains("@") {
+        let (prefix, parsed_arch_id) = if search_tokens[0].s.contains('@') {
             (None, hit.arch_name.as_ref().unwrap().to_string())
         } else {
-            let arch_id = hit.arch_name.as_ref().unwrap().split("@").next().unwrap();
+            let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
             // For some well known buildings we have a prefix that we can use instead
             let prefix = match hit.name.get(..3).unwrap_or_default() {
                 "560" | "561" => Some("MI "),
