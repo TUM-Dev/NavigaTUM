@@ -27,7 +27,7 @@ impl SearchInput {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Eq, PartialEq, Clone)]
 pub(super) struct InputToken {
     s: String,
     regular_split: bool,
@@ -197,4 +197,85 @@ pub(super) fn tokenize_input_query(q: String) -> Vec<InputToken> {
     }
 
     tokens
+}
+
+#[cfg(test)]
+mod tokenizer_tests {
+    use super::*;
+
+    fn reg(s: &str) -> InputToken {
+        InputToken {
+            s: s.to_string(),
+            regular_split: true,
+            closed: true,
+        }
+    }
+
+    fn irreg(s: &str) -> InputToken {
+        InputToken {
+            s: s.to_string(),
+            regular_split: false,
+            closed: true,
+        }
+    }
+
+    fn assert_token(q: String, expected: Vec<InputToken>) {
+        assert_eq!(
+            tokenize_input_query(q.clone()),
+            expected,
+            "tokenization for '{}' failed",
+            q
+        );
+    }
+
+    fn assert_tokens(q: &str, mut expected: Vec<InputToken>) {
+        let sqs = format!(" {} ", q);
+        let qs = format!("{} ", q);
+        assert_token(sqs, expected.clone());
+        assert_token(qs, expected.clone());
+        if !expected.is_empty() {
+            let mut last = expected.pop().unwrap();
+            last.closed = false;
+            expected.push(last);
+        }
+        let sq = format!(" {}", q);
+        assert_token(sq, expected.clone());
+        assert_token(q.to_string(), expected.clone());
+    }
+
+    #[test]
+    fn empty() {
+        assert_tokens("", vec![]);
+        assert_tokens("\t", vec![]);
+        assert_tokens("\n", vec![]);
+    }
+
+    #[test]
+    fn quoting() {
+        assert_tokens("\"", vec![reg("\"")]);
+        assert_tokens("\"\"", vec![reg("\"\"")]);
+        assert_tokens("\"\"\"", vec![reg("\"\"\"")]);
+        assert_tokens("\" \"", vec![reg("\" \"")]);
+        assert_tokens("\"a\"", vec![reg("\"a\"")]);
+        assert_tokens("\"a \"", vec![reg("\"a \"")]);
+        assert_tokens("\"a a \"", vec![reg("\"a a \"")]);
+        assert_tokens("\" a a \"", vec![reg("\" a a \"")]);
+    }
+
+    #[test]
+    fn normal_splits() {
+        assert_tokens("foo", vec![reg("foo")]);
+        assert_tokens("foo foo", vec![reg("foo"), reg("foo")]);
+        assert_tokens("foo\nfoo", vec![reg("foo"), reg("foo")]);
+        assert_tokens("foo   foo", vec![reg("foo"), reg("foo")]);
+    }
+
+    #[test]
+    fn irregular_splits() {
+        assert_tokens("hs1", vec![irreg("hs"), reg("1")]);
+        assert_tokens("physik hs1", vec![reg("physik"), irreg("hs"), reg("1")]);
+        assert_tokens("hs1 physik", vec![irreg("hs"), reg("1"), reg("physik")]);
+        assert_tokens("mw1801", vec![irreg("mw"), reg("1801")]);
+        assert_tokens("mw180", vec![irreg("mw"), reg("180")]);
+    }
 }
