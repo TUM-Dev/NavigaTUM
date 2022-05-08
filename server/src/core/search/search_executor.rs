@@ -74,6 +74,7 @@ pub async fn do_geoentry_search(
             merge_search_results(args, &search_tokens, res_merged, res_buildings, res_rooms)
         }
         Err(e) => {
+            // error should be serde_json::error
             error!("Error searching for results: {:?}", e);
             vec![]
         }
