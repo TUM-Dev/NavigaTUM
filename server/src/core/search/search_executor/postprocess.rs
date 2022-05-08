@@ -58,12 +58,12 @@ pub(super) fn merge_search_results(
         match hit.r#type.as_str() {
             "campus" | "site" | "area" | "building" | "joined_building" => {
                 if section_buildings.entries.len() < args.limit_buildings {
-                    push_to_room_queue(&mut section_buildings, &mut hit, highlighted_name);
+                    push_to_buildings_queue(&mut section_buildings, &mut hit, highlighted_name);
                 }
             }
             "room" | "virtual_room" => {
                 if section_rooms.entries.len() < args.limit_rooms {
-                    push_to_sections_queue(
+                    push_to_rooms_queue(
                         &mut section_rooms,
                         &mut hit,
                         &search_tokens,
@@ -89,7 +89,7 @@ pub(super) fn merge_search_results(
     }
 }
 
-fn push_to_room_queue(
+fn push_to_buildings_queue(
     section_buildings: &mut super::SearchResultsSection,
     hit: &mut meilisearch::MSHit,
     highlighted_name: String,
@@ -104,7 +104,7 @@ fn push_to_room_queue(
     });
 }
 
-fn push_to_sections_queue(
+fn push_to_rooms_queue(
     section_rooms: &mut super::SearchResultsSection,
     hit: &mut meilisearch::MSHit,
     search_tokens: &&Vec<preprocess::SearchToken>,
