@@ -2,9 +2,8 @@ use awc::{ClientBuilder, Connector};
 use futures::try_join;
 use serde::Serialize;
 
-use crate::core::search::search_executor::meilisearch::{MSHit, MSResults};
-use crate::core::search::search_executor::preprocess::SearchToken;
-use crate::core::search::search_handler::SanitisedSearchQueryArgs;
+use super::search_executor::preprocess::SearchToken;
+use super::search_handler::SanitisedSearchQueryArgs;
 use cached::proc_macro::cached;
 use log::error;
 
@@ -84,9 +83,9 @@ pub async fn do_geoentry_search(
 fn merge_search_results(
     args: SanitisedSearchQueryArgs,
     search_tokens: &Vec<SearchToken>,
-    res_merged: MSResults,
-    res_buildings: MSResults,
-    res_rooms: MSResults,
+    res_merged: meilisearch::MSResults,
+    res_buildings: meilisearch::MSResults,
+    res_rooms: meilisearch::MSResults,
 ) -> Vec<SearchResultsSection> {
     // First look up which buildings did match even with a closed query.
     // We can consider them more relevant.
@@ -171,7 +170,7 @@ fn merge_search_results(
 
 fn push_to_room_queue(
     section_buildings: &mut SearchResultsSection,
-    hit: &mut MSHit,
+    hit: &mut meilisearch::MSHit,
     highlighted_name: String,
 ) {
     section_buildings.entries.push(ResultEntry {
@@ -186,7 +185,7 @@ fn push_to_room_queue(
 
 fn push_to_sections_queue(
     section_rooms: &mut SearchResultsSection,
-    hit: &mut MSHit,
+    hit: &mut meilisearch::MSHit,
     search_tokens: &&Vec<SearchToken>,
     highlighted_name: String,
     highlighted_arch_name: String,
