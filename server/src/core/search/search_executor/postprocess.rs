@@ -34,17 +34,17 @@ pub(super) fn merge_search_results(
     // let mut observed_joined_buildings = Vec::<String>::new();
     let mut observed_ids = Vec::<String>::new();
     for mut hit in [res_merged.hits, res_rooms.hits].concat() {
+        // Prevent duplicates from being added to the results
         if observed_ids.contains(&hit.id) {
             continue;
-        }; // No duplicates
+        };
+        observed_ids.push(hit.id);
 
         // Total limit reached (does only count visible results)
-        if section_rooms.entries.len()
-            + section_buildings
-                .n_visible
-                .unwrap_or_else(|| section_buildings.entries.len())
-            >= args.limit_all
-        {
+        let current_buildings_cnt = section_buildings
+            .n_visible
+            .unwrap_or_else(|| section_buildings.entries.len());
+        if section_rooms.entries.len() + current_buildings_cnt >= args.limit_all {
             break;
         }
 
@@ -79,8 +79,6 @@ pub(super) fn merge_search_results(
             }
             _ => {}
         };
-
-        observed_ids.push(hit.id);
     }
 
     match section_buildings.n_visible {
@@ -114,23 +112,20 @@ fn push_to_rooms_queue(
     // Test whether the query matches some common room id formats
     let parsed_id = parse_room_formats(&search_tokens, &hit);
 
+    let subtext = match hit.parent_building.len() {
+        0 => String::from(""),
+        _ => format!("{}", &hit.parent_building[0]),
+    };
+    let subtext_bold = match parsed_id {
+        Some(_) => Some(hit.arch_name.clone().unwrap_or_default()),
+        None => Some(highlighted_arch_name),
+    };
     section_rooms.entries.push(super::ResultEntry {
         id: hit.id.to_string(),
         r#type: hit.r#type.to_string(),
         name: highlighted_name,
-        subtext: format!(
-            "{}",
-            if hit.parent_building.len() > 0 {
-                &hit.parent_building[0]
-            } else {
-                ""
-            }
-        ),
-        subtext_bold: if parsed_id.is_some() {
-            Some(hit.arch_name.clone().unwrap_or_default())
-        } else {
-            Some(highlighted_arch_name)
-        },
+        subtext,
+        subtext_bold,
         parsed_id,
     });
 }
