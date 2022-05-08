@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Result;
 use std::collections::HashMap;
 
-/// Input into MeiliSearch
+// Input into MeiliSearch
 pub(super) struct MSSearchArgs<'a> {
     pub(super) q: &'a str,
     pub(super) filter: Option<MSSearchFilter>,

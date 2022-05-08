@@ -2,7 +2,7 @@ use super::meilisearch;
 use super::preprocess;
 
 pub(super) fn merge_search_results(
-    args: super::SanitisedSearchQueryArgs,
+    args: &super::SanitisedSearchQueryArgs,
     search_tokens: &Vec<preprocess::SearchToken>,
     res_merged: meilisearch::MSResults,
     res_buildings: meilisearch::MSResults,
@@ -104,7 +104,7 @@ fn push_to_buildings_queue(
 fn push_to_rooms_queue(
     section_rooms: &mut super::SearchResultsSection,
     hit: &meilisearch::MSHit,
-    search_tokens: &&Vec<preprocess::SearchToken>,
+    search_tokens: &Vec<preprocess::SearchToken>,
     highlighted_name: String,
     highlighted_arch_name: String,
 ) {

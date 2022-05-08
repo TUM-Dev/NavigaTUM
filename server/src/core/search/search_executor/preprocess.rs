@@ -15,7 +15,7 @@ pub(super) struct SearchInput {
 impl SearchInput {
     pub fn to_query_string(&self) -> String {
         let mut s = String::from("");
-        for token in self.tokens.iter() {
+        for token in &self.tokens {
             if token.closed && !token.quoted {
                 s.push_str(&format!("{} ", token.s));
             } else {
@@ -43,7 +43,7 @@ pub(super) struct SearchToken {
     pub(super) quoted: bool,
 }
 
-pub(super) fn parse_input_query(q: String) -> SearchInput {
+pub(super) fn parse_input_query(q: &str) -> SearchInput {
     let input_tokens = tokenize_input_query(q);
 
     let mut search_tokens = Vec::<SearchToken>::new();
@@ -112,7 +112,7 @@ pub(super) fn parse_input_query(q: String) -> SearchInput {
     }
 }
 
-pub(super) fn tokenize_input_query(q: String) -> Vec<InputToken> {
+pub(super) fn tokenize_input_query(q: &str) -> Vec<InputToken> {
     let mut tokens = Vec::<InputToken>::new();
 
     // We don't care about unicode here since all split conditions
@@ -149,10 +149,7 @@ pub(super) fn tokenize_input_query(q: String) -> Vec<InputToken> {
         // This is intended to split up strings like "MW1250".
         if c.is_numeric() && 0 < alphabetic_counter && alphabetic_counter <= 3 {
             tokens.push(InputToken {
-                s: q.get(token_start..=(i - 1))
-                    .unwrap()
-                    .trim_end()
-                    .to_lowercase(),
+                s: q.get(token_start..i).unwrap().trim_end().to_lowercase(),
                 regular_split: false,
                 closed: true,
             });
@@ -221,7 +218,7 @@ mod tokenizer_tests {
 
     fn assert_token(q: String, expected: Vec<InputToken>) {
         assert_eq!(
-            tokenize_input_query(q.clone()),
+            tokenize_input_query(q.as_str().clone()),
             expected,
             "tokenization for '{}' failed",
             q
