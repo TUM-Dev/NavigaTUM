@@ -206,7 +206,7 @@ fn parse_request(req_data: &Json<FeedbackPostData>) -> (String, String, Vec<Stri
     }
     match req_data.category.as_str() {
         "general" | "bug" | "feature" | "search" | "entry" => {
-            labels.push(String::from(&req_data.category))
+            labels.push(String::from(&req_data.category));
         }
         _ => {}
     };

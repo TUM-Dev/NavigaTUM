@@ -37,7 +37,7 @@ pub async fn do_geoentry_search(
     q: String,
     args: SanitisedSearchQueryArgs,
 ) -> Vec<SearchResultsSection> {
-    let parsed_input = preprocess::parse_input_query(q);
+    let parsed_input = preprocess::parse_input_query(q.as_str());
 
     // Determine what to search for
 
@@ -70,7 +70,7 @@ pub async fn do_geoentry_search(
 
     return match try_join!(fut_res_merged, fut_res_buildings, fut_res_rooms) {
         Ok((res_merged, res_buildings, res_rooms)) => postprocess::merge_search_results(
-            args,
+            &args,
             &search_tokens,
             res_merged,
             res_buildings,

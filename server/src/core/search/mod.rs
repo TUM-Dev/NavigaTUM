@@ -19,7 +19,7 @@ pub struct SearchResults {
     time_ms: u128,
 }
 
-#[derive(Deserialize, Clone, Eq, PartialEq, Hash)]
+#[derive(Deserialize, Copy, Clone, Eq, PartialEq, Hash)]
 pub struct SanitisedSearchQueryArgs {
     // Limit per facet
     pub limit_buildings: usize,
