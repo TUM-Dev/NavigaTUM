@@ -1,7 +1,141 @@
-use super::meilisearch::MSHit;
-use super::preprocess::SearchToken;
+use super::meilisearch;
+use super::preprocess;
 
-pub(super) fn highlight_matches(s: &String, search_tokens: &Vec<SearchToken>) -> String {
+pub(super) fn merge_search_results(
+    args: super::SanitisedSearchQueryArgs,
+    search_tokens: &Vec<preprocess::SearchToken>,
+    res_merged: meilisearch::MSResults,
+    res_buildings: meilisearch::MSResults,
+    res_rooms: meilisearch::MSResults,
+) -> Vec<super::SearchResultsSection> {
+    // First look up which buildings did match even with a closed query.
+    // We can consider them more relevant.
+    let mut closed_matching_buildings = Vec::<String>::new();
+    for hit in res_buildings.hits {
+        closed_matching_buildings.push(hit.id);
+    }
+
+    let facet = res_merged.facets_distribution.facet;
+    let mut section_buildings = super::SearchResultsSection {
+        facet: "sites_buildings".to_string(),
+        entries: Vec::<super::ResultEntry>::new(),
+        n_visible: None,
+        nb_hits: facet.get("site").unwrap_or_else(|| &0)
+            + facet.get("building").unwrap_or_else(|| &0),
+    };
+    let mut section_rooms = super::SearchResultsSection {
+        facet: "rooms".to_string(),
+        entries: Vec::<super::ResultEntry>::new(),
+        n_visible: None,
+        nb_hits: res_rooms.nb_hits,
+    };
+
+    // TODO: Collapse joined buildings
+    // let mut observed_joined_buildings = Vec::<String>::new();
+    let mut observed_ids = Vec::<String>::new();
+    for mut hit in [res_merged.hits, res_rooms.hits].concat() {
+        if observed_ids.contains(&hit.id) {
+            continue;
+        }; // No duplicates
+
+        // Total limit reached (does only count visible results)
+        if section_rooms.entries.len()
+            + section_buildings
+                .n_visible
+                .unwrap_or_else(|| section_buildings.entries.len())
+            >= args.limit_all
+        {
+            break;
+        }
+
+        // Find out where it matches TODO: Improve
+        let highlighted_name = highlight_matches(&hit.name, &search_tokens);
+        let highlighted_arch_name = match &hit.arch_name {
+            Some(arch_name) => highlight_matches(arch_name, &search_tokens),
+            None => String::from(""),
+        };
+
+        match hit.r#type.as_str() {
+            "campus" | "site" | "area" | "building" | "joined_building" => {
+                if section_buildings.entries.len() < args.limit_buildings {
+                    push_to_room_queue(&mut section_buildings, &mut hit, highlighted_name);
+                }
+            }
+            "room" | "virtual_room" => {
+                if section_rooms.entries.len() < args.limit_rooms {
+                    push_to_sections_queue(
+                        &mut section_rooms,
+                        &mut hit,
+                        &search_tokens,
+                        highlighted_name,
+                        highlighted_arch_name,
+                    );
+
+                    // The first room in the results 'freezes' the number of visible buildings
+                    if section_buildings.n_visible.is_none() && section_rooms.entries.len() == 1 {
+                        section_buildings.n_visible = Some(section_buildings.entries.len());
+                    }
+                }
+            }
+            _ => {}
+        };
+
+        observed_ids.push(hit.id);
+    }
+
+    match section_buildings.n_visible {
+        Some(0) => vec![section_rooms, section_buildings],
+        _ => vec![section_buildings, section_rooms],
+    }
+}
+
+fn push_to_room_queue(
+    section_buildings: &mut super::SearchResultsSection,
+    hit: &mut meilisearch::MSHit,
+    highlighted_name: String,
+) {
+    section_buildings.entries.push(super::ResultEntry {
+        id: hit.id.to_string(),
+        r#type: hit.r#type.to_string(),
+        name: highlighted_name,
+        subtext: format!("{}", hit.type_common_name),
+        subtext_bold: None,
+        parsed_id: None,
+    });
+}
+
+fn push_to_sections_queue(
+    section_rooms: &mut super::SearchResultsSection,
+    hit: &mut meilisearch::MSHit,
+    search_tokens: &&Vec<preprocess::SearchToken>,
+    highlighted_name: String,
+    highlighted_arch_name: String,
+) {
+    // Test whether the query matches some common room id formats
+    let parsed_id = parse_room_formats(&search_tokens, &hit);
+
+    section_rooms.entries.push(super::ResultEntry {
+        id: hit.id.to_string(),
+        r#type: hit.r#type.to_string(),
+        name: highlighted_name,
+        subtext: format!(
+            "{}",
+            if hit.parent_building.len() > 0 {
+                &hit.parent_building[0]
+            } else {
+                ""
+            }
+        ),
+        subtext_bold: if parsed_id.is_some() {
+            Some(hit.arch_name.clone().unwrap_or_default())
+        } else {
+            Some(highlighted_arch_name)
+        },
+        parsed_id,
+    });
+}
+
+fn highlight_matches(s: &String, search_tokens: &Vec<preprocess::SearchToken>) -> String {
     // Note: This does not highlight the matches that were actually used.
     //       e.g. "hs" will highlight "Versuchsraum"
     //                                       ^^
@@ -43,7 +177,10 @@ pub(super) fn highlight_matches(s: &String, search_tokens: &Vec<SearchToken>) ->
 
 // Parse the search against some known room formats and improve the
 // results display in this case. Room formats are hardcoded for now.
-pub(super) fn parse_room_formats(search_tokens: &Vec<SearchToken>, hit: &MSHit) -> Option<String> {
+fn parse_room_formats(
+    search_tokens: &Vec<preprocess::SearchToken>,
+    hit: &meilisearch::MSHit,
+) -> Option<String> {
     // Some building specific roomcode formats are determined by their building prefix
     if search_tokens.len() == 2
         && match search_tokens[0].s.as_str() {

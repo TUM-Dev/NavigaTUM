@@ -1,6 +1,6 @@
 use awc::Client;
 
-use super::preprocess::SearchToken;
+use super::preprocess;
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
 use std::collections::HashMap;
@@ -116,7 +116,7 @@ pub(super) async fn do_building_search_closed_query(
 
 pub(super) async fn do_room_search(
     client: Client,
-    search_tokens: &Vec<SearchToken>,
+    search_tokens: &Vec<preprocess::SearchToken>,
     limit: usize,
 ) -> Result<MSResults> {
     let mut q = String::from("");
