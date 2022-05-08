@@ -33,12 +33,12 @@ pub(super) fn merge_search_results(
     // TODO: Collapse joined buildings
     // let mut observed_joined_buildings = Vec::<String>::new();
     let mut observed_ids = Vec::<String>::new();
-    for mut hit in [res_merged.hits, res_rooms.hits].concat() {
+    for hit in [res_merged.hits, res_rooms.hits].concat() {
         // Prevent duplicates from being added to the results
         if observed_ids.contains(&hit.id) {
             continue;
         };
-        observed_ids.push(hit.id);
+        observed_ids.push(hit.id.clone());
 
         // Total limit reached (does only count visible results)
         let current_buildings_cnt = section_buildings
@@ -58,14 +58,14 @@ pub(super) fn merge_search_results(
         match hit.r#type.as_str() {
             "campus" | "site" | "area" | "building" | "joined_building" => {
                 if section_buildings.entries.len() < args.limit_buildings {
-                    push_to_buildings_queue(&mut section_buildings, &mut hit, highlighted_name);
+                    push_to_buildings_queue(&mut section_buildings, &hit, highlighted_name);
                 }
             }
             "room" | "virtual_room" => {
                 if section_rooms.entries.len() < args.limit_rooms {
                     push_to_rooms_queue(
                         &mut section_rooms,
-                        &mut hit,
+                        &hit,
                         &search_tokens,
                         highlighted_name,
                         highlighted_arch_name,
@@ -89,14 +89,14 @@ pub(super) fn merge_search_results(
 
 fn push_to_buildings_queue(
     section_buildings: &mut super::SearchResultsSection,
-    hit: &mut meilisearch::MSHit,
+    hit: &meilisearch::MSHit,
     highlighted_name: String,
 ) {
     section_buildings.entries.push(super::ResultEntry {
         id: hit.id.to_string(),
         r#type: hit.r#type.to_string(),
         name: highlighted_name,
-        subtext: format!("{}", hit.type_common_name),
+        subtext: hit.type_common_name.clone(),
         subtext_bold: None,
         parsed_id: None,
     });
@@ -104,7 +104,7 @@ fn push_to_buildings_queue(
 
 fn push_to_rooms_queue(
     section_rooms: &mut super::SearchResultsSection,
-    hit: &mut meilisearch::MSHit,
+    hit: &meilisearch::MSHit,
     search_tokens: &&Vec<preprocess::SearchToken>,
     highlighted_name: String,
     highlighted_arch_name: String,
@@ -114,7 +114,7 @@ fn push_to_rooms_queue(
 
     let subtext = match hit.parent_building.len() {
         0 => String::from(""),
-        _ => format!("{}", &hit.parent_building[0]),
+        _ => hit.parent_building[0].clone(),
     };
     let subtext_bold = match parsed_id {
         Some(_) => Some(hit.arch_name.clone().unwrap_or_default()),
