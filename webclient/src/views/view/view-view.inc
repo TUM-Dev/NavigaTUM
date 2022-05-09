@@ -1,11 +1,12 @@
 <div id="view-view" v-if="view_data">
   <!-- Header image (on mobile) -->
-  <div class="show-sm header-image-mobile">
+  <a class="show-sm header-image-mobile c-hand"
+     onclick="document.getElementById('modal-slideshow').classList.add('active')"
+     v-if="shown_image">
     <img alt="Header-Image, showing the building"
-         v-bind:src="'<!-- @echo cdn_prefix -->header/' + view_data.imgs[0].name"
-         v-if="view_data.imgs && view_data.imgs[0]"
+         v-bind:src="'<!-- @echo cdn_prefix -->header/' + shown_image.name"
          class="img-responsive"/>
-  </div>
+  </a>
 
   <!-- Breadcrumbs -->
   <ol class="breadcrumb"
@@ -148,13 +149,14 @@
          as long as only little information is there -->
     <div class="column col-5 col-md-12 hide-sm">
       <div class="card">
-        <div class="card-image">
+        <a class="card-image c-hand"
+          onclick="document.getElementById('modal-slideshow').classList.add('active')"
+          v-if="shown_image">
           <img alt="Header-Image, showing the building"
-               v-bind:src="'<!-- @echo cdn_prefix -->header/' + view_data.imgs[0].name"
-               v-if="view_data.imgs && view_data.imgs[0]"
+               v-bind:src="'<!-- @echo cdn_prefix -->header/' + shown_image.name"
                class="img-responsive"
                width="100%"/>
-        </div>
+        </a>
         <div class="card-header">
           <div class="card-title h5">${{_.view_view.info_title}}$</div>
         </div>
@@ -181,6 +183,72 @@
         <!--<div class="card-footer">
             <button class="btn btn-link">Mehr Infos</button>
         </div>-->
+      </div>
+    </div>
+    <div class="modal modal-lg" id="modal-slideshow" v-if="view_data.imgs">
+      <a class="modal-overlay" aria-label="Close" onclick="document.getElementById('modal-slideshow').classList.remove('active')"></a>
+      <div class="modal-container">
+        <div class="modal-header">
+          <button class="btn btn-clear float-right" aria-label="${{_.view_view.slideshow.close}}$" onclick="document.getElementById('modal-slideshow').classList.remove('active')"></button>
+          <h5 class="modal-title">${{_.view_view.slideshow.header}}$</h5>
+        </div>
+        <div class="modal-body">
+          <div class="content">
+            <div class="carousel">
+              <template v-for="(_, i) in view_data.imgs">
+                  <input v-if="i==shown_image_id" v-bind:id="'slide-'+(i+1)" class="carousel-locator" type="radio" name="carousel-radio" hidden="" checked="checked">
+                  <input v-else                   v-bind:id="'slide-'+(i+1)" class="carousel-locator" type="radio" name="carousel-radio" hidden="">
+              </template>
+
+              <div class="carousel-container">
+                <figure v-for="(img, i) in view_data.imgs" class="carousel-item">
+                  <label v-if="i!=0"
+                         class="item-prev btn btn-action btn-lg"
+                         v-bind:for="'slide-'+i"
+                         @click="showImage(i+1)">
+                         <i class="icon icon-arrow-left"></i>
+                  </label>
+                  <label v-if="i!=view_data.imgs.length-1"
+                         class="item-next btn btn-action btn-lg"
+                         v-bind:for="'slide-'+(i+2)"
+                         @click="showImage(i+1)">
+                         <i class="icon icon-arrow-right"></i>
+                  </label>
+                  <img alt="${{_.view_view.slideshow.image_alt}}$"
+                       loading="lazy"
+                       v-bind:src="'<!-- @echo cdn_prefix -->lg/' + img.name"
+                       v-bind:srcset="'<!-- @echo cdn_prefix -->' + 'sm/' + img.name + ' 1024w,' +
+                                      '<!-- @echo cdn_prefix -->' + 'md/' + img.name + ' 1920w,' +
+                                      '<!-- @echo cdn_prefix -->' + 'lg/' + img.name + ' 3860w'"
+                       sizes="100vw"
+                       class="img-responsive img-fit-contain rounded"/>
+                </figure>
+              </div>
+              <div class="carousel-nav">
+                <label v-for="(_, i) in view_data.imgs" class="nav-item text-hide c-hand" v-bind:for="'slide-'+(i+1)">{{ i+1 }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="columns">
+            <div class="column col-4 col-sm-6 col-md-6 text-left">
+              <h6>${{_.view_view.slideshow.source}}$</h6>
+              <a v-if="shown_image.source.url" v-bind:href="shown_image.source.url">{{ shown_image.source.text }}</a>
+              <template v-else>{{ shown_image.source.text }}</template>
+            </div>
+            <div class="column col-4 col-sm-6 col-md-6 text-center text-md-right">
+              <h6>${{_.view_view.slideshow.author}}$</h6>
+              <a v-if="shown_image.author.url" v-bind:href="shown_image.author.url">{{ shown_image.author.text }}</a>
+              <template v-else>{{ shown_image.author.text }}</template>
+            </div>
+            <div class="column col-4 col-sm-12 col-md-12 text-md-center">
+              <h6>${{_.view_view.slideshow.license}}$</h6>
+              <a v-if="shown_image.license.url" v-bind:href="shown_image.license.url">{{ shown_image.license.text }}</a>
+              <template v-else>{{ shown_image.license.text }}</template>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -412,24 +480,24 @@
       </span>
       <span v-if="view_data.sources.patched"><br>${{_.view_view.sources.base.patched}}$</span>
     </p>
-    <p v-if="(view_data.imgs && view_data.imgs[0])">
+    <p v-if="shown_image">
       ${{_.view_view.sources.header_img}}$:
-      <span>{{ view_data.imgs[0].author.text }}</span>
-      <span v-if="view_data.imgs[0].source">•
-        <a v-if="view_data.imgs[0].source.url"
-           v-bind:href="view_data.imgs[0].source.url"
+      <span>{{ shown_image.author.text }}</span>
+      <span v-if="shown_image.source">•
+        <a v-if="shown_image.source.url"
+           v-bind:href="shown_image.source.url"
            target="_blank">
-          {{ view_data.imgs[0].source.text }}
+          {{ shown_image.source.text }}
         </a>
-        <template v-else>{{ view_data.imgs[0].source.text }}</template>
+        <template v-else>{{ shown_image.source.text }}</template>
       </span>
-      <span v-if="view_data.imgs[0].license">&#32;•
-        <a v-if="view_data.imgs[0].license.url"
-           v-bind:href="view_data.imgs[0].license.url"
+      <span v-if="shown_image.license">&#32;•
+        <a v-if="shown_image.license.url"
+           v-bind:href="shown_image.license.url"
            target="_blank">
-          {{ view_data.imgs[0].license.text }}
+          {{ shown_image.license.text }}
         </a>
-        <template v-else>{{ view_data.imgs[0].license.text }}</template>
+        <template v-else>{{ shown_image.license.text }}</template>
       </span>
     </p>
     <p v-if="view_data.coords">
