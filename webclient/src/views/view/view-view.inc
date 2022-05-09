@@ -214,14 +214,21 @@
                          @click="showImage(i+1)">
                          <i class="icon icon-arrow-right"></i>
                   </label>
-                  <img alt="${{_.view_view.slideshow.image_alt}}$"
-                       loading="lazy"
-                       v-bind:src="'<!-- @echo cdn_prefix -->lg/' + img.name"
-                       v-bind:srcset="'<!-- @echo cdn_prefix -->' + 'sm/' + img.name + ' 1024w,' +
-                                      '<!-- @echo cdn_prefix -->' + 'md/' + img.name + ' 1920w,' +
-                                      '<!-- @echo cdn_prefix -->' + 'lg/' + img.name + ' 3860w'"
-                       sizes="100vw"
-                       class="img-responsive img-fit-contain rounded"/>
+                  <div itemscope itemtype="http://schema.org/ImageObject">
+                    <img itemprop="contentUrl"
+                         alt="${{_.view_view.slideshow.image_alt}}$"
+                         loading="lazy"
+                         v-bind:src="'<!-- @echo cdn_prefix -->lg/' + img.name"
+                         v-bind:srcset="'<!-- @echo cdn_prefix -->' + 'sm/' + img.name + ' 1024w,' +
+                                        '<!-- @echo cdn_prefix -->' + 'md/' + img.name + ' 1920w,' +
+                                        '<!-- @echo cdn_prefix -->' + 'lg/' + img.name + ' 3860w'"
+                         sizes="100vw"
+                         class="img-responsive img-fit-contain rounded"/>
+                    <span i-if="img.license.url" itemprop="license"> {{img.license.url}}</span>
+                    <span i-else itemprop="license"> img.license.text</span>
+                    <span i-if="img.license.url" itemprop="author"> {{img.author.url}}</span>
+                    <span i-else itemprop="author"> img.author.text</span>
+                  </div>
                 </figure>
               </div>
               <div class="carousel-nav">
