@@ -197,7 +197,7 @@
             <div class="carousel">
               <template v-for="(_, i) in view_data.imgs">
                   <input v-if="i==shown_image_id" v-bind:id="'slide-'+(i+1)" class="carousel-locator" type="radio" name="carousel-radio" hidden="" checked="checked">
-                  <input v-else                   v-bind:id="'slide-'+(i+1)" class="carousel-locator" type="radio" name="carousel-radio" hidden="">
+                  <input v-else                   v-bind:id="'slide-'+(i+1)" class="carousel-locator" type="radio" name="carousel-radio" hidden="" @click="showImage(i)">
               </template>
 
               <div class="carousel-container">
