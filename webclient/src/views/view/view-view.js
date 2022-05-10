@@ -104,8 +104,8 @@ navigatum.registerView('view', {
     methods: {
         showImage:function (i){
             if (this.view_data && this.view_data.imgs) {
-                this.shown_image_id = i
-                this.shown_image = this.view_data.imgs[i]
+                this.shown_image_id = i;
+                this.shown_image = this.view_data.imgs[i];
             }
         },
         // This is called

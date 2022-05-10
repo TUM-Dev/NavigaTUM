@@ -205,7 +205,7 @@
                   <label v-if="i!=0"
                          class="item-prev btn btn-action btn-lg"
                          v-bind:for="'slide-'+i"
-                         @click="showImage(i+1)">
+                         @click="showImage(i-1)">
                          <i class="icon icon-arrow-left"></i>
                   </label>
                   <label v-if="i!=view_data.imgs.length-1"
