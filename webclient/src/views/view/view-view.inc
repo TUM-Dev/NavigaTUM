@@ -249,7 +249,7 @@
               <a v-if="shown_image.author.url" v-bind:href="shown_image.author.url">{{ shown_image.author.text }}</a>
               <template v-else>{{ shown_image.author.text }}</template>
             </div>
-            <div class="column col-4 col-sm-12 col-md-12 text-md-center">
+            <div class="column col-4 col-sm-12 col-md-12 text-md-center mt-md-3">
               <h6>${{_.view_view.slideshow.license}}$</h6>
               <a v-if="shown_image.license.url" v-bind:href="shown_image.license.url">{{ shown_image.license.text }}</a>
               <template v-else>{{ shown_image.license.text }}</template>
