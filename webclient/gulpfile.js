@@ -63,8 +63,7 @@ var babel_targets = {
     "browsers": [
         "last 2 versions",
         "not dead",
-        "> 0.2%",
-        "IE>=10"
+        "> 0.2%"
     ]
 };
 
