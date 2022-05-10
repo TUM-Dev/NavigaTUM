@@ -187,7 +187,7 @@
     </div>
     <div class="modal modal-lg" id="modal-slideshow" v-if="view_data.imgs">
       <a class="modal-overlay" aria-label="Close" onclick="document.getElementById('modal-slideshow').classList.remove('active')"></a>
-      <div class="modal-container">
+      <div class="modal-container modal-fullheight">
         <div class="modal-header">
           <button class="btn btn-clear float-right" aria-label="${{_.view_view.slideshow.close}}$" onclick="document.getElementById('modal-slideshow').classList.remove('active')"></button>
           <h5 class="modal-title">${{_.view_view.slideshow.header}}$</h5>
