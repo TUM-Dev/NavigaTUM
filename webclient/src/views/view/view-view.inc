@@ -216,7 +216,7 @@
                   </label>
                   <div itemscope itemtype="http://schema.org/ImageObject">
                     <img itemprop="contentUrl"
-                         alt="${{_.view_view.slideshow.image_alt}}$"
+                         alt="${{_.view_view.slideshow.image_alt}}$ "
                          loading="lazy"
                          v-bind:src="'<!-- @echo cdn_prefix -->lg/' + img.name"
                          v-bind:srcset="'<!-- @echo cdn_prefix -->' + 'sm/' + img.name + ' 1024w,' +
