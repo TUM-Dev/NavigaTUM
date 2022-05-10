@@ -50,3 +50,14 @@ view_view:
     no_floor_overlay:
       de: "Für den angezeigten Raum gibt es leider keine Indoor Karte."
       en: "There is unfortunately no indoor map for the displayed room."
+  slideshow:
+    header:
+      de: "Bilder-Showcase"
+      en: "Image Showcase"
+    close: {de: "Schließen", en: "Close"}
+    image_alt:
+      de: "Ein Bild welches das Gebäude zeigt"
+      en: "Image showing the building"
+    author: {de: "Autor", en: "Author"}
+    source: {de: "Quelle", en: "Source"}
+    license: {de: "Lizenz", en: "License"}
