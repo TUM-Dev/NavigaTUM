@@ -223,11 +223,11 @@
                                         '<!-- @echo cdn_prefix -->' + 'md/' + img.name + ' 1920w,' +
                                         '<!-- @echo cdn_prefix -->' + 'lg/' + img.name + ' 3860w'"
                          sizes="100vw"
-                         class="img-responsive img-fit-contain rounded"/>
-                    <span i-if="img.license.url" itemprop="license"> {{img.license.url}}</span>
-                    <span i-else itemprop="license"> img.license.text</span>
-                    <span i-if="img.license.url" itemprop="author"> {{img.author.url}}</span>
-                    <span i-else itemprop="author"> img.author.text</span>
+                         class="img-responsive rounded"/>
+                    <span class="d-none" v-if="img.license.url" itemprop="license"> {{img.license.url}}</span>
+                    <span class="d-none" v-else itemprop="license"> img.license.text</span>
+                    <span class="d-none" v-if="img.license.url" itemprop="author"> {{img.author.url}}</span>
+                    <span class="d-none" v-else itemprop="author"> img.author.text</span>
                   </div>
                 </figure>
               </div>
