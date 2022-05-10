@@ -56,7 +56,7 @@ view_view:
       en: "Image Showcase"
     close: {de: "Schließen", en: "Close"}
     image_alt:
-      de: "Bild, das das Gebäude zeigt"
+      de: "Ein Bild welches das Gebäude zeigt"
       en: "Image showing the building"
     author: {de: "Autor", en: "Author"}
     source: {de: "Quelle", en: "Source"}
