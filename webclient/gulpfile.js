@@ -399,22 +399,23 @@ function extract_polyfills() {
 }
 
 function insert_polyfills() {
-    let target_filename
-    if (config.target === "release")
-        target_filename =`polyfills.min.js`
-    else
-        target_filename=`polyfills.js`
-
     var bundleStream = browserify('./build/tmp/polyfills.js').bundle()
 
     return bundleStream
         .pipe(source('polyfills.js'))
-        //.pipe(gulpif(config.target === "release", htmlmin(htmlmin_options)))
-        .pipe(rename(target_filename))
+        .pipe(gulp.dest('build/tmp'))
+}
+
+function minify_polyfills() {
+    return gulp.src(['build/tmp/polyfills.js'])
+       .pipe(gulpif(config.target === "release", uglify()))
+       .pipe(gulpif(config.target === "release", rename(path => {
+           path.extname = ".min.js"
+       })))
         .pipe(gulp.dest('build/js'))
 }
 
-gulp.task('legacy_js', gulp.parallel(build_webp_polyfills, gulp.series(extract_polyfills, insert_polyfills)));
+gulp.task('legacy_js', gulp.parallel(build_webp_polyfills, gulp.series(extract_polyfills, insert_polyfills, minify_polyfills)));
 
 // --- I18n Pipeline ---
 function i18n_compile_langfiles() {
