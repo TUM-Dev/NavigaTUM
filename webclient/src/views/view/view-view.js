@@ -73,6 +73,8 @@ navigatum.registerView('view', {
     data: function() {
         return {
             view_data: null,
+            shown_image: null,
+            shown_image_id: null,
             map: {
                 interactive: {
                     map: null,
@@ -100,6 +102,12 @@ navigatum.registerView('view', {
     beforeRouteEnter: function(to, from, next) { viewNavigateTo(to, from, next, null) },
     beforeRouteUpdate: function(to, from, next) { viewNavigateTo(to, from, next, this) },
     methods: {
+        showImage:function (i){
+            if (this.view_data && this.view_data.imgs) {
+                this.shown_image_id = i;
+                this.shown_image = this.view_data.imgs[i];
+            }
+        },
         // This is called
         // - on initial page load
         // - when the view is loaded for the first time
@@ -107,6 +115,10 @@ navigatum.registerView('view', {
         // - when the view is navigated to from the same view, but with a different entry
         loadEntryData: function (data) {
             this.view_data = data;
+            if (data && data.imgs && data.imgs[0]) {
+                this.shown_image_id = 0;
+                this.shown_image = data.imgs[0];
+            }
             if (data === null)
                 return;
 
