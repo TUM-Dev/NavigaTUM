@@ -362,11 +362,13 @@
 
 // 'md' (
 @media (max-width: 840px) {
-    .text-md-right {
-        text-align: right !important;
-    }
-    .text-md-center {
-        text-align: center !important;
+    #view-view {
+        .text-md-right {
+            text-align: right !important;
+        }
+        .text-md-center {
+            text-align: center !important;
+        }
     }
 }
 
