@@ -115,10 +115,16 @@ navigatum.registerView('view', {
         // - when the view is navigated to from the same view, but with a different entry
         loadEntryData: function (data) {
             this.view_data = data;
+            
             if (data && data.imgs && data.imgs[0]) {
                 this.shown_image_id = 0;
                 this.shown_image = data.imgs[0];
             }
+            else {
+                this.shown_image_id = null;
+                this.shown_image = null;
+            }
+            
             if (data === null)
                 return;
 
