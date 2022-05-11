@@ -83,6 +83,16 @@
     # The chemistry building is complicated in terms of layers:
     # 'Ebene 2' (Room names) == '01' (TUMOnline) == 'EG' (physically from the main entrance)
     - {file: "chemie_0.webp", id: 0, floor: "01", desc: "Chemie (EG / 2. Ebene)"}
+
+- props:
+    parent: "mw"
+    box:
+      - [11.667506, 48.266657]
+      - [11.671514, 48.266191]
+      - [11.671084, 48.264587]
+      - [11.667094, 48.265051]
+  maps:
+    - {file: "mw_0.webp", id: 0, floor: "EG", desc: "Maschinenwesen (EG)"}
     
 - props:
     parent: "5532"
