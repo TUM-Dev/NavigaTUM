@@ -22,6 +22,42 @@
 "5402.01.221K": {coords: {lat: 48.268668, lon: 11.669672}}  # Ivar-Ugi-Hörsaal (approximate)
 "5407.01.740A": {coords: {lat: 48.268962, lon: 11.669759}}  # Übungsraum
 
+# === Maschinenwesen / MW ===
+"5510.EG.001": {coords: {lat: 48.265440, lon: 11.670848}}  # Gustav-Niemann-Hörsaal
+"5510.02.001": {coords: {lat: 48.265440, lon: 11.670848}}  # Rudolf-Diesel-Hörsaal
+"5510.EG.050": {coords: {lat: 48.265752, lon: 11.670190}}  # MW 0050
+"5510.01.050": {coords: {lat: 48.265752, lon: 11.670190}}  # MW 1050
+"5510.02.050": {coords: {lat: 48.265752, lon: 11.670190}}  # MW 2050
+
+"5501.EG.101":
+  name: "5501.EG.101 (Fachschaft Maschinenwesen)"
+  coords: {lat: 48.265567, lon: 11.670430}
+"5501.EG.150": {coords: {lat: 48.265530, lon: 11.670004}}  # MW 0150
+"5501.01.150": {coords: {lat: 48.265530, lon: 11.669867}}  # MW 1150
+"5501.02.150": {coords: {lat: 48.265530, lon: 11.669867}}  # MW 2150
+  
+"5502.EG.234": {coords: {lat: 48.265763, lon: 11.670004}}  # MW 0234
+"5502.02.235": {coords: {lat: 48.265763, lon: 11.670004}}  # MW 2235
+"5502.EG.250": {coords: {lat: 48.265762, lon: 11.669470}}  # Ludwig-Prandtl-Hörsaal
+"5502.01.250": {coords: {lat: 48.265762, lon: 11.669470}}  # MW 1250
+"5502.02.250": {coords: {lat: 48.265762, lon: 11.669470}}  # MW 2250
+
+"5503.EG.337": {coords: {lat: 48.265553, lon: 11.669287}}  # MW 0337
+"5503.EG.350": {coords: {lat: 48.265552, lon: 11.669118}}  # Egbert-von-Hoyer-Hörsaal
+"5503.01.350": {coords: {lat: 48.265552, lon: 11.669118}}  # Ludwig-Burmester-Zeichensaal
+"5503.02.350": {coords: {lat: 48.265552, lon: 11.669118}}  # MW 2350
+
+"5504.EG.450":
+  name: "5504.EG.450 (Rechnerhalle)"
+  coords: {lat: 48.265806, lon: 11.668689}
+"5504.01.450": {coords: {lat: 48.265806, lon: 11.668689}}  # Willy-Messerschmitt-Zeichensaal
+"5504.02.450": {coords: {lat: 48.265806, lon: 11.668689}}  # MW 2450
+
+"5505.EG.550": {coords: {lat: 48.265562, lon: 11.668332}}  # MW 0550
+"5505.01.550": {coords: {lat: 48.265562, lon: 11.668332}}  # Georg-Kühne-Zeichensaal
+"5505.02.550": {coords: {lat: 48.265562, lon: 11.668332}}  # MW 2550
+
+"5508.01.801": {coords: {lat: 48.265856, lon: 11.667780}}  # Ernst-Schmidt-Hörsaal
   
 # === StudiTUM Garching ===
 "5532.EG.001": {coords: {lat: 48.266826, lon: 11.670113}}
