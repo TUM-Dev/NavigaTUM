@@ -16,6 +16,23 @@
     - {file: "0101_4.webp", id: 4, floor: "DG", desc: "U-Trakt N1 (DG) – © TUM WWW & Online Services"}
     
 - props:
+    parent: "0102"
+    box:
+      - [11.567190, 48.150936]
+      - [11.567899, 48.150734]
+      - [11.567557, 48.150191]
+      - [11.566843, 48.150396]
+  maps:
+    - {file: "0102_-1.webp", id: -1, floor: "U1", desc: "U-Trakt N2 (1. UG) – © TUM WWW & Online Services"}
+    - {file: "0102_0.webp", id: 0, floor: "EG", desc: "U-Trakt N2 (EG) – © TUM WWW & Online Services"}
+    - {file: "0102_1.webp", id: 1, floor: "Z1", desc: "U-Trakt N2 (ZG) – © TUM WWW & Online Services"}
+    - {file: "0102_2.webp", id: 2, floor: "01", desc: "U-Trakt N2 (1. OG) – © TUM WWW & Online Services"}
+    - {file: "0102_3.webp", id: 3, floor: "02", desc: "U-Trakt N2 (2. OG) – © TUM WWW & Online Services"}
+    - {file: "0102_4.webp", id: 4, floor: "03", desc: "U-Trakt N2 (3. OG) – © TUM WWW & Online Services"}
+    - {file: "0102_5.webp", id: 5, floor: "04", desc: "U-Trakt N2 (4. OG) – © TUM WWW & Online Services"}
+    - {file: "0102_6.webp", id: 6, floor: "DG", desc: "U-Trakt N2 (DG) – © TUM WWW & Online Services"}
+    
+- props:
     parent: "0505"
     box:
       - [11.566815, 48.150364]
