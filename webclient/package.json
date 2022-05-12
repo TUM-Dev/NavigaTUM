@@ -1,56 +1,74 @@
 {
-  "name": "navigatum",
-  "version": "0.1.0",
-  "description": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "type": "module",
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@babel/core": "^7.14.8",
-    "@babel/preset-env": "^7.14.8",
-    "babel-plugin-transform-remove-strict-mode": "^0.0.2",
-    "browserify": "^17.0.0",
-    "core-js": "^3.16.0",
-    "delete": "^1.1.0",
-    "gulp": "^4.0.2",
-    "gulp-add-src": "^1.0.0",
-    "gulp-babel": "^8.0.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-csscss": "^0.1.2",
-    "gulp-csso": "^4.0.1",
-    "gulp-first": "^1.0.7",
-    "gulp-html-i18n": "^0.16.0",
-    "gulp-htmlmin": "^5.0.1",
-    "gulp-i18n-compile": "^1.0.1",
-    "gulp-if": "^3.0.0",
-    "gulp-inject": "^5.0.5",
-    "gulp-inject-string": "^1.1.2",
-    "gulp-inject-stringified-html": "^2.0.0-alpha.2",
-    "gulp-markdown": "^7.0.0",
-    "gulp-preprocess": "^4.0.2",
-    "gulp-purgecss": "^4.0.3",
-    "gulp-rename": "^2.0.0",
-    "gulp-rev-all": "^3.0.0",
-    "gulp-sass": "^5.0.0",
-    "gulp-sitemap": "^8.0.0",
-    "gulp-split-files": "^1.2.3",
-    "gulp-uglify": "^3.0.2",
-    "gulp-yaml": "^2.0.4",
-    "merge-stream": "^2.0.0",
-    "node-sass": "^7.0.1",
-    "regenerator": "^0.14.7",
-    "spectre.css": "^0.5.8",
-    "vinyl-source-stream": "^2.0.0"
-  },
-  "dependencies": {
-    "mapbox-gl": "^2.7.0",
-    "polyfill": "^0.1.0",
-    "vue": "^2.6.12",
-    "vue-router": "^3.5.1",
-    "webp-hero": "^0.0.2",
-    "whatwg-fetch": "^3.6.2"
-  }
+    "name": "navigatum",
+    "version": "0.1.0",
+    "description": "",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "type": "module",
+    "author": "",
+    "license": "ISC",
+    "eslintConfig": {
+        "extends": [
+            "@paulhfischer/eslint-config-javascript"
+        ],
+        "env": {
+            "browser": true
+        }
+    },
+    "prettier": "@paulhfischer/prettier-config",
+    "stylelint": {
+        "extends": [
+            "@paulhfischer/stylelint-config"
+        ],
+        "rules": {
+            "selector-max-id": null,
+            "max-nesting-depth": null
+        }
+    },
+    "devDependencies": {
+        "@babel/core": "^7.14.8",
+        "@babel/preset-env": "^7.14.8",
+        "babel-plugin-transform-remove-strict-mode": "^0.0.2",
+        "browserify": "^17.0.0",
+        "core-js": "^3.16.0",
+        "delete": "^1.1.0",
+        "gulp": "^4.0.2",
+        "gulp-add-src": "^1.0.0",
+        "gulp-babel": "^8.0.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-csscss": "^0.1.2",
+        "gulp-csso": "^4.0.1",
+        "gulp-first": "^1.0.7",
+        "gulp-html-i18n": "^0.16.0",
+        "gulp-htmlmin": "^5.0.1",
+        "gulp-i18n-compile": "^1.0.1",
+        "gulp-if": "^3.0.0",
+        "gulp-inject": "^5.0.5",
+        "gulp-inject-string": "^1.1.2",
+        "gulp-inject-stringified-html": "^2.0.0-alpha.2",
+        "gulp-markdown": "^6.0.0",
+        "gulp-preprocess": "^4.0.2",
+        "gulp-purgecss": "^4.0.3",
+        "gulp-rename": "^2.0.0",
+        "gulp-rev-all": "^3.0.0",
+        "gulp-sass": "^5.0.0",
+        "gulp-sitemap": "^8.0.0",
+        "gulp-split-files": "^1.2.3",
+        "gulp-uglify": "^3.0.2",
+        "gulp-yaml": "^2.0.4",
+        "merge-stream": "^2.0.0",
+        "node-sass": "^7.0.1",
+        "regenerator": "^0.14.7",
+        "spectre.css": "^0.5.8",
+        "vinyl-source-stream": "^2.0.0"
+    },
+    "dependencies": {
+        "mapbox-gl": "^2.7.0",
+        "polyfill": "^0.1.0",
+        "vue": "^2.6.12",
+        "vue-router": "^3.5.1",
+        "webp-hero": "^0.0.2",
+        "whatwg-fetch": "^3.6.2"
+    }
 }

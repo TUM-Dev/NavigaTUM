@@ -1,0 +1,104 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: check-ast
+      - id: check-toml
+      - id: check-yaml
+        args:
+          - --allow-multiple-documents
+        exclude: "data/data_format_geo-entry.yaml"
+      - id: check-json
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: requirements-txt-fixer
+  # only server
+  - repo: local
+    hooks:
+      - id: cargo-fmt
+        name: cargo fmt
+        entry: bash -c 'cd server && cargo fmt'
+        language: system
+        pass_filenames: false
+      - id: cargo-check
+        name: cargo check
+        entry: bash -c 'cd server && cargo check'
+        language: system
+        pass_filenames: false
+      - id: cargo-clippy
+        name: cargo clippy
+        entry: bash -c 'cd server && cargo clippy'
+        language: system
+        pass_filenames: false
+  # only webclient
+  - repo: https://github.com/paulhfischer/prettier-config
+    rev: v1.4.0
+    hooks:
+      - id: lint
+  - repo: https://github.com/paulhfischer/stylelint-config
+    rev: v1.3.0
+    hooks:
+      - id: lint
+  - repo: https://github.com/paulhfischer/eslint-config-javascript
+    rev: v1.8.4
+    hooks:
+      - id: lint
+  # only data
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v2.2.3
+    hooks:
+      - id: add-trailing-comma
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+        language_version: python3
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.9.0
+    hooks:
+      - id: python-check-blanket-noqa
+      - id: python-use-type-annotations
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: mypy
+        language: system
+        types: [python]
+  - repo: https://gitlab.com/PyCQA/flake8
+    rev: 3.9.2
+    hooks:
+      - id: flake8
+        additional_dependencies:
+          - flake8-broken-line
+          - flake8-commas
+          - flake8-bugbear
+          - flake8-comprehensions
+          - flake8-mutable
+          - flake8-return
+          - flake8-typing-imports
+          - flake8-simplify
+          - flake8-print
+          - flake8-use-fstring
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.4
+    hooks:
+      - id: bandit
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
+        exclude: migrations

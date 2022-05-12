@@ -32,7 +32,6 @@ jobs=0
 [tool.pylint."MESSAGES CONTROL"]
 disable=[
     "logging-fstring-interpolation", # not using fstrings in logging calls looks awfull, and would only be a small permance optimization
-    "print-statement",
     "missing-module-docstring", # too much work
     "missing-class-docstring", # too much work
     "line-too-long", # we have another hook for this
