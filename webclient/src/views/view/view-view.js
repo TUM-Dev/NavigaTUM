@@ -73,8 +73,11 @@ navigatum.registerView('view', {
     data: function() {
         return {
             view_data: null,
-            shown_image: null,
-            shown_image_id: null,
+            image:{
+                shown_image: null,
+                shown_image_id: null,
+                slideshow_open: false,
+            },
             map: {
                 interactive: {
                     map: null,
@@ -102,11 +105,15 @@ navigatum.registerView('view', {
     beforeRouteEnter: function(to, from, next) { viewNavigateTo(to, from, next, null) },
     beforeRouteUpdate: function(to, from, next) { viewNavigateTo(to, from, next, this) },
     methods: {
-        showImage:function (i){
-            if (this.view_data && this.view_data.imgs) {
-                this.shown_image_id = i;
-                this.shown_image = this.view_data.imgs[i];
+        showImageShowcase:function (i, openSlideshow=true){
+            if (this.view_data?.imgs && this.view_data.imgs[i]) {
+                this.image.slideshow_open = openSlideshow;
+                this.image.shown_image_id = i;
+                this.image.shown_image = this.view_data.imgs[i];
             }
+        },
+        hideImageShowcase:function (){
+            this.image.slideshow_open = false;
         },
         // This is called
         // - on initial page load
@@ -115,15 +122,8 @@ navigatum.registerView('view', {
         // - when the view is navigated to from the same view, but with a different entry
         loadEntryData: function (data) {
             this.view_data = data;
-            
-            if (data && data.imgs && data.imgs[0]) {
-                this.shown_image_id = 0;
-                this.shown_image = data.imgs[0];
-            }
-            else {
-                this.shown_image_id = null;
-                this.shown_image = null;
-            }
+
+            this.showImageShowcase(0, false);
             
             if (data === null)
                 return;
