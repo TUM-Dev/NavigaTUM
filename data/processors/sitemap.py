@@ -126,7 +126,7 @@ def _write_sitemap_xml(fname, sitemap):
         loc = ET.SubElement(url, "loc")
         loc.text = sitemap_entry["url"]
         lastmod = ET.SubElement(url, "lastmod")
-        lastmod.text = sitemap_entry["lastmod"].isoformat(timespec="seconds")
+        lastmod.text = sitemap_entry["lastmod"].isoformat(timespec="seconds") + "Z"
         priority = ET.SubElement(url, "priority")
         priority.text = str(round(sitemap_entry["priority"], 2))
 
@@ -146,7 +146,7 @@ def _write_sitemapindex_xml(fname, sitemaps):
         lastmod_dates = set(site["lastmod"] for site in sitemap if "lastmod" in site)
         if lastmod_dates:
             lastmod = ET.SubElement(sitemap_el, "lastmod")
-            lastmod.text = max(lastmod_dates).isoformat(timespec="seconds")
+            lastmod.text = max(lastmod_dates).isoformat(timespec="seconds") + "Z"
 
     # Because sitemaps cannot be hierarchical, we have to include the
     # webclient sitemap here as well.
@@ -158,7 +158,7 @@ def _write_sitemapindex_xml(fname, sitemaps):
     lastmod_dates = set(sitemap.values())
     if lastmod_dates:
         lastmod = ET.SubElement(sitemap_el, "lastmod")
-        lastmod.text = max(lastmod_dates).isoformat(timespec="seconds")
+        lastmod.text = max(lastmod_dates).isoformat(timespec="seconds") + "Z"
 
     root = ET.ElementTree(sitemapindex)
     root.write(fname, encoding="utf-8", xml_declaration=True)
