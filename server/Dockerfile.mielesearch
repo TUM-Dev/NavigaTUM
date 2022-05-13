@@ -1,4 +1,4 @@
-FROM getmeili/meilisearch:v0.26.1
+FROM getmeili/meilisearch:v0.27.0
 
 RUN apk add --no-cache jq
 
@@ -9,4 +9,4 @@ ADD https://nav.tum.sexy/cdn/search_data.json search_data.json
 ADD https://nav.tum.sexy/cdn/search_synonyms.json search_synonyms.json
 
 EXPOSE 7700
-ENTRYPOINT /configure_MeileSearch.sh & ./meilisearch|grep -v ' "GET /health HTTP/1.1" 200'
+ENTRYPOINT /configure_MeileSearch.sh & meilisearch|grep -v ' "GET /health HTTP/1.1" 200'
