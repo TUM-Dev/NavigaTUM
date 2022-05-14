@@ -114,7 +114,7 @@ gulp.task('main_css', gulp.series(compile_main_scss, compile_spectre_scss/*, mer
 
 // --- Main JS Pipeline ---
 function build_app_core_js() {
-    return gulp.src(['src/core.js'])
+    return gulp.src(['src/core.js', 'src/detect-webp.js'])
                .pipe(concat('app-core.js'))
                .pipe(preprocess({
                     context: {
