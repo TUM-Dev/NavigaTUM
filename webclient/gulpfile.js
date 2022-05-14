@@ -17,6 +17,7 @@ const markdown    = require('gulp-markdown');
 const preprocess  = require('gulp-preprocess');
 const purgecss    = require('gulp-purgecss');
 const rename      = require('gulp-rename');
+const revAll      = require("gulp-rev-all");
 const sass        = require('gulp-sass')(require('node-sass'));
 const sitemap     = require('gulp-sitemap');
 const splitFiles  = require('gulp-split-files');
@@ -456,6 +457,26 @@ function copy_assets() {
 }
 gulp.task('assets', copy_assets);
 
+// --- Revisioning Pipeline ---
+function revision_assets(done) {
+    if (config.target === "release")
+        return gulp.src(['build/index-*.html', 'build/js/*.js'])
+                   .pipe(revAll.revision({
+                       // Currently .js only, because important css is inlined, and postloaded
+                       // css is deferred using preload, which revAll currently doesn't detect
+                       includeFilesInManifest: [".js"],
+                       dontRenameFile: [".html"],
+                       transformFilename: function (file, hash) {
+                           var ext = path.extname(file.path);
+                           return "cache_" + hash.substr(0, 8) + "." + path.basename(file.path, ext) + ext;
+                       },
+                   }))
+                   .pipe(gulp.dest('build'))
+    else
+        return done();
+}
+gulp.task('revision_assets', revision_assets);
+
 // --- Sitemap Pipeline ---
 function generate_sitemap() {
     return gulp.src(['src/md/*.md', 'src/index.html'], { read: false })
@@ -531,7 +552,7 @@ exports.build = gulp.series(
     clean_build,
     i18n_compile_langfiles,
     gulp.parallel('main_css', 'main_js', 'views', 'assets', 'well_known', 'map', 'markdown', 'sitemap'),
-    gulp.series('pages_src', 'pages_out', 'legacy_js')
+    gulp.series('pages_src', 'pages_out', 'legacy_js', 'revision_assets')
 );
 
 exports.default = gulp.series(done => {

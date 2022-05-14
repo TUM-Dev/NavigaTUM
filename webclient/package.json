@@ -32,6 +32,7 @@
     "gulp-preprocess": "^4.0.2",
     "gulp-purgecss": "^4.0.3",
     "gulp-rename": "^2.0.0",
+    "gulp-rev-all": "^3.0.0",
     "gulp-sass": "^5.0.0",
     "gulp-sitemap": "^8.0.0",
     "gulp-split-files": "^1.2.3",
