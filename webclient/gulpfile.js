@@ -461,11 +461,11 @@ gulp.task('assets', copy_assets);
 function revision_assets(done) {
     if (config.target !== "release")
         return done();
-    return gulp.src(['build/index-*.html', 'build/js/*.js'])
+    return gulp.src(['build/index-*.html', 'build/js/*.js', 'build/assets/*'])
                .pipe(revAll.revision({
                    // Currently .js only, because important css is inlined, and postloaded
                    // css is deferred using preload, which revAll currently doesn't detect
-                   includeFilesInManifest: [".js"],
+                   includeFilesInManifest: [".js", ".webp", ".svg", ".png", ".ico"],
                    dontRenameFile: [".html"],
                    transformFilename: function (file, hash) {
                        var ext = path.extname(file.path);
