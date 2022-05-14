@@ -43,9 +43,11 @@
     <!-- This can also be cached then -->
     <link rel="preload" href="<!-- @echo app_prefix -->css/view-<!-- @echo view -->-rest-<!-- @echo theme -->.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     
-    <!-- Polyfills -->
     <!-- JS resources specified here are executed in order by "defer" -->
-    <script defer src="<!-- @echo app_prefix -->js/polyfills<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
+    <!-- Polyfills for very old browsers:
+         modern browsers that do support fetch will not download any script with the tag nomodule -->
+    <script nomodule src="<!-- @echo app_prefix -->js/polyfills<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
+
     <!-- The app-core-for-view-*.js might fetch/update content before any data is even displayed.
     It might be inlined in the future. Might depend on the view. -->
     <script defer src="<!-- @echo app_prefix -->js/app-core-for-view-<!-- @echo view -->-${{ _lang_ }}$<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
