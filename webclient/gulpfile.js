@@ -459,21 +459,20 @@ gulp.task('assets', copy_assets);
 
 // --- Revisioning Pipeline ---
 function revision_assets(done) {
-    if (config.target === "release")
-        return gulp.src(['build/index-*.html', 'build/js/*.js'])
-                   .pipe(revAll.revision({
-                       // Currently .js only, because important css is inlined, and postloaded
-                       // css is deferred using preload, which revAll currently doesn't detect
-                       includeFilesInManifest: [".js"],
-                       dontRenameFile: [".html"],
-                       transformFilename: function (file, hash) {
-                           var ext = path.extname(file.path);
-                           return "cache_" + hash.substr(0, 8) + "." + path.basename(file.path, ext) + ext;
-                       },
-                   }))
-                   .pipe(gulp.dest('build'))
-    else
+    if (config.target !== "release")
         return done();
+    return gulp.src(['build/index-*.html', 'build/js/*.js'])
+               .pipe(revAll.revision({
+                   // Currently .js only, because important css is inlined, and postloaded
+                   // css is deferred using preload, which revAll currently doesn't detect
+                   includeFilesInManifest: [".js"],
+                   dontRenameFile: [".html"],
+                   transformFilename: function (file, hash) {
+                       var ext = path.extname(file.path);
+                       return "cache_" + hash.substr(0, 8) + "." + path.basename(file.path, ext) + ext;
+                   },
+               }))
+               .pipe(gulp.dest('build'))
 }
 gulp.task('revision_assets', revision_assets);
 
