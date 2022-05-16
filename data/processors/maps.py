@@ -1,4 +1,5 @@
 import json
+import logging
 import math
 import copy
 import os.path
@@ -490,7 +491,7 @@ def check_roomfinder_maps_default(data):
             if not rf.get("available", None):
                 continue
             if "default" not in rf:
-                print(f"Warning: default map not specified for {_id}")
+                logging.warning(f"default map not specified for {_id}")
                 continue
             default = rf["default"]
             if not default:
