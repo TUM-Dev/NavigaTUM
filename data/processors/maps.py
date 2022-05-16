@@ -126,6 +126,23 @@ def assign_coordinates(data):
         raise RuntimeError("Aborting due to errors")
 
 
+def check_coords(input_data):
+    """ Check for issues with coordinates """
+
+    for iid, data in input_data.items():
+        if data["type"] == "root":
+            continue
+
+        if data["coords"]["lat"] == 0. or data["coords"]["lon"] == 0.:
+            print(f"{iid}: lat and/or lon coordinate is zero. If unknown, omit this field.")
+            continue
+
+        if "utm" in data["coords"] and (
+                data["coords"]["utm"]["easting"] == 0. or
+                data["coords"]["utm"]["northing"] == 0.):
+            print(f"{iid}: utm coordinat is zero. If unknown, omit this field.")
+
+
 def assign_roomfinder_maps(data):
     """
     Assign roomfinder maps to all entries if there are none yet specified.
