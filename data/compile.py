@@ -1,19 +1,22 @@
+import logging
 import os
 import json
 
 from utils import convert_to_webp
 from processors import areatree, images, maps, merge, patch, roomfinder, search, sections, sitemap, structure, tumonline
 
+DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ.keys()
+
 
 def main():
     # --- Read base data ---
-    print("-- 00 areatree")
+    logging.info("-- 00 areatree")
     data = areatree.read_areatree()
 
-    print("-- 01 areas extendend")
+    logging.info("-- 01 areas extendend")
     data = merge.merge_yaml(data, "sources/01_areas-extended.yaml")
-    
-    print("-- 02 rooms extendend")
+
+    logging.info("-- 02 rooms extendend")
     data = merge.merge_yaml(data, "sources/02_rooms-extended.yaml")
     
     # Add source information for these entries, which are up to here
@@ -22,30 +25,30 @@ def main():
         entry.setdefault("sources", {"base": [{"name": "NavigaTUM"}]})
 
     # --- Insert Roomfinder and TUMOnline data ---
-    print("-- 10 Roomfinder buildings")
+    logging.info("-- 10 Roomfinder buildings")
     roomfinder.merge_roomfinder_buildings(data)
 
-    print("-- 11 TUMOnline buildings")
+    logging.info("-- 11 TUMOnline buildings")
     tumonline.merge_tumonline_buildings(data)
-    
+
     # TUMOnline is used as base and Roomfinder is merged on top of this later
-    print("-- 15 TUMOnline rooms")
+    logging.info("-- 15 TUMOnline rooms")
     tumonline.merge_tumonline_rooms(data)
-    
-    print("-- 16 Roomfinder rooms")
+
+    logging.info("-- 16 Roomfinder rooms")
     roomfinder.merge_roomfinder_rooms(data)
 
     # At this point, no more areas or rooms will be added or removed.
     # --- Make data more coherent ---
-    print("-- 30 Add children properties")
+    logging.info("-- 30 Add children properties")
     structure.add_children_properties(data)
-    
-    print("-- 33 Add (structural) stats")
+
+    logging.info("-- 33 Add (structural) stats")
     structure.add_stats(data)
-    
-    print("-- 34 Infer more props")
+
+    logging.info("-- 34 Infer more props")
     structure.infer_addresses(data)
-    
+
     # TODO: Does it make sense to introduce a type 'sub_building' here?
 
     for _id, _data in data.items():
@@ -63,54 +66,54 @@ def main():
             "virtual_room": _data["usage"]["name"] if "usage" in _data else "Raum/Gebäudeteil",
         }[_data["type"]]
 
-    print("-- 40 Coordinates")
+    logging.info("-- 40 Coordinates")
     maps.assign_coordinates(data)
     maps.check_coords(data)
-    
-    print("-- 45 Roomfinder maps")
+
+    logging.info("-- 45 Roomfinder maps")
     maps.assign_roomfinder_maps(data)
     maps.check_roomfinder_maps_default(data)
     maps.build_roomfinder_maps(data)
-    
-    print("-- 46 Overlay maps")
+
+    logging.info("-- 46 Overlay maps")
     maps.add_overlay_maps(data)
 
-    print(f"-- 50 convert {images.IMAGE_BASE} to webp")
+    logging.info(f"-- 50 convert {images.IMAGE_BASE} to webp")
     convert_to_webp(images.IMAGE_BASE)
-    print("-- 51 resize and crop the images for different resolutions and formats")
+    logging.info("-- 51 resize and crop the images for different resolutions and formats")
     images.resize_and_crop()
-    print("-- 52 Add image information")
+    logging.info("-- 52 Add image information")
     images.add_img(data)
 
-    print("-- 80 Generate info card")
+    logging.info("-- 80 Generate info card")
     sections.compute_props(data)
-    
-    print("-- 81 Generate overview sections")
+
+    logging.info("-- 81 Generate overview sections")
     sections.generate_buildings_overview(data)
     sections.generate_rooms_overview(data)
-    
-    print("-- 90 Search: Build base ranking")
+
+    logging.info("-- 90 Search: Build base ranking")
     search.add_ranking_base(data)
-    
-    print("-- 97 Search: Get combined ranking")
+
+    logging.info("-- 97 Search: Get combined ranking")
     search.add_ranking_combined(data)
-    
-    print("-- 99 Search: Export")
+
+    logging.info("-- 99 Search: Export")
     export_for_search(data, "output/search_data.json")
-    
+
     for _id, entry in data.items():
         if entry["type"] != "root":
             entry.setdefault("maps", {})["default"] = "interactive"
-    
-    print("-- 100 Export: API")
+
+    logging.info("-- 100 Export: API")
     export_for_api(data, "output/api_data.json")
 
     # Sitemap is only generated for deployment:
-    if "GIT_COMMIT_SHA" in os.environ.keys():
-        print("-- 101 Extra: Sitemap")
-        sitemap.generate_sitemap()
+    if DEBUG_MODE:
+        logging.info("Skipping sitemap generation in Dev Mode (GIT_COMMIT_SHA is unset)")
     else:
-        print("Info: Skipping sitemap generation in Dev Mode (GIT_COMMIT_SHA is unset)")
+        logging.info("-- 101 Extra: Sitemap")
+        sitemap.generate_sitemap()
 
 
 def export_for_search(data, path):
@@ -195,8 +198,8 @@ def export_for_api(data, path):
     
     with open(path, "w") as f:
         json.dump(export_data, f)
-    
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG if DEBUG_MODE else logging.INFO, format='%(levelname)s: %(message)s')
     main()

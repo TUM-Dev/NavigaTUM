@@ -1,5 +1,4 @@
 import json
-import logging
 import math
 import copy
 import os.path
@@ -9,6 +8,7 @@ import utm
 import yaml
 from PIL import Image
 from pathlib import Path
+import logging
 
 EXTERNAL_PATH = Path(__file__).parent.parent / "external"
 RF_MAPS_PATH = EXTERNAL_PATH / "maps" / "roomfinder"
@@ -44,15 +44,13 @@ def assign_coordinates(data):
             # While not observed so far, coordinate values of zero are typical for missing
             # data so we check this here.
             if entry["coords"].get("lat", None) == 0. or entry["coords"].get("lon", None) == 0.:
-                print(f"Error: Lat and/or lon coordinate is zero for '{_id}': "
-                      f"{entry['coords']}")
+                logging.error(f"Lat and/or lon coordinate is zero for '{_id}': {entry['coords']}")
                 error = True
                 continue
             if "utm" in entry["coords"] \
                     and (entry["coords"]["utm"]["easting"] == 0.
                          or entry["coords"]["utm"]["northing"] == 0.):
-                print(f"Error: UTM coordinate is zero for '{_id}': "
-                      f"{entry['coords']}")
+                logging.error(f"UTM coordinate is zero for '{_id}': {entry['coords']}")
                 error = True
                 continue
 
@@ -82,7 +80,7 @@ def assign_coordinates(data):
                 building_parent = list(filter(lambda e: data[e]["type"] == "building",
                                               entry["parents"]))
                 if len(building_parent) != 1:
-                    print(f"Error: Could not find distinct parent building for {_id}")
+                    logging.error(f"Could not find distinct parent building for {_id}")
                     error = True
                     continue
                 building_parent = data[building_parent[0]]
@@ -95,7 +93,7 @@ def assign_coordinates(data):
                 # Calculate the average coordinate of all children buildings
                 # TODO: garching-interims
                 if "children_flat" not in entry:
-                    print(f"Error: Cannot infer coordinate of '{_id}' because it has no children")
+                    logging.error(f"Cannot infer coordinate of '{_id}' because it has no children")
                     error = True
                     continue
 
@@ -119,7 +117,7 @@ def assign_coordinates(data):
                     "source": "inferred"
                 }
             else:
-                print(f"Error: Don't know how to infer coordinate for entry type '{entry['type']}'")
+                logging.error(f"Don't know how to infer coordinate for entry type '{entry['type']}'")
                 error = True
                 continue
 
@@ -189,7 +187,7 @@ def assign_roomfinder_maps(data):
                         break
 
         if not available_maps:
-            print(f"Warning: No Roomfinder maps available for '{_id}'")
+            logging.warning(f"No Roomfinder maps available for '{_id}'")
             continue
         _save_map_data(available_maps, entry)
 
@@ -408,9 +406,9 @@ def _calc_xy_of_entry_on_entrymap(entry, entry_map, box) -> tuple[int, int]:
     iy: float = cy + (ix0 - cx) * math.sin(angle) + (iy0 - cy) * math.cos(angle)
     int_ix, int_iy = round(ix), round(iy)
     if int_ix < 0:
-        print(f"Warning: entry '{entry['id']}' on map '{entry_map['id']}.webp' has a negative x coordinate: {int_ix}")
+        logging.warning(f"entry '{entry['id']}' on map '{entry_map['id']}.webp' has a negative x coordinate: {int_ix}")
     if int_iy < 0:
-        print(f"Warning: entry '{entry['id']}' on map '{entry_map['id']}.webp' has a negative y coordinate: {int_iy}")
+        logging.warning(f"entry '{entry['id']}' on map '{entry_map['id']}.webp' has a negative y coordinate: {int_iy}")
     return int_ix, int_iy
 
 
@@ -459,9 +457,11 @@ def add_overlay_maps(data):
     for _id, entry in data.items():
         candidates = parent_ids.intersection(entry["parents"])
         if len(candidates) > 1:
-            print(f"Multiple candidates as overlay map for {_id}: {candidates}. "
-                  f"Currently this is not supported! Skipping ...")
-        elif bool(candidates) ^ (_id in parent_ids):
+            logging.warning(
+                f"Multiple candidates as overlay map for {_id}: {candidates}. "
+                f"Currently this is not supported! Skipping ..."
+            )
+        elif bool(candidates) ^ (_id in parent_ids):  
             # either a candidate exist or _id is one of the parent ids, but not both
             overlay = parent_lut[list(candidates)[0] if len(candidates) == 1 else _id]
             overlay_data = entry.setdefault("maps", {}).setdefault("overlays", {})
