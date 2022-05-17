@@ -134,14 +134,12 @@ def check_coords(input_data):
             continue
 
         if data["coords"]["lat"] == 0. or data["coords"]["lon"] == 0.:
-            print(f"{iid}: lat and/or lon coordinate is zero. Please provide an accurate coordinate!")
-            exit(1)
+            raise RuntimeError(f"{iid}: lat and/or lon coordinate is zero. Please provide an accurate coordinate!")
 
         if "utm" in data["coords"] and (
                 data["coords"]["utm"]["easting"] == 0. or
                 data["coords"]["utm"]["northing"] == 0.):
-            print(f"{iid}: utm coordinate is zero. There is very likely an error in the source data (UTM coordinates are either from the Roomfinder or automatically calculated).")
-            exit(1)
+            raise RuntimeError(f"{iid}: utm coordinate is zero. There is very likely an error in the source data (UTM coordinates are either from the Roomfinder or automatically calculated).")
 
 
 def assign_roomfinder_maps(data):
