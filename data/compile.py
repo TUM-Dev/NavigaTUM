@@ -2,7 +2,7 @@ import os
 import json
 
 from utils import convert_to_webp
-from processors import areatree, check, images, maps, merge, patch, roomfinder, search, sections, sitemap, structure, tumonline
+from processors import areatree, images, maps, merge, patch, roomfinder, search, sections, sitemap, structure, tumonline
 
 
 def main():
@@ -64,8 +64,8 @@ def main():
         }[_data["type"]]
 
     print("-- 40 Coordinates")
-    #check.check_coords(data)
     maps.assign_coordinates(data)
+    maps.check_coords(data)
     
     print("-- 45 Roomfinder maps")
     maps.assign_roomfinder_maps(data)
