@@ -169,12 +169,13 @@ navigatum.registerModule("interactive-map", (function() {
                 head.appendChild(el_js);
             });
         },
-        initMarker: function () {
+        createMarker: function (hueRotation=0) {
             const markerDiv = document.createElement('div');
             const markerIcon = document.createElement('span');
             markerIcon.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin.webp)`;
             markerIcon.style.width = `25px`;
             markerIcon.style.height = `36px`;
+            markerIcon.style.filter = `hue-rotate(${hueRotation}deg)`;
             markerIcon.style.top = `-33px`;
             markerIcon.style.left = `-12px`;
             markerIcon.classList.add("marker")
@@ -187,7 +188,7 @@ navigatum.registerModule("interactive-map", (function() {
             markerShadow.style.left = `-12px`;
             markerShadow.classList.add("marker")
             markerDiv.appendChild(markerShadow);
-            return new mapboxgl.Marker({element:markerDiv});
+            return markerDiv;
         },
         initMap: function(container_id) {
             mapboxgl.accessToken= 'pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg'

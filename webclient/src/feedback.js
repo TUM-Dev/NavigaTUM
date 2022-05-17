@@ -77,6 +77,8 @@ var feedback = (function() {
     }
 
     function close_form() {
+        document.getElementById("feedback-coodinate-picker").classList.add("d-none");
+
         document.getElementById("feedback-modal").classList.remove("active");
         document.getElementById("feedback-success-modal").classList.remove("active");
     }
@@ -167,5 +169,6 @@ var feedback = (function() {
 
     return {
         open_form: open_form,
+        close_form: close_form,
     }
 })();

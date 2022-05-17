@@ -42,7 +42,7 @@
       <div class="column col-auto col-ml-auto">
         <button class="btn btn-link btn-action btn-sm"
                 title="${{ _.view_view.header.feedback }}$"
-                @click="entry_feedback(view_data.id)">
+                @click="entry_feedback">
           <i class="icon icon-flag"></i>
         </button>
         <!--<button class="btn btn-link btn-action btn-sm"
@@ -67,6 +67,11 @@
              v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null">
           ${{_.view_view.msg.no_floor_overlay}}$
         </div>
+      </div>
+
+      <div class="toast toast-primary mb-2" @click="confirmLocationPicker" v-if="map.interactive.marker2">
+        To correct the location, drag the red Marker around. <br/>
+        Once you are satisfied, click on this toast.
       </div>
 
       <div id="interactive-map-container"

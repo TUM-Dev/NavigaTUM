@@ -82,6 +82,8 @@ navigatum.registerView('view', {
                 interactive: {
                     map: null,
                     component: null,
+                    marker: null,
+                    marker2: null,
                 },
             },
             sections: {
@@ -190,6 +192,31 @@ navigatum.registerView('view', {
             else if (this.state.map.selected === "roomfinder")
                 this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
         },
+        addLocationPicker: function() {
+            window.feedback.close_form();
+            this.state.map.selected = "interactive";
+            const coords = this.view_data.coords;
+            const marker2 = new mapboxgl.Marker({
+                draggable: true,
+                color: '#ff0000',
+                scale: 1,
+            });
+            marker2.setLngLat([coords.lon, coords.lat]).addTo(this.map.interactive.map);
+            this.map.interactive.marker2 = marker2;
+        },
+        confirmLocationPicker: function() {
+            const location=this.map.interactive.marker2.getLngLat();
+            this.map.interactive.marker2.remove();
+            this.map.interactive.marker2 = null;
+            let actionMsg="add this coordinate to the roomfinder"
+            if (this.view_data.coords.accuracy !== "building")
+                actionMsg="correct this coordinate in the roomfinder"
+            const body=`Hello, I would like to ${actionMsg}:\n` +
+                "\`\`\`\n" +
+                `"${this.view_data.id}": {coords: {lat: ${location.lat}, lon: ${location.lng}}},\n`+
+                "\`\`\`";
+            open_feedback("entry", "[" + this.view_data.id + "]: ", body);
+        },
         loadInteractiveMap: function(from_ui) {
             var _this = this;
             var from_map = this.state.map.selected;
@@ -215,7 +242,7 @@ navigatum.registerView('view', {
                             document.getElementById("interactive-map").classList.remove("loading");
                         }
                     }
-                    marker = c.initMarker();
+                    marker = new mapboxgl.Marker({element: c.createMarker()});
                     _this.map.interactive.marker = marker;
                     const coords = _this.view_data.coords;
                     marker.setLngLat([coords.lon, coords.lat]).addTo(map);
@@ -371,8 +398,12 @@ navigatum.registerView('view', {
 
             document.body.removeChild(textArea);
         },
-        entry_feedback: function(id) {
-            open_feedback("entry", "[" + id + "]: ");
+        entry_feedback: function() {
+            const picker = document.getElementById("feedback-coodinate-picker");
+            picker.onclick = this.addLocationPicker;
+            picker.classList.remove("d-none");
+
+            open_feedback("entry", "[" + this.view_data.id + "]: ");
         },
     },
     watch: {
