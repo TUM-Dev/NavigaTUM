@@ -210,7 +210,7 @@ navigatum.registerView('view', {
             let actionMsg="${{_.feedback.coordinatepicker.add_coordinate}}$"
             if (this.view_data.coords.accuracy !== "building")
                 actionMsg="${{_.feedback.coordinatepicker.correct_coordinate}}$"
-            const body=`:\n` +
+            const body=`${actionMsg}:\n` +
                 "\`\`\`\n" +
                 `"${this.view_data.id}": {coords: {lat: ${location.lat}, lon: ${location.lng}}},\n`+
                 "\`\`\`";
