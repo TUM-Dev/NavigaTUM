@@ -48,8 +48,8 @@ view_view:
       de: "Um die richtige Position zu sehen, ziehe den roten Marker über die Karte. <br/> Sobald du zufrieden bist, klicke auf diese Nachricht."
       en: "To correct the location, drag the red Marker around. <br/> Once you are satisfied, click on this toast."
     inaccurate_only_building:
-      de: "Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist nicht bekannt."
-      en: "The displayed position only shows the position of the building(part). The exact position within the building is not known."
+      de: "Die angezeigte Position zeigt nur die Position des Gebäude(teils). <br/> Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt. <br/> Wenn du die genaue Position kennst, kannst du sie hinzufügen, indem du auf diesen Hinweis klickst."
+      en: "The displayed position only shows the position of the building(part). <br/> The exact position within the building is not known to us. <br/> If you know the exact position, you can add it, by clicking on this note."
     no_floor_overlay:
       de: "Für den angezeigten Raum gibt es leider keine Indoor Karte."
       en: "There is unfortunately no indoor map for the displayed room."

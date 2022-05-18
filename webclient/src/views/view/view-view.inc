@@ -60,6 +60,7 @@
     <div class="column col-7 col-md-12" id="map-container">
       <div class="show-sm">
         <div class="toast toast-warning"
+             @click="entry_feedback"
              v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'">
           ${{_.view_view.msg.inaccurate_only_building}}$
         </div>
@@ -176,6 +177,7 @@
           </table>
           <span v-else>-</span>
           <div class="toast toast-warning"
+               @click="add"
                v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'">
             ${{_.view_view.msg.inaccurate_only_building}}$
           </div>
