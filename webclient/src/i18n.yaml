@@ -73,8 +73,8 @@ feedback:
       en: "Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?"
   coordinatepicker:
     helptext:
-      de: "Falls du mehrere Koordinaten gleichzeitig korrigieren willst, kannst du dieses Fenster schließen und weitere Koordinaten editieren. <br> Wir speichern deine Veränderungen für 12 Stunden bei dir lokal. <br> Falls du die Namen von Gebäuden/Standorten ändern möchtest, solltest du diese lokal speichern und <b>NACH</b> dem abschicken der Koordinaten abschicken."
-      en: "If you want to correct several coordinates at the same time, you can close this window and edit more coordinates. <br> We will save your changes locally for 12 hours. <br> If you want to change the names of buildings/locations, you should save them locally and send them <b>AFTER</b> submitting the coordinates."
+      de: "Falls du mehrere Koordinaten gleichzeitig korrigieren willst, kannst du dieses Fenster schließen und weitere Koordinaten editieren. <br> Wir speichern deine Veränderungen für 12 Stunden bei dir lokal. <br> Falls du Namen/Adressen/... ändern möchtest, solltest du dieses Feedback lokal speichern und <b>NACH</b> dem abschicken der Koordinaten abschicken."
+      en: "If you want to correct several coordinates at the same time, you can close this window and edit more coordinates. <br> We will save your changes locally for 12 hours. <br> If you want to change name/adress/.., you should save this feedback locally and send them <b>AFTER</b> submitting the coordinates."
     title: {de: "Koordinate auswählen", en: "Select coordinate"}
     edit_coordinate_subject:
       de: "Koordinate bearbeiten"
