@@ -199,7 +199,6 @@ navigatum.registerView('view', {
             const marker2 = new mapboxgl.Marker({
                 draggable: true,
                 color: '#ff0000',
-                scale: 1,
             });
             marker2.setLngLat([coords.lon, coords.lat]).addTo(this.map.interactive.map);
             this.map.interactive.marker2 = marker2;
