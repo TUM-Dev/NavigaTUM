@@ -66,10 +66,10 @@ feedback:
       de: "Features, die du gerne auf dieser Website haben würdest"
       en: "Features, you would like to see on this website"
     search:
-      de: "Feedback zur Suche. Was war dein Suchbegriff? Was hättest du erwartet, das das Ergebins ist?"
+      de: "Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?"
       en: "Feedback about the search. What was your search query? What did you expect to see?"
     entry:
-      de: "Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten die du siehst (Namen, Coordinaten, Adressen, ...) anpassen. Was hast können wir verbessern?"
+      de: "Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten, die du siehst (Namen, Coordinaten, Adressen, ...) anpassen. Was können wir verbessern?"
       en: "Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?"
   coordinatepicker:
     title: {de: "Koordinate auswählen", en: "Select coordinate"}
