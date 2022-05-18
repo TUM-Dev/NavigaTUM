@@ -43,6 +43,7 @@ jobs:
       contents: read
       packages: write
   data-deployment:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs:
       - data-build
@@ -77,6 +78,7 @@ jobs:
       contents: read
       packages: write
   server-deployment:
+    if: github.ref == 'refs/heads/main'
     name: "Restart Deployment navigatum-server"
     runs-on: ubuntu-latest
     needs:
@@ -98,6 +100,7 @@ jobs:
       contents: read
       packages: write
   webclient-deployment:
+    if: github.ref == 'refs/heads/main'
     name: "Restart Deployment navigatum-webclient"
     runs-on: ubuntu-latest
     needs:
