@@ -402,6 +402,7 @@ navigatum.registerView('view', {
             const picker = document.getElementById("feedback-coodinate-picker");
             picker.onclick = this.addLocationPicker;
             picker.classList.remove("d-none");
+            picker.classList.add("activate-coordinatepicker");
 
             open_feedback("entry", "[" + this.view_data.id + "]: ");
         },

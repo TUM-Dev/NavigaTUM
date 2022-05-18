@@ -55,6 +55,22 @@ feedback:
     search: {de: "Suche", en: "Search"}
     entry: {de: "Eintrag", en: "Entry"}
   mail: {de: "E-Mail (optional)", en: "E-Mail (optional)"}
+  helptext:
+    general:
+      de: "Generelles Feedback über diese website"
+      en: "General Feedback about this website"
+    bug:
+      de: "Welchen Fehler hast du gefunden? Wo hast du ihn gefunden? Bitte gib eine genaue Beschreibung an"
+      en: "Which bug did you find? Where did you find it? Please provide a detailed description"
+    features:
+      de: "Features, die du gerne auf dieser Website haben würdest"
+      en: "Features, you would like to see on this website"
+    search:
+      de: "Feedback zur Suche. Was war dein Suchbegriff? Was hättest du erwartet, das das Ergebins ist?"
+      en: "Feedback about the search. What was your search query? What did you expect to see?"
+    entry:
+      de: "Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten die du siehst (Namen, Coordinaten, Adressen, ...) anpassen. Was hast können wir verbessern?"
+      en: "Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?"
   message: {de: "Nachricht", en: "Message"}
   public:
     de: "Meine Feedback Daten dürfen anonym, aber öffentlich zugänglich auf der <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub Projektseite</a> gespeichert werden. Mit der Nutzung dieses Feedbackformulars stimmst du explizit den <a href='https://docs.github.com/en/github/site-policy' target='_blank'>Nutzungsbedingungen und Datenschutzbestimmungen von GitHub</a> sowie einer möglichen Übertragung der Daten außerhalb der Europäischen Union zu. Falls du dies ablehnst, schreibe uns bitte über app@tum.de, oder einem der anderen in unserem  <a href='/about/impressum' target='_blank'>Impressum</a> gelisteten Kontaktmöglichkeiten."

@@ -77,7 +77,9 @@ var feedback = (function() {
     }
 
     function close_form() {
-        document.getElementById("feedback-coodinate-picker").classList.add("d-none");
+        const coordintePicker = document.getElementById("feedback-coodinate-picker");
+        coordintePicker.classList.add("d-none");
+        coordintePicker.classList.remove("activate-coordinatepicker");
 
         document.getElementById("feedback-modal").classList.remove("active");
         document.getElementById("feedback-success-modal").classList.remove("active");
@@ -165,6 +167,7 @@ var feedback = (function() {
 
     if (feedback_preload) {
         open_form(feedback_preload.category, feedback_preload.subject, feedback_preload.body);
+        updateFeedbackForm(feedback_preload.category);
     }
 
     return {
