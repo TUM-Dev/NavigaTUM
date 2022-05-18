@@ -10,6 +10,7 @@ pub(super) fn merge_search_results(
 ) -> Vec<super::SearchResultsSection> {
     // First look up which buildings did match even with a closed query.
     // We can consider them more relevant.
+    // TODO: This has to be implemented. closed_matching_buildings is not used further down in this function.
     let mut closed_matching_buildings = Vec::<String>::new();
     for hit in res_buildings.hits {
         closed_matching_buildings.push(hit.id);
