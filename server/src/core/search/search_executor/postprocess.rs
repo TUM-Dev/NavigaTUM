@@ -66,7 +66,7 @@ pub(super) fn merge_search_results(
                     push_to_rooms_queue(
                         &mut section_rooms,
                         &hit,
-                        &search_tokens,
+                        search_tokens,
                         highlighted_name,
                         highlighted_arch_name,
                     );
@@ -105,7 +105,7 @@ fn push_to_buildings_queue(
 fn push_to_rooms_queue(
     section_rooms: &mut super::SearchResultsSection,
     hit: &meilisearch::MSHit,
-    search_tokens: &Vec<preprocess::SearchToken>,
+    search_tokens: &[preprocess::SearchToken],
     highlighted_name: String,
     highlighted_arch_name: String,
 ) {
