@@ -76,7 +76,13 @@ feedback:
     add_coordinate:
       de: "Hallo, ich möchte diese Koordinate zum Roomfinder hinzufügen"
       en: "Hello, I would like to add this coordinate to the roomfinder"
+    add_coordinate_subject:
+      de: "Koordinate wurde hinzugefügt"
+      en: "Added a coordinate"
     correct_coordinate:
+      de: "Koordinate wurde korrigiert"
+      en: "Corrected a coordinate"
+    correct_coordinate_subject:
       de: "Hallo, ich möchte diese Koordinate im Roomfinder korrigieren"
       en: "Hello, I would like to correct this coordinate in the roomfinder"
   message: {de: "Nachricht", en: "Message"}

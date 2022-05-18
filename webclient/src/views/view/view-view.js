@@ -210,11 +210,14 @@ navigatum.registerView('view', {
             let actionMsg="${{_.feedback.coordinatepicker.add_coordinate}}$"
             if (this.view_data.coords.accuracy !== "building")
                 actionMsg="${{_.feedback.coordinatepicker.correct_coordinate}}$"
+            let subjectMsg="${{_.feedback.coordinatepicker.add_coordinate_subject}}$"
+            if (this.view_data.coords.accuracy !== "building")
+                subjectMsg="${{_.feedback.coordinatepicker.correct_coordinate_subject}}$"
             const body=`${actionMsg}:\n` +
                 "\`\`\`\n" +
                 `"${this.view_data.id}": {coords: {lat: ${location.lat}, lon: ${location.lng}}},\n`+
                 "\`\`\`";
-            open_feedback("entry", "[" + this.view_data.id + "]: ", body);
+            open_feedback("entry", `[${this.view_data.id}]: ${subjectMsg}`, body);
         },
         loadInteractiveMap: function(from_ui) {
             var _this = this;
