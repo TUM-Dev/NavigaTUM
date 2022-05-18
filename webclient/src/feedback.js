@@ -80,6 +80,7 @@ var feedback = (function() {
         const coordintePicker = document.getElementById("feedback-coodinate-picker");
         coordintePicker.classList.add("d-none");
         coordintePicker.classList.remove("activate-coordinatepicker");
+        document.getElementById("feedback-coodinate-picker-helptext").classList.add("d-none");
 
         document.getElementById("feedback-modal").classList.remove("active");
         document.getElementById("feedback-success-modal").classList.remove("active");
@@ -138,6 +139,7 @@ var feedback = (function() {
             function(r) {
                 show_loading(false);
                 if (r.status === 201) {
+                    localStorage.removeItem("coordinate-feedback");
                     token = null;
                     show_success(r.responseText);
                 } else if (r.status === 500) {

@@ -203,21 +203,55 @@ navigatum.registerView('view', {
             marker2.setLngLat([coords.lon, coords.lat]).addTo(this.map.interactive.map);
             this.map.interactive.marker2 = marker2;
         },
+        _genFeedbackBody:function (currentEdits){
+            if (Object.keys(currentEdits).length === 0){
+                // For no edits, don't show a badly formatted message
+                return "";
+            }
+
+            let editStr="";
+            for (const [key, value] of Object.entries(currentEdits)) {
+                editStr += `"${key}": {coords: {lat: ${value.coords.lat}, lon: ${value.coords.lon}}},\n`
+            }
+
+            let actionMsg="${{_.feedback.coordinatepicker.add_coordinate}}$"
+            if (Object.keys(currentEdits).length>1){
+                actionMsg="${{_.feedback.coordinatepicker.edit_multiple_coordinates}}$"
+            }
+            else if (this.view_data.coords.accuracy !== "building") {
+                actionMsg = "${{_.feedback.coordinatepicker.correct_coordinate}}$"
+            }
+
+            return `${actionMsg}:\n` +
+                "\`\`\`\n" +
+                editStr +
+                "\`\`\`";
+        },
+        _openFeedbackForm: function(addCurrentLocation=false){
+            // The feedback form is opened. This may be prefilled with previously corrected coordinates.
+            // Maybe get the old coordinates from localstorage
+            const currentEdits=navigatum.getLocalStorageWithExpiry("coordinate-feedback",{});
+
+            if (addCurrentLocation){
+                // add the current edits to the feedback
+                const location=this.map.interactive.marker2.getLngLat();
+                currentEdits[this.view_data.id]={coords:{lat: location.lat, lon: location.lng}}
+                // save to local storage with ttl of 12h (garbage-collected on next read)
+                navigatum.setLocalStorageWithExpiry("coordinate-feedback",currentEdits,12);
+            }
+            const body=this._genFeedbackBody(currentEdits);
+
+            let subjectMsg="${{_.feedback.coordinatepicker.edit_coordinate_subject}}$"
+            if (Object.keys(currentEdits).length>1){
+                subjectMsg="${{_.feedback.coordinatepicker.edit_coordinates_subject}}$"
+            }
+            open_feedback("entry", `[${this.view_data.id}]: ${subjectMsg}`, body);
+        },
         confirmLocationPicker: function() {
-            const location=this.map.interactive.marker2.getLngLat();
+            this._openFeedbackForm(true);
+        document.getElementById("feedback-coodinate-picker-helptext").classList.remove("d-none");
             this.map.interactive.marker2.remove();
             this.map.interactive.marker2 = null;
-            let actionMsg="${{_.feedback.coordinatepicker.add_coordinate}}$"
-            if (this.view_data.coords.accuracy !== "building")
-                actionMsg="${{_.feedback.coordinatepicker.correct_coordinate}}$"
-            let subjectMsg="${{_.feedback.coordinatepicker.add_coordinate_subject}}$"
-            if (this.view_data.coords.accuracy !== "building")
-                subjectMsg="${{_.feedback.coordinatepicker.correct_coordinate_subject}}$"
-            const body=`${actionMsg}:\n` +
-                "\`\`\`\n" +
-                `"${this.view_data.id}": {coords: {lat: ${location.lat}, lon: ${location.lng}}},\n`+
-                "\`\`\`";
-            open_feedback("entry", `[${this.view_data.id}]: ${subjectMsg}`, body);
         },
         loadInteractiveMap: function(from_ui) {
             var _this = this;
@@ -406,7 +440,7 @@ navigatum.registerView('view', {
             picker.classList.remove("d-none");
             picker.classList.add("activate-coordinatepicker");
 
-            open_feedback("entry", "[" + this.view_data.id + "]: ");
+            this._openFeedbackForm();
         },
     },
     watch: {
