@@ -70,8 +70,7 @@
       </div>
 
       <div class="toast toast-primary mb-2" @click="confirmLocationPicker" v-if="map.interactive.marker2">
-        To correct the location, drag the red Marker around. <br/>
-        Once you are satisfied, click on this toast.
+        ${{_.view_view.msg.correct_location}}$
       </div>
 
       <div id="interactive-map-container"

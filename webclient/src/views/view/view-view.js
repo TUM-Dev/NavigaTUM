@@ -208,10 +208,10 @@ navigatum.registerView('view', {
             const location=this.map.interactive.marker2.getLngLat();
             this.map.interactive.marker2.remove();
             this.map.interactive.marker2 = null;
-            let actionMsg="add this coordinate to the roomfinder"
+            let actionMsg="${{_.feedback.coordinatepicker.add_coordinate}}$"
             if (this.view_data.coords.accuracy !== "building")
-                actionMsg="correct this coordinate in the roomfinder"
-            const body=`Hello, I would like to ${actionMsg}:\n` +
+                actionMsg="${{_.feedback.coordinatepicker.correct_coordinate}}$"
+            const body=`:\n` +
                 "\`\`\`\n" +
                 `"${this.view_data.id}": {coords: {lat: ${location.lat}, lon: ${location.lng}}},\n`+
                 "\`\`\`";

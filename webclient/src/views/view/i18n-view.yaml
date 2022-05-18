@@ -44,6 +44,9 @@ view_view:
         de: "Automatisch berechnet aus den zugehörigen Räumen oder Gebäuden"
         en: "Automatically computed based on the associated rooms or buildings"
   msg:
+    correct_location:
+      de: "Um die richtige Position zu sehen, ziehe den roten Marker über die Karte. <br/> Sobald du zufrieden bist, klicke auf diese Nachricht."
+      en: "To correct the location, drag the red Marker around. <br/> Once you are satisfied, click on this toast."
     inaccurate_only_building:
       de: "Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist nicht bekannt."
       en: "The displayed position only shows the position of the building(part). The exact position within the building is not known."
