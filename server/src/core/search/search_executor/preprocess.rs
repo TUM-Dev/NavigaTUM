@@ -147,7 +147,7 @@ pub(super) fn tokenize_input_query(q: &str) -> Vec<InputToken> {
 
         // There is a special case when up to 3 alphabetic chars are followed by a numeric part.
         // This is intended to split up strings like "MW1250".
-        if c.is_numeric() && 0 < alphabetic_counter && alphabetic_counter <= 3 {
+        if !within_quotes && c.is_numeric() && 0 < alphabetic_counter && alphabetic_counter <= 3 {
             tokens.push(InputToken {
                 s: q.get(token_start..i).unwrap().trim_end().to_lowercase(),
                 regular_split: false,
