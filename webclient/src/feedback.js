@@ -52,6 +52,9 @@ var feedback = (function() {
 
         // Token are renewed after 6 hours here to be sure, even though they may be valid
         // for longer on the server side.
+        if (token === null) {
+            token=navigatum.getLocalStorageWithExpiry("feedback-token",null);
+        }
         if (token === null || (Date.now() - token.creation) > 1000*3600*6) {
             do_request("POST", "/* @echo api_prefix */feedback/get_token", null,
                 function(r) {
@@ -60,6 +63,7 @@ var feedback = (function() {
                             creation: Date.now(),
                             value: JSON.parse(r.response)["token"]
                         }
+                        navigatum.setLocalStorageWithExpiry("feedback-token", token, 6);
                     } else if (r.status === 429) {
                         show_error("${{_.feedback.error.429}}$", true);
                     } else if (r.status === 503) {
@@ -141,12 +145,14 @@ var feedback = (function() {
                 if (r.status === 201) {
                     localStorage.removeItem("coordinate-feedback");
                     token = null;
+                    localStorage.removeItem("feedback-token");
                     show_success(r.responseText);
                 } else if (r.status === 500) {
                     show_error("${{_.feedback.error.server_error}}$ (" + r.responseText + ")", false);
                 } else if (r.status === 451) {
                     show_error("${{_.feedback.error.privacy_not_checked}}$", false);
                 } else if (r.status === 403) {
+                    localStorage.removeItem("feedback-token");
                     token = null;
                     show_error("${{_.feedback.error.send_invalid_token}}$ (" + r.responseText + ")", false);
                 } else {
