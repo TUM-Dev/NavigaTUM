@@ -8,6 +8,30 @@
          class="img-responsive"/>
   </a>
 
+  <!-- Pending coordinates counter (if any) -->
+  <div class="panel coord-counter">
+    <div class="panel-body columns">
+      <div class="column col col-sm-12 msg">
+        ${{_.view_view.msg.coordinate-counter.msg-1}}$
+        <em></em>
+        ${{_.view_view.msg.coordinate-counter.msg-2}}$
+        <button class="btn btn-action btn-sm btn-link tooltip tooltip-left"
+                data-tooltip=" ${{_.view_view.msg.coordinate-counter.info}}$ ">&#x1f6c8;</button>
+      </div>
+      <div class="column col-auto col-sm-12 btns">
+        <button class="btn btn-link btn-sm delete">
+          <i class="icon icon-cross"></i>
+          <span class="default">${{_.view_view.msg.coordinate-counter.delete}}$</span>
+          <span class="confirm">${{_.view_view.msg.coordinate-counter.delete-confirm}}$</span>
+        </button>
+        <button class="btn btn-primary btn-sm">
+          <i class="icon icon-check"></i>
+          ${{_.view_view.msg.coordinate-counter.send}}$
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Breadcrumbs -->
   <ol class="breadcrumb"
       vocab="https://schema.org/" typeof="BreadcrumbList">
