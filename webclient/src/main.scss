@@ -70,6 +70,30 @@ body {
     border-radius: 4px;
 }
 
+// --- Toast buttons
+.toast .btn {
+    background: $toast-btn-bg;
+    color: $light-color;
+    border-color: $light-color;
+    font-weight: bold;
+
+    &:hover {
+        background: $toast-btn-bg-hover;
+        border-color: $light-color;
+    }
+
+    &:active {
+        background: $toast-btn-bg-active;
+        border-color: $light-color;
+    }
+
+    &:focus {
+        background: $toast-btn-bg;
+        border-color: $light-color;
+    }
+}
+
+
 /* === Navbar === */
 
 #navbar {
@@ -297,6 +321,13 @@ footer {
             }
         }
     }
+}
+
+
+// Animations
+@keyframes fade-in {
+    from { opacity: 0 }
+    to { opacity: 1 }
 }
 
 

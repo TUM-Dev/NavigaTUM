@@ -60,9 +60,11 @@
     <div class="column col-7 col-md-12" id="map-container">
       <div class="show-sm">
         <div class="toast toast-warning"
-             @click="entry_feedback"
              v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'">
-          ${{_.view_view.msg.inaccurate_only_building}}$
+          ${{_.view_view.msg.inaccurate_only_building.msg}}$
+          <button class="btn btn-sm" @click="addLocationPicker">
+            ${{_.view_view.msg.inaccurate_only_building.btn}}$
+          </button>
         </div>
         <div class="toast toast-warning"
              v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null">
@@ -70,8 +72,19 @@
         </div>
       </div>
 
-      <div class="toast toast-primary mb-2" @click="confirmLocationPicker" v-if="map.interactive.marker2">
-        ${{_.view_view.msg.correct_location}}$
+      <div class="toast toast-primary mb-2 location-picker" v-if="map.interactive.marker2">
+        <div class="columns">
+          <div class="column col col-sm-12">${{_.view_view.msg.correct_location.msg}}$</div>
+          <div class="column col-auto col-sm-12 btns">
+            <button class="btn btn-sm" @click="cancelLocationPicker">
+              ${{_.view_view.msg.correct_location.btn-cancel}}$
+            </button>
+            <button class="btn btn-sm" @click="confirmLocationPicker">
+              <i class="icon icon-check"></i>
+              ${{_.view_view.msg.correct_location.btn-done}}$
+            </button>
+          </div>
+        </div>
       </div>
 
       <div id="interactive-map-container"
@@ -177,9 +190,11 @@
           </table>
           <span v-else>-</span>
           <div class="toast toast-warning"
-               @click="add"
                v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'">
-            ${{_.view_view.msg.inaccurate_only_building}}$
+            ${{_.view_view.msg.inaccurate_only_building.msg}}$
+            <button class="btn btn-sm" @click="addLocationPicker">
+              ${{_.view_view.msg.inaccurate_only_building.btn}}$
+            </button>
           </div>
           <div class="toast toast-warning"
                v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null">

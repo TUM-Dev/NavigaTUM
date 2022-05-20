@@ -62,6 +62,15 @@
         padding: 0 8px;
     }
 
+    .toast.location-picker {
+        animation: fade-in .1s linear .05s;
+        animation-fill-mode: both;
+
+        & .btns {
+            margin: auto 0;
+        }
+    }
+
     /* --- Interactive map display --- */
     #interactive-map-container {
         margin-bottom: 10px;
