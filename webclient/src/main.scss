@@ -9,6 +9,10 @@ html {
 body {
     min-height: 80%;  // optimized for desktop view, not really relevant on mobile
     position: relative;
+
+    &.no-scroll {
+        overflow-y: hidden;
+    }
 }
 
 // v-cloak is set until vue loaded

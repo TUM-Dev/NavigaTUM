@@ -102,6 +102,11 @@ navigatum.registerView('view', {
             // May only contain serializable objects!
             state: navigatum.cloneState(_view_default_state),
             copied: false,
+            // Coordinate picker states
+            coord_counter: {
+                counter: null,
+                to_confirm_delete: false,
+            },
         }
     },
     beforeRouteEnter: function(to, from, next) { viewNavigateTo(to, from, next, null) },
@@ -446,6 +451,14 @@ navigatum.registerView('view', {
 
             this._openFeedbackForm();
         },
+        deletePendingCoordinates: function() {
+            if (this.coord_counter.to_confirm_delete) {
+                navigatum.removeLocalStorage("coordinate-feedback");
+                this.coord_counter.to_confirm_delete = false;
+            } else {
+                this.coord_counter.to_confirm_delete = true;
+            }
+        }
     },
     watch: {
         'state.rooms_overview.filter': function() { this.updateRoomsOverview(); },
@@ -455,6 +468,16 @@ navigatum.registerView('view', {
         if (navigator.userAgent === "Rendertron") {
             return;
         }
+
+        // Update pending coordinate counter on localStorage changes
+        var _this = this;
+        const updateCoordinateCounter = function() {
+            const coords = navigatum.getLocalStorageWithExpiry("coordinate-feedback", {});
+            _this.coord_counter.counter = Object.keys(coords).length;
+        }
+        window.addEventListener("storage", updateCoordinateCounter);
+        updateCoordinateCounter();
+
         this.$nextTick(function () {
             // Even though 'mounted' is called there is no guarantee apparently,
             // that it really is mounted now. For this reason we try to poll now.

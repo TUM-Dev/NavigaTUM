@@ -235,6 +235,11 @@ var navigatum = (function () {
                 expiry: now.getTime() + ttl * 3.6e+6,
             };
             localStorage.setItem(key, JSON.stringify(item));
+
+            // "storage" usually fires only across tabs, this way we
+            // force it to fire in this window as well
+            var e = new Event("storage");
+            window.dispatchEvent(e);
         },
         getLocalStorageWithExpiry: function(key, default_value=null) {
             const itemStr = localStorage.getItem(key);
@@ -248,6 +253,11 @@ var navigatum = (function () {
                 return default_value;
             }
             return item.value;
+        },
+        removeLocalStorage: function(key) {
+            localStorage.removeItem(key);
+            var e = new Event("storage");
+            window.dispatchEvent(e);
         },
         putData: function(id, data) {
             
