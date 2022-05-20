@@ -19,6 +19,9 @@ $footer-color: #fafafa;
 $footer-setting-bg-disabled: #999;
 $feedback-overlay-bg: rgba(247,248,249,.75);
 $feedback-box-shadow: 0 .2rem .5rem rgba(48,55,66,.3);
+$toast-btn-bg: #0002;
+$toast-btn-bg-hover: #0003;
+$toast-btn-bg-active: #0004;
 
 $text-gray: #aaa;
 $border-default: #e1e1e1;
@@ -42,6 +45,8 @@ $code-bg: #fcf2f2;
 $primary-color: $theme-accent;
 $body-font-color: #3b4351;
 
+$light-color: #fff;
+
 $bg-color: #f7f8f9;
 
 
@@ -58,6 +63,9 @@ $bg-color: #f7f8f9;
     $footer-setting-bg-disabled: #333;
     $feedback-overlay-bg: rgba(0, 0, 0, 0.7);
     $feedback-box-shadow: 0 .2rem .5rem rgba(0, 0, 0, 0.5);
+    $toast-btn-bg: #fff1;
+    $toast-btn-bg-hover: #fff3;
+    $toast-btn-bg-active: #0001;
 
     $text-gray: #aaa;
     $border-default: #444;

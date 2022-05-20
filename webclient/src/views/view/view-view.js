@@ -253,6 +253,10 @@ navigatum.registerView('view', {
             this.map.interactive.marker2.remove();
             this.map.interactive.marker2 = null;
         },
+        cancelLocationPicker: function() {
+            this.map.interactive.marker2.remove();
+            this.map.interactive.marker2 = null;
+        },
         loadInteractiveMap: function(from_ui) {
             var _this = this;
             var from_map = this.state.map.selected;
