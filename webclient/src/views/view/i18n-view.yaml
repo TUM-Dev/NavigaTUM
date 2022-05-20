@@ -64,6 +64,25 @@ view_view:
     no_floor_overlay:
       de: "Für den angezeigten Raum gibt es leider keine Indoor Karte."
       en: "There is unfortunately no indoor map for the displayed room."
+    coordinate-counter:
+      msg-1:
+        de: "Aktuell"
+        en: "Currently"
+      msg-2:
+        de: "ausstehende Koordinatenänderungen"
+        en: "pending coordinate edits"
+      info:
+        de: "Änderungen werden lokal \\n für 12h gespeichert"
+        en: "Changes are stored \\n locally for 12 h"
+      delete:
+        de: "Löschen"
+        en: "Delete"
+      delete-confirm:
+        de: "Wirklich löschen?"
+        en: "Really delete?"
+      send:
+        de: "Senden"
+        en: "Send"
   slideshow:
     header:
       de: "Bilder-Showcase"
