@@ -118,6 +118,7 @@
     "Fachschaftsbüro": ["Fachschaft", "FS", "Fachschaftsraum"],
     "Fachschaftsraum": ["Fachschaft", "FS", "Fachschaftsbüro"],
 
+    "FSMPI": ["Fachschaft MPI"],
     "AStA": ["SV", "StuVe", "Studentische Vertretung"],
     "Studentische Vertretung": ["SV", "StuVe", "AStA"],
     "StuVe": ["SV", "Studentische Vertretung", "AStA"]
