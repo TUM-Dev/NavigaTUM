@@ -26,7 +26,7 @@
           <span class="default">${{_.view_view.msg.coordinate-counter.delete}}$</span>
           <span class="confirm">${{_.view_view.msg.coordinate-counter.delete-confirm}}$</span>
         </button>
-        <button class="btn btn-primary btn-sm" @click="entry_feedback">
+        <button class="btn btn-primary btn-sm" @click="openFeedbackForm">
           <i class="icon icon-check"></i>
           ${{_.view_view.msg.coordinate-counter.send}}$
         </button>
@@ -68,7 +68,7 @@
       <div class="column col-auto col-ml-auto">
         <button class="btn btn-link btn-action btn-sm"
                 title="${{ _.view_view.header.feedback }}$"
-                @click="entry_feedback">
+                @click="openFeedbackForm">
           <i class="icon icon-flag"></i>
         </button>
         <!--<button class="btn btn-link btn-action btn-sm"

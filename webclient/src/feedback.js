@@ -98,8 +98,7 @@ var feedback = (function() {
         feedback_helptext.innerText = helptextLUT[category];
 
         const coordinate_picker=document.getElementById('feedback-coordinate-picker');
-        if (category === 'entry'
-            && coordinate_picker.classList.contains('activate-coordinatepicker')) {
+        if (category === 'entry') {
             coordinate_picker.classList.remove("d-none");
         } else {
             coordinate_picker.classList.add("d-none");
@@ -107,9 +106,7 @@ var feedback = (function() {
     }
 
     function close_form() {
-        const coordintePicker = document.getElementById("feedback-coordinate-picker");
-        coordintePicker.classList.add("d-none");
-        coordintePicker.classList.remove("activate-coordinatepicker");
+        document.getElementById("feedback-coordinate-picker").classList.add("d-none");
         document.getElementById("feedback-coordinate-picker-helptext").classList.add("d-none");
 
         document.getElementById("feedback-modal").classList.remove("active");

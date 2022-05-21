@@ -115,6 +115,7 @@ navigatum.registerView('view', {
                 backup_id: null,
                 suject_backup: null,
                 body_backup: null,
+                force_reopen: false,
             },
         }
     },
@@ -215,6 +216,7 @@ navigatum.registerView('view', {
                 this.coord_picker.backup_id = this.view_data.id;
                 this.coord_picker.suject_backup = document.getElementById("feedback-subject").value;
                 this.coord_picker.body_backup = document.getElementById("feedback-body").value;
+                this.coord_picker.force_reopen = true;  // reopen after confirm
 
                 window.feedback.close_form();
             }
@@ -295,12 +297,15 @@ navigatum.registerView('view', {
                 edit_str +
                 "\`\`\`";
         },
-        _openFeedbackForm: function(){
+        openFeedbackForm: function(){
             // The feedback form is opened. This may be prefilled with previously corrected coordinates.
             // Maybe get the old coordinates from localstorage
             const current_edits = navigatum.getLocalStorageWithExpiry("coordinate-feedback", {});
             const body = this._getFeedbackBody(current_edits);
             const subject = this._getFeedbackSubject(current_edits);
+
+            document.getElementById("feedback-coordinate-picker")
+                    .addEventListener('click', this.addLocationPicker);
 
             open_feedback("entry", subject, body);
         },
@@ -319,10 +324,14 @@ navigatum.registerView('view', {
             // first coordinate). If there are more coordinates we can assume
             // someone is doing batch edits. They can then use the send button in
             // the coordinate counter at the top of the page.
+            if (Object.keys(current_edits).length === 1 || this.coord_picker.force_reopen) {
+                this.coord_picker.force_reopen = false;
+                this.openFeedbackForm();
+            }
+
+            // The helptext (which says thet you can edit multiple coordinates in bulk)
+            // is also only shown if there is one edit.
             if (Object.keys(current_edits).length === 1) {
-                this._openFeedbackForm();
-                // The helptext (which says thet you can edit multiple coordinates in bulk)
-                // is also only shown if there is one edit.
                 document.getElementById("feedback-coordinate-picker-helptext")
                         .classList.remove("d-none");
             }
@@ -330,6 +339,19 @@ navigatum.registerView('view', {
         cancelLocationPicker: function() {
             this.map.interactive.marker2.remove();
             this.map.interactive.marker2 = null;
+
+            if (this.coord_picker.force_reopen) {
+                this.coord_picker.force_reopen = false;
+                this.openFeedbackForm();
+            }
+        },
+        deletePendingCoordinates: function() {
+            if (this.coord_counter.to_confirm_delete) {
+                navigatum.removeLocalStorage("coordinate-feedback");
+                this.coord_counter.to_confirm_delete = false;
+            } else {
+                this.coord_counter.to_confirm_delete = true;
+            }
         },
         loadInteractiveMap: function(from_ui) {
             var _this = this;
@@ -512,22 +534,6 @@ navigatum.registerView('view', {
 
             document.body.removeChild(textArea);
         },
-        entry_feedback: function() {
-            const picker = document.getElementById("feedback-coordinate-picker");
-            picker.addEventListener('click', this.addLocationPicker);
-            picker.classList.remove("d-none");
-            picker.classList.add("activate-coordinatepicker");
-
-            this._openFeedbackForm();
-        },
-        deletePendingCoordinates: function() {
-            if (this.coord_counter.to_confirm_delete) {
-                navigatum.removeLocalStorage("coordinate-feedback");
-                this.coord_counter.to_confirm_delete = false;
-            } else {
-                this.coord_counter.to_confirm_delete = true;
-            }
-        }
     },
     watch: {
         'state.rooms_overview.filter': function() { this.updateRoomsOverview(); },
