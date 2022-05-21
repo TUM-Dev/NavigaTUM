@@ -226,7 +226,11 @@ navigatum.registerView('view', {
             // Verify that there isn't already a marker (could happen if you click 'assign
             // a location' multiple times from the 'missing accurate location' toast)
             if (this.map.interactive.marker2 === null) {
-                const coords = this.view_data.coords;
+                // Coordinates are either taken from the entry, or if there are already
+                // some in the localStorage use them
+                const current_edits = navigatum.getLocalStorageWithExpiry("coordinate-feedback", {});
+
+                const coords = (current_edits[this.view_data.id] || this.view_data).coords;
                 const marker2 = new mapboxgl.Marker({
                     draggable: true,
                     color: '#ff0000',
