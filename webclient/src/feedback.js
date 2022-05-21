@@ -49,6 +49,7 @@ var feedback = (function() {
         show_loading(false);
 
         document.getElementById("feedback-modal").classList.add("active");
+        document.body.classList.add("no-scroll");
 
         // Token are renewed after 6 hours here to be sure, even though they may be valid
         // for longer on the server side.
@@ -113,6 +114,8 @@ var feedback = (function() {
 
         document.getElementById("feedback-modal").classList.remove("active");
         document.getElementById("feedback-success-modal").classList.remove("active");
+
+        document.body.classList.remove("no-scroll");
     }
 
     function may_close_form() {
@@ -195,6 +198,9 @@ var feedback = (function() {
     document.getElementById("feedback-cancel").addEventListener('click', close_form, false);
     document.getElementById("feedback-close").addEventListener('click', close_form, false);
     document.getElementById("feedback-overlay").addEventListener('click', may_close_form, false);
+
+    document.getElementById("feedback-close-2").addEventListener('click', close_form, false);
+    document.getElementById("feedback-overlay-2").addEventListener('click', close_form, false);
 
     document.getElementById("feedback-category").addEventListener('change', function(e) {
         update_feedback_form(e.value);

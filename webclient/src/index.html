@@ -345,17 +345,27 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="feedback-body">${{_.feedback.message}}$</label>
+              <div>
+                <label class="form-label" for="feedback-body">${{_.feedback.message}}$</label>
+                <button id="feedback-coordinate-picker" class="btn btn-sm btn-link d-none">
+                  ${{_.feedback.coordinatepicker.title}}$
+                </button>
+              </div>
               <textarea class="form-input"
                         id="feedback-body"
                         placeholder="${{_.feedback.message}}$"
-                        rows="4">
+                        rows="6">
               </textarea>
               <p id="feedback-helptext" class="text-gray text-tiny"></p>
             </div>
 
-            <!-- only visible if called through a view, because then the context of the calling building is availible -->
-            <button id="feedback-coordinate-picker" class="d-none btn">${{_.feedback.coordinatepicker.title}}$</button>
+            <!-- only visible if called through a view, because then the context
+                 of the calling building is availible -->
+            <div id="feedback-coordinate-picker-container">
+              <button id="feedback-coordinate-picker" class="btn btn-sm d-none">
+                ${{_.feedback.coordinatepicker.title}}$
+              </button>
+            </div>
 
             <div class="form-group">
               <label class="form-checkbox" id="feedback-privacy-label">
@@ -377,10 +387,10 @@
       </div>
     </div>
     <div class="modal" id="feedback-success-modal">
-      <div id="feedback-overlay" class="modal-overlay"></div>
+      <div id="feedback-overlay-2" class="modal-overlay"></div>
       <div class="modal-container">
         <div class="modal-header">
-          <button class="btn btn-clear float-right" aria-label="Close" id="feedback-close"></button>
+          <button class="btn btn-clear float-right" aria-label="Close" id="feedback-close-2"></button>
           <div class="modal-title h5">${{_.feedback.success.title}}$</div>
         </div>
         <div class="modal-body">
@@ -388,7 +398,7 @@
             <p>${{_.feedback.success.thank_you}}$</p>
             <p>${{_.feedback.success.response_at}}$ <a id="feedback-success-url" class="btn-link" href="https://github.com/TUM-Dev/navigatum/issues">${{_.feedback.success.this_issue}}$</a></p>
             <div class="buttons">
-              <button class="btn btn-primary" id="feedback-close">${{_.feedback.success.ok}}$</button>
+              <button class="btn btn-primary" id="feedback-close-2">${{_.feedback.success.ok}}$</button>
             </div>
           </div>
         </div>
