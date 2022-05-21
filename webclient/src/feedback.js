@@ -210,5 +210,6 @@ var feedback = (function() {
     return {
         open_form: open_form,
         close_form: close_form,
+        update_feedback_form: update_feedback_form,
     }
 })();
