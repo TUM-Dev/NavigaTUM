@@ -57,19 +57,19 @@ feedback:
   mail: {de: "E-Mail (optional)", en: "E-Mail (optional)"}
   helptext:
     general:
-      de: "Generelles Feedback über diese website"
+      de: "Generelles Feedback über diese Website"
       en: "General Feedback about this website"
     bug:
-      de: "Welchen Fehler hast du gefunden? Wo hast du ihn gefunden? Bitte gib eine genaue Beschreibung an"
-      en: "Which bug did you find? Where did you find it? Please provide a detailed description"
+      de: "Welchen Fehler hast du gefunden? Wo hast du ihn gefunden? Bitte gib eine genaue Beschreibung an."
+      en: "Which bug did you find? Where did you find it? Please provide a detailed description."
     features:
       de: "Features, die du gerne auf dieser Website haben würdest"
-      en: "Features, you would like to see on this website"
+      en: "Features you would like to see on this website"
     search:
       de: "Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?"
       en: "Feedback about the search. What was your search query? What did you expect to see?"
     entry:
-      de: "Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten, die du siehst (Namen, Coordinaten, Adressen, ...) anpassen. Was können wir verbessern?"
+      de: "Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten, die du siehst (Namen, Koordinaten, Adressen, ...) anpassen. Was können wir verbessern?"
       en: "Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?"
   coordinatepicker:
     helptext:

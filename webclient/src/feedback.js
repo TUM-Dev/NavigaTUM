@@ -174,6 +174,8 @@ var feedback = (function() {
                     localStorage.removeItem("coordinate-feedback");
                     token = null;
                     localStorage.removeItem("feedback-token");
+                    var e = new Event("storage");
+                    window.dispatchEvent(e);
                     show_success(r.responseText);
                 } else if (r.status === 500) {
                     show_error("${{_.feedback.error.server_error}}$ (" + r.responseText + ")", false);
