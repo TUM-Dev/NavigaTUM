@@ -254,7 +254,7 @@ navigatum.registerView('view', {
         },
         confirmLocationPicker: function() {
             this._openFeedbackForm(true);
-        document.getElementById("feedback-coodinate-picker-helptext").classList.remove("d-none");
+        document.getElementById("feedback-coordinate-picker-helptext").classList.remove("d-none");
             this.map.interactive.marker2.remove();
             this.map.interactive.marker2 = null;
         },
@@ -444,7 +444,7 @@ navigatum.registerView('view', {
             document.body.removeChild(textArea);
         },
         entry_feedback: function() {
-            const picker = document.getElementById("feedback-coodinate-picker");
+            const picker = document.getElementById("feedback-coordinate-picker");
             picker.onclick = this.addLocationPicker;
             picker.classList.remove("d-none");
             picker.classList.add("activate-coordinatepicker");
