@@ -330,8 +330,7 @@
               <div class="input-group">
                 <select class="form-select"
                         aria-label="${{_.feedback.category}}$"
-                        id="feedback-category"
-                        onchange="updateFeedbackForm()">
+                        id="feedback-category">
                   <option value="general">${{_.feedback.type.general}}$</option>
                   <option value="bug">${{_.feedback.type.bug}}$</option>
                   <option value="features">${{_.feedback.type.features}}$</option>
@@ -396,31 +395,10 @@
       </div>
     </div>
     <script>
-        function updateFeedbackForm(category=null) {
-            if (!category) {
-                category=document.getElementById("feedback-category").value;
-            }
-            const helptextLUT = {
-                general: '${{_.feedback.helptext.general}}$',
-                bug: '${{_.feedback.helptext.bug}}$',
-                features: '${{_.feedback.helptext.features}}$',
-                search: '${{_.feedback.helptext.search}}$',
-                entry: '${{_.feedback.helptext.entry}}$',
-            };
-            const feedbackHelptext = document.getElementById('feedback-helptext');
-            feedbackHelptext.innerText = helptextLUT[category];
-
-            const coordinatePicker=document.getElementById('feedback-coodinate-picker');
-            if (category === 'entry' && coordinatePicker.classList.contains('activate-coordinatepicker')) {
-                coordinatePicker.classList.remove("d-none");
-            } else {
-                coordinatePicker.classList.add("d-none");
-            }
-        }
         function open_feedback(category, subject, body) {
             if (window.feedback) {
                 window.feedback.open_form(category, subject, body);
-                updateFeedbackForm(category);
+                window.feedback.update_feedback_form(category);
             } else {
                 window.feedback_preload = {category: category, subject: subject, body: body};
                 var s = document.createElement("script");
