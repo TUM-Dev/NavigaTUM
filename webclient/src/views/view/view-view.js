@@ -241,18 +241,21 @@ navigatum.registerView('view', {
                        "${{_.feedback.coordinatepicker.edit_coordinates_subject}}$";
             }
 
+            let subject_prefix = `[${this.view_data.id}]: `
+            let subject_msg = Object.keys(current_edits).length === 0
+                              ? "" : "${{_.feedback.coordinatepicker.edit_coordinate_subject}}$";
+
             // The subject backup is only loaded (and supported) when a single
             // entry is being edited
             if (this.coord_picker.suject_backup
-                && this.coord_picker.backup_id === this.view_data.id) {
+                && this.coord_picker.backup_id === this.view_data.id
+                && this.coord_picker.suject_backup !== subject_prefix) {
                 const backup = this.coord_picker.suject_backup;
                 this.coord_picker.suject_backup = null;
                 return backup;
+            } else {
+                return subject_prefix + subject_msg;
             }
-
-            let subject_msg = Object.keys(current_edits).length === 0
-                              ? "" : "${{_.feedback.coordinatepicker.edit_coordinate_subject}}$";
-            return `[${this.view_data.id}]: ${subject_msg}`;
         },
         _getFeedbackBody:function (current_edits) {
             // Look up whether there is a backup of the body and extract the section
@@ -264,7 +267,7 @@ navigatum.registerView('view', {
                 if (parts.length === 1) {
                     action_msg = parts[0];
                 } else {
-                    action_msg = parts[0] + "\n" + parts[1].split("\`\`\`").slice(1).join("\n");
+                    action_msg = parts[0] + parts[1].split("\`\`\`").slice(1).join("\n");
                 }
 
                 this.coord_picker.body_backup = null;
@@ -349,6 +352,9 @@ navigatum.registerView('view', {
             if (this.coord_counter.to_confirm_delete) {
                 navigatum.removeLocalStorage("coordinate-feedback");
                 this.coord_counter.to_confirm_delete = false;
+                this.coord_picker.body_backup = null;
+                this.coord_picker.subject_backup = null;
+                this.coord_picker.backup_id = null;
             } else {
                 this.coord_counter.to_confirm_delete = true;
             }
