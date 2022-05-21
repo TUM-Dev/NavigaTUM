@@ -114,6 +114,12 @@
         // This does not change anything (except using px instead of rem),
         // but ensures that roomfinder position calculations are predictable.
         padding: 0 8px;
+
+        // The marker2 (draggable)
+        .mapboxgl-marker + .mapboxgl-marker {
+            animation: fade-in .1s linear .05s;
+            animation-fill-mode: both;
+        }
     }
 
     .toast.location-picker {
