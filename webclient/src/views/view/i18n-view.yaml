@@ -36,7 +36,7 @@ view_view:
         en: "(For this entry automatic patches were applied to external data)"
     coords:
       title: {de: "Koordinaten", en: "Coordinates"}
-      navigatum: {de: "NavigaTUM", en: "NavigaTUM"}
+      navigatum: {de: "NavigaTUM Mitwirkende", en: "NavigaTUM Contributors"}
       roomfinder:
         de: "Roomfinder"
         en: "Roomfinder"
@@ -46,8 +46,8 @@ view_view:
   msg:
     correct_location:
       msg:
-        de: "Um die richtige Position zu sehen, ziehe den roten Marker über die Karte."
-        en: "To correct the location, drag the red Marker around."
+        de: "Um die richtige Position zu setzen, ziehe den roten Marker über die Karte."
+        en: "To set the location, drag the red Marker around."
       btn-done:
         de: "Fertig"
         en: "Done"
