@@ -52,8 +52,8 @@ var feedback = (function() {
 
         // Token are renewed after 6 hours here to be sure, even though they may be valid
         // for longer on the server side.
-        if (token === null) {
-            token=navigatum.getLocalStorageWithExpiry("feedback-token",null);
+        if (token === null && navigatum) {
+            token = navigatum.getLocalStorageWithExpiry("feedback-token", null);
         }
         if (token === null || (Date.now() - token.creation) > 1000*3600*6) {
             do_request("POST", "/* @echo api_prefix */feedback/get_token", null,
@@ -63,7 +63,8 @@ var feedback = (function() {
                             creation: Date.now(),
                             value: JSON.parse(r.response)["token"]
                         }
-                        navigatum.setLocalStorageWithExpiry("feedback-token", token, 6);
+                        if (navigatum)
+                            navigatum.setLocalStorageWithExpiry("feedback-token", token, 6);
                     } else if (r.status === 429) {
                         show_error("${{_.feedback.error.429}}$", true);
                     } else if (r.status === 503) {
@@ -77,6 +78,30 @@ var feedback = (function() {
                     console.log(r);
                 }
             );
+        }
+    }
+
+
+    function update_feedback_form(category) {
+        if (category === undefined)
+            category = document.getElementById("feedback-category").value;
+
+        const helptextLUT = {
+            general: '${{_.feedback.helptext.general}}$',
+            bug: '${{_.feedback.helptext.bug}}$',
+            features: '${{_.feedback.helptext.features}}$',
+            search: '${{_.feedback.helptext.search}}$',
+            entry: '${{_.feedback.helptext.entry}}$',
+        };
+        const feedback_helptext = document.getElementById('feedback-helptext');
+        feedback_helptext.innerText = helptextLUT[category];
+
+        const coordinate_picker=document.getElementById('feedback-coodinate-picker');
+        if (category === 'entry'
+            && coordinate_picker.classList.contains('activate-coordinatepicker')) {
+            coordinate_picker.classList.remove("d-none");
+        } else {
+            coordinate_picker.classList.add("d-none");
         }
     }
 
@@ -171,11 +196,15 @@ var feedback = (function() {
     document.getElementById("feedback-close").addEventListener('click', close_form, false);
     document.getElementById("feedback-overlay").addEventListener('click', may_close_form, false);
 
+    document.getElementById("feedback-category").addEventListener('change', function(e) {
+        update_feedback_form(e.value);
+    }, false);
+
     document.getElementById("feedback-send").addEventListener('click', send_form, false);
 
     if (feedback_preload) {
         open_form(feedback_preload.category, feedback_preload.subject, feedback_preload.body);
-        updateFeedbackForm(feedback_preload.category);
+        update_feedback_form(feedback_preload.category);
     }
 
     return {
