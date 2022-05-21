@@ -239,7 +239,7 @@ body {
 }
 
 /* === Feedback === */
-#feedback-modal {
+#feedback-modal, #feedback-success-modal {
     z-index: 3000;
 
     .modal-container {
@@ -247,15 +247,16 @@ body {
         box-shadow: $feedback-box-shadow;
     }
 
-    .modal-header {
-        
+    label {
+        width: fit-content;
+        display: inline-block;
     }
 
     .buttons {
         text-align: right;
     }
 }
-#feedback-overlay {
+#feedback-overlay, #feedback-overlay-2 {
     background: $feedback-overlay-bg;
 }
 #feedback-error {
@@ -264,11 +265,22 @@ body {
 #feedback-category {
     flex: none;
 }
+#feedback-body {
+    min-width: 100%;
+}
 #feedback-privacy-label {
     font-size: 11px;
     line-height: 140%;
 }
 
+#feedback-coordinate-picker {
+    //text-align: right;
+    float: right;
+    margin-top: .5em;
+}
+#feedback-coordinate-picker-helptext {
+    font-size: 14px;
+}
 
 /* === Footer === */
 footer {
