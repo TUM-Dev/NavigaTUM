@@ -13,8 +13,13 @@
     <div class="panel-body columns">
       <div class="column col col-sm-12 msg">
         ${{_.view_view.msg.coordinate-counter.msg-1}}$
-        <em>{{ coord_counter.counter }}</em>
-        ${{_.view_view.msg.coordinate-counter.msg-2}}$
+        <em>{{ coord_counter.counter }} </em>
+        <span v-if="coord_counter.counter === 1">
+          ${{_.view_view.msg.coordinate-counter.msg-2}}$
+        </span>
+        <span v-else>
+          ${{_.view_view.msg.coordinate-counter.msg-2-plural}}$
+        </span>
         <button class="btn btn-action btn-sm btn-link tooltip tooltip-left"
                 data-tooltip=" ${{_.view_view.msg.coordinate-counter.info}}$ ">&#x1f6c8;</button>
       </div>
