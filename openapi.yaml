@@ -733,6 +733,7 @@ paths:
           schema:
             type: string
             enum:
+              - overlay
               - roomfinder
         - name: id
           in: path
@@ -743,10 +744,13 @@ paths:
             minLength: 1
           examples:
             rf142:
-              summary: MI main overview
+              summary: MI main overview (roomfinder only)
               value: rf142
+            mi_0:
+              summary: MI main overview (overlay only)
+              value: mi_0
             garching:
-              summary: StudiTUM Garching
+              summary: StudiTUM Garching (roomfinder + overview)
               value: '5532_2'
       responses:
         '200':
