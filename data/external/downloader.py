@@ -176,7 +176,7 @@ def roomfinder_maps():
     for e_type, e_id, m in used_maps.values():
         # Download as file
         url = f"http://roomfinder.ze.tum.de:8192/getMapImage?m_id={m[1]}"
-        filepath = f"maps/roomfinder/webp/{m[1]}.gif"
+        filepath = f"maps/roomfinder/{m[1]}.gif"
         _download_file(url, filepath)
         convert_to_webp(Path(filepath))
 

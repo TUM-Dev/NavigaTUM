@@ -718,7 +718,7 @@ paths:
           content: {}
       tags:
         - cdn
-  '/cdn/maps/{source}/{format}/{id}.webp':
+  '/cdn/maps/{source}/{id}.webp':
     get:
       operationId: maps_cdn
       summary: Get title images
@@ -734,14 +734,6 @@ paths:
             type: string
             enum:
               - roomfinder
-        - name: format
-          in: path
-          description: format of the resource you want
-          required: true
-          schema:
-            type: string
-            enum:
-              - webp
         - name: id
           in: path
           description: id of the map you want
@@ -764,7 +756,7 @@ paths:
               schema:
                 type: string
                 format: binary
-              example: 'https://nav.tum.sexy/cdn/maps/roomfinder/webp/rf142.webp'
+              example: 'https://nav.tum.sexy/cdn/maps/roomfinder/rf142.webp'
         '400':
           description: |
             Bad Request.    

@@ -132,7 +132,7 @@
              v-bind:style="{'transform': 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)'}"
              id="roomfinder-map-cross">
         <img alt="Hand-drawn roomfinder map image"
-             v-bind:src="'<!-- @echo cdn_prefix -->maps/roomfinder/' + view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].path"
+             v-bind:src="'<!-- @echo cdn_prefix -->maps/roomfinder/' + view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].file"
              class="img-responsive"
              v-bind:width="state.map.roomfinder.width"
              v-bind:height="state.map.roomfinder.height"
