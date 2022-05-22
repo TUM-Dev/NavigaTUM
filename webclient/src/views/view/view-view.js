@@ -113,7 +113,7 @@ navigatum.registerView('view', {
                 // the set coordinate button in the feedback form. If we didn't
                 // made a backup then, this would be lost after clicking confirm there.
                 backup_id: null,
-                suject_backup: null,
+                subject_backup: null,
                 body_backup: null,
                 force_reopen: false,
             },
@@ -214,7 +214,7 @@ navigatum.registerView('view', {
             if (window.feedback
                 && document.getElementById("feedback-modal").classList.contains("active")) {
                 this.coord_picker.backup_id = this.view_data.id;
-                this.coord_picker.suject_backup = document.getElementById("feedback-subject").value;
+                this.coord_picker.subject_backup = document.getElementById("feedback-subject").value;
                 this.coord_picker.body_backup = document.getElementById("feedback-body").value;
                 this.coord_picker.force_reopen = true;  // reopen after confirm
 
@@ -251,11 +251,11 @@ navigatum.registerView('view', {
 
             // The subject backup is only loaded (and supported) when a single
             // entry is being edited
-            if (this.coord_picker.suject_backup
+            if (this.coord_picker.subject_backup
                 && this.coord_picker.backup_id === this.view_data.id
-                && this.coord_picker.suject_backup !== subject_prefix) {
-                const backup = this.coord_picker.suject_backup;
-                this.coord_picker.suject_backup = null;
+                && this.coord_picker.subject_backup !== subject_prefix) {
+                const backup = this.coord_picker.subject_backup;
+                this.coord_picker.subject_backup = null;
                 return backup;
             } else {
                 return subject_prefix + subject_msg;
