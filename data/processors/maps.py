@@ -474,7 +474,10 @@ def add_overlay_maps(data):
                     "coordinates": overlay["props"]["box"]
                 })
                 
-                if f".{m['floor']}." in _id:
+                # The 'tumonline' field overwrites which TUMOnline ID floor to match
+                if f".{m.get('tumonline', '')}." in _id:
+                    overlay_data["default"] = m["id"]
+                elif f".{m['floor']}." in _id:
                     overlay_data["default"] = m["id"]
             
             overlay_data.setdefault("default", None)
