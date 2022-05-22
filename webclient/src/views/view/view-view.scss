@@ -55,11 +55,80 @@
         }
     }
 
+    /* --- Pending coordinates counter --- */
+    .coord-counter {
+        margin: 8px 0px;
+        box-shadow: $card-shadow;
+        border: 1px solid $card-border;
+        border-radius: 4px;
+        background: $card-highlighted-bg;
+
+        & .panel-body {
+            overflow-y: visible;
+
+            & .msg {
+                margin: 15px 0;
+
+                & em {
+                    color: $theme-accent;
+                    font-style: normal;
+                    font-weight: bold;
+                }
+
+                & .btn {
+                    height: 1.3rem;
+                    width: 1.3rem;
+
+                    &::after {
+                        z-index: 2000;
+                    }
+                }
+            }
+
+            & .btns {
+                margin: auto 0 12px 0;
+
+                .delete .default {
+                    display: inline-block;
+                }
+                .delete .confirm {
+                    display: none;
+                }
+
+                .delete.to-confirm {
+                    animation: delay-btn .3s steps(1);
+                    animation-fill-mode: both;
+                }
+                .delete.to-confirm .default {
+                    display: none;
+                }
+                .delete.to-confirm .confirm {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+
     /* --- Map container --- */
     #map-container {
         // This does not change anything (except using px instead of rem),
         // but ensures that roomfinder position calculations are predictable.
         padding: 0 8px;
+
+        // The marker2 (draggable)
+        .mapboxgl-marker + .mapboxgl-marker {
+            animation: fade-in .1s linear .05s;
+            animation-fill-mode: both;
+        }
+    }
+
+    .toast.location-picker {
+        animation: fade-in .1s linear .05s;
+        animation-fill-mode: both;
+
+        & .btns {
+            margin: auto 0;
+        }
     }
 
     /* --- Interactive map display --- */
@@ -393,5 +462,17 @@
         #rooms-overview-list .panel-body {
             max-height: 275px;
         }
+    }
+}
+
+
+@keyframes delay-btn {
+    from {
+        pointer-events: none;
+        color: $text-gray;
+    }
+    to {
+        pointer-events: all;
+        color: $error-color;
     }
 }

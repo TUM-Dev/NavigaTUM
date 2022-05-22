@@ -82,6 +82,8 @@ navigatum.registerView('view', {
                 interactive: {
                     map: null,
                     component: null,
+                    marker: null,
+                    marker2: null,
                 },
             },
             sections: {
@@ -100,6 +102,21 @@ navigatum.registerView('view', {
             // May only contain serializable objects!
             state: navigatum.cloneState(_view_default_state),
             copied: false,
+            // Coordinate picker states
+            coord_counter: {
+                counter: null,
+                to_confirm_delete: false,
+            },
+            coord_picker: {
+                // The coordinate picker keeps backups of the subject and body
+                // in case someone writes a text and then after that clicks
+                // the set coordinate button in the feedback form. If we didn't
+                // made a backup then, this would be lost after clicking confirm there.
+                backup_id: null,
+                subject_backup: null,
+                body_backup: null,
+                force_reopen: false,
+            },
         }
     },
     beforeRouteEnter: function(to, from, next) { viewNavigateTo(to, from, next, null) },
@@ -190,6 +207,162 @@ navigatum.registerView('view', {
             else if (this.state.map.selected === "roomfinder")
                 this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
         },
+        addLocationPicker: function() {
+            // If this is called from the feedback form using the edit coordinate
+            // button, we temporarily save the current subject and body so it is
+            // not lost when being reopened
+            if (window.feedback
+                && document.getElementById("feedback-modal").classList.contains("active")) {
+                this.coord_picker.backup_id = this.view_data.id;
+                this.coord_picker.subject_backup = document.getElementById("feedback-subject").value;
+                this.coord_picker.body_backup = document.getElementById("feedback-body").value;
+                this.coord_picker.force_reopen = true;  // reopen after confirm
+
+                window.feedback.close_form();
+            }
+
+            this.state.map.selected = "interactive";
+
+            // Verify that there isn't already a marker (could happen if you click 'assign
+            // a location' multiple times from the 'missing accurate location' toast)
+            if (this.map.interactive.marker2 === null) {
+                // Coordinates are either taken from the entry, or if there are already
+                // some in the localStorage use them
+                const current_edits = navigatum.getLocalStorageWithExpiry("coordinate-feedback", {});
+
+                const coords = (current_edits[this.view_data.id] || this.view_data).coords;
+                const marker2 = new mapboxgl.Marker({
+                    draggable: true,
+                    color: '#ff0000',
+                });
+                marker2.setLngLat([coords.lon, coords.lat]).addTo(this.map.interactive.map);
+                this.map.interactive.marker2 = marker2;
+            }
+        },
+        _getFeedbackSubject: function(current_edits) {
+            if (Object.keys(current_edits).length > 1) {
+                return `[${this.view_data.id} et.al.]: ` +
+                       "${{_.feedback.coordinatepicker.edit_coordinates_subject}}$";
+            }
+
+            let subject_prefix = `[${this.view_data.id}]: `
+            let subject_msg = Object.keys(current_edits).length === 0
+                              ? "" : "${{_.feedback.coordinatepicker.edit_coordinate_subject}}$";
+
+            // The subject backup is only loaded (and supported) when a single
+            // entry is being edited
+            if (this.coord_picker.subject_backup
+                && this.coord_picker.backup_id === this.view_data.id
+                && this.coord_picker.subject_backup !== subject_prefix) {
+                const backup = this.coord_picker.subject_backup;
+                this.coord_picker.subject_backup = null;
+                return backup;
+            } else {
+                return subject_prefix + subject_msg;
+            }
+        },
+        _getFeedbackBody:function (current_edits) {
+            // Look up whether there is a backup of the body and extract the section
+            // that is not the coordinate
+            let action_msg = "";
+            if (this.coord_picker.body_backup
+                && this.coord_picker.backup_id === this.view_data.id) {
+                let parts = this.coord_picker.body_backup.split("\n\`\`\`");
+                if (parts.length === 1) {
+                    action_msg = parts[0];
+                } else {
+                    action_msg = parts[0] + parts[1].split("\`\`\`").slice(1).join("\n");
+                }
+
+                this.coord_picker.body_backup = null;
+            }
+
+            if (Object.keys(current_edits).length === 0) {
+                // For no edits, don't show a badly formatted message
+                // (This is "" if there was no backup)
+                return action_msg;
+            }
+
+            default_action_msg = this.view_data.coords.accuracy === "building"
+                                 ? "${{_.feedback.coordinatepicker.add_coordinate}}$"
+                                 : "${{_.feedback.coordinatepicker.correct_coordinate}}$";
+            action_msg = action_msg || default_action_msg;
+
+            if (Object.keys(current_edits).length > 1){
+                // The body backup is discarded if more than a single entry
+                // is being edited (because then it is not supported).
+                action_msg = "${{_.feedback.coordinatepicker.edit_multiple_coordinates}}$";
+            }
+
+            let edit_str="";
+            for (const [key, value] of Object.entries(current_edits)) {
+                edit_str += `"${key}": {coords: {lat: ${value.coords.lat}, lon: ${value.coords.lon}}},\n`
+            }
+
+            return `${action_msg}\n` +
+                "\`\`\`\n" +
+                edit_str +
+                "\`\`\`";
+        },
+        openFeedbackForm: function(){
+            // The feedback form is opened. This may be prefilled with previously corrected coordinates.
+            // Maybe get the old coordinates from localstorage
+            const current_edits = navigatum.getLocalStorageWithExpiry("coordinate-feedback", {});
+            const body = this._getFeedbackBody(current_edits);
+            const subject = this._getFeedbackSubject(current_edits);
+
+            document.getElementById("feedback-coordinate-picker")
+                    .addEventListener('click', this.addLocationPicker);
+
+            open_feedback("entry", subject, body);
+        },
+        confirmLocationPicker: function() {
+            // add the current edits to the feedback
+            const current_edits = navigatum.getLocalStorageWithExpiry("coordinate-feedback", {});
+            const location = this.map.interactive.marker2.getLngLat();
+            current_edits[this.view_data.id] = {coords: {lat: location.lat, lon: location.lng}}
+            // save to local storage with ttl of 12h (garbage-collected on next read)
+            navigatum.setLocalStorageWithExpiry("coordinate-feedback", current_edits, 12);
+
+            this.map.interactive.marker2.remove();
+            this.map.interactive.marker2 = null;
+
+            // A feedback form is only opened when this is the only (and therefore
+            // first coordinate). If there are more coordinates we can assume
+            // someone is doing batch edits. They can then use the send button in
+            // the coordinate counter at the top of the page.
+            if (Object.keys(current_edits).length === 1 || this.coord_picker.force_reopen) {
+                this.coord_picker.force_reopen = false;
+                this.openFeedbackForm();
+            }
+
+            // The helptext (which says thet you can edit multiple coordinates in bulk)
+            // is also only shown if there is one edit.
+            if (Object.keys(current_edits).length === 1) {
+                document.getElementById("feedback-coordinate-picker-helptext")
+                        .classList.remove("d-none");
+            }
+        },
+        cancelLocationPicker: function() {
+            this.map.interactive.marker2.remove();
+            this.map.interactive.marker2 = null;
+
+            if (this.coord_picker.force_reopen) {
+                this.coord_picker.force_reopen = false;
+                this.openFeedbackForm();
+            }
+        },
+        deletePendingCoordinates: function() {
+            if (this.coord_counter.to_confirm_delete) {
+                navigatum.removeLocalStorage("coordinate-feedback");
+                this.coord_counter.to_confirm_delete = false;
+                this.coord_picker.body_backup = null;
+                this.coord_picker.subject_backup = null;
+                this.coord_picker.backup_id = null;
+            } else {
+                this.coord_counter.to_confirm_delete = true;
+            }
+        },
         loadInteractiveMap: function(from_ui) {
             var _this = this;
             var from_map = this.state.map.selected;
@@ -215,7 +388,7 @@ navigatum.registerView('view', {
                             document.getElementById("interactive-map").classList.remove("loading");
                         }
                     }
-                    marker = c.initMarker();
+                    marker = new mapboxgl.Marker({element: c.createMarker()});
                     _this.map.interactive.marker = marker;
                     const coords = _this.view_data.coords;
                     marker.setLngLat([coords.lon, coords.lat]).addTo(map);
@@ -371,9 +544,6 @@ navigatum.registerView('view', {
 
             document.body.removeChild(textArea);
         },
-        entry_feedback: function(id) {
-            open_feedback("entry", "[" + id + "]: ");
-        },
     },
     watch: {
         'state.rooms_overview.filter': function() { this.updateRoomsOverview(); },
@@ -383,6 +553,16 @@ navigatum.registerView('view', {
         if (navigator.userAgent === "Rendertron") {
             return;
         }
+
+        // Update pending coordinate counter on localStorage changes
+        var _this = this;
+        const updateCoordinateCounter = function() {
+            const coords = navigatum.getLocalStorageWithExpiry("coordinate-feedback", {});
+            _this.coord_counter.counter = Object.keys(coords).length;
+        }
+        window.addEventListener("storage", updateCoordinateCounter);
+        updateCoordinateCounter();
+
         this.$nextTick(function () {
             // Even though 'mounted' is called there is no guarantee apparently,
             // that it really is mounted now. For this reason we try to poll now.

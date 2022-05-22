@@ -9,6 +9,10 @@ html {
 body {
     min-height: 80%;  // optimized for desktop view, not really relevant on mobile
     position: relative;
+
+    &.no-scroll {
+        overflow-y: hidden;
+    }
 }
 
 // v-cloak is set until vue loaded
@@ -69,6 +73,30 @@ body {
     box-shadow: $card-shadow;
     border-radius: 4px;
 }
+
+// --- Toast buttons
+.toast .btn {
+    background: $toast-btn-bg;
+    color: $light-color;
+    border-color: $light-color;
+    font-weight: bold;
+
+    &:hover {
+        background: $toast-btn-bg-hover;
+        border-color: $light-color;
+    }
+
+    &:active {
+        background: $toast-btn-bg-active;
+        border-color: $light-color;
+    }
+
+    &:focus {
+        background: $toast-btn-bg;
+        border-color: $light-color;
+    }
+}
+
 
 /* === Navbar === */
 
@@ -211,7 +239,7 @@ body {
 }
 
 /* === Feedback === */
-#feedback-modal {
+#feedback-modal, #feedback-success-modal {
     z-index: 3000;
 
     .modal-container {
@@ -219,15 +247,16 @@ body {
         box-shadow: $feedback-box-shadow;
     }
 
-    .modal-header {
-        
+    label {
+        width: fit-content;
+        display: inline-block;
     }
 
     .buttons {
         text-align: right;
     }
 }
-#feedback-overlay {
+#feedback-overlay, #feedback-overlay-2 {
     background: $feedback-overlay-bg;
 }
 #feedback-error {
@@ -236,11 +265,22 @@ body {
 #feedback-category {
     flex: none;
 }
+#feedback-body {
+    min-width: 100%;
+}
 #feedback-privacy-label {
     font-size: 11px;
     line-height: 140%;
 }
 
+#feedback-coordinate-picker {
+    //text-align: right;
+    float: right;
+    margin-top: .5em;
+}
+#feedback-coordinate-picker-helptext {
+    font-size: 14px;
+}
 
 /* === Footer === */
 footer {
@@ -297,6 +337,13 @@ footer {
             }
         }
     }
+}
+
+
+// Animations
+@keyframes fade-in {
+    from { opacity: 0 }
+    to { opacity: 1 }
 }
 
 

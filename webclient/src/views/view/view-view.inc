@@ -8,6 +8,37 @@
          class="img-responsive"/>
   </a>
 
+  <!-- Pending coordinates counter (if any) -->
+  <div class="panel coord-counter" v-if="coord_counter.counter">
+    <div class="panel-body columns">
+      <div class="column col col-sm-12 msg">
+        ${{_.view_view.msg.coordinate-counter.msg-1}}$
+        <em>{{ coord_counter.counter }} </em>
+        <span v-if="coord_counter.counter === 1">
+          ${{_.view_view.msg.coordinate-counter.msg-2}}$
+        </span>
+        <span v-else>
+          ${{_.view_view.msg.coordinate-counter.msg-2-plural}}$
+        </span>
+        <button class="btn btn-action btn-sm btn-link tooltip tooltip-left"
+                data-tooltip=" ${{_.view_view.msg.coordinate-counter.info}}$ ">&#x1f6c8;</button>
+      </div>
+      <div class="column col-auto col-sm-12 btns">
+        <button class="btn btn-link btn-sm delete"
+                v-bind:class="{'to-confirm': coord_counter.to_confirm_delete}"
+                @click="deletePendingCoordinates">
+          <i class="icon icon-cross"></i>
+          <span class="default">${{_.view_view.msg.coordinate-counter.delete}}$</span>
+          <span class="confirm">${{_.view_view.msg.coordinate-counter.delete-confirm}}$</span>
+        </button>
+        <button class="btn btn-primary btn-sm" @click="openFeedbackForm">
+          <i class="icon icon-check"></i>
+          ${{_.view_view.msg.coordinate-counter.send}}$
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Breadcrumbs -->
   <ol class="breadcrumb"
       vocab="https://schema.org/" typeof="BreadcrumbList">
@@ -42,7 +73,7 @@
       <div class="column col-auto col-ml-auto">
         <button class="btn btn-link btn-action btn-sm"
                 title="${{ _.view_view.header.feedback }}$"
-                @click="entry_feedback(view_data.id)">
+                @click="openFeedbackForm">
           <i class="icon icon-flag"></i>
         </button>
         <!--<button class="btn btn-link btn-action btn-sm"
@@ -61,11 +92,29 @@
       <div class="show-sm">
         <div class="toast toast-warning"
              v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'">
-          ${{_.view_view.msg.inaccurate_only_building}}$
+          ${{_.view_view.msg.inaccurate_only_building.msg}}$
+          <button class="btn btn-sm" @click="addLocationPicker">
+            ${{_.view_view.msg.inaccurate_only_building.btn}}$
+          </button>
         </div>
         <div class="toast toast-warning"
              v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null">
           ${{_.view_view.msg.no_floor_overlay}}$
+        </div>
+      </div>
+
+      <div class="toast toast-primary mb-2 location-picker" v-if="map.interactive.marker2">
+        <div class="columns">
+          <div class="column col col-sm-12">${{_.view_view.msg.correct_location.msg}}$</div>
+          <div class="column col-auto col-sm-12 btns">
+            <button class="btn btn-sm" @click="cancelLocationPicker">
+              ${{_.view_view.msg.correct_location.btn-cancel}}$
+            </button>
+            <button class="btn btn-sm" @click="confirmLocationPicker">
+              <i class="icon icon-check"></i>
+              ${{_.view_view.msg.correct_location.btn-done}}$
+            </button>
+          </div>
         </div>
       </div>
 
@@ -173,7 +222,10 @@
           <span v-else>-</span>
           <div class="toast toast-warning"
                v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'">
-            ${{_.view_view.msg.inaccurate_only_building}}$
+            ${{_.view_view.msg.inaccurate_only_building.msg}}$
+            <button class="btn btn-sm" @click="addLocationPicker">
+              ${{_.view_view.msg.inaccurate_only_building.btn}}$
+            </button>
           </div>
           <div class="toast toast-warning"
                v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null">
