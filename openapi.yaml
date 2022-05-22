@@ -1084,9 +1084,14 @@ components:
       type: object
       properties:
         default:
-          description: 'The floor-id of the map, that should be shown as a default'
+          description: |
+            The floor-id of the map, that should be shown as a default.  
+            null:
+            - We suggest, you dont show a map by default.
+            - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
           type: integer
           example: 0
+          nullable: true
         available:
           type: array
           items:
