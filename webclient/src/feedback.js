@@ -49,9 +49,13 @@ var feedback = (function() {
         show_loading(false);
 
         document.getElementById("feedback-modal").classList.add("active");
+        document.body.classList.add("no-scroll");
 
         // Token are renewed after 6 hours here to be sure, even though they may be valid
         // for longer on the server side.
+        if (token === null && navigatum) {
+            token = navigatum.getLocalStorageWithExpiry("feedback-token", null);
+        }
         if (token === null || (Date.now() - token.creation) > 1000*3600*6) {
             do_request("POST", "/* @echo api_prefix */feedback/get_token", null,
                 function(r) {
@@ -60,6 +64,8 @@ var feedback = (function() {
                             creation: Date.now(),
                             value: JSON.parse(r.response)["token"]
                         }
+                        if (navigatum)
+                            navigatum.setLocalStorageWithExpiry("feedback-token", token, 6);
                     } else if (r.status === 429) {
                         show_error("${{_.feedback.error.429}}$", true);
                     } else if (r.status === 503) {
@@ -76,9 +82,37 @@ var feedback = (function() {
         }
     }
 
+
+    function update_feedback_form(category) {
+        if (category === undefined)
+            category = document.getElementById("feedback-category").value;
+
+        const helptextLUT = {
+            general: '${{_.feedback.helptext.general}}$',
+            bug: '${{_.feedback.helptext.bug}}$',
+            features: '${{_.feedback.helptext.features}}$',
+            search: '${{_.feedback.helptext.search}}$',
+            entry: '${{_.feedback.helptext.entry}}$',
+        };
+        const feedback_helptext = document.getElementById('feedback-helptext');
+        feedback_helptext.innerText = helptextLUT[category];
+
+        const coordinate_picker=document.getElementById('feedback-coordinate-picker');
+        if (category === 'entry') {
+            coordinate_picker.classList.remove("d-none");
+        } else {
+            coordinate_picker.classList.add("d-none");
+        }
+    }
+
     function close_form() {
+        document.getElementById("feedback-coordinate-picker").classList.add("d-none");
+        document.getElementById("feedback-coordinate-picker-helptext").classList.add("d-none");
+
         document.getElementById("feedback-modal").classList.remove("active");
         document.getElementById("feedback-success-modal").classList.remove("active");
+
+        document.body.classList.remove("no-scroll");
     }
 
     function may_close_form() {
@@ -134,13 +168,18 @@ var feedback = (function() {
             function(r) {
                 show_loading(false);
                 if (r.status === 201) {
+                    localStorage.removeItem("coordinate-feedback");
                     token = null;
+                    localStorage.removeItem("feedback-token");
+                    var e = new Event("storage");
+                    window.dispatchEvent(e);
                     show_success(r.responseText);
                 } else if (r.status === 500) {
                     show_error("${{_.feedback.error.server_error}}$ (" + r.responseText + ")", false);
                 } else if (r.status === 451) {
                     show_error("${{_.feedback.error.privacy_not_checked}}$", false);
                 } else if (r.status === 403) {
+                    localStorage.removeItem("feedback-token");
                     token = null;
                     show_error("${{_.feedback.error.send_invalid_token}}$ (" + r.responseText + ")", false);
                 } else {
@@ -159,13 +198,23 @@ var feedback = (function() {
     document.getElementById("feedback-close").addEventListener('click', close_form, false);
     document.getElementById("feedback-overlay").addEventListener('click', may_close_form, false);
 
+    document.getElementById("feedback-close-2").addEventListener('click', close_form, false);
+    document.getElementById("feedback-overlay-2").addEventListener('click', close_form, false);
+
+    document.getElementById("feedback-category").addEventListener('change', function(e) {
+        update_feedback_form(e.value);
+    }, false);
+
     document.getElementById("feedback-send").addEventListener('click', send_form, false);
 
     if (feedback_preload) {
         open_form(feedback_preload.category, feedback_preload.subject, feedback_preload.body);
+        update_feedback_form(feedback_preload.category);
     }
 
     return {
         open_form: open_form,
+        close_form: close_form,
+        update_feedback_form: update_feedback_form,
     }
 })();

@@ -226,6 +226,39 @@ var navigatum = (function () {
         getExtendedData: function(id) {
             return this.getData(id, true)
         },
+        setLocalStorageWithExpiry:function(key, value, ttl) {
+            // ttl in hours
+            const now = new Date();
+
+            const item = {
+                value: value,
+                expiry: now.getTime() + ttl * 3.6e+6,
+            };
+            localStorage.setItem(key, JSON.stringify(item));
+
+            // "storage" usually fires only across tabs, this way we
+            // force it to fire in this window as well
+            var e = new Event("storage");
+            window.dispatchEvent(e);
+        },
+        getLocalStorageWithExpiry: function(key, default_value=null) {
+            const itemStr = localStorage.getItem(key);
+            if (!itemStr) {
+                return default_value;
+            }
+            const item = JSON.parse(itemStr);
+            const now = new Date();
+            if (now.getTime() > item.expiry) {
+                localStorage.removeItem(key);
+                return default_value;
+            }
+            return item.value;
+        },
+        removeLocalStorage: function(key) {
+            localStorage.removeItem(key);
+            var e = new Event("storage");
+            window.dispatchEvent(e);
+        },
         putData: function(id, data) {
             
         },
