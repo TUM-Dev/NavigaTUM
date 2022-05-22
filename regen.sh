@@ -23,5 +23,5 @@ cd ./webclient || exit
 rm -fr cdn
 mkdir cdn
 rsync -r --exclude '*.yaml' ../data/sources/img/ cdn/
-cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder/webp/
+cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder
 )

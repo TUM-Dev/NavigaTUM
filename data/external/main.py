@@ -10,7 +10,7 @@ if __name__ == "__main__":
     os.makedirs(os.path.join(cache_base, "filter"), exist_ok=True)
     os.makedirs(os.path.join(cache_base, "tumonline"), exist_ok=True)
     os.makedirs(os.path.join(cache_base, "room"), exist_ok=True)
-    os.makedirs(os.path.join(cache_base, "maps/roomfinder/webp"), exist_ok=True)
+    os.makedirs(os.path.join(cache_base, "maps/roomfinder"), exist_ok=True)
     os.makedirs(os.path.join(cache_base, "maps/roomfinder/kmz"), exist_ok=True)
     
     # You can comment out steps that should be skipped.
