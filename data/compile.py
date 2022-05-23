@@ -69,6 +69,7 @@ def main():
     
     print("-- 45 Roomfinder maps")
     maps.assign_roomfinder_maps(data)
+    maps.check_roomfinder_maps_default(data)
     maps.build_roomfinder_maps(data)
     
     print("-- 46 Overlay maps")
