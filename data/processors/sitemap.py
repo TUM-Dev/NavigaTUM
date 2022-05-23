@@ -1,4 +1,5 @@
 import json
+import logging
 import urllib.request
 import urllib.error
 import xml.etree.ElementTree as ET
@@ -83,7 +84,7 @@ def generate_sitemap():
             "priority": priority,
         })
 
-    print(f"Info: {changed_count} of {len(new_data) - 1} URLs have been updated.")
+    logging.info(f"{changed_count} of {len(new_data) - 1} URLs have been updated.")
 
     for name, sitemap in sitemaps.items():
         _write_sitemap_xml(f"output/sitemap-data-{name}.xml", sitemap)
@@ -113,7 +114,7 @@ def _download_online_sitemap(url):
                 if loc is not None and lastmod is not None:
                     sitemap[loc.text] = datetime.fromisoformat(lastmod.text.rstrip("Z"))
     except urllib.error.HTTPError as e:
-        print(f"Warning: Failed to download sitemap '{url}': {e}")
+        logging.warning(f"Failed to download sitemap '{url}': {e}")
     return sitemap
 
 

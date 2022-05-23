@@ -1,3 +1,4 @@
+import logging
 import re
 
 
@@ -27,7 +28,9 @@ def apply_patches(objects, patches, searchkey):
 
     for patch_check, _ in patches:
         if patch_check not in applied_patches:
-            print(f"Warning: The patch for {searchkey}: r'{patch_check.pattern}' was never applied. "
-                   "Make sure it is still required.")
+            logging.warning(
+                f"The patch for {searchkey}: r'{patch_check.pattern}' was never applied. "
+                f"Make sure it is still required."
+            )
 
     return patched

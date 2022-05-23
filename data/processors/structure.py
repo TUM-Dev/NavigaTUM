@@ -1,3 +1,4 @@
+import logging
 
 
 def add_children_properties(data):
@@ -23,7 +24,7 @@ def add_stats(data):
         
         if "children_flat" not in entry:
             if entry["type"] in {"root", "site", "campus", "area"}:
-                print(f"Warning: '{_id}' ({entry['type']}) has no children")
+                logging.warning(f"'{_id}' ({entry['type']}) has no children")
             continue
         
         n_rooms = 0
@@ -48,7 +49,7 @@ def add_stats(data):
             stats["n_rooms"] = n_rooms
             stats["n_rooms_reg"] = n_rooms_reg
             if n_rooms == 0:
-                print(f"Warning: '{_id}' ({entry['type']}) has no rooms")
+                logging.warning(f"'{_id}' ({entry['type']}) has no rooms")
         if entry["type"] in {"root", "site", "campus", "area"}:
             stats["n_buildings"] = n_buildings
 
