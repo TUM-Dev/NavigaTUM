@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import shutil
 import time
@@ -48,12 +49,12 @@ def add_img(data):
         _id, _index = parse_image_filename(f.name)
 
         if _id not in img_sources or _index not in img_sources[_id]:
-            print(f"Warning: No source information for image '{f}', it will not be used")
+            logging.warning(f"No source information for image '{f}', it will not be used")
 
     # filter the images, that should exist, by the ones that actually do
     for _id, _source_data in img_sources.items():
         if _id not in data:
-            print(f"Warning: There are images for '{_id}', but it was not found in the provided data, ignoring")
+            logging.warning(f"There are images for '{_id}', but it was not found in the provided data, ignoring")
             continue
 
         img_data = []
@@ -61,8 +62,10 @@ def add_img(data):
             if f.name.startswith(_id + "_"):
                 source_info = _add_source_info(f.name, _source_data)
                 if not source_info:
-                    print(f"Warning: possibly skipped adding images for '{f}', a image was skipped because of missing "
-                          f"source information. Adding more images would violate the enumeration-consistency")
+                    logging.warning(
+                        f"possibly skipped adding images for '{f}', a image was skipped because of missing "
+                        f"source information. Adding more images would violate the enumeration-consistency"
+                    )
                     break
                 img_data.append(source_info)
 
@@ -88,7 +91,7 @@ def _add_source_info(fname, source_data):
     required_fields = ["author", "license", "source"]
     for field in required_fields:
         if field not in source_data[_index]:
-            print(f"Warning: No {field} information for image '{fname}', it will not be used")
+            logging.warning(f"No {field} information for image '{fname}', it will not be used")
             return None
 
     def _parse(obj):
@@ -107,7 +110,7 @@ def _add_source_info(fname, source_data):
         if raw_license in KNOWN_LICENSE_URLS:
             img_data["license"] = {"text": raw_license, "url": KNOWN_LICENSE_URLS[raw_license]}
             return img_data
-        print(f"Warning: Unknown license url for licence shorthand '{raw_license}'. No url will be added")
+        logging.warning(f"Unknown license url for licence shorthand '{raw_license}'. No url will be added")
     img_data["license"] = _parse(raw_license)
     return img_data
 
@@ -184,14 +187,16 @@ def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: Any) ->
             if _id in img_sources and _index in img_sources[_id]:
                 return img_sources[_id][_index].get("offsets", {})
             else:
-                print(f"Warning: No source information for image '{img_path}', default crop-offset 0 is used")
+                logging.warning(f"No source information for image '{img_path}', default crop-offset 0 is used")
     return {}
 
 
 def _get_hash_lut() -> dict[str, str]:
     """Get a lookup table for the hash of the image files content and offset if present"""
-    print("Info: Since GIT_COMMIT_SHA is unset, we assume this is acting in In Dev mode.\n"
-          "Only files, with f'{sha256(file-content)}_{sha256(offset)}' not present in the .hash_lut.json will be used")
+    logging.info("Since GIT_COMMIT_SHA is unset, we assume this is acting in In Dev mode.")
+    logging.info(
+        "Only files, with f'{sha256(file-content)}_{sha256(offset)}' not present in the .hash_lut.json will be used"
+    )
     if HASH_LUT.is_file():
         with open(HASH_LUT) as f:
             return json.load(f)
@@ -242,9 +247,9 @@ def resize_and_crop() -> None:
                 actual_hash = _gen_file_hash(img_path, offsets)
                 if actual_hash == expected_hashes_lut.get(img_path.name, ""):
                     continue  # skip this image, since it (and its offsets) have not changed
-                print(f"Info: Image '{img_path.name}' has changed, resizing and cropping...")
+                logging.info(f"Image '{img_path.name}' has changed, resizing and cropping...")
             executor.submit(_refresh_for_all_resolutions, (img_path, offsets))
     resize_and_crop_time = time.time() - start_time
     if DEV_MODE:
         _save_hash_lut(img_sources)
-    print(f"Info: Resize and crop took {resize_and_crop_time:.2f}s")
+    logging.info(f"Resize and crop took {resize_and_crop_time:.2f}s")

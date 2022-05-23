@@ -1,4 +1,5 @@
 import json
+import logging
 import string
 
 import yaml
@@ -35,7 +36,9 @@ def merge_tumonline_buildings(data):
         except:
             pass
             error = True
-            print(f"Failed to parse building name as '1234 [...]' with a number between 0001 and 9999 for: '{b_name}'")
+            logging.error(
+                f"Failed to parse building name as '1234 [...]' with a number between 0001 and 9999 for: '{b_name}'"
+            )
             continue
 
         # Find the corresponding building in the existing data
@@ -45,14 +48,14 @@ def merge_tumonline_buildings(data):
                 if internal_id is None:
                     internal_id = _id
                 else:
-                    print(f"Warning: building id '{b_id}' ('{b_name}') more than once in base data")
+                    logging.warning(f"building id '{b_id}' ('{b_name}') more than once in base data")
                     error = True
                     break
 
         if internal_id is None:
             # Currently not an error, because the areatree is built by hand.
             # This is just to show warn these buildings are not included there.
-            print(f"Warning: building id '{b_id}' ('{b_name}') not found in base data, ignoring")
+            logging.warning(f"building id '{b_id}' ('{b_name}') not found in base data, ignoring")
             continue
 
         b_data = data[internal_id]
@@ -154,7 +157,7 @@ def merge_tumonline_rooms(data):
                 "din_277_desc": parts[1],
             }
         else:
-            print(f"Error: Unknown usage for room '{r['roomcode']}': Id '{r['usage']}'")
+            logging.error(f"Unknown usage for room '{r['roomcode']}': Id '{r['usage']}'")
             error = True
             continue
         
@@ -173,11 +176,9 @@ def merge_tumonline_rooms(data):
             data[r_data["id"]]["sources"]["patched"] = True
         
     if len(missing_buildings) > 0:
-        print("Warning: Ignored {} rooms for the following buildings, "
-              "which were not found: {}".format(
-                  sum(missing_buildings.values()),
-                  list(sorted(missing_buildings.keys()))
-              )
+        logging.warning(
+            f"Ignored {sum(missing_buildings.values())} rooms for the following buildings, "
+            f"which were not found: {list(sorted(missing_buildings.keys()))}"
         )
 
 
@@ -209,10 +210,10 @@ def _clean_tumonline_rooms(to_rooms):
         # Validate the roomcode
         roomcode_parts = r["roomcode"].split(".")
         if len(roomcode_parts) != 3:
-            print(f"Invalid roomcode: Not three '.'-separated parts: {r['roomcode']}")
+            logging.warning(f"Invalid roomcode: Not three '.'-separated parts: {r['roomcode']}")
             invalid_rooms.append(r)
         if len(set(r["roomcode"]) - ALLOWED_ROOMCODE_CHARS) > 0:
-            print(f"Warning: Invalid character(s) in roomcode '{r['roomcode']}': "
+            logging.warning(f"Invalid character(s) in roomcode '{r['roomcode']}': "
                   f"{set(r['roomcode']) - ALLOWED_ROOMCODE_CHARS}")
             invalid_rooms.append(r)
 
@@ -222,11 +223,13 @@ def _clean_tumonline_rooms(to_rooms):
         # Validate the arch_name.
         arch_name_parts = r["arch_name"].split("@")
         if len(arch_name_parts) != 2:
-            print(f"Invalid arch_name: No '@' in '{r['arch_name']}' (room {r['roomcode']})")
+            logging.warning(f"Invalid arch_name: No '@' in '{r['arch_name']}' (room {r['roomcode']})")
             invalid_rooms.append(r)
         if len(arch_name_parts[1]) != 4 or not arch_name_parts[1].isdigit():
-            print(f"Invalid building specification in arch_name: Not four digits: "
-                  f"'{arch_name_parts[1]}' in '{r['arch_name']}' (room {r['roomcode']})")
+            logging.warning(
+                f"Invalid building specification in arch_name: Not four digits: "
+                f"'{arch_name_parts[1]}' in '{r['arch_name']}' (room {r['roomcode']})"
+            )
             invalid_rooms.append(r)
 
         # Some rooms don't have an arch_name. The value is then usually just like "@1234".
@@ -278,8 +281,10 @@ def _clean_tumonline_rooms(to_rooms):
                         r["alt_name"] = ", ".join(alt_parts[2:])
                         r["patched"] = True
                     else:
-                        print("Debug (alt_name / arch_name mismatch):", alt_parts[0],
-                              arch_name_parts[0], r["roomcode"])
+                        logging.debug(
+                            f"(alt_name / arch_name mismatch): "
+                            f"{alt_parts[0]=} {arch_name_parts[0]=} {r['roomcode']=}"
+                        )
 
             # Check for arch_name and roomcode suffix mismatch:
             if arch_name_parts[0][-1].isalpha() and roomcode_parts[2][-1].isalpha() and \
@@ -292,7 +297,7 @@ def _clean_tumonline_rooms(to_rooms):
                     pass
                 else:
                     # TODO: This code section might need to be continued
-                    #print(r["arch_name"], roomcode_parts[2])
+                    #logging.debug(f"{r["arch_name"]=}, {roomcode_parts[2]=}")
                     pass
 
             # Check for duplicate uses of arch names
@@ -333,7 +338,7 @@ def _clean_tumonline_rooms(to_rooms):
         for r in invalid_rooms:
             to_rooms.remove(r)
         
-        print(f"Warning: Ignored {len(invalid_rooms)} TUMOnline rooms because they are invalid.")
+        logging.warning(f"Ignored {len(invalid_rooms)} TUMOnline rooms because they are invalid.")
 
     return to_rooms
         

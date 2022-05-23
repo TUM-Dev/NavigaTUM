@@ -1,3 +1,4 @@
+import logging
 
 
 def read_areatree():
@@ -22,14 +23,14 @@ def read_areatree():
                     parent_stack = parent_stack[:indent // 2]
             else:
                 error = True
-                print(f"Error: Indentation not multiple of 2: '{line}'")
+                logging.error(f"Indentation not multiple of 2: '{line}'")
                 continue
 
             # The syntax is building-id(s):name(s):internal-id[,visible-id]
             parts = line.split(":")
             if len(parts) != 3:
                 error = True
-                print(f"Error: Invalid line, expected 3 ':'-separated parts: '{line}'")
+                logging.error(f"Invalid line, expected 3 ':'-separated parts: '{line}'")
                 continue
 
             building_data = {
@@ -60,7 +61,7 @@ def read_areatree():
                 ids = parts[2].strip().split(",")
                 if len(ids) != 2:
                     error = True
-                    print(f"Error: More than two ids found: '{line}'")
+                    logging.error(f"More than two ids found: '{line}'")
                     continue
 
                 building_data["id"] = ids[0]
@@ -70,7 +71,7 @@ def read_areatree():
 
             if "id" not in building_data:
                 error = True
-                print(f"No id provided in line: '{line}'")
+                logging.error(f"No id provided in line: '{line}'")
                 continue
 
             # type inference

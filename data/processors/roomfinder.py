@@ -3,6 +3,7 @@ import re
 
 import utm
 import yaml
+import logging
 
 
 def merge_roomfinder_buildings(data):
@@ -34,12 +35,12 @@ def merge_roomfinder_buildings(data):
                 if internal_id is None:
                     internal_id = _id
                 else:
-                    print(f"Error: building id '{b['b_id']}' more than once in base data")
+                    logging.error(f"building id '{b['b_id']}' more than once in base data")
                     error = True
                     break
 
         if internal_id is None:
-            print(f"Error: building id '{b['b_id']}' not found in base data. Add it to the areatree")
+            logging.error(f"building id '{b['b_id']}' not found in base data. Add it to the areatree")
             error = True
             continue
 
@@ -111,7 +112,7 @@ def merge_roomfinder_rooms(data):
                     "data_quality": {"not_in_tumonline": True}
                 }
             else:
-                print(e.message)
+                logging.warning(e.message)
                 continue
         
         r_data = data[r_id]
@@ -149,7 +150,7 @@ def _get_roomfinder_coords(obj):
     #       whether it is "U" or "T" based on the northing (which is always the distance
     #       to the equator).
     if obj["utm_zone"] not in {"32", "33"}:
-        print(f"Error: unexpected UTM zone '{obj['utm_zone']}'")
+        logging.error(f"Unexpected UTM zone '{obj['utm_zone']}'")
     lat, lon = utm.to_latlon(obj["utm_easting"], obj["utm_northing"], int(obj["utm_zone"]), "U")
     
     return {
@@ -236,9 +237,8 @@ def _find_room_id(r, data, arch_name_lookup, patches):
         if s in arch_name_lookup:
             return arch_name_lookup[s]
     
-    raise RoomNotFoundException(False, f"Warning: Could not find roomfinder room in TUMOnline data: {r['r_id']}")
+    raise RoomNotFoundException(False, f"Could not find roomfinder room in TUMOnline data: {r['r_id']}")
         
-
 
 class RoomNotFoundException(Exception):
     def __init__(self, known_issue, message=None):
