@@ -25,10 +25,6 @@ def main():
     print("-- 10 Roomfinder buildings")
     roomfinder.merge_roomfinder_buildings(data)
 
-    for _id, _data in data.items():
-        if _id=="0510":
-            rf=_data.get("maps", {}).get("roomfinder", {})
-            print("0510")
     print("-- 11 TUMOnline buildings")
     tumonline.merge_tumonline_buildings(data)
     
