@@ -18,7 +18,7 @@ def assign_coordinates(data):
     Assign coordinates to all entries (except root) and make sure they match the data format.
     """
     # TODO: In the future we might calculate the coordinates from OSM data
-    
+
     # The inference of coordinates in this function for all entries is based on the
     # coordinates of buildings, so it is necessary, that at least all buildings have
     # a coordinate.
@@ -30,15 +30,15 @@ def assign_coordinates(data):
     if len(buildings_without_coord) > 0:
         raise RuntimeError(f"Error: No coordinates known for the following buildings: "
               f"{buildings_without_coord}")
-    
+
     # All errors are collected first before quitting in the end if any
     # error occured.
     error = False
-    
+
     for _id, entry in data.items():
         if entry["type"] == "root":
             continue
-        
+
         if "coords" in entry:
             # While not observed so far, coordinate values of zero are typical for missing
             # data so we check this here.
@@ -54,7 +54,7 @@ def assign_coordinates(data):
                       f"{entry['coords']}")
                 error = True
                 continue
-            
+
             # Convert between utm and lat/lon if necessary
             if "utm" not in entry["coords"]:
                 utm_coord = utm.from_latlon(entry["coords"]["lat"], entry["coords"]["lon"])
@@ -70,7 +70,7 @@ def assign_coordinates(data):
                                              utm_coord["zone_number"], utm_coord["zone_letter"])
                 entry["coords"]["lat"] = latlon_coord[0]
                 entry["coords"]["lat"] = latlon_coord[1]
-            
+
             # If no source is provided, "navigatum" is assumed because Roomfinder
             # provided coordinates will have "roomfinder" set.
             if "source" not in entry["coords"]:
@@ -85,7 +85,7 @@ def assign_coordinates(data):
                     error = True
                     continue
                 building_parent = data[building_parent[0]]
-                
+
                 # Copy probably not required, but this could avoid unwanted side effects
                 entry["coords"] = copy.deepcopy(building_parent["coords"])
                 entry["coords"]["accuracy"] = "building"
@@ -97,7 +97,7 @@ def assign_coordinates(data):
                     print(f"Error: Cannot infer coordinate of '{_id}' because it has no children")
                     error = True
                     continue
-                
+
                 lats, lons = ([], [])
                 for c in entry["children_flat"]:
                     if data[c]["type"] == "building":
@@ -121,7 +121,7 @@ def assign_coordinates(data):
                 print(f"Error: Don't know how to infer coordinate for entry type '{entry['type']}'")
                 error = True
                 continue
-    
+
     if error:
         raise RuntimeError("Aborting due to errors")
 
@@ -335,25 +335,25 @@ def _load_maps_list():
 
 def build_roomfinder_maps(data):
     """ Generate the map information for the Roomfinder maps. """
-    
+
     # Read the Roomfinder and custom maps
     with open("external/maps_roomfinder.json") as f:
         maps_list = json.load(f)
     custom_maps = _load_custom_maps()
-    
+
     # For each map, we calculate the boundaries in UTM beforehand
     maps = {}
     for m in maps_list + list(custom_maps.values()):
         if "latlonbox" in m:
             latlonbox = m["latlonbox"]
-            
+
             latlonbox["north_west"] = (float(latlonbox["north"]), float(latlonbox["west"]))
             latlonbox["south_east"] = (float(latlonbox["south"]), float(latlonbox["east"]))
 
             # Roomfinder data is with ints as id, but we use a string based format
             if isinstance(m["id"], int):
                 m["id"] = f"rf{m['id']}"
-            
+
             maps[m["id"]] = m
 
     for _id, entry in data.items():
@@ -417,7 +417,7 @@ def _load_custom_maps():
     """ Load the custom maps like Roomfinder maps """
     with open("sources/45_custom-maps.yaml") as f:
         custom_maps = yaml.safe_load(f.read())
-        
+
     # Convert into the format used by maps_roomfinder.json:
     maps_out = {}
     for map_group in custom_maps:
@@ -451,16 +451,16 @@ def add_overlay_maps(data):
     """ Add the overlay maps to all entries where they apply """
     with open("sources/46_overlay-maps.yaml") as f:
         overlay_maps = yaml.safe_load(f.read())
-        
+
     parent_lut = {m["props"]["parent"]: m for m in overlay_maps}
     parent_ids = set(parent_lut.keys())
-    
+
     for _id, entry in data.items():
         candidates = parent_ids.intersection(entry["parents"])
         if len(candidates) > 1:
             print(f"Multiple candidates as overlay map for {_id}: {candidates}. "
                   f"Currently this is not supported! Skipping ...")
-        elif bool(candidates) ^ (_id in parent_ids):  
+        elif bool(candidates) ^ (_id in parent_ids):
             # either a candidate exist or _id is one of the parent ids, but not both
             overlay = parent_lut[list(candidates)[0] if len(candidates) == 1 else _id]
             overlay_data = entry.setdefault("maps", {}).setdefault("overlays", {})
@@ -473,13 +473,27 @@ def add_overlay_maps(data):
                     "name": m["desc"],
                     "coordinates": overlay["props"]["box"]
                 })
-                
+
                 # The 'tumonline' field overwrites which TUMOnline ID floor to match
                 if f".{m.get('tumonline', '')}." in _id:
                     overlay_data["default"] = m["id"]
                 elif f".{m['floor']}." in _id:
                     overlay_data["default"] = m["id"]
-            
+
             overlay_data.setdefault("default", None)
-    
-        
+
+
+def check_roomfinder_maps_default(data):
+    for _id, entry in data.items():
+        if "maps" in entry and "roomfinder" in entry["maps"]:
+            rf = entry["maps"]["roomfinder"]
+            if not rf.get("available", None):
+                continue
+            if "default" not in rf:
+                print(f"Warning: default map not specified for {_id}")
+                continue
+            default = rf["default"]
+            if not default:
+                continue  # no default set
+            if not any(a["id"] == default for a in rf["available"]):
+                raise RuntimeError(f"Error: default map is not in the assigned maps for {_id}")
