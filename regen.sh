@@ -1,4 +1,6 @@
-source venv/bin/activate
+#!/usr/bin/sh
+
+. venv/bin/activate
 
 echo "regenerating the data for /data"
 (
