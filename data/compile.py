@@ -202,4 +202,9 @@ def export_for_api(data, path):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG if DEBUG_MODE else logging.INFO, format='%(levelname)s: %(message)s')
+    logging.addLevelName(logging.INFO, f"\033[1;36m{logging.getLevelName(logging.INFO)}\033[1;0m")
+    logging.addLevelName(logging.WARNING, f"\033[1;33m{logging.getLevelName(logging.WARNING)}\033[1;0m")
+    logging.addLevelName(logging.ERROR, f"\033[1;41m{logging.getLevelName(logging.ERROR)}\033[1;0m")
+    logging.addLevelName(logging.CRITICAL, f"\033[1;41m{logging.getLevelName(logging.CRITICAL)}\033[1;0m")
+    
     main()
