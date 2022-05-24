@@ -1,10 +1,8 @@
 import json
 import math
-import copy
 import os.path
 from typing import Any
 
-import utm
 import yaml
 from PIL import Image
 from pathlib import Path
@@ -12,133 +10,6 @@ import logging
 
 EXTERNAL_PATH = Path(__file__).parent.parent / "external"
 RF_MAPS_PATH = EXTERNAL_PATH / "maps" / "roomfinder"
-
-
-def assign_coordinates(data):
-    """
-    Assign coordinates to all entries (except root) and make sure they match the data format.
-    """
-    # TODO: In the future we might calculate the coordinates from OSM data
-
-    # The inference of coordinates in this function for all entries is based on the
-    # coordinates of buildings, so it is necessary, that at least all buildings have
-    # a coordinate.
-    buildings_without_coord = set()
-    for _id, entry in data.items():
-        if entry["type"] == "building":
-            if "coords" not in entry:
-                buildings_without_coord.add(entry["id"])
-    if len(buildings_without_coord) > 0:
-        raise RuntimeError(f"Error: No coordinates known for the following buildings: "
-              f"{buildings_without_coord}")
-
-    # All errors are collected first before quitting in the end if any
-    # error occured.
-    error = False
-
-    for _id, entry in data.items():
-        if entry["type"] == "root":
-            continue
-
-        if "coords" in entry:
-            # While not observed so far, coordinate values of zero are typical for missing
-            # data so we check this here.
-            if entry["coords"].get("lat", None) == 0. or entry["coords"].get("lon", None) == 0.:
-                logging.error(f"Lat and/or lon coordinate is zero for '{_id}': {entry['coords']}")
-                error = True
-                continue
-            if "utm" in entry["coords"] \
-                    and (entry["coords"]["utm"]["easting"] == 0.
-                         or entry["coords"]["utm"]["northing"] == 0.):
-                logging.error(f"UTM coordinate is zero for '{_id}': {entry['coords']}")
-                error = True
-                continue
-
-            # Convert between utm and lat/lon if necessary
-            if "utm" not in entry["coords"]:
-                utm_coord = utm.from_latlon(entry["coords"]["lat"], entry["coords"]["lon"])
-                entry["coords"]["utm"] = {
-                    "zone_number": utm_coord[2],
-                    "zone_letter": utm_coord[3],
-                    "easting": utm_coord[0],
-                    "northing": utm_coord[1],
-                }
-            if "lat" not in entry["coords"]:
-                utm_coord = entry["coords"]["utm"]
-                latlon_coord = utm.to_latlon(utm_coord["easting"], utm_coord["northing"],
-                                             utm_coord["zone_number"], utm_coord["zone_letter"])
-                entry["coords"]["lat"] = latlon_coord[0]
-                entry["coords"]["lat"] = latlon_coord[1]
-
-            # If no source is provided, "navigatum" is assumed because Roomfinder
-            # provided coordinates will have "roomfinder" set.
-            if "source" not in entry["coords"]:
-                entry["coords"]["source"] = "navigatum"
-        else:
-            # For rooms we check whether its parent has a coordinate
-            if entry["type"] in {"room", "virtual_room"}:
-                building_parent = list(filter(lambda e: data[e]["type"] == "building",
-                                              entry["parents"]))
-                if len(building_parent) != 1:
-                    logging.error(f"Could not find distinct parent building for {_id}")
-                    error = True
-                    continue
-                building_parent = data[building_parent[0]]
-
-                # Copy probably not required, but this could avoid unwanted side effects
-                entry["coords"] = copy.deepcopy(building_parent["coords"])
-                entry["coords"]["accuracy"] = "building"
-                entry["coords"]["source"] = "inferred"
-            elif entry["type"] in {"site", "area", "campus", "joined_building"}:
-                # Calculate the average coordinate of all children buildings
-                # TODO: garching-interims
-                if "children_flat" not in entry:
-                    logging.error(f"Cannot infer coordinate of '{_id}' because it has no children")
-                    error = True
-                    continue
-
-                lats, lons = ([], [])
-                for c in entry["children_flat"]:
-                    if data[c]["type"] == "building":
-                        lats.append(data[c]["coords"]["lat"])
-                        lons.append(data[c]["coords"]["lon"])
-                lat_coord = sum(lats) / len(lats)
-                lon_coord = sum(lons) / len(lons)
-                utm_coord = utm.from_latlon(lat_coord, lon_coord)
-                entry["coords"] = {
-                    "lat": lat_coord,
-                    "lon": lon_coord,
-                    "utm": {
-                        "zone_number": utm_coord[2],
-                        "zone_letter": utm_coord[3],
-                        "easting": utm_coord[0],
-                        "northing": utm_coord[1],
-                    },
-                    "source": "inferred"
-                }
-            else:
-                logging.error(f"Don't know how to infer coordinate for entry type '{entry['type']}'")
-                error = True
-                continue
-
-    if error:
-        raise RuntimeError("Aborting due to errors")
-
-
-def check_coords(input_data):
-    """ Check for issues with coordinates """
-
-    for iid, data in input_data.items():
-        if data["type"] == "root":
-            continue
-
-        if data["coords"]["lat"] == 0. or data["coords"]["lon"] == 0.:
-            raise RuntimeError(f"{iid}: lat and/or lon coordinate is zero. Please provide an accurate coordinate!")
-
-        if "utm" in data["coords"] and (
-                data["coords"]["utm"]["easting"] == 0. or
-                data["coords"]["utm"]["northing"] == 0.):
-            raise RuntimeError(f"{iid}: utm coordinate is zero. There is very likely an error in the source data (UTM coordinates are either from the Roomfinder or automatically calculated).")
 
 
 def assign_roomfinder_maps(data):
