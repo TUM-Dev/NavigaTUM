@@ -206,5 +206,7 @@ if __name__ == "__main__":
     logging.addLevelName(logging.WARNING, f"\033[1;33m{logging.getLevelName(logging.WARNING)}\033[1;0m")
     logging.addLevelName(logging.ERROR, f"\033[1;41m{logging.getLevelName(logging.ERROR)}\033[1;0m")
     logging.addLevelName(logging.CRITICAL, f"\033[1;41m{logging.getLevelName(logging.CRITICAL)}\033[1;0m")
-    
+
+    # Pillow prints all imported modules to the debug stream
+    logging.getLogger("PIL").setLevel(logging.INFO)
     main()
