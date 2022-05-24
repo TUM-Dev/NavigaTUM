@@ -244,6 +244,15 @@ def build_roomfinder_maps(data):
                 entry_map["x"] = ix
                 entry_map["y"] = iy
 
+                if not (0 < ix < entry_map["width"]):
+                    logging.error(
+                        f"entry '{entry['id']}' on map '{entry_map['id']}.webp' is out of range. "
+                        f"x={ix} wont fit on a [0,{entry_map['width']-1}] canvas.")
+                if not (0 < iy < entry_map["height"]):
+                    logging.error(
+                        f"entry '{entry['id']}' on map '{entry_map['id']}.webp' is out of range. "
+                        f"y={iy} wont fit on a [0,{entry_map['height']-1}] canvas.")
+
                 # Finally, set source and filepath so that they are available for all maps
                 entry_map.setdefault("source", "Roomfinder")
                 entry_map.setdefault("path", f"webp/{entry_map['id']}.webp")
@@ -253,11 +262,13 @@ def build_roomfinder_maps(data):
 
 
 def _calc_xy_of_entry_on_entrymap(entry, entry_map, box) -> tuple[int, int]:
-    # For the map regions used we can assume that the lat/lon graticule is
-    # rectangular within that map. It is however not square (roughly 2:3 aspect),
-    # so for simplicity we first map it into the cartesian pixel coordinate
-    # system of the image and then apply the rotation.
-    # Note: x corresponds to longitude, y to latitude
+    """
+    For the map regions used we can assume that the lat/lon graticule is
+    rectangular within that map. It is however not square (roughly 2:3 aspect),
+    so for simplicity we first map it into the cartesian pixel coordinate
+    system of the image and then apply the rotation.
+    Note: x corresponds to longitude, y to latitude
+    """
     entry_x, entry_y = entry["coords"]["lon"], entry["coords"]["lat"]
     box_delta_x: float = abs(box["north_west"][1] - box["south_east"][1])
     box_delta_y: float = abs(box["north_west"][0] - box["south_east"][0])
@@ -276,10 +287,6 @@ def _calc_xy_of_entry_on_entrymap(entry, entry_map, box) -> tuple[int, int]:
     ix: float = cx + (ix0 - cx) * math.cos(angle) - (iy0 - cy) * math.sin(angle)
     iy: float = cy + (ix0 - cx) * math.sin(angle) + (iy0 - cy) * math.cos(angle)
     int_ix, int_iy = round(ix), round(iy)
-    if int_ix < 0:
-        logging.warning(f"entry '{entry['id']}' on map '{entry_map['id']}.webp' has a negative x coordinate: {int_ix}")
-    if int_iy < 0:
-        logging.warning(f"entry '{entry['id']}' on map '{entry_map['id']}.webp' has a negative y coordinate: {int_iy}")
     return int_ix, int_iy
 
 
