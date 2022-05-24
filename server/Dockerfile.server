@@ -7,7 +7,7 @@ ADD https://nav.tum.sexy/cdn/api_data.json data/api_data.json
 COPY load_api_data_to_db.py load_api_data_to_db.py
 RUN python3 load_api_data_to_db.py
 
-FROM rust:1.60.0
+FROM rust:1.61.0
 
 # Create a new empty shell project
 RUN USER=root cargo new --bin navigatum-server
