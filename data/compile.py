@@ -73,7 +73,8 @@ def main():
 
     logging.info("-- 45 Roomfinder maps")
     maps.assign_roomfinder_maps(data)
-    maps.check_roomfinder_maps_default(data)
+    maps.remove_non_covering_maps(data)
+    maps.assign_default_roomfinder_map(data)
     maps.build_roomfinder_maps(data)
 
     logging.info("-- 46 Overlay maps")
