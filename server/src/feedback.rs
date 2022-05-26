@@ -80,8 +80,8 @@ async fn get_token(state: web::Data<AppStateFeedback>) -> HttpResponse {
     let num_token_last_hour = token.len()
         - token
             .iter()
-            .rposition(|t| t.creation.elapsed().as_secs() > 3600 * 1)
-            .unwrap_or_else(|| 0);
+            .rposition(|t| t.creation.elapsed().as_secs() > 3600)
+            .unwrap_or(0);
 
     if token.len() >= RATE_LIMIT_DAY || num_token_last_hour >= RATE_LIMIT_HOUR {
         return HttpResponse::TooManyRequests()
@@ -206,14 +206,14 @@ fn parse_request(req_data: &Json<FeedbackPostData>) -> (String, String, Vec<Stri
     }
     match req_data.category.as_str() {
         "general" | "bug" | "feature" | "search" | "entry" => {
-            labels.push(String::from(&req_data.category))
+            labels.push(String::from(&req_data.category));
         }
         _ => {}
     };
     (title, description, labels)
 }
 
-fn clean_feedback_data(s: &String, len: usize) -> String {
+fn clean_feedback_data(s: &str, len: usize) -> String {
     if len > 0 {
         s.chars().filter(|c| !c.is_control()).take(len).collect()
     } else {
