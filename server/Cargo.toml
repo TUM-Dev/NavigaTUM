@@ -3,6 +3,11 @@ name = "navigatum-server"
 version = "0.1.0"
 authors = ["Markus A <ge75sig@mytum.de>", "Frank Elsinga <frank@elsinga.de>"]
 edition = "2021"
+description = "Navigating around TUM with excellence – An API and website to search for rooms, buildings and other places"
+repository = "https://github.com/TUM-Dev/navigatum"
+readme = "README.md"
+license = "GPL-3.0"
+keywords = ["website", "navigation", "api-rest", "tum"]
 
 [[bin]]
 name = "navigatum-server"
