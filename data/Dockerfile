@@ -20,7 +20,7 @@ RUN mkdir output \
     && cp -r sources/img/* output
 
 # put all data into the cdn folder
-COPY external/maps/roomfinder output/maps/roomfinder/webp
+COPY external/maps/roomfinder output/maps/roomfinder
 
 # Synonyms are also provided via the cdn for the server container build
 COPY search_synonyms.json output/
