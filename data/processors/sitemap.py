@@ -69,14 +69,14 @@ def generate_sitemap():
 
         # Priority is a relative measure from 0.0 to 1.0.
         # The data's `ranking_factors` have arbitrary scaling, but are for
-        # rooms in general in the range 0 to 9, so we just add 1, divide by 10
+        # rooms in general in the range 0 to 900, so we just add 100, divide by 10_000
         # and clamp to 1.0 for rooms.
-        # For buildings etc. that are always >= 10, we just subtract 5
+        # For buildings etc. that are always >= 10_000, we just subtract 500
         # to get some kind of relative measure.
         if entry["type"] == "room":
-            priority = min((entry["ranking_factors"]["rank_combined"] + 1) / 10, 1.0)
+            priority = min((entry["ranking_factors"]["rank_combined"] + 100) / 10000, 1.0)
         else:
-            priority = min((entry["ranking_factors"]["rank_combined"] - 5) / 10, 1.0)
+            priority = min((entry["ranking_factors"]["rank_combined"] - 500) / 10000, 1.0)
 
         sitemaps[sitemap_name].append({
             "url": url,
