@@ -3,7 +3,7 @@ import os
 import json
 
 from utils import convert_to_webp
-from processors import areatree, images, maps, merge, patch, roomfinder, search, sections, sitemap, structure, tumonline
+from processors import areatree, images, maps, coords, merge, patch, roomfinder, search, sections, sitemap, structure, tumonline
 
 DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ.keys()
 
@@ -67,12 +67,14 @@ def main():
         }[_data["type"]]
 
     logging.info("-- 40 Coordinates")
-    maps.assign_coordinates(data)
-    maps.check_coords(data)
+    coords.assert_buildings_have_coords(data)
+    coords.assign_coordinates(data)
+    coords.check_coords(data)
 
     logging.info("-- 45 Roomfinder maps")
     maps.assign_roomfinder_maps(data)
-    maps.check_roomfinder_maps_default(data)
+    maps.remove_non_covering_maps(data)
+    maps.assign_default_roomfinder_map(data)
     maps.build_roomfinder_maps(data)
 
     logging.info("-- 46 Overlay maps")
