@@ -718,7 +718,7 @@ paths:
           content: {}
       tags:
         - cdn
-  '/cdn/maps/{source}/{format}/{id}.webp':
+  '/cdn/maps/{source}/{id}.webp':
     get:
       operationId: maps_cdn
       summary: Get title images
@@ -733,15 +733,8 @@ paths:
           schema:
             type: string
             enum:
+              - overlay
               - roomfinder
-        - name: format
-          in: path
-          description: format of the resource you want
-          required: true
-          schema:
-            type: string
-            enum:
-              - webp
         - name: id
           in: path
           description: id of the map you want
@@ -751,10 +744,13 @@ paths:
             minLength: 1
           examples:
             rf142:
-              summary: MI main overview
+              summary: MI main overview (roomfinder only)
               value: rf142
+            mi_0:
+              summary: MI main overview (overlay only)
+              value: mi_0
             garching:
-              summary: StudiTUM Garching
+              summary: StudiTUM Garching (roomfinder + overview)
               value: '5532_2'
       responses:
         '200':
@@ -764,7 +760,7 @@ paths:
               schema:
                 type: string
                 format: binary
-              example: 'https://nav.tum.sexy/cdn/maps/roomfinder/webp/rf142.webp'
+              example: 'https://nav.tum.sexy/cdn/maps/roomfinder/rf142.webp'
         '400':
           description: |
             Bad Request.    
@@ -1088,9 +1084,14 @@ components:
       type: object
       properties:
         default:
-          description: 'The floor-id of the map, that should be shown as a default'
+          description: |
+            The floor-id of the map, that should be shown as a default.  
+            null:
+            - We suggest, you dont show a map by default.
+            - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
           type: integer
           example: 0
+          nullable: true
         available:
           type: array
           items:
