@@ -269,10 +269,10 @@ internal_id:
   # For search
   ranking_factors:
     excluded: True  # optional
-    rank_as_child: 34  # 0-100 ranks in comparison with the other children (sites, buildings, rooms)
     rank_type: 30  # ranking from type (site, building, room etc.), auto-set
     rank_usage: 100  # ranking from usage (only for rooms); (usage is searchable), auto-set
-    rank_custom: 10  # 0-100, 10 is default, not set automatically
+    rank_boost: 0  # rank boosting (or suppressing) factor, from -99 to 99, auto-set
+    rank_custom: 50  # additive (or substractive) factor to ranking, not set automatically
     
     rank_combined: 42  # 0-100, combined rank of all rank factors above
     
