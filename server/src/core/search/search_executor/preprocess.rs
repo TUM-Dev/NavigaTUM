@@ -159,22 +159,27 @@ pub(super) fn tokenize_input_query(q: &str) -> Vec<InputToken> {
 
         if (!within_quotes && c.is_whitespace() && i > token_start) ||  // whitespace
            ((within_quotes || !c.is_whitespace()) && i+c.len_utf8() == q.len()) ||  // end of string
-           (c == '"')
+           (c == '"')  // end of quotes
         {
-            // end of quotes
             let raw_token = q.get(token_start..i + c.len_utf8());
-            if let Some(token) = raw_token {
+            if let Some(token) = raw_token && token != "\"\"" {
                 tokens.push(InputToken {
-                    // Note: The trim_end also trims within unclosed quotes at the end of the query,
-                    //       but currently I don't think this is an issue.
-                    s: token.trim_end().to_lowercase(),
+                    s: if within_quotes {
+                        // Autoclose quotes for the last token
+                        if c != '"' && i+c.len_utf8() == q.len() {
+                            format!("{}\"", token.to_lowercase())
+                        } else {
+                            token.to_lowercase()
+                        }
+                    } else {
+                        token.trim_end().to_lowercase()
+                    },
                     regular_split: true,
-                    // `closed` indicates whether the token has been closed (by whitespace or quote)
+                    // `closed` indicates whether the token has been closed (by whitespace)
                     // at the end, when this is the last token. This is relevant because MeiliSearch
                     // treats whitespace at the end differently, and we might want to imitate that
-                    // behaviour.
-                    closed: !(i + c.len_utf8() == q.len()
-                        && (within_quotes || (c != '"' && !c.is_whitespace()))),
+                    // behaviour. Quotes are always autoclosed.
+                    closed: !(i + c.len_utf8() == q.len() && !c.is_whitespace() && c != '"') || within_quotes,
                 });
             }
 
@@ -226,14 +231,21 @@ mod tokenizer_tests {
     }
 
     fn assert_tokens(q: &str, mut expected: Vec<InputToken>) {
-        let sqs = format!(" {} ", q);
-        let qs = format!("{} ", q);
-        assert_token(sqs, expected.clone());
-        assert_token(qs, expected.clone());
-        if !expected.is_empty() {
-            let mut last = expected.pop().unwrap();
-            last.closed = false;
-            expected.push(last);
+        // Variations that end with a space are only tested
+        // for strings with closed quotes, because quotes do
+        // include spaces at the end into the token
+        let unclosed_quotes = q.matches("\"").count() % 2 == 1;
+        if !unclosed_quotes {
+            let sqs = format!(" {} ", q);
+            let qs = format!("{} ", q);
+            assert_token(sqs, expected.clone());
+            assert_token(qs, expected.clone());
+            if !expected.is_empty() {
+                let mut last = expected.pop().unwrap();
+                // Change `closed` to false for unquoted last token
+                last.closed = last.s.ends_with("\"");
+                expected.push(last);
+            }
         }
         let sq = format!(" {}", q);
         assert_token(sq, expected.clone());
@@ -256,10 +268,9 @@ mod tokenizer_tests {
 
     #[test]
     fn quoting() {
-        assert_identical!("\"");
-        assert_identical!("\"\"");
-        assert_identical!("\"\"\"");
-        assert_identical!("\" \"");
+        assert_tokens("\"", vec![]);
+        assert_tokens("\"\"", vec![]);
+        assert_tokens("\" \"\"", vec![reg("\" \"")]);
         assert_identical!("\"a\"");
         assert_identical!("\"a \"");
         assert_identical!("\"a a \"");
