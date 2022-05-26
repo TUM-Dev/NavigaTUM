@@ -3,7 +3,7 @@ import os
 import json
 
 from utils import convert_to_webp
-from processors import areatree, images, maps,coords, merge, patch, roomfinder, search, sections, sitemap, structure, tumonline
+from processors import areatree, images, maps, coords, merge, patch, roomfinder, search, sections, sitemap, structure, tumonline
 
 DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ.keys()
 
