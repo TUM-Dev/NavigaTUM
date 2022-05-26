@@ -367,10 +367,15 @@ def remove_non_covering_maps(data):
     for _id, entry in data.items():
         if entry["type"] == "root":
             continue
-        to_be_deleted=[]
-        for m in entry["maps"].get("roomfinder", {}).get("available", []):
+        if "roomfinder" not in entry["maps"]:
+            continue
+        rf = entry["maps"]["roomfinder"]
+        to_be_deleted = []
+        for m in rf["available"]:
             if _entry_is_not_on_map(entry, m, map_assignment_data):
                 to_be_deleted.append(m)
         for m in to_be_deleted:
-            entry["maps"]["roomfinder"]["available"].remove(m)
-
+            rf["available"].remove(m)
+        if not rf["available"]:
+            # no availible roomfinder maps dont carry any meaning and are deleted
+            del entry["maps"]["roomfinder"]
