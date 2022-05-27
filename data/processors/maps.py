@@ -310,7 +310,8 @@ def add_overlay_maps(data):
                 # The 'tumonline' field overwrites which TUMOnline ID floor to match
                 if f".{m.get('tumonline', '')}." in _id:
                     overlay_data["default"] = m["id"]
-                elif f".{m['floor']}." in _id:
+                elif overlay_data.get("default", None) is None \
+                     and f".{m['floor']}." in _id:
                     overlay_data["default"] = m["id"]
 
             overlay_data.setdefault("default", None)
