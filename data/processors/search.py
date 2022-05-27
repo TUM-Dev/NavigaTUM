@@ -46,6 +46,20 @@ def add_ranking_base(data):
         else:
             ranking_factors["rank_usage"] = 100
 
+        # Type-specific boosts
+        stats = _data.get("props", {}).get("stats", None)
+        if stats:
+            rank_boost = None
+            if _data["type"] == "room" and "n_seats" in stats:
+                rank_boost = stats["n_seats"] // 10
+            elif _data["type"] in {"building", "joined_building"} and "n_rooms_reg" in stats:
+                rank_boost = stats["n_rooms_reg"] // 20
+            elif _data["type"] in {"campus", "area", "site"} and "n_buildings" in stats:
+                rank_boost = stats["n_buildings"]
+            
+            if rank_boost is not None:
+                ranking_factors["rank_boost"] = min(rank_boost, 99)
+
 
 def add_ranking_combined(data):
     """
@@ -54,11 +68,14 @@ def add_ranking_combined(data):
     """
     for _id, _data in data.items():
         if "ranking_factors" in _data:
-            _data["ranking_factors"]["rank_combined"] = (
-                _data["ranking_factors"]["rank_type"]
-                * _data["ranking_factors"]["rank_usage"]
-                * _data["ranking_factors"].get("rank_custom", 1)
-            ) // (100*100)
+            rf = _data["ranking_factors"]
+            type_usage_ranking = rf["rank_type"] * rf["rank_usage"]
+            rf["rank_combined"] = (
+                type_usage_ranking // 100
+                + rf.get("rank_boost", 0)
+                + rf.get("rank_custom", 0)
+            )
+
         else:
             _data["ranking_factors"] = {
                 "rank_combined": 10  # low rank

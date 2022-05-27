@@ -563,7 +563,11 @@ frm-2:
 5269:
   coords: {lat: 48.26501, lon: 11.67426}
   
-5304:
+5302:  # Alte Mensa
+  ranking_factors:
+    rank_custom: -5
+
+5304:  # Neue Mensa
   coords: {lat: 48.26799, lon: 11.67216}
 
 chemie:
