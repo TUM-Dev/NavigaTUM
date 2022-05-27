@@ -1371,11 +1371,15 @@ components:
           type: integer
           format: int32
         rank_boost:
-          description: Automatic boost or suppression based on entry properties
+          description:  |
+            Automatic boost or suppression based on entry properties:
+            - numbers of buildings for a `campus`/`area`/`site`,
+            - numbers of seats for a `room`,
+            - number of regular rooms for a `building`/`joined_building`
           type: integer
           format: int32
         rank_custom:
-          description: Custom boost or suppression factor
+          description: Custom boost or suppression factor defined by us
           type: integer
           format: int32
       required:
