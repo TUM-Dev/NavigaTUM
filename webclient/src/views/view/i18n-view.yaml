@@ -15,6 +15,7 @@ view_view:
       en: "Report issue or suggest changes"
     favorites: { de: "Zu Favoriten hinzufügen", en: "Add to favorites" }
   map:
+    overlay_onto_map: { de: "Auf der Karte einblenden", en: "Overlay onto map" }
     interactive: { de: "Interaktive Karte", en: "Interactive Map" }
     roomfinder: { de: "Lagepläne", en: "Site Plans" }
     img_source: { de: "Bildquelle", en: "Image source" }

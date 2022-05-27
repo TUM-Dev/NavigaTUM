@@ -222,6 +222,9 @@
         v-bind:class="{'d-none': state.map.selected !== 'roomfinder'}"
         v-if="view_data.maps.roomfinder && view_data.maps.roomfinder.available"
       >
+        <button class="btn btn-sm" @click="showRoomfinderOverlay">
+            ${{_.view_view.map.overlay_onto_map}}$
+        </button>
         <img
           alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
           src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.webp"
