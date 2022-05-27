@@ -48,13 +48,17 @@ def add_ranking_base(data):
 
         # Type-specific boosts
         stats = _data.get("props", {}).get("stats", None)
-        if stats is not None:
+        if stats:
+            rank_boost = None
             if _data["type"] == "room" and "n_seats" in stats:
-                ranking_factors["rank_boost"] = min(stats["n_seats"] // 10, 99)
-            if _data["type"] in {"building", "joined_building"} and "n_rooms_reg" in stats:
-                ranking_factors["rank_boost"] = min(stats["n_rooms_reg"] // 20, 99)
-            if _data["type"] in {"campus", "area", "site"} and "n_buildings" in stats:
-                ranking_factors["rank_boost"] = min(stats["n_buildings"], 99)
+                rank_boost = stats["n_seats"] // 10
+            elif _data["type"] in {"building", "joined_building"} and "n_rooms_reg" in stats:
+                rank_boost = stats["n_rooms_reg"] // 20
+            elif _data["type"] in {"campus", "area", "site"} and "n_buildings" in stats:
+                rank_boost = stats["n_buildings"]
+            
+            if rank_boost is not None:
+                ranking_factors["rank_boost"] = min(rank_boost, 99)
 
 
 def add_ranking_combined(data):
