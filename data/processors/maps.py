@@ -55,6 +55,41 @@ def _assign_roomfinder_maps(data):
         _save_map_data(available_maps, entry)
 
 
+def _convert_latlonbox_to_coordinates(box):
+    """
+    converts the latlonbox to coordinates.
+    The coordinates are four [lon, lat] pairs, for the
+    - top left,
+    - top right,
+    - bottom right,
+    - bottom left image corners.
+    """
+    rotation = float(box["rotation"])
+    east, west = float(box["east"]), float(box["west"])
+    north, south = float(box["north"]), float(box["south"])
+
+    # TODO: calculate coordiantes
+    return [coords[2], coords[1], coords[0], coords[3]]
+
+
+if __name__ == "__main__":
+    coords = _convert_latlonbox_to_coordinates({
+        'north': '48.2624632522',
+        'east': '11.6688558645',
+        'west': '11.6682807315',
+        'south': '48.2617256799',
+        'rotation': '-15.7610714436'})
+
+
+    def p(x):
+        print("https://mobisoftinfotech.com/tools/plot-multiple-points-on-map/")
+        for i, (lat, lon) in enumerate(x):
+            print(f'{lon},{lat},{["red", "orange", "yellow", "green"][i]},marker,"{i}"')
+
+
+    p(coords)
+
+
 def _save_map_data(available_maps, entry):
     roomfinder_map_data = {
         "available": [
@@ -206,6 +241,7 @@ def _build_roomfinder_maps(data):
 
                 entry_map["x"] = x_on_map
                 entry_map["y"] = y_on_map
+                entry_map["coordinates"] = _convert_latlonbox_to_coordinates(map_data["latlonbox"])
 
                 # set source and filepath so that they are available for all maps
                 entry_map.setdefault("source", "Roomfinder")
