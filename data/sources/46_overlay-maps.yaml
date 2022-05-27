@@ -33,6 +33,39 @@
     - {file: "0102_6.webp", id: 6, floor: "DG", desc: "U-Trakt N2 (DG) – © TUM WWW & Online Services"}
     
 - props:
+    parent: "0103"
+    box:
+      - [11.567474, 48.151453]
+      - [11.568336, 48.151209]
+      - [11.567936, 48.150589]
+      - [11.567079, 48.150831]
+  maps:
+    - {file: "0103_-1.webp", id: -1, floor: "U1", desc: "U-Trakt N3 (1. UG) – © TUM WWW & Online Services"}
+    - {file: "0103_0.webp", id: 0, floor: "EG", desc: "U-Trakt N3 (EG) – © TUM WWW & Online Services"}
+    - {file: "0103_1.webp", id: 1, floor: "01", desc: "U-Trakt N3 (1. OG) – © TUM WWW & Online Services"}
+    - {file: "0103_2.webp", id: 2, floor: "02", desc: "U-Trakt N3 (2. OG) – © TUM WWW & Online Services"}
+    - {file: "0103_3.webp", id: 3, floor: "03", desc: "U-Trakt N3 (3. OG) – © TUM WWW & Online Services"}
+    - {file: "0103_4.webp", id: 4, floor: "04", desc: "U-Trakt N3 (4. OG) – © TUM WWW & Online Services"}
+    - {file: "0103_5.webp", id: 5, floor: "05", desc: "U-Trakt N3 (5. OG) – © TUM WWW & Online Services"}
+    - {file: "0103_6.webp", id: 6, floor: "06", desc: "U-Trakt N3 (6. OG) – © TUM WWW & Online Services"}
+    
+- props:
+    parent: "0104"
+    box:
+      - [11.568335, 48.151143]
+      - [11.568915, 48.150979]
+      - [11.568698, 48.150639]
+      - [11.568119, 48.150804]
+  maps:
+    - {file: "0104_-1.webp", id: -1, floor: "U1", desc: "U-Trakt N4 (1. UG) – © TUM WWW & Online Services"}
+    - {file: "0104_0.webp", id: 0, floor: "EG", desc: "U-Trakt N4 (EG) – © TUM WWW & Online Services"}
+    - {file: "0104_1.webp", id: 1, floor: "01", desc: "U-Trakt N4 (1. OG) – © TUM WWW & Online Services"}
+    - {file: "0104_2.webp", id: 2, floor: "02", desc: "U-Trakt N4 (2. OG) – © TUM WWW & Online Services"}
+    - {file: "0104_3.webp", id: 3, floor: "03", desc: "U-Trakt N4 (3. OG) – © TUM WWW & Online Services"}
+    - {file: "0104_4.webp", id: 4, floor: "04", desc: "U-Trakt N4 (4. OG) – © TUM WWW & Online Services"}
+    - {file: "0104_5.webp", id: 5, floor: "DG", desc: "U-Trakt N4 (5. OG) – © TUM WWW & Online Services"}
+    
+- props:
     parent: "0505"
     box:
       - [11.566815, 48.150364]
