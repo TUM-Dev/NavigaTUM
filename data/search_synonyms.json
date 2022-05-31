@@ -1,125 +1,597 @@
 {
-    "Weihenstephan": ["wzw"],
-    "Innenstadt": ["Stammgelände"],
-    
-    "ph": ["Physik"],
-    "ch": ["Chemie"],
-    "Maschinenwesen": ["mw"],
-    
-    "Immathalle": ["Immatrikulationshalle"],
-    "Bib": ["Bibliothek", "Teilbibliothek"],
-    "TB": ["Teilbibliothek"],
+  "Weihenstephan": ["wzw"],
+  "Innenstadt": ["Stammgelände"],
 
-    "HS": ["Hörsaal", "Vorlesungssaal"],
-    "Hörsaal": ["HS", "Vorlesungssaal"],
-    "Seminarraum": ["Übungsraum"],
-    "Lernraum": ["Lernplatz", "Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
-    "Übungsraum": ["Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
-    "Arbeitsraum": ["Seminarraum", "Studentenarbeitsraum", "Übungsraum"], 
-    
-    "Rechnerraum-Studenten": ["Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
-    "Rechnerarbeitsraum": ["Rechnerraum-Studenten", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
-    "Rechnerraum": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
-    "Rechner-Raum": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
-    "Rechnerhalle": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool", "Rechner-Raum"],
-    "Computerarbeitsraum": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
-    "Computerraum": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
-    "Computerpool": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computer Studenten", "CIP-Raum", "CIP-Pool", "CAD-Pool", "EDV-Pool"],
-    "Computer Studenten": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
-    "CIP-Raum": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
-    "CIP-Pool": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "Computerpool", "CAD-Pool", "EDV-Pool"],
-    "CAD-Pool": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "EDV-Pool"],
-    "EDV-Pool": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool"],
-    
-    "Besprechung": ["Besprechungsraum", "Konferenz", "Konferenzraum", "Konferenzsaal", "Sitzungssaal", "Sitzungsraum", "Sitzungszimmer"],
-    "Besprechungsraum": ["Besprechung", "Konferenz", "Konferenzraum", "Konferenzsaal", "Sitzungssaal", "Sitzungsraum", "Sitzungszimmer"],
-    "Konferenz": ["Besprechung", "Besprechungsraum", "Konferenzraum", "Konferenzsaal", "Sitzungssaal", "Sitzungsraum", "Sitzungszimmer"],
-    "Konferenzraum": ["Besprechung", "Besprechungsraum", "Konferenz", "Konferenzsaal", "Sitzungssaal", "Sitzungsraum", "Sitzungszimmer"],
-    "Konferenzsaal": ["Besprechung", "Besprechungsraum", "Konferenz", "Konferenzraum", "Sitzungssaal", "Sitzungsraum", "Sitzungszimmer"],
-    "Sitzungssaal": ["Besprechung", "Besprechungsraum", "Konferenz", "Konferenzraum", "Konferenzsaal", "Sitzungsraum", "Sitzungszimmer"],
-    "Sitzungsraum": ["Besprechung", "Besprechungsraum", "Konferenz", "Konferenzraum", "Konferenzsaal", "Sitzungssaal", "Sitzungszimmer"],
-    "Sitzungszimmer": ["Besprechung", "Besprechungsraum", "Konferenz", "Konferenzraum", "Konferenzsaal", "Sitzungssaal", "Sitzungsraum"],
-    
-    "Abstellraum": ["Abstellkammer", "Lager", "Lagerraum", "Ablage"],
-    "Abstellkammer": ["Abstellraum", "Lager", "Lagerraum", "Ablage"],
-    "Lager": ["Abstellraum", "Abstellkammer", "Lagerraum", "Ablage"],
-    "Lagerraum": ["Abstellraum", "Abstellkammer", "Lager", "Ablage"],
-    "Ablage": ["Abstellraum", "Abstellkammer", "Lager", "Lagerraum"],
+  "ph": ["Physik"],
+  "ch": ["Chemie"],
+  "Maschinenwesen": ["mw"],
 
-    "Kopierer": ["Kopie", "Kopierraum", "Drucker", "Druckerraum", "Druckgeräterraum", "Printcenter", "Scannerraum"],
-    "Kopie": ["Kopierer", "Kopierraum", "Drucker", "Druckerraum", "Druckgeräterraum", "Printcenter", "Scannerraum"],
-    "Kopierraum": ["Kopierer", "Kopie", "Drucker", "Druckerraum", "Druckgeräterraum", "Printcenter", "Scannerraum"],
-    "Drucker": ["Kopierer", "Kopie", "Kopierraum", "Druckerraum", "Druckgeräterraum", "Printcenter", "Scannerraum"],
-    "Druckerraum": ["Kopierer", "Kopie", "Kopierraum", "Drucker", "Druckgeräterraum", "Printcenter", "Scannerraum"],
-    "Druckgeräterraum": ["Kopierer", "Kopie", "Kopierraum", "Drucker", "Druckerraum", "Printcenter", "Scannerraum"],
-    "Printcenter": ["Kopierer", "Kopie", "Kopierraum", "Drucker", "Druckerraum", "Druckgeräterraum", "Scannerraum"],
-    "Scannerraum": ["Kopierer", "Kopie", "Kopierraum", "Drucker", "Druckerraum", "Druckgeräterraum", "Printcenter"],
+  "Immathalle": ["Immatrikulationshalle"],
+  "Bib": ["Bibliothek", "Teilbibliothek"],
+  "TB": ["Teilbibliothek"],
 
-    "Teilküche": ["Küche", "Anrichte", "Arbeitsraum für Verpflegung"],
-    "Küche": ["Teilküche", "Anrichte", "Arbeitsraum für Verpflegung"],
-    "Anrichte": ["Teilküche", "Küche", "Arbeitsraum für Verpflegung"],
-    "Arbeitsraum für Verpflegung": ["Teilküche", "Küche", "Anrichte"],
+  "HS": ["Hörsaal", "Vorlesungssaal"],
+  "Hörsaal": ["HS", "Vorlesungssaal"],
+  "Seminarraum": ["Übungsraum"],
+  "Lernraum": [
+    "Lernplatz",
+    "Seminarraum",
+    "Studentenarbeitsraum",
+    "Übungsraum"
+  ],
+  "Übungsraum": ["Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
+  "Arbeitsraum": ["Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
 
-    "Kühlzelle": ["Kühlzellen", "Kühlraum", "Kühlkammer", "Kühlung", "Gefrierschrank", "Kühlschrank", "Kühllagerraum"],
-    "Kühlzellen": ["Kühlzelle", "Kühlraum", "Kühlkammer", "Kühlung", "Gefrierschrank", "Kühlschrank", "Kühllagerraum"],
-    "Kühlraum": ["Kühlzelle", "Kühlzellen", "Kühlkammer", "Kühlung", "Gefrierschrank", "Kühlschrank", "Kühllagerraum"],
-    "Kühlkammer": ["Kühlzelle", "Kühlzellen", "Kühlraum", "Kühlung", "Gefrierschrank", "Kühlschrank", "Kühllagerraum"],
-    "Kühlung": ["Kühlzelle", "Kühlzellen", "Kühlraum", "Kühlkammer", "Gefrierschrank", "Kühlschrank", "Kühllagerraum"],
-    "Gefrierschrank": ["Kühlzelle", "Kühlzellen", "Kühlraum", "Kühlkammer", "Kühlung", "Kühlschrank", "Kühllagerraum"],
-    "Kühlschrank": ["Kühlzelle", "Kühlzellen", "Kühlraum", "Kühlkammer", "Kühlung", "Gefrierschrank", "Kühllagerraum"],
-    "Kühllagerraum": ["Kühlzelle", "Kühlzellen", "Kühlraum", "Kühlkammer", "Kühlung", "Gefrierschrank", "Kühlschrank"],
+  "Rechnerraum-Studenten": [
+    "Rechnerarbeitsraum",
+    "Rechnerraum",
+    "Rechner-Raum",
+    "Computerarbeitsraum",
+    "Computerraum",
+    "Computerpool",
+    "Computer Studenten",
+    "CIP-Raum",
+    "CIP-Pool",
+    "Computerpool",
+    "CAD-Pool",
+    "EDV-Pool"
+  ],
+  "Rechnerarbeitsraum": [
+    "Rechnerraum-Studenten",
+    "Rechnerraum",
+    "Rechner-Raum",
+    "Computerarbeitsraum",
+    "Computerraum",
+    "Computerpool",
+    "Computer Studenten",
+    "CIP-Raum",
+    "CIP-Pool",
+    "Computerpool",
+    "CAD-Pool",
+    "EDV-Pool"
+  ],
+  "Rechnerraum": [
+    "Rechnerraum-Studenten",
+    "Rechnerarbeitsraum",
+    "Rechner-Raum",
+    "Computerarbeitsraum",
+    "Computerraum",
+    "Computerpool",
+    "Computer Studenten",
+    "CIP-Raum",
+    "CIP-Pool",
+    "Computerpool",
+    "CAD-Pool",
+    "EDV-Pool"
+  ],
+  "Rechner-Raum": [
+    "Rechnerraum-Studenten",
+    "Rechnerarbeitsraum",
+    "Rechnerraum",
+    "Computerarbeitsraum",
+    "Computerraum",
+    "Computerpool",
+    "Computer Studenten",
+    "CIP-Raum",
+    "CIP-Pool",
+    "Computerpool",
+    "CAD-Pool",
+    "EDV-Pool"
+  ],
+  "Rechnerhalle": [
+    "Rechnerraum-Studenten",
+    "Rechnerarbeitsraum",
+    "Rechnerraum",
+    "Computerarbeitsraum",
+    "Computerraum",
+    "Computerpool",
+    "Computer Studenten",
+    "CIP-Raum",
+    "CIP-Pool",
+    "Computerpool",
+    "CAD-Pool",
+    "EDV-Pool",
+    "Rechner-Raum"
+  ],
+  "Computerarbeitsraum": [
+    "Rechnerraum-Studenten",
+    "Rechnerarbeitsraum",
+    "Rechnerraum",
+    "Rechner-Raum",
+    "Computerraum",
+    "Computerpool",
+    "Computer Studenten",
+    "CIP-Raum",
+    "CIP-Pool",
+    "Computerpool",
+    "CAD-Pool",
+    "EDV-Pool"
+  ],
+  "Computerraum": [
+    "Rechnerraum-Studenten",
+    "Rechnerarbeitsraum",
+    "Rechnerraum",
+    "Rechner-Raum",
+    "Computerarbeitsraum",
+    "Computerpool",
+    "Computer Studenten",
+    "CIP-Raum",
+    "CIP-Pool",
+    "Computerpool",
+    "CAD-Pool",
+    "EDV-Pool"
+  ],
+  "Computerpool": [
+    "Rechnerraum-Studenten",
+    "Rechnerarbeitsraum",
+    "Rechnerraum",
+    "Rechner-Raum",
+    "Computerarbeitsraum",
+    "Computerraum",
+    "Computer Studenten",
+    "CIP-Raum",
+    "CIP-Pool",
+    "CAD-Pool",
+    "EDV-Pool"
+  ],
+  "Computer Studenten": [
+    "Rechnerraum-Studenten",
+    "Rechnerarbeitsraum",
+    "Rechnerraum",
+    "Rechner-Raum",
+    "Computerarbeitsraum",
+    "Computerraum",
+    "Computerpool",
+    "CIP-Raum",
+    "CIP-Pool",
+    "Computerpool",
+    "CAD-Pool",
+    "EDV-Pool"
+  ],
+  "CIP-Raum": [
+    "Rechnerraum-Studenten",
+    "Rechnerarbeitsraum",
+    "Rechnerraum",
+    "Rechner-Raum",
+    "Computerarbeitsraum",
+    "Computerraum",
+    "Computerpool",
+    "Computer Studenten",
+    "CIP-Pool",
+    "Computerpool",
+    "CAD-Pool",
+    "EDV-Pool"
+  ],
+  "CIP-Pool": [
+    "Rechnerraum-Studenten",
+    "Rechnerarbeitsraum",
+    "Rechnerraum",
+    "Rechner-Raum",
+    "Computerarbeitsraum",
+    "Computerraum",
+    "Computerpool",
+    "Computer Studenten",
+    "CIP-Raum",
+    "Computerpool",
+    "CAD-Pool",
+    "EDV-Pool"
+  ],
+  "CAD-Pool": [
+    "Rechnerraum-Studenten",
+    "Rechnerarbeitsraum",
+    "Rechnerraum",
+    "Rechner-Raum",
+    "Computerarbeitsraum",
+    "Computerraum",
+    "Computerpool",
+    "Computer Studenten",
+    "CIP-Raum",
+    "CIP-Pool",
+    "Computerpool",
+    "EDV-Pool"
+  ],
+  "EDV-Pool": [
+    "Rechnerraum-Studenten",
+    "Rechnerarbeitsraum",
+    "Rechnerraum",
+    "Rechner-Raum",
+    "Computerarbeitsraum",
+    "Computerraum",
+    "Computerpool",
+    "Computer Studenten",
+    "CIP-Raum",
+    "CIP-Pool",
+    "Computerpool",
+    "CAD-Pool"
+  ],
 
-    "Müllager": ["Müll", "Müllraum", "Abfall", "Abfallsammelstelle", "Abfälle", "Entsorgungsraum", "Müllzwischenlager", "Müllsammelstelle"],
-    "Müll": ["Müllager", "Müllraum", "Abfall", "Abfallsammelstelle", "Abfälle", "Entsorgungsraum", "Müllzwischenlager", "Müllsammelstelle"],
-    "Müllraum": ["Müllager", "Müll", "Abfall", "Abfallsammelstelle", "Abfälle", "Entsorgungsraum", "Müllzwischenlager", "Müllsammelstelle"],
-    "Abfall": ["Müllager", "Müll", "Müllraum", "Abfallsammelstelle", "Abfälle", "Entsorgungsraum", "Müllzwischenlager", "Müllsammelstelle"],
-    "Abfallsammelstelle": ["Müllager", "Müll", "Müllraum", "Abfall", "Abfälle", "Entsorgungsraum", "Müllzwischenlager", "Müllsammelstelle"],
-    "Abfälle": ["Müllager", "Müll", "Müllraum", "Abfall", "Abfallsammelstelle", "Entsorgungsraum", "Müllzwischenlager", "Müllsammelstelle"],
-    "Entsorgungsraum": ["Müllager", "Müll", "Müllraum", "Abfall", "Abfallsammelstelle", "Abfälle", "Müllzwischenlager", "Müllsammelstelle"],
-    "Müllzwischenlager": ["Müllager", "Müll", "Müllraum", "Abfall", "Abfallsammelstelle", "Abfälle", "Entsorgungsraum", "Müllsammelstelle"],
-    "Müllsammelstelle": ["Müllager", "Müll", "Müllraum", "Abfall", "Abfallsammelstelle", "Abfälle", "Entsorgungsraum", "Müllzwischenlager"],
-    
-    "Gefahrstoffraum": ["Gefahrstofflager", "Gefahrgutraum", "Gefahrgutlager", "Giftlager"],
-    "Gefahrstofflager": ["Gefahrstoffraum", "Gefahrgutraum", "Gefahrgutlager", "Giftlager"],
-    "Gefahrgutraum": ["Gefahrstoffraum", "Gefahrstofflager", "Gefahrgutlager", "Giftlager"],
-    "Gefahrgutlager": ["Gefahrstoffraum", "Gefahrstofflager", "Gefahrgutraum", "Giftlager"],
-    "Giftlager": ["Gefahrstoffraum", "Gefahrstofflager", "Gefahrgutraum", "Gefahrgutlager"],
+  "Besprechung": [
+    "Besprechungsraum",
+    "Konferenz",
+    "Konferenzraum",
+    "Konferenzsaal",
+    "Sitzungssaal",
+    "Sitzungsraum",
+    "Sitzungszimmer"
+  ],
+  "Besprechungsraum": [
+    "Besprechung",
+    "Konferenz",
+    "Konferenzraum",
+    "Konferenzsaal",
+    "Sitzungssaal",
+    "Sitzungsraum",
+    "Sitzungszimmer"
+  ],
+  "Konferenz": [
+    "Besprechung",
+    "Besprechungsraum",
+    "Konferenzraum",
+    "Konferenzsaal",
+    "Sitzungssaal",
+    "Sitzungsraum",
+    "Sitzungszimmer"
+  ],
+  "Konferenzraum": [
+    "Besprechung",
+    "Besprechungsraum",
+    "Konferenz",
+    "Konferenzsaal",
+    "Sitzungssaal",
+    "Sitzungsraum",
+    "Sitzungszimmer"
+  ],
+  "Konferenzsaal": [
+    "Besprechung",
+    "Besprechungsraum",
+    "Konferenz",
+    "Konferenzraum",
+    "Sitzungssaal",
+    "Sitzungsraum",
+    "Sitzungszimmer"
+  ],
+  "Sitzungssaal": [
+    "Besprechung",
+    "Besprechungsraum",
+    "Konferenz",
+    "Konferenzraum",
+    "Konferenzsaal",
+    "Sitzungsraum",
+    "Sitzungszimmer"
+  ],
+  "Sitzungsraum": [
+    "Besprechung",
+    "Besprechungsraum",
+    "Konferenz",
+    "Konferenzraum",
+    "Konferenzsaal",
+    "Sitzungssaal",
+    "Sitzungszimmer"
+  ],
+  "Sitzungszimmer": [
+    "Besprechung",
+    "Besprechungsraum",
+    "Konferenz",
+    "Konferenzraum",
+    "Konferenzsaal",
+    "Sitzungssaal",
+    "Sitzungsraum"
+  ],
 
-    "Chemikalienraum": ["Chemikalienlager", "Chemikalien"],
-    "Chemikalienlager": ["Chemikalienraum", "Chemikalien"],
-    "Chemikalien": ["Chemikalienraum", "Chemikalienlager"],
+  "Abstellraum": ["Abstellkammer", "Lager", "Lagerraum", "Ablage"],
+  "Abstellkammer": ["Abstellraum", "Lager", "Lagerraum", "Ablage"],
+  "Lager": ["Abstellraum", "Abstellkammer", "Lagerraum", "Ablage"],
+  "Lagerraum": ["Abstellraum", "Abstellkammer", "Lager", "Ablage"],
+  "Ablage": ["Abstellraum", "Abstellkammer", "Lager", "Lagerraum"],
 
-    "Sondermüllzwischenlager": ["Sondermülllager", "Sonderabfall"],
-    "Sondermülllager": ["Sondermüllzwischenlager", "Sonderabfall"],
-    "Sonderabfall": ["Sondermüllzwischenlager", "Sondermülllager"],
-    
-    "Dusche": ["Duschraum"],
-    "Duschraum": ["Dusche"],
+  "Kopierer": [
+    "Kopie",
+    "Kopierraum",
+    "Drucker",
+    "Druckerraum",
+    "Druckgeräterraum",
+    "Printcenter",
+    "Scannerraum"
+  ],
+  "Kopie": [
+    "Kopierer",
+    "Kopierraum",
+    "Drucker",
+    "Druckerraum",
+    "Druckgeräterraum",
+    "Printcenter",
+    "Scannerraum"
+  ],
+  "Kopierraum": [
+    "Kopierer",
+    "Kopie",
+    "Drucker",
+    "Druckerraum",
+    "Druckgeräterraum",
+    "Printcenter",
+    "Scannerraum"
+  ],
+  "Drucker": [
+    "Kopierer",
+    "Kopie",
+    "Kopierraum",
+    "Druckerraum",
+    "Druckgeräterraum",
+    "Printcenter",
+    "Scannerraum"
+  ],
+  "Druckerraum": [
+    "Kopierer",
+    "Kopie",
+    "Kopierraum",
+    "Drucker",
+    "Druckgeräterraum",
+    "Printcenter",
+    "Scannerraum"
+  ],
+  "Druckgeräterraum": [
+    "Kopierer",
+    "Kopie",
+    "Kopierraum",
+    "Drucker",
+    "Druckerraum",
+    "Printcenter",
+    "Scannerraum"
+  ],
+  "Printcenter": [
+    "Kopierer",
+    "Kopie",
+    "Kopierraum",
+    "Drucker",
+    "Druckerraum",
+    "Druckgeräterraum",
+    "Scannerraum"
+  ],
+  "Scannerraum": [
+    "Kopierer",
+    "Kopie",
+    "Kopierraum",
+    "Drucker",
+    "Druckerraum",
+    "Druckgeräterraum",
+    "Printcenter"
+  ],
 
-    "Laborraum": ["Labor"],
-    "Labor raum": ["Labor"],
-    
-    "straße": ["str"],
-    "str": ["straße"],
-    
-    "raum": ["room"],
-    
-    "ii": ["2"],
-    "2": ["ii"],
-    "iii": ["3"],
-    "3": ["iii"],
-    "iv": ["4"],
-    "4": ["iv"],
-    
-    "Interims": ["Interimshörsäle", "Interims-Audimax"],
-    
-    "Fachschaft": ["FS", "Fachschaftsbüro", "Fachschaftsraum"],
-    "FS": ["Fachschaft", "Fachschaftsbüro", "Fachschaftsraum"],
-    "Fachschaftsbüro": ["Fachschaft", "FS", "Fachschaftsraum"],
-    "Fachschaftsraum": ["Fachschaft", "FS", "Fachschaftsbüro"],
+  "Teilküche": ["Küche", "Anrichte", "Arbeitsraum für Verpflegung"],
+  "Küche": ["Teilküche", "Anrichte", "Arbeitsraum für Verpflegung"],
+  "Anrichte": ["Teilküche", "Küche", "Arbeitsraum für Verpflegung"],
+  "Arbeitsraum für Verpflegung": ["Teilküche", "Küche", "Anrichte"],
 
-    "FSMPI": ["Fachschaft MPI"],
-    "AStA": ["SV", "StuVe", "Studentische Vertretung"],
-    "Studentische Vertretung": ["SV", "StuVe", "AStA"],
-    "StuVe": ["SV", "Studentische Vertretung", "AStA"]
+  "Kühlzelle": [
+    "Kühlzellen",
+    "Kühlraum",
+    "Kühlkammer",
+    "Kühlung",
+    "Gefrierschrank",
+    "Kühlschrank",
+    "Kühllagerraum"
+  ],
+  "Kühlzellen": [
+    "Kühlzelle",
+    "Kühlraum",
+    "Kühlkammer",
+    "Kühlung",
+    "Gefrierschrank",
+    "Kühlschrank",
+    "Kühllagerraum"
+  ],
+  "Kühlraum": [
+    "Kühlzelle",
+    "Kühlzellen",
+    "Kühlkammer",
+    "Kühlung",
+    "Gefrierschrank",
+    "Kühlschrank",
+    "Kühllagerraum"
+  ],
+  "Kühlkammer": [
+    "Kühlzelle",
+    "Kühlzellen",
+    "Kühlraum",
+    "Kühlung",
+    "Gefrierschrank",
+    "Kühlschrank",
+    "Kühllagerraum"
+  ],
+  "Kühlung": [
+    "Kühlzelle",
+    "Kühlzellen",
+    "Kühlraum",
+    "Kühlkammer",
+    "Gefrierschrank",
+    "Kühlschrank",
+    "Kühllagerraum"
+  ],
+  "Gefrierschrank": [
+    "Kühlzelle",
+    "Kühlzellen",
+    "Kühlraum",
+    "Kühlkammer",
+    "Kühlung",
+    "Kühlschrank",
+    "Kühllagerraum"
+  ],
+  "Kühlschrank": [
+    "Kühlzelle",
+    "Kühlzellen",
+    "Kühlraum",
+    "Kühlkammer",
+    "Kühlung",
+    "Gefrierschrank",
+    "Kühllagerraum"
+  ],
+  "Kühllagerraum": [
+    "Kühlzelle",
+    "Kühlzellen",
+    "Kühlraum",
+    "Kühlkammer",
+    "Kühlung",
+    "Gefrierschrank",
+    "Kühlschrank"
+  ],
+
+  "Müllager": [
+    "Müll",
+    "Müllraum",
+    "Abfall",
+    "Abfallsammelstelle",
+    "Abfälle",
+    "Entsorgungsraum",
+    "Müllzwischenlager",
+    "Müllsammelstelle"
+  ],
+  "Müll": [
+    "Müllager",
+    "Müllraum",
+    "Abfall",
+    "Abfallsammelstelle",
+    "Abfälle",
+    "Entsorgungsraum",
+    "Müllzwischenlager",
+    "Müllsammelstelle"
+  ],
+  "Müllraum": [
+    "Müllager",
+    "Müll",
+    "Abfall",
+    "Abfallsammelstelle",
+    "Abfälle",
+    "Entsorgungsraum",
+    "Müllzwischenlager",
+    "Müllsammelstelle"
+  ],
+  "Abfall": [
+    "Müllager",
+    "Müll",
+    "Müllraum",
+    "Abfallsammelstelle",
+    "Abfälle",
+    "Entsorgungsraum",
+    "Müllzwischenlager",
+    "Müllsammelstelle"
+  ],
+  "Abfallsammelstelle": [
+    "Müllager",
+    "Müll",
+    "Müllraum",
+    "Abfall",
+    "Abfälle",
+    "Entsorgungsraum",
+    "Müllzwischenlager",
+    "Müllsammelstelle"
+  ],
+  "Abfälle": [
+    "Müllager",
+    "Müll",
+    "Müllraum",
+    "Abfall",
+    "Abfallsammelstelle",
+    "Entsorgungsraum",
+    "Müllzwischenlager",
+    "Müllsammelstelle"
+  ],
+  "Entsorgungsraum": [
+    "Müllager",
+    "Müll",
+    "Müllraum",
+    "Abfall",
+    "Abfallsammelstelle",
+    "Abfälle",
+    "Müllzwischenlager",
+    "Müllsammelstelle"
+  ],
+  "Müllzwischenlager": [
+    "Müllager",
+    "Müll",
+    "Müllraum",
+    "Abfall",
+    "Abfallsammelstelle",
+    "Abfälle",
+    "Entsorgungsraum",
+    "Müllsammelstelle"
+  ],
+  "Müllsammelstelle": [
+    "Müllager",
+    "Müll",
+    "Müllraum",
+    "Abfall",
+    "Abfallsammelstelle",
+    "Abfälle",
+    "Entsorgungsraum",
+    "Müllzwischenlager"
+  ],
+
+  "Gefahrstoffraum": [
+    "Gefahrstofflager",
+    "Gefahrgutraum",
+    "Gefahrgutlager",
+    "Giftlager"
+  ],
+  "Gefahrstofflager": [
+    "Gefahrstoffraum",
+    "Gefahrgutraum",
+    "Gefahrgutlager",
+    "Giftlager"
+  ],
+  "Gefahrgutraum": [
+    "Gefahrstoffraum",
+    "Gefahrstofflager",
+    "Gefahrgutlager",
+    "Giftlager"
+  ],
+  "Gefahrgutlager": [
+    "Gefahrstoffraum",
+    "Gefahrstofflager",
+    "Gefahrgutraum",
+    "Giftlager"
+  ],
+  "Giftlager": [
+    "Gefahrstoffraum",
+    "Gefahrstofflager",
+    "Gefahrgutraum",
+    "Gefahrgutlager"
+  ],
+
+  "Chemikalienraum": ["Chemikalienlager", "Chemikalien"],
+  "Chemikalienlager": ["Chemikalienraum", "Chemikalien"],
+  "Chemikalien": ["Chemikalienraum", "Chemikalienlager"],
+
+  "Sondermüllzwischenlager": ["Sondermülllager", "Sonderabfall"],
+  "Sondermülllager": ["Sondermüllzwischenlager", "Sonderabfall"],
+  "Sonderabfall": ["Sondermüllzwischenlager", "Sondermülllager"],
+
+  "Dusche": ["Duschraum"],
+  "Duschraum": ["Dusche"],
+
+  "Laborraum": ["Labor"],
+  "Labor raum": ["Labor"],
+
+  "straße": ["str"],
+  "str": ["straße"],
+
+  "raum": ["room"],
+
+  "ii": ["2"],
+  "2": ["ii"],
+  "iii": ["3"],
+  "3": ["iii"],
+  "iv": ["4"],
+  "4": ["iv"],
+
+  "Interims": ["Interimshörsäle", "Interims-Audimax"],
+
+  "Fachschaft": ["FS", "Fachschaftsbüro", "Fachschaftsraum"],
+  "FS": ["Fachschaft", "Fachschaftsbüro", "Fachschaftsraum"],
+  "Fachschaftsbüro": ["Fachschaft", "FS", "Fachschaftsraum"],
+  "Fachschaftsraum": ["Fachschaft", "FS", "Fachschaftsbüro"],
+
+  "FSMPI": ["Fachschaft MPI"],
+  "AStA": ["SV", "StuVe", "Studentische Vertretung"],
+  "Studentische Vertretung": ["SV", "StuVe", "AStA"],
+  "StuVe": ["SV", "Studentische Vertretung", "AStA"]
 }

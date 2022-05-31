@@ -2,14 +2,34 @@
 
 - props:
     type: "indoor"
-    scale: 400  # Estimate, doesn't make much sense actually
+    scale: 400 # Estimate, doesn't make much sense actually
     north: 48.26692
-    east:  11.67051
+    east: 11.67051
     south: 48.26672
-    west:  11.66983
+    west: 11.66983
     rotation: -10.5000
   maps:
-    - {file: "5532_0.webp", b_id: "5532", floor: "EG", desc: "StudiTUM Garching (EG)"}
-    - {file: "5532_1.webp", b_id: "5532", floor: "Z1", desc: "StudiTUM Garching (ZG)"}
-    - {file: "5532_2.webp", b_id: "5532", floor: "01", desc: "StudiTUM Garching (1.OG)"}
-    - {file: "5532_3.webp", b_id: "5532", floor: "02", desc: "StudiTUM Garching (2.OG)"}
+    - {
+        file: "5532_0.webp",
+        b_id: "5532",
+        floor: "EG",
+        desc: "StudiTUM Garching (EG)",
+      }
+    - {
+        file: "5532_1.webp",
+        b_id: "5532",
+        floor: "Z1",
+        desc: "StudiTUM Garching (ZG)",
+      }
+    - {
+        file: "5532_2.webp",
+        b_id: "5532",
+        floor: "01",
+        desc: "StudiTUM Garching (1.OG)",
+      }
+    - {
+        file: "5532_3.webp",
+        b_id: "5532",
+        floor: "02",
+        desc: "StudiTUM Garching (2.OG)",
+      }

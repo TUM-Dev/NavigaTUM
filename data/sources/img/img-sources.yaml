@@ -602,7 +602,7 @@ garching:
       url: "https://www.geodaten.bayern.de"
     meta:
       date: "2020-04-25"
-      
+
 physik:
   0:
     author: "'Graf-flugplatz'"
@@ -612,7 +612,7 @@ physik:
       url: "https://commons.wikimedia.org/wiki/File:110403019-TUM.JPG"
     meta:
       date: "2011-04-03"
-      
+
 physik-main:
   0:
     author: "Andreas Battenberg / TUM"
@@ -2152,7 +2152,7 @@ chemie:
     meta:
       date: "2011-09-10"
       geo: "48.26838,11.661398"
-      
+
 "4001":
   0:
     author: "Benz, Uli / TUM"

@@ -1,1 +1,472 @@
-[{"id": 2, "name": "Archiv", "din_277": "NF4.2 - Archive, Sammlungsr\u00e4ume"}, {"id": 136, "name": "Vorbereitungsraum", "din_277": "NF3.1 - Werkhallen"}, {"id": 4, "name": "Aufzug", "din_277": "VF9.3 - Sch\u00e4chte f\u00fcr F\u00f6rderanlagen"}, {"id": 222, "name": "Aufzug", "din_277": "VF9.3 - Sch\u00e4chte f\u00fcr F\u00f6rderanlagen"}, {"id": 5, "name": "Aufzugsanlage", "din_277": "TF8.6 - Aufzugs- und F\u00f6rderanlagen"}, {"id": 7, "name": "Au\u00dfenstiege", "din_277": "VF9.2 - Treppen"}, {"id": 9, "name": "Beobachterraum", "din_277": "NF3.2 - Werkst\u00e4tten"}, {"id": 10, "name": "Bibliothek", "din_277": "NF5.4 - Bibliotheksr\u00e4ume"}, {"id": 12, "name": "B\u00fcro", "din_277": "NF2.1 - B\u00fcror\u00e4ume"}, {"id": 13, "name": "Durchfahrt", "din_277": "VF9.4 - Fahrzeugverkehrsfl\u00e4chen"}, {"id": 15, "name": "Foyer", "din_277": "VF9.1 - Flure, Hallen"}, {"id": 16, "name": "Gang", "din_277": "VF9.1 - Flure, Hallen"}, {"id": 17, "name": "Gasanlage", "din_277": "TF8.1 - Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (au\u00dfer f\u00fcr Heizzwecke) und Fl\u00fcssigkeiten"}, {"id": 18, "name": "Ger\u00e4teraum", "din_277": "NF4.1 - Lagerr\u00e4ume"}, {"id": 20, "name": "H\u00f6rsaal", "din_277": "NF5.1 - Unterrichtsr\u00e4ume mit festem Gest\u00fchl"}, {"id": 23, "name": "H\u00f6rsaaltechnik", "din_277": "NF7.6 - R\u00e4ume f\u00fcr zentrale Technik"}, {"id": 25, "name": "Klimatechnische Anlage", "din_277": "TF8.3 - Raumlufttechnische Anlagen"}, {"id": 28, "name": "K\u00fcche", "din_277": "NF3.8 - K\u00fcchen"}, {"id": 30, "name": "Lager", "din_277": "NF4.1 - Lagerr\u00e4ume"}, {"id": 31, "name": "Luftraum", "din_277": "VF9.9 - Sonstige Verkehrsfl\u00e4chen"}, {"id": 32, "name": "Lufttechnische Anlage", "din_277": "TF8.3 - Raumlufttechnische Anlagen"}, {"id": 34, "name": "Portierloge", "din_277": "NF2.5 - Schalterr\u00e4ume"}, {"id": 36, "name": "Rampe", "din_277": "VF9.9 - Sonstige Verkehrsfl\u00e4chen"}, {"id": 37, "name": "Sanit\u00e4rraum", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"}, {"id": 38, "name": "Schacht", "din_277": "TF8.9 - Sonstige betriebstechnische Anlagen"}, {"id": 40, "name": "Sekretariat", "din_277": "NF2.1 - B\u00fcror\u00e4ume"}, {"id": 41, "name": "Seminarraum", "din_277": "NF5.2 - Allgemeine Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"}, {"id": 42, "name": "Sitzungszimmer", "din_277": "NF2.3 - Besprechungsr\u00e4ume"}, {"id": 44, "name": "Sozialraum", "din_277": "NF1.2 - Gemeinschaftsr\u00e4ume"}, {"id": 45, "name": "Speiseraum", "din_277": "NF1.5 - Speiser\u00e4ume"}, {"id": 46, "name": "Starkstromanlage", "din_277": "TF8.4 - Elektrische Stromversorgung"}, {"id": 48, "name": "Terrasse", "din_277": "NF1.1 - Wohnr\u00e4ume"}, {"id": 49, "name": "Versuchshalle", "din_277": "NF3.3 - Technologische Labors"}, {"id": 50, "name": "Vorraum", "din_277": "VF9.1 - Flure, Hallen"}, {"id": 51, "name": "Werkstatt", "din_277": "NF3.2 - Werkst\u00e4tten"}, {"id": 52, "name": "Windfang", "din_277": "VF9.1 - Flure, Hallen"}, {"id": 53, "name": "Wohnung", "din_277": "NF1.1 - Wohnr\u00e4ume"}, {"id": 54, "name": "W\u00e4rmetechnische Anlage", "din_277": "TF8.2 - Heizung und Brauchwasser-erw\u00e4rmung"}, {"id": 55, "name": "Zeichensaal", "din_277": "NF5.2 - Allgemeine Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"}, {"id": 100, "name": "Garage", "din_277": "NF7.4 - Fahrzeugabstellfl\u00e4"}, {"id": 102, "name": "Labor - Chemie", "din_277": "NF3.5 - Chemische, bakteriologische, morphologische Labors"}, {"id": 103, "name": "Labor - Physik", "din_277": "NF3.4 - Physikalische, physikalisch-technische, elektrotechnische Labors"}, {"id": 104, "name": "Labor - Foto", "din_277": "NF2.8 - B\u00fcrotechnikr\u00e4ume"}, {"id": 105, "name": "Schleuse", "din_277": "VF9.1 - Flure, Hallen"}, {"id": 106, "name": "Tierstall", "din_277": "NF3.6 - R\u00e4ume f\u00fcr Tierhaltung"}, {"id": 107, "name": "Tischlerei", "din_277": "NF3.2 - Werkst\u00e4tten"}, {"id": 108, "name": "Metallverarbeitung", "din_277": "NF3.2 - Werkst\u00e4tten"}, {"id": 110, "name": "Kopierraum", "din_277": "NF2.8 - B\u00fcrotechnikr\u00e4ume"}, {"id": 112, "name": "Bad", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"}, {"id": 113, "name": "Dusche", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"}, {"id": 114, "name": "WC", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"}, {"id": 115, "name": "WC Herren", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"}, {"id": 116, "name": "WC Damen", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"}, {"id": 117, "name": "WC Barrierefrei", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"}, {"id": 118, "name": "WC Vorraum", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"}, {"id": 120, "name": "Geb\u00e4udeleittechnik", "din_277": "TF8.9 - Sonstige betriebstechnische Anlagen"}, {"id": 121, "name": "Garderobe", "din_277": "NF7.2 - Garderoben"}, {"id": 124, "name": "Raum mit medizin. Ausstattung", "din_277": "NF6.2 - R\u00e4ume mit besonderer medizinischer Ausstattung"}, {"id": 125, "name": "B\u00fchnen-, Studioraum", "din_277": "NF5.7 - B\u00fchnen-, Studior\u00e4ume"}, {"id": 128, "name": "Sportraum", "din_277": "NF5.5 - Sportr\u00e4ume"}, {"id": 129, "name": "Sakralraum", "din_277": "NF5.9 - Sakralr\u00e4ume"}, {"id": 130, "name": "Unterrichtsraum", "din_277": "NF5.2 - Allgemeine Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"}, {"id": 131, "name": "\u00dcbungsraum", "din_277": "NF5.2 - Allgemeine Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"}, {"id": 132, "name": "Chemikalienlager", "din_277": "NF4.1 - Lagerr\u00e4ume"}, {"id": 133, "name": "EDV-Raum", "din_277": "NF2.8 - B\u00fcrotechnikr\u00e4ume"}, {"id": 135, "name": "Sprachlabor", "din_277": "NF5.3 - Besondere Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"}, {"id": 137, "name": "Dachterrasse", "din_277": "NF7.9 - Sonstige R\u00e4ume"}, {"id": 139, "name": "Cafeteria", "din_277": "NF1.5 - Speiser\u00e4ume"}, {"id": 142, "name": "Konferenzraum", "din_277": "NF2.3 - Besprechungsr\u00e4ume"}, {"id": 145, "name": "Halle", "din_277": "VF9.1 - Flure, Hallen"}, {"id": 146, "name": "Kindergarten", "din_277": "NF1.2 - Gemeinschaftsr\u00e4ume"}, {"id": 147, "name": "Mensa", "din_277": "NF1.5 - Speiser\u00e4ume"}, {"id": 148, "name": "Ausstellungssaal", "din_277": "NF5.8 - Schaur\u00e4ume"}, {"id": 150, "name": "Lesesaal", "din_277": "NF5.4 - Bibliotheksr\u00e4ume"}, {"id": 153, "name": "Labor - Video", "din_277": "NF3.4 - Physikalische, physikalisch-technische, elektrotechnische Labors"}, {"id": 155, "name": "Werkhalle", "din_277": "NF3.1 - Werkhallen"}, {"id": 157, "name": "Garten", "din_277": "VF9.9 - Sonstige Verkehrsfl\u00e4chen"}, {"id": 159, "name": "Abstellraum", "din_277": "NF7.3 - Abstellr\u00e4ume"}, {"id": 160, "name": "Elektrische Stromversorgung", "din_277": "TF8.4 - Elektrische Stromversorgung"}, {"id": 161, "name": "Film und AV-Medien", "din_277": "NF5.4 - Bibliotheksr\u00e4ume"}, {"id": 164, "name": "Gesch\u00e4ftsraum", "din_277": "NF4.5 - Verkaufsr\u00e4ume"}, {"id": 166, "name": "Glas-, Gew\u00e4chshaus", "din_277": "NF3.7 - R\u00e4ume f\u00fcr Pflanzenzucht"}, {"id": 167, "name": "Stall", "din_277": "NF3.6 - R\u00e4ume f\u00fcr Tierhaltung"}, {"id": 168, "name": "Futteraufbereitung", "din_277": "NF3.6 - R\u00e4ume f\u00fcr Tierhaltung"}, {"id": 172, "name": "Labor - Biologie", "din_277": "NF3.5 - Chemische, bakteriologische, morphologische Labors"}, {"id": 177, "name": "Operationsraum", "din_277": "NF6.3 - R\u00e4ume f\u00fcr operative Eingriffe, Endoskopien und Entbindungen"}, {"id": 178, "name": "Behandlungsraum", "din_277": "NF6.1 - R\u00e4ume mit allgemeiner medizinischer Ausstattung"}, {"id": 179, "name": "Fahrradraum", "din_277": "NF7.3 - Abstellr\u00e4ume"}, {"id": 180, "name": "Poststelle", "din_277": "NF4.4 - Annahme- und Ausgaber\u00e4ume"}, {"id": 181, "name": "W\u00e4scherei", "din_277": "NF3.9 - Sonderarbeitsr\u00e4ume"}, {"id": 182, "name": "Wasseraufbereitung", "din_277": "TF8.1 - Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (au\u00dfer f\u00fcr Heizzwecke) und Fl\u00fcssigkeiten"}, {"id": 183, "name": "Wassertechnische Anlage", "din_277": "TF8.1 - Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (au\u00dfer f\u00fcr Heizzwecke) und Fl\u00fcssigkeiten"}, {"id": 184, "name": "Neutralisationsanlage", "din_277": "TF8.1 - Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (au\u00dfer f\u00fcr Heizzwecke) und Fl\u00fcssigkeiten"}, {"id": 186, "name": "Anlieferung", "din_277": "NF4.4 - Annahme- und Ausgaber\u00e4ume"}, {"id": 187, "name": "Lehrmittelraum", "din_277": "NF4.2 - Archive, Sammlungsr\u00e4ume"}, {"id": 188, "name": "Musikunterricht", "din_277": "NF5.3 - Besondere Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"}, {"id": 190, "name": "Freihandbibliothek", "din_277": "NF5.4 - Bibliotheksr\u00e4ume"}, {"id": 191, "name": "Turnsaal", "din_277": "NF5.5 - Sportr\u00e4ume"}, {"id": 192, "name": "Schwimmhalle", "din_277": "NF5.5 - Sportr\u00e4ume"}, {"id": 194, "name": "Labor (Technik)", "din_277": "NF3.3 - Technologische Labors"}, {"id": 195, "name": "Aufzugsschacht", "din_277": "VF9.3 - Sch\u00e4chte f\u00fcr F\u00f6rderanlagen"}, {"id": 196, "name": "Besprechungsraum", "din_277": "NF2.3 - Besprechungsr\u00e4ume"}, {"id": 197, "name": "Tierhaltung", "din_277": "NF3.6 - R\u00e4ume f\u00fcr Tierhaltung"}, {"id": 198, "name": "Teek\u00fcche", "din_277": "NF3.8 - K\u00fcchen"}, {"id": 199, "name": "K\u00fchlraum", "din_277": "NF4.3 - K\u00fchlr\u00e4ume"}, {"id": 200, "name": "Sonstiger Lagerraum", "din_277": "NF4.9 - Sonstige Lagerr\u00e4ume"}, {"id": 201, "name": "Heizungsanlage", "din_277": "TF8.2 - Heizung und Brauchwasser-erw\u00e4rmung"}, {"id": 202, "name": "Fernmeldetechnik", "din_277": "TF8.5 - Fernmeldetechnik"}, {"id": 203, "name": "Stiege", "din_277": "VF9.2 - Treppen"}, {"id": 204, "name": "Fahrzeugverkehrsfl\u00e4che", "din_277": "VF9.4 - Fahrzeugverkehrsfl\u00e4chen"}, {"id": 205, "name": "Putzraum", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"}, {"id": 206, "name": "Gang (Galerie)", "din_277": "VF9.1 - Flure, Hallen"}, {"id": 207, "name": "Serverraum", "din_277": "TF8.9 - Sonstige betriebstechnische Anlagen"}, {"id": 208, "name": "Studentenarbeitsraum", "din_277": "NF5.2 - Allgemeine Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"}, {"id": 209, "name": "Sonderarbeitsraum", "din_277": "NF3.9 - Sonderarbeitsr\u00e4ume"}, {"id": 210, "name": "Waschraum", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"}, {"id": 211, "name": "Praktikumsraum - Physik", "din_277": "NF5.3 - Besondere Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"}, {"id": 212, "name": "Praktikumsraum - Chemie", "din_277": "NF5.3 - Besondere Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"}, {"id": 213, "name": "Praktikumsraum - EDV", "din_277": "NF5.3 - Besondere Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"}, {"id": 214, "name": "M\u00fcllsammelraum", "din_277": "NF7.3 - Abstellr\u00e4ume"}, {"id": 215, "name": "M\u00fcll-/Wertstoffcontainer", "din_277": "NF7.3 - Abstellr\u00e4ume"}, {"id": 216, "name": "Abfallsammelstation", "din_277": "NF7.3 - Abstellr\u00e4ume"}, {"id": 217, "name": "Freifl\u00e4che", "din_277": "NF7.9 - Sonstige R\u00e4ume"}, {"id": 218, "name": "Freiluftfl\u00e4che", "din_277": "NF7.9 - Sonstige R\u00e4ume"}, {"id": 219, "name": "Fluchtweg", "din_277": "VF9.1 - Flure, Hallen"}, {"id": 223, "name": "Treppenhaus", "din_277": "VF9.2 - Treppen"}]
+[
+  {
+    "id": 2,
+    "name": "Archiv",
+    "din_277": "NF4.2 - Archive, Sammlungsr\u00e4ume"
+  },
+  { "id": 136, "name": "Vorbereitungsraum", "din_277": "NF3.1 - Werkhallen" },
+  {
+    "id": 4,
+    "name": "Aufzug",
+    "din_277": "VF9.3 - Sch\u00e4chte f\u00fcr F\u00f6rderanlagen"
+  },
+  {
+    "id": 222,
+    "name": "Aufzug",
+    "din_277": "VF9.3 - Sch\u00e4chte f\u00fcr F\u00f6rderanlagen"
+  },
+  {
+    "id": 5,
+    "name": "Aufzugsanlage",
+    "din_277": "TF8.6 - Aufzugs- und F\u00f6rderanlagen"
+  },
+  { "id": 7, "name": "Au\u00dfenstiege", "din_277": "VF9.2 - Treppen" },
+  { "id": 9, "name": "Beobachterraum", "din_277": "NF3.2 - Werkst\u00e4tten" },
+  {
+    "id": 10,
+    "name": "Bibliothek",
+    "din_277": "NF5.4 - Bibliotheksr\u00e4ume"
+  },
+  { "id": 12, "name": "B\u00fcro", "din_277": "NF2.1 - B\u00fcror\u00e4ume" },
+  {
+    "id": 13,
+    "name": "Durchfahrt",
+    "din_277": "VF9.4 - Fahrzeugverkehrsfl\u00e4chen"
+  },
+  { "id": 15, "name": "Foyer", "din_277": "VF9.1 - Flure, Hallen" },
+  { "id": 16, "name": "Gang", "din_277": "VF9.1 - Flure, Hallen" },
+  {
+    "id": 17,
+    "name": "Gasanlage",
+    "din_277": "TF8.1 - Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (au\u00dfer f\u00fcr Heizzwecke) und Fl\u00fcssigkeiten"
+  },
+  { "id": 18, "name": "Ger\u00e4teraum", "din_277": "NF4.1 - Lagerr\u00e4ume" },
+  {
+    "id": 20,
+    "name": "H\u00f6rsaal",
+    "din_277": "NF5.1 - Unterrichtsr\u00e4ume mit festem Gest\u00fchl"
+  },
+  {
+    "id": 23,
+    "name": "H\u00f6rsaaltechnik",
+    "din_277": "NF7.6 - R\u00e4ume f\u00fcr zentrale Technik"
+  },
+  {
+    "id": 25,
+    "name": "Klimatechnische Anlage",
+    "din_277": "TF8.3 - Raumlufttechnische Anlagen"
+  },
+  { "id": 28, "name": "K\u00fcche", "din_277": "NF3.8 - K\u00fcchen" },
+  { "id": 30, "name": "Lager", "din_277": "NF4.1 - Lagerr\u00e4ume" },
+  {
+    "id": 31,
+    "name": "Luftraum",
+    "din_277": "VF9.9 - Sonstige Verkehrsfl\u00e4chen"
+  },
+  {
+    "id": 32,
+    "name": "Lufttechnische Anlage",
+    "din_277": "TF8.3 - Raumlufttechnische Anlagen"
+  },
+  { "id": 34, "name": "Portierloge", "din_277": "NF2.5 - Schalterr\u00e4ume" },
+  {
+    "id": 36,
+    "name": "Rampe",
+    "din_277": "VF9.9 - Sonstige Verkehrsfl\u00e4chen"
+  },
+  {
+    "id": 37,
+    "name": "Sanit\u00e4rraum",
+    "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"
+  },
+  {
+    "id": 38,
+    "name": "Schacht",
+    "din_277": "TF8.9 - Sonstige betriebstechnische Anlagen"
+  },
+  { "id": 40, "name": "Sekretariat", "din_277": "NF2.1 - B\u00fcror\u00e4ume" },
+  {
+    "id": 41,
+    "name": "Seminarraum",
+    "din_277": "NF5.2 - Allgemeine Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"
+  },
+  {
+    "id": 42,
+    "name": "Sitzungszimmer",
+    "din_277": "NF2.3 - Besprechungsr\u00e4ume"
+  },
+  {
+    "id": 44,
+    "name": "Sozialraum",
+    "din_277": "NF1.2 - Gemeinschaftsr\u00e4ume"
+  },
+  { "id": 45, "name": "Speiseraum", "din_277": "NF1.5 - Speiser\u00e4ume" },
+  {
+    "id": 46,
+    "name": "Starkstromanlage",
+    "din_277": "TF8.4 - Elektrische Stromversorgung"
+  },
+  { "id": 48, "name": "Terrasse", "din_277": "NF1.1 - Wohnr\u00e4ume" },
+  {
+    "id": 49,
+    "name": "Versuchshalle",
+    "din_277": "NF3.3 - Technologische Labors"
+  },
+  { "id": 50, "name": "Vorraum", "din_277": "VF9.1 - Flure, Hallen" },
+  { "id": 51, "name": "Werkstatt", "din_277": "NF3.2 - Werkst\u00e4tten" },
+  { "id": 52, "name": "Windfang", "din_277": "VF9.1 - Flure, Hallen" },
+  { "id": 53, "name": "Wohnung", "din_277": "NF1.1 - Wohnr\u00e4ume" },
+  {
+    "id": 54,
+    "name": "W\u00e4rmetechnische Anlage",
+    "din_277": "TF8.2 - Heizung und Brauchwasser-erw\u00e4rmung"
+  },
+  {
+    "id": 55,
+    "name": "Zeichensaal",
+    "din_277": "NF5.2 - Allgemeine Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"
+  },
+  { "id": 100, "name": "Garage", "din_277": "NF7.4 - Fahrzeugabstellfl\u00e4" },
+  {
+    "id": 102,
+    "name": "Labor - Chemie",
+    "din_277": "NF3.5 - Chemische, bakteriologische, morphologische Labors"
+  },
+  {
+    "id": 103,
+    "name": "Labor - Physik",
+    "din_277": "NF3.4 - Physikalische, physikalisch-technische, elektrotechnische Labors"
+  },
+  {
+    "id": 104,
+    "name": "Labor - Foto",
+    "din_277": "NF2.8 - B\u00fcrotechnikr\u00e4ume"
+  },
+  { "id": 105, "name": "Schleuse", "din_277": "VF9.1 - Flure, Hallen" },
+  {
+    "id": 106,
+    "name": "Tierstall",
+    "din_277": "NF3.6 - R\u00e4ume f\u00fcr Tierhaltung"
+  },
+  { "id": 107, "name": "Tischlerei", "din_277": "NF3.2 - Werkst\u00e4tten" },
+  {
+    "id": 108,
+    "name": "Metallverarbeitung",
+    "din_277": "NF3.2 - Werkst\u00e4tten"
+  },
+  {
+    "id": 110,
+    "name": "Kopierraum",
+    "din_277": "NF2.8 - B\u00fcrotechnikr\u00e4ume"
+  },
+  { "id": 112, "name": "Bad", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume" },
+  { "id": 113, "name": "Dusche", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume" },
+  { "id": 114, "name": "WC", "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume" },
+  {
+    "id": 115,
+    "name": "WC Herren",
+    "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"
+  },
+  {
+    "id": 116,
+    "name": "WC Damen",
+    "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"
+  },
+  {
+    "id": 117,
+    "name": "WC Barrierefrei",
+    "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"
+  },
+  {
+    "id": 118,
+    "name": "WC Vorraum",
+    "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"
+  },
+  {
+    "id": 120,
+    "name": "Geb\u00e4udeleittechnik",
+    "din_277": "TF8.9 - Sonstige betriebstechnische Anlagen"
+  },
+  { "id": 121, "name": "Garderobe", "din_277": "NF7.2 - Garderoben" },
+  {
+    "id": 124,
+    "name": "Raum mit medizin. Ausstattung",
+    "din_277": "NF6.2 - R\u00e4ume mit besonderer medizinischer Ausstattung"
+  },
+  {
+    "id": 125,
+    "name": "B\u00fchnen-, Studioraum",
+    "din_277": "NF5.7 - B\u00fchnen-, Studior\u00e4ume"
+  },
+  { "id": 128, "name": "Sportraum", "din_277": "NF5.5 - Sportr\u00e4ume" },
+  { "id": 129, "name": "Sakralraum", "din_277": "NF5.9 - Sakralr\u00e4ume" },
+  {
+    "id": 130,
+    "name": "Unterrichtsraum",
+    "din_277": "NF5.2 - Allgemeine Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"
+  },
+  {
+    "id": 131,
+    "name": "\u00dcbungsraum",
+    "din_277": "NF5.2 - Allgemeine Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"
+  },
+  {
+    "id": 132,
+    "name": "Chemikalienlager",
+    "din_277": "NF4.1 - Lagerr\u00e4ume"
+  },
+  {
+    "id": 133,
+    "name": "EDV-Raum",
+    "din_277": "NF2.8 - B\u00fcrotechnikr\u00e4ume"
+  },
+  {
+    "id": 135,
+    "name": "Sprachlabor",
+    "din_277": "NF5.3 - Besondere Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"
+  },
+  {
+    "id": 137,
+    "name": "Dachterrasse",
+    "din_277": "NF7.9 - Sonstige R\u00e4ume"
+  },
+  { "id": 139, "name": "Cafeteria", "din_277": "NF1.5 - Speiser\u00e4ume" },
+  {
+    "id": 142,
+    "name": "Konferenzraum",
+    "din_277": "NF2.3 - Besprechungsr\u00e4ume"
+  },
+  { "id": 145, "name": "Halle", "din_277": "VF9.1 - Flure, Hallen" },
+  {
+    "id": 146,
+    "name": "Kindergarten",
+    "din_277": "NF1.2 - Gemeinschaftsr\u00e4ume"
+  },
+  { "id": 147, "name": "Mensa", "din_277": "NF1.5 - Speiser\u00e4ume" },
+  {
+    "id": 148,
+    "name": "Ausstellungssaal",
+    "din_277": "NF5.8 - Schaur\u00e4ume"
+  },
+  { "id": 150, "name": "Lesesaal", "din_277": "NF5.4 - Bibliotheksr\u00e4ume" },
+  {
+    "id": 153,
+    "name": "Labor - Video",
+    "din_277": "NF3.4 - Physikalische, physikalisch-technische, elektrotechnische Labors"
+  },
+  { "id": 155, "name": "Werkhalle", "din_277": "NF3.1 - Werkhallen" },
+  {
+    "id": 157,
+    "name": "Garten",
+    "din_277": "VF9.9 - Sonstige Verkehrsfl\u00e4chen"
+  },
+  { "id": 159, "name": "Abstellraum", "din_277": "NF7.3 - Abstellr\u00e4ume" },
+  {
+    "id": 160,
+    "name": "Elektrische Stromversorgung",
+    "din_277": "TF8.4 - Elektrische Stromversorgung"
+  },
+  {
+    "id": 161,
+    "name": "Film und AV-Medien",
+    "din_277": "NF5.4 - Bibliotheksr\u00e4ume"
+  },
+  {
+    "id": 164,
+    "name": "Gesch\u00e4ftsraum",
+    "din_277": "NF4.5 - Verkaufsr\u00e4ume"
+  },
+  {
+    "id": 166,
+    "name": "Glas-, Gew\u00e4chshaus",
+    "din_277": "NF3.7 - R\u00e4ume f\u00fcr Pflanzenzucht"
+  },
+  {
+    "id": 167,
+    "name": "Stall",
+    "din_277": "NF3.6 - R\u00e4ume f\u00fcr Tierhaltung"
+  },
+  {
+    "id": 168,
+    "name": "Futteraufbereitung",
+    "din_277": "NF3.6 - R\u00e4ume f\u00fcr Tierhaltung"
+  },
+  {
+    "id": 172,
+    "name": "Labor - Biologie",
+    "din_277": "NF3.5 - Chemische, bakteriologische, morphologische Labors"
+  },
+  {
+    "id": 177,
+    "name": "Operationsraum",
+    "din_277": "NF6.3 - R\u00e4ume f\u00fcr operative Eingriffe, Endoskopien und Entbindungen"
+  },
+  {
+    "id": 178,
+    "name": "Behandlungsraum",
+    "din_277": "NF6.1 - R\u00e4ume mit allgemeiner medizinischer Ausstattung"
+  },
+  { "id": 179, "name": "Fahrradraum", "din_277": "NF7.3 - Abstellr\u00e4ume" },
+  {
+    "id": 180,
+    "name": "Poststelle",
+    "din_277": "NF4.4 - Annahme- und Ausgaber\u00e4ume"
+  },
+  {
+    "id": 181,
+    "name": "W\u00e4scherei",
+    "din_277": "NF3.9 - Sonderarbeitsr\u00e4ume"
+  },
+  {
+    "id": 182,
+    "name": "Wasseraufbereitung",
+    "din_277": "TF8.1 - Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (au\u00dfer f\u00fcr Heizzwecke) und Fl\u00fcssigkeiten"
+  },
+  {
+    "id": 183,
+    "name": "Wassertechnische Anlage",
+    "din_277": "TF8.1 - Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (au\u00dfer f\u00fcr Heizzwecke) und Fl\u00fcssigkeiten"
+  },
+  {
+    "id": 184,
+    "name": "Neutralisationsanlage",
+    "din_277": "TF8.1 - Abwasseraufbereitung und Beseitigung Wasserversorgung Gase (au\u00dfer f\u00fcr Heizzwecke) und Fl\u00fcssigkeiten"
+  },
+  {
+    "id": 186,
+    "name": "Anlieferung",
+    "din_277": "NF4.4 - Annahme- und Ausgaber\u00e4ume"
+  },
+  {
+    "id": 187,
+    "name": "Lehrmittelraum",
+    "din_277": "NF4.2 - Archive, Sammlungsr\u00e4ume"
+  },
+  {
+    "id": 188,
+    "name": "Musikunterricht",
+    "din_277": "NF5.3 - Besondere Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"
+  },
+  {
+    "id": 190,
+    "name": "Freihandbibliothek",
+    "din_277": "NF5.4 - Bibliotheksr\u00e4ume"
+  },
+  { "id": 191, "name": "Turnsaal", "din_277": "NF5.5 - Sportr\u00e4ume" },
+  { "id": 192, "name": "Schwimmhalle", "din_277": "NF5.5 - Sportr\u00e4ume" },
+  {
+    "id": 194,
+    "name": "Labor (Technik)",
+    "din_277": "NF3.3 - Technologische Labors"
+  },
+  {
+    "id": 195,
+    "name": "Aufzugsschacht",
+    "din_277": "VF9.3 - Sch\u00e4chte f\u00fcr F\u00f6rderanlagen"
+  },
+  {
+    "id": 196,
+    "name": "Besprechungsraum",
+    "din_277": "NF2.3 - Besprechungsr\u00e4ume"
+  },
+  {
+    "id": 197,
+    "name": "Tierhaltung",
+    "din_277": "NF3.6 - R\u00e4ume f\u00fcr Tierhaltung"
+  },
+  { "id": 198, "name": "Teek\u00fcche", "din_277": "NF3.8 - K\u00fcchen" },
+  {
+    "id": 199,
+    "name": "K\u00fchlraum",
+    "din_277": "NF4.3 - K\u00fchlr\u00e4ume"
+  },
+  {
+    "id": 200,
+    "name": "Sonstiger Lagerraum",
+    "din_277": "NF4.9 - Sonstige Lagerr\u00e4ume"
+  },
+  {
+    "id": 201,
+    "name": "Heizungsanlage",
+    "din_277": "TF8.2 - Heizung und Brauchwasser-erw\u00e4rmung"
+  },
+  {
+    "id": 202,
+    "name": "Fernmeldetechnik",
+    "din_277": "TF8.5 - Fernmeldetechnik"
+  },
+  { "id": 203, "name": "Stiege", "din_277": "VF9.2 - Treppen" },
+  {
+    "id": 204,
+    "name": "Fahrzeugverkehrsfl\u00e4che",
+    "din_277": "VF9.4 - Fahrzeugverkehrsfl\u00e4chen"
+  },
+  {
+    "id": 205,
+    "name": "Putzraum",
+    "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"
+  },
+  { "id": 206, "name": "Gang (Galerie)", "din_277": "VF9.1 - Flure, Hallen" },
+  {
+    "id": 207,
+    "name": "Serverraum",
+    "din_277": "TF8.9 - Sonstige betriebstechnische Anlagen"
+  },
+  {
+    "id": 208,
+    "name": "Studentenarbeitsraum",
+    "din_277": "NF5.2 - Allgemeine Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"
+  },
+  {
+    "id": 209,
+    "name": "Sonderarbeitsraum",
+    "din_277": "NF3.9 - Sonderarbeitsr\u00e4ume"
+  },
+  {
+    "id": 210,
+    "name": "Waschraum",
+    "din_277": "NF7.1 - Sanit\u00e4rr\u00e4ume"
+  },
+  {
+    "id": 211,
+    "name": "Praktikumsraum - Physik",
+    "din_277": "NF5.3 - Besondere Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"
+  },
+  {
+    "id": 212,
+    "name": "Praktikumsraum - Chemie",
+    "din_277": "NF5.3 - Besondere Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"
+  },
+  {
+    "id": 213,
+    "name": "Praktikumsraum - EDV",
+    "din_277": "NF5.3 - Besondere Unterrichts- und \u00dcbungsr\u00e4ume ohne festes Gest\u00fchl"
+  },
+  {
+    "id": 214,
+    "name": "M\u00fcllsammelraum",
+    "din_277": "NF7.3 - Abstellr\u00e4ume"
+  },
+  {
+    "id": 215,
+    "name": "M\u00fcll-/Wertstoffcontainer",
+    "din_277": "NF7.3 - Abstellr\u00e4ume"
+  },
+  {
+    "id": 216,
+    "name": "Abfallsammelstation",
+    "din_277": "NF7.3 - Abstellr\u00e4ume"
+  },
+  {
+    "id": 217,
+    "name": "Freifl\u00e4che",
+    "din_277": "NF7.9 - Sonstige R\u00e4ume"
+  },
+  {
+    "id": 218,
+    "name": "Freiluftfl\u00e4che",
+    "din_277": "NF7.9 - Sonstige R\u00e4ume"
+  },
+  { "id": 219, "name": "Fluchtweg", "din_277": "VF9.1 - Flure, Hallen" },
+  { "id": 223, "name": "Treppenhaus", "din_277": "VF9.2 - Treppen" }
+]

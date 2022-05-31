@@ -1,49 +1,67 @@
 tb-stammgelaende:
   parent: "0501"
-  related_rooms: ["0501.01.136", "0501.01.136A", "0501.01.140", "0501.01.142A", "0501.01.154A", "0501.01.158", "0501.01.160", "0501.02.136", "0501.02.140", "0501.02.144", "0501.02.148", "0501.02.170"]
+  related_rooms:
+    [
+      "0501.01.136",
+      "0501.01.136A",
+      "0501.01.140",
+      "0501.01.142A",
+      "0501.01.154A",
+      "0501.01.158",
+      "0501.01.160",
+      "0501.02.136",
+      "0501.02.140",
+      "0501.02.144",
+      "0501.02.148",
+      "0501.02.170",
+    ]
   name: "Teilbibliothek Stammgelände"
-  
+
   address: "Arcisstraße 21, 80333 München"
 
   usage:
     name: "Bibliothek"
     din_277: "NF5.4"
     din_277_desc: "Bibliotheksräume"
-  
+
   external_data:
     website: "https://www.ub.tum.de/teilbibliothek-stammgelaende"
-    wikipedia: {name: "Universitätsbibliothek der Technischen Universität München",
-                url: "https://de.wikipedia.org/wiki/Universit%C3%A4tsbibliothek_der_Technischen_Universit%C3%A4t_M%C3%BCnchen"}
+    wikipedia:
+      {
+        name: "Universitätsbibliothek der Technischen Universität München",
+        url: "https://de.wikipedia.org/wiki/Universit%C3%A4tsbibliothek_der_Technischen_Universit%C3%A4t_M%C3%BCnchen",
+      }
     opening_hours:
       last_update:
         date: "2021-08-01"
         source: "https://www.ub.tum.de/teilbibliothek-stammgelaende"
       valid_from: "2021-07-12"
       ranges:
-        - {days: "Mo-Fr", hours: [{from: "8:00", to: "22:00"}]}
-        - {days: "Sa-So", hours: [{from: "9:00", to: "22:00"}]}
-
+        - { days: "Mo-Fr", hours: [{ from: "8:00", to: "22:00" }] }
+        - { days: "Sa-So", hours: [{ from: "9:00", to: "22:00" }] }
 
 tb-chemie:
-  parent: "5401"  # Der Gebäudeteil hat auch noch einen Hörsaal
-  related_rooms: ["5401.01.100A", "5401.EG.114K", "5401.EG.115K"]  # Lesesäle
+  parent: "5401" # Der Gebäudeteil hat auch noch einen Hörsaal
+  related_rooms: ["5401.01.100A", "5401.EG.114K", "5401.EG.115K"] # Lesesäle
   name: "Teilbibliothek Chemie"
-  
+
   address: "Lichtenbergstrasse 4, 85748 Garching"
 
   usage:
     name: "Bibliothek"
     din_277: "NF5.4"
     din_277_desc: "Bibliotheksräume"
-  
+
   external_data:
     website: "https://www.ub.tum.de/teilbibliothek-chemie"
-    wikipedia: {name: "Universitätsbibliothek der Technischen Universität München",
-                url: "https://de.wikipedia.org/wiki/Universit%C3%A4tsbibliothek_der_Technischen_Universit%C3%A4t_M%C3%BCnchen"}
+    wikipedia:
+      {
+        name: "Universitätsbibliothek der Technischen Universität München",
+        url: "https://de.wikipedia.org/wiki/Universit%C3%A4tsbibliothek_der_Technischen_Universit%C3%A4t_M%C3%BCnchen",
+      }
     opening_hours:
       last_update:
         date: "2021-08-01"
         source: "https://www.ub.tum.de/teilbibliothek-chemie"
       ranges:
-        - {days: "Mo-Fr", hours: [{from: "10:00", to: "18:00"}]}
-
+        - { days: "Mo-Fr", hours: [{ from: "10:00", to: "18:00" }] }

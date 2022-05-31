@@ -6,57 +6,57 @@
 
 # These queries aim to find a specific entry
 entry_queries:
-# site/area/campus queries
-- {target: "garching-hochbrueck", query: "hochbrück", }
-- {target: "wzw",                 query: "wzw", }
-# building queries
-- {target: "5301", query: "5301",                   }
-- {target: "5620", query: "interims I",             }
-- {target: "5416", query: "Interims 2",             }
-- {target: "5304", query: "Mensa Garching",         }  # Should give the 'new' mensa
-- {target: "5304", query: "neue Mensa",             }
-- {target: "0201", query: "Studitum Arcisstr",      }  # Note: It is not really in Arcisstr., just close
-- {target: "5140", query: "Physik Container",       }
-- {target: "5115", query: "znn",                    }
-- {target: "2906", query: "Karlsstr. 47",           }  # uses "str." instead of "straße"
-- {target: "wzw-ziel", query: "ZIEL",               }
-# room queries
-- {target: "5604.EG.011",  query: "5604.00.011",       }
-- {target: "5601.EG.001",  query: "5601.EG.001",       }  # MI Magistrale
-- {target: "5601.EG.001",  query: "00.01.001",         }  # A search for the Architects name should return the correct room
-- {target: "5608.03.011",  query: "03.08.011",         }
-- {target: "5602.EG.001",  query: "mi hs 1",           }
-- {target: "5508.01.801",  query: "MW 1801",           }
-- {target: "5508.01.801",  query: "1801 maschinen",    }
-- {target: "5503.EG.337",  query: "Raum 0337 mw",      }
-- {target: "5510.EG.001",  query: "niemann",           }
-- {target: "5510.EG.001",  query: "mw g niemann",      }
-- {target: "5402.01.220J", query: "CH22209",           }
-- {target: "5101.EG.502",  query: "pyhsik hs 2",       }
-- {target: "5101.EG.501",  query: "mössbauer",         }
-- {target: "5101.EG.342",  query: "342 Physik",        }
-- {target: "5101.EG.503",  query: "2503",              }  # lecture hall, should be preferred over other rooms
-- {target: "5111.01.116",  query: "1116",              }  # seminar room, should be preferred over other rooms
-- {target: "5140.01.202",  query: "C.3202",            }
-- {target: "5115.01.010",  query: "1010 znn",          }  # Not sure about target here
-- {target: "5433.EG.092",  query: "0092@5433",         }
-- {target: "5510.EG.026M", query: "0026m@5510",        }
-- {target: "5602.EG.001",  query: "f abuer",           }  # typo with short word and at first letter
-- {target: "5123.EG.019",  query: "019 lmu",           }
-- {target: "0509.EG.980",  query: "audimax",           }
-- {target: "0501.EG.144",  query: "ssz",               }  # main room called "service desk", only all 114abc.. subrooms have "ssz" in the name
-- {target: "0501.EG.136",  query: "Immathalle",        }
-- {target: "0502.01.229",  query: "1229 seminarraum",  }
-- {target: "2903.02.209",  query: "Augustenstraße 44; Raum 209; 2.OG",  }  # Copy/paste search
-- {target: "5604.EG.038",  query: "praktikumsraum mi", among: 2}  # there are two basic lab course rooms, this is one of them
-- {target: "5604.EG.036",  query: "physik labor mi",   among: 3}  # "5604.02.033" is a valid result before the two lab course rooms
-- {target: "0104.U1.403",  query: "n1403",             among: 2}  # This is "N-1403@0104", but "N1403@0104" can be before this
-- {target: "5101.EG.257",  query: "fachschaft pyhsik"}  # typo + it's "Fachschaftsbüro" in the data
-- {target: "2910.EG.003",  query: "H.0003"}  # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number
-- {target: "2910.EG.003",  query: "H.003"}  # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number
-- {target: "2910.EG.003",  query: "H.03"}  # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number
-- {target: "2910.EG.003",  query: "H.3"}  # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number
-- {target: "0101.02.119",  query: "2119", among: 4}  # The architects name is a N2119. There are other rooms which are actually named "2119", which means 4 is the best case.
+  # site/area/campus queries
+  - { target: "garching-hochbrueck", query: "hochbrück" }
+  - { target: "wzw", query: "wzw" }
+  # building queries
+  - { target: "5301", query: "5301" }
+  - { target: "5620", query: "interims I" }
+  - { target: "5416", query: "Interims 2" }
+  - { target: "5304", query: "Mensa Garching" } # Should give the 'new' mensa
+  - { target: "5304", query: "neue Mensa" }
+  - { target: "0201", query: "Studitum Arcisstr" } # Note: It is not really in Arcisstr., just close
+  - { target: "5140", query: "Physik Container" }
+  - { target: "5115", query: "znn" }
+  - { target: "2906", query: "Karlsstr. 47" } # uses "str." instead of "straße"
+  - { target: "wzw-ziel", query: "ZIEL" }
+  # room queries
+  - { target: "5604.EG.011", query: "5604.00.011" }
+  - { target: "5601.EG.001", query: "5601.EG.001" } # MI Magistrale
+  - { target: "5601.EG.001", query: "00.01.001" } # A search for the Architects name should return the correct room
+  - { target: "5608.03.011", query: "03.08.011" }
+  - { target: "5602.EG.001", query: "mi hs 1" }
+  - { target: "5508.01.801", query: "MW 1801" }
+  - { target: "5508.01.801", query: "1801 maschinen" }
+  - { target: "5503.EG.337", query: "Raum 0337 mw" }
+  - { target: "5510.EG.001", query: "niemann" }
+  - { target: "5510.EG.001", query: "mw g niemann" }
+  - { target: "5402.01.220J", query: "CH22209" }
+  - { target: "5101.EG.502", query: "pyhsik hs 2" }
+  - { target: "5101.EG.501", query: "mössbauer" }
+  - { target: "5101.EG.342", query: "342 Physik" }
+  - { target: "5101.EG.503", query: "2503" } # lecture hall, should be preferred over other rooms
+  - { target: "5111.01.116", query: "1116" } # seminar room, should be preferred over other rooms
+  - { target: "5140.01.202", query: "C.3202" }
+  - { target: "5115.01.010", query: "1010 znn" } # Not sure about target here
+  - { target: "5433.EG.092", query: "0092@5433" }
+  - { target: "5510.EG.026M", query: "0026m@5510" }
+  - { target: "5602.EG.001", query: "f abuer" } # typo with short word and at first letter
+  - { target: "5123.EG.019", query: "019 lmu" }
+  - { target: "0509.EG.980", query: "audimax" }
+  - { target: "0501.EG.144", query: "ssz" } # main room called "service desk", only all 114abc.. subrooms have "ssz" in the name
+  - { target: "0501.EG.136", query: "Immathalle" }
+  - { target: "0502.01.229", query: "1229 seminarraum" }
+  - { target: "2903.02.209", query: "Augustenstraße 44; Raum 209; 2.OG" } # Copy/paste search
+  - { target: "5604.EG.038", query: "praktikumsraum mi", among: 2 } # there are two basic lab course rooms, this is one of them
+  - { target: "5604.EG.036", query: "physik labor mi", among: 3 } # "5604.02.033" is a valid result before the two lab course rooms
+  - { target: "0104.U1.403", query: "n1403", among: 2 } # This is "N-1403@0104", but "N1403@0104" can be before this
+  - { target: "5101.EG.257", query: "fachschaft pyhsik" } # typo + it's "Fachschaftsbüro" in the data
+  - { target: "2910.EG.003", query: "H.0003" } # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number
+  - { target: "2910.EG.003", query: "H.003" } # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number
+  - { target: "2910.EG.003", query: "H.03" } # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number
+  - { target: "2910.EG.003", query: "H.3" } # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number
+  - { target: "0101.02.119", query: "2119", among: 4 } # The architects name is a N2119. There are other rooms which are actually named "2119", which means 4 is the best case.
 # other queries
 #- {target: , query: "mathe bib",               }
 #- {target: , query: "tb innenstadt",           }

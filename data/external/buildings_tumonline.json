@@ -1,1 +1,2143 @@
-[{"filter_id": 1018, "name": "1601 Altbau 1, Vorklinik. Inst., Biedersteiner Str.   29", "area_id": 21}, {"filter_id": 1019, "name": "1602 Altbau 2+3, Anatomisches Institut, Biedersteiner Str.   29", "area_id": 21}, {"filter_id": 1020, "name": "1603 Altbau 2+3, Biologisches Institut, Biedersteiner Str.   29", "area_id": 21}, {"filter_id": 1021, "name": "1607 Altbau 7, Institut f\u00fcr Pharmakologie und, Dietlindenstr./Biedersteiner Str.   29", "area_id": 21}, {"filter_id": 1022, "name": "1608 Altbau 8, Institut f\u00fcr Medizinische Mikr, Dietlindenstr./Biedersteiner Str.   29", "area_id": 21}, {"filter_id": 1023, "name": "1650 Tierstall f. Pharmakologie, Dietlindenstr./Biedersteiner Str.   29", "area_id": 21}, {"filter_id": 1024, "name": "1652 Tierst\u00e4lle, Dietlindenstr./Biedersteiner Str.   29", "area_id": 21}, {"filter_id": 2369, "name": "1901 Bildungscampus D, Bildungscampus    2", "area_id": 243}, {"filter_id": 2370, "name": "1902 Bildungscampus L, Bildungscampus    9", "area_id": 243}, {"filter_id": 818, "name": "5401 Bibliothek, H\u00f6rsaal CH 1, Lichtenbergstr.    4", "area_id": 36}, {"filter_id": 819, "name": "5402 Laborgeb\u00e4ude CH 2, Lichtenbergstr.    4", "area_id": 36}, {"filter_id": 821, "name": "5403 Laborgeb\u00e4ude CH 3, Lichtenbergstr.    4", "area_id": 36}, {"filter_id": 815, "name": "5404 Hofgeb\u00e4ude 2, Lichtenbergstr.    4", "area_id": 36}, {"filter_id": 824, "name": "5406 Laborgeb\u00e4ude CH 6, Lichtenbergstr.    4", "area_id": 36}, {"filter_id": 826, "name": "5407 Laborgeb\u00e4ude CH 7, Lichtenbergstr.    4", "area_id": 36}, {"filter_id": 828, "name": "5408 Hofgeb\u00e4ude 1, Lichtenbergstr.    4", "area_id": 36}, {"filter_id": 830, "name": "5409 Entsorgungszentrum, Lichtenbergstr.    4", "area_id": 36}, {"filter_id": 1405, "name": "5410 Katalysezentrum, Ernst-Otto-Fischer-Stra\u00dfe    1", "area_id": 36}, {"filter_id": 1989, "name": "5413 Bayerisches NMR-Zentrum, Ernst-Otto-Fischer-Stra\u00dfe    2", "area_id": 36}, {"filter_id": 1670, "name": "5414 Zentrum f\u00fcr Energie u. Information (ZEI), Lichtenbergstr.   4a", "area_id": 36}, {"filter_id": 2729, "name": "5415 CPA Center for Functional Protein Assemb, Ernst-Otto-Fischer-Stra\u00dfe    8", "area_id": 36}, {"filter_id": 2269, "name": "5416 Interims H\u00f6rs\u00e4le II, Lichtenbergstr.   2b", "area_id": 36}, {"filter_id": 1649, "name": "5433 Entreprenieurship Centrum (ECM), Lichtenbergstr.    6", "area_id": 36}, {"filter_id": 652, "name": "2805 Dachau, Karl-Benz-Str. (AM), Karl-Benz-Str.   15", "area_id": 47}, {"filter_id": 633, "name": "3201 Eichenau Lindenweg, Lindenweg   15", "area_id": 53}, {"filter_id": 2849, "name": "5901 Elektro- und Informationstechnik, Hans-Piloty-Stra\u00dfe    1", "area_id": 302}, {"filter_id": 2689, "name": "5998 Interim Tento HS3/HS4 Garching EI, Hans-Piloty-Stra\u00dfe    5", "area_id": 302}, {"filter_id": 2549, "name": "4279 LWF Erweiterungsbau, Hans-Carl-von-Carlowitz Platz    4", "area_id": 282}, {"filter_id": 784, "name": "5202 Flachbau 2+3 (Zyklotron), Lichtenbergstr.    1", "area_id": 37}, {"filter_id": 794, "name": "5203 B\u00fcrogeb\u00e4ude, Walther-Mei\u00dfner-Str.    1", "area_id": 37}, {"filter_id": 795, "name": "5204 Umformtechnik und Gie\u00dfereiwesen (MW25), Walther-Mei\u00dfner-Str.    4", "area_id": 37}, {"filter_id": 883, "name": "5212 RCM-Hauptbau, Walther-Mei\u00dfner-Str.    3", "area_id": 37}, {"filter_id": 856, "name": "5219 Verwaltung der TUM, Walther-Mei\u00dfner-Str.    2", "area_id": 37}, {"filter_id": 881, "name": "5251 RCM-Abwassergeb\u00e4ude, Walther-Mei\u00dfner-Str.    3", "area_id": 37}, {"filter_id": 882, "name": "5252 RCM-Gasversorgungsstation, Walther-Mei\u00dfner-Str.    3", "area_id": 37}, {"filter_id": 2449, "name": "5257 Werkstatt u. B\u00fcrogeb\u00e4ude FRM II (UYW), Lichtenbergstr.    1", "area_id": 37}, {"filter_id": 1830, "name": "5268 RCM-BMA/ELA-Container, Walther-Mei\u00dfner-Str.    3", "area_id": 37}, {"filter_id": 1829, "name": "5269 RCM-B\u00fcro-Containerbau, Walther-Mei\u00dfner-Str.    3", "area_id": 37}, {"filter_id": 1038, "name": "8101 Business Campus Garching (BC1), Parkring 11-13", "area_id": 57}, {"filter_id": 1305, "name": "8102 Business Campus Garching (BC2), Parkring 35-39", "area_id": 57}, {"filter_id": 1629, "name": "8111 Schlei\u00dfheimerstr. 90a, Schlei\u00dfheimerstra\u00dfe  90a", "area_id": 57}, {"filter_id": 2131, "name": "8120 Conference Center, Walther-von-Dyck-Strasse   10", "area_id": 202}, {"filter_id": 2132, "name": "8121 Courtyard Hotel, Walther-von-Dyck-Strasse   12", "area_id": 202}, {"filter_id": 2591, "name": "8122 Galileo B\u00fcro, W. v. Dyck-Str. 6, Walther-von-Dyck-Strasse    6", "area_id": 202}, {"filter_id": 2590, "name": "8123 Galileo B\u00fcro, W. v. Dyck-Str. 4, Walther-von-Dyck-Strasse    4", "area_id": 202}, {"filter_id": 2330, "name": "9101 Garmisch-Partenkirchen Bahnhofstr. 37 (A, Bahnhofstra\u00dfe   37", "area_id": 223}, {"filter_id": 805, "name": "6101 Heizwerk, R\u00f6merhofweg   67", "area_id": 31}, {"filter_id": 806, "name": "6102 Betriebsgeb\u00e4ude, R\u00f6merhofweg   67", "area_id": 31}, {"filter_id": 807, "name": "6103 Hochspannungsgeb\u00e4ude, R\u00f6merhofweg   67", "area_id": 31}, {"filter_id": 2409, "name": "6106 Trafostation Betriebsgeb\u00e4ude, R\u00f6merhofweg   67", "area_id": 31}, {"filter_id": 808, "name": "6107 Garagenbau, R\u00f6merhofweg   67", "area_id": 31}, {"filter_id": 627, "name": "2701 Institut f\u00fcr Wasserchemie Werkstattgeb\u00e4u, Elisabeth-Winterhalter-Weg    6", "area_id": 15}, {"filter_id": 628, "name": "2801 Elisabeth-Winterhalter-Weg (NR), Elisabeth-Winterhalter-Weg    6", "area_id": 15}, {"filter_id": 803, "name": "5701 Munich School of BioEngineering (ehm.IME, Boltzmannstr.   11", "area_id": 32}, {"filter_id": 614, "name": "2103 Werkstattgeb\u00e4ude, Schragenhofstr.   31", "area_id": 20}, {"filter_id": 615, "name": "2104 Laborgeb\u00e4ude, Schragenhofstr.   31", "area_id": 20}, {"filter_id": 616, "name": "2105 Trafo und Lager, Schragenhofstr.   31", "area_id": 20}, {"filter_id": 617, "name": "2106 Pforte, Schragenhofstr.   31", "area_id": 20}, {"filter_id": 618, "name": "2107 Institutsgeb\u00e4ude, Schragenhofstr.   31", "area_id": 20}, {"filter_id": 619, "name": "2108 Bunker, Schragenhofstr.   31", "area_id": 20}, {"filter_id": 620, "name": "2109 Tankstelle, Schragenhofstr.   31", "area_id": 20}, {"filter_id": 1037, "name": "1501 Chirurgische Klinik, Ismaninger Stra\u00dfe   22", "area_id": 22}, {"filter_id": 1772, "name": "1503 Augen, HNO, I.Med., III.Med., Ismaningerstr.   22", "area_id": 22}, {"filter_id": 1035, "name": "1514 Interdisziplin\u00e4res Forschungsgeb\u00e4ude, Trogerstr.    9", "area_id": 22}, {"filter_id": 1773, "name": "1523 IMSE, Rechenzentrum (RZ), Ismaningerstr.   22", "area_id": 22}, {"filter_id": 1026, "name": "1531 Trogerstr. 4/Einsteinstr. 65, Trogerstr.4/Einsteinstr.65 4/65", "area_id": 22}, {"filter_id": 1769, "name": "1533 Trogerstr. 8, Pers.Rar-Sch.beh., Trogerstr.    8", "area_id": 22}, {"filter_id": 1770, "name": "1535 Trogerstr. 12, Trogerstr.   12", "area_id": 22}, {"filter_id": 1027, "name": "1536 Trogerstr. 14, Seminargeb\u00e4ude Geschichte, Trogerstr.   14", "area_id": 22}, {"filter_id": 1029, "name": "1538 Trogerstr. 18, Pathologie, Trogerstr.   18", "area_id": 22}, {"filter_id": 1771, "name": "1545 Mikrobiologie, Tierst\u00e4lle, Ismaningerstr.   22", "area_id": 22}, {"filter_id": 1030, "name": "1548 GSF-Container, Inst. Virologie, Schneckenburgerstr.    8", "area_id": 22}, {"filter_id": 1031, "name": "1551 A1-H\u00f6rs\u00e4le, Mensa, Ismaninger Stra\u00dfe   22", "area_id": 22}, {"filter_id": 1033, "name": "1559 Mikrobiologie/Virologie, Trogerstr.   30", "area_id": 22}, {"filter_id": 2129, "name": "2522 Center for Translational Cancer Research, Einsteinstra\u00dfe   25", "area_id": 22}, {"filter_id": 650, "name": "4401 Limnologische Station, Hofmark    3", "area_id": 51}, {"filter_id": 651, "name": "4402 Bootshaus, Hofmark    3", "area_id": 51}, {"filter_id": 649, "name": "4403 Limnologische Station Geb\u00e4ude 2, Hofmark    3", "area_id": 51}, {"filter_id": 647, "name": "4404 Limnologische Station Seminargeb\u00e4ude, Hofmark    3", "area_id": 51}, {"filter_id": 648, "name": "4405 Limnologische Station Remise, Hofmark    3", "area_id": 51}, {"filter_id": 829, "name": "5601 FMI/ Magistrale, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 831, "name": "5602 FMI/ H\u00f6rsaal 1, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 832, "name": "5603 FMI/ Bibliothek, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 834, "name": "5604 FMI/ Geb\u00e4udeteil  04, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 835, "name": "5605 FMI/ Geb\u00e4udeteil  05, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 837, "name": "5606 FMI/ Geb\u00e4udeteil  06, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 839, "name": "5607 FMI/ Geb\u00e4udeteil  07, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 840, "name": "5608 FMI/ Geb\u00e4udeteil  08, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 865, "name": "5609 FMI/ Geb\u00e4udeteil  09, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 799, "name": "5610 FMI/ Geb\u00e4udeteil  10, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 800, "name": "5611 FMI/ Geb\u00e4udeteil  11, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 801, "name": "5612 FMI/ Geb\u00e4udeteil  12, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 802, "name": "5613 FMI/ Geb\u00e4udeteil  13, Boltzmannstr.    3", "area_id": 33}, {"filter_id": 1205, "name": "5620 Interims-Audimax, Boltzmannstr.    5", "area_id": 33}, {"filter_id": 1749, "name": "5622 Sportanlage Garching/Dusch Container, Boltzmannstr.    5", "area_id": 33}, {"filter_id": 1040, "name": "7910 Oskar-von-Miller Turm, Ludwig-Prandtl-Stra\u00dfe    1", "area_id": 58}, {"filter_id": 1036, "name": "1713 Nigerstr. 3 (AM), Nigerstr.    3", "area_id": 29}, {"filter_id": 1689, "name": "1720 Grillparzerstr. 16-18 (AM), Grillparzerstr. 16_18", "area_id": 29}, {"filter_id": 2309, "name": "1724 Prinzregentenstr. 68 (AM) MRI, Prinzregentenstra\u00dfe   68", "area_id": 29}, {"filter_id": 1774, "name": "1725 Inst. Allgem. Medizin, Orleanstr. 47 (AM, Orleanstr.   47", "area_id": 29}, {"filter_id": 2909, "name": "1740 Neherstr.1 (AM) ForTe, Neherstra\u00dfe    1", "area_id": 29}, {"filter_id": 593, "name": "2804 Deutsches Museum, Museumsinsel 1 (NR), Museumsinsel    1", "area_id": 29}, {"filter_id": 594, "name": "2806 Werkstattgeb\u00e4ude National Museum (NR), Oettingenstra\u00dfe   15", "area_id": 29}, {"filter_id": 597, "name": "2807 Pinakothek der Moderne (NR), Barerstr.   40", "area_id": 29}, {"filter_id": 589, "name": "2903 Haus Soller Augustenstr. 44_46 (AM), Augustenstr. 44_46", "area_id": 29}, {"filter_id": 995, "name": "2906 Karlstra\u00dfe 45/47 (AM), Karlstra\u00dfe 45-47", "area_id": 29}, {"filter_id": 1485, "name": "2907 Marsstr. 20/22 (AM), Marsstr. 20-22", "area_id": 29}, {"filter_id": 1810, "name": "2908 Marsstr. 40  (AM), Marsstra\u00dfe   40", "area_id": 29}, {"filter_id": 2209, "name": "2909 (AM) Denisstr. 1B, R\u00fcckgeb\u00e4ude, Denisstr.   1B", "area_id": 29}, {"filter_id": 1929, "name": "2910 RiWa Nr. 1/Haus B + Haus H, Richard-Wagner-Str.    1", "area_id": 29}, {"filter_id": 1889, "name": "2911 RiWa Nr. 3/Haus C, Richard-Wagner-Str.    3", "area_id": 29}, {"filter_id": 2189, "name": "2920 Gabelsbergerstr. 47 (AM), Gabelsbergerstr.   47", "area_id": 29}, {"filter_id": 598, "name": "2926 Leopoldstr. 139/145 (AM), Leopoldstr. 139/145", "area_id": 29}, {"filter_id": 1285, "name": "2940 Campus C   (AM), Georg-Brauchle-Ring 50_66", "area_id": 29}, {"filter_id": 1245, "name": "2941 Campus D   (AM), Georg-Brauchle-Ring 60_62", "area_id": 29}, {"filter_id": 2869, "name": "2944 Munich Urban Colab, Freddie-Mercury-Stra\u00dfe    5", "area_id": 29}, {"filter_id": 1710, "name": "3401 Akademiegeb\u00e4ude in der Residenz (NR), Alfons-Goppel-Stra\u00dfe   11", "area_id": 29}, {"filter_id": 1709, "name": "3402 Residenzbereich Hofkapelle (NR), Alfons-Goppel-Stra\u00dfe   11", "area_id": 29}, {"filter_id": 2490, "name": "9376 Airbus Standort 76.C Taufkirchen/Ottobru, Willy-Messerschmitt-Stra\u00dfe    1", "area_id": 29}, {"filter_id": 2890, "name": "9377 Lise-Meitner-Stra\u00dfe (AM), Lise-Meitner-Stra\u00dfe 9-11", "area_id": 29}, {"filter_id": 2889, "name": "9378 TUM Panasonic (AM), Caroline-Herschel-Stra\u00dfe  100", "area_id": 29}, {"filter_id": 833, "name": "5501 Institut f. Mechatronik, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 836, "name": "5502 Institut f. Werkst. u. Verarbeitung, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 838, "name": "5503 Institut f. Produktionstechnik, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 841, "name": "5504 Institut f. Verfahrenstechnik, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 843, "name": "5505 Institut f. Maschinentechnik, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 845, "name": "5506 Institut f. Luft-u. Raumfahrt, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 844, "name": "5507 Institut f. Energietechnik, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 846, "name": "5508 H\u00f6rsaal West, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 2569, "name": "5509 Magistrale, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 842, "name": "5510 H\u00f6rsaal, Bibliothek u. Verwaltungsgeb\u00e4ud, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 817, "name": "5513 Energiezentrale, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 820, "name": "5514 Kinderkrippe, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 822, "name": "5515 Zentrum f\u00fcr Schl\u00fcsselkompetenzen, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 825, "name": "5517 Pr\u00fcfstandgeb\u00e4ude, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 827, "name": "5518 Gasflaschenlager, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 1949, "name": "5519 FTM Fahrzeughalle, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 992, "name": "5530 IGSSE, Exzellenzzentrum Garching, Boltzmannstr.   17", "area_id": 34}, {"filter_id": 1165, "name": "5531 Ingeborg Ortner-Kinderhaus, Lichtenbergstra\u00dfe    9", "area_id": 34}, {"filter_id": 2229, "name": "5532 StudiTUM-Garching, Lichtenbergstra\u00dfe    3", "area_id": 34}, {"filter_id": 2630, "name": "5537 Interims-Zelt-TUMshop, Boltzmannstr.   15", "area_id": 34}, {"filter_id": 2450, "name": "9201 TUM FZ Friedrich N. Schwarz Berchtesgade, Ro\u00dffeldstra\u00dfe", "area_id": 263}, {"filter_id": 909, "name": "3101 Obernach B\u00fcrogeb\u00e4ude, Obernach/Walchensee", "area_id": 49}, {"filter_id": 910, "name": "3102 Obernach Vesuchshalle 1, Obernach/Walchensee", "area_id": 49}, {"filter_id": 911, "name": "3103 Obernach Werkst\u00e4tten, Obernach/Walchensee", "area_id": 49}, {"filter_id": 912, "name": "3104 Obernach Unterstelle, Obernach/Walchensee", "area_id": 49}, {"filter_id": 913, "name": "3105 Obernach Archiv/Bibliothek, Obernach/Walchensee", "area_id": 49}, {"filter_id": 914, "name": "3106 Obernach Lagerhalle, Obernach/Walchensee", "area_id": 49}, {"filter_id": 915, "name": "3107 Obernach Freifl\u00e4che, Obernach/Walchensee", "area_id": 49}, {"filter_id": 916, "name": "3108 Obernach Blockhaus, Obernach/Walchensee", "area_id": 49}, {"filter_id": 917, "name": "3109 Obernach Geschiebelager, Obernach/Walchensee", "area_id": 49}, {"filter_id": 918, "name": "3110 Obernach Steuerhaus, Obernach/Walchensee", "area_id": 49}, {"filter_id": 919, "name": "3111 Obernach Messh\u00fctte, Obernach/Walchensee", "area_id": 49}, {"filter_id": 920, "name": "3112 Obernach Trafostation, Obernach/Walchensee", "area_id": 49}, {"filter_id": 921, "name": "3113 Obernach Pumpstation 2, Obernach/Walchensee", "area_id": 49}, {"filter_id": 922, "name": "3114 Obernach Pumpstation 3, Obernach/Walchensee", "area_id": 49}, {"filter_id": 923, "name": "3115 Obernach Pumpstation 4, Obernach/Walchensee", "area_id": 49}, {"filter_id": 924, "name": "3116 Obernach Versuchshalle 2, Obernach/Walchensee", "area_id": 49}, {"filter_id": 925, "name": "3117 Obernach Holz-/Baulager, Obernach/Walchensee", "area_id": 49}, {"filter_id": 926, "name": "3118 Obernach Steuerhaus 2, Obernach/Walchensee", "area_id": 49}, {"filter_id": 927, "name": "3119 Obernach Turbinenhaus, Obernach/Walchensee", "area_id": 49}, {"filter_id": 928, "name": "3120 Obernach Tiefbrunnen, Obernach/Walchensee", "area_id": 49}, {"filter_id": 929, "name": "3121 Obernach Modellaustellung, Obernach/Walchensee", "area_id": 49}, {"filter_id": 2509, "name": "3122 Obernach Folienhalle, Obernach/Walchensee", "area_id": 49}, {"filter_id": 2510, "name": "3123 Obernach Fl\u00fcssiggastank, Obernach/Walchensee", "area_id": 49}, {"filter_id": 2511, "name": "3124 Obernach unterirdischer Wasserbeh\u00e4lter, Obernach/Walchensee", "area_id": 49}, {"filter_id": 621, "name": "2601 Institut f\u00fcr Grundbau  und Bodenmechanik, Franz-Langinger-Str.   10", "area_id": 16}, {"filter_id": 622, "name": "2602 Institut f\u00fcr Eisenbahn und Landverkehrsw, Franz-Langinger-Str.   10", "area_id": 16}, {"filter_id": 623, "name": "2604 Laborbau, Franz-Langinger-Str.   10", "area_id": 16}, {"filter_id": 624, "name": "2605 Verwaltungsbau, Franz-Langinger-Str.   10", "area_id": 16}, {"filter_id": 625, "name": "2607 Fahrzeughalle, Franz-Langinger-Str.   10", "area_id": 16}, {"filter_id": 785, "name": "5101 Physik I, James-Franck-Str.    1", "area_id": 35}, {"filter_id": 786, "name": "5103 Betriebsgeb\u00e4ude II, Boltzmannstr.   10", "area_id": 35}, {"filter_id": 787, "name": "5104 RCM-Technikum, Boltzmannstr.   16", "area_id": 35}, {"filter_id": 789, "name": "5107 Physik II, Am Coulombwall    2", "area_id": 35}, {"filter_id": 781, "name": "5108 Physik II Messbunker, James-Franck-Str.    1", "area_id": 35}, {"filter_id": 872, "name": "5109 Physik LMU, Am Coulombwall    1", "area_id": 35}, {"filter_id": 782, "name": "5110 Trafostation PH (Abriss ca. Okt. 2019?), James-Franck-Str.    1", "area_id": 35}, {"filter_id": 790, "name": "5111 Siedlungswasserwirtschaft, Am Coulombwall    3", "area_id": 35}, {"filter_id": 791, "name": "5112 Walter-Schottky-Institut, Am Coulombwall    4", "area_id": 35}, {"filter_id": 1080, "name": "5115 Zentrum f\u00fcr Nanotechnologie & -materiali, Am Coulombwall   4a", "area_id": 35}, {"filter_id": 1100, "name": "5116 Trafostation des ZNN, Am Coulombwall   4a", "area_id": 35}, {"filter_id": 873, "name": "5120 Physik Beschleuniger LMU, Am Coulombwall    6", "area_id": 35}, {"filter_id": 874, "name": "5121 Atlashalle LMU, Am Coulombwall    6", "area_id": 35}, {"filter_id": 930, "name": "5122 Neb.Geb\u00e4ude Beschleunigerbereich LMU (Ab, Am Coulombwall    6", "area_id": 35}, {"filter_id": 875, "name": "5123 Physik Werkstattgeb\u00e4ude LMU, Am Coulombwall    1", "area_id": 35}, {"filter_id": 792, "name": "5124 WSI Container, James-Franck-Strasse    1", "area_id": 35}, {"filter_id": 1425, "name": "5125 LEX  (LMU), Am Coloumbwall   1a", "area_id": 35}, {"filter_id": 2069, "name": "5126 CALA (LMU), Am Coloumbwall   1b", "area_id": 35}, {"filter_id": 783, "name": "5130 Telefonzentrale, Boltzmannstra\u00dfe  10a", "area_id": 35}, {"filter_id": 1609, "name": "5131 FRM-Poststelle (Container), Boltzmannstra\u00dfe  10b", "area_id": 35}, {"filter_id": 1365, "name": "5140 PH I Container, James-Frank-Str.    1", "area_id": 35}, {"filter_id": 2289, "name": "5142 Parkhaus P1, Paula-Hahn-Weinheimer-Str.    4", "area_id": 35}, {"filter_id": 2429, "name": "5143 Versorgungsstation PH, Paula-Hahn-Weinheimer-Str.    2", "area_id": 35}, {"filter_id": 1870, "name": "5160 UCN-Testanlage (Container), Am Coulombwall    6", "area_id": 35}, {"filter_id": 1775, "name": "9001 TUM Science & Study Center Raitenhaslach, Raitenhaslach   11", "area_id": 183}, {"filter_id": 595, "name": "2401 Holzforschung M\u00fcnchen Altbau, Winzererstr.   45", "area_id": 17}, {"filter_id": 596, "name": "2402 Holzforschung M\u00fcnchen Neubau, Winzererstr.   45", "area_id": 17}, {"filter_id": 2210, "name": "2410 He\u00dfstr. 134 (UMBAU), He\u00dfstr.  134", "area_id": 17}, {"filter_id": 780, "name": "4801 VSG.Gr\u00fcnschw.-Verwaltungsgeb\u00e4ude, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 779, "name": "4802 VSG.Gr\u00fcnschw.-Mehrzweckhalle, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 766, "name": "4803 VSG.Gr\u00fcnschw.-Schweinestall, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 767, "name": "4804 VSG.Gr\u00fcnschw.-Getreidelager, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 768, "name": "4805 VSG.Gr\u00fcnschw.-Futtersilo, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 769, "name": "4806 VSG.Gr\u00fcnschw.-Schafstall, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 770, "name": "4807 VSG.Gr\u00fcnschw.-Lagerscheune, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 771, "name": "4808 VSG.Gr\u00fcnschw.-Stallgeb\u00e4ude, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 772, "name": "4809 VSG.Gr\u00fcnschw.-Ger\u00e4tescheune, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 773, "name": "4810 VSG.Gr\u00fcnschw.-Strohscheune, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 774, "name": "4811 VSG.Gr\u00fcnschw.-Strohscheune, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 775, "name": "4812 VSG.Gr\u00fcnschw.-Maschinenhalle, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 776, "name": "4813 VSG.Gr\u00fcnschw.-Baur-Haus, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 777, "name": "4814 VSG.Gr\u00fcnschw.-Fahrsilo, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 778, "name": "4815 VSG.Gr\u00fcnschw.-Grastrockner, Staatsgut Gr\u00fcnschwaige", "area_id": 56}, {"filter_id": 634, "name": "4901 VSG.Roggst.-2Wgb, Verw., VTS, Oberroggenstein    1", "area_id": 52}, {"filter_id": 635, "name": "4902 VSG.Roggst.-Doktor. Haus, Oberroggenstein    1", "area_id": 52}, {"filter_id": 636, "name": "4903 VSG.Roggst.-Schw.St., Wirtg., Oberroggenstein    1", "area_id": 52}, {"filter_id": 637, "name": "4907 VSG.Roggst.-Wirtschaftsgeb\u00e4ude, Staatsgut Roggenstein", "area_id": 52}, {"filter_id": 638, "name": "4908 VSG.Roggst.-Wagenremise, Staatsgut Roggenstein", "area_id": 52}, {"filter_id": 639, "name": "4909 VSG.Roggst.-Maschinen, D\u00fcnger, Staatsgut Roggenstein", "area_id": 52}, {"filter_id": 640, "name": "4910 VSG.Roggenst.-Getreidesilo, Staatsgut Roggenstein", "area_id": 52}, {"filter_id": 643, "name": "4914 VSG.Roggst.-Arb.Gba. 1, SCHP, Staatsgut Roggenstein", "area_id": 52}, {"filter_id": 632, "name": "4915 VSG.Roggst.-Arb.Gba. 2, SCHP, Staatsgut Roggenstein", "area_id": 52}, {"filter_id": 629, "name": "4916 VSG.Roggst.-Arb.Gba. 3, SCHP, Staatsgut Roggenstein", "area_id": 52}, {"filter_id": 631, "name": "4920 Kapelle, Oberroggenstein    1", "area_id": 52}, {"filter_id": 737, "name": "4601 VST.Thalh.-Wohngeb\u00e4ude (Wohnhaus 1-3), Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 738, "name": "4602 VST.Thalh.-Zentralgeb\u00e4ude (Verwaltung), Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 739, "name": "4603 VST.Thalh.-Betriebsgeb\u00e4ude (Werkstattgeb, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 740, "name": "4604 VST.Thalh.-Maschinenhalle, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 741, "name": "4605 VST.Thalh.-Rinder/K\u00e4lber (L\u00f6bnitz), Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 742, "name": "4606 VST.Thalh.-Futterzentrale, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 743, "name": "4607 VST.Thalh.-Tr. Sauen/Eber (Besamungsst./, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 744, "name": "4608 VST.Thalh.-Mastschweine 1 (Maststall), Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 745, "name": "4609 VST.Thalh.-Ferkel/Sauen, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 746, "name": "4610 VST.Thalh.-Mastschweine 2, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 736, "name": "4611 VST.Thalh.-Legehennen/Broiler, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 730, "name": "4612 VST.Thalh.-Probemaststall, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 731, "name": "4613 VST.Thalh.-Elterntierstall, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 732, "name": "4614 VST.Thalh.-Futtergang, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 733, "name": "4615 VST.Thalh.-Strohlager, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 734, "name": "4616 VST.Thalh.-G\u00fcllebeh\u00e4lter, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 735, "name": "4620 VST.Thalh.-Versuchsfelder, Staatsgut Thalhausen", "area_id": 54}, {"filter_id": 561, "name": "0101 (N1) H\u00f6rs\u00e4le (U-Trakt), Theresienstr.   90", "area_id": 27}, {"filter_id": 562, "name": "0102 (N2) Hochvolthaus, Theresienstr.   90", "area_id": 27}, {"filter_id": 563, "name": "0103 (N3) El.Masch./Ger\u00e4te, Theresienstr.   90", "area_id": 27}, {"filter_id": 564, "name": "0104 (N4) Elektro Physik, Theresienstr.   90", "area_id": 27}, {"filter_id": 565, "name": "0105 (N5) Elektrotechnik, Theresienstr.   90", "area_id": 27}, {"filter_id": 566, "name": "0106 (N6) Materialpr\u00fcfamt, Theresienstr.   90", "area_id": 27}, {"filter_id": 567, "name": "0108 (N8) Verf\u00fcgungsgeb\u00e4ude, Theresienstr.   90", "area_id": 27}, {"filter_id": 1849, "name": "0109 (N9) Reflexionsarmer Raum, Theresienstr.   90", "area_id": 27}, {"filter_id": 568, "name": "0201 (S1) Gabelsbergerstr. 43, StudiTUM, Gabelsbergerstr.   43", "area_id": 26}, {"filter_id": 569, "name": "0202 (S2) Gabelsbergerstr. 39, Gabelsbergerstr.   39", "area_id": 26}, {"filter_id": 570, "name": "0203 (S3) Gabelsbergerstr. 45, Gabelsbergerstr.   45", "area_id": 26}, {"filter_id": 571, "name": "0204 (S4) Gabelsbergerstr. 49, Gabelsbergerstr.   49", "area_id": 26}, {"filter_id": 572, "name": "0205 (S5) Arcisstr. 19, Arcisstr.   19", "area_id": 26}, {"filter_id": 573, "name": "0206 (S6) Mensa Arcisstra\u00dfe 17, Arcisstr.   17", "area_id": 26}, {"filter_id": 574, "name": "0305 (S\u00fcdost 5) Block D (ehem. LRZ), Barerstr.   21", "area_id": 25}, {"filter_id": 575, "name": "0401 (SW1) Richard-Wagner-Str. 18, Richard-Wagner-Str.   18", "area_id": 24}, {"filter_id": 576, "name": "0403 (SW3) Richard-Wagner-Str. 14 (Kiga.LH-M\u00fc, Richard-Wagner-Str.   14", "area_id": 24}, {"filter_id": 577, "name": "0501 (Z1) Institutsbau, Arcisstr.   21", "area_id": 23}, {"filter_id": 578, "name": "0502 (Z2) Bestelmeyer S\u00fcd, Arcisstr.   21", "area_id": 23}, {"filter_id": 579, "name": "0503 (Z3) Thierschbau, Arcisstr.   21", "area_id": 23}, {"filter_id": 580, "name": "0504 (Z4) Landwirtschaftsbau, Arcisstr.   21", "area_id": 23}, {"filter_id": 581, "name": "0505 (Z5) Wirtschaftswissenschaften, Arcisstr.   21", "area_id": 23}, {"filter_id": 582, "name": "0506 (Z6) Theresianum, Arcisstr.   21", "area_id": 23}, {"filter_id": 583, "name": "0507 (Z7) Bestelmeyer Nord, Arcisstr.   21", "area_id": 23}, {"filter_id": 584, "name": "0508 (Z8) W\u00e4rmekraftwerk/Hydr.-Inst., Arcisstr.   21", "area_id": 23}, {"filter_id": 585, "name": "0509 (Z9) Neubau Innenhof, Arcisstr.   21", "area_id": 23}, {"filter_id": 586, "name": "0510 (Z10) Verwaltungsbau, Arcisstr.   21", "area_id": 23}, {"filter_id": 587, "name": "0511 (Z11) Elektro/Werkstatt/L\u00f6sungsmittel-Bu, Arcisstr.   21", "area_id": 23}, {"filter_id": 588, "name": "0512 (Z12) Garagen, Arcisstr.   21", "area_id": 23}, {"filter_id": 2669, "name": "0598 Interim Tento HS Stammgel\u00e4nde, Arcisstr.   21", "area_id": 23}, {"filter_id": 645, "name": "3901 Starnberg Kiosk, Unterer Seeweg    5", "area_id": 48}, {"filter_id": 646, "name": "3902 Starnberg Wohn.-/Unterrichtsgeb\u00e4ude, Unterer Seeweg    5", "area_id": 48}, {"filter_id": 644, "name": "3904 Starnberg Bootshaus, Unterer Seeweg    5", "area_id": 48}, {"filter_id": 878, "name": "2927 TUM CS PG18 (AM), Petersgasse   18", "area_id": 50}, {"filter_id": 1525, "name": "2929 TUM CS SG20 (AM), Schulgasse   20", "area_id": 50}, {"filter_id": 2250, "name": "2930 TUM CS H\u00f6rsaal Rentamtsberg 1 (AM), Rentamtsberg    1", "area_id": 50}, {"filter_id": 877, "name": "3501 TUM CS SG16, Schulgasse   16", "area_id": 50}, {"filter_id": 1729, "name": "3502 TUM CS SG22 (AM), Schulgasse   22", "area_id": 50}, {"filter_id": 2130, "name": "3503 TUM CS PG05 (AM), Petersgasse    5", "area_id": 50}, {"filter_id": 2249, "name": "3504 TUM CS SG22a, Schulgasse  22a", "area_id": 50}, {"filter_id": 2649, "name": "3505 TUMCS H\u00f6rsaal und Forschungsgeb\u00e4ude f\u00fcr, Uferstra\u00dfe   53", "area_id": 50}, {"filter_id": 2389, "name": "3515 TUM CS Essigberg 3 (AM), Am Essigberg    3", "area_id": 50}, {"filter_id": 1445, "name": "2808 Forschungszentrum f. Bauchemie (NR), Dr. Albert-Frank-Str.   32", "area_id": 98}, {"filter_id": 606, "name": "2308 (SZ) Freitrib\u00fcne, Connollystr.   32", "area_id": 18}, {"filter_id": 607, "name": "2309 (SZ) Tennis Geb\u00e4ude, Connollystr.   32", "area_id": 18}, {"filter_id": 608, "name": "2310 (SZ) Tennisanlagen, Connollystr.   32", "area_id": 18}, {"filter_id": 610, "name": "2312 (SZ) Sport-, Aussenanlagen/Teil-Umbau, Connollystr.   32", "area_id": 18}, {"filter_id": 611, "name": "2313 (SZ) Wetterschutzhaus, Connollystr.   32", "area_id": 18}, {"filter_id": 612, "name": "2315 (SZ) Pr\u00e4ventionszentrum, Connollystr.   32", "area_id": 18}, {"filter_id": 2769, "name": "2317 (SZ) Kletterturm Campus im Olympiapark, Connollystr.   32", "area_id": 18}, {"filter_id": 2772, "name": "2318 (SZ) Boulderturm im Campus im Olympiapar, Connollystr.   32", "area_id": 18}, {"filter_id": 2770, "name": "2319 (SZ) KBA Kletter- und Boulderanlage Outd, Connollystr.   32", "area_id": 18}, {"filter_id": 2771, "name": "2320 (SZ) FIA Fitnessanlage Outdoor, Connollystr.   32", "area_id": 18}, {"filter_id": 613, "name": "2321 (SZ) Rasenspielpl\u00e4tze/Teil-Umbauten, Connollystr.   32", "area_id": 18}, {"filter_id": 2749, "name": "2330 CiO/SG - rue, Seminarr\u00e4ume, Connollystr.   32", "area_id": 18}, {"filter_id": 2609, "name": "2331 CiO/SG - Hallen West, Cafeteria, Connollystr.   32", "area_id": 18}, {"filter_id": 2829, "name": "2332 CiO/SG - Institute Ost, Connollystr.   32", "area_id": 18}, {"filter_id": 2809, "name": "2333 CiO/SG - Hallen Ost, Connollystr.   32", "area_id": 18}, {"filter_id": 2789, "name": "2334 CiO/SG - Institute West, Bibliothek, Connollystr.   32", "area_id": 18}, {"filter_id": 1015, "name": "2350 (SZ) Olympiaschwimmhalle (AM), Spiridon-Louis-Ring", "area_id": 18}, {"filter_id": 1016, "name": "2351 (SZ) Olympia-Eislaufstadion (AM), Olympiapark M\u00fcnchen", "area_id": 18}, {"filter_id": 1017, "name": "2352 (SZ) Olympiapark (AM), Olympiapark M\u00fcnchen", "area_id": 18}, {"filter_id": 1060, "name": "2353 (SZ) Eislaufstadion Ost (AM), Staudingerstr.", "area_id": 18}, {"filter_id": 1039, "name": "2354 (SZ) Regattaanlage Oberschlei\u00dfheim (AM), Regattaanlage Oberschlei\u00dfheim", "area_id": 18}, {"filter_id": 660, "name": "4180 Veitshof Verwaltungsgeb\u00e4ude, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 661, "name": "4181 Veitshof Maschinenhalle, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 662, "name": "4182 Veitshof Bullenstall, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 663, "name": "4183 Veitshof Wohnung/Garage, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 664, "name": "4184 Veitshof Mehrzweckstall, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 665, "name": "4185 Veitshof Offenstall, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 707, "name": "4186 Veitshof G\u00e4rfuttersilo, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 708, "name": "4187 Veitshof Dungsilo, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 709, "name": "4188 Veitshof Fahrsilo, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 710, "name": "4189 Veitshof Strohlagerhalle, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 711, "name": "4190 Veitshof Jungviehstall, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 712, "name": "4191 Veitshof Fahrsilo, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 1789, "name": "4192 Veitshof ehem. Wasserwerk, Staatsgut Veitshof", "area_id": 44}, {"filter_id": 810, "name": "6202 Feuerwehrwache, R\u00f6merhofweg   67", "area_id": 38}, {"filter_id": 2049, "name": "4001 Ruine der Korbinians Kapelle, Oberer Schlangenweg", "area_id": 43}, {"filter_id": 715, "name": "4101 Verwaltungsstelle / BLQ Brau- und Lebens, Alte Akademie  1-3", "area_id": 43}, {"filter_id": 716, "name": "4102 H\u00f6rsaal- und Dekanatsgeb\u00e4ude, Alte Akademie    8", "area_id": 43}, {"filter_id": 717, "name": "4103 Sammlungsbau, Alte Akademie    6", "area_id": 43}, {"filter_id": 719, "name": "4105 Institutsgeb\u00e4ude I, Alte Akademie   12", "area_id": 43}, {"filter_id": 720, "name": "4106 Institutsgeb\u00e4ude II, Alte Akademie   14", "area_id": 43}, {"filter_id": 721, "name": "4107 Institutsgeb\u00e4ude III, Alte Akademie   16", "area_id": 43}, {"filter_id": 722, "name": "4108 BLQ Lebensmittelsicherheit, H\u00f6rsaal 8&9, Alte Akademie   10", "area_id": 43}, {"filter_id": 723, "name": "4109 Campus Office, Weihenstephaner Steig   22", "area_id": 43}, {"filter_id": 724, "name": "4110 Brau- und Getr\u00e4nketechnologie, Weihenstephaner Steig   20", "area_id": 43}, {"filter_id": 725, "name": "4111 Forschungsbrauerei Weihenstephan - mit N, Weihenstephaner Steig   18", "area_id": 43}, {"filter_id": 693, "name": "4113 StudiTUM Weihenstephan, Weihenstephaner Steig   16", "area_id": 43}, {"filter_id": 694, "name": "4114 ehm. Bauhof, Weihenstephaner Steig   14", "area_id": 43}, {"filter_id": 653, "name": "4115 Familienservice, Weihenstephaner Steig   19", "area_id": 43}, {"filter_id": 695, "name": "4116 Kindervilla (Dr. Gudula Wernekke-Rastett, Weihenstephaner Steig   17", "area_id": 43}, {"filter_id": 1325, "name": "4117 Kindervilla II, Weihenstephaner Steig   17", "area_id": 43}, {"filter_id": 696, "name": "4124 Molekulare Biowissenschaften (ZIEL II), Weihenstephaner Berg    3", "area_id": 43}, {"filter_id": 697, "name": "4126 ZIEL I - Zentralinstitut f\u00fcr Ern\u00e4hrung-, Weihenstephaner Berg    1", "area_id": 43}, {"filter_id": 699, "name": "4128 Trafostation I, Am L\u00f6wentor, Am Hofgarten", "area_id": 43}, {"filter_id": 1225, "name": "4130 Trafostation IV (Sprachlabor), Weihenstephaner Berg   13", "area_id": 43}, {"filter_id": 700, "name": "4153 Hochschulsport / Sprachenzentrum, Weihenstephaner Berg   13", "area_id": 43}, {"filter_id": 2170, "name": "4155 Kustermannhalle, Weihenstephaner Berg", "area_id": 43}, {"filter_id": 2151, "name": "4156 Flaschenkeller Staatsbrauerei, Weihenstephaner Berg   21", "area_id": 43}, {"filter_id": 727, "name": "4119 Hohenbachernstra\u00dfe 17, Hohenbachernstr.   17", "area_id": 42}, {"filter_id": 701, "name": "4120 Hohenbachernstra\u00dfe 15, Hohenbachernstr.   15", "area_id": 42}, {"filter_id": 2149, "name": "4202 Trafostation V, Liesel-Beckmann-Str.", "area_id": 42}, {"filter_id": 691, "name": "4205 Servicegeb\u00e4ude II, Gregor-Mendel-Stra\u00dfe    1", "area_id": 42}, {"filter_id": 726, "name": "4210 Agrarsystemtechnik, Am Staudengarten    2", "area_id": 42}, {"filter_id": 1140, "name": "4211 LfL B\u00fcrogeb\u00e4ude 14, V\u00f6ttinger Stra\u00dfe   36", "area_id": 42}, {"filter_id": 679, "name": "4212 Chemie Bioanalytik Peptidbiochemie, Emil-Erlenmeyer-Forum    5", "area_id": 42}, {"filter_id": 680, "name": "4213 Lebensmitteltechnikum, Maximus-von-Imhof-Forum    2", "area_id": 42}, {"filter_id": 681, "name": "4214 Zentrales H\u00f6rsaalgeb\u00e4ude, Maximus-von-Imhof-Forum    6", "area_id": 42}, {"filter_id": 682, "name": "4215 Zentrales Praktikageb\u00e4ude, Maximus-von-Imhof-Forum    4", "area_id": 42}, {"filter_id": 683, "name": "4216 Mensa Weihenstephan, Maximus-von-Imhof-Forum    5", "area_id": 42}, {"filter_id": 684, "name": "4217 Pflanzenproduktion 1, Emil-Ramann-Str.    2", "area_id": 42}, {"filter_id": 685, "name": "4218 Biologikum Weihenstephan, Emil-Ramann-Str.    4", "area_id": 42}, {"filter_id": 686, "name": "4219 Landschaft, Emil-Ramann-Str.    6", "area_id": 42}, {"filter_id": 687, "name": "4220 Bibliothek Pressestelle Datenverarbeitun, Maximus-von-Imhof-Forum  1+3", "area_id": 42}, {"filter_id": 688, "name": "4221 Fernmeldezentrale, Emil-Erlenmeyer-Forum    7", "area_id": 42}, {"filter_id": 689, "name": "4223 Genetik, Emil-Ramann-Str.    8", "area_id": 42}, {"filter_id": 690, "name": "4224 ZIEL IV - Biowissenschaften, Gregor-Mendel-Str.    2", "area_id": 42}, {"filter_id": 1160, "name": "4226 iGZW intern.Getr\u00e4nkewissenschaftliches Z, Gregor-Mendel-Str.    4", "area_id": 42}, {"filter_id": 714, "name": "4238 Werkfeuerwehr Weihenstephan, Emil-Erlenmeyer-Forum    2", "area_id": 42}, {"filter_id": 667, "name": "4239 Kindergarten \"Krabbelstube Weihenstephan, Emil-Erlenmeyer-Forum    4", "area_id": 42}, {"filter_id": 971, "name": "4254 Dienstleister / Eltern-Kind, Emil-Erlenmeyer-Forum    6", "area_id": 42}, {"filter_id": 2109, "name": "4259 Salzlager, Emil-Erlenmeyer-Forum    8", "area_id": 42}, {"filter_id": 993, "name": "4264 Protein Modelling, Emil-Erlenmeyer-Forum    8", "area_id": 42}, {"filter_id": 2089, "name": "4267 Feuerwache II, Emil-Erlenmeyer-Forum    6", "area_id": 42}, {"filter_id": 668, "name": "4277 Forstwissenschaften, Hans-Carl-von-Carlowitz-Platz    2", "area_id": 42}, {"filter_id": 728, "name": "4278 LWF Bay. Landesanstalt f\u00fcr Wald und Fors, Hans-Carl-von-Carlowitz-Platz    1", "area_id": 42}, {"filter_id": 2152, "name": "4281 HSWT, Am Staudengarten    1", "area_id": 42}, {"filter_id": 1809, "name": "4299 Hochschulgemeinde Freising, Hohenbachernstra\u00dfe    9", "area_id": 42}, {"filter_id": 903, "name": "4230 D\u00fcrnast Versuchsstation Tierst., D\u00fcrnast   11", "area_id": 39}, {"filter_id": 904, "name": "4231 D\u00fcrnast I, D\u00fcrnast    7", "area_id": 39}, {"filter_id": 905, "name": "4232 D\u00fcrnast II, D\u00fcrnast    8", "area_id": 39}, {"filter_id": 907, "name": "4234 D\u00fcrnast III, D\u00fcrnast    9", "area_id": 39}, {"filter_id": 908, "name": "4235 D\u00fcrnast IV, D\u00fcrnast   10", "area_id": 39}, {"filter_id": 902, "name": "4236 D\u00fcrnast Wohnhaus, D\u00fcrnast    6", "area_id": 39}, {"filter_id": 887, "name": "4237 D\u00fcrnast Werkdienstwohnung, D\u00fcrnast    3", "area_id": 39}, {"filter_id": 888, "name": "4501 D\u00fcrnast Arbeiterwohngeb\u00e4ude STG.WST., D\u00fcrnast  1-2", "area_id": 39}, {"filter_id": 889, "name": "4502 D\u00fcrnast Werkstattgeb\u00e4ude-Wirt. Geb. STG., D\u00fcrnast    1", "area_id": 39}, {"filter_id": 890, "name": "4503 D\u00fcrnast -Verw.-, WGB., RS., S.-STG.WST., D\u00fcrnast  4-5", "area_id": 39}, {"filter_id": 892, "name": "4505 D\u00fcrnast Maschinenhalle STG.WST.-Kart, La, D\u00fcrnast    5", "area_id": 39}, {"filter_id": 893, "name": "4506 D\u00fcrnast Schuppen STG.WST., D\u00fcrnast    5", "area_id": 39}, {"filter_id": 897, "name": "4508 D\u00fcrnast Wagenh. m. Fuhrw. W. STG.WST., D\u00fcrnast    1", "area_id": 39}, {"filter_id": 898, "name": "4509 D\u00fcrnast Fahrsilo-G\u00fcllebeh\u00e4lter STG.WST., Staatsgut Weihenstephan", "area_id": 39}, {"filter_id": 899, "name": "4510 D\u00fcrnast Getreidekasten STG.WST., D\u00fcrnast    1", "area_id": 39}, {"filter_id": 2029, "name": "4512 D\u00fcrnast Ger\u00e4tehalle West, D\u00fcrnast    5", "area_id": 39}, {"filter_id": 2030, "name": "4513 D\u00fcrnast Ger\u00e4tehalle Ost, D\u00fcrnast    5", "area_id": 39}, {"filter_id": 900, "name": "4521 Viehhausen Mehrzweckhalle STG.WST., Viehhausen    4", "area_id": 39}, {"filter_id": 901, "name": "4522 Viehhausen Landwirtschafliche Freifl\u00e4che, Viehhausen    4", "area_id": 39}, {"filter_id": 894, "name": "4523 Viehhausen H\u00fchnerstall STG.WST., Viehhausen    4", "area_id": 39}, {"filter_id": 895, "name": "4524 Viehhausen Tankstelle Viehhof STG.WST., Viehhausen    4", "area_id": 39}, {"filter_id": 1141, "name": "3035 Helmholtz Biologikum, Ingolst\u00e4dter Landstra\u00dfe    1", "area_id": 79}, {"filter_id": 1545, "name": "3100 Projektb\u00fcro Hainich, Am Burghof    3", "area_id": 79}, {"filter_id": 670, "name": "4304 Verwaltung der TUM - Immobilien, Lange Point   51", "area_id": 41}, {"filter_id": 673, "name": "4307 Dienstleistergeb\u00e4ude, Liesel-Beckmann-Str.    6", "area_id": 41}, {"filter_id": 674, "name": "4308 Humanbiologie Zoologie, Liesel-Beckmann-Str.    4", "area_id": 41}, {"filter_id": 675, "name": "4309 Inst. Geb. Wirschaftslehre d. Gartenbaus, Blumenstr.   16", "area_id": 41}, {"filter_id": 676, "name": "4310 Werkst. u. Garagen Zierpflanzenbau, Blumenstr.   16", "area_id": 41}, {"filter_id": 677, "name": "4311 Inst. Zierplanzenbau, Blumenstr.   16", "area_id": 41}, {"filter_id": 886, "name": "4314 Trafostation  VII, Am Staudengarten", "area_id": 41}, {"filter_id": 658, "name": "4315 Lagerhalle (Stra\u00dfenseite), Lange Point   51", "area_id": 41}, {"filter_id": 2512, "name": "4316 Lagerhalle (Feldseite), Lange Point   51", "area_id": 41}, {"filter_id": 657, "name": "4317 Tierwissenschaften, Liesel-Beckmann-Str.    1", "area_id": 41}, {"filter_id": 1161, "name": "4318 HEZ Hans-Eisenmann-Zentrum f\u00fcr Agrarwiss, Liesel-Beckmann-Str.    2", "area_id": 41}, {"filter_id": 1505, "name": "4319 Trafostation VI, Liesel-Beckmann-Stra\u00dfe", "area_id": 41}, {"filter_id": 2329, "name": "4320 Energiezentrale Heizhaus, Lange Point 20+22", "area_id": 41}, {"filter_id": 654, "name": "4321 GM Verwaltung, Lange Point   24", "area_id": 41}, {"filter_id": 655, "name": "4322 GMTrafostation XV / Carport, Lange Point   24", "area_id": 41}, {"filter_id": 656, "name": "4323 GM KFZ Werkstatt, Lange Point   24", "area_id": 41}, {"filter_id": 659, "name": "4324 GM Garage / Werkdienstwohnungen, Lange Point   20", "area_id": 41}, {"filter_id": 2349, "name": "4325 GM Wertstoffhof, Lange Point   24", "area_id": 41}, {"filter_id": 2173, "name": "4353 LfL Laborgeb\u00e4ude 1, Lange Point    4", "area_id": 41}, {"filter_id": 2169, "name": "4355 LfL Technologie VI, Zur Kreutzbreite    4", "area_id": 41}, {"filter_id": 2174, "name": "4361 LfL Technologie V, Am Gereuth    5", "area_id": 41}, {"filter_id": 2172, "name": "4362 LfL Mehrzweckgeb\u00e4ude 1, Lange Point   10", "area_id": 41}, {"filter_id": 2171, "name": "4368 LfL Technologie III, Am Gereuth    6", "area_id": 41}, {"filter_id": 2150, "name": "4387 Camerloher Gymnasium, Wippenhauserstr.   51", "area_id": 41}, {"filter_id": 1465, "name": "4129 Aquatische Systembiologie, M\u00fchlenweg   22", "area_id": 138}, {"filter_id": 1466, "name": "4131 Aquatische Systembiologie \"M\u00fchle\", M\u00fchlenweg   22", "area_id": 138}, {"filter_id": 1669, "name": "4132 Aquatische Systembiologie \"Wagnerhaus\", M\u00fchlenweg   18", "area_id": 138}, {"filter_id": 1467, "name": "4225 Lebensmittelchemie u.Molekulare Sensorik, Lise-Meitner-Str.   34", "area_id": 138}, {"filter_id": 1909, "name": "4275 TUMmesa, An der M\u00fchle   20", "area_id": 138}, {"filter_id": 706, "name": "4298 Tentomax HS Weihenstephan (Pr\u00fcfungszelt, Gregor-Mendel-Stra\u00dfe    2", "area_id": 138}, {"filter_id": 2589, "name": "4800 Halle Achering (M\u00fchlich), Acheringer Hauptstr.  32a", "area_id": 138}, {"filter_id": 1120, "name": "5301 IAS, Institut f\u00fcr Advanced Study, Lichtenbergstra\u00dfe   2a", "area_id": 30}, {"filter_id": 816, "name": "5302 Mensa, Lichtenbergstr.    2", "area_id": 30}, {"filter_id": 2009, "name": "5304 Mensa Garching (Neubau), Boltzmannstr.   19", "area_id": 30}]
+[
+  {
+    "filter_id": 1018,
+    "name": "1601 Altbau 1, Vorklinik. Inst., Biedersteiner Str.   29",
+    "area_id": 21
+  },
+  {
+    "filter_id": 1019,
+    "name": "1602 Altbau 2+3, Anatomisches Institut, Biedersteiner Str.   29",
+    "area_id": 21
+  },
+  {
+    "filter_id": 1020,
+    "name": "1603 Altbau 2+3, Biologisches Institut, Biedersteiner Str.   29",
+    "area_id": 21
+  },
+  {
+    "filter_id": 1021,
+    "name": "1607 Altbau 7, Institut f\u00fcr Pharmakologie und, Dietlindenstr./Biedersteiner Str.   29",
+    "area_id": 21
+  },
+  {
+    "filter_id": 1022,
+    "name": "1608 Altbau 8, Institut f\u00fcr Medizinische Mikr, Dietlindenstr./Biedersteiner Str.   29",
+    "area_id": 21
+  },
+  {
+    "filter_id": 1023,
+    "name": "1650 Tierstall f. Pharmakologie, Dietlindenstr./Biedersteiner Str.   29",
+    "area_id": 21
+  },
+  {
+    "filter_id": 1024,
+    "name": "1652 Tierst\u00e4lle, Dietlindenstr./Biedersteiner Str.   29",
+    "area_id": 21
+  },
+  {
+    "filter_id": 2369,
+    "name": "1901 Bildungscampus D, Bildungscampus    2",
+    "area_id": 243
+  },
+  {
+    "filter_id": 2370,
+    "name": "1902 Bildungscampus L, Bildungscampus    9",
+    "area_id": 243
+  },
+  {
+    "filter_id": 818,
+    "name": "5401 Bibliothek, H\u00f6rsaal CH 1, Lichtenbergstr.    4",
+    "area_id": 36
+  },
+  {
+    "filter_id": 819,
+    "name": "5402 Laborgeb\u00e4ude CH 2, Lichtenbergstr.    4",
+    "area_id": 36
+  },
+  {
+    "filter_id": 821,
+    "name": "5403 Laborgeb\u00e4ude CH 3, Lichtenbergstr.    4",
+    "area_id": 36
+  },
+  {
+    "filter_id": 815,
+    "name": "5404 Hofgeb\u00e4ude 2, Lichtenbergstr.    4",
+    "area_id": 36
+  },
+  {
+    "filter_id": 824,
+    "name": "5406 Laborgeb\u00e4ude CH 6, Lichtenbergstr.    4",
+    "area_id": 36
+  },
+  {
+    "filter_id": 826,
+    "name": "5407 Laborgeb\u00e4ude CH 7, Lichtenbergstr.    4",
+    "area_id": 36
+  },
+  {
+    "filter_id": 828,
+    "name": "5408 Hofgeb\u00e4ude 1, Lichtenbergstr.    4",
+    "area_id": 36
+  },
+  {
+    "filter_id": 830,
+    "name": "5409 Entsorgungszentrum, Lichtenbergstr.    4",
+    "area_id": 36
+  },
+  {
+    "filter_id": 1405,
+    "name": "5410 Katalysezentrum, Ernst-Otto-Fischer-Stra\u00dfe    1",
+    "area_id": 36
+  },
+  {
+    "filter_id": 1989,
+    "name": "5413 Bayerisches NMR-Zentrum, Ernst-Otto-Fischer-Stra\u00dfe    2",
+    "area_id": 36
+  },
+  {
+    "filter_id": 1670,
+    "name": "5414 Zentrum f\u00fcr Energie u. Information (ZEI), Lichtenbergstr.   4a",
+    "area_id": 36
+  },
+  {
+    "filter_id": 2729,
+    "name": "5415 CPA Center for Functional Protein Assemb, Ernst-Otto-Fischer-Stra\u00dfe    8",
+    "area_id": 36
+  },
+  {
+    "filter_id": 2269,
+    "name": "5416 Interims H\u00f6rs\u00e4le II, Lichtenbergstr.   2b",
+    "area_id": 36
+  },
+  {
+    "filter_id": 1649,
+    "name": "5433 Entreprenieurship Centrum (ECM), Lichtenbergstr.    6",
+    "area_id": 36
+  },
+  {
+    "filter_id": 652,
+    "name": "2805 Dachau, Karl-Benz-Str. (AM), Karl-Benz-Str.   15",
+    "area_id": 47
+  },
+  {
+    "filter_id": 633,
+    "name": "3201 Eichenau Lindenweg, Lindenweg   15",
+    "area_id": 53
+  },
+  {
+    "filter_id": 2849,
+    "name": "5901 Elektro- und Informationstechnik, Hans-Piloty-Stra\u00dfe    1",
+    "area_id": 302
+  },
+  {
+    "filter_id": 2689,
+    "name": "5998 Interim Tento HS3/HS4 Garching EI, Hans-Piloty-Stra\u00dfe    5",
+    "area_id": 302
+  },
+  {
+    "filter_id": 2549,
+    "name": "4279 LWF Erweiterungsbau, Hans-Carl-von-Carlowitz Platz    4",
+    "area_id": 282
+  },
+  {
+    "filter_id": 784,
+    "name": "5202 Flachbau 2+3 (Zyklotron), Lichtenbergstr.    1",
+    "area_id": 37
+  },
+  {
+    "filter_id": 794,
+    "name": "5203 B\u00fcrogeb\u00e4ude, Walther-Mei\u00dfner-Str.    1",
+    "area_id": 37
+  },
+  {
+    "filter_id": 795,
+    "name": "5204 Umformtechnik und Gie\u00dfereiwesen (MW25), Walther-Mei\u00dfner-Str.    4",
+    "area_id": 37
+  },
+  {
+    "filter_id": 883,
+    "name": "5212 RCM-Hauptbau, Walther-Mei\u00dfner-Str.    3",
+    "area_id": 37
+  },
+  {
+    "filter_id": 856,
+    "name": "5219 Verwaltung der TUM, Walther-Mei\u00dfner-Str.    2",
+    "area_id": 37
+  },
+  {
+    "filter_id": 881,
+    "name": "5251 RCM-Abwassergeb\u00e4ude, Walther-Mei\u00dfner-Str.    3",
+    "area_id": 37
+  },
+  {
+    "filter_id": 882,
+    "name": "5252 RCM-Gasversorgungsstation, Walther-Mei\u00dfner-Str.    3",
+    "area_id": 37
+  },
+  {
+    "filter_id": 2449,
+    "name": "5257 Werkstatt u. B\u00fcrogeb\u00e4ude FRM II (UYW), Lichtenbergstr.    1",
+    "area_id": 37
+  },
+  {
+    "filter_id": 1830,
+    "name": "5268 RCM-BMA/ELA-Container, Walther-Mei\u00dfner-Str.    3",
+    "area_id": 37
+  },
+  {
+    "filter_id": 1829,
+    "name": "5269 RCM-B\u00fcro-Containerbau, Walther-Mei\u00dfner-Str.    3",
+    "area_id": 37
+  },
+  {
+    "filter_id": 1038,
+    "name": "8101 Business Campus Garching (BC1), Parkring 11-13",
+    "area_id": 57
+  },
+  {
+    "filter_id": 1305,
+    "name": "8102 Business Campus Garching (BC2), Parkring 35-39",
+    "area_id": 57
+  },
+  {
+    "filter_id": 1629,
+    "name": "8111 Schlei\u00dfheimerstr. 90a, Schlei\u00dfheimerstra\u00dfe  90a",
+    "area_id": 57
+  },
+  {
+    "filter_id": 2131,
+    "name": "8120 Conference Center, Walther-von-Dyck-Strasse   10",
+    "area_id": 202
+  },
+  {
+    "filter_id": 2132,
+    "name": "8121 Courtyard Hotel, Walther-von-Dyck-Strasse   12",
+    "area_id": 202
+  },
+  {
+    "filter_id": 2591,
+    "name": "8122 Galileo B\u00fcro, W. v. Dyck-Str. 6, Walther-von-Dyck-Strasse    6",
+    "area_id": 202
+  },
+  {
+    "filter_id": 2590,
+    "name": "8123 Galileo B\u00fcro, W. v. Dyck-Str. 4, Walther-von-Dyck-Strasse    4",
+    "area_id": 202
+  },
+  {
+    "filter_id": 2330,
+    "name": "9101 Garmisch-Partenkirchen Bahnhofstr. 37 (A, Bahnhofstra\u00dfe   37",
+    "area_id": 223
+  },
+  {
+    "filter_id": 805,
+    "name": "6101 Heizwerk, R\u00f6merhofweg   67",
+    "area_id": 31
+  },
+  {
+    "filter_id": 806,
+    "name": "6102 Betriebsgeb\u00e4ude, R\u00f6merhofweg   67",
+    "area_id": 31
+  },
+  {
+    "filter_id": 807,
+    "name": "6103 Hochspannungsgeb\u00e4ude, R\u00f6merhofweg   67",
+    "area_id": 31
+  },
+  {
+    "filter_id": 2409,
+    "name": "6106 Trafostation Betriebsgeb\u00e4ude, R\u00f6merhofweg   67",
+    "area_id": 31
+  },
+  {
+    "filter_id": 808,
+    "name": "6107 Garagenbau, R\u00f6merhofweg   67",
+    "area_id": 31
+  },
+  {
+    "filter_id": 627,
+    "name": "2701 Institut f\u00fcr Wasserchemie Werkstattgeb\u00e4u, Elisabeth-Winterhalter-Weg    6",
+    "area_id": 15
+  },
+  {
+    "filter_id": 628,
+    "name": "2801 Elisabeth-Winterhalter-Weg (NR), Elisabeth-Winterhalter-Weg    6",
+    "area_id": 15
+  },
+  {
+    "filter_id": 803,
+    "name": "5701 Munich School of BioEngineering (ehm.IME, Boltzmannstr.   11",
+    "area_id": 32
+  },
+  {
+    "filter_id": 614,
+    "name": "2103 Werkstattgeb\u00e4ude, Schragenhofstr.   31",
+    "area_id": 20
+  },
+  {
+    "filter_id": 615,
+    "name": "2104 Laborgeb\u00e4ude, Schragenhofstr.   31",
+    "area_id": 20
+  },
+  {
+    "filter_id": 616,
+    "name": "2105 Trafo und Lager, Schragenhofstr.   31",
+    "area_id": 20
+  },
+  {
+    "filter_id": 617,
+    "name": "2106 Pforte, Schragenhofstr.   31",
+    "area_id": 20
+  },
+  {
+    "filter_id": 618,
+    "name": "2107 Institutsgeb\u00e4ude, Schragenhofstr.   31",
+    "area_id": 20
+  },
+  {
+    "filter_id": 619,
+    "name": "2108 Bunker, Schragenhofstr.   31",
+    "area_id": 20
+  },
+  {
+    "filter_id": 620,
+    "name": "2109 Tankstelle, Schragenhofstr.   31",
+    "area_id": 20
+  },
+  {
+    "filter_id": 1037,
+    "name": "1501 Chirurgische Klinik, Ismaninger Stra\u00dfe   22",
+    "area_id": 22
+  },
+  {
+    "filter_id": 1772,
+    "name": "1503 Augen, HNO, I.Med., III.Med., Ismaningerstr.   22",
+    "area_id": 22
+  },
+  {
+    "filter_id": 1035,
+    "name": "1514 Interdisziplin\u00e4res Forschungsgeb\u00e4ude, Trogerstr.    9",
+    "area_id": 22
+  },
+  {
+    "filter_id": 1773,
+    "name": "1523 IMSE, Rechenzentrum (RZ), Ismaningerstr.   22",
+    "area_id": 22
+  },
+  {
+    "filter_id": 1026,
+    "name": "1531 Trogerstr. 4/Einsteinstr. 65, Trogerstr.4/Einsteinstr.65 4/65",
+    "area_id": 22
+  },
+  {
+    "filter_id": 1769,
+    "name": "1533 Trogerstr. 8, Pers.Rar-Sch.beh., Trogerstr.    8",
+    "area_id": 22
+  },
+  {
+    "filter_id": 1770,
+    "name": "1535 Trogerstr. 12, Trogerstr.   12",
+    "area_id": 22
+  },
+  {
+    "filter_id": 1027,
+    "name": "1536 Trogerstr. 14, Seminargeb\u00e4ude Geschichte, Trogerstr.   14",
+    "area_id": 22
+  },
+  {
+    "filter_id": 1029,
+    "name": "1538 Trogerstr. 18, Pathologie, Trogerstr.   18",
+    "area_id": 22
+  },
+  {
+    "filter_id": 1771,
+    "name": "1545 Mikrobiologie, Tierst\u00e4lle, Ismaningerstr.   22",
+    "area_id": 22
+  },
+  {
+    "filter_id": 1030,
+    "name": "1548 GSF-Container, Inst. Virologie, Schneckenburgerstr.    8",
+    "area_id": 22
+  },
+  {
+    "filter_id": 1031,
+    "name": "1551 A1-H\u00f6rs\u00e4le, Mensa, Ismaninger Stra\u00dfe   22",
+    "area_id": 22
+  },
+  {
+    "filter_id": 1033,
+    "name": "1559 Mikrobiologie/Virologie, Trogerstr.   30",
+    "area_id": 22
+  },
+  {
+    "filter_id": 2129,
+    "name": "2522 Center for Translational Cancer Research, Einsteinstra\u00dfe   25",
+    "area_id": 22
+  },
+  {
+    "filter_id": 650,
+    "name": "4401 Limnologische Station, Hofmark    3",
+    "area_id": 51
+  },
+  { "filter_id": 651, "name": "4402 Bootshaus, Hofmark    3", "area_id": 51 },
+  {
+    "filter_id": 649,
+    "name": "4403 Limnologische Station Geb\u00e4ude 2, Hofmark    3",
+    "area_id": 51
+  },
+  {
+    "filter_id": 647,
+    "name": "4404 Limnologische Station Seminargeb\u00e4ude, Hofmark    3",
+    "area_id": 51
+  },
+  {
+    "filter_id": 648,
+    "name": "4405 Limnologische Station Remise, Hofmark    3",
+    "area_id": 51
+  },
+  {
+    "filter_id": 829,
+    "name": "5601 FMI/ Magistrale, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 831,
+    "name": "5602 FMI/ H\u00f6rsaal 1, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 832,
+    "name": "5603 FMI/ Bibliothek, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 834,
+    "name": "5604 FMI/ Geb\u00e4udeteil  04, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 835,
+    "name": "5605 FMI/ Geb\u00e4udeteil  05, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 837,
+    "name": "5606 FMI/ Geb\u00e4udeteil  06, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 839,
+    "name": "5607 FMI/ Geb\u00e4udeteil  07, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 840,
+    "name": "5608 FMI/ Geb\u00e4udeteil  08, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 865,
+    "name": "5609 FMI/ Geb\u00e4udeteil  09, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 799,
+    "name": "5610 FMI/ Geb\u00e4udeteil  10, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 800,
+    "name": "5611 FMI/ Geb\u00e4udeteil  11, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 801,
+    "name": "5612 FMI/ Geb\u00e4udeteil  12, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 802,
+    "name": "5613 FMI/ Geb\u00e4udeteil  13, Boltzmannstr.    3",
+    "area_id": 33
+  },
+  {
+    "filter_id": 1205,
+    "name": "5620 Interims-Audimax, Boltzmannstr.    5",
+    "area_id": 33
+  },
+  {
+    "filter_id": 1749,
+    "name": "5622 Sportanlage Garching/Dusch Container, Boltzmannstr.    5",
+    "area_id": 33
+  },
+  {
+    "filter_id": 1040,
+    "name": "7910 Oskar-von-Miller Turm, Ludwig-Prandtl-Stra\u00dfe    1",
+    "area_id": 58
+  },
+  {
+    "filter_id": 1036,
+    "name": "1713 Nigerstr. 3 (AM), Nigerstr.    3",
+    "area_id": 29
+  },
+  {
+    "filter_id": 1689,
+    "name": "1720 Grillparzerstr. 16-18 (AM), Grillparzerstr. 16_18",
+    "area_id": 29
+  },
+  {
+    "filter_id": 2309,
+    "name": "1724 Prinzregentenstr. 68 (AM) MRI, Prinzregentenstra\u00dfe   68",
+    "area_id": 29
+  },
+  {
+    "filter_id": 1774,
+    "name": "1725 Inst. Allgem. Medizin, Orleanstr. 47 (AM, Orleanstr.   47",
+    "area_id": 29
+  },
+  {
+    "filter_id": 2909,
+    "name": "1740 Neherstr.1 (AM) ForTe, Neherstra\u00dfe    1",
+    "area_id": 29
+  },
+  {
+    "filter_id": 593,
+    "name": "2804 Deutsches Museum, Museumsinsel 1 (NR), Museumsinsel    1",
+    "area_id": 29
+  },
+  {
+    "filter_id": 594,
+    "name": "2806 Werkstattgeb\u00e4ude National Museum (NR), Oettingenstra\u00dfe   15",
+    "area_id": 29
+  },
+  {
+    "filter_id": 597,
+    "name": "2807 Pinakothek der Moderne (NR), Barerstr.   40",
+    "area_id": 29
+  },
+  {
+    "filter_id": 589,
+    "name": "2903 Haus Soller Augustenstr. 44_46 (AM), Augustenstr. 44_46",
+    "area_id": 29
+  },
+  {
+    "filter_id": 995,
+    "name": "2906 Karlstra\u00dfe 45/47 (AM), Karlstra\u00dfe 45-47",
+    "area_id": 29
+  },
+  {
+    "filter_id": 1485,
+    "name": "2907 Marsstr. 20/22 (AM), Marsstr. 20-22",
+    "area_id": 29
+  },
+  {
+    "filter_id": 1810,
+    "name": "2908 Marsstr. 40  (AM), Marsstra\u00dfe   40",
+    "area_id": 29
+  },
+  {
+    "filter_id": 2209,
+    "name": "2909 (AM) Denisstr. 1B, R\u00fcckgeb\u00e4ude, Denisstr.   1B",
+    "area_id": 29
+  },
+  {
+    "filter_id": 1929,
+    "name": "2910 RiWa Nr. 1/Haus B + Haus H, Richard-Wagner-Str.    1",
+    "area_id": 29
+  },
+  {
+    "filter_id": 1889,
+    "name": "2911 RiWa Nr. 3/Haus C, Richard-Wagner-Str.    3",
+    "area_id": 29
+  },
+  {
+    "filter_id": 2189,
+    "name": "2920 Gabelsbergerstr. 47 (AM), Gabelsbergerstr.   47",
+    "area_id": 29
+  },
+  {
+    "filter_id": 598,
+    "name": "2926 Leopoldstr. 139/145 (AM), Leopoldstr. 139/145",
+    "area_id": 29
+  },
+  {
+    "filter_id": 1285,
+    "name": "2940 Campus C   (AM), Georg-Brauchle-Ring 50_66",
+    "area_id": 29
+  },
+  {
+    "filter_id": 1245,
+    "name": "2941 Campus D   (AM), Georg-Brauchle-Ring 60_62",
+    "area_id": 29
+  },
+  {
+    "filter_id": 2869,
+    "name": "2944 Munich Urban Colab, Freddie-Mercury-Stra\u00dfe    5",
+    "area_id": 29
+  },
+  {
+    "filter_id": 1710,
+    "name": "3401 Akademiegeb\u00e4ude in der Residenz (NR), Alfons-Goppel-Stra\u00dfe   11",
+    "area_id": 29
+  },
+  {
+    "filter_id": 1709,
+    "name": "3402 Residenzbereich Hofkapelle (NR), Alfons-Goppel-Stra\u00dfe   11",
+    "area_id": 29
+  },
+  {
+    "filter_id": 2490,
+    "name": "9376 Airbus Standort 76.C Taufkirchen/Ottobru, Willy-Messerschmitt-Stra\u00dfe    1",
+    "area_id": 29
+  },
+  {
+    "filter_id": 2890,
+    "name": "9377 Lise-Meitner-Stra\u00dfe (AM), Lise-Meitner-Stra\u00dfe 9-11",
+    "area_id": 29
+  },
+  {
+    "filter_id": 2889,
+    "name": "9378 TUM Panasonic (AM), Caroline-Herschel-Stra\u00dfe  100",
+    "area_id": 29
+  },
+  {
+    "filter_id": 833,
+    "name": "5501 Institut f. Mechatronik, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 836,
+    "name": "5502 Institut f. Werkst. u. Verarbeitung, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 838,
+    "name": "5503 Institut f. Produktionstechnik, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 841,
+    "name": "5504 Institut f. Verfahrenstechnik, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 843,
+    "name": "5505 Institut f. Maschinentechnik, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 845,
+    "name": "5506 Institut f. Luft-u. Raumfahrt, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 844,
+    "name": "5507 Institut f. Energietechnik, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 846,
+    "name": "5508 H\u00f6rsaal West, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 2569,
+    "name": "5509 Magistrale, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 842,
+    "name": "5510 H\u00f6rsaal, Bibliothek u. Verwaltungsgeb\u00e4ud, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 817,
+    "name": "5513 Energiezentrale, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 820,
+    "name": "5514 Kinderkrippe, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 822,
+    "name": "5515 Zentrum f\u00fcr Schl\u00fcsselkompetenzen, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 825,
+    "name": "5517 Pr\u00fcfstandgeb\u00e4ude, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 827,
+    "name": "5518 Gasflaschenlager, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 1949,
+    "name": "5519 FTM Fahrzeughalle, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 992,
+    "name": "5530 IGSSE, Exzellenzzentrum Garching, Boltzmannstr.   17",
+    "area_id": 34
+  },
+  {
+    "filter_id": 1165,
+    "name": "5531 Ingeborg Ortner-Kinderhaus, Lichtenbergstra\u00dfe    9",
+    "area_id": 34
+  },
+  {
+    "filter_id": 2229,
+    "name": "5532 StudiTUM-Garching, Lichtenbergstra\u00dfe    3",
+    "area_id": 34
+  },
+  {
+    "filter_id": 2630,
+    "name": "5537 Interims-Zelt-TUMshop, Boltzmannstr.   15",
+    "area_id": 34
+  },
+  {
+    "filter_id": 2450,
+    "name": "9201 TUM FZ Friedrich N. Schwarz Berchtesgade, Ro\u00dffeldstra\u00dfe",
+    "area_id": 263
+  },
+  {
+    "filter_id": 909,
+    "name": "3101 Obernach B\u00fcrogeb\u00e4ude, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 910,
+    "name": "3102 Obernach Vesuchshalle 1, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 911,
+    "name": "3103 Obernach Werkst\u00e4tten, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 912,
+    "name": "3104 Obernach Unterstelle, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 913,
+    "name": "3105 Obernach Archiv/Bibliothek, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 914,
+    "name": "3106 Obernach Lagerhalle, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 915,
+    "name": "3107 Obernach Freifl\u00e4che, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 916,
+    "name": "3108 Obernach Blockhaus, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 917,
+    "name": "3109 Obernach Geschiebelager, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 918,
+    "name": "3110 Obernach Steuerhaus, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 919,
+    "name": "3111 Obernach Messh\u00fctte, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 920,
+    "name": "3112 Obernach Trafostation, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 921,
+    "name": "3113 Obernach Pumpstation 2, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 922,
+    "name": "3114 Obernach Pumpstation 3, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 923,
+    "name": "3115 Obernach Pumpstation 4, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 924,
+    "name": "3116 Obernach Versuchshalle 2, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 925,
+    "name": "3117 Obernach Holz-/Baulager, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 926,
+    "name": "3118 Obernach Steuerhaus 2, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 927,
+    "name": "3119 Obernach Turbinenhaus, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 928,
+    "name": "3120 Obernach Tiefbrunnen, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 929,
+    "name": "3121 Obernach Modellaustellung, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 2509,
+    "name": "3122 Obernach Folienhalle, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 2510,
+    "name": "3123 Obernach Fl\u00fcssiggastank, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 2511,
+    "name": "3124 Obernach unterirdischer Wasserbeh\u00e4lter, Obernach/Walchensee",
+    "area_id": 49
+  },
+  {
+    "filter_id": 621,
+    "name": "2601 Institut f\u00fcr Grundbau  und Bodenmechanik, Franz-Langinger-Str.   10",
+    "area_id": 16
+  },
+  {
+    "filter_id": 622,
+    "name": "2602 Institut f\u00fcr Eisenbahn und Landverkehrsw, Franz-Langinger-Str.   10",
+    "area_id": 16
+  },
+  {
+    "filter_id": 623,
+    "name": "2604 Laborbau, Franz-Langinger-Str.   10",
+    "area_id": 16
+  },
+  {
+    "filter_id": 624,
+    "name": "2605 Verwaltungsbau, Franz-Langinger-Str.   10",
+    "area_id": 16
+  },
+  {
+    "filter_id": 625,
+    "name": "2607 Fahrzeughalle, Franz-Langinger-Str.   10",
+    "area_id": 16
+  },
+  {
+    "filter_id": 785,
+    "name": "5101 Physik I, James-Franck-Str.    1",
+    "area_id": 35
+  },
+  {
+    "filter_id": 786,
+    "name": "5103 Betriebsgeb\u00e4ude II, Boltzmannstr.   10",
+    "area_id": 35
+  },
+  {
+    "filter_id": 787,
+    "name": "5104 RCM-Technikum, Boltzmannstr.   16",
+    "area_id": 35
+  },
+  {
+    "filter_id": 789,
+    "name": "5107 Physik II, Am Coulombwall    2",
+    "area_id": 35
+  },
+  {
+    "filter_id": 781,
+    "name": "5108 Physik II Messbunker, James-Franck-Str.    1",
+    "area_id": 35
+  },
+  {
+    "filter_id": 872,
+    "name": "5109 Physik LMU, Am Coulombwall    1",
+    "area_id": 35
+  },
+  {
+    "filter_id": 782,
+    "name": "5110 Trafostation PH (Abriss ca. Okt. 2019?), James-Franck-Str.    1",
+    "area_id": 35
+  },
+  {
+    "filter_id": 790,
+    "name": "5111 Siedlungswasserwirtschaft, Am Coulombwall    3",
+    "area_id": 35
+  },
+  {
+    "filter_id": 791,
+    "name": "5112 Walter-Schottky-Institut, Am Coulombwall    4",
+    "area_id": 35
+  },
+  {
+    "filter_id": 1080,
+    "name": "5115 Zentrum f\u00fcr Nanotechnologie & -materiali, Am Coulombwall   4a",
+    "area_id": 35
+  },
+  {
+    "filter_id": 1100,
+    "name": "5116 Trafostation des ZNN, Am Coulombwall   4a",
+    "area_id": 35
+  },
+  {
+    "filter_id": 873,
+    "name": "5120 Physik Beschleuniger LMU, Am Coulombwall    6",
+    "area_id": 35
+  },
+  {
+    "filter_id": 874,
+    "name": "5121 Atlashalle LMU, Am Coulombwall    6",
+    "area_id": 35
+  },
+  {
+    "filter_id": 930,
+    "name": "5122 Neb.Geb\u00e4ude Beschleunigerbereich LMU (Ab, Am Coulombwall    6",
+    "area_id": 35
+  },
+  {
+    "filter_id": 875,
+    "name": "5123 Physik Werkstattgeb\u00e4ude LMU, Am Coulombwall    1",
+    "area_id": 35
+  },
+  {
+    "filter_id": 792,
+    "name": "5124 WSI Container, James-Franck-Strasse    1",
+    "area_id": 35
+  },
+  {
+    "filter_id": 1425,
+    "name": "5125 LEX  (LMU), Am Coloumbwall   1a",
+    "area_id": 35
+  },
+  {
+    "filter_id": 2069,
+    "name": "5126 CALA (LMU), Am Coloumbwall   1b",
+    "area_id": 35
+  },
+  {
+    "filter_id": 783,
+    "name": "5130 Telefonzentrale, Boltzmannstra\u00dfe  10a",
+    "area_id": 35
+  },
+  {
+    "filter_id": 1609,
+    "name": "5131 FRM-Poststelle (Container), Boltzmannstra\u00dfe  10b",
+    "area_id": 35
+  },
+  {
+    "filter_id": 1365,
+    "name": "5140 PH I Container, James-Frank-Str.    1",
+    "area_id": 35
+  },
+  {
+    "filter_id": 2289,
+    "name": "5142 Parkhaus P1, Paula-Hahn-Weinheimer-Str.    4",
+    "area_id": 35
+  },
+  {
+    "filter_id": 2429,
+    "name": "5143 Versorgungsstation PH, Paula-Hahn-Weinheimer-Str.    2",
+    "area_id": 35
+  },
+  {
+    "filter_id": 1870,
+    "name": "5160 UCN-Testanlage (Container), Am Coulombwall    6",
+    "area_id": 35
+  },
+  {
+    "filter_id": 1775,
+    "name": "9001 TUM Science & Study Center Raitenhaslach, Raitenhaslach   11",
+    "area_id": 183
+  },
+  {
+    "filter_id": 595,
+    "name": "2401 Holzforschung M\u00fcnchen Altbau, Winzererstr.   45",
+    "area_id": 17
+  },
+  {
+    "filter_id": 596,
+    "name": "2402 Holzforschung M\u00fcnchen Neubau, Winzererstr.   45",
+    "area_id": 17
+  },
+  {
+    "filter_id": 2210,
+    "name": "2410 He\u00dfstr. 134 (UMBAU), He\u00dfstr.  134",
+    "area_id": 17
+  },
+  {
+    "filter_id": 780,
+    "name": "4801 VSG.Gr\u00fcnschw.-Verwaltungsgeb\u00e4ude, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 779,
+    "name": "4802 VSG.Gr\u00fcnschw.-Mehrzweckhalle, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 766,
+    "name": "4803 VSG.Gr\u00fcnschw.-Schweinestall, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 767,
+    "name": "4804 VSG.Gr\u00fcnschw.-Getreidelager, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 768,
+    "name": "4805 VSG.Gr\u00fcnschw.-Futtersilo, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 769,
+    "name": "4806 VSG.Gr\u00fcnschw.-Schafstall, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 770,
+    "name": "4807 VSG.Gr\u00fcnschw.-Lagerscheune, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 771,
+    "name": "4808 VSG.Gr\u00fcnschw.-Stallgeb\u00e4ude, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 772,
+    "name": "4809 VSG.Gr\u00fcnschw.-Ger\u00e4tescheune, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 773,
+    "name": "4810 VSG.Gr\u00fcnschw.-Strohscheune, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 774,
+    "name": "4811 VSG.Gr\u00fcnschw.-Strohscheune, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 775,
+    "name": "4812 VSG.Gr\u00fcnschw.-Maschinenhalle, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 776,
+    "name": "4813 VSG.Gr\u00fcnschw.-Baur-Haus, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 777,
+    "name": "4814 VSG.Gr\u00fcnschw.-Fahrsilo, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 778,
+    "name": "4815 VSG.Gr\u00fcnschw.-Grastrockner, Staatsgut Gr\u00fcnschwaige",
+    "area_id": 56
+  },
+  {
+    "filter_id": 634,
+    "name": "4901 VSG.Roggst.-2Wgb, Verw., VTS, Oberroggenstein    1",
+    "area_id": 52
+  },
+  {
+    "filter_id": 635,
+    "name": "4902 VSG.Roggst.-Doktor. Haus, Oberroggenstein    1",
+    "area_id": 52
+  },
+  {
+    "filter_id": 636,
+    "name": "4903 VSG.Roggst.-Schw.St., Wirtg., Oberroggenstein    1",
+    "area_id": 52
+  },
+  {
+    "filter_id": 637,
+    "name": "4907 VSG.Roggst.-Wirtschaftsgeb\u00e4ude, Staatsgut Roggenstein",
+    "area_id": 52
+  },
+  {
+    "filter_id": 638,
+    "name": "4908 VSG.Roggst.-Wagenremise, Staatsgut Roggenstein",
+    "area_id": 52
+  },
+  {
+    "filter_id": 639,
+    "name": "4909 VSG.Roggst.-Maschinen, D\u00fcnger, Staatsgut Roggenstein",
+    "area_id": 52
+  },
+  {
+    "filter_id": 640,
+    "name": "4910 VSG.Roggenst.-Getreidesilo, Staatsgut Roggenstein",
+    "area_id": 52
+  },
+  {
+    "filter_id": 643,
+    "name": "4914 VSG.Roggst.-Arb.Gba. 1, SCHP, Staatsgut Roggenstein",
+    "area_id": 52
+  },
+  {
+    "filter_id": 632,
+    "name": "4915 VSG.Roggst.-Arb.Gba. 2, SCHP, Staatsgut Roggenstein",
+    "area_id": 52
+  },
+  {
+    "filter_id": 629,
+    "name": "4916 VSG.Roggst.-Arb.Gba. 3, SCHP, Staatsgut Roggenstein",
+    "area_id": 52
+  },
+  {
+    "filter_id": 631,
+    "name": "4920 Kapelle, Oberroggenstein    1",
+    "area_id": 52
+  },
+  {
+    "filter_id": 737,
+    "name": "4601 VST.Thalh.-Wohngeb\u00e4ude (Wohnhaus 1-3), Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 738,
+    "name": "4602 VST.Thalh.-Zentralgeb\u00e4ude (Verwaltung), Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 739,
+    "name": "4603 VST.Thalh.-Betriebsgeb\u00e4ude (Werkstattgeb, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 740,
+    "name": "4604 VST.Thalh.-Maschinenhalle, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 741,
+    "name": "4605 VST.Thalh.-Rinder/K\u00e4lber (L\u00f6bnitz), Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 742,
+    "name": "4606 VST.Thalh.-Futterzentrale, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 743,
+    "name": "4607 VST.Thalh.-Tr. Sauen/Eber (Besamungsst./, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 744,
+    "name": "4608 VST.Thalh.-Mastschweine 1 (Maststall), Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 745,
+    "name": "4609 VST.Thalh.-Ferkel/Sauen, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 746,
+    "name": "4610 VST.Thalh.-Mastschweine 2, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 736,
+    "name": "4611 VST.Thalh.-Legehennen/Broiler, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 730,
+    "name": "4612 VST.Thalh.-Probemaststall, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 731,
+    "name": "4613 VST.Thalh.-Elterntierstall, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 732,
+    "name": "4614 VST.Thalh.-Futtergang, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 733,
+    "name": "4615 VST.Thalh.-Strohlager, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 734,
+    "name": "4616 VST.Thalh.-G\u00fcllebeh\u00e4lter, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 735,
+    "name": "4620 VST.Thalh.-Versuchsfelder, Staatsgut Thalhausen",
+    "area_id": 54
+  },
+  {
+    "filter_id": 561,
+    "name": "0101 (N1) H\u00f6rs\u00e4le (U-Trakt), Theresienstr.   90",
+    "area_id": 27
+  },
+  {
+    "filter_id": 562,
+    "name": "0102 (N2) Hochvolthaus, Theresienstr.   90",
+    "area_id": 27
+  },
+  {
+    "filter_id": 563,
+    "name": "0103 (N3) El.Masch./Ger\u00e4te, Theresienstr.   90",
+    "area_id": 27
+  },
+  {
+    "filter_id": 564,
+    "name": "0104 (N4) Elektro Physik, Theresienstr.   90",
+    "area_id": 27
+  },
+  {
+    "filter_id": 565,
+    "name": "0105 (N5) Elektrotechnik, Theresienstr.   90",
+    "area_id": 27
+  },
+  {
+    "filter_id": 566,
+    "name": "0106 (N6) Materialpr\u00fcfamt, Theresienstr.   90",
+    "area_id": 27
+  },
+  {
+    "filter_id": 567,
+    "name": "0108 (N8) Verf\u00fcgungsgeb\u00e4ude, Theresienstr.   90",
+    "area_id": 27
+  },
+  {
+    "filter_id": 1849,
+    "name": "0109 (N9) Reflexionsarmer Raum, Theresienstr.   90",
+    "area_id": 27
+  },
+  {
+    "filter_id": 568,
+    "name": "0201 (S1) Gabelsbergerstr. 43, StudiTUM, Gabelsbergerstr.   43",
+    "area_id": 26
+  },
+  {
+    "filter_id": 569,
+    "name": "0202 (S2) Gabelsbergerstr. 39, Gabelsbergerstr.   39",
+    "area_id": 26
+  },
+  {
+    "filter_id": 570,
+    "name": "0203 (S3) Gabelsbergerstr. 45, Gabelsbergerstr.   45",
+    "area_id": 26
+  },
+  {
+    "filter_id": 571,
+    "name": "0204 (S4) Gabelsbergerstr. 49, Gabelsbergerstr.   49",
+    "area_id": 26
+  },
+  {
+    "filter_id": 572,
+    "name": "0205 (S5) Arcisstr. 19, Arcisstr.   19",
+    "area_id": 26
+  },
+  {
+    "filter_id": 573,
+    "name": "0206 (S6) Mensa Arcisstra\u00dfe 17, Arcisstr.   17",
+    "area_id": 26
+  },
+  {
+    "filter_id": 574,
+    "name": "0305 (S\u00fcdost 5) Block D (ehem. LRZ), Barerstr.   21",
+    "area_id": 25
+  },
+  {
+    "filter_id": 575,
+    "name": "0401 (SW1) Richard-Wagner-Str. 18, Richard-Wagner-Str.   18",
+    "area_id": 24
+  },
+  {
+    "filter_id": 576,
+    "name": "0403 (SW3) Richard-Wagner-Str. 14 (Kiga.LH-M\u00fc, Richard-Wagner-Str.   14",
+    "area_id": 24
+  },
+  {
+    "filter_id": 577,
+    "name": "0501 (Z1) Institutsbau, Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 578,
+    "name": "0502 (Z2) Bestelmeyer S\u00fcd, Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 579,
+    "name": "0503 (Z3) Thierschbau, Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 580,
+    "name": "0504 (Z4) Landwirtschaftsbau, Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 581,
+    "name": "0505 (Z5) Wirtschaftswissenschaften, Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 582,
+    "name": "0506 (Z6) Theresianum, Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 583,
+    "name": "0507 (Z7) Bestelmeyer Nord, Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 584,
+    "name": "0508 (Z8) W\u00e4rmekraftwerk/Hydr.-Inst., Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 585,
+    "name": "0509 (Z9) Neubau Innenhof, Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 586,
+    "name": "0510 (Z10) Verwaltungsbau, Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 587,
+    "name": "0511 (Z11) Elektro/Werkstatt/L\u00f6sungsmittel-Bu, Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 588,
+    "name": "0512 (Z12) Garagen, Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 2669,
+    "name": "0598 Interim Tento HS Stammgel\u00e4nde, Arcisstr.   21",
+    "area_id": 23
+  },
+  {
+    "filter_id": 645,
+    "name": "3901 Starnberg Kiosk, Unterer Seeweg    5",
+    "area_id": 48
+  },
+  {
+    "filter_id": 646,
+    "name": "3902 Starnberg Wohn.-/Unterrichtsgeb\u00e4ude, Unterer Seeweg    5",
+    "area_id": 48
+  },
+  {
+    "filter_id": 644,
+    "name": "3904 Starnberg Bootshaus, Unterer Seeweg    5",
+    "area_id": 48
+  },
+  {
+    "filter_id": 878,
+    "name": "2927 TUM CS PG18 (AM), Petersgasse   18",
+    "area_id": 50
+  },
+  {
+    "filter_id": 1525,
+    "name": "2929 TUM CS SG20 (AM), Schulgasse   20",
+    "area_id": 50
+  },
+  {
+    "filter_id": 2250,
+    "name": "2930 TUM CS H\u00f6rsaal Rentamtsberg 1 (AM), Rentamtsberg    1",
+    "area_id": 50
+  },
+  {
+    "filter_id": 877,
+    "name": "3501 TUM CS SG16, Schulgasse   16",
+    "area_id": 50
+  },
+  {
+    "filter_id": 1729,
+    "name": "3502 TUM CS SG22 (AM), Schulgasse   22",
+    "area_id": 50
+  },
+  {
+    "filter_id": 2130,
+    "name": "3503 TUM CS PG05 (AM), Petersgasse    5",
+    "area_id": 50
+  },
+  {
+    "filter_id": 2249,
+    "name": "3504 TUM CS SG22a, Schulgasse  22a",
+    "area_id": 50
+  },
+  {
+    "filter_id": 2649,
+    "name": "3505 TUMCS H\u00f6rsaal und Forschungsgeb\u00e4ude f\u00fcr, Uferstra\u00dfe   53",
+    "area_id": 50
+  },
+  {
+    "filter_id": 2389,
+    "name": "3515 TUM CS Essigberg 3 (AM), Am Essigberg    3",
+    "area_id": 50
+  },
+  {
+    "filter_id": 1445,
+    "name": "2808 Forschungszentrum f. Bauchemie (NR), Dr. Albert-Frank-Str.   32",
+    "area_id": 98
+  },
+  {
+    "filter_id": 606,
+    "name": "2308 (SZ) Freitrib\u00fcne, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 607,
+    "name": "2309 (SZ) Tennis Geb\u00e4ude, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 608,
+    "name": "2310 (SZ) Tennisanlagen, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 610,
+    "name": "2312 (SZ) Sport-, Aussenanlagen/Teil-Umbau, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 611,
+    "name": "2313 (SZ) Wetterschutzhaus, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 612,
+    "name": "2315 (SZ) Pr\u00e4ventionszentrum, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 2769,
+    "name": "2317 (SZ) Kletterturm Campus im Olympiapark, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 2772,
+    "name": "2318 (SZ) Boulderturm im Campus im Olympiapar, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 2770,
+    "name": "2319 (SZ) KBA Kletter- und Boulderanlage Outd, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 2771,
+    "name": "2320 (SZ) FIA Fitnessanlage Outdoor, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 613,
+    "name": "2321 (SZ) Rasenspielpl\u00e4tze/Teil-Umbauten, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 2749,
+    "name": "2330 CiO/SG - rue, Seminarr\u00e4ume, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 2609,
+    "name": "2331 CiO/SG - Hallen West, Cafeteria, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 2829,
+    "name": "2332 CiO/SG - Institute Ost, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 2809,
+    "name": "2333 CiO/SG - Hallen Ost, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 2789,
+    "name": "2334 CiO/SG - Institute West, Bibliothek, Connollystr.   32",
+    "area_id": 18
+  },
+  {
+    "filter_id": 1015,
+    "name": "2350 (SZ) Olympiaschwimmhalle (AM), Spiridon-Louis-Ring",
+    "area_id": 18
+  },
+  {
+    "filter_id": 1016,
+    "name": "2351 (SZ) Olympia-Eislaufstadion (AM), Olympiapark M\u00fcnchen",
+    "area_id": 18
+  },
+  {
+    "filter_id": 1017,
+    "name": "2352 (SZ) Olympiapark (AM), Olympiapark M\u00fcnchen",
+    "area_id": 18
+  },
+  {
+    "filter_id": 1060,
+    "name": "2353 (SZ) Eislaufstadion Ost (AM), Staudingerstr.",
+    "area_id": 18
+  },
+  {
+    "filter_id": 1039,
+    "name": "2354 (SZ) Regattaanlage Oberschlei\u00dfheim (AM), Regattaanlage Oberschlei\u00dfheim",
+    "area_id": 18
+  },
+  {
+    "filter_id": 660,
+    "name": "4180 Veitshof Verwaltungsgeb\u00e4ude, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 661,
+    "name": "4181 Veitshof Maschinenhalle, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 662,
+    "name": "4182 Veitshof Bullenstall, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 663,
+    "name": "4183 Veitshof Wohnung/Garage, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 664,
+    "name": "4184 Veitshof Mehrzweckstall, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 665,
+    "name": "4185 Veitshof Offenstall, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 707,
+    "name": "4186 Veitshof G\u00e4rfuttersilo, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 708,
+    "name": "4187 Veitshof Dungsilo, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 709,
+    "name": "4188 Veitshof Fahrsilo, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 710,
+    "name": "4189 Veitshof Strohlagerhalle, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 711,
+    "name": "4190 Veitshof Jungviehstall, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 712,
+    "name": "4191 Veitshof Fahrsilo, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 1789,
+    "name": "4192 Veitshof ehem. Wasserwerk, Staatsgut Veitshof",
+    "area_id": 44
+  },
+  {
+    "filter_id": 810,
+    "name": "6202 Feuerwehrwache, R\u00f6merhofweg   67",
+    "area_id": 38
+  },
+  {
+    "filter_id": 2049,
+    "name": "4001 Ruine der Korbinians Kapelle, Oberer Schlangenweg",
+    "area_id": 43
+  },
+  {
+    "filter_id": 715,
+    "name": "4101 Verwaltungsstelle / BLQ Brau- und Lebens, Alte Akademie  1-3",
+    "area_id": 43
+  },
+  {
+    "filter_id": 716,
+    "name": "4102 H\u00f6rsaal- und Dekanatsgeb\u00e4ude, Alte Akademie    8",
+    "area_id": 43
+  },
+  {
+    "filter_id": 717,
+    "name": "4103 Sammlungsbau, Alte Akademie    6",
+    "area_id": 43
+  },
+  {
+    "filter_id": 719,
+    "name": "4105 Institutsgeb\u00e4ude I, Alte Akademie   12",
+    "area_id": 43
+  },
+  {
+    "filter_id": 720,
+    "name": "4106 Institutsgeb\u00e4ude II, Alte Akademie   14",
+    "area_id": 43
+  },
+  {
+    "filter_id": 721,
+    "name": "4107 Institutsgeb\u00e4ude III, Alte Akademie   16",
+    "area_id": 43
+  },
+  {
+    "filter_id": 722,
+    "name": "4108 BLQ Lebensmittelsicherheit, H\u00f6rsaal 8&9, Alte Akademie   10",
+    "area_id": 43
+  },
+  {
+    "filter_id": 723,
+    "name": "4109 Campus Office, Weihenstephaner Steig   22",
+    "area_id": 43
+  },
+  {
+    "filter_id": 724,
+    "name": "4110 Brau- und Getr\u00e4nketechnologie, Weihenstephaner Steig   20",
+    "area_id": 43
+  },
+  {
+    "filter_id": 725,
+    "name": "4111 Forschungsbrauerei Weihenstephan - mit N, Weihenstephaner Steig   18",
+    "area_id": 43
+  },
+  {
+    "filter_id": 693,
+    "name": "4113 StudiTUM Weihenstephan, Weihenstephaner Steig   16",
+    "area_id": 43
+  },
+  {
+    "filter_id": 694,
+    "name": "4114 ehm. Bauhof, Weihenstephaner Steig   14",
+    "area_id": 43
+  },
+  {
+    "filter_id": 653,
+    "name": "4115 Familienservice, Weihenstephaner Steig   19",
+    "area_id": 43
+  },
+  {
+    "filter_id": 695,
+    "name": "4116 Kindervilla (Dr. Gudula Wernekke-Rastett, Weihenstephaner Steig   17",
+    "area_id": 43
+  },
+  {
+    "filter_id": 1325,
+    "name": "4117 Kindervilla II, Weihenstephaner Steig   17",
+    "area_id": 43
+  },
+  {
+    "filter_id": 696,
+    "name": "4124 Molekulare Biowissenschaften (ZIEL II), Weihenstephaner Berg    3",
+    "area_id": 43
+  },
+  {
+    "filter_id": 697,
+    "name": "4126 ZIEL I - Zentralinstitut f\u00fcr Ern\u00e4hrung-, Weihenstephaner Berg    1",
+    "area_id": 43
+  },
+  {
+    "filter_id": 699,
+    "name": "4128 Trafostation I, Am L\u00f6wentor, Am Hofgarten",
+    "area_id": 43
+  },
+  {
+    "filter_id": 1225,
+    "name": "4130 Trafostation IV (Sprachlabor), Weihenstephaner Berg   13",
+    "area_id": 43
+  },
+  {
+    "filter_id": 700,
+    "name": "4153 Hochschulsport / Sprachenzentrum, Weihenstephaner Berg   13",
+    "area_id": 43
+  },
+  {
+    "filter_id": 2170,
+    "name": "4155 Kustermannhalle, Weihenstephaner Berg",
+    "area_id": 43
+  },
+  {
+    "filter_id": 2151,
+    "name": "4156 Flaschenkeller Staatsbrauerei, Weihenstephaner Berg   21",
+    "area_id": 43
+  },
+  {
+    "filter_id": 727,
+    "name": "4119 Hohenbachernstra\u00dfe 17, Hohenbachernstr.   17",
+    "area_id": 42
+  },
+  {
+    "filter_id": 701,
+    "name": "4120 Hohenbachernstra\u00dfe 15, Hohenbachernstr.   15",
+    "area_id": 42
+  },
+  {
+    "filter_id": 2149,
+    "name": "4202 Trafostation V, Liesel-Beckmann-Str.",
+    "area_id": 42
+  },
+  {
+    "filter_id": 691,
+    "name": "4205 Servicegeb\u00e4ude II, Gregor-Mendel-Stra\u00dfe    1",
+    "area_id": 42
+  },
+  {
+    "filter_id": 726,
+    "name": "4210 Agrarsystemtechnik, Am Staudengarten    2",
+    "area_id": 42
+  },
+  {
+    "filter_id": 1140,
+    "name": "4211 LfL B\u00fcrogeb\u00e4ude 14, V\u00f6ttinger Stra\u00dfe   36",
+    "area_id": 42
+  },
+  {
+    "filter_id": 679,
+    "name": "4212 Chemie Bioanalytik Peptidbiochemie, Emil-Erlenmeyer-Forum    5",
+    "area_id": 42
+  },
+  {
+    "filter_id": 680,
+    "name": "4213 Lebensmitteltechnikum, Maximus-von-Imhof-Forum    2",
+    "area_id": 42
+  },
+  {
+    "filter_id": 681,
+    "name": "4214 Zentrales H\u00f6rsaalgeb\u00e4ude, Maximus-von-Imhof-Forum    6",
+    "area_id": 42
+  },
+  {
+    "filter_id": 682,
+    "name": "4215 Zentrales Praktikageb\u00e4ude, Maximus-von-Imhof-Forum    4",
+    "area_id": 42
+  },
+  {
+    "filter_id": 683,
+    "name": "4216 Mensa Weihenstephan, Maximus-von-Imhof-Forum    5",
+    "area_id": 42
+  },
+  {
+    "filter_id": 684,
+    "name": "4217 Pflanzenproduktion 1, Emil-Ramann-Str.    2",
+    "area_id": 42
+  },
+  {
+    "filter_id": 685,
+    "name": "4218 Biologikum Weihenstephan, Emil-Ramann-Str.    4",
+    "area_id": 42
+  },
+  {
+    "filter_id": 686,
+    "name": "4219 Landschaft, Emil-Ramann-Str.    6",
+    "area_id": 42
+  },
+  {
+    "filter_id": 687,
+    "name": "4220 Bibliothek Pressestelle Datenverarbeitun, Maximus-von-Imhof-Forum  1+3",
+    "area_id": 42
+  },
+  {
+    "filter_id": 688,
+    "name": "4221 Fernmeldezentrale, Emil-Erlenmeyer-Forum    7",
+    "area_id": 42
+  },
+  {
+    "filter_id": 689,
+    "name": "4223 Genetik, Emil-Ramann-Str.    8",
+    "area_id": 42
+  },
+  {
+    "filter_id": 690,
+    "name": "4224 ZIEL IV - Biowissenschaften, Gregor-Mendel-Str.    2",
+    "area_id": 42
+  },
+  {
+    "filter_id": 1160,
+    "name": "4226 iGZW intern.Getr\u00e4nkewissenschaftliches Z, Gregor-Mendel-Str.    4",
+    "area_id": 42
+  },
+  {
+    "filter_id": 714,
+    "name": "4238 Werkfeuerwehr Weihenstephan, Emil-Erlenmeyer-Forum    2",
+    "area_id": 42
+  },
+  {
+    "filter_id": 667,
+    "name": "4239 Kindergarten \"Krabbelstube Weihenstephan, Emil-Erlenmeyer-Forum    4",
+    "area_id": 42
+  },
+  {
+    "filter_id": 971,
+    "name": "4254 Dienstleister / Eltern-Kind, Emil-Erlenmeyer-Forum    6",
+    "area_id": 42
+  },
+  {
+    "filter_id": 2109,
+    "name": "4259 Salzlager, Emil-Erlenmeyer-Forum    8",
+    "area_id": 42
+  },
+  {
+    "filter_id": 993,
+    "name": "4264 Protein Modelling, Emil-Erlenmeyer-Forum    8",
+    "area_id": 42
+  },
+  {
+    "filter_id": 2089,
+    "name": "4267 Feuerwache II, Emil-Erlenmeyer-Forum    6",
+    "area_id": 42
+  },
+  {
+    "filter_id": 668,
+    "name": "4277 Forstwissenschaften, Hans-Carl-von-Carlowitz-Platz    2",
+    "area_id": 42
+  },
+  {
+    "filter_id": 728,
+    "name": "4278 LWF Bay. Landesanstalt f\u00fcr Wald und Fors, Hans-Carl-von-Carlowitz-Platz    1",
+    "area_id": 42
+  },
+  {
+    "filter_id": 2152,
+    "name": "4281 HSWT, Am Staudengarten    1",
+    "area_id": 42
+  },
+  {
+    "filter_id": 1809,
+    "name": "4299 Hochschulgemeinde Freising, Hohenbachernstra\u00dfe    9",
+    "area_id": 42
+  },
+  {
+    "filter_id": 903,
+    "name": "4230 D\u00fcrnast Versuchsstation Tierst., D\u00fcrnast   11",
+    "area_id": 39
+  },
+  {
+    "filter_id": 904,
+    "name": "4231 D\u00fcrnast I, D\u00fcrnast    7",
+    "area_id": 39
+  },
+  {
+    "filter_id": 905,
+    "name": "4232 D\u00fcrnast II, D\u00fcrnast    8",
+    "area_id": 39
+  },
+  {
+    "filter_id": 907,
+    "name": "4234 D\u00fcrnast III, D\u00fcrnast    9",
+    "area_id": 39
+  },
+  {
+    "filter_id": 908,
+    "name": "4235 D\u00fcrnast IV, D\u00fcrnast   10",
+    "area_id": 39
+  },
+  {
+    "filter_id": 902,
+    "name": "4236 D\u00fcrnast Wohnhaus, D\u00fcrnast    6",
+    "area_id": 39
+  },
+  {
+    "filter_id": 887,
+    "name": "4237 D\u00fcrnast Werkdienstwohnung, D\u00fcrnast    3",
+    "area_id": 39
+  },
+  {
+    "filter_id": 888,
+    "name": "4501 D\u00fcrnast Arbeiterwohngeb\u00e4ude STG.WST., D\u00fcrnast  1-2",
+    "area_id": 39
+  },
+  {
+    "filter_id": 889,
+    "name": "4502 D\u00fcrnast Werkstattgeb\u00e4ude-Wirt. Geb. STG., D\u00fcrnast    1",
+    "area_id": 39
+  },
+  {
+    "filter_id": 890,
+    "name": "4503 D\u00fcrnast -Verw.-, WGB., RS., S.-STG.WST., D\u00fcrnast  4-5",
+    "area_id": 39
+  },
+  {
+    "filter_id": 892,
+    "name": "4505 D\u00fcrnast Maschinenhalle STG.WST.-Kart, La, D\u00fcrnast    5",
+    "area_id": 39
+  },
+  {
+    "filter_id": 893,
+    "name": "4506 D\u00fcrnast Schuppen STG.WST., D\u00fcrnast    5",
+    "area_id": 39
+  },
+  {
+    "filter_id": 897,
+    "name": "4508 D\u00fcrnast Wagenh. m. Fuhrw. W. STG.WST., D\u00fcrnast    1",
+    "area_id": 39
+  },
+  {
+    "filter_id": 898,
+    "name": "4509 D\u00fcrnast Fahrsilo-G\u00fcllebeh\u00e4lter STG.WST., Staatsgut Weihenstephan",
+    "area_id": 39
+  },
+  {
+    "filter_id": 899,
+    "name": "4510 D\u00fcrnast Getreidekasten STG.WST., D\u00fcrnast    1",
+    "area_id": 39
+  },
+  {
+    "filter_id": 2029,
+    "name": "4512 D\u00fcrnast Ger\u00e4tehalle West, D\u00fcrnast    5",
+    "area_id": 39
+  },
+  {
+    "filter_id": 2030,
+    "name": "4513 D\u00fcrnast Ger\u00e4tehalle Ost, D\u00fcrnast    5",
+    "area_id": 39
+  },
+  {
+    "filter_id": 900,
+    "name": "4521 Viehhausen Mehrzweckhalle STG.WST., Viehhausen    4",
+    "area_id": 39
+  },
+  {
+    "filter_id": 901,
+    "name": "4522 Viehhausen Landwirtschafliche Freifl\u00e4che, Viehhausen    4",
+    "area_id": 39
+  },
+  {
+    "filter_id": 894,
+    "name": "4523 Viehhausen H\u00fchnerstall STG.WST., Viehhausen    4",
+    "area_id": 39
+  },
+  {
+    "filter_id": 895,
+    "name": "4524 Viehhausen Tankstelle Viehhof STG.WST., Viehhausen    4",
+    "area_id": 39
+  },
+  {
+    "filter_id": 1141,
+    "name": "3035 Helmholtz Biologikum, Ingolst\u00e4dter Landstra\u00dfe    1",
+    "area_id": 79
+  },
+  {
+    "filter_id": 1545,
+    "name": "3100 Projektb\u00fcro Hainich, Am Burghof    3",
+    "area_id": 79
+  },
+  {
+    "filter_id": 670,
+    "name": "4304 Verwaltung der TUM - Immobilien, Lange Point   51",
+    "area_id": 41
+  },
+  {
+    "filter_id": 673,
+    "name": "4307 Dienstleistergeb\u00e4ude, Liesel-Beckmann-Str.    6",
+    "area_id": 41
+  },
+  {
+    "filter_id": 674,
+    "name": "4308 Humanbiologie Zoologie, Liesel-Beckmann-Str.    4",
+    "area_id": 41
+  },
+  {
+    "filter_id": 675,
+    "name": "4309 Inst. Geb. Wirschaftslehre d. Gartenbaus, Blumenstr.   16",
+    "area_id": 41
+  },
+  {
+    "filter_id": 676,
+    "name": "4310 Werkst. u. Garagen Zierpflanzenbau, Blumenstr.   16",
+    "area_id": 41
+  },
+  {
+    "filter_id": 677,
+    "name": "4311 Inst. Zierplanzenbau, Blumenstr.   16",
+    "area_id": 41
+  },
+  {
+    "filter_id": 886,
+    "name": "4314 Trafostation  VII, Am Staudengarten",
+    "area_id": 41
+  },
+  {
+    "filter_id": 658,
+    "name": "4315 Lagerhalle (Stra\u00dfenseite), Lange Point   51",
+    "area_id": 41
+  },
+  {
+    "filter_id": 2512,
+    "name": "4316 Lagerhalle (Feldseite), Lange Point   51",
+    "area_id": 41
+  },
+  {
+    "filter_id": 657,
+    "name": "4317 Tierwissenschaften, Liesel-Beckmann-Str.    1",
+    "area_id": 41
+  },
+  {
+    "filter_id": 1161,
+    "name": "4318 HEZ Hans-Eisenmann-Zentrum f\u00fcr Agrarwiss, Liesel-Beckmann-Str.    2",
+    "area_id": 41
+  },
+  {
+    "filter_id": 1505,
+    "name": "4319 Trafostation VI, Liesel-Beckmann-Stra\u00dfe",
+    "area_id": 41
+  },
+  {
+    "filter_id": 2329,
+    "name": "4320 Energiezentrale Heizhaus, Lange Point 20+22",
+    "area_id": 41
+  },
+  {
+    "filter_id": 654,
+    "name": "4321 GM Verwaltung, Lange Point   24",
+    "area_id": 41
+  },
+  {
+    "filter_id": 655,
+    "name": "4322 GMTrafostation XV / Carport, Lange Point   24",
+    "area_id": 41
+  },
+  {
+    "filter_id": 656,
+    "name": "4323 GM KFZ Werkstatt, Lange Point   24",
+    "area_id": 41
+  },
+  {
+    "filter_id": 659,
+    "name": "4324 GM Garage / Werkdienstwohnungen, Lange Point   20",
+    "area_id": 41
+  },
+  {
+    "filter_id": 2349,
+    "name": "4325 GM Wertstoffhof, Lange Point   24",
+    "area_id": 41
+  },
+  {
+    "filter_id": 2173,
+    "name": "4353 LfL Laborgeb\u00e4ude 1, Lange Point    4",
+    "area_id": 41
+  },
+  {
+    "filter_id": 2169,
+    "name": "4355 LfL Technologie VI, Zur Kreutzbreite    4",
+    "area_id": 41
+  },
+  {
+    "filter_id": 2174,
+    "name": "4361 LfL Technologie V, Am Gereuth    5",
+    "area_id": 41
+  },
+  {
+    "filter_id": 2172,
+    "name": "4362 LfL Mehrzweckgeb\u00e4ude 1, Lange Point   10",
+    "area_id": 41
+  },
+  {
+    "filter_id": 2171,
+    "name": "4368 LfL Technologie III, Am Gereuth    6",
+    "area_id": 41
+  },
+  {
+    "filter_id": 2150,
+    "name": "4387 Camerloher Gymnasium, Wippenhauserstr.   51",
+    "area_id": 41
+  },
+  {
+    "filter_id": 1465,
+    "name": "4129 Aquatische Systembiologie, M\u00fchlenweg   22",
+    "area_id": 138
+  },
+  {
+    "filter_id": 1466,
+    "name": "4131 Aquatische Systembiologie \"M\u00fchle\", M\u00fchlenweg   22",
+    "area_id": 138
+  },
+  {
+    "filter_id": 1669,
+    "name": "4132 Aquatische Systembiologie \"Wagnerhaus\", M\u00fchlenweg   18",
+    "area_id": 138
+  },
+  {
+    "filter_id": 1467,
+    "name": "4225 Lebensmittelchemie u.Molekulare Sensorik, Lise-Meitner-Str.   34",
+    "area_id": 138
+  },
+  {
+    "filter_id": 1909,
+    "name": "4275 TUMmesa, An der M\u00fchle   20",
+    "area_id": 138
+  },
+  {
+    "filter_id": 706,
+    "name": "4298 Tentomax HS Weihenstephan (Pr\u00fcfungszelt, Gregor-Mendel-Stra\u00dfe    2",
+    "area_id": 138
+  },
+  {
+    "filter_id": 2589,
+    "name": "4800 Halle Achering (M\u00fchlich), Acheringer Hauptstr.  32a",
+    "area_id": 138
+  },
+  {
+    "filter_id": 1120,
+    "name": "5301 IAS, Institut f\u00fcr Advanced Study, Lichtenbergstra\u00dfe   2a",
+    "area_id": 30
+  },
+  {
+    "filter_id": 816,
+    "name": "5302 Mensa, Lichtenbergstr.    2",
+    "area_id": 30
+  },
+  {
+    "filter_id": 2009,
+    "name": "5304 Mensa Garching (Neubau), Boltzmannstr.   19",
+    "area_id": 30
+  }
+]

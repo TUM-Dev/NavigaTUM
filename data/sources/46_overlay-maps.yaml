@@ -8,13 +8,43 @@
       - [11.568750, 48.149706]
       - [11.567409, 48.150095]
   maps:
-    - {file: "0101_-1.webp", id: -1, floor: "U1", desc: "U-Trakt N1 (1. UG) – © TUM WWW & Online Services"}
-    - {file: "0101_0.webp", id: 0, floor: "EG", desc: "U-Trakt N1 (EG) – © TUM WWW & Online Services"}
-    - {file: "0101_1.webp", id: 1, floor: "Z1", desc: "U-Trakt N1 (ZG) – © TUM WWW & Online Services"}
-    - {file: "0101_2.webp", id: 2, floor: "01", desc: "U-Trakt N1 (1. OG) – © TUM WWW & Online Services"}
-    - {file: "0101_3.webp", id: 3, floor: "02", desc: "U-Trakt N1 (2. OG) – © TUM WWW & Online Services"}
-    - {file: "0101_4.webp", id: 4, floor: "DG", desc: "U-Trakt N1 (DG) – © TUM WWW & Online Services"}
-    
+    - {
+        file: "0101_-1.webp",
+        id: -1,
+        floor: "U1",
+        desc: "U-Trakt N1 (1. UG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0101_0.webp",
+        id: 0,
+        floor: "EG",
+        desc: "U-Trakt N1 (EG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0101_1.webp",
+        id: 1,
+        floor: "Z1",
+        desc: "U-Trakt N1 (ZG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0101_2.webp",
+        id: 2,
+        floor: "01",
+        desc: "U-Trakt N1 (1. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0101_3.webp",
+        id: 3,
+        floor: "02",
+        desc: "U-Trakt N1 (2. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0101_4.webp",
+        id: 4,
+        floor: "DG",
+        desc: "U-Trakt N1 (DG) – © TUM WWW & Online Services",
+      }
+
 - props:
     parent: "0102"
     box:
@@ -23,15 +53,55 @@
       - [11.567557, 48.150191]
       - [11.566843, 48.150396]
   maps:
-    - {file: "0102_-1.webp", id: -1, floor: "U1", desc: "U-Trakt N2 (1. UG) – © TUM WWW & Online Services"}
-    - {file: "0102_0.webp", id: 0, floor: "EG", desc: "U-Trakt N2 (EG) – © TUM WWW & Online Services"}
-    - {file: "0102_1.webp", id: 1, floor: "Z1", desc: "U-Trakt N2 (ZG) – © TUM WWW & Online Services"}
-    - {file: "0102_2.webp", id: 2, floor: "01", desc: "U-Trakt N2 (1. OG) – © TUM WWW & Online Services"}
-    - {file: "0102_3.webp", id: 3, floor: "02", desc: "U-Trakt N2 (2. OG) – © TUM WWW & Online Services"}
-    - {file: "0102_4.webp", id: 4, floor: "03", desc: "U-Trakt N2 (3. OG) – © TUM WWW & Online Services"}
-    - {file: "0102_5.webp", id: 5, floor: "04", desc: "U-Trakt N2 (4. OG) – © TUM WWW & Online Services"}
-    - {file: "0102_6.webp", id: 6, floor: "DG", desc: "U-Trakt N2 (DG) – © TUM WWW & Online Services"}
-    
+    - {
+        file: "0102_-1.webp",
+        id: -1,
+        floor: "U1",
+        desc: "U-Trakt N2 (1. UG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0102_0.webp",
+        id: 0,
+        floor: "EG",
+        desc: "U-Trakt N2 (EG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0102_1.webp",
+        id: 1,
+        floor: "Z1",
+        desc: "U-Trakt N2 (ZG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0102_2.webp",
+        id: 2,
+        floor: "01",
+        desc: "U-Trakt N2 (1. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0102_3.webp",
+        id: 3,
+        floor: "02",
+        desc: "U-Trakt N2 (2. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0102_4.webp",
+        id: 4,
+        floor: "03",
+        desc: "U-Trakt N2 (3. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0102_5.webp",
+        id: 5,
+        floor: "04",
+        desc: "U-Trakt N2 (4. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0102_6.webp",
+        id: 6,
+        floor: "DG",
+        desc: "U-Trakt N2 (DG) – © TUM WWW & Online Services",
+      }
+
 - props:
     parent: "0103"
     box:
@@ -40,15 +110,55 @@
       - [11.567936, 48.150589]
       - [11.567079, 48.150831]
   maps:
-    - {file: "0103_-1.webp", id: -1, floor: "U1", desc: "U-Trakt N3 (1. UG) – © TUM WWW & Online Services"}
-    - {file: "0103_0.webp", id: 0, floor: "EG", desc: "U-Trakt N3 (EG) – © TUM WWW & Online Services"}
-    - {file: "0103_1.webp", id: 1, floor: "01", desc: "U-Trakt N3 (1. OG) – © TUM WWW & Online Services"}
-    - {file: "0103_2.webp", id: 2, floor: "02", desc: "U-Trakt N3 (2. OG) – © TUM WWW & Online Services"}
-    - {file: "0103_3.webp", id: 3, floor: "03", desc: "U-Trakt N3 (3. OG) – © TUM WWW & Online Services"}
-    - {file: "0103_4.webp", id: 4, floor: "04", desc: "U-Trakt N3 (4. OG) – © TUM WWW & Online Services"}
-    - {file: "0103_5.webp", id: 5, floor: "05", desc: "U-Trakt N3 (5. OG) – © TUM WWW & Online Services"}
-    - {file: "0103_6.webp", id: 6, floor: "06", desc: "U-Trakt N3 (6. OG) – © TUM WWW & Online Services"}
-    
+    - {
+        file: "0103_-1.webp",
+        id: -1,
+        floor: "U1",
+        desc: "U-Trakt N3 (1. UG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0103_0.webp",
+        id: 0,
+        floor: "EG",
+        desc: "U-Trakt N3 (EG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0103_1.webp",
+        id: 1,
+        floor: "01",
+        desc: "U-Trakt N3 (1. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0103_2.webp",
+        id: 2,
+        floor: "02",
+        desc: "U-Trakt N3 (2. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0103_3.webp",
+        id: 3,
+        floor: "03",
+        desc: "U-Trakt N3 (3. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0103_4.webp",
+        id: 4,
+        floor: "04",
+        desc: "U-Trakt N3 (4. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0103_5.webp",
+        id: 5,
+        floor: "05",
+        desc: "U-Trakt N3 (5. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0103_6.webp",
+        id: 6,
+        floor: "06",
+        desc: "U-Trakt N3 (6. OG) – © TUM WWW & Online Services",
+      }
+
 - props:
     parent: "0104"
     box:
@@ -57,14 +167,49 @@
       - [11.568698, 48.150639]
       - [11.568119, 48.150804]
   maps:
-    - {file: "0104_-1.webp", id: -1, floor: "U1", desc: "U-Trakt N4 (1. UG) – © TUM WWW & Online Services"}
-    - {file: "0104_0.webp", id: 0, floor: "EG", desc: "U-Trakt N4 (EG) – © TUM WWW & Online Services"}
-    - {file: "0104_1.webp", id: 1, floor: "01", desc: "U-Trakt N4 (1. OG) – © TUM WWW & Online Services"}
-    - {file: "0104_2.webp", id: 2, floor: "02", desc: "U-Trakt N4 (2. OG) – © TUM WWW & Online Services"}
-    - {file: "0104_3.webp", id: 3, floor: "03", desc: "U-Trakt N4 (3. OG) – © TUM WWW & Online Services"}
-    - {file: "0104_4.webp", id: 4, floor: "04", desc: "U-Trakt N4 (4. OG) – © TUM WWW & Online Services"}
-    - {file: "0104_5.webp", id: 5, floor: "DG", desc: "U-Trakt N4 (5. OG) – © TUM WWW & Online Services"}
-    
+    - {
+        file: "0104_-1.webp",
+        id: -1,
+        floor: "U1",
+        desc: "U-Trakt N4 (1. UG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0104_0.webp",
+        id: 0,
+        floor: "EG",
+        desc: "U-Trakt N4 (EG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0104_1.webp",
+        id: 1,
+        floor: "01",
+        desc: "U-Trakt N4 (1. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0104_2.webp",
+        id: 2,
+        floor: "02",
+        desc: "U-Trakt N4 (2. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0104_3.webp",
+        id: 3,
+        floor: "03",
+        desc: "U-Trakt N4 (3. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0104_4.webp",
+        id: 4,
+        floor: "04",
+        desc: "U-Trakt N4 (4. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0104_5.webp",
+        id: 5,
+        floor: "DG",
+        desc: "U-Trakt N4 (5. OG) – © TUM WWW & Online Services",
+      }
+
 - props:
     parent: "0505"
     box:
@@ -73,42 +218,132 @@
       - [11.567034, 48.149259]
       - [11.566253, 48.149477]
   maps:
-    - {file: "0505_-1.webp", id: -1, floor: "U1", desc: "Wirtschaftswissenschaften Z5 (1. UG) – © TUM WWW & Online Services"}
-    - {file: "0505_0.webp", id: 0, floor: "EG", desc: "Wirtschaftswissenschaften Z5 (EG) – © TUM WWW & Online Services"}
-    - {file: "0505_1.webp", id: 1, floor: "Z1", desc: "Wirtschaftswissenschaften Z5 (ZG) – © TUM WWW & Online Services"}
-    - {file: "0505_2.webp", id: 2, floor: "01", desc: "Wirtschaftswissenschaften Z5 (1. OG) – © TUM WWW & Online Services"}
-    - {file: "0505_3.webp", id: 3, floor: "02", desc: "Wirtschaftswissenschaften Z5 (2. OG) – © TUM WWW & Online Services"}
-    - {file: "0505_4.webp", id: 3, floor: "03", desc: "Wirtschaftswissenschaften Z5 (3. OG) – © TUM WWW & Online Services"}
-    - {file: "0505_5.webp", id: 3, floor: "04", desc: "Wirtschaftswissenschaften Z5 (4. OG) – © TUM WWW & Online Services"}
+    - {
+        file: "0505_-1.webp",
+        id: -1,
+        floor: "U1",
+        desc: "Wirtschaftswissenschaften Z5 (1. UG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0505_0.webp",
+        id: 0,
+        floor: "EG",
+        desc: "Wirtschaftswissenschaften Z5 (EG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0505_1.webp",
+        id: 1,
+        floor: "Z1",
+        desc: "Wirtschaftswissenschaften Z5 (ZG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0505_2.webp",
+        id: 2,
+        floor: "01",
+        desc: "Wirtschaftswissenschaften Z5 (1. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0505_3.webp",
+        id: 3,
+        floor: "02",
+        desc: "Wirtschaftswissenschaften Z5 (2. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0505_4.webp",
+        id: 3,
+        floor: "03",
+        desc: "Wirtschaftswissenschaften Z5 (3. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "0505_5.webp",
+        id: 3,
+        floor: "04",
+        desc: "Wirtschaftswissenschaften Z5 (4. OG) – © TUM WWW & Online Services",
+      }
 
 - props:
     parent: "mi"
-    box:  # lon, lat
-      - [11.666739, 48.263478]  # 4
-      - [11.669666, 48.263125]  # 3
-      - [11.669222, 48.261585]  # 2
-      - [11.666331, 48.261929]  # 1
+    box: # lon, lat
+      - [11.666739, 48.263478] # 4
+      - [11.669666, 48.263125] # 3
+      - [11.669222, 48.261585] # 2
+      - [11.666331, 48.261929] # 1
   maps:
-    - {file: "mi_-1.webp", id: -1, floor: "U1", desc: "MI Gebäude (UG) – © TUM WWW & Online Services"}
-    - {file: "mi_0.webp", id: 0, floor: "EG", desc: "MI Gebäude (EG) – © TUM WWW & Online Services"}
-    - {file: "mi_1.webp", id: 1, floor: "01", desc: "MI Gebäude (1.OG) – © TUM WWW & Online Services"}
-    - {file: "mi_2.webp", id: 2, floor: "02", desc: "MI Gebäude (2.OG) – © TUM WWW & Online Services"}
-    - {file: "mi_3.webp", id: 3, floor: "03", desc: "MI Gebäude (3.OG) – © TUM WWW & Online Services"}
-    - {file: "mi_4.webp", id: 4, floor: "04", desc: "MI Gebäude (4.OG) – © TUM WWW & Online Services"}
-    
+    - {
+        file: "mi_-1.webp",
+        id: -1,
+        floor: "U1",
+        desc: "MI Gebäude (UG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "mi_0.webp",
+        id: 0,
+        floor: "EG",
+        desc: "MI Gebäude (EG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "mi_1.webp",
+        id: 1,
+        floor: "01",
+        desc: "MI Gebäude (1.OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "mi_2.webp",
+        id: 2,
+        floor: "02",
+        desc: "MI Gebäude (2.OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "mi_3.webp",
+        id: 3,
+        floor: "03",
+        desc: "MI Gebäude (3.OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "mi_4.webp",
+        id: 4,
+        floor: "04",
+        desc: "MI Gebäude (4.OG) – © TUM WWW & Online Services",
+      }
+
 - props:
     parent: "5101"
     box:
-      - [11.674927, 48.267740]  # 4
-      - [11.677102, 48.267489]  # 3
-      - [11.676811, 48.266465]  # 2
-      - [11.674677, 48.266736]  # 1
+      - [11.674927, 48.267740] # 4
+      - [11.677102, 48.267489] # 3
+      - [11.676811, 48.266465] # 2
+      - [11.674677, 48.266736] # 1
   maps:
-    - {file: "5101_-2.webp", id: -2, floor: "U2", desc: "Physik I (2. UG) – © TUM WWW & Online Services"}
-    - {file: "5101_-1.webp", id: -1, floor: "U1", desc: "Physik I (1. UG) – © TUM WWW & Online Services"}
-    - {file: "5101_0.webp", id: 0, floor: "EG", desc: "Physik I (EG) – © TUM WWW & Online Services"}
-    - {file: "5101_1.webp", id: 1, floor: "01", desc: "Physik I (1. OG) – © TUM WWW & Online Services"}
-    - {file: "5101_2.webp", id: 2, floor: "02", desc: "Physik I (2. OG) – © TUM WWW & Online Services"}
+    - {
+        file: "5101_-2.webp",
+        id: -2,
+        floor: "U2",
+        desc: "Physik I (2. UG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "5101_-1.webp",
+        id: -1,
+        floor: "U1",
+        desc: "Physik I (1. UG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "5101_0.webp",
+        id: 0,
+        floor: "EG",
+        desc: "Physik I (EG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "5101_1.webp",
+        id: 1,
+        floor: "01",
+        desc: "Physik I (1. OG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "5101_2.webp",
+        id: 2,
+        floor: "02",
+        desc: "Physik I (2. OG) – © TUM WWW & Online Services",
+      }
 
 - props:
     parent: "5107"
@@ -118,9 +353,24 @@
       - [11.675977, 48.267663]
       - [11.675249, 48.267753]
   maps:
-    - {file: "5107_-1.webp", id: -1, floor: "U2", desc: "Physik I (2. UG) – © TUM WWW & Online Services"}
-    - {file: "5107_0.webp", id: 0, floor: "U1", desc: "Physik I (1. UG / Eingang) – © TUM WWW & Online Services"}
-    - {file: "5107_1.webp", id: 1, floor: "EG", desc: "Physik I (EG / obere Ebene) – © TUM WWW & Online Services"}
+    - {
+        file: "5107_-1.webp",
+        id: -1,
+        floor: "U2",
+        desc: "Physik I (2. UG) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "5107_0.webp",
+        id: 0,
+        floor: "U1",
+        desc: "Physik I (1. UG / Eingang) – © TUM WWW & Online Services",
+      }
+    - {
+        file: "5107_1.webp",
+        id: 1,
+        floor: "EG",
+        desc: "Physik I (EG / obere Ebene) – © TUM WWW & Online Services",
+      }
 
 - props:
     parent: "chemie"
@@ -132,11 +382,41 @@
   maps:
     # The chemistry building is complicated in terms of layers:
     # 'Ebene 2' (Room names) == '01' (TUMonline) == 'EG' (physically from the main entrance)
-    - {file: "chemie_0.webp", id: 0, floor: "EG", tumonline: "01", desc: "Chemie (EG / 2. Ebene)"}
-    - {file: "chemie_1.webp", id: 1, floor: "01", tumonline: "02", desc: "Chemie (01 / 3. Ebene)"}
-    - {file: "chemie_2.webp", id: 2, floor: "02", tumonline: "03", desc: "Chemie (02 / 4. Ebene)"}
-    - {file: "chemie_3.webp", id: 3, floor: "03", tumonline: "04", desc: "Chemie (03 / 5. Ebene)"}
-    - {file: "chemie_4.webp", id: 4, floor: "04", tumonline: "05", desc: "Chemie (04 / 6. Ebene)"}
+    - {
+        file: "chemie_0.webp",
+        id: 0,
+        floor: "EG",
+        tumonline: "01",
+        desc: "Chemie (EG / 2. Ebene)",
+      }
+    - {
+        file: "chemie_1.webp",
+        id: 1,
+        floor: "01",
+        tumonline: "02",
+        desc: "Chemie (01 / 3. Ebene)",
+      }
+    - {
+        file: "chemie_2.webp",
+        id: 2,
+        floor: "02",
+        tumonline: "03",
+        desc: "Chemie (02 / 4. Ebene)",
+      }
+    - {
+        file: "chemie_3.webp",
+        id: 3,
+        floor: "03",
+        tumonline: "04",
+        desc: "Chemie (03 / 5. Ebene)",
+      }
+    - {
+        file: "chemie_4.webp",
+        id: 4,
+        floor: "04",
+        tumonline: "05",
+        desc: "Chemie (04 / 6. Ebene)",
+      }
 
 - props:
     parent: "mw"
@@ -146,8 +426,8 @@
       - [11.670921198214224, 48.264131842720005]
       - [11.66693174200677, 48.26460011288958]
   maps:
-    - {file: "mw_0.webp", id: 0, floor: "EG", desc: "Maschinenwesen (EG)"}
-    
+    - { file: "mw_0.webp", id: 0, floor: "EG", desc: "Maschinenwesen (EG)" }
+
 - props:
     parent: "5532"
     box:
@@ -156,11 +436,31 @@
       - [11.670476, 48.266678]
       - [11.669808, 48.266762]
   maps:
-    - {file: "5532_0.webp", id: 0, floor: "EG", desc: "StudiTUM Garching (EG)"}
-    - {file: "5532_1.webp", id: 1, floor: "Z1", desc: "StudiTUM Garching (ZG / 1. Etage)"}
-    - {file: "5532_2.webp", id: 2, floor: "01", desc: "StudiTUM Garching (1.OG / 2. Etage)"}
-    - {file: "5532_3.webp", id: 3, floor: "02", desc: "StudiTUM Garching (2.OG / 3. Etage)"}
-    
+    - {
+        file: "5532_0.webp",
+        id: 0,
+        floor: "EG",
+        desc: "StudiTUM Garching (EG)",
+      }
+    - {
+        file: "5532_1.webp",
+        id: 1,
+        floor: "Z1",
+        desc: "StudiTUM Garching (ZG / 1. Etage)",
+      }
+    - {
+        file: "5532_2.webp",
+        id: 2,
+        floor: "01",
+        desc: "StudiTUM Garching (1.OG / 2. Etage)",
+      }
+    - {
+        file: "5532_3.webp",
+        id: 3,
+        floor: "02",
+        desc: "StudiTUM Garching (2.OG / 3. Etage)",
+      }
+
 - props:
     parent: "galileo"
     box:
@@ -169,5 +469,9 @@
       - [11.671595, 48.264472]
       - [11.672124, 48.266385]
   maps:
-    - {file: "galileo_0.webp", id: 0, floor: "EG", desc: "Galileo Garching (EG)"}
-
+    - {
+        file: "galileo_0.webp",
+        id: 0,
+        floor: "EG",
+        desc: "Galileo Garching (EG)",
+      }

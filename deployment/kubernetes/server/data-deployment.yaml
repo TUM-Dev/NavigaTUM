@@ -1,60 +1,60 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: navigatum-data
-    labels:
+  name: navigatum-data
+  labels:
+    app: navigatum
+    deployment: cdn
+  namespace: navigatum
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: navigatum
+      deployment: cdn
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
         app: navigatum
         deployment: cdn
-    namespace: navigatum
-spec:
-    replicas: 1
-    revisionHistoryLimit: 1
-    selector:
-        matchLabels:
-            app: navigatum
-            deployment: cdn
-    strategy:
-        rollingUpdate:
-            maxSurge: 100%
-            maxUnavailable: 0%
-        type: RollingUpdate
-    template:
-        metadata:
-            labels:
-                app: navigatum
-                deployment: cdn
-        spec:
-            volumes:
-                - name: tmp-volume
-                  emptyDir: {}
-            containers:
-                - name: navigatum-data
-                  image: ghcr.io/tum-dev/navigatum-data:main
-                  imagePullPolicy: Always
-                  ports:
-                      - containerPort: 8080
-                        name: navigatum-cdn
-                  volumeMounts:
-                      - mountPath: /tmp
-                        name: tmp-volume
-                  securityContext:
-                    readOnlyRootFilesystem: true
-                  resources:
-                    requests:
-                      cpu: 5m
-                      memory: 5Mi
-                    limits:
-                      cpu: 150m
-                      memory: 20Mi
-                  livenessProbe:
-                      httpGet:
-                          path: /cdn/health
-                          port: navigatum-cdn
-                      failureThreshold: 3
-                      periodSeconds: 1
-                  startupProbe:
-                      httpGet:
-                          path: /cdn/health
-                          port: navigatum-cdn
-                      failureThreshold: 60
-                      periodSeconds: 1
+    spec:
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}
+      containers:
+        - name: navigatum-data
+          image: ghcr.io/tum-dev/navigatum-data:main
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: navigatum-cdn
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              cpu: 5m
+              memory: 5Mi
+            limits:
+              cpu: 150m
+              memory: 20Mi
+          livenessProbe:
+            httpGet:
+              path: /cdn/health
+              port: navigatum-cdn
+            failureThreshold: 3
+            periodSeconds: 1
+          startupProbe:
+            httpGet:
+              path: /cdn/health
+              port: navigatum-cdn
+            failureThreshold: 60
+            periodSeconds: 1

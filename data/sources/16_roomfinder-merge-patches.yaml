@@ -22,7 +22,7 @@ replacements:
   # Remove leading zero / one for some arch_ids in the roomfinder
   - search: "^[01]([0-9A-Ca-c]*@(0401|4218))"
     replace: "\\1"
-    use: tumonline
+    use: TUMonline
   # e.g. "K135@0501" instead of "-1135@0501"
   - search: "^-1([0-9A-Ca-c]*@[0-9]{4})"
     replace: "K\\1"
@@ -38,17 +38,16 @@ known_issues:
     # The room "0505.U1.519" has mistakenly the arch_id "-1530@0505" (which is used two times therefore)
     "-1519@0505": "0505.U1.519"
     "-1530@0505": "0505.U1.530"
-  
+
   # Rooms in this list will be included into the final data,
   # but with a data quality warning
-  not_in_tumonline:
+  not_in_TUMonline:
     # This room is not in TUMonline, although it is distinctly different from
     # N0125, N0126B and N0126C, which are all in Roomfinder and TUMonline
     "N0126A@0101": "0101.EG.N0126A"
     # The following rooms are missing as well:
-    "N0161@0101": "0101.EG.N0161"  # "Galerie"
-    "N0178@0101": "0101.EG.N0178"  # "Putzkammer"; N0178A is in TUMonline
-    "N-1222@0102": "0102.U1.222"  # N-1222A is in TUMonline
-    "N-1235a@0102": "0102.U1.235A"  # N-1235 is in TUMonline
-    "N-1319A@0103": "0103.U1.319A"  # "-1319" is in TUMonline
-    
+    "N0161@0101": "0101.EG.N0161" # "Galerie"
+    "N0178@0101": "0101.EG.N0178" # "Putzkammer"; N0178A is in TUMonline
+    "N-1222@0102": "0102.U1.222" # N-1222A is in TUMonline
+    "N-1235a@0102": "0102.U1.235A" # N-1235 is in TUMonline
+    "N-1319A@0103": "0103.U1.319A" # "-1319" is in TUMonline

@@ -8,28 +8,83 @@ generators:
     facilities:
       0: "fest installierter Beamer"
       1: "Grafikworkstations"
-      2: "27\" Monitore"
-      3: "24\" Monitore"
+      2: '27" Monitore'
+      3: '24" Monitore'
     rooms:
-      - {id: "5605.EG.011", name: "Große Rechnerhalle",  seats: "89", facilities: [0, 2]}
-      - {id: "5607.EG.023", name: "Kleine Rechnerhalle", seats: "26", facilities: [0]}
-      - {id: "5607.EG.037", name: "Mathematik Raum",     seats: "14+1", facilities: [0]}
-      - {id: "5604.01.011", name: "Bode Raum",           seats: "17+1+2", facilities: [0]}
-      - {id: "5605.01.012", name: "Hubwieser Raum",      seats: "16", facilities: [0, 1]}
-      - {id: "5610.01.020", name: "Schulz Raum",         seats: "10", facilities: [1]}
-      - {id: "5607.01.034", name: "Aurarium",            seats: "16", facilities: [0]}
-      - {id: "5602.02.012", name: "Nipkow Raum",         seats: "10", facilities: [3]}
-      - {id: "5613.02.007", name: "Baumgarten Raum",     seats: "15", facilities: [1, 2]}
-      - {id: "5613.02.008", name: "Westermann Raum",     seats: "15", facilities: [1, 2]}
-  
+      - {
+          id: "5605.EG.011",
+          name: "Große Rechnerhalle",
+          seats: "89",
+          facilities: [0, 2],
+        }
+      - {
+          id: "5607.EG.023",
+          name: "Kleine Rechnerhalle",
+          seats: "26",
+          facilities: [0],
+        }
+      - {
+          id: "5607.EG.037",
+          name: "Mathematik Raum",
+          seats: "14+1",
+          facilities: [0],
+        }
+      - {
+          id: "5604.01.011",
+          name: "Bode Raum",
+          seats: "17+1+2",
+          facilities: [0],
+        }
+      - {
+          id: "5605.01.012",
+          name: "Hubwieser Raum",
+          seats: "16",
+          facilities: [0, 1],
+        }
+      - { id: "5610.01.020", name: "Schulz Raum", seats: "10", facilities: [1] }
+      - { id: "5607.01.034", name: "Aurarium", seats: "16", facilities: [0] }
+      - { id: "5602.02.012", name: "Nipkow Raum", seats: "10", facilities: [3] }
+      - {
+          id: "5613.02.007",
+          name: "Baumgarten Raum",
+          seats: "15",
+          facilities: [1, 2],
+        }
+      - {
+          id: "5613.02.008",
+          name: "Westermann Raum",
+          seats: "15",
+          facilities: [1, 2],
+        }
+
   # --- Physik ---
   - type: "rechnerhallen"
     source: "https://www.ph.tum.de/about/services/computing/"
     facilities:
       0: "Drucker (HP LaserJet 602)"
     rooms:
-      - {id: "5101.U1.151", name: "CIP-Pool CIP1", seats: "12", facilities: [0]}
-      - {id: "5101.U1.161", name: "CIP-Pool CIP2", seats: "12", facilities: []}
-      - {id: "5101.EG.259", name: "Mini CIP-Pool", seats: "6", facilities: [0]}
-      - {id: "5101-cip-foyer", name: "CIP Foyer",  seats: "3", facilities: [], type: "poi"}
-
+      - {
+          id: "5101.U1.151",
+          name: "CIP-Pool CIP1",
+          seats: "12",
+          facilities: [0],
+        }
+      - {
+          id: "5101.U1.161",
+          name: "CIP-Pool CIP2",
+          seats: "12",
+          facilities: [],
+        }
+      - {
+          id: "5101.EG.259",
+          name: "Mini CIP-Pool",
+          seats: "6",
+          facilities: [0],
+        }
+      - {
+          id: "5101-cip-foyer",
+          name: "CIP Foyer",
+          seats: "3",
+          facilities: [],
+          type: "poi",
+        }

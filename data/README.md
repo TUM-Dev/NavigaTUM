@@ -18,7 +18,7 @@ Also, new external data might break the scripts from time to time, as either roo
 
 You need the following dependencies to get started:
 
-- *Python* (at least version 3.6)
+- _Python_ (at least version 3.6)
 - The following Python packages:
   `pip install -r requirements.txt`
 
@@ -104,7 +104,7 @@ The data compilation is made of indiviual processing steps, where each step adds
   with the data format as mentioned above.
 - **Steps 01-29**: Within these steps, new rooms or POIs might be added, however no
   new areas or buildings, since all areas and buildings have to be defined in the
-  *areatree*. After them, no new entries are being added to the data.
+  _areatree_. After them, no new entries are being added to the data.
   - **Steps 0x**: Supplement the base data with extended custom data.
   - **Steps 1x**: Import rooms and building information from external sources
   - **Steps 2x**: -
@@ -125,7 +125,7 @@ The data compilation is made of indiviual processing steps, where each step adds
 #### Step 00 Areatree
 
 The starting point is the data defined in the "areatree" (in `sources/00_areatree`).
-It (currently) has a custom data format to be human & machine readable while taking
+It (currently) has a custom data format to be human & machine-readable while taking
 only minimal space.
 Details about the formatting are given at the head of the file.
 
@@ -135,7 +135,7 @@ The source data (i.e. all files located in `sources/` that are not images) is ma
 
 The images in `sources/img/` are subject to their own licensing terms, which are stated in the file `sources/img/img-sources.yaml`.
 
-*Please note that the compiled database may contain contents from external sources (i.e. all files in `external`) that do have different license terms.*
+_Please note that the compiled database may contain contents from external sources (i.e. all files in `external`) that do have different license terms._
 
 ---
 
@@ -152,4 +152,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
+along with this program. If not, see <https://www.gnu.org/licenses/>.

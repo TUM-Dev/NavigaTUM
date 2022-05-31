@@ -1,7 +1,8 @@
 # API
-🛈 *Diese Seite ist aktuell nur auf Englisch verfügbar.*
 
-The data of NavigaTUM can be accessed using an API, that is also used by NavigaTUM itself.  
+🛈 _Diese Seite ist aktuell nur auf Englisch verfügbar._
+
+The data of NavigaTUM can be accessed using an API, that is also used by NavigaTUM itself.
 
 We describe our API in an [OpenAPI 3.0](https://de.wikipedia.org/wiki/OpenAPI) compliant file.
 You can find it [here](https://github.com/TUM-Dev/navigatum/blob/main/openapi.yaml).  
