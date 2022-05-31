@@ -23,7 +23,7 @@ function searchNavigateTo(to, from, next, component) {
         });
 }
 
-var _search_default_state = {};
+const _search_default_state = {};
 
 navigatum.registerView('search', {
     name: 'view-search',
@@ -77,7 +77,7 @@ navigatum.registerView('search', {
             // Currently borrowing this functionality from autocomplete.
             // In the future it is planned that this search results page
             // has a different format.
-            var _this = this;
+            const _this = this;
             navigatum.getModule('autocomplete').then(function (c) {
                 _this.sections = c.extract_facets(data);
             });

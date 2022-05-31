@@ -5,7 +5,7 @@
 // This is a wrapper around fetch that avoids duplicate requests if the
 // same resource is requested another time before the first request has
 // returned.
-var cached_fetch = (function () {
+const cached_fetch = (function () {
     return {
         fetch: function(url, options) {
             return new Promise((resolve) => {
@@ -34,7 +34,7 @@ var cached_fetch = (function () {
                             return options.as_text ? response.text() : response.json();
                         })
                         .catch((error) => {
-                            var msg;
+                            let msg;
                             if (error instanceof TypeError) msg = '${{_.core_js.error.network}}$';
                             else msg = error.message;
 
@@ -49,7 +49,7 @@ var cached_fetch = (function () {
                         })
                         .then((data) => {
                             if (data !== null) this.cache[url] = data;
-                            for (var i in this.promise_callbacks[url])
+                            for (const i in this.promise_callbacks[url])
                                 this.promise_callbacks[url][i](data);
                             delete this.promise_callbacks[url];
                         });
@@ -62,23 +62,23 @@ var cached_fetch = (function () {
 })();
 
 var navigatum = (function () {
-    var api_base = '/* @echo api_prefix */';
-    var cache = {};
-    var get_data_resolve_callbacks = {};
+    const api_base = '/* @echo api_prefix */';
+    const cache = {};
+    const get_data_resolve_callbacks = {};
 
-    var views = {};
-    var views_resolve_callbacks = {};
-    var routes;
+    const views = {};
+    const views_resolve_callbacks = {};
+    let routes;
 
-    var router = null;
-    var app = null; // This is the Vue.js app
+    const router = null;
+    const app = null; // This is the Vue.js app
 
     /*
      * Most requests are just very simple GET requests.
      * This function is private and used by getData()
      */
     function GETRequest(url, onsuccess, onerror) {
-        var req = new XMLHttpRequest();
+        const req = new XMLHttpRequest();
         req.open('GET', this.api_base + url, true);
         req.onload = function () {
             onsuccess(this);
@@ -93,7 +93,7 @@ var navigatum = (function () {
         _this.modules.initialized[name] = c;
         if (name in _this.modules.loaded) delete _this.modules.loaded[name];
 
-        for (var i in _this.module_promise_callbacks[name])
+        for (const i in _this.module_promise_callbacks[name])
             _this.module_promise_callbacks[name][i](c);
         delete _this.module_promise_callbacks[name];
     }
@@ -241,7 +241,7 @@ var navigatum = (function () {
 
             // "storage" usually fires only across tabs, this way we
             // force it to fire in this window as well
-            var e = new Event('storage');
+            const e = new Event('storage');
             window.dispatchEvent(e);
         },
         getLocalStorageWithExpiry: function(key, default_value=null) {
@@ -259,7 +259,7 @@ var navigatum = (function () {
         },
         removeLocalStorage: function(key) {
             localStorage.removeItem(key);
-            var e = new Event('storage');
+            const e = new Event('storage');
             window.dispatchEvent(e);
         },
         putData(id, data) {},
@@ -299,7 +299,7 @@ var navigatum = (function () {
             // If there are open promise callbacks for this module,
             // it initialized directly. Else it is only initialized when needed.
             if (name in this.module_promise_callbacks) {
-                var res = c.init();
+                const res = c.init();
                 if (!res) {
                     // Init without Promise
                     _modulePostInit(this, name, c);
@@ -326,7 +326,7 @@ var navigatum = (function () {
 
                     // Init if already loaded
                     if (name in this.modules.loaded) {
-                        var res = this.modules.loaded[name].init();
+                        const res = this.modules.loaded[name].init();
                         if (!res) {
                             // Init without Promise
                             _modulePostInit(this, name, this.modules.loaded[name]);
@@ -389,8 +389,8 @@ var navigatum = (function () {
                 return state_obj;
             }
             if (state_obj instanceof Object) {
-                var copy = {};
-                for (var attr in state_obj) {
+                const copy = {};
+                for (const attr in state_obj) {
                     if (
                         attr != '__ob__' && // stuff by vue, recursive!
                         state_obj.hasOwnProperty(attr)
@@ -405,7 +405,7 @@ var navigatum = (function () {
             if (history.states && history.states[history.stateIndex][0].viewState) {
                 // We assume instance exists, because this should only be called
                 // from a matched route
-                var instance = navigatum.router.currentRoute.matched[0].instances.default;
+                const instance = navigatum.router.currentRoute.matched[0].instances.default;
 
                 if (instance.state)
                     this.applyState(
@@ -417,7 +417,7 @@ var navigatum = (function () {
             return false;
         },
         applyState: function(cache_state_obj, vue_state_obj) {
-            for (var attr in cache_state_obj) {
+            for (const attr in cache_state_obj) {
                 if (cache_state_obj[attr] instanceof Object) {
                     if (!(vue_state_obj[attr] instanceof Object)) vue_state_obj[attr] = {}; // value was null
                     this.applyState(cache_state_obj[attr], vue_state_obj[attr]);

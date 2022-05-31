@@ -21,8 +21,8 @@
 })(); */
 
 (function () {
-    const stateIndexSymbol = '__state__index__';
-    const stateDataSymbol = 'viewState';
+    let stateIndexSymbol = '__state__index__';
+    let stateDataSymbol = 'viewState';
 
     // If the page is reloaded, the state is preserved by the browser, but we have lost
     // the state list. For this reason we need to create a dummy one for now.
@@ -30,7 +30,7 @@
     history.states = [];
     if (history.state && history.state[stateIndexSymbol] !== undefined) {
         history.stateIndex = history.state[stateIndexSymbol];
-        for (let i = 0; i < history.stateIndex; i++) {
+        for (var i = 0; i < history.stateIndex; i++) {
             var state = {};
             state[stateIndexSymbol] = i;
             history.states.push([state, '', null]);
@@ -64,7 +64,7 @@
             navigatum.router.currentRoute.matched[0] &&
             navigatum.router.currentRoute.matched[0].instances.default.state
         ) {
-            const state_index =
+            var state_index =
                 history.lastStateIndex === null ? history.stateIndex : history.lastStateIndex;
 
             history.states[state_index][0][stateDataSymbol] = navigatum.cloneState(
@@ -84,8 +84,8 @@
         // state to the correct state in the history.
         history.lastStateIndex = history.stateIndex;
 
-        const eventObject = {};
-        const newStateIndex =
+        var eventObject = {};
+        var newStateIndex =
             e.state != null && e.state[stateIndexSymbol] !== undefined
                 ? e.state[stateIndexSymbol]
                 : 0;

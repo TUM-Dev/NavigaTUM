@@ -1,7 +1,7 @@
 navigatum.registerModule(
     'interactive-map',
     (function () {
-        var _map;
+        let _map;
 
         function FloorControl() {}
 
@@ -19,7 +19,7 @@ navigatum.registerModule(
                 this.container.classList.add('floor-ctrl');
 
                 // vertical open/collapse button
-                var vertical_oc = document.createElement('button');
+                const vertical_oc = document.createElement('button');
                 vertical_oc.classList.add('vertical-oc');
                 vertical_oc.innerHTML =
                     "<span id='vertical-oc-text'></span><span class='arrow'>▲</span>";
@@ -27,7 +27,7 @@ navigatum.registerModule(
                     this.container.classList.toggle('closed');
                 });
                 // horizontal (primarily on mobile)
-                var horizontal_oc = document.createElement('button');
+                const horizontal_oc = document.createElement('button');
                 horizontal_oc.classList.add('horizontal-oc');
                 horizontal_oc.innerHTML =
                     "<span id='horizontal-oc-text'></span><span class='arrow'>❯</span>";
@@ -66,8 +66,8 @@ navigatum.registerModule(
                 } else {
                     this.floor_list.innerHTML = '';
 
-                    var _this = this;
-                    var click_handler_builder = function (floors, i) {
+                    const _this = this;
+                    const click_handler_builder = function (floors, i) {
                         // Because JS
                         return function () {
                             if (floors) {
@@ -85,8 +85,8 @@ navigatum.registerModule(
                                 _this.container.classList.add('closed');
                         };
                     };
-                    var visible_i = null;
-                    for (var i in floors.reverse()) {
+                    let visible_i = null;
+                    for (const i in floors.reverse()) {
                         var btn = document.createElement('button');
                         btn.innerText = floors[i].floor;
                         btn.addEventListener('click', click_handler_builder(floors, i));
@@ -124,18 +124,18 @@ navigatum.registerModule(
             FloorControl.prototype._recalculateLayout = function (n) {
                 // Calculate required and available size to choose between
                 // vertical (default) or horizontal layout
-                var map_height = document.getElementById('interactive-map').clientHeight;
-                var top_ctrl_height =
+                const map_height = document.getElementById('interactive-map').clientHeight;
+                const top_ctrl_height =
                     document.querySelector('.mapboxgl-ctrl-top-left').clientHeight;
-                var bottom_ctrl_height = document.querySelector(
+                const bottom_ctrl_height = document.querySelector(
                     '.mapboxgl-ctrl-bottom-left',
                 ).clientHeight;
-                var floor_ctrl_height = document.querySelector('.floor-ctrl').clientHeight;
+                const floor_ctrl_height = document.querySelector('.floor-ctrl').clientHeight;
 
                 // The buttons have a height of 29px
-                var available_height =
+                const available_height =
                     map_height - top_ctrl_height - bottom_ctrl_height + floor_ctrl_height;
-                var required_height = 29 * n;
+                const required_height = 29 * n;
 
                 // 3 or less buttons can always be displayed in reduced layout.
                 // Also, if the control takes only a small amount of space, it is always open.
@@ -155,7 +155,7 @@ navigatum.registerModule(
                 }
             };
             FloorControl.prototype._setActiveFloor = function (floor_list_i, name) {
-                for (var i = 0; i < this.floor_list.children.length; i++) {
+                for (let i = 0; i < this.floor_list.children.length; i++) {
                     if (i == floor_list_i) this.floor_list.children[i].classList.add('active');
                     else this.floor_list.children[i].classList.remove('active');
                 }
@@ -282,7 +282,7 @@ navigatum.registerModule(
                     map.initialLoaded = true;
                 });
 
-                var _this = this;
+                const _this = this;
                 map.floorControl = new FloorControl();
                 map.floorControl.on('floor-changed', function (args) {
                     _this.setOverlayImage(
@@ -312,7 +312,7 @@ navigatum.registerModule(
                 // loading is complete (and only the initial loading seems
                 // to be required to do changes here)
                 if (!_map.initialLoaded) {
-                    var _this = this;
+                    const _this = this;
                     _map.on('load', function () {
                         _this.setOverlayImage(img_url, coords);
                     });

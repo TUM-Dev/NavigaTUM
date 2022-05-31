@@ -1,4 +1,4 @@
-var config;  // Selected at the bottom of the script
+let config;  // Selected at the bottom of the script
 import { configRelease, configLocal } from './config.js';
 
 import gulp        from 'gulp';
@@ -36,7 +36,7 @@ import source     from 'vinyl-source-stream';
 
 const sass = _sass(nodeSass);  // Select Sass compiler
 
-var htmlmin_options = {
+const htmlmin_options = {
     caseSensitive: false,
     collapseBooleanAttributes: true,
     collapseInlineTagWhitespace: false,
@@ -60,11 +60,11 @@ var htmlmin_options = {
     // sortClassName: true
 };
 
-var i18n_options = {
+const i18n_options = {
     langDir: 'build/tmp/locale',
 };
 
-var babel_targets = {
+const babel_targets = {
     browsers: ['last 2 versions', 'not dead', '> 0.2%'],
 };
 

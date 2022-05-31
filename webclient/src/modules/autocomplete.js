@@ -2,10 +2,10 @@ navigatum.registerModule(
     'autocomplete',
     (function () {
         function getVisibleElements() {
-            var visible = [];
-            for (var i in navigatum.app.search.autocomplete.sections) {
-                var s = navigatum.app.search.autocomplete.sections[i];
-                for (var j in s.entries) {
+            const visible = [];
+            for (const i in navigatum.app.search.autocomplete.sections) {
+                const s = navigatum.app.search.autocomplete.sections[i];
+                for (const j in s.entries) {
                     if (s.n_visible === undefined || j < s.n_visible || s.expanded)
                         visible.push(s.entries[j].id);
                 }
@@ -14,21 +14,21 @@ navigatum.registerModule(
         }
 
         function extract_facets(data) {
-            var sections = [];
-            for (var i in data.sections) {
-                var entries = [];
-                for (var j in data.sections[i].entries) {
+            const sections = [];
+            for (const i in data.sections) {
+                const entries = [];
+                for (const j in data.sections[i].entries) {
                     // Search uses DC3 and DC1 to mark the beginning/end
                     // of a highlighted sequence:
                     // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets
-                    var e = data.sections[i].entries[j];
-                    var name = new Option(e.name).innerHTML
+                    const e = data.sections[i].entries[j];
+                    const name = new Option(e.name).innerHTML
                         .replace(/\x19/g, '<em>')
                         .replace(/\x17/g, '</em>');
-                    var parsed_id = new Option(e.parsed_id).innerHTML
+                    const parsed_id = new Option(e.parsed_id).innerHTML
                         .replace(/\x19/g, '<em>')
                         .replace(/\x17/g, '</em>');
-                    var subtext_bold = new Option(e.subtext_bold).innerHTML
+                    const subtext_bold = new Option(e.subtext_bold).innerHTML
                         .replace(/\x19/g, '<em>')
                         .replace(/\x17/g, '</em>');
                     entries.push({
@@ -65,8 +65,8 @@ navigatum.registerModule(
         // to the autocompletion, we count queries and make sure
         // that late results will not overwrite the currently
         // visible results.
-        var query_counter = 0;
-        var latest_used_query_id = null;
+        let query_counter = 0;
+        let latest_used_query_id = null;
 
         return {
             init: function() {},
@@ -76,7 +76,7 @@ navigatum.registerModule(
                 if (q.length == 0) {
                     navigatum.app.search.autocomplete.sections = [];
                 } else {
-                    var query_id = query_counter++;
+                    const query_id = query_counter++;
 
                     // no-cache instructs browser, because the cached_fetch will store the reponse.
                     const cacheConfig = { cache: 'no-cache' };
@@ -91,7 +91,7 @@ navigatum.registerModule(
                             if (!latest_used_query_id || query_id > latest_used_query_id) {
                                 latest_used_query_id = query_id;
 
-                                var sections = extract_facets(data);
+                                const sections = extract_facets(data);
                                 navigatum.app.search.autocomplete.sections = sections;
                             }
                         });

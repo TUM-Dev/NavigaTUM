@@ -2,11 +2,11 @@
 // feedback form is mostly seperate from the rest of the codebase.
 // It is only loaded when the feedback form is being opened.
 
-var feedback = (function () {
-    var token = null;
+const feedback = (function () {
+    let token = null;
 
     function do_request(method, url, data, onsuccess, onerror) {
-        var req = new XMLHttpRequest();
+        const req = new XMLHttpRequest();
         req.open(method, window.encodeURI(url), true);
         req.onload = function () {
             onsuccess(this);
@@ -154,11 +154,11 @@ var feedback = (function () {
     }
 
     function send() {
-        var category = document.getElementById('feedback-category').value;
-        var subject = document.getElementById('feedback-subject').value;
-        var body = document.getElementById('feedback-body').value;
-        var privacy = document.getElementById('feedback-privacy').checked;
-        var delete_issue = document.getElementById('feedback-delete').checked;
+        const category = document.getElementById('feedback-category').value;
+        const subject = document.getElementById('feedback-subject').value;
+        const body = document.getElementById('feedback-body').value;
+        const privacy = document.getElementById('feedback-privacy').checked;
+        const delete_issue = document.getElementById('feedback-delete').checked;
 
         do_request(
             'POST',
@@ -177,7 +177,7 @@ var feedback = (function () {
                     localStorage.removeItem('coordinate-feedback');
                     token = null;
                     localStorage.removeItem('feedback-token');
-                    var e = new Event('storage');
+                    const e = new Event('storage');
                     window.dispatchEvent(e);
                     show_success(r.responseText);
                 } else if (r.status === 500) {

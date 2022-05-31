@@ -52,7 +52,7 @@ navigatum.registerView('md', {
             this.content = content;
 
             this.$nextTick(function () {
-                var e = document.getElementById('view-md');
+                const e = document.getElementById('view-md');
                 if (e === null) {
                     console.warn(
                         'Failed to update page title. Probably the page is not mounted yet or there was an error.',
@@ -60,7 +60,7 @@ navigatum.registerView('md', {
                     return;
                 }
 
-                var c = e.firstChild;
+                const c = e.firstChild;
                 if (c && c.firstChild.tagName.toLowerCase() == 'h1')
                     navigatum.setTitle(c.firstChild.innerText);
             });
