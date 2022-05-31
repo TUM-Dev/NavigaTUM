@@ -101,6 +101,7 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
+    "regenerator-runtime": "^0.13.9",
     "mapbox-gl": "^2.7.0",
     "polyfill": "^0.1.0",
     "vue": "^2.6.12",
