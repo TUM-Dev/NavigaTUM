@@ -80,7 +80,7 @@ API as is described in the webclient documentation.
 We format our api via [openapi-format](https://www.npmjs.com/package/openapi-format).
 
 ```bash
-npm install openapi-format
+npm install -g openapi-format
 openapi-format ./openapi.yaml --output ./openapi.yaml
 ```
 

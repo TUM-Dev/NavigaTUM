@@ -31,7 +31,7 @@ servers:
   - url: 'http://nav.tum.sexy'
     description: http
 paths:
-  '/api/search':
+  /api/search:
     get:
       operationId: search
       summary: Search entries
@@ -66,7 +66,7 @@ paths:
               summary: Lecture halls
               value: interims
             sv:
-              summary: "'common' names"
+              summary: common name
               value: AStA
             none:
               summary: All rooms
@@ -264,10 +264,10 @@ paths:
             text/plain:
               schema:
                 type: string
+                example: Not found
                 enum:
                   - Not found
-                example: Not found
-        "414":
+        '414':
           description: The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..
           content: {}
       tags:
@@ -290,12 +290,12 @@ paths:
           schema:
             type: string
           examples:
+            '5304':
+              summary: A normal building
+              value: '5304'
             root:
               summary: The root entry of the NavigaTUM-data
               value: root
-            "5304":
-              summary: A normal building
-              value: "5304"
             garching:
               summary: The garching campus
               value: garching
@@ -326,9 +326,6 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: "#/components/schemas/RootResponse"
-                  - $ref: "#/components/schemas/DetailsResponse"
                 discriminator:
                   propertyName: type
                   mapping:
@@ -339,6 +336,9 @@ paths:
                     area: DetailsResponse
                     site: DetailsResponse
                     campus: DetailsResponse
+                oneOf:
+                  - $ref: '#/components/schemas/RootResponse'
+                  - $ref: '#/components/schemas/DetailsResponse'
               examples:
                 mi-hs-1:
                   value:
@@ -543,9 +543,9 @@ paths:
             text/plain:
               schema:
                 type: string
+                example: Not found
                 enum:
                   - Not found
-                example: Not found
       tags:
         - core
   /api/source_code:
@@ -647,7 +647,7 @@ paths:
                 type: string
                 enum:
                   - Invalid token
-                  - Token not old enough, please wait
+                  - 'Token not old enough, please wait'
                   - Token expired
                   - Token already used
         "422":
@@ -752,11 +752,11 @@ paths:
             text/plain:
               schema:
                 type: string
+                example: Not found
                 enum:
                   - Not found
-                example: Not found
-        "414":
-          description: "The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars.."
+        '414':
+          description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
           content: {}
       tags:
         - cdn
@@ -815,11 +815,11 @@ paths:
             text/plain:
               schema:
                 type: string
+                example: Not found
                 enum:
                   - Not found
-                example: Not found
-        "414":
-          description: "The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars.."
+        '414':
+          description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
           content: {}
       tags:
         - cdn
@@ -980,12 +980,12 @@ components:
       type: object
       properties:
         text:
-          description: "The text to display"
+          description: The text to display
           type: string
         url:
-          description: "The URL to the referenced information. Always either null or a valid URL"
-          nullable: true
+          description: The URL to the referenced information. Always either null or a valid URL
           type: string
+          nullable: true
           pattern: .+
       required:
         - text
@@ -1108,7 +1108,7 @@ components:
           format: int32
           example: 499
           minimum: 0
-        y:
+        'y':
           description: y Position on map image
           type: integer
           format: int32
@@ -1121,7 +1121,7 @@ components:
         - height
         - width
         - x
-        - y
+        - 'y'
     OverlayMap:
       type: object
       properties:
@@ -1157,7 +1157,7 @@ components:
             Should be used for display to the user in selectors.  
             Matches the floor part of the TUMonline roomcode.
           type: string
-          example: "EG"
+          example: EG
         name:
           description: The human-readable name of the map
           type: string
@@ -1167,7 +1167,7 @@ components:
           type: string
           example: webp/rf95.webp
         coordinates:
-          description: Coordinates are four [lon, lat] pairs, for the top left, top right, bottom right, bottom left image corners.
+          description: 'Coordinates are four [lon, lat] pairs, for the top left, top right, bottom right, bottom left image corners.'
           type: array
           items:
             type: array
@@ -1175,8 +1175,8 @@ components:
               type: number
             minItems: 2
             maxItems: 2
-          minItems: 4
           maxItems: 4
+          minItems: 4
       required:
         - id
         - floor
