@@ -1,7 +1,7 @@
 function viewNavigateTo(to, from, next, component) {
     navigatum.beforeNavigate(to, from);
 
-    navigatum.getExtendedData(to.params.id)
+    navigatum.getData(to.params.id)
         .then(data => {
             function finish() {
                 if (component) {

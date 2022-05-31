@@ -1,5 +1,5 @@
 // Alread pre-request root data:
-navigatum.getExtendedData('root');
+navigatum.getData('root');
 
 navigatum.registerView('main', {
     name: 'view-main',
@@ -10,7 +10,7 @@ navigatum.registerView('main', {
         };
     },
     beforeRouteEnter: function(to, from, next) {
-        navigatum.getExtendedData('root').then((data) => next((vm) => vm.setData(data)));
+        navigatum.getData('root').then((data) => next((vm) => vm.setData(data)));
     },
     beforeRouteUpdate: function(to, from, next) {
         // beforeRouteUpdate not used for now since data rarely changes

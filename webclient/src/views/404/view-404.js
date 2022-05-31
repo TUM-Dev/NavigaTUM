@@ -1,5 +1,5 @@
 // Alread pre-request root data:
-navigatum.getExtendedData('root');
+navigatum.getData('root');
 
 navigatum.registerView('404', {
     name: 'view-404',

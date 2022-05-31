@@ -213,7 +213,7 @@ var navigatum = (function () {
          * getData() either uses GETRequest() to retrieve the specified data
          * or loads it from its local cache. TODO: Update
          */
-        getData: function(id, extended) {
+        getData(id) {
             return new Promise((resolve) => {
                 cached_fetch
                     .fetch(
@@ -222,12 +222,6 @@ var navigatum = (function () {
                     )
                     .then((data) => resolve(data));
             });
-        },
-        getBaseData: function(id) {
-            return this.getData(id, false);
-        },
-        getExtendedData: function(id) {
-            return this.getData(id, true);
         },
         setLocalStorageWithExpiry: function(key, value, ttl) {
             // ttl in hours
