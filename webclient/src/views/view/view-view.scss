@@ -307,7 +307,7 @@
 
         // mapbox logo
         & + .mapboxgl-ctrl {
-            opacity: 0.4;
+            opacity: .4;
             pointer-events: none;
             z-index: -1;
         }
@@ -342,7 +342,7 @@
     }
 
     #roomfinder-map-select > label {
-        padding: 0.05rem 0.3rem;
+        padding: .05rem .3rem;
     }
 
     .accordion-body {

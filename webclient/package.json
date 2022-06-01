@@ -30,7 +30,8 @@
     ],
     "rules": {
       "selector-max-id": null,
-      "max-nesting-depth": null
+      "max-nesting-depth": null,
+      "number-leading-zero": "never"
     }
   },
   "devDependencies": {

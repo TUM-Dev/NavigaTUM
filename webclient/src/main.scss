@@ -325,7 +325,7 @@ footer {
         a,
         router-link,
         button {
-            font-size: 0.6rem;
+            font-size: .6rem;
         }
 
         button {
@@ -342,7 +342,7 @@ footer {
         //margin: .8rem .8rem .8rem -.8rem;
 
         .setting-group {
-            margin-top: calc(0.4rem - 1px);
+            margin-top: calc(.4rem - 1px);
         }
 
         .btn-group {
@@ -376,14 +376,14 @@ footer {
                 margin: .8rem .8rem .8rem .8rem;
 
                 li {
-                    margin-top: 0.4rem;
+                    margin-top: .4rem;
                 }
             }
 
             a,
             router-link,
             button {
-                font-size: 0.7rem;
+                font-size: .7rem;
             }
         }
     }
