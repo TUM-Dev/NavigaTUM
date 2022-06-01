@@ -25,7 +25,7 @@
     }
 
     .breadcrumb {
-        margin-top: 0px;
+        margin-top: 0;
         font-size: 12px;
     }
 
@@ -104,7 +104,7 @@
 
     /* --- Pending coordinates counter --- */
     .coord-counter {
-        margin: 8px 0px;
+        margin: 8px 0;
         box-shadow: $card-shadow;
         border: 1px solid $card-border;
         border-radius: 4px;
@@ -133,7 +133,7 @@
             }
 
             & .btns {
-                margin: auto 0 12px 0;
+                margin: auto 0 12px;
 
                 .delete .default {
                     display: inline-block;
@@ -383,7 +383,7 @@
 
         td {
             vertical-align: top;
-            padding: 4px 0px;
+            padding: 4px 0;
 
             &:last-child {
                 padding-left: 10px;

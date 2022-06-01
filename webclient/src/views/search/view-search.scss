@@ -33,13 +33,12 @@
         margin-top: 0;
 
         li {
-            padding: 8px 10px 6px 10px;
+            padding: 8px 10px 6px;
             border-radius: 6px;
             box-shadow: 3px 3px 4px rgb(106 106 106 / 1%);
             border: .05rem solid $search-border;
-            
             transition: border .2s;
-            
+
             &:hover {
                 box-shadow: 3px 3px 4px rgb(106 106 106 / 3%);
                 border: .05rem solid $search-border-hover;

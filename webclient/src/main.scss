@@ -55,8 +55,8 @@ body {
 }
 
 @keyframes loading-in {
-    from { opacity: 0 }
-    to { opacity: 1 }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 // --- Menu general
@@ -188,7 +188,7 @@ body {
 }
 
 .menu .search-comment {
-    margin: -8px -8px 0 -8px;
+    margin: -8px -8px 0;
     padding: 6px 16px;
     font-size: 14px;
     color: $autocomplete-comment-color;
@@ -213,11 +213,10 @@ body {
     }
 
     &.actions {
-        margin: -4px 0px;
+        margin: -4px 0 -4px 32px;
         padding: 4px 8px;
         overflow-x: auto;
         white-space: nowrap;
-        margin-left: 32px;
 
         div {
             display: inline-block;
@@ -302,7 +301,7 @@ body {
 
 /* === Footer === */
 footer {
-    padding: 8px 0 16px 0;
+    padding: 8px 0 16px;
     background: $footer-color;
     bottom: -130px;
     position: absolute;
@@ -373,7 +372,7 @@ footer {
 
         .links {
             ul {
-                margin: .8rem .8rem .8rem .8rem;
+                margin: .8rem;
 
                 li {
                     margin-top: .4rem;
