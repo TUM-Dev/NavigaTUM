@@ -24,12 +24,12 @@ E-Mail: app (at-symbol) tum.de
 
 Unter den angegebenen Kontaktdaten unseres Datenschutzbeauftragten können Sie jederzeit folgende Rechte ausüben:
 
--   Auskunft über Ihre bei uns gespeicherten Daten und deren Verarbeitung (Art. 15 DSGVO),
--   Berichtigung unrichtiger personenbezogener Daten (Art. 16 DSGVO),
--   Löschung Ihrer bei uns gespeicherten Daten (Art. 17 DSGVO),
--   Einschränkung der Datenverarbeitung, sofern wir Ihre Daten aufgrund gesetzlicher Pflichten noch nicht löschen dürfen (Art. 18 DSGVO),
--   Widerspruch gegen die Verarbeitung Ihrer Daten bei uns (Art. 21 DSGVO) und
--   Datenübertragbarkeit, sofern Sie in die Datenverarbeitung eingewilligt haben oder einen Vertrag mit uns abgeschlossen haben (Art. 20 DSGVO).
+- Auskunft über Ihre bei uns gespeicherten Daten und deren Verarbeitung (Art. 15 DSGVO),
+- Berichtigung unrichtiger personenbezogener Daten (Art. 16 DSGVO),
+- Löschung Ihrer bei uns gespeicherten Daten (Art. 17 DSGVO),
+- Einschränkung der Datenverarbeitung, sofern wir Ihre Daten aufgrund gesetzlicher Pflichten noch nicht löschen dürfen (Art. 18 DSGVO),
+- Widerspruch gegen die Verarbeitung Ihrer Daten bei uns (Art. 21 DSGVO) und
+- Datenübertragbarkeit, sofern Sie in die Datenverarbeitung eingewilligt haben oder einen Vertrag mit uns abgeschlossen haben (Art. 20 DSGVO).
 
 Sofern Sie uns eine Einwilligung erteilt haben, können Sie diese jederzeit mit Wirkung für die Zukunft widerrufen.
 Sie können sich jederzeit mit einer Beschwerde an eine Aufsichtsbehörde wenden, z. B. an die zuständige Aufsichtsbehörde des Bundeslands Ihres Wohnsitzes oder an die für uns als verantwortliche Stelle zuständige Behörde.
@@ -43,13 +43,13 @@ Der Webserver wird betrieben durch die netcup GmbH, Daimlerstraße 25, 76185 Kar
 
 Wenn Sie diese oder andere Internetseiten aufrufen, übermitteln Sie über Ihren Internetbrowser Daten an unseren Webserver. Die folgenden Daten werden während einer laufenden Verbindung zur Kommunikation zwischen Ihrem Internetbrowser und unserem Webserver aufgezeichnet:
 
--   Datum und Uhrzeit der Anfrage
--   Zeitbetrag, den die Anfrage gedauert hat
--   Name der angeforderten Datei
--   Seite, von der aus die Datei angefordert wurde
--   Zugriffsstatus (Datei übertragen, Datei nicht gefunden, etc.)
--   verwendete Webbrowser und verwendetes Betriebssystem
--   übertragene Datenmenge.
+- Datum und Uhrzeit der Anfrage
+- Zeitbetrag, den die Anfrage gedauert hat
+- Name der angeforderten Datei
+- Seite, von der aus die Datei angefordert wurde
+- Zugriffsstatus (Datei übertragen, Datei nicht gefunden, etc.)
+- verwendete Webbrowser und verwendetes Betriebssystem
+- übertragene Datenmenge.
 
 Insbesondere werden keine IP-Adressen protokolliert.
 
@@ -65,11 +65,11 @@ Wie viele andere Webseiten verwenden wir auch sogenannte „Cookies“. Bei Cook
 
 Sie können Sie einzelne Cookies oder den gesamten Cookie-Bestand löschen. Darüber hinaus erhalten Sie Informationen und Anleitungen, wie diese Cookies gelöscht oder deren Speicherung vorab blockiert werden können. Je nach Anbieter Ihres Browsers finden Sie die notwendigen Informationen unter den nachfolgenden Links:
 
--   Mozilla Firefox: https://support.mozilla.org/de/kb/cookies-loeschen-daten-von-websites-entfernen
--   Internet Explorer: https://support.microsoft.com/de-de/help/17442/windows-internet-explorer-delete-manage-cookies
--   Google Chrome: https://support.google.com/accounts/answer/61416?hl=de
--   Opera: http://www.opera.com/de/help
--   Safari: https://support.apple.com/kb/PH17191?locale=de_DE&viewlocale=de_DE
+- Mozilla Firefox: https://support.mozilla.org/de/kb/cookies-loeschen-daten-von-websites-entfernen
+- Internet Explorer: https://support.microsoft.com/de-de/help/17442/windows-internet-explorer-delete-manage-cookies
+- Google Chrome: https://support.google.com/accounts/answer/61416?hl=de
+- Opera: http://www.opera.com/de/help
+- Safari: https://support.apple.com/kb/PH17191?locale=de_DE&viewlocale=de_DE
 
 ### Technisch notwendige Cookies - Art und Zweck der Verarbeitung:
 
@@ -78,8 +78,8 @@ Der Zweck der Verwendung technisch notwendiger Cookies ist, die Nutzung von Webs
 
 Für folgende Anwendungen benötigen wir Cookies:
 
--   Übernahme von Spracheinstellungen
--   Übernahme von Themeeinstellungen
+- Übernahme von Spracheinstellungen
+- Übernahme von Themeeinstellungen
 
 Diese Webseite verwendet diese Cookies ausschließlich zum Zwecke der Speicherung der Sprachen- und Theme-Einstellung. Ein entsprechendes, nicht-personenbezogenes, Cookie wird erst gesetzt, wenn die Standardeinstellung geändert wird.
 

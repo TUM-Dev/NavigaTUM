@@ -8,10 +8,10 @@ This repository contains the JavaScript based webclient for NavigaTUM.
 
 You need the following dependencies to get started:
 
--   Node (for Gulp)
--   [Yarn](https://yarnpkg.com/getting-started/install)
--   [Gulp](https://gulpjs.com/)
--   Python (for testing)
+- Node (for Gulp)
+- [Yarn](https://yarnpkg.com/getting-started/install)
+- [Gulp](https://gulpjs.com/)
+- Python (for testing)
 
 Installing _Yarn_ and _Gulp_ with npm:
 
@@ -101,9 +101,9 @@ your choice as well as any view.
 
 The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/). The CSS framework is [Spectre.css](https://picturepan2.github.io/spectre/). It is made up of a core codebase, _views_ and _modules_:
 
--   The core codebase provides the routing functionality, as well as helper functions (e.g. to retrieve data). All of this is bundles in the `navigatum` object in JS.
--   _Views_ (taking over the terminology from vue-router) are the pages displayed in NavigaTUM.
--   _Modules_ provide extra functionality that is not critical or used by multiple views (e.g. the interactive map).
+- The core codebase provides the routing functionality, as well as helper functions (e.g. to retrieve data). All of this is bundles in the `navigatum` object in JS.
+- _Views_ (taking over the terminology from vue-router) are the pages displayed in NavigaTUM.
+- _Modules_ provide extra functionality that is not critical or used by multiple views (e.g. the interactive map).
 
 ### Directory structure
 

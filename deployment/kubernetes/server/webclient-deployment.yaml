@@ -1,95 +1,95 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: navigatum-webclient
-    labels:
+  name: navigatum-webclient
+  labels:
+    app: navigatum
+    deployment: web
+  namespace: navigatum
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: navigatum
+      deployment: web
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
         app: navigatum
         deployment: web
-    namespace: navigatum
-spec:
-    replicas: 1
-    revisionHistoryLimit: 1
-    selector:
-        matchLabels:
-            app: navigatum
-            deployment: web
-    strategy:
-        rollingUpdate:
-            maxSurge: 100%
-            maxUnavailable: 0%
-        type: RollingUpdate
-    template:
-        metadata:
-            labels:
-                app: navigatum
-                deployment: web
-        spec:
-            volumes:
-                - name: tmp-cdn
-                  emptyDir: {}
-                - name: tmp-rendertron
-                  emptyDir: {}
-            containers:
-                - name: navigatum-webclient
-                  image: ghcr.io/tum-dev/navigatum-webclient:main
-                  imagePullPolicy: Always
-                  envFrom:
-                      - configMapRef:
-                            name: navigatum-config
-                  ports:
-                      - containerPort: 8080
-                        name: navigatum-web
-                  volumeMounts:
-                      - mountPath: /tmp
-                        name: tmp-cdn
-                  securityContext:
-                    readOnlyRootFilesystem: true
-                  resources:
-                    requests:
-                      cpu: 5m
-                      memory: 5Mi
-                    limits:
-                      cpu: 150m
-                      memory: 20Mi
-                  livenessProbe:
-                      httpGet:
-                          path: /health
-                          port: navigatum-web
-                      failureThreshold: 3
-                      periodSeconds: 5
-                  startupProbe:
-                      httpGet:
-                          path: /health
-                          port: navigatum-web
-                      failureThreshold: 60
-                      periodSeconds: 1
-                - name: rendertron
-                  image: dockette/rendertron
-                  imagePullPolicy: Always
-                  ports:
-                      - containerPort: 3000
-                        name: rendertron
-                  volumeMounts:
-                      - mountPath: /tmp
-                        name: tmp-rendertron
-                  securityContext:
-                    readOnlyRootFilesystem: true
-                  resources:
-                    requests:
-                      cpu: 50m
-                      memory: 200Mi
-                    limits:
-                      cpu: 2000m
-                      memory: 500Mi
-                  livenessProbe:
-                      httpGet:
-                          path: /_ah/health
-                          port: rendertron
-                      failureThreshold: 3
-                      periodSeconds: 1
-                  startupProbe:
-                      httpGet:
-                          path: /_ah/health
-                          port: rendertron
-                      failureThreshold: 20
-                      periodSeconds: 1
+    spec:
+      volumes:
+        - name: tmp-cdn
+          emptyDir: {}
+        - name: tmp-rendertron
+          emptyDir: {}
+      containers:
+        - name: navigatum-webclient
+          image: ghcr.io/tum-dev/navigatum-webclient:main
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: navigatum-config
+          ports:
+            - containerPort: 8080
+              name: navigatum-web
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-cdn
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              cpu: 5m
+              memory: 5Mi
+            limits:
+              cpu: 150m
+              memory: 20Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: navigatum-web
+            failureThreshold: 3
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /health
+              port: navigatum-web
+            failureThreshold: 60
+            periodSeconds: 1
+        - name: rendertron
+          image: dockette/rendertron
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: rendertron
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-rendertron
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              cpu: 50m
+              memory: 200Mi
+            limits:
+              cpu: 2000m
+              memory: 500Mi
+          livenessProbe:
+            httpGet:
+              path: /_ah/health
+              port: rendertron
+            failureThreshold: 3
+            periodSeconds: 1
+          startupProbe:
+            httpGet:
+              path: /_ah/health
+              port: rendertron
+            failureThreshold: 20
+            periodSeconds: 1
