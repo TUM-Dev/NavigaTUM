@@ -28,7 +28,7 @@ const _search_default_state = {};
 navigatum.registerView('search', {
     name: 'view-search',
     template: { gulp_inject: 'view-search.inc' },
-    data: function() {
+    data: function () {
         return {
             search_data: null,
             sections: null,
@@ -38,14 +38,14 @@ navigatum.registerView('search', {
             state: navigatum.cloneState(_search_default_state),
         };
     },
-    beforeRouteEnter: function(to, from, next) {
+    beforeRouteEnter: function (to, from, next) {
         searchNavigateTo(to, from, next, null);
     },
-    beforeRouteUpdate: function(to, from, next) {
+    beforeRouteUpdate: function (to, from, next) {
         searchNavigateTo(to, from, next, this);
     },
     methods: {
-        genDescription: function(data) {
+        genDescription: function (data) {
             let sections_descr = '';
             let found_total = 0;
             for (const section of data.sections) {
@@ -68,7 +68,7 @@ navigatum.registerView('search', {
             else sections_descr += ' ${{ _.search.sections.were_found }}$';
             return sections_descr;
         },
-        loadSearchData: function(query, data) {
+        loadSearchData: function (query, data) {
             this.search_data = data;
             this.query = query;
             navigatum.app.search.query = query;

@@ -7,7 +7,7 @@
 // returned.
 const cached_fetch = (function () {
     return {
-        fetch: function(url, options) {
+        fetch: function (url, options) {
             return new Promise((resolve) => {
                 if (url in this.cache) {
                     resolve(this.cache[url]);
@@ -100,7 +100,7 @@ var navigatum = (function () {
 
     return {
         api_base: api_base,
-        init: function() {
+        init: function () {
             // Init Vue.js
             this.router = new VueRouter({
                 /* @if target="release" */
@@ -149,11 +149,11 @@ var navigatum = (function () {
                     },
                 },
                 methods: {
-                    searchfocus: function() {
+                    searchfocus: function () {
                         this.search.focused = true;
                         this.search.autocomplete.highlighted = null;
                     },
-                    searchblur: function() {
+                    searchblur: function () {
                         if (this.search.keep_focus) {
                             window.setTimeout(function () {
                                 // This is relevant if the call is delayed and focused has
@@ -165,20 +165,20 @@ var navigatum = (function () {
                             this.search.focused = false;
                         }
                     },
-                    searchinput: function(e) {
+                    searchinput: function (e) {
                         navigatum.getModule('autocomplete').then(function (c) {
                             c.oninput(e.srcElement.value);
                         });
                     },
-                    searchkeydown: function(e) {
+                    searchkeydown: function (e) {
                         navigatum.getModule('autocomplete').then(function (c) {
                             c.onkeydown(e);
                         });
                     },
-                    searchExpand: function(s) {
+                    searchExpand: function (s) {
                         s.expanded = true;
                     },
-                    searchGo: function(clean_query) {
+                    searchGo: function (clean_query) {
                         if (this.search.query.length == 0) return;
 
                         navigatum.router.push(`/search?q=${this.search.query}`)
@@ -190,7 +190,7 @@ var navigatum = (function () {
                         }
                         document.getElementById('search').blur();
                     },
-                    searchGoTo: function(id, clean_query) {
+                    searchGoTo: function (id, clean_query) {
                         // Catch is necessary because vue-router throws an error
                         // if navigation is aborted for some reason (e.g. the new
                         // url is the same or there is a loop in redirects)
@@ -213,17 +213,16 @@ var navigatum = (function () {
          * getData() either uses GETRequest() to retrieve the specified data
          * or loads it from its local cache. TODO: Update
          */
-        getData(id) {
+        getData: function (id) {
             return new Promise((resolve) => {
                 cached_fetch
-                    .fetch(
-                        `${this.api_base}get/${window.encodeURIComponent(id)}`,
-                        { cache: 'force-cache' },
-                    )
+                    .fetch(`${this.api_base}get/${window.encodeURIComponent(id)}`, {
+                        cache: 'force-cache',
+                    })
                     .then((data) => resolve(data));
             });
         },
-        setLocalStorageWithExpiry: function(key, value, ttl) {
+        setLocalStorageWithExpiry: function (key, value, ttl) {
             // ttl in hours
             const now = new Date();
 
@@ -238,7 +237,7 @@ var navigatum = (function () {
             const e = new Event('storage');
             window.dispatchEvent(e);
         },
-        getLocalStorageWithExpiry: function(key, default_value=null) {
+        getLocalStorageWithExpiry: function (key, default_value = null) {
             const itemStr = localStorage.getItem(key);
             if (!itemStr) {
                 return default_value;
@@ -251,12 +250,12 @@ var navigatum = (function () {
             }
             return item.value;
         },
-        removeLocalStorage: function(key) {
+        removeLocalStorage: function (key) {
             localStorage.removeItem(key);
             const e = new Event('storage');
             window.dispatchEvent(e);
         },
-        putData(id, data) {},
+        putData: function (id, data) {},
         /*
          * Views can be lazy loaded. Each view will call registerView() once it is
          * availabe. If the router requests a view with getView(), it can be directly
@@ -265,14 +264,14 @@ var navigatum = (function () {
          * this).
          */
         // NOTE: This code doesn't use `this` because for some reason it doesn't work with IE
-        registerView: function(name, component) {
+        registerView: function (name, component) {
             if (!(name in navigatum.views)) navigatum.views[name] = component;
             if (name in views_resolve_callbacks) {
                 views_resolve_callbacks[name](component);
                 delete views_resolve_callbacks[name];
             }
         },
-        getView: function(name) {
+        getView: function (name) {
             return function (resolve, reject) {
                 if (name in navigatum.views) {
                     resolve(navigatum.views[name]);
@@ -289,7 +288,7 @@ var navigatum = (function () {
             };
         },
         views: views,
-        registerModule: function(name, c) {
+        registerModule: function (name, c) {
             // If there are open promise callbacks for this module,
             // it initialized directly. Else it is only initialized when needed.
             if (name in this.module_promise_callbacks) {
@@ -307,7 +306,7 @@ var navigatum = (function () {
                 this.modules.loaded[name] = c;
             }
         },
-        getModule: function(name, ...args) {
+        getModule: function (name, ...args) {
             return new Promise((resolve) => {
                 if (name in this.modules.initialized) {
                     resolve(this.modules.initialized[name]);
@@ -343,7 +342,7 @@ var navigatum = (function () {
         module_promise_callbacks: {},
 
         navigationState: null,
-        beforeNavigate: function(to, from) {
+        beforeNavigate: function (to, from) {
             if (navigatum.app) navigatum.app.error.msg = '';
 
             if (this.navigationState === 'started') return; // Prevent duplicate calls
@@ -354,7 +353,7 @@ var navigatum = (function () {
             document.getElementById('loading-page').classList.add('show');
             if (from.name !== null && history.saveCurrentViewState) history.saveCurrentViewState(); // Initial page load
         },
-        afterNavigate: function(to, from) {
+        afterNavigate: function (to, from) {
             if (this.navigationState === null) return;
             this.navigationState = null;
 
@@ -374,7 +373,7 @@ var navigatum = (function () {
         // TODO: These are just helper functions and only cloneState is required
         // directly on pageload. Maybe we can move them somewhere else (but still in
         // the core code)
-        cloneState: function(state_obj) {
+        cloneState: function (state_obj) {
             // cf. StackOverflow: https://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
             // State has to be serializable!
             if (state_obj == null || typeof state_obj !== 'object') return state_obj;
@@ -394,7 +393,7 @@ var navigatum = (function () {
                 return copy;
             }
         },
-        tryReuseViewState: function() {
+        tryReuseViewState: function () {
             // Try to reuse the view state if there is one.
             if (history.states && history.states[history.stateIndex][0].viewState) {
                 // We assume instance exists, because this should only be called
@@ -410,7 +409,7 @@ var navigatum = (function () {
             }
             return false;
         },
-        applyState: function(cache_state_obj, vue_state_obj) {
+        applyState: function (cache_state_obj, vue_state_obj) {
             for (const attr in cache_state_obj) {
                 if (cache_state_obj[attr] instanceof Object) {
                     if (!(vue_state_obj[attr] instanceof Object)) vue_state_obj[attr] = {}; // value was null
@@ -420,29 +419,29 @@ var navigatum = (function () {
                 }
             }
         },
-        setTitle: function(name) {
+        setTitle: function (name) {
             document.title = `${name} – NavigaTUM`;
             document.querySelector('meta[property="og:title"]').setAttribute('content', name);
         },
-        setDescription: function(description) {
+        setDescription: function (description) {
             document.querySelector('meta[name="description"]').setAttribute('content', description);
             document
                 .querySelector('meta[property="og:description"]')
                 .setAttribute('content', description);
         },
-        setUrl: function() {
+        setUrl: function () {
             document
                 .querySelector('meta[property="og:url"]')
                 .setAttribute('content', window.location.href);
         },
         // Settings are also stored in localStorage to detect when setting
         // a cookie did not work.
-        setLang: function(lang) {
+        setLang: function (lang) {
             localStorage.setItem('lang', lang);
             document.cookie = `lang=${lang};Max-Age=31536000;SameSite=Lax;Path=/* @echo app_prefix */`;
             window.location.reload(true);
         },
-        setTheme: function(theme) {
+        setTheme: function (theme) {
             localStorage.setItem('theme', theme);
             document.cookie = `theme=${theme};Max-Age=31536000;SameSite=Lax;Path=/* @echo app_prefix */`;
             window.location.reload(true);

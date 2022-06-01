@@ -11,7 +11,7 @@ function mdNavigateTo(to, from, next, component) {
                     required: true,
                 },
             },
-            render(h) {
+            render: function (h) {
                 return h(Vue.compile(`<div>${this.content}</div>`));
             },
         });
@@ -36,19 +36,19 @@ function mdNavigateTo(to, from, next, component) {
 navigatum.registerView('md', {
     name: 'view-md',
     template: { gulp_inject: 'view-md.inc' },
-    data: function() {
+    data: function () {
         return {
             content: null,
         };
     },
-    beforeRouteEnter: function(to, from, next) {
+    beforeRouteEnter: function (to, from, next) {
         mdNavigateTo(to, from, next, null);
     },
-    beforeRouteUpdate: function(to, from, next) {
+    beforeRouteUpdate: function (to, from, next) {
         mdNavigateTo(to, from, next, this);
     },
     methods: {
-        loadPage: function(content) {
+        loadPage: function (content) {
             this.content = content;
 
             this.$nextTick(function () {

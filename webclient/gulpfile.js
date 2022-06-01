@@ -345,7 +345,7 @@ gulp.task('pages_out', function (done) {
                         preprocess({
                             context: {
                                 view: folder,
-                                theme,
+                                theme: theme,
                                 app_prefix: config.app_prefix,
                                 cdn_prefix: config.cdn_prefix,
                                 api_prefix: config.api_prefix,
@@ -365,7 +365,7 @@ gulp.task('pages_out', function (done) {
                             ),
                             {
                                 starttag: '<!-- inject:core:{{ext}} -->',
-                                transform(filePath, file) {
+                                transform: function (filePath, file) {
                                     return file.contents.toString('utf8');
                                 },
                                 quiet: true,
@@ -529,15 +529,15 @@ function i18n_compile_langfiles() {
 
 // --- Markdown Pipeline ---
 const renderer = {
-    code(code, infostring) {
+    code: function (code, infostring) {
         return `<pre class="code" data-lang="${infostring}"><code>${code}</code></pre>`;
     },
-    link(href, title, text) {
+    link: function (href, title, text) {
         if (href.startsWith('http')) return `<a href="${href}" target="_blank">${text}</a>`;
         return `<router-link to="${href}">${text}</router-link>`;
     },
 };
-marked.use({ renderer });
+marked.use({ renderer: renderer });
 
 function compile_markdown() {
     return gulp
@@ -568,7 +568,7 @@ function revision_assets(done) {
                 // css is deferred using preload, which revAll currently doesn't detect
                 includeFilesInManifest: ['.js', '.webp', '.svg', '.png', '.ico'],
                 dontRenameFile: ['.html'],
-                transformFilename(file, hash) {
+                transformFilename: function (file, hash) {
                     const ext = path.extname(file.path);
                     return `cache_${hash.substr(0, 8)}.${path.basename(file.path, ext)}${ext}`;
                 },

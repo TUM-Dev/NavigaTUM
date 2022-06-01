@@ -166,7 +166,7 @@ navigatum.registerModule(
 
         return {
             map: undefined,
-            init: function() {
+            init: function () {
                 return new Promise((resolve) => {
                     const head = document.getElementsByTagName('head')[0];
                     // Add CSS first (required by Mapbox)
@@ -177,17 +177,17 @@ navigatum.registerModule(
                     head.appendChild(el_css);
 
                     // JS should trigger init on load
-                    const el_js = document.createElement("script");
+                    const el_js = document.createElement('script');
                     el_js.src =
                         "/* @echo app_prefix */js/mapbox/* @if target='release' */.min/* @endif */.js";
                     el_js.onload = () => {
                         floorControlInit();
                         resolve();
-                    }
+                    };
                     head.appendChild(el_js);
                 });
             },
-            createMarker: function (hueRotation=0) {
+            createMarker: function (hueRotation = 0) {
                 const markerDiv = document.createElement('div');
                 const markerIcon = document.createElement('span');
                 markerIcon.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin.webp)`;
@@ -196,7 +196,7 @@ navigatum.registerModule(
                 markerIcon.style.filter = `hue-rotate(${hueRotation}deg)`;
                 markerIcon.style.top = `-33px`;
                 markerIcon.style.left = `-12px`;
-                markerIcon.classList.add('marker')
+                markerIcon.classList.add('marker');
                 markerDiv.appendChild(markerIcon);
                 const markerShadow = document.createElement('span');
                 markerShadow.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin-shadow.webp)`;
@@ -204,13 +204,13 @@ navigatum.registerModule(
                 markerShadow.style.height = `24px`;
                 markerShadow.style.top = `-20px`;
                 markerShadow.style.left = `-12px`;
-                markerShadow.classList.add('marker')
+                markerShadow.classList.add('marker');
                 markerDiv.appendChild(markerShadow);
                 return markerDiv;
             },
-            initMap: function(container_id) {
+            initMap: function (container_id) {
                 mapboxgl.accessToken =
-                    'pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg'
+                    'pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg';
                 const map = new mapboxgl.Map({
                     container: container_id,
 
@@ -297,12 +297,12 @@ navigatum.registerModule(
                 return map;
             },
             // Set the given overlays as available overlay images.
-            setFloorOverlays(overlays, default_overlay) {
+            setFloorOverlays: function (overlays, default_overlay) {
                 _map.floorControl.updateFloors(overlays, default_overlay);
             },
             // Set the currently visible overlay image in the map,
             // or hide it if img_url is null.
-            setOverlayImage(img_url, coords) {
+            setOverlayImage: function (img_url, coords) {
                 // Even if the map is initialized, it could be that
                 // it hasn't loaded yet, so we need to postpone adding
                 // the overlay layer.

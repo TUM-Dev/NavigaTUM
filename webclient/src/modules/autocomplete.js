@@ -69,8 +69,8 @@ navigatum.registerModule(
         let latest_used_query_id = null;
 
         return {
-            init: function() {},
-            oninput: function(q) {
+            init: function () {},
+            oninput: function (q) {
                 navigatum.app.search.autocomplete.highlighted = null;
 
                 if (q.length == 0) {
@@ -98,7 +98,7 @@ navigatum.registerModule(
                 }
             },
             extract_facets: extract_facets,
-            onkeydown: function(e) {
+            onkeydown: function (e) {
                 switch (e.keyCode) {
                     case 27: // ESC
                         document.getElementById('search').blur();
