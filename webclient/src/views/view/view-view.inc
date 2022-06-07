@@ -72,6 +72,18 @@
       </div>
       <div class="column col-auto col-ml-auto">
         <button class="btn btn-link btn-action btn-sm"
+                title="${{ _.view_view.header.external_link }}$" >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 3.704 3.704" fill="none" stroke="#0065bd" stroke-width=".529" stroke-linecap="round">
+            <path d="M2.912 2.179v1.26H.267V.794h1.197" stroke-linejoin="round"/><path d="M1.407 2.297l2.03-2.03"/><path d="M2.352.268h1.085v1.085" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="link-popover">
+          <a class="btn" target="_blank"
+             :href="'https://www.openstreetmap.org/?mlat=' + view_data.coords.lat + '&mlon=' + view_data.coords.lon + '#map=17/' + view_data.coords.lat + '/' + view_data.coords.lon + '&layers=T'">OpenStreetMap</a><br>
+          <a class="btn" target="_blank"
+             :href="'https://www.google.com/maps/search/?api=1&query=' + view_data.coords.lat + '%2C'+ view_data.coords.lon">Google Maps</a>
+        </div>
+        <button class="btn btn-link btn-action btn-sm"
                 title="${{ _.view_view.header.feedback }}$"
                 @click="openFeedbackForm">
           <i class="icon icon-flag"></i>

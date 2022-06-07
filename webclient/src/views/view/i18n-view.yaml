@@ -3,6 +3,7 @@ view_view:
     details_for: {de: "Details für", en: "Details for"}
   header:
     copy_link: {de: "Link kopieren", en: "Copy link"}
+    external_link: {de: "Externe Links", en: "External links"}
     feedback:
       de: "Problem melden oder Änderung vorschlagen"
       en: "Report issue or suggest changes"
