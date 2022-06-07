@@ -54,12 +54,16 @@
                 stroke: $primary-color;
             }
 
+            .column:last-child {
+                position: relative;
+            }
+
             .link-popover {
                 position: absolute;
                 z-index: 1000;
                 padding: 2px 10px 10px 10px;
                 width: 200px;
-                right: 24px;
+                right: 36px;
                 background: $light-color;
                 box-shadow: $card-shadow-dark;
                 border-radius: 2px;
