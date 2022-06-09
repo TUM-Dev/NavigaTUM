@@ -21,6 +21,7 @@
 "5402.01.220J": {coords: {lat: 48.268553, lon: 11.669633}}  # Seminarraum (approximate)
 "5402.01.221K": {coords: {lat: 48.268668, lon: 11.669672}}  # Ivar-Ugi-Hörsaal (approximate)
 "5407.01.740A": {coords: {lat: 48.268962, lon: 11.669759}}  # Übungsraum
+"5407.01.760D": {coords: {lat: 48.269426, lon: 11.669553}}
 
 # === Maschinenwesen / MW ===
 "5510.EG.001": {coords: {lat: 48.265440, lon: 11.670848}}  # Gustav-Niemann-Hörsaal
