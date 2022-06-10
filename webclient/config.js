@@ -4,11 +4,11 @@ export const configRelease = {
     // running at "example.com/app/".
     // Setting it to "" makes paths relative. This only works for
     // hash-based navigation in development builds.
-    app_prefix: '/',
+    app_prefix: "/",
     // Prefix for 'cdn' content, e.g. images.
-    cdn_prefix: 'https://nav.tum.sexy/cdn/',
+    cdn_prefix: "https://nav.tum.sexy/cdn/",
     // Prefix for API requests
-    api_prefix: 'https://nav.tum.sexy/api/',
+    api_prefix: "https://nav.tum.sexy/api/",
 };
 
 export const configLocal = {

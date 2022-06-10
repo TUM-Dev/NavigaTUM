@@ -420,16 +420,20 @@
     </div>
     <script>
         function open_feedback(category, subject, body) {
-            if (window.feedback) {
-                window.feedback.open_form(category, subject, body);
-                window.feedback.update_feedback_form(category);
-            } else {
-                window.feedback_preload = { category: category, subject: subject, body: body };
-                const s = document.createElement('script');
-                s.type = 'text/javascript';
-                s.src = '<!-- @echo app_prefix -->js/feedback-${{_lang_}}$.min.js';
-                document.head.appendChild(s);
-            }
+          if (window.feedback) {
+            window.feedback.open_form(category, subject, body);
+            window.feedback.update_feedback_form(category);
+          } else {
+            window.feedback_preload = {
+      category: category,
+      subject: subject,
+      body: body,
+            };
+    const s = document.createElement("script");
+            s.type = "text/javascript";
+            s.src = "<!-- @echo app_prefix -->js/feedback-${{_lang_}}$.min.js";
+            document.head.appendChild(s);
+          }
         }
     </script>
 
@@ -439,11 +443,11 @@
     <!-- Post-load uncritital CSS if browser does not support preload -->
     <script>
         // c.f. https://github.com/w3c/preload/issues/7#issuecomment-566791118
-        const linkRelList = document.createElement('link').relList;
-        if (!(linkRelList && linkRelList.supports && linkRelList.supports('preload'))) {
-            const cssUrl =
-        '<!-- @echo app_prefix -->css/view-<!-- @echo view -->-rest-<!-- @echo theme -->.min.css';
-            document.write(`<link rel="stylesheet" href="${cssUrl}" />`);
+        const linkRelList = document.createElement("link").relList;
+        if (!(linkRelList && linkRelList.supports && linkRelList.supports("preload"))) {
+          const cssUrl =
+            "<!-- @echo app_prefix -->css/view-<!-- @echo view -->-rest-<!-- @echo theme -->.min.css";
+          document.write(`<link rel="stylesheet" href="${cssUrl}" />`);
         }
     </script>
   </body>
