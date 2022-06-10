@@ -30,7 +30,6 @@ def add_ranking_base(data):
                 "NF4.4": 50,  # Poststelle, Anlieferung (Annahme- und Ausgaberäume)
                 "NF5.1": 900,  # Hörsaal (Unterrichtsräume mit festem Gestühl)
                 "NF5.2": 500,  # Seminarraum, Zeichensaal, Übungsraum (Allg. Unterrichtsräume ...)
-                "NF5.2": 250,  # Sprachlabor (Besondere Unterrichtsräume ...)
                 "NF5.3": 250,  # Musikunterricht (Besondere Unterrichtsräume ...)
                 "NF5.4": 400,  # Lesesaal, Freihandbibliothek (Bibliotheksräume)
                 "NF5.5": 150,  # Sportraum, Turnsaal, Schwimmhalle (Sporträume)
