@@ -8,10 +8,10 @@ def add_children_properties(data):
     This operates on the data dict directly without creating a copy.
     """
     for _id, entry in data.items():
-        for i, p in enumerate(reversed(entry["parents"])):
-            data[p].setdefault("children_flat", []).append(_id)
+        for i, parent in enumerate(reversed(entry["parents"])):
+            data[parent].setdefault("children_flat", []).append(_id)
             if i == 0:
-                data[p].setdefault("children", []).append(_id)
+                data[parent].setdefault("children", []).append(_id)
 
 
 def add_stats(data):
@@ -87,3 +87,20 @@ def infer_addresses(data):
                     "plz_place": plz_place,
                     "source": "inferred",
                 }
+
+
+def infer_type_common_name(data):
+    """This function infers the type_common_name property for each entry via the type property."""
+    for _id, _data in data.items():
+        _data["type_common_name"] = {
+            "root": "Standortübersicht",
+            "site": "Standort",
+            "campus": "Campus",
+            "area": "Gebiet / Gruppe von Gebäuden",
+            "joined_building": "Gebäudekomplex",
+            "building": "Gebäudeteil"
+            if (_data["type"] == "building" and data[_data["parents"][-1]]["type"] == "joined_building")
+            else "Gebäude",
+            "room": _data["usage"]["name"] if "usage" in _data else "Raum",
+            "virtual_room": _data["usage"]["name"] if "usage" in _data else "Raum/Gebäudeteil",
+        }[_data["type"]]

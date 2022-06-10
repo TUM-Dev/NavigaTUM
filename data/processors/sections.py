@@ -15,21 +15,16 @@ def compute_props(data):
                 if "arch_name" in props["ids"]:
                     computed.append({"Architekten-Name": props["ids"]["arch_name"].split("@")[0]})
             if "b_prefix" in entry and entry["b_prefix"] != _id:
-                b_prefix = [entry["b_prefix"]] if type(entry["b_prefix"]) is str else entry["b_prefix"]
+                b_prefix = [entry["b_prefix"]] if isinstance(entry["b_prefix"], str) else entry["b_prefix"]
                 computed.append(
                     {
                         "Gebäudekennungen": ", ".join([p.ljust(4, "x") for p in b_prefix]),
                     },
                 )
             if "address" in props:
-                computed.append(
-                    {
-                        "Adresse": "{}, {}".format(
-                            props["address"]["street"],
-                            props["address"]["plz_place"],
-                        ),
-                    },
-                )
+                street = props["address"]["street"]
+                plz_place = props["address"]["plz_place"]
+                computed.append({"Adresse": f"{street}, {plz_place}"})
             if "stats" in props:
                 if "n_buildings" in props["stats"]:
                     computed.append({"Anzahl Gebäude": str(props["stats"]["n_buildings"])})
@@ -37,27 +32,22 @@ def compute_props(data):
                     if props["stats"]["n_rooms"] == props["stats"]["n_rooms_reg"]:
                         computed.append({"Anzahl Räume": str(props["stats"]["n_rooms"])})
                     else:
-                        computed.append(
-                            {
-                                "Anzahl Räume": "{} ({} ohne Flure etc.)".format(
-                                    props["stats"]["n_rooms"],
-                                    props["stats"]["n_rooms_reg"],
-                                ),
-                            },
-                        )
+                        n_rooms = props["stats"]["n_rooms"]
+                        n_rooms_reg = props["stats"]["n_rooms_reg"]
+                        computed.append({"Anzahl Räume": f"{n_rooms} ({n_rooms_reg} ohne Flure etc.)"})
                 if "n_seats" in props["stats"]:
                     computed.append({"Sitzplätze": str(props["stats"]["n_seats"])})
             if "generic" in props:
-                for e in props["generic"]:
-                    if type(e[1]) is dict:
-                        computed.append({"name": e[0], **e[1]})
+                for entity in props["generic"]:
+                    if isinstance(entity[1], dict):
+                        computed.append({"name": entity[0], **entity[1]})
                     else:
-                        computed.append({"name": e[0], "text": e[1]})
+                        computed.append({"name": entity[0], "text": entity[1]})
 
             # Reformat if required (just to have less verbosity in the code above)
-            for i, c in enumerate(computed):
-                if "name" not in c:
-                    computed[i] = {"name": list(c.keys())[0], "text": list(c.values())[0]}
+            for i, computed_prop in enumerate(computed):
+                if "name" not in computed_prop:
+                    computed[i] = {"name": list(computed_prop.keys())[0], "text": list(computed_prop.values())[0]}
 
             entry["props"]["computed"] = computed
 
@@ -70,10 +60,7 @@ def generate_buildings_overview(data):
         if entry["type"] not in {"area", "site", "campus"} or "children_flat" not in entry:
             continue
 
-        if "buildings_overview" in entry.get("generators", {}):
-            options = entry["generators"]["buildings_overview"]
-        else:
-            options = {"n_visible": 6, "list_start": []}
+        options = entry.get("generators", {}).get("buildings_overview", {"n_visible": 6, "list_start": []})
 
         # Collect buildings to display for this entry.
         buildings = []
@@ -88,13 +75,7 @@ def generate_buildings_overview(data):
         #        and data[child["parents"][-1]]["type"] != "joined_building"):
         #        buildings.append(child)
         # Entries are sorted alphabetically in second order to be predictable
-        buildings = list(
-            sorted(
-                buildings,
-                key=lambda e: str(len(e.get("children_flat", []))).zfill(5) + e["name"],
-                reverse=True,
-            ),
-        )
+        buildings = sorted(buildings, key=lambda e: (len(e.get("children_flat", [])), e["name"]), reverse=True)
 
         # The "list_start" can overwrite how the list of buildings starts,
         # and optionally also add other entries. All other entries are appended
@@ -107,30 +88,23 @@ def generate_buildings_overview(data):
         for child_id in merged_ids:
             try:
                 child = data[child_id]
-            except KeyError:
-                raise RuntimeError(
-                    f"Error: Unknown id '{child_id}' found when generating buildings_overview for '{_id}'",
-                )
+            except KeyError as err:
+                raise RuntimeError(f"Unknown id '{child_id}' when generating buildings_overview for '{_id}'") from err
 
+            n_rooms = child["props"]["stats"].get("n_rooms", 0)
+            n_buildings = child["props"]["stats"].get("n_buildings", 0)
             if child["type"] in {"building", "joined_building"}:
-                n_rooms = child["props"]["stats"].get("n_rooms", 0)
                 if n_rooms == 0:
                     subtext = "Keine Räume bekannt"
                 else:
-                    subtext = "{} Räume".format(n_rooms)
+                    subtext = f"{n_rooms} Räume"
             elif child["type"] == "area":
-                subtext = "{} Gebäude, {} Räume".format(
-                    child["props"]["stats"].get("n_buildings", 0),
-                    child["props"]["stats"].get("n_rooms", 0),
-                )
+                subtext = f"{n_buildings} Gebäude, {n_rooms} Räume"
             elif child["type"] == "site":
-                subtext = "{} Gebäude, {} Räume (Außenstelle)".format(
-                    child["props"]["stats"].get("n_buildings", 0),
-                    child["props"]["stats"].get("n_rooms", 0),
-                )
+                subtext = f"{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)"
             else:
                 raise RuntimeError(
-                    f"Error: Cannot generate buildings_overview subtext for type '{child['type']}', "
+                    f"Cannot generate buildings_overview subtext for type '{child['type']}', "
                     f"for: '{_id}', child id: '{child_id}'",
                 )
 
@@ -173,7 +147,7 @@ def generate_rooms_overview(data):
             {
                 "name": u[0],
                 "count": len(u[1]),
-                "children": list(sorted(u[1], key=lambda r: r["name"])),
+                "children": sorted(u[1], key=lambda r: r["name"]),
             }
             for u in sorted(rooms.items(), key=lambda e: e[0])
         ]

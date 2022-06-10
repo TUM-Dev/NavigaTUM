@@ -1,14 +1,13 @@
-import json
 import logging
 import os
 
 from processors import (
     areatree,
     coords,
+    export,
     images,
     maps,
     merge,
-    patch,
     roomfinder,
     search,
     sections,
@@ -18,10 +17,12 @@ from processors import (
 )
 from utils import convert_to_webp
 
-DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ.keys()
+DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ
 
 
+# pylint: disable=too-many-locals
 def main():
+    """Main function"""
     # --- Read base data ---
     logging.info("-- 00 areatree")
     data = areatree.read_areatree()
@@ -122,7 +123,7 @@ def main():
     logging.info("-- 100 Export: API")
     export_for_api(data, "output/api_data.json")
 
-    # Sitemap is only generated for deployment:
+    # Sitemap is only generated for deployments
     if DEBUG_MODE:
         logging.info("Skipping sitemap generation in Dev Mode (GIT_COMMIT_SHA is unset)")
     else:
@@ -131,6 +132,7 @@ def main():
 
 
 def export_for_search(data, path):
+    """export a subset of the data for the /search api"""
     export = []
     for _id, _data in data.items():
         # Currently, the "root" entry is excluded from search
@@ -149,10 +151,9 @@ def export_for_search(data, path):
 
         export.append(
             {
-                "ms_id": _id.replace(
-                    ".",
-                    "-",
-                ),  # MeiliSearch requires an id without "."; also this puts more emphasis on the order (because "." counts as more distance)
+                # MeiliSearch requires an id without "."
+                # also this puts more emphasis on the order (because "." counts as more distance)
+                "ms_id": _id.replace(".", "-"),
                 "id": _id,  # not searchable
                 "name": _data["name"],
                 "arch_name": _data.get("tumonline_data", {}).get("arch_name", None),
@@ -168,7 +169,7 @@ def export_for_search(data, path):
                     "virtual_room": "room",
                 }.get(_data["type"], None),
                 # Parents always exclude root
-                ###"parent_names": _data["parents"][1:],#[data[p]["name"] for p in _data["parents"][1:]],
+                # "parent_names": _data["parents"][1:], [data[p]["name"] for p in _data["parents"][1:]],
                 # For rooms, the (joined_)building parents are extra to put more emphasis on them.
                 # Also their name is included
                 "parent_building": [data[p]["name"] for p in _data["parents"][building_parents_index:]],
@@ -180,12 +181,12 @@ def export_for_search(data, path):
             },
         )
 
-    with open(path, "w") as f:
-        json.dump(export, f)
+    with open(path, "w", encoding="utf-8") as file:
+        json.dump(export, file)
 
 
 def export_for_api(data, path):
-    # Add some more information about parents
+    """Add some more information about parents to the data and export for the /get/:id api"""
     export_data = {}
     for _id, _data in data.items():
         export_data[_id] = {
@@ -217,8 +218,8 @@ def export_for_api(data, path):
             for k in to_delete:
                 del export_data[_id]["props"][k]
 
-    with open(path, "w") as f:
-        json.dump(export_data, f)
+    with open(path, "w", encoding="utf-8") as file:
+        json.dump(export_data, file)
 
 
 if __name__ == "__main__":

@@ -8,8 +8,8 @@ def read_areatree():
     data = {}
     parent_stack = []
     last_element = None
-    with open("sources/00_areatree") as f:
-        for line in f.readlines():
+    with open("sources/00_areatree", encoding="utf-8") as file:
+        for line in file.readlines():
             # Empty lines and comment lines are ignored
             line = line.split("#")[0]
             if len(line.strip()) == 0:
@@ -74,7 +74,7 @@ def read_areatree():
                 logging.error(f"No id provided in line: '{line}'")
                 continue
 
-            # type inference
+            # we infer which type some elements are, if they have not specified it
             if "type" not in building_data:
                 if "b_prefix" in building_data and building_data["id"] == building_data["b_prefix"]:
                     building_data["type"] = "building"
@@ -86,5 +86,4 @@ def read_areatree():
 
     if error:
         raise RuntimeError("One or more errors, aborting")
-    else:
-        return data
+    return data

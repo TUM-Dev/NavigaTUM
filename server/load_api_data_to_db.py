@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS api_data (
 con.execute("""PRAGMA journal_mode = OFF;""")
 con.execute("""PRAGMA synchronous = OFF;""")
 
-with open("data/api_data.json") as f:
-    data = json.load(f)
+with open("data/api_data.json", encoding="utf-8") as file:
+    data = json.load(file)
     new_data: list[tuple[str, str]] = [(key, json.dumps(value)) for key, value in data.items()]
 
 with con:

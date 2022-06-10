@@ -14,8 +14,7 @@ def convert_to_webp(source: Path):
         pathlib.Path: path to new image(s)
     """
     if source.is_dir():
-        for img_path in os.listdir(source):
-            img_path = Path(source, img_path)
+        for img_path in source.iterdir():
             if img_path.suffix not in [".webp", ".yaml", ".json"]:
                 convert_to_webp(img_path)
         return source

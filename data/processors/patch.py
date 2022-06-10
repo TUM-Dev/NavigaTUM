@@ -3,6 +3,12 @@ import re
 
 
 def apply_patches(objects, patches, searchkey):
+    """Apply patches to objects.
+
+    Args:
+        objects: list of objects to apply patches to
+        patches: list of patches to apply
+        searchkey: key to search for in objects"""
     patched = []
 
     patches = [
@@ -10,7 +16,7 @@ def apply_patches(objects, patches, searchkey):
             re.compile(p["if_" + searchkey]),
             # Remove the "if_" from the patch, the rest of the items will
             # be inserted into the entry's data.
-            dict(filter(lambda e: e[0] != "if_" + searchkey, p.items())),
+            {k: v for k, v in p.items() if k != "if_" + searchkey},
         )
         for p in patches
     ]
@@ -23,10 +29,10 @@ def apply_patches(objects, patches, searchkey):
                 applied_patches.add(patch_check)
                 if "__delete" in patch and patch["__delete"]:
                     to_delete.append(i)
-                else:
-                    for k, v in patch.items():
-                        obj[k] = v
-                    patched.append(obj)
+                    continue
+                for patch_key, patched_value in patch.items():
+                    obj[patch_key] = patched_value
+                patched.append(obj)
 
     for i in reversed(to_delete):
         del objects[i]

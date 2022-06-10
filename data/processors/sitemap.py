@@ -14,8 +14,8 @@ def generate_sitemap():
     # directly, but re-parsing the output file instead, because the export not
     # export all fields. This way we're also guaranteed to have the same types
     # (and not e.g. numpy floats).
-    with open("output/api_data.json") as f:
-        new_data = json.load(f)
+    with open("output/api_data.json", encoding="utf-8") as file:
+        new_data = json.load(file)
 
     # Currently online data
     req = urllib.request.Request("https://nav.tum.sexy/cdn/api_data.json")
@@ -93,7 +93,7 @@ def generate_sitemap():
     for name, sitemap in sitemaps.items():
         _write_sitemap_xml(f"output/sitemap-data-{name}.xml", sitemap)
 
-    _write_sitemapindex_xml(f"output/sitemap.xml", sitemaps)
+    _write_sitemapindex_xml("output/sitemap.xml", sitemaps)
 
 
 def _download_online_sitemaps(sitemap_names):
@@ -105,7 +105,7 @@ def _download_online_sitemaps(sitemap_names):
 
 
 def _download_online_sitemap(url):
-    xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+    xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"  # noqa: FS003
     req = urllib.request.Request(url)
     try:
         with urllib.request.urlopen(req) as resp:
@@ -117,8 +117,8 @@ def _download_online_sitemap(url):
                 lastmod = child.find(f"{xmlns}lastmod")
                 if loc is not None and lastmod is not None:
                     sitemap[loc.text] = datetime.fromisoformat(lastmod.text.rstrip("Z"))
-    except urllib.error.HTTPError as e:
-        logging.warning(f"Failed to download sitemap '{url}': {e}")
+    except urllib.error.HTTPError as error:
+        logging.warning(f"Failed to download sitemap '{url}': {error}")
     return sitemap
 
 
@@ -148,7 +148,7 @@ def _write_sitemapindex_xml(fname, sitemaps):
         loc = ET.SubElement(sitemap_el, "loc")
         loc.text = f"https://nav.tum.sexy/cdn/sitemap-data-{name}.xml"
         # we set the lastmod to the latest lastmod of all sitemaps
-        lastmod_dates = set(site["lastmod"] for site in sitemap if "lastmod" in site)
+        lastmod_dates = {site["lastmod"] for site in sitemap if "lastmod" in site}
         if lastmod_dates:
             lastmod = ET.SubElement(sitemap_el, "lastmod")
             lastmod.text = max(lastmod_dates).isoformat(timespec="seconds") + "Z"
