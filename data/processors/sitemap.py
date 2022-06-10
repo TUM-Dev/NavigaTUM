@@ -2,7 +2,7 @@ import json
 import logging
 import urllib.error
 import urllib.request
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET  # nosec: used for writing to a file, not for reading
 from datetime import datetime
 
 import defusedxml.ElementTree as defusedET  # supports only parse()
@@ -19,7 +19,7 @@ def generate_sitemap():
 
     # Currently online data
     req = urllib.request.Request("https://nav.tum.sexy/cdn/api_data.json")
-    with urllib.request.urlopen(req) as resp:
+    with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
         old_data = json.loads(resp.read().decode("utf-8"))
 
     # Each sitemap has a limit of 50MB uncompressed or 50000 entries
@@ -108,7 +108,7 @@ def _download_online_sitemap(url):
     xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"  # noqa: FS003
     req = urllib.request.Request(url)
     try:
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
             sitemap_str = resp.read().decode("utf-8")
             sitemap = {}
             root = defusedET.fromstring(sitemap_str)

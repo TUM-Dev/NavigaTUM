@@ -632,7 +632,8 @@ def _download_file(url, cache_rel_path):
 
     if not os.path.exists(cache_path):
         print(f"Retrieving: '{url}'")
-        urllib.request.urlretrieve(url, cache_path)
+        # url parameter does not allow path traversal, because we build it further up in the callstack
+        urllib.request.urlretrieve(url, cache_path)  # nosec: B310
 
     return cache_path
 
@@ -644,5 +645,6 @@ def _write_cache_json(fname, data):
 
 
 def _get_tumonline_api_url(base_target):
-    magic_string = f"NC_{str(random.randint(0, 9999)).zfill(4)}"  # TODO: WTF is this???
+    # TODO: WTF is this ???
+    magic_string = f"NC_{str(random.randint(0, 9999)).zfill(4)}"  # nosec: random is not used security/crypto purposes
     return f"https://campus.tum.de/tumonline/{base_target}/{magic_string}"
