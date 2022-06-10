@@ -3,7 +3,6 @@ from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
-
 def export_for_search(data, path):
     """export a subset of the data for the /search api"""
     export = []
