@@ -143,6 +143,20 @@
 
             position: relative;
         }
+
+        &.maximize {
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 60px);;
+            z-index: 1000;
+
+            > div {
+                padding-bottom: 0;
+                height: 100%;
+            }
+        }
     }
 
     #interactive-map {
