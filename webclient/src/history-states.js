@@ -56,7 +56,7 @@
     data[stateIndexSymbol] = history.stateIndex + 1;
     history.states.splice(history.stateIndex + 1, 0, [data, title, url]);
     history.states.splice(history.stateIndex + 2);
-    history.stateIndex++;
+    history.stateIndex += 1;
   }
   history.saveCurrentViewState = function () {
     if (
@@ -64,12 +64,12 @@
       navigatum.router.currentRoute.matched[0] &&
       navigatum.router.currentRoute.matched[0].instances.default.state
     ) {
-      const state_index =
+      const stateIndex =
         history.lastStateIndex === null
           ? history.stateIndex
           : history.lastStateIndex;
 
-      history.states[state_index][0][stateDataSymbol] = navigatum.cloneState(
+      history.states[stateIndex][0][stateDataSymbol] = navigatum.cloneState(
         navigatum.router.currentRoute.matched[0].instances.default.state
       );
     }

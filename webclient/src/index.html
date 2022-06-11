@@ -80,10 +80,10 @@
                          class="form-input input-lg"
                          placeholder="${{_.search.placeholder}}$"
                          v-model="search.query"
-                         @input="searchinput"
-                         @focus="searchfocus"
-                         @blur="searchblur"
-                         @keydown="searchkeydown"
+                         @input="searchInput"
+                         @focus="searchFocus"
+                         @blur="searchBlur"
+                         @keydown="searchKeydown"
                          autocomplete="off"
                          aria-label="${{_.search.aria-searchlabel}}$">
                   <i class="form-icon icon icon-search"></i>
@@ -265,7 +265,7 @@
                     </ul>
                     <ul class="column">
                       <li>
-                        <button onclick="open_feedback()" class="btn btn-link" aria-label="Open the feedback-form">${{_.footer.feedback.text}}$</button>
+                        <button onclick="openFeedback()" class="btn btn-link" aria-label="Open the feedback-form">${{_.footer.feedback.text}}$</button>
                       </li>
                       <li>
                         <router-link to="/about/${{_.footer.privacy.link}}$">${{_.footer.privacy.text}}$</router-link>
@@ -419,15 +419,15 @@
       </div>
     </div>
     <script>
-        function open_feedback(category, subject, body) {
+        function openFeedback(category, subject, body) {
           if (window.feedback) {
-            window.feedback.open_form(category, subject, body);
-            window.feedback.update_feedback_form(category);
+            window.feedback.openForm(category, subject, body);
+            window.feedback.updateFeedbackForm(category);
           } else {
-            window.feedback_preload = {
-      category: category,
-      subject: subject,
-      body: body,
+            window.feedbackPreload = {
+              category: category,
+              subject: subject,
+              body: body,
             };
     const s = document.createElement("script");
             s.type = "text/javascript";

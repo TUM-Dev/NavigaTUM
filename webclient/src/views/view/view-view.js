@@ -51,8 +51,8 @@ var _view_default_state = {
         roomfinder: {
             selected_id: null,  // Map id
             selected_index: null,  // Index in the 'available' list
-            x: -1023 -10,  // Outside in top left corner
-            y: -1023 -10,
+            x: -1023 - 10,  // Outside in top left corner
+            y: -1023 - 10,
             width: 400,
             height: 300,
         },
@@ -219,7 +219,7 @@ navigatum.registerView('view', {
                 this.coord_picker.body_backup = document.getElementById("feedback-body").value;
                 this.coord_picker.force_reopen = true;  // reopen after confirm
 
-                window.feedback.close_form();
+                window.feedback.closeForm();
             }
 
             this.state.map.selected = "interactive";
@@ -315,7 +315,7 @@ navigatum.registerView('view', {
             document.getElementById("feedback-coordinate-picker")
                     .addEventListener('click', this.addLocationPicker);
 
-            open_feedback("entry", subject, body);
+            openFeedback("entry", subject, body);
         },
         confirmLocationPicker: function() {
             // add the current edits to the feedback
@@ -407,7 +407,7 @@ navigatum.registerView('view', {
                         joined_building: 16,
                         building: 17,
                         room: 18,
-                    }
+                    };
                     if (from_map === "interactive"){
                         map.flyTo({
                             center: [coords.lon, coords.lat],
@@ -505,7 +505,7 @@ navigatum.registerView('view', {
             // If there are a lot of rooms, updating the DOM takes a while.
             // In this case we first reset the list, show a loading indicator and
             // set the long list a short time later (So DOM can update and the indicator
-            // is visile).
+            // is visible).
             if (local.display_list.length > 150) {
                 local.loading = true;
                 var tmp = local.display_list;

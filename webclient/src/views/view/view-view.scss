@@ -69,31 +69,33 @@
                 box-shadow: $card-shadow-dark;
                 border-radius: 2px;
                 border: 1px solid $card-border;
-
                 visibility: hidden;
                 opacity: 0;
                 transform: translateY(-5px);
                 transition: opacity .05s, transform .05s;
 
-                a, button {
+                a,
+                button {
                     width: 100%;
-                    margin: 4px 0px;
+                    margin: 4px 0;
                 }
 
                 strong {
                     margin-top: 2px;
                     display: block;
 
-                    & + a, & + button {
+                    & + a,
+                    & + button {
                         margin-top: 2px;
                     }
                 }
             }
 
-            button:focus + .link-popover, .link-popover:hover {
+            button:focus + .link-popover,
+            .link-popover:hover {
                 visibility: visible;
                 opacity: 1;
-                transform: translateY(0px)
+                transform: translateY(0);
             }
         }
 
@@ -198,7 +200,7 @@
             top: -10px;
             left: 0;
             width: 100%;
-            height: calc(100vh - 60px);;
+            height: calc(100vh - 60px);
             z-index: 1000;
 
             > div {

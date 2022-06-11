@@ -3,7 +3,7 @@
   <h5 style="margin-top: 25px">${{_.view_404.header}}$</h5>
   <p>${{_.view_404.description}}$</p>
   <button
-    onclick="open_feedback('bug', `404 on ${window.location.href}`, '${{_.view_404.got_here}}$')"
+    onclick="openFeedback('bug', `404 on ${window.location.href}`, '${{_.view_404.got_here}}$')"
     class="btn btn-link p-0"
     aria-label="Open the feedback-form"
   >

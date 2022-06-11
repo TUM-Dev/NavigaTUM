@@ -7,8 +7,8 @@ function searchNavigateTo(to, from, next, component) {
   params.append("limit_rooms", "30");
   params.append("limit_all", "30");
 
-  cached_fetch
-    .fetch(`${navigatum.api_base}search?${params.toString()}`, {
+  cachedFetch
+    .fetch(`${navigatum.apiBase}search?${params.toString()}`, {
       cache: "no-cache",
     })
     .then((resp) => {
@@ -48,28 +48,28 @@ navigatum.registerView("search", {
   },
   methods: {
     genDescription: function (data) {
-      let sections_descr = "";
-      let found_total = 0;
+      let sectionsDescr = "";
+      let estimatedTotalHits = 0;
       for (const section of data.sections) {
         if (section.estimatedTotalHits) {
-          let facet_str;
+          let facetStr;
           if (section.facet === "sites_buildings") {
-            facet_str = "${{ _.search.sections.buildings }}$";
+            facetStr = "${{ _.search.sections.buildings }}$";
             if (section.estimatedTotalHits !== section.n_visible) {
-              const visible_str = "${{ _.search.sections.of_which_visible }}$";
-              facet_str = `(${section.n_visible} ${visible_str}) ${facet_str}`;
+              const visibleStr = "${{ _.search.sections.of_which_visible }}$";
+              facetStr = `(${section.n_visible} ${visibleStr}) ${facetStr}`;
             }
-          } else facet_str = "${{ _.search.sections.rooms }}$";
-          if (found_total > 0)
-            sections_descr += " ${{ _.search.sections.and }}$ ";
-          sections_descr += `${section.estimatedTotalHits} ${facet_str}`;
+          } else facetStr = "${{ _.search.sections.rooms }}$";
+          if (estimatedTotalHits > 0)
+            sectionsDescr += " ${{ _.search.sections.and }}$ ";
+          sectionsDescr += `${section.estimatedTotalHits} ${facetStr}`;
         }
-        found_total += section.estimatedTotalHits;
+        estimatedTotalHits += section.estimatedTotalHits;
       }
-      if (found_total === 0)
-        sections_descr = "${{ _.search.sections.no_buildings_rooms_found }}$";
-      else sections_descr += " ${{ _.search.sections.were_found }}$";
-      return sections_descr;
+      if (estimatedTotalHits === 0)
+        sectionsDescr = "${{ _.search.sections.no_buildings_rooms_found }}$";
+      else sectionsDescr += " ${{ _.search.sections.were_found }}$";
+      return sectionsDescr;
     },
     loadSearchData: function (query, data) {
       this.search_data = data;

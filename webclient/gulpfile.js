@@ -36,7 +36,7 @@ import source     from 'vinyl-source-stream';
 
 const sass = _sass(nodeSass);  // Select Sass compiler
 
-const htmlmin_options = {
+const htmlminOptions = {
   caseSensitive: false,
   collapseBooleanAttributes: true,
   collapseInlineTagWhitespace: false,
@@ -60,21 +60,21 @@ const htmlmin_options = {
   // sortClassName: true
 };
 
-const i18n_options = {
+const i18nOptions = {
   langDir: "build/tmp/locale",
 };
 
-const babel_targets = {
+const babelTargets = {
   browsers: ["last 2 versions", "not dead", "> 0.2%"],
 };
 
 // --- Preparations ---
-function clean_build(cb) {
+function cleanBuild(cb) {
   del(["build/**"], cb);
 }
 
 // --- Main CSS Pipeline ---
-function compile_main_scss() {
+function compileMainScss() {
   return merge(
     ["light", "dark"].map(function (theme) {
       return gulp
@@ -87,7 +87,7 @@ function compile_main_scss() {
   );
 }
 
-function compile_spectre_scss() {
+function compileSpectreScss() {
   return merge(
     ["light", "dark"].map(function (theme) {
       return (
@@ -108,7 +108,7 @@ function compile_spectre_scss() {
   );
 }
 
-/* function merge_main_css() {
+/* function mergeMainCss() {
     return merge(["light", "dark"].map(function(theme) {
         return gulp.src(['build/tmp/main-' + theme + '.css',
                          'build/tmp/spectre-all-purged-' + theme + '.css'])
@@ -121,11 +121,11 @@ function compile_spectre_scss() {
 } */
 gulp.task(
   "main_css",
-  gulp.series(compile_main_scss, compile_spectre_scss /* , merge_main_css */)
+  gulp.series(compileMainScss, compileSpectreScss /* , mergeMainCss */)
 );
 
 // --- Main JS Pipeline ---
-function build_app_core_js() {
+function buildAppCoreJS() {
   return gulp
     .src(["src/core.js", "src/detect-webp.js"])
     .pipe(concat("app-core.js"))
@@ -143,7 +143,7 @@ function build_app_core_js() {
     .pipe(gulp.dest("build/js"));
 }
 
-function build_app_rest_js() {
+function buildAppRestJS() {
   return gulp
     .src([
       "src/modules/interactive-map.js",
@@ -167,10 +167,10 @@ function build_app_rest_js() {
     .pipe(gulp.dest("build/js"));
 }
 
-function build_feedback_js() {
+function buildFeedbackJS() {
   return gulp
     .src("src/feedback.js")
-    .pipe(i18n(i18n_options))
+    .pipe(i18n(i18nOptions))
     .pipe(
       preprocess({
         context: {
@@ -191,7 +191,7 @@ function build_feedback_js() {
     .pipe(gulp.dest("build/js"));
 }
 
-function copy_vue_js() {
+function copyVueJS() {
   if (config.target === "release")
     return gulp
       .src([
@@ -213,26 +213,21 @@ function copy_vue_js() {
 
 gulp.task(
   "main_js",
-  gulp.series(
-    build_app_core_js,
-    build_app_rest_js,
-    build_feedback_js,
-    copy_vue_js
-  )
+  gulp.series(buildAppCoreJS, buildAppRestJS, buildFeedbackJS, copyVueJS)
 );
 
 // --- Views compilation pipeline ---
 gulp.task("views", function (done) {
-  const views_src_path = "src/views";
+  const viewsSrcPath = "src/views";
 
-  const folders = getFolders(views_src_path);
+  const folders = getFolders(viewsSrcPath);
   if (folders.length === 0) return done(); // nothing to do!
 
   const tasks = folders.map(function (folder) {
-    const css_task = merge(
+    const cssTask = merge(
       ["light", "dark"].map(function (theme) {
         return gulp
-          .src(path.join(views_src_path, folder, `/view-${folder}.scss`))
+          .src(path.join(viewsSrcPath, folder, `/view-${folder}.scss`))
           .pipe(injectStr.prepend(`$theme: "${theme}";\n`))
           .pipe(sass().on("error", sass.logError))
           .pipe(rename(`view-${theme}.css`))
@@ -240,8 +235,8 @@ gulp.task("views", function (done) {
       })
     );
 
-    const js_task = gulp
-      .src(path.join(views_src_path, folder, `/view-${folder}.js`))
+    const jsTask = gulp
+      .src(path.join(viewsSrcPath, folder, `/view-${folder}.js`))
       .pipe(
         preprocess({
           context: {
@@ -250,14 +245,14 @@ gulp.task("views", function (done) {
             api_prefix: config.api_prefix,
             target: config.target,
           },
-          includeBase: path.join(views_src_path, folder),
+          includeBase: path.join(viewsSrcPath, folder),
         })
       )
       .pipe(rename("view.js"))
       .pipe(gulp.dest(`build/tmp/views/${folder}`));
 
-    const html_task = gulp
-      .src(path.join(views_src_path, folder, `/view-${folder}.inc`))
+    const htmlTask = gulp
+      .src(path.join(viewsSrcPath, folder, `/view-${folder}.inc`))
       .pipe(
         preprocess({
           context: {
@@ -266,13 +261,13 @@ gulp.task("views", function (done) {
             api_prefix: config.api_prefix,
             target: config.target,
           },
-          includeBase: path.join(views_src_path, folder),
+          includeBase: path.join(viewsSrcPath, folder),
         })
       )
-      .pipe(htmlmin(htmlmin_options))
+      .pipe(htmlmin(htmlminOptions))
       .pipe(gulp.dest(`build/tmp/views/${folder}`));
 
-    return merge(css_task, js_task, html_task);
+    return merge(cssTask, jsTask, htmlTask);
   });
 
   return merge(tasks);
@@ -280,16 +275,16 @@ gulp.task("views", function (done) {
 
 // --- Build pages sources ---
 gulp.task("pages_src", function (done) {
-  const views_build_path = "build/tmp/views";
+  const viewsBuildPath = "build/tmp/views";
 
-  const folders = getFolders(views_build_path);
+  const folders = getFolders(viewsBuildPath);
   if (folders.length === 0) return done(); // nothing to do!
 
   const tasks = folders.map(function (folder) {
-    const view_css = merge(
+    const viewCSS = merge(
       ["light", "dark"].map(function (theme) {
         // Extract used spectre classes for this view and merge with core & view css
-        const view_css_core = gulp
+        const viewCSSCore = gulp
           .src(`build/tmp/spectre-all-purged-${theme}.css`)
           .pipe(concat("view-spectre-used.css"))
           .pipe(
@@ -299,7 +294,7 @@ gulp.task("pages_src", function (done) {
           )
           .pipe(
             addsrc([
-              path.join(views_build_path, folder, `view-${theme}.css`),
+              path.join(viewsBuildPath, folder, `view-${theme}.css`),
               `build/tmp/main-${theme}.css`,
             ])
           )
@@ -309,27 +304,27 @@ gulp.task("pages_src", function (done) {
           .pipe(gulp.dest(`build/tmp/views/${folder}`));
 
         // Merge remaining views css (TODO: include spectre somewhere else?)
-        const view_css_rest = gulp
+        const viewCSSRest = gulp
           .src(
             [
               `build/tmp/views/*/view-${theme}.css`,
               `build/tmp/spectre-all-purged-${theme}.css`,
             ],
-            { ignore: path.join(views_build_path, folder, `view-${theme}.css`) }
+            { ignore: path.join(viewsBuildPath, folder, `view-${theme}.css`) }
           )
           .pipe(concat(`view-rest-merged-${theme}.css`))
           .pipe(gulp.dest(`build/tmp/views/${folder}`));
-        return merge(view_css_core, view_css_rest);
+        return merge(viewCSSCore, viewCSSRest);
       })
     );
 
-    const view_js = gulp
-      .src(path.join(views_build_path, folder, "view.js"))
+    const viewJS = gulp
+      .src(path.join(viewsBuildPath, folder, "view.js"))
       .pipe(injectHtml())
       .pipe(rename("view-inlined.js"))
       .pipe(gulp.dest(`build/tmp/views/${folder}`));
 
-    return merge(view_css, view_js);
+    return merge(viewCSS, viewJS);
   });
 
   return merge(tasks);
@@ -337,18 +332,18 @@ gulp.task("pages_src", function (done) {
 
 // --- Build pages output ---
 gulp.task("pages_out", function (done) {
-  const views_build_path = "build/tmp/views";
+  const viewsBuildPath = "build/tmp/views";
 
-  const folders = getFolders(views_build_path);
+  const folders = getFolders(viewsBuildPath);
   if (folders.length === 0) return done(); // nothing to do!
 
   const tasks = folders.map(function (folder) {
-    const themed_tasks = merge(
+    const themedTasks = merge(
       ["light", "dark"].map(function (theme) {
-        const view_html = gulp
+        const viewHtml = gulp
           .src("src/index.html")
           .pipe(rename(`index-view-${folder}-${theme}.html`))
-          .pipe(i18n(i18n_options))
+          .pipe(i18n(i18nOptions))
           .pipe(
             preprocess({
               context: {
@@ -359,14 +354,14 @@ gulp.task("pages_out", function (done) {
                 api_prefix: config.api_prefix,
                 target: config.target,
               },
-              includeBase: path.join(views_build_path, folder),
+              includeBase: path.join(viewsBuildPath, folder),
             })
           )
           .pipe(
             inject(
               gulp.src(
                 path.join(
-                  views_build_path,
+                  viewsBuildPath,
                   folder,
                   `view-core-merged-${theme}.min.css`
                 )
@@ -381,35 +376,35 @@ gulp.task("pages_out", function (done) {
               }
             )
           )
-          .pipe(gulpif(config.target === "release", htmlmin(htmlmin_options)))
+          .pipe(gulpif(config.target === "release", htmlmin(htmlminOptions)))
           .pipe(gulp.dest("build"));
 
-        const copy_css = gulp
+        const copyCSS = gulp
           .src(
-            path.join(views_build_path, folder, `view-rest-merged-${theme}.css`)
+            path.join(viewsBuildPath, folder, `view-rest-merged-${theme}.css`)
           )
           .pipe(csso())
           .pipe(rename(`view-${folder}-rest-${theme}.min.css`))
           .pipe(gulp.dest("build/css"));
 
-        return merge(view_html, copy_css);
+        return merge(viewHtml, copyCSS);
       })
     );
 
-    const copy_js_core = gulp
+    const copyJSCore = gulp
       .src([
         "build/js/app-core.js",
-        path.join(views_build_path, folder, "view-inlined.js"),
+        path.join(viewsBuildPath, folder, "view-inlined.js"),
       ])
       .pipe(concat(`app-core-for-view-${folder}.js`))
-      .pipe(i18n(i18n_options))
+      .pipe(i18n(i18nOptions))
       .pipe(
         babel({
           presets: [
             [
               "@babel/preset-env",
               {
-                targets: babel_targets,
+                targets: babelTargets,
                 useBuiltIns: false,
               },
             ],
@@ -427,12 +422,12 @@ gulp.task("pages_out", function (done) {
       )
       .pipe(gulp.dest("build/js"));
 
-    const copy_js_rest = gulp
+    const copyJSRest = gulp
       .src(["build/js/app-rest.js", "build/tmp/views/*/view-inlined.js"], {
-        ignore: path.join(views_build_path, folder, "view-inlined.js"),
+        ignore: path.join(viewsBuildPath, folder, "view-inlined.js"),
       })
       .pipe(concat(`app-rest-for-view-${folder}.js`))
-      .pipe(i18n(i18n_options))
+      .pipe(i18n(i18nOptions))
       .pipe(babel())
       .pipe(gulpif(config.target === "release", uglify()))
       .pipe(
@@ -445,14 +440,14 @@ gulp.task("pages_out", function (done) {
       )
       .pipe(gulp.dest("build/js"));
 
-    return merge(themed_tasks, copy_js_core, copy_js_rest);
+    return merge(themedTasks, copyJSCore, copyJSRest);
   });
 
   return merge(tasks);
 });
 
 // --- Legacy JS Pipeline ---
-function build_webp_polyfills() {
+function buildWebpPolyfills() {
   return gulp
     .src([
       "node_modules/webp-hero/dist-cjs/polyfills.js",
@@ -462,7 +457,7 @@ function build_webp_polyfills() {
     .pipe(gulp.dest("build/js"));
 }
 
-function extract_polyfills() {
+function extractPolyfills() {
   return (
     gulp
       .src(["src/legacy.js", "build/js/app-core.js", "build/js/app-rest.js"])
@@ -484,7 +479,7 @@ function extract_polyfills() {
             [
               "@babel/preset-env",
               {
-                targets: babel_targets,
+                targets: babelTargets,
                 useBuiltIns: "usage",
                 corejs: "3.8",
               },
@@ -502,13 +497,13 @@ function extract_polyfills() {
   );
 }
 
-function insert_polyfills() {
+function insertPolyfills() {
   const bundleStream = browserify("./build/tmp/polyfills.js").bundle();
 
   return bundleStream.pipe(source("polyfills.js")).pipe(gulp.dest("build/tmp"));
 }
 
-function minify_polyfills() {
+function minifyPolyfills() {
   return gulp
     .src(["build/tmp/polyfills.js"])
     .pipe(gulpif(config.target === "release", uglify()))
@@ -526,13 +521,13 @@ function minify_polyfills() {
 gulp.task(
   "legacy_js",
   gulp.parallel(
-    build_webp_polyfills,
-    gulp.series(extract_polyfills, insert_polyfills, minify_polyfills)
+    buildWebpPolyfills,
+    gulp.series(extractPolyfills, insertPolyfills, minifyPolyfills)
   )
 );
 
 // --- I18n Pipeline ---
-function i18n_compile_langfiles() {
+function i18nCompileLangfiles() {
   return gulp
     .src(["src/i18n.yaml", "src/views/*/i18n-*.yaml"])
     .pipe(yaml())
@@ -553,7 +548,7 @@ const renderer = {
 };
 marked.use({ renderer: renderer });
 
-function compile_markdown() {
+function compileMarkdown() {
   return gulp
     .src("src/md/*.md")
     .pipe(
@@ -563,16 +558,16 @@ function compile_markdown() {
     )
     .pipe(gulp.dest("build/pages"));
 }
-gulp.task("markdown", compile_markdown);
+gulp.task("markdown", compileMarkdown);
 
 // --- Asset Pipeline ---
-function copy_assets() {
+function copyAssets() {
   return gulp.src("src/assets/**").pipe(gulp.dest("build/assets"));
 }
-gulp.task("assets", copy_assets);
+gulp.task("assets", copyAssets);
 
 // --- Revisioning Pipeline ---
-function revision_assets(done) {
+function revisionAssets(done) {
   if (config.target !== "release") return done();
   return gulp
     .src(["build/index-*.html", "build/js/*.js", "build/assets/*"])
@@ -593,10 +588,10 @@ function revision_assets(done) {
     )
     .pipe(gulp.dest("build"));
 }
-gulp.task("revision_assets", revision_assets);
+gulp.task("revision_assets", revisionAssets);
 
 // --- Sitemap Pipeline ---
-function generate_sitemap() {
+function generateSitemap() {
   return gulp
     .src(["src/md/*.md", "src/index.html"], { read: false })
     .pipe(
@@ -618,11 +613,11 @@ function generate_sitemap() {
     )
     .pipe(gulp.dest("build"));
 }
-gulp.task("sitemap", generate_sitemap);
+gulp.task("sitemap", generateSitemap);
 
 // --- .well-known Pipeline ---
 // see https://well-known.dev/sites/
-function copy_well_known() {
+function copyWellKnown() {
   return gulp
     .src([
       "src/.well-known/gpc.json", // we don't sell or share data
@@ -630,7 +625,7 @@ function copy_well_known() {
     ]) // security-advice
     .pipe(gulp.dest("build/.well-known"));
 }
-function copy_well_known_root() {
+function copyWellKnownRoot() {
   return gulp
     .src([
       "src/.well-known/robots.txt", // disallow potentially costly api requests
@@ -638,30 +633,30 @@ function copy_well_known_root() {
     ]) // google search console
     .pipe(gulp.dest("build"));
 }
-gulp.task("well_known", gulp.parallel(copy_well_known, copy_well_known_root));
+gulp.task("well_known", gulp.parallel(copyWellKnown, copyWellKnownRoot));
 
 // --- map (currently mapbox) Pipeline ---
-function copy_map_css() {
-  let target_filename;
-  if (config.target === "release") target_filename = `mapbox.min.css`;
-  else target_filename = `mapbox.css`;
+function copyMapCSS() {
+  let targetFilename;
+  if (config.target === "release") targetFilename = `mapbox.min.css`;
+  else targetFilename = `mapbox.css`;
   return gulp
     .src(["node_modules/mapbox-gl/dist/mapbox-gl.css"])
-    .pipe(concat(target_filename))
+    .pipe(concat(targetFilename))
     .pipe(gulpif(config.target === "release", csso()))
     .pipe(gulp.dest("build/css"));
 }
-function copy_map_js() {
-  let target_filename;
-  if (config.target === "release") target_filename = `mapbox.min.js`;
-  else target_filename = `mapbox.js`;
+function copyMapJS() {
+  let targetFilename;
+  if (config.target === "release") targetFilename = `mapbox.min.js`;
+  else targetFilename = `mapbox.js`;
   return gulp
     .src(["node_modules/mapbox-gl/dist/mapbox-gl.js"])
-    .pipe(concat(target_filename))
+    .pipe(concat(targetFilename))
     .pipe(gulpif(config.target === "release", uglify()))
     .pipe(gulp.dest("build/js"));
 }
-gulp.task("map", gulp.parallel(copy_map_css, copy_map_js));
+gulp.task("map", gulp.parallel(copyMapCSS, copyMapJS));
 
 /* === Utils === */
 
@@ -674,31 +669,32 @@ function getFolders(dir) {
 
 
 const _build = gulp.series(
-    clean_build,
-    i18n_compile_langfiles,
-    gulp.parallel(
-        'main_css',
-        'main_js',
-        'views',
-        'assets',
-        'well_known',
-        'map',
-        'markdown',
-        'sitemap',
-    ),
-    gulp.series('pages_src', 'pages_out', 'legacy_js', 'revision_assets'),
+  cleanBuild,
+  i18nCompileLangfiles,
+  gulp.parallel(
+    "main_css",
+    "main_js",
+    "views",
+    "assets",
+    "well_known",
+    "map",
+    "markdown",
+    "sitemap"
+  ),
+  gulp.series("pages_src", "pages_out", "legacy_js", "revision_assets")
 );
 
 const build = gulp.series(done => {
     config = configLocal;
-    config.target = "develop"; done();
+    config.target = "develop";
+    done();
 }, _build);
 
 const release = gulp.series(done => {
     config = configRelease;
-    config.target = "release"; done();
+    config.target = "release";
+    done();
 }, _build);
 
 export default build;
 export { release };
-

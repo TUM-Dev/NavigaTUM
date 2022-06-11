@@ -5,7 +5,7 @@
 // This is a wrapper around fetch that avoids duplicate requests if the
 // same resource is requested another time before the first request has
 // returned.
-const cached_fetch = (function () {
+const cachedFetch = (function () {
   return {
     fetch: function (url, options) {
       return new Promise((resolve) => {
@@ -19,11 +19,11 @@ const cached_fetch = (function () {
           fetch(url, options)
             .then((response) => {
               if (!response.ok) {
-                if (response.status == 404)
+                if (response.status === 404)
                   throw new Error("${{_.core_js.error.404}}$");
-                else if (response.status == 500)
+                else if (response.status === 500)
                   throw new Error("${{_.core_js.error.500}}$");
-                else if (response.status == 503)
+                else if (response.status === 503)
                   throw new Error("${{_.core_js.error.503}}$");
                 else {
                   const errorStatus = "${{_.core_js.error.status}}$";
@@ -63,12 +63,11 @@ const cached_fetch = (function () {
 })();
 
 var navigatum = (function () {
-  const api_base = "/* @echo api_prefix */";
+  const apiBase = "/* @echo api_prefix */";
   const cache = {};
-  const get_data_resolve_callbacks = {};
 
   const views = {};
-  const views_resolve_callbacks = {};
+  const viewsResolveCallbacks = {};
   let routes;
 
   const router = null;
@@ -80,7 +79,7 @@ var navigatum = (function () {
    */
   function GETRequest(url, onsuccess, onerror) {
     const req = new XMLHttpRequest();
-    req.open("GET", this.api_base + url, true);
+    req.open("GET", this.apiBase + url, true);
     req.onload = function () {
       onsuccess(this);
     };
@@ -100,7 +99,7 @@ var navigatum = (function () {
   }
 
   return {
-    api_base: api_base,
+    apiBase: apiBase,
     init: function () {
       // Init Vue.js
       this.router = new VueRouter({
@@ -150,11 +149,11 @@ var navigatum = (function () {
           },
         },
         methods: {
-          searchfocus: function () {
+          searchFocus: function () {
             this.search.focused = true;
             this.search.autocomplete.highlighted = null;
           },
-          searchblur: function () {
+          searchBlur: function () {
             if (this.search.keep_focus) {
               window.setTimeout(function () {
                 // This is relevant if the call is delayed and focused has
@@ -167,12 +166,12 @@ var navigatum = (function () {
               this.search.focused = false;
             }
           },
-          searchinput: function (e) {
+          searchInput: function (e) {
             navigatum.getModule("autocomplete").then(function (c) {
               c.oninput(e.srcElement.value);
             });
           },
-          searchkeydown: function (e) {
+          searchKeydown: function (e) {
             navigatum.getModule("autocomplete").then(function (c) {
               c.onkeydown(e);
             });
@@ -180,26 +179,26 @@ var navigatum = (function () {
           searchExpand: function (s) {
             s.expanded = true;
           },
-          searchGo: function (clean_query) {
-            if (this.search.query.length == 0) return;
+          searchGo: function (cleanQuery) {
+            if (this.search.query.length === 0) return;
 
             navigatum.router.push(`/search?q=${this.search.query}`)
                      .catch(() => { navigatum.afterNavigate() });
             this.search.focused = false;
-            if (clean_query) {
+            if (cleanQuery) {
               this.search.query = "";
               this.search.autocomplete.sections = [];
             }
             document.getElementById("search").blur();
           },
-          searchGoTo: function (id, clean_query) {
+          searchGoTo: function (id, cleanQuery) {
             // Catch is necessary because vue-router throws an error
             // if navigation is aborted for some reason (e.g. the new
             // url is the same or there is a loop in redirects)
             navigatum.router.push(`/view/${id}`))
                      .catch(() => { navigatum.afterNavigate() });
             this.search.focused = false;
-            if (clean_query) {
+            if (cleanQuery) {
               this.search.query = "";
               this.search.autocomplete.sections = [];
             }
@@ -217,8 +216,8 @@ var navigatum = (function () {
      */
     getData: function (id) {
       return new Promise((resolve) => {
-        cached_fetch
-          .fetch(`${this.api_base}get/${window.encodeURIComponent(id)}`, {
+        cachedFetch
+          .fetch(`${this.apiBase}get/${window.encodeURIComponent(id)}`, {
             cache: "force-cache",
           })
           .then((data) => resolve(data));
@@ -239,16 +238,16 @@ var navigatum = (function () {
       const e = new Event("storage");
       window.dispatchEvent(e);
     },
-    getLocalStorageWithExpiry: function (key, default_value = null) {
+    getLocalStorageWithExpiry: function (key, defaultValue = null) {
       const itemStr = localStorage.getItem(key);
       if (!itemStr) {
-        return default_value;
+        return defaultValue;
       }
       const item = JSON.parse(itemStr);
       const now = new Date();
       if (now.getTime() > item.expiry) {
         localStorage.removeItem(key);
-        return default_value;
+        return defaultValue;
       }
       return item.value;
     },
@@ -257,20 +256,19 @@ var navigatum = (function () {
       const e = new Event("storage");
       window.dispatchEvent(e);
     },
-    putData: function (id, data) {},
     /*
      * Views can be lazy loaded. Each view will call registerView() once it is
      * availabe. If the router requests a view with getView(), it can be directly
      * returned if it is already available. If not, it is retrieved and returned
-     * as soon as it is availabe (views_resolve_callbacks stores the callbacks for
+     * as soon as it is availabe (viewsResolveCallbacks stores the callbacks for
      * this).
      */
     // NOTE: This code doesn't use `this` because for some reason it doesn't work with IE
     registerView: function (name, component) {
       if (!(name in navigatum.views)) navigatum.views[name] = component;
-      if (name in views_resolve_callbacks) {
-        views_resolve_callbacks[name](component);
-        delete views_resolve_callbacks[name];
+      if (name in viewsResolveCallbacks) {
+        viewsResolveCallbacks[name](component);
+        delete viewsResolveCallbacks[name];
       }
     },
     getView: function (name) {
@@ -278,9 +276,9 @@ var navigatum = (function () {
         if (name in navigatum.views) {
           resolve(navigatum.views[name]);
         } else {
-          views_resolve_callbacks[name] = resolve;
+          viewsResolveCallbacks[name] = resolve;
           window.setTimeout(function () {
-            if (name in views_resolve_callbacks) {
+            if (name in viewsResolveCallbacks) {
               if (navigatum.app)
                 navigatum.app.error.msg =
                   "${{_.core_js.error.view_load_timeout}}$";
@@ -377,22 +375,22 @@ var navigatum = (function () {
     // TODO: These are just helper functions and only cloneState is required
     // directly on pageload. Maybe we can move them somewhere else (but still in
     // the core code)
-    cloneState: function (state_obj) {
+    cloneState: function (stateObj) {
       // cf. StackOverflow: https://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
       // State has to be serializable!
-      if (state_obj == null || typeof state_obj !== "object") return state_obj;
+      if (stateObj == null || typeof stateObj !== "object") return stateObj;
       // Arrays are currently not cloned (TODO: is this required?)
-      if (state_obj instanceof Array) {
-        return state_obj;
+      if (stateObj instanceof Array) {
+        return stateObj;
       }
-      if (state_obj instanceof Object) {
+      if (stateObj instanceof Object) {
         const copy = {};
-        for (const attr in state_obj) {
+        for (const attr in stateObj) {
           if (
-            attr != "__ob__" && // stuff by vue, recursive!
-            state_obj.hasOwnProperty(attr)
+            attr !== "__ob__" && // stuff by vue, recursive!
+            stateObj.hasOwnProperty(attr)
           )
-            copy[attr] = this.cloneState(state_obj[attr]);
+            copy[attr] = this.cloneState(stateObj[attr]);
         }
         return copy;
       }
@@ -414,14 +412,13 @@ var navigatum = (function () {
       }
       return false;
     },
-    applyState: function (cache_state_obj, vue_state_obj) {
-      for (const attr in cache_state_obj) {
-        if (cache_state_obj[attr] instanceof Object) {
-          if (!(vue_state_obj[attr] instanceof Object))
-            vue_state_obj[attr] = {}; // value was null
-          this.applyState(cache_state_obj[attr], vue_state_obj[attr]);
+    applyState: function (cacheStateObj, vueStateObj) {
+      for (const attr in cacheStateObj) {
+        if (cacheStateObj[attr] instanceof Object) {
+          if (!(vueStateObj[attr] instanceof Object)) vueStateObj[attr] = {}; // value was null
+          this.applyState(cacheStateObj[attr], vueStateObj[attr]);
         } else {
-          vue_state_obj[attr] = cache_state_obj[attr];
+          vueStateObj[attr] = cacheStateObj[attr];
         }
       }
     },

@@ -17,7 +17,7 @@ function mdNavigateTo(to, from, next, component) {
     });
   }
 
-  cached_fetch
+  cachedFetch
     .fetch(`/* @echo app_prefix */pages/${to.params.name}.html`, {
       as_text: true,
     })
@@ -63,7 +63,7 @@ navigatum.registerView("md", {
         }
 
         const c = e.firstChild;
-        if (c && c.firstChild.tagName.toLowerCase() == "h1")
+        if (c && c.firstChild.tagName.toLowerCase() === "h1")
           navigatum.setTitle(c.firstChild.innerText);
       });
     },

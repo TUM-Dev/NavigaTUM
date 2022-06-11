@@ -2,7 +2,7 @@
   <small class="search_meta">
     ${{ _.view_search.runtime }}$: {{ search_data.time_ms }}ms –
     <button
-      onclick="open_feedback('search')"
+      onclick="openFeedback('search')"
       class="btn btn-link"
       aria-label="Open the feedback-form for search"
     >

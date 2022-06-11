@@ -19,28 +19,28 @@ navigatum.registerModule(
         this.container.classList.add("floor-ctrl");
 
         // vertical open/collapse button
-        const vertical_oc = document.createElement("button");
-        vertical_oc.classList.add("vertical-oc");
-        vertical_oc.innerHTML =
+        const verticalOpenClose = document.createElement("button");
+        verticalOpenClose.classList.add("vertical-oc");
+        verticalOpenClose.innerHTML =
           "<span id='vertical-oc-text'></span><span class='arrow'>▲</span>";
-        vertical_oc.addEventListener("click", () => {
+        verticalOpenClose.addEventListener("click", () => {
           this.container.classList.toggle("closed");
         });
         // horizontal (primarily on mobile)
-        const horizontal_oc = document.createElement("button");
-        horizontal_oc.classList.add("horizontal-oc");
-        horizontal_oc.innerHTML =
+        const horizontalOpenClose = document.createElement("button");
+        horizontalOpenClose.classList.add("horizontal-oc");
+        horizontalOpenClose.innerHTML =
           "<span id='horizontal-oc-text'></span><span class='arrow'>❯</span>";
-        horizontal_oc.addEventListener("click", () => {
+        horizontalOpenClose.addEventListener("click", () => {
           this.container.classList.toggle("closed");
         });
 
         this.floor_list = document.createElement("div");
         this.floor_list.id = "floor-list";
 
-        this.container.appendChild(horizontal_oc);
+        this.container.appendChild(horizontalOpenClose);
         this.container.appendChild(this.floor_list);
-        this.container.appendChild(vertical_oc);
+        this.container.appendChild(verticalOpenClose);
 
         // To change on `fullscreen` click on mobile, we need to
         // observe window size changed
@@ -59,9 +59,9 @@ navigatum.registerModule(
         this.container.parentNode.removeChild(this.container);
         this.map = undefined;
       };
-      FloorControl.prototype.updateFloors = function (floors, visible_id) {
+      FloorControl.prototype.updateFloors = function (floors, visibleId) {
         // `floors` is null or a list of floors with data,
-        // `visible_id` is the id of the visible floor.
+        // `visibleId` is the id of the visible floor.
         if (floors === null) {
           this.container.classList.remove("visible");
           this.fire("floor-changed", { file: null, coords: null });
@@ -87,29 +87,30 @@ navigatum.registerModule(
                 _this.container.classList.add("closed");
             };
           };
-          let visible_i = null;
+          let btn;
+          let visibleI = null;
           for (const i in floors.reverse()) {
-            var btn = document.createElement("button");
+            btn = document.createElement("button");
             btn.innerText = floors[i].floor;
             btn.addEventListener("click", click_handler_builder(floors, i));
             this.floor_list.appendChild(btn);
 
-            if (floors[i].id === visible_id) visible_i = i;
+            if (floors[i].id === visibleId) visibleI = i;
           }
 
-          if (visible_i === null) {
+          if (visibleI === null) {
             this._setActiveFloor(this.floor_list.children.length, "∅");
             this.fire("floor-changed", { file: null, coords: null });
           } else {
-            this._setActiveFloor(visible_i, floors[visible_i].floor);
+            this._setActiveFloor(visibleI, floors[visibleI].floor);
             this.fire("floor-changed", {
-              file: floors[visible_i].file,
-              coords: floors[visible_i].coordinates,
+              file: floors[visibleI].file,
+              coords: floors[visibleI].coordinates,
             });
           }
 
           // The last button hides all overlays
-          var btn = document.createElement("button");
+          btn = document.createElement("button");
           btn.innerText = "∅";
           btn.addEventListener(
             "click",
@@ -126,25 +127,25 @@ navigatum.registerModule(
       FloorControl.prototype._recalculateLayout = function (n) {
         // Calculate required and available size to choose between
         // vertical (default) or horizontal layout
-        const map_height =
+        const mapHeight =
           document.getElementById("interactive-map").clientHeight;
-        const top_ctrl_height = document.querySelector(
+        const topCtrlHeight = document.querySelector(
           ".mapboxgl-ctrl-top-left"
         ).clientHeight;
-        const bottom_ctrl_height = document.querySelector(
+        const bottomCtrlHeight = document.querySelector(
           ".mapboxgl-ctrl-bottom-left"
         ).clientHeight;
-        const floor_ctrl_height =
+        const floorCtrlHeight =
           document.querySelector(".floor-ctrl").clientHeight;
 
         // The buttons have a height of 29px
-        const available_height =
-          map_height - top_ctrl_height - bottom_ctrl_height + floor_ctrl_height;
-        const required_height = 29 * n;
+        const availableHeight =
+          mapHeight - topCtrlHeight - bottomCtrlHeight + floorCtrlHeight;
+        const requiredHeight = 29 * n;
 
         // 3 or less buttons can always be displayed in reduced layout.
         // Also, if the control takes only a small amount of space, it is always open.
-        if (n <= 3 || required_height < available_height * 0.2) {
+        if (n <= 3 || requiredHeight < availableHeight * 0.2) {
           this.container.classList.remove("closed"); // reduced can never be closed
           this.container.classList.remove("horizontal");
           this.container.classList.add("reduced");
@@ -154,14 +155,14 @@ navigatum.registerModule(
 
           // 25px = 10px reserved for top/bottom margin + 5px between control groups
           // 29px = additional height from the open/collapse button
-          if (available_height - (required_height + 29) > 25)
+          if (availableHeight - (requiredHeight + 29) > 25)
             this.container.classList.remove("horizontal");
           else this.container.classList.add("horizontal");
         }
       };
-      FloorControl.prototype._setActiveFloor = function (floor_list_i, name) {
+      FloorControl.prototype._setActiveFloor = function (floorListI, name) {
         for (let i = 0; i < this.floor_list.children.length; i++) {
-          if (i == floor_list_i)
+          if (i === floorListI)
             this.floor_list.children[i].classList.add("active");
           else this.floor_list.children[i].classList.remove("active");
         }
@@ -176,21 +177,21 @@ navigatum.registerModule(
         return new Promise((resolve) => {
           const head = document.getElementsByTagName("head")[0];
           // Add CSS first (required by Mapbox)
-          const el_css = document.createElement("link");
-          el_css.rel = "stylesheet";
-          el_css.href =
+          const elCSS = document.createElement("link");
+          elCSS.rel = "stylesheet";
+          elCSS.href =
             "/* @echo app_prefix */css/mapbox/* @if target='release' */.min/* @endif */.css";
-          head.appendChild(el_css);
+          head.appendChild(elCSS);
 
           // JS should trigger init on load
-          const el_js = document.createElement("script");
-          el_js.src =
+          const elJS = document.createElement("script");
+          elJS.src =
             "/* @echo app_prefix */js/mapbox/* @if target='release' */.min/* @endif */.js";
-          el_js.onload = () => {
+          elJS.onload = () => {
             floorControlInit();
             resolve();
           };
-          head.appendChild(el_js);
+          head.appendChild(elJS);
         });
       },
       createMarker: function (hueRotation = 0) {
@@ -214,11 +215,11 @@ navigatum.registerModule(
         markerDiv.appendChild(markerShadow);
         return markerDiv;
       },
-      initMap: function (container_id) {
+      initMap: function (containerId) {
         mapboxgl.accessToken =
           "pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg";
         const map = new mapboxgl.Map({
-          container: container_id,
+          container: containerId,
 
           // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
           // slower, but prettier and therefore worth it for our use case
@@ -241,36 +242,40 @@ navigatum.registerModule(
         // is maximized instead. This is determined once to select the correct
         // container to maximize, and then remains unchanged even if the browser
         // is resized (not relevant for users but for developers).
-        const is_mobile = window.matchMedia &&
-                          window.matchMedia("only screen and (max-width: 480px)").matches;
+        const isMobile =
+          window.matchMedia &&
+          window.matchMedia("only screen and (max-width: 480px)").matches;
 
-        fs_control = new mapboxgl.FullscreenControl({
-            container: is_mobile ? document.getElementById("interactive-map")
-                                 : document.getElementById("interactive-map-container")
+        const fullscreenCtl = new mapboxgl.FullscreenControl({
+          container: isMobile
+            ? document.getElementById("interactive-map")
+            : document.getElementById("interactive-map-container"),
         });
         // "Backup" the mapboxgl default fullscreen handler
-        fs_control._onClickFullscreenDefault = fs_control._onClickFullscreen;
-        fs_control._onClickFullscreen = function() {
-            if (is_mobile) {
-                fs_control._onClickFullscreenDefault();
+        fullscreenCtl._onClickFullscreenDefault =
+          fullscreenCtl._onClickFullscreen;
+        fullscreenCtl._onClickFullscreen = function () {
+          if (isMobile) {
+            fullscreenCtl._onClickFullscreenDefault();
+          } else {
+            if (fullscreenCtl._container.classList.contains("maximize")) {
+              fullscreenCtl._container.classList.remove("maximize");
+              document.body.classList.remove("no-scroll");
             } else {
-                if (fs_control._container.classList.contains("maximize")) {
-                    fs_control._container.classList.remove("maximize");
-                    document.body.classList.remove("no-scroll");
-                } else {
-                    fs_control._container.classList.add("maximize");
-                    document.body.classList.add("no-scroll");
-                    // "instant" is not part of the spec but nonetheless implemented
-                    // by Firefox and Chrome
-                    window.scrollTo({top: 0, behavior: "instant"});
-                }
-
-                fs_control._fullscreen = fs_control._container.classList.contains("maximize");
-                fs_control._changeIcon();
-                fs_control._map.resize();
+              fullscreenCtl._container.classList.add("maximize");
+              document.body.classList.add("no-scroll");
+              // "instant" is not part of the spec but nonetheless implemented
+              // by Firefox and Chrome
+              window.scrollTo({ top: 0, behavior: "instant" });
             }
-        }
-        map.addControl(fs_control);
+
+            fullscreenCtl._fullscreen =
+              fullscreenCtl._container.classList.contains("maximize");
+            fullscreenCtl._changeIcon();
+            fullscreenCtl._map.resize();
+          }
+        };
+        map.addControl(fullscreenCtl);
 
         const location = new mapboxgl.GeolocateControl({
           positionOptions: {
@@ -306,12 +311,12 @@ navigatum.registerModule(
         return map;
       },
       // Set the given overlays as available overlay images.
-      setFloorOverlays: function (overlays, default_overlay) {
-        _map.floorControl.updateFloors(overlays, default_overlay);
+      setFloorOverlays: function (overlays, defaultOverlay) {
+        _map.floorControl.updateFloors(overlays, defaultOverlay);
       },
       // Set the currently visible overlay image in the map,
-      // or hide it if img_url is null.
-      setOverlayImage: function (img_url, coords) {
+      // or hide it if imgUrl is null.
+      setOverlayImage: function (imgUrl, coords) {
         // Even if the map is initialized, it could be that
         // it hasn't loaded yet, so we need to postpone adding
         // the overlay layer.
@@ -323,12 +328,12 @@ navigatum.registerModule(
         if (!_map.initialLoaded) {
           const _this = this;
           _map.on("load", function () {
-            _this.setOverlayImage(img_url, coords);
+            _this.setOverlayImage(imgUrl, coords);
           });
           return;
         }
 
-        if (img_url === null) {
+        if (imgUrl === null) {
           // Hide overlay
           if (_map.getLayer("overlay-layer"))
             _map.setLayoutProperty("overlay-layer", "visibility", "none");
@@ -339,12 +344,12 @@ navigatum.registerModule(
           if (!source) {
             source = _map.addSource("overlay-src", {
               type: "image",
-              url: img_url,
+              url: imgUrl,
               coordinates: coords,
             });
           } else {
             source.updateImage({
-              url: img_url,
+              url: imgUrl,
               coordinates: coords,
             });
           }
