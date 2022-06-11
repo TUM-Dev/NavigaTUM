@@ -62,7 +62,7 @@ const cachedFetch = (function () {
   };
 })();
 
-var navigatum = (function () {
+const navigatum = (function () {
   const apiBase = "/* @echo api_prefix */";
   const cache = {};
 

@@ -13,7 +13,7 @@
   if ( typeof window.CustomEvent === "function" ) return false;
   function CustomEvent ( event, params ) {
     params = params || { bubbles: false, cancelable: false, detail: null };
-    var evt = document.createEvent( 'CustomEvent' );
+    const evt = document.createEvent( 'CustomEvent' );
     evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
     return evt;
    }
@@ -31,7 +31,7 @@
   if (history.state && history.state[stateIndexSymbol] !== undefined) {
     history.stateIndex = history.state[stateIndexSymbol];
     for (let i = 0; i < history.stateIndex; i++) {
-      var state = {};
+      const state = {};
       state[stateIndexSymbol] = i;
       history.states.push([state, "", null]);
     }
@@ -42,7 +42,7 @@
     if (history.state) {
       history.states.push([history.state, "", null]);
     } else {
-      var state = {};
+      const state = {};
       state[stateIndexSymbol] = 0;
       history.states.push([state, "", null]);
     }
@@ -109,8 +109,8 @@
 })();
 
 /* addEventListener("historyChange",function(e){
-    var from = e.detail.from; // [ data , title , url ]
-    var to   = e.detail.to;   // [ data , title , url ]
-    var side = e.detail.side; // "back" | "forward"
+    const from = e.detail.from; // [ data , title , url ]
+    const to   = e.detail.to;   // [ data , title , url ]
+    const side = e.detail.side; // "back" | "forward"
     console.log(e);
 }) */

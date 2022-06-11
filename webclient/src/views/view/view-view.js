@@ -23,7 +23,7 @@ function viewNavigateTo(to, from, next, component) {
             } else {
                 // Redirect to the correct type if necessary. Technically the type information
                 // is not required, but it makes nicer URLs.
-                var url_type_name = ({
+                let url_type_name = ({
                     campus: "campus",
                     site: "site",
                     area: "site",  // Currently also "site", maybe "group"? TODO
@@ -43,7 +43,7 @@ function viewNavigateTo(to, from, next, component) {
         })
 }
 
-var _view_default_state = {
+const _view_default_state = {
     map: {
         // Can also be "roomfinder". "interactive" is default, because
         // it should show a loading indication.
@@ -139,6 +139,7 @@ navigatum.registerView('view', {
         // - when the view is navigated to from a different view
         // - when the view is navigated to from the same view, but with a different entry
         loadEntryData: function (data) {
+            let i;
             this.view_data = data;
 
             this.showImageShowcase(0, false);
@@ -155,7 +156,7 @@ navigatum.registerView('view', {
                 // Interactive has to be always available, but roomfinder may be unavailable
                 if ("roomfinder" in data.maps) {
                     // Find default map
-                    for (var i in data.maps.roomfinder.available) {
+                    for (i in data.maps.roomfinder.available) {
                         if (data.maps.roomfinder.available[i].id == data.maps.roomfinder.default) {
                             this.state.map.roomfinder.selected_index = i;
                             this.state.map.roomfinder.selected_id = data.maps.roomfinder.available[i].id;
@@ -175,8 +176,8 @@ navigatum.registerView('view', {
 
             // --- Sections ---
             if (this.view_data.sections && this.view_data.sections.rooms_overview) {
-                var usages = this.view_data.sections.rooms_overview.usages;
-                var combined_list = [];
+                const usages = this.view_data.sections.rooms_overview.usages;
+                const combined_list = [];
                 for (i in usages) {
                     combined_list.push(...usages[i].children);
                 }
@@ -365,8 +366,8 @@ navigatum.registerView('view', {
             }
         },
         loadInteractiveMap: function(from_ui) {
-            var _this = this;
-            var from_map = this.state.map.selected;
+            const _this = this;
+            const from_map = this.state.map.selected;
 
             this.state.map.selected = "interactive";
 
@@ -402,8 +403,8 @@ navigatum.registerView('view', {
                     } else {
                         c.setFloorOverlays(null)
                     }
-                    
-                    var default_zooms = {
+
+                    const default_zooms = {
                         joined_building: 16,
                         building: 17,
                         room: 18,
@@ -439,14 +440,14 @@ navigatum.registerView('view', {
             }
         },
         loadRoomfinderMap: function(map_index, from_ui) {
-            var map = this.view_data.maps.roomfinder.available[map_index];
+            const map = this.view_data.maps.roomfinder.available[map_index];
             this.state.map.selected = "roomfinder";
             this.state.map.roomfinder.selected_id = map.id;
             this.state.map.roomfinder.selected_index = map_index;
 
             // Using the #map-container since the bounding rect is still all zero
             // if we switched here from interactive map
-            var rect = document.getElementById("map-container").getBoundingClientRect();
+            const rect = document.getElementById("map-container").getBoundingClientRect();
             // -1023px, -1023px is top left corner, 16px = 2*8px is element padding
             this.state.map.roomfinder.x = -1023 + (map.x / map.width)  * (rect.width - 16);
 
@@ -466,9 +467,10 @@ navigatum.registerView('view', {
             }
         },
         updateRoomsOverview: function(set_selected) {
-            var state = this.state.rooms_overview;
-            var data = this.view_data.sections.rooms_overview;
-            var local = this.sections.rooms_overview;
+            let i;
+            const state = this.state.rooms_overview;
+            const data = this.view_data.sections.rooms_overview;
+            const local = this.sections.rooms_overview;
 
             if (set_selected !== undefined)
                 state.selected = set_selected;
@@ -476,25 +478,25 @@ navigatum.registerView('view', {
             if (state.selected === null) {
                 local.display_list = [];
             } else {
-                var base_list = state.selected === -1
-                                ? local.combined_list : data.usages[state.selected].children;
+                const base_list = state.selected === -1
+                    ? local.combined_list : data.usages[state.selected].children;
                 if (state.filter === "") {
                     local.display_list = base_list;
                 } else {
                     // Update filter index if required
                     if (state.selected !== local._filter_index.selected) {
-                        var rooms =  base_list;
+                        const rooms = base_list;
                         local._filter_index.list = [];
-                        for (var i in rooms) {
+                        for (i in rooms) {
                             rooms[i]._lower = rooms[i].name.toLowerCase();
                             local._filter_index.list.push(rooms[i]);
                         }
                         local._filter_index.selected = state.selected;
                     }
 
-                    var filter = state.filter.toLowerCase();
-                    var filtered = [];
-                    for (var i in local._filter_index.list) {
+                    const filter = state.filter.toLowerCase();
+                    const filtered = [];
+                    for (i in local._filter_index.list) {
                         if (local._filter_index.list[i]._lower.indexOf(filter) >= 0)
                             filtered.push(local._filter_index.list[i]);
                     }
@@ -508,7 +510,7 @@ navigatum.registerView('view', {
             // is visible).
             if (local.display_list.length > 150) {
                 local.loading = true;
-                var tmp = local.display_list;
+                const tmp = local.display_list;
                 local.display_list = [];
                 // this.$nextTick doesn't work for some reason, the view freezes
                 // before the loading indicator is visible.
@@ -520,7 +522,7 @@ navigatum.registerView('view', {
         },
         copy_link: function() {
             // c.f. https://stackoverflow.com/a/30810322
-            var textArea = document.createElement("textarea");
+            const textArea = document.createElement("textarea");
             textArea.value = window.location.href;
 
             // Avoid scrolling to bottom
@@ -533,9 +535,9 @@ navigatum.registerView('view', {
             textArea.select();
 
             try {
-                var success = document.execCommand('copy');
+                const success = document.execCommand('copy');
                 if (success) {
-                    var _this = this;
+                    const _this = this;
                     _this.copied = true;
                     window.setTimeout(function() { _this.copied = false }, 1000)
                 }
@@ -565,7 +567,7 @@ navigatum.registerView('view', {
         }
 
         // Update pending coordinate counter on localStorage changes
-        var _this = this;
+        const _this = this;
         const updateCoordinateCounter = function() {
             const coords = navigatum.getLocalStorageWithExpiry("coordinate-feedback", {});
             _this.coord_counter.counter = Object.keys(coords).length;
@@ -577,8 +579,9 @@ navigatum.registerView('view', {
             // Even though 'mounted' is called there is no guarantee apparently,
             // that it really is mounted now. For this reason we try to poll now.
             // (Not the best solution probably)
-            var timeout_ms = 5;
-            var _this = this;
+            let timeout_ms = 5;
+            const _this = this;
+
             function poll_map() {
                 if (document.getElementById("interactive-map") !== null) {
                     _this.loadMap();
@@ -586,7 +589,6 @@ navigatum.registerView('view', {
                     console.log("'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in " + timeout_ms + "ms");
                     window.setTimeout(poll_map, timeout_ms);
                     timeout_ms *= 1.5;
-
                 }
             }
 
