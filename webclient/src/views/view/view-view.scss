@@ -61,7 +61,7 @@
             .link-popover {
                 position: absolute;
                 z-index: 1000;
-                padding: 2px 10px 10px 10px;
+                padding: 6px 10px;
                 width: 200px;
                 right: 36px;
                 background: $light-color;
@@ -74,9 +74,18 @@
                 transform: translateY(-5px);
                 transition: opacity .05s, transform .05s;
 
-                & a {
+                a, button {
                     width: 100%;
-                    margin-top: 8px;
+                    margin: 4px 0px;
+                }
+
+                strong {
+                    margin-top: 2px;
+                    display: block;
+
+                    & + a, & + button {
+                        margin-top: 2px;
+                    }
                 }
             }
 

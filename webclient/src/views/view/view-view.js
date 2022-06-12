@@ -117,6 +117,7 @@ navigatum.registerView('view', {
                 body_backup: null,
                 force_reopen: false,
             },
+            browser_supports_share: "share" in navigator,
         }
     },
     beforeRouteEnter: function(to, from, next) { viewNavigateTo(to, from, next, null) },
@@ -543,6 +544,15 @@ navigatum.registerView('view', {
             }
 
             document.body.removeChild(textArea);
+        },
+        share_link: function() {
+            if (navigator.share) {
+                navigator.share({
+                    title: this.view_data.name,
+                    text: document.title,
+                    url: window.location.href,
+                });
+            }
         },
     },
     watch: {
