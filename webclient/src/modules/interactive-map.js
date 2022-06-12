@@ -222,10 +222,11 @@ navigatum.registerModule("interactive-map", (function() {
                 container: is_mobile ? document.getElementById("interactive-map")
                                      : document.getElementById("interactive-map-container")
             });
-            fs_control.__onClickFullscreen = fs_control._onClickFullscreen;
+            // "Backup" the mapboxgl default fullscreen handler
+            fs_control._onClickFullscreenDefault = fs_control._onClickFullscreen;
             fs_control._onClickFullscreen = function() {
                 if (is_mobile) {
-                    fs_control.__onClickFullscreen();
+                    fs_control._onClickFullscreenDefault();
                 } else {
                     if (fs_control._container.classList.contains("maximize")) {
                         fs_control._container.classList.remove("maximize");
