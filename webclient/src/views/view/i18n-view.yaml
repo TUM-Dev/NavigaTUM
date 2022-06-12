@@ -3,6 +3,13 @@ view_view:
     details_for: {de: "Details für", en: "Details for"}
   header:
     copy_link: {de: "Link kopieren", en: "Copy link"}
+    external_link:
+      tooltip: {de: "Externe Links", en: "External links"}
+      open_in: {de: "Öffnen in", en: "Open in"}
+      other_app: {de: "Andere App ...", en: "Other app ..."}
+      share: {de: "Teilen", en: "Share"}
+      share_link: {de: "Teilen mit ...", en: "Share with ..."}
+      copied: {de: "Kopiert", en: "Copied"}
     feedback:
       de: "Problem melden oder Änderung vorschlagen"
       en: "Report issue or suggest changes"
