@@ -5,7 +5,7 @@ navigatum.registerModule("interactive-map", (function() {
 
     // Because mapboxgl might not be loaded yet, we need to postpone
     // the declaration of the FloorControl class
-    function FloorControlInit() {
+    function floorControlInit() {
         // Add Evented functionality from mapboxgl
         FloorControl.prototype = Object.create(mapboxgl.Evented.prototype);
 
@@ -163,7 +163,7 @@ navigatum.registerModule("interactive-map", (function() {
                 const el_js = document.createElement("script");
                 el_js.src = "/* @echo app_prefix */js/mapbox/* @if target='release' */.min/* @endif */.js";
                 el_js.onload = () => {
-                    FloorControlInit();
+                    floorControlInit();
                     resolve();
                 }
                 head.appendChild(el_js);
@@ -211,11 +211,40 @@ navigatum.registerModule("interactive-map", (function() {
             const nav = new mapboxgl.NavigationControl();
             map.addControl(nav, 'top-left');
             
-            // Fullscreen currently only on mobile
-            if (window.matchMedia &&
-                window.matchMedia("only screen and (max-width: 480px)").matches) {
-                map.addControl(new mapboxgl.FullscreenControl());
+            // (Browser) Fullscreen is enabled only on mobile, on desktop the map
+            // is maximized instead. This is determined once to select the correct
+            // container to maximize, and then remains unchanged even if the browser
+            // is resized (not relevant for users but for developers).
+            const is_mobile = window.matchMedia &&
+                              window.matchMedia("only screen and (max-width: 480px)").matches;
+
+            fs_control = new mapboxgl.FullscreenControl({
+                container: is_mobile ? document.getElementById("interactive-map")
+                                     : document.getElementById("interactive-map-container")
+            });
+            // "Backup" the mapboxgl default fullscreen handler
+            fs_control._onClickFullscreenDefault = fs_control._onClickFullscreen;
+            fs_control._onClickFullscreen = function() {
+                if (is_mobile) {
+                    fs_control._onClickFullscreenDefault();
+                } else {
+                    if (fs_control._container.classList.contains("maximize")) {
+                        fs_control._container.classList.remove("maximize");
+                        document.body.classList.remove("no-scroll");
+                    } else {
+                        fs_control._container.classList.add("maximize");
+                        document.body.classList.add("no-scroll");
+                        // "instant" is not part of the spec but nonetheless implemented
+                        // by Firefox and Chrome
+                        window.scrollTo({top: 0, behavior: "instant"});
+                    }
+
+                    fs_control._fullscreen = fs_control._container.classList.contains("maximize");
+                    fs_control._changeIcon();
+                    fs_control._map.resize();
+                }
             }
+            map.addControl(fs_control);
 
             const location = new mapboxgl.GeolocateControl({
                 positionOptions: {
