@@ -22,7 +22,8 @@ entry_queries:
 - {target: "wzw-ziel", query: "ZIEL",               }
 # room queries
 - {target: "5604.EG.011",  query: "5604.00.011",       }
-- {target: "5601.EG.001",  query: "5601.EG.001",       }
+- {target: "5601.EG.001",  query: "5601.EG.001",       }  # MI Magistrale
+- {target: "5601.EG.001",  query: "00.01.001",         }  # A search for the Architects name should return the correct room
 - {target: "5608.03.011",  query: "03.08.011",         }
 - {target: "5602.EG.001",  query: "mi hs 1",           }
 - {target: "5508.01.801",  query: "MW 1801",           }
@@ -51,6 +52,11 @@ entry_queries:
 - {target: "5604.EG.036",  query: "physik labor mi",   among: 3}  # "5604.02.033" is a valid result before the two lab course rooms
 - {target: "0104.U1.403",  query: "n1403",             among: 2}  # This is "N-1403@0104", but "N1403@0104" can be before this
 - {target: "5101.EG.257",  query: "fachschaft pyhsik"}  # typo + it's "Fachschaftsbüro" in the data
+- {target: "2910.EG.003",  query: "H.0003"}  # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number
+- {target: "2910.EG.003",  query: "H.003"}  # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number
+- {target: "2910.EG.003",  query: "H.03"}  # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number
+- {target: "2910.EG.003",  query: "H.3"}  # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number
+- {target: "0101.02.119",  query: "2119", among: 4}  # The architects name is a N2119. There are other rooms which are actually named "2119", which means 4 is the best case.
 # other queries
 #- {target: , query: "mathe bib",               }
 #- {target: , query: "tb innenstadt",           }
