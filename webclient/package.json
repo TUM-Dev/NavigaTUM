@@ -41,16 +41,23 @@
     }
   },
   "stylelint": {
+    "plugins": [
+      "stylelint-scss"
+    ],
     "extends": [
       "@paulhfischer/stylelint-config"
     ],
     "rules": {
+      "color-function-notation": "legacy",
+      "at-rule-no-unknown": null,
+      "scss/at-rule-no-unknown": true,
       "selector-max-id": null,
       "max-nesting-depth": null,
       "number-leading-zero": "never"
     }
   },
   "devDependencies": {
+    "stylelint-scss": "^4.2.0",
     "@babel/core": "^7.14.8",
     "@babel/preset-env": "^7.14.8",
     "babel-plugin-transform-remove-strict-mode": "^0.0.2",
