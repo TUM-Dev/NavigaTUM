@@ -48,6 +48,52 @@
             span {
                 color: $text-gray;
             }
+
+            button svg {
+                margin-top: 4px;
+                stroke: $primary-color;
+            }
+
+            .column:last-child {
+                position: relative;
+            }
+
+            .link-popover {
+                position: absolute;
+                z-index: 1000;
+                padding: 6px 10px;
+                width: 200px;
+                right: 36px;
+                background: $light-color;
+                box-shadow: $card-shadow-dark;
+                border-radius: 2px;
+                border: 1px solid $card-border;
+
+                visibility: hidden;
+                opacity: 0;
+                transform: translateY(-5px);
+                transition: opacity .05s, transform .05s;
+
+                a, button {
+                    width: 100%;
+                    margin: 4px 0px;
+                }
+
+                strong {
+                    margin-top: 2px;
+                    display: block;
+
+                    & + a, & + button {
+                        margin-top: 2px;
+                    }
+                }
+            }
+
+            button:focus + .link-popover, .link-popover:hover {
+                visibility: visible;
+                opacity: 1;
+                transform: translateY(0px)
+            }
         }
 
         .divider {
