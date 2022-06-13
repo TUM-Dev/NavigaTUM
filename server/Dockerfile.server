@@ -1,4 +1,4 @@
-FROM python:3.10.4-bullseye as build-stage
+FROM python:3.10.5-bullseye as build-stage
 # get api_data.json
 ADD https://nav.tum.sexy/cdn/api_data.json data/api_data.json
 # For local testing if roomapi is not avalible:
