@@ -47,7 +47,7 @@
         property="itemListElement" typeof="ListItem">
       <router-link v-bind="{'to': '/view/' + view_data.parents[i]}"
                    property="item" typeof="WebPage">
-        {{ p }}
+        <span property="name">{{ p }}</span>
       </router-link>
       <meta property="position" v-bind:content="i+1">
     </li>
