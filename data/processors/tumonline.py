@@ -295,9 +295,9 @@ def _infer_arch_name(room, arch_name_parts, used_arch_names, roomcode_parts, roo
 
     # Check for arch_name and roomcode suffix mismatch:
     if (
-            arch_name_parts[0][-1].isalpha()
-            and roomcode_parts[2][-1].isalpha()
-            and arch_name_parts[0][-1].lower() != roomcode_parts[2][-1].lower()
+        arch_name_parts[0][-1].isalpha()
+        and roomcode_parts[2][-1].isalpha()
+        and arch_name_parts[0][-1].lower() != roomcode_parts[2][-1].lower()
     ):
         # For the MW buildings it seems that there is a difference between
         # upper- and lowercase suffixes which is probably not representable in the TUMOnline system.
@@ -322,9 +322,8 @@ def _infer_arch_name(room, arch_name_parts, used_arch_names, roomcode_parts, roo
     a_name = arch_name_parts[0].lower()
     # Commonly: "-1405@0504" is arch_name for both "0504.U1.405" and "0504.U1.405A"
     # In this case: add the suffix to the arch_name for the second room
-    if (
-        (a_name.endswith(r1_parts[2].lower()) and not a_name.endswith(r2_parts[2].lower())) or
-        (a_name.endswith(r2_parts[2].lower()) and not a_name.endswith(r1_parts[2].lower()))
+    if (a_name.endswith(r1_parts[2].lower()) and not a_name.endswith(r2_parts[2].lower())) or (
+        a_name.endswith(r2_parts[2].lower()) and not a_name.endswith(r1_parts[2].lower())
     ):
         return
     # Sometimes the arch_name matches only one of the two roomcodes

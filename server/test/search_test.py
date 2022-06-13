@@ -24,7 +24,7 @@ def _do_search(qst: str, query: dict):
     }
 
     try:
-        search["target_pos"] = list(map(lambda s: s["id"] == query["target"], search["hits"])).index(True)
+        search["target_pos"] = [s["id"] == query["target"] for s in search["hits"]].index(True)
     except ValueError:
         search["target_pos"] = -1
 
@@ -184,7 +184,7 @@ def _print_specific_queries_result(searches, cmp=None):
 
         print(f"{s_pos_indicator} {s_grade}{s_cmp} {s_query} {s_stats}")
 
-    num_searches = sum(map(lambda s: len(s["query"]) + 1, searches))
+    num_searches = sum(len(s["query"]) + 1 for s in searches)
     total_search_times = sum(s["partial_time_avg"] * len(s["query"]) for s in searches)
     avg_search_times = total_search_times / sum(len(s["query"]) for s in searches)
     print(f"Performed {num_searches} searches, {round(avg_search_times, 1)}ms (partial) average")

@@ -3,6 +3,7 @@ from pathlib import Path
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
+
 def export_for_search(data, path):
     """export a subset of the data for the /search api"""
     export = []
@@ -11,15 +12,12 @@ def export_for_search(data, path):
         if _id == "root":
             continue
 
+        building_parents_index = len(_data["parents"])
         if _data["type"] in {"room", "virtual_room"}:
-            building_parents_index = list(
-                map(
-                    lambda e: data[e]["type"] in {"building", "joined_building"},
-                    _data["parents"],
-                ),
-            ).index(True)
-        else:
-            building_parents_index = len(_data["parents"])
+            for i, parent in enumerate(_data["parents"]):
+                if data[parent]["type"] in {"building", "joined_building"}:
+                    building_parents_index = i
+                    break
 
         export.append(
             {

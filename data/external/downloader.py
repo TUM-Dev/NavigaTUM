@@ -10,9 +10,9 @@ import xmlrpc.client
 import zipfile
 from pathlib import Path
 
-import defusedxml.ElementTree as ET
 import requests
 from bs4 import BeautifulSoup, element
+from defusedxml import ElementTree as ET
 from utils import convert_to_webp
 
 ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192/"

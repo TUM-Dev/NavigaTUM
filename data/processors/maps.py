@@ -236,10 +236,9 @@ def _calc_xy_of_coords_on_map(coords, map_data) -> tuple[int, int]:
 
     angle: float = math.radians(float(box["rotation"]))
 
-    ix: float = center_x + (x0_on_map - center_x) * math.cos(angle) - (y0_on_map - center_y) * math.sin(angle)
-    iy: float = center_y + (x0_on_map - center_x) * math.sin(angle) + (y0_on_map - center_y) * math.cos(angle)
-    int_ix, int_iy = round(ix), round(iy)
-    return int_ix, int_iy
+    float_ix: float = center_x + (x0_on_map - center_x) * math.cos(angle) - (y0_on_map - center_y) * math.sin(angle)
+    float_iy: float = center_y + (x0_on_map - center_x) * math.sin(angle) + (y0_on_map - center_y) * math.cos(angle)
+    return round(float_ix), round(float_iy)
 
 
 def _load_custom_maps():

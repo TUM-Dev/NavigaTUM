@@ -1,6 +1,6 @@
 import os
 
-import downloader
+from external import downloader
 
 if __name__ == "__main__":
     # Create cache directory structure
