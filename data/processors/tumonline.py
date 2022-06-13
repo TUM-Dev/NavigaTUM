@@ -221,115 +221,10 @@ def _clean_tumonline_rooms(to_rooms):
             )
             invalid_rooms.append(room)
 
-        # Some rooms don't have an arch_name. The value is then usually just like "@1234".
-        # Since this is not helpful (the building is already known for all rooms) rooms are
-        # then dropped.
-        if len(arch_name_parts[0]) == 0:
-            room["arch_name"] = ""
-        else:
-            # The alt_name commonly begins with the roomname. Since ther roomname should be
-            # encoded in the arch_name as the part before the "@" we verify, that these match
-            # and remove the roomname in the alt_name (which is more like a descriptive name).
-            # As far as I observed so far, if the room has no arch_name it also doesn't have
-            # any roomname in the alt_name. Also if there are no comma-separated parts, the
-            # roomname is usually not in the alt_name.
-            # THIS SECTION MIGHT CHANGE THE ARCH_NAME
-            alt_parts = [_clean_spaces(s) for s in room["alt_name"].split(",")]
-            if len(alt_parts) >= 2:
-                if alt_parts[0].lower() == arch_name_parts[0].lower():
-                    room["alt_name"] = ", ".join(alt_parts[1:])
-                else:
-                    # The most common mismatch is if the roomname in the alt_name is like "L516"
-                    # and the arch_name starts with "L 516". In this case we change the arch_name
-                    # to the format without a space
-                    joined_roomname = arch_name_parts[0].replace(" ", "", 2)
-                    if arch_name_parts[0][:2] in {"R ", "L ", "M ", "N "} and alt_parts[0] == joined_roomname:
-                        room["alt_roomname"] = arch_name_parts[0]
-                        arch_name_parts[0] = alt_parts[0]
-                        room["arch_name"] = "@".join(arch_name_parts)
-                        room["alt_name"] = ", ".join(alt_parts[1:])
-                        room["patched"] = True
-                    # The same might appear the other way round (e.g. "N 1070 ZG" and "N1070ZG")
-                    elif alt_parts[0][:2] in {"N ", "R "} and arch_name_parts[0] == alt_parts[0].replace(" ", ""):
-                        room["alt_roomname"] = alt_parts[0]
-                        room["alt_name"] = ", ".join(alt_parts[1:])
-                        room["patched"] = True
-                    # The second most common mismatch is if the roomname in the alt_name is prepended
-                    # with the abbrev of the building like "MW 1050"
-                    elif any(alt_parts[0].startswith(s) for s in ["PH ", "MW ", "WSI ", "CH ", "MI "]):
-                        room["alt_name"] = ", ".join(alt_parts[1:])
-                        room["patched"] = True
-                    # If the roomname has a comma, the comparision by parts fails
-                    elif "," in arch_name_parts[0] and room["alt_name"].startswith(arch_name_parts[0]):
-                        alt_name_index = arch_name_parts[0].count(",") + 1
-                        room["alt_name"] = ", ".join(alt_parts[alt_name_index:])
-                        room["patched"] = True
-                    # The Theresianum is an exception where the roomname is the second part of the
-                    # alt_name. Both are discarded since both roomcode and building name are given
-                    # separately
-                    elif alt_parts[0] == "Theresianum" and alt_parts[1] == arch_name_parts[0]:
-                        room["alt_name"] = ", ".join(alt_parts[2:])
-                        room["patched"] = True
-                    else:
-                        logging.debug(
-                            f"(alt_name / arch_name mismatch): "
-                            f"{alt_parts[0]=} {arch_name_parts[0]=} {room['roomcode']=}",
-                        )
+        _infer_arch_name(room, arch_name_parts, used_arch_names, roomcode_parts, roomcode_lookup)
 
-            # Check for arch_name and roomcode suffix mismatch:
-            if (
-                arch_name_parts[0][-1].isalpha()
-                and roomcode_parts[2][-1].isalpha()
-                and arch_name_parts[0][-1].lower() != roomcode_parts[2][-1].lower()
-            ):
-                # For the MW buildings it seems that there is a difference between upper- and
-                # lowercase suffixes which is probably not representable in the TUMOnline
-                # system. That is why lowercase suffixes in the arch_name might be different
-                # from the suffix in the roomcode
-                if roomcode_parts[0].startswith("550"):
-                    pass
-                else:
-                    # TODO: This code section might need to be continued
-                    # logging.debug(f"{r["arch_name"]=}, {roomcode_parts[2]=}")
-                    pass
-
-            # Check for duplicate uses of arch names
-            if room["arch_name"] not in used_arch_names:
-                used_arch_names[room["arch_name"]] = room["roomcode"]
-            else:
-                r1_parts = roomcode_parts
-                r2_parts = used_arch_names[room["arch_name"]].split(".")
-                if r1_parts[0] == r2_parts[0] and r1_parts[2] == r2_parts[2]:
-                    continue
-
-                a_name = arch_name_parts[0].lower()
-                # Sometimes the arch_name matches only one of the two roomcodes
-                if (a_name.endswith(r1_parts[2].lower()) and not a_name.endswith(r2_parts[2].lower())) or (
-                    a_name.endswith(r2_parts[2].lower()) and not a_name.endswith(r1_parts[2].lower())
-                ):
-                    # Commonly: "-1405@0504" is arch_name for both "0504.U1.405" and "0504.U1.405A"
-                    # In this case: add the suffix to the arch_name for the second room
-                    min_len = min(len(r1_parts[2]), len(r2_parts[2]))
-                    if r1_parts[2][:min_len] == r2_parts[2][:min_len]:
-                        if len(r1_parts[2]) > len(r2_parts[2]):
-                            room["arch_name"] = (
-                                arch_name_parts[0] + r1_parts[2][min_len:].lower() + "@" + arch_name_parts[1]
-                            )
-                        else:
-                            r2 = roomcode_lookup[used_arch_names[room["arch_name"]]]
-                            r2["arch_name"] = (
-                                arch_name_parts[0] + r2_parts[2][min_len:].lower() + "@" + arch_name_parts[1]
-                            )
-                            used_arch_names[room["arch_name"]] = room["roomcode"]
-                        room["patched"] = True
-                        continue
-
-                else:
-                    continue
-
-            # The address commonly has duplicate spaces
-            room["address"] = _clean_spaces(room["address"])
-
+        # The address commonly has duplicate spaces
+        room["address"] = _clean_spaces(room["address"])
     if len(invalid_rooms) > 0:
         for room in invalid_rooms:
             to_rooms.remove(room)
@@ -337,6 +232,111 @@ def _clean_tumonline_rooms(to_rooms):
         logging.warning(f"Ignored {len(invalid_rooms)} TUMOnline rooms because they are invalid.")
 
     return to_rooms
+
+
+def _infer_arch_name(room, arch_name_parts, used_arch_names, roomcode_parts, roomcode_lookup):
+    """
+    Infer the arch name and other related properties
+    """
+
+    # Some rooms don't have an arch_name. The value is then usually just like "@1234".
+    # Since this is not helpful (the building is already known for all rooms) rooms are then dropped.
+    if len(arch_name_parts[0]) == 0:
+        room["arch_name"] = ""
+        return
+
+    # The alt_name commonly begins with the roomname. Since ther roomname should be
+    # encoded in the arch_name as the part before the "@" we verify, that these match
+    # and remove the roomname in the alt_name (which is more like a descriptive name).
+    # As far as I observed so far, if the room has no arch_name it also doesn't have
+    # any roomname in the alt_name. Also, if there are no comma-separated parts, the
+    # roomname is usually not in the alt_name.
+    # THIS SECTION MIGHT CHANGE THE ARCH_NAME
+    alt_parts = [_clean_spaces(s) for s in room["alt_name"].split(",")]
+    if len(alt_parts) >= 2:
+        if alt_parts[0].lower() == arch_name_parts[0].lower():
+            room["alt_name"] = ", ".join(alt_parts[1:])
+        else:
+            # The most common mismatch is if the roomname in the alt_name is like "L516"
+            # and the arch_name starts with "L 516". In this case we change the arch_name
+            # to the format without a space
+            joined_roomname = arch_name_parts[0].replace(" ", "", 2)
+            if arch_name_parts[0][:2] in {"R ", "L ", "M ", "N "} and alt_parts[0] == joined_roomname:
+                room["alt_roomname"] = arch_name_parts[0]
+                arch_name_parts[0] = alt_parts[0]
+                room["arch_name"] = "@".join(arch_name_parts)
+                room["alt_name"] = ", ".join(alt_parts[1:])
+                room["patched"] = True
+            # The same might appear the other way round (e.g. "N 1070 ZG" and "N1070ZG")
+            elif alt_parts[0][:2] in {"N ", "R "} and arch_name_parts[0] == alt_parts[0].replace(" ", ""):
+                room["alt_roomname"] = alt_parts[0]
+                room["alt_name"] = ", ".join(alt_parts[1:])
+                room["patched"] = True
+            # The second most common mismatch is if the roomname in the alt_name is prepended
+            # with the abbrev of the building like "MW 1050"
+            elif any(alt_parts[0].startswith(s) for s in ["PH ", "MW ", "WSI ", "CH ", "MI "]):
+                room["alt_name"] = ", ".join(alt_parts[1:])
+                room["patched"] = True
+            # If the roomname has a comma, the comparision by parts fails
+            elif "," in arch_name_parts[0] and room["alt_name"].startswith(arch_name_parts[0]):
+                alt_name_index = arch_name_parts[0].count(",") + 1
+                room["alt_name"] = ", ".join(alt_parts[alt_name_index:])
+                room["patched"] = True
+            # The Theresianum is an exception where the roomname is the second part of the
+            # alt_name. Both are discarded since both roomcode and building name are given
+            # separately
+            elif alt_parts[0] == "Theresianum" and alt_parts[1] == arch_name_parts[0]:
+                room["alt_name"] = ", ".join(alt_parts[2:])
+                room["patched"] = True
+            else:
+                logging.debug(
+                    f"(alt_name / arch_name mismatch): " f"{alt_parts[0]=} {arch_name_parts[0]=} {room['roomcode']=}",
+                )
+
+    # Check for arch_name and roomcode suffix mismatch:
+    if (
+            arch_name_parts[0][-1].isalpha()
+            and roomcode_parts[2][-1].isalpha()
+            and arch_name_parts[0][-1].lower() != roomcode_parts[2][-1].lower()
+    ):
+        # For the MW buildings it seems that there is a difference between
+        # upper- and lowercase suffixes which is probably not representable in the TUMOnline system.
+        # That is why lowercase suffixes in the arch_name might be different from the suffix in the roomcode
+        if roomcode_parts[0].startswith("550"):
+            pass
+        else:
+            # TODO: This code section might need to be continued
+            # logging.debug(f"{r["arch_name"]=}, {roomcode_parts[2]=}")
+            pass
+
+    # Check for duplicate uses of arch names
+    if room["arch_name"] not in used_arch_names:
+        used_arch_names[room["arch_name"]] = room["roomcode"]
+        return
+
+    r1_parts = roomcode_parts
+    r2_parts = used_arch_names[room["arch_name"]].split(".")
+    if r1_parts[0] == r2_parts[0] and r1_parts[2] == r2_parts[2]:
+        return
+
+    a_name = arch_name_parts[0].lower()
+    # Commonly: "-1405@0504" is arch_name for both "0504.U1.405" and "0504.U1.405A"
+    # In this case: add the suffix to the arch_name for the second room
+    if (
+        (a_name.endswith(r1_parts[2].lower()) and not a_name.endswith(r2_parts[2].lower())) or
+        (a_name.endswith(r2_parts[2].lower()) and not a_name.endswith(r1_parts[2].lower()))
+    ):
+        return
+    # Sometimes the arch_name matches only one of the two roomcodes
+    min_len = min(len(r1_parts[2]), len(r2_parts[2]))
+    if r1_parts[2][:min_len] == r2_parts[2][:min_len]:
+        if len(r1_parts[2]) > len(r2_parts[2]):
+            room["arch_name"] = arch_name_parts[0] + r1_parts[2][min_len:].lower() + "@" + arch_name_parts[1]
+        else:
+            r2 = roomcode_lookup[used_arch_names[room["arch_name"]]]
+            r2["arch_name"] = arch_name_parts[0] + r2_parts[2][min_len:].lower() + "@" + arch_name_parts[1]
+            used_arch_names[room["arch_name"]] = room["roomcode"]
+        room["patched"] = True
 
 
 def _clean_spaces(_string: str) -> str:
