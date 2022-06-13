@@ -184,8 +184,9 @@ var navigatum = (function () {
                     },
                     searchGo: function(clean_query) {
                         if (this.search.query.length == 0) return;
-                               
-                        navigatum.router.push("/search?q=" + this.search.query);
+
+                        navigatum.router.push("/search?q=" + this.search.query)
+                                 .catch(() => { navigatum.afterNavigate() });
                         this.search.focused = false;
                         if (clean_query) {
                             this.search.query = "";
@@ -194,7 +195,11 @@ var navigatum = (function () {
                         document.getElementById("search").blur();
                     },
                     searchGoTo: function(id, clean_query) {
-                        navigatum.router.push("/view/" + id);
+                        // Catch is necessary because vue-router throws an error
+                        // if navigation is aborted for some reason (e.g. the new
+                        // url is the same or there is a loop in redirects)
+                        navigatum.router.push("/view/" + id)
+                                 .catch(() => { navigatum.afterNavigate() });
                         this.search.focused = false;
                         if (clean_query) {
                             this.search.query = "";
