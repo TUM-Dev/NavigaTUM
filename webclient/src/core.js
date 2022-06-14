@@ -336,8 +336,8 @@ const navigatum = (function () {
       document.getElementById("content").classList.remove("visible");
       document.getElementById("content").style.opacity = "0";
       document.getElementById("loading-page").classList.add("show");
-      if (from.name !== null && history.saveCurrentViewState)
-        history.saveCurrentViewState(); // Initial page load
+      if (from.name !== null && window.history.saveCurrentViewState)
+        window.history.saveCurrentViewState(); // Initial page load
     },
     afterNavigate: function (to, from) {
       if (this.navigationState === null) return;
@@ -353,7 +353,7 @@ const navigatum = (function () {
         document.getElementById("loading-page").classList.remove("show");
       }, 5); // await at least one frame
 
-      history.lastStateIndex = null; // Reset
+      window.history.lastStateIndex = null; // Reset
     },
 
     // TODO: These are just helper functions and only cloneState is required
@@ -381,7 +381,10 @@ const navigatum = (function () {
     },
     tryReuseViewState: function () {
       // Try to reuse the view state if there is one.
-      if (history.states && history.states[history.stateIndex][0].viewState) {
+      if (
+        window.history.states &&
+        window.history.states[window.history.stateIndex][0].viewState
+      ) {
         // We assume instance exists, because this should only be called
         // from a matched route
         const instance =
@@ -389,7 +392,7 @@ const navigatum = (function () {
 
         if (instance.state)
           this.applyState(
-            history.states[history.stateIndex][0].viewState,
+            window.history.states[window.history.stateIndex][0].viewState,
             instance.state
           );
         return true;

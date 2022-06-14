@@ -27,81 +27,92 @@
   // If the page is reloaded, the state is preserved by the browser, but we have lost
   // the state list. For this reason we need to create a dummy one for now.
   // When navigating to that page again, we may be able to get the old state back (TODO).
-  history.states = [];
-  if (history.state && history.state[stateIndexSymbol] !== undefined) {
-    history.stateIndex = history.state[stateIndexSymbol];
-    for (let i = 0; i < history.stateIndex; i++) {
+  window.history.states = [];
+  if (
+    window.history.state &&
+    window.history.state[stateIndexSymbol] !== undefined
+  ) {
+    window.history.stateIndex = window.history.state[stateIndexSymbol];
+    for (let i = 0; i < window.history.stateIndex; i++) {
       const state = {};
       state[stateIndexSymbol] = i;
-      history.states.push([state, "", null]);
+      window.history.states.push([state, "", null]);
     }
-    history.states.push([history.state, "", null]);
+    window.history.states.push([window.history.state, "", null]);
   } else {
-    history.stateIndex = 0;
+    window.history.stateIndex = 0;
 
-    if (history.state) {
-      history.states.push([history.state, "", null]);
+    if (window.history.state) {
+      window.history.states.push([window.history.state, "", null]);
     } else {
       const state = {};
       state[stateIndexSymbol] = 0;
-      history.states.push([state, "", null]);
+      window.history.states.push([state, "", null]);
     }
   }
 
-  history.lastStateIndex = null;
-  const historyPushState = history.pushState;
+  window.history.lastStateIndex = null;
+  const historyPushState = window.history.pushState;
   function add(data, title, url) {
     if (data == null) data = {};
     if (typeof data !== "object") data = { data: data };
-    data[stateIndexSymbol] = history.stateIndex + 1;
-    history.states.splice(history.stateIndex + 1, 0, [data, title, url]);
-    history.states.splice(history.stateIndex + 2);
-    history.stateIndex += 1;
+    data[stateIndexSymbol] = window.history.stateIndex + 1;
+    window.history.states.splice(window.history.stateIndex + 1, 0, [
+      data,
+      title,
+      url,
+    ]);
+    window.history.states.splice(window.history.stateIndex + 2);
+    window.history.stateIndex += 1;
   }
-  history.saveCurrentViewState = function () {
+  window.history.saveCurrentViewState = function () {
     if (
       navigatum.router &&
       navigatum.router.currentRoute.matched[0] &&
       navigatum.router.currentRoute.matched[0].instances.default.state
     ) {
       const stateIndex =
-        history.lastStateIndex === null
-          ? history.stateIndex
-          : history.lastStateIndex;
+        window.history.lastStateIndex === null
+          ? window.history.stateIndex
+          : window.history.lastStateIndex;
 
-      history.states[stateIndex][0][stateDataSymbol] = navigatum.cloneState(
-        navigatum.router.currentRoute.matched[0].instances.default.state
-      );
+      window.history.states[stateIndex][0][stateDataSymbol] =
+        navigatum.cloneState(
+          navigatum.router.currentRoute.matched[0].instances.default.state
+        );
     }
   };
-  history.pushState = function (data, title, url = null) {
+  window.history.pushState = function (data, title, url = null) {
     add(data, title, url);
-    historyPushState.bind(history)(data, title, url);
+    historyPushState.bind(window.history)(data, title, url);
   };
   addEventListener("popstate", function (e) {
-    // If navigation is history navigation (click on back/forward),
+    // If navigation is window.history navigation (click on back/forward),
     // the 'popstate' event is emitted before 'beforeResolve()'.
     // So in this case, we need to temporarily store the old state index,
     // so that the saveCurrentViewState() call in beforeResolve() saves the
-    // state to the correct state in the history.
-    history.lastStateIndex = history.stateIndex;
+    // state to the correct state in the window.history.
+    window.history.lastStateIndex = window.history.stateIndex;
 
     const eventObject = {};
     const newStateIndex =
       e.state != null && e.state[stateIndexSymbol] !== undefined
         ? e.state[stateIndexSymbol]
         : 0;
-    eventObject.from = history.states[history.stateIndex];
+    eventObject.from = window.history.states[window.history.stateIndex];
     eventObject.to =
-      newStateIndex in history.states ? history.states[newStateIndex] : null;
-    eventObject.side = history.stateIndex > newStateIndex ? "back" : "forward";
-    // This happens if there is a state in the history, that we have lost.
+      newStateIndex in window.history.states
+        ? window.history.states[newStateIndex]
+        : null;
+    eventObject.side =
+      window.history.stateIndex > newStateIndex ? "back" : "forward";
+    // This happens if there is a state in the window.history, that we have lost.
     // (usually happens on forward navigation from another page)
-    if (!(newStateIndex in history.states)) {
-      add(history.state, "", window.location.href);
+    if (!(newStateIndex in window.history.states)) {
+      add(window.history.state, "", window.location.href);
     }
     // window.dispatchEvent(new CustomEvent("historyChange", {detail: eventObject} ))
-    history.stateIndex =
+    window.history.stateIndex =
       e.state != null && e.state[stateIndexSymbol] !== undefined
         ? e.state[stateIndexSymbol]
         : 0; // -1;
