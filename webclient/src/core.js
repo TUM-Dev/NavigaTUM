@@ -73,22 +73,6 @@ const navigatum = (function () {
   const router = null;
   const app = null; // This is the Vue.js app
 
-  /*
-   * Most requests are just very simple GET requests.
-   * This function is private and used by getData()
-   */
-  function GETRequest(url, onsuccess, onerror) {
-    const req = new XMLHttpRequest();
-    req.open("GET", this.apiBase + url, true);
-    req.onload = function () {
-      onsuccess(this);
-    };
-    req.onerror = function () {
-      onerror(this);
-    };
-    req.send();
-  }
-
   function _modulePostInit(_this, name, c) {
     _this.modules.initialized[name] = c;
     if (name in _this.modules.loaded) delete _this.modules.loaded[name];
@@ -211,8 +195,8 @@ const navigatum = (function () {
     },
     cache: cache,
     /*
-     * getData() either uses GETRequest() to retrieve the specified data
-     * or loads it from its local cache. TODO: Update
+     * getData() either uses cachedFetch() to retrieve the specified data
+     * or loads it from its local cache if present.
      */
     getData: function (id) {
       return new Promise((resolve) => {
