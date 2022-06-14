@@ -1,35 +1,40 @@
-var config;  // Allocated at the bottom of the script
+var config;  // Selected at the bottom of the script
+import { configRelease, configLocal } from './config.js';
 
-const gulp        = require('gulp');
-const addsrc      = require('gulp-add-src');
-const babel       = require('gulp-babel');
-const concat      = require('gulp-concat');
-const csso        = require('gulp-csso')
-const first       = require('gulp-first');
-const htmlmin     = require('gulp-htmlmin');
-const i18n        = require('gulp-html-i18n');
-const i18nCompile = require('gulp-i18n-compile');
-const gulpif      = require('gulp-if');
-const inject      = require('gulp-inject');
-const injectStr   = require('gulp-inject-string');
-const injectHtml  = require('gulp-inject-stringified-html');
-const markdown    = require('gulp-markdown');
-const preprocess  = require('gulp-preprocess');
-const purgecss    = require('gulp-purgecss');
-const rename      = require('gulp-rename');
-const revAll      = require("gulp-rev-all");
-const sass        = require('gulp-sass')(require('node-sass'));
-const sitemap     = require('gulp-sitemap');
-const splitFiles  = require('gulp-split-files');
-const uglify      = require('gulp-uglify');
-const yaml        = require('gulp-yaml');
+import gulp        from 'gulp';
+import addsrc      from 'gulp-add-src';
+import babel       from 'gulp-babel';
+import concat      from 'gulp-concat';
+import csso        from 'gulp-csso';
+import first       from 'gulp-first';
+import htmlmin     from 'gulp-htmlmin';
+import i18n        from 'gulp-html-i18n';
+import i18nCompile from 'gulp-i18n-compile';
+import gulpif      from 'gulp-if';
+import inject      from 'gulp-inject';
+import injectStr   from 'gulp-inject-string';
+import injectHtml  from 'gulp-inject-stringified-html';
+import markdown    from 'gulp-markdown';
+import {marked}    from 'gulp-markdown';
+import preprocess  from 'gulp-preprocess';
+import purgecss    from 'gulp-purgecss';
+import rename      from 'gulp-rename';
+import revAll      from "gulp-rev-all";
+import _sass       from 'gulp-sass';
+import sitemap     from 'gulp-sitemap';
+import splitFiles  from 'gulp-split-files';
+import uglify      from 'gulp-uglify';
+import yaml        from 'gulp-yaml';
 
-const browserify = require('browserify');
-const del        = require('delete');
-const fs         = require('fs');
-const merge      = require('merge-stream');
-const path       = require('path');
-const source     = require('vinyl-source-stream');
+import browserify from 'browserify';
+import del        from 'delete';
+import fs         from 'fs';
+import merge      from 'merge-stream';
+import nodeSass   from 'node-sass';
+import path       from 'path';
+import source     from 'vinyl-source-stream';
+
+const sass = _sass(nodeSass);  // Select Sass compiler
 
 
 var htmlmin_options = {
@@ -439,7 +444,7 @@ const renderer = {
             return `<router-link to="${href}">${text}</router-link>`;
     },
 };
-markdown.marked.use({ renderer });
+marked.use({ renderer });
 
 function compile_markdown() {
     return gulp.src('src/md/*.md')
@@ -547,19 +552,23 @@ function getFolders(dir) {
 }
 
 
-exports.build = gulp.series(
+const _build = gulp.series(
     clean_build,
     i18n_compile_langfiles,
     gulp.parallel('main_css', 'main_js', 'views', 'assets', 'well_known', 'map', 'markdown', 'sitemap'),
     gulp.series('pages_src', 'pages_out', 'legacy_js', 'revision_assets')
 );
 
-exports.default = gulp.series(done => {
-    config = require('./config-local');
+const build = gulp.series(done => {
+    config = configLocal;
     config.target = "develop"; done();
-}, exports.build);
+}, _build);
 
-exports.release = gulp.series(done => {
-    config = require('./config');
+const release = gulp.series(done => {
+    config = configRelease;
     config.target = "release"; done();
-}, exports.build);
+}, _build);
+
+export default build;
+export { release };
+
