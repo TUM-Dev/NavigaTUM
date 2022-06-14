@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /* === Shared === */
 $success-color: #6cc872;
 $warning-color: #f49e2f;
@@ -76,14 +78,14 @@ $bg-color: #f7f8f9;
 
     // -- Overwriting
     $primary-color: #59b2ff !global;
-    $primary-color-dark: lighten($primary-color, 3%) !global;
-    $primary-color-light: darken($primary-color, 3%) !global;
+    $primary-color-dark: color.adjust($primary-color, $lightness: 3%) !global;
+    $primary-color-light: color.adjust($primary-color, $lightness: -3%) !global;
     $secondary-color: #213d55 !global;
-    $secondary-color-dark: lighten($secondary-color, 3%) !global;
-    $secondary-color-light: darken($secondary-color, 3%) !global;
+    $secondary-color-dark: color.adjust($secondary-color, $lightness: 3%) !global;
+    $secondary-color-light: color.adjust($secondary-color, $lightness: -3%) !global;
     $link-color: $primary-color !global;
-    $link-color-dark: lighten($link-color, 5%) !global;
-    $link-color-light: darken($link-color, 5%) !global;
+    $link-color-dark: color.adjust($link-color, $lightness: 5%) !global;
+    $link-color-light: color.adjust($link-color, $lightness: -5%) !global;
     $body-font-color: #d2d7df !global;
     $dark-color: #9aa0aa !global;// #3e396b;
 

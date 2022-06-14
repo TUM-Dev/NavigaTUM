@@ -45,6 +45,7 @@ repos:
     rev: v1.3.0
     hooks:
       - id: lint
+        files: \.(css|scss|sass)$
   - repo: https://github.com/paulhfischer/eslint-config-javascript
     rev: v1.8.4
     hooks:

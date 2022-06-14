@@ -292,7 +292,7 @@
 
             & button {
                 display: inline-block;
-                border-top: none;
+                border-top: 0;
                 border-left: 1px solid #ddd;
 
                 &.arrow {
@@ -302,7 +302,7 @@
                 }
 
                 & + button {
-                    border-top: none;
+                    border-top: 0;
                 }
             }
         }
@@ -396,7 +396,7 @@
             border-bottom: 1px solid $border-light;
 
             &:last-child {
-                border-bottom: none;
+                border-bottom: 0;
             }
         }
     }
