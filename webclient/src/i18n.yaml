@@ -156,6 +156,24 @@ feedback:
 
 core_js:
   error:
+    noscript:
+      js_required:
+        en: |
+          JavaScript is required to use this application, as our main functionality (search bar, map) depends on this.<br>
+          We do not think that there is a graceful fallback or any option for progressive enhancement.
+        de: |
+          JavaScript ist erforderlich, um diese Anwendung zu nutzen, da unsere Hauptfunktionen (Suchleiste, Karte) davon abhängen.<br>
+          Wir glauben nicht, dass es ein elegantes Fallback oder eine Option für eine progressive enhancement gibt.
+      please_enable_js:
+        en: "Please enable JavaScript in your browser."
+        de: "Bitte aktiviere JavaScript in deinem Browser."
+      continue_with_different_useragent:
+        en: |
+          If you want to use this application without JavaScript, you can configure your UserAgent to 'BingBot'.
+          However, this inherently reduces our functionality and usefulness, as this is indented for bots.
+        de: |
+          Wenn du diese Seite ohne JavaScript verwenden möchten, könnest du deinen UserAgent auf 'BingBot' einstellen.
+          Dies schränkt jedoch unsere Funktionalität und Nützlichkeit ein, da dies für Bots vorgesehen ist.
     404:
       de: "404 Nicht gefunden"
       en: "404 Not found"
