@@ -17,6 +17,7 @@ function mdNavigateTo(to, from, next, component) {
     });
   }
 
+  /* global cachedFetch */
   cachedFetch
     .fetch(`/* @echo app_prefix */pages/${to.params.name}.html`, {
       as_text: true,

@@ -1,6 +1,7 @@
 navigatum.registerModule(
   "interactive-map",
   (function () {
+    /* global mapboxgl */
     let _map;
 
     function FloorControl() {}

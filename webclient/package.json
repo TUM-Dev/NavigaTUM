@@ -15,6 +15,11 @@
     "env": {
       "browser": true
     },
+    "globals": {
+      "navigatum": true,
+      "Vue": true,
+      "VueRouter": true
+    },
     "rules": {
       "object-shorthand": [
         "error",

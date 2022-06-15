@@ -83,6 +83,7 @@ navigatum.registerModule(
           const queryId = queryCounter;
           queryCounter += 1;
 
+          /* global cachedFetch */
           // no-cache instructs browser, because the cachedFetch will store the reponse.
           const cacheConfig = { cache: "no-cache" };
           cachedFetch

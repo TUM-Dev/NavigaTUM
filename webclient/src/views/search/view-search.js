@@ -7,6 +7,7 @@ function searchNavigateTo(to, from, next, component) {
   params.append("limit_rooms", "30");
   params.append("limit_all", "30");
 
+  /* global cachedFetch */
   cachedFetch
     .fetch(`${navigatum.apiBase}search?${params.toString()}`, {
       cache: "no-cache",

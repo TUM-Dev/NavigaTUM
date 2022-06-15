@@ -242,6 +242,7 @@ const feedback = (function () {
     .getElementById("feedback-send")
     .addEventListener("click", sendForm, false);
 
+  /* global feedbackPreload */
   if (feedbackPreload) {
     openForm(
       feedbackPreload.category,

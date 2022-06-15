@@ -1,3 +1,4 @@
+/* global mapboxgl */
 function viewNavigateTo(to, from, next, component) {
     navigatum.beforeNavigate(to, from);
 
@@ -143,7 +144,7 @@ navigatum.registerView('view', {
             this.view_data = data;
 
             this.showImageShowcase(0, false);
-            
+
             if (data === null)
                 return;
 
@@ -316,6 +317,7 @@ navigatum.registerView('view', {
             document.getElementById("feedback-coordinate-picker")
                     .addEventListener('click', this.addLocationPicker);
 
+            /* global openFeedback */
             openFeedback("entry", subject, body);
         },
         confirmLocationPicker: function() {
@@ -394,7 +396,7 @@ navigatum.registerView('view', {
                     _this.map.interactive.marker = marker;
                     const coords = _this.view_data.coords;
                     marker.setLngLat([coords.lon, coords.lat]).addTo(map);
-                    
+
                     if (_this.view_data.maps && _this.view_data.maps.overlays) {
                         c.setFloorOverlays(
                             _this.view_data.maps.overlays.available,
