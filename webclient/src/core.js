@@ -50,8 +50,10 @@ const cachedFetch = (function () {
             })
             .then((data) => {
               if (data !== null) this.cache[url] = data;
-              for (const i in this.promise_callbacks[url])
+
+              Object.values(this.promise_callbacks[url]).forEach(i=> {
                 this.promise_callbacks[url][i](data);
+              });
               delete this.promise_callbacks[url];
             });
         }
@@ -77,8 +79,9 @@ const navigatum = (function () {
     _this.modules.initialized[name] = c;
     if (name in _this.modules.loaded) delete _this.modules.loaded[name];
 
-    for (const i in _this.module_promise_callbacks[name])
+    Object.values(_this.module_promise_callbacks[name]).forEach(i=> {
       _this.module_promise_callbacks[name][i](c);
+    });
     delete _this.module_promise_callbacks[name];
   }
 

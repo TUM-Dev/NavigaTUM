@@ -3,21 +3,25 @@ navigatum.registerModule(
   (function () {
     function getVisibleElements() {
       const visible = [];
-      for (const i in navigatum.app.search.autocomplete.sections) {
+
+      Object.values(navigatum.app.search.autocomplete.sections).forEach(i=>{
         const s = navigatum.app.search.autocomplete.sections[i];
-        for (const j in s.entries) {
+
+        Object.values(s.entries).forEach(j=>{
           if (s.n_visible === undefined || j < s.n_visible || s.expanded)
             visible.push(s.entries[j].id);
-        }
-      }
+        });
+      });
       return visible;
     }
 
     function extract_facets(data) {
       const sections = [];
-      for (const i in data.sections) {
+      
+      Object.values(data.sections).forEach(i=>{
         const entries = [];
-        for (const j in data.sections[i].entries) {
+
+        Object.values(data.sections[i].entries).forEach(j=>{
           // Search uses DC3 and DC1 to mark the beginning/end
           // of a highlighted sequence:
           // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets
@@ -39,7 +43,7 @@ navigatum.registerModule(
             subtext_bold: subtextBold,
             parsed_id: parsedId,
           });
-        }
+        });
 
         if (data.sections[i].facet === "sites_buildings") {
           sections.push({
@@ -56,7 +60,7 @@ navigatum.registerModule(
             estimatedTotalHits: data.sections[i].estimatedTotalHits,
           });
         }
-      }
+      });
 
       return sections;
     }
