@@ -70,14 +70,14 @@ navigatum.registerModule(
           this.floor_list.innerHTML = "";
 
           const _this = this;
-          const click_handler_builder = function (floors, i) {
+          const clickHandlerBuilder = function (allFloors, i) {
             // Because JS
             return function () {
-              if (floors) {
-                _this._setActiveFloor(i, floors[i].floor);
+              if (allFloors) {
+                _this._setActiveFloor(i, allFloors[i].floor);
                 _this.fire("floor-changed", {
-                  file: floors[i].file,
-                  coords: floors[i].coordinates,
+                  file: allFloors[i].file,
+                  coords: allFloors[i].coordinates,
                 });
               } else {
                 _this._setActiveFloor(i, "∅");
@@ -93,7 +93,7 @@ navigatum.registerModule(
           for (const i in floors.reverse()) {
             btn = document.createElement("button");
             btn.innerText = floors[i].floor;
-            btn.addEventListener("click", click_handler_builder(floors, i));
+            btn.addEventListener("click", clickHandlerBuilder(floors, i));
             this.floor_list.appendChild(btn);
 
             if (floors[i].id === visibleId) visibleI = i;
@@ -115,7 +115,7 @@ navigatum.registerModule(
           btn.innerText = "∅";
           btn.addEventListener(
             "click",
-            click_handler_builder(null, this.floor_list.children.length)
+            clickHandlerBuilder(null, this.floor_list.children.length)
           );
           this.floor_list.appendChild(btn);
 
@@ -341,21 +341,20 @@ navigatum.registerModule(
           if (_map.getLayer("overlay-bg"))
             _map.setLayoutProperty("overlay-bg", "visibility", "none");
         } else {
-          source = _map.getSource("overlay-src");
-          if (!source) {
-            source = _map.addSource("overlay-src", {
+          const source = _map.getSource("overlay-src");
+          if (!source)
+            _map.addSource("overlay-src", {
               type: "image",
               url: imgUrl,
               coordinates: coords,
             });
-          } else {
+          else
             source.updateImage({
               url: imgUrl,
               coordinates: coords,
             });
-          }
 
-          layer = _map.getLayer("overlay-layer");
+          const layer = _map.getLayer("overlay-layer");
           if (!layer) {
             _map.addLayer({
               id: "overlay-bg",
@@ -365,7 +364,7 @@ navigatum.registerModule(
                 "background-opacity": 0.6,
               },
             });
-            layer = _map.addLayer({
+            _map.addLayer({
               id: "overlay-layer",
               type: "raster",
               source: "overlay-src",

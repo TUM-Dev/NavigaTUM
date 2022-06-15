@@ -2,6 +2,7 @@
 // This file will be appended to core.js, but thus executed relatively late,
 // because images are only loaded once vue finished initializing.
 
+let webpUnpolyfilled = true;
 function ensureWebpPolyfilled() {
   if (webpUnpolyfilled) {
     webpUnpolyfilled = false;
@@ -29,7 +30,6 @@ const webpTestImages = [
   "UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==", // lossless
   "UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAwAAAARBxAR/Q9ERP8DAABWUDggGAAAABQBAJ0BKgEAAQAAAP4AAA3AAP7mtQAAAA==", // alpha
 ];
-let webpUnpolyfilled = true;
 for (const image of webpTestImages) {
   if (webpUnpolyfilled) testWebpFeature(image);
 }

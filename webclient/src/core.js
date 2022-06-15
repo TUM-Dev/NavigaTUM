@@ -2,6 +2,8 @@
  * This is the first JS code executed for all views.
  */
 
+let navigatum;
+
 // This is a wrapper around fetch that avoids duplicate requests if the
 // same resource is requested another time before the first request has
 // returned.
@@ -41,8 +43,7 @@ const cachedFetch = (function () {
 
               if (!msg) msg = "${{_.core_js.error.unknown}}$";
 
-              console.warn("Error on fetch:");
-              console.log(error);
+              console.warn("Error on fetch:", error);
 
               if (navigatum && navigatum.app) navigatum.app.error.msg = msg;
 
@@ -51,7 +52,7 @@ const cachedFetch = (function () {
             .then((data) => {
               if (data !== null) this.cache[url] = data;
 
-              Object.values(this.promise_callbacks[url]).forEach(i=> {
+              Object.values(this.promise_callbacks[url]).forEach((i) => {
                 this.promise_callbacks[url][i](data);
               });
               delete this.promise_callbacks[url];
@@ -64,7 +65,7 @@ const cachedFetch = (function () {
   };
 })();
 
-const navigatum = (function () {
+navigatum = (function () {
   const apiBase = "/* @echo api_prefix */";
   const cache = {};
 
@@ -79,7 +80,7 @@ const navigatum = (function () {
     _this.modules.initialized[name] = c;
     if (name in _this.modules.loaded) delete _this.modules.loaded[name];
 
-    Object.values(_this.module_promise_callbacks[name]).forEach(i=> {
+    Object.values(_this.module_promise_callbacks[name]).forEach((i) => {
       _this.module_promise_callbacks[name][i](c);
     });
     delete _this.module_promise_callbacks[name];
@@ -155,12 +156,12 @@ const navigatum = (function () {
           },
           searchInput: function (e) {
             navigatum.getModule("autocomplete").then(function (c) {
-              c.oninput(e.srcElement.value);
+              c.onInput(e.srcElement.value);
             });
           },
           searchKeydown: function (e) {
             navigatum.getModule("autocomplete").then(function (c) {
-              c.onkeydown(e);
+              c.onKeyDown(e);
             });
           },
           searchExpand: function (s) {
@@ -169,8 +170,11 @@ const navigatum = (function () {
           searchGo: function (cleanQuery) {
             if (this.search.query.length === 0) return;
 
-            navigatum.router.push(`/search?q=${this.search.query}`)
-                     .catch(() => { navigatum.afterNavigate() });
+            navigatum.router
+              .push(`/search?q=${this.search.query}`)
+              .catch(() => {
+                navigatum.afterNavigate();
+              });
             this.search.focused = false;
             if (cleanQuery) {
               this.search.query = "";
@@ -182,8 +186,9 @@ const navigatum = (function () {
             // Catch is necessary because vue-router throws an error
             // if navigation is aborted for some reason (e.g. the new
             // url is the same or there is a loop in redirects)
-            navigatum.router.push(`/view/${id}`))
-                     .catch(() => { navigatum.afterNavigate() });
+            navigatum.router.push(`/view/${id}`).catch(() => {
+              navigatum.afterNavigate();
+            });
             this.search.focused = false;
             if (cleanQuery) {
               this.search.query = "";
@@ -375,12 +380,14 @@ const navigatum = (function () {
         for (const attr in stateObj) {
           if (
             attr !== "__ob__" && // stuff by vue, recursive!
-            stateObj.hasOwnProperty(attr)
+            Object.prototype.hasOwnProperty.call(stateObj, attr) // see https://stackoverflow.com/q/39282873 why prototype
           )
             copy[attr] = this.cloneState(stateObj[attr]);
         }
         return copy;
       }
+      console.error("failed to clone the state", stateObj);
+      return {};
     },
     tryReuseViewState: function () {
       // Try to reuse the view state if there is one.

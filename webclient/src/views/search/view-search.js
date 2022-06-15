@@ -26,7 +26,7 @@ function searchNavigateTo(to, from, next, component) {
     });
 }
 
-const _search_default_state = {};
+const _searchDefaultState = {};
 
 navigatum.registerView("search", {
   name: "view-search",
@@ -38,7 +38,7 @@ navigatum.registerView("search", {
       query: null,
       // State is preserved when navigating in history.
       // May only contain serializable objects!
-      state: navigatum.cloneState(_search_default_state),
+      state: navigatum.cloneState(_searchDefaultState),
     };
   },
   beforeRouteEnter: function (to, from, next) {
@@ -83,7 +83,7 @@ navigatum.registerView("search", {
       // has a different format.
       const _this = this;
       navigatum.getModule("autocomplete").then(function (c) {
-        _this.sections = c.extract_facets(data);
+        _this.sections = c.extractFacets(data);
       });
     },
   },

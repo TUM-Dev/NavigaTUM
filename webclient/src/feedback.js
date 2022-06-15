@@ -84,8 +84,8 @@ const feedback = (function () {
           }
         },
         function (r) {
-          _showError("${{_.feedback.error.token_req_failed}}$");
-          console.log(r);
+          _showError("${{_.feedback.error.token_req_failed}}$", false);
+          console.error(r);
         }
       );
     }
@@ -102,7 +102,8 @@ const feedback = (function () {
       search: "${{_.feedback.helptext.search}}$",
       entry: "${{_.feedback.helptext.entry}}$",
     };
-    document.getElementById("feedback-helptext").innerText = helptextLUT[category];
+    document.getElementById("feedback-helptext").innerText =
+      helptextLUT[category];
 
     const coordinatePicker = document.getElementById(
       "feedback-coordinate-picker"
@@ -133,27 +134,6 @@ const feedback = (function () {
   function mayCloseForm() {
     if (document.getElementById("feedback-body").value.length === 0)
       closeForm();
-  }
-
-  function sendForm() {
-    if (token === null) {
-      _showError("${{_.feedback.error.send_no_token}}$", true);
-    } else if (document.getElementById("feedback-subject").value.length < 3) {
-      _showError("${{_.feedback.error.too_short_subject}}$");
-    } else if (document.getElementById("feedback-body").value.length < 10) {
-      _showError("${{_.feedback.error.too_short_body}}$");
-    } else if (document.getElementById("feedback-privacy").checked !== true) {
-      _showError("${{_.feedback.error.privacy_not_checked}}$");
-    } else {
-      _showLoading(true);
-      // Token may only be used after a short delay. In case that has not passed
-      // yet, we wait until for a short time.
-      if (Date.now() - token.creation < 1000 * 10) {
-        window.setTimeout(_send, 1000 * 10 - (Date.now() - token.creation));
-      } else {
-        _send();
-      }
-    }
   }
 
   function _showSuccess(href) {
@@ -208,9 +188,30 @@ const feedback = (function () {
       function (r) {
         _showLoading(false);
         _showError("${{_.feedback.error.send_req_failed}}$");
-        console.log(r);
+        console.error(r);
       }
     );
+  }
+
+  function sendForm() {
+    if (token === null) {
+      _showError("${{_.feedback.error.send_no_token}}$", true);
+    } else if (document.getElementById("feedback-subject").value.length < 3) {
+      _showError("${{_.feedback.error.too_short_subject}}$");
+    } else if (document.getElementById("feedback-body").value.length < 10) {
+      _showError("${{_.feedback.error.too_short_body}}$");
+    } else if (document.getElementById("feedback-privacy").checked !== true) {
+      _showError("${{_.feedback.error.privacy_not_checked}}$");
+    } else {
+      _showLoading(true);
+      // Token may only be used after a short delay. In case that has not passed
+      // yet, we wait until for a short time.
+      if (Date.now() - token.creation < 1000 * 10) {
+        window.setTimeout(_send, 1000 * 10 - (Date.now() - token.creation));
+      } else {
+        _send();
+      }
+    }
   }
 
   document

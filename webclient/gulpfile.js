@@ -1,40 +1,47 @@
-let config;  // Selected at the bottom of the script
-import { configRelease, configLocal } from './config.js';
+import gulp from "gulp";
+import addsrc from "gulp-add-src";
+import babel from "gulp-babel";
+import concat from "gulp-concat";
+import csso from "gulp-csso";
+import first from "gulp-first";
+import htmlmin from "gulp-htmlmin";
+import i18n from "gulp-html-i18n";
+import i18nCompile from "gulp-i18n-compile";
+import gulpif from "gulp-if";
+import inject from "gulp-inject";
+import injectStr from "gulp-inject-string";
+import injectHtml from "gulp-inject-stringified-html";
+import markdown, { marked } from "gulp-markdown";
+import preprocess from "gulp-preprocess";
+import purgecss from "gulp-purgecss";
+import rename from "gulp-rename";
+import revAll from "gulp-rev-all";
+import _sass from "gulp-sass";
+import sitemap from "gulp-sitemap";
+import splitFiles from "gulp-split-files";
+import uglify from "gulp-uglify";
+import yaml from "gulp-yaml";
 
-import gulp        from 'gulp';
-import addsrc      from 'gulp-add-src';
-import babel       from 'gulp-babel';
-import concat      from 'gulp-concat';
-import csso        from 'gulp-csso';
-import first       from 'gulp-first';
-import htmlmin     from 'gulp-htmlmin';
-import i18n        from 'gulp-html-i18n';
-import i18nCompile from 'gulp-i18n-compile';
-import gulpif      from 'gulp-if';
-import inject      from 'gulp-inject';
-import injectStr   from 'gulp-inject-string';
-import injectHtml  from 'gulp-inject-stringified-html';
-import markdown    from 'gulp-markdown';
-import {marked}    from 'gulp-markdown';
-import preprocess  from 'gulp-preprocess';
-import purgecss    from 'gulp-purgecss';
-import rename      from 'gulp-rename';
-import revAll      from "gulp-rev-all";
-import _sass       from 'gulp-sass';
-import sitemap     from 'gulp-sitemap';
-import splitFiles  from 'gulp-split-files';
-import uglify      from 'gulp-uglify';
-import yaml        from 'gulp-yaml';
+import browserify from "browserify";
+import del from "delete";
+import fs from "fs";
+import merge from "merge-stream";
+import nodeSass from "node-sass";
+import path from "path";
+import source from "vinyl-source-stream";
+import { configRelease, configLocal } from "./config.js";
 
-import browserify from 'browserify';
-import del        from 'delete';
-import fs         from 'fs';
-import merge      from 'merge-stream';
-import nodeSass   from 'node-sass';
-import path       from 'path';
-import source     from 'vinyl-source-stream';
+// from https://github.com/gulpjs/gulp/blob/master/docs/recipes/running-task-steps-per-folder.md
+function getFolders(dir) {
+  return fs.readdirSync(dir).filter(function (file) {
+    return fs.statSync(path.join(dir, file)).isDirectory();
+  });
+}
 
-const sass = _sass(nodeSass);  // Select Sass compiler
+// Selected at the bottom of the script
+let config;
+
+const sass = _sass(nodeSass); // Select Sass compiler
 
 const htmlminOptions = {
   caseSensitive: false,
@@ -184,8 +191,8 @@ function buildFeedbackJS() {
     )
     .pipe(uglify())
     .pipe(
-      rename((path) => {
-        path.extname = ".min.js";
+      rename((pathObj) => {
+        pathObj.extname = ".min.js";
       })
     )
     .pipe(gulp.dest("build/js"));
@@ -415,8 +422,8 @@ gulp.task("pages_out", function (done) {
       .pipe(
         gulpif(
           config.target === "release",
-          rename((path) => {
-            path.extname = ".min.js";
+          rename((pathObj) => {
+            pathObj.extname = ".min.js";
           })
         )
       )
@@ -433,8 +440,8 @@ gulp.task("pages_out", function (done) {
       .pipe(
         gulpif(
           config.target === "release",
-          rename((path) => {
-            path.extname = ".min.js";
+          rename((pathObj) => {
+            pathObj.extname = ".min.js";
           })
         )
       )
@@ -510,8 +517,8 @@ function minifyPolyfills() {
     .pipe(
       gulpif(
         config.target === "release",
-        rename((path) => {
-          path.extname = ".min.js";
+        rename((pathObj) => {
+          pathObj.extname = ".min.js";
         })
       )
     )
@@ -595,12 +602,12 @@ function generateSitemap() {
   return gulp
     .src(["src/md/*.md", "src/index.html"], { read: false })
     .pipe(
-      rename((path) => {
-        if (path.extname === ".md") {
-          path.dirname = "about";
-          path.extname = "";
+      rename((pathObj) => {
+        if (pathObj.extname === ".md") {
+          pathObj.dirname = "about";
+          pathObj.extname = "";
         } else {
-          path.dirname = "";
+          pathObj.dirname = "";
         }
       })
     )
@@ -658,16 +665,6 @@ function copyMapJS() {
 }
 gulp.task("map", gulp.parallel(copyMapCSS, copyMapJS));
 
-/* === Utils === */
-
-// from https://github.com/gulpjs/gulp/blob/master/docs/recipes/running-task-steps-per-folder.md
-function getFolders(dir) {
-  return fs.readdirSync(dir).filter(function (file) {
-    return fs.statSync(path.join(dir, file)).isDirectory();
-  });
-}
-
-
 const _build = gulp.series(
   cleanBuild,
   i18nCompileLangfiles,
@@ -684,16 +681,16 @@ const _build = gulp.series(
   gulp.series("pages_src", "pages_out", "legacy_js", "revision_assets")
 );
 
-const build = gulp.series(done => {
-    config = configLocal;
-    config.target = "develop";
-    done();
+const build = gulp.series((done) => {
+  config = configLocal;
+  config.target = "develop";
+  done();
 }, _build);
 
-const release = gulp.series(done => {
-    config = configRelease;
-    config.target = "release";
-    done();
+const release = gulp.series((done) => {
+  config = configRelease;
+  config.target = "release";
+  done();
 }, _build);
 
 export default build;

@@ -4,10 +4,10 @@ navigatum.registerModule(
     function getVisibleElements() {
       const visible = [];
 
-      Object.values(navigatum.app.search.autocomplete.sections).forEach(i=>{
+      Object.values(navigatum.app.search.autocomplete.sections).forEach((i) => {
         const s = navigatum.app.search.autocomplete.sections[i];
 
-        Object.values(s.entries).forEach(j=>{
+        Object.values(s.entries).forEach((j) => {
           if (s.n_visible === undefined || j < s.n_visible || s.expanded)
             visible.push(s.entries[j].id);
         });
@@ -15,13 +15,13 @@ navigatum.registerModule(
       return visible;
     }
 
-    function extract_facets(data) {
+    function extractFacets(data) {
       const sections = [];
-      
-      Object.values(data.sections).forEach(i=>{
+
+      Object.values(data.sections).forEach((i) => {
         const entries = [];
 
-        Object.values(data.sections[i].entries).forEach(j=>{
+        Object.values(data.sections[i].entries).forEach((j) => {
           // Search uses DC3 and DC1 to mark the beginning/end
           // of a highlighted sequence:
           // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets
@@ -74,7 +74,7 @@ navigatum.registerModule(
 
     return {
       init: function () {},
-      oninput: function (q) {
+      onInput: function (q) {
         navigatum.app.search.autocomplete.highlighted = null;
 
         if (q.length === 0) {
@@ -98,13 +98,13 @@ navigatum.registerModule(
                 latestUsedQueryId = queryId;
 
                 navigatum.app.search.autocomplete.sections =
-                  extract_facets(data);
+                  extractFacets(data);
               }
             });
         }
       },
-      extract_facets: extract_facets,
-      onkeydown: function (e) {
+      extractFacets: extractFacets,
+      onKeyDown: function (e) {
         let visible;
         let index;
         switch (e.keyCode) {
@@ -149,6 +149,8 @@ navigatum.registerModule(
             } else {
               navigatum.app.searchGo(false);
             }
+            break;
+          default:
             break;
         }
       },
