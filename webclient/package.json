@@ -21,6 +21,7 @@
       "VueRouter": true
     },
     "rules": {
+      "no-underscore-dangle": "off",
       "object-shorthand": [
         "error",
         "never"
