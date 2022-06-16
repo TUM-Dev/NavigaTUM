@@ -8,18 +8,6 @@
 
 // TODO: only if initialized and fallback==false
 
-// CustomEvent polyfill (for IE)
-/* (function () {
-  if ( typeof window.CustomEvent === "function" ) return false;
-  function CustomEvent ( event, params ) {
-    params = params || { bubbles: false, cancelable: false, detail: null };
-    const evt = document.createEvent( 'CustomEvent' );
-    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-    return evt;
-   }
-  window.CustomEvent = CustomEvent;
-})(); */
-
 (function () {
   const stateIndexSymbol = "__state__index__";
   const stateDataSymbol = "viewState";
