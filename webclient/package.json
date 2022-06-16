@@ -78,10 +78,6 @@
     }
   },
   "devDependencies": {
-    "stylelint-scss": "^4.2.0",
-    "@babel/core": "^7.14.8",
-    "@babel/preset-env": "^7.14.8",
-    "babel-plugin-transform-remove-strict-mode": "^0.0.2",
     "browserify": "^17.0.0",
     "core-js": "^3.16.0",
     "delete": "^1.1.0",
@@ -110,17 +106,21 @@
     "gulp-uglify": "^3.0.2",
     "gulp-yaml": "^2.0.4",
     "merge-stream": "^2.0.0",
-    "regenerator": "^0.14.7",
-    "spectre.css": "^0.5.8",
+    "stylelint-scss": "^4.2.0",
     "vinyl-source-stream": "^2.0.0",
     "sass": "^1.52.3"
   },
   "dependencies": {
-    "regenerator-runtime": "^0.13.9",
+    "spectre.css": "^0.5.8",
     "mapbox-gl": "^2.7.0",
-    "polyfill": "^0.1.0",
     "vue": "^2.6.12",
     "vue-router": "^3.5.1",
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "babel-plugin-transform-remove-strict-mode": "^0.0.2",
+    "polyfill": "^0.1.0",
+    "regenerator": "^0.14.7",
+    "regenerator-runtime": "^0.13.9",
     "webp-hero": "^0.0.2",
     "whatwg-fetch": "^3.6.2"
   }
