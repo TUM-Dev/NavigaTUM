@@ -417,14 +417,7 @@ gulp.task("pages_out", (done) => {
         })
       )
       .pipe(gulpif(config.target === "release", uglify()))
-      .pipe(
-        gulpif(
-          config.target === "release",
-          rename((pathObj) => {
-            pathObj.extname = ".min.js";
-          })
-        )
-      )
+      .pipe(gulpif(config.target === "release", rename({ suffix: ".min" })))
       .pipe(gulp.dest("build/js"));
 
     const copyJSRest = gulp
@@ -435,14 +428,7 @@ gulp.task("pages_out", (done) => {
       .pipe(i18n(i18nOptions))
       .pipe(babel())
       .pipe(gulpif(config.target === "release", uglify()))
-      .pipe(
-        gulpif(
-          config.target === "release",
-          rename((pathObj) => {
-            pathObj.extname = ".min.js";
-          })
-        )
-      )
+      .pipe(gulpif(config.target === "release", rename({ suffix: ".min" })))
       .pipe(gulp.dest("build/js"));
 
     return merge(themedTasks, copyJSCore, copyJSRest);
@@ -512,14 +498,7 @@ function minifyPolyfills() {
   return gulp
     .src(["build/tmp/polyfills.js"])
     .pipe(gulpif(config.target === "release", uglify()))
-    .pipe(
-      gulpif(
-        config.target === "release",
-        rename((pathObj) => {
-          pathObj.extname = ".min.js";
-        })
-      )
-    )
+    .pipe(gulpif(config.target === "release", rename({ suffix: ".min" })))
     .pipe(gulp.dest("build/js"));
 }
 
@@ -641,23 +620,19 @@ gulp.task("well_known", gulp.parallel(copyWellKnown, copyWellKnownRoot));
 
 // --- map (currently mapbox) Pipeline ---
 function copyMapCSS() {
-  let targetFilename;
-  if (config.target === "release") targetFilename = `mapbox.min.css`;
-  else targetFilename = `mapbox.css`;
   return gulp
     .src(["node_modules/mapbox-gl/dist/mapbox-gl.css"])
-    .pipe(concat(targetFilename))
+    .pipe(concat("mapbox.css"))
     .pipe(gulpif(config.target === "release", csso()))
+    .pipe(gulpif(config.target === "release", rename({ suffix: ".min" })))
     .pipe(gulp.dest("build/css"));
 }
 function copyMapJS() {
-  let targetFilename;
-  if (config.target === "release") targetFilename = `mapbox.min.js`;
-  else targetFilename = `mapbox.js`;
   return gulp
     .src(["node_modules/mapbox-gl/dist/mapbox-gl.js"])
-    .pipe(concat(targetFilename))
+    .pipe(concat("mapbox.js"))
     .pipe(gulpif(config.target === "release", uglify()))
+    .pipe(gulpif(config.target === "release", rename({ suffix: ".min" })))
     .pipe(gulp.dest("build/js"));
 }
 gulp.task("map", gulp.parallel(copyMapCSS, copyMapJS));
