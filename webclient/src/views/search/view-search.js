@@ -38,7 +38,7 @@ navigatum.registerView("search", {
       query: null,
       // State is preserved when navigating in history.
       // May only contain serializable objects!
-      state: navigatum.cloneState(_searchDefaultState),
+      state: structuredClone(_searchDefaultState),
     };
   },
   beforeRouteEnter: function (to, from, next) {

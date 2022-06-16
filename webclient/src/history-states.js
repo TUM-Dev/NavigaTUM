@@ -64,10 +64,9 @@
           ? window.history.stateIndex
           : window.history.lastStateIndex;
 
-      window.history.states[stateIndex][0][stateDataSymbol] =
-        navigatum.cloneState(
-          navigatum.router.currentRoute.matched[0].instances.default.state
-        );
+      window.history.states[stateIndex][0][stateDataSymbol] = structuredClone(
+        navigatum.router.currentRoute.matched[0].instances.default.state
+      );
     }
   };
   window.history.pushState = (data, title, url = null) => {

@@ -366,33 +366,6 @@ navigatum = (() => {
 
       window.history.lastStateIndex = null; // Reset
     },
-
-    // TODO: These are just helper functions and only cloneState is required
-    // directly on pageload. Maybe we can move them somewhere else (but still in
-    // the core code)
-    cloneState: function (stateObj) {
-      // cf. StackOverflow: https://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
-      // State has to be serializable!
-      if (stateObj == null || typeof stateObj !== "object") return stateObj;
-      // Arrays are currently not cloned (TODO: is this required?)
-      if (stateObj instanceof Array) {
-        return stateObj;
-      }
-      if (stateObj instanceof Object) {
-        const copy = {};
-
-        stateObj.forEach((attr) => {
-          if (
-            attr !== "__ob__" && // stuff by vue, recursive!
-            Object.prototype.hasOwnProperty.call(stateObj, attr) // see https://stackoverflow.com/q/39282873 why prototype
-          )
-            copy[attr] = this.cloneState(stateObj[attr]);
-        });
-        return copy;
-      }
-      console.error("failed to clone the state", stateObj);
-      return {};
-    },
     tryReuseViewState: function () {
       // Try to reuse the view state if there is one.
       if (

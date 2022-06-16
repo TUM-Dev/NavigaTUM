@@ -100,7 +100,7 @@ navigatum.registerView("view", {
       },
       // State is preserved when navigating in history.
       // May only contain serializable objects!
-      state: navigatum.cloneState(_viewDefaultState),
+      state: structuredClone(_viewDefaultState),
       copied: false,
       // Coordinate picker states
       coord_counter: {
@@ -152,10 +152,7 @@ navigatum.registerView("view", {
       // --- Maps ---
       if (!navigatum.tryReuseViewState()) {
         // We need to reset state to default here, else it is preserved from the previous page
-        navigatum.applyState(
-          navigatum.cloneState(_viewDefaultState),
-          this.state
-        );
+        navigatum.applyState(structuredClone(_viewDefaultState), this.state);
 
         this.state.map.selected = data.maps.default;
         // Interactive has to be always available, but roomfinder may be unavailable
