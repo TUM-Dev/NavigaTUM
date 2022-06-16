@@ -28,7 +28,7 @@ import browserify from "browserify";
 import del from "delete";
 import fs from "fs";
 import merge from "merge-stream";
-import nodeSass from "node-sass";
+import dartSass from "sass";
 import path from "path";
 import source from "vinyl-source-stream";
 import { configRelease, configLocal } from "./config.js"; // eslint-disable-line import/extensions
@@ -43,7 +43,7 @@ function getFolders(dir) {
 // Selected at the bottom of the script
 let config;
 
-const sass = _sass(nodeSass); // Select Sass compiler
+const sass = _sass(dartSass); // Select Sass compiler
 
 const htmlminOptions = {
   caseSensitive: false,

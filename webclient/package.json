@@ -110,10 +110,10 @@
     "gulp-uglify": "^3.0.2",
     "gulp-yaml": "^2.0.4",
     "merge-stream": "^2.0.0",
-    "node-sass": "^7.0.1",
     "regenerator": "^0.14.7",
     "spectre.css": "^0.5.8",
-    "vinyl-source-stream": "^2.0.0"
+    "vinyl-source-stream": "^2.0.0",
+    "sass": "^1.52.3"
   },
   "dependencies": {
     "regenerator-runtime": "^0.13.9",

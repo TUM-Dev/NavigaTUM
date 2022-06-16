@@ -25,9 +25,11 @@ $toast-btn-bg-hover: rgba(0, 0, 0, 2%);
 $toast-btn-bg-active: rgba(0, 0, 0, 27%);
 $card-highlighted-bg: #f7f7f7;
 $text-gray: #aaa;
-$border-default: #e1e1e1;
+$border-color: #e1e1e1;
+$border-color-dark: color.adjust($border-color, $lightness: -10%);
+$border-color-light: color.adjust($border-color, $lightness: 8%);
 $border-light: #eee;
-$card-border: $border-default;
+$card-border: $border-color;
 $card-shadow: 3px 3px 4px rgba(106, 106, 106, 3%);
 $card-shadow-dark: 3px 3px 4px rgba(106, 106, 106, 5%);
 $image-loading-bg: #eee;
@@ -39,8 +41,10 @@ $code-bg: #fcf2f2;
 
 // -- Overwriting
 $primary-color: $theme-accent;
+$secondary-color: #64a0c8;
 $body-font-color: #3b4351;
 $light-color: #fff;
+$dark-color: #303742;
 $bg-color: #f7f8f9;
 
 /* === Dark mode === */
@@ -61,9 +65,9 @@ $bg-color: #f7f8f9;
     $toast-btn-bg-active: rgba(0, 0, 0, 7%);
     $card-highlighted-bg: #0e0e0e;
     $text-gray: #aaa;
-    $border-default: #444;
+    $border-color: #444;
     $border-light: #444;
-    $card-border: $border-default;
+    $card-border: $border-color;
     $card-shadow: 3px 3px 4px rgba(0, 0, 0, 20%);
     $card-shadow-dark: $card-shadow;
     $image-loading-bg: #444;
@@ -73,19 +77,9 @@ $bg-color: #f7f8f9;
     $search-border-hover: #444;
     $code-bg: #201e1e;
 
-    // -- not implemented anywhere yet
-    $link-color: #59b2ff;
-
     // -- Overwriting
     $primary-color: #59b2ff !global;
-    $primary-color-dark: color.adjust($primary-color, $lightness: 3%) !global;
-    $primary-color-light: color.adjust($primary-color, $lightness: -3%) !global;
     $secondary-color: #213d55 !global;
-    $secondary-color-dark: color.adjust($secondary-color, $lightness: 3%) !global;
-    $secondary-color-light: color.adjust($secondary-color, $lightness: -3%) !global;
-    $link-color: $primary-color !global;
-    $link-color-dark: color.adjust($link-color, $lightness: 5%) !global;
-    $link-color-light: color.adjust($link-color, $lightness: -5%) !global;
     $body-font-color: #d2d7df !global;
     $dark-color: #9aa0aa !global;// #3e396b;
 
@@ -94,9 +88,8 @@ $bg-color: #f7f8f9;
 
     //      #0d0e13,         #13141a (also footer), link colors: #59b2ff,
     //    .. 1px solid #e1e1e140 on border
-    $border-color: $border-default !global;
+    $border-color: $border-color !global;
     $border-color-light: #353535 !global;
     $border-color-dark: #767c84 !global;
     $bg-color: #222428 !global;
-    $bg-color-dark: $bg-color !global;
 }
