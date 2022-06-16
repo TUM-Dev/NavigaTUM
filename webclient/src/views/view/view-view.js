@@ -338,6 +338,7 @@ navigatum.registerView("view", {
         .getElementById("feedback-coordinate-picker")
         .addEventListener("click", this.addLocationPicker);
 
+      /* global openFeedback */
       openFeedback("entry", subject, body);
     },
     confirmLocationPicker: function () {
