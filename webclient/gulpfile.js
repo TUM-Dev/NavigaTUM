@@ -193,12 +193,8 @@ function buildFeedbackJS() {
         includeBase: "src/js",
       })
     )
-    .pipe(uglify())
-    .pipe(
-      rename((pathObj) => {
-        pathObj.extname = ".min.js";
-      })
-    )
+    .pipe(gulpif(config.target === "release", uglify()))
+    .pipe(gulpif(config.target === "release", rename({ suffix: ".min" })))
     .pipe(gulp.dest("build/js"));
 }
 

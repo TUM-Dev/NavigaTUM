@@ -432,7 +432,8 @@
             };
             const s = document.createElement("script");
             s.type = "text/javascript";
-            s.src = "<!-- @echo app_prefix -->js/feedback-${{_lang_}}$.min.js";
+            s.src = "<!-- @echo app_prefix -->js/feedback-${{_lang_}}$";
+            s.src += "<!-- @if target='release' -->.min<!-- @endif -->.js";
             document.head.appendChild(s);
           }
         }
