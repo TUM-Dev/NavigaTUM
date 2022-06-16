@@ -250,9 +250,6 @@ mod description_tests {
         for i in 0..10 {
             assert_eq!(clean_feedback_data("abcd", i), "abcd".truncate(i));
         }
-        assert_eq!(clean_feedback_data("abcd", 1), "a");
-        assert_eq!(clean_feedback_data("abcd", 3), "abc");
-        assert_eq!(clean_feedback_data("abcd", 6), "abcd");
     }
     #[test]
     fn special_cases() {
