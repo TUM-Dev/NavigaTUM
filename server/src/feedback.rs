@@ -248,7 +248,7 @@ mod description_tests {
     #[test]
     fn truncate_len() {
         for i in 0..10 {
-            assert_eq!(clean_feedback_data("abcd", 0), "");
+            assert_eq!(clean_feedback_data("abcd", i), "abcd".truncate(i));
         }
         assert_eq!(clean_feedback_data("abcd", 1), "a");
         assert_eq!(clean_feedback_data("abcd", 3), "abc");
