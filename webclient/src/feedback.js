@@ -23,10 +23,9 @@ const feedback = (function () {
     }
   }
 
-  function _showError(msg, blockSend) {
-    msg = msg || "";
+  function _showError(msg = "", blockSend = false) {
     document.getElementById("feedback-error").innerText = msg;
-    document.getElementById("feedback-send").disabled = blockSend || false;
+    document.getElementById("feedback-send").disabled = blockSend;
   }
 
   function _showLoading(isLoading) {
@@ -39,18 +38,14 @@ const feedback = (function () {
     }
   }
 
-  function openForm(category, subject, body) {
-    category = category || "general";
-    subject = subject || "";
-    body = body || "";
-
+  function openForm(category = "general", subject = "", body = "") {
     document.getElementById("feedback-category").value = category;
     document.getElementById("feedback-subject").value = subject;
     document.getElementById("feedback-body").value = body;
     document.getElementById("feedback-privacy").checked = false;
     document.getElementById("feedback-delete").checked = false;
 
-    _showError(false);
+    _showError();
     _showLoading(false);
 
     document.getElementById("feedback-modal").classList.add("active");
@@ -92,10 +87,9 @@ const feedback = (function () {
     }
   }
 
-  function updateFeedbackForm(category) {
-    if (category === undefined)
-      category = document.getElementById("feedback-category").value;
-
+  function updateFeedbackForm(
+    category = document.getElementById("feedback-category").value
+  ) {
     const helptextLUT = {
       general: "${{_.feedback.helptext.general}}$",
       bug: "${{_.feedback.helptext.bug}}$",
