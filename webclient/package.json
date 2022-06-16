@@ -21,6 +21,14 @@
       "VueRouter": true
     },
     "rules": {
+      "prefer-destructuring": "off",
+      "no-plusplus": [
+        "error",
+        {
+          "allowForLoopAfterthoughts": true
+        }
+      ],
+      "no-param-reassign": "off",
       "no-underscore-dangle": "off",
       "object-shorthand": [
         "error",
