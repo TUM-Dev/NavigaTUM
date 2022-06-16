@@ -7,65 +7,63 @@ let navigatum;
 // This is a wrapper around fetch that avoids duplicate requests if the
 // same resource is requested another time before the first request has
 // returned.
-const cachedFetch = (function () {
-  return {
-    fetch: function (url, options) {
-      return new Promise((resolve) => {
-        if (url in this.cache) {
-          resolve(this.cache[url]);
-        } else if (url in this.promise_callbacks) {
-          this.promise_callbacks[url].push(resolve);
-        } else {
-          this.promise_callbacks[url] = [resolve];
-          if (!options.headers) options.headers = {};
-          fetch(url, options)
-            .then((response) => {
-              if (!response.ok) {
-                if (response.status === 404)
-                  throw new Error("${{_.core_js.error.404}}$");
-                else if (response.status === 500)
-                  throw new Error("${{_.core_js.error.500}}$");
-                else if (response.status === 503)
-                  throw new Error("${{_.core_js.error.503}}$");
-                else {
-                  const errorStatus = "${{_.core_js.error.status}}$";
-                  throw new Error(`${errorStatus}$${response.status}`);
-                }
+const cachedFetch = (() => ({
+  fetch: function (url, options) {
+    return new Promise((resolve) => {
+      if (url in this.cache) {
+        resolve(this.cache[url]);
+      } else if (url in this.promise_callbacks) {
+        this.promise_callbacks[url].push(resolve);
+      } else {
+        this.promise_callbacks[url] = [resolve];
+        if (!options.headers) options.headers = {};
+        fetch(url, options)
+          .then((response) => {
+            if (!response.ok) {
+              if (response.status === 404)
+                throw new Error("${{_.core_js.error.404}}$");
+              else if (response.status === 500)
+                throw new Error("${{_.core_js.error.500}}$");
+              else if (response.status === 503)
+                throw new Error("${{_.core_js.error.503}}$");
+              else {
+                const errorStatus = "${{_.core_js.error.status}}$";
+                throw new Error(`${errorStatus}$${response.status}`);
               }
-              navigatum.app.error.msg = null;
-              return options.as_text ? response.text() : response.json();
-            })
-            .catch((error) => {
-              let msg;
-              if (error instanceof TypeError)
-                msg = "${{_.core_js.error.network}}$";
-              else msg = error.message;
+            }
+            navigatum.app.error.msg = null;
+            return options.as_text ? response.text() : response.json();
+          })
+          .catch((error) => {
+            let msg;
+            if (error instanceof TypeError)
+              msg = "${{_.core_js.error.network}}$";
+            else msg = error.message;
 
-              if (!msg) msg = "${{_.core_js.error.unknown}}$";
+            if (!msg) msg = "${{_.core_js.error.unknown}}$";
 
-              console.warn("Error on fetch:", error);
+            console.warn("Error on fetch:", error);
 
-              if (navigatum && navigatum.app) navigatum.app.error.msg = msg;
+            if (navigatum && navigatum.app) navigatum.app.error.msg = msg;
 
-              return null;
-            })
-            .then((data) => {
-              if (data !== null) this.cache[url] = data;
+            return null;
+          })
+          .then((data) => {
+            if (data !== null) this.cache[url] = data;
 
-              this.promise_callbacks[url].forEach((callback) => {
-                callback(data);
-              });
-              delete this.promise_callbacks[url];
+            this.promise_callbacks[url].forEach((callback) => {
+              callback(data);
             });
-        }
-      });
-    },
-    cache: {},
-    promise_callbacks: {},
-  };
-})();
+            delete this.promise_callbacks[url];
+          });
+      }
+    });
+  },
+  cache: {},
+  promise_callbacks: {},
+}))();
 
-navigatum = (function () {
+navigatum = (() => {
   const apiBase = "/* @echo api_prefix */";
   const cache = {};
 
@@ -145,7 +143,7 @@ navigatum = (function () {
           },
           searchBlur: function () {
             if (this.search.keep_focus) {
-              window.setTimeout(function () {
+              window.setTimeout(() => {
                 // This is relevant if the call is delayed and focused has
                 // already been disabled e.g. when clicking on an entry.
                 if (this.search.focused)
@@ -157,12 +155,12 @@ navigatum = (function () {
             }
           },
           searchInput: function (e) {
-            navigatum.getModule("autocomplete").then(function (c) {
+            navigatum.getModule("autocomplete").then((c) => {
               c.onInput(e.srcElement.value);
             });
           },
           searchKeydown: function (e) {
-            navigatum.getModule("autocomplete").then(function (c) {
+            navigatum.getModule("autocomplete").then((c) => {
               c.onKeyDown(e);
             });
           },
@@ -266,12 +264,12 @@ navigatum = (function () {
       }
     },
     getView: function (name) {
-      return function (resolve, reject) {
+      return (resolve, reject) => {
         if (name in navigatum.views) {
           resolve(navigatum.views[name]);
         } else {
           viewsResolveCallbacks[name] = resolve;
-          window.setTimeout(function () {
+          window.setTimeout(() => {
             if (name in viewsResolveCallbacks) {
               if (navigatum.app)
                 navigatum.app.error.msg =
@@ -360,7 +358,7 @@ navigatum = (function () {
 
       // This timeout is required because else the browser might skip to
       // transition if the change is too fast (if resources are in cache)
-      window.setTimeout(function () {
+      window.setTimeout(() => {
         document.getElementById("content").classList.add("visible");
         document.getElementById("content").style.opacity = "";
         document.getElementById("loading-page").classList.remove("show");

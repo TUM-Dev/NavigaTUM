@@ -408,7 +408,7 @@ navigatum.registerView("view", {
       this.state.map.selected = "interactive";
 
       const doMapUpdate = function () {
-        navigatum.getModule("interactive-map").then(function (c) {
+        navigatum.getModule("interactive-map").then((c) => {
           _this.map.interactive.component = c;
 
           let { map } = _this.map.interactive;
@@ -506,7 +506,7 @@ navigatum.registerView("view", {
 
       if (fromUi) {
         document.getElementById("map-accordion").checked = false;
-        /* window.setTimeout(function() {
+        /* window.setTimeout(() => {
                     document.getElementById("roomfinder-map-img").scrollIntoView(false);
                 }, 50); */
         window.scrollTo(
@@ -564,7 +564,7 @@ navigatum.registerView("view", {
         local.display_list = [];
         // this.$nextTick doesn't work for some reason, the view freezes
         // before the loading indicator is visible.
-        window.setTimeout(function () {
+        window.setTimeout(() => {
           local.display_list = tmp;
           local.loading = false;
         }, 20);
@@ -589,7 +589,7 @@ navigatum.registerView("view", {
         if (success) {
           const _this = this;
           _this.copied = true;
-          window.setTimeout(function () {
+          window.setTimeout(() => {
             _this.copied = false;
           }, 1000);
         }
@@ -632,7 +632,7 @@ navigatum.registerView("view", {
     window.addEventListener("storage", updateCoordinateCounter);
     updateCoordinateCounter();
 
-    this.$nextTick(function () {
+    this.$nextTick(() => {
       // Even though 'mounted' is called there is no guarantee apparently,
       // that it really is mounted now. For this reason we try to poll now.
       // (Not the best solution probably)

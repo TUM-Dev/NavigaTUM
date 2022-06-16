@@ -1,6 +1,6 @@
 navigatum.registerModule(
   "interactive-map",
-  (function () {
+  (() => {
     /* global mapboxgl */
     let _map;
 
@@ -12,7 +12,7 @@ navigatum.registerModule(
       // Add Evented functionality from mapboxgl
       FloorControl.prototype = Object.create(mapboxgl.Evented.prototype);
 
-      FloorControl.prototype.onAdd = function (map) {
+      FloorControl.prototype.onAdd = function onAdd(map) {
         this.map = map;
         this.container = document.createElement("div");
         this.container.classList.add("mapboxgl-ctrl-group");
@@ -56,11 +56,15 @@ navigatum.registerModule(
 
         return this.container;
       };
-      FloorControl.prototype.onRemove = function () {
+
+      FloorControl.prototype.onRemove = function onRemove() {
         this.container.parentNode.removeChild(this.container);
         this.map = undefined;
       };
-      FloorControl.prototype.updateFloors = function (floors, visibleId) {
+      FloorControl.prototype.updateFloors = function updateFloors(
+        floors,
+        visibleId
+      ) {
         // `floors` is null or a list of floors with data,
         // `visibleId` is the id of the visible floor.
         if (floors === null) {
@@ -72,7 +76,7 @@ navigatum.registerModule(
           const _this = this;
           const clickHandlerBuilder = function (allFloors, i) {
             // Because JS
-            return function () {
+            return () => {
               if (allFloors) {
                 _this._setActiveFloor(i, allFloors[i].floor);
                 _this.fire("floor-changed", {
@@ -125,7 +129,9 @@ navigatum.registerModule(
         }
       };
       // Recalculate the layout for displaying n floor buttons
-      FloorControl.prototype._recalculateLayout = function (n) {
+      FloorControl.prototype._recalculateLayout = function _recalculateLayout(
+        n
+      ) {
         // Calculate required and available size to choose between
         // vertical (default) or horizontal layout
         const mapHeight =
@@ -161,7 +167,10 @@ navigatum.registerModule(
           else this.container.classList.add("horizontal");
         }
       };
-      FloorControl.prototype._setActiveFloor = function (floorListI, name) {
+      FloorControl.prototype._setActiveFloor = function _setActiveFloor(
+        floorListI,
+        name
+      ) {
         for (let i = 0; i < this.floor_list.children.length; i++) {
           if (i === floorListI)
             this.floor_list.children[i].classList.add("active");
@@ -174,8 +183,8 @@ navigatum.registerModule(
 
     return {
       map: undefined,
-      init: function () {
-        return new Promise((resolve) => {
+      init: () =>
+        new Promise((resolve) => {
           const head = document.getElementsByTagName("head")[0];
           // Add CSS first (required by Mapbox)
           const elCSS = document.createElement("link");
@@ -193,8 +202,7 @@ navigatum.registerModule(
             resolve();
           };
           head.appendChild(elJS);
-        });
-      },
+        }),
       createMarker: function (hueRotation = 0) {
         const markerDiv = document.createElement("div");
         const markerIcon = document.createElement("span");
@@ -255,7 +263,7 @@ navigatum.registerModule(
         // "Backup" the mapboxgl default fullscreen handler
         fullscreenCtl._onClickFullscreenDefault =
           fullscreenCtl._onClickFullscreen;
-        fullscreenCtl._onClickFullscreen = function () {
+        fullscreenCtl._onClickFullscreen = () => {
           if (isMobile) {
             fullscreenCtl._onClickFullscreenDefault();
           } else {
@@ -291,13 +299,13 @@ navigatum.registerModule(
         // into "loading" state, so map.loaded() is not reliable
         // enough to know whether just the initial loading has
         // succeded.
-        map.on("load", function () {
+        map.on("load", () => {
           map.initialLoaded = true;
         });
 
         const _this = this;
         map.floorControl = new FloorControl();
-        map.floorControl.on("floor-changed", function (args) {
+        map.floorControl.on("floor-changed", (args) => {
           _this.setOverlayImage(
             args.file
               ? `/* @echo cdn_prefix */maps/overlay/${args.file}`
@@ -328,9 +336,7 @@ navigatum.registerModule(
         // to be required to do changes here)
         if (!_map.initialLoaded) {
           const _this = this;
-          _map.on("load", function () {
-            _this.setOverlayImage(imgUrl, coords);
-          });
+          _map.on("load", () => _this.setOverlayImage(imgUrl, coords));
           return;
         }
 

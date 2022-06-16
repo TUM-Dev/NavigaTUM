@@ -1,3 +1,5 @@
+/* eslint func-names: ["error", "always"] */
+
 import gulp from "gulp";
 import addsrc from "gulp-add-src";
 import babel from "gulp-babel";
@@ -33,9 +35,9 @@ import { configRelease, configLocal } from "./config.js"; // eslint-disable-line
 
 // from https://github.com/gulpjs/gulp/blob/master/docs/recipes/running-task-steps-per-folder.md
 function getFolders(dir) {
-  return fs.readdirSync(dir).filter(function (file) {
-    return fs.statSync(path.join(dir, file)).isDirectory();
-  });
+  return fs
+    .readdirSync(dir)
+    .filter((file) => fs.statSync(path.join(dir, file)).isDirectory());
 }
 
 // Selected at the bottom of the script
@@ -83,48 +85,50 @@ function cleanBuild(cb) {
 // --- Main CSS Pipeline ---
 function compileMainScss() {
   return merge(
-    ["light", "dark"].map(function (theme) {
-      return gulp
+    ["light", "dark"].map((theme) =>
+      gulp
         .src("src/main.scss")
         .pipe(injectStr.prepend(`$theme: "${theme}";\n`))
         .pipe(sass().on("error", sass.logError))
         .pipe(rename(`main-${theme}.css`))
-        .pipe(gulp.dest("build/tmp"));
-    })
+        .pipe(gulp.dest("build/tmp"))
+    )
   );
 }
 
 function compileSpectreScss() {
   return merge(
-    ["light", "dark"].map(function (theme) {
-      return (
-        gulp
-          .src("src/spectre-all.scss")
-          .pipe(injectStr.prepend(`$theme: "${theme}";\n`))
-          .pipe(sass().on("error", sass.logError))
-          .pipe(
-            purgecss({
-              content: ["src/index.html", "src/views/*/*.inc"],
-            })
-          )
-          // .pipe(csso())
-          .pipe(rename(`spectre-all-purged-${theme}.css`))
-          .pipe(gulp.dest("build/tmp"))
-      );
-    })
+    ["light", "dark"].map((theme) =>
+      gulp
+        .src("src/spectre-all.scss")
+        .pipe(injectStr.prepend(`$theme: "${theme}";\n`))
+        .pipe(sass().on("error", sass.logError))
+        .pipe(
+          purgecss({
+            content: ["src/index.html", "src/views/*/*.inc"],
+          })
+        )
+        // .pipe(csso())
+        .pipe(rename(`spectre-all-purged-${theme}.css`))
+        .pipe(gulp.dest("build/tmp"))
+    )
   );
 }
 
 /* function mergeMainCss() {
-    return merge(["light", "dark"].map(function(theme) {
-        return gulp.src(['build/tmp/main-' + theme + '.css',
-                         'build/tmp/spectre-all-purged-' + theme + '.css'])
-                   .pipe(concat('app-main-merged-' + theme + '.css'))
-                   .pipe(gulp.dest('build/css'))
-                   .pipe(csso())
-                   .pipe(rename('app-main-merged-' + theme + '.min.css'))
-                   .pipe(gulp.dest('build/css'));
-    }));
+  return merge(["light", "dark"].map((theme) =>
+      gulp
+        .src([
+          `build/tmp/main-${theme}.css`,
+          `build/tmp/spectre-all-purged-${theme}.css`,
+        ])
+        .pipe(concat(`app-main-merged-${theme}.css`))
+        .pipe(gulp.dest("build/css"))
+        .pipe(csso())
+        .pipe(rename(`app-main-merged-${theme}.min.css`))
+        .pipe(gulp.dest("build/css"))
+    )
+  );
 } */
 gulp.task(
   "main_css",
@@ -224,22 +228,22 @@ gulp.task(
 );
 
 // --- Views compilation pipeline ---
-gulp.task("views", function (done) {
+gulp.task("views", (done) => {
   const viewsSrcPath = "src/views";
 
   const folders = getFolders(viewsSrcPath);
   if (folders.length === 0) return done(); // nothing to do!
 
-  const tasks = folders.map(function (folder) {
+  const tasks = folders.map((folder) => {
     const cssTask = merge(
-      ["light", "dark"].map(function (theme) {
-        return gulp
+      ["light", "dark"].map((theme) =>
+        gulp
           .src(path.join(viewsSrcPath, folder, `/view-${folder}.scss`))
           .pipe(injectStr.prepend(`$theme: "${theme}";\n`))
           .pipe(sass().on("error", sass.logError))
           .pipe(rename(`view-${theme}.css`))
-          .pipe(gulp.dest(`build/tmp/views/${folder}`));
-      })
+          .pipe(gulp.dest(`build/tmp/views/${folder}`))
+      )
     );
 
     const jsTask = gulp
@@ -281,15 +285,15 @@ gulp.task("views", function (done) {
 });
 
 // --- Build pages sources ---
-gulp.task("pages_src", function (done) {
+gulp.task("pages_src", (done) => {
   const viewsBuildPath = "build/tmp/views";
 
   const folders = getFolders(viewsBuildPath);
   if (folders.length === 0) return done(); // nothing to do!
 
-  const tasks = folders.map(function (folder) {
+  const tasks = folders.map((folder) => {
     const viewCSS = merge(
-      ["light", "dark"].map(function (theme) {
+      ["light", "dark"].map((theme) => {
         // Extract used spectre classes for this view and merge with core & view css
         const viewCSSCore = gulp
           .src(`build/tmp/spectre-all-purged-${theme}.css`)
@@ -338,15 +342,15 @@ gulp.task("pages_src", function (done) {
 });
 
 // --- Build pages output ---
-gulp.task("pages_out", function (done) {
+gulp.task("pages_out", (done) => {
   const viewsBuildPath = "build/tmp/views";
 
   const folders = getFolders(viewsBuildPath);
   if (folders.length === 0) return done(); // nothing to do!
 
-  const tasks = folders.map(function (folder) {
+  const tasks = folders.map((folder) => {
     const themedTasks = merge(
-      ["light", "dark"].map(function (theme) {
+      ["light", "dark"].map((theme) => {
         const viewHtml = gulp
           .src("src/index.html")
           .pipe(rename(`index-view-${folder}-${theme}.html`))
@@ -375,9 +379,7 @@ gulp.task("pages_out", function (done) {
               ),
               {
                 starttag: "<!-- inject:core:{{ext}} -->",
-                transform: function (filePath, file) {
-                  return file.contents.toString("utf8");
-                },
+                transform: (filePath, file) => file.contents.toString("utf8"),
                 quiet: true,
                 removeTags: true,
               }
@@ -544,10 +546,9 @@ function i18nCompileLangfiles() {
 
 // --- Markdown Pipeline ---
 const renderer = {
-  code: function (code, infostring) {
-    return `<pre class="code" data-lang="${infostring}"><code>${code}</code></pre>`;
-  },
-  link: function (href, title, text) {
+  code: (code, infostring) =>
+    `<pre class="code" data-lang="${infostring}"><code>${code}</code></pre>`,
+  link: (href, title, text) => {
     if (href.startsWith("http"))
       return `<a href="${href}" target="_blank">${text}</a>`;
     return `<router-link to="${href}">${text}</router-link>`;
@@ -584,7 +585,7 @@ function revisionAssets(done) {
         // css is deferred using preload, which revAll currently doesn't detect
         includeFilesInManifest: [".js", ".webp", ".svg", ".png", ".ico"],
         dontRenameFile: [".html"],
-        transformFilename: function (file, hash) {
+        transformFilename: (file, hash) => {
           const ext = path.extname(file.path);
           return `cache_${hash.substr(0, 8)}.${path.basename(
             file.path,

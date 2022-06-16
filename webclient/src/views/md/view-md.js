@@ -54,7 +54,7 @@ navigatum.registerView("md", {
     loadPage: function (content) {
       this.content = content;
 
-      this.$nextTick(function () {
+      this.$nextTick(() => {
         const e = document.getElementById("view-md");
         if (e === null) {
           console.warn(

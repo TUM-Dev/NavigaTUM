@@ -1,6 +1,6 @@
 navigatum.registerModule(
   "autocomplete",
-  (function () {
+  (() => {
     function getVisibleElements() {
       const visible = [];
 

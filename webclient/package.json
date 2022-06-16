@@ -12,6 +12,9 @@
     "extends": [
       "@paulhfischer/eslint-config-javascript"
     ],
+    "ignorePatterns": [
+      "**/googlebef9161f1176c5e0.html"
+    ],
     "env": {
       "browser": true
     },
@@ -33,6 +36,10 @@
       "object-shorthand": [
         "error",
         "never"
+      ],
+      "func-names": [
+        "error",
+        "as-needed"
       ],
       "no-template-curly-in-string": "off",
       "no-console": [

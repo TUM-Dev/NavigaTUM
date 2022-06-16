@@ -8,7 +8,7 @@
 
 // TODO: only if initialized and fallback==false
 
-(function () {
+(() => {
   const stateIndexSymbol = "__state__index__";
   const stateDataSymbol = "viewState";
 
@@ -53,7 +53,7 @@
     window.history.states.splice(window.history.stateIndex + 2);
     window.history.stateIndex += 1;
   }
-  window.history.saveCurrentViewState = function () {
+  window.history.saveCurrentViewState = () => {
     if (
       navigatum.router &&
       navigatum.router.currentRoute.matched[0] &&
@@ -70,11 +70,11 @@
         );
     }
   };
-  window.history.pushState = function (data, title, url = null) {
+  window.history.pushState = (data, title, url = null) => {
     add(data, title, url);
     historyPushState.bind(window.history)(data, title, url);
   };
-  document.addEventListener("popstate", function (e) {
+  document.addEventListener("popstate", (e) => {
     // If navigation is window.history navigation (click on back/forward),
     // the 'popstate' event is emitted before 'beforeResolve()'.
     // So in this case, we need to temporarily store the old state index,

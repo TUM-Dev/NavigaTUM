@@ -2,19 +2,14 @@
 // feedback form is mostly seperate from the rest of the codebase.
 // It is only loaded when the feedback form is being opened.
 
-// eslint-disable-next-line no-unused-vars
-const feedback = (function () {
+window.feedback = (() => {
   let token = null;
 
   function _requestPage(method, url, data, onsuccess, onerror) {
     const req = new XMLHttpRequest();
     req.open(method, window.encodeURI(url), true);
-    req.onload = function () {
-      onsuccess(this);
-    };
-    req.onerror = function () {
-      onerror(this);
-    };
+    req.onload = onsuccess(this);
+    req.onerror = onerror(this);
     if (data === null) {
       req.send();
     } else {
@@ -61,7 +56,7 @@ const feedback = (function () {
         "POST",
         "/* @echo api_prefix */feedback/get_token",
         null,
-        function (r) {
+        (r) => {
           if (r.status === 201) {
             token = {
               creation: Date.now(),
@@ -79,7 +74,7 @@ const feedback = (function () {
             _showError(`${unexpectedTokenError}${r.status}`, true);
           }
         },
-        function (r) {
+        (r) => {
           _showError("${{_.feedback.error.token_req_failed}}$", false);
           console.error(r);
         }
@@ -155,7 +150,7 @@ const feedback = (function () {
         privacy_checked: privacy,
         delete_issue_requested: deleteIssue,
       }),
-      function (r) {
+      (r) => {
         _showLoading(false);
         if (r.status === 201) {
           localStorage.removeItem("coordinate-feedback");
@@ -180,7 +175,7 @@ const feedback = (function () {
           _showError(`${unexpectedStatusError}${r.status}`, false);
         }
       },
-      function (r) {
+      (r) => {
         _showLoading(false);
         _showError("${{_.feedback.error.send_req_failed}}$");
         console.error(r);
@@ -226,13 +221,9 @@ const feedback = (function () {
     .getElementById("feedback-overlay-2")
     .addEventListener("click", closeForm, false);
 
-  document.getElementById("feedback-category").addEventListener(
-    "change",
-    function (e) {
-      updateFeedbackForm(e.value);
-    },
-    false
-  );
+  document
+    .getElementById("feedback-category")
+    .addEventListener("change", (e) => updateFeedbackForm(e.value), false);
 
   document
     .getElementById("feedback-send")

@@ -82,7 +82,7 @@ navigatum.registerView("search", {
       // In the future it is planned that this search results page
       // has a different format.
       const _this = this;
-      navigatum.getModule("autocomplete").then(function (c) {
+      navigatum.getModule("autocomplete").then((c) => {
         _this.sections = c.extractFacets(data);
       });
     },
