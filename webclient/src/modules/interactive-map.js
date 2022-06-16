@@ -90,14 +90,14 @@ navigatum.registerModule(
           };
           let btn;
           let visibleI = null;
-          for (const i in floors.reverse()) {
+          floors.reverse().forEach((floor, index) => {
             btn = document.createElement("button");
-            btn.innerText = floors[i].floor;
-            btn.addEventListener("click", clickHandlerBuilder(floors, i));
+            btn.innerText = floor.floor;
+            btn.addEventListener("click", clickHandlerBuilder(floors, index));
             this.floor_list.appendChild(btn);
 
-            if (floors[i].id === visibleId) visibleI = i;
-          }
+            if (floor.id === visibleId) visibleI = index;
+          });
 
           if (visibleI === null) {
             this._setActiveFloor(this.floor_list.children.length, "∅");

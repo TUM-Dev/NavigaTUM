@@ -4,12 +4,14 @@ navigatum.registerModule(
     function getVisibleElements() {
       const visible = [];
 
-      Object.values(navigatum.app.search.autocomplete.sections).forEach((i) => {
-        const s = navigatum.app.search.autocomplete.sections[i];
-
-        Object.values(s.entries).forEach((j) => {
-          if (s.n_visible === undefined || j < s.n_visible || s.expanded)
-            visible.push(s.entries[j].id);
+      navigatum.app.search.autocomplete.sections.forEach((section) => {
+        section.entries.forEach((entry, index) => {
+          if (
+            section.n_visible === undefined ||
+            index < section.n_visible ||
+            section.expanded
+          )
+            visible.push(entry.id);
         });
       });
       return visible;
@@ -18,46 +20,45 @@ navigatum.registerModule(
     function extractFacets(data) {
       const sections = [];
 
-      Object.values(data.sections).forEach((i) => {
+      data.sections.forEach((section) => {
         const entries = [];
 
-        Object.values(data.sections[i].entries).forEach((j) => {
+        section.entries.forEach((entry) => {
           // Search uses DC3 and DC1 to mark the beginning/end
           // of a highlighted sequence:
           // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets
-          const e = data.sections[i].entries[j];
-          const name = new Option(e.name).innerHTML
+          const name = new Option(entry.name).innerHTML
             .replaceAll("\x19", "<em>")
             .replaceAll("\x17", "</em>");
-          const parsedId = new Option(e.parsed_id).innerHTML
+          const parsedId = new Option(entry.parsed_id).innerHTML
             .replaceAll("\x19", "<em>")
             .replaceAll("\x17", "</em>");
-          const subtextBold = new Option(e.subtext_bold).innerHTML
+          const subtextBold = new Option(entry.subtext_bold).innerHTML
             .replaceAll("\x19", "<em>")
             .replaceAll("\x17", "</em>");
           entries.push({
-            id: e.id,
+            id: entry.id,
             name: name,
-            type: e.type,
-            subtext: e.subtext,
+            type: entry.type,
+            subtext: entry.subtext,
             subtext_bold: subtextBold,
             parsed_id: parsedId,
           });
         });
 
-        if (data.sections[i].facet === "sites_buildings") {
+        if (section.facet === "sites_buildings") {
           sections.push({
             name: "${{ _.search.sections.buildings }}$",
             expanded: false,
             entries: entries,
-            estimatedTotalHits: data.sections[i].estimatedTotalHits,
-            n_visible: data.sections[i].n_visible,
+            estimatedTotalHits: section.estimatedTotalHits,
+            n_visible: section.n_visible,
           });
-        } else if (data.sections[i].facet === "rooms") {
+        } else if (section.facet === "rooms") {
           sections.push({
             name: "${{ _.search.sections.rooms }}$",
             entries: entries,
-            estimatedTotalHits: data.sections[i].estimatedTotalHits,
+            estimatedTotalHits: section.estimatedTotalHits,
           });
         }
       });

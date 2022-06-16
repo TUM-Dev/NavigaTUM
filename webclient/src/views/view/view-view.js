@@ -143,7 +143,6 @@ navigatum.registerView("view", {
     // - when the view is navigated to from a different view
     // - when the view is navigated to from the same view, but with a different entry
     loadEntryData: function (data) {
-      let i;
       this.view_data = data;
 
       this.showImageShowcase(0, false);
@@ -162,16 +161,12 @@ navigatum.registerView("view", {
         // Interactive has to be always available, but roomfinder may be unavailable
         if ("roomfinder" in data.maps) {
           // Find default map
-          for (i in data.maps.roomfinder.available) {
-            if (
-              data.maps.roomfinder.available[i].id ==
-              data.maps.roomfinder.default
-            ) {
-              this.state.map.roomfinder.selected_index = i;
-              this.state.map.roomfinder.selected_id =
-                data.maps.roomfinder.available[i].id;
+          data.maps.roomfinder.available.forEach((availableMap, index) => {
+            if (availableMap.id === data.maps.roomfinder.default) {
+              this.state.map.roomfinder.selected_index = index;
+              this.state.map.roomfinder.selected_id = availableMap.id;
             }
-          }
+          });
         }
       }
 
@@ -187,9 +182,9 @@ navigatum.registerView("view", {
       if (this.view_data.sections && this.view_data.sections.rooms_overview) {
         const { usages } = this.view_data.sections.rooms_overview;
         const combinedList = [];
-        for (i in usages) {
-          combinedList.push(...usages[i].children);
-        }
+        usages.forEach((usage) => {
+          combinedList.push(...usage.children);
+        });
         this.sections.rooms_overview.combined_list = combinedList;
         this.sections.rooms_overview.combined_count = combinedList.length;
         this.updateRoomsOverview();
@@ -200,9 +195,9 @@ navigatum.registerView("view", {
       let description = `${detailsFor} ${data.type_common_name} ${data.name}`;
       if (data.props.computed) {
         description += ":";
-        for (const prop of data.props.computed) {
+        data.props.computed.forEach((prop) => {
           description += `\n- ${prop.name}: ${prop.text}`;
-        }
+        });
       }
       return description;
     },
@@ -322,12 +317,12 @@ navigatum.registerView("view", {
           "${{_.feedback.coordinatepicker.edit_multiple_coordinates}}$";
       }
 
-      let edit_str = "";
-      for (const [key, value] of Object.entries(currentEdits)) {
-        edit_str += `"${key}": {coords: {lat: ${value.coords.lat}, lon: ${value.coords.lon}}},\n`;
-      }
+      let editStr = "";
+      Object.entries(currentEdits).forEach(([key, value]) => {
+        editStr += `"${key}": {coords: {lat: ${value.coords.lat}, lon: ${value.coords.lon}}},`;
+      });
 
-      return `${actionMsg}\n` + `\`\`\`\n${edit_str}\`\`\``;
+      return `${actionMsg}\n\`\`\`\n${editStr}\`\`\``;
     },
     openFeedbackForm: function () {
       // The feedback form is opened. This may be prefilled with previously corrected coordinates.
@@ -520,7 +515,6 @@ navigatum.registerView("view", {
       }
     },
     updateRoomsOverview: function (setSelected) {
-      let i;
       const state = this.state.rooms_overview;
       const data = this.view_data.sections.rooms_overview;
       const local = this.sections.rooms_overview;
@@ -541,19 +535,20 @@ navigatum.registerView("view", {
           if (state.selected !== local._filter_index.selected) {
             const rooms = baseList;
             local._filter_index.list = [];
-            for (i in rooms) {
-              rooms[i]._lower = rooms[i].name.toLowerCase();
-              local._filter_index.list.push(rooms[i]);
-            }
+
+            rooms.forEach((room) => {
+              room._lower = room.name.toLowerCase();
+              local._filter_index.list.push(room);
+            });
             local._filter_index.selected = state.selected;
           }
 
           const filter = state.filter.toLowerCase();
           const filtered = [];
-          for (i in local._filter_index.list) {
-            if (local._filter_index.list[i]._lower.indexOf(filter) >= 0)
-              filtered.push(local._filter_index.list[i]);
-          }
+
+          local._filter_index.list.forEach((f) => {
+            if (f._lower.indexOf(filter) >= 0) filtered.push(f);
+          });
           local.display_list = filtered;
         }
       }

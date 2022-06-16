@@ -51,7 +51,7 @@ navigatum.registerView("search", {
     genDescription: function (data) {
       let sectionsDescr = "";
       let estimatedTotalHits = 0;
-      for (const section of data.sections) {
+      data.sections.forEach((section) => {
         if (section.estimatedTotalHits) {
           let facetStr;
           if (section.facet === "sites_buildings") {
@@ -66,7 +66,7 @@ navigatum.registerView("search", {
           sectionsDescr += `${section.estimatedTotalHits} ${facetStr}`;
         }
         estimatedTotalHits += section.estimatedTotalHits;
-      }
+      });
       if (estimatedTotalHits === 0)
         sectionsDescr = "${{ _.search.sections.no_buildings_rooms_found }}$";
       else sectionsDescr += " ${{ _.search.sections.were_found }}$";

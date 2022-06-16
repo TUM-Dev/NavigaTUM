@@ -52,8 +52,8 @@ const cachedFetch = (function () {
             .then((data) => {
               if (data !== null) this.cache[url] = data;
 
-              Object.values(this.promise_callbacks[url]).forEach((i) => {
-                this.promise_callbacks[url][i](data);
+              this.promise_callbacks[url].forEach((callback) => {
+                callback(data);
               });
               delete this.promise_callbacks[url];
             });
@@ -80,8 +80,8 @@ navigatum = (function () {
     _this.modules.initialized[name] = c;
     if (name in _this.modules.loaded) delete _this.modules.loaded[name];
 
-    Object.values(_this.module_promise_callbacks[name]).forEach((i) => {
-      _this.module_promise_callbacks[name][i](c);
+    _this.module_promise_callbacks[name].forEach((callback) => {
+      callback(c);
     });
     delete _this.module_promise_callbacks[name];
   }
@@ -377,13 +377,14 @@ navigatum = (function () {
       }
       if (stateObj instanceof Object) {
         const copy = {};
-        for (const attr in stateObj) {
+
+        stateObj.forEach((attr) => {
           if (
             attr !== "__ob__" && // stuff by vue, recursive!
             Object.prototype.hasOwnProperty.call(stateObj, attr) // see https://stackoverflow.com/q/39282873 why prototype
           )
             copy[attr] = this.cloneState(stateObj[attr]);
-        }
+        });
         return copy;
       }
       console.error("failed to clone the state", stateObj);
@@ -410,14 +411,14 @@ navigatum = (function () {
       return false;
     },
     applyState: function (cacheStateObj, vueStateObj) {
-      for (const attr in cacheStateObj) {
+      Object.keys(cacheStateObj).forEach((attr) => {
         if (cacheStateObj[attr] instanceof Object) {
           if (!(vueStateObj[attr] instanceof Object)) vueStateObj[attr] = {}; // value was null
           this.applyState(cacheStateObj[attr], vueStateObj[attr]);
         } else {
           vueStateObj[attr] = cacheStateObj[attr];
         }
-      }
+      });
     },
     setTitle: function (name) {
       document.title = `${name} – NavigaTUM`;

@@ -30,6 +30,6 @@ const webpTestImages = [
   "UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==", // lossless
   "UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAwAAAARBxAR/Q9ERP8DAABWUDggGAAAABQBAJ0BKgEAAQAAAP4AAA3AAP7mtQAAAA==", // alpha
 ];
-for (const image of webpTestImages) {
+webpTestImages.forEach((image) => {
   if (webpUnpolyfilled) testWebpFeature(image);
-}
+});
