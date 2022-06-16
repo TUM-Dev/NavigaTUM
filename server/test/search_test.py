@@ -1,7 +1,7 @@
 import itertools
 import json
 import os
-import urllib
+import urllib.parse
 
 import requests
 import yaml

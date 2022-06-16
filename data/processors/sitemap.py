@@ -5,7 +5,8 @@ import urllib.request
 import xml.etree.ElementTree as ET  # nosec: used for writing to a file, not for reading
 from datetime import datetime
 
-from defusedxml import ElementTree as defusedET  # supports only parse()
+# supports only parse()
+from defusedxml import ElementTree as defusedET  # type:ignore
 
 
 def generate_sitemap():
