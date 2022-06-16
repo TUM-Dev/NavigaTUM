@@ -71,10 +71,12 @@ navigatum = (function () {
 
   const views = {};
   const viewsResolveCallbacks = {};
-  let routes;
+  let routes; // eslint-disable-line no-unused-vars
 
-  const router = null;
-  const app = null; // This is the Vue.js app
+  const router = null; // eslint-disable-line no-unused-vars
+
+  // This is the Vue.js app
+  const app = null; // eslint-disable-line no-unused-vars
 
   function _modulePostInit(_this, name, c) {
     _this.modules.initialized[name] = c;
@@ -299,6 +301,7 @@ navigatum = (function () {
         this.modules.loaded[name] = c;
       }
     },
+    // eslint-disable-next-line no-unused-vars
     getModule: function (name, ...args) {
       return new Promise((resolve) => {
         if (name in this.modules.initialized) {
@@ -318,6 +321,7 @@ navigatum = (function () {
               _modulePostInit(this, name, this.modules.loaded[name]);
             } else {
               // Init with Promise
+              // eslint-disable-next-line no-unused-vars
               res.then((_) => {
                 _modulePostInit(this, name, this.modules.loaded[name]);
               });
@@ -347,6 +351,7 @@ navigatum = (function () {
       if (from.name !== null && window.history.saveCurrentViewState)
         window.history.saveCurrentViewState(); // Initial page load
     },
+    // eslint-disable-next-line no-unused-vars
     afterNavigate: function (to, from) {
       if (this.navigationState === null) return;
       this.navigationState = null;

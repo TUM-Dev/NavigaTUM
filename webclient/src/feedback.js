@@ -2,6 +2,7 @@
 // feedback form is mostly seperate from the rest of the codebase.
 // It is only loaded when the feedback form is being opened.
 
+// eslint-disable-next-line no-unused-vars
 const feedback = (function () {
   let token = null;
 

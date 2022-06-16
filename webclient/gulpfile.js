@@ -29,7 +29,7 @@ import merge from "merge-stream";
 import nodeSass from "node-sass";
 import path from "path";
 import source from "vinyl-source-stream";
-import { configRelease, configLocal } from "./config.js";
+import { configRelease, configLocal } from "./config.js"; // eslint-disable-line import/extensions
 
 // from https://github.com/gulpjs/gulp/blob/master/docs/recipes/running-task-steps-per-folder.md
 function getFolders(dir) {
