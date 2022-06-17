@@ -17,6 +17,7 @@ path = "src/main.rs"
 strip = true
 
 [dependencies]
+regex = "1.5.5"
 log = "0.4.16"
 rusqlite = "0.27.0"
 octocrab = "0.16.0"

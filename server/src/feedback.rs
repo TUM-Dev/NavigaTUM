@@ -2,6 +2,7 @@ use actix_web::web::Json;
 use actix_web::{post, web, HttpResponse};
 use log::error;
 use octocrab::Octocrab;
+use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::sync::Mutex;
 use std::time::Instant;
@@ -213,10 +214,47 @@ fn parse_request(req_data: &Json<FeedbackPostData>) -> (String, String, Vec<Stri
     (title, description, labels)
 }
 
+/// Remove all returns a string, which has
+/// - all control characters removed
+/// - is at most len characters long
+/// - can be nicely formatted in markdown (just \n in md is not a linebreak)
 fn clean_feedback_data(s: &str, len: usize) -> String {
-    if len > 0 {
-        s.chars().filter(|c| !c.is_control()).take(len).collect()
-    } else {
-        s.chars().filter(|c| !c.is_control()).collect()
+    let s_clean = s
+        .chars()
+        .filter(|c| !c.is_control() || (c == &'\n'))
+        .take(len)
+        .collect::<String>();
+
+    let re = Regex::new(r"[ \t]*\n").unwrap();
+    re.replace_all(&s_clean, "  \n").to_string()
+}
+
+#[cfg(test)]
+mod description_tests {
+    use super::*;
+
+    #[test]
+    fn newlines_whitespace() {
+        assert_eq!(
+            clean_feedback_data("a\r\nb", 9),
+            clean_feedback_data("a\nb", 9)
+        );
+        assert_eq!(clean_feedback_data("a\nb\nc", 9), "a  \nb  \nc");
+        assert_eq!(clean_feedback_data("a\nb  \nc", 9), "a  \nb  \nc");
+        assert_eq!(clean_feedback_data("a      \nb", 9), "a  \nb");
+        assert_eq!(clean_feedback_data("a\n\nb", 9), "a  \n  \nb");
+        assert_eq!(clean_feedback_data("a\n   b", 9), "a  \n   b");
+    }
+    #[test]
+    fn truncate_len() {
+        for i in 0..10 {
+            assert_eq!(clean_feedback_data("abcd", i), "abcd".truncate(i));
+        }
+    }
+    #[test]
+    fn special_cases() {
+        assert_eq!(clean_feedback_data("", 0), "");
+        assert_eq!(clean_feedback_data("a\x05bc", 9), "abc");
+        assert_eq!(clean_feedback_data("ab\x0Dc", 9), "abc");
     }
 }
