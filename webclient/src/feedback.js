@@ -8,8 +8,8 @@ window.feedback = (() => {
   function _requestPage(method, url, data, onsuccess, onerror) {
     const req = new XMLHttpRequest();
     req.open(method, window.encodeURI(url), true);
-    req.onload = onsuccess(this);
-    req.onerror = onerror(this);
+    req.onload = onsuccess(req);
+    req.onerror = onerror(req);
     if (data === null) {
       req.send();
     } else {
