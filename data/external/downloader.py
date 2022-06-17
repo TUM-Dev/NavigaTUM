@@ -153,9 +153,9 @@ def roomfinder_maps():
     """
     cache_name = "maps_roomfinder.json"
 
-    maps = _cached_json(cache_name)
-    if maps is not None:
-        return maps
+    cached_maps = _cached_json(cache_name)
+    if cached_maps is not None:
+        return cached_maps
 
     # The only way to get the map boundaries seems to be to download the kml with overlaid map.
     # For this api we need a room or building for each map available.
@@ -171,7 +171,16 @@ def roomfinder_maps():
                     used_maps[_map[1]] = ("room", building_entity["r_id"], _map)
                 else:
                     used_maps[_map[1]] = ("building", building_entity["b_id"], _map)
+    maps = _download_maps(used_maps)
 
+    # Not all maps are used somewhere.
+    # TODO: Download the rest
+
+    _write_cache_json(cache_name, maps)
+    return maps
+
+
+def _download_maps(used_maps):
     maps = []
     for e_type, e_id, _map in used_maps.values():
         # Download as file
@@ -194,13 +203,7 @@ def roomfinder_maps():
         if _map[1] == 9:
             continue
 
-        rf_base_room_placemark_url = "https://portal.mytum.de/campus/roomfinder/getRoomPlacemark"
-        if e_type == "room":
-            url = f"{rf_base_room_placemark_url}?roomid={urllib.parse.quote_plus(e_id)}&mapid={_map[1]}"
-            f_path = _download_file(url, f"maps/roomfinder/kmz/{_map[1]}.kmz")
-        elif e_type == "building":
-            url = f"{rf_base_room_placemark_url}?b_id={e_id}&mapid={_map[1]}"
-            f_path = _download_file(url, f"maps/roomfinder/kmz/{_map[1]}.kmz")
+        f_path = _download_map(_map, e_id, e_type)
 
         with zipfile.ZipFile(f_path, "r") as zip_f, zip_f.open("RoomFinder.kml") as file:
             root = ET.fromstring(file.read())
@@ -215,12 +218,18 @@ def roomfinder_maps():
                 "south": latlonbox[3].text,
                 "rotation": latlonbox[4].text,
             }
-
-    # Not all maps are used somewhere.
-    # TODO: Download the rest
-
-    _write_cache_json(cache_name, maps)
     return maps
+
+
+def _download_map(_map, e_id, e_type):
+    base_url = "https://portal.mytum.de/campus/roomfinder/getRoomPlacemark"
+    if e_type == "room":
+        url = f"{base_url}?roomid={urllib.parse.quote_plus(e_id)}&mapid={_map[1]}"
+        return _download_file(url, f"maps/roomfinder/kmz/{_map[1]}.kmz")
+    if e_type == "building":
+        url = f"{base_url}?b_id={e_id}&mapid={_map[1]}"
+        return _download_file(url, f"maps/roomfinder/kmz/{_map[1]}.kmz")
+    raise RuntimeError(f"Unknown entity type: {e_type}")
 
 
 def tumonline_areas():

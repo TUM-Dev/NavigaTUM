@@ -88,11 +88,9 @@ def _calculate_grade(query, search):
         4.7 = failed (but at least not misleading, e.g. when there are no results at all)
         5.0 = very bad (e.g. not in the results, misleading results)
     """
-    if search["target_pos"] == 0:
-        return 1.0
-    if 0 < search["target_pos"] <= 4:
+    if 0 <= search["target_pos"] <= 4:
         # "among" may specify where the target can also be without affecting grading
-        if "among" in query and search["target_pos"] < query["among"]:
+        if search["target_pos"] == 0 or ("among" in query and search["target_pos"] < query["among"]):
             return 1.0
         preceding_hits = search["hits"][: search["target_pos"]]
         preceding_types = {hit["type"] for hit in preceding_hits}
@@ -122,64 +120,9 @@ def _print_specific_queries_result(searches, cmp=None):
         }[str(round(search["grade"], 1))]
 
         # Grade cmp
-        if cmp is None:
-            s_cmp = ""
-        else:
-            cmp_search = None
-            for comparison in cmp:
-                if comparison["query"].lower() == search["query"].lower():
-                    cmp_search = comparison
-                    break
+        s_cmp = _generate_grade_cmp(cmp, search)
 
-            if cmp_search is None:
-                s_cmp = colored(" ----", "white")
-            else:
-                if cmp_search["grade"] < search["grade"]:
-                    grade = round(search["grade"] - cmp_search["grade"], 1)
-                    s_cmp = colored(f" +{grade}", "red", attrs=["bold"])
-                elif cmp_search["grade"] > search["grade"]:
-                    grade = round(cmp_search["grade"] - search["grade"], 1)
-                    s_cmp = colored(f" -{grade}", "green", attrs=["bold"])
-                else:
-                    s_cmp = "     "
-
-        # Query
-        # Green indicates when a better position is reached
-        # White (not formatted) indicates minimum to reach top 5
-        # Underline indicates minimum to reach final position
-        green_end_pos = (
-            search["len_to_best_pos"]
-            if (
-                search["best_pos"] is not None
-                and (search["target_pos"] == -1 or search["best_pos"] < search["target_pos"])
-            )
-            else 0
-        )
-        white_end_pos = search["len_to_reach_top_5"] if search["len_to_reach_top_5"] is not None else 0
-        underline_end_pos = search["len_to_reach_final"] if search["len_to_reach_final"] is not None else 0
-
-        s_query = ""
-        for i, query in enumerate(search["query"]):
-            # This is not the best way of formatting, but sufficient here
-            if i >= green_end_pos and i >= white_end_pos:
-                s_query += colored(
-                    str(query),
-                    color="white",  # this is gray
-                    attrs=(["underline"] if i < underline_end_pos else []),
-                )
-            elif green_end_pos < white_end_pos:
-                s_query += colored(
-                    str(query),
-                    color="green" if i < green_end_pos else None,
-                    attrs=(["underline"] if i < underline_end_pos else []),
-                )
-            else:
-                s_query += colored(
-                    str(query),
-                    color=None if i < white_end_pos else "green",
-                    attrs=(["underline"] if i < underline_end_pos else []),
-                )
-        s_query += " " * max(0, 50 - len(search["query"]))
+        s_query = _gen_colored_query(search)
         s_stats = _gen_colored_stats(search)
 
         print(f"{s_pos_indicator} {s_grade}{s_cmp} {s_query} {s_stats}")
@@ -188,6 +131,68 @@ def _print_specific_queries_result(searches, cmp=None):
     total_search_times = sum(s["partial_time_avg"] * len(s["query"]) for s in searches)
     avg_search_times = total_search_times / sum(len(s["query"]) for s in searches)
     print(f"Performed {num_searches} searches, {round(avg_search_times, 1)}ms (partial) average")
+
+
+def _gen_colored_query(search):
+    """
+    Generates the colored Query
+    - Green indicates when a better position is reached
+    - White (not formatted) indicates minimum to reach top 5
+    - Underline indicates minimum to reach final position
+    """
+    green_end_pos = (
+        search["len_to_best_pos"]
+        if (
+            search["best_pos"] is not None and (search["target_pos"] == -1 or search["best_pos"] < search["target_pos"])
+        )
+        else 0
+    )
+    white_end_pos = search["len_to_reach_top_5"] if search["len_to_reach_top_5"] is not None else 0
+    underline_end_pos = search["len_to_reach_final"] if search["len_to_reach_final"] is not None else 0
+
+    s_query = ""
+    for i, query in enumerate(search["query"]):
+        # This is not the best way of formatting, but sufficient here
+        if i >= green_end_pos and i >= white_end_pos:
+            s_query += colored(
+                str(query),
+                color="white",  # this is gray
+                attrs=(["underline"] if i < underline_end_pos else []),
+            )
+        elif green_end_pos < white_end_pos:
+            s_query += colored(
+                str(query),
+                color="green" if i < green_end_pos else None,
+                attrs=(["underline"] if i < underline_end_pos else []),
+            )
+        else:
+            s_query += colored(
+                str(query),
+                color=None if i < white_end_pos else "green",
+                attrs=(["underline"] if i < underline_end_pos else []),
+            )
+    s_query += " " * max(0, 50 - len(search["query"]))
+    return s_query
+
+
+def _generate_grade_cmp(cmp, search):
+    if cmp is None:
+        return ""
+    cmp_search = None
+    for comparison in cmp:
+        if comparison["query"].lower() == search["query"].lower():
+            cmp_search = comparison
+            break
+
+    if cmp_search is None:
+        return colored(" ----", "white")
+    if cmp_search["grade"] < search["grade"]:
+        grade = round(search["grade"] - cmp_search["grade"], 1)
+        return colored(f" +{grade}", "red", attrs=["bold"])
+    if cmp_search["grade"] > search["grade"]:
+        grade = round(cmp_search["grade"] - search["grade"], 1)
+        return colored(f" -{grade}", "green", attrs=["bold"])
+    return "     "
 
 
 def _gen_colored_stats(search):

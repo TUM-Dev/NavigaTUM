@@ -1,5 +1,6 @@
 def read_areatree():
     """Reads the areatree file and the basic data, gained from the areatree"""
+
     data = {}
     parent_stack = []
     last_element = None

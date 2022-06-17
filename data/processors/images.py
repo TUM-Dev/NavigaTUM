@@ -8,6 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Optional
 
+import utils
 import yaml
 from PIL import Image
 
@@ -228,6 +229,9 @@ def resize_and_crop() -> None:
     Resize and crop the images for the given data to the desired resolutions.
     This will overwrite any existing thumbs/header-small's.
     """
+    logging.info(f"convert {IMAGE_BASE} to webp")
+    utils.convert_to_webp(IMAGE_BASE)
+
     for target_dir_name, _size in RESOLUTIONS:
         target_dir = IMAGE_BASE / target_dir_name
         if not target_dir.exists():

@@ -15,7 +15,6 @@ from processors import (
     structure,
     tumonline,
 )
-from utils import convert_to_webp
 
 DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ
 
@@ -69,24 +68,17 @@ def main():
     structure.infer_type_common_name(data)
 
     logging.info("-- 40 Coordinates")
-    coords.assert_buildings_have_coords(data)
-    coords.assign_coordinates(data)
-    coords.check_coords(data)
+    coords.add_and_check_coords(data)
 
     logging.info("-- 45 Roomfinder maps")
-    maps.assign_roomfinder_maps(data)
-    maps.remove_non_covering_maps(data)
-    maps.assign_default_roomfinder_map(data)
-    maps.build_roomfinder_maps(data)
+    maps.roomfinder_maps(data)
 
     logging.info("-- 46 Overlay maps")
     maps.add_overlay_maps(data)
 
-    logging.info(f"-- 50 convert {images.IMAGE_BASE} to webp")
-    convert_to_webp(images.IMAGE_BASE)
-    logging.info("-- 51 resize and crop the images for different resolutions and formats")
+    logging.info("-- 50 resize and crop the images for different resolutions and formats")
     images.resize_and_crop()
-    logging.info("-- 52 Add image information")
+    logging.info("-- 51 Add image information")
     images.add_img(data)
 
     logging.info("-- 80 Generate info card")
@@ -105,19 +97,12 @@ def main():
     logging.info("-- 99 Search: Export")
     export.export_for_search(data, "output/search_data.json")
 
-    for _id, entry in data.items():
-        if entry["type"] != "root":
-            entry.setdefault("maps", {})["default"] = "interactive"
-
     logging.info("-- 100 Export: API")
     export.export_for_api(data, "output/api_data.json")
 
     # Sitemap is only generated for deployments
-    if DEBUG_MODE:
-        logging.info("Skipping sitemap generation in Dev Mode (GIT_COMMIT_SHA is unset)")
-    else:
-        logging.info("-- 101 Extra: Sitemap")
-        sitemap.generate_sitemap()
+    logging.info("-- 101 Extra: Sitemap")
+    sitemap.generate_sitemap()
 
 
 if __name__ == "__main__":

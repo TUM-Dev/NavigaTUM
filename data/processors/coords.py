@@ -132,3 +132,10 @@ def check_coords(input_data):
                 f"{iid}: utm coordinate is zero. There is very likely an error in the source data "
                 f"(UTM coordinates are either from the Roomfinder or automatically calculated).",
             )
+
+
+def add_and_check_coords(data):
+    """Add coordinates to all entries and check for issues"""
+    assert_buildings_have_coords(data)
+    assign_coordinates(data)
+    check_coords(data)

@@ -12,7 +12,7 @@ EXTERNAL_PATH = Path(__file__).parent.parent / "external"
 RF_MAPS_PATH = EXTERNAL_PATH / "maps" / "roomfinder"
 
 
-def assign_roomfinder_maps(data):
+def _assign_roomfinder_maps(data):
     """
     Assign roomfinder maps to all entries if there are none yet specified.
     """
@@ -193,7 +193,7 @@ def _load_maps_list():
     return _deduplicate_maps(maps_list)
 
 
-def build_roomfinder_maps(data):
+def _build_roomfinder_maps(data):
     """Generate the map information for the Roomfinder maps."""
 
     map_assignment_data = _generate_assignment_data()
@@ -221,12 +221,11 @@ def _calc_xy_of_coords_on_map(coords, map_data) -> tuple[int, int]:
     Note: x corresponds to longitude, y to latitude
     """
     box = map_data["latlonbox"]
-    entry_x, entry_y = coords["lon"], coords["lat"]
     box_delta_x: float = abs(float(box["west"]) - float(box["east"]))
     box_delta_y: float = abs(float(box["north"]) - float(box["south"]))
 
-    rel_x: float = abs(float(box["west"]) - entry_x) / box_delta_x
-    rel_y: float = abs(float(box["north"]) - entry_y) / box_delta_y
+    rel_x: float = abs(float(box["west"]) - coords["lon"]) / box_delta_x
+    rel_y: float = abs(float(box["north"]) - coords["lat"]) / box_delta_y
 
     x0_on_map: float = rel_x * map_data["width"]
     y0_on_map: float = rel_y * map_data["height"]
@@ -315,7 +314,7 @@ def add_overlay_maps(data):
             overlay_data.setdefault("default", None)
 
 
-def assign_default_roomfinder_map(data):
+def _assign_default_roomfinder_map(data):
     """Selects map with lowest scale as default"""
     for _id, entry in data.items():
         if "maps" in entry and "roomfinder" in entry["maps"]:
@@ -362,7 +361,7 @@ def _entry_is_not_on_map(entry, _map, map_assignment_data):
     return x_invalid or y_invalid
 
 
-def remove_non_covering_maps(data):
+def _remove_non_covering_maps(data):
     """Removes maps from entries, that do not cover said coordinates"""
     map_assignment_data = _generate_assignment_data()
     for _id, entry in data.items():
@@ -380,3 +379,11 @@ def remove_non_covering_maps(data):
         if not roomfinder["available"]:
             # no availible roomfinder maps dont carry any meaning and are deleted
             del entry["maps"]["roomfinder"]
+
+
+def roomfinder_maps(data):
+    """Adds roomfinder maps to entries"""
+    _assign_roomfinder_maps(data)
+    _remove_non_covering_maps(data)
+    _assign_default_roomfinder_map(data)
+    _build_roomfinder_maps(data)

@@ -57,10 +57,13 @@ def export_for_search(data, path):
 
 def export_for_api(data, path):
     """Add some more information about parents to the data and export for the /get/:id api"""
+
     export_data = {}
-    for _id, _data in data.items():
+    for _id, entry in data.items():
+        if entry["type"] != "root":
+            entry.setdefault("maps", {})["default"] = "interactive"
         export_data[_id] = {
-            "parent_names": [data[p]["name"] for p in _data["parents"]],
+            "parent_names": [data[p]["name"] for p in entry["parents"]],
             # "type_common_name": {
             #    "root": "Standortübersicht",
             #    "site": "Standort",
@@ -68,13 +71,13 @@ def export_for_api(data, path):
             #    "area": "Gebiet / Gruppe von Gebäuden",
             #    "joined_building": "Gebäudekomplex",
             #    "building": "Gebäudeteil"
-            #                if (_data["type"] == "building" and
-            #                    data[_data["parents"][-1]]["type"] == "joined_building")
+            #                if (entry["type"] == "building" and
+            #                    data[entry["parents"][-1]]["type"] == "joined_building")
             #                else "Gebäude",
-            #    "room": _data["usage"]["name"] if "usage" in _data else "Raum",
-            #    "virtual_room": _data["usage"]["name"] if "usage" in _data else "Raum/Gebäudeteil",
-            # }[_data["type"]],
-            **_data,
+            #    "room": entry["usage"]["name"] if "usage" in entry else "Raum",
+            #    "virtual_room": entry["usage"]["name"] if "usage" in entry else "Raum/Gebäudeteil",
+            # }[entry["type"]],
+            **entry,
         }
         if "children" in export_data[_id]:
             del export_data[_id]["children"]
