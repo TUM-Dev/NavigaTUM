@@ -333,6 +333,7 @@ footer {
 
                 &:disabled {
                     background-color: $footer-setting-bg-disabled;
+                    color: $footer-color;
                 }
             }
         }
