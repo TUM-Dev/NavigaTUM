@@ -43,10 +43,10 @@ async fn main() -> std::io::Result<()> {
 
     let mut opt = Opt::from_args();
     if opt.github_token.is_none() {
-        let github_token = std::env::var("GITHUB_TOKEN");
-        if github_token.is_ok() {
-            opt.github_token = Some(github_token.unwrap());
-        }
+        opt.github_token = match std::env::var("GITHUB_TOKEN") {
+            Ok(token) => Some(token),
+            Err(_) => None,
+        };
     }
 
     let state_feedback = web::Data::new(feedback::init_state(opt));
