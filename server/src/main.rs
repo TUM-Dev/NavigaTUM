@@ -37,7 +37,7 @@ async fn health_handler() -> HttpResponse {
         .body("healthy")
 }
 
-#[actix_web::main]
+#[tokio::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
 
