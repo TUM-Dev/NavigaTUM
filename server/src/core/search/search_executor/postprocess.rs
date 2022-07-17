@@ -16,18 +16,18 @@ pub(super) fn merge_search_results(
         closed_matching_buildings.push(hit.id);
     }
 
-    let facet = res_merged.facets_distribution.facet;
+    let facet = res_merged.facet_distribution.facet;
     let mut section_buildings = super::SearchResultsSection {
         facet: "sites_buildings".to_string(),
         entries: Vec::<super::ResultEntry>::new(),
         n_visible: None,
-        nb_hits: facet.get("site").unwrap_or(&0) + facet.get("building").unwrap_or(&0),
+        estimated_total_hits: facet.get("site").unwrap_or(&0) + facet.get("building").unwrap_or(&0),
     };
     let mut section_rooms = super::SearchResultsSection {
         facet: "rooms".to_string(),
         entries: Vec::<super::ResultEntry>::new(),
         n_visible: None,
-        nb_hits: res_rooms.nb_hits,
+        estimated_total_hits: res_rooms.estimated_total_hits,
     };
 
     // TODO: Collapse joined buildings
