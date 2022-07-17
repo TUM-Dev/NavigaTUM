@@ -37,16 +37,16 @@ async fn health_handler() -> HttpResponse {
         .body("healthy")
 }
 
-#[actix_web::main]
+#[tokio::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
 
     let mut opt = Opt::from_args();
     if opt.github_token.is_none() {
-        let github_token = std::env::var("GITHUB_TOKEN");
-        if github_token.is_ok() {
-            opt.github_token = Some(github_token.unwrap());
-        }
+        opt.github_token = match std::env::var("GITHUB_TOKEN") {
+            Ok(token) => Some(token),
+            Err(_) => None,
+        };
     }
 
     let state_feedback = web::Data::new(feedback::init_state(opt));

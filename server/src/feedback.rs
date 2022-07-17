@@ -4,8 +4,8 @@ use log::error;
 use octocrab::Octocrab;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::sync::Mutex;
 use std::time::Instant;
+use tokio::sync::Mutex;
 
 extern crate rand;
 
@@ -73,7 +73,7 @@ async fn get_token(state: web::Data<AppStateFeedback>) -> HttpResponse {
             .body("Feedback is currently not configured on this server.");
     }
 
-    let mut token = state.token.lock().unwrap();
+    let mut token = state.token.lock().await;
 
     // remove outdated token (no longer relevant for rate limit)
     token.retain(|t| t.creation.elapsed().as_secs() < 3600 * 24 && !t.used);
@@ -117,7 +117,7 @@ async fn send_feedback(
             .body("Feedback is currently not configured on this server.");
     }
 
-    let mut token_list = state.token.lock().unwrap();
+    let mut token_list = state.token.lock().await;
 
     let token = token_list.iter_mut().find(|t| t.value == req_data.token);
 
