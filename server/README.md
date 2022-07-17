@@ -58,17 +58,17 @@ Next, we need to add our index and configure search:
 curl -i -X POST 'http://localhost:7700/indexes' --header 'content-type: application/json' --data '{ "uid": "entries", "primaryKey": "ms_id" }'
 
 # Set filterable attributes
-curl -X POST 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --data '["facet"]'
+curl -X PUT 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --data '["facet"]'
 
 # Upload entries data
 curl -i -X PUT 'http://localhost:7700/indexes/entries/documents' --header 'content-type: application/json' --data-binary @data/search_data.json
 
 # Configure index
-curl -X POST 'http://localhost:7700/indexes/entries/settings/ranking-rules' --data '["words","typo","rank:desc","exactness","proximity","attribute"]'
+curl -X PUT 'http://localhost:7700/indexes/entries/settings/ranking-rules' --data '["words","typo","rank:desc","exactness","proximity","attribute"]'
 
-curl -X POST 'http://localhost:7700/indexes/entries/settings/synonyms' --data @../data/search_synonyms.json
+curl -X PUT 'http://localhost:7700/indexes/entries/settings/synonyms' --data @../data/search_synonyms.json
 
-curl -X POST 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --data '[ "ms_id", "name", "arch_name", "type", "type_common_name", "parent_building", "parent_keywords", "address", "usage" ]'
+curl -X PUT 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --data '[ "ms_id", "name", "arch_name", "type", "type_common_name", "parent_building", "parent_keywords", "address", "usage" ]'
 ```
 
 If you want to update the data in the index, run:

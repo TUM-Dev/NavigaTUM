@@ -42,8 +42,8 @@
         </li>
       </ul>
       <div class="search-comment nb_results">
-        {{ s.nb_hits > 20 ? "${{_.search.approx}}$ " : "" }}{{ s.nb_hits }}
-        {{ s.nb_hits === 1 ? "${{_.search.result}}$" : "${{_.search.results}}$" }}{{ s.nb_hits > 10 ? ", ${{_.view_search.max_results }}$" : ""}}
+        {{ s.estimatedTotalHits > 20 ? "${{_.search.approx}}$ " : "" }}{{ s.estimatedTotalHits }}
+        {{ s.estimatedTotalHits === 1 ? "${{_.search.result}}$" : "${{_.search.results}}$" }}{{ s.estimatedTotalHits > 10 ? ", ${{_.view_search.max_results }}$" : ""}}
       </div>
     </section>
   </template>
