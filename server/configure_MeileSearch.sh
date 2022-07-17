@@ -21,7 +21,7 @@ echo
 echo
 echo "> Set filterable attributes"
 echo
-curl_with_args --request POST 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --data '["facet"]'
+curl_with_args --request PUT 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --data '["facet"]'
 
 echo
 echo "> Upload entries data:"
@@ -33,9 +33,9 @@ echo
 echo
 echo "> Configure index:"
 echo
-curl_with_args --request POST 'http://localhost:7700/indexes/entries/settings/ranking-rules' --data '["words", "typo", "rank:desc", "exactness", "proximity", "attribute"]'
+curl_with_args --request PUT 'http://localhost:7700/indexes/entries/settings/ranking-rules' --data '["words", "typo", "rank:desc", "exactness", "proximity", "attribute"]'
 
 echo "synonyms:"
 ls -lah "./search_synonyms.json"
-curl_with_args --request POST 'http://localhost:7700/indexes/entries/settings/synonyms' --data "@./search_synonyms.json"
-curl_with_args --request POST 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --data '["ms_id", "name", "arch_name", "type", "type_common_name", "parent_building", "parent_keywords", "address", "usage"]'
+curl_with_args --request PUT 'http://localhost:7700/indexes/entries/settings/synonyms' --data "@./search_synonyms.json"
+curl_with_args --request PUT 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --data '["ms_id", "name", "arch_name", "type", "type_common_name", "parent_building", "parent_keywords", "address", "usage"]'
