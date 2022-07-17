@@ -16,7 +16,7 @@ pub(super) fn merge_search_results(
         closed_matching_buildings.push(hit.id);
     }
 
-    let facet = res_merged.facets_distribution.facet;
+    let facet = res_merged.facet_distribution.facet;
     let mut section_buildings = super::SearchResultsSection {
         facet: "sites_buildings".to_string(),
         entries: Vec::<super::ResultEntry>::new(),
