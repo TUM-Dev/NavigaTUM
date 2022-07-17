@@ -159,7 +159,8 @@ pub(super) fn tokenize_input_query(q: &str) -> Vec<InputToken> {
 
         if (!within_quotes && c.is_whitespace() && i > token_start) ||  // whitespace
            ((within_quotes || !c.is_whitespace()) && i+c.len_utf8() == q.len()) ||  // end of string
-           (c == '"')  // end of quotes
+           (c == '"')
+        // end of quotes
         {
             let raw_token = q.get(token_start..i + c.len_utf8());
             if let Some(token) = raw_token {
@@ -167,7 +168,7 @@ pub(super) fn tokenize_input_query(q: &str) -> Vec<InputToken> {
                     tokens.push(InputToken {
                         s: if within_quotes {
                             // Autoclose quotes for the last token
-                            if c != '"' && i+c.len_utf8() == q.len() {
+                            if c != '"' && i + c.len_utf8() == q.len() {
                                 format!("{}\"", token.to_lowercase())
                             } else {
                                 token.to_lowercase()
@@ -180,7 +181,8 @@ pub(super) fn tokenize_input_query(q: &str) -> Vec<InputToken> {
                         // at the end, when this is the last token. This is relevant because MeiliSearch
                         // treats whitespace at the end differently, and we might want to imitate that
                         // behaviour. Quotes are always autoclosed.
-                        closed: !(i + c.len_utf8() == q.len() && !c.is_whitespace() && c != '"') || within_quotes,
+                        closed: !(i + c.len_utf8() == q.len() && !c.is_whitespace() && c != '"')
+                            || within_quotes,
                     });
                 }
             }

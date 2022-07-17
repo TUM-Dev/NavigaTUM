@@ -27,6 +27,7 @@ cached = "0.36.0"
 serde = { version = "1.0.136", features = ["derive"] }
 serde_json = "1.0.79"
 actix-cors = "0.6.1"
+tokio = { version = "1.19.2", features = ["full"] }
 futures = "0.3.21"
 rand = "0.8.5"
 structopt = "0.3.26"
