@@ -44,14 +44,14 @@ navigatum.registerModule("autocomplete", (function() {
                     name: "${{ _.search.sections.buildings }}$",
                     expanded: false,
                     entries: entries,
-                    nb_hits: data.sections[i].nb_hits,
+                    estimatedTotalHits: data.sections[i].estimatedTotalHits,
                     n_visible: data.sections[i].n_visible,
                 });
             } else if (data.sections[i].facet == "rooms") {
                 sections.push({
                     name: "${{ _.search.sections.rooms }}$",
                     entries: entries,
-                    nb_hits: data.sections[i].nb_hits,
+                    estimatedTotalHits: data.sections[i].estimatedTotalHits,
                 });
             }
         }

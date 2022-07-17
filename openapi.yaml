@@ -133,7 +133,7 @@ paths:
                             name: 'Gebäudeteil 3, Institut für Produktionstechnik'
                             subtext: Gebäudeteil
                         n_visible: 5
-                        nb_hits: 20
+                        estimatedTotalHits: 20
                       - facet: rooms
                         entries:
                           - id: 5510.03.002
@@ -161,17 +161,17 @@ paths:
                             name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
                             subtext: Maschinenwesen (MW)
                             subtext_bold: 0350@5503
-                        nb_hits: 3655
+                        estimatedTotalHits: 3655
                     time_ms: 16
                 nothing:
                   value:
                     sections:
                       - facet: sites_buildings
                         entries: []
-                        nb_hits: 0
+                        estimatedTotalHits: 0
                       - facet: rooms
                         entries: []
-                        nb_hits: 0
+                        estimatedTotalHits: 0
                     time_ms: 6
                 interims-2:
                   value:
@@ -183,7 +183,7 @@ paths:
                             name: "\x19Interims\x17hörsäle II, Jürgen Manchot-Hörsaalgebäude"
                             subtext: Gebäude
                         n_visible: 1
-                        nb_hits: 1
+                        estimatedTotalHits: 1
                       - facet: rooms
                         entries:
                           - id: 5416.01.004
@@ -211,7 +211,7 @@ paths:
                             name: 5416.EG.010 (IT/Audio)
                             subtext: 'Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude'
                             subtext_bold: 010@5416
-                        nb_hits: 23
+                        estimatedTotalHits: 23
                     time_ms: 23
         '400':
           description: Invalid Request
@@ -1150,7 +1150,7 @@ components:
           example: rooms
           enum:
             - rooms
-        nb_hits:
+        estimatedTotalHits:
           description: The estimated (not exact) number of hits for that query
           type: integer
           format: int64
@@ -1160,7 +1160,7 @@ components:
           items:
             $ref: '#/components/schemas/RoomEntry'
       required:
-        - nb_hits
+        - estimatedTotalHits
         - facet
         - entries
     SitesBuildings:
@@ -1172,7 +1172,7 @@ components:
           example: sites_buildings
           enum:
             - sites_buildings
-        nb_hits:
+        estimatedTotalHits:
           description: The estimated (not exact) number of hits for that query
           type: integer
           format: int64
@@ -1191,7 +1191,7 @@ components:
           format: int64
           minimum: 0
       required:
-        - nb_hits
+        - estimatedTotalHits
         - facet
         - entries
     RoomEntry:

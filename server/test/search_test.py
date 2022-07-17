@@ -27,7 +27,7 @@ def test_specific_queries(queries):
                 "query": q["query"],
                 "target": q["target"],
                 "hits": list(itertools.chain(*[s["entries"] for s in r["sections"]])),
-                "num_results": sum([s["nb_hits"] for s in r["sections"]]),
+                "num_results": sum([s["estimatedTotalHits"] for s in r["sections"]]),
                 "time_ms": r["time_ms"],
             }
 
