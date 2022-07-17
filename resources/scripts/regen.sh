@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/bash
 
 . venv/bin/activate
 
@@ -26,4 +26,11 @@ rm -fr cdn
 mkdir cdn
 rsync -r --exclude '*.yaml' ../data/sources/img/ cdn/
 cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder
+)
+
+
+echo "building the mielesearch dockerfile"
+(
+  cd server || exit
+  docker build -t search . -f ./Dockerfile.mielesearch
 )
