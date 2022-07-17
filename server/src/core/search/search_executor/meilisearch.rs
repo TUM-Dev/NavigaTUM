@@ -32,8 +32,8 @@ struct MSQuery<'a> {
 #[allow(dead_code)]
 pub(super) struct MSResults {
     pub(super) hits: Vec<MSHit>,
-    #[serde(rename = "nbHits")]
-    pub(super) nb_hits: i32,
+    #[serde(rename = "estimatedTotalHits")]
+    pub(super) estimated_total_hits: i32,
     #[serde(rename = "facetsDistribution")]
     pub(super) facets_distribution: MSFacetDistribution,
 }

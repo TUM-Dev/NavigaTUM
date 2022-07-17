@@ -16,7 +16,8 @@ pub struct SearchResultsSection {
     entries: Vec<ResultEntry>,
     #[serde(skip_serializing_if = "Option::is_none")]
     n_visible: Option<usize>,
-    nb_hits: i32,
+    #[serde(rename = "estimatedTotalHits")]
+    estimated_total_hits: i32,
 }
 
 #[derive(Serialize, Debug, Clone)]

@@ -44,11 +44,11 @@ navigatum.registerView('search', {
           let sections_descr=""
             let found_total=0
             for (const section of data.sections){
-                if (section.nb_hits) {
+                if (section.estimatedTotalHits) {
                     let facet_str
                     if (section.facet === "sites_buildings") {
                         facet_str="${{ _.search.sections.buildings }}$"
-                        if (section.nb_hits!==section.n_visible) {
+                        if (section.estimatedTotalHits!==section.n_visible) {
                             const visible_str = "${{ _.search.sections.of_which_visible }}$"
                             facet_str = `(${section.n_visible} ${visible_str}) ${facet_str}`
                         }
@@ -57,9 +57,9 @@ navigatum.registerView('search', {
                         facet_str="${{ _.search.sections.rooms }}$"
                     if (found_total>0)
                         sections_descr+=" ${{ _.search.sections.and }}$ "
-                    sections_descr+= `${section.nb_hits} ${facet_str}`
+                    sections_descr+= `${section.estimatedTotalHits} ${facet_str}`
                 }
-                found_total+=section.nb_hits
+                found_total+=section.estimatedTotalHits
             }
             if (found_total===0)
                 sections_descr = "${{ _.search.sections.no_buildings_rooms_found }}$"
