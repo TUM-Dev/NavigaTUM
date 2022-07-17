@@ -23,8 +23,7 @@ struct MSQuery<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     filter: Option<Vec<Vec<String>>>,
     limit: usize,
-    #[serde(rename = "facetsDistribution")]
-    facets_distribution: Vec<String>,
+    facets: Vec<String>,
 }
 
 /// Result format of MeiliSearch.
@@ -34,8 +33,8 @@ pub(super) struct MSResults {
     pub(super) hits: Vec<MSHit>,
     #[serde(rename = "estimatedTotalHits")]
     pub(super) estimated_total_hits: i32,
-    #[serde(rename = "facetsDistribution")]
-    pub(super) facets_distribution: MSFacetDistribution,
+    #[serde(rename = "facetDistribution")]
+    pub(super) facet_distribution: MSFacetDistribution,
 }
 
 #[derive(Deserialize, Debug)]
@@ -77,7 +76,7 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs<'_>) -> Re
             _ => None,
         },
         limit: args.limit,
-        facets_distribution: vec!["facet".to_string()],
+        facets: vec!["facet".to_string()],
     };
 
     let resp_bytes = client
