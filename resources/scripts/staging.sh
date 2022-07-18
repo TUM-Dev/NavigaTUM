@@ -6,13 +6,9 @@
 trap 'trap - SIGTERM && docker rm $(docker stop --time 0 $(docker ps -a -q --filter ancestor=search --format="{{.ID}}")) && kill -- -$$' SIGINT SIGTERM EXIT
 set -e
 
-
 echo "starting meili"
-(
-  cd server || exit
-  docker run -p 7700:7700 -d -t search
-  exit
-) &
+(docker run -p 7700:7700 -t search || exit) &
+sleep 1 # to make sure, that the meili-log is before any other log :)
 
 echo "starting the server"
 (
