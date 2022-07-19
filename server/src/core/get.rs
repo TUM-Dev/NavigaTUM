@@ -1,10 +1,14 @@
 use actix_web::{get, web, HttpResponse};
-use rusqlite::{params, Connection};
+use rusqlite::{params, Connection, OpenFlags};
 
 #[get("/get/{id}")]
 pub async fn get_handler(params: web::Path<String>) -> HttpResponse {
     let id = params.into_inner();
-    let conn = Connection::open("data/api_data.db").expect("Cannot open database");
+    let conn = Connection::open_with_flags(
+        "data/api_data.db",
+        OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX,
+    )
+    .expect("Cannot open database");
     let mut stmt = conn
         .prepare("SELECT value FROM api_data WHERE key = ?")
         .expect("Cannot prepare statement");
