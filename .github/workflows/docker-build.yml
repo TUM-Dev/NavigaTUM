@@ -27,7 +27,7 @@ jobs:
             contents: read
             packages: write
         outputs:
-            tags: ${{ steps.meta.outputs.tags }}
+            docker-tag: ${{ steps.meta.outputs.tags }}
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3

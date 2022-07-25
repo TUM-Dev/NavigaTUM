@@ -85,11 +85,11 @@ jobs:
       - mieli-search-build
     services:
       server:
-        image: ${{ needs.server-build.outputs.tags }}
+        image: ${{ needs.server-build.outputs.docker-tag }}
         ports:
           - 8080
       mieli:
-        image: ${{ needs.mieli-search-build.outputs.tags }}
+        image: ${{ needs.mieli-search-build.outputs.docker-tag }}
         ports:
           - 7700
     steps:
