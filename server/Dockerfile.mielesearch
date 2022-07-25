@@ -1,4 +1,4 @@
-FROM getmeili/meilisearch:v0.28.0
+FROM getmeili/meilisearch:v0.28.1
 
 RUN apk add --no-cache jq
 
