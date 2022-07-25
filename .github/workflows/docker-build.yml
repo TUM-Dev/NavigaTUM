@@ -26,7 +26,8 @@ jobs:
         permissions:
             contents: read
             packages: write
-
+        outputs:
+            labels: ${{ steps.meta.outputs.labels }}
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3

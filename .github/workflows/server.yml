@@ -70,13 +70,32 @@ jobs:
     permissions:
       contents: read
       packages: write
+  api-tests:
+    runs-on: ubuntu-20.04
+    container: schemathesis/schemathesis:stable
+
+    env:
+      API_SCHEMA: '${{ env.GITHUB_WORKSPACE }}/openapi.yaml'
+      SCHEMATHESIS_REPORT: 'true'
+      SCHEMATHESIS_TOKEN: ${{ secrets.SCHEMATHESIS_TOKEN }}
+      SCHEMATHESIS_API_NAME: navigatum
+
+    needs:
+      - server-build
+      - mieli-search-build
+    steps:
+      - run: docker run -d ${{ needs.server-build.outputs.labels }}
+      - run: docker run -d ${{ needs.mieli-search-build.outputs.labels }}
+      # Runs positive Schemathesis tests with all checks enabled
+      - run: st run $API_SCHEMA --endpoint="/api/health" --checks=all --hypothesis-max-examples 1
+      - run: st run $API_SCHEMA --endpoint="/api/get" --workers=auto --checks=all --hypothesis-max-examples 1000
+      - run: st run $API_SCHEMA --endpoint="/api/search" --workers=auto --checks=all --hypothesis-max-examples 1000
   server-deployment:
     if: github.ref == 'refs/heads/main'
     name: "Restart Deployment navigatum-server"
     runs-on: ubuntu-latest
     needs:
-      - server-build
-      - mieli-search-build
+      - api-tests
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app actions run navigatum restart --kind Deployment --resource-name navigatum-server --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
