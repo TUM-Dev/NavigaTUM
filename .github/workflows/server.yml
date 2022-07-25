@@ -75,7 +75,7 @@ jobs:
     container: schemathesis/schemathesis:stable
 
     env:
-      API_SCHEMA: ./openapi.yaml
+      SCHEMATHESIS_BASE: st run $API_SCHEMA --checks=all --base-url="http://localhost:8080"
       SCHEMATHESIS_REPORT: 'true'
       SCHEMATHESIS_TOKEN: ${{ secrets.SCHEMATHESIS_TOKEN }}
       SCHEMATHESIS_API_NAME: navigatum
@@ -94,9 +94,9 @@ jobs:
           - 7700
     steps:
       # Runs positive Schemathesis tests with all checks enabled
-      - run: st run $API_SCHEMA --endpoint="/api/health" --checks=all --hypothesis-max-examples 1
-      - run: st run $API_SCHEMA --endpoint="/api/get" --workers=auto --checks=all --hypothesis-max-examples 1000
-      - run: st run $API_SCHEMA --endpoint="/api/search" --workers=auto --checks=all --hypothesis-max-examples 1000
+      - run: $SCHEMATHESIS_BASE --endpoint="/api/health" --hypothesis-max-examples 1
+      - run: $SCHEMATHESIS_BASE --endpoint="/api/get" --workers=auto --hypothesis-max-examples 1000
+      - run: $SCHEMATHESIS_BASE --endpoint="/api/search" --workers=auto --hypothesis-max-examples 1000
   server-deployment:
     if: github.ref == 'refs/heads/main'
     name: "Restart Deployment navigatum-server"
