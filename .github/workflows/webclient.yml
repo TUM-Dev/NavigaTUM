@@ -1,4 +1,4 @@
-name: Create and publish the webclient
+name: webclient CD
 
 on:
   push:
