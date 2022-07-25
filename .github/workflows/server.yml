@@ -75,7 +75,7 @@ jobs:
     container: schemathesis/schemathesis:stable
 
     env:
-      API_SCHEMA: '${{ env.GITHUB_WORKSPACE }}/openapi.yaml'
+      API_SCHEMA: '${{ GITHUB_WORKSPACE }}/openapi.yaml'
       SCHEMATHESIS_REPORT: 'true'
       SCHEMATHESIS_TOKEN: ${{ secrets.SCHEMATHESIS_TOKEN }}
       SCHEMATHESIS_API_NAME: navigatum
