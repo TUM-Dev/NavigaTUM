@@ -83,9 +83,16 @@ jobs:
     needs:
       - server-build
       - mieli-search-build
+    services:
+      server:
+        image: ${{ needs.server-build.outputs.labels }}
+        ports:
+          - 8080
+      mieli:
+        image: ${{ needs.mieli-search-build.outputs.labels }}
+        ports:
+          - 7700
     steps:
-      - run: docker run -d ${{ needs.server-build.outputs.labels }}
-      - run: docker run -d ${{ needs.mieli-search-build.outputs.labels }}
       # Runs positive Schemathesis tests with all checks enabled
       - run: st run $API_SCHEMA --endpoint="/api/health" --checks=all --hypothesis-max-examples 1
       - run: st run $API_SCHEMA --endpoint="/api/get" --workers=auto --checks=all --hypothesis-max-examples 1000
