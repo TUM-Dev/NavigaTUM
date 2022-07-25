@@ -12,24 +12,17 @@ jobs:
     outputs:
       data: ${{ steps.filter.outputs.data_server }}
       server: ${{ steps.filter.outputs.data_server }}
-      webclient: ${{ steps.filter.outputs.webclient }}
     steps:
       - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
         id: filter
         with:
-          # &github is a YAML anchor
           # the server is required in data, since apparently it is impossibly to schedule a job after another in GitHub
           filters: |
-            github: &github
-              - '.github/**'
             data_server:
-              - *github
+              - '.github/**'
               - 'data/**'
               - 'server/**'
-            webclient:
-              - *github
-              - 'webclient/**'
   data-build:
     needs:
       - changes
