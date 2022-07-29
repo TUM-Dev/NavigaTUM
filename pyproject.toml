@@ -1,0 +1,42 @@
+[tool.black]
+line-length = 120
+
+[tool.isort]
+line_length = 120
+force_single_line = false
+lexicographical = true
+order_by_type = false
+include_trailing_comma = true
+multi_line_output = 3
+force_grid_wrap = 0
+use_parentheses = true
+
+[mypy]
+python_version = 3.10
+ignore_missing_imports = true
+disallow_incomplete_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_ignores = true
+# strict = true
+no_implicit_reexport = true
+strict_equality = true
+pretty = true
+
+[tool.pylint.MASTER]
+#ignore="node_modules,static"
+jobs=0
+
+[tool.pylint."MESSAGES CONTROL"]
+disable=[
+    "print-statement",
+    "missing-module-docstring", # too much work
+    "missing-class-docstring", # too much work
+    "line-too-long", # we have another hook for this
+    "wrong-import-position", # we have another hook for this
+    "no-member", # mypy does this job with less false positives
+    "modelform-uses-exclude", # usage of exclude is sometimes valid.
+    "fixme", # prevents users from committing things with a TODO in comments. Having more frequent commits is desirable
+]
