@@ -155,7 +155,7 @@ async fn send_feedback(
             .content_type("text/plain")
             .body("Subject or body missing or too short");
     }
-    let token = state.opt.github_token.as_ref().unwrap().to_string();
+    let token = state.opt.github_token.as_ref().unwrap().trim().to_string();
     let octocrab = Octocrab::builder().personal_token(token).build();
     if octocrab.is_err() {
         error!("Error creating issue: {:?}", octocrab);
