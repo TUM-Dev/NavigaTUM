@@ -13,7 +13,6 @@ from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup, element
-
 from utils import convert_to_webp
 
 roomfinder_api_url = "http://roomfinder.ze.tum.de:8192/"
@@ -86,8 +85,7 @@ def roomfinder_rooms():
                     # Collect guess queries that are executed until
                     # all buildings are found or the query list is exhausted
                     for q in _guess_queries(b_rooms, b["b_roomCount"]):
-                        b_rooms |= set([r["r_id"] for r in
-                                        proxy.searchRoom(q, {"r_building": b["b_id"]})])
+                        b_rooms |= set([r["r_id"] for r in proxy.searchRoom(q, {"r_building": b["b_id"]})])
 
                     if len(b_rooms) < b["b_roomCount"]:
                         print("Could not guess all queries for:")
@@ -101,7 +99,7 @@ def roomfinder_rooms():
     rooms = []
     for i, r in enumerate(rooms_list):
         extended_data = proxy.getRoomData(r)
-        #for k, v in extended_data.items():
+        # for k, v in extended_data.items():
         #    rooms[i][k] = v
         extended_data["maps"] = proxy.getRoomMaps(r)
         extended_data["default_map"] = proxy.getDefaultMap(r)
@@ -146,7 +144,7 @@ def roomfinder_maps():
     """
     Retrieve the maps including the data about them from Roomfinder.
     Map files will be stored in 'cache/maps/roomfinder'.
-    
+
     This may retrieve Roomfinder rooms and buildings.
 
     :returns: A list of maps
@@ -201,7 +199,7 @@ def roomfinder_maps():
             url = f"https://portal.mytum.de/campus/roomfinder/getBuildingPlacemark?b_id={e_id}&mapid={m[1]}"
             f_path = _download_file(url, f"maps/roomfinder/kmz/{m[1]}.kmz")
 
-        with zipfile.ZipFile(f_path, 'r') as zip_f:
+        with zipfile.ZipFile(f_path, "r") as zip_f:
             with zip_f.open("RoomFinder.kml") as f:
                 root = ET.fromstring(f.read())
                 # <kml>[0] gives <Folder>,
@@ -229,9 +227,11 @@ def tumonline_areas():
 
     :returns: A list of areas together with their id
     """
-    filters = _get_roomsearch_xml(_get_tumonline_api_url("wbSuche.cbRaumForm"),
-                                  {'pGebaeudebereich': 0},
-                                  "filter/empty.xml")
+    filters = _get_roomsearch_xml(
+        _get_tumonline_api_url("wbSuche.cbRaumForm"),
+        {"pGebaeudebereich": 0},
+        "filter/empty.xml",
+    )
 
     return [{"id": int(e[0]), "name": e[1]} for e in _parse_filter_options(filters, "areas")]
 
@@ -243,9 +243,11 @@ def tumonline_usages_filter():
 
     :returns: A list of usage types together with their id
     """
-    filters = _get_roomsearch_xml(_get_tumonline_api_url("wbSuche.cbRaumForm"),
-                                  {'pVerwendung': 0},
-                                  "filter/empty.xml")
+    filters = _get_roomsearch_xml(
+        _get_tumonline_api_url("wbSuche.cbRaumForm"),
+        {"pVerwendung": 0},
+        "filter/empty.xml",
+    )
 
     return [{"id": int(e[0]), "name": e[1]} for e in _parse_filter_options(filters, "usages")]
 
@@ -263,17 +265,21 @@ def tumonline_buildings():
     if buildings is not None:
         return buildings
 
-    filters = _get_roomsearch_xml(_get_tumonline_api_url("wbSuche.cbRaumForm"),
-                                  {'pGebaeudebereich': 0},
-                                  "filter/empty.xml")
+    filters = _get_roomsearch_xml(
+        _get_tumonline_api_url("wbSuche.cbRaumForm"),
+        {"pGebaeudebereich": 0},
+        "filter/empty.xml",
+    )
     all_buildings = _parse_filter_options(filters, "buildings")
 
     areas = tumonline_areas()
     buildings = []
     for area in areas:
-        filters_area = _get_roomsearch_xml(_get_tumonline_api_url("wbSuche.cbRaumForm"),
-                                           {'pGebaeudebereich': area["id"]},
-                                           f"filter/area_{area['id']}.xml")
+        filters_area = _get_roomsearch_xml(
+            _get_tumonline_api_url("wbSuche.cbRaumForm"),
+            {"pGebaeudebereich": area["id"]},
+            f"filter/area_{area['id']}.xml",
+        )
         buildings_area = _parse_filter_options(filters_area, "buildings")
         for building in buildings_area:
             buildings.append({"filter_id": int(building[0]), "name": building[1], "area_id": area["id"]})
@@ -305,8 +311,8 @@ def tumonline_rooms():
         20,  # lecture hall
         41,  # seminar room
         55,  # Zeichensaal
-        130, # Unterrichtsraum
-        131, # Übungsraum
+        130,  # Unterrichtsraum
+        131,  # Übungsraum
     }
 
     cache_name = "rooms_tumonline.json"
@@ -406,15 +412,13 @@ def tumonline_orgs():
     # https://campus.tum.de/tumonline/ee/rest/brm.orm.search/organisations/chooser?$language=de&view=S_COURSE_LVEAB_ORG
     url = "https://campus.tum.de/tumonline/ee/rest/brm.orm.search/organisations/chooser?$language=de&app=CO_LOC_GRUPPEN&view=CO_LOC_ORGCTX_PZ_ANONYM_V"
     headers = {
-        'Accept': 'application/json'
+        "Accept": "application/json",
     }
 
     # This is a single request, so not cached
     r = requests.get(url, headers=headers)
     if r.status_code != 200:
-        raise RuntimeError(f"Failed to download organisations.\n"
-                           f"request={r}\n"
-                           f"request.text={r.text}")
+        raise RuntimeError(f"Failed to download organisations.\nrequest={r}\nrequest.text={r.text}")
 
     data = json.loads(r.text)
 
@@ -429,7 +433,7 @@ def tumonline_orgs():
             "id": _item["id"],
             "code": _item["designation"],
             "name": _item["name"],
-            "path": _item["orgPath"]
+            "path": _item["orgPath"],
         }
 
     _write_cache_json(cache_name, orgs)
@@ -452,7 +456,7 @@ def _retrieve_tumonline_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
 
     while current_page < pages_cnt:
         search_params = {
-            "pStart": len(all_rooms) + 1,  #1 + current_page * 30,
+            "pStart": len(all_rooms) + 1,  # 1 + current_page * 30,
             "pSuchbegriff": "",
             "pGebaeudebereich": area_id,  # 0 for all areas
             "pGebaeude": 0,
@@ -632,6 +636,5 @@ def _write_cache_json(fname, data):
 def _get_tumonline_api_url(base_target):
     return "https://campus.tum.de/tumonline/{}/NC_{}".format(
         base_target,
-        str(random.randint(0,9999)).zfill(4)
+        str(random.randint(0, 9999)).zfill(4),
     )
-

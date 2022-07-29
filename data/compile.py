@@ -1,9 +1,22 @@
+import json
 import logging
 import os
-import json
 
+from processors import (
+    areatree,
+    coords,
+    images,
+    maps,
+    merge,
+    patch,
+    roomfinder,
+    search,
+    sections,
+    sitemap,
+    structure,
+    tumonline,
+)
 from utils import convert_to_webp
-from processors import areatree, images, maps, coords, merge, patch, roomfinder, search, sections, sitemap, structure, tumonline
 
 DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ.keys()
 
@@ -18,7 +31,7 @@ def main():
 
     logging.info("-- 02 rooms extendend")
     data = merge.merge_yaml(data, "sources/02_rooms-extended.yaml")
-    
+
     # Add source information for these entries, which are up to here
     # always declared by navigatum
     for _id, entry in data.items():
@@ -59,9 +72,8 @@ def main():
             "area": "Gebiet / Gruppe von Gebäuden",
             "joined_building": "Gebäudekomplex",
             "building": "Gebäudeteil"
-                        if (_data["type"] == "building" and
-                            data[_data["parents"][-1]]["type"] == "joined_building")
-                        else "Gebäude",
+            if (_data["type"] == "building" and data[_data["parents"][-1]]["type"] == "joined_building")
+            else "Gebäude",
             "room": _data["usage"]["name"] if "usage" in _data else "Raum",
             "virtual_room": _data["usage"]["name"] if "usage" in _data else "Raum/Gebäudeteil",
         }[_data["type"]]
@@ -127,40 +139,47 @@ def export_for_search(data, path):
 
         if _data["type"] in {"room", "virtual_room"}:
             building_parents_index = list(
-                map(lambda e: data[e]["type"] in {"building", "joined_building"},
-                    _data["parents"])
+                map(
+                    lambda e: data[e]["type"] in {"building", "joined_building"},
+                    _data["parents"],
+                ),
             ).index(True)
         else:
             building_parents_index = len(_data["parents"])
 
-        export.append({
-            "ms_id": _id.replace(".", "-"), # MeiliSearch requires an id without "."; also this puts more emphasis on the order (because "." counts as more distance)
-            "id": _id,  # not searchable
-            "name": _data["name"],
-            "arch_name": _data.get("tumonline_data", {}).get("arch_name", None),
-            "type": _data["type"],
-            "type_common_name": _data["type_common_name"],
-            "facet": {
-                "site": "site",
-                "campus": "site",
-                "area": "site",
-                "joined_building": "building",
-                "building": "building",
-                "room": "room",
-                "virtual_room": "room",
-            }.get(_data["type"], None),
-            # Parents always exclude root
-            ###"parent_names": _data["parents"][1:],#[data[p]["name"] for p in _data["parents"][1:]],
-            # For rooms, the (joined_)building parents are extra to put more emphasis on them.
-            # Also their name is included
-            "parent_building": [data[p]["name"] for p in _data["parents"][building_parents_index:]],
-            # For all other parents, only the ids and their keywords (TODO) are searchable
-            "parent_keywords": _data["parents"][1:],
-            "address": _data.get("tumonline_data", {}).get("address", None),
-            "usage": _data.get("usage", {}).get("name", None),
-            "rank": int(_data["ranking_factors"]["rank_combined"]),
-        })
-    
+        export.append(
+            {
+                "ms_id": _id.replace(
+                    ".",
+                    "-",
+                ),  # MeiliSearch requires an id without "."; also this puts more emphasis on the order (because "." counts as more distance)
+                "id": _id,  # not searchable
+                "name": _data["name"],
+                "arch_name": _data.get("tumonline_data", {}).get("arch_name", None),
+                "type": _data["type"],
+                "type_common_name": _data["type_common_name"],
+                "facet": {
+                    "site": "site",
+                    "campus": "site",
+                    "area": "site",
+                    "joined_building": "building",
+                    "building": "building",
+                    "room": "room",
+                    "virtual_room": "room",
+                }.get(_data["type"], None),
+                # Parents always exclude root
+                ###"parent_names": _data["parents"][1:],#[data[p]["name"] for p in _data["parents"][1:]],
+                # For rooms, the (joined_)building parents are extra to put more emphasis on them.
+                # Also their name is included
+                "parent_building": [data[p]["name"] for p in _data["parents"][building_parents_index:]],
+                # For all other parents, only the ids and their keywords (TODO) are searchable
+                "parent_keywords": _data["parents"][1:],
+                "address": _data.get("tumonline_data", {}).get("address", None),
+                "usage": _data.get("usage", {}).get("name", None),
+                "rank": int(_data["ranking_factors"]["rank_combined"]),
+            },
+        )
+
     with open(path, "w") as f:
         json.dump(export, f)
 
@@ -171,7 +190,7 @@ def export_for_api(data, path):
     for _id, _data in data.items():
         export_data[_id] = {
             "parent_names": [data[p]["name"] for p in _data["parents"]],
-            #"type_common_name": {
+            # "type_common_name": {
             #    "root": "Standortübersicht",
             #    "site": "Standort",
             #    "campus": "Campus",
@@ -183,8 +202,8 @@ def export_for_api(data, path):
             #                else "Gebäude",
             #    "room": _data["usage"]["name"] if "usage" in _data else "Raum",
             #    "virtual_room": _data["usage"]["name"] if "usage" in _data else "Raum/Gebäudeteil",
-            #}[_data["type"]],
-            **_data
+            # }[_data["type"]],
+            **_data,
         }
         if "children" in export_data[_id]:
             del export_data[_id]["children"]
@@ -197,13 +216,13 @@ def export_for_api(data, path):
             to_delete = list(filter(lambda e: e != "computed", export_data[_id]["props"].keys()))
             for k in to_delete:
                 del export_data[_id]["props"][k]
-    
+
     with open(path, "w") as f:
         json.dump(export_data, f)
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG if DEBUG_MODE else logging.INFO, format='%(levelname)s: %(message)s')
+    logging.basicConfig(level=logging.DEBUG if DEBUG_MODE else logging.INFO, format="%(levelname)s: %(message)s")
     logging.addLevelName(logging.INFO, f"\033[1;36m{logging.getLevelName(logging.INFO)}\033[1;0m")
     logging.addLevelName(logging.WARNING, f"\033[1;33m{logging.getLevelName(logging.WARNING)}\033[1;0m")
     logging.addLevelName(logging.ERROR, f"\033[1;41m{logging.getLevelName(logging.ERROR)}\033[1;0m")

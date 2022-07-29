@@ -20,7 +20,7 @@ def read_areatree():
                 if (indent // 2) > len(parent_stack):
                     parent_stack.append(last_element)
                 elif (indent // 2) < len(parent_stack):
-                    parent_stack = parent_stack[:indent // 2]
+                    parent_stack = parent_stack[: indent // 2]
             else:
                 error = True
                 logging.error(f"Indentation not multiple of 2: '{line}'")
@@ -76,16 +76,13 @@ def read_areatree():
 
             # type inference
             if "type" not in building_data:
-                if "b_prefix" in building_data and \
-                   building_data["id"] == building_data["b_prefix"]:
+                if "b_prefix" in building_data and building_data["id"] == building_data["b_prefix"]:
                     building_data["type"] = "building"
                 else:
                     building_data["type"] = "area"
 
-
             data[building_data["id"]] = building_data
             last_element = building_data["id"]
-
 
     if error:
         raise RuntimeError("One or more errors, aborting")

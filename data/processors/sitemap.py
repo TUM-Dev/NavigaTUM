@@ -1,13 +1,15 @@
 import json
 import logging
-import urllib.request
 import urllib.error
+import urllib.request
 import xml.etree.ElementTree as ET
-import defusedxml.ElementTree as defusedET  # supports only parse()
 from datetime import datetime
 
+import defusedxml.ElementTree as defusedET  # supports only parse()
+
+
 def generate_sitemap():
-    """ Generate a sitemap that diffs changes since to the currently online data """
+    """Generate a sitemap that diffs changes since to the currently online data"""
     # Load exported data. This function is intentionally not using the data object
     # directly, but re-parsing the output file instead, because the export not
     # export all fields. This way we're also guaranteed to have the same types
@@ -54,7 +56,7 @@ def generate_sitemap():
             "building": "building",
             "joined_building": "building",
             "room": "room",
-            "virtual_room": "room"
+            "virtual_room": "room",
         }[entry["type"]]
         url = f"https://nav.tum.sexy/{url_type_name}/{_id}"
         if _id not in old_data or entry != old_data[_id]:
@@ -78,11 +80,13 @@ def generate_sitemap():
         else:
             priority = min((entry["ranking_factors"]["rank_combined"] - 500) / 10000, 1.0)
 
-        sitemaps[sitemap_name].append({
-            "url": url,
-            "lastmod": lastmod,
-            "priority": priority,
-        })
+        sitemaps[sitemap_name].append(
+            {
+                "url": url,
+                "lastmod": lastmod,
+                "priority": priority,
+            },
+        )
 
     logging.info(f"{changed_count} of {len(new_data) - 1} URLs have been updated.")
 
@@ -93,7 +97,7 @@ def generate_sitemap():
 
 
 def _download_online_sitemaps(sitemap_names):
-    """ Download online sitemaps by their names """
+    """Download online sitemaps by their names"""
     sitemaps = {}
     for name in sitemap_names:
         sitemaps[name] = _download_online_sitemap(f"https://nav.tum.sexy/cdn/sitemap-data-{name}.xml")
@@ -119,7 +123,7 @@ def _download_online_sitemap(url):
 
 
 def _write_sitemap_xml(fname, sitemap):
-    """ Write the sitemap XML for a single sitemap """
+    """Write the sitemap XML for a single sitemap"""
     urlset = ET.Element("urlset")
     urlset.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
     for sitemap_entry in sitemap:
@@ -136,7 +140,7 @@ def _write_sitemap_xml(fname, sitemap):
 
 
 def _write_sitemapindex_xml(fname, sitemaps):
-    """ Write the sitemapindex XML """
+    """Write the sitemapindex XML"""
     sitemapindex = ET.Element("sitemapindex")
     sitemapindex.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
     for name, sitemap in sitemaps.items():

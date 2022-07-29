@@ -1,4 +1,5 @@
 import json
+
 import yaml
 
 
@@ -27,7 +28,7 @@ def merge_yaml(data, path):
 
     if type(yaml_data) is not dict:
         raise RuntimeError(f"Error: root node expected to be an object in file '{path}'")
-    
+
     # If the key of a root element is only numeric with 4 digits,
     # we assume it is a building id (which needs to be converted to string)
     ids_to_fix = []  # Cannot change dict while iterating
@@ -68,4 +69,3 @@ def _recursive_merge(a, b, overwrite=True):
             a[k] = v
 
     return a
-

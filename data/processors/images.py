@@ -1,3 +1,4 @@
+import hashlib
 import json
 import logging
 import os
@@ -6,7 +7,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Optional
-import hashlib
+
 import yaml
 from PIL import Image
 
@@ -64,7 +65,7 @@ def add_img(data):
                 if not source_info:
                     logging.warning(
                         f"possibly skipped adding images for '{f}', a image was skipped because of missing "
-                        f"source information. Adding more images would violate the enumeration-consistency"
+                        f"source information. Adding more images would violate the enumeration-consistency",
                     )
                     break
                 img_data.append(source_info)
@@ -195,7 +196,7 @@ def _get_hash_lut() -> dict[str, str]:
     """Get a lookup table for the hash of the image files content and offset if present"""
     logging.info("Since GIT_COMMIT_SHA is unset, we assume this is acting in In Dev mode.")
     logging.info(
-        "Only files, with f'{sha256(file-content)}_{sha256(offset)}' not present in the .hash_lut.json will be used"
+        "Only files, with f'{sha256(file-content)}_{sha256(offset)}' not present in the .hash_lut.json will be used",
     )
     if HASH_LUT.is_file():
         with open(HASH_LUT) as f:

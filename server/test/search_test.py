@@ -1,14 +1,13 @@
-import sys
-import os
-import urllib
-import json
 import itertools
+import json
+import os
+import sys
+import urllib
 
 import requests
 import yaml
-from termcolor import colored, cprint
 from progress.bar import Bar
-
+from termcolor import colored, cprint
 
 SEARCH_ENDPOINT = "http://localhost:8080/api/search"
 
@@ -85,7 +84,7 @@ def test_specific_queries(queries):
             if "among" in q and search["target_pos"] < q["among"]:
                 search["grade"] = 1.0
             else:
-                preceding_types = set(map(lambda hit: hit["type"], search["hits"][:search["target_pos"]]))
+                preceding_types = set(map(lambda hit: hit["type"], search["hits"][: search["target_pos"]]))
                 if search["hits"][search["target_pos"]]["type"] in preceding_types:
                     search["grade"] = 3.0
                 else:
@@ -109,26 +108,27 @@ def _print_specific_queries_result(searches, cmp=None):
         # The position indicator shows rougly how the results looked like
         # and where the target entry was located
         if 0 <= search["target_pos"] <= 4:
-            s_pos_indicator = colored("[", "white") + \
-                                      " " * search["target_pos"] + \
-                              colored("*", "cyan", attrs=["bold"]) + \
-                                      " " * (min(search["num_results"], 5) - search["target_pos"] - 1) + \
-                              colored("]", "white") + \
-                              colored("-" * (5 - min(search["num_results"], 5)), "white") + \
-                                      " "
+            s_pos_indicator = (
+                colored("[", "white")
+                + " " * search["target_pos"]
+                + colored("*", "cyan", attrs=["bold"])
+                + " " * (min(search["num_results"], 5) - search["target_pos"] - 1)
+                + colored("]", "white")
+                + colored("-" * (5 - min(search["num_results"], 5)), "white")
+                + " "
+            )
         elif 5 <= search["target_pos"] <= 20:
-            s_pos_indicator = colored("[     ]", "white") + \
-                              colored(">", "yellow") + \
-                                      " "
+            s_pos_indicator = colored("[     ]", "white") + colored(">", "yellow") + " "
         elif search["num_results"] > 0:
-            s_pos_indicator = colored("[", "white") + \
-                              colored("x" * min(search["num_results"], 5), "red") + \
-                              colored("]", "white") + \
-                              colored("-" * (5 - min(search["num_results"], 5)), "white") + \
-                                      " "
+            s_pos_indicator = (
+                colored("[", "white")
+                + colored("x" * min(search["num_results"], 5), "red")
+                + colored("]", "white")
+                + colored("-" * (5 - min(search["num_results"], 5)), "white")
+                + " "
+            )
         else:
-            s_pos_indicator = colored("[]-----", "red") + \
-                                      " "
+            s_pos_indicator = colored("[]-----", "red") + " "
 
         # Grade
         s_grade = {
@@ -154,9 +154,17 @@ def _print_specific_queries_result(searches, cmp=None):
                 s_cmp = colored(" ----", "white")
             else:
                 if cmp_search["grade"] < search["grade"]:
-                    s_cmp = colored(" +{}".format(round(search["grade"] - cmp_search["grade"], 1)), "red", attrs=["bold"])
+                    s_cmp = colored(
+                        " +{}".format(round(search["grade"] - cmp_search["grade"], 1)),
+                        "red",
+                        attrs=["bold"],
+                    )
                 elif cmp_search["grade"] > search["grade"]:
-                    s_cmp = colored(" -{}".format(round(cmp_search["grade"] - search["grade"], 1)), "green", attrs=["bold"])
+                    s_cmp = colored(
+                        " -{}".format(round(cmp_search["grade"] - search["grade"], 1)),
+                        "green",
+                        attrs=["bold"],
+                    )
                 else:
                     s_cmp = "     "
 
@@ -164,54 +172,69 @@ def _print_specific_queries_result(searches, cmp=None):
         # Green indicates when a better position is reached
         # White (not formatted) indicates minimum to reach top 5
         # Underline indicates minimum to reach final position
-        green_end_pos = search["len_to_best_pos"] if (search["best_pos"] is not None
-                                                      and (search["target_pos"] == -1
-                                                           or search["best_pos"] < search["target_pos"])) \
-                                                  else 0
-        white_end_pos     = search["len_to_reach_top_5"] if search["len_to_reach_top_5"] is not None else 0
+        green_end_pos = (
+            search["len_to_best_pos"]
+            if (
+                search["best_pos"] is not None
+                and (search["target_pos"] == -1 or search["best_pos"] < search["target_pos"])
+            )
+            else 0
+        )
+        white_end_pos = search["len_to_reach_top_5"] if search["len_to_reach_top_5"] is not None else 0
         underline_end_pos = search["len_to_reach_final"] if search["len_to_reach_final"] is not None else 0
 
         s_query = ""
         for i, c in enumerate(search["query"]):
             # This is not the best way of formatting, but sufficient here
             if i >= green_end_pos and i >= white_end_pos:
-                s_query += colored(str(c),
-                                   color="white",  # this is gray
-                                   attrs=(["underline"] if i < underline_end_pos else []))
+                s_query += colored(
+                    str(c),
+                    color="white",  # this is gray
+                    attrs=(["underline"] if i < underline_end_pos else []),
+                )
             elif green_end_pos < white_end_pos:
-                s_query += colored(str(c),
-                                   color="green" if i < green_end_pos else None,
-                                   attrs=(["underline"] if i < underline_end_pos else []))
+                s_query += colored(
+                    str(c),
+                    color="green" if i < green_end_pos else None,
+                    attrs=(["underline"] if i < underline_end_pos else []),
+                )
             else:
-                s_query += colored(str(c),
-                                   color=None if i < white_end_pos else "green",
-                                   attrs=(["underline"] if i < underline_end_pos else []))
+                s_query += colored(
+                    str(c),
+                    color=None if i < white_end_pos else "green",
+                    attrs=(["underline"] if i < underline_end_pos else []),
+                )
         s_query += " " * max(0, 50 - len(search["query"]))
 
         # Stats
-        s_stats = colored("(", "white") + \
-                          "{:>2}".format(search["time_ms"]) + \
-                  colored("ms [partial avg ", "white") + \
-                          "{:>2}".format(round(search["partial_time_avg"])) + \
-                  colored(", max ", "white") + \
-                          "{:>2}".format(search["partial_time_max"]) + \
-                  colored("], ", "white") + \
-                          "{:>4}".format(search["num_results"]) + \
-                  colored(" hits, target: '", "white") + \
-                          search["target"] + \
-                  colored("')", "white")
+        s_stats = (
+            colored("(", "white")
+            + "{:>2}".format(search["time_ms"])
+            + colored("ms [partial avg ", "white")
+            + "{:>2}".format(round(search["partial_time_avg"]))
+            + colored(", max ", "white")
+            + "{:>2}".format(search["partial_time_max"])
+            + colored("], ", "white")
+            + "{:>4}".format(search["num_results"])
+            + colored(" hits, target: '", "white")
+            + search["target"]
+            + colored("')", "white")
+        )
 
-        print("{} {}{} {} {}".format(
-            s_pos_indicator,
-            s_grade,
-            s_cmp,
-            s_query,
-            s_stats
-        ))
+        print(
+            "{} {}{} {} {}".format(
+                s_pos_indicator,
+                s_grade,
+                s_cmp,
+                s_query,
+                s_stats,
+            ),
+        )
 
     num_searches = sum(map(lambda s: len(s["query"]) + 1, searches))
-    avg_search_times = sum(map(lambda s: s["partial_time_avg"] * len(s["query"]), searches)) / \
-                       sum(map(lambda s:                         len(s["query"]), searches))
+    avg_search_times = sum(map(lambda s: s["partial_time_avg"] * len(s["query"]), searches)) / sum(
+        map(lambda s: len(s["query"]), searches),
+    )
     print("Performed {} searches, {}ms (partial) average".format(num_searches, round(avg_search_times, 1)))
 
 
@@ -219,8 +242,8 @@ if __name__ == "__main__":
     with open(os.path.join(os.path.dirname(__file__), "test-queries.yaml")) as f:
         test_queries = yaml.safe_load(f.read())
 
-    cprint("=== Specific queries ===", attrs=['bold'])
-    #with open(os.path.join(os.path.dirname(__file__), "cmp-210811.json")) as f:
+    cprint("=== Specific queries ===", attrs=["bold"])
+    # with open(os.path.join(os.path.dirname(__file__), "cmp-210811.json")) as f:
     #    cmp = json.load(f)
     cmp = None
 

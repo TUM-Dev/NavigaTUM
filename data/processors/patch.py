@@ -4,11 +4,16 @@ import re
 
 def apply_patches(objects, patches, searchkey):
     patched = []
-    
-    patches = [(re.compile(p["if_" + searchkey]),
-                # Remove the "if_" from the patch, the rest of the items will
-                # be inserted into the entry's data.
-                dict(filter(lambda e: e[0] != "if_" + searchkey, p.items()))) for p in patches]
+
+    patches = [
+        (
+            re.compile(p["if_" + searchkey]),
+            # Remove the "if_" from the patch, the rest of the items will
+            # be inserted into the entry's data.
+            dict(filter(lambda e: e[0] != "if_" + searchkey, p.items())),
+        )
+        for p in patches
+    ]
 
     to_delete = []
     applied_patches = set()
@@ -30,7 +35,7 @@ def apply_patches(objects, patches, searchkey):
         if patch_check not in applied_patches:
             logging.warning(
                 f"The patch for {searchkey}: r'{patch_check.pattern}' was never applied. "
-                f"Make sure it is still required."
+                f"Make sure it is still required.",
             )
 
     return patched

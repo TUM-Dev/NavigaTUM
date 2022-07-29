@@ -1,12 +1,12 @@
 import json
+import logging
 import math
 import os.path
+from pathlib import Path
 from typing import Any
 
 import yaml
 from PIL import Image
-from pathlib import Path
-import logging
 
 EXTERNAL_PATH = Path(__file__).parent.parent / "external"
 RF_MAPS_PATH = EXTERNAL_PATH / "maps" / "roomfinder"
@@ -42,8 +42,7 @@ def assign_roomfinder_maps(data):
         # For entries of these types only show maps that contain all (direct) children.
         # This is to make sure that only (high scale) maps are included here that make sense.
         # TODO: zentralgelaende
-        if entry["type"] in {"site", "campus", "area", "joined_building", "building"} \
-                and "children" in entry:
+        if entry["type"] in {"site", "campus", "area", "joined_building", "building"} and "children" in entry:
             for m in available_maps:
                 for c in entry["children"]:
                     if _entry_is_not_on_map(data[c], m, map_assignment_data):
@@ -66,7 +65,7 @@ def _save_map_data(available_maps, entry):
                 "width": m["width"],
                 "height": m["height"],
                 "source": m.get("source", "Roomfinder"),
-                "file": m.get("file", f"{m['id']}.webp")
+                "file": m.get("file", f"{m['id']}.webp"),
             }
             for m in available_maps
         ],
@@ -79,9 +78,7 @@ def _set_maps_from_parent(data, entry):
     # Verification of this already done for coords.
     # rooms that will not be contained in a parents map will be filtered out in the maps-coverage filter
     building_parent = data[building_parent[0]]
-    if building_parent.get("maps", {}) \
-            .get("roomfinder", {}) \
-            .get("available", []):
+    if building_parent.get("maps", {}).get("roomfinder", {}).get("available", []):
         # TODO: 5510.02.001
         roomfinder_map_data = entry.setdefault("maps", {}).get("roomfinder", {})
         roomfinder_map_data.update(building_parent["maps"]["roomfinder"])
@@ -97,8 +94,12 @@ def _set_maps_from_parent(data, entry):
 def _extract_available_maps(entry, custom_maps, maps_list):
     available_maps = []
     for (b_id, floor), m in custom_maps.items():
-        if entry["type"] == "room" and b_id in entry["parents"] and \
-                "tumonline_data" in entry and f".{floor}." in entry["tumonline_data"]["roomcode"]:
+        if (
+            entry["type"] == "room"
+            and b_id in entry["parents"]
+            and "tumonline_data" in entry
+            and f".{floor}." in entry["tumonline_data"]["roomcode"]
+        ):
             available_maps.append(m)
     available_maps += maps_list
 
@@ -196,7 +197,7 @@ def _load_maps_list():
 
 
 def build_roomfinder_maps(data):
-    """ Generate the map information for the Roomfinder maps. """
+    """Generate the map information for the Roomfinder maps."""
 
     map_assignment_data = _generate_assignment_data()
 
@@ -245,7 +246,7 @@ def _calc_xy_of_coords_on_map(coords, map_data) -> tuple[int, int]:
 
 
 def _load_custom_maps():
-    """ Load the custom maps like Roomfinder maps """
+    """Load the custom maps like Roomfinder maps"""
     with open("sources/45_custom-maps.yaml") as f:
         custom_maps = yaml.safe_load(f.read())
 
@@ -257,12 +258,12 @@ def _load_custom_maps():
             # For some reason, these are given as str
             "scale": str(map_group["props"]["scale"]),
             "latlonbox": {
-                "north":    map_group["props"]["north"],
-                "east":     map_group["props"]["east"],
-                "west":     map_group["props"]["west"],
-                "south":    map_group["props"]["south"],
+                "north": map_group["props"]["north"],
+                "east": map_group["props"]["east"],
+                "west": map_group["props"]["west"],
+                "south": map_group["props"]["south"],
                 "rotation": map_group["props"]["rotation"],
-            }
+            },
         }
         for sub_map in map_group["maps"]:
             img = Image.open("sources/img/maps/roomfinder/" + sub_map["file"])
@@ -272,14 +273,14 @@ def _load_custom_maps():
                 "file": sub_map["file"],
                 "width": img.width,
                 "height": img.height,
-                **base_data
+                **base_data,
             }
 
     return maps_out
 
 
 def add_overlay_maps(data):
-    """ Add the overlay maps to all entries where they apply """
+    """Add the overlay maps to all entries where they apply"""
     with open("sources/46_overlay-maps.yaml") as f:
         overlay_maps = yaml.safe_load(f.read())
 
@@ -291,7 +292,7 @@ def add_overlay_maps(data):
         if len(candidates) > 1:
             logging.warning(
                 f"Multiple candidates as overlay map for {_id}: {candidates}. "
-                f"Currently this is not supported! Skipping ..."
+                f"Currently this is not supported! Skipping ...",
             )
         elif bool(candidates) ^ (_id in parent_ids):
             # either a candidate exist or _id is one of the parent ids, but not both
@@ -299,26 +300,27 @@ def add_overlay_maps(data):
             overlay_data = entry.setdefault("maps", {}).setdefault("overlays", {})
             overlay_data["available"] = []
             for m in overlay["maps"]:
-                overlay_data["available"].append({
-                    "id": m["id"],
-                    "floor": m["floor"],
-                    "file": m["file"],
-                    "name": m["desc"],
-                    "coordinates": overlay["props"]["box"]
-                })
+                overlay_data["available"].append(
+                    {
+                        "id": m["id"],
+                        "floor": m["floor"],
+                        "file": m["file"],
+                        "name": m["desc"],
+                        "coordinates": overlay["props"]["box"],
+                    },
+                )
 
                 # The 'tumonline' field overwrites which TUMOnline ID floor to match
                 if f".{m.get('tumonline', '')}." in _id:
                     overlay_data["default"] = m["id"]
-                elif overlay_data.get("default", None) is None \
-                     and f".{m['floor']}." in _id:
+                elif overlay_data.get("default", None) is None and f".{m['floor']}." in _id:
                     overlay_data["default"] = m["id"]
 
             overlay_data.setdefault("default", None)
 
 
 def assign_default_roomfinder_map(data):
-    """ Selects map with lowest scale as default"""
+    """Selects map with lowest scale as default"""
     for _id, entry in data.items():
         if "maps" in entry and "roomfinder" in entry["maps"]:
             rf = entry["maps"]["roomfinder"]
@@ -359,8 +361,7 @@ def _entry_is_not_on_map(entry, m, map_assignment_data):
     if map_id == "rf9":
         return True
     ix, iy = _calc_xy_of_coords_on_map(entry["coords"], map_assignment_data[map_id])
-    return not ((0 <= ix < m["width"]) and
-                (0 <= iy < m["height"]))
+    return not ((0 <= ix < m["width"]) and (0 <= iy < m["height"]))
 
 
 def remove_non_covering_maps(data):
