@@ -6,17 +6,16 @@ import random
 import string
 import time
 import urllib
-import xml.etree.ElementTree as ET
 import xmlrpc.client
 import zipfile
 from pathlib import Path
 
 import requests
-from bs4 import BeautifulSoup, element
-
+from bs4 import BeautifulSoup, element  # type:ignore
+from defusedxml import ElementTree as ET  # type:ignore
 from utils import convert_to_webp
 
-roomfinder_api_url = "http://roomfinder.ze.tum.de:8192/"
+ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192/"
 
 
 def roomfinder_buildings():
@@ -31,21 +30,21 @@ def roomfinder_buildings():
     if buildings is not None:
         return buildings
 
-    with xmlrpc.client.ServerProxy(roomfinder_api_url) as proxy:
+    with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
         buildings = proxy.getBuildings()
         print(f"Retrieving {len(buildings)} buildings")
-        for i, b in enumerate(buildings):
+        for i, building in enumerate(buildings):
             # Make sure b_id is numeric. There is an incorrect entry with the value
             # 'CiO/SGInstitute West, Bibliot' which causes a crash
             try:
-                int(b["b_id"])
-            except:
+                int(building["b_id"])
+            except ValueError:
                 continue
-            extended_data = proxy.getBuildingData(b["b_id"])
-            for k, v in extended_data.items():
-                buildings[i][k] = v
-            buildings[i]["maps"] = proxy.getBuildingMaps(b["b_id"])
-            buildings[i]["default_map"] = proxy.getBuildingDefaultMap(b["b_id"])
+            extended_data = proxy.getBuildingData(building["b_id"])
+            for key, value in extended_data.items():
+                buildings[i][key] = value
+            buildings[i]["maps"] = proxy.getBuildingMaps(building["b_id"])
+            buildings[i]["default_map"] = proxy.getBuildingDefaultMap(building["b_id"])
             time.sleep(0.05)
             if i % 10 == 0:
                 print(".", end="", flush=True)
@@ -77,35 +76,36 @@ def roomfinder_rooms():
     # of 50 results we need to guess to collect all rooms.
     print("Searching for rooms in buildings")
     b_cnt = 0
-    with xmlrpc.client.ServerProxy(roomfinder_api_url) as proxy:
-        for b in buildings:
-            if "b_roomCount" in b and b["b_roomCount"] > 0:
-                b_rooms = set([r["r_id"] for r in proxy.searchRoom("", {"r_building": b["b_id"]})])
+    with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
+        for building in buildings:
+            if "b_roomCount" in building and building["b_roomCount"] > 0:
+                search_results = proxy.searchRoom("", {"r_building": building["b_id"]})
+                b_rooms = {room["r_id"] for room in search_results}
 
-                if len(b_rooms) < b["b_roomCount"]:
+                if len(b_rooms) < building["b_roomCount"]:
                     # Collect guess queries that are executed until
                     # all buildings are found or the query list is exhausted
-                    for q in _guess_queries(b_rooms, b["b_roomCount"]):
-                        b_rooms |= set([r["r_id"] for r in
-                                        proxy.searchRoom(q, {"r_building": b["b_id"]})])
+                    for guessed_query in _guess_queries(b_rooms, building["b_roomCount"]):
+                        search_results = proxy.searchRoom(guessed_query, {"r_building": building["b_id"]})
+                        b_rooms |= {r["r_id"] for r in search_results}
 
-                    if len(b_rooms) < b["b_roomCount"]:
+                    if len(b_rooms) < building["b_roomCount"]:
                         print("Could not guess all queries for:")
 
                 b_cnt += 1
-                print(f"{b['b_id']} -> {len(b_rooms)} / {b['b_roomCount']}")
+                print(f"{building['b_id']} -> {len(b_rooms)} / {building['b_roomCount']}")
 
                 rooms_list.extend(list(b_rooms))
 
     print(f"Retrieving {len(rooms_list)} rooms for {b_cnt} buildings")
     rooms = []
-    for i, r in enumerate(rooms_list):
-        extended_data = proxy.getRoomData(r)
-        #for k, v in extended_data.items():
+    for i, room in enumerate(rooms_list):
+        extended_data = proxy.getRoomData(room)
+        # for k, v in extended_data.items():
         #    rooms[i][k] = v
-        extended_data["maps"] = proxy.getRoomMaps(r)
-        extended_data["default_map"] = proxy.getDefaultMap(r)
-        extended_data["metas"] = proxy.getRoomMetas(r)
+        extended_data["maps"] = proxy.getRoomMaps(room)
+        extended_data["default_map"] = proxy.getDefaultMap(room)
+        extended_data["metas"] = proxy.getRoomMetas(room)
         rooms.append(extended_data)
         time.sleep(0.05)
         if i % 10 == 0:
@@ -134,10 +134,10 @@ def _guess_queries(rooms, n_rooms):
             return
 
     # Thirs try: all characters
-    for c in string.ascii_lowercase:
+    for char in string.ascii_lowercase:
         if len(rooms) < n_rooms:
             time.sleep(0.05)
-            yield c
+            yield char
         else:
             return
 
@@ -146,16 +146,16 @@ def roomfinder_maps():
     """
     Retrieve the maps including the data about them from Roomfinder.
     Map files will be stored in 'cache/maps/roomfinder'.
-    
+
     This may retrieve Roomfinder rooms and buildings.
 
     :returns: A list of maps
     """
     cache_name = "maps_roomfinder.json"
 
-    maps = _cached_json(cache_name)
-    if maps is not None:
-        return maps
+    cached_maps = _cached_json(cache_name)
+    if cached_maps is not None:
+        return cached_maps
 
     # The only way to get the map boundaries seems to be to download the kml with overlaid map.
     # For this api we need a room or building for each map available.
@@ -163,58 +163,15 @@ def roomfinder_maps():
     buildings = roomfinder_buildings()
 
     used_maps = {}
-    for e in filter(lambda e: "maps" in e, rooms + buildings):
-        for m in e["maps"]:
-            # m[1] is the map id
-            if m[1] not in used_maps:
-                if "r_id" in e:
-                    used_maps[m[1]] = ("room", e["r_id"], m)
+    for building_entity in rooms + buildings:
+        for _map in building_entity.get("maps", []):
+            # _map[1] is the map id
+            if _map[1] not in used_maps:
+                if "r_id" in building_entity:
+                    used_maps[_map[1]] = ("room", building_entity["r_id"], _map)
                 else:
-                    used_maps[m[1]] = ("building", e["b_id"], m)
-
-    maps = []
-    for e_type, e_id, m in used_maps.values():
-        # Download as file
-        url = f"http://roomfinder.ze.tum.de:8192/getMapImage?m_id={m[1]}"
-        filepath = f"maps/roomfinder/{m[1]}.gif"
-        _download_file(url, filepath)
-        convert_to_webp(Path(filepath))
-
-        map_data = {
-            "id": m[1],
-            "scale": m[0],
-            "desc": m[2],
-            "width": m[3],
-            "height": m[4],
-        }
-        maps.append(map_data)
-
-        # Download as kmz to get the map boundary coordinates.
-        # The world map (id 9) does not support kmz download
-        if m[1] == 9:
-            continue
-
-        if e_type == "room":
-            url = f"https://portal.mytum.de/campus/roomfinder/getRoomPlacemark?roomid={urllib.parse.quote_plus(e_id)}&mapid={m[1]}"
-            f_path = _download_file(url, f"maps/roomfinder/kmz/{m[1]}.kmz")
-        elif e_type == "building":
-            url = f"https://portal.mytum.de/campus/roomfinder/getBuildingPlacemark?b_id={e_id}&mapid={m[1]}"
-            f_path = _download_file(url, f"maps/roomfinder/kmz/{m[1]}.kmz")
-
-        with zipfile.ZipFile(f_path, 'r') as zip_f:
-            with zip_f.open("RoomFinder.kml") as f:
-                root = ET.fromstring(f.read())
-                # <kml>[0] gives <Folder>,
-                # <Folder>[3] gives <GroundOverlay>,
-                # <GroundOverlay>[3] gives <LatLonBox>
-                latlonbox = root[0][3][3]
-                map_data["latlonbox"] = {
-                    "north": latlonbox[0].text,
-                    "east": latlonbox[1].text,
-                    "west": latlonbox[2].text,
-                    "south": latlonbox[3].text,
-                    "rotation": latlonbox[4].text,
-                }
+                    used_maps[_map[1]] = ("building", building_entity["b_id"], _map)
+    maps = _download_maps(used_maps)
 
     # Not all maps are used somewhere.
     # TODO: Download the rest
@@ -223,15 +180,69 @@ def roomfinder_maps():
     return maps
 
 
+def _download_maps(used_maps):
+    maps = []
+    for e_type, e_id, _map in used_maps.values():
+        # Download as file
+        url = f"http://roomfinder.ze.tum.de:8192/getMapImage?m_id={_map[1]}"
+        filepath = f"maps/roomfinder/{_map[1]}.gif"
+        _download_file(url, filepath)
+        convert_to_webp(Path(filepath))
+
+        map_data = {
+            "id": _map[1],
+            "scale": _map[0],
+            "desc": _map[2],
+            "width": _map[3],
+            "height": _map[4],
+        }
+        maps.append(map_data)
+
+        # Download as kmz to get the map boundary coordinates.
+        # The world map (id 9) does not support kmz download
+        if _map[1] == 9:
+            continue
+
+        f_path = _download_map(_map, e_id, e_type)
+
+        with zipfile.ZipFile(f_path, "r") as zip_f, zip_f.open("RoomFinder.kml") as file:
+            root = ET.fromstring(file.read())
+            # <kml>[0] gives <Folder>,
+            # <Folder>[3] gives <GroundOverlay>,
+            # <GroundOverlay>[3] gives <LatLonBox>
+            latlonbox = root[0][3][3]
+            map_data["latlonbox"] = {
+                "north": latlonbox[0].text,
+                "east": latlonbox[1].text,
+                "west": latlonbox[2].text,
+                "south": latlonbox[3].text,
+                "rotation": latlonbox[4].text,
+            }
+    return maps
+
+
+def _download_map(_map, e_id, e_type):
+    base_url = "https://portal.mytum.de/campus/roomfinder/getRoomPlacemark"
+    if e_type == "room":
+        url = f"{base_url}?roomid={urllib.parse.quote_plus(e_id)}&mapid={_map[1]}"
+        return _download_file(url, f"maps/roomfinder/kmz/{_map[1]}.kmz")
+    if e_type == "building":
+        url = f"{base_url}?b_id={e_id}&mapid={_map[1]}"
+        return _download_file(url, f"maps/roomfinder/kmz/{_map[1]}.kmz")
+    raise RuntimeError(f"Unknown entity type: {e_type}")
+
+
 def tumonline_areas():
     """
     Retrieve the building areas as in TUMOnline.
 
     :returns: A list of areas together with their id
     """
-    filters = _get_roomsearch_xml(_get_tumonline_api_url("wbSuche.cbRaumForm"),
-                                  {'pGebaeudebereich': 0},
-                                  "filter/empty.xml")
+    filters = _get_roomsearch_xml(
+        _get_tumonline_api_url("wbSuche.cbRaumForm"),
+        {"pGebaeudebereich": 0},
+        "filter/empty.xml",
+    )
 
     return [{"id": int(e[0]), "name": e[1]} for e in _parse_filter_options(filters, "areas")]
 
@@ -243,9 +254,11 @@ def tumonline_usages_filter():
 
     :returns: A list of usage types together with their id
     """
-    filters = _get_roomsearch_xml(_get_tumonline_api_url("wbSuche.cbRaumForm"),
-                                  {'pVerwendung': 0},
-                                  "filter/empty.xml")
+    filters = _get_roomsearch_xml(
+        _get_tumonline_api_url("wbSuche.cbRaumForm"),
+        {"pVerwendung": 0},
+        "filter/empty.xml",
+    )
 
     return [{"id": int(e[0]), "name": e[1]} for e in _parse_filter_options(filters, "usages")]
 
@@ -263,17 +276,21 @@ def tumonline_buildings():
     if buildings is not None:
         return buildings
 
-    filters = _get_roomsearch_xml(_get_tumonline_api_url("wbSuche.cbRaumForm"),
-                                  {'pGebaeudebereich': 0},
-                                  "filter/empty.xml")
+    filters = _get_roomsearch_xml(
+        _get_tumonline_api_url("wbSuche.cbRaumForm"),
+        {"pGebaeudebereich": 0},
+        "filter/empty.xml",
+    )
     all_buildings = _parse_filter_options(filters, "buildings")
 
     areas = tumonline_areas()
     buildings = []
     for area in areas:
-        filters_area = _get_roomsearch_xml(_get_tumonline_api_url("wbSuche.cbRaumForm"),
-                                           {'pGebaeudebereich': area["id"]},
-                                           f"filter/area_{area['id']}.xml")
+        filters_area = _get_roomsearch_xml(
+            _get_tumonline_api_url("wbSuche.cbRaumForm"),
+            {"pGebaeudebereich": area["id"]},
+            f"filter/area_{area['id']}.xml",
+        )
         buildings_area = _parse_filter_options(filters_area, "buildings")
         for building in buildings_area:
             buildings.append({"filter_id": int(building[0]), "name": building[1], "area_id": area["id"]})
@@ -305,8 +322,8 @@ def tumonline_rooms():
         20,  # lecture hall
         41,  # seminar room
         55,  # Zeichensaal
-        130, # Unterrichtsraum
-        131, # Übungsraum
+        130,  # Unterrichtsraum
+        131,  # Übungsraum
     }
 
     cache_name = "rooms_tumonline.json"
@@ -318,12 +335,12 @@ def tumonline_rooms():
     room_index = {}
 
     buildings = tumonline_buildings()
-    for b in buildings:
-        b_rooms = _retrieve_tumonline_roomlist("b", "building", "pGebaeude", b["filter_id"], b["area_id"])
-        for r in b_rooms:
-            r["b_filter_id"] = b["filter_id"]
-            r["b_area_id"] = b["area_id"]
-            room_index[r["roomcode"]] = r
+    for building in buildings:
+        b_rooms = _retrieve_tumonline_roomlist("b", "building", "pGebaeude", building["filter_id"], building["area_id"])
+        for room in b_rooms:
+            room["b_filter_id"] = building["filter_id"]
+            room["b_area_id"] = building["area_id"]
+            room_index[room["roomcode"]] = room
 
     # Only a few usage types are named in the filter, however with their id it's also possible
     # to filter for other usage types. That's why we try them out.
@@ -331,12 +348,12 @@ def tumonline_rooms():
     usage_id = 1  # Observed: usage ids go up to 223, the limit below is for safety
     while not (usage_id > 300 or len(rooms) >= len(room_index)):
         u_rooms = _retrieve_tumonline_roomlist("u", "usage", "pVerwendung", usage_id)
-        for r in u_rooms:
-            room_index[r["roomcode"]]["usage"] = usage_id
+        for room in u_rooms:
+            room_index[room["roomcode"]]["usage"] = usage_id
             if usage_id in extend_for_usages:
-                system_id = room_index[r["roomcode"]]["room_link"][24:]
-                room_index[r["roomcode"]]["extended"] = _retrieve_tumonline_roominfo(system_id)
-            rooms.append(room_index[r["roomcode"]])
+                system_id = room_index[room["roomcode"]]["room_link"][24:]
+                room_index[room["roomcode"]]["extended"] = _retrieve_tumonline_roominfo(system_id)
+            rooms.append(room_index[room["roomcode"]])
         usage_id += 1
 
     _write_cache_json(cache_name, rooms)
@@ -359,9 +376,9 @@ def tumonline_usages():
     rooms = tumonline_rooms()
 
     used_usage_types = {}
-    for r in rooms:
-        if r["usage"] not in used_usage_types:
-            used_usage_types[r["usage"]] = r
+    for room in rooms:
+        if room["usage"] not in used_usage_types:
+            used_usage_types[room["usage"]] = room
 
     usages = []
 
@@ -372,10 +389,10 @@ def tumonline_usages():
 
         usage = roominfo["Basisdaten"]["Verwendung"]
         parts = []
-        for s in ["(NF", "(VF", "(TF"]:
-            if s in usage:
-                parts = usage.split(s, 2)
-                parts[1] = s + parts[1]
+        for prefix in ["(NF", "(VF", "(TF"]:
+            if prefix in usage:
+                parts = usage.split(prefix, 2)
+                parts[1] = prefix + parts[1]
                 break
         if len(parts) != 2:
             print(f"Unknown usage specification: {usage}")
@@ -404,24 +421,27 @@ def tumonline_orgs():
     # There is also this URL, which is used to retrieve orgs that have courses,
     # but this is not merged in at the moment:
     # https://campus.tum.de/tumonline/ee/rest/brm.orm.search/organisations/chooser?$language=de&view=S_COURSE_LVEAB_ORG
-    url = "https://campus.tum.de/tumonline/ee/rest/brm.orm.search/organisations/chooser?$language=de&app=CO_LOC_GRUPPEN&view=CO_LOC_ORGCTX_PZ_ANONYM_V"
+    url = (
+        "https://campus.tum.de/tumonline/ee/rest/brm.orm.search/organisations/chooser"
+        "?$language=de"
+        "&app=CO_LOC_GRUPPEN"
+        "&view=CO_LOC_ORGCTX_PZ_ANONYM_V"
+    )
     headers = {
-        'Accept': 'application/json'
+        "Accept": "application/json",
     }
 
     # This is a single request, so not cached
-    r = requests.get(url, headers=headers)
-    if r.status_code != 200:
-        raise RuntimeError(f"Failed to download organisations.\n"
-                           f"request={r}\n"
-                           f"request.text={r.text}")
+    req = requests.get(url, headers=headers)
+    if req.status_code != 200:
+        raise RuntimeError(f"Failed to download organisations.\nrequest={req}\nrequest.text={req.text}")
 
-    data = json.loads(r.text)
+    data = json.loads(req.text)
 
     try:
         results = data["resource"][0]["content"]["organisationChooserResultDto"]["searchResults"]
-    except KeyError as e:
-        raise RuntimeError(e) from e
+    except KeyError as error:
+        raise RuntimeError(error) from error
 
     orgs = {}
     for _item in results:
@@ -429,7 +449,7 @@ def tumonline_orgs():
             "id": _item["id"],
             "code": _item["designation"],
             "name": _item["name"],
-            "path": _item["orgPath"]
+            "path": _item["orgPath"],
         }
 
     _write_cache_json(cache_name, orgs)
@@ -452,16 +472,16 @@ def _retrieve_tumonline_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
 
     while current_page < pages_cnt:
         search_params = {
-            "pStart": len(all_rooms) + 1,  #1 + current_page * 30,
+            "pStart": len(all_rooms) + 1,  # 1 + current_page * 30,
             "pSuchbegriff": "",
             "pGebaeudebereich": area_id,  # 0 for all areas
             "pGebaeude": 0,
             "pVerwendung": 0,
             "pVerwalter": 1,
+            f_name: f_value,
         }
-        search_params[f_name] = f_value
-        r = requests.post("https://campus.tum.de/tumonline/wbSuche.raumSuche", data=search_params)
-        rooms_on_page, pages_cnt, current_page = _parse_rooms_list(BeautifulSoup(r.text, "lxml"))
+        req = requests.post("https://campus.tum.de/tumonline/wbSuche.raumSuche", data=search_params)
+        rooms_on_page, pages_cnt, current_page = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
         all_rooms.extend(rooms_on_page)
 
         if current_page == 1:
@@ -476,18 +496,22 @@ def _retrieve_tumonline_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
 
 def _retrieve_tumonline_roominfo(system_id):
     """Retrieve the extended room information from TUMOnline for one room"""
-    bs = _get_html(f"https://campus.tum.de/tumonline/wbRaum.editRaum?pRaumNr={system_id}", {}, f"room/{system_id}")
+    html_parser: BeautifulSoup = _get_html(
+        f"https://campus.tum.de/tumonline/wbRaum.editRaum?pRaumNr={system_id}",
+        {},
+        f"room/{system_id}",
+    )
 
     roominfo = {}
 
-    fieldsets = bs.find_all("fieldset", class_="MaskS")
-    for fs in fieldsets:
-        legend = fs.find("legend")
+    fieldsets = html_parser.find_all("fieldset", class_="MaskS")
+    for fieldset in fieldsets:
+        legend = fieldset.find("legend")
         table_name = legend.text.strip()
         if table_name in {"Basisdaten", "physikalische Eigenschaften", "Zusatzinformationen"}:
             roominfo[table_name] = {}
 
-            table = fs.find("table")
+            table = fieldset.find("table")
             for row in table.find_all("tr"):
                 columns = row.find_all("td")
                 # Doesn't apply to the PLZ/Ort field, which has another table inside
@@ -497,7 +521,7 @@ def _retrieve_tumonline_roominfo(system_id):
     return roominfo
 
 
-def _parse_filter_options(bs, filter_type):
+def _parse_filter_options(xml_parser: BeautifulSoup, filter_type):
     el_id = {
         "areas": "pGebaeudebereich",
         "buildings": "pGebaeude",
@@ -506,7 +530,7 @@ def _parse_filter_options(bs, filter_type):
 
     options = []
 
-    sel = bs.find("select", {"name": el_id})
+    sel = xml_parser.find("select", {"name": el_id})
     for opt in sel:
         if isinstance(opt, element.Tag) and opt.attrs["value"] != "0":
             options.append((opt.attrs["value"], opt.text))
@@ -514,10 +538,10 @@ def _parse_filter_options(bs, filter_type):
     return options
 
 
-def _parse_rooms_list(bs):
+def _parse_rooms_list(lxml_parser: BeautifulSoup):
     rooms = []
 
-    table = bs.find("table", class_="list")
+    table = lxml_parser.find("table", class_="list")
 
     if table is None:
         return [], 1, 1
@@ -551,7 +575,7 @@ def _parse_rooms_list(bs):
         rooms.append(data)
 
     # Get information about number of pages
-    pages_table = bs.find("table", class_="wr100")
+    pages_table = lxml_parser.find("table", class_="wr100")
     if pages_table is None:
         num_pages = 1
         current_page = 1
@@ -574,43 +598,42 @@ def _get_cache_path(fname):
 def _cached_json(fname):
     path = _get_cache_path(fname)
     if os.path.exists(path):
-        with open(path) as f:
-            return json.load(f)
+        with open(path, encoding="utf-8") as file:
+            return json.load(file)
     else:
         return None
 
 
-def _get_roomsearch_xml(url, params, cache_fname):
+def _get_roomsearch_xml(url: str, params: dict, cache_fname: str) -> BeautifulSoup:
     root = _get_xml(url, params, cache_fname)
-    e = root.find('.//instruction[@jsid="raumSucheKontainerID"]')
-    return BeautifulSoup(e.text, "lxml")
+    elem = root.find('.//instruction[@jsid="raumSucheKontainerID"]')
+    return BeautifulSoup(elem.text, "lxml")
 
 
-def _get_xml(url, params, cache_fname):
+def _get_xml(url: str, params: dict, cache_fname: str):
     cache_path = os.path.join(os.path.dirname(__file__), "cache", cache_fname)
     if os.path.exists(cache_path):
         tree = ET.parse(cache_path)
-        root = tree.getroot()
-    else:
-        print(f"GET {url}", params)
-        r = requests.get(url, params)
-        root = ET.fromstring(r.text)
-        with open(cache_path, "w") as f:
-            f.write(r.text)
-    return root
+        return tree.getroot()
+
+    print(f"GET {url}", params)
+    req = requests.get(url, params)
+    with open(cache_path, "w", encoding="utf-8") as file:
+        file.write(req.text)
+    return ET.fromstring(req.text)
 
 
-def _get_html(url, params, cache_fname):
+def _get_html(url: str, params: dict, cache_fname: str) -> BeautifulSoup:
     cache_path = os.path.join(os.path.dirname(__file__), "cache", cache_fname)
     if os.path.exists(cache_path):
-        with open(cache_path) as f:
-            return BeautifulSoup(f.read(), "lxml")
+        with open(cache_path, encoding="utf-8") as file:
+            return BeautifulSoup(file.read(), "lxml")
     else:
-        r = requests.get(url, params)
+        req = requests.get(url, params)
         time.sleep(0.5)  # Not the best place to put this
-        with open(cache_path, "w") as f:
-            f.write(r.text)
-        return BeautifulSoup(r.text, "lxml")
+        with open(cache_path, "w", encoding="utf-8") as file:
+            file.write(req.text)
+        return BeautifulSoup(req.text, "lxml")
 
 
 def _download_file(url, cache_rel_path):
@@ -618,20 +641,19 @@ def _download_file(url, cache_rel_path):
 
     if not os.path.exists(cache_path):
         print(f"Retrieving: '{url}'")
-        urllib.request.urlretrieve(url, cache_path)
+        # url parameter does not allow path traversal, because we build it further up in the callstack
+        urllib.request.urlretrieve(url, cache_path)  # nosec: B310
 
     return cache_path
 
 
 def _write_cache_json(fname, data):
     path = _get_cache_path(fname)
-    with open(path, "w") as f:
-        json.dump(data, f)
+    with open(path, "w", encoding="utf-8") as file:
+        json.dump(data, file)
 
 
 def _get_tumonline_api_url(base_target):
-    return "https://campus.tum.de/tumonline/{}/NC_{}".format(
-        base_target,
-        str(random.randint(0,9999)).zfill(4)
-    )
-
+    # I have no idea, what this magic_string is, or why it exists.. Usage is the same as from TUMOnline..
+    magic_string = f"NC_{str(random.randint(0, 9999)).zfill(4)}"  # nosec: random is not used security/crypto purposes
+    return f"https://campus.tum.de/tumonline/{base_target}/{magic_string}"
