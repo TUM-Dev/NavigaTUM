@@ -65,10 +65,10 @@ def add_ranking_combined(data):
     """
     for _id, _data in data.items():
         if "ranking_factors" in _data:
-            faktors = _data["ranking_factors"]
-            type_usage_ranking = faktors["rank_type"] * faktors["rank_usage"]
-            faktors["rank_combined"] = (
-                type_usage_ranking // 100 + faktors.get("rank_boost", 0) + faktors.get("rank_custom", 0)
+            factors = _data["ranking_factors"]
+            type_usage_ranking = factors["rank_type"] * factors["rank_usage"]
+            factors["rank_combined"] = (
+                type_usage_ranking // 100 + factors.get("rank_boost", 0) + factors.get("rank_custom", 0)
             )
 
         else:

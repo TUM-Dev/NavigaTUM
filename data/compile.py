@@ -76,7 +76,7 @@ def main():
     logging.info("-- 46 Overlay maps")
     maps.add_overlay_maps(data)
 
-    logging.info("-- 50 resize and crop the images for different resolutions and formats")
+    logging.info("-- 50 Convert, resize and crop the images for different resolutions and formats")
     images.resize_and_crop()
     logging.info("-- 51 Add image information")
     images.add_img(data)

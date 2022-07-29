@@ -654,6 +654,6 @@ def _write_cache_json(fname, data):
 
 
 def _get_tumonline_api_url(base_target):
-    # TODO: WTF is this ???
+    # I have no idea, what this magic_string is, or why it exists.. Usage is the same as from TUMOnline..
     magic_string = f"NC_{str(random.randint(0, 9999)).zfill(4)}"  # nosec: random is not used security/crypto purposes
     return f"https://campus.tum.de/tumonline/{base_target}/{magic_string}"
