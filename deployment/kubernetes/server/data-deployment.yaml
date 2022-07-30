@@ -24,6 +24,9 @@ spec:
                 app: navigatum
                 deployment: cdn
         spec:
+            volumes:
+                - name: tmp-volume
+                  emptyDir: {}
             containers:
                 - name: navigatum-data
                   image: ghcr.io/tum-dev/navigatum-data:main
@@ -31,6 +34,9 @@ spec:
                   ports:
                       - containerPort: 80
                         name: navigatum-cdn
+                  volumeMounts:
+                      - mountPath: /tmp
+                        name: tmp-volume
                   securityContext:
                     readOnlyRootFilesystem: true
                   resources:
