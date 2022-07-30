@@ -31,6 +31,8 @@ spec:
                   ports:
                       - containerPort: 80
                         name: navigatum-cdn
+                  securityContext:
+                    readOnlyRootFilesystem: true
                   resources:
                     requests:
                       cpu: 5m
