@@ -19,7 +19,7 @@ def _do_search(qst: str, query: dict):
         "query": query["query"],
         "target": query["target"],
         "hits": list(itertools.chain(*[s["entries"] for s in req["sections"]])),
-        "num_results": sum([s["estimatedTotalHits"] for s in req["sections"]]),
+        "num_results": sum(s["estimatedTotalHits"] for s in req["sections"]),
         "time_ms": req["time_ms"],
     }
 
