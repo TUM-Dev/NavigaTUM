@@ -1,3 +1,4 @@
+import gzip
 import json
 import logging
 import urllib.error
@@ -28,8 +29,9 @@ def generate_sitemap():
 
     # Currently online data
     req = urllib.request.Request("https://nav.tum.sexy/cdn/api_data.json")
+    req.add_header("Accept-Encoding", "gzip")
     with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
-        old_data = json.loads(resp.read().decode("utf-8"))
+        old_data = json.loads(gzip.decompress(resp.read()).decode("utf-8"))
 
     # Look whether there are currently online sitemaps for the provided
     # sitemaps name. In case there aren't, we assume this sitemap is new,
@@ -72,7 +74,7 @@ def _extract_sitemap_data(new_data, old_data, old_sitemaps) -> dict[str, list[di
 
         # Just copied from the webclient. The webclient doesn't care about
         # the prefix – if it is wrong it'll be corrected (without a redirect).
-        # However this way search engines can already index the final URL.
+        # However, this way search engines can already index the final URL.
         url_type_name = {
             "campus": "campus",
             "site": "site",
@@ -127,9 +129,10 @@ def _download_online_sitemaps(sitemap_names):
 def _download_online_sitemap(url):
     xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"  # noqa: FS003
     req = urllib.request.Request(url)
+    req.add_header("Accept-Encoding", "gzip")
     try:
         with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
-            sitemap_str = resp.read().decode("utf-8")
+            sitemap_str = gzip.decompress(resp.read()).decode("utf-8")
             sitemap = {}
             root = defusedET.fromstring(sitemap_str)
             for child in root.iter(f"{xmlns}url"):
