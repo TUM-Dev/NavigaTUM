@@ -32,7 +32,7 @@ spec:
                   image: ghcr.io/tum-dev/navigatum-data:main
                   imagePullPolicy: Always
                   ports:
-                      - containerPort: 80
+                      - containerPort: 8080
                         name: navigatum-cdn
                   volumeMounts:
                       - mountPath: /tmp

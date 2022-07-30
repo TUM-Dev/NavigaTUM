@@ -35,7 +35,7 @@ spec:
                       - configMapRef:
                             name: navigatum-config
                   ports:
-                      - containerPort: 80
+                      - containerPort: 8080
                         name: navigatum-web
                   volumeMounts:
                       - mountPath: /tmp
