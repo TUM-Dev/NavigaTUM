@@ -27,6 +27,8 @@ spec:
             volumes:
                 - name: tmp-cdn
                   emptyDir: {}
+                - name: tmp-rendertron
+                  emptyDir: {}
             containers:
                 - name: navigatum-webclient
                   image: ghcr.io/tum-dev/navigatum-webclient:main
@@ -67,6 +69,11 @@ spec:
                   ports:
                       - containerPort: 3000
                         name: rendertron
+                  volumeMounts:
+                      - mountPath: /tmp
+                        name: tmp-rendertron
+                  securityContext:
+                    readOnlyRootFilesystem: true
                   resources:
                     requests:
                       cpu: 50m
