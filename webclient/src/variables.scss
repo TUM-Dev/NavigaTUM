@@ -21,11 +21,11 @@ $footer-setting-bg-disabled: #999;
 $feedback-overlay-bg: rgba(247, 248, 249, 75%);
 $feedback-box-shadow: 0 .2rem .5rem rgba(48, 55, 66, 30%);
 $toast-btn-bg: rgba(0, 0, 0, 13%);
-$toast-btn-bg-hover: rgba(0, 0, 0, 2%);
+$toast-btn-bg-hover: rgba(0, 0, 0, 20%);
 $toast-btn-bg-active: rgba(0, 0, 0, 27%);
 $card-highlighted-bg: #f7f7f7;
 $text-gray: #aaa;
-$border-color: #e1e1e1;
+$border-color-default: #e1e1e1;
 $border-color-dark: color.adjust($border-color, $lightness: -10%);
 $border-color-light: color.adjust($border-color, $lightness: 8%);
 $border-light: #eee;
@@ -61,7 +61,7 @@ $bg-color: #f7f8f9;
     $feedback-overlay-bg: rgba(0, 0, 0, 70%);
     $feedback-box-shadow: 0 .2rem .5rem rgba(0, 0, 0, 50%);
     $toast-btn-bg: rgba(255, 255, 255, 7%);
-    $toast-btn-bg-hover: rgba(255, 255, 255, 2%);
+    $toast-btn-bg-hover: rgba(255, 255, 255, 20%);
     $toast-btn-bg-active: rgba(0, 0, 0, 7%);
     $card-highlighted-bg: #0e0e0e;
     $text-gray: #aaa;
@@ -88,7 +88,7 @@ $bg-color: #f7f8f9;
 
     //      #0d0e13,         #13141a (also footer), link colors: #59b2ff,
     //    .. 1px solid #e1e1e140 on border
-    $border-color: $border-color !global;
+    $border-color: $border-default !global;
     $border-color-light: #353535 !global;
     $border-color-dark: #767c84 !global;
     $bg-color: #222428 !global;
