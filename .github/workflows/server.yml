@@ -79,17 +79,17 @@ jobs:
       SCHEMATHESIS_REPORT: 'true'
       SCHEMATHESIS_TOKEN: ${{ secrets.SCHEMATHESIS_TOKEN }}
       SCHEMATHESIS_API_NAME: navigatum
-
+    continue-on-error: true
     needs:
       - server-build
       - mieli-search-build
     services:
       server:
-        image: ${{ needs.server-build.outputs.docker-tag }}
+        image: ${{ needs.server-build.outputs.tags }}
         ports:
           - 8080
       mieli:
-        image: ${{ needs.mieli-search-build.outputs.docker-tag }}
+        image: ${{ needs.mieli-search-build.outputs.tags }}
         ports:
           - 7700
     steps:
