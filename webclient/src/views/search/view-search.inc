@@ -51,11 +51,14 @@
           </router-link>
         </li>
       </ul>
-      <div class="search-comment nb_results">
-        {{ s.estimatedTotalHits > 20 ? "${{_.search.approx}}$ " : "" }}{{ s.estimatedTotalHits }} {{
-        s.estimatedTotalHits === 1 ? "${{_.search.result}}$" : "${{_.search.results}}$"
-        }}{{ s.estimatedTotalHits > 10 ? ", ${{_.view_search.max_results }}$" : ""}}
-      </div>
+      <p class="search-comment nb_results" v-if="s.estimatedTotalHits === 1">
+        {{ s.estimatedTotalHits }} ${{_.search.result}}$
+      </p>
+      <p class="search-comment nb_results" v-else>
+        {{ s.estimatedTotalHits > 20 ? "${{_.search.approx}}$ " : "" }} {{
+        s.estimatedTotalHits }} ${{_.search.results}}${{ s.estimatedTotalHits >
+        10 ? ", ${{_.view_search.max_results }}$" : ""}}
+      </p>
     </section>
   </template>
 </div>
