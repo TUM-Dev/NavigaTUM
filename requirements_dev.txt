@@ -1,6 +1,7 @@
 mypy~=0.950
-pre-commit~=2.19.0
-types-Pillow~=9.0.19
+pre-commit~=2.20.0
+pylint~=2.14.5
+types-Pillow~=9.2.1
 types-PyYAML~=6.0.8
-types-requests~=2.27.30
+types-requests~=2.28.6
 types-termcolor~=1.1.4
