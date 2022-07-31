@@ -76,7 +76,7 @@ jobs:
 
     env:
       SCHEMATHESIS_BASE: st run $API_SCHEMA --checks=all --base-url="http://localhost:8080"
-      SCHEMATHESIS_REPORT: 'true'
+      SCHEMATHESIS_REPORT: "true"
       SCHEMATHESIS_TOKEN: ${{ secrets.SCHEMATHESIS_TOKEN }}
       SCHEMATHESIS_API_NAME: navigatum
     continue-on-error: true

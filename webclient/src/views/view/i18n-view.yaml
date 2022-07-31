@@ -1,49 +1,49 @@
 view_view:
   meta:
-    details_for: {de: "Details für", en: "Details for"}
+    details_for: { de: "Details für", en: "Details for" }
   header:
-    copy_link: {de: "Link kopieren", en: "Copy link"}
+    copy_link: { de: "Link kopieren", en: "Copy link" }
     external_link:
-      tooltip: {de: "Externe Links", en: "External links"}
-      open_in: {de: "Öffnen in", en: "Open in"}
-      other_app: {de: "Andere App ...", en: "Other app ..."}
-      share: {de: "Teilen", en: "Share"}
-      share_link: {de: "Teilen mit ...", en: "Share with ..."}
-      copied: {de: "Kopiert", en: "Copied"}
+      tooltip: { de: "Externe Links", en: "External links" }
+      open_in: { de: "Öffnen in", en: "Open in" }
+      other_app: { de: "Andere App ...", en: "Other app ..." }
+      share: { de: "Teilen", en: "Share" }
+      share_link: { de: "Teilen mit ...", en: "Share with ..." }
+      copied: { de: "Kopiert", en: "Copied" }
     feedback:
       de: "Problem melden oder Änderung vorschlagen"
       en: "Report issue or suggest changes"
-    favorites: {de: "Zu Favoriten hinzufügen", en: "Add to favorites"}
+    favorites: { de: "Zu Favoriten hinzufügen", en: "Add to favorites" }
   map:
-    interactive: {de: "Interaktive Karte", en: "Interactive Map"}
-    roomfinder: {de: "Lagepläne", en: "Site Plans"}
-    img_source: {de: "Bildquelle", en: "Image source"}
-  info_title: {de: "Informationen", en: "Information"}
+    interactive: { de: "Interaktive Karte", en: "Interactive Map" }
+    roomfinder: { de: "Lagepläne", en: "Site Plans" }
+    img_source: { de: "Bildquelle", en: "Image source" }
+  info_title: { de: "Informationen", en: "Information" }
   buildings_overview:
-    title: {de: "Gebäude / Gebiete", en: "Buildings / Areas"}
-    more: {de: "mehr", en: "more"}
-    less: {de: "weniger", en: "less"}
+    title: { de: "Gebäude / Gebiete", en: "Buildings / Areas" }
+    more: { de: "mehr", en: "more" }
+    less: { de: "weniger", en: "less" }
   rooms_overview:
-    title: {de: "Räume", en: "Rooms"}
-    by_usage: {de: "nach Nutzung", en: "by usage"}
-    any: {de: "beliebig", en: "any"}
-    remove_selection: {de: "Auswahl löschen", en: "Remove selection"}
-    filter: {de: "Filter", en: "Filter"}
-    choose_usage: {de: "Wähle eine Nutzung aus", en: "Choose a usage"}
-    result: {de: "Ergebnis", en: "result"}
-    results_suffix: {de: "se", en: "s"}
-    filtered: {de: "gefiltert", en: "filtered"}
+    title: { de: "Räume", en: "Rooms" }
+    by_usage: { de: "nach Nutzung", en: "by usage" }
+    any: { de: "beliebig", en: "any" }
+    remove_selection: { de: "Auswahl löschen", en: "Remove selection" }
+    filter: { de: "Filter", en: "Filter" }
+    choose_usage: { de: "Wähle eine Nutzung aus", en: "Choose a usage" }
+    result: { de: "Ergebnis", en: "result" }
+    results_suffix: { de: "se", en: "s" }
+    filtered: { de: "gefiltert", en: "filtered" }
   sources:
-    title: {de: "Quellen", en: "Sources"}
-    header_img: {de: "Bild", en: "Image"}
+    title: { de: "Quellen", en: "Sources" }
+    header_img: { de: "Bild", en: "Image" }
     base:
-      title: {de: "Basisdaten", en: "Base data"}
+      title: { de: "Basisdaten", en: "Base data" }
       patched:
         de: "(Bei diesem Eintrag wurden automatische Korrekturen zu externen Daten angewandt)"
         en: "(For this entry automatic patches were applied to external data)"
     coords:
-      title: {de: "Koordinaten", en: "Coordinates"}
-      navigatum: {de: "NavigaTUM Mitwirkende", en: "NavigaTUM Contributors"}
+      title: { de: "Koordinaten", en: "Coordinates" }
+      navigatum: { de: "NavigaTUM Mitwirkende", en: "NavigaTUM Contributors" }
       roomfinder:
         de: "Roomfinder"
         en: "Roomfinder"
@@ -97,10 +97,10 @@ view_view:
     header:
       de: "Bilder-Showcase"
       en: "Image Showcase"
-    close: {de: "Schließen", en: "Close"}
+    close: { de: "Schließen", en: "Close" }
     image_alt:
       de: "Ein Bild welches das Gebäude zeigt"
       en: "Image showing the building"
-    author: {de: "Autor", en: "Author"}
-    source: {de: "Quelle", en: "Source"}
-    license: {de: "Lizenz", en: "License"}
+    author: { de: "Autor", en: "Author" }
+    source: { de: "Quelle", en: "Source" }
+    license: { de: "Lizenz", en: "License" }

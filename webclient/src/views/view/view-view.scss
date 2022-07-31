@@ -1,4 +1,4 @@
-@import "src/variables.scss";
+@import "src/variables";
 
 #view-view {
     /* --- General --- */
@@ -15,6 +15,7 @@
     /* --- Header --- */
     .header-image-mobile {
         margin: -10px -23px 10px;
+
         > img {
             min-width: 100%;
             min-height: 100px;
@@ -24,7 +25,7 @@
     }
 
     .breadcrumb {
-        margin-top: 0px;
+        margin-top: 0;
         font-size: 12px;
     }
 
@@ -68,31 +69,33 @@
                 box-shadow: $card-shadow-dark;
                 border-radius: 2px;
                 border: 1px solid $card-border;
-
                 visibility: hidden;
                 opacity: 0;
                 transform: translateY(-5px);
                 transition: opacity .05s, transform .05s;
 
-                a, button {
+                a,
+                button {
                     width: 100%;
-                    margin: 4px 0px;
+                    margin: 4px 0;
                 }
 
                 strong {
                     margin-top: 2px;
                     display: block;
 
-                    & + a, & + button {
+                    & + a,
+                    & + button {
                         margin-top: 2px;
                     }
                 }
             }
 
-            button:focus + .link-popover, .link-popover:hover {
+            button:focus + .link-popover,
+            .link-popover:hover {
                 visibility: visible;
                 opacity: 1;
-                transform: translateY(0px)
+                transform: translateY(0);
             }
         }
 
@@ -103,7 +106,7 @@
 
     /* --- Pending coordinates counter --- */
     .coord-counter {
-        margin: 8px 0px;
+        margin: 8px 0;
         box-shadow: $card-shadow;
         border: 1px solid $card-border;
         border-radius: 4px;
@@ -132,11 +135,12 @@
             }
 
             & .btns {
-                margin: auto 0 12px 0;
+                margin: auto 0 12px;
 
                 .delete .default {
                     display: inline-block;
                 }
+
                 .delete .confirm {
                     display: none;
                 }
@@ -145,9 +149,11 @@
                     animation: delay-btn .3s steps(1);
                     animation-fill-mode: both;
                 }
+
                 .delete.to-confirm .default {
                     display: none;
                 }
+
                 .delete.to-confirm .confirm {
                     display: inline-block;
                 }
@@ -186,7 +192,6 @@
             padding-bottom: 75%;  // 4:3 aspect ratio
             border: 1px solid $border-light;
             background-color: $container-loading-bg;
-
             position: relative;
         }
 
@@ -195,7 +200,7 @@
             top: -10px;
             left: 0;
             width: 100%;
-            height: calc(100vh - 60px);;
+            height: calc(100vh - 60px);
             z-index: 1000;
 
             > div {
@@ -243,19 +248,25 @@
             }
         }
 
-        &.reduced > .vertical-oc, &.reduced > .horizontal-oc {
+        &.reduced > .vertical-oc,
+        &.reduced > .horizontal-oc {
             display: none !important;
         }
 
-        & > .vertical-oc, & > .horizontal-oc {
+        & > .vertical-oc,
+        & > .horizontal-oc {
             font-weight: bold;
             background: #ececec;
         }
+
         &.closed {
-            & > .vertical-oc, & > .horizontal-oc {
+            & > .vertical-oc,
+            & > .horizontal-oc {
                 background: #fff;
             }
-            &:hover > .vertical-oc, &:hover > .horizontal-oc {
+
+            &:hover > .vertical-oc,
+            &:hover > .horizontal-oc {
                 background: #f2f2f2;
             }
         }
@@ -269,6 +280,7 @@
             & > .horizontal-oc {
                 display: inline-block;
             }
+
             & > .vertical-oc {
                 display: none;
             }
@@ -280,7 +292,7 @@
 
             & button {
                 display: inline-block;
-                border-top: none;
+                border-top: 0;
                 border-left: 1px solid #ddd;
 
                 &.arrow {
@@ -290,14 +302,14 @@
                 }
 
                 & + button {
-                    border-top: none;
+                    border-top: 0;
                 }
             }
         }
 
         // mapbox logo
         & + .mapboxgl-ctrl {
-            opacity: 0.4;
+            opacity: .4;
             pointer-events: none;
             z-index: -1;
         }
@@ -319,21 +331,26 @@
             font-size: 10px;
         }
     }
+
     #roomfinder-map-cross {
         position: absolute;
         transition: transform .3s;
         pointer-events: none;
     }
+
     #roomfinder-map-img {
         width: 100%;
         display: block;
     }
+
     #roomfinder-map-select > label {
-        padding: 0.05rem 0.3rem;
+        padding: .05rem .3rem;
     }
 
     .accordion-body {
-        ul, button, li {
+        ul,
+        button,
+        li {
             font-size: 12px;
         }
 
@@ -344,9 +361,9 @@
 
     /* --- Information Section (mobile) --- */
     .mobile-info-section {
-            margin-top: 15px;
+        margin-top: 15px;
 
-            & > .info-table {
+        & > .info-table {
             margin-top: 16px;
         }
     }
@@ -355,6 +372,7 @@
     .card-body .toast {
         margin-top: 12px;
     }
+
     #map-container .toast {  // Mobile
         margin-bottom: 9px;
         font-size: .7rem;
@@ -367,7 +385,7 @@
 
         td {
             vertical-align: top;
-            padding: 4px 0px;
+            padding: 4px 0;
 
             &:last-child {
                 padding-left: 10px;
@@ -378,7 +396,7 @@
             border-bottom: 1px solid $border-light;
 
             &:last-child {
-                border-bottom: none;
+                border-bottom: 0;
             }
         }
     }
@@ -412,9 +430,10 @@
     .menu {
         padding: 0;
         box-shadow: none;
+
         .menu-item button {
-            text-align: left!important;
-            border: 0 transparent!important;
+            text-align: left !important;
+            border: 0 transparent !important;
             width: 100%;
         }
 
@@ -435,22 +454,26 @@
             }
         }
 
-        .menu-item button  {
-            display:flex;
-            flex-direction:row;
+        .menu-item button {
+            display: flex;
+            flex-direction: row;
             box-sizing: border-box;
             width: 100%;
-            .menu-text{
+
+            .menu-text {
                 flex-grow: 1;
                 flex-shrink: 1;
                 text-overflow: ellipsis;
                 overflow: hidden;
             }
-            .icon,label{
+
+            .icon,
+            label {
                 flex-grow: 0;
                 flex-shrink: 0;
             }
-            .icon{
+
+            .icon {
                 top: 5px;
             }
         }
@@ -471,18 +494,20 @@
             color: $text-gray;
         }
     }
+
     #rooms-overview-select .panel-body {
         max-height: 500px + 8px;
     }
+
     #rooms-overview-list .panel-body {
         max-height: 500px;
     }
-    
+
     #entry-sources {
         h2 {
             margin-bottom: 16px;
         }
-        
+
         p {
             margin-bottom: 6px;
         }
@@ -495,9 +520,11 @@
         .text-md-right {
             text-align: right !important;
         }
+
         .text-md-center {
             text-align: center !important;
         }
+
         .mt-md-3 {
             margin-top: 1rem !important;
         }
@@ -505,7 +532,7 @@
 }
 
 // 'sm' (mobile)
-@media (max-width:600px) {
+@media (max-width: 600px) {
     #view-view {
         // The mapbox logo is taking away space from the layer
         // selection on the bottom left on mobile, so we move
@@ -519,18 +546,19 @@
         #rooms-overview-select .panel-body {
             max-height: 260px;
         }
+
         #rooms-overview-list .panel-body {
             max-height: 275px;
         }
     }
 }
 
-
 @keyframes delay-btn {
     from {
         pointer-events: none;
         color: $text-gray;
     }
+
     to {
         pointer-events: all;
         color: $error-color;
