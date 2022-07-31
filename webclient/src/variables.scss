@@ -9,6 +9,17 @@ $theme-accent: #0065bd;  // TUM blue
 /* === Light mode (default) === */
 // This is not in an @if block because sass requires the variables
 // to be declared outside an @if scope.
+// -- Overwriting of spectre.css variables
+$primary-color: $theme-accent;
+$secondary-color: #64a0c8;
+$body-font-color: #3b4351;
+$light-color: #fff;
+$dark-color: #303742;
+$bg-color: #f7f8f9;
+$border-color: #e1e1e1;
+$border-color-dark: color.adjust($border-color, $lightness: -10%);
+$border-color-light: color.adjust($border-color, $lightness: 8%);
+
 // -- Custom vars
 $header-color: #fff;
 $header-shadow-color: rgba(0, 0, 0, 10%);
@@ -25,9 +36,6 @@ $toast-btn-bg-hover: rgba(0, 0, 0, 20%);
 $toast-btn-bg-active: rgba(0, 0, 0, 27%);
 $card-highlighted-bg: #f7f7f7;
 $text-gray: #aaa;
-$border-color-default: #e1e1e1;
-$border-color-dark: color.adjust($border-color, $lightness: -10%);
-$border-color-light: color.adjust($border-color, $lightness: 8%);
 $border-light: #eee;
 $card-border: $border-color;
 $card-shadow: 3px 3px 4px rgba(106, 106, 106, 3%);
@@ -39,16 +47,20 @@ $search-border: #f0f0f0;
 $search-border-hover: #dadee4;
 $code-bg: #fcf2f2;
 
-// -- Overwriting
-$primary-color: $theme-accent;
-$secondary-color: #64a0c8;
-$body-font-color: #3b4351;
-$light-color: #fff;
-$dark-color: #303742;
-$bg-color: #f7f8f9;
 
 /* === Dark mode === */
 @if $theme == "dark" {
+    // -- Overwriting of spectre.css variables
+    $primary-color: #59b2ff !global;
+    $secondary-color: #213d55 !global;
+    $body-font-color: #d2d7df !global;
+    $dark-color: #9aa0aa !global;
+    $light-color: #17181a !global; // Also sets body background
+    $border-color: #444 !global;
+    $border-color-light: #353535 !global;
+    $border-color-dark: #767c84 !global;
+    $bg-color: #222428 !global;
+
     // -- Custom vars
     $header-color: #1b1c1e;
     $header-shadow-color: rgba(0, 0, 0, 40%);
@@ -65,8 +77,7 @@ $bg-color: #f7f8f9;
     $toast-btn-bg-active: rgba(0, 0, 0, 7%);
     $card-highlighted-bg: #0e0e0e;
     $text-gray: #aaa;
-    $border-color: #444;
-    $border-light: #444;
+    $border-light: $border-color;
     $card-border: $border-color;
     $card-shadow: 3px 3px 4px rgba(0, 0, 0, 20%);
     $card-shadow-dark: $card-shadow;
@@ -76,20 +87,4 @@ $bg-color: #f7f8f9;
     $search-border: #353535;
     $search-border-hover: #444;
     $code-bg: #201e1e;
-
-    // -- Overwriting
-    $primary-color: #59b2ff !global;
-    $secondary-color: #213d55 !global;
-    $body-font-color: #d2d7df !global;
-    $dark-color: #9aa0aa !global;// #3e396b;
-
-    // Also sets body background
-    $light-color: #17181a !global;
-
-    //      #0d0e13,         #13141a (also footer), link colors: #59b2ff,
-    //    .. 1px solid #e1e1e140 on border
-    $border-color: $border-default !global;
-    $border-color-light: #353535 !global;
-    $border-color-dark: #767c84 !global;
-    $bg-color: #222428 !global;
 }
