@@ -1,6 +1,6 @@
 view_search:
-  search_for: {de: "Suche nach", en: "Search for"}
-  runtime: {de: "Laufzeit", en: "Runtime"}
+  search_for: { de: "Suche nach", en: "Search for" }
+  runtime: { de: "Laufzeit", en: "Runtime" }
   max_results:
     de: "bitte grenze die Suche weiter ein"
     en: "please narrow the search further"

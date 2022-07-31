@@ -2,7 +2,6 @@
 $success-color: #6cc872;
 $warning-color: #f49e2f;
 $error-color: #bb331b;
-
 $theme-accent: #0065bd;  // TUM blue
 
 /* === Light mode (default) === */
@@ -23,33 +22,25 @@ $toast-btn-bg: #0002;
 $toast-btn-bg-hover: #0003;
 $toast-btn-bg-active: #0004;
 $card-highlighted-bg: #f7f7f7;
-
 $text-gray: #aaa;
 $border-default: #e1e1e1;
 $border-light: #eee;
-
 $card-border: $border-default;
 $card-shadow: 3px 3px 4px rgba(106, 106, 106, 0.03);
 $card-shadow-dark: 3px 3px 4px rgba(106, 106, 106, 0.05);
 
 $image-loading-bg: #eee;
 $container-loading-bg: #fbfbfb;
-
 $roomfinder-selected-bg: #f2f2f2;
-
 $search-border: #f0f0f0;
 $search-border-hover: #dadee4;
-
 $code-bg: #fcf2f2;
 
 // -- Overwriting
 $primary-color: $theme-accent;
 $body-font-color: #3b4351;
-
 $light-color: #fff;
-
 $bg-color: #f7f8f9;
-
 
 /* === Dark mode === */
 @if $theme == "dark" {
@@ -68,15 +59,12 @@ $bg-color: #f7f8f9;
     $toast-btn-bg-hover: #fff3;
     $toast-btn-bg-active: #0001;
     $card-highlighted-bg: #0e0e0e;
-
     $text-gray: #aaa;
     $border-default: #444;
     $border-light: #444;
-
     $card-border: $border-default;
     $card-shadow: 3px 3px 4px rgba(0,0,0,.2);
     $card-shadow-dark: $card-shadow;
-
     $image-loading-bg: #444;
     $container-loading-bg: #2a2b2f;
 
@@ -84,7 +72,6 @@ $bg-color: #f7f8f9;
 
     $search-border: #353535;
     $search-border-hover: #444;
-
     $code-bg: #201e1e;
 
     // -- not implemented anywhere yet
@@ -105,12 +92,12 @@ $bg-color: #f7f8f9;
 
     // Also sets body background
     $light-color: #17181a !global;
+
     //      #0d0e13,         #13141a (also footer), link colors: #59b2ff,
     //    .. 1px solid #e1e1e140 on border
     $border-color: $border-default !global;
     $border-color-light: #353535 !global;
     $border-color-dark: #767c84 !global;
-
     $bg-color: #222428 !global;
     $bg-color-dark: $bg-color !global;
 }

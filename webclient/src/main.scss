@@ -27,15 +27,18 @@ body {
     top: 0;
     pointer-events: none;
 }
+
 #loading-page > .loading {
     margin: 0 auto;
     display: block;
     position: static;
 }
+
 #loading-page > .loading::after {
     border-bottom-color: transparent;
     border-left-color: #ccc;
 }
+
 #loading-page:not([v-cloak]) {
     display: none;
 
@@ -46,9 +49,11 @@ body {
         animation-fill-mode: both;
     }
 }
+
 .img-responsive {
     background-color: $image-loading-bg;
 }
+
 @keyframes loading-in {
     from { opacity: 0 }
     to { opacity: 1 }
@@ -58,7 +63,8 @@ body {
 
 #app .menu .menu-item > a,
 #app .menu .menu-item > button {  // Overwrite spectre
-    &:focus, &:hover {
+    &:focus,
+    &:hover {
         background: $theme-accent;
         color: #fff;
     }
@@ -97,7 +103,6 @@ body {
     }
 }
 
-
 /* === Navbar === */
 
 #navbar {
@@ -128,7 +133,7 @@ body {
         box-shadow: $autocomplete-box-shadow;
 
         .menu-item {
-            &> a {
+            & > a {
                 cursor: pointer;
 
                 &.active {
@@ -142,7 +147,9 @@ body {
                     font-weight: bold;
                 }
 
-                &:focus em, &:hover em, &.active em {
+                &:focus em,
+                &:hover em,
+                &.active em {
                     color: #fff;
                 }
             }
@@ -173,6 +180,7 @@ body {
         overflow: hidden;
         vertical-align: middle;
         margin-top: -5px;
+
         // Correction for Chrome
         padding-top: 2px;
         height: 1.2rem;
@@ -227,6 +235,7 @@ body {
 #content-header {
     margin-top: 70px;  // 10px + 60px for header
 }
+
 #content.visible {
     /* For some reason (I assume because the 'visible' class is not set when vue loads),
      * this class gets removed if vue adds/removes the 'search_focus' class. For this reason
@@ -234,12 +243,14 @@ body {
      * this class is there on page-load. */
     transition: opacity .07s;
 }
+
 #content.search_focus {
     opacity: .7;
 }
 
 /* === Feedback === */
-#feedback-modal, #feedback-success-modal {
+#feedback-modal,
+#feedback-success-modal {
     z-index: 3000;
 
     .modal-container {
@@ -256,18 +267,24 @@ body {
         text-align: right;
     }
 }
-#feedback-overlay, #feedback-overlay-2 {
+
+#feedback-overlay,
+#feedback-overlay-2 {
     background: $feedback-overlay-bg;
 }
+
 #feedback-error {
     color: $error-color;
 }
+
 #feedback-category {
     flex: none;
 }
+
 #feedback-body {
     min-width: 100%;
 }
+
 #feedback-privacy-label {
     font-size: 11px;
     line-height: 140%;
@@ -278,6 +295,7 @@ body {
     float: right;
     margin-top: .5em;
 }
+
 #feedback-coordinate-picker-helptext {
     font-size: 14px;
 }
@@ -290,7 +308,6 @@ footer {
     position: absolute;
     left: 0;
     right: 0;
-
     text-align: center;
 
     .links {
@@ -305,14 +322,17 @@ footer {
             }
         }
 
-        a, router-link, button {
-            font-size: .6rem;
+        a,
+        router-link,
+        button {
+            font-size: 0.6rem;
         }
 
         button {
             height: auto;
             padding: 0;
         }
+
         button:hover {
             text-decoration: underline;
         }
@@ -340,16 +360,14 @@ footer {
     }
 }
 
-
 // Animations
 @keyframes fade-in {
-    from { opacity: 0 }
-    to { opacity: 1 }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-
 // 'xs' (mobile)
-@media (max-width:480px) {
+@media (max-width: 480px) {
     footer {
         bottom: -200px;
 
@@ -358,12 +376,14 @@ footer {
                 margin: .8rem .8rem .8rem .8rem;
 
                 li {
-                    margin-top: .4rem;
+                    margin-top: 0.4rem;
                 }
             }
 
-            a, router-link, button {
-                font-size: .7rem;
+            a,
+            router-link,
+            button {
+                font-size: 0.7rem;
             }
         }
     }

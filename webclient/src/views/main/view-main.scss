@@ -1,12 +1,11 @@
 @import "src/variables.scss";
 
-#view-main { 
+#view-main {
     .panel {
         border: 1px solid $card-border;
         border-radius: 10px;
         overflow: hidden;
         box-shadow: $card-shadow-dark;
-
         margin: 10px 0;
         padding-bottom: 12px;
 
@@ -22,7 +21,8 @@
                     color: $body-font-color;
                     transition: color .1s;
 
-                    &:hover, &:active {
+                    &:hover,
+                    &:active {
                         color: $primary-color;
                     }
                 }
@@ -45,8 +45,8 @@
         .panel-body {
             & > a {
                 text-decoration: none;
-
             }
+
             .link-more {
                 opacity: 0.5;
                 transition: opacity .1s;
@@ -66,16 +66,18 @@
             }
         }
 
-        .btn-more, .btn-less {
+        .btn-more,
+        .btn-less {
             margin-top: 5px;
             padding-bottom: 0px;
             padding-left: 0;
         }
+
         .btn-less {
             display: none;
         }
     }
-    
+
     .panel.open {
         .panel-body .link-more {
             opacity: 1;
@@ -84,9 +86,11 @@
                 display: flex;
             }
         }
+
         .btn-more {
             display: none;
         }
+
         .btn-less {
             display: inline-block;
         }

@@ -36,7 +36,6 @@ import source     from 'vinyl-source-stream';
 
 const sass = _sass(nodeSass);  // Select Sass compiler
 
-
 var htmlmin_options = {
     caseSensitive: false,
     collapseBooleanAttributes: true,
@@ -50,29 +49,24 @@ var htmlmin_options = {
     minifyJS: true,
     preserveLineBreaks: false,
     preventAttributesEscaping: false,
-    //processConditionalComments: true,
+    // processConditionalComments: true,
     removeAttributeQuotes: true,
     removeComments: true,
     removeEmptyAttributes: true,
-    removeOptionalTags: false,  //!
+    removeOptionalTags: false, //!
     removeScriptTypeAttributes: true,
     removeStyleLinkTypeAttributes: true,
     sortAttributes: true,
-    //sortClassName: true
+    // sortClassName: true
 };
 
 var i18n_options = {
-    langDir: 'build/tmp/locale'
+    langDir: 'build/tmp/locale',
 };
 
 var babel_targets = {
-    "browsers": [
-        "last 2 versions",
-        "not dead",
-        "> 0.2%"
-    ]
+    browsers: ['last 2 versions', 'not dead', '> 0.2%'],
 };
-
 
 // --- Preparations ---
 function clean_build(cb) {
@@ -81,30 +75,40 @@ function clean_build(cb) {
 
 // --- Main CSS Pipeline ---
 function compile_main_scss() {
-    return merge(["light", "dark"].map(function(theme) {
-        return gulp.src('src/main.scss')
-                   .pipe(injectStr.prepend('$theme: "' + theme + '";\n'))
-                   .pipe(sass().on('error', sass.logError))
-                   .pipe(rename('main-' + theme + '.css'))
-                   .pipe(gulp.dest('build/tmp'));
-    }));
+    return merge(
+        ['light', 'dark'].map(function (theme) {
+            return gulp
+                .src('src/main.scss')
+                .pipe(injectStr.prepend(`$theme: "${theme}";\n`))
+                .pipe(sass().on('error', sass.logError))
+                .pipe(rename(`main-${theme}.css`))
+                .pipe(gulp.dest('build/tmp'));
+        }),
+    );
 }
 
 function compile_spectre_scss() {
-    return merge(["light", "dark"].map(function(theme) {
-        return gulp.src('src/spectre-all.scss')
-                   .pipe(injectStr.prepend('$theme: "' + theme + '";\n'))
-                   .pipe(sass().on('error', sass.logError))
-                   .pipe(purgecss({
-                       content: ['src/index.html', 'src/views/*/*.inc']
-                   }))
-                   //.pipe(csso())
-                   .pipe(rename('spectre-all-purged-' + theme + '.css'))
-                   .pipe(gulp.dest('build/tmp'));
-    }));
+    return merge(
+        ['light', 'dark'].map(function (theme) {
+            return (
+                gulp
+                    .src('src/spectre-all.scss')
+                    .pipe(injectStr.prepend(`$theme: "${theme}";\n`))
+                    .pipe(sass().on('error', sass.logError))
+                    .pipe(
+                        purgecss({
+                            content: ['src/index.html', 'src/views/*/*.inc'],
+                        }),
+                    )
+                    // .pipe(csso())
+                    .pipe(rename(`spectre-all-purged-${theme}.css`))
+                    .pipe(gulp.dest('build/tmp'))
+            );
+        }),
+    );
 }
 
-/*function merge_main_css() {
+/* function merge_main_css() {
     return merge(["light", "dark"].map(function(theme) {
         return gulp.src(['build/tmp/main-' + theme + '.css',
                          'build/tmp/spectre-all-purged-' + theme + '.css'])
@@ -114,121 +118,151 @@ function compile_spectre_scss() {
                    .pipe(rename('app-main-merged-' + theme + '.min.css'))
                    .pipe(gulp.dest('build/css'));
     }));
-}*/
-gulp.task('main_css', gulp.series(compile_main_scss, compile_spectre_scss/*, merge_main_css*/));
-
+} */
+gulp.task('main_css', gulp.series(compile_main_scss, compile_spectre_scss /* , merge_main_css */));
 
 // --- Main JS Pipeline ---
 function build_app_core_js() {
-    return gulp.src(['src/core.js', 'src/detect-webp.js'])
-               .pipe(concat('app-core.js'))
-               .pipe(preprocess({
-                    context: {
-                        app_prefix: config.app_prefix,
-                        cdn_prefix: config.cdn_prefix,
-                        api_prefix: config.api_prefix,
-                        target: config.target
-                    },
-                    includeBase: 'src/js'
-                }))
-               .pipe(gulp.dest('build/js'));
-}
-
-function build_app_rest_js() {
-    return gulp.src(['src/modules/interactive-map.js',
-                     'src/modules/autocomplete.js',
-                     // History states are here because usually this module is not needed
-                     // very soon, and if it is still missing this is not a real issue.
-                     'src/history-states.js'])
-               .pipe(concat('app-rest.js'))
-               .pipe(preprocess({
-                    context: {
-                        app_prefix: config.app_prefix,
-                        cdn_prefix: config.cdn_prefix,
-                        api_prefix: config.api_prefix,
-                        target: config.target
-                    },
-                    includeBase: 'src/js'
-                }))
-               .pipe(gulp.dest('build/js'));
-}
-
-function build_feedback_js() {
-    return gulp.src('src/feedback.js')
-               .pipe(i18n(i18n_options))
-               .pipe(preprocess({
-                    context: {
-                        app_prefix: config.app_prefix,
-                        cdn_prefix: config.cdn_prefix,
-                        api_prefix: config.api_prefix,
-                        target: config.target
-                    },
-                    includeBase: 'src/js'
-                }))
-               .pipe(uglify())
-               .pipe(rename(path => { path.extname = ".min.js" }))
-               .pipe(gulp.dest('build/js'));
-}
-
-function copy_vue_js() {
-    if (config.target === "release")
-        return gulp.src(['node_modules/vue/dist/vue.min.js',
-                         'node_modules/vue-router/dist/vue-router.min.js',
-                         'src/init-call.js'])
-                   .pipe(concat('vue.min.js'))
-                   .pipe(gulp.dest('build/js'));
-    else
-        return gulp.src(['node_modules/vue/dist/vue.js',
-                         'node_modules/vue-router/dist/vue-router.js',
-                         'src/init-call.js'])
-                   .pipe(concat('vue.js'))
-                   .pipe(gulp.dest('build/js'));
-}
-
-gulp.task('main_js', gulp.series(build_app_core_js, build_app_rest_js, build_feedback_js, copy_vue_js));
-
-
-// --- Views compilation pipeline ---
-gulp.task('views', function(done) {
-    var views_src_path = 'src/views';
-
-    var folders = getFolders(views_src_path);
-    if (folders.length === 0) return done(); // nothing to do!
-
-    var tasks = folders.map(function(folder) {
-        var css_task = merge(["light", "dark"].map(function(theme) {
-            return gulp.src(path.join(views_src_path, folder, '/view-' + folder + '.scss'))
-                       .pipe(injectStr.prepend('$theme: "' + theme + '";\n'))
-                       .pipe(sass().on('error', sass.logError))
-                       .pipe(rename('view-' + theme +'.css'))
-                       .pipe(gulp.dest('build/tmp/views/' + folder))})
-        );
-
-        var js_task = gulp.src(path.join(views_src_path, folder, '/view-' + folder + '.js'))
-            .pipe(preprocess({
+    return gulp
+        .src(['src/core.js', 'src/detect-webp.js'])
+        .pipe(concat('app-core.js'))
+        .pipe(
+            preprocess({
                 context: {
                     app_prefix: config.app_prefix,
                     cdn_prefix: config.cdn_prefix,
                     api_prefix: config.api_prefix,
-                    target: config.target
+                    target: config.target,
                 },
-                includeBase: path.join(views_src_path, folder)
-            }))
-            .pipe(rename('view.js'))
-            .pipe(gulp.dest('build/tmp/views/' + folder))
+                includeBase: 'src/js',
+            }),
+        )
+        .pipe(gulp.dest('build/js'));
+}
 
-        var html_task = gulp.src(path.join(views_src_path, folder, '/view-' + folder + '.inc'))
-                            .pipe(preprocess({
-                                context: {
-                                    app_prefix: config.app_prefix,
-                                    cdn_prefix: config.cdn_prefix,
-                                    api_prefix: config.api_prefix,
-                                    target: config.target
-                                },
-                                includeBase: path.join(views_src_path, folder)
-                             }))
-                            .pipe(htmlmin(htmlmin_options))
-                            .pipe(gulp.dest('build/tmp/views/' + folder))
+function build_app_rest_js() {
+    return gulp
+        .src([
+            'src/modules/interactive-map.js',
+            'src/modules/autocomplete.js',
+            // History states are here because usually this module is not needed
+            // very soon, and if it is still missing this is not a real issue.
+            'src/history-states.js',
+        ])
+        .pipe(concat('app-rest.js'))
+        .pipe(
+            preprocess({
+                context: {
+                    app_prefix: config.app_prefix,
+                    cdn_prefix: config.cdn_prefix,
+                    api_prefix: config.api_prefix,
+                    target: config.target,
+                },
+                includeBase: 'src/js',
+            }),
+        )
+        .pipe(gulp.dest('build/js'));
+}
+
+function build_feedback_js() {
+    return gulp
+        .src('src/feedback.js')
+        .pipe(i18n(i18n_options))
+        .pipe(
+            preprocess({
+                context: {
+                    app_prefix: config.app_prefix,
+                    cdn_prefix: config.cdn_prefix,
+                    api_prefix: config.api_prefix,
+                    target: config.target,
+                },
+                includeBase: 'src/js',
+            }),
+        )
+        .pipe(uglify())
+        .pipe(
+            rename((path) => {
+                path.extname = '.min.js';
+            }),
+        )
+        .pipe(gulp.dest('build/js'));
+}
+
+function copy_vue_js() {
+    if (config.target === 'release')
+        return gulp
+            .src([
+                'node_modules/vue/dist/vue.min.js',
+                'node_modules/vue-router/dist/vue-router.min.js',
+                'src/init-call.js',
+            ])
+            .pipe(concat('vue.min.js'))
+            .pipe(gulp.dest('build/js'));
+    return gulp
+        .src([
+            'node_modules/vue/dist/vue.js',
+            'node_modules/vue-router/dist/vue-router.js',
+            'src/init-call.js',
+        ])
+        .pipe(concat('vue.js'))
+        .pipe(gulp.dest('build/js'));
+}
+
+gulp.task(
+    'main_js',
+    gulp.series(build_app_core_js, build_app_rest_js, build_feedback_js, copy_vue_js),
+);
+
+// --- Views compilation pipeline ---
+gulp.task('views', function (done) {
+    const views_src_path = 'src/views';
+
+    const folders = getFolders(views_src_path);
+    if (folders.length === 0) return done(); // nothing to do!
+
+    const tasks = folders.map(function (folder) {
+        const css_task = merge(
+            ['light', 'dark'].map(function (theme) {
+                return gulp
+                    .src(path.join(views_src_path, folder, `/view-${folder}.scss`))
+                    .pipe(injectStr.prepend(`$theme: "${theme}";\n`))
+                    .pipe(sass().on('error', sass.logError))
+                    .pipe(rename(`view-${theme}.css`))
+                    .pipe(gulp.dest(`build/tmp/views/${folder}`));
+            }),
+        );
+
+        const js_task = gulp
+            .src(path.join(views_src_path, folder, `/view-${folder}.js`))
+            .pipe(
+                preprocess({
+                    context: {
+                        app_prefix: config.app_prefix,
+                        cdn_prefix: config.cdn_prefix,
+                        api_prefix: config.api_prefix,
+                        target: config.target,
+                    },
+                    includeBase: path.join(views_src_path, folder),
+                }),
+            )
+            .pipe(rename('view.js'))
+            .pipe(gulp.dest(`build/tmp/views/${folder}`));
+
+        const html_task = gulp
+            .src(path.join(views_src_path, folder, `/view-${folder}.inc`))
+            .pipe(
+                preprocess({
+                    context: {
+                        app_prefix: config.app_prefix,
+                        cdn_prefix: config.cdn_prefix,
+                        api_prefix: config.api_prefix,
+                        target: config.target,
+                    },
+                    includeBase: path.join(views_src_path, folder),
+                }),
+            )
+            .pipe(htmlmin(htmlmin_options))
+            .pipe(gulp.dest(`build/tmp/views/${folder}`));
 
         return merge(css_task, js_task, html_task);
     });
@@ -236,200 +270,261 @@ gulp.task('views', function(done) {
     return merge(tasks);
 });
 
-
 // --- Build pages sources ---
-gulp.task('pages_src', function(done) {
-    var views_build_path = 'build/tmp/views';
-    
-    var folders = getFolders(views_build_path);
+gulp.task('pages_src', function (done) {
+    const views_build_path = 'build/tmp/views';
+
+    const folders = getFolders(views_build_path);
     if (folders.length === 0) return done(); // nothing to do!
 
-    var tasks = folders.map(function(folder) {
-        var view_css = merge(["light", "dark"].map(function(theme) {
-            // Extract used spectre classes for this view and merge with core & view css
-            var view_css_core = gulp.src('build/tmp/spectre-all-purged-' + theme + '.css')
-                                    .pipe(concat('view-spectre-used.css'))
-                                    .pipe(purgecss({
-                                        content: ['src/index.html', 'src/views/' + folder + '/*.inc']
-                                    }))
-                                    .pipe(addsrc([path.join(views_build_path, folder, 'view-' + theme + '.css'),
-                                                  'build/tmp/main-' + theme + '.css']))
-                                    .pipe(concat('view-core-merged-' + theme + '.css'))
-                                    .pipe(csso())
-                                    .pipe(rename('view-core-merged-' + theme + '.min.css'))
-                                    .pipe(gulp.dest('build/tmp/views/' + folder));
-            
-            // Merge remaining views css (TODO: include spectre somewhere else?)
-            var view_css_rest = gulp.src(['build/tmp/views/*/view-' + theme + '.css',
-                                          'build/tmp/spectre-all-purged-' + theme + '.css'],
-                                         { ignore: path.join(views_build_path, folder, 'view-' + theme + '.css') })
-                                    .pipe(concat('view-rest-merged-' + theme + '.css'))
-                                    .pipe(gulp.dest('build/tmp/views/' + folder));
-            return merge(view_css_core, view_css_rest);
-        }));
+    const tasks = folders.map(function (folder) {
+        const view_css = merge(
+            ['light', 'dark'].map(function (theme) {
+                // Extract used spectre classes for this view and merge with core & view css
+                const view_css_core = gulp
+                    .src(`build/tmp/spectre-all-purged-${theme}.css`)
+                    .pipe(concat('view-spectre-used.css'))
+                    .pipe(
+                        purgecss({
+                            content: ['src/index.html', `src/views/${folder}/*.inc`],
+                        }),
+                    )
+                    .pipe(
+                        addsrc([
+                            path.join(views_build_path, folder, `view-${theme}.css`),
+                            `build/tmp/main-${theme}.css`,
+                        ]),
+                    )
+                    .pipe(concat(`view-core-merged-${theme}.css`))
+                    .pipe(csso())
+                    .pipe(rename(`view-core-merged-${theme}.min.css`))
+                    .pipe(gulp.dest(`build/tmp/views/${folder}`));
 
+                // Merge remaining views css (TODO: include spectre somewhere else?)
+                const view_css_rest = gulp
+                    .src(
+                        [
+                            `build/tmp/views/*/view-${theme}.css`,
+                            `build/tmp/spectre-all-purged-${theme}.css`,
+                        ],
+                        { ignore: path.join(views_build_path, folder, `view-${theme}.css`) },
+                    )
+                    .pipe(concat(`view-rest-merged-${theme}.css`))
+                    .pipe(gulp.dest(`build/tmp/views/${folder}`));
+                return merge(view_css_core, view_css_rest);
+            }),
+        );
 
-        var view_js = gulp.src(path.join(views_build_path, folder, 'view.js'))
-                          .pipe(injectHtml())
-                          .pipe(rename('view-inlined.js'))
-                          .pipe(gulp.dest('build/tmp/views/' + folder))
-        
+        const view_js = gulp
+            .src(path.join(views_build_path, folder, 'view.js'))
+            .pipe(injectHtml())
+            .pipe(rename('view-inlined.js'))
+            .pipe(gulp.dest(`build/tmp/views/${folder}`));
+
         return merge(view_css, view_js);
     });
 
     return merge(tasks);
 });
 
-
 // --- Build pages output ---
-gulp.task('pages_out', function(done) {
-    var views_build_path = 'build/tmp/views';
-    
-    var folders = getFolders(views_build_path);
+gulp.task('pages_out', function (done) {
+    const views_build_path = 'build/tmp/views';
+
+    const folders = getFolders(views_build_path);
     if (folders.length === 0) return done(); // nothing to do!
 
-    var tasks = folders.map(function(folder) {
-        var themed_tasks = merge(["light", "dark"].map(function(theme) {
-            var view_html = gulp.src('src/index.html')
-                                .pipe(rename('index-view-' + folder + '-' + theme + '.html'))
-                                .pipe(i18n(i18n_options))
-                                .pipe(preprocess({
-                                    context: {
-                                        view: folder,
-                                        theme: theme,
-                                        app_prefix: config.app_prefix,
-                                        cdn_prefix: config.cdn_prefix,
-                                        api_prefix: config.api_prefix,
-                                        target: config.target
-                                    },
-                                    includeBase: path.join(views_build_path, folder)
-                                }))
-                                .pipe(inject(
-                                    gulp.src(path.join(views_build_path,
-                                                       folder,
-                                                       'view-core-merged-' + theme + '.min.css')),
-                                    {
-                                        starttag: '<!-- inject:core:{{ext}} -->',
-                                        transform: function (filePath, file) {
-                                            return file.contents.toString('utf8')
-                                        },
-                                        quiet: true,
-                                        removeTags: true,
-                                    }
-                                ))
-                                .pipe(gulpif(config.target === "release", htmlmin(htmlmin_options)))
-                                .pipe(gulp.dest('build'));
-            
-            var copy_css = gulp.src(path.join(views_build_path, folder, 'view-rest-merged-' + theme + '.css'))
-                                   .pipe(csso())
-                                   .pipe(rename('view-' + folder + '-rest-' + theme + '.min.css'))
-                                   .pipe(gulp.dest('build/css'));
+    const tasks = folders.map(function (folder) {
+        const themed_tasks = merge(
+            ['light', 'dark'].map(function (theme) {
+                const view_html = gulp
+                    .src('src/index.html')
+                    .pipe(rename(`index-view-${folder}-${theme}.html`))
+                    .pipe(i18n(i18n_options))
+                    .pipe(
+                        preprocess({
+                            context: {
+                                view: folder,
+                                theme,
+                                app_prefix: config.app_prefix,
+                                cdn_prefix: config.cdn_prefix,
+                                api_prefix: config.api_prefix,
+                                target: config.target,
+                            },
+                            includeBase: path.join(views_build_path, folder),
+                        }),
+                    )
+                    .pipe(
+                        inject(
+                            gulp.src(
+                                path.join(
+                                    views_build_path,
+                                    folder,
+                                    `view-core-merged-${theme}.min.css`,
+                                ),
+                            ),
+                            {
+                                starttag: '<!-- inject:core:{{ext}} -->',
+                                transform(filePath, file) {
+                                    return file.contents.toString('utf8');
+                                },
+                                quiet: true,
+                                removeTags: true,
+                            },
+                        ),
+                    )
+                    .pipe(gulpif(config.target === 'release', htmlmin(htmlmin_options)))
+                    .pipe(gulp.dest('build'));
 
-            return merge(view_html, copy_css);
-        }));
-        
-        var copy_js_core = gulp.src(['build/js/app-core.js',
-                                     path.join(views_build_path, folder, 'view-inlined.js')])
-                               .pipe(concat('app-core-for-view-' + folder + '.js'))
-                               .pipe(i18n(i18n_options))
-                               .pipe(babel({
-                                    presets: [[
-                                        "@babel/preset-env",
-                                        {
-                                            targets: babel_targets,
-                                            "useBuiltIns": false,
-                                        }
-                                    ]],
-                               }))
-                               .pipe(gulpif(config.target === "release", uglify()))
-                               .pipe(gulpif(config.target === "release", rename(path => {
-                                   path.extname = ".min.js"
-                               })))
-                               .pipe(gulp.dest('build/js'));
-        
-        var copy_js_rest = gulp.src(['build/js/app-rest.js',
-                                     'build/tmp/views/*/view-inlined.js'],
-                                    { ignore: path.join(views_build_path, folder, 'view-inlined.js') })
-                               .pipe(concat('app-rest-for-view-' + folder + '.js'))
-                               .pipe(i18n(i18n_options))
-                               .pipe(babel())
-                               .pipe(gulpif(config.target === "release", uglify()))
-                               .pipe(gulpif(config.target === "release", rename(path => {
-                                   path.extname = ".min.js"
-                               })))
-                               .pipe(gulp.dest('build/js'));
-        
+                const copy_css = gulp
+                    .src(path.join(views_build_path, folder, `view-rest-merged-${theme}.css`))
+                    .pipe(csso())
+                    .pipe(rename(`view-${folder}-rest-${theme}.min.css`))
+                    .pipe(gulp.dest('build/css'));
+
+                return merge(view_html, copy_css);
+            }),
+        );
+
+        const copy_js_core = gulp
+            .src(['build/js/app-core.js', path.join(views_build_path, folder, 'view-inlined.js')])
+            .pipe(concat(`app-core-for-view-${folder}.js`))
+            .pipe(i18n(i18n_options))
+            .pipe(
+                babel({
+                    presets: [
+                        [
+                            '@babel/preset-env',
+                            {
+                                targets: babel_targets,
+                                useBuiltIns: false,
+                            },
+                        ],
+                    ],
+                }),
+            )
+            .pipe(gulpif(config.target === 'release', uglify()))
+            .pipe(
+                gulpif(
+                    config.target === 'release',
+                    rename((path) => {
+                        path.extname = '.min.js';
+                    }),
+                ),
+            )
+            .pipe(gulp.dest('build/js'));
+
+        const copy_js_rest = gulp
+            .src(['build/js/app-rest.js', 'build/tmp/views/*/view-inlined.js'], {
+                ignore: path.join(views_build_path, folder, 'view-inlined.js'),
+            })
+            .pipe(concat(`app-rest-for-view-${folder}.js`))
+            .pipe(i18n(i18n_options))
+            .pipe(babel())
+            .pipe(gulpif(config.target === 'release', uglify()))
+            .pipe(
+                gulpif(
+                    config.target === 'release',
+                    rename((path) => {
+                        path.extname = '.min.js';
+                    }),
+                ),
+            )
+            .pipe(gulp.dest('build/js'));
+
         return merge(themed_tasks, copy_js_core, copy_js_rest);
     });
 
     return merge(tasks);
 });
 
-
 // --- Legacy JS Pipeline ---
 function build_webp_polyfills() {
-    return gulp.src(['node_modules/webp-hero/dist-cjs/polyfills.js', 'node_modules/webp-hero/dist-cjs/webp-hero.bundle.js'])
-               .pipe(concat('webp-hero.min.js'))
-               .pipe(gulp.dest('build/js'))
+    return gulp
+        .src([
+            'node_modules/webp-hero/dist-cjs/polyfills.js',
+            'node_modules/webp-hero/dist-cjs/webp-hero.bundle.js',
+        ])
+        .pipe(concat('webp-hero.min.js'))
+        .pipe(gulp.dest('build/js'));
 }
 
 function extract_polyfills() {
-    return gulp.src(['src/legacy.js', 'build/js/app-core.js', 'build/js/app-rest.js'])
-        .pipe(preprocess({
-             context: {
-                 app_prefix: config.app_prefix,
-                 cdn_prefix: config.cdn_prefix,
-                 api_prefix: config.api_prefix,
-                 target: config.target
-             },
-             includeBase: 'src/js'
-         }))
-         .pipe(concat('tmp-merged.js'))
-         .pipe(babel({
-              presets: [[
-                  "@babel/preset-env",
-                  {
-                      targets: babel_targets,
-                      "useBuiltIns": "usage",
-                      "corejs": "3.8"
-                  }
-              ]],
-              sourceType: "module"
-          }))
-         .pipe(splitFiles())
-         .pipe(first())
-         // Add custom polyfills for missing browser (not ES) features
-         .pipe(addsrc('node_modules/whatwg-fetch/dist/fetch.umd.js'))
-         .pipe(concat('polyfills.js'))
-         .pipe(gulp.dest('build/tmp'));
+    return (
+        gulp
+            .src(['src/legacy.js', 'build/js/app-core.js', 'build/js/app-rest.js'])
+            .pipe(
+                preprocess({
+                    context: {
+                        app_prefix: config.app_prefix,
+                        cdn_prefix: config.cdn_prefix,
+                        api_prefix: config.api_prefix,
+                        target: config.target,
+                    },
+                    includeBase: 'src/js',
+                }),
+            )
+            .pipe(concat('tmp-merged.js'))
+            .pipe(
+                babel({
+                    presets: [
+                        [
+                            '@babel/preset-env',
+                            {
+                                targets: babel_targets,
+                                useBuiltIns: 'usage',
+                                corejs: '3.8',
+                            },
+                        ],
+                    ],
+                    sourceType: 'module',
+                }),
+            )
+            .pipe(splitFiles())
+            .pipe(first())
+            // Add custom polyfills for missing browser (not ES) features
+            .pipe(addsrc('node_modules/whatwg-fetch/dist/fetch.umd.js'))
+            .pipe(concat('polyfills.js'))
+            .pipe(gulp.dest('build/tmp'))
+    );
 }
 
 function insert_polyfills() {
-    var bundleStream = browserify('./build/tmp/polyfills.js').bundle()
+    const bundleStream = browserify('./build/tmp/polyfills.js').bundle();
 
-    return bundleStream
-        .pipe(source('polyfills.js'))
-        .pipe(gulp.dest('build/tmp'))
+    return bundleStream.pipe(source('polyfills.js')).pipe(gulp.dest('build/tmp'));
 }
 
 function minify_polyfills() {
-    return gulp.src(['build/tmp/polyfills.js'])
-       .pipe(gulpif(config.target === "release", uglify()))
-       .pipe(gulpif(config.target === "release", rename(path => {
-           path.extname = ".min.js"
-       })))
-        .pipe(gulp.dest('build/js'))
+    return gulp
+        .src(['build/tmp/polyfills.js'])
+        .pipe(gulpif(config.target === 'release', uglify()))
+        .pipe(
+            gulpif(
+                config.target === 'release',
+                rename((path) => {
+                    path.extname = '.min.js';
+                }),
+            ),
+        )
+        .pipe(gulp.dest('build/js'));
 }
 
-gulp.task('legacy_js', gulp.parallel(build_webp_polyfills, gulp.series(extract_polyfills, insert_polyfills, minify_polyfills)));
+gulp.task(
+    'legacy_js',
+    gulp.parallel(
+        build_webp_polyfills,
+        gulp.series(extract_polyfills, insert_polyfills, minify_polyfills),
+    ),
+);
 
 // --- I18n Pipeline ---
 function i18n_compile_langfiles() {
-    return gulp.src(['src/i18n.yaml',
-                     'src/views/*/i18n-*.yaml'])
-               .pipe(yaml())
-               .pipe(i18nCompile("[locale]/_.json", {localePlaceholder: "[locale]"}))
-               .pipe(gulp.dest('build/tmp/locale'))
+    return gulp
+        .src(['src/i18n.yaml', 'src/views/*/i18n-*.yaml'])
+        .pipe(yaml())
+        .pipe(i18nCompile('[locale]/_.json', { localePlaceholder: '[locale]' }))
+        .pipe(gulp.dest('build/tmp/locale'));
 }
 
 // --- Markdown Pipeline ---
@@ -438,125 +533,143 @@ const renderer = {
         return `<pre class="code" data-lang="${infostring}"><code>${code}</code></pre>`;
     },
     link(href, title, text) {
-        if (href.startsWith('http'))
-            return `<a href="${href}" target="_blank">${text}</a>`;
-        else
-            return `<router-link to="${href}">${text}</router-link>`;
+        if (href.startsWith('http')) return `<a href="${href}" target="_blank">${text}</a>`;
+        return `<router-link to="${href}">${text}</router-link>`;
     },
 };
 marked.use({ renderer });
 
 function compile_markdown() {
-    return gulp.src('src/md/*.md')
-               .pipe(markdown({
-                   headerPrefix: 'md-',
-               }))
-               .pipe(gulp.dest('build/pages'))
+    return gulp
+        .src('src/md/*.md')
+        .pipe(
+            markdown({
+                headerPrefix: 'md-',
+            }),
+        )
+        .pipe(gulp.dest('build/pages'));
 }
 gulp.task('markdown', compile_markdown);
 
 // --- Asset Pipeline ---
 function copy_assets() {
-    return gulp.src('src/assets/**')
-               .pipe(gulp.dest('build/assets'))
+    return gulp.src('src/assets/**').pipe(gulp.dest('build/assets'));
 }
 gulp.task('assets', copy_assets);
 
 // --- Revisioning Pipeline ---
 function revision_assets(done) {
-    if (config.target !== "release")
-        return done();
-    return gulp.src(['build/index-*.html', 'build/js/*.js', 'build/assets/*'])
-               .pipe(revAll.revision({
-                   // Currently .js only, because important css is inlined, and postloaded
-                   // css is deferred using preload, which revAll currently doesn't detect
-                   includeFilesInManifest: [".js", ".webp", ".svg", ".png", ".ico"],
-                   dontRenameFile: [".html"],
-                   transformFilename: function (file, hash) {
-                       var ext = path.extname(file.path);
-                       return "cache_" + hash.substr(0, 8) + "." + path.basename(file.path, ext) + ext;
-                   },
-               }))
-               .pipe(gulp.dest('build'))
+    if (config.target !== 'release') return done();
+    return gulp
+        .src(['build/index-*.html', 'build/js/*.js', 'build/assets/*'])
+        .pipe(
+            revAll.revision({
+                // Currently .js only, because important css is inlined, and postloaded
+                // css is deferred using preload, which revAll currently doesn't detect
+                includeFilesInManifest: ['.js', '.webp', '.svg', '.png', '.ico'],
+                dontRenameFile: ['.html'],
+                transformFilename(file, hash) {
+                    const ext = path.extname(file.path);
+                    return `cache_${hash.substr(0, 8)}.${path.basename(file.path, ext)}${ext}`;
+                },
+            }),
+        )
+        .pipe(gulp.dest('build'));
 }
 gulp.task('revision_assets', revision_assets);
 
 // --- Sitemap Pipeline ---
 function generate_sitemap() {
-    return gulp.src(['src/md/*.md', 'src/index.html'], { read: false })
-               .pipe(rename(path => {
-                   if (path.extname === '.md') {
-                       path.dirname = 'about';
-                       path.extname = '';
-                   } else {
-                       path.dirname = '';
-                   }
-               }))
-               .pipe(sitemap({
-                   siteUrl: 'https://nav.tum.sexy/',
-                   fileName: 'sitemap-webclient.xml',
-                   changefreq: 'monthly',
-               }))
-               .pipe(gulp.dest('build'))
+    return gulp
+        .src(['src/md/*.md', 'src/index.html'], { read: false })
+        .pipe(
+            rename((path) => {
+                if (path.extname === '.md') {
+                    path.dirname = 'about';
+                    path.extname = '';
+                } else {
+                    path.dirname = '';
+                }
+            }),
+        )
+        .pipe(
+            sitemap({
+                siteUrl: 'https://nav.tum.sexy/',
+                fileName: 'sitemap-webclient.xml',
+                changefreq: 'monthly',
+            }),
+        )
+        .pipe(gulp.dest('build'));
 }
 gulp.task('sitemap', generate_sitemap);
 
 // --- .well-known Pipeline ---
 // see https://well-known.dev/sites/
 function copy_well_known() {
-    return gulp.src(['src/.well-known/gpc.json', // we don't sell or share data
-                     'src/.well-known/security.txt']) // security-advice
-        .pipe(gulp.dest('build/.well-known'))
+    return gulp
+        .src([
+            'src/.well-known/gpc.json', // we don't sell or share data
+            'src/.well-known/security.txt',
+        ]) // security-advice
+        .pipe(gulp.dest('build/.well-known'));
 }
 function copy_well_known_root() {
-    return gulp.src(['src/.well-known/robots.txt', // disallow potentially costly api requests
-                     'src/.well-known/googlebef9161f1176c5e0.html']) // google search console
-        .pipe(gulp.dest('build'))
+    return gulp
+        .src([
+            'src/.well-known/robots.txt', // disallow potentially costly api requests
+            'src/.well-known/googlebef9161f1176c5e0.html',
+        ]) // google search console
+        .pipe(gulp.dest('build'));
 }
 gulp.task('well_known', gulp.parallel(copy_well_known, copy_well_known_root));
 
 // --- map (currently mapbox) Pipeline ---
 function copy_map_css() {
-    let target_filename
-    if (config.target === "release")
-        target_filename =`mapbox.min.css`
-    else
-        target_filename=`mapbox.css`
-    return gulp.src(['node_modules/mapbox-gl/dist/mapbox-gl.css'])
-               .pipe(concat(target_filename))
-               .pipe(gulpif(config.target === "release", csso()))
-               .pipe(gulp.dest('build/css'))
+    let target_filename;
+    if (config.target === 'release') target_filename = `mapbox.min.css`;
+    else target_filename = `mapbox.css`;
+    return gulp
+        .src(['node_modules/mapbox-gl/dist/mapbox-gl.css'])
+        .pipe(concat(target_filename))
+        .pipe(gulpif(config.target === 'release', csso()))
+        .pipe(gulp.dest('build/css'));
 }
 function copy_map_js() {
-    let target_filename
-    if (config.target === "release")
-        target_filename =`mapbox.min.js`
-    else
-        target_filename=`mapbox.js`
-    return gulp.src(['node_modules/mapbox-gl/dist/mapbox-gl.js'])
-               .pipe(concat(target_filename))
-               .pipe(gulpif(config.target === "release", uglify()))
-               .pipe(gulp.dest('build/js'))
+    let target_filename;
+    if (config.target === 'release') target_filename = `mapbox.min.js`;
+    else target_filename = `mapbox.js`;
+    return gulp
+        .src(['node_modules/mapbox-gl/dist/mapbox-gl.js'])
+        .pipe(concat(target_filename))
+        .pipe(gulpif(config.target === 'release', uglify()))
+        .pipe(gulp.dest('build/js'));
 }
 gulp.task('map', gulp.parallel(copy_map_css, copy_map_js));
-
 
 /* === Utils === */
 
 // from https://github.com/gulpjs/gulp/blob/master/docs/recipes/running-task-steps-per-folder.md
 function getFolders(dir) {
-    return fs.readdirSync(dir)
-      .filter(function(file) {
+    return fs.readdirSync(dir).filter(function (file) {
         return fs.statSync(path.join(dir, file)).isDirectory();
-      });
+    });
 }
 
 
 const _build = gulp.series(
     clean_build,
     i18n_compile_langfiles,
-    gulp.parallel('main_css', 'main_js', 'views', 'assets', 'well_known', 'map', 'markdown', 'sitemap'),
-    gulp.series('pages_src', 'pages_out', 'legacy_js', 'revision_assets')
+    gulp.parallel(
+        'main_css',
+        'main_js',
+        'views',
+        'assets',
+        'well_known',
+        'map',
+        'markdown',
+        'sitemap',
+    ),
+    gulp.series('pages_src', 'pages_out', 'legacy_js', 'revision_assets'),
 );
 
 const build = gulp.series(done => {

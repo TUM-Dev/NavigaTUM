@@ -15,6 +15,7 @@
     /* --- Header --- */
     .header-image-mobile {
         margin: -10px -23px 10px;
+
         > img {
             min-width: 100%;
             min-height: 100px;
@@ -137,6 +138,7 @@
                 .delete .default {
                     display: inline-block;
                 }
+
                 .delete .confirm {
                     display: none;
                 }
@@ -145,9 +147,11 @@
                     animation: delay-btn .3s steps(1);
                     animation-fill-mode: both;
                 }
+
                 .delete.to-confirm .default {
                     display: none;
                 }
+
                 .delete.to-confirm .confirm {
                     display: inline-block;
                 }
@@ -186,7 +190,6 @@
             padding-bottom: 75%;  // 4:3 aspect ratio
             border: 1px solid $border-light;
             background-color: $container-loading-bg;
-
             position: relative;
         }
 
@@ -243,19 +246,25 @@
             }
         }
 
-        &.reduced > .vertical-oc, &.reduced > .horizontal-oc {
+        &.reduced > .vertical-oc,
+        &.reduced > .horizontal-oc {
             display: none !important;
         }
 
-        & > .vertical-oc, & > .horizontal-oc {
+        & > .vertical-oc,
+        & > .horizontal-oc {
             font-weight: bold;
             background: #ececec;
         }
+
         &.closed {
-            & > .vertical-oc, & > .horizontal-oc {
+            & > .vertical-oc,
+            & > .horizontal-oc {
                 background: #fff;
             }
-            &:hover > .vertical-oc, &:hover > .horizontal-oc {
+
+            &:hover > .vertical-oc,
+            &:hover > .horizontal-oc {
                 background: #f2f2f2;
             }
         }
@@ -269,6 +278,7 @@
             & > .horizontal-oc {
                 display: inline-block;
             }
+
             & > .vertical-oc {
                 display: none;
             }
@@ -319,21 +329,26 @@
             font-size: 10px;
         }
     }
+
     #roomfinder-map-cross {
         position: absolute;
         transition: transform .3s;
         pointer-events: none;
     }
+
     #roomfinder-map-img {
         width: 100%;
         display: block;
     }
+
     #roomfinder-map-select > label {
         padding: 0.05rem 0.3rem;
     }
 
     .accordion-body {
-        ul, button, li {
+        ul,
+        button,
+        li {
             font-size: 12px;
         }
 
@@ -344,9 +359,9 @@
 
     /* --- Information Section (mobile) --- */
     .mobile-info-section {
-            margin-top: 15px;
+        margin-top: 15px;
 
-            & > .info-table {
+        & > .info-table {
             margin-top: 16px;
         }
     }
@@ -355,6 +370,7 @@
     .card-body .toast {
         margin-top: 12px;
     }
+
     #map-container .toast {  // Mobile
         margin-bottom: 9px;
         font-size: .7rem;
@@ -412,9 +428,10 @@
     .menu {
         padding: 0;
         box-shadow: none;
+
         .menu-item button {
-            text-align: left!important;
-            border: 0 transparent!important;
+            text-align: left !important;
+            border: 0 transparent !important;
             width: 100%;
         }
 
@@ -435,22 +452,26 @@
             }
         }
 
-        .menu-item button  {
-            display:flex;
-            flex-direction:row;
+        .menu-item button {
+            display: flex;
+            flex-direction: row;
             box-sizing: border-box;
             width: 100%;
-            .menu-text{
+
+            .menu-text {
                 flex-grow: 1;
                 flex-shrink: 1;
                 text-overflow: ellipsis;
                 overflow: hidden;
             }
-            .icon,label{
+
+            .icon,
+            label {
                 flex-grow: 0;
                 flex-shrink: 0;
             }
-            .icon{
+
+            .icon {
                 top: 5px;
             }
         }
@@ -471,18 +492,20 @@
             color: $text-gray;
         }
     }
+
     #rooms-overview-select .panel-body {
         max-height: 500px + 8px;
     }
+
     #rooms-overview-list .panel-body {
         max-height: 500px;
     }
-    
+
     #entry-sources {
         h2 {
             margin-bottom: 16px;
         }
-        
+
         p {
             margin-bottom: 6px;
         }
@@ -495,9 +518,11 @@
         .text-md-right {
             text-align: right !important;
         }
+
         .text-md-center {
             text-align: center !important;
         }
+
         .mt-md-3 {
             margin-top: 1rem !important;
         }
@@ -505,7 +530,7 @@
 }
 
 // 'sm' (mobile)
-@media (max-width:600px) {
+@media (max-width: 600px) {
     #view-view {
         // The mapbox logo is taking away space from the layer
         // selection on the bottom left on mobile, so we move
@@ -519,18 +544,19 @@
         #rooms-overview-select .panel-body {
             max-height: 260px;
         }
+
         #rooms-overview-list .panel-body {
             max-height: 275px;
         }
     }
 }
 
-
 @keyframes delay-btn {
     from {
         pointer-events: none;
         color: $text-gray;
     }
+
     to {
         pointer-events: all;
         color: $error-color;

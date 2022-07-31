@@ -6,55 +6,57 @@ meta:
     de: "Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden."
     en: "Navigate around TUM with excellence. This is a website to find rooms, buildings and other places at TUM easier than the current RoomFinder, developed by students."
 search:
-  placeholder: {de: "Suche", en: "Search"}
-  aria-searchlabel: {de: "Suchfeld", en: "Search-field"}
-  aria-actionlabel: {de: "Suche nach dem im Suchfeld eingetragenen Raum", en: "Search for the room-query entered in the search field"}
-  action: {de: "Go", en: "Go"}
-  hidden: {de: "ausgeblendet", en: "hidden"}
-  result: {de: "Ergebnis", en: "result"}
-  results: {de: "Ergebnisse", en: "results"}
-  approx: {de: "ca.", en: "approx."}
+  placeholder: { de: "Suche", en: "Search" }
+  aria-searchlabel: { de: "Suchfeld", en: "Search-field" }
+  aria-actionlabel:
+    de: "Suche nach dem im Suchfeld eingetragenen Raum"
+    en: "Search for the room-query entered in the search field"
+  action: { de: "Go", en: "Go" }
+  hidden: { de: "ausgeblendet", en: "hidden" }
+  result: { de: "Ergebnis", en: "result" }
+  results: { de: "Ergebnisse", en: "results" }
+  approx: { de: "ca.", en: "approx." }
   sections:
-    buildings: {de: "Gebäude / Standorte", en: "Buildings / Sites"}
-    of_which_visible: {de: "davon sichtbar", en: "of them visible"}
-    rooms: {de: "Räume", en: "Rooms"}
-    and: {de: "und", en: "and"}
-    were_found: {de: "wurden gefunden.", en: "were found."}
+    buildings: { de: "Gebäude / Standorte", en: "Buildings / Sites" }
+    of_which_visible: { de: "davon sichtbar", en: "of them visible" }
+    rooms: { de: "Räume", en: "Rooms" }
+    and: { de: "und", en: "and" }
+    were_found: { de: "wurden gefunden.", en: "were found." }
     no_buildings_rooms_found:
       de: "Keine Gebäude / Standorte oder Räume konnten gefunden werden."
       en: "No buildings / locations or rooms could be found."
 footer:
   sourcecode:
-    text: {de: "Source Code", en: "Source Code"}
+    text: { de: "Source Code", en: "Source Code" }
   privacy:
-    text: {de: "Datenschutz", en: "Privacy"}
-    link: {de: "datenschutz", en: "privacy"}
+    text: { de: "Datenschutz", en: "Privacy" }
+    link: { de: "datenschutz", en: "privacy" }
   imprint:
-    text: {de: "Impressum", en: "Imprint"}
-    link: {de: "impressum", en: "impressum"}
+    text: { de: "Impressum", en: "Imprint" }
+    link: { de: "impressum", en: "impressum" }
   about:
-    text: {de: "Über uns", en: "About us"}
-    link: {de: "ueber-uns", en: "about-us"}
+    text: { de: "Über uns", en: "About us" }
+    link: { de: "ueber-uns", en: "about-us" }
   feedback:
-    text: {de: "Feedback senden", en: "Feedback"}
+    text: { de: "Feedback senden", en: "Feedback" }
   api:
-    text: {de: "API", en: "API"}
-    link: {de: "api", en: "api"}
-  language: {de: "Sprache", en: "Language"}
-  theme: {de: "Theme", en: "Theme"}
-  theme_light: {de: "hell", en: "light"}
-  theme_dark: {de: "dunkel", en: "dark"}
+    text: { de: "API", en: "API" }
+    link: { de: "api", en: "api" }
+  language: { de: "Sprache", en: "Language" }
+  theme: { de: "Theme", en: "Theme" }
+  theme_light: { de: "hell", en: "light" }
+  theme_dark: { de: "dunkel", en: "dark" }
 feedback:
-  title: {de: "Feedback senden", en: "Send Feedback"}
-  subject: {de: "Betreff", en: "Subject"}
-  category: {de: "Feedback-Kategorie", en: "Feedback category"}
+  title: { de: "Feedback senden", en: "Send Feedback" }
+  subject: { de: "Betreff", en: "Subject" }
+  category: { de: "Feedback-Kategorie", en: "Feedback category" }
   type:
-    general: {de: "Allgemein", en: "General"}
-    bug: {de: "Fehler", en: "Bug"}
-    features: {de: "Features", en: "Features"}
-    search: {de: "Suche", en: "Search"}
-    entry: {de: "Eintrag", en: "Entry"}
-  mail: {de: "E-Mail (optional)", en: "E-Mail (optional)"}
+    general: { de: "Allgemein", en: "General" }
+    bug: { de: "Fehler", en: "Bug" }
+    features: { de: "Features", en: "Features" }
+    search: { de: "Suche", en: "Search" }
+    entry: { de: "Eintrag", en: "Entry" }
+  mail: { de: "E-Mail (optional)", en: "E-Mail (optional)" }
   helptext:
     general:
       de: "Generelles Feedback über diese Website"
@@ -75,7 +77,7 @@ feedback:
     helptext:
       de: "Falls du mehrere Koordinaten gleichzeitig korrigieren willst, kannst du dieses Fenster schließen und weitere Koordinaten editieren. Wir speichern deine Veränderungen für 12 Stunden bei dir lokal. <br> Achtung, das gilt nur für Koordinaten!"
       en: "If you want to correct several coordinates at the same time, you can close this window and edit more coordinates. <br> We will save your changes locally for 12 hours. <br> Warning, that's only valid for coordinates!"
-    title: {de: "Koordinate auswählen", en: "Select coordinate"}
+    title: { de: "Koordinate auswählen", en: "Select coordinate" }
     edit_coordinate_subject:
       de: "Koordinate bearbeiten"
       en: "Edit coordinate"
@@ -91,15 +93,15 @@ feedback:
     correct_coordinate:
       de: "Hallo, ich möchte diese Koordinate im Roomfinder korrigieren:"
       en: "Hello, I would like to correct this coordinate in the roomfinder:"
-  message: {de: "Nachricht", en: "Message"}
+  message: { de: "Nachricht", en: "Message" }
   public:
     de: "Meine Feedback Daten dürfen anonym, aber öffentlich zugänglich auf der <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub Projektseite</a> gespeichert werden. Mit der Nutzung dieses Feedbackformulars stimmst du explizit den <a href='https://docs.github.com/en/github/site-policy' target='_blank'>Nutzungsbedingungen und Datenschutzbestimmungen von GitHub</a> sowie einer möglichen Übertragung der Daten außerhalb der Europäischen Union zu. Falls du dies ablehnst, schreibe uns bitte über app@tum.de, oder einem der anderen in unserem  <a href='/about/impressum' target='_blank'>Impressum</a> gelisteten Kontaktmöglichkeiten."
     en: "My feedback data may to be published anonymously, but publicly accessible on the <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub project page</a>. By using this feedback form, you explicitly agree to <a href='https://docs.github.com/en/github/site-policy' target='_blank'>GitHub's Terms of Service and Privacy Policy</a> and a possible transfer of your data outside of the European Union. If you do not consent to this, please write us at app@tum.de, or use one of the other contact options listed in our <a href='/about/impressum' target='_blank'>imprint</a>."
   delete:
     de: "Das zugehörige GitHub Issue löschen, sobald es gelöst wurde."
     en: "Delete this GitHub issue when resolved."
-  send: {de: "Senden", en: "Send"}
-  cancel: {de: "Abbrechen", en: "Cancel"}
+  send: { de: "Senden", en: "Send" }
+  cancel: { de: "Abbrechen", en: "Cancel" }
   success:
     thank_you:
       de: "Vielen Dank für dein Feedback! Wir werden es schnellstmöglich bearbeiten."

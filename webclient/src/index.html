@@ -424,10 +424,10 @@
                 window.feedback.open_form(category, subject, body);
                 window.feedback.update_feedback_form(category);
             } else {
-                window.feedback_preload = {category: category, subject: subject, body: body};
-                var s = document.createElement("script");
-                s.type = "text/javascript";
-                    s.src = "<!-- @echo app_prefix -->js/feedback-${{_lang_}}$.min.js";
+                window.feedback_preload = { category: category, subject: subject, body: body };
+                var s = document.createElement('script');
+                s.type = 'text/javascript';
+                s.src = '<!-- @echo app_prefix -->js/feedback-${{_lang_}}$.min.js';
                 document.head.appendChild(s);
             }
         }
@@ -439,9 +439,11 @@
     <!-- Post-load uncritital CSS if browser does not support preload -->
     <script>
         // c.f. https://github.com/w3c/preload/issues/7#issuecomment-566791118
-        var relList = document.createElement('link').relList;
-        if (!(relList && relList.supports && relList.supports('preload'))) {
-            document.write('<link rel="stylesheet" href="<!-- @echo app_prefix -->css/view-<!-- @echo view -->-rest-<!-- @echo theme -->.min.css" />');
+        const linkRelList = document.createElement('link').relList;
+        if (!(linkRelList && linkRelList.supports && linkRelList.supports('preload'))) {
+            const cssUrl =
+        '<!-- @echo app_prefix -->css/view-<!-- @echo view -->-rest-<!-- @echo theme -->.min.css';
+            document.write(`<link rel="stylesheet" href="${cssUrl}" />`);
         }
     </script>
   </body>

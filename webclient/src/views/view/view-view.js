@@ -594,4 +594,3 @@ navigatum.registerView('view', {
         })
     }
 })
-

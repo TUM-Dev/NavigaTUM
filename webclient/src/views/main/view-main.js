@@ -6,28 +6,26 @@ navigatum.registerView('main', {
     template: { gulp_inject: 'view-main.inc' },
     data: function() {
         return {
-            root_data: null
-        }
+            root_data: null,
+        };
     },
-    beforeRouteEnter: function (to, from, next) {
-        navigatum.getExtendedData('root')
-            .then(data => next(vm => vm.setData(data)));
+    beforeRouteEnter: function(to, from, next) {
+        navigatum.getExtendedData('root').then((data) => next((vm) => vm.setData(data)));
     },
-    beforeRouteUpdate: function (to, from, next) {
+    beforeRouteUpdate: function(to, from, next) {
         // beforeRouteUpdate not used for now since data rarely changes
-        next()
+        next();
     },
     methods: {
-        setData: function (data) {
+        setData: function(data) {
             this.root_data = data;
-            if (data !== null)
-                navigatum.setTitle(data.name);
+            if (data !== null) navigatum.setTitle(data.name);
         },
-        more: function (id) {
-            document.getElementById('panel-' + id).classList.add('open');
+        more: function(id) {
+            document.getElementById(`panel-${id}`).classList.add('open');
         },
-        less: function (id) {
-            document.getElementById('panel-' + id).classList.remove('open');
+        less: function(id) {
+            document.getElementById(`panel-${id}`).classList.remove('open');
         },
-    }
-})
+    },
+});
