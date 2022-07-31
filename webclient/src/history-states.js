@@ -45,11 +45,8 @@
     if (data == null) data = {};
     if (typeof data !== "object") data = { data: data };
     data[stateIndexSymbol] = window.history.stateIndex + 1;
-    window.history.states.splice(
-      window.history.stateIndex + 1,
-      0,
-      [data, title, url]
-    );
+    const addedState = [data, title, url];
+    window.history.states.splice(window.history.stateIndex + 1, 0, addedState);
     window.history.states.splice(window.history.stateIndex + 2);
     window.history.stateIndex += 1;
   }
