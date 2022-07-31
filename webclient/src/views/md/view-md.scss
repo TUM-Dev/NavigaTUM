@@ -1,4 +1,4 @@
-@import "src/variables.scss";
+@import "src/variables";
 
 #view-md {
     padding-top: 15px;
@@ -6,11 +6,14 @@
     h1 {
         font-size: 1.8rem;
     }
+
     h2 {
         font-size: 1.5rem;
     }
 
-    h1, h2, h3 {
+    h1,
+    h2,
+    h3 {
         font-weight: 500;
     }
 

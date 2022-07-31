@@ -1,5 +1,5 @@
 view_main:
-  sites: {de: "Standorte", en: "Sites"}
-  overview_map: {de: "Übersichtskarte", en: "Overview Map"}
-  more: {de: "mehr", en: "more"}
-  less: {de: "weniger", en: "less"}
+  sites: { de: "Standorte", en: "Sites" }
+  overview_map: { de: "Übersichtskarte", en: "Overview Map" }
+  more: { de: "mehr", en: "more" }
+  less: { de: "weniger", en: "less" }
