@@ -24,25 +24,13 @@ navigatum.registerModule(
         const entries = [];
 
         section.entries.forEach((entry) => {
-          // Search uses DC3 and DC1 to mark the beginning/end
-          // of a highlighted sequence:
-          // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets
-          const name = new Option(entry.name).innerHTML
-            .replaceAll("\x19", "<em>")
-            .replaceAll("\x17", "</em>");
-          const parsedId = new Option(entry.parsed_id).innerHTML
-            .replaceAll("\x19", "<em>")
-            .replaceAll("\x17", "</em>");
-          const subtextBold = new Option(entry.subtext_bold).innerHTML
-            .replaceAll("\x19", "<em>")
-            .replaceAll("\x17", "</em>");
           entries.push({
             id: entry.id,
-            name: name,
+            name: entry.name,
             type: entry.type,
             subtext: entry.subtext,
-            subtext_bold: subtextBold,
-            parsed_id: parsedId,
+            subtext_bold: entry.subtext_bold,
+            parsed_id: entry.parsed_id,
           });
         });
 

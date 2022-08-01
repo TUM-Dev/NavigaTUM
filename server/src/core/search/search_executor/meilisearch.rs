@@ -6,10 +6,11 @@ use serde_json::Result;
 use std::collections::HashMap;
 
 // Input into MeiliSearch
-pub(super) struct MSSearchArgs<'a> {
-    pub(super) q: &'a str,
+pub(super) struct MSSearchArgs {
+    pub(super) q: String,
     pub(super) filter: Option<MSSearchFilter>,
     pub(super) limit: usize,
+    pub(super) highlighting: (String, String),
 }
 
 #[derive(Debug)]
@@ -23,7 +24,13 @@ struct MSQuery<'a> {
     #[serde(skip_serializing_if = "Option::is_none")]
     filter: Option<Vec<Vec<String>>>,
     limit: usize,
-    facets: Vec<String>,
+    facets: Vec<&'a str>,
+    #[serde(rename = "highlightPreTag")]
+    highlight_pre_tag: &'a str,
+    #[serde(rename = "highlightPostTag")]
+    highlight_post_tag: &'a str,
+    #[serde(rename = "attributesToHighlight")]
+    attributes_to_highlight: Vec<&'a str>,
 }
 
 /// Result format of MeiliSearch.
@@ -47,7 +54,8 @@ pub(super) struct MSFacetDistribution {
 pub(super) struct MSHit {
     ms_id: String,
     pub(super) id: String,
-    pub(super) name: String,
+    #[serde(rename = "name")]
+    pub(super) unformatted_name: String,
     pub(super) arch_name: Option<String>,
     pub(super) r#type: String,
     pub(super) type_common_name: String,
@@ -56,11 +64,19 @@ pub(super) struct MSHit {
     address: Option<String>,
     usage: Option<String>,
     rank: i32,
+    pub(crate) _formatted: FormattedMSHit,
 }
 
-pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs<'_>) -> Result<MSResults> {
+#[derive(Deserialize, Clone)]
+#[allow(dead_code)]
+pub(super) struct FormattedMSHit {
+    // This contains all the atributes of MSHit, but formatted by MS. We only need some, so only some are listed here.
+    pub(super) name: String,
+}
+
+pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs) -> Result<MSResults> {
     let post_data = MSQuery {
-        q: args.q,
+        q: &args.q,
         filter: match args.filter {
             Some(f) => {
                 let mut f_array = Vec::<Vec<String>>::new();
@@ -76,14 +92,16 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs<'_>) -> Re
             _ => None,
         },
         limit: args.limit,
-        facets: vec!["facet".to_string()],
+        facets: vec!["facet"],
+        highlight_pre_tag: &args.highlighting.0,
+        highlight_post_tag: &args.highlighting.1,
+        // parsed_id is highlighted by us in postprocessing, because this yields better results
+        attributes_to_highlight: vec!["name"],
     };
-
+    let url = std::env::var("MEILISEARCH_URL")
+        .unwrap_or("http://localhost:7700/indexes/entries/search".to_string());
     let resp_bytes = client
-        .post(
-            std::env::var("MEILISEARCH_URL")
-                .unwrap_or_else(|_| "http://localhost:7700/indexes/entries/search".to_string()),
-        )
+        .post(url)
         .send_json(&post_data)
         .await
         .unwrap()
@@ -99,15 +117,17 @@ pub(super) async fn do_building_search_closed_query(
     client: Client,
     query_string: String,
     limit: usize,
+    highlighting: (String, String),
 ) -> Result<MSResults> {
     do_meilisearch(
         client,
         MSSearchArgs {
-            q: &query_string,
+            q: query_string,
             filter: Some(MSSearchFilter {
                 facet: vec!["site".to_string(), "building".to_string()],
             }),
             limit,
+            highlighting,
         },
     )
     .await
@@ -117,6 +137,7 @@ pub(super) async fn do_room_search(
     client: Client,
     search_tokens: &Vec<preprocess::SearchToken>,
     limit: usize,
+    highlighting: (String, String),
 ) -> Result<MSResults> {
     let mut q = String::from("");
     for token in search_tokens {
@@ -148,11 +169,12 @@ pub(super) async fn do_room_search(
     do_meilisearch(
         client,
         MSSearchArgs {
-            q: &q,
+            q,
             filter: Some(MSSearchFilter {
                 facet: vec!["room".to_string()],
             }),
             limit,
+            highlighting,
         },
     )
     .await

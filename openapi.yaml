@@ -40,7 +40,7 @@ paths:
 
         Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
 
-        Some fields support highlighting the query terms and it uses DC3 (\x19 or \u{0019}) and DC1 (\x17 or \u{0017}) to mark the beginning/end of a highlighted sequence (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)). Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses (there is no query parameter for this yet).
+        Some fields support highlighting the query terms and it uses <em> and </em> to mark the beginning/end of a highlighted sequence.
       parameters:
         - name: q
           in: query
@@ -99,6 +99,36 @@ paths:
             default: 10
             maximum: 1000
             minimum: 1
+        - name: pre_highlight
+          in: query
+          description: |
+            string to include in front of highlighted sequences.   
+            If this and `post_highlight` are empty, highlighting is disabled.
+          schema:
+            default: "<em>"
+            type: string
+          examples:
+            default:
+              summary: The default value
+              value: '<em>'
+            ais-highlight:
+              summary: Another good alternative
+              value: '<ais-highlight-0000000000>'
+        - name: post_highlight
+          in: query
+          description: |
+            string to include after the highlighted sequences.   
+            If this and `pre_highlight` are empty, highlighting is disabled.
+          schema:
+            default: "</em>"
+            type: string
+          examples:
+            default:
+              summary: The default value
+              value: '</em>'
+            ais-highlight:
+              summary: Another good alternative
+              value: '</ais-highlight-0000000000>'
       responses:
         '200':
           description: The search-result

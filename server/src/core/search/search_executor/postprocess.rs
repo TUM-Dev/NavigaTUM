@@ -7,6 +7,7 @@ pub(super) fn merge_search_results(
     res_merged: meilisearch::MSResults,
     res_buildings: meilisearch::MSResults,
     res_rooms: meilisearch::MSResults,
+    highlighting: (String, String),
 ) -> Vec<super::SearchResultsSection> {
     // First look up which buildings did match even with a closed query.
     // We can consider them more relevant.
@@ -48,27 +49,25 @@ pub(super) fn merge_search_results(
             break;
         }
 
-        // Find out where it matches TODO: Improve
-        let highlighted_name = highlight_matches(&hit.name, search_tokens);
-        let highlighted_arch_name = match &hit.arch_name {
-            Some(arch_name) => highlight_matches(arch_name, search_tokens),
-            None => String::from(""),
-        };
-
         match hit.r#type.as_str() {
             "campus" | "site" | "area" | "building" | "joined_building" => {
                 if section_buildings.entries.len() < args.limit_buildings {
-                    push_to_buildings_queue(&mut section_buildings, &hit, highlighted_name);
+                    push_to_buildings_queue(
+                        &mut section_buildings,
+                        hit.clone(),
+                        hit._formatted.name,
+                    );
                 }
             }
             "room" | "virtual_room" => {
                 if section_rooms.entries.len() < args.limit_rooms {
                     push_to_rooms_queue(
                         &mut section_rooms,
-                        &hit,
+                        hit.clone(),
                         search_tokens,
-                        highlighted_name,
-                        highlighted_arch_name,
+                        hit._formatted.name,
+                        hit.arch_name.unwrap_or("".to_string()),
+                        highlighting.clone(),
                     );
 
                     // The first room in the results 'freezes' the number of visible buildings
@@ -89,7 +88,7 @@ pub(super) fn merge_search_results(
 
 fn push_to_buildings_queue(
     section_buildings: &mut super::SearchResultsSection,
-    hit: &meilisearch::MSHit,
+    hit: meilisearch::MSHit,
     highlighted_name: String,
 ) {
     section_buildings.entries.push(super::ResultEntry {
@@ -104,13 +103,14 @@ fn push_to_buildings_queue(
 
 fn push_to_rooms_queue(
     section_rooms: &mut super::SearchResultsSection,
-    hit: &meilisearch::MSHit,
+    hit: meilisearch::MSHit,
     search_tokens: &[preprocess::SearchToken],
-    highlighted_name: String,
-    highlighted_arch_name: String,
+    formatted_name: String,
+    arch_name: String,
+    highlighting: (String, String),
 ) {
     // Test whether the query matches some common room id formats
-    let parsed_id = parse_room_formats(search_tokens, hit);
+    let parsed_id = parse_room_formats(search_tokens, &hit, highlighting);
 
     let subtext = match hit.parent_building.len() {
         0 => String::from(""),
@@ -118,56 +118,16 @@ fn push_to_rooms_queue(
     };
     let subtext_bold = match parsed_id {
         Some(_) => Some(hit.arch_name.clone().unwrap_or_default()),
-        None => Some(highlighted_arch_name),
+        None => Some(arch_name),
     };
     section_rooms.entries.push(super::ResultEntry {
         id: hit.id.to_string(),
         r#type: hit.r#type.to_string(),
-        name: highlighted_name,
+        name: formatted_name,
         subtext,
         subtext_bold,
         parsed_id,
     });
-}
-
-fn highlight_matches(s: &String, search_tokens: &Vec<preprocess::SearchToken>) -> String {
-    // Note: This does not highlight the matches that were actually used.
-    //       e.g. "hs" will highlight "Versuchsraum"
-    //                                       ^^
-    // TODO: This could in some cases be misleading
-    let mut s_highlighted = s.to_string();
-
-    for token in search_tokens {
-        let s_lower = s_highlighted.to_lowercase();
-        let mut offset = 0;
-        for (start_i, pattern) in s_lower.match_indices(&token.s) {
-            let highlight_start = start_i + offset;
-            let highlight_end = highlight_start + pattern.len();
-            if start_i > 0
-                && s_highlighted
-                    .get(..highlight_start)
-                    .unwrap()
-                    .chars()
-                    .last()
-                    .unwrap()
-                    .is_alphabetic()
-                && pattern.chars().next().unwrap().is_alphabetic()
-            {
-                continue;
-            }
-
-            let pre_highlight = s_highlighted.get(..highlight_start).unwrap();
-            let highlight = s_highlighted.get(highlight_start..highlight_end).unwrap();
-            let post_highlight = s_highlighted.get(highlight_end..).unwrap();
-            s_highlighted = format!(
-                "{}\u{0019}{}\u{0017}{}",
-                pre_highlight, highlight, post_highlight
-            );
-            offset += 2;
-        }
-    }
-
-    s_highlighted
 }
 
 // Parse the search against some known room formats and improve the
@@ -175,6 +135,7 @@ fn highlight_matches(s: &String, search_tokens: &Vec<preprocess::SearchToken>) -
 fn parse_room_formats(
     search_tokens: &[preprocess::SearchToken],
     hit: &meilisearch::MSHit,
+    highlighting: (String, String),
 ) -> Option<String> {
     // Some building specific roomcode formats are determined by their building prefix
     if search_tokens.len() == 2
@@ -195,9 +156,11 @@ fn parse_room_formats(
     {
         let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
         Some(format!(
-            "\u{0019}{} {}\u{0017}{}",
+            "{}{} {}{}{}",
+            highlighting.0,
             search_tokens[0].s.to_uppercase(),
             arch_id.get(..search_tokens[1].s.len()).unwrap(),
+            highlighting.1,
             arch_id.get(search_tokens[1].s.len()..).unwrap(),
         ))
     // If it doesn't match some precise room format, but the search is clearly
@@ -207,7 +170,7 @@ fn parse_room_formats(
     } else if (search_tokens.len() == 1
              || (search_tokens.len() > 1 && search_tokens[0].s.len() >= 3))
         //     Needs to be specific enough to be considered relevant ↑
-        && !hit.name.contains(&search_tokens[0].s) // No match in the name
+        && !hit.unformatted_name.contains(&search_tokens[0].s) // No match in the name
         && !hit.parent_building.is_empty() // Has parent information to show in query
         && hit.arch_name.is_some()
         && hit
@@ -223,11 +186,11 @@ fn parse_room_formats(
         } else {
             let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
             // For some well known buildings we have a prefix that we can use instead
-            let prefix = match hit.name.get(..3).unwrap_or_default() {
+            let prefix = match hit.unformatted_name.get(..3).unwrap_or_default() {
                 "560" | "561" => Some("MI "),
                 "550" | "551" => Some("MW "),
                 "540" => Some("CH "),
-                _ => match hit.name.get(..4).unwrap_or_default() {
+                _ => match hit.unformatted_name.get(..4).unwrap_or_default() {
                     "5101" => Some("PH "),
                     "5107" => Some("PH II "),
                     _ => None,
@@ -256,9 +219,11 @@ fn parse_room_formats(
             }
         };
         Some(format!(
-            "{}\u{0019}{}\u{0017}{}",
+            "{}{}{}{}{}",
             prefix.unwrap_or_default(),
+            highlighting.0,
             parsed_arch_id.get(..search_tokens[0].s.len()).unwrap(),
+            highlighting.1,
             parsed_arch_id
                 .get(search_tokens[0].s.len()..)
                 .unwrap_or_default(),

@@ -36,6 +36,7 @@ struct ResultEntry {
 #[cached(size = 500)]
 pub async fn do_geoentry_search(
     q: String,
+    highlighting: (String, String),
     args: SanitisedSearchQueryArgs,
 ) -> Vec<SearchResultsSection> {
     let parsed_input = preprocess::parse_input_query(q.as_str());
@@ -50,24 +51,29 @@ pub async fn do_geoentry_search(
     let client = ClientBuilder::new().connector(Connector::new()).finish();
 
     let q_default = parsed_input.to_query_string();
-
     let fut_res_merged = meilisearch::do_meilisearch(
         client.clone(),
         meilisearch::MSSearchArgs {
-            q: &q_default,
+            q: q_default.clone(),
             filter: None,
             limit: args.limit_all,
+            highlighting: highlighting.clone(),
         },
     );
-    let search_tokens = parsed_input.tokens;
     // Building limit multiplied by two because we might do reordering later
     let fut_res_buildings = meilisearch::do_building_search_closed_query(
         client.clone(),
         q_default.clone(),
         2 * args.limit_buildings,
+        highlighting.clone(),
     );
-    let fut_res_rooms =
-        meilisearch::do_room_search(client.clone(), &search_tokens, args.limit_rooms);
+    let search_tokens = parsed_input.tokens;
+    let fut_res_rooms = meilisearch::do_room_search(
+        client.clone(),
+        &search_tokens,
+        args.limit_rooms,
+        highlighting.clone(),
+    );
 
     return match try_join!(fut_res_merged, fut_res_buildings, fut_res_rooms) {
         Ok((res_merged, res_buildings, res_rooms)) => postprocess::merge_search_results(
@@ -76,6 +82,7 @@ pub async fn do_geoentry_search(
             res_merged,
             res_buildings,
             res_rooms,
+            highlighting,
         ),
         Err(e) => {
             // error should be serde_json::error
