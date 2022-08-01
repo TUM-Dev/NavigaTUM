@@ -58,8 +58,8 @@ fn sanitise_args(args: SearchQueryArgs) -> (String, (String, String), SanitisedS
         limit_all: args.limit_all.unwrap_or(10).clamp(1, 1_000),
     };
     let highlighting = (
-        args.pre_highlight.unwrap_or("<em>".to_string()),
-        args.post_highlight.unwrap_or("</em>".to_string()),
+        args.pre_highlight.unwrap_or_else(|| "<em>".to_string()),
+        args.post_highlight.unwrap_or_else(|| "</em>".to_string()),
     );
     (args.q, highlighting, sanitised_args)
 }

@@ -99,7 +99,7 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs) -> Result
         attributes_to_highlight: vec!["name"],
     };
     let url = std::env::var("MEILISEARCH_URL")
-        .unwrap_or("http://localhost:7700/indexes/entries/search".to_string());
+        .unwrap_or_else(|_| "http://localhost:7700/indexes/entries/search".to_string());
     let resp_bytes = client
         .post(url)
         .send_json(&post_data)

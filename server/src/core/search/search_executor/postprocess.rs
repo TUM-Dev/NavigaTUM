@@ -3,7 +3,7 @@ use super::preprocess;
 
 pub(super) fn merge_search_results(
     args: &super::SanitisedSearchQueryArgs,
-    search_tokens: &Vec<preprocess::SearchToken>,
+    search_tokens: &[preprocess::SearchToken],
     res_merged: meilisearch::MSResults,
     res_buildings: meilisearch::MSResults,
     res_rooms: meilisearch::MSResults,
@@ -66,7 +66,7 @@ pub(super) fn merge_search_results(
                         hit.clone(),
                         search_tokens,
                         hit._formatted.name,
-                        hit.arch_name.unwrap_or("".to_string()),
+                        hit.arch_name.unwrap_or_else(|| "".to_string()),
                         highlighting.clone(),
                     );
 
@@ -93,9 +93,9 @@ fn push_to_buildings_queue(
 ) {
     section_buildings.entries.push(super::ResultEntry {
         id: hit.id.to_string(),
-        r#type: hit.r#type.to_string(),
+        r#type: hit.r#type,
         name: highlighted_name,
-        subtext: hit.type_common_name.clone(),
+        subtext: hit.type_common_name,
         subtext_bold: None,
         parsed_id: None,
     });
@@ -122,7 +122,7 @@ fn push_to_rooms_queue(
     };
     section_rooms.entries.push(super::ResultEntry {
         id: hit.id.to_string(),
-        r#type: hit.r#type.to_string(),
+        r#type: hit.r#type,
         name: formatted_name,
         subtext,
         subtext_bold,
