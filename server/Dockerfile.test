@@ -19,7 +19,7 @@ COPY src ./src
 
 # get api_data.json
 ADD https://nav.tum.sexy/cdn/api_data.json data/api_data.json
-# For local testing if roomapi is not avalible:
+# For local testing if navigatum is not avalible:
 # follow the data-docs to get api_data.json, copy it to the directory server/data and enable
 # COPY data/api_data.json data/api_data.json
 
