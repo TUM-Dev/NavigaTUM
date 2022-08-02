@@ -227,7 +227,7 @@ mod tokenizer_tests {
 
     fn assert_token(q: String, expected: Vec<InputToken>) {
         assert_eq!(
-            tokenize_input_query(q.as_str().clone()),
+            tokenize_input_query(&q),
             expected,
             "tokenization for '{}' failed",
             q
@@ -238,7 +238,7 @@ mod tokenizer_tests {
         // Variations that end with a space are only tested
         // for strings with closed quotes, because quotes do
         // include spaces at the end into the token
-        let unclosed_quotes = q.matches("\"").count() % 2 == 1;
+        let unclosed_quotes = q.matches('\"').count() % 2 == 1;
         if !unclosed_quotes {
             let sqs = format!(" {} ", q);
             let qs = format!("{} ", q);
@@ -247,7 +247,7 @@ mod tokenizer_tests {
             if !expected.is_empty() {
                 let mut last = expected.pop().unwrap();
                 // Change `closed` to false for unquoted last token
-                last.closed = last.s.ends_with("\"");
+                last.closed = last.s.ends_with('\"');
                 expected.push(last);
             }
         }

@@ -248,7 +248,9 @@ mod description_tests {
     #[test]
     fn truncate_len() {
         for i in 0..10 {
-            assert_eq!(clean_feedback_data("abcd", i), "abcd".truncate(i));
+            let mut expected = "abcd".to_string();
+            expected.truncate(i);
+            assert_eq!(clean_feedback_data("abcd", i), expected);
         }
     }
     #[test]
