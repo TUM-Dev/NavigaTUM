@@ -17,6 +17,13 @@ navigatum.registerModule(
       return visible;
     }
 
+    function _allowHighlighting(text) {
+      /// This function does still parse content only from our internal API (which should not try to pawn us in the
+      // first place), but for extra redundancy we sanitise this anyway.
+      // It is not done by Vue, as we use `v-html`-Tag to include it in the frontend.
+      const opt = new Option(text).innerHTML;
+      return opt.replaceAll("\x19", "<em>").replaceAll("\x17", "</em>");
+    }
     function extractFacets(data) {
       const sections = [];
 
@@ -26,11 +33,11 @@ navigatum.registerModule(
         section.entries.forEach((entry) => {
           entries.push({
             id: entry.id,
-            name: entry.name,
+            name: _allowHighlighting(entry.name), // we explicitly dont let vue sanitise this text
             type: entry.type,
             subtext: entry.subtext,
-            subtext_bold: entry.subtext_bold,
-            parsed_id: entry.parsed_id,
+            subtext_bold: _allowHighlighting(entry.subtext_bold), // we explicitly dont let vue sanitise this text
+            parsed_id: _allowHighlighting(entry.parsed_id), // we explicitly dont let vue sanitise this text
           });
         });
 

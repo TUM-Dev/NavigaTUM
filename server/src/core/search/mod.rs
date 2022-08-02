@@ -57,9 +57,14 @@ fn sanitise_args(args: SearchQueryArgs) -> (String, (String, String), SanitisedS
         limit_rooms: args.limit_rooms.unwrap_or(10).clamp(0, 1_000),
         limit_all: args.limit_all.unwrap_or(10).clamp(1, 1_000),
     };
-    let highlighting = (
-        args.pre_highlight.unwrap_or_else(|| "<em>".to_string()),
-        args.post_highlight.unwrap_or_else(|| "</em>".to_string()),
+    let mut highlighting = (
+        args.pre_highlight.unwrap_or_else(|| "\u{0019}".to_string()),
+        args.post_highlight
+            .unwrap_or_else(|| "\u{0017}".to_string()),
     );
+    // After 25 char this parameter kind of misses the point it tries to address.
+    // for DOS Reasons this is truncated
+    highlighting.0.truncate(25);
+    highlighting.1.truncate(25);
     (args.q, highlighting, sanitised_args)
 }
