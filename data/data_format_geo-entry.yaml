@@ -6,7 +6,7 @@ internal_id:
   
   # Same as the internal_id above.
   # The id is always lowercase may only use "-" and "." as special characters.
-  # For rooms, this id is equivalent to the "SAP-Code" room id in TUMOnline.
+  # For rooms, this id is equivalent to the "SAP-Code" room id in TUMonline.
   # For buildings, this id is the 4-digit building code (as string).
   id: "internal_id"
   # While the id is commonly used to reference this entry, in some cases
@@ -28,11 +28,11 @@ internal_id:
   #                     a different 4-digit code. It should in general group everything that
   #                     one would naturally classify as one building.
   #  - building: A building identified by a 4-digit code. The Roomfinder uses "0000" as a code
-  #              for buildings not in TUMOnline, but they are not imported. Custom buildings
+  #              for buildings not in TUMonline, but they are not imported. Custom buildings
   #              should instead use a non-4-digit id. Buildings are treated differently
   #              if they are children of a "joined_building".
   #  - room: A (physical) room usually identified by its "SAP-Code". Because hallways, elevators
-  #          are also imported into TUMOnline as rooms, they also have the datatype "room".
+  #          are also imported into TUMonline as rooms, they also have the datatype "room".
   #  - virtual_room: Any indoor space that does not really match the common perception
   #                  of a 'room', e.g. a multi-floor library space or seating area.
   #  - poi: A point of interest. Generally any object that could be of interest such as
@@ -74,7 +74,7 @@ internal_id:
     # Where the base data comes from
     base:
       - {name: "NavigaTUM"}
-      - {name: "TUMOnline", url: "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?$ctx=design=ca2;header=max&pRaumNr=63167"}
+      - {name: "TUMonline", url: "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?$ctx=design=ca2;header=max&pRaumNr=63167"}
       - {name: "Roomfinder", url: "https://portal.mytum.de/displayRoomMap?roomid=501@2903&disable_decoration=yes"}
     # Whether the (external) data has been modified by patches to correct
     # for errors.
@@ -126,7 +126,7 @@ internal_id:
         # Coordinates are four [lon, lat] pairs, for the top left, top right,
         # bottom right, bottom left image corners. `id` should start with 0 for
         # the ground level and increase or decrease. `floor` should match the floor
-        # part of the TUMOnline roomcode
+        # part of the TUMonline roomcode
         - {id: 0, floor: "EG", name: "MI Gebäude (EG)", coordinates: [[...], ...]}
   
   props:  # Semantic properties (that are useful to display, but do not have their own section)
