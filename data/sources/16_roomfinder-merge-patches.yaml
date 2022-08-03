@@ -28,8 +28,8 @@ replacements:
     replace: "K\\1"
     use: roomfinder
   # Rooms at Campus C and D / Uptown München have a space in their room name that
-  # is not in the arch name in TUMOnline. In general there is a different naming scheme.
-  # E.g. "R 305@2941" in Roomfinder and "2941.03.305R" in TUMOnline
+  # is not in the arch name in TUMonline. In general there is a different naming scheme.
+  # E.g. "R 305@2941" in Roomfinder and "2941.03.305R" in TUMonline
   - search: "^(L|M|R|S)\\s(\\d{3})@(2940|2941)"
     replace: "\\1\\2@\\3"
 
@@ -42,13 +42,13 @@ known_issues:
   # Rooms in this list will be included into the final data,
   # but with a data quality warning
   not_in_tumonline:
-    # This room is not in TUMOnline, although it is distinctly different from
-    # N0125, N0126B and N0126C, which are all in Roomfinder and TUMOnline
+    # This room is not in TUMonline, although it is distinctly different from
+    # N0125, N0126B and N0126C, which are all in Roomfinder and TUMonline
     "N0126A@0101": "0101.EG.N0126A"
     # The following rooms are missing as well:
     "N0161@0101": "0101.EG.N0161"  # "Galerie"
-    "N0178@0101": "0101.EG.N0178"  # "Putzkammer"; N0178A is in TUMOnline
-    "N-1222@0102": "0102.U1.222"  # N-1222A is in TUMOnline
-    "N-1235a@0102": "0102.U1.235A"  # N-1235 is in TUMOnline
-    "N-1319A@0103": "0103.U1.319A"  # "-1319" is in TUMOnline
+    "N0178@0101": "0101.EG.N0178"  # "Putzkammer"; N0178A is in TUMonline
+    "N-1222@0102": "0102.U1.222"  # N-1222A is in TUMonline
+    "N-1235a@0102": "0102.U1.235A"  # N-1235 is in TUMonline
+    "N-1319A@0103": "0103.U1.319A"  # "-1319" is in TUMonline
     

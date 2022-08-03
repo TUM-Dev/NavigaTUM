@@ -1,4 +1,4 @@
-# This script takes care of downloading data from the Roomfinder and TUMOnline
+# This script takes care of downloading data from the Roomfinder and TUMonline
 # and caching the results
 import json
 import os
@@ -234,7 +234,7 @@ def _download_map(_map, e_id, e_type):
 
 def tumonline_areas():
     """
-    Retrieve the building areas as in TUMOnline.
+    Retrieve the building areas as in TUMonline.
 
     :returns: A list of areas together with their id
     """
@@ -249,8 +249,8 @@ def tumonline_areas():
 
 def tumonline_usages_filter():
     """
-    Retrieve the room usage types that are available as a filter in TUMOnline.
-    These are not all usage types known to TUMOnline!
+    Retrieve the room usage types that are available as a filter in TUMonline.
+    These are not all usage types known to TUMonline!
 
     :returns: A list of usage types together with their id
     """
@@ -265,8 +265,8 @@ def tumonline_usages_filter():
 
 def tumonline_buildings():
     """
-    Retrieve the buildings as in TUMOnline with their assigned TUMOnline area.
-    This may retrieve TUMOnline areas.
+    Retrieve the buildings as in TUMonline with their assigned TUMonline area.
+    This may retrieve TUMonline areas.
 
     :returns: A list of buildings, each building is a dict
     """
@@ -305,9 +305,9 @@ def tumonline_buildings():
 
 def tumonline_rooms():
     """
-    Retrieve the rooms as in TUMOnline including building and usage type.
+    Retrieve the rooms as in TUMonline including building and usage type.
     For some room types (e.g. lecture halls) additional information is retrieved.
-    This may retrieve TUMOnline buildings.
+    This may retrieve TUMonline buildings.
 
     :returns: A list of rooms, each room is a dict
     """
@@ -362,8 +362,8 @@ def tumonline_rooms():
 
 def tumonline_usages():
     """
-    Retrieve all usage types available in TUMOnline.
-    This may retrieve TUMOnline rooms.
+    Retrieve all usage types available in TUMonline.
+    This may retrieve TUMonline rooms.
 
     :returns: A list of usages, each usage is a dict
     """
@@ -408,7 +408,7 @@ def tumonline_usages():
 
 def tumonline_orgs():
     """
-    Retrieve all organisations in TUMOnline, that may operate rooms.
+    Retrieve all organisations in TUMonline, that may operate rooms.
 
     :returns: A dict of orgs like {org_code: {...}}
     """
@@ -457,7 +457,7 @@ def tumonline_orgs():
 
 
 def _retrieve_tumonline_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
-    """Retrieve all rooms (multi-page) from the TUMOnline room search list"""
+    """Retrieve all rooms (multi-page) from the TUMonline room search list"""
     cache_name = f"tumonline/{f_prefix}_{f_value}.{area_id}.json"
 
     all_rooms = _cached_json(cache_name)
@@ -495,7 +495,7 @@ def _retrieve_tumonline_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
 
 
 def _retrieve_tumonline_roominfo(system_id):
-    """Retrieve the extended room information from TUMOnline for one room"""
+    """Retrieve the extended room information from TUMonline for one room"""
     html_parser: BeautifulSoup = _get_html(
         f"https://campus.tum.de/tumonline/wbRaum.editRaum?pRaumNr={system_id}",
         {},
@@ -654,6 +654,6 @@ def _write_cache_json(fname, data):
 
 
 def _get_tumonline_api_url(base_target):
-    # I have no idea, what this magic_string is, or why it exists.. Usage is the same as from TUMOnline..
+    # I have no idea, what this magic_string is, or why it exists.. Usage is the same as from TUMonline..
     magic_string = f"NC_{str(random.randint(0, 9999)).zfill(4)}"  # nosec: random is not used security/crypto purposes
     return f"https://campus.tum.de/tumonline/{base_target}/{magic_string}"

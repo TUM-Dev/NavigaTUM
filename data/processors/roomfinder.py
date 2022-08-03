@@ -19,7 +19,7 @@ def merge_roomfinder_buildings(data):
 
     error = False
     for building in buildings:
-        # 'Building' 0000 contains some buildings and places not in TUMOnline as rooms.
+        # 'Building' 0000 contains some buildings and places not in TUMonline as rooms.
         # They might be integrated customly somewhere else, but here we ignore these.
         if building["b_id"] == "0000":
             continue
@@ -94,7 +94,7 @@ def merge_roomfinder_rooms(data):
 
     for room in rooms:
         # Try to find the existing room id (which is based on the SAP Code).
-        # We use the TUMOnline arch_name for this, because we don't know the SAP Code here.
+        # We use the TUMonline arch_name for this, because we don't know the SAP Code here.
         try:
             r_id = _find_room_id(room, data, arch_name_lookup, patches)
             if r_id is None:
@@ -238,7 +238,7 @@ def _find_room_id(room, data, arch_name_lookup, patches):
         if search in arch_name_lookup:
             return arch_name_lookup[search]
 
-    raise RoomNotFoundException(False, f"Could not find roomfinder room in TUMOnline data: {room['r_id']}")
+    raise RoomNotFoundException(False, f"Could not find roomfinder room in TUMonline data: {room['r_id']}")
 
 
 class RoomNotFoundException(Exception):

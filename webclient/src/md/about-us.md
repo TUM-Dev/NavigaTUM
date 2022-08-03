@@ -5,7 +5,7 @@ Feel free to contribute, [the code is open source](https://github.com/TUM-Dev/na
 
 ## Data Sources
 The data used in NavigaTUM should be as complete, up-to-date and helpful as possible.
-For this reason it uses besides its own data information from externen sources, especially [TUMOnline](https://campus.tum.de) and the
+For this reason it uses besides its own data information from externen sources, especially [TUMonline](https://campus.tum.de) and the
 TUM [Roomfinder](https://portal.mytum.de/campus/roomfinder).
 
 You can find an overview where which data comes here:
@@ -13,7 +13,7 @@ You can find an overview where which data comes here:
 - **Sites/Areas:** The sites/areas have been collected by NavigaTUM based on the list of buildings. Additional sources are:
     - [Official Locations overview of TUM](https://www.tum.de/en/about-tum/our-university/locations)
     - [Locations overview by MPI](https://mpi.fs.tum.de/en/entering-tum/locations//)
-- **Buildings:** The list of buildings was derived from the collected list of buildings in TUMOnline and the buildings selection in the Roomfinder. However, sometimes their names or structure was changed (e.g. for complex buildings). Additional information about buildings may have been included from:
+- **Buildings:** The list of buildings was derived from the collected list of buildings in TUMonline and the buildings selection in the Roomfinder. However, sometimes their names or structure was changed (e.g. for complex buildings). Additional information about buildings may have been included from:
     - For all: [Open Street Map](https://www.openstreetmap.org)
     - Stammgelände: [Map of Stammgelände](https://portal.mytum.de/campus/stammgelaende/TUM_Campus_Muenchen_klein)
     - Klinkikum rechts der Isar (MRI):
@@ -41,6 +41,6 @@ You can find an overview where which data comes here:
         - [Building map MW](https://www.mw.tum.de/fileadmin/w00btx/mw/Fakultaet/Anfahrt/Lageplan_Gebaeude_MW.pdf)
         - [Building map Physics](https://www.ph.tum.de/about/visit/TUM_Physik_Orientierungsplan.pdf)
         - [Building map Chemistry](https://www.ch.tum.de/fileadmin/tuchfak/www/Lageplan/Infoblatt_2020-06.pdf)
-- **Rooms:** The rooms were mainly taken from TUMOnline and extended with information from the Roomfinder. Exceptions are special rooms or spaces such as branch libraries.
+- **Rooms:** The rooms were mainly taken from TUMonline and extended with information from the Roomfinder. Exceptions are special rooms or spaces such as branch libraries.
     - [Branch Libraries](https://www.ub.tum.de/en/branch-libraries)
 - **Images:** All images were collected independently and assigned to the entries.

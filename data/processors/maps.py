@@ -305,7 +305,7 @@ def add_overlay_maps(data):
                     },
                 )
 
-                # The 'tumonline' field overwrites which TUMOnline ID floor to match
+                # The 'tumonline' field overwrites which TUMonline ID floor to match
                 if (f".{_map.get('tumonline', '')}." in _id) or (
                     overlay_data.get("default", None) is None and f".{_map['floor']}." in _id
                 ):
