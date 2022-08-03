@@ -156,7 +156,7 @@ def merge_tumonline_rooms(data):
         # Add TUMonline as source
         data[r_data["id"]].setdefault("sources", {}).setdefault("base", []).append(
             {
-                "name": "TUMOnline",
+                "name": "TUMonline",
                 "url": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/{room['room_link']}",
             },
         )
