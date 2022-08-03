@@ -131,7 +131,7 @@
       - [11.668063, 48.268013]
   maps:
     # The chemistry building is complicated in terms of layers:
-    # 'Ebene 2' (Room names) == '01' (TUMOnline) == 'EG' (physically from the main entrance)
+    # 'Ebene 2' (Room names) == '01' (TUMonline) == 'EG' (physically from the main entrance)
     - {file: "chemie_0.webp", id: 0, floor: "EG", tumonline: "01", desc: "Chemie (EG / 2. Ebene)"}
     - {file: "chemie_1.webp", id: 1, floor: "01", tumonline: "02", desc: "Chemie (01 / 3. Ebene)"}
     - {file: "chemie_2.webp", id: 2, floor: "02", tumonline: "03", desc: "Chemie (02 / 4. Ebene)"}

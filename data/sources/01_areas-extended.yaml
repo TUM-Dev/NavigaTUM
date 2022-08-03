@@ -376,11 +376,11 @@ mri-imse:
   coords: {lat: 48.13831, lon: 11.59984}
   osm: ["way/75376253"]
 
-1711:  # Has no (longer?) rooms in TUMOnline, probably outdated
+1711:  # Has no (longer?) rooms in TUMonline, probably outdated
   coords: {lat: 48.13551, lon: 11.60227}
   osm: ["way/118670040"]  # Not complete building
 
-1712:  # Has no (longer?) rooms in TUMOnline, probably outdated
+1712:  # Has no (longer?) rooms in TUMonline, probably outdated
   coords: {lat: 48.13517, lon: 11.60223}
   osm: ["way/118671935"]  # Not complete building
 
@@ -395,11 +395,11 @@ mri-imse:
   coords: {lat: 48.13963, lon: 11.59923}
   osm: ["way/85213218"]
   
-1718:  # Has no (longer?) rooms in TUMOnline, probably outdated
+1718:  # Has no (longer?) rooms in TUMonline, probably outdated
   coords: {lat: 48.13591, lon: 11.59878}
   osm: ["way/120879027"]
 
-1719:  # Has no (longer?) rooms in TUMOnline, probably outdated
+1719:  # Has no (longer?) rooms in TUMonline, probably outdated
   coords: {lat: 48.13604, lon: 11.59883}
   osm: ["way/120878682"]  # Not complete building
 

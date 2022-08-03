@@ -387,7 +387,7 @@ paths:
                       rank_usage: 900
                     sources:
                       base:
-                        - name: TUMOnline
+                        - name: TUMonline
                           url: 'https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=12325'
                         - name: Roomfinder
                           url: 'https://portal.mytum.de/displayRoomMap?roomid=00.02.001@5602&disable_decoration=yes'
@@ -485,7 +485,7 @@ paths:
                     sources:
                       base:
                         - name: NavigaTUM
-                        - name: TUMOnline
+                        - name: TUMonline
                           url: 'https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=55601'
                         - name: Roomfinder
                           url: 'https://portal.mytum.de/displayRoomMap?roomid=00.06.036@5606&disable_decoration=yes'
@@ -1113,7 +1113,7 @@ components:
           description: |
             Floor of the Map.
             Should be used for display to the user in selectors.  
-            Matches the floor part of the TUMOnline roomcode.
+            Matches the floor part of the TUMonline roomcode.
           type: string
           example: 'EG'
         name:

@@ -11,7 +11,7 @@ ALLOWED_ROOMCODE_CHARS = set(string.ascii_letters) | set(string.digits) | {".", 
 
 def merge_tumonline_buildings(data):
     """
-    Merge the buildings in TUMOnline with the existing data.
+    Merge the buildings in TUMonline with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
     with open("external/buildings_tumonline.json", encoding="utf-8") as file:
@@ -72,7 +72,7 @@ def merge_tumonline_buildings(data):
 
 def merge_tumonline_rooms(data):
     """
-    Merge the rooms in TUMOnline with the existing data.
+    Merge the rooms in TUMonline with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
     with open("external/rooms_tumonline.json", encoding="utf-8") as file:
@@ -150,13 +150,13 @@ def merge_tumonline_rooms(data):
         if "extended" in room:
             r_data["tumonline_data"]["extended"] = room["extended"]
 
-        # TUMOnline data does not overwrite the existing data when merged
+        # TUMonline data does not overwrite the existing data when merged
         merge_object(data, {r_data["id"]: r_data}, overwrite=False)
 
-        # Add TUMOnline as source
+        # Add TUMonline as source
         data[r_data["id"]].setdefault("sources", {}).setdefault("base", []).append(
             {
-                "name": "TUMOnline",
+                "name": "TUMonline",
                 "url": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/{room['room_link']}",
             },
         )
@@ -172,7 +172,7 @@ def merge_tumonline_rooms(data):
 
 def _clean_tumonline_rooms(to_rooms):
     """
-    This applies some known corrections / patches on the TUMOnline room data.
+    This applies some known corrections / patches on the TUMonline room data.
     It also searches for inconsitencies not yet patched
     """
 
@@ -229,7 +229,7 @@ def _clean_tumonline_rooms(to_rooms):
         for room in invalid_rooms:
             to_rooms.remove(room)
 
-        logging.warning(f"Ignored {len(invalid_rooms)} TUMOnline rooms because they are invalid.")
+        logging.warning(f"Ignored {len(invalid_rooms)} TUMonline rooms because they are invalid.")
 
     return to_rooms
 
@@ -255,7 +255,7 @@ def _infer_arch_name(room, arch_name_parts, used_arch_names, roomcode_parts, roo
         and arch_name_parts[0][-1].lower() != roomcode_parts[2][-1].lower()
     ):
         # For the MW buildings it seems that there is a difference between
-        # upper- and lowercase suffixes which is probably not representable in the TUMOnline system.
+        # upper- and lowercase suffixes which is probably not representable in the TUMonline system.
         # That is why lowercase suffixes in the arch_name might be different from the suffix in the roomcode
         if roomcode_parts[0].startswith("550"):
             pass
