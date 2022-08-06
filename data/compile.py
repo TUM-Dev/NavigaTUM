@@ -37,15 +37,15 @@ def main():
     for _id, entry in data.items():
         entry.setdefault("sources", {"base": [{"name": "NavigaTUM"}]})
 
-    # --- Insert Roomfinder and TUMOnline data ---
+    # --- Insert Roomfinder and TUMonline data ---
     logging.info("-- 10 Roomfinder buildings")
     roomfinder.merge_roomfinder_buildings(data)
 
-    logging.info("-- 11 TUMOnline buildings")
+    logging.info("-- 11 TUMonline buildings")
     tumonline.merge_tumonline_buildings(data)
 
-    # TUMOnline is used as base and Roomfinder is merged on top of this later
-    logging.info("-- 15 TUMOnline rooms")
+    # TUMonline is used as base and Roomfinder is merged on top of this later
+    logging.info("-- 15 TUMonline rooms")
     tumonline.merge_tumonline_rooms(data)
 
     logging.info("-- 16 Roomfinder rooms")

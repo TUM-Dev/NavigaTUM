@@ -7,7 +7,7 @@ Du kannst gerne selbst mitmachen, [der Code ist Open Source verfügbar](https://
 ## Datenquellen
 Die Daten in NavigaTUM sollten möglichst umfangreich, aktuell und hilfreich sein.
 Deswegen verwendet NavigaTUM neben eigenen Daten auch Daten aus externen Quellen,
-insbesondere [TUMOnline](https://campus.tum.de) und dem
+insbesondere [TUMonline](https://campus.tum.de) und dem
 TUM [Roomfinder](https://portal.mytum.de/campus/roomfinder).
 
 Eine Übersicht woher welche Daten stammen findest du hier:
@@ -15,7 +15,7 @@ Eine Übersicht woher welche Daten stammen findest du hier:
 - **Standorte:** Die Standorte wurden von NavigaTUM selbst gesammelt und gruppiert aus der Liste von Gebäuden. Zusätzlich Quellen:
     - [Offizielle Standortübersicht der TUM](https://www.tum.de/die-tum/die-universitaet/standorte)
     - [Standortübersicht der MPI](https://mpi.fs.tum.de/neu-an-der-tum/standorte/)
-- **Gebäude:** Die Liste an Gebäude stammt aus der gesammelten Liste von Gebäuden in TUMOnline, sowie der Gebäudeauswahl im Roomfinder. Allerdings verwendet NavigaTUM zum Teil andere Namen oder eine andere Struktur (z.B. bei Gebäudekomplexen). Weitere Informationen zu den Gebäuden wurden evtl. übernommen aus:
+- **Gebäude:** Die Liste an Gebäude stammt aus der gesammelten Liste von Gebäuden in TUMonline, sowie der Gebäudeauswahl im Roomfinder. Allerdings verwendet NavigaTUM zum Teil andere Namen oder eine andere Struktur (z.B. bei Gebäudekomplexen). Weitere Informationen zu den Gebäuden wurden evtl. übernommen aus:
     - Für alle: [Open Street Map](https://www.openstreetmap.org)
     - Stammgelände: [Karte Stammgelände](https://portal.mytum.de/campus/stammgelaende/TUM_Campus_Muenchen_klein)
     - Klinkikum rechts der Isar (MRI):
@@ -43,7 +43,7 @@ Eine Übersicht woher welche Daten stammen findest du hier:
         - [Gebäudeplan MW](https://www.mw.tum.de/fileadmin/w00btx/mw/Fakultaet/Anfahrt/Lageplan_Gebaeude_MW.pdf)
         - [Gebäudeplan Physik](https://www.ph.tum.de/about/visit/TUM_Physik_Orientierungsplan.pdf)
         - [Gebäudeplan Chemie](https://www.ch.tum.de/fileadmin/tuchfak/www/Lageplan/Infoblatt_2020-06.pdf)
-- **Räume:** Die Räume wurden großteils aus TUMOnline übernommen und ggf. mit Informationen aus dem Roomfinder ergänzt. Ausnahmen sind spezielle Räume oder Bereiche wie Teilbibliotheken.
+- **Räume:** Die Räume wurden großteils aus TUMonline übernommen und ggf. mit Informationen aus dem Roomfinder ergänzt. Ausnahmen sind spezielle Räume oder Bereiche wie Teilbibliotheken.
     - [Teilbibliotheken](https://www.ub.tum.de/teilbibliotheken)
 - **Bilder:** Die Bilder wurden unabhängig der sonstigen Daten gesammelt und den Einträgen zugeordnet.
 

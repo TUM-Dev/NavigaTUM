@@ -1155,7 +1155,7 @@ components:
           description: |
             Floor of the Map.
             Should be used for display to the user in selectors.  
-            Matches the floor part of the TUMOnline roomcode.
+            Matches the floor part of the TUMonline roomcode.
           type: string
           example: "EG"
         name:

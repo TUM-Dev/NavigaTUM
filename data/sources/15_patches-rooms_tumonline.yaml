@@ -1,7 +1,7 @@
 patches:
   # TODO Store old values before replacement, so they can also be found when searched for.
   #      (e.g. 2605.EG.149)
-  # The following are known errors in the TUMOnline arch_names (detected as duplicates)
+  # The following are known errors in the TUMonline arch_names (detected as duplicates)
   - {if_roomcode: "4131\\.EG\\.005", arch_name: "EG05@4131", alt_name: "EG05, Treppe"}
   # There are inconsitencies with arch_name in building 0305: Some roomnames don't have a
   # usually prepended "S"
