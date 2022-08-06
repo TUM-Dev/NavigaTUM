@@ -10,6 +10,8 @@ pub struct SearchQueryArgs {
     limit_buildings: Option<usize>,
     limit_rooms: Option<usize>,
     limit_all: Option<usize>,
+    pre_highlight: Option<String>,
+    post_highlight: Option<String>,
 }
 
 /// Returned search results by this
@@ -34,8 +36,9 @@ pub async fn search_handler(
 ) -> HttpResponse {
     let start_time = Instant::now();
 
-    let (q, sanitised_args) = sanitise_args(args);
-    let results_sections = search_executor::do_geoentry_search(q, sanitised_args).await;
+    let (q, highlighting, sanitised_args) = sanitise_args(args);
+    let results_sections =
+        search_executor::do_geoentry_search(q, highlighting, sanitised_args).await;
     let time_ms = start_time.elapsed().as_millis();
 
     if results_sections.len() != 2 {
@@ -48,11 +51,20 @@ pub async fn search_handler(
     HttpResponse::Ok().json(search_results)
 }
 
-fn sanitise_args(args: SearchQueryArgs) -> (String, SanitisedSearchQueryArgs) {
+fn sanitise_args(args: SearchQueryArgs) -> (String, (String, String), SanitisedSearchQueryArgs) {
     let sanitised_args = SanitisedSearchQueryArgs {
         limit_buildings: args.limit_buildings.unwrap_or(5).clamp(0, 1_000),
         limit_rooms: args.limit_rooms.unwrap_or(10).clamp(0, 1_000),
         limit_all: args.limit_all.unwrap_or(10).clamp(1, 1_000),
     };
-    (args.q, sanitised_args)
+    let mut highlighting = (
+        args.pre_highlight.unwrap_or_else(|| "\u{0019}".to_string()),
+        args.post_highlight
+            .unwrap_or_else(|| "\u{0017}".to_string()),
+    );
+    // After 25 char this parameter kind of misses the point it tries to address.
+    // for DOS Reasons this is truncated
+    highlighting.0.truncate(25);
+    highlighting.1.truncate(25);
+    (args.q, highlighting, sanitised_args)
 }
