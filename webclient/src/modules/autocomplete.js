@@ -17,6 +17,13 @@ navigatum.registerModule(
       return visible;
     }
 
+    function _allowHighlighting(text) {
+      /// This function does still parse content only from our internal API (which should not try to pawn us in the
+      // first place), but for extra redundancy we sanitise this anyway.
+      // It is not done by Vue, as we use `v-html`-Tag to include it in the frontend.
+      const opt = new Option(text).innerHTML;
+      return opt.replaceAll("\x19", "<em>").replaceAll("\x17", "</em>");
+    }
     function extractFacets(data) {
       const sections = [];
 
@@ -24,25 +31,13 @@ navigatum.registerModule(
         const entries = [];
 
         section.entries.forEach((entry) => {
-          // Search uses DC3 and DC1 to mark the beginning/end
-          // of a highlighted sequence:
-          // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets
-          const name = new Option(entry.name).innerHTML
-            .replaceAll("\x19", "<em>")
-            .replaceAll("\x17", "</em>");
-          const parsedId = new Option(entry.parsed_id).innerHTML
-            .replaceAll("\x19", "<em>")
-            .replaceAll("\x17", "</em>");
-          const subtextBold = new Option(entry.subtext_bold).innerHTML
-            .replaceAll("\x19", "<em>")
-            .replaceAll("\x17", "</em>");
           entries.push({
             id: entry.id,
-            name: name,
+            name: _allowHighlighting(entry.name), // we explicitly dont let vue sanitise this text
             type: entry.type,
             subtext: entry.subtext,
-            subtext_bold: subtextBold,
-            parsed_id: parsedId,
+            subtext_bold: _allowHighlighting(entry.subtext_bold), // we explicitly dont let vue sanitise this text
+            parsed_id: _allowHighlighting(entry.parsed_id), // we explicitly dont let vue sanitise this text
           });
         });
 
