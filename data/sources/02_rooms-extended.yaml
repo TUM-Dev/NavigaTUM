@@ -23,12 +23,6 @@
 "5407.01.760D": { coords: { lat: 48.269426, lon: 11.669553 } } # A room that is pretty stupid to find
 
 # === Maschinenwesen / MW ===
-"5510.EG.001": { coords: { lat: 48.265440, lon: 11.670848 } } # Gustav-Niemann-Hörsaal
-"5510.02.001": { coords: { lat: 48.265440, lon: 11.670848 } } # Rudolf-Diesel-Hörsaal
-"5510.EG.050": { coords: { lat: 48.265752, lon: 11.670190 } } # MW 0050
-"5510.01.050": { coords: { lat: 48.265752, lon: 11.670190 } } # MW 1050
-"5510.02.050": { coords: { lat: 48.265752, lon: 11.670190 } } # MW 2050
-
 "5501.EG.101":
   name: "5501.EG.101 (Fachschaft Maschinenwesen)"
   coords: { lat: 48.265567, lon: 11.670430 }
@@ -68,14 +62,14 @@
 "5501.EG.135": { coords: { lat: 48.265392, lon: 11.670044 } }
 "5501.EG.136": { coords: { lat: 48.265429, lon: 11.670038 } }
 "5501.EG.137": { coords: { lat: 48.265518, lon: 11.670044 } }
-"5501.EG.150": { coords: { lat: 48.265516, lon: 11.669873 } }  # MW 0150
+"5501.EG.150": { coords: { lat: 48.265516, lon: 11.669873 } } # MW 0150
 "5501.EG.151": { coords: { lat: 48.265586, lon: 11.669869 } }
 "5501.EG.198C": { coords: { lat: 48.265408, lon: 11.670234 } }
 "5501.EG.199D": { coords: { lat: 48.265409, lon: 11.670162 } }
 "5501.EG.199N": { coords: { lat: 48.265515, lon: 11.669977 } }
 "5501.EG.199S": { coords: { lat: 48.265539, lon: 11.669778 } }
-"5501.01.150": { coords: { lat: 48.265516, lon: 11.669873 } }  # MW 1150
-"5501.02.150": { coords: { lat: 48.265516, lon: 11.669873 } }  # MW 2150
+"5501.01.150": { coords: { lat: 48.265516, lon: 11.669873 } } # MW 1150
+"5501.02.150": { coords: { lat: 48.265516, lon: 11.669873 } } # MW 2150
 
 "5502.EG.201": { coords: { lat: 48.265767, lon: 11.669691 } }
 "5502.EG.202": { coords: { lat: 48.265804, lon: 11.669685 } }
@@ -107,16 +101,16 @@
 "5502.EG.231": { coords: { lat: 48.265934, lon: 11.669999 } }
 "5502.EG.232": { coords: { lat: 48.265897, lon: 11.670004 } }
 "5502.EG.233": { coords: { lat: 48.265852, lon: 11.670010 } }
-"5502.EG.234": { coords: { lat: 48.265763, lon: 11.670004 } }  # MW 0234
-"5502.EG.250": { coords: { lat: 48.265752, lon: 11.669468 } }  # Ludwig-Prandtl-Hörsaal
+"5502.EG.234": { coords: { lat: 48.265763, lon: 11.670004 } } # MW 0234
+"5502.EG.250": { coords: { lat: 48.265752, lon: 11.669468 } } # Ludwig-Prandtl-Hörsaal
 "5502.EG.250A": { coords: { lat: 48.265793, lon: 11.669492 } }
 "5502.EG.250B": { coords: { lat: 48.265798, lon: 11.669442 } }
 "5502.EG.298C": { coords: { lat: 48.265874, lon: 11.669833 } }
 "5502.EG.299D": { coords: { lat: 48.265872, lon: 11.669910 } }
 "5502.EG.299E": { coords: { lat: 48.265707, lon: 11.669937 } }
-"5502.01.250": { coords: { lat: 48.265752, lon: 11.669468 } }  # MW 1250
-"5502.02.235": { coords: { lat: 48.265763, lon: 11.670004 } }  # MW 2235
-"5502.02.250": { coords: { lat: 48.265752, lon: 11.669468 } }  # MW 2250
+"5502.01.250": { coords: { lat: 48.265752, lon: 11.669468 } } # MW 1250
+"5502.02.235": { coords: { lat: 48.265763, lon: 11.670004 } } # MW 2235
+"5502.02.250": { coords: { lat: 48.265752, lon: 11.669468 } } # MW 2250
 
 "5503.EG.301A": { coords: { lat: 48.265566, lon: 11.669597 } }
 "5503.EG.301B": { coords: { lat: 48.265561, lon: 11.669638 } }
@@ -154,13 +148,13 @@
 "5503.EG.334": { coords: { lat: 48.265389, lon: 11.669289 } }
 "5503.EG.335": { coords: { lat: 48.265418, lon: 11.669286 } }
 "5503.EG.336": { coords: { lat: 48.265455, lon: 11.669281 } }
-"5503.EG.337": { coords: { lat: 48.265539, lon: 11.669283 } }  # MW 0337
-"5503.EG.350": { coords: { lat: 48.265552, lon: 11.669118 } }  # Egbert-von-Hoyer-Hörsaal
+"5503.EG.337": { coords: { lat: 48.265539, lon: 11.669283 } } # MW 0337
+"5503.EG.350": { coords: { lat: 48.265552, lon: 11.669118 } } # Egbert-von-Hoyer-Hörsaal
 "5503.EG.398C": { coords: { lat: 48.265434, lon: 11.669447 } }
 "5503.EG.399D": { coords: { lat: 48.265436, lon: 11.669380 } }
 "5503.EG.399N": { coords: { lat: 48.265536, lon: 11.669219 } }
-"5503.01.350": { coords: { lat: 48.265552, lon: 11.669118 } }  # Ludwig-Burmester-Zeichensaal
-"5503.02.350": { coords: { lat: 48.265552, lon: 11.669118 } }  # MW 2350
+"5503.01.350": { coords: { lat: 48.265552, lon: 11.669118 } } # Ludwig-Burmester-Zeichensaal
+"5503.02.350": { coords: { lat: 48.265552, lon: 11.669118 } } # MW 2350
 
 "5504.EG.401A": { coords: { lat: 48.265770, lon: 11.668931 } }
 "5504.EG.401B": { coords: { lat: 48.265799, lon: 11.668877 } }
@@ -197,15 +191,15 @@
 "5504.EG.439": { coords: { lat: 48.265763, lon: 11.669270 } }
 "5504.EG.450":
   name: "5504.EG.450 (Rechnerhalle)"
-  coords: {lat: 48.265806, lon: 11.668689}
+  coords: { lat: 48.265806, lon: 11.668689 }
 "5504.EG.498C": { coords: { lat: 48.265897, lon: 11.669078 } }
 "5504.EG.499D": { coords: { lat: 48.265895, lon: 11.669150 } }
 "5504.EG.499E": { coords: { lat: 48.265728, lon: 11.669180 } }
 "5504.EG.499K": { coords: { lat: 48.265796, lon: 11.668928 } }
 "5504.EG.499N": { coords: { lat: 48.265801, lon: 11.668842 } }
 "5504.EG.499Q": { coords: { lat: 48.265816, lon: 11.668557 } }
-"5504.01.450": { coords: { lat: 48.265806, lon: 11.668689 } }  # Willy-Messerschmitt-Zeichensaal
-"5504.02.450": { coords: { lat: 48.265806, lon: 11.668689 } }  # MW 2450
+"5504.01.450": { coords: { lat: 48.265806, lon: 11.668689 } } # Willy-Messerschmitt-Zeichensaal
+"5504.02.450": { coords: { lat: 48.265806, lon: 11.668689 } } # MW 2450
 
 "5505.EG.501": { coords: { lat: 48.265553, lon: 11.668838 } }
 "5505.EG.501A": { coords: { lat: 48.265621, lon: 11.668857 } }
@@ -234,13 +228,13 @@
 "5505.EG.531": { coords: { lat: 48.265435, lon: 11.668530 } }
 "5505.EG.532": { coords: { lat: 48.265478, lon: 11.668525 } }
 "5505.EG.533A": { coords: { lat: 48.265562, lon: 11.668530 } }
-"5505.EG.550": { coords: { lat: 48.265562, lon: 11.668332 } }  # MW 0550
+"5505.EG.550": { coords: { lat: 48.265562, lon: 11.668332 } } # MW 0550
 "5505.EG.550A": { coords: { lat: 48.265626, lon: 11.668299 } }
 "5505.EG.598C": { coords: { lat: 48.265457, lon: 11.668691 } }
 "5505.EG.599E": { coords: { lat: 48.265460, lon: 11.668624 } }
 "5505.EG.599N": { coords: { lat: 48.265562, lon: 11.668463 } }
-"5505.01.550": { coords: { lat: 48.265562, lon: 11.668332 } }  # Georg-Kühne-Zeichensaal
-"5505.02.550": { coords: { lat: 48.265562, lon: 11.668332 } }  # MW 2550
+"5505.01.550": { coords: { lat: 48.265562, lon: 11.668332 } } # Georg-Kühne-Zeichensaal
+"5505.02.550": { coords: { lat: 48.265562, lon: 11.668332 } } # MW 2550
 
 "5506.EG.601": { coords: { lat: 48.265830, lon: 11.668129 } }
 "5506.EG.601A": { coords: { lat: 48.265773, lon: 11.668110 } }
@@ -320,9 +314,9 @@
 "5508.EG.808": { coords: { lat: 48.265906, lon: 11.667831 } }
 "5508.EG.899A": { coords: { lat: 48.265678, lon: 11.667768 } }
 "5508.EG.899B": { coords: { lat: 48.265773, lon: 11.667895 } }
-"5508.01.801": { coords: { lat: 48.265856, lon: 11.667780 } }  # Ernst-Schmidt-Hörsaal
+"5508.01.801": { coords: { lat: 48.265856, lon: 11.667780 } } # Ernst-Schmidt-Hörsaal
 
-"5510.EG.001": { coords: { lat: 48.265424, lon: 11.670841 } }  # Gustav-Niemann-Hörsaal
+"5510.EG.001": { coords: { lat: 48.265424, lon: 11.670841 } } # Gustav-Niemann-Hörsaal
 "5510.EG.001M": { coords: { lat: 48.265558, lon: 11.670974 } }
 "5510.EG.002": { coords: { lat: 48.265407, lon: 11.671126 } }
 "5510.EG.003": { coords: { lat: 48.265362, lon: 11.671112 } }
@@ -366,7 +360,7 @@
 "5510.EG.029": { coords: { lat: 48.265844, lon: 11.670803 } }
 "5510.EG.029M": { coords: { lat: 48.265862, lon: 11.670639 } }
 "5510.EG.029N": { coords: { lat: 48.265825, lon: 11.670631 } }
-"5510.EG.050": { coords: { lat: 48.265752, lon: 11.670190 } }  # MW 0050
+"5510.EG.050": { coords: { lat: 48.265752, lon: 11.670190 } } # MW 0050
 "5510.EG.050A": { coords: { lat: 48.265705, lon: 11.670249 } }
 "5510.EG.098C": { coords: { lat: 48.265226, lon: 11.670870 } }
 "5510.EG.098K": { coords: { lat: 48.266005, lon: 11.670634 } }
@@ -376,10 +370,10 @@
 "5510.EG.099L": { coords: { lat: 48.265702, lon: 11.670795 } }
 "5510.EG.099N": { coords: { lat: 48.265951, lon: 11.670620 } }
 "5510.EG.099Q": { coords: { lat: 48.265763, lon: 11.670075 } }
-"5510.01.050": { coords: { lat: 48.265752, lon: 11.670190 } }  # MW 1050
-"5510.02.001": { coords: { lat: 48.265424, lon: 11.670841 } }  # Rudolf-Diesel-Hörsaal
-"5510.02.050": { coords: { lat: 48.265752, lon: 11.670190 } }  # MW 2050
-  
+"5510.01.050": { coords: { lat: 48.265752, lon: 11.670190 } } # MW 1050
+"5510.02.001": { coords: { lat: 48.265424, lon: 11.670841 } } # Rudolf-Diesel-Hörsaal
+"5510.02.050": { coords: { lat: 48.265752, lon: 11.670190 } } # MW 2050
+
 # === StudiTUM Garching ===
 "5532.EG.001": { coords: { lat: 48.266826, lon: 11.670113 } }
 "5532.EG.002": { coords: { lat: 48.266848, lon: 11.669950 } } # not entirely sure
