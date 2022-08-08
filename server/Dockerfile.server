@@ -21,7 +21,7 @@ ADD     https://nav.tum.sexy/cdn/api_data.json data/api_data.json
 RUN     python3 load_api_data_to_db.py
 
 # RUN
-FROM alpine:3.14
+FROM alpine:3.16.1
 
 RUN     apk update --quiet \
         && apk add -q --no-cache libgcc sqlite-libs tini curl
