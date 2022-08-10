@@ -78,6 +78,7 @@
     }
   },
   "devDependencies": {
+    "swagger-ui-dist": "^4.13.2",
     "browserify": "^17.0.0",
     "core-js": "^3.16.0",
     "delete": "^1.1.0",

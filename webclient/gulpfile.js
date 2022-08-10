@@ -638,6 +638,21 @@ function copyMapJS() {
 }
 gulp.task("map", gulp.parallel(copyMapCSS, copyMapJS));
 
+// --- api-visualiser (currently swagger-ui) Pipeline ---
+function copyApiCSS() {
+  return gulp
+    .src(["node_modules/swagger-ui-dist/swagger-ui.css"])
+    .pipe(concat("swagger-ui.min.css")) // swagger-ui is already minified => minifying here does not make sense
+    .pipe(gulp.dest("build/css"));
+}
+function copyApiJS() {
+  return gulp
+    .src(["node_modules/swagger-ui-dist/swagger-ui-bundle.js"])
+    .pipe(concat("swagger-ui.min.js")) // swagger-ui is already minified => minifying here does not make sense
+    .pipe(gulp.dest("build/js"));
+}
+gulp.task("api", gulp.parallel(copyApiCSS, copyApiJS));
+
 const _build = gulp.series(
   cleanBuild,
   i18nCompileLangfiles,
@@ -648,6 +663,7 @@ const _build = gulp.series(
     "assets",
     "well_known",
     "map",
+    "api",
     "markdown",
     "sitemap"
   ),
