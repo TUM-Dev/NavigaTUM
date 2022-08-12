@@ -14,7 +14,8 @@ from bs4 import BeautifulSoup, element  # type:ignore
 from defusedxml import ElementTree as ET  # type:ignore
 from utils import convert_to_webp
 
-ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192/"
+TUMONLINE_URL = "https://campus.tum.de/tumonline"
+ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192"
 CACHE_PATH = cache_path = Path(__file__).parent / "cache"
 
 
@@ -184,8 +185,8 @@ def _download_maps(used_maps):
     maps = []
     for e_type, e_id, _map in used_maps.values():
         # Download as file
-        url = f"http://roomfinder.ze.tum.de:8192/getMapImage?m_id={_map[1]}"
-        filepath = CACHE_PATH / "maps" / "roomfinder" / f"{_map[1]}.gif"
+        url = f"{ROOMFINDER_API_URL}/getMapImage?m_id={_map[1]}"
+        filepath = CACHE_PATH / "maps" / "roomfinder" / f"rf{_map[1]}.gif"
         _download_file(url, filepath)
         convert_to_webp(filepath)
 
@@ -423,7 +424,7 @@ def tumonline_orgs():
     # but this is not merged in at the moment:
     # https://campus.tum.de/tumonline/ee/rest/brm.orm.search/organisations/chooser?$language=de&view=S_COURSE_LVEAB_ORG
     url = (
-        "https://campus.tum.de/tumonline/ee/rest/brm.orm.search/organisations/chooser"
+        f"{TUMONLINE_URL}/ee/rest/brm.orm.search/organisations/chooser"
         "?$language=de"
         "&app=CO_LOC_GRUPPEN"
         "&view=CO_LOC_ORGCTX_PZ_ANONYM_V"
@@ -481,7 +482,7 @@ def _retrieve_tumonline_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
             "pVerwalter": 1,
             f_name: f_value,
         }
-        req = requests.post("https://campus.tum.de/tumonline/wbSuche.raumSuche", data=search_params)
+        req = requests.post(f"{TUMONLINE_URL}/wbSuche.raumSuche", data=search_params)
         rooms_on_page, pages_cnt, current_page = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
         all_rooms.extend(rooms_on_page)
 
@@ -498,7 +499,7 @@ def _retrieve_tumonline_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
 def _retrieve_tumonline_roominfo(system_id):
     """Retrieve the extended room information from TUMonline for one room"""
     html_parser: BeautifulSoup = _get_html(
-        f"https://campus.tum.de/tumonline/wbRaum.editRaum?pRaumNr={system_id}",
+        f"{TUMONLINE_URL}/wbRaum.editRaum?pRaumNr={system_id}",
         {},
         f"room/{system_id}",
     )
@@ -651,4 +652,4 @@ def _write_cache_json(fname, data):
 def _get_tumonline_api_url(base_target):
     # I have no idea, what this magic_string is, or why it exists.. Usage is the same as from TUMonline..
     magic_string = f"NC_{str(random.randint(0, 9999)).zfill(4)}"  # nosec: random is not used security/crypto purposes
-    return f"https://campus.tum.de/tumonline/{base_target}/{magic_string}"
+    return f"{TUMONLINE_URL}/{base_target}/{magic_string}"
