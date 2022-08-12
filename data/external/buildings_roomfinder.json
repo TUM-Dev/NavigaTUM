@@ -6516,6 +6516,23 @@
     "default_map": ["10000", 80, "Lageplan Campus Garching", 676, 480]
   },
   {
+    "b_alias": "Hans-Piloty-Str. 1",
+    "b_roomCount": 0,
+    "b_area": "Garching - Elektrotechnik",
+    "b_name": "Elektro- und Informationstechnik",
+    "b_id": "5901",
+    "utm_zone": "32",
+    "utm_easting": 697591.0,
+    "utm_northing": 5349265.0,
+    "maps": [
+      ["10000", 80, "Lageplan Campus Garching", 676, 480],
+      ["200000", 54, "M\u00fcnchen", 640, 603],
+      ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
+    "default_map": ["10000", 80, "Lageplan Campus Garching", 676, 480]
+  },
+  {
     "b_alias": "",
     "b_roomCount": 1,
     "b_area": "Garching - Elektrotechnik",

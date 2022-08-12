@@ -130,11 +130,6 @@
     "area_id": 302
   },
   {
-    "filter_id": 2689,
-    "name": "5998 Interim Tento HS3/HS4 Garching EI, Hans-Piloty-Stra\u00dfe    5",
-    "area_id": 302
-  },
-  {
     "filter_id": 2549,
     "name": "4279 LWF Erweiterungsbau, Hans-Carl-von-Carlowitz Platz    4",
     "area_id": 282
@@ -185,9 +180,9 @@
     "area_id": 37
   },
   {
-    "filter_id": 1829,
-    "name": "5269 RCM-B\u00fcro-Containerbau, Walther-Mei\u00dfner-Str.    3",
-    "area_id": 37
+    "filter_id": 3010,
+    "name": "7894 Newton (AM), Freisinger Landstra\u00dfe   52",
+    "area_id": 57
   },
   {
     "filter_id": 1038,
@@ -197,6 +192,11 @@
   {
     "filter_id": 1305,
     "name": "8102 Business Campus Garching (BC2), Parkring 35-39",
+    "area_id": 57
+  },
+  {
+    "filter_id": 3009,
+    "name": "8104 Carl-Zeiss-Stra\u00dfe (AM), Carl-Zeiss-Stra\u00dfe    8",
     "area_id": 57
   },
   {
@@ -222,6 +222,11 @@
   {
     "filter_id": 2590,
     "name": "8123 Galileo B\u00fcro, W. v. Dyck-Str. 4, Walther-von-Dyck-Strasse    4",
+    "area_id": 202
+  },
+  {
+    "filter_id": 3029,
+    "name": "8124 Galileo B\u00fcro, W. v. Dyck-Str. 14, Walther-von-Dyck-Strasse   14",
     "area_id": 202
   },
   {
@@ -253,11 +258,6 @@
     "filter_id": 808,
     "name": "6107 Garagenbau, R\u00f6merhofweg   67",
     "area_id": 31
-  },
-  {
-    "filter_id": 627,
-    "name": "2701 Institut f\u00fcr Wasserchemie Werkstattgeb\u00e4u, Elisabeth-Winterhalter-Weg    6",
-    "area_id": 15
   },
   {
     "filter_id": 628,
@@ -501,6 +501,11 @@
     "area_id": 29
   },
   {
+    "filter_id": 3049,
+    "name": "2803 Forum der Zukunft (AM), Museumsinsel    1",
+    "area_id": 29
+  },
+  {
     "filter_id": 593,
     "name": "2804 Deutsches Museum, Museumsinsel 1 (NR), Museumsinsel    1",
     "area_id": 29
@@ -598,6 +603,11 @@
   {
     "filter_id": 2889,
     "name": "9378 TUM Panasonic (AM), Caroline-Herschel-Stra\u00dfe  100",
+    "area_id": 29
+  },
+  {
+    "filter_id": 2949,
+    "name": "9379 Lise Meitner Str. 8 (AM), Lise-Meitner-Stra\u00dfe    8",
     "area_id": 29
   },
   {
@@ -707,122 +717,122 @@
   },
   {
     "filter_id": 909,
-    "name": "3101 Obernach B\u00fcrogeb\u00e4ude, Obernach/Walchensee",
+    "name": "3101 Obernach B\u00fcrogeb\u00e4ude, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 910,
-    "name": "3102 Obernach Vesuchshalle 1, Obernach/Walchensee",
+    "name": "3102 Obernach Vesuchshalle 1, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 911,
-    "name": "3103 Obernach Werkst\u00e4tten, Obernach/Walchensee",
+    "name": "3103 Obernach Werkst\u00e4tten, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 912,
-    "name": "3104 Obernach Unterstelle, Obernach/Walchensee",
+    "name": "3104 Obernach Unterstelle, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 913,
-    "name": "3105 Obernach Archiv/Bibliothek, Obernach/Walchensee",
+    "name": "3105 Obernach Archiv/Bibliothek, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 914,
-    "name": "3106 Obernach Lagerhalle, Obernach/Walchensee",
+    "name": "3106 Obernach Lagerhalle, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 915,
-    "name": "3107 Obernach Freifl\u00e4che, Obernach/Walchensee",
+    "name": "3107 Obernach Freifl\u00e4che, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 916,
-    "name": "3108 Obernach Blockhaus, Obernach/Walchensee",
+    "name": "3108 Obernach Blockhaus, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 917,
-    "name": "3109 Obernach Geschiebelager, Obernach/Walchensee",
+    "name": "3109 Obernach Geschiebelager, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 918,
-    "name": "3110 Obernach Steuerhaus, Obernach/Walchensee",
+    "name": "3110 Obernach Steuerhaus, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 919,
-    "name": "3111 Obernach Messh\u00fctte, Obernach/Walchensee",
+    "name": "3111 Obernach Messh\u00fctte, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 920,
-    "name": "3112 Obernach Trafostation, Obernach/Walchensee",
+    "name": "3112 Obernach Trafostation, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 921,
-    "name": "3113 Obernach Pumpstation 2, Obernach/Walchensee",
+    "name": "3113 Obernach Pumpstation 2, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 922,
-    "name": "3114 Obernach Pumpstation 3, Obernach/Walchensee",
+    "name": "3114 Obernach Pumpstation 3, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 923,
-    "name": "3115 Obernach Pumpstation 4, Obernach/Walchensee",
+    "name": "3115 Obernach Pumpstation 4, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 924,
-    "name": "3116 Obernach Versuchshalle 2, Obernach/Walchensee",
+    "name": "3116 Obernach Versuchshalle 2, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 925,
-    "name": "3117 Obernach Holz-/Baulager, Obernach/Walchensee",
+    "name": "3117 Obernach Holz-/Baulager, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 926,
-    "name": "3118 Obernach Steuerhaus 2, Obernach/Walchensee",
+    "name": "3118 Obernach Steuerhaus 2, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 927,
-    "name": "3119 Obernach Turbinenhaus, Obernach/Walchensee",
+    "name": "3119 Obernach Turbinenhaus, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 928,
-    "name": "3120 Obernach Tiefbrunnen, Obernach/Walchensee",
+    "name": "3120 Obernach Tiefbrunnen, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 929,
-    "name": "3121 Obernach Modellaustellung, Obernach/Walchensee",
+    "name": "3121 Obernach Modellaustellung, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 2509,
-    "name": "3122 Obernach Folienhalle, Obernach/Walchensee",
+    "name": "3122 Obernach Folienhalle, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 2510,
-    "name": "3123 Obernach Fl\u00fcssiggastank, Obernach/Walchensee",
+    "name": "3123 Obernach Fl\u00fcssiggastank, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
     "filter_id": 2511,
-    "name": "3124 Obernach unterirdischer Wasserbeh\u00e4lter, Obernach/Walchensee",
+    "name": "3124 Obernach unterirdischer Wasserbeh\u00e4lter, Obernach/Walchensee   15",
     "area_id": 49
   },
   {
@@ -882,7 +892,7 @@
   },
   {
     "filter_id": 782,
-    "name": "5110 Trafostation PH (Abriss ca. Okt. 2019?), James-Franck-Str.    1",
+    "name": "5110 Trafostation PH (Abriss ca. Okt. 2021?), James-Franck-Str.    1",
     "area_id": 35
   },
   {
@@ -1082,37 +1092,37 @@
   },
   {
     "filter_id": 637,
-    "name": "4907 VSG.Roggst.-Wirtschaftsgeb\u00e4ude, Staatsgut Roggenstein",
+    "name": "4907 VSG.Roggst.-Wirtschaftsgeb\u00e4ude, Unterroggenstein  1-3",
     "area_id": 52
   },
   {
     "filter_id": 638,
-    "name": "4908 VSG.Roggst.-Wagenremise, Staatsgut Roggenstein",
+    "name": "4908 VSG.Roggst.-Wagenremise, Unterroggenstein  1-3",
     "area_id": 52
   },
   {
     "filter_id": 639,
-    "name": "4909 VSG.Roggst.-Maschinen, D\u00fcnger, Staatsgut Roggenstein",
+    "name": "4909 VSG.Roggst.-Maschinen, D\u00fcnger, Unterroggenstein  1-3",
     "area_id": 52
   },
   {
     "filter_id": 640,
-    "name": "4910 VSG.Roggenst.-Getreidesilo, Staatsgut Roggenstein",
+    "name": "4910 VSG.Roggenst.-Getreidesilo, Unterroggenstein  1-3",
     "area_id": 52
   },
   {
     "filter_id": 643,
-    "name": "4914 VSG.Roggst.-Arb.Gba. 1, SCHP, Staatsgut Roggenstein",
+    "name": "4914 VSG.Roggst.-Arb.Gba. 1, SCHP, Roggensteiner Stra\u00dfe  187",
     "area_id": 52
   },
   {
     "filter_id": 632,
-    "name": "4915 VSG.Roggst.-Arb.Gba. 2, SCHP, Staatsgut Roggenstein",
+    "name": "4915 VSG.Roggst.-Arb.Gba. 2, SCHP, Roggensteiner Stra\u00dfe  189",
     "area_id": 52
   },
   {
     "filter_id": 629,
-    "name": "4916 VSG.Roggst.-Arb.Gba. 3, SCHP, Staatsgut Roggenstein",
+    "name": "4916 VSG.Roggst.-Arb.Gba. 3, SCHP, Roggensteiner Stra\u00dfe  193",
     "area_id": 52
   },
   {
@@ -1351,18 +1361,13 @@
     "area_id": 23
   },
   {
-    "filter_id": 2669,
-    "name": "0598 Interim Tento HS Stammgel\u00e4nde, Arcisstr.   21",
-    "area_id": 23
-  },
-  {
     "filter_id": 645,
     "name": "3901 Starnberg Kiosk, Unterer Seeweg    5",
     "area_id": 48
   },
   {
     "filter_id": 646,
-    "name": "3902 Starnberg Wohn.-/Unterrichtsgeb\u00e4ude, Unterer Seeweg    5",
+    "name": "3902 Starnberg Seglerheim, Unterer Seeweg    5",
     "area_id": 48
   },
   {
@@ -1419,11 +1424,6 @@
     "filter_id": 1445,
     "name": "2808 Forschungszentrum f. Bauchemie (NR), Dr. Albert-Frank-Str.   32",
     "area_id": 98
-  },
-  {
-    "filter_id": 606,
-    "name": "2308 (SZ) Freitrib\u00fcne, Connollystr.   32",
-    "area_id": 18
   },
   {
     "filter_id": 607,
@@ -1791,6 +1791,11 @@
     "area_id": 42
   },
   {
+    "filter_id": 2929,
+    "name": "4222 Servicegeb\u00e4ude I, V\u00f6ttinger Stra\u00dfe   40",
+    "area_id": 42
+  },
+  {
     "filter_id": 689,
     "name": "4223 Genetik, Emil-Ramann-Str.    8",
     "area_id": 42
@@ -2113,11 +2118,6 @@
   {
     "filter_id": 1909,
     "name": "4275 TUMmesa, An der M\u00fchle   20",
-    "area_id": 138
-  },
-  {
-    "filter_id": 706,
-    "name": "4298 Tentomax HS Weihenstephan (Pr\u00fcfungszelt, Gregor-Mendel-Stra\u00dfe    2",
     "area_id": 138
   },
   {
