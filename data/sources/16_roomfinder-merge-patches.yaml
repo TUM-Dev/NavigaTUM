@@ -41,7 +41,7 @@ known_issues:
 
   # Rooms in this list will be included into the final data,
   # but with a data quality warning
-  not_in_TUMonline:
+  not_in_tumonline:
     # This room is not in TUMonline, although it is distinctly different from
     # N0125, N0126B and N0126C, which are all in Roomfinder and TUMonline
     "N0126A@0101": "0101.EG.N0126A"
