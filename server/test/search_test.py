@@ -1,7 +1,7 @@
 import itertools
 import json
-import os
 import urllib.parse
+from pathlib import Path
 
 import requests
 import yaml
@@ -244,15 +244,15 @@ def _gen_pos_indicator(search):
 
 def main():
     """Main function"""
-    with open(os.path.join(os.path.dirname(__file__), "test-queries.yaml"), encoding="utf-8") as file:
+    with open(Path(__file__).parent, "test-queries.yaml", encoding="utf-8") as file:
         test_queries = yaml.safe_load(file.read())
     cprint("=== Specific queries ===", attrs=["bold"])
-    # with open(os.path.join(os.path.dirname(__file__), "cmp-210811.json"), encoding="utf-8") as file:
+    # with open(Path(__file__).parent / "cmp-210811.json", encoding="utf-8") as file:
     #    cmp = json.load(file)
     cmp = None
     searches = test_specific_queries(test_queries["entry_queries"])
     _print_specific_queries_result(searches, cmp)
-    with open(os.path.join(os.path.dirname(__file__), "cmp-210811.json"), "w", encoding="utf-8") as file:
+    with open(Path(__file__).parent / "cmp-210811.json", "w", encoding="utf-8") as file:
         json.dump(searches, file)
 
 

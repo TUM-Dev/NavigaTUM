@@ -1,7 +1,6 @@
 # This script takes care of downloading data from the Roomfinder and TUMonline
 # and caching the results
 import json
-import os
 import random
 import string
 import time
@@ -16,6 +15,7 @@ from defusedxml import ElementTree as ET  # type:ignore
 from utils import convert_to_webp
 
 ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192/"
+CACHE_PATH = cache_path = Path(__file__).parent / "cache"
 
 
 def roomfinder_buildings():
@@ -185,9 +185,9 @@ def _download_maps(used_maps):
     for e_type, e_id, _map in used_maps.values():
         # Download as file
         url = f"http://roomfinder.ze.tum.de:8192/getMapImage?m_id={_map[1]}"
-        filepath = f"maps/roomfinder/{_map[1]}.gif"
+        filepath = CACHE_PATH / "maps" / "roomfinder" / f"{_map[1]}.gif"
         _download_file(url, filepath)
-        convert_to_webp(Path(filepath))
+        convert_to_webp(filepath)
 
         map_data = {
             "id": _map[1],
@@ -223,12 +223,13 @@ def _download_maps(used_maps):
 
 def _download_map(_map, e_id, e_type):
     base_url = "https://portal.mytum.de/campus/roomfinder/getRoomPlacemark"
+    filepath = CACHE_PATH / "maps" / "roomfinder" / "kmz" / f"{_map[1]}.kmz"
     if e_type == "room":
         url = f"{base_url}?roomid={urllib.parse.quote_plus(e_id)}&mapid={_map[1]}"
-        return _download_file(url, f"maps/roomfinder/kmz/{_map[1]}.kmz")
+        return _download_file(url, filepath)
     if e_type == "building":
         url = f"{base_url}?b_id={e_id}&mapid={_map[1]}"
-        return _download_file(url, f"maps/roomfinder/kmz/{_map[1]}.kmz")
+        return _download_file(url, filepath)
     raise RuntimeError(f"Unknown entity type: {e_type}")
 
 
@@ -591,13 +592,9 @@ def _parse_rooms_list(lxml_parser: BeautifulSoup):
     return rooms, num_pages, current_page
 
 
-def _get_cache_path(fname):
-    return os.path.join(os.path.dirname(__file__), "cache", fname)
-
-
 def _cached_json(fname):
-    path = _get_cache_path(fname)
-    if os.path.exists(path):
+    path = CACHE_PATH / fname
+    if path.exists():
         with open(path, encoding="utf-8") as file:
             return json.load(file)
     else:
@@ -611,8 +608,8 @@ def _get_roomsearch_xml(url: str, params: dict, cache_fname: str) -> BeautifulSo
 
 
 def _get_xml(url: str, params: dict, cache_fname: str):
-    cache_path = os.path.join(os.path.dirname(__file__), "cache", cache_fname)
-    if os.path.exists(cache_path):
+    cache_path = CACHE_PATH / cache_fname
+    if cache_path.exists():
         tree = ET.parse(cache_path)
         return tree.getroot()
 
@@ -624,32 +621,30 @@ def _get_xml(url: str, params: dict, cache_fname: str):
 
 
 def _get_html(url: str, params: dict, cache_fname: str) -> BeautifulSoup:
-    cache_path = os.path.join(os.path.dirname(__file__), "cache", cache_fname)
-    if os.path.exists(cache_path):
-        with open(cache_path, encoding="utf-8") as file:
-            return BeautifulSoup(file.read(), "lxml")
+    cached_xml_file = CACHE_PATH / cache_fname
+    if cached_xml_file.exists():
+        with open(cached_xml_file, encoding="utf-8") as file:
+            result = file.read()
     else:
         req = requests.get(url, params)
         time.sleep(0.5)  # Not the best place to put this
-        with open(cache_path, "w", encoding="utf-8") as file:
-            file.write(req.text)
-        return BeautifulSoup(req.text, "lxml")
+        with open(cached_xml_file, "w", encoding="utf-8") as file:
+            result = req.text
+            file.write(result)
+    return BeautifulSoup(result, "lxml")
 
 
-def _download_file(url, cache_rel_path):
-    cache_path = os.path.join(os.path.dirname(__file__), "cache", cache_rel_path)
-
-    if not os.path.exists(cache_path):
+def _download_file(url, target_cache_file):
+    if not target_cache_file.exists():
         print(f"Retrieving: '{url}'")
         # url parameter does not allow path traversal, because we build it further up in the callstack
-        urllib.request.urlretrieve(url, cache_path)  # nosec: B310
+        urllib.request.urlretrieve(url, target_cache_file)  # nosec: B310
 
-    return cache_path
+    return target_cache_file
 
 
 def _write_cache_json(fname, data):
-    path = _get_cache_path(fname)
-    with open(path, "w", encoding="utf-8") as file:
+    with open(CACHE_PATH / fname, "w", encoding="utf-8") as file:
         json.dump(data, file)
 
 
