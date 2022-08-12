@@ -85,11 +85,13 @@ jobs:
       - mieli-search-build
     services:
       server:
-        image: ${{ needs.server-build.outputs.tags }}
+        image: ghcr.io/tum-dev/navigatum-server:main
+        # TODO get the tags from ${{ needs.server-build.outputs.tags }}
         ports:
           - 8080
       mieli:
-        image: ${{ needs.mieli-search-build.outputs.tags }}
+        image: ghcr.io/tum-dev/navigatum-mieli-search:main
+        # TODO get the tags from ${{ needs.mieli-search-build.outputs.tags }}
         ports:
           - 7700
     steps:
