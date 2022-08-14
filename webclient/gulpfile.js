@@ -14,6 +14,7 @@ import inject from "gulp-inject";
 import injectStr from "gulp-inject-string";
 import injectHtml from "gulp-inject-stringified-html";
 import markdown, { marked } from "gulp-markdown";
+import postcss from "gulp-postcss";
 import preprocess from "gulp-preprocess";
 import purgecss from "gulp-purgecss";
 import rename from "gulp-rename";
@@ -30,6 +31,7 @@ import fs from "fs";
 import merge from "merge-stream";
 import dartSass from "sass";
 import path from "path";
+import postcssPrependSelector from "postcss-prepend-selector";
 import source from "vinyl-source-stream";
 
 import { configRelease, configLocal } from "./config.js"; // eslint-disable-line import/extensions
@@ -641,7 +643,12 @@ gulp.task("map", gulp.parallel(copyMapCSS, copyMapJS));
 // --- api-visualiser (currently swagger-ui) Pipeline ---
 function copyApiCSS() {
   return gulp
-    .src(["node_modules/swagger-ui-dist/swagger-ui.css"])
+    .src("node_modules/SwaggerDark/SwaggerDark.css")
+    .pipe(postcss([
+      postcssPrependSelector({ selector: "body.theme-dark " })
+    ]))
+    .pipe(csso())
+    .pipe(addsrc.prepend("node_modules/swagger-ui-dist/swagger-ui.css"))
     .pipe(concat("swagger-ui.min.css")) // swagger-ui is already minified => minifying here does not make sense
     .pipe(gulp.dest("build/css"));
 }

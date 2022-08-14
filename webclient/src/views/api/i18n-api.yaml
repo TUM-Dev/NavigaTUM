@@ -2,6 +2,3 @@ view_api:
   title:
     de: "NavigaTUMs API Documentation"
     en: "NavigaTUMs API Documentation"
-  only-light-mode:
-    de: "Die momentane Seite ist nur für den Light mode optimiert. There be dragons."
-    en: "The current page is only optimised for the light mode. There be dragons."
