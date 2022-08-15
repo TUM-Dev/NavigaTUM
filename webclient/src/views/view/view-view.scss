@@ -399,6 +399,19 @@
                 border-bottom: 0;
             }
         }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+        }
+
+        li {
+            margin: 0 0 .4rem 0;
+
+            &:last-child {
+                margin: 0;
+            }
+        }
     }
 
     /* --- Sections general --- */
