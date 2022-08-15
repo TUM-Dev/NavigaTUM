@@ -892,12 +892,14 @@ components:
         computed:
           type: array
           items:
-            $ref: "#/components/schemas/Prop"
-        comment:
-          $ref: "#/components/schemas/CommentProp"
+            $ref: "#/components/schemas/ComputedProp"
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/LinkProp"
       required:
         - computed
-    Prop:
+    ComputedProp:
       type: object
       properties:
         name:
@@ -909,6 +911,33 @@ components:
       required:
         - name
         - text
+    LinkProp:
+      type: object
+      description: A link with a localized link text and url
+      properties:
+        text:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+          required:
+            - de
+            - en
+        url:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+          required:
+            - de
+            - en
+      required:
+        - text
+        - url
     CommentProp:
       type: object
       description: A comment to show to an entry. It is used in the rare cases, where some aspect about the rooom/ translation are misleading.
