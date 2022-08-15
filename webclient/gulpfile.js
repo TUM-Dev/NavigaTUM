@@ -645,7 +645,7 @@ function copyApiCSS() {
   return gulp
     .src("node_modules/SwaggerDark/SwaggerDark.css")
     .pipe(postcss([
-      postcssPrependSelector({ selector: "body.theme-dark " })
+      postcssPrependSelector({ selector: "body.theme-dark #swagger-ui " })
     ]))
     .pipe(csso())
     .pipe(addsrc.prepend("node_modules/swagger-ui-dist/swagger-ui.css"))
