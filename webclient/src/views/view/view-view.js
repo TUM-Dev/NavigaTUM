@@ -132,6 +132,10 @@ navigatum.registerView("view", {
         this.image.slideshow_open = openSlideshow;
         this.image.shown_image_id = i;
         this.image.shown_image = this.view_data.imgs[i];
+      } else {
+        this.image.slideshow_open = false;
+        this.image.shown_image_id = null;
+        this.image.shown_image = null;
       }
     },
     hideImageShowcase: function () {
