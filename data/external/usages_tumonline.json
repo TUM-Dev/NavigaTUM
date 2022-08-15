@@ -10,11 +10,7 @@
     "name": "Aufzug",
     "din_277": "VF9.3 - Sch\u00e4chte f\u00fcr F\u00f6rderanlagen"
   },
-  {
-    "id": 222,
-    "name": "Aufzug",
-    "din_277": "VF9.3 - Sch\u00e4chte f\u00fcr F\u00f6rderanlagen"
-  },
+  { "id": 222, "name": "Flur", "din_277": "VF9.1 - Flure, Hallen" },
   {
     "id": 5,
     "name": "Aufzugsanlage",
