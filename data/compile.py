@@ -83,6 +83,7 @@ def main():
 
     logging.info("-- 80 Generate info card")
     sections.compute_props(data)
+    sections.localize_links(data)
 
     logging.info("-- 81 Generate overview sections")
     sections.generate_buildings_overview(data)

@@ -53,6 +53,24 @@ def _gen_computed_props(_id, entry, props):
     return computed
 
 
+def localize_links(data):
+    """
+    Reformat the "links" value in "props" to be explicitly localized.
+    This is a convenience function for the source data format that converts e.g.:
+      `text: "<str>"`
+    into
+      `text: { de: "<str>", en: "<str>" }`
+    """
+    for _id, entry in data.items():
+        links = entry.get("props", {}).get("links", None)
+        if links:
+            for link in links:
+                if isinstance(link["text"], str):
+                    link["text"] = {"de": link["text"], "en": link["text"]}
+                if isinstance(link["url"], str):
+                    link["url"] = {"de": link["url"], "en": link["url"]}
+
+
 def generate_buildings_overview(data):
     """
     Generate the "buildings_overview" section

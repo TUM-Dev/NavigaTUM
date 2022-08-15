@@ -467,6 +467,7 @@ navigatum.routes = [
     component: navigatum.getView("view"),
   },
   { path: "/search", component: navigatum.getView("search") },
+  { path: "/api", component: navigatum.getView("api") },
   { path: "/about/:name", component: navigatum.getView("md") },
   { path: "/:catchAll(.*)", component: navigatum.getView("404") },
 ];

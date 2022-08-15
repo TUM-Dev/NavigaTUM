@@ -505,6 +505,20 @@ wzw-berg:
           de: "https://www.sv.tum.de/sv/das-machen-wir/projekte/studitum-haeuser-der-studierenden/"
           en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
 
+4113:  # StudiTUM Weihenstephan
+  props:
+    links:
+      - text:
+          de: "Lernraumbelegung"
+          en: "Learning rooms usage"
+        url: "https://www.devapp.it.tum.de/iris/app/"
+      - text:
+          de: "Über das StudiTUM"
+          en: "About the StudiTUM"
+        url:
+          de: "https://www.sv.tum.de/sv/das-machen-wir/projekte/studitum-haeuser-der-studierenden/"
+          en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
+
 4155:
   coords: { lat: 48.39547, lon: 11.72988 }
 
@@ -527,7 +541,7 @@ staudensichtungsgarten:
         url:
           de: "https://tum-dev.github.io/eat-api/#!/de/mensa-weihenstephan"
           en: "https://tum-dev.github.io/eat-api/#!/en/mensa-weihenstephan"
-  
+
 4222:  # Servicezentrum
   osm: ["way/919146348"]
   coords: { lat: 48.39832, lon: 11.72429 }

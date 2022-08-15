@@ -19,6 +19,8 @@ view_view:
     roomfinder: { de: "Lagepläne", en: "Site Plans" }
     img_source: { de: "Bildquelle", en: "Image source" }
   info_title: { de: "Informationen", en: "Information" }
+  info_table:
+    links: { de: "Links", en: "Links" }
   buildings_overview:
     title: { de: "Gebäude / Gebiete", en: "Buildings / Areas" }
     more: { de: "mehr", en: "more" }
