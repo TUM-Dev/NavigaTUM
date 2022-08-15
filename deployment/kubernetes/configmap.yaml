@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-    name: navigatum-config
-    labels:
-        app: navigatum
-    namespace: navigatum
+  name: navigatum-config
+  labels:
+    app: navigatum
+  namespace: navigatum
 data:
-    ALLOWED_HOSTS: 'nav.tum.sexy'
+  ALLOWED_HOSTS: "nav.tum.sexy"

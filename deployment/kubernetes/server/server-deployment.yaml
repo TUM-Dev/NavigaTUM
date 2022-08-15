@@ -1,87 +1,87 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: navigatum-server
-    labels:
+  name: navigatum-server
+  labels:
+    app: navigatum
+    deployment: api
+  namespace: navigatum
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: navigatum
+      deployment: api
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
         app: navigatum
         deployment: api
-    namespace: navigatum
-spec:
-    replicas: 1
-    revisionHistoryLimit: 1
-    selector:
-        matchLabels:
-            app: navigatum
-            deployment: api
-    strategy:
-        rollingUpdate:
-            maxSurge: 100%
-            maxUnavailable: 0%
-        type: RollingUpdate
-    template:
-        metadata:
-            labels:
-                app: navigatum
-                deployment: api
-        spec:
-            containers:
-                - name: navigatum-server
-                  image: ghcr.io/tum-dev/navigatum-server:main
-                  imagePullPolicy: Always
-                  envFrom:
-                      - configMapRef:
-                            name: navigatum-config
-                      - secretRef:
-                            name: navigatum-github-token
-                  ports:
-                      - containerPort: 8080
-                        name: navigatum-api
-                  securityContext:
-                    readOnlyRootFilesystem: true
-                  resources:
-                    requests:
-                      cpu: 30m
-                      memory: 500Mi
-                    limits:
-                      cpu: 1000m
-                      memory: 700Mi
-                  livenessProbe:
-                      httpGet:
-                          path: /api/health
-                          port: navigatum-api
-                      failureThreshold: 1
-                      periodSeconds: 1
-                  startupProbe:
-                      httpGet:
-                          path: /api/health
-                          port: navigatum-api
-                      failureThreshold: 60
-                      periodSeconds: 1
-                - name: mieli-search
-                  image: ghcr.io/tum-dev/navigatum-mieli-search:main
-                  imagePullPolicy: Always
-                  envFrom:
-                      - configMapRef:
-                            name: navigatum-config
-                  ports:
-                      - containerPort: 7700
-                        name: mieli-search
-                  resources:
-                    requests:
-                      cpu: 10m
-                      memory: 25Mi
-                    limits:
-                      cpu: 1000m
-                      memory: 100Mi
-                  livenessProbe:
-                      httpGet:
-                          path: /health
-                          port: mieli-search
-                      failureThreshold: 5
-                      periodSeconds: 1
-                  startupProbe:
-                      httpGet:
-                          path: /health
-                          port: mieli-search
-                      failureThreshold: 60
-                      periodSeconds: 1
+    spec:
+      containers:
+        - name: navigatum-server
+          image: ghcr.io/tum-dev/navigatum-server:main
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: navigatum-config
+            - secretRef:
+                name: navigatum-github-token
+          ports:
+            - containerPort: 8080
+              name: navigatum-api
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              cpu: 30m
+              memory: 500Mi
+            limits:
+              cpu: 1000m
+              memory: 700Mi
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: navigatum-api
+            failureThreshold: 1
+            periodSeconds: 1
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: navigatum-api
+            failureThreshold: 60
+            periodSeconds: 1
+        - name: mieli-search
+          image: ghcr.io/tum-dev/navigatum-mieli-search:main
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: navigatum-config
+          ports:
+            - containerPort: 7700
+              name: mieli-search
+          resources:
+            requests:
+              cpu: 10m
+              memory: 25Mi
+            limits:
+              cpu: 1000m
+              memory: 100Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: mieli-search
+            failureThreshold: 5
+            periodSeconds: 1
+          startupProbe:
+            httpGet:
+              path: /health
+              port: mieli-search
+            failureThreshold: 60
+            periodSeconds: 1

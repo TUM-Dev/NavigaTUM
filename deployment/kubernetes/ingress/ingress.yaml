@@ -1,88 +1,88 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-    name: navigatum-ingress
-    labels:
-        app: navigatum
-    namespace: navigatum
+  name: navigatum-ingress
+  labels:
+    app: navigatum
+  namespace: navigatum
 spec:
-    entryPoints:
-        - websecure
-    routes:
-        # temproary workaround for traefik bug (interoperability with ingress)
-        - kind: Rule
-          match: Host(`nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-          priority: 12
-          services:
-              - name: cm-acme-http-solver-4xsc9
-                port: 8089
-                kind: Service
-        - kind: Rule
-          match: Host(`nav.tum.sexy`) && PathPrefix(`/api/`)
-          priority: 11
-          services:
-              - name: navigatum-api-svc
-                port: 7000
-        - kind: Rule
-          match: Host(`nav.tum.sexy`) && PathPrefix(`/cdn/`)
-          priority: 10
-          services:
-              - name: navigatum-cdn-svc
-                port: 8000
-        - kind: Rule
-          match: Host(`nav.tum.sexy`) && PathPrefix(`/rendertron/`)
-          priority: 9
-          services:
-              - name: navigatum-web-svc
-                port: 9100
-          middlewares:
-              - name: stripprefix
-        - kind: Rule
-          match: Host(`nav.tum.sexy`)
-          priority: 8
-          services:
-              - name: navigatum-web-svc
-                port: 9000
-    tls:
-        secretName: nav.tum.sexy
+  entryPoints:
+    - websecure
+  routes:
+    # temproary workaround for traefik bug (interoperability with ingress)
+    - kind: Rule
+      match: Host(`nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
+      priority: 12
+      services:
+        - name: cm-acme-http-solver-4xsc9
+          port: 8089
+          kind: Service
+    - kind: Rule
+      match: Host(`nav.tum.sexy`) && PathPrefix(`/api/`)
+      priority: 11
+      services:
+        - name: navigatum-api-svc
+          port: 7000
+    - kind: Rule
+      match: Host(`nav.tum.sexy`) && PathPrefix(`/cdn/`)
+      priority: 10
+      services:
+        - name: navigatum-cdn-svc
+          port: 8000
+    - kind: Rule
+      match: Host(`nav.tum.sexy`) && PathPrefix(`/rendertron/`)
+      priority: 9
+      services:
+        - name: navigatum-web-svc
+          port: 9100
+      middlewares:
+        - name: stripprefix
+    - kind: Rule
+      match: Host(`nav.tum.sexy`)
+      priority: 8
+      services:
+        - name: navigatum-web-svc
+          port: 9000
+  tls:
+    secretName: nav.tum.sexy
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-    name: navigatum-ingress-http
-    labels:
-        app: navigatum
-    namespace: navigatum
+  name: navigatum-ingress-http
+  labels:
+    app: navigatum
+  namespace: navigatum
 spec:
-    entryPoints:
-        - web
-    routes:
-        # temproary workaround for traefik bug (interoperability with ingress)
-        - kind: Rule
-          match: Host(`nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-          priority: 12
-          services:
-              - name: cm-acme-http-solver-4xsc9
-                port: 8089
-                kind: Service
-        # cdn and api can be reached via http, while the website redirects to https
-        - kind: Rule
-          match: Host(`nav.tum.sexy`) && PathPrefix(`/api/`)
-          priority: 11
-          services:
-              - name: navigatum-api-svc
-                port: 7000
-        - kind: Rule
-          match: Host(`nav.tum.sexy`) && PathPrefix(`/cdn/`)
-          priority: 10
-          services:
-              - name: navigatum-cdn-svc
-                port: 8000
-        - kind: Rule
-          match: Host(`nav.tum.sexy`)
-          priority: 9
-          services:
-              - name: noop@internal
-                kind: TraefikService
-          middlewares:
-              - name: https
+  entryPoints:
+    - web
+  routes:
+    # temproary workaround for traefik bug (interoperability with ingress)
+    - kind: Rule
+      match: Host(`nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
+      priority: 12
+      services:
+        - name: cm-acme-http-solver-4xsc9
+          port: 8089
+          kind: Service
+    # cdn and api can be reached via http, while the website redirects to https
+    - kind: Rule
+      match: Host(`nav.tum.sexy`) && PathPrefix(`/api/`)
+      priority: 11
+      services:
+        - name: navigatum-api-svc
+          port: 7000
+    - kind: Rule
+      match: Host(`nav.tum.sexy`) && PathPrefix(`/cdn/`)
+      priority: 10
+      services:
+        - name: navigatum-cdn-svc
+          port: 8000
+    - kind: Rule
+      match: Host(`nav.tum.sexy`)
+      priority: 9
+      services:
+        - name: noop@internal
+          kind: TraefikService
+      middlewares:
+        - name: https

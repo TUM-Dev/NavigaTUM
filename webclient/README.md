@@ -1,26 +1,32 @@
 # NavigaTUM Webclient
+
 This repository contains the JavaScript based webclient for NavigaTUM.
 
 ## Getting started
 
 ### Dependencies
+
 You need the following dependencies to get started:
+
 - Node (for Gulp)
 - [Yarn](https://yarnpkg.com/getting-started/install)
 - [Gulp](https://gulpjs.com/)
 - Python (for testing)
 
-Installing *Yarn* and *Gulp* with npm:
+Installing _Yarn_ and _Gulp_ with npm:
+
 ```bash
 sudo npm install -g yarn gulp
 ```
 
 ### Images and maps
+
 The frontend uses images and maps from the data, that are intended to be served
 statically via a CDN and not provided by the API.
 
 For a local environment, create a `cdn/` subdirectory in `weblclient/` and copy the relevant files
 into it:
+
 ```bash
 mkdir cdn
 rsync -r --exclude '*.yaml' ../data/sources/img/ cdn/
@@ -31,6 +37,7 @@ cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder/
 ### Building
 
 Install all npm packages:
+
 ```bash
 yarn
 # alternatively, if you do not use yarn:
@@ -38,6 +45,7 @@ npm install
 ```
 
 And run Gulp to build the client. The build files will be written to `build/`.
+
 ```bash
 # Run development build
 gulp
@@ -47,12 +55,14 @@ gulp release
 ```
 
 ### Testing
+
 If you do a development build you can use a simple webserver to test the build.
 
-Ensure that *NavigaTUM-server* is running in the background. By default the webclient will connect to the server on `http://localhost:8080`.
+Ensure that _NavigaTUM-server_ is running in the background. By default the webclient will connect to the server on `http://localhost:8080`.
 If you want to connect to the public API instead, change `api_prefix` in `config-local.js` to `https://nav.tum.sexy/api/` and rebuild.
 
 Now run:
+
 ```bash
 python -m http.server
 ```
@@ -63,6 +73,7 @@ Note that local builds served this way do not support the language and theme set
 You can choose a different base HTML instead.
 
 ## Build files & Serving release build
+
 Gulp creates a lot of index HTML files in the build process.
 Each of those files are similar but differ in some aspects.
 If you serve the release build with a webserver (such as Apache or Nginx) you need
@@ -87,13 +98,15 @@ When running locally on a development build you can use the language and theme o
 your choice as well as any view.
 
 ## Architecture
-The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/). The CSS framework is [Spectre.css](https://picturepan2.github.io/spectre/). It is made up of a core codebase, *views* and *modules*:
+
+The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/). The CSS framework is [Spectre.css](https://picturepan2.github.io/spectre/). It is made up of a core codebase, _views_ and _modules_:
 
 - The core codebase provides the routing functionality, as well as helper functions (e.g. to retrieve data). All of this is bundles in the `navigatum` object in JS.
-- *Views* (taking over the terminology from vue-router) are the pages displayed in NavigaTUM.
-- *Modules* provide extra functionality that is not critical or used by multiple views (e.g. the interactive map).
+- _Views_ (taking over the terminology from vue-router) are the pages displayed in NavigaTUM.
+- _Modules_ provide extra functionality that is not critical or used by multiple views (e.g. the interactive map).
 
 ### Directory structure
+
 ```bash
 webclient
 ├── build/    # 🠔 Build files will be written here
@@ -122,6 +135,7 @@ webclient
 ```
 
 'Views' (pages) are located in `src/views` where each view has its own subdirectory called `view-<name>`:
+
 ```bash
 view-example
 ├── i18n-example.yaml  # 🠔 Translation strings for each language

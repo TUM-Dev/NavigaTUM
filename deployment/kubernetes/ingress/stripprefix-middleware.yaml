@@ -3,7 +3,7 @@ kind: Middleware
 metadata:
   name: stripprefix
   labels:
-      app: navigatum
+    app: navigatum
   namespace: navigatum
 spec:
   stripPrefix:

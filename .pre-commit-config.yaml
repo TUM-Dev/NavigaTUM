@@ -11,13 +11,20 @@ repos:
       - id: check-json
       - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
-      - id: check-merge-conflict
       - id: check-case-conflict
       - id: check-docstring-first
       - id: debug-statements
       - id: end-of-file-fixer
       - id: mixed-line-ending
       - id: requirements-txt-fixer
+  # only api
+  - repo: local
+    hooks:
+      - id: openapi-format
+        name: openapi-format
+        entry: openapi-format ./openapi.yaml --output
+        language: system
+        files: "openapi.yaml"
   # only server
   - repo: local
     hooks:

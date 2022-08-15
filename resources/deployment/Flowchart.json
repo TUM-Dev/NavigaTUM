@@ -1,1 +1,290 @@
-{"id":"87f657e8-9fab-4359-abb2-536121667ebf","title":"Flowchart","model":{"version":"2.0.0","type":"Flowchart","size":{"width":840,"height":1010},"interactive":{"elements":[],"relationships":[]},"elements":[{"id":"80d14e10-6373-4c2a-a061-6a744ea08708","name":"START","type":"FlowchartTerminal","owner":null,"bounds":{"x":290,"y":0,"width":150,"height":75}},{"id":"d0225bd8-73f5-41ca-93f7-281ea7a01caf","name":"endpoint?","type":"FlowchartDecision","owner":null,"bounds":{"x":290,"y":160,"width":150,"height":75}},{"id":"97ca81f2-3db4-4970-be23-9d2375583f20","name":"https?","type":"FlowchartDecision","owner":null,"bounds":{"x":290,"y":370,"width":150,"height":75}},{"id":"1f42f0ec-258b-4e01-85da-2b9bbf4b665e","name":"navigatum-data","type":"FlowchartProcess","owner":null,"bounds":{"x":630,"y":370,"width":150,"height":75}},{"id":"83ea1a90-e2d2-47a3-bf68-e9db19628138","name":"navigatum-server","type":"FlowchartProcess","owner":null,"bounds":{"x":460,"y":370,"width":150,"height":75}},{"id":"ace89d81-f1a7-4e0e-9aaa-eb452f70e955","name":"navigatum-webclient","type":"FlowchartProcess","owner":null,"bounds":{"x":250,"y":750,"width":230,"height":75}},{"id":"6d4ee1e8-d04a-4fe3-b112-fe03205c3d5c","name":"js-execution capability?","type":"FlowchartDecision","owner":null,"bounds":{"x":230,"y":540,"width":270,"height":95}},{"id":"4fc067c0-c89b-47e6-a945-94bfe5b944d7","name":"rendertron rendering-proxy","type":"FlowchartProcess","owner":null,"bounds":{"x":0,"y":550,"width":150,"height":75}}],"relationships":[{"id":"d79d77e2-0556-44c8-9609-fcc80578caf5","name":"","type":"FlowchartFlowline","owner":null,"bounds":{"x":365,"y":75,"width":1,"height":85},"path":[{"x":0,"y":0},{"x":0,"y":85}],"source":{"direction":"Down","element":"80d14e10-6373-4c2a-a061-6a744ea08708"},"target":{"direction":"Up","element":"d0225bd8-73f5-41ca-93f7-281ea7a01caf"}},{"id":"e9214c5a-d70d-4326-85b1-ce38eb3081c9","name":"/api/","type":"FlowchartFlowline","owner":null,"bounds":{"x":440,"y":197.5,"width":95,"height":172.5},"path":[{"x":0,"y":0},{"x":95,"y":0},{"x":95,"y":172.5}],"source":{"direction":"Right","element":"d0225bd8-73f5-41ca-93f7-281ea7a01caf"},"target":{"direction":"Up","element":"83ea1a90-e2d2-47a3-bf68-e9db19628138"}},{"id":"a68ed210-c6e2-4a61-b998-ad83bf34d236","name":"/cdn/","type":"FlowchartFlowline","owner":null,"bounds":{"x":440,"y":197.5,"width":265,"height":172.5},"path":[{"x":0,"y":0},{"x":265,"y":0},{"x":265,"y":172.5}],"source":{"direction":"Right","element":"d0225bd8-73f5-41ca-93f7-281ea7a01caf"},"target":{"direction":"Up","element":"1f42f0ec-258b-4e01-85da-2b9bbf4b665e"}},{"id":"07e0ec8d-4028-4563-8874-bac24f5d9bcd","name":"else","type":"FlowchartFlowline","owner":null,"bounds":{"x":365,"y":235,"width":1,"height":135},"path":[{"x":0,"y":0},{"x":0,"y":135}],"source":{"direction":"Down","element":"d0225bd8-73f5-41ca-93f7-281ea7a01caf"},"target":{"direction":"Up","element":"97ca81f2-3db4-4970-be23-9d2375583f20"}},{"id":"3f5755ee-7a29-437d-8b9c-edd8b29ede96","name":"yes","type":"FlowchartFlowline","owner":null,"bounds":{"x":365,"y":445,"width":1,"height":95},"path":[{"x":0,"y":0},{"x":0,"y":95}],"source":{"direction":"Down","element":"97ca81f2-3db4-4970-be23-9d2375583f20"},"target":{"direction":"Up","element":"6d4ee1e8-d04a-4fe3-b112-fe03205c3d5c"}},{"id":"93ac7953-ac74-4d3c-840f-a020f7c3258c","name":"yes","type":"FlowchartFlowline","owner":null,"bounds":{"x":365,"y":635,"width":1,"height":115},"path":[{"x":0,"y":0},{"x":0,"y":115}],"source":{"direction":"Down","element":"6d4ee1e8-d04a-4fe3-b112-fe03205c3d5c"},"target":{"direction":"Up","element":"ace89d81-f1a7-4e0e-9aaa-eb452f70e955"}},{"id":"0758b4bc-0822-4b77-809f-c2e4d3737f5a","name":"","type":"FlowchartFlowline","owner":null,"bounds":{"x":75,"y":625,"width":175,"height":162.5},"path":[{"x":175,"y":162.5},{"x":0,"y":162.5},{"x":0,"y":0}],"source":{"direction":"Left","element":"ace89d81-f1a7-4e0e-9aaa-eb452f70e955"},"target":{"direction":"Down","element":"4fc067c0-c89b-47e6-a945-94bfe5b944d7"}},{"id":"ae2aef6b-6867-485d-85fb-060a5e160444","name":"/rendertron/","type":"FlowchartFlowline","owner":null,"bounds":{"x":75,"y":197.5,"width":215,"height":352.5},"path":[{"x":215,"y":0},{"x":0,"y":0},{"x":0,"y":352.5}],"source":{"direction":"Left","element":"d0225bd8-73f5-41ca-93f7-281ea7a01caf"},"target":{"direction":"Up","element":"4fc067c0-c89b-47e6-a945-94bfe5b944d7"}},{"id":"f8237def-cca1-4142-8df2-d355fe815fa4","name":"redirect to https","type":"FlowchartFlowline","owner":null,"bounds":{"x":250,"y":330,"width":115,"height":77.5},"path":[{"x":40,"y":77.5},{"x":0,"y":77.5},{"x":0,"y":0},{"x":115,"y":0},{"x":115,"y":40}],"source":{"direction":"Left","element":"97ca81f2-3db4-4970-be23-9d2375583f20"},"target":{"direction":"Up","element":"97ca81f2-3db4-4970-be23-9d2375583f20"}},{"id":"253de17d-9c84-42ca-ab26-99a9c1c8842f","name":"","type":"FlowchartFlowline","owner":null,"bounds":{"x":75,"y":625,"width":175,"height":162.5},"path":[{"x":0,"y":0},{"x":0,"y":162.5},{"x":175,"y":162.5}],"source":{"direction":"Down","element":"4fc067c0-c89b-47e6-a945-94bfe5b944d7"},"target":{"direction":"Left","element":"ace89d81-f1a7-4e0e-9aaa-eb452f70e955"}},{"id":"655d6343-25aa-4c54-a4f6-b962ab4bf8ec","name":"no","type":"FlowchartFlowline","owner":null,"bounds":{"x":150,"y":587.5,"width":80,"height":1},"path":[{"x":80,"y":0},{"x":0,"y":0}],"source":{"direction":"Left","element":"6d4ee1e8-d04a-4fe3-b112-fe03205c3d5c"},"target":{"direction":"Right","element":"4fc067c0-c89b-47e6-a945-94bfe5b944d7"}}],"assessments":[]},"lastUpdate":"2022-01-25T21:44:15.794Z","diagramType":"Flowchart"}
+{
+  "id": "87f657e8-9fab-4359-abb2-536121667ebf",
+  "title": "Flowchart",
+  "model": {
+    "version": "2.0.0",
+    "type": "Flowchart",
+    "size": { "width": 840, "height": 1010 },
+    "interactive": { "elements": [], "relationships": [] },
+    "elements": [
+      {
+        "id": "80d14e10-6373-4c2a-a061-6a744ea08708",
+        "name": "START",
+        "type": "FlowchartTerminal",
+        "owner": null,
+        "bounds": { "x": 290, "y": 0, "width": 150, "height": 75 }
+      },
+      {
+        "id": "d0225bd8-73f5-41ca-93f7-281ea7a01caf",
+        "name": "endpoint?",
+        "type": "FlowchartDecision",
+        "owner": null,
+        "bounds": { "x": 290, "y": 160, "width": 150, "height": 75 }
+      },
+      {
+        "id": "97ca81f2-3db4-4970-be23-9d2375583f20",
+        "name": "https?",
+        "type": "FlowchartDecision",
+        "owner": null,
+        "bounds": { "x": 290, "y": 370, "width": 150, "height": 75 }
+      },
+      {
+        "id": "1f42f0ec-258b-4e01-85da-2b9bbf4b665e",
+        "name": "navigatum-data",
+        "type": "FlowchartProcess",
+        "owner": null,
+        "bounds": { "x": 630, "y": 370, "width": 150, "height": 75 }
+      },
+      {
+        "id": "83ea1a90-e2d2-47a3-bf68-e9db19628138",
+        "name": "navigatum-server",
+        "type": "FlowchartProcess",
+        "owner": null,
+        "bounds": { "x": 460, "y": 370, "width": 150, "height": 75 }
+      },
+      {
+        "id": "ace89d81-f1a7-4e0e-9aaa-eb452f70e955",
+        "name": "navigatum-webclient",
+        "type": "FlowchartProcess",
+        "owner": null,
+        "bounds": { "x": 250, "y": 750, "width": 230, "height": 75 }
+      },
+      {
+        "id": "6d4ee1e8-d04a-4fe3-b112-fe03205c3d5c",
+        "name": "js-execution capability?",
+        "type": "FlowchartDecision",
+        "owner": null,
+        "bounds": { "x": 230, "y": 540, "width": 270, "height": 95 }
+      },
+      {
+        "id": "4fc067c0-c89b-47e6-a945-94bfe5b944d7",
+        "name": "rendertron rendering-proxy",
+        "type": "FlowchartProcess",
+        "owner": null,
+        "bounds": { "x": 0, "y": 550, "width": 150, "height": 75 }
+      }
+    ],
+    "relationships": [
+      {
+        "id": "d79d77e2-0556-44c8-9609-fcc80578caf5",
+        "name": "",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 365, "y": 75, "width": 1, "height": 85 },
+        "path": [
+          { "x": 0, "y": 0 },
+          { "x": 0, "y": 85 }
+        ],
+        "source": {
+          "direction": "Down",
+          "element": "80d14e10-6373-4c2a-a061-6a744ea08708"
+        },
+        "target": {
+          "direction": "Up",
+          "element": "d0225bd8-73f5-41ca-93f7-281ea7a01caf"
+        }
+      },
+      {
+        "id": "e9214c5a-d70d-4326-85b1-ce38eb3081c9",
+        "name": "/api/",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 440, "y": 197.5, "width": 95, "height": 172.5 },
+        "path": [
+          { "x": 0, "y": 0 },
+          { "x": 95, "y": 0 },
+          { "x": 95, "y": 172.5 }
+        ],
+        "source": {
+          "direction": "Right",
+          "element": "d0225bd8-73f5-41ca-93f7-281ea7a01caf"
+        },
+        "target": {
+          "direction": "Up",
+          "element": "83ea1a90-e2d2-47a3-bf68-e9db19628138"
+        }
+      },
+      {
+        "id": "a68ed210-c6e2-4a61-b998-ad83bf34d236",
+        "name": "/cdn/",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 440, "y": 197.5, "width": 265, "height": 172.5 },
+        "path": [
+          { "x": 0, "y": 0 },
+          { "x": 265, "y": 0 },
+          { "x": 265, "y": 172.5 }
+        ],
+        "source": {
+          "direction": "Right",
+          "element": "d0225bd8-73f5-41ca-93f7-281ea7a01caf"
+        },
+        "target": {
+          "direction": "Up",
+          "element": "1f42f0ec-258b-4e01-85da-2b9bbf4b665e"
+        }
+      },
+      {
+        "id": "07e0ec8d-4028-4563-8874-bac24f5d9bcd",
+        "name": "else",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 365, "y": 235, "width": 1, "height": 135 },
+        "path": [
+          { "x": 0, "y": 0 },
+          { "x": 0, "y": 135 }
+        ],
+        "source": {
+          "direction": "Down",
+          "element": "d0225bd8-73f5-41ca-93f7-281ea7a01caf"
+        },
+        "target": {
+          "direction": "Up",
+          "element": "97ca81f2-3db4-4970-be23-9d2375583f20"
+        }
+      },
+      {
+        "id": "3f5755ee-7a29-437d-8b9c-edd8b29ede96",
+        "name": "yes",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 365, "y": 445, "width": 1, "height": 95 },
+        "path": [
+          { "x": 0, "y": 0 },
+          { "x": 0, "y": 95 }
+        ],
+        "source": {
+          "direction": "Down",
+          "element": "97ca81f2-3db4-4970-be23-9d2375583f20"
+        },
+        "target": {
+          "direction": "Up",
+          "element": "6d4ee1e8-d04a-4fe3-b112-fe03205c3d5c"
+        }
+      },
+      {
+        "id": "93ac7953-ac74-4d3c-840f-a020f7c3258c",
+        "name": "yes",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 365, "y": 635, "width": 1, "height": 115 },
+        "path": [
+          { "x": 0, "y": 0 },
+          { "x": 0, "y": 115 }
+        ],
+        "source": {
+          "direction": "Down",
+          "element": "6d4ee1e8-d04a-4fe3-b112-fe03205c3d5c"
+        },
+        "target": {
+          "direction": "Up",
+          "element": "ace89d81-f1a7-4e0e-9aaa-eb452f70e955"
+        }
+      },
+      {
+        "id": "0758b4bc-0822-4b77-809f-c2e4d3737f5a",
+        "name": "",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 75, "y": 625, "width": 175, "height": 162.5 },
+        "path": [
+          { "x": 175, "y": 162.5 },
+          { "x": 0, "y": 162.5 },
+          { "x": 0, "y": 0 }
+        ],
+        "source": {
+          "direction": "Left",
+          "element": "ace89d81-f1a7-4e0e-9aaa-eb452f70e955"
+        },
+        "target": {
+          "direction": "Down",
+          "element": "4fc067c0-c89b-47e6-a945-94bfe5b944d7"
+        }
+      },
+      {
+        "id": "ae2aef6b-6867-485d-85fb-060a5e160444",
+        "name": "/rendertron/",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 75, "y": 197.5, "width": 215, "height": 352.5 },
+        "path": [
+          { "x": 215, "y": 0 },
+          { "x": 0, "y": 0 },
+          { "x": 0, "y": 352.5 }
+        ],
+        "source": {
+          "direction": "Left",
+          "element": "d0225bd8-73f5-41ca-93f7-281ea7a01caf"
+        },
+        "target": {
+          "direction": "Up",
+          "element": "4fc067c0-c89b-47e6-a945-94bfe5b944d7"
+        }
+      },
+      {
+        "id": "f8237def-cca1-4142-8df2-d355fe815fa4",
+        "name": "redirect to https",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 250, "y": 330, "width": 115, "height": 77.5 },
+        "path": [
+          { "x": 40, "y": 77.5 },
+          { "x": 0, "y": 77.5 },
+          { "x": 0, "y": 0 },
+          { "x": 115, "y": 0 },
+          { "x": 115, "y": 40 }
+        ],
+        "source": {
+          "direction": "Left",
+          "element": "97ca81f2-3db4-4970-be23-9d2375583f20"
+        },
+        "target": {
+          "direction": "Up",
+          "element": "97ca81f2-3db4-4970-be23-9d2375583f20"
+        }
+      },
+      {
+        "id": "253de17d-9c84-42ca-ab26-99a9c1c8842f",
+        "name": "",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 75, "y": 625, "width": 175, "height": 162.5 },
+        "path": [
+          { "x": 0, "y": 0 },
+          { "x": 0, "y": 162.5 },
+          { "x": 175, "y": 162.5 }
+        ],
+        "source": {
+          "direction": "Down",
+          "element": "4fc067c0-c89b-47e6-a945-94bfe5b944d7"
+        },
+        "target": {
+          "direction": "Left",
+          "element": "ace89d81-f1a7-4e0e-9aaa-eb452f70e955"
+        }
+      },
+      {
+        "id": "655d6343-25aa-4c54-a4f6-b962ab4bf8ec",
+        "name": "no",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 150, "y": 587.5, "width": 80, "height": 1 },
+        "path": [
+          { "x": 80, "y": 0 },
+          { "x": 0, "y": 0 }
+        ],
+        "source": {
+          "direction": "Left",
+          "element": "6d4ee1e8-d04a-4fe3-b112-fe03205c3d5c"
+        },
+        "target": {
+          "direction": "Right",
+          "element": "4fc067c0-c89b-47e6-a945-94bfe5b944d7"
+        }
+      }
+    ],
+    "assessments": []
+  },
+  "lastUpdate": "2022-01-25T21:44:15.794Z",
+  "diagramType": "Flowchart"
+}

@@ -1,11 +1,11 @@
 {
     "Weihenstephan": ["wzw"],
     "Innenstadt": ["Stammgelände"],
-    
+
     "ph": ["Physik"],
     "ch": ["Chemie"],
     "Maschinenwesen": ["mw"],
-    
+
     "Immathalle": ["Immatrikulationshalle"],
     "Bib": ["Bibliothek", "Teilbibliothek"],
     "TB": ["Teilbibliothek"],
@@ -16,7 +16,7 @@
     "Lernraum": ["Lernplatz", "Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
     "Übungsraum": ["Seminarraum", "Studentenarbeitsraum", "Übungsraum"],
     "Arbeitsraum": ["Seminarraum", "Studentenarbeitsraum", "Übungsraum"], 
-    
+
     "Rechnerraum-Studenten": ["Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
     "Rechnerarbeitsraum": ["Rechnerraum-Studenten", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
     "Rechnerraum": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool", "EDV-Pool"],
@@ -30,7 +30,7 @@
     "CIP-Pool": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "Computerpool", "CAD-Pool", "EDV-Pool"],
     "CAD-Pool": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "EDV-Pool"],
     "EDV-Pool": ["Rechnerraum-Studenten", "Rechnerarbeitsraum", "Rechnerraum", "Rechner-Raum", "Computerarbeitsraum", "Computerraum", "Computerpool", "Computer Studenten", "CIP-Raum", "CIP-Pool", "Computerpool", "CAD-Pool"],
-    
+
     "Besprechung": ["Besprechungsraum", "Konferenz", "Konferenzraum", "Konferenzsaal", "Sitzungssaal", "Sitzungsraum", "Sitzungszimmer"],
     "Besprechungsraum": ["Besprechung", "Konferenz", "Konferenzraum", "Konferenzsaal", "Sitzungssaal", "Sitzungsraum", "Sitzungszimmer"],
     "Konferenz": ["Besprechung", "Besprechungsraum", "Konferenzraum", "Konferenzsaal", "Sitzungssaal", "Sitzungsraum", "Sitzungszimmer"],
@@ -39,7 +39,7 @@
     "Sitzungssaal": ["Besprechung", "Besprechungsraum", "Konferenz", "Konferenzraum", "Konferenzsaal", "Sitzungsraum", "Sitzungszimmer"],
     "Sitzungsraum": ["Besprechung", "Besprechungsraum", "Konferenz", "Konferenzraum", "Konferenzsaal", "Sitzungssaal", "Sitzungszimmer"],
     "Sitzungszimmer": ["Besprechung", "Besprechungsraum", "Konferenz", "Konferenzraum", "Konferenzsaal", "Sitzungssaal", "Sitzungsraum"],
-    
+
     "Abstellraum": ["Abstellkammer", "Lager", "Lagerraum", "Ablage"],
     "Abstellkammer": ["Abstellraum", "Lager", "Lagerraum", "Ablage"],
     "Lager": ["Abstellraum", "Abstellkammer", "Lagerraum", "Ablage"],
@@ -78,7 +78,7 @@
     "Entsorgungsraum": ["Müllager", "Müll", "Müllraum", "Abfall", "Abfallsammelstelle", "Abfälle", "Müllzwischenlager", "Müllsammelstelle"],
     "Müllzwischenlager": ["Müllager", "Müll", "Müllraum", "Abfall", "Abfallsammelstelle", "Abfälle", "Entsorgungsraum", "Müllsammelstelle"],
     "Müllsammelstelle": ["Müllager", "Müll", "Müllraum", "Abfall", "Abfallsammelstelle", "Abfälle", "Entsorgungsraum", "Müllzwischenlager"],
-    
+
     "Gefahrstoffraum": ["Gefahrstofflager", "Gefahrgutraum", "Gefahrgutlager", "Giftlager"],
     "Gefahrstofflager": ["Gefahrstoffraum", "Gefahrgutraum", "Gefahrgutlager", "Giftlager"],
     "Gefahrgutraum": ["Gefahrstoffraum", "Gefahrstofflager", "Gefahrgutlager", "Giftlager"],
@@ -92,27 +92,27 @@
     "Sondermüllzwischenlager": ["Sondermülllager", "Sonderabfall"],
     "Sondermülllager": ["Sondermüllzwischenlager", "Sonderabfall"],
     "Sonderabfall": ["Sondermüllzwischenlager", "Sondermülllager"],
-    
+
     "Dusche": ["Duschraum"],
     "Duschraum": ["Dusche"],
 
     "Laborraum": ["Labor"],
     "Labor raum": ["Labor"],
-    
+
     "straße": ["str"],
     "str": ["straße"],
-    
+
     "raum": ["room"],
-    
+
     "ii": ["2"],
     "2": ["ii"],
     "iii": ["3"],
     "3": ["iii"],
     "iv": ["4"],
     "4": ["iv"],
-    
+
     "Interims": ["Interimshörsäle", "Interims-Audimax"],
-    
+
     "Fachschaft": ["FS", "Fachschaftsbüro", "Fachschaftsraum"],
     "FS": ["Fachschaft", "Fachschaftsbüro", "Fachschaftsraum"],
     "Fachschaftsbüro": ["Fachschaft", "FS", "Fachschaftsraum"],

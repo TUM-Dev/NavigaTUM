@@ -39,4 +39,4 @@ Der Nutzung von im Rahmen der Impressumspflicht veröffentlichten Kontaktdaten d
 
 Welche Daten erhoben und verarbeitet werden, beschreibt die [Datenschutzerklärung](/about/datenschutz).
 
-*Auszüge aus diesem Impressum wurden mithilfe des <a href="https://www.impressum-generator.de">Impressums Generator</a> der <a href="https://www.kanzlei-hasselbach.de/">Kanzlei Hasselbach, Rechtsanwälte für Arbeitsrecht und Familienrecht</a> erstellt.*
+_Auszüge aus diesem Impressum wurden mithilfe des <a href="https://www.impressum-generator.de">Impressums Generator</a> der <a href="https://www.kanzlei-hasselbach.de/">Kanzlei Hasselbach, Rechtsanwälte für Arbeitsrecht und Familienrecht</a> erstellt._

@@ -170,4 +170,3 @@
       - [11.672124, 48.266385]
   maps:
     - {file: "galileo_0.webp", id: 0, floor: "EG", desc: "Galileo Garching (EG)"}
-

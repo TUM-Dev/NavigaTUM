@@ -57,7 +57,6 @@
       0510:Verwaltungsbau (Z10):
       0511:Elektro/Werkstatt/Lösungsmittel (Z11):
       0512:Garagen (Z12):
-      0598:Tentomax Stammgelände (Interims HS):
   15,17:Klinikum rechts der Isar (MRI):mri[site]
     1501:Chirurgische Klinik (Bau 501):
     1502:Radiologie, Orthopädie, Sportorthopädie, klinische Toxikologie (Bau 502):
@@ -142,7 +141,6 @@
     2303:Kleine Hallen:
     2304:Gymnastikhalle:
     2305:Zentralbau Nord:
-    2308:Freitribüne:
     2309:Tennis Gebäude:
     2310:Tennisanlagen:
     2312:Sport-, Aussenanlagen/Teil-Umbau:
@@ -179,9 +177,9 @@
     2605:Verwaltungsbau (BL. V):
     2607:Fahrzeughalle (BL. F):
     2608:Werkdienstwohnungen (BL. W):
-  2701,2801:TUM Gebäude in Großhadern:grosshadern
-    2701:Institut für Wasserchemie Werkstattgebäu, Großhadern:
-    2801:Marchioninistr. 17:
+  :TUM Gebäude in Großhadern:grosshadern
+    2801:Institut für Wasserchemie Werkstattgebäu, Großhadern:
+  2803:Forum der Zukunft (Deutsches Museum):
   2804:Deutsches Museum Bibliotheksgebäude:
   2805:Dachau, Karl-Benz-Straße:
   2806:Werkstattgebäude National Museum (Nutzung):
@@ -238,7 +236,7 @@
     3402:Residenzbereich Hofkapelle:
   39:ZHS Wassersportplatz Starnberg:starnberg[site]
     3901:Kiosk:
-    3902:Wohn-/Unterrichtsgebäude:
+    3902:Seglerheim:
     3904:Bootshaus:
   4:Wissenschaftszentrum Weihenstephan (WZW Freising):wzw[campus]
     4001:Ruine der Korbinians Kapelle:
@@ -306,6 +304,7 @@
       4219:Landschaftsentwicklung:
       4220:Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung:
       4221:Fernmeldezentrale:
+      4222:Servicegebäude I:
       4223:Genetik:
       4224:ZIEL IV - Biowissenschaften:
       4225:Lebensmittelchemie u. Molekulare Sensorik:
@@ -340,7 +339,6 @@
       4278:LWF Bay. Landesanstalt für Wald und Forstwirtschaft:
       4279:LWF Erweiterungsbau:
       -4281:Trafostation XI:
-      4298:Tentomax HS Weihenstephan (auf Parkplatz):
       4299:Hochschulgemeinde Freising:
     43:Gebiet 4300 Nord / Hochfeld:wzw-nord
       4304:Verwaltung der TUM - Immobilien / Bauhof:
@@ -493,7 +491,6 @@
       5256:RCM-Laborbau:
       5257:Werkstatt u. Bürogebäude FRM II (UYW):
       -5268:RCM-BMA/ELA-Container:
-      -5269:RCM-Büro-Containerbau:
       5272:WMI Bayerische Akademie der Wissenschaft:
     5301:Institute for Advanced Study (IAS):
     5302:(Alte) Mensa Garching:
@@ -555,10 +552,9 @@
       8121:Courtyard Hotel:
       8122:Galileo Büro, W. v. Dyck-Str. 6:
       8123:Galileo Büro, W. v. Dyck-Str. 4:
-    :Interimshörsäle & Tentomax:garching-interims
+    :Interimshörsäle:garching-interims
       5620:Interims-Audimax I:
       5416:Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude:
-      5538:Interims-Tentomax Garching MW, HS1/HS2:
       5998:Interims Tentomax Garching EL (Parkplatz), HS3/HS4:
   6:Garching Forschungszentrum (süd-west):garching-sued-west[site]
     61:Gebäudemanagement / Technischer Betrieb:garching-gebaeudemanagement
@@ -568,10 +564,13 @@
       6106:Trafostation Betriebsgebäude (TBG):
       6107:Garagenbau:
     6202:Feuerwehrwache:
-  7910:Oskar-von-Miller-Turm (Meteo-Mast):
+  7:Garching Forschungszentrum (außerhalb):garching-extra
+    7894:Newton:
+    7910:Oskar-von-Miller-Turm (Meteo-Mast):
   810,811:Garching Hochbrück:garching-hochbrueck[site]
     8101:Business Campus Garching (BC1), Parkring 11-13:
     8102:Business Campus Garching (BC2), Parkring 35-39:
+    8104:Carl-Zeiss-Straße 8:
     8111:Schleißheimerstr. 90a:
   9001:TUM Science & Study Center Raitenhaslach:
   9101:Garmisch-Partenkirchen (A, Bahnhofstr. 37):
@@ -579,4 +578,5 @@
   93:Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie):taufkirchen-ottobrunn[campus]
     9376:Airbus Standort 76.C:
     9377:Lise-Meitner-Straße 9-11:
+    9379:Lise Meitner Str. 8:
     9378:TUM Panasonic (Caroline-Herschel-Straße 100):
