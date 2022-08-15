@@ -643,7 +643,7 @@ gulp.task("map", gulp.parallel(copyMapCSS, copyMapJS));
 // --- api-visualiser (currently swagger-ui) Pipeline ---
 function copyApiCSS() {
   return gulp
-    .src("node_modules/SwaggerDark/SwaggerDark.css")
+    .src("node_modules/swaggerdark/SwaggerDark.css")
     .pipe(postcss([
       postcssPrependSelector({ selector: "body.theme-dark #swagger-ui " })
     ]))
