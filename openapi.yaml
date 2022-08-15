@@ -893,6 +893,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Prop"
+        comment:
+          $ref: "#/components/schemas/CommentProp"
       required:
         - computed
     Prop:
@@ -907,6 +909,16 @@ components:
       required:
         - name
         - text
+    CommentProp:
+      type: object
+      description: A comment to show to an entry. It is used in the rare cases, where some aspect about the rooom/ translation are misleading.
+      properties:
+        de:
+          description: German version of the comment
+          type: string
+        en:
+          description: English version of the comment
+          type: string
     ImageInfo:
       description: "The information you need to request Images from the /cdn/{size}/{id}_{counter}.webp endpoint"
       type: object
