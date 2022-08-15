@@ -11,7 +11,7 @@ root:
         - { name: "Maschinenwesen", id: "mw" }
         - { name: "Physik", id: "physik" }
         - { name: "Chemie", id: "chemie" }
-        - { name: "Interimshörsäle & Tentomax", id: "garching-interims" }
+        - { name: "Interimshörsäle", id: "garching-interims" }
         - { name: "StudiTUM Garching", id: "5532" }
     - name: "Stammgelände"
       id: "stammgelaende"
@@ -429,6 +429,10 @@ heilbronn:
   osm: ["way/443802898"]
 
 # ========= Others in Munich and around =========
+2803:
+  coords: { lat: 48.13140, lon: 11.58564 }
+  osm: ["way/30046693"]
+
 2808:
   coords: { lat: 48.02197, lon: 12.55369 }
 
@@ -480,6 +484,10 @@ staudensichtungsgarten:
   coords: { lat: 48.40107, lon: 11.72743 }
   osm: ["way/35334722"] # ("leisure: garden", not a building)
 
+4222:  # Servicezentrum
+  osm: ["way/919146348"]
+  coords: { lat: 48.39832, lon: 11.72429 }
+  
 # uncertain, but trafo stations anyway
 4202:
   coords: { lat: 48.40289, lon: 11.72364 }
@@ -555,10 +563,8 @@ frm-2:
   coords: { lat: 48.26616, lon: 11.67343 }
   osm: ["way/774866202"]
 
-# estimates, exact position uncertain (RCM-BMA/ELA-Container and RCM-Büro-Containerbau)
+# estimates, exact position uncertain (RCM-BMA/ELA-Container)
 5268:
-  coords: { lat: 48.26501, lon: 11.67426 }
-5269:
   coords: { lat: 48.26501, lon: 11.67426 }
 
 5302: # Alte Mensa
@@ -676,10 +682,6 @@ galileo:
   osm: ["way/104255082"]
 5416: # Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude
   osm: ["way/618517674"]
-5538: # Interims-Tentomax Garching MW, HS1/HS2
-  osm: ["way/819492766"]
-5998: # Interims Tentomax Garching EL (Parkplatz), HS3/HS4
-  osm: ["way/828580895"]
 
 # --- External buildings in Garching (South-West) ---
 garching-sued-west:
@@ -710,6 +712,10 @@ garching-gebaeudemanagement:
       "way/24013697",
     ] # last one is near Betriebsgebäude
 
+7894:
+  coords: { lat: 48.26924, lon: 11.66523 }
+  osm: ["relation/5365461"]
+    
 garching-hochbrueck:
   coords: { lat: 48.2511, lon: 11.63528 }
 8101: # Parkring 11-13:
@@ -730,6 +736,9 @@ garching-hochbrueck:
       "node/2245285384",
       "node/2245285385",
     ] # 35 (last is quantum)
+8104:
+  coords: { lat: 48.25224, lon: 11.60479 }
+  osm: ["way/96236727"]
 8111: # Schleißheimerstr. 90a:
   osm: ["way/185254463", "node/4177892778"]
 
@@ -753,3 +762,6 @@ taufkirchen-ottobrunn:
 9378:
   coords: { lat: 48.05226, lon: 11.65557 }
   osm: ["way/30081572"]
+
+9379:
+  coords: { lat: 48.05466, lon: 11.65392 }
