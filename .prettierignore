@@ -1,1 +1,9 @@
 openapi.yaml
+data/sources/01_areas-extended.yaml
+data/sources/02_rooms-extended.yaml
+data/sources/02_rooms-extended_generators.yaml
+data/sources/15_patches-rooms_tumonline.yaml
+data/sources/45_custom-maps.yaml
+data/sources/46_overlay-maps.yaml
+data/search_synonyms.json
+server/test/test-queries.yaml

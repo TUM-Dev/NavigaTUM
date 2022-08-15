@@ -634,22 +634,17 @@ mi:
         categories:
           - name: "Rechnerhallen"
             children:
-              - {
-                  name: "Große Rechnerhalle",
-                  subtext: "89 Arbeitsplätze",
-                  id: "00.05.011",
-                }
-              - {
-                  name: "Kleine Rechnerhalle",
-                  subtext: "26 Arbeitsplätze",
-                  id: "00.07.023",
-                }
-              - {
-                  name: "Mathematik Raum",
-                  subtext: "89 Arbeitsplätze",
-                  id: "00.05.011",
-                }
-              - { name: "Bode Raum", subtext: "" }
+              - name: "Große Rechnerhalle"
+                subtext: "89 Arbeitsplätze"
+                id: "00.05.011"
+              - name: "Kleine Rechnerhalle"
+                subtext: "26 Arbeitsplätze"
+                id: "00.07.023"
+              - name: "Mathematik Raum"
+                subtext: "89 Arbeitsplätze"
+                id: "00.05.011"
+              - name: "Bode Raum"
+                subtext: ""
 
 5622: # Sportanlage / Dusche
   coords: { lat: 48.26350, lon: 11.66821 }
@@ -729,13 +724,13 @@ garching-hochbrueck:
 8102: # Parkring 35-39:
   osm: [
       "way/109228346", # way is building (35-39)
-      "node/8411678354",
-      "node/2245285383",
-      "node/2245285382",
+      "node/8411678354", # 37
+      "node/2245285383", # 37
+      "node/2245285382", # 37
       "node/5763636116", # 37
-      "node/2245285384",
-      "node/2245285385",
-    ] # 35 (last is quantum)
+      "node/2245285384", # 35
+      "node/2245285385", # 35 (quantum)
+    ]
 8104:
   coords: { lat: 48.25224, lon: 11.60479 }
   osm: ["way/96236727"]
