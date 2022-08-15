@@ -2,7 +2,7 @@
   <!-- Header image (on mobile) -->
   <a
     class="show-sm header-image-mobile c-hand"
-    @click="showImageShowcase(0)"
+    @click="showImageShowcase(image.shown_image_id)"
     v-if="image.shown_image"
   >
     <img
@@ -323,7 +323,7 @@
       <div class="card">
         <a
           class="card-image c-hand"
-          @click="showImageShowcase(0)"
+          @click="showImageShowcase(image.shown_image_id)"
           v-if="image.shown_image"
         >
           <img
