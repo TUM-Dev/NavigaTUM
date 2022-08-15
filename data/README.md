@@ -37,6 +37,7 @@ Then, start scraping with:
 
 ```bash
 cd external
+export PYTHONPATH=$PYTHONPATH:..
 python main.py
 ```
 
