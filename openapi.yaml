@@ -429,7 +429,7 @@ paths:
                       rank_usage: 900
                     sources:
                       base:
-                        - name: TUMOnline
+                        - name: TUMonline
                           url: 'https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=12325'
                         - name: Roomfinder
                           url: 'https://portal.mytum.de/displayRoomMap?roomid=00.02.001@5602&disable_decoration=yes'
@@ -527,7 +527,7 @@ paths:
                     sources:
                       base:
                         - name: NavigaTUM
-                        - name: TUMOnline
+                        - name: TUMonline
                           url: 'https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=55601'
                         - name: Roomfinder
                           url: 'https://portal.mytum.de/displayRoomMap?roomid=00.06.036@5606&disable_decoration=yes'
@@ -892,10 +892,14 @@ components:
         computed:
           type: array
           items:
-            $ref: '#/components/schemas/Prop'
+            $ref: "#/components/schemas/ComputedProp"
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/LinkProp"
       required:
         - computed
-    Prop:
+    ComputedProp:
       type: object
       properties:
         name:
@@ -907,6 +911,43 @@ components:
       required:
         - name
         - text
+    LinkProp:
+      type: object
+      description: A link with a localized link text and url
+      properties:
+        text:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+          required:
+            - de
+            - en
+        url:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+          required:
+            - de
+            - en
+      required:
+        - text
+        - url
+    CommentProp:
+      type: object
+      description: A comment to show to an entry. It is used in the rare cases, where some aspect about the rooom/ translation are misleading.
+      properties:
+        de:
+          description: German version of the comment
+          type: string
+        en:
+          description: English version of the comment
+          type: string
     ImageInfo:
       description: 'The information you need to request Images from the /cdn/{size}/{id}_{counter}.webp endpoint'
       type: object

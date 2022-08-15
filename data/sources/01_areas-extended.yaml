@@ -78,6 +78,18 @@ suedgelaende:
 
 "0201": # StudiTUM Innenstadt (S1)
   osm: ["way/96113963"]
+  props:
+    links:
+      - text:
+          de: "Lernraumbelegung"
+          en: "Learning rooms usage"
+        url: "https://www.devapp.it.tum.de/iris/app/"
+      - text:
+          de: "Über das StudiTUM"
+          en: "About the StudiTUM"
+        url:
+          de: "https://www.sv.tum.de/sv/das-machen-wir/projekte/studitum-haeuser-der-studierenden/"
+          en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
 "0202": # Gabelsbergerstr. 39 (S2)
   osm: ["way/54293421"]
 "0203": # Gabelsbergerstr. 45 (S3)
@@ -88,6 +100,14 @@ suedgelaende:
   osm: ["way/96114071"]
 "0206": # Mensa Arcisstr. 17 (S6)
   osm: ["way/19183732"]
+  props:
+    links:
+      - text:
+          de: "Speiseplan"
+          en: "Current menu"
+        url:
+          de: "https://tum-dev.github.io/eat-api/#!/de/mensa-arcisstr"
+          en: "https://tum-dev.github.io/eat-api/#!/en/mensa-arcisstr"
 2920: # Gabelsbergerstr. 47
   osm: ["way/96114068"]
 
@@ -470,6 +490,20 @@ wzw:
 
 wzw-berg:
   coords: { lat: 48.39558, lon: 11.72773 }
+  
+4113:  # StudiTUM Weihenstephan
+  props:
+    links:
+      - text:
+          de: "Lernraumbelegung"
+          en: "Learning rooms usage"
+        url: "https://www.devapp.it.tum.de/iris/app/"
+      - text:
+          de: "Über das StudiTUM"
+          en: "About the StudiTUM"
+        url:
+          de: "https://www.sv.tum.de/sv/das-machen-wir/projekte/studitum-haeuser-der-studierenden/"
+          en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
 
 4155:
   coords: { lat: 48.39547, lon: 11.72988 }
@@ -484,6 +518,16 @@ staudensichtungsgarten:
   coords: { lat: 48.40107, lon: 11.72743 }
   osm: ["way/35334722"] # ("leisure: garden", not a building)
 
+4216:  # Mensa Weihenstephan
+  props:
+    links:
+      - text:
+          de: "Speiseplan"
+          en: "Current menu"
+        url:
+          de: "https://tum-dev.github.io/eat-api/#!/de/mensa-weihenstephan"
+          en: "https://tum-dev.github.io/eat-api/#!/en/mensa-weihenstephan"
+  
 4222:  # Servicezentrum
   osm: ["way/919146348"]
   coords: { lat: 48.39832, lon: 11.72429 }
@@ -573,6 +617,18 @@ frm-2:
 
 5304: # Neue Mensa
   coords: { lat: 48.26799, lon: 11.67216 }
+  props:
+    links:
+      - text:
+          de: "Speiseplan"
+          en: "Current menu"
+        url:
+          de: "https://tum-dev.github.io/eat-api/#!/de/mensa-garching"
+          en: "https://tum-dev.github.io/eat-api/#!/en/mensa-garching"
+      - text:
+          de: "Wie lang ist die Schlange?"
+          en: "How long is the queue?"
+        url: "https://mensa.liste.party/"
 
 chemie:
   coords: { lat: 48.26880, lon: 11.66979 }
@@ -608,11 +664,29 @@ mw:
   # Overwrite wrong data in Roomfinder
   coords: { lat: 48.26707, lon: 11.66630 }
 
-5532: # StudiTUM
+5532: # StudiTUM Garching
   osm: ["way/476929995"]
+  props:
+    links:
+      - text:
+          de: "Lernraumbelegung"
+          en: "Learning rooms usage"
+        url: "https://www.devapp.it.tum.de/iris/app/"
+      - text:
+          de: "Über das StudiTUM"
+          en: "About the StudiTUM"
+        url:
+          de: "https://www.sv.tum.de/sv/das-machen-wir/projekte/studitum-haeuser-der-studierenden/"
+          en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
 
 mi:
   coords: { lat: 48.26252, lon: 11.66808 }
+  props:
+    links:
+      - text:
+          de: "Lernraumbelegung"
+          en: "Learning rooms usage"
+        url: "https://www.devapp.it.tum.de/iris/app/"
   generate_rooms_overview:
     sources:
       - text: "wiki.in.tum.de"

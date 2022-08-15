@@ -70,7 +70,7 @@
     add(data, title, url);
     historyPushState.bind(window.history)(data, title, url);
   };
-  document.addEventListener("popstate", (e) => {
+  window.addEventListener("popstate", (e) => {
     // If navigation is window.history navigation (click on back/forward),
     // the 'popstate' event is emitted before 'beforeResolve()'.
     // So in this case, we need to temporarily store the old state index,

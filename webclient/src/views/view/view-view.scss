@@ -512,6 +512,24 @@
             margin-bottom: 6px;
         }
     }
+
+    /* --- Image slideshow / showcase --- */
+    #modal-slideshow {
+        align-items: baseline;
+
+        & .modal-container {
+            position: relative;
+            top: 5em;
+
+            & .carousel-item {
+                // Disable the animation of Spectre, because it appears a bit irritating.
+                // It always run if we open the image slideshow and is wrong if we go back
+                // in the slideshow.
+                animation: none;
+                transform: translateX(0);
+            }
+        }
+    }
 }
 
 // 'md' (
