@@ -1440,9 +1440,6 @@ components:
         en:
           description: English version of the comment
           type: string
-      required:
-        - de
-        - en
     TokenRequest:
       type: object
       properties:
