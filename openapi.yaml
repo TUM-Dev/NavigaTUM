@@ -923,8 +923,8 @@ components:
             en:
               type: string
           required:
-            - text
-            - url
+            - de
+            - en
         url:
           type: object
           properties:
@@ -933,8 +933,8 @@ components:
             en:
               type: string
           required:
-            - text
-            - url
+            - de
+            - en
       required:
         - text
         - url
