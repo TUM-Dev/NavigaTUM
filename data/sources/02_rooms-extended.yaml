@@ -316,7 +316,11 @@
 "5508.EG.899B": { coords: { lat: 48.265773, lon: 11.667895 } }
 "5508.02.801":  # ID is probably wrong in TUMonline, but we need to use it for compatibility
   name: "5508.01.801 (Ernst-Schmidt-Hörsaal)"
-  coords: { lat: 48.265856, lon: 11.667780 } }
+  coords: { lat: 48.265856, lon: 11.667780 }
+  props:
+    comment:
+      de: "Es wird auch 5508.02.801 statt 5508.01.801 verwendet, obwohl der Hörsaal im 1. Stock ist."
+      en: "Also 5508.02.801 instead of 5508.01.801 is being used, even though the lecture hall is in the 1st floor."
 
 "5510.EG.001": { coords: { lat: 48.265424, lon: 11.670841 } } # Gustav-Niemann-Hörsaal
 "5510.EG.001M": { coords: { lat: 48.265558, lon: 11.670974 } }
