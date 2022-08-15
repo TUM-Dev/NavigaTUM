@@ -20,6 +20,7 @@ body {
     display: none;
 }
 
+.loading-container,
 #loading-page {
     display: block;
     height: 100%;
@@ -28,12 +29,16 @@ body {
     pointer-events: none;
 }
 
+
+.loading-container > .loading,
 #loading-page > .loading {
     margin: 0 auto;
     display: block;
     position: static;
 }
 
+
+.loading-container > .loading::after,
 #loading-page > .loading::after {
     border-bottom-color: transparent;
     border-left-color: #ccc;
