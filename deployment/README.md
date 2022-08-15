@@ -11,11 +11,11 @@ The documentation for the specific sub-services can be found in the respective d
 ## General description
 
 The general request-Flowchart is the following:  
-![Flowchart, on how the requests are routed](../resources/deployment/Flowchart.svg)  
-  
+![Flowchart, on how the requests are routed](../resources/deployment/Flowchart.svg)
+
 The project is layed out in this sense:  
-![deployment diagram, of how the different components interact](../resources/deployment/Deployment_Overview.svg)  
-  
+![deployment diagram, of how the different components interact](../resources/deployment/Deployment_Overview.svg)
+
 Genreral information:
 
 - For the deployments we use [containerd](https://containerd.io/) and [k3s](https://k3s.io/).

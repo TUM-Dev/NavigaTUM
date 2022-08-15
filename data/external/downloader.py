@@ -223,12 +223,13 @@ def _download_maps(used_maps):
 
 
 def _download_map(_map, e_id, e_type):
-    base_url = "https://portal.mytum.de/campus/roomfinder/getRoomPlacemark"
     filepath = CACHE_PATH / "maps" / "roomfinder" / "kmz" / f"{_map[1]}.kmz"
     if e_type == "room":
+        base_url = "https://portal.mytum.de/campus/roomfinder/getRoomPlacemark"
         url = f"{base_url}?roomid={urllib.parse.quote_plus(e_id)}&mapid={_map[1]}"
         return _download_file(url, filepath)
     if e_type == "building":
+        base_url = "https://portal.mytum.de/campus/roomfinder/getBuildingPlacemark"
         url = f"{base_url}?b_id={e_id}&mapid={_map[1]}"
         return _download_file(url, filepath)
     raise RuntimeError(f"Unknown entity type: {e_type}")

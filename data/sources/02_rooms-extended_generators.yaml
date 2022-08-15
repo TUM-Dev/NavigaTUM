@@ -21,7 +21,7 @@ generators:
       - {id: "5602.02.012", name: "Nipkow Raum",         seats: "10", facilities: [3]}
       - {id: "5613.02.007", name: "Baumgarten Raum",     seats: "15", facilities: [1, 2]}
       - {id: "5613.02.008", name: "Westermann Raum",     seats: "15", facilities: [1, 2]}
-  
+
   # --- Physik ---
   - type: "rechnerhallen"
     source: "https://www.ph.tum.de/about/services/computing/"
@@ -32,4 +32,3 @@ generators:
       - {id: "5101.U1.161", name: "CIP-Pool CIP2", seats: "12", facilities: []}
       - {id: "5101.EG.259", name: "Mini CIP-Pool", seats: "6", facilities: [0]}
       - {id: "5101-cip-foyer", name: "CIP Foyer",  seats: "3", facilities: [], type: "poi"}
-

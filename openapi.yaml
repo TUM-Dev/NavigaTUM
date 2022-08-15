@@ -31,7 +31,7 @@ servers:
   - url: 'http://nav.tum.sexy'
     description: http
 paths:
-  '/api/search':
+  /api/search:
     get:
       operationId: search
       summary: Search entries
@@ -66,7 +66,7 @@ paths:
               summary: Lecture halls
               value: interims
             sv:
-              summary: "'common' names"
+              summary: common name
               value: AStA
             none:
               summary: All rooms
@@ -107,47 +107,47 @@ paths:
             string to include in front of highlighted sequences.   
             If this and `post_highlight` are empty, highlighting is disabled.
           schema:
-            default: "/u0019"
-            minLength: 0
-            maxLength: 25
             type: string
+            default: /u0019
+            maxLength: 25
+            minLength: 0
           examples:
             default:
-              summary: The default value (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
-              value: '/u0019'
+              summary: 'The default value (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).'
+              value: /u0019
             em:
               summary: A good alternative default value
-              value: '<em>'
+              value: <em>
             ais-highlight:
               summary: Another good alternative
-              value: '<ais-highlight-0000000000>'
+              value: <ais-highlight-0000000000>
         - name: post_highlight
           in: query
           description: |
             string to include after the highlighted sequences.   
             If this and `pre_highlight` are empty, highlighting is disabled.
           schema:
-            default: "/u0017"
-            minLength: 0
-            maxLength: 25
             type: string
+            default: /u0017
+            maxLength: 25
+            minLength: 0
           examples:
             default:
-              summary: The default value (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
-              value: '/u0017'
+              summary: 'The default value (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).'
+              value: /u0017
             em:
               summary: A good alternative default value
-              value: "</em>"
+              value: </em>
             ais-highlight:
               summary: Another good alternative
-              value: "</ais-highlight-0000000000>"
+              value: </ais-highlight-0000000000>
       responses:
-        "200":
+        '200':
           description: The search-result
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SearchResponse"
+                $ref: '#/components/schemas/SearchResponse'
               examples:
                 mw:
                   value:
@@ -158,21 +158,21 @@ paths:
                             type: joined_building
                             name: "Maschinenwesen (\x19MW\x17)"
                             subtext: Gebäudekomplex
-                          - id: "5538"
+                          - id: '5538'
                             type: building
                             name: "Interims-Tentomax Garching \x19MW\x17, HS1/HS2"
                             subtext: Gebäude
-                          - id: "5501"
+                          - id: '5501'
                             type: building
-                            name: "Gebäudeteil 1, Institut für Mechatronik"
+                            name: 'Gebäudeteil 1, Institut für Mechatronik'
                             subtext: Gebäudeteil
-                          - id: "5502"
+                          - id: '5502'
                             type: building
-                            name: "Gebäudeteil 2, Institut für Werkstoffe und Verarbeitung"
+                            name: 'Gebäudeteil 2, Institut für Werkstoffe und Verarbeitung'
                             subtext: Gebäudeteil
-                          - id: "5503"
+                          - id: '5503'
                             type: building
-                            name: "Gebäudeteil 3, Institut für Produktionstechnik"
+                            name: 'Gebäudeteil 3, Institut für Produktionstechnik'
                             subtext: Gebäudeteil
                         n_visible: 5
                         estimatedTotalHits: 20
@@ -220,7 +220,7 @@ paths:
                     sections:
                       - facet: sites_buildings
                         entries:
-                          - id: "5416"
+                          - id: '5416'
                             type: building
                             name: "\x19Interims\x17hörsäle II, Jürgen Manchot-Hörsaalgebäude"
                             subtext: Gebäude
@@ -231,12 +231,12 @@ paths:
                           - id: 5416.01.004
                             type: room
                             name: "5416.01.004 (Hörsaal 1 \"\x19Interims\x17 II\")"
-                            subtext: "Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude"
+                            subtext: 'Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude'
                             subtext_bold: 004@5416
                           - id: 5416.01.003
                             type: room
                             name: "5416.01.003 (Hörsaal \x192\x17, \"\x19Interims\x17 II\")"
-                            subtext: "Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude"
+                            subtext: 'Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude'
                             subtext_bold: 003@5416
                           - id: 5620.01.102
                             type: room
@@ -251,28 +251,28 @@ paths:
                           - id: 5416.EG.010
                             type: room
                             name: 5416.EG.010 (IT/Audio)
-                            subtext: "Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude"
+                            subtext: 'Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude'
                             subtext_bold: 010@5416
                         estimatedTotalHits: 23
                     time_ms: 23
-        "400":
+        '400':
           description: Invalid Request
           content: {}
-        "404":
-          description: "`search_query` is empty. Since searching for nothing is nonsensical, we dont support this."
+        '404':
+          description: '`search_query` is empty. Since searching for nothing is nonsensical, we dont support this.'
           content:
             text/plain:
               schema:
                 type: string
+                example: Not found
                 enum:
                   - Not found
-                example: Not found
-        "414":
+        '414':
           description: The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..
           content: {}
       tags:
         - core
-  "/api/get/{id}":
+  '/api/get/{id}':
     get:
       operationId: get
       summary: Get entry-details
@@ -290,12 +290,12 @@ paths:
           schema:
             type: string
           examples:
+            '5304':
+              summary: A normal building
+              value: '5304'
             root:
               summary: The root entry of the NavigaTUM-data
               value: root
-            "5304":
-              summary: A normal building
-              value: "5304"
             garching:
               summary: The garching campus
               value: garching
@@ -303,10 +303,10 @@ paths:
               summary: The MRI campus
               value: garching
             mi:
-              summary: "A large, (custom named) building"
+              summary: 'A large, (custom named) building'
               value: mi
             mw:
-              summary: "An other large, (custom named) building"
+              summary: 'An other large, (custom named) building'
               value: mw
             fsmpi:
               summary: A regular room
@@ -321,14 +321,11 @@ paths:
               summary: A virtual room
               value: 1543
       responses:
-        "200":
+        '200':
           description: More data about the requested building/room
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: "#/components/schemas/RootResponse"
-                  - $ref: "#/components/schemas/DetailsResponse"
                 discriminator:
                   propertyName: type
                   mapping:
@@ -339,6 +336,9 @@ paths:
                     area: DetailsResponse
                     site: DetailsResponse
                     campus: DetailsResponse
+                oneOf:
+                  - $ref: '#/components/schemas/RootResponse'
+                  - $ref: '#/components/schemas/DetailsResponse'
               examples:
                 mi-hs-1:
                   value:
@@ -360,49 +360,49 @@ paths:
                             id: rf87
                             name: FMI Garching BT02 EG
                             path: webp/rf87.webp
-                            scale: "500"
+                            scale: '500'
                             source: Roomfinder
                             width: 399
                             x: 234
-                            "y": 286
+                            'y': 286
                           - height: 461
                             id: rf142
                             name: FMI Übersicht
                             path: webp/rf142.webp
-                            scale: "2000"
+                            scale: '2000'
                             source: Roomfinder
                             width: 639
                             x: 499
-                            "y": 189
+                            'y': 189
                           - height: 480
                             id: rf80
                             name: Lageplan Campus Garching
                             path: webp/rf80.webp
-                            scale: "10000"
+                            scale: '10000'
                             source: Roomfinder
                             width: 676
                             x: 340
-                            "y": 334
+                            'y': 334
                           - height: 603
                             id: rf54
                             name: München
                             path: webp/rf54.webp
-                            scale: "200000"
+                            scale: '200000'
                             source: Roomfinder
                             width: 640
                             x: 444
-                            "y": 35
+                            'y': 35
                           - height: 515
                             id: rf156
                             name: München und Umgebung
                             path: webp/rf156.webp
-                            scale: "400000"
+                            scale: '400000'
                             source: Roomfinder
                             width: 420
                             x: 265
-                            "y": 167
+                            'y': 167
                         default: rf142
-                    name: "5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)"
+                    name: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
                     parent_names:
                       - Standorte
                       - Garching Forschungszentrum
@@ -412,7 +412,7 @@ paths:
                       - root
                       - garching
                       - mi
-                      - "5602"
+                      - '5602'
                     props:
                       computed:
                         - name: Raumkennung
@@ -420,19 +420,19 @@ paths:
                         - name: Architekten-Name
                           text: 00.02.001
                         - name: Adresse
-                          text: "Boltzmannstr. 3, EG, 85748 Garching b. München"
+                          text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
                         - name: Sitzplätze
-                          text: "522"
+                          text: '522'
                     ranking_factors:
                       rank_combined: 900
                       rank_type: 100
                       rank_usage: 900
                     sources:
                       base:
-                        - name: TUMOnline
-                          url: "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=12325"
+                        - name: TUMonline
+                          url: 'https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=12325'
                         - name: Roomfinder
-                          url: "https://portal.mytum.de/displayRoomMap?roomid=00.02.001@5602&disable_decoration=yes"
+                          url: 'https://portal.mytum.de/displayRoomMap?roomid=00.02.001@5602&disable_decoration=yes'
                     type: room
                     type_common_name: Hörsaal
                     usage:
@@ -459,47 +459,47 @@ paths:
                             id: rf95
                             name: FMI Garching BT06 EG
                             path: webp/rf95.webp
-                            scale: "500"
+                            scale: '500'
                             source: Roomfinder
                             width: 318
                             x: 207
-                            "y": 217
+                            'y': 217
                           - height: 461
                             id: rf142
                             name: FMI Übersicht
                             path: webp/rf142.webp
-                            scale: "2000"
+                            scale: '2000'
                             source: Roomfinder
                             width: 639
                             x: 443
-                            "y": 242
+                            'y': 242
                           - height: 480
                             id: rf80
                             name: Lageplan Campus Garching
                             path: webp/rf80.webp
-                            scale: "10000"
+                            scale: '10000'
                             source: Roomfinder
                             width: 676
                             x: 329
-                            "y": 344
+                            'y': 344
                           - height: 603
                             id: rf54
                             name: München
                             path: webp/rf54.webp
-                            scale: "200000"
+                            scale: '200000'
                             source: Roomfinder
                             width: 640
                             x: 444
-                            "y": 36
+                            'y': 36
                           - height: 515
                             id: rf156
                             name: München und Umgebung
                             path: webp/rf156.webp
-                            scale: "400000"
+                            scale: '400000'
                             source: Roomfinder
                             width: 420
                             x: 265
-                            "y": 167
+                            'y': 167
                         default: rf142
                     name: 5606.EG.036 (MPI Fachschaftsbüro im MI)
                     parent_names:
@@ -511,7 +511,7 @@ paths:
                       - root
                       - garching
                       - mi
-                      - "5606"
+                      - '5606'
                     props:
                       computed:
                         - name: Raumkennung
@@ -519,7 +519,7 @@ paths:
                         - name: Architekten-Name
                           text: 00.06.036
                         - name: Adresse
-                          text: "Boltzmannstr. 3, EG, 85748 Garching b. München"
+                          text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
                     ranking_factors:
                       rank_combined: 100
                       rank_type: 100
@@ -527,25 +527,25 @@ paths:
                     sources:
                       base:
                         - name: NavigaTUM
-                        - name: TUMOnline
-                          url: "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=55601"
+                        - name: TUMonline
+                          url: 'https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=55601'
                         - name: Roomfinder
-                          url: "https://portal.mytum.de/displayRoomMap?roomid=00.06.036@5606&disable_decoration=yes"
+                          url: 'https://portal.mytum.de/displayRoomMap?roomid=00.06.036@5606&disable_decoration=yes'
                     type: room
                     type_common_name: Büro
                     usage:
                       din_277: NF2.1
                       din_277_desc: Büroräume
                       name: Büro
-        "404":
+        '404':
           description: Invalid input
           content:
             text/plain:
               schema:
                 type: string
+                example: Not found
                 enum:
                   - Not found
-                example: Not found
       tags:
         - core
   /api/source_code:
@@ -556,13 +556,13 @@ paths:
         This endpoint returns a link to the source-code of the repository at the currently running version.
         This endpoint is not required for modifications (as the license is not AGPL), but strongly encouraged.
       responses:
-        "200":
+        '200':
           description: The link to the source-code of the repository at the currently running version
           content:
             text/plain:
               schema:
                 type: string
-                example: "https://github.com/TUM-Dev/navigatum/tree/eb10c1f4cfbbd66d37f2f9e5e13139c1fde15a4b"
+                example: 'https://github.com/TUM-Dev/navigatum/tree/eb10c1f4cfbbd66d37f2f9e5e13139c1fde15a4b'
       tags:
         - core
   /api/feedback/get_token:
@@ -585,18 +585,18 @@ paths:
          - hourly: 20 tokens per hour
          - daily: 50 tokens per
       responses:
-        "201":
+        '201':
           description: Returns a usable token
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TokenResponse"
-        "429":
+                $ref: '#/components/schemas/TokenResponse'
+        '429':
           description: |
             Too many requests.  
             We are rate-limiting everyone''s requests, please try again later.
           content: {}
-        "503":
+        '503':
           description: |
             Service unavailable.  
             We have not configured a GitHub Access Token.  
@@ -619,9 +619,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TokenRequest"
+              $ref: '#/components/schemas/TokenRequest'
       responses:
-        "201":
+        '201':
           description: |
             The feedback has been successfully posted to GitHub.
             We return the link to the GitHub issue.
@@ -629,11 +629,11 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: "https://github.com/TUM-Dev/navigatum/issues/9"
-        "400":
+                example: 'https://github.com/TUM-Dev/navigatum/issues/9'
+        '400':
           description: If not all fields in the body are present as defined above
           content: {}
-        "403":
+        '403':
           description: |
             Forbidden. Causes are (delivered via the body):
 
@@ -647,26 +647,26 @@ paths:
                 type: string
                 enum:
                   - Invalid token
-                  - Token not old enough, please wait
+                  - 'Token not old enough, please wait'
                   - Token expired
                   - Token already used
-        "422":
+        '422':
           description: |
             Unprocessable Entity
             Subject or body missing or too short.
           content: {}
-        "451":
+        '451':
           description: |
             Unavailable for legal reasons.
             Using this endpoint without accepting the privacy policy is not allowed.
             For us to post to GitHub, this has to be true
           content: {}
-        "500":
+        '500':
           description: |
             Internal Server Error.  
             We have a problem communicating with GitHubs servers. Please try again later.
           content: {}
-        "503":
+        '503':
           description: |
             Service unavailable.  
             We have not configured a GitHub Access Token.  
@@ -674,7 +674,7 @@ paths:
           content: {}
       tags:
         - feedback
-  "/cdn/{size}/{id}_{counter}.webp":
+  '/cdn/{size}/{id}_{counter}.webp':
     get:
       operationId: img_cdn
       summary: Get title images
@@ -710,14 +710,14 @@ paths:
           schema:
             type: string
           examples:
-            "5304":
+            '5304':
               summary: A normal building
-              value: "5304"
+              value: '5304'
             garching:
               summary: A campus
               value: garching
             mi:
-              summary: "A large, (custom named) building"
+              summary: 'A large, (custom named) building'
               value: mi
             fsmpi:
               summary: A regular room
@@ -732,35 +732,35 @@ paths:
             minimum: 0
           example: 0
       responses:
-        "200":
+        '200':
           description: The image you requested
           content:
             image/webp:
               schema:
                 type: string
                 format: binary
-              example: "https://nav.tum.sexy/cdn/thumb/mi_0.webp"
-        "400":
+              example: 'https://nav.tum.sexy/cdn/thumb/mi_0.webp'
+        '400':
           description: |
             Bad Request.    
             The request was malformed.  
             Please check your request and try again.
           content: {}
-        "404":
+        '404':
           description: Requested Resource Not Found
           content:
             text/plain:
               schema:
                 type: string
+                example: Not found
                 enum:
                   - Not found
-                example: Not found
-        "414":
-          description: "The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars.."
+        '414':
+          description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
           content: {}
       tags:
         - cdn
-  "/cdn/maps/{source}/{id}.webp":
+  '/cdn/maps/{source}/{id}.webp':
     get:
       operationId: maps_cdn
       summary: Get title images
@@ -793,33 +793,33 @@ paths:
               value: mi_0
             garching:
               summary: StudiTUM Garching (roomfinder + overview)
-              value: "5532_2"
+              value: '5532_2'
       responses:
-        "200":
+        '200':
           description: The map you requested
           content:
             image/webp:
               schema:
                 type: string
                 format: binary
-              example: "https://nav.tum.sexy/cdn/maps/roomfinder/rf142.webp"
-        "400":
+              example: 'https://nav.tum.sexy/cdn/maps/roomfinder/rf142.webp'
+        '400':
           description: |
             Bad Request.    
             The request was malformed.  
             Please check your request and try again.
           content: {}
-        "404":
+        '404':
           description: Requested Resource Not Found
           content:
             text/plain:
               schema:
                 type: string
+                example: Not found
                 enum:
                   - Not found
-                example: Not found
-        "414":
-          description: "The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars.."
+        '414':
+          description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
           content: {}
       tags:
         - cdn
@@ -830,7 +830,7 @@ paths:
       description: |
         If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
       responses:
-        "200":
+        '200':
           description: Ok
           content:
             text/plain:
@@ -838,7 +838,7 @@ paths:
                 type: string
                 enum:
                   - healthy
-        "503":
+        '503':
           description: Service Unavailable
           content: {}
       tags:
@@ -850,7 +850,7 @@ paths:
       description: |
         If this endpoint does not return 200, the CDN is experiencing a catastrophic outage. Should never happen.
       responses:
-        "200":
+        '200':
           description: Ok
           content:
             text/plain:
@@ -858,7 +858,7 @@ paths:
                 type: string
                 enum:
                   - healthy
-        "503":
+        '503':
           description: Service Unavailable
           content: {}
       tags:
@@ -870,7 +870,7 @@ paths:
       description: |
         If this endpoint does not return 200, the Website is experiencing a catastrophic outage. Should never happen.
       responses:
-        "200":
+        '200':
           description: Ok
           content:
             text/plain:
@@ -878,7 +878,7 @@ paths:
                 type: string
                 enum:
                   - healthy
-        "503":
+        '503':
           description: Service Unavailable
           content: {}
       tags:
@@ -949,21 +949,21 @@ components:
           description: English version of the comment
           type: string
     ImageInfo:
-      description: "The information you need to request Images from the /cdn/{size}/{id}_{counter}.webp endpoint"
+      description: 'The information you need to request Images from the /cdn/{size}/{id}_{counter}.webp endpoint'
       type: object
       properties:
         name:
-          description: "The name of the image file. consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0"
+          description: 'The name of the image file. consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0'
           type: string
           example: mi_0.webp
         author:
-          $ref: "#/components/schemas/PossibleURLRef"
+          $ref: '#/components/schemas/PossibleURLRef'
         source:
-          $ref: "#/components/schemas/PossibleURLRef"
+          $ref: '#/components/schemas/PossibleURLRef'
         license:
-          $ref: "#/components/schemas/PossibleURLRef"
+          $ref: '#/components/schemas/PossibleURLRef'
         meta:
-          $ref: "#/components/schemas/ImageMetadata"
+          $ref: '#/components/schemas/ImageMetadata'
         sections:
           discriminator:
             propertyName: facet
@@ -971,8 +971,8 @@ components:
               sites_buildings: SitesBuildings
               rooms: Rooms
           oneOf:
-            - $ref: "#/components/schemas/SitesBuildings"
-            - $ref: "#/components/schemas/Rooms"
+            - $ref: '#/components/schemas/SitesBuildings'
+            - $ref: '#/components/schemas/Rooms'
       required:
         - name
         - author
@@ -991,7 +991,7 @@ components:
           description: optional location description
           type: string
         geo:
-          description: "optional coordinates in lat,lon"
+          description: 'optional coordinates in lat,lon'
           type: string
         image_url:
           description: |
@@ -1017,16 +1017,16 @@ components:
           description: optional the department this image is about
           type: string
     PossibleURLRef:
-      description: "Additional information you should include, if you decide to display the image for legal and attribution reasons"
+      description: 'Additional information you should include, if you decide to display the image for legal and attribution reasons'
       type: object
       properties:
         text:
-          description: "The text to display"
+          description: The text to display
           type: string
         url:
-          description: "The URL to the referenced information. Always either null or a valid URL"
-          nullable: true
+          description: The URL to the referenced information. Always either null or a valid URL
           type: string
+          nullable: true
           pattern: .+
       required:
         - text
@@ -1068,7 +1068,7 @@ components:
               description: The zone
               type: string
               example: U
-              pattern: "[C-HJ-NP-X]"
+              pattern: '[C-HJ-NP-X]'
             zone_number:
               description: The zone number
               type: integer
@@ -1091,27 +1091,27 @@ components:
             - interactive
             - roomfinder
         roomfinder:
-          $ref: "#/components/schemas/RoomfinderMap"
+          $ref: '#/components/schemas/RoomfinderMap'
         overlays:
           description: |
             null would mean no overlay maps are displayed by default.
             For rooms you should add a warning that no floor map is available for this room
           allOf:
             - nullable: true
-            - $ref: "#/components/schemas/OverlayMap"
+            - $ref: '#/components/schemas/OverlayMap'
       required:
         - default
     RoomfinderMap:
       type: object
       properties:
         default:
-          description: "The id of the map, that should be shown as a default"
+          description: 'The id of the map, that should be shown as a default'
           type: string
           example: rf142
         available:
           type: array
           items:
-            $ref: "#/components/schemas/RoomfinderMapEntry"
+            $ref: '#/components/schemas/RoomfinderMapEntry'
       required:
         - default
         - available
@@ -1127,10 +1127,10 @@ components:
           type: string
           example: rf142
         scale:
-          description: "Scale of the map. 2000 means 1:2000."
+          description: 'Scale of the map. 2000 means 1:2000.'
           type: string
-          example: "2000"
-          pattern: "[0-9]+"
+          example: '2000'
+          pattern: '[0-9]+'
         height:
           description: Map image x dimensions
           type: integer
@@ -1149,7 +1149,7 @@ components:
           format: int32
           example: 499
           minimum: 0
-        y:
+        'y':
           description: y Position on map image
           type: integer
           format: int32
@@ -1162,7 +1162,7 @@ components:
         - height
         - width
         - x
-        - y
+        - 'y'
     OverlayMap:
       type: object
       properties:
@@ -1178,7 +1178,7 @@ components:
         available:
           type: array
           items:
-            $ref: "#/components/schemas/OverlayMapEntry"
+            $ref: '#/components/schemas/OverlayMapEntry'
       required:
         - default
         - available
@@ -1198,7 +1198,7 @@ components:
             Should be used for display to the user in selectors.  
             Matches the floor part of the TUMonline roomcode.
           type: string
-          example: "EG"
+          example: EG
         name:
           description: The human-readable name of the map
           type: string
@@ -1208,7 +1208,7 @@ components:
           type: string
           example: webp/rf95.webp
         coordinates:
-          description: Coordinates are four [lon, lat] pairs, for the top left, top right, bottom right, bottom left image corners.
+          description: 'Coordinates are four [lon, lat] pairs, for the top left, top right, bottom right, bottom left image corners.'
           type: array
           items:
             type: array
@@ -1216,8 +1216,8 @@ components:
               type: number
             minItems: 2
             maxItems: 2
-          minItems: 4
           maxItems: 4
+          minItems: 4
       required:
         - id
         - floor
@@ -1241,7 +1241,7 @@ components:
         entries:
           type: array
           items:
-            $ref: "#/components/schemas/RoomEntry"
+            $ref: '#/components/schemas/RoomEntry'
       required:
         - estimatedTotalHits
         - facet
@@ -1263,7 +1263,7 @@ components:
         entries:
           type: array
           items:
-            $ref: "#/components/schemas/SitesBuildingsEntry"
+            $ref: '#/components/schemas/SitesBuildingsEntry'
         n_visible:
           description: |
             A recommendation how many of the entries should be displayed by default.  
@@ -1279,16 +1279,16 @@ components:
         - entries
     RoomEntry:
       allOf:
-        - $ref: "#/components/schemas/SitesBuildingsEntry"
+        - $ref: '#/components/schemas/SitesBuildingsEntry'
         - type: object
           required:
             - subtext_bold
           properties:
             subtext_bold:
-              description: "Subtext to show below the search (by default in bold and after the non-bold subtext). Usually contains the arch-id of the room, which is another common room id format, and supports highlighting."
+              description: 'Subtext to show below the search (by default in bold and after the non-bold subtext). Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.'
               type: string
             parsed_id:
-              description: "This is an optional feature, that is only supported for some rooms. It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used. See the image below for an example. It will be cropped to a maximum length to not take too much space in UIs. Supports highlighting."
+              description: 'This is an optional feature, that is only supported for some rooms. It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used. See the image below for an example. It will be cropped to a maximum length to not take too much space in UIs. Supports highlighting.'
               type: string
     SitesBuildingsEntry:
       type: object
@@ -1314,17 +1314,17 @@ components:
       type: object
       properties:
         token:
-          description: "The token, that can be used to generate feedback"
+          description: 'The token, that can be used to generate feedback'
           type: string
-          example: "999999999999999"
+          example: '999999999999999'
           maxLength: 15
           minLength: 15
-          pattern: "[0-9]+"
+          pattern: '[0-9]+'
       required:
         - token
       x-examples:
         token:
-          token: "999999999999999"
+          token: '999999999999999'
     SearchResponse:
       type: object
       properties:
@@ -1332,8 +1332,8 @@ components:
           type: array
           items:
             oneOf:
-              - $ref: "#/components/schemas/SitesBuildings"
-              - $ref: "#/components/schemas/Rooms"
+              - $ref: '#/components/schemas/SitesBuildings'
+              - $ref: '#/components/schemas/Rooms'
             discriminator:
               propertyName: facet
               mapping:
@@ -1354,11 +1354,11 @@ components:
         - time_ms
     DetailsResponse:
       allOf:
-        - $ref: "#/components/schemas/BaseDetailsResponse"
+        - $ref: '#/components/schemas/BaseDetailsResponse'
         - type: object
           properties:
             id:
-              description: "The id, that was requested"
+              description: 'The id, that was requested'
               type: string
             type:
               description: The type of the entry
@@ -1371,9 +1371,9 @@ components:
                 - site
                 - campus
             coords:
-              $ref: "#/components/schemas/Coordinate"
+              $ref: '#/components/schemas/Coordinate'
             maps:
-              $ref: "#/components/schemas/Maps"
+              $ref: '#/components/schemas/Maps'
           required:
             - id
             - type
@@ -1381,11 +1381,11 @@ components:
             - maps
     RootResponse:
       allOf:
-        - $ref: "#/components/schemas/BaseDetailsResponse"
+        - $ref: '#/components/schemas/BaseDetailsResponse'
         - type: object
           properties:
             id:
-              description: "The id, that was requested"
+              description: 'The id, that was requested'
               type: string
               enum:
                 - root
@@ -1406,7 +1406,7 @@ components:
         name:
           description: The name of the entry in a human-readable form
           type: string
-          example: "5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)"
+          example: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
         parents:
           type: array
           items:
@@ -1424,13 +1424,13 @@ components:
               - Standorte
               - Garching Forschungszentrum
         props:
-          $ref: "#/components/schemas/Props"
+          $ref: '#/components/schemas/Props'
         imgs:
           type: array
           items:
-            $ref: "#/components/schemas/ImageInfo"
+            $ref: '#/components/schemas/ImageInfo'
         ranking_factors:
-          $ref: "#/components/schemas/RankingFactors"
+          $ref: '#/components/schemas/RankingFactors'
       required:
         - type_common_name
         - name
@@ -1473,12 +1473,12 @@ components:
       type: object
       properties:
         token:
-          description: "The token, that can be used to generate feedback"
+          description: 'The token, that can be used to generate feedback'
           type: string
-          example: "999999999999999"
+          example: '999999999999999'
           maxLength: 15
           minLength: 15
-          pattern: "[0-9]+"
+          pattern: '[0-9]+'
         category:
           description: |
             The category of the feedback.  
@@ -1533,7 +1533,7 @@ tags:
   - name: feedback
     description: the API to access/search for room information
   - name: health
-    description: "These endpoints are used to check the health of the API, website and cdn"
+    description: 'These endpoints are used to check the health of the API, website and cdn'
 externalDocs:
   description: Visit our Github Page for more in-depth documentation
-  url: "https://github.com/TUM-Dev/navigatum"
+  url: 'https://github.com/TUM-Dev/navigatum'
