@@ -892,10 +892,14 @@ components:
         computed:
           type: array
           items:
-            $ref: "#/components/schemas/Prop"
+            $ref: "#/components/schemas/ComputedProp"
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/LinkProp"
       required:
         - computed
-    Prop:
+    ComputedProp:
       type: object
       properties:
         name:
@@ -907,6 +911,33 @@ components:
       required:
         - name
         - text
+    LinkProp:
+      type: object
+      description: A link with a localized link text and url
+      properties:
+        text:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+          required:
+            - text
+            - url
+        url:
+          type: object
+          properties:
+            de:
+              type: string
+            en:
+              type: string
+          required:
+            - text
+            - url
+      required:
+        - text
+        - url
     ImageInfo:
       description: "The information you need to request Images from the /cdn/{size}/{id}_{counter}.webp endpoint"
       type: object
