@@ -183,9 +183,9 @@
         </div>
         <div
           class="toast"
-          v-if="view_data.comment && view_data.comment.${{_lang_}}$"
+          v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_}}$"
         >
-          {{ view_data.comment.${{_lang_}}$ }}
+          {{ view_data.props.comment.${{_lang_}}$ }}
         </div>
       </div>
 
@@ -372,9 +372,9 @@
           </div>
           <div
             class="toast"
-            v-if="view_data.comment && view_data.comment.${{_lang_}}$"
+            v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_}}$"
           >
-            {{ view_data.comment.${{_lang_}}$ }}
+            {{ view_data.props.comment.${{_lang_}}$ }}
           </div>
         </div>
         <!--<div class="card-footer">
