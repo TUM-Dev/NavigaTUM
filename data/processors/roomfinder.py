@@ -43,7 +43,7 @@ def merge_roomfinder_buildings(data):
             # The Roomfinder appears to be no longer maintained, so sometimes there are still
             # buildings in it that no longer exist. Previously this was an error, but for this
             # reason now it is a warning.
-            logging.warning(f"building id '{building['b_id']}' not found in base data. It may be missing in the areatree.")
+            logging.warning(f"building '{building['b_id']}' not found in base data. It may be missing in the areatree.")
             continue
 
         b_data = data[internal_id]

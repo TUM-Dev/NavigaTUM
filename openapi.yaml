@@ -892,11 +892,11 @@ components:
         computed:
           type: array
           items:
-            $ref: "#/components/schemas/ComputedProp"
+            $ref: '#/components/schemas/ComputedProp'
         links:
           type: array
           items:
-            $ref: "#/components/schemas/LinkProp"
+            $ref: '#/components/schemas/LinkProp'
       required:
         - computed
     ComputedProp:
@@ -912,8 +912,8 @@ components:
         - name
         - text
     LinkProp:
-      type: object
       description: A link with a localized link text and url
+      type: object
       properties:
         text:
           type: object
@@ -939,8 +939,8 @@ components:
         - text
         - url
     CommentProp:
+      description: 'A comment to show to an entry. It is used in the rare cases, where some aspect about the rooom/ translation are misleading.'
       type: object
-      description: A comment to show to an entry. It is used in the rare cases, where some aspect about the rooom/ translation are misleading.
       properties:
         de:
           description: German version of the comment

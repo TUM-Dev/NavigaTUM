@@ -163,10 +163,10 @@ def merge_tumonline_rooms(data):
         if room["patched"]:
             data[r_data["id"]]["sources"]["patched"] = True
 
-    parentless = [(id, content) for id, content in data.items() if "parents" not in content]
+    parentless = [(b_id, content) for b_id, content in data.items() if "parents" not in content]
     if parentless:
-        for id, content in parentless:
-            logging.critical(f"No parents exist for {id}: {content}")
+        for b_id, content in parentless:
+            logging.critical(f"No parents exist for {b_id}: {content}")
         logging.critical("This is probably the case, because roompatches were renamed upstream")
         raise RuntimeError("Invariant not preserved")
     if len(missing_buildings) > 0:

@@ -647,22 +647,22 @@ function copyApiCSS() {
   const loadingCSS = {
     ".swagger-ui .loading-container": "*",
     ".swagger-ui .loading-container .loading": "*",
-    ".swagger-ui .loading-container .loading:before":"*",
-    ".swagger-ui .loading-container .loading::before":"*",
-    ".swagger-ui .loading-container .loading:after":"*",
-    ".swagger-ui .loading-container .loading::after":"*",
+    ".swagger-ui .loading-container .loading:before": "*",
+    ".swagger-ui .loading-container .loading::before": "*",
+    ".swagger-ui .loading-container .loading:after": "*",
+    ".swagger-ui .loading-container .loading::after": "*",
   };
   return gulp
     .src("node_modules/swaggerdark/SwaggerDark.css")
-    .pipe(postcss([
-      postcssRemoveDeclaration({remove: loadingCSS}),
-      postcssPrependSelector({ selector: "body.theme-dark #swagger-ui " })
-    ]))
+    .pipe(
+      postcss([
+        postcssRemoveDeclaration({ remove: loadingCSS }),
+        postcssPrependSelector({ selector: "body.theme-dark #swagger-ui " }),
+      ])
+    )
     .pipe(csso())
     .pipe(addsrc.prepend("node_modules/swagger-ui-dist/swagger-ui.css"))
-    .pipe(postcss([
-      postcssRemoveDeclaration({remove: loadingCSS}),
-    ]))
+    .pipe(postcss([postcssRemoveDeclaration({ remove: loadingCSS })]))
     .pipe(concat("swagger-ui.min.css")) // swagger-ui is already minified => minifying here does not make sense
     .pipe(gulp.dest("build/css"));
 }
