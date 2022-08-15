@@ -2,7 +2,7 @@
   <!-- Header image (on mobile) -->
   <a
     class="show-sm header-image-mobile c-hand"
-    @click="showImageShowcase(0)"
+    @click="showImageShowcase(image.shown_image_id)"
     v-if="image.shown_image"
   >
     <img
@@ -181,6 +181,12 @@
         >
           ${{_.view_view.msg.no_floor_overlay}}$
         </div>
+        <div
+          class="toast"
+          v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_}}$"
+        >
+          {{ view_data.props.comment.${{_lang_}}$ }}
+        </div>
       </div>
 
       <div
@@ -335,7 +341,7 @@
       <div class="card">
         <a
           class="card-image c-hand"
-          @click="showImageShowcase(0)"
+          @click="showImageShowcase(image.shown_image_id)"
           v-if="image.shown_image"
         >
           <img
@@ -387,6 +393,12 @@
             v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null"
           >
             ${{_.view_view.msg.no_floor_overlay}}$
+          </div>
+          <div
+            class="toast"
+            v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_}}$"
+          >
+            {{ view_data.props.comment.${{_lang_}}$ }}
           </div>
         </div>
         <!--<div class="card-footer">
