@@ -1,5 +1,4 @@
 # NavigaTUM
-
 [![Deployment Status](https://argocd.frank.elsinga.de/api/badge?name=navigatum)](https://argocd.frank.elsinga.de/applications/navigatum)
 [![Website Uptime over 30 days](https://img.shields.io/uptimerobot/ratio/m791520694-3a5056fab92b80370cbc4c1d?label=Website%20Uptime/30d)](https://stats.uptimerobot.com/xBGmxHLMYg)
 [![API Uptime over 30 days](https://img.shields.io/uptimerobot/ratio/m791522180-717477e7e0d458d047022d4a?label=API%20Uptime/30d)](https://stats.uptimerobot.com/xBGmxHLMYg)
@@ -15,16 +14,11 @@ Features:
 
 All functionality is also available via an API.
 
-_Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments._
+*Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments.*
 
 ## Screenshots
 
-<img alt="Screenshot of the main-index of the website" src="./resources/website-screenshots/main-index_light.png#gh-light-mode-only" width="75%"/>
-<img alt="Screenshot of the main-index of the website" src="./resources/website-screenshots/main-index_dark.png#gh-dark-mode-only" width="75%"/> 
-<img alt="Screenshot of a building including an internal map" src="./resources/website-screenshots/building-with-internal-map_light.png#gh-light-mode-only" width="75%"/>
-<img alt="Screenshot of a building including an internal map" src="./resources/website-screenshots/building-with-internal-map_dark.png#gh-dark-mode-only" width="75%"/> 
-<img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_light.png#gh-light-mode-only" width="75%"/>
-<img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_dark.png#gh-dark-mode-only" width="75%"/>
+<img alt="Screenshot of the main-index of the website" src="./resources/website-screenshots/main-index_light.png#gh-light-mode-only" width="50%"/><img alt="Screenshot of the main-index of the website" src="./resources/website-screenshots/main-index_dark.png#gh-dark-mode-only" width="50%"/><img alt="Screenshot of a building including an internal map" src="./resources/website-screenshots/building-with-internal-map_light.png#gh-light-mode-only" width="50%"/><img alt="Screenshot of a building including an internal map" src="./resources/website-screenshots/building-with-internal-map_dark.png#gh-dark-mode-only" width="50%"/><img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_light.png#gh-light-mode-only" width="100%"/><img alt="Screenshot of the search-page" src="./resources/website-screenshots/example-search_dark.png#gh-dark-mode-only" width="100%"/> 
 
 ## API Documentation and native clients
 
@@ -60,7 +54,7 @@ In case you do not want to work on the data processing, you can instead
 download the latest compiled files:
 
 ```bash
-wget -P data/output https://nav.tum.sexy/cdn/api_data.json
+wget -P data/output https://nav.tum.sexy/cdn/api_data.json 
 wget -P data/output https://nav.tum.sexy/cdn/search_data.json
 wget -P data/output https://nav.tum.sexy/cdn/search_synonyms.json
 ```
@@ -81,23 +75,20 @@ API as is described in the webclient documentation.
 ### API
 
 We format our api via [openapi-format](https://www.npmjs.com/package/openapi-format).
-
 ```bash
-npm install -g openapi-format
+npm install openapi-format
 openapi-format ./openapi.yaml --output ./openapi.yaml
 ```
 
 To validate that the specification is being followed, use the [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml) in tandem with [stoplight](stoplight.io), as they are both very imperfect tools.
 
 To make sure that this specification is up-to-date and without holes, we run [schemathesis](https://github.com/schemathesis/schemathesis) using the following command on API Server provided by the "Server" step or the public API:
-
 ```bash
 python -m venv venv
 source venv/bin/activate
 pip install schemathesis
 st run --workers=auto --base-url=http://localhost:8080 --checks=all ../openapi.yaml
 ```
-
 Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN).  
 You can exchange `--base-url=http://localhost:8080` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/search`.
 
@@ -112,8 +103,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/>.
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
