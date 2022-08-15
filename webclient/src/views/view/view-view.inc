@@ -181,6 +181,12 @@
         >
           ${{_.view_view.msg.no_floor_overlay}}$
         </div>
+        <div
+          class="toast"
+          v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_}}$"
+        >
+          {{ view_data.props.comment.${{_lang_}}$ }}
+        </div>
       </div>
 
       <div
@@ -363,6 +369,12 @@
             v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null"
           >
             ${{_.view_view.msg.no_floor_overlay}}$
+          </div>
+          <div
+            class="toast"
+            v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_}}$"
+          >
+            {{ view_data.props.comment.${{_lang_}}$ }}
           </div>
         </div>
         <!--<div class="card-footer">
