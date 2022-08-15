@@ -1333,6 +1333,8 @@ components:
               $ref: "#/components/schemas/Coordinate"
             maps:
               $ref: "#/components/schemas/Maps"
+            comment:
+              $ref: "#/components/schemas/Comment"
           required:
             - id
             - type
@@ -1428,6 +1430,19 @@ components:
         - rank_combined
         - rank_type
         - rank_usage
+    Comment:
+      type: object
+      description: A comment to show to an entry
+      properties:
+        de:
+          description: German version of the comment
+          type: string
+        en:
+          description: English version of the comment
+          type: string
+      required:
+        - de
+        - en
     TokenRequest:
       type: object
       properties:
