@@ -312,6 +312,18 @@
             <td><strong>{{ prop.name }}</strong></td>
             <td>{{ prop.text }}</td>
           </tr>
+          <tr v-if="view_data.props.links">
+            <td><strong>${{ _.view_view.info_table.links }}$</strong></td>
+            <td>
+              <ul>
+                <li v-for="link in view_data.props.links">
+                  <a v-bind:href="link.url.${{ _lang_ }}$">
+                    {{ link.text.${{ _lang_ }}$ }}
+                  </a>
+                </li>
+              </ul>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -345,6 +357,18 @@
               <tr v-for="prop in view_data.props.computed">
                 <td><strong>{{ prop.name }}</strong></td>
                 <td>{{ prop.text }}</td>
+              </tr>
+              <tr v-if="view_data.props.links">
+                <td><strong>${{ _.view_view.info_table.links }}$</strong></td>
+                <td>
+                  <ul>
+                    <li v-for="link in view_data.props.links">
+                      <a v-bind:href="link.url.${{ _lang_ }}$">
+                        {{ link.text.${{ _lang_ }}$ }}
+                      </a>
+                    </li>
+                  </ul>
+                </td>
               </tr>
             </tbody>
           </table>
