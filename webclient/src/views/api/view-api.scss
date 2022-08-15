@@ -2,5 +2,15 @@
 
 #view-api {
     .swagger-ui{
+         // we cannot apply loading-lg to this external dependency
+        .loading-container .loading {
+            min-height: 2rem;
+         }
+        .loading-container .loading::after {
+              height: 1.6rem;
+              margin-left: -.8rem;
+              margin-top: -.8rem;
+              width: 1.6rem;
+        }
     }
 }
