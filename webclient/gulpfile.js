@@ -643,7 +643,7 @@ gulp.task("map", gulp.parallel(copyMapCSS, copyMapJS));
 
 // --- api-visualiser (currently swagger-ui) Pipeline ---
 function copyApiCSS() {
-  // swagger-ui has its own loading button
+  // swagger-ui has its own loading spinner, but it is apparently broken if we included it
   const loadingCSS = {
     ".swagger-ui .loading-container": "*",
     ".swagger-ui .loading-container .loading": "*",
