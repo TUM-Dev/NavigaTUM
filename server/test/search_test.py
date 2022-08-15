@@ -244,7 +244,7 @@ def _gen_pos_indicator(search):
 
 def main():
     """Main function"""
-    with open(Path(__file__).parent, "test-queries.yaml", encoding="utf-8") as file:
+    with open(Path(__file__).parent / "test-queries.yaml", encoding="utf-8") as file:
         test_queries = yaml.safe_load(file.read())
     cprint("=== Specific queries ===", attrs=["bold"])
     # with open(Path(__file__).parent / "cmp-210811.json", encoding="utf-8") as file:

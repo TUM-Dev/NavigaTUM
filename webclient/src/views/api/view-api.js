@@ -17,6 +17,7 @@ function apiNavigateTo(to, from, next) {
     window.setTimeout(() => {
       // we need to make sure, that swagger-ui exists, otherwise the following command will fail
       // therefore waiting is effective
+      /* global SwaggerUIBundle */
       SwaggerUIBundle({
         url: "https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml",
         dom_id: "#swagger-ui",

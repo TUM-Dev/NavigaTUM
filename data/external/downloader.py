@@ -16,7 +16,7 @@ from utils import convert_to_webp
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
 ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192"
-CACHE_PATH = cache_path = Path(__file__).parent / "cache"
+CACHE_PATH = Path(__file__).parent / "cache"
 
 
 def roomfinder_buildings():
