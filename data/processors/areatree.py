@@ -48,7 +48,12 @@ def _parse_areatree_line(line, parent_stack, data):
         building_data["id"] = b_id
 
     # name
-    building_data["name"] = parts[1]
+    names = parts[1].split("|")
+    building_data["name"] = names[0]
+    if len(names) == 2:
+        building_data["short_name"] = names[1]
+    elif len(names) > 2:
+        raise RuntimeError(f"Too many names: {names}")
 
     # id and type
     if "[" in parts[2]:

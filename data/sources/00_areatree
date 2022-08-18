@@ -28,12 +28,12 @@
       0108:E-Technik Verfügungsgebäude (N8):0108,n8
       0109:Reflexionsarmer Raum (N9):0109,n9
     02:Südgelände:suedgelaende
-      0201:StudiTUM Innenstadt (S1):0201,studitum-innenstadt
+      0201:StudiTUM Innenstadt (S1)|StudiTUM:0201,studitum-innenstadt
       0202:Gabelsbergerstr. 39 (S2):0202,s2
       0203:Gabelsbergerstr. 45 (S3):0203,s3
       0204:Gabelsbergerstr. 49 (S4):0204,s4
       0205:Arcisstr. 19 (S5):0205,s5
-      0206:Mensa Arcisstr. 17 (S6):0206,s6
+      0206:Mensa Arcisstr. 17 (S6)|Mensa:0206,s6
       2920:Gabelsbergerstr. 47:
     03:Südostgelände:suedostgelaende
       0305:Block D (Südost 5, ehemalig LRZ):0305,so5
@@ -52,12 +52,12 @@
       0505:Wirtschaftswissenschaften (Z5):
       0506:Theresianum (Z6):
       0507:Bestelmeyer Nord (Z7):
-      0508:Heizkraftwerk, Dieter-Thoma-Labor (Z8):
-      0509:Wienandsbau, E-Technik / Audimax (Z9):
+      0508:Heizkraftwerk, Dieter-Thoma-Labor (Z8)|Heizkraftwerk (Z8):
+      0509:Wienandsbau, E-Technik / Audimax (Z9)|Wienandsbau (Z9):
       0510:Verwaltungsbau (Z10):
       0511:Elektro/Werkstatt/Lösungsmittel (Z11):
       0512:Garagen (Z12):
-  15,17:Klinikum rechts der Isar (MRI):mri[site]
+  15,17:Klinikum rechts der Isar (MRI)|MRI:mri[site]
     1501:Chirurgische Klinik (Bau 501):
     1502:Radiologie, Orthopädie, Sportorthopädie, klinische Toxikologie (Bau 502):
     1503:Augen, HNO, I.Med., III.Med. (Bau 503):
@@ -238,7 +238,7 @@
     3901:Kiosk:
     3902:Seglerheim:
     3904:Bootshaus:
-  4:Wissenschaftszentrum Weihenstephan (WZW Freising):wzw[campus]
+  4:Wissenschaftszentrum Weihenstephan (WZW Freising)|WZW Freising:wzw[campus]
     4001:Ruine der Korbinians Kapelle:
     41:Gebiet 4100 Berg:wzw-berg
       :Alte Akademie:wzw-berg-alte-akademie
@@ -253,7 +253,7 @@
         4109:Campusoffice, SSW Studierenden Service Weihenstephan:
         4110:Brau- und Getränketechnologie:
         4111:Forschungsbrauerei Weihenstephan mit Nebengebäude:
-        4113:StudiTUM Weihenstephan:
+        4113:StudiTUM Weihenstephan|StudiTUM:
         4114:ehemaliger Bauhof:
         4115:Familienservice:
         4116:Dr. Gudula Wernekke-Rastetter Kindervilla:
@@ -428,7 +428,7 @@
       4915:Arb.Gba. 2, SCHP:
       4916:Arb.Gba. 3, SCHP:
       4920:Kapelle:
-  5:Garching Forschungszentrum:garching[campus]
+  5:Garching Forschungszentrum|Garching:garching[campus]
     51:Physik:physik
       :Physik Hauptgebäude:physik-main
         5101:Physik I:
@@ -455,7 +455,7 @@
       5142:Parkhaus P1:
       -5143:Versorgungsstation:
       5160:UCN-Testanlage (Container):
-    52:FRM II Forschungsreaktor Neutronenquelle und Heinz Maier-Leibnitz Zentrum (MLZ):frm-2[area]
+    52:FRM II Forschungsreaktor Neutronenquelle und Heinz Maier-Leibnitz Zentrum (MLZ)|FRM II:frm-2[area]
       5202:Flachbau 2+3 (Zyklotron):
       5203:Bürogebäude (GRS-Altbau), Hochschulreferat 6 – Sicherheit und Strahlenschutz, Zentrale Reisekostenstelle:
       5204:Umformtechnik und Gießereiwesen (utg) (MW25):
@@ -529,8 +529,8 @@
       5519:FTM Fahrzeughalle:
       5530:IGSSE, Exzellenzzentrum Garching, TUM.Family, Prüfungsamt:
     5531:Ingeborg Ortner-Kinderhaus:
-    5532:StudiTUM Garching:
-    560,561:Fakultät Mathematik & Informatik (FMI oder MI):mi[joined_building]
+    5532:StudiTUM Garching|StudiTUM:
+    560,561:Fakultät Mathematik & Informatik (FMI oder MI)|Mathe/Info (MI):mi[joined_building]
       5601:Magistrale / Foyer (BT01):
       5602:Hörsaal 1 (BT02):
       5603:Bibliothek (BT03):
@@ -547,14 +547,14 @@
     -5622:Sportanlage Garching / Dusch Container:
     5701:Munich School of BioEngineering, IMETUM:
     5901:Elektro- und Informationstechnik (EI, ZEITlab):5901,ei-garching[building]
-    812:Galileo Garching:galileo[joined_building]
+    812:Galileo Garching|Galileo:galileo[joined_building]
       8120:Conference Center:
       8121:Courtyard Hotel:
       8122:Galileo Büro, W. v. Dyck-Str. 6:
       8123:Galileo Büro, W. v. Dyck-Str. 4:
     :Interimshörsäle:garching-interims
-      5620:Interims-Audimax I:
-      5416:Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude:
+      5620:Interimshörsäle I|Interims I:
+      5416:Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude|Interims II:
       5998:Interims Tentomax Garching EL (Parkplatz), HS3/HS4:
   6:Garching Forschungszentrum (süd-west):garching-sued-west[site]
     61:Gebäudemanagement / Technischer Betrieb:garching-gebaeudemanagement
@@ -568,14 +568,14 @@
     7894:Newton:
     7910:Oskar-von-Miller-Turm (Meteo-Mast):
   810,811:Garching Hochbrück:garching-hochbrueck[site]
-    8101:Business Campus Garching (BC1), Parkring 11-13:
-    8102:Business Campus Garching (BC2), Parkring 35-39:
+    8101:Business Campus Garching (BC1), Parkring 11-13|Business Campus 1:
+    8102:Business Campus Garching (BC2), Parkring 35-39|Business Campus 2:
     8104:Carl-Zeiss-Straße 8:
     8111:Schleißheimerstr. 90a:
   9001:TUM Science & Study Center Raitenhaslach:
   9101:Garmisch-Partenkirchen (A, Bahnhofstr. 37):
   9201:TUM FZ Friedrich N. Schwarz Berchtesgaden:
-  93:Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie):taufkirchen-ottobrunn[campus]
+  93:Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie)|Taufkirchen/Ottobrunn:taufkirchen-ottobrunn[campus]
     9376:Airbus Standort 76.C:
     9377:Lise-Meitner-Straße 9-11:
     9379:Lise Meitner Str. 8:
