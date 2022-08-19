@@ -85,11 +85,11 @@ spec:
             httpGet:
               path: /_ah/health
               port: rendertron
-            failureThreshold: 3
-            periodSeconds: 1
+            failureThreshold: 1
+            periodSeconds: 60
           startupProbe:
             httpGet:
               path: /_ah/health
               port: rendertron
             failureThreshold: 20
-            periodSeconds: 1
+            periodSeconds: 5
