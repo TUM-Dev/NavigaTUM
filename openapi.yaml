@@ -898,11 +898,11 @@ components:
           items:
             $ref: '#/components/schemas/LinkProp'
         comment:
-          type: string
           description: |
             A comment to show to an entry.  
             It is used in the rare cases, where some aspect about the rooom/.. or its translation are misleading.  
             An example of a room with a comment is MW1801.
+          type: string
       required:
         - computed
     ComputedProp:

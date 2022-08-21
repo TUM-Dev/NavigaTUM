@@ -181,11 +181,8 @@
         >
           ${{_.view_view.msg.no_floor_overlay}}$
         </div>
-        <div
-          class="toast"
-          v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_}}$"
-        >
-          {{ view_data.props.comment.${{_lang_}}$ }}
+        <div class="toast" v-if="view_data.props && view_data.props.comment">
+          {{ view_data.props.comment }}
         </div>
       </div>
 
@@ -323,9 +320,7 @@
             <td>
               <ul>
                 <li v-for="link in view_data.props.links">
-                  <a v-bind:href="link.url.${{ _lang_ }}$">
-                    {{ link.text.${{ _lang_ }}$ }}
-                  </a>
+                  <a v-bind:href="link.url">{{ link.text }}</a>
                 </li>
               </ul>
             </td>
@@ -369,9 +364,7 @@
                 <td>
                   <ul>
                     <li v-for="link in view_data.props.links">
-                      <a v-bind:href="link.url.${{ _lang_ }}$">
-                        {{ link.text.${{ _lang_ }}$ }}
-                      </a>
+                      <a v-bind:href="link.url">{{ link.text }}</a>
                     </li>
                   </ul>
                 </td>
@@ -394,11 +387,8 @@
           >
             ${{_.view_view.msg.no_floor_overlay}}$
           </div>
-          <div
-            class="toast"
-            v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_}}$"
-          >
-            {{ view_data.props.comment.${{_lang_}}$ }}
+          <div class="toast" v-if="view_data.props && view_data.props.comment">
+            {{ view_data.props.comment }}
           </div>
         </div>
         <!--<div class="card-footer">
