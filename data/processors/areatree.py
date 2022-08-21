@@ -1,3 +1,6 @@
+import logging
+
+
 def read_areatree():
     """Reads the areatree file and the basic data, gained from the areatree"""
 
@@ -51,6 +54,9 @@ def _parse_areatree_line(line, parent_stack, data):
     names = parts[1].split("|")
     building_data["name"] = names[0]
     if len(names) == 2:
+        if len(names[1]) > 20:
+            logging.warning(f"'{names[1]}' is very long for a short name (>20 chars)")
+
         building_data["short_name"] = names[1]
     elif len(names) > 2:
         raise RuntimeError(f"Too many names: {names}")

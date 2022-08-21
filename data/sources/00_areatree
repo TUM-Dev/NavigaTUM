@@ -7,7 +7,8 @@
 #   outside this area that starts with this prefix.
 #   If one ore more ids/prefixes start with "-" they mark the data certainty as low.
 # <name(s)>:
-#   The name of this building, format tbd.
+#   The name of this building, area etc. Optionally, a short name can be supplied,
+#   separated by a '|'.
 # <id(s) & type>:
 #   Format: <id>,<visible-id>[<type>]
 #   The building id to use internally. If not provided the building prefix is used if only
@@ -575,7 +576,7 @@
   9001:TUM Science & Study Center Raitenhaslach:
   9101:Garmisch-Partenkirchen (A, Bahnhofstr. 37):
   9201:TUM FZ Friedrich N. Schwarz Berchtesgaden:
-  93:Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie)|Taufkirchen/Ottobrunn:taufkirchen-ottobrunn[campus]
+  93:Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie)|Taufkirchen/Ottobr.:taufkirchen-ottobrunn[campus]
     9376:Airbus Standort 76.C:
     9377:Lise-Meitner-Straße 9-11:
     9379:Lise Meitner Str. 8:
