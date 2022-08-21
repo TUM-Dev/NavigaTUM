@@ -230,10 +230,7 @@ fn parse_room_formats(
     }
 }
 
-fn generate_subtext(
-    hit: &meilisearch::MSHit,
-) -> String {
-
+fn generate_subtext(hit: &meilisearch::MSHit) -> String {
     let building = match hit.parent_building_names.len() {
         0 => String::from(""),
         _ => hit.parent_building_names[0].clone(),
