@@ -68,27 +68,112 @@ def _convert_latlonbox_to_coordinates(box):
     east, west = float(box["east"]), float(box["west"])
     north, south = float(box["north"]), float(box["south"])
 
-    # TODO: calculate coordiantes
-    return [coords[2], coords[1], coords[0], coords[3]]
+    x, y = _calculate_xy(east, north, rotation, south, west)
+
+    # via simetry, we now know how to calculate all the corners
+    #       2
+    #   _____________
+    #   |   V`*.    |
+    #   |  V     `*.| 3
+    #   | V   #   / |
+    # 1 | `*.    /  |
+    #   |     `*/   |
+    #   ^^^^^^^^^^^^^
+    #           4
+    return [
+        [west, north - y],
+        [west + x, north],
+        [east, south + x],
+        [west - y, south],
+    ]
+
+
+def _calculate_xy(east, west, north,south, rotation):
+    # rotation is in degrees
+    rotation = math.radians(rotation)
+
+    # notice, that the latlongbox is always square, no matter how rectangular the image is. The asci art is just wonky.
+
+    # assume the image is laid out in the following way:
+    #       v_____a_____v
+    #   >   _____________
+    #   |   |   V`*.    |
+    #   |   |  V     `*.|
+    # b |   | V   #   / |
+    #   |   | `*.    /  |
+    #   |   |     `*/   |
+    #   >   ^^^^^^^^^^^^^
+    # we now take a triangle from the upper left side (V) to the center of the image (#)
+    a = east - west
+    b = north - south
+    #   _______________
+    #   |      V\     |
+    #   |     V  \    |
+    #   |    V    \   |
+    #   |   V      \  |
+    #   |  V".      \α|
+    #   |      `*.   \|
+    #   |     r    `*.|
+    # now we notice that α is the angle the image is rotated by and
+    # r is the distance between the center and the outer corners of the image
+    r = (b / 2) / math.cos(rotation)
+    # let's now look at the other triangle :)
+    #       x      x'
+    #   v------vv-----v
+    #   _______________
+    #   |       \     |
+    #   |        \    |
+    #   |         \   |
+    #   |        r \  |  a/2
+    #   |           \ |
+    #   |            \|
+    #   |             |
+    # because pytagoras:
+    # r^2 = (x')^2 + (a/2)^2
+    xprime = math.sqrt(r * r - (a / 2) * (a / 2))
+    x = (a / 2) - xprime
+    #     >  _______________
+    #     |  |
+    #  y  |  |
+    #     |  |
+    #     >  |
+    #     >  |V".    r
+    #     |  |    `*.
+    #  y' |  |        `*.
+    #     >  |"""""""""""
+    #           b/2
+    yprime = math.sqrt(r * r - (b / 2) * (b / 2))
+    y = (b / 2) - yprime
+    return x, y
 
 
 if __name__ == "__main__":
-    coords = _convert_latlonbox_to_coordinates(
+    print(_calculate_xy(2,0,2,0, -45))
+
+
+def e2e_test():
+    coords1 = _convert_latlonbox_to_coordinates(
         {
-            "north": "48.2624632522",
-            "east": "11.6688558645",
-            "west": "11.6682807315",
-            "south": "48.2617256799",
-            "rotation": "-15.7610714436",
+            "north": "48.150949",
+            "east": "11.569285",
+            "west": "11.567409",
+            "south": "48.149706",
+            "rotation": "33.25",
         }
     )
 
-    def p(x):
-        print("https://mobisoftinfotech.com/tools/plot-multiple-points-on-map/")
+    def p(x, style="marker"):
         for i, (lat, lon) in enumerate(x):
-            print(f'{lon},{lat},{["red", "orange", "yellow", "green"][i]},marker,"{i}"')
+            print(f'{lon},{lat},{["red", "orange", "yellow", "green"][i]},{style},"{i}"')
 
-    p(coords)
+    print("https://mobisoftinfotech.com/tools/plot-multiple-points-on-map/")
+    p([
+        [11.567969, 48.150949],
+        [11.569285, 48.150577],
+        [11.568750, 48.149706],
+        [11.567409, 48.150095],
+    ])
+    p(coords1, "square")
 
 
 def _save_map_data(available_maps, entry):
@@ -131,10 +216,10 @@ def _extract_available_maps(entry, custom_maps, maps_list):
     available_maps = []
     for (b_id, floor), _map in custom_maps.items():
         if (
-            entry["type"] == "room"
-            and b_id in entry["parents"]
-            and "tumonline_data" in entry
-            and f".{floor}." in entry["tumonline_data"]["roomcode"]
+                entry["type"] == "room"
+                and b_id in entry["parents"]
+                and "tumonline_data" in entry
+                and f".{floor}." in entry["tumonline_data"]["roomcode"]
         ):
             available_maps.append(_map)
     available_maps += maps_list
@@ -344,7 +429,7 @@ def add_overlay_maps(data):
 
                 # The 'tumonline' field overwrites which TUMonline ID floor to match
                 if (f".{_map.get('tumonline', '')}." in _id) or (
-                    overlay_data.get("default", None) is None and f".{_map['floor']}." in _id
+                        overlay_data.get("default", None) is None and f".{_map['floor']}." in _id
                 ):
                     overlay_data["default"] = _map["id"]
 
