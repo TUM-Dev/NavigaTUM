@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="${{_.meta.description}}$">
+    <meta name="description" content="{{ $t("meta.description") }}">
     <meta name="author" content="@octycs and @CommanderStorm">
     <meta name="copyright" content="GNU General Public License v3.0. Images may be licensed differently.">
     <meta name="robots" content="index, follow">
@@ -15,9 +15,9 @@
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="NavigaTUM" />
     <meta property="og:url" content="https://nav.tum.sexy">
-    <meta property="og:description" content="${{_.meta.description}}$" />
+    <meta property="og:description" content="{{ $t("meta.description") }}" />
     <meta property="og:image" content="https://nav.tum.sexy/assets/logo-card.png" />
-    <meta property="og:image:alt" content="${{_.meta.logo_alt}}$" />
+    <meta property="og:image:alt" content="{{ $t("meta.logo_alt") }}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:mime" content="image/png" />
@@ -67,8 +67,8 @@
           <div class="columns">
             <div class="column hide-lg">
               <router-link to="/">
-              <img alt="${{_.meta.logo_alt}}$"
-                   src="<!-- @echo app_prefix -->assets/logo2.min2.svg"
+              <img alt="{{ $t("meta.logo_alt") }}"
+                   src="assets/logo2.min2.svg"
                    id="logo"/>  <!-- 7px for logo1 -->
               </router-link>
             </div>
@@ -78,19 +78,19 @@
                   <input id="search"
                          type="text"
                          class="form-input input-lg"
-                         placeholder="${{_.search.placeholder}}$"
+                         placeholder="{{ $t("search.placeholder") }}"
                          v-model="search.query"
                          @input="searchInput"
                          @focus="searchFocus"
                          @blur="searchBlur"
                          @keydown="searchKeydown"
                          autocomplete="off"
-                         aria-label="${{_.search.aria-searchlabel}}$">
+                         aria-label="{{ $t("search.aria-searchlabel") }}">
                   <i class="form-icon icon icon-search"></i>
                   <button class="btn btn-primary input-group-btn btn-lg"
                           @click="searchGo(false)"
-                          aria-label="${{_.search.aria-actionlabel}}$">
-                    ${{_.search.action}}$
+                          aria-label="{{ $t("search.aria-actionlabel") }}">
+                    {{ $t("search.action") }}
                   </button>
                 </div>
                 <!-- Autocomplete -->
@@ -145,11 +145,11 @@
                       <a v-if="!s.expanded && s.n_visible < s.entries.length"
                          @mousedown="search.keep_focus = true"
                          @click="searchExpand(s)">
-                        +{{ s.entries.length - s.n_visible }} ${{_.search.hidden}}$,
+                        +{{ s.entries.length - s.n_visible }} {{ $t("search.hidden") }},
                       </a>
                       <template>
-                        {{ s.estimatedTotalHits > 20 ? "${{_.search.approx}}$ " : "" }}{{ s.estimatedTotalHits }}
-                        {{ s.estimatedTotalHits === 1 ? "${{_.search.result}}$" : "${{_.search.results}}$" }}
+                        {{ s.estimatedTotalHits > 20 ? "{{ $t("search.approx") }} " : "" }}{{ s.estimatedTotalHits }}
+                        {{ s.estimatedTotalHits === 1 ? "{{ $t("search.result") }}" : "{{ $t("search.results") }}" }}
                       </template>
                     </li>
                   </template>
@@ -227,10 +227,10 @@
         <div class="columns">
           <div class="column col-lg-11 col-mx-auto">
             <div class="toast toast-error">
-              ${{_.core_js.error.noscript.js_required}}$<br>
-              ${{_.core_js.error.noscript.please_enable_js}}$<br>
+              {{ $t("core_js.error.noscript.js_required") }}<br>
+              {{ $t("core_js.error.noscript.please_enable_js") }}<br>
               <br>
-              ${{_.core_js.error.noscript.continue_with_different_useragent}}$
+              {{ $t("core_js.error.noscript.continue_with_different_useragent") }}
             </div>
           </div>
         </div>
@@ -254,24 +254,24 @@
                   <div class="columns">
                     <ul class="column col-auto">
                       <li>
-                        <a href="https://github.com/TUM-Dev/navigatum">${{_.footer.sourcecode.text}}$</a>
+                        <a href="https://github.com/TUM-Dev/navigatum">{{ $t("footer.sourcecode.text") }}</a>
                       </li>
                       <li>
-                        <router-link to="/${{_.footer.api.link}}$">${{_.footer.api.text}}$</router-link>
+                        <router-link to="/{{ $t("footer.api.link") }}">{{ $t("footer.api.text") }}</router-link>
                       </li>
                       <li>
-                        <router-link to="/about/${{_.footer.about.link}}$">${{_.footer.about.text}}$</router-link>
+                        <router-link to="/about/{{ $t("footer.about.link") }}">{{ $t("footer.about.text") }}</router-link>
                       </li>
                     </ul>
                     <ul class="column">
                       <li>
-                        <button onclick="openFeedback()" class="btn btn-link" aria-label="Open the feedback-form">${{_.footer.feedback.text}}$</button>
+                        <button onclick="openFeedback()" class="btn btn-link" aria-label="Open the feedback-form">{{ $t("footer.feedback.text") }}</button>
                       </li>
                       <li>
-                        <router-link to="/about/${{_.footer.privacy.link}}$">${{_.footer.privacy.text}}$</router-link>
+                        <router-link to="/about/{{ $t("footer.privacy.link") }}">{{ $t("footer.privacy.text") }}</router-link>
                       </li>
                       <li>
-                        <router-link to="/about/${{_.footer.imprint.link}}$">${{_.footer.imprint.text}}$</router-link>
+                        <router-link to="/about/{{ $t("footer.imprint.link") }}">{{ $t("footer.imprint.text") }}</router-link>
                       </li>
                     </ul>
                   </div>
@@ -282,15 +282,15 @@
                     <div class="column col-12 col-xs-8 col-mx-auto">
                       <div class="columns setting-group">
                         <div class="column col">
-                          <label for="setting-lang"><small>${{_.footer.language}}$</small></label>
+                          <label for="setting-lang"><small>{{ $t("footer.language") }}</small></label>
                         </div>
                         <div class="column col-auto">
                           <div class="btn-group btn-group-block" id="setting-lang">
-                            <!-- @if "${{_lang_}}$"="de" -->
+                            <!-- @if "${{_lang_") }}"="de" -->
                             <button class="btn btn-sm active" disabled>DE</button>
                             <button class="btn btn-sm" @click="setLang('en')">EN</button>
                             <!-- @endif -->
-                            <!-- @if "${{_lang_}}$"="en" -->
+                            <!-- @if "${{_lang_") }}"="en" -->
                             <button class="btn btn-sm" @click="setLang('de')">DE</button>
                             <button class="btn btn-sm active" disabled>EN</button>
                             <!-- @endif -->
@@ -299,13 +299,13 @@
                       </div>
                       <div class="columns setting-group">
                         <div class="column col">
-                          <label for="setting-theme"><small>${{_.footer.theme}}$</small></label>
+                          <label for="setting-theme"><small>{{ $t("footer.theme") }}</small></label>
                         </div>
                         <div class="column col-auto">
                           <div class="btn-group btn-group-block" id="setting-theme">
                             <!-- @if theme="light" -->
-                            <button class="btn btn-sm active" disabled>${{_.footer.theme_light}}$</button>
-                            <button class="btn btn-sm" @click="setTheme('dark')">${{_.footer.theme_dark}}$</button>
+                            <button class="btn btn-sm active" disabled>{{ $t("footer.theme_light") }}</button>
+                            <button class="btn btn-sm" @click="setTheme('dark')">{{ $t("footer.theme_dark") }}</button>
                             <!-- @endif -->
                             <!-- @if theme="dark" -->
                             <button class="btn btn-sm" @click="setTheme('light')">${{_.footer.theme_light}}$</button>
@@ -333,41 +333,41 @@
         <div class="modal-header">
           <button class="btn btn-clear float-right"
                   aria-label="Close" id="feedback-close"></button>
-          <div class="modal-title h5">${{_.feedback.title}}$</div>
+          <div class="modal-title h5">{{ $t("feedback.title") }}</div>
         </div>
         <div class="modal-body">
           <div class="content">
             <div id="feedback-error"></div>
             <div class="form-group">
-              <div id="feedback-coordinate-picker-helptext" class="d-none toast toast-primary">${{_.feedback.coordinatepicker.helptext}}$</div>
-              <label class="form-label" for="feedback-subject">${{_.feedback.subject}}$</label>
+              <div id="feedback-coordinate-picker-helptext" class="d-none toast toast-primary">{{ $t("feedback.coordinatepicker.helptext") }}</div>
+              <label class="form-label" for="feedback-subject">{{ $t("feedback.subject") }}</label>
               <div class="input-group">
                 <select class="form-select"
-                        aria-label="${{_.feedback.category}}$"
+                        aria-label="{{ $t("feedback.category") }}"
                         id="feedback-category">
-                  <option value="general">${{_.feedback.type.general}}$</option>
-                  <option value="bug">${{_.feedback.type.bug}}$</option>
-                  <option value="features">${{_.feedback.type.features}}$</option>
-                  <option value="search">${{_.feedback.type.search}}$</option>
-                  <option value="entry">${{_.feedback.type.entry}}$</option>
+                  <option value="general">{{ $t("feedback.type.general") }}</option>
+                  <option value="bug">{{ $t("feedback.type.bug") }}</option>
+                  <option value="features">{{ $t("feedback.type.features") }}</option>
+                  <option value="search">{{ $t("feedback.type.search") }}</option>
+                  <option value="entry">{{ $t("feedback.type.entry") }}</option>
                 </select>
                 <input class="form-input"
                        type="text"
-                       placeholder="${{_.feedback.subject}}$"
+                       placeholder="{{ $t("feedback.subject") }}"
                        id="feedback-subject">
               </div>
             </div>
 
             <div class="form-group">
               <div>
-                <label class="form-label" for="feedback-body">${{_.feedback.message}}$</label>
+                <label class="form-label" for="feedback-body">{{ $t("feedback.message") }}</label>
                 <button id="feedback-coordinate-picker" class="btn btn-sm btn-link d-none">
-                  ${{_.feedback.coordinatepicker.title}}$
+                  {{ $t("feedback.coordinatepicker.title") }}
                 </button>
               </div>
               <textarea class="form-input"
                         id="feedback-body"
-                        placeholder="${{_.feedback.message}}$"
+                        placeholder="{{ $t("feedback.message") }}"
                         rows="6">
               </textarea>
               <p id="feedback-helptext" class="text-gray text-tiny"></p>
@@ -377,24 +377,24 @@
                  of the calling building is availible -->
             <div id="feedback-coordinate-picker-container">
               <button id="feedback-coordinate-picker" class="btn btn-sm d-none">
-                ${{_.feedback.coordinatepicker.title}}$
+                {{ $t("feedback.coordinatepicker.title") }}
               </button>
             </div>
 
             <div class="form-group">
               <label class="form-checkbox" id="feedback-privacy-label">
                 <input type="checkbox" id="feedback-privacy">
-                <i class="form-icon"></i> ${{_.feedback.public}}$
+                <i class="form-icon"></i> {{ $t("feedback.public") }}
               </label>
               <label class="form-checkbox" id="feedback-delete-label">
                 <input type="checkbox" id="feedback-delete">
-                <i class="form-icon"></i> ${{_.feedback.delete}}$
+                <i class="form-icon"></i> {{ $t("feedback.delete") }}
               </label>
             </div>
 
             <div class="buttons">
-              <button class="btn" id="feedback-cancel">${{_.feedback.cancel}}$</button>
-              <button class="btn btn-primary" id="feedback-send">${{_.feedback.send}}$</button>
+              <button class="btn" id="feedback-cancel">{{ $t("feedback.cancel") }}</button>
+              <button class="btn btn-primary" id="feedback-send">{{ $t("feedback.send") }}</button>
             </div>
           </div>
         </div>
@@ -405,14 +405,14 @@
       <div class="modal-container">
         <div class="modal-header">
           <button class="btn btn-clear float-right" aria-label="Close" id="feedback-close-2"></button>
-          <div class="modal-title h5">${{_.feedback.success.title}}$</div>
+          <div class="modal-title h5">{{ $t("feedback.success.title") }}</div>
         </div>
         <div class="modal-body">
           <div class="content">
-            <p>${{_.feedback.success.thank_you}}$</p>
-            <p>${{_.feedback.success.response_at}}$ <a id="feedback-success-url" class="btn-link" href="https://github.com/TUM-Dev/navigatum/issues">${{_.feedback.success.this_issue}}$</a></p>
+            <p>{{ $t("feedback.success.thank_you") }}</p>
+            <p>{{ $t("feedback.success.response_at") }} <a id="feedback-success-url" class="btn-link" href="https://github.com/TUM-Dev/navigatum/issues">{{ $t("feedback.success.this_issue") }}</a></p>
             <div class="buttons">
-              <button class="btn btn-primary" id="feedback-close-2">${{_.feedback.success.ok}}$</button>
+              <button class="btn btn-primary" id="feedback-close-2">{{ $t("feedback.success.ok") }}</button>
             </div>
           </div>
         </div>

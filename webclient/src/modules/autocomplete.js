@@ -43,7 +43,7 @@ navigatum.registerModule(
 
         if (section.facet === "sites_buildings") {
           sections.push({
-            name: "${{ _.search.sections.buildings }}$",
+            name: {{ $t("search.sections.buildings ") }},
             expanded: false,
             entries: entries,
             estimatedTotalHits: section.estimatedTotalHits,
@@ -51,7 +51,7 @@ navigatum.registerModule(
           });
         } else if (section.facet === "rooms") {
           sections.push({
-            name: "${{ _.search.sections.rooms }}$",
+            name: {{ $t("search.sections.rooms ") }},
             entries: entries,
             estimatedTotalHits: section.estimatedTotalHits,
           });
