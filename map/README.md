@@ -57,7 +57,7 @@ docker run --rm -it -v $(pwd)/map:/data -p 7770:80 maptiler/tileserver-gl
 ### Edit the style
 
 For editing the style we use [Maputnik](https://github.com/maputnik/editor).
-It is a web-based editor for Mapbox styles.
+It is a web-based editor for Maplibre styles.
 You can use it to edit the style and see the changes live.
 
 Sadly, it is not fully compatible with tileserver-gl.
