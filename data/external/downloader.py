@@ -10,8 +10,8 @@ import zipfile
 from pathlib import Path
 
 import requests
-from bs4 import BeautifulSoup, element  # type:ignore
-from defusedxml import ElementTree as ET  # type:ignore
+from bs4 import BeautifulSoup, element
+from defusedxml import ElementTree as ET
 from utils import convert_to_webp
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"

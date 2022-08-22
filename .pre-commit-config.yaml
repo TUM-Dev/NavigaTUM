@@ -80,7 +80,7 @@ repos:
     hooks:
       - id: mypy
         name: mypy
-        entry: mypy
+        entry: mypy --ignore-missing-imports
         language: system
         types: [python]
   - repo: https://gitlab.com/PyCQA/flake8
