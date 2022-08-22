@@ -110,12 +110,9 @@ fn push_to_rooms_queue(
     highlighting: (String, String),
 ) {
     // Test whether the query matches some common room id formats
-    let parsed_id = parse_room_formats(search_tokens, &hit, highlighting);
+    let parsed_id = parse_room_formats(search_tokens, &hit, &highlighting);
 
-    let subtext = match hit.parent_building.len() {
-        0 => String::from(""),
-        _ => hit.parent_building[0].clone(),
-    };
+    let subtext = generate_subtext(&hit);
     let subtext_bold = match parsed_id {
         Some(_) => Some(hit.arch_name.clone().unwrap_or_default()),
         None => Some(arch_name),
@@ -135,7 +132,7 @@ fn push_to_rooms_queue(
 fn parse_room_formats(
     search_tokens: &[preprocess::SearchToken],
     hit: &meilisearch::MSHit,
-    highlighting: (String, String),
+    highlighting: &(String, String),
 ) -> Option<String> {
     // Some building specific roomcode formats are determined by their building prefix
     if search_tokens.len() == 2
@@ -171,7 +168,7 @@ fn parse_room_formats(
              || (search_tokens.len() > 1 && search_tokens[0].s.len() >= 3))
         //     Needs to be specific enough to be considered relevant ↑
         && !hit.unformatted_name.contains(&search_tokens[0].s) // No match in the name
-        && !hit.parent_building.is_empty() // Has parent information to show in query
+        && !hit.parent_building_names.is_empty() // Has parent information to show in query
         && hit.arch_name.is_some()
         && hit
             .arch_name
@@ -198,7 +195,7 @@ fn parse_room_formats(
             };
             if prefix.is_some() {
                 (prefix, arch_id.to_string())
-            } else if hit.parent_building[0].len() > 25 {
+            } else if hit.parent_building_names[0].len() > 25 {
                 // Building names can sometimes be quite long, which doesn't
                 // look nice. Since this building name here serves only search a
                 // hint, we'll crop it (with more from the end, because there
@@ -208,14 +205,14 @@ fn parse_room_formats(
                     format!(
                         "{} {}…{}",
                         arch_id,
-                        hit.parent_building[0].get(..7).unwrap(),
-                        hit.parent_building[0]
-                            .get((hit.parent_building[0].len() - 10)..)
+                        hit.parent_building_names[0].get(..7).unwrap(),
+                        hit.parent_building_names[0]
+                            .get((hit.parent_building_names[0].len() - 10)..)
                             .unwrap()
                     ),
                 )
             } else {
-                (None, format!("{} {}", arch_id, hit.parent_building[0]))
+                (None, format!("{} {}", arch_id, hit.parent_building_names[0]))
             }
         };
         Some(format!(
@@ -230,5 +227,17 @@ fn parse_room_formats(
         ))
     } else {
         None
+    }
+}
+
+fn generate_subtext(hit: &meilisearch::MSHit) -> String {
+    let building = match hit.parent_building_names.len() {
+        0 => String::from(""),
+        _ => hit.parent_building_names[0].clone(),
+    };
+
+    match &hit.campus {
+        Some(campus) => format!("{}, {}", campus, building),
+        None => building,
     }
 }
