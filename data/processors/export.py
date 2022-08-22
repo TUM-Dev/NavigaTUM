@@ -19,6 +19,15 @@ def export_for_search(data, path):
                     building_parents_index = i
                     break
 
+        # The 'campus name' is the campus of site of this building or room
+        campus_name = None
+        if _data["type"] not in {"root", "campus", "site"}:
+            for i, parent in enumerate(_data["parents"]):
+                if data[parent]["type"] in {"campus", "site"}:
+                    campus = data[parent]
+                    campus_name = campus.get("short_name", campus["name"])
+                    # intentionally no break, because sites might be below a campus
+
         export.append(
             {
                 # MeiliSearch requires an id without "."
@@ -42,9 +51,15 @@ def export_for_search(data, path):
                 # "parent_names": _data["parents"][1:], [data[p]["name"] for p in _data["parents"][1:]],
                 # For rooms, the (joined_)building parents are extra to put more emphasis on them.
                 # Also their name is included
-                "parent_building": [data[p]["name"] for p in _data["parents"][building_parents_index:]],
+                "parent_building_names": [
+                    data[p]["short_name"] for p in _data["parents"][building_parents_index:]
+                    if "short_name" in data[p]
+                ] + [
+                    data[p]["name"] for p in _data["parents"][building_parents_index:]
+                ],
                 # For all other parents, only the ids and their keywords (TODO) are searchable
                 "parent_keywords": _data["parents"][1:],
+                "campus": campus_name,
                 "address": _data.get("tumonline_data", {}).get("address", None),
                 "usage": _data.get("usage", {}).get("name", None),
                 "rank": int(_data["ranking_factors"]["rank_combined"]),

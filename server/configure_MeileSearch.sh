@@ -38,4 +38,4 @@ curl_with_args --request PUT 'http://localhost:7700/indexes/entries/settings/ran
 echo "synonyms:"
 ls -lah "./search_synonyms.json"
 curl_with_args --request PUT 'http://localhost:7700/indexes/entries/settings/synonyms' --data "@./search_synonyms.json"
-curl_with_args --request PUT 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --data '["ms_id", "name", "arch_name", "type", "type_common_name", "parent_building", "parent_keywords", "address", "usage"]'
+curl_with_args --request PUT 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --data '["ms_id", "name", "arch_name", "type", "type_common_name", "parent_building_names", "parent_keywords", "address", "usage"]'
