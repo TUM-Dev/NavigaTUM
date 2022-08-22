@@ -3,74 +3,51 @@
 This folder contains the JavaScript based webclient for NavigaTUM.
 
 ## Getting started
+### Recommended IDE Setup
 
-### Dependencies
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-You need the following dependencies to get started:
+### Type Support for `.vue` Imports in TS
 
-- Node (for Gulp)
-- [Yarn](https://yarnpkg.com/getting-started/install)
-- [Gulp](https://gulpjs.com/)
-- Python (for testing)
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
 
-Installing _Yarn_ and _Gulp_ with npm:
+If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
 
-```bash
-sudo npm install -g yarn gulp
-```
+1. Disable the built-in TypeScript Extension
+    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
+    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
+2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
 
-### Images and maps
+## Customize configuration
 
-The frontend uses images and maps from the data, that are intended to be served
-statically via a CDN and not provided by the API.
+See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-For a local environment, create a `cdn/` subdirectory in `weblclient/` and copy the relevant files
-into it:
+## Project Setup
 
-```bash
-mkdir cdn
-rsync -r --exclude '*.yaml' ../data/sources/img/ cdn/
-mkdir -p cdn/maps/roomfinder
-cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder/
-```
-
-### Building
-
-Install all npm packages:
-
-```bash
-yarn
-# alternatively, if you do not use yarn:
+```sh
 npm install
 ```
 
-And run Gulp to build the client. The build files will be written to `build/`.
+### Compile and Hot-Reload for Development
 
-```bash
-# Run development build
-gulp
-# or run release build (will not work locally, because it uses a
-# different configuration and no hash based navigation)
-gulp release
+Ensure that _NavigaTUM-server_ is running in the background.
+By default the webclient will connect to the server on `http://localhost:8080`.
+If you want to connect to the public API instead, change `api_prefix` in `config-local.js` to `https://nav.tum.sexy/api/` and rebuild.
+
+```sh
+npm run dev
 ```
 
-### Testing
+### Type-Check, Compile and Minify for Production
 
-If you do a development build you can use a simple webserver to test the build.
-
-Ensure that _NavigaTUM-server_ is running in the background. By default the webclient will connect to the server on `http://localhost:8080`.
-If you want to connect to the public API instead, change `api_prefix` in `config.js` to `https://nav.tum.sexy/api/` and rebuild.
-
-Now run:
-
-```bash
-python -m http.server
+```sh
+npm run build
 ```
 
-and open http://localhost:8000/build/index-view-main-light-de.html in your browser.
+### Lint with [ESLint](https://eslint.org/)
 
-Note that local builds served this way do not support the language and theme setting.
-You can choose a different base HTML instead.
+```sh
+npm run lint
 
 ## Build files & Serving release build
 
