@@ -1,0 +1,10 @@
+@import "/src/assets/variables";
+@import "/node_modules/spectre.css/src/spectre";
+@import "/node_modules/spectre.css/src/spectre-exp";
+@import "/node_modules/spectre.css/src/spectre-icons";
+
+// Changes
+.btn:focus,
+a:focus {
+    box-shadow: none;
+}
