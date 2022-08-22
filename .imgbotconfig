@@ -1,0 +1,7 @@
+{
+    "schedule": "monthly",
+    "ignoredFiles": [
+        "*.svg",
+        "data/sources/img-sources/*",
+    ],
+}
