@@ -12,10 +12,15 @@
   "dependencies": {
     "pinia": "^2.0.17",
     "vue": "^3.2.37",
+    "mapbox-gl": "^2.7.0",
+    "spectre.css": "github:Valexr/spectre#dfe3bc2c59d23cd4bfd43c690aae3655576ff708",
+    "swagger-ui-dist": "^4.13.2",
+    "swaggerdark": "github:octycs/SwaggerDark",
     "vue-router": "^4.1.3"
   },
   "devDependencies": {
     "@intlify/vite-plugin-vue-i18n": "^6.0.1",
+    "sass": "^1.54.5",
     "vue-i18n": "^9.2.2",
     "@rushstack/eslint-patch": "^1.1.4",
     "@types/node": "^16.11.47",
@@ -27,15 +32,9 @@
     "eslint-plugin-vue": "^9.3.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
+    "stylelint-scss": "^4.2.0",
     "typescript": "~4.7.4",
     "vite": "^3.0.4",
-    "vue-tsc": "^0.39.5",
-    "sass": "^1.52.3",
-    "stylelint-scss": "^4.2.0",
-    "swagger-ui-dist": "^4.13.2",
-    "mapbox-gl": "^2.7.0",
-    "spectre.css": "github:Valexr/spectre#dfe3bc2c59d23cd4bfd43c690aae3655576ff708",
-    "swaggerdark": "github:octycs/SwaggerDark",
-    "webp-hero": "^0.0.2"
+    "vue-tsc": "^0.39.5"
   }
 }
