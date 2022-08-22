@@ -223,7 +223,7 @@
         v-if="view_data.maps.roomfinder && view_data.maps.roomfinder.available"
       >
         <button class="btn btn-sm" @click="showRoomfinderOverlay">
-            ${{_.view_view.map.overlay_onto_map}}$
+          ${{_.view_view.map.overlay_onto_map}}$
         </button>
         <img
           alt="Cross showing where the room is located on the hand-drawn roomfinder map image"

@@ -79,12 +79,12 @@ navigatum.registerModule(
             return () => {
               if (allFloors) {
                 _this._setActiveFloor(i, allFloors[i].floor);
-                const opacity=floors[i].hasOwnProperty("opacity")? floors[i].opacity:1
+                const opacity = floors[i].hasOwnProperty("opacity")
+                  ? floors[i].opacity
+                  : 1;
                 let file;
-                if (floors[i].hasOwnProperty("file"))
-                  file = allFloors[i].file;
-                else
-                  file = allFloors[i].url;
+                if (floors[i].hasOwnProperty("file")) file = allFloors[i].file;
+                else file = allFloors[i].url;
 
                 _this.fire("floor-changed", {
                   file: allFloors[i].file,
@@ -116,7 +116,9 @@ navigatum.registerModule(
             this.fire("floor-changed", { file: null, coords: null });
           } else {
             this._setActiveFloor(visibleI, floors[visibleI].floor);
-            const file=floors[visible_i].hasOwnProperty("file") ? floors[visible_i].file : floors[visible_i].url;
+            const file = floors[visible_i].hasOwnProperty("file")
+              ? floors[visible_i].file
+              : floors[visible_i].url;
             this.fire("floor-changed", {
               file: file,
               coords: floors[visibleI].coordinates,
@@ -317,10 +319,9 @@ navigatum.registerModule(
         map.floorControl.on("floor-changed", (args) => {
           let url = null;
           if (args.hasOwnProperty("file") && args.file)
-            url="/* @echo cdn_prefix */maps/overlay/" + args.file;
-          if (args.hasOwnProperty("url") && args.url)
-            url=args.url;
-          const oppacity=args.hasOwnProperty("oppacity") ? args.oppacity:1;
+            url = `/* @echo cdn_prefix */maps/overlay/${args.file}`;
+          if (args.hasOwnProperty("url") && args.url) url = args.url;
+          const oppacity = args.hasOwnProperty("oppacity") ? args.oppacity : 1;
           _this.setOverlayImage(url, args.coords, oppacity);
         });
         map.addControl(map.floorControl, "bottom-left");
@@ -335,7 +336,7 @@ navigatum.registerModule(
       },
       // Set the currently visible overlay image in the map,
       // or hide it if imgUrl is null.
-      setOverlayImage: function (imgUrl, coords, oppacity=1) {
+      setOverlayImage: function (imgUrl, coords, oppacity = 1) {
         // Even if the map is initialized, it could be that
         // it hasn't loaded yet, so we need to postpone adding
         // the overlay layer.
@@ -346,7 +347,9 @@ navigatum.registerModule(
         // to be required to do changes here)
         if (!_map.initialLoaded) {
           const _this = this;
-          _map.on("load", () => _this.setOverlayImage(imgUrl, coords,oppacity));
+          _map.on("load", () =>
+            _this.setOverlayImage(imgUrl, coords, oppacity)
+          );
           return;
         }
 
@@ -372,7 +375,7 @@ navigatum.registerModule(
 
           const layer = _map.getLayer("overlay-layer");
           if (!layer) {
-            if (oppacity===1) {
+            if (oppacity === 1) {
               _map.addLayer({
                 id: "overlay-bg",
                 type: "background",
@@ -390,11 +393,7 @@ navigatum.registerModule(
                 "raster-fade-duration": 0,
               },
             });
-            _map.setPaintProperty(
-              'overlay-layer',
-              'raster-opacity',
-              oppacity
-            );
+            _map.setPaintProperty("overlay-layer", "raster-opacity", oppacity);
           } else {
             _map.setLayoutProperty("overlay-layer", "visibility", "visible");
             _map.setLayoutProperty("overlay-bg", "visibility", "visible");

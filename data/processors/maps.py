@@ -73,19 +73,20 @@ def _convert_latlonbox_to_coordinates(box):
 
 
 if __name__ == "__main__":
-    coords = _convert_latlonbox_to_coordinates({
-        'north': '48.2624632522',
-        'east': '11.6688558645',
-        'west': '11.6682807315',
-        'south': '48.2617256799',
-        'rotation': '-15.7610714436'})
-
+    coords = _convert_latlonbox_to_coordinates(
+        {
+            "north": "48.2624632522",
+            "east": "11.6688558645",
+            "west": "11.6682807315",
+            "south": "48.2617256799",
+            "rotation": "-15.7610714436",
+        }
+    )
 
     def p(x):
         print("https://mobisoftinfotech.com/tools/plot-multiple-points-on-map/")
         for i, (lat, lon) in enumerate(x):
             print(f'{lon},{lat},{["red", "orange", "yellow", "green"][i]},marker,"{i}"')
-
 
     p(coords)
 
