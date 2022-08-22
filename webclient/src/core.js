@@ -16,12 +16,6 @@ const cachedFetch = (() => ({
         this.promise_callbacks[url].push(resolve);
       } else {
         this.promise_callbacks[url] = [resolve];
-
-        // in local development we serve our website from two diverent CORS sources.
-        // since we need the lang cookie for the api localisation, we have to add crecentials:"include"
-        // to the fetech options
-        options.credentials =
-          "/* @if target='release' */same-origin/* @else */include/* @endif */";
         if (!options.headers) options.headers = {};
         fetch(url, options)
           .then((response) => {
@@ -68,39 +62,6 @@ const cachedFetch = (() => ({
   cache: {},
   promise_callbacks: {},
 }))();
-
-// the following is a poor implementation of a structuredClone(item) polyfill
-// (read: this is not the full implementation browsers follow, but a simplified version)
-// TODO: remove this, once Samsung Internet implements this. See https://caniuse.com/mdn-api_structuredclone
-
-console.debug({scType:typeof structuredClone})
-if (typeof structuredClone === "undefined") {
-  console.warn("You are using an out of date browser. Please consider upgrading it.")
-  // eslint-disable-next-line no-inner-declarations, no-unused-vars
-  function structuredClone(item) {
-    // cf. StackOverflow: https://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
-    // item has to be serializable!
-    if (item == null || typeof item !== "object") return item;
-    // Arrays are currently not cloned (TODO: is this required?)
-    if (item instanceof Array) {
-      return item;
-    }
-    if (!(item instanceof Object))
-      console.error(
-        `Items of type ${typeof item} (${item}) cant be structuredClone'd`
-      );
-
-    const copy = {};
-    Object.keys(item).forEach((key) => {
-      if (
-        key !== "__ob__" && // stuff by vue, recursive!
-        Object.prototype.hasOwnProperty.call(item, key) // google no-prototype-builtins for an explanation of this line
-      )
-        copy[key] = structuredClone(item[key]);
-    });
-    return copy;
-  }
-}
 
 navigatum = (() => {
   const apiBase = "/* @echo api_prefix */";
