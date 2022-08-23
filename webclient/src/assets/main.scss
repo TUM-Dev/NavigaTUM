@@ -1,4 +1,4 @@
-@import "variables";
+@import "./variables.scss";
 
 /* === General === */
 html {
@@ -113,7 +113,6 @@ body {
     box-shadow: 0 2px 3px $header-shadow-color;
 
     .input-group button {
-        // background: #0065bd;
         border: 0;
     }
 
@@ -234,8 +233,9 @@ body {
 }
 
 /* === Content === */
+// 10px + 60px for header
 #content-header {
-    margin-top: 70px;  // 10px + 60px for header
+    margin-top: 70px;
 }
 
 #content.visible {
@@ -293,7 +293,6 @@ body {
 }
 
 #feedback-coordinate-picker {
-    // text-align: right;
     float: right;
     margin-top: .5em;
 }
@@ -341,7 +340,6 @@ footer {
     }
 
     .settings {
-        // margin: .8rem .8rem .8rem -.8rem;
 
         .setting-group {
             margin-top: calc(.4rem - 1px);
