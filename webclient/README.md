@@ -91,11 +91,11 @@ webclient
 │   ├── assets/  # 🠔 Static assets such as icons
 │   ├── md/      # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
 │   ├── modules/
-│   │   ├── autocomplete.js     # 🠔 Autocompletion for search
-│   │   └── interactive-map.js  # 🠔 Interactive map based on Mapbox
+│   │   ├── autocomplete.ts     # 🠔 Autocompletion for search
+│   │   └── interactive-map.ts  # 🠔 Interactive map based on Mapbox
 │   ├── views/  # 🠔 See below
 │   ├── core.js             # 🠔 Core JS code (and JS entrypoint)
-│   ├── feedback.js         # 🠔 JS for the feedback form (separated from the rest of
+│   ├── feedback.ts         # 🠔 JS for the feedback form (separated from the rest of
 │   │                       #    the code to work even when the core JS fails).
 │   ├── history-states.js   # 🠔 Preseve state on back-/forward navigation
 │   ├── i18n.yaml           # 🠔 Translation strings for the core code
