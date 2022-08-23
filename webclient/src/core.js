@@ -21,13 +21,13 @@ const cachedFetch = (() => ({
           .then((response) => {
             if (!response.ok) {
               if (response.status === 404)
-                throw new Error("{{ $t("core_js.error.404") }}");
+                throw new Error("{{ $t('core_js.error.404') }}");
               else if (response.status === 500)
-                throw new Error("{{ $t("core_js.error.500") }}");
+                throw new Error("{{ $t('core_js.error.500') }}");
               else if (response.status === 503)
-                throw new Error("{{ $t("core_js.error.503") }}");
+                throw new Error("{{ $t('core_js.error.503') }}");
               else {
-                const errorStatus = "{{ $t("core_js.error.status") }}";
+                const errorStatus = "{{ $t('core_js.error.status') }}";
                 throw new Error(`${errorStatus}$${response.status}`);
               }
             }
@@ -37,10 +37,10 @@ const cachedFetch = (() => ({
           .catch((error) => {
             let msg;
             if (error instanceof TypeError)
-              msg = "{{ $t("core_js.error.network") }}";
+              msg = "{{ $t('core_js.error.network') }}";
             else msg = error.message;
 
-            if (!msg) msg = "{{ $t("core_js.error.unknown") }}";
+            if (!msg) msg = "{{ $t('core_js.error.unknown') }}";
 
             console.warn("Error on fetch:", error);
 
@@ -209,7 +209,7 @@ navigatum = (() => {
     getData: function (id) {
       return new Promise((resolve) => {
         cachedFetch
-          .fetch(`${this.apiBase}get/${window.encodeURIComponent(id)}`, {
+          .fetch(`/* @echo api_prefix */get/${window.encodeURIComponent(id)}`, {
             cache: "force-cache",
           })
           .then((data) => resolve(data));
@@ -273,7 +273,7 @@ navigatum = (() => {
             if (name in viewsResolveCallbacks) {
               if (navigatum.app)
                 navigatum.app.error.msg =
-                  "{{ $t("core_js.error.view_load_timeout") }}";
+                  "{{ $t('core_js.error.view_load_timeout') }}";
               reject("Load timed out");
             }
           }, 15000);

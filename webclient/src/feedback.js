@@ -65,17 +65,17 @@ window.feedback = (() => {
             if (navigatum)
               navigatum.setLocalStorageWithExpiry("feedback-token", token, 6);
           } else if (r.status === 429) {
-            _showError("{{ $t("feedback.error.429") }}", true);
+            _showError("{{ $t('feedback.error.429') }}", true);
           } else if (r.status === 503) {
-            _showError("{{ $t("feedback.error.503") }}", true);
+            _showError("{{ $t('feedback.error.503') }}", true);
           } else {
             const unexpectedTokenError =
-              "{{ $t("feedback.error.token_unexpected_status") }}";
+              "{{ $t('feedback.error.token_unexpected_status') }}";
             _showError(`${unexpectedTokenError}${r.status}`, true);
           }
         },
         (r) => {
-          _showError("{{ $t("feedback.error.token_req_failed") }}", false);
+          _showError("{{ $t('feedback.error.token_req_failed') }}", false);
           console.error(r);
         }
       );
@@ -86,11 +86,11 @@ window.feedback = (() => {
     category = document.getElementById("feedback-category").value
   ) {
     const helptextLUT = {
-      general: "{{ $t("feedback.helptext.general") }}",
-      bug: "{{ $t("feedback.helptext.bug") }}",
-      features: "{{ $t("feedback.helptext.features") }}",
-      search: "{{ $t("feedback.helptext.search") }}",
-      entry: "{{ $t("feedback.helptext.entry") }}",
+      general: "{{ $t('feedback.helptext.general') }}",
+      bug: "{{ $t('feedback.helptext.bug') }}",
+      features: "{{ $t('feedback.helptext.features') }}",
+      search: "{{ $t('feedback.helptext.search') }}",
+      entry: "{{ $t('feedback.helptext.entry') }}",
     };
     document.getElementById("feedback-helptext").innerText =
       helptextLUT[category];
@@ -160,24 +160,24 @@ window.feedback = (() => {
           window.dispatchEvent(e);
           _showSuccess(r.responseText);
         } else if (r.status === 500) {
-          const serverError = "{{ $t("feedback.error.server_error") }}";
+          const serverError = "{{ $t('feedback.error.server_error') }}";
           _showError(`${serverError} (${r.responseText})`, false);
         } else if (r.status === 451) {
-          _showError("{{ $t("feedback.error.privacy_not_checked") }}", false);
+          _showError("{{ $t('feedback.error.privacy_not_checked') }}", false);
         } else if (r.status === 403) {
           localStorage.removeItem("feedback-token");
           token = null;
-          const invalidTokenError = "{{ $t("feedback.error.send_invalid_token") }}";
+          const invalidTokenError = "{{ $t('feedback.error.send_invalid_token') }}";
           _showError(`${invalidTokenError} (${r.responseText})`, false);
         } else {
           const unexpectedStatusError =
-            "{{ $t("feedback.error.send_unexpected_status") }}";
+            "{{ $t('feedback.error.send_unexpected_status') }}";
           _showError(`${unexpectedStatusError}${r.status}`, false);
         }
       },
       (r) => {
         _showLoading(false);
-        _showError("{{ $t("feedback.error.send_req_failed") }}");
+        _showError("{{ $t('feedback.error.send_req_failed') }}");
         console.error(r);
       }
     );
@@ -185,13 +185,13 @@ window.feedback = (() => {
 
   function sendForm() {
     if (token === null) {
-      _showError("{{ $t("feedback.error.send_no_token") }}", true);
+      _showError("{{ $t('feedback.error.send_no_token') }}", true);
     } else if (document.getElementById("feedback-subject").value.length < 3) {
-      _showError("{{ $t("feedback.error.too_short_subject") }}");
+      _showError("{{ $t('feedback.error.too_short_subject') }}");
     } else if (document.getElementById("feedback-body").value.length < 10) {
-      _showError("{{ $t("feedback.error.too_short_body") }}");
+      _showError("{{ $t('feedback.error.too_short_body') }}");
     } else if (document.getElementById("feedback-privacy").checked !== true) {
-      _showError("{{ $t("feedback.error.privacy_not_checked") }}");
+      _showError("{{ $t('feedback.error.privacy_not_checked') }}");
     } else {
       _showLoading(true);
       // Token may only be used after a short delay. In case that has not passed

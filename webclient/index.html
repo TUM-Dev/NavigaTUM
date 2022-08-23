@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="{{ $t("meta.description") }}">
+    <meta name="description" content="{{ $t('meta.description') }}">
     <meta name="author" content="@octycs and @CommanderStorm">
     <meta name="copyright" content="GNU General Public License v3.0. Images may be licensed differently.">
     <meta name="robots" content="index, follow">
@@ -15,9 +15,9 @@
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="NavigaTUM" />
     <meta property="og:url" content="https://nav.tum.sexy">
-    <meta property="og:description" content="{{ $t("meta.description") }}" />
-    <meta property="og:image" content="@assets/logo-card.png" />
-    <meta property="og:image:alt" content="{{ $t("meta.logo_alt") }}" />
+    <meta property="og:description" content="{{ $t('meta.description') }}" />
+    <meta property="og:image" content="./assets/logo-card.png" />
+    <meta property="og:image:alt" content="{{ $t('meta.logo_alt') }}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:mime" content="image/png" />
@@ -32,29 +32,8 @@
     <link rel="preconnect" href="<!-- @echo api_prefix -->">
     <!-- @endif -->
 
-    <link rel="icon" href="/public/favicon.ico">
-    <!-- Title updated by JS later during pageload -->
-    <title>NavigaTUM</title>
-    
-    <!-- Minified CSS for above the fold parts inlined here -->
-    <style><!-- inject:core:css --><!-- endinject --></style>
-    
-    <!-- The rest is loaded async, code from https://web.dev/defer-non-critical-css/ -->
-    <!-- This can also be cached then -->
-    <link rel="preload" href="css/view-<!-- @echo view -->-rest-<!-- @echo theme -->.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    
-    <!-- JS resources specified here are executed in order by "defer" -->
-    <!-- Polyfills for very old browsers:
-         modern browsers that do support fetch will not download any script with the tag nomodule -->
-    <script nomodule src="js/polyfills<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
-
-    <!-- The app-core-for-view-*.js might fetch/update content before any data is even displayed.
-    It might be inlined in the future. Might depend on the view. -->
-    <script defer src="js/app-core-for-view-<!-- @echo view -->-${{ _lang_ ") }}<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
-    <!-- vue.js is not inlined because it should be cached. The init call is appended to it. -->
-    <script defer src="js/vue<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
-    <!-- app-rest-for-view-*.js contains all components not yet included in core -->
-    <script defer src="js/app-rest-for-view-<!-- @echo view -->-${{ _lang_ ") }}<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
+    <link rel="icon" href="/favicon.ico">
+    <title>NavigaTUM</title><!-- Title  isupdated by JS later during pageload -->
 
     <!-- At this point we might lazy-load other rarely used views -->
   </head>
@@ -67,8 +46,8 @@
           <div class="columns">
             <div class="column hide-lg">
               <router-link to="/">
-              <img alt="{{ $t("meta.logo_alt") }}"
-                   src="@assets/logo2.min2.svg"
+              <img alt="{{ $t('meta.logo_alt') }}"
+                   src="/logo.svg"
                    id="logo"/>  <!-- 7px for logo1 -->
               </router-link>
             </div>
@@ -78,18 +57,18 @@
                   <input id="search"
                          type="text"
                          class="form-input input-lg"
-                         placeholder="{{ $t("search.placeholder") }}"
+                         placeholder="{{ $t('search.placeholder') }}"
                          v-model="search.query"
                          @input="searchInput"
                          @focus="searchFocus"
                          @blur="searchBlur"
                          @keydown="searchKeydown"
                          autocomplete="off"
-                         aria-label="{{ $t("search.aria-searchlabel") }}">
+                         aria-label="{{ $t('search.aria-searchlabel') }}">
                   <i class="form-icon icon icon-search"></i>
                   <button class="btn btn-primary input-group-btn btn-lg"
                           @click="searchGo(false)"
-                          aria-label="{{ $t("search.aria-actionlabel") }}">
+                          aria-label="{{ $t('search.aria-actionlabel') }}">
                     {{ $t("search.action") }}
                   </button>
                 </div>
@@ -148,8 +127,8 @@
                         +{{ s.entries.length - s.n_visible }} {{ $t("search.hidden") }},
                       </a>
                       <template>
-                        {{ s.estimatedTotalHits > 20 ? "{{ $t("search.approx") }} " : "" }}{{ s.estimatedTotalHits }}
-                        {{ s.estimatedTotalHits === 1 ? "{{ $t("search.result") }}" : "{{ $t("search.results") }}" }}
+                        {{ s.estimatedTotalHits > 20 ? "{{ $t('search.approx') }} " : "" }}{{ s.estimatedTotalHits }}
+                        {{ s.estimatedTotalHits === 1 ? "{{ $t('search.result') }}" : "{{ $t('search.results') }}" }}
                       </template>
                     </li>
                   </template>
@@ -257,10 +236,10 @@
                         <a href="https://github.com/TUM-Dev/navigatum">{{ $t("footer.sourcecode.text") }}</a>
                       </li>
                       <li>
-                        <router-link to="/{{ $t("footer.api.link") }}">{{ $t("footer.api.text") }}</router-link>
+                        <router-link to="/{{ $t('footer.api.link') }}">{{ $t("footer.api.text") }}</router-link>
                       </li>
                       <li>
-                        <router-link to="/about/{{ $t("footer.about.link") }}">{{ $t("footer.about.text") }}</router-link>
+                        <router-link to="/about/{{ $t('footer.about.link') }}">{{ $t("footer.about.text") }}</router-link>
                       </li>
                     </ul>
                     <ul class="column">
@@ -268,10 +247,10 @@
                         <button onclick="openFeedback()" class="btn btn-link" aria-label="Open the feedback-form">{{ $t("footer.feedback.text") }}</button>
                       </li>
                       <li>
-                        <router-link to="/about/{{ $t("footer.privacy.link") }}">{{ $t("footer.privacy.text") }}</router-link>
+                        <router-link to="/about/{{ $t('footer.privacy.link') }}">{{ $t("footer.privacy.text") }}</router-link>
                       </li>
                       <li>
-                        <router-link to="/about/{{ $t("footer.imprint.link") }}">{{ $t("footer.imprint.text") }}</router-link>
+                        <router-link to="/about/{{ $t('footer.imprint.link') }}">{{ $t("footer.imprint.text") }}</router-link>
                       </li>
                     </ul>
                   </div>
@@ -343,7 +322,7 @@
               <label class="form-label" for="feedback-subject">{{ $t("feedback.subject") }}</label>
               <div class="input-group">
                 <select class="form-select"
-                        aria-label="{{ $t("feedback.category") }}"
+                        aria-label="{{ $t('feedback.category') }}"
                         id="feedback-category">
                   <option value="general">{{ $t("feedback.type.general") }}</option>
                   <option value="bug">{{ $t("feedback.type.bug") }}</option>
@@ -353,7 +332,7 @@
                 </select>
                 <input class="form-input"
                        type="text"
-                       placeholder="{{ $t("feedback.subject") }}"
+                       placeholder="{{ $t('feedback.subject') }}"
                        id="feedback-subject">
               </div>
             </div>
@@ -367,7 +346,7 @@
               </div>
               <textarea class="form-input"
                         id="feedback-body"
-                        placeholder="{{ $t("feedback.message") }}"
+                        placeholder="{{ $t('feedback.message') }}"
                         rows="6">
               </textarea>
               <p id="feedback-helptext" class="text-gray text-tiny"></p>
