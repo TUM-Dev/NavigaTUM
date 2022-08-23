@@ -3,10 +3,7 @@ import { createPinia } from "pinia";
 
 import App from "./App.vue";
 import router from "./router";
-import { createI18n } from 'vue-i18n'
-
-
-import "./assets/main.scss";
+import { createI18n } from "vue-i18n";
 
 const messages = {
   en: {

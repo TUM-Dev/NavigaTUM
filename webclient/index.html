@@ -31,6 +31,8 @@
     <!-- @if view="view" -->
     <link rel="preconnect" href="<!-- @echo api_prefix -->">
     <!-- @endif -->
+    <link rel="stylesheet" href="src/assets/main.scss">
+    <link rel="stylesheet" href="src/assets/spectre-all.scss">
 
     <link rel="icon" href="/favicon.ico">
     <title>NavigaTUM</title><!-- Title  isupdated by JS later during pageload -->
@@ -265,11 +267,11 @@
                         </div>
                         <div class="column col-auto">
                           <div class="btn-group btn-group-block" id="setting-lang">
-                            <!-- @if "${{_lang_") }}"="de" -->
+                            <!-- @if "${{_lang_}}$"="de" -->
                             <button class="btn btn-sm active" disabled>DE</button>
                             <button class="btn btn-sm" @click="setLang('en')">EN</button>
                             <!-- @endif -->
-                            <!-- @if "${{_lang_") }}"="en" -->
+                            <!-- @if "${{_lang_}}$"="en" -->
                             <button class="btn btn-sm" @click="setLang('de')">DE</button>
                             <button class="btn btn-sm active" disabled>EN</button>
                             <!-- @endif -->
@@ -413,7 +415,7 @@
             };
             const s = document.createElement("script");
             s.type = "text/javascript";
-            s.src = "js/feedback-${{_lang_") }}";
+            s.src = "js/feedback-${{_lang_}}$";
             s.src += "<!-- @if target='release' -->.min<!-- @endif -->.js";
             document.head.appendChild(s);
           }
