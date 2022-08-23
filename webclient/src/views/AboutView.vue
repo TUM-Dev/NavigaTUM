@@ -85,7 +85,7 @@ navigatum.registerView("md", {
 </template>
 
 <style lang="scss" scoped>
-@import "@assets/variables";
+@import "../assets/variables";
 
 #view-md {
     padding-top: 15px;

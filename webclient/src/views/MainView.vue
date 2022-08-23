@@ -118,7 +118,7 @@ navigatum.registerView("main", {
 </template>
 
 <style lang="scss" scoped>
-@import "@assets/variables";
+@import "../assets/variables";
 
 #view-main {
     .panel {

@@ -33,7 +33,7 @@ const head = document.getElementsByTagName("head")[0];
 </template>
 
 <style lang="scss" scoped>
-@import "@assets/variables";
+@import "../assets/variables";
 
 .swagger-ui {
     // we cannot apply loading-lg to this external dependency

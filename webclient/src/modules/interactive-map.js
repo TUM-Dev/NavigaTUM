@@ -308,7 +308,7 @@ navigatum.registerModule(
         map.floorControl.on("floor-changed", (args) => {
           _this.setOverlayImage(
             args.file
-              ? `/* @echo cdn_prefix */maps/overlay/${args.file}`
+              ? `/cdn/maps/overlay/${args.file}`
               : null,
             args.coords
           );

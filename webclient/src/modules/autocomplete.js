@@ -84,7 +84,7 @@ navigatum.registerModule(
           const cacheConfig = { cache: "no-cache" };
           cachedFetch
             .fetch(
-              `${navigatum.apiBase}search?q=${window.encodeURIComponent(q)}`,
+              `/* @echo api_prefix */search?q=${window.encodeURIComponent(q)}`,
               cacheConfig
             )
             .then((data) => {
