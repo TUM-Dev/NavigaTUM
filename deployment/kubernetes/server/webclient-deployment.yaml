@@ -25,8 +25,6 @@ spec:
         deployment: web
     spec:
       volumes:
-        - name: tmp-cdn
-          emptyDir: {}
         - name: tmp-rendertron
           emptyDir: {}
       containers:
@@ -37,13 +35,8 @@ spec:
             - configMapRef:
                 name: navigatum-config
           ports:
-            - containerPort: 8080
+            - containerPort: 80
               name: navigatum-web
-          volumeMounts:
-            - mountPath: /tmp
-              name: tmp-cdn
-          securityContext:
-            readOnlyRootFilesystem: true
           resources:
             requests:
               cpu: 5m
