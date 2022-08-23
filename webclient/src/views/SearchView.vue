@@ -1,158 +1,127 @@
 <script setup lang="ts">
+import { useFetch } from "@/utils/fetch";
+import { ref } from "vue";
+import { setDescription, setTitle } from "@/utils/common";
 
-function searchNavigateTo(to, from, next, component) {
-  navigatum.beforeNavigate(to, from);
+const query: string = getSearchAPIUrl();
+
+const { data, error } = useFetch(query);
+let sections = ref(null);
+loadSearchData();
+
+function getSearchAPIUrl(): string {
+  const searchString: string =
+    new URLSearchParams(document.location.search).get("q") || "";
 
   const params = new URLSearchParams();
-  params.append("q", to.query.q);
+  params.append("q", searchString);
   params.append("limit_buildings", "10");
   params.append("limit_rooms", "30");
   params.append("limit_all", "30");
 
-  /* global cachedFetch */
-  cachedFetch
-    .fetch(`${navigatum.apiBase}search?${params.toString()}`, {
-      cache: "no-cache",
-    })
-    .then((resp) => {
-      if (component) {
-        next();
-        navigatum.afterNavigate(to, from);
-        component.loadSearchData(to.query.q, resp);
-      } else {
-        next((vm) => {
-          navigatum.afterNavigate(to, from);
-          vm.loadSearchData(to.query.q, resp);
-        });
-      }
-    });
+  return `${import.meta.env.API_URL}search?${params.toString()}`;
 }
-
-const _searchDefaultState = {};
-
-export default {
-  name: "view-search",
-  template: { gulp_inject: "view-search.inc" },
-  data: function () {
-    return {
-      search_data: null,
-      sections: null,
-      query: null,
-      // State is preserved when navigating in history.
-      // May only contain serializable objects!
-      state: structuredClone(_searchDefaultState),
-    };
-  },
-  beforeRouteEnter: function (to, from, next) {
-    searchNavigateTo(to, from, next, null);
-  },
-  beforeRouteUpdate: function (to, from, next) {
-    searchNavigateTo(to, from, next, this);
-  },
-  methods: {
-    genDescription: function (data) {
-      let sectionsDescr = "";
-      let estimatedTotalHits = 0;
-      data.sections.forEach((section) => {
-        if (section.estimatedTotalHits) {
-          let facetStr;
-          if (section.facet === "sites_buildings") {
-            facetStr = {{ $t("search.sections.buildings ") }};
-            if (section.estimatedTotalHits !== section.n_visible) {
-              const visibleStr = {{ $t("search.sections.of_which_visible ") }};
-              facetStr = `(${section.n_visible} ${visibleStr}) ${facetStr}`;
-            }
-          } else facetStr = {{ $t("search.sections.rooms ") }};
-          if (estimatedTotalHits > 0)
-            sectionsDescr += " {{ $t("search.sections.and ") }} ";
-          sectionsDescr += `${section.estimatedTotalHits} ${facetStr}`;
+function genDescription(): string {
+  let sectionsDescr = "";
+  let estimatedTotalHits = 0;
+  data.sections.forEach((section) => {
+    if (section.estimatedTotalHits) {
+      let facetStr;
+      if (section.facet === "sites_buildings") {
+        facetStr = "{{ $t('search.sections.buildings') }}";
+        if (section.estimatedTotalHits !== section.n_visible) {
+          const visibleStr = "{{ $t('search.sections.of_which_visible') }}";
+          facetStr = `(${section.n_visible} ${visibleStr}) ${facetStr}`;
         }
-        estimatedTotalHits += section.estimatedTotalHits;
-      });
-      if (estimatedTotalHits === 0)
-        sectionsDescr = "{{ $t("search.sections.no_buildings_rooms_found ") }}";
-      else sectionsDescr += " {{ $t("search.sections.were_found ") }}";
-      return sectionsDescr;
-    },
-    loadSearchData: function (query, data) {
-      this.search_data = data;
-      this.query = query;
-      navigatum.app.search.query = query;
-      navigatum.setTitle(`\{{ $t("view_search.search_for ") }} "${query}"`);
-      navigatum.setDescription(this.genDescription(data));
-      // Currently borrowing this functionality from autocomplete.
-      // In the future it is planned that this search results page
-      // has a different format.
-      const _this = this;
-      navigatum.getModule("autocomplete").then((c) => {
-        _this.sections = c.extractFacets(data);
-      });
-    },
-  },
-};
+      } else facetStr = "{{ $t('search.sections.rooms') }}";
+      if (estimatedTotalHits > 0)
+        sectionsDescr += "{{ $t('search.sections.and') }}";
+      sectionsDescr += `${section.estimatedTotalHits} ${facetStr}`;
+    }
+    estimatedTotalHits += section.estimatedTotalHits;
+  });
+  if (estimatedTotalHits === 0)
+    sectionsDescr = "{{ $t('search.sections.no_buildings_rooms_found') }}";
+  else sectionsDescr += " {{ $t('search.sections.were_found') }}";
+  return sectionsDescr;
+}
+function loadSearchData() {
+  setTitle(`{{ $t("view_search.search_for ") }} "${query}"`);
+  setDescription(genDescription());
+  // Currently borrowing this functionality from autocomplete.
+  // In the future it is planned that this search results page
+  // has a different format.
+  sections = extractFacets(data);
+}
 </script>
 
 <template>
-  <div id="view-search" v-if="search_data">
-  <small class="search_meta">
-    {{ $t("view_search.runtime ") }}: {{ search_data.time_ms }}ms –
-    <button
-      onclick="openFeedback('search')"
-      class="btn btn-link"
-      aria-label="Open the feedback-form for search"
-    >
-      {{ $t("view_search.give_feedback") }}
-    </button>
-  </small>
+  <div id="view-search" v-if="data">
+    <small class="search_meta">
+      {{ $t("view_search.runtime ") }}: {{ data.time_ms }}ms –
+      <button
+        onclick="openFeedback('search')"
+        class="btn btn-link"
+        aria-label="Open the feedback-form for search"
+      >
+        {{ $t("view_search.give_feedback") }}
+      </button>
+    </small>
 
-  <template v-for="s in sections">
-    <section>
-      <div class="columns">
-        <div class="column">
-          <h2>{{ s.name }}</h2>
+    <template v-for="s in sections">
+      <section>
+        <div class="columns">
+          <div class="column">
+            <h2>{{ s.name }}</h2>
+          </div>
         </div>
-      </div>
-      <ul class="result-list">
-        <li v-for="e in s.entries">
-          <router-link v-bind:to="'/view/' + e.id" class="tile tile-centered">
-            <div class="tile-icon">
-              <template v-if="e.type == 'room' || e.type == 'virtual_room'">
-                <i v-if="e.parsed_id" class="icon icon-search"></i>
-                <i v-else class="icon icon-location"></i>
-              </template>
-              <img
-                v-else
-                class="avatar avatar-sm"
-                src="@assets/thumb-building.webp"
-              />
-            </div>
-            <div class="tile-content">
-              <div class="tile-title">
-                <span v-if="e.parsed_id" v-html="e.parsed_id"></span>
-                <i v-if="e.parsed_id" class="icon icon-caret"></i>
-                <span v-html="e.name"></span>
+        <ul class="result-list">
+          <li v-for="e in s.entries">
+            <router-link v-bind:to="'/view/' + e.id" class="tile tile-centered">
+              <div class="tile-icon">
+                <template v-if="e.type === 'room' || e.type === 'virtual_room'">
+                  <i v-if="e.parsed_id" class="icon icon-search"></i>
+                  <i v-else class="icon icon-location"></i>
+                </template>
+                <img
+                  v-else
+                  class="avatar avatar-sm"
+                  src="../assets/thumb-building.webp"
+                />
               </div>
-              <small class="tile-subtitle text-gray">
-                {{ e.subtext }}<template v-if="e.subtext_bold"
-                  >, <b v-html="e.subtext_bold"></b
-                ></template>
-              </small>
-            </div>
-            <!--<div class="tile-action">
+              <div class="tile-content">
+                <div class="tile-title">
+                  <span v-if="e.parsed_id" v-html="e.parsed_id"></span>
+                  <i v-if="e.parsed_id" class="icon icon-caret"></i>
+                  <span v-html="e.name"></span>
+                </div>
+                <small class="tile-subtitle text-gray">
+                  {{ e.subtext
+                  }}<template v-if="e.subtext_bold"
+                    >, <b v-html="e.subtext_bold"></b
+                  ></template>
+                </small>
+              </div>
+              <!--<div class="tile-action">
               <button class="btn btn-link">
                 <i class="icon icon-more-vert"></i>
               </button>
             </div>-->
-          </router-link>
-        </li>
-      </ul>
-      <p class="search-comment nb_results" v-if="s.estimatedTotalHits === 1">
-        {{ s.estimatedTotalHits }} {{ $t("search.result") }}
-      </p>
-      <p class="search-comment nb_results" v-else>
-        {{ s.estimatedTotalHits > 20 ? {{ $t("search.approx") }} : "" }}
-        {{ s.estimatedTotalHits }} {{ $t("search.results") }}{{ s.estimatedTotalHits > 10 ? ", "+{{ $t("view_search.max_results ") }} : ""}}
-      </p>
+            </router-link>
+          </li>
+        </ul>
+        <p class="search-comment nb_results" v-if="s.estimatedTotalHits === 1">
+          {{ s.estimatedTotalHits }} {{ $t("search.result") }}
+        </p>
+        <p class="search-comment nb_results" v-else>
+          {{ s.estimatedTotalHits > 20 ? $t("search.approx") : "" }}
+          {{ s.estimatedTotalHits }} {{ $t("search.results")
+          }}{{
+            s.estimatedTotalHits > 10
+              ? ", " + $t("view_search.max_results ")
+              : ""
+          }}
+        </p>
       </section>
     </template>
   </div>

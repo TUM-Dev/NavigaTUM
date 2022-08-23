@@ -193,7 +193,7 @@ navigatum.registerView("view", {
       }
     },
     genDescription: function (data) {
-      const detailsFor = "{{ $t("view_view.meta.details_for") }}";
+      const detailsFor = "{{ $t('view_view.meta.details_for') }}";
       let description = `${detailsFor} ${data.type_common_name} ${data.name}`;
       if (data.props.computed) {
         description += ":";
@@ -259,7 +259,7 @@ navigatum.registerView("view", {
       if (Object.keys(currentEdits).length > 1) {
         return (
           `[${this.view_data.id} et.al.]: ` +
-          "{{ $t("feedback.coordinatepicker.edit_coordinates_subject") }}"
+          "{{ $t('feedback.coordinatepicker.edit_coordinates_subject') }}"
         );
       }
 
@@ -267,7 +267,7 @@ navigatum.registerView("view", {
       const subjectMsg =
         Object.keys(currentEdits).length === 0
           ? ""
-          : "{{ $t("feedback.coordinatepicker.edit_coordinate_subject") }}";
+          : "{{ $t('feedback.coordinatepicker.edit_coordinate_subject') }}";
 
       // The subject backup is only loaded (and supported) when a single
       // entry is being edited
@@ -308,15 +308,15 @@ navigatum.registerView("view", {
 
       const defaultActionMsg =
         this.view_data.coords.accuracy === "building"
-          ? "{{ $t("feedback.coordinatepicker.add_coordinate") }}"
-          : "{{ $t("feedback.coordinatepicker.correct_coordinate") }}";
+          ? "{{ $t('feedback.coordinatepicker.add_coordinate') }}"
+          : "{{ $t('feedback.coordinatepicker.correct_coordinate') }}";
       actionMsg = actionMsg || defaultActionMsg;
 
       if (Object.keys(currentEdits).length > 1) {
         // The body backup is discarded if more than a single entry
         // is being edited (because then it is not supported).
         actionMsg =
-          "{{ $t("feedback.coordinatepicker.edit_multiple_coordinates") }}";
+          "{{ $t('feedback.coordinatepicker.edit_multiple_coordinates') }}";
       }
 
       let editStr = "";
@@ -410,7 +410,7 @@ navigatum.registerView("view", {
       this.state.map.selected = "interactive";
 
       const doMapUpdate = function () {
-        navigatum.getModule("interactive-map").then((c) => {
+        getModule("interactive-map").then((c) => {
           _this.map.interactive.component = c;
 
           let { map } = _this.map.interactive;
@@ -740,7 +740,7 @@ navigatum.registerView("view", {
       <div class="hide-sm">
         <button
           class="btn btn-link btn-action btn-sm"
-          title="{{ $t("view_view.header.copy_link ") }}"
+          title="{{ $t('view_view.header.copy_link') }}"
           @click="copy_link"
         >
           <i class="icon icon-check" v-if="copied"></i>
@@ -758,7 +758,7 @@ navigatum.registerView("view", {
       <div class="column col-auto col-ml-auto">
         <button
           class="btn btn-link btn-action btn-sm"
-          title="{{ $t("view_view.header.external_link.tooltip ") }}"
+          title="{{ $t('view_view.header.external_link.tooltip') }}"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -809,13 +809,13 @@ navigatum.registerView("view", {
         </div>
         <button
           class="btn btn-link btn-action btn-sm"
-          title="{{ $t("view_view.header.feedback ") }}"
+          title="{{ $t('view_view.header.feedback') }}"
           @click="openFeedbackForm"
         >
           <i class="icon icon-flag"></i>
         </button>
         <!--<button class="btn btn-link btn-action btn-sm"
-                title="{{ $t("view_view.header.favorites") }}">
+                title="{{ $t('view_view.header.favorites') }}">
           <i class="icon icon-bookmark"></i>
         </button>-->
       </div>
@@ -845,9 +845,9 @@ navigatum.registerView("view", {
         </div>
         <div
           class="toast"
-          v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_") }}"
+          v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_}}$"
         >
-          {{ view_data.props.comment.${{_lang_") }} }}
+          {{ view_data.props.comment.${{_lang_}}$ }}
         </div>
       </div>
 
@@ -985,7 +985,7 @@ navigatum.registerView("view", {
             <td>
               <ul>
                 <li v-for="link in view_data.props.links">
-                  <a v-bind:href="link.url.${{ _lang_ ") }}">
+                  <a v-bind:href="link.url.${{ _lang_") }}">
                     {{ link.text.${{ _lang_ ") }} }}
                   </a>
                 </li>
@@ -1031,7 +1031,7 @@ navigatum.registerView("view", {
                 <td>
                   <ul>
                     <li v-for="link in view_data.props.links">
-                      <a v-bind:href="link.url.${{ _lang_ ") }}">
+                      <a v-bind:href="link.url.${{ _lang_") }}">
                         {{ link.text.${{ _lang_ ") }} }}
                       </a>
                     </li>
@@ -1058,9 +1058,9 @@ navigatum.registerView("view", {
           </div>
           <div
             class="toast"
-            v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_") }}"
+            v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_}}$"
           >
-            {{ view_data.props.comment.${{_lang_") }} }}
+            {{ view_data.props.comment.${{_lang_}}$ }}
           </div>
         </div>
         <!--<div class="card-footer">
@@ -1082,7 +1082,7 @@ navigatum.registerView("view", {
         <div class="modal-header">
           <button
             class="btn btn-clear float-right"
-            aria-label="{{ $t("view_view.slideshow.close") }}"
+            aria-label="{{ $t('view_view.slideshow.close') }}"
             @click="hideImageShowcase"
           ></button>
           <h5 class="modal-title">{{ $t("view_view.slideshow.header") }}</h5>
@@ -1135,7 +1135,7 @@ navigatum.registerView("view", {
                   <div itemscope itemtype="http://schema.org/ImageObject">
                     <img
                       itemprop="contentUrl"
-                      alt="{{ $t("view_view.slideshow.image_alt") }} "
+                      alt="{{ $t('view_view.slideshow.image_alt") }} "
                       loading="lazy"
                       v-bind:src="'/cdn/lg/' + img.name"
                       v-bind:srcset="'/cdn/sm/' + img.name + ' 1024w,' +
@@ -1428,7 +1428,7 @@ navigatum.registerView("view", {
             <div class="input-group">
               <input
                 v-model="state.rooms_overview.filter"
-                placeholder="{{ $t("view_view.rooms_overview.filter") }}"
+                placeholder="{{ $t('view_view.rooms_overview.filter') }}"
                 class="form-input"
               />
               <button
@@ -1458,11 +1458,11 @@ navigatum.registerView("view", {
           <div class="panel-footer">
             <small>
               {{ state.rooms_overview.selected === null ?
-              "{{ $t("view_view.rooms_overview.choose_usage") }}" :
+              "{{ $t('view_view.rooms_overview.choose_usage') }}" :
               sections.rooms_overview.display_list.length + "
-              {{ $t("view_view.rooms_overview.result") }}" +
+              {{ $t("view_view.rooms_overview.result') }}" +
               (sections.rooms_overview.display_list.length === 1 ? "" :
-              "{{ $t("view_view.rooms_overview.results_suffix") }}") +
+              "{{ $t('view_view.rooms_overview.results_suffix') }}") +
               (state.rooms_overview.filter === "" ? "" : "
               ({{ $t("view_view.rooms_overview.filtered") }})") }}
             </small>
