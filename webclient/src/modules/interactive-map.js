@@ -206,7 +206,7 @@ navigatum.registerModule(
       createMarker: function (hueRotation = 0) {
         const markerDiv = document.createElement("div");
         const markerIcon = document.createElement("span");
-        markerIcon.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin.webp)`;
+        markerIcon.style.backgroundImage = `url(@assets/map-marker_pin.webp)`;
         markerIcon.style.width = `25px`;
         markerIcon.style.height = `36px`;
         markerIcon.style.filter = `hue-rotate(${hueRotation}deg)`;
@@ -215,7 +215,7 @@ navigatum.registerModule(
         markerIcon.classList.add("marker");
         markerDiv.appendChild(markerIcon);
         const markerShadow = document.createElement("span");
-        markerShadow.style.backgroundImage = `url(/* @echo app_prefix */assets/map-marker_pin-shadow.webp)`;
+        markerShadow.style.backgroundImage = `url(@assets/map-marker_pin-shadow.webp)`;
         markerShadow.style.width = `38px`;
         markerShadow.style.height = `24px`;
         markerShadow.style.top = `-20px`;

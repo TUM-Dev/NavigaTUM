@@ -16,7 +16,7 @@
     <meta property="og:title" content="NavigaTUM" />
     <meta property="og:url" content="https://nav.tum.sexy">
     <meta property="og:description" content="{{ $t("meta.description") }}" />
-    <meta property="og:image" content="https://nav.tum.sexy/assets/logo-card.png" />
+    <meta property="og:image" content="@assets/logo-card.png" />
     <meta property="og:image:alt" content="{{ $t("meta.logo_alt") }}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -68,7 +68,7 @@
             <div class="column hide-lg">
               <router-link to="/">
               <img alt="{{ $t("meta.logo_alt") }}"
-                   src="assets/logo2.min2.svg"
+                   src="@assets/logo2.min2.svg"
                    id="logo"/>  <!-- 7px for logo1 -->
               </router-link>
             </div>
@@ -121,7 +121,7 @@
                                <i v-else class="icon icon-location"></i>
                             </template>
                             <img v-else
-                                 src="assets/thumb-building.webp"
+                                 src="@assets/thumb-building.webp"
                                  class="avatar avatar-sm">
                           </div>
                           <div class="tile-content">

@@ -93,7 +93,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "src/assets/variables";
+@import "@assets/variables";
 
 #view-search {
     padding-top: 25px;
@@ -214,7 +214,7 @@ export default {
               <img
                 v-else
                 class="avatar avatar-sm"
-                src="<!-- @echo app_prefix -->assets/thumb-building.webp"
+                src="@assets/thumb-building.webp"
               />
             </div>
             <div class="tile-content">

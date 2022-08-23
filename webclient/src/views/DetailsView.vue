@@ -661,7 +661,7 @@ navigatum.registerView("view", {
 </script>
 
 <style lang="scss">
-@import "src/assets/variables";
+@import "@assets/variables";
 
 #view-view {
     /* --- General --- */
@@ -1273,7 +1273,7 @@ navigatum.registerView("view", {
   >
     <img
       alt="Header-Image, showing the building"
-      v-bind:src="'<!-- @echo cdn_prefix -->header/' + image.shown_image.name"
+      v-bind:src="'/cdn/header/' + image.shown_image.name"
       class="img-responsive"
     />
   </a>
@@ -1490,13 +1490,13 @@ navigatum.registerView("view", {
       >
         <img
           alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
-          src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.webp"
+          src="@assets/roomfinder_cross-v2.webp"
           v-bind:style="{'transform': 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)'}"
           id="roomfinder-map-cross"
         />
         <img
           alt="Hand-drawn roomfinder map image"
-          v-bind:src="'<!-- @echo cdn_prefix -->maps/roomfinder/' + view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].file"
+          v-bind:src="'/cdn/maps/roomfinder/' + view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].file"
           class="img-responsive"
           v-bind:width="state.map.roomfinder.width"
           v-bind:height="state.map.roomfinder.height"
@@ -1612,7 +1612,7 @@ navigatum.registerView("view", {
         >
           <img
             alt="Header-Image, showing the building"
-            v-bind:src="'<!-- @echo cdn_prefix -->header/' + image.shown_image.name"
+            v-bind:src="'/cdn/header/' + image.shown_image.name"
             class="img-responsive"
             width="100%"
           />
@@ -1741,10 +1741,10 @@ navigatum.registerView("view", {
                       itemprop="contentUrl"
                       alt="{{ $t("view_view.slideshow.image_alt") }} "
                       loading="lazy"
-                      v-bind:src="'<!-- @echo cdn_prefix -->lg/' + img.name"
-                      v-bind:srcset="'<!-- @echo cdn_prefix -->' + 'sm/' + img.name + ' 1024w,' +
-                                        '<!-- @echo cdn_prefix -->' + 'md/' + img.name + ' 1920w,' +
-                                        '<!-- @echo cdn_prefix -->' + 'lg/' + img.name + ' 3860w'"
+                      v-bind:src="'/cdn/lg/' + img.name"
+                      v-bind:srcset="'/cdn/sm/' + img.name + ' 1024w,' +
+                                        '/cdn/md/' + img.name + ' 1920w,' +
+                                        '/cdn/lg/' + img.name + ' 3860w'"
                       sizes="100vw"
                       class="img-responsive rounded"
                     />
@@ -1834,7 +1834,7 @@ navigatum.registerView("view", {
     <div class="card" style="width: 250px;display: inline-flex;margin-right: 8px;">
         <div class="card-image">
             <img alt="Header-Image, showing the building"
-                 src="<!-- @echo cdn_prefix -- >header/mi_0.webp"
+                 src="/cdn/header/mi_0.webp"
                  class="img-responsive"/>
         </div>
         <div class="card-header">
@@ -1852,7 +1852,7 @@ navigatum.registerView("view", {
     <div class="card" style="width: 250px;display: inline-flex;margin-right: 8px;height: 200px;vertical-align: top;">
         <div class="card-image" style="display: none;">
             <img alt="Header-Image, showing the building"
-                 src="<!-- @echo cdn_prefix -- >header/mi_0.webp"
+                 src="/cdn/header/mi_0.webp"
                  class="img-responsive">
         </div>
         <div class="card-header">
@@ -1908,7 +1908,7 @@ navigatum.registerView("view", {
               <figure class="avatar avatar-lg">
                 <img
                   v-bind:alt="b.thumb ? 'Thumbnail, showing a preview of the building.' : 'Default-thumbnail, as no thumbnail is available'"
-                  v-bind:src="b.thumb ? '<!-- @echo cdn_prefix -->thumb/' + b.thumb : '<!-- @echo app_prefix -->assets/thumb-building.webp'"
+                  v-bind:src="b.thumb ? '/cdn/thumb/' + b.thumb : '@assets/thumb-building.webp'"
                 />
               </figure>
             </div>

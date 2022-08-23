@@ -33,7 +33,7 @@ navigatum.registerView("main", {
 </script>
 
 <style lang="scss">
-@import "src/assets/variables";
+@import "@assets/variables";
 
 #view-main {
     .panel {
