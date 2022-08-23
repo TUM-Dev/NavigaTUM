@@ -92,7 +92,73 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<template>
+  <div id="view-search" v-if="search_data">
+  <small class="search_meta">
+    {{ $t("view_search.runtime ") }}: {{ search_data.time_ms }}ms –
+    <button
+      onclick="openFeedback('search')"
+      class="btn btn-link"
+      aria-label="Open the feedback-form for search"
+    >
+      {{ $t("view_search.give_feedback") }}
+    </button>
+  </small>
+
+  <template v-for="s in sections">
+    <section>
+      <div class="columns">
+        <div class="column">
+          <h2>{{ s.name }}</h2>
+        </div>
+      </div>
+      <ul class="result-list">
+        <li v-for="e in s.entries">
+          <router-link v-bind:to="'/view/' + e.id" class="tile tile-centered">
+            <div class="tile-icon">
+              <template v-if="e.type == 'room' || e.type == 'virtual_room'">
+                <i v-if="e.parsed_id" class="icon icon-search"></i>
+                <i v-else class="icon icon-location"></i>
+              </template>
+              <img
+                v-else
+                class="avatar avatar-sm"
+                src="@assets/thumb-building.webp"
+              />
+            </div>
+            <div class="tile-content">
+              <div class="tile-title">
+                <span v-if="e.parsed_id" v-html="e.parsed_id"></span>
+                <i v-if="e.parsed_id" class="icon icon-caret"></i>
+                <span v-html="e.name"></span>
+              </div>
+              <small class="tile-subtitle text-gray">
+                {{ e.subtext }}<template v-if="e.subtext_bold"
+                  >, <b v-html="e.subtext_bold"></b
+                ></template>
+              </small>
+            </div>
+            <!--<div class="tile-action">
+              <button class="btn btn-link">
+                <i class="icon icon-more-vert"></i>
+              </button>
+            </div>-->
+          </router-link>
+        </li>
+      </ul>
+      <p class="search-comment nb_results" v-if="s.estimatedTotalHits === 1">
+        {{ s.estimatedTotalHits }} {{ $t("search.result") }}
+      </p>
+      <p class="search-comment nb_results" v-else>
+        {{ s.estimatedTotalHits > 20 ? {{ $t("search.approx") }} : "" }}
+        {{ s.estimatedTotalHits }} {{ $t("search.results") }}{{ s.estimatedTotalHits > 10 ? ", "+{{ $t("view_search.max_results ") }} : ""}}
+      </p>
+      </section>
+    </template>
+  </div>
+</template>
+
+<style lang="scss" scoped>
 @import "@assets/variables";
 
 #view-search {
@@ -182,69 +248,3 @@ export default {
     }
 }
 </style>
-
-<template>
-  <div id="view-search" v-if="search_data">
-  <small class="search_meta">
-    {{ $t("view_search.runtime ") }}: {{ search_data.time_ms }}ms –
-    <button
-      onclick="openFeedback('search')"
-      class="btn btn-link"
-      aria-label="Open the feedback-form for search"
-    >
-      {{ $t("view_search.give_feedback") }}
-    </button>
-  </small>
-
-  <template v-for="s in sections">
-    <section>
-      <div class="columns">
-        <div class="column">
-          <h2>{{ s.name }}</h2>
-        </div>
-      </div>
-      <ul class="result-list">
-        <li v-for="e in s.entries">
-          <router-link v-bind:to="'/view/' + e.id" class="tile tile-centered">
-            <div class="tile-icon">
-              <template v-if="e.type == 'room' || e.type == 'virtual_room'">
-                <i v-if="e.parsed_id" class="icon icon-search"></i>
-                <i v-else class="icon icon-location"></i>
-              </template>
-              <img
-                v-else
-                class="avatar avatar-sm"
-                src="@assets/thumb-building.webp"
-              />
-            </div>
-            <div class="tile-content">
-              <div class="tile-title">
-                <span v-if="e.parsed_id" v-html="e.parsed_id"></span>
-                <i v-if="e.parsed_id" class="icon icon-caret"></i>
-                <span v-html="e.name"></span>
-              </div>
-              <small class="tile-subtitle text-gray">
-                {{ e.subtext }}<template v-if="e.subtext_bold"
-                  >, <b v-html="e.subtext_bold"></b
-                ></template>
-              </small>
-            </div>
-            <!--<div class="tile-action">
-              <button class="btn btn-link">
-                <i class="icon icon-more-vert"></i>
-              </button>
-            </div>-->
-          </router-link>
-        </li>
-      </ul>
-      <p class="search-comment nb_results" v-if="s.estimatedTotalHits === 1">
-        {{ s.estimatedTotalHits }} {{ $t("search.result") }}
-      </p>
-      <p class="search-comment nb_results" v-else>
-        {{ s.estimatedTotalHits > 20 ? {{ $t("search.approx") }} : "" }}
-        {{ s.estimatedTotalHits }} {{ $t("search.results") }}{{ s.estimatedTotalHits > 10 ? ", "+{{ $t("view_search.max_results ") }} : ""}}
-      </p>
-      </section>
-    </template>
-  </div>
-</template>

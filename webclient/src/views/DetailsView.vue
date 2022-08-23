@@ -657,611 +657,7 @@ navigatum.registerView("view", {
     });
   },
 });
-
 </script>
-
-<style lang="scss">
-@import "@assets/variables";
-
-#view-view {
-    /* --- General --- */
-    h1 {
-        font-size: 1.2rem;
-        font-weight: 500;
-    }
-
-    h2 {
-        font-size: 1rem;
-        font-weight: 500;
-    }
-
-    /* --- Header --- */
-    .header-image-mobile {
-        margin: -10px -23px 10px;
-
-        > img {
-            min-width: 100%;
-            min-height: 100px;
-            max-height: 200px;
-            object-fit: cover;
-        }
-    }
-
-    .breadcrumb {
-        margin-top: 0;
-        font-size: 12px;
-    }
-
-    .entry-header {
-        .title {
-            position: relative;
-
-            & > div {
-                position: absolute;
-                left: -32px;
-                opacity: 0;
-                transition: opacity .2s;
-            }
-
-            &:hover > div {
-                opacity: 1;
-            }
-        }
-
-        .subtitle {
-            span {
-                color: $text-gray;
-            }
-
-            button svg {
-                margin-top: 4px;
-                stroke: $primary-color;
-            }
-
-            .column:last-child {
-                position: relative;
-            }
-
-            .link-popover {
-                position: absolute;
-                z-index: 1000;
-                padding: 6px 10px;
-                width: 200px;
-                right: 36px;
-                background: $light-color;
-                box-shadow: $card-shadow-dark;
-                border-radius: 2px;
-                border: 1px solid $card-border;
-                visibility: hidden;
-                opacity: 0;
-                transform: translateY(-5px);
-                transition: opacity .05s, transform .05s;
-
-                a,
-                button {
-                    width: 100%;
-                    margin: 4px 0;
-                }
-
-                strong {
-                    margin-top: 2px;
-                    display: block;
-
-                    & + a,
-                    & + button {
-                        margin-top: 2px;
-                    }
-                }
-            }
-
-            button:focus + .link-popover,
-            .link-popover:hover {
-                visibility: visible;
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .divider {
-            margin-bottom: 22px;
-        }
-    }
-
-    /* --- Pending coordinates counter --- */
-    .coord-counter {
-        margin: 8px 0;
-        box-shadow: $card-shadow;
-        border: 1px solid $card-border;
-        border-radius: 4px;
-        background: $card-highlighted-bg;
-
-        & .panel-body {
-            overflow-y: visible;
-
-            & .msg {
-                margin: 15px 0;
-
-                & em {
-                    color: $theme-accent;
-                    font-style: normal;
-                    font-weight: bold;
-                }
-
-                & .btn {
-                    height: 1.3rem;
-                    width: 1.3rem;
-
-                    &::after {
-                        z-index: 2000;
-                    }
-                }
-            }
-
-            & .btns {
-                margin: auto 0 12px;
-
-                .delete .default {
-                    display: inline-block;
-                }
-
-                .delete .confirm {
-                    display: none;
-                }
-
-                .delete.to-confirm {
-                    animation: delay-btn .3s steps(1);
-                    animation-fill-mode: both;
-                }
-
-                .delete.to-confirm .default {
-                    display: none;
-                }
-
-                .delete.to-confirm .confirm {
-                    display: inline-block;
-                }
-            }
-        }
-    }
-
-    /* --- Map container --- */
-    #map-container {
-        // This does not change anything (except using px instead of rem),
-        // but ensures that roomfinder position calculations are predictable.
-        padding: 0 8px;
-
-        // The marker2 (draggable)
-        .mapboxgl-marker + .mapboxgl-marker {
-            animation: fade-in .1s linear .05s;
-            animation-fill-mode: both;
-        }
-    }
-
-    .toast.location-picker {
-        animation: fade-in .1s linear .05s;
-        animation-fill-mode: both;
-
-        & .btns {
-            margin: auto 0;
-        }
-    }
-
-    /* --- Interactive map display --- */
-    #interactive-map-container {
-        margin-bottom: 10px;
-        aspect-ratio: 4 / 3;  // Not yet supported by all browsers
-
-        > div {
-            padding-bottom: 75%;  // 4:3 aspect ratio
-            border: 1px solid $border-light;
-            background-color: $container-loading-bg;
-            position: relative;
-        }
-
-        &.maximize {
-            position: absolute;
-            top: -10px;
-            left: 0;
-            width: 100%;
-            height: calc(100vh - 60px);
-            z-index: 1000;
-
-            > div {
-                padding-bottom: 0;
-                height: 100%;
-            }
-        }
-    }
-
-    #interactive-map {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-    }
-
-    .marker {
-        position: absolute;
-        pointer-events: none;
-        padding: 0;
-    }
-
-    .mapboxgl-ctrl-group.floor-ctrl {
-        max-width: 100%;
-        display: none;
-        overflow: hidden;
-
-        &.visible {
-            display: block;
-        }
-
-        &.closed #floor-list {
-            display: none !important;
-        }
-
-        & button {
-            &.active {
-                background: #ececec;
-            }
-
-            & .arrow {
-                font-weight: normal;
-                font-size: .3rem;
-                line-height: .9rem;
-                vertical-align: top;
-            }
-        }
-
-        &.reduced > .vertical-oc,
-        &.reduced > .horizontal-oc {
-            display: none !important;
-        }
-
-        & > .vertical-oc,
-        & > .horizontal-oc {
-            font-weight: bold;
-            background: #ececec;
-        }
-
-        &.closed {
-            & > .vertical-oc,
-            & > .horizontal-oc {
-                background: #fff;
-            }
-
-            &:hover > .vertical-oc,
-            &:hover > .horizontal-oc {
-                background: #f2f2f2;
-            }
-        }
-
-        // vertical is default layout
-        & > .horizontal-oc {
-            display: none;
-        }
-
-        &.horizontal {
-            & > .horizontal-oc {
-                display: inline-block;
-            }
-
-            & > .vertical-oc {
-                display: none;
-            }
-
-            & #floor-list {
-                display: inline-block;
-                width: calc(100% - 29px);
-            }
-
-            & button {
-                display: inline-block;
-                border-top: 0;
-                border-left: 1px solid #ddd;
-
-                &.arrow {
-                    font-size: .4rem;
-                    vertical-align: bottom;
-                    line-height: 1.1rem;
-                }
-
-                & + button {
-                    border-top: 0;
-                }
-            }
-        }
-
-        // mapbox logo
-        & + .mapboxgl-ctrl {
-            opacity: .4;
-            pointer-events: none;
-            z-index: -1;
-        }
-    }
-
-    /* --- Roomfinder display --- */
-    .roomfinder-map-container {
-        overflow: hidden;
-        position: relative;
-        margin-bottom: 6px;
-
-        > div {  // Image source label
-            position: absolute;
-            bottom: 1px;
-            right: 1px;
-            padding: 1px 5px;
-            color: $body-font-color;
-            background-color: $container-loading-bg;
-            font-size: 10px;
-        }
-    }
-
-    #roomfinder-map-cross {
-        position: absolute;
-        transition: transform .3s;
-        pointer-events: none;
-    }
-
-    #roomfinder-map-img {
-        width: 100%;
-        display: block;
-    }
-
-    #roomfinder-map-select > label {
-        padding: .05rem .3rem;
-    }
-
-    .accordion-body {
-        ul,
-        button,
-        li {
-            font-size: 12px;
-        }
-
-        .selected {
-            background: $roomfinder-selected-bg;
-        }
-    }
-
-    /* --- Information Section (mobile) --- */
-    .mobile-info-section {
-        margin-top: 15px;
-
-        & > .info-table {
-            margin-top: 16px;
-        }
-    }
-
-    /* --- Information Card (desktop) --- */
-    .card-body .toast {
-        margin-top: 12px;
-    }
-
-    #map-container .toast {  // Mobile
-        margin-bottom: 9px;
-        font-size: .7rem;
-    }
-
-    /* --- Info table --- */
-    .info-table {
-        width: 100%;
-        border-collapse: collapse;
-
-        td {
-            vertical-align: top;
-            padding: 4px 0;
-
-            &:last-child {
-                padding-left: 10px;
-            }
-        }
-
-        tr {
-            border-bottom: 1px solid $border-light;
-
-            &:last-child {
-                border-bottom: 0;
-            }
-        }
-
-        ul {
-            list-style-type: none;
-            margin: 0;
-        }
-
-        li {
-            margin: 0 0 .4rem;
-
-            &:last-child {
-                margin: 0;
-            }
-        }
-    }
-
-    /* --- Sections general --- */
-    section {
-        margin-top: 40px;
-
-        .content {
-            margin-top: 15px;
-        }
-    }
-
-    /* --- Sections --- */
-    #building-overview {
-        a {
-            text-decoration: none !important;
-        }
-
-        .tile {
-            border: .05rem solid $card-border;
-            padding: 8px;
-            border-radius: .1rem;
-        }
-
-        button {
-            margin-top: 8px;
-        }
-    }
-
-    .menu {
-        padding: 0;
-        box-shadow: none;
-
-        .menu-item button {
-            text-align: left !important;
-            border: 0 transparent !important;
-            width: 100%;
-        }
-
-        .menu-item a,
-        .menu-item label,
-        .menu-item button {
-            cursor: pointer;
-            user-select: none;
-        }
-    }
-
-    #rooms-overview {
-        #rooms-overview-select .menu-item {
-            padding: 0;
-
-            & .icon-arrow-right {
-                margin-right: 4px;
-            }
-        }
-
-        .menu-item button {
-            display: flex;
-            flex-direction: row;
-            box-sizing: border-box;
-            width: 100%;
-
-            .menu-text {
-                flex-grow: 1;
-                flex-shrink: 1;
-                text-overflow: ellipsis;
-                overflow: hidden;
-            }
-
-            .icon,
-            label {
-                flex-grow: 0;
-                flex-shrink: 0;
-            }
-
-            .icon {
-                top: 5px;
-            }
-        }
-
-        .panel-title {
-            font-weight: bold;
-        }
-
-        .panel-body {
-            padding-bottom: 4px;
-
-            .divider {
-                margin: 6px 0;
-            }
-        }
-
-        .panel-footer {
-            color: $text-gray;
-        }
-    }
-
-    #rooms-overview-select .panel-body {
-        max-height: 500px + 8px;
-    }
-
-    #rooms-overview-list .panel-body {
-        max-height: 500px;
-    }
-
-    #entry-sources {
-        h2 {
-            margin-bottom: 16px;
-        }
-
-        p {
-            margin-bottom: 6px;
-        }
-    }
-
-    /* --- Image slideshow / showcase --- */
-    #modal-slideshow {
-        align-items: baseline;
-
-        & .modal-container {
-            position: relative;
-            top: 5em;
-
-            & .carousel-item {
-                // Disable the animation of Spectre, because it appears a bit irritating.
-                // It always run if we open the image slideshow and is wrong if we go back
-                // in the slideshow.
-                animation: none;
-                transform: translateX(0);
-            }
-        }
-    }
-}
-
-// 'md' (
-@media (max-width: 840px) {
-    #view-view {
-        .text-md-right {
-            text-align: right !important;
-        }
-
-        .text-md-center {
-            text-align: center !important;
-        }
-
-        .mt-md-3 {
-            margin-top: 1rem !important;
-        }
-    }
-}
-
-// 'sm' (mobile)
-@media (max-width: 600px) {
-    #view-view {
-        // The mapbox logo is taking away space from the layer
-        // selection on the bottom left on mobile, so we move
-        // it a bit
-        .floor-ctrl.visible + .mapboxgl-ctrl {
-            position: absolute;
-            bottom: 2px;
-            left: 42px;
-        }
-
-        #rooms-overview-select .panel-body {
-            max-height: 260px;
-        }
-
-        #rooms-overview-list .panel-body {
-            max-height: 275px;
-        }
-    }
-}
-
-@keyframes delay-btn {
-    from {
-        pointer-events: none;
-        color: $text-gray;
-    }
-
-    to {
-        pointer-events: all;
-        color: $error-color;
-    }
-}
-</style>
-
-
-
 
 <template>
   <div id="view-view" v-if="view_data">
@@ -2134,3 +1530,603 @@ navigatum.registerView("view", {
   </section>
 </div>
 </template>
+
+<style lang="scss" scoped>
+@import "@assets/variables";
+
+#view-view {
+    /* --- General --- */
+    h1 {
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    h2 {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    /* --- Header --- */
+    .header-image-mobile {
+        margin: -10px -23px 10px;
+
+        > img {
+            min-width: 100%;
+            min-height: 100px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+    }
+
+    .breadcrumb {
+        margin-top: 0;
+        font-size: 12px;
+    }
+
+    .entry-header {
+        .title {
+            position: relative;
+
+            & > div {
+                position: absolute;
+                left: -32px;
+                opacity: 0;
+                transition: opacity .2s;
+            }
+
+            &:hover > div {
+                opacity: 1;
+            }
+        }
+
+        .subtitle {
+            span {
+                color: $text-gray;
+            }
+
+            button svg {
+                margin-top: 4px;
+                stroke: $primary-color;
+            }
+
+            .column:last-child {
+                position: relative;
+            }
+
+            .link-popover {
+                position: absolute;
+                z-index: 1000;
+                padding: 6px 10px;
+                width: 200px;
+                right: 36px;
+                background: $light-color;
+                box-shadow: $card-shadow-dark;
+                border-radius: 2px;
+                border: 1px solid $card-border;
+                visibility: hidden;
+                opacity: 0;
+                transform: translateY(-5px);
+                transition: opacity .05s, transform .05s;
+
+                a,
+                button {
+                    width: 100%;
+                    margin: 4px 0;
+                }
+
+                strong {
+                    margin-top: 2px;
+                    display: block;
+
+                    & + a,
+                    & + button {
+                        margin-top: 2px;
+                    }
+                }
+            }
+
+            button:focus + .link-popover,
+            .link-popover:hover {
+                visibility: visible;
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .divider {
+            margin-bottom: 22px;
+        }
+    }
+
+    /* --- Pending coordinates counter --- */
+    .coord-counter {
+        margin: 8px 0;
+        box-shadow: $card-shadow;
+        border: 1px solid $card-border;
+        border-radius: 4px;
+        background: $card-highlighted-bg;
+
+        & .panel-body {
+            overflow-y: visible;
+
+            & .msg {
+                margin: 15px 0;
+
+                & em {
+                    color: $theme-accent;
+                    font-style: normal;
+                    font-weight: bold;
+                }
+
+                & .btn {
+                    height: 1.3rem;
+                    width: 1.3rem;
+
+                    &::after {
+                        z-index: 2000;
+                    }
+                }
+            }
+
+            & .btns {
+                margin: auto 0 12px;
+
+                .delete .default {
+                    display: inline-block;
+                }
+
+                .delete .confirm {
+                    display: none;
+                }
+
+                .delete.to-confirm {
+                    animation: delay-btn .3s steps(1);
+                    animation-fill-mode: both;
+                }
+
+                .delete.to-confirm .default {
+                    display: none;
+                }
+
+                .delete.to-confirm .confirm {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+
+    /* --- Map container --- */
+    #map-container {
+        // This does not change anything (except using px instead of rem),
+        // but ensures that roomfinder position calculations are predictable.
+        padding: 0 8px;
+
+        // The marker2 (draggable)
+        .mapboxgl-marker + .mapboxgl-marker {
+            animation: fade-in .1s linear .05s;
+            animation-fill-mode: both;
+        }
+    }
+
+    .toast.location-picker {
+        animation: fade-in .1s linear .05s;
+        animation-fill-mode: both;
+
+        & .btns {
+            margin: auto 0;
+        }
+    }
+
+    /* --- Interactive map display --- */
+    #interactive-map-container {
+        margin-bottom: 10px;
+        aspect-ratio: 4 / 3;  // Not yet supported by all browsers
+
+        > div {
+            padding-bottom: 75%;  // 4:3 aspect ratio
+            border: 1px solid $border-light;
+            background-color: $container-loading-bg;
+            position: relative;
+        }
+
+        &.maximize {
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 60px);
+            z-index: 1000;
+
+            > div {
+                padding-bottom: 0;
+                height: 100%;
+            }
+        }
+    }
+
+    #interactive-map {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+
+    .marker {
+        position: absolute;
+        pointer-events: none;
+        padding: 0;
+    }
+
+    .mapboxgl-ctrl-group.floor-ctrl {
+        max-width: 100%;
+        display: none;
+        overflow: hidden;
+
+        &.visible {
+            display: block;
+        }
+
+        &.closed #floor-list {
+            display: none !important;
+        }
+
+        & button {
+            &.active {
+                background: #ececec;
+            }
+
+            & .arrow {
+                font-weight: normal;
+                font-size: .3rem;
+                line-height: .9rem;
+                vertical-align: top;
+            }
+        }
+
+        &.reduced > .vertical-oc,
+        &.reduced > .horizontal-oc {
+            display: none !important;
+        }
+
+        & > .vertical-oc,
+        & > .horizontal-oc {
+            font-weight: bold;
+            background: #ececec;
+        }
+
+        &.closed {
+            & > .vertical-oc,
+            & > .horizontal-oc {
+                background: #fff;
+            }
+
+            &:hover > .vertical-oc,
+            &:hover > .horizontal-oc {
+                background: #f2f2f2;
+            }
+        }
+
+        // vertical is default layout
+        & > .horizontal-oc {
+            display: none;
+        }
+
+        &.horizontal {
+            & > .horizontal-oc {
+                display: inline-block;
+            }
+
+            & > .vertical-oc {
+                display: none;
+            }
+
+            & #floor-list {
+                display: inline-block;
+                width: calc(100% - 29px);
+            }
+
+            & button {
+                display: inline-block;
+                border-top: 0;
+                border-left: 1px solid #ddd;
+
+                &.arrow {
+                    font-size: .4rem;
+                    vertical-align: bottom;
+                    line-height: 1.1rem;
+                }
+
+                & + button {
+                    border-top: 0;
+                }
+            }
+        }
+
+        // mapbox logo
+        & + .mapboxgl-ctrl {
+            opacity: .4;
+            pointer-events: none;
+            z-index: -1;
+        }
+    }
+
+    /* --- Roomfinder display --- */
+    .roomfinder-map-container {
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 6px;
+
+        > div {  // Image source label
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+            padding: 1px 5px;
+            color: $body-font-color;
+            background-color: $container-loading-bg;
+            font-size: 10px;
+        }
+    }
+
+    #roomfinder-map-cross {
+        position: absolute;
+        transition: transform .3s;
+        pointer-events: none;
+    }
+
+    #roomfinder-map-img {
+        width: 100%;
+        display: block;
+    }
+
+    #roomfinder-map-select > label {
+        padding: .05rem .3rem;
+    }
+
+    .accordion-body {
+        ul,
+        button,
+        li {
+            font-size: 12px;
+        }
+
+        .selected {
+            background: $roomfinder-selected-bg;
+        }
+    }
+
+    /* --- Information Section (mobile) --- */
+    .mobile-info-section {
+        margin-top: 15px;
+
+        & > .info-table {
+            margin-top: 16px;
+        }
+    }
+
+    /* --- Information Card (desktop) --- */
+    .card-body .toast {
+        margin-top: 12px;
+    }
+
+    #map-container .toast {  // Mobile
+        margin-bottom: 9px;
+        font-size: .7rem;
+    }
+
+    /* --- Info table --- */
+    .info-table {
+        width: 100%;
+        border-collapse: collapse;
+
+        td {
+            vertical-align: top;
+            padding: 4px 0;
+
+            &:last-child {
+                padding-left: 10px;
+            }
+        }
+
+        tr {
+            border-bottom: 1px solid $border-light;
+
+            &:last-child {
+                border-bottom: 0;
+            }
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+        }
+
+        li {
+            margin: 0 0 .4rem;
+
+            &:last-child {
+                margin: 0;
+            }
+        }
+    }
+
+    /* --- Sections general --- */
+    section {
+        margin-top: 40px;
+
+        .content {
+            margin-top: 15px;
+        }
+    }
+
+    /* --- Sections --- */
+    #building-overview {
+        a {
+            text-decoration: none !important;
+        }
+
+        .tile {
+            border: .05rem solid $card-border;
+            padding: 8px;
+            border-radius: .1rem;
+        }
+
+        button {
+            margin-top: 8px;
+        }
+    }
+
+    .menu {
+        padding: 0;
+        box-shadow: none;
+
+        .menu-item button {
+            text-align: left !important;
+            border: 0 transparent !important;
+            width: 100%;
+        }
+
+        .menu-item a,
+        .menu-item label,
+        .menu-item button {
+            cursor: pointer;
+            user-select: none;
+        }
+    }
+
+    #rooms-overview {
+        #rooms-overview-select .menu-item {
+            padding: 0;
+
+            & .icon-arrow-right {
+                margin-right: 4px;
+            }
+        }
+
+        .menu-item button {
+            display: flex;
+            flex-direction: row;
+            box-sizing: border-box;
+            width: 100%;
+
+            .menu-text {
+                flex-grow: 1;
+                flex-shrink: 1;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+            .icon,
+            label {
+                flex-grow: 0;
+                flex-shrink: 0;
+            }
+
+            .icon {
+                top: 5px;
+            }
+        }
+
+        .panel-title {
+            font-weight: bold;
+        }
+
+        .panel-body {
+            padding-bottom: 4px;
+
+            .divider {
+                margin: 6px 0;
+            }
+        }
+
+        .panel-footer {
+            color: $text-gray;
+        }
+    }
+
+    #rooms-overview-select .panel-body {
+        max-height: 500px + 8px;
+    }
+
+    #rooms-overview-list .panel-body {
+        max-height: 500px;
+    }
+
+    #entry-sources {
+        h2 {
+            margin-bottom: 16px;
+        }
+
+        p {
+            margin-bottom: 6px;
+        }
+    }
+
+    /* --- Image slideshow / showcase --- */
+    #modal-slideshow {
+        align-items: baseline;
+
+        & .modal-container {
+            position: relative;
+            top: 5em;
+
+            & .carousel-item {
+                // Disable the animation of Spectre, because it appears a bit irritating.
+                // It always run if we open the image slideshow and is wrong if we go back
+                // in the slideshow.
+                animation: none;
+                transform: translateX(0);
+            }
+        }
+    }
+}
+
+// 'md' (
+@media (max-width: 840px) {
+    #view-view {
+        .text-md-right {
+            text-align: right !important;
+        }
+
+        .text-md-center {
+            text-align: center !important;
+        }
+
+        .mt-md-3 {
+            margin-top: 1rem !important;
+        }
+    }
+}
+
+// 'sm' (mobile)
+@media (max-width: 600px) {
+    #view-view {
+        // The mapbox logo is taking away space from the layer
+        // selection on the bottom left on mobile, so we move
+        // it a bit
+        .floor-ctrl.visible + .mapboxgl-ctrl {
+            position: absolute;
+            bottom: 2px;
+            left: 42px;
+        }
+
+        #rooms-overview-select .panel-body {
+            max-height: 260px;
+        }
+
+        #rooms-overview-list .panel-body {
+            max-height: 275px;
+        }
+    }
+}
+
+@keyframes delay-btn {
+    from {
+        pointer-events: none;
+        color: $text-gray;
+    }
+
+    to {
+        pointer-events: all;
+        color: $error-color;
+    }
+}
+</style>

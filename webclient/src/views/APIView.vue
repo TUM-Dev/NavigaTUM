@@ -28,7 +28,11 @@ const head = document.getElementsByTagName("head")[0];
   head.appendChild(elJS);
 </script>
 
-<style lang="scss">
+<template>
+  <div id="swagger-ui"></div>
+</template>
+
+<style lang="scss" scoped>
 @import "@assets/variables";
 
 .swagger-ui {
@@ -45,7 +49,3 @@ const head = document.getElementsByTagName("head")[0];
     }
 }
 </style>
-
-<template>
-  <div id="swagger-ui"></div>
-</template>
