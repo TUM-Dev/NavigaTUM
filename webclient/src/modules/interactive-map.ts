@@ -1,5 +1,5 @@
-/* global mapboxgl */
-let _map;
+import { mapboxgl } from "mapbox-gl";
+let _map: mapboxgl.Map;
 
 function FloorControl() {}
 
@@ -9,7 +9,7 @@ function floorControlInit() {
   // Add Evented functionality from mapboxgl
   FloorControl.prototype = Object.create(mapboxgl.Evented.prototype);
 
-  FloorControl.prototype.onAdd = function onAdd(map) {
+  FloorControl.prototype.onAdd = function onAdd(map:mapboxgl.Map) {
     this.map = map;
     this.container = document.createElement("div");
     this.container.classList.add("mapboxgl-ctrl-group");
@@ -56,10 +56,7 @@ function floorControlInit() {
     this.container.parentNode.removeChild(this.container);
     this.map = undefined;
   };
-  FloorControl.prototype.updateFloors = function updateFloors(
-    floors,
-    visibleId
-  ) {
+  FloorControl.prototype.updateFloors = function updateFloors(floors, visibleId) {
     // `floors` is null or a list of floors with data,
     // `visibleId` is the id of the visible floor.
     if (floors === null) {
@@ -171,29 +168,7 @@ function floorControlInit() {
   };
 }
 
-return {
-  map: undefined,
-  init: () =>
-    new Promise((resolve) => {
-      const head = document.getElementsByTagName("head")[0];
-      // Add CSS first (required by Mapbox)
-      const elCSS = document.createElement("link");
-      elCSS.rel = "stylesheet";
-      elCSS.href =
-        "/* @echo app_prefix */css/mapbox/* @if target='release' */.min/* @endif */.css";
-      head.appendChild(elCSS);
-
-      // JS should trigger init on load
-      const elJS = document.createElement("script");
-      elJS.src =
-        "/* @echo app_prefix */js/mapbox/* @if target='release' */.min/* @endif */.js";
-      elJS.onload = () => {
-        floorControlInit();
-        resolve();
-      };
-      head.appendChild(elJS);
-    }),
-  createMarker: function (hueRotation = 0) {
+  function createMarker(hueRotation = 0) {
     const markerDiv = document.createElement("div");
     const markerIcon = document.createElement("span");
     markerIcon.style.backgroundImage = `url(@assets/map-marker_pin.webp)`;
@@ -213,10 +188,9 @@ return {
     markerShadow.classList.add("marker");
     markerDiv.appendChild(markerShadow);
     return markerDiv;
-  },
-  initMap: function (containerId) {
-    mapboxgl.accessToken =
-      "pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg";
+  }
+  function initMap(containerId:string) {
+    mapboxgl.accessToken = "pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg";
     const map = new mapboxgl.Map({
       container: containerId,
 
@@ -292,7 +266,7 @@ return {
       map.initialLoaded = true;
     });
 
-    const _this = this;
+    const _this:any = this;
     map.floorControl = new FloorControl();
     map.floorControl.on("floor-changed", (args) => {
       _this.setOverlayImage(
@@ -305,14 +279,14 @@ return {
     _map = map;
 
     return map;
-  },
+  }
   // Set the given overlays as available overlay images.
-  setFloorOverlays: function (overlays, defaultOverlay) {
+  function setFloorOverlays(overlays, defaultOverlay) {
     _map.floorControl.updateFloors(overlays, defaultOverlay);
-  },
+  }
   // Set the currently visible overlay image in the map,
   // or hide it if imgUrl is null.
-  setOverlayImage: function (imgUrl, coords) {
+  function setOverlayImage(imgUrl, coords) {
     // Even if the map is initialized, it could be that
     // it hasn't loaded yet, so we need to postpone adding
     // the overlay layer.
@@ -370,5 +344,4 @@ return {
         _map.setLayoutProperty("overlay-bg", "visibility", "visible");
       }
     }
-  },
-};
+  }
