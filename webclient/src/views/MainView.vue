@@ -121,99 +121,99 @@ navigatum.registerView("main", {
 @import "../assets/variables";
 
 #view-main {
-    .panel {
-        border: 1px solid $card-border;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: $card-shadow-dark;
-        margin: 10px 0;
-        padding-bottom: 12px;
+  .panel {
+    border: 1px solid $card-border;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: $card-shadow-dark;
+    margin: 10px 0;
+    padding-bottom: 12px;
 
-        .panel-header {
-            width: 100%;
-            margin-bottom: 8px;
+    .panel-header {
+      width: 100%;
+      margin-bottom: 8px;
 
-            & > a {
-                text-decoration: none;
+      & > a {
+        text-decoration: none;
 
-                .h6 {
-                    text-align: left;
-                    color: $body-font-color;
-                    transition: color .1s;
+        .h6 {
+          text-align: left;
+          color: $body-font-color;
+          transition: color 0.1s;
 
-                    &:hover,
-                    &:active {
-                        color: $primary-color;
-                    }
-                }
-
-                button {
-                    margin-top: -7px;
-                    margin-bottom: -7px;
-                }
-            }
-
-            a.btn {
-                margin: -8px 0;
-            }
-
-            .h6 {
-                font-weight: bold;
-            }
+          &:hover,
+          &:active {
+            color: $primary-color;
+          }
         }
 
-        .panel-body {
-            & > a {
-                text-decoration: none;
-            }
-
-            .link-more {
-                opacity: .5;
-                transition: opacity .1s;
-
-                .tile {
-                    display: none;
-                }
-            }
-
-            .tile-icon {
-                color: $body-font-color;
-                margin-top: -4px;
-            }
-
-            .tile-title {
-                padding-left: 8px;
-            }
+        button {
+          margin-top: -7px;
+          margin-bottom: -7px;
         }
+      }
 
-        .btn-more,
-        .btn-less {
-            margin-top: 5px;
-            padding-bottom: 0;
-            padding-left: 0;
-        }
+      a.btn {
+        margin: -8px 0;
+      }
 
-        .btn-less {
-            display: none;
-        }
+      .h6 {
+        font-weight: bold;
+      }
     }
 
-    .panel.open {
-        .panel-body .link-more {
-            opacity: 1;
+    .panel-body {
+      & > a {
+        text-decoration: none;
+      }
 
-            .tile {
-                display: flex;
-            }
-        }
+      .link-more {
+        opacity: 0.5;
+        transition: opacity 0.1s;
 
-        .btn-more {
-            display: none;
+        .tile {
+          display: none;
         }
+      }
 
-        .btn-less {
-            display: inline-block;
-        }
+      .tile-icon {
+        color: $body-font-color;
+        margin-top: -4px;
+      }
+
+      .tile-title {
+        padding-left: 8px;
+      }
     }
+
+    .btn-more,
+    .btn-less {
+      margin-top: 5px;
+      padding-bottom: 0;
+      padding-left: 0;
+    }
+
+    .btn-less {
+      display: none;
+    }
+  }
+
+  .panel.open {
+    .panel-body .link-more {
+      opacity: 1;
+
+      .tile {
+        display: flex;
+      }
+    }
+
+    .btn-more {
+      display: none;
+    }
+
+    .btn-less {
+      display: inline-block;
+    }
+  }
 }
 </style>

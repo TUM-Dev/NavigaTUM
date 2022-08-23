@@ -1532,7 +1532,7 @@ navigatum.registerView("view", {
 </template>
 
 <style lang="scss" scoped>
-@import "@assets/variables";
+@import "../assets/variables";
 
 #view-view {
     /* --- General --- */

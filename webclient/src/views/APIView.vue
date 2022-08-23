@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { SwaggerUIBundle } from "swagger-ui-dist"
-import "swagger-ui-dist/swagger-ui.css"
+import { SwaggerUIBundle } from "swagger-ui-dist";
+import "swagger-ui-dist/swagger-ui.css";
 
 window.setTimeout(() => {
   // we need to make sure, that swagger-ui exists, otherwise the following command will fail
@@ -8,9 +8,7 @@ window.setTimeout(() => {
   SwaggerUIBundle({
     url: "https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml",
     dom_id: "#swagger-ui",
-    presets: [
-      SwaggerUIBundle.presets.apis,
-    ],
+    presets: [SwaggerUIBundle.presets.apis],
   });
 }, 10);
 </script>
@@ -23,16 +21,16 @@ window.setTimeout(() => {
 @import "../assets/variables";
 
 .swagger-ui {
-    // we cannot apply loading-lg to this external dependency
-    .loading-container .loading {
-        min-height: 2rem;
-    }
+  // we cannot apply loading-lg to this external dependency
+  .loading-container .loading {
+    min-height: 2rem;
+  }
 
-    .loading-container .loading::after {
-        height: 1.6rem;
-        margin-left: -.8rem;
-        margin-top: -.8rem;
-        width: 1.6rem;
-    }
+  .loading-container .loading::after {
+    height: 1.6rem;
+    margin-left: -0.8rem;
+    margin-top: -0.8rem;
+    width: 1.6rem;
+  }
 }
 </style>
