@@ -740,7 +740,7 @@ navigatum.registerView("view", {
       <div class="hide-sm">
         <button
           class="btn btn-link btn-action btn-sm"
-          title="{{ $t('view_view.header.copy_link') }}"
+          v-bind:title="$t('view_view.header.copy_link')"
           @click="copy_link"
         >
           <i class="icon icon-check" v-if="copied"></i>
@@ -758,7 +758,7 @@ navigatum.registerView("view", {
       <div class="column col-auto col-ml-auto">
         <button
           class="btn btn-link btn-action btn-sm"
-          title="{{ $t('view_view.header.external_link.tooltip') }}"
+          v-bind:title="$t('view_view.header.external_link.tooltip')"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -804,18 +804,18 @@ navigatum.registerView("view", {
           <button
             class="btn"
             @click="copy_link"
-            v-html="copied ? '{{ $t("view_view.header.external_link.copied ") }}' : '{{ $t("view_view.header.copy_link ") }}'"
+            v-html="copied ? $t('view_view.header.external_link.copied') : $t('view_view.header.copy_link')"
           ></button>
         </div>
         <button
           class="btn btn-link btn-action btn-sm"
-          title="{{ $t('view_view.header.feedback') }}"
+          v-bind:title="$t('view_view.header.feedback')"
           @click="openFeedbackForm"
         >
           <i class="icon icon-flag"></i>
         </button>
         <!--<button class="btn btn-link btn-action btn-sm"
-                title="{{ $t('view_view.header.favorites') }}">
+                v-bind:title="$t('view_view.header.favorites')">
           <i class="icon icon-bookmark"></i>
         </button>-->
       </div>
@@ -1082,7 +1082,7 @@ navigatum.registerView("view", {
         <div class="modal-header">
           <button
             class="btn btn-clear float-right"
-            aria-label="{{ $t('view_view.slideshow.close') }}"
+            v-bind:aria-label="$t('view_view.slideshow.close')"
             @click="hideImageShowcase"
           ></button>
           <h5 class="modal-title">{{ $t("view_view.slideshow.header") }}</h5>
@@ -1135,7 +1135,7 @@ navigatum.registerView("view", {
                   <div itemscope itemtype="http://schema.org/ImageObject">
                     <img
                       itemprop="contentUrl"
-                      alt="{{ $t('view_view.slideshow.image_alt") }} "
+                      v-bind:alt="$t('view_view.slideshow.image_alt')"
                       loading="lazy"
                       v-bind:src="'/cdn/lg/' + img.name"
                       v-bind:srcset="'/cdn/sm/' + img.name + ' 1024w,' +
@@ -1428,7 +1428,7 @@ navigatum.registerView("view", {
             <div class="input-group">
               <input
                 v-model="state.rooms_overview.filter"
-                placeholder="{{ $t('view_view.rooms_overview.filter') }}"
+                v-bind:placeholder="$t('view_view.rooms_overview.filter')"
                 class="form-input"
               />
               <button
