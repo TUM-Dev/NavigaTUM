@@ -886,7 +886,7 @@ navigatum.registerView("view", {
       >
         <img
           alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
-          src="@assets/roomfinder_cross-v2.webp"
+          src="@/assets/roomfinder_cross-v2.webp"
           v-bind:style="{'transform': 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)'}"
           id="roomfinder-map-cross"
         />
@@ -1304,7 +1304,7 @@ navigatum.registerView("view", {
               <figure class="avatar avatar-lg">
                 <img
                   v-bind:alt="b.thumb ? 'Thumbnail, showing a preview of the building.' : 'Default-thumbnail, as no thumbnail is available'"
-                  v-bind:src="b.thumb ? '/cdn/thumb/' + b.thumb : '@assets/thumb-building.webp'"
+                  v-bind:src="b.thumb ? '/cdn/thumb/' + b.thumb : '@/assets/thumb-building.webp'"
                 />
               </figure>
             </div>
