@@ -1,0 +1,195 @@
+meta:
+  logo_alt: "The Logo of NavigaTUM."
+  description: "Navigate around TUM with excellence. This is a website to find rooms, buildings and other places at TUM easier than the current RoomFinder, developed by students."
+search:
+  placeholder: "Search"
+  aria-searchlabel: "Search-field"
+  aria-actionlabel: "Search for the room-query entered in the search field"
+  action: "Go"
+  hidden: "hidden"
+  result: "result"
+  results: "results"
+  approx: "approx."
+  sections:
+    buildings: "Buildings / Sites"
+    of_which_visible: "of them visible"
+    rooms: "Rooms"
+    and: "and"
+    were_found: "were found."
+    no_buildings_rooms_found: "No buildings / locations or rooms could be found."
+footer:
+  sourcecode:
+    text: "Source Code"
+  privacy:
+    text: "Privacy"
+    link: "privacy"
+  imprint:
+    text: "Imprint"
+    link: "impressum"
+  about:
+    text: "About us"
+    link: "about-us"
+  feedback:
+    text: "Feedback"
+  api:
+    text: "API"
+    link: "api"
+  language: "Language"
+  theme: "Theme"
+  theme_light: "light"
+  theme_dark: "dark"
+feedback:
+  title: "Send Feedback"
+  subject: "Subject"
+  category: "Feedback category"
+  type:
+    general: "General"
+    bug: "Bug"
+    features: "Features"
+    search: "Search"
+    entry: "Entry"
+  mail: "E-Mail (optional)"
+  helptext:
+    general: "General Feedback about this website"
+    bug: "Which bug did you find? Where did you find it? Please provide a detailed description."
+    features: "Features you would like to see on this website"
+    search: "Feedback about the search. What was your search query? What did you expect to see?"
+    entry: "Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?"
+  coordinatepicker:
+    helptext: "If you want to correct several coordinates at the same time, you can close this window and edit more coordinates. <br> We will save your changes locally for 12 hours. <br> Warning, that's only valid for coordinates!"
+    title: "Select coordinate"
+    edit_coordinate_subject: "Edit coordinate"
+    edit_coordinates_subject: "Edit coordinates"
+    edit_multiple_coordinates: "Hello, I would like to edit these coordinates in the roomfinder:"
+    add_coordinate: "Hello, I would like to add this coordinate to the roomfinder:"
+    correct_coordinate: "Hello, I would like to correct this coordinate in the roomfinder:"
+  message: "Message"
+  public: "My feedback data may to be published anonymously, but publicly accessible on the <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub project page</a>. By using this feedback form, you explicitly agree to <a href='https://docs.github.com/en/github/site-policy' target='_blank'>GitHub's Terms of Service and Privacy Policy</a> and a possible transfer of your data outside of the European Union. If you do not consent to this, please write us at app (at) tum.de, or use one of the other contact options listed in our <a href='/about/impressum' target='_blank'>imprint</a>."
+  delete: "Delete this GitHub issue when resolved."
+  send: "Send"
+  cancel: "Cancel"
+  success:
+    thank_you: "Thank you for giving your feedback. We will work on this as soon as possible."
+    response_at: "You can see our response at"
+    this_issue: "this GitHub issue"
+    title: "Thank you!"
+    ok: "OK"
+  error:
+    token_req_failed: "Unexpected error when loading the feedback form. Sending feedback is currently probably not possible. Please send a mail instead."
+    429: "Sending feedback is currently not possible due to rate-limiting. Please try again in a while or send a mail."
+    503: "Sending feedback is currently not configured on the server."
+    token_unexpected_status: "Unexpected status code when retrieving a feedback token: "
+    send_no_token: "An unexpected error occured (no token). Please copy the text and re-open the form."
+    too_short_subject: "Error: Subject missing or too short"
+    too_short_body: "Error: Message missing or too short"
+    server_error: "Server Error"
+    privacy_not_checked: "Unavailable for legal reasons: You have to accept the privacy statement for us to process the feedback via GitHub. There are other means of contact listed at in our impressum."
+    send_invalid_token: "Invalid form token (probably expired). Please copy the text and re-open the form."
+    send_unexpected_status: "Unexpected status code: "
+    send_req_failed: "Unexpected error when sending the feedback form. Sending feedback is currently probably not possible. Please send a mail instead."
+
+core_js:
+  error:
+    noscript:
+      js_required:  |
+          JavaScript is required to use this application, as our main functionality (search bar, map) depends on this.<br>
+          We do not think that there is a graceful fallback or any option for progressive enhancement.
+      please_enable_js: "Please enable JavaScript in your browser."
+      continue_with_different_useragent:  |
+          If you want to use this application without JavaScript, you can configure your UserAgent to 'BingBot'.
+          However, this inherently reduces our functionality and usefulness, as this is indented for bots.
+    404: "404 Not found"
+    500: "500 Internal Server Error"
+    503: "503 Service Unavailable – Please try again soon"
+    status: "Unexpected status code: "
+    network: "Network Error, please verify that you are connected to the Internet"
+    unknown: "Unknown Error"
+    view_load_timeout: "Page could not be loaded: Timeout"
+view_404:
+  header: "The requested website could not to be found."
+  description: "This could be because we made a mistake."
+  call_to_action: "If you think this is a mistake, please let us know here"
+  got_here: # "\\\\n" renders to "\n" "I have found the error by:\\\\n1. ..."
+view_api:
+  title: "NavigaTUMs API Documentation"
+view_main:
+  sites: "Sites"
+  overview_map: "Overview Map"
+  more: "more"
+  less: "less"
+view_md: {}
+view_search:
+  search_for: "Search for"
+  runtime: "Runtime"
+  max_results: "please narrow the search further"
+  give_feedback: "Send feedback to search"
+view_view:
+  meta:
+    details_for: "Details for"
+  header:
+    copy_link: "Copy link"
+    external_link:
+      tooltip: "External links"
+      open_in: "Open in"
+      other_app: "Other app ..."
+      share: "Share"
+      share_link: "Share with ..."
+      copied: "Copied"
+    feedback: "Report issue or suggest changes"
+    favorites: "Add to favorites"
+  map:
+    interactive: "Interactive Map"
+    roomfinder: "Site Plans"
+    img_source: "Image source"
+  info_title: "Information"
+  info_table:
+    links: "Links"
+  buildings_overview:
+    title: "Buildings / Areas"
+    more: "more"
+    less: "less"
+  rooms_overview:
+    title: "Rooms"
+    by_usage: "by usage"
+    any: "any"
+    remove_selection: "Remove selection"
+    filter: "Filter"
+    choose_usage: "Choose a usage"
+    result: "result"
+    results_suffix: "s"
+    filtered: "filtered"
+  sources:
+    title: "Sources"
+    header_img: "Image"
+    base:
+      title: "Base data"
+      patched: "(For this entry automatic patches were applied to external data)"
+    coords:
+      title: "Coordinates"
+      navigatum: "NavigaTUM Contributors"
+      roomfinder: "Roomfinder"
+      inferred: "Automatically computed based on the associated rooms or buildings"
+  msg:
+    correct_location:
+      msg: "To set the location, drag the red Marker around."
+      btn-done: "Done"
+      btn-cancel: "Cancel"
+    inaccurate_only_building:
+      msg: "The displayed position only shows the position of the building(part). The exact position within the building is not known to us.<br><i>If you find it out, you can help others and</i>"
+      btn: "Assign a coordinate"
+    no_floor_overlay: "There is unfortunately no indoor map for the displayed room."
+    coordinate-counter:
+      msg-1: "Currently"
+      msg-2: "pending coordinate edit"
+      msg-2-plural: "pending coordinate edits"
+      info: "Changes are stored \\n locally for 12 h"
+      delete: "Delete"
+      delete-confirm: "Really delete?"
+      send: "Send"
+  slideshow:
+    header: "Image Showcase"
+    close: "Close"
+    image_alt: "Image showing the building"
+    author: "Author"
+    source: "Source"
+    license: "License"

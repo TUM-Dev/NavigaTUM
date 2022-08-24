@@ -3,6 +3,7 @@
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "compilerOptions": {
     "baseUrl": ".",
+    "types": ["@intlify/unplugin-vue-i18n/messages"],
     "paths": {
       "@/*": ["./src/*"]
     }

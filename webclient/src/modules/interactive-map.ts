@@ -9,7 +9,7 @@ function floorControlInit() {
   // Add Evented functionality from mapboxgl
   FloorControl.prototype = Object.create(mapboxgl.Evented.prototype);
 
-  FloorControl.prototype.onAdd = function onAdd(map:mapboxgl.Map) {
+  FloorControl.prototype.onAdd = function onAdd(map: mapboxgl.Map) {
     this.map = map;
     this.container = document.createElement("div");
     this.container.classList.add("mapboxgl-ctrl-group");
@@ -56,7 +56,10 @@ function floorControlInit() {
     this.container.parentNode.removeChild(this.container);
     this.map = undefined;
   };
-  FloorControl.prototype.updateFloors = function updateFloors(floors, visibleId) {
+  FloorControl.prototype.updateFloors = function updateFloors(
+    floors,
+    visibleId
+  ) {
     // `floors` is null or a list of floors with data,
     // `visibleId` is the id of the visible floor.
     if (floors === null) {
@@ -168,180 +171,181 @@ function floorControlInit() {
   };
 }
 
-  function createMarker(hueRotation = 0) {
-    const markerDiv = document.createElement("div");
-    const markerIcon = document.createElement("span");
-    markerIcon.style.backgroundImage = `url(@/assets/map-marker_pin.webp)`;
-    markerIcon.style.width = `25px`;
-    markerIcon.style.height = `36px`;
-    markerIcon.style.filter = `hue-rotate(${hueRotation}deg)`;
-    markerIcon.style.top = `-33px`;
-    markerIcon.style.left = `-12px`;
-    markerIcon.classList.add("marker");
-    markerDiv.appendChild(markerIcon);
-    const markerShadow = document.createElement("span");
-    markerShadow.style.backgroundImage = `url(@/assets/map-marker_pin-shadow.webp)`;
-    markerShadow.style.width = `38px`;
-    markerShadow.style.height = `24px`;
-    markerShadow.style.top = `-20px`;
-    markerShadow.style.left = `-12px`;
-    markerShadow.classList.add("marker");
-    markerDiv.appendChild(markerShadow);
-    return markerDiv;
-  }
-  function initMap(containerId:string) {
-    mapboxgl.accessToken = "pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg";
-    const map = new mapboxgl.Map({
-      container: containerId,
+function createMarker(hueRotation = 0) {
+  const markerDiv = document.createElement("div");
+  const markerIcon = document.createElement("span");
+  markerIcon.style.backgroundImage = `url(@/assets/map-marker_pin.webp)`;
+  markerIcon.style.width = `25px`;
+  markerIcon.style.height = `36px`;
+  markerIcon.style.filter = `hue-rotate(${hueRotation}deg)`;
+  markerIcon.style.top = `-33px`;
+  markerIcon.style.left = `-12px`;
+  markerIcon.classList.add("marker");
+  markerDiv.appendChild(markerIcon);
+  const markerShadow = document.createElement("span");
+  markerShadow.style.backgroundImage = `url(@/assets/map-marker_pin-shadow.webp)`;
+  markerShadow.style.width = `38px`;
+  markerShadow.style.height = `24px`;
+  markerShadow.style.top = `-20px`;
+  markerShadow.style.left = `-12px`;
+  markerShadow.classList.add("marker");
+  markerDiv.appendChild(markerShadow);
+  return markerDiv;
+}
+function initMap(containerId: string) {
+  mapboxgl.accessToken =
+    "pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg";
+  const map = new mapboxgl.Map({
+    container: containerId,
 
-      // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
-      // slower, but prettier and therefore worth it for our use case
-      antialias: true,
+    // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
+    // slower, but prettier and therefore worth it for our use case
+    antialias: true,
 
-      // preview of the following style is available at
-      // https://api.mapbox.com/styles/v1/commanderstorm/ckzdc14en003m14l9l8iqwotq.html?title=copy&access_token=pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg&zoomwheel=true&fresh=true#16.78/48.264624/11.670726
-      style:
-        "mapbox://styles/commanderstorm/ckzdc14en003m14l9l8iqwotq?optimize=true",
+    // preview of the following style is available at
+    // https://api.mapbox.com/styles/v1/commanderstorm/ckzdc14en003m14l9l8iqwotq.html?title=copy&access_token=pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg&zoomwheel=true&fresh=true#16.78/48.264624/11.670726
+    style:
+      "mapbox://styles/commanderstorm/ckzdc14en003m14l9l8iqwotq?optimize=true",
 
-      center: [11.5748, 48.14], // Approx Munich
-      zoom: 11, // Zoomed out so that the whole city is visible
+    center: [11.5748, 48.14], // Approx Munich
+    zoom: 11, // Zoomed out so that the whole city is visible
 
-      logoPosition: "bottom-left",
-    });
-    const nav = new mapboxgl.NavigationControl();
-    map.addControl(nav, "top-left");
+    logoPosition: "bottom-left",
+  });
+  const nav = new mapboxgl.NavigationControl();
+  map.addControl(nav, "top-left");
 
-    // (Browser) Fullscreen is enabled only on mobile, on desktop the map
-    // is maximized instead. This is determined once to select the correct
-    // container to maximize, and then remains unchanged even if the browser
-    // is resized (not relevant for users but for developers).
-    const isMobile =
-      window.matchMedia &&
-      window.matchMedia("only screen and (max-width: 480px)").matches;
+  // (Browser) Fullscreen is enabled only on mobile, on desktop the map
+  // is maximized instead. This is determined once to select the correct
+  // container to maximize, and then remains unchanged even if the browser
+  // is resized (not relevant for users but for developers).
+  const isMobile =
+    window.matchMedia &&
+    window.matchMedia("only screen and (max-width: 480px)").matches;
 
-    const fullscreenCtl = new mapboxgl.FullscreenControl({
-      container: isMobile
-        ? document.getElementById("interactive-map")
-        : document.getElementById("interactive-map-container"),
-    });
-    // "Backup" the mapboxgl default fullscreen handler
-    fullscreenCtl._onClickFullscreenDefault = fullscreenCtl._onClickFullscreen;
-    fullscreenCtl._onClickFullscreen = () => {
-      if (isMobile) {
-        fullscreenCtl._onClickFullscreenDefault();
-      } else {
-        if (fullscreenCtl._container.classList.contains("maximize")) {
-          fullscreenCtl._container.classList.remove("maximize");
-          document.body.classList.remove("no-scroll");
-        } else {
-          fullscreenCtl._container.classList.add("maximize");
-          document.body.classList.add("no-scroll");
-          // "instant" is not part of the spec but nonetheless implemented
-          // by Firefox and Chrome
-          window.scrollTo({ top: 0, behavior: "instant" });
-        }
-
-        fullscreenCtl._fullscreen =
-          fullscreenCtl._container.classList.contains("maximize");
-        fullscreenCtl._changeIcon();
-        fullscreenCtl._map.resize();
-      }
-    };
-    map.addControl(fullscreenCtl);
-
-    const location = new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      trackUserLocation: true,
-      showUserHeading: true,
-    });
-    map.addControl(location);
-
-    // Each source / style change causes the map to get
-    // into "loading" state, so map.loaded() is not reliable
-    // enough to know whether just the initial loading has
-    // succeded.
-    map.on("load", () => {
-      map.initialLoaded = true;
-    });
-
-    const _this:any = this;
-    map.floorControl = new FloorControl();
-    map.floorControl.on("floor-changed", (args) => {
-      _this.setOverlayImage(
-        args.file ? `/cdn/maps/overlay/${args.file}` : null,
-        args.coords
-      );
-    });
-    map.addControl(map.floorControl, "bottom-left");
-
-    _map = map;
-
-    return map;
-  }
-  // Set the given overlays as available overlay images.
-  function setFloorOverlays(overlays, defaultOverlay) {
-    _map.floorControl.updateFloors(overlays, defaultOverlay);
-  }
-  // Set the currently visible overlay image in the map,
-  // or hide it if imgUrl is null.
-  function setOverlayImage(imgUrl, coords) {
-    // Even if the map is initialized, it could be that
-    // it hasn't loaded yet, so we need to postpone adding
-    // the overlay layer.
-    // However, the official `loaded()` function is a problem
-    // here, because the map is shortly in a "loading" state
-    // when source / style is changed, even though the initial
-    // loading is complete (and only the initial loading seems
-    // to be required to do changes here)
-    if (!_map.initialLoaded) {
-      const _this = this;
-      _map.on("load", () => _this.setOverlayImage(imgUrl, coords));
-      return;
-    }
-
-    if (imgUrl === null) {
-      // Hide overlay
-      if (_map.getLayer("overlay-layer"))
-        _map.setLayoutProperty("overlay-layer", "visibility", "none");
-      if (_map.getLayer("overlay-bg"))
-        _map.setLayoutProperty("overlay-bg", "visibility", "none");
+  const fullscreenCtl = new mapboxgl.FullscreenControl({
+    container: isMobile
+      ? document.getElementById("interactive-map")
+      : document.getElementById("interactive-map-container"),
+  });
+  // "Backup" the mapboxgl default fullscreen handler
+  fullscreenCtl._onClickFullscreenDefault = fullscreenCtl._onClickFullscreen;
+  fullscreenCtl._onClickFullscreen = () => {
+    if (isMobile) {
+      fullscreenCtl._onClickFullscreenDefault();
     } else {
-      const source = _map.getSource("overlay-src");
-      if (!source)
-        _map.addSource("overlay-src", {
-          type: "image",
-          url: imgUrl,
-          coordinates: coords,
-        });
-      else
-        source.updateImage({
-          url: imgUrl,
-          coordinates: coords,
-        });
-
-      const layer = _map.getLayer("overlay-layer");
-      if (!layer) {
-        _map.addLayer({
-          id: "overlay-bg",
-          type: "background",
-          paint: {
-            "background-color": "#ffffff",
-            "background-opacity": 0.6,
-          },
-        });
-        _map.addLayer({
-          id: "overlay-layer",
-          type: "raster",
-          source: "overlay-src",
-          paint: {
-            "raster-fade-duration": 0,
-          },
-        });
+      if (fullscreenCtl._container.classList.contains("maximize")) {
+        fullscreenCtl._container.classList.remove("maximize");
+        document.body.classList.remove("no-scroll");
       } else {
-        _map.setLayoutProperty("overlay-layer", "visibility", "visible");
-        _map.setLayoutProperty("overlay-bg", "visibility", "visible");
+        fullscreenCtl._container.classList.add("maximize");
+        document.body.classList.add("no-scroll");
+        // "instant" is not part of the spec but nonetheless implemented
+        // by Firefox and Chrome
+        window.scrollTo({ top: 0, behavior: "instant" });
       }
+
+      fullscreenCtl._fullscreen =
+        fullscreenCtl._container.classList.contains("maximize");
+      fullscreenCtl._changeIcon();
+      fullscreenCtl._map.resize();
+    }
+  };
+  map.addControl(fullscreenCtl);
+
+  const location = new mapboxgl.GeolocateControl({
+    positionOptions: {
+      enableHighAccuracy: true,
+    },
+    trackUserLocation: true,
+    showUserHeading: true,
+  });
+  map.addControl(location);
+
+  // Each source / style change causes the map to get
+  // into "loading" state, so map.loaded() is not reliable
+  // enough to know whether just the initial loading has
+  // succeded.
+  map.on("load", () => {
+    map.initialLoaded = true;
+  });
+
+  const _this: any = this;
+  map.floorControl = new FloorControl();
+  map.floorControl.on("floor-changed", (args) => {
+    _this.setOverlayImage(
+      args.file ? `/cdn/maps/overlay/${args.file}` : null,
+      args.coords
+    );
+  });
+  map.addControl(map.floorControl, "bottom-left");
+
+  _map = map;
+
+  return map;
+}
+// Set the given overlays as available overlay images.
+function setFloorOverlays(overlays, defaultOverlay) {
+  _map.floorControl.updateFloors(overlays, defaultOverlay);
+}
+// Set the currently visible overlay image in the map,
+// or hide it if imgUrl is null.
+function setOverlayImage(imgUrl, coords) {
+  // Even if the map is initialized, it could be that
+  // it hasn't loaded yet, so we need to postpone adding
+  // the overlay layer.
+  // However, the official `loaded()` function is a problem
+  // here, because the map is shortly in a "loading" state
+  // when source / style is changed, even though the initial
+  // loading is complete (and only the initial loading seems
+  // to be required to do changes here)
+  if (!_map.initialLoaded) {
+    const _this = this;
+    _map.on("load", () => _this.setOverlayImage(imgUrl, coords));
+    return;
+  }
+
+  if (imgUrl === null) {
+    // Hide overlay
+    if (_map.getLayer("overlay-layer"))
+      _map.setLayoutProperty("overlay-layer", "visibility", "none");
+    if (_map.getLayer("overlay-bg"))
+      _map.setLayoutProperty("overlay-bg", "visibility", "none");
+  } else {
+    const source = _map.getSource("overlay-src");
+    if (!source)
+      _map.addSource("overlay-src", {
+        type: "image",
+        url: imgUrl,
+        coordinates: coords,
+      });
+    else
+      source.updateImage({
+        url: imgUrl,
+        coordinates: coords,
+      });
+
+    const layer = _map.getLayer("overlay-layer");
+    if (!layer) {
+      _map.addLayer({
+        id: "overlay-bg",
+        type: "background",
+        paint: {
+          "background-color": "#ffffff",
+          "background-opacity": 0.6,
+        },
+      });
+      _map.addLayer({
+        id: "overlay-layer",
+        type: "raster",
+        source: "overlay-src",
+        paint: {
+          "raster-fade-duration": 0,
+        },
+      });
+    } else {
+      _map.setLayoutProperty("overlay-layer", "visibility", "visible");
+      _map.setLayoutProperty("overlay-bg", "visibility", "visible");
     }
   }
+}

@@ -2,25 +2,26 @@ import { fileURLToPath, URL } from "node:url";
 
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import { resolve, dirname } from "node:path";
-import vueI18n from "@intlify/vite-plugin-vue-i18n";
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
+import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: path.resolve(__dirname, "./index.html"),
+    },
+  },
   plugins: [
     vue(),
-    vueI18n({
-      /* options */
-      // locale messages resourece pre-compile option
-      include: resolve(
-        dirname(fileURLToPath(import.meta.url)),
-        "./src/locales/**"
-      ),
+    VueI18nPlugin({
+      include: path.resolve(__dirname, "./src/locales/**"),
     }),
   ],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+      vue: path.resolve(__dirname, "node_modules/vue/dist/vue.esm-bundler.js"),
     },
   },
 });
