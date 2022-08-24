@@ -77,7 +77,7 @@ function loadSearchData() {
         </div>
         <ul class="result-list">
           <li v-for="e in s.entries">
-            <router-link v-bind:to="'/view/' + e.id" class="tile tile-centered">
+            <RouterLink v-bind:to="'/view/' + e.id" class="tile tile-centered">
               <div class="tile-icon">
                 <template v-if="e.type === 'room' || e.type === 'virtual_room'">
                   <i v-if="e.parsed_id" class="icon icon-search"></i>
@@ -107,7 +107,7 @@ function loadSearchData() {
                 <i class="icon icon-more-vert"></i>
               </button>
             </div>-->
-            </router-link>
+            </RouterLink>
           </li>
         </ul>
         <p class="search-comment nb_results" v-if="s.estimatedTotalHits === 1">

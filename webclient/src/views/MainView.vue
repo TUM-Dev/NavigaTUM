@@ -18,7 +18,7 @@ if (data !== null) setTitle(data.name);
       <div class="column col-6 col-xs-12" v-for="site in data.sites_overview">
         <div class="panel" v-bind="{ id: 'panel-' + site.id }">
           <div class="panel-header">
-            <router-link v-bind:to="'/view/' + site.id" v-if="site.id">
+            <RouterLink v-bind:to="'/view/' + site.id" v-if="site.id">
               <div class="columns">
                 <div class="column">
                   <div class="panel-title h6">{{ site.name }}</div>
@@ -32,7 +32,7 @@ if (data !== null) setTitle(data.name);
                   </button>
                 </div>
               </div>
-            </router-link>
+            </RouterLink>
             <div class="columns" v-else>
               <div class="column">
                 <div class="panel-title h6">{{ site.name }}</div>
@@ -40,7 +40,7 @@ if (data !== null) setTitle(data.name);
             </div>
           </div>
           <div class="panel-body">
-            <router-link
+            <RouterLink
               v-bind:to="'/view/' + c.id"
               v-for="(c, i) in site.children"
               v-bind:class="{ 'link-more': i >= site.n_visible }"
@@ -69,7 +69,7 @@ if (data !== null) setTitle(data.name);
                   </button>
                 </div>
               </div>
-            </router-link>
+            </RouterLink>
             <button
               class="btn btn-link btn-more"
               aria-label="show more buildings"

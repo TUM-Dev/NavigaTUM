@@ -723,13 +723,13 @@ navigatum.registerView("view", {
       property="itemListElement"
       typeof="ListItem"
     >
-      <router-link
+      <RouterLink
         v-bind="{'to': '/view/' + view_data.parents[i]}"
         property="item"
         typeof="WebPage"
       >
         <span property="name">{{ p }}</span>
-      </router-link>
+      </RouterLink>
       <meta property="position" v-bind:content="i+1" />
     </li>
   </ol>
@@ -1298,7 +1298,7 @@ navigatum.registerView("view", {
         v-for="(b, i) in view_data.sections.buildings_overview.entries"
         v-if="i < view_data.sections.buildings_overview.n_visible || state.buildings_overview.expanded"
       >
-        <router-link v-bind:to="'/view/' + b.id">
+        <RouterLink v-bind:to="'/view/' + b.id">
           <div class="tile tile-centered">
             <div class="tile-icon">
               <figure class="avatar avatar-lg">
@@ -1321,7 +1321,7 @@ navigatum.registerView("view", {
               </button>
             </div>
           </div>
-        </router-link>
+        </RouterLink>
       </div>
     </div>
     <div
@@ -1449,9 +1449,9 @@ navigatum.registerView("view", {
                 class="menu-item"
                 v-for="r in sections.rooms_overview.display_list"
               >
-                <router-link v-bind:to="'/view/' + r.id">
+                <RouterLink v-bind:to="'/view/' + r.id">
                   <i class="icon icon-location"></i> {{ r.name }}
-                </router-link>
+                </RouterLink>
               </li>
             </ul>
           </div>
