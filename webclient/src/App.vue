@@ -1,10 +1,11 @@
 <script lang="ts">
-import { useI18n } from "vue-i18n";
-import { setLang, setTheme } from "@/utils/common";
 import router from "@/router";
 import { onKeyDown, onInput } from "@/modules/autocomplete";
+import AppThemeToggler from "@/components/AppThemeToggler.vue";
+import AppLanguageToggler from "@/components/AppLanguageToggler.vue";
 
 export default {
+  components: { AppLanguageToggler, AppThemeToggler },
   data() {
     return {
       search: {
@@ -70,15 +71,6 @@ export default {
       }
       document.getElementById("search")?.blur();
     },
-    setLang: setLang,
-    setTheme: setTheme,
-  },
-  setup() {
-    const { t, locale } = useI18n({
-      inheritLocale: true,
-      useScope: "local",
-    });
-    return { t, locale };
   },
 };
 </script>
@@ -367,44 +359,7 @@ export default {
                       >
                     </div>
                     <div class="column col-auto">
-                      <select
-                        class="btn-group btn-group-block"
-                        id="setting-lang"
-                        v-model="locale"
-                      >
-                        <option
-                          value="de"
-                          v-if="locale.value === 'de'"
-                          class="btn btn-sm active"
-                          @click="setLang('de')"
-                        >
-                          DE
-                        </option>
-                        <option
-                          value="de"
-                          v-else
-                          class="btn btn-sm active"
-                          @click="setLang('de')"
-                        >
-                          DE
-                        </option>
-                        <option
-                          value="en"
-                          v-if="locale.value === 'en'"
-                          class="btn btn-sm active"
-                          @click="setLang('en')"
-                        >
-                          EN
-                        </option>
-                        <option
-                          value="en"
-                          v-else
-                          class="btn btn-sm active"
-                          @click="setLang('en')"
-                        >
-                          EN
-                        </option>
-                      </select>
+                      <AppLanguageToggler />
                     </div>
                   </div>
                   <div class="columns setting-group">
@@ -414,24 +369,7 @@ export default {
                       >
                     </div>
                     <div class="column col-auto">
-                      <div class="btn-group btn-group-block" id="setting-theme">
-                        <!-- @if theme="light" -->
-                        <button class="btn btn-sm active" disabled>
-                          {{ $t("footer.theme_light") }}
-                        </button>
-                        <button class="btn btn-sm" @click="setTheme('dark')">
-                          {{ $t("footer.theme_dark") }}
-                        </button>
-                        <!-- @endif -->
-                        <!-- @if theme="dark" -->
-                        <button class="btn btn-sm" @click="setTheme('light')">
-                          {{ $t("footer.theme_light") }}
-                        </button>
-                        <button class="btn btn-sm active" disabled>
-                          {{ $t("footer.theme_dark") }}
-                        </button>
-                        <!-- @endif -->
-                      </div>
+                      <AppThemeToggler />
                     </div>
                   </div>
                 </div>
