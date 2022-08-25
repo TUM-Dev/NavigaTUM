@@ -1249,12 +1249,12 @@ export const CoreApiFetchParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    get(id: string, options: any = {}): FetchArgs {
+    details(id: string, options: any = {}): FetchArgs {
       // verify required parameter 'id' is not null or undefined
       if (id === null || id === undefined) {
         throw new RequiredError(
           "id",
-          "Required parameter id was null or undefined when calling get."
+          "Required parameter id was null or undefined when calling details."
         );
       }
       const localVarPath = `/api/get/{id}`.replace(
@@ -1410,11 +1410,11 @@ export const CoreApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    get(
+    details(
       id: string,
       options?: any
     ): (fetch?: FetchAPI, basePath?: string) => Promise<InlineResponse200> {
-      const localVarFetchArgs = CoreApiFetchParamCreator(configuration).get(
+      const localVarFetchArgs = CoreApiFetchParamCreator(configuration).details(
         id,
         options
       );
@@ -1527,8 +1527,8 @@ export const CoreApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    get(id: string, options?: any) {
-      return CoreApiFp(configuration).get(id, options)(fetch, basePath);
+    details(id: string, options?: any) {
+      return CoreApiFp(configuration).details(id, options)(fetch, basePath);
     },
     /**
      * This endpoint is designed to support search-as-you-type results.  Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.  Some fields support highlighting the query terms and it uses \\x19 and \\x17 to mark the beginning/end of a highlighted sequence.   (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).   Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `pre_highlight` query parameters.
@@ -1588,8 +1588,8 @@ export class CoreApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof CoreApi
    */
-  public get(id: string, options?: any) {
-    return CoreApiFp(this.configuration).get(id, options)(
+  public details(id: string, options?: any) {
+    return CoreApiFp(this.configuration).details(id, options)(
       this.fetch,
       this.basePath
     );
