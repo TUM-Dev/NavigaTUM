@@ -29,8 +29,9 @@ def localise(value: Union[str, list[Any], dict[str, Any]], language: str) -> Any
     if isinstance(value, list):
         return [localise(v, language) for v in value]
     if isinstance(value, dict):
-        # since we only localise strings, the default to the empty string is safe
-        if "en" in value or "de" in value:
+        # We consider each dict that has only the keys "de" and/or "en" as translated string
+        if set(value.keys()) | {"de", "en"} == {"de", "en"}:
+            # Since we only localise strings, the default to the empty string is safe
             return value.get(language, "")
 
         return {k: localise(v, language) for k, v in value.items()}
