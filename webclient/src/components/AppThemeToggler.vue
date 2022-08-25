@@ -7,7 +7,7 @@ function setTheme(newTheme: UserTheme) {
   localStorage.setItem("theme", newTheme);
   theme.value = newTheme;
   document.documentElement.className = newTheme;
-  document.cookie = `theme=${theme.value};Max-Age=31536000;SameSite=Lax;Path=/* @echo app_prefix */`;
+  document.cookie = `theme=${theme.value};Max-Age=31536000;SameSite=Lax;Path=${import.meta.env.VITE_APP_URL}`;
 }
 
 function getTheme(): UserTheme {

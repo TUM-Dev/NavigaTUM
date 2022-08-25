@@ -60,7 +60,7 @@ window.feedback = (() => {
     if (token === null || Date.now() - token.creation > 1000 * 3600 * 6) {
       _requestPage(
         "POST",
-        `${import.meta.env.API_URL}feedback/get_token`,
+        `/api/feedback/get_token`,
         null,
         (r) => {
           if (r.status === 201) {
@@ -149,7 +149,7 @@ window.feedback = (() => {
 
     _requestPage(
       "POST",
-      `${import.meta.env.API_URL}feedback/feedback`,
+      `/api/feedback/feedback`,
       JSON.stringify({
         token: token.value,
         category: category,

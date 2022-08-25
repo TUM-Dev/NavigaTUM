@@ -7,6 +7,18 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  envDir: path.resolve(__dirname, "./env"),
+  server:{
+    port: 8000,
+    strictPort: true,
+    open: false,
+    proxy: {
+      '^/api/.*': {
+        target: 'http://127.0.0.1:8080',
+        secure: false,
+      },
+    }
+  },
   build: {
     rollupOptions: {
       input: path.resolve(__dirname, "./index.html"),

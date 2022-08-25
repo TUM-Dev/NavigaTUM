@@ -8,12 +8,8 @@ export function useFetch<T>(
   const data = ref<T | null>(null);
   const error = ref<string | null>(null);
 
-  // we can only add the lang cookie if
-  // - the url is local and thus accepting certificates or
-  // - we are in production, and thus we are the same origin
-  if (import.meta.env.PROD) options.credentials = "same-origin";
-  else if (import.meta.env.API_URL?.startsWith("http://localhost"))
-    options.credentials = "include";
+  // for some of our endpoints, we might want to have access to the lang/theme cookies
+  options.credentials = "same-origin";
 
   fetch(url, options)
     .then((res) => res.json())

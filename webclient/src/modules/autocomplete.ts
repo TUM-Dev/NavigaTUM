@@ -96,7 +96,7 @@ export function onInput(q: string) {
     /* global cachedFetch */
     // no-cache instructs browser, because the cachedFetch will store the reponse.
     fetch(
-      `${import.meta.env.API_URL}search?q=${window.encodeURIComponent(q)}`
+      `/api/search?q=${window.encodeURIComponent(q)}`
     ).then((data) => {
       // Data will be cached anyway in case the user hits backspace,
       // but we need to discard the data here if it arrived out of order.

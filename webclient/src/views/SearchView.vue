@@ -28,7 +28,7 @@ function getSearchAPIUrl(): string {
   params.append("limit_rooms", "30");
   params.append("limit_all", "30");
 
-  return `${import.meta.env.API_URL}search?${params.toString()}`;
+  return `/api/search?${params.toString()}`;
 }
 function genDescription(): string {
   let sectionsDescr = "";
