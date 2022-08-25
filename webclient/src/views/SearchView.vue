@@ -2,16 +2,20 @@
 import { useFetch } from "@/utils/fetch";
 import { ref } from "vue";
 import { setDescription, setTitle } from "@/utils/common";
-import { extractFacets } from "@/modules/autocomplete";
+import { extractFacets, SectionFacet } from "@/modules/autocomplete";
 import type { SearchResponse } from "@/codegen";
 
 const query: string = getSearchAPIUrl();
 
 const { data, error } = useFetch<SearchResponse>(query, {}, (d) => {
-  setTitle(genDescription());
+  setTitle(`${$t("view_search.search_for ")} "${query}"`);
+  setDescription(genDescription());
+  // Currently borrowing this functionality from autocomplete.
+  // In the future it is planned that this search results page
+  // has a different format.
+  sections.value = extractFacets(d);
 });
-let sections = ref(null);
-loadSearchData();
+const sections = ref<SectionFacet[] | null>(null);
 
 function getSearchAPIUrl(): string {
   const searchString: string =
@@ -48,14 +52,6 @@ function genDescription(): string {
     sectionsDescr = "{{ $t('search.sections.no_buildings_rooms_found') }}";
   else sectionsDescr += " {{ $t('search.sections.were_found') }}";
   return sectionsDescr;
-}
-function loadSearchData() {
-  setTitle(`{{ $t("view_search.search_for ") }} "${query}"`);
-  setDescription(genDescription());
-  // Currently borrowing this functionality from autocomplete.
-  // In the future it is planned that this search results page
-  // has a different format.
-  sections = extractFacets(data);
 }
 </script>
 
