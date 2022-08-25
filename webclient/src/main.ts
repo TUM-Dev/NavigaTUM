@@ -10,7 +10,7 @@ import de from "./locales/de.yaml";
 import en from "./locales/en.yaml";
 
 const i18n = createI18n({
-  locale: "de",
+  locale: localStorage.getItem("lang") || "de",
   fallbackLocale: "en",
   messages: { en, de },
   legacy: false,
