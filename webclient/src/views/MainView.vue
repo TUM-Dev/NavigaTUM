@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { setTitle } from "@/utils/common";
 import { useFetch } from "@/utils/fetch";
+import { RootResponse } from "@/codegen";
 
-const { data, error } = useFetch("https://nav.tum.sexy/api/get/root");
-if (data !== null) setTitle(data.name);
+const { data, error } = useFetch<RootResponse>(
+  "https://nav.tum.sexy/api/get/root",
+  {},
+  (d) => setTitle(d.name)
+);
 </script>
 
 <template>

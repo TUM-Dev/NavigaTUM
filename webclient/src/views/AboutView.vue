@@ -22,7 +22,7 @@ if (!Vue.resolveComponent("md-content")) {
 }
 const urlParts = window.location.pathname.split("/");
 const lastSegment = urlParts.pop() || urlParts.pop(); // handle trailing slash
-const { data, error } = useFetch(`/pages/${lastSegment}.html`, {
+const { data, error } = useFetch<string>(`/pages/${lastSegment}.html`, {
   as_text: true,
 });
 nextTick(() => {

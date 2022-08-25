@@ -2,10 +2,14 @@
 import { useFetch } from "@/utils/fetch";
 import { ref } from "vue";
 import { setDescription, setTitle } from "@/utils/common";
+import { extractFacets } from "@/modules/autocomplete";
+import type { SearchResponse } from "@/codegen";
 
 const query: string = getSearchAPIUrl();
 
-const { data, error } = useFetch(query);
+const { data, error } = useFetch<SearchResponse>(query, {}, (d) => {
+  setTitle(genDescription());
+});
 let sections = ref(null);
 loadSearchData();
 
@@ -24,7 +28,7 @@ function getSearchAPIUrl(): string {
 function genDescription(): string {
   let sectionsDescr = "";
   let estimatedTotalHits = 0;
-  data.sections.forEach((section) => {
+  data.value?.sections.forEach((section) => {
     if (section.estimatedTotalHits) {
       let facetStr;
       if (section.facet === "sites_buildings") {
