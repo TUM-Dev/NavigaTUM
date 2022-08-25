@@ -1,6 +1,4 @@
-from utils import TranslatableStr
-
-_ = TranslatableStr
+from utils import TranslatableStr as _
 
 
 def compute_props(data):
