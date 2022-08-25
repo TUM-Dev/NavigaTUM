@@ -96,9 +96,9 @@ jobs:
           - 7700
     steps:
       # Runs positive Schemathesis tests with all checks enabled
-      - run: $SCHEMATHESIS_BASE --endpoint="/api/health" --hypothesis-max-examples 1
-      - run: $SCHEMATHESIS_BASE --endpoint="/api/get" --workers=auto --hypothesis-max-examples 1000
-      - run: $SCHEMATHESIS_BASE --endpoint="/api/search" --workers=auto --hypothesis-max-examples 1000
+      - run: ${{ SCHEMATHESIS_BASE }} --endpoint="/api/health" --hypothesis-max-examples 1
+      - run: ${{ SCHEMATHESIS_BASE }} --endpoint="/api/get" --workers=auto --hypothesis-max-examples 1000'
+      - run: ${{ SCHEMATHESIS_BASE} } --endpoint="/api/search" --workers=auto --hypothesis-max-examples 1000'
   server-deployment:
     if: github.ref == 'refs/heads/main'
     name: "Restart Deployment navigatum-server"
