@@ -20,8 +20,10 @@ class TranslatableStr(dict):
 
     The string can be formatted using the .format() method or left as is.
 
-    since subclassing from dict, this class does not need any aditional infrasturcture
+    Since it is a subclass of dict, this class does not need any additional infrastructure
     to turn a message into a translated string.
+    
+    Translatable strings will be exported as {"de": "<de string>", "en": "<en string>"}.
     """
 
     def __init__(self, message):
