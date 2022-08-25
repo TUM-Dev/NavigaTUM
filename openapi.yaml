@@ -283,6 +283,26 @@ paths:
         Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side. The data can be up to 50kB (using gzip) or 200kB unzipped
         The exact data format is specified in the NavigaTUM-data documentation
       parameters:
+        - name: lang
+          in: query
+          description: The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.
+          required: false
+          schema:
+            type: string
+            default: de
+            enum:
+              - de
+              - en
+        - name: lang
+          in: cookie
+          description: The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.
+          required: false
+          schema:
+            type: string
+            default: de
+            enum:
+              - de
+              - en
         - name: id
           in: path
           description: string you want to search for
