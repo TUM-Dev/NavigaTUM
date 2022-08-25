@@ -60,7 +60,7 @@ async fn main() -> std::io::Result<()> {
         let base_cors = match std::env::var("GIT_COMMIT_SHA") {
             Ok(_) => Cors::default().allow_any_origin(),
             Err(_) => {
-                warn!("Running in local development mode. only allowing http://localhost:8000 as origin");
+                warn!("Running in local development mode. Only allowing http://localhost:8000 as origin");
                 Cors::default()
                     .supports_credentials()
                     .allowed_origin("http://localhost:8000")
