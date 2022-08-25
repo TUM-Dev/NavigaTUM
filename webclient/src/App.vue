@@ -81,7 +81,7 @@ export default {
       <div class="columns">
         <div class="column hide-lg">
           <RouterLink to="/">
-            <img v-bind:alt="$t('meta.logo_alt')" src="/logo.svg" id="logo" />
+            <img v-bind:alt="$t('meta.logo_alt')" src="./assets/logo.svg" id="logo" />
             <!-- 7px for logo1 -->
           </RouterLink>
         </div>
