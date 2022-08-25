@@ -1,3 +1,5 @@
+import type { SearchResponse } from "@/codegen";
+
 function getVisibleElements() {
   const visible: string[] = [];
 
@@ -21,11 +23,28 @@ function _allowHighlighting(text: string) {
   const opt = new Option(text).innerHTML;
   return opt.replaceAll("\x19", "<em>").replaceAll("\x17", "</em>");
 }
-function extractFacets(data) {
-  const sections = [];
+
+export type SectionFacet = RoomFacet | SiteBuildingFacet;
+type RoomFacet = {
+  name: string;
+  entries: EntryFacet[];
+  estimatedTotalHits: number;
+};
+type SiteBuildingFacet = RoomFacet & { expanded: false; n_visible: number };
+type EntryFacet = {
+  id: string;
+  name: string;
+  type: string;
+  subtext: string;
+  subtext_bold: string;
+  parsed_id: string;
+};
+
+export function extractFacets(data: SearchResponse) {
+  const sections: SectionFacet[] = [];
 
   data.sections.forEach((section) => {
-    const entries = [];
+    const entries: EntryFacet[] = [];
 
     section.entries.forEach((entry) => {
       entries.push({
