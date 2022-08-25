@@ -2,7 +2,8 @@
 import { useFetch } from "@/utils/fetch";
 import { ref } from "vue";
 import { setDescription, setTitle } from "@/utils/common";
-import { extractFacets, SectionFacet } from "@/modules/autocomplete";
+import { extractFacets } from "@/modules/autocomplete";
+import type { SectionFacet } from "@/modules/autocomplete";
 import type { SearchResponse } from "@/codegen";
 
 const query: string = getSearchAPIUrl();
