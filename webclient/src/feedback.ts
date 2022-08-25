@@ -1,6 +1,7 @@
 // To work even when the rest of the JS code failed, the code for the
 // feedback form is mostly seperate from the rest of the codebase.
 // It is only loaded when the feedback form is being opened.
+import {setLocalStorageWithExpiry,getLocalStorageWithExpiry} from "@/utils/storage";
 
 window.feedback = (() => {
   let token = null;
@@ -54,8 +55,8 @@ window.feedback = (() => {
 
     // Token are renewed after 6 hours here to be sure, even though they may be valid
     // for longer on the server side.
-    if (token === null && navigatum) {
-      token = navigatum.getLocalStorageWithExpiry("feedback-token", null);
+    if (token === null) {
+      token = getLocalStorageWithExpiry("feedback-token", null);
     }
     if (token === null || Date.now() - token.creation > 1000 * 3600 * 6) {
       _requestPage(
@@ -68,8 +69,7 @@ window.feedback = (() => {
               creation: Date.now(),
               value: JSON.parse(r.response).token,
             };
-            if (navigatum)
-              navigatum.setLocalStorageWithExpiry("feedback-token", token, 6);
+            setLocalStorageWithExpiry("feedback-token", token, 6);
           } else if (r.status === 429) {
             _showError("{{ $t('feedback.error.429') }}", true);
           } else if (r.status === 503) {

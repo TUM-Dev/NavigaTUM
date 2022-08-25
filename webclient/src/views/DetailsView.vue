@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {removeLocalStorage,setLocalStorageWithExpiry,getLocalStorageWithExpiry} from "@/utils/storage";
 /* global mapboxgl */
 function viewNavigateTo(to, from, next, component) {
   navigatum.beforeNavigate(to, from);
@@ -239,10 +240,7 @@ navigatum.registerView("view", {
       if (this.map.interactive.marker2 === null) {
         // Coordinates are either taken from the entry, or if there are already
         // some in the localStorage use them
-        const currentEdits = navigatum.getLocalStorageWithExpiry(
-          "coordinate-feedback",
-          {}
-        );
+        const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
 
         const { coords } = currentEdits[this.view_data.id] || this.view_data;
         const marker2 = new mapboxgl.Marker({
@@ -329,10 +327,7 @@ navigatum.registerView("view", {
     openFeedbackForm: function () {
       // The feedback form is opened. This may be prefilled with previously corrected coordinates.
       // Maybe get the old coordinates from localstorage
-      const currentEdits = navigatum.getLocalStorageWithExpiry(
-        "coordinate-feedback",
-        {}
-      );
+      const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
       const body = this._getFeedbackBody(currentEdits);
       const subject = this._getFeedbackSubject(currentEdits);
 
@@ -345,20 +340,13 @@ navigatum.registerView("view", {
     },
     confirmLocationPicker: function () {
       // add the current edits to the feedback
-      const currentEdits = navigatum.getLocalStorageWithExpiry(
-        "coordinate-feedback",
-        {}
-      );
+      const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
       const location = this.map.interactive.marker2.getLngLat();
       currentEdits[this.view_data.id] = {
         coords: { lat: location.lat, lon: location.lng },
       };
       // save to local storage with ttl of 12h (garbage-collected on next read)
-      navigatum.setLocalStorageWithExpiry(
-        "coordinate-feedback",
-        currentEdits,
-        12
-      );
+      setLocalStorageWithExpiry("coordinate-feedback",currentEdits,12);
 
       this.map.interactive.marker2.remove();
       this.map.interactive.marker2 = null;
@@ -394,7 +382,7 @@ navigatum.registerView("view", {
     },
     deletePendingCoordinates: function () {
       if (this.coord_counter.to_confirm_delete) {
-        navigatum.removeLocalStorage("coordinate-feedback");
+        removeLocalStorage("coordinate-feedback");
         this.coord_counter.to_confirm_delete = false;
         this.coord_picker.body_backup = null;
         this.coord_picker.subject_backup = null;
@@ -625,10 +613,7 @@ navigatum.registerView("view", {
     // Update pending coordinate counter on localStorage changes
     const _this = this;
     const updateCoordinateCounter = function () {
-      const coords = navigatum.getLocalStorageWithExpiry(
-        "coordinate-feedback",
-        {}
-      );
+      const coords = getLocalStorageWithExpiry("coordinate-feedback",{});
       _this.coord_counter.counter = Object.keys(coords).length;
     };
     window.addEventListener("storage", updateCoordinateCounter);
