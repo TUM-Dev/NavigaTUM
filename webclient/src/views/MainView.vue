@@ -8,6 +8,12 @@ const { data, error } = useFetch<RootResponse>(
   {},
   (d) => setTitle(d.name)
 );
+function more(id: string) {
+  document.getElementById(`panel-${id}`)?.classList.add("open");
+}
+function less(id: string) {
+  document.getElementById(`panel-${id}`)?.classList.remove("open");
+}
 </script>
 
 <template>
@@ -77,11 +83,7 @@ const { data, error } = useFetch<RootResponse>(
             <button
               class="btn btn-link btn-more"
               aria-label="show more buildings"
-              v-on:click="
-                document
-                  .getElementById(`panel-${site.id}`)
-                  .classList.add('open')
-              "
+              @click="more(site.id)"
               v-if="site.children.length > site.n_visible"
             >
               <i class="icon icon-arrow-right"></i>
@@ -90,11 +92,7 @@ const { data, error } = useFetch<RootResponse>(
             <button
               class="btn btn-link btn-less"
               aria-label="show less buildings"
-              v-on:click="
-                document
-                  .getElementById(`panel-${site.id}`)
-                  .classList.remove('open')
-              "
+              @click="less(site.id)"
             >
               <i class="icon icon-arrow-up"></i>
               {{ $t("view_main.less") }}
