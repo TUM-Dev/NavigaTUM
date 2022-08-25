@@ -312,15 +312,14 @@ export default {
                     }}</a>
                   </li>
                   <li>
-                    <RouterLink to="api">{{
-                      $t("footer.api.text")
-                    }}</RouterLink>
+                    <RouterLink to="api">
+                      {{ $t("footer.api.text") }}
+                    </RouterLink>
                   </li>
                   <li>
-                    <RouterLink
-                      v-bind:to="'/about/' + $t('footer.about.link')"
-                      >{{ $t("footer.about.text") }}</RouterLink
-                    >
+                    <RouterLink v-bind:to="'/about/' + $t('footer.about.link')">
+                      {{ $t("footer.about.text") }}
+                    </RouterLink>
                   </li>
                 </ul>
                 <ul class="column">
@@ -336,14 +335,16 @@ export default {
                   <li>
                     <RouterLink
                       v-bind:to="'/about/' + $t('footer.privacy.link')"
-                      >{{ $t("footer.privacy.text") }}</RouterLink
                     >
+                      {{ $t("footer.privacy.text") }}
+                    </RouterLink>
                   </li>
                   <li>
                     <RouterLink
                       v-bind:to="'/about/' + $t('footer.imprint.link')"
-                      >{{ $t("footer.imprint.text") }}</RouterLink
                     >
+                      {{ $t("footer.imprint.text") }}
+                    </RouterLink>
                   </li>
                 </ul>
               </div>
@@ -364,9 +365,9 @@ export default {
                   </div>
                   <div class="columns setting-group">
                     <div class="column col">
-                      <label for="setting-theme"
-                        ><small>{{ $t("footer.theme") }}</small></label
-                      >
+                      <label for="setting-theme">
+                        <small>{{ $t("footer.theme") }}</small>
+                      </label>
                     </div>
                     <div class="column col-auto">
                       <AppThemeToggler />
