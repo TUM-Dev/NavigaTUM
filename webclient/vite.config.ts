@@ -11,16 +11,16 @@ import path from "path";
 export default defineConfig({
   envDir: path.resolve(__dirname, "./env"),
   appType: "spa",
-  server:{
+  server: {
     port: 8000,
     strictPort: true,
     open: false,
     proxy: {
-      '^/api/.*': {
-        target: 'http://127.0.0.1:8080',
+      "^/api/.*": {
+        target: "http://127.0.0.1:8080",
         secure: false,
       },
-    }
+    },
   },
   build: {
     rollupOptions: {
