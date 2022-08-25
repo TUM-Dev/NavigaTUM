@@ -274,7 +274,7 @@ paths:
         - core
   '/api/get/{id}':
     get:
-      operationId: get
+      operationId: details
       summary: Get entry-details
       description: |
         This returns the full data available for the entry (room/building).
