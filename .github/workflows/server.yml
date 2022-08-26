@@ -85,7 +85,8 @@ jobs:
             rust-version: 1.62.1
 
       # run project's dependencies
-      -   run: cd server && cargo build && cargo run &
+      -   run: cargo build && cargo run &
+          working-directory: server
 
       # Runs Schemathesis tests with all checks enabled
       -   uses: schemathesis/action@v1
