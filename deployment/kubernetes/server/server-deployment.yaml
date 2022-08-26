@@ -31,6 +31,8 @@ spec:
           envFrom:
             - secretRef:
                 name: navigatum-github-token
+            - secretRef:
+                name: meili-key # MEILI_MASTER_KEY
           ports:
             - containerPort: 8080
               name: navigatum-api
@@ -58,6 +60,12 @@ spec:
         - name: mieli-search
           image: ghcr.io/tum-dev/navigatum-mieli-search:main
           imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: meili-key # MEILI_MASTER_KEY
+          env:
+            - name: MEILI_ENV
+              value: production
           ports:
             - containerPort: 7700
               name: mieli-search

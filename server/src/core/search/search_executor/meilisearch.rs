@@ -1,9 +1,11 @@
-use awc::Client;
+use std::collections::HashMap;
 
-use super::preprocess;
+use awc::Client;
+use log::warn;
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
-use std::collections::HashMap;
+
+use super::preprocess;
 
 // Input into MeiliSearch
 pub(super) struct MSSearchArgs {
@@ -101,8 +103,22 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs) -> Result
     };
     let url = std::env::var("MEILISEARCH_URL")
         .unwrap_or_else(|_| "http://localhost:7700/indexes/entries/search".to_string());
-    let resp_bytes = client
-        .post(url)
+
+    // make sure, that meili and the sever are on the same boat when it comes to authentication
+    let meili_request = match std::env::var("MEILI_MASTER_KEY") {
+        Ok(token) => client.post(url).bearer_auth(token),
+        Err(e) => {
+            // we can continue with a request here, since it is not a huge security risk
+            // if the request goes through our internal network without authentication
+            if std::env::var("GIT_COMMIT_SHA").is_ok() {
+                // we only warn, if we assume this is production
+                warn!("alphanumeric MEILI_MASTER_KEY not found: {:?}", e);
+            }
+            client.post(url)
+        }
+    };
+
+    let resp_bytes = meili_request
         .send_json(&post_data)
         .await
         .unwrap()
