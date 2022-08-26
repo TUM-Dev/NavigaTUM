@@ -35,7 +35,7 @@ This may be one optimisation point in the future.
 
 From the root of the repository, run:
 ```bash
-docker run --rm -it -v $(pwd)/map:/data -p 8080:80 maptiler/tileserver-gl
+docker run --rm -it -v $(pwd)/map:/data -p 7770:80 maptiler/tileserver-gl
 ```
 
 ### 2. Edit the style
@@ -52,7 +52,7 @@ More concretely, maputnik expects this:
 {
 "openmaptiles": {
   "type": "vector",
-  "url": "http://localhost:8080/data/openmaptiles.json"
+  "url": "http://localhost:7770/data/openmaptiles.json"
 },
 ...
 }

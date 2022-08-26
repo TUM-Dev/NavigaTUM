@@ -8,8 +8,9 @@
       "mbtiles": ""
     },
     "domains": [
-      "localhost:8080",
-      "127.0.0.1:8080"
+      "nav.tum.sexy",
+      "localhost:7770",
+      "127.0.0.1:7770"
     ],
     "formatQuality": {
       "jpeg": 80,
