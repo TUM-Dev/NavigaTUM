@@ -87,14 +87,13 @@ jobs:
       # run project's dependencies
       -   run: cargo build && cargo run &
           working-directory: server
-      -   run: pwd
-      -   run: ls -lah
 
       # Runs Schemathesis tests with all checks enabled
       -   uses: schemathesis/action@v1
           with:
             token: ${{ secrets.SCHEMATHESIS_TOKEN }}
-            schema: './openapi.json'
+            api-name: navigatum
+            schema: './openapi.yaml'
             base-url: 'http://localhost:8080'
             args: "--endpoint='/api/[^f].*'" # disable the feedbacks endpoint
   server-deployment:
