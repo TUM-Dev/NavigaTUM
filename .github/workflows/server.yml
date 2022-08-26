@@ -72,30 +72,26 @@ jobs:
       packages: write
   api-tests:
     runs-on: ubuntu-20.04
-    container: schemathesis/schemathesis:stable
-
-    env:
-      SCHEMATHESIS_REPORT: "true"
-      SCHEMATHESIS_TOKEN: ${{ secrets.SCHEMATHESIS_TOKEN }}
-      SCHEMATHESIS_API_NAME: navigatum
-    continue-on-error: true
     services:
-      server:
-        image: ghcr.io/tum-dev/navigatum-server:main
-        # TODO get the tags from ${{ needs.server-build.outputs.tags }}
-        ports:
-          - 8080
       mieli:
         image: ghcr.io/tum-dev/navigatum-mieli-search:main
         # TODO get the tags from ${{ needs.mieli-search-build.outputs.tags }}
         ports:
           - 7700
     steps:
-      - uses: actions/checkout@v3
-      # Runs positive Schemathesis tests with all checks enabled
-      - run: st run ./openapi.yaml --checks=all --base-url="http://localhost:8080" --endpoint="/api/health" --hypothesis-max-examples 1
-      - run: st run ./openapi.yaml --checks=all --base-url="http://localhost:8080" --endpoint="/api/get" --workers=auto --hypothesis-max-examples 1000
-      - run: st run ./openapi.yaml --checks=all --base-url="http://localhost:8080" --endpoint="/api/search" --workers=auto --hypothesis-max-examples 1000
+      -   uses: actions/checkout@v3.0.0
+      -   uses: actions/setup-rust@v1.0.5
+
+      # run project's dependencies
+      -   run: cd server && cargo build && cargo run &
+
+      # Runs Schemathesis tests with all checks enabled
+      -   uses: schemathesis/action@v1
+          with:
+            token: ${{ secrets.SCHEMATHESIS_TOKEN }}
+            schema: './openapi.json'
+            base-url: 'http://localhost:8080'
+            args: "--endpoint='/api/[^f].*'" # disable the feedbacks endpoint
   server-deployment:
     if: github.ref == 'refs/heads/main'
     name: "Restart Deployment navigatum-server"
