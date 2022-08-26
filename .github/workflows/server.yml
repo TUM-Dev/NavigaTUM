@@ -81,6 +81,8 @@ jobs:
     steps:
       -   uses: actions/checkout@v3.0.0
       -   uses: ATiltedTree/setup-rust@v1.0.5
+          with:
+            rust-version: 1.62.1
 
       # run project's dependencies
       -   run: cd server && cargo build && cargo run &
