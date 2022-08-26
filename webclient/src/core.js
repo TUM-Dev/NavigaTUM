@@ -66,7 +66,7 @@ const cachedFetch = (() => ({
 // the following is a poor implementation of a structuredClone(item) polyfill
 // (read: this is not the full implementation browsers follow, but a simplified version)
 // TODO: remove this, once Samsung Internet implements this. See https://caniuse.com/mdn-api_structuredclone
-if (structuredClone === undefined) {
+if (typeof structuredClone === 'undefined') {
   // eslint-disable-next-line no-inner-declarations, no-unused-vars
   function structuredClone(item) {
     // cf. StackOverflow: https://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
