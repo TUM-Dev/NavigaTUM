@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: navigatum-data
+  name: data
   labels:
     app: navigatum
     deployment: cdn
-  namespace: navigatum
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   revisionHistoryLimit: 1
@@ -25,12 +25,12 @@ spec:
         deployment: cdn
     spec:
       containers:
-        - name: navigatum-data
-          image: ghcr.io/tum-dev/navigatum-data:main
+        - name: data
+          image: "ghcr.io/tum-dev/navigatum-data:{{ .Values.branch }}"
           imagePullPolicy: Always
           ports:
             - containerPort: 80
-              name: navigatum-cdn
+              name: cdn
           resources:
             requests:
               cpu: 5m
@@ -41,12 +41,12 @@ spec:
           livenessProbe:
             httpGet:
               path: /cdn/health
-              port: navigatum-cdn
+              port: cdn
             failureThreshold: 3
             periodSeconds: 1
           startupProbe:
             httpGet:
               path: /cdn/health
-              port: navigatum-cdn
+              port: cdn
             failureThreshold: 60
             periodSeconds: 1

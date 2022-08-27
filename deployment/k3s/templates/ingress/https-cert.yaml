@@ -1,15 +1,15 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: nav.tum.sexy
+  name: {{ .Values.url }}
   labels:
     app: navigatum
-  namespace: navigatum
+  namespace: {{ .Values.namespace }}
 spec:
-  commonName: nav.tum.sexy
+  commonName: {{ .Values.url }}
   dnsNames:
-    - nav.tum.sexy
-  secretName: nav.tum.sexy
+    - {{ .Values.url }}
+  secretName: {{ .Values.url }}
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
