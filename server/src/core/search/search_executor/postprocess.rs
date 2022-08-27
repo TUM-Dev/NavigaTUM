@@ -212,7 +212,10 @@ fn parse_room_formats(
                     ),
                 )
             } else {
-                (None, format!("{} {}", arch_id, hit.parent_building_names[0]))
+                (
+                    None,
+                    format!("{} {}", arch_id, hit.parent_building_names[0]),
+                )
             }
         };
         Some(format!(

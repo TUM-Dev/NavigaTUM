@@ -1,33 +1,33 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-    name: navigatum-tileserver-pv
-    namespace: navigatum
-    labels:
-        app: navigatum
-        type: local
+  name: navigatum-tileserver-pv
+  namespace: navigatum
+  labels:
+    app: navigatum
+    type: local
 spec:
-    storageClassName: manual
-    capacity:
-        storage: 28Gi
-    persistentVolumeReclaimPolicy: Delete
-    accessModes:
-        - ReadWriteOnce
-    hostPath:
-        path: '/mnt/data/navigatum/tileserver'
+  storageClassName: manual
+  capacity:
+    storage: 28Gi
+  persistentVolumeReclaimPolicy: Delete
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/navigatum/tileserver"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-    name: navigatum-tileserver-pvc
-    namespace: navigatum
-    labels:
-        app: navigatum
-        type: local
+  name: navigatum-tileserver-pvc
+  namespace: navigatum
+  labels:
+    app: navigatum
+    type: local
 spec:
-    storageClassName: manual
-    accessModes:
-        - ReadWriteOnce
-    resources:
-        requests:
-            storage: 28Gi
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 28Gi
