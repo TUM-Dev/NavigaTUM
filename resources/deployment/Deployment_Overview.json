@@ -1,5 +1,5 @@
 {
-  "id": "1a630db7-db20-4f39-b017-578638b79ce2",
+  "id": "406db869-d62b-4235-8027-49f9cbc582aa",
   "title": "Deployment Overview",
   "model": {
     "version": "2.0.0",
@@ -84,8 +84,8 @@
         "type": "DeploymentComponent",
         "owner": "c0793074-7fc3-43b1-9516-40491662a611",
         "bounds": { "x": 560, "y": 420, "width": 240, "height": 40 },
-        "strokeColor": "#fd9644",
-        "textColor": "#fd9644"
+        "strokeColor": "black",
+        "textColor": "black"
       },
       {
         "id": "b75b552e-dd63-4453-a22f-79294fc74773",
@@ -282,8 +282,8 @@
         "type": "DeploymentInterface",
         "owner": null,
         "bounds": { "x": 320, "y": 430, "width": 20, "height": 20 },
-        "strokeColor": "#fd9644",
-        "textColor": "#fd9644"
+        "strokeColor": "black",
+        "textColor": "black"
       }
     ],
     "relationships": [
@@ -900,7 +900,7 @@
         "type": "DeploymentInterfaceProvided",
         "owner": null,
         "bounds": { "x": 340, "y": 440, "width": 220, "height": 1 },
-        "strokeColor": "#fd9644",
+        "strokeColor": "black",
         "path": [
           { "x": 0, "y": 0 },
           { "x": 220, "y": 0 }
