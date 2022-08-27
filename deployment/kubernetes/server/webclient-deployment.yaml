@@ -31,9 +31,6 @@ spec:
         - name: navigatum-webclient
           image: ghcr.io/tum-dev/navigatum-webclient:main
           imagePullPolicy: Always
-          envFrom:
-            - configMapRef:
-                name: navigatum-config
           ports:
             - containerPort: 80
               name: navigatum-web
