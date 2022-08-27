@@ -29,8 +29,6 @@ spec:
           image: ghcr.io/tum-dev/navigatum-server:main
           imagePullPolicy: Always
           envFrom:
-            - configMapRef:
-                name: navigatum-config
             - secretRef:
                 name: navigatum-github-token
           ports:
@@ -60,9 +58,6 @@ spec:
         - name: mieli-search
           image: ghcr.io/tum-dev/navigatum-mieli-search:main
           imagePullPolicy: Always
-          envFrom:
-            - configMapRef:
-                name: navigatum-config
           ports:
             - containerPort: 7700
               name: mieli-search
