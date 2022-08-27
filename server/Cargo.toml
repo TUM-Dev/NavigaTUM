@@ -1,6 +1,6 @@
 [package]
 name = "navigatum-server"
-version = "0.1.0"
+version = "1.0.0"
 authors = ["Markus A <ge75sig@mytum.de>", "Frank Elsinga <frank@elsinga.de>"]
 edition = "2021"
 description = "Navigating around TUM with excellence – An API and website to search for rooms, buildings and other places"
