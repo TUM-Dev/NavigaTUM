@@ -40,7 +40,7 @@ type EntryFacet = {
   parsed_id: string;
 };
 
-export function extractFacets(data: SearchResponse) {
+export function extractFacets(data: SearchResponse, t) {
   const sections: SectionFacet[] = [];
 
   data.sections.forEach((section) => {
@@ -56,10 +56,9 @@ export function extractFacets(data: SearchResponse) {
         parsed_id: _allowHighlighting(entry.parsed_id), // we explicitly dont let vue sanitise this text
       });
     });
-
     if (section.facet === "sites_buildings") {
       sections.push({
-        name: $t("search.sections.buildings "),
+        name: t("search.sections.buildings"),
         expanded: false,
         entries: entries,
         estimatedTotalHits: section.estimatedTotalHits,
@@ -67,7 +66,7 @@ export function extractFacets(data: SearchResponse) {
       });
     } else if (section.facet === "rooms") {
       sections.push({
-        name: $t("search.sections.rooms "),
+        name: t("search.sections.rooms"),
         entries: entries,
         estimatedTotalHits: section.estimatedTotalHits,
       });

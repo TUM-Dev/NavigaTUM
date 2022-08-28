@@ -5,25 +5,27 @@ import { setDescription, setTitle } from "@/utils/common";
 import { extractFacets } from "@/modules/autocomplete";
 import type { SectionFacet } from "@/modules/autocomplete";
 import type { SearchResponse } from "@/codegen";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n({
+  inheritLocale: true,
+  useScope: "global",
+});
 
-const query: string = getSearchAPIUrl();
+const query: string = new URLSearchParams(document.location.search).get("q") || "";
 
-const { data, error } = useFetch<SearchResponse>(query, {}, (d) => {
-  setTitle(`${$t("view_search.search_for ")} "${query}"`);
+let sections = ref<SectionFacet[] | null>(null);
+const { data, error } = useFetch<SearchResponse>(getSearchAPIUrl(), {}, (d) => {
+  setTitle(`${t("view_search.search_for")} "${query}"`);
   setDescription(genDescription());
   // Currently borrowing this functionality from autocomplete.
   // In the future it is planned that this search results page
   // has a different format.
-  sections.value = extractFacets(d);
+  sections.value = extractFacets(d,t);
 });
-const sections = ref<SectionFacet[] | null>(null);
 
 function getSearchAPIUrl(): string {
-  const searchString: string =
-    new URLSearchParams(document.location.search).get("q") || "";
-
   const params = new URLSearchParams();
-  params.append("q", searchString);
+  params.append("q", query);
   params.append("limit_buildings", "10");
   params.append("limit_rooms", "30");
   params.append("limit_all", "30");
@@ -37,21 +39,21 @@ function genDescription(): string {
     if (section.estimatedTotalHits) {
       let facetStr;
       if (section.facet === "sites_buildings") {
-        facetStr = "{{ $t('search.sections.buildings') }}";
+        facetStr = t('search.sections.buildings');
         if (section.estimatedTotalHits !== section.n_visible) {
-          const visibleStr = "{{ $t('search.sections.of_which_visible') }}";
+          const visibleStr = t('search.sections.of_which_visible');
           facetStr = `(${section.n_visible} ${visibleStr}) ${facetStr}`;
         }
-      } else facetStr = "{{ $t('search.sections.rooms') }}";
+      } else facetStr = t('search.sections.rooms');
       if (estimatedTotalHits > 0)
-        sectionsDescr += "{{ $t('search.sections.and') }}";
+        sectionsDescr += t('search.sections.and');
       sectionsDescr += `${section.estimatedTotalHits} ${facetStr}`;
     }
     estimatedTotalHits += section.estimatedTotalHits;
   });
   if (estimatedTotalHits === 0)
-    sectionsDescr = "{{ $t('search.sections.no_buildings_rooms_found') }}";
-  else sectionsDescr += " {{ $t('search.sections.were_found') }}";
+    sectionsDescr = t('search.sections.no_buildings_rooms_found');
+  else sectionsDescr += t('search.sections.were_found');
   return sectionsDescr;
 }
 </script>
