@@ -90,14 +90,6 @@ feedback:
 
 core_js:
   error:
-    noscript:
-      js_required:  |
-          JavaScript is required to use this application, as our main functionality (search bar, map) depends on this.<br>
-          We do not think that there is a graceful fallback or any option for progressive enhancement.
-      please_enable_js: "Please enable JavaScript in your browser."
-      continue_with_different_useragent:  |
-          If you want to use this application without JavaScript, you can configure your UserAgent to 'BingBot'.
-          However, this inherently reduces our functionality and usefulness, as this is indented for bots.
     404: "404 Not found"
     500: "500 Internal Server Error"
     503: "503 Service Unavailable – Please try again soon"

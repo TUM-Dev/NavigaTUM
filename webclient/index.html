@@ -32,6 +32,23 @@
     <!-- At this point we might lazy-load other rarely used views -->
   </head>
   <body>
+    <noscript>
+      <div id="content-header" class="container grid-lg">
+        <div class="columns">
+          <div class="column col-lg-11 col-mx-auto">
+            <div class="toast toast-error">
+              JavaScript is required to use this application, as our main functionality (search bar, map) depends on this.<br>
+              We do not think that there is a graceful fallback or any option for progressive enhancement.
+              <br />
+              Please enable JavaScript in your browser.
+              <br /><br />
+              If you want to use this application without JavaScript, you can configure your UserAgent to 'BingBot'.
+              However, this inherently reduces our functionality and usefulness, as this is indented for bots.
+            </div>
+          </div>
+        </div>
+      </div>
+    </noscript>
     <!-- BEGIN of Vue.js template code -->
     <div id="app"></div>
     <!-- END of Vue.js template code -->

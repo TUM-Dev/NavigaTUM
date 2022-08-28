@@ -61,21 +61,6 @@ export default {
       </div>
     </div>
   </div>
-
-  <noscript>
-    <div id="content-header" class="container grid-lg">
-      <div class="columns">
-        <div class="column col-lg-11 col-mx-auto">
-          <div class="toast toast-error">
-            {{ $t("core_js.error.noscript.js_required") }}<br />
-            {{ $t("core_js.error.noscript.please_enable_js") }}<br />
-            <br />
-            {{ $t("core_js.error.noscript.continue_with_different_useragent") }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </noscript>
   <!-- Loading indicator -->
   <div id="loading-page" v-cloak>
     <div class="loading loading-lg"></div>
