@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import {getLocalStorageWithExpiry, removeLocalStorage, setLocalStorageWithExpiry} from "@/utils/storage";
-import {copyCurrentLink, setDescription, setTitle} from "@/utils/common";
+import {
+  getLocalStorageWithExpiry,
+  removeLocalStorage,
+  setLocalStorageWithExpiry,
+} from "@/utils/storage";
+import { copyCurrentLink, setDescription, setTitle } from "@/utils/common";
 import ShareButton from "@/components/ShareButton.vue";
-import {selectedMap, useDetailsStore} from "@/stores/details";
+import { selectedMap, useDetailsStore } from "@/stores/details";
 
 /* global mapboxgl */
 function viewNavigateTo(to, from, next, component) {
-
   navigatum.getData(to.params.id).then((data) => {
     function finish() {
       if (component) {
@@ -156,7 +159,7 @@ export default {
 
       // --- Sections ---
       if (this.view_data.sections && this.view_data.sections.rooms_overview) {
-        const {usages} = this.view_data.sections.rooms_overview;
+        const { usages } = this.view_data.sections.rooms_overview;
         const combinedList = [];
         usages.forEach((usage) => {
           combinedList.push(...usage.children);
@@ -167,7 +170,7 @@ export default {
       }
     },
     genDescription: function (data) {
-      const detailsFor = $t('view_view.meta.details_for');
+      const detailsFor = $t("view_view.meta.details_for");
       let description = `${detailsFor} ${data.type_common_name} ${data.name}`;
       if (data.props.computed) {
         description += ":";
@@ -184,22 +187,24 @@ export default {
       if (navigator.userAgent === "Rendertron") {
         return;
       }
-      if (this.state.map.selected === selectedMap.interactive) this.loadInteractiveMap();
-      else if (this.state.map.selected === selectedMap.roomfinder) this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
+      if (this.state.map.selected === selectedMap.interactive)
+        this.loadInteractiveMap();
+      else if (this.state.map.selected === selectedMap.roomfinder)
+        this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
     },
     addLocationPicker: function () {
       // If this is called from the feedback form using the edit coordinate
       // button, we temporarily save the current subject and body, so it is
       // not lost when being reopened
       if (
-          window.feedback &&
-          document.getElementById("feedback-modal").classList.contains("active")
+        window.feedback &&
+        document.getElementById("feedback-modal").classList.contains("active")
       ) {
         this.coord_picker.backup_id = this.view_data.id;
         this.coord_picker.subject_backup =
-            document.getElementById("feedback-subject").value;
+          document.getElementById("feedback-subject").value;
         this.coord_picker.body_backup =
-            document.getElementById("feedback-body").value;
+          document.getElementById("feedback-body").value;
         this.coord_picker.force_reopen = true; // reopen after confirm
 
         window.feedback.closeForm();
@@ -212,39 +217,42 @@ export default {
       if (this.map.interactive.marker2 === null) {
         // Coordinates are either taken from the entry, or if there are already
         // some in the localStorage use them
-        const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
+        const currentEdits = getLocalStorageWithExpiry(
+          "coordinate-feedback",
+          {}
+        );
 
-        const {coords} = currentEdits[this.view_data.id] || this.view_data;
+        const { coords } = currentEdits[this.view_data.id] || this.view_data;
         const marker2 = new mapboxgl.Marker({
           draggable: true,
           color: "#ff0000",
         });
         marker2
-            .setLngLat([coords.lon, coords.lat])
-            .addTo(this.map.interactive.map);
+          .setLngLat([coords.lon, coords.lat])
+          .addTo(this.map.interactive.map);
         this.map.interactive.marker2 = marker2;
       }
     },
     _getFeedbackSubject: function (currentEdits) {
       if (Object.keys(currentEdits).length > 1) {
         return (
-            `[${this.view_data.id} et.al.]: ` +
-            $t('feedback.coordinatepicker.edit_coordinates_subject')
+          `[${this.view_data.id} et.al.]: ` +
+          $t("feedback.coordinatepicker.edit_coordinates_subject")
         );
       }
 
       const subjectPrefix = `[${this.view_data.id}]: `;
       const subjectMsg =
-          Object.keys(currentEdits).length === 0
-              ? ""
-              : $t('feedback.coordinatepicker.edit_coordinate_subject');
+        Object.keys(currentEdits).length === 0
+          ? ""
+          : $t("feedback.coordinatepicker.edit_coordinate_subject");
 
       // The subject backup is only loaded (and supported) when a single
       // entry is being edited
       if (
-          this.coord_picker.subject_backup &&
-          this.coord_picker.backup_id === this.view_data.id &&
-          this.coord_picker.subject_backup !== subjectPrefix
+        this.coord_picker.subject_backup &&
+        this.coord_picker.backup_id === this.view_data.id &&
+        this.coord_picker.subject_backup !== subjectPrefix
       ) {
         const backup = this.coord_picker.subject_backup;
         this.coord_picker.subject_backup = null;
@@ -257,8 +265,8 @@ export default {
       // that is not the coordinate
       let actionMsg = "";
       if (
-          this.coord_picker.body_backup &&
-          this.coord_picker.backup_id === this.view_data.id
+        this.coord_picker.body_backup &&
+        this.coord_picker.backup_id === this.view_data.id
       ) {
         const parts = this.coord_picker.body_backup.split("\n```");
         if (parts.length === 1) {
@@ -277,13 +285,15 @@ export default {
       }
 
       const defaultActionMsg =
-          this.view_data.coords.accuracy === "building" ? $t('feedback.coordinatepicker.add_coordinate') : $t('feedback.coordinatepicker.correct_coordinate');
+        this.view_data.coords.accuracy === "building"
+          ? $t("feedback.coordinatepicker.add_coordinate")
+          : $t("feedback.coordinatepicker.correct_coordinate");
       actionMsg = actionMsg || defaultActionMsg;
 
       if (Object.keys(currentEdits).length > 1) {
         // The body backup is discarded if more than a single entry
         // is being edited (because then it is not supported).
-        actionMsg = $t('feedback.coordinatepicker.edit_multiple_coordinates');
+        actionMsg = $t("feedback.coordinatepicker.edit_multiple_coordinates");
       }
 
       let editStr = "";
@@ -301,8 +311,8 @@ export default {
       const subject = this._getFeedbackSubject(currentEdits);
 
       document
-          .getElementById("feedback-coordinate-picker")
-          .addEventListener("click", this.addLocationPicker);
+        .getElementById("feedback-coordinate-picker")
+        .addEventListener("click", this.addLocationPicker);
 
       /* global openFeedback */
       openFeedback("entry", subject, body);
@@ -312,7 +322,7 @@ export default {
       const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
       const location = this.map.interactive.marker2.getLngLat();
       currentEdits[this.view_data.id] = {
-        coords: {lat: location.lat, lon: location.lng},
+        coords: { lat: location.lat, lon: location.lng },
       };
       // save to local storage with ttl of 12h (garbage-collected on next read)
       setLocalStorageWithExpiry("coordinate-feedback", currentEdits, 12);
@@ -325,8 +335,8 @@ export default {
       // someone is doing batch edits. They can then use the send button in
       // the coordinate counter at the top of the page.
       if (
-          Object.keys(currentEdits).length === 1 ||
-          this.coord_picker.force_reopen
+        Object.keys(currentEdits).length === 1 ||
+        this.coord_picker.force_reopen
       ) {
         this.coord_picker.force_reopen = false;
         this.openFeedbackForm();
@@ -336,8 +346,8 @@ export default {
       // is also only shown if there is one edit.
       if (Object.keys(currentEdits).length === 1) {
         document
-            .getElementById("feedback-coordinate-picker-helptext")
-            .classList.remove("d-none");
+          .getElementById("feedback-coordinate-picker-helptext")
+          .classList.remove("d-none");
       }
     },
     cancelLocationPicker: function () {
@@ -370,15 +380,15 @@ export default {
         getModule("interactive-map").then((c) => {
           _this.map.interactive.component = c;
 
-          let {map} = _this.map.interactive;
-          let {marker} = _this.map.interactive;
+          let { map } = _this.map.interactive;
+          let { marker } = _this.map.interactive;
           // The map might or might not be initialized depending on the type
           // of navigation.
           if (document.getElementById("interactive-map")) {
             if (
-                document
-                    .getElementById("interactive-map")
-                    .classList.contains("mapboxgl-map")
+              document
+                .getElementById("interactive-map")
+                .classList.contains("mapboxgl-map")
             ) {
               marker.remove();
             } else {
@@ -386,19 +396,19 @@ export default {
               _this.map.interactive.map = map;
 
               document
-                  .getElementById("interactive-map")
-                  .classList.remove("loading");
+                .getElementById("interactive-map")
+                .classList.remove("loading");
             }
           }
-          marker = new mapboxgl.Marker({element: c.createMarker()});
+          marker = new mapboxgl.Marker({ element: c.createMarker() });
           _this.map.interactive.marker = marker;
           const coords = _this.view_data.coords;
           marker.setLngLat([coords.lon, coords.lat]).addTo(map);
 
           if (_this.view_data.maps && _this.view_data.maps.overlays) {
             c.setFloorOverlays(
-                _this.view_data.maps.overlays.available,
-                _this.view_data.maps.overlays.default
+              _this.view_data.maps.overlays.available,
+              _this.view_data.maps.overlays.default
             );
           } else {
             c.setFloorOverlays(null);
@@ -413,8 +423,8 @@ export default {
             map.flyTo({
               center: [coords.lon, coords.lat],
               zoom: defaultZooms[_this.view_data.type]
-                  ? defaultZooms[_this.view_data.type]
-                  : 16,
+                ? defaultZooms[_this.view_data.type]
+                : 16,
               speed: 1,
               maxDuration: 2000,
             });
@@ -448,17 +458,17 @@ export default {
       // Using the #map-container since the bounding rect is still all zero
       // if we switched here from interactive map
       const rect = document
-          .getElementById("map-container")
-          .getBoundingClientRect();
+        .getElementById("map-container")
+        .getBoundingClientRect();
       // -1023px, -1023px is top left corner, 16px = 2*8px is element padding
       this.state.map.roomfinder.x =
-          -1023 + (map.x / map.width) * (rect.width - 16);
+        -1023 + (map.x / map.width) * (rect.width - 16);
 
       // We cannot use "height" here as it might be still zero before layouting
       // finished, so we use the aspect ratio here.
       this.state.map.roomfinder.y =
-          -1023 +
-          (map.y / map.height) * (rect.width - 16) * (map.height / map.width);
+        -1023 +
+        (map.y / map.height) * (rect.width - 16) * (map.height / map.width);
 
       this.state.map.roomfinder.width = map.width;
       this.state.map.roomfinder.height = map.height;
@@ -469,8 +479,8 @@ export default {
                     document.getElementById("roomfinder-map-img").scrollIntoView(false);
                 }, 50); */
         window.scrollTo(
-            0,
-            rect.top + this.state.map.roomfinder.y + 1023 - window.innerHeight / 2
+          0,
+          rect.top + this.state.map.roomfinder.y + 1023 - window.innerHeight / 2
         );
       }
     },
@@ -485,9 +495,9 @@ export default {
         local.display_list = [];
       } else {
         const baseList =
-            state.selected === -1
-                ? local.combined_list
-                : data.usages[state.selected].children;
+          state.selected === -1
+            ? local.combined_list
+            : data.usages[state.selected].children;
         if (state.filter === "") {
           local.display_list = baseList;
         } else {
@@ -563,7 +573,7 @@ export default {
           __this.loadMap();
         } else {
           console.warn(
-              `'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in ${timeoutInMs}ms`
+            `'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in ${timeoutInMs}ms`
           );
           window.setTimeout(pollMap, timeoutInMs);
           timeoutInMs *= 1.5;
@@ -574,21 +584,20 @@ export default {
     });
   },
 };
-
 </script>
 
 <template>
   <div id="view-view" v-if="view_data">
     <!-- Header image (on mobile) -->
     <a
-        class="show-sm header-image-mobile c-hand"
-        @click="showImageShowcase(image.shown_image_id)"
-        v-if="image.shown_image"
+      class="show-sm header-image-mobile c-hand"
+      @click="showImageShowcase(image.shown_image_id)"
+      v-if="image.shown_image"
     >
       <img
-          alt="Header-Image, showing the building"
-          v-bind:src="'/cdn/header/' + image.shown_image.name"
-          class="img-responsive"
+        alt="Header-Image, showing the building"
+        v-bind:src="'/cdn/header/' + image.shown_image.name"
+        class="img-responsive"
       />
     </a>
 
@@ -599,31 +608,31 @@ export default {
           {{ $t("view_view.msg.coordinate-counter.msg-1") }}
           <em>{{ coord_counter.counter }} </em>
           <span v-if="coord_counter.counter === 1">
-          {{ $t("view_view.msg.coordinate-counter.msg-2") }}
-        </span>
+            {{ $t("view_view.msg.coordinate-counter.msg-2") }}
+          </span>
           <span v-else>
-          {{ $t("view_view.msg.coordinate-counter.msg-2-plural") }}
-        </span>
+            {{ $t("view_view.msg.coordinate-counter.msg-2-plural") }}
+          </span>
           <button
-              class="btn btn-action btn-sm btn-link tooltip tooltip-left"
-              v-bind:data-tooltip="$t('view_view.msg.coordinate-counter.info')"
+            class="btn btn-action btn-sm btn-link tooltip tooltip-left"
+            v-bind:data-tooltip="$t('view_view.msg.coordinate-counter.info')"
           >
             &#x1f6c8;
           </button>
         </div>
         <div class="column col-auto col-sm-12 btns">
           <button
-              class="btn btn-link btn-sm delete"
-              v-bind:class="{'to-confirm': coord_counter.to_confirm_delete}"
-              @click="deletePendingCoordinates"
+            class="btn btn-link btn-sm delete"
+            v-bind:class="{ 'to-confirm': coord_counter.to_confirm_delete }"
+            @click="deletePendingCoordinates"
           >
             <i class="icon icon-cross"></i>
-            <span class="default"
-            >{{ $t("view_view.msg.coordinate-counter.delete") }}</span
-            >
-            <span class="confirm"
-            >{{ $t("view_view.msg.coordinate-counter.delete-confirm") }}</span
-            >
+            <span class="default">{{
+              $t("view_view.msg.coordinate-counter.delete")
+            }}</span>
+            <span class="confirm">{{
+              $t("view_view.msg.coordinate-counter.delete-confirm")
+            }}</span>
           </button>
           <button class="btn btn-primary btn-sm" @click="openFeedbackForm">
             <i class="icon icon-check"></i>
@@ -636,19 +645,19 @@ export default {
     <!-- Breadcrumbs -->
     <ol class="breadcrumb" vocab="https://schema.org/" typeof="BreadcrumbList">
       <li
-          class="breadcrumb-item"
-          v-for="(p, i) in view_data.parent_names"
-          property="itemListElement"
-          typeof="ListItem"
+        class="breadcrumb-item"
+        v-for="(p, i) in view_data.parent_names"
+        property="itemListElement"
+        typeof="ListItem"
       >
         <RouterLink
-            v-bind="{'to': '/view/' + view_data.parents[i]}"
-            property="item"
-            typeof="WebPage"
+          v-bind="{ to: '/view/' + view_data.parents[i] }"
+          property="item"
+          typeof="WebPage"
         >
           <span property="name">{{ p }}</span>
         </RouterLink>
-        <meta property="position" v-bind:content="i+1"/>
+        <meta property="position" v-bind:content="i + 1" />
       </li>
     </ol>
 
@@ -657,16 +666,17 @@ export default {
       <div class="title">
         <div class="hide-sm">
           <button
-              class="btn btn-link btn-action btn-sm"
-              v-bind:title="$t('view_view.header.copy_link')"
-              @click="copyCurrentLink(copied)"
+            class="btn btn-link btn-action btn-sm"
+            v-bind:title="$t('view_view.header.copy_link')"
+            @click="copyCurrentLink(copied)"
           >
             <i class="icon icon-check" v-if="copied"></i>
             <i class="icon icon-link" v-else></i>
           </button>
         </div>
         <h1>
-          {{ view_data.name }}<!-- <small class="label">Exaktes Ergebnis</small>-->
+          {{ view_data.name
+          }}<!-- <small class="label">Exaktes Ergebnis</small>-->
         </h1>
       </div>
       <div class="columns subtitle">
@@ -675,32 +685,32 @@ export default {
         </div>
         <div class="column col-auto col-ml-auto">
           <button
-              class="btn btn-link btn-action btn-sm"
-              v-bind:title="$t('view_view.header.external_link.tooltip')"
+            class="btn btn-link btn-action btn-sm"
+            v-bind:title="$t('view_view.header.external_link.tooltip')"
           >
             <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 3.704 3.704"
-                fill="none"
-                stroke="#0065bd"
-                stroke-width=".529"
-                stroke-linecap="round"
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 3.704 3.704"
+              fill="none"
+              stroke="#0065bd"
+              stroke-width=".529"
+              stroke-linecap="round"
             >
               <path
-                  d="M2.912 2.179v1.26H.267V.794h1.197"
-                  stroke-linejoin="round"
+                d="M2.912 2.179v1.26H.267V.794h1.197"
+                stroke-linejoin="round"
               />
-              <path d="M1.407 2.297l2.03-2.03"/>
-              <path d="M2.352.268h1.085v1.085" stroke-linejoin="round"/>
+              <path d="M1.407 2.297l2.03-2.03" />
+              <path d="M2.352.268h1.085v1.085" stroke-linejoin="round" />
             </svg>
           </button>
           <ShareButton v-bind:coords="view_data.coords"></ShareButton>
           <button
-              class="btn btn-link btn-action btn-sm"
-              v-bind:title="$t('view_view.header.feedback')"
-              @click="openFeedbackForm"
+            class="btn btn-link btn-action btn-sm"
+            v-bind:title="$t('view_view.header.feedback')"
+            @click="openFeedbackForm"
           >
             <i class="icon icon-flag"></i>
           </button>
@@ -719,8 +729,11 @@ export default {
       <div class="column col-7 col-md-12" id="map-container">
         <div class="show-sm">
           <div
-              class="toast toast-warning"
-              v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'"
+            class="toast toast-warning"
+            v-if="
+              view_data.coords.accuracy &&
+              view_data.coords.accuracy === 'building'
+            "
           >
             {{ $t("view_view.msg.inaccurate_only_building.msg") }}
             <button class="btn btn-sm" @click="addLocationPicker">
@@ -728,22 +741,24 @@ export default {
             </button>
           </div>
           <div
-              class="toast toast-warning"
-              v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null"
+            class="toast toast-warning"
+            v-if="
+              view_data.type == 'room' &&
+              view_data.maps &&
+              view_data.maps.overlays &&
+              view_data.maps.overlays.default === null
+            "
           >
             {{ $t("view_view.msg.no_floor_overlay") }}
           </div>
-          <div
-              class="toast"
-              v-if="view_data.props && view_data.props.comment"
-          >
+          <div class="toast" v-if="view_data.props && view_data.props.comment">
             {{ view_data.props.comment }}
           </div>
         </div>
 
         <div
-            class="toast toast-primary mb-2 location-picker"
-            v-if="map.interactive.marker2"
+          class="toast toast-primary mb-2 location-picker"
+          v-if="map.interactive.marker2"
         >
           <div class="columns">
             <div class="column col col-sm-12">
@@ -762,75 +777,103 @@ export default {
         </div>
 
         <div
-            id="interactive-map-container"
-            v-bind:class="{'d-none': state.map.selected !== 'interactive'}"
+          id="interactive-map-container"
+          v-bind:class="{ 'd-none': state.map.selected !== 'interactive' }"
         >
           <div>
             <div id="interactive-map" class="loading"></div>
           </div>
         </div>
         <div
-            class="roomfinder-map-container"
-            v-bind:class="{'d-none': state.map.selected !== 'roomfinder'}"
-            v-if="view_data.maps.roomfinder && view_data.maps.roomfinder.available"
+          class="roomfinder-map-container"
+          v-bind:class="{ 'd-none': state.map.selected !== 'roomfinder' }"
+          v-if="
+            view_data.maps.roomfinder && view_data.maps.roomfinder.available
+          "
         >
           <img
-              alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
-              src="@/assets/roomfinder_cross-v2.webp"
-              v-bind:style="{'transform': 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)'}"
-              id="roomfinder-map-cross"
+            alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
+            src="@/assets/roomfinder_cross-v2.webp"
+            v-bind:style="{
+              transform:
+                'translate(' +
+                state.map.roomfinder.x +
+                'px, ' +
+                state.map.roomfinder.y +
+                'px)',
+            }"
+            id="roomfinder-map-cross"
           />
           <img
-              alt="Hand-drawn roomfinder map image"
-              v-bind:src="'/cdn/maps/roomfinder/' + view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].file"
-              class="img-responsive"
-              v-bind:width="state.map.roomfinder.width"
-              v-bind:height="state.map.roomfinder.height"
-              id="roomfinder-map-img"
+            alt="Hand-drawn roomfinder map image"
+            v-bind:src="
+              '/cdn/maps/roomfinder/' +
+              view_data.maps.roomfinder.available[
+                state.map.roomfinder.selected_index
+              ].file
+            "
+            class="img-responsive"
+            v-bind:width="state.map.roomfinder.width"
+            v-bind:height="state.map.roomfinder.height"
+            id="roomfinder-map-img"
           />
           <div>
-            {{ $t("view_view.map.img_source") }}: {{
-              view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].source
+            {{ $t("view_view.map.img_source") }}:
+            {{
+              view_data.maps.roomfinder.available[
+                state.map.roomfinder.selected_index
+              ].source
             }}
           </div>
         </div>
         <div
-            class="accordion"
-            id="roomfinder-map-select"
-            v-bind:class="{'d-none': state.map.selected !== 'roomfinder'}"
-            v-if="view_data.maps.roomfinder && view_data.maps.roomfinder.available"
+          class="accordion"
+          id="roomfinder-map-select"
+          v-bind:class="{ 'd-none': state.map.selected !== 'roomfinder' }"
+          v-if="
+            view_data.maps.roomfinder && view_data.maps.roomfinder.available
+          "
         >
           <input
-              id="map-accordion"
-              type="checkbox"
-              name="accordion-checkbox"
-              hidden
+            id="map-accordion"
+            type="checkbox"
+            name="accordion-checkbox"
+            hidden
           />
           <label
-              for="map-accordion"
-              class="btn btn-sm btn-block accordion-header"
+            for="map-accordion"
+            class="btn btn-sm btn-block accordion-header"
           >
             1:{{
-              view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].scale
-            }}, {{
-              view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].name
+              view_data.maps.roomfinder.available[
+                state.map.roomfinder.selected_index
+              ].scale
+            }},
+            {{
+              view_data.maps.roomfinder.available[
+                state.map.roomfinder.selected_index
+              ].name
             }}
             <i class="icon icon-caret"></i>
           </label>
           <div
-              class="accordion-body"
-              v-if="view_data.maps && view_data.maps.roomfinder"
+            class="accordion-body"
+            v-if="view_data.maps && view_data.maps.roomfinder"
           >
             <ul class="menu menu-nav">
               <li
-                  class="menu-item"
-                  v-for="(m, i) in view_data.maps.roomfinder.available"
+                class="menu-item"
+                v-for="(m, i) in view_data.maps.roomfinder.available"
               >
                 <button
-                    class="btn btn-sm"
-                    v-bind:aria-label="`show the map '` + m.name + `' at the scale 1:` + m.scale"
-                    v-bind:class="{selected: m.id==state.map.roomfinder.selected_id}"
-                    v-on:click="loadRoomfinderMap(i, true)"
+                  class="btn btn-sm"
+                  v-bind:aria-label="
+                    `show the map '` + m.name + `' at the scale 1:` + m.scale
+                  "
+                  v-bind:class="{
+                    selected: m.id == state.map.roomfinder.selected_id,
+                  }"
+                  v-on:click="loadRoomfinderMap(i, true)"
                 >
                   1:{{ m.scale }}, {{ m.name }}
                 </button>
@@ -840,17 +883,23 @@ export default {
         </div>
         <div class="btn-group btn-group-block">
           <button
-              class="btn btn-sm"
-              v-on:click="loadInteractiveMap(true)"
-              v-bind:class="{active: state.map.selected === 'interactive'}"
+            class="btn btn-sm"
+            v-on:click="loadInteractiveMap(true)"
+            v-bind:class="{ active: state.map.selected === 'interactive' }"
           >
             {{ $t("view_view.map.interactive") }}
           </button>
           <button
-              class="btn btn-sm"
-              v-on:click="loadRoomfinderMap(state.map.roomfinder.selected_index, true)"
-              v-bind:class="{active: state.map.selected === 'roomfinder'}"
-              v-bind:disabled="!(view_data.maps.roomfinder && view_data.maps.roomfinder.available)"
+            class="btn btn-sm"
+            v-on:click="
+              loadRoomfinderMap(state.map.roomfinder.selected_index, true)
+            "
+            v-bind:class="{ active: state.map.selected === 'roomfinder' }"
+            v-bind:disabled="
+              !(
+                view_data.maps.roomfinder && view_data.maps.roomfinder.available
+              )
+            "
           >
             {{ $t("view_view.map.roomfinder") }}
           </button>
@@ -860,28 +909,32 @@ export default {
 
       <!-- Information section (on mobile) -->
       <div
-          class="column col-5 col-sm-12 show-sm mobile-info-section"
-          v-if="view_data.props && view_data.props.computed"
+        class="column col-5 col-sm-12 show-sm mobile-info-section"
+        v-if="view_data.props && view_data.props.computed"
       >
         <h2>Informationen</h2>
         <table class="info-table">
           <tbody>
-          <tr v-for="prop in view_data.props.computed">
-            <td><strong>{{ prop.name }}</strong></td>
-            <td>{{ prop.text }}</td>
-          </tr>
-          <tr v-if="view_data.props.links">
-            <td><strong>{{ $t("view_view.info_table.links") }}</strong></td>
-            <td>
-              <ul>
-                <li v-for="link in view_data.props.links">
-                  <a v-bind:href="link.url">
-                    {{ link.text }}
-                  </a>
-                </li>
-              </ul>
-            </td>
-          </tr>
+            <tr v-for="prop in view_data.props.computed">
+              <td>
+                <strong>{{ prop.name }}</strong>
+              </td>
+              <td>{{ prop.text }}</td>
+            </tr>
+            <tr v-if="view_data.props.links">
+              <td>
+                <strong>{{ $t("view_view.info_table.links") }}</strong>
+              </td>
+              <td>
+                <ul>
+                  <li v-for="link in view_data.props.links">
+                    <a v-bind:href="link.url">
+                      {{ link.text }}
+                    </a>
+                  </li>
+                </ul>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -892,15 +945,15 @@ export default {
       <div class="column col-5 col-md-12 hide-sm">
         <div class="card">
           <a
-              class="card-image c-hand"
-              @click="showImageShowcase(image.shown_image_id)"
-              v-if="image.shown_image"
+            class="card-image c-hand"
+            @click="showImageShowcase(image.shown_image_id)"
+            v-if="image.shown_image"
           >
             <img
-                alt="Header-Image, showing the building"
-                v-bind:src="'/cdn/header/' + image.shown_image.name"
-                class="img-responsive"
-                width="100%"
+              alt="Header-Image, showing the building"
+              v-bind:src="'/cdn/header/' + image.shown_image.name"
+              class="img-responsive"
+              width="100%"
             />
           </a>
           <div class="card-header">
@@ -908,32 +961,39 @@ export default {
           </div>
           <div class="card-body">
             <table
-                class="info-table"
-                v-if="view_data.props && view_data.props.computed"
+              class="info-table"
+              v-if="view_data.props && view_data.props.computed"
             >
               <tbody>
-              <tr v-for="prop in view_data.props.computed">
-                <td><strong>{{ prop.name }}</strong></td>
-                <td>{{ prop.text }}</td>
-              </tr>
-              <tr v-if="view_data.props.links">
-                <td><strong>{{ $t("view_view.info_table.links") }}</strong></td>
-                <td>
-                  <ul>
-                    <li v-for="link in view_data.props.links">
-                      <a v-bind:href="link.url">
-                        {{ link.text }}
-                      </a>
-                    </li>
-                  </ul>
-                </td>
-              </tr>
+                <tr v-for="prop in view_data.props.computed">
+                  <td>
+                    <strong>{{ prop.name }}</strong>
+                  </td>
+                  <td>{{ prop.text }}</td>
+                </tr>
+                <tr v-if="view_data.props.links">
+                  <td>
+                    <strong>{{ $t("view_view.info_table.links") }}</strong>
+                  </td>
+                  <td>
+                    <ul>
+                      <li v-for="link in view_data.props.links">
+                        <a v-bind:href="link.url">
+                          {{ link.text }}
+                        </a>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
               </tbody>
             </table>
             <span v-else>-</span>
             <div
-                class="toast toast-warning"
-                v-if="view_data.coords.accuracy && view_data.coords.accuracy === 'building'"
+              class="toast toast-warning"
+              v-if="
+                view_data.coords.accuracy &&
+                view_data.coords.accuracy === 'building'
+              "
             >
               {{ $t("view_view.msg.inaccurate_only_building.msg") }}
               <button class="btn btn-sm" @click="addLocationPicker">
@@ -941,14 +1001,19 @@ export default {
               </button>
             </div>
             <div
-                class="toast toast-warning"
-                v-if="view_data.type == 'room' && view_data.maps && view_data.maps.overlays && view_data.maps.overlays.default === null"
+              class="toast toast-warning"
+              v-if="
+                view_data.type == 'room' &&
+                view_data.maps &&
+                view_data.maps.overlays &&
+                view_data.maps.overlays.default === null
+              "
             >
               {{ $t("view_view.msg.no_floor_overlay") }}
             </div>
             <div
-                class="toast"
-                v-if="view_data.props && view_data.props.comment"
+              class="toast"
+              v-if="view_data.props && view_data.props.comment"
             >
               {{ view_data.props.comment }}
             </div>
@@ -959,21 +1024,21 @@ export default {
         </div>
       </div>
       <div
-          class="modal modal-lg active"
-          id="modal-slideshow"
-          v-if="image.slideshow_open"
+        class="modal modal-lg active"
+        id="modal-slideshow"
+        v-if="image.slideshow_open"
       >
         <a
-            class="modal-overlay"
-            aria-label="Close"
-            @click="hideImageShowcase"
+          class="modal-overlay"
+          aria-label="Close"
+          @click="hideImageShowcase"
         ></a>
         <div class="modal-container modal-fullheight">
           <div class="modal-header">
             <button
-                class="btn btn-clear float-right"
-                v-bind:aria-label="$t('view_view.slideshow.close')"
-                @click="hideImageShowcase"
+              class="btn btn-clear float-right"
+              v-bind:aria-label="$t('view_view.slideshow.close')"
+              @click="hideImageShowcase"
             ></button>
             <h5 class="modal-title">{{ $t("view_view.slideshow.header") }}</h5>
           </div>
@@ -982,87 +1047,95 @@ export default {
               <div class="carousel">
                 <template v-for="(_, i) in view_data.imgs">
                   <input
-                      v-if="i==image.shown_image_id"
-                      v-bind:id="'slide-'+(i+1)"
-                      class="carousel-locator"
-                      type="radio"
-                      name="carousel-radio"
-                      hidden=""
-                      checked="checked"
+                    v-if="i == image.shown_image_id"
+                    v-bind:id="'slide-' + (i + 1)"
+                    class="carousel-locator"
+                    type="radio"
+                    name="carousel-radio"
+                    hidden=""
+                    checked="checked"
                   />
                   <input
-                      v-else
-                      v-bind:id="'slide-'+(i+1)"
-                      class="carousel-locator"
-                      type="radio"
-                      name="carousel-radio"
-                      hidden=""
-                      @click="showImageShowcase(i)"
+                    v-else
+                    v-bind:id="'slide-' + (i + 1)"
+                    class="carousel-locator"
+                    type="radio"
+                    name="carousel-radio"
+                    hidden=""
+                    @click="showImageShowcase(i)"
                   />
                 </template>
 
                 <div class="carousel-container">
                   <figure
-                      v-for="(img, i) in view_data.imgs"
-                      class="carousel-item"
+                    v-for="(img, i) in view_data.imgs"
+                    class="carousel-item"
                   >
                     <label
-                        v-if="i!=0"
-                        class="item-prev btn btn-action btn-lg"
-                        v-bind:for="'slide-'+i"
-                        @click="showImageShowcase(i-1)"
+                      v-if="i != 0"
+                      class="item-prev btn btn-action btn-lg"
+                      v-bind:for="'slide-' + i"
+                      @click="showImageShowcase(i - 1)"
                     >
                       <i class="icon icon-arrow-left"></i>
                     </label>
                     <label
-                        v-if="i!=view_data.imgs.length-1"
-                        class="item-next btn btn-action btn-lg"
-                        v-bind:for="'slide-'+(i+2)"
-                        @click="showImageShowcase(i+1)"
+                      v-if="i != view_data.imgs.length - 1"
+                      class="item-next btn btn-action btn-lg"
+                      v-bind:for="'slide-' + (i + 2)"
+                      @click="showImageShowcase(i + 1)"
                     >
                       <i class="icon icon-arrow-right"></i>
                     </label>
                     <div itemscope itemtype="http://schema.org/ImageObject">
                       <img
-                          itemprop="contentUrl"
-                          v-bind:alt="$t('view_view.slideshow.image_alt')"
-                          loading="lazy"
-                          v-bind:src="'/cdn/lg/' + img.name"
-                          v-bind:srcset="'/cdn/sm/' + img.name + ' 1024w,' +
-                                        '/cdn/md/' + img.name + ' 1920w,' +
-                                        '/cdn/lg/' + img.name + ' 3860w'"
-                          sizes="100vw"
-                          class="img-responsive rounded"
+                        itemprop="contentUrl"
+                        v-bind:alt="$t('view_view.slideshow.image_alt')"
+                        loading="lazy"
+                        v-bind:src="'/cdn/lg/' + img.name"
+                        v-bind:srcset="
+                          '/cdn/sm/' +
+                          img.name +
+                          ' 1024w,' +
+                          '/cdn/md/' +
+                          img.name +
+                          ' 1920w,' +
+                          '/cdn/lg/' +
+                          img.name +
+                          ' 3860w'
+                        "
+                        sizes="100vw"
+                        class="img-responsive rounded"
                       />
                       <span
-                          class="d-none"
-                          v-if="img.license.url"
-                          itemprop="license"
+                        class="d-none"
+                        v-if="img.license.url"
+                        itemprop="license"
                       >
-                      {{ img.license.url }}</span
+                        {{ img.license.url }}</span
                       >
                       <span class="d-none" v-else itemprop="license">
-                      img.license.text</span
+                        img.license.text</span
                       >
                       <span
-                          class="d-none"
-                          v-if="img.license.url"
-                          itemprop="author"
+                        class="d-none"
+                        v-if="img.license.url"
+                        itemprop="author"
                       >
-                      {{ img.author.url }}</span
+                        {{ img.author.url }}</span
                       >
                       <span class="d-none" v-else itemprop="author">
-                      img.author.text</span
+                        img.author.text</span
                       >
                     </div>
                   </figure>
                 </div>
                 <div class="carousel-nav">
                   <label
-                      v-for="(_, i) in view_data.imgs"
-                      class="nav-item text-hide c-hand"
-                      v-bind:for="'slide-'+(i+1)"
-                  >{{ i + 1 }}</label
+                    v-for="(_, i) in view_data.imgs"
+                    class="nav-item text-hide c-hand"
+                    v-bind:for="'slide-' + (i + 1)"
+                    >{{ i + 1 }}</label
                   >
                 </div>
               </div>
@@ -1073,31 +1146,31 @@ export default {
               <div class="column col-4 col-sm-6 col-md-6 text-left">
                 <h6>{{ $t("view_view.slideshow.source") }}</h6>
                 <a
-                    v-if="image.shown_image.source.url"
-                    v-bind:href="image.shown_image.source.url"
-                >{{ image.shown_image.source.text }}</a
+                  v-if="image.shown_image.source.url"
+                  v-bind:href="image.shown_image.source.url"
+                  >{{ image.shown_image.source.text }}</a
                 >
                 <template v-else>{{ image.shown_image.source.text }}</template>
               </div>
               <div
-                  class="column col-4 col-sm-6 col-md-6 text-center text-md-right"
+                class="column col-4 col-sm-6 col-md-6 text-center text-md-right"
               >
                 <h6>{{ $t("view_view.slideshow.author") }}</h6>
                 <a
-                    v-if="image.shown_image.author.url"
-                    v-bind:href="image.shown_image.author.url"
-                >{{ image.shown_image.author.text }}</a
+                  v-if="image.shown_image.author.url"
+                  v-bind:href="image.shown_image.author.url"
+                  >{{ image.shown_image.author.text }}</a
                 >
                 <template v-else>{{ image.shown_image.author.text }}</template>
               </div>
               <div
-                  class="column col-4 col-sm-12 col-md-12 text-md-center mt-md-3"
+                class="column col-4 col-sm-12 col-md-12 text-md-center mt-md-3"
               >
                 <h6>{{ $t("view_view.slideshow.license") }}</h6>
                 <a
-                    v-if="image.shown_image.license.url"
-                    v-bind:href="image.shown_image.license.url"
-                >{{ image.shown_image.license.text }}</a
+                  v-if="image.shown_image.license.url"
+                  v-bind:href="image.shown_image.license.url"
+                  >{{ image.shown_image.license.text }}</a
                 >
                 <template v-else>{{ image.shown_image.license.text }}</template>
               </div>
@@ -1170,8 +1243,8 @@ export default {
 
     <!-- Buildings overview -->
     <section
-        v-if="view_data.sections && view_data.sections.buildings_overview"
-        id="building-overview"
+      v-if="view_data.sections && view_data.sections.buildings_overview"
+      id="building-overview"
     >
       <div class="columns">
         <div class="column">
@@ -1183,17 +1256,28 @@ export default {
       </div>
       <div class="columns">
         <div
-            class="column col-4 col-md-12 content"
-            v-for="(b, i) in view_data.sections.buildings_overview.entries"
-            v-if="i < view_data.sections.buildings_overview.n_visible || state.buildings_overview.expanded"
+          class="column col-4 col-md-12 content"
+          v-for="(b, i) in view_data.sections.buildings_overview.entries"
+          v-if="
+            i < view_data.sections.buildings_overview.n_visible ||
+            state.buildings_overview.expanded
+          "
         >
           <RouterLink v-bind:to="'/view/' + b.id">
             <div class="tile tile-centered">
               <div class="tile-icon">
                 <figure class="avatar avatar-lg">
                   <img
-                      v-bind:alt="b.thumb ? 'Thumbnail, showing a preview of the building.' : 'Default-thumbnail, as no thumbnail is available'"
-                      v-bind:src="b.thumb ? '/cdn/thumb/' + b.thumb : '@/assets/thumb-building.webp'"
+                    v-bind:alt="
+                      b.thumb
+                        ? 'Thumbnail, showing a preview of the building.'
+                        : 'Default-thumbnail, as no thumbnail is available'
+                    "
+                    v-bind:src="
+                      b.thumb
+                        ? '/cdn/thumb/' + b.thumb
+                        : '@/assets/thumb-building.webp'
+                    "
                   />
                 </figure>
               </div>
@@ -1203,8 +1287,10 @@ export default {
               </div>
               <div class="tile-action">
                 <button
-                    class="btn btn-link"
-                    v-bind:aria-label="`show the details for the building '`+ b.name +`'`"
+                  class="btn btn-link"
+                  v-bind:aria-label="
+                    `show the details for the building '` + b.name + `'`
+                  "
                 >
                   <i class="icon icon-arrow-right"></i>
                 </button>
@@ -1214,20 +1300,23 @@ export default {
         </div>
       </div>
       <div
-          v-if="view_data.sections.buildings_overview.n_visible < view_data.sections.buildings_overview.entries.length"
+        v-if="
+          view_data.sections.buildings_overview.n_visible <
+          view_data.sections.buildings_overview.entries.length
+        "
       >
         <button
-            class="btn btn-link"
-            v-if="!state.buildings_overview.expanded"
-            v-on:click="state.buildings_overview.expanded = true"
+          class="btn btn-link"
+          v-if="!state.buildings_overview.expanded"
+          v-on:click="state.buildings_overview.expanded = true"
         >
           <i class="icon icon-arrow-right"></i>
           {{ $t("view_view.buildings_overview.more") }}
         </button>
         <button
-            class="btn btn-link"
-            v-if="state.buildings_overview.expanded"
-            v-on:click="state.buildings_overview.expanded = false"
+          class="btn btn-link"
+          v-if="state.buildings_overview.expanded"
+          v-on:click="state.buildings_overview.expanded = false"
         >
           <i class="icon icon-arrow-up"></i>
           {{ $t("view_view.buildings_overview.less") }}
@@ -1237,11 +1326,13 @@ export default {
 
     <!-- Rooms overview -->
     <section
-        id="rooms-overview"
-        v-if="view_data.sections && view_data.sections.rooms_overview"
+      id="rooms-overview"
+      v-if="view_data.sections && view_data.sections.rooms_overview"
     >
       <div class="columns">
-        <div class="column"><h2>{{ $t("view_view.rooms_overview.title") }}</h2></div>
+        <div class="column">
+          <h2>{{ $t("view_view.rooms_overview.title") }}</h2>
+        </div>
         <!--<div class="column col-auto">
           <div class="dropdown"><a class="btn btn-link dropdown-toggle" tabindex="0">{{ $t("view_view.rooms_overview.by_usage") }} <i class="icon icon-caret"></i></a>
             <ul class="menu">
@@ -1254,8 +1345,8 @@ export default {
 
       <div class="columns content">
         <div
-            class="column col-4 col-lg-5 col-md-6 col-sm-12"
-            id="rooms-overview-select"
+          class="column col-4 col-lg-5 col-md-6 col-sm-12"
+          id="rooms-overview-select"
         >
           <div class="panel">
             <div class="panel-header">
@@ -1267,28 +1358,32 @@ export default {
               <ul class="menu">
                 <li class="menu-item">
                   <button
-                      class="btn"
-                      v-bind:class="{active: state.rooms_overview.selected === -1}"
-                      v-on:click="updateRoomsOverview(-1)"
+                    class="btn"
+                    v-bind:class="{
+                      active: state.rooms_overview.selected === -1,
+                    }"
+                    v-on:click="updateRoomsOverview(-1)"
                   >
                     <i class="icon icon-arrow-right"></i>
                     <div class="menu-text">
                       {{ $t("view_view.rooms_overview.any") }}
                     </div>
-                    <label class="label"
-                    >{{ sections.rooms_overview.combined_count }}</label
-                    >
+                    <label class="label">{{
+                      sections.rooms_overview.combined_count
+                    }}</label>
                   </button>
                 </li>
                 <li class="divider" data-content=""></li>
                 <li
-                    class="menu-item"
-                    v-for="(u, i) in view_data.sections.rooms_overview.usages"
+                  class="menu-item"
+                  v-for="(u, i) in view_data.sections.rooms_overview.usages"
                 >
                   <button
-                      class="btn"
-                      v-bind:class="{active: i === state.rooms_overview.selected}"
-                      v-on:click="updateRoomsOverview(i)"
+                    class="btn"
+                    v-bind:class="{
+                      active: i === state.rooms_overview.selected,
+                    }"
+                    v-on:click="updateRoomsOverview(i)"
                   >
                     <i class="icon icon-arrow-right"></i>
                     <div class="menu-text">{{ u.name }}</div>
@@ -1299,8 +1394,8 @@ export default {
             </div>
             <div class="panel-footer">
               <button
-                  class="btn btn-link btn-sm"
-                  v-on:click="updateRoomsOverview(null)"
+                class="btn btn-link btn-sm"
+                v-on:click="updateRoomsOverview(null)"
               >
                 {{ $t("view_view.rooms_overview.remove_selection") }}
               </button>
@@ -1308,22 +1403,22 @@ export default {
           </div>
         </div>
         <div
-            class="column col-8 col-lg-7 col-md-6 col-sm-12 hide-l"
-            id="rooms-overview-list"
+          class="column col-8 col-lg-7 col-md-6 col-sm-12 hide-l"
+          id="rooms-overview-list"
         >
           <div class="show-sm" style="height: 15px"></div>
           <div class="panel">
             <div class="panel-header">
               <div class="input-group">
                 <input
-                    v-model="state.rooms_overview.filter"
-                    v-bind:placeholder="$t('view_view.rooms_overview.filter')"
-                    class="form-input"
+                  v-model="state.rooms_overview.filter"
+                  v-bind:placeholder="$t('view_view.rooms_overview.filter')"
+                  class="form-input"
                 />
                 <button
-                    class="btn btn-primary input-group-btn"
-                    @click="state.rooms_overview.filter = ''"
-                    aria-label="Clear the filter"
+                  class="btn btn-primary input-group-btn"
+                  @click="state.rooms_overview.filter = ''"
+                  aria-label="Clear the filter"
                 >
                   <i class="icon icon-cross"></i>
                 </button>
@@ -1331,12 +1426,12 @@ export default {
             </div>
             <div class="panel-body">
               <div
-                  v-bind:class="{loading: sections.rooms_overview.loading}"
+                v-bind:class="{ loading: sections.rooms_overview.loading }"
               ></div>
               <ul class="menu" v-if="state.rooms_overview.selected !== null">
                 <li
-                    class="menu-item"
-                    v-for="r in sections.rooms_overview.display_list"
+                  class="menu-item"
+                  v-for="r in sections.rooms_overview.display_list"
                 >
                   <RouterLink v-bind:to="'/view/' + r.id">
                     <i class="icon icon-location"></i> {{ r.name }}
@@ -1347,11 +1442,16 @@ export default {
             <div class="panel-footer">
               <small>
                 {{
-                  state.rooms_overview.selected === null ? $t('view_view.rooms_overview.choose_usage') :
-                      sections.rooms_overview.display_list.length +
+                  state.rooms_overview.selected === null
+                    ? $t("view_view.rooms_overview.choose_usage")
+                    : sections.rooms_overview.display_list.length +
                       $t("view_view.rooms_overview.result") +
-                      (sections.rooms_overview.display_list.length === 1 ? "" : $t('view_view.rooms_overview.results_suffix')) +
-                      (state.rooms_overview.filter === "" ? "" : "(" + $t("view_view.rooms_overview.filtered") + ")")
+                      (sections.rooms_overview.display_list.length === 1
+                        ? ""
+                        : $t("view_view.rooms_overview.results_suffix")) +
+                      (state.rooms_overview.filter === ""
+                        ? ""
+                        : "(" + $t("view_view.rooms_overview.filtered") + ")")
                 }}
               </small>
             </div>
@@ -1362,58 +1462,60 @@ export default {
 
     <section id="entry-sources">
       <div class="columns">
-        <div class="column"><h2>{{ $t("view_view.sources.title") }}</h2></div>
+        <div class="column">
+          <h2>{{ $t("view_view.sources.title") }}</h2>
+        </div>
       </div>
       <p v-if="">
         {{ $t("view_view.sources.base.title") }}:
         <span v-for="(e, i) in view_data.sources.base">
-        <a v-if="e.url" v-bind:href="e.url">{{ e.name }}</a>
-        <template v-else>{{ e.name }}</template>
-        <template v-if="i<view_data.sources.base.length-1"
-        >&#32;•&#32;</template
-        >
-      </span>
+          <a v-if="e.url" v-bind:href="e.url">{{ e.name }}</a>
+          <template v-else>{{ e.name }}</template>
+          <template v-if="i < view_data.sources.base.length - 1"
+            >&#32;•&#32;</template
+          >
+        </span>
         <span v-if="view_data.sources.patched">
-        <br/>{{ $t("view_view.sources.base.patched") }}
-      </span>
+          <br />{{ $t("view_view.sources.base.patched") }}
+        </span>
       </p>
       <p v-if="image.shown_image">
         {{ $t("view_view.sources.header_img") }}:
         <span>{{ image.shown_image.author.text }}</span>
         <span v-if="image.shown_image.source"
-        >•
-        <a
+          >•
+          <a
             v-if="image.shown_image.source.url"
             v-bind:href="image.shown_image.source.url"
             target="_blank"
-        >
-          {{ image.shown_image.source.text }}
-        </a>
-        <template v-else>{{ image.shown_image.source.text }}</template>
-      </span>
+          >
+            {{ image.shown_image.source.text }}
+          </a>
+          <template v-else>{{ image.shown_image.source.text }}</template>
+        </span>
         <span v-if="image.shown_image.license"
-        >&#32;•
-        <a
+          >&#32;•
+          <a
             v-if="image.shown_image.license.url"
             v-bind:href="image.shown_image.license.url"
             target="_blank"
-        >
-          {{ image.shown_image.license.text }}
-        </a>
-        <template v-else>{{ image.shown_image.license.text }}</template>
-      </span>
+          >
+            {{ image.shown_image.license.text }}
+          </a>
+          <template v-else>{{ image.shown_image.license.text }}</template>
+        </span>
       </p>
       <p v-if="view_data.coords">
         {{ $t("view_view.sources.coords.title") }}:
-        <span v-if="view_data.coords.source=='navigatum'"
-        >{{ $t("view_view.sources.coords.navigatum") }}</span
-        >
-        <span v-if="view_data.coords.source=='roomfinder'"
-        >{{ $t("view_view.sources.coords.roomfinder") }}</span
-        >
-        <span v-if="view_data.coords.source=='inferred'"
-        >{{ $t("view_view.sources.coords.inferred") }}</span
-        >
+        <span v-if="view_data.coords.source == 'navigatum'">{{
+          $t("view_view.sources.coords.navigatum")
+        }}</span>
+        <span v-if="view_data.coords.source == 'roomfinder'">{{
+          $t("view_view.sources.coords.roomfinder")
+        }}</span>
+        <span v-if="view_data.coords.source == 'inferred'">{{
+          $t("view_view.sources.coords.inferred")
+        }}</span>
       </p>
     </section>
   </div>
@@ -1459,7 +1561,7 @@ export default {
         position: absolute;
         left: -32px;
         opacity: 0;
-        transition: opacity .2s;
+        transition: opacity 0.2s;
       }
 
       &:hover > div {
@@ -1494,7 +1596,7 @@ export default {
         visibility: hidden;
         opacity: 0;
         transform: translateY(-5px);
-        transition: opacity .05s, transform .05s;
+        transition: opacity 0.05s, transform 0.05s;
 
         a,
         button {
@@ -1568,7 +1670,7 @@ export default {
         }
 
         .delete.to-confirm {
-          animation: delay-btn .3s steps(1);
+          animation: delay-btn 0.3s steps(1);
           animation-fill-mode: both;
         }
 
@@ -1591,13 +1693,13 @@ export default {
 
     // The marker2 (draggable)
     .mapboxgl-marker + .mapboxgl-marker {
-      animation: fade-in .1s linear .05s;
+      animation: fade-in 0.1s linear 0.05s;
       animation-fill-mode: both;
     }
   }
 
   .toast.location-picker {
-    animation: fade-in .1s linear .05s;
+    animation: fade-in 0.1s linear 0.05s;
     animation-fill-mode: both;
 
     & .btns {
@@ -1664,8 +1766,8 @@ export default {
 
       & .arrow {
         font-weight: normal;
-        font-size: .3rem;
-        line-height: .9rem;
+        font-size: 0.3rem;
+        line-height: 0.9rem;
         vertical-align: top;
       }
     }
@@ -1718,7 +1820,7 @@ export default {
         border-left: 1px solid #ddd;
 
         &.arrow {
-          font-size: .4rem;
+          font-size: 0.4rem;
           vertical-align: bottom;
           line-height: 1.1rem;
         }
@@ -1731,7 +1833,7 @@ export default {
 
     // mapbox logo
     & + .mapboxgl-ctrl {
-      opacity: .4;
+      opacity: 0.4;
       pointer-events: none;
       z-index: -1;
     }
@@ -1743,7 +1845,8 @@ export default {
     position: relative;
     margin-bottom: 6px;
 
-    > div { // Image source label
+    > div {
+      // Image source label
       position: absolute;
       bottom: 1px;
       right: 1px;
@@ -1756,7 +1859,7 @@ export default {
 
   #roomfinder-map-cross {
     position: absolute;
-    transition: transform .3s;
+    transition: transform 0.3s;
     pointer-events: none;
   }
 
@@ -1766,7 +1869,7 @@ export default {
   }
 
   #roomfinder-map-select > label {
-    padding: .05rem .3rem;
+    padding: 0.05rem 0.3rem;
   }
 
   .accordion-body {
@@ -1795,9 +1898,10 @@ export default {
     margin-top: 12px;
   }
 
-  #map-container .toast { // Mobile
+  #map-container .toast {
+    // Mobile
     margin-bottom: 9px;
-    font-size: .7rem;
+    font-size: 0.7rem;
   }
 
   /* --- Info table --- */
@@ -1828,7 +1932,7 @@ export default {
     }
 
     li {
-      margin: 0 0 .4rem;
+      margin: 0 0 0.4rem;
 
       &:last-child {
         margin: 0;
@@ -1852,9 +1956,9 @@ export default {
     }
 
     .tile {
-      border: .05rem solid $card-border;
+      border: 0.05rem solid $card-border;
       padding: 8px;
-      border-radius: .1rem;
+      border-radius: 0.1rem;
     }
 
     button {

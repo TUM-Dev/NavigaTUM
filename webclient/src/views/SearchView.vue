@@ -11,16 +11,17 @@ const { t } = useI18n({
   useScope: "global",
 });
 
-const query: string = new URLSearchParams(document.location.search).get("q") || "";
+const query: string =
+  new URLSearchParams(document.location.search).get("q") || "";
 
-let sections = ref<SectionFacet[] | null>(null);
+const sections = ref<SectionFacet[] | null>(null);
 const { data, error } = useFetch<SearchResponse>(getSearchAPIUrl(), {}, (d) => {
   setTitle(`${t("view_search.search_for")} "${query}"`);
   setDescription(genDescription());
   // Currently borrowing this functionality from autocomplete.
   // In the future it is planned that this search results page
   // has a different format.
-  sections.value = extractFacets(d,t);
+  sections.value = extractFacets(d, t);
 });
 
 function getSearchAPIUrl(): string {
@@ -39,21 +40,20 @@ function genDescription(): string {
     if (section.estimatedTotalHits) {
       let facetStr;
       if (section.facet === "sites_buildings") {
-        facetStr = t('search.sections.buildings');
+        facetStr = t("search.sections.buildings");
         if (section.estimatedTotalHits !== section.n_visible) {
-          const visibleStr = t('search.sections.of_which_visible');
+          const visibleStr = t("search.sections.of_which_visible");
           facetStr = `(${section.n_visible} ${visibleStr}) ${facetStr}`;
         }
-      } else facetStr = t('search.sections.rooms');
-      if (estimatedTotalHits > 0)
-        sectionsDescr += t('search.sections.and');
+      } else facetStr = t("search.sections.rooms");
+      if (estimatedTotalHits > 0) sectionsDescr += t("search.sections.and");
       sectionsDescr += `${section.estimatedTotalHits} ${facetStr}`;
     }
     estimatedTotalHits += section.estimatedTotalHits;
   });
   if (estimatedTotalHits === 0)
-    sectionsDescr = t('search.sections.no_buildings_rooms_found');
-  else sectionsDescr += t('search.sections.were_found');
+    sectionsDescr = t("search.sections.no_buildings_rooms_found");
+  else sectionsDescr += t("search.sections.were_found");
   return sectionsDescr;
 }
 </script>

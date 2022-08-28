@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       browser_supports_share: "share" in navigator,
-      copied:false,
+      copied: false,
     };
   },
   methods: {

@@ -34,11 +34,11 @@ export function copyCurrentLink(copied) {
 
   try {
     if (document.execCommand("copy")) {
-        copied = true;
-        window.setTimeout(() => {
-          copied = false;
-        }, 1000);
-      }
+      copied = true;
+      window.setTimeout(() => {
+        copied = false;
+      }, 1000);
+    }
   } catch (err) {
     console.error("Failed to copy to clipboard", err);
   }
