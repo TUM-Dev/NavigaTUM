@@ -871,7 +871,7 @@ export default {
             <td>{{ prop.text }}</td>
           </tr>
           <tr v-if="view_data.props.links">
-            <td><strong>{{ $t("view_view.info_table.links ") }}</strong></td>
+            <td><strong>{{ $t("view_view.info_table.links") }}</strong></td>
             <td>
               <ul>
                 <li v-for="link in view_data.props.links">
@@ -917,7 +917,7 @@ export default {
                 <td>{{ prop.text }}</td>
               </tr>
               <tr v-if="view_data.props.links">
-                <td><strong>{{ $t("view_view.info_table.links ") }}</strong></td>
+                <td><strong>{{ $t("view_view.info_table.links") }}</strong></td>
                 <td>
                   <ul>
                     <li v-for="link in view_data.props.links">

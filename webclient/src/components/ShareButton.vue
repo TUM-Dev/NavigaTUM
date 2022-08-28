@@ -28,7 +28,7 @@ export default {
 
 <template>
   <div class="link-popover">
-    <strong>{{ $t("view_view.header.external_link.open_in ") }}</strong>
+    <strong>{{ $t("view_view.header.external_link.open_in") }}</strong>
     <a
       class="btn"
       target="_blank"
@@ -59,9 +59,9 @@ export default {
     <a class="btn" :href="'geo:' + coords.lat + ',' + coords.lon">{{
       $t("view_view.header.external_link.other_app ")
     }}</a>
-    <strong>{{ $t("view_view.header.external_link.share ") }}</strong>
+    <strong>{{ $t("view_view.header.external_link.share") }}</strong>
     <button class="btn" @click="shareLink" v-if="browser_supports_share">
-      {{ $t("view_view.header.external_link.shareLink ") }}
+      {{ $t("view_view.header.external_link.shareLink") }}
     </button>
     <button
       class="btn"

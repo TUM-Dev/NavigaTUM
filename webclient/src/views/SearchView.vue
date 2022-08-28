@@ -59,7 +59,7 @@ function genDescription(): string {
 <template>
   <div id="view-search" v-if="data">
     <small class="search_meta">
-      {{ $t("view_search.runtime ") }}: {{ data.time_ms }}ms –
+      {{ $t("view_search.runtime") }}: {{ data.time_ms }}ms –
       <button
         onclick="openFeedback('search')"
         class="btn btn-link"
