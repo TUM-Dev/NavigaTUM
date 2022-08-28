@@ -2,6 +2,7 @@
 import {removeLocalStorage,setLocalStorageWithExpiry,getLocalStorageWithExpiry} from "@/utils/storage";
 import {copyCurrentLink, setDescription, setTitle} from "@/utils/common";
 import ShareButton from "@/components/ShareButton.vue";
+import {selectedMap, useDetailsStore} from "@/stores/details";
 /* global mapboxgl */
 function viewNavigateTo(to, from, next, component) {
   navigatum.beforeNavigate(to, from);
@@ -47,30 +48,6 @@ function viewNavigateTo(to, from, next, component) {
   });
 }
 
-const _viewDefaultState = {
-  map: {
-    // Can also be "roomfinder". "interactive" is default, because
-    // it should show a loading indication.
-    selected: "interactive",
-    roomfinder: {
-      selected_id: null, // Map id
-      selected_index: null, // Index in the 'available' list
-      x: -1023 - 10, // Outside in top left corner
-      y: -1023 - 10,
-      width: 400,
-      height: 300,
-    },
-  },
-  buildings_overview: {
-    expanded: false,
-  },
-  rooms_overview: {
-    expanded: false,
-    selected: null,
-    filter: "",
-  },
-};
-
 export default {
   components:[ShareButton],
   data: function () {
@@ -103,7 +80,7 @@ export default {
       },
       // State is preserved when navigating in history.
       // May only contain serializable objects!
-      state: structuredClone(_viewDefaultState),
+      state: useDetailsStore(),
       copied: false,
       // Coordinate picker states
       coord_counter: {
@@ -152,21 +129,19 @@ export default {
       if (data === null) return;
 
       // --- Maps ---
-      if (!navigatum.tryReuseViewState()) {
-        // We need to reset state to default here, else it is preserved from the previous page
-        navigatum.applyState(structuredClone(_viewDefaultState), this.state);
+      // We need to reset state to default here, else it is preserved from the previous page
+      this.state.reset();
 
-        this.state.map.selected = data.maps.default;
-        // Interactive has to be always available, but roomfinder may be unavailable
-        if ("roomfinder" in data.maps) {
-          // Find default map
-          data.maps.roomfinder.available.forEach((availableMap, index) => {
-            if (availableMap.id === data.maps.roomfinder.default) {
-              this.state.map.roomfinder.selected_index = index;
-              this.state.map.roomfinder.selected_id = availableMap.id;
-            }
-          });
-        }
+      this.state.map.selected = data.maps.default;
+      // Interactive has to be always available, but roomfinder may be unavailable
+      if ("roomfinder" in data.maps) {
+        // Find default map
+        data.maps.roomfinder.available.forEach((availableMap, index) => {
+          if (availableMap.id === data.maps.roomfinder.default) {
+            this.state.map.roomfinder.selected_index = index;
+            this.state.map.roomfinder.selected_id = availableMap.id;
+          }
+        });
       }
 
       // Maps can only be loaded after first mount because then the elements are
@@ -207,13 +182,12 @@ export default {
       if (navigator.userAgent === "Rendertron") {
         return;
       }
-      if (this.state.map.selected === "interactive") this.loadInteractiveMap();
-      else if (this.state.map.selected === "roomfinder")
-        this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
+      if (this.state.map.selected === selectedMap.interactive) this.loadInteractiveMap();
+      else if (this.state.map.selected === selectedMap.roomfinder) this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
     },
     addLocationPicker: function () {
       // If this is called from the feedback form using the edit coordinate
-      // button, we temporarily save the current subject and body so it is
+      // button, we temporarily save the current subject and body, so it is
       // not lost when being reopened
       if (
         window.feedback &&
@@ -229,7 +203,7 @@ export default {
         window.feedback.closeForm();
       }
 
-      this.state.map.selected = "interactive";
+      this.state.map.selected = selectedMap.interactive;
 
       // Verify that there isn't already a marker (could happen if you click 'assign
       // a location' multiple times from the 'missing accurate location' toast)
@@ -391,7 +365,7 @@ export default {
       const _this = this;
       const fromMap = this.state.map.selected;
 
-      this.state.map.selected = "interactive";
+      this.state.map.selected = selectedMap.interactive;
 
       const doMapUpdate = function () {
         getModule("interactive-map").then((c) => {
@@ -468,7 +442,7 @@ export default {
     },
     loadRoomfinderMap: function (mapIndex, fromUi) {
       const map = this.view_data.maps.roomfinder.available[mapIndex];
-      this.state.map.selected = "roomfinder";
+      this.state.map.selected = selectedMap.roomfinder;
       this.state.map.roomfinder.selected_id = map.id;
       this.state.map.roomfinder.selected_index = mapIndex;
 
@@ -501,7 +475,7 @@ export default {
         );
       }
     },
-    updateRoomsOverview: function (setSelected) {
+    updateRoomsOverview: function (setSelected=undefined) {
       const state = this.state.rooms_overview;
       const data = this.view_data.sections.rooms_overview;
       const local = this.sections.rooms_overview;
