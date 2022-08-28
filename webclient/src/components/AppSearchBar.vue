@@ -1,7 +1,10 @@
 <script lang="ts">
-import { onInput, onKeyDown } from "@/modules/autocomplete";
+import { extractFacets } from "@/modules/autocomplete";
 import router from "@/router";
 import { useSearchBarStore } from "@/stores/search_focus";
+import { useI18n } from "vue-i18n";
+import type {SearchResponse} from "@/codegen";
+import {useFetch} from "@/utils/fetch";
 
 export default {
   data() {
@@ -13,6 +16,12 @@ export default {
         sections: [],
         highlighted: null,
       },
+      // As a simple measure against out-of-order responses
+      // to the autocompletion, we count queries and make sure
+      // that late results will not overwrite the currently
+      // visible results.
+      queryCounter: 0,
+      latestUsedQueryId: null,
     };
   },
   methods: {
@@ -31,12 +40,6 @@ export default {
       } else {
         this.store.unfocus();
       }
-    },
-    searchInput(e) {
-      onInput(e.srcElement.value);
-    },
-    searchKeydown: function (e) {
-      onKeyDown(e);
     },
     searchExpand(s) {
       s.expanded = true;
@@ -64,6 +67,82 @@ export default {
       }
       document.getElementById("search")?.blur();
     },
+    onKeyDown: function (e) {
+      let visible;
+      let index;
+      switch (e.keyCode) {
+        case 27: // ESC
+          document.getElementById("search")?.blur();
+          break;
+
+        case 40: // Arrow down
+          visible = this.getVisibleElements(this.autocomplete);
+          index = visible.indexOf(this.autocomplete.highlighted);
+          if (index === -1 && visible.length > 0) {
+            this.autocomplete.highlighted = visible[0];
+          } else if (index >= 0 && index < visible.length - 1) {
+            this.autocomplete.highlighted = visible[index + 1];
+          }
+          e.preventDefault();
+          break;
+
+        case 38: // Arrow up
+          visible = this.getVisibleElements(this.autocomplete);
+          index = visible.indexOf(this.autocomplete.highlighted);
+          if (index === 0) {
+            this.autocomplete.highlighted = null;
+          } else if (index > 0) {
+            this.autocomplete.highlighted = visible[index - 1];
+          }
+          e.preventDefault();
+          break;
+
+        case 13: // Enter
+          if (this.autocomplete.highlighted !== null)
+            this.searchGoTo(this.autocomplete.highlighted, true);
+          else this.searchGo(false);
+          break;
+        default:
+          break;
+      }
+    },
+    onInput: function (e) {
+      const q = e.srcElement.value;
+      this.autocomplete.highlighted = null;
+
+      if (q.length === 0) {
+        this.autocomplete.sections = [];
+      } else {
+        const queryId = this.queryCounter;
+        this.queryCounter += 1;
+        const {data} =useFetch<SearchResponse>(`/api/search?q=${window.encodeURIComponent(q)}`,{},(d)=>{// Data will be cached anyway in case the user hits backspace,
+          // but we need to discard the data here if it arrived out of order.
+          if (!this.latestUsedQueryId || queryId > this.latestUsedQueryId) {
+              this.latestUsedQueryId = queryId;
+              this.autocomplete.sections = extractFacets(d, this.t);
+          }
+        });
+      }
+    },
+    getVisibleElements: function () {
+      const visible: string[] = [];
+
+      this.autocomplete.sections.forEach((section) => {
+        section.entries.forEach((entry, index: number) => {
+          if (
+            section.n_visible === undefined ||
+            index < section.n_visible ||
+            section.expanded
+          )
+            visible.push(entry.id);
+        });
+      });
+      return visible;
+    },
+  },
+  setup() {
+    const { t } = useI18n();
+    return { t };
   },
 };
 </script>
@@ -183,10 +262,10 @@ export default {
         class="form-input input-lg"
         v-bind:placeholder="$t('search.placeholder')"
         v-model="query"
-        @input="searchInput"
+        @input="onInput"
         @focus="searchFocus"
         @blur="searchBlur"
-        @keydown="searchKeydown"
+        @keydown="onKeyDown"
         autocomplete="off"
         v-bind:aria-label="$t('search.aria-searchlabel')"
       />
