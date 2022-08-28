@@ -17,3 +17,34 @@ export function setUrl() {
     .querySelector('meta[property="og:url"]')
     ?.setAttribute("content", window.location.href);
 }
+
+
+export function copyCurrentLink() {
+  // c.f. https://stackoverflow.com/a/30810322
+  const textArea = document.createElement("textarea");
+  textArea.value = window.location.href;
+
+  // Avoid scrolling to bottom
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  textArea.style.position = "fixed";
+
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    const success = document.execCommand("copy");
+    if (success) {
+      const _this = this;
+      _this.copied = true;
+      window.setTimeout(() => {
+        _this.copied = false;
+      }, 1000);
+    }
+  } catch (err) {
+    console.error("Failed to copy to clipboard", err);
+  }
+
+  document.body.removeChild(textArea);
+}

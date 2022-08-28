@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import {removeLocalStorage,setLocalStorageWithExpiry,getLocalStorageWithExpiry} from "@/utils/storage";
+import {copyCurrentLink} from "@/utils/common";
+import ShareButton from "@/components/ShareButton.vue";
 /* global mapboxgl */
 function viewNavigateTo(to, from, next, component) {
   navigatum.beforeNavigate(to, from);
@@ -69,9 +71,8 @@ const _viewDefaultState = {
   },
 };
 
-navigatum.registerView("view", {
-  name: "view-view",
-  template: { gulp_inject: "view-view.inc" },
+export default {
+  components:[ShareButton],
   data: function () {
     return {
       view_data: null,
@@ -119,7 +120,6 @@ navigatum.registerView("view", {
         body_backup: null,
         force_reopen: false,
       },
-      browser_supports_share: "share" in navigator,
     };
   },
   beforeRouteEnter: function (to, from, next) {
@@ -560,44 +560,7 @@ navigatum.registerView("view", {
         }, 20);
       }
     },
-    copy_link: function () {
-      // c.f. https://stackoverflow.com/a/30810322
-      const textArea = document.createElement("textarea");
-      textArea.value = window.location.href;
-
-      // Avoid scrolling to bottom
-      textArea.style.top = "0";
-      textArea.style.left = "0";
-      textArea.style.position = "fixed";
-
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-
-      try {
-        const success = document.execCommand("copy");
-        if (success) {
-          const _this = this;
-          _this.copied = true;
-          window.setTimeout(() => {
-            _this.copied = false;
-          }, 1000);
-        }
-      } catch (err) {
-        console.error("Failed to copy to clipboard", err);
-      }
-
-      document.body.removeChild(textArea);
-    },
-    share_link: function () {
-      if (navigator.share) {
-        navigator.share({
-          title: this.view_data.name,
-          text: document.title,
-          url: window.location.href,
-        });
-      }
-    },
+    copyCurrentLink:copyCurrentLink,
   },
   watch: {
     "state.rooms_overview.filter": function () {
@@ -726,7 +689,7 @@ navigatum.registerView("view", {
         <button
           class="btn btn-link btn-action btn-sm"
           v-bind:title="$t('view_view.header.copy_link')"
-          @click="copy_link"
+          @click="copyCurrentLink"
         >
           <i class="icon icon-check" v-if="copied"></i>
           <i class="icon icon-link" v-else></i>
@@ -762,36 +725,8 @@ navigatum.registerView("view", {
             <path d="M1.407 2.297l2.03-2.03" />
             <path d="M2.352.268h1.085v1.085" stroke-linejoin="round" />
           </svg>
-        </button>
-        <div class="link-popover">
-          <strong>{{ $t("view_view.header.external_link.open_in ") }}</strong>
-          <a
-            class="btn"
-            target="_blank"
-            :href="'https://www.openstreetmap.org/?mlat=' + view_data.coords.lat + '&mlon=' + view_data.coords.lon + '#map=17/' + view_data.coords.lat + '/' + view_data.coords.lon + '&layers=T'"
-            >OpenStreetMap</a
-          ><br />
-          <a
-            class="btn"
-            target="_blank"
-            :href="'https://www.google.com/maps/search/?api=1&query=' + view_data.coords.lat + '%2C'+ view_data.coords.lon"
-            >Google Maps</a
-          >
-          <a
-            class="btn"
-            :href="'geo:' + view_data.coords.lat + ','+ view_data.coords.lon"
-            >{{ $t("view_view.header.external_link.other_app ") }}</a
-          >
-          <strong>{{ $t("view_view.header.external_link.share ") }}</strong>
-          <button class="btn" @click="share_link" v-if="browser_supports_share">
-            {{ $t("view_view.header.external_link.share_link ") }}
-          </button>
-          <button
-            class="btn"
-            @click="copy_link"
-            v-html="copied ? $t('view_view.header.external_link.copied') : $t('view_view.header.copy_link')"
-          ></button>
-        </div>
+      </button>
+        <ShareButton v-bind:coords="view_data.coords"></ShareButton>
         <button
           class="btn btn-link btn-action btn-sm"
           v-bind:title="$t('view_view.header.feedback')"
