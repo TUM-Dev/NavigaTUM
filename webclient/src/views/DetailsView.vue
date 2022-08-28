@@ -165,7 +165,7 @@ export default {
       }
     },
     genDescription: function (data) {
-      const detailsFor = "{{ $t('view_view.meta.details_for') }}";
+      const detailsFor = $t('view_view.meta.details_for');
       let description = `${detailsFor} ${data.type_common_name} ${data.name}`;
       if (data.props.computed) {
         description += ":";
@@ -227,7 +227,7 @@ export default {
       if (Object.keys(currentEdits).length > 1) {
         return (
           `[${this.view_data.id} et.al.]: ` +
-          "{{ $t('feedback.coordinatepicker.edit_coordinates_subject') }}"
+          $t('feedback.coordinatepicker.edit_coordinates_subject')
         );
       }
 
@@ -235,7 +235,7 @@ export default {
       const subjectMsg =
         Object.keys(currentEdits).length === 0
           ? ""
-          : "{{ $t('feedback.coordinatepicker.edit_coordinate_subject') }}";
+          : $t('feedback.coordinatepicker.edit_coordinate_subject');
 
       // The subject backup is only loaded (and supported) when a single
       // entry is being edited
@@ -275,16 +275,13 @@ export default {
       }
 
       const defaultActionMsg =
-        this.view_data.coords.accuracy === "building"
-          ? "{{ $t('feedback.coordinatepicker.add_coordinate') }}"
-          : "{{ $t('feedback.coordinatepicker.correct_coordinate') }}";
+        this.view_data.coords.accuracy === "building" ? $t('feedback.coordinatepicker.add_coordinate') : $t('feedback.coordinatepicker.correct_coordinate');
       actionMsg = actionMsg || defaultActionMsg;
 
       if (Object.keys(currentEdits).length > 1) {
         // The body backup is discarded if more than a single entry
         // is being edited (because then it is not supported).
-        actionMsg =
-          "{{ $t('feedback.coordinatepicker.edit_multiple_coordinates') }}";
+        actionMsg = $t('feedback.coordinatepicker.edit_multiple_coordinates');
       }
 
       let editStr = "";
@@ -606,7 +603,7 @@ export default {
         </span>
         <button
           class="btn btn-action btn-sm btn-link tooltip tooltip-left"
-          data-tooltip=" {{ $t("view_view.msg.coordinate-counter.info") }} "
+          v-bind:data-tooltip="$t('view_view.msg.coordinate-counter.info')"
         >
           &#x1f6c8;
         </button>
@@ -735,9 +732,9 @@ export default {
         </div>
         <div
           class="toast"
-          v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_}}$"
+          v-if="view_data.props && view_data.props.comment"
         >
-          {{ view_data.props.comment.${{_lang_}}$ }}
+          {{ view_data.props.comment }}
         </div>
       </div>
 
@@ -875,8 +872,8 @@ export default {
             <td>
               <ul>
                 <li v-for="link in view_data.props.links">
-                  <a v-bind:href="link.url.${{ _lang_") }}">
-                    {{ link.text.${{ _lang_ ") }} }}
+                  <a v-bind:href="link.url">
+                    {{ link.text }}
                   </a>
                 </li>
               </ul>
@@ -921,8 +918,8 @@ export default {
                 <td>
                   <ul>
                     <li v-for="link in view_data.props.links">
-                      <a v-bind:href="link.url.${{ _lang_") }}">
-                        {{ link.text.${{ _lang_ ") }} }}
+                      <a v-bind:href="link.url">
+                        {{ link.text }}
                       </a>
                     </li>
                   </ul>
@@ -948,9 +945,9 @@ export default {
           </div>
           <div
             class="toast"
-            v-if="view_data.props && view_data.props.comment && view_data.props.comment.${{_lang_}}$"
+            v-if="view_data.props && view_data.props.comment"
           >
-            {{ view_data.props.comment.${{_lang_}}$ }}
+            {{ view_data.props.comment }}
           </div>
         </div>
         <!--<div class="card-footer">
@@ -1347,14 +1344,11 @@ export default {
           </div>
           <div class="panel-footer">
             <small>
-              {{ state.rooms_overview.selected === null ?
-              "{{ $t('view_view.rooms_overview.choose_usage') }}" :
-              sections.rooms_overview.display_list.length + "
-              {{ $t("view_view.rooms_overview.result') }}" +
-              (sections.rooms_overview.display_list.length === 1 ? "" :
-              "{{ $t('view_view.rooms_overview.results_suffix') }}") +
-              (state.rooms_overview.filter === "" ? "" : "
-              ({{ $t("view_view.rooms_overview.filtered") }})") }}
+              {{ state.rooms_overview.selected === null ? $t('view_view.rooms_overview.choose_usage') :
+              sections.rooms_overview.display_list.length +
+              $t("view_view.rooms_overview.result") +
+              (sections.rooms_overview.display_list.length === 1 ? "" : $t('view_view.rooms_overview.results_suffix')) +
+              (state.rooms_overview.filter === "" ? "" : "(" + $t("view_view.rooms_overview.filtered")+")") }}
             </small>
           </div>
         </div>
