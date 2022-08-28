@@ -128,6 +128,49 @@ export default {
     padding-top: 2px;
     height: 1.2rem;
   }
+
+  .menu .search-comment {
+    margin: -8px -8px 0;
+    padding: 6px 16px;
+    font-size: 14px;
+    color: $autocomplete-comment-color;
+
+    &.filter {
+      color: $autocomplete-filter-text;
+      background-color: $autocomplete-filter-bg;
+      border-bottom: 1px solid $border-light;
+
+      > a {
+        display: inline;
+      }
+    }
+
+    &.nb_results {
+      margin: -4px 0;
+      padding: 4px 8px;
+
+      > a {
+        cursor: pointer;
+      }
+    }
+
+    &.actions {
+      margin: -4px 0 -4px 32px;
+      padding: 4px 8px;
+      overflow-x: auto;
+      white-space: nowrap;
+
+      div {
+        display: inline-block;
+        margin-right: 8px;
+      }
+
+      button {
+        margin-top: 6px;
+        margin-bottom: 3px;
+      }
+    }
+  }
 }
 </style>
 

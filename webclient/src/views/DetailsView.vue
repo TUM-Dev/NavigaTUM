@@ -2088,6 +2088,16 @@ export default {
   }
 }
 
+// Animations
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 // 'sm' (mobile)
 @media (max-width: 600px) {
   #view-view {

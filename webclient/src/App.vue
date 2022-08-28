@@ -155,4 +155,124 @@ export default {
   </footer>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+@import "./assets/variables";
+
+/* === Navbar === */
+#navbar {
+  padding: 10px 0;
+  box-shadow: 0 2px 3px $header-shadow-color;
+  width: 100%;
+  position: fixed;
+  background: $header-color;
+  top: 0;
+  z-index: 2000;
+
+  #logo {
+    height: 24px;
+    margin-top: 9px;
+  }
+  .input-group button {
+    border: 0;
+  }
+}
+
+/* === Content === */
+// 10px + 60px for header
+#content-header {
+  margin-top: 70px;
+}
+
+#content.visible {
+  /* For some reason (I assume because the 'visible' class is not set when vue loads),
+     * this class gets removed if vue adds/removes the 'search_focus' class. For this reason
+     * opacity on page navigation is set as style property in JS. It is only guaranteed that
+     * this class is there on page-load. */
+  transition: opacity 0.07s;
+}
+
+#content.search_focus {
+  opacity: 0.7;
+}
+
+/* === Footer === */
+footer {
+  padding: 8px 0 16px;
+  background: $footer-color;
+  bottom: -130px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+
+  .links {
+    text-align: left;
+
+    ul {
+      margin: 0;
+
+      li {
+        list-style: none;
+        margin-top: 0;
+      }
+    }
+
+    a,
+    RouterLink,
+    button {
+      font-size: 0.6rem;
+    }
+
+    button {
+      height: auto;
+      padding: 0;
+    }
+
+    button:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .settings {
+    .setting-group {
+      margin-top: calc(0.4rem - 1px);
+    }
+
+    .btn-group {
+      min-width: 110px;
+
+      .btn {
+        border-color: transparent;
+
+        &:disabled {
+          background-color: $footer-setting-bg-disabled;
+          color: $footer-color;
+        }
+      }
+    }
+  }
+}
+
+// 'xs' (mobile)
+@media (max-width: 480px) {
+  footer {
+    bottom: -200px;
+
+    .links {
+      ul {
+        margin: 0.8rem;
+
+        li {
+          margin-top: 0.4rem;
+        }
+      }
+
+      a,
+      RouterLink,
+      button {
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+</style>
