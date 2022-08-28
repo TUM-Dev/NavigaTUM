@@ -33,18 +33,14 @@ export function copyCurrentLink() {
   textArea.focus();
   textArea.select();
 
+  let success = false;
   try {
-    const success = document.execCommand("copy");
-    if (success) {
-      const _this = this;
-      _this.copied = true;
-      window.setTimeout(() => {
-        _this.copied = false;
-      }, 1000);
-    }
+    success = document.execCommand("copy");
+
   } catch (err) {
     console.error("Failed to copy to clipboard", err);
   }
 
   document.body.removeChild(textArea);
+  return success;
 }

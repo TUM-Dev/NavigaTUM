@@ -527,7 +527,15 @@ export default {
         }, 20);
       }
     },
-    copyCurrentLink:copyCurrentLink,
+    copyCurrentLink: function () {
+      if (copyCurrentLink()) {
+        const _this = this;
+        this.copied = true;
+        window.setTimeout(() => {
+          _this.copied = false;
+        }, 1000);
+      }
+    },
   },
   watch: {
     "state.rooms_overview.filter": function () {
