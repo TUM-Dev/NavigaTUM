@@ -6,6 +6,7 @@ export default {
   data() {
     return {
       browser_supports_share: "share" in navigator,
+      copied:false,
     };
   },
   methods: {
@@ -64,7 +65,7 @@ export default {
     </button>
     <button
       class="btn"
-      @click="copyCurrentLink"
+      @click="copyCurrentLink(copied)"
       v-html="
         copied
           ? $t('view_view.header.external_link.copied')

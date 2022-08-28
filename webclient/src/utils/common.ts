@@ -18,7 +18,7 @@ export function setUrl() {
     ?.setAttribute("content", window.location.href);
 }
 
-export function copyCurrentLink() {
+export function copyCurrentLink(copied) {
   // c.f. https://stackoverflow.com/a/30810322
   const textArea = document.createElement("textarea");
   textArea.value = window.location.href;
@@ -32,13 +32,16 @@ export function copyCurrentLink() {
   textArea.focus();
   textArea.select();
 
-  let success = false;
   try {
-    success = document.execCommand("copy");
+    if (document.execCommand("copy")) {
+        copied = true;
+        window.setTimeout(() => {
+          copied = false;
+        }, 1000);
+      }
   } catch (err) {
     console.error("Failed to copy to clipboard", err);
   }
 
   document.body.removeChild(textArea);
-  return success;
 }

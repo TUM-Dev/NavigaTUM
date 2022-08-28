@@ -529,15 +529,7 @@ export default {
         }, 20);
       }
     },
-    copyCurrentLink: function () {
-      if (copyCurrentLink()) {
-        const _this = this;
-        this.copied = true;
-        window.setTimeout(() => {
-          _this.copied = false;
-        }, 1000);
-      }
-    },
+    copyCurrentLink: copyCurrentLink(),
   },
   watch: {
     "state.rooms_overview.filter": function () {
@@ -667,7 +659,7 @@ export default {
           <button
               class="btn btn-link btn-action btn-sm"
               v-bind:title="$t('view_view.header.copy_link')"
-              @click="copyCurrentLink"
+              @click="copyCurrentLink(copied)"
           >
             <i class="icon icon-check" v-if="copied"></i>
             <i class="icon icon-link" v-else></i>
