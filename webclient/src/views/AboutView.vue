@@ -19,7 +19,7 @@ const url = ref(location.pathname.substring(7));
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../assets/variables";
 
 #view-md {

@@ -17,7 +17,7 @@ window.setTimeout(() => {
   <div id="swagger-ui"></div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../assets/variables";
 
 .swagger-ui {

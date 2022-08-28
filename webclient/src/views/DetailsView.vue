@@ -1521,7 +1521,7 @@ export default {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../assets/variables";
 
 #view-view {

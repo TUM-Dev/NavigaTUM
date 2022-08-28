@@ -155,7 +155,7 @@ export default {
   </footer>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "./assets/variables";
 
 /* === Navbar === */

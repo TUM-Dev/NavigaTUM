@@ -24,8 +24,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
-
 <template>
   <div class="link-popover">
     <strong>{{ $t("view_view.header.external_link.open_in") }}</strong>

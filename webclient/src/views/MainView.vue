@@ -102,7 +102,7 @@ function less(id: string) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../assets/variables";
 
 #view-main {
