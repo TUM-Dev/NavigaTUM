@@ -3,7 +3,9 @@ import { setTitle } from "@/utils/common";
 import { useFetch } from "@/utils/fetch";
 import { RootResponse } from "@/codegen";
 
-const { data, error } = useFetch<RootResponse>(`/api/get/root`, {}, (d) => setTitle(d.name));
+const { data, error } = useFetch<RootResponse>(`/api/get/root`, {}, (d) =>
+  setTitle(d.name)
+);
 function more(id: string) {
   document.getElementById(`panel-${id}`)?.classList.add("open");
 }

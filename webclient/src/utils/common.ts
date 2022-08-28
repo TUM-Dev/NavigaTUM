@@ -18,7 +18,6 @@ export function setUrl() {
     ?.setAttribute("content", window.location.href);
 }
 
-
 export function copyCurrentLink() {
   // c.f. https://stackoverflow.com/a/30810322
   const textArea = document.createElement("textarea");
@@ -36,7 +35,6 @@ export function copyCurrentLink() {
   let success = false;
   try {
     success = document.execCommand("copy");
-
   } catch (err) {
     console.error("Failed to copy to clipboard", err);
   }

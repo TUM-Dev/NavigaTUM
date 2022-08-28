@@ -1,4 +1,8 @@
-export function setLocalStorageWithExpiry(key: string, value: any, ttl: number) {
+export function setLocalStorageWithExpiry(
+  key: string,
+  value: any,
+  ttl: number
+) {
   // ttl in hours
   const now = new Date();
 
@@ -14,7 +18,10 @@ export function setLocalStorageWithExpiry(key: string, value: any, ttl: number) 
   window.dispatchEvent(e);
 }
 
-export function getLocalStorageWithExpiry<T>(key: string, defaultValue: T|null = null):T|null {
+export function getLocalStorageWithExpiry<T>(
+  key: string,
+  defaultValue: T | null = null
+): T | null {
   const itemStr = localStorage.getItem(key);
   if (!itemStr) return defaultValue;
   const item = JSON.parse(itemStr);

@@ -1,15 +1,54 @@
 // To work even when the rest of the JS code failed, the code for the
 // feedback form is mostly seperate from the rest of the codebase.
 // It is only loaded when the feedback form is being opened.
-import {setLocalStorageWithExpiry,getLocalStorageWithExpiry} from "@/utils/storage";
+import {
+  setLocalStorageWithExpiry,
+  getLocalStorageWithExpiry,
+} from "@/utils/storage";
 
-type Token={
-  readonly creation: number,
-  readonly value: String,
-}
+type Token = {
+  readonly creation: number;
+  readonly value: string;
+};
 
 window.feedback = (() => {
-  let token:Token|null = null;
+  let token: Token | null = null;
+  // form-controls
+  const feedbackSend = document.getElementById(
+    "feedback-send"
+  ) as HTMLButtonElement;
+  const feedbackError = document.getElementById(
+    "feedback-error"
+  ) as HTMLDivElement;
+  const feedbackModal = document.getElementById(
+    "feedback-modal"
+  ) as HTMLDivElement;
+  const feedbackSuccessModal = document.getElementById(
+    "feedback-success-modal"
+  ) as HTMLDivElement;
+  // form
+  const feedbackCategory = document.getElementById(
+    "feedback-category"
+  ) as HTMLSelectElement;
+  const feedbackSubject = document.getElementById(
+    "feedback-subject"
+  ) as HTMLInputElement;
+  const feedbackBody = document.getElementById(
+    "feedback-body"
+  ) as HTMLTextAreaElement;
+  const feedbackPrivacy = document.getElementById(
+    "feedback-privacy"
+  ) as HTMLInputElement;
+  const feedbackDelete = document.getElementById(
+    "feedback-delete"
+  ) as HTMLInputElement;
+  // coordinate picker
+  const feedbackCoordinatePicker = document.getElementById(
+    "feedback-coordinate-picker"
+  ) as HTMLButtonElement;
+  const feedbackCoordinatePickerHelp = document.getElementById(
+    "feedback-coordinate-picker-helptext"
+  ) as HTMLDivElement;
 
   function _requestPage(
     method: string,
@@ -31,12 +70,11 @@ window.feedback = (() => {
   }
 
   function _showError(msg = "", blockSend = false) {
-    document.getElementById("feedback-error")!!.innerText = msg;
-    (document.getElementById("feedback-send") as HTMLButtonElement).disabled = blockSend;
+    feedbackError.innerText = msg;
+    feedbackSend.disabled = blockSend;
   }
 
   function _showLoading(isLoading: boolean) {
-    const feedbackSend = document.getElementById("feedback-send") as HTMLButtonElement;
     if (isLoading) {
       feedbackSend.classList.add("loading");
     } else {
@@ -46,16 +84,16 @@ window.feedback = (() => {
   }
 
   function openForm(category = "general", subject = "", body = "") {
-    (document.getElementById("feedback-category")as HTMLSelectElement).value = category;
-    (document.getElementById("feedback-subject")as HTMLInputElement).value = subject;
-    (document.getElementById("feedback-body")as HTMLTextAreaElement).value = body;
-    (document.getElementById("feedback-privacy")as HTMLInputElement).checked = false;
-    (document.getElementById("feedback-delete")as HTMLInputElement).checked = false;
+    feedbackCategory.value = category;
+    feedbackSubject.value = subject;
+    feedbackBody.value = body;
+    feedbackPrivacy.checked = false;
+    feedbackDelete.checked = false;
 
     _showError();
     _showLoading(false);
 
-    document.getElementById("feedback-modal")?.classList.add("active");
+    feedbackModal.classList.add("active");
     document.body.classList.add("no-scroll");
 
     // Token are renewed after 6 hours here to be sure, even though they may be valid
@@ -93,9 +131,7 @@ window.feedback = (() => {
     }
   }
 
-  function updateFeedbackForm(
-    category = (document.getElementById("feedback-category")as HTMLSelectElement).value
-  ) {
+  function updateFeedbackForm(category = feedbackCategory.value) {
     const helptextLUT = {
       general: "{{ $t('feedback.helptext.general') }}",
       bug: "{{ $t('feedback.helptext.bug') }}",
@@ -103,49 +139,46 @@ window.feedback = (() => {
       search: "{{ $t('feedback.helptext.search') }}",
       entry: "{{ $t('feedback.helptext.entry') }}",
     };
-    document.getElementById("feedback-helptext")!!.innerText = helptextLUT[category];
+    document.getElementById("feedback-helptext")!.innerText =
+      helptextLUT[category];
 
-    const coordinatePicker = document.getElementById("feedback-coordinate-picker")!!;
     if (category === "entry")
-      coordinatePicker.classList.remove("d-none");
-    else
-      coordinatePicker.classList.add("d-none");
+      feedbackCoordinatePicker.classList.remove("d-none");
+    else feedbackCoordinatePicker.classList.add("d-none");
   }
 
   function closeForm() {
-    document.getElementById("feedback-coordinate-picker")?.classList.add("d-none");
-    document.getElementById("feedback-coordinate-picker-helptext")?.classList.add("d-none");
+    feedbackCoordinatePicker.classList.add("d-none");
+    feedbackCoordinatePickerHelp.classList.add("d-none");
 
-    document.getElementById("feedback-modal")?.classList.remove("active");
-    document.getElementById("feedback-success-modal")?.classList.remove("active");
+    feedbackModal.classList.remove("active");
+    feedbackSuccessModal.classList.remove("active");
 
     document.body.classList.remove("no-scroll");
   }
 
   function mayCloseForm() {
-    const feedbackBody=document.getElementById("feedback-body") as HTMLTextAreaElement;
-    if (feedbackBody.value.length === 0)
-      closeForm();
+    if (feedbackBody.value.length === 0) closeForm();
   }
 
-  function _showSuccess(href:string) {
-    document.getElementById("feedback-modal")?.classList.remove("active");
-    document.getElementById("feedback-success-modal")?.classList.add("active");
+  function _showSuccess(href: string) {
+    feedbackModal.classList.remove("active");
+    feedbackSuccessModal.classList.add("active");
     document.getElementById("feedback-success-url")?.setAttribute("href", href);
   }
 
   function _send() {
-    const category = (document.getElementById("feedback-category") as HTMLSelectElement).value;
-    const subject = (document.getElementById("feedback-subject") as HTMLInputElement).value;
-    const body = (document.getElementById("feedback-body") as HTMLTextAreaElement).value;
-    const privacy: boolean = (document.getElementById("feedback-privacy")as HTMLInputElement).checked;
-    const deleteIssue: boolean = (document.getElementById("feedback-delete")as HTMLInputElement).checked;
+    const category = feedbackCategory.value;
+    const subject = feedbackSubject.value;
+    const body = feedbackBody.value;
+    const privacy: boolean = feedbackPrivacy.checked;
+    const deleteIssue: boolean = feedbackDelete.checked;
 
     _requestPage(
       "POST",
       `/api/feedback/feedback`,
       JSON.stringify({
-        token: token!!.value,
+        token: token!.value,
         category: category,
         subject: subject,
         body: body,
@@ -188,11 +221,11 @@ window.feedback = (() => {
   function sendForm() {
     if (token === null) {
       _showError($t("feedback.error.send_no_token"), true);
-    } else if ((document.getElementById("feedback-subject")as HTMLInputElement).value.length < 3) {
+    } else if (feedbackSubject.value.length < 3) {
       _showError("{{ $t('feedback.error.too_short_subject') }}");
-    } else if ((document.getElementById("feedback-body")as HTMLTextAreaElement).value.length < 10) {
+    } else if (feedbackBody.value.length < 10) {
       _showError("{{ $t('feedback.error.too_short_body') }}");
-    } else if (!(document.getElementById("feedback-privacy") as HTMLInputElement).checked) {
+    } else if (!feedbackPrivacy.checked) {
       _showError("{{ $t('feedback.error.privacy_not_checked') }}");
     } else {
       _showLoading(true);
@@ -206,16 +239,30 @@ window.feedback = (() => {
     }
   }
 
-  document.getElementById("feedback-cancel")?.addEventListener("click", closeForm, false);
-  document.getElementById("feedback-close")?.addEventListener("click", closeForm, false);
-  document.getElementById("feedback-overlay")?.addEventListener("click", mayCloseForm, false);
+  document
+    .getElementById("feedback-cancel")
+    ?.addEventListener("click", closeForm, false);
+  document
+    .getElementById("feedback-close")
+    ?.addEventListener("click", closeForm, false);
+  document
+    .getElementById("feedback-overlay")
+    ?.addEventListener("click", mayCloseForm, false);
 
-  document.getElementById("feedback-close-2")?.addEventListener("click", closeForm, false);
-  document.getElementById("feedback-overlay-2")?.addEventListener("click", closeForm, false);
+  document
+    .getElementById("feedback-close-2")
+    ?.addEventListener("click", closeForm, false);
+  document
+    .getElementById("feedback-overlay-2")
+    ?.addEventListener("click", closeForm, false);
 
-  (document.getElementById("feedback-category") as HTMLSelectElement).addEventListener("change", (e) => updateFeedbackForm(e.value), false);
+  feedbackCategory.addEventListener(
+    "change",
+    (e) => updateFeedbackForm(e.value),
+    false
+  );
 
-  document.getElementById("feedback-send")?.addEventListener("click", sendForm, false);
+  feedbackSend.addEventListener("click", sendForm, false);
 
   /* global feedbackPreload */
   if (feedbackPreload) {

@@ -7,7 +7,8 @@ const { t, locale } = useI18n({
 
 function setLang(lang: string) {
   localStorage.setItem("lang", lang);
-  document.cookie = `lang=${lang};Max-Age=31536000;SameSite=Lax;Path=${import.meta.env.VITE_APP_URL}`;
+  const path = import.meta.env.VITE_APP_URL;
+  document.cookie = `lang=${lang};Max-Age=31536000;SameSite=Lax;Path=${path}`;
 }
 </script>
 
