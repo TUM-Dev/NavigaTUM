@@ -297,9 +297,9 @@ export default {
           DISABLED-v-if="autocomplete.sections.length > 1"
           v-bind:data-content="s.name"
         ></li>
-        <li
-          v-for="(e, i) in s.entries"
-          v-if="s.n_visible === undefined || i < s.n_visible || s.expanded"
+        <template v-for="(e, i) in s.entries">
+          <li
+          v-if="s.n_visible === undefined || (i < s.n_visible) || s.expanded"
           class="menu-item"
         >
           <a
@@ -344,7 +344,7 @@ export default {
                         <label class="label label-primary">2</label>
                       </div>-->
         </li>
-
+        </template>
         <li class="search-comment nb_results">
           <a
             v-if="!s.expanded && s.n_visible < s.entries.length"
@@ -354,7 +354,7 @@ export default {
             +{{ s.entries.length - s.n_visible }} {{ $t("search.hidden") }},
           </a>
           <template>
-            {{ s.estimatedTotalHits > 20 ? $t("approx") : ""
+            {{ s.estimatedTotalHits > 20 ? $t("search.approx") : ""
             }}{{ s.estimatedTotalHits }}
             {{
               s.estimatedTotalHits === 1
