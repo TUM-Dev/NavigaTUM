@@ -294,7 +294,6 @@ export default {
       <template v-for="s in autocomplete.sections">
         <li
           class="divider"
-          DISABLED-v-if="autocomplete.sections.length > 1"
           v-bind:data-content="s.name"
         ></li>
         <template v-for="(e, i) in s.entries">
