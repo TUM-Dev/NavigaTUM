@@ -19,6 +19,7 @@ function setLang(lang: string) {
       v-for="lang in ['en', 'de']"
       v-bind:value="lang"
       class="btn btn-sm"
+      v-bind:class="{ active: locale === lang }"
       v-bind="{ disabled: locale === lang }"
       @click="setLang(lang)"
     >

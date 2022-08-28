@@ -31,6 +31,7 @@ onMounted(() => setTheme(theme.value));
     <button
       class="btn btn-sm"
       @click="setTheme('light')"
+      v-bind:class="{ active: theme === 'light' }"
       v-bind="{ disabled: theme === 'light' }"
     >
       {{ $t("footer.theme_light") }}
@@ -38,6 +39,7 @@ onMounted(() => setTheme(theme.value));
     <button
       class="btn btn-sm"
       @click="setTheme('dark')"
+      v-bind:class="{ active: theme === 'dark' }"
       v-bind="{ disabled: theme === 'dark' }"
     >
       {{ $t("footer.theme_dark") }}
