@@ -128,67 +128,6 @@ body {
     margin-top: 9px;
 }
 
-// --- Autocomplete
-
-.form-autocomplete {
-    .menu {
-        box-shadow: $autocomplete-box-shadow;
-
-        .menu-item {
-            & > a {
-                cursor: pointer;
-
-                &.active {
-                    color: #fff;
-                    background-color: $theme-accent;
-                }
-
-                em {
-                    color: $theme-accent;
-                    font-style: normal;
-                    font-weight: bold;
-                }
-
-                &:focus em,
-                &:hover em,
-                &.active em {
-                    color: #fff;
-                }
-            }
-        }
-    }
-
-    .tile-content {
-        max-width: 100%;
-        margin-bottom: -5px;
-        line-height: 100%;
-        padding-bottom: .2rem;
-    }
-
-    .tile-title {
-        margin-right: 3px;
-
-        i.icon-caret {
-            transform: rotate(-90deg);
-        }
-    }
-
-    .tile-subtitle {
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        max-width: 100%;
-        padding-right: 16px;
-        display: inline-block;
-        overflow: hidden;
-        vertical-align: middle;
-        margin-top: -5px;
-
-        // Correction for Chrome
-        padding-top: 2px;
-        height: 1.2rem;
-    }
-}
-
 .menu .search-comment {
     margin: -8px -8px 0;
     padding: 6px 16px;
