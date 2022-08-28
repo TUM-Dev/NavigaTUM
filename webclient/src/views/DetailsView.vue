@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {removeLocalStorage,setLocalStorageWithExpiry,getLocalStorageWithExpiry} from "@/utils/storage";
-import {copyCurrentLink} from "@/utils/common";
+import {copyCurrentLink, setDescription, setTitle} from "@/utils/common";
 import ShareButton from "@/components/ShareButton.vue";
 /* global mapboxgl */
 function viewNavigateTo(to, from, next, component) {
@@ -122,12 +122,8 @@ export default {
       },
     };
   },
-  beforeRouteEnter: function (to, from, next) {
-    viewNavigateTo(to, from, next, null);
-  },
-  beforeRouteUpdate: function (to, from, next) {
-    viewNavigateTo(to, from, next, this);
-  },
+  beforeRouteEnter: function (to, from, next) { viewNavigateTo(to, from, next, null); },
+  beforeRouteUpdate: function (to, from, next) { viewNavigateTo(to, from, next, this); },
   methods: {
     showImageShowcase: function (i, openSlideshow = true) {
       if (this.view_data && this.view_data.imgs && this.view_data.imgs[i]) {
@@ -178,8 +174,8 @@ export default {
       if (this.is_mounted) this.loadMap();
 
       // --- Additional data ---
-      navigatum.setTitle(data.name);
-      navigatum.setDescription(this.genDescription(data));
+      setTitle(data.name);
+      setDescription(this.genDescription(data));
 
       // --- Sections ---
       if (this.view_data.sections && this.view_data.sections.rooms_overview) {
