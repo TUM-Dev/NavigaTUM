@@ -6,6 +6,7 @@ const { t, locale } = useI18n({
 });
 
 function setLang(lang: string) {
+  locale.value = lang;
   localStorage.setItem("lang", lang);
   const path = import.meta.env.VITE_APP_URL;
   document.cookie = `lang=${lang};Max-Age=31536000;SameSite=Lax;Path=${path}`;
@@ -13,15 +14,15 @@ function setLang(lang: string) {
 </script>
 
 <template>
-  <select class="btn-group btn-group-block" id="setting-lang" v-model="locale">
-    <option
+  <div class="btn-group btn-group-block" id="setting-lang">
+    <button
       v-for="lang in ['en', 'de']"
       v-bind:value="lang"
       class="btn btn-sm"
-      v-bind:class="{ active: locale.value === lang }"
+      v-bind="{ disabled: locale === lang }"
       @click="setLang(lang)"
     >
       {{ lang }}
-    </option>
-  </select>
+    </button>
+  </div>
 </template>

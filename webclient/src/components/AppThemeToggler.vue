@@ -30,7 +30,6 @@ onMounted(() => setTheme(theme.value));
   <div class="btn-group btn-group-block" id="setting-theme">
     <button
       class="btn btn-sm"
-      v-bind:class="{ active: theme === 'light' }"
       @click="setTheme('light')"
       v-bind="{ disabled: theme === 'light' }"
     >
@@ -38,7 +37,6 @@ onMounted(() => setTheme(theme.value));
     </button>
     <button
       class="btn btn-sm"
-      v-bind:class="{ active: theme === 'dark' }"
       @click="setTheme('dark')"
       v-bind="{ disabled: theme === 'dark' }"
     >
