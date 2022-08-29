@@ -297,54 +297,53 @@ export default {
                   </li>-->
 
       <template v-for="s in autocomplete.sections">
-        <li
-          class="divider"
-          v-bind:data-content="s.name"
-        ></li>
+        <li class="divider" v-bind:data-content="s.name"></li>
         <template v-for="(e, i) in s.entries">
           <li
-          v-if="s.n_visible === undefined || (i < s.n_visible) || s.expanded"
-          class="menu-item"
-        >
-          <a
-            v-bind:class="{
-              active: e.id === autocomplete.highlighted,
-            }"
-            @click="searchGoTo(e.id, true)"
-            @mousedown="keep_focus = true"
-            @mouseover="autocomplete.highlighted = null"
+            v-if="s.n_visible === undefined || i < s.n_visible || s.expanded"
+            class="menu-item"
           >
-            <div class="tile">
-              <div class="tile-icon">
-                <template v-if="e.type === 'room' || e.type === 'virtual_room'">
-                  <i v-if="e.parsed_id" class="icon icon-search"></i>
-                  <i v-else class="icon icon-location"></i>
-                </template>
-                <img
-                  v-else
-                  src="@/assets/thumb-building.webp"
-                  class="avatar avatar-sm"
-                />
+            <a
+              v-bind:class="{
+                active: e.id === autocomplete.highlighted,
+              }"
+              @click="searchGoTo(e.id, true)"
+              @mousedown="keep_focus = true"
+              @mouseover="autocomplete.highlighted = null"
+            >
+              <div class="tile">
+                <div class="tile-icon">
+                  <template
+                    v-if="e.type === 'room' || e.type === 'virtual_room'"
+                  >
+                    <i v-if="e.parsed_id" class="icon icon-search"></i>
+                    <i v-else class="icon icon-location"></i>
+                  </template>
+                  <img
+                    v-else
+                    src="@/assets/thumb-building.webp"
+                    class="avatar avatar-sm"
+                  />
+                </div>
+                <div class="tile-content">
+                  <span class="tile-title">
+                    <span v-if="e.parsed_id" v-html="e.parsed_id"></span>
+                    <i v-if="e.parsed_id" class="icon icon-caret"></i>
+                    <span
+                      v-html="e.name"
+                      v-bind:style="{ opacity: e.parsed_id ? 0.5 : 1 }"
+                    ></span>
+                  </span>
+                  <small class="tile-subtitle text-gray">
+                    {{ e.subtext }}
+                    <template v-if="e.subtext_bold"
+                      >, <b v-html="e.subtext_bold"></b
+                    ></template>
+                  </small>
+                </div>
               </div>
-              <div class="tile-content">
-                <span class="tile-title">
-                  <span v-if="e.parsed_id" v-html="e.parsed_id"></span>
-                  <i v-if="e.parsed_id" class="icon icon-caret"></i>
-                  <span
-                    v-html="e.name"
-                    v-bind:style="{ opacity: e.parsed_id ? 0.5 : 1 }"
-                  ></span>
-                </span>
-                <small class="tile-subtitle text-gray">
-                  {{ e.subtext }}
-                  <template v-if="e.subtext_bold"
-                    >, <b v-html="e.subtext_bold"></b
-                  ></template>
-                </small>
-              </div>
-            </div>
-          </a>
-          <!--<div class="menu-badge">
+            </a>
+            <!--<div class="menu-badge">
                         <label class="label label-primary">2</label>
                       </div>-->
           </li>
