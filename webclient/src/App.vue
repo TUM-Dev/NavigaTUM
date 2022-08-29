@@ -1,20 +1,10 @@
-<script lang="ts">
-import AppThemeToggler from "@/components/AppThemeToggler.vue";
-import AppLanguageToggler from "@/components/AppLanguageToggler.vue";
+<script setup lang="ts">
 import AppSearchBar from "@/components/AppSearchBar.vue";
-import { useSearchBarStore } from "@/stores/search_focus";
+import AppLanguageToggler from "@/components/AppLanguageToggler.vue";
+import AppThemeToggler from "@/components/AppThemeToggler.vue";
+import { useGlobalStore } from "@/stores/global";
 
-export default {
-  components: { AppSearchBar, AppLanguageToggler, AppThemeToggler },
-  data() {
-    return {
-      search: useSearchBarStore(),
-      error: {
-        msg: null,
-      },
-    };
-  },
-};
+const global = useGlobalStore();
 </script>
 
 <template>
@@ -42,8 +32,8 @@ export default {
   <div id="content-header" class="container grid-lg" v-cloak>
     <div class="columns">
       <div class="column col-lg-11 col-mx-auto">
-        <div class="toast toast-error" v-if="error.msg">
-          {{ error.msg }}
+        <div class="toast toast-error" v-if="global.error_message">
+          {{ global.error_message }}
         </div>
       </div>
     </div>
@@ -53,7 +43,7 @@ export default {
   <div
     id="content"
     class="container grid-lg visible"
-    v-bind:class="{ search_focus: search.focused }"
+    v-bind:class="{ search_focus: global.search_focused }"
   >
     <div class="columns">
       <div class="column col-lg-11 col-mx-auto">

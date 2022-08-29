@@ -15,7 +15,7 @@ const query: string =
   new URLSearchParams(document.location.search).get("q") || "";
 
 const sections = ref<SectionFacet[] | null>(null);
-const { data, error } = useFetch<SearchResponse>(getSearchAPIUrl(), {}, (d) => {
+const { data } = useFetch<SearchResponse>(getSearchAPIUrl(), (d) => {
   setTitle(`${t("view_search.search_for")} "${query}"`);
   setDescription(genDescription());
   // Currently borrowing this functionality from autocomplete.

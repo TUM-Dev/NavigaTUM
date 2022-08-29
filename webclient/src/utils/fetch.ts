@@ -1,23 +1,27 @@
-import { ref } from "vue";
+import { shallowRef } from "vue";
+import { useGlobalStore } from "@/stores/global";
 
 export function useFetch<T>(
   url: string,
-  options: RequestInit = {},
-  successHandler = (d: T) => {}
+  successHandler: (d: T) => void = () => {},
+  options: RequestInit = {}
 ) {
-  const data = ref<T | null>(null);
-  const error = ref<string | null>(null);
-
+  const data = shallowRef<T | null>(null);
   // for some of our endpoints, we might want to have access to the lang/theme cookies
-  options.credentials = "same-origin";
 
+  options.credentials = "same-origin";
+  const global = useGlobalStore();
   fetch(url, options)
-    .then((res) => res.json())
+    .then((res) => {
+      if (res.status < 200 || res.status >= 300) throw res.statusText;
+      return res.json();
+    })
     .then((json) => {
+      if (global.error_message) global.error_message = null;
       data.value = json;
       successHandler(json);
     })
-    .catch((err) => (error.value = err));
+    .catch((err) => (global.error_message = err));
 
-  return { data, error };
+  return { data };
 }

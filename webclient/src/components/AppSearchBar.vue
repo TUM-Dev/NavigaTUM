@@ -1,15 +1,15 @@
 <script lang="ts">
 import { extractFacets } from "@/modules/autocomplete";
 import router from "@/router";
-import { useSearchBarStore } from "@/stores/search_focus";
+import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
-import type {SearchResponse} from "@/codegen";
-import {useFetch} from "@/utils/fetch";
+import type { SearchResponse } from "@/codegen";
+import { useFetch } from "@/utils/fetch";
 
 export default {
   data() {
     return {
-      store: useSearchBarStore(),
+      global: useGlobalStore(),
       keep_focus: false,
       query: "",
       autocomplete: {
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     searchFocus() {
-      this.store.focus();
+      this.global.focus_search();
       this.autocomplete.highlighted = null;
     },
     searchBlur() {
@@ -34,11 +34,12 @@ export default {
         window.setTimeout(() => {
           // This is relevant if the call is delayed and focused has
           // already been disabled e.g. when clicking on an entry.
-          if (this.store.focused) document.getElementById("search")?.focus();
+          if (this.global.search_focused)
+            document.getElementById("search")?.focus();
         }, 0);
         this.keep_focus = false;
       } else {
-        this.store.unfocus();
+        this.global.unfocus_search();
       }
     },
     searchExpand(s) {
@@ -48,7 +49,7 @@ export default {
       if (this.query.length === 0) return;
 
       router.push(`/search?q=${this.query}`);
-      this.store.unfocus();
+      this.global.unfocus_search();
       if (cleanQuery) {
         this.query = "";
         this.autocomplete.sections = [];
@@ -60,7 +61,7 @@ export default {
       // if navigation is aborted for some reason (e.g. the new
       // url is the same or there is a loop in redirects)
       router.push(`/view/${id}`);
-      this.store.unfocus();
+      this.global.unfocus_search();
       if (cleanQuery) {
         this.query = "";
         this.autocomplete.sections = [];
@@ -115,13 +116,17 @@ export default {
       } else {
         const queryId = this.queryCounter;
         this.queryCounter += 1;
-        const {data} =useFetch<SearchResponse>(`/api/search?q=${window.encodeURIComponent(q)}`,{},(d)=>{// Data will be cached anyway in case the user hits backspace,
-          // but we need to discard the data here if it arrived out of order.
-          if (!this.latestUsedQueryId || queryId > this.latestUsedQueryId) {
+        const { data } = useFetch<SearchResponse>(
+          `/api/search?q=${window.encodeURIComponent(q)}`,
+          (d) => {
+            // Data will be cached anyway in case the user hits backspace,
+            // but we need to discard the data here if it arrived out of order.
+            if (!this.latestUsedQueryId || queryId > this.latestUsedQueryId) {
               this.latestUsedQueryId = queryId;
               this.autocomplete.sections = extractFacets(d, this.t);
+            }
           }
-        });
+        );
       }
     },
     getVisibleElements: function () {
@@ -282,7 +287,7 @@ export default {
     <ul
       class="menu"
       v-bind:class="{
-        'd-none': !store.focused || autocomplete.sections.length === 0,
+        'd-none': !global.search_focused || autocomplete.sections.length === 0,
       }"
       v-cloak
     >
@@ -342,7 +347,7 @@ export default {
           <!--<div class="menu-badge">
                         <label class="label label-primary">2</label>
                       </div>-->
-        </li>
+          </li>
         </template>
         <li class="search-comment nb_results">
           <a
