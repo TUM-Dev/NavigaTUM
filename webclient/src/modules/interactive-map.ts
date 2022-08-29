@@ -1,4 +1,4 @@
-import { mapboxgl } from "mapbox-gl";
+import mapboxgl from "mapbox-gl";
 let _map: mapboxgl.Map;
 
 function FloorControl() {}
