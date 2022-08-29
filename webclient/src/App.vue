@@ -79,9 +79,9 @@ export default {
               <div class="columns">
                 <ul class="column col-auto">
                   <li>
-                    <a href="https://github.com/TUM-Dev/navigatum">{{
-                      $t("footer.sourcecode.text")
-                    }}</a>
+                    <a href="https://github.com/TUM-Dev/navigatum">
+                      {{ $t("footer.sourcecode.text") }}
+                    </a>
                   </li>
                   <li>
                     <RouterLink to="api">
@@ -128,8 +128,8 @@ export default {
                   <div class="columns setting-group">
                     <div class="column col">
                       <label for="setting-lang"
-                        ><small>{{ $t("footer.language") }}</small></label
-                      >
+                        ><small>{{ $t("footer.language") }}</small>
+                      </label>
                     </div>
                     <div class="column col-auto">
                       <AppLanguageToggler />

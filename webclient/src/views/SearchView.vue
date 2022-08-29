@@ -121,7 +121,7 @@ function genDescription(): string {
           {{ s.estimatedTotalHits }} {{ $t("search.results")
           }}{{
             s.estimatedTotalHits > 10
-              ? ", " + $t("view_search.max_results ")
+              ? ", " + $t("view_search.max_results")
               : ""
           }}
         </p>

@@ -627,12 +627,12 @@ export default {
             @click="deletePendingCoordinates"
           >
             <i class="icon icon-cross"></i>
-            <span class="default">{{
-              $t("view_view.msg.coordinate-counter.delete")
-            }}</span>
-            <span class="confirm">{{
-              $t("view_view.msg.coordinate-counter.delete-confirm")
-            }}</span>
+            <span class="default">
+              {{ $t("view_view.msg.coordinate-counter.delete") }}
+            </span>
+            <span class="confirm">
+              {{ $t("view_view.msg.coordinate-counter.delete-confirm") }}
+            </span>
           </button>
           <button class="btn btn-primary btn-sm" @click="openFeedbackForm">
             <i class="icon icon-check"></i>
@@ -1507,15 +1507,15 @@ export default {
       </p>
       <p v-if="view_data.coords">
         {{ $t("view_view.sources.coords.title") }}:
-        <span v-if="view_data.coords.source == 'navigatum'">{{
-          $t("view_view.sources.coords.navigatum")
-        }}</span>
-        <span v-if="view_data.coords.source == 'roomfinder'">{{
-          $t("view_view.sources.coords.roomfinder")
-        }}</span>
-        <span v-if="view_data.coords.source == 'inferred'">{{
-          $t("view_view.sources.coords.inferred")
-        }}</span>
+        <span v-if="view_data.coords.source === 'navigatum'">
+          {{ $t("view_view.sources.coords.navigatum") }}</span
+        >
+        <span v-if="view_data.coords.source === 'roomfinder'">
+          {{ $t("view_view.sources.coords.roomfinder") }}
+        </span>
+        <span v-if="view_data.coords.source === 'inferred'">
+          {{ $t("view_view.sources.coords.inferred") }}
+        </span>
       </p>
     </section>
   </div>
