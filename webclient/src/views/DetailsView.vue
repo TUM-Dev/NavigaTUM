@@ -743,7 +743,7 @@ export default {
           <div
             class="toast toast-warning"
             v-if="
-              view_data.type == 'room' &&
+              view_data.type === 'room' &&
               view_data.maps &&
               view_data.maps.overlays &&
               view_data.maps.overlays.default === null
@@ -871,7 +871,7 @@ export default {
                     `show the map '` + m.name + `' at the scale 1:` + m.scale
                   "
                   v-bind:class="{
-                    selected: m.id == state.map.roomfinder.selected_id,
+                    selected: m.id === state.map.roomfinder.selected_id,
                   }"
                   v-on:click="loadRoomfinderMap(i, true)"
                 >
@@ -1003,7 +1003,7 @@ export default {
             <div
               class="toast toast-warning"
               v-if="
-                view_data.type == 'room' &&
+                view_data.type === 'room' &&
                 view_data.maps &&
                 view_data.maps.overlays &&
                 view_data.maps.overlays.default === null
@@ -1047,7 +1047,7 @@ export default {
               <div class="carousel">
                 <template v-for="(_, i) in view_data.imgs">
                   <input
-                    v-if="i == image.shown_image_id"
+                    v-if="i === image.shown_image_id"
                     v-bind:id="'slide-' + (i + 1)"
                     class="carousel-locator"
                     type="radio"
