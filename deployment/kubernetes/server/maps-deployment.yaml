@@ -24,6 +24,9 @@ spec:
         app: navigatum
         deployment: maps
     spec:
+      volumes:
+        - name: tmp-tileserver
+          emptyDir: {}
       containers:
         - name: tileserver
           image: maptiler/tileserver-gl:latest
@@ -35,7 +38,7 @@ spec:
             - mountPath: /tmp
               name: tmp-tileserver
             - mountPath: /data
-              name: pvc-tileserver
+              name: navigatum-tileserver-pvc
           securityContext:
             readOnlyRootFilesystem: true
           #resources:
