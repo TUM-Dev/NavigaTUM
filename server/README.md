@@ -1,6 +1,6 @@
 # NavigaTUM-server
 
-This repository contains the backend server for NavigaTUM.
+This folder contains the backend server for NavigaTUM.
 
 ## Getting started
 
