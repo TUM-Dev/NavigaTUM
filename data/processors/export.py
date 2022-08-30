@@ -52,11 +52,9 @@ def export_for_search(data, path):
                 # For rooms, the (joined_)building parents are extra to put more emphasis on them.
                 # Also their name is included
                 "parent_building_names": [
-                    data[p]["short_name"] for p in _data["parents"][building_parents_index:]
-                    if "short_name" in data[p]
-                ] + [
-                    data[p]["name"] for p in _data["parents"][building_parents_index:]
-                ],
+                    data[p]["short_name"] for p in _data["parents"][building_parents_index:] if "short_name" in data[p]
+                ]
+                + [data[p]["name"] for p in _data["parents"][building_parents_index:]],
                 # For all other parents, only the ids and their keywords (TODO) are searchable
                 "parent_keywords": _data["parents"][1:],
                 "campus": campus_name,

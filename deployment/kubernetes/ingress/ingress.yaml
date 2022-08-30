@@ -12,17 +12,25 @@ spec:
     # temproary workaround for traefik bug (interoperability with ingress)
     - kind: Rule
       match: Host(`nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-      priority: 12
+      priority: 13
       services:
         - name: cm-acme-http-solver-4xsc9
           port: 8089
           kind: Service
     - kind: Rule
       match: Host(`nav.tum.sexy`) && PathPrefix(`/api/`)
-      priority: 11
+      priority: 12
       services:
         - name: navigatum-api-svc
           port: 7000
+    - kind: Rule
+      match: Host(`nav.tum.sexy`) && PathPrefix(`/maps/`)
+      priority: 11
+      services:
+        - name: navigatum-maps-svc
+          port: 7770
+      middlewares:
+        - name: stripprefix
     - kind: Rule
       match: Host(`nav.tum.sexy`) && PathPrefix(`/cdn/`)
       priority: 10

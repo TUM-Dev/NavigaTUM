@@ -1,6 +1,6 @@
 # NavigaTUM Webclient
 
-This repository contains the JavaScript based webclient for NavigaTUM.
+This folder contains the JavaScript based webclient for NavigaTUM.
 
 ## Getting started
 

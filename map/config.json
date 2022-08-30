@@ -1,0 +1,37 @@
+{
+  "options": {
+    "paths": {
+      "root": "",
+      "fonts": "fonts",
+      "sprites": "sprites",
+      "styles": "styles",
+      "mbtiles": ""
+    },
+    "domains": ["nav.tum.sexy", "localhost:7770", "127.0.0.1:7770"],
+    "formatQuality": {
+      "jpeg": 80,
+      "webp": 90
+    },
+    "maxScaleFactor": 3,
+    "maxSize": 2048,
+    "pbfAlias": "pbf",
+    "serveAllFonts": false,
+    "serveAllStyles": false,
+    "serveStaticMaps": true,
+    "tileMargin": 0
+  },
+  "styles": {
+    "osm_liberty": {
+      "style": "osm_liberty.json",
+      "serve_rendered": true,
+      "tilejson": {
+        "format": "png"
+      }
+    }
+  },
+  "data": {
+    "openmaptiles": {
+      "mbtiles": "output.mbtiles"
+    }
+  }
+}

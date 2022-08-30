@@ -1,10 +1,10 @@
 {
-  "id": "87f657e8-9fab-4359-abb2-536121667ebf",
+  "id": "244eb643-ac90-442d-bee3-0d275702d522",
   "title": "Flowchart",
   "model": {
     "version": "2.0.0",
     "type": "Flowchart",
-    "size": { "width": 840, "height": 1010 },
+    "size": { "width": 1000, "height": 900 },
     "interactive": { "elements": [], "relationships": [] },
     "elements": [
       {
@@ -12,56 +12,68 @@
         "name": "START",
         "type": "FlowchartTerminal",
         "owner": null,
-        "bounds": { "x": 290, "y": 0, "width": 150, "height": 75 }
+        "bounds": { "x": 600, "y": 50, "width": 130, "height": 60 }
       },
       {
         "id": "d0225bd8-73f5-41ca-93f7-281ea7a01caf",
         "name": "endpoint?",
         "type": "FlowchartDecision",
         "owner": null,
-        "bounds": { "x": 290, "y": 160, "width": 150, "height": 75 }
+        "bounds": { "x": 380, "y": 170, "width": 150, "height": 75 }
       },
       {
         "id": "97ca81f2-3db4-4970-be23-9d2375583f20",
         "name": "https?",
         "type": "FlowchartDecision",
         "owner": null,
-        "bounds": { "x": 290, "y": 370, "width": 150, "height": 75 }
-      },
-      {
-        "id": "1f42f0ec-258b-4e01-85da-2b9bbf4b665e",
-        "name": "navigatum-data",
-        "type": "FlowchartProcess",
-        "owner": null,
-        "bounds": { "x": 630, "y": 370, "width": 150, "height": 75 }
-      },
-      {
-        "id": "83ea1a90-e2d2-47a3-bf68-e9db19628138",
-        "name": "navigatum-server",
-        "type": "FlowchartProcess",
-        "owner": null,
-        "bounds": { "x": 460, "y": 370, "width": 150, "height": 75 }
-      },
-      {
-        "id": "ace89d81-f1a7-4e0e-9aaa-eb452f70e955",
-        "name": "navigatum-webclient",
-        "type": "FlowchartProcess",
-        "owner": null,
-        "bounds": { "x": 250, "y": 750, "width": 230, "height": 75 }
+        "bounds": { "x": 380, "y": 40, "width": 150, "height": 75 }
       },
       {
         "id": "6d4ee1e8-d04a-4fe3-b112-fe03205c3d5c",
         "name": "js-execution capability?",
         "type": "FlowchartDecision",
         "owner": null,
-        "bounds": { "x": 230, "y": 540, "width": 270, "height": 95 }
+        "bounds": { "x": 320, "y": 510, "width": 270, "height": 95 }
       },
       {
-        "id": "4fc067c0-c89b-47e6-a945-94bfe5b944d7",
-        "name": "rendertron rendering-proxy",
-        "type": "FlowchartProcess",
+        "id": "ceb5212d-f0df-46d4-85f0-b1a3340dcddc",
+        "name": "cdn datastore",
+        "type": "FlowchartTerminal",
         "owner": null,
-        "bounds": { "x": 0, "y": 550, "width": 150, "height": 75 }
+        "bounds": { "x": 680, "y": 390, "width": 130, "height": 55 },
+        "fillColor": "#d1d8e0"
+      },
+      {
+        "id": "7cb4fc3c-06a9-4dfc-8977-5c1593836a9c",
+        "name": "server",
+        "type": "FlowchartTerminal",
+        "owner": null,
+        "bounds": { "x": 550, "y": 390, "width": 110, "height": 55 },
+        "fillColor": "#d1d8e0"
+      },
+      {
+        "id": "37998db7-5459-4f9e-89fe-13b545213af7",
+        "name": "webclient",
+        "type": "FlowchartTerminal",
+        "owner": null,
+        "bounds": { "x": 380, "y": 670, "width": 150, "height": 75 },
+        "fillColor": "#d1d8e0"
+      },
+      {
+        "id": "2515875a-493b-4142-96b6-f83ed2a8ba07",
+        "name": "tileserver",
+        "type": "FlowchartTerminal",
+        "owner": null,
+        "bounds": { "x": 200, "y": 390, "width": 110, "height": 55 },
+        "fillColor": "#d1d8e0"
+      },
+      {
+        "id": "10d1fe36-1676-4ed9-bb9d-e3899aecb2ae",
+        "name": "rendertron rendering-proxy",
+        "type": "FlowchartTerminal",
+        "owner": null,
+        "bounds": { "x": 0, "y": 530, "width": 250, "height": 55 },
+        "fillColor": "#d1d8e0"
       }
     ],
     "relationships": [
@@ -70,18 +82,18 @@
         "name": "",
         "type": "FlowchartFlowline",
         "owner": null,
-        "bounds": { "x": 365, "y": 75, "width": 1, "height": 85 },
+        "bounds": { "x": 530, "y": 80, "width": 70, "height": 1 },
         "path": [
-          { "x": 0, "y": 0 },
-          { "x": 0, "y": 85 }
+          { "x": 70, "y": 0 },
+          { "x": 0, "y": 0 }
         ],
         "source": {
-          "direction": "Down",
+          "direction": "Left",
           "element": "80d14e10-6373-4c2a-a061-6a744ea08708"
         },
         "target": {
-          "direction": "Up",
-          "element": "d0225bd8-73f5-41ca-93f7-281ea7a01caf"
+          "direction": "Right",
+          "element": "97ca81f2-3db4-4970-be23-9d2375583f20"
         }
       },
       {
@@ -89,11 +101,11 @@
         "name": "/api/",
         "type": "FlowchartFlowline",
         "owner": null,
-        "bounds": { "x": 440, "y": 197.5, "width": 95, "height": 172.5 },
+        "bounds": { "x": 530, "y": 207.5, "width": 75, "height": 182.5 },
         "path": [
           { "x": 0, "y": 0 },
-          { "x": 95, "y": 0 },
-          { "x": 95, "y": 172.5 }
+          { "x": 75, "y": 0 },
+          { "x": 75, "y": 182.5 }
         ],
         "source": {
           "direction": "Right",
@@ -101,7 +113,7 @@
         },
         "target": {
           "direction": "Up",
-          "element": "83ea1a90-e2d2-47a3-bf68-e9db19628138"
+          "element": "7cb4fc3c-06a9-4dfc-8977-5c1593836a9c"
         }
       },
       {
@@ -109,11 +121,11 @@
         "name": "/cdn/",
         "type": "FlowchartFlowline",
         "owner": null,
-        "bounds": { "x": 440, "y": 197.5, "width": 265, "height": 172.5 },
+        "bounds": { "x": 530, "y": 207.5, "width": 215, "height": 182.5 },
         "path": [
           { "x": 0, "y": 0 },
-          { "x": 265, "y": 0 },
-          { "x": 265, "y": 172.5 }
+          { "x": 215, "y": 0 },
+          { "x": 215, "y": 182.5 }
         ],
         "source": {
           "direction": "Right",
@@ -121,7 +133,7 @@
         },
         "target": {
           "direction": "Up",
-          "element": "1f42f0ec-258b-4e01-85da-2b9bbf4b665e"
+          "element": "ceb5212d-f0df-46d4-85f0-b1a3340dcddc"
         }
       },
       {
@@ -129,10 +141,10 @@
         "name": "else",
         "type": "FlowchartFlowline",
         "owner": null,
-        "bounds": { "x": 365, "y": 235, "width": 1, "height": 135 },
+        "bounds": { "x": 455, "y": 245, "width": 1, "height": 265 },
         "path": [
           { "x": 0, "y": 0 },
-          { "x": 0, "y": 135 }
+          { "x": 0, "y": 265 }
         ],
         "source": {
           "direction": "Down",
@@ -140,7 +152,7 @@
         },
         "target": {
           "direction": "Up",
-          "element": "97ca81f2-3db4-4970-be23-9d2375583f20"
+          "element": "6d4ee1e8-d04a-4fe3-b112-fe03205c3d5c"
         }
       },
       {
@@ -148,10 +160,10 @@
         "name": "yes",
         "type": "FlowchartFlowline",
         "owner": null,
-        "bounds": { "x": 365, "y": 445, "width": 1, "height": 95 },
+        "bounds": { "x": 455, "y": 115, "width": 1, "height": 55 },
         "path": [
           { "x": 0, "y": 0 },
-          { "x": 0, "y": 95 }
+          { "x": 0, "y": 55 }
         ],
         "source": {
           "direction": "Down",
@@ -159,7 +171,7 @@
         },
         "target": {
           "direction": "Up",
-          "element": "6d4ee1e8-d04a-4fe3-b112-fe03205c3d5c"
+          "element": "d0225bd8-73f5-41ca-93f7-281ea7a01caf"
         }
       },
       {
@@ -167,10 +179,10 @@
         "name": "yes",
         "type": "FlowchartFlowline",
         "owner": null,
-        "bounds": { "x": 365, "y": 635, "width": 1, "height": 115 },
+        "bounds": { "x": 455, "y": 605, "width": 1, "height": 65 },
         "path": [
           { "x": 0, "y": 0 },
-          { "x": 0, "y": 115 }
+          { "x": 0, "y": 65 }
         ],
         "source": {
           "direction": "Down",
@@ -178,7 +190,7 @@
         },
         "target": {
           "direction": "Up",
-          "element": "ace89d81-f1a7-4e0e-9aaa-eb452f70e955"
+          "element": "37998db7-5459-4f9e-89fe-13b545213af7"
         }
       },
       {
@@ -186,19 +198,19 @@
         "name": "",
         "type": "FlowchartFlowline",
         "owner": null,
-        "bounds": { "x": 75, "y": 625, "width": 175, "height": 162.5 },
+        "bounds": { "x": 125, "y": 585, "width": 255, "height": 122.5 },
         "path": [
-          { "x": 175, "y": 162.5 },
-          { "x": 0, "y": 162.5 },
+          { "x": 255, "y": 122.5 },
+          { "x": 0, "y": 122.5 },
           { "x": 0, "y": 0 }
         ],
         "source": {
           "direction": "Left",
-          "element": "ace89d81-f1a7-4e0e-9aaa-eb452f70e955"
+          "element": "37998db7-5459-4f9e-89fe-13b545213af7"
         },
         "target": {
           "direction": "Down",
-          "element": "4fc067c0-c89b-47e6-a945-94bfe5b944d7"
+          "element": "10d1fe36-1676-4ed9-bb9d-e3899aecb2ae"
         }
       },
       {
@@ -206,11 +218,11 @@
         "name": "/rendertron/",
         "type": "FlowchartFlowline",
         "owner": null,
-        "bounds": { "x": 75, "y": 197.5, "width": 215, "height": 352.5 },
+        "bounds": { "x": 125, "y": 207.5, "width": 255, "height": 322.5 },
         "path": [
-          { "x": 215, "y": 0 },
+          { "x": 255, "y": 0 },
           { "x": 0, "y": 0 },
-          { "x": 0, "y": 352.5 }
+          { "x": 0, "y": 322.5 }
         ],
         "source": {
           "direction": "Left",
@@ -218,7 +230,7 @@
         },
         "target": {
           "direction": "Up",
-          "element": "4fc067c0-c89b-47e6-a945-94bfe5b944d7"
+          "element": "10d1fe36-1676-4ed9-bb9d-e3899aecb2ae"
         }
       },
       {
@@ -226,7 +238,7 @@
         "name": "redirect to https",
         "type": "FlowchartFlowline",
         "owner": null,
-        "bounds": { "x": 250, "y": 330, "width": 115, "height": 77.5 },
+        "bounds": { "x": 340, "y": 0, "width": 115, "height": 77.5 },
         "path": [
           { "x": 40, "y": 77.5 },
           { "x": 0, "y": 77.5 },
@@ -244,33 +256,13 @@
         }
       },
       {
-        "id": "253de17d-9c84-42ca-ab26-99a9c1c8842f",
-        "name": "",
-        "type": "FlowchartFlowline",
-        "owner": null,
-        "bounds": { "x": 75, "y": 625, "width": 175, "height": 162.5 },
-        "path": [
-          { "x": 0, "y": 0 },
-          { "x": 0, "y": 162.5 },
-          { "x": 175, "y": 162.5 }
-        ],
-        "source": {
-          "direction": "Down",
-          "element": "4fc067c0-c89b-47e6-a945-94bfe5b944d7"
-        },
-        "target": {
-          "direction": "Left",
-          "element": "ace89d81-f1a7-4e0e-9aaa-eb452f70e955"
-        }
-      },
-      {
         "id": "655d6343-25aa-4c54-a4f6-b962ab4bf8ec",
         "name": "no",
         "type": "FlowchartFlowline",
         "owner": null,
-        "bounds": { "x": 150, "y": 587.5, "width": 80, "height": 1 },
+        "bounds": { "x": 250, "y": 557.5, "width": 70, "height": 1 },
         "path": [
-          { "x": 80, "y": 0 },
+          { "x": 70, "y": 0 },
           { "x": 0, "y": 0 }
         ],
         "source": {
@@ -279,7 +271,47 @@
         },
         "target": {
           "direction": "Right",
-          "element": "4fc067c0-c89b-47e6-a945-94bfe5b944d7"
+          "element": "10d1fe36-1676-4ed9-bb9d-e3899aecb2ae"
+        }
+      },
+      {
+        "id": "c280e8e2-d5ca-4c04-94bc-a040c8eb4d93",
+        "name": "/maps/",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 255, "y": 207.5, "width": 125, "height": 182.5 },
+        "path": [
+          { "x": 125, "y": 0 },
+          { "x": 0, "y": 0 },
+          { "x": 0, "y": 182.5 }
+        ],
+        "source": {
+          "direction": "Left",
+          "element": "d0225bd8-73f5-41ca-93f7-281ea7a01caf"
+        },
+        "target": {
+          "direction": "Up",
+          "element": "2515875a-493b-4142-96b6-f83ed2a8ba07"
+        }
+      },
+      {
+        "id": "c9861868-9906-408f-9aa3-867e051d32c7",
+        "name": "",
+        "type": "FlowchartFlowline",
+        "owner": null,
+        "bounds": { "x": 125, "y": 585, "width": 255, "height": 122.5 },
+        "path": [
+          { "x": 0, "y": 0 },
+          { "x": 0, "y": 122.5 },
+          { "x": 255, "y": 122.5 }
+        ],
+        "source": {
+          "direction": "Down",
+          "element": "10d1fe36-1676-4ed9-bb9d-e3899aecb2ae"
+        },
+        "target": {
+          "direction": "Left",
+          "element": "37998db7-5459-4f9e-89fe-13b545213af7"
         }
       }
     ],

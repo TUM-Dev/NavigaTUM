@@ -9,3 +9,4 @@ spec:
   stripPrefix:
     prefixes:
       - /rendertron
+      - /map

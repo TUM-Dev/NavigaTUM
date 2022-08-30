@@ -1,12 +1,12 @@
 # NavigaTUM Data Repository
 
-This repository contains:
+This folder contains:
 
 - The code to compile the datasets for NavigaTUM
 - Custom data inserted into the datasets
 - Custom patches applied on the source data
 
-The code to retrieve external data, as well as externally retrieved data is not part of this repository.
+The code to retrieve external data, as well as externally retrieved data is located under `external`.
 
 ⚠️ A lot of this code is more a work in progress than finished. Especially features such as POIs, custom maps or other data types such as events are drafted but not yet fully implemented.
 
