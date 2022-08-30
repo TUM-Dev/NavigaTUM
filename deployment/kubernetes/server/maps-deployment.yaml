@@ -27,6 +27,10 @@ spec:
       volumes:
         - name: tmp-tileserver
           emptyDir: {}
+        - name: navigatum-tileserver-vol
+          persistentVolumeClaim:
+              readOnly: false
+              claimName: navigatum-tileserver-pvc
       containers:
         - name: tileserver
           image: maptiler/tileserver-gl:latest
@@ -38,7 +42,7 @@ spec:
             - mountPath: /tmp
               name: tmp-tileserver
             - mountPath: /data
-              name: navigatum-tileserver-pvc
+              name: navigatum-tileserver-vol
           securityContext:
             readOnlyRootFilesystem: true
           #resources:

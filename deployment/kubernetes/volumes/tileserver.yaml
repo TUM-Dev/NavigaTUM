@@ -5,6 +5,7 @@ metadata:
   namespace: navigatum
   labels:
     app: navigatum
+    deployment: maps
     type: local
 spec:
   storageClassName: manual
@@ -23,6 +24,7 @@ metadata:
   namespace: navigatum
   labels:
     app: navigatum
+    deployment: maps
     type: local
 spec:
   storageClassName: manual
