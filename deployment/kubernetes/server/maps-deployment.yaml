@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: navigatum-server
+  name: navigatum-maps
   labels:
     app: navigatum
-    deployment: api
+    deployment: maps
   namespace: navigatum
 spec:
   replicas: 1
@@ -12,7 +12,7 @@ spec:
   selector:
     matchLabels:
       app: navigatum
-      deployment: api
+      deployment: maps
   strategy:
     rollingUpdate:
       maxSurge: 100%
@@ -22,15 +22,12 @@ spec:
     metadata:
       labels:
         app: navigatum
-        deployment: api
+        deployment: maps
     spec:
       containers:
         - name: tileserver
           image: maptiler/tileserver-gl:latest
           imagePullPolicy: Always
-          envFrom:
-            - configMapRef:
-                name: navigatum-config
           ports:
             - containerPort: 80
               name: tileserver
@@ -50,13 +47,13 @@ spec:
           #    memory: 700Mi
           #livenessProbe:
           #  httpGet:
-          #    path: /api/health
-          #    port: navigatum-api
+          #    path: /maps/health
+          #    port: tileserver
           #  failureThreshold: 1
           #  periodSeconds: 1
           #startupProbe:
           #  httpGet:
-          #    path: /api/health
-          #    port: navigatum-api
+          #    path: /maps/health
+          #    port: tileserver
           #  failureThreshold: 60
           #  periodSeconds: 1
