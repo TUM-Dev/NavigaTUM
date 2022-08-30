@@ -1,6 +1,6 @@
-FROM getmeili/meilisearch:v0.28.1
+FROM getmeili/meilisearch:v0.28.1 as build-stage
 
-RUN apk add --no-cache jq
+RUN apk add --no-cache jq bash
 
 COPY ./configure_MeileSearch.sh /configure_MeileSearch.sh
 
@@ -8,5 +8,12 @@ COPY ./configure_MeileSearch.sh /configure_MeileSearch.sh
 ADD https://nav.tum.sexy/cdn/search_data.json search_data.json
 ADD https://nav.tum.sexy/cdn/search_synonyms.json search_synonyms.json
 
+RUN bash /configure_MeileSearch.sh
+
+FROM getmeili/meilisearch:v0.28.1 as production-stage
+
+COPY --from=build-stage /meili_data/data.ms ./data.ms
+
 EXPOSE 7700
-ENTRYPOINT /configure_MeileSearch.sh & meilisearch|grep -v ' "GET /health HTTP/1.1" 200'
+ENTRYPOINT meilisearch
+HEALTHCHECK --interval=5s --timeout=5s --start-period=60s --retries=5 CMD curl -f http://localhost:7700/health || exit 1
