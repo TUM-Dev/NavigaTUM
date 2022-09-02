@@ -29,27 +29,4 @@ export const useDetailsStore = defineStore({
       filter: "",
     },
   }),
-  actions: {
-    reset() {
-      this.map = {
-        selected: selectedMap.interactive,
-        roomfinder: {
-          selected_id: null, // Map id
-          selected_index: null, // Index in the 'available' list
-          x: -1023 - 10, // Outside in top left corner
-          y: -1023 - 10,
-          width: 400,
-          height: 300,
-        },
-      };
-      this.buildings_overview = {
-        expanded: false,
-      };
-      this.rooms_overview = {
-        expanded: false,
-        selected: null,
-        filter: "",
-      };
-    },
-  },
 });

@@ -135,7 +135,7 @@ export default {
 
       // --- Maps ---
       // We need to reset state to default here, else it is preserved from the previous page
-      this.state.reset();
+      this.state.$reset();
 
       this.state.map.selected = data.maps.default;
       // Interactive has to be always available, but roomfinder may be unavailable
