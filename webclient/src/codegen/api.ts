@@ -14,7 +14,7 @@
 
 import * as url from "url";
 import * as isomorphicFetch from "isomorphic-fetch";
-import { Configuration } from "./configuration";
+import type { Configuration } from "./configuration";
 
 const BASE_PATH = "https://nav.tum.sexy".replace(/\/+$/, "");
 
@@ -54,7 +54,7 @@ export interface FetchArgs {
  * @class BaseAPI
  */
 export class BaseAPI {
-  protected configuration: Configuration;
+  protected configuration: Configuration | undefined;
 
   constructor(
     configuration?: Configuration,
@@ -75,7 +75,7 @@ export class BaseAPI {
  * @extends {Error}
  */
 export class RequiredError extends Error {
-  name: "RequiredError";
+  name = "RequiredError";
   constructor(public field: string, msg?: string) {
     super(msg);
   }
@@ -272,12 +272,12 @@ export namespace DetailsResponse {
    * @enum {string}
    */
   export enum TypeEnum {
-    Room = <any>"room",
-    Building = <any>"building",
-    JoinedBuilding = <any>"joined_building",
-    Area = <any>"area",
-    Site = <any>"site",
-    Campus = <any>"campus",
+    Room = "room",
+    Building = "building",
+    JoinedBuilding = "joined_building",
+    Area = "area",
+    Site = "site",
+    Campus = "campus",
   }
 }
 /**
@@ -445,7 +445,7 @@ export interface Maps {
    * @type {string}
    * @memberof Maps
    */
-  _default: Maps.DefaultEnum;
+  default: Maps.DefaultEnum;
   /**
    *
    * @type {RoomfinderMap}
@@ -470,8 +470,8 @@ export namespace Maps {
    * @enum {string}
    */
   export enum DefaultEnum {
-    Interactive = <any>"interactive",
-    Roomfinder = <any>"roomfinder",
+    Interactive = "interactive",
+    Roomfinder = "roomfinder",
   }
 }
 /**
@@ -485,7 +485,7 @@ export interface OverlayMap {
    * @type {number}
    * @memberof OverlayMap
    */
-  _default: number;
+  default: number;
   /**
    *
    * @type {Array<OverlayMapEntry>}
@@ -635,7 +635,7 @@ export interface RoomfinderMap {
    * @type {string}
    * @memberof RoomfinderMap
    */
-  _default: string;
+  default: string;
   /**
    *
    * @type {Array<RoomfinderMapEntry>}
@@ -728,7 +728,7 @@ export namespace Rooms {
    * @enum {string}
    */
   export enum FacetEnum {
-    Rooms = <any>"rooms",
+    Rooms = "rooms",
   }
 }
 /**
@@ -761,14 +761,14 @@ export namespace RootResponse {
    * @enum {string}
    */
   export enum IdEnum {
-    Root = <any>"root",
+    Root = "root",
   }
   /**
    * @export
    * @enum {string}
    */
   export enum TypeEnum {
-    Root = <any>"root",
+    Root = "root",
   }
 }
 /**
@@ -832,7 +832,7 @@ export namespace SitesBuildings {
    * @enum {string}
    */
   export enum FacetEnum {
-    SitesBuildings = <any>"sites_buildings",
+    SitesBuildings = "sites_buildings",
   }
 }
 /**
@@ -920,12 +920,12 @@ export namespace TokenRequest {
    * @enum {string}
    */
   export enum CategoryEnum {
-    General = <any>"general",
-    Bug = <any>"bug",
-    Feature = <any>"feature",
-    Search = <any>"search",
-    Entry = <any>"entry",
-    Other = <any>"other",
+    General = "general",
+    Bug = "bug",
+    Feature = "feature",
+    Search = "search",
+    Entry = "entry",
+    Other = "other",
   }
 }
 /**
