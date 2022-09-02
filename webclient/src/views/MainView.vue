@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { setTitle } from "@/utils/common";
 import { useFetch } from "@/utils/fetch";
-import { RootResponse } from "@/codegen";
+import type { RootResponse } from "@/codegen";
 
 const { data } = useFetch<RootResponse>(`/api/get/root`, (d) =>
   setTitle(d.name)
