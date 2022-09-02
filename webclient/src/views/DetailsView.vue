@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts">
 import {
   getLocalStorageWithExpiry,
   removeLocalStorage,
@@ -7,8 +7,8 @@ import {
 import { copyCurrentLink, setDescription, setTitle } from "@/utils/common";
 import ShareButton from "@/components/ShareButton.vue";
 import { selectedMap, useDetailsStore } from "@/stores/details";
+import DetailsInteractiveMap from "@/components/DetailsInteractiveMap.vue";
 
-/* global mapboxgl */
 function viewNavigateTo(to, from, next, component) {
   navigatum.getData(to.params.id).then((data) => {
     function finish() {
@@ -50,22 +50,13 @@ function viewNavigateTo(to, from, next, component) {
 }
 
 export default {
-  components: [ShareButton],
+  components: [ShareButton, DetailsInteractiveMap],
   data: function () {
     return {
-      view_data: null,
       image: {
         shown_image: null,
         shown_image_id: null,
         slideshow_open: false,
-      },
-      map: {
-        interactive: {
-          map: null,
-          component: null,
-          marker: null,
-          marker2: null,
-        },
       },
       sections: {
         rooms_overview: {
@@ -79,8 +70,6 @@ export default {
           loading: false,
         },
       },
-      // State is preserved when navigating in history.
-      // May only contain serializable objects!
       state: useDetailsStore(),
       copied: false,
       // Coordinate picker states
@@ -91,11 +80,11 @@ export default {
       coord_picker: {
         // The coordinate picker keeps backups of the subject and body
         // in case someone writes a text and then after that clicks
-        // the set coordinate button in the feedback form. If we didn't
-        // made a backup then, this would be lost after clicking confirm there.
-        backup_id: null,
-        subject_backup: null,
-        body_backup: null,
+        // the set coordinate button in the feedback form. If we wouldn't
+        // make a backup, this would be lost after clicking confirm there.
+        backup_id: null as string | null,
+        subject_backup: null as string | null,
+        body_backup: null as string | null,
         force_reopen: false,
       },
     };
@@ -108,10 +97,10 @@ export default {
   },
   methods: {
     showImageShowcase: function (i, openSlideshow = true) {
-      if (this.view_data && this.view_data.imgs && this.view_data.imgs[i]) {
+      if (this.state.data && this.state.data.imgs && this.state.data.imgs[i]) {
         this.image.slideshow_open = openSlideshow;
         this.image.shown_image_id = i;
-        this.image.shown_image = this.view_data.imgs[i];
+        this.image.shown_image = this.state.data.imgs[i];
       } else {
         this.image.slideshow_open = false;
         this.image.shown_image_id = null;
@@ -127,7 +116,7 @@ export default {
     // - when the view is navigated to from a different view
     // - when the view is navigated to from the same view, but with a different entry
     loadEntryData: function (data) {
-      this.view_data = data;
+      this.state.data = data;
 
       this.showImageShowcase(0, false);
 
@@ -158,8 +147,8 @@ export default {
       setDescription(this.genDescription(data));
 
       // --- Sections ---
-      if (this.view_data.sections && this.view_data.sections.rooms_overview) {
-        const { usages } = this.view_data.sections.rooms_overview;
+      if (this.state.data.sections && this.state.data.sections.rooms_overview) {
+        const { usages } = this.state.data.sections.rooms_overview;
         const combinedList = [];
         usages.forEach((usage) => {
           combinedList.push(...usage.children);
@@ -192,56 +181,15 @@ export default {
       else if (this.state.map.selected === selectedMap.roomfinder)
         this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
     },
-    addLocationPicker: function () {
-      // If this is called from the feedback form using the edit coordinate
-      // button, we temporarily save the current subject and body, so it is
-      // not lost when being reopened
-      if (
-        window.feedback &&
-        document.getElementById("feedback-modal").classList.contains("active")
-      ) {
-        this.coord_picker.backup_id = this.view_data.id;
-        this.coord_picker.subject_backup =
-          document.getElementById("feedback-subject").value;
-        this.coord_picker.body_backup =
-          document.getElementById("feedback-body").value;
-        this.coord_picker.force_reopen = true; // reopen after confirm
-
-        window.feedback.closeForm();
-      }
-
-      this.state.map.selected = selectedMap.interactive;
-
-      // Verify that there isn't already a marker (could happen if you click 'assign
-      // a location' multiple times from the 'missing accurate location' toast)
-      if (this.map.interactive.marker2 === null) {
-        // Coordinates are either taken from the entry, or if there are already
-        // some in the localStorage use them
-        const currentEdits = getLocalStorageWithExpiry(
-          "coordinate-feedback",
-          {}
-        );
-
-        const { coords } = currentEdits[this.view_data.id] || this.view_data;
-        const marker2 = new mapboxgl.Marker({
-          draggable: true,
-          color: "#ff0000",
-        });
-        marker2
-          .setLngLat([coords.lon, coords.lat])
-          .addTo(this.map.interactive.map);
-        this.map.interactive.marker2 = marker2;
-      }
-    },
     _getFeedbackSubject: function (currentEdits) {
       if (Object.keys(currentEdits).length > 1) {
         return (
-          `[${this.view_data.id} et.al.]: ` +
+          `[${this.state.data.id} et.al.]: ` +
           $t("feedback.coordinatepicker.edit_coordinates_subject")
         );
       }
 
-      const subjectPrefix = `[${this.view_data.id}]: `;
+      const subjectPrefix = `[${this.state.data.id}]: `;
       const subjectMsg =
         Object.keys(currentEdits).length === 0
           ? ""
@@ -251,7 +199,7 @@ export default {
       // entry is being edited
       if (
         this.coord_picker.subject_backup &&
-        this.coord_picker.backup_id === this.view_data.id &&
+        this.coord_picker.backup_id === this.state.data.id &&
         this.coord_picker.subject_backup !== subjectPrefix
       ) {
         const backup = this.coord_picker.subject_backup;
@@ -266,7 +214,7 @@ export default {
       let actionMsg = "";
       if (
         this.coord_picker.body_backup &&
-        this.coord_picker.backup_id === this.view_data.id
+        this.coord_picker.backup_id === this.state.data.id
       ) {
         const parts = this.coord_picker.body_backup.split("\n```");
         if (parts.length === 1) {
@@ -285,7 +233,7 @@ export default {
       }
 
       const defaultActionMsg =
-        this.view_data.coords.accuracy === "building"
+        this.state.data.coords.accuracy === "building"
           ? $t("feedback.coordinatepicker.add_coordinate")
           : $t("feedback.coordinatepicker.correct_coordinate");
       actionMsg = actionMsg || defaultActionMsg;
@@ -321,7 +269,7 @@ export default {
       // add the current edits to the feedback
       const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
       const location = this.map.interactive.marker2.getLngLat();
-      currentEdits[this.view_data.id] = {
+      currentEdits[this.state.data.id] = {
         coords: { lat: location.lat, lon: location.lng },
       };
       // save to local storage with ttl of 12h (garbage-collected on next read)
@@ -370,87 +318,8 @@ export default {
         this.coord_counter.to_confirm_delete = true;
       }
     },
-    loadInteractiveMap: function (fromUi = false) {
-      const _this = this;
-      const fromMap = this.state.map.selected;
-
-      this.state.map.selected = selectedMap.interactive;
-
-      const doMapUpdate = function () {
-        getModule("interactive-map").then((c) => {
-          _this.map.interactive.component = c;
-
-          let { map } = _this.map.interactive;
-          let { marker } = _this.map.interactive;
-          // The map might or might not be initialized depending on the type
-          // of navigation.
-          if (document.getElementById("interactive-map")) {
-            if (
-              document
-                .getElementById("interactive-map")
-                .classList.contains("mapboxgl-map")
-            ) {
-              marker.remove();
-            } else {
-              map = c.initMap("interactive-map");
-              _this.map.interactive.map = map;
-
-              document
-                .getElementById("interactive-map")
-                .classList.remove("loading");
-            }
-          }
-          marker = new mapboxgl.Marker({ element: c.createMarker() });
-          _this.map.interactive.marker = marker;
-          const coords = _this.view_data.coords;
-          marker.setLngLat([coords.lon, coords.lat]).addTo(map);
-
-          if (_this.view_data.maps && _this.view_data.maps.overlays) {
-            c.setFloorOverlays(
-              _this.view_data.maps.overlays.available,
-              _this.view_data.maps.overlays.default
-            );
-          } else {
-            c.setFloorOverlays(null);
-          }
-
-          const defaultZooms = {
-            joined_building: 16,
-            building: 17,
-            room: 18,
-          };
-          if (fromMap === selectedMap.interactive) {
-            map.flyTo({
-              center: [coords.lon, coords.lat],
-              zoom: defaultZooms[_this.view_data.type]
-                ? defaultZooms[_this.view_data.type]
-                : 16,
-              speed: 1,
-              maxDuration: 2000,
-            });
-          } else {
-            map.setZoom(16);
-            map.setCenter([coords.lon, coords.lat]);
-          }
-        });
-      };
-
-      // The map element should be visible when initializing
-      if (!document.querySelector("#interactive-map .mapboxgl-canvas"))
-        this.$nextTick(doMapUpdate());
-      else doMapUpdate();
-
-      // To have an animation when the roomfinder is opened some time later,
-      // the cursor is set to 'zero' while the interactive map is displayed.
-      this.state.map.roomfinder.x = -1023 - 10;
-      this.state.map.roomfinder.y = -1023 - 10;
-
-      if (fromUi) {
-        window.scrollTo(0, 0);
-      }
-    },
     loadRoomfinderMap: function (mapIndex, fromUi) {
-      const map = this.view_data.maps.roomfinder.available[mapIndex];
+      const map = this.state.data.maps.roomfinder.available[mapIndex];
       this.state.map.selected = selectedMap.roomfinder;
       this.state.map.roomfinder.selected_id = map.id;
       this.state.map.roomfinder.selected_index = mapIndex;
@@ -486,7 +355,7 @@ export default {
     },
     updateRoomsOverview: function (setSelected = undefined) {
       const state = this.state.rooms_overview;
-      const data = this.view_data.sections.rooms_overview;
+      const data = this.state.data.sections.rooms_overview;
       const local = this.sections.rooms_overview;
 
       if (setSelected !== undefined) state.selected = setSelected;
@@ -587,7 +456,7 @@ export default {
 </script>
 
 <template>
-  <div id="view-view" v-if="view_data">
+  <div id="view-view" v-if="state.data">
     <!-- Header image (on mobile) -->
     <a
       class="show-sm header-image-mobile c-hand"
@@ -646,12 +515,12 @@ export default {
     <ol class="breadcrumb" vocab="https://schema.org/" typeof="BreadcrumbList">
       <li
         class="breadcrumb-item"
-        v-for="(p, i) in view_data.parent_names"
+        v-for="(p, i) in state.data.parent_names"
         property="itemListElement"
         typeof="ListItem"
       >
         <RouterLink
-          v-bind="{ to: '/view/' + view_data.parents[i] }"
+          v-bind="{ to: '/view/' + state.data.parents[i] }"
           property="item"
           typeof="WebPage"
         >
@@ -675,13 +544,13 @@ export default {
           </button>
         </div>
         <h1>
-          {{ view_data.name
+          {{ state.data.name
           }}<!-- <small class="label">Exaktes Ergebnis</small>-->
         </h1>
       </div>
       <div class="columns subtitle">
         <div class="column col-auto">
-          <span>{{ view_data.type_common_name }}</span>
+          <span>{{ state.data.type_common_name }}</span>
         </div>
         <div class="column col-auto col-ml-auto">
           <button
@@ -706,7 +575,7 @@ export default {
               <path d="M2.352.268h1.085v1.085" stroke-linejoin="round" />
             </svg>
           </button>
-          <ShareButton v-bind:coords="view_data.coords"></ShareButton>
+          <ShareButton v-bind:coords="state.data.coords"></ShareButton>
           <button
             class="btn btn-link btn-action btn-sm"
             v-bind:title="$t('view_view.header.feedback')"
@@ -731,8 +600,8 @@ export default {
           <div
             class="toast toast-warning"
             v-if="
-              view_data.coords.accuracy &&
-              view_data.coords.accuracy === 'building'
+              state.data.coords.accuracy &&
+              state.data.coords.accuracy === 'building'
             "
           >
             {{ $t("view_view.msg.inaccurate_only_building.msg") }}
@@ -743,16 +612,19 @@ export default {
           <div
             class="toast toast-warning"
             v-if="
-              view_data.type === 'room' &&
-              view_data.maps &&
-              view_data.maps.overlays &&
-              view_data.maps.overlays.default === null
+              state.data.type === 'room' &&
+              state.data.maps &&
+              state.data.maps.overlays &&
+              state.data.maps.overlays.default === null
             "
           >
             {{ $t("view_view.msg.no_floor_overlay") }}
           </div>
-          <div class="toast" v-if="view_data.props && view_data.props.comment">
-            {{ view_data.props.comment }}
+          <div
+            class="toast"
+            v-if="state.data.props && state.data.props.comment"
+          >
+            {{ state.data.props.comment }}
           </div>
         </div>
 
@@ -776,24 +648,17 @@ export default {
           </div>
         </div>
 
-        <div
-          id="interactive-map-container"
-          v-bind:class="{ 'd-none': state.map.selected !== 'interactive' }"
-        >
-          <div>
-            <div id="interactive-map" class="loading"></div>
-          </div>
-        </div>
+        <DetailsInteractiveMap></DetailsInteractiveMap>
         <div
           class="roomfinder-map-container"
           v-bind:class="{ 'd-none': state.map.selected !== 'roomfinder' }"
           v-if="
-            view_data.maps.roomfinder && view_data.maps.roomfinder.available
+            state.data.maps.roomfinder && state.data.maps.roomfinder.available
           "
         >
           <img
             alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
-            src="@/assets/roomfinder_cross-v2.webp"
+            src="@/assets/map/roomfinder_cross-v2.webp"
             v-bind:style="{
               transform:
                 'translate(' +
@@ -808,7 +673,7 @@ export default {
             alt="Hand-drawn roomfinder map image"
             v-bind:src="
               '/cdn/maps/roomfinder/' +
-              view_data.maps.roomfinder.available[
+              state.data.maps.roomfinder.available[
                 state.map.roomfinder.selected_index
               ].file
             "
@@ -820,7 +685,7 @@ export default {
           <div>
             {{ $t("view_view.map.img_source") }}:
             {{
-              view_data.maps.roomfinder.available[
+              state.data.maps.roomfinder.available[
                 state.map.roomfinder.selected_index
               ].source
             }}
@@ -831,7 +696,7 @@ export default {
           id="roomfinder-map-select"
           v-bind:class="{ 'd-none': state.map.selected !== 'roomfinder' }"
           v-if="
-            view_data.maps.roomfinder && view_data.maps.roomfinder.available
+            state.data.maps.roomfinder && state.data.maps.roomfinder.available
           "
         >
           <input
@@ -845,12 +710,12 @@ export default {
             class="btn btn-sm btn-block accordion-header"
           >
             1:{{
-              view_data.maps.roomfinder.available[
+              state.data.maps.roomfinder.available[
                 state.map.roomfinder.selected_index
               ].scale
             }},
             {{
-              view_data.maps.roomfinder.available[
+              state.data.maps.roomfinder.available[
                 state.map.roomfinder.selected_index
               ].name
             }}
@@ -858,12 +723,12 @@ export default {
           </label>
           <div
             class="accordion-body"
-            v-if="view_data.maps && view_data.maps.roomfinder"
+            v-if="state.data.maps && state.data.maps.roomfinder"
           >
             <ul class="menu menu-nav">
               <li
                 class="menu-item"
-                v-for="(m, i) in view_data.maps.roomfinder.available"
+                v-for="(m, i) in state.data.maps.roomfinder.available"
               >
                 <button
                   class="btn btn-sm"
@@ -897,7 +762,8 @@ export default {
             v-bind:class="{ active: state.map.selected === 'roomfinder' }"
             v-bind:disabled="
               !(
-                view_data.maps.roomfinder && view_data.maps.roomfinder.available
+                state.data.maps.roomfinder &&
+                state.data.maps.roomfinder.available
               )
             "
           >
@@ -910,24 +776,24 @@ export default {
       <!-- Information section (on mobile) -->
       <div
         class="column col-5 col-sm-12 show-sm mobile-info-section"
-        v-if="view_data.props && view_data.props.computed"
+        v-if="state.data.props && state.data.props.computed"
       >
         <h2>Informationen</h2>
         <table class="info-table">
           <tbody>
-            <tr v-for="prop in view_data.props.computed">
+            <tr v-for="prop in state.data.props.computed">
               <td>
                 <strong>{{ prop.name }}</strong>
               </td>
               <td>{{ prop.text }}</td>
             </tr>
-            <tr v-if="view_data.props.links">
+            <tr v-if="state.data.props.links">
               <td>
                 <strong>{{ $t("view_view.info_table.links") }}</strong>
               </td>
               <td>
                 <ul>
-                  <li v-for="link in view_data.props.links">
+                  <li v-for="link in state.data.props.links">
                     <a v-bind:href="link.url">
                       {{ link.text }}
                     </a>
@@ -962,22 +828,22 @@ export default {
           <div class="card-body">
             <table
               class="info-table"
-              v-if="view_data.props && view_data.props.computed"
+              v-if="state.data.props && state.data.props.computed"
             >
               <tbody>
-                <tr v-for="prop in view_data.props.computed">
+                <tr v-for="prop in state.data.props.computed">
                   <td>
                     <strong>{{ prop.name }}</strong>
                   </td>
                   <td>{{ prop.text }}</td>
                 </tr>
-                <tr v-if="view_data.props.links">
+                <tr v-if="state.data.props.links">
                   <td>
                     <strong>{{ $t("view_view.info_table.links") }}</strong>
                   </td>
                   <td>
                     <ul>
-                      <li v-for="link in view_data.props.links">
+                      <li v-for="link in state.data.props.links">
                         <a v-bind:href="link.url">
                           {{ link.text }}
                         </a>
@@ -991,8 +857,8 @@ export default {
             <div
               class="toast toast-warning"
               v-if="
-                view_data.coords.accuracy &&
-                view_data.coords.accuracy === 'building'
+                state.data.coords.accuracy &&
+                state.data.coords.accuracy === 'building'
               "
             >
               {{ $t("view_view.msg.inaccurate_only_building.msg") }}
@@ -1003,19 +869,19 @@ export default {
             <div
               class="toast toast-warning"
               v-if="
-                view_data.type === 'room' &&
-                view_data.maps &&
-                view_data.maps.overlays &&
-                view_data.maps.overlays.default === null
+                state.data.type === 'room' &&
+                state.data.maps &&
+                state.data.maps.overlays &&
+                state.data.maps.overlays.default === null
               "
             >
               {{ $t("view_view.msg.no_floor_overlay") }}
             </div>
             <div
               class="toast"
-              v-if="view_data.props && view_data.props.comment"
+              v-if="state.data.props && state.data.props.comment"
             >
-              {{ view_data.props.comment }}
+              {{ state.data.props.comment }}
             </div>
           </div>
           <!--<div class="card-footer">
@@ -1045,7 +911,7 @@ export default {
           <div class="modal-body">
             <div class="content">
               <div class="carousel">
-                <template v-for="(_, i) in view_data.imgs">
+                <template v-for="(_, i) in state.data.imgs">
                   <input
                     v-if="i === image.shown_image_id"
                     v-bind:id="'slide-' + (i + 1)"
@@ -1068,7 +934,7 @@ export default {
 
                 <div class="carousel-container">
                   <figure
-                    v-for="(img, i) in view_data.imgs"
+                    v-for="(img, i) in state.data.imgs"
                     class="carousel-item"
                   >
                     <label
@@ -1080,7 +946,7 @@ export default {
                       <i class="icon icon-arrow-left"></i>
                     </label>
                     <label
-                      v-if="i != view_data.imgs.length - 1"
+                      v-if="i != state.data.imgs.length - 1"
                       class="item-next btn btn-action btn-lg"
                       v-bind:for="'slide-' + (i + 2)"
                       @click="showImageShowcase(i + 1)"
@@ -1132,7 +998,7 @@ export default {
                 </div>
                 <div class="carousel-nav">
                   <label
-                    v-for="(_, i) in view_data.imgs"
+                    v-for="(_, i) in state.data.imgs"
                     class="nav-item text-hide c-hand"
                     v-bind:for="'slide-' + (i + 1)"
                     >{{ i + 1 }}</label
@@ -1181,7 +1047,7 @@ export default {
     </div>
 
     <!-- TMP
-  <div v-if="view_data.sections && view_data.sections.featured">
+  <div v-if="state.data.sections && state.data.sections.featured">
   <div class="columns" style="margin-top: 40px">
       <div class="column"><h2>Featured</h2></div>
   </div>
@@ -1243,7 +1109,7 @@ export default {
 
     <!-- Buildings overview -->
     <section
-      v-if="view_data.sections && view_data.sections.buildings_overview"
+      v-if="state.data.sections && state.data.sections.buildings_overview"
       id="building-overview"
     >
       <div class="columns">
@@ -1257,9 +1123,9 @@ export default {
       <div class="columns">
         <div
           class="column col-4 col-md-12 content"
-          v-for="(b, i) in view_data.sections.buildings_overview.entries"
+          v-for="(b, i) in state.data.sections.buildings_overview.entries"
           v-if="
-            i < view_data.sections.buildings_overview.n_visible ||
+            i < state.data.sections.buildings_overview.n_visible ||
             state.buildings_overview.expanded
           "
         >
@@ -1301,8 +1167,8 @@ export default {
       </div>
       <div
         v-if="
-          view_data.sections.buildings_overview.n_visible <
-          view_data.sections.buildings_overview.entries.length
+          state.data.sections.buildings_overview.n_visible <
+          state.data.sections.buildings_overview.entries.length
         "
       >
         <button
@@ -1327,7 +1193,7 @@ export default {
     <!-- Rooms overview -->
     <section
       id="rooms-overview"
-      v-if="view_data.sections && view_data.sections.rooms_overview"
+      v-if="state.data.sections && state.data.sections.rooms_overview"
     >
       <div class="columns">
         <div class="column">
@@ -1376,7 +1242,7 @@ export default {
                 <li class="divider" data-content=""></li>
                 <li
                   class="menu-item"
-                  v-for="(u, i) in view_data.sections.rooms_overview.usages"
+                  v-for="(u, i) in state.data.sections.rooms_overview.usages"
                 >
                   <button
                     class="btn"
@@ -1468,14 +1334,14 @@ export default {
       </div>
       <p v-if="">
         {{ $t("view_view.sources.base.title") }}:
-        <span v-for="(e, i) in view_data.sources.base">
+        <span v-for="(e, i) in state.data.sources.base">
           <a v-if="e.url" v-bind:href="e.url">{{ e.name }}</a>
           <template v-else>{{ e.name }}</template>
-          <template v-if="i < view_data.sources.base.length - 1"
+          <template v-if="i < state.data.sources.base.length - 1"
             >&#32;•&#32;</template
           >
         </span>
-        <span v-if="view_data.sources.patched">
+        <span v-if="state.data.sources.patched">
           <br />{{ $t("view_view.sources.base.patched") }}
         </span>
       </p>
@@ -1505,15 +1371,15 @@ export default {
           <template v-else>{{ image.shown_image.license.text }}</template>
         </span>
       </p>
-      <p v-if="view_data.coords">
+      <p v-if="state.data.coords">
         {{ $t("view_view.sources.coords.title") }}:
-        <span v-if="view_data.coords.source === 'navigatum'">
+        <span v-if="state.data.coords.source === 'navigatum'">
           {{ $t("view_view.sources.coords.navigatum") }}</span
         >
-        <span v-if="view_data.coords.source === 'roomfinder'">
+        <span v-if="state.data.coords.source === 'roomfinder'">
           {{ $t("view_view.sources.coords.roomfinder") }}
         </span>
-        <span v-if="view_data.coords.source === 'inferred'">
+        <span v-if="state.data.coords.source === 'inferred'">
           {{ $t("view_view.sources.coords.inferred") }}
         </span>
       </p>
@@ -1704,138 +1570,6 @@ export default {
 
     & .btns {
       margin: auto 0;
-    }
-  }
-
-  /* --- Interactive map display --- */
-  #interactive-map-container {
-    margin-bottom: 10px;
-    aspect-ratio: 4 / 3; // Not yet supported by all browsers
-
-    > div {
-      padding-bottom: 75%; // 4:3 aspect ratio
-      border: 1px solid $border-light;
-      background-color: $container-loading-bg;
-      position: relative;
-    }
-
-    &.maximize {
-      position: absolute;
-      top: -10px;
-      left: 0;
-      width: 100%;
-      height: calc(100vh - 60px);
-      z-index: 1000;
-
-      > div {
-        padding-bottom: 0;
-        height: 100%;
-      }
-    }
-  }
-
-  #interactive-map {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-  }
-
-  .marker {
-    position: absolute;
-    pointer-events: none;
-    padding: 0;
-  }
-
-  .mapboxgl-ctrl-group.floor-ctrl {
-    max-width: 100%;
-    display: none;
-    overflow: hidden;
-
-    &.visible {
-      display: block;
-    }
-
-    &.closed #floor-list {
-      display: none !important;
-    }
-
-    & button {
-      &.active {
-        background: #ececec;
-      }
-
-      & .arrow {
-        font-weight: normal;
-        font-size: 0.3rem;
-        line-height: 0.9rem;
-        vertical-align: top;
-      }
-    }
-
-    &.reduced > .vertical-oc,
-    &.reduced > .horizontal-oc {
-      display: none !important;
-    }
-
-    & > .vertical-oc,
-    & > .horizontal-oc {
-      font-weight: bold;
-      background: #ececec;
-    }
-
-    &.closed {
-      & > .vertical-oc,
-      & > .horizontal-oc {
-        background: #fff;
-      }
-
-      &:hover > .vertical-oc,
-      &:hover > .horizontal-oc {
-        background: #f2f2f2;
-      }
-    }
-
-    // vertical is default layout
-    & > .horizontal-oc {
-      display: none;
-    }
-
-    &.horizontal {
-      & > .horizontal-oc {
-        display: inline-block;
-      }
-
-      & > .vertical-oc {
-        display: none;
-      }
-
-      & #floor-list {
-        display: inline-block;
-        width: calc(100% - 29px);
-      }
-
-      & button {
-        display: inline-block;
-        border-top: 0;
-        border-left: 1px solid #ddd;
-
-        &.arrow {
-          font-size: 0.4rem;
-          vertical-align: bottom;
-          line-height: 1.1rem;
-        }
-
-        & + button {
-          border-top: 0;
-        }
-      }
-    }
-
-    // mapbox logo
-    & + .mapboxgl-ctrl {
-      opacity: 0.4;
-      pointer-events: none;
-      z-index: -1;
     }
   }
 
@@ -2101,15 +1835,6 @@ export default {
 // 'sm' (mobile)
 @media (max-width: 600px) {
   #view-view {
-    // The mapbox logo is taking away space from the layer
-    // selection on the bottom left on mobile, so we move
-    // it a bit
-    .floor-ctrl.visible + .mapboxgl-ctrl {
-      position: absolute;
-      bottom: 2px;
-      left: 42px;
-    }
-
     #rooms-overview-select .panel-body {
       max-height: 260px;
     }

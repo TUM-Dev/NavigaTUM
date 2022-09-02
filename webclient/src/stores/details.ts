@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-
+import type { DetailsResponse } from "@/codegen";
 export enum selectedMap {
   roomfinder,
   interactive,
@@ -8,6 +8,7 @@ export enum selectedMap {
 export const useDetailsStore = defineStore({
   id: "details",
   state: () => ({
+    data: null as DetailsResponse | null,
     map: {
       // "interactive" is default, because it should show a loading indication.
       selected: selectedMap.interactive,
