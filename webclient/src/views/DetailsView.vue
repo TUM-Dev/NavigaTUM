@@ -8,6 +8,7 @@ import { copyCurrentLink, setDescription, setTitle } from "@/utils/common";
 import ShareButton from "@/components/ShareButton.vue";
 import { selectedMap, useDetailsStore } from "@/stores/details";
 import DetailsInteractiveMap from "@/components/DetailsInteractiveMap.vue";
+import DetailsOverviewSections from "@/components/DetailsOverviewSections.vue";
 
 function viewNavigateTo(to, from, next, component) {
   navigatum.getData(to.params.id).then((data) => {
@@ -50,25 +51,13 @@ function viewNavigateTo(to, from, next, component) {
 }
 
 export default {
-  components: [ShareButton, DetailsInteractiveMap],
+  components: [ShareButton, DetailsInteractiveMap, DetailsOverviewSections],
   data: function () {
     return {
       image: {
         shown_image: null,
         shown_image_id: null,
         slideshow_open: false,
-      },
-      sections: {
-        rooms_overview: {
-          combined_count: 0,
-          combined_list: [],
-          display_list: [],
-          _filter_index: {
-            selected: null,
-            list: [],
-          },
-          loading: false,
-        },
       },
       state: useDetailsStore(),
       copied: false,
@@ -145,18 +134,6 @@ export default {
       // --- Additional data ---
       setTitle(data.name);
       setDescription(this.genDescription(data));
-
-      // --- Sections ---
-      if (this.state.data.sections && this.state.data.sections.rooms_overview) {
-        const { usages } = this.state.data.sections.rooms_overview;
-        const combinedList = [];
-        usages.forEach((usage) => {
-          combinedList.push(...usage.children);
-        });
-        this.sections.rooms_overview.combined_list = combinedList;
-        this.sections.rooms_overview.combined_count = combinedList.length;
-        this.updateRoomsOverview();
-      }
     },
     genDescription: function (data) {
       const detailsFor = $t("view_view.meta.details_for");
@@ -353,67 +330,7 @@ export default {
         );
       }
     },
-    updateRoomsOverview: function (setSelected = undefined) {
-      const state = this.state.rooms_overview;
-      const data = this.state.data.sections.rooms_overview;
-      const local = this.sections.rooms_overview;
-
-      if (setSelected !== undefined) state.selected = setSelected;
-
-      if (state.selected === null) {
-        local.display_list = [];
-      } else {
-        const baseList =
-          state.selected === -1
-            ? local.combined_list
-            : data.usages[state.selected].children;
-        if (state.filter === "") {
-          local.display_list = baseList;
-        } else {
-          // Update filter index if required
-          if (state.selected !== local._filter_index.selected) {
-            const rooms = baseList;
-            local._filter_index.list = [];
-
-            rooms.forEach((room) => {
-              room._lower = room.name.toLowerCase();
-              local._filter_index.list.push(room);
-            });
-            local._filter_index.selected = state.selected;
-          }
-
-          const filter = state.filter.toLowerCase();
-          const filtered = [];
-
-          local._filter_index.list.forEach((f) => {
-            if (f._lower.indexOf(filter) >= 0) filtered.push(f);
-          });
-          local.display_list = filtered;
-        }
-      }
-
-      // If there are a lot of rooms, updating the DOM takes a while.
-      // In this case we first reset the list, show a loading indicator and
-      // set the long list a short time later (So DOM can update and the indicator
-      // is visible).
-      if (local.display_list.length > 150) {
-        local.loading = true;
-        const tmp = local.display_list;
-        local.display_list = [];
-        // this.$nextTick doesn't work for some reason, the view freezes
-        // before the loading indicator is visible.
-        window.setTimeout(() => {
-          local.display_list = tmp;
-          local.loading = false;
-        }, 20);
-      }
-    },
     copyCurrentLink: copyCurrentLink(),
-  },
-  watch: {
-    "state.rooms_overview.filter": function () {
-      this.updateRoomsOverview();
-    },
   },
   mounted: function () {
     this.is_mounted = true;
@@ -938,7 +855,7 @@ export default {
                     class="carousel-item"
                   >
                     <label
-                      v-if="i != 0"
+                      v-if="i !== 0"
                       class="item-prev btn btn-action btn-lg"
                       v-bind:for="'slide-' + i"
                       @click="showImageShowcase(i - 1)"
@@ -946,7 +863,7 @@ export default {
                       <i class="icon icon-arrow-left"></i>
                     </label>
                     <label
-                      v-if="i != state.data.imgs.length - 1"
+                      v-if="i !== state.data.imgs.length - 1"
                       class="item-next btn btn-action btn-lg"
                       v-bind:for="'slide-' + (i + 2)"
                       @click="showImageShowcase(i + 1)"
@@ -1107,225 +1024,7 @@ export default {
 </div>
 </div>-->
 
-    <!-- Buildings overview -->
-    <section
-      v-if="state.data.sections && state.data.sections.buildings_overview"
-      id="building-overview"
-    >
-      <div class="columns">
-        <div class="column">
-          <h2>{{ $t("view_view.buildings_overview.title") }}</h2>
-        </div>
-        <!--<div class="column col-auto">
-          <a href="#">Übersichtskarte <i class="icon icon-forward"></i></a>
-        </div>-->
-      </div>
-      <div class="columns">
-        <div
-          class="column col-4 col-md-12 content"
-          v-for="(b, i) in state.data.sections.buildings_overview.entries"
-          v-if="
-            i < state.data.sections.buildings_overview.n_visible ||
-            state.buildings_overview.expanded
-          "
-        >
-          <RouterLink v-bind:to="'/view/' + b.id">
-            <div class="tile tile-centered">
-              <div class="tile-icon">
-                <figure class="avatar avatar-lg">
-                  <img
-                    v-bind:alt="
-                      b.thumb
-                        ? 'Thumbnail, showing a preview of the building.'
-                        : 'Default-thumbnail, as no thumbnail is available'
-                    "
-                    v-bind:src="
-                      b.thumb
-                        ? '/cdn/thumb/' + b.thumb
-                        : '@/assets/thumb-building.webp'
-                    "
-                  />
-                </figure>
-              </div>
-              <div class="tile-content">
-                <p class="tile-title">{{ b.name }}</p>
-                <small class="tile-subtitle text-dark">{{ b.subtext }}</small>
-              </div>
-              <div class="tile-action">
-                <button
-                  class="btn btn-link"
-                  v-bind:aria-label="
-                    `show the details for the building '` + b.name + `'`
-                  "
-                >
-                  <i class="icon icon-arrow-right"></i>
-                </button>
-              </div>
-            </div>
-          </RouterLink>
-        </div>
-      </div>
-      <div
-        v-if="
-          state.data.sections.buildings_overview.n_visible <
-          state.data.sections.buildings_overview.entries.length
-        "
-      >
-        <button
-          class="btn btn-link"
-          v-if="!state.buildings_overview.expanded"
-          v-on:click="state.buildings_overview.expanded = true"
-        >
-          <i class="icon icon-arrow-right"></i>
-          {{ $t("view_view.buildings_overview.more") }}
-        </button>
-        <button
-          class="btn btn-link"
-          v-if="state.buildings_overview.expanded"
-          v-on:click="state.buildings_overview.expanded = false"
-        >
-          <i class="icon icon-arrow-up"></i>
-          {{ $t("view_view.buildings_overview.less") }}
-        </button>
-      </div>
-    </section>
-
-    <!-- Rooms overview -->
-    <section
-      id="rooms-overview"
-      v-if="state.data.sections && state.data.sections.rooms_overview"
-    >
-      <div class="columns">
-        <div class="column">
-          <h2>{{ $t("view_view.rooms_overview.title") }}</h2>
-        </div>
-        <!--<div class="column col-auto">
-          <div class="dropdown"><a class="btn btn-link dropdown-toggle" tabindex="0">{{ $t("view_view.rooms_overview.by_usage") }} <i class="icon icon-caret"></i></a>
-            <ul class="menu">
-                    <li class="menu-item"><a href="#dropdowns">nach Nutzung</a></li>
-                    <li class="menu-item"><a href="#dropdowns">nach ...</a></li>
-            </ul>
-          </div>
-        </div>-->
-      </div>
-
-      <div class="columns content">
-        <div
-          class="column col-4 col-lg-5 col-md-6 col-sm-12"
-          id="rooms-overview-select"
-        >
-          <div class="panel">
-            <div class="panel-header">
-              <div class="panel-title h6">
-                {{ $t("view_view.rooms_overview.by_usage") }}:
-              </div>
-            </div>
-            <div class="panel-body">
-              <ul class="menu">
-                <li class="menu-item">
-                  <button
-                    class="btn"
-                    v-bind:class="{
-                      active: state.rooms_overview.selected === -1,
-                    }"
-                    v-on:click="updateRoomsOverview(-1)"
-                  >
-                    <i class="icon icon-arrow-right"></i>
-                    <div class="menu-text">
-                      {{ $t("view_view.rooms_overview.any") }}
-                    </div>
-                    <label class="label">{{
-                      sections.rooms_overview.combined_count
-                    }}</label>
-                  </button>
-                </li>
-                <li class="divider" data-content=""></li>
-                <li
-                  class="menu-item"
-                  v-for="(u, i) in state.data.sections.rooms_overview.usages"
-                >
-                  <button
-                    class="btn"
-                    v-bind:class="{
-                      active: i === state.rooms_overview.selected,
-                    }"
-                    v-on:click="updateRoomsOverview(i)"
-                  >
-                    <i class="icon icon-arrow-right"></i>
-                    <div class="menu-text">{{ u.name }}</div>
-                    <label class="label">{{ u.count }}</label>
-                  </button>
-                </li>
-              </ul>
-            </div>
-            <div class="panel-footer">
-              <button
-                class="btn btn-link btn-sm"
-                v-on:click="updateRoomsOverview(null)"
-              >
-                {{ $t("view_view.rooms_overview.remove_selection") }}
-              </button>
-            </div>
-          </div>
-        </div>
-        <div
-          class="column col-8 col-lg-7 col-md-6 col-sm-12 hide-l"
-          id="rooms-overview-list"
-        >
-          <div class="show-sm" style="height: 15px"></div>
-          <div class="panel">
-            <div class="panel-header">
-              <div class="input-group">
-                <input
-                  v-model="state.rooms_overview.filter"
-                  v-bind:placeholder="$t('view_view.rooms_overview.filter')"
-                  class="form-input"
-                />
-                <button
-                  class="btn btn-primary input-group-btn"
-                  @click="state.rooms_overview.filter = ''"
-                  aria-label="Clear the filter"
-                >
-                  <i class="icon icon-cross"></i>
-                </button>
-              </div>
-            </div>
-            <div class="panel-body">
-              <div
-                v-bind:class="{ loading: sections.rooms_overview.loading }"
-              ></div>
-              <ul class="menu" v-if="state.rooms_overview.selected !== null">
-                <li
-                  class="menu-item"
-                  v-for="r in sections.rooms_overview.display_list"
-                >
-                  <RouterLink v-bind:to="'/view/' + r.id">
-                    <i class="icon icon-location"></i> {{ r.name }}
-                  </RouterLink>
-                </li>
-              </ul>
-            </div>
-            <div class="panel-footer">
-              <small>
-                {{
-                  state.rooms_overview.selected === null
-                    ? $t("view_view.rooms_overview.choose_usage")
-                    : sections.rooms_overview.display_list.length +
-                      $t("view_view.rooms_overview.result") +
-                      (sections.rooms_overview.display_list.length === 1
-                        ? ""
-                        : $t("view_view.rooms_overview.results_suffix")) +
-                      (state.rooms_overview.filter === ""
-                        ? ""
-                        : "(" + $t("view_view.rooms_overview.filtered") + ")")
-                }}
-              </small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
+    <DetailsOverviewSections></DetailsOverviewSections>
     <section id="entry-sources">
       <div class="columns">
         <div class="column">
@@ -1684,98 +1383,6 @@ export default {
   }
 
   /* --- Sections --- */
-  #building-overview {
-    a {
-      text-decoration: none !important;
-    }
-
-    .tile {
-      border: 0.05rem solid $card-border;
-      padding: 8px;
-      border-radius: 0.1rem;
-    }
-
-    button {
-      margin-top: 8px;
-    }
-  }
-
-  .menu {
-    padding: 0;
-    box-shadow: none;
-
-    .menu-item button {
-      text-align: left !important;
-      border: 0 transparent !important;
-      width: 100%;
-    }
-
-    .menu-item a,
-    .menu-item label,
-    .menu-item button {
-      cursor: pointer;
-      user-select: none;
-    }
-  }
-
-  #rooms-overview {
-    #rooms-overview-select .menu-item {
-      padding: 0;
-
-      & .icon-arrow-right {
-        margin-right: 4px;
-      }
-    }
-
-    .menu-item button {
-      display: flex;
-      flex-direction: row;
-      box-sizing: border-box;
-      width: 100%;
-
-      .menu-text {
-        flex-grow: 1;
-        flex-shrink: 1;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-
-      .icon,
-      label {
-        flex-grow: 0;
-        flex-shrink: 0;
-      }
-
-      .icon {
-        top: 5px;
-      }
-    }
-
-    .panel-title {
-      font-weight: bold;
-    }
-
-    .panel-body {
-      padding-bottom: 4px;
-
-      .divider {
-        margin: 6px 0;
-      }
-    }
-
-    .panel-footer {
-      color: $text-gray;
-    }
-  }
-
-  #rooms-overview-select .panel-body {
-    max-height: 500px + 8px;
-  }
-
-  #rooms-overview-list .panel-body {
-    max-height: 500px;
-  }
-
   #entry-sources {
     h2 {
       margin-bottom: 16px;

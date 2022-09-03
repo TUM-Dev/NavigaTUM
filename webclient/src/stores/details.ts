@@ -21,13 +21,5 @@ export const useDetailsStore = defineStore({
         height: 300,
       },
     },
-    buildings_overview: {
-      expanded: false,
-    },
-    rooms_overview: {
-      expanded: false,
-      selected: null,
-      filter: "",
-    },
   }),
 });
