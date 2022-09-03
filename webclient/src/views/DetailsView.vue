@@ -10,6 +10,7 @@ import { selectedMap, useDetailsStore } from "@/stores/details";
 import DetailsInteractiveMap from "@/components/DetailsInteractiveMap.vue";
 import DetailsOverviewSections from "@/components/DetailsOverviewSections.vue";
 import DetailsInfoSection from "@/components/DetailsInfoSection.vue";
+import type { RoomfinderMapEntry } from "@/codegen";
 
 function viewNavigateTo(to, from, next, component) {
   navigatum.getData(to.params.id).then((data) => {
@@ -106,12 +107,14 @@ export default {
       // Interactive has to be always available, but roomfinder may be unavailable
       if ("roomfinder" in data.maps) {
         // Find default map
-        data.maps.roomfinder.available.forEach((availableMap, index) => {
-          if (availableMap.id === data.maps.roomfinder.default) {
-            this.state.map.roomfinder.selected_index = index;
-            this.state.map.roomfinder.selected_id = availableMap.id;
+        data.maps.roomfinder.available.forEach(
+          (availableMap: RoomfinderMapEntry, index: number) => {
+            if (availableMap.id === data.maps.roomfinder.default) {
+              this.state.map.roomfinder.selected_index = index;
+              this.state.map.roomfinder.selected_id = availableMap.id;
+            }
           }
-        });
+        );
       }
 
       // Maps can only be loaded after first mount because then the elements are
