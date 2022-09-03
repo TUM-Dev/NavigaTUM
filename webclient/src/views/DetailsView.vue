@@ -287,7 +287,7 @@ export default {
         this.coord_counter.to_confirm_delete = true;
       }
     },
-    copyCurrentLink: copyCurrentLink(),
+    copyCurrentLink: copyCurrentLink,
   },
   mounted: function () {
     this.is_mounted = true;
