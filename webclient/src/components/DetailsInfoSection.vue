@@ -44,7 +44,7 @@ const state = useDetailsStore();
     <div class="card">
       <a
         class="card-image c-hand"
-        @click="state.showImageShowcase(state.image.shown_image_id)"
+        @click="state.showImageSlideshow(state.image.shown_image_id)"
         v-if="state.image.shown_image"
       >
         <img
@@ -126,14 +126,14 @@ const state = useDetailsStore();
     <a
       class="modal-overlay"
       aria-label="Close"
-      @click="state.hideImageShowcase"
+      @click="state.hideImageSlideshow"
     ></a>
     <div class="modal-container modal-fullheight">
       <div class="modal-header">
         <button
           class="btn btn-clear float-right"
           v-bind:aria-label="$t('view_view.slideshow.close')"
-          @click="state.hideImageShowcase"
+          @click="state.hideImageSlideshow"
         ></button>
         <h5 class="modal-title">{{ $t("view_view.slideshow.header") }}</h5>
       </div>
@@ -157,7 +157,7 @@ const state = useDetailsStore();
                 type="radio"
                 name="carousel-radio"
                 hidden=""
-                @click="state.showImageShowcase(i)"
+                @click="state.showImageSlideshow(i)"
               />
             </template>
 
@@ -167,7 +167,7 @@ const state = useDetailsStore();
                   v-if="i !== 0"
                   class="item-prev btn btn-action btn-lg"
                   v-bind:for="'slide-' + i"
-                  @click="state.showImageShowcase(i - 1)"
+                  @click="state.showImageSlideshow(i - 1)"
                 >
                   <i class="icon icon-arrow-left"></i>
                 </label>
@@ -175,7 +175,7 @@ const state = useDetailsStore();
                   v-if="i !== state.data.imgs.length - 1"
                   class="item-next btn btn-action btn-lg"
                   v-bind:for="'slide-' + (i + 2)"
-                  @click="state.showImageShowcase(i + 1)"
+                  @click="state.showImageSlideshow(i + 1)"
                 >
                   <i class="icon icon-arrow-right"></i>
                 </label>

@@ -5,8 +5,8 @@ import {
   setLocalStorageWithExpiry,
 } from "@/utils/storage";
 import { copyCurrentLink, setDescription, setTitle } from "@/utils/common";
-import ShareButton from "@/components/ShareButton.vue";
 import { selectedMap, useDetailsStore } from "@/stores/details";
+import ShareButton from "@/components/ShareButton.vue";
 import DetailsInteractiveMap from "@/components/DetailsInteractiveMap.vue";
 import DetailsOverviewSections from "@/components/DetailsOverviewSections.vue";
 import DetailsInfoSection from "@/components/DetailsInfoSection.vue";
@@ -97,7 +97,7 @@ export default {
     loadEntryData: function (data) {
       this.state.data = data;
 
-      this.state.showImageShowcase(0, false);
+      this.state.showImageSlideshow(0, false);
 
       if (data === null) return;
 
@@ -334,7 +334,7 @@ export default {
     <!-- Header image (on mobile) -->
     <a
       class="show-sm header-image-mobile c-hand"
-      @click="state.showImageShowcase(image.shown_image_id)"
+      @click="state.showImageSlideshow(image.shown_image_id)"
       v-if="image.shown_image"
     >
       <img

@@ -28,8 +28,8 @@ export const useDetailsStore = defineStore({
     },
   }),
   actions: {
-    showImageShowcase: function (i: number, openSlideshow = true) {
-      if (this.data && this.data.imgs && this.data.imgs[i]) {
+    showImageSlideshow: function (i: number, openSlideshow = true) {
+      if (this.data?.imgs && this.data.imgs[i]) {
         this.image.slideshow_open = openSlideshow;
         this.image.shown_image_id = i;
         this.image.shown_image = this.data.imgs[i];
@@ -39,7 +39,7 @@ export const useDetailsStore = defineStore({
         this.image.shown_image = null;
       }
     },
-    hideImageShowcase: function () {
+    hideImageSlideshow: function () {
       this.image.slideshow_open = false;
     },
   },
