@@ -6,6 +6,8 @@ use structopt::StructOpt;
 
 mod core;
 mod feedback;
+mod maps;
+mod utils;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
@@ -88,6 +90,7 @@ async fn main() -> std::io::Result<()> {
                     .app_data(state_feedback.clone()),
             )
             .service(web::scope("/api").configure(core::configure))
+            .service(web::scope("/maps").configure(maps::configure))
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?
     .run()
