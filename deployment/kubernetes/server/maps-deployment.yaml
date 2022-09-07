@@ -54,15 +54,15 @@ spec:
             limits:
               cpu: 1000m
               memory: 700Mi
-          #livenessProbe:
-          #  httpGet:
-          #    path: /maps/health
-          #    port: tileserver
-          #  failureThreshold: 1
-          #  periodSeconds: 1
-          #startupProbe:
-          #  httpGet:
-          #    path: /maps/health
-          #    port: tileserver
-          #  failureThreshold: 60
-          #  periodSeconds: 1
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: tileserver
+            failureThreshold: 2
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /health
+              port: tileserver
+            failureThreshold: 6
+            periodSeconds: 10
