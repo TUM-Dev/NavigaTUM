@@ -47,13 +47,13 @@ spec:
               name: navigatum-tileserver-vol
           securityContext:
             readOnlyRootFilesystem: true
-          #resources:
-          #  requests:
-          #    cpu: 30m
-          #    memory: 500Mi
-          #  limits:
-          #    cpu: 1000m
-          #    memory: 700Mi
+          resources:
+            requests:
+              cpu: 30m
+              memory: 400Mi
+            limits:
+              cpu: 1000m
+              memory: 700Mi
           #livenessProbe:
           #  httpGet:
           #    path: /maps/health
