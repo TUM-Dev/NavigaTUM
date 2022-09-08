@@ -7,6 +7,7 @@ use cached::proc_macro::cached;
 use cached::SizedCache;
 use futures::future::join_all;
 use image::Rgba;
+use imageproc::definitions::HasBlack;
 use imageproc::drawing::{draw_text_mut, text_size};
 use log::{debug, error, info};
 use rusqlite::{Connection, Error, OpenFlags};
@@ -246,11 +247,10 @@ fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
     image::imageops::overlay(img, &logo, 10, 630 - (125 / 2) - (logo.height() as i64 / 2));
     // add top text
     let scale = Scale { x: 35.0, y: 35.0 };
-    let color_black = Rgba([0, 0, 0, 255]);
     let (w, _) = text_size(scale, &CANTARELL_BOLD, data.name.as_str());
     draw_text_mut(
         img,
-        color_black,
+        Rgba::black(),
         1200 - w - 10,
         630 - 125 + 10,
         scale,
@@ -262,7 +262,7 @@ fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
     let (w, _) = text_size(scale, &CANTARELL_REGULAR, data.type_common_name.as_str());
     draw_text_mut(
         img,
-        color_black,
+        Rgba::black(),
         1200 - w - 10,
         630 - 125 + 50,
         scale,
