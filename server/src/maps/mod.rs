@@ -70,12 +70,12 @@ async fn construct_image_from_data(data: MapInfo, start_time: &Instant) -> HttpR
 
     draw_bottom(&data, &mut img);
     // add the location pin image to the center
-    let logo = image::open("src/maps/pin.webp").unwrap();
+    let pin = image::open("src/maps/pin.webp").unwrap();
     image::imageops::overlay(
         &mut img,
-        &logo,
-        1200 / 2 - logo.width() as i64 / 2,
-        (630 - 125) / 2 - logo.height() as i64,
+        &pin,
+        1200 / 2 - pin.width() as i64 / 2,
+        (630 - 125) / 2 - pin.height() as i64,
     );
     debug!("overlay finish {}ms", start_time.elapsed().as_millis());
 
@@ -145,7 +145,6 @@ async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) {
     for x_index in 0..5 {
         for y_index in 0..3 {
             if is_in_range(y_img_koords, x_img_koords, x_index, y_index) {
-                info!("{} {} is in range", x_index, y_index);
                 needed_images.push((
                     get_map_image(z, x as u32 + x_index - 2, y as u32 + y_index - 1),
                     x_index as i64,
@@ -226,11 +225,9 @@ fn lat_lon_to_xyz(lat_deg: f64, lon_deg: f64) -> (f64, f64, u32) {
 
 lazy_static! {
     static ref CANTARELL_BOLD: Font<'static> =
-        Font::try_from_vec(Vec::from(include_bytes!("font/Cantarell-Bold.ttf") as &[u8])).unwrap();
-    static ref CANTARELL_REGULAR: Font<'static> = Font::try_from_vec(Vec::from(include_bytes!(
-        "font/Cantarell-Regular.ttf"
-    ) as &[u8]))
-    .unwrap();
+        Font::try_from_bytes(include_bytes!("font/Cantarell-Bold.ttf")).unwrap();
+    static ref CANTARELL_REGULAR: Font<'static> =
+        Font::try_from_bytes(include_bytes!("font/Cantarell-Regular.ttf")).unwrap();
 }
 
 fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
