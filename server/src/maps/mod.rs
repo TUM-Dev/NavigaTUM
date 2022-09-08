@@ -8,7 +8,7 @@ use cached::SizedCache;
 use futures::future::join_all;
 use image::Rgba;
 use imageproc::drawing::{draw_text_mut, text_size};
-use log::{debug, error};
+use log::{debug, error, info};
 use rusqlite::{Connection, Error, OpenFlags};
 use rusttype::{Font, Scale};
 use tokio::time::Instant;
@@ -69,9 +69,9 @@ fn get_localised_data(id: &str, should_use_english: bool) -> Option<Result<MapIn
 #[cached(
     type = "SizedCache<String, Vec<u8>>",
     create = "{ SizedCache::with_size(20) }",
-    convert = r#"{ _id.clone() }"#
+    convert = r#"{ _id.to_string() }"#
 )]
-async fn construct_image_from_data(_id: String, data: MapInfo) -> Vec<u8> {
+async fn construct_image_from_data(_id: &str, data: MapInfo) -> Vec<u8> {
     let start_time = Instant::now();
     let mut img = image::RgbaImage::new(1200, 630);
 
@@ -277,6 +277,7 @@ pub async fn maps_handler(
     web::Query(args): web::Query<utils::DetailsQuerryArgs>,
     req: HttpRequest,
 ) -> HttpResponse {
+    let start_time = Instant::now();
     let id = params.into_inner();
     let should_use_english = utils::should_use_english(args, req);
     let data = get_localised_data(&id, should_use_english);
@@ -291,7 +292,14 @@ pub async fn maps_handler(
             .content_type("text/plain")
             .body("Internal Server Error");
     }
-    HttpResponse::Ok()
+    let res = HttpResponse::Ok()
         .content_type("image/png")
-        .body(construct_image_from_data(id, data.unwrap()).await)
+        .body(construct_image_from_data(&id, data.unwrap()).await);
+
+    info!(
+        "Preview Generation for {} took {}ms",
+        id,
+        start_time.elapsed().as_millis()
+    );
+    res
 }
