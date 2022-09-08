@@ -24,7 +24,8 @@ RUN     python3 load_api_data_to_db.py
 FROM alpine:3.16.2
 
 RUN     apk update --quiet \
-        && apk add -q --no-cache libgcc sqlite-libs tini curl
+        && apk add -q --no-cache libgcc sqlite-libs tini curl \
+        && mkdir -p ./data/cache
 
 
 # add `navigatum-server` to the `/bin` so we can run it from anywhere and it's easy to find.
