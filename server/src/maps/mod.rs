@@ -84,25 +84,37 @@ async fn construct_image_from_data(data: MapInfo) -> HttpResponse {
     HttpResponse::Ok().content_type("image/png").body(vec)
 }
 
-async fn download_map_image(url: String) -> web::Bytes {
-    info!("{:?}", url);
+async fn download_map_image(z: i32, x: i32, y: i32, file: &str) -> web::Bytes {
+    let url = format!(
+        "http://localhost:7770/styles/osm_liberty/{}/{}/{}@2x.png",
+        z, x, y
+    );
     let client = Client::new().get(&url).send();
-    match client.await {
+    let res = match client.await {
         Ok(mut r) => r.body().await.unwrap(),
         Err(e) => {
-            error!("{:?}", e);
+            error!("failed downloading url {} because {:?}", url, e);
             panic!();
         }
+    };
+    tokio::fs::write(file, &res)
+        .await
+        .expect("failed to write file");
+    res
+}
+async fn get_map_image(z: i32, x: i32, y: i32) -> web::Bytes {
+    // gets the image fro the server. using a disk-cached image if possible
+    let file = format!("data/cache/{}_{}_{}@2x.png", z, x, y);
+    let file_content = tokio::fs::read(&file).await;
+    match file_content {
+        Ok(content) => web::Bytes::from(content),
+        Err(_) => download_map_image(z, x, y, &file).await,
     }
 }
 
 async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) {
     let (x, y, z) = lat_lon_to_xyz(data.lat, data.lon);
-    let url = format!(
-        "http://localhost:7770/styles/osm_liberty/{}/{}/{}@2x.png",
-        z, x, y,
-    );
-    let data = download_map_image(url).await;
+    let data = get_map_image(z, x, y).await;
     let map = image::load_from_memory(&data).unwrap();
     image::imageops::overlay(img, &map, 0, 0);
 }
