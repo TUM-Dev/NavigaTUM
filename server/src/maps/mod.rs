@@ -1,12 +1,12 @@
 use std::io::Cursor;
+use std::time::Instant;
 
 use actix_web::{get, web, HttpRequest, HttpResponse};
 use awc::Client;
 use cached::lazy_static::lazy_static;
-use image::ImageBuffer;
 use image::Rgba;
 use imageproc::drawing::{draw_text_mut, text_size};
-use log::{error, info};
+use log::{debug, error};
 use rusqlite::{Connection, Error, OpenFlags};
 use rusttype::{Font, Scale};
 
@@ -61,11 +61,12 @@ fn get_localised_data(id: String, should_use_english: bool) -> Option<Result<Map
     }
 }
 
-async fn construct_image_from_data(data: MapInfo) -> HttpResponse {
+async fn construct_image_from_data(data: MapInfo, start_time: &Instant) -> HttpResponse {
     let mut img = image::RgbaImage::new(1200, 630);
 
     // add the map
     draw_map(&data, &mut img).await;
+    debug!("map draw {}ms", start_time.elapsed().as_millis());
 
     draw_bottom(&data, &mut img);
     // add the location pin image to the center
@@ -76,18 +77,24 @@ async fn construct_image_from_data(data: MapInfo) -> HttpResponse {
         1200 / 2 - logo.width() as i64 / 2,
         (630 - 125) / 2 - logo.height() as i64,
     );
+    debug!("overlay finish {}ms", start_time.elapsed().as_millis());
 
-    wrap_image_in_response(img)
+    wrap_image_in_response(img, start_time)
 }
 
-fn wrap_image_in_response(img: ImageBuffer<Rgba<u8>, Vec<u8>>) -> HttpResponse {
+fn wrap_image_in_response(img: image::RgbaImage, start_time: &Instant) -> HttpResponse {
     let mut w = Cursor::new(Vec::new());
+    debug!("cursor construction {}ms", start_time.elapsed().as_millis());
     image::DynamicImage::ImageRgba8(img)
         .write_to(&mut w, image::ImageOutputFormat::Png)
         .unwrap();
-    HttpResponse::Ok()
+    debug!("image writing {}ms", start_time.elapsed().as_millis());
+    let res = HttpResponse::Ok()
         .content_type("image/png")
-        .body(w.into_inner())
+        .body(w.into_inner());
+
+    debug!("total {}ms", start_time.elapsed().as_millis());
+    res
 }
 
 async fn download_map_image(z: u32, x: u32, y: u32, file: &str) -> web::Bytes {
@@ -251,10 +258,8 @@ fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
         data.name.as_str(),
     );
     // add bottom text
-    let font = Vec::from(include_bytes!("font/Cantarell-Regular.ttf") as &[u8]);
-    let font = Font::try_from_vec(font).unwrap();
 
-    let (w, _) = text_size(scale, &font, data.type_common_name.as_str());
+    let (w, _) = text_size(scale, &CANTARELL_REGULAR, data.type_common_name.as_str());
     draw_text_mut(
         img,
         color_black,
@@ -272,6 +277,7 @@ pub async fn maps_handler(
     web::Query(args): web::Query<utils::DetailsQuerryArgs>,
     req: HttpRequest,
 ) -> HttpResponse {
+    let start_time = Instant::now();
     let id = params.into_inner();
     let should_use_english = utils::should_use_english(args, req);
     let data = get_localised_data(id, should_use_english);
@@ -286,5 +292,5 @@ pub async fn maps_handler(
             .content_type("text/plain")
             .body("Internal Server Error");
     }
-    construct_image_from_data(data.unwrap()).await
+    construct_image_from_data(data.unwrap(), &start_time).await
 }
