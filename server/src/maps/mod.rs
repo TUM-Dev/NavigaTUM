@@ -3,10 +3,11 @@ use std::io::Cursor;
 use actix_web::{get, web, HttpRequest, HttpResponse};
 use awc::Client;
 use cached::lazy_static::lazy_static;
+use image::ImageBuffer;
+use image::Rgba;
+use imageproc::drawing::{draw_text_mut, text_size};
 use log::{error, info};
 use rusqlite::{Connection, Error, OpenFlags};
-
-use imageproc::drawing::{draw_text_mut, text_size};
 use rusttype::{Font, Scale};
 
 use crate::utils;
@@ -73,18 +74,23 @@ async fn construct_image_from_data(data: MapInfo) -> HttpResponse {
         &mut img,
         &logo,
         1200 / 2 - logo.width() as i64 / 2,
-        (630 - 150) / 2 - logo.height() as i64 / 2,
+        (630 - 125) / 2 - logo.height() as i64,
     );
 
+    wrap_image_in_response(img)
+}
+
+fn wrap_image_in_response(img: ImageBuffer<Rgba<u8>, Vec<u8>>) -> HttpResponse {
     let mut w = Cursor::new(Vec::new());
     image::DynamicImage::ImageRgba8(img)
         .write_to(&mut w, image::ImageOutputFormat::Png)
         .unwrap();
-    let vec = w.into_inner();
-    HttpResponse::Ok().content_type("image/png").body(vec)
+    HttpResponse::Ok()
+        .content_type("image/png")
+        .body(w.into_inner())
 }
 
-async fn download_map_image(z: i32, x: i32, y: i32, file: &str) -> web::Bytes {
+async fn download_map_image(z: u32, x: u32, y: u32, file: &str) -> web::Bytes {
     let url = format!(
         "http://localhost:7770/styles/osm_liberty/{}/{}/{}@2x.png",
         z, x, y
@@ -102,7 +108,8 @@ async fn download_map_image(z: i32, x: i32, y: i32, file: &str) -> web::Bytes {
         .expect("failed to write file");
     res
 }
-async fn get_map_image(z: i32, x: i32, y: i32) -> web::Bytes {
+
+async fn get_map_image(z: u32, x: u32, y: u32) -> web::Bytes {
     // gets the image fro the server. using a disk-cached image if possible
     let file = format!("data/cache/{}_{}_{}@2x.png", z, x, y);
     let file_content = tokio::fs::read(&file).await;
@@ -114,18 +121,96 @@ async fn get_map_image(z: i32, x: i32, y: i32) -> web::Bytes {
 
 async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) {
     let (x, y, z) = lat_lon_to_xyz(data.lat, data.lon);
-    let data = get_map_image(z, x, y).await;
-    let map = image::load_from_memory(&data).unwrap();
-    image::imageops::overlay(img, &map, 0, 0);
+    // coordinate system is centered around the center of the image
+    // around this center there is a 5*3 grid of tiles
+    // -----------------------------------------
+    // | -2/ 1 | -1/ 1 |  0/ 1 |  1/ 1 |  2/ 1 |
+    // | -2/ 0 | -1/ 0 |   x   |  1/ 0 |  2/ 0 |
+    // | -2/-1 | -1/-1 |  0/-1 |  1/-1 |  2/-1 |
+    // -----------------------------------------
+    // we can now filter for "is on the 1200*630 image" and append them to a work queue
+
+    let x_pixels = (512.0 * (x - x.floor())) as u32;
+    let y_pixels = (512.0 * (y - y.floor())) as u32;
+    let (y_img_koords, x_img_koords) = center_to_top_left_coordinates(x_pixels, y_pixels);
+    let mut needed_images = Vec::with_capacity(5 * 3); // 3...4*2 entries
+    for x_index in 0..5 {
+        for y_index in 0..3 {
+            if is_in_range(y_img_koords, x_img_koords, x_index, y_index) {
+                info!("{} {} is in range", x_index, y_index);
+                needed_images.push((
+                    get_map_image(z, x as u32 + x_index - 2, y as u32 + y_index - 1),
+                    x_index as i64,
+                    y_index as i64,
+                ));
+            }
+        }
+    }
+    // the items in the work queue are then asynchronously downloaded and drawn on the tmp image
+    let mut tmp_img = image::RgbaImage::new(5 * 512, 5 * 512);
+    for (image, x_index, y_index) in needed_images {
+        let image = image.await;
+        let map = image::load_from_memory(&image).unwrap();
+        image::imageops::overlay(&mut tmp_img, &map, x_index * 512, y_index * 512);
+    }
+    // the temporary image can then be overlayed on the final image
+    image::imageops::overlay(
+        img,
+        &tmp_img,
+        -(x_img_koords as i64),
+        -(y_img_koords as i64),
+    );
 }
 
-fn lat_lon_to_xyz(lat_deg: f64, lon_deg: f64) -> (i32, i32, i32) {
-    let zoom = 16_i32;
+fn center_to_top_left_coordinates(x_pixels: u32, y_pixels: u32) -> (u32, u32) {
+    let y_to_img_border = 512 + y_pixels;
+    let y_img_koords = y_to_img_border - (630 - 125) / 2;
+    let x_to_img_border = 512 * 2 + x_pixels;
+    let x_img_koords = x_to_img_border - 1200 / 2;
+    (y_img_koords, x_img_koords)
+}
+
+fn is_in_range(x_pixels: u32, y_pixels: u32, x_index: u32, y_index: u32) -> bool {
+    return true;
+    let x_in_range = x_pixels > x_index * 512 && x_pixels + 1200 < x_index * 512;
+    let y_in_range = y_pixels > y_index * 512 && y_pixels + 630 - 125 < y_index * 512;
+    x_in_range && y_in_range
+}
+
+#[cfg(test)]
+mod range_tests {
+    use super::*;
+
+    fn assert_range_eq(
+        x_pixels: u32,
+        y_pixels: u32,
+        expected_x: (u32, u32),
+        expected_y: (u32, u32),
+    ) {
+        for x in 0..10 {
+            for y in 0..10 {
+                let (x_min, x_max) = expected_x;
+                let (y_min, y_max) = expected_y;
+                let expected_result = x <= x_max && x >= x_min && y <= y_max && y >= y_min;
+                assert_eq!(is_in_range(x_pixels, y_pixels, x, y), expected_result);
+            }
+        }
+    }
+
+    #[test]
+    fn ranged_test() {
+        assert_range_eq(0, 0, (0, 3), (0, 1));
+        assert_range_eq(0, 512 - (630 - 125) / 2, (0, 3), (0, 1));
+    }
+}
+
+fn lat_lon_to_xyz(lat_deg: f64, lon_deg: f64) -> (f64, f64, u32) {
+    let zoom = 16;
     let lat_rad = lat_deg.to_radians();
-    let n = 2.0_f64.powi(zoom);
+    let n = 2_u32.pow(zoom) as f64;
     let xtile = (lon_deg + 180.0) / 360.0 * n;
     let ytile = (1.0 - lat_rad.tan().asinh() / std::f64::consts::PI) / 2.0 * n;
-    (xtile as i32, ytile as i32, zoom)
+    (xtile, ytile, zoom)
 }
 
 lazy_static! {
@@ -140,23 +225,23 @@ lazy_static! {
 fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
     // draw background white
     for x in 0..1200 {
-        for y in 630 - 150..630 {
-            img.put_pixel(x, y, image::Rgba([255, 255, 255, 255]));
+        for y in 630 - 125..630 {
+            img.put_pixel(x, y, Rgba([255, 255, 255, 255]));
         }
     }
     // add our logo so the bottom
     let logo = image::open("src/maps/logo.png").unwrap();
     //let logo_height = logo_width / 200.832 * 32.115;
-    image::imageops::overlay(img, &logo, 10, 630 - (150 / 2) - (logo.height() as i64 / 2));
+    image::imageops::overlay(img, &logo, 10, 630 - (125 / 2) - (logo.height() as i64 / 2));
     // add top text
     let scale = Scale { x: 35.0, y: 35.0 };
-    let color_black = image::Rgba([0, 0, 0, 255]);
+    let color_black = Rgba([0, 0, 0, 255]);
     let (w, _) = text_size(scale, &CANTARELL_BOLD, data.name.as_str());
     draw_text_mut(
         img,
         color_black,
         1200 - w - 10,
-        630 - 150 + 10,
+        630 - 125 + 10,
         scale,
         &CANTARELL_BOLD,
         data.name.as_str(),
@@ -170,7 +255,7 @@ fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
         img,
         color_black,
         1200 - w - 10,
-        630 - 150 + 50,
+        630 - 125 + 50,
         scale,
         &CANTARELL_REGULAR,
         data.type_common_name.as_str(),
