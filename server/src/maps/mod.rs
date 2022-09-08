@@ -4,6 +4,8 @@ use std::time::Instant;
 use actix_web::{get, web, HttpRequest, HttpResponse};
 use awc::Client;
 use cached::lazy_static::lazy_static;
+use cached::proc_macro::cached;
+use cached::SizedCache;
 use image::Rgba;
 use imageproc::drawing::{draw_text_mut, text_size};
 use log::{debug, error};
@@ -24,7 +26,7 @@ struct MapInfo {
     lon: f64,
 }
 
-fn get_localised_data(id: String, should_use_english: bool) -> Option<Result<MapInfo, Error>> {
+fn get_localised_data(id: &str, should_use_english: bool) -> Option<Result<MapInfo, Error>> {
     let conn = Connection::open_with_flags(
         "data/api_data.db",
         OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX,
@@ -61,7 +63,15 @@ fn get_localised_data(id: String, should_use_english: bool) -> Option<Result<Map
     }
 }
 
-async fn construct_image_from_data(data: MapInfo, start_time: &Instant) -> HttpResponse {
+// type and create are specified, because a custom conversion is needed
+// size=100 is about 300MB
+#[cached(
+    type = "SizedCache<String, Vec<u8>>",
+    create = "{ SizedCache::with_size(100) }",
+    convert = r#"{ _id.clone() }"#
+)]
+async fn construct_image_from_data(_id: String, data: MapInfo) -> Vec<u8> {
+    let start_time = Instant::now();
     let mut img = image::RgbaImage::new(1200, 630);
 
     // add the map
@@ -79,22 +89,17 @@ async fn construct_image_from_data(data: MapInfo, start_time: &Instant) -> HttpR
     );
     debug!("overlay finish {}ms", start_time.elapsed().as_millis());
 
-    wrap_image_in_response(img, start_time)
+    wrap_image_in_response(img, &start_time)
 }
 
-fn wrap_image_in_response(img: image::RgbaImage, start_time: &Instant) -> HttpResponse {
+fn wrap_image_in_response(img: image::RgbaImage, start_time: &Instant) -> Vec<u8> {
     let mut w = Cursor::new(Vec::new());
     debug!("cursor construction {}ms", start_time.elapsed().as_millis());
     image::DynamicImage::ImageRgba8(img)
         .write_to(&mut w, image::ImageOutputFormat::Png)
         .unwrap();
     debug!("image writing {}ms", start_time.elapsed().as_millis());
-    let res = HttpResponse::Ok()
-        .content_type("image/png")
-        .body(w.into_inner());
-
-    debug!("total {}ms", start_time.elapsed().as_millis());
-    res
+    w.into_inner()
 }
 
 async fn download_map_image(z: u32, x: u32, y: u32, file: &str) -> web::Bytes {
@@ -274,10 +279,9 @@ pub async fn maps_handler(
     web::Query(args): web::Query<utils::DetailsQuerryArgs>,
     req: HttpRequest,
 ) -> HttpResponse {
-    let start_time = Instant::now();
     let id = params.into_inner();
     let should_use_english = utils::should_use_english(args, req);
-    let data = get_localised_data(id, should_use_english);
+    let data = get_localised_data(&id, should_use_english);
     if data.is_none() {
         return HttpResponse::NotFound()
             .content_type("text/plain")
@@ -289,5 +293,7 @@ pub async fn maps_handler(
             .content_type("text/plain")
             .body("Internal Server Error");
     }
-    construct_image_from_data(data.unwrap(), &start_time).await
+    HttpResponse::Ok()
+        .content_type("image/png")
+        .body(construct_image_from_data(id, data.unwrap()).await)
 }
