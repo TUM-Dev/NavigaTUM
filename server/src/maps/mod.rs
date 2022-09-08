@@ -133,7 +133,8 @@ async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) {
     let x_pixels = (512.0 * (x - x.floor())) as u32;
     let y_pixels = (512.0 * (y - y.floor())) as u32;
     let (y_img_koords, x_img_koords) = center_to_top_left_coordinates(x_pixels, y_pixels);
-    let mut needed_images = Vec::with_capacity(5 * 3); // 3...4*2 entries
+    // 3...4*2 entries, because 630-125=505=> max.2 Tiles and 1200=> max 4 tiles
+    let mut needed_images = Vec::with_capacity(4 * 2);
     for x_index in 0..5 {
         for y_index in 0..3 {
             if is_in_range(y_img_koords, x_img_koords, x_index, y_index) {
@@ -163,6 +164,8 @@ async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) {
 }
 
 fn center_to_top_left_coordinates(x_pixels: u32, y_pixels: u32) -> (u32, u32) {
+    // the center coordniates are usefull for orienting ourselves in one tile,
+    // but for drawing them, top left is better
     let y_to_img_border = 512 + y_pixels;
     let y_img_koords = y_to_img_border - (630 - 125) / 2;
     let x_to_img_border = 512 * 2 + x_pixels;
@@ -171,9 +174,8 @@ fn center_to_top_left_coordinates(x_pixels: u32, y_pixels: u32) -> (u32, u32) {
 }
 
 fn is_in_range(x_pixels: u32, y_pixels: u32, x_index: u32, y_index: u32) -> bool {
-    return true;
-    let x_in_range = x_pixels > x_index * 512 && x_pixels + 1200 < x_index * 512;
-    let y_in_range = y_pixels > y_index * 512 && y_pixels + 630 - 125 < y_index * 512;
+    let x_in_range = x_pixels < (x_index + 1) * 512 && x_pixels + 1200 > x_index * 512;
+    let y_in_range = y_pixels < (y_index + 1) * 512 && y_pixels + (630 - 125) > y_index * 512;
     x_in_range && y_in_range
 }
 
@@ -199,8 +201,10 @@ mod range_tests {
 
     #[test]
     fn ranged_test() {
-        assert_range_eq(0, 0, (0, 3), (0, 1));
-        assert_range_eq(0, 512 - (630 - 125) / 2, (0, 3), (0, 1));
+        assert_range_eq(0, 0, (0, 2), (0, 0));
+        assert_range_eq(0, 513, (0, 2), (1, 1));
+        assert_range_eq(512 / 2, 0, (0, 2), (0, 0));
+        assert_range_eq(512 / 2, 512 / 2, (0, 2), (0, 1));
     }
 }
 
