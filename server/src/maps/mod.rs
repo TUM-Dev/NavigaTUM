@@ -1,16 +1,17 @@
 use std::io::Cursor;
-use std::time::Instant;
 
 use actix_web::{get, web, HttpRequest, HttpResponse};
 use awc::Client;
 use cached::lazy_static::lazy_static;
 use cached::proc_macro::cached;
 use cached::SizedCache;
+use futures::future::join_all;
 use image::Rgba;
 use imageproc::drawing::{draw_text_mut, text_size};
 use log::{debug, error};
 use rusqlite::{Connection, Error, OpenFlags};
 use rusttype::{Font, Scale};
+use tokio::time::Instant;
 
 use crate::utils;
 
@@ -64,10 +65,10 @@ fn get_localised_data(id: &str, should_use_english: bool) -> Option<Result<MapIn
 }
 
 // type and create are specified, because a custom conversion is needed
-// size=100 is about 300MB
+// size=20 is about 60MB
 #[cached(
     type = "SizedCache<String, Vec<u8>>",
-    create = "{ SizedCache::with_size(100) }",
+    create = "{ SizedCache::with_size(20) }",
     convert = r#"{ _id.clone() }"#
 )]
 async fn construct_image_from_data(_id: String, data: MapInfo) -> Vec<u8> {
@@ -89,16 +90,12 @@ async fn construct_image_from_data(_id: String, data: MapInfo) -> Vec<u8> {
     );
     debug!("overlay finish {}ms", start_time.elapsed().as_millis());
 
-    wrap_image_in_response(img, &start_time)
+    wrap_image_in_response(img)
 }
 
-fn wrap_image_in_response(img: image::RgbaImage, start_time: &Instant) -> Vec<u8> {
+fn wrap_image_in_response(img: image::RgbaImage) -> Vec<u8> {
     let mut w = Cursor::new(Vec::new());
-    debug!("cursor construction {}ms", start_time.elapsed().as_millis());
-    image::DynamicImage::ImageRgba8(img)
-        .write_to(&mut w, image::ImageOutputFormat::Png)
-        .unwrap();
-    debug!("image writing {}ms", start_time.elapsed().as_millis());
+    img.write_to(&mut w, image::ImageOutputFormat::Png).unwrap();
     w.into_inner()
 }
 
@@ -121,14 +118,17 @@ async fn download_map_image(z: u32, x: u32, y: u32, file: &str) -> web::Bytes {
     res
 }
 
-async fn get_map_image(z: u32, x: u32, y: u32) -> web::Bytes {
+async fn get_tile(z: u32, x: u32, y: u32, index: (i64, i64)) -> ((i64, i64), image::DynamicImage) {
     // gets the image fro the server. using a disk-cached image if possible
     let file = format!("data/cache/{}_{}_{}@2x.png", z, x, y);
     let file_content = tokio::fs::read(&file).await;
-    match file_content {
+    let tile = match file_content {
         Ok(content) => web::Bytes::from(content),
         Err(_) => download_map_image(z, x, y, &file).await,
-    }
+    };
+
+    let tile_img = image::load_from_memory(&tile).unwrap();
+    (index, tile_img)
 }
 
 async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) {
@@ -146,32 +146,30 @@ async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) {
     let y_pixels = (512.0 * (y - y.floor())) as u32;
     let (y_img_koords, x_img_koords) = center_to_top_left_coordinates(x_pixels, y_pixels);
     // 3...4*2 entries, because 630-125=505=> max.2 Tiles and 1200=> max 4 tiles
-    let mut needed_images = Vec::with_capacity(4 * 2);
+    let mut work_queue = Vec::with_capacity(4 * 2);
     for x_index in 0..5 {
         for y_index in 0..3 {
             if is_in_range(y_img_koords, x_img_koords, x_index, y_index) {
-                needed_images.push((
-                    get_map_image(z, x as u32 + x_index - 2, y as u32 + y_index - 1),
-                    x_index as i64,
-                    y_index as i64,
+                work_queue.push(get_tile(
+                    z,
+                    x as u32 + x_index - 2,
+                    y as u32 + y_index - 1,
+                    (x_index as i64, y_index as i64),
                 ));
             }
         }
     }
-    // the items in the work queue are then asynchronously downloaded and drawn on the tmp image
-    let mut tmp_img = image::RgbaImage::new(5 * 512, 5 * 512);
-    for (image, x_index, y_index) in needed_images {
-        let image = image.await;
-        let map = image::load_from_memory(&image).unwrap();
-        image::imageops::overlay(&mut tmp_img, &map, x_index * 512, y_index * 512);
+    // the items in the work queue are then asynchronously downloaded and then drawn
+
+    let results: Vec<((i64, i64), image::DynamicImage)> = join_all(work_queue).await;
+    for ((x_index, y_index), tile_img) in results {
+        image::imageops::overlay(
+            img,
+            &tile_img,
+            x_index * 512 - (x_img_koords as i64),
+            y_index * 512 - (y_img_koords as i64),
+        );
     }
-    // the temporary image can then be overlayed on the final image
-    image::imageops::overlay(
-        img,
-        &tmp_img,
-        -(x_img_koords as i64),
-        -(y_img_koords as i64),
-    );
 }
 
 fn center_to_top_left_coordinates(x_pixels: u32, y_pixels: u32) -> (u32, u32) {
