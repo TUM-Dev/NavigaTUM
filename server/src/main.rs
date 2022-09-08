@@ -89,8 +89,8 @@ async fn main() -> std::io::Result<()> {
                     .configure(feedback::configure)
                     .app_data(state_feedback.clone()),
             )
+            .service(web::scope("/api/preview").configure(maps::configure))
             .service(web::scope("/api").configure(core::configure))
-            .service(web::scope("/maps").configure(maps::configure))
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?
     .run()
