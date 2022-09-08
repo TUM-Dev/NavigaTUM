@@ -144,12 +144,12 @@ async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) {
 
     let x_pixels = (512.0 * (x - x.floor())) as u32;
     let y_pixels = (512.0 * (y - y.floor())) as u32;
-    let (y_img_koords, x_img_koords) = center_to_top_left_coordinates(x_pixels, y_pixels);
+    let (x_img_koords, y_img_koords) = center_to_top_left_coordinates(x_pixels, y_pixels);
     // 3...4*2 entries, because 630-125=505=> max.2 Tiles and 1200=> max 4 tiles
     let mut work_queue = Vec::with_capacity(4 * 2);
     for x_index in 0..5 {
         for y_index in 0..3 {
-            if is_in_range(y_img_koords, x_img_koords, x_index, y_index) {
+            if is_in_range(x_img_koords, y_img_koords, x_index, y_index) {
                 work_queue.push(get_tile(
                     z,
                     x as u32 + x_index - 2,
@@ -179,12 +179,12 @@ fn center_to_top_left_coordinates(x_pixels: u32, y_pixels: u32) -> (u32, u32) {
     let y_img_koords = y_to_img_border - (630 - 125) / 2;
     let x_to_img_border = 512 * 2 + x_pixels;
     let x_img_koords = x_to_img_border - 1200 / 2;
-    (y_img_koords, x_img_koords)
+    (x_img_koords, y_img_koords)
 }
 
 fn is_in_range(x_pixels: u32, y_pixels: u32, x_index: u32, y_index: u32) -> bool {
-    let x_in_range = x_pixels < (x_index + 1) * 512 && x_pixels + 1200 > x_index * 512;
-    let y_in_range = y_pixels < (y_index + 1) * 512 && y_pixels + (630 - 125) > y_index * 512;
+    let x_in_range = x_pixels <= (x_index + 1) * 512 && x_pixels + 1200 >= x_index * 512;
+    let y_in_range = y_pixels <= (y_index + 1) * 512 && y_pixels + (630 - 125) >= y_index * 512;
     x_in_range && y_in_range
 }
 
