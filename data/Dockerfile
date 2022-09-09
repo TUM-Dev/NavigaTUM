@@ -13,6 +13,7 @@ COPY sources/ sources/
 COPY external/ external/
 COPY processors/ processors/
 COPY *.py ./
+COPY translations.yaml translations.yaml
 RUN mkdir output \
     && python3 compile.py \
     && test -f "./output/search_data.json" \
