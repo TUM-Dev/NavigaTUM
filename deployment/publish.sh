@@ -42,7 +42,7 @@ mv $tmp_dir/* .
 git add .
 
 # --porcelain returns nothing if there are no changes
-if [ "$(git status --porcelain)" ]; then
+if [ -z "$(git status --porcelain)" ]; then
     echo "no changes to deployment, returnning"
     exit 0
 fi
