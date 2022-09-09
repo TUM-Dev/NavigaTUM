@@ -38,7 +38,7 @@ fi
 
 echo "checking out deployment branch"
 git checkout deployment --
-mv "$tmp_dir" .
+mv $tmp_dir/* .
 git add .
 
 # --porcelain returns nothing if there are no changes
