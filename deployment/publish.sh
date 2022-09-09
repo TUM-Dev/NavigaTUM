@@ -16,6 +16,7 @@ if [ $1 == "main" ]; then
     echo "Deploying to production"
     rm k3s/templates/application.yaml
 
+    mkdir "$tmp_dir/main"
     cp -R k3s/* "$tmp_dir/main"
 else
     echo "Deploying to PR-based environment"
@@ -36,7 +37,7 @@ fi
 )
 
 echo "checking out deployment branch"
-git checkout deployment
+git checkout deployment --
 mv "$tmp_dir" .
 git add .
 
