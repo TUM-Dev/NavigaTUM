@@ -274,7 +274,7 @@ paths:
         - core
   '/api/get/{id}':
     get:
-      operationId: get
+      operationId: details
       summary: Get entry-details
       description: |
         This returns the full data available for the entry (room/building).
@@ -283,6 +283,26 @@ paths:
         Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side. The data can be up to 50kB (using gzip) or 200kB unzipped
         The exact data format is specified in the NavigaTUM-data documentation
       parameters:
+        - name: lang
+          in: query
+          description: The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.
+          required: false
+          schema:
+            type: string
+            default: de
+            enum:
+              - de
+              - en
+        - name: lang
+          in: cookie
+          description: The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.
+          required: false
+          schema:
+            type: string
+            default: de
+            enum:
+              - de
+              - en
         - name: id
           in: path
           description: string you want to search for
@@ -897,6 +917,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LinkProp'
+        comment:
+          description: |
+            A comment to show to an entry.  
+            It is used in the rare cases, where some aspect about the rooom/.. or its translation are misleading.  
+            An example of a room with a comment is MW1801.
+          type: string
       required:
         - computed
     ComputedProp:
@@ -938,16 +964,6 @@ components:
       required:
         - text
         - url
-    CommentProp:
-      description: 'A comment to show to an entry. It is used in the rare cases, where some aspect about the rooom/ translation are misleading.'
-      type: object
-      properties:
-        de:
-          description: German version of the comment
-          type: string
-        en:
-          description: English version of the comment
-          type: string
     ImageInfo:
       description: 'The information you need to request Images from the /cdn/{size}/{id}_{counter}.webp endpoint'
       type: object

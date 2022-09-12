@@ -159,9 +159,7 @@ async fn send_feedback(
     let octocrab = Octocrab::builder().personal_token(token).build();
     if octocrab.is_err() {
         error!("Error creating issue: {:?}", octocrab);
-        return HttpResponse::InternalServerError()
-            .content_type("text/plain")
-            .body("Could not create Octocrab instance");
+        return HttpResponse::InternalServerError().body("Could not create Octocrab instance");
     }
     let resp = octocrab
         .unwrap()
