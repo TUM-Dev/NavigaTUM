@@ -2,6 +2,49 @@ import os
 from pathlib import Path
 
 from PIL import Image
+from ruamel.yaml import YAML
+
+yaml = YAML(typ="rt")
+
+TRANSLATION_BUFFER_PATH = Path(__file__).parent / "translations.yaml"
+
+with open(TRANSLATION_BUFFER_PATH, encoding="utf-8") as yaml_file:
+    TRANSLATION_BUFFER = yaml.load(yaml_file)
+
+
+class TranslatableStr(dict):
+    """
+    Wrapper for translations.
+    Takes a string, that should be translated and looks it up in the translation buffer.
+    If the string is not found, it an entry is created in the buffer.
+
+    The string can be formatted using the .format() method or left as is.
+
+    Since it is a subclass of dict, this class does not need any additional infrastructure
+    to turn a message into a translated string.
+    
+    Translatable strings will be exported as {"de": "<de string>", "en": "<en string>"}.
+    """
+
+    def __init__(self, message):
+        if message in TRANSLATION_BUFFER:
+            en_message = TRANSLATION_BUFFER[message]
+        else:
+            en_message = message
+            TRANSLATION_BUFFER[message] = ""
+            with open(TRANSLATION_BUFFER_PATH, "w", encoding="utf-8") as file:
+                yaml.dump(TRANSLATION_BUFFER, file)
+        super().__init__(en=en_message, de=message)
+
+    def __hash__(self):
+        """returns a hash as if this was a string."""
+        return hash(self["de"])
+
+    def format(self, *args, **kwargs):
+        """Format the string using the .format() method, as if this was a string."""
+        self["de"] = self["de"].format(*args, **kwargs)
+        self["en"] = self["en"].format(*args, **kwargs)
+        return self
 
 
 def convert_to_webp(source: Path):

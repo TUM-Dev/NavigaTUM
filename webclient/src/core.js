@@ -16,6 +16,12 @@ const cachedFetch = (() => ({
         this.promise_callbacks[url].push(resolve);
       } else {
         this.promise_callbacks[url] = [resolve];
+
+        // in local development we serve our website from two diverent CORS sources.
+        // since we need the lang cookie for the api localisation, we have to add crecentials:"include"
+        // to the fetech options
+        options.credentials =
+          "/* @if target='release' */same-origin/* @else */include/* @endif */";
         if (!options.headers) options.headers = {};
         fetch(url, options)
           .then((response) => {

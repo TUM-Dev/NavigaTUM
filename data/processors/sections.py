@@ -1,3 +1,6 @@
+from utils import TranslatableStr as _
+
+
 def compute_props(data):
     """
     Create the "computed" value in "props".
@@ -23,27 +26,29 @@ def _append_if_present(props, computed_results, key, human_name):
 def _gen_computed_props(_id, entry, props):
     computed = []
     if "ids" in props:
-        _append_if_present(props["ids"], computed, "b_id", "Gebäudekennung")
-        _append_if_present(props["ids"], computed, "roomcode", "Raumkennung")
+        _append_if_present(props["ids"], computed, "b_id", _("Gebäudekennung"))
+        _append_if_present(props["ids"], computed, "roomcode", _("Raumkennung"))
         if "arch_name" in props["ids"]:
-            computed.append({"Architekten-Name": props["ids"]["arch_name"].split("@")[0]})
+            computed.append({_("Architekten-Name"): props["ids"]["arch_name"].split("@")[0]})
     if "b_prefix" in entry and entry["b_prefix"] != _id:
         b_prefix = [entry["b_prefix"]] if isinstance(entry["b_prefix"], str) else entry["b_prefix"]
         building_names = ", ".join([p.ljust(4, "x") for p in b_prefix])
-        computed.append({"Gebäudekennungen": building_names})
+        computed.append({_("Gebäudekennungen"): building_names})
     if "address" in props:
         address = props["address"]
-        computed.append({"Adresse": f"{address['street']}, {address['plz_place']}"})
+        computed.append({_("Adresse"): f"{address['street']}, {address['plz_place']}"})
     if "stats" in props:
-        _append_if_present(props["stats"], computed, "n_buildings", "Anzahl Gebäude")
-        _append_if_present(props["stats"], computed, "n_seats", "Sitzplätze")
+        _append_if_present(props["stats"], computed, "n_buildings", _("Anzahl Gebäude"))
+        _append_if_present(props["stats"], computed, "n_seats", _("Sitzplätze"))
         if "n_rooms" in props["stats"]:
             if props["stats"]["n_rooms"] == props["stats"]["n_rooms_reg"]:
-                computed.append({"Anzahl Räume": str(props["stats"]["n_rooms"])})
+                computed.append({_("Anzahl Räume"): str(props["stats"]["n_rooms"])})
             else:
-                n_rooms = props["stats"]["n_rooms"]
-                n_rooms_reg = props["stats"]["n_rooms_reg"]
-                computed.append({"Anzahl Räume": f"{n_rooms} ({n_rooms_reg} ohne Flure etc.)"})
+                value = _("{n_rooms} ({n_rooms_reg} ohne Flure etc.)").format(
+                    n_rooms=props["stats"]["n_rooms"],
+                    n_rooms_reg=props["stats"]["n_rooms_reg"],
+                )
+                computed.append({_("Anzahl Räume"): value})
     if "generic" in props:
         for entity in props["generic"]:
             if isinstance(entity[1], dict):
@@ -114,13 +119,16 @@ def generate_buildings_overview(data):
             n_buildings = child["props"]["stats"].get("n_buildings", 0)
             if child["type"] in {"building", "joined_building"}:
                 if n_rooms == 0:
-                    subtext = "Keine Räume bekannt"
+                    subtext = _("Keine Räume bekannt")
                 else:
-                    subtext = f"{n_rooms} Räume"
+                    subtext = _("{n_rooms} Räume").format(n_rooms=n_rooms)
             elif child["type"] == "area":
-                subtext = f"{n_buildings} Gebäude, {n_rooms} Räume"
+                subtext = _("{n_buildings} Gebäude, {n_rooms} Räume").format(n_buildings=n_buildings, n_rooms=n_rooms)
             elif child["type"] == "site":
-                subtext = f"{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)"
+                subtext = _("{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)").format(
+                    n_buildings=n_buildings,
+                    n_rooms=n_rooms,
+                )
             else:
                 raise RuntimeError(
                     f"Cannot generate buildings_overview subtext for type '{child['type']}', "

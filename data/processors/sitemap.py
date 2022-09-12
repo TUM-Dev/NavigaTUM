@@ -8,7 +8,7 @@ from datetime import datetime
 from typing import Union
 
 from compile import DEBUG_MODE
-from defusedxml import ElementTree as defusedET  # type:ignore
+from defusedxml import ElementTree as defusedET
 
 # defusedxml only supports parse()
 
