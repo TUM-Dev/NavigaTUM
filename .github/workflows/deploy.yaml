@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: add a new deployment if necessary
-        run: ./deployment/deploy.sh ${{ inputs.branch }} ${{ inputs.pr-number }}
+        run: ./deployment/publish.sh ${{ inputs.branch }} ${{ inputs.pr-number }}
 
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app sync default --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
