@@ -24,6 +24,9 @@ spec:
         app: navigatum
         deployment: api
     spec:
+      volumes:
+        - name: tmp-server
+          emptyDir: {}
       containers:
         - name: server
           image: "ghcr.io/tum-dev/navigatum-server:{{ .Values.branch }}"
