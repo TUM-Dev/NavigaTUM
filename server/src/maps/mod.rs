@@ -240,7 +240,6 @@ fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
     }
     // add our logo so the bottom
     let logo = image::open("src/maps/logo.png").unwrap();
-    //let logo_height = logo_width / 200.832 * 32.115;
     image::imageops::overlay(
         img,
         &logo,
