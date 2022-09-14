@@ -241,7 +241,12 @@ fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
     // add our logo so the bottom
     let logo = image::open("src/maps/logo.png").unwrap();
     //let logo_height = logo_width / 200.832 * 32.115;
-    image::imageops::overlay(img, &logo, 10, 630 - (125 / 2) - (logo.height() as i64 / 2));
+    image::imageops::overlay(
+        img,
+        &logo,
+        15,
+        630 - (125 / 2) - (logo.height() as i64 / 2) + 9,
+    );
     // add top text
     let scale = Scale { x: 35.0, y: 35.0 };
     let (w, _) = text_size(scale, &CANTARELL_BOLD, data.name.as_str());
