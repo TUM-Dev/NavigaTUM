@@ -29,7 +29,6 @@ spec:
           image: "ghcr.io/tum-dev/navigatum-server:{{ .Values.branch }}"
           imagePullPolicy: Always
           envFrom:
-
             {{ if .Values.server.GITHUB_TOKEN }}
             - secretRef:
                 name: github-token
@@ -41,6 +40,9 @@ spec:
           ports:
             - containerPort: 8080
               name: api
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-server
           securityContext:
             readOnlyRootFilesystem: true
           resources:
