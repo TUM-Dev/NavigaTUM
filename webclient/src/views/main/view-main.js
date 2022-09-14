@@ -18,8 +18,10 @@ navigatum.registerView("main", {
   },
   methods: {
     setData: function (data) {
-      this.root_data = data;
       if (data !== null) navigatum.setTitle(data.name);
+      // initalising this sets vue's renering into motion.
+      // Because of this, we want to set the values relevant for embeds first, as Rendertron may decide that "we are ready now"
+      this.root_data = data;
     },
     more: function (id) {
       document.getElementById(`panel-${id}`).classList.add("open");

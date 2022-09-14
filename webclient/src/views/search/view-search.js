@@ -73,11 +73,13 @@ navigatum.registerView("search", {
       return sectionsDescr;
     },
     loadSearchData: function (query, data) {
+      navigatum.setTitle(`\${{ _.view_search.search_for }}$ "${query}"`);
+      navigatum.setDescription(this.genDescription(data));
+      // initalising this sets vue's renering into motion.
+      // Because of this, we want to set the values relevant for embeds first, as Rendertron may decide that "we are ready now"
       this.search_data = data;
       this.query = query;
       navigatum.app.search.query = query;
-      navigatum.setTitle(`\${{ _.view_search.search_for }}$ "${query}"`);
-      navigatum.setDescription(this.genDescription(data));
       // Currently borrowing this functionality from autocomplete.
       // In the future it is planned that this search results page
       // has a different format.
