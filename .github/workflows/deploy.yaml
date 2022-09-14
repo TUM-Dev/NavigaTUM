@@ -1,0 +1,40 @@
+name: Add a new Deployment if necessary
+
+on:
+  # TODO: RUN on new PR or deployment-changed
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        description: branch to target when adding a deployment
+        type: string
+      pr-number:
+        required: false
+        description: number of the PR to target when adding a deployment. If branch is set to main, this is ignored
+        type: number
+        default: 0
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Install the dependency kyml
+        run: curl -sfL -o /usr/local/bin/kyml https://github.com/frigus02/kyml/releases/download/v20210610/kyml_20210610_linux_amd64 && chmod +x /bin/kyml
+      - uses: actions/checkout@v3
+
+      - name: add a new deployment if necessary
+        run: ./deployment/deploy.sh ${{ inputs.branch }} ${{ inputs.pr-number }}
+
+      - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
+      - run: argocd app sync default --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
+
+      - name: Add comment to PR
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          curl \
+            -X POST \
+            ${{ github.event.pull_request.comments_url }} \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            --data '{ "body": "👋 Thank you for contributing. A [staging environment for this PR](pr-${{ inputs.pr-number }}.nav.tum.sexy) for this change will be available shortly!" }'

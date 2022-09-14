@@ -1,0 +1,42 @@
+# this file is only specially templated for PR builds.
+# For main, there is an equivalent file including the secrets kept offline.
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pr-{{ .PR_NUMBER }}
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/TUM-Dev/navigatum.git
+    targetRevision: deployment
+    path: pr-{{ .PR_NUMBER }}
+    helm:
+      version: v3
+      values: |
+        namespace: pr-{{ .PR_NUMBER }}
+        branch: {{.BRANCH}}
+        url: pr-{{ .PR_NUMBER }}.nav.tum.sexy
+        server:
+            MEILI_MASTER_KEY: {{.MEILI_MASTER_KEY}}
+    # GITHUB_TOKEN is intentionally omitted, as this file is templated and then added to git in the deployments branch
+    # MEILI_MASTER_KEY being added is not a security risk, since it is a hidden service and even if exposed is hevyly restricted by other network policies
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pr-{{ .PR_NUMBER }}
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - CreateNamespace=true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
