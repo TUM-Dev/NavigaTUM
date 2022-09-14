@@ -25,11 +25,12 @@ FROM alpine:3.16.2
 
 RUN     apk update --quiet \
         && apk add -q --no-cache libgcc sqlite-libs tini curl \
-        && mkdir -p ./data/cache
+        && mkdir -p ./src/maps/font
 
 
-# add `navigatum-server` to the `/bin` so we can run it from anywhere and it's easy to find.
+COPY    ./src/maps ./src/maps
 COPY    --from=build-stage /data/api_data.db ./data/api_data.db
+# add `navigatum-server` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /nav/target/release/navigatum-server /bin/navigatum-server
 
 ARG     GIT_COMMIT_SHA
