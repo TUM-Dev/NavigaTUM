@@ -6,7 +6,7 @@ use rusqlite::{Connection, OpenFlags};
 #[get("/get/{id}")]
 pub async fn get_handler(
     params: web::Path<String>,
-    web::Query(args): web::Query<utils::DetailsQuerryArgs>,
+    web::Query(args): web::Query<utils::DetailsQueryArgs>,
     req: HttpRequest,
 ) -> HttpResponse {
     let id = params.into_inner();

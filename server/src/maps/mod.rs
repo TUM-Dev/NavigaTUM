@@ -142,12 +142,12 @@ async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) {
 
     let x_pixels = (512.0 * (x - x.floor())) as u32;
     let y_pixels = (512.0 * (y - y.floor())) as u32;
-    let (x_img_koords, y_img_koords) = center_to_top_left_coordinates(x_pixels, y_pixels);
+    let (x_img_coords, y_img_coords) = center_to_top_left_coordinates(x_pixels, y_pixels);
     // 3...4*2 entries, because 630-125=505=> max.2 Tiles and 1200=> max 4 tiles
     let mut work_queue = Vec::with_capacity(4 * 2);
     for x_index in 0..5 {
         for y_index in 0..3 {
-            if is_in_range(x_img_koords, y_img_koords, x_index, y_index) {
+            if is_in_range(x_img_coords, y_img_coords, x_index, y_index) {
                 work_queue.push(get_tile(
                     z,
                     x as u32 + x_index - 2,
@@ -164,8 +164,8 @@ async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) {
         image::imageops::overlay(
             img,
             &tile_img,
-            x_index * 512 - (x_img_koords as i64),
-            y_index * 512 - (y_img_koords as i64),
+            x_index * 512 - (x_img_coords as i64),
+            y_index * 512 - (y_img_coords as i64),
         );
     }
 }
@@ -174,10 +174,10 @@ fn center_to_top_left_coordinates(x_pixels: u32, y_pixels: u32) -> (u32, u32) {
     // the center coordniates are usefull for orienting ourselves in one tile,
     // but for drawing them, top left is better
     let y_to_img_border = 512 + y_pixels;
-    let y_img_koords = y_to_img_border - (630 - 125) / 2;
+    let y_img_coords = y_to_img_border - (630 - 125) / 2;
     let x_to_img_border = 512 * 2 + x_pixels;
-    let x_img_koords = x_to_img_border - 1200 / 2;
-    (x_img_koords, y_img_koords)
+    let x_img_coords = x_to_img_border - 1200 / 2;
+    (x_img_coords, y_img_coords)
 }
 
 fn is_in_range(x_pixels: u32, y_pixels: u32, x_index: u32, y_index: u32) -> bool {
@@ -274,7 +274,7 @@ fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
 #[get("/{id}")]
 pub async fn maps_handler(
     params: web::Path<String>,
-    web::Query(args): web::Query<utils::DetailsQuerryArgs>,
+    web::Query(args): web::Query<utils::DetailsQueryArgs>,
     req: HttpRequest,
 ) -> HttpResponse {
     let start_time = Instant::now();
