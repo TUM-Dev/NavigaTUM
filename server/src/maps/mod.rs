@@ -1,9 +1,8 @@
 use std::env;
 use std::io::Cursor;
-use std::time::Duration;
 
 use actix_web::{get, web, HttpRequest, HttpResponse};
-use awc::{Client, Connector};
+use awc::Client;
 use cached::lazy_static::lazy_static;
 use cached::proc_macro::cached;
 use cached::SizedCache;
