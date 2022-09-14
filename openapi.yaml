@@ -280,8 +280,9 @@ paths:
         This returns the full data available for the entry (room/building).
 
         This is more data, that should be supplied once a user clicks on an entry.
-        Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side. The data can be up to 50kB (using gzip) or 200kB unzipped
-        The exact data format is specified in the NavigaTUM-data documentation
+        Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side.  
+        The data can be up to 50kB (using gzip) or 200kB unzipped.
+        The more about this data format is described in the NavigaTUM-data documentation
       parameters:
         - name: lang
           in: query
@@ -568,6 +569,90 @@ paths:
                   - Not found
       tags:
         - core
+  '/api/preview/{id}':
+    get:
+      operationId: previews
+      summary: Get a entry-preview
+      description: |
+        This returns the a 1200x630px preview for the entry (room/building/..).
+
+        This is usefull for implementing custom OpenGraph images for detail previews.
+      parameters:
+        - name: lang
+          in: query
+          description: The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.
+          required: false
+          schema:
+            type: string
+            default: de
+            enum:
+              - de
+              - en
+        - name: lang
+          in: cookie
+          description: The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.
+          required: false
+          schema:
+            type: string
+            default: de
+            enum:
+              - de
+              - en
+        - name: id
+          in: path
+          description: string you want to search for
+          required: true
+          schema:
+            type: string
+          examples:
+            '5304':
+              summary: A normal building
+              value: '5304'
+            root:
+              summary: The root entry of the NavigaTUM-data
+              value: root
+            garching:
+              summary: The garching campus
+              value: garching
+            mri:
+              summary: The MRI campus
+              value: garching
+            mi:
+              summary: 'A large, (custom named) building'
+              value: mi
+            mw:
+              summary: 'An other large, (custom named) building'
+              value: mw
+            fsmpi:
+              summary: A regular room
+              value: 5606.EG.036
+            rechnerhalle:
+              summary: A room with custom props added
+              value: 5605.EG.011
+            tb-chemie:
+              summary: A virtual room
+              value: 5401.01.100A
+            humangenetik:
+              summary: A virtual room
+              value: 1543
+      responses:
+        '200':
+          description: More data about the requested building/room
+          content:
+            image/png:
+              shema:
+                type:binary
+        '404':
+          description: Invalid input
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Not found
+                enum:
+                  - Not found
+      tags:
+        - maps
   /api/source_code:
     get:
       operationId: source_code
@@ -1544,6 +1629,8 @@ components:
 tags:
   - name: core
     description: the API to access/search for room information
+  - name: maps
+    description: Maps related functionality
   - name: cdn
     description: Images for some of the rooms
   - name: feedback

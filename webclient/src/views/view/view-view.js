@@ -178,6 +178,9 @@ navigatum.registerView("view", {
       // --- Additional data ---
       navigatum.setTitle(data.name);
       navigatum.setDescription(this.genDescription(data));
+      document
+        .querySelector('meta[property="og:image"]')
+        .setAttribute("content", `${navigatum.apiBase}preview/${data.id}`);
 
       // --- Sections ---
       if (this.view_data.sections && this.view_data.sections.rooms_overview) {
