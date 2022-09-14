@@ -147,11 +147,18 @@ navigatum.registerView("view", {
     // - when the view is navigated to from a different view
     // - when the view is navigated to from the same view, but with a different entry
     loadEntryData: function (data) {
+      if (data === null) return;
+      // --- Additional data ---
+      navigatum.setTitle(data.name);
+      navigatum.setDescription(this.genDescription(data));
+      document
+        .querySelector('meta[property="og:image"]')
+        .setAttribute("content", `${navigatum.apiBase}preview/${data.id}`);
+      // initalising this sets vue's renering into motion.
+      // Because of this, we want to set the values relevant for embeds first, as Rendertron may decide that "we are ready now"
       this.view_data = data;
 
       this.showImageShowcase(0, false);
-
-      if (data === null) return;
 
       // --- Maps ---
       if (!navigatum.tryReuseViewState()) {
@@ -174,13 +181,6 @@ navigatum.registerView("view", {
       // Maps can only be loaded after first mount because then the elements are
       // created and can be referenced by id.
       if (this.is_mounted) this.loadMap();
-
-      // --- Additional data ---
-      navigatum.setTitle(data.name);
-      navigatum.setDescription(this.genDescription(data));
-      document
-        .querySelector('meta[property="og:image"]')
-        .setAttribute("content", `${navigatum.apiBase}preview/${data.id}`);
 
       // --- Sections ---
       if (this.view_data.sections && this.view_data.sections.rooms_overview) {
