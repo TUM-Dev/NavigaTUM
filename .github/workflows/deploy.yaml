@@ -2,6 +2,7 @@ name: Add a new Deployment if necessary
 
 on:
   # TODO: RUN on new PR or deployment-changed
+  workflow_dispatch:
   workflow_call:
     inputs:
       branch:
