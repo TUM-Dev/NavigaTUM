@@ -259,7 +259,6 @@ fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
         data.name.as_str(),
     );
     // add bottom text
-
     let (w, _) = text_size(scale, &CANTARELL_REGULAR, data.type_common_name.as_str());
     draw_text_mut(
         img,
