@@ -6,6 +6,8 @@ use structopt::StructOpt;
 
 mod core;
 mod feedback;
+mod maps;
+mod utils;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
@@ -51,7 +53,9 @@ async fn main() -> std::io::Result<()> {
     }
 
     let state_feedback = web::Data::new(feedback::init_state(opt));
-
+    if std::env::var("GIT_COMMIT_SHA").is_err() {
+        warn!("Running in local development mode. Only allowing http://localhost:8000 as origin");
+    }
     HttpServer::new(move || {
         // in local development we serve our website from two diverent CORS sources
         // since we need the lang cookie for api localisation, we have to add
@@ -59,12 +63,9 @@ async fn main() -> std::io::Result<()> {
         // since origin cannot be '*' in this case, we explicitly set it
         let base_cors = match std::env::var("GIT_COMMIT_SHA") {
             Ok(_) => Cors::default().allow_any_origin(),
-            Err(_) => {
-                warn!("Running in local development mode. Only allowing http://localhost:8000 as origin");
-                Cors::default()
-                    .supports_credentials()
-                    .allowed_origin("http://localhost:8000")
-            }
+            Err(_) => Cors::default()
+                .supports_credentials()
+                .allowed_origin("http://localhost:8000"),
         };
         let cors = base_cors
             .allow_any_header()
@@ -87,6 +88,7 @@ async fn main() -> std::io::Result<()> {
                     .configure(feedback::configure)
                     .app_data(state_feedback.clone()),
             )
+            .service(web::scope("/api/preview").configure(maps::configure))
             .service(web::scope("/api").configure(core::configure))
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?

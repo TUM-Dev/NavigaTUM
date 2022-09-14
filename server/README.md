@@ -24,6 +24,12 @@ so that you don't need to copy on every update:
 ln -s ../data/output data
 ```
 
+For the map preview feature you will need to create a cache directory:
+
+```bash
+mkdir data/cache
+```
+
 ### 2. Starting the server
 
 Run

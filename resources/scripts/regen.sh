@@ -15,6 +15,7 @@ cd ./server || exit
 rm -f data/*
 cp ../data/*.json data/
 cp ../data/output/*.json data/
+mkdir data/cache
 python load_api_data_to_db.py
 )
 

@@ -1,17 +1,12 @@
+use crate::utils;
 use actix_web::{get, web, HttpRequest, HttpResponse};
 use log::error;
 use rusqlite::{Connection, OpenFlags};
-use serde::Deserialize;
-
-#[derive(Deserialize)]
-pub struct DetailsQuerryArgs {
-    lang: Option<String>,
-}
 
 #[get("/get/{id}")]
 pub async fn get_handler(
     params: web::Path<String>,
-    web::Query(args): web::Query<DetailsQuerryArgs>,
+    web::Query(args): web::Query<utils::DetailsQueryArgs>,
     req: HttpRequest,
 ) -> HttpResponse {
     let id = params.into_inner();
@@ -21,14 +16,9 @@ pub async fn get_handler(
     )
     .expect("Cannot open database");
 
-    let en_stmt = conn.prepare_cached("SELECT en FROM api_data WHERE key = ?");
-    let de_stmt = conn.prepare_cached("SELECT de FROM api_data WHERE key = ?");
-    // we calculate the language from the request by checking if either the query or the cookie are set to en
-    let cookie_en = req.cookie("lang").map_or(false, |c| c.value() == "en");
-    let arg_en = args.lang.map_or(false, |c| c == "en");
-    let stmt = match arg_en || cookie_en {
-        true => en_stmt,
-        false => de_stmt,
+    let stmt = match utils::should_use_english(args, req) {
+        false => conn.prepare_cached("SELECT data FROM de WHERE key = ?"),
+        true => conn.prepare_cached("SELECT data FROM en WHERE key = ?"),
     };
     let result = match stmt {
         Ok(mut stmt) => stmt.query_row([id], |row| {

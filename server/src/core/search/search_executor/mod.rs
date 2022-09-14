@@ -32,7 +32,7 @@ struct ResultEntry {
     parsed_id: Option<String>,
 }
 
-// size=100 seems to be about 10M
+// size=500 seems to be about 50M
 #[cached(size = 500)]
 pub async fn do_geoentry_search(
     q: String,
