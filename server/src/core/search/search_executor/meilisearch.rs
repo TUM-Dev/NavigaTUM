@@ -101,8 +101,13 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs) -> Result
         // parsed_id is highlighted by us in postprocessing, because this yields better results
         attributes_to_highlight: vec!["name"],
     };
-    let url = std::env::var("MEILISEARCH_URL")
-        .unwrap_or_else(|_| "http://localhost:7700/indexes/entries/search".to_string());
+    // meilisearch should not be a public service as by their docs,
+    // this is why we only let users configure the port here :)
+    let url = format!(
+        "http://localhost:{}/indexes/entries/search",
+        std::env::var("NAVIGATUM_API_SVC_SERVICE_PORT_MIELI_SEARCH")
+            .unwrap_or_else(|_| "7700".to_string())
+    );
 
     // make sure, that meili and the sever are on the same boat when it comes to authentication
     let meili_request = match std::env::var("MEILI_MASTER_KEY") {
