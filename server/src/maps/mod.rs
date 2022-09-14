@@ -1,7 +1,9 @@
+use std::env;
 use std::io::Cursor;
+use std::time::Duration;
 
 use actix_web::{get, web, HttpRequest, HttpResponse};
-use awc::Client;
+use awc::{Client, Connector};
 use cached::lazy_static::lazy_static;
 use cached::proc_macro::cached;
 use cached::SizedCache;
@@ -18,6 +20,10 @@ use crate::utils;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
     cfg.service(maps_handler);
+    let tile_cache = env::temp_dir().join("tiles");
+    if !tile_cache.exists() {
+        std::fs::create_dir(tile_cache).unwrap();
+    }
 }
 
 struct MapInfo {
@@ -97,7 +103,7 @@ fn wrap_image_in_response(img: image::RgbaImage) -> Vec<u8> {
     w.into_inner()
 }
 
-async fn download_map_image(z: u32, x: u32, y: u32, file: &str) -> web::Bytes {
+async fn download_map_image(z: u32, x: u32, y: u32, file: &std::path::PathBuf) -> web::Bytes {
     let url = format!(
         "http://{}:{}/styles/osm_liberty/{}/{}/{}@2x.png",
         std::env::var("NAVIGATUM_MAPS_SVC_PORT_7770_TCP_ADDR")
@@ -116,15 +122,20 @@ async fn download_map_image(z: u32, x: u32, y: u32, file: &str) -> web::Bytes {
             panic!();
         }
     };
-    tokio::fs::write(file, &res)
-        .await
-        .expect("failed to write file");
+    if let Err(e) = tokio::fs::write(file, &res).await {
+        error!(
+            "failed to write url {} to {:?} because {:?}. Files wont be cached",
+            url, file, e
+        );
+    };
     res
 }
 
 async fn get_tile(z: u32, x: u32, y: u32, index: (i64, i64)) -> ((i64, i64), image::DynamicImage) {
     // gets the image fro the server. using a disk-cached image if possible
-    let file = format!("data/cache/{}_{}_{}@2x.png", z, x, y);
+    let file = env::temp_dir()
+        .join("tiles")
+        .join(format!("{}_{}_{}@2x.png", z, x, y));
     let file_content = tokio::fs::read(&file).await;
     let tile = match file_content {
         Ok(content) => web::Bytes::from(content),
