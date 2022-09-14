@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: navigatum-api-svc
+  name: api-svc
   labels:
     app: navigatum
     deployment: api
-  namespace: navigatum
+  namespace: {{ .Values.namespace }}
 spec:
   type: ClusterIP
   selector:
@@ -15,18 +15,18 @@ spec:
     - name: mieli-search
       port: 7700
       targetPort: 7700
-    - name: navigatum-api
+    - name: api
       port: 7000
       targetPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: navigatum-maps-svc
+  name: maps-svc
   labels:
     app: navigatum
     deployment: maps
-  namespace: navigatum
+  namespace: {{ .Values.namespace }}
 spec:
   type: ClusterIP
   selector:
@@ -40,36 +40,36 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: navigatum-cdn-svc
+  name: cdn-svc
   labels:
     app: navigatum
     deployment: cdn
-  namespace: navigatum
+  namespace: {{ .Values.namespace }}
 spec:
   type: ClusterIP
   selector:
     app: navigatum
     deployment: cdn
   ports:
-    - name: navigatum-cdn
+    - name: cdn
       port: 8000
       targetPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: navigatum-web-svc
+  name: webclient-svc
   labels:
     app: navigatum
     deployment: web
-  namespace: navigatum
+  namespace: {{ .Values.namespace }}
 spec:
   type: ClusterIP
   selector:
     app: navigatum
     deployment: web
   ports:
-    - name: navigatum-web
+    - name: webclient
       port: 9000
       targetPort: 80
     - name: rendertron

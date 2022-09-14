@@ -4,7 +4,7 @@ metadata:
   name: https
   labels:
     app: navigatum
-  namespace: navigatum
+  namespace: {{ .Values.namespace }}
 spec:
   redirectScheme:
     scheme: https

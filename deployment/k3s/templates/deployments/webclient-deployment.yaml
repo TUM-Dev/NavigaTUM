@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: navigatum-webclient
+  name: webclient
   labels:
     app: navigatum
     deployment: web
-  namespace: navigatum
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   revisionHistoryLimit: 1
@@ -28,12 +28,12 @@ spec:
         - name: tmp-rendertron
           emptyDir: {}
       containers:
-        - name: navigatum-webclient
-          image: ghcr.io/tum-dev/navigatum-webclient:main
+        - name: webclient
+          image: "ghcr.io/tum-dev/navigatum-webclient:{{ .Values.branch }}"
           imagePullPolicy: Always
           ports:
             - containerPort: 80
-              name: navigatum-web
+              name: webclient
           resources:
             requests:
               cpu: 5m
@@ -44,13 +44,13 @@ spec:
           livenessProbe:
             httpGet:
               path: /health
-              port: navigatum-web
+              port: webclient
             failureThreshold: 3
             periodSeconds: 5
           startupProbe:
             httpGet:
               path: /health
-              port: navigatum-web
+              port: webclient
             failureThreshold: 60
             periodSeconds: 1
         - name: rendertron
