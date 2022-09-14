@@ -35,13 +35,10 @@ fn get_localised_data(id: &str, should_use_english: bool) -> Option<Result<MapIn
     )
     .expect("Cannot open database");
 
-    let stmt =
-        match should_use_english {
-            false => conn
-                .prepare_cached("SELECT name,type,type_common_name,lat,lon FROM de WHERE key = ?"),
-            true => conn
-                .prepare_cached("SELECT name,type,type_common_name,lat,lon FROM en WHERE key = ?"),
-        };
+    let stmt = conn.prepare_cached(&format!(
+        "SELECT name,type,type_common_name,lat,lon FROM {} WHERE key = ?",
+        if should_use_english { "en" } else { "de" }
+    ));
 
     let result = match stmt {
         Ok(mut stmt) => stmt.query_row([id], |row| {
