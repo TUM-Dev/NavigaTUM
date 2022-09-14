@@ -99,9 +99,9 @@ fn wrap_image_in_response(img: image::RgbaImage) -> Vec<u8> {
 
 async fn download_map_image(z: u32, x: u32, y: u32, file: &str) -> web::Bytes {
     let url = format!(
-        "{}/styles/osm_liberty/{}/{}/{}@2x.png",
-        std::env::var("NAVIGATUM_MAPS_SVC_PORT")
-            .unwrap_or_else(|_| "http://localhost:7770".to_string()),
+        "http://localhost:{}/styles/osm_liberty/{}/{}/{}@2x.png",
+        std::env::var("NAVIGATUM_MAPS_SVC_SERVICE_PORT_TILESERVER")
+            .unwrap_or_else(|_| "7770".to_string()),
         z,
         x,
         y,
