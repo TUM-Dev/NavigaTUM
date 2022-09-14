@@ -3,6 +3,16 @@ name: Add a new Deployment if necessary
 on:
   # TODO: RUN on new PR or deployment-changed
   workflow_dispatch:
+    inputs:
+      branch:
+        required: true
+        description: branch to target when adding a deployment
+        type: string
+      pr-number:
+        required: false
+        description: number of the PR to target when adding a deployment. If branch is set to main, this is ignored
+        type: string
+        default: "0"
   workflow_call:
     inputs:
       branch:
@@ -12,8 +22,8 @@ on:
       pr-number:
         required: false
         description: number of the PR to target when adding a deployment. If branch is set to main, this is ignored
-        type: number
-        default: 0
+        type: string
+        default: "0"
 jobs:
   deploy:
     runs-on: ubuntu-latest
