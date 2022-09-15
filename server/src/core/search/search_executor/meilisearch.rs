@@ -105,8 +105,7 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs) -> Result
     // this is why we only let users configure the port here :)
     let url = format!(
         "http://localhost:{}/indexes/entries/search",
-        std::env::var("NAVIGATUM_API_SVC_SERVICE_PORT_MIELI_SEARCH")
-            .unwrap_or_else(|_| "7700".to_string())
+        std::env::var("API_SVC_SERVICE_PORT_MIELI_SEARCH").unwrap_or_else(|_| "7700".to_string())
     );
 
     // make sure, that meili and the sever are on the same boat when it comes to authentication

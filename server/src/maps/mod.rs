@@ -1,4 +1,3 @@
-use std::env;
 use std::io::Cursor;
 
 use actix_web::{get, web, HttpRequest, HttpResponse};
@@ -19,7 +18,7 @@ use crate::utils;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
     cfg.service(maps_handler);
-    let tile_cache = env::temp_dir().join("tiles");
+    let tile_cache = std::env::temp_dir().join("tiles");
     if !tile_cache.exists() {
         std::fs::create_dir(tile_cache).unwrap();
     }
@@ -105,10 +104,8 @@ fn wrap_image_in_response(img: image::RgbaImage) -> Vec<u8> {
 async fn download_map_image(z: u32, x: u32, y: u32, file: &std::path::PathBuf) -> web::Bytes {
     let url = format!(
         "http://{}:{}/styles/osm_liberty/{}/{}/{}@2x.png",
-        std::env::var("NAVIGATUM_MAPS_SVC_PORT_7770_TCP_ADDR")
-            .unwrap_or_else(|_| "localhost".to_string()),
-        std::env::var("NAVIGATUM_MAPS_SVC_SERVICE_PORT_TILESERVER")
-            .unwrap_or_else(|_| "7770".to_string()),
+        std::env::var("MAPS_SVC_PORT_7770_TCP_ADDR").unwrap_or_else(|_| "localhost".to_string()),
+        std::env::var("MAPS_SVC_SERVICE_PORT_TILESERVER").unwrap_or_else(|_| "7770".to_string()),
         z,
         x,
         y,
