@@ -40,7 +40,7 @@ jobs:
       - webclient-build
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
-      - run: argocd app actions run navigatum restart --kind Deployment --resource-name webclient --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
+      - run: argocd app actions run navigatum-prod restart --kind Deployment --resource-name webclient --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
   webclient-staging-deployment:
     if: github.ref != 'refs/heads/main'
     name: "Restart staging Deployment"
