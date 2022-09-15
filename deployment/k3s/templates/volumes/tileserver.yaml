@@ -11,9 +11,9 @@ spec:
   storageClassName: manual
   capacity:
     storage: 28Gi
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   accessModes:
-    - ReadWriteOnce
+    - ReadOnlyMany
   hostPath:
     path: "/mnt/data/navigatum/tileserver"
 ---
