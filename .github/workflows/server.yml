@@ -42,7 +42,7 @@ jobs:
       - data-build
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
-      - run: argocd app actions run navigatum restart --kind Deployment --resource-name data --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
+      - run: argocd app actions run navigatum-prod restart --kind Deployment --resource-name data --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
       - run: sleep 5
   data-staging-deployment:
     if: github.ref != 'refs/heads/main'
@@ -115,7 +115,7 @@ jobs:
       - mieli-search-build
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
-      - run: argocd app actions run navigatum restart --kind Deployment --resource-name server --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
+      - run: argocd app actions run navigatum-prod restart --kind Deployment --resource-name server --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
   server-staging-deployment:
     if: github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
