@@ -129,7 +129,7 @@ async fn download_map_image(z: u32, x: u32, y: u32, file: &std::path::PathBuf) -
 
 async fn get_tile(z: u32, x: u32, y: u32, index: (i64, i64)) -> ((i64, i64), image::DynamicImage) {
     // gets the image fro the server. using a disk-cached image if possible
-    let file = env::temp_dir()
+    let file = std::env::temp_dir()
         .join("tiles")
         .join(format!("{}_{}_{}@2x.png", z, x, y));
     let file_content = tokio::fs::read(&file).await;
