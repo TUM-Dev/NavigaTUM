@@ -1,4 +1,4 @@
-# NavigaTUM Webclient
+# Webclient
 
 This folder contains the JavaScript based webclient for NavigaTUM.
 

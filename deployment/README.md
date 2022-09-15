@@ -1,4 +1,4 @@
-# NavigaTUM-deployment
+# Deployment
 
 This Project details how to deploy the NavigaTUM-API, the webclient and the CDN
 

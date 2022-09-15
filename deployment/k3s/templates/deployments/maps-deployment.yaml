@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: navigatum-maps
+  name: maps
   labels:
     app: navigatum
     deployment: maps
