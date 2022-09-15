@@ -1,6 +1,6 @@
 # NavigaTUM
 
-[![Deployment Status](https://argocd.frank.elsinga.de/api/badge?name=navigatum)](https://argocd.frank.elsinga.de/applications/navigatum)
+[![Deployment Status](https://argocd.frank.elsinga.de/api/badge?name=navigatum-prod)](https://argocd.frank.elsinga.de/applications/navigatum-prod)
 [![Website Uptime over 30 days](https://img.shields.io/uptimerobot/ratio/m791520694-3a5056fab92b80370cbc4c1d?label=Website%20Uptime/30d)](https://stats.uptimerobot.com/xBGmxHLMYg)
 [![API Uptime over 30 days](https://img.shields.io/uptimerobot/ratio/m791522180-717477e7e0d458d047022d4a?label=API%20Uptime/30d)](https://stats.uptimerobot.com/xBGmxHLMYg)
 [![CDN Uptime over 30 days](https://img.shields.io/uptimerobot/ratio/m791522182-e08c84d38117fa5d1477fe1d?label=CDN%20Uptime/30d)](https://stats.uptimerobot.com/xBGmxHLMYg)
