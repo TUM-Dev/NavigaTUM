@@ -1,4 +1,4 @@
-# NavigaTUM-server
+# Server
 
 This folder contains the backend server for NavigaTUM.
 

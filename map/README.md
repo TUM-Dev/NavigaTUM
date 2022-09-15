@@ -1,4 +1,4 @@
-# NavigaTUM-maps
+# Tileserver-maps
 
 This folder contains the static maps tileserver and vector tiles server for NavigaTUM.
 
