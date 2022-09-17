@@ -28,8 +28,6 @@ info:
 servers:
   - url: 'https://nav.tum.sexy'
     description: https
-  - url: 'http://nav.tum.sexy'
-    description: http
 paths:
   /api/search:
     get:

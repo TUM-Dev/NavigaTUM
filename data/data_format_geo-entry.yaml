@@ -147,7 +147,7 @@ internal_id:
       name: "1. OG"
     website:
       text: "forschung-garching.de"
-      url: "http://www.forschung-garching.de/"
+      url: "https://www.forschung-garching.de/"
     operator:
       id: 26064
       code: "TUZVR44"
