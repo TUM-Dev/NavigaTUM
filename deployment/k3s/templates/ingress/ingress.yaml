@@ -73,19 +73,6 @@ spec:
         - name: cm-acme-http-solver-4xsc9
           port: 8089
           kind: Service
-    # cdn and api can be reached via http, while the website redirects to https
-    - kind: Rule
-      match: Host(`{{ .Values.url }}`) && PathPrefix(`/api/`)
-      priority: 11
-      services:
-        - name: api-svc
-          port: 7000
-    - kind: Rule
-      match: Host(`{{ .Values.url }}`) && PathPrefix(`/cdn/`)
-      priority: 10
-      services:
-        - name: cdn-svc
-          port: 8000
     - kind: Rule
       match: Host(`{{ .Values.url }}`)
       priority: 9
