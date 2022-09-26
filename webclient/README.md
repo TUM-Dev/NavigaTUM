@@ -59,7 +59,7 @@ gulp release
 If you do a development build you can use a simple webserver to test the build.
 
 Ensure that _NavigaTUM-server_ is running in the background. By default the webclient will connect to the server on `http://localhost:8080`.
-If you want to connect to the public API instead, change `api_prefix` in `config-local.js` to `https://nav.tum.sexy/api/` and rebuild.
+If you want to connect to the public API instead, change `api_prefix` in `config.js` to `https://nav.tum.sexy/api/` and rebuild.
 
 Now run:
 
