@@ -12,7 +12,7 @@ spec:
     # temporary workaround for traefik bug (interoperability with ingress)
     - kind: Rule
       match: |
-        {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }} &&
+        {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) || Host(`nav.tum.de`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }} &&
         PathPrefix(`/.well-known/acme-challenge/`)
       priority: 13
       services:
@@ -21,7 +21,7 @@ spec:
           kind: Service
     - kind: Rule
       match: |
-        {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }} &&
+        {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) || Host(`nav.tum.de`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }} &&
         PathPrefix(`/api/`)
       priority: 12
       services:
@@ -29,7 +29,7 @@ spec:
           port: 7000
     - kind: Rule
       match:  |
-        {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }} &&
+        {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) || Host(`nav.tum.de`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }} &&
         PathPrefix(`/maps/`)
       priority: 11
       services:
@@ -39,7 +39,7 @@ spec:
         - name: stripprefix
     - kind: Rule
       match:  |
-        {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }} &&
+        {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) || Host(`nav.tum.de`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }} &&
         PathPrefix(`/cdn/`)
       priority: 10
       services:
@@ -47,7 +47,7 @@ spec:
           port: 8000
     - kind: Rule
       match: |
-        {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }} &&
+        {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) || Host(`nav.tum.de`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }} &&
         PathPrefix(`/rendertron/`)
       priority: 9
       services:
@@ -56,7 +56,7 @@ spec:
       middlewares:
         - name: stripprefix
     - kind: Rule
-      match: {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }}
+      match: {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) || Host(`nav.tum.de`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }}
       priority: 8
       services:
         - name: webclient-svc
@@ -78,7 +78,7 @@ spec:
     # temproary workaround for traefik bug (interoperability with ingress)
     - kind: Rule
       match: |
-        {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }} &&
+        {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) || Host(`nav.tum.de`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }} &&
         PathPrefix(`/.well-known/acme-challenge/`)
       priority: 12
       services:
@@ -86,7 +86,7 @@ spec:
           port: 8089
           kind: Service
     - kind: Rule
-      match: {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }}
+      match: {{ if eq "nav.tum.sexy" .Values.url }}( Host(`{{ .Values.url }}`) || Host(`nav.tum.app`)) || Host(`nav.tum.de`)) {{ else }} Host(`{{ .Values.url }}`) {{ end }}
       priority: 9
       services:
         - name: noop@internal
