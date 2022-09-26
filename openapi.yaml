@@ -16,7 +16,7 @@ info:
     All functionality is also available via an API.
 
     *Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments.*
-  termsOfService: 'https://nav.tum.sexy/about/privacy'
+  termsOfService: 'https://nav.tum.de/about/privacy'
   contact:
     name: TUM-Dev
     url: 'https://www.tum.app/'
@@ -26,7 +26,7 @@ info:
     url: 'https://www.gnu.org/licenses/'
   version: 1.0.0
 servers:
-  - url: 'https://nav.tum.sexy'
+  - url: 'https://nav.tum.de'
     description: https
 paths:
   /api/search:
@@ -841,7 +841,7 @@ paths:
               schema:
                 type: string
                 format: binary
-              example: 'https://nav.tum.sexy/cdn/thumb/mi_0.webp'
+              example: 'https://nav.tum.de/cdn/thumb/mi_0.webp'
         '400':
           description: |
             Bad Request.    
@@ -904,7 +904,7 @@ paths:
               schema:
                 type: string
                 format: binary
-              example: 'https://nav.tum.sexy/cdn/maps/roomfinder/rf142.webp'
+              example: 'https://nav.tum.de/cdn/maps/roomfinder/rf142.webp'
         '400':
           description: |
             Bad Request.    
