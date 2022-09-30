@@ -377,7 +377,10 @@ export default {
               {{ $t("view_view.msg.coordinate-counter.delete-confirm") }}
             </span>
           </button>
-          <button class="btn btn-primary btn-sm" @click="openFeedbackForm">
+          <button
+            class="btn btn-primary btn-sm"
+            @click="$refs.feedbackButton.openFeedbackForm"
+          >
             <i class="icon icon-check"></i>
             {{ $t("view_view.msg.coordinate-counter.send") }}
           </button>
@@ -449,14 +452,8 @@ export default {
               <path d="M2.352.268h1.085v1.085" stroke-linejoin="round" />
             </svg>
           </button>
-          <ShareButton v-bind:coords="state.data.coords"></ShareButton>
-          <button
-            class="btn btn-link btn-action btn-sm"
-            v-bind:title="$t('view_view.header.feedback')"
-            @click="openFeedbackForm"
-          >
-            <i class="icon icon-flag"></i>
-          </button>
+          <ShareButton v-bind:coords="state.data.coords"/>
+          <DetailsFeedbackButton ref="feedbackButton" />
           <!--<button class="btn btn-link btn-action btn-sm"
                   v-bind:title="$t('view_view.header.favorites')">
             <i class="icon icon-bookmark"></i>
