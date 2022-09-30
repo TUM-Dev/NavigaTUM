@@ -1,4 +1,13 @@
-<script lang="ts">
+<script setup lang="ts">
+import ShareButton from "@/components/ShareButton.vue";
+import DetailsInteractiveMap from "@/components/DetailsInteractiveMap.vue";
+import DetailsOverviewSections from "@/components/DetailsOverviewSections.vue";
+import DetailsInfoSection from "@/components/DetailsInfoSection.vue";
+import DetailsSources from "@/components/DetailsSources.vue";
+import DetailsFeedbackButton from "@/components/DetailsFeedbackButton.vue";
+import DetailsRoomfinderMap from "@/components/DetailsRoomfinderMap.vue";
+
+//import DetailsFeaturedSection from "@/components/DetailsFeaturedSection.vue";
 import {
   getLocalStorageWithExpiry,
   removeLocalStorage,
@@ -6,327 +15,150 @@ import {
 } from "@/utils/storage";
 import { copyCurrentLink, setDescription, setTitle } from "@/utils/common";
 import { selectedMap, useDetailsStore } from "@/stores/details";
-import ShareButton from "@/components/ShareButton.vue";
-import DetailsInteractiveMap from "@/components/DetailsInteractiveMap.vue";
-import DetailsOverviewSections from "@/components/DetailsOverviewSections.vue";
-import DetailsInfoSection from "@/components/DetailsInfoSection.vue";
-import DetailsSources from "@/components/DetailsSources.vue";
-import type { RoomfinderMapEntry } from "@/codegen";
+import type {
+  DetailsResponse,
+  RoomfinderMapEntry,
+} from "@/codegen";
+import { nextTick, ref } from "vue";
+import { useFetch } from "@/utils/fetch";
+import router from "@/router";
 
-function viewNavigateTo(to, from, next, component) {
-  navigatum.getData(to.params.id).then((data) => {
-    function finish() {
-      if (component) {
-        next();
-        component.loadEntryData(data);
-      } else {
-        next((vm) => {
-          vm.loadEntryData(data);
-        });
-      }
-    }
-
-    if (data === null) {
-      finish();
-    } else if (data.type === "root") {
-      next("/");
-    } else {
-      // Redirect to the correct type if necessary. Technically the type information
-      // is not required, but it makes nicer URLs.
-      let urlTypeName = {
-        campus: "campus",
-        site: "site",
-        area: "site", // Currently also "site", maybe "group"? TODO
-        building: "building",
-        joined_building: "building",
-        room: "room",
-        virtual_room: "room",
-      }[data.type];
-      if (urlTypeName === undefined) urlTypeName = "view";
-
-      if (!to.path.slice(1).startsWith(urlTypeName)) {
-        next(`/${urlTypeName}/${to.params.id}`);
-      } else {
-        finish();
-      }
-    }
-  });
+function copyLink(copied) {
+  copyCurrentLink(copied);
 }
 
-export default {
-  components: [
-    ShareButton,
-    DetailsInteractiveMap,
-    DetailsInfoSection,
-    DetailsOverviewSections,
-    DetailsSources,
-  ],
-  data: function () {
-    return {
-      state: useDetailsStore(),
-      copied: false,
-      // Coordinate picker states
-      coord_counter: {
-        counter: null,
-        to_confirm_delete: false,
-      },
-      coord_picker: {
-        // The coordinate picker keeps backups of the subject and body
-        // in case someone writes a text and then after that clicks
-        // the set coordinate button in the feedback form. If we wouldn't
-        // make a backup, this would be lost after clicking confirm there.
-        backup_id: null as string | null,
-        subject_backup: null as string | null,
-        body_backup: null as string | null,
-        force_reopen: false,
-      },
-    };
-  },
-  beforeRouteEnter: function (to, from, next) {
-    viewNavigateTo(to, from, next, null);
-  },
-  beforeRouteUpdate: function (to, from, next) {
-    viewNavigateTo(to, from, next, this);
-  },
-  methods: {
-    // This is called
-    // - on initial page load
-    // - when the view is loaded for the first time
-    // - when the view is navigated to from a different view
-    // - when the view is navigated to from the same view, but with a different entry
-    loadEntryData: function (data) {
-      this.state.data = data;
+const path = location.pathname.substring(1).split("/");
+useFetch<DetailsResponse>(`/api/get/${path[1]}`, (d) => {
+  if (d.type === "root") {
+    router.replace({ path: "/" });
+    return;
+  }
+  // Redirect to the correct type if necessary. Technically the type information
+  // is not required, but it makes nicer URLs.
+  const urlTypeName =
+    {
+      campus: "campus",
+      site: "site",
+      area: "site", // Currently also "site", maybe "group"? TODO
+      building: "building",
+      joined_building: "building",
+      room: "room",
+      virtual_room: "room",
+    }[d.type] || "view";
+  if (path[0] !== urlTypeName) {
+    router.replace({path: `/${urlTypeName}/${path[1]}`});
+    return;
+  }
+  state.data = d;
+});
 
-      this.state.showImageSlideshow(0, false);
+const state = useDetailsStore();
+const copied = ref(false);
+// Coordinate picker states
+const coord_counter = ref({
+  counter: null,
+  to_confirm_delete: false,
+});
+// This is called
+// - on initial page load
+// - when the view is loaded for the first time
+// - when the view is navigated to from a different view
+// - when the view is navigated to from the same view, but with a different entry
+function loadEntryData() {
+  state.showImageSlideshow(0, false);
 
-      if (data === null) return;
+  if (state.data === null) return;
 
-      // --- Maps ---
-      // We need to reset state to default here, else it is preserved from the previous page
-      this.state.$reset();
+  // --- Maps ---
+  // We need to reset state to default here, else it is preserved from the previous page
+  state.$reset();
 
-      this.state.map.selected = data.maps.default;
-      // Interactive has to be always available, but roomfinder may be unavailable
-      if ("roomfinder" in data.maps) {
-        // Find default map
-        data.maps.roomfinder.available.forEach(
-          (availableMap: RoomfinderMapEntry, index: number) => {
-            if (availableMap.id === data.maps.roomfinder.default) {
-              this.state.map.roomfinder.selected_index = index;
-              this.state.map.roomfinder.selected_id = availableMap.id;
-            }
-          }
-        );
-      }
-
-      // Maps can only be loaded after first mount because then the elements are
-      // created and can be referenced by id.
-      if (this.is_mounted) this.loadMap();
-
-      // --- Additional data ---
-      setTitle(data.name);
-      setDescription(this.genDescription(data));
-    },
-    genDescription: function (data) {
-      const detailsFor = $t("view_view.meta.details_for");
-      let description = `${detailsFor} ${data.type_common_name} ${data.name}`;
-      if (data.props.computed) {
-        description += ":";
-        data.props.computed.forEach((prop) => {
-          description += `\n- ${prop.name}: ${prop.text}`;
-        });
-      }
-      return description;
-    },
-    // --- Loading components ---
-    // When these methods are called, the view has already been mounted,
-    // so we can find elements by id.
-    loadMap: function () {
-      if (navigator.userAgent === "Rendertron") {
-        return;
-      }
-      if (this.state.map.selected === selectedMap.interactive)
-        this.loadInteractiveMap();
-      else if (this.state.map.selected === selectedMap.roomfinder)
-        this.loadRoomfinderMap(this.state.map.roomfinder.selected_index);
-    },
-    _getFeedbackSubject: function (currentEdits) {
-      if (Object.keys(currentEdits).length > 1) {
-        return (
-          `[${this.state.data.id} et.al.]: ` +
-          $t("feedback.coordinatepicker.edit_coordinates_subject")
-        );
-      }
-
-      const subjectPrefix = `[${this.state.data.id}]: `;
-      const subjectMsg =
-        Object.keys(currentEdits).length === 0
-          ? ""
-          : $t("feedback.coordinatepicker.edit_coordinate_subject");
-
-      // The subject backup is only loaded (and supported) when a single
-      // entry is being edited
-      if (
-        this.coord_picker.subject_backup &&
-        this.coord_picker.backup_id === this.state.data.id &&
-        this.coord_picker.subject_backup !== subjectPrefix
-      ) {
-        const backup = this.coord_picker.subject_backup;
-        this.coord_picker.subject_backup = null;
-        return backup;
-      }
-      return subjectPrefix + subjectMsg;
-    },
-    _getFeedbackBody: function (currentEdits) {
-      // Look up whether there is a backup of the body and extract the section
-      // that is not the coordinate
-      let actionMsg = "";
-      if (
-        this.coord_picker.body_backup &&
-        this.coord_picker.backup_id === this.state.data.id
-      ) {
-        const parts = this.coord_picker.body_backup.split("\n```");
-        if (parts.length === 1) {
-          actionMsg = parts[0];
-        } else {
-          actionMsg = parts[0] + parts[1].split("```").slice(1).join("\n");
+  state.map.selected =
+    state.data.maps.default === "interactive"
+      ? selectedMap.interactive
+      : selectedMap.roomfinder;
+  // Interactive has to be always available, but roomfinder may be unavailable
+  if (state.data.maps.roomfinder !== undefined) {
+    // Find default map
+    state.data.maps.roomfinder.available.forEach(
+      (availableMap: RoomfinderMapEntry, index: number) => {
+        if (availableMap.id === state.data!!.maps.roomfinder!!.default) {
+          state.map.roomfinder.selected_index = index;
+          state.map.roomfinder.selected_id = availableMap.id;
         }
-
-        this.coord_picker.body_backup = null;
       }
+    );
+  }
+  // --- Additional data ---
+  setTitle(data.value.name);
+  setDescription(genDescription(data));
+}
 
-      if (Object.keys(currentEdits).length === 0) {
-        // For no edits, don't show a badly formatted message
-        // (This is "" if there was no backup)
-        return actionMsg;
-      }
+function genDescription(data) {
+  const detailsFor = $t("view_view.meta.details_for");
+  let description = `${detailsFor} ${data.type_common_name} ${data.name}`;
+  if (data.props.computed) {
+    description += ":";
+    data.props.computed.forEach((prop) => {
+      description += `\n- ${prop.name}: ${prop.text}`;
+    });
+  }
+  return description;
+}
+// --- Loading components ---
+// When these methods are called, the view has already been mounted,
+// so we can find elements by id.
+function loadMap() {
+  if (navigator.userAgent === "Rendertron") return;
+  if (state.map.selected === selectedMap.interactive) loadInteractiveMap();
+  else if (state.map.selected === selectedMap.roomfinder)
+    loadRoomfinderMap(state.map.roomfinder.selected_index);
+}
+function deletePendingCoordinates() {
+  if (coord_counter.value.to_confirm_delete) {
+    removeLocalStorage("coordinate-feedback");
+    coord_counter.value.to_confirm_delete = false;
+    state.coord_picker.body_backup = null;
+    state.coord_picker.subject_backup = null;
+    state.coord_picker.backup_id = null;
+  } else {
+    coord_counter.value.to_confirm_delete = true;
+  }
+}
+function mounted() {
+  if (navigator.userAgent === "Rendertron") return;
 
-      const defaultActionMsg =
-        this.state.data.coords.accuracy === "building"
-          ? $t("feedback.coordinatepicker.add_coordinate")
-          : $t("feedback.coordinatepicker.correct_coordinate");
-      actionMsg = actionMsg || defaultActionMsg;
+  // Update pending coordinate counter on localStorage changes
+  const _this = this;
+  const updateCoordinateCounter = function () {
+    const coords = getLocalStorageWithExpiry("coordinate-feedback", {});
+    _this.coord_counter.counter = Object.keys(coords).length;
+  };
+  window.addEventListener("storage", updateCoordinateCounter);
+  updateCoordinateCounter();
 
-      if (Object.keys(currentEdits).length > 1) {
-        // The body backup is discarded if more than a single entry
-        // is being edited (because then it is not supported).
-        actionMsg = $t("feedback.coordinatepicker.edit_multiple_coordinates");
-      }
+  nextTick(() => {
+    // Even though 'mounted' is called there is no guarantee apparently,
+    // that it really is mounted now. For this reason we try to poll now.
+    // (Not the best solution probably)
+    let timeoutInMs = 5;
+    const __this = this;
 
-      let editStr = "";
-      Object.entries(currentEdits).forEach(([key, value]) => {
-        editStr += `"${key}": {coords: {lat: ${value.coords.lat}, lon: ${value.coords.lon}}},`;
-      });
-
-      return `${actionMsg}\n\`\`\`\n${editStr}\`\`\``;
-    },
-    openFeedbackForm: function () {
-      // The feedback form is opened. This may be prefilled with previously corrected coordinates.
-      // Maybe get the old coordinates from localstorage
-      const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
-      const body = this._getFeedbackBody(currentEdits);
-      const subject = this._getFeedbackSubject(currentEdits);
-
-      document
-        .getElementById("feedback-coordinate-picker")
-        .addEventListener("click", this.addLocationPicker);
-
-      /* global openFeedback */
-      openFeedback("entry", subject, body);
-    },
-    confirmLocationPicker: function () {
-      // add the current edits to the feedback
-      const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
-      const location = this.map.interactive.marker2.getLngLat();
-      currentEdits[this.state.data.id] = {
-        coords: { lat: location.lat, lon: location.lng },
-      };
-      // save to local storage with ttl of 12h (garbage-collected on next read)
-      setLocalStorageWithExpiry("coordinate-feedback", currentEdits, 12);
-
-      this.map.interactive.marker2.remove();
-      this.map.interactive.marker2 = null;
-
-      // A feedback form is only opened when this is the only (and therefore
-      // first coordinate). If there are more coordinates we can assume
-      // someone is doing batch edits. They can then use the send button in
-      // the coordinate counter at the top of the page.
-      if (
-        Object.keys(currentEdits).length === 1 ||
-        this.coord_picker.force_reopen
-      ) {
-        this.coord_picker.force_reopen = false;
-        this.openFeedbackForm();
-      }
-
-      // The helptext (which says thet you can edit multiple coordinates in bulk)
-      // is also only shown if there is one edit.
-      if (Object.keys(currentEdits).length === 1) {
-        document
-          .getElementById("feedback-coordinate-picker-helptext")
-          .classList.remove("d-none");
-      }
-    },
-    cancelLocationPicker: function () {
-      this.map.interactive.marker2.remove();
-      this.map.interactive.marker2 = null;
-
-      if (this.coord_picker.force_reopen) {
-        this.coord_picker.force_reopen = false;
-        this.openFeedbackForm();
-      }
-    },
-    deletePendingCoordinates: function () {
-      if (this.coord_counter.to_confirm_delete) {
-        removeLocalStorage("coordinate-feedback");
-        this.coord_counter.to_confirm_delete = false;
-        this.coord_picker.body_backup = null;
-        this.coord_picker.subject_backup = null;
-        this.coord_picker.backup_id = null;
+    function pollMap() {
+      if (document.getElementById("interactive-map") !== null) {
+        __this.loadMap();
       } else {
-        this.coord_counter.to_confirm_delete = true;
+        console.warn(
+          `'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in ${timeoutInMs}ms`
+        );
+        window.setTimeout(pollMap, timeoutInMs);
+        timeoutInMs *= 1.5;
       }
-    },
-    copyCurrentLink: copyCurrentLink,
-  },
-  mounted: function () {
-    this.is_mounted = true;
-    if (navigator.userAgent === "Rendertron") {
-      return;
     }
 
-    // Update pending coordinate counter on localStorage changes
-    const _this = this;
-    const updateCoordinateCounter = function () {
-      const coords = getLocalStorageWithExpiry("coordinate-feedback", {});
-      _this.coord_counter.counter = Object.keys(coords).length;
-    };
-    window.addEventListener("storage", updateCoordinateCounter);
-    updateCoordinateCounter();
-
-    this.$nextTick(() => {
-      // Even though 'mounted' is called there is no guarantee apparently,
-      // that it really is mounted now. For this reason we try to poll now.
-      // (Not the best solution probably)
-      let timeoutInMs = 5;
-      const __this = this;
-
-      function pollMap() {
-        if (document.getElementById("interactive-map") !== null) {
-          __this.loadMap();
-        } else {
-          console.warn(
-            `'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in ${timeoutInMs}ms`
-          );
-          window.setTimeout(pollMap, timeoutInMs);
-          timeoutInMs *= 1.5;
-        }
-      }
-
-      pollMap();
-    });
-  },
-};
+    pollMap();
+  });
+}
 </script>
 
 <template>
@@ -334,12 +166,12 @@ export default {
     <!-- Header image (on mobile) -->
     <a
       class="show-sm header-image-mobile c-hand"
-      @click="state.showImageSlideshow(image.shown_image_id)"
-      v-if="image.shown_image"
+      @click="state.showImageSlideshow(state.image.shown_image_id)"
+      v-if="state.image.shown_image"
     >
       <img
         alt="Header-Image, showing the building"
-        v-bind:src="'/cdn/header/' + image.shown_image.name"
+        v-bind:src="'/cdn/header/' + state.image.shown_image.name"
         class="img-responsive"
       />
     </a>
@@ -414,7 +246,7 @@ export default {
           <button
             class="btn btn-link btn-action btn-sm"
             v-bind:title="$t('view_view.header.copy_link')"
-            @click="copyCurrentLink(copied)"
+            @click="copyLink(copied)"
           >
             <i class="icon icon-check" v-if="copied"></i>
             <i class="icon icon-link" v-else></i>
@@ -514,7 +346,9 @@ export default {
             v-on:click="
               loadRoomfinderMap(state.map.roomfinder.selected_index, true)
             "
-            v-bind:class="{ active: state.map.selected === selectedMap.roomfinder }"
+            v-bind:class="{
+              active: state.map.selected === selectedMap.roomfinder,
+            }"
             v-bind:disabled="!state.data.maps.roomfinder?.available"
           >
             {{ $t("view_view.map.roomfinder") }}
