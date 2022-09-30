@@ -4,8 +4,10 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 import { createI18n } from "vue-i18n";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import de from "./locales/de.yaml";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import en from "./locales/en.yaml";
 

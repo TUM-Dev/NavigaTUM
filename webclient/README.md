@@ -6,32 +6,31 @@ This folder contains the JavaScript based webclient for NavigaTUM.
 ### Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Most modern IDEs (like PyCharm) should work as well and have a Plugin.
 
-### Type Support for `.vue` Imports in TS
+## Dependencies
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+First of all, you need npm and node.
+On Linux you should install this via your package manager.
+On WSL, you can use [this guide](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl).
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+## Run
 
-Ensure that _NavigaTUM-server_ is running in the background.
-By default the webclient will connect to the server on `http://localhost:8080`.
+Ensure that _NavigaTUM-server_ is running in the background:
+ - either via following the [guide to local development](../server/README.md), or
+ - via [docker](https://docs.docker.com/)
+   *docker isolates the network, but we want these two containers to communicate to each other without being as brittle as IPs.*
+   *Naming the `navigatum-mieli-search` container `search` makes us able to connect to it via <`http://search:7700`> from the server*
+   ```bash
+   docker network create navigatum-net
+   docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
+   docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main
+   ```
+By default, the webclient will connect to the server on `http://localhost:8080`.
 If you want to connect to the public API instead, change `api_prefix` in `config-local.js` to `https://nav.tum.sexy/api/` and rebuild.
 
 ```sh
@@ -44,39 +43,34 @@ npm run dev
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Linting with [ESLint](https://eslint.org/)
 
 ```sh
 npm run lint
+```
 
 ## Build files & Serving release build
 
-Gulp creates a lot of index HTML files in the build process.
+We create a lot of index HTML files in the build process.
 Each of those files are similar but differ in some aspects.
-If you serve the release build with a webserver (such as Apache or Nginx) you need
-to select the correct files based on the request URL and headers.
+If you serve the release build with a webserver (such as Nginx) you need to select the correct files based on the request URL and headers.
 
 ```plain
-index-view-<view>-<theme>-<lang>.html
-            ↑      ↑       ↑
-            │      │       └── The page language. Either "de" or "en" at the
-            │      │           moment. It should be selected based on the
-            │      │           "lang" Cookie or else the "Accept-Language" header.
-            │      └── The page theme. Either "light" or "dark" at the moment.
-            │          It should be selected based on the "theme" Cookie and is
-            │          "light" by default.
-            └── The first loaded view (see architecture below). It does technically
-                not matter which view is selected here, but this allows to efficiently
-                preload resources and optimize the order of resources during initial
-                pageload.
+<theme>-<lang>.html
+   ↑       ↑
+   │       └── The page language. Either "de" or "en" at the moment. 
+   │           It should be selected based on the "lang" Cookie or else the "Accept-Language" header.
+   └── The page theme. Either "light" or "dark" at the moment.
+       It should be selected based on the "theme" Cookie ("light" by default).
 ```
 
-When running locally on a development build you can use the language and theme of
-your choice as well as any view.
+The language is only split in the build, but the theme can not do so for some reason (If you know of a better way, hit us up).
+To test a different theme, you can change `$theme` [here](./src/assets/variables.scss). Values are `light` and `dark`.
 
 ## Architecture
 
-The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/). The CSS framework is [Spectre.css](https://picturepan2.github.io/spectre/). It is made up of a core codebase, _views_ and _modules_:
+The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/).
+The CSS framework is [Spectre.css](https://picturepan2.github.io/spectre/).
 
 ### Directory structure (only the important parts)
 
@@ -93,7 +87,7 @@ webclient
 │   │   └── logo.svg            # 🠔 Our Logo
 │   ├── components/ # 🠔 Vue components, which are used in views.
 │   ├── views/      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
-│   ├── routes./      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
+│   ├── router.ts   # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
 │   ├── App.vue     # 🠔 Main view
 │   └── main.ts     # 🠔 Inialization of Vue.js. This is the entrypoint of our app, from which App.vue and associated Views/Components are loaded
 ├── vite.config.ts  # 🠔 Build configuration

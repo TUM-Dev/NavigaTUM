@@ -1,5 +1,8 @@
 @use "sass:color";
 
+/* === Selector, if the theme is "light" or "dark" === */
+$theme: "light";
+
 /* === Shared === */
 $success-color: #6cc872;
 $warning-color: #f49e2f;
@@ -49,7 +52,6 @@ $search-border: #f0f0f0;
 $search-border-hover: #dadee4;
 $code-bg: #fcf2f2;
 
-$theme:"light";
 /* === Dark mode === */
 @if $theme == "dark" {
     /* -- Overwriting of spectre.css variables -- */
