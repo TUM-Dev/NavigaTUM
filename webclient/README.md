@@ -22,16 +22,16 @@ npm install
 
 Ensure that _NavigaTUM-server_ is running in the background:
  - either via following the [guide to local development](../server/README.md), or
- - via [docker](https://docs.docker.com/)
-   *docker isolates the network, but we want these two containers to communicate to each other without being as brittle as IPs.*
+ - via [docker](https://docs.docker.com/)  
+   *docker isolates the network, but we want these two containers to communicate to each other without being as brittle as IPs.*  
    *Naming the `navigatum-mieli-search` container `search` makes us able to connect to it via <`http://search:7700`> from the server*
    ```bash
    docker network create navigatum-net
    docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
    docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main
    ```
-By default, the webclient will connect to the server on `http://localhost:8080`.
-If you want to connect to the public API instead, change `api_prefix` in `config-local.js` to `https://nav.tum.sexy/api/` and rebuild.
+By default, the webclient will connect to the server on `http://localhost:8080`.  
+If you want to connect to the public API instead, change `VITE_APP_URL` in [`env/.env`](./env/.env) to `https://nav.tum.sexy`.
 
 ```sh
 npm run dev
@@ -52,7 +52,7 @@ npm run lint
 ## Build files & Serving release build
 
 We create a lot of index HTML files in the build process.
-Each of those files are similar but differ in some aspects.
+Each of those files are similar but differ in some aspects.  
 If you serve the release build with a webserver (such as Nginx) you need to select the correct files based on the request URL and headers.
 
 ```plain
@@ -64,13 +64,13 @@ If you serve the release build with a webserver (such as Nginx) you need to sele
        It should be selected based on the "theme" Cookie ("light" by default).
 ```
 
-The language is only split in the build, but the theme can not do so for some reason (If you know of a better way, hit us up).
+The language is only split in the build, but the theme can not do so for some reason (If you know of a better way, hit us up).  
 To test a different theme, you can change `$theme` [here](./src/assets/variables.scss). Values are `light` and `dark`.
 
 ## Architecture
 
-The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/).
-The CSS framework is [Spectre.css](https://picturepan2.github.io/spectre/).
+The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/).  
+For state management we use [pinia](https://pinia.vuejs.org/) and our CSS framework is [Spectre.css](https://picturepan2.github.io/spectre/).
 
 ### Directory structure (only the important parts)
 
@@ -95,5 +95,5 @@ webclient
 └── package.json    # 🠔 Node package definition and dependencies
 ```
 
-Note that new views are automatically included in the build, but they are not routed.
+Note that new views are automatically included in the build, but they are not routed.  
 To add a new view, you need to add a new route in `src/router.ts`.
