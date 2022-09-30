@@ -30,7 +30,7 @@ watch(
   (_) => updateRoomsOverview
 );
 function updateRoomsOverview(setSelected = undefined) {
-  const rooms_overview = useDetailsStore().data!.sections.rooms_overview;
+  const rooms_overview = state.data?.sections.rooms_overview;
 
   if (setSelected !== undefined) selected.value = setSelected;
 
@@ -223,7 +223,7 @@ function updateRoomsOverview(setSelected = undefined) {
                 <button
                   class="btn"
                   v-bind:class="{
-                    active: i === state.rooms_overview.selected,
+                    active: i === state.data.sections.rooms_overview.selected,
                   }"
                   v-on:click="updateRoomsOverview(i)"
                 >

@@ -44,7 +44,7 @@ function loadRoomfinderMap(mapIndex:number, fromUi:boolean) {
   <div
     class="roomfinder-map-container"
     v-bind:class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
-    v-if="state.data.maps.roomfinder && state.data.maps.roomfinder.available"
+    v-if="state.data.maps.roomfinder && state.data.maps.roomfinder.available && state.map.roomfinder.selected_index"
   >
     <img
       alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
@@ -85,7 +85,7 @@ function loadRoomfinderMap(mapIndex:number, fromUi:boolean) {
     class="accordion"
     id="roomfinder-map-select"
     v-bind:class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
-    v-if="state.data.maps.roomfinder && state.data.maps.roomfinder.available"
+    v-if="state.data.maps.roomfinder && state.data.maps.roomfinder.available && state.map.roomfinder.selected_index"
   >
     <input
       id="map-accordion"

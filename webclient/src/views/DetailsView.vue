@@ -87,7 +87,7 @@ function loadEntryData() {
     // Find default map
     state.data.maps.roomfinder.available.forEach(
       (availableMap: RoomfinderMapEntry, index: number) => {
-        if (availableMap.id === state.data!!.maps.roomfinder!!.default) {
+        if (availableMap.id === state.data?.maps.roomfinder?.default) {
           state.map.roomfinder.selected_index = index;
           state.map.roomfinder.selected_id = availableMap.id;
         }
@@ -95,16 +95,16 @@ function loadEntryData() {
     );
   }
   // --- Additional data ---
-  setTitle(data.value.name);
-  setDescription(genDescription(data));
+  setTitle(state.data.name);
+  setDescription(genDescription());
 }
 
-function genDescription(data) {
+function genDescription() {
   const detailsFor = t("view_view.meta.details_for");
-  let description = `${detailsFor} ${data.type_common_name} ${data.name}`;
-  if (data.props.computed) {
+  let description = `${detailsFor} ${state.data?.type_common_name} ${state.data?.name}`;
+  if (state.data?.props.computed) {
     description += ":";
-    data.props.computed.forEach((prop) => {
+    state.data?.props.computed.forEach((prop) => {
       description += `\n- ${prop.name}: ${prop.text}`;
     });
   }
@@ -116,8 +116,7 @@ function genDescription(data) {
 function loadMap() {
   if (navigator.userAgent === "Rendertron") return;
   if (state.map.selected === selectedMap.interactive) loadInteractiveMap();
-  else if (state.map.selected === selectedMap.roomfinder)
-    loadRoomfinderMap(state.map.roomfinder.selected_index);
+  else loadRoomfinderMap(state.map.roomfinder.selected_index);
 }
 function deletePendingCoordinates() {
   if (coord_counter.value.to_confirm_delete) {
