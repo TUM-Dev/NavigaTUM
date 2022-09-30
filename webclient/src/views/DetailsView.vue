@@ -7,6 +7,11 @@ import DetailsSources from "@/components/DetailsSources.vue";
 import DetailsFeedbackButton from "@/components/DetailsFeedbackButton.vue";
 import DetailsRoomfinderMap from "@/components/DetailsRoomfinderMap.vue";
 
+import { useI18n } from "vue-i18n";
+const { t } = useI18n({
+  inheritLocale: true,
+  useScope: "global",
+});
 //import DetailsFeaturedSection from "@/components/DetailsFeaturedSection.vue";
 import {
   getLocalStorageWithExpiry,
@@ -95,7 +100,7 @@ function loadEntryData() {
 }
 
 function genDescription(data) {
-  const detailsFor = $t("view_view.meta.details_for");
+  const detailsFor = t("view_view.meta.details_for");
   let description = `${detailsFor} ${data.type_common_name} ${data.name}`;
   if (data.props.computed) {
     description += ":";
