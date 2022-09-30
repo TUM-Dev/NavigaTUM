@@ -71,7 +71,6 @@ pub(super) struct MSHit {
 }
 
 #[derive(Deserialize, Clone)]
-#[allow(dead_code)]
 pub(super) struct FormattedMSHit {
     // This contains all the atributes of MSHit, but formatted by MS. We only need some, so only some are listed here.
     pub(super) name: String,
@@ -104,7 +103,8 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs) -> Result
     // meilisearch should not be a public service as by their docs,
     // this is why we only let users configure the port here :)
     let url = format!(
-        "http://localhost:{}/indexes/entries/search",
+        "http://{}:{}/indexes/entries/search",
+        std::env::var("MIELI_SEARCH_ADDR").unwrap_or_else(|_| "localhost".to_string()),
         std::env::var("API_SVC_SERVICE_PORT_MIELI_SEARCH").unwrap_or_else(|_| "7700".to_string())
     );
 
