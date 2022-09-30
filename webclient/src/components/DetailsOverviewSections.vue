@@ -120,7 +120,7 @@ function updateRoomsOverview(setSelected = undefined) {
                   v-bind:src="
                     b.thumb
                       ? '/cdn/thumb/' + b.thumb
-                      : '@/assets/thumb-building.webp'
+                      : '/thumb-building.webp'
                   "
                 />
               </figure>

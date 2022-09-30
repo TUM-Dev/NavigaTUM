@@ -78,49 +78,28 @@ your choice as well as any view.
 
 The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/). The CSS framework is [Spectre.css](https://picturepan2.github.io/spectre/). It is made up of a core codebase, _views_ and _modules_:
 
-- The core codebase provides the routing functionality, as well as helper functions (e.g. to retrieve data). All of this is bundles in the `navigatum` object in JS.
-- _Views_ (taking over the terminology from vue-router) are the pages displayed in NavigaTUM.
-- _Modules_ provide extra functionality that is not critical or used by multiple views (e.g. the interactive map).
+### Directory structure (only the important parts)
 
-### Directory structure
-
-```bash
+```plain
 webclient
-├── build/    # 🠔 Build files will be written here
+├── public/         # 🠔 Static assets such as icons, which cannot get inlined
 ├── src/
-│   ├── assets/  # 🠔 Static assets such as icons
-│   ├── md/      # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
-│   ├── modules/
-│   │   ├── autocomplete.ts     # 🠔 Autocompletion for search
-│   │   └── interactive-map.ts  # 🠔 Interactive map based on Mapbox
-│   ├── views/  # 🠔 See below
-│   ├── core.js             # 🠔 Core JS code (and JS entrypoint)
-│   ├── feedback.ts         # 🠔 JS for the feedback form (separated from the rest of
-│   │                       #    the code to work even when the core JS fails).
-│   ├── history-states.js   # 🠔 Preseve state on back-/forward navigation
-│   ├── i18n.yaml           # 🠔 Translation strings for the core code
-│   ├── index.html          # 🠔 index.html template
-│   ├── init-call.js        # 🠔 Special helper-script for init on page-load
-│   ├── legacy.js           # 🠔 Special helper-script to automatically include some
-│   │                       #    polyfills for older browsers.
-│   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
-│   ├── spectre-all.scss    # 🠔 Include-script for Spectre.CSS
-│   └── variables.scss      # 🠔 Sass CSS variable definitions (also defines themes)
-├── config.js     # 🠔 Build configuration
-├── gulpfile.js   # 🠔 Gulp configuration
-└── package.json  # 🠔 Node package definition and dependencies
+│   ├── codegen/    # 🠔 code generated via openapi.yaml for typechecking reasons
+│   ├── assets/     # 🠔 Static assets such as icons
+│   │   ├── md/                 # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
+│   │   ├── variables.scss      # 🠔 Include-script for Spectre.CSS
+│   │   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
+│   │   ├── spectre-all.scss    # 🠔 Include-script for Spectre.CSS
+│   │   └── logo.svg            # 🠔 Our Logo
+│   ├── components/ # 🠔 Vue components, which are used in views.
+│   ├── views/      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
+│   ├── routes./      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
+│   ├── App.vue     # 🠔 Main view
+│   └── main.ts     # 🠔 Inialization of Vue.js. This is the entrypoint of our app, from which App.vue and associated Views/Components are loaded
+├── vite.config.ts  # 🠔 Build configuration
+├── gulpfile.js     # 🠔 Gulp configuration
+└── package.json    # 🠔 Node package definition and dependencies
 ```
 
-'Views' (pages) are located in `src/views` where each view has its own subdirectory called `view-<name>`:
-
-```bash
-view-example
-├── i18n-example.yaml  # 🠔 Translation strings for each language
-├── view-example.inc   # 🠔 The HTML Template of the view
-├── view-example.js    # 🠔 The JS Sources of the view
-└── view-example.scss  # 🠔 The Sass CSS Sources of the view
-```
-
-Note that new views are automatically included in the build, but new JS files
-in the `src/` directory are not. If you add a new JS file there you need to include
-it in `gulpfile.js`.
+Note that new views are automatically included in the build, but they are not routed.
+To add a new view, you need to add a new route in `src/router.ts`.

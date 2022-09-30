@@ -321,7 +321,7 @@ export default {
                   </template>
                   <img
                     v-else
-                    src="@/assets/thumb-building.webp"
+                    src="/thumb-building.webp"
                     class="avatar avatar-sm"
                   />
                 </div>

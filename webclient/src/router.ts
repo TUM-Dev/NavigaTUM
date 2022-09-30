@@ -1,24 +1,24 @@
 import { createRouter, createWebHistory } from "vue-router";
-import MainView from "../views/MainView.vue";
-import NotFoundView from "../views/NotFoundView.vue";
-import SearchView from "../views/SearchView.vue";
+import MainView from "./views/MainView.vue";
+import NotFoundView from "./views/NotFoundView.vue";
+import SearchView from "./views/SearchView.vue";
 
 const routes = [
   { path: "/", name: "main", component: MainView },
   { path: "/view/:id",
     alias: ["/campus/:id", "/site/:id", "/building/:id", "/room/:id"],
     name: "detail",
-    component: () => import("../views/DetailsView.vue") },
+    component: () => import("./views/DetailsView.vue") },
   { path: "/search", name: "search", component: SearchView },
   {
     path: "/api",
     name: "api",
-    component: () => import("../views/APIView.vue"),
+    component: () => import("./views/APIView.vue"),
   },
   {
     path: "/about/:name",
     name: "about",
-    component: () => import("../views/AboutView.vue"),
+    component: () => import("./views/AboutView.vue"),
   },
   {
     path: "/:catchAll(.*)",
