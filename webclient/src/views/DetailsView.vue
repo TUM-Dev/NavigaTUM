@@ -52,7 +52,6 @@ useFetch<DetailsResponse>(`/api/get/${path[1]}`, (d) => {
     }[d.type] || "view";
   if (path[0] !== urlTypeName) {
     router.replace({path: `/${urlTypeName}/${path[1]}`});
-    return;
   }
   state.data = d;
 });
