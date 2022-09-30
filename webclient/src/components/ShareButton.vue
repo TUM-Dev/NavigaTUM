@@ -59,7 +59,7 @@ export default {
     </a>
     <strong>{{ $t("view_view.header.external_link.share") }}</strong>
     <button class="btn" @click="shareLink" v-if="browser_supports_share">
-      {{ $t("view_view.header.external_link.shareLink") }}
+      {{ $t("view_view.header.external_link.share_link") }}
     </button>
     <button
       class="btn"
