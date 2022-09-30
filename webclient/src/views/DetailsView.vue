@@ -61,7 +61,7 @@ const state = useDetailsStore();
 const copied = ref(false);
 // Coordinate picker states
 const coord_counter = ref({
-  counter: null,
+  counter: null as number | null,
   to_confirm_delete: false,
 });
 // This is called
@@ -111,13 +111,6 @@ function genDescription() {
   return description;
 }
 // --- Loading components ---
-// When these methods are called, the view has already been mounted,
-// so we can find elements by id.
-function loadMap() {
-  if (navigator.userAgent === "Rendertron") return;
-  if (state.map.selected === selectedMap.interactive) loadInteractiveMap();
-  else loadRoomfinderMap(state.map.roomfinder.selected_index);
-}
 function deletePendingCoordinates() {
   if (coord_counter.value.to_confirm_delete) {
     removeLocalStorage("coordinate-feedback");
@@ -133,10 +126,9 @@ function mounted() {
   if (navigator.userAgent === "Rendertron") return;
 
   // Update pending coordinate counter on localStorage changes
-  const _this = this;
   const updateCoordinateCounter = function () {
     const coords = getLocalStorageWithExpiry("coordinate-feedback", {});
-    _this.coord_counter.counter = Object.keys(coords).length;
+    coord_counter.value.counter = Object.keys(coords).length;
   };
   window.addEventListener("storage", updateCoordinateCounter);
   updateCoordinateCounter();
@@ -146,11 +138,11 @@ function mounted() {
     // that it really is mounted now. For this reason we try to poll now.
     // (Not the best solution probably)
     let timeoutInMs = 5;
-    const __this = this;
 
     function pollMap() {
       if (document.getElementById("interactive-map") !== null) {
-        __this.loadMap();
+        if (state.map.selected === selectedMap.interactive) loadInteractiveMap();
+        else loadRoomfinderMap(state.map.roomfinder.selected_index);
       } else {
         console.warn(
           `'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in ${timeoutInMs}ms`
@@ -160,7 +152,7 @@ function mounted() {
       }
     }
 
-    pollMap();
+  if (navigator.userAgent !== "Rendertron") pollMap();
   });
 }
 </script>
