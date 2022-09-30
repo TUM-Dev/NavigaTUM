@@ -502,28 +502,8 @@ export default {
           </div>
         </div>
 
-        <div
-          class="toast toast-primary mb-2 location-picker"
-          v-if="map.interactive.marker2"
-        >
-          <div class="columns">
-            <div class="column col col-sm-12">
-              {{ $t("view_view.msg.correct_location.msg") }}
-            </div>
-            <div class="column col-auto col-sm-12 btns">
-              <button class="btn btn-sm" @click="cancelLocationPicker">
-                {{ $t("view_view.msg.correct_location.btn-cancel") }}
-              </button>
-              <button class="btn btn-sm" @click="confirmLocationPicker">
-                <i class="icon icon-check"></i>
-                {{ $t("view_view.msg.correct_location.btn-done") }}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <DetailsInteractiveMap></DetailsInteractiveMap>
-        <DetailsRoomfinderMap></DetailsRoomfinderMap>
+        <DetailsInteractiveMap />
+        <DetailsRoomfinderMap />
         <div class="btn-group btn-group-block">
           <button
             class="btn btn-sm"
@@ -716,34 +696,6 @@ export default {
           display: inline-block;
         }
       }
-    }
-  }
-
-  /* --- Map container --- */
-  #map-container {
-    // This does not change anything (except using px instead of rem),
-    // but ensures that roomfinder position calculations are predictable.
-    padding: 0 8px;
-
-    // The marker2 (draggable)
-    .mapboxgl-marker + .mapboxgl-marker {
-      animation: fade-in 0.1s linear 0.05s;
-      animation-fill-mode: both;
-    }
-  }
-
-  .toast.location-picker {
-    animation: fade-in 0.1s linear 0.05s;
-    animation-fill-mode: both;
-
-    & .btns {
-      margin: auto 0;
-    }
-
-    .toast {
-      // Mobile
-      margin-bottom: 9px;
-      font-size: 0.7rem;
     }
   }
 

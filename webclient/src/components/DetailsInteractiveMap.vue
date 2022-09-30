@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { getLocalStorageWithExpiry } from "@/utils/storage";
+import {
+  getLocalStorageWithExpiry,
+  setLocalStorageWithExpiry,
+} from "@/utils/storage";
 import mapboxgl from "mapbox-gl";
 import { selectedMap, useDetailsStore } from "@/stores/details";
 import { nextTick, ref } from "vue";
@@ -24,6 +27,48 @@ const coord_picker = ref({
 });
 const initialLoaded = ref(false);
 
+function confirmLocationPicker() {
+  // add the current edits to the feedback
+  const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
+  const location = marker2.value?.getLngLat();
+  currentEdits[this.state.data.id] = {
+    coords: { lat: location.lat, lon: location.lng },
+  };
+  // save to local storage with ttl of 12h (garbage-collected on next read)
+  setLocalStorageWithExpiry("coordinate-feedback", currentEdits, 12);
+
+  marker2.value?.remove();
+  marker2.value = null;
+
+  // A feedback form is only opened when this is the only (and therefore
+  // first coordinate). If there are more coordinates we can assume
+  // someone is doing batch edits. They can then use the send button in
+  // the coordinate counter at the top of the page.
+  if (
+    Object.keys(currentEdits).length === 1 ||
+    state.coord_picker.force_reopen
+  ) {
+    state.coord_picker.force_reopen = false;
+    openFeedbackForm();
+  }
+
+  // The helptext (which says thet you can edit multiple coordinates in bulk)
+  // is also only shown if there is one edit.
+  if (Object.keys(currentEdits).length === 1) {
+    document
+      .getElementById("feedback-coordinate-picker-helptext")
+      ?.classList.remove("d-none");
+  }
+}
+function cancelLocationPicker() {
+  marker2.value?.remove();
+  marker2.value = null;
+
+  if (state.coord_picker.force_reopen) {
+    state.coord_picker.force_reopen = false;
+    this.openFeedbackForm();
+  }
+}
 // TODO: make this interactive from other components
 function addLocationPicker() {
   // If this is called from the feedback form using the edit coordinate
@@ -308,6 +353,22 @@ function setOverlayImage(
 </script>
 
 <template>
+  <div class="toast toast-primary mb-2 location-picker" v-if="marker2">
+    <div class="columns">
+      <div class="column col col-sm-12">
+        {{ $t("view_view.msg.correct_location.msg") }}
+      </div>
+      <div class="column col-auto col-sm-12 btns">
+        <button class="btn btn-sm" @click="cancelLocationPicker">
+          {{ $t("view_view.msg.correct_location.btn-cancel") }}
+        </button>
+        <button class="btn btn-sm" @click="confirmLocationPicker">
+          <i class="icon icon-check"></i>
+          {{ $t("view_view.msg.correct_location.btn-done") }}
+        </button>
+      </div>
+    </div>
+  </div>
   <div
     id="interactive-map-container"
     v-bind:class="{ 'd-none': state.map.selected !== selectedMap.interactive }"
@@ -322,6 +383,33 @@ function setOverlayImage(
 @import "mapbox-gl/dist/mapbox-gl.css";
 @import "../assets/variables";
 
+/* --- Map container --- */
+#map-container {
+  // This does not change anything (except using px instead of rem),
+  // but ensures that roomfinder position calculations are predictable.
+  padding: 0 8px;
+
+  // The marker2 (draggable)
+  .mapboxgl-marker + .mapboxgl-marker {
+    animation: fade-in 0.1s linear 0.05s;
+    animation-fill-mode: both;
+  }
+}
+
+.toast.location-picker {
+  animation: fade-in 0.1s linear 0.05s;
+  animation-fill-mode: both;
+
+  & .btns {
+    margin: auto 0;
+  }
+
+  .toast {
+    // Mobile
+    margin-bottom: 9px;
+    font-size: 0.7rem;
+  }
+}
 /* --- Interactive map display --- */
 #interactive-map-container {
   margin-bottom: 10px;
