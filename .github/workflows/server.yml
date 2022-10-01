@@ -92,6 +92,7 @@ jobs:
       - uses: ATiltedTree/setup-rust@v1.0.5
         with:
           rust-version: 1.62.1
+      - run: pip install httpx # needed until https://github.com/schemathesis/schemathesis/issues/1614 is fixed
 
       # run project's dependencies
       - run: cargo build
