@@ -33,6 +33,7 @@ export default defineConfig({
     }),
     VueI18nPlugin({
       include: path.resolve(__dirname, "./src/locales/**"),
+      fullInstall: false,
     }),
     Markdown({
       builders: [link()],
