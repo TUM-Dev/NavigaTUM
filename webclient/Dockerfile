@@ -1,7 +1,10 @@
 FROM node:latest as build-stage
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm install &&  \
+    apt-get update &&  \
+    apt-get install rsync -y
+
 COPY . .
 RUN sh build.sh
 
