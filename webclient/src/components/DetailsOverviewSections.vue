@@ -4,10 +4,8 @@ import { useDetailsStore } from "@/stores/details";
 
 const state = useDetailsStore();
 const combined_list = computed(() => {
-  if (!state.data) {
-    loading.value = true;
-    return [];
-  }
+  if (!state.data) return [];
+
   const usages = state.data.sections.rooms_overview.usages;
   const combinedList = [];
   usages.forEach((usage) => {
@@ -15,6 +13,7 @@ const combined_list = computed(() => {
   });
   return combinedList;
 });
+
 const display_list = ref([]);
 const filter = reactive({
   search: "",
@@ -27,8 +26,10 @@ const buildings_overview_expanded = ref(false);
 
 watch(
   () => filter.search,
-  (_) => updateRoomsOverview
+  () => updateRoomsOverview
 );
+
+updateRoomsOverview();
 function updateRoomsOverview(setSelected = undefined) {
   const rooms_overview = state.data?.sections.rooms_overview;
 
@@ -37,16 +38,15 @@ function updateRoomsOverview(setSelected = undefined) {
   if (selected.value === null) {
     display_list.value = [];
   } else {
-    const baseList =
+    const rooms =
       selected.value === -1
-        ? combined_list
+        ? combined_list.value
         : rooms_overview.usages[selected.value].children;
     if (filter.search === "") {
-      display_list.value = baseList;
+      display_list.value = rooms;
     } else {
       // Update filter index if required
       if (selected.value !== filter.selected) {
-        const rooms = baseList;
         filter.list = [];
 
         rooms.forEach((room) => {
@@ -70,7 +70,9 @@ function updateRoomsOverview(setSelected = undefined) {
   // In this case we first reset the list, show a loading indicator and
   // set the long list a short time later (So DOM can update and the indicator
   // is visible).
-  if (display_list.value.length > 150) {
+  if (display_list.value.length <= 150) {
+    loading.value = false;
+  } else {
     loading.value = true;
     const tmp = display_list.value;
     display_list.value = [];
@@ -80,7 +82,7 @@ function updateRoomsOverview(setSelected = undefined) {
       display_list.value = tmp;
       loading.value = false;
     }, 20);
-  } else loading.value = false;
+  }
 }
 </script>
 
