@@ -64,7 +64,8 @@ If you serve the release build with a webserver (such as Nginx) you need to sele
        It should be selected based on the "theme" Cookie ("light" by default).
 ```
 
-The language is only split in the build, but the theme can not do so for some reason (If you know of a better way, hit us up).  
+The language-selector is working in development and this differentialtion is only happening in the build.  
+For the theme we can not do so for some reason (If you know of a better way, hit us up).  
 To test a different theme, you can change `$theme` [here](./src/assets/variables.scss). Values are `light` and `dark`.
 
 ## Architecture
