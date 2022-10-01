@@ -14,3 +14,11 @@ Keine Räume bekannt: No rooms known
 "{n_buildings} Gebäude, {n_rooms} Räume": "{n_buildings} buildings, {n_rooms} rooms"
 "{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)": "{n_buildings} buildings, {n_rooms} rooms (branch office)"
 Architekten-Name: "Architect's name"
+Gebäudeteil: "Part of the building"
+Standortübersicht: "Location overview"
+Standort: Location
+"Gebiet / Gruppe von Gebäuden": "Area / Group of buildings"
+Gebäudekomplex: "Building complex"
+Gebäude: Building
+Raum: Room
+Raum/Gebäudeteil: "Room/Part of the building"

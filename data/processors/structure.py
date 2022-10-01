@@ -1,4 +1,5 @@
 import logging
+from utils import TranslatableStr as _
 
 
 def add_children_properties(data):
@@ -94,18 +95,18 @@ def infer_type_common_name(data):
 
     def _get_type(_id, _data):
         if _data["type"] == "building" and data[_data["parents"][-1]]["type"] == "joined_building":
-            return {"de": "Gebäudeteil", "en": "Part of the building"}
+            return _("Gebäudeteil")
         if _data["type"] in ["virtual_room", "room"] and "usage" in _data:
             return _data["usage"]["name"]
         return {
-            "root": {"de": "Standortübersicht", "en": "Location overview"},
-            "site": {"de": "Standort", "en": "Location"},
+            "root": _("Standortübersicht"),
+            "site": _("Standort"),
             "campus": "Campus",
-            "area": {"de": "Gebiet / Gruppe von Gebäuden", "en": "Area / Group of buildings"},
-            "joined_building": {"de": "Gebäudekomplex", "en": "Building complex"},
-            "building": {"de": "Gebäude", "en": "Building"},
-            "room": {"de": "Raum", "en": "Room"},
-            "virtual_room": {"de": "Raum/Gebäudeteil", "en": "Room/Part of the building"},
+            "area": _("Gebiet / Gruppe von Gebäuden"),
+            "joined_building": _("Gebäudekomplex"),
+            "building": _("Gebäude"),
+            "room": _("Raum"),
+            "virtual_room": _("Raum/Gebäudeteil"),
         }[_data["type"]]
 
     for _id, _data in data.items():
