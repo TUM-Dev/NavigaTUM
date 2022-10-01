@@ -8,17 +8,18 @@ Adresse: Address
 Anzahl Gebäude: Number of buildings
 Sitzplätze: Seats
 Anzahl Räume: Number of rooms
-"{n_rooms} ({n_rooms_reg} ohne Flure etc.)": "{n_rooms} ({n_rooms_reg} without corridors etc.)"
+'{n_rooms} ({n_rooms_reg} ohne Flure etc.)': '{n_rooms} ({n_rooms_reg} without corridors etc.)'
 Keine Räume bekannt: No rooms known
-"{n_rooms} Räume": "{n_rooms} rooms"
-"{n_buildings} Gebäude, {n_rooms} Räume": "{n_buildings} buildings, {n_rooms} rooms"
-"{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)": "{n_buildings} buildings, {n_rooms} rooms (branch office)"
-Architekten-Name: "Architect's name"
-Gebäudeteil: "Part of the building"
-Standortübersicht: "Location overview"
+'{n_rooms} Räume': '{n_rooms} rooms'
+'{n_buildings} Gebäude, {n_rooms} Räume': '{n_buildings} buildings, {n_rooms} rooms'
+'{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)': '{n_buildings} buildings, {n_rooms} rooms (branch office)'
+Architekten-Name: Architect's name
+# type_common_name
+Gebäudeteil: Part of the building
+Standortübersicht: Location overview
 Standort: Location
-"Gebiet / Gruppe von Gebäuden": "Area / Group of buildings"
-Gebäudekomplex: "Building complex"
+Gebiet / Gruppe von Gebäuden: Area / Group of buildings
+Gebäudekomplex: Building complex
 Gebäude: Building
 Raum: Room
 Raum/Gebäudeteil: "Room/Part of the building"
