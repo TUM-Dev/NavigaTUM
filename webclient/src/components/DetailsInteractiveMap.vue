@@ -108,7 +108,7 @@ function addLocationPicker() {
   }
 }
 
-loadInteractiveMap();
+defineExpose({loadInteractiveMap})
 function loadInteractiveMap(fromUi = false) {
   const fromMap = state.map.selected;
 

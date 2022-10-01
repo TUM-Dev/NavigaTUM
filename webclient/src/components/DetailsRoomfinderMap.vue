@@ -1,50 +1,53 @@
 <script setup lang="ts">
-import { selectedMap,useDetailsStore } from "@/stores/details";
+import { selectedMap, useDetailsStore } from "@/stores/details";
 
 const state = useDetailsStore();
 
-function loadRoomfinderMap(mapIndex:number, fromUi:boolean) {
-      const map = state.data!!.maps.roomfinder!!.available[mapIndex];
-      state.map.selected = selectedMap.roomfinder;
-      state.map.roomfinder.selected_id = map.id;
-      state.map.roomfinder.selected_index = mapIndex;
+defineExpose({ loadRoomfinderMap });
+function loadRoomfinderMap(mapIndex: number | null, fromUi = false) {
+  const map = state.data.maps.roomfinder.available[mapIndex || 0];
+  state.map.selected = selectedMap.roomfinder;
+  state.map.roomfinder.selected_id = map.id;
+  state.map.roomfinder.selected_index = mapIndex;
 
-      // Using the #map-container since the bounding rect is still all zero
-      // if we switched here from interactive map
-      const rect = document
-        .getElementById("map-container")!!
-        .getBoundingClientRect();
-      // -1023px, -1023px is top left corner, 16px = 2*8px is element padding
-      state.map.roomfinder.x =
-        -1023 + (map.x / map.width) * (rect.width - 16);
+  // Using the #map-container since the bounding rect is still all zero
+  // if we switched here from interactive map
+  const rect = document
+    .getElementById("map-container")
+    ?.getBoundingClientRect();
+  // -1023px, -1023px is top left corner, 16px = 2*8px is element padding
+  state.map.roomfinder.x = -1023 + (map.x / map.width) * (rect.width - 16);
 
-      // We cannot use "height" here as it might be still zero before layouting
-      // finished, so we use the aspect ratio here.
-      state.map.roomfinder.y =
-        -1023 +
-        (map.y / map.height) * (rect.width - 16) * (map.height / map.width);
+  // We cannot use "height" here as it might be still zero before layouting
+  // finished, so we use the aspect ratio here.
+  state.map.roomfinder.y =
+    -1023 + (map.y / map.height) * (rect.width - 16) * (map.height / map.width);
 
-      state.map.roomfinder.width = map.width;
-      state.map.roomfinder.height = map.height;
+  state.map.roomfinder.width = map.width;
+  state.map.roomfinder.height = map.height;
 
-      if (fromUi) {
-        document.getElementById("map-accordion").checked = false;
-        /* window.setTimeout(() => {
+  if (fromUi) {
+    document.getElementById("map-accordion").checked = false;
+    /* window.setTimeout(() => {
                     document.getElementById("roomfinder-map-img").scrollIntoView(false);
                 }, 50); */
-        window.scrollTo(
-          0,
-          rect.top + state.map.roomfinder.y + 1023 - window.innerHeight / 2
-        );
-      }
-    }
+    window.scrollTo(
+      0,
+      rect.top + state.map.roomfinder.y + 1023 - window.innerHeight / 2
+    );
+  }
+}
 </script>
 
 <template>
   <div
     class="roomfinder-map-container"
     v-bind:class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
-    v-if="state.data.maps.roomfinder && state.data.maps.roomfinder.available && state.map.roomfinder.selected_index"
+    v-if="
+      state.data.maps.roomfinder &&
+      state.data.maps.roomfinder.available &&
+      state.map.roomfinder.selected_index
+    "
   >
     <img
       alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
@@ -85,7 +88,11 @@ function loadRoomfinderMap(mapIndex:number, fromUi:boolean) {
     class="accordion"
     id="roomfinder-map-select"
     v-bind:class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
-    v-if="state.data.maps.roomfinder && state.data.maps.roomfinder.available && state.map.roomfinder.selected_index"
+    v-if="
+      state.data.maps.roomfinder &&
+      state.data.maps.roomfinder.available &&
+      state.map.roomfinder.selected_index
+    "
   >
     <input
       id="map-accordion"

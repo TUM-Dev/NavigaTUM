@@ -20,11 +20,8 @@ import {
 } from "@/utils/storage";
 import { copyCurrentLink, setDescription, setTitle } from "@/utils/common";
 import { selectedMap, useDetailsStore } from "@/stores/details";
-import type {
-  DetailsResponse,
-  RoomfinderMapEntry,
-} from "@/codegen";
-import { nextTick, ref } from "vue";
+import type { DetailsResponse, RoomfinderMapEntry } from "@/codegen";
+import { nextTick,onMounted, ref } from "vue";
 import { useFetch } from "@/utils/fetch";
 import router from "@/router";
 
@@ -51,7 +48,7 @@ useFetch<DetailsResponse>(`/api/get/${path[1]}`, (d) => {
       virtual_room: "room",
     }[d.type] || "view";
   if (path[0] !== urlTypeName) {
-    router.replace({path: `/${urlTypeName}/${path[1]}`});
+    router.replace({ path: `/${urlTypeName}/${path[1]}` });
   }
   state.data = d;
 });
@@ -121,7 +118,11 @@ function deletePendingCoordinates() {
     coord_counter.value.to_confirm_delete = true;
   }
 }
-function mounted() {
+
+// following variables are bound to ref objects
+const roomfinderMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>();
+const interactiveMap = ref<InstanceType<typeof DetailsInteractiveMap> | null>();
+onMounted(() => {
   if (navigator.userAgent === "Rendertron") return;
 
   // Update pending coordinate counter on localStorage changes
@@ -140,8 +141,12 @@ function mounted() {
 
     function pollMap() {
       if (document.getElementById("interactive-map") !== null) {
-        if (state.map.selected === selectedMap.interactive) loadInteractiveMap();
-        else loadRoomfinderMap(state.map.roomfinder.selected_index);
+        if (state.map.selected === selectedMap.interactive)
+          interactiveMap.value.loadInteractiveMap();
+        else
+          roomfinderMap.value.loadRoomfinderMap(
+            state.map.roomfinder.selected_index
+          );
       } else {
         console.warn(
           `'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in ${timeoutInMs}ms`
@@ -151,9 +156,9 @@ function mounted() {
       }
     }
 
-  if (navigator.userAgent !== "Rendertron") pollMap();
+    if (navigator.userAgent !== "Rendertron") pollMap();
   });
-}
+});
 </script>
 
 <template>
@@ -279,7 +284,7 @@ function mounted() {
               <path d="M2.352.268h1.085v1.085" stroke-linejoin="round" />
             </svg>
           </button>
-          <ShareButton v-bind:coords="state.data.coords"/>
+          <ShareButton v-bind:coords="state.data.coords" />
           <DetailsFeedbackButton ref="feedbackButton" />
           <!--<button class="btn btn-link btn-action btn-sm"
                   v-bind:title="$t('view_view.header.favorites')">
@@ -326,20 +331,23 @@ function mounted() {
           </div>
         </div>
 
-        <DetailsInteractiveMap />
-        <DetailsRoomfinderMap />
+        <DetailsInteractiveMap ref="interactiveMap"/>
+        <DetailsRoomfinderMap ref="roomfinderMap"/>
         <div class="btn-group btn-group-block">
           <button
             class="btn btn-sm"
-            v-on:click="loadInteractiveMap(true)"
+            @click="$refs.interactiveMap.loadInteractiveMap(true)"
             v-bind:class="{ active: state.map.selected === 'interactive' }"
           >
             {{ $t("view_view.map.interactive") }}
           </button>
           <button
             class="btn btn-sm"
-            v-on:click="
-              loadRoomfinderMap(state.map.roomfinder.selected_index, true)
+            @click="
+              $refs.roomfinderMap.loadRoomfinderMap(
+                state.map.roomfinder.selected_index,
+                true
+              )
             "
             v-bind:class="{
               active: state.map.selected === selectedMap.roomfinder,
