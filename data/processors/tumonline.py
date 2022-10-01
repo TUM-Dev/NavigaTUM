@@ -5,6 +5,7 @@ import string
 import yaml
 from processors.merge import merge_object
 from processors.patch import apply_patches
+from utils import TranslatableStr as _
 
 ALLOWED_ROOMCODE_CHARS = set(string.ascii_letters) | set(string.digits) | {".", "-"}
 
@@ -139,7 +140,7 @@ def merge_tumonline_rooms(data):
             tumonline_usage = usages_lookup[room["usage"]]
             parts = tumonline_usage["din_277"].split(" - ")
             r_data["usage"] = {
-                "name": tumonline_usage["name"],
+                "name": _(tumonline_usage["name"]),
                 "din_277": parts[0],
                 "din_277_desc": parts[1],
             }
