@@ -282,13 +282,14 @@ function updateRoomsOverview(setSelected = undefined) {
                 selected === null
                   ? $t("view_view.rooms_overview.choose_usage")
                   : display_list.length +
+                    " " +
                     $t("view_view.rooms_overview.result") +
                     (display_list.length === 1
                       ? ""
                       : $t("view_view.rooms_overview.results_suffix")) +
                     (filter.search === ""
                       ? ""
-                      : "(" + $t("view_view.rooms_overview.filtered") + ")")
+                      : $t("view_view.rooms_overview.filtered"))
               }}
             </small>
           </div>

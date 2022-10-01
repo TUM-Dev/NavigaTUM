@@ -149,7 +149,7 @@ view_view:
     choose_usage: "Wähle eine Nutzung aus"
     result: "Ergebnis"
     results_suffix: "se"
-    filtered: "gefiltert"
+    filtered: "(gefiltert)"
   sources:
     title: "Quellen"
     header_img: "Bild"

@@ -149,7 +149,7 @@ view_view:
     choose_usage: "Choose a usage"
     result: "result"
     results_suffix: "s"
-    filtered: "filtered"
+    filtered: "(filtered)"
   sources:
     title: "Sources"
     header_img: "Image"
