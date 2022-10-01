@@ -173,21 +173,13 @@ function loadInteractiveMap(fromUi = false) {
 function createMarker(hueRotation = 0) {
   const markerDiv = document.createElement("div");
   const markerIcon = document.createElement("span");
-  markerIcon.style.backgroundImage = `url(/map/marker_pin.webp)`;
-  markerIcon.style.width = `25px`;
-  markerIcon.style.height = `36px`;
   markerIcon.style.filter = `hue-rotate(${hueRotation}deg)`;
-  markerIcon.style.top = `-33px`;
-  markerIcon.style.left = `-12px`;
   markerIcon.classList.add("marker");
+  markerIcon.classList.add("marker-pin");
   markerDiv.appendChild(markerIcon);
   const markerShadow = document.createElement("span");
-  markerShadow.style.backgroundImage = `url(/map/marker_pin-shadow.webp)`;
-  markerShadow.style.width = `38px`;
-  markerShadow.style.height = `24px`;
-  markerShadow.style.top = `-20px`;
-  markerShadow.style.left = `-12px`;
   markerShadow.classList.add("marker");
+  markerShadow.classList.add("marker-shadow");
   markerDiv.appendChild(markerShadow);
   return markerDiv;
 }
@@ -447,6 +439,22 @@ function setOverlayImage(
   position: absolute;
   pointer-events: none;
   padding: 0;
+
+  &.marker-pin {
+    background-image: url(../assets/map/marker_pin.webp);
+    width: 25px;
+    height: 36px;
+    top: -33px;
+    left: -12px;
+  }
+
+  &.marker-shadow {
+    background-image: url(../assets/map/marker_pin-shadow.webp);
+    width: 38px;
+    height: 24px;
+    top: -20px;
+    left: -12px;
+  }
 }
 
 .mapboxgl-ctrl-group.floor-ctrl {

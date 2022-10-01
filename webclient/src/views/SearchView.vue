@@ -89,7 +89,7 @@ function genDescription(): string {
                 <img
                   v-else
                   class="avatar avatar-sm"
-                  src="/thumb-building.webp"
+                  src="../assets/thumb-building.webp"
                 />
               </div>
               <div class="tile-content">

@@ -48,7 +48,7 @@ function loadRoomfinderMap(mapIndex:number, fromUi:boolean) {
   >
     <img
       alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
-      src="/map/roomfinder_cross-v2.webp"
+      src="../assets/map/roomfinder_cross-v2.webp"
       v-bind:style="{
         transform:
           'translate(' +
