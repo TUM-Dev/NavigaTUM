@@ -98,7 +98,7 @@
     "gulp-markdown": "^7.0.0",
     "gulp-postcss": "^9.0.1",
     "gulp-preprocess": "^4.0.2",
-    "gulp-purgecss": "^4.0.3",
+    "gulp-purgecss": "^5.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-rev-all": "^3.0.0",
     "gulp-sass": "^5.0.0",
