@@ -41,7 +41,7 @@ def add_stats(data):
                 if not child.get("usage", {}).get("din_277", "").startswith("VF"):
                     n_rooms_reg += 1
             if child["type"] == "joined_building" or (
-                child["type"] == "building" and data[child["parents"][-1]]["type"] != "joined_building"
+                    child["type"] == "building" and data[child["parents"][-1]]["type"] != "joined_building"
             ):
                 n_buildings += 1
 
@@ -91,16 +91,22 @@ def infer_addresses(data):
 
 def infer_type_common_name(data):
     """This function infers the type_common_name property for each entry via the type property."""
-    for _id, _data in data.items():
-        _data["type_common_name"] = {
-            "root": "Standortübersicht",
-            "site": "Standort",
+
+    def _get_type(_id, _data):
+        if _data["type"] == "building" and data[_data["parents"][-1]]["type"] == "joined_building":
+            return {"de": "Gebäudeteil", "en": "Part of the building"}
+        if _data["type"] in ["virtual_room", "room"] and "usage" in _data:
+            return _data["usage"]["name"]
+        return {
+            "root": {"de": "Standortübersicht", "en": "Location overview"},
+            "site": {"de": "Standort", "en": "Location"},
             "campus": "Campus",
-            "area": "Gebiet / Gruppe von Gebäuden",
-            "joined_building": "Gebäudekomplex",
-            "building": "Gebäudeteil"
-            if (_data["type"] == "building" and data[_data["parents"][-1]]["type"] == "joined_building")
-            else "Gebäude",
-            "room": _data["usage"]["name"] if "usage" in _data else "Raum",
-            "virtual_room": _data["usage"]["name"] if "usage" in _data else "Raum/Gebäudeteil",
+            "area": {"de": "Gebiet / Gruppe von Gebäuden", "en": "Area / Group of buildings"},
+            "joined_building": {"de": "Gebäudekomplex", "en": "Building complex"},
+            "building": {"de": "Gebäude", "en": "Building"},
+            "room": {"de": "Raum", "en": "Room"},
+            "virtual_room": {"de": "Raum/Gebäudeteil", "en": "Room/Part of the building"},
         }[_data["type"]]
+
+    for _id, _data in data.items():
+        _data["type_common_name"] = _get_type(_id, _data)
