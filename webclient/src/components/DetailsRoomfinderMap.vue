@@ -44,8 +44,7 @@ function loadRoomfinderMap(mapIndex: number | null, fromUi = false) {
     class="roomfinder-map-container"
     v-bind:class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
     v-if="
-      state.data.maps.roomfinder &&
-      state.data.maps.roomfinder.available &&
+      state.data.maps.roomfinder?.available &&
       state.map.roomfinder.selected_index
     "
   >
@@ -112,10 +111,7 @@ function loadRoomfinderMap(mapIndex: number | null, fromUi = false) {
       }}
       <i class="icon icon-caret"></i>
     </label>
-    <div
-      class="accordion-body"
-      v-if="state.data.maps && state.data.maps.roomfinder"
-    >
+    <div class="accordion-body" v-if="state.data.maps?.roomfinder">
       <ul class="menu menu-nav">
         <li
           class="menu-item"

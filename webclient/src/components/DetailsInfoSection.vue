@@ -8,7 +8,7 @@ const state = useDetailsStore();
   <!-- Information section (on mobile) -->
   <div
     class="column col-5 col-sm-12 show-sm mobile-info-section"
-    v-if="state.data.props && state.data.props.computed"
+    v-if="state.data.props?.computed"
   >
     <h2>Informationen</h2>
     <table class="info-table">
@@ -58,10 +58,7 @@ const state = useDetailsStore();
         <div class="card-title h5">{{ $t("view_view.info_title") }}</div>
       </div>
       <div class="card-body">
-        <table
-          class="info-table"
-          v-if="state.data.props && state.data.props.computed"
-        >
+        <table class="info-table" v-if="state.data.props?.computed">
           <tbody>
             <tr v-for="prop in state.data.props.computed">
               <td>
@@ -88,10 +85,7 @@ const state = useDetailsStore();
         <span v-else>-</span>
         <div
           class="toast toast-warning"
-          v-if="
-            state.data.coords.accuracy &&
-            state.data.coords.accuracy === 'building'
-          "
+          v-if="state.data.coords.accuracy === 'building'"
         >
           {{ $t("view_view.msg.inaccurate_only_building.msg") }}
           <button class="btn btn-sm" @click="addLocationPicker">
@@ -102,14 +96,12 @@ const state = useDetailsStore();
           class="toast toast-warning"
           v-if="
             state.data.type === 'room' &&
-            state.data.maps &&
-            state.data.maps.overlays &&
-            state.data.maps.overlays.default === null
+            state.data.maps?.overlays?.default === null
           "
         >
           {{ $t("view_view.msg.no_floor_overlay") }}
         </div>
-        <div class="toast" v-if="state.data.props && state.data.props.comment">
+        <div class="toast" v-if="state.data.props?.comment">
           {{ state.data.props.comment }}
         </div>
       </div>

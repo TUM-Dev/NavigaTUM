@@ -1,35 +1,34 @@
 <script setup lang="ts">
-
-import {getLocalStorageWithExpiry} from "@/utils/storage";
-import {useDetailsStore} from "@/stores/details";
-const state=useDetailsStore();
+import { getLocalStorageWithExpiry } from "@/utils/storage";
+import { useDetailsStore } from "@/stores/details";
+const state = useDetailsStore();
 function _getFeedbackSubject(currentEdits) {
-      if (Object.keys(currentEdits).length > 1) {
-        return (
-          `[${state.data.id} et.al.]: ` +
-          $t("feedback.coordinatepicker.edit_coordinates_subject")
-        );
-      }
+  if (Object.keys(currentEdits).length > 1) {
+    return (
+      `[${state.data.id} et.al.]: ` +
+      $t("feedback.coordinatepicker.edit_coordinates_subject")
+    );
+  }
 
-      const subjectPrefix = `[${state.data.id}]: `;
-      const subjectMsg =
-        Object.keys(currentEdits).length === 0
-          ? ""
-          : $t("feedback.coordinatepicker.edit_coordinate_subject");
+  const subjectPrefix = `[${state.data.id}]: `;
+  const subjectMsg =
+    Object.keys(currentEdits).length === 0
+      ? ""
+      : $t("feedback.coordinatepicker.edit_coordinate_subject");
 
-      // The subject backup is only loaded (and supported) when a single
-      // entry is being edited
-      if (
-        state.coord_picker.subject_backup &&
-        state.coord_picker.backup_id === state.data.id &&
-        state.coord_picker.subject_backup !== subjectPrefix
-      ) {
-        const backup = state.coord_picker.subject_backup;
-        state.coord_picker.subject_backup = null;
-        return backup;
-      }
-      return subjectPrefix + subjectMsg;
-    }
+  // The subject backup is only loaded (and supported) when a single
+  // entry is being edited
+  if (
+    state.coord_picker.subject_backup &&
+    state.coord_picker.backup_id === state.data.id &&
+    state.coord_picker.subject_backup !== subjectPrefix
+  ) {
+    const backup = state.coord_picker.subject_backup;
+    state.coord_picker.subject_backup = null;
+    return backup;
+  }
+  return subjectPrefix + subjectMsg;
+}
 function _getFeedbackBody(currentEdits) {
   // Look up whether there is a backup of the body and extract the section
   // that is not the coordinate
@@ -74,20 +73,19 @@ function _getFeedbackBody(currentEdits) {
   return `${actionMsg}\n\`\`\`\n${editStr}\`\`\``;
 }
 function openFeedbackForm() {
-      // The feedback form is opened. This may be prefilled with previously corrected coordinates.
-      // Maybe get the old coordinates from localstorage
-      const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
-      const body = _getFeedbackBody(currentEdits);
-      const subject = _getFeedbackSubject(currentEdits);
+  // The feedback form is opened. This may be prefilled with previously corrected coordinates.
+  // Maybe get the old coordinates from localstorage
+  const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
+  const body = _getFeedbackBody(currentEdits);
+  const subject = _getFeedbackSubject(currentEdits);
 
-      document
-        .getElementById("feedback-coordinate-picker")
-        .addEventListener("click", addLocationPicker);
+  document
+    .getElementById("feedback-coordinate-picker")
+    .addEventListener("click", addLocationPicker);
 
-      /* global openFeedback */
-      openFeedback("entry", subject, body);
-    }
-    
+  /* global openFeedback */
+  openFeedback("entry", subject, body);
+}
 </script>
 
 <template>
@@ -100,6 +98,4 @@ function openFeedbackForm() {
   </button>
 </template>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

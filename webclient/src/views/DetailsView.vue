@@ -21,7 +21,7 @@ import {
 import { copyCurrentLink, setDescription, setTitle } from "@/utils/common";
 import { selectedMap, useDetailsStore } from "@/stores/details";
 import type { DetailsResponse, RoomfinderMapEntry } from "@/codegen";
-import { nextTick,onMounted, ref } from "vue";
+import { nextTick, onMounted, ref } from "vue";
 import { useFetch } from "@/utils/fetch";
 import router from "@/router";
 
@@ -302,10 +302,7 @@ onMounted(() => {
         <div class="show-sm">
           <div
             class="toast toast-warning"
-            v-if="
-              state.data.coords.accuracy &&
-              state.data.coords.accuracy === 'building'
-            "
+            v-if="state.data.coords.accuracy === 'building'"
           >
             {{ $t("view_view.msg.inaccurate_only_building.msg") }}
             <button class="btn btn-sm" @click="addLocationPicker">
@@ -316,28 +313,25 @@ onMounted(() => {
             class="toast toast-warning"
             v-if="
               state.data.type === 'room' &&
-              state.data.maps &&
-              state.data.maps.overlays &&
-              state.data.maps.overlays.default === null
+              state.data.maps?.overlays?.default === null
             "
           >
             {{ $t("view_view.msg.no_floor_overlay") }}
           </div>
-          <div
-            class="toast"
-            v-if="state.data.props && state.data.props.comment"
-          >
+          <div class="toast" v-if="state.data.props?.comment">
             {{ state.data.props.comment }}
           </div>
         </div>
 
-        <DetailsInteractiveMap ref="interactiveMap"/>
-        <DetailsRoomfinderMap ref="roomfinderMap"/>
+        <DetailsInteractiveMap ref="interactiveMap" />
+        <DetailsRoomfinderMap ref="roomfinderMap" />
         <div class="btn-group btn-group-block">
           <button
             class="btn btn-sm"
             @click="$refs.interactiveMap.loadInteractiveMap(true)"
-            v-bind:class="{ active: state.map.selected === selectedMap.interactive }"
+            v-bind:class="{
+              active: state.map.selected === selectedMap.interactive,
+            }"
           >
             {{ $t("view_view.map.interactive") }}
           </button>

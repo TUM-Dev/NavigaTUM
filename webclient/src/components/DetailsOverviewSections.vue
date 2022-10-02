@@ -171,10 +171,7 @@ function updateRoomsOverview(setSelected = undefined) {
   </section>
 
   <!-- Rooms overview -->
-  <section
-    id="rooms-overview"
-    v-if="state.data.sections && state.data.sections.rooms_overview"
-  >
+  <section id="rooms-overview" v-if="state.data.sections?.rooms_overview">
     <div class="columns">
       <div class="column">
         <h2>{{ $t("view_view.rooms_overview.title") }}</h2>

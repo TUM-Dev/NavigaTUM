@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div v-if="state.data.sections && state.data.sections.featured">
+  <div v-if="state.data.sections?.featured">
     <div class="columns" style="margin-top: 40px">
       <div class="column"><h2>Featured</h2></div>
     </div>

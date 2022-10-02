@@ -76,7 +76,7 @@ function addLocationPicker() {
   // not lost when being reopened
   if (
     window.feedback &&
-    document.getElementById("feedback-modal")!.classList.contains("active")
+    document.getElementById("feedback-modal")?.classList.contains("active")
   ) {
     coord_picker.value.backup_id = state.data!.id;
     coord_picker.value.subject_backup = (
@@ -134,8 +134,8 @@ function loadInteractiveMap(fromUi = false) {
     const coords = state.data!.coords;
     marker.value.setLngLat([coords.lon, coords.lat]).addTo(map.value!);
 
-    if (state.data!.maps && state.data!.maps.overlays)
-      floorControl.value.updateFloors(state.data!.maps.overlays);
+    if (state.data?.maps?.overlays)
+      floorControl.value.updateFloors(state.data.maps.overlays);
     else floorControl.value.resetFloors();
 
     const defaultZooms: { [index: string]: number | undefined } = {
