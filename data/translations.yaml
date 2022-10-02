@@ -8,9 +8,146 @@ Adresse: Address
 Anzahl Gebäude: Number of buildings
 Sitzplätze: Seats
 Anzahl Räume: Number of rooms
-"{n_rooms} ({n_rooms_reg} ohne Flure etc.)": "{n_rooms} ({n_rooms_reg} without corridors etc.)"
+'{n_rooms} ({n_rooms_reg} ohne Flure etc.)': '{n_rooms} ({n_rooms_reg} without corridors etc.)'
 Keine Räume bekannt: No rooms known
-"{n_rooms} Räume": "{n_rooms} rooms"
-"{n_buildings} Gebäude, {n_rooms} Räume": "{n_buildings} buildings, {n_rooms} rooms"
-"{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)": "{n_buildings} buildings, {n_rooms} rooms (branch office)"
-Architekten-Name: "Architect's name"
+'{n_rooms} Räume': '{n_rooms} rooms'
+'{n_buildings} Gebäude, {n_rooms} Räume': '{n_buildings} buildings, {n_rooms} rooms'
+'{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)': '{n_buildings} buildings, {n_rooms} rooms (branch office)'
+Architekten-Name: Architect's name
+# type_common_name
+Gebäudeteil: Part of the building
+Standortübersicht: Location overview
+Standort: Location
+Gebiet / Gruppe von Gebäuden: Area / Group of buildings
+Gebäudekomplex: Building complex
+Gebäude: Building
+Raum: Room
+Raum/Gebäudeteil: Room/Part of the building
+# usages
+Hörsaal: Lecture hall
+Büro: Office
+Serverraum: Server room
+Übungsraum: Exercise room
+Praktikumsraum - Physik: Lab room - Physics
+Labor - Video: Laboratory - Video
+Labor (Technik): Laboratory (technical)
+Labor - Physik: Laboratory - Physics
+Labor - Chemie: Laboratory - Chemistry
+Labor - Biologie: Laboratory - Biology
+Labor - Foto: Laboratory - Photo
+Teeküche: Kitchenette
+Sanitärraum: Sanitary room
+WC: WC
+WC Vorraum: WC Anteroom
+WC Herren: WC Men
+WC Damen: WC Women
+Putzraum: Cleaning room
+Sekretariat: Secretariat
+Archiv: Archive
+Seminarraum: Seminar room
+Bibliothek: Library
+Studentenarbeitsraum: Student workroom
+Kopierraum: Copy room
+Aufzug: Elevator
+Treppenhaus: Staircase
+Besprechungsraum: Meeting room
+Lager: Warehouse
+Vorbereitungsraum: Preparation room
+WC Barrierefrei: WC Barrier-free
+Geschäftsraum: Business room
+Werkstatt: Workshop
+Dusche: Shower
+Metallverarbeitung: Metalworking
+Garderobe: Wardrobe
+Versuchshalle: Experimental hall
+Zeichensaal: Drawing room
+Flur: Corridor
+Sozialraum: Social room
+Windfang: Vestibule
+Behandlungsraum: Treatment room
+Fernmeldetechnik: Telecommunications
+Portierloge: Porter's lodge
+Aufzugsschacht: Elevator shaft
+Terrasse: Terrace
+Aufzugsanlage: Elevator system
+Außenstiege: Exterior staircase
+Beobachterraum: Observation room
+Durchfahrt: Passage
+Foyer: Foyer
+Gang: Corridor
+Gasanlage: Gas system
+Geräteraum: Equipment room
+Hörsaaltechnik: Lecture hall technology
+Klimatechnische Anlage: Air conditioning system
+Küche: Kitchen
+Luftraum: Air room
+Lufttechnische Anlage: Air conditioning system
+Rampe: Ramp
+Schacht: Shaft
+Sitzungszimmer: Meeting room
+Speiseraum: Dining room
+Starkstromanlage: Heavy current installation
+Vorraum: Anteroom
+Wohnung: Apartment
+Wärmetechnische Anlage: Heat engineering plant
+Garage: Garage
+Schleuse: Sluice
+Tierstall: Animal stable
+Tischlerei: Joinery
+Bad: Bathroom
+Gebäudeleittechnik: Building control system
+Raum mit medizin. Ausstattung: Room with medical equipment
+Bühnen-, Studioraum: Stage, studio room
+Sportraum: Sports room
+Sakralraum: Sacral room
+Unterrichtsraum: Classroom
+Chemikalienlager: Chemical storage
+EDV-Raum: IT room
+Sprachlabor: Language laboratory
+Dachterrasse: Roof terrace
+Cafeteria: Cafeteria
+Konferenzraum: Conference room
+Halle: Hall
+Kindergarten: Pre-school
+Mensa: Cafeteria
+Ausstellungssaal: Exhibition hall
+Lesesaal: Reading room
+Werkhalle: Workshop
+Garten: Garden
+Abstellraum: Storage room
+Elektrische Stromversorgung: Electric power supply
+Film und AV-Medien: Film and AV media
+Glas-, Gewächshaus: Glass, greenhouse
+Stall: Stable
+Futteraufbereitung: Fodder preparation
+Operationsraum: Operation room
+Fahrradraum: Bicycle room
+Poststelle: Postal service
+Wäscherei: Laundry room
+Wasseraufbereitung: Water treatment
+Wassertechnische Anlage: Water technical installation
+Neutralisationsanlage: Neutralization plant
+Anlieferung: Delivery
+Lehrmittelraum: Teaching material room
+Musikunterricht: Music lessons
+Freihandbibliothek: Open access library
+Turnsaal: Gymnasium
+Schwimmhalle: Indoor swimming pool
+Tierhaltung: Animal husbandry
+Kühlraum: Cold storage
+Sonstiger Lagerraum: Other storage room
+Heizungsanlage: Heating system
+Stiege: Staircase
+Fahrzeugverkehrsfläche: Vehicle traffic area
+Gang (Galerie): Corridor (gallery)
+Sonderarbeitsraum: Special workroom
+Waschraum: Washroom
+Praktikumsraum - Chemie: Practical room - chemistry
+Praktikumsraum - EDV: Practical room - EDP
+Müllsammelraum: Waste collection room
+Müll-/Wertstoffcontainer: Waste / recyclable material container
+Abfallsammelstation: Waste collection station
+Freifläche: Open air area
+Freiluftfläche: Open air area
+Fluchtweg: Escape route
+Unbekannt: Unknown
