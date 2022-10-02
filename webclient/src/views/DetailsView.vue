@@ -337,7 +337,7 @@ onMounted(() => {
           <button
             class="btn btn-sm"
             @click="$refs.interactiveMap.loadInteractiveMap(true)"
-            v-bind:class="{ active: state.map.selected === 'interactive' }"
+            v-bind:class="{ active: state.map.selected === selectedMap.interactive }"
           >
             {{ $t("view_view.map.interactive") }}
           </button>
