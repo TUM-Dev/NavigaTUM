@@ -16,7 +16,7 @@ export default defineConfig({
     strictPort: true,
     open: false,
     proxy: {
-      "^/api/.*": {
+      "^/api/.+": {
         target: "http://127.0.0.1:8080",
         secure: false,
       },
