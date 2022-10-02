@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { SwaggerUIBundle } from "swagger-ui-dist";
 import "swagger-ui-dist/swagger-ui.css";
 
 window.setTimeout(() => {
   // we need to make sure, that swagger-ui exists, otherwise the following command will fail
   // therefore waiting is effective
-  SwaggerUIBundle({
-    url: "/cdn/openapi.yaml",
-    dom_id: "#swagger-ui",
-    presets: [SwaggerUIBundle.presets.apis],
-  });
+  import("swagger-ui-dist").then(({ SwaggerUIBundle }) =>
+    SwaggerUIBundle({
+      url: "/cdn/openapi.yaml",
+      dom_id: "#swagger-ui",
+      presets: [SwaggerUIBundle.presets.apis],
+    })
+  );
 }, 10);
 </script>
 
