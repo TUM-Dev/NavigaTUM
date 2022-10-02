@@ -26,7 +26,8 @@ export default defineConfig({
     rollupOptions: {
       input: path.resolve(__dirname, "./index.html"),
       manualChunks: {
-        mapboxgl: ["mapbox-gl"],
+        mapbox_gl: ["mapbox-gl"],
+        swagger_ui_dist: ["swagger-ui-dist"],
       },
     },
   },
