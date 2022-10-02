@@ -19,7 +19,7 @@ export const useDetailsStore = defineStore({
       selected: selectedMap.interactive as selectedMap,
       roomfinder: {
         selected_id: null as string | null, // Map id
-        selected_index: null as number | null, // Index in the 'available' list
+        selected_index: 0 as number, // Index in the 'available' list
         x: -1023 - 10, // Outside in top left corner
         y: -1023 - 10,
         width: 400,

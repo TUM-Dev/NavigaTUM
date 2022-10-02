@@ -4,8 +4,15 @@ import { selectedMap, useDetailsStore } from "@/stores/details";
 const state = useDetailsStore();
 
 defineExpose({ loadRoomfinderMap });
-function loadRoomfinderMap(mapIndex: number | null, fromUi = false) {
-  const map = state.data.maps.roomfinder.available[mapIndex || 0];
+function loadRoomfinderMap(mapIndex: number, fromUi = false) {
+  const map = state.data?.maps.roomfinder?.available[mapIndex];
+  if (!map) {
+    console.error({
+      data: state.data,
+      code: "invalid state for roomfinder load",
+    });
+    return;
+  }
   state.map.selected = selectedMap.roomfinder;
   state.map.roomfinder.selected_id = map.id;
   state.map.roomfinder.selected_index = mapIndex;
@@ -43,10 +50,7 @@ function loadRoomfinderMap(mapIndex: number | null, fromUi = false) {
   <div
     class="roomfinder-map-container"
     v-bind:class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
-    v-if="
-      state.data.maps.roomfinder?.available &&
-      state.map.roomfinder.selected_index
-    "
+    v-if="state.data.maps.roomfinder?.available"
   >
     <img
       alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
@@ -87,10 +91,7 @@ function loadRoomfinderMap(mapIndex: number | null, fromUi = false) {
     class="accordion"
     id="roomfinder-map-select"
     v-bind:class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
-    v-if="
-      state.data.maps.roomfinder?.available &&
-      state.map.roomfinder.selected_index
-    "
+    v-if="state.data.maps.roomfinder?.available"
   >
     <input
       id="map-accordion"
