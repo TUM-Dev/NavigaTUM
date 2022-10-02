@@ -40,6 +40,14 @@ class TranslatableStr(dict):
         """returns a hash as if this was a string."""
         return hash(self["de"])
 
+    def __le__(self, other):
+        """compares one String to another, sorting by the german string."""
+        return self["de"] <= other["de"]
+
+    def __lt__(self, other):
+        """compares one String to another, sorting by the german string."""
+        return self["de"] < other["de"]
+
     def format(self, *args, **kwargs):
         """Format the string using the .format() method, as if this was a string."""
         self["de"] = self["de"].format(*args, **kwargs)

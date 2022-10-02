@@ -161,7 +161,7 @@ def generate_rooms_overview(data):
         for child_id in entry["children_flat"]:
             child = data[child_id]
             if child["type"] == "room":
-                usage = child["usage"] if "usage" in child else {"name": "unbekannt"}
+                usage = child["usage"] if "usage" in child else {"name": _("Unbekannt")}
                 rooms.setdefault(usage["name"], []).append(
                     {
                         "id": child_id,
