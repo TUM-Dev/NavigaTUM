@@ -5,6 +5,8 @@ import { setDescription, setTitle } from "@/utils/common";
 import { extractFacets } from "@/modules/autocomplete";
 import type { SectionFacet } from "@/modules/autocomplete";
 import type { SearchResponse } from "@/codegen";
+import { useGlobalStore } from "@/stores/global";
+const global = useGlobalStore();
 import { useI18n } from "vue-i18n";
 const { t } = useI18n({
   inheritLocale: true,
@@ -63,7 +65,7 @@ function genDescription(): string {
     <small class="search_meta">
       {{ $t("view_search.runtime") }}: {{ data.time_ms }}ms –
       <button
-        onclick="openFeedback('search')"
+        onclick="global.openFeedback('search')"
         class="btn btn-link"
         aria-label="Open the feedback-form for search"
       >

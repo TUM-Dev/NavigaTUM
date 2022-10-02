@@ -98,6 +98,8 @@ function _showError(msg = "", blockSend = false) {
 function closeForm() {
   global.feedback.open = false;
   successUrl.value = "";
+  error.blockSend = false;
+  error.message = "";
   document.body.classList.remove("no-scroll");
 }
 

@@ -28,5 +28,13 @@ export const useGlobalStore = defineStore({
 
       document.body.classList.add("no-scroll");
     },
+    temprarilyCloseFeedback() {
+      this.feedback.open = false;
+      document.body.classList.remove("no-scroll");
+    },
+    reopenFeedback() {
+      this.feedback.open = false;
+      document.body.classList.remove("no-scroll");
+    },
   },
 });

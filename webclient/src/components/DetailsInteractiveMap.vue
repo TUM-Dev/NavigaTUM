@@ -6,6 +6,7 @@ import {
 import mapboxgl from "mapbox-gl";
 import type { BackgroundLayer, Map, Marker, ImageSource } from "mapbox-gl";
 import { selectedMap, useDetailsStore } from "@/stores/details";
+import { useGlobalStore } from "@/stores/global";
 import { nextTick, ref } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
 const map = ref<Map | undefined>(undefined);
@@ -14,6 +15,7 @@ const marker = ref<Marker | undefined>(undefined);
 const marker2 = ref<Marker | null>(null);
 const floorControl = ref<FloorControl>(new FloorControl());
 const state = useDetailsStore();
+const global = useGlobalStore();
 
 // The coordinate picker keeps backups of the subject and body
 // in case someone writes a text and then after that clicks
@@ -66,7 +68,7 @@ function cancelLocationPicker() {
 
   if (state.coord_picker.force_reopen) {
     state.coord_picker.force_reopen = false;
-    this.openFeedbackForm();
+    openFeedbackForm();
   }
 }
 // TODO: make this interactive from other components
@@ -74,10 +76,7 @@ function addLocationPicker() {
   // If this is called from the feedback form using the edit coordinate
   // button, we temporarily save the current subject and body, so it is
   // not lost when being reopened
-  if (
-    window.feedback &&
-    document.getElementById("feedback-modal")?.classList.contains("active")
-  ) {
+  if (global.feedback.open) {
     coord_picker.value.backup_id = state.data!.id;
     coord_picker.value.subject_backup = (
       document.getElementById("feedback-subject") as HTMLInputElement
@@ -87,7 +86,7 @@ function addLocationPicker() {
     ).value;
     coord_picker.value.force_reopen = true; // reopen after confirm
 
-    window.feedback.closeForm();
+    global.temprarilyCloseFeedback();
   }
 
   state.map.selected = selectedMap.interactive;

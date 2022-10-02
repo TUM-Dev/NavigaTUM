@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { getLocalStorageWithExpiry } from "@/utils/storage";
 import { useDetailsStore } from "@/stores/details";
+import { useGlobalStore } from "@/stores/global";
+import { TokenRequest } from "@/codegen";
+import FeedbackCategory = TokenRequest.CategoryEnum;
+
 const state = useDetailsStore();
 function _getFeedbackSubject(currentEdits) {
   if (Object.keys(currentEdits).length > 1) {
@@ -83,8 +87,7 @@ function openFeedbackForm() {
     .getElementById("feedback-coordinate-picker")
     .addEventListener("click", addLocationPicker);
 
-  /* global openFeedback */
-  openFeedback("entry", subject, body);
+  useGlobalStore().openFeedback(FeedbackCategory.Entry, subject, body);
 }
 </script>
 

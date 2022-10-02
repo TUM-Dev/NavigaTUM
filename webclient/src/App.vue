@@ -88,7 +88,7 @@ const global = useGlobalStore();
                 <ul class="column">
                   <li>
                     <button
-                      onclick="openFeedback()"
+                      @click="global.openFeedback()"
                       class="btn btn-link"
                       aria-label="Open the feedback-form"
                     >
