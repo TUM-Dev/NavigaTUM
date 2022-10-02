@@ -171,7 +171,7 @@ window.feedback = (() => {
           _showError(`${invalidTokenError} (${r.responseText})`, false);
         } else {
           const unexpectedStatusError =
-            "${{_.feedback.error.send_invalid_token}}$";
+            "${{_.feedback.error.send_unexpected_status}}$";
           _showError(`${unexpectedStatusError}${r.status}`, false);
         }
       },
