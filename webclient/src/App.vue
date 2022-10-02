@@ -3,6 +3,7 @@ import AppSearchBar from "@/components/AppSearchBar.vue";
 import AppLanguageToggler from "@/components/AppLanguageToggler.vue";
 import AppThemeToggler from "@/components/AppThemeToggler.vue";
 import { useGlobalStore } from "@/stores/global";
+import FeedbackModal from "@/components/FeedbackModal.vue";
 
 const global = useGlobalStore();
 </script>
@@ -143,6 +144,7 @@ const global = useGlobalStore();
       </div>
     </div>
   </footer>
+  <FeedbackModal v-if="global.feedback.open"/>
 </template>
 
 <style lang="scss">
