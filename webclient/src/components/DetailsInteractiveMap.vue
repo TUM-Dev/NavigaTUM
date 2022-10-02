@@ -4,15 +4,15 @@ import {
   setLocalStorageWithExpiry,
 } from "@/utils/storage";
 import mapboxgl from "mapbox-gl";
+import type { BackgroundLayer, Map, Marker, ImageSource } from "mapbox-gl";
 import { selectedMap, useDetailsStore } from "@/stores/details";
 import { nextTick, ref } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
+const map = ref<Map | undefined>(undefined);
 
-const map = ref<mapboxgl.Map | undefined>(undefined);
-const marker = ref<mapboxgl.Marker | undefined>(undefined);
-const marker2 = ref<mapboxgl.Marker | null>(null);
+const marker = ref<Marker | undefined>(undefined);
+const marker2 = ref<Marker | null>(null);
 const floorControl = ref<FloorControl>(new FloorControl());
-
 const state = useDetailsStore();
 
 // The coordinate picker keeps backups of the subject and body
@@ -108,7 +108,7 @@ function addLocationPicker() {
   }
 }
 
-defineExpose({loadInteractiveMap})
+defineExpose({ loadInteractiveMap });
 function loadInteractiveMap(fromUi = false) {
   const fromMap = state.map.selected;
 
@@ -301,9 +301,7 @@ function setOverlayImage(
     if (map.value!.getLayer("overlay-bg"))
       map.value!.setLayoutProperty("overlay-bg", "visibility", "none");
   } else {
-    const source = map.value!.getSource("overlay-src") as
-      | mapboxgl.ImageSource
-      | undefined;
+    const source = map.value!.getSource("overlay-src") as ImageSource | undefined;
     if (!source)
       map.value!.addSource("overlay-src", {
         type: "image",
@@ -316,9 +314,7 @@ function setOverlayImage(
         coordinates: coords,
       });
 
-    const layer = map.value!.getLayer("overlay-layer") as
-      | mapboxgl.BackgroundLayer
-      | undefined;
+    const layer = map.value!.getLayer("overlay-layer") as BackgroundLayer | undefined;
     if (!layer) {
       map.value!.addLayer({
         id: "overlay-bg",
