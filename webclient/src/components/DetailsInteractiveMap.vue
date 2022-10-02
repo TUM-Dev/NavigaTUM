@@ -29,12 +29,18 @@ const coord_picker = ref({
 });
 const initialLoaded = ref(false);
 
+type Coord = {
+  coords: {
+    lat: number | undefined;
+    lon: number | undefined;
+  };
+};
 function confirmLocationPicker() {
   // add the current edits to the feedback
-  const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
+  const currentEdits = getLocalStorageWithExpiry<{[index: string]: Coord}>("feedback-coords", {});
   const location = marker2.value?.getLngLat();
-  currentEdits[this.state.data.id] = {
-    coords: { lat: location.lat, lon: location.lng },
+  currentEdits[state.data!.id] = {
+    coords: { lat: location?.lat, lon: location?.lng },
   };
   // save to local storage with ttl of 12h (garbage-collected on next read)
   setLocalStorageWithExpiry("feedback-coords", currentEdits, 12);
@@ -300,7 +306,9 @@ function setOverlayImage(
     if (map.value!.getLayer("overlay-bg"))
       map.value!.setLayoutProperty("overlay-bg", "visibility", "none");
   } else {
-    const source = map.value!.getSource("overlay-src") as ImageSource | undefined;
+    const source = map.value!.getSource("overlay-src") as
+      | ImageSource
+      | undefined;
     if (!source)
       map.value!.addSource("overlay-src", {
         type: "image",
@@ -313,7 +321,9 @@ function setOverlayImage(
         coordinates: coords,
       });
 
-    const layer = map.value!.getLayer("overlay-layer") as BackgroundLayer | undefined;
+    const layer = map.value!.getLayer("overlay-layer") as
+      | BackgroundLayer
+      | undefined;
     if (!layer) {
       map.value!.addLayer({
         id: "overlay-bg",
