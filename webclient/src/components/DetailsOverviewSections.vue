@@ -154,7 +154,7 @@ function updateRoomsOverview(setSelected = undefined) {
       <button
         class="btn btn-link"
         v-if="!buildings_overview_expanded"
-        v-on:click="buildings_overview_expanded = true"
+        @click="buildings_overview_expanded = true"
       >
         <i class="icon icon-arrow-right"></i>
         {{ $t("view_view.buildings_overview.more") }}
@@ -162,7 +162,7 @@ function updateRoomsOverview(setSelected = undefined) {
       <button
         class="btn btn-link"
         v-if="buildings_overview_expanded"
-        v-on:click="buildings_overview_expanded = false"
+        @click="buildings_overview_expanded = false"
       >
         <i class="icon icon-arrow-up"></i>
         {{ $t("view_view.buildings_overview.less") }}
@@ -208,7 +208,7 @@ function updateRoomsOverview(setSelected = undefined) {
                   v-bind:class="{
                     active: selected === -1,
                   }"
-                  v-on:click="updateRoomsOverview(-1)"
+                  @click="updateRoomsOverview(-1)"
                 >
                   <i class="icon icon-arrow-right"></i>
                   <div class="menu-text">
@@ -227,7 +227,7 @@ function updateRoomsOverview(setSelected = undefined) {
                   v-bind:class="{
                     active: i === state.data.sections.rooms_overview.selected,
                   }"
-                  v-on:click="updateRoomsOverview(i)"
+                  @click="updateRoomsOverview(i)"
                 >
                   <i class="icon icon-arrow-right"></i>
                   <div class="menu-text">{{ u.name }}</div>
@@ -239,7 +239,7 @@ function updateRoomsOverview(setSelected = undefined) {
           <div class="panel-footer">
             <button
               class="btn btn-link btn-sm"
-              v-on:click="updateRoomsOverview(null)"
+              @click="updateRoomsOverview(null)"
             >
               {{ $t("view_view.rooms_overview.remove_selection") }}
             </button>

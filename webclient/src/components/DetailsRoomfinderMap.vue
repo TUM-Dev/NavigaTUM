@@ -89,8 +89,7 @@ function loadRoomfinderMap(mapIndex: number | null, fromUi = false) {
     id="roomfinder-map-select"
     v-bind:class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
     v-if="
-      state.data.maps.roomfinder &&
-      state.data.maps.roomfinder.available &&
+      state.data.maps.roomfinder?.available &&
       state.map.roomfinder.selected_index
     "
   >
@@ -130,7 +129,7 @@ function loadRoomfinderMap(mapIndex: number | null, fromUi = false) {
             v-bind:class="{
               selected: m.id === state.map.roomfinder.selected_id,
             }"
-            v-on:click="loadRoomfinderMap(i, true)"
+            @click="loadRoomfinderMap(i, true)"
           >
             1:{{ m.scale }}, {{ m.name }}
           </button>
