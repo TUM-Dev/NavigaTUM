@@ -122,7 +122,7 @@ function _send() {
     (r) => {
       loading.value = false;
       if (r.status === 201) {
-        localStorage.removeItem("coordinate-feedback");
+        localStorage.removeItem("feedback-coords");
         token.value = null;
         localStorage.removeItem("feedback-token");
         const e = new Event("storage");

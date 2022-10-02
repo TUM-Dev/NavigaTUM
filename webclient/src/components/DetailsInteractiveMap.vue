@@ -37,7 +37,7 @@ function confirmLocationPicker() {
     coords: { lat: location.lat, lon: location.lng },
   };
   // save to local storage with ttl of 12h (garbage-collected on next read)
-  setLocalStorageWithExpiry("coordinate-feedback", currentEdits, 12);
+  setLocalStorageWithExpiry("feedback-coords", currentEdits, 12);
 
   marker2.value?.remove();
   marker2.value = null;
@@ -96,7 +96,7 @@ function addLocationPicker() {
   if (marker2.value === null) {
     // Coordinates are either taken from the entry, or if there are already
     // some in the localStorage use them
-    const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
+    const currentEdits = getLocalStorageWithExpiry("feedback-coords", {});
 
     const { coords } = currentEdits[state.data.id] || state.data;
     marker2.value = new mapboxgl.Marker({

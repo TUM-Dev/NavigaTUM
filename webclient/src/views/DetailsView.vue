@@ -84,7 +84,7 @@ function genDescription(d: DetailsResponse) {
 // --- Loading components ---
 function deletePendingCoordinates() {
   if (coord_counter.value.to_confirm_delete) {
-    removeLocalStorage("coordinate-feedback");
+    removeLocalStorage("feedback-coords");
     coord_counter.value.to_confirm_delete = false;
     state.coord_picker.body_backup = null;
     state.coord_picker.subject_backup = null;
@@ -102,7 +102,7 @@ onMounted(() => {
 
   // Update pending coordinate counter on localStorage changes
   const updateCoordinateCounter = function () {
-    const coords = getLocalStorageWithExpiry("coordinate-feedback", {});
+    const coords = getLocalStorageWithExpiry("feedback-coords", {});
     coord_counter.value.counter = Object.keys(coords).length;
   };
   window.addEventListener("storage", updateCoordinateCounter);

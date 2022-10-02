@@ -79,7 +79,7 @@ function _getFeedbackBody(currentEdits) {
 function openFeedbackForm() {
   // The feedback form is opened. This may be prefilled with previously corrected coordinates.
   // Maybe get the old coordinates from localstorage
-  const currentEdits = getLocalStorageWithExpiry("coordinate-feedback", {});
+  const currentEdits = getLocalStorageWithExpiry("feedback-coords", {});
   const body = _getFeedbackBody(currentEdits);
   const subject = _getFeedbackSubject(currentEdits);
 
