@@ -6,52 +6,61 @@ import DetailsInfoSection from "@/components/DetailsInfoSection.vue";
 import DetailsSources from "@/components/DetailsSources.vue";
 import DetailsFeedbackButton from "@/components/DetailsFeedbackButton.vue";
 import DetailsRoomfinderMap from "@/components/DetailsRoomfinderMap.vue";
-
+//import DetailsFeaturedSection from "@/components/DetailsFeaturedSection.vue";
 import { useI18n } from "vue-i18n";
+import { getLocalStorageWithExpiry, removeLocalStorage } from "@/utils/storage";
+import { copyCurrentLink, setDescription, setTitle } from "@/utils/common";
+import { selectedMap, useDetailsStore } from "@/stores/details";
+import type { DetailsResponse } from "@/codegen";
+import { nextTick, onMounted, ref, watch } from "vue";
+import { useFetch } from "@/utils/fetch";
+import { useRoute } from "vue-router";
+import router from "@/router";
+
 const { t } = useI18n({
   inheritLocale: true,
   useScope: "global",
 });
-//import DetailsFeaturedSection from "@/components/DetailsFeaturedSection.vue";
-import {
-  getLocalStorageWithExpiry,
-  removeLocalStorage,
-  setLocalStorageWithExpiry,
-} from "@/utils/storage";
-import { copyCurrentLink, setDescription, setTitle } from "@/utils/common";
-import { selectedMap, useDetailsStore } from "@/stores/details";
-import type { DetailsResponse, RoomfinderMapEntry } from "@/codegen";
-import { nextTick, onMounted, ref } from "vue";
-import { useFetch } from "@/utils/fetch";
-import router from "@/router";
+
+const route = useRoute();
+// called when the view is loaded
+update();
+// called when the view navigates to another view, but not when its initially loaded
+watch(() => route.params.id, update);
+
+function update() {
+  if (route.params.id === "root") {
+    router.replace({ path: "/" });
+    return;
+  }
+  useFetch<DetailsResponse>(`/api/get/${route.params.id}`, (d) => {
+    // Redirect to the correct type if necessary. Technically the type information
+    // is not required, but it makes nicer URLs.
+    const urlTypeName =
+      {
+        campus: "campus",
+        site: "site",
+        area: "site", // Currently also "site", maybe "group"? TODO
+        building: "building",
+        joined_building: "building",
+        room: "room",
+        virtual_room: "room",
+      }[d.type] || "view";
+
+    if (route.params.view !== urlTypeName) {
+      router.replace({ path: `/${urlTypeName}/${route.params.id}` });
+    }
+    // --- Additional data ---
+    setTitle(d.name);
+    setDescription(genDescription(d));
+    state.$reset();
+    state.loadData(d);
+  });
+}
 
 function copyLink(copied) {
   copyCurrentLink(copied);
 }
-
-const path = location.pathname.substring(1).split("/");
-useFetch<DetailsResponse>(`/api/get/${path[1]}`, (d) => {
-  if (d.type === "root") {
-    router.replace({ path: "/" });
-    return;
-  }
-  // Redirect to the correct type if necessary. Technically the type information
-  // is not required, but it makes nicer URLs.
-  const urlTypeName =
-    {
-      campus: "campus",
-      site: "site",
-      area: "site", // Currently also "site", maybe "group"? TODO
-      building: "building",
-      joined_building: "building",
-      room: "room",
-      virtual_room: "room",
-    }[d.type] || "view";
-  if (path[0] !== urlTypeName) {
-    router.replace({ path: `/${urlTypeName}/${path[1]}` });
-  }
-  state.data = d;
-});
 
 const state = useDetailsStore();
 const copied = ref(false);
@@ -60,47 +69,13 @@ const coord_counter = ref({
   counter: null as number | null,
   to_confirm_delete: false,
 });
-// This is called
-// - on initial page load
-// - when the view is loaded for the first time
-// - when the view is navigated to from a different view
-// - when the view is navigated to from the same view, but with a different entry
-function loadEntryData() {
-  state.showImageSlideshow(0, false);
 
-  if (state.data === null) return;
-
-  // --- Maps ---
-  // We need to reset state to default here, else it is preserved from the previous page
-  state.$reset();
-
-  state.map.selected =
-    state.data.maps.default === "interactive"
-      ? selectedMap.interactive
-      : selectedMap.roomfinder;
-  // Interactive has to be always available, but roomfinder may be unavailable
-  if (state.data.maps.roomfinder !== undefined) {
-    // Find default map
-    state.data.maps.roomfinder.available.forEach(
-      (availableMap: RoomfinderMapEntry, index: number) => {
-        if (availableMap.id === state.data?.maps.roomfinder?.default) {
-          state.map.roomfinder.selected_index = index;
-          state.map.roomfinder.selected_id = availableMap.id;
-        }
-      }
-    );
-  }
-  // --- Additional data ---
-  setTitle(state.data.name);
-  setDescription(genDescription());
-}
-
-function genDescription() {
+function genDescription(d: DetailsResponse) {
   const detailsFor = t("view_view.meta.details_for");
-  let description = `${detailsFor} ${state.data?.type_common_name} ${state.data?.name}`;
-  if (state.data?.props.computed) {
+  let description = `${detailsFor} ${d.type_common_name} ${d.name}`;
+  if (d.props.computed) {
     description += ":";
-    state.data?.props.computed.forEach((prop) => {
+    d.props.computed.forEach((prop) => {
       description += `\n- ${prop.name}: ${prop.text}`;
     });
   }

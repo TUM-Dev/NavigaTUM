@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import type { DetailsResponse, ImageInfo } from "@/codegen";
+import type { RoomfinderMapEntry } from "@/codegen";
 export enum selectedMap {
   roomfinder,
   interactive,
@@ -27,15 +28,15 @@ export const useDetailsStore = defineStore({
       },
     },
     coord_picker: {
-        // The coordinate picker keeps backups of the subject and body
-        // in case someone writes a text and then after that clicks
-        // the set coordinate button in the feedback form. If we wouldn't
-        // make a backup, this would be lost after clicking confirm there.
-        backup_id: null as string | null,
-        subject_backup: null as string | null,
-        body_backup: null as string | null,
-        force_reopen: false,
-      },
+      // The coordinate picker keeps backups of the subject and body
+      // in case someone writes a text and then after that clicks
+      // the set coordinate button in the feedback form. If we wouldn't
+      // make a backup, this would be lost after clicking confirm there.
+      backup_id: null as string | null,
+      subject_backup: null as string | null,
+      body_backup: null as string | null,
+      force_reopen: false,
+    },
   }),
   actions: {
     showImageSlideshow: function (i: number, openSlideshow = true) {
@@ -51,6 +52,28 @@ export const useDetailsStore = defineStore({
     },
     hideImageSlideshow: function () {
       this.image.slideshow_open = false;
+    },
+    loadData: function (d: DetailsResponse) {
+      this.showImageSlideshow(0, false);
+
+      // --- Maps ---
+      this.map.selected =
+        d.maps.default === "interactive"
+          ? selectedMap.interactive
+          : selectedMap.roomfinder;
+      // Interactive has to be always available, but roomfinder may be unavailable
+      if (d.maps.roomfinder !== undefined) {
+        // Find default map
+        d.maps.roomfinder.available.forEach(
+          (availableMap: RoomfinderMapEntry, index: number) => {
+            if (availableMap.id === this.data?.maps.roomfinder?.default) {
+              this.map.roomfinder.selected_index = index;
+              this.map.roomfinder.selected_id = availableMap.id;
+            }
+          }
+        );
+      }
+      this.data = d;
     },
   },
 });

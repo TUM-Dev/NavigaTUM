@@ -5,10 +5,11 @@ import SearchView from "./views/SearchView.vue";
 
 const routes = [
   { path: "/", name: "main", component: MainView },
-  { path: "/view/:id",
-    alias: ["/campus/:id", "/site/:id", "/building/:id", "/room/:id"],
+  {
+    path: "/:view(view|campus|site|building|room)/:id",
     name: "detail",
-    component: () => import("./views/DetailsView.vue") },
+    component: () => import("./views/DetailsView.vue"),
+  },
   { path: "/search", name: "search", component: SearchView },
   {
     path: "/api",
