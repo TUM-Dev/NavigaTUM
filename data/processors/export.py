@@ -1,7 +1,24 @@
 import json
 from pathlib import Path
+from typing import Union, Any
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
+
+
+def unlocalise(value: Union[str, list[Any], dict[str, Any]]) -> Any:
+    """Recursively unlocalise a dictionary"""
+    if isinstance(value, (bool, float, int, str)) or value is None:
+        return value
+    if isinstance(value, list):
+        return [unlocalise(v) for v in value]
+    if isinstance(value, dict):
+        # We consider each dict that has only the keys "de" and/or "en" as translated string
+        if set(value.keys()) | {"de", "en"} == {"de", "en"}:
+            # Since we only unlocalise dicts with either en and/or de or {}, the default to {} is fine
+            return value.get("de", value.get("en", {}))
+
+        return {k: unlocalise(v) for k, v in value.items()}
+    raise ValueError(f"Unhandled type {type(value)}")
 
 
 def export_for_search(data, path):
@@ -63,6 +80,9 @@ def export_for_search(data, path):
                 "rank": int(_data["ranking_factors"]["rank_combined"]),
             },
         )
+
+    # the data contains translations, currently we dont allow these in the search api
+    unlocalise(export)
 
     with open(path, "w", encoding="utf-8") as file:
         json.dump(export, file)
