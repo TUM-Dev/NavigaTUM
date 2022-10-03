@@ -82,7 +82,7 @@ def export_for_search(data, path):
         )
 
     # the data contains translations, currently we dont allow these in the search api
-    unlocalise(export)
+    export = unlocalise(export)
 
     with open(path, "w", encoding="utf-8") as file:
         json.dump(export, file)
