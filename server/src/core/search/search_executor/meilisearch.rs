@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use awc::Client;
-use log::{info, warn};
+use log::{debug, warn};
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
 
@@ -122,7 +122,7 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs) -> Result
         }
     };
 
-    info!("-> internally requested {:?} from {:?}", &post_data, &url);
+    debug!("-> internally requested {:?} from {:?}", &post_data, &url);
     let resp_bytes = meili_request
         .send_json(&post_data)
         .await
@@ -163,10 +163,9 @@ pub(super) async fn do_room_search(
 ) -> Result<MSResults> {
     let mut q = String::from("");
     for token in search_tokens {
-        // It is common that room names are given with four-digits with the first digit
-        // being the level. In this case we add splitted terms search well, which could give
-        // results if the 4-digit-token doesn't, but still the 4-digit-token should usually
-        // take precedence.
+        // It is common that room names are given with four-digits (first digit being the level).
+        // In this case we add split terms search well, which could give results if the
+        // 4-digit-token doesn't, but still the 4-digit-token should usually take precedence.
         let s = if token.s.len() == 4
             && matches!(token.s.chars().next().unwrap(), '0' | '1' | '2')
             && token.s.chars().all(char::is_numeric)
