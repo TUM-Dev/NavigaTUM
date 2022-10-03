@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use awc::Client;
-use log::warn;
+use log::{info, warn};
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
 
@@ -20,7 +20,7 @@ pub(super) struct MSSearchFilter {
     facet: Vec<String>,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Debug)]
 struct MSQuery<'a> {
     q: &'a str,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -36,7 +36,7 @@ struct MSQuery<'a> {
 }
 
 /// Result format of MeiliSearch.
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 #[allow(dead_code)]
 pub(super) struct MSResults {
     pub(super) hits: Vec<MSHit>,
@@ -51,7 +51,7 @@ pub(super) struct MSFacetDistribution {
     pub(super) facet: HashMap<String, i32>,
 }
 
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize, Clone, Debug)]
 #[allow(dead_code)]
 pub(super) struct MSHit {
     ms_id: String,
@@ -70,7 +70,7 @@ pub(super) struct MSHit {
     pub(crate) _formatted: FormattedMSHit,
 }
 
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize, Clone, Debug)]
 pub(super) struct FormattedMSHit {
     // This contains all the atributes of MSHit, but formatted by MS. We only need some, so only some are listed here.
     pub(super) name: String,
@@ -110,7 +110,7 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs) -> Result
 
     // make sure, that meili and the sever are on the same boat when it comes to authentication
     let meili_request = match std::env::var("MEILI_MASTER_KEY") {
-        Ok(token) => client.post(url).bearer_auth(token),
+        Ok(token) => client.post(&url).bearer_auth(token),
         Err(e) => {
             // we can continue with a request here, since it is not a huge security risk
             // if the request goes through our internal network without authentication
@@ -118,10 +118,11 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs) -> Result
                 // we only warn, if we assume this is production
                 warn!("alphanumeric MEILI_MASTER_KEY not found: {:?}", e);
             }
-            client.post(url)
+            client.post(&url)
         }
     };
 
+    info!("-> internally requested {:?} from {:?}", &post_data, &url);
     let resp_bytes = meili_request
         .send_json(&post_data)
         .await
