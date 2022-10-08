@@ -203,7 +203,7 @@ function sendForm() {
                 class="form-select"
                 id="feedback-category"
                 v-bind:aria-label="$t('feedback.category')"
-                v-model="global.feedback.form.category"
+                v-model="global.feedback.category"
               >
                 <option value="general">
                   {{ $t("feedback.type.general") }}
@@ -232,7 +232,7 @@ function sendForm() {
               </label>
               <button
                 id="feedback-coordinate-picker"
-                v-if="global.feedback.form.category === 'entry'"
+                v-if="global.feedback.category === 'entry'"
                 class="btn btn-sm btn-link"
               >
                 {{ $t("feedback.coordinatepicker.title") }}
@@ -254,7 +254,7 @@ function sendForm() {
                   features: t("feedback.helptext.features"),
                   search: t("feedback.helptext.search"),
                   entry: t("feedback.helptext.entry"),
-                }[global.feedback.form.category]
+                }[global.feedback.category]
               }}
             </p>
           </div>
@@ -279,7 +279,7 @@ function sendForm() {
               <input
                 type="checkbox"
                 id="feedback-delete"
-                v-model="global.feedback.form.deleteIssueRequested"
+                v-model="deleteIssueRequested"
               />
               <i class="form-icon"></i> {{ $t("feedback.delete") }}
             </label>

@@ -22,6 +22,7 @@ export const useGlobalStore = defineStore({
       this.search_focused = false;
     },
     openFeedback(category = Category.General, subject = "", body = "") {
+      this.feedback.open = true;
       this.feedback.category = category;
       this.feedback.subject = subject;
       this.feedback.body = body;
