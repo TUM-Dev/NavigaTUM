@@ -280,7 +280,7 @@ onMounted(() => {
             v-if="state.data.coords.accuracy === 'building'"
           >
             {{ $t("view_view.msg.inaccurate_only_building.msg") }}
-            <button class="btn btn-sm" @click="addLocationPicker">
+            <button class="btn btn-sm" @click="$refs.interactiveMap.addLocationPicker()">
               {{ $t("view_view.msg.inaccurate_only_building.btn") }}
             </button>
           </div>
@@ -298,7 +298,7 @@ onMounted(() => {
           </div>
         </div>
 
-        <DetailsInteractiveMap ref="interactiveMap" />
+        <DetailsInteractiveMap ref="interactiveMap" @open-feedback-form="$refs.feedbackButton.openFeedbackForm" />
         <DetailsRoomfinderMap ref="roomfinderMap" />
         <div class="btn-group btn-group-block">
           <button

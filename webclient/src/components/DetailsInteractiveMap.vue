@@ -35,9 +35,13 @@ type Coord = {
     lon: number | undefined;
   };
 };
+const emit = defineEmits(["openFeedbackForm"]);
 function confirmLocationPicker() {
   // add the current edits to the feedback
-  const currentEdits = getLocalStorageWithExpiry<{[index: string]: Coord}>("feedback-coords", {});
+  const currentEdits = getLocalStorageWithExpiry<{ [index: string]: Coord }>(
+    "feedback-coords",
+    {}
+  );
   const location = marker2.value?.getLngLat();
   currentEdits[state.data!.id] = {
     coords: { lat: location?.lat, lon: location?.lng },
@@ -57,7 +61,7 @@ function confirmLocationPicker() {
     state.coord_picker.force_reopen
   ) {
     state.coord_picker.force_reopen = false;
-    openFeedbackForm();
+    emit("openFeedbackForm", () => addLocationPicker());
   }
 
   // The helptext (which says thet you can edit multiple coordinates in bulk)
@@ -74,22 +78,20 @@ function cancelLocationPicker() {
 
   if (state.coord_picker.force_reopen) {
     state.coord_picker.force_reopen = false;
-    openFeedbackForm();
+    emit("openFeedbackForm", () => addLocationPicker());
   }
 }
-// TODO: make this interactive from other components
+defineExpose({
+  addLocationPicker: addLocationPicker,
+});
 function addLocationPicker() {
   // If this is called from the feedback form using the edit coordinate
   // button, we temporarily save the current subject and body, so it is
   // not lost when being reopened
   if (global.feedback.open) {
     coord_picker.value.backup_id = state.data!.id;
-    coord_picker.value.subject_backup = (
-      document.getElementById("feedback-subject") as HTMLInputElement
-    ).value;
-    coord_picker.value.body_backup = (
-      document.getElementById("feedback-body") as HTMLTextAreaElement
-    ).value;
+    coord_picker.value.subject_backup = global.feedback.subject;
+    coord_picker.value.body_backup = global.feedback.body;
     coord_picker.value.force_reopen = true; // reopen after confirm
 
     global.temprarilyCloseFeedback();

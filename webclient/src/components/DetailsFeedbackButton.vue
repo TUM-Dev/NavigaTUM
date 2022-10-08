@@ -4,13 +4,16 @@ import { useDetailsStore } from "@/stores/details";
 import { useGlobalStore } from "@/stores/global";
 import { TokenRequest } from "@/codegen";
 import FeedbackCategory = TokenRequest.CategoryEnum;
+import { defineExpose } from "vue";
 
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 const state = useDetailsStore();
 function _getFeedbackSubject(currentEdits) {
   if (Object.keys(currentEdits).length > 1) {
     return (
       `[${state.data.id} et.al.]: ` +
-      $t("feedback.coordinatepicker.edit_coordinates_subject")
+      t("feedback.coordinatepicker.edit_coordinates_subject")
     );
   }
 
@@ -18,7 +21,7 @@ function _getFeedbackSubject(currentEdits) {
   const subjectMsg =
     Object.keys(currentEdits).length === 0
       ? ""
-      : $t("feedback.coordinatepicker.edit_coordinate_subject");
+      : t("feedback.coordinatepicker.edit_coordinate_subject");
 
   // The subject backup is only loaded (and supported) when a single
   // entry is being edited
@@ -59,14 +62,14 @@ function _getFeedbackBody(currentEdits) {
 
   const defaultActionMsg =
     state.data.coords.accuracy === "building"
-      ? $t("feedback.coordinatepicker.add_coordinate")
-      : $t("feedback.coordinatepicker.correct_coordinate");
+      ? t("feedback.coordinatepicker.add_coordinate")
+      : t("feedback.coordinatepicker.correct_coordinate");
   actionMsg = actionMsg || defaultActionMsg;
 
   if (Object.keys(currentEdits).length > 1) {
     // The body backup is discarded if more than a single entry
     // is being edited (because then it is not supported).
-    actionMsg = $t("feedback.coordinatepicker.edit_multiple_coordinates");
+    actionMsg = t("feedback.coordinatepicker.edit_multiple_coordinates");
   }
 
   let editStr = "";
@@ -76,7 +79,11 @@ function _getFeedbackBody(currentEdits) {
 
   return `${actionMsg}\n\`\`\`\n${editStr}\`\`\``;
 }
-function openFeedbackForm() {
+
+defineExpose({
+  openFeedbackForm: openFeedbackForm,
+});
+function openFeedbackForm(addLocationPicker) {
   // The feedback form is opened. This may be prefilled with previously corrected coordinates.
   // Maybe get the old coordinates from localstorage
   const currentEdits = getLocalStorageWithExpiry("feedback-coords", {});
