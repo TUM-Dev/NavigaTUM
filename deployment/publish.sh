@@ -26,7 +26,8 @@ else
     echo "creating app for $BRANCH on $TARGET"
 
     # In PR-based environments, someone knowing the Meili master key is not a concern
-    MEILI_MASTER_KEY="$(cat /dev/urandom | tr -dc '[:alpha:]' | head -c 64|base64)"
+    MEILI_MASTER_KEY_RAW="$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 20)"
+    MEILI_MASTER_KEY="$(echo "$MEILI_MASTER_KEY_RAW"|base64)"
     export MEILI_MASTER_KEY
 
     mkdir "$tmp_dir/$TARGET"
