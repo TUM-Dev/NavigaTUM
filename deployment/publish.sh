@@ -41,6 +41,8 @@ git checkout deployment --
 rm -fr "./$TARGET"
 mv $tmp_dir/* .
 git add .
+echo "current git status"
+git status
 
 # --porcelain returns nothing if there are no changes
 if [ -z "$(git status --porcelain)" ]; then
