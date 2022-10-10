@@ -1,4 +1,4 @@
-FROM getmeili/meilisearch:v0.29.0 as build-stage
+FROM getmeili/meilisearch:v0.29.1 as build-stage
 
 RUN apk add --no-cache jq bash
 
@@ -10,7 +10,7 @@ ADD https://nav.tum.sexy/cdn/search_synonyms.json search_synonyms.json
 
 RUN bash /configure_MeileSearch.sh
 
-FROM getmeili/meilisearch:v0.29.0 as production-stage
+FROM getmeili/meilisearch:v0.29.1 as production-stage
 
 COPY --from=build-stage /meili_data/data.ms ./data.ms
 
