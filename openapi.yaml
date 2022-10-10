@@ -442,6 +442,7 @@ paths:
                           text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
                         - name: Sitzplätze
                           text: '522'
+                    calendar_url: "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J"
                     ranking_factors:
                       rank_combined: 900
                       rank_type: 100
@@ -1528,6 +1529,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageInfo'
+        calendar_url:
+          items:
+            type: string
+            description: A link to the calendar of the room
+          example:
+            - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J
+            - https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J
         ranking_factors:
           $ref: '#/components/schemas/RankingFactors'
       required:

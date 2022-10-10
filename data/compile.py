@@ -61,6 +61,7 @@ def main():
 
     logging.info("-- 34 Infer more props")
     structure.infer_addresses(data)
+    structure.extract_calendar_url(data)
 
     # TODO: Does it make sense to introduce a type 'sub_building' here?
 
