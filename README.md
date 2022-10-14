@@ -37,15 +37,15 @@ Note: The API is still under development, and we are open to Issues, Feature Req
 
 NavigaTUM consists of three parts + deployment resources.
 
+Depending on what you want to work on, you do not need to set up all of them.
+For an overview how the components work, have a look at the
+[deployment documentation](deployment/README.md).
+
 - `data/` contains the code to obtain and process the data
 - `server/` contains the API server written in Rust, including MeiliSearch as a search backend
 - `webclient/` contains a JS based web-frontend for the API
 - `deployment/` contains deployment related configuration
 - `map/` contains information about our own map, how to style it and how to run it
-
-Depending on what you want to work on, you do not need to set up all of them.
-For an overview how the components work, have a look at the
-[deployment documentation](deployment/README.md).
 
 The following steps assume you have just cloned the repository and are in the
 root directory of it.
