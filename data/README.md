@@ -14,22 +14,31 @@ Also, new external data might break the scripts from time to time, as either roo
 
 ## Getting started
 
+
+### Prerequisites
+
+For getting started, there are some system dependencys which you will need.
+Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of our project.
+
 ### Dependencies
 
-You need the following dependencies to get started:
+Since data needs some python dependencys, you will need to install them first.
+We recommend doing this in a virtual environment.
 
-- _Python_ (at least version 3.6)
-- The following Python packages:
-  `pip install -r requirements.txt`
+From the root of the project, run:
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r data/requirements.txt -r requirements_dev.txt
+```
 
 ## Getting external data
 
-External data (and the scraper) is stored in the `external/` subdirectory.
+External data (and the scrapers) are stored in the `external/` subdirectory.
 
-By default, the latest scraped data is already included in this directory, so that you do not need
-to run the scraping yourself and skip to the next step.
+The latest scraped data is already included in this directory, you do not need to run the scraping yourself and can skip to the next step.
 
-However if you want to update the scraped data, open `external/main.py` and comment out all
+However, if you want to update the scraped data, open `external/main.py` and comment out all
 steps depending on what specific data you want to scrape (Note that some steps depend on previous
 steps. In this case, the downloader will automatically run these as well).
 
@@ -38,7 +47,7 @@ Then, start scraping with:
 ```bash
 cd external
 export PYTHONPATH=$PYTHONPATH:..
-python main.py
+python3 main.py
 ```
 
 The data will be stored in the `cache` subdirectory as json files. To force a redownload, delete them.
@@ -54,7 +63,7 @@ cd ..
 ### Compiling the data
 
 ```bash
-python compile.py
+python3 compile.py
 ```
 
 The exported datasets will be stored in `output/` as JSON files.
@@ -126,13 +135,13 @@ The data compilation is made of indiviual processing steps, where each step adds
 #### Step 00 Areatree
 
 The starting point is the data defined in the "areatree" (in `sources/00_areatree`).
-It (currently) has a custom data format to be human & machine-readable while taking
-only minimal space.
+It (currently) has a custom data format to be human & machine-readable while taking only minimal space.
 Details about the formatting are given at the head of the file.
 
 ## License
 
-The source data (i.e. all files located in `sources/` that are not images) is made available under the Open Database License: <https://opendatacommons.org/licenses/odbl/1.0/>. Any rights in individual contents of the database are licensed under the Database Contents License: <http://opendatacommons.org/licenses/dbcl/1.0/>.
+The source data (i.e. all files located in `sources/` that are not images) is made available under the Open Database License: <https://opendatacommons.org/licenses/odbl/1.0/>.
+Any rights in individual contents of the database are licensed under the Database Contents License: <http://opendatacommons.org/licenses/dbcl/1.0/>.
 
 The images in `sources/img/` are subject to their own licensing terms, which are stated in the file `sources/img/img-sources.yaml`.
 

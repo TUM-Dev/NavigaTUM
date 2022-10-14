@@ -4,14 +4,12 @@ This folder contains the backend server for NavigaTUM.
 
 ## Getting started
 
-### 0. Install Rust
+### Prerequisites
 
-Unless you haven't already, you need to [install Rust](https://www.rust-lang.org/tools/install)
-in order to compile and run this server.
+For getting started, there are some system dependencys which you will need.
+Please follow the [system dependencys docs](resources/documentation/Dependencys.md) before trying to run this part of our project.
 
-If you want to run the tests you need at least Python 3.6 as well.
-
-### 1. Get the data
+### Get the data
 
 The data is provided to the server with just a simple JSON file.
 You can create a `data` subdirectory and copy the `api_data.json`
@@ -34,7 +32,7 @@ cargo run --release
 
 The server should now be available on `localhost:8080`.
 
-### 3. Setup MeiliSearch (optional)
+### Setup MeiliSearch (optional)
 
 The server uses [MeiliSearch](https://github.com/meilisearch/MeiliSearch) as a backend for search.
 For a local test environment you can skip this step if you don't want to test or work on search.
@@ -85,6 +83,28 @@ curl -X DELETE 'http://localhost:7700/indexes/entries'
 ```
 
 MeiliSearch provides an interactive interface at [http://localhost:7700](http://localhost:7700).
+
+### API-Changes
+
+If you have made changes to the API, you need to update the API documentation.
+
+There are two editors for the API documentation (both are imperfect):
+
+- [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml)
+- [stoplight](stoplight.io)
+
+Of course documentation is one part of the process. If the changes are substantial, you should also run an API-Fuzz-Test:
+To make sure that this specification is up-to-date and without holes, we run [schemathesis](https://github.com/schemathesis/schemathesis) using the following command on API Server:
+
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install schemathesis
+st run --workers=auto --base-url=http://localhost:8080 --checks=all ../openapi.yaml
+```
+
+Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN) and some fuzzing-goals are automatically tested in our CI.  
+You can exchange `--base-url=http://localhost:8080` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/search`.
 
 ## License
 

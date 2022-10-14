@@ -4,19 +4,10 @@ This folder contains the JavaScript based webclient for NavigaTUM.
 
 ## Getting started
 
-### Dependencies
+### Prerequisites
 
-You need the following dependencies to get started:
-
-- Node (for Gulp)
-- [Gulp](https://gulpjs.com/)
-- Python (for testing)
-
-Installing _Gulp_ with npm:
-
-```bash
-sudo npm install -g yarn gulp
-```
+For getting started, there are some system dependencys which you will need.
+Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of our project.
 
 ### Images and maps
 
@@ -38,8 +29,6 @@ cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder/
 Install all npm packages:
 
 ```bash
-yarn
-# alternatively, if you do not use yarn:
 npm install
 ```
 
@@ -57,7 +46,7 @@ gulp release
 
 If you do a development build you can use a simple webserver to test the build.
 
-Ensure that _NavigaTUM-server_ is running in the background. By default the webclient will connect to the server on `http://localhost:8080`.
+Ensure that _NavigaTUM-server_ is running in the background. By default, the webclient will connect to the server on `http://localhost:8080`.
 If you want to connect to the public API instead, change `api_prefix` in `config.js` to `https://nav.tum.de/api/` and rebuild.
 
 Now run:
@@ -66,7 +55,7 @@ Now run:
 python -m http.server
 ```
 
-and open http://localhost:8000/build/index-view-main-light-de.html in your browser.
+and open <http://localhost:8000/build/index-view-main-light-de.html> in your browser.
 
 Note that local builds served this way do not support the language and theme setting.
 You can choose a different base HTML instead.
