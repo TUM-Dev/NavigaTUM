@@ -1,4 +1,4 @@
-FROM python:3.10.7-bullseye as build-stage
+FROM python:3.11.0rc2-bullseye as build-stage
 WORKDIR /app
 
 ARG GIT_COMMIT_SHA
