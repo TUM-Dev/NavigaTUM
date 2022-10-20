@@ -56,6 +56,7 @@
     <!-- app-rest-for-view-*.js contains all components not yet included in core -->
     <script defer src="<!-- @echo app_prefix -->js/app-rest-for-view-<!-- @echo view -->-${{ _lang_ }}$<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
 
+    <script defer src="<!-- @echo app_prefix -->js/outdated-browser-${{ _lang_ }}$<!-- @if target='release' -->.min<!-- @endif -->.js"></script>
     <!-- At this point we might lazy-load other rarely used views -->
   </head>
   <body class="theme-<!-- @echo theme -->">
@@ -203,7 +204,7 @@
       <!-- General error message toast -->
       <div id="content-header" class="container grid-lg" v-cloak>
         <div class="columns">
-          <div class="column col-lg-11 col-mx-auto">    
+          <div id="errorToasts" class="column col-lg-11 col-mx-auto">
             <div class="toast toast-error" v-if="error.msg">
               {{ error.msg }}
             </div>

@@ -202,6 +202,15 @@ function buildFeedbackJS() {
     .pipe(gulp.dest("build/js"));
 }
 
+function buildOutdatedBrowserJS() {
+  return gulp
+    .src("src/outdated-browser.js")
+    .pipe(i18n(i18nOptions))
+    .pipe(gulpif(config.target === "release", uglify()))
+    .pipe(gulpif(config.target === "release", rename({ suffix: ".min" })))
+    .pipe(gulp.dest("build/js"));
+}
+
 function copyVueJS() {
   if (config.target === "release")
     return gulp
@@ -510,6 +519,7 @@ gulp.task(
   "legacy_js",
   gulp.parallel(
     buildWebpPolyfills,
+    buildOutdatedBrowserJS,
     gulp.series(extractPolyfills, insertPolyfills, minifyPolyfills)
   )
 );
