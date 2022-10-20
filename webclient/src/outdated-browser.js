@@ -37,7 +37,7 @@ const minSupportedBrowsers = {
 
 function isUnSupportedBrowser() {
     const browser = extractBrowserInfo();
-    const browserNameIsKnown=minSupportedBrowsers.hasOwnProperty(browser.name);
+    const browserNameIsKnown = minSupportedBrowsers.hasOwnProperty(browser.name);
     return browserNameIsKnown && (+browser.version < minSupportedBrowsers[browser.name]);
 }
 
@@ -52,10 +52,10 @@ function shouldWarn(){
 }
 
 if (shouldWarn()){
-    const parent=document.getElementById("errorToasts");
-    const error=document.createElement("div");
+    const parent = document.getElementById("errorToasts");
+    const error = document.createElement("div");
     error.classList.add("toast", "toast-error");
-    error.innerHTML="${{_.core_js.error.browser_outdated}}$";
+    error.innerHTML = "${{_.core_js.error.browser_outdated}}$";
     parent.appendChild(error);
     localStorage.setItem("lastOutdatedBrowserWarningTime", new Date().getTime().toString());
 }
