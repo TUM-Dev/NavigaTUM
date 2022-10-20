@@ -197,3 +197,6 @@ core_js:
     view_load_timeout:
       de: "Seite konnte nicht geladen werden: Timeout"
       en: "Page could not be loaded: Timeout"
+    browser_outdated:
+      de: "Ihr aktueller Browser ist veraltet und unterstützt nicht alle Funktionen, die von dieser Anwendung benötigt werden. <a href='https://bestvpn.org/outdatedbrowser/en.html' target='_blank'>Bitte aktualisieren Sie Ihren Browser.</a>"
+      en: "Your current browser is outdated and does not support all features, needed by this application. It can be, that this causes problems. <a href='https://bestvpn.org/outdatedbrowser/en.html' target='_blank'>Please update your browser.</a>"
