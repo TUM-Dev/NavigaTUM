@@ -284,7 +284,7 @@ paths:
       parameters:
         - name: lang
           in: query
-          description: The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.
+          description: 'The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.'
           required: false
           schema:
             type: string
@@ -294,7 +294,7 @@ paths:
               - en
         - name: lang
           in: cookie
-          description: The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.
+          description: 'The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.'
           required: false
           schema:
             type: string
@@ -578,7 +578,7 @@ paths:
       parameters:
         - name: lang
           in: query
-          description: The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.
+          description: 'The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.'
           required: false
           schema:
             type: string
@@ -588,7 +588,7 @@ paths:
               - en
         - name: lang
           in: cookie
-          description: The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.
+          description: 'The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.'
           required: false
           schema:
             type: string
@@ -638,8 +638,7 @@ paths:
           description: More data about the requested building/room
           content:
             image/png:
-              shema:
-                type:binary
+              shema: 'type:binary'
         '404':
           description: Invalid input
           content:
