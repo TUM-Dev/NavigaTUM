@@ -99,6 +99,7 @@
           v-if="view_data.calendar_url"
           v-bind:href="view_data.calendar_url"
           target="_blank"
+          title="${{ _.view_view.header.calendar }}$"
         >
           <svg 
             xmlns="http://www.w3.org/2000/svg"
