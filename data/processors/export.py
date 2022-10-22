@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Union, Any
+from typing import Any, Union
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
@@ -51,6 +51,7 @@ def export_for_search(data, path):
                 # also this puts more emphasis on the order (because "." counts as more distance)
                 "ms_id": _id.replace(".", "-"),
                 "id": _id,  # not searchable
+
                 "name": _data["name"],
                 "arch_name": _data.get("tumonline_data", {}).get("arch_name", None),
                 "type": _data["type"],

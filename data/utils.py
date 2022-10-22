@@ -22,7 +22,7 @@ class TranslatableStr(dict):
 
     Since it is a subclass of dict, this class does not need any additional infrastructure
     to turn a message into a translated string.
-    
+
     Translatable strings will be exported as {"de": "<de string>", "en": "<en string>"}.
     """
 

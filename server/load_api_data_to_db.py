@@ -6,7 +6,8 @@ from typing import Any, Union
 def add_to_database(de_data, en_data):
     """add data consisting of 2x(key, data_json, data) to the sqlite database"""
     con: sqlite3.Connection = sqlite3.connect("data/api_data.db")
-    con.execute("""
+    con.execute(
+        """
     CREATE TABLE IF NOT EXISTS de (
         key                 VARCHAR(30) UNIQUE PRIMARY KEY NOT NULL,
         name                VARCHAR(30),
@@ -15,8 +16,10 @@ def add_to_database(de_data, en_data):
         lat                 FLOAT,
         lon                 FLOAT,
         data                BLOB NOT NULL
-    );""")
-    con.execute("""
+    );""",
+    )
+    con.execute(
+        """
     CREATE TABLE IF NOT EXISTS en (
         key                 VARCHAR(30) UNIQUE PRIMARY KEY NOT NULL,
         name                VARCHAR(30),
@@ -25,14 +28,22 @@ def add_to_database(de_data, en_data):
         lat                 FLOAT,
         lon                 FLOAT,
         data                BLOB NOT NULL
-    );""")
+    );""",
+    )
     # we are using this file in docker, so we don't want to use an acid compliant database ;)
     con.execute("""PRAGMA journal_mode = OFF;""")
     con.execute("""PRAGMA synchronous = OFF;""")
 
     def map_data(key, data_json, data):
-        return (key, data_json, data["name"], data["type"], data["type_common_name"],
-                data.get("coords", {}).get("lat", 48.14903), data.get("coords", {}).get("lon", 11.56735))
+        return (
+            key,
+            data_json,
+            data["name"],
+            data["type"],
+            data["type_common_name"],
+            data.get("coords", {}).get("lat", 48.14903),
+            data.get("coords", {}).get("lon", 11.56735),
+        )
 
     de_data = [map_data(key, data_json, data) for (key, data_json, data) in de_data]
     en_data = [map_data(key, data_json, data) for (key, data_json, data) in en_data]
@@ -65,8 +76,9 @@ def get_localised_data() -> tuple[translated_list, translated_list]:
     """get all data from the json dump and convert it to a list of tuples"""
     with open("data/api_data.json", encoding="utf-8") as file:
         data = json.load(file)
-    split_data: list[tuple[str, Any, Any]] = [(key, localise(value, "de"), localise(value, "en")) for key, value in
-                                              data.items()]
+    split_data: list[tuple[str, Any, Any]] = [
+        (key, localise(value, "de"), localise(value, "en")) for key, value in data.items()
+    ]
 
     de_data = []
     en_data = []
