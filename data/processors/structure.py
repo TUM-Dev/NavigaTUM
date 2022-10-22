@@ -111,11 +111,3 @@ def infer_type_common_name(data):
 
     for _id, _data in data.items():
         _data["type_common_name"] = _get_type(_id, _data)
-
-
-def extract_calendar_url(data):
-    """Extracts the calendar from the tumonline data sets it to the proper value. """
-    for k, entry in data.items():
-        if entry.get("tumonline_data", {}).get("calendar", None):
-            url = f"https://campus.tum.de/tumonline/{entry['tumonline_data']['calendar']}"
-            entry["calendar_url"] = url

@@ -96,8 +96,8 @@
       <div class="column col-auto col-ml-auto">
         <a
           class="btn btn-link btn-action btn-sm"
-          v-if="view_data.calendar_url"
-          v-bind:href="view_data.calendar_url"
+          v-if="view_data.props?.calendar_url"
+          v-bind:href="view_data.props.calendar_url"
           target="_blank"
           title="${{ _.view_view.header.calendar }}$"
         >

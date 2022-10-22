@@ -107,7 +107,8 @@ def export_for_api(data, path):
         if "roomfinder_data" in export_data[_id]:
             del export_data[_id]["roomfinder_data"]
         if "props" in export_data[_id]:
-            to_delete = [e for e in export_data[_id]["props"].keys() if e not in {"computed", "links", "comment"}]
+            prop_keys_to_keep = {"computed", "links", "comment", "calendar_url"}
+            to_delete = [e for e in export_data[_id]["props"].keys() if e not in prop_keys_to_keep]
             for k in to_delete:
                 del export_data[_id]["props"][k]
 
