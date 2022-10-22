@@ -458,6 +458,15 @@
         }
     }
 
+    /* --- User location dot --- */
+    .mapboxgl-user-location-dot {
+        background-color: #3070B3;
+    }
+
+    .mapboxgl-user-location-dot::before {
+        background-color: #3070B3;
+    }
+
     #rooms-overview {
         #rooms-overview-select .menu-item {
             padding: 0;
