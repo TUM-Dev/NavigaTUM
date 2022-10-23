@@ -82,6 +82,7 @@ def main():
     images.add_img(data)
 
     logging.info("-- 80 Generate info card")
+    sections.extract_calendar_urls(data)
     sections.compute_props(data)
     sections.localize_links(data)
 
