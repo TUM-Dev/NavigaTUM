@@ -9,11 +9,10 @@ This folder contains the JavaScript based webclient for NavigaTUM.
 You need the following dependencies to get started:
 
 - Node (for Gulp)
-- [Yarn](https://yarnpkg.com/getting-started/install)
 - [Gulp](https://gulpjs.com/)
 - Python (for testing)
 
-Installing _Yarn_ and _Gulp_ with npm:
+Installing _Gulp_ with npm:
 
 ```bash
 sudo npm install -g yarn gulp
