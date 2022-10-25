@@ -1,2 +1,2 @@
 User-Agent: *
-Sitemap: https://nav.tum.sexy/cdn/sitemap.xml
+Sitemap: https://nav.tum.de/cdn/sitemap.xml

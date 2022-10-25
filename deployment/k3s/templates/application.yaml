@@ -19,7 +19,7 @@ spec:
       values: |
         namespace: pr-{{ .PR_NUMBER }}
         branch: {{.BRANCH}}
-        url: pr-{{ .PR_NUMBER }}.nav.tum.sexy
+        url: pr-{{ .PR_NUMBER }}.nav.tum.de
         server:
             MEILI_MASTER_KEY: {{.MEILI_MASTER_KEY}}
     # GITHUB_TOKEN is intentionally omitted, as this file is templated and then added to git in the deployments branch
