@@ -12,7 +12,6 @@ spec:
     {{ if eq "nav.tum.de" .Values.url }}
     - nav.tum.sexy
     - nav.tum.app
-    - nav.tum.de
     {{ end }}
   secretName: {{ .Values.url }}
   issuerRef:
