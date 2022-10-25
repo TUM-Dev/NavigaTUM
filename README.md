@@ -25,7 +25,7 @@ _Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being us
 
 You can consume our API Documentation in two ways:
 
-- Head over to [our Website](https://nav.tum.sexy/api) and look at the interactive documentation
+- Head over to [our Website](https://nav.tum.de/api) and look at the interactive documentation
 - We also describe our API in an [OpenAPI 3.0](https://de.wikipedia.org/wiki/OpenAPI) compliant file.  
   You can find it [here](./openapi.yaml).  
   Using this Specification you can generate your own client to access the API in the language of your choice.
@@ -56,9 +56,9 @@ In case you do not want to work on the data processing, you can instead
 download the latest compiled files:
 
 ```bash
-wget -P data/output https://nav.tum.sexy/cdn/api_data.json
-wget -P data/output https://nav.tum.sexy/cdn/search_data.json
-wget -P data/output https://nav.tum.sexy/cdn/search_synonyms.json
+wget -P data/output https://nav.tum.de/cdn/api_data.json
+wget -P data/output https://nav.tum.de/cdn/search_data.json
+wget -P data/output https://nav.tum.de/cdn/search_synonyms.json
 ```
 
 Else you can follow the steps in the [data documentation](data/).
@@ -95,7 +95,7 @@ st run --workers=auto --base-url=http://localhost:8080 --checks=all ../openapi.y
 ```
 
 Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN).  
-You can exchange `--base-url=http://localhost:8080` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/search`.
+You can exchange `--base-url=http://localhost:8080` to `--base-url=https://nav.tum.de` for the full public API, or restrict your scope using a option like `--endpoint=/api/search`.
 
 ## License
 

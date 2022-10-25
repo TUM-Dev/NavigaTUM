@@ -7,7 +7,7 @@
       "styles": "styles",
       "mbtiles": ""
     },
-    "domains": ["nav.tum.sexy", "localhost:7770", "127.0.0.1:7770"],
+    "domains": ["nav.tum.de", "localhost:7770", "127.0.0.1:7770"],
     "formatQuality": {
       "jpeg": 80,
       "webp": 90

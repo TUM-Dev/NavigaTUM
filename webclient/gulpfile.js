@@ -603,7 +603,7 @@ function generateSitemap() {
     )
     .pipe(
       sitemap({
-        siteUrl: "https://nav.tum.sexy/",
+        siteUrl: "https://nav.tum.de/",
         fileName: "sitemap-webclient.xml",
         changefreq: "monthly",
       })
