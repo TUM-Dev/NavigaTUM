@@ -926,6 +926,57 @@ paths:
           content: {}
       tags:
         - cdn
+  '/api/legacy_redirect/{arch_name}':
+    get:
+      operationId: maps_cdn
+      summary: Get a redirect to our roomfinder
+      description: |
+        The old roomfinder still exists and adoption of our new system is not great.
+        This is a redirect route which can be a direct redirect for the old room-finder.
+        
+        ***THIS WILL DISAPEAR IN THE FUTURE, DO NOT RELY ON IT.***
+        ***This is only here while TUM is transitioning to this system.***
+        
+        After 1-2 years, we will introduce some text to shame those, who still have not changed their links, as otherwise I assume this transition will never be done...
+        
+        The reason, why this is not a dumb redirect is, that the old roomfinder has a lot of bugs and `arch_name` not being unique, nor an id is one of them.
+        We dont want to have two ids for obvious reasons, this is why we dont accept his as an alias
+      parameters:
+        - name: arch_name
+          in: path
+          description: Architects name of the redirect you want
+          required: true
+          schema:
+            type: string
+            minLength: 1
+          examples:
+            one:
+              summary: A arch_name with one meaning
+              value:
+            two:
+              summary: A arch_name with multiple meanings
+              value:
+      responses:
+        '301':
+          description: Permanent redirect to the roomfinder
+          content: {}
+        '200':
+          description: There are multiple meanings for this arch_name. Please choose one
+          content:
+            text/plain:
+              schema:
+                type: string
+        '404':
+          description: Requested Resource Not Found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Not found
+                enum:
+                  - Not found
+      tags:
+        - migration
   /api/health:
     get:
       operationId: api-health
