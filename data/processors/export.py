@@ -51,7 +51,6 @@ def export_for_search(data, path):
                 # also this puts more emphasis on the order (because "." counts as more distance)
                 "ms_id": _id.replace(".", "-"),
                 "id": _id,  # not searchable
-
                 "name": _data["name"],
                 "arch_name": _data.get("tumonline_data", {}).get("arch_name", None),
                 "type": _data["type"],
