@@ -31,6 +31,7 @@ def main():
 
     logging.info("-- 02 rooms extendend")
     data = merge.merge_yaml(data, "sources/02_rooms-extended.yaml")
+    merge.add_coordinates(data, "sources/02_coordinates.yaml")
 
     # Add source information for these entries, which are up to here
     # always declared by navigatum
