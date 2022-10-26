@@ -97,6 +97,7 @@ def export_for_api(data, path):
             entry.setdefault("maps", {})["default"] = "interactive"
         export_data[_id] = {
             "parent_names": [data[p]["name"] for p in entry["parents"]],
+            "arch_name": entry.get("tumonline_data", {}).get("arch_name", None),
             **entry,
         }
         if "children" in export_data[_id]:

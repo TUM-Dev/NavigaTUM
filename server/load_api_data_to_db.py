@@ -11,6 +11,7 @@ def add_to_database(de_data, en_data):
     CREATE TABLE IF NOT EXISTS de (
         key                 VARCHAR(30) UNIQUE PRIMARY KEY NOT NULL,
         name                VARCHAR(30),
+        arch_name           VARCHAR(30), -- NOT Unique, but only used for the old roomfinder
         type                VARCHAR(30),
         type_common_name    VARCHAR(30),
         lat                 FLOAT,
@@ -23,6 +24,7 @@ def add_to_database(de_data, en_data):
     CREATE TABLE IF NOT EXISTS en (
         key                 VARCHAR(30) UNIQUE PRIMARY KEY NOT NULL,
         name                VARCHAR(30),
+        arch_name           VARCHAR(30), -- NOT Unique, but only used for the old roomfinder. This is only here temporarily
         type                VARCHAR(30),
         type_common_name    VARCHAR(30),
         lat                 FLOAT,
@@ -39,6 +41,7 @@ def add_to_database(de_data, en_data):
             key,
             data_json,
             data["name"],
+            data["arch_name"],
             data["type"],
             data["type_common_name"],
             data.get("coords", {}).get("lat", 48.14903),
@@ -49,8 +52,8 @@ def add_to_database(de_data, en_data):
     en_data = [map_data(key, data_json, data) for (key, data_json, data) in en_data]
 
     with con:
-        con.executemany("INSERT INTO de(key, data, name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?)", de_data)
-        con.executemany("INSERT INTO en(key, data, name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?)", en_data)
+        con.executemany("INSERT INTO de(key,data,name,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)", de_data)
+        con.executemany("INSERT INTO en(key,data,name,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)", en_data)
 
 
 def localise(value: Union[str, list[Any], dict[str, Any]], language: str) -> Any:
