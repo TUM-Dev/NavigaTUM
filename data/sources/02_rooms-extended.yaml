@@ -3,6 +3,14 @@
   ranking_factors:
     rank_custom: 150
 
+
+# === Campus Olympiapark ===
+"2941.01.116L": { coords: { lat: 48.177376, lon: 11.534182 } }
+
+# === WZW ===
+"4126.01.609B": { coords: { lat: 48.397920, lon: 11.725356 } }
+
+# ========================== Garching =============================
 "5101.EG.257":
   name: "5101.EG.257 (MPI Fachschaftsbüro Physik)"
 "5101.U1.172": {coords: {lat: 48.26699321948698, lon: 11.676648541975567}}
@@ -11,18 +19,41 @@
 "5606.EG.036":
   name: "5606.EG.036 (MPI Fachschaftsbüro im MI)"
 
+
+# === GRS-Altbau ===
+"5203.EG.003": { coords: { lat: 48.265112, lon: 11.673548 } }
+"5203.EG.007": { coords: { lat: 48.265063, lon: 11.673524 } }
+"5203.EG.011": { coords: { lat: 48.265024, lon: 11.673513 } }
+"5203.EG.013": { coords: { lat: 48.264988, lon: 11.673505 } }
+"5203.EG.040": { coords: { lat: 48.265237, lon: 11.673175 } }
+"5203.EG.040A": { coords: { lat: 48.265137, lon: 11.673156 } }
+"5203.EG.044": { coords: { lat: 48.265296, lon: 11.673188 } }
+"5203.EG.050": { coords: { lat: 48.265287, lon: 11.673253 } }
+"5203.EG.052": { coords: { lat: 48.265281, lon: 11.673325 } }
+"5203.EG.054": { coords: { lat: 48.265271, lon: 11.673392 } }
+"5203.EG.065": { coords: { lat: 48.265374, lon: 11.673145 } }
+"5203.EG.069": { coords: { lat: 48.265374, lon: 11.673210 } }
+"5203.EG.073": { coords: { lat: 48.265362, lon: 11.673269 } }
+"5203.EG.075": { coords: { lat: 48.265360, lon: 11.673325 } }
+
 # === Chemie ===
 "5401.01.101K": { coords: { lat: 48.268297, lon: 11.669144 } } # Hans-Fischer-Hörsaal
 "5401.01.101I":
   name: "5401.01.101I (CIP-Raum)" # Original name is "Rechenzentrum" ...
   coords: { lat: 48.268499, lon: 11.669349 }
+"5402.01.220J": { coords: { lat: 48.268553, lon: 11.669633 } } # Seminarraum (approximate)
+"5402.01.221K": { coords: { lat: 48.268668, lon: 11.669672 } } # Ivar-Ugi-Hörsaal (approximate)
 "5406.01.650C":
   name: "5406.01.650C (Fachschaftsbüro Chemie)" # Original name is "Büro" ...
   coords: { lat: 48.268761, lon: 11.669356 }
-"5402.01.220J": { coords: { lat: 48.268553, lon: 11.669633 } } # Seminarraum (approximate)
-"5402.01.221K": { coords: { lat: 48.268668, lon: 11.669672 } } # Ivar-Ugi-Hörsaal (approximate)
 "5407.01.740A": { coords: { lat: 48.268962, lon: 11.669759 } } # Übungsraum
+"5407.01.740B": { coords: { lat: 48.268880, lon: 11.669705 } }  # Walter-Hieber-Hörsaal
 "5407.01.760D": { coords: { lat: 48.269426, lon: 11.669553 } } # A room that is pretty stupid to find
+
+"5403.04.320D": { coords: { lat: 48.268511, lon: 11.670640 } }
+
+# === ZEI ===
+"5414.EG.001": { coords: { lat: 48.267487, lon: 11.668340 } }
 
 # === Maschinenwesen / MW ===
 "5501.EG.101":
