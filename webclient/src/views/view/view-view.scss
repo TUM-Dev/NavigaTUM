@@ -459,8 +459,9 @@
     }
 
     /* --- User location dot --- */
-    .mapboxgl-user-location-dot, .mapboxgl-user-location-dot::before {
-        background-color: #3070B3;
+    .mapboxgl-user-location-dot,
+    .mapboxgl-user-location-dot::before {
+        background-color: #3070b3;
     }
 
     #rooms-overview {
