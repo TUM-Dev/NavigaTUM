@@ -323,10 +323,10 @@ navigatum.registerView("view", {
 
       let editStr = "";
       Object.entries(currentEdits).forEach(([key, value]) => {
-        editStr += `"${key}": {coords: {lat: ${value.coords.lat}, lon: ${value.coords.lon}}},`;
+        editStr += `"${key}": {coords: {lat: ${value.coords.lat}, lon: ${value.coords.lon}}}\n`;
       });
 
-      return `${actionMsg}\n\`\`\`\n${editStr}\`\`\``;
+      return `${actionMsg}\n\`\`\`\n${editStr}\n\`\`\``;
     },
     openFeedbackForm: function () {
       // The feedback form is opened. This may be prefilled with previously corrected coordinates.
