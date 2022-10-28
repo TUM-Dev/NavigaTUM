@@ -81,7 +81,7 @@
   },
   {
     "filter_id": 830,
-    "name": "5409 Entsorgungszentrum, Lichtenbergstr.    4",
+    "name": "5409 Entsorgungszentrum, Ernst-Otto-Fischer-Stra\u00dfe    4",
     "area_id": 36
   },
   {
@@ -182,6 +182,16 @@
   {
     "filter_id": 3010,
     "name": "7894 Newton (AM), Freisinger Landstra\u00dfe   52",
+    "area_id": 57
+  },
+  {
+    "filter_id": 3089,
+    "name": "7895 Pascal Halle, Freisinger Landstra\u00dfe   50",
+    "area_id": 57
+  },
+  {
+    "filter_id": 3069,
+    "name": "7896 Prandtl (AM, Freisinger Landstra\u00dfe   50",
     "area_id": 57
   },
   {
@@ -608,6 +618,16 @@
   {
     "filter_id": 2949,
     "name": "9379 Lise Meitner Str. 8 (AM), Lise-Meitner-Stra\u00dfe    8",
+    "area_id": 29
+  },
+  {
+    "filter_id": 3109,
+    "name": "9380 Hyperloop-Halle Ottobrunn (AM), Caroline-Herschel-Stra\u00dfe  100",
+    "area_id": 29
+  },
+  {
+    "filter_id": 3129,
+    "name": "9390 Aviation Flight Test Center/Halle 507 (A, Claude-Dornier-Stra\u00dfe    1",
     "area_id": 29
   },
   {
@@ -1402,7 +1422,7 @@
   },
   {
     "filter_id": 2130,
-    "name": "3503 TUM CS PG05 (AM), Petersgasse    5",
+    "name": "3503 TUM CS PG05, Petersgasse    5",
     "area_id": 50
   },
   {
