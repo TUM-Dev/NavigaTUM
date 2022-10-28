@@ -20,6 +20,14 @@ ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192"
 CACHE_PATH = Path(__file__).parent / "cache"
 
 
+def maybe_sleep(duration):
+    """
+    Sleep for the given duration, but only if the script was called during a workday and working hours.
+    """
+    if time.gmtime().tm_wday not in [5, 6] and 5 <= time.gmtime().tm_hour <= 22:
+        time.sleep(duration)
+
+
 def roomfinder_buildings():
     """
     Retrieve the (extended, i.e. with coordinates) buildings data from the Roomfinder API
@@ -48,7 +56,7 @@ def roomfinder_buildings():
                 buildings[i][key] = value
             buildings[i]["maps"] = proxy.getBuildingMaps(building["b_id"])
             buildings[i]["default_map"] = proxy.getBuildingDefaultMap(building["b_id"])
-            time.sleep(0.05)
+            maybe_sleep(0.05)
 
     _write_cache_json(cache_name, buildings)
     return buildings
@@ -106,7 +114,7 @@ def roomfinder_rooms():
         extended_data["default_map"] = proxy.getDefaultMap(room)
         extended_data["metas"] = proxy.getRoomMetas(room)
         rooms.append(extended_data)
-        time.sleep(0.05)
+        maybe_sleep(0.05)
 
     _write_cache_json(cache_name, rooms)
     return rooms
@@ -116,7 +124,7 @@ def _guess_queries(rooms, n_rooms):
     # First try: all single-digit numbers
     for i in range(10):
         if len(rooms) < n_rooms:
-            time.sleep(0.05)
+            maybe_sleep(0.05)
             yield str(i)
         else:
             return
@@ -124,7 +132,7 @@ def _guess_queries(rooms, n_rooms):
     # Second try: all double-digit numbers
     for i in range(100):
         if len(rooms) < n_rooms:
-            time.sleep(0.05)
+            maybe_sleep(0.05)
             yield str(i).zfill(2)
         else:
             return
@@ -132,7 +140,7 @@ def _guess_queries(rooms, n_rooms):
     # Thirs try: all characters
     for char in string.ascii_lowercase:
         if len(rooms) < n_rooms:
-            time.sleep(0.05)
+            maybe_sleep(0.05)
             yield char
         else:
             return
@@ -485,7 +493,7 @@ def _retrieve_tumonline_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
 
         bar.max = pages_cnt
         bar.next()
-        time.sleep(1.5)
+        maybe_sleep(1.5)
 
     _write_cache_json(cache_name, all_rooms)
     return all_rooms
@@ -623,7 +631,7 @@ def _get_html(url: str, params: dict, cache_fname: str) -> BeautifulSoup:
             result = file.read()
     else:
         req = requests.get(url, params)
-        time.sleep(0.5)  # Not the best place to put this
+        maybe_sleep(0.5)  # Not the best place to put this
         with open(cached_xml_file, "w", encoding="utf-8") as file:
             result = req.text
             file.write(result)
