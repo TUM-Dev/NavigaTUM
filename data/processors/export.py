@@ -39,7 +39,7 @@ def export_for_search(data, path):
         # The 'campus name' is the campus of site of this building or room
         campus_name = None
         if _data["type"] not in {"root", "campus", "site"}:
-            for i, parent in enumerate(_data["parents"]):
+            for parent in _data["parents"]:
                 if data[parent]["type"] in {"campus", "site"}:
                     campus = data[parent]
                     campus_name = campus.get("short_name", campus["name"])
