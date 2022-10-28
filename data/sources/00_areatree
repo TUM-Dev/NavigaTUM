@@ -239,138 +239,7 @@
     3901:Kiosk:
     3902:Seglerheim:
     3904:Bootshaus:
-  4:Campus Weihenstephan (Freising)|Weihenstephan:wzw[campus]
-    4001:Ruine der Korbinians Kapelle:
-    41:Gebiet 4100 Berg:wzw-berg
-      :Alte Akademie:wzw-berg-alte-akademie
-        4101:Verwaltung / BLQ Brau- und Lebensmittelqualität:
-        4102:Hörsaal- und Dekanatsgebäude:
-        4103:Sammlungsbau:
-        4105:Institutsgebäude I:
-        4106:Institutsgebäude II:
-        4107:Institutsgebäude III:
-        4108:BLQ Lebensmittelsicherheit:
-      :Weihenstephaner Steig:wzw-berg-weihenstephaner-steig
-        4109:Campusoffice, SSW Studierenden Service Weihenstephan:
-        4110:Brau- und Getränketechnologie:
-        4111:Forschungsbrauerei Weihenstephan mit Nebengebäude:
-        4113:StudiTUM Weihenstephan|StudiTUM:
-        4114:ehemaliger Bauhof:
-        4115:Familienservice:
-        4116:Dr. Gudula Wernekke-Rastetter Kindervilla:
-        4117:Kindervilla II:
-      :Hohenbachernstr:wzw-berg-hohenbachernstr
-        4119:DFG Senatskommission MAK, Hohenbachernstr. 15:
-        4120:DFG Senatskommission MAK, Hohenbachernstr. 17:
-      :ZIEL – Institute for Food & Health:wzw-ziel
-        4124:ZIEL II – Molekulare Biowissenschaften:
-        4126:ZIEL I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie:
-      4127:Arbeiterwohngebäude der Verwaltung Weihenstephan:
-      4128:Trafostation I, Am Löwentor:
-      4130:Trafostation IV (Sprachlabor):
-      :Aquatische Systembiologie:aquatische-systembiologie
-        4129:Aquatische Systembiologie, Mühlenweg 22:
-        4131:Aquatische Systembiologie "Mühle", Mühlenweg 22:
-        4132:Aquatische Systembiologie "Wagnerhaus", Mühlenweg 18:
-      4153:Hochschulsport / Sprachenzentrum:
-      4155:Kustermannhalle (HSWT Gebäude A9):
-      4156:Flaschenkeller Staatsbrauerei:
-      4176:A1 Hochschule Freising-Triesdorf:
-      418,419:Stallungen Veitshof:veitshof[site]
-        4180:Verwaltungsgebäude:
-        4181:Maschinenhalle:
-        4182:Bullenstall:
-        4183:Wohnung / Garage:
-        4184:Mehrzweckstall:
-        4185:Offenstall:
-        4186:Gärfuttersilo:
-        4187:Dungsilo:
-        4188:Fahrsilo:
-        4189:Strohlagerhalle:
-        4190:Jungviehstall:
-        4191:Fahrsilo:
-        4192:ehem. Wasserwerk:
-    42:Gebiet 4200 Mitte:wzw-mitte
-      -4202:Trafostation V:
-      4205:Lagerhalle Verwaltungsstelle:
-      4210:Agrarsystemtechnik:
-      4211:Landesanstalt für Landwirtschaft (LfL) Bürogebäude 14:
-      4212:Chemie Bioanalytik Peptidbiochemie:
-      4213:Lebensmitteltechnikum:
-      4214:Zentrales Hörsaalgebäude:
-      4215:Zentrales Praktikagebäude:
-      4216:Mensa Weihenstephan:
-      4217:Pflanzenproduktion 1:
-      4218:Biologikum Weihenstephan:
-      4219:Landschaftsentwicklung:
-      4220:Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung:
-      4221:Fernmeldezentrale:
-      4222:Servicegebäude I:
-      4223:Genetik:
-      4224:ZIEL IV - Biowissenschaften:
-      4225:Lebensmittelchemie u. Molekulare Sensorik:
-      4226:iGZW internationales Getränkewissenschaftliches Zentrum Weihenstephan:
-      423,450,451:Gewächshauslaborzentrum Dürnast:duernast
-        4230:Dürnast Versuchsstation Tierst.:
-        4231:Dürnast I:
-        4232:Gewächshauslaborzentrum (GHL) 3, Dürnast II:
-        4233:Dürnast Trafo Station (in Gerätehalle West integriert):
-        4234:Gewächshauslaborzentrum (GHL) 1, Dürnast III:
-        4235:Gewächshauslaborzentrum (GHL) 2, Dürnast IV:
-        4236:Wohnhaus:
-        4237:Werkdienstwohnung:
-        4501:Arbeiterwohngebäude STG.WST.:
-        4502:Werkstattgebäude-Wirt. Geb. STG.WST.:
-        4503:Dürnast -Verw.-, WGB., RS., S.-STG.WST.:
-        4505:Maschinenhalle STG.WST.-Kart, Lager, 2 SST:
-        4506:Schuppen STG.WST.:
-        4508:Wagenh. m. Fuhrw. W. STG.WST.:
-        4509:Fahrsilo-Güllebehälter STG.WST.:
-        4510:Getreidekasten STG.WST.:
-        4512:Gerätehalle West:
-        4513:Gerätehalle Ost:
-      4238:Werkfeuerwehr Weihenstephan:
-      4239:Kindergarten "Krabbelstube Weihenstephan":
-      4254:Dienstleister / Eltern-Kind-Zimmer:
-      4259:Salzlager:
-      4264:Protein Modelling:
-      4267:Feuerwache II:
-      4275:TUMmesa:
-      4277:Forstwissenschaften:
-      4278:LWF Bay. Landesanstalt für Wald und Forstwirtschaft:
-      4279:LWF Erweiterungsbau:
-      -4281:Trafostation XI:
-      4299:Hochschulgemeinde Freising:
-    43:Gebiet 4300 Nord / Hochfeld:wzw-nord
-      4304:Verwaltung der TUM - Immobilien / Bauhof:
-      :Liesel-Beckmann-Straße:wzw-lbs
-        4307:Dienstleistergebäude:
-        4308:Humanbiologie Zoologie:
-        4317:Tierwissenschaften:
-        4318:HEZ Hans-Eisenmann-Zentrum für Agrarwissenschaften:
-      4309:Institutsgebäude Ökonomik des Gartenbaus und Landschaftsbaus:
-      4310:Werkstatt und Garagen Zierpflanzenbau:
-      4311:Institut Zierplanzenbau:
-      4314:Trafostation VII:
-      4315,4316:Lagerhalle:wzw-lagerhalle
-        4315:Lagerhalle (Straßenseite):
-        4316:Lagerhalle (Feldseite):
-      -4319:Trafostation VI:
-      4320:Energiezentrale Heizhaus:
-      :Gebäudemanagement GM:wzw-gm
-        4321:Verwaltung:
-        4322:Trafostation XV / Carport:
-        4323:KFZ Werkstatt:
-        4324:Garage / Werkdienstwohnungen:
-        4325:Wertstoffhof:
-      :Landesanstalt für Landwirtschaft (LfL):wzw-lfl
-        4353:Laborgebäude 1:
-        4355:Technologie VI:
-        4361:Technologie V:
-        4362:Mehrzweckgebäude 1:
-        4368:Technologie III:
-      4387:Camerloher Gymnasium:
-      :Staudensichtungsgarten:staudensichtungsgarten[area]
+  :School of of Life Sciences Außenstellen:
     44:Limnologische Station, Iffeldorf:iffeldorf[site]
       4401:Gebäude 1:
       4402:Bootshaus:
@@ -429,6 +298,138 @@
       4915:Arb.Gba. 2, SCHP:
       4916:Arb.Gba. 3, SCHP:
       4920:Kapelle:
+    4127,423,450,451:Gewächshauslaborzentrum Dürnast:duernast
+      4127:Arbeiterwohngebäude der Verwaltung Weihenstephan:
+      4230:Dürnast Versuchsstation Tierst.:
+      4231:Dürnast I:
+      4232:Gewächshauslaborzentrum (GHL) 3, Dürnast II:
+      4233:Dürnast Trafo Station (in Gerätehalle West integriert):
+      4234:Gewächshauslaborzentrum (GHL) 1, Dürnast III:
+      4235:Gewächshauslaborzentrum (GHL) 2, Dürnast IV:
+      4236:Wohnhaus:
+      4237:Werkdienstwohnung:
+      4501:Arbeiterwohngebäude STG.WST.:
+      4502:Werkstattgebäude-Wirt. Geb. STG.WST.:
+      4503:Dürnast -Verw.-, WGB., RS., S.-STG.WST.:
+      4505:Maschinenhalle STG.WST.-Kart, Lager, 2 SST:
+      4506:Schuppen STG.WST.:
+      4508:Wagenh. m. Fuhrw. W. STG.WST.:
+      4509:Fahrsilo-Güllebehälter STG.WST.:
+      4510:Getreidekasten STG.WST.:
+      4512:Gerätehalle West:
+      4513:Gerätehalle Ost:
+  4:Campus Weihenstephan (Freising)|Weihenstephan:wzw[campus]
+      4001:Ruine der Korbinians Kapelle:
+    41:Gebiet 4100 Berg:wzw-berg
+      :Alte Akademie:wzw-berg-alte-akademie
+        4101:Verwaltung / BLQ Brau- und Lebensmittelqualität:
+        4102:Hörsaal- und Dekanatsgebäude:
+        4103:Sammlungsbau:
+        4105:Institutsgebäude I:
+        4106:Institutsgebäude II:
+        4107:Institutsgebäude III:
+        4108:BLQ Lebensmittelsicherheit:
+      :Weihenstephaner Steig:wzw-berg-weihenstephaner-steig
+        4109:Campusoffice, SSW Studierenden Service Weihenstephan:
+        4110:Brau- und Getränketechnologie:
+        4111:Forschungsbrauerei Weihenstephan mit Nebengebäude:
+        4113:StudiTUM Weihenstephan|StudiTUM:
+        4114:ehemaliger Bauhof:
+        4115:Familienservice:
+        4116:Dr. Gudula Wernekke-Rastetter Kindervilla:
+        4117:Kindervilla II:
+      :Hohenbachernstr:wzw-berg-hohenbachernstr
+        4119:DFG Senatskommission MAK, Hohenbachernstr. 15:
+        4120:DFG Senatskommission MAK, Hohenbachernstr. 17:
+      :ZIEL – Institute for Food & Health:wzw-ziel
+        4124:ZIEL II – Molekulare Biowissenschaften:
+        4126:ZIEL I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie:
+      4128:Trafostation I, Am Löwentor:
+      4130:Trafostation IV (Sprachlabor):
+      :Aquatische Systembiologie:aquatische-systembiologie
+        4129:Aquatische Systembiologie, Mühlenweg 22:
+        4131:Aquatische Systembiologie "Mühle", Mühlenweg 22:
+        4132:Aquatische Systembiologie "Wagnerhaus", Mühlenweg 18:
+      4153:Hochschulsport / Sprachenzentrum:
+      4155:Kustermannhalle (HSWT Gebäude A9):
+      4156:Flaschenkeller Staatsbrauerei:
+      4176:A1 Hochschule Freising-Triesdorf:
+      418,419:Stallungen Veitshof:veitshof[site]
+        4180:Verwaltungsgebäude:
+        4181:Maschinenhalle:
+        4182:Bullenstall:
+        4183:Wohnung / Garage:
+        4184:Mehrzweckstall:
+        4185:Offenstall:
+        4186:Gärfuttersilo:
+        4187:Dungsilo:
+        4188:Fahrsilo:
+        4189:Strohlagerhalle:
+        4190:Jungviehstall:
+        4191:Fahrsilo:
+        4192:ehem. Wasserwerk:
+    42:Gebiet 4200 Mitte:wzw-mitte
+      -4202:Trafostation V:
+      4205:Lagerhalle Verwaltungsstelle:
+      4210:Agrarsystemtechnik:
+      4211:Landesanstalt für Landwirtschaft (LfL) Bürogebäude 14:
+      4212:Chemie Bioanalytik Peptidbiochemie:
+      4213:Lebensmitteltechnikum:
+      4214:Zentrales Hörsaalgebäude:
+      4215:Zentrales Praktikagebäude:
+      4216:Mensa Weihenstephan:
+      4217:Pflanzenproduktion 1:
+      4218:Biologikum Weihenstephan:
+      4219:Landschaftsentwicklung:
+      4220:Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung:
+      4221:Fernmeldezentrale:
+      4222:Servicegebäude I:
+      4223:Genetik:
+      4224:ZIEL IV - Biowissenschaften:
+      4225:Lebensmittelchemie u. Molekulare Sensorik:
+      4226:iGZW internationales Getränkewissenschaftliches Zentrum Weihenstephan:
+      4238:Werkfeuerwehr Weihenstephan:
+      4239:Kindergarten "Krabbelstube Weihenstephan":
+      4254:Dienstleister / Eltern-Kind-Zimmer:
+      4259:Salzlager:
+      4264:Protein Modelling:
+      4267:Feuerwache II:
+      4275:TUMmesa:
+      4277:Forstwissenschaften:
+      4278:LWF Bay. Landesanstalt für Wald und Forstwirtschaft:
+      4279:LWF Erweiterungsbau:
+      -4281:Trafostation XI:
+      4299:Hochschulgemeinde Freising:
+    43:Gebiet 4300 Nord / Hochfeld:wzw-nord
+      4304:Verwaltung der TUM - Immobilien / Bauhof:
+      :Liesel-Beckmann-Straße:wzw-lbs
+        4307:Dienstleistergebäude:
+        4308:Humanbiologie Zoologie:
+        4317:Tierwissenschaften:
+        4318:HEZ Hans-Eisenmann-Zentrum für Agrarwissenschaften:
+      4309:Institutsgebäude Ökonomik des Gartenbaus und Landschaftsbaus:
+      4310:Werkstatt und Garagen Zierpflanzenbau:
+      4311:Institut Zierplanzenbau:
+      4314:Trafostation VII:
+      4315,4316:Lagerhalle:wzw-lagerhalle
+        4315:Lagerhalle (Straßenseite):
+        4316:Lagerhalle (Feldseite):
+      -4319:Trafostation VI:
+      4320:Energiezentrale Heizhaus:
+      :Gebäudemanagement GM:wzw-gm
+        4321:Verwaltung:
+        4322:Trafostation XV / Carport:
+        4323:KFZ Werkstatt:
+        4324:Garage / Werkdienstwohnungen:
+        4325:Wertstoffhof:
+      :Landesanstalt für Landwirtschaft (LfL):wzw-lfl
+        4353:Laborgebäude 1:
+        4355:Technologie VI:
+        4361:Technologie V:
+        4362:Mehrzweckgebäude 1:
+        4368:Technologie III:
+      4387:Camerloher Gymnasium:
+      :Staudensichtungsgarten:staudensichtungsgarten[area]
   5:Garching Forschungszentrum|Garching:garching[campus]
     51:Physik:physik
       :Physik Hauptgebäude:physik-main
