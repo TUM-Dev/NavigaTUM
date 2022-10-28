@@ -41,7 +41,7 @@
 "5402.01.221K": { lat: 48.268668, lon: 11.669672 } # Ivar-Ugi-Hörsaal (approximate)
 "5406.01.650C": { lat: 48.268761, lon: 11.669356 }
 "5407.01.740A": { lat: 48.268962, lon: 11.669759 } # Übungsraum
-"5407.01.740B": { lat: 48.268880, lon: 11.669705 }  # Walter-Hieber-Hörsaal
+"5407.01.740B": { lat: 48.268880, lon: 11.669705 } # Walter-Hieber-Hörsaal
 "5407.01.760D": { lat: 48.269426, lon: 11.669553 } # A room that is pretty stupid to find
 
 "5403.04.320D": { lat: 48.268511, lon: 11.670640 }
