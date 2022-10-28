@@ -139,6 +139,7 @@ def scrape_rooms():
             rooms.append(room_index[room["roomcode"]])
         usage_id += 1
 
+    rooms.sort(key=lambda r: r["list_index"])
     _write_cache_json(cache_name, rooms)
     return rooms
 
