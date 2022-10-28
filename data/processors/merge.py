@@ -62,7 +62,7 @@ def add_coordinates(data, path):
         yaml_data[str(_id)] = yaml_data[_id]
         del yaml_data[_id]
 
-    _recursive_merge(data, {_id: {"coords": val} for _id, val in yaml_data})
+    _recursive_merge(data, {_id: {"coords": val} for _id, val in yaml_data.items()})
 
 
 def merge_object(data, obj, overwrite=True):
