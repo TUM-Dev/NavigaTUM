@@ -12,6 +12,7 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup, element
 from defusedxml import ElementTree as ET
+from progress.bar import Bar  # type: ignore
 from utils import convert_to_webp
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
@@ -33,8 +34,9 @@ def roomfinder_buildings():
 
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
         buildings = proxy.getBuildings()
-        print(f"Retrieving {len(buildings)} buildings")
+        bar = Bar("Retrieving", suffix="%(index)d / %(max)d buildings", max=len(buildings))
         for i, building in enumerate(buildings):
+            bar.next()
             # Make sure b_id is numeric. There is an incorrect entry with the value
             # 'CiO/SGInstitute West, Bibliot' which causes a crash
             try:
@@ -47,9 +49,6 @@ def roomfinder_buildings():
             buildings[i]["maps"] = proxy.getBuildingMaps(building["b_id"])
             buildings[i]["default_map"] = proxy.getBuildingDefaultMap(building["b_id"])
             time.sleep(0.05)
-            if i % 10 == 0:
-                print(".", end="", flush=True)
-    print("")
 
     _write_cache_json(cache_name, buildings)
     return buildings
@@ -98,9 +97,8 @@ def roomfinder_rooms():
 
                 rooms_list.extend(list(b_rooms))
 
-    print(f"Retrieving {len(rooms_list)} rooms for {b_cnt} buildings")
     rooms = []
-    for i, room in enumerate(rooms_list):
+    for room in Bar("Retrieving", suffix=f"%(index)d / %(max)d rooms for {b_cnt} buildings").iter(rooms_list):
         extended_data = proxy.getRoomData(room)
         # for k, v in extended_data.items():
         #    rooms[i][k] = v
@@ -109,9 +107,6 @@ def roomfinder_rooms():
         extended_data["metas"] = proxy.getRoomMetas(room)
         rooms.append(extended_data)
         time.sleep(0.05)
-        if i % 10 == 0:
-            print(".", end="", flush=True)
-    print("")
 
     _write_cache_json(cache_name, rooms)
     return rooms
@@ -473,6 +468,7 @@ def _retrieve_tumonline_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
     pages_cnt = 1
     current_page = 0
 
+    bar = Bar("Searching for Rooms", index=current_page, max=pages_cnt)
     while current_page < pages_cnt:
         search_params = {
             "pStart": len(all_rooms) + 1,  # 1 + current_page * 30,
@@ -487,11 +483,9 @@ def _retrieve_tumonline_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
         rooms_on_page, pages_cnt, current_page = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
         all_rooms.extend(rooms_on_page)
 
-        if current_page == 1:
-            print(f"({pages_cnt}) ", end="")
-        print(".", end="", flush=True)
+        bar.max = pages_cnt
+        bar.next()
         time.sleep(1.5)
-    print("")
 
     _write_cache_json(cache_name, all_rooms)
     return all_rooms
