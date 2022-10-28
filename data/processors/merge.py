@@ -41,6 +41,30 @@ def merge_yaml(data, path):
     return _recursive_merge(data, yaml_data)
 
 
+def add_coordinates(data, path):
+    """
+    Merge coordinates from the yaml file at path on top of the given data.
+    This operates on the data dict directly without creating a copy.
+    """
+    with open(path, encoding="utf-8") as file:
+        yaml_data = yaml.safe_load(file.read())
+
+    if not isinstance(yaml_data, dict):
+        raise RuntimeError(f"Error: Coordinates are not in the expected format ({path=})")
+
+    # If the key of a root element is only numeric with 4 digits,
+    # we assume it is a building id (which needs to be converted to string)
+    ids_to_fix = []  # Cannot change dict while iterating
+    for _id, _data in yaml_data.items():
+        if isinstance(_id, int) and len(str(_id)) == 4:
+            ids_to_fix.append(_id)
+    for _id in ids_to_fix:
+        yaml_data[str(_id)] = yaml_data[_id]
+        del yaml_data[_id]
+
+    _recursive_merge(data, {_id: {"coords": val} for _id, val in yaml_data})
+
+
 def merge_object(data, obj, overwrite=True):
     """
     Merge the object on top of the given data.
