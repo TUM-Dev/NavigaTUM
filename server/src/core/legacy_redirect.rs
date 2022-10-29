@@ -58,10 +58,14 @@ fn prepare_redirect(arch_name: String) -> Result<HttpResponse, rusqlite::Error> 
 fn extract_redirect_base(key: TypeAndKey) -> String {
     match key._type.as_str() {
         "root" => "".to_string(),
-        "joined_building" => format!("building/{}", key.key),
-        "virtual_room" => format!("room/{}", key.key),
+        "campus" => format!("campus/{}", key.key),
+        "site" => format!("site/{}", key.key),
         "area" => format!("site/{}", key.key), // Currently also "site", maybe "group"? TODO
-        res => format!("{}/{}", res, key.key),
+        "building" => format!("building/{}", key.key),
+        "joined_building" => format!("building/{}", key.key),
+        "room" => format!("room/{}", key.key),
+        "virtual_room" => format!("room/{}", key.key),
+        _ => format!("view/{}", key.key), // can be triggered if we add a type but don't add it here
     }
 }
 
