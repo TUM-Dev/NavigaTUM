@@ -67,8 +67,13 @@ fn extract_redirect_base(key: TypeAndKey) -> String {
 
 /// the old roomfinder still exists and adoption of our new system is not great.
 /// This is a redirect route which can be a direct redirect for the old room-finder.
-/// After 1-2 years, we will introduce some text to shame those, who still have not changed their links,
-/// as otherwise I assume this transition will never be done...
+/// After 1-2 years, we will introduce some text to nudging those,
+/// who still have not changed their links, as otherwise we assume this transition will never be done...
+/// Said nudge will include information on who to contact if updating the website is not possible and
+/// tell the users what link to exchange with what other link.
+/// Redirecting to y after a button click or something similar is probably good.
+///
+/// THIS IS NOT A PERMANENT SOLUTION, AND WILL BE REMOVED IN THE FUTURE
 #[get("/legacy_redirect/{arch_name}")]
 pub async fn legacy_redirect_handler(params: web::Path<String>) -> HttpResponse {
     let arch_name = params.into_inner();
