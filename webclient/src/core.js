@@ -11,7 +11,8 @@ const cachedFetch = (() => ({
   fetch: function (url, options) {
     return new Promise((resolve) => {
       // Add language query param to the request
-      url += (url.indexOf("?") > 0 ? "&lang=" : "?lang=") + (localStorage.getItem("lang") || "de");
+      const lang = document.documentElement.lang;
+      url += (url.includes("?") ? "&lang=" : "?lang=") + lang;
 
       if (url in this.cache) {
         resolve(this.cache[url]);
