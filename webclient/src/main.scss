@@ -355,7 +355,7 @@ footer {
 
                 &:disabled {
                     background-color: $footer-setting-bg-disabled;
-                    color: white;
+                    color: $footer-setting-color-disabled;
                 }
             }
         }
