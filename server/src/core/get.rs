@@ -1,5 +1,5 @@
 use crate::utils;
-use actix_web::{get, web, HttpRequest, HttpResponse};
+use actix_web::{get, web, HttpResponse};
 use log::error;
 use rusqlite::{Connection, OpenFlags};
 
@@ -7,7 +7,6 @@ use rusqlite::{Connection, OpenFlags};
 pub async fn get_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<utils::DetailsQueryArgs>,
-    req: HttpRequest,
 ) -> HttpResponse {
     let id = params.into_inner();
     let conn = Connection::open_with_flags(
@@ -16,7 +15,7 @@ pub async fn get_handler(
     )
     .expect("Cannot open database");
 
-    let stmt = match utils::should_use_english(args, req) {
+    let stmt = match utils::should_use_english(args) {
         false => conn.prepare_cached("SELECT data FROM de WHERE key = ?"),
         true => conn.prepare_cached("SELECT data FROM en WHERE key = ?"),
     };

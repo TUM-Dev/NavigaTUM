@@ -1,6 +1,6 @@
 use std::io::Cursor;
 
-use actix_web::{get, web, HttpRequest, HttpResponse};
+use actix_web::{get, web, HttpResponse};
 use awc::Client;
 use cached::lazy_static::lazy_static;
 use cached::proc_macro::cached;
@@ -288,11 +288,10 @@ fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
 pub async fn maps_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<utils::DetailsQueryArgs>,
-    req: HttpRequest,
 ) -> HttpResponse {
     let start_time = Instant::now();
     let id = params.into_inner();
-    let should_use_english = utils::should_use_english(args, req);
+    let should_use_english = utils::should_use_english(args);
     let data = get_localised_data(&id, should_use_english);
     if data.is_none() {
         return HttpResponse::NotFound()
