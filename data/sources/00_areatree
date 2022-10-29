@@ -239,7 +239,7 @@
     3901:Kiosk:
     3902:Seglerheim:
     3904:Bootshaus:
-  4:Wissenschaftszentrum Weihenstephan (WZW Freising)|WZW Freising:wzw[campus]
+  :Campus Weihenstephan (Freising)|Weihenstephan:wzw[campus]
     4001:Ruine der Korbinians Kapelle:
     41:Gebiet 4100 Berg:wzw-berg
       :Alte Akademie:wzw-berg-alte-akademie
@@ -265,7 +265,6 @@
       :ZIEL – Institute for Food & Health:wzw-ziel
         4124:ZIEL II – Molekulare Biowissenschaften:
         4126:ZIEL I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie:
-      4127:Arbeiterwohngebäude der Verwaltung Weihenstephan:
       4128:Trafostation I, Am Löwentor:
       4130:Trafostation IV (Sprachlabor):
       :Aquatische Systembiologie:aquatische-systembiologie
@@ -310,25 +309,6 @@
       4224:ZIEL IV - Biowissenschaften:
       4225:Lebensmittelchemie u. Molekulare Sensorik:
       4226:iGZW internationales Getränkewissenschaftliches Zentrum Weihenstephan:
-      423,450,451:Gewächshauslaborzentrum Dürnast:duernast
-        4230:Dürnast Versuchsstation Tierst.:
-        4231:Dürnast I:
-        4232:Gewächshauslaborzentrum (GHL) 3, Dürnast II:
-        4233:Dürnast Trafo Station (in Gerätehalle West integriert):
-        4234:Gewächshauslaborzentrum (GHL) 1, Dürnast III:
-        4235:Gewächshauslaborzentrum (GHL) 2, Dürnast IV:
-        4236:Wohnhaus:
-        4237:Werkdienstwohnung:
-        4501:Arbeiterwohngebäude STG.WST.:
-        4502:Werkstattgebäude-Wirt. Geb. STG.WST.:
-        4503:Dürnast -Verw.-, WGB., RS., S.-STG.WST.:
-        4505:Maschinenhalle STG.WST.-Kart, Lager, 2 SST:
-        4506:Schuppen STG.WST.:
-        4508:Wagenh. m. Fuhrw. W. STG.WST.:
-        4509:Fahrsilo-Güllebehälter STG.WST.:
-        4510:Getreidekasten STG.WST.:
-        4512:Gerätehalle West:
-        4513:Gerätehalle Ost:
       4238:Werkfeuerwehr Weihenstephan:
       4239:Kindergarten "Krabbelstube Weihenstephan":
       4254:Dienstleister / Eltern-Kind-Zimmer:
@@ -344,7 +324,7 @@
     43:Gebiet 4300 Nord / Hochfeld:wzw-nord
       4304:Verwaltung der TUM - Immobilien / Bauhof:
       :Liesel-Beckmann-Straße:wzw-lbs
-        4307:Dienstleistergebäude:
+        -4307:Dienstleistergebäude:
         4308:Humanbiologie Zoologie:
         4317:Tierwissenschaften:
         4318:HEZ Hans-Eisenmann-Zentrum für Agrarwissenschaften:
@@ -371,6 +351,7 @@
         4368:Technologie III:
       4387:Camerloher Gymnasium:
       :Staudensichtungsgarten:staudensichtungsgarten[area]
+  :School of of Life Sciences Außenstellen:wzw-extern
     44:Limnologische Station, Iffeldorf:iffeldorf[site]
       4401:Gebäude 1:
       4402:Bootshaus:
@@ -429,6 +410,26 @@
       4915:Arb.Gba. 2, SCHP:
       4916:Arb.Gba. 3, SCHP:
       4920:Kapelle:
+    4127,423,450,451:Gewächshauslaborzentrum Dürnast:duernast
+      4127:Arbeiterwohngebäude der Verwaltung Weihenstephan:
+      4230:Dürnast Versuchsstation Tierst.:
+      4231:Dürnast I:
+      4232:Gewächshauslaborzentrum (GHL) 3, Dürnast II:
+      4233:Dürnast Trafo Station (in Gerätehalle West integriert):
+      4234:Gewächshauslaborzentrum (GHL) 1, Dürnast III:
+      4235:Gewächshauslaborzentrum (GHL) 2, Dürnast IV:
+      4236:Wohnhaus:
+      4237:Werkdienstwohnung:
+      4501:Arbeiterwohngebäude STG.WST.:
+      4502:Werkstattgebäude-Wirt. Geb. STG.WST.:
+      4503:Dürnast -Verw.-, WGB., RS., S.-STG.WST.:
+      4505:Maschinenhalle STG.WST.-Kart, Lager, 2 SST:
+      4506:Schuppen STG.WST.:
+      4508:Wagenh. m. Fuhrw. W. STG.WST.:
+      4509:Fahrsilo-Güllebehälter STG.WST.:
+      4510:Getreidekasten STG.WST.:
+      4512:Gerätehalle West:
+      4513:Gerätehalle Ost:
   5:Garching Forschungszentrum|Garching:garching[campus]
     51:Physik:physik
       :Physik Hauptgebäude:physik-main
