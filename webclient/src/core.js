@@ -10,6 +10,9 @@ let navigatum;
 const cachedFetch = (() => ({
   fetch: function (url, options) {
     return new Promise((resolve) => {
+      // Add language query param to the request
+      url += (url.indexOf("?") > 0 ? "&lang=" : "?lang=") + (localStorage.getItem("lang") || "de");
+
       if (url in this.cache) {
         resolve(this.cache[url]);
       } else if (url in this.promise_callbacks) {
@@ -17,11 +20,6 @@ const cachedFetch = (() => ({
       } else {
         this.promise_callbacks[url] = [resolve];
 
-        // in local development we serve our website from two diverent CORS sources.
-        // since we need the lang cookie for the api localisation, we have to add crecentials:"include"
-        // to the fetech options
-        options.credentials =
-          "/* @if target='release' */same-origin/* @else */include/* @endif */";
         if (!options.headers) options.headers = {};
         fetch(url, options)
           .then((response) => {
