@@ -958,10 +958,10 @@ paths:
           examples:
             one:
               summary: A arch_name with one meaning
-              value:
+              value: 3002@5510
             two:
               summary: A arch_name with multiple meanings
-              value:
+              value: 0203P@5502
       responses:
         '301':
           description: Permanent redirect to the roomfinder
