@@ -95,9 +95,15 @@ def export_for_api(data, path):
     for _id, entry in data.items():
         if entry["type"] != "root":
             entry.setdefault("maps", {})["default"] = "interactive"
+
+        # For the transition from the old roomfinder we export an arch_name similar
+        # to the one used by the old roomfinder. For rooms it is like "<room name>@<building id>"
+        # and for buildings like "@<building id>". For everything else this field is None.
+        arch_name = f"@{entry['id']}" if entry["type"] == "building" else \
+                    entry.get("tumonline_data", {}).get("arch_name", None)
         export_data[_id] = {
             "parent_names": [data[p]["name"] for p in entry["parents"]],
-            "arch_name": entry.get("tumonline_data", {}).get("arch_name", None),
+            "arch_name": arch_name,
             **entry,
         }
         if "children" in export_data[_id]:
