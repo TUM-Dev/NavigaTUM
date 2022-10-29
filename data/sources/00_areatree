@@ -239,87 +239,8 @@
     3901:Kiosk:
     3902:Seglerheim:
     3904:Bootshaus:
-  :School of of Life Sciences Außenstellen:
-    44:Limnologische Station, Iffeldorf:iffeldorf[site]
-      4401:Gebäude 1:
-      4402:Bootshaus:
-      4403:Gebäude 2:
-      4404:Seminargebäude:
-      4405:Remise:
-    452:Versuchsstation Viehhausen STG.WST.:viehhausen[site]
-      4521:Mehrzweckhalle:
-      4522:Landwirtschafliche Freifläche:
-      4523:Hühnerstall:
-      4524:Tankstelle Viehhof:
-    46:Versuchsstation Thalhausen:thalhausen[site]
-      4601:Wohngebäude:
-      4602:Zentralgebäude:
-      4603:Betriebsgebäude:
-      4604:Maschinenhalle:
-      4605:Rinder/Kälber:
-      4606:Futterzentrale:
-      4607:Tr. Sauen/Eber:
-      4608:Mastschweine 1:
-      4609:Ferkel/Sauen:
-      4610:Mastschweine 2:
-      4611:Legehennen/Broiler:
-      4612:Probemaststall:
-      4613:Elterntierstall:
-      4614:Futtergang:
-      4615:Strohlager:
-      4616:Güllebehälter:
-      4620:Versuchsfelder:
-    4800:Halle Achering:
-    :Staatsgut Grünschwaige (Versuchsstation für Futterbau):gruenschwaige
-      4801:Verwaltungsgebäude:
-      4802:Mehrzweckhalle:
-      4803:Schweinestall:
-      4804:Getreidelager:
-      4805:Futtersilo:
-      4806:Schafstall:
-      4807:Lagerscheune:
-      4808:Stallgebäude:
-      4809:Gerätescheune:
-      4810:Strohscheune 1:
-      4811:Strohscheune 2:
-      4812:Maschinenhalle:
-      4813:Baur-Haus:
-      4814:Fahrsilo:
-      4815:Grastrockner:
-    49:Versuchsstation Roggenstein:roggenstein[site]
-      4901:Wohngebäude, Verwaltung, VTS:
-      4902:Doktor. Haus:
-      4903:Schw.St., Wirtg.:
-      4907:Wirtschaftsgebäude:
-      4908:Wagenremise:
-      4909:Maschinen, Dünger:
-      4910:Getreidesilo:
-      4914:Arb.Gba. 1, SCHP:
-      4915:Arb.Gba. 2, SCHP:
-      4916:Arb.Gba. 3, SCHP:
-      4920:Kapelle:
-    4127,423,450,451:Gewächshauslaborzentrum Dürnast:duernast
-      4127:Arbeiterwohngebäude der Verwaltung Weihenstephan:
-      4230:Dürnast Versuchsstation Tierst.:
-      4231:Dürnast I:
-      4232:Gewächshauslaborzentrum (GHL) 3, Dürnast II:
-      4233:Dürnast Trafo Station (in Gerätehalle West integriert):
-      4234:Gewächshauslaborzentrum (GHL) 1, Dürnast III:
-      4235:Gewächshauslaborzentrum (GHL) 2, Dürnast IV:
-      4236:Wohnhaus:
-      4237:Werkdienstwohnung:
-      4501:Arbeiterwohngebäude STG.WST.:
-      4502:Werkstattgebäude-Wirt. Geb. STG.WST.:
-      4503:Dürnast -Verw.-, WGB., RS., S.-STG.WST.:
-      4505:Maschinenhalle STG.WST.-Kart, Lager, 2 SST:
-      4506:Schuppen STG.WST.:
-      4508:Wagenh. m. Fuhrw. W. STG.WST.:
-      4509:Fahrsilo-Güllebehälter STG.WST.:
-      4510:Getreidekasten STG.WST.:
-      4512:Gerätehalle West:
-      4513:Gerätehalle Ost:
-  4:Campus Weihenstephan (Freising)|Weihenstephan:wzw[campus]
-      4001:Ruine der Korbinians Kapelle:
+  :Campus Weihenstephan (Freising)|Weihenstephan:wzw[campus]
+    4001:Ruine der Korbinians Kapelle:
     41:Gebiet 4100 Berg:wzw-berg
       :Alte Akademie:wzw-berg-alte-akademie
         4101:Verwaltung / BLQ Brau- und Lebensmittelqualität:
@@ -430,6 +351,85 @@
         4368:Technologie III:
       4387:Camerloher Gymnasium:
       :Staudensichtungsgarten:staudensichtungsgarten[area]
+  :School of of Life Sciences Außenstellen:wzw-extern
+    44:Limnologische Station, Iffeldorf:iffeldorf[site]
+      4401:Gebäude 1:
+      4402:Bootshaus:
+      4403:Gebäude 2:
+      4404:Seminargebäude:
+      4405:Remise:
+    452:Versuchsstation Viehhausen STG.WST.:viehhausen[site]
+      4521:Mehrzweckhalle:
+      4522:Landwirtschafliche Freifläche:
+      4523:Hühnerstall:
+      4524:Tankstelle Viehhof:
+    46:Versuchsstation Thalhausen:thalhausen[site]
+      4601:Wohngebäude:
+      4602:Zentralgebäude:
+      4603:Betriebsgebäude:
+      4604:Maschinenhalle:
+      4605:Rinder/Kälber:
+      4606:Futterzentrale:
+      4607:Tr. Sauen/Eber:
+      4608:Mastschweine 1:
+      4609:Ferkel/Sauen:
+      4610:Mastschweine 2:
+      4611:Legehennen/Broiler:
+      4612:Probemaststall:
+      4613:Elterntierstall:
+      4614:Futtergang:
+      4615:Strohlager:
+      4616:Güllebehälter:
+      4620:Versuchsfelder:
+    4800:Halle Achering:
+    :Staatsgut Grünschwaige (Versuchsstation für Futterbau):gruenschwaige
+      4801:Verwaltungsgebäude:
+      4802:Mehrzweckhalle:
+      4803:Schweinestall:
+      4804:Getreidelager:
+      4805:Futtersilo:
+      4806:Schafstall:
+      4807:Lagerscheune:
+      4808:Stallgebäude:
+      4809:Gerätescheune:
+      4810:Strohscheune 1:
+      4811:Strohscheune 2:
+      4812:Maschinenhalle:
+      4813:Baur-Haus:
+      4814:Fahrsilo:
+      4815:Grastrockner:
+    49:Versuchsstation Roggenstein:roggenstein[site]
+      4901:Wohngebäude, Verwaltung, VTS:
+      4902:Doktor. Haus:
+      4903:Schw.St., Wirtg.:
+      4907:Wirtschaftsgebäude:
+      4908:Wagenremise:
+      4909:Maschinen, Dünger:
+      4910:Getreidesilo:
+      4914:Arb.Gba. 1, SCHP:
+      4915:Arb.Gba. 2, SCHP:
+      4916:Arb.Gba. 3, SCHP:
+      4920:Kapelle:
+    4127,423,450,451:Gewächshauslaborzentrum Dürnast:duernast
+      4127:Arbeiterwohngebäude der Verwaltung Weihenstephan:
+      4230:Dürnast Versuchsstation Tierst.:
+      4231:Dürnast I:
+      4232:Gewächshauslaborzentrum (GHL) 3, Dürnast II:
+      4233:Dürnast Trafo Station (in Gerätehalle West integriert):
+      4234:Gewächshauslaborzentrum (GHL) 1, Dürnast III:
+      4235:Gewächshauslaborzentrum (GHL) 2, Dürnast IV:
+      4236:Wohnhaus:
+      4237:Werkdienstwohnung:
+      4501:Arbeiterwohngebäude STG.WST.:
+      4502:Werkstattgebäude-Wirt. Geb. STG.WST.:
+      4503:Dürnast -Verw.-, WGB., RS., S.-STG.WST.:
+      4505:Maschinenhalle STG.WST.-Kart, Lager, 2 SST:
+      4506:Schuppen STG.WST.:
+      4508:Wagenh. m. Fuhrw. W. STG.WST.:
+      4509:Fahrsilo-Güllebehälter STG.WST.:
+      4510:Getreidekasten STG.WST.:
+      4512:Gerätehalle West:
+      4513:Gerätehalle Ost:
   5:Garching Forschungszentrum|Garching:garching[campus]
     51:Physik:physik
       :Physik Hauptgebäude:physik-main
