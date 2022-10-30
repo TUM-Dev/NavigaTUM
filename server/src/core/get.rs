@@ -6,7 +6,7 @@ use rusqlite::{Connection, OpenFlags};
 #[get("/get/{id}")]
 pub async fn get_handler(
     params: web::Path<String>,
-    web::Query(args): web::Query<utils::DetailsQueryArgs>,
+    web::Query(args): web::Query<utils::LangQueryArgs>,
 ) -> HttpResponse {
     let id = params.into_inner();
     let conn = Connection::open_with_flags(
@@ -15,7 +15,7 @@ pub async fn get_handler(
     )
     .expect("Cannot open database");
 
-    let stmt = match utils::should_use_english(args) {
+    let stmt = match args.should_use_english() {
         false => conn.prepare_cached("SELECT data FROM de WHERE key = ?"),
         true => conn.prepare_cached("SELECT data FROM en WHERE key = ?"),
     };

@@ -1,10 +1,12 @@
 use serde::Deserialize;
 
-pub fn should_use_english(args: DetailsQueryArgs) -> bool {
-    args.lang.map_or(false, |c| c == "en")
+#[derive(Deserialize)]
+pub struct LangQueryArgs {
+    lang: Option<String>,
 }
 
-#[derive(Deserialize)]
-pub struct DetailsQueryArgs {
-    lang: Option<String>,
+impl LangQueryArgs {
+    pub fn should_use_english(&self) -> bool {
+        self.lang.as_ref().map_or(false, |c| c == "en")
+    }
 }
