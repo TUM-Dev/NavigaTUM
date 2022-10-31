@@ -10,7 +10,7 @@ RUN     RUSTFLAGS="-C target-feature=-crt-static" cargo build --release
 
 
 # Build the details database
-FROM python:3.11.0rc2-bullseye as build-stage
+FROM python:3.12.0a1-bullseye as build-stage
 COPY    load_api_data_to_db.py load_api_data_to_db.py
 
 # get api_data.json
