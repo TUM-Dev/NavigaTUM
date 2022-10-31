@@ -21,7 +21,7 @@ into it:
 mkdir cdn
 rsync -r --exclude '*.yaml' ../data/sources/img/ cdn/
 mkdir -p cdn/maps/roomfinder
-cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder/
+cp -r ../data/external/results/maps/roomfinder/* cdn/maps/roomfinder/
 ```
 
 ### Building
