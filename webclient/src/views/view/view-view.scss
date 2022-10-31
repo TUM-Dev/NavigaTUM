@@ -550,6 +550,25 @@
             }
         }
     }
+
+    /* --- Modal Roomfinder --- */
+    #modal-roomfinder {
+        display: none;
+        align-items: baseline;
+
+        & .modal-container {
+            position: relative;
+            top: 5em;
+        }
+    }
+
+    .close {
+        font-size: 30px;
+    }
+
+    .close:hover, .close:focus {
+        cursor: pointer;
+    }
 }
 
 // 'md' (
