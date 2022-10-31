@@ -326,6 +326,36 @@
       <div class="divider" style="margin-top: 10px"></div>
     </div>
 
+    <!-- Modal-Roomfinder -->
+    <div class="modal modal-lg active"
+    id="modal-roomfinder"
+    >
+        <div class="modal-container modal-fullheight">
+            <div class="modal-header">
+                <span class="close">&times</span>
+                <h5 class="modal-title">Roomfinder</h5>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+                    <img
+                        alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
+                        src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.webp"
+                        v-bind:style="{'transform': 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)'}"
+                        id="roomfinder-map-cross"
+                    />
+                    <img
+                        alt="Hand-drawn roomfinder map image"
+                        v-bind:src="'<!-- @echo cdn_prefix -->maps/roomfinder/' + view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].file"
+                        class="img-responsive"
+                        v-bind:width="state.map.roomfinder.width"
+                        v-bind:height="state.map.roomfinder.height"
+                        id="roomfinder-map-img"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Information section (on mobile) -->
     <div
       class="column col-5 col-sm-12 show-sm mobile-info-section"
