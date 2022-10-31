@@ -13,7 +13,8 @@ from utils import convert_to_webp
 
 ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192"
 
-def roomfinder_buildings():
+
+def scrape_buildings():
     """
     Retrieve the (extended, i.e. with coordinates) buildings data from the Roomfinder API
 
@@ -47,7 +48,7 @@ def roomfinder_buildings():
     return buildings
 
 
-def roomfinder_rooms():
+def scrape_rooms():
     """
     Retrieve the (extended, i.e. with coordinates) rooms data from the Roomfinder API.
     This may retrieve the Roomfinder buildings.
@@ -60,7 +61,7 @@ def roomfinder_rooms():
     if rooms is not None:
         return rooms
 
-    buildings = roomfinder_buildings()
+    buildings = scrape_buildings()
     rooms_list = []
 
     # Get all rooms in a building
@@ -131,7 +132,7 @@ def _guess_queries(rooms, n_rooms):
             return
 
 
-def roomfinder_maps():
+def scrape_maps():
     """
     Retrieve the maps including the data about them from Roomfinder.
     Map files will be stored in 'cache/maps/roomfinder'.
@@ -148,8 +149,8 @@ def roomfinder_maps():
 
     # The only way to get the map boundaries seems to be to download the kml with overlaid map.
     # For this api we need a room or building for each map available.
-    rooms = roomfinder_rooms()
-    buildings = roomfinder_buildings()
+    rooms = scrape_rooms()
+    buildings = scrape_buildings()
 
     used_maps = {}
     for building_entity in rooms + buildings:

@@ -12,7 +12,7 @@ from progress.bar import Bar  # type: ignore
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
 
 
-def tumonline_areas():
+def scrape_areas():
     """
     Retrieve the building areas as in TUMonline.
 
@@ -27,7 +27,7 @@ def tumonline_areas():
     return [{"id": int(e[0]), "name": e[1]} for e in _parse_filter_options(filters, "areas")]
 
 
-def tumonline_usages_filter():
+def scrape_usages_filter():
     """
     Retrieve the room usage types that are available as a filter in TUMonline.
     These are not all usage types known to TUMonline!
@@ -43,7 +43,7 @@ def tumonline_usages_filter():
     return [{"id": int(e[0]), "name": e[1]} for e in _parse_filter_options(filters, "usages")]
 
 
-def tumonline_buildings():
+def scrape_buildings():
     """
     Retrieve the buildings as in TUMonline with their assigned TUMonline area.
     This may retrieve TUMonline areas.
@@ -63,7 +63,7 @@ def tumonline_buildings():
     )
     all_buildings = _parse_filter_options(filters, "buildings")
 
-    areas = tumonline_areas()
+    areas = scrape_areas()
     buildings = []
     for area in areas:
         filters_area = _get_roomsearch_xml(
@@ -83,7 +83,7 @@ def tumonline_buildings():
     return buildings
 
 
-def tumonline_rooms():
+def scrape_rooms():
     """
     Retrieve the rooms as in TUMonline including building and usage type.
     For some room types (e.g. lecture halls) additional information is retrieved.
@@ -114,9 +114,9 @@ def tumonline_rooms():
 
     room_index = {}
 
-    buildings = tumonline_buildings()
+    buildings = scrape_buildings()
     for building in buildings:
-        b_rooms = _retrieve_tumonline_roomlist("b", "building", "pGebaeude", building["filter_id"], building["area_id"])
+        b_rooms = _retrieve_roomlist("b", "building", "pGebaeude", building["filter_id"], building["area_id"])
         for room in b_rooms:
             room["b_filter_id"] = building["filter_id"]
             room["b_area_id"] = building["area_id"]
@@ -127,12 +127,12 @@ def tumonline_rooms():
     rooms = []
     usage_id = 1  # Observed: usage ids go up to 223, the limit below is for safety
     while not (usage_id > 300 or len(rooms) >= len(room_index)):
-        u_rooms = _retrieve_tumonline_roomlist("u", "usage", "pVerwendung", usage_id)
+        u_rooms = _retrieve_roomlist("u", "usage", "pVerwendung", usage_id)
         for room in u_rooms:
             room_index[room["roomcode"]]["usage"] = usage_id
             if usage_id in extend_for_usages:
                 system_id = room_index[room["roomcode"]]["room_link"][24:]
-                room_index[room["roomcode"]]["extended"] = _retrieve_tumonline_roominfo(system_id)
+                room_index[room["roomcode"]]["extended"] = _retrieve_roominfo(system_id)
             rooms.append(room_index[room["roomcode"]])
         usage_id += 1
 
@@ -140,7 +140,7 @@ def tumonline_rooms():
     return rooms
 
 
-def tumonline_usages():
+def scrape_usages():
     """
     Retrieve all usage types available in TUMonline.
     This may retrieve TUMonline rooms.
@@ -153,7 +153,7 @@ def tumonline_usages():
     if usages is not None:
         return usages
 
-    rooms = tumonline_rooms()
+    rooms = scrape_rooms()
 
     used_usage_types = {}
     for room in rooms:
@@ -165,7 +165,7 @@ def tumonline_usages():
     for usage_type, example_room in used_usage_types.items():
         # room links start with "wbRaum.editRaum?pRaumNr=..."
         system_id = example_room["room_link"][24:]
-        roominfo = _retrieve_tumonline_roominfo(system_id)
+        roominfo = _retrieve_roominfo(system_id)
 
         usage = roominfo["Basisdaten"]["Verwendung"]
         parts = []
@@ -186,7 +186,7 @@ def tumonline_usages():
     return usages
 
 
-def tumonline_orgs():
+def scrape_orgs():
     """
     Retrieve all organisations in TUMonline, that may operate rooms.
 
@@ -236,7 +236,7 @@ def tumonline_orgs():
     return orgs
 
 
-def _retrieve_tumonline_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
+def _retrieve_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
     """Retrieve all rooms (multi-page) from the TUMonline room search list"""
     cache_name = f"tumonline/{f_prefix}_{f_value}.{area_id}.json"
 
@@ -273,7 +273,7 @@ def _retrieve_tumonline_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
     return all_rooms
 
 
-def _retrieve_tumonline_roominfo(system_id):
+def _retrieve_roominfo(system_id):
     """Retrieve the extended room information from TUMonline for one room"""
     html_parser: BeautifulSoup = _get_html(
         f"{TUMONLINE_URL}/wbRaum.editRaum?pRaumNr={system_id}",
@@ -404,6 +404,7 @@ def _get_html(url: str, params: dict, cache_fname: str) -> BeautifulSoup:
 
 
 def _get_tumonline_api_url(base_target):
-    # I have no idea, what this magic_string is, or why it exists.. Usage is the same as from TUMonline..
+    # I have no idea, what this magic_string is, or why it exists..
+    # Usage is the same as from TUMonline..
     magic_string = f"NC_{str(random.randint(0, 9999)).zfill(4)}"  # nosec: random is not used security/crypto purposes
     return f"{TUMONLINE_URL}/{base_target}/{magic_string}"

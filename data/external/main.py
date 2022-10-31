@@ -14,13 +14,13 @@ if __name__ == "__main__":
 
     # You can comment out steps that should be skipped.
     # The downloader will automatically create a cache in `cache/`.
-    roomfinder.roomfinder_buildings()
-    tumonline.tumonline_buildings()
+    roomfinder.scrape_buildings()
+    tumonline.scrape_buildings()
 
-    roomfinder.roomfinder_rooms()
-    tumonline.tumonline_rooms()
+    roomfinder.scrape_rooms()
+    tumonline.scrape_rooms()
 
-    tumonline.tumonline_usages()
+    tumonline.scrape_usages()
 
-    roomfinder.roomfinder_maps()
-    tumonline.tumonline_orgs()
+    roomfinder.scrape_maps()
+    tumonline.scrape_orgs()
