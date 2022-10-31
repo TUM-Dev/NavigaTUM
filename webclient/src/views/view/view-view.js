@@ -659,3 +659,19 @@ navigatum.registerView("view", {
     });
   },
 });
+
+// --- Modal-Roomfinder ---
+const modalRoomfinder = document.getElementById('modal-roomfinder');
+const imgRoomfinder = document.getElementById("roomfinder-map-img");
+const spanRoomfinder = document.getElementsByClassName("close")[0];
+imgRoomfinder.onclick = function() {
+  modalRoomfinder.style.display = "block";
+}
+spanRoomfinder.onclick = function() {
+  modalRoomfinder.style.display = "none";
+}
+window.onclick = function(event) {
+  if (event.target == modalRoomfinder) {
+    modalRoomfinder.style.display = "none";
+  }
+}
