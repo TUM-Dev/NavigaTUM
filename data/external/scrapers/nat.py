@@ -43,7 +43,7 @@ def scrape_rooms():
     logging.info("Scraping the rooms of the NAT")
     base_info = _get_base_room_infos()
     rooms = {}
-    for room in thread_map(_download_and_merge_room, base_info, desc="Downloaded nat rooms",):
+    for room in thread_map(_download_and_merge_room, base_info, desc="Downloaded nat rooms"):
         key = room["room_code"]  # needed, as room_code is removed in _sanitise_room
         rooms[key] = _sanitise_room(room)
 
