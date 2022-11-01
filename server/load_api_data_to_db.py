@@ -52,8 +52,12 @@ def add_to_database(de_data, en_data):
     en_data = [map_data(key, data_json, data) for (key, data_json, data) in en_data]
 
     with con:
-        con.executemany("INSERT INTO de(key,data,name,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)", de_data)
-        con.executemany("INSERT INTO en(key,data,name,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)", en_data)
+        con.executemany(
+            "INSERT INTO de(key,data,name,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)", de_data
+        )
+        con.executemany(
+            "INSERT INTO en(key,data,name,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)", en_data
+        )
 
 
 def localise(value: Union[str, list[Any], dict[str, Any]], language: str) -> Any:
