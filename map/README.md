@@ -29,7 +29,7 @@ docker run -it -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data ghcr.io/onth
 
 For `planet`, you might want to increase the `--Xmx` parameter to 20GB. For 128GB of RAM or more you will want to use `--storage=ram` instead of `--storage=mmap`.
 
-### 1. serve the tileset
+### Serve the tileset
 
 After generating `output.mbtiles` you can serve it with a tileserver.
 We use [tileserver-gl](https://github.com/maptiler/tileserver-gl) for this, but there are other ones out there.
@@ -41,7 +41,7 @@ From the root of the repository, run:
 docker run --rm -it -v $(pwd)/map:/data -p 7770:80 maptiler/tileserver-gl
 ```
 
-### 2. Edit the style
+### Edit the style
 
 For editing the style we use [Maputnik](https://github.com/maputnik/editor).
 It is a web-based editor for Mapbox styles.
