@@ -292,16 +292,6 @@ paths:
             enum:
               - de
               - en
-        - name: lang
-          in: cookie
-          description: 'The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.'
-          required: false
-          schema:
-            type: string
-            default: de
-            enum:
-              - de
-              - en
         - name: id
           in: path
           description: string you want to search for
@@ -579,16 +569,6 @@ paths:
       parameters:
         - name: lang
           in: query
-          description: 'The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.'
-          required: false
-          schema:
-            type: string
-            default: de
-            enum:
-              - de
-              - en
-        - name: lang
-          in: cookie
           description: 'The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.'
           required: false
           schema:

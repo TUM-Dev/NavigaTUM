@@ -57,17 +57,8 @@ async fn main() -> std::io::Result<()> {
         warn!("Running in local development mode. Only allowing http://localhost:8000 as origin");
     }
     HttpServer::new(move || {
-        // in local development we serve our website from two diverent CORS sources
-        // since we need the lang cookie for api localisation, we have to add
-        // Access-Control-Allow-Credentials=true to the response header
-        // since origin cannot be '*' in this case, we explicitly set it
-        let base_cors = match std::env::var("GIT_COMMIT_SHA") {
-            Ok(_) => Cors::default().allow_any_origin(),
-            Err(_) => Cors::default()
-                .supports_credentials()
-                .allowed_origin("http://localhost:8000"),
-        };
-        let cors = base_cors
+        let cors = Cors::default()
+            .allow_any_origin()
             .allow_any_header()
             .allowed_methods(vec!["GET", "POST"])
             .max_age(3600);
