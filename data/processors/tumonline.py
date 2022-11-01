@@ -15,7 +15,7 @@ def merge_tumonline_buildings(data):
     Merge the buildings in TUMonline with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
-    with open("external/buildings_tumonline.json", encoding="utf-8") as file:
+    with open("external/results/buildings_tumonline.json", encoding="utf-8") as file:
         buildings = json.load(file)
 
     error = False
@@ -76,10 +76,10 @@ def merge_tumonline_rooms(data):
     Merge the rooms in TUMonline with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
-    with open("external/rooms_tumonline.json", encoding="utf-8") as file:
+    with open("external/results/rooms_tumonline.json", encoding="utf-8") as file:
         rooms = json.load(file)
 
-    with open("external/usages_tumonline.json", encoding="utf-8") as file:
+    with open("external/results/usages_tumonline.json", encoding="utf-8") as file:
         usages = json.load(file)
     usages_lookup = {usage["id"]: usage for usage in usages}
 

@@ -11,7 +11,7 @@ def merge_roomfinder_buildings(data):
     Merge the buildings in Roomfinder with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
-    with open("external/buildings_roomfinder.json", encoding="utf-8") as file:
+    with open("external/results/buildings_roomfinder.json", encoding="utf-8") as file:
         buildings = json.load(file)
 
     with open("sources/10_patches-roomfinder-buildings.yaml", encoding="utf-8") as file:
@@ -80,7 +80,7 @@ def merge_roomfinder_rooms(data):
     This will not overwrite the existing data, but act directly on the provided data.
     """
 
-    with open("external/rooms_roomfinder.json", encoding="utf-8") as file:
+    with open("external/results/rooms_roomfinder.json", encoding="utf-8") as file:
         rooms = json.load(file)
 
     with open("sources/16_roomfinder-merge-patches.yaml", encoding="utf-8") as file:

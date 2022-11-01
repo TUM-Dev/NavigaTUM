@@ -8,8 +8,8 @@ from typing import Any
 import yaml
 from PIL import Image
 
-EXTERNAL_PATH = Path(__file__).parent.parent / "external"
-RF_MAPS_PATH = EXTERNAL_PATH / "maps" / "roomfinder"
+EXTERNAL_RESULTS_PATH = Path(__file__).parent.parent / "external" / "results"
+RF_MAPS_PATH = EXTERNAL_RESULTS_PATH / "maps" / "roomfinder"
 
 
 def _assign_roomfinder_maps(data):
@@ -175,7 +175,7 @@ def _deduplicate_maps(maps_list):
 
 def _load_maps_list():
     """Read the Roomfinder maps. The world-map is not used"""
-    with open("external/maps_roomfinder.json", encoding="utf-8") as file:
+    with open("external/results/maps_roomfinder.json", encoding="utf-8") as file:
         maps_list: list[dict[str, Any]] = json.load(file)
     world_map = None
     for _map in maps_list:
@@ -334,7 +334,7 @@ def _assign_default_roomfinder_map(data):
 
 def _generate_assignment_data():
     # Read the Roomfinder and custom maps
-    with open("external/maps_roomfinder.json", encoding="utf-8") as file:
+    with open("external/results/maps_roomfinder.json", encoding="utf-8") as file:
         maps_list = json.load(file)
     custom_maps = _load_custom_maps()
     # For each map, we calculate the boundaries in UTM beforehand
