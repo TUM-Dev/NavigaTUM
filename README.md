@@ -68,7 +68,6 @@ Else you can follow the steps in the [data documentation](data/README.md).
 
 If you want to work on the webclient only (and not server or data), you don't need to set up the server. You can instead either use the public API (see the [webclient documentation](webclient/README.md#Testing)) or use our ready-made docker images to run the server locally:
 
-````bash
 ```bash
 docker network create navigatum-net
 docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
