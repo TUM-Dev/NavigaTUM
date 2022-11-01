@@ -22,7 +22,7 @@ so that you don't need to copy on every update:
 ln -s ../data/output data
 ```
 
-### 2. Starting the server
+### Starting the server
 
 Run
 
