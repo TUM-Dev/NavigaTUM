@@ -66,7 +66,7 @@ Else you can follow the steps in the [data documentation](data/README.md).
 
 ### Server
 
-In case you do not want to work on the webclient only (i.e. skip the server + data), you can instead use our docker images to skip this step:
+If you want to work on the webclient only (and not server or data), you don't need to set up the server. You can instead either use the public API (see the [webclient documentation](webclient/README.md#Testing)) or use our ready-made docker images to run the server locally:
 
 ````bash
 ```bash
