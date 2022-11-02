@@ -29,7 +29,7 @@ root:
         - { name: "Gebiet 4100 Berg", id: "wzw-berg" }
         - { name: "Gebiet 4200 Mitte", id: "wzw-mitte" }
         - { name: "Gebiet 4300 Nord", id: "wzw-nord" }
-        - { name: "Dürnast (Gewächshauslaborzentrum)", id: "duernast" }
+        - { name: "Dürnast (Versuchsstation)", id: "duernast" }
         - { name: "Roggenstein (Versuchsstation)", id: "roggenstein" }
         - { name: "Thalhausen (Versuchsstation)", id: "thalhausen" }
         - { name: "Veitshof (Stallungen)", id: "veitshof" }
@@ -48,6 +48,11 @@ root:
 stammgelaende:
   coords: { lat: 48.14903, lon: 11.56735 }
   osm: ["way/144291476"]
+  props:
+    address:
+      street: "Arcisstraße 21"
+      plz_place: "80333 München"
+      source: "navigatum"
 
 # --- Nordgelände ---
 nordgelaende:
@@ -88,7 +93,7 @@ suedgelaende:
           de: "Über das StudiTUM"
           en: "About the StudiTUM"
         url:
-          de: "https://www.sv.tum.de/sv/das-machen-wir/projekte/studitum-haeuser-der-studierenden/"
+          de: "https://www.sv.tum.de/sv/studitum/"
           en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
 "0202": # Gabelsbergerstr. 39 (S2)
   osm: ["way/54293421"]
@@ -437,8 +442,13 @@ mri-imse:
 # ========= Campus Heilbronn =========
 heilbronn:
   coords: { lat: 49.14810, lon: 9.21646 }
-  external_data:
-    website: "https://www.wi.tum.de/tum-campus-heilbronn/"
+  props:
+    links:
+      - text:
+          de: "Über den Campus Heilbronn"
+          en: "About the Campus Heilbronn"
+        url: "https://www.mgt.tum.de/campuses/heilbronn/explore-the-campus"
+
 
 1901:
   coords: { lat: 49.14669, lon: 9.21754 }
@@ -476,6 +486,16 @@ heilbronn:
   osm: ["node/4921250903"]
 
 # ========= Straubing =========
+cs:
+  props:
+    links:
+      - text:
+          de: "Über den Campus Straubing"
+          en: "About the Campus Straubing"
+        url:
+          de: "https://www.cs.tum.de/campus-straubing/"
+          en: "https://www.cs.tum.de/campus-straubing/campus/?lang=en"
+
 3505:
   coords: { lat: 48.88657, lon: 12.58209 }
   osm: ["way/35877603"]
@@ -483,6 +503,14 @@ heilbronn:
 # ========= Freising / WZW =========
 wzw:
   coords: { lat: 48.39774, lon: 11.72280 }
+  props:
+    links:
+      - text:
+          de: "Über den Campus Weihenstephan"
+          en: "About the Campus Weihenstephan"
+        url:
+          de: "https://www.wzw.tum.de/index.php?id=33"
+          en: "https://www.wzw.tum.de/index.php?id=33&L=1"
   generators:
     buildings_overview:
       n_visible: 6
@@ -502,7 +530,7 @@ wzw-berg:
           de: "Über das StudiTUM"
           en: "About the StudiTUM"
         url:
-          de: "https://www.sv.tum.de/sv/das-machen-wir/projekte/studitum-haeuser-der-studierenden/"
+          de: "https://www.sv.tum.de/sv/studitum/"
           en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
 
 4155:
@@ -531,7 +559,67 @@ staudensichtungsgarten:
 4222:  # Servicezentrum
   osm: ["way/919146348"]
   coords: { lat: 48.39832, lon: 11.72429 }
-  
+
+duernast:
+  props:
+    links:
+      - text: "Gewächshaus-Laborzentrum"
+        url:
+          de: "https://www.ghl.wzw.tum.de/"
+          en: "https://www.ghl.wzw.tum.de/en.html"
+      - text:
+          de: "Agrarsystemtechnik"
+          en: "Agricultural Systems Engineering"
+        url:
+          de: "https://www.tec.wzw.tum.de/index.php?id=6"
+          en: "https://www.tec.wzw.tum.de/index.php?id=6&L=1"
+      - text:
+          de: "Ökologischer Landbau"
+          en: "Organic Agriculture (DE)"
+        url: "https://www.oekolandbau.wzw.tum.de/forschung/versuchswesen/duernastthalhausen/"
+
+thalhausen:
+  props:
+    links:
+      - text:
+          de: "Ökologischer Langbau"
+          en: "Organic Agriculture (DE)"
+        url: "https://www.oekolandbau.wzw.tum.de/forschung/versuchswesen/duernastthalhausen/"
+
+roggenstein:
+  props:
+    links:
+      - text:
+          de: "Offizielle Webseite"
+          en: "Official website (DE)"
+        url: "https://www.roggenstein.wzw.tum.de/versuchsstation-roggenstein/"
+
+viehhausen:
+  props:
+    links:
+      - text:
+          de: "Offizielle Webseite"
+          en: "Official website (DE)"
+        url: "https://www.viehhausen.wzw.tum.de/viehhausen/"
+
+veitshof:
+  coords: { lat: 48.39593, lon: 11.73544 }
+  props:
+    links:
+      - text:
+          de: "Grünlandlehre"
+          en: "Grünlandlehre (DE)"
+        url: "https://www.gruenland.wzw.tum.de/veitshof.html"
+
+4304:
+  props:
+    links:
+      - text:
+          de: "Ökologischer Landbau"
+          en: "Organic Agriculture (DE)"
+        url: "https://www.oekolandbau.wzw.tum.de/forschung/einrichtungen/versuchsstation/"
+
+
 # uncertain, but trafo stations anyway
 4202:
   coords: { lat: 48.40289, lon: 11.72364 }
@@ -565,6 +653,14 @@ garching:
     buildings_overview:
       n_visible: 6
       list_start: ["mi", "mw", "physik", "chemie", "garching-interims", "5532"]
+  props:
+    links:
+      - text:
+          de: "Über den Campus Garching"
+          en: "About the Campus Garching (DE)"
+        url: "https://www.forschung-garching.tum.de/"
+      - text: "Campus Tour (YouTube)"
+        url: "https://www.youtube.com/playlist?list=PLPFs4xTkIH1sPp48qQ0Podcfp_WMG9wpB"
   image_comments:
     1: "Orthographische Luftbildaufnahme des Campus Garching"
 
@@ -676,7 +772,7 @@ mw:
           de: "Über das StudiTUM"
           en: "About the StudiTUM"
         url:
-          de: "https://www.sv.tum.de/sv/das-machen-wir/projekte/studitum-haeuser-der-studierenden/"
+          de: "https://www.sv.tum.de/sv/studitum/"
           en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
 
 mi:
