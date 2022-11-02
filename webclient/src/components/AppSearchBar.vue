@@ -7,6 +7,14 @@ import type { SearchResponse } from "@/codegen";
 import { useFetch } from "@/utils/fetch";
 
 export default {
+	mounted() {
+		window.addEventListener("keydown", (e) => {
+			if (e.key === "/") {
+				e.preventDefault();
+				document.getElementById("search")?.focus();
+			}
+		})
+	},
   data() {
     return {
       global: useGlobalStore(),
