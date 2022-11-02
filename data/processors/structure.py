@@ -84,11 +84,11 @@ def infer_addresses(data):
 
             if len(child_addresses) == 1:
                 street, plz_place = child_addresses.pop()
-                entry.setdefault("props")["address"] = {
+                entry.setdefault("props").setdefault("address", {
                     "street": street,
                     "plz_place": plz_place,
                     "source": "inferred",
-                }
+                })
 
 
 def infer_type_common_name(data):
