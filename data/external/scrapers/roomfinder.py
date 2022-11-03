@@ -1,13 +1,14 @@
 # This script takes care of downloading data from the Roomfinder and TUMonline
 # and caching the results
+import logging
 import string
-import urllib
+import urllib.parse
 import xmlrpc.client
 import zipfile
 
 from defusedxml import ElementTree as ET
-from external.scraping_utils import _cached_json, _write_cache_json, CACHE_PATH, maybe_sleep
-from progress.bar import Bar  # type: ignore
+from external.scraping_utils import _cached_json, _download_file, _write_cache_json, CACHE_PATH, maybe_sleep
+from tqdm import tqdm
 from utils import convert_to_webp
 
 ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192"
@@ -25,11 +26,11 @@ def scrape_buildings():
     if buildings is not None:
         return buildings
 
+    logging.info("Scraping the buildings of the mytum roomfinder")
+
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
         buildings = proxy.getBuildings()
-        bar = Bar("Retrieving", suffix="%(index)d / %(max)d buildings", max=len(buildings))
-        for i, building in enumerate(buildings):
-            bar.next()
+        for i, building in enumerate(tqdm(buildings, desc="Retrieving", unit="building")):
             # Make sure b_id is numeric. There is an incorrect entry with the value
             # 'CiO/SGInstitute West, Bibliot' which causes a crash
             try:
@@ -61,13 +62,14 @@ def scrape_rooms():
         return rooms
 
     buildings = scrape_buildings()
+    logging.info("Scraping the rooms of the mytum roomfinder")
     rooms_list = []
 
     # Get all rooms in a building
     # The API does not provide such a function directly, so we
     # have to use search for this. Since search returns a max
     # of 50 results we need to guess to collect all rooms.
-    print("Searching for rooms in buildings")
+    logging.info("Searching for rooms in each building")
     b_cnt = 0
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
         for building in buildings:
@@ -83,15 +85,15 @@ def scrape_rooms():
                         b_rooms |= {r["r_id"] for r in search_results}
 
                     if len(b_rooms) < building["b_roomCount"]:
-                        print("Could not guess all queries for:")
+                        logging.warning(f"Could not guess all queries for building {building['b_id']}")
 
                 b_cnt += 1
-                print(f"{building['b_id']} -> {len(b_rooms)} / {building['b_roomCount']}")
+                logging.info(f"{building['b_id']} -> {len(b_rooms)} / {building['b_roomCount']}")
 
                 rooms_list.extend(list(b_rooms))
 
     rooms = []
-    for room in Bar("Retrieving", suffix=f"%(index)d / %(max)d rooms for {b_cnt} buildings").iter(rooms_list):
+    for room in tqdm(rooms_list, desc=f"Retrieving rooms for {b_cnt} buildings"):
         extended_data = proxy.getRoomData(room)
         # for k, v in extended_data.items():
         #    rooms[i][k] = v
@@ -151,6 +153,7 @@ def scrape_maps():
     rooms = scrape_rooms()
     buildings = scrape_buildings()
 
+    logging.info("Scraping the rooms-maps of the mytum roomfinder")
     used_maps = {}
     for building_entity in rooms + buildings:
         for _map in building_entity.get("maps", []):
@@ -221,12 +224,3 @@ def _download_map(_map, e_id, e_type):
         url = f"{base_url}?b_id={e_id}&mapid={_map[1]}"
         return _download_file(url, filepath)
     raise RuntimeError(f"Unknown entity type: {e_type}")
-
-
-def _download_file(url, target_cache_file):
-    if not target_cache_file.exists():
-        print(f"Retrieving: '{url}'")
-        # url parameter does not allow path traversal, because we build it further up in the callstack
-        urllib.request.urlretrieve(url, target_cache_file)  # nosec: B310
-
-    return target_cache_file

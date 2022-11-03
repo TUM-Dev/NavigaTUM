@@ -1,9 +1,12 @@
+import logging
 import os
 
 from external.scrapers import roomfinder, tumonline
 from external.scraping_utils import CACHE_PATH
+from utils import setup_logging
 
 if __name__ == "__main__":
+    setup_logging(level=logging.INFO)
     # Create cache directory structure
     os.makedirs(CACHE_PATH, exist_ok=True)
     os.makedirs(CACHE_PATH / "filter", exist_ok=True)
