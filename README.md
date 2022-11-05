@@ -72,7 +72,7 @@ If you want to work on the webclient only (and not server or data), you don't ne
 docker network create navigatum-net
 docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
 docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main
-````
+```
 
 Else you can follow the steps in the [server documentation](server/README.md).
 

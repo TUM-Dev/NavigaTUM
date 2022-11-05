@@ -14,7 +14,6 @@ Also, new external data might break the scripts from time to time, as either roo
 
 ## Getting started
 
-
 ### Prerequisites
 
 For getting started, there are some system dependencys which you will need.
@@ -26,6 +25,7 @@ Since data needs some python dependencys, you will need to install them first.
 We recommend doing this in a virtual environment.
 
 From the root of the project, run:
+
 ```bash
 python3 -m venv venv
 source venv/bin/activate
