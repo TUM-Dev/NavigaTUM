@@ -2,6 +2,9 @@
 
 This folder contains the backend server for NavigaTUM.
 
+Our server is architected in different submodules, each of which is responsible for a specific task.
+They share very few things and are mostly independent of each other.
+
 ## Getting started
 
 ### Prerequisites
@@ -9,30 +12,54 @@ This folder contains the backend server for NavigaTUM.
 For getting started, there are some system dependencys which you will need.
 Please follow the [system dependencys docs](resources/documentation/Dependencys.md) before trying to run this part of our project.
 
-### Get the data
+### Starting the server
 
-The data is provided to the server with just a simple JSON file.
-You can create a `data` subdirectory and copy the `api_data.json`
-(and optionally `search_data.json`) file into it.
+Run `cargo run` to start the server.
+The server should now be available on `localhost:8080`.
 
-Alternatively, link the output directory to the server data directory,
-so that you don't need to copy on every update:
+Note that `cargo run --release` is used to start the server for an optimised production build (relevant, as profiling `search` or `preview` is otherwise not recommended).
+
+### Additional dependency's for some API endpoints
+
+We have a few API endpoints which require additional dependencies.
+
+As a general rule of thumb, if you probably want to **skip the tileserver**, but want to **do the SQLite Database** and **MeiliSearch** setup.
+The reason for this is, that the `preview` endpoint is the only endpoint, which requires the tileserver and said endpoint is a non-essential part of the project.
+
+#### How to Set up the Sqlite Database (needed for the `get`, `legacy_redirect` and `preview` endpoints)
+
+##### Getting the data
+
+To populate the database, you will need to get said data.
+There are multiple ways to do this, but the easiest way is to download the data from our [website](https://nav.tum.de/).
+
+(Assuming you are in the `server` directory)
+
+```bash
+mkdir -p data
+wget -P data https://nav.tum.de/cdn/api_data.json
+```
+
+Alternatively, you can run the `data` part of this project and generate this file by that part of our docs.
+To link the output directory to the server data directory, so that you don't need to copy on every update you can use:
 
 ```bash
 ln -s ../data/output data
 ```
 
-### Starting the server
+##### Setting up the database
 
-Run
+To set up the database, you will need to run the `load_api_data_to_db.py` script:
 
 ```bash
-cargo run --release
+python3 load_api_data_to_db.py
 ```
 
-The server should now be available on `localhost:8080`.
+#### How to Set up the tileserver (needed for the `preview` endpoint)
 
-### Setup MeiliSearch (optional)
+To set up your tileserver, head over to the [`map`](https://github.com/TUM-Dev/NavigaTUM/tree/main/map) folder and follow the instructions there.
+
+#### How to Set up MeiliSearch (needed for the `search` endpoint)
 
 The server uses [MeiliSearch](https://github.com/meilisearch/MeiliSearch) as a backend for search.
 For a local test environment you can skip this step if you don't want to test or work on search.
@@ -86,12 +113,16 @@ MeiliSearch provides an interactive interface at [http://localhost:7700](http://
 
 ### API-Changes
 
+#### Editing
+
 If you have made changes to the API, you need to update the API documentation.
 
 There are two editors for the API documentation (both are imperfect):
 
 - [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml)
 - [stoplight](stoplight.io)
+
+#### Testing
 
 Of course documentation is one part of the process. If the changes are substantial, you should also run an API-Fuzz-Test:
 To make sure that this specification is up-to-date and without holes, we run [schemathesis](https://github.com/schemathesis/schemathesis) using the following command on API Server:
