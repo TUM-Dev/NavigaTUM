@@ -53,10 +53,12 @@ def add_to_database(de_data, en_data):
 
     with con:
         con.executemany(
-            "INSERT INTO de(key,data,name,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)", de_data
+            "INSERT INTO de(key,data,name,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)",
+            de_data,
         )
         con.executemany(
-            "INSERT INTO en(key,data,name,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)", en_data
+            "INSERT INTO en(key,data,name,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)",
+            en_data,
         )
 
 

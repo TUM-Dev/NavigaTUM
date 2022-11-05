@@ -6,9 +6,8 @@ import xmlrpc.client
 import zipfile
 
 from defusedxml import ElementTree as ET
+from external.scraping_utils import _cached_json, _write_cache_json, CACHE_PATH, maybe_sleep
 from progress.bar import Bar  # type: ignore
-
-from external.scraping_utils import maybe_sleep, _write_cache_json, _cached_json, CACHE_PATH
 from utils import convert_to_webp
 
 ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192"
