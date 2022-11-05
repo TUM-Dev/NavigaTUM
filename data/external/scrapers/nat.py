@@ -3,6 +3,7 @@ import json
 import logging
 from multiprocessing.pool import ThreadPool
 
+from utils import TranslatableStr as _
 from tqdm import tqdm
 from tqdm.contrib.concurrent import thread_map
 
@@ -53,13 +54,66 @@ def scrape_rooms():
     return rooms
 
 
+def _extract_trans(x, key):
+    """
+    De-Inline the translation of a key into a dict
+    """
+    if x:
+        eng = x.pop(f"{key}_en")
+        if x[key]:
+            x[key] = {"de": x[key], "en": eng}
+        else:
+            x[key] = None
+
+
 def _sanitise_room(room: dict):
     """
-    Sanitise the room information
+    Sanitise the room information.
+    After this step:
+    - fields are converted to our naming and partially our layout
+    - all fields, which are supposed to be translatable are converted to our format and maybe manually translated
     """
-    room.pop("room_code")
+    # fixing translations
+    room["purpose"] = _(room["purpose"]["purpose"])
 
+    _extract_trans(room, "steckdosen")
+    _extract_trans(room, "eexam")
+    _extract_trans(room, "streaming")
+    _extract_trans(room["org"], "org_name")
+    _extract_trans(room["org"], "org_nameshort")
+    _extract_trans(room["building"]["campus"], "campus")
+    _extract_trans(room["building"]["campus"], "campusshort")
+
+    # bauarbeiten is a str, indicating if something is wrong on in the room
+    room.pop("bauarbeiten_en")  # this is always the same as bauarbeiten
+    room["bauarbeiten"] = _(room["bauarbeiten"]) if room["bauarbeiten"] else None
+
+    # for some reason this is used as a comment field.
+    room["comment"] = room.pop("corona")
+
+    # coordinates: there are two sets of coordinates on each entry. This function makes shure, that they are the same
+    _extract_coords(room)
+
+    # fixed some data layout issues
+    room["id"] = room.pop("room_code")
+
+    # remove fiends with no info
+    for key in ["override_seats", "override_teaching", "corona_ready", "modified"]:
+        room.pop(key)
     return room
+
+
+def _extract_coords(room):
+    lat = room.pop("latitude")
+    room_lat = room.pop("room_latitude")
+    if lat and room_lat and lat != room_lat:
+        logging.warning(f"Room {room['room_code']} has different latitudes: {lat} vs {room_lat}")
+    lon = room.pop("longitude")
+    room_lon = room.pop("room_longitude")
+    if lon and room_lon and lon != room_lon:
+        logging.error(f"Room {room['room_code']} has different longitudes: {lon} vs {room_lon}")
+
+    room["coordinates"] = dict(lat=lon or room_lat, lon=lon or room_lon, source="NAT")
 
 
 def _merge(content, base):

@@ -151,3 +151,25 @@ Freifläche: Open air area
 Freiluftfläche: Open air area
 Fluchtweg: Escape route
 Unbekannt: Unknown
+# from the NAT Roomfinder
+virtueller Raum: virtual room
+# bauarbeiten
+nur bis 24.4.2022: only until 24.4.2022
+für TUM nur Mo+Di 7–19: for TUM only Mon+Tue 7am-7pm
+für TUM nur Mo–Do 7–19: for TUM only Mon-Thu 7am-7pm
+für TUM nur Mo–Fr 7–19; verbunden mit Taurus 21:
+  for TUM only Mon-Fri 7am-7pm; connected
+  with Taurus 21
+für TUM nur Mo–Fr 7–19; verbunden mit Taurus 1:
+  for TUM only Mon-Fri 7am-7pm; connected
+  with Taurus 1
+nicht für den Vorlesungsbetrieb geeignet: Not suitable for lecture use
+Lüftung im Dauerbetrieb (relativ laut):
+  Ventilation in continuous operation (relatively
+  loud)
+Raum steht ab 1.9.2021 nicht mehr zur Verfügung.:
+  Room is no longer available from
+  1.9.2021.
+bis auf Weiteres keine Lüftung, daher nur mit offenen Außentüren:
+  No ventilation until
+  further notice, therefore only with open outer doors
