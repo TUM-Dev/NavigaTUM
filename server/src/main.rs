@@ -1,6 +1,5 @@
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
-use log::warn;
 
 use structopt::StructOpt;
 
@@ -53,9 +52,6 @@ async fn main() -> std::io::Result<()> {
     }
 
     let state_feedback = web::Data::new(feedback::init_state(opt));
-    if std::env::var("GIT_COMMIT_SHA").is_err() {
-        warn!("Running in local development mode. Only allowing http://localhost:8000 as origin");
-    }
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
