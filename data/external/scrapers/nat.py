@@ -44,6 +44,8 @@ def scrape_rooms():
     base_info = _get_base_room_infos()
     rooms = {}
     for room in thread_map(_download_and_merge_room, base_info, desc="Downloaded nat rooms"):
+        if not room:
+            continue  # we skip unprocessable rooms
         key = room["room_code"]  # needed, as room_code is removed in _sanitise_room
         rooms[key] = _sanitise_room(room)
 
@@ -80,7 +82,7 @@ def _download_and_merge_room(base):
     target_filepath = NAT_CACHE_DIR / f"room_{room_code}.json"
     downloaded_file = _download_file(f"{NAT_API_URL}/{room_code}", target_filepath, quiet=True)
     if not downloaded_file:
-        return base
+        return None
     content = json.loads(downloaded_file.read_text(encoding="utf-8"))
     return _merge(content, base)
 
