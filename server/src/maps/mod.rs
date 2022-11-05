@@ -9,7 +9,7 @@ use futures::future::join_all;
 use image::Rgba;
 use imageproc::definitions::HasBlack;
 use imageproc::drawing::{draw_text_mut, text_size};
-use log::{debug, error, info};
+use log::{debug, error, info, warn};
 use rusqlite::{Connection, Error, OpenFlags};
 use rusttype::{Font, Scale};
 use tokio::time::Instant;
@@ -71,14 +71,17 @@ fn get_localised_data(id: &str, should_use_english: bool) -> Option<Result<MapIn
 #[cached(
     type = "SizedCache<String, Vec<u8>>",
     create = "{ SizedCache::with_size(20) }",
+    option = true,
     convert = r#"{ _id.to_string() }"#
 )]
-async fn construct_image_from_data(_id: &str, data: MapInfo) -> Vec<u8> {
+async fn construct_image_from_data(_id: &str, data: MapInfo) -> Option<Vec<u8>> {
     let start_time = Instant::now();
     let mut img = image::RgbaImage::new(1200, 630);
 
     // add the map
-    draw_map(&data, &mut img).await;
+    if !draw_map(&data, &mut img).await {
+        return None;
+    }
     debug!("map draw {}ms", start_time.elapsed().as_millis());
 
     draw_bottom(&data, &mut img);
@@ -91,8 +94,7 @@ async fn construct_image_from_data(_id: &str, data: MapInfo) -> Vec<u8> {
         (630 - 125) / 2 - pin.height() as i64,
     );
     debug!("overlay finish {}ms", start_time.elapsed().as_millis());
-
-    wrap_image_in_response(img)
+    Some(wrap_image_in_response(img))
 }
 
 fn wrap_image_in_response(img: image::RgbaImage) -> Vec<u8> {
@@ -101,7 +103,12 @@ fn wrap_image_in_response(img: image::RgbaImage) -> Vec<u8> {
     w.into_inner()
 }
 
-async fn download_map_image(z: u32, x: u32, y: u32, file: &std::path::PathBuf) -> web::Bytes {
+async fn download_map_image(
+    z: u32,
+    x: u32,
+    y: u32,
+    file: &std::path::PathBuf,
+) -> Option<web::Bytes> {
     let url = format!(
         "http://{}:{}/styles/osm_liberty/{}/{}/{}@2x.png",
         std::env::var("MAPS_SVC_PORT_7770_TCP_ADDR").unwrap_or_else(|_| "localhost".to_string()),
@@ -112,22 +119,35 @@ async fn download_map_image(z: u32, x: u32, y: u32, file: &std::path::PathBuf) -
     );
     let client = Client::new().get(&url).send();
     let res = match client.await {
-        Ok(mut r) => r.body().await.unwrap(),
+        Ok(mut r) => r.body().await,
         Err(e) => {
-            error!("failed downloading url {} because {:?}", url, e);
-            panic!();
+            error!("Error downloading map {}: {:?}", url, e);
+            return None;
         }
     };
+    let res = match res {
+        Ok(r) => r,
+        Err(e) => {
+            error!("Error while payload parsing: {:?}", e);
+            return None;
+        }
+    };
+
     if let Err(e) = tokio::fs::write(file, &res).await {
         error!(
             "failed to write url {} to {:?} because {:?}. Files wont be cached",
             url, file, e
         );
     };
-    res
+    Some(res)
 }
 
-async fn get_tile(z: u32, x: u32, y: u32, index: (i64, i64)) -> ((i64, i64), image::DynamicImage) {
+async fn get_tile(
+    z: u32,
+    x: u32,
+    y: u32,
+    index: (i64, i64),
+) -> Option<((i64, i64), image::DynamicImage)> {
     // gets the image fro the server. using a disk-cached image if possible
     let file = std::env::temp_dir()
         .join("tiles")
@@ -135,14 +155,14 @@ async fn get_tile(z: u32, x: u32, y: u32, index: (i64, i64)) -> ((i64, i64), ima
     let file_content = tokio::fs::read(&file).await;
     let tile = match file_content {
         Ok(content) => web::Bytes::from(content),
-        Err(_) => download_map_image(z, x, y, &file).await,
+        Err(_) => download_map_image(z, x, y, &file).await?,
     };
 
     let tile_img = image::load_from_memory(&tile).unwrap();
-    (index, tile_img)
+    Some((index, tile_img))
 }
 
-async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) {
+async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) -> bool {
     let (x, y, z) = lat_lon_to_xyz(data.lat, data.lon);
     // coordinate system is centered around the center of the image
     // around this center there is a 5*3 grid of tiles
@@ -172,15 +192,23 @@ async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) {
     }
     // the items in the work queue are then asynchronously downloaded and then drawn
 
-    let results: Vec<((i64, i64), image::DynamicImage)> = join_all(work_queue).await;
-    for ((x_index, y_index), tile_img) in results {
-        image::imageops::overlay(
-            img,
-            &tile_img,
-            x_index * 512 - (x_img_coords as i64),
-            y_index * 512 - (y_img_coords as i64),
-        );
+    let results: Vec<Option<((i64, i64), image::DynamicImage)>> = join_all(work_queue).await;
+    for res in results {
+        match res {
+            Some(((x_index, y_index), tile_img)) => {
+                image::imageops::overlay(
+                    img,
+                    &tile_img,
+                    x_index * 512 - (x_img_coords as i64),
+                    y_index * 512 - (y_img_coords as i64),
+                );
+            }
+            None => {
+                return false;
+            }
+        }
     }
+    true
 }
 
 fn center_to_top_left_coordinates(x_pixels: u32, y_pixels: u32) -> (u32, u32) {
@@ -284,6 +312,15 @@ fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
     );
 }
 
+fn load_default_map() -> Vec<u8> {
+    warn!("Loading default map, as map rendering failed. Check the connection to the tileserver");
+    let img = image::open("src/maps/logo-card.png").unwrap();
+    // encode the image as PNG
+    let mut w = Cursor::new(Vec::new());
+    img.write_to(&mut w, image::ImageOutputFormat::Png).unwrap();
+    w.into_inner()
+}
+
 #[get("/{id}")]
 pub async fn maps_handler(
     params: web::Path<String>,
@@ -303,9 +340,10 @@ pub async fn maps_handler(
             .content_type("text/plain")
             .body("Internal Server Error");
     }
+    let img = construct_image_from_data(&id, data.unwrap()).await;
     let res = HttpResponse::Ok()
         .content_type("image/png")
-        .body(construct_image_from_data(&id, data.unwrap()).await);
+        .body(img.unwrap_or_else(load_default_map));
 
     info!(
         "Preview Generation for {} took {}ms",
