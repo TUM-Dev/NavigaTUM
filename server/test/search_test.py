@@ -5,7 +5,7 @@ from pathlib import Path
 
 import requests
 import yaml
-from progress.bar import Bar  # type: ignore
+from tqdm import tqdm
 from termcolor import colored, cprint
 
 SEARCH_ENDPOINT = "http://localhost:8080/api/search"
@@ -35,7 +35,7 @@ def test_specific_queries(queries):
     """Test the specific queries, and return the results"""
     searches = []
 
-    for query in Bar("Querying", suffix="%(index)d / %(max)d").iter(queries):
+    for query in tqdm(queries, desc="Querying"):
         search = _do_search(query["query"], query)
 
         # Apart from the target search we iteratively type the query and assess how much of
