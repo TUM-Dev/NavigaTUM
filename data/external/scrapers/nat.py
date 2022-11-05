@@ -107,7 +107,7 @@ def _get_base_room_infos():
                 # there may be files which we did not download due to one error...
 
                 if dl or batch == 1:
-                    prog.update()
+                    prog.update(batch)
 
                 if not dl and batch != 1:
                     new_batch = batch // 2
