@@ -1,13 +1,14 @@
 # This script takes care of downloading data from the Roomfinder and TUMonline
 # and caching the results
 import json
+import logging
 import random
 
 import requests
 from bs4 import BeautifulSoup, element
 from defusedxml import ElementTree as ET
 from external.scraping_utils import _cached_json, _write_cache_json, CACHE_PATH, maybe_sleep
-from progress.bar import Bar  # type: ignore
+from tqdm import tqdm
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
 
@@ -56,6 +57,8 @@ def scrape_buildings():
     if buildings is not None:
         return buildings
 
+    areas = scrape_areas()
+    logging.info("Scraping the buildings of tumonline")
     filters = _get_roomsearch_xml(
         _get_tumonline_api_url("wbSuche.cbRaumForm"),
         {"pGebaeudebereich": 0},
@@ -63,7 +66,6 @@ def scrape_buildings():
     )
     all_buildings = _parse_filter_options(filters, "buildings")
 
-    areas = scrape_areas()
     buildings = []
     for area in areas:
         filters_area = _get_roomsearch_xml(
@@ -77,7 +79,7 @@ def scrape_buildings():
 
     # Not observed so far, I assume all buildings have an assigned area
     if len(buildings) != len(all_buildings):
-        print("Warning: Not all buildings have an assigned area. Buildings without an area are discarded")
+        logging.warning("Not all buildings have an assigned area. Buildings without an area are discarded")
 
     _write_cache_json(cache_name, buildings)
     return buildings
@@ -112,9 +114,10 @@ def scrape_rooms():
     if rooms is not None:
         return rooms
 
-    room_index = {}
-
     buildings = scrape_buildings()
+
+    logging.info("Scraping the rooms of tumonline")
+    room_index = {}
     for building in buildings:
         b_rooms = _retrieve_roomlist("b", "building", "pGebaeude", building["filter_id"], building["area_id"])
         for room in b_rooms:
@@ -155,6 +158,8 @@ def scrape_usages():
 
     rooms = scrape_rooms()
 
+    logging.info("Scraping the room-usages of tumonline")
+
     used_usage_types = {}
     for room in rooms:
         if room["usage"] not in used_usage_types:
@@ -175,7 +180,7 @@ def scrape_usages():
                 parts[1] = prefix + parts[1]
                 break
         if len(parts) != 2:
-            print(f"Unknown usage specification: {usage}")
+            logging.warning(f"Unknown usage specification: {usage}")
             continue
         usage_name = parts[0].strip()
         usage_din_277 = parts[1].strip("()")
@@ -198,6 +203,7 @@ def scrape_orgs():
     if orgs is not None:
         return orgs
 
+    logging.info("Scraping the orgs of tumonline")
     # There is also this URL, which is used to retrieve orgs that have courses,
     # but this is not merged in at the moment:
     # https://campus.tum.de/tumonline/ee/rest/brm.orm.search/organisations/chooser?$language=de&view=S_COURSE_LVEAB_ORG
@@ -244,30 +250,31 @@ def _retrieve_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
     if all_rooms is not None:
         return all_rooms
 
-    print(f"Retrieving {f_type} {f_value}")
+    logging.info(f"Retrieving {f_type} {f_value}")
 
     all_rooms = []
     pages_cnt = 1
     current_page = 0
 
-    bar = Bar("Searching for Rooms", index=current_page, max=pages_cnt)
-    while current_page < pages_cnt:
-        search_params = {
-            "pStart": len(all_rooms) + 1,  # 1 + current_page * 30,
-            "pSuchbegriff": "",
-            "pGebaeudebereich": area_id,  # 0 for all areas
-            "pGebaeude": 0,
-            "pVerwendung": 0,
-            "pVerwalter": 1,
-            f_name: f_value,
-        }
-        req = requests.post(f"{TUMONLINE_URL}/wbSuche.raumSuche", data=search_params)
-        rooms_on_page, pages_cnt, current_page = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
-        all_rooms.extend(rooms_on_page)
+    with tqdm(desc="Searching for Rooms", total=pages_cnt, leave=False) as prog:
+        while current_page < pages_cnt:
+            search_params = {
+                "pStart": len(all_rooms) + 1,  # 1 + current_page * 30,
+                "pSuchbegriff": "",
+                "pGebaeudebereich": area_id,  # 0 for all areas
+                "pGebaeude": 0,
+                "pVerwendung": 0,
+                "pVerwalter": 1,
+                f_name: f_value,
+            }
+            req = requests.post(f"{TUMONLINE_URL}/wbSuche.raumSuche", data=search_params)
+            rooms_on_page, pages_cnt, current_page = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
+            all_rooms.extend(rooms_on_page)
 
-        bar.max = pages_cnt
-        bar.next()
-        maybe_sleep(1.5)
+            if prog.total != pages_cnt:
+                prog.reset(pages_cnt)
+            prog.update(1)
+            maybe_sleep(1.5)
 
     _write_cache_json(cache_name, all_rooms)
     return all_rooms
@@ -330,7 +337,7 @@ def _parse_rooms_list(lxml_parser: BeautifulSoup):
     for row in tbody.find_all("tr"):
         columns = row.find_all("td")
         if len(columns) != 8:
-            print(row)
+            logging.debug(row)
             continue
 
         c_room = columns[1].find("a")
@@ -361,7 +368,7 @@ def _parse_rooms_list(lxml_parser: BeautifulSoup):
     else:
         columns = pages_table.find("tr").find_all("td")
         if len(columns) != 5:
-            print(columns)
+            logging.debug(columns)
             raise RuntimeError("")
 
         num_pages = len(columns[3].find_all("option"))
@@ -382,7 +389,7 @@ def _get_xml(url: str, params: dict, cache_fname: str):
         tree = ET.parse(cache_path)
         return tree.getroot()
 
-    print(f"GET {url}", params)
+    logging.info(f"GET {url}", params)
     req = requests.get(url, params)
     with open(cache_path, "w", encoding="utf-8") as file:
         file.write(req.text)
