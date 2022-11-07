@@ -112,7 +112,8 @@
                         v-if="s.n_visible === undefined || (s.n_visible !== undefined && i < s.n_visible) || s.expanded"
                         class="menu-item">
                       <a v-bind:class="{active: e.id == search.autocomplete.highlighted}"
-                         @click="searchGoTo(e.id, true)"
+                         v-bind:href="'/view/' + e.id"
+                         @click.exact.prevent="searchGoTo(e.id, true)"
                          @mousedown="search.keep_focus = true"
                          @mouseover="search.autocomplete.highlighted = null">
                         <div class="tile">
