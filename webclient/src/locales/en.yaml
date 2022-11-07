@@ -127,6 +127,7 @@ view_view:
       share: "Share"
       share_link: "Share with ..."
       copied: "Copied"
+    calendar: "Open calendar"
     feedback: "Report issue or suggest changes"
     favorites: "Add to favorites"
   map:

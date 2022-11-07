@@ -237,6 +237,29 @@ onMounted(() => {
           <span>{{ state.data.type_common_name }}</span>
         </div>
         <div class="column col-auto col-ml-auto">
+          <a
+            class="btn btn-link btn-action btn-sm"
+            v-if="state.data.props?.calendar_url"
+            v-bind:href="state.data.props.calendar_url"
+            target="_blank"
+            v-bind:title="$t('view_view.header.calendar')"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              style="margin-bottom: -2px"
+            >
+              <path
+                d="M4.571 0A1.143 1.143 0 0 0 3.43 1.143H2.286A2.306 2.306 0 0 0 0 3.429v10.285A2.306 2.306 0 0 0 2.286 16h11.428A2.306 2.306 0 0 0 16 13.714V3.43a2.306 2.306 0 0 0-2.286-2.286h-1.143A1.143 1.143 0 0 0 11.43 0a1.143 1.143 0 0 0-1.143 1.143H5.714A1.143 1.143 0 0 0 4.571 0zM2.286 5.714h11.428v8H2.286v-8z"
+              />
+              <path
+                d="M6.857 6.857v2.286h2.286V6.857H6.857zm3.429 0v2.286h2.285V6.857h-2.285zm-6.857 3.429v2.285h2.285v-2.285H3.43zm3.428 0v2.285h2.286v-2.285H6.857z"
+              />
+            </svg>
+          </a>
           <button
             class="btn btn-link btn-action btn-sm"
             v-bind:title="$t('view_view.header.external_link.tooltip')"
