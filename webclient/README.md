@@ -10,9 +10,12 @@ Most modern IDEs (like PyCharm) should work as well and have a Plugin.
 
 ## Dependencies
 
-First of all, you need npm and node.
-On Linux you should install this via your package manager.
-On WSL, you can use [this guide](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl).
+### Prerequisites
+
+For getting started, there are some system dependencys which you will need.
+Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of our project.
+
+### Installing Dependency's
 
 ```bash
 npm install
