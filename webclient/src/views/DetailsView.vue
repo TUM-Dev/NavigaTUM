@@ -263,7 +263,8 @@ onMounted(() => {
           <button
             class="btn btn-link btn-action btn-sm"
             v-bind:title="$t('view_view.header.external_link.tooltip')"
-          >
+            onclick="this.focus()"
+          > <!-- The onclick handler is a fix for Safari -->
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="14"
