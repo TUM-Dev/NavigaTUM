@@ -17,7 +17,7 @@ Please follow the [system dependencys docs](resources/documentation/Dependencys.
 Run `cargo run` to start the server.
 The server should now be available on `localhost:8080`.
 
-Note that `cargo run --release` is used to start the server for an optimised production build (relevant, as profiling `search` or `preview` is otherwise not recommended).
+Note that `cargo run --release` is used to start the server for an optimised production build (use this if you want to profile the `search` or `preview` functions, it makes quite a difference).
 
 ### Additional dependency's for some API endpoints
 
