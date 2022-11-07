@@ -415,8 +415,9 @@ function setOverlayImage(
   aspect-ratio: 4 / 3; // Not yet supported by all browsers
 
   /* --- User location dot --- */
-  .mapboxgl-user-location-dot, .mapboxgl-user-location-dot::before {
-    background-color: #3070B3;
+  .mapboxgl-user-location-dot,
+  .mapboxgl-user-location-dot::before {
+    background-color: #3070b3;
   }
 
 
