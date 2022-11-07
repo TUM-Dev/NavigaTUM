@@ -15,6 +15,7 @@ from processors import (
     structure,
     tumonline,
 )
+from utils import setup_logging
 
 DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ
 
@@ -31,6 +32,7 @@ def main():
 
     logging.info("-- 02 rooms extendend")
     data = merge.merge_yaml(data, "sources/02_rooms-extended.yaml")
+    merge.add_coordinates(data, "sources/02_coordinates.yaml")
 
     # Add source information for these entries, which are up to here
     # always declared by navigatum
@@ -82,6 +84,7 @@ def main():
     images.add_img(data)
 
     logging.info("-- 80 Generate info card")
+    sections.extract_calendar_urls(data)
     sections.compute_props(data)
     sections.localize_links(data)
 
@@ -107,11 +110,7 @@ def main():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG if DEBUG_MODE else logging.INFO, format="%(levelname)s: %(message)s")
-    logging.addLevelName(logging.INFO, f"\033[1;36m{logging.getLevelName(logging.INFO)}\033[1;0m")
-    logging.addLevelName(logging.WARNING, f"\033[1;33m{logging.getLevelName(logging.WARNING)}\033[1;0m")
-    logging.addLevelName(logging.ERROR, f"\033[1;41m{logging.getLevelName(logging.ERROR)}\033[1;0m")
-    logging.addLevelName(logging.CRITICAL, f"\033[1;41m{logging.getLevelName(logging.CRITICAL)}\033[1;0m")
+    setup_logging(level=logging.DEBUG if DEBUG_MODE else logging.INFO)
 
     # Pillow prints all imported modules to the debug stream
     logging.getLogger("PIL").setLevel(logging.INFO)

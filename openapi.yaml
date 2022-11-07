@@ -16,7 +16,7 @@ info:
     All functionality is also available via an API.
 
     *Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments.*
-  termsOfService: 'https://nav.tum.sexy/about/privacy'
+  termsOfService: 'https://nav.tum.de/about/privacy'
   contact:
     name: TUM-Dev
     url: 'https://www.tum.app/'
@@ -26,7 +26,7 @@ info:
     url: 'https://www.gnu.org/licenses/'
   version: 1.0.0
 servers:
-  - url: 'https://nav.tum.sexy'
+  - url: 'https://nav.tum.de'
     description: https
 paths:
   /api/search:
@@ -284,17 +284,7 @@ paths:
       parameters:
         - name: lang
           in: query
-          description: The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.
-          required: false
-          schema:
-            type: string
-            default: de
-            enum:
-              - de
-              - en
-        - name: lang
-          in: cookie
-          description: The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.
+          description: 'The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered.'
           required: false
           schema:
             type: string
@@ -442,6 +432,7 @@ paths:
                           text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
                         - name: Sitzplätze
                           text: '522'
+                      calendar_url: 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
                     ranking_factors:
                       rank_combined: 900
                       rank_type: 100
@@ -578,17 +569,7 @@ paths:
       parameters:
         - name: lang
           in: query
-          description: The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.
-          required: false
-          schema:
-            type: string
-            default: de
-            enum:
-              - de
-              - en
-        - name: lang
-          in: cookie
-          description: The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.
+          description: 'The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered.'
           required: false
           schema:
             type: string
@@ -638,8 +619,7 @@ paths:
           description: More data about the requested building/room
           content:
             image/png:
-              shema:
-                type:binary
+              shema: 'type:binary'
         '404':
           description: Invalid input
           content:
@@ -842,7 +822,7 @@ paths:
               schema:
                 type: string
                 format: binary
-              example: 'https://nav.tum.sexy/cdn/thumb/mi_0.webp'
+              example: 'https://nav.tum.de/cdn/thumb/mi_0.webp'
         '400':
           description: |
             Bad Request.    
@@ -905,7 +885,7 @@ paths:
               schema:
                 type: string
                 format: binary
-              example: 'https://nav.tum.sexy/cdn/maps/roomfinder/rf142.webp'
+              example: 'https://nav.tum.de/cdn/maps/roomfinder/rf142.webp'
         '400':
           description: |
             Bad Request.    
@@ -926,6 +906,63 @@ paths:
           content: {}
       tags:
         - cdn
+  '/api/legacy_redirect/{arch_name}':
+    get:
+      operationId: maps_cdn
+      summary: Get a redirect to our roomfinder
+      description: |
+        The old roomfinder still exists and adoption of our new system is not great.
+        This is a redirect route which can be a direct redirect for the old room-finder.
+
+        ***THIS WILL DISAPEAR IN THE FUTURE, DO NOT RELY ON IT.***
+        ***This is only here while TUM is transitioning to this system.***
+
+        After 1-2 years, we will introduce some text to nudging those,
+        who still have not changed their links, as otherwise we assume this transition will never be done...
+        Said nudge will include information on who to contact if updating the website is not possible and
+        tell the users what link to exchange with what other link.
+        Redirecting to y after a button click or something similar is probably good.
+
+        THIS IS NOT A PERMANENT SOLUTION, AND WILL BE REMOVED IN THE FUTURE
+
+        The reason, why this is not a dumb redirect is, that the old roomfinder has a lot of bugs and `arch_name` not being unique, nor an id is one of them.
+        We dont want to have two ids for obvious reasons, this is why we dont accept this as an alias
+      parameters:
+        - name: arch_name
+          in: path
+          description: Architects name of the redirect you want
+          required: true
+          schema:
+            type: string
+            minLength: 1
+          examples:
+            one:
+              summary: A arch_name with one meaning
+              value: 3002@5510
+            two:
+              summary: A arch_name with multiple meanings
+              value: 0203P@5502
+      responses:
+        '200':
+          description: There are multiple meanings for this arch_name. Please choose one
+          content:
+            text/plain:
+              schema:
+                type: string
+        '301':
+          description: Permanent redirect to the roomfinder
+          content: {}
+        '404':
+          description: Requested Resource Not Found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Not found
+                enum:
+                  - Not found
+      tags:
+        - migration
   /api/health:
     get:
       operationId: api-health
@@ -1006,6 +1043,13 @@ components:
             It is used in the rare cases, where some aspect about the rooom/.. or its translation are misleading.  
             An example of a room with a comment is MW1801.
           type: string
+        calendar_url:
+          items:
+            type: string
+            description: A link to the calendar of the room
+          example:
+            - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J'
+            - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
       required:
         - computed
     ComputedProp:
@@ -1504,6 +1548,15 @@ components:
           type: string
         name:
           description: The name of the entry in a human-readable form
+          type: string
+          example: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
+        arch_name:
+          description: |
+            The name of the entry in the LEGACY format of the old roomfinder.
+            This is only present for some rooms, and only if the room is in the legacy system.
+
+            ***THIS WILL DISAPEAR IN THE FUTURE, DO NOT RELY ON IT.***
+            This is only here while TUM is transitioning to this system.
           type: string
           example: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
         parents:

@@ -25,7 +25,7 @@ echo "regenerating the data for /webclient"
 cd ./webclient || exit
 mkdir -p cdn
 rsync -r --exclude '*.yaml' ../data/sources/img/ cdn/
-cp -r ../data/external/maps/roomfinder/* cdn/maps/roomfinder
+cp -r ../data/external/results/maps/roomfinder/* cdn/maps/roomfinder
 )
 
 

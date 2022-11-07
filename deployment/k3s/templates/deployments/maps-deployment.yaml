@@ -36,10 +36,10 @@ spec:
           image: maptiler/tileserver-gl:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080 # changing the public_url also changes this port.
+            - containerPort: 80
               name: tileserver
           args:
-            - --public_url=https://nav.tum.sexy/maps/ # we want this to live under /maps/
+            - --public_url=https://nav.tum.de/maps/ # we want this to live under /maps/
           volumeMounts:
             - mountPath: /tmp
               name: tmp-tileserver

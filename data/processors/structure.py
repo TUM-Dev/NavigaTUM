@@ -1,4 +1,5 @@
 import logging
+
 from utils import TranslatableStr as _
 
 
@@ -42,7 +43,7 @@ def add_stats(data):
                 if not child.get("usage", {}).get("din_277", "").startswith("VF"):
                     n_rooms_reg += 1
             if child["type"] == "joined_building" or (
-                    child["type"] == "building" and data[child["parents"][-1]]["type"] != "joined_building"
+                child["type"] == "building" and data[child["parents"][-1]]["type"] != "joined_building"
             ):
                 n_buildings += 1
 
@@ -83,11 +84,14 @@ def infer_addresses(data):
 
             if len(child_addresses) == 1:
                 street, plz_place = child_addresses.pop()
-                entry.setdefault("props")["address"] = {
-                    "street": street,
-                    "plz_place": plz_place,
-                    "source": "inferred",
-                }
+                entry.setdefault("props").setdefault(
+                    "address",
+                    {
+                        "street": street,
+                        "plz_place": plz_place,
+                        "source": "inferred",
+                    },
+                )
 
 
 def infer_type_common_name(data):

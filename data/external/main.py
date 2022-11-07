@@ -1,26 +1,29 @@
+import logging
 import os
 
-from external import downloader
+from external.scrapers import roomfinder, tumonline
+from external.scraping_utils import CACHE_PATH
+from utils import setup_logging
 
 if __name__ == "__main__":
+    setup_logging(level=logging.INFO)
     # Create cache directory structure
-    cache_base = os.path.join(os.path.dirname(__file__), "cache")
-    os.makedirs(cache_base, exist_ok=True)
-    os.makedirs(os.path.join(cache_base, "filter"), exist_ok=True)
-    os.makedirs(os.path.join(cache_base, "tumonline"), exist_ok=True)
-    os.makedirs(os.path.join(cache_base, "room"), exist_ok=True)
-    os.makedirs(os.path.join(cache_base, "maps/roomfinder"), exist_ok=True)
-    os.makedirs(os.path.join(cache_base, "maps/roomfinder/kmz"), exist_ok=True)
+    os.makedirs(CACHE_PATH, exist_ok=True)
+    os.makedirs(CACHE_PATH / "filter", exist_ok=True)
+    os.makedirs(CACHE_PATH / "tumonline", exist_ok=True)
+    os.makedirs(CACHE_PATH / "room", exist_ok=True)
+    os.makedirs(CACHE_PATH / "maps" / "roomfinder", exist_ok=True)
+    os.makedirs(CACHE_PATH / "maps" / "roomfinder" / "kmz", exist_ok=True)
 
     # You can comment out steps that should be skipped.
     # The downloader will automatically create a cache in `cache/`.
-    downloader.roomfinder_buildings()
-    downloader.tumonline_buildings()
+    roomfinder.scrape_buildings()
+    tumonline.scrape_buildings()
 
-    downloader.roomfinder_rooms()
-    downloader.tumonline_rooms()
+    roomfinder.scrape_rooms()
+    tumonline.scrape_rooms()
 
-    downloader.tumonline_usages()
+    tumonline.scrape_usages()
 
-    downloader.roomfinder_maps()
-    downloader.tumonline_orgs()
+    roomfinder.scrape_maps()
+    tumonline.scrape_orgs()
