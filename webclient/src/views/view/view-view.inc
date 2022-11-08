@@ -239,31 +239,33 @@
           <div id="interactive-map" class="loading"></div>
         </div>
       </div>
-      <div
-        class="roomfinder-map-container"
-        v-bind:class="{'d-none': state.map.selected !== 'roomfinder'}"
-        v-if="view_data.maps.roomfinder && view_data.maps.roomfinder.available"
-      >
-        <img
-          alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
-          src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.webp"
-          v-bind:style="{'transform': 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)'}"
-          id="roomfinder-map-cross"
-        />
-        <img
-          alt="Hand-drawn roomfinder map image"
-          v-bind:src="'<!-- @echo cdn_prefix -->maps/roomfinder/' + view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].file"
-          class="img-responsive"
-          v-bind:width="state.map.roomfinder.width"
-          v-bind:height="state.map.roomfinder.height"
-          id="roomfinder-map-img"
-        />
-        <div>
-          ${{_.view_view.map.img_source}}$: {{
-          view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].source
-          }}
-        </div>
-      </div>
+        <a @click="map.roomfinder.modalRoomfinder_open=true">
+          <div
+            class="roomfinder-map-container"
+            v-bind:class="{'d-none': state.map.selected !== 'roomfinder'}"
+            v-if="view_data.maps.roomfinder && view_data.maps.roomfinder.available"
+          >
+            <img
+              alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
+              src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.webp"
+              v-bind:style="{'transform': 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)'}"
+              id="roomfinder-map-cross"
+            />
+            <img
+              alt="Hand-drawn roomfinder map image"
+              v-bind:src="'<!-- @echo cdn_prefix -->maps/roomfinder/' + view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].file"
+              class="img-responsive"
+              v-bind:width="state.map.roomfinder.width"
+              v-bind:height="state.map.roomfinder.height"
+              id="roomfinder-map-img"
+            />
+            <div>
+              ${{_.view_view.map.img_source}}$: {{
+              view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].source
+              }}
+            </div>
+          </div>
+        </a>
       <div
         class="accordion"
         id="roomfinder-map-select"
@@ -326,6 +328,42 @@
         </button>
       </div>
       <div class="divider" style="margin-top: 10px"></div>
+    </div>
+    <!-- Modal-Roomfinder -->
+    <div
+      class="modal modal-lg active"
+      id="modal-roomfinder"
+      v-if="map.roomfinder.modalRoomfinder_open"
+    >
+      <a
+        class="modal-overlay"
+        aria-label="Close"
+        @click="map.roomfinder.modalRoomfinder_open=false"
+      >
+      </a>
+      <div class="modal-container modal-fullheight">
+        <div class="modal-header">
+          <button
+            class="btn btn-clear float-right"
+            aria-label="${{_view_view.modalRoomfinder.close}}$"
+            @click="map.roomfinder.modalRoomfinder_open=false"
+          >
+          </button>
+            <h5 class="modal-title">${{_.view_view.modalRoomfinder.header}}$</h5>
+        </div>
+        <div class="modal-body">
+          <div class="content" id="modalRoomfinderContent">
+            <img
+              alt="Hand-drawn roomfinder map image"
+              v-bind:src="'<!-- @echo cdn_prefix -->maps/roomfinder/' + view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].file"
+              class="img-responsive"
+              v-bind:width="state.map.roomfinder.width"
+              v-bind:height="state.map.roomfinder.height"
+              id="modalRoomfinder-map-img"
+            />
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Information section (on mobile) -->
