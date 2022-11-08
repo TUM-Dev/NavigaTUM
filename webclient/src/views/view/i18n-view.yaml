@@ -107,3 +107,11 @@ view_view:
     author: { de: "Autor", en: "Author" }
     source: { de: "Quelle", en: "Source" }
     license: { de: "Lizenz", en: "License" }
+  modalRoomfinder:
+    header:
+      de: "Lageplan"
+      en: "Site Plan"
+    close: { de: "Schließen", en: "Close"}
+    image_alt:
+      de: "Ein Bild welches den Lageplan zeigt"
+      en: "Image showing the Site Plan"
