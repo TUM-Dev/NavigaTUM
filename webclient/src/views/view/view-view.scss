@@ -320,6 +320,7 @@
         overflow: hidden;
         position: relative;
         margin-bottom: 6px;
+        cursor: pointer;
 
         > div {  // Image source label
             position: absolute;
@@ -345,6 +346,17 @@
 
     #roomfinder-map-select > label {
         padding: .05rem .3rem;
+    }
+
+    #modalRoomfinder-map-cross {
+        position: absolute;
+        transition: transform .3s;
+        pointer-events: none;
+    }
+
+    #modalRoomfinder-map-img {
+        width: 100%;
+        display: block;
     }
 
     .accordion-body {
@@ -547,6 +559,16 @@
                 animation: none;
                 transform: translateX(0);
             }
+        }
+    }
+
+    /* --- Modal Roomfinder --- */
+    #modal-roomfinder {
+        align-items: baseline;
+
+        & .modal-container {
+            position: relative;
+            top: 5em;
         }
     }
 }
