@@ -85,6 +85,9 @@ navigatum.registerView("view", {
           marker: null,
           marker2: null,
         },
+        roomfinder: {
+          modalRoomfinder_open: false,
+        }
       },
       sections: {
         rooms_overview: {
