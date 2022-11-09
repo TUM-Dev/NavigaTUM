@@ -239,7 +239,7 @@
           <div id="interactive-map" class="loading"></div>
         </div>
       </div>
-        <a @click="map.roomfinder.modalRoomfinder_open=true">
+        <a @click="map.roomfinder.modalOpen=true">
           <div
             class="roomfinder-map-container"
             v-bind:class="{'d-none': state.map.selected !== 'roomfinder'}"
@@ -333,12 +333,12 @@
     <div
       class="modal modal-lg active"
       id="modal-roomfinder"
-      v-if="map.roomfinder.modalRoomfinder_open"
+      v-if="map.roomfinder.modalOpen"
     >
       <a
         class="modal-overlay"
         aria-label="Close"
-        @click="map.roomfinder.modalRoomfinder_open=false"
+        @click="map.roomfinder.modalOpen=false"
       >
       </a>
       <div class="modal-container modal-fullheight">
@@ -346,7 +346,7 @@
           <button
             class="btn btn-clear float-right"
             aria-label="${{_view_view.modalRoomfinder.close}}$"
-            @click="map.roomfinder.modalRoomfinder_open=false"
+            @click="map.roomfinder.modalOpen=false"
           >
           </button>
             <h5 class="modal-title">${{_.view_view.modalRoomfinder.header}}$</h5>
