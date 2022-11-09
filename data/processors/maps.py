@@ -8,8 +8,11 @@ from typing import Any
 import yaml
 from PIL import Image
 
+import utils
+
 EXTERNAL_RESULTS_PATH = Path(__file__).parent.parent / "external" / "results"
 RF_MAPS_PATH = EXTERNAL_RESULTS_PATH / "maps" / "roomfinder"
+CUSTOM_RF_DIR = Path(__file__).parent.parent / "sources" / "img" / "maps" / "roomfinder"
 
 
 def _assign_roomfinder_maps(data):
@@ -245,6 +248,8 @@ def _load_custom_maps():
     with open("sources/45_custom-maps.yaml", encoding="utf-8") as file:
         custom_maps = yaml.safe_load(file.read())
 
+    utils.convert_to_webp(CUSTOM_RF_DIR)
+
     # Convert into the format used by maps_roomfinder.json:
     maps_out = {}
     for map_group in custom_maps:
@@ -261,7 +266,7 @@ def _load_custom_maps():
             },
         }
         for sub_map in map_group["maps"]:
-            img = Image.open("sources/img/maps/roomfinder/" + sub_map["file"])
+            img = Image.open(CUSTOM_RF_DIR / sub_map["file"])
             maps_out[(sub_map["b_id"], sub_map["floor"])] = {
                 "desc": sub_map["desc"],
                 "id": ".".join(sub_map["file"].split(".")[:-1]),
