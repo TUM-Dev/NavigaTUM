@@ -156,10 +156,6 @@ paths:
                             type: joined_building
                             name: "Maschinenwesen (\x19MW\x17)"
                             subtext: Gebäudekomplex
-                          - id: '5538'
-                            type: building
-                            name: "Interims-Tentomax Garching \x19MW\x17, HS1/HS2"
-                            subtext: Gebäude
                           - id: '5501'
                             type: building
                             name: 'Gebäudeteil 1, Institut für Mechatronik'
@@ -241,11 +237,6 @@ paths:
                             name: "56\x192\x170.01.10\x192\x17 (Hörsaal \x192\x17, \"\x19Interims\x17 I\")"
                             subtext: Interims-Audimax I
                             subtext_bold: "10\x192\x17@56\x192\x170"
-                          - id: 0598.EG.001
-                            type: room
-                            name: 0598.EG.001 (Tentomax HS Stammgelände)
-                            subtext: Tentomax Stammgelände (Interims HS)
-                            subtext_bold: 0.001@0598
                           - id: 5416.EG.010
                             type: room
                             name: 5416.EG.010 (IT/Audio)

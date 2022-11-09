@@ -174,8 +174,6 @@ zentralgelaende:
   osm: ["way/42918170"]
 #"0512":  # Garagen (Z12)
 # not on OSM
-#"0598":  # Tentomax Stammgelände (Interims HS)
-# not (anymore?) on OSM
 
 # Missing coords:
 #mri
