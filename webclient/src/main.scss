@@ -3,12 +3,21 @@
 /* === General === */
 html {
     height: 100%;
+    box-sizing: border-box;
     scroll-behavior: smooth;
 }
 
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
 body {
-    min-height: 80%;  // optimized for desktop view, not really relevant on mobile
     position: relative;
+    margin: 0;
+    padding-bottom: 6rem;
+    min-height: 100%;
 
     &.no-scroll {
         overflow-y: hidden;
@@ -234,6 +243,10 @@ body {
 }
 
 /* === Content === */
+#content {
+    margin: 0 auto
+}
+
 #content-header {
     margin-top: 70px;  // 10px + 60px for header
 }
@@ -304,9 +317,9 @@ body {
 
 /* === Footer === */
 footer {
-    padding: 8px 0 16px;
+    padding: 1rem;
     background: $footer-color;
-    bottom: -130px;
+    bottom: 0;
     position: absolute;
     left: 0;
     right: 0;
