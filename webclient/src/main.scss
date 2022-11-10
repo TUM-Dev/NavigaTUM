@@ -2,22 +2,11 @@
 
 /* === General === */
 html {
-    height: 100%;
-    box-sizing: border-box;
     scroll-behavior: smooth;
-}
-
-*,
-*:before,
-*:after {
-    box-sizing: inherit;
 }
 
 body {
     position: relative;
-    margin: 0;
-    padding-bottom: 6rem;
-    min-height: 100%;
 
     &.no-scroll {
         overflow-y: hidden;
@@ -244,7 +233,7 @@ body {
 
 /* === Content === */
 #content {
-    margin: 0 auto
+    min-height: calc(100vh - 190px);
 }
 
 #content-header {
@@ -319,7 +308,6 @@ body {
 footer {
     padding: 1rem;
     background: $footer-color;
-    bottom: 0;
     position: absolute;
     left: 0;
     right: 0;
