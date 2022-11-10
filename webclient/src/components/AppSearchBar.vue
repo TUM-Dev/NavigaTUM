@@ -7,14 +7,18 @@ import type { SearchResponse } from "@/codegen";
 import { useFetch } from "@/utils/fetch";
 
 export default {
-	mounted() {
-		window.addEventListener("keydown", (e) => {
-			if (e.key === "/") {
-				e.preventDefault();
-				document.getElementById("search")?.focus();
-			}
-		})
-	},
+  mounted() {
+    window.addEventListener("keydown", (e) => {
+  		if (
+        (e.key === "/") &&
+        document.activeElement?.tagName !== "INPUT" &&
+        document.activeElement?.tagName !== "TEXTAREA"
+      ) {
+        e.preventDefault();
+        document.getElementById("search")?.focus();
+      }
+    })
+  },
   data() {
     return {
       global: useGlobalStore(),
