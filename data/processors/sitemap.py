@@ -28,7 +28,7 @@ def generate_sitemap():
         new_data = json.load(file)
 
     # Currently online data
-    req = urllib.request.Request("https://nav.tum.sexy/cdn/api_data.json")
+    req = urllib.request.Request("https://nav.tum.de/cdn/api_data.json")
     req.add_header("Accept-Encoding", "gzip")
     with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
         old_data = json.loads(gzip.decompress(resp.read()).decode("utf-8"))
@@ -84,7 +84,7 @@ def _extract_sitemap_data(new_data, old_data, old_sitemaps) -> dict[str, list[di
             "room": "room",
             "virtual_room": "room",
         }[entry["type"]]
-        url = f"https://nav.tum.sexy/{url_type_name}/{_id}"
+        url = f"https://nav.tum.de/{url_type_name}/{_id}"
         if _id not in old_data or entry != old_data[_id]:
             lastmod = datetime.utcnow()
             changed_count += 1
@@ -122,7 +122,7 @@ def _download_online_sitemaps(sitemap_names):
     """Download online sitemaps by their names"""
     sitemaps = {}
     for name in sitemap_names:
-        sitemaps[name] = _download_online_sitemap(f"https://nav.tum.sexy/cdn/sitemap-data-{name}.xml")
+        sitemaps[name] = _download_online_sitemap(f"https://nav.tum.de/cdn/sitemap-data-{name}.xml")
     return sitemaps
 
 
@@ -169,7 +169,7 @@ def _write_sitemapindex_xml(fname, sitemaps):
     for name, sitemap in sitemaps.items():
         sitemap_el = ET.SubElement(sitemapindex, "sitemap")
         loc = ET.SubElement(sitemap_el, "loc")
-        loc.text = f"https://nav.tum.sexy/cdn/sitemap-data-{name}.xml"
+        loc.text = f"https://nav.tum.de/cdn/sitemap-data-{name}.xml"
         # we set the lastmod to the latest lastmod of all sitemaps
         lastmod_dates = {site["lastmod"] for site in sitemap if "lastmod" in site}
         if lastmod_dates:
@@ -180,7 +180,7 @@ def _write_sitemapindex_xml(fname, sitemaps):
     # webclient sitemap here as well.
     sitemap_el = ET.SubElement(sitemapindex, "sitemap")
     loc = ET.SubElement(sitemap_el, "loc")
-    web_sitemap_url = "https://nav.tum.sexy/sitemap-webclient.xml"
+    web_sitemap_url = "https://nav.tum.de/sitemap-webclient.xml"
     loc.text = web_sitemap_url
     sitemap = _download_online_sitemap(web_sitemap_url)
     lastmod_dates = set(sitemap.values())

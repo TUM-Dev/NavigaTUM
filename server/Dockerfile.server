@@ -10,11 +10,11 @@ RUN     RUSTFLAGS="-C target-feature=-crt-static" cargo build --release
 
 
 # Build the details database
-FROM python:3.10.7-bullseye as build-stage
+FROM python:3.11.0rc2-bullseye as build-stage
 COPY    load_api_data_to_db.py load_api_data_to_db.py
 
 # get api_data.json
-ADD     https://nav.tum.sexy/cdn/api_data.json data/api_data.json
+ADD     https://nav.tum.de/cdn/api_data.json data/api_data.json
 # For local testing if navigatum is not available:
 # follow the data-docs to get api_data.json, copy it to the directory server/data and enable
 # COPY data/api_data.json data/api_data.json

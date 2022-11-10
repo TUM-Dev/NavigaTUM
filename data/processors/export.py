@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Union, Any
+from typing import Any, Union
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
@@ -39,7 +39,7 @@ def export_for_search(data, path):
         # The 'campus name' is the campus of site of this building or room
         campus_name = None
         if _data["type"] not in {"root", "campus", "site"}:
-            for i, parent in enumerate(_data["parents"]):
+            for parent in _data["parents"]:
                 if data[parent]["type"] in {"campus", "site"}:
                     campus = data[parent]
                     campus_name = campus.get("short_name", campus["name"])
@@ -95,8 +95,17 @@ def export_for_api(data, path):
     for _id, entry in data.items():
         if entry["type"] != "root":
             entry.setdefault("maps", {})["default"] = "interactive"
+
+        # For the transition from the old roomfinder we export an arch_name similar
+        # to the one used by the old roomfinder. For rooms it is like "<room name>@<building id>"
+        # and for buildings like "@<building id>". For everything else this field is None.
+        if entry["type"] == "building":
+            arch_name = f"@{entry['id']}"
+        else:
+            arch_name = entry.get("tumonline_data", {}).get("arch_name", None)
         export_data[_id] = {
             "parent_names": [data[p]["name"] for p in entry["parents"]],
+            "arch_name": arch_name,
             **entry,
         }
         if "children" in export_data[_id]:
@@ -107,7 +116,8 @@ def export_for_api(data, path):
         if "roomfinder_data" in export_data[_id]:
             del export_data[_id]["roomfinder_data"]
         if "props" in export_data[_id]:
-            to_delete = [e for e in export_data[_id]["props"].keys() if e not in {"computed", "links", "comment"}]
+            prop_keys_to_keep = {"computed", "links", "comment", "calendar_url"}
+            to_delete = [e for e in export_data[_id]["props"].keys() if e not in prop_keys_to_keep]
             for k in to_delete:
                 del export_data[_id]["props"][k]
 

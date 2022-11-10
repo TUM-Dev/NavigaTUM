@@ -414,6 +414,13 @@ function setOverlayImage(
   margin-bottom: 10px;
   aspect-ratio: 4 / 3; // Not yet supported by all browsers
 
+  /* --- User location dot --- */
+  .mapboxgl-user-location-dot,
+  .mapboxgl-user-location-dot::before {
+    background-color: #3070b3;
+  }
+
+
   > div {
     padding-bottom: 75%; // 4:3 aspect ratio
     border: 1px solid $border-light;

@@ -9,7 +9,10 @@ export function useFetch<T>(
   const data = shallowRef<T | null>(null);
   // for some of our endpoints, we might want to have access to the lang/theme cookies
 
-  options.credentials = "same-origin";
+  // Add language query param to the request
+  const lang = document.documentElement.lang;
+  url += (url.indexOf("?") != -1 ? "&lang=" : "?lang=") + lang;
+
   const global = useGlobalStore();
   fetch(url, options)
     .then((res) => {

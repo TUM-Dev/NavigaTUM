@@ -1,3 +1,4 @@
+import logging
 import os
 from pathlib import Path
 
@@ -22,7 +23,7 @@ class TranslatableStr(dict):
 
     Since it is a subclass of dict, this class does not need any additional infrastructure
     to turn a message into a translated string.
-    
+
     Translatable strings will be exported as {"de": "<de string>", "en": "<en string>"}.
     """
 
@@ -76,3 +77,14 @@ def convert_to_webp(source: Path):
     image.save(destination, format="webp")
     os.remove(source)
     return str(destination)
+
+
+def setup_logging(level):
+    """
+    Sets up the loglevels with colors, with correct terminal colors
+    """
+    logging.basicConfig(level=level, format="%(levelname)s: %(message)s")
+    logging.addLevelName(logging.INFO, f"\033[1;36m{logging.getLevelName(logging.INFO)}\033[1;0m")
+    logging.addLevelName(logging.WARNING, f"\033[1;33m{logging.getLevelName(logging.WARNING)}\033[1;0m")
+    logging.addLevelName(logging.ERROR, f"\033[1;41m{logging.getLevelName(logging.ERROR)}\033[1;0m")
+    logging.addLevelName(logging.CRITICAL, f"\033[1;41m{logging.getLevelName(logging.CRITICAL)}\033[1;0m")

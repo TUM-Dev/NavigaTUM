@@ -5,11 +5,11 @@
 [![API Uptime over 30 days](https://img.shields.io/uptimerobot/ratio/m791522180-717477e7e0d458d047022d4a?label=API%20Uptime/30d)](https://stats.uptimerobot.com/xBGmxHLMYg)
 [![CDN Uptime over 30 days](https://img.shields.io/uptimerobot/ratio/m791522182-e08c84d38117fa5d1477fe1d?label=CDN%20Uptime/30d)](https://stats.uptimerobot.com/xBGmxHLMYg)
 
-NavigaTUM is a non-official tool developed by students for students, that aims to help you get around at [TUM](https://tum.de). Feel free to contribute.
+NavigaTUM is a the official tool developed by students for students, that aims to help you get around at [TUM](https://tum.de). Feel free to contribute, we are open to new people 😄.
 
 Features:
 
-- Interactive or RoomFinder-like maps to lookup the position of rooms or buildings
+- Interactive or RoomFinder-like maps to look up the position of rooms or buildings
 - Fast and typo-tolerant search
 - Support for different room code formats as well as generic names
 
@@ -25,7 +25,7 @@ _Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being us
 
 You can consume our API Documentation in two ways:
 
-- Head over to [our Website](https://nav.tum.sexy/api) and look at the interactive documentation
+- Head over to [our Website](https://nav.tum.de/api) and look at the interactive documentation
 - We also describe our API in an [OpenAPI 3.0](https://de.wikipedia.org/wiki/OpenAPI) compliant file.  
   You can find it [here](./openapi.yaml).  
   Using this Specification you can generate your own client to access the API in the language of your choice.
@@ -35,7 +35,13 @@ Note: The API is still under development, and we are open to Issues, Feature Req
 
 ## Getting started
 
-NavigaTUM consists of three parts + deployment resources.
+### Overview
+
+NavigaTUM consists of three main parts + deployment resources.
+
+Depending on what you want to work on, you **do not need to set up all of them**.
+For an overview of how the components work, have a look at the
+[deployment documentation](deployment/README.md).
 
 - `data/` contains the code to obtain and process the data
 - `server/` contains the API server written in Rust, including MeiliSearch as a search backend
@@ -43,59 +49,61 @@ NavigaTUM consists of three parts + deployment resources.
 - `deployment/` contains deployment related configuration
 - `map/` contains information about our own map, how to style it and how to run it
 
-Depending on what you want to work on, you do not need to set up all of them.
-For an overview how the components work, have a look at the
-[deployment documentation](deployment/README.md).
+The following steps assume you have just cloned the repository and are in the root directory of it.
 
-The following steps assume you have just cloned the repository and are in the
-root directory of it.
-
-### Data
+### Data Processing
 
 In case you do not want to work on the data processing, you can instead
 download the latest compiled files:
 
 ```bash
-wget -P data/output https://nav.tum.sexy/cdn/api_data.json
-wget -P data/output https://nav.tum.sexy/cdn/search_data.json
-wget -P data/output https://nav.tum.sexy/cdn/search_synonyms.json
+wget -P data/output https://nav.tum.de/cdn/api_data.json
+wget -P data/output https://nav.tum.de/cdn/search_data.json
+wget -P data/output https://nav.tum.de/cdn/search_synonyms.json
 ```
 
-Else you can follow the steps in the [data documentation](data/).
+Else you can follow the steps in the [data documentation](data/README.md).
 
 ### Server
 
-Follow the steps in the [server documentation](server/).
+If you want to work on the webclient only (and not server or data), you don't need to set up the server. You can instead either use the public API (see the [webclient documentation](webclient/README.md#Testing)) or use our ready-made docker images to run the server locally:
+
+```bash
+docker network create navigatum-net
+docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
+docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main
+```
+
+Else you can follow the steps in the [server documentation](server/README.md).
 
 ### Webclient
 
-Follow the steps in the [webclient documentation](webclient/).
-If you want to only run the webclient locally, you can skip the "Data" and
-"Server" steps above and edit the webclient configuration to use the public
-API as is described in the webclient documentation.
+Follow the steps in the [webclient documentation](webclient/README.md).
+If you want to only run the webclient locally, you can skip the "Data" and "Server" steps above and use docker (as seen above) or you can [edit the webclient configuration](webclient/README.md#testing) to point to production.
 
-### API
+### Formatting
 
-We format our api via [openapi-format](https://www.npmjs.com/package/openapi-format).
+We have multiple programming languages in this repository, and we use different tools to format them.
 
-```bash
-npm install openapi-format
-openapi-format ./openapi.yaml --output ./openapi.yaml
-```
-
-To validate that the specification is being followed, use the [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml) in tandem with [stoplight](stoplight.io), as they are both very imperfect tools.
-
-To make sure that this specification is up-to-date and without holes, we run [schemathesis](https://github.com/schemathesis/schemathesis) using the following command on API Server provided by the "Server" step or the public API:
+since we use [pre-commit](https://pre-commit.com/) to format our code, you can install it in an virtual environment with:
 
 ```bash
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
-pip install schemathesis
-st run --workers=auto --base-url=http://localhost:8080 --checks=all ../openapi.yaml
+pip install -r data/requirements.txt -r server/test/requirements.txt -r requirements_dev.txt # for mypy the server and data requirements are needed
 ```
 
-Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN).  
-You can exchange `--base-url=http://localhost:8080` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/search`.
+To format all files, run the following command:
+
+```bash
+pre-commit run --all-files
+```
+
+You can also automatically **format files on every commit** by running the following command:
+
+```bash
+pre-commit install
+```
 
 ## License
 

@@ -16,7 +16,7 @@ import * as url from "url";
 import * as isomorphicFetch from "isomorphic-fetch";
 import type { Configuration } from "./configuration";
 
-const BASE_PATH = "https://nav.tum.sexy".replace(/\/+$/, "");
+const BASE_PATH = "https://nav.tum.de".replace(/\/+$/, "");
 
 /**
  *

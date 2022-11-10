@@ -79,34 +79,33 @@ jobs:
     permissions:
       contents: read
       packages: write
-  # commented out until https://github.com/schemathesis/schemathesis/issues/1614 is fixed
-  #api-tests:
-  #  runs-on: ubuntu-20.04
-  #  services:
-  #    mieli:
-  #      image: ghcr.io/tum-dev/navigatum-mieli-search:main
-  #      # TODO get the tags from ${{ needs.mieli-search-build.outputs.tags }}
-  #      ports:
-  #        - 7700
-  #  steps:
-  #    - uses: actions/checkout@v3.0.0
-  #    - uses: ATiltedTree/setup-rust@v1.0.5
-  #      with:
-  #        rust-version: 1.62.1
-  #    # run project's dependencies
-  #    - run: cargo build
-  #      working-directory: server
-  #    - run: cargo run &
-  #      working-directory: server
-  #
-  #    # Runs Schemathesis tests with all checks enabled
-  #    - uses: schemathesis/action@v1
-  #      with:
-  #        token: ${{ secrets.SCHEMATHESIS_TOKEN }}
-  #        api-name: navigatum
-  #        schema: "./openapi.yaml"
-  #        base-url: "http://localhost:8080"
-  #        args: "--endpoint='/api/[^f].*'" # disable the feedbacks endpoint
+  api-tests:
+    runs-on: ubuntu-20.04
+    services:
+      mieli:
+        image: ghcr.io/tum-dev/navigatum-mieli-search:main
+        # TODO get the tags from ${{ needs.mieli-search-build.outputs.tags }}
+        ports:
+          - 7700
+    steps:
+      - uses: actions/checkout@v3.0.0
+      - uses: ATiltedTree/setup-rust@v1.0.5
+        with:
+          rust-version: 1.62.1
+      # run project's dependencies
+      - run: cargo build
+        working-directory: server
+      - run: cargo run &
+        working-directory: server
+
+      # Runs Schemathesis tests with all checks enabled
+      - uses: schemathesis/action@v1
+        with:
+          token: ${{ secrets.SCHEMATHESIS_TOKEN }}
+          api-name: navigatum
+          schema: "./openapi.yaml"
+          base-url: "http://localhost:8080"
+          args: "--endpoint='/api/[^f].*'" # disable the feedbacks endpoint
   server-deployment:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
