@@ -306,13 +306,13 @@ body {
 
 /* === Footer === */
 footer {
-    padding:8px 0 16px;
-    background:#fafafa;
+    padding: 8px 0 16px;
+    background: $footer-color;
     position: relative;
     left:0;
     right:0;
     top:0;
-    text-align:center;
+    text-align: center;
 
     .links {
         text-align: left;
