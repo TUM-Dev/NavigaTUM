@@ -2,12 +2,10 @@
 
 /* === General === */
 html {
-    height: 100%;
     scroll-behavior: smooth;
 }
 
 body {
-    min-height: 80%;  // optimized for desktop view, not really relevant on mobile
     position: relative;
 
     &.no-scroll {
@@ -234,6 +232,10 @@ body {
 }
 
 /* === Content === */
+#content {
+    min-height: calc(100vh - 200px);
+}
+
 #content-header {
     margin-top: 70px;  // 10px + 60px for header
 }
@@ -306,10 +308,10 @@ body {
 footer {
     padding: 8px 0 16px;
     background: $footer-color;
-    bottom: -130px;
-    position: absolute;
-    left: 0;
-    right: 0;
+    position: relative;
+    left:0;
+    right:0;
+    top:0;
     text-align: center;
 
     .links {
