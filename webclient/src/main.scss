@@ -233,7 +233,7 @@ body {
 
 /* === Content === */
 #content {
-    min-height: calc(100vh - 190px);
+    min-height: calc(100vh - 200px);
 }
 
 #content-header {
@@ -306,12 +306,13 @@ body {
 
 /* === Footer === */
 footer {
-    padding: 1rem;
-    background: $footer-color;
-    position: absolute;
-    left: 0;
-    right: 0;
-    text-align: center;
+    padding:8px 0 16px;
+    background:#fafafa;
+    position: relative;
+    left:0;
+    right:0;
+    top:0;
+    text-align:center;
 
     .links {
         text-align: left;
