@@ -10,7 +10,7 @@ export default {
   mounted() {
     window.addEventListener("keydown", (e) => {
   		if (
-        (e.key === "/") &&
+        (e.key === "s" || e.key === "/") &&
         document.activeElement?.tagName !== "INPUT" &&
         document.activeElement?.tagName !== "TEXTAREA"
       ) {
