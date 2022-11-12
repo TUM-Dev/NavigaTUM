@@ -2,7 +2,7 @@ meta:
   logo_alt: "Das Logo von NavigaTUM."
   description: "Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden."
 search:
-  placeholder: "Drücke / um zu Suchen"
+  placeholder: "Suche"
   aria-searchlabel: "Suchfeld"
   aria-actionlabel: "Suche nach dem im Suchfeld eingetragenen Raum"
   action: "Go"
