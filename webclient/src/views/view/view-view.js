@@ -53,6 +53,8 @@ const _viewDefaultState = {
       selected_index: null, // Index in the 'available' list
       x: -1023 - 10, // Outside in top left corner
       y: -1023 - 10,
+      modalX: -1023 -10,
+      modalY: -1023 -10,
       width: 400,
       height: 300,
     },

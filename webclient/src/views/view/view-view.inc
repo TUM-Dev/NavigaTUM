@@ -239,7 +239,10 @@
           <div id="interactive-map" class="loading"></div>
         </div>
       </div>
-        <a @click="map.roomfinder.modalOpen=true">
+        <a
+          v-on:click="loadModalRoomfinderMap()"
+          @click="map.roomfinder.modalOpen=true"
+        >
           <div
             class="roomfinder-map-container"
             v-bind:class="{'d-none': state.map.selected !== 'roomfinder'}"
@@ -333,7 +336,7 @@
     <div
       class="modal modal-lg active"
       id="modal-roomfinder"
-      v-if="map.roomfinder.modalOpen"
+      v-bind:class="{active: map.roomfinder.modalOpen}"
     >
       <a
         class="modal-overlay"
@@ -341,7 +344,7 @@
         @click="map.roomfinder.modalOpen=false"
       >
       </a>
-      <div class="modal-container modal-fullheight">
+      <div class="modal-container modal-fullheight" id="roomfinderModal-container">
         <div class="modal-header">
           <button
             class="btn btn-clear float-right"
@@ -353,6 +356,12 @@
         </div>
         <div class="modal-body">
           <div class="content" id="modalRoomfinderContent">
+            <img
+              alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
+              src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.webp"
+              v-bind:style="{'transform': 'translate(' + state.map.roomfinder.modalX + 'px, ' + state.map.roomfinder.modalY + 'px)'}"
+              id="modalRoomfinder-map-cross"
+            />
             <img
               alt="Hand-drawn roomfinder map image"
               v-bind:src="'<!-- @echo cdn_prefix -->maps/roomfinder/' + view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].file"
