@@ -524,6 +524,22 @@ navigatum.registerView("view", {
         );
       }
     },
+    loadModalRoomfinderMap: function () {
+      const map = this.view_data.maps.roomfinder.available[mapIndex];
+
+      const rect = document
+          .getElementById("roomfinderModal-container")
+          .getBoundingClientRect();
+      // -1023px, -1023px is top left corner, 16px = 2*8px is element padding
+      this.state.map.roomfinder.modalX =
+          -1023 + (map.x / map.width) * (rect.width - 16);
+
+      // We cannot use "height" here as it might be still zero before layouting
+      // finished, so we use the aspect ratio here.
+      this.state.map.roomfinder.modalY =
+          -1023 +
+          (map.y / map.height) * (rect.width - 16) * (map.height / map.width);
+    },
     updateRoomsOverview: function (setSelected) {
       const state = this.state.rooms_overview;
       const data = this.view_data.sections.rooms_overview;
