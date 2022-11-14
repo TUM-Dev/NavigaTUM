@@ -609,8 +609,7 @@ paths:
         '200':
           description: More data about the requested building/room
           content:
-            image/png:
-              shema: 'type:binary'
+            image/png: {}
         '404':
           description: Invalid input
           content:
@@ -899,7 +898,7 @@ paths:
         - cdn
   '/api/legacy_redirect/{arch_name}':
     get:
-      operationId: maps_cdn
+      operationId: legacy_redirect
       summary: Get a redirect to our roomfinder
       description: |
         The old roomfinder still exists and adoption of our new system is not great.
