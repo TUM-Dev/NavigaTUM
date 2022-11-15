@@ -64,6 +64,19 @@
     - {file: "0104_3.webp", id: 3, floor: "03", desc: "U-Trakt N4 (3. OG) – © TUM WWW & Online Services"}
     - {file: "0104_4.webp", id: 4, floor: "04", desc: "U-Trakt N4 (4. OG) – © TUM WWW & Online Services"}
     - {file: "0104_5.webp", id: 5, floor: "DG", desc: "U-Trakt N4 (5. OG) – © TUM WWW & Online Services"}
+
+- props:
+    parent: "0201"
+    box:
+      - [11.566690, 48.147587]
+      - [11.566892, 48.147923]
+      - [11.567176, 48.147848]
+      - [11.566970, 48.147513]
+  maps:
+    - {file: "0201_0.webp", id: 0, floor: "EG", desc: "StudiTUM Innenstadt (EG)"}
+    - {file: "0201_1.webp", id: 1, floor: "01", desc: "StudiTUM Innenstadt (1.OG)"}
+    - {file: "0201_2.webp", id: 2, floor: "02", desc: "StudiTUM Innenstadt (2.OG)"}
+    - {file: "0201_3.webp", id: 3, floor: "03", desc: "StudiTUM Innenstadt (3.OG)"}
     
 - props:
     parent: "0505"
