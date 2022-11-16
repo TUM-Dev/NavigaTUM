@@ -36,7 +36,7 @@ def _download_file(url, target_cache_file, quiet=False, quiet_errors=False):
             urllib.request.urlretrieve(url, target_cache_file)  # nosec: B310
         except HTTPError as e:
             if not quiet_errors:
-                logging.warning(f"GET {url} -> Failed to retrieve {url}: {e}")
+                logging.warning(f"GET {url} -> Failed to retrieve because: {e}")
             return None
         if not quiet:
             logging.warning(f"GET {url}")
