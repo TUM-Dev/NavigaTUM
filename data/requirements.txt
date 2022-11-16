@@ -4,4 +4,5 @@ lxml~=4.9.1
 Pillow~=9.3.0
 pyyaml~=6.0
 ruamel.yaml~=0.17.21
+tqdm~=4.64.1
 utm~=0.7.0
