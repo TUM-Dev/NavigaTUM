@@ -58,6 +58,8 @@ entry_queries:
 - { target: "2910.EG.003",  query: "H.03"               }
 - { target: "2910.EG.003",  query: "H.3"                }
 - { target: "0101.02.119",  query: "2119", among: 4     }  # The architects name is a N2119. There are other rooms which are actually named "2119", which means 4 is the best case.
+- { target: "5606.EG.011", query: "MI HS3"              }  # This should match this Lecture hall and not the HS 1, just because both are in the Bolzmanstr. *3* 4 is the best case.
+- { target: "5606.EG.011", query: "MI HS 3"             }
 # other queries
 #- {target: , query: "mathe bib"     }
 #- {target: , query: "tb innenstadt" }
