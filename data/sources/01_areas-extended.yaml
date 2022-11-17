@@ -20,8 +20,9 @@ root:
         - { name: "Zentralgelände", id: "zentralgelaende" }
         - { name: "Nordgelände", id: "nordgelaende" }
         - { name: "Südgelände", id: "suedgelaende" }
-        - { name: "Südostgelände", id: "suedostgelaende" }
         - { name: "Südwestgelände", id: "suedwestgelaende" }
+        - { name: "StudiTUM Innenstadt", id: "0201" }
+        - { name: "RiWa 1 (HfP, Governance)", id: "2910" }
     - name: "Weihenstephan (Freising)"
       id: "wzw"
       n_visible: 3
@@ -34,7 +35,7 @@ root:
         - { name: "Thalhausen (Versuchsstation)", id: "thalhausen" }
         - { name: "Veitshof (Stallungen)", id: "veitshof" }
         - { name: "Viehhausen (Versuchsstation)", id: "viehhausen" }
-    - name: "Sonstige"
+    - name: { de: "Sonstige", en: "Others" }
       id: null
       n_visible: 5
       children:
