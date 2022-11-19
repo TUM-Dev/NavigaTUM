@@ -1,39 +1,106 @@
-use actix_web::web::Json;
+use actix_web::web::{Data, Json};
 use actix_web::{post, web, HttpResponse};
+
+use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
 use log::error;
 use octocrab::Octocrab;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::time::Instant;
+use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 use tokio::sync::Mutex;
 
-extern crate rand;
-
-use rand::thread_rng;
-use rand::Rng;
+#[derive(Debug, Serialize, Deserialize)]
+struct Claims {
+    exp: usize, // Required (validate_exp defaults to true in validation). Expiration time (as UTC timestamp)
+    iat: usize, // Optional. Issued at (as UTC timestamp)
+    nbf: usize, // Optional. Not Before (as UTC timestamp)
+    kid: u64,   // Optional. Key ID
+}
 
 // As a very basic rate limiting, the generation of tokens
 // is limited to a fixed amount per day and hour.
-const RATE_LIMIT_HOUR: usize = 20;
-const RATE_LIMIT_DAY: usize = 50; // = 24h
+const RATE_LIMIT_HOUR: u64 = 20;
+const RATE_LIMIT_DAY: u64 = 50; // = 24h
 
 // Additionally, there is a short delay until a token can be used.
 // Clients need to wait that time if (for some reason) the user submitted
 // faster than limited here.
-const TOKEN_MIN_AGE: u64 = 10;
-const TOKEN_MAX_AGE: u64 = 3600 * 12; // 12h
+const TOKEN_MIN_AGE: usize = 10;
+const TOKEN_MAX_AGE: usize = 3600 * 12; // 12h
+
+struct Rate {
+    cnt: AtomicU64,
+    next_reset: AtomicUsize,
+    limit: u64,
+    increment_reset: usize,
+}
+
+struct RateLimit {
+    hour: Rate,
+    day: Rate,
+}
+
+impl Rate {
+    fn new(limit: u64, increment_reset: usize) -> Rate {
+        Rate {
+            cnt: AtomicU64::new(0),
+            next_reset: AtomicUsize::new(0),
+            limit,
+            increment_reset,
+        }
+    }
+    fn check_and_increment(&self) -> bool {
+        // Returns true if the value was incremented.
+        // Returns false if the limit was reached.
+        // Uses CMPXCHG to ensure that this is theadsave
+        let now = chrono::Utc::now().timestamp() as usize;
+        if self.next_reset.load(Ordering::SeqCst) < now {
+            // Reset the counter, as the time since the last reset is as long as the reset interval
+            self.cnt.store(1, Ordering::SeqCst);
+            self.next_reset
+                .store(now + self.increment_reset, Ordering::SeqCst);
+            return true;
+        }
+        let mut old = self.cnt.load(Ordering::SeqCst);
+        loop {
+            let new = old + 1;
+            if old >= self.limit {
+                return false;
+            }
+            match self
+                .cnt
+                .compare_exchange_weak(old, new, Ordering::SeqCst, Ordering::SeqCst)
+            {
+                Ok(_) => return true,
+                Err(x) => old = x,
+            }
+        }
+    }
+}
+
+impl RateLimit {
+    fn new() -> RateLimit {
+        RateLimit {
+            hour: Rate::new(RATE_LIMIT_HOUR, 3600),
+            day: Rate::new(RATE_LIMIT_DAY, 3600 * 24),
+        }
+    }
+    fn check_and_increment(&self) -> bool {
+        self.day.check_and_increment() && self.hour.check_and_increment()
+    }
+}
+
+struct TokenRecord {
+    kid: u64,
+    next_reset: usize,
+}
 
 pub struct AppStateFeedback {
     available: bool,
     opt: crate::Opt,
-    token: Mutex<Vec<Token>>,
-}
-
-#[derive(Debug)]
-struct Token {
-    value: String,
-    creation: Instant,
-    used: bool,
+    generated_tokens: RateLimit,
+    consumed_tokens: RateLimit,
+    token_record: Mutex<Vec<TokenRecord>>,
 }
 
 #[derive(Deserialize)]
@@ -46,18 +113,14 @@ struct FeedbackPostData {
     delete_issue_requested: bool,
 }
 
-#[derive(Serialize)]
-struct GenerateTokenResult {
-    token: String,
-}
-
 pub fn init_state(opt: crate::Opt) -> AppStateFeedback {
     let available = opt.github_token.is_some();
-    let token = Mutex::new(Vec::<Token>::new());
     AppStateFeedback {
         available,
         opt,
-        token,
+        generated_tokens: RateLimit::new(),
+        consumed_tokens: RateLimit::new(),
+        token_record: Mutex::new(Vec::<TokenRecord>::new()),
     }
 }
 
@@ -66,82 +129,52 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
 }
 
 #[post("/get_token")]
-async fn get_token(state: web::Data<AppStateFeedback>) -> HttpResponse {
+async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
     if !state.available {
         return HttpResponse::ServiceUnavailable()
-            .content_type("plain/text")
+            .content_type("text/plain")
             .body("Feedback is currently not configured on this server.");
     }
-
-    let mut token = state.token.lock().await;
-
-    // remove outdated token (no longer relevant for rate limit)
-    token.retain(|t| t.creation.elapsed().as_secs() < 3600 * 24 && !t.used);
-
-    let num_token_last_hour = token.len()
-        - token
-            .iter()
-            .rposition(|t| t.creation.elapsed().as_secs() > 3600)
-            .unwrap_or(0);
-
-    if token.len() >= RATE_LIMIT_DAY || num_token_last_hour >= RATE_LIMIT_HOUR {
+    if !state.generated_tokens.check_and_increment() {
         return HttpResponse::TooManyRequests()
-            .content_type("plain/text")
-            .body("Too many token generated recently. Please try again later.");
+            .content_type("text/plain")
+            .body("Too many tokens generated. Please try again later.");
     }
-    // Simple numbers as random token for now
-    let mut rng = thread_rng();
-    let token_value: i64 = rng.gen_range(100_000_000_000_000..999_999_999_999_999);
 
-    let new_token = Token {
-        value: token_value.to_string(),
-        creation: Instant::now(),
-        used: false,
-    };
+    // we now know that we are allowed to generate a token
 
-    token.push(new_token);
-    let token_result = GenerateTokenResult {
-        token: token_value.to_string(),
+    let now = chrono::Utc::now().timestamp() as usize;
+    let claims = Claims {
+        exp: now + TOKEN_MAX_AGE,
+        iat: now,
+        nbf: now + TOKEN_MIN_AGE,
+        kid: rand::random(),
     };
-    HttpResponse::Created().json(token_result)
+    let token = encode(
+        &Header::default(),
+        &claims,
+        &EncodingKey::from_secret("secret".as_ref()),
+    );
+
+    match token {
+        Ok(token) => HttpResponse::Ok().json(token),
+        Err(e) => {
+            error!("Failed to generate token: {:?}", e);
+            HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Failed to generate token.")
+        }
+    }
 }
 
 #[post("/feedback")]
 async fn send_feedback(
-    state: web::Data<AppStateFeedback>,
-    req_data: web::Json<FeedbackPostData>,
+    state: Data<AppStateFeedback>,
+    req_data: Json<FeedbackPostData>,
 ) -> HttpResponse {
-    if !state.available {
-        return HttpResponse::ServiceUnavailable()
-            .content_type("text/plain")
-            .body("Feedback is currently not configured on this server.");
-    }
+    validate_token(&state, &req_data).await;
 
-    let mut token_list = state.token.lock().await;
-
-    let token = token_list.iter_mut().find(|t| t.value == req_data.token);
-
-    if token.is_none() {
-        return HttpResponse::Forbidden()
-            .content_type("text/plain")
-            .body("Invalid token");
-    }
-    let t = token.unwrap();
-    if t.creation.elapsed().as_secs() < TOKEN_MIN_AGE {
-        return HttpResponse::Forbidden()
-            .content_type("text/plain")
-            .body("Token not old enough, please wait.");
-    }
-    if t.creation.elapsed().as_secs() > TOKEN_MAX_AGE {
-        return HttpResponse::Forbidden()
-            .content_type("text/plain")
-            .body("Token expired.");
-    }
-    if t.used {
-        return HttpResponse::Forbidden()
-            .content_type("text/plain")
-            .body("Token already used.");
-    }
+    // validate request
     if !req_data.privacy_checked {
         return HttpResponse::UnavailableForLegalReasons()
             .content_type("text/plain")
@@ -155,8 +188,72 @@ async fn send_feedback(
             .content_type("text/plain")
             .body("Subject or body missing or too short");
     }
-    let token = state.opt.github_token.as_ref().unwrap().trim().to_string();
-    let octocrab = Octocrab::builder().personal_token(token).build();
+
+    let github_token = state.opt.github_token.as_ref().unwrap().trim().to_string();
+    post_feedback(github_token, title, description, labels).await
+}
+
+async fn validate_token(
+    state: &Data<AppStateFeedback>,
+    req_data: &Json<FeedbackPostData>,
+) -> Option<HttpResponse> {
+    if !state.available {
+        return Some(
+            HttpResponse::ServiceUnavailable()
+                .content_type("text/plain")
+                .body("Feedback is currently not configured on this server."),
+        );
+    }
+    if !state.consumed_tokens.check_and_increment() {
+        return Some(
+            HttpResponse::TooManyRequests()
+                .content_type("text/plain")
+                .body("Too many tokens generated. Please try again later."),
+        );
+    }
+
+    let x = DecodingKey::from_secret("secret".as_ref());
+    let jwt_token = decode::<Claims>(&req_data.token, &x, &Validation::default());
+    let kid = match jwt_token {
+        Ok(token) => token.claims.kid,
+        Err(e) => {
+            error!("Failed to decode token: {:?}", e.kind());
+            return Some(HttpResponse::Forbidden().content_type("text/plain").body(
+                match e.kind() {
+                    jsonwebtoken::errors::ErrorKind::ImmatureSignature => "Token is not yet valid.",
+                    jsonwebtoken::errors::ErrorKind::ExpiredSignature => "Token expired",
+                    _ => "Invalid token",
+                },
+            ));
+        }
+    };
+
+    // now we know that the token is valid and thus in time and created by us.
+    // The problem is, that it could be used multiple times.
+    // To prevent this, we need to check if the token was already used.
+
+    let now = chrono::Utc::now().timestamp() as usize;
+    let mut tokens = state.token_record.lock().await;
+    // remove outdated tokens (no longer relevant for rate limit)
+    tokens.retain(|t| t.next_reset > now + TOKEN_MAX_AGE);
+    // check if token is already used
+    if tokens.iter().any(|r| r.kid == kid) {
+        return Some(
+            HttpResponse::Forbidden()
+                .content_type("text/plain")
+                .body("Token already used."),
+        );
+    }
+    None
+}
+
+async fn post_feedback(
+    github_token: String,
+    title: String,
+    description: String,
+    labels: Vec<String>,
+) -> HttpResponse {
+    let octocrab = Octocrab::builder().personal_token(github_token).build();
     if octocrab.is_err() {
         error!("Error creating issue: {:?}", octocrab);
         return HttpResponse::InternalServerError().body("Could not create Octocrab instance");
@@ -171,12 +268,9 @@ async fn send_feedback(
         .await;
 
     return match resp {
-        Ok(issue) => {
-            t.used = true;
-            HttpResponse::Created()
-                .content_type("text/plain")
-                .body(issue.html_url.to_string())
-        }
+        Ok(issue) => HttpResponse::Created()
+            .content_type("text/plain")
+            .body(issue.html_url.to_string()),
         Err(e) => {
             error!("Error creating issue: {:?}", e);
             HttpResponse::InternalServerError()
