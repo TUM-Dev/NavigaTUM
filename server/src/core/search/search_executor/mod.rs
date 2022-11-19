@@ -33,7 +33,7 @@ struct ResultEntry {
 }
 
 // size=500 seems to be about 50M
-#[cached(size = 500)]
+#[cached(size = 50)]
 pub async fn do_geoentry_search(
     q: String,
     highlighting: (String, String),
