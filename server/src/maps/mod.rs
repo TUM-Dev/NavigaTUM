@@ -39,7 +39,7 @@ fn get_localised_data(id: &str, should_use_english: bool) -> Option<Result<MapIn
     )
     .expect("Cannot open database");
 
-    let stmt = conn.prepare_cached(&format!(
+    let stmt = conn.prepare(&format!(
         "SELECT name,type,type_common_name,lat,lon FROM {} WHERE key = ?",
         if should_use_english { "en" } else { "de" }
     ));
@@ -70,7 +70,7 @@ fn get_localised_data(id: &str, should_use_english: bool) -> Option<Result<MapIn
 // size=20 is about 60MB
 #[cached(
     type = "SizedCache<String, Vec<u8>>",
-    create = "{ SizedCache::with_size(20) }",
+    create = "{ SizedCache::with_size(5) }",
     option = true,
     convert = r#"{ _id.to_string() }"#
 )]

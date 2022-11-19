@@ -16,8 +16,8 @@ pub async fn get_handler(
     .expect("Cannot open database");
 
     let stmt = match args.should_use_english() {
-        false => conn.prepare_cached("SELECT data FROM de WHERE key = ?"),
-        true => conn.prepare_cached("SELECT data FROM en WHERE key = ?"),
+        false => conn.prepare("SELECT data FROM de WHERE key = ?"),
+        true => conn.prepare("SELECT data FROM en WHERE key = ?"),
     };
     let result = match stmt {
         Ok(mut stmt) => stmt.query_row([id], |row| {
