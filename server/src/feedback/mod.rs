@@ -1,17 +1,10 @@
+mod github;
 mod tokens;
-
+use crate::feedback::tokens::{Claims, RateLimit};
 use actix_web::web::{Data, Json};
 use actix_web::{post, web, HttpResponse};
-
-use crate::feedback::tokens::{Claims, RateLimit};
-use jsonwebtoken::encode;
-
-use jsonwebtoken::EncodingKey;
-use jsonwebtoken::Header;
-
+use jsonwebtoken::{encode, EncodingKey, Header};
 use log::error;
-use octocrab::Octocrab;
-use regex::Regex;
 use serde::Deserialize;
 
 use tokio::sync::Mutex;
@@ -46,7 +39,7 @@ pub fn init_state(opt: crate::Opt) -> AppStateFeedback {
         opt,
         generated_tokens: RateLimit::new(),
         consumed_tokens: RateLimit::new(),
-        token_record: Mutex::new(Vec::<TokenRecord>::new()),
+        token_record: Mutex::new(Vec::new()),
     }
 }
 
@@ -56,6 +49,7 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
 
 #[post("/get_token")]
 async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
+    //auth
     if !state.available {
         return HttpResponse::ServiceUnavailable()
             .content_type("text/plain")
@@ -91,6 +85,7 @@ async fn send_feedback(
     state: Data<AppStateFeedback>,
     req_data: Json<FeedbackPostData>,
 ) -> HttpResponse {
+    //auth
     let maybe_err = tokens::validate_token(&state, &req_data.token).await;
     if let Some(e) = maybe_err {
         return e;
@@ -102,54 +97,21 @@ async fn send_feedback(
             .content_type("text/plain")
             .body("Using this endpoint without accepting the privacy policy is not allowed");
     };
-
-    let (title, description, labels) = parse_request(&req_data);
-
-    if title.len() < 3 || description.len() < 10 {
-        return HttpResponse::UnprocessableEntity()
-            .content_type("text/plain")
-            .body("Subject or body missing or too short");
-    }
+    let (title_category, labels) = parse_request(&req_data);
 
     let github_token = state.opt.github_token.as_ref().unwrap().trim().to_string();
-    post_feedback(github_token, title, description, labels).await
+    github::post_feedback(
+        github_token,
+        title_category,
+        &req_data.subject,
+        &req_data.body,
+        labels,
+    )
+    .await
 }
 
-async fn post_feedback(
-    github_token: String,
-    title: String,
-    description: String,
-    labels: Vec<String>,
-) -> HttpResponse {
-    let octocrab = Octocrab::builder().personal_token(github_token).build();
-    if octocrab.is_err() {
-        error!("Error creating issue: {:?}", octocrab);
-        return HttpResponse::InternalServerError().body("Could not create Octocrab instance");
-    }
-    let resp = octocrab
-        .unwrap()
-        .issues("TUM-Dev", "navigatum")
-        .create(title)
-        .body(description)
-        .labels(labels)
-        .send()
-        .await;
-
-    return match resp {
-        Ok(issue) => HttpResponse::Created()
-            .content_type("text/plain")
-            .body(issue.html_url.to_string()),
-        Err(e) => {
-            error!("Error creating issue: {:?}", e);
-            HttpResponse::InternalServerError()
-                .content_type("text/plain")
-                .body("Failed create issue")
-        }
-    };
-}
-
-fn parse_request(req_data: &Json<FeedbackPostData>) -> (String, String, Vec<String>) {
-    let capitalised_category = match req_data.category.as_str() {
+fn parse_request(req_data: &Json<FeedbackPostData>) -> (&str, Vec<String>) {
+    let title_category = match req_data.category.as_str() {
         "general" => "General",
         "bug" => "Bug",
         "feature" => "Feature",
@@ -157,66 +119,16 @@ fn parse_request(req_data: &Json<FeedbackPostData>) -> (String, String, Vec<Stri
         "entry" => "Entry",
         _ => "Form",
     };
-    let raw_title = format!("[{}] {}", capitalised_category, &req_data.subject);
-    let title = clean_feedback_data(&raw_title, 512);
-    let description = clean_feedback_data(&req_data.body, 1024 * 1024);
 
-    let mut labels = vec![String::from("webform")];
+    let mut labels = vec!["webform".to_string()];
     if req_data.delete_issue_requested {
-        labels.push(String::from("delete-after-processing"));
+        labels.push("delete-after-processing".to_string());
     }
     match req_data.category.as_str() {
         "general" | "bug" | "feature" | "search" | "entry" => {
-            labels.push(String::from(&req_data.category));
+            labels.push(req_data.category.as_str().to_string());
         }
         _ => {}
     };
-    (title, description, labels)
-}
-
-/// Remove all returns a string, which has
-/// - all control characters removed
-/// - is at most len characters long
-/// - can be nicely formatted in markdown (just \n in md is not a linebreak)
-fn clean_feedback_data(s: &str, len: usize) -> String {
-    let s_clean = s
-        .chars()
-        .filter(|c| !c.is_control() || (c == &'\n'))
-        .take(len)
-        .collect::<String>();
-
-    let re = Regex::new(r"[ \t]*\n").unwrap();
-    re.replace_all(&s_clean, "  \n").to_string()
-}
-
-#[cfg(test)]
-mod description_tests {
-    use super::*;
-
-    #[test]
-    fn newlines_whitespace() {
-        assert_eq!(
-            clean_feedback_data("a\r\nb", 9),
-            clean_feedback_data("a\nb", 9)
-        );
-        assert_eq!(clean_feedback_data("a\nb\nc", 9), "a  \nb  \nc");
-        assert_eq!(clean_feedback_data("a\nb  \nc", 9), "a  \nb  \nc");
-        assert_eq!(clean_feedback_data("a      \nb", 9), "a  \nb");
-        assert_eq!(clean_feedback_data("a\n\nb", 9), "a  \n  \nb");
-        assert_eq!(clean_feedback_data("a\n   b", 9), "a  \n   b");
-    }
-    #[test]
-    fn truncate_len() {
-        for i in 0..10 {
-            let mut expected = "abcd".to_string();
-            expected.truncate(i);
-            assert_eq!(clean_feedback_data("abcd", i), expected);
-        }
-    }
-    #[test]
-    fn special_cases() {
-        assert_eq!(clean_feedback_data("", 0), "");
-        assert_eq!(clean_feedback_data("a\x05bc", 9), "abc");
-        assert_eq!(clean_feedback_data("ab\x0Dc", 9), "abc");
-    }
+    (title_category, labels)
 }
