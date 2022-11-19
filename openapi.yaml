@@ -645,7 +645,7 @@ paths:
       description: |
         ***Do not abuse this endpoint.***
 
-        This returns a token usable for submitting feedback.
+        This returns a JWT token usable for submitting feedback.
         You should request a token, ***if (and only if) a user is on a feedback page***
 
         As a rudimentary way of rate-limiting feedback, this endpoint returns a token.
@@ -667,13 +667,14 @@ paths:
         '429':
           description: |
             Too many requests.  
-            We are rate-limiting everyone''s requests, please try again later.
+            We are rate-limiting everyone's requests, please try again later.
           content: {}
         '503':
           description: |
             Service unavailable.  
-            We have not configured a GitHub Access Token.  
-            This could be because we are experiencing technical difficulties or intentional. Please try again later.
+            We have not configured a GitHub Access Token or a JWT Key.  
+            This could be because we are experiencing technical difficulties or intentional if we experience abuse of these endpoints.
+            Please try again later.
           content: {}
       tags:
         - feedback
@@ -1447,12 +1448,8 @@ components:
       type: object
       properties:
         token:
-          description: 'The token, that can be used to generate feedback'
+          description: 'The JWT token, that can be used to generate feedback'
           type: string
-          example: '999999999999999'
-          maxLength: 15
-          minLength: 15
-          pattern: '[0-9]+'
       required:
         - token
       x-examples:
@@ -1615,12 +1612,8 @@ components:
       type: object
       properties:
         token:
-          description: 'The token, that can be used to generate feedback'
+          description: 'The JWT token, that can be used to generate feedback'
           type: string
-          example: '999999999999999'
-          maxLength: 15
-          minLength: 15
-          pattern: '[0-9]+'
         category:
           description: |
             The category of the feedback.  
