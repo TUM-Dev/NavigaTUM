@@ -33,7 +33,7 @@ struct FeedbackPostData {
 }
 
 pub fn init_state(opt: crate::Opt) -> AppStateFeedback {
-    let available = opt.github_token.is_some();
+    let available = opt.github_token.is_some() && opt.jwt_key.is_some();
     AppStateFeedback {
         available,
         opt,
@@ -63,10 +63,11 @@ async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
 
     // we now know that we are allowed to generate a token
 
+    let secret = state.opt.jwt_key.clone().unwrap(); // we checked available
     let token = encode(
         &Header::default(),
         &Claims::new(),
-        &EncodingKey::from_secret("secret".as_ref()),
+        &EncodingKey::from_secret(secret.as_bytes()),
     );
 
     match token {
