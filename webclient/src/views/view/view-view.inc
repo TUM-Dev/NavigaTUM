@@ -334,7 +334,7 @@
     </div>
     <!-- Modal-Roomfinder -->
     <div
-      class="modal modal-lg active"
+      class="modal modal-lg"
       id="modal-roomfinder"
       v-bind:class="{active: map.roomfinder.modalOpen}"
     >

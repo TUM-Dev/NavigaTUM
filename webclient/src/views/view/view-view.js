@@ -525,7 +525,7 @@ navigatum.registerView("view", {
       }
     },
     loadModalRoomfinderMap: function () {
-      const map = this.view_data.maps.roomfinder.available[mapIndex];
+      const map = this.view_data.maps.roomfinder.available[this.state.map.roomfinder.selected_index];
 
       const rect = document
           .getElementById("roomfinderModal-container")
