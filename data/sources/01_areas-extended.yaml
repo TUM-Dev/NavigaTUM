@@ -354,6 +354,14 @@ mri-imse:
   coords: { lat: 48.13693, lon: 11.60310 }
   osm: ["way/75376234"]
 
+1551:  # Coordinate is wrong in the roomfinder
+  coords: { lat: 48.13609, lon: 11.59980 }
+  osm: ["way/23684068", "way/75376269", "way/75376172"]
+
+1552:  # Coordinate is wrong in the roomfinder
+  coords: { lat: 48.13606, lon: 11.60060 }
+  osm: ["way/75380883"]
+
 1555:
   coords: { lat: 48.13753, lon: 11.60362 }
   external_data:
