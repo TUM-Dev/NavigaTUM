@@ -539,6 +539,7 @@ navigatum.registerView("view", {
       this.state.map.roomfinder.modalY =
           -1023 +
           (map.y / map.height) * (rect.width - 16) * (map.height / map.width);
+      document.getElementById("modalRoomfinder-map-cross").style.display="block"
     },
     updateRoomsOverview: function (setSelected) {
       const state = this.state.rooms_overview;
