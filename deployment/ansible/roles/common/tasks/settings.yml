@@ -1,0 +1,11 @@
+- name: set timezone
+  timezone:
+    name: Europe/Berlin
+- name: set locale
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+- name: set text editor
+  alternatives:
+    name: editor
+    path: /usr/bin/nano

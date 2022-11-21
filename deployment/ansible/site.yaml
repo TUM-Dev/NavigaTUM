@@ -1,0 +1,10 @@
+---
+- hosts: node
+  roles:
+    - common
+    - k8s
+- hosts: leader
+  roles:
+    - common
+    - k8s
+    - leader

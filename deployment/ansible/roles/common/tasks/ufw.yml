@@ -1,0 +1,32 @@
+- name: Install ufw
+  apt:
+    name: ufw
+    state: present
+
+- name: Configure UFW
+  ufw:
+    direction: incoming
+    rule: allow
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+    comment: "{{ item.comment }}"
+  with_items:
+    - { port: 37670, proto: any, comment: "HTTP" }
+    - { port: 80, proto: any, comment: "HTTP" }
+    - { port: 443, proto: any, comment: "HTTPS" }
+    - { port: 6443, proto: tcp, comment: "Kubernetes API Server" }
+    - { port: 10250, proto: tcp, comment: "Kubelet metrics" }
+    - { port: 2379, proto: tcp, comment: "k3s HA with embedded etcd" }
+    - { port: 2380, proto: tcp, comment: "k3s HA with embedded etcd" }
+
+- name: Configure UFW's default outgoing policy
+  ufw:
+    default: allow
+    direction: outgoing
+- name: Configure UFW default incoming policy
+  ufw:
+    default: deny
+    direction: incoming
+- name: Enable UFW
+  ufw:
+    state: enabled

@@ -43,3 +43,8 @@ Namely:
 Deployment happens on push to main, or on push to a PR.
 For PRs we only execute this deployment request, if the autor is a member of the `@TUM-Dev/navigatum`-group or a member authorises this PR to run actions.
 The reasoning is, that we don't want strangers to be able to fork our project, change the deployment to something malicious and make us deploy it.
+
+### ansible
+
+We use [ansible](https://www.ansible.com/) to deploy the k3s cluster.
+As an additional dependency you need to `ansible-galaxy collection install kubernetes.core`
