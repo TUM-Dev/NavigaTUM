@@ -86,7 +86,7 @@ async fn send_feedback(
     state: Data<AppStateFeedback>,
     req_data: Json<FeedbackPostData>,
 ) -> HttpResponse {
-    //auth
+    // auth
     let maybe_err = tokens::validate_token(&state, &req_data.token).await;
     if let Some(e) = maybe_err {
         return e;

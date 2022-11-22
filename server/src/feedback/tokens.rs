@@ -138,14 +138,17 @@ pub async fn validate_token(
         }
     };
 
-    // now we know that the token is valid and thus in time and created by us.
+    // now we know from token-validity, that it is within our time limits and created by us.
     // The problem is, that it could be used multiple times.
     // To prevent this, we need to check if the token was already used.
+    // This is means that if this usage+our ratelimits are
+    // - neither synced across multiple feedback instances, nor
+    // - persisted between reboots
 
     let now = chrono::Utc::now().timestamp() as usize;
     let mut tokens = state.token_record.lock().await;
     // remove outdated tokens (no longer relevant for rate limit)
-    tokens.retain(|t| t.next_reset > now + TOKEN_MAX_AGE);
+    tokens.retain(|t| t.next_reset > now);
     // check if token is already used
     if tokens.iter().any(|r| r.kid == kid) {
         return Some(
