@@ -12,7 +12,7 @@ use crate::feedback::{AppStateFeedback, TokenRecord};
 // Additionally, there is a short delay until a token can be used.
 // Clients need to wait that time if (for some reason) the user submitted
 // faster than limited here.
-const TOKEN_MIN_AGE: usize = 10;
+const TOKEN_MIN_AGE: usize = 5;
 const TOKEN_MAX_AGE: usize = 3600 * 12; // 12h
 
 #[derive(Debug, Serialize, Deserialize)]
