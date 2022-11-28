@@ -240,8 +240,8 @@
         </div>
       </div>
         <a
-          v-on:click="setTimeout(loadModalRoomfinderMap, 1000)"
           @click="map.roomfinder.modalOpen=true"
+          v-on:click="delayedLoadModalRoomfinderMap"
         >
           <div
             class="roomfinder-map-container"

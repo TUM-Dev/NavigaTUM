@@ -541,6 +541,9 @@ navigatum.registerView("view", {
           (map.y / map.height) * (rect.width - 16) * (map.height / map.width);
       document.getElementById("modalRoomfinder-map-cross").style.display="block"
     },
+    delayedLoadModalRoomfinderMap: function () {
+      setTimeout(this.loadModalRoomfinderMap, 1000);
+    },
     updateRoomsOverview: function (setSelected) {
       const state = this.state.rooms_overview;
       const data = this.view_data.sections.rooms_overview;

@@ -348,9 +348,15 @@
         padding: .05rem .3rem;
     }
 
+    #roomfinderModal-container {
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 6px;
+    }
+
     #modalRoomfinder-map-cross {
         position: absolute;
-        transition: transform .3s;
+        transition: transform 1s;
         pointer-events: none;
     }
 
