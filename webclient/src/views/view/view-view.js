@@ -532,14 +532,13 @@ navigatum.registerView("view", {
           .getBoundingClientRect();
       // -1023px, -1023px is top left corner, 16px = 2*8px is element padding
       this.state.map.roomfinder.modalX =
-          -1023 + (map.x / map.width) * (rect.width - 16);
+          -1023 + (map.x / map.width) * (rect.width - 65);
 
       // We cannot use "height" here as it might be still zero before layouting
       // finished, so we use the aspect ratio here.
       this.state.map.roomfinder.modalY =
           -1023 +
-          (map.y / map.height) * (rect.width - 16) * (map.height / map.width);
-      document.getElementById("modalRoomfinder-map-cross").style.display="block"
+          (map.y / map.height) * (rect.width - 65) * (map.height / map.width);
     },
     delayedLoadModalRoomfinderMap: function () {
       setTimeout(this.loadModalRoomfinderMap, 1000);

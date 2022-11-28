@@ -359,7 +359,6 @@
             <img
               alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
               src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.webp"
-              style="display: none"
               v-bind:style="{'transform': 'translate(' + state.map.roomfinder.modalX + 'px, ' + state.map.roomfinder.modalY + 'px)'}"
               id="modalRoomfinder-map-cross"
             />
