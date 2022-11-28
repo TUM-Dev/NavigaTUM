@@ -10,7 +10,7 @@ RUN node_modules/gulp/bin/gulp.js --gulpfile ./gulpfile.js release && rm -fr ./b
 # compress data (only using gzip, because brotli on ngnix is a royal pain)
 RUN gzip --force --keep --recursive ./build
 
-FROM nginx as production-stage
+FROM nginx:latest as production-stage
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir /app && apt update && apt upgrade -y
 COPY --from=build-stage /app/build /app

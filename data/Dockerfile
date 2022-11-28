@@ -1,4 +1,4 @@
-FROM python:3.12.0a2-bullseye as build-stage
+FROM python:3.12-bullseye as build-stage
 WORKDIR /app
 
 ARG GIT_COMMIT_SHA
@@ -29,7 +29,7 @@ COPY search_synonyms.json output/
 # compress data (only using gzip, because brotli on ngnix is a royal pain)
 RUN gzip --force --keep --recursive output/
 
-FROM nginx as production-stage
+FROM nginx:latest as production-stage
 RUN mkdir /cdn
 COPY --from=build-stage /app/output /cdn
 COPY nginx.conf /etc/nginx/nginx.conf
