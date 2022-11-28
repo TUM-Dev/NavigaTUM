@@ -651,7 +651,7 @@ paths:
         As a rudimentary way of rate-limiting feedback, this endpoint returns a token.
         To post feedback, you will need this token.
 
-        Tokens gain validity after 10s, and are invalid after 12h of being issued.
+        Tokens gain validity after 5s, and are invalid after 12h of being issued.
         They are not refreshable, and are only valid for one usage.
 
         Global Rate-Limiting:
