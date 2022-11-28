@@ -35,6 +35,7 @@ The only difference between the two is, that production has some extra secrets.
 Namely:
 
 - we don't publish our `GITHUB_TOKEN` to git. (used to pass feedback from the webclient to github)
+- we don't publish the `JWT_KEY` to git. (used to generate tokens to ratelimt feedback creation)
 - we don't publish the `MEILI_MASTER_KEY` to git. (used as aditional layer of network hardening between the webclient and the server)
 
 Deployment happens on push to main, or on push to a PR.

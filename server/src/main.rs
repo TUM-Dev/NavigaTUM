@@ -17,6 +17,9 @@ pub struct Opt {
     /// GitHub personal access token
     #[structopt(short = "t", long)]
     github_token: Option<String>,
+    /// Secret for the feedback token generation
+    #[structopt(short = "jwt", long)]
+    jwt_key: Option<String>,
 }
 
 #[get("/api/source_code")]
@@ -45,10 +48,10 @@ async fn main() -> std::io::Result<()> {
 
     let mut opt = Opt::from_args();
     if opt.github_token.is_none() {
-        opt.github_token = match std::env::var("GITHUB_TOKEN") {
-            Ok(token) => Some(token),
-            Err(_) => None,
-        };
+        opt.github_token = std::env::var("GITHUB_TOKEN").ok();
+    }
+    if opt.jwt_key.is_none() {
+        opt.jwt_key = std::env::var("JWT_KEY").ok();
     }
 
     let state_feedback = web::Data::new(feedback::init_state(opt));
