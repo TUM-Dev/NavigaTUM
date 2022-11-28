@@ -355,7 +355,7 @@
             <h5 class="modal-title">${{_.view_view.modalRoomfinder.header}}$</h5>
         </div>
         <div class="modal-body">
-          <div class="content" id="modalRoomfinderContent">
+          <div class="roomfinder-map-container">
             <img
               alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
               src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.webp"
