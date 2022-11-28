@@ -645,13 +645,13 @@ paths:
       description: |
         ***Do not abuse this endpoint.***
 
-        This returns a token usable for submitting feedback.
+        This returns a JWT token usable for submitting feedback.
         You should request a token, ***if (and only if) a user is on a feedback page***
 
         As a rudimentary way of rate-limiting feedback, this endpoint returns a token.
         To post feedback, you will need this token.
 
-        Tokens gain validity after 10s, and are invalid after 12h of being issued.
+        Tokens gain validity after 5s, and are invalid after 12h of being issued.
         They are not refreshable, and are only valid for one usage.
 
         Global Rate-Limiting:
@@ -667,13 +667,14 @@ paths:
         '429':
           description: |
             Too many requests.  
-            We are rate-limiting everyone''s requests, please try again later.
+            We are rate-limiting everyone's requests, please try again later.
           content: {}
         '503':
           description: |
             Service unavailable.  
-            We have not configured a GitHub Access Token.  
-            This could be because we are experiencing technical difficulties or intentional. Please try again later.
+            We have not configured a GitHub Access Token or a JWT Key.  
+            This could be because we are experiencing technical difficulties or intentional if we experience abuse of these endpoints.
+            Please try again later.
           content: {}
       tags:
         - feedback
@@ -1447,17 +1448,13 @@ components:
       type: object
       properties:
         token:
-          description: 'The token, that can be used to generate feedback'
+          description: 'The JWT token, that can be used to generate feedback'
           type: string
-          example: '999999999999999'
-          maxLength: 15
-          minLength: 15
-          pattern: '[0-9]+'
       required:
         - token
       x-examples:
         token:
-          token: '999999999999999'
+          token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4'
     SearchResponse:
       type: object
       properties:
@@ -1615,12 +1612,9 @@ components:
       type: object
       properties:
         token:
-          description: 'The token, that can be used to generate feedback'
+          description: 'The JWT token, that can be used to generate feedback'
           type: string
-          example: '999999999999999'
-          maxLength: 15
-          minLength: 15
-          pattern: '[0-9]+'
+          example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4'
         category:
           description: |
             The category of the feedback.  
