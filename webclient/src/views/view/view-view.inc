@@ -97,8 +97,6 @@
         <a
           class="btn btn-link btn-action btn-sm"
           v-if="view_data.props?.calendar_url"
-          v-bind:href="view_data.props.calendar_url"
-          target="_blank"
           title="${{ _.view_view.header.calendar }}$"
         >
           <svg
@@ -184,6 +182,33 @@
       </div>
     </div>
     <div class="divider"></div>
+    <!-- Modal-Calendar -->
+    <div
+      class="modal modal-lg"
+      id="modal-calendar"
+      v-bind:class="{active: calendar.modalOpen}"
+    >
+      <a
+        class="modal-overlay"
+        aria-label="Close"
+        @click="calendar.modalOpen=false"
+      >
+      </a>
+        <div class="modal-container modal-fullheight" id="calendarModal-container">
+          <div class="modal-header">
+            <button
+              class="btn btn-clear float-right"
+              aria-label="${{_.view_view.header.calendar.close}}$"
+              @click="calendar.modalOpen=false"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="content" id="modalCalendarContent">
+              <iframe src="view_data.props.calendar_url"></iframe>
+            </div>
+          </div>
+        </div>
+    </div>
   </div>
 
   <!-- First info section (map + infocard) -->

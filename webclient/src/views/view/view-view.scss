@@ -104,6 +104,16 @@
         }
     }
 
+    /* --- Modal Calendar --- */
+    #modal-calendar {
+        align-items: baseline;
+
+        & .modal-container {
+            position: relative;
+            top: 5em;
+        }
+    }
+
     /* --- Pending coordinates counter --- */
     .coord-counter {
         margin: 8px 0;

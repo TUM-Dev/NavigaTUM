@@ -10,7 +10,9 @@ view_view:
       share: { de: "Teilen", en: "Share" }
       share_link: { de: "Teilen mit ...", en: "Share with ..." }
       copied: { de: "Kopiert", en: "Copied" }
-    calendar: { de: "Kalender öffnen", en: "Open calendar" }
+    calendar:
+      open: { de: "Kalender öffnen", en: "Open calendar" }
+      close: { de: "Kalender schließen", en: "Close calendar" }
     feedback:
       de: "Problem melden oder Änderung vorschlagen"
       en: "Report issue or suggest changes"

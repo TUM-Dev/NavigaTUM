@@ -117,6 +117,9 @@ navigatum.registerView("view", {
         body_backup: null,
         force_reopen: false,
       },
+      calendar: {
+        modalOpen: false,
+      },
       browser_supports_share: "share" in navigator,
     };
   },
