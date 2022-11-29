@@ -340,7 +340,7 @@
     >
       <a
         class="modal-overlay"
-        aria-label="Close"
+        aria-label="${{_.view_view.modalRoomfinder.close}}$"
         @click="map.roomfinder.modalOpen=false"
       >
       </a>
@@ -370,6 +370,11 @@
               v-bind:height="state.map.roomfinder.height"
               id="modalRoomfinder-map-img"
             />
+            <div>
+              ${{_.view_view.map.img_source}}$: {{
+                  view_data.maps.roomfinder.available[state.map.roomfinder.selected_index].source
+              }}
+            </div>
           </div>
         </div>
       </div>
