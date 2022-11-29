@@ -359,7 +359,7 @@
     }
 
     #modalRoomfinder-map-img {
-        width: 100%;
+        width: 100%; // Without this part the image doesn't fill the modal over the whole width.
     }
 
     .accordion-body {
