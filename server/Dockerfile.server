@@ -24,7 +24,7 @@ RUN     python3 load_api_data_to_db.py
 FROM alpine:3.17
 
 RUN     apk update --quiet \
-        && apk add -q --no-cache libgcc sqlite-libs tini curl \
+        && apk add -q --no-cache libgcc sqlite-libs libcrypto libssl tini curl \
         && mkdir -p ./src/maps/font
 
 
