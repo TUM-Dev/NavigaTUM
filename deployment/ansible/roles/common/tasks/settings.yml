@@ -9,3 +9,6 @@
   alternatives:
     name: editor
     path: /usr/bin/nano
+- name: Set the hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
