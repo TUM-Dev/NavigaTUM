@@ -344,7 +344,11 @@
         @click="map.roomfinder.modalOpen=false"
       >
       </a>
-      <div class="modal-container modal-fullheight" id="roomfinderModal-container">
+      <div
+        class="modal-container modal-fullheight"
+        id="roomfinderModal-container"
+        v-if="view_data.maps.roomfinder"
+      >
         <div class="modal-header">
           <button
             class="btn btn-clear float-right"
@@ -355,7 +359,10 @@
             <h5 class="modal-title">${{_.view_view.modalRoomfinder.header}}$</h5>
         </div>
         <div class="modal-body">
-          <div class="roomfinder-map-container">
+          <div
+            class="roomfinder-map-container"
+            v-if="view_data.maps.roomfinder.available"
+          >
             <img
               alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
               src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.webp"
