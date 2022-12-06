@@ -20,7 +20,6 @@
   with_items:
     - htop
     - tldr
-    - tldr
   tags: install
 
 - name: Run settings.yml
