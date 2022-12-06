@@ -8,7 +8,7 @@
 - name: set text editor
   alternatives:
     name: editor
-    path: /usr/bin/nano
+    path: /bin/nano
 - name: Set the hostname
   hostname:
     name: "{{ inventory_hostname }}"
