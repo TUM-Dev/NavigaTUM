@@ -53,6 +53,8 @@ const _viewDefaultState = {
       selected_index: null, // Index in the 'available' list
       x: -1023 - 10, // Outside in top left corner
       y: -1023 - 10,
+      modalX: -1023 -10,
+      modalY: -1023 -10,
       width: 400,
       height: 300,
     },
@@ -85,6 +87,9 @@ navigatum.registerView("view", {
           marker: null,
           marker2: null,
         },
+        roomfinder: {
+          modalOpen: false,
+        }
       },
       sections: {
         rooms_overview: {
@@ -518,6 +523,25 @@ navigatum.registerView("view", {
           rect.top + this.state.map.roomfinder.y + 1023 - window.innerHeight / 2
         );
       }
+    },
+    loadModalRoomfinderMap: function () {
+      const map = this.view_data.maps.roomfinder.available[this.state.map.roomfinder.selected_index];
+
+      const rect = document
+          .getElementById("roomfinderModal-container")
+          .getBoundingClientRect();
+      // -1023px, -1023px is top left corner, 16px = 2*8px is element padding
+      this.state.map.roomfinder.modalX =
+          -1023 + (map.x / map.width) * (rect.width - 65);
+
+      // We cannot use "height" here as it might be still zero before layouting
+      // finished, so we use the aspect ratio here.
+      this.state.map.roomfinder.modalY =
+          -1023 +
+          (map.y / map.height) * (rect.width - 65) * (map.height / map.width);
+    },
+    delayedLoadModalRoomfinderMap: function () {
+      setTimeout(this.loadModalRoomfinderMap, 1000);
     },
     updateRoomsOverview: function (setSelected) {
       const state = this.state.rooms_overview;
