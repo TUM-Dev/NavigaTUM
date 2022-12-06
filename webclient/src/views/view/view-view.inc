@@ -348,7 +348,7 @@
         <div class="modal-header">
           <button
             class="btn btn-clear float-right"
-            aria-label="${{_view_view.modalRoomfinder.close}}$"
+            aria-label="${{_.view_view.modalRoomfinder.close}}$"
             @click="map.roomfinder.modalOpen=false"
           >
           </button>
