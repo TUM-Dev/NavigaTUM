@@ -1,11 +1,3 @@
-- name: Enshure sshd is configured correctly
-  template:
-    src: sshd_config.j2
-    dest: /etc/ssh/sshd_config
-    owner: root
-    group: root
-    mode: 0644
-
 - name: Enshure, that authorized_keys file has the correct content
   template:
     src: authroized_keys.j2
@@ -13,3 +5,11 @@
     owner: root
     group: root
     mode: 0600
+
+- name: Enshure sshd is configured correctly
+  template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
