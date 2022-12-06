@@ -341,10 +341,25 @@
     #roomfinder-map-img {
         width: 100%;
         display: block;
+        cursor: pointer;
     }
 
     #roomfinder-map-select > label {
         padding: .05rem .3rem;
+    }
+
+    #roomfinderModal-container {
+        padding-bottom: 4em;
+    }
+
+    #modalRoomfinder-map-cross {
+        position: absolute;
+        transition: transform .3s;
+        pointer-events: none;
+    }
+
+    #modalRoomfinder-map-img {
+        width: 100%; // Without this part the image doesn't fill the modal over the whole width.
     }
 
     .accordion-body {
@@ -547,6 +562,16 @@
                 animation: none;
                 transform: translateX(0);
             }
+        }
+    }
+
+    /* --- Modal Roomfinder --- */
+    #modal-roomfinder {
+        align-items: baseline;
+
+        & .modal-container {
+            position: relative;
+            top: 5em;
         }
     }
 }
