@@ -5,13 +5,12 @@
 
 - name: Configure UFW
   ufw:
-    direction: incoming
+    direction: in
     rule: allow
     port: "{{ item.port }}"
     proto: "{{ item.proto }}"
     comment: "{{ item.comment }}"
   with_items:
-    - { port: 37670, proto: any, comment: "HTTP" }
     - { port: 80, proto: any, comment: "HTTP" }
     - { port: 443, proto: any, comment: "HTTPS" }
     - { port: 6443, proto: tcp, comment: "Kubernetes API Server" }
