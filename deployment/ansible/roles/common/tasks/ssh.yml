@@ -1,7 +1,7 @@
 - name: Enshure, that authorized_keys file has the correct content
   template:
-    src: authroized_keys.j2
-    dest: /root/.ssh/authroized_keys
+    src: authorized_keys.j2
+    dest: /root/.ssh/authorized_keys
     owner: root
     group: root
     mode: 0600
