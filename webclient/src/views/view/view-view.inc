@@ -204,7 +204,7 @@
           </div>
           <div class="modal-body">
             <div class="content" id="modalCalendarContent">
-              <iframe src="view_data.props.calendar_url"></iframe>
+              <iframe src="view_data.props.calendar_url" id="calendarModalIFrame"></iframe>
             </div>
           </div>
         </div>
