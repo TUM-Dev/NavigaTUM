@@ -7,3 +7,6 @@
 
 - name: Install helm
   shell: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+- name: Setup the various k3s compontentes
+  include_tasks: setup.yml

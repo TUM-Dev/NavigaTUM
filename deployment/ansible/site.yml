@@ -1,10 +1,6 @@
 ---
 - hosts:
-    - node
-    - leader
+    - leaders
   roles:
     - common
     - k8s
-- hosts: leader
-  roles:
-    - leader

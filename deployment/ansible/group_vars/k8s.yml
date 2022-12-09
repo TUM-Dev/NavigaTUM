@@ -1,3 +1,3 @@
-leader_ip: "{{ hostvars[groups['leader'][0]]['ansible_host'] | default(groups['leader'][0]) }}"
+leader_ip: "{{ hostvars[groups['leaders'][0]]['ansible_host'] | default(groups['leader'][0]) }}"
 extra_server_args: ""
 extra_agent_args: ""
