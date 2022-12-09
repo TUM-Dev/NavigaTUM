@@ -3,7 +3,7 @@
 # Tasks to be applied to all k8s instances
 #
 - name: Install k3s
-  shell: curl -sfL https://get.k3s.io | sh -
+  shell: curl -sfL https://get.k3s.io | sh - --cluster-cidr={{ cluster_cidr }} --service-cidr={{ service_cidr }}
 
 - name: Install helm
   shell: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
