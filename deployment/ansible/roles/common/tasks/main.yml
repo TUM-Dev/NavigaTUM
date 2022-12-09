@@ -38,6 +38,7 @@
   include_tasks: fail2ban.yml
   tags: fail2ban
 
-- name: Run unatended_upgrades.yml
-  include_tasks: unatended_upgrades.yml
-  tags: unatended_upgrades
+# This part is done by the LRZ..
+#- name: Run unatended_upgrades.yml
+#  include_tasks: unatended_upgrades.yml
+#  tags: unatended_upgrades
