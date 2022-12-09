@@ -3,9 +3,12 @@
 # Tasks to be applied to all k8s instances
 #
 - name: Install k3s
-  shell: curl -sfL https://get.k3s.io | sh - --cluster-cidr={{ cluster_cidr }} --service-cidr={{ service_cidr }}
+  shell: curl -sfL https://get.k3s.io | sh - {% if inventory_hostname == 'tuzeitm-navigatum-1' %}--cluster-init{% else %}--server https://{{ leader_ip }}:6443{% endif %}
   environment:
     K3S_NODE_NAME: "eliza-{{ inventory_hostname | replace('tuzeitm-navigatum-1', '') | int | add(2) }}"
+    # ipv6 dual stack
+    K3S_CLUSTER_CIDR: "{{ cluster_cidr }}"
+    K3S_SERVICE_CIDR: "{{ service_cidr }}"
 
 - name: Install helm
   shell: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
