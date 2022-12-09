@@ -4,6 +4,8 @@
 #
 - name: Install k3s
   shell: curl -sfL https://get.k3s.io | sh - --cluster-cidr={{ cluster_cidr }} --service-cidr={{ service_cidr }}
+  environment:
+    K3S_NODE_NAME: "eliza-{{ inventory_hostname | replace('tuzeitm-navigatum-1', '') | int | add(2) }}"
 
 - name: Install helm
   shell: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
