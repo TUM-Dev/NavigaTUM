@@ -7,7 +7,7 @@ use log::error;
 use serde::{Deserialize, Serialize};
 use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 
-use crate::feedback::{AppStateFeedback, TokenRecord};
+use crate::core::{AppStateFeedback, TokenRecord};
 
 // Additionally, there is a short delay until a token can be used.
 // Clients need to wait that time if (for some reason) the user submitted
