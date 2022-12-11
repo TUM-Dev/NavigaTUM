@@ -55,6 +55,14 @@ Our server is written in [Rust](https://youtu.be/Q3AhzHq8ogs).
 To get started with Rust, you can follow the [official tutorial](https://www.rust-lang.org/learn/get-started).
 To install Rust, you can use [rustup](https://rustup.rs/).
 
+### Feedback
+
+#### Rust
+
+Our server is written in [Rust](https://youtu.be/Q3AhzHq8ogs).
+To get started with Rust, you can follow the [official tutorial](https://www.rust-lang.org/learn/get-started).
+To install Rust, you can use [rustup](https://rustup.rs/).
+
 #### OpenSSL
 
 The server uses OpenSSL to verify TLS certificates.

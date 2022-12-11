@@ -1,9 +1,12 @@
 # Server
 
-This folder contains the backend server for NavigaTUM.
+This folder contains the feedback-API server for NavigaTUM.
 
-Our server is architected in different submodules, each of which is responsible for a specific task.
-They share very few things and are mostly independent of each other.
+This is separated from the server because:
+
+- it has virtually no shared dependencies (natural faultline)
+- this way, we can deploy the feedback-API independently of the main server (both in time, scaling and reliability)
+- security: this way, we can increase our isolation
 
 ## Getting started
 
@@ -17,99 +20,7 @@ Please follow the [system dependencys docs](resources/documentation/Dependencys.
 Run `cargo run` to start the server.
 The server should now be available on `localhost:6000`.
 
-Note that `cargo run --release` is used to start the server for an optimised production build (use this if you want to profile the `search` or `preview` functions, it makes quite a difference).
-
-### Additional dependency's for some API endpoints
-
-We have a few API endpoints which require additional dependencies.
-
-As a general rule of thumb, if you probably want to **skip the tileserver**, but want to **do the SQLite Database** and **MeiliSearch** setup.
-The reason for this is, that the `preview` endpoint is the only endpoint, which requires the tileserver and said endpoint is a non-essential part of the project.
-
-#### How to Set up the Sqlite Database (needed for the `get`, `legacy_redirect` and `preview` endpoints)
-
-##### Getting the data
-
-To populate the database, you will need to get said data.
-There are multiple ways to do this, but the easiest way is to download the data from our [website](https://nav.tum.de/).
-
-(Assuming you are in the `server` directory)
-
-```bash
-mkdir -p data
-wget -P data https://nav.tum.de/cdn/api_data.json
-```
-
-Alternatively, you can run the `data` part of this project and generate this file by that part of our docs.
-To link the output directory to the server data directory, so that you don't need to copy on every update you can use:
-
-```bash
-ln -s ../data/output data
-```
-
-##### Setting up the database
-
-To set up the database, you will need to run the `load_api_data_to_db.py` script:
-
-```bash
-python3 load_api_data_to_db.py
-```
-
-#### How to Set up the tileserver (needed for the `preview` endpoint)
-
-To set up your tileserver, head over to the [`map`](https://github.com/TUM-Dev/NavigaTUM/tree/main/map) folder and follow the instructions there.
-
-#### How to Set up MeiliSearch (needed for the `search` endpoint)
-
-The server uses [MeiliSearch](https://github.com/meilisearch/MeiliSearch) as a backend for search.
-For a local test environment you can skip this step if you don't want to test or work on search.
-
-There are a lot of different ways to run MeiliSearch (see on their repo). Here we compile it
-from sources:
-
-```bash
-# Clone MeiliSearch
-cd ..
-git clone https://github.com/meilisearch/MeiliSearch.git -b v0.22.0
-cd MeiliSearch
-
-# Build and run
-cargo run --release
-```
-
-Next, we need to add our index and configure search:
-
-```bash
-# Create index
-curl -i -X POST 'http://localhost:7700/indexes' --header 'content-type: application/json' --data '{ "uid": "entries", "primaryKey": "ms_id" }'
-
-# Set filterable attributes
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --data '["facet"]'
-
-# Upload entries data
-curl -i -X PUT 'http://localhost:7700/indexes/entries/documents' --header 'content-type: application/json' --data-binary @data/search_data.json
-
-# Configure index
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/ranking-rules' --data '["words","typo","rank:desc","exactness","proximity","attribute"]'
-
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/synonyms' --data @../data/search_synonyms.json
-
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --data '[ "ms_id", "name", "arch_name", "type", "type_common_name", "parent_building", "parent_keywords", "address", "usage" ]'
-```
-
-If you want to update the data in the index, run:
-
-```bash
-curl -i -X PUT 'http://localhost:7700/indexes/entries/documents' --header 'content-type: application/json' --data-binary @data/search_data.json
-```
-
-And if you want to delete the index, run:
-
-```bash
-curl -X DELETE 'http://localhost:7700/indexes/entries'
-```
-
-MeiliSearch provides an interactive interface at [http://localhost:7700](http://localhost:7700).
+Note that `cargo run --release` is used to start the server for an optimised production build (use this if you want to profile performance, it makes quite a difference).
 
 ### API-Changes
 
@@ -135,7 +46,7 @@ st run --workers=auto --base-url=http://localhost:6000 --checks=all ../openapi.y
 ```
 
 Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN) and some fuzzing-goals are automatically tested in our CI.  
-You can exchange `--base-url=http://localhost:6000` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/feedback/..`.
+You can exchange `--base-url=http://localhost:6000` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/feedback/`.
 
 ## License
 
