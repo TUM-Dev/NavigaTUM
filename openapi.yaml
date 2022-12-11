@@ -337,8 +337,8 @@ paths:
                     site: DetailsResponse
                     campus: DetailsResponse
                 oneOf:
-                  - $ref: '#/components/schemas/RootResponse'
-                  - $ref: '#/components/schemas/DetailsResponse'
+                  - #/components/schemas/RootResponse
+                  - #/components/schemas/DetailsResponse
               examples:
                 mi-hs-1:
                   value:
@@ -1105,8 +1105,8 @@ components:
               sites_buildings: SitesBuildings
               rooms: Rooms
           oneOf:
-            - $ref: '#/components/schemas/SitesBuildings'
-            - $ref: '#/components/schemas/Rooms'
+            - #/components/schemas/SitesBuildings
+            - #/components/schemas/Rooms
       required:
         - name
         - author
@@ -1232,7 +1232,7 @@ components:
             For rooms you should add a warning that no floor map is available for this room
           allOf:
             - nullable: true
-            - $ref: '#/components/schemas/OverlayMap'
+            - #/components/schemas/OverlayMap
       required:
         - default
     RoomfinderMap:
@@ -1413,7 +1413,7 @@ components:
         - entries
     RoomEntry:
       allOf:
-        - $ref: '#/components/schemas/SitesBuildingsEntry'
+        - #/components/schemas/SitesBuildingsEntry
         - type: object
           required:
             - subtext_bold
@@ -1462,8 +1462,8 @@ components:
           type: array
           items:
             oneOf:
-              - $ref: '#/components/schemas/SitesBuildings'
-              - $ref: '#/components/schemas/Rooms'
+              - #/components/schemas/SitesBuildings
+              - #/components/schemas/Rooms
             discriminator:
               propertyName: facet
               mapping:
@@ -1484,7 +1484,7 @@ components:
         - time_ms
     DetailsResponse:
       allOf:
-        - $ref: '#/components/schemas/BaseDetailsResponse'
+        - #/components/schemas/BaseDetailsResponse
         - type: object
           properties:
             id:
@@ -1511,7 +1511,7 @@ components:
             - maps
     RootResponse:
       allOf:
-        - $ref: '#/components/schemas/BaseDetailsResponse'
+        - #/components/schemas/BaseDetailsResponse
         - type: object
           properties:
             id:
