@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data
+  labels:
+    app: navigatum
+    deployment: cdn
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: navigatum
+      deployment: cdn
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: navigatum
+        deployment: cdn
+    spec:
+      containers:
+        - name: data
+          image: "ghcr.io/tum-dev/navigatum-data:{{ .Values.branch }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: cdn
+          resources:
+            requests:
+              cpu: 5m
+              memory: 5Mi
+            limits:
+              cpu: 150m
+              memory: 20Mi
+          livenessProbe:
+            httpGet:
+              path: /cdn/health
+              port: cdn
+            failureThreshold: 3
+            periodSeconds: 1
+          startupProbe:
+            httpGet:
+              path: /cdn/health
+              port: cdn
+            failureThreshold: 60
+            periodSeconds: 1

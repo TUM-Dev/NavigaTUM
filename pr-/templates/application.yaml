@@ -1,0 +1,34 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  name: pr-
+  namespace: argocd
+spec:
+  destination:
+    namespace: pr-
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      values: "namespace: pr-\nbranch: \nurl: pr-.nav.tum.de\nserver:\n    MEILI_MASTER_KEY:
+        NGVhZGEyNDJmNzYxNjcyNTQxZDA2YTdjNjZmNjdiZTljZGFhMmIzYzhmMjQ4OTc0N2RmMjg0NGRi\nMjEzCg==\n"
+      version: v3
+    path: pr-
+    repoURL: https://github.com/TUM-Dev/navigatum.git
+    targetRevision: deployment
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 2
+    syncOptions:
+    - PrunePropagationPolicy=foreground
+    - CreateNamespace=true
