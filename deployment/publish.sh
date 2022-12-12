@@ -14,7 +14,6 @@ if [ $1 == "main" ]; then
     export TARGET=main
 
     rm ./deployment/k3s/templates/application.yaml
-    rm ./deployment/k3s/values.yaml
 
     mkdir "$tmp_dir/$TARGET"
     cp -R ./deployment/k3s/* "$tmp_dir/main"
