@@ -1,11 +1,15 @@
 # ========================== Innenstadt =============================
 # === Arcisstraße ===
+"2907.01.130":
+  name: "2907.01.130 (Fachschaft Lehrertum/Lehramt)"
+"0501.03.173":
+  name: "0501.03.173 (Vorhoelzer Forum Foyer)"
+"0501.05.131":
+  name: "0501.05.131 (Vorhoelzer-Forum Dachterasse)"
 "0509.EG.980":
   name: "0509.EG.980 (Audimax, Werner-von-Siemens-Hörsaal)"
   ranking_factors:
     rank_custom: 150
-"2907.01.130":
-  name: "2907.01.130 (Fachschaft Lehrertum/Lehramt)"
 
 # ========================== Garching =============================
 # === Physik ===
