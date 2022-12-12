@@ -2,6 +2,6 @@ namespace: navigatum
 branch: main
 url: nav.tum.de
 server:
-    MEILI_MASTER_KEY:
-    GITHUB_TOKEN:
-    JWT_KEY:
+    MEILI_MASTER_KEY: ""
+    GITHUB_TOKEN: ""
+    JWT_KEY: ""
