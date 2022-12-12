@@ -28,7 +28,7 @@ spec:
         - name: feedback
           image: "ghcr.io/tum-dev/navigatum-feedback:{{ .Values.branch }}"
           imagePullPolicy: Always
-          {{ if .Values.server.GITHUB_TOKEN or .Values.server.JWT_KEY }}
+          {{ if or (.Values.server.GITHUB_TOKEN) (.Values.server.JWT_KEY) }}
           envFrom:
             - secretRef:
                 name: feedback-api-keys # GITHUB_TOKEN, JWT_KEY
@@ -57,7 +57,7 @@ spec:
               port: api
             failureThreshold: 6
             periodSeconds: 1
-{{ if .Values.server.GITHUB_TOKEN or .Values.server.JWT_KEY }}
+{{ if or (.Values.server.GITHUB_TOKEN) (.Values.server.JWT_KEY) }}
 ---
 apiVersion: v1
 kind: Secret
