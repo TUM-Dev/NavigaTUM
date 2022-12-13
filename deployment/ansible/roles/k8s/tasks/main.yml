@@ -4,14 +4,14 @@
 #
 - name: Wait for the inital etcd database to be created, after which all other nodes can join
   wait_for:
-    host: "{{ leader_ip }}"
+    host: "{{ etcd_leader_ip }}"
     port: 6443
     state: started
     timeout: 300
     delay: 5
-  when: ansible_host != leader_ip
+  when: ansible_host != etcd_leader_ip
 - name: Install k3s
-  shell: curl -sfL https://get.k3s.io | sh - {% if inventory_hostname == 'tuzeitm-navigatum-1' %}--cluster-init{% else %}--server https://{{ leader_ip }}:6443{% endif %}
+  shell: curl -sfL https://get.k3s.io | sh - {% if inventory_hostname == 'tuzeitm-navigatum-1' %}--cluster-init{% else %}--server https://{{ etcd_leader_ip }}:6443{% endif %}
   environment:
     K3S_NODE_NAME: "eliza-{{ inventory_hostname | replace('tuzeitm-navigatum-1', '') | int | add(2) }}"
     # ipv6 dual stack
@@ -20,7 +20,7 @@
 
 - name: Wait for the k3s service to be running
   wait_for:
-    host: "{{ leader_ip }}"
+    host: "{{ etcd_leader_ip }}"
     port: 6443
     state: started
     timeout: 300

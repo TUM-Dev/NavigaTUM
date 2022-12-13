@@ -30,9 +30,9 @@
     rule: allow
     port: "{{item[1]}}"
     proto: "tcp"
-    from_ip: "{{ item[0].ansible_host | replace('root@', '') }}"
+    from_ip: "{{ item[0].ansible_host }}"
     comment: "k3s HA with embedded etcd from cluster"
-  loop: "{{ groups['leaders'] | product([2379, 2380]) | list }}"
+  loop: "{{ leaders_ips | product([2379, 2380]) | list }}"
 
 - name: Configure UFW's default outgoing policy
   ufw:
