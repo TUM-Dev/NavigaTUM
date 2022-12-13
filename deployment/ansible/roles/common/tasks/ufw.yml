@@ -30,7 +30,7 @@
     rule: allow
     port: "{{item[1]}}"
     proto: "tcp"
-    from_ip: "{{ item[0].ansible_host }}"
+    from_ip: "{{ item[0] }}"
     comment: "k3s HA with embedded etcd from cluster"
   loop: "{{ leaders_ips | product([2379, 2380]) | list }}"
 
