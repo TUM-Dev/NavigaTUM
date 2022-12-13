@@ -10,4 +10,4 @@
     group: root
     mode: 0644
   notify:
-    - restart fail2ban
+    - restart_fail2ban
