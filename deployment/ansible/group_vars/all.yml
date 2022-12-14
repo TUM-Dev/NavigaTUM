@@ -23,4 +23,5 @@ vpn_ips:
   - 129.187.47.0/24
   - 129.187.51.0/24
   - 129.187.98.0/24
+  - "2001:4ca0:2fff::/48"
 leaders_ips: "{{ groups['leaders'] | map('extract', hostvars, ['ansible_host']) | list }}"
