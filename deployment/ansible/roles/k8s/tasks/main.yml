@@ -30,4 +30,8 @@
   shell: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
 - name: Setup the various k3s compontentes
-  include_tasks: setup.yml
+  include_tasks: "{{ sys_conf }}"
+  loop_control:
+    loop_var: sys_conf
+  with_fileglob:
+    - system_configureation/*.yml
