@@ -71,7 +71,7 @@ async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
     );
 
     match token {
-        Ok(token) => HttpResponse::Ok().json(token),
+        Ok(token) => HttpResponse::Created().json(token),
         Err(e) => {
             error!("Failed to generate token: {:?}", e);
             HttpResponse::InternalServerError()
