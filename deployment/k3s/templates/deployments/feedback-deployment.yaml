@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  labels:
+    app: navigatum
+    deployment: feedback
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: navigatum
+      deployment: feedback
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: navigatum
+        deployment: api
+    spec:
+      containers:
+        - name: feedback
+          image: "ghcr.io/tum-dev/navigatum-feedback:{{ .Values.branch }}"
+          imagePullPolicy: Always
+          {{ if or (.Values.server.GITHUB_TOKEN) (.Values.server.JWT_KEY) }}
+          envFrom:
+            - secretRef:
+                name: feedback-api-keys # GITHUB_TOKEN, JWT_KEY
+          {{ end }}
+          ports:
+            - containerPort: 6001
+              name: feedback
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              cpu: 1m
+              memory: 1Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+          livenessProbe:
+            httpGet:
+              path: /api/feedback/health
+              port: api
+            failureThreshold: 2
+            periodSeconds: 1
+          startupProbe:
+            httpGet:
+              path: /api/feedback/health
+              port: api
+            failureThreshold: 6
+            periodSeconds: 1
+{{ if or (.Values.server.GITHUB_TOKEN) (.Values.server.JWT_KEY) }}
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: feedback-api-keys
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: navigatum
+    deployment: feedback
+data:
+  {{ if .Values.server.GITHUB_TOKEN }}
+    GITHUB_TOKEN: {{ .Values.server.GITHUB_TOKEN }}
+  {{ end }}
+  {{ if .Values.server.JWT_KEY }}
+    JWT_KEY: {{ .Values.server.JWT_KEY }}
+  {{ end }}
+{{ end }}
