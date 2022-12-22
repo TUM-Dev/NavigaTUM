@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 
-#[derive(Queryable)]
+#[derive(Queryable, Debug, Clone)]
 pub struct De {
     pub key: String,
     pub name: String,

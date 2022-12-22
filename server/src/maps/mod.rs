@@ -1,16 +1,17 @@
 use std::io::Cursor;
 
+use crate::models::De;
 use actix_web::{get, web, HttpResponse};
 use awc::Client;
 use cached::lazy_static::lazy_static;
 use cached::proc_macro::cached;
 use cached::SizedCache;
+use diesel::prelude::*;
 use futures::future::join_all;
 use image::Rgba;
 use imageproc::definitions::HasBlack;
 use imageproc::drawing::{draw_text_mut, text_size};
 use log::{debug, error, info, warn};
-use rusqlite::{Connection, Error, OpenFlags};
 use rusttype::{Font, Scale};
 use tokio::time::Instant;
 
@@ -24,45 +25,33 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
     }
 }
 
-struct MapInfo {
-    name: String,
-    type_common_name: String,
-    _type: String,
-    lat: f64,
-    lon: f64,
-}
+fn get_localised_data(id: &str, should_use_english: bool) -> Result<De, HttpResponse> {
+    let conn = &mut utils::establish_connection();
 
-fn get_localised_data(id: &str, should_use_english: bool) -> Option<Result<MapInfo, Error>> {
-    let conn = Connection::open_with_flags(
-        "data/api_data.db",
-        OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX,
-    )
-    .expect("Cannot open database");
-
-    let stmt = conn.prepare(&format!(
-        "SELECT name,type,type_common_name,lat,lon FROM {} WHERE key = ?",
-        if should_use_english { "en" } else { "de" }
-    ));
-
-    let result = match stmt {
-        Ok(mut stmt) => stmt.query_row([id], |row| {
-            let data = MapInfo {
-                name: row.get_unwrap(0),
-                _type: row.get_unwrap(1),
-                type_common_name: row.get_unwrap(2),
-                lat: row.get_unwrap(3),
-                lon: row.get_unwrap(4),
-            };
-            Ok(data)
-        }),
-        Err(e) => {
-            error!("Error preparing statement: {:?}", e);
-            return Some(Err(e));
+    let result = match should_use_english {
+        true => {
+            use crate::schema::en::dsl::*;
+            en.filter(key.eq(&id)).load::<De>(conn)
+        }
+        false => {
+            use crate::schema::de::dsl::*;
+            de.filter(key.eq(&id)).load::<De>(conn)
         }
     };
+
     match result {
-        Ok(data) => Some(Ok(data)),
-        Err(_) => None,
+        Ok(r) => match r.len() {
+            0 => Err(HttpResponse::NotFound()
+                .content_type("text/plain")
+                .body("Not found")),
+            _ => Ok(r[0].clone()),
+        },
+        Err(e) => {
+            error!("Error preparing statement: {:?}", e);
+            return Err(HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Internal Server Error"));
+        }
     }
 }
 
@@ -74,7 +63,7 @@ fn get_localised_data(id: &str, should_use_english: bool) -> Option<Result<MapIn
     option = true,
     convert = r#"{ _id.to_string() }"#
 )]
-async fn construct_image_from_data(_id: &str, data: MapInfo) -> Option<Vec<u8>> {
+async fn construct_image_from_data(_id: &str, data: De) -> Option<Vec<u8>> {
     let start_time = Instant::now();
     let mut img = image::RgbaImage::new(1200, 630);
 
@@ -162,7 +151,7 @@ async fn get_tile(
     Some((index, tile_img))
 }
 
-async fn draw_map(data: &MapInfo, img: &mut image::RgbaImage) -> bool {
+async fn draw_map(data: &De, img: &mut image::RgbaImage) -> bool {
     let (x, y, z) = lat_lon_to_xyz(data.lat, data.lon);
     // coordinate system is centered around the center of the image
     // around this center there is a 5*3 grid of tiles
@@ -256,12 +245,12 @@ mod range_tests {
     }
 }
 
-fn lat_lon_to_xyz(lat_deg: f64, lon_deg: f64) -> (f64, f64, u32) {
+fn lat_lon_to_xyz(lat_deg: f32, lon_deg: f32) -> (f32, f32, u32) {
     let zoom = 16;
     let lat_rad = lat_deg.to_radians();
-    let n = 2_u32.pow(zoom) as f64;
+    let n = 2_u32.pow(zoom) as f32;
     let xtile = (lon_deg + 180.0) / 360.0 * n;
-    let ytile = (1.0 - lat_rad.tan().asinh() / std::f64::consts::PI) / 2.0 * n;
+    let ytile = (1.0 - lat_rad.tan().asinh() / std::f32::consts::PI) / 2.0 * n;
     (xtile, ytile, zoom)
 }
 
@@ -272,7 +261,7 @@ lazy_static! {
         Font::try_from_bytes(include_bytes!("font/Cantarell-Regular.ttf")).unwrap();
 }
 
-fn draw_bottom(data: &MapInfo, img: &mut image::RgbaImage) {
+fn draw_bottom(data: &De, img: &mut image::RgbaImage) {
     // draw background white
     for x in 0..1200 {
         for y in 630 - 125..630 {
@@ -328,19 +317,13 @@ pub async fn maps_handler(
 ) -> HttpResponse {
     let start_time = Instant::now();
     let id = params.into_inner();
-    let data = get_localised_data(&id, args.should_use_english());
-    if data.is_none() {
-        return HttpResponse::NotFound()
-            .content_type("text/plain")
-            .body("Not found");
-    }
-    let data = data.unwrap();
-    if data.is_err() {
-        return HttpResponse::InternalServerError()
-            .content_type("text/plain")
-            .body("Internal Server Error");
-    }
-    let img = construct_image_from_data(&id, data.unwrap()).await;
+    let data = match get_localised_data(&id, args.should_use_english()) {
+        Ok(data) => data,
+        Err(e) => {
+            return e;
+        }
+    };
+    let img = construct_image_from_data(&id, data).await;
     let res = HttpResponse::Ok()
         .content_type("image/png")
         .body(img.unwrap_or_else(load_default_map));
