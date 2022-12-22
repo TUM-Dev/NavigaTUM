@@ -1,7 +1,7 @@
 use crate::utils;
 use actix_web::{get, web, HttpResponse};
+use diesel::prelude::*;
 use log::error;
-use rusqlite::{Connection, OpenFlags};
 
 #[get("/get/{id}")]
 pub async fn get_handler(
@@ -9,34 +9,29 @@ pub async fn get_handler(
     web::Query(args): web::Query<utils::LangQueryArgs>,
 ) -> HttpResponse {
     let id = params.into_inner();
-    let conn = Connection::open_with_flags(
-        "data/api_data.db",
-        OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX,
-    )
-    .expect("Cannot open database");
-
-    let stmt = match args.should_use_english() {
-        false => conn.prepare("SELECT data FROM de WHERE key = ?"),
-        true => conn.prepare("SELECT data FROM en WHERE key = ?"),
-    };
-    let result = match stmt {
-        Ok(mut stmt) => stmt.query_row([id], |row| {
-            let data: String = row.get_unwrap(0);
-            Ok(data)
-        }),
-        Err(e) => {
-            error!("Error preparing statement: {:?}", e);
-            return HttpResponse::InternalServerError()
-                .content_type("text/plain")
-                .body("Internal Server Error");
+    let conn = &mut utils::establish_connection();
+    let result = match args.should_use_english() {
+        true => {
+            use crate::schema::en::dsl::*;
+            en.filter(key.eq(&id)).select(data).load::<String>(conn)
+        }
+        false => {
+            use crate::schema::de::dsl::*;
+            de.filter(key.eq(&id)).select(data).load::<String>(conn)
         }
     };
     match result {
-        Ok(data) => HttpResponse::Ok()
-            .content_type("application/json")
-            .body(data), // .json(data) would have quoted the result. We instead want the content.
-        Err(_) => HttpResponse::NotFound()
-            .content_type("text/plain")
-            .body("Not found"),
+        Ok(d) => match d.len() {
+            0 => HttpResponse::NotFound().body("Not found"),
+            _ => HttpResponse::Ok()
+                .content_type("application/json")
+                .body(d[0].clone()),
+        },
+        Err(e) => {
+            error!("Error requesting details for {}: {:?}", id, e);
+            HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Internal Server Error")
+        }
     }
 }
