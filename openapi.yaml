@@ -637,7 +637,24 @@ paths:
                 type: string
                 example: 'https://github.com/TUM-Dev/navigatum/tree/eb10c1f4cfbbd66d37f2f9e5e13139c1fde15a4b'
       tags:
-        - core
+        - health
+  /api/feedback/source_code:
+    get:
+      operationId: feedback-source_code
+      summary: Get link to running source-code
+      description: |
+        This endpoint returns a link to the source-code of the repository at the currently running version.
+        This endpoint is not required for modifications (as the license is not AGPL), but strongly encouraged.
+      responses:
+        '200':
+          description: The link to the source-code of the repository at the currently running version
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'https://github.com/TUM-Dev/navigatum/tree/eb10c1f4cfbbd66d37f2f9e5e13139c1fde15a4b'
+      tags:
+        - health
   /api/feedback/get_token:
     post:
       operationId: get_token
@@ -958,6 +975,26 @@ paths:
     get:
       operationId: api-health
       summary: API healthcheck
+      description: |
+        If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
+      responses:
+        '200':
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum:
+                  - healthy
+        '503':
+          description: Service Unavailable
+          content: {}
+      tags:
+        - health
+  /api/feedback/health:
+    get:
+      operationId: feedback-health
+      summary: feedback-API healthcheck
       description: |
         If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
       responses:
@@ -1671,7 +1708,7 @@ tags:
   - name: feedback
     description: the API to access/search for room information
   - name: health
-    description: 'These endpoints are used to check the health of the API, website and cdn'
+    description: 'These endpoints are used to check the health of our components'
 externalDocs:
   description: Visit our Github Page for more in-depth documentation
   url: 'https://github.com/TUM-Dev/navigatum'

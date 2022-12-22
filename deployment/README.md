@@ -5,8 +5,10 @@ This Project details how to deploy the NavigaTUM-API, the webclient and the CDN
 The documentation for the specific sub-services can be found in the respective directories:
 
 - [Data](../data/README.md)
-- [API/Server](../server/README.md)
+- [API Server](../server/README.md)
 - [Website](../webclient/README.md)
+- [Maps](../map/README.md)
+- [Feedback](../feedback/README.md)
 
 ## General description
 

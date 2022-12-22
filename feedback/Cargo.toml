@@ -1,33 +1,32 @@
 [package]
-name = "navigatum-server"
+name = "navigatum-feedback"
 version = "1.0.0"
 authors = ["Markus A <ge75sig@mytum.de>", "Frank Elsinga <frank@elsinga.de>"]
 edition = "2021"
-description = "Navigating around TUM with excellence – An API and website to search for rooms, buildings and other places"
+description = "Navigating around TUM with excellence – A feedback system to submit feedback via github issues"
 repository = "https://github.com/TUM-Dev/navigatum"
 readme = "README.md"
 license = "GPL-3.0"
-keywords = ["website", "navigation", "api-rest", "tum"]
+keywords = ["website", "feedback", "api-rest", "tum"]
 
 [[bin]]
-name = "navigatum-server"
+name = "navigatum-feedback"
 path = "src/main.rs"
 
 [profile.release]
 strip = true
 
 [dependencies]
+regex = "1.7.0"
 log = "0.4.17"
-rusqlite = "0.28.0"
+octocrab = "0.17.0"
 actix-web = "4.2.1"
-awc = "3.0.1"
-cached = "0.41.0"
 serde = { version = "1.0.148", features = ["derive"] }
 serde_json = "1.0.89"
 actix-cors = "0.6.4"
 tokio = { version = "1.22.0", features = ["full"] }
-futures = "0.3.25"
+rand = "0.8.5"
+structopt = "0.3.26"
 env_logger = "0.10.0"
-image = "0.24.5"
-rusttype= "0.9.3"
-imageproc= "0.23.0"
+jsonwebtoken = "8.1.1"
+chrono = "0.4.23"

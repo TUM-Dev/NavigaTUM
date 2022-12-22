@@ -1,6 +1,6 @@
 mod github;
 mod tokens;
-use crate::feedback::tokens::{Claims, RateLimit};
+use crate::core::tokens::{Claims, RateLimit};
 use actix_web::web::{Data, Json};
 use actix_web::{post, web, HttpResponse};
 use jsonwebtoken::{encode, EncodingKey, Header};
