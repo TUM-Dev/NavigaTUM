@@ -34,7 +34,7 @@ spec:
                 name: feedback-api-keys # GITHUB_TOKEN, JWT_KEY
           {{ end }}
           ports:
-            - containerPort: 6000
+            - containerPort: 6001
               name: feedback
           securityContext:
             readOnlyRootFilesystem: true

@@ -72,7 +72,7 @@ async fn main() -> std::io::Result<()> {
                     .app_data(state_feedback.clone()),
             )
     })
-    .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:6000".to_string()))?
+    .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:6001".to_string()))?
     .run()
     .await
 }
