@@ -48,13 +48,13 @@ spec:
           livenessProbe:
             httpGet:
               path: /api/feedback/health
-              port: api
+              port: feedback
             failureThreshold: 2
             periodSeconds: 1
           startupProbe:
             httpGet:
               path: /api/feedback/health
-              port: api
+              port: feedback
             failureThreshold: 6
             periodSeconds: 1
 {{ if or (.Values.server.GITHUB_TOKEN) (.Values.server.JWT_KEY) }}
