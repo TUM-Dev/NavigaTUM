@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: server
+  name: feedback
   labels:
     app: navigatum
     deployment: feedback
@@ -22,7 +22,7 @@ spec:
     metadata:
       labels:
         app: navigatum
-        deployment: api
+        deployment: feedback
     spec:
       containers:
         - name: feedback
