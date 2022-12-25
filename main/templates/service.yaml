@@ -22,6 +22,24 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: feedback-svc
+  labels:
+    app: navigatum
+    deployment: feedback
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app: navigatum
+    deployment: feedback
+  ports:
+    - name: feedback
+      port: 6001
+      targetPort: 6001
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: maps-svc
   labels:
     app: navigatum
