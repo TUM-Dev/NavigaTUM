@@ -60,7 +60,7 @@ window.feedback = (() => {
           if (r.status === 201) {
             token = {
               creation: Date.now(),
-              value: JSON.parse(r.response).token,
+              value: r.response.replace(/^"(.*)"$/, '$1'),
             };
             if (navigatum)
               navigatum.setLocalStorageWithExpiry("feedback-token", token, 6);
@@ -170,6 +170,9 @@ window.feedback = (() => {
           const invalidTokenError = "${{_.feedback.error.send_invalid_token}}$";
           _showError(`${invalidTokenError} (${r.responseText})`, false);
         } else {
+          // we reset the token here to be sure that it is the cause of the error
+          localStorage.removeItem("feedback-token");
+          token = null;
           const unexpectedStatusError =
             "${{_.feedback.error.send_unexpected_status}}$";
           _showError(`${unexpectedStatusError}${r.status}`, false);
