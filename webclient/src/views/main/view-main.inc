@@ -19,6 +19,7 @@
                 <button
                   class="btn btn-link"
                   v-bind:style="{visibility: site.id ? '' : 'hidden'}"
+                  v-bind:aria-label="`show the details for the campus '` + site.name + `'`"
                 >
                   <i class="icon icon-forward"></i>
                 </button>
