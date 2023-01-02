@@ -1,6 +1,6 @@
 use std::io::Cursor;
 
-use crate::models::De;
+use crate::models::DBRoomEntry;
 use actix_web::{get, web, HttpResponse};
 use awc::Client;
 use cached::lazy_static::lazy_static;
@@ -25,17 +25,17 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
     }
 }
 
-fn get_localised_data(id: &str, should_use_english: bool) -> Result<De, HttpResponse> {
+fn get_localised_data(id: &str, should_use_english: bool) -> Result<DBRoomEntry, HttpResponse> {
     let conn = &mut utils::establish_connection();
 
     let result = match should_use_english {
         true => {
             use crate::schema::en::dsl::*;
-            en.filter(key.eq(&id)).load::<De>(conn)
+            en.filter(key.eq(&id)).load::<DBRoomEntry>(conn)
         }
         false => {
             use crate::schema::de::dsl::*;
-            de.filter(key.eq(&id)).load::<De>(conn)
+            de.filter(key.eq(&id)).load::<DBRoomEntry>(conn)
         }
     };
 
@@ -63,7 +63,7 @@ fn get_localised_data(id: &str, should_use_english: bool) -> Result<De, HttpResp
     option = true,
     convert = r#"{ _id.to_string() }"#
 )]
-async fn construct_image_from_data(_id: &str, data: De) -> Option<Vec<u8>> {
+async fn construct_image_from_data(_id: &str, data: DBRoomEntry) -> Option<Vec<u8>> {
     let start_time = Instant::now();
     let mut img = image::RgbaImage::new(1200, 630);
 
@@ -151,7 +151,7 @@ async fn get_tile(
     Some((index, tile_img))
 }
 
-async fn draw_map(data: &De, img: &mut image::RgbaImage) -> bool {
+async fn draw_map(data: &DBRoomEntry, img: &mut image::RgbaImage) -> bool {
     let (x, y, z) = lat_lon_to_xyz(data.lat, data.lon);
     // coordinate system is centered around the center of the image
     // around this center there is a 5*3 grid of tiles
@@ -261,7 +261,7 @@ lazy_static! {
         Font::try_from_bytes(include_bytes!("font/Cantarell-Regular.ttf")).unwrap();
 }
 
-fn draw_bottom(data: &De, img: &mut image::RgbaImage) {
+fn draw_bottom(data: &DBRoomEntry, img: &mut image::RgbaImage) {
     // draw background white
     for x in 0..1200 {
         for y in 630 - 125..630 {

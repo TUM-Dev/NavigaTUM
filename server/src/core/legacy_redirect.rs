@@ -1,10 +1,10 @@
-use crate::models::De;
+use crate::models::DBRoomEntry;
 use crate::utils;
 use actix_web::{get, web, HttpResponse};
 use diesel::prelude::*;
 use log::error;
 
-fn extract_redirect_base(key: &De) -> String {
+fn extract_redirect_base(key: &DBRoomEntry) -> String {
     match key.type_.as_str() {
         "root" => "".to_string(),
         "campus" => format!("campus/{}", key.key),
@@ -34,7 +34,7 @@ pub async fn legacy_redirect_handler(params: web::Path<String>) -> HttpResponse 
     // collect relevant rooms
     let conn = &mut utils::establish_connection();
     use crate::schema::de::dsl::*;
-    let responses = de.filter(arch_name.eq(&a_name)).load::<De>(conn);
+    let responses = de.filter(arch_name.eq(&a_name)).load::<DBRoomEntry>(conn);
 
     // map them to the actual redirect_base
     let keys = match responses {
