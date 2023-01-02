@@ -49,7 +49,7 @@ def add_to_database(de_data, en_data):
             comment                 TEXT NOT NULL
         );""",
         )
-    # purposely, this index is only on this table and not on tmp_calendar
+    # purposely, this index is only on this table and not on calendar_scrape
     con.execute("CREATE INDEX IF NOT EXISTS calendar_lut ON calendar(key, dtstart, dtend)")
     # we are using this file in docker, so we don't want to use an acid compliant database ;)
     con.execute("""PRAGMA journal_mode = OFF;""")
