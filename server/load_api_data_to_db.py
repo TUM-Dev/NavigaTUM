@@ -6,32 +6,51 @@ from typing import Any, Union
 def add_to_database(de_data, en_data):
     """add data consisting of 2x(key, data_json, data) to the sqlite database"""
     con: sqlite3.Connection = sqlite3.connect("data/api_data.db")
-    con.execute(
-        """
-    CREATE TABLE IF NOT EXISTS de (
-        key                 VARCHAR(30) UNIQUE PRIMARY KEY NOT NULL,
-        name                VARCHAR(30) NOT NULL,
-        arch_name           VARCHAR(30), -- NOT Unique, but only used for the old roomfinder
-        type                VARCHAR(30) NOT NULL,
-        type_common_name    VARCHAR(30) NOT NULL,
-        lat                 FLOAT NOT NULL,
-        lon                 FLOAT NOT NULL,
-        data                TEXT NOT NULL
-    );""",
-    )
-    con.execute(
-        """
-    CREATE TABLE IF NOT EXISTS en (
-        key                 VARCHAR(30) UNIQUE PRIMARY KEY NOT NULL,
-        name                VARCHAR(30) NOT NULL,
-        arch_name           VARCHAR(30), -- NOT Unique, but only used for the old roomfinder. This is only here temporarily
-        type                VARCHAR(30) NOT NULL,
-        type_common_name    VARCHAR(30) NOT NULL,
-        lat                 FLOAT NOT NULL,
-        lon                 FLOAT NOT NULL,
-        data                TEXT NOT NULL
-    );""",
-    )
+    for lang in ["de", "en"]:
+        con.execute(f"DROP TABLE IF EXISTS {lang}")
+        con.execute(
+            f"""
+            CREATE TABLE {lang} (
+                key                 VARCHAR(30) UNIQUE PRIMARY KEY NOT NULL,
+                name                VARCHAR(30) NOT NULL,
+                tumonline_room_nr   INTEGER NULLABLE, -- used for calendars
+                arch_name           VARCHAR(30), -- NOT Unique, but only used for the old roomfinder. This is only here temporarily
+                type                VARCHAR(30) NOT NULL,
+                type_common_name    VARCHAR(30) NOT NULL,
+                lat                 FLOAT NOT NULL,
+                lon                 FLOAT NOT NULL,
+                data                TEXT NOT NULL
+            );""",
+        )
+    for tbl in ["calendar", "calendar_scrape"]:
+        con.execute(f"DROP TABLE IF EXISTS {tbl}")
+        con.execute(
+            f"""
+        CREATE TABLE {tbl} (
+            key                     VARCHAR(30) NOT NULL,
+            dtstart                 DATETIME NOT NULL,
+            dtend                   DATETIME NOT NULL,
+            dtstamp                 DATETIME NOT NULL,
+            event_id                INTEGER NOT NULL,
+            event_title             TEXT NOT NULL,
+            single_event_id         INTEGER UNIQUE PRIMARY KEY NOT NULL,
+            single_event_type_id    TEXT NOT NULL,
+            single_event_type_name  TEXT NOT NULL,
+            event_type_id           TEXT NOT NULL,
+            event_type_name         TEXT NULLABLE,
+            course_type_name        TEXT NULLABLE,
+            course_type             TEXT NULLABLE,
+            course_code             TEXT NULLABLE,
+            course_semester_hours   INTEGER NULLABLE,
+            group_id                TEXT NULLABLE,
+            xgroup                  TEXT NULLABLE,
+            status_id               TEXT NOT NULL,
+            status                  TEXT NOT NULL,
+            comment                 TEXT NOT NULL
+        );""",
+        )
+    # purposely, this index is only on this table and not on tmp_calendar
+    con.execute("CREATE INDEX IF NOT EXISTS calendar_lut ON calendar(key, dtstart, dtend)")
     # we are using this file in docker, so we don't want to use an acid compliant database ;)
     con.execute("""PRAGMA journal_mode = OFF;""")
     con.execute("""PRAGMA synchronous = OFF;""")
@@ -41,6 +60,7 @@ def add_to_database(de_data, en_data):
             key,
             data_json,
             data["name"],
+            data["props"].get("tumonline_room_nr", None),
             data["arch_name"],
             data["type"],
             data["type_common_name"],
@@ -53,11 +73,11 @@ def add_to_database(de_data, en_data):
 
     with con:
         con.executemany(
-            "INSERT INTO de(key,data,name,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)",
+            "INSERT INTO de(key,data,name,tumonline_room_nr,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?,?)",
             de_data,
         )
         con.executemany(
-            "INSERT INTO en(key,data,name,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)",
+            "INSERT INTO en(key,data,name,tumonline_room_nr,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?,?)",
             en_data,
         )
 
