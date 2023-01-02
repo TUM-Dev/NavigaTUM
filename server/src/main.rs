@@ -3,6 +3,8 @@ use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 
 mod core;
 mod maps;
+mod models;
+mod schema;
 mod utils;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
