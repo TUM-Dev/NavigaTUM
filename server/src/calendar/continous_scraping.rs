@@ -49,17 +49,12 @@ pub async fn scrape_to_db(year_duration: i32) {
                 year_duration,
             ));
         }
-        // Scrape returns an error if the request needed to be retried smaller at least once
-        let results: Vec<Result<usize, usize>> = join_all(futures).await;
+        let results: Vec<ScrapeResult> = join_all(futures).await;
         results
             .iter()
-            .map(|e| match e {
-                Ok(cnt) => *cnt,
-                Err(cnt) => *cnt,
-            })
-            .for_each(|e| entry_stats.push(e as u32));
+            .for_each(|e| entry_stats.push(e.success_cnt as u32));
         // if one of the futures needed to be retried smaller, this would skew the stats a lot
-        if results.iter().all(|e| e.is_ok()) {
+        if results.iter().all(|e| !e.retry_smaller_happened) {
             time_stats.push(round_start_time.elapsed());
         }
         if i % 30 == 0 {
@@ -238,16 +233,21 @@ mod test_scrape_task {
     }
 }
 
+struct ScrapeResult {
+    retry_smaller_happened: bool,
+    success_cnt: usize,
+}
+
 async fn scrape(
     client: &Client,
     id: (String, i32),
     from_year: i32,
     year_duration: i32,
-) -> Result<usize, usize> {
+) -> ScrapeResult {
     // request and parse the xml file
     let mut request_queue = vec![ScrapeRoomTask::new(id, from_year, year_duration)];
     let mut success_cnt = 0;
-    let mut retry_smaller_was_nessesary = false;
+    let mut retry_smaller_happened = false;
     while !request_queue.is_empty() {
         let mut new_request_queue = vec![];
         for task in request_queue {
@@ -269,7 +269,7 @@ async fn scrape(
                         } else {
                             warn!("The following ScrapeOrder cannot be fulfilled: {:?}", task);
                         }
-                        retry_smaller_was_nessesary = true;
+                        retry_smaller_happened = true;
                     }
                 },
             };
@@ -280,8 +280,8 @@ async fn scrape(
         }
         request_queue = new_request_queue;
     }
-    match retry_smaller_was_nessesary {
-        false => Ok(success_cnt),
-        true => Err(success_cnt),
+    ScrapeResult {
+        retry_smaller_happened,
+        success_cnt,
     }
 }
