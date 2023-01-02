@@ -1,4 +1,4 @@
-use crate::calendar::continous_scraping::ScrapeRoomToDBTask;
+use crate::calendar::continous_scraping::ScrapeRoomTask;
 use crate::{schema, utils};
 use awc::error::{ConnectError, PayloadError, SendRequestError};
 use awc::Client;
@@ -233,10 +233,7 @@ impl XMLEvents {
         }
         Some(XMLEvents { events })
     }
-    pub(crate) async fn request(
-        client: &Client,
-        order: ScrapeRoomToDBTask,
-    ) -> Result<Self, Strategy> {
+    pub(crate) async fn request(client: &Client, task: ScrapeRoomTask) -> Result<Self, Strategy> {
         // The token being embedded here is not an issue, since the token has only access to
         // the data this API is providing anyway...
         // If people want to disrupt this API, they can just do it by abusing this TUMonline-endpoint.
@@ -249,9 +246,9 @@ impl XMLEvents {
         let url = format!(
             "{}?roomID={}&timeMode=absolute&fromDate={}&untilDate={}&token={}&buildingCode=",
             CALENDAR_BASE_URL,
-            order.room_id,
-            order.from.format("%Y%m%d"),
-            order.to.format("%Y%m%d"),
+            task.room_id,
+            task.from.format("%Y%m%d"),
+            task.to.format("%Y%m%d"),
             token
         );
         debug!("url: {}", url);
@@ -265,7 +262,7 @@ impl XMLEvents {
             let backoff_duration = Duration::from_millis(backoff_ms);
             match body {
                 RequestStatus::Success(body) => {
-                    return XMLEvents::new(order.key, body).ok_or(Strategy::NoRetry);
+                    return XMLEvents::new(task.key, body).ok_or(Strategy::NoRetry);
                 }
                 // This consistently means, that there is no data for this room
                 RequestStatus::NotFound => return Err(Strategy::NoRetry),

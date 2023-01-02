@@ -138,14 +138,14 @@ fn get_all_ids() -> Vec<(String, i32)> {
 }
 
 #[derive(Clone, Debug)]
-pub(crate) struct ScrapeRoomToDBTask {
+pub(crate) struct ScrapeRoomTask {
     pub(crate) key: String,
     pub(crate) room_id: i32,
     pub(crate) from: NaiveDate,
     pub(crate) to: NaiveDate,
 }
 
-impl ScrapeRoomToDBTask {
+impl ScrapeRoomTask {
     fn new((key, room_id): (String, i32), from_year: i32, year_duration: i32) -> Self {
         let from = NaiveDate::from_ymd_opt(from_year, 1, 1).unwrap();
         let to = NaiveDate::from_ymd_opt(from_year + year_duration, 1, 1).unwrap()
@@ -185,56 +185,56 @@ impl ScrapeRoomToDBTask {
 
 #[cfg(test)]
 mod test_scrape_task {
-    use super::ScrapeRoomToDBTask;
+    use super::ScrapeRoomTask;
     use chrono::NaiveDate;
     #[test]
     fn test_split() {
-        let order = ScrapeRoomToDBTask::new(("".to_string(), 0), 2020, 1);
-        let (o1, o2) = order.split();
-        assert_eq!(order.from, NaiveDate::from_ymd_opt(2020, 1, 1).unwrap());
-        assert_eq!(order.to, NaiveDate::from_ymd_opt(2020, 12, 31).unwrap());
-        assert_eq!(o1.from, order.from);
-        assert_eq!(o2.to, order.to);
+        let task = ScrapeRoomTask::new(("".to_string(), 0), 2020, 1);
+        let (o1, o2) = task.split();
+        assert_eq!(task.from, NaiveDate::from_ymd_opt(2020, 1, 1).unwrap());
+        assert_eq!(task.to, NaiveDate::from_ymd_opt(2020, 12, 31).unwrap());
+        assert_eq!(o1.from, task.from);
+        assert_eq!(o2.to, task.to);
         assert_eq!(o1.to + chrono::Duration::days(1), o2.from);
     }
     #[test]
     fn test_split_small() {
-        let order = ScrapeRoomToDBTask {
+        let task = ScrapeRoomTask {
             key: "".to_string(),
             room_id: 0,
             from: NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
             to: NaiveDate::from_ymd_opt(2020, 1, 2).unwrap(),
         };
-        let (o1, o2) = order.split();
-        assert_eq!(o1.to + chrono::Duration::days(1), o2.from);
-        assert_eq!(order.num_days(), 2);
-        assert_eq!(order.from, o1.from);
-        assert_eq!(order.to, o2.to);
-        assert_eq!(o1.num_days(), 1);
-        assert_eq!(o2.num_days(), 1);
-        assert_eq!(order.from, o1.to);
-        assert_eq!(order.to, o2.from);
+        let (t1, t2) = task.split();
+        assert_eq!(t1.to + chrono::Duration::days(1), t2.from);
+        assert_eq!(task.num_days(), 2);
+        assert_eq!(task.from, t1.from);
+        assert_eq!(task.to, t2.to);
+        assert_eq!(t1.num_days(), 1);
+        assert_eq!(t2.num_days(), 1);
+        assert_eq!(task.from, t1.to);
+        assert_eq!(task.to, t2.from);
     }
     #[test]
     fn test_num_days() {
-        let mut order = ScrapeRoomToDBTask {
+        let mut task = ScrapeRoomTask {
             key: "".to_string(),
             room_id: 0,
             from: NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
             to: NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
         };
-        assert_eq!(order.num_days(), 1);
-        order.to = NaiveDate::from_ymd_opt(2020, 1, 2).unwrap();
-        assert_eq!(order.num_days(), 2);
-        order.to = NaiveDate::from_ymd_opt(2020, 12, 31).unwrap();
-        assert_eq!(order.num_days(), 366);
+        assert_eq!(task.num_days(), 1);
+        task.to = NaiveDate::from_ymd_opt(2020, 1, 2).unwrap();
+        assert_eq!(task.num_days(), 2);
+        task.to = NaiveDate::from_ymd_opt(2020, 12, 31).unwrap();
+        assert_eq!(task.num_days(), 366);
     }
     #[test]
     fn test_same_day() {
-        let order = ScrapeRoomToDBTask::new(("".to_string(), 0), 2020, 0);
-        assert_eq!(order.from, NaiveDate::from_ymd_opt(2020, 1, 1).unwrap());
-        assert_eq!(order.to, NaiveDate::from_ymd_opt(2019, 12, 31).unwrap());
-        assert_eq!(order.num_days(), 0);
+        let task = ScrapeRoomTask::new(("".to_string(), 0), 2020, 0);
+        assert_eq!(task.from, NaiveDate::from_ymd_opt(2020, 1, 1).unwrap());
+        assert_eq!(task.to, NaiveDate::from_ymd_opt(2019, 12, 31).unwrap());
+        assert_eq!(task.num_days(), 0);
     }
 }
 
@@ -245,13 +245,13 @@ async fn scrape(
     year_duration: i32,
 ) -> Result<usize, usize> {
     // request and parse the xml file
-    let mut request_queue = vec![ScrapeRoomToDBTask::new(id, from_year, year_duration)];
+    let mut request_queue = vec![ScrapeRoomTask::new(id, from_year, year_duration)];
     let mut success_cnt = 0;
     let mut retry_smaller_was_nessesary = false;
     while !request_queue.is_empty() {
         let mut new_request_queue = vec![];
-        for work in request_queue {
-            let events = XMLEvents::request(client, work.clone()).await;
+        for task in request_queue {
+            let events = XMLEvents::request(client, task.clone()).await;
 
             //store the events in the database if successful, otherwise retry
             match events {
@@ -262,12 +262,12 @@ async fn scrape(
                 Err(retry) => match retry {
                     Strategy::NoRetry => {}
                     Strategy::RetrySmaller => {
-                        if work.num_days() > 1 {
-                            let (o1, o2) = work.split();
-                            new_request_queue.push(o1);
-                            new_request_queue.push(o2);
+                        if task.num_days() > 1 {
+                            let (t1, t2) = task.split();
+                            new_request_queue.push(t1);
+                            new_request_queue.push(t2);
                         } else {
-                            warn!("The following ScrapeOrder cannot be fulfilled: {:?}", work);
+                            warn!("The following ScrapeOrder cannot be fulfilled: {:?}", task);
                         }
                         retry_smaller_was_nessesary = true;
                     }
