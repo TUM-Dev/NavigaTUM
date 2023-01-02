@@ -10,26 +10,26 @@ def add_to_database(de_data, en_data):
         """
     CREATE TABLE IF NOT EXISTS de (
         key                 VARCHAR(30) UNIQUE PRIMARY KEY NOT NULL,
-        name                VARCHAR(30),
+        name                VARCHAR(30) NOT NULL,
         arch_name           VARCHAR(30), -- NOT Unique, but only used for the old roomfinder
-        type                VARCHAR(30),
-        type_common_name    VARCHAR(30),
-        lat                 FLOAT,
-        lon                 FLOAT,
-        data                BLOB NOT NULL
+        type                VARCHAR(30) NOT NULL,
+        type_common_name    VARCHAR(30) NOT NULL,
+        lat                 FLOAT NOT NULL,
+        lon                 FLOAT NOT NULL,
+        data                TEXT NOT NULL
     );""",
     )
     con.execute(
         """
     CREATE TABLE IF NOT EXISTS en (
         key                 VARCHAR(30) UNIQUE PRIMARY KEY NOT NULL,
-        name                VARCHAR(30),
+        name                VARCHAR(30) NOT NULL,
         arch_name           VARCHAR(30), -- NOT Unique, but only used for the old roomfinder. This is only here temporarily
-        type                VARCHAR(30),
-        type_common_name    VARCHAR(30),
-        lat                 FLOAT,
-        lon                 FLOAT,
-        data                BLOB NOT NULL
+        type                VARCHAR(30) NOT NULL,
+        type_common_name    VARCHAR(30) NOT NULL,
+        lat                 FLOAT NOT NULL,
+        lon                 FLOAT NOT NULL,
+        data                TEXT NOT NULL
     );""",
     )
     # we are using this file in docker, so we don't want to use an acid compliant database ;)
