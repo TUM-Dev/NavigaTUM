@@ -1,9 +1,11 @@
+mod calendar;
 mod schema;
 mod scraping;
 mod utils;
 
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
+use tokio::sync::Mutex;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
@@ -31,8 +33,10 @@ async fn health_handler() -> HttpResponse {
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
 
+    let last_sync = web::Data::new(Mutex::new(None));
+    let cloned_last_sync = last_sync.clone();
     actix_rt::spawn(async move {
-        scraping::continous_scraping::start_scraping().await;
+        scraping::continous_scraping::start_scraping(cloned_last_sync).await;
     });
     HttpServer::new(move || {
         let cors = Cors::default()
@@ -46,6 +50,11 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Logger::default().exclude("/api/calendar/health"))
             .wrap(middleware::Compress::default())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
+            .service(
+                web::scope("/api/calendar")
+                    .configure(calendar::configure)
+                    .app_data(last_sync.clone()),
+            )
             .service(source_code_handler)
             .service(health_handler)
     })
