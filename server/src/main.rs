@@ -1,6 +1,8 @@
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 
+use crate::calendar::continous_scraping;
+mod calendar;
 mod core;
 mod maps;
 mod models;
@@ -29,10 +31,13 @@ async fn health_handler() -> HttpResponse {
         .body("healthy")
 }
 
-#[tokio::main]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
 
+    actix_rt::spawn(async move {
+        continous_scraping::start_scraping().await;
+    });
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
