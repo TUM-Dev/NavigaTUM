@@ -1,3 +1,5 @@
+pub mod statistics;
+
 use diesel::{Connection, SqliteConnection};
 use serde::Deserialize;
 
