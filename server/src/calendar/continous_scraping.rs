@@ -257,7 +257,7 @@ async fn scrape(
             match events {
                 Ok(events) => {
                     success_cnt += events.len();
-                    events.store();
+                    events.store_in_db();
                 }
                 Err(retry) => match retry {
                     Strategy::NoRetry => {}

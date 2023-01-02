@@ -195,7 +195,7 @@ impl XMLEvents {
     pub(crate) fn len(&self) -> usize {
         self.events.len()
     }
-    pub(crate) fn store(self) -> bool {
+    pub(crate) fn store_in_db(self) -> bool {
         let conn = &mut utils::establish_connection();
         use schema::calendar_scrape::dsl::*;
         let res = diesel::insert_into(calendar_scrape)
