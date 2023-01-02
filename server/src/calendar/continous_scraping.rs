@@ -138,14 +138,14 @@ fn get_all_ids() -> Vec<(String, i32)> {
 }
 
 #[derive(Clone, Debug)]
-pub(crate) struct ScrapeOrder {
+pub(crate) struct ScrapeRoomToDBTask {
     pub(crate) key: String,
     pub(crate) room_id: i32,
     pub(crate) from: NaiveDate,
     pub(crate) to: NaiveDate,
 }
 
-impl ScrapeOrder {
+impl ScrapeRoomToDBTask {
     fn new((key, room_id): (String, i32), from_year: i32, year_duration: i32) -> Self {
         let from = NaiveDate::from_ymd_opt(from_year, 1, 1).unwrap();
         let to = NaiveDate::from_ymd_opt(from_year + year_duration, 1, 1).unwrap()
@@ -184,12 +184,12 @@ impl ScrapeOrder {
 }
 
 #[cfg(test)]
-mod test_scrape_order {
-    use super::ScrapeOrder;
+mod test_scrape_task {
+    use super::ScrapeRoomToDBTask;
     use chrono::NaiveDate;
     #[test]
     fn test_split() {
-        let order = ScrapeOrder::new(("".to_string(), 0), 2020, 1);
+        let order = ScrapeRoomToDBTask::new(("".to_string(), 0), 2020, 1);
         let (o1, o2) = order.split();
         assert_eq!(order.from, NaiveDate::from_ymd_opt(2020, 1, 1).unwrap());
         assert_eq!(order.to, NaiveDate::from_ymd_opt(2020, 12, 31).unwrap());
@@ -199,7 +199,7 @@ mod test_scrape_order {
     }
     #[test]
     fn test_split_small() {
-        let order = ScrapeOrder {
+        let order = ScrapeRoomToDBTask {
             key: "".to_string(),
             room_id: 0,
             from: NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
@@ -217,7 +217,7 @@ mod test_scrape_order {
     }
     #[test]
     fn test_num_days() {
-        let mut order = ScrapeOrder {
+        let mut order = ScrapeRoomToDBTask {
             key: "".to_string(),
             room_id: 0,
             from: NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
@@ -231,7 +231,7 @@ mod test_scrape_order {
     }
     #[test]
     fn test_same_day() {
-        let order = ScrapeOrder::new(("".to_string(), 0), 2020, 0);
+        let order = ScrapeRoomToDBTask::new(("".to_string(), 0), 2020, 0);
         assert_eq!(order.from, NaiveDate::from_ymd_opt(2020, 1, 1).unwrap());
         assert_eq!(order.to, NaiveDate::from_ymd_opt(2019, 12, 31).unwrap());
         assert_eq!(order.num_days(), 0);
@@ -245,7 +245,7 @@ async fn scrape(
     year_duration: i32,
 ) -> Result<usize, usize> {
     // request and parse the xml file
-    let mut request_queue = vec![ScrapeOrder::new(id, from_year, year_duration)];
+    let mut request_queue = vec![ScrapeRoomToDBTask::new(id, from_year, year_duration)];
     let mut success_cnt = 0;
     let mut retry_smaller_was_nessesary = false;
     while !request_queue.is_empty() {

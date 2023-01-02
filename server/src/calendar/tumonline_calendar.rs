@@ -1,4 +1,4 @@
-use crate::calendar::continous_scraping::ScrapeOrder;
+use crate::calendar::continous_scraping::ScrapeRoomToDBTask;
 use crate::{schema, utils};
 use awc::error::{ConnectError, PayloadError, SendRequestError};
 use awc::Client;
@@ -233,7 +233,10 @@ impl XMLEvents {
         }
         Some(XMLEvents { events })
     }
-    pub(crate) async fn request(client: &Client, order: ScrapeOrder) -> Result<Self, Strategy> {
+    pub(crate) async fn request(
+        client: &Client,
+        order: ScrapeRoomToDBTask,
+    ) -> Result<Self, Strategy> {
         // The token being embedded here is not an issue, since the token has only access to
         // the data this API is providing anyway...
         // If people want to disrupt this API, they can just do it by abusing this TUMonline-endpoint.
