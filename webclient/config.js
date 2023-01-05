@@ -13,6 +13,6 @@ export const configRelease = {
 
 export const configLocal = {
   app_prefix: "",
-  cdn_prefix: "https://nav.tum.de/cdn/",
-  api_prefix: "https://nav.tum.de/api/",
+  cdn_prefix: "/cdn/",
+  api_prefix: "http://localhost:8080/api/",
 };
