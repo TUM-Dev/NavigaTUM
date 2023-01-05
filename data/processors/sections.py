@@ -8,10 +8,10 @@ def extract_calendar_urls(data):
             url = f"https://campus.tum.de/tumonline/{entry['tumonline_data']['calendar']}"
             entry["props"]["calendar_url"] = url
         if entry.get("tumonline_data", {}).get("room_link", None):
-            url: str = entry['tumonline_data']['room_link']
+            url: str = entry["tumonline_data"]["room_link"]
             entry["props"]["tumonline_room_nr"] = int(url.removeprefix("wbRaum.editRaum?pRaumNr="))
         elif entry.get("tumonline_data", {}).get("address_link", None):
-            url: str = entry['tumonline_data']['address_link']
+            url: str = entry["tumonline_data"]["address_link"]
             entry["props"]["tumonline_room_nr"] = int(url.removeprefix("ris.einzelraum?raumkey="))
 
 
@@ -166,8 +166,8 @@ def generate_rooms_overview(data):
     for _id, entry in data.items():
         # if entry["type"] not in {"building", "joined_building", "virtual_room"} or \
         if (
-                entry["type"] not in {"area", "site", "campus", "building", "joined_building", "virtual_room"}
-                or "children_flat" not in entry
+            entry["type"] not in {"area", "site", "campus", "building", "joined_building", "virtual_room"}
+            or "children_flat" not in entry
         ):
             continue
 

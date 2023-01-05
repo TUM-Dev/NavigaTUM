@@ -3,11 +3,10 @@ import json
 import logging
 from multiprocessing.pool import ThreadPool
 
-from utils import TranslatableStr as _
+from external.scraping_utils import _cached_json, _download_file, _write_cache_json, CACHE_PATH
 from tqdm import tqdm
 from tqdm.contrib.concurrent import thread_map
-
-from external.scraping_utils import _cached_json, _download_file, _write_cache_json, CACHE_PATH
+from utils import TranslatableStr as _
 
 NAT_API_URL = "https://api.srv.nat.tum.de/api/v1/rom"
 NAT_CACHE_DIR = CACHE_PATH / "nat"

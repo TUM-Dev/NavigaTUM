@@ -5,8 +5,8 @@ from pathlib import Path
 
 import requests
 import yaml
-from tqdm import tqdm
 from termcolor import colored, cprint
+from tqdm import tqdm
 
 SEARCH_ENDPOINT = "http://localhost:8080/api/search"
 
