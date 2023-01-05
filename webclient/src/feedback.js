@@ -60,7 +60,7 @@ window.feedback = (() => {
           if (r.status === 201) {
             token = {
               creation: Date.now(),
-              value: r.response.replace(/^"(.*)"$/, '$1'),
+              value: r.response.replace(/^"(.*)"$/, "$1"),
             };
             if (navigatum)
               navigatum.setLocalStorageWithExpiry("feedback-token", token, 6);
