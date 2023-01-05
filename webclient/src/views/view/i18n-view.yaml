@@ -111,8 +111,7 @@ view_view:
     header:
       de: "Lageplan"
       en: "Site Plan"
-    close: { de: "Schließen", en: "Close"}
+    close: { de: "Schließen", en: "Close" }
     image_alt:
       de: "Ein Bild welches den Lageplan zeigt"
       en: "Image showing the Site Plan"
-      
