@@ -23,6 +23,8 @@ spec:
       labels:
         app: navigatum
         deployment: cdn
+    status:
+      qosClass: Guaranteed
     spec:
       containers:
         - name: data

@@ -23,6 +23,8 @@ spec:
       labels:
         app: navigatum
         deployment: web
+    status:
+      qosClass: BestEffort
     spec:
       containers:
         - name: webclient

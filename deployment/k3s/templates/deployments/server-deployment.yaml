@@ -23,6 +23,8 @@ spec:
       labels:
         app: navigatum
         deployment: api
+    status:
+      qosClass: Guaranteed
     spec:
       volumes:
         - name: tmp-server
