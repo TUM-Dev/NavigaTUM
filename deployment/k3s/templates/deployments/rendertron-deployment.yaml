@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rendertron
+  labels:
+    app: navigatum
+    deployment: rendertron
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: navigatum
+      deployment: rendertron
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: navigatum
+        deployment: rendertron
+    spec:
+      volumes:
+        - name: tmp-rendertron
+          emptyDir: {}
+      containers:
+        - name: rendertron
+          image: dockette/rendertron
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: rendertron
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-rendertron
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              cpu: 50m
+              memory: 200Mi
+            limits:
+              memory: 500Mi
+          livenessProbe:
+            httpGet:
+              path: /_ah/health
+              port: rendertron
+            failureThreshold: 1
+            periodSeconds: 60
+          startupProbe:
+            httpGet:
+              path: /_ah/health
+              port: rendertron
+            failureThreshold: 20
+            periodSeconds: 5

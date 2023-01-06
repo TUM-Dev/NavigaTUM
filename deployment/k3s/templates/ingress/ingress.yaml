@@ -47,7 +47,7 @@ spec:
       match: Host(`{{ .Values.url }}`) && PathPrefix(`/rendertron/`)
       priority: 9
       services:
-        - name: webclient-svc
+        - name: rendertron-svc
           port: 9100
       middlewares:
         - name: stripprefix
