@@ -23,8 +23,6 @@ spec:
       labels:
         app: navigatum
         deployment: rendertron
-    status:
-      qosClass: Burstable
     spec:
       volumes:
         - name: tmp-rendertron
