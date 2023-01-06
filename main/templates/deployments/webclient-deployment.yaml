@@ -23,8 +23,6 @@ spec:
       labels:
         app: navigatum
         deployment: web
-    status:
-      qosClass: BestEffort
     spec:
       containers:
         - name: webclient
@@ -36,7 +34,7 @@ spec:
           resources:
             requests:
               cpu: 5m
-              memory: 5Mi
+              memory: 20Mi
             limits:
               memory: 20Mi
           livenessProbe:

@@ -23,8 +23,6 @@ spec:
       labels:
         app: navigatum
         deployment: feedback
-    status:
-      qosClass: Guaranteed
     spec:
       containers:
         - name: feedback
@@ -43,9 +41,8 @@ spec:
           resources:
             requests:
               cpu: 1m
-              memory: 1Mi
+              memory: 100Mi
             limits:
-              cpu: 100m
               memory: 100Mi
           livenessProbe:
             httpGet:
