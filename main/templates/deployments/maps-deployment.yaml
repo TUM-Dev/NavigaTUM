@@ -23,6 +23,8 @@ spec:
       labels:
         app: navigatum
         deployment: maps
+    status:
+      qosClass: Burstable
     spec:
       volumes:
         - name: tmp-tileserver
