@@ -23,6 +23,8 @@ spec:
       labels:
         app: navigatum
         deployment: feedback
+    status:
+      qosClass: Guaranteed
     spec:
       containers:
         - name: feedback
