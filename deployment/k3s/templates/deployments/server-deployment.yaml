@@ -23,8 +23,6 @@ spec:
       labels:
         app: navigatum
         deployment: api
-    status:
-      qosClass: Guaranteed
     spec:
       volumes:
         - name: tmp-server
@@ -49,7 +47,7 @@ spec:
           resources:
             requests:
               cpu: 30m
-              memory: 500Mi
+              memory: 700Mi
             limits:
               memory: 700Mi
           livenessProbe:
@@ -81,7 +79,7 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 25Mi
+              memory: 500Mi
             limits:
               memory: 500Mi
           livenessProbe:
