@@ -18,6 +18,5 @@ Fixes #
 
 ## Checklist:
 
-- [ ] This change requires a change in documentation
-- [ ] I have updated the documentation accordingly.
+- [ ] I have updated the documentation / No need to update the documentation
 - [ ] I have run the linter
