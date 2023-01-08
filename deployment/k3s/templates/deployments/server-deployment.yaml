@@ -27,6 +27,9 @@ spec:
       volumes:
         - name: tmp-server
           emptyDir: {}
+      initContainers:
+        - name: server-init-db
+          image: "ghcr.io/tum-dev/navigatum-server-init:{{ .Values.branch }}"
       containers:
         - name: server
           image: "ghcr.io/tum-dev/navigatum-server:{{ .Values.branch }}"
@@ -36,6 +39,9 @@ spec:
             - secretRef:
                 name: server-api-keys # MEILI_MASTER_KEY
           {{ end }}
+          env:
+              - name: DB_LOCATION
+                value: /tmp/server.db
           ports:
             - containerPort: 8080
               name: api
