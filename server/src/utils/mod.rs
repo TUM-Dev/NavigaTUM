@@ -15,5 +15,6 @@ impl LangQueryArgs {
 }
 
 pub fn establish_connection() -> SqliteConnection {
-    SqliteConnection::establish("data/api_data.db").expect("Cannot open database")
+    let database_loc = std::env::var("DB_LOCATION").unwrap_or("data/api_data.db".to_string());
+    SqliteConnection::establish(&database_loc).expect("Cannot open database")
 }
