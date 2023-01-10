@@ -30,6 +30,10 @@ spec:
       initContainers:
         - name: server-init-db
           image: "ghcr.io/tum-dev/navigatum-server-init:{{ .Values.branch }}"
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-server
       containers:
         - name: server
           image: "ghcr.io/tum-dev/navigatum-server:{{ .Values.branch }}"
