@@ -9,6 +9,8 @@ COPY    load_api_data_to_db.py load_api_data_to_db.py
 # - and enable the next line
 # COPY data/api_data.json data/api_data.json
 
-CMD    wget https://nav.tum.de/cdn/api_data.json --directory-prefix data \
+CMD    wget https://nav.tum.de/cdn/api_data.json --directory-prefix data --quiet \
+    && ls -lah data \
     && python3 load_api_data_to_db.py \
-    && mv /data/api_data.db /tmp/server.db
+    && mv /data/api_data.db /tmp/server.db \
+    && ls -lah /tmp
