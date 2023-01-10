@@ -10,17 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     # Set job outputs to values from filter step
     outputs:
-      server: ${{ steps.filter.outputs.data_server }}
+      server: ${{ steps.filter.outputs.server }}
     steps:
       - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
         id: filter
         with:
-          # the server is required in data, since apparently it is impossibly to schedule a job after another in GitHub
           filters: |
-            data_server:
+            server:
               - '.github/**'
-              - 'data/**'
               - 'server/**'
   server-build:
     uses: ./.github/workflows/docker-build.yml
@@ -49,7 +47,6 @@ jobs:
   mieli-search-build:
     uses: ./.github/workflows/docker-build.yml
     needs:
-      - data-deployment
       - changes
     if: ${{ needs.changes.outputs.server == 'true' }}
     with:
