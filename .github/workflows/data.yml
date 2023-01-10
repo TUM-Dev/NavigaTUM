@@ -41,6 +41,8 @@ jobs:
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app actions run navigatum-prod restart --kind Deployment --resource-name data --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
+      # we also have to resart anything that depnds on this => server
+      - run: argocd app actions run navigatum-prod restart --kind Deployment --resource-name server --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
   data-staging-deployment:
     if: github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -49,3 +51,5 @@ jobs:
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app actions run pr-${{github.event.number}} restart --kind Deployment --resource-name data --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
+      # we also have to resart anything that depnds on this => server
+      - run: argocd app actions run pr-${{github.event.number}} restart --kind Deployment --resource-name server --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
