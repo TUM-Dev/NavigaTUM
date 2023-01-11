@@ -27,14 +27,15 @@ class TranslatableStr(dict):
     Translatable strings will be exported as {"de": "<de string>", "en": "<en string>"}.
     """
 
-    def __init__(self, message):
-        if message in TRANSLATION_BUFFER:
-            en_message = TRANSLATION_BUFFER[message]
-        else:
-            en_message = message
-            TRANSLATION_BUFFER[message] = ""
-            with open(TRANSLATION_BUFFER_PATH, "w", encoding="utf-8") as file:
-                yaml.dump(TRANSLATION_BUFFER, file)
+    def __init__(self, message, en_message=None):
+        if en_message is None:
+            if message in TRANSLATION_BUFFER:
+                en_message = TRANSLATION_BUFFER[message]
+            else:
+                en_message = message
+                TRANSLATION_BUFFER[message] = ""
+                with open(TRANSLATION_BUFFER_PATH, "w", encoding="utf-8") as file:
+                    yaml.dump(TRANSLATION_BUFFER, file)
         super().__init__(en=en_message, de=message)
 
     def __hash__(self):
