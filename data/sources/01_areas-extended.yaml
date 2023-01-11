@@ -735,6 +735,11 @@ frm-2:
 
 chemie:
   coords: { lat: 48.26880, lon: 11.66979 }
+  props:
+    address:
+      street: "Lichtenbergstraße 4"
+      plz_place: "85748 Garching bei München"
+      source: "navigatum"}
 
 5410:
   coords: { lat: 48.26914, lon: 11.67174 }
