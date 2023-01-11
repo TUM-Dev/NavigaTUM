@@ -221,6 +221,9 @@ window.feedback = (() => {
     .getElementById("feedback-close-2")
     .addEventListener("click", closeForm, false);
   document
+      .getElementById("feedback-ok")
+      .addEventListener("click", closeForm, false);
+  document
     .getElementById("feedback-overlay-2")
     .addEventListener("click", closeForm, false);
 
