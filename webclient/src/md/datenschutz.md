@@ -16,7 +16,7 @@ Deutschland
 **Kontakt:**  
 Telefon: (0049/0)176 – 56–727-579  
 Telefax: (0049/0)89 - 289–18546  
-E-Mail: app (at-symbol) tum.de
+E-Mail: navigatum (at-symbol) tum.de
 
 ## Ihre Betroffenenrechte
 
@@ -118,6 +118,32 @@ Schreiben Sie dafür bitte eine E-Mail an den unten aufgeführten Datenschutzbea
 ### Bereitstellung vorgeschrieben oder erforderlich:
 
 Die Bereitstellung dieser nicht personenbezogenen Daten erfolgt freiwillig.
+
+## Karten
+
+### Freiwilligkeit
+
+Die Nutzung der Maps erfolgt auf einer freiwilligen Basis.
+Für die Nutzung des Kartenfeatures muss den [Tearms of Service und den Datenschutzbestimmungen von Mapbox](https://www.mapbox.com/legal/privacy) zugestimmt werden.
+
+### Übertragene Daten
+
+Die übertragenen Daten sind unter [Tearms of Service und den Datenschutzbestimmungen von Mapbox](https://www.mapbox.com/legal/privacy) zu finden.
+Mapbox benutzt diese als telemetriedaten, um den Service zu verbessern.
+
+### Empfänger:
+
+Die übertragenen Daten werden von Mapbox übermittelt.
+
+### Speicherdauer:
+
+Die Daten werden laut Mapbox spätestens nach 30 Tagen automatisch gelöscht.
+Zu weiteren Rechten sind die [Tearms of Service und den Datenschutzbestimmungen von Mapbox](https://www.mapbox.com/legal/privacy) zu beachten.
+
+### Bereitstellung vorgeschrieben oder erforderlich:
+
+Die Bereitstellung dieser nicht personenbezogenen Daten wird erforderlich, sofern ein nutzer die Details-Seite mit Karten angeschauten will.  
+Andernfalls sind sie freiwillig.
 
 ## SSL-Verschlüsselung
 

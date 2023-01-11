@@ -15,7 +15,7 @@ Deutschland
 **Kontakt:**  
 Telefon: (0049/0)176 – 56–727-579  
 Telefax: (0049/0)89 - 289–18546  
-E-Mail: app (at-symbol) tum.de
+E-Mail: navigatum (at-symbol) tum.de
 
 <br>
 
