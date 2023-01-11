@@ -739,7 +739,7 @@ chemie:
     address:
       street: "Lichtenbergstraße 4"
       plz_place: "85748 Garching bei München"
-      source: "navigatum"}
+      source: "navigatum"
 
 5410:
   coords: { lat: 48.26914, lon: 11.67174 }
