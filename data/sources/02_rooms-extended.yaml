@@ -10,6 +10,14 @@
   name: "0509.EG.980 (Audimax, Werner-von-Siemens-Hörsaal)"
   ranking_factors:
     rank_custom: 150
+"0101.02.157":
+  name: "0101.02.157 (Fachschaft Bau, Geo und Umwelt)"
+  usage:
+    name:
+      de: "Büro"
+      en: "Office"
+    din_277: "NF2.1"
+    din_277_desc: "Büroräume"
 
 # ========================== Garching =============================
 # === Physik ===

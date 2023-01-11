@@ -1,6 +1,9 @@
 import json
+from typing import Any, Union
 
 import yaml
+
+from utils import TranslatableStr
 
 
 def merge_json(data, path):
@@ -22,8 +25,24 @@ def merge_yaml(data, path):
     Merge yaml data at path on top of the given data.
     This operates on the data dict directly without creating a copy.
     """
+
+    def add_translatable_str(value: Union[str, list[Any], dict[str, Any]]) -> Any:
+        """Recursively change all {de: ..., en:...] to a TranslatableStr"""
+        if isinstance(value, (bool, float, int, str)) or value is None:
+            return value
+        if isinstance(value, list):
+            return [add_translatable_str(v) for v in value]
+        if isinstance(value, dict):
+            # We consider each dict that has only the keys "de" and "en" as translated string
+            if set(value.keys()) == {"de", "en"}:
+                return TranslatableStr(value["de"], value["en"])
+
+            return {k: add_translatable_str(v) for k, v in value.items()}
+        raise ValueError(f"Unhandled type {type(value)}")
+
     with open(path, encoding="utf-8") as file:
         yaml_data = yaml.safe_load(file.read())
+    yaml_data = add_translatable_str(yaml_data)
 
     if not isinstance(yaml_data, dict):
         raise RuntimeError(f"Error: root node expected to be an object in file '{path}'")
