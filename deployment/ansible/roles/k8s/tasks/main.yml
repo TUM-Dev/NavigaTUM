@@ -13,7 +13,7 @@
 - name: Install k3s
   shell: curl -sfL https://get.k3s.io | sh - {% if inventory_hostname == 'tuzeitm-navigatum-1' %}--cluster-init{% else %}--server https://{{ etcd_leader_ip }}:6443{% endif %}
   environment:
-    K3S_NODE_NAME: "eliza-{{ inventory_hostname | replace('tuzeitm-navigatum-1', '') | int | add(2) }}"
+    K3S_NODE_NAME: "eliza-{{ inventory_hostname | replace('tuzeitm-navigatum-', '') | int | add(2) }}"
     # ipv6 dual stack
     K3S_CLUSTER_CIDR: "{{ cluster_cidr }}"
     K3S_SERVICE_CIDR: "{{ service_cidr }}"
