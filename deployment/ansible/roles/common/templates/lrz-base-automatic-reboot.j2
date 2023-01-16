@@ -1,6 +1,6 @@
 SHELL=/bin/sh
 PATH=/usr/sbin:/usr/bin:/sbin:/bin
-MAILTO=nomailpls
+MAILTO=nomailpls@example.com
 
 {% with node_id=inventory_hostname | replace('tuzeitm-navigatum-', '') | int %}
 {% set reboot_time=node_id + 3%}
