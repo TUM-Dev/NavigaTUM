@@ -48,3 +48,16 @@ The reasoning is, that we don't want strangers to be able to fork our project, c
 
 We use [ansible](https://www.ansible.com/) to deploy the k3s cluster.
 As an additional dependency you need to `ansible-galaxy collection install kubernetes.core`
+
+The ansible playbook is located in `deployment/ansible/` and is called `site.yml`.
+
+It is split into two roles:
+- `common` which sets up a basic linux system with basic hardening
+- `k8s` which deploys the k3s cluster
+
+The whole playbook is idempotent, so you can run it multiple times without any problems.
+To run it, you need can execute the following command:
+
+```bash
+ansible-playbook -i deployment/ansible/hosts.ini -k deployment/ansible/site.yml
+```
