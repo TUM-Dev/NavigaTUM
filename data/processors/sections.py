@@ -154,7 +154,7 @@ def generate_buildings_overview(data):
                     "id": child_id,
                     "name": child["short_name"] if "short_name" in child else child["name"],
                     "subtext": subtext,
-                    "thumb": child["img"][0]["name"] if child.get("img", []) else None,
+                    "thumb": child["imgs"][0]["name"] if child.get("imgs", []) else None,
                 },
             )
 
