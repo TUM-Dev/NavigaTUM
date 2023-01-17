@@ -5,6 +5,7 @@ RUN apk add --no-cache jq bash
 RUN mkdir data
 COPY ./configure_MeileSearch.sh /configure_MeileSearch.sh
 
-CMD    wget https://nav.tum.de/cdn/search_data.json --directory-prefix data --quiet \
-    && wget https://nav.tum.de/cdn/search_synonyms.json --directory-prefix data --quiet \
-    && bash /configure_MeileSearch.sh
+CMD    wget https://nav.tum.de/cdn/search_data.json --quiet \
+    && wget https://nav.tum.de/cdn/search_synonyms.json --quiet \
+    && bash /configure_MeileSearch.sh \
+    && rm *.json
