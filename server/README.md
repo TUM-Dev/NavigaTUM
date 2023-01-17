@@ -124,8 +124,9 @@ There are two editors for the API documentation (both are imperfect):
 
 #### Testing
 
-Of course documentation is one part of the process. If the changes are substantial, you should also run an API-Fuzz-Test:
-To make sure that this specification is up-to-date and without holes, we run [schemathesis](https://github.com/schemathesis/schemathesis) using the following command on API Server:
+Of course documentation is one part of the process.
+Run API-Fuzz-Test and [schemathesis](https://github.com/schemathesis/schemathesis) on API Server to ensure specification is up-to-date and without holes.
+To do so, run the following commands against the API Server:
 
 ```bash
 python -m venv venv
