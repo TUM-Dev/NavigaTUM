@@ -1,4 +1,4 @@
-use crate::scraping::continous_scraping::ScrapeRoomTask;
+use crate::scraping::task::ScrapeRoomTask;
 use crate::{schema, utils};
 use awc::error::{ConnectError, PayloadError, SendRequestError};
 use awc::Client;
