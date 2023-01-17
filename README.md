@@ -71,7 +71,7 @@ If you want to work on the webclient only (and not server or data), you don't ne
 
 ```bash
 docker network create navigatum-net
-rm -fr /tmp/navigatum/ && mkdir -p /tmp/navigatum/ && mkdir -p /tmp/navigatum/meili/ && mkdir -p /tmp/navigatum/server/
+sudo rm -fr /tmp/navigatum/ && mkdir -p /tmp/navigatum/ && mkdir -p /tmp/navigatum/meili/ && mkdir -p /tmp/navigatum/server/
 
 docker run -it --rm -v /tmp/navigatum/meili:/meili_data ghcr.io/tum-dev/navigatum-mieli-search-init:main
 docker run -it --rm -p 7700:7700 --name search -v /tmp/navigatum/meili:/meili_data --network navigatum-net getmeili/meilisearch:latest

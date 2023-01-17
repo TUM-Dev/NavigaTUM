@@ -1,13 +1,13 @@
 #!/bin/bash
 
 set -e # fail on first error
-# kill meilisearch on SIGINT, SIGTERM or EXIT
-trap 'trap - SIGTERM && kill -- -$$' SIGINT SIGTERM EXIT
 meilisearch &
+MEILIPID=`pgrep meilisearch`
 
 curl_with_args() {
   curl \
    --connect-timeout 5 --max-time 10 --retry 30 --retry-delay 1 --retry-max-time 60 --retry-connrefused --retry-all-errors \
+   --silent --show-error \
    --header 'content-type: application/json' -i \
    "$@"
 }
@@ -51,3 +51,6 @@ while [[ "$(curl_with_args 'http://localhost:7700/indexes/entries/stats')" == *'
     curl_with_args 'http://localhost:7700/indexes/entries/stats' -silent
     sleep 5
 done
+
+# kill meilisearch by sending the `Ctrl + C` interrupt signal
+kill -INT $MEILIPID
