@@ -398,6 +398,11 @@
             &:last-child {
                 padding-left: 10px;
             }
+
+            .popover svg {
+              margin-left: 5px;
+              margin-bottom: -2px;
+            }
         }
 
         tr {
