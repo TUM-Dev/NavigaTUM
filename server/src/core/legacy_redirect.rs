@@ -59,7 +59,7 @@ pub async fn legacy_redirect_handler(params: web::Path<String>) -> HttpResponse 
         _ => {
             let msg: String = keys
                 .iter()
-                .map(|res| format!("- https://nav.tum.de/{}\n", res))
+                .map(|res| format!("- https://nav.tum.de/{res}\n"))
                 .collect();
             let base_msg = concat!(
                 "Multiple entries found, cannot automatically redirect.\n",
@@ -69,7 +69,7 @@ pub async fn legacy_redirect_handler(params: web::Path<String>) -> HttpResponse 
             );
             HttpResponse::Ok()
                 .content_type("text/plain")
-                .body(format!("{}{}", base_msg, msg))
+                .body(format!("{base_msg}{msg}"))
         }
     }
 }

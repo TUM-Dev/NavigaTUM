@@ -85,7 +85,7 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs) -> Result
                 // Currently only facets, but later also more filters
                 let mut sub_f_array = Vec::<String>::new();
                 for facet in f.facet {
-                    sub_f_array.push(format!("facet = {}", facet)); // TODO: Put in quotes?
+                    sub_f_array.push(format!("facet = {facet}")); // TODO: Put in quotes?
                 }
                 f_array.push(sub_f_array);
 
@@ -181,7 +181,7 @@ pub(super) async fn do_room_search(
         };
 
         if token.closed && !token.quoted {
-            q.push_str(&format!("{} ", s));
+            q.push_str(&format!("{s} "));
         } else {
             q.push_str(&s);
         }

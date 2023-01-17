@@ -65,7 +65,7 @@ pub(super) fn parse_input_query(q: &str) -> SearchInput {
             // Parse filters
             let mut is_filter = false;
             for prefix in ["in:", "@", "usage:", "nutzung:", "=", "type:"] {
-                if (&token.s).starts_with(prefix) {
+                if token.s.starts_with(prefix) {
                     is_filter = true;
 
                     let v = token
@@ -240,8 +240,8 @@ mod tokenizer_tests {
         // include spaces at the end into the token
         let unclosed_quotes = q.matches('\"').count() % 2 == 1;
         if !unclosed_quotes {
-            let sqs = format!(" {} ", q);
-            let qs = format!("{} ", q);
+            let sqs = format!(" {q} ");
+            let qs = format!("{q} ");
             assert_token(sqs, expected.clone());
             assert_token(qs, expected.clone());
             if !expected.is_empty() {
@@ -251,7 +251,7 @@ mod tokenizer_tests {
                 expected.push(last);
             }
         }
-        let sq = format!(" {}", q);
+        let sq = format!(" {q}");
         assert_token(sq, expected.clone());
         assert_token(q.to_string(), expected.clone());
     }
