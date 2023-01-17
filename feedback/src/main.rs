@@ -24,7 +24,7 @@ async fn source_code_handler() -> HttpResponse {
     let gh_base = "https://github.com/TUM-Dev/navigatum".to_string();
     let commit_hash = std::env::var("GIT_COMMIT_SHA");
     let github_link = match commit_hash {
-        Ok(hash) => format!("{}/tree/{}", gh_base, hash),
+        Ok(hash) => format!("{gh_base}/tree/{hash}"),
         Err(_) => gh_base,
     };
     HttpResponse::Ok()

@@ -140,7 +140,7 @@ async fn get_tile(
     // gets the image fro the server. using a disk-cached image if possible
     let file = std::env::temp_dir()
         .join("tiles")
-        .join(format!("{}_{}_{}@2x.png", z, x, y));
+        .join(format!("{z}_{x}_{y}@2x.png"));
     let file_content = tokio::fs::read(&file).await;
     let tile = match file_content {
         Ok(content) => web::Bytes::from(content),

@@ -11,7 +11,7 @@ pub async fn post_feedback(
     description: &str,
     labels: Vec<String>,
 ) -> HttpResponse {
-    let raw_title = format!("[{}] {}", title_category, title);
+    let raw_title = format!("[{title_category}] {title}");
     let title = clean_feedback_data(&raw_title, 512);
     let description = clean_feedback_data(description, 1024 * 1024);
 

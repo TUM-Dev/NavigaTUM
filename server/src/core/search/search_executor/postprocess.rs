@@ -66,7 +66,7 @@ pub(super) fn merge_search_results(
                         hit.clone(),
                         search_tokens,
                         hit._formatted.name,
-                        hit.arch_name.unwrap_or_else(|| "".to_string()),
+                        hit.arch_name.unwrap_or_default(),
                         highlighting.clone(),
                     );
 
@@ -240,7 +240,7 @@ fn generate_subtext(hit: &meilisearch::MSHit) -> String {
     };
 
     match &hit.campus {
-        Some(campus) => format!("{}, {}", campus, building),
+        Some(campus) => format!("{campus}, {building}"),
         None => building,
     }
 }
