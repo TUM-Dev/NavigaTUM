@@ -43,7 +43,7 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             .wrap(cors)
-            .wrap(middleware::Logger::default())
+            .wrap(middleware::Logger::default().exclude("/api/calendar/health"))
             .wrap(middleware::Compress::default())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(source_code_handler)
