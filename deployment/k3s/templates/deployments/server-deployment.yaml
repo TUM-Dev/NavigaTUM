@@ -27,6 +27,8 @@ spec:
       volumes:
         - name: tmp-server
           emptyDir: {}
+        - name: tmp-mieli-search
+          emptyDir: {}
       initContainers:
         - name: server-init-db
           image: "ghcr.io/tum-dev/navigatum-server-init:{{ .Values.branch }}"
@@ -34,6 +36,12 @@ spec:
           volumeMounts:
             - mountPath: /tmp
               name: tmp-server
+        - name: server-init-meili
+          image: "ghcr.io/tum-dev/navigatum-mieli-search-init:{{ .Values.branch }}"
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /meili_data
+              name: tmp-mieli-search
       containers:
         - name: server
           image: "ghcr.io/tum-dev/navigatum-server:{{ .Values.branch }}"
@@ -73,7 +81,7 @@ spec:
             failureThreshold: 60
             periodSeconds: 1
         - name: mieli-search
-          image: "ghcr.io/tum-dev/navigatum-mieli-search:{{ .Values.branch }}"
+          image: "getmeili/meilisearch:v0.30.5"
           imagePullPolicy: Always
           {{ if .Values.server.MEILI_MASTER_KEY }}
           envFrom:
@@ -86,6 +94,9 @@ spec:
           ports:
             - containerPort: 7700
               name: mieli-search
+          volumeMounts:
+            - mountPath: /meili_data
+              name: tmp-mieli-search
           resources:
             requests:
               cpu: 10m

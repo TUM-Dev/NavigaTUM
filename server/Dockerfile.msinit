@@ -1,0 +1,9 @@
+FROM getmeili/meilisearch:v0.30.5 as build-stage
+
+RUN apk add --no-cache jq bash
+
+COPY ./configure_MeileSearch.sh /configure_MeileSearch.sh
+
+CMD    wget https://nav.tum.de/cdn/search_data.json --directory-prefix data --quiet \
+    && wget https://nav.tum.de/cdn/search_synonyms.json --directory-prefix data --quiet \
+    && bash /configure_MeileSearch.sh

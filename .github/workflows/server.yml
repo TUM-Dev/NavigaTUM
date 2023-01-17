@@ -44,15 +44,15 @@ jobs:
     permissions:
       contents: read
       packages: write
-  mieli-search-build:
+  mieli-search-init-build:
     uses: ./.github/workflows/docker-build.yml
     needs:
       - changes
     if: ${{ needs.changes.outputs.server == 'true' }}
     with:
-      image_suffix: mieli-search
+      image_suffix: mieli-search-init
       context: ./server
-      dockerfile: Dockerfile.mielesearch
+      dockerfile: Dockerfile.msinit
     permissions:
       contents: read
       packages: write
@@ -60,8 +60,7 @@ jobs:
     runs-on: ubuntu-20.04
     services:
       mieli:
-        image: ghcr.io/tum-dev/navigatum-mieli-search:main
-        # TODO get the tags from ${{ needs.mieli-search-build.outputs.tags }}
+        image: getmeili/meilisearch:latest
         ports:
           - 7700
     steps:
@@ -69,7 +68,11 @@ jobs:
       - uses: ATiltedTree/setup-rust@v1.0.5
         with:
           rust-version: 1.65
-      # run project's dependencies
+      # this script takes about 30s to completely configure meili, which is more time than our server needs to build
+      - run: bash configure_MeileSearch.sh &
+        working-directory: server
+
+      # run the apiserver
       - run: cargo build
         working-directory: server
       - run: cargo run &
@@ -89,7 +92,7 @@ jobs:
     needs:
       - server-build
       - server-init-build
-      - mieli-search-build
+      - mieli-search-init-build
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app actions run navigatum-prod restart --kind Deployment --resource-name server --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
@@ -99,7 +102,7 @@ jobs:
     needs:
       - server-build
       - server-init-build
-      - mieli-search-build
+      - mieli-search-init-build
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app actions run pr-${{github.event.number}} restart --kind Deployment --resource-name server --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
