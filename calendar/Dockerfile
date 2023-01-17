@@ -1,0 +1,28 @@
+# Compile
+FROM    rust:1.66-alpine AS compiler
+
+RUN     apk add -q --update-cache --no-cache build-base openssl-dev sqlite-dev
+
+WORKDIR /nav
+COPY    ./Cargo.* ./
+COPY    ./src ./src
+RUN     RUSTFLAGS="-C target-feature=-crt-static" cargo build --release
+
+
+# RUN
+FROM alpine:3.17
+
+RUN     apk update --quiet \
+        && apk add -q --no-cache libgcc sqlite-libs tini
+
+# add `navigatum-calendar` to the `/bin` so we can run it from anywhere and it's easy to find.
+COPY    --from=compiler /nav/target/release/navigatum-calendar /bin/navigatum-calendar
+
+ARG     GIT_COMMIT_SHA
+ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+
+EXPOSE  8083
+
+ENTRYPOINT ["tini", "--"]
+HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8083/api/health || exit 1
+CMD     /bin/navigatum-calendar

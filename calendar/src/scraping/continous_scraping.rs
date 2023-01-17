@@ -1,4 +1,4 @@
-use crate::calendar::tumonline_calendar::{Strategy, XMLEvents};
+use crate::scraping::tumonline_calendar::{Strategy, XMLEvents};
 use crate::utils;
 use crate::utils::statistics::Statistic;
 use awc::{Client, Connector};
