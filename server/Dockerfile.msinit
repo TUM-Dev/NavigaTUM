@@ -2,10 +2,12 @@ FROM getmeili/meilisearch:v0.30.5 as build-stage
 
 RUN apk add --no-cache jq bash
 
-RUN mkdir data
 COPY ./configure_MeileSearch.sh /configure_MeileSearch.sh
 
-CMD    wget https://nav.tum.de/cdn/search_data.json --quiet \
+# removing the files before and after is nessesary in case the container is restarted
+CMD    rm -f search_data.json  \
+    && wget https://nav.tum.de/cdn/search_data.json --quiet \
+    && rm -f search_synonyms.json  \
     && wget https://nav.tum.de/cdn/search_synonyms.json --quiet \
     && bash /configure_MeileSearch.sh \
     && rm *.json
