@@ -24,20 +24,20 @@
         routes:
           # temporary workaround for traefik bug (interoperability with ingress)
           - kind: Rule
-            match: Host(`uptime.frank.elsinga.de`) && PathPrefix(`/.well-known/acme-challenge/`)
+            match: Host(`uptime.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
             priority: 13
             services:
               - name: cm-acme-http-solver-mppjd
                 port: 8089
                 kind: Service
           - kind: Rule
-            match: Host(`uptime.frank.elsinga.de`)
+            match: Host(`uptime.nav.tum.sexy`)
             priority: 12
             services:
               - name: uptime-kuma
                 port: 3001
         tls:
-          secretName: uptime.frank.elsinga.de
+          secretName: uptime.nav.tum.sexy
       
 - name: Make shure kuma has an http-ingress
   kubernetes.core.k8s:
@@ -55,13 +55,13 @@
         routes:
           # temporary workaround for traefik bug (interoperability with ingress)
           - kind: Rule
-            match: Host(`uptime.frank.elsinga.de`) && PathPrefix(`/.well-known/acme-challenge/`)
+            match: Host(`uptime.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
             services:
               - name: cm-acme-http-solver-mppjd
                 port: 8089
                 kind: Service
           - kind: Rule
-            match: Host(`uptime.frank.elsinga.de`)
+            match: Host(`uptime.nav.tum.sexy`)
             middlewares:
               - name: https
             services:
@@ -91,13 +91,13 @@
       apiVersion: cert-manager.io/v1
       kind: Certificate
       metadata:
-        name: uptime.frank.elsinga.de
+        name: uptime.nav.tum.sexy
         namespace: monitoring
       spec:
-        commonName: uptime.frank.elsinga.de
+        commonName: uptime.nav.tum.sexy
         dnsNames:
-          - uptime.frank.elsinga.de
-        secretName: uptime.frank.elsinga.de
+          - uptime.nav.tum.sexy
+        secretName: uptime.nav.tum.sexy
         issuerRef:
           name: letsencrypt-production
           kind: ClusterIssuer
