@@ -10,8 +10,13 @@
     timeout: 300
     delay: 5
   when: ansible_host != etcd_leader_ip
+
 - name: Install k3s
-  shell: curl -sfL https://get.k3s.io | sh - {% if inventory_hostname == 'tuzeitm-navigatum-1' %}--cluster-init{% else %}--server https://{{ etcd_leader_ip }}:6443{% endif %}
+  shell: >
+    curl -sfL https://get.k3s.io | sh -
+    {% if ansible_host == etcd_leader_ip %}--cluster-init{% else %}--server https://{{ etcd_leader_ip }}:6443{% endif %}
+    --tls-san {{ loadbalancer_ip }}
+    --tls-san controlplane.nav.tum.sexy
   environment:
     K3S_NODE_NAME: "eliza-{{ inventory_hostname | replace('tuzeitm-navigatum-', '') | int | add(2) }}"
     # ipv6 dual stack
