@@ -5,7 +5,9 @@
 
 - name: Setup k3s networking
   include_tasks: "k3s_network.yml"
-
+# Remove k3s via
+#- name: remove k3s
+#  shell: /usr/local/bin/k3s-uninstall.sh
 - name: Setup k3s
   include_tasks: "k3s_setup.yml"
 
