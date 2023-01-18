@@ -11,25 +11,8 @@
     delay: 5
   when: ansible_host != etcd_leader_ip
 
-- name: Install k3s
-  shell: >
-    curl -sfL https://get.k3s.io | sh -
-    {% if ansible_host == etcd_leader_ip %}--cluster-init{% else %}--server https://{{ etcd_leader_ip }}:6443{% endif %}
-    --tls-san {{ loadbalancer_ip }}
-    --tls-san controlplane.nav.tum.sexy
-  environment:
-    K3S_NODE_NAME: "eliza-{{ inventory_hostname | replace('tuzeitm-navigatum-', '') | int | add(2) }}"
-    # ipv6 dual stack
-    K3S_CLUSTER_CIDR: "{{ cluster_cidr }}"
-    K3S_SERVICE_CIDR: "{{ service_cidr }}"
-
-- name: Wait for the k3s service to be running
-  wait_for:
-    host: "{{ etcd_leader_ip }}"
-    port: 6443
-    state: started
-    timeout: 300
-    delay: 5
+- name: Setup k3s
+  include_tasks: "k3s_setup.yml"
 
 - name: Install helm
   shell: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
@@ -39,4 +22,4 @@
   loop_control:
     loop_var: sys_conf
   with_fileglob:
-    - system_configureation/*.yml
+    - components/*.yml
