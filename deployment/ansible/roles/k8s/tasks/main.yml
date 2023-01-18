@@ -3,6 +3,9 @@
 # Tasks to be applied to all k8s instances
 #
 
+- name: Setup k3s networking
+  include_tasks: "k3s_network.yml"
+
 - name: Setup k3s
   include_tasks: "k3s_setup.yml"
 
