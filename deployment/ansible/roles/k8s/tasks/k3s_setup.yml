@@ -2,7 +2,7 @@
 - name: Install k3s
   shell: >
     curl -sfL https://get.k3s.io | sh -s -
-    {% if ansible_host == etcd_leader_ip %}--cluster-init{% else %}--server https://[{{ etcd_leader_ip }}]:6443{% endif %}
+    --cluster-init
     --tls-san {{ loadbalancer_ipv4 }}
     --tls-san {{ loadbalancer_ipv6 }}
     --tls-san controlplane.nav.tum.sexy
@@ -12,6 +12,7 @@
     # ipv6 dual stack
     K3S_CLUSTER_CIDR: "{{ cluster_cidr }}"
     K3S_SERVICE_CIDR: "{{ service_cidr }}"
+  when: ansible_host == etcd_leader_ip
 
 - name: Wait for the k3s service to be running
   wait_for:
@@ -19,3 +20,26 @@
     state: started
     timeout: 300
     delay: 5
+  when: ansible_host == etcd_leader_ip
+
+- name: Install k3s
+  shell: >
+    curl -sfL https://get.k3s.io | sh -s -
+    --server https://[{{ etcd_leader_ip }}]:6443
+    --tls-san {{ loadbalancer_ipv4 }}
+    --tls-san {{ loadbalancer_ipv6 }}
+    --tls-san controlplane.nav.tum.sexy
+  environment:
+    K3S_TOKEN: "{{ lookup('ansible.builtin.password', 'credentials/k3s_token length=1024') }}"
+    K3S_NODE_NAME: "eliza-{{ 2 + inventory_hostname | replace('tuzeitm-navigatum-', '') | int }}"
+    # ipv6 dual stack
+    K3S_CLUSTER_CIDR: "{{ cluster_cidr }}"
+    K3S_SERVICE_CIDR: "{{ service_cidr }}"
+  when: ansible_host != etcd_leader_ip
+- name: Wait for the k3s service to be running
+  wait_for:
+    port: 6443
+    state: started
+    timeout: 300
+    delay: 5
+  when: ansible_host != etcd_leader_ip
