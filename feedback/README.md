@@ -18,7 +18,7 @@ Please follow the [system dependencys docs](resources/documentation/Dependencys.
 ### Starting the server
 
 Run `cargo run` to start the server.
-The server should now be available on `localhost:6001`.
+The server should now be available on `localhost:8070`.
 
 Note that `cargo run --release` is used to start the server for an optimised production build (use this if you want to profile performance, it makes quite a difference).
 
@@ -42,11 +42,11 @@ To make sure that this specification is up-to-date and without holes, we run [sc
 python -m venv venv
 source venv/bin/activate
 pip install schemathesis
-st run --workers=auto --base-url=http://localhost:6001 --checks=all ../openapi.yaml
+st run --workers=auto --base-url=http://localhost:8070 --checks=all ../openapi.yaml
 ```
 
 Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN) and some fuzzing-goals are automatically tested in our CI.  
-You can exchange `--base-url=http://localhost:6001` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/feedback/`.
+You can exchange `--base-url=http://localhost:8070` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/feedback/`.
 
 ## License
 
