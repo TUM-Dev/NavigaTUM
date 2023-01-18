@@ -29,3 +29,5 @@
     rule: allow
     port: "22"
     delete: yes
+    from_ip: "{{ item }}"
+  loop: "{{ vpn_ips }}"

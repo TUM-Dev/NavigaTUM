@@ -3,37 +3,6 @@
     name: ufw
     state: present
 
-- name: Configure http(s) in UFW
-  ufw:
-    direction: in
-    rule: allow
-    port: "{{ item.port }}"
-    proto: "{{ item.proto }}"
-    comment: "{{ item.comment }}"
-  with_items:
-    - { port: 80, proto: any, comment: "HTTP" }
-    - { port: 443, proto: any, comment: "HTTPS" }
-
-- name: Configure the api server in UFW
-  ufw:
-    direction: in
-    rule: allow
-    port: "{{ item[1] }}"
-    proto: "tcp"
-    from_ip: "{{ item[0] }}"
-    comment: "Kubernetes Controllplane (API+Metrics) from VPN"
-  loop: "{{ vpn_ips | product([6443, 10250]) | list }}"
-
-- name: Configure in-cluster etcd 2379 in UFW
-  ufw:
-    direction: in
-    rule: allow
-    port: "{{item[1]}}"
-    proto: "tcp"
-    from_ip: "{{ item[0] }}"
-    comment: "k3s HA with embedded etcd from cluster"
-  loop: "{{ leaders_ips | product([2379, 2380]) | list }}"
-
 - name: Configure UFW's default outgoing policy
   ufw:
     default: allow
