@@ -28,6 +28,7 @@
   ufw:
     rule: allow
     port: "22"
+    proto: tcp
     delete: yes
     from_ip: "{{ item }}"
   loop: "{{ vpn_ips }}"
