@@ -1,18 +1,10 @@
 ---
-- name: Wait for the inital etcd database to be created, after which all other nodes can join
-  wait_for:
-    host: "{{ etcd_leader_ip }}"
-    port: 6443
-    state: started
-    timeout: 300
-    delay: 5
-  when: ansible_host != etcd_leader_ip
-
 - name: Install k3s
   shell: >
     curl -sfL https://get.k3s.io | sh -
     {% if ansible_host == etcd_leader_ip %}--cluster-init{% else %}--server https://{{ etcd_leader_ip }}:6443{% endif %}
-    --tls-san {{ loadbalancer_ip }}
+    --tls-san {{ loadbalancer_ipv4 }}
+    --tls-san {{ loadbalancer_ipv6 }}
     --tls-san controlplane.nav.tum.sexy
   environment:
     K3S_TOKEN: {{ lookup('ansible.builtin.password', 'credentials/k3s_token length=1024') }}

@@ -1,5 +1,0 @@
-etcd_leader_ip: "{{ leaders_ips[0] }}"
-# nessesary or ipv6 dual-stack cluster
-cluster_cidr: "10.42.0.0/16,2001:cafe:42:0::/56" # TODO Insert real IPs
-service_cidr: "10.43.0.0/16,2001:cafe:42:1::/112" # TODO Insert real IPs
-loadbalancer_ip: "129.187.254.65,2001:4ca0:0:103::81bb:fe41"

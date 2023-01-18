@@ -2,14 +2,6 @@
 #
 # Tasks to be applied to all k8s instances
 #
-- name: Wait for the inital etcd database to be created, after which all other nodes can join
-  wait_for:
-    host: "{{ etcd_leader_ip }}"
-    port: 6443
-    state: started
-    timeout: 300
-    delay: 5
-  when: ansible_host != etcd_leader_ip
 
 - name: Setup k3s
   include_tasks: "k3s_setup.yml"
