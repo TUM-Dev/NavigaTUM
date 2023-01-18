@@ -151,7 +151,8 @@ impl XMLEvent {
             dtend: extract_dt(&hm, "dtend").unwrap(),
             dtstamp: extract_dt(&hm, "dtstamp").unwrap(),
             event_id: extract_i32(&hm, "eventID").unwrap(),
-            event_title: extract_str(&hm, "eventTitle").unwrap(),
+            event_title: extract_str(&hm, "eventTitle")
+                .unwrap_or("Title not available".to_string()), // some deleted entries are broken in this sens
             single_event_id: extract_i32(&hm, "singleEventID").unwrap(),
             single_event_type_id: extract_str(&hm, "singleEventTypeID").unwrap(),
             single_event_type_name: extract_str(&hm, "singleEventTypeName").unwrap(),
