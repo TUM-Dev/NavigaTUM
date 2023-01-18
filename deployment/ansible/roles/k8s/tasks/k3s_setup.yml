@@ -2,7 +2,7 @@
 - name: Install k3s
   shell: >
     curl -sfL https://get.k3s.io | sh -s -
-    {% if ansible_host == etcd_leader_ip %}--cluster-init{% else %}--server https://{{ etcd_leader_ip }}:6443{% endif %}
+    {% if ansible_host == etcd_leader_ip %}--cluster-init{% else %}--server https://[{{ etcd_leader_ip }}]:6443{% endif %}
     --tls-san {{ loadbalancer_ipv4 }}
     --tls-san {{ loadbalancer_ipv6 }}
     --tls-san controlplane.nav.tum.sexy

@@ -24,10 +24,18 @@ vpn_ips:
   - 129.187.51.0/24
   - 129.187.98.0/24
   - "2001:4ca0:2fff::/48"
-leaders_ips: "{{ groups['leaders'] | map('extract', hostvars, ['ansible_host']) | list }}"
+leaders_ipv6s:
+  - "2001:4ca0:800::8af6:e1ac"
+  - "2001:4ca0:800::8af6:e1ad"
+  - "2001:4ca0:800::8af6:e1ae"
+leaders_ipv4s:
+  - 138.246.225.174
+  - 138.246.225.172
+  - 138.246.225.173
 
+leader_ips: "{{ leaders_ipv6s + leaders_ipv4s }}"
 # k8s
-etcd_leader_ip: "{{ leaders_ips[0] }}"
+etcd_leader_ip: "{{ leaders_ipv6s[0] }}"
 # nessesary or ipv6 dual-stack cluster
 cluster_cidr: "10.42.0.0/16,2001:cafe:42:0::/56"
 service_cidr: "10.43.0.0/16,2001:cafe:42:1::/112"

@@ -11,7 +11,7 @@
     - { port: 80, proto: any, comment: "HTTP" }
     - { port: 443, proto: any, comment: "HTTPS" }
 
-- name: Configure the api server in UFW
+- name: Configure the api server (VPN) in UFW
   ufw:
     direction: in
     rule: allow
@@ -21,6 +21,16 @@
     comment: "Kubernetes Controllplane (API+Metrics) from VPN"
   loop: "{{ vpn_ips | product([6443, 10250]) | list }}"
 
+- name: Configure the api server (cluster) in UFW
+  ufw:
+    direction: in
+    rule: allow
+    port: "{{ item[1] }}"
+    proto: "tcp"
+    from_ip: "{{ item[0] }}"
+    comment: "Kubernetes Controllplane (API+Metrics) from cluster"
+  loop: "{{ leader_ips | product([6443, 10250]) | list }}"
+
 - name: Configure in-cluster etcd 2379 in UFW
   ufw:
     direction: in
@@ -29,4 +39,4 @@
     proto: "tcp"
     from_ip: "{{ item[0] }}"
     comment: "k3s HA with embedded etcd from cluster"
-  loop: "{{ leaders_ips | product([2379, 2380]) | list }}"
+  loop: "{{ leader_ips | product([2379, 2380]) | list }}"
