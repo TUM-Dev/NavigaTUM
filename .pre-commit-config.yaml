@@ -7,7 +7,7 @@ repos:
       - id: check-yaml
         args:
           - --allow-multiple-documents
-        exclude: "data/data_format_geo-entry.yaml"
+        exclude: "(data/data_format_geo-entry.yaml)|(deployment/k3s/.*)"
       - id: check-json
       - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
