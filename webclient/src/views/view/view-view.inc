@@ -340,22 +340,22 @@
     >
       <a
         class="modal-overlay"
-        aria-label="${{_.view_view.modalRoomfinder.close}}$"
+        aria-label="${{_.view_view.roomfinder-modal.close}}$"
         @click="map.roomfinder.modalOpen=false"
       >
       </a>
       <div
         class="modal-container modal-fullheight"
-        id="roomfinderModal-container"
+        id="roomfinder-modal-container"
         v-if="view_data.maps.roomfinder"
       >
         <div class="modal-header">
           <button
             class="btn btn-clear float-right"
-            aria-label="${{_.view_view.modalRoomfinder.close}}$"
+            aria-label="${{_.view_view.roomfinder-modal.close}}$"
             @click="map.roomfinder.modalOpen=false"
           ></button>
-          <h5 class="modal-title">${{_.view_view.modalRoomfinder.header}}$</h5>
+          <h5 class="modal-title">${{_.view_view.roomfinder-modal.header}}$</h5>
         </div>
         <div class="modal-body">
           <div
@@ -366,7 +366,7 @@
               alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
               src="<!-- @echo app_prefix -->assets/roomfinder_cross-v2.webp"
               v-bind:style="{'transform': 'translate(' + state.map.roomfinder.modalX + 'px, ' + state.map.roomfinder.modalY + 'px)'}"
-              id="modalRoomfinder-map-cross"
+              id="roomfinder-modal-map-cross"
             />
             <img
               alt="Hand-drawn roomfinder map image"
@@ -374,7 +374,7 @@
               class="img-responsive"
               v-bind:width="state.map.roomfinder.width"
               v-bind:height="state.map.roomfinder.height"
-              id="modalRoomfinder-map-img"
+              id="roomfinder-modal-map-img"
             />
             <div>
               ${{_.view_view.map.img_source}}$: {{

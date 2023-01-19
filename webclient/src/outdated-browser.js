@@ -1,6 +1,6 @@
 function extractBrowserInfo() {
   const ua = navigator.userAgent;
-  let tem;
+  let tem = null;
   let M =
     ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) ||
     [];
@@ -18,8 +18,9 @@ function extractBrowserInfo() {
   }
 
   M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, "-?"];
+  tem = ua.match(/version\/(\d+)/i);
 
-  if ((tem = ua.match(/version\/(\d+)/i)) != null) {
+  if (tem != null) {
     M.splice(1, 1, tem[1]);
   }
 
@@ -36,7 +37,7 @@ const minSupportedBrowsers = {
 
 function isUnSupportedBrowser() {
   const browser = extractBrowserInfo();
-  const browserNameIsKnown = minSupportedBrowsers.hasOwnProperty(browser.name);
+  const browserNameIsKnown = minSupportedBrowsers[browser.name] !== undefined;
   return (
     browserNameIsKnown && +browser.version < minSupportedBrowsers[browser.name]
   );

@@ -53,18 +53,6 @@ def scrape_rooms():
     return rooms
 
 
-def _extract_trans(x, key):
-    """
-    De-Inline the translation of a key into a dict
-    """
-    if x:
-        eng = x.pop(f"{key}_en")
-        if x[key]:
-            x[key] = {"de": x[key], "en": eng}
-        else:
-            x[key] = None
-
-
 def _sanitise_room(room: dict):
     """
     Sanitise the room information.
@@ -75,13 +63,24 @@ def _sanitise_room(room: dict):
     # fixing translations
     room["purpose"] = _(room["purpose"]["purpose"])
 
-    _extract_trans(room, "steckdosen")
-    _extract_trans(room, "eexam")
-    _extract_trans(room, "streaming")
-    _extract_trans(room["org"], "org_name")
-    _extract_trans(room["org"], "org_nameshort")
-    _extract_trans(room["building"]["campus"], "campus")
-    _extract_trans(room["building"]["campus"], "campusshort")
+    def _extract_translation(obj: dict[str, str | dict | None], key: str):
+        """
+        De-Inline the translation of a key into a dict
+        """
+        if obj:
+            eng = obj.pop(f"{key}_en")
+            if obj[key]:
+                obj[key] = {"de": obj[key], "en": eng}
+            else:
+                obj[key] = None
+
+    _extract_translation(room, "steckdosen")
+    _extract_translation(room, "eexam")
+    _extract_translation(room, "streaming")
+    _extract_translation(room["org"], "org_name")
+    _extract_translation(room["org"], "org_nameshort")
+    _extract_translation(room["building"]["campus"], "campus")
+    _extract_translation(room["building"]["campus"], "campusshort")
 
     # bauarbeiten is a str, indicating if something is wrong on in the room
     room.pop("bauarbeiten_en")  # this is always the same as bauarbeiten
@@ -96,9 +95,8 @@ def _sanitise_room(room: dict):
     # fixed some data layout issues
     room["id"] = room.pop("room_code")
 
-    # remove fiends with no info
-    for key in ["override_seats", "override_teaching", "corona_ready", "modified"]:
-        room.pop(key)
+    for field_name_with_no_information in ["override_seats", "override_teaching", "corona_ready", "modified"]:
+        room.pop(field_name_with_no_information)
     return room
 
 
@@ -112,7 +110,7 @@ def _extract_coords(room):
     if lon and room_lon and lon != room_lon:
         logging.error(f"Room {room['room_code']} has different longitudes: {lon} vs {room_lon}")
 
-    room["coordinates"] = dict(lat=lon or room_lat, lon=lon or room_lon, source="NAT")
+    room["coordinates"] = {"lat": lon or room_lat, "lon": lon or room_lon, "source": "NAT"}
 
 
 def _merge(content, base):
@@ -153,22 +151,22 @@ def _get_base_room_infos():
 
     # download the provided ids in chunks (the API is only offering chunks of 5_000)
     undownloadable = []
-    work_queue = list((i, 5_000) for i in range(0, 50_000, 5_000))
+    work_queue = [(i, 5_000) for i in range(0, 50_000, 5_000)]
     pool = ThreadPool()
     with tqdm(desc="Downloaded nat base room info", total=50_000) as prog:
         while work_queue:
             new_queue = []  # modifiying work_queue while iterating over it is a bad idea
-            for (start, batch), dl in pool.starmap(_try_download_room_base_info, work_queue):
+            for (start, batch), downloaded_file in pool.starmap(_try_download_room_base_info, work_queue):
                 # there may be files which we did not download due to one error...
 
-                if dl or batch == 1:
+                if downloaded_file or batch == 1:
                     prog.update(batch)
 
-                if not dl and batch != 1:
+                if not downloaded_file and batch != 1:
                     new_batch = batch // 2
                     new_queue.append((start, new_batch))
                     new_queue.append((start + new_batch, batch - new_batch))
-                if not dl and batch == 1:
+                if not downloaded_file and batch == 1:
                     undownloadable.append(start)
             work_queue = new_queue
 
@@ -180,13 +178,13 @@ def _get_base_room_infos():
 
 
 def _try_download_room_base_info(start: int, batch: int):
-    dl = _download_file(
+    downloaded_file = _download_file(
         f"{NAT_API_URL}/?limit={batch}&offset={start}",
         NAT_CACHE_DIR / f"rooms_base_{start}_to_{(start + 1) * batch - 1}.json",
         quiet=True,
         quiet_errors=True,
     )
-    return (start, batch), dl
+    return (start, batch), downloaded_file
 
 
 def _report_undownloadable(undownloadable: list[int]):
@@ -219,6 +217,6 @@ def _join_room_hits():
     for file_path in NAT_CACHE_DIR.iterdir():
         if not file_path.name.startswith("rooms_base_"):
             continue
-        with open(file_path, encoding="utf-8") as f:
-            total_hits.extend(json.load(f)["hits"])
+        with open(file_path, encoding="utf-8") as file:
+            total_hits.extend(json.load(file)["hits"])
     return total_hits

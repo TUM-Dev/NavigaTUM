@@ -10,7 +10,7 @@ They share very few things and are mostly independent of each other.
 ### Prerequisites
 
 For getting started, there are some system dependencys which you will need.
-Please follow the [system dependencys docs](resources/documentation/Dependencys.md) before trying to run this part of our project.
+Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of our project.
 
 ### Starting the server
 
@@ -120,7 +120,7 @@ If you have made changes to the API, you need to update the API documentation.
 There are two editors for the API documentation (both are imperfect):
 
 - [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml)
-- [stoplight](stoplight.io)
+- [stoplight](https://stoplight.io/)
 
 #### Testing
 

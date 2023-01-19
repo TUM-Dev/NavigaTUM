@@ -70,6 +70,8 @@ const cachedFetch = (() => ({
 
 // the following is a poor implementation of a structuredClone(item) polyfill
 // (read: this is not the full implementation browsers follow, but a simplified version)
+
+// eslint-disable-next-line no-unused-vars
 function structuredClone(item) {
   // cf. StackOverflow: https://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
   // item has to be serializable!

@@ -2,7 +2,6 @@ import json
 from typing import Any, Union
 
 import yaml
-
 from utils import TranslatableStr
 
 

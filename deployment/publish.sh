@@ -9,7 +9,7 @@ tmp_dir=$(mktemp -d -t navigatum-XXXXXXXXXX)
 #trap "trap - SIGTERM && rm -fr $tmp_dir" SIGINT SIGTERM EXIT
 echo "Temporary files will be written to: $tmp_dir"
 
-if [ $1 == "main" ]; then
+if [ "$1" == "main" ]; then
     echo "Deploying to production"
     export TARGET=main
 
@@ -51,7 +51,7 @@ if [ -z "$(git status --porcelain)" ]; then
 fi
 
 # git branch deployment
-if [ $1 == "main" ]; then
+if [ "$1" == "main" ]; then
     git commit -m "Updated the production deployment"
 else
     git commit -m "Updated the staging deployment for pr-$2"
