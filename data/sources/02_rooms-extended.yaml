@@ -45,6 +45,21 @@
 # === Maschinenwesen / MW ===
 "5501.EG.101":
   name: "5501.EG.101 (Fachschaft Maschinenbau / FSMB)"
+"5510.EG.011M":
+  name: "5510.EG.011M (Skriptenverkauf Fachschaft Maschinenbau / FSMB)"
+  short_name: "FSMB Skriptenverkauf"
+  usage:
+    name:
+      de: "Geschäftsraum"
+      en: "Retail space"
+    din_277: "NF4.5"
+    din_277_desc: "Verkaufsräume"
+  props:
+    links:
+      - text:
+          de: "Öffnungszeiten & Artikel"
+          en: "Opening hours & articles"
+        url: "https://fsmb.de/studierende/skriptenverkauf/"
 "5504.EG.450":
   name: "5504.EG.450 (Rechnerhalle)"
 "5508.02.801":  # ID is probably wrong in TUMonline, but we need to use it for compatibility

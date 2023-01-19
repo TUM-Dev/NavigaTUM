@@ -12,6 +12,7 @@ python compile.py
 echo "regenerating the data for /server"
 (
 cd ./server || exit
+mkdir -p data
 rm -f data/*
 cp ../data/*.json data/
 cp ../data/output/*.json data/
