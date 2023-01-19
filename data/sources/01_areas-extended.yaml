@@ -41,7 +41,9 @@ root:
       children:
         - { name: "MRI Klinikum rechts der Isar", id: "mri" }
         - { name: "Campus im Olympiapark", id: "olympiapark" }
-        - { name: "Campus Straubing", id: "cs" }
+        - name: "Campus Straubing"
+          id: "cs"
+          coords: { lat: 48.884541355672695, lon: 12.58400509316536 }
         - { name: "Garching Hochbrück", id: "garching-hochbrueck" }
         - { name: "Taufkirchen / Ottobrunn", id: "taufkirchen-ottobrunn" }
 
