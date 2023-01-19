@@ -29,5 +29,7 @@
   loop_control:
     loop_var: comp
   with_fileglob:
-    - components/*.yml
+    - components/cert-manager.yml
+    - components/kuma.yml
+    - components/argocd.yml
   when: ansible_host == etcd_leader_ip
