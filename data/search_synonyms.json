@@ -118,7 +118,12 @@
     "Fachschaftsbüro": ["Fachschaft", "FS", "Fachschaftsraum"],
     "Fachschaftsraum": ["Fachschaft", "FS", "Fachschaftsbüro"],
 
-    "FSMPI": ["Fachschaft MPI"],
+    "Fachschaft MPI": ["Fachschaft MPIC", "MPI", "MPIC", "FSMPI", "FSMPIC"],
+    "Fachschaft MPIC": ["Fachschaft MPI", "MPI", "MPIC", "FSMPI", "FSMPIC"],
+    "MPI": ["Fachschaft MPI", "Fachschaft MPIC", "MPIC", "FSMPI", "FSMPIC"],
+    "MPIC": ["Fachschaft MPI", "Fachschaft MPIC", "MPI", "FSMPI", "FSMPIC"],
+    "FSMPI": ["Fachschaft MPI", "Fachschaft MPIC", "MPI", "MPIC", "FSMPIC"],
+    "FSMPIC": ["Fachschaft MPI", "Fachschaft MPIC", "MPI", "MPIC", "FSMPI"],
     "AStA": ["SV", "StuVe", "Studentische Vertretung"],
     "Studentische Vertretung": ["SV", "StuVe", "AStA"],
     "StuVe": ["SV", "Studentische Vertretung", "AStA"]

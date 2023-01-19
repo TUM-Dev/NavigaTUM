@@ -30,17 +30,38 @@
 # ========================== Garching =============================
 # === Physik ===
 "5101.EG.257":
-  name: "5101.EG.257 (MPI Fachschaftsbüro Physik)"
+  name: "5101.EG.257 (Büro Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
 
 # === MI ===
 "5606.EG.036":
-  name: "5606.EG.036 (MPI Fachschaftsbüro im MI)"
+  name: "5606.EG.036 (Büro Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
+  short_name: "MPIC Büro"
+"5606.EG.037":
+  name: "5606.EG.036 (Besprechungsraum Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
+  short_name: "MPIC Glaskasten"
+"5606.EG.038":
+  name: "5606.EG.036 (Lager Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
+  short_name: "MPIC Lager"
+"5606.EG.039":
+  name: "5510.EG.011M (Skriptenverkauf Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
+  usage:
+    name:
+      de: "Geschäftsraum"
+      en: "Retail space"
+    din_277: "NF4.5"
+    din_277_desc: "Verkaufsräume"
+  props:
+    links:
+      - text:
+          de: "Öffnungszeiten & Artikel"
+          en: "Opening hours & articles"
+        url: "https://skripten.mpi.fs.tum.de/"
 
 # === Chemie ===
 "5401.01.101I":
   name: "5401.01.101I (CIP-Raum)" # Original name is "Rechenzentrum" ...
 "5406.01.650C":
-  name: "5406.01.650C (Fachschaftsbüro Chemie)" # Original name is "Büro" ...
+  name: "5406.01.650C (Büro Fachschaft Mathe Phyik Informatik Chemie / MPIC)" # Original name is "Büro" ...
 
 # === Maschinenwesen / MW ===
 "5501.EG.101":
