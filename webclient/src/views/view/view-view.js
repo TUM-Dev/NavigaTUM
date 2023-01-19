@@ -662,7 +662,7 @@ navigatum.registerView("view", {
     };
     window.addEventListener("storage", updateCoordinateCounter);
     updateCoordinateCounter();
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       this.loadRoomfinderMap(this.state.map.roomfinder.selected_index, false);
       this.loadModalRoomfinderMap();
     });
