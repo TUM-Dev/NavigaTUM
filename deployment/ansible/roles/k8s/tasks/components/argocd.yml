@@ -5,6 +5,5 @@
     chart_ref: argo
     chart_version: 2.5.2
     release_name: argo-cd
-    release_namespace: argo
     namespace: argocd
     create_namespace: yes

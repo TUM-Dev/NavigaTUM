@@ -3,9 +3,8 @@
   kubernetes.core.helm:
     chart_repo_url: https://dirsigler.github.io/uptime-kuma-helm
     chart_ref: uptime-kuma
-    chart_version: 2.4.1
+    chart_version: 2.5.4
     release_name: uptime-kuma
-    release_namespace: uptime-kuma
     namespace: monitoring
     create_namespace: yes
 - name: Make shure kuma has an ingress

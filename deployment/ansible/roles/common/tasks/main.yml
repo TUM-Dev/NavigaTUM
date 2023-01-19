@@ -20,6 +20,8 @@
   with_items:
     - htop
     - tldr
+    - python3
+    - python3-pip
   tags: install
 
 - name: Run settings.yml
