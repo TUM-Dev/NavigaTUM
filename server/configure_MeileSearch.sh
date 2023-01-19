@@ -2,7 +2,7 @@
 
 set -e # fail on first error
 meilisearch &
-MEILIPID=`pgrep meilisearch`
+MEILIPID=$(pgrep meilisearch)
 
 curl_with_args() {
   curl \
@@ -53,4 +53,4 @@ while [[ "$(curl_with_args 'http://localhost:7700/indexes/entries/stats')" == *'
 done
 
 # kill meilisearch by sending the `Ctrl + C` interrupt signal
-kill -INT $MEILIPID
+kill -INT "$MEILIPID"

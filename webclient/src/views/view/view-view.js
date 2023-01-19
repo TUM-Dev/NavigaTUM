@@ -531,7 +531,7 @@ navigatum.registerView("view", {
         ];
 
       const rect = document
-        .getElementById("roomfinderModal-container")
+        .getElementById("roomfinder-modal-container")
         .getBoundingClientRect();
       // -1023px, -1023px is top left corner, 16px = 2*8px is element padding
       this.state.map.roomfinder.modalX =

@@ -20,7 +20,7 @@ from utils import setup_logging
 DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ
 
 
-# pylint: disable=too-many-locals
+# pylint: disable=too-many-locals,too-many-statements
 def main():
     """Main function"""
     # --- Read base data ---

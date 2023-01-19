@@ -37,6 +37,6 @@ Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Date
 Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.
 Der Nutzung von im Rahmen der Impressumspflicht veröffentlichten Kontaktdaten durch Dritte zur Übersendung von nicht ausdrücklich angeforderter Werbung und Informationsmaterialien wird hiermit ausdrücklich widersprochen. Die Betreiber der Seiten behalten sich ausdrücklich rechtliche Schritte im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, vor.
 
-Welche Daten erhoben und verarbeitet werden, beschreibt die [Datenschutzerklärung](/about/datenschutz).
+Welche Daten erhoben und verarbeitet werden, beschreibt die [Datenschutzerklärung](https://nav.tum.de/about/datenschutz).
 
 _Auszüge aus diesem Impressum wurden mithilfe des <a href="https://www.impressum-generator.de">Impressums Generator</a> der <a href="https://www.kanzlei-hasselbach.de/">Kanzlei Hasselbach, Rechtsanwälte für Arbeitsrecht und Familienrecht</a> erstellt._

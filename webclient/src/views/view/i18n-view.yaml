@@ -107,7 +107,7 @@ view_view:
     author: { de: "Autor", en: "Author" }
     source: { de: "Quelle", en: "Source" }
     license: { de: "Lizenz", en: "License" }
-  modalRoomfinder:
+  roomfinder-modal:
     header:
       de: "Lageplan"
       en: "Site Plan"

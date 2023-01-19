@@ -348,17 +348,17 @@
         padding: .05rem .3rem;
     }
 
-    #roomfinderModal-container {
+    #roomfinder-modal-container {
         padding-bottom: 4em;
     }
 
-    #modalRoomfinder-map-cross {
+    #roomfinder-modal-map-cross {
         position: absolute;
         transition: transform .3s;
         pointer-events: none;
     }
 
-    #modalRoomfinder-map-img {
+    #roomfinder-modal-map-img {
         width: 100%; // Without this part the image doesn't fill the modal over the whole width.
     }
 

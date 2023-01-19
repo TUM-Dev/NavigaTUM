@@ -34,9 +34,9 @@ def _download_file(url, target_cache_file, quiet=False, quiet_errors=False):
         # url parameter does not allow path traversal, because we build it further up in the callstack
         try:
             urllib.request.urlretrieve(url, target_cache_file)  # nosec: B310
-        except HTTPError as e:
+        except HTTPError as error:
             if not quiet_errors:
-                logging.warning(f"GET {url} -> Failed to retrieve because: {e}")
+                logging.warning(f"GET {url} -> Failed to retrieve because: {error}")
             return None
         if not quiet:
             logging.warning(f"GET {url}")

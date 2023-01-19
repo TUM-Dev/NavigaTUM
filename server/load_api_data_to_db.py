@@ -1,6 +1,6 @@
 import json
 import sqlite3
-from typing import Any, Union
+from typing import Any, TypeAlias, Union
 
 
 def add_to_database(de_data, en_data):
@@ -14,7 +14,7 @@ def add_to_database(de_data, en_data):
                 key                 VARCHAR(30) UNIQUE PRIMARY KEY NOT NULL,
                 name                VARCHAR(30) NOT NULL,
                 tumonline_room_nr   INTEGER NULLABLE, -- used for calendars
-                arch_name           VARCHAR(30), -- NOT Unique, but only used for the old roomfinder. This is only here temporarily
+                arch_name           VARCHAR(30), -- NOT Unique, but only (temporarily) used for the old roomfinder.
                 type                VARCHAR(30) NOT NULL,
                 type_common_name    VARCHAR(30) NOT NULL,
                 lat                 FLOAT NOT NULL,
@@ -73,11 +73,13 @@ def add_to_database(de_data, en_data):
 
     with con:
         con.executemany(
-            "INSERT INTO de(key,data,name,tumonline_room_nr,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?,?)",
+            "INSERT INTO de(key,data,name,tumonline_room_nr,arch_name,type,type_common_name,lat,lon) "
+            "VALUES (?,?,?,?,?,?,?,?,?)",
             de_data,
         )
         con.executemany(
-            "INSERT INTO en(key,data,name,tumonline_room_nr,arch_name,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?,?)",
+            "INSERT INTO en(key,data,name,tumonline_room_nr,arch_name,type,type_common_name,lat,lon) "
+            "VALUES (?,?,?,?,?,?,?,?,?)",
             en_data,
         )
 
@@ -98,10 +100,10 @@ def localise(value: Union[str, list[Any], dict[str, Any]], language: str) -> Any
     raise ValueError(f"Unhandled type {type(value)}")
 
 
-translated_list = list[tuple[str, str, Any]]
+TranslatedList: TypeAlias = list[tuple[str, str, Any]]
 
 
-def get_localised_data() -> tuple[translated_list, translated_list]:
+def get_localised_data() -> tuple[TranslatedList, TranslatedList]:
     """get all data from the json dump and convert it to a list of tuples"""
     with open("data/api_data.json", encoding="utf-8") as file:
         data = json.load(file)
