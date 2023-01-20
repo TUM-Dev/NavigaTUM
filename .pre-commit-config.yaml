@@ -110,3 +110,9 @@ repos:
         language: system
         types: [python]
         exclude: migrations
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.17
+    hooks:
+      - id: shellcheck
+      # - id: markdown-link-check
+      #       ^-- can detect wrong links in our docs, but has a lot of false positives. Only run it sometimes.
