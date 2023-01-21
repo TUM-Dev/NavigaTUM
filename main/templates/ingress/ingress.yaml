@@ -22,7 +22,7 @@ spec:
       priority: 13
       services:
         - name: feedback-svc
-          port: 6001
+          port: 8070
     - kind: Rule
       match: Host(`{{ .Values.url }}`) && PathPrefix(`/api/`)
       priority: 12
