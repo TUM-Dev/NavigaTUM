@@ -76,6 +76,7 @@ internal_id:
       - {name: "NavigaTUM"}
       - {name: "TUMonline", url: "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?$ctx=design=ca2;header=max&pRaumNr=63167"}
       - {name: "Roomfinder", url: "https://portal.mytum.de/displayRoomMap?roomid=501@2903&disable_decoration=yes"}
+      - {name: "NAT Building Data", url: "https://www.ph.tum.de/about/visit/roomfinder/?room=2903.05.501"}
     # Whether the (external) data has been modified by patches to correct
     # for errors.
     patched: false
@@ -211,6 +212,19 @@ internal_id:
     b_alias: "U-Trakt"
     b_area: "München - Stammgelände Nord"
     b_roomCount: 123
+    # if room (optional)
+    r_alias: ""
+    r_number: "N0126B"
+    r_id: "N0126B@0101"
+    r_level: "0"
+
+  # --- Additional, type-dependent properties ---
+  nat_data:
+    # if building (optional)
+    b_id: "0109"
+    b_name: "Reflexionsarmer Raum"
+    b_alias: "N9" # optional
+    b_address: "Theresienstr. 90" # optional
     # if room (optional)
     r_alias: ""
     r_number: "N0126B"
