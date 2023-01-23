@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calendar
+  labels:
+    app: navigatum
+    deployment: calendar
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: navigatum
+      deployment: calendar
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: navigatum
+        deployment: calendar
+    spec:
+      volumes:
+        - name: tmp-calendar
+          emptyDir: {}
+      initContainers:
+        - name: calendar-init-db
+          image: "ghcr.io/tum-dev/navigatum-server-init:{{ .Values.branch }}"
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-calendar
+      containers:
+        - name: calendar
+          image: "ghcr.io/tum-dev/navigatum-calendar:{{ .Values.branch }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8060
+              name: calendar
+          env:
+            - name: DB_LOCATION
+              value: /tmp/server.db
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-server
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              cpu: 1m
+              memory: 100Mi
+            limits:
+              memory: 100Mi
+          livenessProbe:
+            httpGet:
+              path: /api/calendar/health
+              port: calendar
+            failureThreshold: 2
+            periodSeconds: 1
+          startupProbe:
+            httpGet:
+              path: /api/calendar/health
+              port: calendar
+            failureThreshold: 6
+            periodSeconds: 1

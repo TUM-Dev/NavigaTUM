@@ -1,5 +1,5 @@
 [package]
-name = "navigatum-server"
+name = "navigatum-calendar"
 version = "1.0.0"
 authors = ["Markus A <ge75sig@mytum.de>", "Frank Elsinga <frank@elsinga.de>"]
 edition = "2021"
@@ -10,7 +10,7 @@ license = "GPL-3.0"
 keywords = ["website", "navigation", "api-rest", "tum"]
 
 [[bin]]
-name = "navigatum-server"
+name = "navigatum-calendar"
 path = "src/main.rs"
 
 [profile.release]
@@ -18,18 +18,17 @@ strip = true
 
 [dependencies]
 log = "0.4.17"
-diesel = { version = "2.0.2", features = ["default","sqlite"] }
+env_logger = "0.10.0"
+diesel = { version = "2.0.2", features = ["default","chrono","sqlite"] }
 actix-web = "4.2.1"
 actix-rt = "2.7.0"
-awc = "3.0.1"
-cached = "0.42.0"
+rustls = "0.20.7"
+awc = { version= "3.0.1", features = ["rustls"] }
 serde = { version = "1.0.148", features = ["derive"] }
 serde_json = "1.0.89"
 actix-cors = "0.6.4"
 tokio = { version = "1.22.0", features = ["full"] }
 futures = "0.3.25"
-env_logger = "0.10.0"
-image = "0.24.5"
-rusttype= "0.9.3"
-imageproc= "0.23.0"
+chrono = { version="0.4.23", features=["serde","rustc-serialize"] }
+minidom = "0.15.0"
 rand = "0.8.5"

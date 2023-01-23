@@ -1,24 +1,55 @@
-# Feedback
+# Calendar
 
-This folder contains the feedback-API server for NavigaTUM.
+This folder contains the calendar-API server for NavigaTUM.
 
 This is separated from the server because:
 
-- it has virtually no shared dependencies (natural faultline)
-- this way, we can deploy the feedback-API independently of the main server (both in time, scaling and reliability)
-- security: this way, we can increase our isolation
+- it has virtually no shared dependencies (natural fault line)
+- this way, we can deploy the calendar-API independently of the main server.
+  The Reason why this is important is, that scraping calendar entries is expensive for TUMOnline.
+  => We have to be resourcefully and can't waste this scraped state by redeploying at will
+  => Making this a StatefulSet instead of a Deployment makes sense
 
 ## Getting started
 
 ### Prerequisites
 
 For getting started, there are some system dependencys which you will need.
-Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of our project.
+Please follow the [system dependencys docs](resources/documentation/Dependencys.md) before trying to run this part of our project.
+
+### How to Set up the Sqlite Database (needed for the `get`, `legacy_redirect` and `preview` endpoints)
+
+#### Getting the data
+
+To populate the database, you will need to get said data.
+There are multiple ways to do this, but the easiest way is to download the data from our [website](https://nav.tum.de/).
+
+(Assuming you are in the `server` directory)
+
+```bash
+mkdir -p data
+wget -P data https://nav.tum.de/cdn/api_data.json
+```
+
+Alternatively, you can run the `data` part of this project and generate this file by that part of our docs.
+To link the output directory to the server data directory, so that you don't need to copy on every update you can use:
+
+```bash
+ln -s ../data/output data
+```
+
+#### Setting up the database
+
+To set up the database, you will need to run the `load_api_data_to_db.py` script:
+
+```bash
+python3 load_api_data_to_db.py
+```
 
 ### Starting the server
 
 Run `cargo run` to start the server.
-The server should now be available on `localhost:8070`.
+The server should now be available on `localhost:8081`.
 
 Note that `cargo run --release` is used to start the server for an optimised production build (use this if you want to profile performance, it makes quite a difference).
 
@@ -31,7 +62,7 @@ If you have made changes to the API, you need to update the API documentation.
 There are two editors for the API documentation (both are imperfect):
 
 - [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml)
-- [stoplight](https://stoplight.io/)
+- [stoplight](stoplight.io)
 
 #### Testing
 
@@ -42,11 +73,11 @@ To make sure that this specification is up-to-date and without holes, we run [sc
 python -m venv venv
 source venv/bin/activate
 pip install schemathesis
-st run --workers=auto --base-url=http://localhost:8070 --checks=all ../openapi.yaml
+st run --workers=auto --base-url=http://localhost:8081 --checks=all ../openapi.yaml
 ```
 
 Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN) and some fuzzing-goals are automatically tested in our CI.  
-You can exchange `--base-url=http://localhost:8070` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/feedback/`.
+You can exchange `--base-url=http://localhost:8081` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/calendar/`.
 
 ## License
 
