@@ -40,6 +40,24 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: calendar-svc
+  labels:
+    app: navigatum
+    deployment: calendar
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app: navigatum
+    deployment: calendar
+  ports:
+    - name: calendar
+      port: 8060
+      targetPort: 8060
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: maps-svc
   labels:
     app: navigatum
