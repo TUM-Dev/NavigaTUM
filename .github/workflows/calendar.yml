@@ -1,0 +1,50 @@
+name: calendar CD
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  # JOB to run change detection
+  changes:
+    runs-on: ubuntu-latest
+    # Set job outputs to values from filter step
+    outputs:
+      calendar: ${{ steps.filter.outputs.calendar }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            calendar:
+              - '.github/**'
+              - 'calendar/**'
+  calendar-build:
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.calendar == 'true' }}
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      image_suffix: calendar
+      context: ./calendar
+      dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  calendar-deployment:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - calendar-build
+    steps:
+      - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
+      - run: argocd app actions run navigatum-prod restart --kind Deployment --resource-name calendar --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
+  calendar-staging-deployment:
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - calendar-build
+    steps:
+      - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
+      - run: argocd app actions run pr-${{github.event.number}} restart --kind Deployment --resource-name calendar --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
