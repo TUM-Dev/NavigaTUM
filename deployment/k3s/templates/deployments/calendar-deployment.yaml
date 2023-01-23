@@ -46,7 +46,7 @@ spec:
               value: /tmp/server.db
           volumeMounts:
             - mountPath: /tmp
-              name: tmp-server
+              name: tmp-calendar
           securityContext:
             readOnlyRootFilesystem: true
           resources:
