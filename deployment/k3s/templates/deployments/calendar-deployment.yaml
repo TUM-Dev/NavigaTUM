@@ -60,10 +60,10 @@ spec:
               path: /api/calendar/health
               port: calendar
             failureThreshold: 2
-            periodSeconds: 1
+            periodSeconds: 10
           startupProbe:
             httpGet:
               path: /api/calendar/health
               port: calendar
-            failureThreshold: 6
+            failureThreshold: 60
             periodSeconds: 1
