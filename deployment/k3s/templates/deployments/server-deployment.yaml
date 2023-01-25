@@ -15,7 +15,7 @@ spec:
       deployment: api
   strategy:
     rollingUpdate:
-      maxSurge: 50%
+      maxSurge: 0%
       maxUnavailable: 50%
     type: RollingUpdate
   template:
@@ -64,8 +64,8 @@ spec:
             readOnlyRootFilesystem: true
           resources:
             requests:
-              cpu: 30m
-              memory: 700Mi
+              cpu: 1000m
+              memory: 400Mi
             limits:
               memory: 700Mi
           livenessProbe:
@@ -100,7 +100,7 @@ spec:
           resources:
             requests:
               cpu: 1000m
-              memory: 500Mi
+              memory: 400Mi
             limits:
               memory: 500Mi
           livenessProbe:
