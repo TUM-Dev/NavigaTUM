@@ -99,7 +99,7 @@ spec:
               name: tmp-mieli-search
           resources:
             requests:
-              cpu: 10m
+              cpu: 1000m
               memory: 500Mi
             limits:
               memory: 500Mi
