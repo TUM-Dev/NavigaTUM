@@ -9,19 +9,6 @@ mod utils;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
-#[get("/api/source_code")]
-async fn source_code_handler() -> HttpResponse {
-    let gh_base = "https://github.com/TUM-Dev/navigatum".to_string();
-    let commit_hash = std::env::var("GIT_COMMIT_SHA");
-    let github_link = match commit_hash {
-        Ok(hash) => format!("{gh_base}/tree/{hash}"),
-        Err(_) => gh_base,
-    };
-    HttpResponse::Ok()
-        .content_type("text/plain")
-        .body(github_link)
-}
-
 #[get("/api/health")]
 async fn health_handler() -> HttpResponse {
     HttpResponse::Ok()
@@ -45,7 +32,6 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Logger::default().exclude("/api/health"))
             .wrap(middleware::Compress::default())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
-            .service(source_code_handler)
             .service(health_handler)
             .service(web::scope("/api/preview").configure(maps::configure))
             .service(web::scope("/api").configure(core::configure))

@@ -698,40 +698,6 @@ paths:
                   - Not found
       tags:
         - maps
-  /api/source_code:
-    get:
-      operationId: source_code
-      summary: Get link to running source-code
-      description: |
-        This endpoint returns a link to the source-code of the repository at the currently running version.
-        This endpoint is not required for modifications (as the license is not AGPL), but strongly encouraged.
-      responses:
-        '200':
-          description: The link to the source-code of the repository at the currently running version
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: 'https://github.com/TUM-Dev/navigatum/tree/eb10c1f4cfbbd66d37f2f9e5e13139c1fde15a4b'
-      tags:
-        - health
-  /api/feedback/source_code:
-    get:
-      operationId: feedback-source_code
-      summary: Get link to running source-code
-      description: |
-        This endpoint returns a link to the source-code of the repository at the currently running version.
-        This endpoint is not required for modifications (as the license is not AGPL), but strongly encouraged.
-      responses:
-        '200':
-          description: The link to the source-code of the repository at the currently running version
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: 'https://github.com/TUM-Dev/navigatum/tree/eb10c1f4cfbbd66d37f2f9e5e13139c1fde15a4b'
-      tags:
-        - health
   /api/feedback/get_token:
     post:
       operationId: get_token
