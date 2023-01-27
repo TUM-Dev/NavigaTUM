@@ -20,7 +20,7 @@ info:
   contact:
     name: TUM-Dev
     url: 'https://www.tum.app/'
-    email: app@tum.de
+    email: navigatum@tum.de
   license:
     name: GPL v3
     url: 'https://www.gnu.org/licenses/'
