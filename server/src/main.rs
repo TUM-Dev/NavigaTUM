@@ -1,6 +1,5 @@
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
-use tokio::sync::Mutex;
 
 mod core;
 mod maps;
@@ -34,11 +33,6 @@ async fn health_handler() -> HttpResponse {
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
 
-    let last_sync = web::Data::new(Mutex::new(None));
-    let cloned_last_sync = last_sync.clone();
-    actix_rt::spawn(async move {
-        continous_scraping::start_scraping(cloned_last_sync).await;
-    });
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
@@ -53,11 +47,6 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(source_code_handler)
             .service(health_handler)
-            .service(
-                web::scope("/api/calendar")
-                    .configure(calendar::configure)
-                    .app_data(last_sync.clone()),
-            )
             .service(web::scope("/api/preview").configure(maps::configure))
             .service(web::scope("/api").configure(core::configure))
     })
