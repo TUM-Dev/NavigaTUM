@@ -73,7 +73,7 @@ To make sure that this specification is up-to-date and without holes, we run [sc
 python -m venv venv
 source venv/bin/activate
 pip install schemathesis
-st run --workers=auto --base-url=http://localhost:8081 --checks=all ../openapi.yaml
+st run --workers=auto --base-url=http://localhost:8060 --checks=all ../openapi.yaml
 ```
 
 Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN) and some fuzzing-goals are automatically tested in our CI.  
