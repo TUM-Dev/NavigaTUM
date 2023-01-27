@@ -44,9 +44,7 @@ For an overview of how the components work, have a look at the
 [deployment documentation](deployment/README.md).
 
 - `data/` contains the code to obtain and process the data
-- `server/` contains the API server written in Rust, including MeiliSearch as a search backend
-- `feedback/` contains the feedback-API server written in Rust
-- `calendar/` contains the calendar-API server written in Rust
+- `server/` contains the APIs written in Rust
 - `webclient/` contains a JS based web-frontend for the API
 - `deployment/` contains deployment related configuration
 - `map/` contains information about our own map, how to style it and how to run it

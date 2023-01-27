@@ -1,9 +1,6 @@
-# Server
+# Main-API
 
-This folder contains the backend server for NavigaTUM.
-
-Our server is architected in different submodules, each of which is responsible for a specific task.
-They share very few things and are mostly independent of each other.
+This folder contains the main backend server for NavigaTUM.
 
 ## Getting started
 

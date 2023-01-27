@@ -1,12 +1,6 @@
 # Feedback
 
-This folder contains the feedback-API server for NavigaTUM.
-
-This is separated from the server because:
-
-- it has virtually no shared dependencies (natural faultline)
-- this way, we can deploy the feedback-API independently of the main server (both in time, scaling and reliability)
-- security: this way, we can increase our isolation
+This folder contains the feedback-microservice for NavigaTUM.
 
 ## Getting started
 

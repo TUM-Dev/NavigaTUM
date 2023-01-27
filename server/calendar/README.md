@@ -1,14 +1,6 @@
 # Calendar
 
-This folder contains the calendar-API server for NavigaTUM.
-
-This is separated from the server because:
-
-- it has virtually no shared dependencies (natural fault line)
-- this way, we can deploy the calendar-API independently of the main server.
-  The Reason why this is important is, that scraping calendar entries is expensive for TUMOnline.
-  => We have to be resourcefully and can't waste this scraped state by redeploying at will
-  => Making this a StatefulSet instead of a Deployment makes sense
+This folder contains the calendar-microservice for NavigaTUM.
 
 ## Getting started
 
