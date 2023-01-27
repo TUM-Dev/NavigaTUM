@@ -19,7 +19,52 @@ jobs:
           filters: |
             server:
               - '.github/**'
-              - 'server/**'
+              - 'server/main-api/**'
+            feedback:
+              - '.github/**'
+              - 'server/feedback/**'
+            calendar:
+              - '.github/**'
+              - 'server/calendar/**'
+            data:
+              - '.github/**'
+              - 'data/**'
+  feedback-build:
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.feedback == 'true' }}
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      image_suffix: feedback
+      context: ./feedback
+      dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  feedback-deployment:
+    uses: ./.github/workflows/restart-argocd.yaml
+    needs:
+      - feedback-build
+    with:
+      deployment: feedback
+  calendar-build:
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.calendar == 'true' }}
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      image_suffix: calendar
+      context: ./calendar
+      dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  calendar-deployment:
+    uses: ./.github/workflows/restart-argocd.yaml
+    needs:
+      - calendar-build
+    with:
+      deployment: calendar
   server-build:
     uses: ./.github/workflows/docker-build.yml
     needs:
@@ -87,22 +132,52 @@ jobs:
           base-url: "http://localhost:8080"
           args: "--endpoint='/api/[^fc].*'" # disable the feedbacks endpoint
   server-deployment:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/restart-argocd.yaml
     needs:
       - server-build
       - server-init-build
       - mieli-search-init-build
-    steps:
-      - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
-      - run: argocd app actions run navigatum-prod restart --kind Deployment --resource-name server --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
-  server-staging-deployment:
-    if: github.ref != 'refs/heads/main'
-    runs-on: ubuntu-latest
+    with:
+      deployment: server
+  data-build:
     needs:
-      - server-build
-      - server-init-build
-      - mieli-search-init-build
-    steps:
-      - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
-      - run: argocd app actions run pr-${{github.event.number}} restart --kind Deployment --resource-name server --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
+      - changes
+    if: ${{ needs.changes.outputs.data == 'true' }}
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      image_suffix: data
+      context: ./data
+      dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  data-deployment-1:
+    uses: ./.github/workflows/restart-argocd.yaml
+    needs:
+      - data-build
+    with:
+      deployment: data
+  data-deployment-2: # we need to restart the server, as otherwise it will not serve the new data
+    uses: ./.github/workflows/restart-argocd.yaml
+    needs:
+      - data-deployment-1
+    with:
+      deployment: server
+  webclient-build:
+    uses: ./.github/workflows/docker-build.yml
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.webclient == 'true' }}
+    with:
+      image_suffix: webclient
+      context: ./webclient
+      dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  webclient-deployment:
+    uses: ./.github/workflows/restart-argocd.yaml
+    needs:
+      - webclient-build
+    with:
+      deployment: webclient
