@@ -17,8 +17,8 @@ RUN     apk update --quiet \
         && mkdir -p ./src/maps/font
 
 COPY    ./src/maps ./src/maps
-# add `navigatum-server` to the `/bin` so we can run it from anywhere and it's easy to find.
-COPY    --from=compiler /nav/target/release/navigatum-server /bin/navigatum-server
+# add `navigatum-main-api` to the `/bin` so we can run it from anywhere and it's easy to find.
+COPY    --from=compiler /nav/target/release/navigatum-main-api /bin/navigatum-main-api
 
 ARG     GIT_COMMIT_SHA
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
@@ -27,4 +27,4 @@ EXPOSE  8080
 
 ENTRYPOINT ["tini", "--"]
 HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8080/api/status || exit 1
-CMD     /bin/navigatum-server
+CMD     /bin/navigatum-main-api

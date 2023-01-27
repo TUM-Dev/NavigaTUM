@@ -36,7 +36,7 @@ jobs:
     uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: feedback
-      context: ./feedback
+      context: ./server/feedback
       dockerfile: Dockerfile
     permissions:
       contents: read
@@ -54,7 +54,7 @@ jobs:
     uses: ./.github/workflows/docker-build.yml
     with:
       image_suffix: calendar
-      context: ./calendar
+      context: ./server/calendar
       dockerfile: Dockerfile
     permissions:
       contents: read
@@ -65,25 +65,25 @@ jobs:
       - calendar-build
     with:
       deployment: calendar
-  server-build:
+  main-api-build:
     uses: ./.github/workflows/docker-build.yml
     needs:
       - changes
-    if: ${{ needs.changes.outputs.server == 'true' }}
+    if: ${{ needs.changes.outputs.main-api == 'true' }}
     with:
-      image_suffix: server
-      context: ./server
+      image_suffix: main-api
+      context: ./server/main-api
       dockerfile: Dockerfile.server
     permissions:
       contents: read
       packages: write
-  server-init-build:
+  building-db-init-build:
     uses: ./.github/workflows/docker-build.yml
     needs:
       - changes
-    if: ${{ needs.changes.outputs.server == 'true' }}
+    if: ${{ needs.changes.outputs.main-api == 'true' }}
     with:
-      image_suffix: server-init
+      image_suffix: building-db-init
       context: ./server
       dockerfile: Dockerfile.dbinit
     permissions:
@@ -96,7 +96,7 @@ jobs:
     if: ${{ needs.changes.outputs.server == 'true' }}
     with:
       image_suffix: mieli-search-init
-      context: ./server
+      context: ./server/main-api
       dockerfile: Dockerfile.msinit
     permissions:
       contents: read
@@ -135,7 +135,7 @@ jobs:
     uses: ./.github/workflows/restart-argocd.yaml
     needs:
       - server-build
-      - server-init-build
+      - building-db-init-build
       - mieli-search-init-build
     with:
       deployment: server

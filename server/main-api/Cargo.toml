@@ -1,5 +1,5 @@
 [package]
-name = "navigatum-server"
+name = "navigatum-main-api"
 version = "1.0.0"
 authors = ["Markus A <ge75sig@mytum.de>", "Frank Elsinga <frank@elsinga.de>"]
 edition = "2021"
@@ -10,7 +10,7 @@ license = "GPL-3.0"
 keywords = ["website", "navigation", "api-rest", "tum"]
 
 [[bin]]
-name = "navigatum-server"
+name = "navigatum-main-api"
 path = "src/main.rs"
 
 [profile.release]
