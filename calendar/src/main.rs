@@ -50,13 +50,13 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Logger::default().exclude("/api/calendar/health"))
             .wrap(middleware::Compress::default())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
+            .service(source_code_handler)
+            .service(health_handler)
             .service(
                 web::scope("/api/calendar")
                     .configure(calendar::configure)
                     .app_data(last_sync.clone()),
             )
-            .service(source_code_handler)
-            .service(health_handler)
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8060".to_string()))?
     .run()
