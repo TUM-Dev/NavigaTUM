@@ -17,14 +17,14 @@ This is separated from the server because:
 For getting started, there are some system dependencys which you will need.
 Please follow the [system dependencys docs](resources/documentation/Dependencys.md) before trying to run this part of our project.
 
-### How to Set up the Sqlite Database (needed for the `get`, `legacy_redirect` and `preview` endpoints)
+### How to Set up the Sqlite Database
 
 #### Getting the data
 
 To populate the database, you will need to get said data.
 There are multiple ways to do this, but the easiest way is to download the data from our [website](https://nav.tum.de/).
 
-(Assuming you are in the `server` directory)
+(Assuming you are in the `calendar` directory)
 
 ```bash
 mkdir -p data
