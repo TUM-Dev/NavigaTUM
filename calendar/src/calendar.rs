@@ -37,7 +37,7 @@ pub async fn calendar_handler(
     let results = calendar
         .filter(key.eq(&id))
         .filter(dtstart.ge(&args.start))
-        .filter(dtend.ge(&args.end))
+        .filter(dtend.le(&args.end))
         .load::<XMLEvent>(conn);
     match results {
         Ok(result) => {
