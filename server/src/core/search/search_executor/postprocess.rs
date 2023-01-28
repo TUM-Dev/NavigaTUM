@@ -1,5 +1,6 @@
 use super::meilisearch;
 use super::preprocess;
+use unicode_truncate::UnicodeTruncateStr;
 
 pub(super) fn merge_search_results(
     args: &super::SanitisedSearchQueryArgs,
@@ -152,13 +153,14 @@ fn parse_room_formats(
             .starts_with(&search_tokens[1].s)
     {
         let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
+        let split_arch_id = unicode_split_at(arch_id, search_tokens[1].s.len());
         Some(format!(
             "{}{} {}{}{}",
             highlighting.0,
             search_tokens[0].s.to_uppercase(),
-            arch_id.get(..search_tokens[1].s.len()).unwrap(),
+            split_arch_id.0,
             highlighting.1,
-            arch_id.get(search_tokens[1].s.len()..).unwrap(),
+            split_arch_id.1,
         ))
     // If it doesn't match some precise room format, but the search is clearly
     // matching the arch name and not the main name, then we highlight this arch name.
@@ -183,11 +185,11 @@ fn parse_room_formats(
         } else {
             let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
             // For some well known buildings we have a prefix that we can use instead
-            let prefix = match hit.unformatted_name.get(..3).unwrap_or_default() {
+            let prefix = match hit.unformatted_name.unicode_truncate(3).0 {
                 "560" | "561" => Some("MI "),
                 "550" | "551" => Some("MW "),
                 "540" => Some("CH "),
-                _ => match hit.unformatted_name.get(..4).unwrap_or_default() {
+                _ => match hit.unformatted_name.unicode_truncate(4).0 {
                     "5101" => Some("PH "),
                     "5107" => Some("PH II "),
                     _ => None,
@@ -200,17 +202,10 @@ fn parse_room_formats(
                 // look nice. Since this building name here serves only search a
                 // hint, we'll crop it (with more from the end, because there
                 // is usually more entropy)
-                (
-                    None,
-                    format!(
-                        "{} {}…{}",
-                        arch_id,
-                        hit.parent_building_names[0].get(..7).unwrap(),
-                        hit.parent_building_names[0]
-                            .get((hit.parent_building_names[0].len() - 10)..)
-                            .unwrap()
-                    ),
-                )
+                let pn = hit.parent_building_names[0].as_str();
+                let (first, _) = pn.unicode_truncate(7);
+                let (last, _) = pn.unicode_truncate_start(10);
+                (None, format!("{arch_id} {first}…{last}"))
             } else {
                 (
                     None,
@@ -218,19 +213,25 @@ fn parse_room_formats(
                 )
             }
         };
+        let parsed_aid = unicode_split_at(&parsed_arch_id, search_tokens[0].s.len());
         Some(format!(
             "{}{}{}{}{}",
             prefix.unwrap_or_default(),
             highlighting.0,
-            parsed_arch_id.get(..search_tokens[0].s.len()).unwrap(),
+            parsed_aid.0,
             highlighting.1,
-            parsed_arch_id
-                .get(search_tokens[0].s.len()..)
-                .unwrap_or_default(),
+            parsed_aid.1,
         ))
     } else {
         None
     }
+}
+
+fn unicode_split_at(search: &str, width: usize) -> (&str, &str) {
+    (
+        search.unicode_truncate(width).0,
+        search.unicode_truncate(search.len() - width).0,
+    )
 }
 
 fn generate_subtext(hit: &meilisearch::MSHit) -> String {
