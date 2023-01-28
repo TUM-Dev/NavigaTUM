@@ -1,4 +1,4 @@
-use chrono::NaiveDate;
+use chrono::{Duration, NaiveDate};
 
 #[derive(Clone, Debug)]
 pub(crate) struct ScrapeRoomTask {
@@ -9,10 +9,8 @@ pub(crate) struct ScrapeRoomTask {
 }
 
 impl ScrapeRoomTask {
-    pub fn new((key, room_id): (String, i32), from_year: i32, year_duration: i32) -> Self {
-        let from = NaiveDate::from_ymd_opt(from_year, 1, 1).unwrap();
-        let to = NaiveDate::from_ymd_opt(from_year + year_duration, 1, 1).unwrap()
-            - chrono::Days::new(1);
+    pub fn new((key, room_id): (String, i32), from: NaiveDate, duration: Duration) -> Self {
+        let to = from + duration;
         Self {
             key,
             room_id,
@@ -49,12 +47,13 @@ impl ScrapeRoomTask {
 #[cfg(test)]
 mod test_scrape_task {
     use super::ScrapeRoomTask;
-    use chrono::NaiveDate;
+    use chrono::{Duration, NaiveDate};
     #[test]
     fn test_split() {
-        let task = ScrapeRoomTask::new(("".to_string(), 0), 2020, 1);
+        let start = NaiveDate::from_ymd_opt(2020, 1, 1).unwrap();
+        let task = ScrapeRoomTask::new(("".to_string(), 0), start, Duration::days(365));
         let (o1, o2) = task.split();
-        assert_eq!(task.from, NaiveDate::from_ymd_opt(2020, 1, 1).unwrap());
+        assert_eq!(task.from, start);
         assert_eq!(task.to, NaiveDate::from_ymd_opt(2020, 12, 31).unwrap());
         assert_eq!(o1.from, task.from);
         assert_eq!(o2.to, task.to);
@@ -94,9 +93,10 @@ mod test_scrape_task {
     }
     #[test]
     fn test_same_day() {
-        let task = ScrapeRoomTask::new(("".to_string(), 0), 2020, 0);
-        assert_eq!(task.from, NaiveDate::from_ymd_opt(2020, 1, 1).unwrap());
-        assert_eq!(task.to, NaiveDate::from_ymd_opt(2019, 12, 31).unwrap());
-        assert_eq!(task.num_days(), 0);
+        let start = NaiveDate::from_ymd_opt(2020, 1, 1).unwrap();
+        let task = ScrapeRoomTask::new(("".to_string(), 0), start, Duration::days(0));
+        assert_eq!(task.from, start);
+        assert_eq!(task.to, NaiveDate::from_ymd_opt(2020, 1, 1).unwrap());
+        assert_eq!(task.num_days(), 1);
     }
 }

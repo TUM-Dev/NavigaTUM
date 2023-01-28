@@ -3,24 +3,25 @@ use crate::scraping::tumonline_calendar::{Strategy, XMLEvents};
 use crate::utils;
 use crate::utils::statistics::Statistic;
 use awc::{Client, Connector};
-use chrono::Datelike;
+use chrono::{NaiveDate, Utc};
 use diesel::prelude::*;
 use futures::future::join_all;
 use log::{error, info, warn};
 use std::time::{Duration, Instant};
 use tokio::time::sleep;
 
+const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
 pub async fn start_scraping() {
-    let mut interval = actix_rt::time::interval(Duration::from_secs(60 * 60 * 24)); //24h
+    let mut interval = actix_rt::time::interval(Duration::from_secs(SECONDS_PER_DAY)); //24h
     loop {
         interval.tick().await;
         delete_scraped_results();
-        scrape_to_db(4).await;
+        scrape_to_db(chrono::Duration::days(30 * 4)).await;
         promote_scraped_results_to_prod();
     }
 }
 
-pub async fn scrape_to_db(year_duration: i32) {
+pub async fn scrape_to_db(duration: chrono::Duration) {
     info!("Starting scraping calendar entrys");
     let start_time = Instant::now();
 
@@ -40,14 +41,14 @@ pub async fn scrape_to_db(year_duration: i32) {
     for round in all_room_ids.chunks(2) {
         i += 2;
         let round_start_time = Instant::now();
-        let current_year = chrono::Utc::now().year();
         let mut futures = vec![];
         for (key, room_id) in round {
+            let start = Utc::now() - duration / 2;
             futures.push(scrape(
                 &client,
                 (key.clone(), *room_id),
-                current_year - year_duration / 2,
-                year_duration,
+                start.date_naive(),
+                duration,
             ));
         }
         let results: Vec<ScrapeResult> = join_all(futures).await;
@@ -141,11 +142,11 @@ struct ScrapeResult {
 async fn scrape(
     client: &Client,
     id: (String, i32),
-    from_year: i32,
-    year_duration: i32,
+    from: NaiveDate,
+    duration: chrono::Duration,
 ) -> ScrapeResult {
     // request and parse the xml file
-    let mut request_queue = vec![ScrapeRoomTask::new(id, from_year, year_duration)];
+    let mut request_queue = vec![ScrapeRoomTask::new(id, from, duration)];
     let mut success_cnt = 0;
     let mut retry_smaller_happened = false;
     while !request_queue.is_empty() {
