@@ -1,4 +1,4 @@
-/* global mapboxgl */
+/* global maplibregl */
 function viewNavigateTo(to, from, next, component) {
   navigatum.beforeNavigate(to, from);
 
@@ -252,7 +252,7 @@ navigatum.registerView("view", {
         );
 
         const { coords } = currentEdits[this.view_data.id] || this.view_data;
-        const marker2 = new mapboxgl.Marker({
+        const marker2 = new maplibregl.Marker({
           draggable: true,
           color: "#ff0000",
         });
@@ -428,7 +428,7 @@ navigatum.registerView("view", {
             if (
               document
                 .getElementById("interactive-map")
-                .classList.contains("mapboxgl-map")
+                .classList.contains("maplibregl-map")
             ) {
               marker.remove();
             } else {
@@ -440,7 +440,7 @@ navigatum.registerView("view", {
                 .classList.remove("loading");
             }
           }
-          marker = new mapboxgl.Marker({ element: c.createMarker() });
+          marker = new maplibregl.Marker({ element: c.createMarker() });
           _this.map.interactive.marker = marker;
           const coords = _this.view_data.coords;
           marker.setLngLat([coords.lon, coords.lat]).addTo(map);
@@ -476,7 +476,7 @@ navigatum.registerView("view", {
       };
 
       // The map element should be visible when initializing
-      if (!document.querySelector("#interactive-map .mapboxgl-canvas"))
+      if (!document.querySelector("#interactive-map .maplibregl-canvas"))
         this.$nextTick(doMapUpdate());
       else doMapUpdate();
 

@@ -1,7 +1,7 @@
 navigatum.registerModule(
   "interactive-map",
   (() => {
-    /* global mapboxgl */
+    /* global maplibregl */
     let _map;
 
     function FloorControl() {}
@@ -190,13 +190,13 @@ navigatum.registerModule(
           const elCSS = document.createElement("link");
           elCSS.rel = "stylesheet";
           elCSS.href =
-            "/* @echo app_prefix */css/mapbox/* @if target='release' */.min/* @endif */.css";
+            "/* @echo app_prefix */css/maplibre/* @if target='release' */.min/* @endif */.css";
           head.appendChild(elCSS);
 
           // JS should trigger init on load
           const elJS = document.createElement("script");
           elJS.src =
-            "/* @echo app_prefix */js/mapbox/* @if target='release' */.min/* @endif */.js";
+            "/* @echo app_prefix */js/maplibre/* @if target='release' */.min/* @endif */.js";
           elJS.onload = () => {
             floorControlInit();
             resolve();
@@ -225,27 +225,21 @@ navigatum.registerModule(
         return markerDiv;
       },
       initMap: function (containerId) {
-        mapboxgl.accessToken =
-          "pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg";
-        const map = new mapboxgl.Map({
+        const map = new maplibregl.Map({
           container: containerId,
 
           // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
           // slower, but prettier and therefore worth it for our use case
           antialias: true,
 
-          // preview of the following style is available at
-          // https://api.mapbox.com/styles/v1/commanderstorm/ckzdc14en003m14l9l8iqwotq.html?title=copy&access_token=pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg&zoomwheel=true&fresh=true#16.78/48.264624/11.670726
-          style:
-            "mapbox://styles/commanderstorm/ckzdc14en003m14l9l8iqwotq?optimize=true",
+          // preview of the following style is available at https://nav.tum.de/maps/
+          style: "https://nav.tum.de/maps/styles/osm_liberty/style.json",
 
           center: [11.5748, 48.14], // Approx Munich
           zoom: 11, // Zoomed out so that the whole city is visible
-
-          logoPosition: "bottom-left",
         });
-        const nav = new mapboxgl.NavigationControl();
-        map.addControl(nav, "top-left");
+
+        map.addControl(new maplibregl.NavigationControl(), "top-left");
 
         // (Browser) Fullscreen is enabled only on mobile, on desktop the map
         // is maximized instead. This is determined once to select the correct
@@ -255,12 +249,12 @@ navigatum.registerModule(
           window.matchMedia &&
           window.matchMedia("only screen and (max-width: 480px)").matches;
 
-        const fullscreenCtl = new mapboxgl.FullscreenControl({
+        const fullscreenCtl = new maplibregl.FullscreenControl({
           container: isMobile
             ? document.getElementById("interactive-map")
             : document.getElementById("interactive-map-container"),
         });
-        // "Backup" the mapboxgl default fullscreen handler
+        // "Backup" the maplibregl default fullscreen handler
         fullscreenCtl._onClickFullscreenDefault =
           fullscreenCtl._onClickFullscreen;
         fullscreenCtl._onClickFullscreen = () => {
@@ -286,14 +280,13 @@ navigatum.registerModule(
         };
         map.addControl(fullscreenCtl);
 
-        const location = new mapboxgl.GeolocateControl({
+        map.addControl(new maplibregl.GeolocateControl({
           positionOptions: {
             enableHighAccuracy: true,
           },
           trackUserLocation: true,
           showUserHeading: true,
-        });
-        map.addControl(location);
+        }));
 
         // Each source / style change causes the map to get
         // into "loading" state, so map.loaded() is not reliable
