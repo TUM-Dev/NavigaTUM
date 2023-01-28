@@ -4,6 +4,7 @@ navigatum.registerModule(
     /* global maplibregl */
     let _map;
 
+    /*
     function FloorControl() {}
 
     // Because mapboxgl might not be loaded yet, we need to postpone
@@ -180,7 +181,7 @@ navigatum.registerModule(
         document.getElementById("horizontal-oc-text").innerText = name;
       };
     }
-
+*/
     return {
       map: undefined,
       init: () =>
@@ -198,7 +199,7 @@ navigatum.registerModule(
           elJS.src =
             "/* @echo app_prefix */js/maplibre/* @if target='release' */.min/* @endif */.js";
           elJS.onload = () => {
-            floorControlInit();
+            //floorControlInit();
             resolve();
           };
           head.appendChild(elJS);
@@ -248,6 +249,7 @@ navigatum.registerModule(
         const isMobile =
           window.matchMedia &&
           window.matchMedia("only screen and (max-width: 480px)").matches;
+        /*
 
         const fullscreenCtl = new maplibregl.FullscreenControl({
           container: isMobile
@@ -279,6 +281,7 @@ navigatum.registerModule(
           }
         };
         map.addControl(fullscreenCtl);
+*/
 
         map.addControl(new maplibregl.GeolocateControl({
           positionOptions: {
@@ -296,17 +299,17 @@ navigatum.registerModule(
           map.initialLoaded = true;
         });
 
-        const _this = this;
-        map.floorControl = new FloorControl();
-        map.floorControl.on("floor-changed", (args) => {
-          _this.setOverlayImage(
-            args.file
-              ? `/* @echo cdn_prefix */maps/overlay/${args.file}`
-              : null,
-            args.coords
-          );
-        });
-        map.addControl(map.floorControl, "bottom-left");
+        //const _this = this;
+        //map.floorControl = new FloorControl();
+        //map.floorControl.on("floor-changed", (args) => {
+        //  _this.setOverlayImage(
+        //    args.file
+        //      ? `/* @echo cdn_prefix */maps/overlay/${args.file}`
+        //      : null,
+        //    args.coords
+        //  );
+        //});
+        //map.addControl(map.floorControl, "bottom-left");
 
         _map = map;
 
@@ -314,7 +317,7 @@ navigatum.registerModule(
       },
       // Set the given overlays as available overlay images.
       setFloorOverlays: function (overlays, defaultOverlay) {
-        _map.floorControl.updateFloors(overlays, defaultOverlay);
+        //_map.floorControl.updateFloors(overlays, defaultOverlay);
       },
       // Set the currently visible overlay image in the map,
       // or hide it if imgUrl is null.

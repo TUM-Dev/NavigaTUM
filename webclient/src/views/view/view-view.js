@@ -662,10 +662,10 @@ navigatum.registerView("view", {
     };
     window.addEventListener("storage", updateCoordinateCounter);
     updateCoordinateCounter();
-    window.addEventListener("resize", () => {
-      this.loadRoomfinderMap(this.state.map.roomfinder.selected_index, false);
-      this.loadModalRoomfinderMap();
-    });
+    //window.addEventListener("resize", () => {
+    //  this.loadRoomfinderMap(this.state.map.roomfinder.selected_index, false);
+    //  this.loadModalRoomfinderMap();
+    //});
 
     this.$nextTick(() => {
       // Even though 'mounted' is called there is no guarantee apparently,
