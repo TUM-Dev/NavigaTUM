@@ -319,7 +319,7 @@ paths:
               value: 5401.01.100A
             humangenetik:
               summary: A virtual room
-              value: '1543'
+              value: Gebäude 1543
       responses:
         '200':
           description: More data about the requested building/room
@@ -1675,50 +1675,6 @@ components:
         - parent_names
         - props
         - ranking_factors
-    CalendarResponse:
-      type: object
-      properties:
-        entries:
-          description: The entries of the requested
-          type: array
-          items:
-            $ref: '#/components/schemas/CalendarEntry'
-        last_sync:
-          description: When the last sync with TUMonline happened.
-          type: string
-          format: date-time
-          example: '2018-01-01T00:00:00'
-      required:
-        - entries
-        - last_sync
-    CalendarEntry:
-      type: object
-      properties:
-        title:
-          description: The title of the Entry
-          type: string
-          example: Quantenteleportation
-        entry_type:
-          description: The title of the Entry
-          type: string
-          enum:
-            - Lecture
-            - Excercise
-        start:
-          description: The start of the entry
-          type: string
-          format: date-time
-          example: '2018-01-01T00:00:00'
-        end:
-          description: The end of the entry
-          type: string
-          format: date-time
-          example: '2018-01-01T00:00:00'
-      required:
-        - title
-        - entry_type
-        - start
-        - end
     RankingFactors:
       type: object
       properties:
