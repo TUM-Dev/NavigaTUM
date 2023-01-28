@@ -107,8 +107,8 @@ spec:
             httpGet:
               path: /health
               port: mieli-search
-            failureThreshold: 5
-            periodSeconds: 1
+            failureThreshold: 2
+            periodSeconds: 10
           startupProbe:
             httpGet:
               path: /health
