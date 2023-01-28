@@ -168,7 +168,7 @@
         padding: 0 8px;
 
         // The marker2 (draggable)
-        .mapboxgl-marker + .mapboxgl-marker {
+        .maplibregl-marker + .maplibregl-marker {
             animation: fade-in .1s linear .05s;
             animation-fill-mode: both;
         }
@@ -222,7 +222,7 @@
         padding: 0;
     }
 
-    .mapboxgl-ctrl-group.floor-ctrl {
+    .maplibregl-ctrl-group.floor-ctrl {
         max-width: 100%;
         display: none;
         overflow: hidden;
@@ -305,13 +305,6 @@
                     border-top: 0;
                 }
             }
-        }
-
-        // mapbox logo
-        & + .mapboxgl-ctrl {
-            opacity: .4;
-            pointer-events: none;
-            z-index: -1;
         }
     }
 
@@ -474,8 +467,8 @@
     }
 
     /* --- User location dot --- */
-    .mapboxgl-user-location-dot,
-    .mapboxgl-user-location-dot::before {
+    .maplibregl-user-location-dot,
+    .maplibregl-user-location-dot::before {
         background-color: #3070b3;
     }
 
@@ -596,15 +589,6 @@
 // 'sm' (mobile)
 @media (max-width: 600px) {
     #view-view {
-        // The mapbox logo is taking away space from the layer
-        // selection on the bottom left on mobile, so we move
-        // it a bit
-        .floor-ctrl.visible + .mapboxgl-ctrl {
-            position: absolute;
-            bottom: 2px;
-            left: 42px;
-        }
-
         #rooms-overview-select .panel-body {
             max-height: 260px;
         }

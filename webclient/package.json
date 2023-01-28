@@ -119,7 +119,7 @@
     "@babel/core": "^7.14.8",
     "@babel/preset-env": "^7.14.8",
     "babel-plugin-transform-remove-strict-mode": "^0.0.2",
-    "mapbox-gl": "^2.7.0",
+    "maplibre-gl": "^2.4.0",
     "polyfill": "^0.1.0",
     "regenerator": "^0.14.7",
     "regenerator-runtime": "^0.13.9",
