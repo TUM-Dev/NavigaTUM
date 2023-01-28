@@ -1014,7 +1014,7 @@ paths:
                   - Not found
       tags:
         - migration
-  /api/health:
+  /api/status:
     get:
       operationId: api-health
       summary: API healthcheck
@@ -1027,14 +1027,15 @@ paths:
             text/plain:
               schema:
                 type: string
-                enum:
-                  - healthy
+                example: |
+                  healthy
+                  source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
         '503':
           description: Service Unavailable
           content: {}
       tags:
         - health
-  /api/feedback/health:
+  /api/feedback/status:
     get:
       operationId: feedback-health
       summary: feedback-API healthcheck
@@ -1047,8 +1048,30 @@ paths:
             text/plain:
               schema:
                 type: string
-                enum:
-                  - healthy
+                example: |
+                  healthy
+                  source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
+        '503':
+          description: Service Unavailable
+          content: {}
+      tags:
+        - health
+  /api/calendar/status:
+    get:
+      operationId: calendar-health
+      summary: calendar-API healthcheck
+      description: |
+        If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
+      responses:
+        '200':
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |
+                  healthy
+                  source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
         '503':
           description: Service Unavailable
           content: {}

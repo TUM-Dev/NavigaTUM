@@ -24,5 +24,5 @@ ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 EXPOSE  8083
 
 ENTRYPOINT ["tini", "--"]
-HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8083/api/health || exit 1
+HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8083/api/calendar/status || exit 1
 CMD     /bin/navigatum-calendar

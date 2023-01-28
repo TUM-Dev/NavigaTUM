@@ -9,7 +9,7 @@ mod utils;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
-#[get("/api/health")]
+#[get("/api/status")]
 async fn health_handler() -> HttpResponse {
     HttpResponse::Ok()
         .content_type("text/plain")
@@ -29,7 +29,7 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             .wrap(cors)
-            .wrap(middleware::Logger::default().exclude("/api/health"))
+            .wrap(middleware::Logger::default().exclude("/api/status"))
             .wrap(middleware::Compress::default())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(health_handler)
