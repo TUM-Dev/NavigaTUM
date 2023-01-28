@@ -37,8 +37,8 @@ pub async fn scrape_to_db(year_duration: i32) {
     let mut entry_stats = Statistic::new();
 
     let mut i = 0;
-    for round in all_room_ids.chunks(3) {
-        i += 3;
+    for round in all_room_ids.chunks(2) {
+        i += 2;
         let round_start_time = Instant::now();
         let current_year = chrono::Utc::now().year();
         let mut futures = vec![];
