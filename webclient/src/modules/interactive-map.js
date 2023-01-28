@@ -233,7 +233,7 @@ navigatum.registerModule(
           antialias: true,
 
           // preview of the following style is available at
-          // https://nav.tum.de/maps/styles/osm_liberty/?vector
+          // https://nav.tum.de/maps/
           style: "https://nav.tum.de/maps/styles/osm_liberty/style.json",
 
           center: [11.5748, 48.14], // Approx Munich
