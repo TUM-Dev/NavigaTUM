@@ -153,7 +153,7 @@ fn parse_room_formats(
             .starts_with(&search_tokens[1].s)
     {
         let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
-        let split_arch_id = unicode_split_at(arch_id, search_tokens[1].s.len());
+        let split_arch_id = unicode_split_at(arch_id, search_tokens[1].s.chars().count());
         Some(format!(
             "{}{} {}{}{}",
             highlighting.0,
@@ -185,11 +185,11 @@ fn parse_room_formats(
         } else {
             let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
             // For some well known buildings we have a prefix that we can use instead
-            let prefix = match hit.unformatted_name.unicode_truncate(3).0 {
+            let prefix = match unicode_split_at(&hit.unformatted_name, 3).0.as_str() {
                 "560" | "561" => Some("MI "),
                 "550" | "551" => Some("MW "),
                 "540" => Some("CH "),
-                _ => match hit.unformatted_name.unicode_truncate(4).0 {
+                _ => match unicode_split_at(&hit.unformatted_name, 4).0.as_str() {
                     "5101" => Some("PH "),
                     "5107" => Some("PH II "),
                     _ => None,
@@ -213,7 +213,7 @@ fn parse_room_formats(
                 )
             }
         };
-        let parsed_aid = unicode_split_at(&parsed_arch_id, search_tokens[0].s.len());
+        let parsed_aid = unicode_split_at(&parsed_arch_id, search_tokens[0].s.chars().count());
         Some(format!(
             "{}{}{}{}{}",
             prefix.unwrap_or_default(),
@@ -227,10 +227,10 @@ fn parse_room_formats(
     }
 }
 
-fn unicode_split_at(search: &str, width: usize) -> (&str, &str) {
+fn unicode_split_at(search: &str, width: usize) -> (String, String) {
     (
-        search.unicode_truncate(width).0,
-        search.unicode_truncate(search.len() - width).0,
+        search.chars().take(width).collect::<String>(),
+        search.chars().skip(width).collect::<String>()
     )
 }
 
@@ -243,5 +243,29 @@ fn generate_subtext(hit: &meilisearch::MSHit) -> String {
     match &hit.campus {
         Some(campus) => format!("{campus}, {building}"),
         None => building,
+    }
+}
+
+
+#[cfg(test)]
+mod tokenizer_tests {
+    use super::*;
+
+    fn assert_unicode_split(s: &str, i: usize, split: (&str, &str)) {
+        assert_eq!(
+            unicode_split_at(s, i),
+            (split.0.to_string(), split.1.to_string())
+        );
+    }
+
+    #[test]
+    fn unicode_split() {
+        assert_unicode_split("Griaß eich", 4, ("Gria", "ß eich"));
+        assert_unicode_split("Griaß eich", 5, ("Griaß", " eich"));
+        assert_unicode_split("Tschöö", 4, ("Tsch", "öö"));
+        assert_unicode_split("Tschöö", 5, ("Tschö", "ö"));
+        assert_unicode_split("Tschöö", 6, ("Tschöö", ""));
+        assert_unicode_split("Ähh", 0, ("", "Ähh"));
+        assert_unicode_split("Ähh", 1, ("Ä", "hh"));
     }
 }
