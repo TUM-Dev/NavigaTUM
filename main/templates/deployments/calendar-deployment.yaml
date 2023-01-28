@@ -52,7 +52,7 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 500Mi
+              memory: 200Mi
             limits:
               memory: 500Mi
           livenessProbe:
