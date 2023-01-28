@@ -18,6 +18,11 @@
       en: "Office"
     din_277: "NF2.1"
     din_277_desc: "Büroräume"
+
+# ========================== Garching =============================
+# === Physik ===
+"5101.EG.257":
+  name: "5101.EG.257 (Büro Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
 "5107.U1.114":
   name: "5107.U1.114 (Büro)" # previously: Fachschaftsraum
   usage: # previously: Social Room
@@ -26,11 +31,6 @@
       en: "Office"
     din_277: "NF2.1"
     din_277_desc: "Büroräume"
-
-# ========================== Garching =============================
-# === Physik ===
-"5101.EG.257":
-  name: "5101.EG.257 (Büro Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
 
 # === MI ===
 "5606.EG.036":
@@ -81,6 +81,15 @@
           de: "Öffnungszeiten & Artikel"
           en: "Opening hours & articles"
         url: "https://fsmb.de/studierende/skriptenverkauf/"
+
+"5501.02.150":
+  name: "5501.02.150 (IKOM-Büro)"
+  usage: # previously: Meeting room
+    name:
+      de: "Büro"
+      en: "Office"
+    din_277: "NF2.1"
+    din_277_desc: "Büroräume"
 "5504.EG.450":
   name: "5504.EG.450 (Rechnerhalle)"
 "5508.02.801":  # ID is probably wrong in TUMonline, but we need to use it for compatibility
@@ -89,6 +98,8 @@
     comment:
       de: "Es wird auch 5508.02.801 statt 5508.01.801 verwendet, obwohl der Hörsaal im 1. Stock ist."
       en: "Also 5508.02.801 instead of 5508.01.801 is being used, even though the lecture hall is in the 1st floor."
+"5510.EG.026C":
+  name: "5510.EG.026C (IKOM-Besprechungsraum)"
 
 # === Galileo Garching ===
 "8120.EG.001":
