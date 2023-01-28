@@ -282,6 +282,14 @@ navigatum.registerModule(
             fullscreenCtl._map.resize();
           }
         };
+        // There is a bug that the map doesn't update to the new size
+        // when changing between fullscreen in the mobile version.
+        if (isMobile && ResizeObserver) {
+          const fullscreenObserver = new ResizeObserver(() => {
+            fullscreenCtl._map.resize();
+          });
+          fullscreenObserver.observe(fullscreenCtl._container);
+        }
         map.addControl(fullscreenCtl);
 
         const location = new maplibregl.GeolocateControl({
