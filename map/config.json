@@ -7,16 +7,20 @@
       "styles": "styles",
       "mbtiles": ""
     },
-    "domains": ["nav.tum.de", "localhost:7770", "127.0.0.1:7770"],
+    "domains": [
+      "localhost:8080",
+      "127.0.0.1:8080"
+    ],
     "formatQuality": {
       "jpeg": 80,
       "webp": 90
     },
-    "maxScaleFactor": 3,
+    "maxScaleFactor": 2,
+    "maxRendererPoolSizes": [4],
     "maxSize": 2048,
     "pbfAlias": "pbf",
-    "serveAllFonts": false,
-    "serveAllStyles": false,
+    "serveAllFonts": true,
+    "serveAllStyles": true,
     "serveStaticMaps": true,
     "tileMargin": 0
   },
