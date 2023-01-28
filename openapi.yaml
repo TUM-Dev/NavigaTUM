@@ -1727,6 +1727,67 @@ components:
         - parent_names
         - props
         - ranking_factors
+    CalendarResponse:
+      type: object
+      properties:
+        entries:
+          description: The entries of the requested
+          type: array
+          items:
+            $ref: '#/components/schemas/CalendarEntry'
+        last_sync:
+          description: When the last sync with TUMonline happened.
+          type: string
+          format: date-time
+          example: '2018-01-01T00:00:00'
+      required:
+        - entries
+        - last_sync
+    CalendarEntry:
+      type: object
+      properties:
+        title:
+          description: The title of the Entry
+          type: string
+          example: Quantenteleportation
+        entry_type:
+          anyOf:
+            - type: string
+              enum:
+                - exercise
+                - exam
+                - barred
+              example: exercise
+            - type: object
+              properties:
+                Lecture:
+                  description: more precise description what kind of Lecture this is
+                  type: string
+                  example: Vorlesung mit integrierter Übung
+              required:
+                - lecture
+            - type: object
+              properties:
+                Other:
+                  description: more precise description what other event this is
+                  type: string
+              required:
+                - other
+        start:
+          description: The start of the entry
+          type: string
+          format: date-time
+          example: '2018-01-01T00:00:00'
+        end:
+          description: The end of the entry
+          type: string
+          format: date-time
+          example: '2018-01-01T00:00:00'
+      required:
+        - title
+        - entry_type
+        - start
+        - end
     RankingFactors:
       type: object
       properties:
