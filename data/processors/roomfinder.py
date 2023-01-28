@@ -156,12 +156,6 @@ def _get_roomfinder_coords(obj):
     return {
         "lat": lat,
         "lon": lon,
-        "utm": {
-            "zone_number": int(obj["utm_zone"]),
-            "zone_letter": "U",
-            "easting": obj["utm_easting"],
-            "northing": obj["utm_northing"],
-        },
         "source": "roomfinder",
     }
 

@@ -106,7 +106,6 @@ internal_id:
   coords:  # required for anything except type==root
     lat: 0.0
     lon: 0.0
-    utm: {zone_number: 32, zone_letter: "U", northing: 0.0, easting: 0.0}
     source: one of "roomfinder", "navigatum" or "inferred"
     accuracy: one of "building"  # optional
   
