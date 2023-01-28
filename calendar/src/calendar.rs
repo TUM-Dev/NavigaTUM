@@ -65,6 +65,7 @@ struct Event {
 }
 
 #[derive(Serialize, Debug)]
+#[serde(rename_all = "lowercase")]
 enum EventType {
     Lecture(String),
     Exercise,
