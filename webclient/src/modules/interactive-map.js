@@ -1,22 +1,22 @@
 navigatum.registerModule(
   "interactive-map",
   (() => {
-    /* global mapboxgl */
+    /* global maplibregl */
     let _map;
 
     function FloorControl() {}
 
-    // Because mapboxgl might not be loaded yet, we need to postpone
+    // Because maplibregl might not be loaded yet, we need to postpone
     // the declaration of the FloorControl class
     function floorControlInit() {
-      // Add Evented functionality from mapboxgl
-      FloorControl.prototype = Object.create(mapboxgl.Evented.prototype);
+      // Add Evented functionality from maplibregl
+      FloorControl.prototype = Object.create(maplibregl.Evented.prototype);
 
       FloorControl.prototype.onAdd = function onAdd(map) {
         this.map = map;
         this.container = document.createElement("div");
-        this.container.classList.add("mapboxgl-ctrl-group");
-        this.container.classList.add("mapboxgl-ctrl");
+        this.container.classList.add("maplibregl-ctrl-group");
+        this.container.classList.add("maplibregl-ctrl");
         this.container.classList.add("floor-ctrl");
 
         // vertical open/collapse button
@@ -137,10 +137,10 @@ navigatum.registerModule(
         const mapHeight =
           document.getElementById("interactive-map").clientHeight;
         const topCtrlHeight = document.querySelector(
-          ".mapboxgl-ctrl-top-left"
+          ".maplibregl-ctrl-top-left"
         ).clientHeight;
         const bottomCtrlHeight = document.querySelector(
-          ".mapboxgl-ctrl-bottom-left"
+          ".maplibregl-ctrl-bottom-left"
         ).clientHeight;
         const floorCtrlHeight =
           document.querySelector(".floor-ctrl").clientHeight;
@@ -186,17 +186,17 @@ navigatum.registerModule(
       init: () =>
         new Promise((resolve) => {
           const head = document.getElementsByTagName("head")[0];
-          // Add CSS first (required by Mapbox)
+          // Add CSS first (required by Maplibre)
           const elCSS = document.createElement("link");
           elCSS.rel = "stylesheet";
           elCSS.href =
-            "/* @echo app_prefix */css/mapbox/* @if target='release' */.min/* @endif */.css";
+            "/* @echo app_prefix */css/maplibre/* @if target='release' */.min/* @endif */.css";
           head.appendChild(elCSS);
 
           // JS should trigger init on load
           const elJS = document.createElement("script");
           elJS.src =
-            "/* @echo app_prefix */js/mapbox/* @if target='release' */.min/* @endif */.js";
+            "/* @echo app_prefix */js/maplibre/* @if target='release' */.min/* @endif */.js";
           elJS.onload = () => {
             floorControlInit();
             resolve();
@@ -225,9 +225,7 @@ navigatum.registerModule(
         return markerDiv;
       },
       initMap: function (containerId) {
-        mapboxgl.accessToken =
-          "pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg";
-        const map = new mapboxgl.Map({
+        const map = new maplibregl.Map({
           container: containerId,
 
           // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
@@ -235,16 +233,16 @@ navigatum.registerModule(
           antialias: true,
 
           // preview of the following style is available at
-          // https://api.mapbox.com/styles/v1/commanderstorm/ckzdc14en003m14l9l8iqwotq.html?title=copy&access_token=pk.eyJ1IjoiY29tbWFuZGVyc3Rvcm0iLCJhIjoiY2t6ZGJyNDBoMDU2ZzJvcGN2eTg2cWtxaSJ9.PY6Drc3tYHGqSy0UVmVnCg&zoomwheel=true&fresh=true#16.78/48.264624/11.670726
-          style:
-            "mapbox://styles/commanderstorm/ckzdc14en003m14l9l8iqwotq?optimize=true",
+          // https://nav.tum.de/maps/
+          style: "https://nav.tum.de/maps/styles/osm_liberty/style.json",
 
           center: [11.5748, 48.14], // Approx Munich
           zoom: 11, // Zoomed out so that the whole city is visible
 
-          logoPosition: "bottom-left",
+          attributionControl: false,
         });
-        const nav = new mapboxgl.NavigationControl();
+
+        const nav = new maplibregl.NavigationControl();
         map.addControl(nav, "top-left");
 
         // (Browser) Fullscreen is enabled only on mobile, on desktop the map
@@ -255,12 +253,12 @@ navigatum.registerModule(
           window.matchMedia &&
           window.matchMedia("only screen and (max-width: 480px)").matches;
 
-        const fullscreenCtl = new mapboxgl.FullscreenControl({
+        const fullscreenCtl = new maplibregl.FullscreenControl({
           container: isMobile
             ? document.getElementById("interactive-map")
             : document.getElementById("interactive-map-container"),
         });
-        // "Backup" the mapboxgl default fullscreen handler
+        // "Backup" the maplibregl default fullscreen handler
         fullscreenCtl._onClickFullscreenDefault =
           fullscreenCtl._onClickFullscreen;
         fullscreenCtl._onClickFullscreen = () => {
@@ -284,9 +282,17 @@ navigatum.registerModule(
             fullscreenCtl._map.resize();
           }
         };
+        // There is a bug that the map doesn't update to the new size
+        // when changing between fullscreen in the mobile version.
+        if (isMobile && ResizeObserver) {
+          const fullscreenObserver = new ResizeObserver(() => {
+            fullscreenCtl._map.resize();
+          });
+          fullscreenObserver.observe(fullscreenCtl._container);
+        }
         map.addControl(fullscreenCtl);
 
-        const location = new mapboxgl.GeolocateControl({
+        const location = new maplibregl.GeolocateControl({
           positionOptions: {
             enableHighAccuracy: true,
           },
@@ -301,6 +307,15 @@ navigatum.registerModule(
         // succeded.
         map.on("load", () => {
           map.initialLoaded = true;
+
+          // The attributionControl is automatically open, which takes up a lot of
+          // space on the small map display that we have. That's why we add it ourselves
+          // and then toggle it.
+          // It's only added after loading because if we add it directly on map initialization
+          // for some reason it doesn't work.
+          const attrib = new maplibregl.AttributionControl({ compact: true });
+          map.addControl(attrib);
+          attrib._toggleAttribution();
         });
 
         const _this = this;

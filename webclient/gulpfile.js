@@ -632,19 +632,19 @@ function copyWellKnownRoot() {
 }
 gulp.task("well_known", gulp.parallel(copyWellKnown, copyWellKnownRoot));
 
-// --- map (currently mapbox) Pipeline ---
+// --- map (currently maplibre) Pipeline ---
 function copyMapCSS() {
   return gulp
-    .src(["node_modules/mapbox-gl/dist/mapbox-gl.css"])
-    .pipe(concat("mapbox.css"))
+    .src(["node_modules/maplibre-gl/dist/maplibre-gl.css"])
+    .pipe(concat("maplibre.css"))
     .pipe(gulpif(config.target === "release", csso()))
     .pipe(gulpif(config.target === "release", rename({ suffix: ".min" })))
     .pipe(gulp.dest("build/css"));
 }
 function copyMapJS() {
   return gulp
-    .src(["node_modules/mapbox-gl/dist/mapbox-gl.js"])
-    .pipe(concat("mapbox.js"))
+    .src(["node_modules/maplibre-gl/dist/maplibre-gl.js"])
+    .pipe(concat("maplibre.js"))
     .pipe(gulpif(config.target === "release", uglify()))
     .pipe(gulpif(config.target === "release", rename({ suffix: ".min" })))
     .pipe(gulp.dest("build/js"));
