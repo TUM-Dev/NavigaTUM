@@ -126,7 +126,7 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs) -> Result
     let resp_bytes = meili_request
         .send_json(&post_data)
         .await
-        .unwrap()
+        .expect("request to meilisearch failed, is this microservice running?")
         .body()
         .await
         .unwrap();
