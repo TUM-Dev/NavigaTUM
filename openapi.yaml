@@ -346,11 +346,6 @@ paths:
                       lat: 48.26244490906312
                       lon: 11.669122601167174
                       source: roomfinder
-                      utm:
-                        easting: 698084.5345
-                        northing: 5348914.6199
-                        zone_letter: U
-                        zone_number: 32
                     id: 5602.EG.001
                     maps:
                       default: interactive
@@ -446,11 +441,6 @@ paths:
                       lat: 48.26217845031176
                       lon: 11.6686932781057
                       source: roomfinder
-                      utm:
-                        easting: 698053.7056
-                        northing: 5348883.8982
-                        zone_letter: U
-                        zone_number: 32
                     id: 5606.EG.036
                     maps:
                       default: interactive
@@ -1213,31 +1203,6 @@ components:
           description: The source of the Coordinates
           type: string
           example: roomfinder
-        utm:
-          type: object
-          properties:
-            easting:
-              description: The easting
-              type: number
-              format: double
-              example: 698288.4681410069
-            northing:
-              description: The northing
-              type: number
-              format: double
-              example: 5349538.736274569
-            zone:
-              description: The zone
-              type: string
-              example: U
-              pattern: '[C-HJ-NP-X]'
-            zone_number:
-              description: The zone number
-              type: integer
-              format: int32
-              example: 32
-              maximum: 60
-              minimum: 1
       required:
         - lat
         - lon
