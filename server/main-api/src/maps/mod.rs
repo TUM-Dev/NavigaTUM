@@ -312,8 +312,8 @@ fn draw_bottom(data: &DBRoomEntry, img: &mut image::RgbaImage) {
     );
 }
 
-fn load_default_map() -> Vec<u8> {
-    warn!("Loading default map, as map rendering failed. Check the connection to the tileserver");
+fn load_default_image() -> Vec<u8> {
+    warn!("Loading default preview image, as map rendering failed. Check the connection to the tileserver");
     let img = image::open("src/maps/logo-card.png").unwrap();
     // encode the image as PNG
     let mut w = Cursor::new(Vec::new());
@@ -334,15 +334,14 @@ pub async fn maps_handler(
             return e;
         }
     };
-    let img = construct_image_from_data(&id, data).await;
-    let res = HttpResponse::Ok()
-        .content_type("image/png")
-        .body(img.unwrap_or_else(load_default_map));
+    let img = construct_image_from_data(&id, data)
+        .await
+        .unwrap_or_else(load_default_image);
+    let res = HttpResponse::Ok().content_type("image/png").body(img);
 
     debug!(
-        "Preview Generation for {} took {}ms",
-        id,
-        start_time.elapsed().as_millis()
+        "Preview Generation for {id} took {generation_time}ms",
+        generation_time = start_time.elapsed().as_millis()
     );
     res
 }
