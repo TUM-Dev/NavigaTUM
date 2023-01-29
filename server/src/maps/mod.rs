@@ -11,7 +11,7 @@ use futures::future::join_all;
 use image::Rgba;
 use imageproc::definitions::HasBlack;
 use imageproc::drawing::{draw_text_mut, text_size};
-use log::{debug, error, info, warn};
+use log::{debug, error, warn};
 use rusttype::{Font, Scale};
 use tokio::time::Instant;
 
@@ -98,14 +98,12 @@ async fn download_map_image(
     y: u32,
     file: &std::path::PathBuf,
 ) -> Option<web::Bytes> {
-    let url = format!(
-        "http://{}:{}/styles/osm_liberty/{}/{}/{}@2x.png",
-        std::env::var("MAPS_SVC_PORT_7770_TCP_ADDR").unwrap_or_else(|_| "localhost".to_string()),
-        std::env::var("MAPS_SVC_SERVICE_PORT_TILESERVER").unwrap_or_else(|_| "7770".to_string()),
-        z,
-        x,
-        y,
-    );
+    let tileserver_addr =
+        std::env::var("MAPS_SVC_PORT_7770_TCP_ADDR").unwrap_or_else(|_| "localhost".to_string());
+    let tileserver_port =
+        std::env::var("MAPS_SVC_SERVICE_PORT_TILESERVER").unwrap_or_else(|_| "7770".to_string());
+    let url =
+        format!("http://{tileserver_addr}:{tileserver_port}/styles/osm_liberty/{z}/{x}/{y}@2x.png");
     let client = Client::new().get(&url).send();
     let res = match client.await {
         Ok(mut r) => r.body().await,
@@ -152,7 +150,7 @@ async fn get_tile(
 }
 
 async fn draw_map(data: &DBRoomEntry, img: &mut image::RgbaImage) -> bool {
-    let (x, y, z) = lat_lon_to_xyz(data.lat, data.lon);
+    let (x, y, z) = entry_to_xyz(data);
     // coordinate system is centered around the center of the image
     // around this center there is a 5*3 grid of tiles
     // -----------------------------------------
@@ -245,8 +243,21 @@ mod range_tests {
     }
 }
 
-fn lat_lon_to_xyz(lat_deg: f32, lon_deg: f32) -> (f32, f32, u32) {
-    let zoom = 16;
+fn entry_to_xyz(entry: &DBRoomEntry) -> (f32, f32, u32) {
+    let zoom = match entry.type_.as_str() {
+        "campus" => 14,
+        "area" | "site" => 15,
+        "building" | "joined_building" => 16,
+        "virtual_room" | "room" => 17,
+        _ => {
+            warn!("map generation encountered an type for {entry:?}. Assuming it to be a building");
+            16
+        }
+    };
+    lat_lon_z_to_xyz(entry.lat, entry.lon, zoom)
+}
+
+fn lat_lon_z_to_xyz(lat_deg: f32, lon_deg: f32, zoom: u32) -> (f32, f32, u32) {
     let lat_rad = lat_deg.to_radians();
     let n = 2_u32.pow(zoom) as f32;
     let xtile = (lon_deg + 180.0) / 360.0 * n;
@@ -328,7 +339,7 @@ pub async fn maps_handler(
         .content_type("image/png")
         .body(img.unwrap_or_else(load_default_map));
 
-    info!(
+    debug!(
         "Preview Generation for {} took {}ms",
         id,
         start_time.elapsed().as_millis()
