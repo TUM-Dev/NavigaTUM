@@ -43,13 +43,10 @@ impl OverlayMapTask {
             for y_index in 0..3 {
                 if is_in_range(x_img_coords, y_img_coords, x_index, y_index) {
                     work_queue.push(
-                        FetchTileTask::from(
-                            self.z,
-                            self.x as u32 + x_index - 2,
-                            self.y as u32 + y_index - 1,
-                            (x_index, y_index),
-                        )
-                        .fulfill(),
+                        FetchTileTask::from(self)
+                            .offset_by((x_index as i32) - 2, (y_index as i32) - 1)
+                            .with_index(x_index, y_index)
+                            .fulfill(),
                     );
                 }
             }
