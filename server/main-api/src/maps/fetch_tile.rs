@@ -10,6 +10,32 @@ pub(crate) struct FetchTileTask {
     index: (u32, u32),
 }
 
+fn zoom_aware_offset(zoom: u32, value: u32, offset: i32) -> u32 {
+    // if we go over the edge of the world, we want to pop in on the other side
+    let possible_tiles: i64 = (4_i64).pow(zoom);
+    let offset_value = value as i64 + offset as i64;
+    if offset_value < 0 {
+        return (possible_tiles + offset_value) as u32;
+    }
+    (offset_value % possible_tiles) as u32
+}
+#[cfg(test)]
+mod test_tiles {
+    use super::*;
+
+    #[test]
+    fn test_zoom_aware_offset() {
+        // 1 tile at zoom 0
+        assert_eq!(zoom_aware_offset(0, 0, 0), 0);
+        assert_eq!(zoom_aware_offset(0, 0, 1), 0);
+        // 4 tiles at zoom 1
+        assert_eq!(zoom_aware_offset(1, 0, 0), 0);
+        assert_eq!(zoom_aware_offset(1, 0, 1), 1);
+        assert_eq!(zoom_aware_offset(1, 0, 4), 0);
+        assert_eq!(zoom_aware_offset(1, 0, 5), 1);
+    }
+}
+
 impl FetchTileTask {
     pub fn from(order: &OverlayMapTask) -> Self {
         Self {
@@ -22,8 +48,8 @@ impl FetchTileTask {
 
     pub(crate) fn offset_by(self, x_offset: i32, y_offset: i32) -> Self {
         Self {
-            x: (self.x as i64 + x_offset as i64) as u32,
-            y: (self.y as i64 + y_offset as i64) as u32,
+            x: zoom_aware_offset(self.z, self.x, x_offset),
+            y: zoom_aware_offset(self.z, self.y, y_offset),
             ..self
         }
     }
