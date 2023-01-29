@@ -11,7 +11,16 @@ pub(crate) struct OverlayMapTask {
 
 impl OverlayMapTask {
     pub fn with(entry: &DBRoomEntry) -> Self {
-        let zoom = 16;
+        let zoom = match entry.type_.as_str() {
+            "campus" => 14,
+            "area" | "site" => 15,
+            "building" | "joined_building" => 16,
+            "virtual_room" | "room" => 17,
+            _ => {
+                warn!("map generation encountered an type for {entry:?}. Assuming it to be a building");
+                16
+            }
+        };
         let (x, y, z) = lat_lon_z_to_xyz(entry.lat, entry.lon, zoom);
         Self { x, y, z }
     }
