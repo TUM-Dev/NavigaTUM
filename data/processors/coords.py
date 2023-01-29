@@ -36,7 +36,7 @@ def assign_coordinates(data):
             if "source" not in entry["coords"]:
                 entry["coords"]["source"] = "navigatum"
         else:
-            # For rooms we check whether its parent has a coordinate
+            # For rooms, we check whether its parent has a coordinate
             if entry["type"] in {"room", "virtual_room"}:
                 building_parent = [data[e] for e in entry["parents"] if data[e]["type"] == "building"]
                 if len(building_parent) != 1:
@@ -72,14 +72,6 @@ def _get_coordinte_from_parent(building_parent):
 
 def _convert_coordinate_formats(entry):
     """Convert between utm and lat/lon if necessary"""
-    if "utm" not in entry["coords"]:
-        utm_coord = utm.from_latlon(entry["coords"]["lat"], entry["coords"]["lon"])
-        entry["coords"]["utm"] = {
-            "zone_number": utm_coord[2],
-            "zone_letter": utm_coord[3],
-            "easting": utm_coord[0],
-            "northing": utm_coord[1],
-        }
     if "lat" not in entry["coords"]:
         utm_coord = entry["coords"]["utm"]
         latlon_coord = utm.to_latlon(
@@ -101,16 +93,9 @@ def _calc_coordinte_from_children(data, entry):
             lons.append(data[child]["coords"]["lon"])
     lat_coord = sum(lats) / len(lats)
     lon_coord = sum(lons) / len(lons)
-    utm_coord = utm.from_latlon(lat_coord, lon_coord)
     return {
         "lat": lat_coord,
         "lon": lon_coord,
-        "utm": {
-            "zone_number": utm_coord[2],
-            "zone_letter": utm_coord[3],
-            "easting": utm_coord[0],
-            "northing": utm_coord[1],
-        },
         "source": "inferred",
     }
 
