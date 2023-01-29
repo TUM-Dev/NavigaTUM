@@ -11,8 +11,28 @@ pub(crate) struct FetchTileTask {
 }
 
 impl FetchTileTask {
-    pub fn from(z: u32, x: u32, y: u32, index: (u32, u32)) -> Self {
-        Self { x, y, z, index }
+    pub fn from(order: &OverlayMapTask) -> Self {
+        Self {
+            x: order.x as u32,
+            y: order.y as u32,
+            z: order.z,
+            index: (0, 0),
+        }
+    }
+
+    pub(crate) fn offset_by(self, x_offset: i32, y_offset: i32) -> Self {
+        Self {
+            x: (self.x as i64 + x_offset as i64) as u32,
+            y: (self.y as i64 + y_offset as i64) as u32,
+            ..self
+        }
+    }
+
+    pub fn with_index(self, x_index: u32, y_index: u32) -> Self {
+        Self {
+            index: (x_index, y_index),
+            ..self
+        }
     }
 
     pub async fn fulfill(self) -> Option<((u32, u32), image::DynamicImage)> {
