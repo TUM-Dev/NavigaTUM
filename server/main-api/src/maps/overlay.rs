@@ -1,0 +1,141 @@
+use crate::maps::fetch_tile::FetchTileTask;
+use crate::models::DBRoomEntry;
+use futures::future::join_all;
+use log::warn;
+
+pub(crate) struct OverlayMapTask {
+    pub(crate) x: f32,
+    pub(crate) y: f32,
+    pub(crate) z: u32,
+}
+
+impl OverlayMapTask {
+    pub fn with(entry: &DBRoomEntry) -> Self {
+        let zoom = 16;
+        let (x, y, z) = lat_lon_z_to_xyz(entry.lat, entry.lon, zoom);
+        Self { x, y, z }
+    }
+    pub async fn draw_onto(&self, img: &mut image::RgbaImage) -> bool {
+        // coordinate system is centered around the center of the image
+        // around this center there is a 5*3 grid of tiles
+        // -----------------------------------------
+        // | -2/ 1 | -1/ 1 |  0/ 1 |  1/ 1 |  2/ 1 |
+        // | -2/ 0 | -1/ 0 |   x   |  1/ 0 |  2/ 0 |
+        // | -2/-1 | -1/-1 |  0/-1 |  1/-1 |  2/-1 |
+        // -----------------------------------------
+        // we can now filter for "is on the 1200*630 image" and append them to a work queue
+
+        let x_pixels = (512.0 * (self.x - self.x.floor())) as u32;
+        let y_pixels = (512.0 * (self.y - self.y.floor())) as u32;
+        let (x_img_coords, y_img_coords) = center_to_top_left_coordinates(x_pixels, y_pixels);
+        // 3...4*2 entries, because 630-125=505=> max.2 Tiles and 1200=> max 4 tiles
+        let mut work_queue = Vec::new();
+        for x_index in 0..5 {
+            for y_index in 0..3 {
+                if is_in_range(x_img_coords, y_img_coords, x_index, y_index) {
+                    work_queue.push(
+                        FetchTileTask::from(
+                            self.z,
+                            self.x as u32 + x_index - 2,
+                            self.y as u32 + y_index - 1,
+                            (x_index, y_index),
+                        )
+                        .fulfill(),
+                    );
+                }
+            }
+        }
+        // the items in the work queue are then asynchronously downloaded and then drawn
+
+        let results: Vec<Option<((u32, u32), image::DynamicImage)>> = join_all(work_queue).await;
+        for res in results {
+            match res {
+                Some(((x_index, y_index), tile_img)) => {
+                    let x = x_index as i64 * 512 - (x_img_coords as i64);
+                    let y = y_index as i64 * 512 - (y_img_coords as i64);
+                    image::imageops::overlay(img, &tile_img, x, y);
+                }
+                None => {
+                    return false;
+                }
+            }
+        }
+        true
+    }
+}
+
+fn lat_lon_z_to_xyz(lat_deg: f32, lon_deg: f32, zoom: u32) -> (f32, f32, u32) {
+    let lat_rad = lat_deg.to_radians();
+    let n = 2_u32.pow(zoom) as f32;
+    let xtile = (lon_deg + 180.0) / 360.0 * n;
+    let ytile = (1.0 - lat_rad.tan().asinh() / std::f32::consts::PI) / 2.0 * n;
+    (xtile, ytile, zoom)
+}
+
+fn center_to_top_left_coordinates(x_pixels: u32, y_pixels: u32) -> (u32, u32) {
+    // the center coordniates are usefull for orienting ourselves in one tile,
+    // but for drawing them, top left is better
+    let y_to_img_border = 512 + y_pixels;
+    let y_img_coords = y_to_img_border - (630 - 125) / 2;
+    let x_to_img_border = 512 * 2 + x_pixels;
+    let x_img_coords = x_to_img_border - 1200 / 2;
+    (x_img_coords, y_img_coords)
+}
+
+fn is_in_range(x_pixels: u32, y_pixels: u32, x_index: u32, y_index: u32) -> bool {
+    let x_in_range = x_pixels <= (x_index + 1) * 512 && x_pixels + 1200 >= x_index * 512;
+    let y_in_range = y_pixels <= (y_index + 1) * 512 && y_pixels + (630 - 125) >= y_index * 512;
+    x_in_range && y_in_range
+}
+
+#[cfg(test)]
+mod overlay_tests {
+    use super::*;
+
+    #[test]
+    fn test_lat_lon_z_to_xyz() {
+        let (x, y, _) = lat_lon_z_to_xyz(52.520008, 13.404954, 17);
+        assert_eq!(x, 70416.59);
+        assert_eq!(y, 42985.734);
+    }
+
+    #[test]
+    fn test_lat_lon_no_zoom_mut() {
+        for x in -5..5 {
+            let x = x as f32;
+            for y in -5..5 {
+                let y = y as f32;
+                for z in 0..20 {
+                    let (_, _, zg) = lat_lon_z_to_xyz(x + y / 100.0, y, z);
+                    assert_eq!(z, zg);
+                    let (_, _, zg) = lat_lon_z_to_xyz(x, y + x / 100.0, z);
+                    assert_eq!(z, zg);
+                }
+            }
+        }
+    }
+
+    fn assert_range_eq(
+        x_pixels: u32,
+        y_pixels: u32,
+        expected_x: (u32, u32),
+        expected_y: (u32, u32),
+    ) {
+        for x in 0..10 {
+            for y in 0..10 {
+                let (x_min, x_max) = expected_x;
+                let (y_min, y_max) = expected_y;
+                let expected_result = x <= x_max && x >= x_min && y <= y_max && y >= y_min;
+                assert_eq!(is_in_range(x_pixels, y_pixels, x, y), expected_result);
+            }
+        }
+    }
+
+    #[test]
+    fn ranged_test() {
+        assert_range_eq(0, 0, (0, 2), (0, 0));
+        assert_range_eq(0, 513, (0, 2), (1, 1));
+        assert_range_eq(512 / 2, 0, (0, 2), (0, 0));
+        assert_range_eq(512 / 2, 512 / 2, (0, 2), (0, 1));
+    }
+}
