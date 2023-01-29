@@ -1,5 +1,6 @@
 use super::meilisearch;
 use super::preprocess;
+use unicode_truncate::UnicodeTruncateStr;
 
 pub(super) fn merge_search_results(
     args: &super::SanitisedSearchQueryArgs,
@@ -152,13 +153,14 @@ fn parse_room_formats(
             .starts_with(&search_tokens[1].s)
     {
         let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
+        let split_arch_id = unicode_split_at(arch_id, search_tokens[1].s.chars().count());
         Some(format!(
             "{}{} {}{}{}",
             highlighting.0,
             search_tokens[0].s.to_uppercase(),
-            arch_id.get(..search_tokens[1].s.len()).unwrap(),
+            split_arch_id.0,
             highlighting.1,
-            arch_id.get(search_tokens[1].s.len()..).unwrap(),
+            split_arch_id.1,
         ))
     // If it doesn't match some precise room format, but the search is clearly
     // matching the arch name and not the main name, then we highlight this arch name.
@@ -183,11 +185,11 @@ fn parse_room_formats(
         } else {
             let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
             // For some well known buildings we have a prefix that we can use instead
-            let prefix = match hit.unformatted_name.get(..3).unwrap_or_default() {
+            let prefix = match unicode_split_at(&hit.unformatted_name, 3).0 {
                 "560" | "561" => Some("MI "),
                 "550" | "551" => Some("MW "),
                 "540" => Some("CH "),
-                _ => match hit.unformatted_name.get(..4).unwrap_or_default() {
+                _ => match unicode_split_at(&hit.unformatted_name, 4).0 {
                     "5101" => Some("PH "),
                     "5107" => Some("PH II "),
                     _ => None,
@@ -200,17 +202,10 @@ fn parse_room_formats(
                 // look nice. Since this building name here serves only search a
                 // hint, we'll crop it (with more from the end, because there
                 // is usually more entropy)
-                (
-                    None,
-                    format!(
-                        "{} {}…{}",
-                        arch_id,
-                        hit.parent_building_names[0].get(..7).unwrap(),
-                        hit.parent_building_names[0]
-                            .get((hit.parent_building_names[0].len() - 10)..)
-                            .unwrap()
-                    ),
-                )
+                let pn = hit.parent_building_names[0].as_str();
+                let (first, _) = pn.unicode_truncate(7);
+                let (last, _) = pn.unicode_truncate_start(10);
+                (None, format!("{arch_id} {first}…{last}"))
             } else {
                 (
                     None,
@@ -218,15 +213,14 @@ fn parse_room_formats(
                 )
             }
         };
+        let parsed_aid = unicode_split_at(&parsed_arch_id, search_tokens[0].s.chars().count());
         Some(format!(
             "{}{}{}{}{}",
             prefix.unwrap_or_default(),
             highlighting.0,
-            parsed_arch_id.get(..search_tokens[0].s.len()).unwrap(),
+            parsed_aid.0,
             highlighting.1,
-            parsed_arch_id
-                .get(search_tokens[0].s.len()..)
-                .unwrap_or_default(),
+            parsed_aid.1,
         ))
     } else {
         None
@@ -242,5 +236,27 @@ fn generate_subtext(hit: &meilisearch::MSHit) -> String {
     match &hit.campus {
         Some(campus) => format!("{campus}, {building}"),
         None => building,
+    }
+}
+
+fn unicode_split_at(search: &str, width: usize) -> (&str, &str) {
+    // since some UTF-8 grapheme clusters are more than one byte, we need to check where we can split
+    let splitpoint = search.chars().take(width).collect::<String>().len();
+    search.split_at(splitpoint)
+}
+
+#[cfg(test)]
+mod postprocessing_tests {
+    use super::*;
+
+    #[test]
+    fn unicode_split() {
+        assert_eq!(unicode_split_at("Griaß eich", 4), ("Gria", "ß eich"));
+        assert_eq!(unicode_split_at("Griaß eich", 5), ("Griaß", " eich"));
+        assert_eq!(unicode_split_at("Tschöö", 4), ("Tsch", "öö"));
+        assert_eq!(unicode_split_at("Tschöö", 5), ("Tschö", "ö"));
+        assert_eq!(unicode_split_at("Tschöö", 6), ("Tschöö", ""));
+        assert_eq!(unicode_split_at("Ähh", 0), ("", "Ähh"));
+        assert_eq!(unicode_split_at("Ähh", 1), ("Ä", "hh"));
     }
 }
