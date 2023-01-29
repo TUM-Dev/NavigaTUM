@@ -8,6 +8,7 @@
       "mbtiles": ""
     },
     "domains": [
+      "nav.tum.de",
       "localhost:8080",
       "127.0.0.1:8080"
     ],
@@ -28,6 +29,7 @@
     "osm_liberty": {
       "style": "osm_liberty.json",
       "serve_rendered": true,
+      "serve_data": true,
       "tilejson": {
         "format": "png"
       }
