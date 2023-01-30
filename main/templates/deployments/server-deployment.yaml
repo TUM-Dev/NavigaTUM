@@ -65,7 +65,7 @@ spec:
           resources:
             requests:
               cpu: 500m
-              memory: 700Mi
+              memory: 50Mi
             limits:
               memory: 700Mi
           livenessProbe:
