@@ -30,12 +30,6 @@ spec:
         - name: calendar-svc
           port: 8060
     - kind: Rule
-      match: Host(`{{ .Values.url }}`) && PathPrefix(`/api/calendar/`)
-      priority: 13
-      services:
-        - name: calendar-svc
-          port: 8082
-    - kind: Rule
       match: Host(`{{ .Values.url }}`) && PathPrefix(`/api/`)
       priority: 12
       services:
