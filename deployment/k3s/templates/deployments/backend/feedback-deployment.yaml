@@ -24,6 +24,33 @@ spec:
         app: navigatum
         deployment: feedback
     spec:
+      affinity: # no two pods on the same node
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - navigatum
+              - key: deployment
+                operator: In
+                values:
+                - feedback
+            topologyKey: "kubernetes.io/hostname"
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - navigatum
+              - key: deployment
+                operator: In
+                values:
+                - feedback
+            topologyKey: "kubernetes.io/hostname"
       containers:
         - name: feedback
           image: "ghcr.io/tum-dev/navigatum-feedback:{{ .Values.branch }}"
