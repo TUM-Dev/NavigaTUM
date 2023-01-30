@@ -10,10 +10,14 @@ mod utils;
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
 #[get("/api/status")]
-async fn health_handler() -> HttpResponse {
+async fn health_status_handler() -> HttpResponse {
+    let github_link = match std::env::var("GIT_COMMIT_SHA") {
+        Ok(hash) => format!("https://github.com/TUM-Dev/navigatum/tree/{hash}"),
+        Err(_) => "unknown commit hash, probably running in development".to_string(),
+    };
     HttpResponse::Ok()
         .content_type("text/plain")
-        .body("healthy")
+        .body(format!("healthy\nsource_code: {github_link}"))
 }
 
 #[actix_web::main]
@@ -32,7 +36,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Logger::default().exclude("/api/status"))
             .wrap(middleware::Compress::default())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
-            .service(health_handler)
+            .service(health_status_handler)
             .service(web::scope("/api/preview").configure(maps::configure))
             .service(web::scope("/api").configure(core::configure))
     })
