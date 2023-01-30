@@ -1745,34 +1745,18 @@ components:
         - last_sync
     CalendarEntry:
       type: object
+      examples:
+        Quantenteleportation:
+          title: Quantenteleportation
+          entry_type: lecture
+          start: '2018-01-01T00:00:00'
+          end: '2018-01-01T00:00:00'
+          detailed_entry_type: Vorlesung mit anliegeneder übung
       properties:
         title:
           description: The title of the Entry
           type: string
           example: Quantenteleportation
-        entry_type:
-          anyOf:
-            - type: string
-              enum:
-                - exercise
-                - exam
-                - barred
-              example: exercise
-            - type: object
-              properties:
-                Lecture:
-                  description: more precise description what kind of Lecture this is
-                  type: string
-                  example: Vorlesung mit integrierter Übung
-              required:
-                - lecture
-            - type: object
-              properties:
-                Other:
-                  description: more precise description what other event this is
-                  type: string
-              required:
-                - other
         start:
           description: The start of the entry
           type: string
@@ -1783,11 +1767,25 @@ components:
           type: string
           format: date-time
           example: '2018-01-01T00:00:00'
+        entry_type:
+          type: string
+          enum:
+            - lecture
+            - exercise
+            - exam
+            - barred
+            - other
+          description: What this calendar entry means. Each of these should be displayed in a different color
+        detailed_entry_type:
+          type: string
+          description: 'For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)'
+          example: Vorlesung mit Zentralübung
       required:
         - title
-        - entry_type
         - start
         - end
+        - entry_type
+        - detailed_entry_type
     RankingFactors:
       type: object
       properties:

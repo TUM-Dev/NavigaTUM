@@ -62,40 +62,41 @@ struct Event {
     start: NaiveDateTime,
     end: NaiveDateTime,
     entry_type: EventType,
+    detailed_entry_type: String,
 }
 
 #[derive(Serialize, Debug)]
 #[serde(rename_all = "lowercase")]
 enum EventType {
-    Lecture(String),
+    Lecture,
     Exercise,
     Exam,
     Barred,
-    Other(String),
+    Other,
 }
 impl EventType {
-    fn from(xml_event: &XMLEvent) -> Self {
+    fn from(xml_event: &XMLEvent) -> (Self, String) {
         // only used for the lecture type
         let course_type_name = xml_event
             .course_type_name
             .clone()
             .unwrap_or_else(|| "Course type is unknown".to_string());
         match xml_event.single_event_type_id.as_str() {
-            "SPERRE" => return EventType::Barred,
-            "PT" => return EventType::Exam,
-            "P" => return EventType::Lecture(course_type_name), // Prüfung (geplant) is sometimes used for lectures
+            "SPERRE" => return (EventType::Barred, "".to_string()),
+            "PT" => return (EventType::Exam, "".to_string()),
+            "P" => return (EventType::Lecture, course_type_name), // Prüfung (geplant) is sometimes used for lectures
             _ => {}
         }
         match xml_event.event_type_id.as_str() {
-            "LV" => EventType::Lecture(course_type_name),
-            "PT" => EventType::Exam,
-            "EX" => EventType::Exercise,
+            "LV" => (EventType::Lecture, course_type_name),
+            "PT" => (EventType::Exam, "".to_string()),
+            "EX" => (EventType::Exercise, "".to_string()),
             _ => match &xml_event.event_type_name {
-                Some(event_type_name) => EventType::Other(format!(
-                    "{}: {}",
-                    xml_event.single_event_type_name, event_type_name
-                )),
-                None => EventType::Other(xml_event.single_event_type_name.clone()),
+                Some(event_type_name) => (
+                    EventType::Other,
+                    format!("{}: {}", xml_event.single_event_type_name, event_type_name),
+                ),
+                None => (EventType::Other, xml_event.single_event_type_name.clone()),
             },
         }
     }
@@ -103,13 +104,14 @@ impl EventType {
 
 impl From<XMLEvent> for Event {
     fn from(xml_event: XMLEvent) -> Self {
-        let _type = EventType::from(&xml_event);
+        let (entry_type, detailed_entry_type) = EventType::from(&xml_event);
         let title = xml_event.event_title;
         Self {
             title,
             start: xml_event.dtstart,
             end: xml_event.dtend,
-            entry_type: _type,
+            entry_type,
+            detailed_entry_type,
         }
     }
 }
