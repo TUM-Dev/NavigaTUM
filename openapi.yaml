@@ -539,6 +539,93 @@ paths:
                   - Not found
       tags:
         - core
+  '/api/calendar/{id}':
+    get:
+      operationId: calendar
+      summary: Get a entry-preview
+      description: |
+        This returns the a 1200x630px preview for the entry (room/building/..).
+
+        This is usefull for implementing custom OpenGraph images for detail previews.
+      parameters:
+        - name: start
+          in: query
+          description: 'The first allowed time the calendar would like to display'
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: end
+          in: query
+          description: 'The last allowed time the calendar would like to display'
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: id
+          in: path
+          description: string you want to search for
+          required: true
+          schema:
+            type: string
+          examples:
+            '5304':
+              summary: A normal building
+              value: '5304'
+            root:
+              summary: The root entry of the NavigaTUM-data
+              value: root
+            garching:
+              summary: The garching campus
+              value: garching
+            mri:
+              summary: The MRI campus
+              value: garching
+            mi:
+              summary: 'A large, (custom named) building'
+              value: mi
+            mw:
+              summary: 'An other large, (custom named) building'
+              value: mw
+            fsmpi:
+              summary: A regular room
+              value: 5606.EG.036
+            rechnerhalle:
+              summary: A room with custom props added
+              value: 5605.EG.011
+            tb-chemie:
+              summary: A virtual room
+              value: 5401.01.100A
+            humangenetik:
+              summary: A virtual room
+              value: 1543
+      responses:
+        '200':
+          description: More entries of the calendar in the requested time span
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarResponse'
+        '404':
+          description: Invalid input
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Not found
+                enum:
+                  - Not found
+        '503':
+          description: Not Ready, please retry later
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Waiting for first sync with TUMonline
+                enum:
+                  - Waiting for first sync with TUMonline
+      tags:
+        - core
   '/api/preview/{id}':
     get:
       operationId: previews
@@ -1640,6 +1727,65 @@ components:
         - parent_names
         - props
         - ranking_factors
+    CalendarResponse:
+      type: object
+      properties:
+        entries:
+          description: The entries of the requested
+          type: array
+          items:
+            $ref: '#/components/schemas/CalendarEntry'
+        last_sync:
+          description: When the last sync with TUMonline happened.
+          type: string
+          format: date-time
+          example: '2018-01-01T00:00:00'
+      required:
+        - entries
+        - last_sync
+    CalendarEntry:
+      type: object
+      examples:
+        Quantenteleportation:
+          title: Quantenteleportation
+          entry_type: lecture
+          start: '2018-01-01T00:00:00'
+          end: '2018-01-01T00:00:00'
+          detailed_entry_type: Vorlesung mit anliegeneder übung
+      properties:
+        title:
+          description: The title of the Entry
+          type: string
+          example: Quantenteleportation
+        start:
+          description: The start of the entry
+          type: string
+          format: date-time
+          example: '2018-01-01T00:00:00'
+        end:
+          description: The end of the entry
+          type: string
+          format: date-time
+          example: '2018-01-01T00:00:00'
+        entry_type:
+          type: string
+          enum:
+            - lecture
+            - exercise
+            - exam
+            - barred
+            - other
+          description: What this calendar entry means. Each of these should be displayed in a different color
+        detailed_entry_type:
+          type: string
+          description: 'For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)'
+          example: Vorlesung mit Zentralübung
+      required:
+        - title
+        - start
+        - end
+        - entry_type
+        - detailed_entry_type
     RankingFactors:
       type: object
       properties:
