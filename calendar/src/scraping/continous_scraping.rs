@@ -2,22 +2,28 @@ use crate::scraping::task::ScrapeRoomTask;
 use crate::scraping::tumonline_calendar::{Strategy, XMLEvents};
 use crate::utils;
 use crate::utils::statistics::Statistic;
+use actix_web::web::Data;
 use awc::{Client, Connector};
-use chrono::{NaiveDate, Utc};
+use chrono::{NaiveDate, NaiveDateTime, Utc};
 use diesel::prelude::*;
 use futures::future::join_all;
 use log::{error, info, warn};
 use std::time::{Duration, Instant};
+use tokio::sync::Mutex;
 use tokio::time::sleep;
 
 const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
-pub async fn start_scraping() {
+pub async fn start_scraping(last_sync: Data<Mutex<Option<NaiveDateTime>>>) {
     let mut interval = actix_rt::time::interval(Duration::from_secs(SECONDS_PER_DAY)); //24h
     loop {
         interval.tick().await;
         delete_scraped_results();
         scrape_to_db(chrono::Duration::days(30 * 4)).await;
         promote_scraped_results_to_prod();
+        {
+            let mut last_scrape = last_sync.lock().await;
+            *last_scrape = Some(Utc::now().naive_utc());
+        }
     }
 }
 
