@@ -85,7 +85,7 @@ jobs:
           api-name: navigatum
           schema: "./openapi.yaml"
           base-url: "http://localhost:8080"
-          args: "--endpoint='/api/[^f].*'" # disable the feedbacks endpoint
+          args: "--endpoint='/api/[^fc].*'" # disable the feedbacks endpoint
   server-deployment:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
