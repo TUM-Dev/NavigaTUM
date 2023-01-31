@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: refresh-planet
+  labels:
+    app: navigatum
+    deployment: maps
+  namespace: {{ .Values.namespace }}
+spec:
+  schedule: "0 2 */2 * 6" # every 2nd Saturday at 2am
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          affinity: # no two pods on the same node
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                  - key: tileserver-db-ready
+                    operator: In
+                    values:
+                    - "true"
+                topologyKey: "kubernetes.io/hostname"
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                  - key: tileserver-capable
+                    operator: In
+                    values:
+                    - "true"
+                topologyKey: "kubernetes.io/hostname"
+          volumes:
+            - name: tileserver-vol
+              persistentVolumeClaim:
+                  readOnly: false
+                  claimName: tileserver-pvc
+          containers:
+          - name: refresh-planetiler
+            image: ghcr.io/onthegomap/planetiler:latest
+            volumeMounts:
+            - mountPath: /data
+              name: tileserver-vol
+            args:
+            - --download
+            - --area=europe
+            - --languages=de,en
+            - --Xmx6g
+            - --storage=mmap
+            env:
+            - name: JAVA_TOOL_OPTIONS
+              value: -Xmx6g
+          restartPolicy: OnFailure
