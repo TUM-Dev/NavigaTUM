@@ -32,7 +32,7 @@ spec:
               - key: tileserver
                 operator: In
                 values:
-                - capable
+                - ready
       volumes:
         - name: tmp-tileserver
           emptyDir: {}
