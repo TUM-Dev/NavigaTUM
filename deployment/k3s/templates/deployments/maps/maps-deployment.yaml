@@ -38,8 +38,11 @@ spec:
           emptyDir: {}
         - name: tileserver-vol
           persistentVolumeClaim:
-              readOnly: false
-              claimName: tileserver-pvc
+            readOnly: false
+            claimName: tileserver-pvc
+        - name: tileserver-config
+          configMap:
+            name: tileserver-config
       containers:
         - name: tileserver
           image: maptiler/tileserver-gl:latest
@@ -54,6 +57,12 @@ spec:
               name: tmp-tileserver
             - mountPath: /data
               name: tileserver-vol
+            - name: tileserver-config
+              mountPath: /data/config.json
+              subPath: config.json
+            - name: tileserver-config
+              mountPath: /data/styles/osm_liberty.json
+              subPath: osm_liberty.json
           securityContext:
             readOnlyRootFilesystem: true
           resources:

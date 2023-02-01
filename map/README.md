@@ -9,7 +9,7 @@ The style is a JSON file that defines how the map should look like.
 The tileset is a sqlite database that contains the map data.
 A tileserver takes these two components and produces a variety of formats (png, webp, json, etc.) for the frontend.
 
-### 0. generate your own tileset
+### generate your own tileset
 
 Sadly tilesets are really large (`europe` is ca. 30GB, `planet` ca. 80GB).
 Because of limited badwith and storage space we can't provide a tileset for everyone.
@@ -28,6 +28,19 @@ docker run -it -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data ghcr.io/onth
 ```
 
 For `planet`, you might want to increase the `--Xmx` parameter to 20GB. For 128GB of RAM or more you will want to use `--storage=ram` instead of `--storage=mmap`.
+
+### Copy the currently deployed style
+
+```bash
+cp config.json ../deployment/k3s/files/maps/config.json
+```
+
+### Copy the currently deployed configuration
+
+```bash
+mkdir -p styles
+cp styles/osm_liberty.json ../deployment/k3s/files/maps/osm_liberty.json
+```
 
 ### Serve the tileset
 
