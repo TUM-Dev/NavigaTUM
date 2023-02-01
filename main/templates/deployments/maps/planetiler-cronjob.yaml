@@ -25,8 +25,7 @@ spec:
           volumes:
             - name: tileserver-vol
               persistentVolumeClaim:
-                  readOnly: false
-                  claimName: tileserver-pvc
+                claimName: tileserver-pvc
           containers:
           - name: refresh-planetiler
             image: ghcr.io/onthegomap/planetiler:latest

@@ -38,19 +38,6 @@ spec:
                 values:
                 - feedback
             topologyKey: "kubernetes.io/hostname"
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - navigatum
-              - key: deployment
-                operator: In
-                values:
-                - feedback
-            topologyKey: "kubernetes.io/hostname"
       containers:
         - name: feedback
           image: "ghcr.io/tum-dev/navigatum-feedback:{{ .Values.branch }}"
