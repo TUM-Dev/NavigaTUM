@@ -42,10 +42,10 @@ spec:
             env:
             - name: JAVA_TOOL_OPTIONS
               value: -Xmx6g
+            resources:
+              requests:
+                cpu: 3000m
+                memory: 6Gi
+              limits:
+                memory: 7Gi
           restartPolicy: OnFailure
-          resources:
-            requests:
-              cpu: 3000m
-              memory: 6Gi
-            limits:
-              memory: 7Gi
