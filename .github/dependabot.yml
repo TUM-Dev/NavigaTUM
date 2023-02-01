@@ -7,9 +7,17 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "cargo"
-    directory: "/server"
+    directory: "/server/main-api"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+  - package-ecosystem: "cargo"
+    directory: "/server/calendar"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "cargo"
+    directory: "/server/feedback"
+    schedule:
+      interval: "daily"
   - package-ecosystem: "npm"
     directory: "/webclient"
     schedule:

@@ -44,9 +44,7 @@ For an overview of how the components work, have a look at the
 [deployment documentation](deployment/README.md).
 
 - `data/` contains the code to obtain and process the data
-- `server/` contains the API server written in Rust, including MeiliSearch as a search backend
-- `feedback/` contains the feedback-API server written in Rust
-- `calendar/` contains the calendar-API server written in Rust
+- `server/` contains the APIs written in Rust
 - `webclient/` contains a JS based web-frontend for the API
 - `deployment/` contains deployment related configuration
 - `map/` contains information about our own map, how to style it and how to run it
@@ -77,8 +75,8 @@ sudo rm -fr /tmp/navigatum/ && mkdir -p /tmp/navigatum/ && mkdir -p /tmp/navigat
 docker run -it --rm -v /tmp/navigatum/meili:/meili_data ghcr.io/tum-dev/navigatum-mieli-search-init:main
 docker run -it --rm -p 7700:7700 --name search -v /tmp/navigatum/meili:/meili_data --network navigatum-net getmeili/meilisearch:latest
 
-docker run -it --rm -v /tmp:/navigatum/server/ ghcr.io/tum-dev/navigatum-server-init:main
-docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main
+docker run -it --rm -v /tmp:/navigatum/server/ ghcr.io/tum-dev/navigatum-building-db-init:main
+docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-main-api:main
 ```
 
 Else you can follow the steps in the [server documentation](server/README.md).

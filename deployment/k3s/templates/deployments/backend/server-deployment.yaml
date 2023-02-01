@@ -30,13 +30,13 @@ spec:
         - name: tmp-mieli-search
           emptyDir: {}
       initContainers:
-        - name: server-init-db
-          image: "ghcr.io/tum-dev/navigatum-server-init:{{ .Values.branch }}"
+        - name: building-db-init
+          image: "ghcr.io/tum-dev/navigatum-building-db-init:{{ .Values.branch }}"
           imagePullPolicy: Always
           volumeMounts:
             - mountPath: /tmp
               name: tmp-server
-        - name: server-init-meili
+        - name: meili-init
           image: "ghcr.io/tum-dev/navigatum-mieli-search-init:{{ .Values.branch }}"
           imagePullPolicy: Always
           volumeMounts:
@@ -44,7 +44,7 @@ spec:
               name: tmp-mieli-search
       containers:
         - name: server
-          image: "ghcr.io/tum-dev/navigatum-server:{{ .Values.branch }}"
+          image: "ghcr.io/tum-dev/navigatum-main-api:{{ .Values.branch }}"
           imagePullPolicy: Always
           {{ if .Values.server.MEILI_MASTER_KEY }}
           envFrom:

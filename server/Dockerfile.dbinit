@@ -4,7 +4,7 @@ COPY    load_api_data_to_db.py load_api_data_to_db.py
 
 # For local testing if navigatum is not available:
 # - follow the data-docs to get api_data.json
-# - copy it to the directory server/data
+# - copy it to the directory server/main-api/data
 # - comment out the wget statement
 # - and enable the next line
 # COPY data/api_data.json data/api_data.json

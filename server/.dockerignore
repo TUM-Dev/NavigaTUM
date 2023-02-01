@@ -1,4 +1,4 @@
-target
-.hypothesis/
+*/target
 Cargo.lock
-data
+*/data
+.hypothesis
