@@ -14,6 +14,7 @@ jobs:
       feedback: ${{ steps.filter.outputs.feedback }}
       calendar: ${{ steps.filter.outputs.calendar }}
       data: ${{ steps.filter.outputs.data }}
+      webclient: ${{ steps.filter.outputs.webclient }}
     steps:
       - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
@@ -32,6 +33,9 @@ jobs:
             data:
               - '.github/**'
               - 'data/**'
+            webclient:
+              - '.github/**'
+              - 'webclient/**'
   feedback-build:
     needs:
       - changes
