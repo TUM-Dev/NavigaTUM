@@ -57,13 +57,13 @@ spec:
               memory: 500Mi
           livenessProbe:
             httpGet:
-              path: /api/calendar/health
+              path: /api/calendar/status
               port: calendar
             failureThreshold: 2
             periodSeconds: 10
           startupProbe:
             httpGet:
-              path: /api/calendar/health
+              path: /api/calendar/status
               port: calendar
             failureThreshold: 60
             periodSeconds: 1

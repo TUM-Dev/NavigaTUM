@@ -70,13 +70,13 @@ spec:
               memory: 700Mi
           livenessProbe:
             httpGet:
-              path: /api/health
+              path: /api/status
               port: api
             failureThreshold: 1
             periodSeconds: 1
           startupProbe:
             httpGet:
-              path: /api/health
+              path: /api/status
               port: api
             failureThreshold: 60
             periodSeconds: 1

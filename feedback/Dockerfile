@@ -23,5 +23,5 @@ ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 EXPOSE  8070
 
 ENTRYPOINT ["tini", "--"]
-HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8070/api/feedback/health || exit 1
+HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8070/api/feedback/status || exit 1
 CMD     /bin/navigatum-feedback

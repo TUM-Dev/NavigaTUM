@@ -19,24 +19,15 @@ pub struct Opt {
     jwt_key: Option<String>,
 }
 
-#[get("/api/feedback/source_code")]
-async fn source_code_handler() -> HttpResponse {
-    let gh_base = "https://github.com/TUM-Dev/navigatum".to_string();
-    let commit_hash = std::env::var("GIT_COMMIT_SHA");
-    let github_link = match commit_hash {
-        Ok(hash) => format!("{gh_base}/tree/{hash}"),
-        Err(_) => gh_base,
+#[get("/api/feedback/status")]
+async fn health_status_handler() -> HttpResponse {
+    let github_link = match std::env::var("GIT_COMMIT_SHA") {
+        Ok(hash) => format!("https://github.com/TUM-Dev/navigatum/tree/{hash}"),
+        Err(_) => "unknown commit hash, probably running in development".to_string(),
     };
     HttpResponse::Ok()
         .content_type("text/plain")
-        .body(github_link)
-}
-
-#[get("/api/feedback/health")]
-async fn health_handler() -> HttpResponse {
-    HttpResponse::Ok()
-        .content_type("text/plain")
-        .body("healthy")
+        .body(format!("healthy\nsource_code: {github_link}"))
 }
 
 #[tokio::main]
@@ -61,11 +52,10 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             .wrap(cors)
-            .wrap(middleware::Logger::default().exclude("/api/feedback/health"))
+            .wrap(middleware::Logger::default().exclude("/api/feedback/status"))
             .wrap(middleware::Compress::default())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
-            .service(source_code_handler)
-            .service(health_handler)
+            .service(health_status_handler)
             .service(
                 web::scope("/api/feedback")
                     .configure(core::configure)
