@@ -15,8 +15,8 @@ spec:
       deployment: maps
   strategy:
     rollingUpdate:
-      maxSurge: 100%
-      maxUnavailable: 0%
+      maxSurge: 50%
+      maxUnavailable: 50%
     type: RollingUpdate
   template:
     metadata:
@@ -24,20 +24,15 @@ spec:
         app: navigatum
         deployment: maps
     spec:
-      affinity: # no two pods on the same node
-        podAffinity:
+      affinity:
+        nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: tileserver-capable
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: tileserver
                 operator: In
                 values:
-                - "true"
-              - key: tileserver-db-ready
-                operator: In
-                values:
-                - "true"
-            topologyKey: "kubernetes.io/hostname"
+                - capable
       volumes:
         - name: tmp-tileserver
           emptyDir: {}

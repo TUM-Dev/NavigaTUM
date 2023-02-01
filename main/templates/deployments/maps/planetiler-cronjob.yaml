@@ -13,25 +13,15 @@ spec:
     spec:
       template:
         spec:
-          affinity: # no two pods on the same node
-            podAntiAffinity:
+          affinity:
+            nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
-              - labelSelector:
-                  matchExpressions:
-                  - key: tileserver-db-ready
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: tileserver
                     operator: In
                     values:
-                    - "true"
-                topologyKey: "kubernetes.io/hostname"
-            podAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-              - labelSelector:
-                  matchExpressions:
-                  - key: tileserver-capable
-                    operator: In
-                    values:
-                    - "true"
-                topologyKey: "kubernetes.io/hostname"
+                    - capable
           volumes:
             - name: tileserver-vol
               persistentVolumeClaim:
@@ -53,3 +43,9 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: -Xmx6g
           restartPolicy: OnFailure
+          resources:
+            requests:
+              cpu: 3000m
+              memory: 6Gi
+            limits:
+              memory: 7Gi
