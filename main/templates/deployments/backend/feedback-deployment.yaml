@@ -73,13 +73,13 @@ spec:
               memory: 40Mi
           livenessProbe:
             httpGet:
-              path: /api/feedback/health
+              path: /api/feedback/status
               port: feedback
             failureThreshold: 2
             periodSeconds: 1
           startupProbe:
             httpGet:
-              path: /api/feedback/health
+              path: /api/feedback/status
               port: feedback
             failureThreshold: 6
             periodSeconds: 1

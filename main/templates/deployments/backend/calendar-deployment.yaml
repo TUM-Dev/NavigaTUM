@@ -28,8 +28,8 @@ spec:
         - name: tmp-calendar
           emptyDir: {}
       initContainers:
-        - name: calendar-init-db
-          image: "ghcr.io/tum-dev/navigatum-server-init:{{ .Values.branch }}"
+        - name: building-db-init
+          image: "ghcr.io/tum-dev/navigatum-building-db-init:{{ .Values.branch }}"
           imagePullPolicy: Always
           volumeMounts:
             - mountPath: /tmp
@@ -57,13 +57,13 @@ spec:
               memory: 500Mi
           livenessProbe:
             httpGet:
-              path: /api/calendar/health
+              path: /api/calendar/status
               port: calendar
             failureThreshold: 2
             periodSeconds: 10
           startupProbe:
             httpGet:
-              path: /api/calendar/health
+              path: /api/calendar/status
               port: calendar
             failureThreshold: 60
             periodSeconds: 1
