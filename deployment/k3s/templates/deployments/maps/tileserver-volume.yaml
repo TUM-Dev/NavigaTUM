@@ -8,12 +8,12 @@ metadata:
     deployment: maps
     type: local
 spec:
-  storageClassName: manual
+  storageClassName: local-path
   capacity:
     storage: 28Gi
   persistentVolumeReclaimPolicy: Retain
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: "/mnt/data/navigatum/tileserver"
 ---
@@ -29,7 +29,7 @@ metadata:
 spec:
   storageClassName: local-path
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 28Gi
