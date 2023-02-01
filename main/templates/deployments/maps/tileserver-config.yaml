@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: tileserver-style
+  namespace: {{ .Values.app.namespace }}
+data:
+  osm_liberty.json: |-
+{{ .Files.Get "files/maps/osm_liberty.json" | indent 4 }}
+  config.json: |-
+{{ .Files.Get "files/maps/config.json" | indent 4 }}
