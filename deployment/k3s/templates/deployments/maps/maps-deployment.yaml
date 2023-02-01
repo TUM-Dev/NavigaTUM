@@ -37,6 +37,7 @@ spec:
                 operator: In
                 values:
                 - "true"
+            topologyKey: "kubernetes.io/hostname"
       volumes:
         - name: tmp-tileserver
           emptyDir: {}
