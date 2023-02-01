@@ -19,7 +19,7 @@ strip = true
 [dependencies]
 regex = "1.7.0"
 log = "0.4.17"
-octocrab = "0.17.0"
+octocrab = "0.18.1"
 actix-web = "4.2.1"
 serde = { version = "1.0.148", features = ["derive"] }
 serde_json = "1.0.89"
