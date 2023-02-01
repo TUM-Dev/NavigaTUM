@@ -234,30 +234,7 @@ navigatum.registerModule(
 
           // preview of the following style is available at
           // https://nav.tum.de/maps/
-          //style: "https://nav.tum.de/maps/styles/osm_liberty/style.json",
-          style:  {
-            'version': 8,
-            'sources': {
-              'raster-tiles': {
-                'type': 'raster',
-                'tiles': [
-                  'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
-                ],
-                'tileSize': 256,
-                'attribution':
-                'Map tiles by <a target="_top" rel="noopener" href="https://openstreetmap.org">OpenStreetMap</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
-              }
-            },
-            'layers': [
-              {
-                'id': 'simple-tiles',
-                'type': 'raster',
-                'source': 'raster-tiles',
-                'minzoom': 0,
-                'maxzoom': 22
-              }
-            ]
-          },
+          style: "https://nav.tum.de/maps/styles/osm_liberty/style.json",
 
           center: [11.5748, 48.14], // Approx Munich
           zoom: 11, // Zoomed out so that the whole city is visible
