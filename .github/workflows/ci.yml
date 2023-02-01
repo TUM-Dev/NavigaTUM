@@ -1,0 +1,183 @@
+name: server CD
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  # JOB to run change detection
+  changes:
+    runs-on: ubuntu-latest
+    # Set job outputs to values from filter step
+    outputs:
+      server: ${{ steps.filter.outputs.server }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            server:
+              - '.github/**'
+              - 'server/main-api/**'
+            feedback:
+              - '.github/**'
+              - 'server/feedback/**'
+            calendar:
+              - '.github/**'
+              - 'server/calendar/**'
+            data:
+              - '.github/**'
+              - 'data/**'
+  feedback-build:
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.feedback == 'true' }}
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      image_suffix: feedback
+      context: ./server/feedback
+      dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  feedback-deployment:
+    uses: ./.github/workflows/restart-argocd.yaml
+    needs:
+      - feedback-build
+    with:
+      deployment: feedback
+  calendar-build:
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.calendar == 'true' }}
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      image_suffix: calendar
+      context: ./server/calendar
+      dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  calendar-deployment:
+    uses: ./.github/workflows/restart-argocd.yaml
+    needs:
+      - calendar-build
+    with:
+      deployment: calendar
+  main-api-build:
+    uses: ./.github/workflows/docker-build.yml
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.main-api == 'true' }}
+    with:
+      image_suffix: main-api
+      context: ./server/main-api
+      dockerfile: Dockerfile.server
+    permissions:
+      contents: read
+      packages: write
+  building-db-init-build:
+    uses: ./.github/workflows/docker-build.yml
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.main-api == 'true' }}
+    with:
+      image_suffix: building-db-init
+      context: ./server
+      dockerfile: Dockerfile.dbinit
+    permissions:
+      contents: read
+      packages: write
+  mieli-search-init-build:
+    uses: ./.github/workflows/docker-build.yml
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.server == 'true' }}
+    with:
+      image_suffix: mieli-search-init
+      context: ./server/main-api
+      dockerfile: Dockerfile.msinit
+    permissions:
+      contents: read
+      packages: write
+  api-tests:
+    runs-on: ubuntu-20.04
+    services:
+      mieli:
+        image: getmeili/meilisearch:latest
+        ports:
+          - 7700
+    steps:
+      - uses: actions/checkout@v3.0.0
+      - uses: ATiltedTree/setup-rust@v1.0.5
+        with:
+          rust-version: 1.65
+      # this script takes about 30s to completely configure meili, which is more time than our server needs to build
+      - run: bash configure_MeileSearch.sh &
+        working-directory: server
+
+      # run the apiserver
+      - run: cargo build
+        working-directory: server
+      - run: cargo run &
+        working-directory: server
+
+      # Runs Schemathesis tests with all checks enabled
+      - uses: schemathesis/action@v1
+        with:
+          token: ${{ secrets.SCHEMATHESIS_TOKEN }}
+          api-name: navigatum
+          schema: "./openapi.yaml"
+          base-url: "http://localhost:8080"
+          args: "--endpoint='/api/[^fc].*'" # disable the feedbacks endpoint
+  server-deployment:
+    uses: ./.github/workflows/restart-argocd.yaml
+    needs:
+      - server-build
+      - building-db-init-build
+      - mieli-search-init-build
+    with:
+      deployment: server
+  data-build:
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.data == 'true' }}
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      image_suffix: data
+      context: ./data
+      dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  data-deployment-1:
+    uses: ./.github/workflows/restart-argocd.yaml
+    needs:
+      - data-build
+    with:
+      deployment: data
+  data-deployment-2: # we need to restart the server, as otherwise it will not serve the new data
+    uses: ./.github/workflows/restart-argocd.yaml
+    needs:
+      - data-deployment-1
+    with:
+      deployment: server
+  webclient-build:
+    uses: ./.github/workflows/docker-build.yml
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.webclient == 'true' }}
+    with:
+      image_suffix: webclient
+      context: ./webclient
+      dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  webclient-deployment:
+    uses: ./.github/workflows/restart-argocd.yaml
+    needs:
+      - webclient-build
+    with:
+      deployment: webclient
