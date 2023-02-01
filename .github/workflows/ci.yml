@@ -134,7 +134,7 @@ jobs:
   server-deployment:
     uses: ./.github/workflows/restart-argocd.yaml
     needs:
-      - server-build
+      - main-api-build
       - building-db-init-build
       - mieli-search-init-build
     with:
