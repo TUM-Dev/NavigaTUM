@@ -34,18 +34,17 @@ spec:
               name: tileserver-vol
             args:
             - --download
-            - storage=direct
+            - --storage=direct
             - --area=europe
             - --languages=de,en
             - --Xmx6g
-            - --storage=mmap
             env:
             - name: JAVA_TOOL_OPTIONS
               value: -Xmx6g
             resources:
               requests:
                 cpu: 3000m
-                memory: 6Gi
+                memory: 9Gi
               limits:
                 memory: 7Gi
           restartPolicy: OnFailure
