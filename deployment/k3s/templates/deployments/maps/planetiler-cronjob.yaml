@@ -37,18 +37,16 @@ spec:
             - --fetch_wikidata=true
             - --area=europe
             - --languages=de,en
-            - --storage=direct
-            - --nodemap_storage=direct
-            - --mmap_temp=false
-            - --optimize_db=false
-            - --Xmx6g
+            - --storage=mmap
+            - --optimize_db=true
+            - --Xmx9g
             env:
             - name: JAVA_TOOL_OPTIONS
-              value: -Xmx6g
+              value: -Xmx9g
             resources:
               requests:
                 cpu: 3000m
-                memory: 6Gi
+                memory: 10Gi
               limits:
-                memory: 7Gi
+                memory: 12Gi
           restartPolicy: OnFailure
