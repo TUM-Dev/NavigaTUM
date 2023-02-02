@@ -48,7 +48,7 @@ spec:
             resources:
               requests:
                 cpu: 3000m
-                memory: 9Gi
+                memory: 6Gi
               limits:
                 memory: 7Gi
           restartPolicy: OnFailure
