@@ -58,10 +58,10 @@ fn get_localised_data(id: &str, should_use_english: bool) -> Result<DBRoomEntry,
 }
 
 // type and create are specified, because a custom conversion is needed
-// size=20 is about 60MB
+// size=30 is about 60MB
 #[cached(
     type = "SizedCache<String, Vec<u8>>",
-    create = "{ SizedCache::with_size(5) }",
+    create = "{ SizedCache::with_size(30) }",
     option = true,
     convert = r#"{ _id.to_string() }"#
 )]
