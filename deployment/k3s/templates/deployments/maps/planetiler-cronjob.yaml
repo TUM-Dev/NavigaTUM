@@ -41,7 +41,7 @@ spec:
             args:
             - --download
             - --fetch_wikidata=true
-            - --area=europe
+            - --area=planet
             - --languages=de,en
             - --storage=mmap
             - --optimize_db=true
