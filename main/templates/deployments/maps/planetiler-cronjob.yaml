@@ -34,9 +34,13 @@ spec:
               name: tileserver-vol
             args:
             - --download
-            - --storage=direct
+            - --fetch_wikidata=true
             - --area=europe
             - --languages=de,en
+            - --storage=direct
+            - --nodemap_storage=direct
+            - --mmap_temp=false
+            - --optimize_db=false
             - --Xmx6g
             env:
             - name: JAVA_TOOL_OPTIONS
