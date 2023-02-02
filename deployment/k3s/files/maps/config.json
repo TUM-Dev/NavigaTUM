@@ -17,7 +17,8 @@
       "webp": 90
     },
     "maxScaleFactor": 2,
-    "maxRendererPoolSizes": [4],
+    "minRendererPoolSizes": [8],
+    "maxRendererPoolSizes": [8],
     "maxSize": 2048,
     "pbfAlias": "pbf",
     "serveAllFonts": true,
