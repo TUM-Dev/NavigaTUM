@@ -58,7 +58,7 @@ fn get_localised_data(id: &str, should_use_english: bool) -> Result<DBRoomEntry,
 }
 
 // type and create are specified, because a custom conversion is needed
-// size=30 is about 60MB
+// size=50 is about 150Mi
 #[cached(
     type = "SizedCache<String, Vec<u8>>",
     create = "{ SizedCache::with_size(30) }",
