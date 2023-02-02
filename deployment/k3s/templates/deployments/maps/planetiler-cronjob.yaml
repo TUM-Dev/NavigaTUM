@@ -26,13 +26,14 @@ spec:
             - name: tileserver-vol
               persistentVolumeClaim:
                 claimName: tileserver-pvc
+          initContainers:
+            - name: delete-old-data
+              image: busybox
+              volumeMounts:
+              - mountPath: /data
+                name: tileserver-vol
+              command: ["rm", "-f", "/data/output.mbtiles"]
           containers:
-          - name: delete-old-data
-            image: busybox
-            volumeMounts:
-            - mountPath: /data
-              name: tileserver-vol
-            command: ["rm", "-f", "/data/output.mbtiles"]
           - name: refresh-planetiler
             image: ghcr.io/onthegomap/planetiler:latest
             volumeMounts:
