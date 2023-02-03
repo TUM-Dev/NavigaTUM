@@ -6,7 +6,7 @@ fn api_url_from_env() -> Option<String> {
     let main_api_port = std::env::var("API_SVC_SERVICE_PORT_API").ok()?;
 
     Some(format!(
-        "http://{main_api_addr}:{main_api_port}/api/list/ids_with_calendar"
+        "http://{main_api_addr}:{main_api_port}/internal/list/ids_with_calendar"
     ))
 }
 
@@ -19,7 +19,7 @@ pub async fn get_all_ids() -> Vec<ReducedRoom> {
     // returns all (key, tumonline_room_nr) from the main-api
     let client = Client::default();
     let url = api_url_from_env()
-        .unwrap_or_else(|| "https://nav.tum.de/api/list/ids_with_calendar".to_string());
+        .unwrap_or_else(|| "https://nav.tum.de/internal/list/ids_with_calendar".to_string());
     let res = client.get(url).send().await;
     let text = match res {
         Ok(mut res) => res.body().await,
