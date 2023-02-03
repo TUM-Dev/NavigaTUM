@@ -1,6 +1,6 @@
 mod github;
 mod tokens;
-use crate::core::tokens::{Claims, RateLimit};
+use crate::core::tokens::Claims;
 use actix_web::web::{Data, Json};
 use actix_web::{post, web, HttpResponse};
 use jsonwebtoken::{encode, EncodingKey, Header};
@@ -10,11 +10,19 @@ use serde::Deserialize;
 use tokio::sync::Mutex;
 
 pub struct AppStateFeedback {
-    available: bool,
     opt: crate::Opt,
-    generated_tokens: RateLimit,
-    consumed_tokens: RateLimit,
     token_record: Mutex<Vec<TokenRecord>>,
+}
+impl AppStateFeedback {
+    pub fn from(opt: crate::Opt) -> AppStateFeedback {
+        AppStateFeedback {
+            opt,
+            token_record: Mutex::new(Vec::new()),
+        }
+    }
+    pub fn able_to_process_feedback(&self) -> bool {
+        self.opt.github_token.is_some() && self.opt.jwt_key.is_some()
+    }
 }
 
 pub struct TokenRecord {
@@ -32,36 +40,17 @@ struct FeedbackPostData {
     delete_issue_requested: bool,
 }
 
-pub fn init_state(opt: crate::Opt) -> AppStateFeedback {
-    let available = opt.github_token.is_some() && opt.jwt_key.is_some();
-    AppStateFeedback {
-        available,
-        opt,
-        generated_tokens: RateLimit::new(),
-        consumed_tokens: RateLimit::new(),
-        token_record: Mutex::new(Vec::new()),
-    }
-}
-
 pub fn configure(cfg: &mut web::ServiceConfig) {
     cfg.service(get_token).service(send_feedback);
 }
 
 #[post("/get_token")]
 async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
-    //auth
-    if !state.available {
+    if !state.able_to_process_feedback() {
         return HttpResponse::ServiceUnavailable()
             .content_type("text/plain")
             .body("Feedback is currently not configured on this server.");
     }
-    if !state.generated_tokens.check_and_increment() {
-        return HttpResponse::TooManyRequests()
-            .content_type("text/plain")
-            .body("Too many tokens generated. Please try again later.");
-    }
-
-    // we now know that we are allowed to generate a token
 
     let secret = state.opt.jwt_key.clone().unwrap(); // we checked available
     let token = encode(

@@ -42,7 +42,7 @@ async fn main() -> std::io::Result<()> {
         opt.jwt_key = std::env::var("JWT_KEY").ok();
     }
 
-    let state_feedback = web::Data::new(core::init_state(opt));
+    let state_feedback = web::Data::new(core::AppStateFeedback::from(opt));
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
