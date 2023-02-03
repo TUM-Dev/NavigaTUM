@@ -3,7 +3,7 @@ use actix_web::{get, web};
 use diesel::prelude::*;
 use log::error;
 
-#[get("/list/ids_with_calendar/")]
+#[get("/list/ids_with_calendar")]
 pub async fn ids_with_calendar() -> web::Json<Vec<(String, i32)>> {
     let conn = &mut utils::establish_connection();
 

@@ -1,0 +1,6 @@
+# Build the details database
+FROM python:3.11-bullseye as build-stage
+COPY    init_db.py init_db.py
+
+CMD    python3 init_db.py \
+    && mv /data/api_data.db /tmp/server.db
