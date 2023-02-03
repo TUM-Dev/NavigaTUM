@@ -31,7 +31,7 @@ pub struct TokenRecord {
 }
 
 #[derive(Deserialize)]
-struct FeedbackPostData {
+pub struct FeedbackPostData {
     token: String,
     category: String,
     subject: String,
@@ -40,12 +40,8 @@ struct FeedbackPostData {
     delete_issue_requested: bool,
 }
 
-pub fn configure(cfg: &mut web::ServiceConfig) {
-    cfg.service(get_token).service(send_feedback);
-}
-
-#[post("/get_token")]
-async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
+#[post("/api/feedback/get_token")]
+pub async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
     if !state.able_to_process_feedback() {
         return HttpResponse::ServiceUnavailable()
             .content_type("text/plain")
@@ -70,8 +66,8 @@ async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
     }
 }
 
-#[post("/feedback")]
-async fn send_feedback(
+#[post("/api/feedback/feedback")]
+pub async fn send_feedback(
     state: Data<AppStateFeedback>,
     req_data: Json<FeedbackPostData>,
 ) -> HttpResponse {

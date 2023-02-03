@@ -1,4 +1,7 @@
 use actix_cors::Cors;
+use actix_governor::{GlobalKeyExtractor, Governor, GovernorConfigBuilder};
+use std::time::Duration;
+
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 
 use structopt::StructOpt;
@@ -30,6 +33,7 @@ async fn health_status_handler() -> HttpResponse {
         .body(format!("healthy\nsource_code: {github_link}"))
 }
 
+const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
@@ -42,6 +46,13 @@ async fn main() -> std::io::Result<()> {
         opt.jwt_key = std::env::var("JWT_KEY").ok();
     }
 
+    let feedback_ratelimit = GovernorConfigBuilder::default()
+        .key_extractor(GlobalKeyExtractor)
+        .period(Duration::from_secs(SECONDS_PER_DAY / 50))
+        .burst_size(20)
+        .finish()
+        .unwrap();
+
     let state_feedback = web::Data::new(core::AppStateFeedback::from(opt));
     HttpServer::new(move || {
         let cors = Cors::default()
@@ -49,17 +60,18 @@ async fn main() -> std::io::Result<()> {
             .allow_any_header()
             .allowed_methods(vec!["GET", "POST"])
             .max_age(3600);
-
         App::new()
             .wrap(cors)
             .wrap(middleware::Logger::default().exclude("/api/feedback/status"))
             .wrap(middleware::Compress::default())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(health_status_handler)
+            .app_data(state_feedback.clone())
+            .service(core::send_feedback)
             .service(
-                web::scope("/api/feedback")
-                    .configure(core::configure)
-                    .app_data(state_feedback.clone()),
+                web::scope("")
+                    .wrap(Governor::new(&feedback_ratelimit))
+                    .service(core::get_token),
             )
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8070".to_string()))?
