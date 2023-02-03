@@ -201,3 +201,5 @@ jobs:
       - webclient-build
     with:
       deployment: webclient
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
