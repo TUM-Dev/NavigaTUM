@@ -2,7 +2,7 @@ mod github;
 mod tokens;
 use crate::core::tokens::Claims;
 use actix_web::web::{Data, Json};
-use actix_web::{post, web, HttpResponse};
+use actix_web::{post, HttpResponse};
 use jsonwebtoken::{encode, EncodingKey, Header};
 use log::error;
 use serde::Deserialize;
@@ -10,18 +10,18 @@ use serde::Deserialize;
 use tokio::sync::Mutex;
 
 pub struct AppStateFeedback {
-    opt: crate::Opt,
+    feedback_keys: crate::FeedbackKeys,
     token_record: Mutex<Vec<TokenRecord>>,
 }
 impl AppStateFeedback {
-    pub fn from(opt: crate::Opt) -> AppStateFeedback {
+    pub fn from(feedback_keys: crate::FeedbackKeys) -> AppStateFeedback {
         AppStateFeedback {
-            opt,
+            feedback_keys,
             token_record: Mutex::new(Vec::new()),
         }
     }
     pub fn able_to_process_feedback(&self) -> bool {
-        self.opt.github_token.is_some() && self.opt.jwt_key.is_some()
+        self.feedback_keys.github_token.is_some() && self.feedback_keys.jwt_key.is_some()
     }
 }
 
@@ -48,7 +48,7 @@ pub async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
             .body("Feedback is currently not configured on this server.");
     }
 
-    let secret = state.opt.jwt_key.clone().unwrap(); // we checked available
+    let secret = state.feedback_keys.jwt_key.clone().unwrap(); // we checked available
     let token = encode(
         &Header::default(),
         &Claims::new(),
@@ -72,8 +72,7 @@ pub async fn send_feedback(
     req_data: Json<FeedbackPostData>,
 ) -> HttpResponse {
     // auth
-    let maybe_err = tokens::validate_token(&state, &req_data.token).await;
-    if let Some(e) = maybe_err {
+    if let Some(e) = tokens::validate_token(&state, &req_data.token).await {
         return e;
     }
 
@@ -85,7 +84,13 @@ pub async fn send_feedback(
     };
     let (title_category, labels) = parse_request(&req_data);
 
-    let github_token = state.opt.github_token.as_ref().unwrap().trim().to_string();
+    let github_token = state
+        .feedback_keys
+        .github_token
+        .as_ref()
+        .unwrap()
+        .trim()
+        .to_string();
     github::post_feedback(
         github_token,
         title_category,

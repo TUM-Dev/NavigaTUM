@@ -12,7 +12,7 @@ const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "server")]
-pub struct Opt {
+pub struct FeedbackKeys {
     // Feedback
     /// GitHub personal access token
     #[structopt(short = "t", long)]
@@ -38,7 +38,7 @@ const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
 
-    let mut opt = Opt::from_args();
+    let mut opt = FeedbackKeys::from_args();
     if opt.github_token.is_none() {
         opt.github_token = std::env::var("GITHUB_TOKEN").ok();
     }

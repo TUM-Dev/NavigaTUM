@@ -46,7 +46,7 @@ pub async fn validate_token(
         );
     }
 
-    let secret = state.opt.jwt_key.clone().unwrap(); // we checked available
+    let secret = state.feedback_keys.jwt_key.clone().unwrap(); // we checked available
     let x = DecodingKey::from_secret(secret.as_bytes());
     let jwt_token = decode::<Claims>(supplied_token, &x, &Validation::default());
     let kid = match jwt_token {
