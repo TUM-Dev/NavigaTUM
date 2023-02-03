@@ -1,4 +1,4 @@
-use crate::maps::overlay::OverlayMapTask;
+use crate::maps::overlay_map::OverlayMapTask;
 use actix_web::web;
 use awc::Client;
 use log::error;
