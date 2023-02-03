@@ -1,0 +1,11 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: cache-2-months
+  labels:
+    app: navigatum
+  namespace: {{ .Values.namespace }}
+spec:
+  headers:
+    customResponseHeaders:
+      Cache-Control: "public, max-age=5184000"
