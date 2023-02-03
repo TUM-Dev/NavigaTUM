@@ -54,6 +54,8 @@ jobs:
       - feedback-build
     with:
       deployment: feedback
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   calendar-build:
     needs:
       - changes
@@ -72,6 +74,8 @@ jobs:
       - calendar-build
     with:
       deployment: calendar
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   main-api-build:
     uses: ./.github/workflows/docker-build.yml
     needs:
@@ -149,6 +153,8 @@ jobs:
       - mieli-search-init-build
     with:
       deployment: server
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   data-build:
     needs:
       - changes
@@ -167,12 +173,16 @@ jobs:
       - data-build
     with:
       deployment: data
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   data-deployment-2: # we need to restart the server, as otherwise it will not serve the new data
     uses: ./.github/workflows/restart-argocd.yaml
     needs:
       - data-deployment-1
     with:
       deployment: server
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   webclient-build:
     uses: ./.github/workflows/docker-build.yml
     needs:
