@@ -11,7 +11,6 @@ on:
       ARGOCD_TOKEN:
         required: true
         description: Token to authenticate with ArgoCD
-        type: string
 
 
 jobs:
