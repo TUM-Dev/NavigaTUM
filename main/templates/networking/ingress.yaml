@@ -43,6 +43,7 @@ spec:
           port: 7770
       middlewares:
         - name: stripprefix
+        - name: cache-2-months
     - kind: Rule
       match: Host(`{{ .Values.url }}`) && PathPrefix(`/cdn/`)
       priority: 10
