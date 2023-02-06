@@ -81,22 +81,28 @@ impl FetchTileTask {
         }
     }
 
-    async fn download_map_image(&self, file: &std::path::PathBuf) -> Option<web::Bytes> {
-        let tileserver_addr = std::env::var("MAPS_SVC_PORT_7770_TCP_ADDR")
-            .unwrap_or_else(|_| "localhost".to_string());
-        let tileserver_port = std::env::var("MAPS_SVC_SERVICE_PORT_TILESERVER")
-            .unwrap_or_else(|_| "7770".to_string());
-        let url = format!(
-            "http://{tileserver_addr}:{tileserver_port}/styles/osm_liberty/{z}/{x}/{y}@2x.png",
+    fn get_tileserver_url(&self) -> String {
+        let tileserver_addr = std::env::var("MAPS_SVC_PORT_7770_TCP_ADDR");
+        let tileserver_port = std::env::var("MAPS_SVC_SERVICE_PORT_TILESERVER");
+        let base_url = match (tileserver_port, tileserver_addr) {
+            (Ok(port), Ok(addr)) => format!("http://{port}:{addr}"),
+            _ => "https://nav.tum.de/maps".to_string(),
+        };
+        format!(
+            "{base_url}/styles/osm_liberty/{z}/{x}/{y}@2x.png",
             z = self.z,
             x = self.x,
             y = self.y,
-        );
+        )
+    }
+
+    async fn download_map_image(&self, file: &std::path::PathBuf) -> Option<web::Bytes> {
+        let url = self.get_tileserver_url();
         let client = Client::new().get(&url).send();
         let res = match client.await {
             Ok(mut r) => r.body().await,
             Err(e) => {
-                error!("Error downloading map {}: {:?}", url, e);
+                error!("Error downloading map {url}: {e:?}");
                 return None;
             }
         };
