@@ -418,6 +418,10 @@ paths:
                           text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
                         - name: Sitzplätze
                           text: '522'
+                          extra:
+                            header: Genauere Angaben
+                            body: "für Prüfungen: 102 in eng, 71 in weit, 49 in corona"
+
                       calendar_url: 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
                     ranking_factors:
                       rank_combined: 900
@@ -1155,6 +1159,15 @@ components:
         text:
           type: string
           example: 5602.EG.001
+        extra:
+          type: object
+          properties:
+            header:
+              type: string
+              example: Genauere Angaben
+            body:
+              type: string
+              example: "für Prüfungen: 102 in eng, 71 in weit, 49 in corona"
       required:
         - name
         - text

@@ -146,6 +146,10 @@ navigatum.registerView("view", {
     hideImageShowcase: function () {
       this.image.slideshow_open = false;
     },
+    showPropExtra: function(propExtra) {
+      navigatum.app.modal.header = propExtra.header;
+      navigatum.app.modal.body = propExtra.body;
+    },
     // This is called
     // - on initial page load
     // - when the view is loaded for the first time

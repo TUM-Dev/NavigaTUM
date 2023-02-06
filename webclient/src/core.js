@@ -168,6 +168,10 @@ navigatum = (() => {
           error: {
             msg: null,
           },
+          modal: {
+            header: null,
+            body: null,
+          },
         },
         methods: {
           searchFocus: function () {
