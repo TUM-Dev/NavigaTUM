@@ -21,7 +21,8 @@ log = "0.4.17"
 diesel = { version = "2.0.2", features = ["default","sqlite"] }
 actix-web = "4.2.1"
 actix-rt = "2.7.0"
-awc = "3.0.1"
+rustls = "0.20.8"
+awc = { version="3.0.1",features=["rustls"] }
 cached = "0.42.0"
 serde = { version = "1.0.148", features = ["derive"] }
 serde_json = "1.0.89"
