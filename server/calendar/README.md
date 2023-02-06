@@ -11,31 +11,12 @@ Please follow the [system dependencys docs](resources/documentation/Dependencys.
 
 ### How to Set up the Sqlite Database
 
-#### Getting the data
-
-To populate the database, you will need to get said data.
-There are multiple ways to do this, but the easiest way is to download the data from our [website](https://nav.tum.de/).
-
-(Assuming you are in the `calendar` directory)
-
-```bash
-mkdir -p data
-wget -P data https://nav.tum.de/cdn/api_data.json
-```
-
-Alternatively, you can run the `data` part of this project and generate this file by that part of our docs.
-To link the output directory to the server data directory, so that you don't need to copy on every update you can use:
-
-```bash
-ln -s ../data/output data
-```
-
 #### Setting up the database
 
-To set up the database, you will need to run the `load_api_data_to_db.py` script:
+To set up the database, you will need to run the `init_db.py` script:
 
 ```bash
-python3 load_api_data_to_db.py
+python3 init_db.py
 ```
 
 ### Starting the server

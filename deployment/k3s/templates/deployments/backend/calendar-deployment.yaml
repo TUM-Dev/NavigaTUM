@@ -28,8 +28,8 @@ spec:
         - name: tmp-calendar
           emptyDir: {}
       initContainers:
-        - name: building-db-init
-          image: "ghcr.io/tum-dev/navigatum-building-db-init:{{ .Values.branch }}"
+        - name: calendar-db-init
+          image: "ghcr.io/tum-dev/navigatum-calendar-db-init:{{ .Values.branch }}"
           imagePullPolicy: Always
           volumeMounts:
             - mountPath: /tmp

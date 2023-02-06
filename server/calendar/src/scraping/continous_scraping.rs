@@ -1,3 +1,4 @@
+use crate::scraping::main_api::get_all_ids;
 use crate::scraping::task::ScrapeRoomTask;
 use crate::scraping::tumonline_calendar::{Strategy, XMLEvents};
 use crate::utils;
@@ -7,7 +8,7 @@ use awc::{Client, Connector};
 use chrono::{NaiveDate, NaiveDateTime, Utc};
 use diesel::prelude::*;
 use futures::future::join_all;
-use log::{error, info, warn};
+use log::{info, warn};
 use std::time::{Duration, Instant};
 use tokio::sync::Mutex;
 use tokio::time::sleep;
@@ -28,7 +29,7 @@ pub async fn start_scraping(last_sync: Data<Mutex<Option<NaiveDateTime>>>) {
 }
 
 pub async fn scrape_to_db(duration: chrono::Duration) {
-    info!("Starting scraping calendar entrys");
+    info!("Starting scraping calendar entries");
     let start_time = Instant::now();
 
     // timeout is possibly excessive, this is tbd
@@ -38,21 +39,21 @@ pub async fn scrape_to_db(duration: chrono::Duration) {
         .connector(connector)
         .timeout(Duration::from_secs(20))
         .finish();
-    let all_room_ids: Vec<(String, i32)> = get_all_ids(); // Vec<(key,tumonline_id)>
+    let all_room_ids = get_all_ids().await;
     let entry_cnt = all_room_ids.len();
     let mut time_stats = Statistic::new();
     let mut entry_stats = Statistic::new();
 
     let mut i = 0;
     for round in all_room_ids.chunks(2) {
-        i += 2;
+        i += round.len();
         let round_start_time = Instant::now();
         let mut futures = vec![];
-        for (key, room_id) in round {
+        for room in round {
             let start = Utc::now() - duration / 2;
             futures.push(scrape(
                 &client,
-                (key.clone(), *room_id),
+                (room.key.clone(), room.tumonline_room_nr),
                 start.date_naive(),
                 duration,
             ));
@@ -69,7 +70,7 @@ pub async fn scrape_to_db(duration: chrono::Duration) {
             info!(
                 "Scraped {:.2}% (avg {:.1?}/key, total {:.1?}) result-{:?} in time-{:.1?}",
                 i as f32 / entry_cnt as f32 * 100.0,
-                start_time.elapsed() / i,
+                start_time.elapsed() / i as u32,
                 start_time.elapsed(),
                 entry_stats,
                 time_stats,
@@ -116,28 +117,6 @@ fn promote_scraped_results_to_prod() {
         "Finished switching scraping results - prod. ({}s)",
         start_time.elapsed().as_secs_f32()
     );
-}
-
-fn get_all_ids() -> Vec<(String, i32)> {
-    let conn = &mut utils::establish_connection();
-
-    use crate::schema::de::dsl::*;
-    // order is just here, to make debugging more reproducible. Performance impact is engligable
-    let res = de
-        .select((key, tumonline_room_nr))
-        .filter(tumonline_room_nr.is_not_null())
-        .order_by((key, tumonline_room_nr))
-        .load::<(String, Option<i32>)>(conn);
-    match res {
-        Ok(d) => d
-            .iter()
-            .map(|(k, t)| (k.clone(), t.unwrap()))
-            .collect::<Vec<(String, i32)>>(),
-        Err(e) => {
-            error!("Error requesting all ids: {:?}", e);
-            vec![]
-        }
-    }
 }
 
 struct ScrapeResult {
