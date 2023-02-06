@@ -17,6 +17,7 @@ use image::Rgba;
 use log::{debug, error, warn};
 
 use tokio::time::Instant;
+use unicode_truncate::UnicodeTruncateStr;
 
 use crate::utils;
 
@@ -102,7 +103,12 @@ fn draw_bottom(data: &DBRoomEntry, img: &mut image::RgbaImage) {
         15,
         630 - (125 / 2) - (logo.height() as i64 / 2) + 9,
     );
-    OverlayText::with(&data.name, &CANTARELL_BOLD)
+    let name = if data.name.chars().count() >= 45 {
+        format!("{}...", data.name.unicode_truncate(45).0)
+    } else {
+        data.name.clone()
+    };
+    OverlayText::with(&name, &CANTARELL_BOLD)
         .at(10, 125 - 10)
         .draw_onto(img);
     OverlayText::with(&data.type_common_name, &CANTARELL_REGULAR)
