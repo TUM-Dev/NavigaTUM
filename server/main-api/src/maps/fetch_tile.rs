@@ -81,7 +81,7 @@ impl FetchTileTask {
         }
     }
 
-    fn tileserver_url(&self) -> String {
+    fn get_tileserver_url(&self) -> String {
         let tileserver_addr = std::env::var("MAPS_SVC_PORT_7770_TCP_ADDR");
         let tileserver_port = std::env::var("MAPS_SVC_SERVICE_PORT_TILESERVER");
         let base_url = match (tileserver_port, tileserver_addr) {
@@ -97,7 +97,7 @@ impl FetchTileTask {
     }
 
     async fn download_map_image(&self, file: &std::path::PathBuf) -> Option<web::Bytes> {
-        let url = self.tileserver_url();
+        let url = self.get_tileserver_url();
         let client = Client::new().get(&url).send();
         let res = match client.await {
             Ok(mut r) => r.body().await,
