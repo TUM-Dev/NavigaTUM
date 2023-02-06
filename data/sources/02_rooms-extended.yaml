@@ -18,6 +18,22 @@
       en: "Office"
     din_277: "NF2.1"
     din_277_desc: "Büroräume"
+"0206.EG.002":
+  name: "0206.EG.002 (Küche Studentische Vertretung / SV)"
+  props:
+    links:
+      - text:
+          de: "Weitere Informationen"
+          en: "More informations"
+        url: "https://www.sv.tum.de/"
+"0206.EG.003":
+  name: "0206.EG.003 (Besprechungsraum Studentische Vertretung / SV))"
+  props:
+    links:
+      - text:
+          de: "Weitere Informationen"
+          en: "More informations"
+        url: "https://www.sv.tum.de/"
 
 # ========================== Garching =============================
 # === Physik ===
