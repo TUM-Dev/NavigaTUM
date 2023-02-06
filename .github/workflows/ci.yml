@@ -84,7 +84,7 @@ jobs:
     uses: ./.github/workflows/restart-argocd.yaml
     needs:
       - calendar-build
-      - calendar-db-build
+      - calendar-db-init-build
     with:
       deployment: calendar
     secrets:
