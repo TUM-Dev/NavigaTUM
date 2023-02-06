@@ -1,20 +1,21 @@
 mod fetch_tile;
-mod overlay;
+mod overlay_map;
+mod overlay_text;
 
 use std::io::Cursor;
 
-use crate::maps::overlay::OverlayMapTask;
+use crate::maps::overlay_map::OverlayMapTask;
+use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
 use crate::models::DBRoomEntry;
 use actix_web::{get, web, HttpResponse};
-use cached::lazy_static::lazy_static;
+
 use cached::proc_macro::cached;
 use cached::SizedCache;
 use diesel::prelude::*;
 use image::Rgba;
-use imageproc::definitions::HasBlack;
-use imageproc::drawing::{draw_text_mut, text_size};
+
 use log::{debug, error, warn};
-use rusttype::{Font, Scale};
+
 use tokio::time::Instant;
 
 use crate::utils;
@@ -76,14 +77,6 @@ async fn construct_image_from_data(_id: &str, data: DBRoomEntry) -> Option<Vec<u
     debug!("map draw {}ms", start_time.elapsed().as_millis());
 
     draw_bottom(&data, &mut img);
-    // add the location pin image to the center
-    let pin = image::open("src/maps/pin.webp").unwrap();
-    image::imageops::overlay(
-        &mut img,
-        &pin,
-        1200 / 2 - pin.width() as i64 / 2,
-        (630 - 125) / 2 - pin.height() as i64,
-    );
     debug!("overlay finish {}ms", start_time.elapsed().as_millis());
     Some(wrap_image_in_response(img))
 }
@@ -92,13 +85,6 @@ fn wrap_image_in_response(img: image::RgbaImage) -> Vec<u8> {
     let mut w = Cursor::new(Vec::new());
     img.write_to(&mut w, image::ImageOutputFormat::Png).unwrap();
     w.into_inner()
-}
-
-lazy_static! {
-    static ref CANTARELL_BOLD: Font<'static> =
-        Font::try_from_bytes(include_bytes!("font/Cantarell-Bold.ttf")).unwrap();
-    static ref CANTARELL_REGULAR: Font<'static> =
-        Font::try_from_bytes(include_bytes!("font/Cantarell-Regular.ttf")).unwrap();
 }
 
 fn draw_bottom(data: &DBRoomEntry, img: &mut image::RgbaImage) {
@@ -116,29 +102,12 @@ fn draw_bottom(data: &DBRoomEntry, img: &mut image::RgbaImage) {
         15,
         630 - (125 / 2) - (logo.height() as i64 / 2) + 9,
     );
-    // add top text
-    let scale = Scale { x: 35.0, y: 35.0 };
-    let (w, _) = text_size(scale, &CANTARELL_BOLD, data.name.as_str());
-    draw_text_mut(
-        img,
-        Rgba::black(),
-        1200 - w - 10,
-        630 - 125 + 10,
-        scale,
-        &CANTARELL_BOLD,
-        data.name.as_str(),
-    );
-    // add bottom text
-    let (w, _) = text_size(scale, &CANTARELL_REGULAR, data.type_common_name.as_str());
-    draw_text_mut(
-        img,
-        Rgba::black(),
-        1200 - w - 10,
-        630 - 125 + 50,
-        scale,
-        &CANTARELL_REGULAR,
-        data.type_common_name.as_str(),
-    );
+    OverlayText::with(&data.name, &CANTARELL_BOLD)
+        .at(10, 125 - 10)
+        .draw_onto(img);
+    OverlayText::with(&data.type_common_name, &CANTARELL_REGULAR)
+        .at(10, 125 - 50)
+        .draw_onto(img);
 }
 
 fn load_default_image() -> Vec<u8> {

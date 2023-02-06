@@ -66,6 +66,15 @@ impl OverlayMapTask {
                 }
             }
         }
+
+        // add the location pin image to the center
+        let pin = image::open("src/maps/pin.webp").unwrap();
+        image::imageops::overlay(
+            img,
+            &pin,
+            1200 / 2 - pin.width() as i64 / 2,
+            (630 - 125) / 2 - pin.height() as i64,
+        );
         true
     }
 }
