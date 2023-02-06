@@ -22,7 +22,7 @@
 # ========================== Garching =============================
 # === Physik ===
 "5101.EG.257":
-  name: "5101.EG.257 (Büro Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
+  name: "5101.EG.257 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)"
 "5107.U1.114":
   name: "5107.U1.114 (Büro)" # previously: Fachschaftsraum
   usage: # previously: Social Room
@@ -34,16 +34,16 @@
 
 # === MI ===
 "5606.EG.036":
-  name: "5606.EG.036 (Büro Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
+  name: "5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)"
   short_name: "MPIC Büro"
 "5606.EG.037":
-  name: "5606.EG.037 (Besprechungsraum Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
+  name: "5606.EG.037 (Besprechungsraum Fachschaft Mathe Physik Informatik Chemie / MPIC)"
   short_name: "MPIC Glaskasten"
 "5606.EG.038":
-  name: "5606.EG.038 (Lager Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
+  name: "5606.EG.038 (Lager Fachschaft Mathe Physik Informatik Chemie / MPIC)"
   short_name: "MPIC Lager"
 "5606.EG.039":
-  name: "5606.EG.039 (Skriptenverkauf Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
+  name: "5606.EG.039 (Skriptenverkauf Fachschaft Mathe Physik Informatik Chemie / MPIC)"
   usage:
     name:
       de: "Geschäftsraum"
@@ -61,7 +61,7 @@
 "5401.01.101I":
   name: "5401.01.101I (CIP-Raum)" # Original name is "Rechenzentrum" ...
 "5406.01.650C":
-  name: "5406.01.650C (Büro Fachschaft Mathe Phyik Informatik Chemie / MPIC)" # Original name is "Büro" ...
+  name: "5406.01.650C (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)" # Original name is "Büro" ...
 
 # === Maschinenwesen / MW ===
 "5501.EG.101":
