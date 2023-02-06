@@ -37,13 +37,13 @@
   name: "5606.EG.036 (Büro Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
   short_name: "MPIC Büro"
 "5606.EG.037":
-  name: "5606.EG.036 (Besprechungsraum Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
+  name: "5606.EG.037 (Besprechungsraum Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
   short_name: "MPIC Glaskasten"
 "5606.EG.038":
-  name: "5606.EG.036 (Lager Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
+  name: "5606.EG.038 (Lager Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
   short_name: "MPIC Lager"
 "5606.EG.039":
-  name: "5510.EG.011M (Skriptenverkauf Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
+  name: "5606.EG.039 (Skriptenverkauf Fachschaft Mathe Phyik Informatik Chemie / MPIC)"
   usage:
     name:
       de: "Geschäftsraum"
