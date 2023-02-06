@@ -68,7 +68,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-  calendar-db-build:
+  calendar-db-init-build:
     needs:
       - changes
     if: ${{ needs.changes.outputs.calendar == 'true' }}
@@ -108,7 +108,7 @@ jobs:
     if: ${{ needs.changes.outputs.main-api == 'true' }}
     with:
       image_suffix: building-db-init
-      context: ./server
+      context: ./server/main-api
       dockerfile: Dockerfile.dbinit
     permissions:
       contents: read
