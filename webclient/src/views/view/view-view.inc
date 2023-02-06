@@ -396,7 +396,17 @@
         <tbody>
           <tr v-for="prop in view_data.props.computed">
             <td><strong>{{ prop.name }}</strong></td>
-            <td>{{ prop.text }}</td>
+            <td>{{ prop.text }}
+            <div
+              class="popover"
+              v-if="prop.extra?.body"
+              @click="showPropExtra(prop.extra)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+              </svg>
+            </div>
+            </td>
           </tr>
           <tr v-if="view_data.props.links">
             <td><strong>${{ _.view_view.info_table.links }}$</strong></td>
@@ -440,7 +450,27 @@
             <tbody>
               <tr v-for="prop in view_data.props.computed">
                 <td><strong>{{ prop.name }}</strong></td>
-                <td>{{ prop.text }}</td>
+                <td>{{ prop.text }}
+                  <div class="popover" v-if="prop.extra?.body">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                    </svg>
+                    <div class="popover-container">
+                      <div class="card">
+                        <div class="card-header" v-if="prop.extra.header">
+                          {{ prop.extra.header }}
+                        </div>
+                        <div class="card-body">
+                          {{ prop.extra.body }}
+                        </div>
+                        <div class="card-footer" v-if="prop.extra.footer">
+                          {{ prop.extra.footer }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
               </tr>
               <tr v-if="view_data.props.links">
                 <td><strong>${{ _.view_view.info_table.links }}$</strong></td>
