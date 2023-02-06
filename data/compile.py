@@ -28,10 +28,10 @@ def main():
     data = areatree.read_areatree()
 
     logging.info("-- 01 areas extendend")
-    data = merge.merge_yaml(data, "sources/01_areas-extended.yaml")
+    data = merge.patch_areas(data, "sources/01_areas-extended.yaml")
 
     logging.info("-- 02 rooms extendend")
-    data = merge.merge_yaml(data, "sources/02_rooms-extended.yaml")
+    data = merge.patch_rooms(data, "sources/02_rooms-extended.yaml")
     merge.add_coordinates(data, "sources/02_coordinates.yaml")
 
     # Add source information for these entries, which are up to here
