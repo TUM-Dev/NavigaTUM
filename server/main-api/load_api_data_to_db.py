@@ -22,35 +22,6 @@ def add_to_database(de_data, en_data):
                 data                TEXT NOT NULL
             );""",
         )
-    for tbl in ["calendar", "calendar_scrape"]:
-        con.execute(f"DROP TABLE IF EXISTS {tbl}")
-        con.execute(
-            f"""
-        CREATE TABLE {tbl} (
-            key                     VARCHAR(30) NOT NULL,
-            dtstart                 DATETIME NOT NULL,
-            dtend                   DATETIME NOT NULL,
-            dtstamp                 DATETIME NOT NULL,
-            event_id                INTEGER NOT NULL,
-            event_title             TEXT NOT NULL,
-            single_event_id         INTEGER UNIQUE PRIMARY KEY NOT NULL,
-            single_event_type_id    TEXT NOT NULL,
-            single_event_type_name  TEXT NOT NULL,
-            event_type_id           TEXT NOT NULL,
-            event_type_name         TEXT NULLABLE,
-            course_type_name        TEXT NULLABLE,
-            course_type             TEXT NULLABLE,
-            course_code             TEXT NULLABLE,
-            course_semester_hours   INTEGER NULLABLE,
-            group_id                TEXT NULLABLE,
-            xgroup                  TEXT NULLABLE,
-            status_id               TEXT NOT NULL,
-            status                  TEXT NOT NULL,
-            comment                 TEXT NOT NULL
-        );""",
-        )
-    # purposely, this index is only on this table and not on calendar_scrape
-    con.execute("CREATE INDEX IF NOT EXISTS calendar_lut ON calendar(key, dtstart, dtend)")
     # we are using this file in docker, so we don't want to use an acid compliant database ;)
     con.execute("""PRAGMA journal_mode = OFF;""")
     con.execute("""PRAGMA synchronous = OFF;""")
