@@ -1,0 +1,35 @@
+---
+#
+# Tasks to be applied to all k8s instances
+#
+
+- name: Setup k3s networking
+  include_tasks: "k3s_network.yml"
+# Remove k3s via
+#- name: remove k3s
+#  shell: /usr/local/bin/k3s-uninstall.sh
+- name: Setup k3s
+  include_tasks: "k3s_setup.yml"
+
+# setup infrastructure to install packages to k8s
+- name: Install helm
+  shell: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+- name: Dump kubectl's kubeconfig to .kube/config (otherwise helm wont know where to connect)
+  shell:
+    cmd: "kubectl config view --raw >~/.kube/config && chmod 600 ~/.kube/config"
+    creates: ~/.kube/config
+- name: Install the python kubernetes package (needed for ansible to controll kubernetes)
+  pip:
+    name: kubernetes
+    state: present
+
+# install k8s components
+- name: Setup the various k3s compontentes
+  include_tasks: "{{ comp }}"
+  loop_control:
+    loop_var: comp
+  with_fileglob:
+    - components/cert-manager.yml
+    - components/kuma.yml
+    - components/argocd.yml
+  when: ansible_host == etcd_leader_ip

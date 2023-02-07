@@ -1,0 +1,53 @@
+---
+# ufw setup
+- name: Configure http(s) in UFW
+  ufw:
+    direction: in
+    rule: allow
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+    comment: "{{ item.comment }}"
+  with_items:
+    - { port: 80, proto: any, comment: "HTTP" }
+    - { port: 443, proto: any, comment: "HTTPS" }
+- name: Allow the LB to check if k8s is online
+  ufw:
+    direction: in
+    rule: allow
+    proto: "any"
+    port: "6443"
+    from_ip: "{{ item.ip }}"
+    comment: "{{ item.comment }}"
+  with_items:
+    - { ip: 129.187.255.244, comment: "LRZ LB" }
+    - { ip: 129.187.255.245, comment: "LRZ LB" }
+
+- name: Configure the api server (VPN) in UFW
+  ufw:
+    direction: in
+    rule: allow
+    port: "{{ item[1] }}"
+    proto: "tcp"
+    from_ip: "{{ item[0] }}"
+    comment: "Kubernetes Controllplane (API+Metrics) from VPN"
+  loop: "{{ vpn_ips | product([6443, 10250]) | list }}"
+
+- name: Configure the api server (cluster) in UFW
+  ufw:
+    direction: in
+    rule: allow
+    port: "{{ item[1] }}"
+    proto: "tcp"
+    from_ip: "{{ item[0] }}"
+    comment: "Kubernetes Controllplane (API+Metrics) from cluster"
+  loop: "{{ leader_ips | product([6443, 10250]) | list }}"
+
+- name: Configure in-cluster etcd 2379 in UFW
+  ufw:
+    direction: in
+    rule: allow
+    port: "{{item[1]}}"
+    proto: "tcp"
+    from_ip: "{{ item[0] }}"
+    comment: "k3s HA with embedded etcd from cluster"
+  loop: "{{ leader_ips | product([2379, 2380]) | list }}"

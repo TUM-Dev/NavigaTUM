@@ -1,0 +1,6 @@
+---
+- hosts:
+    - leaders
+  roles:
+    - common
+    - k8s

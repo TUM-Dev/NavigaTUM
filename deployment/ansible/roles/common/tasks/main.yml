@@ -1,0 +1,47 @@
+---
+#
+# Tasks to be applied to all servers
+#
+
+- name: Check connectivity
+  ping:
+    data: alive
+  tags: check
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    upgrade: safe
+  tags: check
+
+- name: Install packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - htop
+    - tldr
+    - python3
+    - python3-pip
+  tags: install
+
+- name: Run settings.yml
+  include_tasks: settings.yml
+  tags: settings
+
+- name: Run ssh.yml
+  include_tasks: ssh.yml
+  tags: ssh
+
+- name: Run ufw.yml
+  include_tasks: ufw.yml
+  tags: ufw
+
+- name: Run fail2ban.yml
+  include_tasks: fail2ban.yml
+  tags: fail2ban
+
+# This part is done by the LRZ, whcich is the hoster of the server
+# If we were to migrate to another hoster, this would be needed
+#- name: Run unatended_upgrades.yml
+#  include_tasks: unatended_upgrades.yml
+#  tags: unatended_upgrades

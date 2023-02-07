@@ -1,0 +1,16 @@
+- name: Install ufw
+  apt:
+    name: ufw
+    state: present
+
+- name: Configure UFW's default outgoing policy
+  ufw:
+    default: allow
+    direction: outgoing
+- name: Configure UFW default incoming policy
+  ufw:
+    default: deny
+    direction: incoming
+- name: Enable UFW
+  ufw:
+    state: enabled
