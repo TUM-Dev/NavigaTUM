@@ -7,7 +7,7 @@ metadata:
     deployment: maps
   namespace: {{ .Values.namespace }}
 spec:
-  replicas: 2
+  replicas: 8
   revisionHistoryLimit: 1
   selector:
     matchLabels:
@@ -67,10 +67,10 @@ spec:
             readOnlyRootFilesystem: true
           resources:
             requests:
-              cpu: 30m
-              memory: 400Mi
+              cpu: 100m
+              memory: 500Mi
             limits:
-              memory: 700Mi
+              memory: 1Gi
           livenessProbe:
             httpGet:
               path: /health
