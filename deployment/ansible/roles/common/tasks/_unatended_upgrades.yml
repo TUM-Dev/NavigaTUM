@@ -1,3 +1,5 @@
+# This part is done by the LRZ, whcich is the hoster of the server
+# If we were to migrate to another hoster, this would be needed
 - name: Install unattended upgrades
   apt:
     name: "{{ item }}"
