@@ -52,8 +52,6 @@ spec:
               value: -Xmx9g
             resources:
               requests:
-                cpu: 3000m
-                memory: 10Gi
-              limits:
-                memory: 12Gi
+                cpu: 7500m
+                memory: 11Gi
           restartPolicy: OnFailure
