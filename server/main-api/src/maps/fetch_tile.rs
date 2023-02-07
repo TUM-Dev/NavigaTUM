@@ -82,14 +82,8 @@ impl FetchTileTask {
     }
 
     fn get_tileserver_url(&self) -> String {
-        let tileserver_addr = std::env::var("MAPS_SVC_PORT_7770_TCP_ADDR");
-        let tileserver_port = std::env::var("MAPS_SVC_SERVICE_PORT_TILESERVER");
-        let base_url = match (tileserver_port, tileserver_addr) {
-            (Ok(port), Ok(addr)) => format!("http://{port}:{addr}"),
-            _ => "https://nav.tum.de/maps".to_string(),
-        };
         format!(
-            "{base_url}/styles/osm_liberty/{z}/{x}/{y}@2x.png",
+            "https://nav.tum.de/maps/styles/osm_liberty/{z}/{x}/{y}@2x.png",
             z = self.z,
             x = self.x,
             y = self.y,
