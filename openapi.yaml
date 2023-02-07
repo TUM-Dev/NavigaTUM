@@ -718,9 +718,8 @@ paths:
         Tokens gain validity after 5s, and are invalid after 12h of being issued.
         They are not refreshable, and are only valid for one usage.
 
-        Global Rate-Limiting:
-         - hourly: 20 tokens per hour
-         - daily: 50 tokens per
+        ***Important Note:*** 
+        Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
       responses:
         '201':
           description: Returns a usable token

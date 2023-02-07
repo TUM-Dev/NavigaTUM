@@ -1,8 +1,8 @@
 mod github;
 mod tokens;
-use crate::core::tokens::{Claims, RateLimit};
+use crate::core::tokens::Claims;
 use actix_web::web::{Data, Json};
-use actix_web::{post, web, HttpResponse};
+use actix_web::{post, HttpResponse};
 use jsonwebtoken::{encode, EncodingKey, Header};
 use log::error;
 use serde::Deserialize;
@@ -10,11 +10,19 @@ use serde::Deserialize;
 use tokio::sync::Mutex;
 
 pub struct AppStateFeedback {
-    available: bool,
-    opt: crate::Opt,
-    generated_tokens: RateLimit,
-    consumed_tokens: RateLimit,
+    feedback_keys: crate::FeedbackKeys,
     token_record: Mutex<Vec<TokenRecord>>,
+}
+impl AppStateFeedback {
+    pub fn from(feedback_keys: crate::FeedbackKeys) -> AppStateFeedback {
+        AppStateFeedback {
+            feedback_keys,
+            token_record: Mutex::new(Vec::new()),
+        }
+    }
+    pub fn able_to_process_feedback(&self) -> bool {
+        self.feedback_keys.github_token.is_some() && self.feedback_keys.jwt_key.is_some()
+    }
 }
 
 pub struct TokenRecord {
@@ -23,7 +31,7 @@ pub struct TokenRecord {
 }
 
 #[derive(Deserialize)]
-struct FeedbackPostData {
+pub struct FeedbackPostData {
     token: String,
     category: String,
     subject: String,
@@ -32,38 +40,15 @@ struct FeedbackPostData {
     delete_issue_requested: bool,
 }
 
-pub fn init_state(opt: crate::Opt) -> AppStateFeedback {
-    let available = opt.github_token.is_some() && opt.jwt_key.is_some();
-    AppStateFeedback {
-        available,
-        opt,
-        generated_tokens: RateLimit::new(),
-        consumed_tokens: RateLimit::new(),
-        token_record: Mutex::new(Vec::new()),
-    }
-}
-
-pub fn configure(cfg: &mut web::ServiceConfig) {
-    cfg.service(get_token).service(send_feedback);
-}
-
-#[post("/get_token")]
-async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
-    //auth
-    if !state.available {
+#[post("/api/feedback/get_token")]
+pub async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
+    if !state.able_to_process_feedback() {
         return HttpResponse::ServiceUnavailable()
             .content_type("text/plain")
             .body("Feedback is currently not configured on this server.");
     }
-    if !state.generated_tokens.check_and_increment() {
-        return HttpResponse::TooManyRequests()
-            .content_type("text/plain")
-            .body("Too many tokens generated. Please try again later.");
-    }
 
-    // we now know that we are allowed to generate a token
-
-    let secret = state.opt.jwt_key.clone().unwrap(); // we checked available
+    let secret = state.feedback_keys.jwt_key.clone().unwrap(); // we checked available
     let token = encode(
         &Header::default(),
         &Claims::new(),
@@ -81,14 +66,13 @@ async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
     }
 }
 
-#[post("/feedback")]
-async fn send_feedback(
+#[post("/api/feedback/feedback")]
+pub async fn send_feedback(
     state: Data<AppStateFeedback>,
     req_data: Json<FeedbackPostData>,
 ) -> HttpResponse {
     // auth
-    let maybe_err = tokens::validate_token(&state, &req_data.token).await;
-    if let Some(e) = maybe_err {
+    if let Some(e) = tokens::validate_token(&state, &req_data.token).await {
         return e;
     }
 
@@ -100,7 +84,13 @@ async fn send_feedback(
     };
     let (title_category, labels) = parse_request(&req_data);
 
-    let github_token = state.opt.github_token.as_ref().unwrap().trim().to_string();
+    let github_token = state
+        .feedback_keys
+        .github_token
+        .as_ref()
+        .unwrap()
+        .trim()
+        .to_string();
     github::post_feedback(
         github_token,
         title_category,
