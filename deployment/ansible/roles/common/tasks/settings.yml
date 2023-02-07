@@ -1,0 +1,23 @@
+- name: set timezone
+  timezone:
+    name: Europe/Berlin
+- name: set locale
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+- name: set text editor
+  alternatives:
+    name: editor
+    path: /bin/nano
+- name: Set the hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+# by default this is configured to get our nodes down at 7 on specific dates, this configures the nodes not to fail all at the same time
+- name: Configure lrz-base-automatic-reboot
+  template:
+    src: lrz-base-automatic-reboot.j2
+    dest: /etc/cron.d/lrz-base-automatic-reboot
+    owner: root
+    group: root
+    mode: 0644
