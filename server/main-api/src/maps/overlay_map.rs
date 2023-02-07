@@ -1,6 +1,6 @@
 use crate::maps::fetch_tile::FetchTileTask;
 use crate::models::DBRoomEntry;
-use futures::future::join_all;
+use futures::{stream::FuturesUnordered, StreamExt};
 use log::warn;
 
 pub(crate) struct OverlayMapTask {
@@ -37,8 +37,8 @@ impl OverlayMapTask {
         let x_pixels = (512.0 * (self.x - self.x.floor())) as u32;
         let y_pixels = (512.0 * (self.y - self.y.floor())) as u32;
         let (x_img_coords, y_img_coords) = center_to_top_left_coordinates(x_pixels, y_pixels);
-        // 3...4*2 entries, because 630-125=505=> max.2 Tiles and 1200=> max 4 tiles
-        let mut work_queue = Vec::new();
+        // the queue can have 3...4*2 entries, because 630-125=505=> max.2 Tiles and 1200=> max 4 tiles
+        let mut work_queue = FuturesUnordered::new();
         for x_index in 0..5 {
             for y_index in 0..3 {
                 if is_in_range(x_img_coords, y_img_coords, x_index, y_index) {
@@ -51,10 +51,8 @@ impl OverlayMapTask {
                 }
             }
         }
-        // the items in the work queue are then asynchronously downloaded and then drawn
-
-        let results: Vec<Option<((u32, u32), image::DynamicImage)>> = join_all(work_queue).await;
-        for res in results {
+        // draw the tiles onto the image after receiving them
+        while let Some(res) = work_queue.next().await {
             match res {
                 Some(((x_index, y_index), tile_img)) => {
                     let x = x_index as i64 * 512 - (x_img_coords as i64);
