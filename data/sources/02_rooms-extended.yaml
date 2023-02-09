@@ -1,125 +1,125 @@
 # ========================== Innenstadt =============================
 # === Arcisstraße ===
 "2907.01.130":
-  name: "2907.01.130 (Fachschaft Lehrertum/Lehramt)"
+  name: Fachschaft Lehrertum/Lehramt
 "0501.03.173":
-  name: "0501.03.173 (Vorhoelzer Forum Foyer)"
+  name: Vorhoelzer Forum Foyer
 "0501.05.131":
-  name: "0501.05.131 (Vorhoelzer-Forum Dachterasse)"
+  name: Vorhoelzer-Forum Dachterasse
 "0509.EG.980":
-  name: "0509.EG.980 (Audimax, Werner-von-Siemens-Hörsaal)"
+  name: Audimax, Werner-von-Siemens-Hörsaal
   ranking_factors:
     rank_custom: 150
 "0101.02.157":
-  name: "0101.02.157 (Fachschaft Bau, Geo und Umwelt)"
+  name: Fachschaft Bau, Geo und Umwelt
   usage: # previously: CIP-Pool
     name:
-      de: "Büro"
-      en: "Office"
-    din_277: "NF2.1"
-    din_277_desc: "Büroräume"
+      de: Büro
+      en: Office
+    din_277: NF2.1
+    din_277_desc: Büroräume
 "0206.EG.002":
-  name: "0206.EG.002 (Küche Studentische Vertretung / SV)"
+  name: Küche Studentische Vertretung / SV
   props:
     links:
       - text:
-          de: "Weitere Informationen"
-          en: "More informations"
-        url: "https://www.sv.tum.de/"
+          de: Weitere Informationen
+          en: More informations
+        url: https://www.sv.tum.de/
 "0206.EG.003":
-  name: "0206.EG.003 (Besprechungsraum Studentische Vertretung / SV))"
+  name: Besprechungsraum Studentische Vertretung / SV)
   props:
     links:
       - text:
-          de: "Weitere Informationen"
-          en: "More informations"
-        url: "https://www.sv.tum.de/"
+          de: Weitere Informationen
+          en: More informations
+        url: https://www.sv.tum.de/
 
 # ========================== Garching =============================
 # === Physik ===
 "5101.EG.257":
-  name: "5101.EG.257 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)"
+  name: Büro Fachschaft Mathe Physik Informatik Chemie / MPIC
 "5107.U1.114":
-  name: "5107.U1.114 (Büro)" # previously: Fachschaftsraum
+  name: Büro # previously: Fachschaftsraum
   usage: # previously: Social Room
     name:
-      de: "Büro"
-      en: "Office"
-    din_277: "NF2.1"
-    din_277_desc: "Büroräume"
+      de: Büro
+      en: Office
+    din_277: NF2.1
+    din_277_desc: Büroräume
 
 # === MI ===
 "5606.EG.036":
-  name: "5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)"
-  short_name: "MPIC Büro"
+  name: Büro Fachschaft Mathe Physik Informatik Chemie / MPIC
+  short_name: MPIC Büro
 "5606.EG.037":
-  name: "5606.EG.037 (Besprechungsraum Fachschaft Mathe Physik Informatik Chemie / MPIC)"
-  short_name: "MPIC Glaskasten"
+  name: Besprechungsraum Fachschaft Mathe Physik Informatik Chemie / MPIC
+  short_name: MPIC Glaskasten
 "5606.EG.038":
-  name: "5606.EG.038 (Lager Fachschaft Mathe Physik Informatik Chemie / MPIC)"
-  short_name: "MPIC Lager"
+  name: Lager Fachschaft Mathe Physik Informatik Chemie / MPIC
+  short_name: MPIC Lager"
 "5606.EG.039":
-  name: "5606.EG.039 (Skriptenverkauf Fachschaft Mathe Physik Informatik Chemie / MPIC)"
+  name: Skriptenverkauf Fachschaft Mathe Physik Informatik Chemie / MPIC
   usage:
     name:
-      de: "Geschäftsraum"
-      en: "Retail space"
-    din_277: "NF4.5"
-    din_277_desc: "Verkaufsräume"
+      de: Geschäftsraum
+      en: Retail space
+    din_277: NF4.5
+    din_277_desc: Verkaufsräume
   props:
     links:
       - text:
-          de: "Öffnungszeiten & Artikel"
-          en: "Opening hours & articles"
-        url: "https://skripten.mpi.fs.tum.de/"
+          de: Öffnungszeiten & Artikel
+          en: Opening hours & articles
+        url: https://skripten.mpi.fs.tum.de/
 
 # === Chemie ===
 "5401.01.101I":
-  name: "5401.01.101I (CIP-Raum)" # Original name is "Rechenzentrum" ...
+  name: CIP-Raum # Original name is "Rechenzentrum" ...
 "5406.01.650C":
-  name: "5406.01.650C (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)" # Original name is "Büro" ...
+  name: Büro Fachschaft Mathe Physik Informatik Chemie / MPIC # Original name is "Büro" ...
 
 # === Maschinenwesen / MW ===
 "5501.EG.101":
-  name: "5501.EG.101 (Fachschaft Maschinenbau / FSMB)"
+  name: Fachschaft Maschinenbau / FSMB
 "5510.EG.011M":
-  name: "5510.EG.011M (Skriptenverkauf Fachschaft Maschinenbau / FSMB)"
-  short_name: "FSMB Skriptenverkauf"
+  name: Skriptenverkauf Fachschaft Maschinenbau / FSMB
+  short_name: FSMB Skriptenverkauf
   usage:
     name:
-      de: "Geschäftsraum"
-      en: "Retail space"
-    din_277: "NF4.5"
-    din_277_desc: "Verkaufsräume"
+      de: Geschäftsraum
+      en: Retail space
+    din_277: NF4.5
+    din_277_desc: Verkaufsräume
   props:
     links:
       - text:
-          de: "Öffnungszeiten & Artikel"
-          en: "Opening hours & articles"
-        url: "https://fsmb.de/studierende/skriptenverkauf/"
+          de: Öffnungszeiten & Artikel
+          en: Opening hours & articles
+        url: https://fsmb.de/studierende/skriptenverkauf/
 
 "5501.02.150":
-  name: "5501.02.150 (IKOM-Büro)"
+  name: IKOM-Büro
   usage: # previously: Meeting room
     name:
-      de: "Büro"
-      en: "Office"
-    din_277: "NF2.1"
-    din_277_desc: "Büroräume"
+      de: Büro
+      en: Office
+    din_277: NF2.1
+    din_277_desc: Büroräume
 "5504.EG.450":
-  name: "5504.EG.450 (Rechnerhalle)"
+  name: Rechnerhalle
 "5508.02.801":  # ID is probably wrong in TUMonline, but we need to use it for compatibility
-  name: "5508.01.801 (Ernst-Schmidt-Hörsaal)"
+  name: Ernst-Schmidt-Hörsaal
   props:
     comment:
-      de: "Es wird auch 5508.02.801 statt 5508.01.801 verwendet, obwohl der Hörsaal im 1. Stock ist."
-      en: "Also 5508.02.801 instead of 5508.01.801 is being used, even though the lecture hall is in the 1st floor."
+      de: Dieser Hörsaal ist in TUMonline 5508.02.801 statt 5508.01.801, obwohl der Hörsaal im 1. Stock ist. Aus Konsistenzgründen übernehmen wir diese ID.
+      en: This lecture hall is 5508.02.801 in TUMonline instead of 5508.01.801, although the lecture hall is on the 1st floor. For consistency, we also use this ID.
 "5510.EG.026C":
-  name: "5510.EG.026C (IKOM-Besprechungsraum)"
+  name: IKOM-Besprechungsraum
 
 # === Galileo Garching ===
 "8120.EG.001":
-  name: "8120.EG.001 (Hörsaal im Galileo)"
+  name: Hörsaal im Galileo
 
 "8120.01.101":
-  name: "8120.01.101 (Audimax im Galileo)"
+  name: Audimax im Galileo

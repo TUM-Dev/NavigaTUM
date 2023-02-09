@@ -3,7 +3,7 @@ import logging
 import string
 
 import yaml
-from processors.merge import merge_object
+from processors.merge import recursively_merge
 from processors.patch import apply_patches
 from utils import TranslatableStr as _
 
@@ -152,7 +152,7 @@ def merge_tumonline_rooms(data):
             r_data["tumonline_data"]["extended"] = room["extended"]
 
         # TUMonline data does not overwrite the existing data when merged
-        merge_object(data, {r_data["id"]: r_data}, overwrite=False)
+        recursively_merge(data, {r_data["id"]: r_data}, overwrite=False)
 
         # Add TUMonline as source
         data[r_data["id"]].setdefault("sources", {}).setdefault("base", []).append(
