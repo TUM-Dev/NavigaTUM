@@ -1,3 +1,4 @@
+import logging
 from utils import TranslatableStr as _
 
 
@@ -13,6 +14,173 @@ def extract_calendar_urls(data):
         elif entry.get("tumonline_data", {}).get("address_link", None):
             url: str = entry["tumonline_data"]["address_link"]
             entry["props"]["tumonline_room_nr"] = int(url.removeprefix("ris.einzelraum?raumkey="))
+
+
+def compute_floor_prop(data):
+    """
+    Create a human readable floor information prop that takes into account
+    special floor numbering systems of buildings.
+    """
+    for _id, entry in data.items():
+        if entry["type"] in {"root", "area", "site", "campus", "virtual_room"}:
+            continue
+
+        parent_type = data[entry["parents"][-1]]["type"]
+        if parent_type == "joined_building":
+            continue
+
+        if "children_flat" not in entry:
+            continue
+
+        # Steps in the assignment of floors:
+        # - Collect the relevant information from all rooms within the building.
+        # - Extract all floors given by TUMonline. TUMonline is used as the source for
+        #   the information about the floor, unless there is a patch. From the floors
+        #   in TUMonline we build the list of floors in their physical order.
+        # - Infer or get details about each floor to generate a name string and get metadata.
+        room_data, completeness = _collect_floors_room_data(data, entry)
+        floors = _build_sorted_floor_list(entry, room_data)
+        floor_details = _get_floor_details(entry, room_data, floors)
+
+        entry.setdefault("props", {})["floors"] = floor_details
+
+        # Now add this floor information to all children
+        lookup = { floor["tumonline"]: floor for floor in floor_details }
+        for room in room_data:
+            room_entry = data[room["id"]]
+            # This is false for 0511, where all EG rooms (actually containers)
+            # do not have an arch_name
+            if room["floor"] in lookup:
+                room_entry.setdefault("props", {})["floor"] = lookup[room["floor"]]
+
+
+def _collect_floors_room_data(data, entry):
+    """ Collect floors of a (joined_)building """
+    missing_cnt = 0
+    room_data = []
+    for child_id in entry["children_flat"]:
+        child = data[child_id]
+        if child["type"] == "room" and "ids" in child.get("props", {}):
+            roomcode = child["props"]["ids"].get("roomcode", None)
+            arch_name = child["props"]["ids"].get("arch_name", None)
+            if arch_name is None or roomcode is None:
+                missing_cnt += 1
+            else:
+                if "floor_patch" in child.get("generators", {}).get("floors", {}):
+                    floor = child["generators"]["floors"]["floor_patch"]
+                else:
+                    floor = roomcode.split(".")[1]
+                room_data.append({
+                    "id": child_id,
+                    "arch_name": arch_name,
+                    "floor": floor,
+                })
+
+    completeness = 1 - (missing_cnt / len(entry["children_flat"]))
+
+    return room_data, completeness
+
+
+def _build_sorted_floor_list(entry, room_data):
+    """ Build a physically sorted list of floors (using TUMonline floor names) """
+    floors = set([room["floor"] for room in room_data])
+
+    def floor_quantifier(floor_name):
+        """Assign each floor a virtual ID for sorting """
+        if floor_name == "EG":
+            return 0
+        elif floor_name == "DG":
+            return 1000
+        elif floor_name.startswith("U"):
+            return -10 * int(floor_name[1:])
+        elif floor_name.isnumeric():
+            return 10 * int(floor_name)
+        elif floor_name.startswith("Z"):
+            # Default placement: Z1 is below 01 etc.
+            return 10 * int(floor_name[1:]) - 5
+        elif floor_name == "TP":  # Tiefparterre / Semi-Basement
+            # Default placement: below EG
+            return -5
+        else:
+            raise RuntimeError(f"Unknown TUMonline floor name {floor_name}")
+
+    return sorted(floors, key=floor_quantifier)
+
+
+def _get_floor_details(entry, room_data, floors):
+    """ Infer for each floor the metadata and name string """
+    floors_details = []
+
+    patches = entry.get("generators", {}).get("floors", {}).get("floor_patches", {})
+
+    eg_index = floors.index("EG") if "EG" in floors else 0
+    mezzanine_shift = 0
+    for i, floor_tumonline in enumerate(floors):
+        floor = patches.get(floor_tumonline, {}).get("use_as", floor_tumonline)
+        f_id = patches.get(floor_tumonline, {}).get("id", i - eg_index)
+
+        floor_type, floor_abbr, floor_name = \
+            _get_floor_name_and_type(f_id, floor, mezzanine_shift)
+
+        floor_name = patches.get(floor_tumonline, {}).get("name", floor_name)
+
+        floors_details.append({
+            "id": f_id,
+            "floor": floor_abbr,
+            "tumonline": floor_tumonline,
+            "type": floor_type,
+            "name": floor_name,
+            "mezzanine_shift": mezzanine_shift,
+        })
+        if i - eg_index >= 0 and floor.startswith("Z"):
+            mezzanine_shift += 1
+
+    return floors_details
+
+
+def _get_floor_name_and_type(f_id, floor, mezzanine_shift):
+    """
+    Generate a machine readable floor type and human readable floor name (long & short)
+    :param f_id: Floor id (0 for ground floor if there is one, else 0 for the lowest)
+    :param floor: Floor name in TUMonline
+    :param mezzanine_shift: How many mezzanines are between this floor and floor 0 (only >= 0)
+    """
+    if floor == "EG":
+        floor_type = "ground"
+        floor_abbr = "0"
+        # TODO: Verify f_id == 0, should be!
+        floor_name = _("Erdgeschoss")
+    elif floor == "DG":
+        floor_type = "roof"
+        floor_abbr = str(f_id)
+        floor_name = _("Dachgeschoss")
+    elif floor == "TP":
+        floor_type = "tp"
+        floor_abbr = "TP"
+        floor_name = _("Tiefparterre")
+    elif floor.startswith("U"):
+        floor_type = "basement"
+        floor_abbr = f"-{floor[1:]}"
+        floor_name = _("{n}. Untergeschoss").format(n=floor[1:])
+    elif floor.startswith("Z"):
+        floor_type = "mezzanine"
+        floor_abbr = f"Z{floor[1:]}"
+        if f_id == 1:
+            floor_name = _("1. Zwischengeschoss, über EG")
+        else:
+            floor_name = _("{n}. Zwischengeschoss").format(n=floor[1:])
+    else:
+        floor_type = "upper"
+        n = int(floor[1:])
+        floor_abbr = str(n)
+        if mezzanine_shift == 0:
+            floor_name = _("{n}. Obergeschoss").format(n=n)
+        elif mezzanine_shift == 1:
+            floor_name = _("{n}. OG + 1 Zwischengeschoss").format(n=n)
+        else:
+            floor_name = _("{n}. OG + {m} Zwischengeschosse").format(n=n, m=mezzanine_shift)
+
+    return floor_type, floor_abbr, floor_name
 
 
 def compute_props(data):
@@ -44,6 +212,9 @@ def _gen_computed_props(_id, entry, props):
         _append_if_present(props["ids"], computed, "roomcode", _("Raumkennung"))
         if "arch_name" in props["ids"]:
             computed.append({_("Architekten-Name"): props["ids"]["arch_name"].split("@")[0]})
+    if "floor" in props:
+        floor = props["floor"]
+        computed.append({_("Stockwerk"): f"{floor['floor']} (" + floor["name"] + ")"})
     if "b_prefix" in entry and entry["b_prefix"] != _id:
         b_prefix = [entry["b_prefix"]] if isinstance(entry["b_prefix"], str) else entry["b_prefix"]
         building_names = ", ".join([p.ljust(4, "x") for p in b_prefix])

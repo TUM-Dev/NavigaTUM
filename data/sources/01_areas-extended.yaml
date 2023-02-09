@@ -171,6 +171,14 @@ zentralgelaende:
   osm: ["way/31095013", "way/264566973"] # Last is Dieter-Thoma-Labor
 "0509": # Wienandsbau, E-Technik / Audimax (Z9)
   osm: ["way/31095011", "way/50299848"] # Last is Audimax
+  generators:
+    floors:
+      floor_patches:
+        "01": { use_as: "Z1" }
+        "02": { use_as: "01" }
+        "03": { use_as: "02" }
+        "04": { use_as: "03" }
+        "05": { use_as: "04" }
 "0510": # Verwaltungsbau (Z10)
   osm: ["relation/6758375"] # smaller part: "way/31095179"
 "0511": # Elektro/Werkstatt/Lösungsmittel (Z11)
@@ -683,6 +691,23 @@ physik-main:
 5101:
   osm: ["relation/3277929", "node/1240863070"] # last one is bib
 
+5107:
+  generators:
+    floors:
+      floor_patches:
+        "U2":
+          id: -1
+          use_as: "U1"
+          name: { de: "= -1 zur Physik I", en: "= -1 rel. to. Physik I" }
+        "U1":
+          id: 0
+          use_as: "EG"
+          name: { de: "Eingang, -1 zur Brücke", en: "Entrance, -1 to the bridge" }
+        "EG":
+          id: 1
+          use_as: "01"
+          name: { de: "Obere Ebene, Zugang über Brücke", en: "Upper floor, access over bridge" }
+
 5126: # CALA
   coords: { lat: 48.26929, lon: 11.67459 }
   osm: ["way/308082257"]
@@ -745,6 +770,15 @@ chemie:
       street: "Lichtenbergstraße 4"
       plz_place: "85748 Garching bei München"
       source: "navigatum"
+  generators:
+    floors:
+      floor_patches:
+        "EG": { id: -1, name: { de: "Ebene 1", en: "Floor nb. 1" } }
+        "01": { id: 0, name: { de: "Ebene 2", en: "Floor nb. 2" } }
+        "02": { id: 1, name: { de: "Ebene 3", en: "Floor nb. 3" } }
+        "03": { id: 2, name: { de: "Ebene 4", en: "Floor nb. 4" } }
+        "04": { id: 3, name: { de: "Ebene 5", en: "Floor nb. 5" } }
+        "05": { id: 4, name: { de: "Ebene 6", en: "Floor nb. 6" } }
 
 5410:
   coords: { lat: 48.26914, lon: 11.67174 }

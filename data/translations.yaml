@@ -14,6 +14,17 @@ Keine Räume bekannt: No rooms known
 "{n_buildings} Gebäude, {n_rooms} Räume": "{n_buildings} buildings, {n_rooms} rooms"
 "{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)": "{n_buildings} buildings, {n_rooms} rooms (branch office)"
 Architekten-Name: Architect's name
+Stockwerk: Floor
+Erdgeschoss: Ground floor
+Dachgeschoss: Roof floor
+Tiefparterre: Semi-basement
+"{n}. Untergeschoss": "{n}. Basement floor"
+  # More common translation is mezzanine, but intermediate is not wrong and easier to understand
+"{n}. Zwischengeschoss": "{n}. Intermediate floor"
+"1. Zwischengeschoss, über EG": "1. Intermediate floor, above ground floor"
+"{n}. Obergeschoss": "{n}. Upper floor"
+"{n}. OG + 1 Zwischengeschoss": "{n}. Upper floor + 1 intermediate floor"
+"{n}. OG + {m} Zwischengeschosse": "{n}. Upper floor + {m} intermediate floors"
 # type_common_name
 Gebäudeteil: Part of the building
 Standortübersicht: Location overview

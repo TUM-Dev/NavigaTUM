@@ -50,6 +50,16 @@ class TranslatableStr(dict):
         """compares one String to another, sorting by the german string."""
         return self["de"] < other["de"]
 
+    def __add__(self, other):
+        if type(other) is str:
+            return TranslatableStr(self["de"] + other, self["en"] + other)
+        elif type(other) is TranslatableStr:
+            return TranslatableStr(self["de"] + other["de"], self["en"] + other["en"])
+
+    def __radd__(self, other):
+        if type(other) is str:
+            return TranslatableStr(other + self["de"], other + self["en"])
+
     def format(self, *args, **kwargs):
         """Format the string using the .format() method, as if this was a string."""
         self["de"] = self["de"].format(*args, **kwargs)
