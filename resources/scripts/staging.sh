@@ -7,12 +7,17 @@ trap 'trap - SIGTERM && docker rm $(docker stop --time 0 $(docker ps -a -q --fil
 set -e
 
 echo "starting meili"
-(docker run -p 7700:7700 -t search || exit) &
+(
+TMP="$(mktemp --directory)"
+echo "using $TMP as temporary directory for meili"
+docker run -v "$TMP/meili_data":/meili_data -t msinit || exit
+docker run -v "$TMP/meili_data":/meili_data -p 7700:7700 getmeili/meilisearch:latest || exit
+) &
 sleep 1 # to make sure, that the meili-log is before any other log :)
 
 echo "starting the server"
 (
-  cd server || exit
+  cd server/main-api || exit
   cargo run
   exit
 ) &
