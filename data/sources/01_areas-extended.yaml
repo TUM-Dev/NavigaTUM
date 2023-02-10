@@ -773,12 +773,13 @@ chemie:
   generators:
     floors:
       floor_patches:
-        "EG": { id: -1, name: { de: "Ebene 1", en: "Floor nb. 1" } }
-        "01": { id: 0, name: { de: "Ebene 2", en: "Floor nb. 2" } }
-        "02": { id: 1, name: { de: "Ebene 3", en: "Floor nb. 3" } }
-        "03": { id: 2, name: { de: "Ebene 4", en: "Floor nb. 4" } }
-        "04": { id: 3, name: { de: "Ebene 5", en: "Floor nb. 5" } }
-        "05": { id: 4, name: { de: "Ebene 6", en: "Floor nb. 6" } }
+        "Z1": { use_as: "U1" }
+        "EG": { use_as: "U1", id: -1, name: { de: "Ebene 1", en: "Floor nb. 1" } }
+        "01": { use_as: "EG", id: 0, name: { de: "Ebene 2", en: "Floor nb. 2" } }
+        "02": { use_as: "01", id: 1, name: { de: "Ebene 3", en: "Floor nb. 3" } }
+        "03": { use_as: "02", id: 2, name: { de: "Ebene 4", en: "Floor nb. 4" } }
+        "04": { use_as: "03", id: 3, name: { de: "Ebene 5", en: "Floor nb. 5" } }
+        "05": { use_as: "04", id: 4, name: { de: "Ebene 6", en: "Floor nb. 6" } }
 
 5410:
   coords: { lat: 48.26914, lon: 11.67174 }

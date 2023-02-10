@@ -20,8 +20,6 @@ def compute_floor_prop(data):
     Create a human readable floor information prop that takes into account
     special floor numbering systems of buildings.
     """
-    # TODO: Resolve shift in CH
-    # TODO: Improve -1 (1. Basement floor)
     for _id, entry in data.items():
         if entry["type"] in {"root", "area", "site", "campus", "virtual_room"}:
             continue
