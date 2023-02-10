@@ -20,6 +20,8 @@ def compute_floor_prop(data):
     Create a human readable floor information prop that takes into account
     special floor numbering systems of buildings.
     """
+    # TODO: Resolve shift in CH
+    # TODO: Improve -1 (1. Basement floor)
     for _id, entry in data.items():
         if entry["type"] in {"root", "area", "site", "campus", "virtual_room"}:
             continue
@@ -152,24 +154,24 @@ def _get_floor_name_and_type(f_id, floor, mezzanine_shift):
     elif floor.startswith("U"):
         floor_type = "basement"
         floor_abbr = f"-{floor[1:]}"
-        floor_name = _("{n}. Untergeschoss").format(n=floor[1:])
+        floor_name = _(f"{floor[1:]}. ") + _("Untergeschoss")
     elif floor.startswith("Z"):
         floor_type = "mezzanine"
         floor_abbr = f"Z{floor[1:]}"
         if f_id == 1:
             floor_name = _("1. Zwischengeschoss, über EG")
         else:
-            floor_name = _("{n}. Zwischengeschoss").format(n=floor[1:])
+            floor_name = _(f"{floor[1:]}. ") + _("Zwischengeschoss")
     else:
         floor_type = "upper"
         n = int(floor[1:])
         floor_abbr = str(n)
         if mezzanine_shift == 0:
-            floor_name = _("{n}. Obergeschoss").format(n=n)
+            floor_name = _(f"{n}. ") + _("Obergeschoss")
         elif mezzanine_shift == 1:
-            floor_name = _("{n}. OG + 1 Zwischengeschoss").format(n=n)
+            floor_name = _(f"{n}. ") + _("OG + 1 Zwischengeschoss")
         else:
-            floor_name = _("{n}. OG + {m} Zwischengeschosse").format(n=n, m=mezzanine_shift)
+            floor_name = _(f"{n}. ") + _("OG + {m} Zwischengeschosse").format(m=mezzanine_shift)
 
     return floor_type, floor_abbr, floor_name
 
