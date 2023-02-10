@@ -137,6 +137,15 @@ internal_id:
       # if room
       roomcode: "0401.U1.014"
       arch_name: "-1014@0401"
+    floors:  # For (joined_)buildings
+      - { ... } # List of floors like the `floor` prop
+    floor:  # For rooms
+      id: 0  # Floor id (0 for ground floor if there is one, else 0 for the lowest)
+      floor: "0"  # Floor string in short form
+      tumonline: "EG"  # Floor string as given by TUMonline (might seem like a different floor)
+      type: "ground" | "roof" | "tp" | "basement" | "mezzanine" | "upper"
+      name: "Erdgeschoss"  # Long name of the floor (possibly inclusive description)
+      mezzanine_shift: 0  # How many mezzanines are between this floor and floor 0 (only >= 0)
     address:
       street: "Richard-Wagner-Str. 18"  # required
       plz_place: "80333 München"  # required
