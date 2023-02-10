@@ -44,14 +44,14 @@ def compute_floor_prop(data):
         entry.setdefault("props", {})["floors"] = floor_details
 
         # Now add this floor information to all children
-        lookup = { floor["tumonline"]: floor for floor in floor_details }
+        lookup = {floor["tumonline"]: floor for floor in floor_details}
         for room in room_data:
             room_entry = data[room["id"]]
             room_entry.setdefault("props", {})["floor"] = lookup[room["floor"]]
 
 
 def _collect_floors_room_data(data, entry):
-    """ Collect floors of a (joined_)building """
+    """Collect floors of a (joined_)building"""
     missing_cnt = 0
     room_data = []
     for child_id in entry["children_flat"]:
@@ -64,20 +64,22 @@ def _collect_floors_room_data(data, entry):
             else:
                 floor = roomcode.split(".")[1]
 
-            room_data.append({
-                "id": child_id,
-                "floor": floor,
-            })
+            room_data.append(
+                {
+                    "id": child_id,
+                    "floor": floor,
+                }
+            )
 
     return room_data
 
 
 def _build_sorted_floor_list(entry, room_data):
-    """ Build a physically sorted list of floors (using TUMonline floor names) """
+    """Build a physically sorted list of floors (using TUMonline floor names)"""
     floors = set([room["floor"] for room in room_data])
 
     def floor_quantifier(floor_name):
-        """Assign each floor a virtual ID for sorting """
+        """Assign each floor a virtual ID for sorting"""
         if floor_name == "EG":
             return 0
         elif floor_name == "DG":
@@ -99,7 +101,7 @@ def _build_sorted_floor_list(entry, room_data):
 
 
 def _get_floor_details(entry, room_data, floors):
-    """ Infer for each floor the metadata and name string """
+    """Infer for each floor the metadata and name string"""
     floors_details = []
 
     patches = entry.get("generators", {}).get("floors", {}).get("floor_patches", {})
@@ -110,19 +112,20 @@ def _get_floor_details(entry, room_data, floors):
         floor = patches.get(floor_tumonline, {}).get("use_as", floor_tumonline)
         f_id = patches.get(floor_tumonline, {}).get("id", i - eg_index)
 
-        floor_type, floor_abbr, floor_name = \
-            _get_floor_name_and_type(f_id, floor, mezzanine_shift)
+        floor_type, floor_abbr, floor_name = _get_floor_name_and_type(f_id, floor, mezzanine_shift)
 
         floor_name = patches.get(floor_tumonline, {}).get("name", floor_name)
 
-        floors_details.append({
-            "id": f_id,
-            "floor": floor_abbr,
-            "tumonline": floor_tumonline,
-            "type": floor_type,
-            "name": floor_name,
-            "mezzanine_shift": mezzanine_shift,
-        })
+        floors_details.append(
+            {
+                "id": f_id,
+                "floor": floor_abbr,
+                "tumonline": floor_tumonline,
+                "type": floor_type,
+                "name": floor_name,
+                "mezzanine_shift": mezzanine_shift,
+            }
+        )
         if i - eg_index >= 0 and floor.startswith("Z"):
             mezzanine_shift += 1
 

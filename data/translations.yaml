@@ -19,7 +19,7 @@ Erdgeschoss: Ground floor
 Dachgeschoss: Roof floor
 Tiefparterre: Semi-basement
 Untergeschoss: basement floor
-  # More common translation is mezzanine, but intermediate is not wrong and easier to understand
+# More common translation is mezzanine, but intermediate is not wrong and easier to understand
 Zwischengeschoss: intermediate floor
 "1. Zwischengeschoss, über EG": "1st intermediate floor, above ground floor"
 Obergeschoss: upper floor
