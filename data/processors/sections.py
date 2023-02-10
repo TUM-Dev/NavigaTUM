@@ -1,4 +1,3 @@
-import logging
 from utils import TranslatableStr as _
 
 
@@ -38,7 +37,7 @@ def compute_floor_prop(data):
         #   the information about the floor, unless there is a patch. From the floors
         #   in TUMonline we build the list of floors in their physical order.
         # - Infer or get details about each floor to generate a name string and get metadata.
-        room_data, completeness = _collect_floors_room_data(data, entry)
+        room_data = _collect_floors_room_data(data, entry)
         floors = _build_sorted_floor_list(entry, room_data)
         floor_details = _get_floor_details(entry, room_data, floors)
 
@@ -48,10 +47,7 @@ def compute_floor_prop(data):
         lookup = { floor["tumonline"]: floor for floor in floor_details }
         for room in room_data:
             room_entry = data[room["id"]]
-            # This is false for 0511, where all EG rooms (actually containers)
-            # do not have an arch_name
-            if room["floor"] in lookup:
-                room_entry.setdefault("props", {})["floor"] = lookup[room["floor"]]
+            room_entry.setdefault("props", {})["floor"] = lookup[room["floor"]]
 
 
 def _collect_floors_room_data(data, entry):
@@ -62,23 +58,18 @@ def _collect_floors_room_data(data, entry):
         child = data[child_id]
         if child["type"] == "room" and "ids" in child.get("props", {}):
             roomcode = child["props"]["ids"].get("roomcode", None)
-            arch_name = child["props"]["ids"].get("arch_name", None)
-            if arch_name is None or roomcode is None:
-                missing_cnt += 1
+
+            if "floor_patch" in child.get("generators", {}).get("floors", {}):
+                floor = child["generators"]["floors"]["floor_patch"]
             else:
-                if "floor_patch" in child.get("generators", {}).get("floors", {}):
-                    floor = child["generators"]["floors"]["floor_patch"]
-                else:
-                    floor = roomcode.split(".")[1]
-                room_data.append({
-                    "id": child_id,
-                    "arch_name": arch_name,
-                    "floor": floor,
-                })
+                floor = roomcode.split(".")[1]
 
-    completeness = 1 - (missing_cnt / len(entry["children_flat"]))
+            room_data.append({
+                "id": child_id,
+                "floor": floor,
+            })
 
-    return room_data, completeness
+    return room_data
 
 
 def _build_sorted_floor_list(entry, room_data):
