@@ -68,14 +68,14 @@ impl FetchTileTask {
         let tile = match tokio::fs::read(&file).await {
             Ok(content) => web::Bytes::from(content),
             Err(_) => {
-                for i in 1..=3 {
-                    if let Some(tile) = self.download_map_image(&file).await {
-                        tile
+                let mut tile = self.download_map_image(&file).await;
+                for i in 1..3 {
+                    if tile.is_none() {
+                        warn!("Error while downloading {file:?} {i} times. Retrying");
+                        tile = self.download_map_image(&file).await;
                     }
-                    warn!("Error while downloading {url} {i} times. Retrying");
                 }
-                error!("Failed to fetch {url}");
-                return None;
+                tile.expect(&format!("Failed to fetch {file:?} 3 times. Giving up"))
             }
         };
 
