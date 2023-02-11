@@ -40,7 +40,7 @@ pub async fn legacy_redirect_handler(params: web::Path<String>) -> HttpResponse 
     let keys = match responses {
         Ok(r) => r.iter().map(extract_redirect_base).collect::<Vec<String>>(),
         Err(e) => {
-            error!("Error requesting details for {}: {:?}", a_name, e);
+            error!("Error requesting details for {a_name}: {e:?}");
             return HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Internal Server Error");

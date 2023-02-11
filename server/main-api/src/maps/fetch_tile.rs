@@ -1,7 +1,7 @@
 use crate::maps::overlay_map::OverlayMapTask;
 use actix_web::web;
 use awc::Client;
-use log::error;
+use log::{error, warn};
 
 pub(crate) struct FetchTileTask {
     x: u32,
@@ -103,16 +103,13 @@ impl FetchTileTask {
         let res = match res {
             Ok(r) => r,
             Err(e) => {
-                error!("Error while payload parsing: {:?}", e);
+                error!("Error while payload parsing: {e:?}");
                 return None;
             }
         };
 
         if let Err(e) = tokio::fs::write(file, &res).await {
-            error!(
-                "failed to write url {} to {:?} because {:?}. Files wont be cached",
-                url, file, e
-            );
+            warn!("failed to write {url} to {file:?} because {e:?}. Files wont be cached");
         };
         Some(res)
     }

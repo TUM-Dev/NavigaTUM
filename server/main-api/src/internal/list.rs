@@ -21,7 +21,7 @@ pub async fn ids_with_calendar() -> web::Json<Vec<(String, i32)>> {
             .map(|(k, t)| (k.clone(), t.unwrap()))
             .collect::<Vec<(String, i32)>>(),
         Err(e) => {
-            error!("Error requesting all ids: {:?}", e);
+            error!("Error requesting all ids: {e:?}");
             vec![]
         }
     })

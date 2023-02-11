@@ -58,7 +58,7 @@ pub async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
     match token {
         Ok(token) => HttpResponse::Created().json(token),
         Err(e) => {
-            error!("Failed to generate token: {:?}", e);
+            error!("Failed to generate token: {e:?}");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Failed to generate token.")

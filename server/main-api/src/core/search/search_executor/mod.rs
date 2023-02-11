@@ -86,7 +86,7 @@ pub async fn do_geoentry_search(
         ),
         Err(e) => {
             // error should be serde_json::error
-            error!("Error searching for results: {:?}", e);
+            error!("Error searching for results: {e:?}");
             vec![]
         }
     };

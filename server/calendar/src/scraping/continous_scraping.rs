@@ -67,14 +67,10 @@ pub async fn scrape_to_db(duration: chrono::Duration) {
             time_stats.push(round_start_time.elapsed());
         }
         if i % 30 == 0 {
-            info!(
-                "Scraped {:.2}% (avg {:.1?}/key, total {:.1?}) result-{:?} in time-{:.1?}",
-                i as f32 / entry_cnt as f32 * 100.0,
-                start_time.elapsed() / i as u32,
-                start_time.elapsed(),
-                entry_stats,
-                time_stats,
-            );
+            let progress = i as f32 / entry_cnt as f32 * 100.0;
+            let elapsed = start_time.elapsed();
+            let time_per_key = elapsed / i as u32;
+            info!("Scraped {progress:.2}% (avg {time_per_key:.1?}/key, total {elapsed:.1?}) result-{entry_stats:?} in time-{time_stats:.1?}");
         }
         // sleep to not overload TUMonline.
         // It is critical for successfully scraping that we are not blocked.
@@ -82,9 +78,8 @@ pub async fn scrape_to_db(duration: chrono::Duration) {
     }
 
     info!(
-        "Finished scraping calendar entrys. ({} entries in {}s)",
-        entry_cnt,
-        start_time.elapsed().as_secs_f32()
+        "Finished scraping calendar entrys. ({entry_cnt} entries in {:?})",
+        start_time.elapsed()
     );
 }
 
@@ -114,8 +109,8 @@ fn promote_scraped_results_to_prod() {
         .expect("Failed to insert newly scraped values into db");
 
     info!(
-        "Finished switching scraping results - prod. ({}s)",
-        start_time.elapsed().as_secs_f32()
+        "Finished switching scraping results - prod. ({:?})",
+        start_time.elapsed()
     );
 }
 
@@ -153,7 +148,7 @@ async fn scrape(
                             new_request_queue.push(t1);
                             new_request_queue.push(t2);
                         } else {
-                            warn!("The following ScrapeOrder cannot be fulfilled: {:?}", task);
+                            warn!("The following ScrapeOrder cannot be fulfilled: {task:?}");
                         }
                         retry_smaller_happened = true;
                     }

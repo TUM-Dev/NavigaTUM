@@ -51,7 +51,7 @@ fn get_localised_data(id: &str, should_use_english: bool) -> Result<DBRoomEntry,
             _ => Ok(r[0].clone()),
         },
         Err(e) => {
-            error!("Error preparing statement: {:?}", e);
+            error!("Error preparing statement: {e:?}");
             return Err(HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Internal Server Error"));
@@ -75,10 +75,10 @@ async fn construct_image_from_data(_id: &str, data: DBRoomEntry) -> Option<Vec<u
     if !OverlayMapTask::with(&data).draw_onto(&mut img).await {
         return None;
     }
-    debug!("map draw {}ms", start_time.elapsed().as_millis());
+    debug!("map draw {:?}", start_time.elapsed());
 
     draw_bottom(&data, &mut img);
-    debug!("overlay finish {}ms", start_time.elapsed().as_millis());
+    debug!("overlay finish {:?}", start_time.elapsed());
     Some(wrap_image_in_response(img))
 }
 
@@ -144,8 +144,8 @@ pub async fn maps_handler(
     let res = HttpResponse::Ok().content_type("image/png").body(img);
 
     debug!(
-        "Preview Generation for {id} took {generation_time}ms",
-        generation_time = start_time.elapsed().as_millis()
+        "Preview Generation for {id} took {:?}",
+        start_time.elapsed()
     );
     res
 }
