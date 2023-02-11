@@ -65,14 +65,21 @@ impl FetchTileTask {
         // gets the image fro the server. using a disk-cached image if possible
         let filename = format!("{}_{}_{}@2x.png", self.z, self.x, self.y);
         let file = std::env::temp_dir().join("tiles").join(filename);
-        let file_content = tokio::fs::read(&file).await;
-        let tile = match file_content {
+        let tile = match tokio::fs::read(&file).await {
             Ok(content) => web::Bytes::from(content),
-            Err(_) => self.download_map_image(&file).await?,
+            Err(_) => {
+                for i in 1..=3 {
+                    if let Some(tile) = self.download_map_image(&file).await {
+                        tile
+                    }
+                    warn!("Error while downloading {url} {i} times. Retrying");
+                }
+                error!("Failed to fetch {url}");
+                return None;
+            }
         };
 
-        let tile_img = image::load_from_memory(&tile);
-        match tile_img {
+        match image::load_from_memory(&tile) {
             Ok(img) => Some((self.index, img)),
             Err(e) => {
                 error!("Error while parsing image: {e:#?} for {file:?}");
@@ -89,7 +96,6 @@ impl FetchTileTask {
             y = self.y,
         )
     }
-
     async fn download_map_image(&self, file: &std::path::PathBuf) -> Option<web::Bytes> {
         let url = self.get_tileserver_url();
         let client = Client::new().get(&url).send();
@@ -110,9 +116,7 @@ impl FetchTileTask {
         let response_size = res.len();
         match response_size {
             0..=500 => {
-                error!(
-                    "Got a very Response from {url} with {response_size} bytes. Response: ({res:?})"
-                );
+                error!("Got a short Response from {url}. Response ({response_size}B): {res:?}");
                 None
             }
             _ => {
