@@ -111,7 +111,7 @@ impl FetchTileTask {
         match response_size {
             0..=500 => {
                 error!(
-                    "Got a very Response from {url} with {response_size} bytes. Response: ({res})"
+                    "Got a very Response from {url} with {response_size} bytes. Response: ({res:?})"
                 );
                 None
             }
