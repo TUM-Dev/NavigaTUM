@@ -107,10 +107,20 @@ impl FetchTileTask {
                 return None;
             }
         };
-
-        if let Err(e) = tokio::fs::write(file, &res).await {
-            warn!("failed to write {url} to {file:?} because {e:?}. Files wont be cached");
-        };
-        Some(res)
+        let response_size = res.len();
+        match response_size {
+            0..=500 => {
+                error!(
+                    "Got a very Response from {url} with {response_size} bytes. Response: ({res})"
+                );
+                None
+            }
+            _ => {
+                if let Err(e) = tokio::fs::write(file, &res).await {
+                    warn!("failed to write {url} to {file:?} because {e:?}. Files wont be cached");
+                };
+                Some(res)
+            }
+        }
     }
 }
