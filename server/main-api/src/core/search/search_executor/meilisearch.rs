@@ -116,13 +116,13 @@ pub(super) async fn do_meilisearch(client: Client, args: MSSearchArgs) -> Result
             // if the request goes through our internal network without authentication
             if std::env::var("GIT_COMMIT_SHA").is_ok() {
                 // we only warn, if we assume this is production
-                warn!("alphanumeric MEILI_MASTER_KEY not found: {:?}", e);
+                warn!("alphanumeric MEILI_MASTER_KEY not found: {e:?}");
             }
             client.post(&url)
         }
     };
 
-    debug!("-> internally requested {:?} from {:?}", &post_data, &url);
+    debug!("-> internally requested {post_data:?} from {url:?}");
     let resp_bytes = meili_request
         .send_json(&post_data)
         .await

@@ -23,7 +23,7 @@ pub async fn post_feedback(
 
     let octocrab = Octocrab::builder().personal_token(github_token).build();
     if octocrab.is_err() {
-        error!("Error creating issue: {:?}", octocrab);
+        error!("Error creating issue: {octocrab:?}");
         return HttpResponse::InternalServerError().body("Could not create Octocrab instance");
     }
 
@@ -41,7 +41,7 @@ pub async fn post_feedback(
             .content_type("text/plain")
             .body(issue.html_url.to_string()),
         Err(e) => {
-            error!("Error creating issue: {:?}", e);
+            error!("Error creating issue: {e:?}");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Failed create issue")

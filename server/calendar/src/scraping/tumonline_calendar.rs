@@ -27,7 +27,7 @@ async fn request_body(client: &Client, url: String) -> RequestStatus {
             200 => res.body().limit(2_usize.pow(32)).await,
             404 => return RequestStatus::NotFound,
             _ => {
-                error!("Error sending request (invalid status code): {:?}", res);
+                error!("Error sending request (invalid status code): {res:?}");
                 return RequestStatus::Error;
             }
         },
@@ -41,11 +41,11 @@ async fn request_body(client: &Client, url: String) -> RequestStatus {
                         // for some pieces of work TUMonline somehow initally sends us this, but if we are persistent, it works...WTF?
                         return RequestStatus::Timeout;
                     }
-                    error!("Error sending request: {:?}", e);
+                    error!("Error sending request: {e:?}");
                     RequestStatus::Error
                 }
                 _ => {
-                    error!("Error sending request: {:?}", e);
+                    error!("Error sending request: {e:?}");
                     RequestStatus::Error
                 }
             };
@@ -58,7 +58,7 @@ async fn request_body(client: &Client, url: String) -> RequestStatus {
             return RequestStatus::TooLarge;
         }
         Err(e) => {
-            error!("Error getting body: {:?}", e);
+            error!("Error getting body: {e:?}");
             return RequestStatus::Error;
         }
     };
@@ -68,7 +68,7 @@ async fn request_body(client: &Client, url: String) -> RequestStatus {
             _ => RequestStatus::Success(res_string),
         },
         Err(e) => {
-            error!("Error converting body to string: {:?}", e);
+            error!("Error converting body to string: {e:?}");
             RequestStatus::Error
         }
     }
@@ -143,7 +143,7 @@ impl XMLEvent {
             .map(|s| s.to_string())
             .collect::<Vec<String>>();
         if !other_keys.is_empty() {
-            error!("found additional key(s) in hashmap: {:?}", other_keys);
+            error!("found additional key(s) in hashmap: {other_keys:?}");
         }
         XMLEvent {
             key,
@@ -205,7 +205,7 @@ impl XMLEvents {
         match res {
             Ok(_) => true,
             Err(e) => {
-                error!("Error inserting into database: {:?}", e);
+                error!("Error inserting into database: {e:?}");
                 false
             }
         }
@@ -215,7 +215,7 @@ impl XMLEvents {
         let root = match root {
             Ok(root) => root,
             Err(e) => {
-                error!("Error parsing body to xml: {:?} body={:?}", e, body);
+                error!("Error parsing body to xml: {e:?} body={body:?}");
                 return None;
             }
         };
@@ -252,7 +252,7 @@ impl XMLEvents {
             task.to.format("%Y%m%d"),
             token
         );
-        debug!("url: {}", url);
+        debug!("url: {url}");
         for retry_cnt in 1..=5 {
             let body = request_body(client, url.to_string()).await;
             // randomized to avoid thundering herd phenomenon
@@ -273,10 +273,7 @@ impl XMLEvents {
                 // We are requesting a lot of data. Sometimes too much => Retry smaller
                 RequestStatus::TooLarge => return Err(Strategy::RetrySmaller),
                 RequestStatus::Timeout | RequestStatus::Error => {
-                    warn!(
-                        "Retry {}/5, retrying in {:?} url={}",
-                        retry_cnt, backoff_duration, url
-                    );
+                    warn!("Retry {retry_cnt}/5, retrying in {backoff_duration:?} url={url}");
                 }
             };
             sleep(backoff_duration).await;

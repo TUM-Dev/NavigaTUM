@@ -28,7 +28,7 @@ pub async fn get_handler(
                 .body(d[0].clone()),
         },
         Err(e) => {
-            error!("Error requesting details for {}: {:?}", id, e);
+            error!("Error requesting details for {id}: {e:?}");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Internal Server Error")
