@@ -6,9 +6,9 @@ use rusttype::{Font, Scale};
 
 lazy_static! {
     pub static ref CANTARELL_BOLD: Font<'static> =
-        Font::try_from_bytes(include_bytes!("font/Cantarell-Bold.ttf")).unwrap();
+        Font::try_from_bytes(include_bytes!("static/font/Cantarell-Bold.ttf")).unwrap();
     pub static ref CANTARELL_REGULAR: Font<'static> =
-        Font::try_from_bytes(include_bytes!("font/Cantarell-Regular.ttf")).unwrap();
+        Font::try_from_bytes(include_bytes!("static/font/Cantarell-Regular.ttf")).unwrap();
 }
 const SCALE: Scale = Scale { x: 35.0, y: 35.0 };
 
