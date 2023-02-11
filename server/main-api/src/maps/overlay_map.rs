@@ -66,7 +66,7 @@ impl OverlayMapTask {
         }
 
         // add the location pin image to the center
-        let pin = image::open("src/maps/pin.webp").unwrap();
+        let pin = image::open("src/maps/static/pin.webp").unwrap();
         image::imageops::overlay(
             img,
             &pin,
