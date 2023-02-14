@@ -25,10 +25,7 @@ def compute_floor_prop(data):
             continue
 
         parent_type = data[entry["parents"][-1]]["type"]
-        if parent_type == "joined_building":
-            continue
-
-        if "children_flat" not in entry:
+        if parent_type == "joined_building" or "children_flat" not in entry:
             continue
 
         # Steps in the assignment of floors:
