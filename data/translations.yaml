@@ -16,15 +16,14 @@ Keine Räume bekannt: No rooms known
 Architekten-Name: Architect's name
 Stockwerk: Floor
 Erdgeschoss: Ground floor
-Dachgeschoss: Roof floor
+Dachgeschoss: Top floor
 Tiefparterre: Semi-basement
 Untergeschoss: basement floor
-# More common translation is mezzanine, but intermediate is not wrong and easier to understand
-Zwischengeschoss: intermediate floor
-"1. Zwischengeschoss, über EG": "1st intermediate floor, above ground floor"
+Zwischengeschoss: mezzanine
+"1. Zwischengeschoss, über EG": "1st mezzanine, above ground floor"
 Obergeschoss: upper floor
-"OG + 1 Zwischengeschoss": "upper floor + 1 intermediate floor"
-"OG + {m} Zwischengeschosse": "upper floor + {m} intermediate floors"
+"OG + 1 Zwischengeschoss": "upper floor + 1 mezzanine"
+"OG + {m} Zwischengeschosse": "upper floor + {m} mezzanines"
 "1. ": "1st "
 "2. ": "2nd "
 "3. ": "3rd "
