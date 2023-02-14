@@ -133,43 +133,35 @@ def _get_floor_name_and_type(f_id, floor, mezzanine_shift):
     :param f_id: Floor id (0 for ground floor if there is one, else 0 for the lowest)
     :param floor: Floor name in TUMonline
     :param mezzanine_shift: How many mezzanines are between this floor and floor 0 (only >= 0)
+    :returns: A tuple of three elements:
+              - The type name of the floor (ground | roof | tp | basement | mezzanine | upper)
+              - A short string about the floor (e.g. "-1", "0", "Z1", "5")
+              - A long TranslatableStr about the floor (e.g. "Erdgeschoss")
     """
-    if floor == "EG":
-        floor_type = "ground"
-        floor_abbr = "0"
-        # TODO: Verify f_id == 0, should be!
-        floor_name = _("Erdgeschoss")
-    elif floor == "DG":
-        floor_type = "roof"
-        floor_abbr = str(f_id)
-        floor_name = _("Dachgeschoss")
-    elif floor == "TP":
-        floor_type = "tp"
-        floor_abbr = "TP"
-        floor_name = _("Tiefparterre")
-    elif floor.startswith("U"):
-        floor_type = "basement"
-        floor_abbr = f"-{floor[1:]}"
-        floor_name = _(f"{floor[1:]}. ") + _("Untergeschoss")
-    elif floor.startswith("Z"):
-        floor_type = "mezzanine"
-        floor_abbr = floor
-        if f_id == 1:
-            floor_name = _("1. Zwischengeschoss, über EG")
-        else:
-            floor_name = _(f"{floor[1:]}. ") + _("Zwischengeschoss")
-    else:
-        floor_type = "upper"
-        n = int(floor[1:])
-        floor_abbr = str(n)
-        if mezzanine_shift == 0:
-            floor_name = _(f"{n}. ") + _("Obergeschoss")
-        elif mezzanine_shift == 1:
-            floor_name = _(f"{n}. ") + _("OG + 1 Zwischengeschoss")
-        else:
+    match floor:
+        case "EG":
+            if f_id != 0:
+                raise RuntimeError(f"Floor id {f_id} for ground floor {floor} is not 0!")
+            return "ground", "0", _("Erdgeschoss")
+        case "DG":
+            return "roof", str(f_id), _("Dachgeschoss")
+        case "TP":
+            return "tp", "TP", _("Tiefparterre")
+        case _ if floor.startswith("U"):
+            floor_name = _(f"{floor[1:]}. ") + _("Untergeschoss")
+            return "basement", f"-{floor[1:]}", floor_name
+        case _ if floor.startswith("Z"):
+            if f_id == 1:
+                return "mezzanine", floor, _("1. Zwischengeschoss, über EG")
+            return "mezzanine", floor, _(f"{floor[1:]}. ") + _("Zwischengeschoss")
+        case _:
+            n = int(floor[1:])
+            if mezzanine_shift == 0:
+                return "upper", str(n), _(f"{n}. ") + _("Obergeschoss")
+            if mezzanine_shift == 1:
+                return "upper", str(n), _(f"{n}. ") + _("OG + 1 Zwischengeschoss")
             floor_name = _(f"{n}. ") + _("OG + {m} Zwischengeschosse").format(m=mezzanine_shift)
-
-    return floor_type, floor_abbr, floor_name
+            return "upper", str(n), floor_name
 
 
 def compute_props(data):
