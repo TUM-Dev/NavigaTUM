@@ -52,7 +52,6 @@ def compute_floor_prop(data):
 
 def _collect_floors_room_data(data, entry):
     """Collect floors of a (joined_)building"""
-    missing_cnt = 0
     room_data = []
     for child_id in entry["children_flat"]:
         child = data[child_id]
