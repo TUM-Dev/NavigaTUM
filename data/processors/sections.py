@@ -158,7 +158,7 @@ def _get_floor_name_and_type(f_id, floor, mezzanine_shift):
         floor_name = _(f"{floor[1:]}. ") + _("Untergeschoss")
     elif floor.startswith("Z"):
         floor_type = "mezzanine"
-        floor_abbr = f"Z{floor[1:]}"
+        floor_abbr = floor
         if f_id == 1:
             floor_name = _("1. Zwischengeschoss, über EG")
         else:
