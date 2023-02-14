@@ -77,20 +77,19 @@ def _build_sorted_floor_list(entry, room_data):
         """Assign each floor a virtual ID for sorting"""
         if floor_name == "EG":
             return 0
-        elif floor_name == "DG":
+        if floor_name == "DG":
             return 1000
-        elif floor_name.startswith("U"):
+        if floor_name.startswith("U"):
             return -10 * int(floor_name[1:])
-        elif floor_name.isnumeric():
+        if floor_name.isnumeric():
             return 10 * int(floor_name)
-        elif floor_name.startswith("Z"):
+        if floor_name.startswith("Z"):
             # Default placement: Z1 is below 01 etc.
             return 10 * int(floor_name[1:]) - 5
-        elif floor_name == "TP":  # Tiefparterre / Semi-Basement
+        if floor_name == "TP":  # Tiefparterre / Semi-Basement
             # Default placement: below EG
             return -5
-        else:
-            raise RuntimeError(f"Unknown TUMonline floor name {floor_name}")
+        raise RuntimeError(f"Unknown TUMonline floor name {floor_name}")
 
     return sorted(floors, key=floor_quantifier)
 
