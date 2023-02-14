@@ -21,7 +21,7 @@ def compute_floor_prop(data):
     special floor numbering systems of buildings.
     """
     for _id, entry in data.items():
-        if entry["type"] in {"root", "area", "site", "campus", "virtual_room"}:
+        if entry["type"] not in {"building", "joined_building"}:
             continue
 
         parent_type = data[entry["parents"][-1]]["type"]
