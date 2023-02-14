@@ -35,8 +35,7 @@ def compute_floor_prop(data):
         #   in TUMonline we build the list of floors in their physical order.
         # - Infer or get details about each floor to generate a name string and get metadata.
         room_data = _collect_floors_room_data(data, entry)
-        floors = _build_sorted_floor_list(entry, room_data)
-        floor_details = _get_floor_details(entry, room_data, floors)
+        floor_details = _get_floor_details(entry, room_data)
 
         entry.setdefault("props", {})["floors"] = floor_details
 
@@ -96,8 +95,9 @@ def _build_sorted_floor_list(entry, room_data):
     return sorted(floors, key=floor_quantifier)
 
 
-def _get_floor_details(entry, room_data, floors):
+def _get_floor_details(entry, room_data):
     """Infer for each floor the metadata and name string"""
+    floors = _build_sorted_floor_list(entry, room_data)
     floors_details = []
 
     patches = entry.get("generators", {}).get("floors", {}).get("floor_patches", {})
