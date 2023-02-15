@@ -17,7 +17,7 @@ def extract_calendar_urls(data):
 
 def compute_floor_prop(data):
     """
-    Create a human readable floor information prop that takes into account
+    Create a human and machine readable floor information prop that takes into account
     special floor numbering systems of buildings.
     """
     for _id, entry in data.items():
@@ -28,12 +28,6 @@ def compute_floor_prop(data):
         if parent_type == "joined_building" or "children_flat" not in entry:
             continue
 
-        # Steps in the assignment of floors:
-        # - Collect the relevant information from all rooms within the building.
-        # - Extract all floors given by TUMonline. TUMonline is used as the source for
-        #   the information about the floor, unless there is a patch. From the floors
-        #   in TUMonline we build the list of floors in their physical order.
-        # - Infer or get details about each floor to generate a name string and get metadata.
         room_data = _collect_floors_room_data(data, entry)
         floor_details = _get_floor_details(entry, room_data)
 
