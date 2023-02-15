@@ -75,13 +75,6 @@ def infer_addresses(data):
                 if street is not None and plz_place is not None:
                     child_addresses.add((street, plz_place))
 
-            # If there are multiple, try removing the floor level
-            if len(child_addresses) > 1:
-                new_child_addresses = set()
-                for street, plz_place in child_addresses:
-                    new_child_addresses.add((",".join(street.split(",")[:-1]), plz_place))
-                child_addresses = new_child_addresses
-
             if len(child_addresses) == 1:
                 street, plz_place = child_addresses.pop()
                 entry.setdefault("props").setdefault(

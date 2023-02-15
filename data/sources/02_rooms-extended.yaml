@@ -114,6 +114,9 @@
     comment:
       de: Dieser Hörsaal ist in TUMonline 5508.02.801 statt 5508.01.801, obwohl der Hörsaal im 1. Stock ist. Aus Konsistenzgründen übernehmen wir diese ID.
       en: This lecture hall is 5508.02.801 in TUMonline instead of 5508.01.801, although the lecture hall is on the 1st floor. For consistency, we also use this ID.
+  generators:
+    floors:
+      floor_patch: "01"
 "5510.EG.026C":
   name: IKOM-Besprechungsraum
 
