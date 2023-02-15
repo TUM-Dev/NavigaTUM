@@ -85,6 +85,7 @@ def main():
 
     logging.info("-- 80 Generate info card")
     sections.extract_calendar_urls(data)
+    sections.compute_floor_prop(data)
     sections.compute_props(data)
     sections.localize_links(data)
 

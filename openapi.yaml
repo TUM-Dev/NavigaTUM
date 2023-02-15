@@ -414,6 +414,8 @@ paths:
                           text: 5602.EG.001
                         - name: Architekten-Name
                           text: 00.02.001
+                        - name: Stockwerk
+                          text: '0 (Erdgeschoss)'
                         - name: Adresse
                           text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
                         - name: Sitzplätze
@@ -513,6 +515,8 @@ paths:
                           text: 5606.EG.036
                         - name: Architekten-Name
                           text: 00.06.036
+                        - name: Stockwerk
+                          text: '0 (Erdgeschoss)'
                         - name: Adresse
                           text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
                     ranking_factors:
