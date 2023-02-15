@@ -85,7 +85,6 @@ def infer_addresses(data):
                         "source": "inferred",
                     },
                 )
-    #exit()
 
 
 def infer_type_common_name(data):
