@@ -18,10 +18,10 @@
 #   Possible values are "root", "site", "campus", "area", "joined_building", "building".
 #   Unless "building" is assumed (if building_prefix == id), the default is "area"
 :Standorte:root[root]
+  :Ludwig-Maximilians-Universität (LMU) München|LMU:lmu[site]  # manually added
+    0050:Fakultät für Physik, LMU|LMU Physik:0050,lmu-physik
+    1003:Arnold-Sommerfeld-Zentrum, LMU|LMU ASZ:1003,lmu-physik-asc
   0:Stammgelände:stammgelaende[campus]
-    :Ludwig-Maximilians-Universität München|LMU:lmu[site]  # manually added
-      0050:Fakultät für Physik, LMU|LMU Physik:0050,physik-lmu
-      1003:Arnold-Sommerfeld-Zentrum, LMU|LMU ASZ:1003,physik-asc
     01:Nordgelände:nordgelaende
       0101:U-Trakt (N1):0101,n1
       0102:Hochvolthaus (N2):0102,n2
@@ -350,8 +350,8 @@
       4309:Institutsgebäude Ökonomik des Gartenbaus und Landschaftsbaus:
       4310:Werkstatt und Garagen Zierpflanzenbau:
       4311:Institut Zierplanzenbau:
-      4312:Ziefpflanzenbau Gewächshaus:
-      4313:Ziefpflanzenbau Wirtschaftsgebäude:
+      4312:Zierpflanzenbau Gewächshaus:
+      4313:Zierpflanzenbau Wirtschaftsgebäude:
       4314:Trafostation VII:
       4315,4316:Lagerhalle:wzw-lagerhalle
         4315:Lagerhalle (Straßenseite):
@@ -507,7 +507,7 @@
       5142:Parkhaus P1:
       -5143:Versorgungsstation:
       5160:UCN-Testanlage (Container):
-    :Max-Planck-Institut:mpi[site] # manually added
+    :Max-Planck-Institut:mpi[site] # manually added, see NAT merger
       :Max-Planck-Institut für Plasmaphysik:ipp[building]
       :Max-Planck-Institut für Astrophysik:mpa[building]
       :Max-Planck-Institut für Biochemie:mpb[building]

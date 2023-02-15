@@ -7,13 +7,15 @@ from dataclasses import dataclass
 @dataclass
 class NATBuilding:
     b_id: str
+    b_code: str
     b_name: str
     b_tumonline_id: None | int
     b_alias: None | str
     b_address: None | str
 
     def __init__(self, data: dict):
-        self.b_id = data["building_code"]
+        self.b_id = None  # Later set by _infer_internal_id()
+        self.b_code = data["building_code"]  # Building id/code used by the NAT roomfinder
         self.b_name = data["building_name"]
         self.b_tumonline_id = data["building_id"]
         self.b_alias = data["building_short"]
@@ -23,7 +25,7 @@ class NATBuilding:
 def merge_nat_buildings(data):
     """
     Merge the buildings in the NAT Roomfinder with the existing data.
-    This will overwrite existing data, as they have patched some fields.
+    This may overwrite existing data, if they have patched some fields.
     """
     with open("external/results/buildings_nat.json", encoding="utf-8") as file:
         buildings = json.load(file)
@@ -35,7 +37,7 @@ def merge_nat_buildings(data):
         raise ValueError(f"There are duplicate buildings in the data: {duplicate_building_ids}")
 
     for building in [NATBuilding(b) for b in buildings]:
-        if building.b_id in [
+        if building.b_code in [
             "0000",  # 'Building' 0000 contains some buildings and places not in TUMonline as rooms.
             # They might be integrated custom somewhere else, but here we ignore these.
             "3002",  # "Testgebäude 2" => building which probably does not exist
@@ -47,45 +49,48 @@ def merge_nat_buildings(data):
         ]:
             continue
 
-        internal_id = _infer_internal_id(building, data)
-        _merge_building(data, internal_id, building)
+        _merge_building(data, building)
 
 
 def _infer_internal_id(building, data):
-    if building.b_id.startswith("X"):
-        # they have external buildings in there (for example Max-Planck-Institut für Plasmaphysik)
-        # we added them to the roomfinder data, but did not keept thier scheme
-        building.b_id = building.b_id[1:].lower()
+    # The NAT Roomfinder has buildings in it, that are not in TUMonline
+    # (for example Max-Planck-Institut für Plasmaphysik). We keep them,
+    # but use a different building id.
+    if building.b_code.startswith("X"):
+        if building.b_code == "XUCL":
+            building.b_id = "origins-cluster"
+        else:
+            building.b_id = building.b_code[1:].lower()
+
         return building.b_id
 
-    internal_id = None
     for _id, _data in data.items():
-        if "b_prefix" in _data and _data["b_prefix"] == building.b_id:
-            if internal_id is not None:
-                raise RuntimeError(f"building id '{building.b_id}' more than once in base data")
-            internal_id = _id
-    if internal_id is None:
-        raise RuntimeError(f"building '{building}' not found in base data. "
+        if "b_prefix" in _data and _data["b_prefix"] == building.b_code:
+            if building.b_id is not None:
+                raise RuntimeError(f"Building id '{building.b_code}' more than once in base data")
+            building.b_id = _id
+    if building.b_id is None:
+        raise RuntimeError(f"Building '{building}' not found in base data. "
                            f"It may be missing in the areatree.")
-    return internal_id
+    return building.b_id
 
 
-def _merge_building(data, internal_id, building):
-    used_as_source = internal_id in data
+def _merge_building(data, building):
+    internal_id = _infer_internal_id(building, data)
+
     b_data = data[internal_id]
     b_data["nat_data"] = building
 
-    # Data fixes
-    used_as_source |= b_data["name"] == building.b_name
-    b_data["name"] = building.b_name
+    # TODO: Use rooms JSON to get more building information
 
-    b_data["name"] = building.b_name
-
-    if used_as_source:
-        b_data.setdefault("sources", {}).setdefault("base", []).append(
+    # NAT buildings are merged after TUMonline and the MyTUM Roomfinder. So if the others
+    # weren't used as sources, but the NAT Roomfinder has this building, we know it's from there.
+    base_sources = b_data.setdefault("sources", {}).setdefault("base", [])
+    if len(base_sources) == 0:
+        base_sources.append(
             {
-                "name": "NAT Building Data",
-                "url": f"https://www.ph.tum.de/about/visit/roomfinder/?room={building.b_id}",
+                "name": "NAT Roomfinder",
+                "url": f"https://www.ph.tum.de/about/visit/roomfinder/?room={building.b_code}",
             },
         )
     b_data.setdefault("props", {}).setdefault("ids", {}).setdefault("b_id", building.b_id)
