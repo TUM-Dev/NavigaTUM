@@ -103,7 +103,14 @@ def _get_floor_details(entry, room_data):
 
         floor_type, floor_abbr, floor_name = _get_floor_name_and_type(f_id, floor, mezzanine_shift)
 
-        floor_name = patches.get(floor_tumonline, {}).get("name", floor_name)
+        # In trivial cases (e.g. "1 (1st upper floor)"), the information of floor_abbr and
+        # floor_name is redundant, so we can get simplify the floor information.
+        trivial = True
+        if "name" in patches.get(floor_tumonline, {}):
+            floor_name = patches[floor_tumonline]["name"]
+            trivial = False
+        elif floor_type in {"roof", "tp"} or mezzanine_shift > 0:
+            trivial = False
 
         floors_details.append(
             {
@@ -113,6 +120,7 @@ def _get_floor_details(entry, room_data):
                 "type": floor_type,
                 "name": floor_name,
                 "mezzanine_shift": mezzanine_shift,
+                "trivial": trivial,
             }
         )
         if i - eg_index >= 0 and floor.startswith("Z"):
@@ -189,7 +197,10 @@ def _gen_computed_props(_id, entry, props):
             computed.append({_("Architekten-Name"): props["ids"]["arch_name"].split("@")[0]})
     if "floor" in props:
         floor = props["floor"]
-        computed.append({_("Stockwerk"): f"{floor['floor']} (" + floor["name"] + ")"})
+        if floor["trivial"]:
+            computed.append({_("Stockwerk"): floor["name"]})
+        else:
+            computed.append({_("Stockwerk"): f"{floor['floor']} (" + floor["name"] + ")"})
     if "b_prefix" in entry and entry["b_prefix"] != _id:
         b_prefix = [entry["b_prefix"]] if isinstance(entry["b_prefix"], str) else entry["b_prefix"]
         building_names = ", ".join([p.ljust(4, "x") for p in b_prefix])

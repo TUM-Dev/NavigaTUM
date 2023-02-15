@@ -146,6 +146,7 @@ internal_id:
       type: "ground" | "roof" | "tp" | "basement" | "mezzanine" | "upper"
       name: "Erdgeschoss"  # Long name of the floor (possibly inclusive description)
       mezzanine_shift: 0  # How many mezzanines are between this floor and floor 0 (only >= 0)
+      trivial: True  # If `floor` and `name` contain basically the same information (e.g. "1 (1st upper floor)")
     address:
       street: "Richard-Wagner-Str. 18"  # required
       plz_place: "80333 München"  # required
