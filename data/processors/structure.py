@@ -73,9 +73,6 @@ def infer_addresses(data):
                 )
 
                 if street is not None and plz_place is not None:
-                    # Remove the floor level from the address as it will be given in another field
-                    street = ",".join(street.split(",")[:-1])
-
                     child_addresses.add((street, plz_place))
 
             if len(child_addresses) == 1:
@@ -88,6 +85,7 @@ def infer_addresses(data):
                         "source": "inferred",
                     },
                 )
+    #exit()
 
 
 def infer_type_common_name(data):

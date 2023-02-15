@@ -119,7 +119,7 @@ def merge_tumonline_rooms(data):
                     "roomcode": room["roomcode"],
                 },
                 "address": {
-                    "street": _clean_spaces(room["address"]),
+                    "street": _clean_address_street(room["address"]),
                     "plz_place": room["plz_place"],
                     "source": "tumonline",  # TODO: Wrong is only source is not set up to here
                 },
@@ -354,3 +354,9 @@ def _maybe_set_alt_name(arch_name_parts, room):
 def _clean_spaces(_string: str) -> str:
     """Remove leading and trailing spaces as well as duplicate spaces in-between"""
     return " ".join(_string.split())
+
+
+def _clean_address_street(street: str) -> str:
+    """Clean the given street address from the floor and unneccesary spaces"""
+    street = _clean_spaces(street)
+    return ",".join(street.split(",")[:-1])
