@@ -415,15 +415,14 @@ paths:
                         - name: Architekten-Name
                           text: 00.02.001
                         - name: Stockwerk
-                          text: '0 (Erdgeschoss)'
+                          text: 0 (Erdgeschoss)
                         - name: Adresse
                           text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
                         - name: Sitzplätze
                           text: '522'
                           extra:
                             header: Genauere Angaben
-                            body: "für Prüfungen: 102 in eng, 71 in weit, 49 in corona"
-
+                            body: 'für Prüfungen: 102 in eng, 71 in weit, 49 in corona'
                       calendar_url: 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
                     ranking_factors:
                       rank_combined: 900
@@ -516,7 +515,7 @@ paths:
                         - name: Architekten-Name
                           text: 00.06.036
                         - name: Stockwerk
-                          text: '0 (Erdgeschoss)'
+                          text: 0 (Erdgeschoss)
                         - name: Adresse
                           text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
                     ranking_factors:
@@ -558,14 +557,14 @@ paths:
       parameters:
         - name: start
           in: query
-          description: 'The first allowed time the calendar would like to display'
+          description: The first allowed time the calendar would like to display
           required: true
           schema:
             type: string
             format: date-time
         - name: end
           in: query
-          description: 'The last allowed time the calendar would like to display'
+          description: The last allowed time the calendar would like to display
           required: true
           schema:
             type: string
@@ -624,7 +623,7 @@ paths:
                 enum:
                   - Not found
         '503':
-          description: Not Ready, please retry later
+          description: 'Not Ready, please retry later'
           content:
             text/plain:
               schema:
@@ -1170,7 +1169,7 @@ components:
               example: Genauere Angaben
             body:
               type: string
-              example: "für Prüfungen: 102 in eng, 71 in weit, 49 in corona"
+              example: 'für Prüfungen: 102 in eng, 71 in weit, 49 in corona'
       required:
         - name
         - text
@@ -1750,13 +1749,6 @@ components:
         - last_sync
     CalendarEntry:
       type: object
-      examples:
-        Quantenteleportation:
-          title: Quantenteleportation
-          entry_type: lecture
-          start: '2018-01-01T00:00:00'
-          end: '2018-01-01T00:00:00'
-          detailed_entry_type: Vorlesung mit anliegeneder übung
       properties:
         title:
           description: The title of the Entry
@@ -1773,6 +1765,7 @@ components:
           format: date-time
           example: '2018-01-01T00:00:00'
         entry_type:
+          description: What this calendar entry means. Each of these should be displayed in a different color
           type: string
           enum:
             - lecture
@@ -1780,11 +1773,17 @@ components:
             - exam
             - barred
             - other
-          description: What this calendar entry means. Each of these should be displayed in a different color
         detailed_entry_type:
-          type: string
           description: 'For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)'
+          type: string
           example: Vorlesung mit Zentralübung
+      examples:
+        Quantenteleportation:
+          title: Quantenteleportation
+          entry_type: lecture
+          start: '2018-01-01T00:00:00'
+          end: '2018-01-01T00:00:00'
+          detailed_entry_type: Vorlesung mit anliegeneder übung
       required:
         - title
         - start

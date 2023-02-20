@@ -57,7 +57,7 @@ def _collect_floors_room_data(data, entry):
                 {
                     "id": child_id,
                     "floor": floor,
-                }
+                },
             )
 
     return room_data
@@ -121,7 +121,7 @@ def _get_floor_details(entry, room_data):
                 "name": floor_name,
                 "mezzanine_shift": mezzanine_shift,
                 "trivial": trivial,
-            }
+            },
         )
         if i - eg_index >= 0 and floor.startswith("Z"):
             mezzanine_shift += 1

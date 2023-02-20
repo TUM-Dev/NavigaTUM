@@ -1,104 +1,104 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-    name: traefik-dashboard
-    namespace: kube-system
+  name: traefik-dashboard
+  namespace: kube-system
 spec:
-    entryPoints:
-        - web
-    routes:
-        # temporary workaround for traefik bug (interoperability with ingress)
-        -   kind: Rule
-            match: Host(`traefik.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-            priority: 12
-            services:
-                -   name: cm-acme-http-solver-kwk2j
-                    port: 8089
-                    kind: Service
-        -   match: Host(`traefik.nav.tum.sexy`)
-            kind: Rule
-            services:
-                -   name: noop@internal
-                    kind: TraefikService
-            middlewares:
-                -   name: redirect-to-https
+  entryPoints:
+    - web
+  routes:
+    # temporary workaround for traefik bug (interoperability with ingress)
+    - kind: Rule
+      match: Host(`traefik.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
+      priority: 12
+      services:
+        - name: cm-acme-http-solver-kwk2j
+          port: 8089
+          kind: Service
+    - match: Host(`traefik.nav.tum.sexy`)
+      kind: Rule
+      services:
+        - name: noop@internal
+          kind: TraefikService
+      middlewares:
+        - name: redirect-to-https
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-    name: traefik-dashboard-http
-    namespace: kube-system
+  name: traefik-dashboard-http
+  namespace: kube-system
 spec:
-    entryPoints:
-        - websecure
-    routes:
-        # temproary workaround for traefik bug (interoperability with ingress)
-        -   kind: Rule
-            match: Host(`traefik.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-            priority: 12
-            services:
-                -   name: cm-acme-http-solver-kwk2j
-                    port: 8089
-                    kind: Service
-        -   match: Host(`traefik.nav.tum.sexy`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
-            kind: Rule
-            priority: 10
-            services:
-                -   name: api@internal
-                    kind: TraefikService
-            middlewares:
-                -   name: auth
-        -   match: Host(`traefik.nav.tum.sexy`)
-            kind: Rule
-            priority: 9
-            services:
-                -   name: noop@internal
-                    kind: TraefikService
-            middlewares:
-                -   name: redirect-to-dashboard
-    tls:
-        secretName: traefik.nav.tum.sexy
+  entryPoints:
+    - websecure
+  routes:
+    # temproary workaround for traefik bug (interoperability with ingress)
+    - kind: Rule
+      match: Host(`traefik.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
+      priority: 12
+      services:
+        - name: cm-acme-http-solver-kwk2j
+          port: 8089
+          kind: Service
+    - match: Host(`traefik.nav.tum.sexy`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      kind: Rule
+      priority: 10
+      services:
+        - name: api@internal
+          kind: TraefikService
+      middlewares:
+        - name: auth
+    - match: Host(`traefik.nav.tum.sexy`)
+      kind: Rule
+      priority: 9
+      services:
+        - name: noop@internal
+          kind: TraefikService
+      middlewares:
+        - name: redirect-to-dashboard
+  tls:
+    secretName: traefik.nav.tum.sexy
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-    name: redirect-to-https
-    namespace: kube-system
+  name: redirect-to-https
+  namespace: kube-system
 spec:
-    redirectScheme:
-        scheme: https
-        permanent: true
+  redirectScheme:
+    scheme: https
+    permanent: true
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-    name: redirect-to-dashboard
-    namespace: kube-system
+  name: redirect-to-dashboard
+  namespace: kube-system
 spec:
-    redirectRegex:
-        regex: ^https://traefik.nav.tum.sexy/(.*)
-        replacement: https://traefik.nav.tum.sexy/dashboard/
+  redirectRegex:
+    regex: ^https://traefik.nav.tum.sexy/(.*)
+    replacement: https://traefik.nav.tum.sexy/dashboard/
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-    name: traefik-auth
-    namespace: kube-system
+  name: traefik-auth
+  namespace: kube-system
 spec:
-    basicAuth:
-        secret: traefik-login
+  basicAuth:
+    secret: traefik-login
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-    name: traefik.nav.tum.sexy
-    namespace: kube-system
+  name: traefik.nav.tum.sexy
+  namespace: kube-system
 spec:
-    commonName: traefik.nav.tum.sexy
-    dnsNames:
-        - traefik.nav.tum.sexy
-    secretName: traefik.nav.tum.sexy
-    issuerRef:
-        name: letsencrypt-production
-        kind: ClusterIssuer
+  commonName: traefik.nav.tum.sexy
+  dnsNames:
+    - traefik.nav.tum.sexy
+  secretName: traefik.nav.tum.sexy
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer

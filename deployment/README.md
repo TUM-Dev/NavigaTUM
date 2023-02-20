@@ -52,6 +52,7 @@ As an additional dependency you need to `ansible-galaxy collection install kuber
 The ansible playbook is located in `deployment/ansible/` and is called `site.yml`.
 
 It is split into two roles:
+
 - `common` which sets up a basic linux system with basic hardening
 - `k8s` which deploys the k3s cluster
 

@@ -1,81 +1,81 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-    name: argocd.nav.tum.sexy
-    namespace: argocd
+  name: argocd.nav.tum.sexy
+  namespace: argocd
 spec:
-    commonName: argocd.nav.tum.sexy
-    dnsNames:
-        - argocd.nav.tum.sexy
+  commonName: argocd.nav.tum.sexy
+  dnsNames:
+    - argocd.nav.tum.sexy
+  secretName: argocd.nav.tum.sexy
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    # temproary workaround for traefik bug (interoperability with ingress)
+    - kind: Rule
+      match: Host(`argocd.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
+      priority: 12
+      services:
+        - name: cm-acme-http-solver-9cp9g
+          port: 8089
+          kind: Service
+    - kind: Rule
+      match: Host(`argocd.nav.tum.sexy`)
+      priority: 10
+      services:
+        - name: argocd-server
+          port: 80
+    - kind: Rule
+      match: Host(`argocd.nav.tum.sexy`) && Headers(`Content-Type`, `application/grpc`)
+      priority: 11
+      services:
+        - name: argocd-server
+          port: 80
+          scheme: h2c
+  tls:
     secretName: argocd.nav.tum.sexy
-    issuerRef:
-        name: letsencrypt-production
-        kind: ClusterIssuer
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-    name: argocd-server
-    namespace: argocd
+  name: argocd-server-http
+  namespace: argocd
 spec:
-    entryPoints:
-        - websecure
-    routes:
-        # temproary workaround for traefik bug (interoperability with ingress)
-        - kind: Rule
-          match: Host(`argocd.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-          priority: 12
-          services:
-              - name: cm-acme-http-solver-9cp9g
-                port: 8089
-                kind: Service
-        - kind: Rule
-          match: Host(`argocd.nav.tum.sexy`)
-          priority: 10
-          services:
-              - name: argocd-server
-                port: 80
-        - kind: Rule
-          match: Host(`argocd.nav.tum.sexy`) && Headers(`Content-Type`, `application/grpc`)
-          priority: 11
-          services:
-              - name: argocd-server
-                port: 80
-                scheme: h2c
-    tls:
-        secretName: argocd.nav.tum.sexy
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-    name: argocd-server-http
-    namespace: argocd
-spec:
-    entryPoints:
-        - web
-    routes:
-        # temproary workaround for traefik bug (interoperability with ingress)
-        - kind: Rule
-          match: Host(`argocd.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-          priority: 12
-          services:
-              - name: cm-acme-http-solver-9cp9g
-                port: 8089
-                kind: Service
-        - kind: Rule
-          match: Host(`argocd.nav.tum.sexy`)
-          services:
-              - name: noop@internal
-                kind: TraefikService
-          middlewares:
-              - name: https
+  entryPoints:
+    - web
+  routes:
+    # temproary workaround for traefik bug (interoperability with ingress)
+    - kind: Rule
+      match: Host(`argocd.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
+      priority: 12
+      services:
+        - name: cm-acme-http-solver-9cp9g
+          port: 8089
+          kind: Service
+    - kind: Rule
+      match: Host(`argocd.nav.tum.sexy`)
+      services:
+        - name: noop@internal
+          kind: TraefikService
+      middlewares:
+        - name: https
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-    name: https
-    namespace: argocd
+  name: https
+  namespace: argocd
 spec:
-    redirectScheme:
-        scheme: https
-        permanent: true
+  redirectScheme:
+    scheme: https
+    permanent: true

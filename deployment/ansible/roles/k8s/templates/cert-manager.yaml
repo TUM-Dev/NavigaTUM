@@ -9,9 +9,9 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-account-key-staging
     solvers:
-    - http01:
-       ingress:
-         class: traefik-cert-manager
+      - http01:
+          ingress:
+            class: traefik-cert-manager
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -24,9 +24,9 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-account-key-production
     solvers:
-    - http01:
-       ingress:
-         class: traefik-cert-manager
+      - http01:
+          ingress:
+            class: traefik-cert-manager
 
 ---
 apiVersion: cert-manager.io/v1
