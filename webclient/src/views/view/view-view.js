@@ -146,7 +146,7 @@ navigatum.registerView("view", {
     hideImageShowcase: function () {
       this.image.slideshow_open = false;
     },
-    showPropExtra: function(propExtra) {
+    showPropExtra: function (propExtra) {
       navigatum.app.modal.header = propExtra.header;
       navigatum.app.modal.body = propExtra.body;
     },
