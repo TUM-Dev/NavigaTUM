@@ -48,10 +48,7 @@ def _collect_floors_room_data(data, entry):
         if child["type"] == "room" and "ids" in child.get("props", {}):
             roomcode = child["props"]["ids"].get("roomcode", None)
 
-            if "floor_patch" in child.get("generators", {}).get("floors", {}):
-                floor = child["generators"]["floors"]["floor_patch"]
-            else:
-                floor = roomcode.split(".")[1]
+            floor = child.get("generators", {}).get("floors", {}).get("floor_patch", roomcode.split(".")[1])
 
             room_data.append(
                 {
@@ -63,9 +60,9 @@ def _collect_floors_room_data(data, entry):
     return room_data
 
 
-def _build_sorted_floor_list(entry, room_data):
+def _build_sorted_floor_list(room_data):
     """Build a physically sorted list of floors (using TUMonline floor names)"""
-    floors = set([room["floor"] for room in room_data])
+    floors = {room["floor"] for room in room_data}
 
     def floor_quantifier(floor_name):
         """Assign each floor a virtual ID for sorting"""
@@ -90,7 +87,7 @@ def _build_sorted_floor_list(entry, room_data):
 
 def _get_floor_details(entry, room_data):
     """Infer for each floor the metadata and name string"""
-    floors = _build_sorted_floor_list(entry, room_data)
+    floors = _build_sorted_floor_list(room_data)
     floors_details = []
 
     patches = entry.get("generators", {}).get("floors", {}).get("floor_patches", {})
@@ -129,9 +126,9 @@ def _get_floor_details(entry, room_data):
     return floors_details
 
 
-def _get_floor_name_and_type(f_id, floor, mezzanine_shift):
+def _get_floor_name_and_type(f_id: int, floor: str, mezzanine_shift: int) -> tuple[str, str, _]:
     """
-    Generate a machine readable floor type and human readable floor name (long & short)
+    Generate a machine-readable floor type and human-readable floor name (long & short)
     :param f_id: Floor id (0 for ground floor if there is one, else 0 for the lowest)
     :param floor: Floor name in TUMonline
     :param mezzanine_shift: How many mezzanines are between this floor and floor 0 (only >= 0)
@@ -152,18 +149,22 @@ def _get_floor_name_and_type(f_id, floor, mezzanine_shift):
         case _ if floor.startswith("U"):
             floor_name = _(f"{floor[1:]}. ") + _("Untergeschoss")
             return "basement", f"-{floor[1:]}", floor_name
-        case _ if floor.startswith("Z"):
+        case floor if floor.startswith("Z"):
             if f_id == 1:
-                return "mezzanine", floor, _("1. Zwischengeschoss, über EG")
-            return "mezzanine", floor, _(f"{floor[1:]}. ") + _("Zwischengeschoss")
-        case _:
-            n = int(floor[1:])
-            if mezzanine_shift == 0:
-                return "upper", str(n), _(f"{n}. ") + _("Obergeschoss")
-            if mezzanine_shift == 1:
-                return "upper", str(n), _(f"{n}. ") + _("OG + 1 Zwischengeschoss")
-            floor_name = _(f"{n}. ") + _("OG + {m} Zwischengeschosse").format(m=mezzanine_shift)
-            return "upper", str(n), floor_name
+                floor_name = _("1. Zwischengeschoss, über EG")
+            else:
+                floor_name = _(f"{floor[1:]}. ") + _("Zwischengeschoss")
+            return "mezzanine", floor, floor_name
+    # default case, but mypy doesn't recognize `case _:`
+    og_floor = int(floor[1:])
+    match mezzanine_shift:
+        case 0:
+            floor_name = _(f"{og_floor}. ") + _("Obergeschoss")
+        case 1:
+            floor_name = _(f"{og_floor}. ") + _("OG + 1 Zwischengeschoss")
+        case mezzanine_shift:
+            floor_name = _(f"{og_floor}. ") + _("OG + {m} Zwischengeschosse").format(m=mezzanine_shift)
+    return "upper", str(og_floor), floor_name
 
 
 def compute_props(data):
@@ -323,8 +324,8 @@ def generate_rooms_overview(data):
     for _id, entry in data.items():
         # if entry["type"] not in {"building", "joined_building", "virtual_room"} or \
         if (
-            entry["type"] not in {"area", "site", "campus", "building", "joined_building", "virtual_room"}
-            or "children_flat" not in entry
+                entry["type"] not in {"area", "site", "campus", "building", "joined_building", "virtual_room"}
+                or "children_flat" not in entry
         ):
             continue
 

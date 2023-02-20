@@ -6,6 +6,9 @@ DATA_DIR.mkdir(exist_ok=True)
 
 
 def init_db():
+    """
+    Initialize the database with the tables and indices we need.
+    """
     con: sqlite3.Connection = sqlite3.connect(DATA_DIR / "calendar_data.db")
     for tbl in ["calendar", "calendar_scrape"]:
         con.execute(f"DROP TABLE IF EXISTS {tbl}")
