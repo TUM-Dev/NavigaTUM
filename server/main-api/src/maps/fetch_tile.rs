@@ -75,7 +75,13 @@ impl FetchTileTask {
                         tile = self.download_map_image(&file).await;
                     }
                 }
-                tile.expect(&format!("Failed to fetch {file:?} 3 times. Giving up"))
+                match tile {
+                    Some(t) => t,
+                    None => {
+                        error!("Failed to fetch {file:?} 3 times. Giving up");
+                        return None;
+                    }
+                }
             }
         };
 
