@@ -84,7 +84,7 @@ def main():
     images.add_img(data)
 
     logging.info("-- 80 Generate info card")
-    sections.extract_calendar_urls(data)
+    sections.extract_tumonline_props(data)
     sections.compute_floor_prop(data)
     sections.compute_props(data)
     sections.localize_links(data)
