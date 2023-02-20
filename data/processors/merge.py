@@ -70,15 +70,21 @@ def recursively_merge(dict_a, dict_b, overwrite=True):
 
 
 def patch_areas(data, path):
+    """
+    Merge areas from the yaml file at path on top of the given data.
+    """
     yaml_data = load_yaml(path)
     return recursively_merge(data, yaml_data)
 
 
 def patch_rooms(data, path):
+    """
+    Merge rooms from the yaml file at path on top of the given data.
+    """
     yaml_data = load_yaml(path)
     # make sure that the room id is in the name
-    for k, v in yaml_data.items():
-        if "name" in v and k not in v["name"]:
-            v["name"] = f"{k} ({v['name']})"
+    for key, value in yaml_data.items():
+        if "name" in value and key not in value["name"]:
+            value["name"] = f"{key} ({value['name']})"
 
     return recursively_merge(data, yaml_data)
