@@ -83,6 +83,11 @@ def merge_tumonline_rooms(data):
         usages = json.load(file)
     usages_lookup = {usage["id"]: usage for usage in usages}
 
+    with open(f"external/results/orgs-de_tumonline.json", encoding="utf-8") as file_de, \
+         open(f"external/results/orgs-en_tumonline.json", encoding="utf-8") as file_en:
+            orgs_de = json.load(file_de)
+            orgs_en = json.load(file_en)
+
     rooms = _clean_tumonline_rooms(rooms)
 
     missing_buildings = {}
@@ -108,6 +113,10 @@ def merge_tumonline_rooms(data):
                 "plz_place": room["plz_place"],
                 "operator": room["operator"],
                 "operator_link": room["op_link"],
+                "operator_name": _(
+                    orgs_de.get(room["operator"].strip("[ ]")),
+                    orgs_en.get(room["operator"].strip("[ ]"))
+                ),
                 "room_link": room["room_link"],
                 "calendar": room["calendar"],
                 "b_filter_id": room["b_filter_id"],

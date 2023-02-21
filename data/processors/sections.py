@@ -10,7 +10,8 @@ def extract_tumonline_props(data):
         if entry.get("tumonline_data", {}).get("operator", None):
             operator_id = int(entry["tumonline_data"]["operator_link"].strip("'webnav.navigate_to?corg="))
             entry["props"]["operator"] = {
-                "name": entry["tumonline_data"]["operator"].lstrip("[ ").rstrip(" ]"),
+                "code": entry["tumonline_data"]["operator"].lstrip("[ ").rstrip(" ]"),
+                "name": entry["tumonline_data"]["operator_name"],
                 "url": f"https://campus.tum.de/tumonline/webnav.navigate_to?corg={operator_id}",
                 "id": operator_id,
             }
