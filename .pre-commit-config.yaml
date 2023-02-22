@@ -30,17 +30,17 @@ repos:
     hooks:
       - id: cargo-fmt
         name: cargo fmt
-        entry: bash -c 'cd server && cargo fmt'
+        entry: bash -c 'for subdir in {"calendar","main-api","feedback"}; do cargo fmt --manifest-path "server/$subdir/Cargo.toml"; done'
         language: system
         pass_filenames: false
       - id: cargo-check
         name: cargo check
-        entry: bash -c 'cd server && cargo check'
+        entry: bash -c 'for subdir in {"calendar","main-api","feedback"}; do cargo check --manifest-path "server/$subdir/Cargo.toml"; done'
         language: system
         pass_filenames: false
       - id: cargo-clippy
         name: cargo clippy
-        entry: bash -c 'cd server && cargo clippy'
+        entry: bash -c 'for subdir in {"calendar","main-api","feedback"}; do cargo clippy --manifest-path "server/$subdir/Cargo.toml"; done'
         language: system
         pass_filenames: false
   # only webclient

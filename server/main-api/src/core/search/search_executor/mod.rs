@@ -75,7 +75,7 @@ pub async fn do_geoentry_search(
         highlighting.clone(),
     );
 
-    return match try_join!(fut_res_merged, fut_res_buildings, fut_res_rooms) {
+    match try_join!(fut_res_merged, fut_res_buildings, fut_res_rooms) {
         Ok((res_merged, res_buildings, res_rooms)) => postprocess::merge_search_results(
             &args,
             &search_tokens,
@@ -89,5 +89,5 @@ pub async fn do_geoentry_search(
             error!("Error searching for results: {e:?}");
             vec![]
         }
-    };
+    }
 }
