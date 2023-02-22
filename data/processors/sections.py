@@ -2,7 +2,7 @@ from utils import TranslatableStr as _
 
 
 def extract_tumonline_props(data):
-    """Extracts the calendar from the tumonline data sets it to the proper value."""
+    """Extracts some of the TUMonline data and provides it as `prop`."""
     for entry in data.values():
         if entry.get("tumonline_data", {}).get("calendar", None):
             url = f"https://campus.tum.de/tumonline/{entry['tumonline_data']['calendar']}"
