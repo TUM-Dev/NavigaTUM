@@ -1129,6 +1129,22 @@ components:
       description: Data for the info-card table
       type: object
       properties:
+        operator:
+          description: The operator of the room
+          type: object
+          properties:
+            name:
+              description: The name of the operator
+              type: string
+              example: TUS7000
+            url:
+              description: A link to the operator
+              type: string
+              example: 'https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901'
+            id:
+              description: The id of the operator
+              type: integer
+              example: 51901
         computed:
           type: array
           items:
