@@ -114,8 +114,8 @@ def merge_tumonline_rooms(data):
                 "operator": room["operator"],
                 "operator_link": room["op_link"],
                 "operator_name": _(
-                    orgs_de.get(room["operator"].strip("[ ]")),
-                    orgs_en.get(room["operator"].strip("[ ]"))
+                    orgs_de.get(room["operator"].strip("[ ]"), {}).get("name"),
+                    orgs_en.get(room["operator"].strip("[ ]"), {}).get("name")
                 ),
                 "room_link": room["room_link"],
                 "calendar": room["calendar"],
