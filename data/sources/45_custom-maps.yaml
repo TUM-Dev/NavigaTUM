@@ -4,10 +4,10 @@
 - props:
     type: "indoor"
     scale: 300
-    north: 48.147841
-    east: 11.567116
-    south: 48.147654
-    west: 11.566766
+    north: 48.147833
+    east: 11.567110
+    south: 48.147640
+    west: 11.566764
     rotation: 67.5229
   maps:
     - {file: "0201_0.webp", b_id: "0201", floor: "EG", desc: "StudiTUM Innenstadt (EG)"}
