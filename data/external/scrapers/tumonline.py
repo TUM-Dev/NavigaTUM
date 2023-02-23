@@ -192,13 +192,14 @@ def scrape_usages():
     return usages
 
 
-def scrape_orgs():
+def scrape_orgs(lang):
     """
     Retrieve all organisations in TUMonline, that may operate rooms.
 
+    :params lang: 'en' or 'de'
     :returns: A dict of orgs like {org_code: {...}}
     """
-    cache_name = "orgs-de_tumonline.json"
+    cache_name = f"orgs-{lang}_tumonline.json"
 
     orgs = _cached_json(cache_name)
     if orgs is not None:
@@ -208,12 +209,7 @@ def scrape_orgs():
     # There is also this URL, which is used to retrieve orgs that have courses,
     # but this is not merged in at the moment:
     # https://campus.tum.de/tumonline/ee/rest/brm.orm.search/organisations/chooser?$language=de&view=S_COURSE_LVEAB_ORG
-    url = (
-        f"{TUMONLINE_URL}/ee/rest/brm.orm.search/organisations/chooser"
-        "?$language=de"
-        "&app=CO_LOC_GRUPPEN"
-        "&view=CO_LOC_ORGCTX_PZ_ANONYM_V"
-    )
+    url = f"{TUMONLINE_URL}/ee/rest/brm.orm.search/organisations?q=*&$language={lang}"
     headers = {
         "Accept": "application/json",
     }
@@ -226,18 +222,20 @@ def scrape_orgs():
     data = json.loads(req.text)
 
     try:
-        results = data["resource"][0]["content"]["organisationChooserResultDto"]["searchResults"]
+        results = data["resource"]
     except KeyError as error:
         raise RuntimeError(error) from error
 
     orgs = {}
     for _item in results:
-        orgs[_item["designation"]] = {
-            "id": _item["id"],
-            "code": _item["designation"],
-            "name": _item["name"],
-            "path": _item["orgPath"],
-        }
+        item  = _item["content"]["organisationSearchDto"]
+        if "designation" in item:
+            orgs[item["designation"]] = {
+                "id": item["id"],
+                "code": item["designation"],
+                "name": item["name"],
+                "path": item["orgPath"],
+            }
 
     _write_cache_json(cache_name, orgs)
     return orgs

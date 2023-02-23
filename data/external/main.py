@@ -29,4 +29,6 @@ if __name__ == "__main__":
     tumonline.scrape_usages()
 
     roomfinder.scrape_maps()
-    tumonline.scrape_orgs()
+
+    tumonline.scrape_orgs("de")
+    tumonline.scrape_orgs("en")

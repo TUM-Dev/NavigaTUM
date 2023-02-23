@@ -8,11 +8,14 @@ def extract_tumonline_props(data):
             url = f"https://campus.tum.de/tumonline/{entry['tumonline_data']['calendar']}"
             entry["props"]["calendar_url"] = url
         if entry.get("tumonline_data", {}).get("operator", None):
-            operator_id = int(entry["tumonline_data"]["operator_link"].strip("'webnav.navigate_to?corg="))
             entry["props"]["operator"] = {
-                "name": entry["tumonline_data"]["operator"].lstrip("[ ").rstrip(" ]"),
-                "url": f"https://campus.tum.de/tumonline/webnav.navigate_to?corg={operator_id}",
-                "id": operator_id,
+                "code": entry["tumonline_data"]["operator"],
+                "name": entry["tumonline_data"]["operator_name"],
+                "url": (
+                    f"https://campus.tum.de/tumonline/webnav.navigate_to"
+                    f"?corg={entry['tumonline_data']['operator_id']}"
+                ),
+                "id": entry["tumonline_data"]["operator_id"],
             }
         if entry.get("tumonline_data", {}).get("room_link", None):
             url: str = entry["tumonline_data"]["room_link"]
@@ -331,8 +334,8 @@ def generate_rooms_overview(data):
     for _id, entry in data.items():
         # if entry["type"] not in {"building", "joined_building", "virtual_room"} or \
         if (
-                entry["type"] not in {"area", "site", "campus", "building", "joined_building", "virtual_room"}
-                or "children_flat" not in entry
+            entry["type"] not in {"area", "site", "campus", "building", "joined_building", "virtual_room"}
+            or "children_flat" not in entry
         ):
             continue
 
