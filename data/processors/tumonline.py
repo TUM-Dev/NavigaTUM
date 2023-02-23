@@ -111,7 +111,8 @@ def merge_tumonline_rooms(data):
                 "address": _clean_spaces(room["address"]),
                 "address_link": room["address_link"],
                 "plz_place": room["plz_place"],
-                "operator": room["operator"],
+                "operator": room["operator"].strip("[ ]"),
+                "operator_id": int(room["op_link"].strip("'webnav.navigate_to?corg=")),
                 "operator_link": room["op_link"],
                 "operator_name": _(
                     orgs_de.get(room["operator"].strip("[ ]"), {}).get("name"),
