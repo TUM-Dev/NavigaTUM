@@ -1133,10 +1133,18 @@ components:
           description: The operator of the room
           type: object
           properties:
-            name:
-              description: The name of the operator
+            code:
+              description: The designation code of the operator
               type: string
               example: TUS7000
+            name:
+              description: |
+                The full name of the operator (localized). Null for organisations that
+                are no longer active (e.g. id=38698), but where the operator has not been
+                updated in TUMonline.
+              type: string
+              nullable: true
+              example: TUM School of Social Sciences and Technology
             url:
               description: A link to the operator
               type: string
