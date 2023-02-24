@@ -1,8 +1,23 @@
 # Custom maps are located in sources/img/maps/roomfinder
+# `scale` is an estimate, doesn't make much sense actually
 
 - props:
     type: "indoor"
-    scale: 400 # Estimate, doesn't make much sense actually
+    scale: 300
+    north: 48.147833
+    east: 11.567110
+    south: 48.147640
+    west: 11.566764
+    rotation: 67.5229
+  maps:
+    - {file: "0201_0.webp", b_id: "0201", floor: "EG", desc: "StudiTUM Innenstadt (EG)"}
+    - {file: "0201_1.webp", b_id: "0201", floor: "01", desc: "StudiTUM Innenstadt (1.OG)"}
+    - {file: "0201_2.webp", b_id: "0201", floor: "02", desc: "StudiTUM Innenstadt (2.OG)"}
+    - {file: "0201_3.webp", b_id: "0201", floor: "03", desc: "StudiTUM Innenstadt (3.OG)"}
+
+- props:
+    type: "indoor"
+    scale: 400
     north: 48.26692
     east: 11.67051
     south: 48.26672
@@ -16,7 +31,7 @@
 
 - props:
     type: "indoor"
-    scale: 1500 # Estimate, doesn't make much sense actually
+    scale: 1500
     north: 48.269547
     east: 11.671167
     south: 48.267818
