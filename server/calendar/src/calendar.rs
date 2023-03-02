@@ -1,12 +1,10 @@
 use crate::scraping::tumonline_calendar::XMLEvent;
 use crate::utils;
-use actix_web::web::Data;
 use actix_web::{get, web, HttpResponse};
-use chrono::NaiveDateTime;
+use chrono::{NaiveDateTime, Utc};
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
-use tokio::sync::Mutex;
 
 #[derive(Deserialize, Debug)]
 pub struct CalendarQueryArgs {
@@ -22,15 +20,7 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
 pub async fn calendar_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<CalendarQueryArgs>,
-    last_sync: Data<Mutex<Option<NaiveDateTime>>>,
 ) -> HttpResponse {
-    let last_sync = match *last_sync.lock().await {
-        Some(last_sync) => last_sync,
-        None => {
-            return HttpResponse::ServiceUnavailable().body("Waiting for first sync with TUMonline")
-        }
-    };
-
     let id = params.into_inner();
     let conn = &mut utils::establish_connection();
     use crate::schema::calendar::dsl::*;
@@ -40,8 +30,13 @@ pub async fn calendar_handler(
         .filter(dtend.le(&args.end))
         .load::<XMLEvent>(conn);
     match results {
-        Ok(result) => {
-            let events = result.into_iter().map(Event::from).collect();
+        Ok(results) => {
+            let last_sync = results
+                .iter()
+                .map(|e| e.last_scrape)
+                .max()
+                .unwrap_or(Utc::now().naive_utc());
+            let events = results.into_iter().map(Event::from).collect();
             HttpResponse::Ok().json(Events { events, last_sync })
         }
         Err(_) => HttpResponse::NotFound()
