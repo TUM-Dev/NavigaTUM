@@ -11,17 +11,17 @@ use log::{info, warn};
 use std::time::{Duration, Instant};
 use tokio::time::sleep;
 
-pub async fn start_scraping(scrape_every: Duration, duration: chrono::Duration) {
+pub async fn start_scraping(scrape_every: Duration, time_window: chrono::Duration) {
     let mut interval = actix_rt::time::interval(scrape_every);
     loop {
         interval.tick().await;
         let scraping_start = Utc::now();
-        scrape_to_db(&scraping_start, duration).await;
-        delete_stale_results(scraping_start, duration);
+        scrape_to_db(&scraping_start, time_window).await;
+        delete_stale_results(scraping_start, time_window);
     }
 }
 
-pub async fn scrape_to_db(scraping_start: &DateTime<Utc>, duration: chrono::Duration) {
+pub async fn scrape_to_db(scraping_start: &DateTime<Utc>, time_window: chrono::Duration) {
     info!("Starting scraping calendar entries");
     let start_time = Instant::now();
 
@@ -43,12 +43,12 @@ pub async fn scrape_to_db(scraping_start: &DateTime<Utc>, duration: chrono::Dura
         let round_start_time = Instant::now();
         let mut futures = vec![];
         for room in round {
-            let start = *scraping_start - duration / 2;
+            let start = *scraping_start - time_window / 2;
             futures.push(scrape(
                 &client,
                 (room.key.clone(), room.tumonline_room_nr),
                 start.date_naive(),
-                duration,
+                time_window,
             ));
         }
         let results: Vec<ScrapeResult> = join_all(futures).await;
@@ -76,10 +76,13 @@ pub async fn scrape_to_db(scraping_start: &DateTime<Utc>, duration: chrono::Dura
     );
 }
 
-fn delete_stale_results(scraping_start: DateTime<Utc>, duration: chrono::Duration) {
+fn delete_stale_results(scraping_start: DateTime<Utc>, time_window: chrono::Duration) {
     use crate::schema::calendar::dsl::*;
     let start_time = Instant::now();
-    let scrapeinterval = (scraping_start - duration / 2, scraping_start + duration / 2);
+    let scrapeinterval = (
+        scraping_start - time_window / 2,
+        scraping_start + time_window / 2,
+    );
     let conn = &mut utils::establish_connection();
     diesel::delete(calendar)
         .filter(dtstart.gt(scrapeinterval.0.naive_local()))
