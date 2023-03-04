@@ -653,6 +653,15 @@ chemie:
     meta:
       date: "2011-09-10"
       geo: "48.26838,11.661398"
+"5620":
+  0:
+    author: "Frank Elsinga"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+    offsets:
+      header: -100
 mi:
   0:
     author: "Astrid Eckert"
@@ -2397,6 +2406,36 @@ cs:
       url: "https://mediatum.ub.tum.de/1232767?show_id=1487673"
     offsets:
       header: 250
+"2927":
+  0:
+    author: "Frank Elsinga"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+    offsets:
+      thumb: 100
+      header: -400
+"2929":
+  0:
+    author: "Frank Elsinga"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+    offsets:
+      thumb: 100
+      header: 100
+"2930":
+  0:
+    author: "Frank Elsinga"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+    offsets:
+      thumb: 300
+      header: -400
 "3501":
   0:
     author: "Andreas Heddergott"
@@ -2414,6 +2453,47 @@ cs:
       url: "https://mediatum.ub.tum.de/1232767?show_id=1487673"
     offsets:
       header: 250
+"3502":
+  0:
+    author: "Frank Elsinga"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+    offsets:
+      header: 50
+"3503":
+  0:
+    author: "Frank Elsinga"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"3504":
+  0:
+    author: "Frank Elsinga"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+    offsets:
+      header: 400
+"3505":
+  0:
+    author: "Frank Elsinga"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"3515":
+  0:
+    author: "Frank Elsinga"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+    offsets:
+      header: -200
 
 # --- Raitenhaslach ---
 "9001":
