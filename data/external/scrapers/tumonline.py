@@ -228,7 +228,7 @@ def scrape_orgs(lang):
 
     orgs = {}
     for _item in results:
-        item  = _item["content"]["organisationSearchDto"]
+        item = _item["content"]["organisationSearchDto"]
         if "designation" in item:
             orgs[item["designation"]] = {
                 "id": item["id"],

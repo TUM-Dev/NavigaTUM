@@ -1143,8 +1143,8 @@ components:
                 are no longer active (e.g. id=38698), but where the operator has not been
                 updated in TUMonline.
               type: string
-              nullable: true
               example: TUM School of Social Sciences and Technology
+              nullable: true
             url:
               description: A link to the operator
               type: string
