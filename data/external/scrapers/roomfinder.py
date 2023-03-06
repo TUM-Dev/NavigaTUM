@@ -44,7 +44,7 @@ def scrape_buildings():
             buildings[i]["default_map"] = proxy.getBuildingDefaultMap(building["b_id"])
             maybe_sleep(0.05)
 
-    _write_cache_json(cache_name, sorted(buildings, key=lambda m: m["b_id"]))
+    _write_cache_json(cache_name, buildings)
     return buildings
 
 
@@ -169,7 +169,7 @@ def scrape_maps():
     # Not all maps are used somewhere.
     # TODO: Download the rest
 
-    _write_cache_json(cache_name, sorted(maps, key=lambda m: m["id"]))
+    _write_cache_json(cache_name, maps)
     return maps
 
 
