@@ -977,7 +977,7 @@
     "building_id": 1285,
     "building_name": "Campus C / Uptown München",
     "building_short": null,
-    "address": "Georg-Brauchle-Ring 50_66"
+    "address": null
   },
   {
     "building_code": "2941",
@@ -1222,7 +1222,7 @@
     "building_id": 2130,
     "building_name": "TUM CS PG05 (AM)",
     "building_short": null,
-    "address": "Petersgasse 5"
+    "address": null
   },
   {
     "building_code": "3504",
@@ -2853,7 +2853,7 @@
     "building_id": 792,
     "building_name": "WSI Container",
     "building_short": null,
-    "address": "James-Franck-Str. 1"
+    "address": "James-Franck-Strasse 1"
   },
   {
     "building_code": "5125",
@@ -3280,14 +3280,14 @@
     "building_id": 1405,
     "building_name": "Katalysezentrum",
     "building_short": null,
-    "address": "Ernst-Otto-Fischer-Str. 1"
+    "address": "Ernst-Otto-Fischer-Straße 1"
   },
   {
     "building_code": "5413",
     "building_id": 1989,
     "building_name": "Bayerisches NMR-Zentrum",
     "building_short": null,
-    "address": "Ernst-Otto-Fischer-Str. 2"
+    "address": "Ernst-Otto-Fischer-Straße 2"
   },
   {
     "building_code": "5414",
@@ -3301,7 +3301,7 @@
     "building_id": 2729,
     "building_name": "CPA Center for Functional Protein Assembly",
     "building_short": null,
-    "address": "Ernst-Otto-Fischer-Str. 8"
+    "address": "Ernst-Otto-Fischer-Straße 8"
   },
   {
     "building_code": "5416",
