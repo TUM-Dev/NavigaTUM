@@ -1,3 +1,4 @@
+import os
 from typing import Any, Union
 
 import yaml
@@ -43,12 +44,14 @@ def load_yaml(path):
 
 def add_coordinates(data, path):
     """
-    Merge coordinates from the yaml file at path on top of the given data.
+    Merge coordinates from yaml files placed at path on top of the given data.
+    (Merging happens in alphanumeric order, so later files would overwrite earlier files)
     This operates on the data dict directly without creating a copy.
     """
-    yaml_data = load_yaml(path)
+    for fname in os.listdir(path):
+        yaml_data = load_yaml(os.path.join(path, fname))
 
-    recursively_merge(data, {_id: {"coords": val} for _id, val in yaml_data.items()})
+        recursively_merge(data, {_id: {"coords": val} for _id, val in yaml_data.items()})
 
 
 def recursively_merge(dict_a, dict_b, overwrite=True):
