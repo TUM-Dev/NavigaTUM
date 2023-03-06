@@ -137,11 +137,6 @@
     2109:Tankstelle:
   -2201:ehemals Lothstraße (nicht mehr aktuell):
   23:Campus im Olympiapark (SZ):olympiapark[campus]
-    2301:Spielhalle (SPH), [Dreifachhalle (DRH), Cyclingraum (CYR)]:
-    2302:Leichtathletikhalle (LAH), [Kletterhalle (KLH)]:
-    2303:Kleine Hallen:
-    2304:Gymnastikhalle:
-    2305:Zentralbau Nord:
     2309:Tennis Gebäude:
     2310:Tennisanlagen:
     2312:Sport-, Aussenanlagen/Teil-Umbau:
@@ -160,8 +155,6 @@
     2350:Olympia-Schwimmhalle:
     2351:Olympia-Eislaufstadion:
     -2352:Olympiapark:  # ist wirklich der Park, hat ein 1m2 "Raum"
-    2360:Pfortencontainer C1:
-    2361:Umkleide-Werkstatt-Container C2:
     :Institutsgebäude Sportmedizin, Uptown München:uptown-muenchen[joined_building]
       2940:Campus C, Georg-Brauchle-Ring 56/58:
       2941:Campus D, Georg-Brauchle-Ring 60/62:

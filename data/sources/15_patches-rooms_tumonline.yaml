@@ -3,7 +3,7 @@ patches:
   #      (e.g. 2605.EG.149)
   # The following are known errors in the TUMonline arch_names (detected as duplicates)
   - {if_roomcode: "4131\\.EG\\.005", arch_name: "EG05@4131", alt_name: "EG05, Treppe"}
-  # There are inconsitencies with arch_name in building 0305: Some roomnames don't have a
+  # There are inconsistencies with arch_name in building 0305: Some roomnames don't have a
   # usually prepended "S"
   - {if_roomcode: "0305\\.01\\.512",  arch_name:  "S1512@0305"}
   - {if_roomcode: "0305\\.01\\.529A", arch_name: "S1529A@0305"}
@@ -12,14 +12,10 @@ patches:
   - {if_roomcode: "0305\\.03\\.512",  arch_name:  "S3512@0305"}
   - {if_roomcode: "0305\\.03\\.529A", arch_name: "S3529A@0305"}
   - {if_roomcode: "0305\\.03\\.543",  arch_name:  "S3543@0305"}
-  - {if_roomcode: "0305\\.04\\.512A", arch_name: "S4512A@0305"}
-  - {if_roomcode: "0305\\.04\\.529A", arch_name: "S4529A@0305"}
   # The "Theresianum Foyer, 0604" is an exception not formatted in the common alt_name format
   - {if_roomcode: "0506\\.EG\\.604", alt_name: "Foyer"}
   # 
   - {if_roomcode: "0206\\.DG\\.[0-3][0-9]{2}", __delete: true}
-  # There is a mistaken "^" in this roomcode
-  - {if_roomcode: "4234\\.EG\\.533\\^", roomcode: "4234.EG.533"}
 
 # Handling of arch_name duplicates
 duplicates:
