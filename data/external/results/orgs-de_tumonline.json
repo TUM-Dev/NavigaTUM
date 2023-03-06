@@ -362,7 +362,7 @@
   "TUBVMAF": {
     "code": "TUBVMAF",
     "id": 44925,
-    "name": "Professur f\u00fcr Hangbewegungen (Prof. Krautblatter)",
+    "name": "Lehrstuhl f\u00fcr Hangbewegungen (Prof. Krautblatter)",
     "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Hangbewegungen (Prof. Krautblatter)"
   },
   "TUBVMBA": {
@@ -2927,6 +2927,18 @@
     "name": "Professur f\u00fcr Interventionelle Kardiologie (Prof. Kastrati)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Lehr- und Forschungskooperationen mit den Kliniken und Instituten am Deutschen Herzzentrum/Klinik f\u00fcr Herz- und Kreislauferkrankungen im Erwachsenenalter (Prof. Schunkert)/Interventionelle Kardiologie (Prof. Kastrati)"
   },
+  "TUME1M3": {
+    "code": "TUME1M3",
+    "id": 54565,
+    "name": "Professur f\u00fcr Gene Editing (Prof. Gr\u00fcnewald)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Innere Medizin I, Kardiologie/Gene Editing (Prof. Gr\u00fcnewald)"
+  },
+  "TUME1M4": {
+    "code": "TUME1M4",
+    "id": 54566,
+    "name": "Professur f\u00fcr Kardiovaskul\u00e4re Translation in Gro\u00dftiermodellen (Prof. Klymiuk)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Innere Medizin I, Kardiologie/Kardiovaskul\u00e4re Translation in Gro\u00dftiermodellen (Prof. Klymiuk)"
+  },
   "TUME2M0": {
     "code": "TUME2M0",
     "id": 15719,
@@ -2938,6 +2950,12 @@
     "id": 15939,
     "name": "Lehrstuhl f\u00fcr Innere Medizin II (Prof. Schmid)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Innere Medizin II, Gastroenterologie/Innere Medizin II (Prof. Schmid)"
+  },
+  "TUME2M2": {
+    "code": "TUME2M2",
+    "id": 54567,
+    "name": "Professur f\u00fcr Tumormetabolismus (Prof. Alg\u00fcl)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Innere Medizin II, Gastroenterologie/Tumormetabolismus (Prof. Alg\u00fcl)"
   },
   "TUME2M3": {
     "code": "TUME2M3",
@@ -2980,6 +2998,12 @@
     "id": 27805,
     "name": "Professur f\u00fcr Experimentelle H\u00e4matologie (Prof. Schmidt-Supprian)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Innere Medizin III, H\u00e4matologie und Onkologie/Experimentelle H\u00e4matologie (Prof. Schmidt-Supprian)"
+  },
+  "TUME3M3": {
+    "code": "TUME3M3",
+    "id": 54568,
+    "name": "Professur f\u00fcr Translationale Immuntherapie (Prof. Krackhardt)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Innere Medizin III, H\u00e4matologie und Onkologie/Translationale Immuntherapie (Prof. Krackhardt)"
   },
   "TUMEAM0": {
     "code": "TUMEAM0",
@@ -3035,12 +3059,6 @@
     "name": "Lehrstuhl f\u00fcr Biologische Bildgebung (HMGU) (Prof. Ntziachristos)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Biologische Bildgebung (HMGU) (Prof. Ntziachristos)"
   },
-  "TUMEBB2": {
-    "code": "TUMEBB2",
-    "id": 45691,
-    "name": "Professur f\u00fcr Molecular Imaging Engineering (N.N.)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Biologische Bildgebung/Molecular Imaging Engineering (N.N.)"
-  },
   "TUMEBB3": {
     "code": "TUMEBB3",
     "id": 51557,
@@ -3083,6 +3101,12 @@
     "name": "Klinik und Poliklinik f\u00fcr Chirurgie",
     "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Chirurgie"
   },
+  "TUMECH1": {
+    "code": "TUMECH1",
+    "id": 15919,
+    "name": "Lehrstuhl f\u00fcr Chirurgie (Prof. Friess)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Chirurgie/Chirurgie (Prof. Friess)"
+  },
   "TUMECH2": {
     "code": "TUMECH2",
     "id": 15923,
@@ -3113,23 +3137,11 @@
     "name": "Lehrstuhl f\u00fcr Dermatologie und Allergologie (Prof. Biedermann)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Dermatologie und Allergologie/Dermatologie und Allergologie (Prof. Biedermann)"
   },
-  "TUMEDE2": {
-    "code": "TUMEDE2",
-    "id": 16006,
-    "name": "Professur f\u00fcr Experimentelle Dermato-Immunologie (Prof. Eyerich)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Dermatologie und Allergologie/Experimentelle Dermato-Immunologie (Prof. Eyerich)"
-  },
   "TUMEDE4": {
     "code": "TUMEDE4",
     "id": 41785,
     "name": "Professur f\u00fcr Epigenetik der Hautalterung (Prof. Djabali)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Dermatologie und Allergologie/Epigenetik der Hautalterung (Prof. Djabali)"
-  },
-  "TUMEDF0": {
-    "code": "TUMEDF0",
-    "id": 44964,
-    "name": "Institut f\u00fcr Diabetesforschung",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Diabetesforschung"
   },
   "TUMEDF1": {
     "code": "TUMEDF1",
@@ -3197,6 +3209,24 @@
     "name": "Dekanin der Fakult\u00e4t f\u00fcr Medizin",
     "path": "TUM/Fakult\u00e4ten/Medizin/Dekan"
   },
+  "TUMEEH0": {
+    "code": "TUMEEH0",
+    "id": 54559,
+    "name": "Institut f\u00fcr Experimentelle H\u00e4matologie",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Experimentelle H\u00e4matologie"
+  },
+  "TUMEEN0": {
+    "code": "TUMEEN0",
+    "id": 54560,
+    "name": "Institut f\u00fcr Experimentelle Neuroimmunologie",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Experimentelle Neuroimmunologie"
+  },
+  "TUMEEN1": {
+    "code": "TUMEEN1",
+    "id": 54561,
+    "name": "Lehrstuhl f\u00fcr Experimentelle Neuroimmunologie (Prof. Korn)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Experimentelle Neuroimmunologie/Experimentelle Neuroimmunologie (Prof. Korn)"
+  },
   "TUMEEO0": {
     "code": "TUMEEO0",
     "id": 15739,
@@ -3226,6 +3256,18 @@
     "id": 27799,
     "name": "Professur f\u00fcr P\u00e4diatrische Ern\u00e4hrungsmedizin (Prof. Witt)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Ern\u00e4hrungsmedizin/P\u00e4diatrische Ern\u00e4hrungsmedizin (Prof. Witt)"
+  },
+  "TUMEET0": {
+    "code": "TUMEET0",
+    "id": 54562,
+    "name": "Institut f\u00fcr Experimentelle Tumortherapie",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Experimentelle Tumortherapie"
+  },
+  "TUMEET1": {
+    "code": "TUMEET1",
+    "id": 54563,
+    "name": "Lehrstuhl f\u00fcr Translationale Tumorforschung (DKTK) (Prof. Saur)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Experimentelle Tumortherapie/Translationale Tumorforschung (DKTK) (Prof. Saur)"
   },
   "TUMEFFB": {
     "code": "TUMEFFB",
@@ -3292,24 +3334,6 @@
     "id": 15950,
     "name": "Lehrstuhl f\u00fcr Frauenheilkunde (Prof. Kiechle)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Frauenheilkunde/Frauenheilkunde (Prof. Kiechle)"
-  },
-  "TUMEGY2": {
-    "code": "TUMEGY2",
-    "id": 15951,
-    "name": "Professur f\u00fcr Perinatalmedizin und Perinatalphysiologie (Prof. Kuschel)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Frauenheilkunde/Perinatalmedizin und Perinatalphysiologie (Prof. Kuschel)"
-  },
-  "TUMEGY3": {
-    "code": "TUMEGY3",
-    "id": 27823,
-    "name": "Professur f\u00fcr Experimentelle Gyn\u00e4kologie (Prof. Magdolen)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Frauenheilkunde/Experimentelle Gyn\u00e4kologie (Prof. Magdolen)"
-  },
-  "TUMEGY4": {
-    "code": "TUMEGY4",
-    "id": 27824,
-    "name": "Professur f\u00fcr Gyn\u00e4kologische Tumorgenetik (Prof. Quante)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Frauenheilkunde/Gyn\u00e4kologische Tumorgenetik (Prof. Quante)"
   },
   "TUMEGZ0": {
     "code": "TUMEGZ0",
@@ -3394,6 +3418,12 @@
     "id": 16045,
     "name": "Lehrstuhl f\u00fcr Klinische Chemie und Pathobiochemie (Prof. Ruland)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Klinische Chemie und Pathobiochemie/Klinische Chemie und Pathobiochemie (Prof. Ruland)"
+  },
+  "TUMEKC2": {
+    "code": "TUMEKC2",
+    "id": 54564,
+    "name": "Professur f\u00fcr Molekulare Medizin - Immune Signaling (Prof. Jellusova)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Klinische Chemie und Pathobiochemie/Molekulare Medizin - Immune Signaling (Prof. Jellusova)"
   },
   "TUMEKCK": {
     "code": "TUMEKCK",
@@ -3521,6 +3551,12 @@
     "name": "Lehrstuhl f\u00fcr Neurochirurgie (Prof. Meyer)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Neurochirurgie/Neurochirurgie (Prof. Meyer)"
   },
+  "TUMENC2": {
+    "code": "TUMENC2",
+    "id": 54571,
+    "name": "Professur f\u00fcr Translationale Neurotechnologie (Prof. Jacob)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Neurochirurgie/Translationale Neurotechnologie (Prof. Jacob)"
+  },
   "TUMENL0": {
     "code": "TUMENL0",
     "id": 15722,
@@ -3539,12 +3575,6 @@
     "name": "Professur f\u00fcr Neurologie mit dem Schwerpunkt Neurologische Schmerztherapie und Schmerzforschung (Prof. T\u00f6lle)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Neurologie/Neurologie mit dem Schwerpunkt Neurologische Schmerztherapie und Schmerzforschung (Prof. T\u00f6lle)"
   },
-  "TUMENL3": {
-    "code": "TUMENL3",
-    "id": 45782,
-    "name": "Lehrstuhl f\u00fcr Translationale Neurodegeneration (Prof. H\u00f6glinger)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Neurologie/Translationale Neurodegeneration (Prof. H\u00f6glinger)"
-  },
   "TUMENL4": {
     "code": "TUMENL4",
     "id": 47478,
@@ -3562,6 +3592,30 @@
     "id": 15999,
     "name": "Lehrstuhl f\u00fcr Nuklearmedizin (Prof. Weber)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Nuklearmedizin/Nuklearmedizin (Prof. Weber)"
+  },
+  "TUMENM2": {
+    "code": "TUMENM2",
+    "id": 54573,
+    "name": "Professur f\u00fcr Bildgebung und Biomarker in der Onkologie (Prof. Kossatz)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Nuklearmedizin/Bildgebung und Biomarker in der Onkologie (Prof. Kossatz)"
+  },
+  "TUMENM3": {
+    "code": "TUMENM3",
+    "id": 54572,
+    "name": "Professur f\u00fcr Biomedical Magnetic Resonance (Prof. Schilling)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Nuklearmedizin/Biomedical Magnetic Resonance (Prof. Schilling)"
+  },
+  "TUMENN0": {
+    "code": "TUMENN0",
+    "id": 54569,
+    "name": "Klinik und Poliklinik f\u00fcr Neonatologie",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Neonatologie"
+  },
+  "TUMENN1": {
+    "code": "TUMENN1",
+    "id": 54570,
+    "name": "Professur f\u00fcr Neonatologie (N.N.)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Neonatologie/Neonatologie (N.N.)"
   },
   "TUMENW0": {
     "code": "TUMENW0",
@@ -3641,24 +3695,6 @@
     "name": "Lehrstuhl f\u00fcr Plastische Chirurgie (Prof. Machens)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Plastische Chirurgie und Handchirurgie/Plastische Chirurgie (Prof. Machens)"
   },
-  "TUMEPC2": {
-    "code": "TUMEPC2",
-    "id": 44564,
-    "name": "Arbeitsgruppe CAPS",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Plastische Chirurgie und Handchirurgie/Plastische Chirurgie (Prof. Machens)/CAPS"
-  },
-  "TUMEPC3": {
-    "code": "TUMEPC3",
-    "id": 45091,
-    "name": "Arbeitsgruppe Tissue Engineering und Regenerative Medizin",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Plastische Chirurgie und Handchirurgie/Plastische Chirurgie (Prof. Machens)/Tissue Engineering und Regenerative Medizin"
-  },
-  "TUMEPC4": {
-    "code": "TUMEPC4",
-    "id": 46917,
-    "name": "Professur f\u00fcr Experimentelle Plastische Chirurgie (Prof. Schilling)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Plastische Chirurgie und Handchirurgie/Experimentelle Plastische Chirurgie (Prof. Schilling)"
-  },
   "TUMEPD0": {
     "code": "TUMEPD0",
     "id": 42773,
@@ -3713,12 +3749,6 @@
     "name": "Lehrstuhl f\u00fcr Psychiatrie und Psychotherapie (Prof. Priller)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Psychiatrie und Psychotherapie/Psychiatrie und Psychotherapie (Prof. Priller)"
   },
-  "TUMEPS2": {
-    "code": "TUMEPS2",
-    "id": 43646,
-    "name": "Arbeitsgruppe \"Klinische und Experimentelle Neuropsychologie\"",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Psychiatrie und Psychotherapie/Arbeitsgruppe \"Klinische und Experimentelle Neuropsychologie\""
-  },
   "TUMEPT0": {
     "code": "TUMEPT0",
     "id": 15742,
@@ -3755,23 +3785,17 @@
     "name": "Professur f\u00fcr Neuroradiologie (Prof. Zimmer)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Diagnostische und Interventionelle Radiologie/Neuroradiologie (Prof. Zimmer)"
   },
+  "TUMERO5": {
+    "code": "TUMERO5",
+    "id": 54558,
+    "name": "Professur f\u00fcr K\u00fcnstliche Intelligenz in der Radiologie (Prof. Wachinger)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Diagnostische und Interventionelle Radiologie/K\u00fcnstliche Intelligenz in der Radiologie (Prof. Wachinger)"
+  },
   "TUMERZ0": {
     "code": "TUMERZ0",
     "id": 42041,
     "name": "Informationstechnologie",
     "path": "TUM/Fakult\u00e4ten/Medizin/Informationstechnologie"
-  },
-  "TUMESB0": {
-    "code": "TUMESB0",
-    "id": 15746,
-    "name": "Institut f\u00fcr Strahlenbiologie",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Strahlenbiologie"
-  },
-  "TUMESB1": {
-    "code": "TUMESB1",
-    "id": 27407,
-    "name": "Lehrstuhl f\u00fcr Strahlenbiologie - Zusammenarbeit mit dem Helmholtz-Zentrum M\u00fcnchen (N.N.)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Strahlenbiologie/Strahlenbiologie - Zusammenarbeit mit dem Helmholtz-Zentrum M\u00fcnchen (N.N.)"
   },
   "TUMESDK": {
     "code": "TUMESDK",
@@ -3875,12 +3899,6 @@
     "name": "Lehrstuhl f\u00fcr Urologie (Prof. Gschwend)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Urologie/Urologie (Prof. Gschwend)"
   },
-  "TUMEUR2": {
-    "code": "TUMEUR2",
-    "id": 15983,
-    "name": "Professur f\u00fcr Urologie (N.N.)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik und Poliklinik f\u00fcr Urologie/Urologie (N.N.)"
-  },
   "TUMEVI0": {
     "code": "TUMEVI0",
     "id": 15748,
@@ -3892,12 +3910,6 @@
     "id": 16095,
     "name": "Lehrstuhl f\u00fcr Virologie (HMGU) (Prof. Protzer)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Virologie/Virologie (HMGU) (Prof. Protzer)"
-  },
-  "TUMEVI3": {
-    "code": "TUMEVI3",
-    "id": 45334,
-    "name": "Professur f\u00fcr Viruspathogenese (N.N.)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Virologie/Viruspathogenese (N.N.)"
   },
   "TUMEVI4": {
     "code": "TUMEVI4",
@@ -5012,7 +5024,7 @@
   "TUPHTFK": {
     "code": "TUPHTFK",
     "id": 48217,
-    "name": "Lehrstuhl f\u00fcr Theoretische Festk\u00f6rperphysik (Prof. Pollmann)",
+    "name": "Professur f\u00fcr Theoretische Festk\u00f6rperphysik (Prof. Pollmann)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Theoretische Festk\u00f6rperphysik (Prof. Pollmann)"
   },
   "TUPHTQM": {
@@ -5387,6 +5399,12 @@
     "name": "Vizepr\u00e4sidentin Global Communication & Public Engagement",
     "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Global Communication & Public Engagement"
   },
+  "TUPRV12": {
+    "code": "TUPRV12",
+    "id": 54574,
+    "name": "Vizepr\u00e4sident Sustainable Transformation",
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Sustainable Transformation"
+  },
   "TUPRVP1": {
     "code": "TUPRVP1",
     "id": 20226,
@@ -5534,7 +5552,7 @@
   "TUS1302": {
     "code": "TUS1302",
     "id": 54457,
-    "name": "Lehrstuhl f\u00fcr Informatik 4 - Professur f\u00fcr Software Engineering f\u00fcr datenintensive Anwendungen (Prof. Stocco)",
+    "name": "Informatik 4 - Professur f\u00fcr Software Engineering f\u00fcr datenintensive Anwendungen (Prof. Stocco)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 4 - Professur f\u00fcr Software Engineering f\u00fcr datenintensive Anwendungen (Prof. Stocco)"
   },
   "TUS1303": {
@@ -5542,6 +5560,18 @@
     "id": 54458,
     "name": "Informatik Heilbronn 7 - Professur f\u00fcr Information Systems (Prof. Pufahl)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 7 - Professur f\u00fcr Information Systems (Prof. Pufahl)"
+  },
+  "TUS1304": {
+    "code": "TUS1304",
+    "id": 54517,
+    "name": "Informatik Heilbronn 6 - Professur f\u00fcr Data Analytics & Statistics (Prof. Piribauer)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 6 - Professur f\u00fcr Data Analytics & Statistics (Prof. Piribauer)"
+  },
+  "TUS1CHN": {
+    "code": "TUS1CHN",
+    "id": 54537,
+    "name": "Center TUM Campus Heilbronn (CIT) der TUM School of Computation, Information and Technology",
+    "path": "TUM/Schools/Computation, Information and Technology/Center TUM Campus Heilbronn (CIT)"
   },
   "TUS1DEA": {
     "code": "TUS1DEA",
@@ -5717,6 +5747,12 @@
     "name": "Professur f\u00fcr Earth System Modelling (Prof. Boers)",
     "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Earth System Modelling (Prof. Boers)"
   },
+  "TUS2FEA": {
+    "code": "TUS2FEA",
+    "id": 54577,
+    "name": "Professur f\u00fcr Fernerkundungsanwendungen (Prof. Anders)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Fernerkundungsanwendungen (Prof. Anders)"
+  },
   "TUS2HYP": {
     "code": "TUS2HYP",
     "id": 54237,
@@ -5884,6 +5920,12 @@
     "id": 54439,
     "name": "Lehrstuhl f\u00fcr Angewandte Quantentheorie (Prof. Rabl)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Angewandte Quantentheorie (Prof. Rabl)"
+  },
+  "TUS3005": {
+    "code": "TUS3005",
+    "id": 54557,
+    "name": "Professur f\u00fcr Theory of Correlated Quantum Materials (Prof. Classen)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Theory of Correlated Quantum Materials (Prof. Classen)"
   },
   "TUS3DEA": {
     "code": "TUS3DEA",
@@ -6362,20 +6404,20 @@
   "TUS6CDT": {
     "code": "TUS6CDT",
     "id": 52778,
-    "name": "Center for Digital Transformation (CDT) - Center TUM Campus Heilbronn",
-    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn/Center for Digital Transformation (CDT)"
+    "name": "Center for Digital Transformation (CDT) - Center TUM Campus Heilbronn (MGT)",
+    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn (MGT)/Center for Digital Transformation (CDT)"
   },
   "TUS6CFE": {
     "code": "TUS6CFE",
     "id": 52779,
-    "name": "Global Center for Family Enterprise (GCFE) - Center TUM Campus Heilbronn",
-    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn/Global Center for Family Enterprise (GCFE)"
+    "name": "Global Center for Family Enterprise (GCFE) - Center TUM Campus Heilbronn (MGT)",
+    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn (MGT)/Global Center for Family Enterprise (GCFE)"
   },
   "TUS6CHN": {
     "code": "TUS6CHN",
     "id": 52777,
-    "name": "Center TUM Campus Heilbronn der TUM School of Management",
-    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn"
+    "name": "Center TUM Campus Heilbronn (MGT) der TUM School of Management",
+    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn (MGT)"
   },
   "TUS6DEA": {
     "code": "TUS6DEA",
@@ -7061,12 +7103,6 @@
     "name": "Dr. Theo Sch\u00f6ller-Stiftungslehrstuhl f\u00fcr Technologie- und Innovationsmanagement (Prof. Henkel)",
     "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Technologie- und Innovationsmanagement (Prof. Henkel)"
   },
-  "TUWIB03": {
-    "code": "TUWIB03",
-    "id": 49017,
-    "name": "Professur f\u00fcr Agrar- und Ern\u00e4hrungswirtschaft (N.N.)",
-    "path": "TUM/Schools/Management/Departments/Economics and Policy/Agrar- und Ern\u00e4hrungswirtschaft (N.N.)"
-  },
   "TUWIB04": {
     "code": "TUWIB04",
     "id": 14807,
@@ -7280,8 +7316,8 @@
   "TUWIH01": {
     "code": "TUWIH01",
     "id": 49382,
-    "name": "Campus Heilbronn Gruppe - Center TUM Campus Heilbronn",
-    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn/Campus Heilbronn Gruppe"
+    "name": "Campus Heilbronn Gruppe - Center TUM Campus Heilbronn (MGT)",
+    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn (MGT)/Campus Heilbronn Gruppe"
   },
   "TUWIH02": {
     "code": "TUWIH02",

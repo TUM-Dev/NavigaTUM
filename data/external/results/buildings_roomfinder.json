@@ -984,108 +984,6 @@
   {
     "b_alias": "",
     "b_area": "M\u00fcnchen - TUM Campus im Olympiapark",
-    "b_id": "2301",
-    "b_name": "(SZ) Spielhalle",
-    "b_roomCount": 0,
-    "default_map": ["5000", 180, "Olympiapark ZHS", 1044, 891],
-    "maps": [
-      ["5000", 180, "Olympiapark ZHS", 1044, 891],
-      ["200000", 54, "M\u00fcnchen", 640, 603],
-      ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-      ["100000000", 9, "Weltkarte Norden", 1619, 396]
-    ],
-    "utm_easting": 689181.0,
-    "utm_northing": 5339354.0,
-    "utm_zone": "32"
-  },
-  {
-    "b_alias": "",
-    "b_area": "M\u00fcnchen - TUM Campus im Olympiapark",
-    "b_id": "2302",
-    "b_name": "(SZ) Leichtathletikhalle",
-    "b_roomCount": 0,
-    "default_map": ["5000", 180, "Olympiapark ZHS", 1044, 891],
-    "maps": [
-      ["5000", 180, "Olympiapark ZHS", 1044, 891],
-      ["200000", 54, "M\u00fcnchen", 640, 603],
-      ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-      ["100000000", 9, "Weltkarte Norden", 1619, 396]
-    ],
-    "utm_easting": 689211.0,
-    "utm_northing": 5339280.0,
-    "utm_zone": "32"
-  },
-  {
-    "b_alias": "",
-    "b_area": "M\u00fcnchen - TUM Campus im Olympiapark",
-    "b_id": "2303",
-    "b_name": "(SZ) Kleine Halle",
-    "b_roomCount": 0,
-    "default_map": ["5000", 180, "Olympiapark ZHS", 1044, 891],
-    "maps": [
-      ["5000", 180, "Olympiapark ZHS", 1044, 891],
-      ["200000", 54, "M\u00fcnchen", 640, 603],
-      ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-      ["100000000", 9, "Weltkarte Norden", 1619, 396]
-    ],
-    "utm_easting": 689251.0,
-    "utm_northing": 5339460.0,
-    "utm_zone": "32"
-  },
-  {
-    "b_alias": "",
-    "b_area": "M\u00fcnchen - TUM Campus im Olympiapark",
-    "b_id": "2304",
-    "b_name": "(SZ) Gymnastikhalle",
-    "b_roomCount": 0,
-    "default_map": ["5000", 180, "Olympiapark ZHS", 1044, 891],
-    "maps": [
-      ["5000", 180, "Olympiapark ZHS", 1044, 891],
-      ["200000", 54, "M\u00fcnchen", 640, 603],
-      ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-      ["100000000", 9, "Weltkarte Norden", 1619, 396]
-    ],
-    "utm_easting": 689274.627879,
-    "utm_northing": 5339378.713287,
-    "utm_zone": "32"
-  },
-  {
-    "b_alias": "",
-    "b_area": "M\u00fcnchen - TUM Campus im Olympiapark",
-    "b_id": "2305",
-    "b_name": "(SZ) Zentralbau Nord",
-    "b_roomCount": 0,
-    "default_map": ["5000", 180, "Olympiapark ZHS", 1044, 891],
-    "maps": [
-      ["5000", 180, "Olympiapark ZHS", 1044, 891],
-      ["200000", 54, "M\u00fcnchen", 640, 603],
-      ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-      ["100000000", 9, "Weltkarte Norden", 1619, 396]
-    ],
-    "utm_easting": 689274.627879,
-    "utm_northing": 5339378.713287,
-    "utm_zone": "32"
-  },
-  {
-    "b_alias": "",
-    "b_area": "M\u00fcnchen - TUM Campus im Olympiapark",
-    "b_id": "2308",
-    "b_name": "(SZ) Freitrib\u00fcne",
-    "b_roomCount": 0,
-    "default_map": ["5000", 180, "Olympiapark ZHS", 1044, 891],
-    "maps": [
-      ["5000", 180, "Olympiapark ZHS", 1044, 891],
-      ["200000", 54, "M\u00fcnchen", 640, 603],
-      ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-      ["100000000", 9, "Weltkarte Norden", 1619, 396]
-    ],
-    "utm_easting": 689274.627879,
-    "utm_northing": 5339378.713287,
-    "utm_zone": "32"
-  },
-  {
-    "b_alias": "",
-    "b_area": "M\u00fcnchen - TUM Campus im Olympiapark",
     "b_id": "2309",
     "b_name": "(SZ) Tennis Geb\u00e4ude",
     "b_roomCount": 0,
@@ -1181,8 +1079,8 @@
       ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
     ],
-    "utm_easting": 689089.0,
-    "utm_northing": 5339415.0,
+    "utm_easting": 689155.0,
+    "utm_northing": 5339696.0,
     "utm_zone": "32"
   },
   {
@@ -1198,8 +1096,8 @@
       ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
     ],
-    "utm_easting": 689089.0,
-    "utm_northing": 5339415.0,
+    "utm_easting": 689155.0,
+    "utm_northing": 5339696.0,
     "utm_zone": "32"
   },
   {
@@ -1215,8 +1113,8 @@
       ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
     ],
-    "utm_easting": 689089.0,
-    "utm_northing": 5339415.0,
+    "utm_easting": 689155.0,
+    "utm_northing": 5339696.0,
     "utm_zone": "32"
   },
   {
@@ -1417,40 +1315,6 @@
     ],
     "utm_easting": 687508.017609,
     "utm_northing": 5347227.554763,
-    "utm_zone": "32"
-  },
-  {
-    "b_alias": "",
-    "b_area": "M\u00fcnchen - TUM Campus im Olympiapark",
-    "b_id": "2360",
-    "b_name": "Pfortencontainer C1",
-    "b_roomCount": 0,
-    "default_map": ["5000", 180, "Olympiapark ZHS", 1044, 891],
-    "maps": [
-      ["5000", 180, "Olympiapark ZHS", 1044, 891],
-      ["200000", 54, "M\u00fcnchen", 640, 603],
-      ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-      ["100000000", 9, "Weltkarte Norden", 1619, 396]
-    ],
-    "utm_easting": 689194.0,
-    "utm_northing": 5339556.0,
-    "utm_zone": "32"
-  },
-  {
-    "b_alias": "",
-    "b_area": "M\u00fcnchen - TUM Campus im Olympiapark",
-    "b_id": "2361",
-    "b_name": "Umkleide-Werkstatt-Container C2",
-    "b_roomCount": 0,
-    "default_map": ["5000", 180, "Olympiapark ZHS", 1044, 891],
-    "maps": [
-      ["5000", 180, "Olympiapark ZHS", 1044, 891],
-      ["200000", 54, "M\u00fcnchen", 640, 603],
-      ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-      ["100000000", 9, "Weltkarte Norden", 1619, 396]
-    ],
-    "utm_easting": 689274.627879,
-    "utm_northing": 5339378.713287,
     "utm_zone": "32"
   },
   {
@@ -1833,17 +1697,17 @@
     "b_alias": "",
     "b_area": "Straubing",
     "b_id": "2927",
-    "b_name": "TUM CS PG18 (AM)\n",
+    "b_name": "TUM CS PG18 (AM), Petersgasse 18\n",
     "b_roomCount": 0,
     "default_map": [
       "5000",
-      217,
+      248,
       "Wissenschaftszentrum Straubing Lageplan",
       635,
-      587
+      788
     ],
     "maps": [
-      ["5000", 217, "Wissenschaftszentrum Straubing Lageplan", 635, 587],
+      ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
     ],
     "utm_easting": 322840.0,
@@ -1854,17 +1718,17 @@
     "b_alias": "",
     "b_area": "Straubing",
     "b_id": "2929",
-    "b_name": "TUM CS SG20 (AM)\n",
+    "b_name": "TUM CS SG20 (AM), Schulgasse 20\n",
     "b_roomCount": 0,
     "default_map": [
       "5000",
-      217,
+      248,
       "Wissenschaftszentrum Straubing Lageplan",
       635,
-      587
+      788
     ],
     "maps": [
-      ["5000", 217, "Wissenschaftszentrum Straubing Lageplan", 635, 587],
+      ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
     ],
     "utm_easting": 322852.0,
@@ -1875,14 +1739,14 @@
     "b_alias": "",
     "b_area": "Straubing",
     "b_id": "2930",
-    "b_name": "TUM CS H\u00f6rsaal Rentamtsberg 1\n",
+    "b_name": "TUM CS H\u00f6rsaal Rentamtsberg 1 (AM), Rentamtsberg 1\n",
     "b_roomCount": 0,
     "default_map": [
       "5000",
-      217,
+      248,
       "Wissenschaftszentrum Straubing Lageplan",
       635,
-      587
+      788
     ],
     "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
     "utm_easting": 322017.0,
@@ -2274,17 +2138,17 @@
     "b_alias": "",
     "b_area": "Straubing",
     "b_id": "3501",
-    "b_name": "TUM CS SG16\n",
+    "b_name": "TUM CS SG16, Schulgasse 16",
     "b_roomCount": 0,
     "default_map": [
       "5000",
-      217,
+      248,
       "Wissenschaftszentrum Straubing Lageplan",
       635,
-      587
+      788
     ],
     "maps": [
-      ["5000", 217, "Wissenschaftszentrum Straubing Lageplan", 635, 587],
+      ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
     ],
     "utm_easting": 322911.0,
@@ -2295,17 +2159,17 @@
     "b_alias": "",
     "b_area": "Straubing",
     "b_id": "3502",
-    "b_name": "TUM CS SG22 (AM)\n",
+    "b_name": "TUM CS SG22 (AM), Schulgasse 22",
     "b_roomCount": 0,
     "default_map": [
       "5000",
-      217,
+      248,
       "Wissenschaftszentrum Straubing Lageplan",
       635,
-      587
+      788
     ],
     "maps": [
-      ["5000", 217, "Wissenschaftszentrum Straubing Lageplan", 635, 587],
+      ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
     ],
     "utm_easting": 322802.0,
@@ -2316,17 +2180,17 @@
     "b_alias": "",
     "b_area": "Straubing",
     "b_id": "3503",
-    "b_name": "TUM CS PG05 (AM)",
+    "b_name": "TUM CS PG05, Petersgasse 5",
     "b_roomCount": 0,
     "default_map": [
       "5000",
-      217,
+      248,
       "Wissenschaftszentrum Straubing Lageplan",
       635,
-      587
+      788
     ],
     "maps": [
-      ["5000", 217, "Wissenschaftszentrum Straubing Lageplan", 635, 587],
+      ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
     ],
     "utm_easting": 322698.0,
@@ -2337,17 +2201,17 @@
     "b_alias": "",
     "b_area": "Straubing",
     "b_id": "3504",
-    "b_name": "TUM CS SG22a\n",
+    "b_name": "TUM CS SG22a, Schulgasse 22a",
     "b_roomCount": 0,
     "default_map": [
       "5000",
-      217,
+      248,
       "Wissenschaftszentrum Straubing Lageplan",
       635,
-      587
+      788
     ],
     "maps": [
-      ["5000", 217, "Wissenschaftszentrum Straubing Lageplan", 635, 587],
+      ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
     ],
     "utm_easting": 322840.0,
@@ -2357,15 +2221,36 @@
   {
     "b_alias": "",
     "b_area": "Straubing",
+    "b_id": "3505",
+    "b_name": "TUM CS H\u00f6rsaal und Forschungsgeb\u00e4ude, Uferstra\u00dfe 53",
+    "b_roomCount": 9,
+    "default_map": [
+      "5000",
+      248,
+      "Wissenschaftszentrum Straubing Lageplan",
+      635,
+      788
+    ],
+    "maps": [
+      ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
+    "utm_easting": 322759.0,
+    "utm_northing": 5417666.0,
+    "utm_zone": "33"
+  },
+  {
+    "b_alias": "",
+    "b_area": "Straubing",
     "b_id": "3515",
-    "b_name": "TUM CS Essigberg 3 (AM)\n",
+    "b_name": "TUM CS Essigberg 3 (AM), Am Essigberg 3\n",
     "b_roomCount": 0,
     "default_map": [
       "5000",
-      217,
+      248,
       "Wissenschaftszentrum Straubing Lageplan",
       635,
-      587
+      788
     ],
     "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
     "utm_easting": 321410.0,
@@ -5929,7 +5814,7 @@
     "b_area": "Garching - MW",
     "b_id": "5501",
     "b_name": "MW Institut f\u00fcr Mechatronik",
-    "b_roomCount": 0,
+    "b_roomCount": 1,
     "default_map": ["10000", 80, "Lageplan Campus Garching", 676, 480],
     "maps": [
       ["10000", 80, "Lageplan Campus Garching", 676, 480],
@@ -6082,7 +5967,7 @@
     "b_area": "Garching - MW",
     "b_id": "5510",
     "b_name": "MW Bibliothek u. Verwaltung",
-    "b_roomCount": 0,
+    "b_roomCount": 2,
     "default_map": ["10000", 80, "Lageplan Campus Garching", 676, 480],
     "maps": [
       ["10000", 80, "Lageplan Campus Garching", 676, 480],
@@ -6756,9 +6641,18 @@
   },
   {
     "b_alias": "",
-    "b_area": "M\u00fcnchen - TUM Campus im Olympiapark",
-    "b_id": "CiO/SG Institute West, Bibliot",
-    "b_name": "CiO/SG Hallen Ost",
-    "b_roomCount": 0
+    "b_area": "Ottobrunn",
+    "b_id": "9377",
+    "b_name": "Lise-Meitner-Stra\u00dfe 9-11",
+    "b_roomCount": 7,
+    "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
+    "maps": [
+      ["200000", 54, "M\u00fcnchen", 640, 603],
+      ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
+    "utm_easting": 697689.0,
+    "utm_northing": 5325796.0,
+    "utm_zone": "32"
   }
 ]

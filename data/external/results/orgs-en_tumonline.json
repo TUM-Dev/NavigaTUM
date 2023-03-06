@@ -158,7 +158,7 @@
   "TUARL32": {
     "code": "TUARL32",
     "id": 48257,
-    "name": "Assistant Professorship of Green Technologies in Landscape Architecture (Prof. Ludwig)",
+    "name": "Associate Professorship of Green Technologies in Landscape Architecture (Prof. Ludwig)",
     "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Green Technologies in Landscape Architecture (Prof. Ludwig)"
   },
   "TUARL34": {
@@ -362,7 +362,7 @@
   "TUBVMAF": {
     "code": "TUBVMAF",
     "id": 44925,
-    "name": "Associate Professorship of Landslide Research (Prof. Krautblatter)",
+    "name": "Chair of Landslide Research (Prof. Krautblatter)",
     "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Landslide Research (Prof. Krautblatter)"
   },
   "TUBVMBA": {
@@ -2927,6 +2927,18 @@
     "name": "Associate Professorship of Internal Medicine (Prof. Kastrati)",
     "path": "TUM/Fakult\u00e4ten/Medicine/German Heart Centre Munich/Heart and Vascular Diseases (Prof. Schunkert)/Internal Medicine (Prof. Kastrati)"
   },
+  "TUME1M3": {
+    "code": "TUME1M3",
+    "id": 54565,
+    "name": "Assistant Professorship of Gene Editing (Prof. Gr\u00fcnewald)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Internal Medicine I - Cardiology/Gene Editing (Prof. Gr\u00fcnewald)"
+  },
+  "TUME1M4": {
+    "code": "TUME1M4",
+    "id": 54566,
+    "name": "Associate Professorship of Cardiovascular Translation in Large Animal Models (Prof. Klymiuk)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Internal Medicine I - Cardiology/Cardiovascular Translation in Large Animal Models (Prof. Klymiuk)"
+  },
   "TUME2M0": {
     "code": "TUME2M0",
     "id": 15719,
@@ -2938,6 +2950,12 @@
     "id": 15939,
     "name": "Chair of Internal Medicine II (Prof. Schmid)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Internal Medicine II - Gastroenterology/Internal Medicine II (Prof. Schmid)"
+  },
+  "TUME2M2": {
+    "code": "TUME2M2",
+    "id": 54567,
+    "name": "Associate Professorship of Tumormetabolism (Prof. Alg\u00fcl)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Internal Medicine II - Gastroenterology/Tumormetabolism (Prof. Alg\u00fcl)"
   },
   "TUME2M3": {
     "code": "TUME2M3",
@@ -2980,6 +2998,12 @@
     "id": 27805,
     "name": "Associate Professorship of Experimental Hematology (Prof. Schmidt-Supprian)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Internal Medicine III - Hematology and Medical Oncology/Experimental Hematology (Prof. Schmidt-Supprian)"
+  },
+  "TUME3M3": {
+    "code": "TUME3M3",
+    "id": 54568,
+    "name": "Assistant Professorship of Translational Immunotherapy (Prof. Krackhardt)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Internal Medicine III - Hematology and Medical Oncology/Translational Immunotherapy (Prof. Krackhardt)"
   },
   "TUMEAM0": {
     "code": "TUMEAM0",
@@ -3035,12 +3059,6 @@
     "name": "Chair of Biological Imaging (HMGU) (Prof. Ntziachristos)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Biological Imaging (HMGU) (Prof. Ntziachristos)"
   },
-  "TUMEBB2": {
-    "code": "TUMEBB2",
-    "id": 45691,
-    "name": "Assistant Professorship of Molecular Imaging Engineering (N.N.)",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Biological Imaging/Molecular Imaging Engineering (N.N.)"
-  },
   "TUMEBB3": {
     "code": "TUMEBB3",
     "id": 51557,
@@ -3083,6 +3101,12 @@
     "name": "Department of Surgery",
     "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Surgery"
   },
+  "TUMECH1": {
+    "code": "TUMECH1",
+    "id": 15919,
+    "name": "Chair of Surgery (Prof. Friess)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Surgery/Surgery (Prof. Friess)"
+  },
   "TUMECH2": {
     "code": "TUMECH2",
     "id": 15923,
@@ -3093,7 +3117,7 @@
     "code": "TUMECH3",
     "id": 15921,
     "name": "Associate Professorship of Surgical Clinic Department Vascular Surgery (Prof. Eckstein )",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Clinic and Policlinic for Vascular and Endovascular Surgery/Surgical Clinic Department Vascular Surgery (Prof. Eckstein )"
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Clinic and Polyclinic for Vascular and Endovascular Surgery/Surgical Clinic Department Vascular Surgery (Prof. Eckstein )"
   },
   "TUMECH6": {
     "code": "TUMECH6",
@@ -3113,23 +3137,11 @@
     "name": "Chair of Dermatology and Allergology (Prof. Biedermann)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Dermatology and Allergology/Dermatology and Allergology (Prof. Biedermann)"
   },
-  "TUMEDE2": {
-    "code": "TUMEDE2",
-    "id": 16006,
-    "name": "Associate Professorship of Experimental Dermato-Immunology (Prof. Eyerich)",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Dermatology and Allergology/Experimental Dermato-Immunology (Prof. Eyerich)"
-  },
   "TUMEDE4": {
     "code": "TUMEDE4",
     "id": 41785,
     "name": "Associate Professorship of  Epigenetics of Skin Aging (Prof. Djabali)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Dermatology and Allergology/Epigenetics of Skin Aging (Prof. Djabali)"
-  },
-  "TUMEDF0": {
-    "code": "TUMEDF0",
-    "id": 44964,
-    "name": "Institute of Diabetes Research",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Diabetes Research"
   },
   "TUMEDF1": {
     "code": "TUMEDF1",
@@ -3197,6 +3209,24 @@
     "name": "Dean TUM Department of Medicine",
     "path": "TUM/Fakult\u00e4ten/Medicine/Dean"
   },
+  "TUMEEH0": {
+    "code": "TUMEEH0",
+    "id": 54559,
+    "name": "Institute of Experimental Hematology",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Experimental Hematology"
+  },
+  "TUMEEN0": {
+    "code": "TUMEEN0",
+    "id": 54560,
+    "name": "Institute of Experimental Neuroimmunology",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Experimental Neuroimmunology"
+  },
+  "TUMEEN1": {
+    "code": "TUMEEN1",
+    "id": 54561,
+    "name": "Chair of Experimental Neuroimmunology (Prof. Korn)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Experimental Neuroimmunology/Experimental Neuroimmunology (Prof. Korn)"
+  },
   "TUMEEO0": {
     "code": "TUMEEO0",
     "id": 15739,
@@ -3227,6 +3257,18 @@
     "name": "Associate Professorship of Paediatric Nutritional Medicine (Prof. Witt)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Nutritional Medicine/Paediatric Nutritional Medicine (Prof. Witt)"
   },
+  "TUMEET0": {
+    "code": "TUMEET0",
+    "id": 54562,
+    "name": "Institute of Exerimentelle Tumortherapie",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Exerimentelle Tumortherapie"
+  },
+  "TUMEET1": {
+    "code": "TUMEET1",
+    "id": 54563,
+    "name": "Chair of Translational Tumor Research (DKTK) (Prof. Saur)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Exerimentelle Tumortherapie/Translational Tumor Research (DKTK) (Prof. Saur)"
+  },
   "TUMEFFB": {
     "code": "TUMEFFB",
     "id": 44220,
@@ -3254,14 +3296,14 @@
   "TUMEGC0": {
     "code": "TUMEGC0",
     "id": 44684,
-    "name": "Clinic and Policlinic for Vascular and Endovascular Surgery",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Clinic and Policlinic for Vascular and Endovascular Surgery"
+    "name": "Clinic and Polyclinic for Vascular and Endovascular Surgery",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Clinic and Polyclinic for Vascular and Endovascular Surgery"
   },
   "TUMEGC1": {
     "code": "TUMEGC1",
     "id": 45512,
     "name": "Associate Professorship of Vaskul\u00e4re Biologie (Prof. Maegdefessel)",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Clinic and Policlinic for Vascular and Endovascular Surgery/Vaskul\u00e4re Biologie (Prof. Maegdefessel)"
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Clinic and Polyclinic for Vascular and Endovascular Surgery/Vaskul\u00e4re Biologie (Prof. Maegdefessel)"
   },
   "TUMEGE0": {
     "code": "TUMEGE0",
@@ -3292,24 +3334,6 @@
     "id": 15950,
     "name": "Chair of Gynaecology (Prof. Kiechle)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Gynecology/Gynaecology (Prof. Kiechle)"
-  },
-  "TUMEGY2": {
-    "code": "TUMEGY2",
-    "id": 15951,
-    "name": "Associate Professorship of Perinatal Medicine and Physiology (Prof. Kuschel)",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Gynecology/Perinatal Medicine and Physiology (Prof. Kuschel)"
-  },
-  "TUMEGY3": {
-    "code": "TUMEGY3",
-    "id": 27823,
-    "name": "Associate Professorship of Experimental Gynaecology (Prof. Magdolen)",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Gynecology/Experimental Gynaecology (Prof. Magdolen)"
-  },
-  "TUMEGY4": {
-    "code": "TUMEGY4",
-    "id": 27824,
-    "name": "Associate Professorship of Gynaecological Tumour Genetics (Prof. Quante)",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Gynecology/Gynaecological Tumour Genetics (Prof. Quante)"
   },
   "TUMEGZ0": {
     "code": "TUMEGZ0",
@@ -3394,6 +3418,12 @@
     "id": 16045,
     "name": "Chair of Clinical Chemistry and Pathobiochemistry (Prof. Ruland)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Clinical Chemistry and Pathobiochemistry/Clinical Chemistry and Pathobiochemistry (Prof. Ruland)"
+  },
+  "TUMEKC2": {
+    "code": "TUMEKC2",
+    "id": 54564,
+    "name": "Assistant Professorship of Molecular Medicine - Immune Signaling (Prof. Jellusova)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Clinical Chemistry and Pathobiochemistry/Molecular Medicine - Immune Signaling (Prof. Jellusova)"
   },
   "TUMEKCK": {
     "code": "TUMEKCK",
@@ -3521,6 +3551,12 @@
     "name": "Chair of Neurosurgery (Prof. Meyer)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Neurosurgery/Neurosurgery (Prof. Meyer)"
   },
+  "TUMENC2": {
+    "code": "TUMENC2",
+    "id": 54571,
+    "name": "Assistant Professorship of Translational Neurotechnology (Prof. Jacob)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Neurosurgery/Translational Neurotechnology (Prof. Jacob)"
+  },
   "TUMENL0": {
     "code": "TUMENL0",
     "id": 15722,
@@ -3539,12 +3575,6 @@
     "name": "Associate Professorship of  Neurology focusing on Neurological Pain Theory and Pain Research  (Prof. T\u00f6lle)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Neurology/Neurology focusing on Neurological Pain Theory and Pain Research  (Prof. T\u00f6lle)"
   },
-  "TUMENL3": {
-    "code": "TUMENL3",
-    "id": 45782,
-    "name": "Chair of Translationale Neurodegeneration (Prof. H\u00f6glinger)",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Neurology/Translationale Neurodegeneration (Prof. H\u00f6glinger)"
-  },
   "TUMENL4": {
     "code": "TUMENL4",
     "id": 47478,
@@ -3562,6 +3592,30 @@
     "id": 15999,
     "name": "Chair of Nuclear Medicine (Prof. Weber)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Nuclear Medicine/Nuclear Medicine (Prof. Weber)"
+  },
+  "TUMENM2": {
+    "code": "TUMENM2",
+    "id": 54573,
+    "name": "Assistant Professorship of Imaging and Biomarkers in Oncology (Prof. Kossatz)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Nuclear Medicine/Imaging and Biomarkers in Oncology (Prof. Kossatz)"
+  },
+  "TUMENM3": {
+    "code": "TUMENM3",
+    "id": 54572,
+    "name": "Assistant Professorship of Biomedical Magnetic Resonance (Prof. Schilling)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Nuclear Medicine/Biomedical Magnetic Resonance (Prof. Schilling)"
+  },
+  "TUMENN0": {
+    "code": "TUMENN0",
+    "id": 54569,
+    "name": "Clinic and Polyclinic for Neonatology",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Clinic and Polyclinic for Neonatology"
+  },
+  "TUMENN1": {
+    "code": "TUMENN1",
+    "id": 54570,
+    "name": "Assistant Professorship of Neonatology (N.N.)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Clinic and Polyclinic for Neonatology/Neonatology (N.N.)"
   },
   "TUMENW0": {
     "code": "TUMENW0",
@@ -3641,24 +3695,6 @@
     "name": "Chair of Plastic Surgery (Prof. Machens)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Plastic Surgery and Hand Surgery/Plastic Surgery (Prof. Machens)"
   },
-  "TUMEPC2": {
-    "code": "TUMEPC2",
-    "id": 44564,
-    "name": "Task Force CAPS",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Plastic Surgery and Hand Surgery/Plastic Surgery (Prof. Machens)/CAPS"
-  },
-  "TUMEPC3": {
-    "code": "TUMEPC3",
-    "id": 45091,
-    "name": "Task Force Tissue Engineering und Regenerative Medizin",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Plastic Surgery and Hand Surgery/Plastic Surgery (Prof. Machens)/Tissue Engineering und Regenerative Medizin"
-  },
-  "TUMEPC4": {
-    "code": "TUMEPC4",
-    "id": 46917,
-    "name": "Associate Professorship of Experimentelle Plastische Chirurgie (Prof. Schilling)",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Plastic Surgery and Hand Surgery/Experimentelle Plastische Chirurgie (Prof. Schilling)"
-  },
   "TUMEPD0": {
     "code": "TUMEPD0",
     "id": 42773,
@@ -3713,12 +3749,6 @@
     "name": "Chair of Psychiatry and Psychotherapy (Prof. Priller)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Psychiatry and Psychotherapy/Psychiatry and Psychotherapy (Prof. Priller)"
   },
-  "TUMEPS2": {
-    "code": "TUMEPS2",
-    "id": 43646,
-    "name": "Workgroup \"Clinical and experimental neuropsychology \"",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Psychiatry and Psychotherapy/\"Clinical and experimental neuropsychology \""
-  },
   "TUMEPT0": {
     "code": "TUMEPT0",
     "id": 15742,
@@ -3755,23 +3785,17 @@
     "name": "Associate Professorship of Neuroradiology (Prof. Zimmer)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Radiology/Neuroradiology (Prof. Zimmer)"
   },
+  "TUMERO5": {
+    "code": "TUMERO5",
+    "id": 54558,
+    "name": "Assistant Professorship of Artificial Intelligence in Radiology (Prof. Wachinger)",
+    "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Radiology/Assistant Professorship of Artificial Intelligence in Radiology (Prof. Wachinger)"
+  },
   "TUMERZ0": {
     "code": "TUMERZ0",
     "id": 42041,
     "name": "Information Technology",
     "path": "TUM/Fakult\u00e4ten/Medicine/Information Technology"
-  },
-  "TUMESB0": {
-    "code": "TUMESB0",
-    "id": 15746,
-    "name": "Institute of Radiobiology",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Radiobiology"
-  },
-  "TUMESB1": {
-    "code": "TUMESB1",
-    "id": 27407,
-    "name": "Chair of Radiation Biology - Cooperation with Helmholtz Zentrum M\u00fcnchen (N.N.)",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Radiobiology/Radiation Biology - Cooperation with Helmholtz Zentrum M\u00fcnchen (N.N.)"
   },
   "TUMESDK": {
     "code": "TUMESDK",
@@ -3875,12 +3899,6 @@
     "name": "Chair of Urology (Prof. Gschwend)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Urology/Urology (Prof. Gschwend)"
   },
-  "TUMEUR2": {
-    "code": "TUMEUR2",
-    "id": 15983,
-    "name": "Associate Professorship of Urology (N.N.)",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Kliniken und Polikliniken/Urology/Urology (N.N.)"
-  },
   "TUMEVI0": {
     "code": "TUMEVI0",
     "id": 15748,
@@ -3892,12 +3910,6 @@
     "id": 16095,
     "name": "Chair of Virology (HMGU) (Prof. Protzer)",
     "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Virology/Virology (HMGU) (Prof. Protzer)"
-  },
-  "TUMEVI3": {
-    "code": "TUMEVI3",
-    "id": 45334,
-    "name": "Associate Professorship of Viruspathogenese (N.N.)",
-    "path": "TUM/Fakult\u00e4ten/Medicine/Institute/Virology/Viruspathogenese (N.N.)"
   },
   "TUMEVI4": {
     "code": "TUMEVI4",
@@ -5012,7 +5024,7 @@
   "TUPHTFK": {
     "code": "TUPHTFK",
     "id": 48217,
-    "name": "Chair of Theoretical Solid-State Physics (Prof. Pollmann)",
+    "name": "Associate Professorship of Theoretical Solid-State Physics (Prof. Pollmann)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Theoretical Solid-State Physics (Prof. Pollmann)"
   },
   "TUPHTQM": {
@@ -5387,6 +5399,12 @@
     "name": "Vizepr\u00e4sidentin Vice President - Global Communication & Public Engagement",
     "path": "TUM/TUM Board of Management/Vizepr\u00e4sidenten und Kanzler/Vice President - Global Communication & Public Engagement"
   },
+  "TUPRV12": {
+    "code": "TUPRV12",
+    "id": 54574,
+    "name": "Vizepr\u00e4sident Vice President - Sustainable Transformation",
+    "path": "TUM/TUM Board of Management/Vizepr\u00e4sidenten und Kanzler/Vice President - Sustainable Transformation"
+  },
   "TUPRVP1": {
     "code": "TUPRVP1",
     "id": 20226,
@@ -5534,7 +5552,7 @@
   "TUS1302": {
     "code": "TUS1302",
     "id": 54457,
-    "name": "Chair of Informatics 4 - Assistant Professorship of Software Engineering for Data-intensive Applications (Prof. Stocco)",
+    "name": "Informatics 4 - Assistant Professorship of Software Engineering for Data-intensive Applications (Prof. Stocco)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 4 - Assistant Professorship of Software Engineering for Data-intensive Applications (Prof. Stocco)"
   },
   "TUS1303": {
@@ -5542,6 +5560,18 @@
     "id": 54458,
     "name": "Informatics Heilbronn 7 - Assistant Professorship of Information Systems (Prof. Pufahl)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics Heilbronn 7 - Assistant Professorship of Information Systems (Prof. Pufahl)"
+  },
+  "TUS1304": {
+    "code": "TUS1304",
+    "id": 54517,
+    "name": "Chair of Informatics Heilbronn 6 - Assistant Professorship of Data Analytics and Statistics (Prof. Piribauer)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics Heilbronn 6 - Assistant Professorship of Data Analytics and Statistics (Prof. Piribauer)"
+  },
+  "TUS1CHN": {
+    "code": "TUS1CHN",
+    "id": 54537,
+    "name": "Center TUM Campus Heilbronn (CIT) of the TUM School of Computation, Information and Technology",
+    "path": "TUM/Schools/Computation, Information and Technology/Center TUM Campus Heilbronn (CIT)"
   },
   "TUS1DEA": {
     "code": "TUS1DEA",
@@ -5717,6 +5747,12 @@
     "name": "Associate Professorship of Earth System Modelling (Prof. Boers)",
     "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Earth System Modelling (Prof. Boers)"
   },
+  "TUS2FEA": {
+    "code": "TUS2FEA",
+    "id": 54577,
+    "name": "Assistant Professorship of Remote Sensing Applications (Prof. Anders)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Remote Sensing Applications (Prof. Anders)"
+  },
   "TUS2HYP": {
     "code": "TUS2HYP",
     "id": 54237,
@@ -5884,6 +5920,12 @@
     "id": 54439,
     "name": "Chair of Angewandte Quantentheorie (Prof. Rabl)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Angewandte Quantentheorie (Prof. Rabl)"
+  },
+  "TUS3005": {
+    "code": "TUS3005",
+    "id": 54557,
+    "name": "Theory of Correlated Quantum Materials (Prof. Classen)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Theory of Correlated Quantum Materials (Prof. Classen)"
   },
   "TUS3DEA": {
     "code": "TUS3DEA",
@@ -6362,20 +6404,20 @@
   "TUS6CDT": {
     "code": "TUS6CDT",
     "id": 52778,
-    "name": "Center for Digital Transformation (CDT) - Center TUM Campus Heilbronn",
-    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn/Center for Digital Transformation (CDT)"
+    "name": "Center for Digital Transformation (CDT) - Center TUM Campus Heilbronn (MGT)",
+    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn (MGT)/Center for Digital Transformation (CDT)"
   },
   "TUS6CFE": {
     "code": "TUS6CFE",
     "id": 52779,
-    "name": "Global Center for Family Enterprise (GCFE) - Center TUM Campus Heilbronn",
-    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn/Global Center for Family Enterprise (GCFE)"
+    "name": "Global Center for Family Enterprise (GCFE) - Center TUM Campus Heilbronn (MGT)",
+    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn (MGT)/Global Center for Family Enterprise (GCFE)"
   },
   "TUS6CHN": {
     "code": "TUS6CHN",
     "id": 52777,
-    "name": "Center TUM Campus Heilbronn of the TUM School of Management",
-    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn"
+    "name": "Center TUM Campus Heilbronn (MGT) of the TUM School of Management",
+    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn (MGT)"
   },
   "TUS6DEA": {
     "code": "TUS6DEA",
@@ -7061,12 +7103,6 @@
     "name": "Chair of Technology and Innovation Management  (founded by Dr. Theo Schoeller) (Prof. Henkel)",
     "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Technology and Innovation Management  (founded by Dr. Theo Schoeller) (Prof. Henkel)"
   },
-  "TUWIB03": {
-    "code": "TUWIB03",
-    "id": 49017,
-    "name": "Assistant Professorship of Agribusiness and Food Industry Economics (N.N.)",
-    "path": "TUM/Schools/Management/Departments/Economics and Policy/Agribusiness and Food Industry Economics (N.N.)"
-  },
   "TUWIB04": {
     "code": "TUWIB04",
     "id": 14807,
@@ -7280,8 +7316,8 @@
   "TUWIH01": {
     "code": "TUWIH01",
     "id": 49382,
-    "name": "Campus Heilbronn Group - Center TUM Campus Heilbronn",
-    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn/Campus Heilbronn Group"
+    "name": "Campus Heilbronn Group - Center TUM Campus Heilbronn (MGT)",
+    "path": "TUM/Schools/Management/Center TUM Campus Heilbronn (MGT)/Campus Heilbronn Group"
   },
   "TUWIH02": {
     "code": "TUWIH02",
