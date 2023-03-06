@@ -81,17 +81,17 @@
   },
   {
     "filter_id": 830,
-    "name": "5409 Entsorgungszentrum, Ernst-Otto-Fischer-Stra\u00dfe    4",
+    "name": "5409 Entsorgungszentrum, Ernst-Otto-Fischer-Str.    4",
     "area_id": 36
   },
   {
     "filter_id": 1405,
-    "name": "5410 Katalysezentrum, Ernst-Otto-Fischer-Stra\u00dfe    1",
+    "name": "5410 Katalysezentrum, Ernst-Otto-Fischer-Str.    1",
     "area_id": 36
   },
   {
     "filter_id": 1989,
-    "name": "5413 Bayerisches NMR-Zentrum, Ernst-Otto-Fischer-Stra\u00dfe    2",
+    "name": "5413 Bayerisches NMR-Zentrum, Ernst-Otto-Fischer-Str.    2",
     "area_id": 36
   },
   {
@@ -101,7 +101,7 @@
   },
   {
     "filter_id": 2729,
-    "name": "5415 CPA Center for Functional Protein Assemb, Ernst-Otto-Fischer-Stra\u00dfe    8",
+    "name": "5415 CPA Center for Functional Protein Assemb, Ernst-Otto-Fischer-Str.    8",
     "area_id": 36
   },
   {
@@ -126,7 +126,7 @@
   },
   {
     "filter_id": 2849,
-    "name": "5901 Elektro- und Informationstechnik, Hans-Piloty-Stra\u00dfe    1",
+    "name": "5901 Elektro- und Informationstechnik, Hans-Piloty-Str.    1",
     "area_id": 302
   },
   {
@@ -181,17 +181,17 @@
   },
   {
     "filter_id": 3010,
-    "name": "7894 Newton (AM), Freisinger Landstra\u00dfe   52",
+    "name": "7894 Newton (AM), Freisinger Landstr.   52",
     "area_id": 57
   },
   {
     "filter_id": 3089,
-    "name": "7895 Pascal Halle, Freisinger Landstra\u00dfe   50",
+    "name": "7895 Pascal Halle, Freisinger Landstr.   50",
     "area_id": 57
   },
   {
     "filter_id": 3069,
-    "name": "7896 Prandtl (AM, Freisinger Landstra\u00dfe   50",
+    "name": "7896 Prandtl (AM, Freisinger Landstr.   50",
     "area_id": 57
   },
   {
@@ -206,7 +206,7 @@
   },
   {
     "filter_id": 3009,
-    "name": "8104 Carl-Zeiss-Stra\u00dfe (AM), Carl-Zeiss-Stra\u00dfe    8",
+    "name": "8104 Carl-Zeiss-Stra\u00dfe (AM), Carl-Zeiss-Str.    8",
     "area_id": 57
   },
   {
@@ -216,27 +216,27 @@
   },
   {
     "filter_id": 2131,
-    "name": "8120 Conference Center, Walther-von-Dyck-Strasse   10",
+    "name": "8120 Conference Center, Walther-von-Dyck-Str.   10",
     "area_id": 202
   },
   {
     "filter_id": 2132,
-    "name": "8121 Courtyard Hotel, Walther-von-Dyck-Strasse   12",
+    "name": "8121 Courtyard Hotel, Walther-von-Dyck-Str.   12",
     "area_id": 202
   },
   {
     "filter_id": 2591,
-    "name": "8122 Galileo B\u00fcro, W. v. Dyck-Str. 6, Walther-von-Dyck-Strasse    6",
+    "name": "8122 Galileo B\u00fcro, W. v. Dyck-Str. 6, Walther-von-Dyck-Str.    6",
     "area_id": 202
   },
   {
     "filter_id": 2590,
-    "name": "8123 Galileo B\u00fcro, W. v. Dyck-Str. 4, Walther-von-Dyck-Strasse    4",
+    "name": "8123 Galileo B\u00fcro, W. v. Dyck-Str. 4, Walther-von-Dyck-Str.    4",
     "area_id": 202
   },
   {
     "filter_id": 3029,
-    "name": "8124 Galileo B\u00fcro, W. v. Dyck-Str. 14, Walther-von-Dyck-Strasse   14",
+    "name": "8124 Galileo B\u00fcro, W. v. Dyck-Str. 14, Walther-von-Dyck-Str.   14",
     "area_id": 202
   },
   {
@@ -316,7 +316,7 @@
   },
   {
     "filter_id": 1037,
-    "name": "1501 Chirurgische Klinik, Ismaninger Stra\u00dfe   22",
+    "name": "1501 Chirurgische Klinik, Ismaninger Str.   22",
     "area_id": 22
   },
   {
@@ -371,7 +371,7 @@
   },
   {
     "filter_id": 1031,
-    "name": "1551 A1-H\u00f6rs\u00e4le, Mensa, Ismaninger Stra\u00dfe   22",
+    "name": "1551 A1-H\u00f6rs\u00e4le, Mensa, Ismaninger Str.   22",
     "area_id": 22
   },
   {
@@ -381,7 +381,7 @@
   },
   {
     "filter_id": 2129,
-    "name": "2522 Center for Translational Cancer Research, Einsteinstra\u00dfe   25",
+    "name": "2522 Center for Translational Cancer Research, Einsteinstr.   25",
     "area_id": 22
   },
   {
@@ -389,7 +389,11 @@
     "name": "4401 Limnologische Station, Hofmark    3",
     "area_id": 51
   },
-  { "filter_id": 651, "name": "4402 Bootshaus, Hofmark    3", "area_id": 51 },
+  {
+    "filter_id": 651,
+    "name": "4402 Bootshaus, Hofmark    3",
+    "area_id": 51
+  },
   {
     "filter_id": 649,
     "name": "4403 Limnologische Station Geb\u00e4ude 2, Hofmark    3",
@@ -482,7 +486,7 @@
   },
   {
     "filter_id": 1040,
-    "name": "7910 Oskar-von-Miller Turm, Ludwig-Prandtl-Stra\u00dfe    1",
+    "name": "7910 Oskar-von-Miller Turm, Ludwig-Prandtl-Str.    1",
     "area_id": 58
   },
   {
@@ -522,7 +526,7 @@
   },
   {
     "filter_id": 594,
-    "name": "2806 Werkstattgeb\u00e4ude National Museum (NR), Oettingenstra\u00dfe   15",
+    "name": "2806 Werkstattgeb\u00e4ude National Museum (NR), Oettingenstr.   15",
     "area_id": 29
   },
   {
@@ -537,7 +541,7 @@
   },
   {
     "filter_id": 995,
-    "name": "2906 Karlstra\u00dfe 45/47 (AM), Karlstra\u00dfe 45-47",
+    "name": "2906 Karlstra\u00dfe 45/47 (AM), Karlstr. 45-47",
     "area_id": 29
   },
   {
@@ -587,47 +591,47 @@
   },
   {
     "filter_id": 2869,
-    "name": "2944 Munich Urban Colab, Freddie-Mercury-Stra\u00dfe    5",
+    "name": "2944 Munich Urban Colab, Freddie-Mercury-Str.    5",
     "area_id": 29
   },
   {
     "filter_id": 1710,
-    "name": "3401 Akademiegeb\u00e4ude in der Residenz (NR), Alfons-Goppel-Stra\u00dfe   11",
+    "name": "3401 Akademiegeb\u00e4ude in der Residenz (NR), Alfons-Goppel-Str.   11",
     "area_id": 29
   },
   {
     "filter_id": 1709,
-    "name": "3402 Residenzbereich Hofkapelle (NR), Alfons-Goppel-Stra\u00dfe   11",
+    "name": "3402 Residenzbereich Hofkapelle (NR), Alfons-Goppel-Str.   11",
     "area_id": 29
   },
   {
     "filter_id": 2490,
-    "name": "9376 Airbus Standort 76.C Taufkirchen/Ottobru, Willy-Messerschmitt-Stra\u00dfe    1",
+    "name": "9376 Airbus Standort 76.C Taufkirchen/Ottobru, Willy-Messerschmitt-Str.    1",
     "area_id": 29
   },
   {
     "filter_id": 2890,
-    "name": "9377 Lise-Meitner-Stra\u00dfe (AM), Lise-Meitner-Stra\u00dfe 9-11",
+    "name": "9377 Lise-Meitner-Stra\u00dfe (AM), Lise-Meitner-Str. 9-11",
     "area_id": 29
   },
   {
     "filter_id": 2889,
-    "name": "9378 TUM Panasonic (AM), Caroline-Herschel-Stra\u00dfe  100",
+    "name": "9378 TUM Panasonic (AM), Caroline-Herschel-Str.  100",
     "area_id": 29
   },
   {
     "filter_id": 2949,
-    "name": "9379 Lise Meitner Str. 8 (AM), Lise-Meitner-Stra\u00dfe    8",
+    "name": "9379 Lise Meitner Str. 8 (AM), Lise-Meitner-Str.    8",
     "area_id": 29
   },
   {
     "filter_id": 3109,
-    "name": "9380 Hyperloop-Halle Ottobrunn (AM), Caroline-Herschel-Stra\u00dfe  100",
+    "name": "9380 Hyperloop-Halle Ottobrunn (AM), Caroline-Herschel-Str.  100",
     "area_id": 29
   },
   {
     "filter_id": 3129,
-    "name": "9390 Aviation Flight Test Center/Halle 507 (A, Claude-Dornier-Stra\u00dfe    1",
+    "name": "9390 Aviation Flight Test Center/Halle 507 (A, Claude-Dornier-Str.    1",
     "area_id": 29
   },
   {
@@ -717,12 +721,12 @@
   },
   {
     "filter_id": 1165,
-    "name": "5531 Ingeborg Ortner-Kinderhaus, Lichtenbergstra\u00dfe    9",
+    "name": "5531 Ingeborg Ortner-Kinderhaus, Lichtenbergstr.    9",
     "area_id": 34
   },
   {
     "filter_id": 2229,
-    "name": "5532 StudiTUM-Garching, Lichtenbergstra\u00dfe    3",
+    "name": "5532 StudiTUM-Garching, Lichtenbergstr.    3",
     "area_id": 34
   },
   {
@@ -732,7 +736,7 @@
   },
   {
     "filter_id": 2450,
-    "name": "9201 TUM FZ Friedrich N. Schwarz Berchtesgade, Ro\u00dffeldstra\u00dfe",
+    "name": "9201 TUM FZ Friedrich N. Schwarz Berchtesgade, Ro\u00dffeldstr.",
     "area_id": 263
   },
   {
@@ -911,11 +915,6 @@
     "area_id": 35
   },
   {
-    "filter_id": 782,
-    "name": "5110 Trafostation PH (Abriss ca. Okt. 2021?), James-Franck-Str.    1",
-    "area_id": 35
-  },
-  {
     "filter_id": 790,
     "name": "5111 Siedlungswasserwirtschaft, Am Coulombwall    3",
     "area_id": 35
@@ -957,7 +956,7 @@
   },
   {
     "filter_id": 792,
-    "name": "5124 WSI Container, James-Franck-Strasse    1",
+    "name": "5124 WSI Container, James-Franck-Str.    1",
     "area_id": 35
   },
   {
@@ -972,12 +971,12 @@
   },
   {
     "filter_id": 783,
-    "name": "5130 Telefonzentrale, Boltzmannstra\u00dfe  10a",
+    "name": "5130 Telefonzentrale, Boltzmannstr.  10a",
     "area_id": 35
   },
   {
     "filter_id": 1609,
-    "name": "5131 FRM-Poststelle (Container), Boltzmannstra\u00dfe  10b",
+    "name": "5131 FRM-Poststelle (Container), Boltzmannstr.  10b",
     "area_id": 35
   },
   {
@@ -1757,7 +1756,7 @@
   },
   {
     "filter_id": 1140,
-    "name": "4211 LfL B\u00fcrogeb\u00e4ude 14, V\u00f6ttinger Stra\u00dfe   36",
+    "name": "4211 LfL B\u00fcrogeb\u00e4ude 14, V\u00f6ttinger Str.   36",
     "area_id": 42
   },
   {
@@ -1812,7 +1811,7 @@
   },
   {
     "filter_id": 2929,
-    "name": "4222 Servicegeb\u00e4ude I, V\u00f6ttinger Stra\u00dfe   40",
+    "name": "4222 Servicegeb\u00e4ude I, V\u00f6ttinger Str.   40",
     "area_id": 42
   },
   {
@@ -1987,7 +1986,7 @@
   },
   {
     "filter_id": 1141,
-    "name": "3035 Helmholtz Biologikum, Ingolst\u00e4dter Landstra\u00dfe    1",
+    "name": "3035 Helmholtz Biologikum, Ingolst\u00e4dter Landstr.    1",
     "area_id": 79
   },
   {
@@ -2052,7 +2051,7 @@
   },
   {
     "filter_id": 1505,
-    "name": "4319 Trafostation VI, Liesel-Beckmann-Stra\u00dfe",
+    "name": "4319 Trafostation VI, Liesel-Beckmann-Str.",
     "area_id": 41
   },
   {
@@ -2077,7 +2076,7 @@
   },
   {
     "filter_id": 659,
-    "name": "4324 GM Garage / Werkdienstwohnungen, Lange Point   20",
+    "name": "4324 GM Garage / Werkdienstwohnungen, Lange Point 20+22",
     "area_id": 41
   },
   {
@@ -2147,7 +2146,7 @@
   },
   {
     "filter_id": 1120,
-    "name": "5301 IAS, Institut f\u00fcr Advanced Study, Lichtenbergstra\u00dfe   2a",
+    "name": "5301 IAS, Institut f\u00fcr Advanced Study, Lichtenbergstr.   2a",
     "area_id": 30
   },
   {
