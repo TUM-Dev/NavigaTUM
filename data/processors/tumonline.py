@@ -9,7 +9,7 @@ from utils import TranslatableStr as _
 
 ALLOWED_ROOMCODE_CHARS = set(string.ascii_letters) | set(string.digits) | {".", "-"}
 OPERATOR_STRIP_CHARS = "[ ]"
-OPERATOR_WEBNAV_LINK_PREFIX="webnav.navigate_to?corg="
+OPERATOR_WEBNAV_LINK_PREFIX = "webnav.navigate_to?corg="
 
 
 def merge_tumonline_buildings(data):
@@ -71,6 +71,7 @@ def merge_tumonline_buildings(data):
     if error:
         raise RuntimeError("One or more errors, aborting")
     return data
+
 
 def merge_tumonline_rooms(data):
     """

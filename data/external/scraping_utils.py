@@ -18,7 +18,7 @@ def maybe_sleep(duration):
 
 def _write_cache_json(fname, data):
     with open(CACHE_PATH / fname, "w", encoding="utf-8") as file:
-        json.dump(data, file, indent=4)
+        json.dump(data, file, indent=2, sort_keys=True)
 
 
 def _cached_json(fname):

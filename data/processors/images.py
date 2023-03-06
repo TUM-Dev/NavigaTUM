@@ -210,7 +210,7 @@ def _save_hash_lut(img_sources) -> None:
         offsets = _extract_offsets(_id, _index, img_path, img_sources)
         hashes_lut[img_path.name] = _gen_file_hash(img_path, offsets)
     with open(HASH_LUT, "w+", encoding="utf-8") as file:
-        json.dump(hashes_lut, file, sort_keys=True, indent=4)
+        json.dump(hashes_lut, file, sort_keys=True, indent=2)
 
 
 def _gen_file_hash(img_path: Path, offsets) -> str:
