@@ -2737,6 +2737,20 @@
     }
   },
   {
+    "id": 217,
+    "scale": "5000",
+    "desc": "Wissenschaftszentrum Straubing Lageplan",
+    "width": 635,
+    "height": 587,
+    "latlonbox": {
+      "north": "48.8861020953",
+      "east": "12.5849360474",
+      "west": "12.580893826",
+      "south": "48.8832682089",
+      "rotation": "-4.42812013626"
+    }
+  },
+  {
     "id": 228,
     "scale": "500",
     "desc": "01-05-0507 Bestelmeyer Nord EG",
@@ -3000,20 +3014,6 @@
       "west": "11.5672610113",
       "south": "48.1497855694",
       "rotation": "-23.8381206989"
-    }
-  },
-  {
-    "id": 248,
-    "scale": "5000",
-    "desc": "Wissenschaftszentrum Straubing Lageplan",
-    "width": 635,
-    "height": 788,
-    "latlonbox": {
-      "north": "48.8870099226",
-      "east": "12.5848936007",
-      "west": "12.5809470445",
-      "south": "48.8832692929",
-      "rotation": "-4.42812013626"
     }
   }
 ]
