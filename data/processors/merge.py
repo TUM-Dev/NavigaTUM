@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from typing import Any, Union
 
 import yaml
@@ -48,8 +48,8 @@ def add_coordinates(data, path):
     (Merging happens in alphanumeric order, so later files would overwrite earlier files)
     This operates on the data dict directly without creating a copy.
     """
-    for fname in os.listdir(path):
-        yaml_data = load_yaml(os.path.join(path, fname))
+    for file in sorted(Path(path).iterdir()):
+        yaml_data = load_yaml(file)
 
         recursively_merge(data, {_id: {"coords": val} for _id, val in yaml_data.items()})
 
