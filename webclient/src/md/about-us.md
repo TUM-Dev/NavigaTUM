@@ -1,6 +1,6 @@
 # About NavigaTUM
 
-NavigaTUM is a non-official tool developed by students, that aims to help you get around at [TUM](https://tum.de).
+NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de).
 Feel free to contribute, [the code is open source](https://github.com/TUM-Dev/navigatum) and we are open to new contributors.
 
 ## Data Sources
