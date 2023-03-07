@@ -21,14 +21,6 @@
         entryPoints:
           - websecure
         routes:
-          # temporary workaround for traefik bug (interoperability with ingress)
-          - kind: Rule
-            match: Host(`uptime.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-            priority: 13
-            services:
-              - name: cm-acme-http-solver-mppjd
-                port: 8089
-                kind: Service
           - kind: Rule
             match: Host(`uptime.nav.tum.sexy`)
             priority: 12
@@ -52,13 +44,6 @@
         entryPoints:
           - web
         routes:
-          # temporary workaround for traefik bug (interoperability with ingress)
-          - kind: Rule
-            match: Host(`uptime.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-            services:
-              - name: cm-acme-http-solver-mppjd
-                port: 8089
-                kind: Service
           - kind: Rule
             match: Host(`uptime.nav.tum.sexy`)
             middlewares:

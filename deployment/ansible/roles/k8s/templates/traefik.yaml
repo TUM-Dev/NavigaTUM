@@ -7,14 +7,6 @@ spec:
   entryPoints:
     - web
   routes:
-    # temporary workaround for traefik bug (interoperability with ingress)
-    - kind: Rule
-      match: Host(`traefik.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-      priority: 12
-      services:
-        - name: cm-acme-http-solver-kwk2j
-          port: 8089
-          kind: Service
     - match: Host(`traefik.nav.tum.sexy`)
       kind: Rule
       services:
@@ -32,14 +24,6 @@ spec:
   entryPoints:
     - websecure
   routes:
-    # temproary workaround for traefik bug (interoperability with ingress)
-    - kind: Rule
-      match: Host(`traefik.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-      priority: 12
-      services:
-        - name: cm-acme-http-solver-kwk2j
-          port: 8089
-          kind: Service
     - match: Host(`traefik.nav.tum.sexy`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       kind: Rule
       priority: 10

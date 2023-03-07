@@ -9,14 +9,6 @@ spec:
   entryPoints:
     - websecure
   routes:
-    # temporary workaround for traefik bug (interoperability with ingress)
-    - kind: Rule
-      match: Host(`{{ .Values.url }}`) && PathPrefix(`/.well-known/acme-challenge/`)
-      priority: 14
-      services:
-        - name: cm-acme-http-solver-wr5tp
-          port: 8089
-          kind: Service
     - kind: Rule
       match: Host(`{{ .Values.url }}`) && PathPrefix(`/api/feedback/`)
       priority: 13
@@ -85,14 +77,6 @@ spec:
   entryPoints:
     - web
   routes:
-    # temproary workaround for traefik bug (interoperability with ingress)
-    - kind: Rule
-      match: Host(`{{ .Values.url }}`) && PathPrefix(`/.well-known/acme-challenge/`)
-      priority: 12
-      services:
-        - name: cm-acme-http-solver-wr5tp
-          port: 8089
-          kind: Service
     - kind: Rule
       match: Host(`{{ .Values.url }}`)
       priority: 9

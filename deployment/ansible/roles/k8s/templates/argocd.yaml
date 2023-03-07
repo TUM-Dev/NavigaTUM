@@ -21,14 +21,6 @@ spec:
   entryPoints:
     - websecure
   routes:
-    # temproary workaround for traefik bug (interoperability with ingress)
-    - kind: Rule
-      match: Host(`argocd.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-      priority: 12
-      services:
-        - name: cm-acme-http-solver-9cp9g
-          port: 8089
-          kind: Service
     - kind: Rule
       match: Host(`argocd.nav.tum.sexy`)
       priority: 10
@@ -54,14 +46,6 @@ spec:
   entryPoints:
     - web
   routes:
-    # temproary workaround for traefik bug (interoperability with ingress)
-    - kind: Rule
-      match: Host(`argocd.nav.tum.sexy`) && PathPrefix(`/.well-known/acme-challenge/`)
-      priority: 12
-      services:
-        - name: cm-acme-http-solver-9cp9g
-          port: 8089
-          kind: Service
     - kind: Rule
       match: Host(`argocd.nav.tum.sexy`)
       services:
