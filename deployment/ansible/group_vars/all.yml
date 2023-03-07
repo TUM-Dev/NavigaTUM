@@ -29,9 +29,9 @@ leaders_ipv6s:
   - "2001:4ca0:800::8af6:e1ad"
   - "2001:4ca0:800::8af6:e1ae"
 leaders_ipv4s:
-  - 138.246.225.174
   - 138.246.225.172
   - 138.246.225.173
+  - 138.246.225.174
 
 leader_ips: "{{ leaders_ipv6s + leaders_ipv4s }}"
 # k8s
