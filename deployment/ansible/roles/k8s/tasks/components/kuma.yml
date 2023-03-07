@@ -1,10 +1,16 @@
 ---
-- name: Install argocd
+- name: Add uptime-kuma chart repo
+  kubernetes.core.helm_repository:
+    name: uptime-kuma
+    repo_url: "https://dirsigler.github.io/uptime-kuma-helm"
+- name: Install uptime-kuma
   kubernetes.core.helm:
-    chart_repo_url: https://dirsigler.github.io/uptime-kuma-helm
-    chart_ref: uptime-kuma
-    chart_version: 2.5.4
-    release_name: uptime-kuma
+    atomic: true
+    release_state: present
+    wait: false
+    chart_version: 2.5.8
+    chart_ref: uptime-kuma/uptime-kuma
+    name: uptime-kuma
     namespace: monitoring
     create_namespace: yes
 - name: Make shure kuma has an ingress
