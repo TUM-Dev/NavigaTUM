@@ -32,4 +32,5 @@
     - components/cert-manager.yml
     - components/kuma.yml
     - components/argocd.yml
+    - components/traefik-dashboard.yml
   when: ansible_host == etcd_leader_ip
