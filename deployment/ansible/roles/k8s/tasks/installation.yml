@@ -6,6 +6,8 @@
     --tls-san {{ loadbalancer_ipv4 }}
     --tls-san {{ loadbalancer_ipv6 }}
     --tls-san controlplane.nav.tum.sexy
+    --node-ip {{ ansible_host_v4 }}
+    --node-external-ip {{ ansible_host_v4 }}
   environment:
     K3S_TOKEN: "{{ lookup('ansible.builtin.password', 'credentials/k3s_token length=1024') }}"
     K3S_NODE_NAME: "eliza-{{ 2 + inventory_hostname | replace('tuzeitm-navigatum-', '') | int }}"
@@ -29,6 +31,8 @@
     --tls-san {{ loadbalancer_ipv4 }}
     --tls-san {{ loadbalancer_ipv6 }}
     --tls-san controlplane.nav.tum.sexy
+    --node-ip {{ ansible_host_v4 }}
+    --node-external-ip {{ ansible_host_v4 }}
   environment:
     K3S_TOKEN: "{{ lookup('ansible.builtin.password', 'credentials/k3s_token length=1024') }}"
     K3S_NODE_NAME: "eliza-{{ 2 + inventory_hostname | replace('tuzeitm-navigatum-', '') | int }}"
