@@ -1,0 +1,92 @@
+---
+- name: Add grafana chart repo
+  kubernetes.core.helm_repository:
+    name: grafana
+    repo_url: "https://grafana.github.io/helm-charts"
+
+- name: Install argo-cd
+  kubernetes.core.helm:
+    atomic: true
+    release_state: present
+    wait: false
+    chart_version: 6.52.1
+    chart_ref: grafana/grafana
+    name: grafana
+    namespace: monitoring
+    create_namespace: yes
+- name: Make shure grafana has an ingress
+  kubernetes.core.k8s:
+    state: present
+    namespace: monitoring
+    definition:
+      apiVersion: traefik.containo.us/v1alpha1
+      kind: IngressRoute
+      metadata:
+        name: grafana
+        namespace: monitoring
+      spec:
+        entryPoints:
+          - websecure
+        routes:
+          - kind: Rule
+            match: Host(`grafana.nav.tum.sexy`)
+            priority: 12
+            services:
+              - name: grafana
+                port: 80
+        tls:
+          secretName: grafana.nav.tum.sexy
+- name: Make shure grafana has an http-ingress
+  kubernetes.core.k8s:
+    state: present
+    namespace: monitoring
+    definition:
+      apiVersion: traefik.containo.us/v1alpha1
+      kind: IngressRoute
+      metadata:
+        name: grafana-http
+        namespace: monitoring
+      spec:
+        entryPoints:
+          - web
+        routes:
+          - kind: Rule
+            match: Host(`grafana.nav.tum.sexy`)
+            middlewares:
+              - name: https
+            services:
+              - kind: TraefikService
+                name: noop@internal
+- name: Make shure grafana has an http redirect
+  kubernetes.core.k8s:
+    state: present
+    namespace: monitoring
+    definition:
+      apiVersion: traefik.containo.us/v1alpha1
+      kind: Middleware
+      metadata:
+        name: https
+        namespace: monitoring
+      spec:
+        redirectScheme:
+          scheme: https
+          permanent: true
+
+- name: Make shure grafana has an cert
+  kubernetes.core.k8s:
+    state: present
+    namespace: monitoring
+    definition:
+      apiVersion: cert-manager.io/v1
+      kind: Certificate
+      metadata:
+        name: grafana.nav.tum.sexy
+        namespace: monitoring
+      spec:
+        commonName: grafana.nav.tum.sexy
+        dnsNames:
+          - grafana.nav.tum.sexy
+        secretName: grafana.nav.tum.sexy
+        issuerRef:
+          name: letsencrypt-production
+          kind: ClusterIssuer
