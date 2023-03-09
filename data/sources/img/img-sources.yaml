@@ -65,6 +65,13 @@ stammgelaende:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=652205"
+"0101":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
 "0101.01.195":
   0:
     author: "MaxEmanuel"
@@ -93,6 +100,59 @@ stammgelaende:
       url: "https://commons.wikimedia.org/wiki/File:TUM-N2_Muenchen-02.jpg"
     meta:
       date: "2011-08-14"
+  1:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0103":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0104":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0104.U1.403":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+  1:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0105":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+  1:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0106":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
 "0109":
   0:
     author: "Astrid Eckert"
@@ -109,14 +169,53 @@ stammgelaende:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/652209?show_id=1436311"
+  1:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0201":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0206":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
 "2906":
   0:
     author: "Bernhard Maier"
     license: "CC0 1.0"
     source:
       text: "TUM IT Support"
-
 "0501":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+  1:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0502":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0510":
   0:
     author: "Astrid Eckert"
     license:
@@ -145,6 +244,12 @@ stammgelaende:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1487578"
+  2:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
 "0503":
   0:
     author: "Andreas Heddergott"
@@ -161,6 +266,40 @@ stammgelaende:
       url: "https://mediatum.ub.tum.de/1232767?show_id=1436302"
     offsets:
       header: 400
+  1:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0504":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0505":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0506":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"0508":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
 "0509":
   0:
     author: "Uli Benz / TUM"
@@ -188,17 +327,23 @@ stammgelaende:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1599301"
   2:
-    author: "Uli Benz / TUM"
-    license:
-      text: "Verwendung frei für Berichterstattung über die TU München bei Nennung des Copyrights. Free for use in reporting on TUM, with the copyright noted"
-    meta:
-      caption: "Kofi Annan, Vorsitzender der Kofi Annan Foundation, ehemaliger UN-Generalsekretär und Friedensnobelpreisträger, tritt am 15.2.2018 im Audimax der TUM (TUM) bei der 'TUM Speakers Series' auf, die von Studierenden organisiert wird. Titel seiner Rede: \u201cVisions for Challenged Democracies – Towards a Fairer, more Peaceful World\u201d."
-      date: "15.02.2018"
-      headline: "TUM Speakers Series mit Kofi Annan"
-      image_url: "https://mediatum.ub.tum.de/file/1431682/20180215_Kofi_Annan_UB_-0440.JPG"
+    author: "David Bonello"
+    license: CC0 1.0
     source:
-      text: "mediaTUM"
-      url: "https://mediatum.ub.tum.de/1232770?show_id=1431682"
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+  3:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+  4:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
 "0509.02.986":
   0:
     author: "Uli Benz"
@@ -653,6 +798,48 @@ chemie:
     meta:
       date: "2011-09-10"
       geo: "48.26838,11.661398"
+"5302":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"5506.EG.679":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"5506.EG.690H":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"5506.EG.690J":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"5506.EG.690M":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"5531":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
 "5620":
   0:
     author: "Frank Elsinga"
@@ -662,6 +849,62 @@ chemie:
       url: "https://nav.tum.de"
     offsets:
       header: -100
+"5622":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+  1:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"5701":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+    offsets:
+      header: 100
+"8101":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+    offsets:
+      header: -100
+"8102":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+    offsets:
+      thumb: -300
+"8104":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+"8111":
+  0:
+    author: "David Bonello"
+    license: CC0 1.0
+    source:
+      text: "NavigaTUM Team"
+      url: "https://nav.tum.de"
+    offsets:
+      header: 100
 mi:
   0:
     author: "Astrid Eckert"
