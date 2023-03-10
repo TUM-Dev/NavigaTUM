@@ -39,7 +39,7 @@ jobs:
           MEILI_MASTER_KEY_RAW="$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 20)"
           MEILI_MASTER_KEY="$(echo "$MEILI_MASTER_KEY_RAW"|base64)"
           export MEILI_MASTER_KEY
-          echo > pr-${{ github.event.inputs.pr-number }}.yaml "
+          echo > staging/pr-${{ github.event.inputs.pr-number }}.yaml "
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
