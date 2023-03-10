@@ -16,7 +16,7 @@ jobs:
       - run: git config --global user.name "github-actions[bot]"
       - run: rm -f staging/pr-${{ github.event.number }}.yaml
       - run: git add .
-      - run: git commit -m "Add deployment for PR ${{ '#' }}${{ inputs.pr-number }}"
+      - run: git commit -m "Removed the deployment for PR ${{ '#' }}${{ github.event.number }}"
       - run: git push
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app sync navigatum-stagings --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
