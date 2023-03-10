@@ -43,7 +43,7 @@ jobs:
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
-            name: pr-{{ .PR_NUMBER }}
+            name: pr-${{ inputs.pr-number }}
             namespace: argocd
             finalizers:
               - resources-finalizer.argocd.argoproj.io
@@ -52,11 +52,11 @@ jobs:
             source:
               repoURL: https://github.com/TUM-Dev/navigatum.git
               targetRevision: deployment
-              path: pr-{{ .PR_NUMBER }}
+              path: pr-${{ inputs.pr-number }}
               helm:
                 version: v3
                 values: |
-                  namespace: pr-${{ github.event.inputs.pr-number }}
+                  namespace: pr-${{ inputs.pr-number }}
                   branch: ${{ inputs.branch }}
                   url: pr-${{ inputs.pr-number }}.nav.tum.de
                   server:
@@ -94,4 +94,4 @@ jobs:
             ${{ github.event.pull_request.comments_url }} \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            --data '{ "body": "👋 Thank you for contributing. A [staging environment for this PR](pr-${{ inputs.pr-number }}.nav.tum.de) for this change will be available shortly!" }'
+            --data '{ "body": "👋 Thank you for contributing. A [staging environment for this PR](pr-${{ inputs.pr-number }}.nav.tum.sexy) for this change will be available shortly!" }'
