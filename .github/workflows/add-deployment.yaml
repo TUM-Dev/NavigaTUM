@@ -1,28 +1,8 @@
 name: Add a new Deployment
 
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        required: true
-        description: branch to target when adding a deployment
-        type: string
-      pr-number:
-        required: false
-        description: number of the PR to target when adding a deployment
-        type: string
-        default: ""
-  workflow_call:
-    inputs:
-      branch:
-        required: true
-        description: branch to target when adding a deployment
-        type: string
-      pr-number:
-        required: false
-        description: number of the PR to target when adding a deployment
-        type: string
-        default: ""
+  pull_request:
+    types: [opened, reopened]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -38,11 +18,11 @@ jobs:
           MEILI_MASTER_KEY_RAW="$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 10)"
           MEILI_MASTER_KEY="$(echo "$MEILI_MASTER_KEY_RAW"|base64)"
           export MEILI_MASTER_KEY
-          echo > staging/pr-${{ github.event.inputs.pr-number }}.yaml "
+          echo > staging/pr-${{ github.event.number }}.yaml "
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
-            name: pr-${{ inputs.pr-number }}
+            name: pr-${{ github.event.number }}
             namespace: argocd
             finalizers:
               - resources-finalizer.argocd.argoproj.io
@@ -50,14 +30,14 @@ jobs:
             project: default
             source:
               repoURL: https://github.com/TUM-Dev/navigatum.git
-              targetRevision: ${{ inputs.branch }}
+              targetRevision: ${{ github.event.pull_request.head.ref }}
               path: deployment/k3s
               helm:
                 version: v3
                 values: |
-                  namespace: pr-${{ inputs.pr-number }}
-                  branch: ${{ inputs.branch }}
-                  url: pr-${{ inputs.pr-number }}.nav.tum.sexy
+                  namespace: pr-${{ github.event.number }}
+                  branch: ${{ github.event.pull_request.head.ref }}
+                  url: pr-${{ github.event.number }}.nav.tum.sexy
                   server:
                       MEILI_MASTER_KEY: $MEILI_MASTER_KEY
                       # GITHUB_TOKEN is intentionally omitted, as this file is templated and then added to git in the deployments branch
@@ -65,7 +45,7 @@ jobs:
                       # MEILI_MASTER_KEY being added is not a security risk, since it is a hidden service and even if exposed is heavily restricted by other network policies
             destination:
               server: https://kubernetes.default.svc
-              namespace: pr-${{ inputs.pr-number }}
+              namespace: pr-${{ github.event.number }}
             syncPolicy:
               automated:
                 selfHeal: true
@@ -80,7 +60,16 @@ jobs:
                   factor: 2
                   maxDuration: 3m0s"
       - run: git add .
-      - run: git commit -m "Add deployment for PR #${{ inputs.pr-number }}"
+      - run: git commit -m "Add deployment for PR #${{ github.event.number }}"
       - run: git push
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app sync navigatum-stagings --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
+      - name: Add a comment to new PRs
+        if: ${{ github.event.action == 'opened' }}
+        run: |
+            curl \
+              -X POST \
+              ${{ github.event.pull_request.comments_url }} \
+              -H "Content-Type: application/json" \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              --data '{ "body": "👋 Thank you for contributing. A [staging environment for this PR](https://pr-${{ github.event.number }}.nav.tum.sexy) for this change will be available shortly" }'
