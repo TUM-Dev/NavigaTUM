@@ -1,4 +1,4 @@
-name: server CD
+name: Adjust (add/remove) Deployments
 
 on:
   pull_request:
