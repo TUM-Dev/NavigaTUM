@@ -1,6 +1,0 @@
-name: NavigaTUM
-description: Navigating around TUM with excellence – An API and website to search for rooms, buildings and other places
-version: 1.0.0
-apiVersion: v1
-deprecated: false
-icon: https://nav.tum.de/favicon.ico

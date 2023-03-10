@@ -21,9 +21,9 @@ spec:
             MEILI_MASTER_KEY: MWNlMTYxMjdmNWU5OGE4NDY0YTA5M2NkN2VmOGRjZTljNzc4MWEwYWYxZTYxODdhZTQ2MzlhODli
         YTA0Cg==
       version: v3
-    path: pr-200
+    path: deployment/k3s
     repoURL: https://github.com/TUM-Dev/navigatum.git
-    targetRevision: deployment
+    targetRevision: vue3
   syncPolicy:
     automated:
       prune: true
