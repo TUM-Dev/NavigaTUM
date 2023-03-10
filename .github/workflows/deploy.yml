@@ -6,6 +6,7 @@ on:
 
 jobs:
   new-pr:
+    runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.action == "opened" || github.event.pull_request.action == "reopened" }}
     steps:
       - uses: ./.github/workflows/_add-deployment.yml
@@ -21,6 +22,7 @@ jobs:
               -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               --data '{ "body": "👋 Thank you for contributing. A [staging environment for this PR](pr-${{ inputs.pr-number }}.nav.tum.sexy) for this change will be available shortly!" }'
   delete-pr:
+    runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.action == "closed" }}
     steps:
       - uses: ./.github/workflows/_remove-deployment.yml
