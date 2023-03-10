@@ -39,8 +39,7 @@ jobs:
           MEILI_MASTER_KEY_RAW="$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 20)"
           MEILI_MASTER_KEY="$(echo "$MEILI_MASTER_KEY_RAW"|base64)"
           export MEILI_MASTER_KEY
-      - run: |
-          bash -c "cat > pr-${{ github.event.inputs.pr-number }}.yaml 'pr-1
+          echo > pr-${{ github.event.inputs.pr-number }}.yaml "
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
@@ -80,7 +79,7 @@ jobs:
                 backoff:
                   duration: 5s
                   factor: 2
-                  maxDuration: 3m0s'"
+                  maxDuration: 3m0s"
       - run: git add .
       - run: git commit -m "Add deployment for \#${{ inputs.pr-number }}"
       - run: git push
