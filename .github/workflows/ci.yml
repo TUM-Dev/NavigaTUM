@@ -129,7 +129,7 @@ jobs:
     needs:
       - changes
     if: ${{ needs.changes.outputs.main-api == 'true' }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     services:
       mieli:
         image: getmeili/meilisearch:latest
