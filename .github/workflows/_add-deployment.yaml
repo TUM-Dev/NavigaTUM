@@ -1,4 +1,4 @@
-name: Add a new Deployment if necessary
+name: Add a new Deployment
 
 on:
   workflow_dispatch:
