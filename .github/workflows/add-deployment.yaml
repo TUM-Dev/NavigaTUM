@@ -62,10 +62,7 @@ jobs:
       - run: git add .
       - run: git commit -m "Add deployment for PR ${{ '#' }}${{ github.event.number }}"
       - run: git push
-      - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
-      - run: argocd app sync navigatum-stagings --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
       - name: Add a comment to new PRs
-        if: ${{ github.event.action == 'opened' }}
         run: |
             curl \
               -X POST \
@@ -73,3 +70,5 @@ jobs:
               -H "Content-Type: application/json" \
               -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               --data '{ "body": "👋 Thank you for contributing. A [staging environment for this PR](https://pr-${{ github.event.number }}.nav.tum.sexy) for this change will be available shortly" }'
+      - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
+      - run: argocd app sync navigatum-stagings --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
