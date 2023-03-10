@@ -18,8 +18,7 @@ spec:
         branch: vue3
         url: pr-200.nav.tum.sexy
         server:
-            MEILI_MASTER_KEY: MWNlMTYxMjdmNWU5OGE4NDY0YTA5M2NkN2VmOGRjZTljNzc4MWEwYWYxZTYxODdhZTQ2MzlhODli
-        YTA0Cg==
+            MEILI_MASTER_KEY: MWNlMTYxMjdmNWU5OGE4NDY0YTA5M2NkN2VmOGRjZTljNzc4MWEwYWYxZTYxODdhZTQ2MzlhODliYTA0Cg==
       version: v3
     path: deployment/k3s
     repoURL: https://github.com/TUM-Dev/navigatum.git

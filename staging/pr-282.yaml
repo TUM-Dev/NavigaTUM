@@ -10,17 +10,16 @@ spec:
   project: default
   source:
     repoURL: https://github.com/TUM-Dev/navigatum.git
-    targetRevision: deployment
+    targetRevision: studitum_gar
     path: pr-282
     helm:
       version: v3
       values: |
         namespace: pr-282
         branch: studitum_gar
-        url: pr-282.nav.tum.de
+        url: pr-282.nav.tum.sexy
         server:
-            MEILI_MASTER_KEY: NWNmMWE1N2EzNzA0MDUzZGY3YzU3MjE2Njc4NTQxMWMwYTViYzNkNjRmOWUxMDcwYTM4ODcxNTli
-Y2IzCg==
+            MEILI_MASTER_KEY: NWNmMWE1N2EzNzA0MDUzZGY3YzU3MjE2Njc4NTQxMWMwYTViYzNkNjRmOWUxMDcwYTM4ODcxNTliY2IzCg==
             # GITHUB_TOKEN is intentionally omitted, as this file is templated and then added to git in the deployments branch
             # JWT_KEY is omitted, because adding it would only make sense in conjunction with GITHUB_TOKEN
             # MEILI_MASTER_KEY being added is not a security risk, since it is a hidden service and even if exposed is heavily restricted by other network policies
