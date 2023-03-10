@@ -1,4 +1,4 @@
-name: Create and publish a Docker image
+name: Restart ArgoCD deployment
 
 on:
   workflow_call:
