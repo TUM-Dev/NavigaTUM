@@ -49,7 +49,7 @@ jobs:
       contents: read
       packages: write
   feedback-deployment:
-    uses: ./.github/workflows/_restart-argocd.yaml
+    uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - feedback-build
     with:
@@ -81,7 +81,7 @@ jobs:
       contents: read
       packages: write
   calendar-deployment:
-    uses: ./.github/workflows/_restart-argocd.yaml
+    uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - calendar-build
       - calendar-db-init-build
@@ -159,7 +159,7 @@ jobs:
           base-url: "http://localhost:8080"
           args: "--endpoint='/api/[^fc].*'" # disable the feedback/calendar endpoint
   server-deployment:
-    uses: ./.github/workflows/_restart-argocd.yaml
+    uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - main-api-build
       - building-db-init-build
@@ -181,7 +181,7 @@ jobs:
       contents: read
       packages: write
   data-deployment-1:
-    uses: ./.github/workflows/_restart-argocd.yaml
+    uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - data-build
     with:
@@ -189,7 +189,7 @@ jobs:
     secrets:
       ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   data-deployment-2: # we need to restart the server, as otherwise it will not serve the new data
-    uses: ./.github/workflows/_restart-argocd.yaml
+    uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - data-deployment-1
     with:
@@ -209,7 +209,7 @@ jobs:
       contents: read
       packages: write
   webclient-deployment:
-    uses: ./.github/workflows/_restart-argocd.yaml
+    uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - webclient-build
     with:
