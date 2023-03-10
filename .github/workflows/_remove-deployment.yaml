@@ -1,4 +1,4 @@
-name: Add a new Deployment if necessary
+name: Remove a Deployment
 
 on:
   workflow_dispatch:
