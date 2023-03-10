@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.action == 'opened' || github.event.pull_request.action == 'reopened' }}
     steps:
+      - uses: actions/checkout@v3
       - uses: ./.github/workflows/_add-deployment.yml
         with:
           branch: ${{ github.event.pull_request.head.ref }}
@@ -23,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.action == 'closed' }}
     steps:
+      - uses: actions/checkout@v3
       - uses: ./.github/workflows/_remove-deployment.yml
         with:
           branch: ${{ github.event.pull_request.head.ref }}
