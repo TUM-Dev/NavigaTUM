@@ -30,13 +30,60 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Install the dependency kyml
-        run: curl -sfL -o /usr/local/bin/kyml https://github.com/frigus02/kyml/releases/download/v20210610/kyml_20210610_linux_amd64 && chmod +x /usr/local/bin/kyml
       - uses: actions/checkout@v3
-
-      - name: add a new deployment if necessary
-        run: ./deployment/publish.sh ${{ inputs.branch }} ${{ inputs.pr-number }}
-
+        with:
+          ref: deployment
+      - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - run: git config --global user.name "github-actions[bot]"
+      - run: |
+          MEILI_MASTER_KEY_RAW="$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 20)"
+          MEILI_MASTER_KEY="$(echo "$MEILI_MASTER_KEY_RAW"|base64)"
+          export MEILI_MASTER_KEY
+      - run: |
+          bash -c "cat > pr-${{ github.event.inputs.pr-number }}.yaml 'pr-1
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            name: pr-{{ .PR_NUMBER }}
+            namespace: argocd
+            finalizers:
+              - resources-finalizer.argocd.argoproj.io
+          spec:
+            project: default
+            source:
+              repoURL: https://github.com/TUM-Dev/navigatum.git
+              targetRevision: deployment
+              path: pr-{{ .PR_NUMBER }}
+              helm:
+                version: v3
+                values: |
+                  namespace: pr-${{ github.event.inputs.pr-number }}
+                  branch: ${{ inputs.branch }}
+                  url: pr-${{ inputs.pr-number }}.nav.tum.de
+                  server:
+                      MEILI_MASTER_KEY: $MEILI_MASTER_KEY
+                      # GITHUB_TOKEN is intentionally omitted, as this file is templated and then added to git in the deployments branch
+                      # JWT_KEY is omitted, because adding it would only make sense in conjunction with GITHUB_TOKEN
+                      # MEILI_MASTER_KEY being added is not a security risk, since it is a hidden service and even if exposed is heavily restricted by other network policies
+            destination:
+              server: https://kubernetes.default.svc
+              namespace: pr-${{ inputs.pr-number }}
+            syncPolicy:
+              automated:
+                selfHeal: true
+                prune: true
+              syncOptions:
+                - PrunePropagationPolicy=foreground
+                - CreateNamespace=true
+              retry:
+                limit: 2
+                backoff:
+                  duration: 5s
+                  factor: 2
+                  maxDuration: 3m0s'"
+      - run: git add .
+      - run: git commit -m "Add deployment for \#${{ inputs.pr-number }}"
+      - run: git push
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app sync default --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
 
