@@ -9,7 +9,7 @@ on:
         type: string
       pr-number:
         required: false
-        description: number of the PR to target when adding a deployment. If branch is set to main, this is ignored
+        description: number of the PR to target when adding a deployment
         type: string
         default: ""
   workflow_call:
@@ -20,7 +20,7 @@ on:
         type: string
       pr-number:
         required: false
-        description: number of the PR to target when adding a deployment. If branch is set to main, this is ignored
+        description: number of the PR to target when adding a deployment
         type: string
         default: ""
 jobs:
@@ -84,13 +84,3 @@ jobs:
       - run: git push
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
       - run: argocd app sync navigatum-stagings --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
-
-      - name: Add comment to PR
-        if: ${{ github.event_name == 'pull_request' }}
-        run: |
-          curl \
-            -X POST \
-            ${{ github.event.pull_request.comments_url }} \
-            -H "Content-Type: application/json" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            --data '{ "body": "👋 Thank you for contributing. A [staging environment for this PR](pr-${{ inputs.pr-number }}.nav.tum.sexy) for this change will be available shortly!" }'
