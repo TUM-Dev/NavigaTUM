@@ -27,3 +27,8 @@ jobs:
         with:
           branch: ${{ github.event.pull_request.base.ref }}
           pr-number: ${{ github.event.pull_request.number }}
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.event.pull_request.action }}
+      - run: echo ${{ github.event.pull_request }}
