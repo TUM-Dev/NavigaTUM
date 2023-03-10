@@ -2,7 +2,7 @@ name: Remove a Deployment
 
 on:
   pull_request:
-    types: [opened, reopened, closed]
+    types: [closed]
 jobs:
   deploy:
     runs-on: ubuntu-latest
