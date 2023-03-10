@@ -3,7 +3,6 @@ name: Adjust (add/remove) Deployments
 on:
   pull_request:
     types: [opened, reopened, closed]
-    branches-ignore: [main, deployment]
 
 jobs:
   new-pr:
