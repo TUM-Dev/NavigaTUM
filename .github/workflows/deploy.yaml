@@ -58,7 +58,7 @@ jobs:
                 values: |
                   namespace: pr-${{ inputs.pr-number }}
                   branch: ${{ inputs.branch }}
-                  url: pr-${{ inputs.pr-number }}.nav.tum.de
+                  url: pr-${{ inputs.pr-number }}.nav.tum.sexy
                   server:
                       MEILI_MASTER_KEY: $MEILI_MASTER_KEY
                       # GITHUB_TOKEN is intentionally omitted, as this file is templated and then added to git in the deployments branch
