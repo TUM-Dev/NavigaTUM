@@ -1,0 +1,30 @@
+name: server CD
+
+on:
+  pull_request:
+    types: [opened, reopened, closed]
+    branches-ignore: [main, deployment]
+
+jobs:
+  new-pr:
+    if: ${{ github.event.pull_request.action == "opened" || github.event.pull_request.action == "reopened" }}
+    steps:
+      - uses: ./.github/workflows/_add-deployment.yml
+        with:
+          branch: ${{ github.event.pull_request.base.ref }}
+          pr-number: ${{ github.event.pull_request.number }}
+      - name: Add comment to PR
+        run: |
+            curl \
+              -X POST \
+              ${{ github.event.pull_request.comments_url }} \
+              -H "Content-Type: application/json" \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              --data '{ "body": "👋 Thank you for contributing. A [staging environment for this PR](pr-${{ inputs.pr-number }}.nav.tum.sexy) for this change will be available shortly!" }'
+  delete-pr:
+    if: ${{ github.event.pull_request.action == "closed" }}
+    steps:
+      - uses: ./.github/workflows/_remove-deployment.yml
+        with:
+          branch: ${{ github.event.pull_request.base.ref }}
+          pr-number: ${{ github.event.pull_request.number }}
