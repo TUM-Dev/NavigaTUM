@@ -5,12 +5,12 @@ on:
 jobs:
   new-pr:
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.action == 'opened' || github.event.pull_request.action == 'reopened' }}
+    if: ${{ github.event.action == 'opened' || github.event.pull_request.action == 'reopened' }}
     steps:
       - uses: ./.github/workflows/_add-deployment.yml
         with:
-          branch: ${{ github.event.pull_request.base.ref }}
-          pr-number: ${{ github.event.pull_request.number }}
+          branch: ${{ github.event.pull_request.head.ref }}
+          pr-number: ${{ github.event.number }}
       - name: Add comment to PR
         run: |
             curl \
@@ -21,14 +21,9 @@ jobs:
               --data '{ "body": "👋 Thank you for contributing. A [staging environment for this PR](https://pr-${{ inputs.pr-number }}.nav.tum.sexy) for this change will be available shortly" }'
   delete-pr:
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.action == 'closed' }}
+    if: ${{ github.event.action == 'closed' }}
     steps:
       - uses: ./.github/workflows/_remove-deployment.yml
         with:
-          branch: ${{ github.event.pull_request.base.ref }}
-          pr-number: ${{ github.event.pull_request.number }}
-  debug:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "${{ toJson(github.event.pull_request) }}"
-      - run: echo "${{ toJson(github.event) }}"
+          branch: ${{ github.event.pull_request.head.ref }}
+          pr-number: ${{ github.event.number }}
