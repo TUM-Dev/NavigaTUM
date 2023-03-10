@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/TUM-Dev/navigatum.git
     targetRevision: studitum_gar
-    path: pr-282
+    path: deployment/k3s
     helm:
       version: v3
       values: |
