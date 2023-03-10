@@ -1,28 +1,8 @@
 name: Remove a Deployment
 
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        required: true
-        description: branch to target when adding a deployment
-        type: string
-      pr-number:
-        required: false
-        description: number of the PR to target when adding a deployment
-        type: string
-        default: ""
-  workflow_call:
-    inputs:
-      branch:
-        required: true
-        description: branch to target when adding a deployment
-        type: string
-      pr-number:
-        required: false
-        description: number of the PR to target when adding a deployment
-        type: string
-        default: ""
+  pull_request:
+    types: [opened, reopened, closed]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -34,7 +14,7 @@ jobs:
           ref: deployment
       - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
       - run: git config --global user.name "github-actions[bot]"
-      - run: rm -f staging/pr-${{ github.event.inputs.pr-number }}.yaml
+      - run: rm -f staging/pr-${{ github.event.number }}.yaml
       - run: git add .
       - run: git commit -m "Add deployment for PR #${{ inputs.pr-number }}"
       - run: git push
