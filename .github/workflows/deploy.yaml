@@ -36,7 +36,7 @@ jobs:
       - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
       - run: git config --global user.name "github-actions[bot]"
       - run: |
-          MEILI_MASTER_KEY_RAW="$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 20)"
+          MEILI_MASTER_KEY_RAW="$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 20)$(echo $RANDOM | md5sum | head -c 10)"
           MEILI_MASTER_KEY="$(echo "$MEILI_MASTER_KEY_RAW"|base64)"
           export MEILI_MASTER_KEY
           echo > staging/pr-${{ github.event.inputs.pr-number }}.yaml "
@@ -51,8 +51,8 @@ jobs:
             project: default
             source:
               repoURL: https://github.com/TUM-Dev/navigatum.git
-              targetRevision: deployment
-              path: pr-${{ inputs.pr-number }}
+              targetRevision: ${{ inputs.branch }}
+              path: deployment/k3s
               helm:
                 version: v3
                 values: |
