@@ -4,12 +4,12 @@
 #
 
 - name: Setup k3s networking
-  include_tasks: "k3s_network.yml"
+  include_tasks: network.yml
 # Remove k3s via
 #- name: remove k3s
-#  shell: /usr/local/bin/k3s-uninstall.sh
+#  shell: /usr/local/bin/k3s-uninstall.sh && rm ~/.kube/config
 - name: Setup k3s
-  include_tasks: "k3s_setup.yml"
+  include_tasks: installation.yml
 
 # setup infrastructure to install packages to k8s
 - name: Install helm
@@ -22,14 +22,3 @@
   pip:
     name: kubernetes
     state: present
-
-# install k8s components
-- name: Setup the various k3s compontentes
-  include_tasks: "{{ comp }}"
-  loop_control:
-    loop_var: comp
-  with_fileglob:
-    - components/cert-manager.yml
-    - components/kuma.yml
-    - components/argocd.yml
-  when: ansible_host == etcd_leader_ip

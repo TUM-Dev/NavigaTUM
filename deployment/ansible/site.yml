@@ -1,6 +1,11 @@
 ---
 - hosts:
-    - leaders
+    - leader
+    - followers
   roles:
     - common
     - k8s
+- hosts:
+    - leader
+  roles:
+    - k8s-components

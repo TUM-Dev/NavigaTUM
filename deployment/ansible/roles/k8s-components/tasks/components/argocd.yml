@@ -1,0 +1,111 @@
+---
+- name: Add argo chart repo
+  kubernetes.core.helm_repository:
+    name: argo
+    repo_url: "https://argoproj.github.io/argo-helm"
+- name: Install argo-cd
+  kubernetes.core.helm:
+    atomic: true
+    release_state: present
+    wait: true
+    chart_version: 5.24.3
+    chart_ref: argo/argo-cd
+    name: argo-cd
+    namespace: argocd
+    create_namespace: yes
+    values:
+      configs:
+        params:
+          server.insecure: true
+        cm:
+          url: https://argocd.nav.tum.sexy
+        notifications:
+          argocdUrl: https://argocd.nav.tum.sexy
+      #redis-ha:
+      #  enabled: true
+      controller:
+        replicas: 1
+      server:
+        replicas: 2
+      repoServer:
+        replicas: 2
+      applicationSet:
+        replicaCount: 2
+- name: add an cert for argo
+  kubernetes.core.k8s:
+    state: present
+    namespace: argocd
+    definition:
+      apiVersion: cert-manager.io/v1
+      kind: Certificate
+      metadata:
+        name: argocd.nav.tum.sexy
+      spec:
+        commonName: argocd.nav.tum.sexy
+        dnsNames:
+          - argocd.nav.tum.sexy
+        secretName: argocd.nav.tum.sexy
+        issuerRef:
+          name: letsencrypt-production
+          kind: ClusterIssuer
+- name: add an ingress for argo
+  kubernetes.core.k8s:
+    state: present
+    namespace: argocd
+    definition:
+      apiVersion: traefik.containo.us/v1alpha1
+      kind: IngressRoute
+      metadata:
+        name: argocd-server
+      spec:
+        entryPoints:
+          - websecure
+        routes:
+          - kind: Rule
+            match: Host(`argocd.nav.tum.sexy`)
+            priority: 10
+            services:
+              - name: argo-cd-argocd-server
+                port: 80
+          - kind: Rule
+            match: Host(`argocd.nav.tum.sexy`) && Headers(`Content-Type`, `application/grpc`)
+            priority: 11
+            services:
+              - name: argo-cd-argocd-server
+                port: 80
+                scheme: h2c
+        tls:
+          secretName: argocd.nav.tum.sexy
+- name: add web ingress
+  kubernetes.core.k8s:
+    state: present
+    namespace: argocd
+    definition:
+      apiVersion: traefik.containo.us/v1alpha1
+      kind: IngressRoute
+      metadata:
+        name: argocd-server-http
+      spec:
+        entryPoints:
+          - web
+        routes:
+          - kind: Rule
+            match: Host(`argocd.nav.tum.sexy`)
+            services:
+              - name: noop@internal
+                kind: TraefikService
+            middlewares:
+              - name: https
+- name: add http middleware
+  kubernetes.core.k8s:
+    state: present
+    namespace: argocd
+    definition:
+      apiVersion: traefik.containo.us/v1alpha1
+      kind: Middleware
+      metadata:
+        name: https
+      spec:
+        redirectScheme:
+          scheme: https
+          permanent: true
