@@ -1,0 +1,14 @@
+---
+#
+# Tasks to be applied to the cluster, but not nessesarily to the master
+#
+
+- name: Setup cert-manager
+  include_tasks: cert-manager.yml
+
+- name: Setup the various k3s compontentes (no order)
+  include_tasks: "{{ comp }}"
+  loop_control:
+    loop_var: comp
+  with_fileglob:
+    - components/*.yml
