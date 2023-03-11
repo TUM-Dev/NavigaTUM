@@ -29,7 +29,6 @@
         routes:
           - kind: Rule
             match: Host(`uptime.nav.tum.sexy`)
-            priority: 12
             services:
               - name: uptime-kuma
                 port: 3001
