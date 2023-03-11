@@ -13,7 +13,7 @@ spec:
     storage: 28Gi
   persistentVolumeReclaimPolicy: Retain
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   hostPath:
     path: "/mnt/data/navigatum/tileserver"
 ---
@@ -29,7 +29,7 @@ metadata:
 spec:
   storageClassName: local-path
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 28Gi
