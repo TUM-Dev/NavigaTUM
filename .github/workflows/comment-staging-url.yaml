@@ -2,7 +2,7 @@ name: Add a comment to new PRs
 
 on:
   pull_request_target:
-    types: [opened]
+    types: [opened,reopened]
 jobs:
   comment:
     runs-on: ubuntu-latest
