@@ -29,14 +29,14 @@ spec:
           emptyDir: {}
       initContainers:
         - name: calendar-db-init
-          image: "ghcr.io/tum-dev/navigatum-calendar-db-init:{{ .Values.branch }}"
+          image: "ghcr.io/tum-dev/navigatum-calendar-db-init:{{ .Values.tag }}"
           imagePullPolicy: Always
           volumeMounts:
             - mountPath: /tmp
               name: tmp-calendar
       containers:
         - name: calendar
-          image: "ghcr.io/tum-dev/navigatum-calendar:{{ .Values.branch }}"
+          image: "ghcr.io/tum-dev/navigatum-calendar:{{ .Values.tag }}"
           imagePullPolicy: Always
           ports:
             - containerPort: 8060
