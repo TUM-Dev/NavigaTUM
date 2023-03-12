@@ -4,6 +4,27 @@
     name: grafana
     repo_url: "https://grafana.github.io/helm-charts"
 
+- name: Make shure grafana has an PersistentVolume to bind to
+  kubernetes.core.k8s:
+    state: present
+    namespace: monitoring
+    definition:
+      apiVersion: v1
+      kind: PersistentVolume
+      metadata:
+        name: grafana
+        labels:
+          app.kubernetes.io/instance: grafana
+          app.kubernetes.io/name: grafana
+      spec:
+        storageClassName: local-path
+        capacity:
+          storage: 10Gi
+        persistentVolumeReclaimPolicy: Delete
+        accessModes:
+          - ReadWriteOnce
+        hostPath:
+          path: "/mnt/data/monitoring/grafana"
 - name: Install grafana
   kubernetes.core.helm:
     atomic: true
@@ -33,6 +54,8 @@
           api_url: https://api.github.com/user
           team_ids: navigatum
           allowed_organizations: tum-dev
+      persistence:
+        enabled: true
 - name: Make shure grafana has an ingress
   kubernetes.core.k8s:
     state: present
