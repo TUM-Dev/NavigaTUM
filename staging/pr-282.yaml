@@ -16,7 +16,7 @@ spec:
       version: v3
       values: |
         namespace: pr-282
-        branch: studitum_gar
+        tag: pr-282
         url: pr-282.nav.tum.sexy
         server:
             MEILI_MASTER_KEY: MzFjN2Q4ZThlMjk0MjJkYjA0MTMzMDRhMjQzNDYzMGZhZjJjNTIxNmVkYTFlMDk1OTUK

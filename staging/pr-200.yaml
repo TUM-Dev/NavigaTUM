@@ -16,7 +16,7 @@ spec:
       version: v3
       values: |
         namespace: pr-200
-        branch: vue3
+        tag: pr-200
         url: pr-200.nav.tum.sexy
         server:
             MEILI_MASTER_KEY: MjM4MjY1Nzc1ODdlMjFhYzAxZGQ0Yzg2ZDAzOTIyZDQxNWQwZjk0ZWE5ZmNmODI4OWUK

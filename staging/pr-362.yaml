@@ -16,7 +16,7 @@ spec:
       version: v3
       values: |
         namespace: pr-362
-        branch: nat-merger
+        tag: pr-362
         url: pr-362.nav.tum.sexy
         server:
             MEILI_MASTER_KEY: YTYwN2QzMGMxZWVhYmQ2NmVhM2ZjZGZkN2M1ZmU4MTk2MzM4NzE2NDEyNjg1MThiNzMK

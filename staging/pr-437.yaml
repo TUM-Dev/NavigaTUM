@@ -16,7 +16,7 @@ spec:
       version: v3
       values: |
         namespace: pr-437
-        branch: feedback-disclaimer
+        tag: pr-437
         url: pr-437.nav.tum.sexy
         server:
             MEILI_MASTER_KEY: NTA5YTY5YzUyYTRiZjI4YzQ1MjM2MjlkNmIwZjczYzc0OTJjMGM4ODFiMzJkYmYxNjYK
