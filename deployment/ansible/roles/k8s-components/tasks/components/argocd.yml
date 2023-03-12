@@ -19,6 +19,20 @@
           server.insecure: true
         cm:
           url: https://argocd.nav.tum.sexy
+          # make shure that we can only log in with github
+          admin.enabled: false
+          dex.config: |
+            connectors:
+              - type: github
+                id: github
+                name: GitHub
+                config:
+                  clientID: $dex.github.clientID
+                  clientSecret: $dex.github.clientSecret
+                  orgs:
+                  - name: tum-dev
+                    teams:
+                    - navigatum
         notifications:
           argocdUrl: https://argocd.nav.tum.sexy
       #redis-ha:
@@ -48,6 +62,24 @@
         issuerRef:
           name: letsencrypt-production
           kind: ClusterIssuer
+
+- name: add an secret for argo
+  kubernetes.core.k8s:
+    state: present
+    namespace: argocd
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: argocd-secret
+        namespace: argocd
+        labels:
+          app.kubernetes.io/name: argocd-secret
+          app.kubernetes.io/part-of: argocd
+      type: Opaque
+      data:
+        dex.github.clientSecret: "{{ lookup('ansible.builtin.password', 'credentials/github_clientSecret') | b64encode }}"
+        dex.github.clientID: "{{ lookup('ansible.builtin.password', 'credentials/github_clientID') | b64encode }}"
 - name: add an ingress for argo
   kubernetes.core.k8s:
     state: present
