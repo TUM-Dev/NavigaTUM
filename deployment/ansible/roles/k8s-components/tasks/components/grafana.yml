@@ -41,11 +41,11 @@
           domain: 'grafana.nav.tum.sexy'
           root_url: 'https://%(domain)s'
         auth.basic:
-          enabled: false
+          enabled: true
         auth.github:
           enabled: true
           allow_sign_up: true
-          auto_login: true
+          auto_login: false
           client_id: "{{ lookup('ansible.builtin.password', 'credentials/argocd/github_clientID') | b64encode }}"
           client_secret: "{{ lookup('ansible.builtin.password', 'credentials/argocd/github_clientSecret') | b64encode }}"
           scopes: user:email,read:org
