@@ -79,8 +79,8 @@
           app.kubernetes.io/part-of: argocd
       type: Opaque
       data:
-        dex.github.clientSecret: "{{ lookup('ansible.builtin.password', 'credentials/github_clientSecret') | b64encode }}"
-        dex.github.clientID: "{{ lookup('ansible.builtin.password', 'credentials/github_clientID') | b64encode }}"
+        dex.github.clientSecret: "{{ lookup('ansible.builtin.password', 'credentials/argocd/github_clientSecret') | b64encode }}"
+        dex.github.clientID: "{{ lookup('ansible.builtin.password', 'credentials/argocd/github_clientID') | b64encode }}"
 - name: add an ingress for argo
   kubernetes.core.k8s:
     state: present

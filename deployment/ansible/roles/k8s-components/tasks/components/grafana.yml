@@ -4,7 +4,7 @@
     name: grafana
     repo_url: "https://grafana.github.io/helm-charts"
 
-- name: Install argo-cd
+- name: Install grafana
   kubernetes.core.helm:
     atomic: true
     release_state: present
@@ -14,6 +14,25 @@
     name: grafana
     namespace: monitoring
     create_namespace: yes
+    values:
+      grafana.ini:
+        server:
+          domain: 'grafana.nav.tum.sexy'
+          root_url: 'https://%(domain)s'
+        auth.basic:
+          enabled: false
+        auth.github:
+          enabled: true
+          allow_sign_up: true
+          auto_login: true
+          client_id: "{{ lookup('ansible.builtin.password', 'credentials/argocd/github_clientID') | b64encode }}"
+          client_secret: "{{ lookup('ansible.builtin.password', 'credentials/argocd/github_clientSecret') | b64encode }}"
+          scopes: user:email,read:org
+          auth_url: https://github.com/login/oauth/authorize
+          token_url: https://github.com/login/oauth/access_token
+          api_url: https://api.github.com/user
+          team_ids: navigatum
+          allowed_organizations: tum-dev
 - name: Make shure grafana has an ingress
   kubernetes.core.k8s:
     state: present
