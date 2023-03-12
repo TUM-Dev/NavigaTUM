@@ -13,4 +13,4 @@
     direction: incoming
 - name: Enable UFW
   ufw:
-    state: enabled
+    state: disabled # TODO further debug this and activate once fixed
