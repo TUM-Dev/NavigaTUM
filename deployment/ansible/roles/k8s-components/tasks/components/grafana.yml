@@ -54,6 +54,17 @@
           api_url: https://api.github.com/user
           team_ids: navigatum
           allowed_organizations: tum-dev
+      datasources:
+        datasources.yaml:
+          apiVersion: 1
+          datasources:
+            - name: Prometheus
+              type: prometheus
+              access: proxy
+              url: http://prometheus.lens-metrics.svc.cluster.local
+              isDefault: true
+              prometheusType: Prometheus
+              prometheusVersion: 2.27.x
       persistence:
         enabled: true
 - name: Make shure grafana has an ingress
