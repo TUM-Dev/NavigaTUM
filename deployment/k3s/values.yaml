@@ -1,5 +1,5 @@
 namespace: navigatum
-branch: main
+tag: main
 url: nav.tum.de
 server:
     MEILI_MASTER_KEY: ""

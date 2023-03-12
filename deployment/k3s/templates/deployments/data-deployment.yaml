@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: data
-          image: "ghcr.io/tum-dev/navigatum-data:{{ .Values.branch }}"
+          image: "ghcr.io/tum-dev/navigatum-data:{{ .Values.tag }}"
           imagePullPolicy: Always
           ports:
             - containerPort: 80

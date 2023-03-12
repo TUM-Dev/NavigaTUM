@@ -4,7 +4,28 @@
     name: grafana
     repo_url: "https://grafana.github.io/helm-charts"
 
-- name: Install argo-cd
+- name: Make shure grafana has an PersistentVolume to bind to
+  kubernetes.core.k8s:
+    state: present
+    namespace: monitoring
+    definition:
+      apiVersion: v1
+      kind: PersistentVolume
+      metadata:
+        name: grafana
+        labels:
+          app.kubernetes.io/instance: grafana
+          app.kubernetes.io/name: grafana
+      spec:
+        storageClassName: local-path
+        capacity:
+          storage: 10Gi
+        persistentVolumeReclaimPolicy: Delete
+        accessModes:
+          - ReadWriteOnce
+        hostPath:
+          path: "/mnt/data/monitoring/grafana"
+- name: Install grafana
   kubernetes.core.helm:
     atomic: true
     release_state: present
@@ -14,6 +35,38 @@
     name: grafana
     namespace: monitoring
     create_namespace: yes
+    values:
+      grafana.ini:
+        server:
+          domain: 'grafana.nav.tum.sexy'
+          root_url: 'https://%(domain)s'
+        auth.basic:
+          enabled: true
+        auth.github:
+          enabled: true
+          allow_sign_up: true
+          auto_login: false
+          client_id: "{{ lookup('ansible.builtin.password', 'credentials/argocd/github_clientID') | b64encode }}"
+          client_secret: "{{ lookup('ansible.builtin.password', 'credentials/argocd/github_clientSecret') | b64encode }}"
+          scopes: user:email,read:org
+          auth_url: https://github.com/login/oauth/authorize
+          token_url: https://github.com/login/oauth/access_token
+          api_url: https://api.github.com/user
+          team_ids: navigatum
+          allowed_organizations: tum-dev
+      datasources:
+        datasources.yaml:
+          apiVersion: 1
+          datasources:
+            - name: Prometheus
+              type: prometheus
+              access: proxy
+              url: http://prometheus.lens-metrics.svc.cluster.local
+              isDefault: true
+              prometheusType: Prometheus
+              prometheusVersion: 2.27.x
+      persistence:
+        enabled: true
 - name: Make shure grafana has an ingress
   kubernetes.core.k8s:
     state: present

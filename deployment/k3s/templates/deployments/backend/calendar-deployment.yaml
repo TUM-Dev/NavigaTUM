@@ -29,7 +29,7 @@ spec:
           emptyDir: {}
       containers:
         - name: calendar
-          image: "ghcr.io/tum-dev/navigatum-calendar:{{ .Values.branch }}"
+          image: "ghcr.io/tum-dev/navigatum-calendar:{{ .Values.tag }}"
           imagePullPolicy: Always
           ports:
             - containerPort: 8060

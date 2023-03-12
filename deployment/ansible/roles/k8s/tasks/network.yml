@@ -26,11 +26,11 @@
   ufw:
     direction: in
     rule: allow
-    port: "{{ item[1] }}"
+    port: "6443"
     proto: "tcp"
-    from_ip: "{{ item[0] }}"
-    comment: "Kubernetes Controllplane (API+Metrics) from VPN"
-  loop: "{{ vpn_ips | product([6443, 10250]) | list }}"
+    from_ip: "{{ item }}"
+    comment: "Kubernetes Controllplane (API) from VPN"
+  loop: "{{ vpn_ips }}"
 
 - name: Configure the api server (cluster) in UFW
   ufw:
