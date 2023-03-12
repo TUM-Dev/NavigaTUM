@@ -40,7 +40,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
         - name: feedback
-          image: "ghcr.io/tum-dev/navigatum-feedback:{{ .Values.branch }}"
+          image: "ghcr.io/tum-dev/navigatum-feedback:{{ .Values.tag }}"
           imagePullPolicy: Always
           {{ if or (.Values.server.GITHUB_TOKEN) (.Values.server.JWT_KEY) }}
           envFrom:

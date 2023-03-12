@@ -36,7 +36,7 @@ jobs:
                 version: v3
                 values: |
                   namespace: pr-${{ github.event.number }}
-                  branch: ${{ github.event.pull_request.head.ref }}
+                  tag: pr-${{ github.event.number }}
                   url: pr-${{ github.event.number }}.nav.tum.sexy
                   server:
                       MEILI_MASTER_KEY: $MEILI_MASTER_KEY
