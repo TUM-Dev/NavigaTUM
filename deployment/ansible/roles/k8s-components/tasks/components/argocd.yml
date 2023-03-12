@@ -18,6 +18,7 @@
         params:
           server.insecure: true
         cm:
+          statusbadge.enabled: true
           url: https://argocd.nav.tum.sexy
           # make shure that we can only log in with github
           admin.enabled: false
