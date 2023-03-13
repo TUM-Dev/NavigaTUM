@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
   title: NavigaTUM
   description: |
@@ -246,7 +246,6 @@ paths:
                     time_ms: 23
         '400':
           description: Invalid Request
-          content: {}
         '404':
           description: '`search_query` is empty. Since searching for nothing is nonsensical, we dont support this.'
           content:
@@ -258,7 +257,6 @@ paths:
                   - Not found
         '414':
           description: The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..
-          content: {}
       tags:
         - core
   '/api/get/{id}':
@@ -605,7 +603,7 @@ paths:
               value: 5401.01.100A
             humangenetik:
               summary: A virtual room
-              value: 1543
+              value: '1543'
       responses:
         '200':
           description: More entries of the calendar in the requested time span
@@ -734,14 +732,12 @@ paths:
           description: |
             Too many requests.  
             We are rate-limiting everyone's requests, please try again later.
-          content: {}
         '503':
           description: |
             Service unavailable.  
             We have not configured a GitHub Access Token or a JWT Key.  
             This could be because we are experiencing technical difficulties or intentional if we experience abuse of these endpoints.
             Please try again later.
-          content: {}
       tags:
         - feedback
   /api/feedback/feedback:
@@ -772,7 +768,6 @@ paths:
                 example: 'https://github.com/TUM-Dev/navigatum/issues/9'
         '400':
           description: If not all fields in the body are present as defined above
-          content: {}
         '403':
           description: |
             Forbidden. Causes are (delivered via the body):
@@ -794,24 +789,20 @@ paths:
           description: |
             Unprocessable Entity
             Subject or body missing or too short.
-          content: {}
         '451':
           description: |
             Unavailable for legal reasons.
             Using this endpoint without accepting the privacy policy is not allowed.
             For us to post to GitHub, this has to be true
-          content: {}
         '500':
           description: |
             Internal Server Error.  
             We have a problem communicating with GitHubs servers. Please try again later.
-          content: {}
         '503':
           description: |
             Service unavailable.  
             We have not configured a GitHub Access Token.  
             This could be because we are experiencing technical difficulties or intentional. Please try again later.
-          content: {}
       tags:
         - feedback
   '/cdn/{size}/{id}_{counter}.webp':
@@ -875,17 +866,12 @@ paths:
         '200':
           description: The image you requested
           content:
-            image/webp:
-              schema:
-                type: string
-                format: binary
-              example: 'https://nav.tum.de/cdn/thumb/mi_0.webp'
+            image/webp: {}
         '400':
           description: |
             Bad Request.    
             The request was malformed.  
             Please check your request and try again.
-          content: {}
         '404':
           description: Requested Resource Not Found
           content:
@@ -897,7 +883,6 @@ paths:
                   - Not found
         '414':
           description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
-          content: {}
       tags:
         - cdn
   '/cdn/maps/{source}/{id}.webp':
@@ -938,17 +923,12 @@ paths:
         '200':
           description: The map you requested
           content:
-            image/webp:
-              schema:
-                type: string
-                format: binary
-              example: 'https://nav.tum.de/cdn/maps/roomfinder/rf142.webp'
+            image/webp: {}
         '400':
           description: |
             Bad Request.    
             The request was malformed.  
             Please check your request and try again.
-          content: {}
         '404':
           description: Requested Resource Not Found
           content:
@@ -960,7 +940,6 @@ paths:
                   - Not found
         '414':
           description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
-          content: {}
       tags:
         - cdn
   '/api/legacy_redirect/{arch_name}':
@@ -1008,7 +987,6 @@ paths:
                 type: string
         '301':
           description: Permanent redirect to the roomfinder
-          content: {}
         '404':
           description: Requested Resource Not Found
           content:
@@ -1038,7 +1016,6 @@ paths:
                   source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
         '503':
           description: Service Unavailable
-          content: {}
       tags:
         - health
   /api/feedback/status:
@@ -1059,7 +1036,6 @@ paths:
                   source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
         '503':
           description: Service Unavailable
-          content: {}
       tags:
         - health
   /api/calendar/status:
@@ -1080,7 +1056,6 @@ paths:
                   source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
         '503':
           description: Service Unavailable
-          content: {}
       tags:
         - health
   /cdn/health:
@@ -1100,7 +1075,6 @@ paths:
                   - healthy
         '503':
           description: Service Unavailable
-          content: {}
       tags:
         - health
   /health:
@@ -1120,7 +1094,6 @@ paths:
                   - healthy
         '503':
           description: Service Unavailable
-          content: {}
       tags:
         - health
 components:
@@ -1142,9 +1115,10 @@ components:
                 The full name of the operator (localized). Null for organisations that
                 are no longer active (e.g. id=38698), but where the operator has not been
                 updated in TUMonline.
-              type: string
+              type:
+                - string
+                - 'null'
               example: TUM School of Social Sciences and Technology
-              nullable: true
             url:
               description: A link to the operator
               type: string
@@ -1171,7 +1145,7 @@ components:
           items:
             type: string
             description: A link to the calendar of the room
-          example:
+          examples:
             - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J'
             - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
       required:
@@ -1292,8 +1266,9 @@ components:
           type: string
         url:
           description: The URL to the referenced information. Always either null or a valid URL
-          type: string
-          nullable: true
+          type:
+            - string
+            - 'null'
           pattern: .+
       required:
         - text
@@ -1328,8 +1303,10 @@ components:
         default:
           description: The type of the Map that should be shown by default
           type: string
-          example: interactive
           enum:
+            - interactive
+            - roomfinder
+          examples:
             - interactive
             - roomfinder
         roomfinder:
@@ -1338,8 +1315,9 @@ components:
           description: |
             null would mean no overlay maps are displayed by default.
             For rooms you should add a warning that no floor map is available for this room
-          type: object
-          nullable: true
+          type:
+            - object
+            - 'null'
           properties:
             default:
               description: |
@@ -1347,9 +1325,10 @@ components:
                 null:
                 - We suggest, you dont show a map by default.
                 - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
-              type: integer
+              type:
+                - integer
+                - 'null'
               example: 0
-              nullable: true
             available:
               type: array
               items:
@@ -1727,7 +1706,7 @@ components:
           items:
             type: string
             description: The ids of the parents. They are ordered as they would appear in a Breadcrumb menu. See parent_names for their actual ids.
-          example:
+          examples:
             - root
             - garching
         parent_names:
@@ -1735,7 +1714,7 @@ components:
           items:
             type: string
             description: The ids of the parents. They are ordered as they would appear in a Breadcrumb menu. See parents for their actual ids.
-          example:
+          examples:
             - Standorte
             - Garching Forschungszentrum
           minItems: 1
@@ -1801,13 +1780,6 @@ components:
           description: 'For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)'
           type: string
           example: Vorlesung mit Zentralübung
-      examples:
-        Quantenteleportation:
-          title: Quantenteleportation
-          entry_type: lecture
-          start: '2018-01-01T00:00:00'
-          end: '2018-01-01T00:00:00'
-          detailed_entry_type: Vorlesung mit anliegeneder übung
       required:
         - title
         - start
@@ -1914,3 +1886,4 @@ tags:
 externalDocs:
   description: Visit our Github Page for more in-depth documentation
   url: 'https://github.com/TUM-Dev/navigatum'
+$schema: 'http://json-schema.org/draft-07/schema#'
