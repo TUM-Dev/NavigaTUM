@@ -18,6 +18,3 @@ jobs:
       - run: git add .
       - run: git commit -m "Removed the deployment for PR ${{ '#' }}${{ github.event.number }}"
       - run: git push
-      - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
-      - run: argocd app sync navigatum-stagings --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
-
