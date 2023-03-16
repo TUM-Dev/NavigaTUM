@@ -72,23 +72,10 @@ jobs:
     permissions:
       contents: read
       packages: write
-  calendar-db-init-build:
-    needs:
-      - changes
-    if: ${{ needs.changes.outputs.calendar == 'true' }}
-    uses: ./.github/workflows/_docker-build.yml
-    with:
-      image_suffix: calendar-db-init
-      context: ./server/calendar
-      dockerfile: Dockerfile.dbinit
-    permissions:
-      contents: read
-      packages: write
   calendar-deployment:
     uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - calendar-build
-      - calendar-db-init-build
     with:
       deployment: calendar
     secrets:
