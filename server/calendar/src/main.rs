@@ -5,10 +5,9 @@ mod utils;
 
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
-use std::time::Duration;
-use std::collections::HashMap;
 use actix_web_prometheus::PrometheusMetricsBuilder;
-use tokio::sync::Mutex;
+use std::collections::HashMap;
+use std::time::Duration;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
