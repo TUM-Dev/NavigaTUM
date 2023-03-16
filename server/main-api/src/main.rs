@@ -1,6 +1,7 @@
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
-
+use actix_web_prometheus::PrometheusMetricsBuilder;
+use std::collections::HashMap;
 mod core;
 mod internal;
 mod maps;
@@ -24,6 +25,16 @@ async fn health_status_handler() -> HttpResponse {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
+    // metrics
+    let labels = HashMap::from([(
+        "revision".to_string(),
+        std::env::var("GIT_COMMIT_SHA").unwrap_or("development".to_string()),
+    )]);
+    let prometheus = PrometheusMetricsBuilder::new("navigatum_mainapi")
+        .endpoint("/metrics")
+        .const_labels(labels)
+        .build()
+        .unwrap();
 
     HttpServer::new(move || {
         let cors = Cors::default()
@@ -36,6 +47,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(cors)
             .wrap(middleware::Logger::default().exclude("/api/status"))
             .wrap(middleware::Compress::default())
+            .wrap(prometheus.clone())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(health_status_handler)
             .service(web::scope("/api/preview").configure(maps::configure))

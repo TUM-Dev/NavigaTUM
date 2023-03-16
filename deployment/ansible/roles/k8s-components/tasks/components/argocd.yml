@@ -17,9 +17,16 @@
       configs:
         params:
           server.insecure: true
+        rbac:
+          policy.csv: |
+            p, role:image-updater, applications, get, */*, allow
+            p, role:image-updater, applications, action/apps/Deployment/restart, */*, allow
+            g, github, role:image-updater
+          policy.default: "role: admin"
         cm:
           statusbadge.enabled: true
           url: https://argocd.nav.tum.sexy
+          accounts.github: apiKey # we want to be able to restart Deployments automatically
           # make shure that we can only log in with github
           admin.enabled: true
           dex.config: |

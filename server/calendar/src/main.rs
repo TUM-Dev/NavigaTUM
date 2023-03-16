@@ -6,6 +6,9 @@ mod utils;
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use std::time::Duration;
+use std::collections::HashMap;
+use actix_web_prometheus::PrometheusMetricsBuilder;
+use tokio::sync::Mutex;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
@@ -32,6 +35,18 @@ async fn main() -> std::io::Result<()> {
         )
         .await;
     });
+
+    // metrics
+    let labels = HashMap::from([(
+        "revision".to_string(),
+        std::env::var("GIT_COMMIT_SHA").unwrap_or("development".to_string()),
+    )]);
+    let prometheus = PrometheusMetricsBuilder::new("navigatum_calendar")
+        .endpoint("/metrics")
+        .const_labels(labels)
+        .build()
+        .unwrap();
+
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
@@ -43,6 +58,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(cors)
             .wrap(middleware::Logger::default().exclude("/api/calendar/status"))
             .wrap(middleware::Compress::default())
+            .wrap(prometheus.clone())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(health_status_handler)
             .service(web::scope("/api/calendar").configure(calendar::configure))
