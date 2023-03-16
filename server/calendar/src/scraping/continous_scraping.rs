@@ -3,32 +3,25 @@ use crate::scraping::task::ScrapeRoomTask;
 use crate::scraping::tumonline_calendar::{Strategy, XMLEvents};
 use crate::utils;
 use crate::utils::statistics::Statistic;
-use actix_web::web::Data;
 use awc::{Client, Connector};
-use chrono::{NaiveDate, NaiveDateTime, Utc};
+use chrono::{DateTime, NaiveDate, Utc};
 use diesel::prelude::*;
 use futures::future::join_all;
 use log::{info, warn};
 use std::time::{Duration, Instant};
-use tokio::sync::Mutex;
 use tokio::time::sleep;
 
-const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
-pub async fn start_scraping(last_sync: Data<Mutex<Option<NaiveDateTime>>>) {
-    let mut interval = actix_rt::time::interval(Duration::from_secs(SECONDS_PER_DAY)); //24h
+pub async fn start_scraping(scrape_every: Duration, time_window: chrono::Duration) {
+    let mut interval = actix_rt::time::interval(scrape_every);
     loop {
         interval.tick().await;
-        delete_scraped_results();
-        scrape_to_db(chrono::Duration::days(30 * 4)).await;
-        promote_scraped_results_to_prod();
-        {
-            let mut last_scrape = last_sync.lock().await;
-            *last_scrape = Some(Utc::now().naive_utc());
-        }
+        let scraping_start = Utc::now();
+        scrape_to_db(&scraping_start, time_window).await;
+        delete_stale_results(scraping_start, time_window);
     }
 }
 
-pub async fn scrape_to_db(duration: chrono::Duration) {
+pub async fn scrape_to_db(scraping_start: &DateTime<Utc>, time_window: chrono::Duration) {
     info!("Starting scraping calendar entries");
     let start_time = Instant::now();
 
@@ -50,12 +43,12 @@ pub async fn scrape_to_db(duration: chrono::Duration) {
         let round_start_time = Instant::now();
         let mut futures = vec![];
         for room in round {
-            let start = Utc::now() - duration / 2;
+            let start = *scraping_start - time_window / 2;
             futures.push(scrape(
                 &client,
                 (room.key.clone(), room.tumonline_room_nr),
                 start.date_naive(),
-                duration,
+                time_window,
             ));
         }
         let results: Vec<ScrapeResult> = join_all(futures).await;
@@ -83,35 +76,23 @@ pub async fn scrape_to_db(duration: chrono::Duration) {
     );
 }
 
-fn delete_scraped_results() {
-    let conn = &mut utils::establish_connection();
-    use crate::schema::calendar_scrape::dsl::calendar_scrape;
-    diesel::delete(calendar_scrape)
-        .execute(conn)
-        .expect("Failed to delete calendar");
-}
-
-fn promote_scraped_results_to_prod() {
+fn delete_stale_results(scraping_start: DateTime<Utc>, time_window: chrono::Duration) {
+    use crate::schema::calendar::dsl::*;
     let start_time = Instant::now();
+    let scrapeinterval = (
+        scraping_start - time_window / 2,
+        scraping_start + time_window / 2,
+    );
     let conn = &mut utils::establish_connection();
-    use crate::schema::calendar::dsl::calendar;
-    use crate::schema::calendar_scrape::dsl::{calendar_scrape, status};
     diesel::delete(calendar)
+        .filter(dtstart.gt(scrapeinterval.0.naive_local()))
+        .filter(dtend.le(scrapeinterval.1.naive_local()))
+        .filter(last_scrape.le(scraping_start.naive_local()))
         .execute(conn)
         .expect("Failed to delete calendar");
-    diesel::insert_into(calendar)
-        .values(
-            calendar_scrape
-                .filter(status.eq("fix"))
-                .or_filter(status.eq("geplant")),
-        )
-        .execute(conn)
-        .expect("Failed to insert newly scraped values into db");
 
-    info!(
-        "Finished switching scraping results - prod. ({:?})",
-        start_time.elapsed()
-    );
+    let passed = start_time.elapsed();
+    info!("Finished deleting stale results ({duration} in {passed:?})");
 }
 
 struct ScrapeResult {
