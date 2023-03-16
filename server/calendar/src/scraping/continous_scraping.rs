@@ -92,7 +92,7 @@ fn delete_stale_results(scraping_start: DateTime<Utc>, time_window: chrono::Dura
         .expect("Failed to delete calendar");
 
     let passed = start_time.elapsed();
-    info!("Finished deleting stale results ({duration} in {passed:?})");
+    info!("Finished deleting stale results ({time_window} in {passed:?})");
 }
 
 struct ScrapeResult {
