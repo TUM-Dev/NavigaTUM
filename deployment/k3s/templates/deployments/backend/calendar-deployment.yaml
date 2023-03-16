@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: calendar
   labels:
@@ -27,16 +27,9 @@ spec:
       volumes:
         - name: tmp-calendar
           emptyDir: {}
-      initContainers:
-        - name: calendar-db-init
-          image: "ghcr.io/tum-dev/navigatum-calendar-db-init:{{ .Values.branch }}"
-          imagePullPolicy: Always
-          volumeMounts:
-            - mountPath: /tmp
-              name: tmp-calendar
       containers:
         - name: calendar
-          image: "ghcr.io/tum-dev/navigatum-calendar:{{ .Values.branch }}"
+          image: "ghcr.io/tum-dev/navigatum-calendar:{{ .Values.tag }}"
           imagePullPolicy: Always
           ports:
             - containerPort: 8060
@@ -44,9 +37,6 @@ spec:
           env:
             - name: DB_LOCATION
               value: /tmp/server.db
-          volumeMounts:
-            - mountPath: /tmp
-              name: tmp-calendar
           securityContext:
             readOnlyRootFilesystem: true
           resources:

@@ -43,8 +43,8 @@
       0402:v. Calker-Stiftung Wohnheim:
       0403:Richard-Wagner-Str. 14 (SW3), Kindergarten:0403,sw3
       2903:Haus Soller Augustenstr. 44-46:
-      2910:Richard-Wagner-Str. 1 / Haus B + Haus H, TUM School of Governance, Hochschule für Politik (HfP)|RiWa 1 (HfP, Governance):
-      2911:Richard-Wagner-Str. 3 / Haus C, TUM Sprachenzentrum:
+      2910:Richard-Wagner-Str. 1 / Haus B + Haus H, Hochschule für Politik (HfP)/ Department of Governance (GOV)|RiWa 1 (HfP/GOV):2910,riwa1
+      2911:Richard-Wagner-Str. 3 / Haus C, TUM Sprachenzentrum:2911,riwa3
     05:Zentralgelände:zentralgelaende
       0501:Hauptgebäude (Z1):
       0502:Bestelmeyer Süd (Z2):
@@ -137,11 +137,6 @@
     2109:Tankstelle:
   -2201:ehemals Lothstraße (nicht mehr aktuell):
   23:Campus im Olympiapark (SZ):olympiapark[campus]
-    2301:Spielhalle (SPH), [Dreifachhalle (DRH), Cyclingraum (CYR)]:
-    2302:Leichtathletikhalle (LAH), [Kletterhalle (KLH)]:
-    2303:Kleine Hallen:
-    2304:Gymnastikhalle:
-    2305:Zentralbau Nord:
     2309:Tennis Gebäude:
     2310:Tennisanlagen:
     2312:Sport-, Aussenanlagen/Teil-Umbau:
@@ -160,8 +155,6 @@
     2350:Olympia-Schwimmhalle:
     2351:Olympia-Eislaufstadion:
     -2352:Olympiapark:  # ist wirklich der Park, hat ein 1m2 "Raum"
-    2360:Pfortencontainer C1:
-    2361:Umkleide-Werkstatt-Container C2:
     :Institutsgebäude Sportmedizin, Uptown München:uptown-muenchen[joined_building]
       2940:Campus C, Georg-Brauchle-Ring 56/58:
       2941:Campus D, Georg-Brauchle-Ring 60/62:
@@ -555,6 +548,7 @@
       8121:Courtyard Hotel:
       8122:Galileo Büro, W. v. Dyck-Str. 6:
       8123:Galileo Büro, W. v. Dyck-Str. 4:
+      8124:Galileo Büro, W. v. Dyck-Str. 14:
     :Interimshörsäle:garching-interims
       5620:Interimshörsäle I|Interims I:
       5416:Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude|Interims II:

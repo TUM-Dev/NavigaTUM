@@ -1,15 +1,15 @@
 # NavigaTUM
 
-[![Deployment Status](https://argocd.frank.elsinga.de/api/badge?name=navigatum-prod)](https://argocd.frank.elsinga.de/applications/navigatum-prod)
-[![Website Uptime over 30 days](https://uptime.frank.elsinga.de/api/badge/5/uptime/720?label=Website%20Uptime/30&labelSuffix=d)](https://uptime.frank.elsinga.de/status/navigatum)
-[![API Uptime over 30 days](https://uptime.frank.elsinga.de/api/badge/2/uptime/720?label=API%20Uptime/30&labelSuffix=d)](https://uptime.frank.elsinga.de/status/navigatum)
-[![CDN Uptime over 30 days](https://uptime.frank.elsinga.de/api/badge/1/uptime/720?label=CDN%20Uptime/30&labelSuffix=d)](https://uptime.frank.elsinga.de/status/navigatum)
+[![Deployment Status](https://argocd.nav.tum.sexy/api/badge?name=navigatum-prod)](https://argocd.nav.tum.sexy/applications/navigatum-prod)
+[![Website Uptime over 30 days](https://uptime.nav.tum.sexy/api/badge/5/uptime/720?label=Website%20Uptime/30&labelSuffix=d)](https://uptime.nav.tum.sexy/status/navigatum)
+[![API Uptime over 30 days](https://uptime.nav.tum.sexy/api/badge/2/uptime/720?label=API%20Uptime/30&labelSuffix=d)](https://uptime.nav.tum.sexy/status/navigatum)
+[![CDN Uptime over 30 days](https://uptime.nav.tum.sexy/api/badge/1/uptime/720?label=CDN%20Uptime/30&labelSuffix=d)](https://uptime.nav.tum.sexy/status/navigatum)
 
-NavigaTUM is a the official tool developed by students for students, that aims to help you get around at [TUM](https://tum.de). Feel free to contribute, we are open to new people 😄.
+NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute, we are open to new people 😄.
 
 Features:
 
-- Interactive or RoomFinder-like maps to look up the position of rooms or buildings
+- Interactive or static maps to look up the position of rooms or buildings
 - Fast and typo-tolerant search
 - Support for different room code formats as well as generic names
 

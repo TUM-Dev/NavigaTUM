@@ -9,35 +9,23 @@ spec:
   entryPoints:
     - websecure
   routes:
-    # temporary workaround for traefik bug (interoperability with ingress)
-    - kind: Rule
-      match: Host(`{{ .Values.url }}`) && PathPrefix(`/.well-known/acme-challenge/`)
-      priority: 14
-      services:
-        - name: cm-acme-http-solver-wr5tp
-          port: 8089
-          kind: Service
     - kind: Rule
       match: Host(`{{ .Values.url }}`) && PathPrefix(`/api/feedback/`)
-      priority: 13
       services:
         - name: feedback-svc
           port: 8070
     - kind: Rule
       match: Host(`{{ .Values.url }}`) && PathPrefix(`/api/calendar/`)
-      priority: 13
       services:
         - name: calendar-svc
           port: 8060
     - kind: Rule
       match: Host(`{{ .Values.url }}`) && PathPrefix(`/api/`)
-      priority: 12
       services:
         - name: api-svc
           port: 7000
     - kind: Rule
       match: Host(`{{ .Values.url }}`) && PathPrefix(`/maps/`)
-      priority: 11
       services:
         - name: maps-svc
           port: 7770
@@ -46,13 +34,11 @@ spec:
         - name: cache-2-months
     - kind: Rule
       match: Host(`{{ .Values.url }}`) && PathPrefix(`/cdn/`)
-      priority: 10
       services:
         - name: cdn-svc
           port: 8000
     - kind: Rule
       match: Host(`{{ .Values.url }}`) && PathPrefix(`/rendertron/`)
-      priority: 9
       services:
         - name: rendertron-svc
           port: 9100
@@ -60,12 +46,11 @@ spec:
         - name: stripprefix
     - kind: Rule
       match: Host(`{{ .Values.url }}`)
-      priority: 8
       services:
         - name: webclient-svc
           port: 9000
     - kind: Rule
-      match: Host(`nav.tum.app`) || Host(`nav.tum.sexy`)
+      match: Host(`nav.tum.app`) || Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)
       services:
         - name: noop@internal
           kind: TraefikService
@@ -85,24 +70,15 @@ spec:
   entryPoints:
     - web
   routes:
-    # temproary workaround for traefik bug (interoperability with ingress)
-    - kind: Rule
-      match: Host(`{{ .Values.url }}`) && PathPrefix(`/.well-known/acme-challenge/`)
-      priority: 12
-      services:
-        - name: cm-acme-http-solver-wr5tp
-          port: 8089
-          kind: Service
     - kind: Rule
       match: Host(`{{ .Values.url }}`)
-      priority: 9
       services:
         - name: noop@internal
           kind: TraefikService
       middlewares:
         - name: https
     - kind: Rule
-      match: Host(`nav.tum.app`) || Host(`nav.tum.sexy`)
+      match: Host(`nav.tum.app`) || Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)
       services:
         - name: noop@internal
           kind: TraefikService

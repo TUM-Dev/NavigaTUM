@@ -7,7 +7,7 @@ metadata:
     deployment: feedback
   namespace: {{ .Values.namespace }}
 spec:
-  replicas: 2
+  replicas:  {{ if eq "nav.tum.de" .Values.url }}2{{ else }}1{{ end }}
   revisionHistoryLimit: 1
   selector:
     matchLabels:
@@ -15,8 +15,8 @@ spec:
       deployment: feedback
   strategy:
     rollingUpdate:
-      maxSurge: 50%
-      maxUnavailable: 50%
+      maxSurge: {{ if eq "nav.tum.de" .Values.url }}50%{{ else }}100%{{ end }}
+      maxUnavailable: {{ if eq "nav.tum.de" .Values.url }}50%{{ else }}0%{{ end }}
     type: RollingUpdate
   template:
     metadata:
@@ -40,7 +40,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
         - name: feedback
-          image: "ghcr.io/tum-dev/navigatum-feedback:{{ .Values.branch }}"
+          image: "ghcr.io/tum-dev/navigatum-feedback:{{ .Values.tag }}"
           imagePullPolicy: Always
           {{ if or (.Values.server.GITHUB_TOKEN) (.Values.server.JWT_KEY) }}
           envFrom:

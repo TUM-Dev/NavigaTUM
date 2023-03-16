@@ -1,7 +1,11 @@
-name: server CD
+name: Main CI/CD
 
 on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
   push:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -10,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     # Set job outputs to values from filter step
     outputs:
-      main-api: ${{ steps.filter.outputs.main-api }}
-      feedback: ${{ steps.filter.outputs.feedback }}
-      calendar: ${{ steps.filter.outputs.calendar }}
-      data: ${{ steps.filter.outputs.data }}
-      webclient: ${{ steps.filter.outputs.webclient }}
+      main-api:  ${{ (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened')) || steps.filter.outputs.main-api }}
+      feedback:  ${{ (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened')) || steps.filter.outputs.feedback }}
+      calendar:  ${{ (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened')) || steps.filter.outputs.calendar }}
+      data:      ${{ (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened')) || steps.filter.outputs.data }}
+      webclient: ${{ (github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened')) || steps.filter.outputs.webclient }}
     steps:
       - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
@@ -40,7 +44,7 @@ jobs:
     needs:
       - changes
     if: ${{ needs.changes.outputs.feedback == 'true' }}
-    uses: ./.github/workflows/docker-build.yml
+    uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: feedback
       context: ./server/feedback
@@ -49,7 +53,7 @@ jobs:
       contents: read
       packages: write
   feedback-deployment:
-    uses: ./.github/workflows/restart-argocd.yaml
+    uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - feedback-build
     with:
@@ -60,7 +64,7 @@ jobs:
     needs:
       - changes
     if: ${{ needs.changes.outputs.calendar == 'true' }}
-    uses: ./.github/workflows/docker-build.yml
+    uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: calendar
       context: ./server/calendar
@@ -68,29 +72,16 @@ jobs:
     permissions:
       contents: read
       packages: write
-  calendar-db-init-build:
-    needs:
-      - changes
-    if: ${{ needs.changes.outputs.calendar == 'true' }}
-    uses: ./.github/workflows/docker-build.yml
-    with:
-      image_suffix: calendar-db-init
-      context: ./server/calendar
-      dockerfile: Dockerfile.dbinit
-    permissions:
-      contents: read
-      packages: write
   calendar-deployment:
-    uses: ./.github/workflows/restart-argocd.yaml
+    uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - calendar-build
-      - calendar-db-init-build
     with:
       deployment: calendar
     secrets:
       ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   main-api-build:
-    uses: ./.github/workflows/docker-build.yml
+    uses: ./.github/workflows/_docker-build.yml
     needs:
       - changes
     if: ${{ needs.changes.outputs.main-api == 'true' }}
@@ -102,7 +93,7 @@ jobs:
       contents: read
       packages: write
   building-db-init-build:
-    uses: ./.github/workflows/docker-build.yml
+    uses: ./.github/workflows/_docker-build.yml
     needs:
       - changes
     if: ${{ needs.changes.outputs.main-api == 'true' }}
@@ -114,7 +105,7 @@ jobs:
       contents: read
       packages: write
   mieli-search-init-build:
-    uses: ./.github/workflows/docker-build.yml
+    uses: ./.github/workflows/_docker-build.yml
     needs:
       - changes
     if: ${{ needs.changes.outputs.main-api == 'true' }}
@@ -129,7 +120,7 @@ jobs:
     needs:
       - changes
     if: ${{ needs.changes.outputs.main-api == 'true' }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     services:
       mieli:
         image: getmeili/meilisearch:latest
@@ -159,7 +150,7 @@ jobs:
           base-url: "http://localhost:8080"
           args: "--endpoint='/api/[^fc].*'" # disable the feedback/calendar endpoint
   server-deployment:
-    uses: ./.github/workflows/restart-argocd.yaml
+    uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - main-api-build
       - building-db-init-build
@@ -172,7 +163,7 @@ jobs:
     needs:
       - changes
     if: ${{ needs.changes.outputs.data == 'true' }}
-    uses: ./.github/workflows/docker-build.yml
+    uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: data
       context: ./data
@@ -181,7 +172,7 @@ jobs:
       contents: read
       packages: write
   data-deployment-1:
-    uses: ./.github/workflows/restart-argocd.yaml
+    uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - data-build
     with:
@@ -189,7 +180,7 @@ jobs:
     secrets:
       ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   data-deployment-2: # we need to restart the server, as otherwise it will not serve the new data
-    uses: ./.github/workflows/restart-argocd.yaml
+    uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - data-deployment-1
     with:
@@ -197,7 +188,7 @@ jobs:
     secrets:
       ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   webclient-build:
-    uses: ./.github/workflows/docker-build.yml
+    uses: ./.github/workflows/_docker-build.yml
     needs:
       - changes
     if: ${{ needs.changes.outputs.webclient == 'true' }}
@@ -209,7 +200,7 @@ jobs:
       contents: read
       packages: write
   webclient-deployment:
-    uses: ./.github/workflows/restart-argocd.yaml
+    uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - webclient-build
     with:

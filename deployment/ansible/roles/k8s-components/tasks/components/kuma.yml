@@ -1,0 +1,92 @@
+---
+- name: Add uptime-kuma chart repo
+  kubernetes.core.helm_repository:
+    name: uptime-kuma
+    repo_url: "https://dirsigler.github.io/uptime-kuma-helm"
+- name: Install uptime-kuma
+  kubernetes.core.helm:
+    atomic: true
+    release_state: present
+    wait: false
+    chart_version: 2.5.8
+    chart_ref: uptime-kuma/uptime-kuma
+    name: uptime-kuma
+    namespace: monitoring
+    create_namespace: yes
+- name: Make shure kuma has an ingress
+  kubernetes.core.k8s:
+    state: present
+    namespace: monitoring
+    definition:
+      apiVersion: traefik.containo.us/v1alpha1
+      kind: IngressRoute
+      metadata:
+        name: kuma-uptime
+        namespace: monitoring
+      spec:
+        entryPoints:
+          - websecure
+        routes:
+          - kind: Rule
+            match: Host(`uptime.nav.tum.sexy`)
+            services:
+              - name: uptime-kuma
+                port: 3001
+        tls:
+          secretName: uptime.nav.tum.sexy
+
+- name: Make shure kuma has an http-ingress
+  kubernetes.core.k8s:
+    state: present
+    namespace: monitoring
+    definition:
+      apiVersion: traefik.containo.us/v1alpha1
+      kind: IngressRoute
+      metadata:
+        name: kuma-uptime-http
+        namespace: monitoring
+      spec:
+        entryPoints:
+          - web
+        routes:
+          - kind: Rule
+            match: Host(`uptime.nav.tum.sexy`)
+            middlewares:
+              - name: https
+            services:
+              - kind: TraefikService
+                name: noop@internal
+
+- name: Make shure kuma has an http redirect
+  kubernetes.core.k8s:
+    state: present
+    namespace: monitoring
+    definition:
+      apiVersion: traefik.containo.us/v1alpha1
+      kind: Middleware
+      metadata:
+        name: https
+        namespace: monitoring
+      spec:
+        redirectScheme:
+          scheme: https
+          permanent: true
+
+- name: Make shure kuma has an cert
+  kubernetes.core.k8s:
+    state: present
+    namespace: monitoring
+    definition:
+      apiVersion: cert-manager.io/v1
+      kind: Certificate
+      metadata:
+        name: uptime.nav.tum.sexy
+        namespace: monitoring
+      spec:
+        commonName: uptime.nav.tum.sexy
+        dnsNames:
+          - uptime.nav.tum.sexy
+        secretName: uptime.nav.tum.sexy
+        issuerRef:
+          name: letsencrypt-production
+          kind: ClusterIssuer

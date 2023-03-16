@@ -9,6 +9,7 @@ from utils import TranslatableStr as _
 
 ALLOWED_ROOMCODE_CHARS = set(string.ascii_letters) | set(string.digits) | {".", "-"}
 OPERATOR_STRIP_CHARS = "[ ]"
+OPERATOR_WEBNAV_LINK_PREFIX = "webnav.navigate_to?corg="
 
 
 def merge_tumonline_buildings(data):
@@ -84,9 +85,9 @@ def merge_tumonline_rooms(data):
         usages = json.load(file)
     usages_lookup = {usage["id"]: usage for usage in usages}
 
-    with open(f"external/results/orgs-de_tumonline.json", encoding="utf-8") as file_de:
+    with open("external/results/orgs-de_tumonline.json", encoding="utf-8") as file_de:
         orgs_de = json.load(file_de)
-    with open(f"external/results/orgs-en_tumonline.json", encoding="utf-8") as file_en:
+    with open("external/results/orgs-en_tumonline.json", encoding="utf-8") as file_en:
         orgs_en = json.load(file_en)
 
     rooms = _clean_tumonline_rooms(rooms)
@@ -113,7 +114,7 @@ def merge_tumonline_rooms(data):
                 "address_link": room["address_link"],
                 "plz_place": room["plz_place"],
                 "operator": room["operator"].strip(OPERATOR_STRIP_CHARS),
-                "operator_id": int(room["op_link"].strip("'webnav.navigate_to?corg=")),
+                "operator_id": int(room["op_link"].strip(OPERATOR_WEBNAV_LINK_PREFIX)),
                 "operator_link": room["op_link"],
                 "operator_name": _(
                     orgs_de.get(room["operator"].strip(OPERATOR_STRIP_CHARS), {}).get("name"),

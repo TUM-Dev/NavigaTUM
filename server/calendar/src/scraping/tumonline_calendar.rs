@@ -2,7 +2,7 @@ use crate::scraping::task::ScrapeRoomTask;
 use crate::{schema, utils};
 use awc::error::{ConnectError, PayloadError, SendRequestError};
 use awc::Client;
-use chrono::NaiveDateTime;
+use chrono::{NaiveDateTime, Utc};
 use diesel::prelude::*;
 use diesel::Insertable;
 use log::{debug, error, warn};
@@ -85,8 +85,8 @@ fn construct_hm(elem: &Element) -> HashMap<String, String> {
     hm
 }
 
-#[derive(Insertable, Queryable)]
-#[diesel(table_name = schema::calendar_scrape)]
+#[derive(Insertable, Queryable, AsChangeset)]
+#[diesel(table_name = schema::calendar)]
 pub struct XMLEvent {
     pub key: String,
     pub dtstart: NaiveDateTime,
@@ -108,6 +108,7 @@ pub struct XMLEvent {
     pub status_id: String,
     pub status: String,
     pub comment: String,
+    pub last_scrape: NaiveDateTime,
 }
 
 impl XMLEvent {
@@ -167,6 +168,7 @@ impl XMLEvent {
             status_id: extract_str(&hm, "statusID").unwrap(),
             status: extract_str(&hm, "status").unwrap(),
             comment: extract_str(&hm, "comment").unwrap_or_default(),
+            last_scrape: Utc::now().naive_utc(),
         }
     }
 }
@@ -198,17 +200,24 @@ impl XMLEvents {
     }
     pub(crate) fn store_in_db(self) -> bool {
         let conn = &mut utils::establish_connection();
-        use schema::calendar_scrape::dsl::*;
-        let res = diesel::insert_into(calendar_scrape)
-            .values(&self.events)
-            .execute(conn);
-        match res {
-            Ok(_) => true,
-            Err(e) => {
-                error!("Error inserting into database: {e:?}");
-                false
-            }
-        }
+        use schema::calendar::dsl::*;
+        self.events
+            .iter()
+            .map(|event| {
+                diesel::insert_into(calendar)
+                    .values(event)
+                    .on_conflict(single_event_id)
+                    .do_update()
+                    .set(event)
+                    .execute(conn)
+            })
+            .all(|res| match res {
+                Ok(_) => true,
+                Err(e) => {
+                    error!("Error inserting into database: {e:?}");
+                    false
+                }
+            })
     }
     fn new(key: String, body: String) -> Option<Self> {
         let root = body.parse::<Element>();
@@ -230,7 +239,21 @@ impl XMLEvents {
 
         for e in xml_events {
             let hm = construct_hm(e);
-            events.push(XMLEvent::from_hm(key.clone(), hm));
+
+            let valid_status = match hm.get("status") {
+                Some(s) => match s.as_str() {
+                    "fix" | "geplant" => true,
+                    "verschoben" | "gelöscht" | "abgesagt" | "abgelehnt" => false,
+                    _ => {
+                        error!("unknown status: {s:?}");
+                        false
+                    }
+                },
+                _ => false,
+            };
+            if valid_status {
+                events.push(XMLEvent::from_hm(key.clone(), hm));
+            }
         }
         Some(XMLEvents { events })
     }

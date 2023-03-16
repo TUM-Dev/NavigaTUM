@@ -891,6 +891,8 @@ galileo:
   coords: { lat: 48.26565, lon: 11.67256 }
 8123: # W. v. Dyck-Str. 4
   coords: { lat: 48.26621, lon: 11.67234 }
+8124: # W. v. Dyck-Str. 14
+  coords: { lat: 48.26462, lon: 11.67223 }
 
 # --- Interims ---
 #garching-interims:

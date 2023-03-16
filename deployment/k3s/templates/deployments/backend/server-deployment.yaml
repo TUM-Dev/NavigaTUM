@@ -31,20 +31,20 @@ spec:
           emptyDir: {}
       initContainers:
         - name: building-db-init
-          image: "ghcr.io/tum-dev/navigatum-building-db-init:{{ .Values.branch }}"
+          image: "ghcr.io/tum-dev/navigatum-building-db-init:{{ .Values.tag }}"
           imagePullPolicy: Always
           volumeMounts:
             - mountPath: /tmp
               name: tmp-server
         - name: meili-init
-          image: "ghcr.io/tum-dev/navigatum-mieli-search-init:{{ .Values.branch }}"
+          image: "ghcr.io/tum-dev/navigatum-mieli-search-init:{{ .Values.tag }}"
           imagePullPolicy: Always
           volumeMounts:
             - mountPath: /meili_data
               name: tmp-mieli-search
       containers:
         - name: server
-          image: "ghcr.io/tum-dev/navigatum-main-api:{{ .Values.branch }}"
+          image: "ghcr.io/tum-dev/navigatum-main-api:{{ .Values.tag }}"
           imagePullPolicy: Always
           {{ if .Values.server.MEILI_MASTER_KEY }}
           envFrom:
@@ -99,7 +99,7 @@ spec:
               name: tmp-mieli-search
           resources:
             requests:
-              cpu: 500m
+              cpu: {{ if eq "nav.tum.de" .Values.url }}500m{{ else }}50m{{ end }}
               memory: 500Mi
             limits:
               memory: 500Mi

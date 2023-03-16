@@ -1,0 +1,23 @@
+name: Remove a Deployment
+
+on:
+  pull_request:
+    types: [closed]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: deployment
+      - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - run: git config --global user.name "github-actions[bot]"
+      - run: rm -f staging/pr-${{ github.event.number }}.yaml
+      - run: git add .
+      - run: git commit -m "Removed the deployment for PR ${{ '#' }}${{ github.event.number }}"
+      - run: git push
+      - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
+      - run: argocd app sync navigatum-stagings --auth-token ${{ secrets.ARGOCD_TOKEN }} --server ${{ secrets.ARGOCD_SERVER }}
+
