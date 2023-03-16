@@ -30,7 +30,7 @@ async fn main() -> std::io::Result<()> {
         "revision".to_string(),
         std::env::var("GIT_COMMIT_SHA").unwrap_or("development".to_string()),
     )]);
-    let prometheus = PrometheusMetricsBuilder::new("naviatum_mainapi")
+    let prometheus = PrometheusMetricsBuilder::new("navigatum_mainapi")
         .endpoint("/metrics")
         .const_labels(labels)
         .build()
