@@ -1,8 +1,10 @@
 use actix_cors::Cors;
 use actix_governor::{GlobalKeyExtractor, Governor, GovernorConfigBuilder};
+use std::collections::HashMap;
 use std::time::Duration;
 
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
+use actix_web_prometheus::PrometheusMetricsBuilder;
 
 use structopt::StructOpt;
 
@@ -53,6 +55,17 @@ async fn main() -> std::io::Result<()> {
         .finish()
         .unwrap();
 
+    // metrics
+    let labels = HashMap::from([(
+        "revision".to_string(),
+        std::env::var("GIT_COMMIT_SHA").unwrap_or("development".to_string()),
+    )]);
+    let prometheus = PrometheusMetricsBuilder::new("navigatum_feedback")
+        .endpoint("/metrics")
+        .const_labels(labels)
+        .build()
+        .unwrap();
+
     let state_feedback = web::Data::new(core::AppStateFeedback::from(opt));
     HttpServer::new(move || {
         let cors = Cors::default()
@@ -64,6 +77,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(cors)
             .wrap(middleware::Logger::default().exclude("/api/feedback/status"))
             .wrap(middleware::Compress::default())
+            .wrap(prometheus.clone())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(health_status_handler)
             .app_data(state_feedback.clone())

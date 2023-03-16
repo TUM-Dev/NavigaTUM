@@ -211,6 +211,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "actix-web-prometheus"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ad5228fd1a6b5d0f60d636776c2a70acc9fc667034bb4ac02ec4259f0eeeab6c"
+dependencies = [
+ "actix-service",
+ "actix-web",
+ "futures-lite",
+ "pin-project",
+ "prometheus",
+ "quanta 0.10.1",
+ "thiserror",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.19.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -440,7 +455,7 @@ dependencies = [
  "num-integer",
  "num-traits",
  "serde",
- "time 0.1.45",
+ "time 0.1.43",
  "wasm-bindgen",
  "winapi",
 ]
@@ -774,6 +789,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "89d422fa3cbe3b40dca574ab087abb5bc98258ea57eea3fd6f1fa7162c778b91"
 
 [[package]]
+name = "futures-lite"
+version = "1.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7694489acd39452c77daa48516b894c153f192c3578d5a839b62c58099fcbf48"
+dependencies = [
+ "fastrand",
+ "futures-core",
+ "futures-io",
+ "memchr",
+ "parking",
+ "pin-project-lite",
+ "waker-fn",
+]
+
+[[package]]
 name = "futures-macro"
 version = "0.3.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -860,7 +890,7 @@ dependencies = [
  "no-std-compat",
  "nonzero_ext",
  "parking_lot",
- "quanta",
+ "quanta 0.9.3",
  "rand",
  "smallvec",
 ]
@@ -1285,6 +1315,7 @@ dependencies = [
  "actix-cors",
  "actix-governor",
  "actix-web",
+ "actix-web-prometheus",
  "chrono",
  "env_logger",
  "jsonwebtoken",
@@ -1436,6 +1467,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "parking"
+version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "427c3892f9e783d91cc128285287e70a59e206ca452770ece88a76f7a3eddd72"
+
+[[package]]
 name = "parking_lot"
 version = "0.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1478,6 +1515,26 @@ name = "percent-encoding"
 version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d4fd5641d01c8f18a23da7b6fe29298ff4b55afcccdf78973b24cf3175fee32e"
+
+[[package]]
+name = "pin-project"
+version = "1.0.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ad29a609b6bcd67fee905812e544992d216af9d755757c05ed2d0e15a74c6ecc"
+dependencies = [
+ "pin-project-internal",
+]
+
+[[package]]
+name = "pin-project-internal"
+version = "1.0.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "069bdb1e05adc7a8990dce9cc75370895fbe4e3d58b9b73bf1aee56359344a55"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
 
 [[package]]
 name = "pin-project-lite"
@@ -1537,6 +1594,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "prometheus"
+version = "0.13.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "449811d15fbdf5ceb5c1144416066429cf82316e2ec8ce0c1f6f8a02e7bbcf8c"
+dependencies = [
+ "cfg-if",
+ "fnv",
+ "lazy_static",
+ "memchr",
+ "parking_lot",
+ "thiserror",
+]
+
+[[package]]
 name = "quanta"
 version = "0.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1547,16 +1618,32 @@ dependencies = [
  "mach",
  "once_cell",
  "raw-cpuid",
- "wasi 0.10.0+wasi-snapshot-preview1",
+ "wasi 0.10.2+wasi-snapshot-preview1",
+ "web-sys",
+ "winapi",
+]
+
+[[package]]
+name = "quanta"
+version = "0.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b7e31331286705f455e56cca62e0e717158474ff02b7936c1fa596d983f4ae27"
+dependencies = [
+ "crossbeam-utils",
+ "libc",
+ "mach",
+ "once_cell",
+ "raw-cpuid",
+ "wasi 0.10.2+wasi-snapshot-preview1",
  "web-sys",
  "winapi",
 ]
 
 [[package]]
 name = "quote"
-version = "1.0.24"
+version = "1.0.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50686e0021c4136d1d453b2dfe059902278681512a34d4248435dc34b6b5c8ec"
+checksum = "4424af4bf778aae2051a77b60283332f386554255d722233d09fbfc7e30da2fc"
 dependencies = [
  "proc-macro2",
 ]
@@ -2004,12 +2091,11 @@ dependencies = [
 
 [[package]]
 name = "time"
-version = "0.1.45"
+version = "0.1.43"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1b797afad3f312d1c66a56d11d0316f916356d11bd158fbc6ca6389ff6bf805a"
+checksum = "ca8a50ef2360fbd1eeb0ecd46795a87a19024eb4b53c5dc916ca1fd95fe62438"
 dependencies = [
  "libc",
- "wasi 0.10.0+wasi-snapshot-preview1",
  "winapi",
 ]
 
@@ -2228,6 +2314,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
 
 [[package]]
+name = "waker-fn"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9d5b2c62b4012a3e1eca5a7e077d13b3bf498c4073e33ccd58626607748ceeca"
+
+[[package]]
 name = "want"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2239,9 +2331,9 @@ dependencies = [
 
 [[package]]
 name = "wasi"
-version = "0.10.0+wasi-snapshot-preview1"
+version = "0.10.2+wasi-snapshot-preview1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1a143597ca7c7793eff794def352d41792a93c481eb1042423ff7ff72ba2c31f"
+checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasi"
@@ -2382,9 +2474,9 @@ dependencies = [
 
 [[package]]
 name = "windows-targets"
-version = "0.42.1"
+version = "0.42.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8e2522491fbfcd58cc84d47aeb2958948c4b8982e9a2d8a2a35bbaed431390e7"
+checksum = "8e5180c00cd44c9b1c88adb3693291f1cd93605ded80c250a75d472756b4d071"
 dependencies = [
  "windows_aarch64_gnullvm",
  "windows_aarch64_msvc",
@@ -2397,45 +2489,45 @@ dependencies = [
 
 [[package]]
 name = "windows_aarch64_gnullvm"
-version = "0.42.1"
+version = "0.42.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8c9864e83243fdec7fc9c5444389dcbbfd258f745e7853198f365e3c4968a608"
+checksum = "597a5118570b68bc08d8d59125332c54f1ba9d9adeedeef5b99b02ba2b0698f8"
 
 [[package]]
 name = "windows_aarch64_msvc"
-version = "0.42.1"
+version = "0.42.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4c8b1b673ffc16c47a9ff48570a9d85e25d265735c503681332589af6253c6c7"
+checksum = "e08e8864a60f06ef0d0ff4ba04124db8b0fb3be5776a5cd47641e942e58c4d43"
 
 [[package]]
 name = "windows_i686_gnu"
-version = "0.42.1"
+version = "0.42.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "de3887528ad530ba7bdbb1faa8275ec7a1155a45ffa57c37993960277145d640"
+checksum = "c61d927d8da41da96a81f029489353e68739737d3beca43145c8afec9a31a84f"
 
 [[package]]
 name = "windows_i686_msvc"
-version = "0.42.1"
+version = "0.42.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bf4d1122317eddd6ff351aa852118a2418ad4214e6613a50e0191f7004372605"
+checksum = "44d840b6ec649f480a41c8d80f9c65108b92d89345dd94027bfe06ac444d1060"
 
 [[package]]
 name = "windows_x86_64_gnu"
-version = "0.42.1"
+version = "0.42.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c1040f221285e17ebccbc2591ffdc2d44ee1f9186324dd3e84e99ac68d699c45"
+checksum = "8de912b8b8feb55c064867cf047dda097f92d51efad5b491dfb98f6bbb70cb36"
 
 [[package]]
 name = "windows_x86_64_gnullvm"
-version = "0.42.1"
+version = "0.42.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "628bfdf232daa22b0d64fdb62b09fcc36bb01f05a3939e20ab73aaf9470d0463"
+checksum = "26d41b46a36d453748aedef1486d5c7a85db22e56aff34643984ea85514e94a3"
 
 [[package]]
 name = "windows_x86_64_msvc"
-version = "0.42.1"
+version = "0.42.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "447660ad36a13288b1db4d4248e857b510e8c3a225c822ba4fb748c0aafecffd"
+checksum = "9aec5da331524158c6d1a4ac0ab1541149c0b9505fde06423b02f5ef0106b9f0"
 
 [[package]]
 name = "winreg"
