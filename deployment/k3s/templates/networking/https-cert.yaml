@@ -10,6 +10,7 @@ spec:
   dnsNames:
     - {{ .Values.url }}
     {{ if eq "nav.tum.de" .Values.url }}
+    - www.nav.tum.de
     - nav.tum.sexy
     - nav.tum.app
     {{ end }}
