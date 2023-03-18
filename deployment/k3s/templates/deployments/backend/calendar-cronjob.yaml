@@ -1,9 +1,9 @@
-{{ range $name,$scrape_task := $.Values.calendar.scrape_tasks }}
+{{ range $scrape_task := $.Values.calendar.scrape_tasks }}
 ---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ $name | quote }}
+  name: {{ $scrape_task.name }}
   labels:
     app: navigatum
     deployment: maps
@@ -20,7 +20,7 @@ spec:
                 readOnly: false
                 claimName: calendar-pvc
           containers:
-          - name: {{ $name | quote }}
+          - name: {{ $scrape_task.name }}
             image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"
             imagePullPolicy: Always
             volumeMounts:

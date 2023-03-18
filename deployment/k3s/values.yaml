@@ -7,9 +7,9 @@ server:
   JWT_KEY: ""
 calendar:
   scrape_tasks:
-    - refresh-calendar-fast:
-        schedule: "0 2 * * 1-5" # weekdays at 2am
-        scraped_months: 4
-    - refresh-calendar-slow:
-        schedule: "0 2 * * 6" # every saturday at 2am
-        scraped_time_window_months: 48 # 4 years
+    - name: refresh-calendar-fast
+      schedule: "0 2 * * 1-5" # weekdays at 2am
+      scraped_months: 4
+    - name: refresh-calendar-slow
+      schedule: "0 2 * * 6" # every saturday at 2am
+      scraped_time_window_months: 48 # 4 years
