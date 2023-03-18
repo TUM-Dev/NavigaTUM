@@ -5,7 +5,7 @@ metadata:
   labels:
     app: navigatum
     deployment: calendar
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
 spec:
   replicas: 1
   revisionHistoryLimit: 1
@@ -29,7 +29,7 @@ spec:
           emptyDir: {}
       containers:
         - name: calendar
-          image: "ghcr.io/tum-dev/navigatum-calendar:{{ .Values.tag }}"
+          image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"
           imagePullPolicy: Always
           ports:
             - containerPort: 8060
