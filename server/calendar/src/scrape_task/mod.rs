@@ -8,7 +8,6 @@ use crate::scrape_task::scrape_room_task::ScrapeRoomTask;
 use crate::scrape_task::statistics::Statistic;
 use crate::scrape_task::tumonline_calendar_connector::{Strategy, XMLEvents};
 use crate::utils;
-use awc::{Client, Connector};
 use chrono::{DateTime, NaiveDate, Utc};
 use diesel::prelude::*;
 use futures::future::join_all;
@@ -33,13 +32,6 @@ impl ScrapeTask {
         info!("Starting scraping calendar entries");
         let start_time = Instant::now();
 
-        // timeout is possibly excessive, this is tbd
-        // Reasoning is, that a large timeout does not hinder us that much, as we retry
-        let connector = Connector::new().timeout(Duration::from_secs(20));
-        let client = Client::builder()
-            .connector(connector)
-            .timeout(Duration::from_secs(20))
-            .finish();
         let all_room_ids = get_all_ids().await;
         let entry_cnt = all_room_ids.len();
         let mut time_stats = Statistic::new();
@@ -53,7 +45,6 @@ impl ScrapeTask {
             for room in round {
                 let start = self.scraping_start - self.time_window / 2;
                 futures.push(scrape(
-                    &client,
                     (room.key.clone(), room.tumonline_room_nr),
                     start.date_naive(),
                     self.time_window,
@@ -112,12 +103,7 @@ struct ScrapeResult {
     success_cnt: usize,
 }
 
-async fn scrape(
-    client: &Client,
-    id: (String, i32),
-    from: NaiveDate,
-    duration: chrono::Duration,
-) -> ScrapeResult {
+async fn scrape(id: (String, i32), from: NaiveDate, duration: chrono::Duration) -> ScrapeResult {
     // request and parse the xml file
     let mut request_queue = vec![ScrapeRoomTask::new(id, from, duration)];
     let mut success_cnt = 0;
@@ -125,7 +111,7 @@ async fn scrape(
     while !request_queue.is_empty() {
         let mut new_request_queue = vec![];
         for task in request_queue {
-            let events = XMLEvents::request(client, task.clone()).await;
+            let events = XMLEvents::request(task.clone()).await;
 
             //store the events in the database if successful, otherwise retry
             match events {
