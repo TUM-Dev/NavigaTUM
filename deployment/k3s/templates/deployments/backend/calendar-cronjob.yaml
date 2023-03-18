@@ -1,0 +1,41 @@
+{{ range $name,$scrape_task := $.Values.calendar.scrape_tasks }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ $name }}
+  labels:
+    app: navigatum
+    deployment: maps
+  namespace: {{ $.Values.namespace }}
+spec:
+  schedule: {{ $scrape_task.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: calendar-vol
+              persistentVolumeClaim:
+                readOnly: false
+                claimName: calendar-pvc
+          containers:
+          - name: {{ $name }}
+            image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"
+            imagePullPolicy: Always
+            volumeMounts:
+            - mountPath: /data
+              name: calendar-vol
+            env:
+            - name: DB_LOCATION
+              value: /data/server.db
+            - name: SCRAPED_TIME_WINDOW_MONTHS
+              value: {{ $scrape_task.scraped_time_window_months }}
+            securityContext:
+              readOnlyRootFilesystem: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 100Mi
+          restartPolicy: OnFailure
+{{ end }}

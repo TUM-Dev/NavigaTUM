@@ -2,6 +2,14 @@ namespace: navigatum
 tag: main
 url: nav.tum.de
 server:
-    MEILI_MASTER_KEY: ""
-    GITHUB_TOKEN: ""
-    JWT_KEY: ""
+  MEILI_MASTER_KEY: ""
+  GITHUB_TOKEN: ""
+  JWT_KEY: ""
+calendar:
+  scrape_tasks:
+    - refresh-calendar-fast:
+        schedule: "0 2 * * 1-5" # weekdays at 2am
+        scraped_months: 4
+    - refresh-calendar-slow:
+        schedule: "0 2 * * 6" # every saturday at 2am
+        scraped_time_window_months: 48 # 4 years
