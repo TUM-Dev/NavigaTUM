@@ -44,10 +44,10 @@ async fn main() -> std::io::Result<()> {
             .max_age(3600);
 
         App::new()
+            .wrap(prometheus.clone())
             .wrap(cors)
             .wrap(middleware::Logger::default().exclude("/api/status"))
             .wrap(middleware::Compress::default())
-            .wrap(prometheus.clone())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(health_status_handler)
             .service(web::scope("/api/preview").configure(maps::configure))
