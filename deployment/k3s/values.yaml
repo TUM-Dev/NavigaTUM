@@ -9,7 +9,7 @@ calendar:
   scrape_tasks:
     - name: refresh-calendar-fast
       schedule: "0 2 * * 1-5" # weekdays at 2am
-      scraped_months: 4
+      scraped_time_window_months: 4
     - name: refresh-calendar-slow
       schedule: "0 2 * * 6" # every saturday at 2am
-      scraped_time_window_months: 48 # 4 years
+      scraped_time_window_months: 48 # 48 months = 4 years
