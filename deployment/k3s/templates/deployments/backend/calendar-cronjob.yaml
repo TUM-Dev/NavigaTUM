@@ -3,7 +3,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ $name }}
+  name: {{ $name | quote }}
   labels:
     app: navigatum
     deployment: maps
@@ -20,7 +20,7 @@ spec:
                 readOnly: false
                 claimName: calendar-pvc
           containers:
-          - name: {{ $name }}
+          - name: {{ $name | quote }}
             image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"
             imagePullPolicy: Always
             volumeMounts:
