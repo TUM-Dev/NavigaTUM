@@ -31,7 +31,7 @@ spec:
             - name: DB_LOCATION
               value: /data/server.db
             - name: SCRAPED_TIME_WINDOW_MONTHS
-              value: {{ $scrape_task.scraped_time_window_months }}
+              value: {{ $scrape_task.scraped_time_window_months | quote }}
             securityContext:
               readOnlyRootFilesystem: true
             resources:
