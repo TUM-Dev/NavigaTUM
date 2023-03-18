@@ -1,20 +1,39 @@
 mod main_api_connector;
 mod scrape_room_task;
-mod statistics;
 pub mod tumonline_calendar_connector;
 
 use crate::scrape_task::main_api_connector::get_all_ids;
 use crate::scrape_task::scrape_room_task::ScrapeRoomTask;
-use crate::scrape_task::statistics::Statistic;
 use crate::scrape_task::tumonline_calendar_connector::{Strategy, XMLEvents};
 use crate::utils;
 use chrono::{DateTime, NaiveDate, Utc};
 use diesel::prelude::*;
 use futures::stream::FuturesUnordered;
 use futures::StreamExt;
+use lazy_static::lazy_static;
 use log::{info, warn};
+use prometheus::{register_counter, register_histogram, Counter, Histogram};
 use std::time::{Duration, Instant};
 use tokio::time::sleep;
+lazy_static! {
+    static ref SCRAPED_CALENDAR_ENTRIES_COUNTER: Counter = register_counter!(
+        "navigatum_calendarscraper_total_entries",
+        "Total number of calendar entries scraped."
+    )
+    .unwrap();
+    static ref REQ_SUCCESS_HISTOGRAM: Histogram = register_histogram!(
+        "navigatum_calendarscraper_resulting_entries_buckets",
+        "Ammounts of entries retrieved",
+        prometheus::exponential_buckets(10.0, 2.0, 15).unwrap(),
+    )
+    .unwrap();
+    static ref REQ_TIME_HISTOGRAM: Histogram = register_histogram!(
+        "navigatum_calendarscraper_request_duration_ms_buckets",
+        "The scrape request latencies in seconds",
+        prometheus::linear_buckets(20.0, 20.0, 15).unwrap(),
+    )
+    .unwrap();
+}
 
 pub struct ScrapeTask {
     time_window: chrono::Duration,
@@ -36,8 +55,6 @@ impl ScrapeTask {
 
         let mut all_room_ids = get_all_ids().await;
         let entry_cnt = all_room_ids.len();
-        let mut time_stats = Statistic::new();
-        let mut entry_stats = Statistic::new();
 
         let mut work_queue = FuturesUnordered::new();
         let start = self.scraping_start - self.time_window / 2;
@@ -55,20 +72,14 @@ impl ScrapeTask {
                     ));
                 }
             }
-            if let Some(res) = work_queue.next().await {
-                entry_stats.push(res.success_cnt as u32);
-                // if one of the futures needed to be retried smaller, this would skew the stats a lot
-                if !res.retry_smaller_happened {
-                    time_stats.push(res.elapsed_time);
-                }
-            }
+            work_queue.next().await;
 
             let scraped_entries = entry_cnt - all_room_ids.len();
             if scraped_entries % 30 == 0 {
                 let progress = scraped_entries as f32 / entry_cnt as f32 * 100.0;
                 let elapsed = start_time.elapsed();
                 let time_per_key = elapsed / scraped_entries as u32;
-                info!("Scraped {progress:.2}% (avg {time_per_key:.1?}/key, total {elapsed:.1?}) result-{entry_stats:?} in time-{time_stats:.1?}");
+                info!("Scraped {progress:.2}% (avg {time_per_key:.1?}/key, total {elapsed:.1?})");
             }
         }
 
@@ -93,26 +104,20 @@ impl ScrapeTask {
             .execute(conn)
             .expect("Failed to delete calendar");
 
-        let passed = start_time.elapsed();
         info!(
             "Finished deleting stale results ({time_window} in {passed:?})",
-            time_window = self.time_window
+            time_window = self.time_window,
+            passed = start_time.elapsed(),
         );
     }
 }
 
-struct ScrapeResult {
-    retry_smaller_happened: bool,
-    elapsed_time: Duration,
-    success_cnt: usize,
-}
+async fn scrape(id: (String, i32), from: NaiveDate, duration: chrono::Duration) {
+    let _timer = REQ_TIME_HISTOGRAM.start_timer(); // drop as observe
 
-async fn scrape(id: (String, i32), from: NaiveDate, duration: chrono::Duration) -> ScrapeResult {
     // request and parse the xml file
-    let start_time = Instant::now();
     let mut request_queue = vec![ScrapeRoomTask::new(id, from, duration)];
     let mut success_cnt = 0;
-    let mut retry_smaller_happened = false;
     while !request_queue.is_empty() {
         let mut new_request_queue = vec![];
         for task in request_queue {
@@ -134,7 +139,6 @@ async fn scrape(id: (String, i32), from: NaiveDate, duration: chrono::Duration) 
                         } else {
                             warn!("The following ScrapeOrder cannot be fulfilled: {task:?}");
                         }
-                        retry_smaller_happened = true;
                     }
                 },
             };
@@ -145,9 +149,7 @@ async fn scrape(id: (String, i32), from: NaiveDate, duration: chrono::Duration) 
         }
         request_queue = new_request_queue;
     }
-    ScrapeResult {
-        retry_smaller_happened,
-        elapsed_time: start_time.elapsed(),
-        success_cnt,
-    }
+
+    REQ_SUCCESS_HISTOGRAM.observe(success_cnt as f64);
+    SCRAPED_CALENDAR_ENTRIES_COUNTER.inc_by(success_cnt as f64);
 }
