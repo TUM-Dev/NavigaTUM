@@ -5,7 +5,7 @@ metadata:
   labels:
     app: navigatum
     deployment: api
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
 spec:
   replicas: 1
   revisionHistoryLimit: 1
@@ -31,22 +31,22 @@ spec:
           emptyDir: {}
       initContainers:
         - name: building-db-init
-          image: "ghcr.io/tum-dev/navigatum-building-db-init:{{ .Values.tag }}"
+          image: "ghcr.io/tum-dev/navigatum-building-db-init:{{ $.Values.tag }}"
           imagePullPolicy: Always
           volumeMounts:
             - mountPath: /tmp
               name: tmp-server
         - name: meili-init
-          image: "ghcr.io/tum-dev/navigatum-mieli-search-init:{{ .Values.tag }}"
+          image: "ghcr.io/tum-dev/navigatum-mieli-search-init:{{ $.Values.tag }}"
           imagePullPolicy: Always
           volumeMounts:
             - mountPath: /meili_data
               name: tmp-mieli-search
       containers:
         - name: server
-          image: "ghcr.io/tum-dev/navigatum-main-api:{{ .Values.tag }}"
+          image: "ghcr.io/tum-dev/navigatum-main-api:{{ $.Values.tag }}"
           imagePullPolicy: Always
-          {{ if .Values.server.MEILI_MASTER_KEY }}
+          {{ if $.Values.server.MEILI_MASTER_KEY }}
           envFrom:
             - secretRef:
                 name: server-api-keys # MEILI_MASTER_KEY
@@ -83,7 +83,7 @@ spec:
         - name: mieli-search
           image: "getmeili/meilisearch:v1.0"
           imagePullPolicy: Always
-          {{ if .Values.server.MEILI_MASTER_KEY }}
+          {{ if $.Values.server.MEILI_MASTER_KEY }}
           envFrom:
             - secretRef:
                 name: server-api-keys # MEILI_MASTER_KEY
@@ -99,7 +99,7 @@ spec:
               name: tmp-mieli-search
           resources:
             requests:
-              cpu: {{ if eq "nav.tum.de" .Values.url }}500m{{ else }}50m{{ end }}
+              cpu: {{ if eq "nav.tum.de" $.Values.url }}500m{{ else }}50m{{ end }}
               memory: 500Mi
             limits:
               memory: 500Mi
@@ -115,19 +115,19 @@ spec:
               port: mieli-search
             failureThreshold: 60
             periodSeconds: 1
-{{ if .Values.server.MEILI_MASTER_KEY }}
+{{ if $.Values.server.MEILI_MASTER_KEY }}
 ---
 apiVersion: v1
 kind: Secret
 type: Opaque
 metadata:
   name: server-api-keys
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
   labels:
     app: navigatum
     deployment: api
 data:
-  {{ if .Values.server.MEILI_MASTER_KEY }}
-    MEILI_MASTER_KEY: {{ .Values.server.MEILI_MASTER_KEY }}
+  {{ if $.Values.server.MEILI_MASTER_KEY }}
+    MEILI_MASTER_KEY: {{ $.Values.server.MEILI_MASTER_KEY }}
   {{ end }}
 {{ end }}

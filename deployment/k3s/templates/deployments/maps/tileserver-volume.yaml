@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: tileserver-{{ .Values.namespace }}
+  name: tileserver-{{ $.Values.namespace }}
   labels:
     app: navigatum
     deployment: maps
@@ -20,7 +20,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: tileserver-pvc
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
   labels:
     app: navigatum
     deployment: maps

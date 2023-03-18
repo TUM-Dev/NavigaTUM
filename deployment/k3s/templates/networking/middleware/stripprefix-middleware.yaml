@@ -4,7 +4,7 @@ metadata:
   name: stripprefix
   labels:
     app: navigatum
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
 spec:
   stripPrefix:
     prefixes:

@@ -5,9 +5,9 @@ metadata:
   labels:
     app: navigatum
     deployment: rendertron
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
 spec:
-  replicas: {{ if eq "nav.tum.de" .Values.url }}2{{ else }}1{{ end }}
+  replicas: {{ if eq "nav.tum.de" $.Values.url }}2{{ else }}1{{ end }}
   revisionHistoryLimit: 1
   selector:
     matchLabels:
@@ -15,8 +15,8 @@ spec:
       deployment: rendertron
   strategy:
     rollingUpdate:
-      maxSurge: {{ if eq "nav.tum.de" .Values.url }}50%{{ else }}100%{{ end }}
-      maxUnavailable: {{ if eq "nav.tum.de" .Values.url }}50%{{ else }}0%{{ end }}
+      maxSurge: {{ if eq "nav.tum.de" $.Values.url }}50%{{ else }}100%{{ end }}
+      maxUnavailable: {{ if eq "nav.tum.de" $.Values.url }}50%{{ else }}0%{{ end }}
     type: RollingUpdate
   template:
     metadata:

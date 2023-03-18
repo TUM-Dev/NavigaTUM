@@ -5,7 +5,7 @@ metadata:
   labels:
     app: navigatum
     deployment: api
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
 spec:
   type: ClusterIP
   selector:
@@ -26,7 +26,7 @@ metadata:
   labels:
     app: navigatum
     deployment: feedback
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
 spec:
   type: ClusterIP
   selector:
@@ -44,7 +44,7 @@ metadata:
   labels:
     app: navigatum
     deployment: calendar
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
 spec:
   type: ClusterIP
   selector:
@@ -62,7 +62,7 @@ metadata:
   labels:
     app: navigatum
     deployment: maps
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
 spec:
   type: ClusterIP
   selector:
@@ -80,7 +80,7 @@ metadata:
   labels:
     app: navigatum
     deployment: cdn
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
 spec:
   type: ClusterIP
   selector:
@@ -98,7 +98,7 @@ metadata:
   labels:
     app: navigatum
     deployment: web
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
 spec:
   type: ClusterIP
   selector:
@@ -116,7 +116,7 @@ metadata:
   labels:
     app: navigatum
     deployment: rendertron
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
 spec:
   type: ClusterIP
   selector:
