@@ -23,6 +23,12 @@ spec:
       labels:
         app: navigatum
         deployment: feedback
+      {{- if eq "nav.tum.de" $.Values.url }}
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: '8080'
+        prometheus.io/scrape: 'true'
+      {{- end }}
     spec:
       affinity: # no two pods on the same node
         podAntiAffinity:
