@@ -26,6 +26,7 @@ spec:
             volumeMounts:
             - mountPath: /data
               name: calendar-vol
+            command: ["/bin/navigatum-calendar-scraper"]
             env:
             - name: DB_LOCATION
               value: /data/server.db
