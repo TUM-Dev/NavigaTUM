@@ -2,6 +2,7 @@ name: Add a comment to new PRs
 
 on:
   pull_request_target:
+    branches: [main]
     types: [opened,reopened]
 jobs:
   comment:
