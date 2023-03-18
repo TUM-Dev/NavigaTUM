@@ -47,7 +47,7 @@ spec:
               value: /data/server.db
           volumeMounts:
             - mountPath: /data
-              name: tileserver-vol
+              name: calendar-vol
           securityContext:
             readOnlyRootFilesystem: true
           resources:
