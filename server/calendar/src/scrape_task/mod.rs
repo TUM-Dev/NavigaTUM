@@ -79,7 +79,7 @@ impl ScrapeTask {
                 let progress = scraped_entries as f32 / entry_cnt as f32 * 100.0;
                 let elapsed = start_time.elapsed();
                 let time_per_key = elapsed / scraped_entries as u32;
-                info!("Scraped {progress:.2}% (avg {time_per_key:.1?}/key, total {elapsed:.1?})");
+                info!("Scraped {progress:.2}% ({scraped_entries}/{entry_cnt}) in {elapsed:.1?} (avg {time_per_key:.1?}/key)");
             }
         }
 
