@@ -5,10 +5,9 @@ import os.path
 from pathlib import Path
 from typing import Any
 
+import utils
 import yaml
 from PIL import Image
-
-import utils
 
 EXTERNAL_RESULTS_PATH = Path(__file__).parent.parent / "external" / "results"
 RF_MAPS_PATH = EXTERNAL_RESULTS_PATH / "maps" / "roomfinder"
@@ -113,9 +112,7 @@ def _extract_available_maps(entry, custom_maps, maps_list):
         area = abs(coords["east"] - coords["west"]) * abs(coords["north"] - coords["south"])
         return scale, area
 
-    available_maps.sort(key=_sort_key)
-
-    return available_maps
+    return sorted(available_maps, key=_sort_key)
 
 
 def _merge_str(s_1: str, s_2: str):

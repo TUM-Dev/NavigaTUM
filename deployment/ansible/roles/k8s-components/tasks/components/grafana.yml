@@ -38,8 +38,8 @@
     values:
       grafana.ini:
         server:
-          domain: 'grafana.nav.tum.sexy'
-          root_url: 'https://%(domain)s'
+          domain: "grafana.nav.tum.sexy"
+          root_url: "https://%(domain)s"
         auth.basic:
           enabled: true
         auth.github:

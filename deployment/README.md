@@ -21,6 +21,7 @@ The k3s cluster is managed by ansible.
 The ansible playbook is located in `deployment/ansible/` and is called `site.yml`.
 
 On every of these nodes we run the following supporting services:
+
 - [traefik](https://traefik.io/) as a reverse proxy
 - [cert-manager](https://cert-manager.io/) to manage the https-certificate via [Let's Encrypt](https://letsencrypt.org/)
 - [prometeus](https://prometheus.io/), [allertmanager](https://prometheus.io/docs/alerting/latest/alertmanager/) and [grafana](https://grafana.com/) for monitoring purposes
@@ -62,7 +63,7 @@ It is split into these roles:
 
 - `common` which sets up a basic linux system with basic hardening
 - `k8s` which deploys the HA-k3s cluster
-- `k8s-components` which deploys the supporting infrastructure components in kubernetes 
+- `k8s-components` which deploys the supporting infrastructure components in kubernetes
 
 The whole playbook is idempotent, so you can run it multiple times without any problems.
 To run it, you need can execute the following command:
