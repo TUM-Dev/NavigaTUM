@@ -2,15 +2,17 @@
 # and caching the results
 import json
 import logging
+import os
 import random
 
 import requests
 from bs4 import BeautifulSoup, element
 from defusedxml import ElementTree as ET
-from external.scraping_utils import CACHE_PATH, cached_json, maybe_sleep
-from tqdm import tqdm
+from external.scraping_utils import CACHE_PATH, cached_json, clean_spaces, maybe_sleep
+from tqdm.contrib.concurrent import thread_map
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
+XML_NAMESPACES = {"cor": "http://rdm.campusonline.at/"}
 
 
 def scrape_areas():
@@ -89,52 +91,83 @@ def scrape_rooms():
 
     :returns: A list of rooms, each room is a dict
     """
-    # To get both area/building and usage type for all buildings without needing to
-    # query the details of all >30k rooms, the rooms are queried two times.
-    # First for every area and building, second for every usage type.
-    # This means that every room should be in a list exactly two times.
-    # With 30k rooms this means over 1000 requests (max 30 rooms per page)
-
-    # For these usages additional information is retrieved.
-    extend_for_usages = {
-        20,  # lecture hall
-        41,  # seminar room
-        55,  # Zeichensaal
-        130,  # Unterrichtsraum
-        131,  # Übungsraum
-    }
-
-    buildings = scrape_buildings()
-
     logging.info("Scraping the rooms of tumonline")
-    room_index = {}
-    for building in buildings:
-        b_rooms = _retrieve_roomlist(
-            f_type="building",
-            f_name="pGebaeude",
-            f_value=building["filter_id"],
-            area_id=building["area_id"],
-        )
-        for room in b_rooms:
-            room["b_filter_id"] = building["filter_id"]
-            room["b_area_id"] = building["area_id"]
-            room_index[room["roomcode"]] = room
 
-    # Only a few usage types are named in the filter, however with their id it's also possible
-    # to filter for other usage types. That's why we try them out.
+    params = {"token": os.environ.get("TUMONLINE_API_TOKEN", "yeIKcuCGSzUCosnPZcKXkGeyUYGTQqUw"), "orgUnitID": 1}
+    root = _get_xml(f"{TUMONLINE_URL}j/ws/webservice_v1.0/rdm/rooms/xml", params, "tumonline/rooms.xml")
+
+    logging.info("Repackaging the rooms into json")
     rooms = []
-    usage_id = 1  # Observed: usage ids go up to 223, the limit below is for safety
-    while not (usage_id > 300 or len(rooms) >= len(room_index)):
-        u_rooms = _retrieve_roomlist(f_type="usage", f_name="pVerwendung", f_value=usage_id, area_id=0)
-        for room in u_rooms:
-            room_index[room["roomcode"]]["usage"] = usage_id
-            if usage_id in extend_for_usages:
-                system_id = room_index[room["roomcode"]]["room_link"][24:]
-                room_index[room["roomcode"]]["extended"] = _retrieve_roominfo(system_id)
-            rooms.append(room_index[room["roomcode"]])
-        usage_id += 1
+    for room in root.findall("cor:resource", XML_NAMESPACES):
+        description = room.find("cor:description", XML_NAMESPACES)
+        rooms.append(__parse_rooms(description))
 
-    return sorted(rooms, key=lambda r: (r["list_index"], r["roomcode"]))
+    # add extended datapoints
+    def __apply_extended_roominfo(_room):
+        maybe_sleep(2)  # given that this is inside a ThreadPool: may be less effective
+        _room["extended"] = _retrieve_roominfo(system_id=_room["roomID"])
+
+    thread_map(__apply_extended_roominfo, rooms, desc="Retrieving extra information", unit="room")
+
+    # drop duplicate information
+    for room in rooms:
+        room["arch_name"] = room["extended"].pop("Zusatzinformationen", {}).get("Architekten-Raumnr.", None)
+        for key in ["area", "purpose", "seats"]:
+            if key in room:
+                room.pop(key)
+        relabelings = [
+            ("additionalInformation", "alt_name"),
+            ("purposeID", "usage"),
+            ("roomID", "tumonline_room_nr"),
+            ("roomCode", "roomcode"),
+        ]
+        for old, new in relabelings:
+            room[new] = room.pop(old, None)
+
+    return sorted(rooms, key=lambda r: r["roomcode"])
+
+
+def __parse_rooms(description: ET):
+    room_data = {}
+    # basic attributes
+    for attr in description.findall("cor:attribute", XML_NAMESPACES):
+        key = attr.attrib["{http://rdm.campusonline.at/}attrID"]
+        link = attr.attrib.get("{http://rdm.campusonline.at/}attrAltUrl", None)
+        if link:
+            room_data[f"{key}_link"] = link
+        # datatype correction
+        if key in ["operator_id", "purposeID", "roomID", "seats"]:
+            room_data[key] = int(attr.text)
+        elif key == "area":
+            room_data[key] = float(attr.text)
+        else:
+            room_data[key] = clean_spaces(attr.text)
+
+    # orgs+external resources
+    for resource_group in description.findall("cor:resourceGroup", XML_NAMESPACES):
+        if resource_group.attrib["{http://rdm.campusonline.at/}typeID"] == "orgUnitUserList":
+            room_data["operator_id"] = __parse_operator(
+                resource_group.find(
+                    "cor:description",
+                    XML_NAMESPACES,
+                ),
+            )  # equipmentForExternalUseList is not added for lacking data quality
+    return room_data
+
+
+def __parse_operator(description: ET):
+    operator_ids = []
+    for org in description.findall("cor:resource", XML_NAMESPACES):
+        org_data = {}
+        org_description = org.find("cor:description", XML_NAMESPACES)
+        for attr in org_description.findall("cor:attribute", XML_NAMESPACES):
+            org_data[attr.attrib["{http://rdm.campusonline.at/}attrID"]] = attr.text
+
+        # this hides a bunch of duplicate data
+        operator_ids.append(int(org_data["orgUnitID"]))
+    if len(operator_ids) > 1:
+        raise RuntimeError("Ignoring second org for room")
+    return operator_ids[0]
 
 
 @cached_json("usages_tumonline.json")
@@ -157,9 +190,7 @@ def scrape_usages():
     usages = []
 
     for usage_type, example_room in sorted(used_usage_types.items(), key=lambda u: u[0]):
-        # room links start with "wbRaum.editRaum?pRaumNr=..."
-        system_id = example_room["room_link"][24:]
-        roominfo = _retrieve_roominfo(system_id)
+        roominfo = _retrieve_roominfo(system_id=example_room["tumonline_room_nr"])
 
         usage = roominfo["Basisdaten"]["Verwendung"]
         parts = []
@@ -210,7 +241,7 @@ def scrape_orgs(lang):
     for _item in results:
         item = _item["content"]["organisationSearchDto"]
         if "designation" in item:
-            orgs[item["designation"]] = {
+            orgs[item["id"]] = {
                 "id": item["id"],
                 "code": item["designation"],
                 "name": item["name"],
@@ -219,43 +250,12 @@ def scrape_orgs(lang):
     return orgs
 
 
-@cached_json("tumonline/{f_value}.{area_id}.json")
-def _retrieve_roomlist(f_type, f_name, f_value, area_id=0):
-    """Retrieve all rooms (multi-page) from the TUMonline room search list"""
-
-    all_rooms = []
-    pages_cnt = 1
-    current_page = 0
-
-    with tqdm(desc=f"Searching Rooms for {f_type} {f_value}", total=pages_cnt, leave=False) as prog:
-        while current_page < pages_cnt:
-            search_params = {
-                "pStart": len(all_rooms) + 1,  # 1 + current_page * 30,
-                "pSuchbegriff": "",
-                "pGebaeudebereich": area_id,  # 0 for all areas
-                "pGebaeude": 0,
-                "pVerwendung": 0,
-                "pVerwalter": 1,
-                f_name: f_value,
-            }
-            req = requests.post(f"{TUMONLINE_URL}/wbSuche.raumSuche", data=search_params, timeout=30)
-            rooms_on_page, pages_cnt, current_page = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
-            all_rooms.extend(rooms_on_page)
-
-            if prog.total != pages_cnt:
-                prog.reset(pages_cnt)
-            prog.update(1)
-            maybe_sleep(1.5)
-    return all_rooms
-
-
+@cached_json("room/{system_id}.json")
 def _retrieve_roominfo(system_id):
     """Retrieve the extended room information from TUMonline for one room"""
-    html_parser: BeautifulSoup = _get_html(
-        f"{TUMONLINE_URL}/wbRaum.editRaum?pRaumNr={system_id}",
-        {},
-        f"room/{system_id}",
-    )
+    req = requests.get(f"{TUMONLINE_URL}/wbRaum.editRaum?pRaumNr={system_id}", timeout=10)
+    maybe_sleep(0.5)  # Not the best place to put this
+    html_parser = BeautifulSoup(req.text, "lxml")
 
     roominfo = {}
 
@@ -271,7 +271,7 @@ def _retrieve_roominfo(system_id):
                 columns = row.find_all("td")
                 # Doesn't apply to the PLZ/Ort field, which has another table inside
                 if len(columns) == 2:
-                    roominfo[table_name][columns[0].text.strip()] = columns[1].text.strip()
+                    roominfo[table_name][clean_spaces(columns[0].text)] = clean_spaces(columns[1].text)
 
     return roominfo
 
@@ -287,59 +287,6 @@ def _parse_filter_options(xml_parser: BeautifulSoup, filter_type):
             options.append((opt.attrs["value"], opt.text))
 
     return options
-
-
-def _parse_rooms_list(lxml_parser: BeautifulSoup):
-    rooms = []
-
-    table = lxml_parser.find("table", class_="list")
-
-    if table is None:
-        return [], 1, 1
-
-    tbody = table.find("tbody")
-
-    for row in tbody.find_all("tr"):
-        columns = row.find_all("td")
-        if len(columns) != 8:
-            logging.debug(row)
-            continue
-
-        c_room = columns[1].find("a")
-        c_calendar = columns[2].find("a")
-        c_address = columns[5].find("a")
-        c_operator = columns[7].find("a")
-        data = {
-            "list_index": columns[0].text,
-            "roomcode": columns[1].text,
-            "room_link": None if c_room is None else c_room.attrs["href"],
-            "calendar": None if c_calendar is None else c_calendar.attrs["href"],
-            "alt_name": columns[3].text,
-            "arch_name": columns[4].text,
-            "address": columns[5].text,
-            "address_link": None if c_address is None else c_address.attrs["href"],
-            "plz_place": columns[6].text,
-            "operator": columns[7].text,
-            "op_link": None if c_operator is None else c_operator.attrs["href"],
-        }
-
-        rooms.append(data)
-
-    # Get information about number of pages
-    pages_table = lxml_parser.find("table", class_="wr100")
-    if pages_table is None:
-        num_pages = 1
-        current_page = 1
-    else:
-        columns = pages_table.find("tr").find_all("td")
-        if len(columns) != 5:
-            logging.debug(columns)
-            raise RuntimeError("")
-
-        num_pages = len(columns[3].find_all("option"))
-        current_page = int(columns[3].find("option", selected=True).text)  # 1-indexed!
-
-    return rooms, num_pages, current_page
 
 
 def _get_roomsearch_xml(url: str, params: dict, cache_fname: str) -> BeautifulSoup:

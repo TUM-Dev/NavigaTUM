@@ -9,6 +9,11 @@ from urllib.error import HTTPError
 CACHE_PATH = Path(__file__).parent / "cache"
 
 
+def clean_spaces(_string: str) -> str:
+    """Remove leading and trailing spaces as well as duplicate spaces in-between"""
+    return " ".join(_string.split())
+
+
 def maybe_sleep(duration):
     """
     Sleep for the given duration, but only if the script was called during a workday and working hours.

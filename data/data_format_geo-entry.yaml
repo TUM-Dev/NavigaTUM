@@ -233,8 +233,6 @@ internal_id:
     operator_link: "webnav.navigate_to?corg=26064"
     room_link: "wbRaum.editRaum?pRaumNr=37463"
     calendar: null # or "tvKalender.wSicht?cOrg=15203&cRes=18135&cReadonly=J"
-    b_filter_id: 575
-    b_area_id: 24
     usage: 2
   
   # if room

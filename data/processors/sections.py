@@ -17,12 +17,6 @@ def extract_tumonline_props(data):
                 ),
                 "id": entry["tumonline_data"]["operator_id"],
             }
-        if entry.get("tumonline_data", {}).get("room_link", None):
-            url: str = entry["tumonline_data"]["room_link"]
-            entry["props"]["tumonline_room_nr"] = int(url.removeprefix("wbRaum.editRaum?pRaumNr="))
-        elif entry.get("tumonline_data", {}).get("address_link", None):
-            url: str = entry["tumonline_data"]["address_link"]
-            entry["props"]["tumonline_room_nr"] = int(url.removeprefix("ris.einzelraum?raumkey="))
 
 
 def compute_floor_prop(data):

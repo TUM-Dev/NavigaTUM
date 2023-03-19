@@ -14,6 +14,10 @@ patches:
   - {if_roomcode: "0305\\.03\\.543",  arch_name:  "S3543@0305"}
   # The "Theresianum Foyer, 0604" is an exception not formatted in the common alt_name format
   - {if_roomcode: "0506\\.EG\\.604", alt_name: "Foyer"}
+  # These rooms just don't have an alt name
+  - {if_roomcode: "0505\\.01\\.639", alt_name: "Büro", arch_name: "1639@505"}
+  - {if_roomcode: "0505\\.01\\.640", alt_name: "Büro", arch_name: "1640@505"}
+  - {if_roomcode: "0505\\.01\\.641", alt_name: "Büro", arch_name: "1641@505"}
   # 
   - {if_roomcode: "0206\\.DG\\.[0-3][0-9]{2}", __delete: true}
 

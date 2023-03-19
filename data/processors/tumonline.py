@@ -8,8 +8,6 @@ from processors.patch import apply_patches
 from utils import TranslatableStr as _
 
 ALLOWED_ROOMCODE_CHARS = set(string.ascii_letters) | set(string.digits) | {".", "-"}
-OPERATOR_STRIP_CHARS = "[ ]"
-OPERATOR_WEBNAV_LINK_PREFIX = "webnav.navigate_to?corg="
 
 
 def merge_tumonline_buildings(data):
@@ -101,8 +99,11 @@ def merge_tumonline_rooms(data):
             missing_buildings[b_id] += 1
             continue
 
+        plz_place = room["extended"]["Basisdaten"]["PLZ/Ort"]
         r_data = {
             "id": room["roomcode"],
+            "tumonline_room_nr": room["tumonline_room_nr"],
+            "arch_name": room["arch_name"],
             "type": "room",
             "name": f"{room['roomcode']} ({room['alt_name']})",
             "parents": data[b_id]["parents"] + [b_id],
@@ -110,39 +111,40 @@ def merge_tumonline_rooms(data):
                 "roomcode": room["roomcode"],
                 "arch_name": room["arch_name"],
                 "alt_name": room["alt_name"],
-                "address": _clean_spaces(room["address"]),
-                "address_link": room["address_link"],
-                "plz_place": room["plz_place"],
-                "operator": room["operator"].strip(OPERATOR_STRIP_CHARS),
-                "operator_id": int(room["op_link"].strip(OPERATOR_WEBNAV_LINK_PREFIX)),
-                "operator_link": room["op_link"],
+                "address": room["address"],
+                "plz_place": plz_place,
+                "operator": orgs_de[str(room["operator_id"])]["code"],
+                "operator_id": room["operator_id"],
+                "operator_link": f"webnav.navigate_to?corg={room['operator_id']}",
                 "operator_name": _(
-                    orgs_de.get(room["operator"].strip(OPERATOR_STRIP_CHARS), {}).get("name"),
-                    orgs_en.get(room["operator"].strip(OPERATOR_STRIP_CHARS), {}).get("name"),
+                    orgs_de[str(room["operator_id"])]["name"],
+                    orgs_en[str(room["operator_id"])]["name"],
                 ),
-                "room_link": room["room_link"],
-                "calendar": room["calendar"],
-                "b_filter_id": room["b_filter_id"],
-                "b_area_id": room["b_area_id"],
+                "room_link": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/"
+                f"wbRaum.editRaum?pRaumNr={room['tumonline_room_nr']}",
+                # "calendar": room["calendar"],
                 "usage": room["usage"],
+                "extended": room["extended"],
             },
             "props": {
                 "ids": {
                     "roomcode": room["roomcode"],
+                    "arch_name": room["arch_name"],
                 },
                 "address": {
                     "street": _clean_address_street(room["address"]),
-                    "plz_place": room["plz_place"],
+                    "plz_place": plz_place,
                     "source": "tumonline",  # TODO: Wrong is only source is not set up to here
                 },
+                "tumonline_room_nr": room["tumonline_room_nr"],
             },
         }
 
         if len(room["arch_name"]) > 0:
             r_data["props"]["ids"]["arch_name"] = room["arch_name"]
 
-        if "extended" in room and "physikalische Eigenschaften" in room["extended"]:
-            physical_props = room["extended"]["physikalische Eigenschaften"]
+        physical_props = room.get("extended", {}).get("physikalische Eigenschaften", {})
+        if physical_props:
             r_data["props"]["stats"] = {}
             if "Sitzplätze" in physical_props:
                 r_data["props"]["stats"]["n_seats"] = int(physical_props["Sitzplätze"])
@@ -160,9 +162,6 @@ def merge_tumonline_rooms(data):
             logging.error(f"Unknown usage for room '{room['roomcode']}': Id '{room['usage']}'")
             continue
 
-        if "extended" in room:
-            r_data["tumonline_data"]["extended"] = room["extended"]
-
         # TUMonline data does not overwrite the existing data when merged
         recursively_merge(data, {r_data["id"]: r_data}, overwrite=False)
 
@@ -170,7 +169,7 @@ def merge_tumonline_rooms(data):
         data[r_data["id"]].setdefault("sources", {}).setdefault("base", []).append(
             {
                 "name": "TUMonline",
-                "url": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/{room['room_link']}",
+                "url": r_data["tumonline_data"]["room_link"],
             },
         )
         if room["patched"]:
@@ -218,10 +217,10 @@ def _clean_tumonline_rooms(to_rooms):
         if len(roomcode_parts) != 3:
             logging.warning(f"Invalid roomcode: Not three '.'-separated parts: {room['roomcode']}")
             invalid_rooms.append(room)
-        if len(set(room["roomcode"]) - ALLOWED_ROOMCODE_CHARS) > 0:
+        disallowd_roomcode_chars = set(room["roomcode"]) - ALLOWED_ROOMCODE_CHARS
+        if disallowd_roomcode_chars:
             logging.warning(
-                f"Invalid character(s) in roomcode '{room['roomcode']}': "
-                f"{set(room['roomcode']) - ALLOWED_ROOMCODE_CHARS}",
+                f"Invalid character(s) in roomcode '{room['roomcode']}': " f"{disallowd_roomcode_chars}",
             )
             invalid_rooms.append(room)
 
@@ -241,9 +240,6 @@ def _clean_tumonline_rooms(to_rooms):
             invalid_rooms.append(room)
 
         _infer_arch_name(room, arch_name_parts, used_arch_names, roomcode_parts, roomcode_lookup)
-
-        # The address commonly has duplicate spaces
-        room["address"] = _clean_spaces(room["address"])
     if len(invalid_rooms) > 0:
         for room in invalid_rooms:
             to_rooms.remove(room)
@@ -322,7 +318,7 @@ def _maybe_set_alt_name(arch_name_parts, room):
     As far as we observed so far, if the room has no arch_name it also doesn't have any roomname in the alt_name.
     Also, if there are no comma-separated parts, the roomname is usually not in the alt_name.
     """
-    alt_parts = [_clean_spaces(s) for s in room["alt_name"].split(",")]
+    alt_parts = room["alt_name"].split(",")
     if len(alt_parts) < 2:
         return
     if alt_parts[0].lower() == arch_name_parts[0].lower():
@@ -363,12 +359,6 @@ def _maybe_set_alt_name(arch_name_parts, room):
         )
 
 
-def _clean_spaces(_string: str) -> str:
-    """Remove leading and trailing spaces as well as duplicate spaces in-between"""
-    return " ".join(_string.split())
-
-
 def _clean_address_street(street: str) -> str:
-    """Clean the given street address from the floor and unneccesary spaces"""
-    street = _clean_spaces(street)
+    """Clean the given street address from the floor and unnecessary spaces"""
     return ",".join(street.split(",")[:-1])
