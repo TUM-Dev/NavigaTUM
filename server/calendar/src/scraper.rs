@@ -49,16 +49,20 @@ async fn main() {
     scraper.delete_stale_results();
 
     info!("Pushing metrics to the pushgateway");
-    let address = std::env::var("PUSHGATEWAY_ADRESS")
-        .unwrap_or("pushgateway.lens-metrics.svc.cluster.local".to_string());
-    prometheus::push_metrics(
-        "example_push",
-        labels! {"duration".to_owned() => format!("{time_window:?}"),},
-        &address,
-        prometheus::gather(),
-        None,
-    )
-    .unwrap_or_else(|e| {
-        error!("could not push metrics to the pushgateway, because: {e:?}");
+    tokio::task::spawn_blocking(move || {
+        let address = std::env::var("PUSHGATEWAY_ADRESS")
+            .unwrap_or("pushgateway.lens-metrics.svc.cluster.local".to_string());
+        prometheus::push_metrics(
+            "navigatum_calendarscraper",
+            labels! {"duration".to_owned() => format!("{time_window:?}"),},
+            &address,
+            prometheus::gather(),
+            None,
+        )
+        .unwrap_or_else(|e| {
+            error!("could not push metrics to the pushgateway, because: {e:?}");
+        });
     })
+    .await
+    .expect("Spawing a blocking task failed");
 }
