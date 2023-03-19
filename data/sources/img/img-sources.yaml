@@ -835,11 +835,29 @@ chemie:
       url: "https://nav.tum.de"
 "5531":
   0:
-    author: "David Bonello"
-    license: CC0 1.0
+    author: "Eckert, Astrid / TUM"
+    license:
+      text: "Verwendung frei bei Berichterstattung über die TUM unter Nennung des Copyrights"
+    meta:
+      caption: "Das Ingeborg Ortner-Kinderhaus auf dem TUM-Campus Garching wurde mit dem Holzbaupreis Bayern 2010 ausgezeichnet."
+      date: "2010"
+      headline: "Ingeborg Ortner-Kinderhaus"
+      image_url: "https://mediatum.ub.tum.de/file/1007219/AE20101021726.jpg"
     source:
-      text: "NavigaTUM Team"
-      url: "https://nav.tum.de"
+      text: "mediaTUM"
+      url: "https://mediatum.ub.tum.de/652209?show_id=1007219"
+  1:
+    author: "Eckert, Astrid / TUM"
+    license:
+      text: "Verwendung frei bei Berichterstattung über die TUM unter Nennung des Copyrights"
+    meta:
+      caption: "Das Ingeborg Ortner-Kinderhaus auf dem TUM-Campus Garching wurde mit dem Holzbaupreis Bayern 2010 ausgezeichnet."
+      date: "2010"
+      headline: "Ingeborg Ortner-Kinderhaus"
+      image_url: "https://mediatum.ub.tum.de/file/1007219/AE20101021726.jpg"
+    source:
+      text: "mediaTUM"
+      url: "https://mediatum.ub.tum.de/652209?show_id=1007219"
 "5620":
   0:
     author: "Frank Elsinga"
@@ -1855,31 +1873,6 @@ mri:
     source:
       text: "mediaTUM"
       url: "https://mediatum.ub.tum.de/1232767?show_id=1165646"
-"5531":
-  0:
-    author: "Eckert, Astrid / TUM"
-    license:
-      text: "Verwendung frei bei Berichterstattung über die TUM unter Nennung des Copyrights"
-    meta:
-      caption: "Das Ingeborg Ortner-Kinderhaus auf dem TUM-Campus Garching wurde mit dem Holzbaupreis Bayern 2010 ausgezeichnet."
-      date: "2010"
-      headline: "Ingeborg Ortner-Kinderhaus"
-      image_url: "https://mediatum.ub.tum.de/file/1007219/AE20101021726.jpg"
-    source:
-      text: "mediaTUM"
-      url: "https://mediatum.ub.tum.de/652209?show_id=1007219"
-  1:
-    author: "Eckert, Astrid / TUM"
-    license:
-      text: "Verwendung frei bei Berichterstattung über die TUM unter Nennung des Copyrights"
-    meta:
-      caption: "Das Ingeborg Ortner-Kinderhaus auf dem TUM-Campus Garching wurde mit dem Holzbaupreis Bayern 2010 ausgezeichnet."
-      date: "2010"
-      headline: "Ingeborg Ortner-Kinderhaus"
-      image_url: "https://mediatum.ub.tum.de/file/1007218/AE20101021716.jpg"
-    source:
-      text: "mediaTUM"
-      url: "https://mediatum.ub.tum.de/652209?show_id=1007218"
 "5532":
   0:
     author: "Uli Benz"

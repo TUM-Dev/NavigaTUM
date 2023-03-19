@@ -1,5 +1,4 @@
 ---
-
 - name: Add jetstack chart repo
   kubernetes.core.helm_repository:
     name: jetstack
