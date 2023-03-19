@@ -1,3 +1,4 @@
+import functools
 import json
 import logging
 import time
@@ -16,17 +17,36 @@ def maybe_sleep(duration):
         time.sleep(duration)
 
 
-def _write_cache_json(fname, data):
-    with open(CACHE_PATH / fname, "w", encoding="utf-8") as file:
-        json.dump(data, file, indent=2, sort_keys=True)
+def cached_json(filename: str):
+    """
+    Decorator which caches the functions' returned results in json format
 
+    :filename: where to store the file
+    """
 
-def _cached_json(fname):
-    path = CACHE_PATH / fname
-    if path.exists():
-        with open(path, encoding="utf-8") as file:
-            return json.load(file)
-    return None
+    def decorator(func):  # needed, as we want to pass filename to the annotation
+        decorator_filename = filename  # needed, as otherwise this context would be lost
+
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            # prepare the filepath
+            wrapper_filename = decorator_filename
+            if args or kwargs:
+                wrapper_filename = decorator_filename.format(*args, **kwargs)
+            path = CACHE_PATH / wrapper_filename
+            # get already existing file
+            if path.exists():
+                with open(path, encoding="utf-8") as file:
+                    return json.load(file)
+            # produce new file
+            result = func(*args, **kwargs)
+            with open(CACHE_PATH / wrapper_filename, "w", encoding="utf-8") as file:
+                json.dump(result, file, indent=2, sort_keys=True)
+            return result
+
+        return wrapper
+
+    return decorator
 
 
 def _download_file(url, target_cache_file, quiet=False, quiet_errors=False):
@@ -39,6 +59,6 @@ def _download_file(url, target_cache_file, quiet=False, quiet_errors=False):
                 logging.warning(f"GET {url} -> Failed to retrieve because: {error}")
             return None
         if not quiet:
-            logging.warning(f"GET {url}")
+            logging.info(f"GET {url}")
 
     return target_cache_file

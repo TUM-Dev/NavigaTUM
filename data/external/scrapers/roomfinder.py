@@ -7,25 +7,20 @@ import xmlrpc.client
 import zipfile
 
 from defusedxml import ElementTree as ET
-from external.scraping_utils import _cached_json, _download_file, _write_cache_json, CACHE_PATH, maybe_sleep
+from external.scraping_utils import _download_file, CACHE_PATH, cached_json, maybe_sleep
 from tqdm import tqdm
 from utils import convert_to_webp
 
 ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192"
 
 
+@cached_json("buildings_roomfinder.json")
 def scrape_buildings():
     """
     Retrieve the (extended, i.e. with coordinates) buildings data from the Roomfinder API
 
     :returns: A list of buildings, each building is a dict
     """
-    cache_name = "buildings_roomfinder.json"
-
-    buildings = _cached_json(cache_name)
-    if buildings is not None:
-        return buildings
-
     logging.info("Scraping the buildings of the mytum roomfinder")
 
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
@@ -44,10 +39,10 @@ def scrape_buildings():
             buildings[i]["default_map"] = proxy.getBuildingDefaultMap(building["b_id"])
             maybe_sleep(0.05)
 
-    _write_cache_json(cache_name, sorted(buildings, key=lambda m: m["b_id"]))
-    return buildings
+    return sorted(buildings, key=lambda m: m["b_id"])
 
 
+@cached_json("rooms_roomfinder.json")
 def scrape_rooms():
     """
     Retrieve the (extended, i.e. with coordinates) rooms data from the Roomfinder API.
@@ -55,12 +50,6 @@ def scrape_rooms():
 
     :returns: A list of rooms, each room is a dict
     """
-    cache_name = "rooms_roomfinder.json"
-
-    rooms = _cached_json(cache_name)
-    if rooms is not None:
-        return rooms
-
     buildings = scrape_buildings()
     logging.info("Scraping the rooms of the mytum roomfinder")
     rooms_list = []
@@ -103,9 +92,7 @@ def scrape_rooms():
         rooms.append(extended_data)
         maybe_sleep(0.05)
 
-    rooms.sort(key=lambda r: (r["b_id"], r["r_id"]))
-    _write_cache_json(cache_name, rooms)
-    return rooms
+    return sorted(rooms, key=lambda r: (r["b_id"], r["r_id"]))
 
 
 def _guess_queries(rooms, n_rooms):
@@ -134,6 +121,7 @@ def _guess_queries(rooms, n_rooms):
             return
 
 
+@cached_json("maps_roomfinder.json")
 def scrape_maps():
     """
     Retrieve the maps including the data about them from Roomfinder.
@@ -143,11 +131,6 @@ def scrape_maps():
 
     :returns: A list of maps
     """
-    cache_name = "maps_roomfinder.json"
-
-    cached_maps = _cached_json(cache_name)
-    if cached_maps is not None:
-        return cached_maps
 
     # The only way to get the map boundaries seems to be to download the kml with overlaid map.
     # For this api we need a room or building for each map available.
@@ -169,8 +152,7 @@ def scrape_maps():
     # Not all maps are used somewhere.
     # TODO: Download the rest
 
-    _write_cache_json(cache_name, sorted(maps, key=lambda m: m["id"]))
-    return maps
+    return sorted(maps, key=lambda m: m["id"])
 
 
 def _download_maps(used_maps):
