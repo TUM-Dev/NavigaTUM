@@ -59,9 +59,9 @@ def scrape_rooms():
     # have to use search for this. Since search returns a max
     # of 50 results we need to guess to collect all rooms.
     logging.info("Searching for rooms in each building")
-    b_cnt = 0
+    unreported_warnings = []
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
-        for building in buildings:
+        for building in tqdm(buildings, desc="Guessing queries for building", unit="building"):
             if "b_roomCount" in building and building["b_roomCount"] > 0:
                 search_results = proxy.searchRoom("", {"r_building": building["b_id"]})
                 b_rooms = {room["r_id"] for room in search_results}
@@ -74,15 +74,17 @@ def scrape_rooms():
                         b_rooms |= {r["r_id"] for r in search_results}
 
                     if len(b_rooms) < building["b_roomCount"]:
-                        logging.warning(f"Could not guess all queries for building {building['b_id']}")
-
-                b_cnt += 1
-                logging.info(f"{building['b_id']} -> {len(b_rooms)} / {building['b_roomCount']}")
-
+                        unreported_warnings.append(
+                            f"Could not guess all queries for building {building['b_id']}, "
+                            f"because |b_rooms|={len(b_rooms)} < b_roomCount={building['b_roomCount']}",
+                        )
                 rooms_list.extend(list(b_rooms))
+    # reporting these issues here, to not fuck with tqdm
+    for unreported_warning in unreported_warnings:
+        logging.warning(unreported_warning)
 
     rooms = []
-    for room in tqdm(rooms_list, desc=f"Retrieving rooms for {b_cnt} buildings"):
+    for room in tqdm(rooms_list, desc=f"Retrieving rooms for {len(rooms_list)} buildings"):
         extended_data = proxy.getRoomData(room)
         # for k, v in extended_data.items():
         #    rooms[i][k] = v
@@ -112,7 +114,7 @@ def _guess_queries(rooms, n_rooms):
         else:
             return
 
-    # Thirs try: all characters
+    # Third try: all characters
     for char in string.ascii_lowercase:
         if len(rooms) < n_rooms:
             maybe_sleep(0.05)

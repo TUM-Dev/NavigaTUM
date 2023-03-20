@@ -158,7 +158,7 @@ def _get_base_room_infos():
             work_queue = new_queue
 
     total_hits = _join_room_hits()
-    if undownloadable:  # down here to make sure, that tdtm has flushed the output
+    if undownloadable:  # down here to make sure, that tqdm has flushed the output
         _report_undownloadable(undownloadable)
     return total_hits  # noqa: R504
 
