@@ -1,0 +1,41 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pr-461
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/TUM-Dev/navigatum.git
+    targetRevision: dependabot/cargo/server/calendar/serde-1.0.158
+    path: deployment/k3s
+    helm:
+      version: v3
+      values: |
+        namespace: pr-461
+        tag: pr-461
+        url: pr-461.nav.tum.sexy
+        server:
+            MEILI_MASTER_KEY: NDI2MWU3YzQxZDQzYmRmNzQyMTMyYWZlMTViMGZjNTBmZDY1MjUzNGNkMDAzYjc5YWMK
+            # GITHUB_TOKEN is intentionally omitted, as this file is templated and then added to git in the deployments branch
+            # JWT_KEY is omitted, because adding it would only make sense in conjunction with GITHUB_TOKEN
+            # MEILI_MASTER_KEY being added is not a security risk, since it is a hidden service and even if exposed is heavily restricted by other network policies
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pr-461
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - CreateNamespace=true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
