@@ -223,13 +223,11 @@ def scrape_orgs(lang):
 def _retrieve_roomlist(f_type, f_name, f_value, area_id=0):
     """Retrieve all rooms (multi-page) from the TUMonline room search list"""
 
-    logging.info(f"Retrieving {f_type} {f_value}")
-
     all_rooms = []
     pages_cnt = 1
     current_page = 0
 
-    with tqdm(desc="Searching for Rooms", total=pages_cnt, leave=False) as prog:
+    with tqdm(desc=f"Searching Rooms for {f_type} {f_value}", total=pages_cnt, leave=False) as prog:
         while current_page < pages_cnt:
             search_params = {
                 "pStart": len(all_rooms) + 1,  # 1 + current_page * 30,
@@ -356,7 +354,7 @@ def _get_xml(url: str, params: dict, cache_fname: str):
         tree = ET.parse(cache_path)
         return tree.getroot()
 
-    logging.info(f"GET {url}", params)
+    logging.debug(f"GET {url}", params)
     req = requests.get(url, params)
     with open(cache_path, "w", encoding="utf-8") as file:
         file.write(req.text)
