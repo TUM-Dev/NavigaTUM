@@ -84,7 +84,7 @@ def scrape_rooms():
         logging.warning(unreported_warning)
 
     rooms = []
-    for room in tqdm(rooms_list, desc=f"Retrieving rooms for {len(rooms_list)} buildings"):
+    for room in tqdm(rooms_list, desc=f"Retrieving {len(rooms_list)} rooms"):
         extended_data = proxy.getRoomData(room)
         # for k, v in extended_data.items():
         #    rooms[i][k] = v
