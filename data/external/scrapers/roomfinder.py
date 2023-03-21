@@ -103,7 +103,7 @@ def scrape_rooms():
         rooms.append(extended_data)
         maybe_sleep(0.05)
 
-    rooms.sort(key=lambda r: r["r_id"])
+    rooms.sort(key=lambda r: (r["b_id"], r["r_id"]))
     _write_cache_json(cache_name, rooms)
     return rooms
 
