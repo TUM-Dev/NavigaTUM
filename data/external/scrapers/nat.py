@@ -3,7 +3,7 @@ import json
 import logging
 from multiprocessing.pool import ThreadPool
 
-from external.scraping_utils import _cached_json, _download_file, _write_cache_json, CACHE_PATH
+from external.scraping_utils import _download_file, CACHE_PATH, cached_json
 from tqdm import tqdm
 from tqdm.contrib.concurrent import thread_map
 from utils import TranslatableStr as _
@@ -12,34 +12,27 @@ NAT_API_URL = "https://api.srv.nat.tum.de/api/v1/rom"
 NAT_CACHE_DIR = CACHE_PATH / "nat"
 
 
+@cached_json("buildings_nat.json")
 def scrape_buildings():
     """
     Retrieve the buildings as in the NAT roomfinder.
     """
-    cache_name = "buildings_nat.json"
-
-    buildings = _cached_json(cache_name)
-    if buildings is not None:
-        return buildings
 
     logging.info("Scraping the buildings of the NAT")
-    _download_file(f"{NAT_API_URL}/building", CACHE_PATH / cache_name)
+    path = CACHE_PATH / "buildings_nat.json"
+    _download_file(f"{NAT_API_URL}/building", path)
 
-    return _cached_json(cache_name)
+    with open(path, encoding="utf-8") as file:
+        return json.load(file)
 
 
+@cached_json("rooms_nat.json")
 def scrape_rooms():
     """
     Retrieve the rooms as in the NAT roomfinder.
 
     :returns: A list of rooms, each room is a dict
     """
-    cache_name = "rooms_nat.json"
-
-    rooms = _cached_json(cache_name)
-    if rooms is not None:
-        return rooms
-
     logging.info("Scraping the rooms of the NAT")
     base_info = _get_base_room_infos()
     rooms = {}
@@ -49,7 +42,6 @@ def scrape_rooms():
         key = room["room_code"]  # needed, as room_code is removed in _sanitise_room
         rooms[key] = _sanitise_room(room)
 
-    _write_cache_json(cache_name, rooms)
     return rooms
 
 
@@ -138,17 +130,12 @@ def _download_and_merge_room(base):
     return _merge(content, base)
 
 
+@cached_json("nat/base_info.json")
 def _get_base_room_infos():
     """
     The API is a bit buggy and some rooms are throwing 500 errors
     => we need to do with binary search workaround
     """
-    cache_name = NAT_CACHE_DIR / "base_info.json"
-
-    total_hits = _cached_json(cache_name)
-    if total_hits is not None:
-        return total_hits
-
     # download the provided ids in chunks (the API is only offering chunks of 5_000)
     undownloadable = []
     work_queue = [(i, 5_000) for i in range(0, 50_000, 5_000)]
@@ -171,10 +158,9 @@ def _get_base_room_infos():
             work_queue = new_queue
 
     total_hits = _join_room_hits()
-    _write_cache_json(cache_name, total_hits)
-    if undownloadable:  # down here to make shure, that tdtm has flushed the output
+    if undownloadable:  # down here to make sure, that tdtm has flushed the output
         _report_undownloadable(undownloadable)
-    return total_hits
+    return total_hits  # noqa: R504
 
 
 def _try_download_room_base_info(start: int, batch: int):

@@ -7,7 +7,7 @@ import random
 import requests
 from bs4 import BeautifulSoup, element
 from defusedxml import ElementTree as ET
-from external.scraping_utils import _cached_json, _write_cache_json, CACHE_PATH, maybe_sleep
+from external.scraping_utils import CACHE_PATH, cached_json, maybe_sleep
 from tqdm import tqdm
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
@@ -44,6 +44,7 @@ def scrape_usages_filter():
     return [{"id": int(e[0]), "name": e[1]} for e in _parse_filter_options(filters, "usages")]
 
 
+@cached_json("buildings_tumonline.json")
 def scrape_buildings():
     """
     Retrieve the buildings as in TUMonline with their assigned TUMonline area.
@@ -51,11 +52,6 @@ def scrape_buildings():
 
     :returns: A list of buildings, each building is a dict
     """
-    cache_name = "buildings_tumonline.json"
-
-    buildings = _cached_json(cache_name)
-    if buildings is not None:
-        return buildings
 
     areas = scrape_areas()
     logging.info("Scraping the buildings of tumonline")
@@ -81,11 +77,10 @@ def scrape_buildings():
     if len(buildings) != len(all_buildings):
         logging.warning("Not all buildings have an assigned area. Buildings without an area are discarded")
 
-    buildings.sort(key=lambda b: (b["name"], b["area_id"], b["filter_id"]))
-    _write_cache_json(cache_name, buildings)
-    return buildings
+    return sorted(buildings, key=lambda b: (b["name"], b["area_id"], b["filter_id"]))
 
 
+@cached_json("rooms_tumonline.json")
 def scrape_rooms():
     """
     Retrieve the rooms as in TUMonline including building and usage type.
@@ -109,18 +104,17 @@ def scrape_rooms():
         131,  # Übungsraum
     }
 
-    cache_name = "rooms_tumonline.json"
-
-    rooms = _cached_json(cache_name)
-    if rooms is not None:
-        return rooms
-
     buildings = scrape_buildings()
 
     logging.info("Scraping the rooms of tumonline")
     room_index = {}
     for building in buildings:
-        b_rooms = _retrieve_roomlist("b", "building", "pGebaeude", building["filter_id"], building["area_id"])
+        b_rooms = _retrieve_roomlist(
+            f_type="building",
+            f_name="pGebaeude",
+            f_value=building["filter_id"],
+            area_id=building["area_id"],
+        )
         for room in b_rooms:
             room["b_filter_id"] = building["filter_id"]
             room["b_area_id"] = building["area_id"]
@@ -131,7 +125,7 @@ def scrape_rooms():
     rooms = []
     usage_id = 1  # Observed: usage ids go up to 223, the limit below is for safety
     while not (usage_id > 300 or len(rooms) >= len(room_index)):
-        u_rooms = _retrieve_roomlist("u", "usage", "pVerwendung", usage_id)
+        u_rooms = _retrieve_roomlist(f_type="usage", f_name="pVerwendung", f_value=usage_id, area_id=0)
         for room in u_rooms:
             room_index[room["roomcode"]]["usage"] = usage_id
             if usage_id in extend_for_usages:
@@ -140,11 +134,10 @@ def scrape_rooms():
             rooms.append(room_index[room["roomcode"]])
         usage_id += 1
 
-    rooms.sort(key=lambda r: (r["list_index"], r["roomcode"]))
-    _write_cache_json(cache_name, rooms)
-    return rooms
+    return sorted(rooms, key=lambda r: (r["list_index"], r["roomcode"]))
 
 
+@cached_json("usages_tumonline.json")
 def scrape_usages():
     """
     Retrieve all usage types available in TUMonline.
@@ -152,12 +145,6 @@ def scrape_usages():
 
     :returns: A list of usages, each usage is a dict
     """
-    cache_name = "usages_tumonline.json"
-
-    usages = _cached_json(cache_name)
-    if usages is not None:
-        return usages
-
     rooms = scrape_rooms()
 
     logging.info("Scraping the room-usages of tumonline")
@@ -188,11 +175,10 @@ def scrape_usages():
         usage_din_277 = parts[1].strip("()")
 
         usages.append({"id": usage_type, "name": usage_name, "din_277": usage_din_277})
-
-    _write_cache_json(cache_name, usages)
     return usages
 
 
+@cached_json("orgs-{lang}_tumonline.json")
 def scrape_orgs(lang):
     """
     Retrieve all organisations in TUMonline, that may operate rooms.
@@ -200,20 +186,13 @@ def scrape_orgs(lang):
     :params lang: 'en' or 'de'
     :returns: A dict of orgs like {org_code: {...}}
     """
-    cache_name = f"orgs-{lang}_tumonline.json"
-
-    orgs = _cached_json(cache_name)
-    if orgs is not None:
-        return orgs
 
     logging.info("Scraping the orgs of tumonline")
     # There is also this URL, which is used to retrieve orgs that have courses,
     # but this is not merged in at the moment:
     # https://campus.tum.de/tumonline/ee/rest/brm.orm.search/organisations/chooser?$language=de&view=S_COURSE_LVEAB_ORG
     url = f"{TUMONLINE_URL}/ee/rest/brm.orm.search/organisations?q=*&$language={lang}"
-    headers = {
-        "Accept": "application/json",
-    }
+    headers = {"Accept": "application/json"}
 
     # This is a single request, so not cached
     req = requests.get(url, headers=headers)
@@ -237,18 +216,12 @@ def scrape_orgs(lang):
                 "name": item["name"],
                 "path": item["orgPath"],
             }
-
-    _write_cache_json(cache_name, orgs)
     return orgs
 
 
-def _retrieve_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
+@cached_json("tumonline/{f_value}.{area_id}.json")
+def _retrieve_roomlist(f_type, f_name, f_value, area_id=0):
     """Retrieve all rooms (multi-page) from the TUMonline room search list"""
-    cache_name = f"tumonline/{f_prefix}_{f_value}.{area_id}.json"
-
-    all_rooms = _cached_json(cache_name)
-    if all_rooms is not None:
-        return all_rooms
 
     logging.info(f"Retrieving {f_type} {f_value}")
 
@@ -275,8 +248,6 @@ def _retrieve_roomlist(f_prefix, f_type, f_name, f_value, area_id=0):
                 prog.reset(pages_cnt)
             prog.update(1)
             maybe_sleep(1.5)
-
-    _write_cache_json(cache_name, all_rooms)
     return all_rooms
 
 
@@ -308,11 +279,7 @@ def _retrieve_roominfo(system_id):
 
 
 def _parse_filter_options(xml_parser: BeautifulSoup, filter_type):
-    el_id = {
-        "areas": "pGebaeudebereich",
-        "buildings": "pGebaeude",
-        "usages": "pVerwendung",
-    }[filter_type]
+    el_id = {"areas": "pGebaeudebereich", "buildings": "pGebaeude", "usages": "pVerwendung"}[filter_type]
 
     options = []
 
