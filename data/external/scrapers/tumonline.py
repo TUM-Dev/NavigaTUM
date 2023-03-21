@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import random
+from typing import Optional
 
 import requests
 from bs4 import BeautifulSoup, element
@@ -82,6 +83,10 @@ def scrape_buildings():
     return sorted(buildings, key=lambda b: (b["name"], b["area_id"], b["filter_id"]))
 
 
+TUMONLINE_ROOM_XML_API_URL = f"{TUMONLINE_URL}j/ws/webservice_v1.0/rdm/rooms/xml"
+TUMONLINE_XML_API_TOKEN = os.environ.get("TUMONLINE_API_TOKEN", "yeIKcuCGSzUCosnPZcKXkGeyUYGTQqUw")
+
+
 @cached_json("rooms_tumonline.json")
 def scrape_rooms():
     """
@@ -91,20 +96,38 @@ def scrape_rooms():
 
     :returns: A list of rooms, each room is a dict
     """
-    logging.info("Scraping the rooms of tumonline")
+    logging.info("Generating tumonline-rooms")
 
-    params = {"token": os.environ.get("TUMONLINE_API_TOKEN", "yeIKcuCGSzUCosnPZcKXkGeyUYGTQqUw"), "orgUnitID": 1}
-    root = _get_xml(f"{TUMONLINE_URL}j/ws/webservice_v1.0/rdm/rooms/xml", params, "tumonline/rooms.xml")
+    logging.info("Scraping the rooms of tumonline which have an operator")
+    root = _get_xml(
+        TUMONLINE_ROOM_XML_API_URL,
+        {"token": TUMONLINE_XML_API_TOKEN, "orgUnitID": 1},
+        "tumonline/rooms_with_ou.xml",
+    )
+    if root is None:
+        raise RuntimeError("getting tumonline rooms with OU failed")
 
-    logging.info("Repackaging the rooms into json")
+    logging.info("Repackaging the rooms with an operator into json")
     rooms = []
     for room in root.findall("cor:resource", XML_NAMESPACES):
         description = room.find("cor:description", XML_NAMESPACES)
-        rooms.append(__parse_rooms(description))
+        rooms.append(__parse_room(description))
+
+    scraped_room_numbers = set(room["roomID"] for room in rooms)
+    unscraped_room_numbers = set(range(0, max(scraped_room_numbers) + 5_000)) - scraped_room_numbers
+
+    for room in thread_map(
+        __scrape_unscraped_room_number,
+        unscraped_room_numbers,
+        desc="Scraping/repackaging the rooms without an operator",
+        unit="unscraped_room_number",
+    ):
+        if room:
+            rooms.append(room)
 
     # add extended datapoints
     def __apply_extended_roominfo(_room):
-        maybe_sleep(2)  # given that this is inside a ThreadPool: may be less effective
+        maybe_sleep(random.randint(3, 6))  # nosec: not used for crypto, but because Threadpool maybe ineffective
         _room["extended"] = _retrieve_roominfo(system_id=_room["roomID"])
 
     thread_map(__apply_extended_roominfo, rooms, desc="Retrieving extra information", unit="room")
@@ -127,7 +150,24 @@ def scrape_rooms():
     return sorted(rooms, key=lambda r: r["roomcode"])
 
 
-def __parse_rooms(description: ET):
+def __scrape_unscraped_room_number(room_number):
+    maybe_sleep(random.randint(3, 6))  # nosec: not used for crypto, but because Threadpool maybe ineffective
+    root = _get_xml(
+        TUMONLINE_ROOM_XML_API_URL,
+        {"token": TUMONLINE_XML_API_TOKEN, "roomID": room_number},
+        f"tumonline/room_{room_number}.xml",
+        quiet=True,
+        quiet_errors=True,
+    )
+    if not root:
+        return None
+    logging.info(f"Found room at {room_number}")
+    room = root.find("cor:resource", XML_NAMESPACES)
+    description = room.find("cor:description", XML_NAMESPACES)
+    return __parse_room(description)
+
+
+def __parse_room(description: ET):
     room_data = {}
     # basic attributes
     for attr in description.findall("cor:attribute", XML_NAMESPACES):
@@ -290,19 +330,28 @@ def _parse_filter_options(xml_parser: BeautifulSoup, filter_type):
 
 
 def _get_roomsearch_xml(url: str, params: dict, cache_fname: str) -> BeautifulSoup:
-    root = _get_xml(url, params, cache_fname)
-    elem = root.find('.//instruction[@jsid="raumSucheKontainerID"]')
-    return BeautifulSoup(elem.text, "lxml")
+    for _ in range(5):
+        root = _get_xml(url, params, cache_fname)
+        if root is not None:
+            elem = root.find('.//instruction[@jsid="raumSucheKontainerID"]')
+            return BeautifulSoup(elem.text, "lxml")
+    raise RuntimeError(f"getting {url} failed 5x => cannot complete operation")
 
 
-def _get_xml(url: str, params: dict, cache_fname: str):
+def _get_xml(url: str, params: dict, cache_fname: str, quiet=False, quiet_errors=False) -> Optional[ET.XML]:
     cache_path = CACHE_PATH / cache_fname
     if cache_path.exists():
         tree = ET.parse(cache_path)
         return tree.getroot()
 
-    logging.debug(f"GET {url}", params)
+    if not quiet:
+        logging.debug(f"GET {url}", params)
     req = requests.get(url, params, timeout=10)
+    if req.status_code != 200:
+        if not quiet_errors:
+            logging.debug(f"|->\t{url} is unscrape-able", params)
+        return None
+
     with open(cache_path, "w", encoding="utf-8") as file:
         file.write(req.text)
     return ET.fromstring(req.text)
