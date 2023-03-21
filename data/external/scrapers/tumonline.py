@@ -81,6 +81,7 @@ def scrape_buildings():
     if len(buildings) != len(all_buildings):
         logging.warning("Not all buildings have an assigned area. Buildings without an area are discarded")
 
+    buildings.sort(key=lambda b: (b["name"], b["area_id"], b["filter_id"]))
     _write_cache_json(cache_name, buildings)
     return buildings
 
