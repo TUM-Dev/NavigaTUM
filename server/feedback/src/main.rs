@@ -90,5 +90,4 @@ async fn main() -> std::io::Result<()> {
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8070".to_string()))?
     .run()
     .await
-    // revert me
 }
