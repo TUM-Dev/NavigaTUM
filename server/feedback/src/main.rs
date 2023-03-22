@@ -1,7 +1,6 @@
 use actix_cors::Cors;
 use actix_governor::{GlobalKeyExtractor, Governor, GovernorConfigBuilder};
 use std::collections::HashMap;
-use std::time::Duration;
 
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prometheus::PrometheusMetricsBuilder;
@@ -50,10 +49,10 @@ async fn main() -> std::io::Result<()> {
 
     let feedback_ratelimit = GovernorConfigBuilder::default()
         .key_extractor(GlobalKeyExtractor)
-        .period(Duration::from_secs(SECONDS_PER_DAY / 50))
+        .per_second(SECONDS_PER_DAY / 100) // replenish new token every .. seconds
         .burst_size(20)
         .finish()
-        .unwrap();
+        .expect("Invalid configuration of the governor");
 
     // metrics
     let labels = HashMap::from([(
