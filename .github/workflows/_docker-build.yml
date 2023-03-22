@@ -54,3 +54,5 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             GIT_COMMIT_SHA=${{ github.sha }}
+          cache-from: type=registry,ref=user/app:latest
+          cache-to: type=inline
