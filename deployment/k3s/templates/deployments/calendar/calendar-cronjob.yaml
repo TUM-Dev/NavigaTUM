@@ -29,8 +29,18 @@ spec:
               name: calendar-vol
             command: ["/bin/navigatum-calendar-scraper"]
             env:
-            - name: DB_LOCATION
-              value: /data/server.db
+            - name: POSTGRES_URL
+              value: postgres.navigatum.svc.cluster.local
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: password
             - name: SCRAPED_TIME_WINDOW_MONTHS
               value: {{ $scrape_task.scraped_time_window_months | quote }}
             securityContext:
