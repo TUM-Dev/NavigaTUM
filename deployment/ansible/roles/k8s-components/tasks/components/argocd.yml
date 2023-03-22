@@ -43,8 +43,8 @@
                     - navigatum
         notifications:
           argocdUrl: https://argocd.nav.tum.sexy
-      #redis-ha:
-      #  enabled: true
+      redis-ha:
+        enabled: true
       controller:
         replicas: 1
       server:
