@@ -40,7 +40,6 @@ pub struct FeedbackPostData {
     delete_issue_requested: bool,
 }
 
-#[post("/api/feedback/get_token")]
 pub async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
     if !state.able_to_process_feedback() {
         return HttpResponse::ServiceUnavailable()

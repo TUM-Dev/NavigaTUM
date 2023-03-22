@@ -82,9 +82,9 @@ async fn main() -> std::io::Result<()> {
             .app_data(state_feedback.clone())
             .service(core::send_feedback)
             .service(
-                web::scope("")
+                web::scope("/api/feedback/get_token")
                     .wrap(Governor::new(&feedback_ratelimit))
-                    .service(core::get_token),
+                    .route("", web::post().to(core::get_token)),
             )
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8070".to_string()))?
