@@ -13,11 +13,13 @@ Please follow the [system dependencys docs](resources/documentation/Dependencys.
 
 #### Setting up the database
 
-To set up the database, you will need to run the `init_db.py` script:
+To set up the database, you will need to run a `postgres` instance. We recommend this configuration:
 
 ```bash
-python3 init_db.py
+docker run -p 5432:5432 -e POSTGRES_PASSWORD=password postgres
 ```
+
+Any migrations this database needs are applied on first run of the server.
 
 ### Starting the server
 
