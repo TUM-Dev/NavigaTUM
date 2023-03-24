@@ -13,7 +13,7 @@ SEARCH_ENDPOINT = "http://localhost:8080/api/search"
 
 def _do_search(qst: str, query: dict):
     url = SEARCH_ENDPOINT + "?" + urllib.parse.urlencode({"q": qst})
-    req = requests.get(url).json()
+    req = requests.get(url, timeout=10).json()
 
     search = {
         "query": query["query"],
