@@ -27,6 +27,18 @@ class SearchResult:
     hits: list[dict[str, Any]]
     num_results: int
 
+    @property
+    def was_successful(self):
+        return self.target_pos is not None
+
+    @property
+    def was_top5(self):
+        return self.target_pos is not None and 0 <= self.target_pos < 5
+
+    @property
+    def was_top20(self):
+        return self.target_pos is not None and 0 <= self.target_pos < 20
+
 
 @dataclasses.dataclass
 class Evaluation:
@@ -50,16 +62,16 @@ class Evaluation:
           4.7 = failed (but at least not misleading, e.g. when there are no results at all)
           5.0 = very bad (e.g. not in the results, misleading results)
         """
-        if 0 <= self.full_search.target_pos <= 4:
+        if self.full_search.was_top5:
             # "among" may specify where the target can also be without affecting grading
-            if self.full_search.target_pos == 0 or (self.full_search.target_pos < self.query.among):
+            if self.full_search.target_pos < self.query.among:
                 return 1.0
             preceding_hits = self.full_search.hits[: self.full_search.target_pos]
             preceding_types = {hit["type"] for hit in preceding_hits}
-            if self.full_search.hits[self.full_search.target_pos]["type"] in preceding_types:
-                return 3.0
-            return 2.0
-        if 0 < self.full_search.target_pos <= 20:
+            if self.full_search.hits[self.full_search.target_pos]["type"] not in preceding_types:
+                return 2.0
+            return 3.0
+        if self.full_search.was_top20:
             return 4.0
         if self.full_search.num_results == 0:
             return 4.7
@@ -93,7 +105,7 @@ class EvaluatableQuery(Query):
         query_lengths = range(1, len(self.query) + 1)
         searches = [self.do_search(search_endpoint, length) for length in query_lengths]
         final_search = searches[-1]
-        successfull_searches = [search for search in searches if search.target_pos is not None]
+        successfull_searches = [search for search in searches if search.was_successful]
         # among all successfull searches we look at the first one that reaches the best position
         best_search = min(
             successfull_searches,
@@ -102,8 +114,8 @@ class EvaluatableQuery(Query):
         )
 
         # among all successfull searches we look at the first one that reaches the top 5
-        lenghs_to_reach_top_5 = [search for search in successfull_searches if 0 <= search.target_pos <= 4]
-        len_to_reach_top_5 = lenghs_to_reach_top_5[0].queried_length if lenghs_to_reach_top_5 else None
+        searches_who_reached_top_5 = [search for search in successfull_searches if search.was_top5]
+        len_to_reach_top_5 = searches_who_reached_top_5[0].queried_length if searches_who_reached_top_5 else None
 
         # among all successfull searches we look at the first one that reaches the final position
         len_to_reach_final = min(
