@@ -192,7 +192,7 @@ def merge_tumonline_rooms(data):
 def _clean_tumonline_rooms(to_rooms):
     """
     This applies some known corrections / patches on the TUMonline room data.
-    It also searches for inconsitencies not yet patched
+    It also searches for inconsistencies not yet patched
     """
 
     roomcode_lookup = {r["roomcode"]: r for r in to_rooms}

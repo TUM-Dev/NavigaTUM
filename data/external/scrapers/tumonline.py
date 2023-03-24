@@ -195,7 +195,7 @@ def scrape_orgs(lang):
     headers = {"Accept": "application/json"}
 
     # This is a single request, so not cached
-    req = requests.get(url, headers=headers)
+    req = requests.get(url, headers=headers, timeout=30)
     if req.status_code != 200:
         raise RuntimeError(f"Failed to download organisations.\nrequest={req}\nrequest.text={req.text}")
 
@@ -238,7 +238,7 @@ def _retrieve_roomlist(f_type, f_name, f_value, area_id=0):
                 "pVerwalter": 1,
                 f_name: f_value,
             }
-            req = requests.post(f"{TUMONLINE_URL}/wbSuche.raumSuche", data=search_params)
+            req = requests.post(f"{TUMONLINE_URL}/wbSuche.raumSuche", data=search_params, timeout=30)
             rooms_on_page, pages_cnt, current_page = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
             all_rooms.extend(rooms_on_page)
 
@@ -355,7 +355,7 @@ def _get_xml(url: str, params: dict, cache_fname: str):
         return tree.getroot()
 
     logging.debug(f"GET {url}", params)
-    req = requests.get(url, params)
+    req = requests.get(url, params, timeout=10)
     with open(cache_path, "w", encoding="utf-8") as file:
         file.write(req.text)
     return ET.fromstring(req.text)
@@ -367,7 +367,7 @@ def _get_html(url: str, params: dict, cache_fname: str) -> BeautifulSoup:
         with open(cached_xml_file, encoding="utf-8") as file:
             result = file.read()
     else:
-        req = requests.get(url, params)
+        req = requests.get(url, params, timeout=10)
         maybe_sleep(0.5)  # Not the best place to put this
         with open(cached_xml_file, "w", encoding="utf-8") as file:
             result = req.text
