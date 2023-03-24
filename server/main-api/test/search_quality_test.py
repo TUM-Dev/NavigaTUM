@@ -22,7 +22,8 @@ class Query:  # split into Query and EvaluatableQuery for import reasons
 
 @dataclasses.dataclass
 class SearchResult:
-    target_pos: int
+    queried_length: int
+    target_pos: int | None
     hits: list[dict[str, Any]]
     num_results: int
 
@@ -66,17 +67,18 @@ class Evaluation:
 
 
 class EvaluatableQuery(Query):
-    def _do_search(self, search_endpoint: str, length: int) -> SearchResult:
+    def do_search(self, search_endpoint: str, length: int) -> SearchResult:
         url = search_endpoint + "?" + urllib.parse.urlencode({"q": self.query[:length]})
-        req = requests.get(url).json()
+        req = requests.get(url, timeout=10).json()
 
         hits = list(itertools.chain(*[s["entries"] for s in req["sections"]]))
         try:
             target_pos = [s["id"] == self.target for s in hits].index(True)
         except ValueError:
-            target_pos = -1
+            target_pos = None
 
         return SearchResult(
+            queried_length=length,
             target_pos=target_pos,
             hits=hits,
             num_results=sum(s["estimatedTotalHits"] for s in req["sections"]),
@@ -88,36 +90,36 @@ class EvaluatableQuery(Query):
 
         :search_endpoint: The endpoint to query
         """
-        full_search: SearchResult = self._do_search(search_endpoint, len(self.query))
+        query_lengths = range(1, len(self.query) + 1)
+        searches = [self.do_search(search_endpoint, length) for length in query_lengths]
+        final_search = searches[-1]
+        successfull_searches = [search for search in searches if search.target_pos is not None]
+        # among all successfull searches we look at the first one that reaches the best position
+        best_search = min(
+            successfull_searches,
+            key=lambda ls: (ls.target_pos, ls.queried_length),
+            default=None,
+        )
 
-        # Apart from the target search we iteratively type the query and assess how much of
-        # it is required to reach the position of the final search. Additionally, we can check
-        # whether the position is better at any point.
-        best_pos: None | int = None
-        len_to_best_pos: None | int = None
-        len_to_reach_top_5: None | int = None
-        len_to_reach_final: None | int = None
-        for length in range(1, len(self.query) + 1):
-            partial_search: SearchResult = self._do_search(search_endpoint, length)
+        # among all successfull searches we look at the first one that reaches the top 5
+        lenghs_to_reach_top_5 = [search for search in successfull_searches if 0 <= search.target_pos <= 4]
+        len_to_reach_top_5 = lenghs_to_reach_top_5[0].queried_length if lenghs_to_reach_top_5 else None
 
-            if 0 <= partial_search.target_pos:
-                if len_to_reach_top_5 is None and 0 <= partial_search.target_pos <= 4:
-                    len_to_reach_top_5 = length
-                if len_to_reach_final is None and partial_search.target_pos == full_search.target_pos:
-                    len_to_reach_final = length
-
-                if best_pos is None or partial_search.target_pos < best_pos:
-                    best_pos = partial_search.target_pos
-                    len_to_best_pos = length
+        # among all successfull searches we look at the first one that reaches the final position
+        len_to_reach_final = min(
+            (search.queried_length for search in successfull_searches if search.target_pos == final_search.target_pos),
+            default=None,
+        )
 
         return Evaluation(
             query=self,
-            best_pos=best_pos,
+            best_pos=best_search.target_pos if best_search else None,
+            len_to_best_pos=best_search.queried_length if best_search else None,
             len_to_reach_top_5=len_to_reach_top_5,
             len_to_reach_final=len_to_reach_final,
-            len_to_best_pos=len_to_best_pos,
-            full_search=full_search,
+            full_search=final_search,
         )
+
 
 
 @dataclasses.dataclass
@@ -133,8 +135,11 @@ class Evaluations:
     @property
     def results(self) -> list[Evaluation]:
         """Test the specific queries, and return the results"""
-        return thread_map(lambda query: query.evaluate(self.search_endpoint), self.queries,
-                          desc=f"Querying {self.search_endpoint}")
+        return thread_map(
+            lambda query: query.evaluate(self.search_endpoint),
+            self.queries,
+            desc=f"Querying {self.search_endpoint}",
+        )
 
 
 if __name__ == "__main__":

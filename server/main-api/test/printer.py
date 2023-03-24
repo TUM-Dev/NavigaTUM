@@ -45,7 +45,7 @@ def _gen_colored_query(search: search_quality_test.Evaluation):
         search.len_to_best_pos
         if (
             search.best_pos is not None
-            and (search.full_search.target_pos == -1 or search.best_pos < search.full_search.target_pos)
+            and (search.full_search.target_pos is None or search.best_pos < search.full_search.target_pos)
         )
         else 0
     )
