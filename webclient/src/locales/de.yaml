@@ -1,3 +1,12 @@
+calendar:
+  modal:
+    title: Kalendar
+    close: Schließen
+    footer:
+      disclaimer: Veranstaltungen werden täglich aktualisiert und identische Termine zusammengefasst.
+      please_check: Im Zweifelsfall prüfe bitte den
+      official_calendar: offiziellen TUMonline-Kalender
+      last_sync: Zuletzt aktualisiert
 close: Schließen
 core_js:
   error:

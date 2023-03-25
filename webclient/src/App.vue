@@ -2,6 +2,7 @@
 import Footer from "@/components/AppFooter.vue";
 import { useGlobalStore } from "@/stores/global";
 import FeedbackModal from "@/components/feedback/FeedbackModal.vue";
+import CalendarModal from "@/components/CalendarModal.vue";
 import AppSearchBar from "@/components/AppSearchBar.vue";
 import AppNavHeader from "@/components/AppNavHeader.vue";
 
@@ -39,6 +40,7 @@ const global = useGlobalStore();
 
   <Footer />
   <FeedbackModal v-if="global.feedback.open" />
+  <CalendarModal v-if="global.calendar.open" />
 </template>
 
 <style lang="scss">

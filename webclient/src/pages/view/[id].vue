@@ -12,6 +12,7 @@ import { useI18n } from "vue-i18n";
 import { setDescription, setTitle } from "@/composables/common";
 import { useClipboard } from "@vueuse/core";
 import { selectedMap, useDetailsStore } from "@/stores/details";
+import { useGlobalStore } from "@/stores/global";
 import { computed, nextTick, onMounted, ref, watchEffect } from "vue";
 import { useFetch } from "@/composables/fetch";
 import { useRoute } from "vue-router";
@@ -48,6 +49,7 @@ watchEffect(() => {
   });
 });
 
+const global = useGlobalStore();
 const state = useDetailsStore();
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
@@ -168,7 +170,7 @@ onMounted(() => {
           <template v-if="state.data?.props?.calendar_url">
             <a
               class="btn btn-link btn-action btn-sm"
-              :href="state.data.props.calendar_url"
+              @click="global.calendar.open = true"
               target="_blank"
               :title="$t('view_view.header.calendar')"
             >

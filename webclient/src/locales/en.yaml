@@ -1,3 +1,12 @@
+calendar:
+  modal:
+    title: Calendar
+    close: Close
+    footer:
+      disclaimer: Events are updated daily and identical events are merged.
+      please_check: If in doubt, please check the
+      official_calendar: official calendar on TUMonline
+      last_sync: Last update
 close: Close
 core_js:
   error:
