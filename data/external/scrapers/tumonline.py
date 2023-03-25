@@ -156,7 +156,7 @@ def scrape_usages():
 
     usages = []
 
-    for usage_type, example_room in sorted(used_usage_types.items(), key=lambda u, _: u):
+    for usage_type, example_room in sorted(used_usage_types.items(), key=lambda u: u[0]):
         # room links start with "wbRaum.editRaum?pRaumNr=..."
         system_id = example_room["room_link"][24:]
         roominfo = _retrieve_roominfo(system_id)
