@@ -130,7 +130,7 @@ const global = useGlobalStore();
   </footer>
   <FeedbackModal v-if="global.feedback.open" />
   <!-- General message modal -->
-  <div class="modal" :class="{ active: global.information_modal.body }">
+  <div class="modal" :class="active" v-if="global.information_modal?.body">
     <div class="modal-overlay" @click="global.information_modal.body = null"></div>
     <div class="modal-container">
       <div class="modal-header">
