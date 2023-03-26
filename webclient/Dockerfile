@@ -5,7 +5,13 @@ RUN npm install &&  \
     apt-get update &&  \
     apt-get install rsync -y
 
-COPY . .
+COPY build.sh build.sh
+COPY env env
+COPY *.json ./
+COPY *.ts ./
+COPY public public
+COPY *.html ./
+COPY src src
 RUN sh build.sh
 
 FROM nginx:latest as production-stage
