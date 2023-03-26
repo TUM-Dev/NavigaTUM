@@ -8,5 +8,4 @@ metadata:
 spec:
   stripPrefix:
     prefixes:
-      - /rendertron
       - /maps
