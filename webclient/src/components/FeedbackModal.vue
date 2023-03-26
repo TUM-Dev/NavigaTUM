@@ -254,7 +254,7 @@ function sendForm() {
           </div>
 
           <div class="form-group">
-            <label class="form-checkbox" id="feedback-privacy-label">
+            <label class="form-checkbox">
               <input type="checkbox" id="feedback-privacy" v-model="privacyChecked" />
               <i class="form-icon"></i> {{ $t("feedback.public") }}
             </label>
@@ -343,11 +343,6 @@ function sendForm() {
 
   #feedback-body {
     min-width: 100%;
-  }
-
-  #feedback-privacy-label {
-    font-size: 11px;
-    line-height: 140%;
   }
 
   #feedback-coordinate-picker {
