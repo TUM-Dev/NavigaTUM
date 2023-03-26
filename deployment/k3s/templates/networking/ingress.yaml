@@ -37,11 +37,6 @@ spec:
       services:
         - name: cdn-svc
           port: 8000
-    - kind: Rule
-      match: Host(`{{ $.Values.url }}`) && PathPrefix(`/rendertron/`)
-      services:
-        - name: rendertron-svc
-          port: 9100
       middlewares:
         - name: stripprefix
     - kind: Rule
