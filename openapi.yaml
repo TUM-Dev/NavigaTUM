@@ -1649,17 +1649,19 @@ components:
                     example: 126
                     minimum: 0
                   children:
-                    type: object
-                    properties:
-                      id:
-                        description: The id of the building
-                        type: string
-                      name:
-                        description: Main display name
-                        type: string
-                    required:
-                      - id
-                      - name
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          description: The id of the room
+                          type: string
+                        name:
+                          description: Main display name
+                          type: string
+                      required:
+                        - id
+                        - name
                 required:
                   - children
                   - count
