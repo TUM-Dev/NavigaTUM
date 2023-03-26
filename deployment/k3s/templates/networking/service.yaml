@@ -108,21 +108,3 @@ spec:
     - name: webclient
       port: 9000
       targetPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: rendertron-svc
-  labels:
-    app: navigatum
-    deployment: rendertron
-  namespace: {{ $.Values.namespace }}
-spec:
-  type: ClusterIP
-  selector:
-    app: navigatum
-    deployment: rendertron
-  ports:
-    - name: rendertron
-      port: 9100
-      targetPort: 3000
