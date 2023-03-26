@@ -1176,25 +1176,9 @@ components:
       type: object
       properties:
         text:
-          type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-          required:
-            - de
-            - en
+          type: string
         url:
-          type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-          required:
-            - de
-            - en
+          type: string
       required:
         - text
         - url
