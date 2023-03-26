@@ -1,7 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useDetailsStore } from "@/stores/details";
+
+const state = useDetailsStore();
+</script>
 
 <template>
-  <div v-if="state.data.sections?.featured">
+  <div v-if="state.data?.sections?.featured">
     <div class="columns" style="margin-top: 40px">
       <div class="column"><h2>Featured</h2></div>
     </div>

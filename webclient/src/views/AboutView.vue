@@ -1,8 +1,18 @@
 <script setup lang="ts">
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import Datenschutz from "../assets/md/datenschutz.md";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import Privacy from "../assets/md/privacy.md";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import AboutUs from "../assets/md/about-us.md";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import UeberUns from "../assets/md/ueber-uns.md";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import Impressum from "../assets/md/impressum.md";
 
 import { ref } from "vue";

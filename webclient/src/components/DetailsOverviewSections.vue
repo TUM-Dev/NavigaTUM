@@ -1,65 +1,45 @@
 <script setup lang="ts">
-import { ref, reactive, computed, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import { useDetailsStore } from "@/stores/details";
-
+type RoomChild = { readonly id: string; readonly name: string };
 const state = useDetailsStore();
 const combined_list = computed(() => {
   if (!state.data) return [];
 
-  const usages = state.data.sections.rooms_overview.usages;
-  const combinedList = [];
+  const usages = state.data?.sections?.rooms_overview?.usages || [];
+  const combinedList = [] as RoomChild[];
   usages.forEach((usage) => {
     combinedList.push(...usage.children);
   });
   return combinedList;
 });
 
-const display_list = ref([]);
-const filter = reactive({
-  search: "",
-  selected: null,
-  list: [],
-});
-const selected = ref(null);
+const display_list = ref([] as RoomChild[]);
+const search = ref("");
+const selected = ref(null as number | null);
 const loading = ref(true);
 const buildings_overview_expanded = ref(false);
 
 watch(
-  () => filter.search,
-  () => updateRoomsOverview
+  () => [search.value, selected.value],
+  () => updateRoomsOverview()
 );
-
-updateRoomsOverview();
-function updateRoomsOverview(setSelected = undefined) {
+function updateRoomsOverview() {
+  console.log("updateRoomsOverview");
   const rooms_overview = state.data?.sections?.rooms_overview;
   if (!rooms_overview) return;
-
-  if (setSelected !== undefined) selected.value = setSelected;
 
   if (selected.value === null) {
     display_list.value = [];
   } else {
     const rooms = selected.value === -1 ? combined_list.value : rooms_overview.usages[selected.value].children;
-    if (filter.search === "") {
+    if (search.value === "") {
       display_list.value = rooms;
     } else {
-      // Update filter index if required
-      if (selected.value !== filter.selected) {
-        filter.list = [];
+      const search_term = new RegExp(`.*${search.value}.*`, "i"); // i=>case insensitive
+      const filtered = [] as RoomChild[];
 
-        rooms.forEach((room) => {
-          room._lower = room.name.toLowerCase();
-          filter.list.push(room);
-        });
-        filter.selected = selected.value;
-      }
-
-      const search_term = filter.search.toLowerCase();
-      const filtered = [];
-
-      filter.list.forEach((f) => {
-        if (f._lower.indexOf(search_term) >= 0) filtered.push(f);
-      });
+      rooms.filter((f) => search_term.test(f.name)).forEach((f) => filtered.push(f));
       display_list.value = filtered;
     }
   }
@@ -86,7 +66,7 @@ function updateRoomsOverview(setSelected = undefined) {
 
 <template>
   <!-- Buildings overview -->
-  <section v-if="state.data.sections?.buildings_overview" id="building-overview">
+  <section v-if="state.data?.sections?.buildings_overview" id="building-overview">
     <div class="columns">
       <div class="column">
         <h2>{{ $t("view_view.buildings_overview.title") }}</h2>
@@ -173,7 +153,7 @@ function updateRoomsOverview(setSelected = undefined) {
                   v-bind:class="{
                     active: selected === -1,
                   }"
-                  @click="updateRoomsOverview(-1)"
+                  @click="selected = -1"
                 >
                   <i class="icon icon-arrow-right"></i>
                   <div class="menu-text">
@@ -189,7 +169,7 @@ function updateRoomsOverview(setSelected = undefined) {
                   v-bind:class="{
                     active: i === state.data.sections.rooms_overview.selected,
                   }"
-                  @click="updateRoomsOverview(i)"
+                  @click="selected = i"
                 >
                   <i class="icon icon-arrow-right"></i>
                   <div class="menu-text">{{ u.name }}</div>
@@ -199,7 +179,7 @@ function updateRoomsOverview(setSelected = undefined) {
             </ul>
           </div>
           <div class="panel-footer">
-            <button class="btn btn-link btn-sm" @click="updateRoomsOverview(null)">
+            <button class="btn btn-link btn-sm" @click="selected = null">
               {{ $t("view_view.rooms_overview.remove_selection") }}
             </button>
           </div>
@@ -210,12 +190,8 @@ function updateRoomsOverview(setSelected = undefined) {
         <div class="panel">
           <div class="panel-header">
             <div class="input-group">
-              <input
-                v-model="filter.search"
-                v-bind:placeholder="$t('view_view.rooms_overview.filter')"
-                class="form-input"
-              />
-              <button class="btn btn-primary input-group-btn" @click="filter.search = ''" aria-label="Clear the filter">
+              <input v-model="search" v-bind:placeholder="$t('view_view.rooms_overview.filter')" class="form-input" />
+              <button class="btn btn-primary input-group-btn" @click="search = ''" aria-label="Clear the filter">
                 <i class="icon icon-cross"></i>
               </button>
             </div>
@@ -237,7 +213,7 @@ function updateRoomsOverview(setSelected = undefined) {
                     " " +
                     $t("view_view.rooms_overview.result") +
                     (display_list.length === 1 ? "" : $t("view_view.rooms_overview.results_suffix")) +
-                    (filter.search === "" ? "" : $t("view_view.rooms_overview.filtered"))
+                    (search === "" ? "" : $t("view_view.rooms_overview.filtered"))
               }}
             </small>
           </div>

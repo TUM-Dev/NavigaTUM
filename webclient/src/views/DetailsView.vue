@@ -11,12 +11,13 @@ import { useI18n } from "vue-i18n";
 import { getLocalStorageWithExpiry, removeLocalStorage } from "@/utils/storage";
 import { copyCurrentLink, setDescription, setTitle } from "@/utils/common";
 import { selectedMap, useDetailsStore } from "@/stores/details";
-import type { components } from "@/api_types";
-type DetailsResponse = components["schemas"]["DetailsResponse"];
 import { nextTick, onMounted, ref, watch } from "vue";
 import { useFetch } from "@/utils/fetch";
 import { useRoute } from "vue-router";
 import router from "@/router";
+import type { components } from "@/api_types";
+type DetailsResponse = components["schemas"]["DetailsResponse"];
+import type {Coord} from "@/stores/global";
 
 const { t } = useI18n({
   inheritLocale: true,
@@ -59,10 +60,6 @@ function update() {
   });
 }
 
-function copyLink(copied) {
-  copyCurrentLink(copied);
-}
-
 const state = useDetailsStore();
 const copied = ref(false);
 // Coordinate picker states
@@ -103,7 +100,7 @@ onMounted(() => {
 
   // Update pending coordinate counter on localStorage changes
   const updateCoordinateCounter = function () {
-    const coords = getLocalStorageWithExpiry("feedback-coords", {});
+    const coords = getLocalStorageWithExpiry<{ [index: string]: Coord }>("feedback-coords", {});
     coord_counter.value.counter = Object.keys(coords).length;
   };
   window.addEventListener("storage", updateCoordinateCounter);
@@ -220,7 +217,7 @@ onMounted(() => {
           <button
             class="btn btn-link btn-action btn-sm"
             v-bind:title="$t('view_view.header.copy_link')"
-            @click="copyLink(copied)"
+            @click="copyCurrentLink(copied)"
           >
             <i class="icon icon-check" v-if="copied"></i>
             <i class="icon icon-link" v-else></i>
@@ -239,7 +236,7 @@ onMounted(() => {
           <a
             class="btn btn-link btn-action btn-sm"
             v-if="state.data.props?.calendar_url"
-            v-bind:href="state.data.props.calendar_url"
+            v-bind:href="state.data?.props.calendar_url"
             target="_blank"
             v-bind:title="$t('view_view.header.calendar')"
           >
@@ -280,7 +277,7 @@ onMounted(() => {
               <path d="M2.352.268h1.085v1.085" stroke-linejoin="round" />
             </svg>
           </button>
-          <ShareButton v-bind:coords="state.data.coords" />
+          <ShareButton v-bind:coords="state.data.coords" v-bind:name="state.data.name" />
           <DetailsFeedbackButton ref="feedbackButton" />
           <!--<button class="btn btn-link btn-action btn-sm"
                   v-bind:title="$t('view_view.header.favorites')">

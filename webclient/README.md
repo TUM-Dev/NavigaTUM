@@ -63,7 +63,7 @@ npm run lint
 ### Update the API's type definitions
 
 ```sh
-npx openapi-typescript openapi.yaml --output webclient/src/codegen/api.ts --export-type --immutable-types 
+npx openapi-typescript openapi.yaml --output webclient/src/api_types/index.ts --export-type --immutable-types --support-array-length
 ```
 
 ## Build files & Serving release build

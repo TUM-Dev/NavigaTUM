@@ -14,7 +14,7 @@ export function setLocalStorageWithExpiry(key: string, value: any, ttl: number) 
   window.dispatchEvent(e);
 }
 
-export function getLocalStorageWithExpiry<T>(key: string, defaultValue: T | null = null): T | null {
+export function getLocalStorageWithExpiry<T>(key: string, defaultValue: T): T {
   const itemStr = localStorage.getItem(key);
   if (!itemStr) return defaultValue;
   const item = JSON.parse(itemStr);

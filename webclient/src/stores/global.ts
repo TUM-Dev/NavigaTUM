@@ -2,6 +2,12 @@ import { defineStore } from "pinia";
 import type { components } from "@/api_types";
 type TokenRequest = components["schemas"]["TokenRequest"];
 
+export type Coord = {
+  coords: {
+    lat: number | undefined;
+    lon: number | undefined;
+  };
+};
 export const useGlobalStore = defineStore({
   id: "global",
   state: () => ({

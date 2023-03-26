@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useGlobalStore } from "@/stores/global";
+import { watch, ref, reactive } from "vue";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n({
   inheritLocale: true,
   useScope: "global",
 });
-import { watch, ref, reactive } from "vue";
 
 const global = useGlobalStore();
 const loading = ref(false);
@@ -53,7 +53,7 @@ _assuereTokenValidity();
 watch(() => global.feedback.open, _assuereTokenValidity);
 function _assuereTokenValidity() {
   if (token.value === null) {
-    token.value = getLocalStorageWithExpiry("feedback-token", null);
+    token.value = getLocalStorageWithExpiry<Token | null>("feedback-token", null);
   }
   if (token.value === null || Date.now() - token.value.creation > 1000 * 3600 * 6) {
     _requestPage(
@@ -169,7 +169,7 @@ function sendForm() {
 </script>
 
 <template>
-  <div class="modal active" id="feedback-modal" v-if="!successUrl.value">
+  <div class="modal active" id="feedback-modal" v-if="!successUrl">
     <div id="feedback-overlay modal-overlay" @click="mayCloseForm"></div>
     <div class="modal-container">
       <div class="modal-header">
@@ -240,6 +240,7 @@ function sendForm() {
                   features: t("feedback.helptext.features"),
                   search: t("feedback.helptext.search"),
                   entry: t("feedback.helptext.entry"),
+                  other: t("feedback.helptext.other"), // This is only here to make the linter happy, backend uses "other" as a fallback if the category is not known
                 }[global.feedback.category]
               }}
             </p>
@@ -281,7 +282,7 @@ function sendForm() {
       </div>
     </div>
   </div>
-  <div class="modal active" id="feedback-success-modal" v-if="successUrl.value">
+  <div class="modal active" id="feedback-success-modal" v-if="successUrl">
     <div class="feedback-overlay modal-overlay" @click="closeForm"></div>
     <div class="modal-container">
       <div class="modal-header">
@@ -293,7 +294,7 @@ function sendForm() {
           <p>{{ $t("feedback.success.thank_you") }}</p>
           <p>
             {{ $t("feedback.success.response_at") }}
-            <a id="feedback-success-url" class="btn-link" v-bind:href="successUrl.value">{{
+            <a id="feedback-success-url" class="btn-link" v-bind:href="successUrl">{{
               $t("feedback.success.this_issue")
             }}</a>
           </p>

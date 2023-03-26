@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { getLocalStorageWithExpiry, setLocalStorageWithExpiry } from "@/utils/storage";
 import maplibregl from "maplibre-gl";
-import type { BackgroundLayer, Map, Marker, ImageSource } from "maplibre-gl";
 import { selectedMap, useDetailsStore } from "@/stores/details";
 import { useGlobalStore } from "@/stores/global";
 import { nextTick, ref } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
-const map = ref<Map | undefined>(undefined);
+import type { Coordinates, BackgroundLayerSpecification, Map, Marker, ImageSource } from "maplibre-gl";
+import type { Coord } from "@/stores/global";
 
+const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const marker2 = ref<Marker | null>(null);
 const floorControl = ref<FloorControl>(new FloorControl());
@@ -26,12 +27,6 @@ const coord_picker = ref({
 });
 const initialLoaded = ref(false);
 
-type Coord = {
-  coords: {
-    lat: number | undefined;
-    lon: number | undefined;
-  };
-};
 const emit = defineEmits(["openFeedbackForm"]);
 function confirmLocationPicker() {
   // add the current edits to the feedback
@@ -94,7 +89,7 @@ function addLocationPicker() {
   if (marker2.value === null) {
     // Coordinates are either taken from the entry, or if there are already
     // some in the localStorage use them
-    const currentEdits = getLocalStorageWithExpiry("feedback-coords", {});
+    const currentEdits = getLocalStorageWithExpiry<{ [index: string]: Coord }>("feedback-coords", {});
 
     const { coords } = currentEdits[state.data.id] || state.data;
     marker2.value = new maplibregl.Marker({
@@ -200,11 +195,11 @@ function initMap(containerId: string) {
   // container to maximize, and then remains unchanged even if the browser
   // is resized (not relevant for users but for developers).
   const isMobile = window.matchMedia && window.matchMedia("only screen and (max-width: 480px)").matches;
-
+  const fullscreenContainer = isMobile
+    ? document.getElementById("interactive-map")
+    : document.getElementById("interactive-map-container");
   const fullscreenCtl = new maplibregl.FullscreenControl({
-    container: isMobile
-      ? document.getElementById("interactive-map")
-      : document.getElementById("interactive-map-container"),
+    container: fullscreenContainer as HTMLElement,
   });
   // "Backup" the maplibregl default fullscreen handler
   const defaultOnClickFullscreen = fullscreenCtl._onClickFullscreen;
@@ -217,8 +212,8 @@ function initMap(containerId: string) {
       } else {
         fullscreenCtl._container.classList.add("maximize");
         document.body.classList.add("no-scroll");
-        // "instant" is not part of the spec but nonetheless implemented
-        // by Firefox and Chrome
+        // "instant" is not part of the spec but nonetheless implemented by Firefox/Chrome
+        // @ts-expect-error: TS2322
         window.scrollTo({ top: 0, behavior: "instant" });
       }
 
@@ -242,7 +237,6 @@ function initMap(containerId: string) {
       enableHighAccuracy: true,
     },
     trackUserLocation: true,
-    showUserHeading: true,
   });
   map.addControl(location);
 
@@ -265,7 +259,7 @@ function initMap(containerId: string) {
 
   interface FloorChangedEvent {
     file: string | null;
-    coords: number[][] | undefined;
+    coords: Coordinates | undefined;
   }
 
   floorControl.value.on("floor-changed", (args: FloorChangedEvent) => {
@@ -279,7 +273,7 @@ function initMap(containerId: string) {
 
 // Set the currently visible overlay image in the map,
 // or hide it if imgUrl is null.
-function setOverlayImage(imgUrl: string | null, coords: number[][] | undefined) {
+function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined) {
   // Even if the map is initialized, it could be that
   // it hasn't loaded yet, so we need to postpone adding
   // the overlay layer.
@@ -311,7 +305,7 @@ function setOverlayImage(imgUrl: string | null, coords: number[][] | undefined) 
         coordinates: coords,
       });
 
-    const layer = map.value!.getLayer("overlay-layer") as BackgroundLayer | undefined;
+    const layer = map.value!.getLayer("overlay-layer") as BackgroundLayerSpecification | undefined;
     if (!layer) {
       map.value!.addLayer({
         id: "overlay-bg",

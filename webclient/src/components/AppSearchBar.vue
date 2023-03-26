@@ -3,9 +3,10 @@ import { extractFacets } from "@/modules/autocomplete";
 import router from "@/router";
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
+import { useFetch } from "@/utils/fetch";
+import type { SectionFacet } from "@/modules/autocomplete";
 import type { components } from "@/api_types";
 type SearchResponse = components["schemas"]["SearchResponse"];
-import { useFetch } from "@/utils/fetch";
 
 export default {
   mounted() {
@@ -26,8 +27,8 @@ export default {
       keep_focus: false,
       query: "",
       autocomplete: {
-        sections: [],
-        highlighted: null,
+        sections: [] as SectionFacet[],
+        highlighted: null as string | null,
       },
       // As a simple measure against out-of-order responses
       // to the autocompletion, we count queries and make sure
@@ -302,7 +303,7 @@ export default {
       <template v-for="s in autocomplete.sections">
         <li class="divider" v-bind:data-content="s.name"></li>
         <template v-for="(e, i) in s.entries">
-          <li v-if="s.n_visible === undefined || i < s.n_visible || s.expanded" class="menu-item">
+          <li v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded" class="menu-item">
             <a
               v-bind:class="{
                 active: e.id === autocomplete.highlighted,

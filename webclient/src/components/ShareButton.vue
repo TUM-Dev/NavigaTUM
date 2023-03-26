@@ -1,27 +1,21 @@
-<script lang="ts">
+<script setup lang="ts">
 import { copyCurrentLink } from "@/utils/common";
+import { ref } from "vue";
 
-export default {
-  props: ["coords"],
-  data() {
-    return {
-      browser_supports_share: "share" in navigator,
-      copied: false,
-    };
-  },
-  methods: {
-    shareLink: function () {
-      if (navigator.share) {
-        navigator.share({
-          title: this.view_data.name,
-          text: document.title,
-          url: window.location.href,
-        });
-      }
-    },
-    copyCurrentLink: copyCurrentLink,
-  },
-};
+const props = defineProps(["coords", "name"]);
+
+const browser_supports_share = "share" in navigator;
+const copied = ref(false);
+
+function shareLink() {
+  if (navigator.share) {
+    navigator.share({
+      title: props.name,
+      text: document.title,
+      url: window.location.href,
+    });
+  }
+}
 </script>
 
 <template>
@@ -58,8 +52,8 @@ export default {
     </button>
     <button
       class="btn"
-      @click="copyCurrentLink(copied)"
-      v-html="copied ? $t('view_view.header.external_link.copied') : $t('view_view.header.copy_link')"
+      @click="copyLink()"
+      v-html="copyCurrentLink(copied) ? $t('view_view.header.external_link.copied') : $t('view_view.header.copy_link')"
     ></button>
   </div>
 </template>

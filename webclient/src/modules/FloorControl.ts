@@ -1,8 +1,11 @@
 import { Evented } from "maplibre-gl";
 import type { Map, IControl } from "maplibre-gl";
 import type { components } from "@/api_types";
-type OverlayMap = components["schemas"]["OverlayMap"];
 type OverlayMapEntry = components["schemas"]["OverlayMapEntry"];
+type OverlayMap = {
+  readonly default: number | null;
+  readonly available: OverlayMapEntry[];
+};
 // In reality, this extends maplibregl.Control, but this is apparently not working
 export class FloorControl extends Evented implements IControl {
   private readonly container: HTMLDivElement;
@@ -87,7 +90,7 @@ export class FloorControl extends Evented implements IControl {
     };
     let btn;
     let visibleI = null;
-    overlays.available.reverse().forEach((floor, index: number) => {
+    overlays.available.reverse().forEach((floor: OverlayMapEntry, index: number) => {
       btn = document.createElement("button");
       btn.innerText = floor.floor;
       btn.addEventListener("click", clickHandlerBuilder(overlays.available, index));

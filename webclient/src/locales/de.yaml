@@ -55,6 +55,7 @@ feedback:
     features: "Features, die du gerne auf dieser Website haben würdest"
     search: "Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?"
     entry: "Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten, die du siehst (Namen, Koordinaten, Adressen, ...) anpassen. Was können wir verbessern?"
+    other: "Feedback ist auf ein Problem gestoßen: Kategorie ungültig"
   coordinatepicker:
     helptext: "Falls du mehrere Koordinaten gleichzeitig korrigieren willst, kannst du dieses Fenster schließen und weitere Koordinaten editieren. Wir speichern deine Veränderungen für 12 Stunden bei dir lokal. <br> Achtung, das gilt nur für Koordinaten!"
     title: "Koordinate auswählen"

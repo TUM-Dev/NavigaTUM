@@ -5,13 +5,13 @@ function extractBrowserInfo() {
 
   if (/trident/i.test(M[1])) {
     tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
-    return { name: "IE", version: tem[1] || "" };
+    return { name: "IE", version: +tem[1] || 0 };
   }
 
   if (M[1] === "Chrome") {
     tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
     if (tem != null) {
-      return { name: tem[1].replace("OPR", "Opera"), version: tem[2] };
+      return { name: tem[1].replace("OPR", "Opera"), version: +tem[2] };
     }
   }
 
@@ -21,38 +21,43 @@ function extractBrowserInfo() {
     M.splice(1, 1, tem[1]);
   }
 
-  return { name: M[0], version: M[1] };
+  return { name: M[0], version: +M[1] };
 }
 
-const minSupportedBrowsers = {
-  Chrome: 98,
-  Firefox: 94,
-  Edge: 98,
-  Opera: 84,
-  Safari: 15.3,
-};
-
-function isUnSupportedBrowser() {
-  const browser = extractBrowserInfo();
-  const browserNameIsKnown = minSupportedBrowsers.hasOwnProperty(browser.name);
-  return browserNameIsKnown && +browser.version < minSupportedBrowsers[browser.name];
+function isSupportedBrowser(browserName: string, browserVersion: number) {
+  switch (browserName) {
+    case "Chrome":
+      return 98 >= browserVersion;
+    case "Firefox":
+      return 94 >= browserVersion;
+    case "Edge":
+      return 98 >= browserVersion;
+    case "Opera":
+      return 84 >= browserVersion;
+    case "Safari":
+      return 15.3 >= browserVersion;
+    default:
+      return false;
+  }
 }
 
 function shouldWarn() {
-  if (!isUnSupportedBrowser()) return false;
-  const lastTime = localStorage.getItem("lastOutdatedBrowserWarningTime");
-  if (lastTime === null) return true;
+  const browser = extractBrowserInfo();
+  if (isSupportedBrowser(browser.name, browser.version)) return false;
+  const optLastTime = localStorage.getItem("lastOutdatedBrowserWarningTime");
+  if (optLastTime === null) return true;
+  const lastTime = new Date(optLastTime);
 
-  const currentTime = new Date().getTime();
-  const daysSinceLastWarning = (currentTime - Date(lastTime)) / (1000 * 60 * 60 * 24);
+  const currentTime: Date = new Date();
+  const msSinceLastWarning = currentTime.getTime() - lastTime.getTime();
+  const daysSinceLastWarning = msSinceLastWarning / (1000 * 60 * 60 * 24);
   return daysSinceLastWarning > 1;
 }
 
 if (shouldWarn()) {
-  const parent = document.getElementById("errorToasts");
   const error = document.createElement("div");
   error.classList.add("toast", "toast-error");
   error.innerHTML = "${{_.core_js.error.browser_outdated}}$";
-  parent.appendChild(error);
+  document.getElementById("errorToasts")?.appendChild(error);
   localStorage.setItem("lastOutdatedBrowserWarningTime", new Date().getTime().toString());
 }

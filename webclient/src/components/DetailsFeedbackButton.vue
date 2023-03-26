@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { getLocalStorageWithExpiry } from "@/utils/storage";
 import { useDetailsStore } from "@/stores/details";
-import { useGlobalStore } from "@/stores/global";
+import { useGlobalStore} from "@/stores/global";
+import { useI18n } from "vue-i18n";
+import type {Coord} from "@/stores/global";
 import type { components } from "@/api_types";
 type TokenRequest = components["schemas"]["TokenRequest"];
 
-import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 const state = useDetailsStore();
 function _getFeedbackSubject(currentEdits) {
@@ -77,12 +78,12 @@ defineExpose({
 function openFeedbackForm(addLocationPicker) {
   // The feedback form is opened. This may be prefilled with previously corrected coordinates.
   // Maybe get the old coordinates from localstorage
-  const currentEdits = getLocalStorageWithExpiry("feedback-coords", {});
+  const currentEdits = getLocalStorageWithExpiry<{ [index: string]: Coord }>("feedback-coords", {});
   const body = _getFeedbackBody(currentEdits);
   const subject = _getFeedbackSubject(currentEdits);
 
   window.setTimeout(
-    () => document.getElementById("feedback-coordinate-picker").addEventListener("click", addLocationPicker),
+    () => document.getElementById("feedback-coordinate-picker")?.addEventListener("click", addLocationPicker),
     100
   );
 

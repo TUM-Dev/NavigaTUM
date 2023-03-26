@@ -55,6 +55,7 @@ feedback:
     features: "Features you would like to see on this website"
     search: "Feedback about the search. What was your search query? What did you expect to see?"
     entry: "Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?"
+    other: "Feedback encountered issue: Category invalid"
   coordinatepicker:
     helptext: "If you want to correct several coordinates at the same time, you can close this window and edit more coordinates. <br> We will save your changes locally for 12 hours. <br> Warning, that's only valid for coordinates!"
     title: "Select coordinate"

@@ -3,16 +3,17 @@ import { useFetch } from "@/utils/fetch";
 import { ref } from "vue";
 import { setDescription, setTitle } from "@/utils/common";
 import { extractFacets } from "@/modules/autocomplete";
+import { useGlobalStore } from "@/stores/global";
+import { useI18n } from "vue-i18n";
 import type { SectionFacet } from "@/modules/autocomplete";
 import type { components } from "@/api_types";
 type SearchResponse = components["schemas"]["SearchResponse"];
-import { useGlobalStore } from "@/stores/global";
-const global = useGlobalStore();
-import { useI18n } from "vue-i18n";
+
 const { t } = useI18n({
   inheritLocale: true,
   useScope: "global",
 });
+const global = useGlobalStore();
 
 const query: string = new URLSearchParams(document.location.search).get("q") || "";
 

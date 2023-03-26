@@ -3,6 +3,15 @@
  * Do not make direct changes to the file.
  */
 
+/** Type helpers */
+type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
+type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
+type OneOf<T extends any[]> = T extends [infer Only]
+  ? Only
+  : T extends [infer A, infer B, ...infer Rest]
+  ? OneOf<[XOR<A, B>, ...Rest]>
+  : never;
+
 export type paths = {
   "/api/search": {
     /**
@@ -29,6 +38,15 @@ export type paths = {
      */
     get: operations["details"];
   };
+  "/api/calendar/{id}": {
+    /**
+     * Get a entry-preview
+     * @description This returns the a 1200x630px preview for the entry (room/building/..).
+     *
+     * This is usefull for implementing custom OpenGraph images for detail previews.
+     */
+    get: operations["calendar"];
+  };
   "/api/preview/{id}": {
     /**
      * Get a entry-preview
@@ -37,22 +55,6 @@ export type paths = {
      * This is usefull for implementing custom OpenGraph images for detail previews.
      */
     get: operations["previews"];
-  };
-  "/api/source_code": {
-    /**
-     * Get link to running source-code
-     * @description This endpoint returns a link to the source-code of the repository at the currently running version.
-     * This endpoint is not required for modifications (as the license is not AGPL), but strongly encouraged.
-     */
-    get: operations["source_code"];
-  };
-  "/api/feedback/source_code": {
-    /**
-     * Get link to running source-code
-     * @description This endpoint returns a link to the source-code of the repository at the currently running version.
-     * This endpoint is not required for modifications (as the license is not AGPL), but strongly encouraged.
-     */
-    get: operations["feedback-source_code"];
   };
   "/api/feedback/get_token": {
     /**
@@ -68,9 +70,8 @@ export type paths = {
      * Tokens gain validity after 5s, and are invalid after 12h of being issued.
      * They are not refreshable, and are only valid for one usage.
      *
-     * Global Rate-Limiting:
-     *  - hourly: 20 tokens per hour
-     *  - daily: 50 tokens per
+     * ***Important Note:***
+     * Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
      */
     post: operations["get_token"];
   };
@@ -124,19 +125,26 @@ export type paths = {
      */
     get: operations["legacy_redirect"];
   };
-  "/api/health": {
+  "/api/status": {
     /**
      * API healthcheck
      * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
      */
     get: operations["api-health"];
   };
-  "/api/feedback/health": {
+  "/api/feedback/status": {
     /**
      * feedback-API healthcheck
      * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
      */
     get: operations["feedback-health"];
+  };
+  "/api/calendar/status": {
+    /**
+     * calendar-API healthcheck
+     * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
+     */
+    get: operations["calendar-health"];
   };
   "/cdn/health": {
     /**
@@ -160,6 +168,32 @@ export type components = {
   schemas: {
     /** @description Data for the info-card table */
     readonly Props: {
+      /** @description The operator of the room */
+      readonly operator?: {
+        /**
+         * @description The designation code of the operator
+         * @example TUS7000
+         */
+        readonly code?: string;
+        /**
+         * @description The full name of the operator (localized). Null for organisations that
+         * are no longer active (e.g. id=38698), but where the operator has not been
+         * updated in TUMonline.
+         *
+         * @example TUM School of Social Sciences and Technology
+         */
+        readonly name?: OneOf<[string, null]>;
+        /**
+         * @description A link to the operator
+         * @example https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901
+         */
+        readonly url?: string;
+        /**
+         * @description The id of the operator
+         * @example 51901
+         */
+        readonly id?: number;
+      };
       readonly computed: readonly components["schemas"]["ComputedProp"][];
       readonly links?: readonly components["schemas"]["LinkProp"][];
       /**
@@ -168,12 +202,6 @@ export type components = {
        * An example of a room with a comment is MW1801.
        */
       readonly comment?: string;
-      /**
-       * @example [
-       *   "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J",
-       *   "https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J"
-       * ]
-       */
       readonly calendar_url?: Record<string, never>;
     };
     readonly ComputedProp: {
@@ -181,17 +209,17 @@ export type components = {
       readonly name: string;
       /** @example 5602.EG.001 */
       readonly text: string;
+      readonly extra?: {
+        /** @example Genauere Angaben */
+        readonly header?: string;
+        /** @example für Prüfungen: 102 in eng, 71 in weit, 49 in corona */
+        readonly body?: string;
+      };
     };
     /** @description A link with a localized link text and url */
     readonly LinkProp: {
-      readonly text: {
-        readonly de: string;
-        readonly en: string;
-      };
-      readonly url: {
-        readonly de: string;
-        readonly en: string;
-      };
+      readonly text: string;
+      readonly url: string;
     };
     /** @description The information you need to request Images from the /cdn/{size}/{id}_{counter}.webp endpoint */
     readonly ImageInfo: {
@@ -239,7 +267,7 @@ export type components = {
       /** @description The text to display */
       readonly text: string;
       /** @description The URL to the referenced information. Always either null or a valid URL */
-      readonly url?: string | null;
+      readonly url?: OneOf<[string, null]>;
     };
     readonly Coordinate: {
       /**
@@ -259,36 +287,10 @@ export type components = {
        * @example roomfinder
        */
       readonly source: string;
-      readonly utm?: {
-        /**
-         * Format: double
-         * @description The easting
-         * @example 698288.4681410069
-         */
-        readonly easting?: number;
-        /**
-         * Format: double
-         * @description The northing
-         * @example 5349538.736274569
-         */
-        readonly northing?: number;
-        /**
-         * @description The zone
-         * @example U
-         */
-        readonly zone?: string;
-        /**
-         * Format: int32
-         * @description The zone number
-         * @example 32
-         */
-        readonly zone_number?: number;
-      };
     };
     readonly Maps: {
       /**
        * @description The type of the Map that should be shown by default
-       * @example interactive
        * @enum {string}
        */
       readonly default: "interactive" | "roomfinder";
@@ -297,18 +299,23 @@ export type components = {
        * @description null would mean no overlay maps are displayed by default.
        * For rooms you should add a warning that no floor map is available for this room
        */
-      readonly overlays?: {
-        /**
-         * @description The floor-id of the map, that should be shown as a default.
-         * null:
-         * - We suggest, you dont show a map by default.
-         * - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
-         *
-         * @example 0
-         */
-        readonly default: number | null;
-        readonly available: readonly components["schemas"]["OverlayMapEntry"][];
-      } | null;
+      readonly overlays?: OneOf<
+        [
+          {
+            /**
+             * @description The floor-id of the map, that should be shown as a default.
+             * null:
+             * - We suggest, you dont show a map by default.
+             * - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
+             *
+             * @example 0
+             */
+            readonly default: OneOf<[number, null]>;
+            readonly available: readonly components["schemas"]["OverlayMapEntry"][];
+          },
+          null
+        ]
+      >;
     };
     readonly RoomfinderMap: {
       /**
@@ -387,7 +394,12 @@ export type components = {
        */
       readonly file: string;
       /** @description Coordinates are four [lon, lat] pairs, for the top left, top right, bottom right, bottom left image corners. */
-      readonly coordinates: readonly (readonly number[])[];
+      readonly coordinates: readonly [
+        readonly [number, number],
+        readonly [number, number],
+        readonly [number, number],
+        readonly [number, number]
+      ];
     };
     readonly Rooms: {
       /**
@@ -502,12 +514,12 @@ export type components = {
            * @example 126
            */
           readonly count: number;
-          readonly children: {
-            /** @description The id of the building */
+          readonly children: readonly {
+            /** @description The id of the room */
             readonly id: string;
             /** @description Main display name */
             readonly name: string;
-          };
+          }[];
         }[];
       };
     };
@@ -541,17 +553,61 @@ export type components = {
        * @example 5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)
        */
       readonly arch_name?: string;
-      /**
-       * @example [
-       *   "root",
-       *   "garching"
-       * ]
-       */
       readonly parents: readonly string[];
-      readonly parent_names: readonly string[];
+      readonly parent_names: readonly [string, ...string[]];
       readonly props: components["schemas"]["Props"];
       readonly imgs?: readonly components["schemas"]["ImageInfo"][];
       readonly ranking_factors: components["schemas"]["RankingFactors"];
+      /** @description Where we got our data from, should be displayed at the bottom of any page containing this data */
+      readonly sources: {
+        /** @description What is the basis of the data we have */
+        readonly base: readonly {
+          /**
+           * @description The name of the provider
+           * @example NavigaTUM
+           */
+          readonly name: string;
+        }[];
+      };
+    };
+    readonly CalendarResponse: {
+      /** @description The entries of the requested */
+      readonly entries: readonly components["schemas"]["CalendarEntry"][];
+      /**
+       * Format: date-time
+       * @description When the last sync with TUMonline happened.
+       * @example 2018-01-01T00:00:00
+       */
+      readonly last_sync: string;
+    };
+    readonly CalendarEntry: {
+      /**
+       * @description The title of the Entry
+       * @example Quantenteleportation
+       */
+      readonly title: string;
+      /**
+       * Format: date-time
+       * @description The start of the entry
+       * @example 2018-01-01T00:00:00
+       */
+      readonly start: string;
+      /**
+       * Format: date-time
+       * @description The end of the entry
+       * @example 2018-01-01T00:00:00
+       */
+      readonly end: string;
+      /**
+       * @description What this calendar entry means. Each of these should be displayed in a different color
+       * @enum {string}
+       */
+      readonly entry_type: "lecture" | "exercise" | "exam" | "barred" | "other";
+      /**
+       * @description For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)
+       * @example Vorlesung mit Zentralübung
+       */
+      readonly detailed_entry_type: string;
     };
     readonly RankingFactors: {
       /**
@@ -688,11 +744,7 @@ export type operations = {
         };
       };
       /** @description Invalid Request */
-      400: {
-        content: {
-          readonly "text/plain": "Invalid Request";
-        };
-      };
+      400: never;
       /** @description `search_query` is empty. Since searching for nothing is nonsensical, we dont support this. */
       404: {
         content: {
@@ -700,11 +752,7 @@ export type operations = {
         };
       };
       /** @description The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars.. */
-      414: {
-        content: {
-          readonly "text/plain": "Uri too long";
-        };
-      };
+      414: never;
     };
   };
   details: {
@@ -742,6 +790,46 @@ export type operations = {
       };
     };
   };
+  calendar: {
+    /**
+     * Get a entry-preview
+     * @description This returns the a 1200x630px preview for the entry (room/building/..).
+     *
+     * This is usefull for implementing custom OpenGraph images for detail previews.
+     */
+    parameters: {
+      /** @description The first allowed time the calendar would like to display */
+      /** @description The last allowed time the calendar would like to display */
+      readonly query: {
+        start: string;
+        end: string;
+      };
+      /** @description string you want to search for */
+      readonly path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** @description More entries of the calendar in the requested time span */
+      200: {
+        content: {
+          readonly "application/json": components["schemas"]["CalendarResponse"];
+        };
+      };
+      /** @description Invalid input */
+      404: {
+        content: {
+          readonly "text/plain": "Not found";
+        };
+      };
+      /** @description Not Ready, please retry later */
+      503: {
+        content: {
+          readonly "text/plain": "Waiting for first sync with TUMonline";
+        };
+      };
+    };
+  };
   previews: {
     /**
      * Get a entry-preview
@@ -774,36 +862,6 @@ export type operations = {
       };
     };
   };
-  source_code: {
-    /**
-     * Get link to running source-code
-     * @description This endpoint returns a link to the source-code of the repository at the currently running version.
-     * This endpoint is not required for modifications (as the license is not AGPL), but strongly encouraged.
-     */
-    responses: {
-      /** @description The link to the source-code of the repository at the currently running version */
-      200: {
-        content: {
-          readonly "text/plain": string;
-        };
-      };
-    };
-  };
-  "feedback-source_code": {
-    /**
-     * Get link to running source-code
-     * @description This endpoint returns a link to the source-code of the repository at the currently running version.
-     * This endpoint is not required for modifications (as the license is not AGPL), but strongly encouraged.
-     */
-    responses: {
-      /** @description The link to the source-code of the repository at the currently running version */
-      200: {
-        content: {
-          readonly "text/plain": string;
-        };
-      };
-    };
-  };
   get_token: {
     /**
      * Get a feedback-token
@@ -818,9 +876,8 @@ export type operations = {
      * Tokens gain validity after 5s, and are invalid after 12h of being issued.
      * They are not refreshable, and are only valid for one usage.
      *
-     * Global Rate-Limiting:
-     *  - hourly: 20 tokens per hour
-     *  - daily: 50 tokens per
+     * ***Important Note:***
+     * Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
      */
     responses: {
       /** @description Returns a usable token */
@@ -833,22 +890,14 @@ export type operations = {
        * @description Too many requests.
        * We are rate-limiting everyone's requests, please try again later.
        */
-      429: {
-        content: {
-          readonly "text/plain": "Too many requests";
-        };
-      };
+      429: never;
       /**
        * @description Service unavailable.
        * We have not configured a GitHub Access Token or a JWT Key.
        * This could be because we are experiencing technical difficulties or intentional if we experience abuse of these endpoints.
        * Please try again later.
        */
-      503: {
-        content: {
-          readonly "text/plain": "Service unavailable";
-        };
-      };
+      503: never;
     };
   };
   feedback: {
@@ -877,11 +926,7 @@ export type operations = {
         };
       };
       /** @description If not all fields in the body are present as defined above */
-      400: {
-        content: {
-          readonly "text/plain": "Not all fields in the body are present as defined in the documentation";
-        };
-      };
+      400: never;
       /**
        * @description Forbidden. Causes are (delivered via the body):
        *
@@ -903,40 +948,24 @@ export type operations = {
        * @description Unprocessable Entity
        * Subject or body missing or too short.
        */
-      422: {
-        content: {
-          readonly "text/plain": "Unprocessable Entity";
-        };
-      };
+      422: never;
       /**
        * @description Unavailable for legal reasons.
        * Using this endpoint without accepting the privacy policy is not allowed.
        * For us to post to GitHub, this has to be true
        */
-      451: {
-        content: {
-          readonly "text/plain": "Unavailable for legal reasons";
-        };
-      };
+      451: never;
       /**
        * @description Internal Server Error.
        * We have a problem communicating with GitHubs servers. Please try again later.
        */
-      500: {
-        content: {
-          readonly "text/plain": "Internal Server Error";
-        };
-      };
+      500: never;
       /**
        * @description Service unavailable.
        * We have not configured a GitHub Access Token.
        * This could be because we are experiencing technical difficulties or intentional. Please try again later.
        */
-      503: {
-        content: {
-          readonly "text/plain": "Service unavailable";
-        };
-      };
+      503: never;
     };
   };
   img_cdn: {
@@ -972,7 +1001,7 @@ export type operations = {
       /** @description The image you requested */
       200: {
         content: {
-          readonly "image/webp": string;
+          readonly "image/webp": unknown;
         };
       };
       /**
@@ -980,11 +1009,7 @@ export type operations = {
        * The request was malformed.
        * Please check your request and try again.
        */
-      400: {
-        content: {
-          readonly "text/plain": "Bad Request";
-        };
-      };
+      400: never;
       /** @description Requested Resource Not Found */
       404: {
         content: {
@@ -992,11 +1017,7 @@ export type operations = {
         };
       };
       /** @description The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars.. */
-      414: {
-        content: {
-          readonly "text/plain": "Uri too long";
-        };
-      };
+      414: never;
     };
   };
   maps_cdn: {
@@ -1017,7 +1038,7 @@ export type operations = {
       /** @description The map you requested */
       200: {
         content: {
-          readonly "image/webp": string;
+          readonly "image/webp": unknown;
         };
       };
       /**
@@ -1025,11 +1046,7 @@ export type operations = {
        * The request was malformed.
        * Please check your request and try again.
        */
-      400: {
-        content: {
-          readonly "text/plain": "Bad Request";
-        };
-      };
+      400: never;
       /** @description Requested Resource Not Found */
       404: {
         content: {
@@ -1037,11 +1054,7 @@ export type operations = {
         };
       };
       /** @description The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars.. */
-      414: {
-        content: {
-          readonly "text/plain": "Uri too long";
-        };
-      };
+      414: never;
     };
   };
   legacy_redirect: {
@@ -1078,11 +1091,7 @@ export type operations = {
         };
       };
       /** @description Permanent redirect to the roomfinder */
-      301: {
-        content: {
-          readonly "text/plain": "Permanent Redirect";
-        };
-      };
+      301: never;
       /** @description Requested Resource Not Found */
       404: {
         content: {
@@ -1100,15 +1109,11 @@ export type operations = {
       /** @description Ok */
       200: {
         content: {
-          readonly "text/plain": "healthy";
+          readonly "text/plain": string;
         };
       };
       /** @description Service Unavailable */
-      503: {
-        content: {
-          readonly "text/plain": "Service Unavailable";
-        };
-      };
+      503: never;
     };
   };
   "feedback-health": {
@@ -1120,15 +1125,27 @@ export type operations = {
       /** @description Ok */
       200: {
         content: {
-          readonly "text/plain": "healthy";
+          readonly "text/plain": string;
         };
       };
       /** @description Service Unavailable */
-      503: {
+      503: never;
+    };
+  };
+  "calendar-health": {
+    /**
+     * calendar-API healthcheck
+     * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
+     */
+    responses: {
+      /** @description Ok */
+      200: {
         content: {
-          readonly "text/plain": "Service Unavailable";
+          readonly "text/plain": string;
         };
       };
+      /** @description Service Unavailable */
+      503: never;
     };
   };
   "cdn-health": {
@@ -1144,11 +1161,7 @@ export type operations = {
         };
       };
       /** @description Service Unavailable */
-      503: {
-        content: {
-          readonly "text/plain": "Service Unavailable";
-        };
-      };
+      503: never;
     };
   };
   "web-health": {
@@ -1164,11 +1177,7 @@ export type operations = {
         };
       };
       /** @description Service Unavailable */
-      503: {
-        content: {
-          readonly "text/plain": "Service Unavailable";
-        };
-      };
+      503: never;
     };
   };
 };

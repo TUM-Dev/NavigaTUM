@@ -29,9 +29,11 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: path.resolve(__dirname, "./index.html"),
-      manualChunks: {
-        maplibre_gl: ["maplibre-gl"],
-        swagger_ui_dist: ["swagger-ui-dist"],
+      output: {
+        manualChunks: {
+          maplibre_gl: ["maplibre-gl"],
+          swagger_ui_dist: ["swagger-ui-dist"],
+        },
       },
     },
   },
