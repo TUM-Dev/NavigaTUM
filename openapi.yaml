@@ -1713,6 +1713,25 @@ components:
             $ref: '#/components/schemas/ImageInfo'
         ranking_factors:
           $ref: '#/components/schemas/RankingFactors'
+        sources:
+          type: object
+          required:
+            - base
+          description: 'Where we got our data from, should be displayed at the bottom of any page containing this data'
+          properties:
+            base:
+              type: array
+              description: What is the basis of the data we have
+              items:
+                type: object
+                minProperties: 1
+                properties:
+                  name:
+                    type: string
+                    example: NavigaTUM
+                    description: The name of the provider
+                required:
+                  - name
       required:
         - type_common_name
         - name
@@ -1720,6 +1739,7 @@ components:
         - parent_names
         - props
         - ranking_factors
+        - sources
     CalendarResponse:
       type: object
       properties:
