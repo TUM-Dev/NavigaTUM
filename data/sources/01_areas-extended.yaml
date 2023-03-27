@@ -219,6 +219,25 @@ zentralgelaende:
 #thalhausen
 #roggenstein
 
+# ========= LMU =========
+"0050": # Fakultät für Physik
+  coords: { lat: 48.14942, lon: 11.57949 }
+  osm: ["way/17974341"]
+  props:
+    address:
+      street: "Schellingstr. 4"
+      plz_place: "80799 München"
+      source: "navigatum"
+
+1003: # Arnold-Sommerfeld-Zentrum
+  coords: { lat: 48.14791, lon: 11.57351 }
+  osm: ["way/165494494"]
+  props:
+    address:
+      street: "Theresienstr. 37"
+      plz_place: "80333 München"
+      source: "navigatum"
+
 # ========= MRI =========
 # If no coordinates are given, the are probably already in the roomfinder
 1501: # Bau 501
@@ -476,6 +495,20 @@ heilbronn:
   osm: ["way/443802898"]
 
 # ========= Others in Munich and around =========
+2202:
+  name: "Fakultät für Design – Hochschule München"
+  coords: { lat: 48.15503, lon: 11.55472 }
+  osm: ["relation/3634165"]
+  props:
+    address:
+      street: "Lothstr. 17"
+      plz_place: "80335 München"
+      source: "navigatum"
+
+2311: # Kletterfelsen
+  # These are actually the coordinates of the newly built one
+  coords: { lat: 48.18232, lon: 11.54485 }
+
 2803:
   coords: { lat: 48.13140, lon: 11.58564 }
   osm: ["way/30046693"]
@@ -494,6 +527,11 @@ heilbronn:
   coords: { lat: 48.14469, lon: 11.55598 }
   osm: ["way/59543687"]
 
+2928:
+  # "Techn. Forschungszentrum Straubing (AM)" is maybe the "Technologie- und Förderzentrum TFZ"
+  coords: { lat: 48.88410, lon: 12.58393 }
+  osm: ["way/154756625"]
+
 2944:
   coords: { lat: 48.15666, lon: 11.55183 }
   osm: ["node/8822946149"]
@@ -501,6 +539,11 @@ heilbronn:
 3401:
   coords: { lat: 48.14111, lon: 11.58044 }
   osm: ["node/4921250903"]
+
+3537: # Entwicklungsgenetik
+  # Building 35.37 (https://www.helmholtz-munich.de/en/idg/)
+  coords: { lat: 48.22310, lon: 11.59418 }
+  osm: ["way/738350809"]
 
 # ========= Straubing =========
 cs:
@@ -637,6 +680,10 @@ veitshof:
         url: "https://www.oekolandbau.wzw.tum.de/forschung/einrichtungen/versuchsstation/"
 
 
+4379:
+  coords: { lat: 48.40175, lon: 11.73189 }
+  osm: ["way/763948746"]
+
 # uncertain, but trafo stations anyway
 4202:
   coords: { lat: 48.40289, lon: 11.72364 }
@@ -681,6 +728,73 @@ garching:
   image_comments:
     1: "Orthographische Luftbildaufnahme des Campus Garching"
 
+# --- Buildings not in TUMonline ---
+ipp:
+  coords: { lat: 48.26315, lon: 11.67206 }
+  osm: ["relation/8605192"]
+  props:
+    address:
+      street: "Boltzmannstraße 2"
+      plz_place: "85748 Garching bei München"
+      source: "navigatum"
+
+mpa:
+  coords: { lat: 48.26099, lon: 11.67143 }
+  osm: ["relation/3315967"]
+  props:
+    address:
+      street: "Karl-Schwarzschild-Straße 1"
+      plz_place: "85748 Garching bei München"
+      source: "navigatum"
+
+mpb:
+  coords: { lat: 48.10532, lon: 11.46073 }
+  osm: ["way/28704007", "way/28704014", "way/200674891", "way/54690213"]
+  props:
+    address:
+      street: "Am Klopferspitz 18"
+      plz_place: "82152 Martinsried"
+      source: "navigatum"
+
+mpe:
+  coords: { lat: 48.26165, lon: 11.67180 }
+  osm: ["way/28260009"]
+  props:
+    address:
+      street: "Gießenbachstraße 1"
+      plz_place: "85748 Garching bei München"
+      source: "navigatum"
+
+mpp:
+  coords: { lat: 48.18469, lon: 11.61263 }
+  osm: ["way/32134827", "way/24052546"]
+  props:
+    address:
+      street: "Föhringer Ring 6"
+      plz_place: "80805 München"
+      source: "navigatum"
+
+mpq:
+  coords: { lat: 48.25962, lon: 11.66682 }
+  osm: ["way/172773645"]
+  props:
+    address:
+      street: "Hans-Kopfermann-Straße 1"
+      plz_place: "85748 Garching bei München"
+      source: "navigatum"
+
+origins-cluster:
+  coords: { lat: 48.26390, lon: 11.67367 }
+  osm: ["way/159713052"]
+  props:
+    address:
+      # Official address, even though not exactly where the building is
+      # according to the NAT / Physics roomfinder
+      street: "Boltzmannstraße 2"
+      plz_place: "85748 Garching bei München"
+      source: "navigatum"
+
+# --- Physik ---
 physik:
   coords: { lat: 48.26725, lon: 11.67590 }
 
@@ -733,8 +847,16 @@ frm-2:
   coords: { lat: 48.26826, lon: 11.67866 }
   osm: ["way/159713511"]
 
+5201:
+  coords: { lat: 48.26582, lon: 11.67346 }
+  osm: ["way/774866203"]  # OSM says: 5258
+
 5204:
   coords: { lat: 48.26480782182901, lon: 11.672907360363183 }
+
+5215:
+  coords: { lat: 48.26589, lon: 11.67431 }
+  osm: ["way/23316556"]
 
 5257:
   coords: { lat: 48.26616, lon: 11.67343 }
@@ -871,6 +993,15 @@ mi:
 5622: # Sportanlage / Dusche
   coords: { lat: 48.26350, lon: 11.66821 }
 
+5801: # "LRZ Neubau", likely refers to the LRZ building south of the MI
+  coords: { lat: 48.26165, lon: 11.66786}
+  osm: ["relation/14887477", "way/200593316", "way/200593314"]
+  props:
+    address:
+      street: "Boltzmannstraße 1"
+      plz_place: "85748 Garching bei München"
+      source: "navigatum"
+
 5901: # EI (current status)
   coords: { lat: 48.26566, lon: 11.66256 }
   osm: ["relation/11039458"]
@@ -915,6 +1046,9 @@ garching-gebaeudemanagement:
   osm: ["way/179243742"]
 6103: # Hochspannungsgebäude
   osm: ["way/24013693"]
+6104: # Feuerwehr TUM Garching
+  coords: { lat: 48.26079, lon: 11.65762}
+  osm: ["way/226147073"]
 6106: # Trafostation Betriebsgebäude
   osm: ["way/24013693"] # same as Hochspannungsgebäude, may be inaccurate
 6107: # Garagenbau
@@ -931,10 +1065,21 @@ garching-gebaeudemanagement:
       "way/24013697",
     ] # last one is near Betriebsgebäude
 
-7894:
+7894: # Newton
   coords: { lat: 48.26924, lon: 11.66523 }
   osm: ["relation/5365461"]
-    
+
+# Really not sure about the coordinates of 7895 and 7896.
+# They are based on https://www.openstreetmap.org/changeset/110926968,
+# but 7896 was later removed (https://www.openstreetmap.org/way/172215381)
+7895: # Pascal Halle
+  coords: { lat: 48.27012, lon: 11.66655 }
+  osm: ["way/172215384"]
+
+7896: # Freisinger Landstraße 50
+  coords: { lat: 48.26981, lon: 11.66673 }
+  osm: ["way/172215381"]
+
 garching-hochbrueck:
   coords: { lat: 48.2511, lon: 11.63528 }
 8101: # Parkring 11-13:
@@ -984,3 +1129,14 @@ taufkirchen-ottobrunn:
 
 9379:
   coords: { lat: 48.05466, lon: 11.65392 }
+
+# Hyperloop-Halle Ottobrunn:
+# TUMonline counts it as separate building but it has the
+# same addess as 9378. The Hyperloop test-track is at
+# 48.05398/11.65527
+9380:
+  coords: { lat: 48.05229, lon: 11.65547 }
+
+9390:
+  coords: { lat: 48.08765, lon: 11.29609}
+  osm: ["way/1123333684"]

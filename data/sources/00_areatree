@@ -141,10 +141,6 @@
   -2201:ehemals Lothstraße (nicht mehr aktuell):
   2202:Lothstraße 17, Fakultät für Design - Hochschule München:2202,hfp-design
   23:Campus im Olympiapark (SZ):olympiapark[campus]
-    :Zentralbau Süd:olympiapark-central-south[joined_building]
-      2306:Zentralbau Süd:
-      2307:Foyer:
-      2308:Freitribüne:
     2309:Tennis Gebäude:
     2310:Tennisanlagen:
     2311:Kletterfelsen:
@@ -176,7 +172,6 @@
   26:Pasing, Franz-Langinger-Straße:pasing[site]
     2601:Institut für Grundbau und Bodenmechanik (BL. G):
     2602:Institut für Verkehrswegebau (BL. E):
-    2603:Tankestelle:
     2604:Laborbau (BL. L):
     2605:Verwaltungsbau (BL. V):
     2607:Fahrzeughalle (BL. F):
@@ -191,14 +186,13 @@
   2807:Pinakothek der Moderne (Nutzung):
   2808:Forschungszentrum für Bauchemie (Dr. Albert-Frank-Str. 32):
   :Sonstige Gebäude Innenstadt:innenstadt-sonstige
-    2904:Nymphenburgerstr. 39:
     2905:Schellingstraße 33:
     2906:Karlstraße 45/47:
     2907:Marsstraße 20, 21, 22:
     2908:Marsstraße 40:
     2909:Denisstr. 1b Rückgebäude:
     2926:Leopoldstraße 139/145:
-    2928:Techn. Forschungszentrum Straubing (AM):
+    -2928:Techn. Forschungszentrum Straubing (AM):
     2944:Munich Urban Colab (Freddie-Mercury-Straße 5):
   :Campus Straubing (CS), Biotechnologie und Nachhaltigkeit:cs[campus]
     2927:Petersgasse 18 (PG 18):
@@ -261,17 +255,14 @@
         4109:Campusoffice, SSW Studierenden Service Weihenstephan:
         4110:Brau- und Getränketechnologie:
         4111:Forschungsbrauerei Weihenstephan mit Nebengebäude:
-        4112:Institutsgebäude Brauwesen:
         4113:StudiTUM Weihenstephan|StudiTUM:
         4114:ehemaliger Bauhof:
         4115:Familienservice:
         4116:Dr. Gudula Wernekke-Rastetter Kindervilla:
-        :Kindervilla II:kindervilla-ii
-          4117:Kindervilla II - 1:
-          4118:Kindervilla II - 2:
+        4117:Kindervilla II:
       :Hohenbachernstr:wzw-berg-hohenbachernstr
-        4119:DFG Senatskommission MAK, Hohenbachernstr. 15:
-        4120:DFG Senatskommission MAK, Hohenbachernstr. 17:
+        4119:MINT (ehem. MAK/BUA), Hohenbachernstr. 15:
+        4120:MINT (ehem. MAK/BUA), Hohenbachernstr. 17:
       :ZIEL – Institute for Food & Health:wzw-ziel
         4124:ZIEL II – Molekulare Biowissenschaften:
         4126:ZIEL I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie:
@@ -281,7 +272,6 @@
         4129:Aquatische Systembiologie, Mühlenweg 22:
         4131:Aquatische Systembiologie "Mühle", Mühlenweg 22:
         4132:Aquatische Systembiologie "Wagnerhaus", Mühlenweg 18:
-      4133:Wohngebäude Ganzenmüllerstr.:
       4153:Hochschulsport / Sprachenzentrum:
       4155:Kustermannhalle (HSWT Gebäude A9):
       4156:Flaschenkeller Staatsbrauerei:
@@ -301,9 +291,7 @@
         4191:Fahrsilo:
         :ehem. Wasserwerk:veitshof-wasserwerk
           4192:ehem. Wasserwerk:
-          4198:ehem. Wasserwerk:
     42:Gebiet 4200 Mitte:wzw-mitte
-      4201:Institut für Grünlandlehre u. Haushaltstechnik:
       -4202:Trafostation V:
       4205:Lagerhalle Verwaltungsstelle:
       4210:Agrarsystemtechnik:
@@ -333,15 +321,10 @@
       4277:Forstwissenschaften:
       4278:LWF Bay. Landesanstalt für Wald und Forstwirtschaft:
       4279:LWF Erweiterungsbau:
-      4280:Ehem. Arbeitsamt:
       -4281:Trafostation XI:
-      -4228:Trafostation XI:
       4299:Hochschulgemeinde Freising:
     43:Gebiet 4300 Nord / Hochfeld:wzw-nord
-      4303:Vegetationsh. Inst. Pfl. und Züchtung:
       4304:Lange Point 51 (Versuchsfelder / Bauhof / Verwaltung Immobilien):
-      4305:Tierernährung NGB:
-      4306:Tierernährung HGB:
       :Liesel-Beckmann-Straße:wzw-lbs
         -4307:Dienstleistergebäude:
         4308:Humanbiologie Zoologie:
@@ -350,8 +333,6 @@
       4309:Institutsgebäude Ökonomik des Gartenbaus und Landschaftsbaus:
       4310:Werkstatt und Garagen Zierpflanzenbau:
       4311:Institut Zierplanzenbau:
-      4312:Zierpflanzenbau Gewächshaus:
-      4313:Zierpflanzenbau Wirtschaftsgebäude:
       4314:Trafostation VII:
       4315,4316:Lagerhalle:wzw-lagerhalle
         4315:Lagerhalle (Straßenseite):
@@ -370,6 +351,7 @@
         4361:Technologie V:
         4362:Mehrzweckgebäude 1:
         4368:Technologie III:
+      4379:Zierpflanzenbau Gewächshaus:
       4387:Camerloher Gymnasium:
       :Staudensichtungsgarten:staudensichtungsgarten[area]
   :School of of Life Sciences Außenstellen:wzw-extern
@@ -402,26 +384,6 @@
       4615:Strohlager:
       4616:Güllebehälter:
       4620:Versuchsfelder:
-    47:Versuchsstation für Tierernährung (Staatsgut Hirschau):hirschau[site]
-      4701:Verwaltungsgebäude:
-      4702:Arbeiterwohngebäude:
-      4703:STG.Hirschau-R.St., Sch., Silo:
-      4705:Maschinenhalle:
-      4706:Stall/Fahrzeughaus:
-      4707:Lagerschuppen:
-      4709:Silo Süd:
-      4710:Dungsilo:
-      -4711:Trafostation:
-      4712:Futterzentrale:
-      4713:Dungsilo:
-      4714:Futterbergeh.:
-      4715:Bullenmaststall:
-      4716:Kälberstall:
-      4717:Bullenmaststall:
-      4718:Schweinestall:
-      4719:Fahrsilo:
-      4720:Jungrinderstall:
-      4721:Fahrsilo:
     4800:Halle Achering:
     :Staatsgut Grünschwaige (Versuchsstation für Futterbau):gruenschwaige
       4801:Verwaltungsgebäude:
@@ -447,12 +409,9 @@
       4908:Wagenremise:
       4909:Maschinen, Dünger:
       4910:Getreidesilo:
-      4911:Arb.Geb. 1, SCHP:
-      4913:Arb.Gba. 3, SCHP:
       4914:Arb.Gba. 1, SCHP:
       4915:Arb.Gba. 2, SCHP:
       4916:Arb.Gba. 3, SCHP:
-      4919:Getreidesilo:
       4920:Kapelle:
     4127,423,450,451:Versuchsstation Dürnast:duernast
       4127:Arbeiterwohngebäude der Verwaltung Weihenstephan:
@@ -467,17 +426,13 @@
       4501:Arbeiterwohngebäude STG.WST.:
       4502:Werkstattgebäude-Wirt. Geb. STG.WST.:
       4503:Dürnast -Verw.-, WGB., RS., S.-STG.WST.:
-      4504:STG.WST.-J. Viehhofstall:
       4505:Maschinenhalle STG.WST.-Kart, Lager, 2 SST:
       4506:Schuppen STG.WST.:
-      -4507:STG.WST.-Trafo, Pumpstation:
       4508:Wagenh. m. Fuhrw. W. STG.WST.:
       4509:Fahrsilo-Güllebehälter STG.WST.:
       4510:Getreidekasten STG.WST.:
-      4511:STG.WST.-Biogasanlage:
       4512:Gerätehalle West:
       4513:Gerätehalle Ost:
-      4525:STG.WST.-Mobiler Hühnerstall:
   5:Garching Forschungszentrum|Garching:garching[campus]
     51:Physik:physik
       :Physik Hauptgebäude:physik-main
@@ -485,8 +440,6 @@
         5107:Physik II:
       5103:Betriebsgebäude II / Verwaltung:
       5104:RCM-Technikum:
-      5105:Gästehaus:
-      5106:GRS Neubau:
       5108:Physik II Messbunker:
       5109:LMU Physik, Munich Center for Advanced Photonics (MAP):
       5111:Siedlungswasserwirtschaft:
@@ -528,7 +481,6 @@
       5212:RCM Radiochemie München:
       5214:Isaraußenlager (USU):
       5215:Reaktor-U.Ringgebäude:
-      5216:CO 60 Quelle:
       5218:Reaktorgebäude (UJA):
       5219:Instituts und Verwaltungsgebäude, Personalbetreuung, Immobilien, Zahlstelle:
       5220:Neutronenleiter Halle West (UYH):
@@ -554,7 +506,6 @@
       5256:RCM-Laborbau:
       5257:Werkstatt u. Bürogebäude FRM II (UYW):
       -5268:RCM-BMA/ELA-Container:
-      5269:RCM-Büro-Containerbau:
       5272:WMI Bayerische Akademie der Wissenschaft:
     5301:Institute for Advanced Study (IAS):
     5302:(Alte) Mensa Garching:
@@ -611,8 +562,7 @@
       5613:Finger 13 (BT13):
     -5622:Sportanlage Garching / Dusch Container:
     5701:Munich School of BioEngineering, IMETUM:
-    5702:Innovationszentrum für Therapeutische Medizintechnik (ITEM):
-    5801:LRZ Neubau:
+    5801:Leibnitz-Rechenzenturm (LRZ):
     5901:Elektro- und Informationstechnik (EI, ZEITlab):5901,ei-garching[building]
     812:Galileo Garching|Galileo:galileo[joined_building]
       8120:Conference Center:
@@ -650,5 +600,5 @@
     9377:Lise-Meitner-Straße 9-11:
     9379:Lise Meitner Str. 8:
     9378:TUM Panasonic (Caroline-Herschel-Straße 100):
-    9380:Hyperloop-Halle Ottobrunn (AM):
-    9390:Aviation Flight Test Center/Halle 507 (AM):
+    9380:Hyperloop-Halle Ottobrunn:
+    9390:Aviation Flight Test Center / Halle 507:
