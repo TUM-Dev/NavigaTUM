@@ -63,7 +63,7 @@ function delayedLoadRoomfinderModalMap() {
     <div
       class="roomfinder-map-container"
       v-bind:class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
-      v-if="state.data.maps.roomfinder?.available"
+      v-if="state.data?.maps.roomfinder?.available"
     >
       <img
         alt="Cross showing where the room is located on the hand-drawn roomfinder map image"

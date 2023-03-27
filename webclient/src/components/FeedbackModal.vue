@@ -237,7 +237,7 @@ function sendForm() {
                 {
                   general: t("feedback.helptext.general"),
                   bug: t("feedback.helptext.bug"),
-                  features: t("feedback.helptext.features"),
+                  feature: t("feedback.helptext.features"),
                   search: t("feedback.helptext.search"),
                   entry: t("feedback.helptext.entry"),
                   other: t("feedback.helptext.other"), // This is only here to make the linter happy, backend uses "other" as a fallback if the category is not known

@@ -341,7 +341,7 @@ export default {
         </template>
         <li class="search-comment nb_results">
           <a
-            v-if="!s.expanded && s.n_visible < s.entries.length"
+            v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
             @mousedown="keep_focus = true"
             @click="searchExpand(s)"
           >

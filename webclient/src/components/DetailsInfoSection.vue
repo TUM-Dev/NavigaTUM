@@ -148,7 +148,7 @@ const state = useDetailsStore();
       </div>-->
     </div>
   </div>
-  <div class="modal modal-lg active" id="modal-slideshow" v-if="state.image.slideshow_open">
+  <div class="modal modal-lg active" id="modal-slideshow" v-if="state.image.slideshow_open && state.data.imgs">
     <a class="modal-overlay" aria-label="Close" @click="state.hideImageSlideshow"></a>
     <div class="modal-container modal-fullheight">
       <div class="modal-header">
@@ -183,7 +183,7 @@ const state = useDetailsStore();
               />
             </template>
 
-            <div class="carousel-container">
+            <div class="carousel-container" v-if="state.data?.imgs">
               <figure v-for="(img, i) in state.data.imgs" class="carousel-item">
                 <label
                   v-if="i !== 0"
@@ -239,27 +239,27 @@ const state = useDetailsStore();
           </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" v-if="state.image.shown_image">
         <div class="columns">
           <div class="column col-4 col-sm-6 col-md-6 text-left">
             <h6>{{ $t("view_view.slideshow.source") }}</h6>
-            <a v-if="state.image.shown_image?.source.url" v-bind:href="state.image.shown_image.source.url">{{
+            <a v-if="state.image.shown_image.source.url" v-bind:href="state.image.shown_image.source.url">{{
               state.image.shown_image.source.text
             }}</a>
             <template v-else>{{ state.image.shown_image.source.text }}</template>
           </div>
           <div class="column col-4 col-sm-6 col-md-6 text-center text-md-right">
             <h6>{{ $t("view_view.slideshow.author") }}</h6>
-            <a v-if="state.image.shown_image?.author.url" v-bind:href="state.image.shown_image.author.url">{{
-              state.image.shown_image.author.text
-            }}</a>
+            <a v-if="state.image.shown_image.author.url" v-bind:href="state.image.shown_image.author.url">
+              {{ state.image.shown_image.author.text }}
+            </a>
             <template v-else>{{ state.image.shown_image.author.text }}</template>
           </div>
           <div class="column col-4 col-sm-12 col-md-12 text-md-center mt-md-3">
             <h6>{{ $t("view_view.slideshow.license") }}</h6>
-            <a v-if="state.image.shown_image?.license.url" v-bind:href="state.image.shown_image.license.url">{{
-              state.image.shown_image.license.text
-            }}</a>
+            <a v-if="state.image.shown_image.license.url" v-bind:href="state.image.shown_image.license.url">
+              {{ state.image.shown_image.license.text}}
+            </a>
             <template v-else>{{ state.image.shown_image.license.text }}</template>
           </div>
         </div>

@@ -45,14 +45,14 @@ feedback:
   type:
     general: "General"
     bug: "Bug"
-    features: "Features"
+    feature: "Features"
     search: "Search"
     entry: "Entry"
   mail: "E-Mail (optional)"
   helptext:
     general: "General Feedback about this website"
     bug: "Which bug did you find? Where did you find it? Please provide a detailed description."
-    features: "Features you would like to see on this website"
+    feature: "Features you would like to see on this website"
     search: "Feedback about the search. What was your search query? What did you expect to see?"
     entry: "Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?"
     other: "Feedback encountered issue: Category invalid"

@@ -219,7 +219,7 @@ function initMap(containerId: string) {
 
       fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
       fullscreenCtl._changeIcon();
-      fullscreenCtl.map.resize();
+      fullscreenCtl._map.resize();
     }
   };
   // There is a bug that the map doesn't update to the new size

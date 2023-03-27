@@ -206,7 +206,7 @@ onMounted(() => {
         <RouterLink v-bind="{ to: '/view/' + state.data.parents[i] }" property="item" typeof="WebPage">
           <span property="name">{{ p }}</span>
         </RouterLink>
-        <meta property="position" v-bind:content="i + 1" />
+        <meta property="position" v-bind:content="`${i + 1}`" />
       </li>
     </ol>
 
@@ -235,8 +235,8 @@ onMounted(() => {
         <div class="column col-auto col-ml-auto">
           <a
             class="btn btn-link btn-action btn-sm"
-            v-if="state.data.props?.calendar_url"
-            v-bind:href="state.data?.props.calendar_url"
+            v-if="state.data?.props?.calendar_url"
+            v-bind:href="state.data.props.calendar_url"
             target="_blank"
             v-bind:title="$t('view_view.header.calendar')"
           >
