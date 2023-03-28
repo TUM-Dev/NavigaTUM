@@ -98,7 +98,7 @@ def scrape_rooms():
 
 
 def _guess_queries(rooms, n_rooms):
-    # First try: all single-digit numbers
+    # First try: any single-digit number?
     for i in range(10):
         if len(rooms) < n_rooms:
             maybe_sleep(0.05)
@@ -106,7 +106,7 @@ def _guess_queries(rooms, n_rooms):
         else:
             return
 
-    # Second try: all double-digit numbers
+    # Second try: any double-digit number?
     for i in range(100):
         if len(rooms) < n_rooms:
             maybe_sleep(0.05)
@@ -114,13 +114,22 @@ def _guess_queries(rooms, n_rooms):
         else:
             return
 
-    # Third try: all characters
+    # Third try: any character?
     for char in string.ascii_lowercase:
         if len(rooms) < n_rooms:
             maybe_sleep(0.05)
             yield char
         else:
             return
+
+    # Fourth try: any character twice?
+    for c1 in string.ascii_lowercase:
+        for c2 in string.ascii_lowercase:
+            if len(rooms) < n_rooms:
+                maybe_sleep(0.05)
+                yield c1 + c2
+            else:
+                return
 
 
 @cached_json("maps_roomfinder.json")

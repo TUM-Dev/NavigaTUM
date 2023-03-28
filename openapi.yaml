@@ -1176,25 +1176,9 @@ components:
       type: object
       properties:
         text:
-          type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-          required:
-            - de
-            - en
+          type: string
         url:
-          type: object
-          properties:
-            de:
-              type: string
-            en:
-              type: string
-          required:
-            - de
-            - en
+          type: string
       required:
         - text
         - url
@@ -1649,17 +1633,19 @@ components:
                     example: 126
                     minimum: 0
                   children:
-                    type: object
-                    properties:
-                      id:
-                        description: The id of the building
-                        type: string
-                      name:
-                        description: Main display name
-                        type: string
-                    required:
-                      - id
-                      - name
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          description: The id of the room
+                          type: string
+                        name:
+                          description: Main display name
+                          type: string
+                      required:
+                        - id
+                        - name
                 required:
                   - children
                   - count
@@ -1727,6 +1713,25 @@ components:
             $ref: '#/components/schemas/ImageInfo'
         ranking_factors:
           $ref: '#/components/schemas/RankingFactors'
+        sources:
+          type: object
+          required:
+            - base
+          description: 'Where we got our data from, should be displayed at the bottom of any page containing this data'
+          properties:
+            base:
+              type: array
+              description: What is the basis of the data we have
+              items:
+                type: object
+                minProperties: 1
+                properties:
+                  name:
+                    type: string
+                    example: NavigaTUM
+                    description: The name of the provider
+                required:
+                  - name
       required:
         - type_common_name
         - name
@@ -1734,6 +1739,7 @@ components:
         - parent_names
         - props
         - ranking_factors
+        - sources
     CalendarResponse:
       type: object
       properties:
