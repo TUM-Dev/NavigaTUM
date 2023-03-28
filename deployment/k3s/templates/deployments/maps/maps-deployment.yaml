@@ -68,7 +68,7 @@ spec:
           resources:
             requests:
               cpu: {{ if eq "nav.tum.de" $.Values.url }}1{{ else }}0.1{{ end }}
-              memory: 500Mi
+              memory: {{ if eq "nav.tum.de" $.Values.url }}600Mi{{ else }}300Mi{{ end }}
             limits:
               memory: 1Gi
           livenessProbe:
