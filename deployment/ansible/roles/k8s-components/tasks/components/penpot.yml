@@ -42,9 +42,15 @@
       global:
         postgresqlEnabled: true
         redisEnabled: true
-      backend.image.tag: 1.17.1
-      exporter.image.tag: 1.17.1
-      frontend.image.tag: 1.17.1
+      backend:
+        image:
+          tag: 1.17.1
+      exporter:
+        image:
+          tag: 1.17.1
+      frontend:
+        image:
+          tag: 1.17.1
       persistence:
         enabled: true
       config:
