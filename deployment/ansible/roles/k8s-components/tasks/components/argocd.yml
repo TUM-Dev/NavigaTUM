@@ -8,7 +8,7 @@
     atomic: true
     release_state: present
     wait: true
-    chart_version: 5.24.3
+    chart_version: 5.27.5
     chart_ref: argo/argo-cd
     name: argo-cd
     namespace: argocd
