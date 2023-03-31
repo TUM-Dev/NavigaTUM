@@ -6,6 +6,9 @@
 - name: Setup cert-manager
   include_tasks: cert-manager.yml
 
+- name: Setup longhorn
+  include_tasks: longhorn.yml
+
 - name: Setup the various k3s compontentes (no order)
   include_tasks: "{{ comp }}"
   loop_control:
