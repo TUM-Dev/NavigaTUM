@@ -13,6 +13,12 @@
     name: uptime-kuma
     namespace: monitoring
     create_namespace: yes
+    values:
+      volume:
+        accessMode: ReadWriteOnce
+        enabled: true
+        size: 4Gi
+        storageClassName: longhorn
 - name: Make shure kuma has an ingress
   kubernetes.core.k8s:
     state: present
