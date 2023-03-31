@@ -1,29 +1,4 @@
 ---
-
-- name: add an pv for penpot
-  kubernetes.core.k8s:
-    name: "penpot-{{item}}"
-    kind: PersistentVolume
-    state: present
-    definition:
-      apiVersion: v1
-      kind: PersistentVolume
-      metadata:
-        name: "penpot-{{item}}"
-        labels:
-          app: penpot
-          deployment: penpot
-          type: local
-      spec:
-        storageClassName: local-path
-        capacity:
-          storage: 8Gi
-        persistentVolumeReclaimPolicy: Delete
-        accessModes:
-          - ReadWriteOnce
-        hostPath:
-          path: "/mnt/data/penpot/{{item}}"
-  with_sequence: start=1 end=6
 - name: Add codechem chart repo
   kubernetes.core.helm_repository:
     name: codechem
@@ -53,6 +28,8 @@
           tag: 1.17.1
       persistence:
         enabled: true
+        size: 8Gi
+        storageClass: "longhorn"
       config:
         publicURI: "https://penpot.nav.tum.sexy"
         flags: enable-registration enable-login enable-smtp disable-demo-users disable-demo-warning
