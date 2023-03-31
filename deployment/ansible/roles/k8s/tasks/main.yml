@@ -22,3 +22,6 @@
   pip:
     name: kubernetes
     state: present
+
+- name: Setup longhorn requirements
+  include_tasks: longhorn-requirements.yml
