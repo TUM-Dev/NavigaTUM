@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import { getLocalStorageWithExpiry } from "@/utils/storage";
 import { useDetailsStore } from "@/stores/details";
-import { useGlobalStore} from "@/stores/global";
+import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
-import type {Coord} from "@/stores/global";
-import type { components } from "@/api_types";
-type TokenRequest = components["schemas"]["TokenRequest"];
+import type { Coord } from "@/stores/global";
 
 const { t } = useI18n();
 const state = useDetailsStore();
 function _getFeedbackSubject(currentEdits) {
   if (Object.keys(currentEdits).length > 1) {
-    return `[${state.data.id} et.al.]: ` + t("feedback.coordinatepicker.edit_coordinates_subject");
+    return `[${state.data?.id} et.al.]: ` + t("feedback.coordinatepicker.edit_coordinates_subject");
   }
 
-  const subjectPrefix = `[${state.data.id}]: `;
+  const subjectPrefix = `[${state.data?.id}]: `;
   const subjectMsg =
     Object.keys(currentEdits).length === 0 ? "" : t("feedback.coordinatepicker.edit_coordinate_subject");
 

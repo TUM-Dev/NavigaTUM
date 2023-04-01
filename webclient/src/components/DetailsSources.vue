@@ -13,7 +13,7 @@ const state = useDetailsStore();
     </div>
     <p v-if="state.data?.sources.base">
       {{ $t("view_view.sources.base.title") }}:
-      <span v-for="(e, i) in state.data.sources.base">
+      <span v-for="(e, i) in state.data.sources.base" :key="e.name">
         <a v-if="e.url" v-bind:href="e.url">{{ e.name }}</a>
         <template v-else>{{ e.name }}</template>
         <template v-if="i < state.data.sources.base.length - 1">&#32;•&#32;</template>

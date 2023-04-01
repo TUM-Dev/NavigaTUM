@@ -1,7 +1,7 @@
 import { shallowRef } from "vue";
 import { useGlobalStore } from "@/stores/global";
 
-export function useFetch<T>(url: string, successHandler: (d: T) => void = () => {}, options: RequestInit = {}) {
+export function useFetch<T>(url: string, successHandler: (d: T) => void, options: RequestInit = {}) {
   const data = shallowRef<T | null>(null);
   // for some of our endpoints, we might want to have access to the lang/theme cookies
 

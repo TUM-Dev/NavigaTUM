@@ -10,13 +10,17 @@ const state = useDetailsStore();
     <h2>Informationen</h2>
     <table class="info-table">
       <tbody>
-        <tr v-for="prop in state.data.props.computed">
+        <tr v-for="prop in state.data.props.computed" :key="prop.name">
           <td>
             <strong>{{ prop.name }}</strong>
           </td>
           <td>
             {{ prop.text }}
-            <div class="popover" v-if="prop.extra?.body" @click="state.showInformationModal(prop.extra.body, prop.extra.header)">
+            <div
+              class="popover"
+              v-if="prop.extra?.body"
+              @click="state.showInformationModal(prop.extra.body, prop.extra.header)"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -39,7 +43,7 @@ const state = useDetailsStore();
           </td>
           <td>
             <ul>
-              <li v-for="link in state.data.props.links">
+              <li v-for="link in state.data.props.links" :key="link.text">
                 <a v-bind:href="link.url">
                   {{ link.text }}
                 </a>
@@ -72,9 +76,9 @@ const state = useDetailsStore();
         <div class="card-title h5">{{ $t("view_view.info_title") }}</div>
       </div>
       <div class="card-body">
-        <table class="info-table" v-if="state.data.props?.computed">
+        <table class="info-table" v-if="state.data?.props?.computed">
           <tbody>
-            <tr v-for="prop in state.data.props.computed">
+            <tr v-for="prop in state.data.props.computed" :key="prop.name">
               <td>
                 <strong>{{ prop.name }}</strong>
               </td>
@@ -110,13 +114,13 @@ const state = useDetailsStore();
                 </div>
               </td>
             </tr>
-            <tr v-if="state.data.props.links">
+            <tr v-if="state.data?.props.links">
               <td>
                 <strong>{{ $t("view_view.info_table.links") }}</strong>
               </td>
               <td>
                 <ul>
-                  <li v-for="link in state.data.props.links">
+                  <li v-for="link in state.data.props.links" :key="link.text">
                     <a v-bind:href="link.url">
                       {{ link.text }}
                     </a>
@@ -162,7 +166,7 @@ const state = useDetailsStore();
       <div class="modal-body">
         <div class="content">
           <div class="carousel">
-            <template v-for="(_, i) in state.data.imgs">
+            <template v-for="(_, i) in state.data?.imgs" :key="i">
               <input
                 v-if="i === state.image.shown_image_id"
                 v-bind:id="'slide-' + (i + 1)"
@@ -184,7 +188,7 @@ const state = useDetailsStore();
             </template>
 
             <div class="carousel-container" v-if="state.data?.imgs">
-              <figure v-for="(img, i) in state.data.imgs" class="carousel-item">
+              <figure v-for="(img, i) in state.data.imgs" class="carousel-item" :key="img.name">
                 <label
                   v-if="i !== 0"
                   class="item-prev btn btn-action btn-lg"
@@ -194,7 +198,7 @@ const state = useDetailsStore();
                   <i class="icon icon-arrow-left"></i>
                 </label>
                 <label
-                  v-if="i !== state.data.imgs.length - 1"
+                  v-if="i + 1 !== (state.data?.imgs?.length || 0)"
                   class="item-next btn btn-action btn-lg"
                   v-bind:for="'slide-' + (i + 2)"
                   @click="state.showImageSlideshow(i + 1)"
@@ -231,6 +235,7 @@ const state = useDetailsStore();
             <div class="carousel-nav">
               <label
                 v-for="(_, i) in state.data?.imgs"
+                :key="i"
                 class="nav-item text-hide c-hand"
                 v-bind:for="'slide-' + (i + 1)"
                 >{{ i + 1 }}</label
@@ -258,7 +263,7 @@ const state = useDetailsStore();
           <div class="column col-4 col-sm-12 col-md-12 text-md-center mt-md-3">
             <h6>{{ $t("view_view.slideshow.license") }}</h6>
             <a v-if="state.image.shown_image.license.url" v-bind:href="state.image.shown_image.license.url">
-              {{ state.image.shown_image.license.text}}
+              {{ state.image.shown_image.license.text }}
             </a>
             <template v-else>{{ state.image.shown_image.license.text }}</template>
           </div>

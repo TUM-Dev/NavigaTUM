@@ -10,7 +10,7 @@ export function setUrl() {
   document.querySelector('meta[property="og:url"]')?.setAttribute("content", window.location.href);
 }
 
-export function copyCurrentLink(copied) {
+export function copyCurrentLink(copied: boolean) {
   // c.f. https://stackoverflow.com/a/30810322
   const textArea = document.createElement("textarea");
   textArea.value = window.location.href;
@@ -26,6 +26,7 @@ export function copyCurrentLink(copied) {
 
   try {
     if (document.execCommand("copy")) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       copied = true;
       window.setTimeout(() => {
         copied = false;

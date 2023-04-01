@@ -73,7 +73,7 @@ function genDescription(): string {
       </button>
     </small>
 
-    <template v-for="s in sections">
+    <template v-for="s in sections" :key="s.type">
       <section>
         <div class="columns">
           <div class="column">
@@ -81,7 +81,7 @@ function genDescription(): string {
           </div>
         </div>
         <ul class="result-list">
-          <li v-for="e in s.entries">
+          <li v-for="e in s.entries" :key="e.id">
             <RouterLink v-bind:to="'/view/' + e.id" class="tile tile-centered">
               <div class="tile-icon">
                 <template v-if="e.type === 'room' || e.type === 'virtual_room'">

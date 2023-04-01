@@ -17,7 +17,7 @@ import { useRoute } from "vue-router";
 import router from "@/router";
 import type { components } from "@/api_types";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
-import type {Coord} from "@/stores/global";
+import type { Coord } from "@/stores/global";
 
 const { t } = useI18n({
   inheritLocale: true,
@@ -200,6 +200,7 @@ onMounted(() => {
       <li
         class="breadcrumb-item"
         v-for="(p, i) in state.data.parent_names"
+        :key="p"
         property="itemListElement"
         typeof="ListItem"
       >

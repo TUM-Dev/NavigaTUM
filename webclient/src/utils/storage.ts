@@ -1,4 +1,4 @@
-export function setLocalStorageWithExpiry(key: string, value: any, ttl: number) {
+export function setLocalStorageWithExpiry<T>(key: string, value: T, ttl: number) {
   // ttl in hours
   const now = new Date();
 

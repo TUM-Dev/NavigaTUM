@@ -22,7 +22,7 @@ function less(id: string) {
       <!--<div class="column col-auto"><a href="#"><i class="icon icon-location"></i> {{ $t("view_main.overview_map") }}</a></div>-->
     </div>
     <div class="columns">
-      <div class="column col-6 col-xs-12" v-for="site in data.sites_overview">
+      <div class="column col-6 col-xs-12" v-for="site in data.sites_overview" :key="site.id">
         <div class="panel" v-bind="{ id: 'panel-' + site.id }">
           <div class="panel-header">
             <RouterLink v-bind:to="'/view/' + site.id" v-if="site.id">

@@ -128,7 +128,7 @@ export default {
       } else {
         const queryId = this.queryCounter;
         this.queryCounter += 1;
-        const { data } = useFetch<SearchResponse>(`/api/search?q=${window.encodeURIComponent(q)}`, (d) => {
+        useFetch<SearchResponse>(`/api/search?q=${window.encodeURIComponent(q)}`, (d) => {
           // Data will be cached anyway in case the user hits backspace,
           // but we need to discard the data here if it arrived out of order.
           if (!this.latestUsedQueryId || queryId > this.latestUsedQueryId) {
@@ -300,9 +300,9 @@ export default {
                     <a class="bt btn-link btn-sm">Räume</a>
                   </li>-->
 
-      <template v-for="s in autocomplete.sections">
+      <template v-for="s in autocomplete.sections" :key="s.facet">
         <li class="divider" v-bind:data-content="s.name"></li>
-        <template v-for="(e, i) in s.entries">
+        <template v-for="(e, i) in s.entries" :key="e.id">
           <li v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded" class="menu-item">
             <a
               v-bind:class="{

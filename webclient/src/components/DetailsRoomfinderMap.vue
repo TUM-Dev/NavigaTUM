@@ -103,7 +103,7 @@ function delayedLoadRoomfinderModalMap() {
     </label>
     <div class="accordion-body" v-if="state.data.maps?.roomfinder">
       <ul class="menu menu-nav">
-        <li class="menu-item" v-for="(m, i) in state.data.maps.roomfinder.available">
+        <li class="menu-item" v-for="(m, i) in state.data.maps.roomfinder.available" :key="m.id">
           <button
             class="btn btn-sm"
             v-bind:aria-label="`show the map '` + m.name + `' at the scale 1:` + m.scale"

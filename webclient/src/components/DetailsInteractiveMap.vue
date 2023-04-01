@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { getLocalStorageWithExpiry, setLocalStorageWithExpiry } from "@/utils/storage";
+import type { BackgroundLayerSpecification, Coordinates, ImageSource, Map, Marker } from "maplibre-gl";
 import maplibregl from "maplibre-gl";
 import { selectedMap, useDetailsStore } from "@/stores/details";
+import type { Coord } from "@/stores/global";
 import { useGlobalStore } from "@/stores/global";
 import { nextTick, ref } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
-import type { Coordinates, BackgroundLayerSpecification, Map, Marker, ImageSource } from "maplibre-gl";
-import type { Coord } from "@/stores/global";
 
 const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
@@ -32,7 +32,7 @@ function confirmLocationPicker() {
   // add the current edits to the feedback
   const currentEdits = getLocalStorageWithExpiry<{ [index: string]: Coord }>("feedback-coords", {});
   const location = marker2.value?.getLngLat();
-  currentEdits[state.data!.id] = {
+  currentEdits[state.data?.id || "undefined"] = {
     coords: { lat: location?.lat, lon: location?.lng },
   };
   // save to local storage with ttl of 12h (garbage-collected on next read)
@@ -74,7 +74,7 @@ function addLocationPicker() {
   // button, we temporarily save the current subject and body, so it is
   // not lost when being reopened
   if (global.feedback.open) {
-    coord_picker.value.backup_id = state.data!.id;
+    coord_picker.value.backup_id = state.data?.id || "undefined";
     coord_picker.value.subject_backup = global.feedback.subject;
     coord_picker.value.body_backup = global.feedback.body;
     coord_picker.value.force_reopen = true; // reopen after confirm
@@ -91,12 +91,13 @@ function addLocationPicker() {
     // some in the localStorage use them
     const currentEdits = getLocalStorageWithExpiry<{ [index: string]: Coord }>("feedback-coords", {});
 
-    const { coords } = currentEdits[state.data.id] || state.data;
+    const { coords } = currentEdits[state.data?.id || "undefined"] || state.data;
     marker2.value = new maplibregl.Marker({
       draggable: true,
       color: "#ff0000",
     });
-    marker2.value.setLngLat([coords.lon, coords.lat]).addTo(map.value!);
+    if (coords.lat !== undefined && coords.lon !== undefined)
+      marker2.value.setLngLat([coords.lon, coords.lat]).addTo(map.value as Map);
   }
 }
 
@@ -109,35 +110,40 @@ function loadInteractiveMap(fromUi = false) {
     // The map might or might not be initialized depending on the type
     // of navigation.
     if (document.getElementById("interactive-map")) {
-      if (document.getElementById("interactive-map")!.classList.contains("maplibregl-map")) {
-        marker.value!.remove();
+      if (document.getElementById("interactive-map")?.classList.contains("maplibregl-map")) {
+        marker.value?.remove();
       } else {
         map.value = initMap("interactive-map");
 
-        document.getElementById("interactive-map")!.classList.remove("loading");
+        document.getElementById("interactive-map")?.classList.remove("loading");
       }
     }
     marker.value = new maplibregl.Marker({ element: createMarker() });
-    const coords = state.data!.coords;
-    marker.value.setLngLat([coords.lon, coords.lat]).addTo(map.value!);
+    const coords = state.data?.coords;
+    if (coords !== undefined && map.value !== undefined)
+      marker.value.setLngLat([coords.lon, coords.lat]).addTo(map.value as Map);
 
-    if (state.data?.maps?.overlays) floorControl.value.updateFloors(state.data.maps.overlays);
+    const overlays = state.data?.maps?.overlays;
+    if (overlays !== undefined && overlays !== null) floorControl.value.updateFloors(overlays);
     else floorControl.value.resetFloors();
 
     const defaultZooms: { [index: string]: number | undefined } = {
       building: 17,
       room: 18,
     };
-    if (fromMap === selectedMap.interactive) {
-      map.value!.flyTo({
-        center: [coords.lon, coords.lat],
-        zoom: defaultZooms[state.data!.type] || 16,
-        speed: 1,
-        maxDuration: 2000,
-      });
-    } else {
-      map.value!.setZoom(16);
-      map.value!.setCenter([coords.lon, coords.lat]);
+
+    if (coords !== undefined) {
+      if (fromMap === selectedMap.interactive) {
+        map.value?.flyTo({
+          center: [coords.lon, coords.lat],
+          zoom: defaultZooms[state.data?.type || "undefined"] || 16,
+          speed: 1,
+          maxDuration: 2000,
+        });
+      } else {
+        map.value?.setZoom(16);
+        map.value?.setCenter([coords.lon, coords.lat]);
+      }
     }
   };
 
@@ -187,7 +193,7 @@ function initMap(containerId: string) {
     attributionControl: false,
   });
 
-  const nav = new maplibregl.NavigationControl();
+  const nav = new maplibregl.NavigationControl({});
   map.addControl(nav, "top-left");
 
   // (Browser) Fullscreen is enabled only on mobile, on desktop the map
@@ -283,31 +289,32 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   // loading is complete (and only the initial loading seems
   // to be required to do changes here)
   if (!initialLoaded.value) {
-    map.value!.on("load", () => setOverlayImage(imgUrl, coords));
+    map.value?.on("load", () => setOverlayImage(imgUrl, coords));
     return;
   }
 
   if (imgUrl === null) {
     // Hide overlay
-    if (map.value!.getLayer("overlay-layer")) map.value!.setLayoutProperty("overlay-layer", "visibility", "none");
-    if (map.value!.getLayer("overlay-bg")) map.value!.setLayoutProperty("overlay-bg", "visibility", "none");
+    if (map.value?.getLayer("overlay-layer")) map.value?.setLayoutProperty("overlay-layer", "visibility", "none");
+    if (map.value?.getLayer("overlay-bg")) map.value?.setLayoutProperty("overlay-bg", "visibility", "none");
   } else {
-    const source = map.value!.getSource("overlay-src") as ImageSource | undefined;
-    if (!source)
-      map.value!.addSource("overlay-src", {
-        type: "image",
-        url: imgUrl,
-        coordinates: coords,
-      });
-    else
+    const source = map.value?.getSource("overlay-src") as ImageSource | undefined;
+    if (source === undefined) {
+      if (coords !== undefined)
+        map.value?.addSource("overlay-src", {
+          type: "image",
+          url: imgUrl,
+          coordinates: coords,
+        });
+    } else
       source.updateImage({
         url: imgUrl,
         coordinates: coords,
       });
 
-    const layer = map.value!.getLayer("overlay-layer") as BackgroundLayerSpecification | undefined;
+    const layer = map.value?.getLayer("overlay-layer") as BackgroundLayerSpecification | undefined;
     if (!layer) {
-      map.value!.addLayer({
+      map.value?.addLayer({
         id: "overlay-bg",
         type: "background",
         paint: {
@@ -315,7 +322,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
           "background-opacity": 0.6,
         },
       });
-      map.value!.addLayer({
+      map.value?.addLayer({
         id: "overlay-layer",
         type: "raster",
         source: "overlay-src",
@@ -324,8 +331,8 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
         },
       });
     } else {
-      map.value!.setLayoutProperty("overlay-layer", "visibility", "visible");
-      map.value!.setLayoutProperty("overlay-bg", "visibility", "visible");
+      map.value?.setLayoutProperty("overlay-layer", "visibility", "visible");
+      map.value?.setLayoutProperty("overlay-bg", "visibility", "visible");
     }
   }
 }

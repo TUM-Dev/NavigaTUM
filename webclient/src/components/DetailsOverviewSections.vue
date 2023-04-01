@@ -76,7 +76,7 @@ function updateRoomsOverview() {
         </div>-->
     </div>
     <div class="columns">
-      <template v-for="(b, i) in state.data.sections.buildings_overview.entries">
+      <template v-for="(b, i) in state.data.sections.buildings_overview.entries" :key="b.id">
         <div
           class="column col-4 col-md-12 content"
           v-if="i < state.data.sections.buildings_overview.n_visible || buildings_overview_expanded"
@@ -163,7 +163,7 @@ function updateRoomsOverview() {
                 </button>
               </li>
               <li class="divider" data-content=""></li>
-              <li class="menu-item" v-for="(u, i) in state.data.sections.rooms_overview.usages">
+              <li class="menu-item" v-for="(u, i) in state.data.sections.rooms_overview.usages" :key="u.name">
                 <button
                   class="btn"
                   v-bind:class="{
@@ -199,7 +199,7 @@ function updateRoomsOverview() {
           <div class="panel-body">
             <div v-bind:class="{ loading: loading }"></div>
             <ul class="menu" v-if="selected !== null">
-              <li class="menu-item" v-for="r in display_list">
+              <li class="menu-item" v-for="r in display_list" :key="r.id">
                 <RouterLink v-bind:to="'/view/' + r.id"> <i class="icon icon-location"></i> {{ r.name }} </RouterLink>
               </li>
             </ul>

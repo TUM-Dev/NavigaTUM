@@ -51,7 +51,8 @@ export class FloorControl extends Evented implements IControl {
       this.resize_observer = new ResizeObserver(() => {
         this._recalculateLayout(this.floor_list.children.length);
       });
-      this.resize_observer.observe(document.getElementById("interactive-map")!);
+      const interactiveMap = document.getElementById("interactive-map");
+      if (interactiveMap) this.resize_observer.observe(interactiveMap);
     }
     return this.container;
   }
@@ -126,9 +127,9 @@ export class FloorControl extends Evented implements IControl {
     // Calculate required and available size to choose between
     // vertical (default) or horizontal layout
     const mapHeight = document.getElementById("interactive-map")?.clientHeight || 0;
-    const topCtrlHeight = document.querySelector(".maplibregl-ctrl-top-left")!.clientHeight;
-    const bottomCtrlHeight = document.querySelector(".maplibregl-ctrl-bottom-left")!.clientHeight;
-    const floorCtrlHeight = document.querySelector(".floor-ctrl")!.clientHeight;
+    const topCtrlHeight = document.querySelector(".maplibregl-ctrl-top-left")?.clientHeight || 0;
+    const bottomCtrlHeight = document.querySelector(".maplibregl-ctrl-bottom-left")?.clientHeight || 0;
+    const floorCtrlHeight = document.querySelector(".floor-ctrl")?.clientHeight || 0;
 
     // The buttons have a height of 29px
     const availableHeight = mapHeight - topCtrlHeight - bottomCtrlHeight + floorCtrlHeight;
@@ -156,7 +157,9 @@ export class FloorControl extends Evented implements IControl {
       if (i === floorListI) this.floor_list.children[i].classList.add("active");
       else this.floor_list.children[i].classList.remove("active");
     }
-    document.getElementById("vertical-oc-text")!.innerText = name;
-    document.getElementById("horizontal-oc-text")!.innerText = name;
+    const vertical = document.getElementById("vertical-oc-text") as HTMLSpanElement;
+    vertical.innerText = name;
+    const horizontal = document.getElementById("horizontal-oc-text") as HTMLSpanElement;
+    horizontal.innerText = name;
   }
 }
