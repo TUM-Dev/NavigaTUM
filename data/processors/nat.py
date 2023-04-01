@@ -172,7 +172,7 @@ def _merge_building(data, building):
     # NAT buildings are merged after TUMonline and the MyTUM Roomfinder. So if the others
     # weren't used as sources, but the NAT Roomfinder has this building, we know it's from there.
     base_sources = b_data.setdefault("sources", {}).setdefault("base", [])
-    if len(base_sources) == 0:
+    if not base_sources:
         base_sources.append(
             {
                 "name": "NAT Roomfinder",
