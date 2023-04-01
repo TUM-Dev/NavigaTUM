@@ -21,6 +21,7 @@ pub struct ScrapeTask {
     scraping_start: DateTime<Utc>,
 }
 
+const CONCURRENT_REQUESTS: usize = 2;
 impl ScrapeTask {
     pub fn new(time_window: chrono::Duration) -> Self {
         Self {
@@ -41,7 +42,7 @@ impl ScrapeTask {
         let mut work_queue = FuturesUnordered::new();
         let start = self.scraping_start - self.time_window / 2;
         while !all_room_ids.is_empty() {
-            while work_queue.len() < 2 {
+            while work_queue.len() < CONCURRENT_REQUESTS {
                 if let Some(room) = all_room_ids.pop() {
                     // sleep to not overload TUMonline.
                     // It is critical for successfully scraping that we are not blocked.
