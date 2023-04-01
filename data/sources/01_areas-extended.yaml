@@ -1046,24 +1046,42 @@ garching-gebaeudemanagement:
   osm: ["way/179243742"]
 6103: # Hochspannungsgebäude
   osm: ["way/24013693"]
-6104: # Feuerwehr TUM Garching
-  coords: { lat: 48.26079, lon: 11.65762}
+6104: # Feuerwehr TUM Garching (Hallen West)
+  coords: { lat: 48.26079, lon: 11.65762 }
   osm: ["way/226147073"]
 6106: # Trafostation Betriebsgebäude
   osm: ["way/24013693"] # same as Hochspannungsgebäude, may be inaccurate
 6107: # Garagenbau
   osm: ["way/179243727", "way/179243753"] # large, small building
 
-6202: # Feuerwehr
-  osm: [
-      "way/24013702",
-      "way/179243750",
-      "way/24013700",
-      "way/24013697",
-      "way/179243758",
-      "way/179243737",
-      "way/24013697",
-    ] # last one is near Betriebsgebäude
+feuerwehrwache:
+  coords: { lat: 48.26075, lon: 11.65944 }
+  props:
+    address:
+      street: "Römerhofweg 67"
+      plz_place: "85748 Garching bei München"
+      source: "navigatum"
+    links:
+      - text:
+          de: "Webseite"
+          en: "Website (DE)"
+        url: "https://www.hr6.tum.de/feuerwehr/startseite/"
+      - text:
+          de: "Notruf: 089 289 112"
+          en: "Emergency Call: 089 289 112"
+        url: "tel:+4989289112"
+6202:
+  coords: { lat: 48.26055, lon: 11.65934 }
+  osm: ["way/24013702", "way/179243750", "way/179243737"]
+6203:
+  coords: { lat: 48.26081, lon: 11.65919 }
+  osm: ["way/24013700"]
+6204:
+  coords: { lat: 48.26072, lon: 11.65980 }
+  osm: ["way/24013697"]
+6206:
+  coords: { lat: 48.26047, lon: 11.65994 }
+  osm: ["way/179243758"]
 
 7894: # Newton
   coords: { lat: 48.26924, lon: 11.66523 }

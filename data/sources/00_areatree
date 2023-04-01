@@ -578,10 +578,14 @@
       6101:Heizkraftwerk:
       6102:Betriebsgebäude:
       6103:Hochspannungsgebäude:
-      6104:Feuerwehr TUM Garching:
+      6104:Feuerwehr TUM Garching (Hallen West):
       6106:Trafostation Betriebsgebäude (TBG):
       6107:Garagenbau:
-    6202:Feuerwehrwache:
+    62:Feuerwehrwache:feuerwehrwache[joined_building]
+      6202:Feuerwehrwache Hauptgebäude:
+      6203:Feuerwehrwache West:
+      6204:Feuerwehrwache Ost:
+      6206:Feuerwehrwache Nbg.:
   7:Garching Forschungszentrum (außerhalb):garching-extra
     7894:Newton:
     7895:Pascal Halle:

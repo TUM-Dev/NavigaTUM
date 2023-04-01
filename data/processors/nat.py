@@ -141,8 +141,6 @@ def _merge_building(data, building):
     b_data = data[internal_id]
     b_data["nat_data"] = building
 
-    # TODO: Use rooms JSON to get more building information
-
     # NAT buildings are merged after TUMonline and the MyTUM Roomfinder. So if the others
     # weren't used as sources, but the NAT Roomfinder has this building, we know it's from there.
     base_sources = b_data.setdefault("sources", {}).setdefault("base", [])
