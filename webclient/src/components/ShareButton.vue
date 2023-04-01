@@ -52,8 +52,8 @@ function shareLink() {
     </button>
     <button
       class="btn"
-      @click="copyLink()"
-      v-html="copyCurrentLink(copied) ? $t('view_view.header.external_link.copied') : $t('view_view.header.copy_link')"
+      @click="copyCurrentLink(copied)"
+      v-html="copied ? $t('view_view.header.external_link.copied') : $t('view_view.header.copy_link')"
     ></button>
   </div>
 </template>
