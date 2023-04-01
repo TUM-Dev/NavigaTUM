@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    app: navigatum
+    deployment: postgres
+  namespace: {{ $.Values.namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: navigatum
+      deployment: postgres
+  template:
+    metadata:
+      labels:
+        app: navigatum
+        deployment: postgres
+    spec:
+      volumes:
+        - name: db-vol
+          persistentVolumeClaim:
+              readOnly: false
+              claimName: postgres-pvc
+      containers:
+        - name: postgres
+          image: postgres:15
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+              name: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: password
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: user
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: db-vol
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-rw
+  labels:
+    app: navigatum
+    deployment: postgres
+  namespace: {{ $.Values.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app: navigatum
+    deployment: postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432

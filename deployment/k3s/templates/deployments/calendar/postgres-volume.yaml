@@ -1,29 +1,29 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: calendar-{{ $.Values.namespace }}
+  name: postgres
   labels:
     app: navigatum
-    deployment: maps
+    deployment: postgres
     type: local
 spec:
   storageClassName: local-path
   capacity:
     storage: 1Gi
-  persistentVolumeReclaimPolicy: Retain
+  persistentVolumeReclaimPolicy: Delete
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/mnt/data/navigatum/calendar"
+    path: "/mnt/data/navigatum/postgres"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: calendar-pvc
-  namespace: {{ $.Values.namespace }}
+  name: postgres-pvc
+  namespace: navigatum
   labels:
     app: navigatum
-    deployment: maps
+    deployment: postgres
     type: local
 spec:
   storageClassName: local-path
