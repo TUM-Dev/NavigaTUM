@@ -25,11 +25,6 @@ spec:
         prometheus.io/scrape: 'true'
       {{- end }}
     spec:
-      volumes:
-        - name: calendar-vol
-          persistentVolumeClaim:
-            readOnly: false
-            claimName: calendar-pvc
       containers:
         - name: calendar
           image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"
@@ -38,11 +33,18 @@ spec:
             - containerPort: 8060
               name: calendar
           env:
-            - name: DB_LOCATION
-              value: /data/server.db
-          volumeMounts:
-            - mountPath: /data
-              name: calendar-vol
+            - name: POSTGRES_URL
+              value: postgres.navigatum.svc.cluster.local
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: password
           securityContext:
             readOnlyRootFilesystem: true
           resources:

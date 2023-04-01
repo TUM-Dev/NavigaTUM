@@ -21,9 +21,19 @@ async fn health_status_handler() -> HttpResponse {
         .body(format!("healthy\nsource_code: {github_link}"))
 }
 
+use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
+pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!("migrations");
+
+fn apply_db_migrations() {
+    let con = &mut utils::establish_connection();
+    con.run_pending_migrations(MIGRATIONS)
+        .expect("Migrations could not be applied");
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
+    apply_db_migrations();
 
     // metrics
     let labels = HashMap::from([(
