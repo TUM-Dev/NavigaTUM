@@ -15,25 +15,3 @@
     loop_var: comp
   with_fileglob:
     - components/*.yml
-# The following is a patch to the local-path storage class to allow Immediate binding
-# Since StorageClass is a immutable resource, this has to be manually deleted and re-applied
-#- name: Patch the local-path storage class to allow Immediate binding
-#  kubernetes.core.k8s:
-#    state: present
-#    namespace: kube-system
-#    definition:
-#      apiVersion: storage.k8s.io/v1
-#      kind: StorageClass
-#      metadata:
-#        name: local-path
-#        labels:
-#          --copy from the original storage class--
-#        annotations:
-#          --copy from the original storage class--
-#        selfLink: /apis/storage.k8s.io/v1/storageclasses/local-path
-#      allowedTopologies: []
-#      mountOptions: []
-#      parameters: {}
-#      provisioner: rancher.io/local-path
-#      reclaimPolicy: Delete
-#      volumeBindingMode: Immediate
