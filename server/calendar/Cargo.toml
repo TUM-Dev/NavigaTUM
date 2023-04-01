@@ -8,6 +8,7 @@ repository = "https://github.com/TUM-Dev/navigatum"
 readme = "README.md"
 license = "GPL-3.0"
 keywords = ["website", "navigation", "api-rest", "tum"]
+default-run = "navigatum-calendar"
 
 [[bin]]
 name = "navigatum-calendar"
@@ -25,6 +26,8 @@ log = "0.4.17"
 env_logger = "0.10.0"
 diesel = { version = "2.0.3", features = ["default","chrono","sqlite"] }
 actix-web = "4.3.1"
+lazy_static ="1.4.0"
+prometheus = { version = "0.13.3",features=["default", "push"] }
 actix-web-prometheus = "0.1.2"
 rustls = "0.21.0"
 reqwest = { version= "0.11.14", features = ["rustls"] }
