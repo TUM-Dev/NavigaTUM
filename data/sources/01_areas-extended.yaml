@@ -1054,7 +1054,7 @@ garching-gebaeudemanagement:
 6107: # Garagenbau
   osm: ["way/179243727", "way/179243753"] # large, small building
 
-feuerwehrwache:
+feuerwehrwache-garching:
   coords: { lat: 48.26075, lon: 11.65944 }
   props:
     address:
