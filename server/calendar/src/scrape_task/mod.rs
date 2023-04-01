@@ -23,7 +23,7 @@ lazy_static! {
     .unwrap();
     static ref REQ_SUCCESS_HISTOGRAM: Histogram = register_histogram!(
         "navigatum_calendarscraper_resulting_entries_buckets",
-        "Ammounts of entries retrieved",
+        "Amount of entries retrieved",
         prometheus::exponential_buckets(10.0, 2.0, 15).unwrap(),
     )
     .unwrap();
