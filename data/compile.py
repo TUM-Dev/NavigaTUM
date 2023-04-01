@@ -8,6 +8,7 @@ from processors import (
     images,
     maps,
     merge,
+    nat,
     roomfinder,
     search,
     sections,
@@ -39,19 +40,28 @@ def main():
     for _id, entry in data.items():
         entry.setdefault("sources", {"base": [{"name": "NavigaTUM"}]})
 
-    # --- Insert Roomfinder and TUMonline data ---
+    # --- Buildings ---
     logging.info("-- 10 Roomfinder buildings")
     roomfinder.merge_roomfinder_buildings(data)
 
     logging.info("-- 11 TUMonline buildings")
     tumonline.merge_tumonline_buildings(data)
 
-    # TUMonline is used as base and Roomfinder is merged on top of this later
+    logging.info("-- 12 NAT buildings")
+    nat.merge_nat_buildings(data)
+
+    # --- Rooms ---
+    # TUMonline is used as base
     logging.info("-- 15 TUMonline rooms")
     tumonline.merge_tumonline_rooms(data)
 
+    # merge data which is contributed by the mytum roomfinder (mostly coordinates)
     logging.info("-- 16 Roomfinder rooms")
     roomfinder.merge_roomfinder_rooms(data)
+
+    # merge data which is contributed by the nat roomfinder (additonal rooms, seating information, ...)
+    logging.info("-- 17 NAT rooms")
+    nat.merge_nat_rooms(data)
 
     # At this point, no more areas or rooms will be added or removed.
     # --- Make data more coherent ---
