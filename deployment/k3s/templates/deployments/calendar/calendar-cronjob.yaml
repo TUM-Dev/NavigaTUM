@@ -1,0 +1,54 @@
+{{- if eq "nav.tum.de" $.Values.url }}
+{{ range $scrape_task := $.Values.calendar.scrape_tasks }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ $scrape_task.name }}
+  labels:
+    app: navigatum
+    deployment: maps
+  namespace: {{ $.Values.namespace }}
+spec:
+  schedule: {{ $scrape_task.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: calendar-vol
+              persistentVolumeClaim:
+                readOnly: false
+                claimName: calendar-pvc
+          containers:
+          - name: {{ $scrape_task.name }}
+            image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"
+            imagePullPolicy: Always
+            volumeMounts:
+            - mountPath: /data
+              name: calendar-vol
+            command: ["/bin/navigatum-calendar-scraper"]
+            env:
+            - name: POSTGRES_URL
+              value: postgres.navigatum.svc.cluster.local
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: password
+            - name: SCRAPED_TIME_WINDOW_MONTHS
+              value: {{ $scrape_task.scraped_time_window_months | quote }}
+            securityContext:
+              readOnlyRootFilesystem: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 100Mi
+          restartPolicy: OnFailure
+{{ end }}
+{{ end }}

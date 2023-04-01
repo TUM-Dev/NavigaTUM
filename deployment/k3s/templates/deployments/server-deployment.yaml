@@ -58,8 +58,8 @@ spec:
                 name: server-api-keys # MEILI_MASTER_KEY
           {{ end }}
           env:
-              - name: DB_LOCATION
-                value: /tmp/server.db
+            - name: DB_LOCATION
+              value: /tmp/server.db
           ports:
             - containerPort: 8080
               name: api
