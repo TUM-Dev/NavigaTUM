@@ -21,7 +21,7 @@ RUN     apk update --quiet \
      && apk add -q --no-cache libgcc sqlite-libs tini
 
 # add `navigatum-calendar` to the `/bin` so we can run it from anywhere and it's easy to find.
-COPY    --from=compiler /nav/target/release/navigatum-calendar /bin/navigatum-calendar
+COPY    --from=compiler /nav/target/release/navigatum-* /bin/
 
 ARG     GIT_COMMIT_SHA
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}

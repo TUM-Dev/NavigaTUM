@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: calendar
   labels:
@@ -26,8 +26,10 @@ spec:
       {{- end }}
     spec:
       volumes:
-        - name: tmp-calendar
-          emptyDir: {}
+        - name: calendar-vol
+          persistentVolumeClaim:
+            readOnly: false
+            claimName: calendar-pvc
       containers:
         - name: calendar
           image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"
@@ -37,7 +39,10 @@ spec:
               name: calendar
           env:
             - name: DB_LOCATION
-              value: /tmp/server.db
+              value: /data/server.db
+          volumeMounts:
+            - mountPath: /data
+              name: calendar-vol
           securityContext:
             readOnlyRootFilesystem: true
           resources:
