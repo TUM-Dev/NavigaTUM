@@ -221,7 +221,8 @@ internal_id:
   # --- Additional, type-dependent properties ---
   nat_data:
     # if building (optional)
-    b_id: "0109"
+    b_id: "0109"  # Building id that we use
+    b_code: "0109"  # Building id used by the NAT roomfinder
     b_name: "Reflexionsarmer Raum"
     b_alias: "N9" # optional
     b_address: "Theresienstr. 90" # optional
