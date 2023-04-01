@@ -111,10 +111,11 @@ def export_for_api(data, path):
         if "children" in export_data[_id]:
             del export_data[_id]["children"]
             del export_data[_id]["children_flat"]
-        if "tumonline_data" in export_data[_id]:
-            del export_data[_id]["tumonline_data"]
-        if "roomfinder_data" in export_data[_id]:
-            del export_data[_id]["roomfinder_data"]
+
+        for key in {"tumonline_data", "roomfinder_data", "nat_data"}:
+            if key in export_data[_id]:
+                del export_data[_id][key]
+
         if "props" in export_data[_id]:
             prop_keys_to_keep = {"computed", "links", "comment", "calendar_url", "tumonline_room_nr", "operator"}
             to_delete = [e for e in export_data[_id]["props"].keys() if e not in prop_keys_to_keep]
