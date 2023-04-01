@@ -4,7 +4,8 @@ FROM    rust:1.68-alpine AS compiler
 RUN     apk add -q --update-cache --no-cache build-base openssl-dev sqlite-dev
 
 # first run of the image build (probably cached, just dependencys)
-RUN USER=root cargo new --bin nav
+RUN USER=root cargo new --bin nav \
+     && cp ./nav/src/main.rs ./nav/src/scraper.rs
 WORKDIR /nav
 COPY    ./Cargo.* ./
 RUN     RUSTFLAGS="-C target-feature=-crt-static" cargo build --release \
