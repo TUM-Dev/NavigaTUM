@@ -1,10 +1,10 @@
-use crate::scraping::task::ScrapeRoomTask;
+use crate::models::XMLEvent;
+use crate::scrape_task::scrape_room_task::ScrapeRoomTask;
 use crate::{schema, utils};
 use awc::error::{ConnectError, PayloadError, SendRequestError};
 use awc::Client;
 use chrono::{NaiveDateTime, Utc};
 use diesel::prelude::*;
-use diesel::Insertable;
 use log::{debug, error, warn};
 use minidom::Element;
 use rand::Rng;
@@ -85,40 +85,13 @@ fn construct_hm(elem: &Element) -> HashMap<String, String> {
     hm
 }
 
-#[derive(Insertable, Queryable, AsChangeset)]
-#[diesel(table_name = schema::calendar)]
-pub struct XMLEvent {
-    pub key: String,
-    pub dtstart: NaiveDateTime,
-    pub dtend: NaiveDateTime,
-    pub dtstamp: NaiveDateTime,
-    pub event_id: i32,
-    pub event_title: String,
-    pub single_event_id: i32,
-    pub single_event_type_id: String,
-    pub single_event_type_name: String,
-    pub event_type_id: String,
-    pub event_type_name: Option<String>,
-    pub course_type_name: Option<String>,
-    pub course_type: Option<String>,
-    pub course_code: Option<String>,
-    pub course_semester_hours: Option<i32>,
-    pub group_id: Option<String>,
-    pub xgroup: Option<String>,
-    pub status_id: String,
-    pub status: String,
-    pub comment: String,
-    pub last_scrape: NaiveDateTime,
-}
-
-impl XMLEvent {
-    fn from_hm(key: String, hm: HashMap<String, String>) -> XMLEvent {
-        let other_keys = hm
-            .keys()
-            .filter(|s| {
-                !matches!(
-                    s.to_string().as_str(),
-                    "dtstart"
+fn xml_event_from_hm(key: String, hm: HashMap<String, String>) -> XMLEvent {
+    let other_keys = hm
+        .keys()
+        .filter(|s| {
+            !matches!(
+                s.to_string().as_str(),
+                "dtstart"
                         | "dtend"
                         | "dtstamp"
                         | "duration" // ignored
@@ -139,37 +112,35 @@ impl XMLEvent {
                         | "statusID"
                         | "status"
                         |"comment"
-                )
-            })
-            .map(|s| s.to_string())
-            .collect::<Vec<String>>();
-        if !other_keys.is_empty() {
-            error!("found additional key(s) in hashmap: {other_keys:?}");
-        }
-        XMLEvent {
-            key,
-            dtstart: extract_dt(&hm, "dtstart").unwrap(),
-            dtend: extract_dt(&hm, "dtend").unwrap(),
-            dtstamp: extract_dt(&hm, "dtstamp").unwrap(),
-            event_id: extract_i32(&hm, "eventID").unwrap(),
-            event_title: extract_str(&hm, "eventTitle")
-                .unwrap_or("Title not available".to_string()), // some deleted entries are broken in this sens
-            single_event_id: extract_i32(&hm, "singleEventID").unwrap(),
-            single_event_type_id: extract_str(&hm, "singleEventTypeID").unwrap(),
-            single_event_type_name: extract_str(&hm, "singleEventTypeName").unwrap(),
-            event_type_id: extract_str(&hm, "eventTypeID").unwrap(),
-            event_type_name: extract_str(&hm, "eventTypeName"),
-            course_type_name: extract_str(&hm, "courseTypeName"),
-            course_type: extract_str(&hm, "courseType"),
-            course_code: extract_str(&hm, "courseCode"),
-            course_semester_hours: extract_i32(&hm, "courseSemesterHours"),
-            group_id: extract_str(&hm, "groupID"),
-            xgroup: extract_str(&hm, "group"),
-            status_id: extract_str(&hm, "statusID").unwrap(),
-            status: extract_str(&hm, "status").unwrap(),
-            comment: extract_str(&hm, "comment").unwrap_or_default(),
-            last_scrape: Utc::now().naive_utc(),
-        }
+            )
+        })
+        .map(|s| s.to_string())
+        .collect::<Vec<String>>();
+    if !other_keys.is_empty() {
+        error!("found additional key(s) in hashmap: {other_keys:?}");
+    }
+    XMLEvent {
+        key,
+        dtstart: extract_dt(&hm, "dtstart").unwrap(),
+        dtend: extract_dt(&hm, "dtend").unwrap(),
+        dtstamp: extract_dt(&hm, "dtstamp").unwrap(),
+        event_id: extract_i32(&hm, "eventID").unwrap(),
+        event_title: extract_str(&hm, "eventTitle").unwrap_or("Title not available".to_string()), // some deleted entries are broken in this sens
+        single_event_id: extract_i32(&hm, "singleEventID").unwrap(),
+        single_event_type_id: extract_str(&hm, "singleEventTypeID").unwrap(),
+        single_event_type_name: extract_str(&hm, "singleEventTypeName").unwrap(),
+        event_type_id: extract_str(&hm, "eventTypeID").unwrap(),
+        event_type_name: extract_str(&hm, "eventTypeName"),
+        course_type_name: extract_str(&hm, "courseTypeName"),
+        course_type: extract_str(&hm, "courseType"),
+        course_code: extract_str(&hm, "courseCode"),
+        course_semester_hours: extract_i32(&hm, "courseSemesterHours"),
+        group_id: extract_str(&hm, "groupID"),
+        xgroup: extract_str(&hm, "group"),
+        status_id: extract_str(&hm, "statusID").unwrap(),
+        status: extract_str(&hm, "status").unwrap(),
+        comment: extract_str(&hm, "comment").unwrap_or_default(),
+        last_scrape: Utc::now().naive_utc(),
     }
 }
 
@@ -252,7 +223,7 @@ impl XMLEvents {
                 _ => false,
             };
             if valid_status {
-                events.push(XMLEvent::from_hm(key.clone(), hm));
+                events.push(xml_event_from_hm(key.clone(), hm));
             }
         }
         Some(XMLEvents { events })

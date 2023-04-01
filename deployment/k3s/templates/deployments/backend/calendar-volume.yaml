@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: calendar-{{ $.Values.namespace }}
+  labels:
+    app: navigatum
+    deployment: maps
+    type: local
+spec:
+  storageClassName: local-path
+  capacity:
+    storage: 1Gi
+  persistentVolumeReclaimPolicy: Retain
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/navigatum/calendar"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: calendar-pvc
+  namespace: {{ $.Values.namespace }}
+  labels:
+    app: navigatum
+    deployment: maps
+    type: local
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi

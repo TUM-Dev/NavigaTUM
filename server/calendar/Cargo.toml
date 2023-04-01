@@ -13,6 +13,10 @@ keywords = ["website", "navigation", "api-rest", "tum"]
 name = "navigatum-calendar"
 path = "src/main.rs"
 
+[[bin]]
+name = "navigatum-calendar-scraper"
+path = "src/scraper.rs"
+
 [profile.release]
 strip = true
 
@@ -21,7 +25,6 @@ log = "0.4.17"
 env_logger = "0.10.0"
 diesel = { version = "2.0.3", features = ["default","chrono","sqlite"] }
 actix-web = "4.3.1"
-actix-rt = "2.8.0"
 actix-web-prometheus = "0.1.2"
 rustls = "0.21.0"
 awc = { version= "3.1.1", features = ["rustls"] }

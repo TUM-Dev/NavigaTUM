@@ -1,4 +1,4 @@
-use crate::scraping::tumonline_calendar::XMLEvent;
+use crate::models::XMLEvent;
 use crate::utils;
 use actix_web::{get, web, HttpResponse};
 use chrono::{NaiveDateTime, Utc};
