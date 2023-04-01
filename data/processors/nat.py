@@ -21,6 +21,9 @@ class NATBuilding:
         self.b_alias = data["building_short"]
         self.b_address = data["address"]
 
+    def as_dict(self):
+        return self.__dict__
+
 
 def merge_nat_buildings(data):
     """
@@ -139,7 +142,7 @@ def _merge_building(data, building):
     internal_id = _infer_internal_id(building, data)
 
     b_data = data[internal_id]
-    b_data["nat_data"] = building
+    b_data["nat_data"] = building.as_dict()
 
     # NAT buildings are merged after TUMonline and the MyTUM Roomfinder. So if the others
     # weren't used as sources, but the NAT Roomfinder has this building, we know it's from there.
