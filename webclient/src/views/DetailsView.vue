@@ -302,11 +302,11 @@ onMounted(() => {
           </div>
           <div
             class="toast toast-warning"
-            v-if="state.data.type === 'room' && state.data.maps?.overlays?.default === null"
+            v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
           >
             {{ $t("view_view.msg.no_floor_overlay") }}
           </div>
-          <div class="toast" v-if="state.data.props?.comment">
+          <div class="toast" v-if="state.data?.props?.comment">
             {{ state.data.props.comment }}
           </div>
         </div>

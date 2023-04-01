@@ -43,15 +43,16 @@ function loadRoomfinderMap(mapIndex: number, fromUi = false) {
 }
 
 function loadRoomfinderModalMap() {
-  const map = state.data.maps.roomfinder.available[state.map.roomfinder.selected_index];
+  const map = state.selectedRoomfinderMap();
+  if (!map) return;
 
-  const rect = document.getElementById("roomfinder-modal-container").getBoundingClientRect();
+  const width = document.getElementById("roomfinder-modal-container")?.getBoundingClientRect().width || 100;
   // -1023px, -1023px is top left corner, 16px = 2*8px is element padding
-  state.map.roomfinder.modalX = -1023 + (map.x / map.width) * (rect.width - 65);
+  state.map.roomfinder.modalX = -1023 + (map.x / map.width) * (width - 65);
 
   // We cannot use "height" here as it might be still zero before layouting
   // finished, so we use the aspect ratio here.
-  state.map.roomfinder.modalY = -1023 + (map.y / map.height) * (rect.width - 65) * (map.height / map.width);
+  state.map.roomfinder.modalY = -1023 + (map.y / map.height) * (width - 65) * (map.height / map.width);
 }
 function delayedLoadRoomfinderModalMap() {
   setTimeout(loadRoomfinderModalMap, 1000);
@@ -75,9 +76,7 @@ function delayedLoadRoomfinderModalMap() {
       />
       <img
         alt="Hand-drawn roomfinder map image"
-        v-bind:src="
-          '/cdn/maps/roomfinder/' + state.data.maps.roomfinder.available[state.map.roomfinder.selected_index].file
-        "
+        v-bind:src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap().file"
         class="img-responsive"
         v-bind:width="state.map.roomfinder.width"
         v-bind:height="state.map.roomfinder.height"
@@ -85,7 +84,7 @@ function delayedLoadRoomfinderModalMap() {
       />
       <div>
         {{ $t("view_view.map.img_source") }}:
-        {{ state.data.maps.roomfinder.available[state.map.roomfinder.selected_index].source }}
+        {{ state.selectedRoomfinderMap().source }}
       </div>
     </div>
   </a>
@@ -97,8 +96,8 @@ function delayedLoadRoomfinderModalMap() {
   >
     <input id="map-accordion" type="checkbox" name="accordion-checkbox" hidden />
     <label for="map-accordion" class="btn btn-sm btn-block accordion-header">
-      1:{{ state.data.maps.roomfinder.available[state.map.roomfinder.selected_index].scale }},
-      {{ state.data.maps.roomfinder.available[state.map.roomfinder.selected_index].name }}
+      1:{{ state.selectedRoomfinderMap().scale }},
+      {{ state.selectedRoomfinderMap().name }}
       <i class="icon icon-caret"></i>
     </label>
     <div class="accordion-body" v-if="state.data.maps?.roomfinder">
@@ -150,9 +149,7 @@ function delayedLoadRoomfinderModalMap() {
           />
           <img
             alt="Hand-drawn roomfinder map image"
-            v-bind:src="
-              '/cdn/maps/roomfinder/' + state.data.maps.roomfinder.available[state.map.roomfinder.selected_index].file
-            "
+            v-bind:src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap()?.file"
             class="img-responsive"
             v-bind:width="state.map.roomfinder.width"
             v-bind:height="state.map.roomfinder.height"
@@ -160,7 +157,7 @@ function delayedLoadRoomfinderModalMap() {
           />
           <div>
             {{ $t("view_view.map.img_source") }}:
-            {{ state.data.maps.roomfinder.available[state.map.roomfinder.selected_index].source }}
+            {{ state.selectedRoomfinderMap().source }}
           </div>
         </div>
       </div>

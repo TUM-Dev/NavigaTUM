@@ -44,6 +44,10 @@ export const useDetailsStore = defineStore({
     },
   }),
   actions: {
+    selectedRoomfinderMap: function () {
+      const index = this.map.roomfinder.selected_index;
+      return this.data?.maps.roomfinder?.available[index];
+    },
     showImageSlideshow: function (i: number, openSlideshow = true) {
       if (this.data?.imgs && this.data.imgs[i]) {
         this.image.slideshow_open = openSlideshow;
