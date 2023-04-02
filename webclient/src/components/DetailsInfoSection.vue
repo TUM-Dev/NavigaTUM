@@ -132,10 +132,13 @@ const state = useDetailsStore();
         </table>
         <span v-else>-</span>
         <div class="toast toast-warning" v-if="state.data.coords.accuracy === 'building'">
-          {{ $t("view_view.msg.inaccurate_only_building.msg") }}
-          <button class="btn btn-sm" @click="addLocationPicker">
-            {{ $t("view_view.msg.inaccurate_only_building.btn") }}
-          </button>
+          {{ $t("view_view.msg.inaccurate_only_building.primary_msg") }}<br />
+          <i>
+            {{ $t("view_view.msg.inaccurate_only_building.help_others_and") }}
+            <button class="btn btn-sm" @click="addLocationPicker">
+              {{ $t("view_view.msg.inaccurate_only_building.btn") }}
+            </button>
+          </i>
         </div>
         <div
           class="toast toast-warning"

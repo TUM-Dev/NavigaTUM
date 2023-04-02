@@ -57,7 +57,10 @@ feedback:
     entry: "Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?"
     other: "Feedback encountered issue: Category invalid"
   coordinatepicker:
-    helptext: "If you want to correct several coordinates at the same time, you can close this window and edit more coordinates. <br> We will save your changes locally for 12 hours. <br> Warning, that's only valid for coordinates!"
+    helptext:
+      enter_serveral: "If you want to correct several coordinates at the same time, you can close this window and edit more coordinates."
+      saved_for_12h: "We will save your changes locally for 12 hours."
+      limitation_to_coordinates: "Warning, that's only valid for coordinates!"
     title: "Select coordinate"
     edit_coordinate_subject: "Edit coordinate"
     edit_coordinates_subject: "Edit coordinates"
@@ -169,7 +172,8 @@ view_view:
       btn-done: "Done"
       btn-cancel: "Cancel"
     inaccurate_only_building:
-      msg: "The displayed position only shows the position of the building(part). The exact position within the building is not known to us.<br><i>If you find it out, you can help others and</i>"
+      primary_msg: "The displayed position only shows the position of the building(part). The exact position within the building is not known to us."
+      help_others_and: "If you find it out, you can help others and"
       btn: "Assign a coordinate"
     no_floor_overlay: "There is unfortunately no indoor map for the displayed room."
     coordinate-counter:

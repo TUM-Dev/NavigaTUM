@@ -181,7 +181,9 @@ function sendForm() {
           <div id="feedback-error">{{ error.message }}</div>
           <div class="form-group">
             <div id="feedback-coordinate-picker-helptext" class="d-none toast toast-primary">
-              {{ $t("feedback.coordinatepicker.helptext") }}
+              {{ $t("feedback.coordinatepicker.helptext.enter_serveral") }}<br />
+              {{ $t("feedback.coordinatepicker.helptext.saved_for_12h") }}<br />
+              {{ $t("feedback.coordinatepicker.helptext.limitation_to_coordinates") }}
             </div>
             <label class="form-label" for="feedback-subject"> {{ $t("feedback.subject") }}</label>
             <div class="input-group">
@@ -256,7 +258,8 @@ function sendForm() {
           <div class="form-group">
             <label class="form-checkbox">
               <input type="checkbox" id="feedback-privacy" v-model="privacyChecked" />
-              <i class="form-icon"></i> {{ $t("feedback.public") }}
+              <i class="form-icon"></i>
+              <span v-html="$t('feedback.public')"></span>
             </label>
             <label class="form-checkbox" id="feedback-delete-label">
               <input type="checkbox" id="feedback-delete" v-model="deleteIssueRequested" />

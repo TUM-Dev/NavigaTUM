@@ -57,7 +57,10 @@ feedback:
     entry: "Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten, die du siehst (Namen, Koordinaten, Adressen, ...) anpassen. Was können wir verbessern?"
     other: "Feedback ist auf ein Problem gestoßen: Kategorie ungültig"
   coordinatepicker:
-    helptext: "Falls du mehrere Koordinaten gleichzeitig korrigieren willst, kannst du dieses Fenster schließen und weitere Koordinaten editieren. Wir speichern deine Veränderungen für 12 Stunden bei dir lokal. <br> Achtung, das gilt nur für Koordinaten!"
+    helptext:
+      enter_serveral: "Falls du mehrere Koordinaten gleichzeitig korrigieren willst, kannst du dieses Fenster schließen und weitere Koordinaten editieren."
+      saved_for_12h: "Wir speichern deine Veränderungen für 12 Stunden bei dir lokal."
+      limitation_to_coordinates: "Achtung, das gilt nur für Koordinaten!"
     title: "Koordinate auswählen"
     edit_coordinate_subject: "Koordinate bearbeiten"
     edit_coordinates_subject: "Koordinaten bearbeiten"
@@ -169,7 +172,8 @@ view_view:
       btn-done: "Fertig"
       btn-cancel: "Abbrechen"
     inaccurate_only_building:
-      msg: "Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.<br><i>Falls du sie herausfindest, kannst du die</i>"
+      primary_msg: "Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt."
+      help_others_and: "Falls du sie herausfindest, kannst du die"
       btn: "Koordinate eintragen"
     no_floor_overlay: "Für den angezeigten Raum gibt es leider keine Indoor Karte."
     coordinate-counter:
