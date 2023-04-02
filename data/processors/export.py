@@ -112,7 +112,7 @@ def export_for_api(data, path):
             del export_data[_id]["children"]
             del export_data[_id]["children_flat"]
 
-        for key in {"tumonline_data", "roomfinder_data", "nat_data"}:
+        for key in ["tumonline_data", "roomfinder_data", "nat_data"]:
             if key in export_data[_id]:
                 del export_data[_id][key]
 

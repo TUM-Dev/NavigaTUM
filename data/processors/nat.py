@@ -95,14 +95,14 @@ def _merge_building(data, building):
     b_data.setdefault("props", {}).setdefault("ids", {}).setdefault("b_id", building.b_id)
 
 
-def merge_nat_rooms(data):
+def merge_nat_rooms(_data):
     """
     Merge the rooms in the NAT Roomfinder with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
 
     with open("external/results/rooms_nat.json", encoding="utf-8") as file:
-        rooms = json.load(file)
+        _rooms = json.load(file)
 
     # TODO: implement the merging of NAT rooms
     logging.warning("Merging NAT rooms is not yet implemented")
