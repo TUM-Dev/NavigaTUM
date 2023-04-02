@@ -4,9 +4,16 @@ from collections import Counter
 from dataclasses import dataclass
 
 import yaml
+from utils import TranslatableStr as _
 
-with open("sources/12_nat_excluded_buildings.yaml", encoding="utf-8") as file:
-    EXCLUDED_BUILDINGS = set(yaml.safe_load(file.read()))
+
+def load_excluded_buildings():
+    """Load excluded buildings from config (own function so its variables are scoped)"""
+    with open("sources/12_nat_excluded_buildings.yaml", encoding="utf-8") as file:
+        return set(yaml.safe_load(file.read()))
+
+
+EXCLUDED_BUILDINGS = load_excluded_buildings()
 
 
 @dataclass
@@ -57,15 +64,14 @@ def _infer_internal_id(b_code, data):
     if b_code.startswith("X"):
         if b_code == "XUCL":
             return "origins-cluster"
-        else:
-            return b_code[1:].lower()
-    elif b_code in data:
+        return b_code[1:].lower()
+
+    if b_code in data:
         return b_code
-    else:
-        raise RuntimeError(
-            f"Building id '{b_code}' not found in base data. "
-            f"It may be missing in the areatree.",
-        )
+
+    raise RuntimeError(
+        f"Building id '{b_code}' not found in base data. " f"It may be missing in the areatree.",
+    )
 
 
 def _merge_building(data, building):
@@ -101,31 +107,72 @@ def merge_nat_rooms(data):
     not_merged_outdated = 0
     for nat_id, nat_data in rooms.items():
         b_code, id_rest = nat_id.split(".", 1)
+
         if b_code in EXCLUDED_BUILDINGS:
             not_merged_parent += 1
             continue
 
         b_id = _infer_internal_id(b_code, data)
         internal_id = b_id + "." + id_rest
+
         if _is_room_excluded(internal_id, b_id, data):
             not_merged_outdated += 1
             continue
 
+        r_data = _get_room_base(internal_id, b_id, nat_data, data)
 
-    logging.debug(f"{not_merged_parent} rooms not merged because their parent buildings "
-                  f"were not merged.")
-    logging.debug(f"{not_merged_outdated} rooms not merged because their buildings "
-                  f"are not exclusively from the NAT roomfinder (possibly outdated data).")
+        r_data.setdefault("sources", {}).setdefault("base", []).append(
+            {
+                "name": "NAT Roomfinder",
+                "url": f"https://www.ph.tum.de/about/visit/roomfinder/?room={nat_id}",
+            },
+        )
+
+    logging.debug(
+        f"{not_merged_parent} rooms not merged because their parent buildings were not merged.",
+    )
+    logging.debug(
+        f"{not_merged_outdated} rooms not merged because their buildings "
+        f"are not exclusively from the NAT roomfinder (possibly outdated data).",
+    )
 
 
 def _is_room_excluded(internal_id, b_id, data):
     if internal_id in data:
         return False
-    else:
-        building_sources = data[b_id].get("sources").get("base")
-        # First source for buildings is always the areatree.
-        if len(building_sources) == 2 and building_sources[1]["name"] == "NAT Roomfinder":
-            return False
-        else:
-            return True
 
+    building_sources = data[b_id].get("sources").get("base")
+    # First source for buildings is always the areatree, so we're checking the second one.
+    if len(building_sources) == 2 and building_sources[1]["name"] == "NAT Roomfinder":
+        return False
+
+    return True
+
+
+def _get_room_base(internal_id, b_id, nat_data, data):
+    if internal_id in data:
+        return data[internal_id]
+
+    if nat_data["number"]:
+        room_alt_name = nat_data["description"].replace(nat_data["number"], "").lstrip(",").strip()
+    else:
+        room_alt_name = nat_data["description"]
+
+    return data.setdefault(
+        internal_id,
+        {
+            "id": internal_id,
+            "type": "room",
+            "name": f"{internal_id} ({room_alt_name})",
+            "parents": data[b_id]["parents"] + [b_id],
+            "props": {
+                "ids": {
+                    "roomcode": internal_id,
+                    "arch_name": nat_data["number"],
+                },
+            },
+            "usage": {
+                "name": _(nat_data["purpose"]["de"], en_message=nat_data["purpose"]["en"]),
+            },
+        },
+    )
