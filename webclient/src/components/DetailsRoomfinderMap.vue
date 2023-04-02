@@ -92,12 +92,11 @@ function delayedLoadRoomfinderModalMap() {
     class="accordion"
     id="roomfinder-map-select"
     v-bind:class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
-    v-if="state.data.maps.roomfinder?.available"
+    v-if="state.data?.maps.roomfinder?.available"
   >
     <input id="map-accordion" type="checkbox" name="accordion-checkbox" hidden />
     <label for="map-accordion" class="btn btn-sm btn-block accordion-header">
-      1:{{ state.selectedRoomfinderMap().scale }},
-      {{ state.selectedRoomfinderMap().name }}
+      1:{{ state.selectedRoomfinderMap().scale }}, {{ state.selectedRoomfinderMap().name }}
       <i class="icon icon-caret"></i>
     </label>
     <div class="accordion-body" v-if="state.data.maps?.roomfinder">
@@ -119,7 +118,12 @@ function delayedLoadRoomfinderModalMap() {
   </div>
 
   <!-- roomfinder-modal -->
-  <div class="modal modal-lg" id="roomfinder-modal" v-bind:class="{ active: state.map.roomfinder.modal_open }">
+  <div
+    class="modal modal-lg"
+    id="roomfinder-modal"
+    v-bind:class="{ active: state.map.roomfinder.modal_open }"
+    v-if="state.data?.maps.roomfinder?.available"
+  >
     <a
       class="modal-overlay"
       v-bind:aria-label="$t('view_view.roomfinder_modal.close')"
