@@ -8,11 +8,13 @@ Adresse: Address
 Anzahl Gebäude: Number of buildings
 Sitzplätze: Seats
 Anzahl Räume: Number of rooms
-"{n_rooms} ({n_rooms_reg} ohne Flure etc.)": "{n_rooms} ({n_rooms_reg} without corridors etc.)"
+'{n_rooms} ({n_rooms_reg} ohne Flure etc.)': '{n_rooms} ({n_rooms_reg} without corridors
+  etc.)'
 Keine Räume bekannt: No rooms known
-"{n_rooms} Räume": "{n_rooms} rooms"
-"{n_buildings} Gebäude, {n_rooms} Räume": "{n_buildings} buildings, {n_rooms} rooms"
-"{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)": "{n_buildings} buildings, {n_rooms} rooms (branch office)"
+'{n_rooms} Räume': '{n_rooms} rooms'
+'{n_buildings} Gebäude, {n_rooms} Räume': '{n_buildings} buildings, {n_rooms} rooms'
+'{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)': '{n_buildings} buildings,
+  {n_rooms} rooms (branch office)'
 Architekten-Name: Architect's name
 Stockwerk: Floor
 Erdgeschoss: Ground floor
@@ -24,15 +26,17 @@ Zwischengeschoss: mezzanine
 Obergeschoss: upper floor
 OG + 1 Zwischengeschoss: upper floor + 1 mezzanine
 OG + {m} Zwischengeschosse: upper floor + {m} mezzanines
-"1. ": "1st "
-"2. ": "2nd "
-"3. ": "3rd "
-"4. ": "4th "
-"5. ": "5th "
-"6. ": "6th "
-"7. ": "7th "
-"8. ": "8th "
-"9. ": "9th "
+'1. ': '1st '
+'2. ': '2nd '
+'3. ': '3rd '
+'4. ': '4th '
+'5. ': '5th '
+'6. ': '6th '
+'7. ': '7th '
+'8. ': '8th '
+'9. ': '9th '
+Steckdosen: Sockets
+Sitzordnungen: Seating plans
 # type_common_name
 Gebäudeteil: Part of the building
 Standortübersicht: Location overview
@@ -176,10 +180,41 @@ virtueller Raum: virtual room
 nur bis 24.4.2022: only until 24.4.2022
 für TUM nur Mo+Di 7–19: for TUM only Mon+Tue 7am-7pm
 für TUM nur Mo–Do 7–19: for TUM only Mon-Thu 7am-7pm
-für TUM nur Mo–Fr 7–19; verbunden mit Taurus 21: for TUM only Mon-Fri 7am-7pm; connected with Taurus 21
-für TUM nur Mo–Fr 7–19; verbunden mit Taurus 1: for TUM only Mon-Fri 7am-7pm; connected with Taurus 1
+für TUM nur Mo–Fr 7–19; verbunden mit Taurus 21: for TUM only Mon-Fri 7am-7pm; connected
+  with Taurus 21
+für TUM nur Mo–Fr 7–19; verbunden mit Taurus 1: for TUM only Mon-Fri 7am-7pm; connected
+  with Taurus 1
 nicht für den Vorlesungsbetrieb geeignet: Not suitable for lecture use
-Lüftung im Dauerbetrieb (relativ laut): Ventilation in continuous operation (relatively loud)
-Raum steht ab 1.9.2021 nicht mehr zur Verfügung.: Room is no longer available from 1.9.2021.
-bis auf Weiteres keine Lüftung, daher nur mit offenen Außentüren: No ventilation until further notice, therefore only with open outer doors
-null: ""
+Lüftung im Dauerbetrieb (relativ laut): Ventilation in continuous operation (relatively
+  loud)
+Raum steht ab 1.9.2021 nicht mehr zur Verfügung.: Room is no longer available from
+  1.9.2021.
+bis auf Weiteres keine Lüftung, daher nur mit offenen Außentüren: No ventilation until
+  further notice, therefore only with open outer doors
+null: ''
+# eexam
+begrenzt für e-Prüfungen geeignet: limited suitability for e-exams
+für e-Prüfungen geeignet: suitable for e-exams
+# streaming
+Streaming über RBG: Streaming over RBG
+USB.Hörsaal.Webcam: USB.Hörsaal.Webcam
+# steckdosen
+Keine Steckdosen im Bereich der Sitzreihen: No sockets in the vicinity of the seats
+Eine Doppelsteckdose beim Beamer: One socket close to the projector
+Drei Doppelsteckdosen an der Rückwand (Fensterseite) und je zwei bei den Tafeln: Three sockets at the back wall (side of the window) and two each at the blackboards
+Einzelne (insgesamt 10) Steckdosen im Bereich der Sitzreihen: Individual (total of 10) sockets in the vicinity of the seats
+Einzelne (insgesamt vier Doppelsteckdosen) im Bereich der Sitzreihen unten: Individual (total of four double sockets) in the vicinity of the seats below
+Einzelne (insgesamt fünf Doppelsteckdosen) Steckdosen im Bereich der Sitzreihen: Individual (total of five double sockets) sockets in the vicinity of the seats
+Es sind in jeder Reihe jeweils in der Mitte des Blocks links/rechts zwei Steckdosen vorhanden: There are two sockets each in the middle of the blocks left/right 
+15 Steckdosen: 15 sockets
+36 Steckdosen: 36 sockets
+23 Steckdosen: 23 sockets
+Es sind im vorderen Bereich jeweils an den Außenseiten in den Reihen bis 1, 3, 5, 7, 9 Dreifachsteckdosen vorhanden: There are triple sockets on the sides for rows 1, 3, 4, 7, 9 in the front
+Keine Steckdosen im Bereich der Sitzreihen, nur bei den behindertengerechten Plätzen: No plugs in the vicinity of the seats, only at the barrier free seats
+Steckdose an jedem zweiten Platz: Sockets at every second seat
+Steckdosen an den einzelnen Tischen: Sockets at each individual tables
+Steckdose an jedem dritten Platz: Sockets at every third seat
+Steckdosen in Bodentanks von jedem Platz aus erreichbar: Sockts in the floor reachable from every seat
+Steckdose an jedem Platz: Sockets at every seat
+Steckdosen jeweils an den Wänden, außer Platz 10+11: Sockets at the walls, except place 10+11
+Steckdosen jeweils an den Wänden: Sockets at the walls

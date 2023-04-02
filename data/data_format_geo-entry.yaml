@@ -176,6 +176,7 @@ internal_id:
       ranges:
         - {days: "Mo-Fr", hours: [{from: "8:00", to: "22:00"}]}
         - {days: "Sa-So", hours: [{from: "9:00", to: "22:00"}]}
+    calendar_url: ""
     generic:
       - {name: "...", value: "..."}
     computed:  # Computed display of information above
@@ -257,7 +258,7 @@ internal_id:
     name: "Bibliothek"
     din_277: "NF5.4"
     din_277_desc: "Bibliotheksräume"
-    custom: one of "Rechnerhalle", ""
+    teaching: true  # If this room is used for teaching
   
   # if root (required)
   sites_overview:

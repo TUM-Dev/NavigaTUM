@@ -103,6 +103,9 @@ def merge_nat_rooms(data):
     with open("external/results/rooms_nat.json", encoding="utf-8") as file:
         rooms = json.load(file)
 
+    with open("external/results/usages_tumonline.json", encoding="utf-8") as file:
+        usages = json.load(file)
+
     not_merged_parent = 0
     not_merged_outdated = 0
     for nat_id, nat_data in rooms.items():
@@ -119,7 +122,7 @@ def merge_nat_rooms(data):
             not_merged_outdated += 1
             continue
 
-        r_data = _get_room_base(internal_id, b_id, nat_data, data)
+        r_data = _get_room_base(internal_id, b_id, nat_data, data, usages)
 
         r_data.setdefault("sources", {}).setdefault("base", []).append(
             {
@@ -127,6 +130,8 @@ def merge_nat_rooms(data):
                 "url": f"https://www.ph.tum.de/about/visit/roomfinder/?room={nat_id}",
             },
         )
+
+        _merge_nat_extra_props(r_data, nat_data)
 
     logging.debug(
         f"{not_merged_parent} rooms not merged because their parent buildings were not merged.",
@@ -149,7 +154,7 @@ def _is_room_excluded(internal_id, b_id, data):
     return True
 
 
-def _get_room_base(internal_id, b_id, nat_data, data):
+def _get_room_base(internal_id, b_id, nat_data, data, usages):
     if internal_id in data:
         return data[internal_id]
 
@@ -157,6 +162,19 @@ def _get_room_base(internal_id, b_id, nat_data, data):
         room_alt_name = nat_data["description"].replace(nat_data["number"], "").lstrip(",").strip()
     else:
         room_alt_name = nat_data["description"]
+
+    tumonline_usage = None
+    for usage in usages:
+        if usage["id"] == nat_data["purpose_id"]:
+            tumonline_usage = usage
+            break
+
+    if tumonline_usage is None:
+        raise RuntimeError(
+            f"Can't find TUMonline usage data for usage id '{nat_data['purpose_id']}' ('internal_id')",
+        )
+
+    din_277, din_277_desc = tumonline_usage["din_277"].split(" - ")
 
     return data.setdefault(
         internal_id,
@@ -170,9 +188,77 @@ def _get_room_base(internal_id, b_id, nat_data, data):
                     "roomcode": internal_id,
                     "arch_name": nat_data["number"],
                 },
+                "operator": {
+                    "code": nat_data["org"]["org_code"],
+                    "name": _(nat_data["org"]["org_name"], en_message=nat_data["org"]["org_name"]["en"]),
+                    "url": f"https://campus.tum.de/tumonline/webnav.navigate_to?corg={nat_data['org']['org_id']}",
+                    "id": nat_data["org"]["org_id"],
+                },
             },
             "usage": {
                 "name": _(nat_data["purpose"]["de"], en_message=nat_data["purpose"]["en"]),
+                "din_277": din_277,
+                "din_277_desc": din_277_desc,
             },
         },
     )
+
+
+def _merge_nat_extra_props(r_data, nat_data):
+    # pylint: disable=too-many-branches
+    if nat_data.get("area", 0) > 0:
+        r_data["props"].setdefault("stats", {}).setdefault("area_sqm", nat_data["area"])
+
+    if nat_data.get("bauarbeiten"):
+        r_data["props"].setdefault("construction_works", nat_data["bauarbeiten"])
+
+    if nat_data.get("comment"):
+        # German only, original NAT roomfinder property name "corona"
+        r_data["props"].setdefault("covid_comment_html", nat_data["comment"])
+
+    if nat_data.get("eexam"):
+        eexams = nat_data["eexam"]["de"].rstrip(".").replace("Für", "für")
+        r_data["props"].setdefault("eexams", _(eexams))
+
+    if nat_data["schedule_url"] and "tumonline_data" not in r_data:
+        r_data["props"].setdefault("calendar_url", nat_data["schedule_url"])
+
+    if nat_data.get("seatings"):
+        seatings = r_data["props"].setdefault("seatings", [])
+        for seating in nat_data["seatings"]:
+            seatings.append(
+                {
+                    "id": seating["seating_id"],
+                    "name": _(seating["seating"], en_message=seating["seating_en"]),
+                    "n_seats": seating["seat_count"],
+                },
+            )
+
+    if nat_data.get("seats"):
+        r_data["props"].setdefault("stats", {}).setdefault("n_seats", nat_data["seats"])
+
+    if nat_data.get("steckdosen"):
+        sockets = nat_data["steckdosen"]["de"].rstrip(".").replace("MItte", "Mitte")
+        r_data["props"].setdefault("sockets", _(sockets))
+
+    if nat_data.get("streaming"):
+        html_parts = nat_data["streaming"]["de"].split(",")
+        for link in html_parts:
+            link = link.strip()
+            if not link.startswith("<a") or not link.endswith("</a>"):
+                raise RuntimeError(
+                    f"Cannot process `streaming` property for '{r_data['id']}' (not a link): '{link}'",
+                )
+
+            href = link.split('href="')[1].split('" target=')[0]
+            text = link.split('">')[1].split("</a>")[0]
+
+            r_data["props"].setdefault("links", []).append(
+                {
+                    "text": _(text),
+                    "url": href,
+                },
+            )
+
+    if nat_data.get("teaching"):
+        r_data["usage"].setdefault("teaching", nat_data["teaching"])
