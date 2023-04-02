@@ -1,5 +1,6 @@
 # This script takes care of downloading data from the Roomfinder and TUMonline
 # and caching the results
+import itertools
 import logging
 import string
 import urllib.parse
@@ -98,38 +99,20 @@ def scrape_rooms():
 
 
 def _guess_queries(rooms, n_rooms):
-    # First try: any single-digit number?
-    for i in range(10):
-        if len(rooms) < n_rooms:
-            maybe_sleep(0.05)
-            yield str(i)
-        else:
-            return
+    """
+    Iterates through all single/double digit/ascii_lowercase strings to find successfull queries
 
-    # Second try: any double-digit number?
-    for i in range(100):
-        if len(rooms) < n_rooms:
-            maybe_sleep(0.05)
-            yield str(i).zfill(2)
-        else:
-            return
-
-    # Third try: any character?
-    for char in string.ascii_lowercase:
-        if len(rooms) < n_rooms:
-            maybe_sleep(0.05)
-            yield char
-        else:
-            return
-
-    # Fourth try: any character twice?
-    for c1 in string.ascii_lowercase:
-        for c2 in string.ascii_lowercase:
-            if len(rooms) < n_rooms:
+    Ordering because of number of entries:
+    - single before double
+    - digits before ascii_lowercase
+    """
+    for superset in [string.digits, string.ascii_lowercase]:
+        for string_lenght in [1, 2]:
+            for guess in itertools.product(superset, repeat=string_lenght):
+                if len(rooms) >= n_rooms:
+                    return
                 maybe_sleep(0.05)
-                yield c1 + c2
-            else:
-                return
+                yield "".join(guess)
 
 
 @cached_json("maps_roomfinder.json")
