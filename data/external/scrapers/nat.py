@@ -1,7 +1,9 @@
 # This script takes care of downloading data from the school of natural sciences (oiginally the physics department)
 import json
 import logging
+from collections import Counter
 from multiprocessing.pool import ThreadPool
+import requests
 
 from external.scraping_utils import _download_file, CACHE_PATH, cached_json
 from tqdm import tqdm
@@ -17,13 +19,8 @@ def scrape_buildings():
     """
     Retrieve the buildings as in the NAT roomfinder.
     """
-
     logging.info("Scraping the buildings of the NAT")
-    path = CACHE_PATH / "buildings_nat.json"
-    _download_file(f"{NAT_API_URL}/building", path)
-
-    with open(path, encoding="utf-8") as file:
-        return json.load(file)
+    return requests.get(f"{NAT_API_URL}/building").json()
 
 
 @cached_json("rooms_nat.json")
@@ -42,7 +39,41 @@ def scrape_rooms():
         key = room["room_code"]  # needed, as room_code is removed in _sanitise_room
         rooms[key] = _sanitise_room(room)
 
+    # split the orgs into a different file
+    _extract_orgs(rooms)
+    for room in rooms.values():
+       org_ids = [room.pop("org")["org_id"]]
+       org_ids.extend(org["org"]["org_id"] for org in room.pop("orgs"))
+       room["org_ids"] = org_ids
     return rooms
+
+
+@cached_json("orgs_nat.json")
+def _extract_orgs(rooms: dict) -> dict:
+    """
+    Extract the organisations from the room information.
+    """
+    org_set: set[str] = set(json.dumps(room["org"], sort_keys=True) for room in rooms.values())
+    for room in rooms.values():
+        org_set.update(json.dumps(org["org"], sort_keys=True) for org in room["orgs"])
+
+    orgs = [json.loads(org) for org in org_set]
+
+    # check if there are any duplicates/ inconsistencies
+    org_ids = [org["org_id"] for org in orgs]
+    if len(set(org_ids)) != len(org_ids):
+        cnt = Counter(org_ids) - Counter(set(org_ids))
+        inconsistent_orgs = {org_id for org_id, _ in cnt.items()}
+        for org in sorted(orgs, key=lambda org: org["org_id"]):
+            if org["org_id"] in inconsistent_orgs:
+                logging.warning(f"Inconsistent org: {org}")
+        raise ValueError(f"{len(cnt.items())} Inconsistent orgs")
+    # modify the orgs to the format we want
+    orgs = {org["org_id"]: org for org in orgs if not org["deleted"]}
+    for org in orgs.values():
+        org.pop("org_id")
+        org.pop("deleted")
+    return orgs
 
 
 def _sanitise_room(room: dict):
@@ -71,14 +102,23 @@ def _sanitise_room(room: dict):
     _extract_translation(room, "streaming")
     _extract_translation(room["org"], "org_name")
     _extract_translation(room["org"], "org_nameshort")
+    for org in room["orgs"]:
+        _extract_translation(org["org"], "org_name")
+        _extract_translation(org["org"], "org_nameshort")
+    for seating in room["seatings"]:
+        _extract_translation(seating, "seating")
     _extract_translation(room["building"]["campus"], "campus")
     _extract_translation(room["building"]["campus"], "campusshort")
+    campus_id = room["building"].pop("campus_id")
+    if campus_id:
+        room["building"]["campus"]["campus_id"] = campus_id
 
     # bauarbeiten is a str, indicating if something is wrong on in the room
     room.pop("bauarbeiten_en")  # this is always the same as bauarbeiten
     room["bauarbeiten"] = _(room["bauarbeiten"]) if room["bauarbeiten"] else None
 
     # for some reason this is used as a comment field.
+    room.pop("corona_en")  # this is always empty / untranslated
     room["comment"] = room.pop("corona")
 
     # coordinates: there are two sets of coordinates on each entry. This function makes shure, that they are the same
@@ -100,7 +140,7 @@ def _extract_coords(room):
     lon = room.pop("longitude")
     room_lon = room.pop("room_longitude")
     if lon and room_lon and lon != room_lon:
-        logging.error(f"Room {room['room_code']} has different longitudes: {lon} vs {room_lon}")
+        logging.warning(f"Room {room['room_code']} has different longitudes: {lon} vs {room_lon}")
 
     room["coordinates"] = {"lat": lon or room_lat, "lon": lon or room_lon, "source": "NAT"}
 
@@ -127,6 +167,7 @@ def _download_and_merge_room(base):
     if not downloaded_file:
         return None
     content = json.loads(downloaded_file.read_text(encoding="utf-8"))
+    content.pop("modified") # this field is inconsistent betwen the content and the base
     return _merge(content, base)
 
 
