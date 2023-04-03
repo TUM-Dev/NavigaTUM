@@ -1,0 +1,41 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pr-498
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/TUM-Dev/navigatum.git
+    targetRevision: dependabot/pip/data/pillow-approx-eq-9.5.0
+    path: deployment/k3s
+    helm:
+      version: v3
+      values: |
+        namespace: pr-498
+        tag: pr-498
+        url: pr-498.nav.tum.sexy
+        server:
+            MEILI_MASTER_KEY: MzhkNDg4OGU5N2Y0M2MwYzQwZDNhMWY0M2QwYzJmNjljMTE1OGU1YTJmY2YzZTVjM2UK
+            # GITHUB_TOKEN is intentionally omitted, as this file is templated and then added to git in the deployments branch
+            # JWT_KEY is omitted, because adding it would only make sense in conjunction with GITHUB_TOKEN
+            # MEILI_MASTER_KEY being added is not a security risk, since it is a hidden service and even if exposed is heavily restricted by other network policies
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pr-498
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - CreateNamespace=true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
