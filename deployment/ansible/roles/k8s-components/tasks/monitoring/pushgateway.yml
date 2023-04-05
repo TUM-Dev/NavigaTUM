@@ -13,7 +13,7 @@
     chart_version: 2.1.3
     chart_ref: prometheus/prometheus-pushgateway
     name: prometheus-pushgateway
-    namespace: lens-metrics
+    namespace: monitoring
     create_namespace: yes
     values:
       podAnnotations:
