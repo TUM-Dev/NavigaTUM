@@ -1,4 +1,3 @@
-use awc::Client;
 use log::error;
 
 fn api_url_from_env() -> Option<String> {
@@ -17,19 +16,18 @@ pub struct ReducedRoom {
 
 pub async fn get_all_ids() -> Vec<ReducedRoom> {
     // returns all (key, tumonline_room_nr) from the main-api
-    let client = Client::default();
     let url = api_url_from_env()
         .unwrap_or_else(|| "https://nav.tum.de/internal/list/ids_with_calendar".to_string());
-    let res = client.get(url).send().await;
+    let res = reqwest::get(url).await;
     let text = match res {
-        Ok(mut res) => res.body().await,
+        Ok(res) => res.text().await,
         Err(e) => {
             error!("Failed to contact main-api: {e:#?}");
             return vec![];
         }
     };
     match text {
-        Ok(ids) => serde_json::from_slice::<Vec<(String, i32)>>(&ids)
+        Ok(ids) => serde_json::from_slice::<Vec<(String, i32)>>(ids.as_bytes())
             .expect("Failed to parse json, make sure to pass the correct schema on both sides"),
         Err(e) => {
             error!("Failed to process text get all ids from api: {e:#?}");

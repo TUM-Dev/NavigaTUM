@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: calendar
   labels:
@@ -25,9 +25,6 @@ spec:
         prometheus.io/scrape: 'true'
       {{- end }}
     spec:
-      volumes:
-        - name: tmp-calendar
-          emptyDir: {}
       containers:
         - name: calendar
           image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"
@@ -36,8 +33,18 @@ spec:
             - containerPort: 8060
               name: calendar
           env:
-            - name: DB_LOCATION
-              value: /tmp/server.db
+            - name: POSTGRES_URL
+              value: postgres-rw.navigatum.svc.cluster.local
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: password
           securityContext:
             readOnlyRootFilesystem: true
           resources:

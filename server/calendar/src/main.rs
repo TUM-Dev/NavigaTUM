@@ -1,13 +1,12 @@
 mod calendar;
+mod models;
 mod schema;
-mod scraping;
 mod utils;
 
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prometheus::PrometheusMetricsBuilder;
 use std::collections::HashMap;
-use std::time::Duration;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
@@ -22,18 +21,19 @@ async fn health_status_handler() -> HttpResponse {
         .body(format!("healthy\nsource_code: {github_link}"))
 }
 
-const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
+use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
+pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!("migrations");
+
+fn apply_db_migrations() {
+    let con = &mut utils::establish_connection();
+    con.run_pending_migrations(MIGRATIONS)
+        .expect("Migrations could not be applied");
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
-
-    actix_rt::spawn(async move {
-        scraping::continous_scraping::start_scraping(
-            Duration::from_secs(SECONDS_PER_DAY),
-            chrono::Duration::days(30 * 4),
-        )
-        .await;
-    });
+    apply_db_migrations();
 
     // metrics
     let labels = HashMap::from([(

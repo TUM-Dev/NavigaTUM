@@ -1,0 +1,17 @@
+{{- if eq "nav.tum.de" $.Values.url }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: navigatum
+  labels:
+    app: navigatum
+    deployment: postgres
+spec:
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  {{ end}}
