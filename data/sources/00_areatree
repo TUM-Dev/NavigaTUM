@@ -18,6 +18,9 @@
 #   Possible values are "root", "site", "campus", "area", "joined_building", "building".
 #   Unless "building" is assumed (if building_prefix == id), the default is "area"
 :Standorte:root[root]
+  :Ludwig-Maximilians-Universität (LMU) München|LMU:lmu[site]  # manually added
+    0050:Fakultät für Physik, LMU|LMU Physik:0050,lmu-physik
+    1003:Arnold-Sommerfeld-Zentrum, LMU|LMU ASZ:1003,lmu-physik-asc
   0:Stammgelände:stammgelaende[campus]
     01:Nordgelände:nordgelaende
       0101:U-Trakt (N1):0101,n1
@@ -136,9 +139,11 @@
     2108:Bunker:
     2109:Tankstelle:
   -2201:ehemals Lothstraße (nicht mehr aktuell):
+  2202:Lothstraße 17, Fakultät für Design - Hochschule München:2202,hfp-design
   23:Campus im Olympiapark (SZ):olympiapark[campus]
     2309:Tennis Gebäude:
     2310:Tennisanlagen:
+    2311:Kletterfelsen:
     2312:Sport-, Aussenanlagen/Teil-Umbau:
     2313:Wetterschutzhaus:
     2315:Präventionszentrum:
@@ -172,7 +177,8 @@
     2607:Fahrzeughalle (BL. F):
     2608:Werkdienstwohnungen (BL. W):
   :TUM Gebäude in Großhadern:grosshadern
-    2801:Institut für Wasserchemie Werkstattgebäu, Großhadern:
+    2701:Institut für Wasserchemie Werkstattgebäu, Großhadern:
+    2801:Marchioninistr. 17 (NR), Großhadern:
   2803:Forum der Zukunft (Deutsches Museum):
   2804:Deutsches Museum Bibliotheksgebäude:
   2805:Dachau, Karl-Benz-Straße:
@@ -186,6 +192,7 @@
     2908:Marsstraße 40:
     2909:Denisstr. 1b Rückgebäude:
     2926:Leopoldstraße 139/145:
+    -2928:Techn. Forschungszentrum Straubing (AM):
     2944:Munich Urban Colab (Freddie-Mercury-Straße 5):
   :Campus Straubing (CS), Biotechnologie und Nachhaltigkeit:cs[campus]
     2927:Petersgasse 18 (PG 18):
@@ -197,6 +204,7 @@
     3504:Schulgasse 22a (SG 22a):
     3505:Hörsaal und Forschungsgebäude (Uferstraße 53):
     3515:Am Essigberg 3:
+    3537:Entwicklungsgenetik:
   3035:Helmholtz Biologikum:
   3100:Projektbüro Biodiversitäts-Exploratorium-Hainich-Dün:
   :Versuchsanstalt Obernach / Weilheim / Walchensee:obernach[site]
@@ -253,8 +261,8 @@
         4116:Dr. Gudula Wernekke-Rastetter Kindervilla:
         4117:Kindervilla II:
       :Hohenbachernstr:wzw-berg-hohenbachernstr
-        4119:DFG Senatskommission MAK, Hohenbachernstr. 15:
-        4120:DFG Senatskommission MAK, Hohenbachernstr. 17:
+        4119:MINT (ehem. MAK/BUA), Hohenbachernstr. 15:
+        4120:MINT (ehem. MAK/BUA), Hohenbachernstr. 17:
       :ZIEL – Institute for Food & Health:wzw-ziel
         4124:ZIEL II – Molekulare Biowissenschaften:
         4126:ZIEL I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie:
@@ -281,7 +289,8 @@
         4189:Strohlagerhalle:
         4190:Jungviehstall:
         4191:Fahrsilo:
-        4192:ehem. Wasserwerk:
+        :ehem. Wasserwerk:veitshof-wasserwerk
+          4192:ehem. Wasserwerk:
     42:Gebiet 4200 Mitte:wzw-mitte
       -4202:Trafostation V:
       4205:Lagerhalle Verwaltungsstelle:
@@ -342,6 +351,7 @@
         4361:Technologie V:
         4362:Mehrzweckgebäude 1:
         4368:Technologie III:
+      4379:Zierpflanzenbau Gewächshaus:
       4387:Camerloher Gymnasium:
       :Staudensichtungsgarten:staudensichtungsgarten[area]
   :School of of Life Sciences Außenstellen:wzw-extern
@@ -450,7 +460,16 @@
       5142:Parkhaus P1:
       -5143:Versorgungsstation:
       5160:UCN-Testanlage (Container):
+    :Max-Planck-Institut:mpi[site] # manually added, see NAT merger
+      :Max-Planck-Institut für Plasmaphysik:ipp[building]
+      :Max-Planck-Institut für Astrophysik:mpa[building]
+      :Max-Planck-Institut für Biochemie:mpb[building]
+      :Max-Planck-Institut für extraterrestrische Physik:mpe[building]
+      :Max-Planck-Institut für Physik:mpp[building]
+      :Max-Planck-Institut für Quantenoptik:mpq[building]
+      :Exzellenzcluster ORIGINS:origins-cluster[building]
     52:FRM II Forschungsreaktor Neutronenquelle und Heinz Maier-Leibnitz Zentrum (MLZ)|FRM II:frm-2[area]
+      5201:Flachbau 1 (UYL):
       5202:Flachbau 2+3 (Zyklotron):
       5203:Bürogebäude (GRS-Altbau):
       5204:Umformtechnik und Gießereiwesen (utg) (MW25):
@@ -461,6 +480,7 @@
       5211:Gebäude HE 3 Anlage (UXC):
       5212:RCM Radiochemie München:
       5214:Isaraußenlager (USU):
+      5215:Reaktor-U.Ringgebäude:
       5218:Reaktorgebäude (UJA):
       5219:Instituts und Verwaltungsgebäude, Personalbetreuung, Immobilien, Zahlstelle:
       5220:Neutronenleiter Halle West (UYH):
@@ -542,13 +562,14 @@
       5613:Finger 13 (BT13):
     -5622:Sportanlage Garching / Dusch Container:
     5701:Munich School of BioEngineering, IMETUM:
+    5801:Leibnitz-Rechenzenturm (LRZ):
     5901:Elektro- und Informationstechnik (EI, ZEITlab):5901,ei-garching[building]
     812:Galileo Garching|Galileo:galileo[joined_building]
       8120:Conference Center:
       8121:Courtyard Hotel:
-      8122:Galileo Büro, W. v. Dyck-Str. 6:
-      8123:Galileo Büro, W. v. Dyck-Str. 4:
-      8124:Galileo Büro, W. v. Dyck-Str. 14:
+      8122:Galileo Büro, Walther-von-Dyck-Strasse 6:
+      8123:Galileo Büro, Walther-von-Dyck-Strasse 4:
+      8124:Galileo Büro, Walther-von-Dyck-Strasse 14:
     :Interimshörsäle:garching-interims
       5620:Interimshörsäle I|Interims I:
       5416:Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude|Interims II:
@@ -557,11 +578,18 @@
       6101:Heizkraftwerk:
       6102:Betriebsgebäude:
       6103:Hochspannungsgebäude:
+      6104:Feuerwehr TUM Garching (Hallen West):
       6106:Trafostation Betriebsgebäude (TBG):
       6107:Garagenbau:
-    6202:Feuerwehrwache:
+    62:Feuerwehrwache Garching:feuerwehrwache-garching[joined_building]
+      6202:Feuerwehrwache Hauptgebäude:
+      6203:Feuerwehrwache West:
+      6204:Feuerwehrwache Ost:
+      6206:Feuerwehrwache Nbg.:
   7:Garching Forschungszentrum (außerhalb):garching-extra
     7894:Newton:
+    7895:Pascal Halle:
+    7896:Freisinger Landstraße 50 (Prandtl):
     7910:Oskar-von-Miller-Turm (Meteo-Mast):
   810,811:Garching Hochbrück:garching-hochbrueck[site]
     8101:Business Campus Garching (BC1), Parkring 11-13|Business Campus 1:
@@ -576,3 +604,5 @@
     9377:Lise-Meitner-Straße 9-11:
     9379:Lise Meitner Str. 8:
     9378:TUM Panasonic (Caroline-Herschel-Straße 100):
+    9380:Hyperloop-Halle Ottobrunn:
+    9390:Aviation Flight Test Center / Halle 507:

@@ -1714,24 +1714,24 @@ components:
         ranking_factors:
           $ref: '#/components/schemas/RankingFactors'
         sources:
-          type: object
-          required:
-            - base
           description: 'Where we got our data from, should be displayed at the bottom of any page containing this data'
+          type: object
           properties:
             base:
-              type: array
               description: What is the basis of the data we have
+              type: array
               items:
                 type: object
                 minProperties: 1
                 properties:
                   name:
+                    description: The name of the provider
                     type: string
                     example: NavigaTUM
-                    description: The name of the provider
                 required:
                   - name
+          required:
+            - base
       required:
         - type_common_name
         - name

@@ -1,5 +1,4 @@
 ---
-
 - name: Install longhorn requirements
   apt:
     name: "{{ item }}"
