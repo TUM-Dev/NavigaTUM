@@ -9,6 +9,13 @@
 - name: Setup longhorn
   include_tasks: longhorn.yml
 
+- name: Setup the various monitoring compontentes (no order)
+  include_tasks: "{{ comp }}"
+  loop_control:
+    loop_var: comp
+  with_fileglob:
+    - monitoring/*.yml
+
 - name: Setup the various k3s compontentes (no order)
   include_tasks: "{{ comp }}"
   loop_control:
