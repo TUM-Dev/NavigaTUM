@@ -1,0 +1,15 @@
+---
+- name: Install helm
+  shell: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+- name: Dump kubectl's kubeconfig to .kube/config (otherwise helm wont know where to connect)
+  shell:
+    cmd: "kubectl config view --raw >~/.kube/config && chmod 600 ~/.kube/config"
+    creates: ~/.kube/config
+- name: make shure that the helm diff plugin is instaled
+  kubernetes.core.helm_plugin:
+    plugin_path: https://github.com/databus23/helm-diff
+    state: present
+- name: make shure that the helm diff plugin is up to date
+  kubernetes.core.helm_plugin:
+    plugin_name: diff
+    state: latest
