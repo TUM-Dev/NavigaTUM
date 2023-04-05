@@ -6,9 +6,10 @@
 
 - name: Install longhorn
   kubernetes.core.helm:
-    atomic: false
+    atomic: true
+    wait: true
+    update_repo_cache: yes
     release_state: present
-    wait: false
     chart_ref: longhorn/longhorn
     chart_version: 1.4.1
     name: longhorn
