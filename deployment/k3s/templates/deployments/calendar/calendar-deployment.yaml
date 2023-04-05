@@ -34,7 +34,7 @@ spec:
               name: calendar
           env:
             - name: POSTGRES_URL
-              value: postgres.navigatum.svc.cluster.local
+              value: postgres-rw.navigatum.svc.cluster.local
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
