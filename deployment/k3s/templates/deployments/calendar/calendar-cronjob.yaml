@@ -15,18 +15,10 @@ spec:
     spec:
       template:
         spec:
-          volumes:
-            - name: calendar-vol
-              persistentVolumeClaim:
-                readOnly: false
-                claimName: calendar-pvc
           containers:
           - name: {{ $scrape_task.name }}
             image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"
             imagePullPolicy: Always
-            volumeMounts:
-            - mountPath: /data
-              name: calendar-vol
             command: ["/bin/navigatum-calendar-scraper"]
             env:
             - name: POSTGRES_URL
