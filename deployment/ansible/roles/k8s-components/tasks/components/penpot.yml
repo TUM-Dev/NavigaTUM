@@ -6,8 +6,9 @@
 - name: Install penpot
   kubernetes.core.helm:
     atomic: true
+    wait: false
+    update_repo_cache: yes
     release_state: present
-    wait: true
     chart_version: 1.0.10
     chart_ref: codechem/penpot
     name: penpot

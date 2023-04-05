@@ -5,9 +5,10 @@
     repo_url: "https://argoproj.github.io/argo-helm"
 - name: Install argo-cd
   kubernetes.core.helm:
-    atomic: false
-    release_state: present
+    atomic: true
     wait: false
+    update_repo_cache: yes
+    release_state: present
     chart_version: 5.27.5
     chart_ref: argo/argo-cd
     name: argo-cd

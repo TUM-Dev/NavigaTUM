@@ -7,8 +7,9 @@
 - name: Install grafana
   kubernetes.core.helm:
     atomic: true
-    release_state: present
     wait: false
+    update_repo_cache: yes
+    release_state: present
     chart_version: 6.52.1
     chart_ref: grafana/grafana
     name: grafana

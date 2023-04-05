@@ -7,8 +7,9 @@
 - name: add the prometheus-pushgateway helm chart
   kubernetes.core.helm:
     atomic: true
-    release_state: present
     wait: false
+    update_repo_cache: yes
+    release_state: present
     chart_version: 2.1.3
     chart_ref: prometheus/prometheus-pushgateway
     name: prometheus-pushgateway
