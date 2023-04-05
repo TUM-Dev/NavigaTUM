@@ -41,10 +41,10 @@
             - name: Prometheus
               type: prometheus
               access: proxy
-              url: http://prometheus.lens-metrics.svc.cluster.local
+              url: http://prometheus-operated.monitoring.svc.cluster.local:9090
               isDefault: true
               prometheusType: Prometheus
-              prometheusVersion: 2.27.x
+              prometheusVersion: 2.40.x
       persistence:
         enabled: true
         storageClassName: longhorn
