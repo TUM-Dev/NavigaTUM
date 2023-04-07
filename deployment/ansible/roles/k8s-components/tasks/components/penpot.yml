@@ -16,6 +16,7 @@
     create_namespace: yes
     values:
       global:
+        storageClass: "longhorn"
         postgresqlEnabled: true
         redisEnabled: true
       backend:
