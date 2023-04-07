@@ -6,11 +6,11 @@ RUN     apk add -q --update-cache --no-cache build-base openssl-dev
 # first run of the image build (probably cached, just dependencys)
 RUN USER=root cargo new --bin nav
 WORKDIR /nav
-COPY    ./Cargo.* ./
+COPY    feedback/Cargo.* ./
 RUN     RUSTFLAGS="-C target-feature=-crt-static" cargo build --release \
      && rm ./target/release/deps/nav*
 # second run of the image build (including our code)
-COPY    ./src ./src
+COPY    feedback/src ./src
 RUN     RUSTFLAGS="-C target-feature=-crt-static" cargo build --release
 
 # RUN

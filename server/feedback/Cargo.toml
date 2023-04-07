@@ -13,9 +13,6 @@ keywords = ["website", "feedback", "api-rest", "tum"]
 name = "navigatum-feedback"
 path = "src/main.rs"
 
-[profile.release]
-strip = true
-
 [dependencies]
 regex = "1.8.1"
 log = "0.4.17"

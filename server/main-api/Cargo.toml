@@ -13,9 +13,6 @@ keywords = ["website", "navigation", "api-rest", "tum"]
 name = "navigatum-main-api"
 path = "src/main.rs"
 
-[profile.release]
-strip = true
-
 [dependencies]
 meilisearch-sdk = "0.23.1"
 log = "0.4.17"

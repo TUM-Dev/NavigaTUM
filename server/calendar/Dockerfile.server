@@ -7,12 +7,12 @@ RUN     apk add -q --update-cache --no-cache build-base openssl-dev libpq-dev
 RUN USER=root cargo new --bin nav \
      && cp ./nav/src/main.rs ./nav/src/scraper.rs
 WORKDIR /nav
-COPY    ./Cargo.* ./
+COPY    calendar/Cargo.* ./
 RUN     RUSTFLAGS="-C target-feature=-crt-static" cargo build --release \
      && rm ./target/release/deps/nav*
 # second run of the image build (including our code)
-COPY    ./migrations ./migrations
-COPY    ./src ./src
+COPY    calendar/migrations ./migrations
+COPY    calendar/src ./src
 RUN     RUSTFLAGS="-C target-feature=-crt-static" cargo build --release
 
 
