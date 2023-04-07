@@ -45,6 +45,12 @@
               isDefault: true
               prometheusType: Prometheus
               prometheusVersion: 2.40.x
+            - name: Loki
+              type: loki
+              access: proxy
+              url: http://loki-query-frontend.monitoring.svc.cluster.local:3100
+              jsonData:
+                maxLines: 1000
       persistence:
         enabled: true
         storageClassName: longhorn
