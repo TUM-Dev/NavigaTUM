@@ -1,0 +1,98 @@
+---
+- name: Add grafana chart repo
+  kubernetes.core.helm_repository:
+    name: grafana
+    repo_url: "https://grafana.github.io/helm-charts"
+
+- name: Install loki
+  kubernetes.core.helm:
+    atomic: true
+    wait: false
+    update_repo_cache: yes
+    release_state: present
+    chart_version: 0.69.10
+    chart_ref: grafana/loki-distributed
+    name: loki
+    namespace: monitoring
+    create_namespace: yes
+    values:
+      fullnameOverride: loki
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: true
+      ingester:
+        autoscaling:
+          enabled: true
+        persistence:
+          enabled: true
+          size: 10Gi
+          storageClassName: "longhorn"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 350Mi
+      distributor:
+        autoscaling:
+          enabled: true
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+      querier:
+        autoscaling:
+          enabled: true
+        persistence:
+          enabled: true
+          size: 10Gi
+          storageClassName: "longhorn"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+      queryFrontend:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        autoscaling:
+          enabled: true
+      tableManager:
+        enabled: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 150Mi
+      gateway:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 90Mi
+        autoscaling:
+          enabled: true
+      compactor:
+        enabled: true
+        persistence:
+          enabled: true
+          size: 10Gi
+          storageClassName: "longhorn"
+        serviceAccount:
+          create: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 256Mi
+          limits:
+            cpu: 100m
+      ruler:
+        enabled: false
+        persistence:
+          enabled: true
+          size: 10Gi
+          storageClassName: "longhorn"
+      indexGateway:
+        enabled: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 150Mi
