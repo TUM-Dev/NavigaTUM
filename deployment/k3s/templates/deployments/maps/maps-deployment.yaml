@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/name: maps
   namespace: {{ $.Values.namespace }}
 spec:
-  replicas: {{ if eq "nav.tum.de" $.Values.url }}2{{ else }}1{{ end }}
+  replicas: {{ if $.Values.is_production }}2{{ else }}1{{ end }}
   revisionHistoryLimit: 1
   selector:
     matchLabels:
@@ -15,8 +15,8 @@ spec:
       app.kubernetes.io/name: maps
   strategy:
     rollingUpdate:
-      maxSurge: {{ if eq "nav.tum.de" $.Values.url }}50%{{ else }}100%{{ end }}
-      maxUnavailable: {{ if eq "nav.tum.de" $.Values.url }}50%{{ else }}0%{{ end }}
+      maxSurge: {{ if $.Values.is_production }}50%{{ else }}100%{{ end }}
+      maxUnavailable: {{ if $.Values.is_production }}50%{{ else }}0%{{ end }}
     type: RollingUpdate
   template:
     metadata:
@@ -67,10 +67,10 @@ spec:
             readOnlyRootFilesystem: true
           resources:
             requests:
-              cpu: {{ if eq "nav.tum.de" $.Values.url }}100m{{ else }}10m{{ end }}
-              memory: {{ if eq "nav.tum.de" $.Values.url }}800Mi{{ else }}300Mi{{ end }}
+              cpu: {{ if $.Values.is_production }}100m{{ else }}10m{{ end }}
+              memory: {{ if $.Values.is_production }}800Mi{{ else }}300Mi{{ end }}
             limits:
-              memory: {{ if eq "nav.tum.de" $.Values.url }}1000Mi{{ else }}500Mi{{ end }}
+              memory: {{ if $.Values.is_production }}1000Mi{{ else }}500Mi{{ end }}
           livenessProbe:
             httpGet:
               path: /health

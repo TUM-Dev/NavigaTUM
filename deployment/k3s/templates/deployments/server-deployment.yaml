@@ -23,7 +23,7 @@ spec:
       labels:
         app.kubernetes.io/part-of: navigatum
         app.kubernetes.io/name: api
-      {{- if eq "nav.tum.de" $.Values.url }}
+      {{- if $.Values.is_production }}
       annotations:
         prometheus.io/path: /metrics
         prometheus.io/port: '8080'
@@ -105,8 +105,8 @@ spec:
               name: tmp-mieli-search
           resources:
             requests:
-              cpu: {{ if eq "nav.tum.de" $.Values.url }}200m{{ else }}50m{{ end }}
-              memory: {{ if eq "nav.tum.de" $.Values.url }}200Mi{{ else }}50Mi{{ end }}
+              cpu: {{ if $.Values.is_production }}200m{{ else }}50m{{ end }}
+              memory: {{ if $.Values.is_production }}200Mi{{ else }}50Mi{{ end }}
             limits:
               memory: 500Mi
           livenessProbe:
