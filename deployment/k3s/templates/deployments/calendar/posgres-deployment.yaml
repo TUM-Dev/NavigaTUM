@@ -4,8 +4,8 @@ kind: Deployment
 metadata:
   name: postgres
   labels:
-    app: navigatum
-    deployment: postgres
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: postgres
   namespace: {{ $.Values.namespace }}
 spec:
   replicas: 1
@@ -17,13 +17,13 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: navigatum
-      deployment: postgres
+      app.kubernetes.io/part-of: navigatum
+      app.kubernetes.io/name: postgres
   template:
     metadata:
       labels:
-        app: navigatum
-        deployment: postgres
+        app.kubernetes.io/part-of: navigatum
+        app.kubernetes.io/name: postgres
     spec:
       volumes:
         - name: db-vol
@@ -59,14 +59,14 @@ kind: Service
 metadata:
   name: postgres-rw
   labels:
-    app: navigatum
-    deployment: postgres
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: postgres
   namespace: {{ $.Values.namespace }}
 spec:
   type: ClusterIP
   selector:
-    app: navigatum
-    deployment: postgres
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: postgres
   ports:
     - name: postgres
       port: 5432

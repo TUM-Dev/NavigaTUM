@@ -3,7 +3,7 @@ kind: IngressRoute
 metadata:
   name: ingress
   labels:
-    app: navigatum
+    app.kubernetes.io/part-of: navigatum
   namespace: {{ $.Values.namespace }}
 spec:
   entryPoints:
@@ -59,7 +59,7 @@ kind: IngressRoute
 metadata:
   name: ingress-http
   labels:
-    app: navigatum
+    app.kubernetes.io/part-of: navigatum
   namespace: {{ $.Values.namespace }}
 spec:
   entryPoints:
