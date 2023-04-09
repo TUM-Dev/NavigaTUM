@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: webclient
   labels:
-    app: navigatum
-    deployment: web
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: web
   namespace: {{ $.Values.namespace }}
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: navigatum
-      deployment: web
+      app.kubernetes.io/part-of: navigatum
+      app.kubernetes.io/name: web
   strategy:
     rollingUpdate:
       maxSurge: 100%
@@ -21,8 +21,8 @@ spec:
   template:
     metadata:
       labels:
-        app: navigatum
-        deployment: web
+        app.kubernetes.io/part-of: navigatum
+        app.kubernetes.io/name: web
     spec:
       containers:
         - name: webclient

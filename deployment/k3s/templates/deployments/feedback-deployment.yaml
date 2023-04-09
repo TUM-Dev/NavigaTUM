@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: feedback
   labels:
-    app: navigatum
-    deployment: feedback
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: feedback
   namespace: {{ $.Values.namespace }}
 spec:
   replicas:  {{ if eq "nav.tum.de" $.Values.url }}2{{ else }}1{{ end }}
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: navigatum
-      deployment: feedback
+      app.kubernetes.io/part-of: navigatum
+      app.kubernetes.io/name: feedback
   strategy:
     rollingUpdate:
       maxSurge: {{ if eq "nav.tum.de" $.Values.url }}50%{{ else }}100%{{ end }}
@@ -21,8 +21,8 @@ spec:
   template:
     metadata:
       labels:
-        app: navigatum
-        deployment: feedback
+        app.kubernetes.io/part-of: navigatum
+        app.kubernetes.io/name: feedback
       {{- if eq "nav.tum.de" $.Values.url }}
       annotations:
         prometheus.io/path: /metrics
@@ -85,8 +85,8 @@ metadata:
   name: feedback-api-keys
   namespace: {{ $.Values.namespace }}
   labels:
-    app: navigatum
-    deployment: feedback
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: feedback
 data:
   {{ if $.Values.server.GITHUB_TOKEN }}
     GITHUB_TOKEN: {{ $.Values.server.GITHUB_TOKEN }}

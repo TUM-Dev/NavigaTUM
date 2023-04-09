@@ -5,8 +5,8 @@ metadata:
   name: postgres-pvc
   namespace: navigatum
   labels:
-    app: navigatum
-    deployment: postgres
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: postgres
 spec:
   storageClassName: longhorn
   accessModes:
