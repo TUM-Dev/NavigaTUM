@@ -1,6 +1,7 @@
 namespace: navigatum
 tag: main
 url: nav.tum.de
+is_production: {{ eq "nav.tum.de" $.Values.url }}
 server:
   MEILI_MASTER_KEY: ""
   GITHUB_TOKEN: ""

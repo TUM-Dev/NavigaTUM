@@ -3,4 +3,7 @@ kind: Namespace
 metadata:
   labels:
     kubernetes.io/metadata.name: {{ $.Values.namespace }}
+    {{- if $.Values.is_production -}}
+    goldilocks.fairwinds.com/enabled: true
+    {{- end -}}
   name: {{ $.Values.namespace }}

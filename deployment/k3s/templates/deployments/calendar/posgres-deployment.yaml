@@ -1,4 +1,4 @@
-{{- if eq "nav.tum.de" $.Values.url }}
+{{- if $.Values.is_production }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
