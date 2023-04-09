@@ -1862,7 +1862,7 @@ components:
             For inspiration on how to do this, see our website.
           type: boolean
           example: true
-        delete_issue_requested:
+        deletion_requested:
           description: |
             Whether the user has requested to delete the issue.
             If the user has requested to delete the issue, we will delete it from GitHub after processing it
@@ -1875,7 +1875,7 @@ components:
         - subject
         - body
         - privacy_checked
-        - delete_issue_requested
+        - deletion_requested
 tags:
   - name: core
     description: the API to access/search for room information
