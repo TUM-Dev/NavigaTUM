@@ -8,6 +8,9 @@ use actix_web_prometheus::PrometheusMetricsBuilder;
 use structopt::StructOpt;
 
 mod core;
+mod github;
+mod post_feedback;
+mod tokens;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
@@ -80,7 +83,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(health_status_handler)
             .app_data(state_feedback.clone())
-            .service(core::send_feedback)
+            .service(post_feedback::send_feedback)
             .service(
                 web::scope("/api/feedback/get_token")
                     .wrap(Governor::new(&feedback_ratelimit))

@@ -4,15 +4,13 @@ use log::error;
 use octocrab::Octocrab;
 use regex::Regex;
 
-pub async fn post_feedback(
+pub async fn open_issue(
     github_token: String,
-    title_category: &str,
     title: &str,
     description: &str,
     labels: Vec<String>,
 ) -> HttpResponse {
-    let raw_title = format!("[{title_category}] {title}");
-    let title = clean_feedback_data(&raw_title, 512);
+    let title = clean_feedback_data(title, 512);
     let description = clean_feedback_data(description, 1024 * 1024);
 
     if title.len() < 3 || description.len() < 10 {
@@ -67,6 +65,7 @@ fn clean_feedback_data(s: &str, len: usize) -> String {
 #[cfg(test)]
 mod description_tests {
     use super::*;
+    use std::assert_eq;
 
     #[test]
     fn newlines_whitespace() {
