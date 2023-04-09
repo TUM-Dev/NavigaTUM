@@ -67,10 +67,10 @@ spec:
             readOnlyRootFilesystem: true
           resources:
             requests:
-              cpu: {{ if eq "nav.tum.de" $.Values.url }}1{{ else }}0.1{{ end }}
-              memory: {{ if eq "nav.tum.de" $.Values.url }}600Mi{{ else }}300Mi{{ end }}
+              cpu: {{ if eq "nav.tum.de" $.Values.url }}100m{{ else }}10m{{ end }}
+              memory: {{ if eq "nav.tum.de" $.Values.url }}800Mi{{ else }}300Mi{{ end }}
             limits:
-              memory: 1Gi
+              memory: {{ if eq "nav.tum.de" $.Values.url }}1000Mi{{ else }}500Mi{{ end }}
           livenessProbe:
             httpGet:
               path: /health
