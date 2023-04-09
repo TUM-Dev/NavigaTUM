@@ -53,22 +53,4 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: db-vol
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres-rw
-  labels:
-    app.kubernetes.io/part-of: navigatum
-    app.kubernetes.io/name: postgres
-  namespace: {{ $.Values.namespace }}
-spec:
-  type: ClusterIP
-  selector:
-    app.kubernetes.io/part-of: navigatum
-    app.kubernetes.io/name: postgres
-  ports:
-    - name: postgres
-      port: 5432
-      targetPort: 5432
   {{ end }}

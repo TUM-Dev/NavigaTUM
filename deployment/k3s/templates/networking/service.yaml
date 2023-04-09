@@ -12,10 +12,7 @@ spec:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: api
   ports:
-    - name: mieli-search
-      port: 7700
-      targetPort: 7700
-    - name: api
+    - name: http
       port: 7000
       targetPort: 8080
 ---
@@ -33,7 +30,7 @@ spec:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: feedback
   ports:
-    - name: feedback
+    - name: http
       port: 8070
       targetPort: 8070
 ---
@@ -51,7 +48,7 @@ spec:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: calendar
   ports:
-    - name: calendar
+    - name: http
       port: 8060
       targetPort: 8060
 ---
@@ -69,7 +66,7 @@ spec:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: maps
   ports:
-    - name: tileserver
+    - name: http
       port: 7770
       targetPort: 8080
 ---
@@ -87,7 +84,7 @@ spec:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: cdn
   ports:
-    - name: cdn
+    - name: http
       port: 8000
       targetPort: 80
 ---
@@ -105,6 +102,26 @@ spec:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: web
   ports:
-    - name: webclient
+    - name: http
       port: 9000
       targetPort: 80
+{{- if eq "nav.tum.de" $.Values.url }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-rw
+  labels:
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: postgres
+  namespace: {{ $.Values.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+  {{ end }}
