@@ -40,9 +40,7 @@ stammgelaende:
     meta:
       date: "2007-04-13"
   1:
-    author:
-      text: "Fred Romero"
-      url: "https://www.flickr.com/people/129231073@N06"
+    author: "Fred Romero"
     license:
       text: CC-BY 2.0
       url: "https://creativecommons.org/licenses/by/2.0/deed.en"
@@ -1109,9 +1107,7 @@ mi:
       url: "https://mediatum.ub.tum.de/1232768?show_id=1360513"
 mw:
   0:
-    author:
-      text: "Renardo la vulpo"
-      url: "https://commons.wikimedia.org/wiki/User:Renardo_la_vulpo"
+    author: "Renardo la vulpo"
     source:
       text: "Wikimedia Commons"
       url: "https://commons.wikimedia.org/wiki/File:Garching,_Eberhard-von-Kuenheim-Bau,_2.jpeg"
