@@ -75,6 +75,7 @@ def _extract_orgs(rooms: dict) -> dict:
     for org in orgs.values():
         org.pop("org_id")
         org.pop("deleted")
+        org.pop("org_nameshort")  # Always `null`
     return orgs
 
 
