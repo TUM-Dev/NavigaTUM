@@ -70,11 +70,11 @@ def _infer_internal_id(b_code, data):
         return b_code
 
     raise RuntimeError(
-        f"Building id '{b_code}' not found in base data. " f"It may be missing in the areatree.",
+        f"Building id '{b_code}' not found in base data. It may be missing in the areatree.",
     )
 
 
-def _merge_building(data, building):
+def _merge_building(data, building: NATBuilding) -> None:
     internal_id = _infer_internal_id(building.b_code, data)
 
     b_data = data[internal_id]
