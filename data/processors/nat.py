@@ -94,14 +94,14 @@ def _merge_building(data, building: NATBuilding) -> None:
     b_data.setdefault("props", {}).setdefault("ids", {}).setdefault("b_id", internal_id)
 
 
-def merge_nat_rooms(_data):
+def merge_nat_rooms(data):
     """
     Merge the rooms in the NAT Roomfinder with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
 
     with open("external/results/rooms_nat.json", encoding="utf-8") as file:
-        _rooms = json.load(file)
+        rooms = json.load(file)
 
     with open("external/results/usages_tumonline.json", encoding="utf-8") as file:
         usages = json.load(file)
@@ -143,18 +143,28 @@ def merge_nat_rooms(_data):
 
 
 def _is_room_excluded(internal_id, b_id, data):
+    """
+    Some rooms are excluded from merging because they are more likely outdated (removed).
+    This concerns rooms that are so far not in `data` (so not in TUMonline), but
+    from a building that is not only only from the NAT Roomfinder. In other words,
+    new rooms are only added if the entire building is only added because of the
+    NAT Roomfinder.
+    """
     if internal_id in data:
         return False
 
     building_sources = data[b_id].get("sources").get("base")
     # First source for buildings is always the areatree, so we're checking the second one.
-    if len(building_sources) == 2 and building_sources[1]["name"] == "NAT Roomfinder":
-        return False
+    is_nat_only_building = len(building_sources) == 2 and building_sources[1]["name"] == "NAT Roomfinder"
 
-    return True
+    return not is_nat_only_building
 
 
 def _get_room_base(internal_id, b_id, nat_data, data, usages):
+    """
+    Return the `data` entry for the given room, so additional data from the NAT Roomfinder can
+    be merged into it. If it's already in `data` we just use this one. Else a new entry is created.
+    """
     if internal_id in data:
         return data[internal_id]
 
