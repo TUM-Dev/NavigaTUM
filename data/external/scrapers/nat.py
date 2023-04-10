@@ -53,8 +53,10 @@ def _extract_orgs(rooms: dict) -> dict:
     """
     Extract the organisations from the room information.
     """
-    org_set: set[str] = set(json.dumps(room["org"], sort_keys=True) for room in rooms.values())
+    org_set: set[str] = set()
     for room in rooms.values():
+        # Converting dicts to a JSON strings makes them hashable
+        org_set.add(json.dumps(room["org"], sort_keys=True))
         org_set.update(json.dumps(org["org"], sort_keys=True) for org in room["orgs"])
 
     orgs = [json.loads(org) for org in org_set]
