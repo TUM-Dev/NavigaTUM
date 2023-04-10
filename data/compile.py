@@ -9,6 +9,7 @@ from processors import (
     maps,
     merge,
     nat,
+    poi,
     roomfinder,
     search,
     sections,
@@ -62,6 +63,10 @@ def main():
     # merge data which is contributed by the nat roomfinder (additonal rooms, seating information, ...)
     logging.info("-- 17 NAT rooms")
     nat.merge_nat_rooms(data)
+
+    # --- POIs ---
+    logging.info("-- 21 POIs")
+    poi.merge_poi(data)
 
     # At this point, no more areas or rooms will be added or removed.
     # --- Make data more coherent ---

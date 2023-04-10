@@ -93,7 +93,7 @@ def infer_type_common_name(data):
     def _get_type(_id, _data):
         if _data["type"] == "building" and data[_data["parents"][-1]]["type"] == "joined_building":
             return _("Gebäudeteil")
-        if _data["type"] in ["virtual_room", "room"] and "usage" in _data:
+        if _data["type"] in {"room", "virtual_room", "poi"} and "usage" in _data:
             return _data["usage"]["name"]
         return {
             "root": _("Standortübersicht"),
@@ -104,6 +104,7 @@ def infer_type_common_name(data):
             "building": _("Gebäude"),
             "room": _("Raum"),
             "virtual_room": _("Raum/Gebäudeteil"),
+            "poi": _("POI"),
         }[_data["type"]]
 
     for _id, _data in data.items():

@@ -1,0 +1,28 @@
+parabelrutsche:
+  parent: "mi"
+  name: "Parabelrutsche"
+  coords: { lat: 48.26254, lon: 11.66796 }
+
+  usage:
+    name: "Gravitatives Transportmittel"
+
+  props:
+    generic:
+      - name:
+          de: "Formel"
+          en: "Formula"
+        text: "z = y = hx²/d²"
+
+# === Validierungsautomaten ===
+validierungsautomat-1:
+  parent: "5101"
+  name: "Validierungsautomat 1 (Physik)"
+  coords: { lat: 48.267097, lon: 11.675607 }
+
+  usage:
+    name: "Validierungsautomat"
+
+  props:
+    links:
+      - text: "Status"
+        url: "https://campus.tum.de/valistatus/"
