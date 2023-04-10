@@ -26,18 +26,6 @@ RESOLUTIONS: list[tuple[str, int | tuple[int, int]]] = [
     ("lg", 3840),  # max. 4k, this is the source
 ]
 
-KNOWN_LICENSE_URLS = {
-    "CC0 1.0": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
-    "CC-BY 2.0": "https://creativecommons.org/licenses/by/2.0/deed.en",
-    "CC-BY 2.5": "https://creativecommons.org/licenses/by/2.5/deed.en",
-    "CC-BY 3.0": "https://creativecommons.org/licenses/by/3.0/deed.en",
-    "CC-BY 4.0": "https://creativecommons.org/licenses/by/4.0/deed.en",
-    "CC-BY-SA 2.0": "https://creativecommons.org/licenses/by-sa/2.0/deed.en",
-    "CC-BY-SA 2.5": "https://creativecommons.org/licenses/by-sa/2.5/deed.en",
-    "CC-BY-SA 3.0": "https://creativecommons.org/licenses/by-sa/3.0/deed.en",
-    "CC-BY-SA 4.0": "https://creativecommons.org/licenses/by-sa/4.0/deed.en",
-}
-
 
 def add_img(data):
     """
