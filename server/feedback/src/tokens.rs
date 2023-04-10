@@ -1,4 +1,4 @@
-use actix_web::{web::Data, HttpResponse};
+use actix_web::HttpResponse;
 use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
 use log::error;
 use serde::{Deserialize, Serialize};
