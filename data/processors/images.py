@@ -101,20 +101,12 @@ def _add_source_info(fname, source_data):
             return {"text": obj, "url": None}
         return obj
 
-    img_data = {
+    return {
         "name": fname,
         "author": _parse(source_data[_index]["author"]),
         "source": _parse(source_data[_index]["source"]),
+        "license": _parse(source_data[_index]["license"]),
     }
-    # add license information utilising shorthands if available
-    raw_license = source_data[_index]["license"]
-    if isinstance(raw_license, str):
-        if raw_license in KNOWN_LICENSE_URLS:
-            img_data["license"] = {"text": raw_license, "url": KNOWN_LICENSE_URLS[raw_license]}
-            return img_data
-        logging.warning(f"Unknown license url for licence shorthand '{raw_license}'. No url will be added")
-    img_data["license"] = _parse(raw_license)
-    return img_data
 
 
 def _gen_fixed_size(img: Image.Image, fixed_size: tuple[int, int], offset: int) -> Image.Image:
