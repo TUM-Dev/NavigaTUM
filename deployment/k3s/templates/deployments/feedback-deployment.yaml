@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/name: feedback
   namespace: {{ $.Values.namespace }}
 spec:
-  replicas: 1
+  replicas:  {{ if eq "nav.tum.de" $.Values.url }}2{{ else }}1{{ end }}
   revisionHistoryLimit: 1
   selector:
     matchLabels:
@@ -15,15 +15,15 @@ spec:
       app.kubernetes.io/name: feedback
   strategy:
     rollingUpdate:
-      maxSurge: 100%
-      maxUnavailable: 0%
+      maxSurge: {{ if eq "nav.tum.de" $.Values.url }}50%{{ else }}100%{{ end }}
+      maxUnavailable: {{ if eq "nav.tum.de" $.Values.url }}50%{{ else }}0%{{ end }}
     type: RollingUpdate
   template:
     metadata:
       labels:
         app.kubernetes.io/part-of: navigatum
         app.kubernetes.io/name: feedback
-      {{- if $.Values.is_production }}
+      {{- if eq "nav.tum.de" $.Values.url }}
       annotations:
         prometheus.io/path: /metrics
         prometheus.io/port: '8070'

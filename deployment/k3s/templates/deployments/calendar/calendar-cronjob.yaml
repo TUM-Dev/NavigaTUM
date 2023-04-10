@@ -1,4 +1,4 @@
-{{- if $.Values.is_production }}
+{{- if eq "nav.tum.de" $.Values.url }}
 {{ range $scrape_task := $.Values.calendar.scrape_tasks }}
 ---
 apiVersion: batch/v1
