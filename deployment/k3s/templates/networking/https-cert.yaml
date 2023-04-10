@@ -9,7 +9,7 @@ spec:
   commonName: {{ $.Values.url }}
   dnsNames:
     - {{ $.Values.url }}
-    {{ if $.Values.is_production }}
+    {{ if eq "nav.tum.de" $.Values.url }}
     - www.nav.tum.de
     - nav.tum.sexy
     - nav.tum.app

@@ -18,7 +18,7 @@ spec:
       labels:
         app.kubernetes.io/part-of: navigatum
         app.kubernetes.io/name: calendar
-      {{- if $.Values.is_production }}
+      {{- if eq "nav.tum.de" $.Values.url }}
       annotations:
         prometheus.io/path: /metrics
         prometheus.io/port: '8060'
