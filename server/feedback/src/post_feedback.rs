@@ -13,7 +13,7 @@ pub struct FeedbackPostData {
     subject: String,
     body: String,
     privacy_checked: bool,
-    delete_issue_requested: bool,
+    deletion_requested: bool,
 }
 
 #[post("/api/feedback/feedback")]
@@ -34,15 +34,7 @@ pub async fn send_feedback(
     };
     let (title_category, labels) = parse_request(&req_data);
 
-    let github_token = state
-        .feedback_keys
-        .github_token
-        .as_ref()
-        .unwrap()
-        .trim()
-        .to_string();
     github::open_issue(
-        github_token,
         &format!("[{title_category}] {subject}", subject = req_data.subject),
         &req_data.body,
         labels,
@@ -61,7 +53,7 @@ fn parse_request(req_data: &Json<FeedbackPostData>) -> (&str, Vec<String>) {
     };
 
     let mut labels = vec!["webform".to_string()];
-    if req_data.delete_issue_requested {
+    if req_data.deletion_requested {
         labels.push("delete-after-processing".to_string());
     }
     match req_data.category.as_str() {

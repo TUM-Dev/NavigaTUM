@@ -7,18 +7,16 @@ use log::error;
 use tokio::sync::Mutex;
 
 pub struct AppStateFeedback {
-    pub(crate) feedback_keys: crate::FeedbackKeys,
     pub(crate) token_record: Mutex<Vec<TokenRecord>>,
 }
 impl AppStateFeedback {
-    pub fn from(feedback_keys: crate::FeedbackKeys) -> AppStateFeedback {
+    pub fn new() -> AppStateFeedback {
         AppStateFeedback {
-            feedback_keys,
             token_record: Mutex::new(Vec::new()),
         }
     }
     pub fn able_to_process_feedback(&self) -> bool {
-        self.feedback_keys.github_token.is_some() && self.feedback_keys.jwt_key.is_some()
+        std::env::var("GITHUB_TOKEN").is_ok() && std::env::var("JWT_KEY").is_ok()
     }
 }
 
@@ -34,7 +32,7 @@ pub async fn get_token(state: Data<AppStateFeedback>) -> HttpResponse {
             .body("Feedback is currently not configured on this server.");
     }
 
-    let secret = state.feedback_keys.jwt_key.clone().unwrap(); // we checked available
+    let secret = std::env::var("JWT_KEY").unwrap(); // we checked the ability to process feedback
     let token = encode(
         &Header::default(),
         &Claims::new(),
