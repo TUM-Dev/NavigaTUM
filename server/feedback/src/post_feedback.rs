@@ -1,8 +1,8 @@
-use crate::core::AppStateFeedback;
-use crate::{github, tokens};
+use crate::github;
 use actix_web::web::{Data, Json};
 use actix_web::HttpResponse;
 
+use crate::tokens::RecordedTokens;
 use actix_web::post;
 use serde::Deserialize;
 
@@ -18,11 +18,11 @@ pub struct FeedbackPostData {
 
 #[post("/api/feedback/feedback")]
 pub async fn send_feedback(
-    state: Data<AppStateFeedback>,
+    recorded_tokens: Data<RecordedTokens>,
     req_data: Json<FeedbackPostData>,
 ) -> HttpResponse {
     // auth
-    if let Some(e) = tokens::validate_token(&state, &req_data.token).await {
+    if let Some(e) = recorded_tokens.validate(&req_data.token).await {
         return e;
     }
 

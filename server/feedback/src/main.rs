@@ -2,10 +2,9 @@ use actix_cors::Cors;
 use actix_governor::{GlobalKeyExtractor, Governor, GovernorConfigBuilder};
 use std::collections::HashMap;
 
+use crate::tokens::RecordedTokens;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prometheus::PrometheusMetricsBuilder;
-
-mod core;
 mod github;
 mod post_feedback;
 mod tokens;
@@ -46,7 +45,7 @@ async fn main() -> std::io::Result<()> {
         .build()
         .unwrap();
 
-    let state_feedback = web::Data::new(core::AppStateFeedback::new());
+    let recorded_tokens = web::Data::new(RecordedTokens::default());
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
@@ -60,12 +59,12 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Compress::default())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(health_status_handler)
-            .app_data(state_feedback.clone())
+            .app_data(recorded_tokens.clone())
             .service(post_feedback::send_feedback)
             .service(
                 web::scope("/api/feedback/get_token")
                     .wrap(Governor::new(&feedback_ratelimit))
-                    .route("", web::post().to(core::get_token)),
+                    .route("", web::post().to(tokens::get_token)),
             )
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8070".to_string()))?
