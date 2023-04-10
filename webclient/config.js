@@ -6,9 +6,13 @@ export const configRelease = {
   // hash-based navigation in development builds.
   app_prefix: "/",
   // Prefix for 'cdn' content, e.g. images.
-  cdn_prefix: "https://nav.tum.de/cdn/",
+  // can be changed to "https://nav.tum.de/cdn" if testing against production is desired.
+  // not configured by default to make staging easier
+  cdn_prefix: "/cdn/",
   // Prefix for API requests
-  api_prefix: "https://nav.tum.de/api/",
+  // can be changed to "https://nav.tum.de/api" if testing against production is desired.
+  // not configured by default to make staging easier
+  api_prefix: "/api/",
 };
 
 export const configLocal = {
