@@ -4,12 +4,14 @@ use log::error;
 use octocrab::Octocrab;
 use regex::Regex;
 
-pub async fn open_issue(
-    github_token: String,
-    title: &str,
-    description: &str,
-    labels: Vec<String>,
-) -> HttpResponse {
+fn github_token() -> String {
+    std::env::var("GITHUB_TOKEN")
+        .expect("GITHUB_TOKEN not set")
+        .trim()
+        .to_string()
+}
+
+pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> HttpResponse {
     let title = clean_feedback_data(title, 512);
     let description = clean_feedback_data(description, 1024 * 1024);
 
@@ -19,7 +21,7 @@ pub async fn open_issue(
             .body("Subject or body missing or too short");
     }
 
-    let octocrab = Octocrab::builder().personal_token(github_token).build();
+    let octocrab = Octocrab::builder().personal_token(github_token()).build();
     if octocrab.is_err() {
         error!("Error creating issue: {octocrab:?}");
         return HttpResponse::InternalServerError().body("Could not create Octocrab instance");

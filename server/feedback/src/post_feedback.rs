@@ -34,15 +34,7 @@ pub async fn send_feedback(
     };
     let (title_category, labels) = parse_request(&req_data);
 
-    let github_token = state
-        .feedback_keys
-        .github_token
-        .as_ref()
-        .unwrap()
-        .trim()
-        .to_string();
     github::open_issue(
-        github_token,
         &format!("[{title_category}] {subject}", subject = req_data.subject),
         &req_data.body,
         labels,

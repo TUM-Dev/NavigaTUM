@@ -5,26 +5,12 @@ use std::collections::HashMap;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prometheus::PrometheusMetricsBuilder;
 
-use structopt::StructOpt;
-
 mod core;
 mod github;
 mod post_feedback;
 mod tokens;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
-
-#[derive(StructOpt, Debug)]
-#[structopt(name = "server")]
-pub struct FeedbackKeys {
-    // Feedback
-    /// GitHub personal access token
-    #[structopt(short = "t", long)]
-    github_token: Option<String>,
-    /// Secret for the feedback token generation
-    #[structopt(short = "jwt", long)]
-    jwt_key: Option<String>,
-}
 
 #[get("/api/feedback/status")]
 async fn health_status_handler() -> HttpResponse {
@@ -41,14 +27,6 @@ const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
-
-    let mut opt = FeedbackKeys::from_args();
-    if opt.github_token.is_none() {
-        opt.github_token = std::env::var("GITHUB_TOKEN").ok();
-    }
-    if opt.jwt_key.is_none() {
-        opt.jwt_key = std::env::var("JWT_KEY").ok();
-    }
 
     let feedback_ratelimit = GovernorConfigBuilder::default()
         .key_extractor(GlobalKeyExtractor)
@@ -68,7 +46,7 @@ async fn main() -> std::io::Result<()> {
         .build()
         .unwrap();
 
-    let state_feedback = web::Data::new(core::AppStateFeedback::from(opt));
+    let state_feedback = web::Data::new(core::AppStateFeedback::new());
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
