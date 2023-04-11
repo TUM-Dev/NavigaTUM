@@ -6,6 +6,6 @@
     - common
     - k8s
 - hosts:
-    - leader
+    - localhost
   roles:
     - k8s-components

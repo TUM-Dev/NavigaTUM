@@ -14,10 +14,6 @@
 # setup infrastructure to install packages to k8s
 - name: Setup helm
   include_tasks: install/helm.yml
-- name: Install the python kubernetes package (needed for ansible to controll kubernetes)
-  pip:
-    name: kubernetes
-    state: present
 
 - name: Setup longhorn requirements
   include_tasks: install/longhorn-requirements.yml
