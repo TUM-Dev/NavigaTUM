@@ -4,7 +4,7 @@
     name: prometheus
     repo_url: https://prometheus-community.github.io/helm-charts
 
-- name: add the prometheus-pushgateway helm chart
+- name: Install prometheus-pushgateway
   kubernetes.core.helm:
     atomic: true
     wait: false
@@ -16,10 +16,6 @@
     namespace: monitoring
     create_namespace: yes
     values:
-      podAnnotations:
-        prometheus.io/path: /metrics
-        prometheus.io/port: "9091"
-        prometheus.io/scrape: "true"
       resources:
         limits:
           cpu: 200m
@@ -27,3 +23,9 @@
         requests:
           cpu: 100m
           memory: 30Mi
+      serviceMonitor:
+        enabled: true
+      persistentVolume:
+        enabled: true
+        size: 2Gi
+        storageClass: "longhorn"
