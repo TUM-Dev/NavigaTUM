@@ -209,7 +209,7 @@ def _get_base_room_infos():
 def _try_download_room_base_info(start: int, batch: int):
     downloaded_file = _download_file(
         f"{NAT_API_URL}/?limit={batch}&offset={start}",
-        NAT_CACHE_DIR / f"rooms_base_{start}_to_{(start + 1) * batch - 1}.json",
+        NAT_CACHE_DIR / f"rooms_base_{start}_to_{start + batch - 1 }.json",
         quiet=True,
         quiet_errors=True,
     )
