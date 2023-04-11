@@ -18,10 +18,6 @@ def merge_poi(data):
         poi["parents"] = parent["parents"] + [parent["id"]]
         del poi["parent"]
 
-        poi.setdefault("sources", {}).setdefault("base", []).append(
-            {
-                "name": "NavigaTUM",
-            },
-        )
+        poi.setdefault("sources", {"base": [{"name": "NavigaTUM"}]})
 
     return merge.recursively_merge(data, poi_data)
