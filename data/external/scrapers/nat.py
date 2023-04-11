@@ -170,7 +170,6 @@ def _download_and_merge_room(base):
     if not downloaded_file:
         return None
     content = json.loads(downloaded_file.read_text(encoding="utf-8"))
-    content.pop("modified") # this field is inconsistent betwen the content and the base
     return _merge(content, base)
 
 
