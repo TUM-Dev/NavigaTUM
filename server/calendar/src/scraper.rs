@@ -50,7 +50,7 @@ async fn main() {
 
     info!("Pushing metrics to the pushgateway");
     tokio::task::spawn_blocking(move || {
-        let address = std::env::var("PUSHGATEWAY_ADRESS")
+        let address = std::env::var("PUSHGATEWAY_URL")
             .unwrap_or("pushgateway.monitoring.svc.cluster.local".to_string());
         prometheus::push_metrics(
             "navigatum_calendarscraper",

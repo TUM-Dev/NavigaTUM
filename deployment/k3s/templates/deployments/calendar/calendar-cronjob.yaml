@@ -21,6 +21,8 @@ spec:
             imagePullPolicy: Always
             command: ["/bin/navigatum-calendar-scraper"]
             env:
+            - name: PUSHGATEWAY_URL
+              value: prometheus-pushgateway.monitoring.svc.cluster.local:9091
             - name: POSTGRES_URL
               value: postgres-rw.navigatum.svc.cluster.local
             - name: POSTGRES_USER
