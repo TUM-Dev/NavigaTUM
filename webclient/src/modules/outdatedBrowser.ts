@@ -1,12 +1,7 @@
 function extractBrowserInfo() {
   const ua = navigator.userAgent;
   let tem;
-  let M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-
-  if (/trident/i.test(M[1])) {
-    tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
-    return { name: "IE", version: +tem[1] || 0 };
-  }
+  let M = ua.match(/(opera|chrome|safari|firefox(?=\/))\/?\s*(\d+)/i) || [];
 
   if (M[1] === "Chrome") {
     tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
@@ -41,7 +36,7 @@ function isSupportedBrowser(browserName: string, browserVersion: number) {
   }
 }
 
-function shouldWarn() {
+function shouldWarnForOutdatedBrowser() {
   const browser = extractBrowserInfo();
   if (isSupportedBrowser(browser.name, browser.version)) return false;
   const optLastTime = localStorage.getItem("lastOutdatedBrowserWarningTime");
@@ -54,10 +49,11 @@ function shouldWarn() {
   return daysSinceLastWarning > 1;
 }
 
-if (shouldWarn()) {
+if (shouldWarnForOutdatedBrowser()) {
   const error = document.createElement("div");
   error.classList.add("toast", "toast-error");
   error.innerHTML = "${{_.core_js.error.browser_outdated}}$";
   document.getElementById("errorToasts")?.appendChild(error);
   localStorage.setItem("lastOutdatedBrowserWarningTime", new Date().getTime().toString());
 }
+export {};
