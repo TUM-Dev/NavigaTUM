@@ -23,7 +23,7 @@ actix-web = "4.3.1"
 actix-web-prometheus = "0.1.2"
 rustls = "0.21.0"
 awc = { version="3.1.1",features=["rustls"] }
-cached = "0.42.0"
+cached = "0.43.0"
 serde = { version = "1.0.160", features = ["derive"] }
 serde_json = "1.0.95"
 actix-cors = "0.6.4"
