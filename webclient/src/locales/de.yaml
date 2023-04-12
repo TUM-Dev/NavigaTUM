@@ -137,6 +137,7 @@ view_view:
   map:
     interactive: "Interaktive Karte"
     roomfinder: "Lagepläne"
+    roomfinder_crosshair: "Kreuz, das anzeigt, wo sich der Raum auf dem handgezeichneten Raumfinderkartenbild befindet"
     img_source: "Bildquelle"
   info_title: "Informationen"
   info_table:

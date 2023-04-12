@@ -137,6 +137,7 @@ view_view:
   map:
     interactive: "Interactive Map"
     roomfinder: "Site Plans"
+    roomfinder_crosshair: "Cross showing where the room is located on the hand-drawn roomfinder map image"
     img_source: "Image source"
   info_title: "Information"
   info_table:

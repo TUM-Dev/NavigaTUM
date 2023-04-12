@@ -67,7 +67,7 @@ function delayedLoadRoomfinderModalMap() {
       v-if="state.data?.maps.roomfinder?.available"
     >
       <img
-        alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
+        v-bind:alt="$t('view_view.map.roomfinder_crosshair')"
         src="../assets/map/roomfinder_cross-v2.webp"
         v-bind:style="{
           transform: 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)',
@@ -144,7 +144,7 @@ function delayedLoadRoomfinderModalMap() {
       <div class="modal-body">
         <div class="roomfinder-map-container">
           <img
-            alt="Cross showing where the room is located on the hand-drawn roomfinder map image"
+            v-bind:alt="$t('view_view.map.roomfinder_crosshair')"
             src="../assets/map/roomfinder_cross-v2.webp"
             v-bind:style="{
               transform: 'translate(' + state.map.roomfinder.modalX + 'px, ' + state.map.roomfinder.modalY + 'px)',
