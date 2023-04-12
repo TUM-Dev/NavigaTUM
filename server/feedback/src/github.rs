@@ -4,15 +4,15 @@ use log::error;
 use octocrab::Octocrab;
 use regex::Regex;
 
-pub async fn post_feedback(
-    github_token: String,
-    title_category: &str,
-    title: &str,
-    description: &str,
-    labels: Vec<String>,
-) -> HttpResponse {
-    let raw_title = format!("[{title_category}] {title}");
-    let title = clean_feedback_data(&raw_title, 512);
+fn github_token() -> String {
+    std::env::var("GITHUB_TOKEN")
+        .expect("GITHUB_TOKEN not set")
+        .trim()
+        .to_string()
+}
+
+pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> HttpResponse {
+    let title = clean_feedback_data(title, 512);
     let description = clean_feedback_data(description, 1024 * 1024);
 
     if title.len() < 3 || description.len() < 10 {
@@ -21,7 +21,7 @@ pub async fn post_feedback(
             .body("Subject or body missing or too short");
     }
 
-    let octocrab = Octocrab::builder().personal_token(github_token).build();
+    let octocrab = Octocrab::builder().personal_token(github_token()).build();
     if octocrab.is_err() {
         error!("Error creating issue: {octocrab:?}");
         return HttpResponse::InternalServerError().body("Could not create Octocrab instance");
@@ -67,6 +67,7 @@ fn clean_feedback_data(s: &str, len: usize) -> String {
 #[cfg(test)]
 mod description_tests {
     use super::*;
+    use std::assert_eq;
 
     #[test]
     fn newlines_whitespace() {

@@ -148,7 +148,7 @@ window.feedback = (() => {
         subject: subject,
         body: body,
         privacy_checked: privacy,
-        delete_issue_requested: deleteIssue,
+        deletion_requested: deleteIssue,
       }),
       (r) => {
         _showLoading(false);
