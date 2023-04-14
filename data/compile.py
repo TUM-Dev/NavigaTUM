@@ -34,7 +34,6 @@ def main():
 
     logging.info("-- 02 rooms extendend")
     data = merge.patch_rooms(data, "sources/02_rooms-extended.yaml")
-    merge.add_coordinates(data, "sources/coordinates/")
 
     # Add source information for these entries, which are up to here
     # always declared by navigatum
@@ -85,6 +84,7 @@ def main():
     structure.infer_type_common_name(data)
 
     logging.info("-- 40 Coordinates")
+    merge.add_coordinates(data, "sources/coordinates/")
     coords.add_and_check_coords(data)
 
     logging.info("-- 45 Roomfinder maps")
