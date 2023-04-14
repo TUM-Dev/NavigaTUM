@@ -6,7 +6,7 @@ import SearchView from "./views/SearchView.vue";
 const routes = [
   { path: "/", name: "main", component: MainView },
   {
-    path: "/:view(view|campus|site|building|room)/:id",
+    path: "/:view(view|campus|site|building|room|poi)/:id",
     name: "detail",
     component: () => import("./views/DetailsView.vue"),
   },

@@ -47,6 +47,7 @@ function update() {
         joined_building: "building",
         room: "room",
         virtual_room: "room",
+        poi: "poi",
       }[d.type] || "view";
 
     if (route.params.view !== urlTypeName) {
