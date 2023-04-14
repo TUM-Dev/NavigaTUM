@@ -16,11 +16,144 @@ parabelrutsche:
 validierungsautomat-1:
   parent: "5101"
   name: "Validierungsautomat 1 (Physik)"
-
-  usage:
-    name: "Validierungsautomat"
-
+  usage: { name: "Validierungsautomat" }
   props:
     links:
-      - text: "Status"
-        url: "https://campus.tum.de/valistatus/"
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-2:
+  parent: "5501"
+  name: "Validierungsautomat 2 (MW)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-3:
+  parent: "4101"
+  name: "Validierungsautomat 3 (School of Life Sciences Poststelle)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+    comment:
+      de: Der Validierungsautomat befindet sich im Treppenhaus
+      en: The validation machine is located in the staircase
+
+validierungsautomat-4:
+  parent: "0501"
+  name: "Validierungsautomat 4 (Zentralgelände)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-5:
+  parent: "5606"
+  name: "Validierungsautomat 5 (MI)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-6:
+  parent: "2330.01.207"
+  name: "Validierungsautomat 6 (Olympiapark)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-7:
+  parent: "5606"
+  name: "Validierungsautomat 7 (MI)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-8:
+  parent: "5501"
+  name: "Validierungsautomat 8 (MW)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-9:
+  parent: "0501"
+  name: "Validierungsautomat 9 (Zentralgelände)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-10:
+  parent: "4220"
+  name: "Validierungsautomat 10 (School of Life Sciences Bibliothek)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+    comment:
+      de: Der Validierungsautomat befindet sich im Eingangsbereich
+      en: The validation machine is located in the entrance area
+
+validierungsautomat-11:
+  parent: "5401"
+  name: "Validierungsautomat 11 (Chemie)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-12:
+  parent: "1902"
+  name: "Validierungsautomat 12 (Heilbronn)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+    comment:
+      de: Direkt neben Raum L.1.30 (1902.01.130)
+      en: Directly next to room L.1.30 (1902.01.130)
+
+validierungsautomat-14:
+  parent: "1551"
+  name: "Validierungsautomat 14 (Klinikum rechts der Isar)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-16:
+  parent: "5901"
+  name: "Validierungsautomat 14 (Elektrotechnik)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-21:
+  parent: "0201"
+  name: "Validierungsautomat 21 (StudiTUM Innenstadt)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-sot:
+  parent: "2907.01.130"
+  name: "Validierungsautomat (School of Social Sciences and Technology)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
+
+validierungsautomat-straubing:
+  parent: "2927.EG.002"
+  name: "Validierungsautomat (Straubing)"
+  usage: { name: "Validierungsautomat" }
+  props:
+    links:
+      - { text: "Status", url: "https://campus.tum.de/valistatus/" }
