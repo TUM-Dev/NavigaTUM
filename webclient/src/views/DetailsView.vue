@@ -25,9 +25,9 @@ const { t } = useI18n({
 });
 
 const route = useRoute();
-// called when the view is loaded
+// called when the view is loaded (coming from another view)
 update();
-// called when the view navigates to another view, but not when its initially loaded
+// called when the view navigates to another entry, so the view is just updated
 watch(() => route.params.id, update);
 
 function update() {
@@ -58,6 +58,7 @@ function update() {
     setDescription(genDescription(d));
     state.$reset();
     state.loadData(d);
+    tryToLoadMap();
   });
 }
 
@@ -93,6 +94,20 @@ function deletePendingCoordinates() {
   }
 }
 
+function tryToLoadMap() {
+  /**
+   * Try to load the entry map (interactive or roomfinder). It requires the map container
+   * element to be loaded in DOM.
+   * @return {boolean} Whether the loading was successful
+   */
+  if (document.getElementById("interactive-map") !== null) {
+    if (state.map.selected === selectedMap.interactive) interactiveMap.value.loadInteractiveMap();
+    else roomfinderMap.value.loadRoomfinderMap(state.map.roomfinder.selected_index);
+    return true;
+  }
+  return false;
+}
+
 // following variables are bound to ref objects
 const roomfinderMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>();
 const interactiveMap = ref<InstanceType<typeof DetailsInteractiveMap> | null>();
@@ -115,15 +130,12 @@ onMounted(() => {
 
   nextTick(() => {
     // Even though 'mounted' is called there is no guarantee apparently,
-    // that it really is mounted now. For this reason we try to poll now.
-    // (Not the best solution probably)
+    // that we can reference the map by ID in the DOM yet. For this reason we
+    // try to poll now (Not the best solution probably)
     let timeoutInMs = 5;
 
     function pollMap() {
-      if (document.getElementById("interactive-map") !== null) {
-        if (state.map.selected === selectedMap.interactive) interactiveMap.value.loadInteractiveMap();
-        else roomfinderMap.value.loadRoomfinderMap(state.map.roomfinder.selected_index);
-      } else {
+      if (!tryToLoadMap()) {
         console.warn(
           `'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in ${timeoutInMs}ms`
         );
