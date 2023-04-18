@@ -24,7 +24,7 @@ strip = true
 [dependencies]
 log = "0.4.17"
 env_logger = "0.10.0"
-diesel = { version = "2.0.3", features = ["default","chrono","postgres"] }
+diesel = { version = "2.0.4", features = ["default","chrono","postgres"] }
 diesel_migrations = "2.0.0"
 actix-web = "4.3.1"
 lazy_static ="1.4.0"
