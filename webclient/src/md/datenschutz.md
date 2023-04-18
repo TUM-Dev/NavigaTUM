@@ -25,6 +25,7 @@ E-Mail: beauftragter(at)datenschutz.tum.de
 #### Feedback
 
 Die Nutzung des Feedbackformulars erfolgt auf einer rein freiwiligen Basis.
+Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
 Für die Nuzung des Feedbackformulars muss den [Tearms of Service und den Datenschutzbestimmungen von GitHub](https://docs.github.com/en/github/site-policy) zugestimmt werden.
 Auf die mögliche Übertragung der Daten außerhalb der Europäischen Union wird hingewisen.
 Für nicht-öffentliche Kommunikation wird auf die Kontaktmöglichkeit über das [Impressum](/about/impressum) hingewiesen.
