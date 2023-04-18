@@ -6,7 +6,7 @@
 
 Verantwortlicher im Sinne der Datenschutzgesetze, insbesondere der EU-Datenschutzgrundverordnung (DSGVO), ist:
 
-Frank Elsing  
+Frank Elsinga  
 in Vertretung für ["OpenSource @ TUM e.V."](https://tum.dev).
 
 Postanschrift: Josef-Fischhaber-Straße 46, 82319 Starnberg
