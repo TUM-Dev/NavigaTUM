@@ -5,7 +5,7 @@
 Technische Universität München
 Postanschrift: Arcisstraße 21, 80333 München
 Telefon: +49-(0)89-289-17123
-E-Mail: navigatum (at-symbol) tum.de
+E-Mail: poststelle (at-symbol) tum.de
 
 ## Vertretungsberechtigt
 
@@ -18,29 +18,8 @@ DE811193231 (gemäß § 27a Umsatzsteuergesetz)
 ## Verantwortlich für den Inhalt
  
 Frank Elsinga  
-Josef-Fischhaber-Straße 46  
-82319 Starnberg  
-Deutschland
-
-<br>
-
----
-
-<br>
-
-## Nutzungsbedinung
-
-Angaben gemäß § 5 TMG
-
-Redaktionell verantwortlich für den Inhalt dieser Webseite und Datenschutzbeauftragter ist 
-
-in Vertretung für das ["TUM-App"-Projektteam](https://www.tum.app/imprint).
-
-**Postanschrift:**  
-
-**Kontakt:**  
-Telefon: (0049/0)176 – 56–727-579  
-Telefax: (0049/0)89 - 289–18546  
+Postanschrift: Josef-Fischhaber-Straße 46, 82319 Starnberg  
+Telefon: +49-(0)176 – 56–727-579 
 E-Mail: navigatum (at-symbol) tum.de
 
 <br>
