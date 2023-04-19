@@ -82,7 +82,6 @@ Telefax: 089 212672-50
 E-Mail: poststelle(at)datenschutz-bayern.de  
 https://www.datenschutz-bayern.de/
 
-
 ## Änderung unserer Datenschutzbestimmungen
 
 Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht oder um Änderungen unserer Leistungen in der Datenschutzerklärung umzusetzen, z.B. bei der Einführung neuer Services.
@@ -219,4 +218,3 @@ Falls der Nutzer die sofortige Löschung gewünscht hat, kann diese Funktion nic
 **Bereitstellung vorgeschrieben oder erforderlich:**
 
 Die Bereitstellung dieser nicht personenbezogenen Daten erfolgt freiwillig.
-

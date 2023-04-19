@@ -82,7 +82,6 @@ Fax: 089 212672-50
 E-mail: post office(at)datenschutz-bayern.de  
 https://www.datenschutz-bayern.de/
 
-
 ## Changes to our data protection policy
 
 We reserve the right to adapt this data protection declaration so that it always complies with the current legal requirements or in order to implement changes to our services in the data protection declaration, e.g. when introducing new services. The new data protection statement will then apply to your next visit.
@@ -106,12 +105,12 @@ Our web server is operated by the Leibniz Computing Centre of the Bavarian Acade
 The personal data you transmit when visiting our website is therefore processed by the LRZ on our behalf:
 
 ```
-Leibniz Computing Centre (LRZ) of the Bavarian Academy of Sciences and Humanities  
-Boltzmannstrasse 1  
-D-85748 Garching near Munich  
-Telephone: (089) 35831 8000  
-Fax: (089) 35831 9700  
-E-mail: lrzpost(at)lrz.de  
+Leibniz Computing Centre (LRZ) of the Bavarian Academy of Sciences and Humanities
+Boltzmannstrasse 1
+D-85748 Garching near Munich
+Telephone: (089) 35831 8000
+Fax: (089) 35831 9700
+E-mail: lrzpost(at)lrz.de
 www.lrz.de
 ```
 
