@@ -102,9 +102,15 @@ feedback:
       Unter den gesetzlichen Voraussetzungen und einem vorhandenen Personenbezug der Daten besteht ein Recht auf Auskunft, sowie auf Berichtigung oder Löschung oder auf Einschränkung der Verarbeitung oder eines Widerspruchsrechts gegen die Verarbeitung sowie des Rechts auf Datenübertragbarkeit.
       Es besteht zudem ein Beschwerderecht beim Bayerischen Landesbeauftragten für den Datenschutz.
       Falls du dies ablehnst, schreibe uns bitte über navigatum (at-symbol) tum.de, oder eine der anderen in unserem <a href='/about/impressum' target='_blank'>Impressum</a> gelisteten Kontaktmöglichkeiten.
-      Bei Fragen könne dich gerne an uns (navigatum (at-symbol) tum.de) oder an unseren Datenschutzbeauftragten (www.datenschutz.tum.de).
+      Bei Fragen könne dich gerne an uns (navigatum (at-symbol) tum.de) oder an unseren Datenschutzbeauftragten (<a href='https://datenschutz.tum.de' target='_blank'>datenschutz.tum.de</a>).
     en: |
-      TODO
+      My feedback data (subject and message) may be stored anonymously but publicly accessible on the <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub project page</a>.
+      By using this feedback form, you explicitly agree to the <a href='https://docs.github.com/en/github/site-policy' target='_blank'>terms of use and privacy policy of GitHub</a> as well as a possible transfer of the data outside the European Union.
+      The processing is based on Art. 6 para. 1 lit. a DSGVO.
+      Under the legal conditions and an existing personal reference of the data, there is a right to information, as well as to correction or deletion or to restriction of processing or a right to object to processing as well as the right to data portability.
+      There is also a right of appeal to the Bavarian State Commissioner for Data Protection.
+      If you object to this, please write to us via navigatum (at-symbol) tum.de, or one of the other contact options listed in our <a href='/about/imprint' target='_blank'>imprint</a>.
+      If you have any questions, please feel free to contact us (navigatum (at-symbol) tum.de) or our data protection officer (<a href='https://datenschutz.tum.de' target='_blank'>datenschutz.tum.de</a>).
   delete:
     de: "Das zugehörige GitHub Issue löschen, sobald es gelöst wurde."
     en: "Delete this GitHub issue when resolved."

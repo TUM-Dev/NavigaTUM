@@ -34,6 +34,7 @@ Für nicht-öffentliche Kommunikation wird auf die Kontaktmöglichkeit über das
 
 Der technische Betrieb unserer Datenverarbeitungssysteme erfolgt durch:
 
+```
 Leibniz-Rechenzentrum (LRZ) der Bayerischen Akademie der Wissenschaften
 Boltzmannstraße 1
 D-85748 Garching bei München
@@ -41,6 +42,7 @@ Telefon: (089) 35831 8000
 Fax: (089) 35831 9700
 E-Mail: lrzpost(at)lrz.de
 www.lrz.de
+```
 
 Gegebenenfalls werden Ihre Daten an die zuständigen Aufsichts- und Rechnungsprüfungsbehörden zur Wahrnehmung der jeweiligen Kontrollrechte übermittelt.
 
@@ -63,13 +65,15 @@ Soweit wir von Ihnen personenbezogene Daten verarbeiten, stehen Ihnen als Betrof
 - Sollten unrichtige personenbezogene Daten verarbeitet werden, steht Ihnen ein Recht auf Berichtigung zu (Art. 16 DSGVO).
 - Liegen die gesetzlichen Voraussetzungen vor, so können Sie die Löschung oder Einschränkung der Verarbeitung verlangen (Art. 17 und 18 DSGVO).
 - Wenn Sie in die Verarbeitung eingewilligt haben oder ein Vertrag zur Datenverarbeitung besteht und die Datenverarbeitung mithilfe automatisierter Verfahren durchgeführt wird, steht Ihnen gegebenenfalls ein Recht auf Datenübertragbarkeit zu (Art. 20 DSGVO).
-- Falls Sie in die Verarbeitung eingewilligt haben und die Verarbeitung auf dieser Einwilligung beruht, können Sie die Einwilligung jederzeit für die Zukunft widerrufen. Die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Datenverarbeitung wird durch diesen nicht berührt.
+- Falls Sie in die Verarbeitung eingewilligt haben und die Verarbeitung auf dieser Einwilligung beruht, können Sie die Einwilligung jederzeit für die Zukunft widerrufen.
+  Die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Datenverarbeitung wird durch diesen nicht berührt.
 
 Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit gegen die Verarbeitung Ihrer Daten Widerspruch einzulegen, wenn die Verarbeitung ausschließlich auf Grundlage des Art. 6 Abs. 1 Buchst. e oder f DSGVO erfolgt (Art. 21 Abs. 1 Satz 1 DSGVO).
 
 ### Beschwerderecht bei der Aufsichtsbehörde
 
-Weiterhin besteht ein Beschwerderecht beim Bayerischen Landesbeauftragten für den Datenschutz. Diesen können Sie unter folgenden Kontaktdaten erreichen:
+Weiterhin besteht ein Beschwerderecht beim Bayerischen Landesbeauftragten für den Datenschutz.
+Diesen können Sie unter folgenden Kontaktdaten erreichen:
 
 Postanschrift: Postfach 22 12 19, 80502 München  
 Adresse: Wagmüllerstraße 18, 80538 München  
@@ -81,11 +85,13 @@ https://www.datenschutz-bayern.de/
 
 ## Änderung unserer Datenschutzbestimmungen
 
-Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht oder um Änderungen unserer Leistungen in der Datenschutzerklärung umzusetzen, z.B. bei der Einführung neuer Services. Für Ihren erneuten Besuch gilt dann die neue Datenschutzerklärung.
+Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht oder um Änderungen unserer Leistungen in der Datenschutzerklärung umzusetzen, z.B. bei der Einführung neuer Services.
+Für Ihren erneuten Besuch gilt dann die neue Datenschutzerklärung.
 
 ## Fragen an den Datenschutzbeauftragten
 
-Wenn Sie Fragen zum Datenschutz haben, schreiben Sie uns bitte eine E-Mail oder wenden Sie sich direkt an die für den Datenschutz verantwortliche Person in unserer Organisation. Diese Person finden Sie unter den im Impressum genannten Kontaktmöglichkeiten.
+Wenn Sie Fragen zum Datenschutz haben, schreiben Sie uns bitte eine E-Mail oder wenden Sie sich direkt an die für den Datenschutz verantwortliche Person in unserer Organisation.
+Diese Person finden Sie unter den im Impressum genannten Kontaktmöglichkeiten.
 
 ## B. Informationen zum Internetauftritt
 
@@ -97,7 +103,8 @@ Für nähere Informationen zur Verarbeitung Ihrer Daten und zu Ihren Rechten kö
 
 ### Technische Umsetzung
 
-Unser Webserver wird durch das Leibniz-Rechenzentrum der Bayerischen Akademie der Wissenschaften (LRZ) betrieben. Die von Ihnen im Rahmen des Besuchs unseres Webauftritts übermittelten personenbezogenen Daten werden daher in unserem Auftrag durch das LRZ verarbeitet:
+Unser Webserver wird durch das Leibniz-Rechenzentrum der Bayerischen Akademie der Wissenschaften (LRZ) betrieben.
+Die von Ihnen im Rahmen des Besuchs unseres Webauftritts übermittelten personenbezogenen Daten werden daher in unserem Auftrag durch das LRZ verarbeitet:
 
 Leibniz-Rechenzentrum (LRZ) der Bayerischen Akademie der Wissenschaften  
 Boltzmannstraße 1  
@@ -109,7 +116,8 @@ www.lrz.de
 
 ### Protokollierung
 
-Wenn Sie diese oder andere Internetseiten aufrufen, übermitteln Sie über Ihren Internetbrowser Daten an unseren Webserver. Die folgenden Daten werden während einer laufenden Verbindung zur Kommunikation zwischen Ihrem Internetbrowser und unserem Webserver temporär in einer Logdatei aufgezeichnet:
+Wenn Sie diese oder andere Internetseiten aufrufen, übermitteln Sie über Ihren Internetbrowser Daten an unseren Webserver.
+Die folgenden Daten werden während einer laufenden Verbindung zur Kommunikation zwischen Ihrem Internetbrowser und unserem Webserver temporär in einer Logdatei aufgezeichnet:
 
 - Datum und Uhrzeit der Anfrage
 - Zeitbetrag, den die Anfrage gedauert hat
@@ -136,7 +144,8 @@ Wir haben keine Laufenden Verträge mit externen Dienstleistern.
 
 ### Aktive Komponenten
 
-Auf dieser Website werden aktive Komponenten wie JavaScript, Java-Applets oder Active-X-Controls verwendet. Diese Funktion kann durch die Einstellung Ihres Internetbrowsers von Ihnen abgeschaltet werden.
+Auf dieser Website werden aktive Komponenten wie JavaScript, Java-Applets oder Active-X-Controls verwendet.
+Diese Funktion kann durch die Einstellung Ihres Internetbrowsers von Ihnen abgeschaltet werden.
 
 ## SSL-Verschlüsselung
 
@@ -144,18 +153,23 @@ Um die Sicherheit Ihrer Daten bei der Übertragung zu schützen, verwenden wir d
 
 ## Suchanfragen
 
-Suchanfragen werden über die reguläre Protokollierung (siehe oben) hinaus nicht gespeichert. Zur Reduktion der Antwortzeiten des Servers können Anfragen jedoch im Arbeitsspeicher des Server gecacht (zwischengespeichert) werden.
+Suchanfragen werden über die reguläre Protokollierung (siehe oben) hinaus nicht gespeichert.
+Zur Reduktion der Antwortzeiten des Servers können Anfragen jedoch im Arbeitsspeicher des Server gecacht (zwischengespeichert) werden.
 Die Cachingdauer beträgt höchstens eine Woche.
 
 ## Anonyme Statistiken
 
-Zur Erkennung von Problemen und zur weiteren Verbesserung des Angebots werden bei der Benutzung der Dienste anonyme Statistiken erhoben. Diese erlauben keine Rückführung auf die Personen, die die Dienste nutzen.
+Zur Erkennung von Problemen und zur weiteren Verbesserung des Angebots werden bei der Benutzung der Dienste anonyme Statistiken erhoben.
+Diese erlauben keine Rückführung auf die Personen, die die Dienste nutzen.
 
 ### Cookies
 
-Wie viele andere Webseiten verwenden wir auch sogenannte „Cookies“. Bei Cookies handelt es sich um kleine Textdateien, die auf Ihrem Endgerät (Laptop, Tablet, Smartphone o.ä.) gespeichert werden, wenn Sie unsere Webseite besuchen.
+Wie viele andere Webseiten verwenden wir auch sogenannte „Cookies“.
+Bei Cookies handelt es sich um kleine Textdateien, die auf Ihrem Endgerät (Laptop, Tablet, Smartphone o.ä.) gespeichert werden, wenn Sie unsere Webseite besuchen.
 
-Sie können Sie einzelne Cookies oder den gesamten Cookie-Bestand löschen. Darüber hinaus erhalten Sie Informationen und Anleitungen, wie diese Cookies gelöscht oder deren Speicherung vorab blockiert werden können. Je nach Anbieter Ihres Browsers finden Sie die notwendigen Informationen unter den nachfolgenden Links:
+Sie können Sie einzelne Cookies oder den gesamten Cookie-Bestand löschen.
+Darüber hinaus erhalten Sie Informationen und Anleitungen, wie diese Cookies gelöscht oder deren Speicherung vorab blockiert werden können.
+Je nach Anbieter Ihres Browsers finden Sie die notwendigen Informationen unter den nachfolgenden Links:
 
 - Mozilla Firefox: https://support.mozilla.org/de/kb/cookies-loeschen-daten-von-websites-entfernen
 - Internet Explorer: https://support.microsoft.com/de-de/help/17442/windows-internet-explorer-delete-manage-cookies
@@ -167,19 +181,23 @@ Sie können Sie einzelne Cookies oder den gesamten Cookie-Bestand löschen. Dar�
 
 **Art und Zweck der Verarbeitung:**
 
-Wir setzen Cookies ein, um unsere Website nutzerfreundlicher zu gestalten. Einige Elemente unserer Internetseite erfordern es, dass vom Benutzer gewählte Einstellungen auch nach einem Seitenwechsel vorhanden sind.
-Der Zweck der Verwendung technisch notwendiger Cookies ist, die Nutzung von Websites für die Nutzer zu vereinfachen. Einige Funktionen unserer Internetseite können ohne den Einsatz von Cookies nicht angeboten werden.
+Wir setzen Cookies ein, um unsere Website nutzerfreundlicher zu gestalten.
+Einige Elemente unserer Internetseite erfordern es, dass vom Benutzer gewählte Einstellungen auch nach einem Seitenwechsel vorhanden sind.
+Der Zweck der Verwendung technisch notwendiger Cookies ist, die Nutzung von Websites für die Nutzer zu vereinfachen.
+Einige Funktionen unserer Internetseite können ohne den Einsatz von Cookies nicht angeboten werden.
 
 Für folgende Anwendungen benötigen wir Cookies:
 
 - Übernahme von Spracheinstellungen
 - Übernahme von Themeeinstellungen
 
-Diese Webseite verwendet diese Cookies ausschließlich zum Zwecke der Speicherung der Sprachen- und Theme-Einstellung. Ein entsprechendes, nicht-personenbezogenes, Cookie wird erst gesetzt, wenn die Standardeinstellung geändert wird.
+Diese Webseite verwendet diese Cookies ausschließlich zum Zwecke der Speicherung der Sprachen- und Theme-Einstellung.
+Ein entsprechendes, nicht-personenbezogenes, Cookie wird erst gesetzt, wenn die Standardeinstellung geändert wird.
 
 **Speicherdauer**
 
-Die Cookies werden serverseitig nicht protokolliert oder gespeichert. Daher ist kein Tracking über Cookies möglich.
+Die Cookies werden serverseitig nicht protokolliert oder gespeichert.
+Daher ist kein Tracking über Cookies möglich.
 Im Browser beträgt die Speicherdauer ein Jahr.
 
 ## C. Informationen zu einzelnen Verarbeitungen
@@ -187,7 +205,8 @@ Im Browser beträgt die Speicherdauer ein Jahr.
 ### Feedback
 
 Bei der Kontaktaufnahme mit uns per Feedbackformular werden die Angaben des Nutzers zur Bearbeitung der Kontaktanfrage und deren Abwicklung gem. Art. 6 Abs. 1 lit. b) DSGVO verarbeitet.
-Eine Rückführung auf die Person ist dabei nur insoweit möglich, wie personenbezogene Daten im versendeten Text enthalten sind. Neben dem vom Nutzer bereitgestellten Daten wird außerdem der Raum, über den Feedback abgegeben wurde, das Datum und die Uhrzeit der Feedbackserstellung gesendet.
+Eine Rückführung auf die Person ist dabei nur insoweit möglich, wie personenbezogene Daten im versendeten Text enthalten sind.
+Neben dem vom Nutzer bereitgestellten Daten wird außerdem der Raum, über den Feedback abgegeben wurde, das Datum und die Uhrzeit der Feedbackserstellung gesendet.
 Es wird zudem gespeichert, ob der Nutzer die Löschung der übertragenen Daten nach Beendigung der Feedbackbearbeitung wünscht.
 
 **Empfänger:**
