@@ -150,7 +150,6 @@
         redirectScheme:
           scheme: https
           permanent: true
-
 # The following is a patch to the local-path storage class to allow Immediate binding
 # Since StorageClass is a immutable resource, this has to be manually added
 #- name: Add the local storage class to allow Immediate binding

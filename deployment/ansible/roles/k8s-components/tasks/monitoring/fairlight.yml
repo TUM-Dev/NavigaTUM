@@ -52,4 +52,3 @@
         address: http://prometheus-operated.monitoring.svc.cluster.local:9090
       admission:
         enabled: true
-
