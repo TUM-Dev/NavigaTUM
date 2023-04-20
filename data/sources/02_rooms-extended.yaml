@@ -177,6 +177,16 @@
           de: Öffnungszeiten & Artikel
           en: Opening hours & articles
         url: https://skripten.mpi.fs.tum.de/
+"5607.EG.018": # previous WC-Herren
+  name:
+      de: WC
+      en: WC
+  usage:
+    name:
+      de: WC
+      en: WC
+    din_277: NF7.1
+    din_277_desc: Sanitärräume
 
 # === Chemie ===
 "5401.01.101I":
