@@ -111,7 +111,7 @@ function _send() {
       subject: global.feedback.subject,
       body: global.feedback.body,
       privacy_checked: privacyChecked.value,
-      delete_issue_requested: deleteIssueRequested,
+      deletion_requested: deleteIssueRequested,
     }),
     (r) => {
       loading.value = false;

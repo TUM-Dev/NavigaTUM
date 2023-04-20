@@ -679,7 +679,7 @@ export type components = {
        *
        * @example true
        */
-      readonly delete_issue_requested: boolean;
+      readonly deletion_requested: boolean;
     };
   };
   responses: never;
