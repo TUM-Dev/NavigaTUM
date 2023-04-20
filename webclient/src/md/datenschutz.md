@@ -9,16 +9,20 @@ Verantwortlicher im Sinne der Datenschutzgesetze, insbesondere der EU-Datenschut
 Frank Elsinga  
 in Vertretung für ["OpenSource @ TUM e.V."](https://tum.dev).
 
+```
 Postanschrift: Josef-Fischhaber-Straße 46, 82319 Starnberg
 Telefon: (0049/0)176 – 56–727-579  
 E-Mail: navigatum (at-symbol) tum.de
+```
 
 ### Kontaktdaten des Datenschutzbeauftragten
 
+```
 Der/Die Datenschutzbeauftragte der Technischen Universität München
 Postanschrift: Arcisstr. 21, 80333 München
 Telefon: 089/289-17052
 E-Mail: beauftragter(at)datenschutz.tum.de
+```
 
 ### Zwecke und Rechtsgrundlagen für die Verarbeitung
 
@@ -75,12 +79,14 @@ Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeb
 Weiterhin besteht ein Beschwerderecht beim Bayerischen Landesbeauftragten für den Datenschutz.
 Diesen können Sie unter folgenden Kontaktdaten erreichen:
 
+```
 Postanschrift: Postfach 22 12 19, 80502 München  
 Adresse: Wagmüllerstraße 18, 80538 München  
 Telefon: 089 212672-0  
 Telefax: 089 212672-50  
 E-Mail: poststelle(at)datenschutz-bayern.de  
 https://www.datenschutz-bayern.de/
+```
 
 ## Änderung unserer Datenschutzbestimmungen
 

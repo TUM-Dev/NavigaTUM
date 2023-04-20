@@ -2,10 +2,12 @@
 
 ## Publisher
 
+```
 Technische Universität München
 Postanschrift: Arcisstraße 21, 80333 München
 Telefon: +49-(0)89-289-17123
 E-Mail: poststelle (at-symbol) tum.de
+```
 
 ## Legal representative
 
@@ -13,14 +15,16 @@ Die Technische Universität München wird gesetzlich vertreten durch den Präsid
 
 ## Sales tax identification number
 
-DE811193231 (gemäß § 27a Umsatzsteuergesetz)
+`DE811193231` (gemäß § 27a Umsatzsteuergesetz)
 
 ## Responsible for the content
 
+```
 Frank Elsinga  
 Postal address: Josef-Fischhaber-Straße 46, 82319 Starnberg, Germany  
 Telephone: +49-(0)176 - 56-727-579
 E-mail: navigatum (at-symbol) tum.de
+```
 
 <br>
 
