@@ -3,21 +3,21 @@ kind: Deployment
 metadata:
   name: calendar
   labels:
-    app: navigatum
-    deployment: calendar
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: calendar
   namespace: {{ $.Values.namespace }}
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: navigatum
-      deployment: calendar
+      app.kubernetes.io/part-of: navigatum
+      app.kubernetes.io/name: calendar
   template:
     metadata:
       labels:
-        app: navigatum
-        deployment: calendar
+        app.kubernetes.io/part-of: navigatum
+        app.kubernetes.io/name: calendar
       {{- if eq "nav.tum.de" $.Values.url }}
       annotations:
         prometheus.io/path: /metrics

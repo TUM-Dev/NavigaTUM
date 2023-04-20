@@ -6,8 +6,8 @@ kind: CronJob
 metadata:
   name: {{ $scrape_task.name }}
   labels:
-    app: navigatum
-    deployment: maps
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: maps
   namespace: {{ $.Values.namespace }}
 spec:
   schedule: {{ $scrape_task.schedule | quote }}
@@ -15,20 +15,14 @@ spec:
     spec:
       template:
         spec:
-          volumes:
-            - name: calendar-vol
-              persistentVolumeClaim:
-                readOnly: false
-                claimName: calendar-pvc
           containers:
           - name: {{ $scrape_task.name }}
             image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"
             imagePullPolicy: Always
-            volumeMounts:
-            - mountPath: /data
-              name: calendar-vol
             command: ["/bin/navigatum-calendar-scraper"]
             env:
+            - name: PUSHGATEWAY_URL
+              value: prometheus-pushgateway.monitoring.svc.cluster.local:9091
             - name: POSTGRES_URL
               value: postgres-rw.navigatum.svc.cluster.local
             - name: POSTGRES_USER

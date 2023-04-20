@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: server
   labels:
-    app: navigatum
-    deployment: api
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: api
   namespace: {{ $.Values.namespace }}
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: navigatum
-      deployment: api
+      app.kubernetes.io/part-of: navigatum
+      app.kubernetes.io/name: api
   strategy:
     rollingUpdate:
       maxSurge: 100%
@@ -21,8 +21,8 @@ spec:
   template:
     metadata:
       labels:
-        app: navigatum
-        deployment: api
+        app.kubernetes.io/part-of: navigatum
+        app.kubernetes.io/name: api
       {{- if eq "nav.tum.de" $.Values.url }}
       annotations:
         prometheus.io/path: /metrics
@@ -105,8 +105,8 @@ spec:
               name: tmp-mieli-search
           resources:
             requests:
-              cpu: {{ if eq "nav.tum.de" $.Values.url }}500m{{ else }}50m{{ end }}
-              memory: 500Mi
+              cpu: {{ if eq "nav.tum.de" $.Values.url }}200m{{ else }}50m{{ end }}
+              memory: {{ if eq "nav.tum.de" $.Values.url }}200Mi{{ else }}50Mi{{ end }}
             limits:
               memory: 500Mi
           livenessProbe:
@@ -130,8 +130,8 @@ metadata:
   name: server-api-keys
   namespace: {{ $.Values.namespace }}
   labels:
-    app: navigatum
-    deployment: api
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: api
 data:
   {{ if $.Values.server.MEILI_MASTER_KEY }}
     MEILI_MASTER_KEY: {{ $.Values.server.MEILI_MASTER_KEY }}

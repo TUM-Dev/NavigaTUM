@@ -9,19 +9,11 @@
 #- name: remove k3s
 #  shell: /usr/local/bin/k3s-uninstall.sh && rm ~/.kube/config
 - name: Setup k3s
-  include_tasks: installation.yml
+  include_tasks: install/k3s.yml
 
 # setup infrastructure to install packages to k8s
-- name: Install helm
-  shell: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-- name: Dump kubectl's kubeconfig to .kube/config (otherwise helm wont know where to connect)
-  shell:
-    cmd: "kubectl config view --raw >~/.kube/config && chmod 600 ~/.kube/config"
-    creates: ~/.kube/config
-- name: Install the python kubernetes package (needed for ansible to controll kubernetes)
-  pip:
-    name: kubernetes
-    state: present
+- name: Setup helm
+  include_tasks: install/helm.yml
 
 - name: Setup longhorn requirements
-  include_tasks: longhorn-requirements.yml
+  include_tasks: install/longhorn-requirements.yml

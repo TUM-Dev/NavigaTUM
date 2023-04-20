@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: maps
   labels:
-    app: navigatum
-    deployment: maps
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: maps
   namespace: {{ $.Values.namespace }}
 spec:
   replicas: {{ if eq "nav.tum.de" $.Values.url }}2{{ else }}1{{ end }}
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app: navigatum
-      deployment: maps
+      app.kubernetes.io/part-of: navigatum
+      app.kubernetes.io/name: maps
   strategy:
     rollingUpdate:
       maxSurge: {{ if eq "nav.tum.de" $.Values.url }}50%{{ else }}100%{{ end }}
@@ -21,8 +21,8 @@ spec:
   template:
     metadata:
       labels:
-        app: navigatum
-        deployment: maps
+        app.kubernetes.io/part-of: navigatum
+        app.kubernetes.io/name: maps
     spec:
       affinity:
         nodeAffinity:
@@ -67,10 +67,10 @@ spec:
             readOnlyRootFilesystem: true
           resources:
             requests:
-              cpu: {{ if eq "nav.tum.de" $.Values.url }}1{{ else }}0.1{{ end }}
-              memory: {{ if eq "nav.tum.de" $.Values.url }}600Mi{{ else }}300Mi{{ end }}
+              cpu: {{ if eq "nav.tum.de" $.Values.url }}100m{{ else }}10m{{ end }}
+              memory: {{ if eq "nav.tum.de" $.Values.url }}800Mi{{ else }}300Mi{{ end }}
             limits:
-              memory: 1Gi
+              memory: {{ if eq "nav.tum.de" $.Values.url }}1000Mi{{ else }}500Mi{{ end }}
           livenessProbe:
             httpGet:
               path: /health

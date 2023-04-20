@@ -4,10 +4,24 @@
   name: Fachschaft Lehrertum/Lehramt
 "0501.05.131":
   name: Vorhoelzer-Forum Dachterasse
+"0502.EG.221":
+  comment:
+    de: Unter dieser Treppe existiert ein WC, dessen Raumnummer und designierung (men/women/unisex) unklar ist
+    en: Under this staircase there is a toilet whose room number and designation (men/women/unisex) is unclear
 "0509.EG.980":
   name: Audimax, Werner-von-Siemens-Hörsaal
   ranking_factors:
     rank_custom: 150
+"0509.02.953A":
+  name: Think Tank / Teeküche
+  arch_name: 1951
+  comment:
+    de: Dieser Raum hat auch die Architektennummer 1953A
+    en: This room also has the architect number 1953A
+"0509.02.952":
+  comment:
+    de: Dieser Raum hat zwei Türen 1954 und 1952
+    en: This room has two doors 1954 and 1952
 "0101.02.157":
   name: Fachschaft Bau, Geo und Umwelt
   usage: # previously: CIP-Pool
@@ -118,6 +132,15 @@
         url: https://www.sv.tum.de/
 
 # ========================== Garching =============================
+# === Studitum Garching ===
+"5532.02.211": # in reality this is labeled as a ladies room, TUMonline has this as a WC
+  name: WC-Damen
+  usage:
+    name:
+      de: WC Damen
+      en: WC Women
+    din_277: NF7.1
+    din_277_desc: Sanitärräume
 # === Physik ===
 "5101.EG.257":
   name: Büro Fachschaft Mathe Physik Informatik Chemie / MPIC
@@ -154,6 +177,16 @@
           de: Öffnungszeiten & Artikel
           en: Opening hours & articles
         url: https://skripten.mpi.fs.tum.de/
+"5607.EG.018": # previous WC-Herren
+  name:
+      de: WC
+      en: WC
+  usage:
+    name:
+      de: WC
+      en: WC
+    din_277: NF7.1
+    din_277_desc: Sanitärräume
 
 # === Chemie ===
 "5401.01.101I":

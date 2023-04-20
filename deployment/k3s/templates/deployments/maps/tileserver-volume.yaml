@@ -3,8 +3,8 @@ kind: PersistentVolume
 metadata:
   name: tileserver-{{ $.Values.namespace }}
   labels:
-    app: navigatum
-    deployment: maps
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: maps
     type: local
 spec:
   storageClassName: local
@@ -22,8 +22,8 @@ metadata:
   name: tileserver-pvc
   namespace: {{ $.Values.namespace }}
   labels:
-    app: navigatum
-    deployment: maps
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: maps
     type: local
 spec:
   storageClassName: local
