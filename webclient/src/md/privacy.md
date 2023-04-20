@@ -6,8 +6,7 @@
 
 The responsible person within the meaning of the data protection laws, in particular the EU General Data Protection Regulation (DSGVO), is:
 
-Frank Elsinga  
-representing ["OpenSource @ TUM e.V."](https://tum.dev).
+Frank Elsinga representing ["OpenSource @ TUM e.V."](https://tum.dev).
 
 ```
 Postal address: Josef-Fischhaber-Strasse 46, 82319 Starnberg, Germany.

@@ -6,8 +6,7 @@
 
 Verantwortlicher im Sinne der Datenschutzgesetze, insbesondere der EU-Datenschutzgrundverordnung (DSGVO), ist:
 
-Frank Elsinga  
-in Vertretung für ["OpenSource @ TUM e.V."](https://tum.dev).
+Frank Elsinga in Vertretung für ["OpenSource @ TUM e.V."](https://tum.dev).
 
 ```
 Postanschrift: Josef-Fischhaber-Straße 46, 82319 Starnberg
@@ -111,6 +110,7 @@ Für nähere Informationen zur Verarbeitung Ihrer Daten und zu Ihren Rechten kö
 Unser Webserver wird durch das Leibniz-Rechenzentrum der Bayerischen Akademie der Wissenschaften (LRZ) betrieben.
 Die von Ihnen im Rahmen des Besuchs unseres Webauftritts übermittelten personenbezogenen Daten werden daher in unserem Auftrag durch das LRZ verarbeitet:
 
+```
 Leibniz-Rechenzentrum (LRZ) der Bayerischen Akademie der Wissenschaften  
 Boltzmannstraße 1  
 D-85748 Garching bei München  
@@ -118,6 +118,7 @@ Telefon: (089) 35831 8000
 Fax: (089) 35831 9700  
 E-Mail: lrzpost(at)lrz.de  
 www.lrz.de
+```
 
 ### Protokollierung
 
