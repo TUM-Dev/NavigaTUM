@@ -12,6 +12,12 @@
   name: Audimax, Werner-von-Siemens-Hörsaal
   ranking_factors:
     rank_custom: 150
+"0509.02.953A":
+  name: Think Tank / Teeküche
+  arch_name: 1951
+  comment:
+    de: Dieser Raum hat auch die Architektennummer 1953A
+    en: This room also has the architect number 1953A
 "0101.02.157":
   name: Fachschaft Bau, Geo und Umwelt
   usage: # previously: CIP-Pool
