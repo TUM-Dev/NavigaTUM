@@ -68,7 +68,14 @@ feedback:
     add_coordinate: "Hallo, ich möchte diese Koordinate zum Roomfinder hinzufügen:"
     correct_coordinate: "Hallo, ich möchte diese Koordinate im Roomfinder korrigieren:"
   message: "Nachricht"
-  public: "Meine Feedback Daten dürfen anonym, aber öffentlich zugänglich auf der <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub Projektseite</a> gespeichert werden. Mit der Nutzung dieses Feedbackformulars stimmst du explizit den <a href='https://docs.github.com/en/github/site-policy' target='_blank'>Nutzungsbedingungen und Datenschutzbestimmungen von GitHub</a> sowie einer möglichen Übertragung der Daten außerhalb der Europäischen Union zu. Falls du dies ablehnst, schreibe uns bitte über navigatum (at) tum.de, oder eine der anderen in unserem  <a href='/about/impressum' target='_blank'>Impressum</a> gelisteten Kontaktmöglichkeiten."
+  public: |
+    Meine Feedback Daten (Betreff und Nachricht) dürfen anonym, aber öffentlich zugänglich auf der <a href='https://github.com/TUM-Dev/navigatum/issues' target='_blank'>GitHub Projektseite</a> gespeichert werden.
+    Mit der Nutzung dieses Feedbackformulars stimmst du explizit den <a href='https://docs.github.com/en/github/site-policy' target='_blank'>Nutzungsbedingungen und Datenschutzbestimmungen von GitHub</a> sowie einer möglichen Übertragung der Daten außerhalb der Europäischen Union zu.
+    Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
+    Unter den gesetzlichen Voraussetzungen und einem vorhandenen Personenbezug der Daten besteht ein Recht auf Auskunft, sowie auf Berichtigung oder Löschung oder auf Einschränkung der Verarbeitung oder eines Widerspruchsrechts gegen die Verarbeitung sowie des Rechts auf Datenübertragbarkeit.
+    Es besteht zudem ein Beschwerderecht beim Bayerischen Landesbeauftragten für den Datenschutz.
+    Falls du dies ablehnst, schreibe uns bitte über navigatum (at-symbol) tum.de, oder eine der anderen in unserem <a href='/about/impressum' target='_blank'>Impressum</a> gelisteten Kontaktmöglichkeiten.
+    Bei Fragen könne dich gerne an uns (navigatum (at-symbol) tum.de) oder an unseren Datenschutzbeauftragten (<a href='https://datenschutz.tum.de' target='_blank'>datenschutz.tum.de</a>).
   delete: "Das zugehörige GitHub Issue löschen, sobald es gelöst wurde."
   send: "Senden"
   cancel: "Abbrechen"
