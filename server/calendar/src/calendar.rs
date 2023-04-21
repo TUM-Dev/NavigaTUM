@@ -1,8 +1,9 @@
 use crate::models::XMLEvent;
 use crate::utils;
 use actix_web::{get, web, HttpResponse};
-use chrono::{NaiveDateTime, Utc};
+use chrono::NaiveDateTime;
 use diesel::prelude::*;
+use log::error;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 
@@ -31,17 +32,22 @@ pub async fn calendar_handler(
         .load::<XMLEvent>(conn);
     match results {
         Ok(results) => {
-            let last_sync = results
-                .iter()
-                .map(|e| e.last_scrape)
-                .max()
-                .unwrap_or(Utc::now().naive_utc());
+            let last_sync = results.iter().map(|e| e.last_scrape).min().unwrap();
+            let tumonline_room_number = results.iter().map(|e| e.tumonline_id).next().unwrap();
+            let calendar_url = format!("https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={tumonline_room_number}");
             let events = results.into_iter().map(Event::from).collect();
-            HttpResponse::Ok().json(Events { events, last_sync })
+            HttpResponse::Ok().json(Events {
+                events,
+                last_sync,
+                calendar_url,
+            })
         }
-        Err(_) => HttpResponse::NotFound()
-            .content_type("text/plain")
-            .body("Not found"),
+        Err(e) => {
+            error!("Error loading calendar: {e:?}");
+            HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Error loading calendar")
+        }
     }
 }
 
@@ -49,10 +55,12 @@ pub async fn calendar_handler(
 struct Events {
     events: Vec<Event>,
     last_sync: NaiveDateTime,
+    calendar_url: String,
 }
 
 #[derive(Serialize, Debug)]
 struct Event {
+    id: i32,
     title: String,
     start: NaiveDateTime,
     end: NaiveDateTime,
@@ -102,6 +110,7 @@ impl From<XMLEvent> for Event {
         let (entry_type, detailed_entry_type) = EventType::from(&xml_event);
         let title = xml_event.event_title;
         Self {
+            id: xml_event.single_event_id,
             title,
             start: xml_event.dtstart,
             end: xml_event.dtend,

@@ -1753,12 +1753,23 @@ components:
           type: string
           format: date-time
           example: '2018-01-01T00:00:00'
+        calendar_url:
+          description: Link to the same calendar, but in TUMonline
+          type: string
+          example: 'https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr=12543'
+          pattern: 'https:\/\/campus\.tum\.de\/tumonline\/wbKalender\.wbRessource\?pResNr=[0-9]+'
       required:
         - entries
         - last_sync
+        - calendar_url
     CalendarEntry:
       type: object
       properties:
+        id:
+          description: The id of the calendar entry used in TUMonline internally
+          type: integer
+          format: int32
+          example: 42
         title:
           description: The title of the Entry
           type: string

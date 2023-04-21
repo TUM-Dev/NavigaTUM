@@ -3,6 +3,7 @@
 diesel::table! {
     calendar (single_event_id) {
         key -> Varchar,
+        tumonline_id -> Int4,
         dtstart -> Timestamp,
         dtend -> Timestamp,
         dtstamp -> Timestamp,
