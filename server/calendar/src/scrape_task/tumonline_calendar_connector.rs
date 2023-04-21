@@ -61,7 +61,7 @@ fn construct_hm(elem: &Element) -> HashMap<String, String> {
     hm
 }
 
-fn xml_event_from_hm(key: String, hm: HashMap<String, String>) -> XMLEvent {
+fn xml_event_from_hm(key: String, tumonline_id: i32, hm: HashMap<String, String>) -> XMLEvent {
     let other_keys = hm
         .keys()
         .filter(|s| {
@@ -97,6 +97,7 @@ fn xml_event_from_hm(key: String, hm: HashMap<String, String>) -> XMLEvent {
     }
     XMLEvent {
         key,
+        tumonline_id,
         dtstart: extract_dt(&hm, "dtstart").unwrap(),
         dtend: extract_dt(&hm, "dtend").unwrap(),
         dtstamp: extract_dt(&hm, "dtstamp").unwrap(),
@@ -168,7 +169,7 @@ impl XMLEvents {
                 }
             })
     }
-    fn new(key: String, body: String) -> Option<Self> {
+    fn new(key: String, tumonline_id: i32, body: String) -> Option<Self> {
         let root = body.parse::<Element>();
         let root = match root {
             Ok(root) => root,
@@ -201,7 +202,7 @@ impl XMLEvents {
                 _ => false,
             };
             if valid_status {
-                events.push(xml_event_from_hm(key.clone(), hm));
+                events.push(xml_event_from_hm(key.clone(), tumonline_id, hm));
             }
         }
         Some(XMLEvents { events })
@@ -217,12 +218,10 @@ impl XMLEvents {
 
         //get the xml file from TUMonline
         let url = format!(
-            "{}?roomID={}&timeMode=absolute&fromDate={}&untilDate={}&token={}&buildingCode=",
-            CALENDAR_BASE_URL,
-            task.room_id,
-            task.from.format("%Y%m%d"),
-            task.to.format("%Y%m%d"),
-            token
+            "{CALENDAR_BASE_URL}?roomID={room_id}&timeMode=absolute&fromDate={from}&untilDate={to}&token={token}&buildingCode=",
+            room_id=task.room_id,
+            from=task.from.format("%Y%m%d"),
+            to=task.to.format("%Y%m%d")
         );
         debug!("url: {url}");
         for retry_cnt in 1..=5 {
@@ -235,7 +234,7 @@ impl XMLEvents {
             let backoff_duration = Duration::from_millis(backoff_ms);
             match body {
                 RequestStatus::Success(body) => {
-                    return XMLEvents::new(task.key, body).ok_or(Strategy::NoRetry);
+                    return XMLEvents::new(task.key, task.room_id, body).ok_or(Strategy::NoRetry);
                 }
                 // This consistently means, that there is no data for this room
                 RequestStatus::NotFound => return Err(Strategy::NoRetry),
