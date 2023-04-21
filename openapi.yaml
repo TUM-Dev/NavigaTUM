@@ -1798,6 +1798,7 @@ components:
           type: string
           example: Vorlesung mit Zentralübung
       required:
+        - id
         - title
         - start
         - end
