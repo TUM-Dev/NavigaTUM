@@ -41,7 +41,7 @@ spec:
               readOnlyRootFilesystem: true
             resources:
               requests:
-                cpu: 10m
+                cpu: 500m
                 memory: 100Mi
           restartPolicy: OnFailure
 {{ end }}
