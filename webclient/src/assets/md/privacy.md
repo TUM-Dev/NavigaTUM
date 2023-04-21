@@ -6,19 +6,22 @@
 
 The responsible person within the meaning of the data protection laws, in particular the EU General Data Protection Regulation (DSGVO), is:
 
-Frank Elsinga  
-representing ["OpenSource @ TUM e.V."](https://tum.dev).
+Frank Elsinga representing ["OpenSource @ TUM e.V."](https://tum.dev).
 
+```
 Postal address: Josef-Fischhaber-Strasse 46, 82319 Starnberg, Germany.
 Telephone: (0049/0)176 - 56-727-579  
 E-mail: navigatum (at-symbol) tum.de
+```
 
 ### Contact details of the data protection officer
 
+```
 The Data Protection Officer of the Technical University of Munich
 Postal address: Arcisstr. 21, 80333 Munich, Germany
 Telephone: 089/289-17052
 E-mail: beauftragter(at)datenschutz.tum.de
+```
 
 ### Purposes and legal basis for processing
 
@@ -75,12 +78,14 @@ You have the right to object to the processing of your data at any time on groun
 Furthermore, you have the right to lodge a complaint with the Bavarian State Commissioner for Data Protection.
 You can contact the Bavarian State Commissioner for Data Protection at the following address:
 
+```
 Postal address: P.O. Box 22 12 19, 80502 Munich, Germany.  
 Address: Wagmüllerstraße 18, 80538 Munich, Germany  
 Telephone: 089 212672-0  
 Fax: 089 212672-50  
 E-mail: post office(at)datenschutz-bayern.de  
 https://www.datenschutz-bayern.de/
+```
 
 ## Changes to our data protection policy
 
