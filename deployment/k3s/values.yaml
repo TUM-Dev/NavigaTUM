@@ -8,8 +8,11 @@ server:
 calendar:
   scrape_tasks:
     - name: refresh-calendar-fast
-      schedule: "0 2 * * 1-5" # weekdays at 2am
-      scraped_time_window_months: 4
+      schedule: "0 6-20 * * 1-5" # weekdays hourly between 6am and 8am
+      scraped_time_window_months: 2
+    - name: refresh-calendar-medium
+      schedule: "0 1 * * 1-5" # weekdays at 1am
+      scraped_time_window_months: 12
     - name: refresh-calendar-slow
-      schedule: "0 2 * * 6" # every saturday at 2am
-      scraped_time_window_months: 48 # 48 months = 4 years
+      schedule: "0 23 * * 5" # every friday at 23pm
+      scraped_time_window_months: 120 # 120 months = 10 years
