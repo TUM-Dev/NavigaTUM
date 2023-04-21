@@ -17,7 +17,7 @@ path = "src/main.rs"
 strip = true
 
 [dependencies]
-regex = "1.7.3"
+regex = "1.8.0"
 log = "0.4.17"
 octocrab = "0.20.0"
 actix-web = "4.3.1"
