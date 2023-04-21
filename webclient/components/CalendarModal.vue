@@ -8,7 +8,7 @@ import { useRoute } from "vue-router";
 import type { components } from "@/api_types";
 type CalendarResponse = components["schemas"]["CalendarResponse"];
 import "/node_modules/vue-simple-calendar/dist/style.css";
-import "/node_modules/vue-simple-calendar/dist/css/default.css";
+import "/node_modules/vue-simple-calendar/dist/css/gcal.css";
 import { useFetch } from "@/composables/fetch";
 
 const global = useGlobalStore();
@@ -76,9 +76,10 @@ function setShowDate(d: Date) {
             :items="events"
             :show-date="showDate"
             :showTimes="true"
-            :timeFormatOptions="{ hour: '2-digit', minute: '2-digit' }"
+            :timeFormatOptions="{ hour: '2-digit', minute: '2-digit', hour12: false }"
             :startingDayOfWeek="1"
-            class="theme-default"
+            :itemTop="'2.5em'"
+            class="theme-gcal"
           >
             <template #header="{ headerProps }">
               <CalendarViewHeader :header-props="headerProps" @input="setShowDate" />
@@ -96,6 +97,8 @@ function setShowDate(d: Date) {
   </div>
 </template>
 <style lang="scss">
+@import "../assets/variables";
+
 #calendar-modal {
   .modal-container {
     position: relative;
@@ -111,6 +114,57 @@ function setShowDate(d: Date) {
         flex-grow: 1;
       }
     }
+  }
+  .startTime,
+  .endTime {
+    color: white;
+    font-size: 0.5rem;
+  }
+
+  .cv-day.today .cv-day-number {
+    margin-top: 0.1em !important;
+    background-color: $primary-color !important;
+    color: $light-color !important;
+  }
+
+  .cv-day-number,
+  .periodLabel {
+    color: $body-font-color !important;
+  }
+  .currentPeriod {
+    color: $body-font-color !important;
+    background-color: transparent !important;
+  }
+  .cv-header-day {
+    color: $body-font-color !important;
+  }
+
+  .cv-item {
+    padding-bottom: 1rem !important;
+  }
+  .cv-item {
+    padding-bottom: 0.1em !important;
+    padding-top: 0.1em !important;
+  }
+  .past.cv-item {
+    filter: brightness(1.3) grayscale(0.55);
+  }
+
+  // colors
+  .barred {
+    background-color: $error-color;
+  }
+  .lecture {
+    background-color: $secondary-color;
+  }
+  .exercise {
+    background-color: #d99208;
+  }
+  .exam {
+    background-color: #b55ca5;
+  }
+  .other {
+    background-color: var(--event-color-graphite);
   }
 }
 </style>
