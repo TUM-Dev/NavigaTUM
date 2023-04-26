@@ -195,6 +195,9 @@
   name: Büro Fachschaft Mathe Physik Informatik Chemie / MPIC # Original name is "Büro" ...
 
 # === Maschinenwesen / MW ===
+"5502.U1.234M":
+  name: Druckerei Fachschaft Maschinenbau / FSMB
+  short_name: FSMB Druckerei
 "5501.EG.101":
   name: Fachschaft Maschinenbau / FSMB
 "5510.EG.011M":
