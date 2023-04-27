@@ -127,6 +127,14 @@ body {
     margin-top: 9px;
 }
 
+#tum_logo {
+    position: absolute;
+    margin: calc((2rem + 10px + 10px) / 3);
+    right: 0;
+    top: 0;
+    height: 34%;
+}
+
 // --- Autocomplete
 
 .form-autocomplete {
