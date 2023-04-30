@@ -27,13 +27,13 @@ E-Mail: beauftragter(at)datenschutz.tum.de
 
 #### Feedback
 
-Die Nutzung des Feedbackformulars erfolgt auf einer rein freiwiligen Basis.
+Die Nutzung des Feedbackformulars erfolgt auf einer rein freiwilligen Basis.
 Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
-Für die Nuzung des Feedbackformulars muss den [Tearms of Service und den Datenschutzbestimmungen von GitHub](https://docs.github.com/en/github/site-policy) zugestimmt werden.
-Auf die mögliche Übertragung der Daten außerhalb der Europäischen Union wird hingewisen.
-Für nicht-öffentliche Kommunikation wird auf die Kontaktmöglichkeit über das [Impressum](/about/impressum) hingewiesen.
+Für die Nutzung des Feedbackformulars muss den [Tearms of Service und den Datenschutzbestimmungen von GitHub](https://docs.github.com/en/github/site-policy) zugestimmt werden.
+Auf die mögliche Übertragung der Daten außerhalb der Europäischen Union wird hingewiesen.
+Für nicht öffentliche Kommunikation wird auf die Kontaktmöglichkeit über das [Impressum](/about/impressum) hingewiesen.
 
-### Empfänger von Personenbezogenen Daten
+### Empfänger von personenbezogenen Daten
 
 Der technische Betrieb unserer Datenverarbeitungssysteme erfolgt durch:
 
@@ -130,8 +130,8 @@ Die folgenden Daten werden während einer laufenden Verbindung zur Kommunikation
 - Name der angeforderten Datei
 - Seite, von der aus die Datei angefordert wurde
 - Zugriffsstatus (Datei übertragen, Datei nicht gefunden, etc.)
-- verwendete Webbrowser und verwendetes Betriebssystem
-- übertragene Datenmenge.
+- Verwendete Webbrowser und verwendetes Betriebssystem
+- Übertragene Datenmenge.
 
 **Insbesondere werden keine IP-Adressen protokolliert.**
 
@@ -140,13 +140,13 @@ Die Verarbeitung der Daten in dieser Logdatei geschieht wie folgt:
 - Die Logeinträge werden kontinuierlich automatisch ausgewertet, um Angriffe auf die Webserver erkennen und entsprechend reagieren zu können.
 - In Einzelfällen, d.h. bei gemeldeten Störungen, Fehlern und Sicherheitsvorfällen, erfolgt eine manuelle Analyse.
 
-Da keine eindeutig auf Personen zurückfürbaren Informationen geloggt werden ist so kein Rückschluss auf einzelne Personen möglich ist.
+Da keine eindeutig auf Personen zurückführbaren Informationen geloggt werden, ist so kein Rückschluss auf einzelne Personen möglich ist.
 
 Logeinträge werden nach maximal 2 Wochen automatisiert gelöscht.
 
 ### Externe Dienstleister
 
-Wir haben keine Laufenden Verträge mit externen Dienstleistern.
+Wir haben keine laufenden Verträge mit externen Dienstleistern.
 
 ### Aktive Komponenten
 
