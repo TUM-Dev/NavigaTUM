@@ -2,6 +2,9 @@ meta:
   logo_alt:
     de: "Das Logo von NavigaTUM."
     en: "The Logo of NavigaTUM."
+  tum_logo_alt:
+    de: "Das Logo der Technischen Universität München"
+    en: "The Logo of the Technical Univeristy Munich"
   description:
     de: "Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden."
     en: "Navigate around TUM with excellence. This is a website to find rooms, buildings and other places at TUM easier than the current RoomFinder, developed by students."
