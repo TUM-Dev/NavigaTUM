@@ -1,0 +1,41 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pr-556
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/TUM-Dev/navigatum.git
+    targetRevision: dependabot/npm_and_yarn/webclient/stylelint-scss-5.0.0
+    path: deployment/k3s
+    helm:
+      version: v3
+      values: |
+        namespace: pr-556
+        tag: pr-556
+        url: pr-556.nav.tum.sexy
+        server:
+            MEILI_MASTER_KEY: MmM5MjA4MGZmMzVkNjk0YmVmNjUyMGI5MTQ1NDllMjIzMTk1OTQyODlhZDUzNDcwMzkK
+            # GITHUB_TOKEN is intentionally omitted, as this file is templated and then added to git in the deployments branch
+            # JWT_KEY is omitted, because adding it would only make sense in conjunction with GITHUB_TOKEN
+            # MEILI_MASTER_KEY being added is not a security risk, since it is a hidden service and even if exposed is heavily restricted by other network policies
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pr-556
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - CreateNamespace=true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
