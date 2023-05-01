@@ -41,7 +41,7 @@ const router = createRouter({
     // For this reason this extra call.
     document.getElementById("content")?.scrollIntoView();
 
-    return { x: 0, y: 0, behavior: "smooth" };
+    return { top: 0, left: 0, behavior: "smooth" };
   },
 });
 
