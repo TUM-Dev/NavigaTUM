@@ -127,6 +127,21 @@ body {
     margin-top: 9px;
 }
 
+#tum_logo {
+    position: absolute;
+    margin: 20px;
+    right: 0;
+    top: 0;
+    height: 20px;
+}
+
+@media (max-width: 1130px) {
+    #tum_logo {
+        position: relative;
+        margin: 10px 10px 0 10px;
+    }
+}
+
 // --- Autocomplete
 
 .form-autocomplete {
