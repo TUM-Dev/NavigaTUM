@@ -8,6 +8,14 @@
   comment:
     de: Unter dieser Treppe existiert ein WC, dessen Raumnummer und designierung (men/women/unisex) unklar ist
     en: Under this staircase there is a toilet whose room number and designation (men/women/unisex) is unclear
+"0507.03.750":  # Karl Max von Bauernfeind Hörsaal
+  props:
+    comment:
+      de: Dieser Hörsaal ist in TUMonline 0507.03.750 statt 0507.02.750, obwohl der Hörsaal im 2. Stock ist. Aus Konsistenzgründen übernehmen wir diese ID.
+      en: This lecture hall is 0507.03.750 in TUMonline instead of 0507.02.750, although the lecture hall is on the 2nd floor. For consistency, we also use this ID.
+  generators:
+    floors:
+      floor_patch: "02"
 "0509.EG.980":
   name: Audimax, Werner-von-Siemens-Hörsaal
   ranking_factors:
