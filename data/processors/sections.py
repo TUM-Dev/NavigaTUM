@@ -196,7 +196,7 @@ def compute_props(data):
 
 def _append_if_present(props, computed_results, key, human_name):
     if key in props:
-        computed_results.append({human_name: str(props[key])})
+        computed_results.append({"name": human_name, "text": str(props[key])})
 
 
 def _gen_computed_props(_id, entry, props):
@@ -221,7 +221,6 @@ def _gen_computed_props(_id, entry, props):
         computed.append({_("Adresse"): f"{address['street']}, {address['plz_place']}"})
     if "stats" in props:
         _append_if_present(props["stats"], computed, "n_buildings", _("Anzahl Gebäude"))
-        _append_if_present(props["stats"], computed, "n_seats", _("Sitzplätze"))
         if "n_rooms" in props["stats"]:
             if props["stats"]["n_rooms"] == props["stats"]["n_rooms_reg"]:
                 computed.append({_("Anzahl Räume"): str(props["stats"]["n_rooms"])})
@@ -231,6 +230,24 @@ def _gen_computed_props(_id, entry, props):
                     n_rooms_reg=props["stats"]["n_rooms_reg"],
                 )
                 computed.append({_("Anzahl Räume"): value})
+        if "n_seats" in props["stats"]:
+            field = {
+                "name": _("Sitzplätze"),
+                "text": str(props["stats"]["n_seats"]),
+            }
+
+            if "seatings" in props:
+                seatings_str = ""
+                for seating in props["seatings"]:
+                    seatings_str += seating["name"] + ": " + str(seating["n_seats"]) + ", "
+                field["extra"] = {
+                    "header": _("Sitzordnungen"),
+                    "body": seatings_str.strip(", "),
+                }
+
+            computed.append(field)
+    if "sockets" in props:
+        computed.append({_("Steckdosen"): props["sockets"]})
     if "generic" in props:
         for entity in props["generic"]:
             if isinstance(entity[1], dict):

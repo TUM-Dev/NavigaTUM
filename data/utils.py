@@ -68,6 +68,12 @@ class TranslatableStr(dict):
         self["en"] = self["en"].format(*args, **kwargs)
         return self
 
+    def strip(self, *args):
+        """Strip the string using the .strip() method, as if this was a string."""
+        self["de"] = self["de"].strip(*args)
+        self["en"] = self["en"].strip(*args)
+        return self
+
 
 def convert_to_webp(source: Path):
     """Convert image(s) to WebP.
