@@ -1,5 +1,6 @@
 meta:
   logo_alt: "Das Logo von NavigaTUM"
+  tum_logo_alt: "Das Logo der Technischen Universität München"
   description: "Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden."
 search:
   placeholder: "Suche"
