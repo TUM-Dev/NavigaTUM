@@ -17,15 +17,15 @@ path = "src/main.rs"
 strip = true
 
 [dependencies]
-regex = "1.8.0"
+regex = "1.8.1"
 log = "0.4.17"
-octocrab = "0.20.0"
+octocrab = "0.21.0"
 actix-web = "4.3.1"
 actix-web-prometheus = "0.1.2"
-serde = { version = "1.0.160", features = ["derive"] }
+serde = { version = "1.0.162", features = ["derive"] }
 serde_json = "1.0.95"
 actix-cors = "0.6.4"
-tokio = { version = "1.27.0", features = ["full"] }
+tokio = { version = "1.28.0", features = ["full"] }
 rand = "0.8.5"
 env_logger = "0.10.0"
 jsonwebtoken = "8.3.0"

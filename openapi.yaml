@@ -1743,7 +1743,7 @@ components:
     CalendarResponse:
       type: object
       properties:
-        entries:
+        events:
           description: The entries of the requested
           type: array
           items:
@@ -1759,7 +1759,7 @@ components:
           example: 'https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr=12543'
           pattern: 'https:\/\/campus\.tum\.de\/tumonline\/wbKalender\.wbRessource\?pResNr=[0-9]+'
       required:
-        - entries
+        - events
         - last_sync
         - calendar_url
     CalendarEntry:
@@ -1798,6 +1798,7 @@ components:
           type: string
           example: Vorlesung mit Zentralübung
       required:
+        - id
         - title
         - start
         - end
