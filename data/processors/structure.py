@@ -104,7 +104,7 @@ def infer_type_common_name(data):
             "building": _("Gebäude"),
             "room": _("Raum"),
             "virtual_room": _("Raum/Gebäudeteil"),
-            "poi": _("POI"),
+            "poi": "POI",
         }[_data["type"]]
 
     for _id, _data in data.items():
