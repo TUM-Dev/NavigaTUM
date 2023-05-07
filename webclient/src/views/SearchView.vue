@@ -65,7 +65,7 @@ function genDescription(): string {
     <small class="search_meta">
       {{ $t("view_search.runtime") }}: {{ data.time_ms }}ms –
       <button
-        onclick="global.openFeedback('search')"
+        @click="global.openFeedback('search')"
         class="btn btn-link"
         aria-label="Open the feedback-form for search"
       >

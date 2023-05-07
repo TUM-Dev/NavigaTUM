@@ -24,9 +24,8 @@ const global = useGlobalStore();
 
         <div class="hide-lg">
           <router-link to="/">
-          <img v-bind:alt="$t('meta.tum_logo_alt')"
-               src="./assets/tum_logo.min.svg"
-               id="tum_logo"/>  <!-- 7px for logo1 -->
+            <img v-bind:alt="$t('meta.tum_logo_alt')" src="./assets/tum_logo.min.svg" id="tum_logo" />
+            <!-- 7px for logo1 -->
           </router-link>
         </div>
       </div>

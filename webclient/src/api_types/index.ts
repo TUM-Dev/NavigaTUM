@@ -573,15 +573,26 @@ export type components = {
     };
     readonly CalendarResponse: {
       /** @description The entries of the requested */
-      readonly entries: readonly components["schemas"]["CalendarEntry"][];
+      readonly events: readonly components["schemas"]["CalendarEntry"][];
       /**
        * Format: date-time
        * @description When the last sync with TUMonline happened.
        * @example 2018-01-01T00:00:00
        */
       readonly last_sync: string;
+      /**
+       * @description Link to the same calendar, but in TUMonline
+       * @example https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr=12543
+       */
+      readonly calendar_url: string;
     };
     readonly CalendarEntry: {
+      /**
+       * Format: int32
+       * @description The id of the calendar entry used in TUMonline internally
+       * @example 42
+       */
+      readonly id: number;
       /**
        * @description The title of the Entry
        * @example Quantenteleportation
