@@ -28,6 +28,8 @@ class TranslatableStr(dict):
     """
 
     def __init__(self, message, en_message=None):
+        if message is None or (isinstance(message, str) and message.strip() == ""):
+            raise ValueError("message must not be present or empty")
         if en_message is None:
             if message in TRANSLATION_BUFFER:
                 en_message = TRANSLATION_BUFFER[message]
