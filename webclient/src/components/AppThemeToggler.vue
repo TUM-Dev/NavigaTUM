@@ -3,13 +3,13 @@ import { ref, onMounted } from "vue";
 
 type UserTheme = "light" | "dark";
 
-function setTheme(newTheme: UserTheme) {
+function setTheme(newTheme: UserTheme, reload = true) {
   localStorage.setItem("theme", newTheme);
   theme.value = newTheme;
   document.documentElement.className = newTheme;
   const path = import.meta.env.VITE_APP_URL;
   document.cookie = `theme=${theme.value};Max-Age=31536000;SameSite=Lax;Path=${path}`;
-  window.location.reload();
+  if (reload) window.location.reload();
 }
 
 function getTheme(): UserTheme {
@@ -22,7 +22,7 @@ function getMediaPreference(): UserTheme {
 }
 const theme = ref<UserTheme>(getTheme() || getMediaPreference());
 
-onMounted(() => setTheme(theme.value));
+onMounted(() => setTheme(theme.value, false));
 </script>
 
 <template>
