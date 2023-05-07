@@ -39,12 +39,7 @@ def scrape_rooms():
         key = room["room_code"]  # needed, as room_code is removed in _sanitise_room
         rooms[key] = _sanitise_room(room)
 
-    # split the orgs into a different file
     _extract_orgs(rooms)
-    for room in rooms.values():
-       org_ids = [room.pop("org")["org_id"]]
-       org_ids.extend(org["org"]["org_id"] for org in room.pop("orgs"))
-       room["org_ids"] = org_ids
     return rooms
 
 
@@ -53,29 +48,18 @@ def _extract_orgs(rooms: dict) -> dict:
     """
     Extract the organisations from the room information.
     """
-    org_set: set[str] = set()
+    logging.info("Extracting orgs from the rooms")
+    orgs = {}
     for room in rooms.values():
-        # Converting dicts to a JSON strings makes them hashable
-        org_set.add(json.dumps(room["org"], sort_keys=True))
-        org_set.update(json.dumps(org["org"], sort_keys=True) for org in room["orgs"])
+        org = room.pop("org")
+        if not org["deleted"]:
+            # remove not-usefull fields
+            org.pop("deleted")
+            org.pop("org_nameshort")  # Always `null`
 
-    orgs = [json.loads(org) for org in org_set]
-
-    # check if there are any duplicates/ inconsistencies
-    org_ids = [org["org_id"] for org in orgs]
-    if len(set(org_ids)) != len(org_ids):
-        cnt = Counter(org_ids) - Counter(set(org_ids))
-        inconsistent_orgs = {org_id for org_id, _ in cnt.items()}
-        for org in sorted(orgs, key=lambda org: org["org_id"]):
-            if org["org_id"] in inconsistent_orgs:
-                logging.warning(f"Inconsistent org: {org}")
-        raise ValueError(f"{len(cnt.items())} Inconsistent orgs")
-    # modify the orgs to the format we want
-    orgs = {org["org_id"]: org for org in orgs if not org["deleted"]}
-    for org in orgs.values():
-        org.pop("org_id")
-        org.pop("deleted")
-        org.pop("org_nameshort")  # Always `null`
+            org_id = org.pop("org_id")
+            room["org_id"] = org_id
+            orgs[org_id] = org
     return orgs
 
 
@@ -128,8 +112,9 @@ def _sanitise_room(room: dict):
     # This function makes sure, that they are the same
     _extract_coords(room)
 
-    # fixed some data layout issues
-    room["id"] = room.pop("room_code")
+    room["id"] = room.pop("room_code")  # our naming is id for this datapoint
+
+    room.pop("orgs")  # nat internal org, not useful for us or consistent enough
 
     for field_name_with_no_information in ["override_seats", "override_teaching", "modified", "contact"]:
         room.pop(field_name_with_no_information)
