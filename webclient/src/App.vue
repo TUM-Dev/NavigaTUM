@@ -74,7 +74,7 @@ const global = useGlobalStore();
                     </a>
                   </li>
                   <li>
-                    <RouterLink to="api">
+                    <RouterLink to="/api">
                       {{ $t("footer.api.text") }}
                     </RouterLink>
                   </li>
