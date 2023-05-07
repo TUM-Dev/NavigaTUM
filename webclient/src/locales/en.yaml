@@ -151,6 +151,8 @@ view_view:
   info_table:
     links: "Links"
   buildings_overview:
+    thumbnail_preview: "Thumbnail, showing a preview of the building"
+    default_thumbnail_preview: "Default-thumbnail, as no thumbnail is available"
     title: "Buildings / Areas"
     more: "more"
     less: "less"

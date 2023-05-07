@@ -86,12 +86,14 @@ function updateRoomsOverview() {
               <div class="tile-icon">
                 <figure class="avatar avatar-lg">
                   <img
-                    v-bind:alt="
-                      b.thumb
-                        ? 'Thumbnail, showing a preview of the building.'
-                        : 'Default-thumbnail, as no thumbnail is available'
-                    "
-                    v-bind:src="b.thumb ? '/cdn/thumb/' + b.thumb : '/src/assets/thumb-building.webp'"
+                    v-if="b.thumb"
+                    v-bind:alt="$t('view_view.buildings_overview.thumbnail_preview')"
+                    v-bind:src="'/cdn/thumb/' + b.thumb"
+                  />
+                  <img
+                    v-else
+                    v-bind:alt="$t('view_view.buildings_overview.default_thumbnail_preview')"
+                    src="../assets/thumb-building.webp"
                   />
                 </figure>
               </div>
