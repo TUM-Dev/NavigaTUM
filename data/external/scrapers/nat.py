@@ -63,6 +63,28 @@ def _extract_orgs(rooms: dict) -> dict:
     return orgs
 
 
+def _extract_translations(item: dict):
+    translatable_keys: list[tuple[str, str]] = [(k.removesuffix("_en"), k) for k in item.keys() if k.endswith("_en")]
+    for (key, key_en) in translatable_keys:
+        eng = item.pop(key_en)
+        if eng and eng != item[key]:
+            if item[key]:
+                item[key] = {"de": item[key] or eng, "en": eng}
+
+
+def _extract_translation_recursive(item):
+    """
+    De-Inline the translation of a key into a dict
+    """
+    if isinstance(item, dict):
+        for sub_item in item.values():
+            _extract_translation_recursive(sub_item)
+        _extract_translations(item)
+    if isinstance(item, list):
+        for sub_item in item:
+            _extract_translation_recursive(sub_item)
+
+
 def _sanitise_room(room: dict):
     """
     Sanitise the room information.
@@ -73,29 +95,7 @@ def _sanitise_room(room: dict):
     # fixing translations
     room["purpose"] = _(room["purpose"]["purpose"])
 
-    def _extract_translation(obj: dict[str, str | dict | None], key: str):
-        """
-        De-Inline the translation of a key into a dict
-        """
-        if obj:
-            eng = obj.pop(f"{key}_en")
-            if obj[key]:
-                obj[key] = {"de": obj[key], "en": eng}
-            else:
-                obj[key] = None
-
-    _extract_translation(room, "steckdosen")
-    _extract_translation(room, "eexam")
-    _extract_translation(room, "streaming")
-    _extract_translation(room["org"], "org_name")
-    _extract_translation(room["org"], "org_nameshort")
-    for org in room["orgs"]:
-        _extract_translation(org["org"], "org_name")
-        _extract_translation(org["org"], "org_nameshort")
-    for seating in room["seatings"]:
-        _extract_translation(seating, "seating")
-    _extract_translation(room["building"]["campus"], "campus")
-    _extract_translation(room["building"]["campus"], "campusshort")
+    _extract_translation_recursive(room)
     campus_id = room["building"].pop("campus_id")
     if campus_id:
         room["building"]["campus"]["campus_id"] = campus_id
