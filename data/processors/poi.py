@@ -1,3 +1,4 @@
+from utils import TranslatableStr as _
 from processors import merge
 
 
@@ -13,6 +14,13 @@ def merge_poi(data):
             raise ValueError(f"Parent '{poi['parent']}' of POI '{_id}' not found")
 
         poi["type"] = "poi"
+
+        # make sure that name and usage is internationalized
+        poi["usage"]["name"] = _(poi["usage"]["name"])
+        poi["name"] = _(poi["name"])
+        links = poi.get("description", {}).get("links", [])
+        for link in links:
+            link["text"] = _(link["text"])
 
         parent = data[poi["parent"]]
         poi["parents"] = parent["parents"] + [parent["id"]]
