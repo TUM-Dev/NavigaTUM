@@ -117,20 +117,21 @@ def _sanitise_room(room: dict):
         room["building"]["campus"]["campus_id"] = campus_id
 
     # bauarbeiten is a str, indicating if something is wrong on in the room
-    room.pop("bauarbeiten_en")  # this is always the same as bauarbeiten
-    room["bauarbeiten"] = _(room["bauarbeiten"]) if room["bauarbeiten"] else None
+    # accuracy is doubtfull sometimes => removal to prevent issues down the line
+    room.pop("bauarbeiten")
 
-    # for some reason this is used as a comment field.
-    room.pop("corona_en")  # this is always empty / untranslated
-    room["comment"] = room.pop("corona")
+    # badly maintained, to some part outdated
+    room.pop("corona")
+    room.pop("corona_ready")
 
-    # coordinates: there are two sets of coordinates on each entry. This function makes shure, that they are the same
+    # coordinates: there are two sets of coordinates on each entry.
+    # This function makes sure, that they are the same
     _extract_coords(room)
 
     # fixed some data layout issues
     room["id"] = room.pop("room_code")
 
-    for field_name_with_no_information in ["override_seats", "override_teaching", "corona_ready", "modified"]:
+    for field_name_with_no_information in ["override_seats", "override_teaching", "modified", "contact"]:
         room.pop(field_name_with_no_information)
     return room
 
