@@ -22,9 +22,9 @@ def merge_poi(data):
         for link in links:
             link["text"] = _(link["text"])
 
-        parent = data[poi["parent"]]
+        parent_id = poi.pop("parent")
+        parent = data[parent_id]
         poi["parents"] = parent["parents"] + [parent["id"]]
-        del poi["parent"]
 
         poi.setdefault("sources", {"base": [{"name": "NavigaTUM"}]})
 
