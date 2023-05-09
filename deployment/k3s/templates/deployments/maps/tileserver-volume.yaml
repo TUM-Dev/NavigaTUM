@@ -9,7 +9,7 @@ metadata:
 spec:
   storageClassName: local
   capacity:
-    storage: 28Gi
+    storage: 80Gi
   persistentVolumeReclaimPolicy: Retain
   accessModes:
     - ReadWriteMany
@@ -31,4 +31,4 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 28Gi
+      storage: 80Gi
