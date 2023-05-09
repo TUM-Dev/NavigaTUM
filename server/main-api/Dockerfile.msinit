@@ -1,4 +1,4 @@
-FROM getmeili/meilisearch:v1.0 as build-stage
+FROM getmeili/meilisearch:v1.1 as build-stage
 
 RUN apk add --no-cache jq bash
 
