@@ -127,7 +127,7 @@ jobs:
         ports:
           - 7700
     steps:
-      - uses: actions/checkout@v3.0.0
+      - uses: actions/checkout@v3.5.2
       - uses: ATiltedTree/setup-rust@v1.0.5
         with:
           rust-version: 1.67
