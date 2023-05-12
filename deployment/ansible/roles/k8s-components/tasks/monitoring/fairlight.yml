@@ -10,7 +10,7 @@
     wait: false
     update_repo_cache: yes
     release_state: present
-    chart_version: 2.10.*
+    chart_version: 2.17.*
     chart_ref: fairwinds-stable/insights-agent
     name: insights-agent
     namespace: insights-agent
@@ -52,4 +52,3 @@
         address: http://prometheus-operated.monitoring.svc.cluster.local:9090
       admission:
         enabled: true
-

@@ -1,25 +1,21 @@
 ---
-- name: Add prometheus chart repo
+- name: Add prometheus-community chart repo
   kubernetes.core.helm_repository:
-    name: prometheus
+    name: prometheus-community
     repo_url: https://prometheus-community.github.io/helm-charts
 
-- name: add the prometheus-pushgateway helm chart
+- name: Install prometheus-pushgateway
   kubernetes.core.helm:
     atomic: true
     wait: false
     update_repo_cache: yes
     release_state: present
-    chart_version: 2.1.3
-    chart_ref: prometheus/prometheus-pushgateway
+    chart_version: 2.1.6
+    chart_ref: prometheus-community/prometheus-pushgateway
     name: prometheus-pushgateway
     namespace: monitoring
     create_namespace: yes
     values:
-      podAnnotations:
-        prometheus.io/path: /metrics
-        prometheus.io/port: "9091"
-        prometheus.io/scrape: "true"
       resources:
         limits:
           cpu: 200m
@@ -27,3 +23,9 @@
         requests:
           cpu: 100m
           memory: 30Mi
+      serviceMonitor:
+        enabled: true
+      persistentVolume:
+        enabled: true
+        size: 2Gi
+        storageClass: "longhorn"

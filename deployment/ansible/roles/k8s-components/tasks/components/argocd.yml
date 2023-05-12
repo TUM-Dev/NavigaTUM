@@ -5,11 +5,11 @@
     repo_url: "https://argoproj.github.io/argo-helm"
 - name: Install argo-cd
   kubernetes.core.helm:
-    atomic: true
+    atomic: false
     wait: false
     update_repo_cache: yes
     release_state: present
-    chart_version: 5.27.5
+    chart_version: 5.32.1
     chart_ref: argo/argo-cd
     name: argo-cd
     namespace: argocd
@@ -150,7 +150,6 @@
         redirectScheme:
           scheme: https
           permanent: true
-
 # The following is a patch to the local-path storage class to allow Immediate binding
 # Since StorageClass is a immutable resource, this has to be manually added
 #- name: Add the local storage class to allow Immediate binding

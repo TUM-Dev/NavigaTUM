@@ -10,7 +10,7 @@
     wait: false
     update_repo_cache: yes
     release_state: present
-    chart_version: 0.69.10
+    chart_version: 0.69.15
     chart_ref: grafana/loki-distributed
     name: loki
     namespace: monitoring

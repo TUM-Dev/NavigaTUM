@@ -101,6 +101,7 @@ def merge_tumonline_rooms(data):
             missing_buildings[b_id] += 1
             continue
 
+        operator = room["operator"].strip(OPERATOR_STRIP_CHARS)
         r_data = {
             "id": room["roomcode"],
             "type": "room",
@@ -117,8 +118,8 @@ def merge_tumonline_rooms(data):
                 "operator_id": int(room["op_link"].strip(OPERATOR_WEBNAV_LINK_PREFIX)),
                 "operator_link": room["op_link"],
                 "operator_name": _(
-                    orgs_de.get(room["operator"].strip(OPERATOR_STRIP_CHARS), {}).get("name"),
-                    orgs_en.get(room["operator"].strip(OPERATOR_STRIP_CHARS), {}).get("name"),
+                    orgs_de.get(operator, {}).get("name", f"Inaktive Organisation ({operator})"),
+                    orgs_en.get(operator, {}).get("name", f"Inactive Organisation ({operator})"),
                 ),
                 "room_link": room["room_link"],
                 "calendar": room["calendar"],

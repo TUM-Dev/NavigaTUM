@@ -23,7 +23,7 @@
     wait: false
     update_repo_cache: yes
     release_state: present
-    chart_version: 45.9.0
+    chart_version: 45.26.0
     chart_ref: prometheus-community/kube-prometheus-stack
     name: prometheus
     namespace: monitoring
@@ -79,7 +79,7 @@
                 accessModes: ["ReadWriteOnce"]
                 resources:
                   requests:
-                    storage: 5Gi
+                    storage: 40Gi
           #thanos:
           #  image: quay.io/thanos/thanos:v0.30.2
           resources:

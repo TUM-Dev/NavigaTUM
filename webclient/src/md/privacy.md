@@ -1,69 +1,180 @@
-🛈 _This page is currently only available in German._
+# Privacy Policy
 
-# Datenschutzerklärung
+## A. General Information
 
-## Verantwortlicher
+### Name and contact details of the person responsible
 
-Verantwortlicher im Sinne der Datenschutzgesetze, insbesondere der EU-Datenschutzgrundverordnung (DSGVO), ist:
+The responsible person within the meaning of the data protection laws, in particular the EU General Data Protection Regulation (DSGVO), is:
 
-Frank Elsinga
+Frank Elsinga representing ["OpenSource @ TUM e.V."](https://tum.dev).
 
-in Vertretung für das ["TUM-App"-Projektteam](https://www.tum.app/imprint).
+```
+Postal address: Josef-Fischhaber-Strasse 46, 82319 Starnberg, Germany.
+Telephone: (0049/0)176 - 56-727-579  
+E-mail: navigatum (at-symbol) tum.de
+```
 
-**Postanschrift:**  
-Josef-Fischhaber-Straße 46  
-82319 Starnberg  
-Deutschland
+### Contact details of the data protection officer
 
-**Kontakt:**  
-Telefon: (0049/0)176 – 56–727-579  
-Telefax: (0049/0)89 - 289–18546  
-E-Mail: navigatum (at-symbol) tum.de
+```
+The Data Protection Officer of the Technical University of Munich
+Postal address: Arcisstr. 21, 80333 Munich, Germany
+Telephone: 089/289-17052
+E-mail: beauftragter(at)datenschutz.tum.de
+```
 
-## Ihre Betroffenenrechte
+### Purposes and legal basis for processing
 
-Unter den angegebenen Kontaktdaten unseres Datenschutzbeauftragten können Sie jederzeit folgende Rechte ausüben:
+#### Feedback
 
-- Auskunft über Ihre bei uns gespeicherten Daten und deren Verarbeitung (Art. 15 DSGVO),
-- Berichtigung unrichtiger personenbezogener Daten (Art. 16 DSGVO),
-- Löschung Ihrer bei uns gespeicherten Daten (Art. 17 DSGVO),
-- Einschränkung der Datenverarbeitung, sofern wir Ihre Daten aufgrund gesetzlicher Pflichten noch nicht löschen dürfen (Art. 18 DSGVO),
-- Widerspruch gegen die Verarbeitung Ihrer Daten bei uns (Art. 21 DSGVO) und
-- Datenübertragbarkeit, sofern Sie in die Datenverarbeitung eingewilligt haben oder einen Vertrag mit uns abgeschlossen haben (Art. 20 DSGVO).
+The feedback form is used on a purely voluntary basis.
+The processing is based on Art. 6 para. 1 lit. a DSGVO.
+In order to use the feedback form, the [Tearms of Service and GitHub Privacy Policy](https://docs.github.com/en/github/site-policy) must be agreed to.
+Please note that data may be transferred outside the European Union.
+For non-public communication, please refer to the contact option via the [Imprint](/about/imprint).
 
-Sofern Sie uns eine Einwilligung erteilt haben, können Sie diese jederzeit mit Wirkung für die Zukunft widerrufen.
-Sie können sich jederzeit mit einer Beschwerde an eine Aufsichtsbehörde wenden, z. B. an die zuständige Aufsichtsbehörde des Bundeslands Ihres Wohnsitzes oder an die für uns als verantwortliche Stelle zuständige Behörde.
-Eine Liste der Aufsichtsbehörden (für den nicht öffentlichen Bereich) mit Anschrift finden Sie unter: https://www.bfdi.bund.de/DE/Service/Anschriften/Laender/Laender-node.html.
+### Recipients of personal data
 
-## Technische Umsetzung
+The technical operation of our data processing systems is carried out by:
 
-Der Webserver wird betrieben durch die netcup GmbH, Daimlerstraße 25, 76185 Karlsruhe, Deutschland. Die Beauftragung erfolgt auf Grundlage unserer berechtigten Interessen gem. Art. 6 Abs. 1 lit. f DSGVO und eines Auftragsverarbeitungsvertrages gem. Art. 28 Abs. 3 S. 1 DSGVO.
+```
+Leibniz Computing Centre (LRZ) of the Bavarian Academy of Sciences and Humanities
+Boltzmannstraße 1
+D-85748 Garching near Munich
+Telephone: (089) 35831 8000
+Fax: (089) 35831 9700
+E-mail: lrzpost(at)lrz.de
+www.lrz.de
+```
 
-## Protokollierung
+If necessary, your data will be transmitted to the competent supervisory and auditing authorities for the exercise of the respective control rights.
 
-Wenn Sie diese oder andere Internetseiten aufrufen, übermitteln Sie über Ihren Internetbrowser Daten an unseren Webserver. Die folgenden Daten werden während einer laufenden Verbindung zur Kommunikation zwischen Ihrem Internetbrowser und unserem Webserver aufgezeichnet:
+In the event of electronic transmission, data may be forwarded to the State Office for Information Security in order to prevent threats to information technology security and processed there on the basis of Art. 12 et seq. of the Bavarian E-Government Act.
 
-- Datum und Uhrzeit der Anfrage
-- Zeitbetrag, den die Anfrage gedauert hat
-- Name der angeforderten Datei
-- Seite, von der aus die Datei angefordert wurde
-- Zugriffsstatus (Datei übertragen, Datei nicht gefunden, etc.)
-- verwendete Webbrowser und verwendetes Betriebssystem
-- übertragene Datenmenge.
+### Duration of storage of personal data
 
-Insbesondere werden keine IP-Adressen protokolliert.
+#### Feedback:
 
-Die Logeinträge werden kontinuierlich automatisch ausgewertet, um Angriffe auf die Webserver erkennen und entsprechend reagieren zu können. In Einzelfällen, d.h. bei gemeldeten Störungen, Fehlern und Sicherheitsvorfällen, erfolgt eine manuelle Analyse. Logeinträge werden nach maximal 2 Wochen automatisiert gelöscht.
+The data voluntarily provided by a user will not be technically deleted unless the user so requests.
 
-### Empfänger:
+In addition, a user can have his or her comment deleted by us at any time.
+To do so, please write an e-mail to the data protection officer listed below or to the person responsible for data protection and submit the link to your comment.
 
-Empfänger der Daten sind ggf. technische Dienstleister, die für den Betrieb und die Wartung unserer Webseite als Auftragsverarbeiter tätig werden.
+## Your rights
 
-## Cookies
+If we process your personal data, you have the following rights as a data subject:
 
-Wie viele andere Webseiten verwenden wir auch sogenannte „Cookies“. Bei Cookies handelt es sich um kleine Textdateien, die auf Ihrem Endgerät (Laptop, Tablet, Smartphone o.ä.) gespeichert werden, wenn Sie unsere Webseite besuchen.
+- You have the right to information about the data stored about you (Art. 15 DSGVO).
+- If incorrect personal data is processed, you have the right to have it corrected (Art. 16 DSGVO).
+- If the legal requirements are met, you can request the deletion or restriction of processing (Art. 17 and 18 DSGVO).
+- If you have consented to the processing or if there is a contract for data processing and the data processing is carried out with the help of automated procedures, you may have the right to data portability (Art. 20 DSGVO).
+- If you have consented to the processing and the processing is based on this consent, you can revoke the consent at any time for the future.
+  The lawfulness of the data processing carried out on the basis of the consent until the revocation is not affected by this.
 
-Sie können Sie einzelne Cookies oder den gesamten Cookie-Bestand löschen. Darüber hinaus erhalten Sie Informationen und Anleitungen, wie diese Cookies gelöscht oder deren Speicherung vorab blockiert werden können. Je nach Anbieter Ihres Browsers finden Sie die notwendigen Informationen unter den nachfolgenden Links:
+You have the right to object to the processing of your data at any time on grounds relating to your particular situation, if the processing is carried out exclusively on the basis of Art. 6(1)(e) or (f) DSGVO (Art. 21(1) sentence 1 DSGVO).
+
+### Right of complaint to the supervisory authority
+
+Furthermore, you have the right to lodge a complaint with the Bavarian State Commissioner for Data Protection.
+You can contact the Bavarian State Commissioner for Data Protection at the following address:
+
+```
+Postal address: P.O. Box 22 12 19, 80502 Munich, Germany.  
+Address: Wagmüllerstraße 18, 80538 Munich, Germany  
+Telephone: 089 212672-0  
+Fax: 089 212672-50  
+E-mail: post office(at)datenschutz-bayern.de  
+https://www.datenschutz-bayern.de/
+```
+
+## Changes to our data protection policy
+
+We reserve the right to adapt this data protection declaration so that it always complies with the current legal requirements or in order to implement changes to our services in the data protection declaration, e.g. when introducing new services. The new data protection statement will then apply to your next visit.
+
+## Questions to the data protection officer
+
+If you have any questions about data protection, please write us an e-mail or contact the person responsible for data protection in our organisation directly.
+You can find this person under the contact options mentioned in the imprint.
+
+## B. Information about the website
+
+### Further information
+
+For more detailed information on the processing of your data and your rights, you can contact us using the contact details given above (at the beginning of A.).
+
+## Information on the Internet presence
+
+### Technical implementation
+
+Our web server is operated by the Leibniz Computing Centre of the Bavarian Academy of Sciences and Humanities (LRZ).
+The personal data you transmit when visiting our website is therefore processed by the LRZ on our behalf:
+
+```
+Leibniz Computing Centre (LRZ) of the Bavarian Academy of Sciences and Humanities
+Boltzmannstrasse 1
+D-85748 Garching near Munich
+Telephone: (089) 35831 8000
+Fax: (089) 35831 9700
+E-mail: lrzpost(at)lrz.de
+www.lrz.de
+```
+
+### Logging
+
+When you call up this or other Internet pages, you transmit data to our web server via your Internet browser.
+The following data is temporarily recorded in a log file during an ongoing connection for communication between your internet browser and our web server:
+
+- Date and time of the request
+- Amount of time the request took
+- Name of the requested file
+- Page from which the file was requested
+- Access status (file transferred, file not found, etc.)
+- web browser and operating system used
+- amount of data transferred.
+
+**In particular, no IP addresses are logged.**
+
+The data in this log file is processed as follows:
+
+- The log entries are continuously evaluated automatically in order to detect attacks on the web servers and to be able to react accordingly.
+- In individual cases, i.e. in the case of reported malfunctions, errors and security incidents, a manual analysis is carried out.
+
+Since no information is logged that can be clearly traced back to individuals, it is not possible to draw conclusions about individual persons.
+
+Log entries are automatically deleted after a maximum of 2 weeks.
+
+### External service providers
+
+We have no current contracts with external service providers.
+
+### Active components
+
+Active components such as JavaScript, Java applets or Active-X controls are used on this website.
+This function can be switched off by you through the settings of your Internet browser.
+
+## SSL encryption
+
+To protect the security of your data during transmission, we use state-of-the-art encryption procedures (e.g. SSL) via HTTPS.
+
+## Search queries
+
+Search queries are not stored beyond the regular logging (see above).
+However, to reduce the server's response times, queries can be cached (temporarily stored) in the server's main memory.
+The caching period is a maximum of one week.
+
+## Anonymous statistics
+
+In order to recognise problems and to further improve the offer, anonymous statistics are collected when using the services.
+These do not allow any traceability to the persons using the services.
+
+### Cookies
+
+Like many other websites, we also use so-called "cookies".
+Cookies are small text files that are stored on your end device (laptop, tablet, smartphone or similar) when you visit our website.
+
+You can delete individual cookies or the entire cookie inventory.
+In addition, you will receive information and instructions on how to delete these cookies or block their storage in advance.
+Depending on the provider of your browser, you will find the necessary information under the following links:
 
 - Mozilla Firefox: https://support.mozilla.org/de/kb/cookies-loeschen-daten-von-websites-entfernen
 - Internet Explorer: https://support.microsoft.com/de-de/help/17442/windows-internet-explorer-delete-manage-cookies
@@ -71,84 +182,45 @@ Sie können Sie einzelne Cookies oder den gesamten Cookie-Bestand löschen. Dar�
 - Opera: http://www.opera.com/de/help
 - Safari: https://support.apple.com/kb/PH17191?locale=de_DE&viewlocale=de_DE
 
-### Technisch notwendige Cookies - Art und Zweck der Verarbeitung:
+#### Technically necessary cookies
 
-Wir setzen Cookies ein, um unsere Website nutzerfreundlicher zu gestalten. Einige Elemente unserer Internetseite erfordern es, dass vom Benutzer gewählte Einstellungen auch nach einem Seitenwechsel vorhanden sind.
-Der Zweck der Verwendung technisch notwendiger Cookies ist, die Nutzung von Websites für die Nutzer zu vereinfachen. Einige Funktionen unserer Internetseite können ohne den Einsatz von Cookies nicht angeboten werden.
+**Type and purpose of processing:**
 
-Für folgende Anwendungen benötigen wir Cookies:
+We use cookies to make our website more user-friendly.
+Some elements of our website require that settings selected by the user are also available after a page change.
+The purpose of using technically necessary cookies is to make websites easier for users to use.
+Some functions of our website cannot be offered without the use of cookies.
 
-- Übernahme von Spracheinstellungen
-- Übernahme von Themeeinstellungen
+We require cookies for the following applications:
 
-Diese Webseite verwendet diese Cookies ausschließlich zum Zwecke der Speicherung der Sprachen- und Theme-Einstellung. Ein entsprechendes, nicht-personenbezogenes, Cookie wird erst gesetzt, wenn die Standardeinstellung geändert wird.
+- Adoption of language settings
+- Acceptance of theme settings
 
-### Speicherdauer
+This website uses these cookies solely for the purpose of storing language and theme settings.
+A corresponding, non-personal, cookie is only set when the default setting is changed.
 
-Die Cookies werden serverseitig nicht protokolliert oder gespeichert. Daher ist kein Tracking über Cookies möglich.
-Im Browser beträgt die Speicherdauer ein Jahr.
+**Storage period**
 
-## Feedback
+Cookies are not logged or stored on the server side.
+Therefore, tracking via cookies is not possible.
+In the browser, the storage period is one year.
 
-### Freiwilligkeit
+## C. Information on individual processing
 
-Die Nutzung des Feedbackformulars erfolgt auf einer rein freiwiligen Basis.
-Für die Nuzung des Feedbackformulars muss den [Tearms of Service und den Datenschutzbestimmungen von GitHub](https://docs.github.com/en/github/site-policy) zugestimmt werden.
-Auf die mögliche Übertragung der Daten außerhalb der Europäischen Union wird hingewisen.
-Für nicht-öffentliche Kommunikation wird auf die Kontaktmöglichkeit über das [Impressum](/about/impressum) hingewiesen.
+### Feedback
 
-### Übertragene Daten
+When contacting us via a feedback form, the user's details are processed for the purpose of handling the contact enquiry and its processing pursuant to Art. 6 Para. 1 lit. b) DSGVO.
+A traceability to the person is only possible insofar as personal data is contained in the sent text.
+In addition to the data provided by the user, the room about which feedback was given, the date and the time of the feedback creation are also sent.
+It is also stored whether the user wishes the transmitted data to be deleted after the feedback processing has been completed.
 
-Bei der Kontaktaufnahme mit uns per Feedbackformular werden die Angaben des Nutzers zur Bearbeitung der Kontaktanfrage und deren Abwicklung gem. Art. 6 Abs. 1 lit. b) DSGVO verarbeitet.
-Eine Rückführung auf die Person ist dabei nur insoweit möglich, wie personenbezogene Daten im versendeten Text enthalten sind. Neben dem vom Nutzer bereitgestellten Daten wird außerdem der Raum, über den Feedback abgegeben wurde, das Datum und die Uhrzeit der Feedbackserstellung gesendet.
-Es wird zudem gespeichert, ob der Nutzer die Löschung der übertragenen Daten nach Beendigung der Feedbackbearbeitung wünscht.
+**Recipient**
 
-### Empfänger:
+The transmitted feedback is stored publicly accessible on [GitHub](https://github.com/TUM-Dev/navigatum/issues) as part of our commitment to transparency.
+This means that they are not technically limited to one group of people.
+The user is presented with an issue link to track the processing of the feedback.
+If the user has requested immediate deletion, this function can no longer be technically provided.
 
-Das übertragene Feedback wird, im Rahmen unserem Commitment zur Transparenz, öffentlich zugänglich auf [Github](https://github.com/TUM-Dev/navigatum/issues) gespeichert.
-Sie sind also technisch nicht auf einen Personenkreis beschränkt.
-Dem Nutzer wird ein Issue-link präsentiert, um die Bearbeitung des Feedbacks nachvollziehen zu können.
-Falls der Nutzer die sofortige Löschung gewünscht hat, kann diese Funktion nicht mehr technisch bereitgestellt werden.
+**Provision mandatory or required:**
 
-### Speicherdauer:
-
-Die Daten von einem Nutzer freiwillig bereitgestellten Daten werden technisch nicht gelöscht, außer er wünscht dies.
-
-Zudem kann ein Nutzer seinen Kommentar jederzeit durch uns löschen lassen.
-Schreiben Sie dafür bitte eine E-Mail an den unten aufgeführten Datenschutzbeauftragten bzw. die für den Datenschutz zuständige Person und übermitteln den Link zu Ihrem Kommentar.
-
-### Bereitstellung vorgeschrieben oder erforderlich:
-
-Die Bereitstellung dieser nicht personenbezogenen Daten erfolgt freiwillig.
-
-## SSL-Verschlüsselung
-
-Um die Sicherheit Ihrer Daten bei der Übertragung zu schützen, verwenden wir dem aktuellen Stand der Technik entsprechende Verschlüsselungsverfahren (z. B. SSL) über HTTPS.
-
-## Suchanfragen
-
-Suchanfragen werden über die reguläre Protokollierung (siehe oben) hinaus nicht gespeichert. Zur Reduktion der Antwortzeiten des Servers können Anfragen jedoch im Arbeitsspeicher des Server gecacht (zwischengespeichert) werden.
-Die Cachingdauer beträgt höchstens eine Woche.
-
-## Anonyme Statistiken
-
-Zur Erkennung von Problemen und zur weiteren Verbesserung des Angebots werden bei der Benutzung der Dienste anonyme Statistiken erhoben. Diese erlauben keine Rückführung auf die Personen, die die Dienste nutzen.
-
-## Information über Ihr Widerspruchsrecht nach Art. 21 DSGVOEinzelfallbezogenes Widerspruchsrecht
-
-Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit gegen die Verarbeitung Sie betreffender personenbezogener Daten, die aufgrund Art. 6 Abs. 1 lit. f DSGVO (Datenverarbeitung auf der Grundlage einer Interessenabwägung) erfolgt, Widerspruch einzulegen; dies gilt auch für ein auf diese Bestimmung gestütztes Profiling im Sinne von Art. 4 Nr. 4 DSGVO.
-Legen Sie Widerspruch ein, werden wir Ihre personenbezogenen Daten nicht mehr verarbeiten, es sei denn, wir können zwingende schutzwürdige Gründe für die Verarbeitung nachweisen, die Ihre Interessen, Rechte und Freiheiten überwiegen, oder die Verarbeitung dient der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen.
-
-### Empfänger eines Widerspruchs
-
-Bitte nutzen Sie die im Impressum genannten Kontaktmöglichkeiten
-
-## Änderung unserer Datenschutzbestimmungen
-
-Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht oder um Änderungen unserer Leistungen in der Datenschutzerklärung umzusetzen, z.B. bei der Einführung neuer Services. Für Ihren erneuten Besuch gilt dann die neue Datenschutzerklärung.
-
-## Fragen an den Datenschutzbeauftragten
-
-Wenn Sie Fragen zum Datenschutz haben, schreiben Sie uns bitte eine E-Mail oder wenden Sie sich direkt an die für den Datenschutz verantwortliche Person in unserer Organisation. Diese Person finden Sie unter den im Impressum genannten Kontaktmöglichkeiten.
-
-_Auszüge aus dieser Datenschutzerklärung wurden mithilfe der activeMind AG erstellt, den Experten für [externe Datenschutzbeauftragte](https://www.activemind.de/datenschutz/datenschutzbeauftragter/) (Version #2020-09-30)._
+The provision of this non-personal data is voluntary.
