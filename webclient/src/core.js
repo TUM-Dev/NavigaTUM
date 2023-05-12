@@ -470,7 +470,7 @@ navigatum = (() => {
 navigatum.routes = [
   { path: "/", component: navigatum.getView("main") },
   {
-    path: "/(view|campus|site|building|room)/:id",
+    path: "/(view|campus|site|building|room|poi)/:id",
     component: navigatum.getView("view"),
   },
   { path: "/search", component: navigatum.getView("search") },

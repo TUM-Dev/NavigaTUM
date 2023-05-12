@@ -1568,6 +1568,7 @@ components:
                 - area
                 - site
                 - campus
+                - poi
             coords:
               $ref: '#/components/schemas/Coordinate'
             maps:

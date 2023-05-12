@@ -39,8 +39,8 @@ def assign_coordinates(data):
             if "source" not in entry["coords"]:
                 entry["coords"]["source"] = "navigatum"
         else:
-            # For rooms, we check whether its parent has a coordinate
-            if entry["type"] in {"room", "virtual_room"}:
+            # For rooms & POIs, we check whether its parent has a coordinate
+            if entry["type"] in {"room", "virtual_room", "poi"}:
                 building_parent = [data[e] for e in entry["parents"] if data[e]["type"] == "building"]
                 if len(building_parent) != 1:
                     logging.error(f"Could not find distinct parent building for {_id}")

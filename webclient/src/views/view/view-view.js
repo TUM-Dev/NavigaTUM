@@ -31,6 +31,7 @@ function viewNavigateTo(to, from, next, component) {
         joined_building: "building",
         room: "room",
         virtual_room: "room",
+        poi: "poi",
       }[data.type];
       if (urlTypeName === undefined) urlTypeName = "view";
 

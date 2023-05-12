@@ -9,6 +9,7 @@ from processors import (
     maps,
     merge,
     nat,
+    poi,
     roomfinder,
     search,
     sections,
@@ -33,7 +34,6 @@ def main():
 
     logging.info("-- 02 rooms extendend")
     data = merge.patch_rooms(data, "sources/02_rooms-extended.yaml")
-    merge.add_coordinates(data, "sources/coordinates/")
 
     # Add source information for these entries, which are up to here
     # always declared by navigatum
@@ -63,6 +63,10 @@ def main():
     logging.info("-- 17 NAT rooms")
     nat.merge_nat_rooms(data)
 
+    # --- POIs ---
+    logging.info("-- 21 POIs")
+    poi.merge_poi(data)
+
     # At this point, no more areas or rooms will be added or removed.
     # --- Make data more coherent ---
     logging.info("-- 30 Add children properties")
@@ -80,6 +84,7 @@ def main():
     structure.infer_type_common_name(data)
 
     logging.info("-- 40 Coordinates")
+    merge.add_coordinates(data, "sources/coordinates/")
     coords.add_and_check_coords(data)
 
     logging.info("-- 45 Roomfinder maps")
