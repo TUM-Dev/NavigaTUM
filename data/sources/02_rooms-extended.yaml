@@ -1,7 +1,8 @@
 # ========================== Innenstadt =============================
 # === Arcisstraße ===
 "2907.01.130":
-  name: Fachschaft Lehrertum/Lehramt
+  name: Fachschaft Lehrertum/Lehramt/Educational Sciences
+  short_name: Lehramt
 "0501.05.131":
   name: Vorhoelzer-Forum Dachterasse
 "0502.EG.221":
