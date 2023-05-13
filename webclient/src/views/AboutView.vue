@@ -14,18 +14,19 @@ import UeberUns from "../assets/md/ueber-uns.md";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Impressum from "../assets/md/impressum.md";
+import { useRoute } from "vue-router";
 
-import { ref } from "vue";
-const url = ref(location.pathname.substring(7));
+const route = useRoute();
 </script>
 
 <template>
   <div id="view-md">
-    <Datenschutz v-if="url === 'datenschutz'" />
-    <Privacy v-if="url === 'privacy'" />
-    <AboutUs v-if="url === 'about-us'" />
-    <UeberUns v-if="url === 'ueber-uns'" />
-    <Impressum v-if="url === 'impressum'" />
+    <Datenschutz v-if="route.params.name === 'datenschutz'" />
+    <Privacy v-else-if="route.params.name === 'privacy'" />
+    <AboutUs v-else-if="route.params.name === 'about-us'" />
+    <UeberUns v-else-if="route.params.name === 'ueber-uns'" />
+    <Impressum v-else-if="route.params.name === 'impressum'" />
+    <p v-else>Not found</p>
   </div>
 </template>
 
