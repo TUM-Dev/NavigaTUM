@@ -117,7 +117,7 @@ The data compilation is made of indiviual processing steps, where each step adds
   _areatree_. After them, no new entries are being added to the data.
   - **Steps 0x**: Supplement the base data with extended custom data.
   - **Steps 1x**: Import rooms and building information from external sources
-  - **Steps 2x**: -
+  - **Steps 2x**: Import POIs
 - **Steps 30-89**: Later steps are intended to augment the entries with even more
   information and to ensure a consistent format. After them, no new (external or custom)
   information should be added to the data.

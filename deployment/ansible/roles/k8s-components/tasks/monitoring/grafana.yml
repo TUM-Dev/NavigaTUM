@@ -10,7 +10,7 @@
     wait: false
     update_repo_cache: yes
     release_state: present
-    chart_version: 6.52.1
+    chart_version: 6.56.2
     chart_ref: grafana/grafana
     name: grafana
     namespace: monitoring
