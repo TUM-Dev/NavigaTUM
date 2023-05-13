@@ -7,9 +7,10 @@
 - name: Install grafana
   kubernetes.core.helm:
     atomic: true
-    release_state: present
     wait: false
-    chart_version: 6.52.1
+    update_repo_cache: yes
+    release_state: present
+    chart_version: 6.56.2
     chart_ref: grafana/grafana
     name: grafana
     namespace: monitoring
@@ -40,10 +41,16 @@
             - name: Prometheus
               type: prometheus
               access: proxy
-              url: http://prometheus.lens-metrics.svc.cluster.local
+              url: http://prometheus-operated.monitoring.svc.cluster.local:9090
               isDefault: true
               prometheusType: Prometheus
-              prometheusVersion: 2.27.x
+              prometheusVersion: 2.40.x
+            - name: Loki
+              type: loki
+              access: proxy
+              url: http://loki-query-frontend.monitoring.svc.cluster.local:3100
+              jsonData:
+                maxLines: 1000
       persistence:
         enabled: true
         storageClassName: longhorn

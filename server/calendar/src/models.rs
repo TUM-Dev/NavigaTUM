@@ -6,6 +6,7 @@ use diesel::Insertable;
 #[diesel(table_name = crate::schema::calendar)]
 pub struct XMLEvent {
     pub key: String,
+    pub tumonline_id: i32,
     pub dtstart: NaiveDateTime,
     pub dtend: NaiveDateTime,
     pub dtstamp: NaiveDateTime,

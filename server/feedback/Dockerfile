@@ -1,5 +1,5 @@
 # Compile
-FROM    rust:1.68-alpine AS compiler
+FROM    rust:1.69-alpine AS compiler
 
 RUN     apk add -q --update-cache --no-cache build-base openssl-dev
 
@@ -14,7 +14,7 @@ COPY    ./src ./src
 RUN     RUSTFLAGS="-C target-feature=-crt-static" cargo build --release
 
 # RUN
-FROM alpine:3.17
+FROM alpine:3.18
 
 RUN     apk update --quiet \
      && apk add -q --no-cache openssl1.1-compat libgcc tini

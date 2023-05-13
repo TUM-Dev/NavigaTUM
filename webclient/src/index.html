@@ -33,6 +33,7 @@
     <!-- @endif -->
 
     <link rel="icon" href="<!-- @echo app_prefix -->assets/favicon.ico">
+    <link rel=“canonical“ href=“https://nav.tum.de/“>
     <!-- Title updated by JS later during pageload -->
     <title>NavigaTUM</title>
     
@@ -197,6 +198,13 @@
                   </li>-->
                 </ul>
               </div>
+            </div>
+            <div class="hide-lg">
+              <router-link to="/">
+              <img alt="${{_.meta.tum_logo_alt}}$"
+                   src="<!-- @echo app_prefix -->assets/tum_logo.min.svg"
+                   id="tum_logo"/>  <!-- 7px for logo1 -->
+              </router-link>
             </div>
           </div>
         </div>

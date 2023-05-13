@@ -83,6 +83,7 @@ def _extract_sitemap_data(new_data, old_data, old_sitemaps) -> dict[str, list[di
             "joined_building": "building",
             "room": "room",
             "virtual_room": "room",
+            "poi": "poi",
         }[entry["type"]]
         url = f"https://nav.tum.de/{url_type_name}/{_id}"
         if _id not in old_data or entry != old_data[_id]:

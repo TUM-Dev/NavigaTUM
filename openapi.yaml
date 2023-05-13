@@ -1568,6 +1568,7 @@ components:
                 - area
                 - site
                 - campus
+                - poi
             coords:
               $ref: '#/components/schemas/Coordinate'
             maps:
@@ -1743,7 +1744,7 @@ components:
     CalendarResponse:
       type: object
       properties:
-        entries:
+        events:
           description: The entries of the requested
           type: array
           items:
@@ -1753,12 +1754,23 @@ components:
           type: string
           format: date-time
           example: '2018-01-01T00:00:00'
+        calendar_url:
+          description: Link to the same calendar, but in TUMonline
+          type: string
+          example: 'https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr=12543'
+          pattern: 'https:\/\/campus\.tum\.de\/tumonline\/wbKalender\.wbRessource\?pResNr=[0-9]+'
       required:
-        - entries
+        - events
         - last_sync
+        - calendar_url
     CalendarEntry:
       type: object
       properties:
+        id:
+          description: The id of the calendar entry used in TUMonline internally
+          type: integer
+          format: int32
+          example: 42
         title:
           description: The title of the Entry
           type: string
@@ -1787,6 +1799,7 @@ components:
           type: string
           example: Vorlesung mit Zentralübung
       required:
+        - id
         - title
         - start
         - end
@@ -1862,7 +1875,7 @@ components:
             For inspiration on how to do this, see our website.
           type: boolean
           example: true
-        delete_issue_requested:
+        deletion_requested:
           description: |
             Whether the user has requested to delete the issue.
             If the user has requested to delete the issue, we will delete it from GitHub after processing it
@@ -1875,7 +1888,7 @@ components:
         - subject
         - body
         - privacy_checked
-        - delete_issue_requested
+        - deletion_requested
 tags:
   - name: core
     description: the API to access/search for room information

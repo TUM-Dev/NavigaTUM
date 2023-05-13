@@ -11,6 +11,13 @@ Please follow the [system dependencys docs](/resources/documentation/Dependencys
 
 ### Starting the server
 
+The following environment variables are required for all features to work:
+
+| variable       | usage/description                                                                                  |
+| -------------- | -------------------------------------------------------------------------------------------------- |
+| `GITHUB_TOKEN` | A GitHub token with `write` access to `repo`. This is used to create issues/PRs on the repository. |
+| `JWT_KEY`      | A key used to sign JWTs. This is used to authenticate that feedback tokens were given out by us.   |
+
 Run `cargo run` to start the server.
 The server should now be available on `localhost:8070`.
 

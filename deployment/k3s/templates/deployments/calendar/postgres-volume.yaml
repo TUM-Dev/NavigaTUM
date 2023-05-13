@@ -5,13 +5,13 @@ metadata:
   name: postgres-pvc
   namespace: navigatum
   labels:
-    app: navigatum
-    deployment: postgres
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: postgres
 spec:
   storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 3Gi
   {{ end}}

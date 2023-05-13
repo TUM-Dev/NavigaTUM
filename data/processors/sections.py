@@ -232,11 +232,7 @@ def _gen_computed_props(_id, entry, props):
                 )
                 computed.append({_("Anzahl Räume"): value})
     if "generic" in props:
-        for entity in props["generic"]:
-            if isinstance(entity[1], dict):
-                computed.append({"name": entity[0], **entity[1]})
-            else:
-                computed.append({"name": entity[0], "text": entity[1]})
+        computed.extend(props["generic"])
     return computed
 
 
