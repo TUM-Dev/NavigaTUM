@@ -17,7 +17,7 @@ const combined_list = computed(() => {
 const display_list = ref([] as RoomChild[]);
 const search = ref("");
 const selected = ref(null as number | null);
-const loading = ref(true);
+const loading = ref(false);
 const buildings_overview_expanded = ref(false);
 
 watch(
@@ -48,9 +48,7 @@ function updateRoomsOverview() {
   // In this case we first reset the list, show a loading indicator and
   // set the long list a short time later (So DOM can update and the indicator
   // is visible).
-  if (display_list.value.length <= 150) {
-    loading.value = false;
-  } else {
+  if (display_list.value.length > 150) {
     loading.value = true;
     const tmp = display_list.value;
     display_list.value = [];
