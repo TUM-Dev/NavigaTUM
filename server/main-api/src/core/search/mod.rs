@@ -41,14 +41,13 @@ pub async fn search_handler(
     let (q, highlighting, sanitised_args) = sanitise_args(args);
     let results_sections =
         search_executor::do_geoentry_search(q, highlighting, sanitised_args).await;
-    let time_ms = start_time.elapsed().as_millis();
 
     if results_sections.len() != 2 {
         return HttpResponse::InternalServerError().body("Internal error");
     }
     let search_results = SearchResults {
         sections: results_sections,
-        time_ms,
+        time_ms: start_time.elapsed().as_millis(),
     };
     HttpResponse::Ok().json(search_results)
 }
