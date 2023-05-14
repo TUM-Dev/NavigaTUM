@@ -1,4 +1,4 @@
-use crate::search::search_executor::preprocess;
+use crate::search::search_executor::parser::{ParsedQuery, TextToken};
 use crate::search::SanitisedSearchQueryArgs;
 use meilisearch_sdk::errors::Error;
 use meilisearch_sdk::indexes::Index;
@@ -24,14 +24,14 @@ pub(super) struct MSHit {
 }
 
 pub(super) struct GeoEntryQuery {
-    parsed_input: preprocess::SearchInput,
+    parsed_input: ParsedQuery,
     args: SanitisedSearchQueryArgs,
     highlighting: (String, String),
 }
 
 impl GeoEntryQuery {
     pub fn from(
-        parsed_input: &preprocess::SearchInput,
+        parsed_input: &ParsedQuery,
         args: &SanitisedSearchQueryArgs,
         highlighting: &(String, String),
     ) -> Self {
@@ -42,7 +42,7 @@ impl GeoEntryQuery {
         }
     }
     pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
-        let q_default = self.parsed_input.to_default_query();
+        let q_default = self.prompt_for_queriing();
         let ms_url =
             std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
         let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
@@ -57,9 +57,34 @@ impl GeoEntryQuery {
             .multi_search()
             .with_search_query(self.merged_query(&entries, &q_default))
             .with_search_query(self.buildings_query(&entries, &q_default))
-            .with_search_query(self.rooms_query(&entries, &self.parsed_input.to_room_query()))
+            .with_search_query(self.rooms_query(&entries, &self.prompt_for_queriing_room()))
             .execute::<MSHit>()
             .await
+    }
+
+    fn prompt_for_queriing(&self) -> String {
+        self.parsed_input
+            .tokens
+            .clone()
+            .into_iter()
+            .map(|s| match s {
+                TextToken::Text(t) => t,
+                TextToken::SplittableText((t1, t2)) => format!("{t1}{t2}"),
+            })
+            .collect::<Vec<String>>()
+            .join(" ")
+    }
+    fn prompt_for_queriing_room(&self) -> String {
+        self.parsed_input
+            .tokens
+            .clone()
+            .into_iter()
+            .map(|s| match s {
+                TextToken::Text(t) => t,
+                TextToken::SplittableText((t1, t2)) => format!("{t1}{t2} {t1} {t2}"),
+            })
+            .collect::<Vec<String>>()
+            .join(" ")
     }
 
     fn merged_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a> {
