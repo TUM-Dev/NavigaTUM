@@ -1,7 +1,7 @@
 use super::preprocess;
 use crate::core::search::search_executor::query::MSHit;
 use log::info;
-use meilisearch_sdk::search::SearchResults;
+use meilisearch_sdk::search::{SearchResult, SearchResults};
 use std::collections::HashMap;
 use unicode_truncate::UnicodeTruncateStr;
 
@@ -57,13 +57,8 @@ pub(super) fn merge_search_results(
             if section_rooms.entries.len() + current_buildings_cnt >= args.limit_all {
                 break;
             }
-            let formatted_name: String = match &hit.formatted_result {
-                Some(formatted_result) => match formatted_result.get("name") {
-                    Some(name) => name.to_string(),
-                    None => hit.result.name.clone(),
-                },
-                None => hit.result.name.clone(),
-            };
+            let formatted_name = extract_formatted_name(hit).unwrap_or(hit.result.name.clone());
+
             match hit.result.r#type.as_str() {
                 "campus" | "site" | "area" | "building" | "joined_building" => {
                     if section_buildings.entries.len() < args.limit_buildings {
@@ -101,6 +96,16 @@ pub(super) fn merge_search_results(
         Some(0) => vec![section_rooms, section_buildings],
         _ => vec![section_buildings, section_rooms],
     }
+}
+
+fn extract_formatted_name(hit: &SearchResult<MSHit>) -> Option<String> {
+    Some(
+        hit.formatted_result
+            .clone()? //I don't understand why this is needed, but the performance impact is minimal
+            .get("name")?
+            .as_str()?
+            .to_string(),
+    )
 }
 
 fn push_to_buildings_queue(
