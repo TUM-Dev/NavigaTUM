@@ -1,8 +1,6 @@
 use super::preprocess;
 use crate::core::search::search_executor::query::MSHit;
-use log::info;
 use meilisearch_sdk::search::{SearchResult, SearchResults};
-use std::collections::HashMap;
 use unicode_truncate::UnicodeTruncateStr;
 
 pub(super) fn merge_search_results(
@@ -21,16 +19,11 @@ pub(super) fn merge_search_results(
         closed_matching_buildings.push(hit.result.id.clone());
     }
 
-    let facet = res_merged
-        .facet_distribution
-        .clone()
-        .unwrap_or(HashMap::new());
-    info!("facet for extracting estimated_total_hits: {facet:?}");
     let mut section_buildings = super::SearchResultsSection {
         facet: "sites_buildings".to_string(),
         entries: Vec::<super::ResultEntry>::new(),
         n_visible: None,
-        estimated_total_hits: 0,
+        estimated_total_hits: res_buildings.estimated_total_hits.unwrap_or(0),
     };
     let mut section_rooms = super::SearchResultsSection {
         facet: "rooms".to_string(),
