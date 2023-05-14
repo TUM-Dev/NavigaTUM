@@ -1,84 +1,88 @@
-use super::meilisearch;
 use super::preprocess;
+use crate::core::search::search_executor::query::MSHit;
+use meilisearch_sdk::search::{SearchResult, SearchResults};
 use unicode_truncate::UnicodeTruncateStr;
 
 pub(super) fn merge_search_results(
     args: &super::SanitisedSearchQueryArgs,
     search_tokens: &[preprocess::SearchToken],
-    res_merged: meilisearch::MSResults,
-    res_buildings: meilisearch::MSResults,
-    res_rooms: meilisearch::MSResults,
+    res_merged: &SearchResults<MSHit>,
+    res_buildings: &SearchResults<MSHit>,
+    res_rooms: &SearchResults<MSHit>,
     highlighting: (String, String),
 ) -> Vec<super::SearchResultsSection> {
     // First look up which buildings did match even with a closed query.
     // We can consider them more relevant.
     // TODO: This has to be implemented. closed_matching_buildings is not used further down in this function.
     let mut closed_matching_buildings = Vec::<String>::new();
-    for hit in res_buildings.hits {
-        closed_matching_buildings.push(hit.id);
+    for hit in &res_buildings.hits {
+        closed_matching_buildings.push(hit.result.id.clone());
     }
 
-    let facet = res_merged.facet_distribution.facet;
     let mut section_buildings = super::SearchResultsSection {
         facet: "sites_buildings".to_string(),
         entries: Vec::<super::ResultEntry>::new(),
         n_visible: None,
-        estimated_total_hits: facet.get("site").unwrap_or(&0) + facet.get("building").unwrap_or(&0),
+        estimated_total_hits: res_buildings.estimated_total_hits.unwrap_or(0),
     };
     let mut section_rooms = super::SearchResultsSection {
         facet: "rooms".to_string(),
         entries: Vec::<super::ResultEntry>::new(),
         n_visible: None,
-        estimated_total_hits: res_rooms.estimated_total_hits,
+        estimated_total_hits: res_rooms.estimated_total_hits.unwrap_or(0),
     };
 
     // TODO: Collapse joined buildings
     // let mut observed_joined_buildings = Vec::<String>::new();
     let mut observed_ids = Vec::<String>::new();
-    for hit in [res_merged.hits, res_rooms.hits].concat() {
-        // Prevent duplicates from being added to the results
-        if observed_ids.contains(&hit.id) {
-            continue;
-        };
-        observed_ids.push(hit.id.clone());
+    for hits in [&res_merged.hits, &res_rooms.hits] {
+        for hit in hits.iter() {
+            // Prevent duplicates from being added to the results
+            if observed_ids.contains(&hit.result.id) {
+                continue;
+            };
+            observed_ids.push(hit.result.id.clone());
 
-        // Total limit reached (does only count visible results)
-        let current_buildings_cnt = section_buildings
-            .n_visible
-            .unwrap_or(section_buildings.entries.len());
-        if section_rooms.entries.len() + current_buildings_cnt >= args.limit_all {
-            break;
-        }
-
-        match hit.r#type.as_str() {
-            "campus" | "site" | "area" | "building" | "joined_building" => {
-                if section_buildings.entries.len() < args.limit_buildings {
-                    push_to_buildings_queue(
-                        &mut section_buildings,
-                        hit.clone(),
-                        hit._formatted.name,
-                    );
-                }
+            // Total limit reached (does only count visible results)
+            let current_buildings_cnt = section_buildings
+                .n_visible
+                .unwrap_or(section_buildings.entries.len());
+            if section_rooms.entries.len() + current_buildings_cnt >= args.limit_all {
+                break;
             }
-            "room" | "virtual_room" => {
-                if section_rooms.entries.len() < args.limit_rooms {
-                    push_to_rooms_queue(
-                        &mut section_rooms,
-                        hit.clone(),
-                        search_tokens,
-                        hit._formatted.name,
-                        hit.arch_name.unwrap_or_default(),
-                        highlighting.clone(),
-                    );
+            let formatted_name = extract_formatted_name(hit).unwrap_or(hit.result.name.clone());
 
-                    // The first room in the results 'freezes' the number of visible buildings
-                    if section_buildings.n_visible.is_none() && section_rooms.entries.len() == 1 {
-                        section_buildings.n_visible = Some(section_buildings.entries.len());
+            match hit.result.r#type.as_str() {
+                "campus" | "site" | "area" | "building" | "joined_building" => {
+                    if section_buildings.entries.len() < args.limit_buildings {
+                        push_to_buildings_queue(
+                            &mut section_buildings,
+                            hit.result.clone(),
+                            formatted_name,
+                        );
                     }
                 }
-            }
-            _ => {}
-        };
+                "room" | "virtual_room" => {
+                    if section_rooms.entries.len() < args.limit_rooms {
+                        push_to_rooms_queue(
+                            &mut section_rooms,
+                            hit.result.clone(),
+                            search_tokens,
+                            formatted_name,
+                            hit.result.arch_name.clone().unwrap_or_default(),
+                            highlighting.clone(),
+                        );
+
+                        // The first room in the results 'freezes' the number of visible buildings
+                        if section_buildings.n_visible.is_none() && section_rooms.entries.len() == 1
+                        {
+                            section_buildings.n_visible = Some(section_buildings.entries.len());
+                        }
+                    }
+                }
+                _ => {}
+            };
+        }
     }
 
     match section_buildings.n_visible {
@@ -87,9 +91,19 @@ pub(super) fn merge_search_results(
     }
 }
 
+fn extract_formatted_name(hit: &SearchResult<MSHit>) -> Option<String> {
+    Some(
+        hit.formatted_result
+            .clone()? //I don't understand why this is needed, but the performance impact is minimal
+            .get("name")?
+            .as_str()?
+            .to_string(),
+    )
+}
+
 fn push_to_buildings_queue(
     section_buildings: &mut super::SearchResultsSection,
-    hit: meilisearch::MSHit,
+    hit: MSHit,
     highlighted_name: String,
 ) {
     section_buildings.entries.push(super::ResultEntry {
@@ -104,7 +118,7 @@ fn push_to_buildings_queue(
 
 fn push_to_rooms_queue(
     section_rooms: &mut super::SearchResultsSection,
-    hit: meilisearch::MSHit,
+    hit: MSHit,
     search_tokens: &[preprocess::SearchToken],
     formatted_name: String,
     arch_name: String,
@@ -132,7 +146,7 @@ fn push_to_rooms_queue(
 // results display in this case. Room formats are hardcoded for now.
 fn parse_room_formats(
     search_tokens: &[preprocess::SearchToken],
-    hit: &meilisearch::MSHit,
+    hit: &MSHit,
     highlighting: &(String, String),
 ) -> Option<String> {
     // Some building specific roomcode formats are determined by their building prefix
@@ -169,7 +183,7 @@ fn parse_room_formats(
     } else if (search_tokens.len() == 1
              || (search_tokens.len() > 1 && search_tokens[0].s.len() >= 3))
         //     Needs to be specific enough to be considered relevant ↑
-        && !hit.unformatted_name.contains(&search_tokens[0].s) // No match in the name
+        && !hit.name.contains(&search_tokens[0].s) // No match in the name
         && !hit.parent_building_names.is_empty() // Has parent information to show in query
         && hit.arch_name.is_some()
         && hit
@@ -185,11 +199,11 @@ fn parse_room_formats(
         } else {
             let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
             // For some well known buildings we have a prefix that we can use instead
-            let prefix = match unicode_split_at(&hit.unformatted_name, 3).0 {
+            let prefix = match unicode_split_at(&hit.name, 3).0 {
                 "560" | "561" => Some("MI "),
                 "550" | "551" => Some("MW "),
                 "540" => Some("CH "),
-                _ => match unicode_split_at(&hit.unformatted_name, 4).0 {
+                _ => match unicode_split_at(&hit.name, 4).0 {
                     "5101" => Some("PH "),
                     "5107" => Some("PH II "),
                     _ => None,
@@ -227,7 +241,7 @@ fn parse_room_formats(
     }
 }
 
-fn generate_subtext(hit: &meilisearch::MSHit) -> String {
+fn generate_subtext(hit: &MSHit) -> String {
     let building = match hit.parent_building_names.len() {
         0 => String::from(""),
         _ => hit.parent_building_names[0].clone(),
@@ -248,6 +262,7 @@ fn unicode_split_at(search: &str, width: usize) -> (&str, &str) {
 #[cfg(test)]
 mod postprocessing_tests {
     use super::*;
+    use std::assert_eq;
 
     #[test]
     fn unicode_split() {

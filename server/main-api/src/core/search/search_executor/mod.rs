@@ -1,14 +1,12 @@
-use awc::{ClientBuilder, Connector};
-use futures::try_join;
-use serde::Serialize;
-
 use super::SanitisedSearchQueryArgs;
 use cached::proc_macro::cached;
 use log::error;
 
-mod meilisearch;
 mod postprocess;
 mod preprocess;
+mod query;
+use crate::core::search::search_executor::preprocess::SearchInput;
+use serde::Serialize;
 
 #[derive(Serialize, Debug, Clone)]
 pub struct SearchResultsSection {
@@ -17,7 +15,7 @@ pub struct SearchResultsSection {
     #[serde(skip_serializing_if = "Option::is_none")]
     n_visible: Option<usize>,
     #[serde(rename = "estimatedTotalHits")]
-    estimated_total_hits: i32,
+    estimated_total_hits: usize,
 }
 
 #[derive(Serialize, Debug, Clone)]
@@ -39,49 +37,18 @@ pub async fn do_geoentry_search(
     highlighting: (String, String),
     args: SanitisedSearchQueryArgs,
 ) -> Vec<SearchResultsSection> {
-    let parsed_input = preprocess::parse_input_query(q.as_str());
+    let parsed_input = SearchInput::from(q.as_str());
 
-    // Determine what to search for
-
-    // Currently ranking is designed to put buildings at the top if they equally
-    // match the term compared to a room. For this reason there is only a search
-    // for all entries and only rooms, search matching (and relevant) buildings can be
-    // expected to be at the top of the merged search. However sometimes a lot of
-    // buildings will be hidden (e.g. building parts), so the extra room search ....
-    let client = ClientBuilder::new().connector(Connector::new()).finish();
-
-    let q_default = parsed_input.to_query_string();
-    let fut_res_merged = meilisearch::do_meilisearch(
-        client.clone(),
-        meilisearch::MSSearchArgs {
-            q: q_default.clone(),
-            filter: None,
-            limit: args.limit_all,
-            highlighting: highlighting.clone(),
-        },
-    );
-    // Building limit multiplied by two because we might do reordering later
-    let fut_res_buildings = meilisearch::do_building_search_closed_query(
-        client.clone(),
-        q_default.clone(),
-        2 * args.limit_buildings,
-        highlighting.clone(),
-    );
-    let search_tokens = parsed_input.tokens;
-    let fut_res_rooms = meilisearch::do_room_search(
-        client.clone(),
-        &search_tokens,
-        args.limit_rooms,
-        highlighting.clone(),
-    );
-
-    match try_join!(fut_res_merged, fut_res_buildings, fut_res_rooms) {
-        Ok((res_merged, res_buildings, res_rooms)) => postprocess::merge_search_results(
+    match query::GeoEntryQuery::from(&parsed_input, &args, &highlighting)
+        .execute()
+        .await
+    {
+        Ok(response) => postprocess::merge_search_results(
             &args,
-            &search_tokens,
-            res_merged,
-            res_buildings,
-            res_rooms,
+            &parsed_input.tokens,
+            response.results.get(0).unwrap(),
+            response.results.get(1).unwrap(),
+            response.results.get(2).unwrap(),
             highlighting,
         ),
         Err(e) => {

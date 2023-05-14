@@ -13,7 +13,7 @@ pub(super) struct SearchInput {
 }
 
 impl SearchInput {
-    pub fn to_query_string(&self) -> String {
+    pub fn to_default_query(&self) -> String {
         let mut s = String::from("");
         for token in &self.tokens {
             if token.closed && !token.quoted {
@@ -24,6 +24,34 @@ impl SearchInput {
         }
 
         s
+    }
+    pub fn to_room_query(&self) -> String {
+        let mut q = String::from("");
+        for token in &self.tokens {
+            // It is common that room names are given with four-digits (first digit being the level).
+            // In this case we add split terms search well, which could give results if the
+            // 4-digit-token doesn't, but still the 4-digit-token should usually take precedence.
+            let s = if token.s.len() == 4
+                && matches!(token.s.chars().next().unwrap(), '0' | '1' | '2')
+                && token.s.chars().all(char::is_numeric)
+            {
+                format!(
+                    "{} {} {}",
+                    token.s,
+                    token.s.get(0..1).unwrap(),
+                    token.s.get(1..4).unwrap()
+                )
+            } else {
+                token.s.clone()
+            };
+
+            if token.closed && !token.quoted {
+                q.push_str(&format!("{s} "));
+            } else {
+                q.push_str(&s);
+            }
+        }
+        q
     }
 }
 
@@ -43,76 +71,78 @@ pub(super) struct SearchToken {
     pub(super) quoted: bool,
 }
 
-pub(super) fn parse_input_query(q: &str) -> SearchInput {
-    let input_tokens = tokenize_input_query(q);
+impl From<&str> for SearchInput {
+    fn from(q: &str) -> Self {
+        let input_tokens = tokenize_input_query(q);
 
-    let mut search_tokens = Vec::<SearchToken>::new();
-    let mut search_filter = SearchFilter {
-        parent: None,
-        r#type: None,
-        usage: None,
-    };
-    for token in input_tokens {
-        // Quoted tokens are ignored. Note this also marks unclosed tokens at the end search quoted.
-        if token.s.starts_with('"') {
-            search_tokens.push(SearchToken {
-                s: token.s,
-                regular_split: token.regular_split,
-                closed: token.closed,
-                quoted: true,
-            });
-        } else {
-            // Parse filters
-            let mut is_filter = false;
-            for prefix in ["in:", "@", "usage:", "nutzung:", "=", "type:"] {
-                if token.s.starts_with(prefix) {
-                    is_filter = true;
-
-                    let v = token
-                        .s
-                        .trim_start_matches(prefix)
-                        .trim_start_matches('"')
-                        .trim_end_matches('"');
-                    if v.is_empty() {
-                        // e.g. ' in: ', ' @ ', ' in:"" ' are ignored,
-                        continue; // TODO: autosuggest
-                    };
-
-                    let filter = match prefix {
-                        "in:" | "@" => Some(&mut search_filter.parent),
-                        "usage:" | "nutzung:" | "=" => Some(&mut search_filter.usage),
-                        "type:" => Some(&mut search_filter.r#type),
-                        _ => None,
-                    };
-
-                    if let Some(Some(f)) = filter {
-                        f.push(v.to_string());
-                    } else {
-                        *filter.unwrap() = Some(vec![v.to_string()]);
-                    }
-
-                    break;
-                }
-            }
-
-            if !is_filter {
+        let mut search_tokens = Vec::<SearchToken>::new();
+        let mut search_filter = SearchFilter {
+            parent: None,
+            r#type: None,
+            usage: None,
+        };
+        for token in input_tokens {
+            // Quoted tokens are ignored. Note this also marks unclosed tokens at the end search quoted.
+            if token.s.starts_with('"') {
                 search_tokens.push(SearchToken {
                     s: token.s,
                     regular_split: token.regular_split,
                     closed: token.closed,
-                    quoted: false,
+                    quoted: true,
                 });
+            } else {
+                // Parse filters
+                let mut is_filter = false;
+                for prefix in ["in:", "@", "usage:", "nutzung:", "=", "type:"] {
+                    if token.s.starts_with(prefix) {
+                        is_filter = true;
+
+                        let v = token
+                            .s
+                            .trim_start_matches(prefix)
+                            .trim_start_matches('"')
+                            .trim_end_matches('"');
+                        if v.is_empty() {
+                            // e.g. ' in: ', ' @ ', ' in:"" ' are ignored,
+                            continue; // TODO: autosuggest
+                        };
+
+                        let filter = match prefix {
+                            "in:" | "@" => Some(&mut search_filter.parent),
+                            "usage:" | "nutzung:" | "=" => Some(&mut search_filter.usage),
+                            "type:" => Some(&mut search_filter.r#type),
+                            _ => None,
+                        };
+
+                        if let Some(Some(f)) = filter {
+                            f.push(v.to_string());
+                        } else {
+                            *filter.unwrap() = Some(vec![v.to_string()]);
+                        }
+
+                        break;
+                    }
+                }
+
+                if !is_filter {
+                    search_tokens.push(SearchToken {
+                        s: token.s,
+                        regular_split: token.regular_split,
+                        closed: token.closed,
+                        quoted: false,
+                    });
+                }
             }
         }
-    }
 
-    SearchInput {
-        tokens: search_tokens,
-        filter: search_filter,
+        SearchInput {
+            tokens: search_tokens,
+            filter: search_filter,
+        }
     }
 }
 
-pub(super) fn tokenize_input_query(q: &str) -> Vec<InputToken> {
+fn tokenize_input_query(q: &str) -> Vec<InputToken> {
     let mut tokens = Vec::<InputToken>::new();
 
     // We don't care about unicode here since all split conditions
@@ -157,11 +187,10 @@ pub(super) fn tokenize_input_query(q: &str) -> Vec<InputToken> {
             token_start = i;
         }
 
-        if (!within_quotes && c.is_whitespace() && i > token_start) ||  // whitespace
-           ((within_quotes || !c.is_whitespace()) && i+c.len_utf8() == q.len()) ||  // end of string
-           (c == '"')
-        // end of quotes
-        {
+        let is_whitespace = !within_quotes && c.is_whitespace() && i > token_start;
+        let is_end_of_string = (within_quotes || !c.is_whitespace()) && i + c.len_utf8() == q.len();
+        let is_end_of_quote = c == '"';
+        if is_whitespace || is_end_of_string || is_end_of_quote {
             let raw_token = q.get(token_start..i + c.len_utf8());
             if let Some(token) = raw_token {
                 if token != "\"\"" {
