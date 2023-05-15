@@ -23,6 +23,8 @@
             p, role:image-updater, applications, get, */*, allow
             p, role:image-updater, applications, action/apps/Deployment/restart, */*, allow
             g, github, role:image-updater
+
+            g, TUM-Dev:Ops, role:admin
           policy.default: "role: admin"
         cm:
           statusbadge.enabled: true
@@ -39,9 +41,9 @@
                   clientID: $dex.github.clientID
                   clientSecret: $dex.github.clientSecret
                   orgs:
-                  - name: tum-dev
+                  - name: TUM-Dev
                     teams:
-                    - navigatum
+                    - Ops
         notifications:
           argocdUrl: https://argocd.nav.tum.sexy
       redis-ha:
