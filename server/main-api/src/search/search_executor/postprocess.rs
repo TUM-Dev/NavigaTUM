@@ -158,41 +158,7 @@ fn parse_room_formats(
             .unwrap()
             .starts_with(&search_tokens[0])
     {
-        // Exclude the part after the "@" if it's not in the query and use the
-        // building name instead, because this is probably more helpful
-        let (prefix, parsed_arch_id) = if search_tokens[0].contains('@') {
-            (None, hit.arch_name.as_ref().unwrap().to_string())
-        } else {
-            let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
-            // For some well known buildings we have a prefix that we can use instead
-            let prefix = match unicode_split_at(&hit.name, 3).0 {
-                "560" | "561" => Some("MI "),
-                "550" | "551" => Some("MW "),
-                "540" => Some("CH "),
-                _ => match unicode_split_at(&hit.name, 4).0 {
-                    "5101" => Some("PH "),
-                    "5107" => Some("PH II "),
-                    _ => None,
-                },
-            };
-            if prefix.is_some() {
-                (prefix, arch_id.to_string())
-            } else if hit.parent_building_names[0].len() > 25 {
-                // Building names can sometimes be quite long, which doesn't
-                // look nice. Since this building name here serves only search a
-                // hint, we'll crop it (with more from the end, because there
-                // is usually more entropy)
-                let pn = hit.parent_building_names[0].as_str();
-                let (first, _) = pn.unicode_truncate(7);
-                let (last, _) = pn.unicode_truncate_start(10);
-                (None, format!("{arch_id} {first}…{last}"))
-            } else {
-                (
-                    None,
-                    format!("{} {}", arch_id, hit.parent_building_names[0]),
-                )
-            }
-        };
+        let (prefix, parsed_arch_id) = split_prefix_from_arch_building_id(search_tokens, &hit);
         let parsed_aid = unicode_split_at(&parsed_arch_id, search_tokens[0].chars().count());
         Some(format!(
             "{}{}{}{}{}",
@@ -204,6 +170,48 @@ fn parse_room_formats(
         ))
     } else {
         None
+    }
+}
+
+/// Exclude the part after the "@" if it's not in the query and use the
+/// building name instead, because this is probably more helpful
+fn split_prefix_from_arch_building_id<'a>(
+    search_tokens: &ParsedQuery,
+    hit: &&MSHit,
+) -> (Option<&'a str>, String) {
+    if search_tokens[0].contains('@') {
+        return (None, hit.arch_name.as_ref().unwrap().to_string());
+    }
+    let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
+    // For some well known buildings we have a prefix that we can use instead
+    let prefix = match unicode_split_at(&hit.name, 3).0 {
+        "560" | "561" => Some("MI "),
+        "550" | "551" => Some("MW "),
+        "540" => Some("CH "),
+        _ => match unicode_split_at(&hit.name, 4).0 {
+            "5101" => Some("PH "),
+            "5107" => Some("PH II "),
+            _ => None,
+        },
+    };
+    if prefix.is_some() {
+        return (prefix, arch_id.to_string());
+    }
+
+    // Building names can sometimes be quite long, which doesn't
+    // look nice. Since this building name here serves only search a
+    // hint, we'll crop it (with more from the end, because there
+    // is usually more entropy)
+    if hit.parent_building_names[0].len() > 25 {
+        let pn = hit.parent_building_names[0].as_str();
+        let (first, _) = pn.unicode_truncate(7);
+        let (last, _) = pn.unicode_truncate_start(10);
+        (None, format!("{arch_id} {first}…{last}"))
+    } else {
+        (
+            None,
+            format!("{} {}", arch_id, hit.parent_building_names[0]),
+        )
     }
 }
 
