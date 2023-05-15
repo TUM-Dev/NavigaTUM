@@ -52,26 +52,33 @@ pub(super) fn merge_search_results(
             }
             let formatted_name = extract_formatted_name(hit).unwrap_or(hit.result.name.clone());
 
-            match hit.result.r#type.as_str() {
+            let hit = hit.result.clone();
+            match hit.r#type.as_str() {
                 "campus" | "site" | "area" | "building" | "joined_building" => {
                     if section_buildings.entries.len() < args.limit_buildings {
-                        push_to_buildings_queue(
-                            &mut section_buildings,
-                            hit.result.clone(),
-                            formatted_name,
-                        );
+                        section_buildings.entries.push(super::ResultEntry {
+                            id: hit.id.to_string(),
+                            r#type: hit.r#type,
+                            name: formatted_name,
+                            subtext: hit.type_common_name,
+                            subtext_bold: None,
+                            parsed_id: None,
+                        });
                     }
                 }
                 "room" | "virtual_room" => {
                     if section_rooms.entries.len() < args.limit_rooms {
-                        push_to_rooms_queue(
-                            &mut section_rooms,
-                            hit.result.clone(),
-                            search_tokens,
-                            formatted_name,
-                            hit.result.arch_name.clone().unwrap_or_default(),
-                            highlighting.clone(),
-                        );
+                        let parsed_id = parse_room_formats(search_tokens, &hit, &highlighting);
+                        let subtext = generate_subtext(&hit);
+
+                        section_rooms.entries.push(super::ResultEntry {
+                            id: hit.id.to_string(),
+                            r#type: hit.r#type,
+                            name: formatted_name,
+                            subtext,
+                            subtext_bold: Some(hit.arch_name.unwrap_or_default()),
+                            parsed_id,
+                        });
 
                         // The first room in the results 'freezes' the number of visible buildings
                         if section_buildings.n_visible.is_none() && section_rooms.entries.len() == 1
@@ -99,47 +106,6 @@ fn extract_formatted_name(hit: &SearchResult<MSHit>) -> Option<String> {
             .as_str()?
             .to_string(),
     )
-}
-
-fn push_to_buildings_queue(
-    section_buildings: &mut super::SearchResultsSection,
-    hit: MSHit,
-    highlighted_name: String,
-) {
-    section_buildings.entries.push(super::ResultEntry {
-        id: hit.id.to_string(),
-        r#type: hit.r#type,
-        name: highlighted_name,
-        subtext: hit.type_common_name,
-        subtext_bold: None,
-        parsed_id: None,
-    });
-}
-
-fn push_to_rooms_queue(
-    section_rooms: &mut super::SearchResultsSection,
-    hit: MSHit,
-    search_tokens: &ParsedQuery,
-    formatted_name: String,
-    arch_name: String,
-    highlighting: (String, String),
-) {
-    // Test whether the query matches some common room id formats
-    let parsed_id = parse_room_formats(search_tokens, &hit, &highlighting);
-
-    let subtext = generate_subtext(&hit);
-    let subtext_bold = match parsed_id {
-        Some(_) => Some(hit.arch_name.clone().unwrap_or_default()),
-        None => Some(arch_name),
-    };
-    section_rooms.entries.push(super::ResultEntry {
-        id: hit.id.to_string(),
-        r#type: hit.r#type,
-        name: formatted_name,
-        subtext,
-        subtext_bold,
-        parsed_id,
-    });
 }
 
 // Parse the search against some known room formats and improve the
