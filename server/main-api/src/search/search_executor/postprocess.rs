@@ -5,12 +5,10 @@ use unicode_truncate::UnicodeTruncateStr;
 
 pub(super) fn merge_search_results(
     args: &super::SanitisedSearchQueryArgs,
-    search_tokens: &ParsedQuery,
     res_merged: &SearchResults<MSHit>,
     res_buildings: &SearchResults<MSHit>,
     res_rooms: &SearchResults<MSHit>,
-    highlighting: (String, String),
-) -> Vec<super::SearchResultsSection> {
+) -> (super::SearchResultsSection, super::SearchResultsSection) {
     // First look up which buildings did match even with a closed query.
     // We can consider them more relevant.
     // TODO: This has to be implemented. closed_matching_buildings is not used further down in this function.
@@ -21,13 +19,13 @@ pub(super) fn merge_search_results(
 
     let mut section_buildings = super::SearchResultsSection {
         facet: "sites_buildings".to_string(),
-        entries: Vec::<super::ResultEntry>::new(),
+        entries: Vec::new(),
         n_visible: None,
         estimated_total_hits: res_buildings.estimated_total_hits.unwrap_or(0),
     };
     let mut section_rooms = super::SearchResultsSection {
         facet: "rooms".to_string(),
-        entries: Vec::<super::ResultEntry>::new(),
+        entries: Vec::new(),
         n_visible: None,
         estimated_total_hits: res_rooms.estimated_total_hits.unwrap_or(0),
     };
@@ -57,6 +55,7 @@ pub(super) fn merge_search_results(
                 "campus" | "site" | "area" | "building" | "joined_building" => {
                     if section_buildings.entries.len() < args.limit_buildings {
                         section_buildings.entries.push(super::ResultEntry {
+                            hit: hit.clone(),
                             id: hit.id.to_string(),
                             r#type: hit.r#type,
                             name: formatted_name,
@@ -68,16 +67,13 @@ pub(super) fn merge_search_results(
                 }
                 "room" | "virtual_room" => {
                     if section_rooms.entries.len() < args.limit_rooms {
-                        let parsed_id = parse_room_formats(search_tokens, &hit, &highlighting);
-                        let subtext = generate_subtext(&hit);
-
                         section_rooms.entries.push(super::ResultEntry {
+                            hit: hit.clone(),
                             id: hit.id.to_string(),
                             r#type: hit.r#type,
                             name: formatted_name,
-                            subtext,
                             subtext_bold: Some(hit.arch_name.unwrap_or_default()),
-                            parsed_id,
+                            ..super::ResultEntry::default()
                         });
 
                         // The first room in the results 'freezes' the number of visible buildings
@@ -92,10 +88,7 @@ pub(super) fn merge_search_results(
         }
     }
 
-    match section_buildings.n_visible {
-        Some(0) => vec![section_rooms, section_buildings],
-        _ => vec![section_buildings, section_rooms],
-    }
+    (section_buildings, section_rooms)
 }
 
 fn extract_formatted_name(hit: &SearchResult<MSHit>) -> Option<String> {
@@ -110,7 +103,7 @@ fn extract_formatted_name(hit: &SearchResult<MSHit>) -> Option<String> {
 
 // Parse the search against some known room formats and improve the
 // results display in this case. Room formats are hardcoded for now.
-fn parse_room_formats(
+pub(super) fn parse_room_formats(
     search_tokens: &ParsedQuery,
     hit: &MSHit,
     highlighting: &(String, String),
@@ -215,7 +208,7 @@ fn split_prefix_from_arch_building_id<'a>(
     }
 }
 
-fn generate_subtext(hit: &MSHit) -> String {
+pub(super) fn generate_subtext(hit: &MSHit) -> String {
     let building = match hit.parent_building_names.len() {
         0 => String::from(""),
         _ => hit.parent_building_names[0].clone(),

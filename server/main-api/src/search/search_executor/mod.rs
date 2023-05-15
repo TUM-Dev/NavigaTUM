@@ -6,7 +6,9 @@ mod lexer;
 mod parser;
 mod postprocess;
 mod query;
+
 use crate::search::search_executor::parser::ParsedQuery;
+use crate::search::search_executor::query::MSHit;
 use serde::Serialize;
 
 #[derive(Serialize, Debug, Clone)]
@@ -19,8 +21,10 @@ pub struct SearchResultsSection {
     estimated_total_hits: usize,
 }
 
-#[derive(Serialize, Debug, Clone)]
+#[derive(Serialize, Default, Debug, Clone)]
 struct ResultEntry {
+    #[serde(skip)]
+    hit: MSHit,
     id: String,
     r#type: String,
     name: String,
@@ -44,14 +48,24 @@ pub async fn do_geoentry_search(
         .execute()
         .await
     {
-        Ok(response) => postprocess::merge_search_results(
-            &args,
-            &parsed_input,
-            response.results.get(0).unwrap(),
-            response.results.get(1).unwrap(),
-            response.results.get(2).unwrap(),
-            highlighting,
-        ),
+        Ok(response) => {
+            let (section_buildings, mut section_rooms) = postprocess::merge_search_results(
+                &args,
+                response.results.get(0).unwrap(),
+                response.results.get(1).unwrap(),
+                response.results.get(2).unwrap(),
+            );
+            for room in section_rooms.entries.iter_mut() {
+                room.parsed_id =
+                    postprocess::parse_room_formats(&parsed_input, &room.hit, &highlighting);
+                room.subtext = postprocess::generate_subtext(&room.hit);
+            }
+
+            match section_buildings.n_visible {
+                Some(0) => vec![section_rooms, section_buildings],
+                _ => vec![section_buildings, section_rooms],
+            }
+        }
         Err(e) => {
             // error should be serde_json::error
             error!("Error searching for results: {e:?}");
