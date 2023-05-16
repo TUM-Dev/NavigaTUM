@@ -5,6 +5,10 @@ server:
   MEILI_MASTER_KEY: ""
   GITHUB_TOKEN: ""
   JWT_KEY: ""
+mieli-search:
+  image:
+    repository: 'getmeili/meilisearch'
+    tag: v1.1
 calendar:
   scrape_tasks:
     - name: refresh-calendar-fast

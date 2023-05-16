@@ -87,7 +87,7 @@ spec:
             failureThreshold: 60
             periodSeconds: 1
         - name: mieli-search
-          image: "getmeili/meilisearch:v1.1"
+          image: "{{ $.Values.mieli-search.image.repository }}:{{ $.Values.mieli-search.image.tag }}"
           imagePullPolicy: Always
           {{ if $.Values.server.MEILI_MASTER_KEY }}
           envFrom:
