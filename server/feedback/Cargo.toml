@@ -19,7 +19,7 @@ strip = true
 [dependencies]
 regex = "1.8.1"
 log = "0.4.17"
-octocrab = "0.21.0"
+octocrab = "0.22.0"
 actix-web = "4.3.1"
 actix-web-prometheus = "0.1.2"
 serde = { version = "1.0.163", features = ["derive"] }
