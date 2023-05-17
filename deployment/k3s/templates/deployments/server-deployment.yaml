@@ -88,7 +88,7 @@ spec:
             periodSeconds: 1
         - name: mieli-search
           image: {{ $.Values.mielisearch.image.repository }}:{{ $.Values.mielisearch.image.tag }}
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           {{ if $.Values.server.MEILI_MASTER_KEY }}
           envFrom:
             - secretRef:
