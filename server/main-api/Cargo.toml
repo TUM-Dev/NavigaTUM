@@ -17,6 +17,7 @@ path = "src/main.rs"
 strip = true
 
 [dependencies]
+meilisearch-sdk = "0.23.1"
 log = "0.4.17"
 diesel = { version = "2.0.4", features = ["default","sqlite"] }
 actix-web = "4.3.1"
