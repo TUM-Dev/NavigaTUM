@@ -64,6 +64,10 @@ def _extract_orgs(rooms: dict) -> dict:
 
 
 def _extract_translations(item: dict):
+    """
+    De-Inline the translations of keys into dicts.
+    E.g. {"key": "A", "key_en": "B"} will be transformed into {"key": {"de": "A", "en": "B"}}
+    """
     translatable_keys: list[tuple[str, str]] = [(k.removesuffix("_en"), k) for k in item.keys() if k.endswith("_en")]
     for (key, key_en) in translatable_keys:
         eng = item.pop(key_en)
@@ -74,7 +78,7 @@ def _extract_translations(item: dict):
 
 def _extract_translation_recursive(item):
     """
-    De-Inline the translation of a key into a dict
+    De-Inline the translations of keys into dicts, recursively for all dicts in dicts or lists.
     """
     if isinstance(item, dict):
         for sub_item in item.values():
