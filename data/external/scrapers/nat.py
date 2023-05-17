@@ -1,7 +1,9 @@
 # This script takes care of downloading data from the school of natural sciences (oiginally the physics department)
 import json
 import logging
+from collections import Counter
 from multiprocessing.pool import ThreadPool
+import requests
 
 from external.scraping_utils import _download_file, CACHE_PATH, cached_json
 from tqdm import tqdm
@@ -17,13 +19,8 @@ def scrape_buildings():
     """
     Retrieve the buildings as in the NAT roomfinder.
     """
-
     logging.info("Scraping the buildings of the NAT")
-    path = CACHE_PATH / "buildings_nat.json"
-    _download_file(f"{NAT_API_URL}/building", path)
-
-    with open(path, encoding="utf-8") as file:
-        return json.load(file)
+    return requests.get(f"{NAT_API_URL}/building").json()
 
 
 @cached_json("rooms_nat.json")
@@ -42,7 +39,54 @@ def scrape_rooms():
         key = room["room_code"]  # needed, as room_code is removed in _sanitise_room
         rooms[key] = _sanitise_room(room)
 
+    _extract_orgs(rooms)
     return rooms
+
+
+@cached_json("orgs_nat.json")
+def _extract_orgs(rooms: dict) -> dict:
+    """
+    Extract the organisations from the room information.
+    """
+    logging.info("Extracting orgs from the rooms")
+    orgs = {}
+    for room in rooms.values():
+        org = room.pop("org")
+        if not org["deleted"]:
+            # remove not-usefull fields
+            org.pop("deleted")
+            org.pop("org_nameshort")  # Always `null`
+
+            org_id = org.pop("org_id")
+            room["org_id"] = org_id
+            orgs[org_id] = org
+    return orgs
+
+
+def _extract_translations(item: dict):
+    """
+    De-Inline the translations of keys into dicts.
+    E.g. {"key": "A", "key_en": "B"} will be transformed into {"key": {"de": "A", "en": "B"}}
+    """
+    translatable_keys: list[tuple[str, str]] = [(k.removesuffix("_en"), k) for k in item.keys() if k.endswith("_en")]
+    for (key, key_en) in translatable_keys:
+        eng = item.pop(key_en)
+        if eng and eng != item[key]:
+            if item[key]:
+                item[key] = {"de": item[key] or eng, "en": eng}
+
+
+def _extract_translation_recursive(item):
+    """
+    De-Inline the translations of keys into dicts, recursively for all dicts in dicts or lists.
+    """
+    if isinstance(item, dict):
+        for sub_item in item.values():
+            _extract_translation_recursive(sub_item)
+        _extract_translations(item)
+    if isinstance(item, list):
+        for sub_item in item:
+            _extract_translation_recursive(sub_item)
 
 
 def _sanitise_room(room: dict):
@@ -55,39 +99,28 @@ def _sanitise_room(room: dict):
     # fixing translations
     room["purpose"] = _(room["purpose"]["purpose"])
 
-    def _extract_translation(obj: dict[str, str | dict | None], key: str):
-        """
-        De-Inline the translation of a key into a dict
-        """
-        if obj:
-            eng = obj.pop(f"{key}_en")
-            if obj[key]:
-                obj[key] = {"de": obj[key], "en": eng}
-            else:
-                obj[key] = None
-
-    _extract_translation(room, "steckdosen")
-    _extract_translation(room, "eexam")
-    _extract_translation(room, "streaming")
-    _extract_translation(room["org"], "org_name")
-    _extract_translation(room["org"], "org_nameshort")
-    _extract_translation(room["building"]["campus"], "campus")
-    _extract_translation(room["building"]["campus"], "campusshort")
+    _extract_translation_recursive(room)
+    campus_id = room["building"].pop("campus_id")
+    if campus_id:
+        room["building"]["campus"]["campus_id"] = campus_id
 
     # bauarbeiten is a str, indicating if something is wrong on in the room
-    room.pop("bauarbeiten_en")  # this is always the same as bauarbeiten
-    room["bauarbeiten"] = _(room["bauarbeiten"]) if room["bauarbeiten"] else None
+    # accuracy is doubtfull sometimes => removal to prevent issues down the line
+    room.pop("bauarbeiten")
 
-    # for some reason this is used as a comment field.
-    room["comment"] = room.pop("corona")
+    # badly maintained, to some part outdated
+    room.pop("corona")
+    room.pop("corona_ready")
 
-    # coordinates: there are two sets of coordinates on each entry. This function makes shure, that they are the same
+    # coordinates: there are two sets of coordinates on each entry.
+    # This function makes sure, that they are the same
     _extract_coords(room)
 
-    # fixed some data layout issues
-    room["id"] = room.pop("room_code")
+    room["id"] = room.pop("room_code")  # our naming is id for this datapoint
 
-    for field_name_with_no_information in ["override_seats", "override_teaching", "corona_ready", "modified"]:
+    room.pop("orgs")  # nat internal org, not useful for us or consistent enough
+
+    for field_name_with_no_information in ["override_seats", "override_teaching", "modified", "contact"]:
         room.pop(field_name_with_no_information)
     return room
 
@@ -100,7 +133,7 @@ def _extract_coords(room):
     lon = room.pop("longitude")
     room_lon = room.pop("room_longitude")
     if lon and room_lon and lon != room_lon:
-        logging.error(f"Room {room['room_code']} has different longitudes: {lon} vs {room_lon}")
+        logging.warning(f"Room {room['room_code']} has different longitudes: {lon} vs {room_lon}")
 
     room["coordinates"] = {"lat": lon or room_lat, "lon": lon or room_lon, "source": "NAT"}
 
@@ -166,7 +199,7 @@ def _get_base_room_infos():
 def _try_download_room_base_info(start: int, batch: int):
     downloaded_file = _download_file(
         f"{NAT_API_URL}/?limit={batch}&offset={start}",
-        NAT_CACHE_DIR / f"rooms_base_{start}_to_{(start + 1) * batch - 1}.json",
+        NAT_CACHE_DIR / f"rooms_base_{start}_to_{start + batch - 1 }.json",
         quiet=True,
         quiet_errors=True,
     )

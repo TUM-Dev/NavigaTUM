@@ -1,0 +1,3065 @@
+{
+  "13946": {
+    "org_code": "TUPR000",
+    "org_name": {
+      "de": "Hochschulpr\u00e4sidium",
+      "en": "TUM Board of Management"
+    },
+    "org_type": "Pr\u00e4sidium",
+    "org_url": "http://portal.mytum.de/tum/leitung/index_html"
+  },
+  "14156": {
+    "org_code": "TUZVZA7",
+    "org_name": {
+      "de": "Zentrale Informationstechnik (ZIT)",
+      "en": "Central Information Technology"
+    },
+    "org_type": "Abteilungen",
+    "org_url": "https://www.it.tum.de/it/it-servicezentrum/systembetrieb"
+  },
+  "14178": {
+    "org_code": "TUMAFMA",
+    "org_name": {
+      "de": "Ehemalige Fakult\u00e4t f\u00fcr Mathematik",
+      "en": "Former TUM Department of Mathematics"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.ma.tum.de"
+  },
+  "14179": {
+    "org_code": "TUPHFPH",
+    "org_name": {
+      "de": "Ehemalige Fakult\u00e4t f\u00fcr Physik",
+      "en": "Former TUM Department of Physics"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "https://www.ph.tum.de/"
+  },
+  "14180": {
+    "org_code": "TUCHFCH",
+    "org_name": {
+      "de": "Ehemalige Fakult\u00e4t f\u00fcr Chemie",
+      "en": "Former TUM Department of Chemistry"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.ch.tum.de"
+  },
+  "14181": {
+    "org_code": "TUWIFWI",
+    "org_name": {
+      "de": "Ehemalige Fakult\u00e4t f\u00fcr Wirtschaftswissenschaften",
+      "en": "Former TUM Department of Management"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.wi.tum.de"
+  },
+  "14184": {
+    "org_code": "TUBVFBV",
+    "org_name": {
+      "de": "Ehemalige Ingenieurfakult\u00e4t Bau Geo Umwelt",
+      "en": "Former TUM Department of Civil, Geo and Environmental Engineering"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.bgu.tum.de"
+  },
+  "14185": {
+    "org_code": "TUARFAR",
+    "org_name": {
+      "de": "Ehemalige Fakult\u00e4t f\u00fcr Architektur",
+      "en": "Former TUM Department of Architecture"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.ar.tum.de"
+  },
+  "14187": {
+    "org_code": "TUMWFMW",
+    "org_name": {
+      "de": "Ehemalige Fakult\u00e4t f\u00fcr Maschinenwesen",
+      "en": "Former TUM Department of Mechanical Engineering"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.mw.tum.de"
+  },
+  "14188": {
+    "org_code": "TUEIFEI",
+    "org_name": {
+      "de": "Ehemalige Fakult\u00e4t f\u00fcr Elektrotechnik und Informationstechnik",
+      "en": "Former TUM Department of Electrical and Computer Engineering"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.ei.tum.de"
+  },
+  "14189": {
+    "org_code": "TUINFIN",
+    "org_name": {
+      "de": "Ehemalige Fakult\u00e4t f\u00fcr Informatik",
+      "en": "Former TUM Department of Informatics"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.in.tum.de"
+  },
+  "14190": {
+    "org_code": "TUWZFWZ",
+    "org_name": {
+      "de": "Ehemaliges Wissenschaftszentrum Weihenstephan f\u00fcr Ern\u00e4hrung, Landnutzung und Umwelt",
+      "en": "Former TUM Department of Life Sciences Weihenstephan"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.wzw.tum.de"
+  },
+  "14191": {
+    "org_code": "TUMEFME",
+    "org_name": {
+      "de": "Fakult\u00e4t f\u00fcr Medizin",
+      "en": "TUM Department of Medicine"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.med.tum.de"
+  },
+  "14195": {
+    "org_code": "TUSPFSP",
+    "org_name": {
+      "de": "Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften",
+      "en": "TUM Department of Sport and Health Sciences"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.sg.tum.de"
+  },
+  "14202": {
+    "org_code": "TUMADEK",
+    "org_name": {
+      "de": "Dekanat MA",
+      "en": "Dean's Office Dekanat MA"
+    },
+    "org_type": "Dekanat",
+    "org_url": "http://www.ma.tum.de/Dekanat/WebHome"
+  },
+  "14208": {
+    "org_code": "TUMAZMA",
+    "org_name": {
+      "de": "Zentrum Mathematik",
+      "en": "Research Department Mathematics Centre"
+    },
+    "org_type": "Forschungsdepartment",
+    "org_url": null
+  },
+  "14212": {
+    "org_code": "TUPHZ51",
+    "org_name": {
+      "de": "Dekanat PH",
+      "en": "Dean's Office Dekanat PH"
+    },
+    "org_type": "Dekanat",
+    "org_url": "https://www.ph.tum.de/about/deans/#office"
+  },
+  "14213": {
+    "org_code": "TUPHZ50",
+    "org_name": {
+      "de": "Fakult\u00e4tsverwaltung",
+      "en": "Department Administration"
+    },
+    "org_type": "Verwaltung der School",
+    "org_url": "http://www.ph.tum.de/"
+  },
+  "14214": {
+    "org_code": "TUPHZEL",
+    "org_name": {
+      "de": "Elektronik",
+      "en": "Electronics"
+    },
+    "org_type": "Zentrale Serviceeinrichtung des Departments",
+    "org_url": "https://www.ph.tum.de/about/services/electro/"
+  },
+  "14215": {
+    "org_code": "TUPHZWS",
+    "org_name": {
+      "de": "Zentralwerkstatt",
+      "en": "Central Repair Shop"
+    },
+    "org_type": "Zentrale Serviceeinrichtung des Departments",
+    "org_url": "https://www.ph.tum.de/about/services/zw/"
+  },
+  "14217": {
+    "org_code": "TUPHDEP",
+    "org_name": {
+      "de": "Physik-Department",
+      "en": "Physics Department"
+    },
+    "org_type": "Forschungsdepartment",
+    "org_url": null
+  },
+  "14228": {
+    "org_code": "TUPHE11",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Laser- und R\u00f6ntgenphysik (Prof. Kienberger)",
+      "en": "Chair of Laser and X-ray Physics (Prof. Kienberger)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.e11.ph.tum.de"
+  },
+  "14411": {
+    "org_code": "TUZESSB",
+    "org_name": {
+      "de": "TUM CST - Studienberatung und -information",
+      "en": "TUM CST - Student Advising and Information Services"
+    },
+    "org_type": "Arbeitsbereich TUM CST",
+    "org_url": "http://www.tum.de/studium/beratung/studienberatung/"
+  },
+  "14432": {
+    "org_code": "TUZESIM",
+    "org_name": {
+      "de": "TUM CST - Bewerbung und Immatrikulation",
+      "en": "TUM CST - Admissions and Enrollment Office"
+    },
+    "org_type": "Arbeitsbereich TUM CST",
+    "org_url": "http://www.tum.de/studium/studenten-service-zentrum/"
+  },
+  "14442": {
+    "org_code": "TUZESPR",
+    "org_name": "TUM CST - Graduation Office and Academic Records",
+    "org_type": "Arbeitsbereich TUM CST",
+    "org_url": null
+  },
+  "14443": {
+    "org_code": "TUZESBS",
+    "org_name": {
+      "de": "TUM CST - Beitr\u00e4ge und Stipendien",
+      "en": "TUM CST - Fees and Scholarships"
+    },
+    "org_type": "Arbeitsbereich TUM CST",
+    "org_url": "http://www.tum.de/studium/studienfinanzierung/"
+  },
+  "14577": {
+    "org_code": "TUMAM02",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Numerische Mathematik (Prof. Wohlmuth)",
+      "en": "Chair of Numerical Analysis (Prof. Wohlmuth)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www-m2.ma.tum.de/bin/view/Allgemeines/WebHome"
+  },
+  "14583": {
+    "org_code": "TUMAM07",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Globale Analysis (Prof. Friesecke)",
+      "en": "Chair of Global Analysis (Prof. Friesecke)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www-m7.ma.tum.de/bin/view/Analysis/WebHome"
+  },
+  "14596": {
+    "org_code": "TUMAM08",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr H\u00f6here Mathematik und Analytische Mechanik  (N.N.)",
+      "en": "Chair of Advanced Mathematics and Analytical Mechanics (N.N.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www-m8.ma.tum.de/m8/"
+  },
+  "14597": {
+    "org_code": "TUMAM05",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Mathematische Physik (Prof. Wolf)",
+      "en": "Chair of Mathematical physics (Prof. Wolf)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www-m5.ma.tum.de/"
+  },
+  "14598": {
+    "org_code": "TUMAM10",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Geometrie und Visualisierung (Prof. Richter-Gebert)",
+      "en": "Chair of Geometry and Visualization (Prof. Richter-Gebert)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www-m10.ma.tum.de/bin/view/Lehrstuhl/WebHome"
+  },
+  "14599": {
+    "org_code": "TUMAM09",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Angewandte Geometrie und Diskrete Mathematik (N.N.)",
+      "en": "Chair of Geometry (N.N.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www-m9.ma.tum.de/Allgemeines"
+  },
+  "14600": {
+    "org_code": "TUMAM04",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Mathematische Statistik (Prof. Drton)",
+      "en": "Chair of Mathematical Statistics (Prof. Drton)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.statistics.ma.tum.de/"
+  },
+  "14602": {
+    "org_code": "TUMAM01",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Mathematische Optimierung (Prof. Ulbrich)",
+      "en": "Chair of Mathematical Optimization (Prof. Ulbrich)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www-m1.ma.tum.de/bin/view/Lehrstuhl/"
+  },
+  "14603": {
+    "org_code": "TUMAM12",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Mathematische Modellierung biologischer Systeme (Prof. Theis)",
+      "en": "Chair of Mathematical Modelling of Biological Systems (Prof. Theis)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www-m12.ma.tum.de/"
+  },
+  "14604": {
+    "org_code": "TUMAM03",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Wissenschaftliches Rechnen (Prof. Bornemann)",
+      "en": "Chair of Scientific Computing (Prof. Bornemann)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www-m3.ma.tum.de/Allgemeines/"
+  },
+  "14605": {
+    "org_code": "TUMAM06",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Numerische Mathematik / Steuerungstheorie  (N.N.)",
+      "en": "Chair of Numerical Mathematics and Control Theory (N.N.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www-m6.ma.tum.de/"
+  },
+  "14607": {
+    "org_code": "TUMAM11",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Algorithmische Algebra (Prof. Kemper)",
+      "en": "Chair of Algorithmic Algebra (Prof. Kemper)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www-m11.ma.tum.de/"
+  },
+  "14684": {
+    "org_code": "TUCHAC6",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Anorganische Chemie mit Schwerpunkt Neue Materialien (Prof. F\u00e4ssler)",
+      "en": "Chair of Inorganic Chemistry with Focus on New Materials (Prof. F\u00e4ssler)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.department.ch.tum.de/acnm/"
+  },
+  "14692": {
+    "org_code": "TUCHAC2",
+    "org_name": {
+      "de": "Ehem. Lehrstuhl f\u00fcr Bauchemie (Prof. Plank)",
+      "en": "Former Chair of Construction Chemicals (Prof. Plank)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.bauchemie.ch.tum.de/"
+  },
+  "14706": {
+    "org_code": "TUCHWA1",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Analytische Chemie und Wasserchemie (Prof. Elsner)",
+      "en": "Chair of Analytical Chemistry and Water Chemistry (Prof. Elsner)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.ch.tum.de/hydrochemistry/"
+  },
+  "14711": {
+    "org_code": "TUCHOC1",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Organische Chemie I (Prof. Bach)",
+      "en": "Chair of Organic Chemistry 1 (Prof. Bach)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ch.nat.tum.de/oc1/"
+  },
+  "14712": {
+    "org_code": "TUCHOC2",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Organische Chemie II (Prof. Sieber)",
+      "en": "Chair of Organic Chemistry II (Prof. Sieber)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.bio.nat.tum.de/oc2/"
+  },
+  "14713": {
+    "org_code": "TUCHOC5",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Biotechnologie (Prof. Buchner)",
+      "en": "Chair of Biotechnology (Prof. Buchner)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.bio.nat.tum.de/biotech/"
+  },
+  "14714": {
+    "org_code": "TUCHOC3",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Biochemie (Prof. Groll)",
+      "en": "Chair of Biochemistry (Prof. Groll)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.bio.nat.tum.de/biochemie/"
+  },
+  "14715": {
+    "org_code": "TUCHOC4",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Biomolekulare NMR-Spektroskopie (Prof. Sattler)",
+      "en": "Chair of Biomolecular NMR-Spectroscopy (Prof. Sattler)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.nmr.ch.tum.de/"
+  },
+  "14721": {
+    "org_code": "TUCHLC1",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Lebensmittelchemie (N.N.)",
+      "en": "Chair of Food Chemistry (N.N.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.leb.chemie.tu-muenchen.de/"
+  },
+  "14722": {
+    "org_code": "TUCHPC1",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Physikalische Chemie (Prof. Heiz)",
+      "en": "Chair of Physical Chemistry (Prof. Heiz)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ch.nat.tum.de/pc/"
+  },
+  "14723": {
+    "org_code": "TUCHPC2",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Biophysikalische Chemie (N.N.)",
+      "en": "Chair of Biophysical Chemistry (N.N.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": null
+  },
+  "14724": {
+    "org_code": "TUCHTH1",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Theoretische Chemie (Prof. em. Domcke)",
+      "en": "Chair of Theoretical Chemistry (Prof. em. Domcke)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.theo.ch.tum.de"
+  },
+  "14733": {
+    "org_code": "TUCHTC1",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Technische Chemie I (Prof. Hinrichsen)",
+      "en": "Chair of Chemical Technology I (Prof. Hinrichsen)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ch.nat.tum.de/tc1/"
+  },
+  "14734": {
+    "org_code": "TUCHTC2",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Technische Chemie II (N.N.)",
+      "en": "Chair of Chemical Technology II (N.N.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ch.nat.tum.de/tc2/"
+  },
+  "14823": {
+    "org_code": "TUWIR01",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Wirtschaftsrecht und Geistiges Eigentum (Prof. Ann)",
+      "en": "Chair of Corporate and Intellectual Property Law (Prof. Ann)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.jura.wi.tum.de"
+  },
+  "14874": {
+    "org_code": "TUCHFV0",
+    "org_name": {
+      "de": "IT Betrieb 5400 (NAT)",
+      "en": "IT Operation 5400 (NAT)"
+    },
+    "org_type": "Verwaltung der School",
+    "org_url": null
+  },
+  "14881": {
+    "org_code": "TUS6OTS",
+    "org_name": "School Office",
+    "org_type": "Verwaltung der School",
+    "org_url": "http://www.mgt.tum.de"
+  },
+  "14927": {
+    "org_code": "TUBVFWW",
+    "org_name": {
+      "de": "Versuchsanstalt f\u00fcr Wasserbau und Wasserwirtschaft",
+      "en": "Hydraulic Engineering and Water Management"
+    },
+    "org_type": "Forschungseinrichtung",
+    "org_url": "http://www.wb.bv.tum.de"
+  },
+  "14947": {
+    "org_code": "TUBVMET",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Metallbau (Prof. Mensinger)",
+      "en": "Chair of Metal Structures (Prof. Mensinger)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.bgu.tum.de/metallbau"
+  },
+  "14991": {
+    "org_code": "TUBVGEO",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Ingenieurgeologie (Prof. Thuro)",
+      "en": "Chair of Engineering Geology (Prof. Thuro)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.bgu.tum.de/eng"
+  },
+  "15074": {
+    "org_code": "TUBVWGA",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Siedlungswasserwirtschaft (Prof. Drewes)",
+      "en": "Chair of Urban Water Systems Engineering (Prof. Drewes)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.bgu.tum.de/en/sww"
+  },
+  "15098": {
+    "org_code": "TULRGDS",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Ingenieurgeod\u00e4sie (Prof. Holst)",
+      "en": "Chair of Engineering Geodesy (Prof. Holst)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.geo.bv.tum.de"
+  },
+  "15101": {
+    "org_code": "TULRAPG",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Astronomische und Physikalische Geod\u00e4sie (Prof. Pail)",
+      "en": "Chair of Astronomical and Physical Geodesy (Prof. Pail)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.iapg.bv.tum.de/iapg.html"
+  },
+  "15103": {
+    "org_code": "TULRLFK",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Kartographie und Visuelle Analytik (Prof. Meng)",
+      "en": "Chair of Cartography and Visual Analytics (Prof. Meng)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.lrg.tum.de/lfk"
+  },
+  "15187": {
+    "org_code": "TUARL05",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Architekturinformatik (Prof. Petzold)",
+      "en": "Chair of Architectural Informatics (Prof. Petzold)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ai.ar.tum.de/"
+  },
+  "15200": {
+    "org_code": "TUARL07",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Baugeschichte, Bauforschung und Denkmalpflege (Prof. von Kienlin)",
+      "en": "Chair of Building History, Building Archaeology and Conservation (Prof. von Kienlin)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.baufo.ar.tum.de/"
+  },
+  "15220": {
+    "org_code": "TUARL23",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Landschaftsarchitektur und -transformation (Prof. Weilacher)",
+      "en": "Chair of Landscape Architecture and Transformation (Prof. Weilacher)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.arc.ed.tum.de/lat/"
+  },
+  "15252": {
+    "org_code": "TUMWFVW",
+    "org_name": {
+      "de": "Zentrale Dienste",
+      "en": "Central Services"
+    },
+    "org_type": "Verwaltung der School",
+    "org_url": "https://www.mw.tum.de/fakultaet/personen-organisation/"
+  },
+  "15268": {
+    "org_code": "TUMWAIS",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Automatisierung und Informationssysteme (Prof. Vogel-Heuser)",
+      "en": "Chair of Automation and Information Systems (Prof. Vogel-Heuser)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.mec.ed.tum.de/ais"
+  },
+  "15270": {
+    "org_code": "TUMWMEM",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Mikrotechnik und Medizinger\u00e4tetechnik (Prof. L\u00fcth)",
+      "en": "Chair of Micro Technology and Medical Device Technology (Prof. L\u00fcth)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.mimed.mw.tum.de"
+  },
+  "15271": {
+    "org_code": "TUMWLAM",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Angewandte Mechanik (Prof. Rixen)",
+      "en": "Chair of Applied Mechanics (Prof. Rixen)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.mw.tum.de/am/home/"
+  },
+  "15272": {
+    "org_code": "TUMWRTK",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Regelungstechnik (Prof. Lohmann)",
+      "en": "Chair of Automatic Control (Prof. Lohmann)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.rt.mw.tum.de/"
+  },
+  "15276": {
+    "org_code": "TUMWWKM",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Werkstoffwissenschaften (Prof. Torgersen)",
+      "en": "Chair of Materials Science (Prof. Torgersen)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.mw.tum.de/wkm"
+  },
+  "15277": {
+    "org_code": "TUMWLNM",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Numerische Mechanik (Prof. Wall)",
+      "en": "Chair of Computational Mechanics (Prof. Wall)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.epc.ed.tum.de/lnm"
+  },
+  "15278": {
+    "org_code": "TUMWUTG",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Umformtechnik und Gie\u00dfereiwesen (Prof. Volk)",
+      "en": "Chair of Metal Forming and Casting (Prof. Volk)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.utg.de"
+  },
+  "15279": {
+    "org_code": "TUMWLMT",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Medizintechnische Materialien und Implantate (Prof. Mela)",
+      "en": "Chair of Medical Materials and Implants (Prof. Mela)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.mw.tum.de/mmi"
+  },
+  "15284": {
+    "org_code": "TUMWLFE",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Ergonomie (Prof. Bengler)",
+      "en": "Chair of Ergonomics (Prof. Bengler)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ergonomie.tum.de"
+  },
+  "15285": {
+    "org_code": "TUMWIWB",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Werkzeugmaschinen und Fertigungstechnik (Prof. Z\u00e4h)",
+      "en": "Chair of Machine Tools and Manufacturing Technology (Prof. Z\u00e4h)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.iwb.tum.de"
+  },
+  "15286": {
+    "org_code": "TUMWBWM",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Betriebswissenschaften und Montagetechnik (Prof. Z\u00e4h komm.)",
+      "en": "Chair of  Industrial Management and Assembly Technologies (Prof. Z\u00e4h komm.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.iwb.tum.de"
+  },
+  "15294": {
+    "org_code": "TUMWBVT",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Bioverfahrenstechnik (Prof. Weuster-Botz)",
+      "en": "Chair of Biochemical Engineering (Prof. Weuster-Botz)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.biovt.mw.tum.de/bioverfahrenstechnik/"
+  },
+  "15298": {
+    "org_code": "TUMWFZG",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Maschinenelemente (Prof. Stahl)",
+      "en": "Chair of Machine Elements (Prof. Stahl)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.fzg.mw.tum.de"
+  },
+  "15299": {
+    "org_code": "TUMWFML",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr F\u00f6rdertechnik Materialfluss Logistik (Prof. Fottner)",
+      "en": "Chair of Chair of Materials Handling, Material Flow, Logistics (Prof. Fottner)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.fml.mw.tum.de/fml/"
+  },
+  "15300": {
+    "org_code": "TUMWFTM",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Fahrzeugtechnik (Prof. Lienkamp)",
+      "en": "Chair of Automotive Technology (Prof. Lienkamp)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ftm.mw.tum.de"
+  },
+  "15304": {
+    "org_code": "TULRLLS",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Luftfahrtsysteme (Prof. Hornung)",
+      "en": "Chair of Aircraft Design (Prof. Hornung)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.lls.mw.tum.de"
+  },
+  "15305": {
+    "org_code": "TULRFSD",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Flugsystemdynamik (Prof. Holzapfel)",
+      "en": "Chair of Flight System Dynamics (Prof. Holzapfel)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.fsd.ed.tum.de/"
+  },
+  "15307": {
+    "org_code": "TUMWAER",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Aerodynamik und Str\u00f6mungsmechanik (Prof. Adams)",
+      "en": "Chair of Aerodynamics and Fluid mechanics (Prof. Adams)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.epc.ed.tum.de/aer"
+  },
+  "15308": {
+    "org_code": "TULRLTF",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Turbomaschinen und Flugantriebe (Prof. G\u00fcmmer)",
+      "en": "Chair of Turbomachinery and Flight Propulsion (Prof. G\u00fcmmer)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.asg.ed.tum.de/ltf/startseite/"
+  },
+  "15309": {
+    "org_code": "TULRLRT",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Raumfahrttechnik (Prof. Holzapfel komm.)",
+      "en": "Chair of Astronautics (Prof. Holzapfel komm.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.lrt.mw.tum.de"
+  },
+  "15315": {
+    "org_code": "TUMWLTD",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Thermodynamics and Heat Transfer (Prof. Wen)",
+      "en": "Chair of Thermodynamics and Heat Transfer (Prof. Wen)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.td.mw.tum.de"
+  },
+  "15316": {
+    "org_code": "TUMWLES",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Energiesysteme (Prof. Spliethoff)",
+      "en": "Chair of Energy Systems (Prof. Spliethoff)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.es.mw.tum.de"
+  },
+  "15318": {
+    "org_code": "TUMWLVK",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Nachhaltige Mobile Antriebssysteme (Prof. Jaensch)",
+      "en": "Chair of Sustainable Mobile Drivetrains (Prof. Jaensch)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.mos.ed.tum.de/nma"
+  },
+  "15319": {
+    "org_code": "TUMWNUK",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Nukleartechnik (Prof. Maci\u00e1n-Juan)",
+      "en": "Chair of Nuclear Technology (Prof. Macian-Juan)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ntech.mw.tum.de"
+  },
+  "15355": {
+    "org_code": "TUEIEWT",
+    "org_name": {
+      "de": "Professur f\u00fcr Energiewandlungstechnik (Prof. Herzog)",
+      "en": "Associate Professorship of Energy Conversion Technology (Prof. Herzog)"
+    },
+    "org_type": "Professur",
+    "org_url": "https://www.epe.ed.tum.de/ewt"
+  },
+  "15356": {
+    "org_code": "TUEIHSA",
+    "org_name": {
+      "de": "Professur f\u00fcr Hochspannungs- und Anlagentechnik (Prof. Jossen komm.)",
+      "en": "Associate Professorship of High Voltage Engineering and Switchgear Technology (Prof. Jossen komm.))"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.hsa.ei.tum.de"
+  },
+  "15358": {
+    "org_code": "TUEIEWK",
+    "org_name": {
+      "de": "Professur f\u00fcr Energiemanagement-Technologien (Prof. Goebel)",
+      "en": "Associate Professorship of Energy Management Technologies (Prof. Goebel)"
+    },
+    "org_type": "Professur",
+    "org_url": "https://www.epe.ed.tum.de/emt"
+  },
+  "15364": {
+    "org_code": "TUEILNT",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Nachrichtentechnik (Prof. Kramer)",
+      "en": "Chair of Communications Engineering (Prof. Kramer)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.ce.cit.tum.de/en/lnt/home/"
+  },
+  "15365": {
+    "org_code": "TUEILDV",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Datenverarbeitung (Prof. Diepold)",
+      "en": "Chair of Data Processing (Prof. Diepold)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ldv.ei.tum.de/"
+  },
+  "15366": {
+    "org_code": "TUEIRCS",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Realzeit-Computersysteme (Prof. Wille komm.)",
+      "en": "Chair of Real-Time Computer Systems (Prof. Wille komm.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.rcs.ei.tum.de"
+  },
+  "15367": {
+    "org_code": "TUEILKN",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Kommunikationsnetze (Prof. Kellerer)",
+      "en": "Chair of Communication Networks (Prof. Kellerer)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.lkn.ei.tum.de"
+  },
+  "15368": {
+    "org_code": "TUEIMMK",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Mensch - Maschine - Kommunikation (Prof. Rigoll)",
+      "en": "Chair of Human-Machine Communication (Prof. Rigoll)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.mmk.ei.tum.de"
+  },
+  "15370": {
+    "org_code": "TUEILMT",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Medientechnik (Prof. Steinbach)",
+      "en": "Chair of Media Technology (Prof. Steinbach)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.lmt.ei.tum.de"
+  },
+  "15376": {
+    "org_code": "TUEITEP",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Technische Elektrophysik (Prof. Schrag komm.)",
+      "en": "Chair of Physics of Electrotechnology (Prof. Schrag komm.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.tep.ei.tum.de"
+  },
+  "15379": {
+    "org_code": "TUEIHLT",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Halbleitertechnologie (Prof. Belkin)",
+      "en": "Chair of Semiconductor Technology (Prof. Belkin)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.wsi.tum.de/Research/AmanngroupE26/tabid/97/Default.aspx"
+  },
+  "15392": {
+    "org_code": "TUEILIS",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Integrierte Systeme (Prof. Herkersdorf)",
+      "en": "Chair of Integrated Systems (Prof. Herkersdorf)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.lis.ei.tum.de"
+  },
+  "15393": {
+    "org_code": "TUEIEDA",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Entwurfsautomatisierung (Prof. Schlichtmann)",
+      "en": "Chair of Electronic Design Automation (Prof. Schlichtmann)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.eda.ei.tum.de"
+  },
+  "15394": {
+    "org_code": "TUEIHFT",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Hochfrequenztechnik (Prof. Eibert)",
+      "en": "Chair of High-Frequency Engineering (Prof. Eibert)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.hft.ei.tum.de"
+  },
+  "15395": {
+    "org_code": "TUEINAN",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Nano- und Quantensensorik (Prof. Weig)",
+      "en": "Chair of Nano and Quantum Sensors (Prof. Weig)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.ei.tum.de/nano"
+  },
+  "15396": {
+    "org_code": "TUEIMSV",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Methoden der Signalverarbeitung (Prof. Utschick)",
+      "en": "Chair of Signal Processing (Prof. Utschick)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.msv.ei.tum.de"
+  },
+  "15403": {
+    "org_code": "TUEILSR",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Steuerungs- und Regelungstechnik (Prof. Buss)",
+      "en": "Chair of Automatic Control Engineering (Prof. Buss)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://lsr.ei.tum.de"
+  },
+  "15405": {
+    "org_code": "TUEIMST",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Messsystem- und Sensortechnik (Prof. Koch)",
+      "en": "Chair of Measurement Systems and Sensor Technology (Prof. Koch)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.mst.ei.tum.de"
+  },
+  "15426": {
+    "org_code": "TUINI01",
+    "org_name": {
+      "de": "Informatik 1 - Lehrstuhl f\u00fcr Engineering Software for Decentralized Systems (Prof. Bhatotia)",
+      "en": "Informatics 1 - Chair of Engineering Software for Decentralized Systems (Prof. Bhatotia)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://dse.in.tum.de"
+  },
+  "15427": {
+    "org_code": "TUINI02",
+    "org_name": {
+      "de": "Informatik 2 - Lehrstuhl f\u00fcr Sprachen und Beschreibungsstrukturen in der Informatik (Prof. Seidl)",
+      "en": "Informatics 2 - Chair of Formal Languages, Compiler Construction, Software Construction (Prof. Seidl)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www2.in.tum.de"
+  },
+  "15428": {
+    "org_code": "TUINI03",
+    "org_name": {
+      "de": "Informatik 3 - Lehrstuhl f\u00fcr Datenbanksysteme (Prof. Kemper)",
+      "en": "Informatics 3 - Chair of database systems (Prof. Kemper)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www-db.in.tum.de"
+  },
+  "15430": {
+    "org_code": "TUINI05",
+    "org_name": {
+      "de": "Informatik 5 - Lehrstuhl f\u00fcr Scientific Computing (Prof. Bungartz)",
+      "en": "Informatics 5 - Chair of Scientific Computing (Prof. Bungartz)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www5.in.tum.de"
+  },
+  "15431": {
+    "org_code": "TUINI06",
+    "org_name": {
+      "de": "Informatik 6 - Lehrstuhl f\u00fcr Robotik, K\u00fcnstliche Intelligenz und Echtzeitsysteme (Prof. Knoll)",
+      "en": "Informatics 6 - Chair of Robotics, Artificial Intelligence and Real-time Systems (Prof. Knoll)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www6.in.tum.de"
+  },
+  "15432": {
+    "org_code": "TUINI07",
+    "org_name": {
+      "de": "Informatik 7 - Lehrstuhl f\u00fcr Theoretische Informatik (Prof. Esparza)",
+      "en": "Informatics 7 - Chair of Theoretical Computer Science (Prof. Esparza)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www7.in.tum.de"
+  },
+  "15433": {
+    "org_code": "TUINI08",
+    "org_name": {
+      "de": "Informatik 8 - Lehrstuhl f\u00fcr Netzarchitekturen und Netzdienste (Prof. Carle)",
+      "en": "Informatics 8 - Chair of Network Architectures and Services (Prof. Carle)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www8.in.tum.de"
+  },
+  "15434": {
+    "org_code": "TUINI09",
+    "org_name": {
+      "de": "Informatik 9 - Lehrstuhl f\u00fcr Computer Vision and Artificial Intelligence (Prof. Cremers)",
+      "en": "Informatics 9 - Chair of Computer Vision and Artificial Intelligence (Prof. Cremers)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www9.in.tum.de"
+  },
+  "15435": {
+    "org_code": "TUINI10",
+    "org_name": {
+      "de": "Informatik 10 - Lehrstuhl f\u00fcr Rechnerarchitektur & Parallele Systeme (Prof. Schulz)",
+      "en": "Informatics 10 - Chair of Computer Architecture and Parallel Systems (Prof. Schulz)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.ce.cit.tum.de/caps"
+  },
+  "15436": {
+    "org_code": "TUINI11",
+    "org_name": {
+      "de": "Informatik 11 - Lehrstuhl f\u00fcr Angewandte Informatik / Kooperative Systeme (N.N.)",
+      "en": "Informatics 11 - Chair of Applied Informatics - Cooperative Systems (N.N.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": null
+  },
+  "15437": {
+    "org_code": "TUINI12",
+    "org_name": {
+      "de": "Informatik 12 - Lehrstuhl f\u00fcr Bioinformatik (Prof. Rost)",
+      "en": "Informatics 12 - Chair of Bioinformatics (Prof. Rost)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www12.in.tum.de"
+  },
+  "15438": {
+    "org_code": "TUINI13",
+    "org_name": {
+      "de": "Informatik 13 - Lehrstuhl f\u00fcr Decentralized Information Systems and Data Management (Prof. Leis)",
+      "en": "Informatics 13 - Chair of Decentralized Information Systems and Data Management (Prof. Leis)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": null
+  },
+  "15439": {
+    "org_code": "TUINI14",
+    "org_name": {
+      "de": "Informatik 14 - Lehrstuhl f\u00fcr Effiziente Algorithmen (N.N.)",
+      "en": "Informatics 14 - Chair of efficient algorithms (N.N.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www14.in.tum.de"
+  },
+  "15440": {
+    "org_code": "TUINI15",
+    "org_name": {
+      "de": "Informatik 15 - Lehrstuhl f\u00fcr Grafik und Visualisierung (Prof. Westermann)",
+      "en": "Informatics 15 - Chair of Computer Graphics and Visualization (Prof. Westermann)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www15.in.tum.de"
+  },
+  "15441": {
+    "org_code": "TUINI16",
+    "org_name": {
+      "de": "Informatik 16 - Lehrstuhl f\u00fcr Anwendungen in der Medizin (Prof. Navab)",
+      "en": "Informatics 16 - Chair of Computer Aided Medical Procedures (Prof. Navab)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://campar.in.tum.de"
+  },
+  "15442": {
+    "org_code": "TUINI17",
+    "org_name": {
+      "de": "Informatik 17 - Lehrstuhl f\u00fcr Wirtschaftsinformatik und Gesch\u00e4ftsprozessmanagement (Prof. Rinderle-Ma)",
+      "en": "Informatics 17 - Chair of  Information Systems and Business Process Management (Prof. Rinderle-Ma)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://bpm.in.tum.de"
+  },
+  "15443": {
+    "org_code": "TUINI18",
+    "org_name": {
+      "de": "Informatik 18 - Lehrstuhl f\u00fcr Decision Sciences & Systems (Prof. Bichler)",
+      "en": "Informatics 18 - Chair of Decision Sciences & Systems (Prof. Bichler)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www18.in.tum.de/"
+  },
+  "15444": {
+    "org_code": "TUINI19",
+    "org_name": {
+      "de": "Informatik 19 - Lehrstuhl f\u00fcr Software Engineering for Business Information Systems (Prof. Matthes)",
+      "en": "Informatics 19 - Chair of Software Engineering for Business Information Systems (Prof. Matthes)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://wwwmatthes.in.tum.de"
+  },
+  "15556": {
+    "org_code": "TUWZS9X",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Biologische Chemie (Prof. Skerra)",
+      "en": "Chair of Biological Chemistry (Prof. Skerra)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://biologische-chemie.userweb.mwn.de/"
+  },
+  "15561": {
+    "org_code": "TUWZQ7Y",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Chemie der Biopolymere (Prof. Skerra komm.)",
+      "en": "Chair of Biopolymer Chemistry (Prof. Skerra komm.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.wzw.tum.de/biopolymere"
+  },
+  "15563": {
+    "org_code": "TUWZI9Q",
+    "org_name": {
+      "de": "Professur f\u00fcr Bioinformatik (Prof. Frischmann)",
+      "en": "Associate Professorship of Bio-Informatics (Prof. Frischmann)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://frishman.wzw.tum.de/index.php?id=2"
+  },
+  "15575": {
+    "org_code": "TUWZT6Y",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Ern\u00e4hrung und Immunologie (Prof. Haller)",
+      "en": "Chair of Nutrition and Immunology (Prof. Haller)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.wzw.tum.de/bflm"
+  },
+  "15578": {
+    "org_code": "TUWZX7T",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Humanbiologie (N.N.)",
+      "en": "Chair of Humanbiology (N.N.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://humanbiology.wzw.tum.de/"
+  },
+  "15579": {
+    "org_code": "TUWZQ9I",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Lebensmittelchemie und molekulare Sensorik (Dr. Dawid komm.)",
+      "en": "Chair of Food Chemistry and Molecular Sensory Science (Prof. Hofmann)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.molekulare-sensorik.de/"
+  },
+  "15605": {
+    "org_code": "TUWZO9R",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Bodenkunde (Prof. K\u00f6gel-Knabner)",
+      "en": "Chair of Soil Science (Prof. K\u00f6gel-Knabner)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www3.ls.tum.de/boku"
+  },
+  "15607": {
+    "org_code": "TUWZT6P",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Terrestrische \u00d6kologie (Prof. Wei\u00dfer)",
+      "en": "Chair of Terrestrial Ecology (Prof. Wei\u00dfer)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.toek.wzw.tum.de"
+  },
+  "15636": {
+    "org_code": "TUWZU6A",
+    "org_name": {
+      "de": "Professur f\u00fcr Entwicklungsbiologie der Pflanzen (Prof. Schneitz)",
+      "en": "Associate Professorship of Plant Developmental Biology (Prof. Schneitz)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://plantdev.bio.wzw.tum.de"
+  },
+  "15645": {
+    "org_code": "TUWZR6Q",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Lebensmittel- und Bio-Prozesstechnik (N.N.)",
+      "en": "Chair of Food and Bioprocess Engineering (N.N.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.lmvt.wzw.tum.de"
+  },
+  "15646": {
+    "org_code": "TUWZT5R",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Agrarsystemtechnik (Prof. Bernhardt)",
+      "en": "Chair of Agricultural  Systems Engineering (Prof. Bernhardt)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.tec.wzw.tum.de/"
+  },
+  "16053": {
+    "org_code": "TUMEMI1",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Medizinische Mikrobiologie, Immunologie und Hygiene (Prof. Busch)",
+      "en": "Chair of Medical Microbiology, Immunology and Hygiene (Prof. Busch)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.mikrobio.med.tum.de/"
+  },
+  "16130": {
+    "org_code": "TUSPL02",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Pr\u00e4ventive P\u00e4diatrie (Prof. Oberhoffer-Fritz)",
+      "en": "Chair of Preventive pediatric (Prof. Oberhoffer-Fritz)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.gesundheit.sp.tum.de"
+  },
+  "16134": {
+    "org_code": "TUMWSGM",
+    "org_name": {
+      "de": "Professur f\u00fcr Sportger\u00e4te und Sportmaterialien (Prof. Senner)",
+      "en": "Associate Professorship of Sport Equipment and Sport Materials (Prof.Senner)"
+    },
+    "org_type": "Professur",
+    "org_url": "https://www.mec.ed.tum.de/spgm/"
+  },
+  "16201": {
+    "org_code": "TUPHE13",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Funktionelle Materialien (Prof. M\u00fcller-Buschbaum)",
+      "en": "Chair of Functional Materials (Prof. M\u00fcller-Buschbaum)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.e13.ph.tum.de"
+  },
+  "16202": {
+    "org_code": "TUPHE14",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Physik Synthetischer Biosysteme (Prof. Simmel)",
+      "en": "Chair of Physics of Synthetic Biological Systems (Prof. Simmel)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.groups.ph.tum.de/en/e14/"
+  },
+  "16203": {
+    "org_code": "TUPHE15",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Experimentelle Astroteilchenphysik (Prof. Sch\u00f6nert)",
+      "en": "Chair of Experimental Astro\u00adparticle Physics (Prof. Sch\u00f6nert)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.e15.ph.tum.de"
+  },
+  "16205": {
+    "org_code": "TUPHE17",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Biomedizinische Physik (Prof. Pfeiffer)",
+      "en": "Chair of Biomedical Physics (Prof. Pfeiffer)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.groups.ph.tum.de/e17/home/"
+  },
+  "16206": {
+    "org_code": "TUPHE18",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Physik I (Prof. Paul)",
+      "en": "Chair of Physics I (Prof. Paul)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.e18.ph.tum.de/"
+  },
+  "16208": {
+    "org_code": "TUPHE20",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Experimentalphysik - Oberfl\u00e4chen- und Grenzfl\u00e4chenphysik (Prof. Barth)",
+      "en": "Chair of Experimental Physics (Prof. Barth)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.e20.ph.tum.de"
+  },
+  "16209": {
+    "org_code": "TUPHE21",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Experimentalphysik II (N.N.)",
+      "en": "Chair of Experimental Physics II (N.N.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.sces.ph.tum.de/"
+  },
+  "16210": {
+    "org_code": "TUPHE22",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Biophysik (Prof. Rief)",
+      "en": "Chair of Biophysics (Prof. Rief)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.biophysics-tum.de/"
+  },
+  "16213": {
+    "org_code": "TUPHE25",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Experimentelle Halbleiterphysik (Prof. Sharp)",
+      "en": "Chair of Experimental Semiconductor Physics (Prof. Sharp)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.wsi.tum.de"
+  },
+  "16214": {
+    "org_code": "TUPHT31",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Theoretische Elementarteilchenphysik (Prof. Beneke)",
+      "en": "Chair of Theoretical Elementary Particle Physics (Prof. Beneke)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.t31.ph.tum.de/"
+  },
+  "16218": {
+    "org_code": "TUPHT38",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Theoretische Biophysik - Molekulardynamik (Prof. Zacharias)",
+      "en": "Chair of Theoretical Biophysics - Biomolecular  Dynamics (Prof. Zacharias)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.t38.ph.tum.de"
+  },
+  "16219": {
+    "org_code": "TUPHT39",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Theoretische Physik - Angewandte Quantenfeldtheorie (N.N.)",
+      "en": "Chair of Theoretical Physics - Applied Quantum Field Theory (N.N.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.t39.ph.tum.de/"
+  },
+  "16343": {
+    "org_code": "TUPEMPA",
+    "org_name": {
+      "de": "Max-Planck-Institut f\u00fcr Astrophysik (MPA)",
+      "en": "Max-Planck-Institute for Astrophysics (MPA)"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": "http://www.mpa-garching.mpg.de/"
+  },
+  "16344": {
+    "org_code": "TUPEMPB",
+    "org_name": {
+      "de": "Max-Planck-Institut f\u00fcr Biochemie (MPBC)",
+      "en": "Max-Planck-Institute for Biochemistry (MPBC)"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": null
+  },
+  "16345": {
+    "org_code": "TUPEIPP",
+    "org_name": {
+      "de": "Max-Planck-Institut f\u00fcr Plasmaphysik (IPP)",
+      "en": "Max-Planck-Institute for Plasmaphysics (IPP)"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": null
+  },
+  "16346": {
+    "org_code": "TUPEMPQ",
+    "org_name": {
+      "de": "Max-Planck-Institut f\u00fcr Quantenoptik (MPQ)",
+      "en": "Max-Planck-Institute for Quantum Optics (MPQ)"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": "http://www.mpq.mpg.de/"
+  },
+  "16347": {
+    "org_code": "TUPEMPE",
+    "org_name": {
+      "de": "Max-Planck-Institut f\u00fcr extraterrestrische Physik (MPE)",
+      "en": "Max-Planck-Institue for Extraterrestrial Physics (MPE)"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": null
+  },
+  "16353": {
+    "org_code": "TUPEBM2",
+    "org_name": {
+      "de": "Staatliches Bauamt M\u00fcnchen 2",
+      "en": "Public Building Authority Munich 2"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": null
+  },
+  "16356": {
+    "org_code": "TUPEWMI",
+    "org_name": {
+      "de": "Walther-Meissner-Institut (WMI)",
+      "en": "Walther-Meissner-Institute (WMI)"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": null
+  },
+  "16358": {
+    "org_code": "TUPEMPP",
+    "org_name": {
+      "de": "Max-Planck-Institut f\u00fcr Physik / Werner-Heisenberg-Institut (MPP)",
+      "en": "Max-Planck-Institute for Physics / Werner-Heisenberg-Institute (MPP)"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": null
+  },
+  "19519": {
+    "org_code": "TUMAM13",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Finanzmathematik (Prof. Zagst)",
+      "en": "Chair of Mathematical Finance (Prof. Zagst)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": null
+  },
+  "19642": {
+    "org_code": "TUGSFGS",
+    "org_name": "TUM Graduate School",
+    "org_type": "Graduiertenschulen",
+    "org_url": "http://www.gs.tum.de"
+  },
+  "19660": {
+    "org_code": "TUZVHR2",
+    "org_name": {
+      "de": "Hochschulreferat 2 - Corporate Communications Center",
+      "en": "Hochschulreferat 2 - Corporate Communications Center (HR2)"
+    },
+    "org_type": "Hochschulreferat",
+    "org_url": "http://portal.mytum.de/ccc/index_html"
+  },
+  "19663": {
+    "org_code": "TUZVHR6",
+    "org_name": {
+      "de": "Hochschulreferat 6 - Gesundheit, Sicherheit, Strahlenschutz",
+      "en": "Hochschulreferat 6 - Health, Safety, Radiation Protection (HR6)"
+    },
+    "org_type": "Hochschulreferat",
+    "org_url": "https://www.hr6.tum.de/"
+  },
+  "19671": {
+    "org_code": "TUZEBIB",
+    "org_name": {
+      "de": "Universit\u00e4tsbibliothek",
+      "en": "University Libraries"
+    },
+    "org_type": "Zentrale Serviceeinrichtung",
+    "org_url": "https://www.ub.tum.de"
+  },
+  "19672": {
+    "org_code": "TUZEZHS",
+    "org_name": {
+      "de": "Zentraler Hochschulsport",
+      "en": "University Sports Center"
+    },
+    "org_type": "Zentrale Serviceeinrichtung",
+    "org_url": null
+  },
+  "19691": {
+    "org_code": "TUZVZA4",
+    "org_name": {
+      "de": "Immobilien (ZA 4)",
+      "en": "Real Estate Management (Central department 4)"
+    },
+    "org_type": "Abteilungen",
+    "org_url": "http://portal.mytum.de/tum/verwaltung/index_html"
+  },
+  "19699": {
+    "org_code": "TUZEIEL",
+    "org_name": {
+      "de": "Zentralinstitut f\u00fcr Ern\u00e4hrungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health",
+      "en": "ZIEL - Institute f\u00fcr Food & Health"
+    },
+    "org_type": "Wissenschaftliches Zentralinstitut",
+    "org_url": "http://www.ziel.tum.de"
+  },
+  "19700": {
+    "org_code": "TUXB70L",
+    "org_name": {
+      "de": "Studiengangsb\u00fcndel WTG",
+      "en": "Academic Programs WTG"
+    },
+    "org_type": "Studiengangsb\u00fcndel",
+    "org_url": "https://www.sot.tum.de/wtg"
+  },
+  "19701": {
+    "org_code": "TUZEZMT",
+    "org_name": "Munich Institute of Biomedical Engineering (MIBE)",
+    "org_type": "Integrative Research Institute",
+    "org_url": "http://www.bioengineering.tum.de"
+  },
+  "19703": {
+    "org_code": "TUZEWSI",
+    "org_name": {
+      "de": "Zentralinstitut f\u00fcr Physikalische Grundlagen d. Halbleiterelektronik - Walter Schottky Institut (WSI)",
+      "en": "Walter Schottky Institute \u2013 Center for Nanotechnology and Nanomaterials (WSI)"
+    },
+    "org_type": "Wissenschaftliches Zentralinstitut",
+    "org_url": "http://www.wsi.tum.de"
+  },
+  "19705": {
+    "org_code": "TUZEFRM",
+    "org_name": {
+      "de": "Forschungs-Neutronenquelle Heinz Maier-Leibnitz (FRM II)",
+      "en": "Research Neutron Source FRM II"
+    },
+    "org_type": "Wissenschaftliches Zentralinstitut",
+    "org_url": "http://www.frm2.tum.de/"
+  },
+  "19706": {
+    "org_code": "TUZEIAS",
+    "org_name": "TUM Institute for Advanced Study (IAS)",
+    "org_type": "Zentrale wissenschaftliche Einrichtung",
+    "org_url": "http://www.ias.tum.de"
+  },
+  "19710": {
+    "org_code": "TUGSSSE",
+    "org_name": "International Graduate School of Science and Engineering (IGSSE)",
+    "org_type": "Graduiertenschule",
+    "org_url": "http://www.igsse.tum.de"
+  },
+  "21453": {
+    "org_code": "TUPHE27",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Zellbiophysik (Prof. Bausch)",
+      "en": "Chair of Cellular Biophysics (Prof. Bausch)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.bauschlab.org/"
+  },
+  "21511": {
+    "org_code": "TUPHENA",
+    "org_name": {
+      "de": "Professur f\u00fcr Experimentalphysik - Nukleare Astrophysik (N.N.)",
+      "en": "Associate Professorship of Experimentalphysik - Nukleare Astrophysik (N.N.)"
+    },
+    "org_type": "Professur",
+    "org_url": null
+  },
+  "21512": {
+    "org_code": "TUPHE62",
+    "org_name": {
+      "de": "Professur f\u00fcr Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti)",
+      "en": "Associate Professorship of Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.denseandstrange.ph.tum.de/"
+  },
+  "21527": {
+    "org_code": "TUPHE59",
+    "org_name": {
+      "de": "Professur f\u00fcr Experimentalphysik - Weiche Materie (Prof. Papadakis)",
+      "en": "Associate Professorship of Experimentalphysik - Weiche Materie (Prof. Papadakis)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.softmatter.ph.tum.de"
+  },
+  "21548": {
+    "org_code": "TUPHETN",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Pr\u00e4zisionsmessungen bei extremen Bedingungen (Prof. Fierlinger)",
+      "en": "Chair of Precision Measurements at Extreme Conditions (Prof. Fierlinger)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.e66.ph.tum.de"
+  },
+  "21554": {
+    "org_code": "TUPHE53",
+    "org_name": {
+      "de": "Professur f\u00fcr Technische Physik (Prof. Krischer)",
+      "en": "Associate Professorship of Technical Physics (Prof. Krischer)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.chemphys.ph.tum.de/"
+  },
+  "21569": {
+    "org_code": "TUPHE51",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Experimentalphysik zur Topologie korrelierter Systeme (Prof. Pfleiderer)",
+      "en": "Chair of Experimental Physics on the Topology of Correlated Systems (Prof. Pfleiderer)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.sces.ph.tum.de/"
+  },
+  "22510": {
+    "org_code": "TUCHTC3",
+    "org_name": {
+      "de": "Wacker-Lehrstuhl f\u00fcr Makromolekulare Chemie (Prof. Rieger)",
+      "en": "Wacker-Chair of Macromolecular Chemistry (Prof. Rieger)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ch.nat.tum.de/makro/"
+  },
+  "23046": {
+    "org_code": "TUCHAC4",
+    "org_name": {
+      "de": "Professur f\u00fcr Anorganische Chemie (Prof. K\u00f6hler)",
+      "en": "Associate Professorship of Inorganic Chemistry (Prof. K\u00f6hler)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.ch.nat.tum.de/ac4/"
+  },
+  "23056": {
+    "org_code": "TUCHAC7",
+    "org_name": {
+      "de": "Professur f\u00fcr Analytische Chemie (N.N.)",
+      "en": "Associate Professorship of Analytical Chemistry (N.N.)"
+    },
+    "org_type": "Professur",
+    "org_url": null
+  },
+  "23181": {
+    "org_code": "TUCHPC3",
+    "org_name": {
+      "de": "Professur f\u00fcr Physikalische Chemie (N.N.)",
+      "en": "Associate Professorship of Physical Chemistry (N.N.)"
+    },
+    "org_type": "Professur",
+    "org_url": null
+  },
+  "23182": {
+    "org_code": "TUCHTH2",
+    "org_name": {
+      "de": "Professur f\u00fcr Theoretische Chemie (N.N.)",
+      "en": "Associate Professorship of Theoretical Chemistry (N.N.)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.theochem.tu-muenchen.de/welcome/"
+  },
+  "23183": {
+    "org_code": "TUCHEM1",
+    "org_name": {
+      "de": "Professur f\u00fcr Elektronenmikroskopie (Prof. Weinkauf)",
+      "en": "Associate Professorship of Electron Microscopy (Prof. Weinkauf)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.bio.nat.tum.de/em/"
+  },
+  "23184": {
+    "org_code": "TUCHAC5",
+    "org_name": {
+      "de": "Professur f\u00fcr Synthese und Charakterisierung innovativer Materialien (Prof. Nilges)",
+      "en": "Associate Professorship of Synthesis and Characterisation of Innovative Materials (Prof. Nilges)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.department.ch.tum.de/acinnomat/"
+  },
+  "23185": {
+    "org_code": "TUCHOC9",
+    "org_name": {
+      "de": "Professur f\u00fcr Proteinchemie (Prof. Zeymer)",
+      "en": "Assistant Professorship of Protein Chemistry (Prof. Zeymer)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.department.ch.tum.de/proteinchemie/"
+  },
+  "24074": {
+    "org_code": "TULRLCC",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Carbon Composites (Prof. Drechsler)",
+      "en": "Chair of Carbon Composites (Prof. Drechsler)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.lcc.mw.tum.de"
+  },
+  "24207": {
+    "org_code": "TUMWAPT",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Anlagen- und Prozesstechnik (Prof. Klein)",
+      "en": "Chair of Plant and Process Technology (Prof. Klein)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.epe.ed.tum.de/apt/"
+  },
+  "24472": {
+    "org_code": "TUEIITR",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Informationstechnische Regelung (Prof. Hirche)",
+      "en": "Chair of Information-oriented Control (Prof. Hirche)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.itr.ei.tum.de"
+  },
+  "24659": {
+    "org_code": "TUEDS10",
+    "org_name": {
+      "de": "Professur f\u00fcr Didaktik der Informatik (Prof. Michaeli)",
+      "en": "Assistant Professorship of Computer Science Education (Prof. Michaeli)"
+    },
+    "org_type": "Professur",
+    "org_url": "https://www.ddi.edu.tum.de"
+  },
+  "24670": {
+    "org_code": "TUINI21",
+    "org_name": {
+      "de": "Informatik 21 - Lehrstuhl f\u00fcr Logik und Verifikation (Prof. Nipkow)",
+      "en": "Informatics 21 - Chair of Logic and Verification (Prof. Nipkow)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www21.in.tum.de"
+  },
+  "24777": {
+    "org_code": "TUWZA1A",
+    "org_name": {
+      "de": "Professur f\u00fcr Protein Modelling (Prof. Frischmann komm.)",
+      "en": "Associate Professorship of Protein Modelling (Prof. Frischmann komm.)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://wzw.tum.de/tcb/"
+  },
+  "25918": {
+    "org_code": "TUZV141",
+    "org_name": {
+      "de": "Bauliche Entwicklungsplanung Campus Garching",
+      "en": "Structural development planning Garching"
+    },
+    "org_type": "Referat",
+    "org_url": null
+  },
+  "25925": {
+    "org_code": "TUZV142",
+    "org_name": {
+      "de": "Geb\u00e4udemanagement Campus Garching (Referat 45)",
+      "en": "Facility management Garching (department 45)"
+    },
+    "org_type": "Referat",
+    "org_url": null
+  },
+  "25963": {
+    "org_code": "TUZVR2X",
+    "org_name": {
+      "de": "Leitung und Assistenz",
+      "en": "Management and Assistance"
+    },
+    "org_type": "Referat",
+    "org_url": "http://www.personal.zv.tum.de/"
+  },
+  "26000": {
+    "org_code": "TUZVR32",
+    "org_name": {
+      "de": "Stellenmanagement (Referat 32)",
+      "en": "Position management (department 32)"
+    },
+    "org_type": "Referat",
+    "org_url": null
+  },
+  "26031": {
+    "org_code": "TUZVR34",
+    "org_name": {
+      "de": "Zentrale Reisekostenstelle (Referat 34)",
+      "en": "Travel cost (department 34)"
+    },
+    "org_type": "Referat",
+    "org_url": null
+  },
+  "26050": {
+    "org_code": "TUZVR40",
+    "org_name": {
+      "de": "Grundsatzangelegenheiten (Referat 40)",
+      "en": "General affairs of the department (department 40)"
+    },
+    "org_type": "Referat",
+    "org_url": null
+  },
+  "26055": {
+    "org_code": "TUZVR42",
+    "org_name": {
+      "de": "Bauliche Entwicklungsplanung Campus M\u00fcnchen",
+      "en": "Structural development planning Munich"
+    },
+    "org_type": "Referat",
+    "org_url": null
+  },
+  "26059": {
+    "org_code": "TUZVR43",
+    "org_name": {
+      "de": "Baumanagement (Referat 43)",
+      "en": "Construction management (department 43)"
+    },
+    "org_type": "Referat",
+    "org_url": null
+  },
+  "26064": {
+    "org_code": "TUZVR44",
+    "org_name": {
+      "de": "Geb\u00e4udemanagement Campus M\u00fcnchen (Referat 44)",
+      "en": "Facility management Munich (department 44)"
+    },
+    "org_type": "Referat",
+    "org_url": null
+  },
+  "26081": {
+    "org_code": "TUZV443",
+    "org_name": {
+      "de": "Infrastruktur (Sachgebiet 443)",
+      "en": "Infrastructure (unit 443)"
+    },
+    "org_type": "Sachgebiet",
+    "org_url": null
+  },
+  "26175": {
+    "org_code": "TUZVR84",
+    "org_name": {
+      "de": "Geb\u00e4udemanagement Campus Weihenstephan (Referat 46)",
+      "en": "Facility management Weihenstephan (department 46)"
+    },
+    "org_type": "Referat",
+    "org_url": "http://www.gm.wzw.tum.de"
+  },
+  "26233": {
+    "org_code": "TUZV845",
+    "org_name": {
+      "de": "Betriebshof, Hausverwaltung (Sachgebiet 465)",
+      "en": "Depot, Property management (unit 465)"
+    },
+    "org_type": "Sachgebiet",
+    "org_url": "http://www.gm.wzw.tum.de"
+  },
+  "26245": {
+    "org_code": "TUZVR86",
+    "org_name": {
+      "de": "Gesch\u00e4ftsf\u00fchrung der agrarwissenschaftlichen Forschungsstationen (Referat 47)",
+      "en": "Management of the Agronomic research station (department 47)"
+    },
+    "org_type": "Referat",
+    "org_url": "http://www.wzw.tum.de/index.php?id=121"
+  },
+  "26608": {
+    "org_code": "TUZEIO2",
+    "org_name": {
+      "de": "TUM Sprachenzentrum",
+      "en": "TUM Language Center"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.sprachenzentrum.tum.de/"
+  },
+  "26729": {
+    "org_code": "TUZEBSP",
+    "org_name": {
+      "de": "Teilbibliothek Sport- und Gesundheitswissenschaften",
+      "en": "Central Service Institutions     Teilbibliothek Sport- und Gesundheitswissenschaften"
+    },
+    "org_type": "Zentrale Serviceeinrichtung",
+    "org_url": null
+  },
+  "26744": {
+    "org_code": "TUZEBCH",
+    "org_name": {
+      "de": "Teilbibliothek Chemie",
+      "en": "Central Service Institutions     Teilbibliothek Chemie"
+    },
+    "org_type": "Zentrale Serviceeinrichtung",
+    "org_url": "https://www.ub.tum.de/teilbibliothek-chemie"
+  },
+  "26745": {
+    "org_code": "TUZEBMW",
+    "org_name": {
+      "de": "Teilbibliothek Maschinenwesen",
+      "en": "Central Service Institutions     Teilbibliothek Maschinenwesen"
+    },
+    "org_type": "Zentrale Serviceeinrichtung",
+    "org_url": "https://www.ub.tum.de/teilbibliothek-maschinenwesen"
+  },
+  "26746": {
+    "org_code": "TUZEBMI",
+    "org_name": {
+      "de": "Teilbibliothek Mathematik / Informatik",
+      "en": "Central Service Institutions     Teilbibliothek Mathematik / Informatik"
+    },
+    "org_type": "Zentrale Serviceeinrichtung",
+    "org_url": "https://www.ub.tum.de/teilbibliothek-mathematik-informatik"
+  },
+  "26747": {
+    "org_code": "TUZEBPH",
+    "org_name": {
+      "de": "Teilbibliothek Physik",
+      "en": "Central Service Institutions     Teilbibliothek Physik"
+    },
+    "org_type": "Zentrale Serviceeinrichtung",
+    "org_url": "https://www.ub.tum.de/teilbibliothek-physik"
+  },
+  "29111": {
+    "org_code": "TUWZA7Y",
+    "org_name": "Life Sciences IT (LSIT)",
+    "org_type": "Verwaltung der School",
+    "org_url": "https://www.itw.wzw.tum.de"
+  },
+  "29165": {
+    "org_code": "TUZECRC",
+    "org_name": {
+      "de": "Zentralinstitut f\u00fcr Katalyseforschung (CRC)",
+      "en": "TUM Catalysis Research Center (CRC)"
+    },
+    "org_type": "Wissenschaftliches Zentralinstitut",
+    "org_url": "http://www.crc.tum.de"
+  },
+  "29396": {
+    "org_code": "TUPRSTB",
+    "org_name": {
+      "de": "Pr\u00e4sidialb\u00fcro",
+      "en": "Office of the President"
+    },
+    "org_type": "Pr\u00e4sidialstab",
+    "org_url": "https://www.tum.de/ueber-die-tum/organisation/hochschulpraesidium/praesidialbuero"
+  },
+  "30361": {
+    "org_code": "TUVBSBV",
+    "org_name": {
+      "de": "Studentische Vertretung",
+      "en": "Student Representatives"
+    },
+    "org_type": "Studentische Beauftragte und Vertretungen",
+    "org_url": "http://www.sv.tum.de"
+  },
+  "30697": {
+    "org_code": "TUINI20",
+    "org_name": {
+      "de": "Informatik 20 - Lehrstuhl f\u00fcr Sicherheit in der Informatik (Prof. Eckert)",
+      "en": "Informatics 20 - Chair of IT Security (Prof. Eckert)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.sec.in.tum.de/"
+  },
+  "31224": {
+    "org_code": "TUCSVRW",
+    "org_name": "TUMCS Office",
+    "org_type": "Wissenschaftliches Zentralinstitut",
+    "org_url": "http://www.cs.tum.de"
+  },
+  "31359": {
+    "org_code": "TUCHNMR",
+    "org_name": "Bayerisches NMR-Zentrum",
+    "org_type": "Weitere Einrichtung",
+    "org_url": "http://www.bnmrz.org/"
+  },
+  "31437": {
+    "org_code": "TUVBPRG",
+    "org_name": {
+      "de": "Personalrat Garching",
+      "en": "Employee Council Garching"
+    },
+    "org_type": "Personalvertretung",
+    "org_url": "http://www.prg.tum.de"
+  },
+  "33167": {
+    "org_code": "TUPEX05",
+    "org_name": {
+      "de": "Nicht zugeordnet",
+      "en": "Not assigned"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": null
+  },
+  "37555": {
+    "org_code": "TUZV44A",
+    "org_name": {
+      "de": "Technisches B\u00fcro Maschinenwesen (4410)",
+      "en": "Technical office Mechanical engineering (unit 4410)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37569": {
+    "org_code": "TUZV44B",
+    "org_name": {
+      "de": "Werkstatt Regel- und F\u00f6rdertechnik (4426)",
+      "en": "Repair shop Control engineering and Conveyor technique (unit 4426)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37584": {
+    "org_code": "TUZV44C",
+    "org_name": {
+      "de": "Werkstatt Heizung - Klima - Sanit\u00e4r einschl. TUM CiO (4412)",
+      "en": "Repair shop Heating air - Conditioning - Sanitary incl. TUM CiO (unit 4412)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37585": {
+    "org_code": "TUZV44D",
+    "org_name": {
+      "de": "Werkstatt Schreinerei und Schlosserei einschl. TUM CiO (4413)",
+      "en": "Joinery and Metal workshop incl. TUM CiO (unit 4412)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37586": {
+    "org_code": "TUZV44E",
+    "org_name": {
+      "de": "Werkstatt Pasing Heizungs- und Klimatechnik (4414)",
+      "en": "Heating and Air conditioning technology (Pasing) (unit 4414)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37622": {
+    "org_code": "TUZV44G",
+    "org_name": {
+      "de": "Technisches B\u00fcro Elektrotechnik, H\u00f6rsaaltechnik (4420)",
+      "en": "Technical office Electrical engineering (unit 4420)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37623": {
+    "org_code": "TUZV44H",
+    "org_name": {
+      "de": "Technisches B\u00fcro Fernmelde-, BMA- und ELA-Technik einschl. Telefonabrechnung (4421)",
+      "en": "Technical office Telecommunication  (unit 4421)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37668": {
+    "org_code": "TUZV44J",
+    "org_name": {
+      "de": "Werkstatt Elektrotechnik (4422)",
+      "en": "Repair shop Electrical engineering (unit 4422)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37796": {
+    "org_code": "TUZV44K",
+    "org_name": {
+      "de": "Werkstatt H\u00f6rsaaltechnik, Medientechnik (4423)",
+      "en": "Repair shop Media technology (unit 4423)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37801": {
+    "org_code": "TUZV44L",
+    "org_name": {
+      "de": "Werkstatt Fernmelde-, BMA- und ELA-Technik (4425)",
+      "en": "Repair shop Telecommunication (unit 4425)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37984": {
+    "org_code": "TUZV44M",
+    "org_name": {
+      "de": "Poststelle, Kurierdienst (4437)",
+      "en": "Post office, Courier service (unit 4437)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37985": {
+    "org_code": "TUZV44N",
+    "org_name": {
+      "de": "Posteinlauf Verwaltung, Registratur (4438)",
+      "en": "Registrar's office (unit 4438)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37986": {
+    "org_code": "TUZV44O",
+    "org_name": {
+      "de": "Dienstfahrzeuge (4431)",
+      "en": "Official vehicle (unit 4431)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37988": {
+    "org_code": "TUZV44Q",
+    "org_name": {
+      "de": "Bewachung, Vermittlung (4432)",
+      "en": "Guarding (unit 4432)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37989": {
+    "org_code": "TUZV44R",
+    "org_name": {
+      "de": "Reinigung, Pflege der Au\u00dfenanlagen, Ausschreibungen (4439)",
+      "en": "Cleaning, Maintenance of outside facilities, Invitations to bid (unit 4439)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37990": {
+    "org_code": "TUZV44S",
+    "org_name": {
+      "de": "Schl\u00fcsselverwaltung (4433)",
+      "en": "Key management (unit 4433)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "37992": {
+    "org_code": "TUZV44U",
+    "org_name": {
+      "de": "Hausmeisterdienste (4435)",
+      "en": "Caretaking service (unit 4435)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "38003": {
+    "org_code": "TUZV44V",
+    "org_name": {
+      "de": "Hausmeisterdienste am TUM CiO (44310)",
+      "en": "Maintenance Service at TUM CiO (unit 44310)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "38004": {
+    "org_code": "TUZV44W",
+    "org_name": {
+      "de": "Werkstatt Elektrotechnik am TUM CiO (4424)",
+      "en": "Electrical engineering, Metalworking shop (unit 4442)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "38006": {
+    "org_code": "TUZV44Y",
+    "org_name": {
+      "de": "Wassersportplatz Starnberg (44311)",
+      "en": "Water sports ground Starnberg (unit 44311)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "38010": {
+    "org_code": "TUZV45A",
+    "org_name": {
+      "de": "H\u00f6rsaalvergabe (4451)",
+      "en": "Lecture hall management (unit 4451)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "38011": {
+    "org_code": "TUZV45B",
+    "org_name": {
+      "de": "Externe An- und Vermietung, Veranstaltungen einschl. TUM CiO (4452)",
+      "en": "External Rental and Renting incl. TUM CiO (unit 4452)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "38136": {
+    "org_code": "TUWIB17",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Strategie und Organisation (Prof. Welpe)",
+      "en": "Chair of Strategy and Organization (Prof. Welpe)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.strategy.wi.tum.de/"
+  },
+  "38541": {
+    "org_code": "TUZV14D",
+    "org_name": {
+      "de": "Maschinentechnische Anlagen (Sachgebiet 451)",
+      "en": "Mechanical plants (unit 451)"
+    },
+    "org_type": "Sachgebiet",
+    "org_url": null
+  },
+  "38542": {
+    "org_code": "TUZV14E",
+    "org_name": {
+      "de": "Elektrotechnische Anlagen (Sachgebiet 452)",
+      "en": "Electrotechnical (unit 452)"
+    },
+    "org_type": "Sachgebiet",
+    "org_url": null
+  },
+  "38577": {
+    "org_code": "TUZV14G",
+    "org_name": "Infrastrukturelles FM Poststelle (4535)",
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "38580": {
+    "org_code": "TUZV14J",
+    "org_name": {
+      "de": "Werkstatt Heizungs- und Klimatechnik (4512)",
+      "en": "Heating and Ventilation (4512)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "38581": {
+    "org_code": "TUZV14K",
+    "org_name": {
+      "de": "Werkstatt Sanit\u00e4r- und K\u00e4ltetechnik (4511)",
+      "en": "Sanitary and Air conditioning systems (4511)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "38597": {
+    "org_code": "TUZV14O",
+    "org_name": {
+      "de": "Werkstatt Elektrotechnik (4522)",
+      "en": "Electric (4522)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "39071": {
+    "org_code": "TUWZM1A",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Brau- und Getr\u00e4nketechnologie (Prof. Becker)",
+      "en": "Chair of Brewing and Beverage Technology (Prof. Becker)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://lbgt.wzw.tum.de/"
+  },
+  "39536": {
+    "org_code": "TUPELMU",
+    "org_name": {
+      "de": "Ludwig-Maximilians-Universit\u00e4t M\u00fcnchen (LMU)",
+      "en": "LMU Munich"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": null
+  },
+  "39687": {
+    "org_code": "TUPESWM",
+    "org_name": {
+      "de": "Studentenwerk M\u00fcnchen",
+      "en": "Student services Munich"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": null
+  },
+  "39688": {
+    "org_code": "TUPEWR0",
+    "org_name": {
+      "de": "Weitere R\u00e4ume",
+      "en": "Additional rooms"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": null
+  },
+  "39906": {
+    "org_code": "TUPELRZ",
+    "org_name": "Leibniz-Rechenzentrum (LRZ)",
+    "org_type": "Weitere Einrichtung",
+    "org_url": "http://www.lrz.de/"
+  },
+  "40661": {
+    "org_code": "TUEDFED",
+    "org_name": {
+      "de": "Ehemalige TUM School of Education",
+      "en": "Former TUM School of Education"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": null
+  },
+  "40981": {
+    "org_code": "TUCHOCA",
+    "org_name": {
+      "de": "Professur f\u00fcr Organische Chemie (Prof. Hintermann)",
+      "en": "Associate Professorship of Organic Chemistry (Prof. Hintermann)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.department.ch.tum.de/oca/"
+  },
+  "41224": {
+    "org_code": "TUPRS03",
+    "org_name": "Munich Dual Career Office",
+    "org_type": "Pr\u00e4sidialstab",
+    "org_url": "http://portal.mytum.de/dualcareer/index_html"
+  },
+  "41772": {
+    "org_code": "TUMWFST",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Bioseparation Engineering (Prof. Berensmeier)",
+      "en": "Chair of Bioseparation Engineering (Prof. Berensmeier)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.mw.tum.de/de/stt/selektive-trenntechnik/"
+  },
+  "41785": {
+    "org_code": "TUMEDE4",
+    "org_name": {
+      "de": "Professur f\u00fcr Epigenetik der Hautalterung (Prof. Djabali)",
+      "en": "Associate Professorship of  Epigenetics of Skin Aging (Prof. Djabali)"
+    },
+    "org_type": "Professur",
+    "org_url": null
+  },
+  "42570": {
+    "org_code": "TUPHUCL",
+    "org_name": {
+      "de": "Exzellenzcluster ORIGINS: Vom Ursprung des Universums bis zu den ersten Bausteinen des Lebens",
+      "en": "Excellence Cluster ORIGINS: From the origins of the universe to the first building blocks of life"
+    },
+    "org_type": "Forschungsprojekt",
+    "org_url": "http://www.origins-cluster.de"
+  },
+  "42657": {
+    "org_code": "TUPHZAV",
+    "org_name": {
+      "de": "Akademische Verwaltung",
+      "en": "Academic administration"
+    },
+    "org_type": "Zentrale Serviceeinrichtung des Departments",
+    "org_url": "https://www.ph.tum.de/about/services/av/"
+  },
+  "42658": {
+    "org_code": "TUPHZVW",
+    "org_name": {
+      "de": "Verwaltung des Physik-Departments",
+      "en": "Administration physics department"
+    },
+    "org_type": "Zentrale Serviceeinrichtung des Departments",
+    "org_url": null
+  },
+  "42666": {
+    "org_code": "TUPHZSS",
+    "org_name": "Radiation Protection & Work Safety (NAT)",
+    "org_type": "Verwaltung der School",
+    "org_url": "https://www.ph.tum.de/about/services/safety/"
+  },
+  "42667": {
+    "org_code": "TUPHZKG",
+    "org_name": "Cryog. Liquids & Gases (NAT)",
+    "org_type": "Verwaltung der School",
+    "org_url": "https://www.ph.tum.de/about/services/cooling/"
+  },
+  "42668": {
+    "org_code": "TUPHZKL",
+    "org_name": "Crystal Lab (NAT)",
+    "org_type": "Verwaltung der School",
+    "org_url": "https://einrichtungen.ph.tum.de/kristallabor/"
+  },
+  "42669": {
+    "org_code": "TUPHZIT",
+    "org_name": {
+      "de": "IT Betrieb 5100 (NAT)",
+      "en": "IT Operation 5100 (NAT)"
+    },
+    "org_type": "Verwaltung der School",
+    "org_url": "https://www.ph.tum.de/about/services/it/"
+  },
+  "42670": {
+    "org_code": "TUPHCOM",
+    "org_name": {
+      "de": "Studentisches Rechnen 5100 (NAT)",
+      "en": "IT Services Students 5100 (NAT)"
+    },
+    "org_type": "Verwaltung der School",
+    "org_url": "https://www.ph.tum.de/about/services/computing/"
+  },
+  "42933": {
+    "org_code": "TUMWSBT",
+    "org_name": {
+      "de": "Professur f\u00fcr Systembiotechnologie (Prof. Kremling)",
+      "en": "Associate Professorship of Systems biotechnology (Prof. Kremling)"
+    },
+    "org_type": "Professur",
+    "org_url": "https://www.mw.tum.de/sbt/startseite/"
+  },
+  "43299": {
+    "org_code": "TUWZM5E",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Analytische Lebensmittelchemie (Prof. Rychlik)",
+      "en": "Chair of Analytical Food Chemistry (Prof. Rychlik)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.alc.wzw.tum.de"
+  },
+  "43428": {
+    "org_code": "TUCHOCB",
+    "org_name": {
+      "de": "Professur f\u00fcr Festk\u00f6rper-NMR-Spektroskopie (Prof. Reif)",
+      "en": "Associate Professorship of Solid-State NMR spectroscopy (Prof. Reif)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.bio.nat.tum.de/ocb/"
+  },
+  "43429": {
+    "org_code": "TULRHST",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Hubschrauber und Senkrechtstarter (Prof. Yavrucuk)",
+      "en": "Chair of Rotorcraft and Powered Lift Vehicles (Prof. Yavrucuk)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ht.mw.tum.de"
+  },
+  "43449": {
+    "org_code": "TUWIB18",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Entrepreneurship (Prof. Patzelt)",
+      "en": "Chair of Entrepreneurship (Prof. Patzelt)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ent.wi.tum.de"
+  },
+  "43476": {
+    "org_code": "TUBVZWP",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Zerst\u00f6rungsfreie Pr\u00fcfung (Prof. Gro\u00dfe)",
+      "en": "Chair of Non-destructive Testing (Prof. Gro\u00dfe)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.zfp.tum.de"
+  },
+  "43583": {
+    "org_code": "TUCHPC4",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Technische Elektrochemie (Prof. Gasteiger)",
+      "en": "Chair of Technical Electrochemistry (Prof. Gasteiger)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ch.nat.tum.de/tec/"
+  },
+  "43589": {
+    "org_code": "TUZEMSE",
+    "org_name": "Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)",
+    "org_type": "Integrative Research Institute",
+    "org_url": "https://www.mep.tum.de/"
+  },
+  "43787": {
+    "org_code": "TUEISEC",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Sicherheit in der Informationstechnik (Prof. Sigl)",
+      "en": "Chair of Security in Information Technology (Prof. Sigl)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.sec.ei.tum.de/"
+  },
+  "43835": {
+    "org_code": "TUCHPC5",
+    "org_name": {
+      "de": "Professur f\u00fcr Physikalische Chemie mit Schwerpunkt Katalyse (Prof. G\u00fcnther)",
+      "en": "Associate Professorship of Physical Chemistry with Focus on Catalysis (Prof. G\u00fcnther)"
+    },
+    "org_type": "Professur",
+    "org_url": "https://www.department.ch.tum.de/pc5/"
+  },
+  "43836": {
+    "org_code": "TUPEYIT",
+    "org_name": "Caverion Deutschland GmbH",
+    "org_type": "Weitere Einrichtung",
+    "org_url": "http://www.caverion.de"
+  },
+  "44066": {
+    "org_code": "TUEILTI",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Theoretische Informationstechnik (Prof. Boche)",
+      "en": "Chair of Theoretical Information Technology (Prof. Boche)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.lti.ei.tum.de/"
+  },
+  "44264": {
+    "org_code": "TUINZE1",
+    "org_name": {
+      "de": "Zentrale Einrichtungen des Instituts f\u00fcr Informatik",
+      "en": "Central institutions of the academic department"
+    },
+    "org_type": "Zentrale Einrichtung der Fakult\u00e4t",
+    "org_url": null
+  },
+  "44266": {
+    "org_code": "TUINRBG",
+    "org_name": {
+      "de": "Rechnerbetriebsgruppe Mathematik und Informatik (RBG)",
+      "en": "System Administration Group Informatics (RBG-IN)"
+    },
+    "org_type": "Zentrale Serviceeinrichtung des Departments",
+    "org_url": "http://wwwrbg.in.tum.de"
+  },
+  "44284": {
+    "org_code": "TUCHTC4",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Synthetische Biotechnologie (Prof. Br\u00fcck)",
+      "en": "Werner Siemens-Chair of Synthetic Biotechnology (WSSB) (Prof. Br\u00fcck)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.department.ch.tum.de/wssb/"
+  },
+  "44304": {
+    "org_code": "TUZERCM",
+    "org_name": {
+      "de": "Radiochemie M\u00fcnchen (RCM)",
+      "en": "Radiochemistry Munich (RCM)"
+    },
+    "org_type": "Forschungseinrichtung",
+    "org_url": "http://www.rcm.tum.de"
+  },
+  "44344": {
+    "org_code": "TUZV44F",
+    "org_name": {
+      "de": "Umz\u00fcge, Beschilderungen (4436)",
+      "en": "Removals, Labelling (unit 4436)"
+    },
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "44565": {
+    "org_code": "TUZEFWB",
+    "org_name": {
+      "de": "Forschungszentrum f\u00fcr Wei\u00dfe Biotechnologie (i.Gr.)",
+      "en": "Research Center for Industrial Biotechnology"
+    },
+    "org_type": "Forschungseinrichtung",
+    "org_url": null
+  },
+  "44864": {
+    "org_code": "TUMWBME",
+    "org_name": {
+      "de": "Professur f\u00fcr Biomechanik (Prof. Lieleg)",
+      "en": "Associate Professorship of Biomechanik (Prof. Lieleg)"
+    },
+    "org_type": "Professur",
+    "org_url": "https://www.mw.tum.de/bme/startseite/"
+  },
+  "45028": {
+    "org_code": "TUPHECP",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Experimental Physics with Cosmic Particles (Prof. Resconi)",
+      "en": "Chair of Experimental Physics with Cosmic Particles (Prof. Resconi)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.cosmic-particles.ph.tum.de/"
+  },
+  "45070": {
+    "org_code": "TUZV848",
+    "org_name": "Werkfeuerwehr Weihenstephan (Sachgebiet 468)",
+    "org_type": "Sachgebiet",
+    "org_url": "http://www.feuerwehr.wzw.tum.de"
+  },
+  "45151": {
+    "org_code": "TUINI22",
+    "org_name": {
+      "de": "Informatik 4 - Lehrstuhl f\u00fcr Software & Systems Engineering (Prof. Pretschner)",
+      "en": "Informatics 4 - Chair of Software & Systems Engineering (Prof. Pretschner)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": null
+  },
+  "45310": {
+    "org_code": "TUWZB3P",
+    "org_name": {
+      "de": "Professur f\u00fcr Biodiversit\u00e4t der Pflanzen (Prof. Sch\u00e4fer)",
+      "en": "Associate Professorship of Biodiversit\u00e4t der Pflanzen (Prof. Sch\u00e4fer)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.biodiv.wzw.tum.de/index.php?id=2"
+  },
+  "45351": {
+    "org_code": "TUZEMCT",
+    "org_name": {
+      "de": "Ehemaliges Munich Center for Technology in Society (MCTS)",
+      "en": "Former Munich Center for Technology in Society (MCTS)"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.mcts.tum.de"
+  },
+  "45370": {
+    "org_code": "TUMWKME",
+    "org_name": {
+      "de": "Professur f\u00fcr Data-driven Materials Modeling (Prof. Koutsourelakis)",
+      "en": "Associate Professorship of Data-driven Materials Modeling (Prof. Koutsourelakis)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.contmech.mw.tum.de/"
+  },
+  "45391": {
+    "org_code": "TUZEFAM",
+    "org_name": "TUM.Family",
+    "org_type": "Arbeitsbereich",
+    "org_url": "http://www.chancengleichheit.tum.de/familie/"
+  },
+  "45500": {
+    "org_code": "TUVBMPI",
+    "org_name": {
+      "de": "Fachschaftsverbund Mathematik/Physik/Informatik/Chemie",
+      "en": "Student councils Mathematics/Physics/Informatics/Chemistry"
+    },
+    "org_type": "Fachschaft",
+    "org_url": "http://mpi.fs.tum.de"
+  },
+  "45791": {
+    "org_code": "TUEDS23",
+    "org_name": {
+      "de": "Ausbildungszentrum der Technischen Universit\u00e4t M\u00fcnchen (AuTUM)",
+      "en": "AuTUM - TUM Vocational Training Center"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": "http://www.berufsausbildung.tum.de"
+  },
+  "45951": {
+    "org_code": "TUMWLWE",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Windenergie (Prof. Bottasso)",
+      "en": "Chair of Wind Energy (Prof. Bottasso)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.wind.mw.tum.de/"
+  },
+  "45971": {
+    "org_code": "TUZVR87",
+    "org_name": {
+      "de": "Bauliche Entwicklungsplanung Campus Weihenstephan",
+      "en": "Structural development planning Weihenstephan"
+    },
+    "org_type": "Referat",
+    "org_url": null
+  },
+  "46215": {
+    "org_code": "TUPHTTC",
+    "org_name": {
+      "de": "Professur f\u00fcr Theoretische Teilchenphysik an Collidern (Prof. Weiler)",
+      "en": "Associate Professorship of Theoretical Particle Physics at Colliders (Prof. Weiler)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.t75.ph.tum.de/"
+  },
+  "46275": {
+    "org_code": "TUEIENS",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Erneuerbare und Nachhaltige Energiesysteme (Prof. Hamacher)",
+      "en": "Chair of Renewable and Sustainable Energy Systems (Prof. Hamacher)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ens.ei.tum.de"
+  },
+  "46357": {
+    "org_code": "TUINL14",
+    "org_name": {
+      "de": "Informatik 14 - Lehrstuhl f\u00fcr Algorithmen und Komplexit\u00e4t (Prof. Albers)",
+      "en": "Informatics 14 - Chair of Algorithms and Complexity (Prof. Albers)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": null
+  },
+  "46617": {
+    "org_code": "TUPHTBS",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Theoretische Physik  - Theorie komplexer Biosysteme (Prof. Gerland)",
+      "en": "Chair of Theoretical Physics - Theory of Complex Biosystems (Prof. Gerland)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.qbio.ph.tum.de/"
+  },
+  "46657": {
+    "org_code": "TUPHECS",
+    "org_name": {
+      "de": "Professur f\u00fcr Physics of Energy Conversion and Storage (Prof. Bandarenka)",
+      "en": "Assistant Professorship of Physics of Energy Conversion and Storage (Prof. Bandarenka)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.energy.ph.tum.de/"
+  },
+  "46837": {
+    "org_code": "TUCHACB",
+    "org_name": {
+      "de": "Professur f\u00fcr Bioanorganische Chemie (N.N.)",
+      "en": "Assistant Professorship of Bioinorganic Chemistry (N.N.)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.ch.nat.tum.de/bioinorganic/"
+  },
+  "46937": {
+    "org_code": "TUCHOCE",
+    "org_name": {
+      "de": "Professur f\u00fcr Strukturelle Membranbiochemie (Prof. Hagn)",
+      "en": "Associate Professorship of Structural Membrane Biochemistry (Prof. Hagn)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.department.ch.tum.de/membrane/"
+  },
+  "46938": {
+    "org_code": "TUCHOCF",
+    "org_name": {
+      "de": "Professur f\u00fcr Zellul\u00e4re Proteinbiochemie (Prof. Feige)",
+      "en": "Associate Professorship of Cellular Protein Biochemistry (Prof. Feige)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.bio.nat.tum.de/cell/home/"
+  },
+  "47097": {
+    "org_code": "TUPHENE",
+    "org_name": {
+      "de": "Elementarteilchenphysik bei niedrigen Energien (Prof. M\u00e4rkisch)",
+      "en": "Associate Professorship of Fundamental Particle Physics at Low Energies (Prof. M\u00e4rkisch)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.ene.ph.tum.de"
+  },
+  "47098": {
+    "org_code": "TUPHEMF",
+    "org_name": {
+      "de": "Professur f\u00fcr Molekulare Nanowissenschaft an Grenzfl\u00e4chen (Prof. Auw\u00e4rter)",
+      "en": "Associate Professorship of Molecular Engineering at Functional Interfaces (Prof. Auw\u00e4rter)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.nanosurfs.ph.tum.de/"
+  },
+  "47278": {
+    "org_code": "TUPHTCQ",
+    "org_name": {
+      "de": "Professur f\u00fcr Kollektive Quantendynamik (Prof. Knap)",
+      "en": "Associate Professorship of Collective Quantum Dynamics (Prof. Knap)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://users.ph.tum.de/ga32pex/"
+  },
+  "47377": {
+    "org_code": "TUCHACC",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Anorganische und Metallorganische Chemie (Prof. Fischer)",
+      "en": "Chair of Inorganic and Organometallic Chemistry (Prof. Fischer)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ch.nat.tum.de/amc/"
+  },
+  "47477": {
+    "org_code": "TUPHZTL",
+    "org_name": "Technology (NAT)",
+    "org_type": "Verwaltung der School",
+    "org_url": "https://www.ph.tum.de/about/services/ztl/"
+  },
+  "47617": {
+    "org_code": "TUMWVIB",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Akustik mobiler Systeme (Prof. Marburg)",
+      "en": "Chair of Vibro-Acoustics of Vehicles and Machines (Prof. Marburg)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.epc.ed.tum.de/vib/"
+  },
+  "47637": {
+    "org_code": "TUSPL18",
+    "org_name": {
+      "de": "Professur f\u00fcr Sportbiologie (Prof. Wackerhage)",
+      "en": "Associate Professorship of Exercise Biology (Prof. Wackerhage)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.exercisebiology.sg.tum.de"
+  },
+  "47717": {
+    "org_code": "TUPOFPO",
+    "org_name": {
+      "de": "Ehemalige TUM School of Governance",
+      "en": "Former TUM School of Governance"
+    },
+    "org_type": "Fakult\u00e4t",
+    "org_url": "http://www.gov.tum.de"
+  },
+  "48099": {
+    "org_code": "TUPHEDM",
+    "org_name": {
+      "de": "Professur f\u00fcr Dark Matter (Prof. Mertens)",
+      "en": "Associate Professorship of Dark Matter (Prof. Mertens)"
+    },
+    "org_type": "Professur",
+    "org_url": "https://www.mpp.mpg.de/forschung/astroteilchenphysik-und-kosmologie/katrin-und-tristan-neutrinos-und-dunkle-materie/"
+  },
+  "48100": {
+    "org_code": "TUPHEOC",
+    "org_name": {
+      "de": "Professur f\u00fcr Observational Cosmology (Prof. Suyu)",
+      "en": "Associate Professorship of Observational Cosmology (Prof. Suyu)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.mpa-garching.mpg.de/mitarbeiter/47527/164238"
+  },
+  "48217": {
+    "org_code": "TUPHTFK",
+    "org_name": {
+      "de": "Professur f\u00fcr Theoretische Festk\u00f6rperphysik (Prof. Pollmann)",
+      "en": "Associate Professorship of Theoretical Solid-State Physics (Prof. Pollmann)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": null
+  },
+  "48258": {
+    "org_code": "TUINF19",
+    "org_name": {
+      "de": "Informatik 28 - Professur f\u00fcr Visual Computing (Prof. Nie\u00dfner)",
+      "en": "Informatics 28 - Associate Professorship of Visual Computing (Prof. Nie\u00dfner)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://niessnerlab.org/"
+  },
+  "48298": {
+    "org_code": "TUZV453",
+    "org_name": "Facility Management und Zeiterfassung (Sachgebiet 453)",
+    "org_type": "Sachgebiet",
+    "org_url": null
+  },
+  "48305": {
+    "org_code": "TUZV45G",
+    "org_name": "Infrastrukturelles FM allgemein (4533)",
+    "org_type": "Arbeitsbereich",
+    "org_url": null
+  },
+  "48377": {
+    "org_code": "TUPHEQT",
+    "org_name": {
+      "de": "Professur f\u00fcr Quantum Technologies (Prof. Poot)",
+      "en": "Assistant Professorship of Quantum Technologies (Prof. Poot)"
+    },
+    "org_type": "Professur",
+    "org_url": "https://www.groups.ph.tum.de/qtech"
+  },
+  "48698": {
+    "org_code": "TUWZE1B",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Experimentelle Bioinformatik (Prof. K\u00fcster komm.)",
+      "en": "Chair of Experimental Bioinformatics (Prof. K\u00fcster komm.)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www1.ls.tum.de/exbio/"
+  },
+  "48837": {
+    "org_code": "TUMWLPL",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Produktentwicklung und Leichtbau (Prof. Zimmermann)",
+      "en": "Chair of Product Development and Lightweight Design (Prof. Zimmermann)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.mw.tum.de/lpl/"
+  },
+  "48957": {
+    "org_code": "TUPHEFS",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Experimentalphysik funktionaler Spinsysteme (Prof. Back)",
+      "en": "Chair of Experimental Physics of Functional Spin-Systems"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "https://www.groups.ph.tum.de/efs/"
+  },
+  "49055": {
+    "org_code": "TURM000",
+    "org_name": "Munich Institute of Robotics and Machine Intelligence (MIRMI)",
+    "org_type": "Integrative Research Institute",
+    "org_url": null
+  },
+  "49280": {
+    "org_code": "TUEILAB",
+    "org_name": {
+      "de": "Zentrales Elektronik- und Informationstechnologielabor - ZEITlab",
+      "en": "Other Institution Central Electronics and IT Lab - ZEITlab"
+    },
+    "org_type": "Weitere Einrichtung",
+    "org_url": "https://www.ei.tum.de/lab"
+  },
+  "49317": {
+    "org_code": "TUMWCPS",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Cyber-Physical Systems in Production Engineering (Prof. Caccamo)",
+      "en": "Chair of Cyber-Physical Systems in Production Engineering (Prof. Caccamo)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": null
+  },
+  "49382": {
+    "org_code": "TUWIH01",
+    "org_name": {
+      "de": "Campus Heilbronn Gruppe",
+      "en": "Campus Heilbronn Group"
+    },
+    "org_type": "Verwaltung der School",
+    "org_url": null
+  },
+  "49597": {
+    "org_code": "TUZECPA",
+    "org_name": "Center for Functional Protein Assemblies (CPA)",
+    "org_type": "Wissenschaftliches Zentralinstitut",
+    "org_url": "https://www.cpa-munich.org/"
+  },
+  "49657": {
+    "org_code": "TUEILSE",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Schaltungsentwurf (Prof. Brederlow)",
+      "en": "Chair of Circuit Design (Prof. Brederlow)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.ei.tum.de/lse"
+  },
+  "49797": {
+    "org_code": "TUPHTFE",
+    "org_name": {
+      "de": "Professur f\u00fcr Theory of Functional Energy Materials (Prof. Egger)",
+      "en": "Assistant Professorship of Theory of Functional Energy Materials (Prof. Egger)"
+    },
+    "org_type": "Professur",
+    "org_url": "https://theofem.de/"
+  },
+  "50157": {
+    "org_code": "TUMWMAT",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Werkstofftechnik der Additiven Fertigung (Prof. Mayr)",
+      "en": "Chair of Materials Engineering of Additive Manufacturing (Prof. Mayr)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "http://www.mw.tum.de/mat"
+  },
+  "50158": {
+    "org_code": "TUMWMFM",
+    "org_name": {
+      "de": "Professur f\u00fcr Multiscale Modeling of Fluid Materials (Prof. Zavadlav)",
+      "en": "Assistant Professorship of Multiscale Modeling of Fluid Materials (Prof. Zavadlav)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.mw.tum.de/mfm"
+  },
+  "50277": {
+    "org_code": "TUPHTQM",
+    "org_name": {
+      "de": "Professur f\u00fcr Theorie der Quantenmaterie und Nanophysik (Prof. Knolle)",
+      "en": "Associate Professorship of Theorie der Quantenmaterie und Nanophysik (Prof. Knolle)"
+    },
+    "org_type": "Professur",
+    "org_url": null
+  },
+  "50301": {
+    "org_code": "TUPHTBN",
+    "org_name": {
+      "de": "Professur f\u00fcr Theorie biologischer Netzwerke (Prof. Alim)",
+      "en": "Associate Professorship of Theory of Biological Networks (Prof. Alim)"
+    },
+    "org_type": "Professur",
+    "org_url": "http://www.bpm.ph.tum.de/"
+  },
+  "50457": {
+    "org_code": "TUMWLBA",
+    "org_name": {
+      "de": "Professur f\u00fcr Laser-based Additive Manufacturing (Prof. Wudy)",
+      "en": "Assistant Professorship of Laser-based Additive Manufacturing (Prof. Wudy)"
+    },
+    "org_type": "Professur",
+    "org_url": "https://www.mw.tum.de/lbam"
+  },
+  "50597": {
+    "org_code": "TUZELLL",
+    "org_name": "TUM Institute for Life Long Learning",
+    "org_type": "Zentrale wissenschaftliche Einrichtung",
+    "org_url": "https://www.tum.de/studium/lebenslanges-lernen/"
+  },
+  "50817": {
+    "org_code": "TUWZI2M",
+    "org_name": {
+      "de": "Professur f\u00fcr Intestinal Microbiome (Prof. Hall)",
+      "en": "Associate Professorship of Intestinal Microbiome (Prof. Hall)"
+    },
+    "org_type": "Professur",
+    "org_url": "https://www1.ls.tum.de/imb/home/"
+  },
+  "51157": {
+    "org_code": "TUINI31",
+    "org_name": {
+      "de": "Informatik 31 - Lehrstuhl f\u00fcr Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment der Fakult\u00e4t f\u00fcr Medizin und TUM School of Computation, Information and Technology)",
+      "en": "Informatics 31 - Chair of Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment between Department of Medicine und TUM School of Computation, Information and Technology)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": null
+  },
+  "51258": {
+    "org_code": "TUS4000",
+    "org_name": "TUM School of Life Sciences",
+    "org_type": "TUM School",
+    "org_url": "https://www.wzw.tum.de/index.php?id=2&L=1"
+  },
+  "51267": {
+    "org_code": "TUS2000",
+    "org_name": "TUM School of Engineering and Design",
+    "org_type": "TUM School",
+    "org_url": "https://www.ed.tum.de/ed/startseite/"
+  },
+  "51317": {
+    "org_code": "TUZEDSI",
+    "org_name": "Munich Data Science Institute (MDSI)",
+    "org_type": "Integrative Research Institute",
+    "org_url": "http://www.mdsi.tum.de"
+  },
+  "51457": {
+    "org_code": "TUZEGNI",
+    "org_name": "TUM Georg Nemetschek Institute",
+    "org_type": "Institut",
+    "org_url": "http://www.gni.tum.de"
+  },
+  "51837": {
+    "org_code": "TUS2DP1",
+    "org_name": "Department of Aerospace and Geodesy",
+    "org_type": "Department",
+    "org_url": null
+  },
+  "51901": {
+    "org_code": "TUS7000",
+    "org_name": "TUM School of Social Sciences and Technology",
+    "org_type": "TUM School",
+    "org_url": "https://www.sot.tum.de/"
+  },
+  "51917": {
+    "org_code": "TUS4F4C",
+    "org_name": "TUM Food and Agro Center for Innovation and Technology (FACIT)",
+    "org_type": "Core Facility",
+    "org_url": null
+  },
+  "52498": {
+    "org_code": "TUS7DP2",
+    "org_name": "Department of Governance",
+    "org_type": "Department",
+    "org_url": null
+  },
+  "52517": {
+    "org_code": "TUS7DP3",
+    "org_name": "Department of Science, Technology and Society",
+    "org_type": "Department",
+    "org_url": null
+  },
+  "53837": {
+    "org_code": "TUPHEQN",
+    "org_name": {
+      "de": "Professur f\u00fcr Quantennetzwerke (Prof. Reiserer)",
+      "en": "Assistant Professorship of Quantum Networks (Prof. Reiserer)"
+    },
+    "org_type": "Professur",
+    "org_url": null
+  },
+  "54084": {
+    "org_code": "TUS3O11",
+    "org_name": "Facility Management (NAT)",
+    "org_type": "Verwaltung der School",
+    "org_url": null
+  }
+}
