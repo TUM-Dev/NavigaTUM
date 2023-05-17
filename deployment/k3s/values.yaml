@@ -8,7 +8,7 @@ server:
 mielisearch:
   image:
     repository: 'getmeili/meilisearch'
-    tag: v1.1
+    tag: v1.1.1
 calendar:
   scrape_tasks:
     - name: refresh-calendar-fast
