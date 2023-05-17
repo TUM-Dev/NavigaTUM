@@ -46,7 +46,7 @@ feedback:
   type:
     general: "General"
     bug: "Bug"
-    feature: "Features"
+    features: "Features"
     search: "Search"
     entry: "Entry"
   mail: "E-Mail (optional)"

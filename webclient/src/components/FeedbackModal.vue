@@ -193,13 +193,9 @@ function sendForm() {
                 v-bind:aria-label="$t('feedback.category')"
                 v-model="global.feedback.category"
               >
-                <option value="general">
-                  {{ $t("feedback.type.general") }}
-                </option>
+                <option value="general">{{ $t("feedback.type.general") }}</option>
                 <option value="bug">{{ $t("feedback.type.bug") }}</option>
-                <option value="features">
-                  {{ $t("feedback.type.features") }}
-                </option>
+                <option value="features">{{ $t("feedback.type.features") }}</option>
                 <option value="search">{{ $t("feedback.type.search") }}</option>
                 <option value="entry">{{ $t("feedback.type.entry") }}</option>
               </select>
@@ -267,7 +263,7 @@ function sendForm() {
             </label>
           </div>
 
-          <div class="buttons">
+          <div class="float-right">
             <button class="btn" @click="closeForm">
               {{ $t("feedback.cancel") }}
             </button>
@@ -328,8 +324,8 @@ function sendForm() {
     display: inline-block;
   }
 
-  .buttons {
-    text-align: right;
+  .btn {
+    margin: 0 0.1em;
   }
 
   .feedback-overlay {
