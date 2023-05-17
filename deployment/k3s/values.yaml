@@ -5,7 +5,7 @@ server:
   MEILI_MASTER_KEY: ""
   GITHUB_TOKEN: ""
   JWT_KEY: ""
-mieli-search:
+mielisearch:
   image:
     repository: 'getmeili/meilisearch'
     tag: v1.1
