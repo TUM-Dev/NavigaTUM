@@ -3,6 +3,8 @@ mod search_executor;
 use actix_web::{get, web, HttpRequest, HttpResponse};
 use serde::{Deserialize, Serialize};
 use std::time::Instant;
+use unicode_truncate::UnicodeTruncateStr;
+
 #[derive(Deserialize)]
 pub struct SearchQueryArgs {
     q: String,
@@ -57,14 +59,16 @@ fn sanitise_args(args: SearchQueryArgs) -> (String, (String, String), SanitisedS
         limit_rooms: args.limit_rooms.unwrap_or(10).clamp(0, 1_000),
         limit_all: args.limit_all.unwrap_or(10).clamp(1, 1_000),
     };
-    let mut highlighting = (
+    let highlighting = (
         args.pre_highlight.unwrap_or_else(|| "\u{0019}".to_string()),
         args.post_highlight
             .unwrap_or_else(|| "\u{0017}".to_string()),
     );
     // After 25 char this parameter kind of misses the point it tries to address.
     // for DOS Reasons this is truncated
-    highlighting.0.truncate(25);
-    highlighting.1.truncate(25);
+    let highlighting = (
+        highlighting.0.unicode_truncate(25).0.to_string(),
+        highlighting.1.unicode_truncate(25).0.to_string(),
+    );
     (args.q, highlighting, sanitised_args)
 }
