@@ -7,7 +7,7 @@
 - name: Install grafana
   kubernetes.core.helm:
     atomic: true
-    wait: false
+    wait: true
     update_repo_cache: yes
     release_state: present
     chart_version: 6.56.2
@@ -21,19 +21,21 @@
           domain: "grafana.nav.tum.sexy"
           root_url: "https://%(domain)s"
         auth.basic:
-          enabled: true
+          enabled: false
         auth.github:
           enabled: true
           allow_sign_up: true
-          auto_login: false
-          client_id: "{{ lookup('ansible.builtin.password', 'credentials/argocd/github_clientID') | b64encode }}"
-          client_secret: "{{ lookup('ansible.builtin.password', 'credentials/argocd/github_clientSecret') | b64encode }}"
+          auto_login: true
+          client_id: "{{ lookup('ansible.builtin.password', 'credentials/grafana/github_clientID') }}"
+          client_secret: "{{ lookup('ansible.builtin.password', 'credentials/grafana/github_clientSecret') }}"
           scopes: user:email,read:org
           auth_url: https://github.com/login/oauth/authorize
           token_url: https://github.com/login/oauth/access_token
           api_url: https://api.github.com/user
-          team_ids: navigatum
-          allowed_organizations: tum-dev
+          # only users in TUM-Dev/Ops are GrafanaAdmin, all others are Viewer
+          role_attribute_path: "[login==CommanderStorm] && 'GrafanaAdmin' || 'Viewer'"
+          allow_assign_grafana_admin: true
+          allowed_organizations: TUM-Dev
       datasources:
         datasources.yaml:
           apiVersion: 1
