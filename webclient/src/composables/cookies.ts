@@ -8,6 +8,5 @@ export function saveCooke(name:string, value:string, reload = true) {
     scoping = `Path=${window.location.origin}`;
   }
   document.cookie = `${name}=${value};Max-Age=31536000;SameSite=Lax;${scoping}`;
-  alert("scoping: "+scoping+"\ncookies: "+document.cookie);
   if (reload) window.location.reload();
 }
