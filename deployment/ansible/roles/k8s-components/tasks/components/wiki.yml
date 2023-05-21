@@ -1,0 +1,91 @@
+---
+- name: Add requarks chart repo
+  kubernetes.core.helm_repository:
+    name: requarks
+    repo_url: "https://charts.js.wiki"
+- name: Install wikijs
+  kubernetes.core.helm:
+    atomic: false
+    wait: false
+    update_repo_cache: yes
+    release_state: present
+    chart_version: 2.2.0
+    chart_ref: requarks/wiki
+    name: wiki
+    namespace: wiki
+    create_namespace: yes
+    values:
+      ingress:
+        enabled: false
+
+- name: add an cert for wikijs
+  kubernetes.core.k8s:
+    state: present
+    namespace: wiki
+    definition:
+      apiVersion: cert-manager.io/v1
+      kind: Certificate
+      metadata:
+        name: wiki.nav.tum.sexy
+      spec:
+        commonName: wiki.nav.tum.sexy
+        dnsNames:
+          - wiki.nav.tum.sexy
+        secretName: wiki.nav.tum.sexy
+        issuerRef:
+          name: letsencrypt-production
+          kind: ClusterIssuer
+
+- name: add an ingress for wikijs
+  kubernetes.core.k8s:
+    state: present
+    namespace: wiki
+    definition:
+      apiVersion: traefik.containo.us/v1alpha1
+      kind: IngressRoute
+      metadata:
+        name: wiki
+      spec:
+        entryPoints:
+          - websecure
+        routes:
+          - kind: Rule
+            match: Host(`wiki.nav.tum.sexy`)
+            services:
+              - name: wiki
+                port: 80
+        tls:
+          secretName: wiki.nav.tum.sexy
+- name: add web ingress
+  kubernetes.core.k8s:
+    state: present
+    namespace: wiki
+    definition:
+      apiVersion: traefik.containo.us/v1alpha1
+      kind: IngressRoute
+      metadata:
+        name: wiki-http
+      spec:
+        entryPoints:
+          - web
+        routes:
+          - kind: Rule
+            match: Host(`wiki.nav.tum.sexy`)
+            services:
+              - name: noop@internal
+                kind: TraefikService
+            middlewares:
+              - name: https
+- name: add http middleware
+  kubernetes.core.k8s:
+    state: present
+    namespace: wiki
+    definition:
+      apiVersion: traefik.containo.us/v1alpha1
+      kind: Middleware
+      metadata:
+        name: https
+      spec:
+        redirectScheme:
+          scheme: https
+          permanent: true

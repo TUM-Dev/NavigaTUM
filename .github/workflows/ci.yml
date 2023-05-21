@@ -130,7 +130,7 @@ jobs:
       - uses: actions/checkout@v3.5.2
       - uses: ATiltedTree/setup-rust@v1.0.5
         with:
-          rust-version: 1.67
+          rust-version: 1.69
       # this script takes about 30s to completely configure meili, which is more time than our main-api needs to build
       - run: bash configure_MeileSearch.sh &
         working-directory: server/main-api

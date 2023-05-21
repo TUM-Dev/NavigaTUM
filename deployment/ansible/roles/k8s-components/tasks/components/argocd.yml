@@ -31,7 +31,7 @@
           url: https://argocd.nav.tum.sexy
           accounts.github: apiKey # we want to be able to restart Deployments automatically
           # make shure that we can only log in with github
-          admin.enabled: true
+          admin.enabled: false
           dex.config: |
             connectors:
               - type: github
