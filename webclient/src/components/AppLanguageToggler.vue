@@ -8,10 +8,9 @@ const { locale } = useI18n({
 function setLang(lang: string) {
   locale.value = lang;
   localStorage.setItem("lang", lang);
-  alert("localStorage:" + localStorage.getItem("lang"));
-  const path = import.meta.env.VITE_APP_URL;
-  alert("path:" + path);
-  document.cookie = `lang=${lang};Max-Age=31536000;SameSite=Lax;Path=${path}`;
+  const domain = import.meta.env.VITE_APP_URL;
+  alert("domain:" + domain);
+  document.cookie = `lang=${lang};Max-Age=31536000;SameSite=Lax;domain=${domain}`;
   alert("cookie:" + document.cookie);
   window.location.reload();
 }

@@ -7,8 +7,8 @@ function setTheme(newTheme: UserTheme, reload = true) {
   localStorage.setItem("theme", newTheme);
   theme.value = newTheme;
   document.documentElement.className = newTheme;
-  const path = import.meta.env.VITE_APP_URL;
-  document.cookie = `theme=${theme.value};Max-Age=31536000;SameSite=Lax;Path=${path}`;
+  const domain = import.meta.env.VITE_APP_URL;
+  document.cookie = `theme=${theme.value};Max-Age=31536000;SameSite=Lax;domain=${domain}`;
   if (reload) window.location.reload();
 }
 
