@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getLocalStorageWithExpiry, setLocalStorageWithExpiry } from "@/utils/storage";
+import { getLocalStorageWithExpiry, setLocalStorageWithExpiry } from "@/composables/storage";
 import type { BackgroundLayerSpecification, Coordinates, ImageSource, Map, Marker } from "maplibre-gl";
 import maplibregl from "maplibre-gl";
 import { selectedMap, useDetailsStore } from "@/stores/details";

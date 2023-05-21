@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getLocalStorageWithExpiry } from "@/utils/storage";
+import { getLocalStorageWithExpiry } from "@/composables/storage";
 import { useDetailsStore } from "@/stores/details";
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";

@@ -26,7 +26,7 @@ type Token = {
 // To work even when the rest of the JS code failed, the code for the
 // feedback form is mostly seperate from the rest of the codebase.
 // It is only loaded when the feedback form is being opened.
-import { setLocalStorageWithExpiry, getLocalStorageWithExpiry } from "@/utils/storage";
+import { setLocalStorageWithExpiry, getLocalStorageWithExpiry } from "@/composables/storage";
 
 function _requestPage(
   method: string,

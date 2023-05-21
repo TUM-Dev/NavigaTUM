@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useFetch } from "@/utils/fetch";
+import { useFetch } from "@/composables/fetch";
 import { ref } from "vue";
-import { setDescription, setTitle } from "@/utils/common";
+import { setDescription, setTitle } from "@/composables/common";
 import { extractFacets } from "@/modules/autocomplete";
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";

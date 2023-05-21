@@ -3,7 +3,7 @@ import { extractFacets } from "@/modules/autocomplete";
 import router from "@/router";
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
-import { useFetch } from "@/utils/fetch";
+import { useFetch } from "@/composables/fetch";
 import type { SectionFacet } from "@/modules/autocomplete";
 import type { components } from "@/api_types";
 type SearchResponse = components["schemas"]["SearchResponse"];

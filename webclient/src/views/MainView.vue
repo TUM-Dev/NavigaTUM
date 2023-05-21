@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { setTitle } from "@/utils/common";
-import { useFetch } from "@/utils/fetch";
+import { setTitle } from "@/composables/common";
+import { useFetch } from "@/composables/fetch";
 import type { components } from "@/api_types";
 type RootResponse = components["schemas"]["RootResponse"];
 

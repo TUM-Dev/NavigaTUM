@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { copyCurrentLink } from "@/utils/common";
+import { copyCurrentLink } from "@/composables/common";
 import { ref } from "vue";
 
 const props = defineProps(["coords", "name"]);
