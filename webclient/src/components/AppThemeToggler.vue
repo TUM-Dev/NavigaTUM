@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { saveCooke } from "@/composables/cookies";
 
 type UserTheme = "light" | "dark";
 
 function setTheme(newTheme: UserTheme, reload = true) {
-  localStorage.setItem("theme", newTheme);
   theme.value = newTheme;
   document.documentElement.className = newTheme;
-  const domain = import.meta.env.VITE_APP_URL;
-  document.cookie = `theme=${theme.value};Max-Age=31536000;SameSite=Lax;domain=${domain}`;
-  if (reload) window.location.reload();
+  saveCooke("theme", newTheme, reload);
 }
 
 function getTheme(): UserTheme {
