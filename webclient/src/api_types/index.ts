@@ -477,7 +477,7 @@ export type components = {
        * @description The type of the entry
        * @enum {string}
        */
-      readonly type: "room" | "building" | "joined_building" | "area" | "site" | "campus";
+      readonly type: "room" | "building" | "joined_building" | "area" | "site" | "campus" | "poi";
       readonly coords: components["schemas"]["Coordinate"];
       readonly maps: components["schemas"]["Maps"];
       readonly sections?: components["schemas"]["DetailsSection"];
