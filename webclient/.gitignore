@@ -15,6 +15,7 @@ dist-ssr
 coverage
 *.local
 
+# cypress saves screenshots and videos here when running `npm run test`
 /cypress/videos/
 /cypress/screenshots/
 
