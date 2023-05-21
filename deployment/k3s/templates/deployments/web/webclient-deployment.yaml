@@ -31,6 +31,9 @@ spec:
           ports:
             - containerPort: 80
               name: webclient
+          env:
+            - name: VITE_APP_URL
+              value: https://{{ $.Values.url }}
           resources:
             requests:
               cpu: 5m
