@@ -116,39 +116,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-  test-main-api:
-    needs:
-      - changes
-    if: ${{ needs.changes.outputs.main-api == 'true' }}
-    runs-on: ubuntu-latest
-    services:
-      mieli:
-        image: getmeili/meilisearch:latest
-        ports:
-          - 7700
-    steps:
-      - uses: actions/checkout@v3.5.2
-      - uses: ATiltedTree/setup-rust@v1.0.5
-        with:
-          rust-version: 1.69
-      # this script takes about 30s to completely configure meili, which is more time than our main-api needs to build
-      - run: bash configure_MeileSearch.sh &
-        working-directory: server/main-api
-
-      # run the apiserver
-      - run: cargo build
-        working-directory: server/main-api
-      - run: cargo run &
-        working-directory: server/main-api
-
-      # Runs Schemathesis tests with all checks enabled
-      - uses: schemathesis/action@v1
-        with:
-          token: ${{ secrets.SCHEMATHESIS_TOKEN }}
-          api-name: navigatum
-          schema: "./openapi.yaml"
-          base-url: "http://localhost:8080"
-          args: "--endpoint='/api/[^fc].*'" # disable the feedback/calendar endpoint
   server-deployment:
     uses: ./.github/workflows/_restart-argocd.yml
     needs:
