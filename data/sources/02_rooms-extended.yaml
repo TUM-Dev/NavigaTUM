@@ -1,28 +1,5 @@
 # ========================== Innenstadt =============================
 # === Arcisstraße ===
-"2907.01.130":
-  name: Fachschaft Lehrertum/Lehramt/Educational Sciences
-  short_name: Lehramt
-"0501.05.131":
-  name: Vorhoelzer-Forum Dachterasse
-"0502.EG.221":
-  comment:
-    de: Unter dieser Treppe existiert ein WC, dessen Raumnummer und designierung (men/women/unisex) unklar ist
-    en: Under this staircase there is a toilet whose room number and designation (men/women/unisex) is unclear
-"0509.EG.980":
-  name: Audimax, Werner-von-Siemens-Hörsaal
-  ranking_factors:
-    rank_custom: 150
-"0509.02.953A":
-  name: Think Tank / Teeküche
-  arch_name: 1951
-  comment:
-    de: Dieser Raum hat auch die Architektennummer 1953A
-    en: This room also has the architect number 1953A
-"0509.02.952":
-  comment:
-    de: Dieser Raum hat zwei Türen 1954 und 1952
-    en: This room has two doors 1954 and 1952
 "0101.02.157":
   name: Fachschaft Bau, Geo und Umwelt
   usage: # previously: CIP-Pool
@@ -131,9 +108,34 @@
           de: Weitere Informationen
           en: More informations
         url: https://www.sv.tum.de/
+"2907.01.130":
+  name: Fachschaft Lehrertum/Lehramt/Educational Sciences
+  short_name: Lehramt
+"0501.05.131":
+  name: Vorhoelzer-Forum Dachterasse
+"0502.EG.221":
+  comment:
+    de: Unter dieser Treppe existiert ein WC, dessen Raumnummer und designierung (men/women/unisex) unklar ist
+    en: Under this staircase there is a toilet whose room number and designation (men/women/unisex) is unclear
+"0509.EG.980":
+  name: Audimax, Werner-von-Siemens-Hörsaal
+  ranking_factors:
+    rank_custom: 150
+"0509.02.953A":
+  name: Think Tank / Teeküche
+  arch_name: 1951
+  comment:
+    de: Dieser Raum hat auch die Architektennummer 1953A
+    en: This room also has the architect number 1953A
+"0509.02.952":
+  comment:
+    de: Dieser Raum hat zwei Türen 1954 und 1952
+    en: This room has two doors 1954 and 1952
 
 # ========================== Garching =============================
 # === Studitum Garching ===
+"5532.01.105":
+  name: AStA Besprechungsraum
 "5532.02.211": # in reality this is labeled as a ladies room, TUMonline has this as a WC
   name: WC-Damen
   usage:

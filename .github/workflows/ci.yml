@@ -28,12 +28,15 @@ jobs:
             main-api:
               - '.github/**'
               - 'server/main-api/**'
+              - 'server/Cargo.*'
             feedback:
               - '.github/**'
               - 'server/feedback/**'
+              - 'server/Cargo.*'
             calendar:
               - '.github/**'
               - 'server/calendar/**'
+              - 'server/Cargo.*'
             data:
               - '.github/**'
               - 'data/**'
@@ -47,8 +50,8 @@ jobs:
     uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: feedback
-      context: ./server/feedback
-      dockerfile: Dockerfile
+      context: ./server
+      dockerfile: feedback/Dockerfile
     permissions:
       contents: read
       packages: write
@@ -67,8 +70,8 @@ jobs:
     uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: calendar
-      context: ./server/calendar
-      dockerfile: Dockerfile.server
+      context: ./server
+      dockerfile: calendar/Dockerfile
     permissions:
       contents: read
       packages: write
@@ -87,8 +90,8 @@ jobs:
     if: ${{ needs.changes.outputs.main-api == 'true' }}
     with:
       image_suffix: main-api
-      context: ./server/main-api
-      dockerfile: Dockerfile.server
+      context: ./server
+      dockerfile: main-api/Dockerfile.server
     permissions:
       contents: read
       packages: write
@@ -111,8 +114,8 @@ jobs:
     if: ${{ needs.changes.outputs.main-api == 'true' }}
     with:
       image_suffix: mieli-search-init
-      context: ./server/main-api
-      dockerfile: Dockerfile.msinit
+      context: ./server
+      dockerfile: main-api/Dockerfile.msinit
     permissions:
       contents: read
       packages: write

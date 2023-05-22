@@ -20,19 +20,21 @@ RUN     mkdir ./main-api/src/ ./feedback/src/ ./calendar/src/ \
      && echo "fn main() { println!(\"Hello, world!\");}" > ./calendar/src/main.rs\
      && echo "fn main() { println!(\"Hello, world!\");}" > ./calendar/src/scraper.rs
 
-RUN     cargo build --release --workspace
-
-        # second run of the image build (including our code)
-COPY    feedback/src ./feedback/src
-RUN     cargo build --release --bin navigatum-feedback \
+RUN     cargo build --release --workspace \
      && rm -fr target/release/deps/navigatum*
+
+# second run of the image build (including our code)
+COPY    calendar/src ./calendar/diesel.toml
+COPY    calendar/migrations calendar/migrations
+COPY    calendar/src ./calendar/src
+RUN     cargo build --release --bin navigatum-calendar --bin navigatum-calendar-scraper
 
 
 # RUN
 FROM alpine:3.18
 
 RUN     apk update --quiet \
-     && apk add -q --no-cache libgcc tini
+     && apk add -q --no-cache libgcc libpq-dev tini
 
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
@@ -40,8 +42,8 @@ COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
 ARG     GIT_COMMIT_SHA
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 
-EXPOSE  8070
+EXPOSE  8083
 
 ENTRYPOINT ["tini", "--"]
-HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8070/api/feedback/status || exit 1
-CMD     /bin/navigatum-feedback
+HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8083/api/calendar/status || exit 1
+CMD     /bin/navigatum-calendar

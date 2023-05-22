@@ -8,7 +8,6 @@ repository = "https://github.com/TUM-Dev/navigatum"
 readme = "README.md"
 license = "GPL-3.0"
 keywords = ["website", "navigation", "api-rest", "tum"]
-default-run = "navigatum-calendar"
 
 [[bin]]
 name = "navigatum-calendar"
@@ -18,25 +17,30 @@ path = "src/main.rs"
 name = "navigatum-calendar-scraper"
 path = "src/scraper.rs"
 
-[profile.release]
-strip = true
-
 [dependencies]
-log = "0.4.17"
-env_logger = "0.10.0"
-diesel = { version = "2.0.4", features = ["default","chrono","postgres"] }
+# shared
+log.workspace = true
+env_logger.workspace = true
+actix-web-prometheus.workspace = true
+tokio.workspace = true
+actix-web.workspace = true
+actix-cors.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+chrono = { version = "0.4.24", features = ["serde"] }
+
+# database
+diesel = { version = "2.0.4", features = ["default", "chrono", "postgres"] }
 diesel_migrations = "2.0.0"
-actix-web = "4.3.1"
-lazy_static ="1.4.0"
-prometheus = { version = "0.13.3",features=["default", "push"] }
-actix-web-prometheus = "0.1.2"
-rustls = "0.21.1"
-reqwest = { version= "0.11.18", features = ["rustls"] }
-serde = { version = "1.0.163", features = ["derive"] }
-serde_json = "1.0.96"
-actix-cors = "0.6.4"
-tokio = { version = "1.28.1", features = ["full"] }
-futures = "0.3.28"
-chrono = { version="0.4.24", features=["serde"] }
-minidom = "0.15.2"
+
+# metrics
+lazy_static = "1.4.0"
+prometheus = { version = "0.13.3", features = ["default", "push"] }
+
+# scraper
 rand = "0.8.5"
+futures = "0.3.28"
+rustls = "0.21.1"
+reqwest = { version = "0.11.18", features = ["rustls"] }
+minidom = "0.15.2"

@@ -8,31 +8,34 @@ repository = "https://github.com/TUM-Dev/navigatum"
 readme = "README.md"
 license = "GPL-3.0"
 keywords = ["website", "navigation", "api-rest", "tum"]
+default-run = "navigatum-main-api"
 
 [[bin]]
 name = "navigatum-main-api"
 path = "src/main.rs"
 
-[profile.release]
-strip = true
-
 [dependencies]
-meilisearch-sdk = "0.23.1"
-log = "0.4.17"
-diesel = { version = "2.0.4", features = ["default","sqlite"] }
-actix-web = "4.3.1"
-actix-web-prometheus = "0.1.2"
+# shared
+log.workspace = true
+env_logger.workspace = true
+actix-web-prometheus.workspace = true
+tokio.workspace = true
+actix-web.workspace = true
+actix-cors.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
 rustls = "0.21.1"
-awc = { version="3.1.1",features=["rustls"] }
+awc = { version = "3.1.1", features = ["rustls"] }
 cached = "0.43.0"
-serde = { version = "1.0.163", features = ["derive"] }
-serde_json = "1.0.96"
-actix-cors = "0.6.4"
-tokio = { version = "1.28.1", features = ["full"] }
 futures = "0.3.28"
-env_logger = "0.10.0"
-image = "0.24.6"
-rusttype= "0.9.3"
-imageproc= "0.23.0"
-rand = "0.8.5"
 unicode-truncate = "0.2.0"
+
+# database
+meilisearch-sdk = "0.23.1"
+diesel = { version = "2.0.4", features = ["default", "sqlite"] }
+
+# maps
+image = "0.24.6"
+imageproc = "0.23.0"
+rusttype = "0.9.3"
