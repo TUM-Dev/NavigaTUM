@@ -22,9 +22,10 @@ RUN     mkdir ./main-api/src/ ./feedback/src/ ./calendar/src/ \
 
 RUN     cargo build --release --workspace
 
-        # second run of the image build (including our code)
+# second run of the image build (including our code)
+COPY    main-api/diesel.toml ./main-api/diesel.toml
 COPY    main-api/src ./main-api/src
-RUN     cargo build --release --package navigatum-main-api
+RUN     cargo build --release --bin navigatum-main-api
 
 
 # RUN
