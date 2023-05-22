@@ -23,9 +23,10 @@ RUN     mkdir ./main-api/src/ ./feedback/src/ ./calendar/src/ \
 RUN     cargo build --release --workspace
 
 # second run of the image build (including our code)
-COPY    calendar/migrations ./migrations
+COPY    calendar/src ./calendar/diesel.toml
+COPY    calendar/migrations calendar/migrations
 COPY    calendar/src ./calendar/src
-RUN     cargo build --release --package navigatum-calendar --package navigatum-calendar-scraper
+RUN     cargo build --release --bin navigatum-calendar --bin navigatum-calendar-scraper
 
 
 # RUN
