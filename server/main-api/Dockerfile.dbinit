@@ -1,6 +1,6 @@
 # Build the details database
 FROM python:3.11-bullseye as build-stage
-COPY    load_api_data_to_db.py load_api_data_to_db.py
+COPY    main-api/load_api_data_to_db.py load_api_data_to_db.py
 
 # For local testing if navigatum is not available:
 # - follow the data-docs to get api_data.json
