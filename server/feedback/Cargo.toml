@@ -27,7 +27,6 @@ serde_json.workspace = true
 rand = "0.8.5"
 regex = "1.8.1"
 octocrab = "0.21.0"
-structopt = "0.3.26"
 
 # web
 jsonwebtoken = "8.3.0"
