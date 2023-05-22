@@ -22,27 +22,26 @@ RUN     mkdir ./main-api/src/ ./feedback/src/ ./calendar/src/ \
 
 RUN     cargo build --release --workspace
 
-        # second run of the image build (including our code)
-COPY    main-api/src ./main-api/src
-RUN     cargo build --release --package navigatum-main-api
+# second run of the image build (including our code)
+COPY    calendar/migrations ./migrations
+COPY    calendar/src ./calendar/src
+RUN     cargo build --release --package navigatum-calendar --package navigatum-calendar-scraper
 
 
 # RUN
 FROM alpine:3.18
 
 RUN     apk update --quiet \
-     && apk add -q --no-cache libgcc sqlite-libs tini \
-     && mkdir -p ./src/maps/font
+     && apk add -q --no-cache libgcc libpq-dev tini
 
-COPY    main-api/src/maps ./src/maps
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
 
 ARG     GIT_COMMIT_SHA
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 
-EXPOSE  8080
+EXPOSE  8083
 
 ENTRYPOINT ["tini", "--"]
-HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8080/api/status || exit 1
-CMD     /bin/navigatum-main-api
+HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8083/api/calendar/status || exit 1
+CMD     /bin/navigatum-calendar
