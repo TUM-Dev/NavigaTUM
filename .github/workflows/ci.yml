@@ -71,7 +71,7 @@ jobs:
     with:
       image_suffix: calendar
       context: ./server
-      dockerfile: calendar/Dockerfile.server
+      dockerfile: calendar/Dockerfile
     permissions:
       contents: read
       packages: write
