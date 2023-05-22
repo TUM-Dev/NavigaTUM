@@ -24,7 +24,8 @@ RUN     cargo build --release --workspace
 
         # second run of the image build (including our code)
 COPY    feedback/src ./feedback/src
-RUN     cargo build --release --bin navigatum-feedback
+RUN     cargo build --release --bin navigatum-feedback \
+     && rm -fr target/release/deps/navigatum*
 
 
 # RUN

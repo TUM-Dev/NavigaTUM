@@ -18,9 +18,10 @@ RUN     mkdir ./main-api/src/ ./feedback/src/ ./calendar/src/ \
      && echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/main.rs\
      && echo "fn main() { println!(\"Hello, world!\");}" > ./feedback/src/main.rs\
      && echo "fn main() { println!(\"Hello, world!\");}" > ./calendar/src/main.rs\
-     && echo "fn main() { println!(\"Hello, world!\");}" > ./calendar/src/scraper.rs
+     && echo "fn main() { println!(\"Hello, world!\");}" > ./calendar/src/scraper.rs \
 
-RUN     cargo build --release --workspace
+RUN     cargo build --release --workspace \
+     && rm -fr target/release/deps/navigatum*
 
 # second run of the image build (including our code)
 COPY    calendar/src ./calendar/diesel.toml
