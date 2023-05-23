@@ -25,6 +25,7 @@ spec:
         app.kubernetes.io/part-of: navigatum
         app.kubernetes.io/name: postgres
     spec:
+      priorityClassName: {{ $.Values.url }}
       volumes:
         - name: db-vol
           persistentVolumeClaim:

@@ -24,6 +24,7 @@ spec:
         app.kubernetes.io/part-of: navigatum
         app.kubernetes.io/name: cdn
     spec:
+      priorityClassName: {{ $.Values.url }}
       containers:
         - name: data
           image: "ghcr.io/tum-dev/navigatum-data:{{ $.Values.tag }}"

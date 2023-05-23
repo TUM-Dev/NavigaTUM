@@ -30,6 +30,7 @@ spec:
         prometheus.io/scrape: 'true'
       {{- end }}
     spec:
+      priorityClassName: {{ $.Values.url }}
       volumes:
         - name: tmp-server
           emptyDir: {}

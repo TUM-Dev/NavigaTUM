@@ -25,6 +25,7 @@ spec:
         prometheus.io/scrape: 'true'
       {{- end }}
     spec:
+      priorityClassName: {{ $.Values.url }}
       containers:
         - name: calendar
           image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"

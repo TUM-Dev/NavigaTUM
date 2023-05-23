@@ -30,6 +30,7 @@ spec:
         prometheus.io/scrape: 'true'
       {{- end }}
     spec:
+      priorityClassName: {{ $.Values.url }}
       affinity: # no two pods on the same node
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
