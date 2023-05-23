@@ -24,6 +24,7 @@ spec:
         app.kubernetes.io/part-of: navigatum
         app.kubernetes.io/name: maps
     spec:
+      priorityClassName: {{ $.Values.url }}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
