@@ -65,11 +65,12 @@ function genDescription(): string {
     <small class="search_meta">
       {{ $t("view_search.runtime") }}: {{ data.time_ms }}ms –
       <button
+        data-cy="open-feedback-search"
         @click="global.openFeedback('search')"
         class="btn btn-link"
-        aria-label="Open the feedback-form for search"
+        :aria-label="$t('view_search.feedback.open')"
       >
-        {{ $t("view_search.give_feedback") }}
+        {{ $t("view_search.feedback.give") }}
       </button>
     </small>
 

@@ -86,7 +86,12 @@ const global = useGlobalStore();
                 </ul>
                 <ul class="column">
                   <li>
-                    <button @click="global.openFeedback()" class="btn btn-link" aria-label="Open the feedback-form">
+                    <button
+                      data-cy="open-feedback-footer"
+                      @click="global.openFeedback()"
+                      class="btn btn-link"
+                      :aria-label="$t('footer.feedback.open')"
+                    >
                       {{ $t("footer.feedback.text") }}
                     </button>
                   </li>

@@ -31,6 +31,7 @@ footer:
     text: "About us"
     link: "about-us"
   feedback:
+    open: "Open the feedback-form"
     text: "Feedback"
   api:
     text: "API"
@@ -126,7 +127,9 @@ view_search:
   search_for: "Search for"
   runtime: "Runtime"
   max_results: "please narrow the search further"
-  give_feedback: "Send feedback to search"
+  feedback:
+    open: "Open the feedback-form for feedback about the search"
+    give: "Send feedback to search"
 view_view:
   meta:
     details_for: "Details for"
