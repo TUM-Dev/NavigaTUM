@@ -15,6 +15,7 @@ spec:
     spec:
       template:
         spec:
+          priorityClassName: {{ $.Values.url }}
           containers:
           - name: {{ $scrape_task.name }}
             image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"

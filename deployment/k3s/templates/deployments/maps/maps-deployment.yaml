@@ -8,7 +8,7 @@ metadata:
   namespace: {{ $.Values.namespace }}
 spec:
   replicas: {{ if eq "nav.tum.de" $.Values.url }}2{{ else }}1{{ end }}
-  revisionHistoryLimit: 1
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       app.kubernetes.io/part-of: navigatum
@@ -24,6 +24,7 @@ spec:
         app.kubernetes.io/part-of: navigatum
         app.kubernetes.io/name: maps
     spec:
+      priorityClassName: {{ $.Values.url }}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

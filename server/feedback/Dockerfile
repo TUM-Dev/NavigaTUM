@@ -20,12 +20,12 @@ RUN     mkdir ./main-api/src/ ./feedback/src/ ./calendar/src/ \
      && echo "fn main() { println!(\"Hello, world!\");}" > ./calendar/src/main.rs\
      && echo "fn main() { println!(\"Hello, world!\");}" > ./calendar/src/scraper.rs
 
-RUN     cargo build --release --workspace
+RUN     cargo build --release --workspace \
+     && rm -fr target/release/deps/navigatum*
 
         # second run of the image build (including our code)
 COPY    feedback/src ./feedback/src
-RUN     cargo build --release --bin navigatum-feedback \
-     && rm -fr target/release/deps/navigatum*
+RUN     cargo build --release --bin navigatum-feedback
 
 
 # RUN
