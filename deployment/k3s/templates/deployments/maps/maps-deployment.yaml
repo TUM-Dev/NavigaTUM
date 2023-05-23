@@ -8,7 +8,7 @@ metadata:
   namespace: {{ $.Values.namespace }}
 spec:
   replicas: {{ if eq "nav.tum.de" $.Values.url }}2{{ else }}1{{ end }}
-  revisionHistoryLimit: 1
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       app.kubernetes.io/part-of: navigatum

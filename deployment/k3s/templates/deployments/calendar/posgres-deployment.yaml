@@ -9,7 +9,7 @@ metadata:
   namespace: {{ $.Values.namespace }}
 spec:
   replicas: 1
-  revisionHistoryLimit: 1
+  revisionHistoryLimit: 0
   strategy:
     rollingUpdate:
       maxSurge: 0
