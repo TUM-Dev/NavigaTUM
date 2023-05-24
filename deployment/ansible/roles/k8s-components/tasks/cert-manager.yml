@@ -60,6 +60,15 @@
             - http01:
                 ingress:
                   class: traefik
+            - dns01:
+                cnameStrategy: Follow
+                cloudflare:
+                  email: my-cloudflare-acc@example.com
+                  apiTokenSecretRef:
+                    name: cloudflare-api-token-secret
+                    key: api-token
+                ingress:
+                  class: traefik
 
 - name: add selfsigned ClusterIssuer
   kubernetes.core.k8s:
