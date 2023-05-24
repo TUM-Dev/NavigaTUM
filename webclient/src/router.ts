@@ -32,9 +32,26 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: routes,
   scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition;
+    // A resizeObserver is only necessary if the new position is > 0
+    if (savedPosition && savedPosition.top > 0) {
+      return new Promise((resolve, reject) => {
+        // ResizeObserver similar to https://stackoverflow.com/a/72944150
+        // The body getBoundingClientRect().y is necessary becase the body is shifted
+        // by the top margin of the first content element (#content-header) and
+        // document.body.clientTop does always give zero.
+        const requiredHeight = savedPosition.top +
+          document.documentElement.clientHeight -
+          document.body.getBoundingClientRect().y;
+        const resizeObserver = new ResizeObserver(entries => {
+          if(entries[0].target.clientHeight >= requiredHeight) {
+            resizeObserver.disconnect();
+            resolve(savedPosition);
+          }
+        });
+        resizeObserver.observe(document.body);
+      });
     }
+
     // Just returning (0, 0) does not work when the new page is
     // the same component, and it got so small, that the current
     // position is now the bottom of the new page.
