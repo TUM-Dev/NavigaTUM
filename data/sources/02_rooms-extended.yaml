@@ -157,6 +157,11 @@
     din_277_desc: Büroräume
 
 # === MI ===
+"5605.EG.016":
+  props:
+    comment:
+      de: Hier können auch die von der RBG/ITO gedruckten Poster abgeholt werden.
+      en: This is also the pickup location for posters printed by the RBG/ITO
 "5606.EG.036":
   name: Büro Fachschaft Mathe Physik Informatik Chemie / MPIC
   short_name: MPIC Büro
