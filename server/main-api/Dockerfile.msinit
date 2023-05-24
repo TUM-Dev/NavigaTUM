@@ -5,7 +5,8 @@ RUN apk add --no-cache jq bash
 COPY main-api/configure_MeileSearch.sh /configure_MeileSearch.sh
 
 # removing the files before and after is nessesary in case the container is restarted
-CMD    wget https://nav.tum.de/cdn/search_data.json --quiet \
+CMD    rm *.json \
+    && wget https://nav.tum.de/cdn/search_data.json --quiet \
     && wget https://nav.tum.de/cdn/search_synonyms.json --quiet \
     && bash /configure_MeileSearch.sh \
     && rm *.json
