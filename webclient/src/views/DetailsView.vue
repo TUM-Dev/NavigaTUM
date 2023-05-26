@@ -30,35 +30,44 @@ update();
 // called when the view navigates to another entry, so the view is just updated
 watch(() => route.params.id, update);
 
+function loadData(data: DetailsResponse) {
+  // Redirect to the correct type if necessary. Technically the type information
+  // is not required, but it makes nicer URLs.
+  const urlTypeName =
+    {
+      campus: "campus",
+      site: "site",
+      area: "site", // Currently also "site", maybe "group"? TODO
+      building: "building",
+      joined_building: "building",
+      room: "room",
+      virtual_room: "room",
+      poi: "poi",
+    }[data.type] || "view";
+
+  if (route.params.view !== urlTypeName) {
+    router.replace({ path: `/${urlTypeName}/${route.params.id}` });
+  }
+  // --- Additional data ---
+  setTitle(data.name);
+  setDescription(genDescription(data));
+  state.$reset();
+  state.loadData(data);
+  tryToLoadMap();
+}
 function update() {
   if (route.params.id === "root") {
     router.replace({ path: "/" });
     return;
   }
-  useFetch<DetailsResponse>(`/api/get/${route.params.id}`, (d) => {
-    // Redirect to the correct type if necessary. Technically the type information
-    // is not required, but it makes nicer URLs.
-    const urlTypeName =
-      {
-        campus: "campus",
-        site: "site",
-        area: "site", // Currently also "site", maybe "group"? TODO
-        building: "building",
-        joined_building: "building",
-        room: "room",
-        virtual_room: "room",
-        poi: "poi",
-      }[d.type] || "view";
-
-    if (route.params.view !== urlTypeName) {
-      router.replace({ path: `/${urlTypeName}/${route.params.id}` });
-    }
-    // --- Additional data ---
-    setTitle(d.name);
-    setDescription(genDescription(d));
-    state.$reset();
-    state.loadData(d);
-    tryToLoadMap();
+  useFetch<DetailsResponse>(`/api/get/${route.params.id}`, loadData, () => {
+    router.push({
+      name: "404",
+      // preserve current path and remove the first char to avoid the target URL starting with `//`
+      params: { catchAll: route.path.substring(1) },
+      query: route.query,
+      hash: route.hash,
+    });
   });
 }
 
