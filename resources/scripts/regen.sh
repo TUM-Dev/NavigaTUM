@@ -6,6 +6,7 @@ echo "regenerating the data for /data"
 (
 cd ./data || exit
 python compile.py
+rsync ../openapi.yaml output/openapi.yaml
 )
 
 
@@ -30,8 +31,7 @@ python init_db.py
 echo "regenerating the data for /webclient"
 (
 cd ./webclient || exit
-rm -fr cdn
-mkdir cdn
+mkdir -p cdn
 rsync -r --exclude '*.yaml' ../data/sources/img/ cdn/
 cp -r ../data/external/results/maps/roomfinder/* cdn/maps/roomfinder
 )

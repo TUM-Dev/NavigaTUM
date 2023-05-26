@@ -9,129 +9,110 @@ This folder contains the JavaScript based webclient for NavigaTUM.
 For getting started, there are some system dependencys which you will need.
 Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of our project.
 
-### Images and maps
+### Recommended IDE Setup
 
-The frontend uses images and maps from the data, that are intended to be served
-statically via a CDN and not provided by the API.
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Most modern IDEs (like PyCharm) should work as well and have a Plugin.
 
-For a local environment, create a `cdn/` subdirectory in `weblclient/` and copy the relevant files
-into it:
+## Dependencies
 
-```bash
-mkdir cdn
-rsync -r --exclude '*.yaml' ../data/sources/img/ cdn/
-mkdir -p cdn/maps/roomfinder
-cp -r ../data/external/results/maps/roomfinder/* cdn/maps/roomfinder/
-```
+### Prerequisites
 
-### Building
+For getting started, there are some system dependencys which you will need.
+Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of our project.
 
-Install all npm packages:
+### Installing Dependency's
 
 ```bash
 npm install
 ```
 
-And run Gulp to build the client. The build files will be written to `build/`.
+## Run
 
-```bash
-# Run development build
-gulp
-# or run release build (will not work locally, because it uses a
-# different configuration and no hash based navigation)
-gulp release
+Ensure that _NavigaTUM-server_ is running in the background:
+
+- either via following the [guide to local development](../server/README.md), or
+- via [docker](https://docs.docker.com/)  
+   _docker isolates the network, but we want these two containers to communicate to each other without being as brittle as IPs._  
+   _Naming the `navigatum-mieli-search` container `search` makes us able to connect to it via <`http://search:7700`> from the server_
+  ```bash
+  docker network create navigatum-net
+  docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
+  docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main
+  ```
+  
+By default, the webclient will connect to the server on `http://localhost:8080`.  
+If you want to connect to the public API instead, change `VITE_APP_URL` in [`env/.env`](./env/.env) to `https://nav.tum.de`.
+
+```sh
+npm run dev
 ```
 
-### Testing
+### Type-Check, Compile and Minify for Production
 
-If you do a development build you can use a simple webserver to test the build.
-
-Ensure that _NavigaTUM-server_ is running in the background. By default, the webclient will connect to the server on `http://localhost:8080`.
-If you want to connect to the public API instead, change `api_prefix` in `config.js` to `https://nav.tum.de/api/` and rebuild.
-
-Now run:
-
-```bash
-python -m http.server
+```sh
+npm run build
 ```
 
-and open <http://localhost:8000/build/index-view-main-light-de.html> in your browser.
+### Linting with [ESLint](https://eslint.org/)
 
-Note that local builds served this way do not support the language and theme setting.
-You can choose a different base HTML instead.
+```sh
+npm run lint
+```
+
+### Update the API's type definitions
+
+From the folder of this README, run:
+```sh
+npx openapi-typescript ../openapi.yaml --output ./src/api_types/index.ts --export-type --immutable-types --support-array-length
+```
 
 ## Build files & Serving release build
 
-Gulp creates a lot of index HTML files in the build process.
-Each of those files are similar but differ in some aspects.
-If you serve the release build with a webserver (such as Apache or Nginx) you need
-to select the correct files based on the request URL and headers.
+We create a lot of index HTML files in the build process.
+Each of those files are similar but differ in some aspects.  
+If you serve the release build with a webserver (such as Nginx) you need to select the correct files based on the request URL and headers.
 
 ```plain
-index-view-<view>-<theme>-<lang>.html
-            ↑      ↑       ↑
-            │      │       └── The page language. Either "de" or "en" at the
-            │      │           moment. It should be selected based on the
-            │      │           "lang" Cookie or else the "Accept-Language" header.
-            │      └── The page theme. Either "light" or "dark" at the moment.
-            │          It should be selected based on the "theme" Cookie and is
-            │          "light" by default.
-            └── The first loaded view (see architecture below). It does technically
-                not matter which view is selected here, but this allows to efficiently
-                preload resources and optimize the order of resources during initial
-                pageload.
+<theme>-<lang>.html
+   ↑       ↑
+   │       └── The page language. Either "de" or "en" at the moment.
+   │           It should be selected based on the "lang" Cookie or else the "Accept-Language" header.
+   └── The page theme. Either "light" or "dark" at the moment.
+       It should be selected based on the "theme" Cookie ("light" by default).
 ```
 
-When running locally on a development build you can use the language and theme of
-your choice as well as any view.
+The language-selector is working in development and this differentialtion is only happening in the build.  
+For the theme we can not do so for some reason (If you know of a better way, hit us up).  
+To test a different theme, you can change `$theme` [here](./src/assets/variables.scss). Values are `light` and `dark`.
 
 ## Architecture
 
-The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/). The CSS framework is [Spectre.css](https://picturepan2.github.io/spectre/). It is made up of a core codebase, _views_ and _modules_:
+The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/).  
+For state management we use [pinia](https://pinia.vuejs.org/) and our CSS framework is [Spectre.css](https://picturepan2.github.io/spectre/).
 
-- The core codebase provides the routing functionality, as well as helper functions (e.g. to retrieve data). All of this is bundles in the `navigatum` object in JS.
-- _Views_ (taking over the terminology from vue-router) are the pages displayed in NavigaTUM.
-- _Modules_ provide extra functionality that is not critical or used by multiple views (e.g. the interactive map).
+### Directory structure (only the important parts)
 
-### Directory structure
-
-```bash
+```plain
 webclient
-├── build/    # 🠔 Build files will be written here
+├── public/         # 🠔 Static assets such as icons, which cannot get inlined
 ├── src/
-│   ├── assets/  # 🠔 Static assets such as icons
-│   ├── md/      # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
-│   ├── modules/
-│   │   ├── autocomplete.js     # 🠔 Autocompletion for search
-│   │   └── interactive-map.js  # 🠔 Interactive map based on Mapbox
-│   ├── views/  # 🠔 See below
-│   ├── core.js             # 🠔 Core JS code (and JS entrypoint)
-│   ├── feedback.js         # 🠔 JS for the feedback form (separated from the rest of
-│   │                       #    the code to work even when the core JS fails).
-│   ├── history-states.js   # 🠔 Preseve state on back-/forward navigation
-│   ├── i18n.yaml           # 🠔 Translation strings for the core code
-│   ├── index.html          # 🠔 index.html template
-│   ├── init-call.js        # 🠔 Special helper-script for init on page-load
-│   ├── legacy.js           # 🠔 Special helper-script to automatically include some
-│   │                       #    polyfills for older browsers.
-│   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
-│   ├── spectre-all.scss    # 🠔 Include-script for Spectre.CSS
-│   └── variables.scss      # 🠔 Sass CSS variable definitions (also defines themes)
-├── config.js     # 🠔 Build configuration
-├── gulpfile.js   # 🠔 Gulp configuration
-└── package.json  # 🠔 Node package definition and dependencies
+│   ├── codegen/    # 🠔 code generated via openapi.yaml for typechecking reasons
+│   ├── assets/     # 🠔 Static assets such as icons
+│   │   ├── md/                 # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
+│   │   ├── variables.scss      # 🠔 Include-script for Spectre.CSS
+│   │   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
+│   │   ├── spectre-all.scss    # 🠔 Include-script for Spectre.CSS
+│   │   └── logo.svg            # 🠔 Our Logo
+│   ├── components/ # 🠔 Vue components, which are used in views.
+│   ├── views/      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
+│   ├── router.ts   # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
+│   ├── App.vue     # 🠔 Main view
+│   └── main.ts     # 🠔 Inialization of Vue.js. This is the entrypoint of our app, from which App.vue and associated Views/Components are loaded
+├── vite.config.ts  # 🠔 Build configuration
+├── gulpfile.js     # 🠔 Gulp configuration
+└── package.json    # 🠔 Node package definition and dependencies
 ```
 
-'Views' (pages) are located in `src/views` where each view has its own subdirectory called `view-<name>`:
-
-```bash
-view-example
-├── i18n-example.yaml  # 🠔 Translation strings for each language
-├── view-example.inc   # 🠔 The HTML Template of the view
-├── view-example.js    # 🠔 The JS Sources of the view
-└── view-example.scss  # 🠔 The Sass CSS Sources of the view
-```
-
-Note that new views are automatically included in the build, but new JS files
-in the `src/` directory are not. If you add a new JS file there you need to include
-it in `gulpfile.js`.
+Note that new views are automatically included in the build, but they are not routed.  
+To add a new view, you need to add a new route in `src/router.ts`.

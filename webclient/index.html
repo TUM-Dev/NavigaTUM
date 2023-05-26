@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" v-bind:content="$t('meta.description')">
+    <meta name="author" content="@octycs and @CommanderStorm">
+    <meta name="copyright" content="GNU General Public License v3.0. Images may be licensed differently.">
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="safe for kids">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="NavigaTUM" />
+    <meta property="og:url" content="https://nav.tum.de">
+    <meta property="og:description" v-bind:content="$t('meta.description')" />
+    <meta property="og:image" content="./assets/logo-card.png" />
+    <meta property="og:image:alt" v-bind:content="$t('meta.logo_alt')" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:mime" content="image/png" />
+    <meta property="og:site_name" content="NavigaTUM" />
+
+    <link rel="stylesheet" href="./src/assets/main.scss">
+    <link rel="stylesheet" href="./src/assets/spectre-all.scss">
+
+    <link rel="icon" href="/favicon.ico">
+    <link rel=“canonical“ href=“https://nav.tum.de/“>
+    <title>NavigaTUM</title><!-- Title  isupdated by JS later during pageload -->
+
+    <!-- At this point we might lazy-load other rarely used views -->
+  </head>
+  <body>
+    <noscript>
+      <div id="content-header" class="container grid-lg">
+        <div class="columns">
+          <div class="column col-lg-11 col-mx-auto">
+            <div class="toast toast-error">
+              JavaScript is required to use this application, as our main functionality (search bar, map) depends on this.<br>
+              We do not think that there is a graceful fallback or any option for progressive enhancement.
+              <br />
+              Please enable JavaScript in your browser.
+              <br /><br />
+              If you want to use this application without JavaScript, you can configure your UserAgent to 'BingBot'.
+              However, this inherently reduces our functionality and usefulness, as this is indented for bots.
+            </div>
+          </div>
+        </div>
+      </div>
+    </noscript>
+    <!-- BEGIN of Vue.js template code -->
+    <div id="app"></div>
+    <!-- END of Vue.js template code -->
+
+    <script type="module" src="/src/main.ts" defer></script>
+    <script type="module" src="/src/modules/outdatedBrowser.ts" defer></script>
+    <!-- At this point we might already include the displayed data -->
+  </body>
+</html>
