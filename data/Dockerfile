@@ -19,6 +19,7 @@ RUN mkdir output \
     && test -f "./output/search_data.json" \
     && test -f "./output/api_data.json" \
     && cp -r sources/img/* output
+COPY output/openapi.yaml output/openapi.yaml
 
 # put all data into the cdn folder
 COPY external/results/maps/roomfinder output/maps/roomfinder

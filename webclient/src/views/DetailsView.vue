@@ -1,0 +1,593 @@
+<script setup lang="ts">
+import ShareButton from "@/components/ShareButton.vue";
+import DetailsInteractiveMap from "@/components/DetailsInteractiveMap.vue";
+import DetailsOverviewSections from "@/components/DetailsOverviewSections.vue";
+import DetailsInfoSection from "@/components/DetailsInfoSection.vue";
+import DetailsSources from "@/components/DetailsSources.vue";
+import DetailsFeedbackButton from "@/components/DetailsFeedbackButton.vue";
+import DetailsRoomfinderMap from "@/components/DetailsRoomfinderMap.vue";
+//import DetailsFeaturedSection from "@/components/DetailsFeaturedSection.vue";
+import { useI18n } from "vue-i18n";
+import { getLocalStorageWithExpiry, removeLocalStorage } from "@/composables/storage";
+import { copyCurrentLink, setDescription, setTitle } from "@/composables/common";
+import { selectedMap, useDetailsStore } from "@/stores/details";
+import { nextTick, onMounted, ref, watch } from "vue";
+import { useFetch } from "@/composables/fetch";
+import { useRoute } from "vue-router";
+import router from "@/router";
+import type { components } from "@/api_types";
+type DetailsResponse = components["schemas"]["DetailsResponse"];
+import type { Coord } from "@/stores/global";
+
+const { t } = useI18n({
+  inheritLocale: true,
+  useScope: "global",
+});
+
+const route = useRoute();
+// called when the view is loaded (coming from another view)
+update();
+// called when the view navigates to another entry, so the view is just updated
+watch(() => route.params.id, update);
+
+function update() {
+  if (route.params.id === "root") {
+    router.replace({ path: "/" });
+    return;
+  }
+  useFetch<DetailsResponse>(`/api/get/${route.params.id}`, (d) => {
+    // Redirect to the correct type if necessary. Technically the type information
+    // is not required, but it makes nicer URLs.
+    const urlTypeName =
+      {
+        campus: "campus",
+        site: "site",
+        area: "site", // Currently also "site", maybe "group"? TODO
+        building: "building",
+        joined_building: "building",
+        room: "room",
+        virtual_room: "room",
+        poi: "poi",
+      }[d.type] || "view";
+
+    if (route.params.view !== urlTypeName) {
+      router.replace({ path: `/${urlTypeName}/${route.params.id}` });
+    }
+    // --- Additional data ---
+    setTitle(d.name);
+    setDescription(genDescription(d));
+    state.$reset();
+    state.loadData(d);
+    tryToLoadMap();
+  });
+}
+
+const state = useDetailsStore();
+const copied = ref(false);
+// Coordinate picker states
+const coord_counter = ref({
+  counter: null as number | null,
+  to_confirm_delete: false,
+});
+
+function genDescription(d: DetailsResponse) {
+  const detailsFor = t("view_view.meta.details_for");
+  let description = `${detailsFor} ${d.type_common_name} ${d.name}`;
+  if (d.props.computed) {
+    description += ":";
+    d.props.computed.forEach((prop) => {
+      description += `\n- ${prop.name}: ${prop.text}`;
+    });
+  }
+  return description;
+}
+// --- Loading components ---
+function deletePendingCoordinates() {
+  if (coord_counter.value.to_confirm_delete) {
+    removeLocalStorage("feedback-coords");
+    coord_counter.value.to_confirm_delete = false;
+    state.coord_picker.body_backup = null;
+    state.coord_picker.subject_backup = null;
+    state.coord_picker.backup_id = null;
+  } else {
+    coord_counter.value.to_confirm_delete = true;
+  }
+}
+
+function tryToLoadMap() {
+  /**
+   * Try to load the entry map (interactive or roomfinder). It requires the map container
+   * element to be loaded in DOM.
+   * @return {boolean} Whether the loading was successful
+   */
+  if (document.getElementById("interactive-map") !== null) {
+    if (state.map.selected === selectedMap.interactive) interactiveMap.value.loadInteractiveMap();
+    else roomfinderMap.value.loadRoomfinderMap(state.map.roomfinder.selected_index);
+    return true;
+  }
+  return false;
+}
+
+// following variables are bound to ref objects
+const roomfinderMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>();
+const interactiveMap = ref<InstanceType<typeof DetailsInteractiveMap> | null>();
+onMounted(() => {
+  if (navigator.userAgent === "Rendertron") return;
+
+  // Update pending coordinate counter on localStorage changes
+  const updateCoordinateCounter = function () {
+    const coords = getLocalStorageWithExpiry<{ [index: string]: Coord }>("feedback-coords", {});
+    coord_counter.value.counter = Object.keys(coords).length;
+  };
+  window.addEventListener("storage", updateCoordinateCounter);
+  window.addEventListener("resize", () => {
+    if (state.map.selected === selectedMap.roomfinder) {
+      roomfinderMap.value.loadRoomfinderMap(state.map.roomfinder.selected_index);
+      roomfinderMap.value.loadRoomfinderModalMap();
+    }
+  });
+  updateCoordinateCounter();
+
+  nextTick(() => {
+    // Even though 'mounted' is called there is no guarantee apparently,
+    // that we can reference the map by ID in the DOM yet. For this reason we
+    // try to poll now (Not the best solution probably)
+    let timeoutInMs = 5;
+
+    function pollMap() {
+      if (!tryToLoadMap()) {
+        console.warn(
+          `'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in ${timeoutInMs}ms`
+        );
+        window.setTimeout(pollMap, timeoutInMs);
+        timeoutInMs *= 1.5;
+      }
+    }
+
+    if (navigator.userAgent !== "Rendertron") pollMap();
+  });
+});
+</script>
+
+<template>
+  <div id="view-view" v-if="state.data">
+    <!-- Header image (on mobile) -->
+    <a
+      class="show-sm header-image-mobile c-hand"
+      @click="state.showImageSlideshow(state.image.shown_image_id)"
+      v-if="state.image.shown_image"
+    >
+      <img
+        alt="Header-Image, showing the building"
+        v-bind:src="'/cdn/header/' + state.image.shown_image.name"
+        class="img-responsive"
+      />
+    </a>
+
+    <!-- Pending coordinates counter (if any) -->
+    <div class="panel coord-counter" v-if="coord_counter.counter">
+      <div class="panel-body columns">
+        <div class="column col col-sm-12 msg">
+          {{ $t("view_view.msg.coordinate-counter.msg-1") }}
+          <em>{{ coord_counter.counter }} </em>
+          <span v-if="coord_counter.counter === 1">
+            {{ $t("view_view.msg.coordinate-counter.msg-2") }}
+          </span>
+          <span v-else>
+            {{ $t("view_view.msg.coordinate-counter.msg-2-plural") }}
+          </span>
+          <button
+            class="btn btn-action btn-sm btn-link tooltip tooltip-left"
+            v-bind:data-tooltip="$t('view_view.msg.coordinate-counter.info')"
+          >
+            &#x1f6c8;
+          </button>
+        </div>
+        <div class="column col-auto col-sm-12 btns">
+          <button
+            class="btn btn-link btn-sm delete"
+            v-bind:class="{ 'to-confirm': coord_counter.to_confirm_delete }"
+            @click="deletePendingCoordinates"
+          >
+            <i class="icon icon-cross"></i>
+            <span class="default">
+              {{ $t("view_view.msg.coordinate-counter.delete") }}
+            </span>
+            <span class="confirm">
+              {{ $t("view_view.msg.coordinate-counter.delete-confirm") }}
+            </span>
+          </button>
+          <button
+            class="btn btn-primary btn-sm"
+            @click="(addLocationPicker) => $refs.feedbackButton.openFeedbackForm(addLocationPicker)"
+          >
+            <i class="icon icon-check"></i>
+            {{ $t("view_view.msg.coordinate-counter.send") }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Breadcrumbs -->
+    <ol class="breadcrumb" vocab="https://schema.org/" typeof="BreadcrumbList">
+      <li
+        class="breadcrumb-item"
+        v-for="(p, i) in state.data.parent_names"
+        :key="p"
+        property="itemListElement"
+        typeof="ListItem"
+      >
+        <RouterLink v-bind="{ to: '/view/' + state.data.parents[i] }" property="item" typeof="WebPage">
+          <span property="name">{{ p }}</span>
+        </RouterLink>
+        <meta property="position" v-bind:content="`${i + 1}`" />
+      </li>
+    </ol>
+
+    <!-- Entry header / title -->
+    <div class="entry-header">
+      <div class="title">
+        <div class="hide-sm">
+          <button
+            class="btn btn-link btn-action btn-sm"
+            v-bind:title="$t('view_view.header.copy_link')"
+            @click="copyCurrentLink(copied)"
+          >
+            <i class="icon icon-check" v-if="copied"></i>
+            <i class="icon icon-link" v-else></i>
+          </button>
+        </div>
+        <h1>
+          {{ state.data.name
+          }}<!-- <small class="label">Exaktes Ergebnis</small>-->
+        </h1>
+      </div>
+      <div class="columns subtitle">
+        <div class="column col-auto">
+          <span>{{ state.data.type_common_name }}</span>
+        </div>
+        <div class="column col-auto col-ml-auto">
+          <a
+            class="btn btn-link btn-action btn-sm"
+            v-if="state.data?.props?.calendar_url"
+            v-bind:href="state.data.props.calendar_url"
+            target="_blank"
+            v-bind:title="$t('view_view.header.calendar')"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              style="margin-bottom: -2px"
+            >
+              <path
+                d="M4.571 0A1.143 1.143 0 0 0 3.43 1.143H2.286A2.306 2.306 0 0 0 0 3.429v10.285A2.306 2.306 0 0 0 2.286 16h11.428A2.306 2.306 0 0 0 16 13.714V3.43a2.306 2.306 0 0 0-2.286-2.286h-1.143A1.143 1.143 0 0 0 11.43 0a1.143 1.143 0 0 0-1.143 1.143H5.714A1.143 1.143 0 0 0 4.571 0zM2.286 5.714h11.428v8H2.286v-8z"
+              />
+              <path
+                d="M6.857 6.857v2.286h2.286V6.857H6.857zm3.429 0v2.286h2.285V6.857h-2.285zm-6.857 3.429v2.285h2.285v-2.285H3.43zm3.428 0v2.285h2.286v-2.285H6.857z"
+              />
+            </svg>
+          </a>
+          <button
+            class="btn btn-link btn-action btn-sm"
+            v-bind:title="$t('view_view.header.external_link.tooltip')"
+            onclick="this.focus()"
+          >
+            <!-- The onclick handler is a fix for Safari -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 3.704 3.704"
+              fill="none"
+              stroke="#0065bd"
+              stroke-width=".529"
+              stroke-linecap="round"
+            >
+              <path d="M2.912 2.179v1.26H.267V.794h1.197" stroke-linejoin="round" />
+              <path d="M1.407 2.297l2.03-2.03" />
+              <path d="M2.352.268h1.085v1.085" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <ShareButton v-bind:coords="state.data.coords" v-bind:name="state.data.name" />
+          <DetailsFeedbackButton ref="feedbackButton" />
+          <!--<button class="btn btn-link btn-action btn-sm"
+                  v-bind:title="$t('view_view.header.favorites')">
+            <i class="icon icon-bookmark"></i>
+          </button>-->
+        </div>
+      </div>
+      <div class="divider"></div>
+    </div>
+
+    <!-- First info section (map + infocard) -->
+    <div class="columns">
+      <!-- Map container -->
+      <div class="column col-7 col-md-12" id="map-container">
+        <div class="show-sm">
+          <div class="toast toast-warning" v-if="state.data.coords.accuracy === 'building'">
+            {{ $t("view_view.msg.inaccurate_only_building.primary_msg") }}<br />
+            <i>
+              {{ $t("view_view.msg.inaccurate_only_building.help_others_and") }}
+              <button class="btn btn-sm" @click="addLocationPicker">
+                {{ $t("view_view.msg.inaccurate_only_building.btn") }}
+              </button>
+            </i>
+          </div>
+          <div
+            class="toast toast-warning"
+            v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
+          >
+            {{ $t("view_view.msg.no_floor_overlay") }}
+          </div>
+          <div class="toast" v-if="state.data?.props?.comment">
+            {{ state.data.props.comment }}
+          </div>
+        </div>
+
+        <DetailsInteractiveMap
+          ref="interactiveMap"
+          @open-feedback-form="(addLocationPicker) => $refs.feedbackButton.openFeedbackForm(addLocationPicker)"
+        />
+        <DetailsRoomfinderMap ref="roomfinderMap" />
+        <div class="btn-group btn-group-block">
+          <button
+            class="btn btn-sm"
+            @click="$refs.interactiveMap.loadInteractiveMap(true)"
+            v-bind:class="{
+              active: state.map.selected === selectedMap.interactive,
+            }"
+          >
+            {{ $t("view_view.map.interactive") }}
+          </button>
+          <button
+            class="btn btn-sm"
+            @click="$refs.roomfinderMap.loadRoomfinderMap(state.map.roomfinder.selected_index, true)"
+            v-bind:class="{
+              active: state.map.selected === selectedMap.roomfinder,
+            }"
+            v-bind:disabled="!state.data.maps.roomfinder?.available"
+          >
+            {{ $t("view_view.map.roomfinder") }}
+          </button>
+        </div>
+        <div class="divider" style="margin-top: 10px"></div>
+      </div>
+
+      <DetailsInfoSection></DetailsInfoSection>
+    </div>
+
+    <!-- <DetailsFeaturedSection></DetailsFeaturedSection> -->
+    <DetailsOverviewSections></DetailsOverviewSections>
+    <DetailsSources></DetailsSources>
+  </div>
+</template>
+
+<style lang="scss">
+@import "../assets/variables";
+
+#view-view {
+  /* --- General --- */
+  h1 {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  /* --- Header --- */
+  .header-image-mobile {
+    margin: -10px -23px 10px;
+
+    > img {
+      min-width: 100%;
+      min-height: 100px;
+      max-height: 200px;
+      object-fit: cover;
+    }
+  }
+
+  .breadcrumb {
+    margin-top: 0;
+    font-size: 12px;
+  }
+
+  .entry-header {
+    .title {
+      position: relative;
+
+      & > div {
+        position: absolute;
+        left: -32px;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+
+      &:hover > div {
+        opacity: 1;
+      }
+    }
+
+    .subtitle {
+      span {
+        color: $text-gray;
+      }
+
+      button svg {
+        margin-top: 4px;
+        stroke: $primary-color;
+      }
+
+      .column:last-child {
+        position: relative;
+      }
+
+      .link-popover {
+        position: absolute;
+        z-index: 1000;
+        padding: 6px 10px;
+        width: 200px;
+        right: 36px;
+        background: $light-color;
+        box-shadow: $card-shadow-dark;
+        border-radius: 2px;
+        border: 1px solid $card-border;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-5px);
+        transition: opacity 0.05s, transform 0.05s;
+
+        a,
+        button {
+          width: 100%;
+          margin: 4px 0;
+        }
+
+        strong {
+          margin-top: 2px;
+          display: block;
+
+          & + a,
+          & + button {
+            margin-top: 2px;
+          }
+        }
+      }
+
+      button:focus + .link-popover,
+      .link-popover:hover {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .divider {
+      margin-bottom: 22px;
+    }
+  }
+
+  /* --- Pending coordinates counter --- */
+  .coord-counter {
+    margin: 8px 0;
+    box-shadow: $card-shadow;
+    border: 1px solid $card-border;
+    border-radius: 4px;
+    background: $card-highlighted-bg;
+
+    & .panel-body {
+      overflow-y: visible;
+
+      & .msg {
+        margin: 15px 0;
+
+        & em {
+          color: $theme-accent;
+          font-style: normal;
+          font-weight: bold;
+        }
+
+        & .btn {
+          height: 1.3rem;
+          width: 1.3rem;
+
+          &::after {
+            z-index: 2000;
+          }
+        }
+      }
+
+      & .btns {
+        margin: auto 0 12px;
+
+        .delete .default {
+          display: inline-block;
+        }
+
+        .delete .confirm {
+          display: none;
+        }
+
+        .delete.to-confirm {
+          animation: delay-btn 0.3s steps(1);
+          animation-fill-mode: both;
+        }
+
+        .delete.to-confirm .default {
+          display: none;
+        }
+
+        .delete.to-confirm .confirm {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  /* --- Sections general --- */
+  section {
+    margin-top: 40px;
+
+    .content {
+      margin-top: 15px;
+    }
+  }
+}
+
+// 'md' (
+@media (max-width: 840px) {
+  #view-view {
+    .text-md-right {
+      text-align: right !important;
+    }
+
+    .text-md-center {
+      text-align: center !important;
+    }
+
+    .mt-md-3 {
+      margin-top: 1rem !important;
+    }
+  }
+}
+
+// Animations
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// 'sm' (mobile)
+@media (max-width: 600px) {
+  #view-view {
+    #rooms-overview-select .panel-body {
+      max-height: 260px;
+    }
+
+    #rooms-overview-list .panel-body {
+      max-height: 275px;
+    }
+  }
+}
+
+@keyframes delay-btn {
+  from {
+    pointer-events: none;
+    color: $text-gray;
+  }
+
+  to {
+    pointer-events: all;
+    color: $error-color;
+  }
+}
+</style>
