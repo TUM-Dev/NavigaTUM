@@ -12,7 +12,7 @@ export const useGlobalStore = defineStore({
   id: "global",
   state: () => ({
     search_focused: false,
-    error_message: null,
+    error_message: null as string | null,
     information_modal: {
       header: null as string | null,
       body: null as string | null,
