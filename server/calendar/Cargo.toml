@@ -32,7 +32,7 @@ chrono = { version = "0.4.24", features = ["serde"] }
 
 # database
 diesel = { version = "2.1.0", features = ["default", "chrono", "postgres"] }
-diesel_migrations = "2.0.0"
+diesel_migrations = "2.1.0"
 
 # metrics
 lazy_static = "1.4.0"
