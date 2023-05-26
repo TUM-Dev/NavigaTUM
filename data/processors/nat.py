@@ -5,8 +5,8 @@ from dataclasses import dataclass
 
 import yaml
 
-with open("sources/12_nat_excluded_buildings.yaml", encoding="utf-8") as file:
-    EXCLUDED_BUILDINGS = set(yaml.safe_load(file.read()))
+with open("sources/12_nat_excluded_buildings.yaml", encoding="utf-8") as excluded_buildings_raw:
+    EXCLUDED_BUILDINGS = set(yaml.safe_load(excluded_buildings_raw.read()))
 
 
 @dataclass

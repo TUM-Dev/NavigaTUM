@@ -44,19 +44,13 @@ repos:
         language: system
         pass_filenames: false
   # only webclient
-  - repo: https://github.com/paulhfischer/prettier-config
-    rev: v1.6.0
+  - repo: local
     hooks:
-      - id: lint
-  - repo: https://github.com/paulhfischer/stylelint-config
-    rev: v1.11.1
-    hooks:
-      - id: lint
-        files: \.(css|scss|sass)$
-  - repo: https://github.com/paulhfischer/eslint-config-javascript
-    rev: v1.15.0
-    hooks:
-      - id: lint
+      - id: webclient-fmt
+        name: npm run lint
+        entry: cd webclient && npm run lint
+        language: system
+        pass_filenames: false
   # only data
   - repo: https://github.com/PyCQA/isort
     rev: 5.12.0

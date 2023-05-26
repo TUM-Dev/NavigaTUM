@@ -1,10 +1,9 @@
 # This script takes care of downloading data from the school of natural sciences (oiginally the physics department)
 import json
 import logging
-from collections import Counter
 from multiprocessing.pool import ThreadPool
-import requests
 
+import requests
 from external.scraping_utils import _download_file, CACHE_PATH, cached_json
 from tqdm import tqdm
 from tqdm.contrib.concurrent import thread_map
@@ -20,7 +19,7 @@ def scrape_buildings():
     Retrieve the buildings as in the NAT roomfinder.
     """
     logging.info("Scraping the buildings of the NAT")
-    return requests.get(f"{NAT_API_URL}/building").json()
+    return requests.get(f"{NAT_API_URL}/building", timeout=30).json()
 
 
 @cached_json("rooms_nat.json")
@@ -69,11 +68,10 @@ def _extract_translations(item: dict):
     E.g. {"key": "A", "key_en": "B"} will be transformed into {"key": {"de": "A", "en": "B"}}
     """
     translatable_keys: list[tuple[str, str]] = [(k.removesuffix("_en"), k) for k in item.keys() if k.endswith("_en")]
-    for (key, key_en) in translatable_keys:
+    for key, key_en in translatable_keys:
         eng = item.pop(key_en)
-        if eng and eng != item[key]:
-            if item[key]:
-                item[key] = {"de": item[key] or eng, "en": eng}
+        if eng and item[key] and eng != item[key]:
+            item[key] = {"de": item[key] or eng, "en": eng}
 
 
 def _extract_translation_recursive(item):

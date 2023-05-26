@@ -40,7 +40,7 @@ Ensure that _NavigaTUM-server_ is running in the background:
   docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
   docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main
   ```
-  
+
 By default, the webclient will connect to the server on `http://localhost:8080`.  
 If you want to connect to the public API instead, change `VITE_APP_URL` in [`env/.env`](./env/.env) to `https://nav.tum.de`.
 
@@ -63,6 +63,7 @@ npm run lint
 ### Update the API's type definitions
 
 From the folder of this README, run:
+
 ```sh
 npx openapi-typescript ../openapi.yaml --output ./src/api_types/index.ts --export-type --immutable-types --support-array-length
 ```

@@ -1,5 +1,5 @@
-from utils import TranslatableStr as _
 from processors import merge
+from utils import TranslatableStr as _
 
 
 def merge_poi(data):

@@ -10,7 +10,7 @@ Frank Elsinga in Vertretung für ["OpenSource @ TUM e.V."](https://tum.dev).
 
 ```
 Postanschrift: Josef-Fischhaber-Straße 46, 82319 Starnberg
-Telefon: (0049/0)176 – 56–727-579  
+Telefon: (0049/0)176 – 56–727-579
 E-Mail: navigatum (at-symbol) tum.de
 ```
 
@@ -79,11 +79,11 @@ Weiterhin besteht ein Beschwerderecht beim Bayerischen Landesbeauftragten für d
 Diesen können Sie unter folgenden Kontaktdaten erreichen:
 
 ```
-Postanschrift: Postfach 22 12 19, 80502 München  
-Adresse: Wagmüllerstraße 18, 80538 München  
-Telefon: 089 212672-0  
-Telefax: 089 212672-50  
-E-Mail: poststelle(at)datenschutz-bayern.de  
+Postanschrift: Postfach 22 12 19, 80502 München
+Adresse: Wagmüllerstraße 18, 80538 München
+Telefon: 089 212672-0
+Telefax: 089 212672-50
+E-Mail: poststelle(at)datenschutz-bayern.de
 https://www.datenschutz-bayern.de/
 ```
 
@@ -111,12 +111,12 @@ Unser Webserver wird durch das Leibniz-Rechenzentrum der Bayerischen Akademie de
 Die von Ihnen im Rahmen des Besuchs unseres Webauftritts übermittelten personenbezogenen Daten werden daher in unserem Auftrag durch das LRZ verarbeitet:
 
 ```
-Leibniz-Rechenzentrum (LRZ) der Bayerischen Akademie der Wissenschaften  
-Boltzmannstraße 1  
-D-85748 Garching bei München  
-Telefon: (089) 35831 8000  
-Fax: (089) 35831 9700  
-E-Mail: lrzpost(at)lrz.de  
+Leibniz-Rechenzentrum (LRZ) der Bayerischen Akademie der Wissenschaften
+Boltzmannstraße 1
+D-85748 Garching bei München
+Telefon: (089) 35831 8000
+Fax: (089) 35831 9700
+E-Mail: lrzpost(at)lrz.de
 www.lrz.de
 ```
 
