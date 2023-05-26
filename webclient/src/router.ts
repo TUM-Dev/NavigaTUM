@@ -39,11 +39,10 @@ const router = createRouter({
         // The body getBoundingClientRect().y is necessary becase the body is shifted
         // by the top margin of the first content element (#content-header) and
         // document.body.clientTop does always give zero.
-        const requiredHeight = savedPosition.top +
-          document.documentElement.clientHeight -
-          document.body.getBoundingClientRect().y;
-        const resizeObserver = new ResizeObserver(entries => {
-          if(entries[0].target.clientHeight >= requiredHeight) {
+        const requiredHeight =
+          savedPosition.top + document.documentElement.clientHeight - document.body.getBoundingClientRect().y;
+        const resizeObserver = new ResizeObserver((entries) => {
+          if (entries[0].target.clientHeight >= requiredHeight) {
             resizeObserver.disconnect();
             resolve(savedPosition);
           }
