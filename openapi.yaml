@@ -1540,7 +1540,7 @@ components:
         time_ms:
           description: |
             Time the search took in the server side, not including network delay
-            Maximum as by awc timeout. other timeouts (browser, your client) may be smaller
+            Maximum as timeout. other timeouts (browser, your client) may be smaller
             Expected average is 10..50 for uncached, regular requests
           type: integer
           format: int32

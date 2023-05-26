@@ -1,7 +1,8 @@
 use crate::maps::overlay_map::OverlayMapTask;
 use actix_web::web;
-use awc::Client;
 use log::{error, warn};
+use std::io;
+use std::io::ErrorKind;
 
 pub(crate) struct FetchTileTask {
     x: u32,
@@ -70,15 +71,15 @@ impl FetchTileTask {
             Err(_) => {
                 let mut tile = self.download_map_image(&file).await;
                 for i in 1..3 {
-                    if tile.is_none() {
+                    if tile.is_err() {
                         warn!("Error while downloading {file:?} {i} times. Retrying");
                         tile = self.download_map_image(&file).await;
                     }
                 }
                 match tile {
-                    Some(t) => t,
-                    None => {
-                        error!("Failed to fetch {file:?} 3 times. Giving up");
+                    Ok(t) => t,
+                    Err(e) => {
+                        error!("could not fulfill {file:?} 3 times. Giving up. Last error {e:?}");
                         return None;
                     }
                 }
@@ -102,34 +103,24 @@ impl FetchTileTask {
             y = self.y,
         )
     }
-    async fn download_map_image(&self, file: &std::path::PathBuf) -> Option<web::Bytes> {
+    async fn download_map_image(
+        &self,
+        file: &std::path::PathBuf,
+    ) -> Result<web::Bytes, Box<dyn std::error::Error>> {
         let url = self.get_tileserver_url();
-        let client = Client::new().get(&url).send();
-        let res = match client.await {
-            Ok(mut r) => r.body().await,
-            Err(e) => {
-                error!("Error downloading map {url}: {e:?}");
-                return None;
-            }
-        };
-        let res = match res {
-            Ok(r) => r,
-            Err(e) => {
-                error!("Error while payload parsing: {e:?}");
-                return None;
-            }
-        };
-        let response_size = res.len();
-        match response_size {
-            0..=500 => {
-                error!("Got a short Response from {url}. Response ({response_size}B): {res:?}");
-                None
-            }
+        let res = reqwest::get(&url).await?.bytes().await?;
+
+        match res.len() {
+            response_size @ 0..=500 => Err(io::Error::new(
+                ErrorKind::Other,
+                format!("Got a short Response from {url}. . Response ({response_size}B): {res:?}"),
+            )
+            .into()),
             _ => {
                 if let Err(e) = tokio::fs::write(file, &res).await {
                     warn!("failed to write {url} to {file:?} because {e:?}. Files wont be cached");
                 };
-                Some(res)
+                Ok(res)
             }
         }
     }
