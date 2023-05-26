@@ -21,10 +21,10 @@ path = "src/scraper.rs"
 # shared
 log.workspace = true
 env_logger.workspace = true
-actix-web-prometheus.workspace = true
 tokio.workspace = true
 actix-web.workspace = true
 actix-cors.workspace = true
+actix-web-prometheus.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 
