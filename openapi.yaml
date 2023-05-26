@@ -1755,7 +1755,7 @@ components:
           format: date-time
           example: '2018-01-01T00:00:00'
         calendar_url:
-          description: Link to the same calendar, but in TUMonline
+          description: 'Link to the same calendar, but in TUMonline'
           type: string
           example: 'https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr=12543'
           pattern: 'https:\/\/campus\.tum\.de\/tumonline\/wbKalender\.wbRessource\?pResNr=[0-9]+'

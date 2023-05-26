@@ -55,7 +55,7 @@
         #          {{ printf \"%.2f\" $value }}s 99th percentile latency.
         #          VALUE = {{ $value }}
         #          LABELS = {{ $labels }}
-            
+
       config:
         clients:
           - url: http://loki-gateway.monitoring.svc.cluster.local:80/loki/api/v1/push

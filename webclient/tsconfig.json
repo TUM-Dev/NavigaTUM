@@ -7,6 +7,6 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "lib": ["esnext", "dom", "dom.iterable"],
-  },
+    "lib": ["esnext", "dom", "dom.iterable"]
+  }
 }

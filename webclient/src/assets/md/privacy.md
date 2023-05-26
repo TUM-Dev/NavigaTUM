@@ -10,7 +10,7 @@ Frank Elsinga representing ["OpenSource @ TUM e.V."](https://tum.dev).
 
 ```
 Postal address: Josef-Fischhaber-Strasse 46, 82319 Starnberg, Germany.
-Telephone: (0049/0)176 - 56-727-579  
+Telephone: (0049/0)176 - 56-727-579
 E-mail: navigatum (at-symbol) tum.de
 ```
 
@@ -79,11 +79,11 @@ Furthermore, you have the right to lodge a complaint with the Bavarian State Com
 You can contact the Bavarian State Commissioner for Data Protection at the following address:
 
 ```
-Postal address: P.O. Box 22 12 19, 80502 Munich, Germany.  
-Address: Wagmüllerstraße 18, 80538 Munich, Germany  
-Telephone: 089 212672-0  
-Fax: 089 212672-50  
-E-mail: post office(at)datenschutz-bayern.de  
+Postal address: P.O. Box 22 12 19, 80502 Munich, Germany.
+Address: Wagmüllerstraße 18, 80538 Munich, Germany
+Telephone: 089 212672-0
+Fax: 089 212672-50
+E-mail: post office(at)datenschutz-bayern.de
 https://www.datenschutz-bayern.de/
 ```
 

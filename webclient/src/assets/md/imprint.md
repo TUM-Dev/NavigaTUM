@@ -20,8 +20,8 @@ Die Technische Universität München wird gesetzlich vertreten durch den Präsid
 ## Responsible for the content
 
 ```
-Frank Elsinga  
-Postal address: Josef-Fischhaber-Straße 46, 82319 Starnberg, Germany  
+Frank Elsinga
+Postal address: Josef-Fischhaber-Straße 46, 82319 Starnberg, Germany
 Telephone: +49-(0)176 - 56-727-579
 E-mail: navigatum (at-symbol) tum.de
 ```

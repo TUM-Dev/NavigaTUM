@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
-. venv/bin/activate
+# shellcheck disable=SC1091
+source venv/bin/activate
 
 echo "regenerating the data for /data"
 (
