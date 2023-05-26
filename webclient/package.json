@@ -19,7 +19,7 @@
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@intlify/unplugin-vue-i18n": "^0.8.1",
+    "@intlify/unplugin-vue-i18n": "^0.11.0",
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/swagger-ui-dist": "^3.30.1",
     "@vitejs/plugin-vue": "^4.0.0",

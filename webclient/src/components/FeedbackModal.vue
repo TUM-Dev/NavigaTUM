@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGlobalStore } from "@/stores/global";
 import { watch, ref, reactive } from "vue";
-import { useI18n } from "vue-i18n";
+import { Translation, useI18n } from "vue-i18n";
 const { t } = useI18n({
   inheritLocale: true,
   useScope: "global",
@@ -255,7 +255,31 @@ function sendForm() {
             <label class="form-checkbox">
               <input type="checkbox" id="feedback-privacy" v-model="privacyChecked" />
               <i class="form-icon"></i>
-              <span v-html="$t('feedback.public')"></span>
+              <b>
+                <Translation keypath="feedback.public.agreement" tag="span">
+                  <template v-slot:github_project_issues_url>
+                    <a href="https://github.com/TUM-Dev/navigatum/issues" target="_blank">
+                      {{ $t("feedback.public.github_project_issues") }}
+                    </a>
+                  </template>
+                </Translation>
+              </b>
+              <br />
+              <Translation keypath="feedback.public.disclaimer" tag="span">
+                <template v-slot:github_site_policy_url>
+                  <a href="https://docs.github.com/en/github/site-policy" target="_blank">
+                    {{ $t("feedback.public.github_site_policy") }}
+                  </a>
+                </template>
+                <template v-slot:imprint_url>
+                  <a href="/about/impressum" target="_blank">{{ $t("feedback.public.imprint") }}</a>
+                </template>
+              </Translation>
+              <Translation keypath="feedback.public.legal_fluff" tag="span">
+                <template v-slot:tum_data_protection_url>
+                  <a href="https://datenschutz.tum.de" target="_blank">datenschutz.tum.de</a>
+                </template>
+              </Translation>
             </label>
             <label class="form-checkbox" id="feedback-delete-label">
               <input type="checkbox" id="feedback-delete" v-model="deleteIssueRequested" />
