@@ -31,7 +31,7 @@ serde_json.workspace = true
 chrono = { version = "0.4.24", features = ["serde"] }
 
 # database
-diesel = { version = "2.0.4", features = ["default", "chrono", "postgres"] }
+diesel = { version = "2.1.0", features = ["default", "chrono", "postgres"] }
 diesel_migrations = "2.0.0"
 
 # metrics
