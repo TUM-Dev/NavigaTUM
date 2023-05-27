@@ -457,13 +457,18 @@ export type components = {
     readonly TokenResponse: {
       /** @description The JWT token, that can be used to generate feedback */
       readonly token: string;
+      /**
+       * Format: int64
+       * @description Unix timestamp of when the token was created
+       */
+      readonly created_at: number;
     };
     readonly SearchResponse: {
       readonly sections: readonly (components["schemas"]["SitesBuildings"] | components["schemas"]["Rooms"])[];
       /**
        * Format: int32
        * @description Time the search took in the server side, not including network delay
-       * Maximum as by awc timeout. other timeouts (browser, your client) may be smaller
+       * Maximum as timeout. other timeouts (browser, your client) may be smaller
        * Expected average is 10..50 for uncached, regular requests
        *
        * @example 42
