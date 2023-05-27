@@ -1,7 +1,11 @@
 import { shallowRef } from "vue";
 import { useGlobalStore } from "@/stores/global";
 
-export function useFetch<T>(url: string, successHandler: (d: T) => void, options: RequestInit = {}) {
+export function useFetch<T>(
+  url: string,
+  successHandler: (d: T) => void,
+  errorHandler: ((e: string) => void) | undefined = undefined
+) {
   const data = shallowRef<T | null>(null);
   // for some of our endpoints, we might want to have access to the lang/theme cookies
 
@@ -10,7 +14,8 @@ export function useFetch<T>(url: string, successHandler: (d: T) => void, options
   url += (url.indexOf("?") != -1 ? "&lang=" : "?lang=") + lang;
 
   const global = useGlobalStore();
-  fetch(url, options)
+  const fetchErrorHandler = errorHandler || ((err: string) => (global.error_message = err));
+  fetch(url)
     .then((res) => {
       if (res.status < 200 || res.status >= 300) throw res.statusText;
       return res.json();
@@ -20,7 +25,7 @@ export function useFetch<T>(url: string, successHandler: (d: T) => void, options
       data.value = json;
       successHandler(json);
     })
-    .catch((err) => (global.error_message = err));
+    .catch(fetchErrorHandler);
 
   return { data };
 }

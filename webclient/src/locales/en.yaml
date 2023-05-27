@@ -119,7 +119,7 @@ view_404:
   header: "The requested website could not to be found."
   description: "This could be because we made a mistake."
   call_to_action: "If you think this is a mistake, please let us know here"
-  got_here: # "\\\\n" renders to "\n" "I have found the error by:\\\\n1. ..."
+  got_here: "I have found the error by:\r\n1. ..."
 view_api:
   title: "NavigaTUMs API Documentation"
 view_main:

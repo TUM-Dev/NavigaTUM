@@ -22,7 +22,7 @@ const routes = [
     component: () => import("./views/AboutView.vue"),
   },
   {
-    path: "/:catchAll(.*)",
+    path: "/:catchAll(.*)*",
     name: "404",
     component: NotFoundView,
   },
