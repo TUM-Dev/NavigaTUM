@@ -24,47 +24,24 @@ type Token = {
 };
 
 // To work even when the rest of the JS code failed, the code for the
-// feedback form is mostly seperate from the rest of the codebase.
+// feedback form is mostly separate from the rest of the codebase.
 // It is only loaded when the feedback form is being opened.
 import { setLocalStorageWithExpiry, getLocalStorageWithExpiry } from "@/composables/storage";
 
-function _requestPage(
-  method: string,
-  url: string,
-  data: string | null,
-  onsuccess: (req: XMLHttpRequest) => void,
-  onerror: (req: XMLHttpRequest) => void
-) {
-  const req = new XMLHttpRequest();
-  req.open(method, window.encodeURI(url), true);
-  req.onload = () => onsuccess(req);
-  req.onerror = () => onerror(req);
-  if (data === null) {
-    req.send();
-  } else {
-    req.setRequestHeader("Content-Type", "application/json");
-    req.send(data);
-  }
-}
-
-// Token are renewed after 6 hours here to be sure, even though they may be valid
-// for longer on the server side.
-_assuereTokenValidity();
-watch(() => global.feedback.open, _assuereTokenValidity);
-function _assuereTokenValidity() {
+// Token are renewed after 6 hours here to be sure, even though they may be valid for longer on the server side.
+assuereTokenValidity();
+watch(() => global.feedback.open, assuereTokenValidity);
+function assuereTokenValidity() {
   if (token.value === null) {
     token.value = getLocalStorageWithExpiry<Token | null>("feedback-token", null);
   }
   if (token.value === null || Date.now() - token.value.creation > 1000 * 3600 * 6) {
-    _requestPage(
-      "POST",
-      `/api/feedback/get_token`,
-      null,
-      (r) => {
+    fetch(`/api/feedback/get_token`, { method: "POST" })
+      .then((r) => {
         if (r.status === 201) {
           token.value = {
             creation: Date.now(),
-            value: r.response.replace(/^"(.*)"$/, "$1"),
+            value: r.json(),
           };
           setLocalStorageWithExpiry("feedback-token", token.value, 6);
         } else if (r.status === 429) {
@@ -75,12 +52,11 @@ function _assuereTokenValidity() {
           const unexpectedTS = t("feedback.error.token_unexpected_status");
           _showError(`${unexpectedTS}${r.status}`, true);
         }
-      },
-      (r) => {
+      })
+      .catch((r) => {
         _showError(t("feedback.error.token_req_failed"), false);
         console.error(r);
-      }
-    );
+      });
   }
 }
 
@@ -102,18 +78,22 @@ function mayCloseForm() {
 }
 
 function _send() {
-  _requestPage(
-    "POST",
-    `/api/feedback/feedback`,
-    JSON.stringify({
-      token: token.value?.value,
-      category: global.feedback.category,
-      subject: global.feedback.subject,
-      body: global.feedback.body,
-      privacy_checked: privacyChecked.value,
-      deletion_requested: deleteIssueRequested.value,
-    }),
-    (r) => {
+  const data = {
+    token: token.value?.value,
+    category: global.feedback.category,
+    subject: global.feedback.subject,
+    body: global.feedback.body,
+    privacy_checked: privacyChecked.value,
+    deletion_requested: deleteIssueRequested.value,
+  };
+  fetch(`/api/feedback/feedback`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((r) => {
       loading.value = false;
       if (r.status === 201) {
         localStorage.removeItem("feedback-coords");
@@ -121,17 +101,17 @@ function _send() {
         localStorage.removeItem("feedback-token");
         const e = new Event("storage");
         window.dispatchEvent(e);
-        successUrl.value = r.responseText;
+        successUrl.value = r.text();
       } else if (r.status === 500) {
         const serverError = t("feedback.error.server_error");
-        _showError(`${serverError} (${r.responseText})`, false);
+        _showError(`${serverError} (${r.text()})`, false);
       } else if (r.status === 451) {
         _showError(t("feedback.error.privacy_not_checked"), false);
       } else if (r.status === 403) {
         localStorage.removeItem("feedback-token");
         token.value = null;
         const invalidTokenError = t("feedback.error.send_invalid_token");
-        _showError(`${invalidTokenError} (${r.responseText})`, false);
+        _showError(`${invalidTokenError} (${r.text()})`, false);
       } else {
         // we reset the token here to be sure that it is the cause of the error
         localStorage.removeItem("feedback-token");
@@ -139,13 +119,12 @@ function _send() {
         const unexpectedStatusError = t("feedback.error.send_unexpected_status");
         _showError(`${unexpectedStatusError}${r.status}`, false);
       }
-    },
-    (r) => {
+    })
+    .catch((r) => {
       loading.value = false;
-      _showError(t("feedback.error.send_req_failed"));
+      _showError(t("feedback.error.send_req_failed"), false);
       console.error(r);
-    }
-  );
+    });
 }
 
 function sendForm() {
