@@ -11,9 +11,7 @@
 # StudiTUM Innenstadt switched to only-unisex toilets
 # previous WC-Damen:
 "0201.EG.004":
-  name:
-      de: WC
-      en: WC
+  name: WC
   usage:
     name:
       de: WC
@@ -21,9 +19,7 @@
     din_277: NF7.1
     din_277_desc: Sanitärräume
 "0201.01.005":
-  name:
-      de: WC
-      en: WC
+  name: WC
   usage:
     name:
       de: WC
@@ -31,9 +27,7 @@
     din_277: NF7.1
     din_277_desc: Sanitärräume
 "0201.03.004":
-  name:
-      de: WC
-      en: WC
+  name: WC
   usage:
     name:
       de: WC
@@ -42,9 +36,7 @@
     din_277_desc: Sanitärräume
 # previous WC-Herren:
 "0201.01.006":
-  name:
-      de: WC
-      en: WC
+  name: WC
   usage:
     name:
       de: WC
@@ -52,9 +44,7 @@
     din_277: NF7.1
     din_277_desc: Sanitärräume
 "0201.03.005":
-  name:
-      de: WC
-      en: WC
+  name: WC
   usage:
     name:
       de: WC
@@ -63,9 +53,7 @@
     din_277_desc: Sanitärräume
 # previous WC Vorraum:
 "0201.EG.005":
-  name:
-      de: WC
-      en: WC
+  name: WC
   usage:
     name:
       de: WC
@@ -73,9 +61,7 @@
     din_277: NF7.1
     din_277_desc: Sanitärräume
 "0201.02.005":
-  name:
-      de: WC
-      en: WC
+  name: WC
   usage:
     name:
       de: WC
@@ -83,9 +69,7 @@
     din_277: NF7.1
     din_277_desc: Sanitärräume
 "0201.02.006":
-  name:
-      de: WC
-      en: WC
+  name: WC
   usage:
     name:
       de: WC
@@ -186,9 +170,7 @@
           en: Opening hours & articles
         url: https://skripten.mpi.fs.tum.de/
 "5607.EG.018": # previous WC-Herren
-  name:
-      de: WC
-      en: WC
+  name: WC
   usage:
     name:
       de: WC
