@@ -64,7 +64,7 @@ function update() {
     router.push({
       name: "404",
       // preserve current path and remove the first char to avoid the target URL starting with `//`
-      params: { catchAll: route.path.substring(1) },
+      params: { catchAll: route.path.substring(1).split('/') },
       query: route.query,
       hash: route.hash,
     });
