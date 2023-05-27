@@ -66,7 +66,7 @@ impl ScrapeTask {
                     sleep(Duration::from_millis(50)).await;
 
                     work_queue.push(scrape(
-                        (room.key.clone(), room.tumonline_room_nr),
+                        (room.sap_id.clone(), room.tumonline_calendar_id),
                         start.date_naive(),
                         self.time_window,
                     ));

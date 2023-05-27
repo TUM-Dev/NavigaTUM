@@ -1,46 +1,63 @@
 use log::error;
+use regex::Regex;
+use serde::Deserialize;
+use std::collections::HashMap;
 
 fn api_url_from_env() -> Option<String> {
-    let main_api_addr = std::env::var("API_SVC_SERVICE_HOST").ok()?;
-    let main_api_port = std::env::var("API_SVC_SERVICE_PORT_HTTP").ok()?;
+    let main_api_addr = std::env::var("CDN_SVC_SERVICE_HOST").ok()?;
+    let main_api_port = std::env::var("CDN_SVC_SERVICE_PORT_HTTP").ok()?;
 
     Some(format!(
-        "http://{main_api_addr}:{main_api_port}/internal/list/ids_with_calendar"
+        "http://{main_api_addr}:{main_api_port}/cdn/api_data.json"
     ))
 }
 
+#[derive(Deserialize, Debug)]
 pub struct ReducedRoom {
-    pub key: String,
-    pub tumonline_room_nr: i32,
+    props: ReducedRoomProps,
 }
 
-pub async fn get_all_ids() -> Vec<ReducedRoom> {
-    // returns all (key, tumonline_room_nr) from the main-api
-    let url = api_url_from_env()
-        .unwrap_or_else(|| "https://nav.tum.de/internal/list/ids_with_calendar".to_string());
+#[derive(Deserialize, Debug)]
+pub struct ReducedRoomProps {
+    calendar_url: Option<String>, //tumonline_room_nr and calendar_url are sometimes not present, but only ever both
+    tumonline_room_nr: Option<i32>,
+}
+
+#[derive(Clone, Debug)]
+pub struct Room {
+    pub sap_id: String,
+    pub tumonline_org_id: i32,
+    pub tumonline_calendar_id: i32,
+    pub tumonline_room_id: i32,
+}
+
+impl Room {
+    fn from((key, room): (String, ReducedRoom)) -> Option<Room> {
+        let url = room.props.calendar_url?;
+        let regex = Regex::new(r".*cOrg=(?P<org>\d+)&cRes=(?P<cal>\d+)\D.*").unwrap();
+        let captures = regex.captures(&url)?;
+        Some(Room {
+            sap_id: key,
+            tumonline_org_id: captures.name("org")?.as_str().parse().ok()?,
+            tumonline_calendar_id: captures.name("cal")?.as_str().parse().ok()?,
+            tumonline_room_id: room.props.tumonline_room_nr?,
+        })
+    }
+}
+
+pub async fn get_all_ids() -> Vec<Room> {
+    let url =
+        api_url_from_env().unwrap_or_else(|| "https://nav.tum.de/cdn/api_data.json".to_string());
     let res = reqwest::get(&url).await;
-    let text = match res {
-        Ok(res) => res.text().await,
+    let rooms = match res {
+        Ok(res) => res.json::<HashMap<String, ReducedRoom>>().await,
         Err(e) => {
             error!("Failed to contact main-api at {url}: {e:#?}");
             return vec![];
         }
     };
-    match text {
-        Ok(ids) => {
-            serde_json::from_slice::<Vec<(String, i32)>>(ids.as_bytes()).unwrap_or_else(|_| {
-                panic!("JSON-parsing error, make sure the schema matches. Got {ids} from {url}")
-            })
-        }
-        Err(e) => {
-            error!("Failed to process text get all ids from api at {url}: {e:#?}");
-            vec![]
-        }
+    match rooms {
+        Ok(rooms) => rooms.into_iter().flat_map(Room::from).collect(),
+        Err(e) => panic!("Failed to parse main-api response: {e:#?}"),
     }
-    .into_iter()
-    .map(|(key, tumonline_room_nr)| ReducedRoom {
-        key,
-        tumonline_room_nr,
-    })
-    .collect()
 }
