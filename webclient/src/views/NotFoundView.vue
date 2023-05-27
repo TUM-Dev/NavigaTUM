@@ -2,7 +2,6 @@
 import { useGlobalStore } from "@/stores/global";
 
 const global = useGlobalStore();
-const href = window.location.href;
 </script>
 
 <template>
@@ -10,7 +9,7 @@ const href = window.location.href;
   <h5 style="margin-top: 25px">{{ $t("view_404.header") }}</h5>
   <p>{{ $t("view_404.description") }}</p>
   <button
-    @click="global.openFeedback('bug', `404 on ${href}`, $t('view_404.got_here'))"
+    @click="global.openFeedback('bug', `404 on ${window.location.href}`, $t('view_404.got_here'))"
     class="btn btn-link p-0"
     aria-label="Open the feedback-form"
   >
