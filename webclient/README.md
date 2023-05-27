@@ -117,3 +117,48 @@ webclient
 
 Note that new views are automatically included in the build, but they are not routed.  
 To add a new view, you need to add a new route in `src/router.ts`.
+
+## Testing
+
+For this Component, the tests consist mainly of hot-path e2e tests and tests of critical components.
+PRs improving this part of the Project are very likely to be accepted.
+The reason behind these tests is that they fundamentally increase the future productivity by allowing faster review cycles.
+
+### Running Tests
+
+There are a few ways of running cypress
+
+#### Running headless
+
+For running headless, it is assumed, that you are on a normal machine (not a mac) and have [Chrome](https://www.google.com/intl/de/chrome/) + [Firefox Developer Edition](https://www.mozilla.org/de/firefox/developer/) installed.
+```bash
+npm run test
+```
+There are also some subtargets preconfigured like `cy:run:chrome` and `cy:run:firefox`, but likely for debugging you want the second mode.
+
+#### Running headed
+
+The interface for interacting with cypress can be opened via
+```bash
+npm run cy:open
+```
+
+### Writing Tests
+Our Cypress test suite is located in the cypress directory, organized into different files and folders based on the features and components being tested.
+Each test file follows the naming convention <name>.spec.ts.
+
+Cypress provides a comprehensive API for interacting with and asserting against elements on the web page.
+You can find detailed documentation and examples in the official Cypress documentation: <https://docs.cypress.io>
+
+When writing new tests, please ensure to follow our established conventions and guidelines to maintain consistency across the codebase.
+Additionally, make sure to write descriptive test cases that cover different scenarios and edge cases to thoroughly validate the functionality of our frontend.
+
+
+### Continuous Integration
+We have integrated Cypress tests into our CI/CD pipeline to ensure that all changes to the frontend are thoroughly tested before deployment.
+Every push and pull request triggers a build that runs the Cypress tests automatically.
+This helps us catch any regressions or issues early in the development process.
+
+### Reporting Issues
+If you encounter any problems while running the Cypress tests or have suggestions for improving the testing framework, please open an issue/pull request on this repository.
+We appreciate your feedback and contributions.
