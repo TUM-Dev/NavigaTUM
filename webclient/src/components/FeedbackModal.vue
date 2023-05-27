@@ -19,8 +19,8 @@ const privacyChecked = ref(false);
 const deleteIssueRequested = ref(false);
 
 type Token = {
-  readonly creation: number;
-  readonly value: string;
+  readonly created_at: number;
+  readonly token: string;
 };
 
 // To work even when the rest of the JS code failed, the code for the
@@ -35,14 +35,11 @@ function assuereTokenValidity() {
   if (token.value === null) {
     token.value = getLocalStorageWithExpiry<Token | null>("feedback-token", null);
   }
-  if (token.value === null || Date.now() - token.value.creation > 1000 * 3600 * 6) {
+  if (token.value === null || Date.now() - token.value.created_at > 1000 * 3600 * 6) {
     fetch(`/api/feedback/get_token`, { method: "POST" })
       .then((r) => {
         if (r.status === 201) {
-          token.value = {
-            creation: Date.now(),
-            value: r.json(),
-          };
+          token.value = r.json() as Token;
           setLocalStorageWithExpiry("feedback-token", token.value, 6);
         } else if (r.status === 429) {
           _showError(t("feedback.error.429"), true);
@@ -78,8 +75,9 @@ function mayCloseForm() {
 }
 
 function _send() {
+  console.log("Sending feedback for token", token.value);
   const data = {
-    token: token.value?.value,
+    token: token.value?.token,
     category: global.feedback.category,
     subject: global.feedback.subject,
     body: global.feedback.body,
@@ -140,8 +138,8 @@ function sendForm() {
     loading.value = true;
     // Token may only be used after a short delay. In case that has not passed
     // yet, we wait until for a short time.
-    if (Date.now() - token.value.creation < 1000 * 10)
-      window.setTimeout(_send, 1000 * 10 - (Date.now() - token.value.creation));
+    if (Date.now() - token.value.created_at < 1000 * 10)
+      window.setTimeout(_send, 1000 * 10 - (Date.now() - token.value.created_at));
     else _send();
   }
 }
