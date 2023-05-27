@@ -39,8 +39,15 @@ function assuereTokenValidity() {
     fetch(`/api/feedback/get_token`, { method: "POST" })
       .then((r) => {
         if (r.status === 201) {
-          token.value = r.json() as Token;
-          setLocalStorageWithExpiry("feedback-token", token.value, 6);
+          r.json()
+            .then((j: Token) => {
+              token.value = j;
+              setLocalStorageWithExpiry("feedback-token", token.value, 6);
+            })
+            .catch((r) => {
+              _showError(t("feedback.error.token_req_failed"), false);
+              console.error(r);
+            });
         } else if (r.status === 429) {
           _showError(t("feedback.error.429"), true);
         } else if (r.status === 503) {
