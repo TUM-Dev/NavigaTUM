@@ -98,6 +98,12 @@ impl RecordedTokens {
     }
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+struct Token {
+    created_at: usize, // unix timestamp
+    token: String,
+}
+
 pub async fn get_token() -> HttpResponse {
     if !able_to_process_feedback() {
         return HttpResponse::ServiceUnavailable()
@@ -113,7 +119,10 @@ pub async fn get_token() -> HttpResponse {
     );
 
     match token {
-        Ok(token) => HttpResponse::Created().json(token),
+        Ok(token) => {
+            let created_at = chrono::Utc::now().timestamp() as usize;
+            HttpResponse::Created().json(Token { created_at, token })
+        }
         Err(e) => {
             error!("Failed to generate token: {e:?}");
             HttpResponse::InternalServerError()

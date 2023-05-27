@@ -1518,11 +1518,17 @@ components:
         token:
           description: 'The JWT token, that can be used to generate feedback'
           type: string
+        created_at:
+          description: 'Unix timestamp of when the token was created'
+          type: integer
+          format: int64
       required:
         - token
+        - created_at
       x-examples:
         token:
           token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+          created_at: 1629564181
     SearchResponse:
       type: object
       properties:
