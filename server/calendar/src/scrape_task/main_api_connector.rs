@@ -23,7 +23,7 @@ pub struct ReducedRoomProps {
     tumonline_room_nr: Option<i32>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct Room {
     pub sap_id: String,
     pub tumonline_org_id: i32,

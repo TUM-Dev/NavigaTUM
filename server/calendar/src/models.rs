@@ -6,7 +6,6 @@ use diesel::Insertable;
 #[diesel(table_name = crate::schema::calendar)]
 pub struct XMLEvent {
     pub key: String,
-    pub tumonline_id: i32,
     pub dtstart: NaiveDateTime,
     pub dtend: NaiveDateTime,
     pub dtstamp: NaiveDateTime,
@@ -26,5 +25,15 @@ pub struct XMLEvent {
     pub status_id: String,
     pub status: String,
     pub comment: String,
+    pub last_scrape: NaiveDateTime,
+}
+
+#[derive(Insertable, Queryable, AsChangeset)]
+#[diesel(table_name = crate::schema::rooms)]
+pub struct Room {
+    pub key: String,
+    pub tumonline_org_id: i32,
+    pub tumonline_calendar_id: i32,
+    pub tumonline_room_id: i32,
     pub last_scrape: NaiveDateTime,
 }

@@ -2,7 +2,7 @@ mod main_api_connector;
 mod scrape_room_task;
 pub mod tumonline_calendar_connector;
 
-use crate::scrape_task::main_api_connector::get_all_ids;
+use crate::scrape_task::main_api_connector::{get_all_ids, Room};
 use crate::scrape_task::scrape_room_task::ScrapeRoomTask;
 use crate::scrape_task::tumonline_calendar_connector::{Strategy, XMLEvents};
 use crate::utils;
@@ -65,11 +65,7 @@ impl ScrapeTask {
                     // It is critical for successfully scraping that we are not blocked.
                     sleep(Duration::from_millis(50)).await;
 
-                    work_queue.push(scrape(
-                        (room.sap_id.clone(), room.tumonline_calendar_id),
-                        start.date_naive(),
-                        self.time_window,
-                    ));
+                    work_queue.push(scrape(room, start.date_naive(), self.time_window));
                 }
             }
             work_queue.next().await;
@@ -112,11 +108,11 @@ impl ScrapeTask {
     }
 }
 
-async fn scrape(id: (String, i32), from: NaiveDate, duration: chrono::Duration) {
+async fn scrape(room: Room, from: NaiveDate, duration: chrono::Duration) {
     let _timer = REQ_TIME_HISTOGRAM.start_timer(); // drop as observe
 
     // request and parse the xml file
-    let mut request_queue = vec![ScrapeRoomTask::new(id, from, duration)];
+    let mut request_queue = vec![ScrapeRoomTask::new(room, from, duration)];
     let mut success_cnt = 0;
     while !request_queue.is_empty() {
         let mut new_request_queue = vec![];
