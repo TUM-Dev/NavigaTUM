@@ -1,3 +1,5 @@
+use chrono::{NaiveDateTime, Utc};
+use diesel::PgConnection;
 use log::error;
 use regex::Regex;
 use serde::Deserialize;
@@ -56,8 +58,46 @@ pub async fn get_all_ids() -> Vec<Room> {
             return vec![];
         }
     };
-    match rooms {
+    let rooms: Vec<Room> = match rooms {
         Ok(rooms) => rooms.into_iter().flat_map(Room::from).collect(),
         Err(e) => panic!("Failed to parse main-api response: {e:#?}"),
-    }
+    };
+    let start_time = Utc::now().naive_utc();
+    let conn = &mut crate::utils::establish_connection();
+    store_in_db(conn, &rooms, &start_time);
+    delete_stale_results(conn, start_time);
+    rooms
+}
+
+fn store_in_db(conn: &mut PgConnection, rooms_to_store: &[Room], start_time: &NaiveDateTime) {
+    use crate::schema::rooms::dsl::*;
+    use diesel::prelude::*;
+    rooms_to_store
+        .iter()
+        .map(|room| crate::models::Room {
+            key: room.sap_id.clone(),
+            tumonline_org_id: room.tumonline_org_id,
+            tumonline_calendar_id: room.tumonline_calendar_id,
+            tumonline_room_id: room.tumonline_room_id,
+            last_scrape: *start_time,
+        })
+        .for_each(|room| {
+            let res = diesel::insert_into(rooms)
+                .values(&room)
+                .on_conflict(key)
+                .do_update()
+                .set(&room)
+                .execute(conn);
+            if let Err(e) = res {
+                error!("Error inserting into database: {e:?}");
+            }
+        });
+}
+fn delete_stale_results(conn: &mut PgConnection, start_time: NaiveDateTime) {
+    use crate::schema::rooms::dsl::*;
+    use diesel::prelude::*;
+    diesel::delete(rooms)
+        .filter(last_scrape.le(start_time))
+        .execute(conn)
+        .expect("Failed to delete stale rooms");
 }

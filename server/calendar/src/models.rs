@@ -28,7 +28,7 @@ pub struct XMLEvent {
     pub last_scrape: NaiveDateTime,
 }
 
-#[derive(Insertable, Queryable, AsChangeset)]
+#[derive(Insertable, Queryable, AsChangeset, Clone)]
 #[diesel(table_name = crate::schema::rooms)]
 pub struct Room {
     pub key: String,
