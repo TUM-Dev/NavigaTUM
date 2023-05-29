@@ -9,7 +9,7 @@ function _allowHighlighting(text: string) {
   // first place), but for extra redundancy we sanitise this anyway.
   // It is not done by Vue, as we use `v-html`-Tag to include it in the frontend.
   const opt = new Option(text).innerHTML;
-  return opt.replace("\x19", "<em>").replaceAll("\x17", "</em>");
+  return opt.replaceAll("\x19", "<em>").replaceAll("\x17", "</em>");
 }
 
 export type SectionFacet = RoomFacet | SiteBuildingFacet;
