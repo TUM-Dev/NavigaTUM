@@ -1673,9 +1673,9 @@ dependencies = [
 
 [[package]]
 name = "meilisearch-index-setting-macro"
-version = "0.23.1"
+version = "0.23.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f37d7820c331e369907023abd68e91faa26c583212c012bd208934183f024b9"
+checksum = "22f5a46b0d64c0c8636b70d54bb7d20d82c7a3e68fb611a6d00f8efe53036536"
 dependencies = [
  "convert_case 0.6.0",
  "proc-macro2",
@@ -1685,9 +1685,9 @@ dependencies = [
 
 [[package]]
 name = "meilisearch-sdk"
-version = "0.23.1"
+version = "0.23.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e475832d90323135a1dee8fef42d5529f01a1dabd1ef6f759c1a6eae619ec54c"
+checksum = "cece77a21c9045b45f7a2a17b74b5f0921f24057eb6e216a36e687d24769ca70"
 dependencies = [
  "async-trait",
  "either",
