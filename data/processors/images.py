@@ -162,7 +162,7 @@ def _refresh_for_all_resolutions(args: tuple[Path, dict[str, int]]) -> None:
         new_img.save(target_filepath, lossless=False, quality=50)
 
 
-def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: Any) -> dict:
+def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: dict[str, list[dict[str, Any]]]) -> dict:
     """Extract the offsets for the given image. Offsets are only available for the images, we crop"""
     for _target_dir_name, size in RESOLUTIONS:
         if isinstance(size, tuple):
@@ -182,7 +182,7 @@ def _get_hash_lut() -> dict[str, str]:
     return {}
 
 
-def _save_hash_lut(img_sources) -> None:
+def _save_hash_lut(img_sources:dict[str, list[dict[str, Any]]]) -> None:
     """Save the current image status to the .hash_lut.json file"""
     hashes_lut = {}
     for img_path in IMAGE_SOURCE.glob("*.webp"):
@@ -221,8 +221,7 @@ def resize_and_crop() -> None:
     if DEV_MODE:
         expected_hashes_lut = _get_hash_lut()
     start_time = time.time()
-    with open(IMAGE_BASE / "img-sources.yaml", encoding="utf-8") as file:
-        img_sources = yaml.safe_load(file.read())
+    img_sources = load_image_sources()
     with ThreadPoolExecutor() as executor:
         for img_path in IMAGE_SOURCE.glob("*.webp"):
             _id, _index = parse_image_filename(img_path.name)
@@ -231,9 +230,20 @@ def resize_and_crop() -> None:
                 actual_hash = _gen_file_hash(img_path, offsets)
                 if actual_hash == expected_hashes_lut.get(img_path.name, ""):
                     continue  # skip this image, since it (and its offsets) have not changed
-                logging.info(f"Image '{img_path.name}' has changed, resizing and cropping...")
+                logging.debug(f"Image '{img_path.name}' has changed, resizing and cropping...")
             executor.submit(_refresh_for_all_resolutions, (img_path, offsets))
     resize_and_crop_time = time.time() - start_time
     if DEV_MODE:
         _save_hash_lut(img_sources)
     logging.info(f"Resize and crop took {resize_and_crop_time:.2f}s")
+
+
+def load_image_sources() -> dict[str, list[dict[str, Any]]]:
+    """Load the image sources from the img-sources.yaml file"""
+    with open(IMAGE_BASE / "img-sources.yaml", encoding="utf-8") as file:
+        image_sources = yaml.safe_load(file.read())
+    for key in image_sources:
+        if not isinstance(key, str):
+            raise ValueError(f"Key '{key}' form `img-sources.yaml` is not a string. "
+                             "This is not allowed, as for integers leading zeros are silently ignored.")
+    return image_sources

@@ -1,4 +1,4 @@
-0101:
+"0101":
   0:
     author: David Bonello
     license:
@@ -30,7 +30,7 @@
     meta:
       date: 2021-07-20
       geo: 48.149986,11.568888
-0102:
+"0102":
   0:
     author: AHert
     license:
@@ -49,7 +49,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0103:
+"0103":
   0:
     author: David Bonello
     license:
@@ -58,7 +58,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0104:
+"0104":
   0:
     author: David Bonello
     license:
@@ -84,7 +84,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0105:
+"0105":
   0:
     author: David Bonello
     license:
@@ -101,7 +101,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0106:
+"0106":
   0:
     author: David Bonello
     license:
@@ -110,7 +110,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0109:
+"0109":
   0:
     author: Astrid Eckert
     license:
@@ -134,7 +134,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0201:
+"0201":
   0:
     author: David Bonello
     license:
@@ -143,7 +143,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0206:
+"0206":
   0:
     author: David Bonello
     license:
@@ -152,7 +152,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0501:
+"0501":
   0:
     author: David Bonello
     license:
@@ -169,7 +169,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0502:
+"0502":
   0:
     author: David Bonello
     license:
@@ -178,7 +178,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0503:
+"0503":
   0:
     author: Andreas Heddergott
     license:
@@ -202,7 +202,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0504:
+"0504":
   0:
     author: David Bonello
     license:
@@ -211,7 +211,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0505:
+"0505":
   0:
     author: David Bonello
     license:
@@ -220,7 +220,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0506:
+"0506":
   0:
     author: David Bonello
     license:
@@ -229,7 +229,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0508:
+"0508":
   0:
     author: David Bonello
     license:
@@ -238,7 +238,7 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
-0509:
+"0509":
   0:
     author: Uli Benz / TUM
     license:
@@ -390,7 +390,7 @@
       headline: TUM Audimax am Campus Innenstadt /Auditorium  maximum at main campus 2021
       image_url: https://mediatum.ub.tum.de/image/1599301.jpg
       location: München
-0510:
+"0510":
   0:
     author: Astrid Eckert
     license:
