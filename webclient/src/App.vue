@@ -60,7 +60,7 @@ const global = useGlobalStore();
   <div style="padding-bottom: 70px" class="show-xs"></div>
 
   <!-- Footer -->
-  <footer>
+  <footer data-cy="main-footer">
     <div class="container grid-lg">
       <div class="columns">
         <div class="column col-lg-11 col-mx-auto">

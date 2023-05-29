@@ -94,6 +94,7 @@ function openFeedbackForm(addLocationPicker) {
     class="btn btn-link btn-action btn-sm"
     v-bind:title="$t('view_view.header.feedback')"
     @click="openFeedbackForm"
+    data-cy="open-feedback-details"
   >
     <i class="icon icon-flag"></i>
   </button>
