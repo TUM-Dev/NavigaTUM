@@ -2,6 +2,10 @@
   "name": "navigatum",
   "version": "0.1.0",
   "scripts": {
+    "cy:run:chrome": "cypress run --browser chrome",
+    "cy:run:firefox": "cypress run --browser firefox:dev",
+    "cy:open": "cypress open",
+    "test": "run-p cy:run:chrome cy:run:firefox",
     "dev": "vite",
     "build": "run-p type-check build-only",
     "preview": "vite preview --port 8000",
@@ -27,6 +31,7 @@
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/tsconfig": "^0.4.0",
     "@yankeeinlondon/link-builder": "^1.2.1",
+    "cypress": "^12.12.0",
     "eslint": "^8.41.0",
     "eslint-plugin-vue": "^9.13.0",
     "isomorphic-fetch": "^3.0.0",

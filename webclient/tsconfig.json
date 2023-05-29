@@ -1,12 +1,13 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": ["env.d.ts", "**/*.ts", "src/**/*.vue"],
   "compilerOptions": {
+    "target": "es5",
     "baseUrl": ".",
-    "types": ["@intlify/unplugin-vue-i18n/messages"],
+    "types": ["cypress", "@intlify/unplugin-vue-i18n/messages"],
     "paths": {
       "@/*": ["./src/*"]
     },
-    "lib": ["esnext", "dom", "dom.iterable"]
+    "lib": ["es5", "esnext", "dom", "dom.iterable"]
   }
 }
