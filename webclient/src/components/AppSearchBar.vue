@@ -128,7 +128,7 @@ export default {
       } else {
         const queryId = this.queryCounter;
         this.queryCounter += 1;
-        useFetch<SearchResponse>(`/api/search?q=${window.encodeURIComponent(q)}`, (d) => {
+        useFetch<SearchResponse>(`/api/search?q=${encodeURIComponent(q)}`, (d) => {
           // Data will be cached anyway in case the user hits backspace,
           // but we need to discard the data here if it arrived out of order.
           if (!this.latestUsedQueryId || queryId > this.latestUsedQueryId) {
