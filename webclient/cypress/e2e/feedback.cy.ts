@@ -1,4 +1,4 @@
-describe("Check if submitting feedback works as expected", () => {
+describe("Check if opening the feedback form works from every subview", () => {
   it("main page", () => {
     cy.visit("http://localhost:8000/");
     cy.contains("Standorte");

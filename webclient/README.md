@@ -120,8 +120,8 @@ To add a new view, you need to add a new route in `src/router.ts`.
 
 ## Testing
 
-For this Component, the tests consist mainly of hot-path e2e tests and tests of critical components.
-PRs improving this part of the Project are very likely to be accepted.
+For this part of the project, the tests consist mainly of hot-path e2e tests and tests of critical components.
+PRs improving the coverage are very likely to be accepted.
 The reason behind these tests is that they fundamentally increase the future productivity by allowing faster review cycles.
 
 ### Running Tests
@@ -145,7 +145,7 @@ npm run cy:open
 
 ### Writing Tests
 Our Cypress test suite is located in the cypress directory, organized into different files and folders based on the features and components being tested.
-Each test file follows the naming convention <name>.spec.ts.
+Each test file follows the naming convention `<name>.spec.ts`.
 
 Cypress provides a comprehensive API for interacting with and asserting against elements on the web page.
 You can find detailed documentation and examples in the official Cypress documentation: <https://docs.cypress.io>
