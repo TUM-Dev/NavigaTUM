@@ -131,10 +131,10 @@ def _download_online_sitemap(url):
     xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"  # noqa: FS003
     req = urllib.request.Request(url)
     req.add_header("Accept-Encoding", "gzip")
+    sitemap = {}
     try:
         with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
             sitemap_str = gzip.decompress(resp.read()).decode("utf-8")
-            sitemap = {}
             root = defusedET.fromstring(sitemap_str)
             for child in root.iter(f"{xmlns}url"):
                 loc = child.find(f"{xmlns}loc")
