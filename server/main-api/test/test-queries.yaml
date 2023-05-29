@@ -4,8 +4,6 @@
 # Commented out queries are not yet supported, but ideas what might be
 # worth implementing.
 
-# These queries aim to find a specific entry
-entry_queries:
 # site/area/campus queries
 - { target: "garching-hochbrueck", query: "hochbrück" }
 - { target: "wzw",                 query: "wzw"       }
