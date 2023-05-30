@@ -2,6 +2,7 @@
 import { useGlobalStore } from "@/stores/global";
 import { watch, ref, reactive } from "vue";
 import { Translation, useI18n } from "vue-i18n";
+import { useLocalStorage } from "@vueuse/core";
 const { t } = useI18n({
   inheritLocale: true,
   useScope: "global",
@@ -14,27 +15,24 @@ const error = reactive({
   message: "",
   blockSend: false,
 });
-const token = ref<Token | null>(null);
-const privacyChecked = ref(false);
-const deleteIssueRequested = ref(false);
-
 type Token = {
   readonly created_at: number;
   readonly token: string;
 };
+const token: typeof ref<Token | null> = useLocalStorage("feedback-token", null);
 
-// To work even when the rest of the JS code failed, the code for the
-// feedback form is mostly separate from the rest of the codebase.
-// It is only loaded when the feedback form is being opened.
-import { setLocalStorageWithExpiry, getLocalStorageWithExpiry } from "@/composables/storage";
+const privacyChecked = ref(false);
+const deleteIssueRequested = ref(false);
 
-// Token are renewed after 6 hours here to be sure, even though they may be valid for longer on the server side.
 assuereTokenValidity();
 watch(() => global.feedback.open, assuereTokenValidity);
 function assuereTokenValidity() {
-  if (token.value === null) {
-    token.value = getLocalStorageWithExpiry<Token | null>("feedback-token", null);
+  // legacy migration function TODO: remove only after 31.09.2023, to give our users time to migrate to the new token format
+  if (token.value?.expiry) {
+    token.value = null;
   }
+
+  // Token are renewed after 6 hours here to be sure, even though they may be valid for longer on the server side.
   if (token.value === null || Date.now() - token.value.created_at > 1000 * 3600 * 6) {
     fetch(`/api/feedback/get_token`, { method: "POST" })
       .then((r) => {
@@ -42,7 +40,6 @@ function assuereTokenValidity() {
           r.json()
             .then((j: Token) => {
               token.value = j;
-              setLocalStorageWithExpiry("feedback-token", token.value, 6);
             })
             .catch((r) => {
               _showError(t("feedback.error.token_req_failed"), false);
@@ -82,7 +79,6 @@ function mayCloseForm() {
 }
 
 function _send() {
-  console.log("Sending feedback for token", token.value);
   const data = {
     token: token.value?.token,
     category: global.feedback.category,
