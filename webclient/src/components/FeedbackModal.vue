@@ -2,7 +2,7 @@
 import { useGlobalStore } from "@/stores/global";
 import { watch, ref, reactive } from "vue";
 import { Translation, useI18n } from "vue-i18n";
-import { useLocalStorage } from "@vueuse/core";
+import { useStorage } from "@vueuse/core";
 const { t } = useI18n({
   inheritLocale: true,
   useScope: "global",
@@ -19,7 +19,7 @@ type Token = {
   readonly created_at: number;
   readonly token: string;
 };
-const token: typeof ref<Token | null> = useLocalStorage("feedback-token", null);
+const token: typeof ref<Token | null> = useStorage<Token | null>("feedback-token", null);
 
 const privacyChecked = ref(false);
 const deleteIssueRequested = ref(false);
