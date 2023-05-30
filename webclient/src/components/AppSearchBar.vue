@@ -269,20 +269,20 @@ export default {
         id="search"
         type="text"
         class="form-input input-lg"
-        v-bind:placeholder="$t('search.placeholder')"
+        :placeholder="$t('search.placeholder')"
         v-model="query"
         @input="onInput"
         @focus="searchFocus"
         @blur="searchBlur"
         @keydown="onKeyDown"
         autocomplete="off"
-        v-bind:aria-label="$t('search.aria-searchlabel')"
+        :aria-label="$t('search.aria-searchlabel')"
       />
       <i class="form-icon icon icon-search"></i>
       <button
         class="btn btn-primary input-group-btn btn-lg"
         @click="searchGo(false)"
-        v-bind:aria-label="$t('search.aria-actionlabel')"
+        :aria-label="$t('search.aria-actionlabel')"
       >
         {{ $t("search.action") }}
       </button>
@@ -290,7 +290,7 @@ export default {
     <!-- Autocomplete -->
     <ul
       class="menu"
-      v-bind:class="{
+      :class="{
         'd-none': !global.search_focused || autocomplete.sections.length === 0,
       }"
       v-cloak
@@ -301,14 +301,14 @@ export default {
                   </li>-->
 
       <template v-for="s in autocomplete.sections" :key="s.facet">
-        <li class="divider" v-bind:data-content="s.name"></li>
+        <li class="divider" :data-content="s.name"></li>
         <template v-for="(e, i) in s.entries" :key="e.id">
           <li v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded" class="menu-item">
             <a
-              v-bind:class="{
+              :class="{
                 active: e.id === autocomplete.highlighted,
               }"
-              v-bind:href="'/view/' + e.id"
+              :href="'/view/' + e.id"
               @click.exact.prevent="searchGoTo(e.id, true)"
               @mousedown="keep_focus = true"
               @mouseover="autocomplete.highlighted = null"
@@ -325,7 +325,7 @@ export default {
                   <span class="tile-title">
                     <span v-if="e.parsed_id" v-html="e.parsed_id"></span>
                     <i v-if="e.parsed_id" class="icon icon-caret"></i>
-                    <span v-html="e.name" v-bind:style="{ opacity: e.parsed_id ? 0.5 : 1 }"></span>
+                    <span v-html="e.name" :style="{ opacity: e.parsed_id ? 0.5 : 1 }"></span>
                   </span>
                   <small class="tile-subtitle text-gray">
                     {{ e.subtext }}

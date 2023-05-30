@@ -44,7 +44,7 @@ const state = useDetailsStore();
           <td>
             <ul>
               <li v-for="link in state.data.props.links" :key="link.text">
-                <a v-bind:href="link.url">
+                <a :href="link.url">
                   {{ link.text }}
                 </a>
               </li>
@@ -67,7 +67,7 @@ const state = useDetailsStore();
       >
         <img
           alt="Header-Image, showing the building"
-          v-bind:src="'/cdn/header/' + state.image.shown_image.name"
+          :src="'/cdn/header/' + state.image.shown_image.name"
           class="img-responsive"
           width="100%"
         />
@@ -121,7 +121,7 @@ const state = useDetailsStore();
               <td>
                 <ul>
                   <li v-for="link in state.data.props.links" :key="link.text">
-                    <a v-bind:href="link.url">
+                    <a :href="link.url">
                       {{ link.text }}
                     </a>
                   </li>
@@ -161,7 +161,7 @@ const state = useDetailsStore();
       <div class="modal-header">
         <button
           class="btn btn-clear float-right"
-          v-bind:aria-label="$t('view_view.slideshow.close')"
+          :aria-label="$t('view_view.slideshow.close')"
           @click="state.hideImageSlideshow"
         ></button>
         <h5 class="modal-title">{{ $t("view_view.slideshow.header") }}</h5>
@@ -172,7 +172,7 @@ const state = useDetailsStore();
             <template v-for="(_, i) in state.data?.imgs" :key="i">
               <input
                 v-if="i === state.image.shown_image_id"
-                v-bind:id="`slide-${i + 1}`"
+                :id="`slide-${i + 1}`"
                 class="carousel-locator"
                 type="radio"
                 name="carousel-radio"
@@ -181,7 +181,7 @@ const state = useDetailsStore();
               />
               <input
                 v-else
-                v-bind:id="`slide-${i + 1}`"
+                :id="`slide-${i + 1}`"
                 class="carousel-locator"
                 type="radio"
                 name="carousel-radio"
@@ -195,7 +195,7 @@ const state = useDetailsStore();
                 <label
                   v-if="i !== 0"
                   class="item-prev btn btn-action btn-lg"
-                  v-bind:for="`slide-${i}`"
+                  :for="`slide-${i}`"
                   @click="state.showImageSlideshow(i - 1)"
                 >
                   <i class="icon icon-arrow-left"></i>
@@ -203,7 +203,7 @@ const state = useDetailsStore();
                 <label
                   v-if="i + 1 !== (state.data?.imgs?.length || 0)"
                   class="item-next btn btn-action btn-lg"
-                  v-bind:for="`slide-${i + 2}`"
+                  :for="`slide-${i + 2}`"
                   @click="state.showImageSlideshow(i + 1)"
                 >
                   <i class="icon icon-arrow-right"></i>
@@ -211,10 +211,10 @@ const state = useDetailsStore();
                 <div itemscope itemtype="http://schema.org/ImageObject">
                   <img
                     itemprop="contentUrl"
-                    v-bind:alt="$t('view_view.slideshow.image_alt')"
+                    :alt="$t('view_view.slideshow.image_alt')"
                     loading="lazy"
-                    v-bind:src="'/cdn/lg/' + img.name"
-                    v-bind:srcset="`/cdn/sm/${img.name} 1024w,/cdn/md/${img.name} 1920w,/cdn/lg/${img.name} 3860w`"
+                    :src="'/cdn/lg/' + img.name"
+                    :srcset="`/cdn/sm/${img.name} 1024w,/cdn/md/${img.name} 1920w,/cdn/lg/${img.name} 3860w`"
                     sizes="100vw"
                     class="img-responsive rounded"
                   />
@@ -230,7 +230,7 @@ const state = useDetailsStore();
                 v-for="(_, i) in state.data?.imgs"
                 :key="i"
                 class="nav-item text-hide c-hand"
-                v-bind:for="`slide-${i + 1}`"
+                :for="`slide-${i + 1}`"
                 >{{ i + 1 }}</label
               >
             </div>
@@ -241,21 +241,21 @@ const state = useDetailsStore();
         <div class="columns">
           <div class="column col-4 col-sm-6 col-md-6 text-left">
             <h6>{{ $t("view_view.slideshow.source") }}</h6>
-            <a v-if="state.image.shown_image.source.url" v-bind:href="state.image.shown_image.source.url">{{
+            <a v-if="state.image.shown_image.source.url" :href="state.image.shown_image.source.url">{{
               state.image.shown_image.source.text
             }}</a>
             <template v-else>{{ state.image.shown_image.source.text }}</template>
           </div>
           <div class="column col-4 col-sm-6 col-md-6 text-center text-md-right">
             <h6>{{ $t("view_view.slideshow.author") }}</h6>
-            <a v-if="state.image.shown_image.author.url" v-bind:href="state.image.shown_image.author.url">
+            <a v-if="state.image.shown_image.author.url" :href="state.image.shown_image.author.url">
               {{ state.image.shown_image.author.text }}
             </a>
             <template v-else>{{ state.image.shown_image.author.text }}</template>
           </div>
           <div class="column col-4 col-sm-12 col-md-12 text-md-center mt-md-3">
             <h6>{{ $t("view_view.slideshow.license") }}</h6>
-            <a v-if="state.image.shown_image.license.url" v-bind:href="state.image.shown_image.license.url">
+            <a v-if="state.image.shown_image.license.url" :href="state.image.shown_image.license.url">
               {{ state.image.shown_image.license.text }}
             </a>
             <template v-else>{{ state.image.shown_image.license.text }}</template>
