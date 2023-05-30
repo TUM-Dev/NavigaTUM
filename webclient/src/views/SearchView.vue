@@ -93,7 +93,7 @@ function genDescription(): string {
                   v-else
                   class="avatar avatar-sm"
                   src="../assets/thumb-building.webp"
-                  alt="Thumbnail for said building"
+                  :alt="$t('search.thumbnail_alt')"
                 />
               </div>
               <div class="tile-content">

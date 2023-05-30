@@ -168,7 +168,7 @@ onMounted(() => {
       v-if="state.image.shown_image"
     >
       <img
-        alt="Header-Image, showing the building"
+        :alt="$t('view_view.header.image_alt')"
         :src="'/cdn/header/' + state.image.shown_image.name"
         class="img-responsive"
       />

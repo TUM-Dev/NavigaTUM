@@ -191,7 +191,7 @@ function updateRoomsOverview() {
           <div class="panel-header">
             <div class="input-group">
               <input v-model="search" :placeholder="$t('view_view.rooms_overview.filter')" class="form-input" />
-              <button class="btn btn-primary input-group-btn" @click="search = ''" aria-label="Clear the filter">
+              <button class="btn btn-primary input-group-btn" @click="search = ''" :aria-label="$t('view_view.rooms_overview.clear_filter')">
                 <i class="icon icon-cross"></i>
               </button>
             </div>
