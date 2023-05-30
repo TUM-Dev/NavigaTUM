@@ -216,8 +216,10 @@ function initMap(containerId: string) {
       if (fullscreenCtl._container.classList.contains("maximize")) {
         fullscreenCtl._container.classList.remove("maximize");
         document.body.classList.remove("no-scroll");
+        fullscreenCtl._fullscreenButton.classList.remove("maplibregl-ctrl-shrink");
       } else {
         fullscreenCtl._container.classList.add("maximize");
+        fullscreenCtl._fullscreenButton.classList.add("maplibregl-ctrl-shrink");
         document.body.classList.add("no-scroll");
         // "instant" is not part of the spec but nonetheless implemented by Firefox/Chrome
         // @ts-expect-error: TS2322
