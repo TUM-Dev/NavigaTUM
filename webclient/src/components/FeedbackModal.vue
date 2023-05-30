@@ -61,7 +61,7 @@ function assuereTokenValidity() {
   }
 }
 
-function _showError(msg = "", blockSend = false) {
+function _showError(msg: string, blockSend = false) {
   error.message = msg;
   error.blockSend = blockSend;
 }
