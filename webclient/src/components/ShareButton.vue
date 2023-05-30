@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import { ref, defineProps } from "vue";
+import { ref } from "vue";
 import { useClipboard, useShare } from "@vueuse/core";
 import type { ShareOptions } from "@vueuse/core";
+import type { components } from "@/api_types";
 
-const props = defineProps(["coords", "name"]);
+const props = defineProps<{
+  readonly coords: components["schemas"]["Coordinate"];
+  readonly name: string;
+}>();
 
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: "abc" });
 const shareOptions = ref<ShareOptions>({
