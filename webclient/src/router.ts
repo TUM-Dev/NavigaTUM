@@ -34,6 +34,7 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     // A resizeObserver is only necessary if the new position is > 0
     if (savedPosition && savedPosition.top > 0) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       return new Promise((resolve, reject) => {
         // ResizeObserver similar to https://stackoverflow.com/a/72944150
         // The body getBoundingClientRect().y is necessary becase the body is shifted
