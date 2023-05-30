@@ -10,6 +10,8 @@ import de from "./locales/de.yaml";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import en from "./locales/en.yaml";
+import * as Sentry from "@sentry/vue";
+import { BrowserTracing } from "@sentry/tracing";
 
 const i18n = createI18n({
   locale: localStorage.getItem("lang") || "de",
@@ -23,6 +25,24 @@ const i18n = createI18n({
 const app = createApp(App);
 
 app.use(createPinia());
+
+if (import.meta.env.PROD) {
+  Sentry.init({
+    app,
+    dsn: "https://e7192dffa92c4f4cbfb8cf8967c83583@sentry.mm.rbg.tum.de/6",
+    integrations: [
+      new BrowserTracing({
+        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+        tracePropagationTargets: ["nav.tum.de"],
+      }),
+    ],
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+}
+
 app.use(router);
 app.use(i18n);
 
