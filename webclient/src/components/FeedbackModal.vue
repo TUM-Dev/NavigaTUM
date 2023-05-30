@@ -174,7 +174,7 @@ function sendForm() {
               <select
                 class="form-select"
                 id="feedback-category"
-                v-bind:aria-label="$t('feedback.category')"
+                :aria-label="$t('feedback.category')"
                 v-model="global.feedback.category"
               >
                 <option value="general">{{ $t("feedback.type.general") }}</option>
@@ -186,7 +186,7 @@ function sendForm() {
               <input
                 class="form-input"
                 type="text"
-                v-bind:placeholder="$t('feedback.subject')"
+                :placeholder="$t('feedback.subject')"
                 v-model="global.feedback.subject"
                 id="feedback-subject"
               />
@@ -209,7 +209,7 @@ function sendForm() {
             <textarea
               class="form-input"
               id="feedback-body"
-              v-bind:placeholder="$t('feedback.message')"
+              :placeholder="$t('feedback.message')"
               v-model="global.feedback.body"
               rows="6"
             >
@@ -279,7 +279,7 @@ function sendForm() {
               class="btn btn-primary"
               id="feedback-send"
               @click="sendForm"
-              v-bind:class="{ loading: loading }"
+              :class="{ loading: loading }"
               v-bind="{ disabled: loading || error.blockSend }"
             >
               {{ $t("feedback.send") }}
@@ -301,9 +301,7 @@ function sendForm() {
           <p>{{ $t("feedback.success.thank_you") }}</p>
           <p>
             {{ $t("feedback.success.response_at") }}
-            <a id="feedback-success-url" class="btn-link" v-bind:href="successUrl">{{
-              $t("feedback.success.this_issue")
-            }}</a>
+            <a id="feedback-success-url" class="btn-link" :href="successUrl">{{ $t("feedback.success.this_issue") }}</a>
           </p>
           <div class="buttons">
             <button class="btn btn-primary" @click="closeForm">

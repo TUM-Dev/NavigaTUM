@@ -361,7 +361,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
       </div>
     </div>
   </div>
-  <div id="interactive-map-container" v-bind:class="{ 'd-none': state.map.selected !== selectedMap.interactive }">
+  <div id="interactive-map-container" :class="{ 'd-none': state.map.selected !== selectedMap.interactive }">
     <div>
       <div id="interactive-map" class="loading"></div>
     </div>

@@ -63,23 +63,23 @@ function delayedLoadRoomfinderModalMap() {
   <a @click="state.map.roomfinder.modal_open = true" v-on:click="delayedLoadRoomfinderModalMap">
     <div
       class="roomfinder-map-container"
-      v-bind:class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
+      :class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
       v-if="state.data?.maps.roomfinder?.available"
     >
       <img
-        v-bind:alt="$t('view_view.map.roomfinder_crosshair')"
+        :alt="$t('view_view.map.roomfinder_crosshair')"
         src="../assets/map/roomfinder_cross-v2.webp"
-        v-bind:style="{
+        :style="{
           transform: 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)',
         }"
         id="roomfinder-map-cross"
       />
       <img
         alt="Hand-drawn roomfinder map image"
-        v-bind:src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap().file"
+        :src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap().file"
         class="img-responsive"
-        v-bind:width="state.map.roomfinder.width"
-        v-bind:height="state.map.roomfinder.height"
+        :width="state.map.roomfinder.width"
+        :height="state.map.roomfinder.height"
         id="roomfinder-map-img"
       />
       <div>
@@ -91,7 +91,7 @@ function delayedLoadRoomfinderModalMap() {
   <div
     class="accordion"
     id="roomfinder-map-select"
-    v-bind:class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
+    :class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
     v-if="state.data?.maps.roomfinder?.available"
   >
     <input id="map-accordion" type="checkbox" name="accordion-checkbox" hidden />
@@ -104,8 +104,8 @@ function delayedLoadRoomfinderModalMap() {
         <li class="menu-item" v-for="(m, i) in state.data.maps.roomfinder.available" :key="m.id">
           <button
             class="btn btn-sm"
-            v-bind:aria-label="`show the map '${m.name}' at the scale 1:${m.scale}`"
-            v-bind:class="{
+            :aria-label="`show the map '${m.name}' at the scale 1:${m.scale}`"
+            :class="{
               selected: m.id === state.map.roomfinder.selected_id,
             }"
             @click="loadRoomfinderMap(i, true)"
@@ -121,12 +121,12 @@ function delayedLoadRoomfinderModalMap() {
   <div
     class="modal modal-lg"
     id="roomfinder-modal"
-    v-bind:class="{ active: state.map.roomfinder.modal_open }"
+    :class="{ active: state.map.roomfinder.modal_open }"
     v-if="state.data?.maps.roomfinder?.available"
   >
     <a
       class="modal-overlay"
-      v-bind:aria-label="$t('view_view.roomfinder_modal.close')"
+      :aria-label="$t('view_view.roomfinder_modal.close')"
       @click="state.map.roomfinder.modal_open = false"
     >
     </a>
@@ -134,7 +134,7 @@ function delayedLoadRoomfinderModalMap() {
       <div class="modal-header">
         <button
           class="btn btn-clear float-right"
-          v-bind:aria-label="$t('view_view.roomfinder_modal.close')"
+          :aria-label="$t('view_view.roomfinder_modal.close')"
           @click="state.map.roomfinder.modal_open = false"
         ></button>
         <h5 class="modal-title">
@@ -144,19 +144,19 @@ function delayedLoadRoomfinderModalMap() {
       <div class="modal-body">
         <div class="roomfinder-map-container">
           <img
-            v-bind:alt="$t('view_view.map.roomfinder_crosshair')"
+            :alt="$t('view_view.map.roomfinder_crosshair')"
             src="../assets/map/roomfinder_cross-v2.webp"
-            v-bind:style="{
+            :style="{
               transform: 'translate(' + state.map.roomfinder.modalX + 'px, ' + state.map.roomfinder.modalY + 'px)',
             }"
             id="roomfinder-modal-map-cross"
           />
           <img
             alt="Hand-drawn roomfinder map image"
-            v-bind:src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap()?.file"
+            :src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap()?.file"
             class="img-responsive"
-            v-bind:width="state.map.roomfinder.width"
-            v-bind:height="state.map.roomfinder.height"
+            :width="state.map.roomfinder.width"
+            :height="state.map.roomfinder.height"
             id="roomfinder-modal-map-img"
           />
           <div>

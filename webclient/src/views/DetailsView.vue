@@ -169,7 +169,7 @@ onMounted(() => {
     >
       <img
         alt="Header-Image, showing the building"
-        v-bind:src="'/cdn/header/' + state.image.shown_image.name"
+        :src="'/cdn/header/' + state.image.shown_image.name"
         class="img-responsive"
       />
     </a>
@@ -188,7 +188,7 @@ onMounted(() => {
           </span>
           <button
             class="btn btn-action btn-sm btn-link tooltip tooltip-left"
-            v-bind:data-tooltip="$t('view_view.msg.coordinate-counter.info')"
+            :data-tooltip="$t('view_view.msg.coordinate-counter.info')"
           >
             &#x1f6c8;
           </button>
@@ -196,7 +196,7 @@ onMounted(() => {
         <div class="column col-auto col-sm-12 btns">
           <button
             class="btn btn-link btn-sm delete"
-            v-bind:class="{ 'to-confirm': coord_counter.to_confirm_delete }"
+            :class="{ 'to-confirm': coord_counter.to_confirm_delete }"
             @click="deletePendingCoordinates"
           >
             <i class="icon icon-cross"></i>
@@ -230,7 +230,7 @@ onMounted(() => {
         <RouterLink v-bind="{ to: '/view/' + state.data.parents[i] }" property="item" typeof="WebPage">
           <span property="name">{{ p }}</span>
         </RouterLink>
-        <meta property="position" v-bind:content="`${i + 1}`" />
+        <meta property="position" :content="`${i + 1}`" />
       </li>
     </ol>
 
@@ -238,11 +238,7 @@ onMounted(() => {
     <div class="entry-header">
       <div class="title">
         <div class="hide-sm" v-if="clipboardIsSupported">
-          <button
-            class="btn btn-link btn-action btn-sm"
-            v-bind:title="$t('view_view.header.copy_link')"
-            @click="copy"
-          >
+          <button class="btn btn-link btn-action btn-sm" :title="$t('view_view.header.copy_link')" @click="copy">
             <i class="icon icon-check" v-if="copied"></i>
             <i class="icon icon-link" v-else></i>
           </button>
@@ -260,9 +256,9 @@ onMounted(() => {
           <a
             class="btn btn-link btn-action btn-sm"
             v-if="state.data?.props?.calendar_url"
-            v-bind:href="state.data.props.calendar_url"
+            :href="state.data.props.calendar_url"
             target="_blank"
-            v-bind:title="$t('view_view.header.calendar')"
+            :title="$t('view_view.header.calendar')"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -282,7 +278,7 @@ onMounted(() => {
           </a>
           <button
             class="btn btn-link btn-action btn-sm"
-            v-bind:title="$t('view_view.header.external_link.tooltip')"
+            :title="$t('view_view.header.external_link.tooltip')"
             onclick="this.focus()"
           >
             <!-- The onclick handler is a fix for Safari -->
@@ -301,10 +297,10 @@ onMounted(() => {
               <path d="M2.352.268h1.085v1.085" stroke-linejoin="round" />
             </svg>
           </button>
-          <ShareButton v-bind:coords="state.data.coords" v-bind:name="state.data.name" />
+          <ShareButton :coords="state.data.coords" :name="state.data.name" />
           <DetailsFeedbackButton ref="feedbackButton" />
           <!--<button class="btn btn-link btn-action btn-sm"
-                  v-bind:title="$t('view_view.header.favorites')">
+                  :title="$t('view_view.header.favorites')">
             <i class="icon icon-bookmark"></i>
           </button>-->
         </div>
@@ -346,7 +342,7 @@ onMounted(() => {
           <button
             class="btn btn-sm"
             @click="$refs.interactiveMap.loadInteractiveMap(true)"
-            v-bind:class="{
+            :class="{
               active: state.map.selected === selectedMap.interactive,
             }"
           >
@@ -355,10 +351,10 @@ onMounted(() => {
           <button
             class="btn btn-sm"
             @click="$refs.roomfinderMap.loadRoomfinderMap(state.map.roomfinder.selected_index, true)"
-            v-bind:class="{
+            :class="{
               active: state.map.selected === selectedMap.roomfinder,
             }"
-            v-bind:disabled="!state.data.maps.roomfinder?.available"
+            :disabled="!state.data.maps.roomfinder?.available"
           >
             {{ $t("view_view.map.roomfinder") }}
           </button>

@@ -79,18 +79,18 @@ function updateRoomsOverview() {
           class="column col-4 col-md-12 content"
           v-if="i < state.data.sections.buildings_overview.n_visible || buildings_overview_expanded"
         >
-          <RouterLink v-bind:to="'/view/' + b.id">
+          <RouterLink :to="'/view/' + b.id">
             <div class="tile tile-centered">
               <div class="tile-icon">
                 <figure class="avatar avatar-lg">
                   <img
                     v-if="b.thumb"
-                    v-bind:alt="$t('view_view.buildings_overview.thumbnail_preview')"
-                    v-bind:src="'/cdn/thumb/' + b.thumb"
+                    :alt="$t('view_view.buildings_overview.thumbnail_preview')"
+                    :src="'/cdn/thumb/' + b.thumb"
                   />
                   <img
                     v-else
-                    v-bind:alt="$t('view_view.buildings_overview.default_thumbnail_preview')"
+                    :alt="$t('view_view.buildings_overview.default_thumbnail_preview')"
                     src="../assets/thumb-building.webp"
                   />
                 </figure>
@@ -100,7 +100,7 @@ function updateRoomsOverview() {
                 <small class="tile-subtitle text-dark">{{ b.subtext }}</small>
               </div>
               <div class="tile-action">
-                <button class="btn btn-link" v-bind:aria-label="`show the details for the building '${b.name}'`">
+                <button class="btn btn-link" :aria-label="`show the details for the building '${b.name}'`">
                   <i class="icon icon-arrow-right"></i>
                 </button>
               </div>
@@ -150,7 +150,7 @@ function updateRoomsOverview() {
               <li class="menu-item">
                 <button
                   class="btn"
-                  v-bind:class="{
+                  :class="{
                     active: selected === -1,
                   }"
                   @click="selected = -1"
@@ -166,7 +166,7 @@ function updateRoomsOverview() {
               <li class="menu-item" v-for="(u, i) in state.data?.sections.rooms_overview.usages" :key="u.name">
                 <button
                   class="btn"
-                  v-bind:class="{
+                  :class="{
                     active: i === state.data.sections.rooms_overview.selected,
                   }"
                   @click="selected = i"
@@ -190,17 +190,17 @@ function updateRoomsOverview() {
         <div class="panel">
           <div class="panel-header">
             <div class="input-group">
-              <input v-model="search" v-bind:placeholder="$t('view_view.rooms_overview.filter')" class="form-input" />
+              <input v-model="search" :placeholder="$t('view_view.rooms_overview.filter')" class="form-input" />
               <button class="btn btn-primary input-group-btn" @click="search = ''" aria-label="Clear the filter">
                 <i class="icon icon-cross"></i>
               </button>
             </div>
           </div>
           <div class="panel-body">
-            <div v-bind:class="{ loading: loading }"></div>
+            <div :class="{ loading: loading }"></div>
             <ul class="menu" v-if="selected !== null">
               <li class="menu-item" v-for="r in display_list" :key="r.id">
-                <RouterLink v-bind:to="'/view/' + r.id"> <i class="icon icon-location"></i> {{ r.name }} </RouterLink>
+                <RouterLink :to="'/view/' + r.id"> <i class="icon icon-location"></i> {{ r.name }} </RouterLink>
               </li>
             </ul>
           </div>

@@ -14,7 +14,7 @@ const global = useGlobalStore();
       <div class="columns">
         <div class="column hide-lg">
           <RouterLink to="/">
-            <img v-bind:alt="$t('meta.logo_alt')" src="./assets/logo.svg" id="logo" />
+            <img :alt="$t('meta.logo_alt')" src="./assets/logo.svg" id="logo" />
             <!-- 7px for logo1 -->
           </RouterLink>
         </div>
@@ -24,7 +24,7 @@ const global = useGlobalStore();
 
         <div class="hide-lg">
           <router-link to="/">
-            <img v-bind:alt="$t('meta.tum_logo_alt')" src="./assets/tum_logo.min.svg" id="tum_logo" />
+            <img :alt="$t('meta.tum_logo_alt')" src="./assets/tum_logo.min.svg" id="tum_logo" />
             <!-- 7px for logo1 -->
           </router-link>
         </div>
@@ -44,7 +44,7 @@ const global = useGlobalStore();
   </div>
 
   <!-- Page content container -->
-  <div id="content" class="container grid-lg visible" v-bind:class="{ search_focus: global.search_focused }">
+  <div id="content" class="container grid-lg visible" :class="{ search_focus: global.search_focused }">
     <div class="columns">
       <div class="column col-lg-11 col-mx-auto">
         <RouterView />
@@ -79,7 +79,7 @@ const global = useGlobalStore();
                     </RouterLink>
                   </li>
                   <li>
-                    <RouterLink v-bind:to="'/about/' + $t('footer.about.link')">
+                    <RouterLink :to="'/about/' + $t('footer.about.link')">
                       {{ $t("footer.about.text") }}
                     </RouterLink>
                   </li>
@@ -96,12 +96,12 @@ const global = useGlobalStore();
                     </button>
                   </li>
                   <li>
-                    <RouterLink v-bind:to="'/about/' + $t('footer.privacy.link')">
+                    <RouterLink :to="'/about/' + $t('footer.privacy.link')">
                       {{ $t("footer.privacy.text") }}
                     </RouterLink>
                   </li>
                   <li>
-                    <RouterLink v-bind:to="'/about/' + $t('footer.imprint.link')">
+                    <RouterLink :to="'/about/' + $t('footer.imprint.link')">
                       {{ $t("footer.imprint.text") }}
                     </RouterLink>
                   </li>
