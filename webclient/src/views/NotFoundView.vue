@@ -11,7 +11,7 @@ const global = useGlobalStore();
   <button
     @click="global.openFeedback('bug', `404 on ${window.location.href}`, $t('view_404.got_here'))"
     class="btn btn-link p-0"
-    aria-label="Open the feedback-form"
+    :aria-label="$t('view_404.open_feedback')"
   >
     {{ $t("view_404.call_to_action") }}
   </button>

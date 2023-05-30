@@ -75,7 +75,7 @@ function delayedLoadRoomfinderModalMap() {
         id="roomfinder-map-cross"
       />
       <img
-        alt="Hand-drawn roomfinder map image"
+        :alt="$t('view_view.map.img_alt')"
         :src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap().file"
         class="img-responsive"
         :width="state.map.roomfinder.width"
@@ -126,7 +126,7 @@ function delayedLoadRoomfinderModalMap() {
   >
     <a
       class="modal-overlay"
-      :aria-label="$t('view_view.roomfinder_modal.close')"
+      :aria-label="$t('close')"
       @click="state.map.roomfinder.modal_open = false"
     >
     </a>
@@ -134,7 +134,7 @@ function delayedLoadRoomfinderModalMap() {
       <div class="modal-header">
         <button
           class="btn btn-clear float-right"
-          :aria-label="$t('view_view.roomfinder_modal.close')"
+          :aria-label="$t('close')"
           @click="state.map.roomfinder.modal_open = false"
         ></button>
         <h5 class="modal-title">
@@ -152,7 +152,7 @@ function delayedLoadRoomfinderModalMap() {
             id="roomfinder-modal-map-cross"
           />
           <img
-            alt="Hand-drawn roomfinder map image"
+            :alt="$t('view_view.map.img_alt')"
             :src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap()?.file"
             class="img-responsive"
             :width="state.map.roomfinder.width"

@@ -153,11 +153,11 @@ function sendForm() {
 </script>
 
 <template>
-  <div class="modal active" id="feedback-modal" v-if="!successUrl">
-    <div id="feedback-overlay modal-overlay" @click="mayCloseForm"></div>
+  <div class="modal active" v-if="!successUrl">
+    <a class="modal-overlay" :aria-label="$t('close')" @click="mayCloseForm" />
     <div class="modal-container">
       <div class="modal-header">
-        <button class="btn btn-clear float-right" aria-label="Close" @click="closeForm"></button>
+        <button class="btn btn-clear float-right" :aria-label="$t('close')" @click="closeForm"></button>
         <div class="modal-title h5">{{ $t("feedback.title") }}</div>
       </div>
       <div class="modal-body">
@@ -289,11 +289,11 @@ function sendForm() {
       </div>
     </div>
   </div>
-  <div class="modal active" id="feedback-success-modal" v-if="successUrl">
-    <div class="feedback-overlay modal-overlay" @click="closeForm"></div>
+  <div class="modal active" v-if="successUrl">
+    <a class="modal-overlay" :aria-label="$t('close')" @click="closeForm" />
     <div class="modal-container">
       <div class="modal-header">
-        <button class="btn btn-clear float-right" aria-label="Close" @click="closeForm"></button>
+        <button class="btn btn-clear float-right" :aria-label="$t('close')" @click="closeForm"></button>
         <div class="modal-title h5">{{ $t("feedback.success.title") }}</div>
       </div>
       <div class="modal-body">
@@ -334,7 +334,7 @@ function sendForm() {
     margin: 0 0.1em;
   }
 
-  .feedback-overlay {
+  .modal-overlay {
     background: $feedback-overlay-bg;
   }
 

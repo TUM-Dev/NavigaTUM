@@ -66,7 +66,7 @@ const state = useDetailsStore();
         v-if="state.image.shown_image_id"
       >
         <img
-          alt="Header-Image, showing the building"
+          :alt="$t('view_view.header.image_alt')"
           :src="'/cdn/header/' + state.image.shown_image.name"
           class="img-responsive"
           width="100%"
@@ -156,12 +156,12 @@ const state = useDetailsStore();
     </div>
   </div>
   <div class="modal modal-lg active" id="modal-slideshow" v-if="state.image.slideshow_open && state.data.imgs">
-    <a class="modal-overlay" aria-label="Close" @click="state.hideImageSlideshow"></a>
+    <a class="modal-overlay" :aria-label="$t('close')" @click="state.hideImageSlideshow"></a>
     <div class="modal-container modal-fullheight">
       <div class="modal-header">
         <button
           class="btn btn-clear float-right"
-          :aria-label="$t('view_view.slideshow.close')"
+          :aria-label="$t('close')"
           @click="state.hideImageSlideshow"
         ></button>
         <h5 class="modal-title">{{ $t("view_view.slideshow.header") }}</h5>

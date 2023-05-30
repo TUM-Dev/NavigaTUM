@@ -73,14 +73,14 @@ function less(id: string) {
             </RouterLink>
             <button
               class="btn btn-link btn-more"
-              aria-label="show more buildings"
+              :aria-label="$t('view_main.more_aria')"
               @click="more(site.id)"
               v-if="site.children.length > site.n_visible"
             >
               <i class="icon icon-arrow-right"></i>
               {{ $t("view_main.more") }}
             </button>
-            <button class="btn btn-link btn-less" aria-label="show less buildings" @click="less(site.id)">
+            <button class="btn btn-link btn-less" :aria-label="$t('view_main.less_aria')" @click="less(site.id)">
               <i class="icon icon-arrow-up"></i>
               {{ $t("view_main.less") }}
             </button>
