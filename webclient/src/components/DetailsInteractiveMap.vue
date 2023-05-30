@@ -28,7 +28,9 @@ const coord_picker = ref({
 });
 const initialLoaded = ref(false);
 
-const emit = defineEmits(["openFeedbackForm"]);
+const emit = defineEmits<{
+  (e: "openFeedbackForm"): void;
+}>();
 function confirmLocationPicker() {
   // add the current edits to the feedback
   const currentEdits = getLocalStorageWithExpiry<{ [index: string]: Coord }>("feedback-coords", {});
