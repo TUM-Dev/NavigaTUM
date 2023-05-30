@@ -156,14 +156,10 @@ const state = useDetailsStore();
     </div>
   </div>
   <div class="modal modal-lg active" id="modal-slideshow" v-if="state.image.slideshow_open && state.data.imgs">
-    <a class="modal-overlay" :aria-label="$t('close')" @click="state.hideImageSlideshow"></a>
+    <a class="modal-overlay" :aria-label="$t('close')" @click="state.hideImageSlideshow" />
     <div class="modal-container modal-fullheight">
       <div class="modal-header">
-        <button
-          class="btn btn-clear float-right"
-          :aria-label="$t('close')"
-          @click="state.hideImageSlideshow"
-        ></button>
+        <button class="btn btn-clear float-right" :aria-label="$t('close')" @click="state.hideImageSlideshow" />
         <h5 class="modal-title">{{ $t("view_view.slideshow.header") }}</h5>
       </div>
       <div class="modal-body">
@@ -198,7 +194,7 @@ const state = useDetailsStore();
                   :for="`slide-${i}`"
                   @click="state.showImageSlideshow(i - 1)"
                 >
-                  <i class="icon icon-arrow-left"></i>
+                  <i class="icon icon-arrow-left" />
                 </label>
                 <label
                   v-if="i + 1 !== (state.data?.imgs?.length || 0)"
@@ -206,7 +202,7 @@ const state = useDetailsStore();
                   :for="`slide-${i + 2}`"
                   @click="state.showImageSlideshow(i + 1)"
                 >
-                  <i class="icon icon-arrow-right"></i>
+                  <i class="icon icon-arrow-right" />
                 </label>
                 <div itemscope itemtype="http://schema.org/ImageObject">
                   <img

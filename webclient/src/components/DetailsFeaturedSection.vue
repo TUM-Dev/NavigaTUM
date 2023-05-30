@@ -7,7 +7,9 @@ const state = useDetailsStore();
 <template>
   <div v-if="state.data?.sections?.featured">
     <div class="columns" style="margin-top: 40px">
-      <div class="column"><h2>Featured</h2></div>
+      <div class="column">
+        <h2>Featured</h2>
+      </div>
     </div>
     <div style="position: relative; overflow: hidden; white-space: nowrap">
       <div
@@ -19,7 +21,7 @@ const state = useDetailsStore();
         "
       >
         <button class="btn btn-action s-circle" style="margin: auto 0; /*! position: absolute; */">
-          <i class="icon icon-arrow-left"></i>
+          <i class="icon icon-arrow-left" />
         </button>
       </div>
       <div class="card" style="width: 250px; display: inline-flex; margin-right: 8px">
@@ -31,9 +33,9 @@ const state = useDetailsStore();
             Teilbibliothek Stammgelände
           </div>
           <small class="card-subtitle text-gray">Teilbibliothek</small>-->
-          <div class="divider"></div>
+          <div class="divider" />
         </div>
-        <div class="card-body"></div>
+        <div class="card-body" />
         <div class="card-footer">
           <button class="btn btn-primary">Mehr Infos</button>
         </div>
@@ -55,7 +57,7 @@ const state = useDetailsStore();
           <div class="tile tile-centered">
             <div class="tile-icon">
               <div class="example-tile-icon">
-                <i class="icon icon-location centered"></i>
+                <i class="icon icon-location centered" />
               </div>
             </div>
             <div class="tile-content">
@@ -65,7 +67,7 @@ const state = useDetailsStore();
             </div>
             <div class="tile-action">
               <button class="btn btn-link">
-                <i class="icon icon-arrow-right"></i>
+                <i class="icon icon-arrow-right" />
               </button>
             </div>
           </div>
@@ -82,11 +84,9 @@ const state = useDetailsStore();
         "
       >
         <button class="btn btn-action s-circle" style="margin: auto 0; /*! position: absolute; */">
-          <i class="icon icon-arrow-right"></i>
+          <i class="icon icon-arrow-right" />
         </button>
       </div>
     </div>
   </div>
 </template>
-
-<script lang="ts"></script>

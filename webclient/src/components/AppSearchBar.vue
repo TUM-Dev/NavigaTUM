@@ -278,7 +278,7 @@ export default {
         autocomplete="off"
         :aria-label="$t('search.aria-searchlabel')"
       />
-      <i class="form-icon icon icon-search"></i>
+      <i class="form-icon icon icon-search" />
       <button
         class="btn btn-primary input-group-btn btn-lg"
         @click="searchGo(false)"
@@ -301,7 +301,7 @@ export default {
                   </li>-->
 
       <template v-for="s in autocomplete.sections" :key="s.facet">
-        <li class="divider" :data-content="s.name"></li>
+        <li class="divider" :data-content="s.name" />
         <template v-for="(e, i) in s.entries" :key="e.id">
           <li v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded" class="menu-item">
             <a
@@ -316,16 +316,16 @@ export default {
               <div class="tile">
                 <div class="tile-icon">
                   <template v-if="e.type === 'room' || e.type === 'virtual_room'">
-                    <i v-if="e.parsed_id" class="icon icon-search"></i>
-                    <i v-else class="icon icon-location"></i>
+                    <i v-if="e.parsed_id" class="icon icon-search" />
+                    <i v-else class="icon icon-location" />
                   </template>
                   <img v-else src="../assets/thumb-building.webp" class="avatar avatar-sm" />
                 </div>
                 <div class="tile-content">
                   <span class="tile-title">
-                    <span v-if="e.parsed_id" v-html="e.parsed_id"></span>
-                    <i v-if="e.parsed_id" class="icon icon-caret"></i>
-                    <span v-html="e.name" :style="{ opacity: e.parsed_id ? 0.5 : 1 }"></span>
+                    <span v-if="e.parsed_id" v-html="e.parsed_id" />
+                    <i v-if="e.parsed_id" class="icon icon-caret" />
+                    <span v-html="e.name" :style="{ opacity: e.parsed_id ? 0.5 : 1 }" />
                   </span>
                   <small class="tile-subtitle text-gray">
                     {{ e.subtext }}
@@ -357,27 +357,27 @@ export default {
       <!--<li class="search-comment actions">
                     <div>
                       <button class="btn btn-sm">
-                        <i class="icon icon-arrow-right"></i> in Gebäude Suchen
+                        <i class="icon icon-arrow-right" /> in Gebäude Suchen
                       </button>
                     </div>
                     <div>
                       <button class="btn btn-sm">
-                        <i class="icon icon-location"></i> Hörsäle
+                        <i class="icon icon-location" /> Hörsäle
                       </button>
                     </div>
                     <div>
                       <button class="btn btn-sm">
-                        <i class="icon icon-location"></i> Seminarräume
+                        <i class="icon icon-location" /> Seminarräume
                       </button>
                     </div>
                   </li>-->
 
-      <!--<li class="divider" data-content="Veranstaltungen"></li>
+      <!--<li class="divider" data-content="Veranstaltungen" />
                   <li class="menu-item">
                     <a href="#">
                       <div class="tile">
                         <div class="tile-icon">
-                          <i class="icon icon-time"></i>
+                          <i class="icon icon-time" />
                         </div>
                         <div class="tile-content">
                           <span class="tile-title">

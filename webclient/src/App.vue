@@ -19,7 +19,7 @@ const global = useGlobalStore();
           </RouterLink>
         </div>
         <div class="column col-8 col-lg-11 col-mx-auto">
-          <AppSearchBar></AppSearchBar>
+          <AppSearchBar />
         </div>
 
         <div class="hide-lg">
@@ -53,11 +53,11 @@ const global = useGlobalStore();
   </div>
   <!-- Loading indicator -->
   <div id="loading-page" v-cloak>
-    <div class="loading loading-lg"></div>
+    <div class="loading loading-lg" />
   </div>
 
-  <div style="margin-bottom: 30px"></div>
-  <div style="padding-bottom: 70px" class="show-xs"></div>
+  <div style="margin-bottom: 30px" />
+  <div style="padding-bottom: 70px" class="show-xs" />
 
   <!-- Footer -->
   <footer data-cy="main-footer">
@@ -109,7 +109,7 @@ const global = useGlobalStore();
               </div>
             </div>
             <div class="column col-auto col-ml-auto col-xs-12 settings">
-              <div class="show-xs divider" style="height: 20px"></div>
+              <div class="show-xs divider" style="height: 20px" />
               <div class="columns">
                 <div class="column col-12 col-xs-8 col-mx-auto">
                   <div class="columns setting-group">
@@ -150,7 +150,7 @@ const global = useGlobalStore();
           class="btn btn-clear float-right"
           :aria-label="$t('close')"
           @click="global.information_modal.body = null"
-        ></button>
+        />
         <div v-if="global.information_modal.header" class="modal-title h5">{{ global.information_modal.header }}</div>
       </div>
       <div class="modal-body">

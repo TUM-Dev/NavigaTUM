@@ -86,8 +86,8 @@ function genDescription(): string {
             <RouterLink :to="'/view/' + e.id" class="tile tile-centered">
               <div class="tile-icon">
                 <template v-if="e.type === 'room' || e.type === 'virtual_room'">
-                  <i v-if="e.parsed_id" class="icon icon-search"></i>
-                  <i v-else class="icon icon-location"></i>
+                  <i v-if="e.parsed_id" class="icon icon-search" />
+                  <i v-else class="icon icon-location" />
                 </template>
                 <img
                   v-else
@@ -98,9 +98,9 @@ function genDescription(): string {
               </div>
               <div class="tile-content">
                 <div class="tile-title">
-                  <span v-if="e.parsed_id" v-html="e.parsed_id"></span>
-                  <i v-if="e.parsed_id" class="icon icon-caret"></i>
-                  <span v-html="e.name"></span>
+                  <span v-if="e.parsed_id" v-html="e.parsed_id" />
+                  <i v-if="e.parsed_id" class="icon icon-caret" />
+                  <span v-html="e.name" />
                 </div>
                 <small class="tile-subtitle text-gray">
                   {{ e.subtext }}<template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
@@ -108,7 +108,7 @@ function genDescription(): string {
               </div>
               <!--<div class="tile-action">
               <button class="btn btn-link">
-                <i class="icon icon-more-vert"></i>
+                <i class="icon icon-more-vert" />
               </button>
             </div>-->
             </RouterLink>

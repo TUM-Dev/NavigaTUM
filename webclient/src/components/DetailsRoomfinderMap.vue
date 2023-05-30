@@ -60,7 +60,11 @@ function delayedLoadRoomfinderModalMap() {
 </script>
 
 <template>
-  <a @click="state.map.roomfinder.modal_open = true" v-on:click="delayedLoadRoomfinderModalMap">
+  <a
+    @click="state.map.roomfinder.modal_open = true"
+    v-on:click="delayedLoadRoomfinderModalMap"
+    :aria-label="$t('view_view.map.open_detailed_modal')"
+  >
     <div
       class="roomfinder-map-container"
       :class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
@@ -97,7 +101,7 @@ function delayedLoadRoomfinderModalMap() {
     <input id="map-accordion" type="checkbox" name="accordion-checkbox" hidden />
     <label for="map-accordion" class="btn btn-sm btn-block accordion-header">
       1:{{ state.selectedRoomfinderMap().scale }}, {{ state.selectedRoomfinderMap().name }}
-      <i class="icon icon-caret"></i>
+      <i class="icon icon-caret" />
     </label>
     <div class="accordion-body" v-if="state.data.maps?.roomfinder">
       <ul class="menu menu-nav">
@@ -124,22 +128,15 @@ function delayedLoadRoomfinderModalMap() {
     :class="{ active: state.map.roomfinder.modal_open }"
     v-if="state.data?.maps.roomfinder?.available"
   >
-    <a
-      class="modal-overlay"
-      :aria-label="$t('close')"
-      @click="state.map.roomfinder.modal_open = false"
-    >
-    </a>
+    <a class="modal-overlay" :aria-label="$t('close')" @click="state.map.roomfinder.modal_open = false" />
     <div class="modal-container modal-fullheight" id="roomfinder-modal-container">
       <div class="modal-header">
         <button
           class="btn btn-clear float-right"
           :aria-label="$t('close')"
           @click="state.map.roomfinder.modal_open = false"
-        ></button>
-        <h5 class="modal-title">
-          {{ $t("view_view.roomfinder_modal.header") }}
-        </h5>
+        />
+        <h5 class="modal-title">{{ $t("view_view.roomfinder_modal.header") }}</h5>
       </div>
       <div class="modal-body">
         <div class="roomfinder-map-container">

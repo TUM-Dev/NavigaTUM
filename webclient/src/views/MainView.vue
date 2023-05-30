@@ -19,7 +19,7 @@ function less(id: string) {
       <div class="column">
         <h5>{{ $t("view_main.sites") }}</h5>
       </div>
-      <!--<div class="column col-auto"><a href="#"><i class="icon icon-location"></i> {{ $t("view_main.overview_map") }}</a></div>-->
+      <!--<div class="column col-auto"><a href="#"><i class="icon icon-location" /> {{ $t("view_main.overview_map") }}</a></div>-->
     </div>
     <div class="columns">
       <div class="column col-6 col-xs-12" v-for="site in data.sites_overview" :key="site.id">
@@ -36,7 +36,7 @@ function less(id: string) {
                     :style="{ visibility: site.id ? '' : 'hidden' }"
                     :aria-label="`show the details for the campus '${site.name}'`"
                   >
-                    <i class="icon icon-forward"></i>
+                    <i class="icon icon-forward" />
                   </button>
                 </div>
               </div>
@@ -58,7 +58,7 @@ function less(id: string) {
               <div class="tile tile-centered">
                 <div class="tile-icon">
                   <div class="example-tile-icon">
-                    <i class="icon icon-location centered"></i>
+                    <i class="icon icon-location centered" />
                   </div>
                 </div>
                 <div class="tile-content">
@@ -66,7 +66,7 @@ function less(id: string) {
                 </div>
                 <div class="tile-action">
                   <button class="btn btn-link" :aria-label="`show the details for the building '${c.name}'`">
-                    <i class="icon icon-arrow-right"></i>
+                    <i class="icon icon-arrow-right" />
                   </button>
                 </div>
               </div>
@@ -77,11 +77,11 @@ function less(id: string) {
               @click="more(site.id)"
               v-if="site.children.length > site.n_visible"
             >
-              <i class="icon icon-arrow-right"></i>
+              <i class="icon icon-arrow-right" />
               {{ $t("view_main.more") }}
             </button>
             <button class="btn btn-link btn-less" :aria-label="$t('view_main.less_aria')" @click="less(site.id)">
-              <i class="icon icon-arrow-up"></i>
+              <i class="icon icon-arrow-up" />
               {{ $t("view_main.less") }}
             </button>
           </div>

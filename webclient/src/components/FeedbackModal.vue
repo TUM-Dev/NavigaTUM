@@ -157,7 +157,7 @@ function sendForm() {
     <a class="modal-overlay" :aria-label="$t('close')" @click="mayCloseForm" />
     <div class="modal-container">
       <div class="modal-header">
-        <button class="btn btn-clear float-right" :aria-label="$t('close')" @click="closeForm"></button>
+        <button class="btn btn-clear float-right" :aria-label="$t('close')" @click="closeForm" />
         <div class="modal-title h5">{{ $t("feedback.title") }}</div>
       </div>
       <div class="modal-body">
@@ -238,7 +238,7 @@ function sendForm() {
           <div class="form-group">
             <label class="form-checkbox">
               <input type="checkbox" id="feedback-privacy" v-model="privacyChecked" />
-              <i class="form-icon"></i>
+              <i class="form-icon" />
               <b>
                 <Translation keypath="feedback.public.agreement" tag="span">
                   <template v-slot:github_project_issues_url>
@@ -267,7 +267,7 @@ function sendForm() {
             </label>
             <label class="form-checkbox" id="feedback-delete-label">
               <input type="checkbox" id="feedback-delete" v-model="deleteIssueRequested" />
-              <i class="form-icon"></i> {{ $t("feedback.delete") }}
+              <i class="form-icon" /> {{ $t("feedback.delete") }}
             </label>
           </div>
 
@@ -293,7 +293,7 @@ function sendForm() {
     <a class="modal-overlay" :aria-label="$t('close')" @click="closeForm" />
     <div class="modal-container">
       <div class="modal-header">
-        <button class="btn btn-clear float-right" :aria-label="$t('close')" @click="closeForm"></button>
+        <button class="btn btn-clear float-right" :aria-label="$t('close')" @click="closeForm" />
         <div class="modal-title h5">{{ $t("feedback.success.title") }}</div>
       </div>
       <div class="modal-body">
