@@ -6,7 +6,7 @@ import { NavigationControl, FullscreenControl, AttributionControl, GeolocateCont
 import { selectedMap, useDetailsStore } from "@/stores/details";
 import type { Coord } from "@/stores/global";
 import { useGlobalStore } from "@/stores/global";
-import { nextTick, ref, defineEmits, defineExpose } from "vue";
+import { nextTick, ref, defineExpose } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
 
 const map = ref<Map | undefined>(undefined);

@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { copyCurrentLink } from "@/composables/common";
-import { ref } from "vue";
+import { ref, defineProps } from "vue";
+import { useClipboard, useShare } from "@vueuse/core";
+import type { ShareOptions } from "@vueuse/core";
 
 const props = defineProps(["coords", "name"]);
 
-const browser_supports_share = "share" in navigator;
-const copied = ref(false);
-
-function shareLink() {
-  if (navigator.share) {
-    navigator.share({
-      title: props.name,
-      text: document.title,
-      url: window.location.href,
-    });
-  }
-}
+const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: "abc" });
+const shareOptions = ref<ShareOptions>({
+  title: props.name,
+  text: document.title,
+  url: window.location.href,
+});
+const { share, isSupported: shareIsSupported } = useShare(shareOptions);
 </script>
 
 <template>
@@ -47,13 +43,11 @@ function shareLink() {
       {{ $t("view_view.header.external_link.other_app") }}
     </a>
     <strong>{{ $t("view_view.header.external_link.share") }}</strong>
-    <button class="btn" @click="shareLink" v-if="browser_supports_share">
+    <button class="btn" @click="share" v-if="shareIsSupported">
       {{ $t("view_view.header.external_link.share_link") }}
     </button>
-    <button
-      class="btn"
-      @click="copyCurrentLink(copied)"
-      v-html="copied ? $t('view_view.header.external_link.copied') : $t('view_view.header.copy_link')"
-    ></button>
+    <button class="btn" @click="copy" v-if="clipboardIsSupported">
+      {{ copied ? $t("view_view.header.external_link.copied") : $t("view_view.header.copy_link") }}
+    </button>
   </div>
 </template>
