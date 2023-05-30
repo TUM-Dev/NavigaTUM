@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { getLocalStorageWithExpiry, setLocalStorageWithExpiry } from "@/composables/storage";
-import type { BackgroundLayerSpecification, Coordinates, ImageSource, Map, Marker } from "maplibre-gl";
-import maplibregl from "maplibre-gl";
+import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
+import { Map, Marker } from "maplibre-gl";
+import { NavigationControl, FullscreenControl, AttributionControl, GeolocateControl } from "maplibre-gl";
 import { selectedMap, useDetailsStore } from "@/stores/details";
 import type { Coord } from "@/stores/global";
 import { useGlobalStore } from "@/stores/global";
-import { nextTick, ref } from "vue";
+import { nextTick, ref, defineEmits, defineExpose } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
 
 const map = ref<Map | undefined>(undefined);
@@ -92,7 +93,7 @@ function addLocationPicker() {
     const currentEdits = getLocalStorageWithExpiry<{ [index: string]: Coord }>("feedback-coords", {});
 
     const { coords } = currentEdits[state.data?.id || "undefined"] || state.data;
-    marker2.value = new maplibregl.Marker({
+    marker2.value = new Marker({
       draggable: true,
       color: "#ff0000",
     });
@@ -118,7 +119,7 @@ function loadInteractiveMap(fromUi = false) {
         document.getElementById("interactive-map")?.classList.remove("loading");
       }
     }
-    marker.value = new maplibregl.Marker({ element: createMarker() });
+    marker.value = new Marker({ element: createMarker() });
     const coords = state.data?.coords;
     if (coords !== undefined && map.value !== undefined)
       marker.value.setLngLat([coords.lon, coords.lat]).addTo(map.value as Map);
@@ -176,7 +177,7 @@ function createMarker(hueRotation = 0) {
 }
 
 function initMap(containerId: string) {
-  const map = new maplibregl.Map({
+  const map = new Map({
     container: containerId,
 
     // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
@@ -193,7 +194,7 @@ function initMap(containerId: string) {
     attributionControl: false,
   });
 
-  const nav = new maplibregl.NavigationControl({});
+  const nav = new NavigationControl({});
   map.addControl(nav, "top-left");
 
   // (Browser) Fullscreen is enabled only on mobile, on desktop the map
@@ -204,7 +205,7 @@ function initMap(containerId: string) {
   const fullscreenContainer = isMobile
     ? document.getElementById("interactive-map")
     : document.getElementById("interactive-map-container");
-  const fullscreenCtl = new maplibregl.FullscreenControl({
+  const fullscreenCtl = new FullscreenControl({
     container: fullscreenContainer as HTMLElement,
   });
   // "Backup" the maplibregl default fullscreen handler
@@ -224,7 +225,8 @@ function initMap(containerId: string) {
       }
 
       fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
-      fullscreenCtl._changeIcon();
+      fullscreenCtl._fullscreenButton.ariaLabel = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
+      fullscreenCtl._fullscreenButton.title = fullscreenCtl._fullscreen ? "Exit fullscreen" : "Enter fullscreen";
       fullscreenCtl._map.resize();
     }
   };
@@ -238,7 +240,7 @@ function initMap(containerId: string) {
   }
   map.addControl(fullscreenCtl);
 
-  const location = new maplibregl.GeolocateControl({
+  const location = new GeolocateControl({
     positionOptions: {
       enableHighAccuracy: true,
     },
@@ -258,7 +260,7 @@ function initMap(containerId: string) {
     // and then toggle it.
     // It's only added after loading because if we add it directly on map initialization
     // for some reason it doesn't work.
-    const attrib = new maplibregl.AttributionControl({ compact: true });
+    const attrib = new AttributionControl({ compact: true });
     map.addControl(attrib);
     attrib._toggleAttribution();
   });
