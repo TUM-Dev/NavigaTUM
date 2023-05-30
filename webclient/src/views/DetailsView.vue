@@ -9,7 +9,8 @@ import DetailsRoomfinderMap from "@/components/DetailsRoomfinderMap.vue";
 //import DetailsFeaturedSection from "@/components/DetailsFeaturedSection.vue";
 import { useI18n } from "vue-i18n";
 import { getLocalStorageWithExpiry, removeLocalStorage } from "@/composables/storage";
-import { copyCurrentLink, setDescription, setTitle } from "@/composables/common";
+import { setDescription, setTitle } from "@/composables/common";
+import { useClipboard } from "@vueuse/core";
 import { selectedMap, useDetailsStore } from "@/stores/details";
 import { nextTick, onMounted, ref, watch } from "vue";
 import { useFetch } from "@/composables/fetch";
@@ -72,7 +73,7 @@ function update() {
 }
 
 const state = useDetailsStore();
-const copied = ref(false);
+const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: route.source });
 // Coordinate picker states
 const coord_counter = ref({
   counter: null as number | null,
@@ -236,11 +237,11 @@ onMounted(() => {
     <!-- Entry header / title -->
     <div class="entry-header">
       <div class="title">
-        <div class="hide-sm">
+        <div class="hide-sm" v-if="clipboardIsSupported">
           <button
             class="btn btn-link btn-action btn-sm"
             v-bind:title="$t('view_view.header.copy_link')"
-            @click="copyCurrentLink(copied)"
+            @click="copy"
           >
             <i class="icon icon-check" v-if="copied"></i>
             <i class="icon icon-link" v-else></i>
