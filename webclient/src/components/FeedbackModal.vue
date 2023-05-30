@@ -19,7 +19,13 @@ type Token = {
   readonly created_at: number;
   readonly token: string;
 };
-const token: typeof ref<Token | null> = useStorage<Token | null>("feedback-token", null);
+
+const token: typeof ref<Token | null> = useStorage<Token | null>("feedback-token", null, {
+  serializer: {
+    read: (v: any) => (v ? JSON.parse(v) : null),
+    write: (v: any) => JSON.stringify(v),
+  },
+});
 
 const privacyChecked = ref(false);
 const deleteIssueRequested = ref(false);
