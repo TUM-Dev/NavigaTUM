@@ -23,7 +23,7 @@ function less(id: string) {
     </div>
     <div class="columns">
       <div class="column col-6 col-xs-12" v-for="site in data.sites_overview" :key="site.id">
-        <div class="panel" v-bind="{ id: 'panel-' + site.id }">
+        <div class="panel" v-bind="{ id: `panel-${site.id}` }">
           <div class="panel-header">
             <RouterLink v-bind:to="'/view/' + site.id" v-if="site.id">
               <div class="columns">
@@ -34,7 +34,7 @@ function less(id: string) {
                   <button
                     class="btn btn-link"
                     v-bind:style="{ visibility: site.id ? '' : 'hidden' }"
-                    v-bind:aria-label="`show the details for the campus '` + site.name + `'`"
+                    v-bind:aria-label="`show the details for the campus '${site.name}'`"
                   >
                     <i class="icon icon-forward"></i>
                   </button>
@@ -53,7 +53,7 @@ function less(id: string) {
               v-for="(c, i) in site.children"
               v-bind:class="{ 'link-more': i >= site.n_visible }"
               v-bind:key="c.id"
-              v-bind:aria-label="`show the details for the building '` + c.name + `'`"
+              v-bind:aria-label="`show the details for the building '${c.name}'`"
             >
               <div class="tile tile-centered">
                 <div class="tile-icon">
@@ -65,7 +65,7 @@ function less(id: string) {
                   <div class="tile-title">{{ c.name }}</div>
                 </div>
                 <div class="tile-action">
-                  <button class="btn btn-link" v-bind:aria-label="`show the details for the building '` + c.name + `'`">
+                  <button class="btn btn-link" v-bind:aria-label="`show the details for the building '${c.name}'`">
                     <i class="icon icon-arrow-right"></i>
                   </button>
                 </div>
