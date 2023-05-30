@@ -15,7 +15,7 @@ window.setTimeout(() => {
 </script>
 
 <template>
-  <div id="swagger-ui"></div>
+  <div id="swagger-ui" />
 </template>
 
 <style lang="scss">

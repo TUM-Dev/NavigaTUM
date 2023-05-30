@@ -199,7 +199,7 @@ onMounted(() => {
             :class="{ 'to-confirm': coord_counter.to_confirm_delete }"
             @click="deletePendingCoordinates"
           >
-            <i class="icon icon-cross"></i>
+            <i class="icon icon-cross" />
             <span class="default">
               {{ $t("view_view.msg.coordinate-counter.delete") }}
             </span>
@@ -211,7 +211,7 @@ onMounted(() => {
             class="btn btn-primary btn-sm"
             @click="(addLocationPicker) => $refs.feedbackButton.openFeedbackForm(addLocationPicker)"
           >
-            <i class="icon icon-check"></i>
+            <i class="icon icon-check" />
             {{ $t("view_view.msg.coordinate-counter.send") }}
           </button>
         </div>
@@ -239,8 +239,8 @@ onMounted(() => {
       <div class="title">
         <div class="hide-sm" v-if="clipboardIsSupported">
           <button class="btn btn-link btn-action btn-sm" :title="$t('view_view.header.copy_link')" @click="copy">
-            <i class="icon icon-check" v-if="copied"></i>
-            <i class="icon icon-link" v-else></i>
+            <i class="icon icon-check" v-if="copied" />
+            <i class="icon icon-link" v-else />
           </button>
         </div>
         <h1>
@@ -301,11 +301,11 @@ onMounted(() => {
           <DetailsFeedbackButton ref="feedbackButton" />
           <!--<button class="btn btn-link btn-action btn-sm"
                   :title="$t('view_view.header.favorites')">
-            <i class="icon icon-bookmark"></i>
+            <i class="icon icon-bookmark" />
           </button>-->
         </div>
       </div>
-      <div class="divider"></div>
+      <div class="divider" />
     </div>
 
     <!-- First info section (map + infocard) -->
@@ -359,15 +359,15 @@ onMounted(() => {
             {{ $t("view_view.map.roomfinder") }}
           </button>
         </div>
-        <div class="divider" style="margin-top: 10px"></div>
+        <div class="divider" style="margin-top: 10px" />
       </div>
 
-      <DetailsInfoSection></DetailsInfoSection>
+      <DetailsInfoSection />
     </div>
 
-    <!-- <DetailsFeaturedSection></DetailsFeaturedSection> -->
-    <DetailsOverviewSections></DetailsOverviewSections>
-    <DetailsSources></DetailsSources>
+    <!-- <DetailsFeaturedSection /> -->
+    <DetailsOverviewSections />
+    <DetailsSources />
   </div>
 </template>
 

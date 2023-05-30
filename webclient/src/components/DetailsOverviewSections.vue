@@ -70,7 +70,7 @@ function updateRoomsOverview() {
         <h2>{{ $t("view_view.buildings_overview.title") }}</h2>
       </div>
       <!--<div class="column col-auto">
-          <a href="#">Übersichtskarte <i class="icon icon-forward"></i></a>
+          <a href="#">Übersichtskarte <i class="icon icon-forward" /></a>
         </div>-->
     </div>
     <div class="columns">
@@ -101,7 +101,7 @@ function updateRoomsOverview() {
               </div>
               <div class="tile-action">
                 <button class="btn btn-link" :aria-label="`show the details for the building '${b.name}'`">
-                  <i class="icon icon-arrow-right"></i>
+                  <i class="icon icon-arrow-right" />
                 </button>
               </div>
             </div>
@@ -113,11 +113,11 @@ function updateRoomsOverview() {
       v-if="state.data.sections.buildings_overview.n_visible < state.data.sections.buildings_overview.entries.length"
     >
       <button class="btn btn-link" v-if="!buildings_overview_expanded" @click="buildings_overview_expanded = true">
-        <i class="icon icon-arrow-right"></i>
+        <i class="icon icon-arrow-right" />
         {{ $t("view_view.buildings_overview.more") }}
       </button>
       <button class="btn btn-link" v-if="buildings_overview_expanded" @click="buildings_overview_expanded = false">
-        <i class="icon icon-arrow-up"></i>
+        <i class="icon icon-arrow-up" />
         {{ $t("view_view.buildings_overview.less") }}
       </button>
     </div>
@@ -130,7 +130,7 @@ function updateRoomsOverview() {
         <h2>{{ $t("view_view.rooms_overview.title") }}</h2>
       </div>
       <!--<div class="column col-auto">
-          <div class="dropdown"><a class="btn btn-link dropdown-toggle" tabindex="0">{{ $t("view_view.rooms_overview.by_usage") }} <i class="icon icon-caret"></i></a>
+          <div class="dropdown"><a class="btn btn-link dropdown-toggle" tabindex="0">{{ $t("view_view.rooms_overview.by_usage") }} <i class="icon icon-caret" /></a>
             <ul class="menu">
                     <li class="menu-item"><a href="#dropdowns">nach Nutzung</a></li>
                     <li class="menu-item"><a href="#dropdowns">nach ...</a></li>
@@ -155,14 +155,14 @@ function updateRoomsOverview() {
                   }"
                   @click="selected = -1"
                 >
-                  <i class="icon icon-arrow-right"></i>
+                  <i class="icon icon-arrow-right" />
                   <div class="menu-text">
                     {{ $t("view_view.rooms_overview.any") }}
                   </div>
                   <label class="label">{{ combined_list.length }}</label>
                 </button>
               </li>
-              <li class="divider" data-content=""></li>
+              <li class="divider" data-content="" />
               <li class="menu-item" v-for="(u, i) in state.data?.sections.rooms_overview.usages" :key="u.name">
                 <button
                   class="btn"
@@ -171,7 +171,7 @@ function updateRoomsOverview() {
                   }"
                   @click="selected = i"
                 >
-                  <i class="icon icon-arrow-right"></i>
+                  <i class="icon icon-arrow-right" />
                   <div class="menu-text">{{ u.name }}</div>
                   <label class="label">{{ u.count }}</label>
                 </button>
@@ -186,21 +186,25 @@ function updateRoomsOverview() {
         </div>
       </div>
       <div class="column col-8 col-lg-7 col-md-6 col-sm-12 hide-l" id="rooms-overview-list">
-        <div class="show-sm" style="height: 15px"></div>
+        <div class="show-sm" style="height: 15px" />
         <div class="panel">
           <div class="panel-header">
             <div class="input-group">
               <input v-model="search" :placeholder="$t('view_view.rooms_overview.filter')" class="form-input" />
-              <button class="btn btn-primary input-group-btn" @click="search = ''" :aria-label="$t('view_view.rooms_overview.clear_filter')">
-                <i class="icon icon-cross"></i>
+              <button
+                class="btn btn-primary input-group-btn"
+                @click="search = ''"
+                :aria-label="$t('view_view.rooms_overview.clear_filter')"
+              >
+                <i class="icon icon-cross" />
               </button>
             </div>
           </div>
           <div class="panel-body">
-            <div :class="{ loading: loading }"></div>
+            <div :class="{ loading: loading }" />
             <ul class="menu" v-if="selected !== null">
               <li class="menu-item" v-for="r in display_list" :key="r.id">
-                <RouterLink :to="'/view/' + r.id"> <i class="icon icon-location"></i> {{ r.name }} </RouterLink>
+                <RouterLink :to="'/view/' + r.id"><i class="icon icon-location" /> {{ r.name }}</RouterLink>
               </li>
             </ul>
           </div>

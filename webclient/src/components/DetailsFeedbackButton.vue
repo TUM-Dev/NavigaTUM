@@ -96,8 +96,6 @@ function openFeedbackForm(addLocationPicker) {
     @click="openFeedbackForm"
     data-cy="open-feedback-details"
   >
-    <i class="icon icon-flag"></i>
+    <i class="icon icon-flag" />
   </button>
 </template>
-
-<style lang="scss"></style>

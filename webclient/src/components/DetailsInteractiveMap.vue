@@ -355,7 +355,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
           {{ $t("view_view.msg.correct_location.btn-cancel") }}
         </button>
         <button class="btn btn-sm" @click="confirmLocationPicker">
-          <i class="icon icon-check"></i>
+          <i class="icon icon-check" />
           {{ $t("view_view.msg.correct_location.btn-done") }}
         </button>
       </div>
@@ -363,7 +363,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   </div>
   <div id="interactive-map-container" :class="{ 'd-none': state.map.selected !== selectedMap.interactive }">
     <div>
-      <div id="interactive-map" class="loading"></div>
+      <div id="interactive-map" class="loading" />
     </div>
   </div>
 </template>
