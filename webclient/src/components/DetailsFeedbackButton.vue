@@ -7,7 +7,8 @@ import type { Coord } from "@/stores/global";
 
 const { t } = useI18n();
 const state = useDetailsStore();
-function _getFeedbackSubject(currentEdits) {
+type CurrentEdits = { [index: string]: Coord };
+function _getFeedbackSubject(currentEdits: CurrentEdits) {
   if (Object.keys(currentEdits).length > 1) {
     return `[${state.data?.id} et.al.]: ` + t("feedback.coordinatepicker.edit_coordinates_subject");
   }
@@ -29,7 +30,7 @@ function _getFeedbackSubject(currentEdits) {
   }
   return subjectPrefix + subjectMsg;
 }
-function _getFeedbackBody(currentEdits) {
+function _getFeedbackBody(currentEdits: CurrentEdits) {
   // Look up whether there is a backup of the body and extract the section
   // that is not the coordinate
   let actionMsg = "";
@@ -71,12 +72,12 @@ function _getFeedbackBody(currentEdits) {
 }
 
 defineExpose({
-  openFeedbackForm: openFeedbackForm,
+  openFeedbackForm,
 });
-function openFeedbackForm(addLocationPicker) {
+function openFeedbackForm(addLocationPicker: EventListener) {
   // The feedback form is opened. This may be prefilled with previously corrected coordinates.
   // Maybe get the old coordinates from localstorage
-  const currentEdits = getLocalStorageWithExpiry<{ [index: string]: Coord }>("feedback-coords", {});
+  const currentEdits = getLocalStorageWithExpiry<CurrentEdits>("feedback-coords", {});
   const body = _getFeedbackBody(currentEdits);
   const subject = _getFeedbackSubject(currentEdits);
 
