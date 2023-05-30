@@ -100,7 +100,7 @@ function updateRoomsOverview() {
                 <small class="tile-subtitle text-dark">{{ b.subtext }}</small>
               </div>
               <div class="tile-action">
-                <button class="btn btn-link" v-bind:aria-label="`show the details for the building '` + b.name + `'`">
+                <button class="btn btn-link" v-bind:aria-label="`show the details for the building '${b.name}'`">
                   <i class="icon icon-arrow-right"></i>
                 </button>
               </div>

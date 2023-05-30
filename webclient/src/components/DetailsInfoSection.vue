@@ -172,7 +172,7 @@ const state = useDetailsStore();
             <template v-for="(_, i) in state.data?.imgs" :key="i">
               <input
                 v-if="i === state.image.shown_image_id"
-                v-bind:id="'slide-' + (i + 1)"
+                v-bind:id="`slide-${i + 1}`"
                 class="carousel-locator"
                 type="radio"
                 name="carousel-radio"
@@ -181,7 +181,7 @@ const state = useDetailsStore();
               />
               <input
                 v-else
-                v-bind:id="'slide-' + (i + 1)"
+                v-bind:id="`slide-${i + 1}`"
                 class="carousel-locator"
                 type="radio"
                 name="carousel-radio"
@@ -195,7 +195,7 @@ const state = useDetailsStore();
                 <label
                   v-if="i !== 0"
                   class="item-prev btn btn-action btn-lg"
-                  v-bind:for="'slide-' + i"
+                  v-bind:for="`slide-${i}`"
                   @click="state.showImageSlideshow(i - 1)"
                 >
                   <i class="icon icon-arrow-left"></i>
@@ -203,7 +203,7 @@ const state = useDetailsStore();
                 <label
                   v-if="i + 1 !== (state.data?.imgs?.length || 0)"
                   class="item-next btn btn-action btn-lg"
-                  v-bind:for="'slide-' + (i + 2)"
+                  v-bind:for="`slide-${i + 2}`"
                   @click="state.showImageSlideshow(i + 1)"
                 >
                   <i class="icon icon-arrow-right"></i>
@@ -214,17 +214,7 @@ const state = useDetailsStore();
                     v-bind:alt="$t('view_view.slideshow.image_alt')"
                     loading="lazy"
                     v-bind:src="'/cdn/lg/' + img.name"
-                    v-bind:srcset="
-                      '/cdn/sm/' +
-                      img.name +
-                      ' 1024w,' +
-                      '/cdn/md/' +
-                      img.name +
-                      ' 1920w,' +
-                      '/cdn/lg/' +
-                      img.name +
-                      ' 3860w'
-                    "
+                    v-bind:srcset="`/cdn/sm/${img.name} 1024w,/cdn/md/${img.name} 1920w,/cdn/lg/${img.name} 3860w`"
                     sizes="100vw"
                     class="img-responsive rounded"
                   />
@@ -240,7 +230,7 @@ const state = useDetailsStore();
                 v-for="(_, i) in state.data?.imgs"
                 :key="i"
                 class="nav-item text-hide c-hand"
-                v-bind:for="'slide-' + (i + 1)"
+                v-bind:for="`slide-${i + 1}`"
                 >{{ i + 1 }}</label
               >
             </div>

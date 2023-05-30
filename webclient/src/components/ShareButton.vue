@@ -24,26 +24,16 @@ const { share, isSupported: shareIsSupported } = useShare(shareOptions);
     <a
       class="btn"
       target="_blank"
-      :href="
-        'https://www.openstreetmap.org/?mlat=' +
-        coords.lat +
-        '&mlon=' +
-        coords.lon +
-        '#map=17/' +
-        coords.lat +
-        '/' +
-        coords.lon +
-        '&layers=T'
-      "
+      :href="`https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lon}#map=17/${coords.lat}/${coords.lon}&layers=T`"
       >OpenStreetMap</a
     ><br />
     <a
       class="btn"
       target="_blank"
-      :href="'https://www.google.com/maps/search/?api=1&query=' + coords.lat + '%2C' + coords.lon"
+      :href="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
       >Google Maps</a
     >
-    <a class="btn" :href="'geo:' + coords.lat + ',' + coords.lon">
+    <a class="btn" :href="`geo:${coords.lat},${coords.lon}`">
       {{ $t("view_view.header.external_link.other_app") }}
     </a>
     <strong>{{ $t("view_view.header.external_link.share") }}</strong>
