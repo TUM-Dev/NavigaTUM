@@ -99,7 +99,6 @@ function _send() {
       if (r.status === 201) {
         localStorage.removeItem("feedback-coords");
         token.value = null;
-        localStorage.removeItem("feedback-token");
         const e = new Event("storage");
         window.dispatchEvent(e);
         successUrl.value = r.text();
@@ -109,13 +108,11 @@ function _send() {
       } else if (r.status === 451) {
         _showError(t("feedback.error.privacy_not_checked"), false);
       } else if (r.status === 403) {
-        localStorage.removeItem("feedback-token");
         token.value = null;
         const invalidTokenError = t("feedback.error.send_invalid_token");
         _showError(`${invalidTokenError} (${r.text()})`, false);
       } else {
         // we reset the token here to be sure that it is the cause of the error
-        localStorage.removeItem("feedback-token");
         token.value = null;
         const unexpectedStatusError = t("feedback.error.send_unexpected_status");
         _showError(`${unexpectedStatusError}${r.status}`, false);
