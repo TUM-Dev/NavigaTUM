@@ -9,6 +9,16 @@ import { useGlobalStore } from "@/stores/global";
 import { nextTick, ref } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
 
+let webglSupport = (() => {
+  try {
+    const canvas = document.createElement("canvas");
+    return !!window.WebGLRenderingContext && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"));
+  } catch (e) {
+    return false;
+  }
+})();
+webglSupport = false;
+
 const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const marker2 = ref<Marker | null>(null);
@@ -361,9 +371,20 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
       </div>
     </div>
   </div>
-  <div id="interactive-map-container" :class="{ 'd-none': state.map.selected !== selectedMap.interactive }">
+  <div
+    id="interactive-map-container"
+    :class="{ 'd-none': state.map.selected !== selectedMap.interactive, errormessage: !webglSupport }"
+  >
     <div>
-      <div id="interactive-map" class="loading" />
+      <div id="interactive-map" class="loading" v-if="webglSupport" />
+      <template v-else>
+        {{ $t("view_view.map.no_webgl.no_browser_support") }} <br />
+        {{ $t("view_view.map.no_webgl.please_try") }}
+        <ol>
+          <li>{{ $t("view_view.map.no_webgl.upgrade_browser") }}</li>
+          <li>{{ $t("view_view.map.no_webgl.try_different_browser") }}</li>
+        </ol>
+      </template>
     </div>
   </div>
 </template>
@@ -415,6 +436,15 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
     border: 1px solid $border-light;
     background-color: $container-loading-bg;
     position: relative;
+  }
+  &.errormessage {
+    background-color: $error-color;
+    & div {
+      border: 0;
+      padding: 1rem;
+      background-color: $error-color;
+      color: white;
+    }
   }
 
   &.maximize {
