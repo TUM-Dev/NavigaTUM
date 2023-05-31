@@ -407,7 +407,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   /* --- User location dot --- */
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    background-color: #3070b3;
+    background-color: $primary-color;
   }
 
   > div {
