@@ -18,7 +18,10 @@ const state = useDetailsStore();
         <template v-else>{{ e.name }}</template>
         <template v-if="i < state.data.sources.base.length - 1">&#32;•&#32;</template>
       </span>
-      <span v-if="state.data.sources.patched"> <br />{{ $t("view_view.sources.base.patched") }} </span>
+      <span v-if="state.data.sources.patched">
+        <br />
+        ({{ $t("view_view.sources.base.patched") }})
+      </span>
     </p>
     <p v-if="state.image.shown_image">
       {{ $t("view_view.sources.header_img") }}:

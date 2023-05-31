@@ -1,223 +1,222 @@
-meta:
-  logo_alt: "Das Logo von NavigaTUM"
-  tum_logo_alt: "Das Logo der Technischen Universität München"
-  description: "Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden."
-search:
-  thumbnail_alt: "Vorschaubild für das besagte Gebäude"
-  placeholder: "Suche"
-  aria-searchlabel: "Suchfeld"
-  aria-actionlabel: "Suche nach dem im Suchfeld eingetragenen Raum"
-  action: "Go"
-  hidden: "ausgeblendet"
-  result: "Ergebnis"
-  results: "Ergebnisse"
-  approx: "ca."
-  sections:
-    buildings: "Gebäude / Standorte"
-    of_which_visible: "davon sichtbar"
-    rooms: "Räume"
-    and: "und"
-    were_found: "wurden gefunden."
-    no_buildings_rooms_found: "Keine Gebäude / Standorte oder Räume konnten gefunden werden."
-footer:
-  sourcecode:
-    text: "Source Code"
-  privacy:
-    text: "Datenschutz"
-    link: "datenschutz"
-  imprint:
-    text: "Impressum"
-    link: "impressum"
-  about:
-    text: "Über uns"
-    link: "ueber-uns"
-  feedback:
-    open: "Feedback Form öffnen"
-    text: "Feedback senden"
-  api:
-    text: "API"
-    link: "api"
-  language: "Sprache"
-  theme: "Theme"
-  theme_light: "hell"
-  theme_dark: "dunkel"
+close: Schließen
+core_js:
+  error:
+    "404": 404 Nicht gefunden
+    "500": 500 Interner Serverfehler
+    "503": 503 Dienst nicht verfügbar – Bitte probiere es in Kürze wieder
+    network: Netzwerkfehler, bitte überprüfe, dass du mit dem Internet verbunden bist.
+    status: 'Unerwarteter Status-Code: '
+    unknown: Unbekannter Fehler
+    view_load_timeout: 'Seite konnte nicht geladen werden: Timeout'
 feedback:
-  title: "Feedback senden"
-  subject: "Betreff"
-  category: "Feedback-Kategorie"
-  type:
-    general: "Allgemein"
-    bug: "Fehler"
-    features: "Features"
-    search: "Suche"
-    entry: "Eintrag"
-  mail: "E-Mail (optional)"
-  helptext:
-    general: "Generelles Feedback über diese Website"
-    bug: "Welchen Fehler hast du gefunden? Wo hast du ihn gefunden? Bitte gib eine genaue Beschreibung an."
-    feature: "Features, die du gerne auf dieser Website haben würdest"
-    search: "Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?"
-    entry: "Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten, die du siehst (Namen, Koordinaten, Adressen, ...) anpassen. Was können wir verbessern?"
-    other: "Feedback ist auf ein Problem gestoßen: Kategorie ungültig"
+  cancel: Abbrechen
+  category: Feedback-Kategorie
   coordinatepicker:
+    add_coordinate: 'Hallo, ich möchte diese Koordinate zum Roomfinder hinzufügen:'
+    correct_coordinate: 'Hallo, ich möchte diese Koordinate im Roomfinder korrigieren:'
+    edit_coordinate_subject: Koordinate bearbeiten
+    edit_coordinates_subject: Koordinaten bearbeiten
+    edit_multiple_coordinates: 'Hallo, ich möchte diese Koordinaten beim Roomfinder editieren:'
     helptext:
-      enter_serveral: "Falls du mehrere Koordinaten gleichzeitig korrigieren willst, kannst du dieses Fenster schließen und weitere Koordinaten editieren."
-      saved_for_12h: "Wir speichern deine Veränderungen für 12 Stunden bei dir lokal."
-      limitation_to_coordinates: "Achtung, das gilt nur für Koordinaten!"
-    title: "Koordinate auswählen"
-    edit_coordinate_subject: "Koordinate bearbeiten"
-    edit_coordinates_subject: "Koordinaten bearbeiten"
-    edit_multiple_coordinates: "Hallo, ich möchte diese Koordinaten beim Roomfinder editieren:"
-    add_coordinate: "Hallo, ich möchte diese Koordinate zum Roomfinder hinzufügen:"
-    correct_coordinate: "Hallo, ich möchte diese Koordinate im Roomfinder korrigieren:"
-  message: "Nachricht"
+      enter_serveral: Falls du mehrere Koordinaten gleichzeitig korrigieren willst, kannst du dieses Fenster schließen und weitere Koordinaten editieren.
+      limitation_to_coordinates: Achtung, das gilt nur für Koordinaten!
+      saved_for_12h: Wir speichern deine Veränderungen für 12 Stunden bei dir lokal.
+    title: Koordinate auswählen
+  delete: Das zugehörige GitHub Issue löschen, sobald es gelöst wurde.
+  error:
+    "429": Feedback senden ist aktuell nicht möglich aufgrund von rate-limiting. Bitte versuche es später nochmal oder schreibe eine Mail.
+    "503": Das Senden von Feedback ist auf dem Server aktuell nicht konfiguriert.
+    privacy_not_checked: 'Aus rechtlichen Gründen nicht zulässig: Du musst die Datenschutzerklärung akzeptiert haben, damit wir dein Feedback via GitHub verarbeiten können. Es gibt andere Möglichkeiten uns zu kontaktieren, welche im Impressum aufgelistet sind.'
+    send_invalid_token: Formular-Token ungültig (vermutlich abgelaufen). Bitte kopiere den Text und öffne das Formular nochmal.
+    send_no_token: Ein unerwarteter Fehler ist aufgetreten (Kein Token). Bitte kopiere den Text und öffne das Formular nochmal.
+    send_req_failed: Unerwarteter Fehler beim Senden des Feedback-Formulars. Das Senden von Feedback ist gerade vermutlich nicht möglich. Bitte schreibe stattdessen eine Mail.
+    send_unexpected_status: 'Unerwarteter Status Code: '
+    server_error: Server Fehler
+    token_req_failed: Unerwarteter Fehler beim Laden des Feedback-Formulars. Das Senden von Feedback ist gerade vermutlich nicht möglich. Bitte schreibe stattdessen eine Mail.
+    token_unexpected_status: 'Unerwarteter Status Code beim Abrufen eines Feedback Tokens: '
+    too_short_body: 'Fehler: Nachricht fehlt oder ist zu kurz'
+    too_short_subject: 'Fehler: Betreff fehlt oder ist zu kurz'
+  helptext:
+    bug: Welchen Fehler hast du gefunden? Wo hast du ihn gefunden? Bitte gib eine genaue Beschreibung an.
+    entry: Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten, die du siehst (Namen, Koordinaten, Adressen, ...) anpassen. Was können wir verbessern?
+    feature: Features, die du gerne auf dieser Website haben würdest
+    general: Generelles Feedback über diese Website
+    other: 'Feedback ist auf ein Problem gestoßen: Kategorie ungültig'
+    search: Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?
+  mail: E-Mail (optional)
+  message: Nachricht
   public:
-    github_project_issues: "GitHub Projektseite"
-    github_site_policy: "Nutzungsbedingungen und Datenschutzbestimmungen von GitHub"
-    imprint: "Impressum"
     agreement: Meine Feedback Daten (Betreff und Nachricht) dürfen anonym, aber öffentlich zugänglich auf der {github_project_issues_url} gespeichert werden.
     disclaimer: |
       Mit der Nutzung dieses Feedbackformulars stimmst du explizit den {github_site_policy_url} sowie einer möglichen Übertragung der Daten außerhalb der Europäischen Union zu.
       Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
+    github_project_issues: GitHub Projektseite
+    github_site_policy: Nutzungsbedingungen und Datenschutzbestimmungen von GitHub
+    imprint: Impressum
     legal_fluff: |
       Unter den gesetzlichen Voraussetzungen und einem vorhandenen Personenbezug der Daten besteht ein Recht auf Auskunft, sowie auf Berichtigung oder Löschung oder auf Einschränkung der Verarbeitung oder eines Widerspruchsrechts gegen die Verarbeitung sowie des Rechts auf Datenübertragbarkeit.
       Es besteht zudem ein Beschwerderecht beim Bayerischen Landesbeauftragten für den Datenschutz.
       Falls du dies ablehnst, schreibe uns bitte über navigatum (at-symbol) tum.de, oder eine der anderen in unserem {imprint_url} gelisteten Kontaktmöglichkeiten.
       Bei Fragen könne dich gerne an uns (navigatum (at-symbol) tum.de) oder an unseren Datenschutzbeauftragten ({tum_data_protection_url}).
-  delete: "Das zugehörige GitHub Issue löschen, sobald es gelöst wurde."
-  send: "Senden"
-  cancel: "Abbrechen"
+  send: Senden
+  subject: Betreff
   success:
-    thank_you: "Vielen Dank für dein Feedback! Wir werden es schnellstmöglich bearbeiten."
-    response_at: "Antwort auf dein Feedback findest du auf"
-    this_issue: "diesem GitHub Issue"
-    title: "Vielen Dank!"
-    ok: "OK"
-  error:
-    token_req_failed: "Unerwarteter Fehler beim Laden des Feedback-Formulars. Das Senden von Feedback ist gerade vermutlich nicht möglich. Bitte schreibe stattdessen eine Mail."
-    429: "Feedback senden ist aktuell nicht möglich aufgrund von rate-limiting. Bitte versuche es später nochmal oder schreibe eine Mail."
-    503: "Das Senden von Feedback ist auf dem Server aktuell nicht konfiguriert."
-    token_unexpected_status: "Unerwarteter Status Code beim Abrufen eines Feedback Tokens: "
-    send_no_token: "Ein unerwarteter Fehler ist aufgetreten (Kein Token). Bitte kopiere den Text und öffne das Formular nochmal."
-    too_short_subject: "Fehler: Betreff fehlt oder ist zu kurz"
-    too_short_body: "Fehler: Nachricht fehlt oder ist zu kurz"
-    server_error: "Server Fehler"
-    privacy_not_checked: "Aus rechtlichen Gründen nicht zulässig: Du musst die Datenschutzerklärung akzeptiert haben, damit wir dein Feedback via GitHub verarbeiten können. Es gibt andere Möglichkeiten uns zu kontaktieren, welche im Impressum aufgelistet sind."
-    send_invalid_token: "Formular-Token ungültig (vermutlich abgelaufen). Bitte kopiere den text und öffne das Formular nochmal."
-    send_unexpected_status: "Unerwarteter Status Code: "
-    send_req_failed: "Unerwarteter Fehler beim Senden des Feedback-Formulars. Das Senden von Feedback ist gerade vermutlich nicht möglich. Bitte schreibe stattdessen eine Mail."
-
-core_js:
-  error:
-    404: "404 Nicht gefunden"
-    500: "500 Interner Serverfehler"
-    503: "503 Dienst nicht verfügbar – Bitte probiere es in Kürze wieder"
-    status: "Unerwarteter Status-Code: "
-    network: "Netzwerkfehler, bitte überprüfe, dass du mit dem Internet verbunden bist."
-    unknown: "Unbekannter Fehler"
-    view_load_timeout: "Seite konnte nicht geladen werden: Timeout"
+    ok: OK
+    response_at: Antwort auf dein Feedback findest du auf
+    thank_you: Vielen Dank für dein Feedback! Wir werden es schnellstmöglich bearbeiten.
+    this_issue: diesem GitHub Issue
+    title: Vielen Dank!
+  title: Feedback senden
+  type:
+    bug: Fehler
+    entry: Eintrag
+    features: Features
+    general: Allgemein
+    search: Suche
+footer:
+  about:
+    link: ueber-uns
+    text: Über uns
+  api:
+    link: api
+    text: API
+  feedback:
+    open: Feedback Form öffnen
+    text: Feedback senden
+  imprint:
+    link: impressum
+    text: Impressum
+  language: Sprache
+  privacy:
+    link: datenschutz
+    text: Datenschutz
+  sourcecode:
+    text: Source Code
+  theme: Theme
+  theme_dark: dunkel
+  theme_light: hell
+meta:
+  description: Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden.
+  logo_alt: Das Logo von NavigaTUM
+  tum_logo_alt: Das Logo der Technischen Universität München
+search:
+  action: Go
+  approx: ca.
+  aria-actionlabel: Suche nach dem im Suchfeld eingetragenen Raum
+  aria-searchlabel: Suchfeld
+  hidden: ausgeblendet
+  placeholder: Suche
+  result: Ergebnis
+  results: Ergebnisse
+  sections:
+    and: und
+    buildings: Gebäude / Standorte
+    no_buildings_rooms_found: Keine Gebäude / Standorte oder Räume konnten gefunden werden.
+    of_which_visible: davon sichtbar
+    rooms: Räume
+    were_found: wurden gefunden.
+  thumbnail_alt: Vorschaubild für das besagte Gebäude
 view_404:
-  header: "Die angeforderte Seite wurde nicht gefunden."
-  description: "Dies könnte sein, weil wir einen Fehler gemacht haben."
-  call_to_action: "Falls du denkst, dass dies ein Fehler ist, teile es uns doch hier mit"
-  open_feedback: "Open the feedback-form"
+  call_to_action: Falls du denkst, dass dies ein Fehler ist, teile es uns doch hier mit
+  description: Dies könnte sein, weil wir einen Fehler gemacht haben.
   got_here: "Ich habe diesen Fehler so gefunden:\r\n1. ..."
+  header: Die angeforderte Seite wurde nicht gefunden.
+  open_feedback: Open the feedback-form
 view_api:
-  title: "NavigaTUMs API Documentation"
+  title: NavigaTUMs API Documentation
 view_main:
-  sites: "Standorte"
-  overview_map: "Übersichtskarte"
-  more_aria: "mehr Gebäude anzeigen"
-  more: "mehr"
-  less_aria: "weniger Gebäude anzeigen"
-  less: "weniger"
+  less: weniger
+  less_aria: weniger Gebäude anzeigen
+  more: mehr
+  more_aria: mehr Gebäude anzeigen
+  overview_map: Übersichtskarte
+  sites: Standorte
 view_md: {}
 view_search:
-  search_for: "Suche nach"
-  runtime: "Laufzeit"
-  max_results: "bitte grenze die Suche weiter ein"
   feedback:
-    open: "Feedback-Formular für Rückmeldungen zur Suchanfrage geben"
-    give: "Feedback zur Suche geben"
+    give: Feedback zur Suche geben
+    open: Feedback-Formular für Rückmeldungen zur Suchanfrage geben
+  max_results: bitte grenze die Suche weiter ein
+  runtime: Laufzeit
+  search_for: Suche nach
 view_view:
-  meta:
-    details_for: "Details für"
-  header:
-    image_alt: "Header-Bild, zeigt das Gebäude"
-    copy_link: "Link kopieren"
-    external_link:
-      tooltip: "Externe Links"
-      open_in: "Öffnen in"
-      other_app: "Andere App ..."
-      share: "Teilen"
-      share_link: "Teilen mit ..."
-      copied: "Kopiert"
-    calendar: "Kalender öffnen"
-    feedback: "Problem melden oder Änderung vorschlagen"
-    favorites: "Zu Favoriten hinzufügen"
-  map:
-    interactive: "Interaktive Karte"
-    roomfinder: "Lagepläne"
-    open_detailed_modal: "Ein größeres Popup der Karte anzeigen"
-    roomfinder_crosshair: "Kreuz, das anzeigt, wo sich der Raum auf dem handgezeichneten Raumfinderkartenbild befindet"
-    img_alt: "Handgezeichnete Roofinder-Kartendarstellung"
-    img_source: "Bildquelle"
-  info_title: "Informationen"
-  info_table:
-    links: "Links"
   buildings_overview:
-    thumbnail_preview: "Thumbnail, das eine Vorschau des Gebäudes zeigt"
-    default_thumbnail_preview: "Standard-Thumbnail, da kein Thumbnail verfügbar ist"
-    title: "Gebäude / Gebiete"
-    more: "mehr"
-    less: "weniger"
-  rooms_overview:
-    title: "Räume"
-    by_usage: "nach Nutzung"
-    any: "beliebig"
-    remove_selection: "Auswahl löschen"
-    filter: "Filter"
-    clear_filter: "Filter löschen"
-    choose_usage: "Wähle eine Nutzung aus"
-    result: "Ergebnis"
-    results_suffix: "se"
-    filtered: "(gefiltert)"
-  sources:
-    title: "Quellen"
-    header_img: "Bild"
-    base:
-      title: "Basisdaten"
-      patched: "(Bei diesem Eintrag wurden automatische Korrekturen zu externen Daten angewandt)"
-    coords:
-      title: "Koordinaten"
-      navigatum: "NavigaTUM Mitwirkende"
-      roomfinder: "Roomfinder"
-      inferred: "Automatisch berechnet aus den zugehörigen Räumen oder Gebäuden"
-  msg:
-    correct_location:
-      msg: "Um die richtige Position zu setzen, ziehe den roten Marker über die Karte."
-      btn-done: "Fertig"
-      btn-cancel: "Abbrechen"
-    inaccurate_only_building:
-      primary_msg: "Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt."
-      help_others_and: "Falls du sie herausfindest, kannst du die"
-      btn: "Koordinate eintragen"
-    no_floor_overlay: "Für den angezeigten Raum gibt es leider keine Indoor Karte."
-    coordinate-counter:
-      msg-1: "Aktuell"
-      msg-2: "ausstehende Koordinatenänderung"
-      msg-2-plural: "ausstehende Koordinatenänderungen"
-      info: "Änderungen werden lokal \\n für 12h gespeichert"
-      delete: "Löschen"
-      delete-confirm: "Wirklich löschen?"
-      send: "Senden"
-  slideshow:
-    header: "Bilder-Showcase"
-    image_alt: "Ein Bild welches das Gebäude zeigt"
-    author: "Autor"
-    source: "Quelle"
-    license: "Lizenz"
+    default_thumbnail_preview: Standard-Thumbnail, da kein Thumbnail verfügbar ist
+    less: weniger
+    more: mehr
+    thumbnail_preview: Thumbnail, das eine Vorschau des Gebäudes zeigt
+    title: Gebäude / Gebiete
+  header:
+    calendar: Kalender öffnen
+    copy_link: Link kopieren
+    external_link:
+      copied: Kopiert
+      open_in: Öffnen in
+      other_app: Andere App ...
+      share: Teilen
+      share_link: Teilen mit ...
+      tooltip: Externe Links
+    favorites: Zu Favoriten hinzufügen
+    feedback: Problem melden oder Änderung vorschlagen
+    image_alt: Header-Bild, zeigt das Gebäude
+  info_table:
+    links: Links
+  info_title: Informationen
+  map:
+    img_alt: Handgezeichnete Roofinder-Kartendarstellung
+    img_source: Bildquelle
+    interactive: Interaktive Karte
+    open_detailed_modal: Ein größeres Popup der Karte anzeigen
+    roomfinder: Lagepläne
+    roomfinder_crosshair: Kreuz, das anzeigt, wo sich der Raum auf dem handgezeichneten Raumfinderkartenbild befindet
+  meta:
+    details_for: Details für
   modal_roomfinder:
-    header: "Lageplan"
-    image_alt: "Ein Bild welches den Lageplan zeigt"
-close: "Schließen"
+    header: Lageplan
+    image_alt: Ein Bild welches den Lageplan zeigt
+  msg:
+    coordinate-counter:
+      delete: Löschen
+      delete-confirm: Wirklich löschen?
+      info: Änderungen werden lokal \n für 12h gespeichert
+      msg-1: Aktuell
+      msg-2: ausstehende Koordinatenänderung
+      msg-2-plural: ausstehende Koordinatenänderungen
+      send: Senden
+    correct_location:
+      btn-cancel: Abbrechen
+      btn-done: Fertig
+      msg: Um die richtige Position zu setzen, ziehe den roten Marker über die Karte.
+    inaccurate_only_building:
+      btn: Koordinate eintragen
+      help_others_and: Falls du sie herausfindest, kannst du die
+      primary_msg: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
+    no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
+  rooms_overview:
+    any: beliebig
+    by_usage: nach Nutzung
+    choose_usage: Wähle eine Nutzung aus
+    clear_filter: Filter löschen
+    filter: Filter
+    filtered: gefiltert
+    remove_selection: Auswahl löschen
+    result: Ergebnis
+    results_suffix: se
+    title: Räume
+  slideshow:
+    author: Autor
+    header: Bilder-Showcase
+    image_alt: Ein Bild welches das Gebäude zeigt
+    license: Lizenz
+    source: Quelle
+  sources:
+    base:
+      patched: Bei diesem Eintrag wurden automatische Korrekturen zu externen Daten angewandt
+      title: Basisdaten
+    coords:
+      inferred: Automatisch berechnet aus den zugehörigen Räumen oder Gebäuden
+      navigatum: NavigaTUM Mitwirkende
+      roomfinder: Roomfinder
+      title: Koordinaten
+    header_img: Bild
+    title: Quellen

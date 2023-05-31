@@ -217,7 +217,7 @@ function updateRoomsOverview() {
                     " " +
                     $t("view_view.rooms_overview.result") +
                     (display_list.length === 1 ? "" : $t("view_view.rooms_overview.results_suffix")) +
-                    (search === "" ? "" : $t("view_view.rooms_overview.filtered"))
+                    (search === "" ? "" : `(${$t("view_view.rooms_overview.filtered")})`)
               }}
             </small>
           </div>
