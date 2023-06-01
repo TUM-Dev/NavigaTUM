@@ -114,6 +114,8 @@ function addLocationPicker() {
 }
 
 function loadInteractiveMap(fromUi = false) {
+  if (!webglSupport) return;
+
   const fromMap = state.map.selected;
 
   state.map.selected = selectedMap.interactive;
