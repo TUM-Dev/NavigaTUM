@@ -59,6 +59,7 @@ export default defineConfig({
       authToken: "e7192dffa92c4f4cbfb8cf8967c83583",
       url: "https://sentry.mm.rbg.tum.de/",
       release: {
+        name: process.env.GIT_COMMIT_MESSAGE || "development",
         setCommits: {
           repo: "https://github.com/TUM-Dev/NavigaTUM.git",
           commit: process.env.GIT_COMMIT_SHA || "development",

@@ -55,5 +55,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             GIT_COMMIT_SHA=${{ github.sha }}
+            GIT_COMMIT_MESSAGE=${{ github.event.head_commit.message }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
