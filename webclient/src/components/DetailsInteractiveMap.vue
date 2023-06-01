@@ -9,7 +9,7 @@ import { useGlobalStore } from "@/stores/global";
 import { nextTick, ref } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
 
-let webglSupport = (() => {
+const webglSupport = (() => {
   try {
     const canvas = document.createElement("canvas");
     return !!window.WebGLRenderingContext && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"));
