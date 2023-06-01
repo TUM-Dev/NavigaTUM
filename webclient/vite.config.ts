@@ -61,7 +61,7 @@ export default defineConfig({
       release: {
         name: process.env.GIT_COMMIT_MESSAGE || "development",
         setCommits: {
-          repo: "https://github.com/TUM-Dev/NavigaTUM.git",
+          repo: "TUM-Dev/NavigaTUM",
           commit: process.env.GIT_COMMIT_SHA || "development",
           auto: false,
         },
