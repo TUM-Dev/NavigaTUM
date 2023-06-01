@@ -22,8 +22,8 @@ type Token = {
 
 const token: typeof ref<Token | null> = useLocalStorage<Token | null>("feedback-token", null, {
   serializer: {
-    read: (v: any) => (v ? JSON.parse(v) : null),
-    write: (v: any) => JSON.stringify(v),
+    read: (v) => (v ? JSON.parse(v) : null),
+    write: (v) => JSON.stringify(v),
   },
 });
 
