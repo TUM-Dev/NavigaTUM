@@ -56,7 +56,7 @@ export default defineConfig({
     sentryVitePlugin({
       org: "rbg",
       project: "navigatum",
-      authToken: "e7192dffa92c4f4cbfb8cf8967c83583",
+      authToken: "3279def15c0543e797ec3550b0273fbf58e4eb2e67e64a5ba5474bd83d5fa149",
       url: "https://sentry.mm.rbg.tum.de/",
       release: {
         name: process.env.GIT_COMMIT_MESSAGE || "development",
