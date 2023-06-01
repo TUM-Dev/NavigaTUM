@@ -17,7 +17,6 @@ let webglSupport = (() => {
     return false;
   }
 })();
-webglSupport = false;
 
 const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
