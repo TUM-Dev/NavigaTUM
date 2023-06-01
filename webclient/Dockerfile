@@ -12,6 +12,8 @@ COPY *.ts ./
 COPY public public
 COPY *.html ./
 COPY src src
+ARG GIT_COMMIT_SHA
+ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 RUN sh build.sh
 
 FROM nginx:latest as production-stage

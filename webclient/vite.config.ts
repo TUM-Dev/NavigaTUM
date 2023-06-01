@@ -7,6 +7,7 @@ import Markdown from "vite-plugin-md";
 import link from "@yankeeinlondon/link-builder";
 import path from "path";
 import pluginRewriteAll from "vite-plugin-rewrite-all";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,6 +28,7 @@ export default defineConfig({
     },
   },
   build: {
+    sourcemap: true,
     rollupOptions: {
       input: path.resolve(__dirname, "./index.html"),
       output: {
@@ -51,6 +53,24 @@ export default defineConfig({
     //The next one is included due to https://github.com/vitejs/vite/issues/2415
     // otherwise the router won't serve the details pages, as they include dots
     pluginRewriteAll(),
+    sentryVitePlugin({
+      org: "rbg",
+      project: "navigatum",
+      authToken: "e7192dffa92c4f4cbfb8cf8967c83583",
+      url: "https://sentry.mm.rbg.tum.de/",
+      release: {
+        setCommits: {
+          repo: "https://github.com/TUM-Dev/NavigaTUM.git",
+          commit: process.env.GIT_COMMIT_SHA || "development",
+          auto: false,
+        },
+        deploy: {
+          env: process.env.GIT_COMMIT_SHA ? "production" : "staging",
+          started: new Date().getTime(),
+          url: "https://nav.tum.de",
+        },
+      },
+    }),
   ],
   resolve: {
     alias: {
