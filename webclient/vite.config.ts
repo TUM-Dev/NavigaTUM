@@ -60,11 +60,11 @@ export default defineConfig({
       url: "https://sentry.mm.rbg.tum.de/",
       release: {
         name: process.env.GIT_COMMIT_MESSAGE || "development",
-        setCommits: {
-          repo: "TUM-Dev/NavigaTUM",
-          commit: process.env.GIT_COMMIT_SHA || "development",
-          auto: false,
-        },
+        //setCommits: {
+        //  repo: "TUM-Dev/NavigaTUM",
+        //  commit: process.env.GIT_COMMIT_SHA || "development",
+        //  auto: false,
+        //},
         deploy: {
           env: process.env.GIT_COMMIT_SHA ? "production" : "staging",
           started: new Date().getTime(),
