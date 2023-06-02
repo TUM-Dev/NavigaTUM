@@ -67,7 +67,7 @@ export default defineConfig({
         //},
         deploy: {
           env: process.env.GIT_COMMIT_SHA ? "production" : "staging",
-          started: new Date().getTime(),
+          started: new Date().toISOString(),
           url: "https://nav.tum.de",
         },
       },
