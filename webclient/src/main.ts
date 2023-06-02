@@ -31,15 +31,16 @@ if (import.meta.env.PROD) {
     app,
     dsn: "https://e7192dffa92c4f4cbfb8cf8967c83583@sentry.mm.rbg.tum.de/6",
     integrations: [
+      new Sentry.Replay(),
       new BrowserTracing({
         routingInstrumentation: Sentry.vueRouterInstrumentation(router),
         tracePropagationTargets: ["nav.tum.de"],
       }),
     ],
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for performance monitoring.
-    // We recommend adjusting this value in production
+    replaysSessionSampleRate: 0,
+    replaysOnErrorSampleRate: 1.0,
     tracesSampleRate: 1.0,
+    // 1.0 =>  capturing 100% of transactions
   });
 }
 
