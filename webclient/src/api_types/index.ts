@@ -82,11 +82,25 @@ export type paths = {
      * @description ***Do not abuse this endpoint.***
      *
      * This posts the actual feedback to github and returns the github link.
+     * This API will create issues instead of pull-requests => all feedback is allowed, but `/api/feedback/propose_edit` is prefered, if it can be posted there.
      * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
      *
      * ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
      */
-    post: operations["feedback"];
+    post: operations["post_feedback"];
+  };
+  "/api/feedback/propose_edit": {
+    /**
+     * Post Edit-Requests
+     * @description ***Do not abuse this endpoint.***
+     *
+     * This posts the actual feedback to github and returns the github link.
+     * This API will create pull-requests instead of issues => only a subset of feedback is allowed.
+     * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
+     *
+     * ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
+     */
+    post: operations["propose_edit"];
   };
   "/cdn/{size}/{id}_{counter}.webp": {
     /**
@@ -656,20 +670,25 @@ export type components = {
        */
       readonly rank_custom?: number;
     };
-    readonly TokenRequest: {
+    readonly ProposeEditsRequest: components["schemas"]["TokenRequest"] & {
+      /** @description The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits. */
+      readonly edits: Record<string, never>;
       /**
-       * @description The JWT token, that can be used to generate feedback
-       * @example eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+       * @description Additional context for the edit.
+       * Will be displayed in the discription field of the PR
+       *
+       * @example I have a picture of the room, please add it to the roomfinder
        */
-      readonly token: string;
+      readonly additional_context: string;
+    };
+    readonly PostFeedbackRequest: components["schemas"]["TokenRequest"] & {
       /**
        * @description The category of the feedback.
        * Enum attribute is softly enforced: Any value not listed below will be replaced by "other"
-       *
        * @example bug
        * @enum {string}
        */
-      readonly category: "general" | "bug" | "feature" | "search" | "entry" | "other";
+      readonly category: "bug" | "feature" | "search" | "entry" | "general" | "other";
       /**
        * @description The subject/title of the feedback
        * @example A catchy title
@@ -681,14 +700,6 @@ export type components = {
        */
       readonly body: string;
       /**
-       * @description Whether the user has checked the privacy-checkbox.
-       * We are posting the feedback publicly on GitHub (not a EU-Company). You have to also include such a checkmark.
-       * For inspiration on how to do this, see our website.
-       *
-       * @example true
-       */
-      readonly privacy_checked: boolean;
-      /**
        * @description Whether the user has requested to delete the issue.
        * If the user has requested to delete the issue, we will delete it from GitHub after processing it
        * If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
@@ -696,6 +707,18 @@ export type components = {
        * @example true
        */
       readonly deletion_requested: boolean;
+    };
+    readonly TokenRequest: {
+      /**
+       * @description The JWT token, that can be used to generate feedback
+       * @example eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+       */
+      readonly token: string;
+      /**
+       * @description Whether the user has checked the privacy-checkbox. We are posting the feedback publicly on GitHub (not a EU-Company). You have to also include such a checkmark.
+       * @example true
+       */
+      readonly privacy_checked: boolean;
     };
   };
   responses: never;
@@ -917,19 +940,89 @@ export type operations = {
       503: never;
     };
   };
-  feedback: {
+  post_feedback: {
     /**
      * Post feedback
      * @description ***Do not abuse this endpoint.***
      *
      * This posts the actual feedback to github and returns the github link.
+     * This API will create issues instead of pull-requests => all feedback is allowed, but `/api/feedback/propose_edit` is prefered, if it can be posted there.
      * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
      *
      * ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
      */
     readonly requestBody?: {
       readonly content: {
-        readonly "application/json": components["schemas"]["TokenRequest"];
+        readonly "application/json": components["schemas"]["PostFeedbackRequest"];
+      };
+    };
+    responses: {
+      /**
+       * @description The feedback has been successfully posted to GitHub.
+       * We return the link to the GitHub issue.
+       */
+      201: {
+        content: {
+          readonly "text/plain": string;
+        };
+      };
+      /** @description If not all fields in the body are present as defined above */
+      400: never;
+      /**
+       * @description Forbidden. Causes are (delivered via the body):
+       *
+       *   - `Invalid token`: You have not supplied a token generated via the `gen_token`-Endpoint.
+       *   - `Token not old enough, please wait`: Tokens are only valid after 10s.
+       *   - `Token expired`: Tokens are only valid for 12h.
+       *   - `Token already used`: Tokens are non reusable/refreshable single-use items.
+       */
+      403: {
+        content: {
+          readonly "text/plain":
+            | "Invalid token"
+            | "Token not old enough, please wait"
+            | "Token expired"
+            | "Token already used";
+        };
+      };
+      /**
+       * @description Unprocessable Entity
+       * Subject or body missing or too short.
+       */
+      422: never;
+      /**
+       * @description Unavailable for legal reasons.
+       * Using this endpoint without accepting the privacy policy is not allowed.
+       * For us to post to GitHub, this has to be true
+       */
+      451: never;
+      /**
+       * @description Internal Server Error.
+       * We have a problem communicating with GitHubs servers. Please try again later.
+       */
+      500: never;
+      /**
+       * @description Service unavailable.
+       * We have not configured a GitHub Access Token.
+       * This could be because we are experiencing technical difficulties or intentional. Please try again later.
+       */
+      503: never;
+    };
+  };
+  propose_edit: {
+    /**
+     * Post Edit-Requests
+     * @description ***Do not abuse this endpoint.***
+     *
+     * This posts the actual feedback to github and returns the github link.
+     * This API will create pull-requests instead of issues => only a subset of feedback is allowed.
+     * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
+     *
+     * ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
+     */
+    readonly requestBody?: {
+      readonly content: {
+        readonly "application/json": components["schemas"]["ProposeEditsRequest"];
       };
     };
     responses: {
