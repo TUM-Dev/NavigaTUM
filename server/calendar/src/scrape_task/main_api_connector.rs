@@ -1,6 +1,6 @@
 use chrono::{NaiveDateTime, Utc};
 use diesel::PgConnection;
-use log::error;
+use log::{error, info};
 use regex::Regex;
 use serde::Deserialize;
 use std::collections::HashMap;
@@ -70,6 +70,7 @@ pub async fn get_all_ids() -> Vec<Room> {
 }
 
 fn store_in_db(conn: &mut PgConnection, rooms_to_store: &[Room], start_time: &NaiveDateTime) {
+    info!("Storing {} rooms in database", rooms_to_store.len());
     use crate::schema::rooms::dsl::*;
     use diesel::prelude::*;
     rooms_to_store
@@ -94,10 +95,11 @@ fn store_in_db(conn: &mut PgConnection, rooms_to_store: &[Room], start_time: &Na
         });
 }
 fn delete_stale_results(conn: &mut PgConnection, start_time: NaiveDateTime) {
+    info!("Deleting stale rooms from the database");
     use crate::schema::rooms::dsl::*;
     use diesel::prelude::*;
     diesel::delete(rooms)
-        .filter(last_scrape.le(start_time))
+        .filter(last_scrape.lt(start_time))
         .execute(conn)
         .expect("Failed to delete stale rooms");
 }
