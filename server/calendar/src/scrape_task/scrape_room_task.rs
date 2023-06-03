@@ -1,22 +1,17 @@
-use chrono::{Duration, NaiveDate};
+use crate::scrape_task::main_api_connector::Room;
+use chrono::NaiveDate;
 
 #[derive(Clone, Debug)]
 pub(crate) struct ScrapeRoomTask {
-    pub(crate) key: String,
-    pub(crate) room_id: i32,
+    pub(crate) room: Room,
     pub(crate) from: NaiveDate,
     pub(crate) to: NaiveDate,
 }
 
 impl ScrapeRoomTask {
-    pub fn new((key, room_id): (String, i32), from: NaiveDate, duration: Duration) -> Self {
+    pub fn new(room: Room, from: NaiveDate, duration: chrono::Duration) -> Self {
         let to = from + duration;
-        Self {
-            key,
-            room_id,
-            from,
-            to,
-        }
+        Self { room, from, to }
     }
     pub fn num_days(&self) -> u64 {
         // we want to count from the morning of "from" to the evening of "to" => +1
@@ -29,14 +24,12 @@ impl ScrapeRoomTask {
         let lower_middle = self.from + chrono::Days::new(mid_offset);
         (
             Self {
-                key: self.key.clone(),
-                room_id: self.room_id,
+                room: self.room.clone(),
                 from: self.from,
                 to: lower_middle,
             },
             Self {
-                key: self.key.clone(),
-                room_id: self.room_id,
+                room: self.room.clone(),
                 from: lower_middle + chrono::Days::new(1),
                 to: self.to,
             },
@@ -47,13 +40,14 @@ impl ScrapeRoomTask {
 #[cfg(test)]
 mod test_scrape_task {
     use super::ScrapeRoomTask;
-    use chrono::{Duration, NaiveDate};
+    use crate::scrape_task::main_api_connector::Room;
+    use chrono::NaiveDate;
     use pretty_assertions::assert_eq;
 
     #[test]
     fn test_split() {
         let start = NaiveDate::from_ymd_opt(2020, 1, 1).unwrap();
-        let task = ScrapeRoomTask::new(("".to_string(), 0), start, Duration::days(365));
+        let task = ScrapeRoomTask::new(Room::default(), start, chrono::Duration::days(365));
         let (o1, o2) = task.split();
         assert_eq!(task.from, start);
         assert_eq!(task.to, NaiveDate::from_ymd_opt(2020, 12, 31).unwrap());
@@ -64,8 +58,7 @@ mod test_scrape_task {
     #[test]
     fn test_split_small() {
         let task = ScrapeRoomTask {
-            key: "".to_string(),
-            room_id: 0,
+            room: Room::default(),
             from: NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
             to: NaiveDate::from_ymd_opt(2020, 1, 2).unwrap(),
         };
@@ -82,8 +75,7 @@ mod test_scrape_task {
     #[test]
     fn test_num_days() {
         let mut task = ScrapeRoomTask {
-            key: "".to_string(),
-            room_id: 0,
+            room: Room::default(),
             from: NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
             to: NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
         };
@@ -96,7 +88,7 @@ mod test_scrape_task {
     #[test]
     fn test_same_day() {
         let start = NaiveDate::from_ymd_opt(2020, 1, 1).unwrap();
-        let task = ScrapeRoomTask::new(("".to_string(), 0), start, Duration::days(0));
+        let task = ScrapeRoomTask::new(Room::default(), start, chrono::Duration::days(0));
         assert_eq!(task.from, start);
         assert_eq!(task.to, NaiveDate::from_ymd_opt(2020, 1, 1).unwrap());
         assert_eq!(task.num_days(), 1);

@@ -1871,6 +1871,7 @@ dependencies = [
  "pretty_assertions",
  "prometheus",
  "rand 0.8.5",
+ "regex",
  "reqwest",
  "rustls",
  "serde",

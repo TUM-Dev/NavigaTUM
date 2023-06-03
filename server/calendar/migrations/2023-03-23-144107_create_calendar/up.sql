@@ -20,5 +20,5 @@ CREATE TABLE calendar (
     status_id               TEXT NOT NULL,
     status                  TEXT NOT NULL,
     comment                 TEXT NOT NULL,
-    last_scrape             timestamp NOT NULL
+    last_scrape             TIMESTAMP NOT NULL
 );

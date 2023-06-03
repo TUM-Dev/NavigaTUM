@@ -17,6 +17,30 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
     cfg.service(calendar_handler);
 }
 
+fn get_calendar_url(requested_key: &str, conn: &mut PgConnection) -> QueryResult<String> {
+    use crate::schema::rooms::dsl::*;
+    let room = rooms
+        .filter(key.eq(requested_key))
+        .first::<crate::models::Room>(conn)?;
+    Ok(format!(
+        "https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={}",
+        room.tumonline_calendar_id
+    ))
+}
+
+fn get_entries(
+    requested_key: &str,
+    args: CalendarQueryArgs,
+    conn: &mut PgConnection,
+) -> QueryResult<Vec<XMLEvent>> {
+    use crate::schema::calendar::dsl::*;
+    calendar
+        .filter(key.eq(&requested_key))
+        .filter(dtstart.ge(&args.start))
+        .filter(dtend.le(&args.end))
+        .load::<XMLEvent>(conn)
+}
+
 #[get("/{id}")]
 pub async fn calendar_handler(
     params: web::Path<String>,
@@ -24,17 +48,11 @@ pub async fn calendar_handler(
 ) -> HttpResponse {
     let id = params.into_inner();
     let conn = &mut utils::establish_connection();
-    use crate::schema::calendar::dsl::*;
-    let results = calendar
-        .filter(key.eq(&id))
-        .filter(dtstart.ge(&args.start))
-        .filter(dtend.le(&args.end))
-        .load::<XMLEvent>(conn);
-    match results {
-        Ok(results) => {
+    let results = get_entries(&id, args, conn);
+    let calendar_url = get_calendar_url(&id, conn);
+    match (results, calendar_url) {
+        (Ok(results), Ok(calendar_url)) => {
             let last_sync = results.iter().map(|e| e.last_scrape).min().unwrap();
-            let tumonline_room_number = results.iter().map(|e| e.tumonline_id).next().unwrap();
-            let calendar_url = format!("https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={tumonline_room_number}");
             let events = results.into_iter().map(Event::from).collect();
             HttpResponse::Ok().json(Events {
                 events,
@@ -42,8 +60,14 @@ pub async fn calendar_handler(
                 calendar_url,
             })
         }
-        Err(e) => {
-            error!("Error loading calendar: {e:?}");
+        (Err(e), _) => {
+            error!("Error loading calendar entries: {e:?}");
+            HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Error loading calendar")
+        }
+        (_, Err(e)) => {
+            error!("Error loading calendar_url: {e:?}");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
                 .body("Error loading calendar")

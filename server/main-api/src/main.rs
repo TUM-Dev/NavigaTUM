@@ -3,7 +3,6 @@ use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prometheus::PrometheusMetricsBuilder;
 use std::collections::HashMap;
 mod core;
-mod internal;
 mod maps;
 mod models;
 mod schema;
@@ -52,7 +51,6 @@ async fn main() -> std::io::Result<()> {
             .service(health_status_handler)
             .service(web::scope("/api/preview").configure(maps::configure))
             .service(web::scope("/api").configure(core::configure))
-            .service(web::scope("/internal").configure(internal::configure))
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?
     .run()
