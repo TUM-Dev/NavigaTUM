@@ -29,14 +29,17 @@ class SearchResult:
 
     @property
     def was_successful(self):
+        """Whether the search was successful (i.e. there were results)"""
         return self.target_pos is not None
 
     @property
     def was_top5(self):
+        """Whether the target was among the first 5 results"""
         return self.target_pos is not None and 0 <= self.target_pos < 5
 
     @property
     def was_top20(self):
+        """Whether the target was among the first 20 results"""
         return self.target_pos is not None and 0 <= self.target_pos < 20
 
 
@@ -80,6 +83,9 @@ class Evaluation:
 
 class EvaluatableQuery(Query):
     def do_search(self, search_endpoint: str, length: int) -> SearchResult:
+        """
+        Perform a search for a specific query
+        """
         url = search_endpoint + "?" + urllib.parse.urlencode({"q": self.query[:length]})
         req = requests.get(url, timeout=10).json()
 

@@ -45,6 +45,8 @@ def _gen_colored_query(search: search_quality_test.Evaluation):
         search.len_to_best_pos
         if (
             search.best_pos is not None
+            and search.len_to_best_pos is not None
+            and search.full_search.target_pos is not None
             and (not search.full_search.was_successful or search.best_pos < search.full_search.target_pos)
         )
         else 0
@@ -95,11 +97,12 @@ def _gen_colored_stats(search: search_quality_test.Evaluation):
 def _gen_pos_indicator(search: search_quality_test.Evaluation):
     """The position indicator shows rougly how the results looked like and where the target entry was located"""
     if search.full_search.was_top5:
+        target_pos = search.full_search.target_pos or 0
         return (
             colored("[", "white")
-            + " " * search.full_search.target_pos
+            + " " * target_pos
             + colored("*", "cyan", attrs=["bold"])
-            + " " * (min(search.full_search.num_results, 5) - search.full_search.target_pos - 1)
+            + " " * (min(search.full_search.num_results, 5) - target_pos - 1)
             + colored("]", "white")
             + colored("-" * (5 - min(search.full_search.num_results, 5)), "white")
             + " "
