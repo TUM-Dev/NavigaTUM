@@ -8,15 +8,7 @@ import type { Coord } from "@/stores/global";
 import { useGlobalStore } from "@/stores/global";
 import { nextTick, ref } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
-
-const webglSupport = (() => {
-  try {
-    const canvas = document.createElement("canvas");
-    return !!window.WebGLRenderingContext && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"));
-  } catch (e) {
-    return false;
-  }
-})();
+import { webglSupport } from "@/composables/webglSupport";
 
 const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
