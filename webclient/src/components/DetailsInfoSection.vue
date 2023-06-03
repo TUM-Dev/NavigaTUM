@@ -62,14 +62,14 @@ const state = useDetailsStore();
     <div class="card">
       <a
         class="card-image c-hand"
-        @click="state.showImageSlideshow(state.image.shown_image_id)"
-        v-if="state.image.shown_image_id"
+        @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
+        v-if="state.image.shown_image"
       >
         <img
           :alt="$t('view_view.header.image_alt')"
           :src="'/cdn/header/' + state.image.shown_image.name"
           class="img-responsive"
-          width="100%"
+          style="width: 100%"
         />
       </a>
       <div class="card-header">

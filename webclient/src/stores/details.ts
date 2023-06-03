@@ -77,6 +77,12 @@ export const useDetailsStore = defineStore({
           }
         });
       }
+      // --- Images ---
+      if (d.imgs && d.imgs.length > 0) {
+        this.image.shown_image = d.imgs[0];
+        this.image.shown_image_id = 0;
+      }
+
       this.data = d;
     },
   },
