@@ -237,6 +237,7 @@ fn tokenize_input_query(q: &str) -> Vec<InputToken> {
 #[cfg(test)]
 mod tokenizer_tests {
     use super::*;
+    use pretty_assertions::assert_eq;
 
     fn reg(s: &str) -> InputToken {
         InputToken {

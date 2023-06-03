@@ -48,6 +48,8 @@ impl ScrapeRoomTask {
 mod test_scrape_task {
     use super::ScrapeRoomTask;
     use chrono::{Duration, NaiveDate};
+    use pretty_assertions::assert_eq;
+
     #[test]
     fn test_split() {
         let start = NaiveDate::from_ymd_opt(2020, 1, 1).unwrap();

@@ -67,7 +67,7 @@ fn clean_feedback_data(s: &str, len: usize) -> String {
 #[cfg(test)]
 mod description_tests {
     use super::*;
-    use std::assert_eq;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn newlines_whitespace() {
