@@ -160,7 +160,7 @@ onMounted(() => {
     <!-- Header image (on mobile) -->
     <a
       class="show-sm header-image-mobile c-hand"
-      @click="state.showImageSlideshow(state.image.shown_image_id)"
+      @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
       v-if="state.image.shown_image"
     >
       <img
