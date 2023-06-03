@@ -30,8 +30,7 @@ const token: typeof ref<Token | null> = useLocalStorage<Token | null>("feedback-
 const privacyChecked = ref(false);
 const deleteIssueRequested = ref(false);
 
-assuereTokenValidity();
-watch(() => global.feedback.open, assuereTokenValidity);
+watch(() => global.feedback.open, assuereTokenValidity, { immediate: true });
 function assuereTokenValidity() {
   // legacy migration function TODO: remove only after 31.09.2023, to give our users time to migrate to the new token format
   if (token.value?.expiry) {

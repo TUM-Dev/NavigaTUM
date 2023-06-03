@@ -12,7 +12,7 @@ import { getLocalStorageWithExpiry, removeLocalStorage } from "@/composables/sto
 import { setDescription, setTitle } from "@/composables/common";
 import { useClipboard } from "@vueuse/core";
 import { selectedMap, useDetailsStore } from "@/stores/details";
-import { nextTick, onMounted, ref, watch } from "vue";
+import { nextTick, onMounted, ref, watchEffect } from "vue";
 import { useFetch } from "@/composables/fetch";
 import { useRoute } from "vue-router";
 import router from "@/router";
@@ -26,10 +26,6 @@ const { t } = useI18n({
 });
 
 const route = useRoute();
-// called when the view is loaded (coming from another view)
-update();
-// called when the view navigates to another entry, so the view is just updated
-watch(() => route.params.id, update);
 
 function loadData(data: DetailsResponse) {
   // Redirect to the correct type if necessary. Technically the type information
@@ -56,7 +52,7 @@ function loadData(data: DetailsResponse) {
   state.loadData(data);
   tryToLoadMap();
 }
-function update() {
+watchEffect(() => {
   if (route.params.id === "root") {
     router.replace({ path: "/" });
     return;
@@ -70,7 +66,7 @@ function update() {
       hash: route.hash,
     });
   });
-}
+});
 
 const state = useDetailsStore();
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: route.source });
