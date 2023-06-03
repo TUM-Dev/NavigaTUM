@@ -1,7 +1,7 @@
 FROM node:latest as build-stage
 WORKDIR /app
 COPY package*.json ./
-RUN npm install &&  \
+RUN npm install --no-install-recommends &&  \
     apt-get update &&  \
     apt-get install rsync -y
 
