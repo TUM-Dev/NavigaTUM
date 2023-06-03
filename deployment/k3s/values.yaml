@@ -11,12 +11,9 @@ mielisearch:
     tag: v1.1.1
 calendar:
   scrape_tasks:
-    - name: refresh-calendar-fast
-      schedule: "0 6-20 * * 1-5" # weekdays hourly between 6am and 8am
+    - name: refresh-calendar-fast # takes ~2m to complete
+      schedule: "20-50/10 * * * *" # at :20, :30, :40, :50  every hour
       scraped_time_window_months: 2
-    - name: refresh-calendar-medium
-      schedule: "0 1 * * 1-5" # weekdays at 1am
-      scraped_time_window_months: 12
-    - name: refresh-calendar-slow
-      schedule: "0 23 * * 5" # every friday at 23pm
+    - name: refresh-calendar-slow # takes ~7m to complete
+      schedule: "5 * * * *" # at :05 every hour
       scraped_time_window_months: 120 # 120 months = 10 years
