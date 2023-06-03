@@ -1,4 +1,5 @@
 use crate::github;
+use crate::proposed_edits::coordinate::Coordinate;
 use crate::proposed_edits::tmp_repo::TempRepo;
 use crate::tokens::RecordedTokens;
 use actix_web::web::{Data, Json};
@@ -7,11 +8,14 @@ use serde::Deserialize;
 use std::collections::HashMap;
 use std::path::Path;
 
+mod coordinate;
 mod discription;
 mod tmp_repo;
 
 #[derive(Deserialize, Clone)]
-struct Edit {}
+struct Edit {
+    coordinate: Option<Coordinate>,
+}
 pub trait AppliableEdit {
     fn apply(&self, key: &str, base_dir: &Path) -> String;
 }
@@ -45,10 +49,20 @@ impl EditRequest {
     }
 
     fn extract_labels(&self) -> Vec<String> {
-        vec!["webform".to_string()]
+        let mut labels = vec!["webform".to_string()];
+
+        if self.edits.iter().any(|(_, edit)| edit.coordinate.is_none()) {
+            labels.push("coordinate".to_string());
+        }
+        labels
     }
     fn extract_subject(&self) -> String {
-        "No Edits".to_string()
+        let coordinate_edits = self.edits_for(|edit| edit.coordinate);
+        match coordinate_edits.len() {
+            0 => "No Edits".to_string(),
+            1..=5 => format!("Coordinate Edit for {:?}", coordinate_edits.keys()),
+            cs => format!("Edited {cs} Coordinates"),
+        }
     }
 }
 
