@@ -3,7 +3,7 @@ FROM    rust:1.70-alpine AS compiler
 
 # to ache the build this line inludes all the dependencys all servers need
 # this is not an issue since we copy the generated binary to a more minimal envornment
-RUN     apk add -q --update-cache --no-cache build-base openssl-dev libpq-dev
+RUN     apk add -q --update-cache --no-cache build-base openssl-dev libpq-dev libwebp-dev
 
 WORKDIR /compiler
 ENV     USER=root
@@ -32,7 +32,7 @@ RUN     cargo build --release --bin navigatum-feedback
 FROM alpine:3.18
 
 RUN     apk update --quiet \
-     && apk add -q --no-cache libgcc tini
+     && apk add -q --no-cache libgcc tini libwebp
 
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/release/navigatum-* /bin/

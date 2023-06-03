@@ -3,7 +3,7 @@
  * Do not make direct changes to the file.
  */
 
-/** Type helpers */
+/** OneOf type helpers */
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
 type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -765,6 +765,27 @@ export type components = {
                 /** Format: double */
                 readonly lon: number;
               };
+              readonly image?: {
+                readonly metadata: {
+                  readonly author: string;
+                  readonly license: components["schemas"]["LinkProp"];
+                  readonly source: components["schemas"]["LinkProp"];
+                  readonly offsets?: {
+                    /** Format: int32 */
+                    readonly header?: number;
+                    /** Format: int32 */
+                    readonly thumb?: number;
+                  };
+                  readonly meta?: {
+                    [key: string]: string | undefined;
+                  };
+                };
+                /**
+                 * Format: byte
+                 * @description The image encoded as base64
+                 */
+                readonly content: string;
+              };
             }
           | undefined;
       };
@@ -826,48 +847,48 @@ export type components = {
 export type external = Record<string, never>;
 
 export type operations = {
+  /**
+   * Search entries
+   * @description This endpoint is designed to support search-as-you-type results.
+   *
+   * Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
+   *
+   * Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
+   * (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
+   * Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `pre_highlight` query parameters.
+   */
   search: {
-    /**
-     * Search entries
-     * @description This endpoint is designed to support search-as-you-type results.
-     *
-     * Instead of simply returning a list, the search results are returned in a way to provide a richer experience by splitting them up into sections. You might not necessarily need to implement all types of sections, or all sections features (if you just want to show a list). The order of sections is a suggested order to display them, but you may change this as you like.
-     *
-     * Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
-     * (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
-     * Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `pre_highlight` query parameters.
-     */
     parameters: {
-      /**
-       * @description string you want to search for.
-       * Note, that the amounts returned can be controlled using the limit\* paramerters.
-       */
-      /**
-       * @description Maximum number of buildings/sites to return.
-       * Clamped to 0..1000. If this is an problem for you, please open an issue.
-       */
-      /**
-       * @description Maximum number of rooms to return.
-       * Clamped to 0..1000. If this is an problem for you, please open an issue.
-       */
-      /**
-       * @description Overall maximum number of results. Only visible results are counted (i.e. hidden buildings are not counted).
-       * Clamped to 1..1000. If this is an problem for you, please open an issue.
-       */
-      /**
-       * @description string to include in front of highlighted sequences.
-       * If this and `post_highlight` are empty, highlighting is disabled.
-       */
-      /**
-       * @description string to include after the highlighted sequences.
-       * If this and `pre_highlight` are empty, highlighting is disabled.
-       */
-      readonly query: {
+      query: {
+        /**
+         * @description string you want to search for.
+         * Note, that the amounts returned can be controlled using the limit\* paramerters.
+         */
         q: string;
+        /**
+         * @description Maximum number of buildings/sites to return.
+         * Clamped to 0..1000. If this is an problem for you, please open an issue.
+         */
         limit_buildings?: number;
+        /**
+         * @description Maximum number of rooms to return.
+         * Clamped to 0..1000. If this is an problem for you, please open an issue.
+         */
         limit_rooms?: number;
+        /**
+         * @description Overall maximum number of results. Only visible results are counted (i.e. hidden buildings are not counted).
+         * Clamped to 1..1000. If this is an problem for you, please open an issue.
+         */
         limit_all?: number;
+        /**
+         * @description string to include in front of highlighted sequences.
+         * If this and `post_highlight` are empty, highlighting is disabled.
+         */
         pre_highlight?: string;
+        /**
+         * @description string to include after the highlighted sequences.
+         * If this and `pre_highlight` are empty, highlighting is disabled.
+         */
         post_highlight?: string;
       };
     };
@@ -890,23 +911,23 @@ export type operations = {
       414: never;
     };
   };
+  /**
+   * Get entry-details
+   * @description This returns the full data available for the entry (room/building).
+   *
+   * This is more data, that should be supplied once a user clicks on an entry.
+   * Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side.
+   * The data can be up to 50kB (using gzip) or 200kB unzipped.
+   * The more about this data format is described in the NavigaTUM-data documentation
+   */
   details: {
-    /**
-     * Get entry-details
-     * @description This returns the full data available for the entry (room/building).
-     *
-     * This is more data, that should be supplied once a user clicks on an entry.
-     * Preloading this is not an issue on our end, but keep in mind bandwith constraints on your side.
-     * The data can be up to 50kB (using gzip) or 200kB unzipped.
-     * The more about this data format is described in the NavigaTUM-data documentation
-     */
     parameters: {
-      /** @description The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered. */
-      readonly query?: {
+      query?: {
+        /** @description The language you want your details to be in. If either this or the query parameter is set to en, this will be delivered. */
         lang?: "de" | "en";
       };
-      /** @description string you want to search for */
-      readonly path: {
+      path: {
+        /** @description string you want to search for */
         id: string;
       };
     };
@@ -925,22 +946,22 @@ export type operations = {
       };
     };
   };
+  /**
+   * Get a entry-preview
+   * @description This returns the a 1200x630px preview for the entry (room/building/..).
+   *
+   * This is usefull for implementing custom OpenGraph images for detail previews.
+   */
   calendar: {
-    /**
-     * Get a entry-preview
-     * @description This returns the a 1200x630px preview for the entry (room/building/..).
-     *
-     * This is usefull for implementing custom OpenGraph images for detail previews.
-     */
     parameters: {
-      /** @description The first allowed time the calendar would like to display */
-      /** @description The last allowed time the calendar would like to display */
-      readonly query: {
+      query: {
+        /** @description The first allowed time the calendar would like to display */
         start: string;
+        /** @description The last allowed time the calendar would like to display */
         end: string;
       };
-      /** @description string you want to search for */
-      readonly path: {
+      path: {
+        /** @description string you want to search for */
         id: string;
       };
     };
@@ -965,20 +986,20 @@ export type operations = {
       };
     };
   };
+  /**
+   * Get a entry-preview
+   * @description This returns the a 1200x630px preview for the entry (room/building/..).
+   *
+   * This is usefull for implementing custom OpenGraph images for detail previews.
+   */
   previews: {
-    /**
-     * Get a entry-preview
-     * @description This returns the a 1200x630px preview for the entry (room/building/..).
-     *
-     * This is usefull for implementing custom OpenGraph images for detail previews.
-     */
     parameters: {
-      /** @description The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered. */
-      readonly query?: {
+      query?: {
+        /** @description The language you want your preview to be in. If either this or the query parameter is set to en, this will be delivered. */
         lang?: "de" | "en";
       };
-      /** @description string you want to search for */
-      readonly path: {
+      path: {
+        /** @description string you want to search for */
         id: string;
       };
     };
@@ -997,23 +1018,23 @@ export type operations = {
       };
     };
   };
+  /**
+   * Get a feedback-token
+   * @description ***Do not abuse this endpoint.***
+   *
+   * This returns a JWT token usable for submitting feedback.
+   * You should request a token, ***if (and only if) a user is on a feedback page***
+   *
+   * As a rudimentary way of rate-limiting feedback, this endpoint returns a token.
+   * To post feedback, you will need this token.
+   *
+   * Tokens gain validity after 5s, and are invalid after 12h of being issued.
+   * They are not refreshable, and are only valid for one usage.
+   *
+   * ***Important Note:***
+   * Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
+   */
   get_token: {
-    /**
-     * Get a feedback-token
-     * @description ***Do not abuse this endpoint.***
-     *
-     * This returns a JWT token usable for submitting feedback.
-     * You should request a token, ***if (and only if) a user is on a feedback page***
-     *
-     * As a rudimentary way of rate-limiting feedback, this endpoint returns a token.
-     * To post feedback, you will need this token.
-     *
-     * Tokens gain validity after 5s, and are invalid after 12h of being issued.
-     * They are not refreshable, and are only valid for one usage.
-     *
-     * ***Important Note:***
-     * Global Rate-Limiting allows bursts with up to 20 requests and replenishes 50 requests per day
-     */
     responses: {
       /** @description Returns a usable token */
       201: {
@@ -1035,17 +1056,17 @@ export type operations = {
       503: never;
     };
   };
+  /**
+   * Post feedback
+   * @description ***Do not abuse this endpoint.***
+   *
+   * This posts the actual feedback to github and returns the github link.
+   * This API will create issues instead of pull-requests => all feedback is allowed, but `/api/feedback/propose_edit` is prefered, if it can be posted there.
+   * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
+   *
+   * ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
+   */
   post_feedback: {
-    /**
-     * Post feedback
-     * @description ***Do not abuse this endpoint.***
-     *
-     * This posts the actual feedback to github and returns the github link.
-     * This API will create issues instead of pull-requests => all feedback is allowed, but `/api/feedback/propose_edit` is prefered, if it can be posted there.
-     * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
-     *
-     * ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
-     */
     readonly requestBody?: {
       readonly content: {
         readonly "application/json": components["schemas"]["PostFeedbackRequest"];
@@ -1104,17 +1125,17 @@ export type operations = {
       503: never;
     };
   };
+  /**
+   * Post Edit-Requests
+   * @description ***Do not abuse this endpoint.***
+   *
+   * This posts the actual feedback to github and returns the github link.
+   * This API will create pull-requests instead of issues => only a subset of feedback is allowed.
+   * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
+   *
+   * ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
+   */
   propose_edit: {
-    /**
-     * Post Edit-Requests
-     * @description ***Do not abuse this endpoint.***
-     *
-     * This posts the actual feedback to github and returns the github link.
-     * This API will create pull-requests instead of issues => only a subset of feedback is allowed.
-     * For this Endpoint to work, you need to generate a token via the `/api/feedback/get_token` endpoint.
-     *
-     * ***Important Note:*** Tokens are only used if we return a 201 Created response. Otherwise, they are still valid
-     */
     readonly requestBody?: {
       readonly content: {
         readonly "application/json": components["schemas"]["ProposeEditsRequest"];
@@ -1173,32 +1194,32 @@ export type operations = {
       503: never;
     };
   };
+  /**
+   * Get title images
+   * @description This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
+   * You HAVE to get the proper attribution from that endpoint and use it.
+   */
   img_cdn: {
-    /**
-     * Get title images
-     * @description This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
-     * You HAVE to get the proper attribution from that endpoint and use it.
-     */
     parameters: {
-      /**
-       * @description size of the resource you want
-       *
-       * | name   | default                                                               |
-       * |--------|-----------------------------------------------------------------------|
-       * | lg     | max 4k, aspect ratio untouched                                        |
-       * | md     | max 1920px, aspect ratio untouched                                    |
-       * | sm     | max 1024px, aspect ratio untouched                                    |
-       * | thumb  | 256x256, cropped to fit. Usually a center-crop, but sometimes offset. |
-       * | header | 512x210, cropped to fit. Usually a center-crop, but sometimes offset. |
-       */
-      /** @description id of the recource you want an image for */
-      /**
-       * @description counter of the image you want.
-       * @example 0
-       */
-      readonly path: {
+      path: {
+        /**
+         * @description size of the resource you want
+         *
+         * | name   | default                                                               |
+         * |--------|-----------------------------------------------------------------------|
+         * | lg     | max 4k, aspect ratio untouched                                        |
+         * | md     | max 1920px, aspect ratio untouched                                    |
+         * | sm     | max 1024px, aspect ratio untouched                                    |
+         * | thumb  | 256x256, cropped to fit. Usually a center-crop, but sometimes offset. |
+         * | header | 512x210, cropped to fit. Usually a center-crop, but sometimes offset. |
+         */
         size: "lg" | "md" | "sm" | "thumb" | "header";
+        /** @description id of the recource you want an image for */
         id: string;
+        /**
+         * @description counter of the image you want.
+         * @example 0
+         */
         counter: number;
       };
     };
@@ -1225,17 +1246,17 @@ export type operations = {
       414: never;
     };
   };
+  /**
+   * Get title images
+   * @description This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
+   * You HAVE to get the proper attribution from that endpoint and use it.
+   */
   maps_cdn: {
-    /**
-     * Get title images
-     * @description This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
-     * You HAVE to get the proper attribution from that endpoint and use it.
-     */
     parameters: {
-      /** @description source of the resource you want */
-      /** @description id of the map you want */
-      readonly path: {
+      path: {
+        /** @description source of the resource you want */
         source: "overlay" | "roomfinder";
+        /** @description id of the map you want */
         id: string;
       };
     };
@@ -1262,29 +1283,29 @@ export type operations = {
       414: never;
     };
   };
+  /**
+   * Get a redirect to our roomfinder
+   * @description The old roomfinder still exists and adoption of our new system is not great.
+   * This is a redirect route which can be a direct redirect for the old room-finder.
+   *
+   * ***THIS WILL DISAPEAR IN THE FUTURE, DO NOT RELY ON IT.***
+   * ***This is only here while TUM is transitioning to this system.***
+   *
+   * After 1-2 years, we will introduce some text to nudging those,
+   * who still have not changed their links, as otherwise we assume this transition will never be done...
+   * Said nudge will include information on who to contact if updating the website is not possible and
+   * tell the users what link to exchange with what other link.
+   * Redirecting to y after a button click or something similar is probably good.
+   *
+   * THIS IS NOT A PERMANENT SOLUTION, AND WILL BE REMOVED IN THE FUTURE
+   *
+   * The reason, why this is not a dumb redirect is, that the old roomfinder has a lot of bugs and `arch_name` not being unique, nor an id is one of them.
+   * We dont want to have two ids for obvious reasons, this is why we dont accept this as an alias
+   */
   legacy_redirect: {
-    /**
-     * Get a redirect to our roomfinder
-     * @description The old roomfinder still exists and adoption of our new system is not great.
-     * This is a redirect route which can be a direct redirect for the old room-finder.
-     *
-     * ***THIS WILL DISAPEAR IN THE FUTURE, DO NOT RELY ON IT.***
-     * ***This is only here while TUM is transitioning to this system.***
-     *
-     * After 1-2 years, we will introduce some text to nudging those,
-     * who still have not changed their links, as otherwise we assume this transition will never be done...
-     * Said nudge will include information on who to contact if updating the website is not possible and
-     * tell the users what link to exchange with what other link.
-     * Redirecting to y after a button click or something similar is probably good.
-     *
-     * THIS IS NOT A PERMANENT SOLUTION, AND WILL BE REMOVED IN THE FUTURE
-     *
-     * The reason, why this is not a dumb redirect is, that the old roomfinder has a lot of bugs and `arch_name` not being unique, nor an id is one of them.
-     * We dont want to have two ids for obvious reasons, this is why we dont accept this as an alias
-     */
     parameters: {
-      /** @description Architects name of the redirect you want */
-      readonly path: {
+      path: {
+        /** @description Architects name of the redirect you want */
         arch_name: string;
       };
     };
@@ -1305,11 +1326,11 @@ export type operations = {
       };
     };
   };
+  /**
+   * API healthcheck
+   * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
+   */
   "api-health": {
-    /**
-     * API healthcheck
-     * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
-     */
     responses: {
       /** @description Ok */
       200: {
@@ -1321,11 +1342,11 @@ export type operations = {
       503: never;
     };
   };
+  /**
+   * feedback-API healthcheck
+   * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
+   */
   "feedback-health": {
-    /**
-     * feedback-API healthcheck
-     * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
-     */
     responses: {
       /** @description Ok */
       200: {
@@ -1337,11 +1358,11 @@ export type operations = {
       503: never;
     };
   };
+  /**
+   * calendar-API healthcheck
+   * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
+   */
   "calendar-health": {
-    /**
-     * calendar-API healthcheck
-     * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
-     */
     responses: {
       /** @description Ok */
       200: {
@@ -1353,11 +1374,11 @@ export type operations = {
       503: never;
     };
   };
+  /**
+   * CDN healthcheck
+   * @description If this endpoint does not return 200, the CDN is experiencing a catastrophic outage. Should never happen.
+   */
   "cdn-health": {
-    /**
-     * CDN healthcheck
-     * @description If this endpoint does not return 200, the CDN is experiencing a catastrophic outage. Should never happen.
-     */
     responses: {
       /** @description Ok */
       200: {
@@ -1369,11 +1390,11 @@ export type operations = {
       503: never;
     };
   };
+  /**
+   * Website healthcheck
+   * @description If this endpoint does not return 200, the Website is experiencing a catastrophic outage. Should never happen.
+   */
   "web-health": {
-    /**
-     * Website healthcheck
-     * @description If this endpoint does not return 200, the Website is experiencing a catastrophic outage. Should never happen.
-     */
     responses: {
       /** @description Ok */
       200: {
