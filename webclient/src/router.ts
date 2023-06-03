@@ -62,4 +62,8 @@ const router = createRouter({
   },
 });
 
+router.afterEach(() =>
+  document.querySelector('meta[property="og:url"]')?.setAttribute("content", window.location.href)
+);
+
 export default router;
