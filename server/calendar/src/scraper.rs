@@ -44,7 +44,7 @@ async fn main() {
 
     let time_window = TimeWindow::init_from_env();
     info!("Scraping time window: {time_window:?}");
-    let scraper = ScrapeTask::new(time_window.duration);
+    let mut scraper = ScrapeTask::new(time_window.duration).await;
     scraper.scrape_to_db().await;
     scraper.delete_stale_results();
 

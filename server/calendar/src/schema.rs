@@ -3,7 +3,6 @@
 diesel::table! {
     calendar (single_event_id) {
         key -> Varchar,
-        tumonline_id -> Int4,
         dtstart -> Timestamp,
         dtend -> Timestamp,
         dtstamp -> Timestamp,
@@ -26,3 +25,15 @@ diesel::table! {
         last_scrape -> Timestamp,
     }
 }
+
+diesel::table! {
+    rooms (key) {
+        key -> Text,
+        tumonline_org_id -> Int4,
+        tumonline_calendar_id -> Int4,
+        tumonline_room_id -> Int4,
+        last_scrape -> Timestamp,
+    }
+}
+
+diesel::allow_tables_to_appear_in_same_query!(calendar, rooms,);
