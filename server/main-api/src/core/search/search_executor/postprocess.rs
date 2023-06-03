@@ -262,7 +262,7 @@ fn unicode_split_at(search: &str, width: usize) -> (&str, &str) {
 #[cfg(test)]
 mod postprocessing_tests {
     use super::*;
-    use std::assert_eq;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn unicode_split() {

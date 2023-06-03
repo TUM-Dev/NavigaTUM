@@ -23,6 +23,7 @@ fn zoom_aware_offset(zoom: u32, value: u32, offset: i32) -> u32 {
 #[cfg(test)]
 mod test_tiles {
     use super::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_zoom_aware_offset() {
