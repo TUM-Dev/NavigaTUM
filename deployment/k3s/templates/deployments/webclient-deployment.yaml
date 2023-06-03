@@ -30,7 +30,7 @@ spec:
           image: "ghcr.io/tum-dev/navigatum-webclient:{{ $.Values.tag }}"
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 9000
               name: webclient
           resources:
             requests:
@@ -50,3 +50,12 @@ spec:
               port: webclient
             failureThreshold: 60
             periodSeconds: 1
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+              add:
+              - CHOWN
+              - DAC_OVERRIDE
+              - SETGID
+              - SETUID
