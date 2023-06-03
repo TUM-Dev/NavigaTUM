@@ -100,7 +100,7 @@ spec:
           {{ end }}
           ports:
             - containerPort: 7700
-              name: mieli-search
+              name: http
           volumeMounts:
             - mountPath: /meili_data
               name: tmp-mieli-search
@@ -110,18 +110,23 @@ spec:
               memory: {{ if eq "nav.tum.de" $.Values.url }}200Mi{{ else }}50Mi{{ end }}
             limits:
               memory: 500Mi
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: mieli-search
-            failureThreshold: 2
-            periodSeconds: 10
           startupProbe:
             httpGet:
               path: /health
-              port: mieli-search
-            failureThreshold: 60
+              port: http
             periodSeconds: 1
+            initialDelaySeconds: 1
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
 {{ if $.Values.server.MEILI_MASTER_KEY }}
 ---
 apiVersion: v1

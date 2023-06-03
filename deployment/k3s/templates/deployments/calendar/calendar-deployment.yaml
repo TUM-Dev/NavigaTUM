@@ -48,6 +48,9 @@ spec:
                   key: password
           securityContext:
             readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+              - ALL
           resources:
             requests:
               cpu: 10m

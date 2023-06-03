@@ -66,6 +66,9 @@ spec:
               subPath: osm_liberty.json
           securityContext:
             readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+              - ALL
           resources:
             requests:
               cpu: {{ if eq "nav.tum.de" $.Values.url }}100m{{ else }}10m{{ end }}

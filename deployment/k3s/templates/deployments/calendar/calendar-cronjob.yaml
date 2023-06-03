@@ -40,6 +40,9 @@ spec:
               value: {{ $scrape_task.scraped_time_window_months | quote }}
             securityContext:
               readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                - ALL
             resources:
               requests:
                 cpu: 500m

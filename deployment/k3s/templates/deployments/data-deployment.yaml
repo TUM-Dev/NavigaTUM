@@ -30,7 +30,7 @@ spec:
           image: "ghcr.io/tum-dev/navigatum-data:{{ $.Values.tag }}"
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 8000
               name: cdn
           resources:
             requests:
@@ -50,3 +50,12 @@ spec:
               port: cdn
             failureThreshold: 60
             periodSeconds: 1
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+              add:
+              - CHOWN
+              - DAC_OVERRIDE
+              - SETGID
+              - SETUID
