@@ -1,159 +1,151 @@
-<script lang="ts">
+<script setup lang="ts">
 import { extractFacets } from "@/modules/autocomplete";
 import router from "@/router";
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
 import { useFetch } from "@/composables/fetch";
+import { ref, reactive, onMounted, computed } from "vue";
 import type { SectionFacet } from "@/modules/autocomplete";
 import type { components } from "@/api_types";
+
 type SearchResponse = components["schemas"]["SearchResponse"];
 
-export default {
-  mounted() {
-    window.addEventListener("keydown", (e) => {
-      if (
-        (e.key === "s" || e.key === "/") &&
-        document.activeElement?.tagName !== "INPUT" &&
-        document.activeElement?.tagName !== "TEXTAREA"
-      ) {
-        e.preventDefault();
-        document.getElementById("search")?.focus();
+const { t } = useI18n({
+  inheritLocale: true,
+  useScope: "global",
+});
+const global = useGlobalStore();
+const keep_focus = ref(false);
+const query = ref("");
+const autocomplete = reactive({ sections: [] as SectionFacet[], highlighted: null as string | null });
+// As a simple measure against out-of-order responses
+// to the autocompletion, we count queries and make sure
+// that late results will not overwrite the currently
+// visible results.
+const queryCounter = ref(0);
+const latestUsedQueryId = ref(-1);
+
+function searchFocus() {
+  global.focus_search();
+  autocomplete.highlighted = null;
+}
+
+function searchBlur() {
+  if (keep_focus.value) {
+    window.setTimeout(() => {
+      // This is relevant if the call is delayed and focused has
+      // already been disabled e.g. when clicking on an entry.
+      if (global.search_focused) document.getElementById("search")?.focus();
+    }, 0);
+    keep_focus.value = false;
+  } else {
+    global.unfocus_search();
+  }
+}
+
+function searchGo(cleanQuery: boolean) {
+  if (query.value.length === 0) return;
+
+  router.push(`/search?q=${query.value}`);
+  global.unfocus_search();
+  if (cleanQuery) {
+    query.value = "";
+    autocomplete.sections = [];
+  }
+  document.getElementById("search")?.blur();
+}
+
+function searchGoTo(id: string, cleanQuery: boolean) {
+  // Catch is necessary because vue-router throws an error
+  // if navigation is aborted for some reason (e.g. the new
+  // url is the same or there is a loop in redirects)
+  router.push(`/view/${id}`);
+  global.unfocus_search();
+  if (cleanQuery) {
+    query.value = "";
+    autocomplete.sections = [];
+  }
+  document.getElementById("search")?.blur();
+}
+
+function onKeyDown(e) {
+  let index;
+  switch (e.keyCode) {
+    case 27: // ESC
+      document.getElementById("search")?.blur();
+      break;
+
+    case 40: // Arrow down
+      index = visibleElements.value.indexOf(autocomplete.highlighted);
+      if (index === -1 && visibleElements.value.length > 0) {
+        autocomplete.highlighted = visibleElements.value[0];
+      } else if (index >= 0 && index < visibleElements.value.length - 1) {
+        autocomplete.highlighted = visibleElements.value[index + 1];
+      }
+      e.preventDefault();
+      break;
+
+    case 38: // Arrow up
+      index = visibleElements.value.indexOf(autocomplete.highlighted);
+      if (index === 0) {
+        autocomplete.highlighted = null;
+      } else if (index > 0) {
+        autocomplete.highlighted = visibleElements.value[index - 1];
+      }
+      e.preventDefault();
+      break;
+
+    case 13: // Enter
+      if (autocomplete.highlighted !== null) searchGoTo(autocomplete.highlighted, true);
+      else searchGo(false);
+      break;
+    default:
+      break;
+  }
+}
+
+function onInput() {
+  autocomplete.highlighted = null;
+
+  if (query.value.length === 0) {
+    autocomplete.sections = [];
+  } else {
+    const queryId = queryCounter.value;
+    queryCounter.value += 1;
+    useFetch<SearchResponse>(`/api/search?q=${encodeURIComponent(query.value)}`, (d) => {
+      // Data will be cached anyway in case the user hits backspace,
+      // but we need to discard the data here if it arrived out of order.
+      if (queryId > latestUsedQueryId.value) {
+        latestUsedQueryId.value = queryId;
+        autocomplete.sections = extractFacets(d, t);
       }
     });
-  },
-  data() {
-    return {
-      global: useGlobalStore(),
-      keep_focus: false,
-      query: "",
-      autocomplete: {
-        sections: [] as SectionFacet[],
-        highlighted: null as string | null,
-      },
-      // As a simple measure against out-of-order responses
-      // to the autocompletion, we count queries and make sure
-      // that late results will not overwrite the currently
-      // visible results.
-      queryCounter: 0,
-      latestUsedQueryId: null,
-    };
-  },
-  methods: {
-    searchFocus() {
-      this.global.focus_search();
-      this.autocomplete.highlighted = null;
-    },
-    searchBlur() {
-      if (this.keep_focus) {
-        window.setTimeout(() => {
-          // This is relevant if the call is delayed and focused has
-          // already been disabled e.g. when clicking on an entry.
-          if (this.global.search_focused) document.getElementById("search")?.focus();
-        }, 0);
-        this.keep_focus = false;
-      } else {
-        this.global.unfocus_search();
-      }
-    },
-    searchExpand(s) {
-      s.expanded = true;
-    },
-    searchGo(cleanQuery: boolean) {
-      if (this.query.length === 0) return;
+  }
+}
 
-      router.push(`/search?q=${this.query}`);
-      this.global.unfocus_search();
-      if (cleanQuery) {
-        this.query = "";
-        this.autocomplete.sections = [];
-      }
-      document.getElementById("search")?.blur();
-    },
-    searchGoTo(id: string, cleanQuery: boolean) {
-      // Catch is necessary because vue-router throws an error
-      // if navigation is aborted for some reason (e.g. the new
-      // url is the same or there is a loop in redirects)
-      router.push(`/view/${id}`);
-      this.global.unfocus_search();
-      if (cleanQuery) {
-        this.query = "";
-        this.autocomplete.sections = [];
-      }
-      document.getElementById("search")?.blur();
-    },
-    onKeyDown: function (e) {
-      let visible;
-      let index;
-      switch (e.keyCode) {
-        case 27: // ESC
-          document.getElementById("search")?.blur();
-          break;
+const visibleElements = computed<string[]>(() => {
+  const visible: string[] = [];
 
-        case 40: // Arrow down
-          visible = this.getVisibleElements(this.autocomplete);
-          index = visible.indexOf(this.autocomplete.highlighted);
-          if (index === -1 && visible.length > 0) {
-            this.autocomplete.highlighted = visible[0];
-          } else if (index >= 0 && index < visible.length - 1) {
-            this.autocomplete.highlighted = visible[index + 1];
-          }
-          e.preventDefault();
-          break;
+  autocomplete.sections.forEach((section) => {
+    section.entries.forEach((entry, index: number) => {
+      if (section.n_visible === undefined || index < section.n_visible || section.expanded) visible.push(entry.id);
+    });
+  });
+  return visible;
+});
 
-        case 38: // Arrow up
-          visible = this.getVisibleElements(this.autocomplete);
-          index = visible.indexOf(this.autocomplete.highlighted);
-          if (index === 0) {
-            this.autocomplete.highlighted = null;
-          } else if (index > 0) {
-            this.autocomplete.highlighted = visible[index - 1];
-          }
-          e.preventDefault();
-          break;
-
-        case 13: // Enter
-          if (this.autocomplete.highlighted !== null) this.searchGoTo(this.autocomplete.highlighted, true);
-          else this.searchGo(false);
-          break;
-        default:
-          break;
-      }
-    },
-    onInput: function (e) {
-      const q = e.srcElement.value;
-      this.autocomplete.highlighted = null;
-
-      if (q.length === 0) {
-        this.autocomplete.sections = [];
-      } else {
-        const queryId = this.queryCounter;
-        this.queryCounter += 1;
-        useFetch<SearchResponse>(`/api/search?q=${encodeURIComponent(q)}`, (d) => {
-          // Data will be cached anyway in case the user hits backspace,
-          // but we need to discard the data here if it arrived out of order.
-          if (!this.latestUsedQueryId || queryId > this.latestUsedQueryId) {
-            this.latestUsedQueryId = queryId;
-            this.autocomplete.sections = extractFacets(d, this.t);
-          }
-        });
-      }
-    },
-    getVisibleElements: function () {
-      const visible: string[] = [];
-
-      this.autocomplete.sections.forEach((section) => {
-        section.entries.forEach((entry, index: number) => {
-          if (section.n_visible === undefined || index < section.n_visible || section.expanded) visible.push(entry.id);
-        });
-      });
-      return visible;
-    },
-  },
-  setup() {
-    const { t } = useI18n();
-    return { t };
-  },
-};
+onMounted(() => {
+  window.addEventListener("keydown", (e) => {
+    if (
+      (e.key === "s" || e.key === "/") &&
+      document.activeElement?.tagName !== "INPUT" &&
+      document.activeElement?.tagName !== "TEXTAREA"
+    ) {
+      e.preventDefault();
+      document.getElementById("search")?.focus();
+    }
+  });
+});
 </script>
 
 <style lang="scss">
@@ -343,7 +335,7 @@ export default {
           <a
             v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
             @mousedown="keep_focus = true"
-            @click="searchExpand(s)"
+            @click="s.expanded = true"
           >
             +{{ s.entries.length - s.n_visible }} {{ $t("search.hidden") }},
           </a>
