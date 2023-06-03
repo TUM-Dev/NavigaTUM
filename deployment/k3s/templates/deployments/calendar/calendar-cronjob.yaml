@@ -44,6 +44,9 @@ spec:
               requests:
                 cpu: 500m
                 memory: 100Mi
+              limits:
+                cpu: 1000m
+                memory: 200Mi
           restartPolicy: OnFailure
 {{ end }}
 {{ end }}
