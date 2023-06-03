@@ -133,7 +133,6 @@ class EvaluatableQuery(Query):
         )
 
 
-
 @dataclasses.dataclass
 class Evaluations:
     search_endpoint: str

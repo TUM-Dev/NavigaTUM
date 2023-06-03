@@ -182,7 +182,7 @@ def _get_hash_lut() -> dict[str, str]:
     return {}
 
 
-def _save_hash_lut(img_sources:dict[str, list[dict[str, Any]]]) -> None:
+def _save_hash_lut(img_sources: dict[str, list[dict[str, Any]]]) -> None:
     """Save the current image status to the .hash_lut.json file"""
     hashes_lut = {}
     for img_path in IMAGE_SOURCE.glob("*.webp"):
@@ -244,6 +244,8 @@ def load_image_sources() -> dict[str, list[dict[str, Any]]]:
         image_sources = yaml.safe_load(file.read())
     for key in image_sources:
         if not isinstance(key, str):
-            raise ValueError(f"Key '{key}' form `img-sources.yaml` is not a string. "
-                             "This is not allowed, as for integers leading zeros are silently ignored.")
+            raise ValueError(
+                f"Key '{key}' form `img-sources.yaml` is not a string. "
+                "This is not allowed, as for integers leading zeros are silently ignored.",
+            )
     return image_sources

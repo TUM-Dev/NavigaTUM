@@ -1519,7 +1519,7 @@ components:
           description: 'The JWT token, that can be used to generate feedback'
           type: string
         created_at:
-          description: 'Unix timestamp of when the token was created'
+          description: Unix timestamp of when the token was created
           type: integer
           format: int64
       required:
