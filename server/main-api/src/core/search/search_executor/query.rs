@@ -6,15 +6,6 @@ use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
 use meilisearch_sdk::Client;
 use serde::Deserialize;
 
-fn ms_url() -> String {
-    // meilisearch should not be a public service as by their docs
-    format!(
-        "http://{}:{}/",
-        std::env::var("MIELISEARCH_HOST").unwrap_or_else(|_| "localhost".to_string()),
-        std::env::var("MIELISEARCH_PORT").unwrap_or_else(|_| "7700".to_string())
-    )
-}
-
 #[derive(Deserialize, Clone, Debug)]
 #[allow(dead_code)]
 pub(super) struct MSHit {
@@ -52,7 +43,9 @@ impl GeoEntryQuery {
     }
     pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
         let q_default = self.parsed_input.to_default_query();
-        let client = Client::new(ms_url(), std::env::var("MEILI_MASTER_KEY").ok());
+        let ms_url =
+            std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
+        let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
         let entries = client.index("entries");
 
         // Currently ranking is designed to put buildings at the top if they equally
