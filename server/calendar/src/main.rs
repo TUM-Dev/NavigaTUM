@@ -60,7 +60,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Compress::default())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(health_status_handler)
-            .service(web::scope("/api/calendar").configure(calendar::configure))
+            .service(calendar::calendar_handler)
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8060".to_string()))?
     .run()

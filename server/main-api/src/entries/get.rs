@@ -3,7 +3,7 @@ use actix_web::{get, web, HttpResponse};
 use diesel::prelude::*;
 use log::error;
 
-#[get("/get/{id}")]
+#[get("/api/get/{id}")]
 pub async fn get_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<utils::LangQueryArgs>,

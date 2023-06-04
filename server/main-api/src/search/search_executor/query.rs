@@ -1,5 +1,5 @@
-use crate::core::search::search_executor::preprocess;
-use crate::core::search::SanitisedSearchQueryArgs;
+use crate::search::search_executor::preprocess;
+use crate::search::SanitisedSearchQueryArgs;
 use meilisearch_sdk::errors::Error;
 use meilisearch_sdk::indexes::Index;
 use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};

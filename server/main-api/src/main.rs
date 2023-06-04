@@ -2,10 +2,11 @@ use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prometheus::PrometheusMetricsBuilder;
 use std::collections::HashMap;
-mod core;
+mod entries;
 mod maps;
 mod models;
 mod schema;
+mod search;
 mod utils;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
@@ -50,7 +51,9 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(health_status_handler)
             .service(web::scope("/api/preview").configure(maps::configure))
-            .service(web::scope("/api").configure(core::configure))
+            .service(entries::get::get_handler)
+            .service(entries::legacy_redirect::legacy_redirect_handler)
+            .service(search::search_handler)
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?
     .run()
