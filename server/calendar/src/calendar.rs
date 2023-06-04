@@ -13,10 +13,6 @@ pub struct CalendarQueryArgs {
     end: NaiveDateTime,   // eg. 2022-01-07T00:00:00
 }
 
-pub fn configure(cfg: &mut web::ServiceConfig) {
-    cfg.service(calendar_handler);
-}
-
 fn get_calendar_url(requested_key: &str, conn: &mut PgConnection) -> QueryResult<String> {
     use crate::schema::rooms::dsl::*;
     let room = rooms
@@ -41,7 +37,7 @@ fn get_entries(
         .load::<XMLEvent>(conn)
 }
 
-#[get("/{id}")]
+#[get("/api/calendar/{id}")]
 pub async fn calendar_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<CalendarQueryArgs>,

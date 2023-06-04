@@ -27,7 +27,7 @@ fn extract_redirect_base(key: &DBRoomEntry) -> String {
 /// Redirecting to y after a button click or something similar is probably good.
 ///
 /// THIS IS NOT A PERMANENT SOLUTION, AND WILL BE REMOVED IN THE FUTURE
-#[get("/legacy_redirect/{arch_name}")]
+#[get("/api/legacy_redirect/{arch_name}")]
 pub async fn legacy_redirect_handler(params: web::Path<String>) -> HttpResponse {
     let a_name = params.into_inner(); // named like this to not clash with the shema::arch_name
 

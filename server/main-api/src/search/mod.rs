@@ -31,7 +31,7 @@ pub struct SanitisedSearchQueryArgs {
     pub limit_all: usize,
 }
 
-#[get("/search")]
+#[get("/api/search")]
 pub async fn search_handler(
     _req: HttpRequest,
     web::Query(args): web::Query<SearchQueryArgs>,

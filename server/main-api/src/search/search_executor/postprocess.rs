@@ -1,5 +1,5 @@
 use super::preprocess;
-use crate::core::search::search_executor::query::MSHit;
+use crate::search::search_executor::query::MSHit;
 use meilisearch_sdk::search::{SearchResult, SearchResults};
 use unicode_truncate::UnicodeTruncateStr;
 

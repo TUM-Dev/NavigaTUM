@@ -5,7 +5,7 @@ use log::error;
 mod postprocess;
 mod preprocess;
 mod query;
-use crate::core::search::search_executor::preprocess::SearchInput;
+use crate::search::search_executor::preprocess::SearchInput;
 use serde::Serialize;
 
 #[derive(Serialize, Debug, Clone)]
