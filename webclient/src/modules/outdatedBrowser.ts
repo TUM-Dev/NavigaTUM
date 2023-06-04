@@ -1,4 +1,10 @@
-function extractBrowserInfo() {
+type BrowserName = "Opera" | "Edge" | "Chrome" | "Safari" | "Firefox";
+type BrowserInfo = {
+  name: BrowserName;
+  version: number;
+};
+
+function extractBrowserInfo(): BrowserInfo {
   const ua = navigator.userAgent;
   let tem;
   let M = ua.match(/(opera|chrome|safari|firefox(?=\/))\/?\s*(\d+)/i) || [];
@@ -6,7 +12,7 @@ function extractBrowserInfo() {
   if (M[1] === "Chrome") {
     tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
     if (tem != null) {
-      return { name: tem[1].replace("OPR", "Opera"), version: +tem[2] };
+      return { name: tem[1].replace("OPR", "Opera") as BrowserName, version: +tem[2] };
     }
   }
 
@@ -16,10 +22,10 @@ function extractBrowserInfo() {
     M.splice(1, 1, tem[1]);
   }
 
-  return { name: M[0], version: +M[1] };
+  return { name: M[0] as BrowserName, version: +M[1] };
 }
 
-function isSupportedBrowser(browserName: string, browserVersion: number) {
+function isSupportedBrowser(browserName: BrowserName, browserVersion: number) {
   switch (browserName) {
     case "Chrome":
       return 98 >= browserVersion;

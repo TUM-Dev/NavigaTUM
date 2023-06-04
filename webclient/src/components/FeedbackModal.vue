@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useGlobalStore } from "@/stores/global";
-import { watch, ref, reactive } from "vue";
+import { reactive, ref, watch } from "vue";
 import { Translation, useI18n } from "vue-i18n";
 import { useLocalStorage } from "@vueuse/core";
 const { t } = useI18n({
