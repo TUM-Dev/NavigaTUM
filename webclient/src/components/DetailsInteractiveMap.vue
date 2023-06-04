@@ -83,7 +83,7 @@ function addLocationPicker() {
     coord_picker.value.body_backup = global.feedback.body;
     coord_picker.value.force_reopen = true; // reopen after confirm
 
-    global.temprarilyCloseFeedback();
+    global.temporarilyCloseFeedback();
   }
 
   state.map.selected = selectedMap.interactive;

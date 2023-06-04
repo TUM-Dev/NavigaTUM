@@ -36,7 +36,7 @@ function isSupportedBrowser(browserName: string, browserVersion: number) {
   }
 }
 
-function shouldWarnForOutdatedBrowser() {
+function shouldWarnForOutdatedBrowser(): boolean {
   const browser = extractBrowserInfo();
   if (isSupportedBrowser(browser.name, browser.version)) return false;
   const optLastTime = localStorage.getItem("lastOutdatedBrowserWarningTime");
