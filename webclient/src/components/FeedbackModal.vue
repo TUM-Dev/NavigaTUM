@@ -151,7 +151,7 @@ function sendForm() {
 </script>
 
 <template>
-  <div class="modal active" v-if="!successUrl">
+  <div class="modal active" data-cy="feedback-modal" v-if="!successUrl">
     <a class="modal-overlay" :aria-label="$t('close')" @click="mayCloseForm" />
     <div class="modal-container">
       <div class="modal-header">
@@ -287,7 +287,7 @@ function sendForm() {
       </div>
     </div>
   </div>
-  <div class="modal active" v-if="successUrl">
+  <div class="modal active" data-cy="feedback-success-modal" v-if="successUrl">
     <a class="modal-overlay" :aria-label="$t('close')" @click="closeForm" />
     <div class="modal-container">
       <div class="modal-header">
