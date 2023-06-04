@@ -68,7 +68,7 @@ To install Rust, you can use [rustup](https://rustup.rs/).
 The server uses OpenSSL to verify TLS certificates.
 
 ```bash
-sudo apt install build-essential pkg-config openssl libssl-dev
+sudo apt-get install build-essential pkg-config openssl libssl-dev
 ```
 
 #### SQLite
@@ -76,7 +76,7 @@ sudo apt install build-essential pkg-config openssl libssl-dev
 The server uses SQLite
 
 ```bash
-sudo apt install libsqlite3-dev
+sudo apt-get install libsqlite3-dev
 ```
 
 ### Webclient
