@@ -95,12 +95,12 @@ body {
   }
 
   &:active {
-      background: $toast-btn-bg-active;
-      border-color: $light-color;
+    background: $toast-btn-bg-active;
+    border-color: $light-color;
   }
 
   &:focus {
-      background: $toast-btn-bg;
-      border-color: $light-color;
+    background: $toast-btn-bg;
+    border-color: $light-color;
   }
 }

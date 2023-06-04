@@ -13,3 +13,6 @@ no-inline-html:
   allowed_elements:
   - br
   - img
+
+# we have no required-headers
+required-headings: false

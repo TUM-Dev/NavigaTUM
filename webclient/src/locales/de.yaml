@@ -39,7 +39,7 @@ feedback:
   helptext:
     bug: Welchen Fehler hast du gefunden? Wo hast du ihn gefunden? Bitte gib eine genaue Beschreibung an.
     entry: Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten, die du siehst (Namen, Koordinaten, Adressen, ...) anpassen. Was können wir verbessern?
-    feature: Features, die du gerne auf dieser Website haben würdest
+    features: Features, die du gerne auf dieser Website haben würdest
     general: Generelles Feedback über diese Website
     other: 'Feedback ist auf ein Problem gestoßen: Kategorie ungültig'
     search: Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?
@@ -106,8 +106,7 @@ search:
   aria-searchlabel: Suchfeld
   hidden: ausgeblendet
   placeholder: Suche
-  result: Ergebnis
-  results: Ergebnisse
+  results: "{count} Ergebnis | {count} Ergebnisse"
   sections:
     and: und
     buildings: Gebäude / Standorte
@@ -204,6 +203,9 @@ view_view:
       help_others_and: Falls du sie herausfindest, kannst du die
       primary_msg: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
     no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
+  roomfinder_modal:
+    header: Lageplan
+    img_alt: Bild des Lageplans
   rooms_overview:
     any: beliebig
     by_usage: nach Nutzung
@@ -212,8 +214,7 @@ view_view:
     filter: Filter
     filtered: gefiltert
     remove_selection: Auswahl löschen
-    result: Ergebnis
-    results_suffix: se
+    results: "1 Ergebnis | {count} Ergebnisse"
     title: Räume
   slideshow:
     author: Autor

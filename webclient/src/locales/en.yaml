@@ -39,7 +39,7 @@ feedback:
   helptext:
     bug: Which bug did you find? Where did you find it? Please provide a detailed description.
     entry: Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?
-    feature: Features you would like to see on this website
+    features: Features you would like to see on this website
     general: General Feedback about this website
     other: 'Feedback encountered issue: Category invalid'
     search: Feedback about the search. What was your search query? What did you expect to see?
@@ -106,8 +106,7 @@ search:
   aria-searchlabel: Search-field
   hidden: hidden
   placeholder: Search
-  result: result
-  results: results
+  results: "{count} result | {count} results"
   sections:
     and: and
     buildings: Buildings / Sites
@@ -203,7 +202,7 @@ view_view:
     no_floor_overlay: There is unfortunately no indoor map for the displayed room.
   roomfinder_modal:
     header: Site Plan
-    image_alt: Image showing the Site Plan
+    img_alt: Image showing the Site Plan
   rooms_overview:
     any: any
     by_usage: by usage
@@ -212,8 +211,7 @@ view_view:
     filter: Filter
     filtered: filtered
     remove_selection: Remove selection
-    result: result
-    results_suffix: s
+    results: "{count} result | {count} results"
     title: Rooms
   slideshow:
     author: Author
