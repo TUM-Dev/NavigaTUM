@@ -34,3 +34,4 @@ FROM nginx:latest as production-stage
 RUN mkdir /cdn
 COPY --from=build-stage /app/output /cdn
 COPY nginx.conf /etc/nginx/nginx.conf
+EXPOSE 8000
