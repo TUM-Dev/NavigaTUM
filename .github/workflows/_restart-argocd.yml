@@ -18,8 +18,10 @@ jobs:
     name: "Restart the Deployment of ${{ inputs.deployment }}"
     runs-on: ubuntu-latest
     steps:
-      - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
-      - run: |
+      - name: Install the ArgoCD CLI
+        run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
+      -  name: Restart ${{ inputs.deployment }} via the ArgoCD CLI
+         run: |
           echo ${{ github.ref }}
           if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
             echo restarting the production deployment ${{ inputs.deployment }}
