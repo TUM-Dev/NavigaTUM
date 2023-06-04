@@ -217,9 +217,11 @@ impl XMLEvents {
             .unwrap_or_else(|_| "yeIKcuCGSzUCosnPZcKXkGeyUYGTQqUw".to_string());
 
         //get the xml file from TUMonline
+        //why this API uses the tumonline_room_id and not the tumonline_calendar_id like the URLs is unclear
+        //TUMonline apparently thinks this is sane
         let url = format!(
             "{CALENDAR_BASE_URL}?roomID={room_id}&timeMode=absolute&fromDate={from}&untilDate={to}&token={token}&buildingCode=",
-            room_id=task.room.tumonline_calendar_id,
+            room_id=task.room.tumonline_room_id,
             from=task.from.format("%Y%m%d"),
             to=task.to.format("%Y%m%d")
         );
