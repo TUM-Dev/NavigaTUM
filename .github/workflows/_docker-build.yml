@@ -21,7 +21,7 @@ env:
   IMAGE_NAME: ${{ github.repository_owner }}/navigatum-${{ inputs.image_suffix }}
 
 jobs:
-  build-and-push-image:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
