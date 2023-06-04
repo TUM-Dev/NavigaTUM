@@ -42,7 +42,7 @@ export class FloorControl extends Evented implements IControl {
     this.container.appendChild(verticalOpenClose);
   }
 
-  onAdd(map: Map) {
+  onAdd(map: Map): HTMLDivElement {
     this.map = map;
 
     // To change on `fullscreen` click on mobile, we need to
@@ -57,16 +57,16 @@ export class FloorControl extends Evented implements IControl {
     return this.container;
   }
 
-  onRemove() {
+  onRemove(): void {
     this.container.remove();
     this.map = undefined;
   }
 
-  resetFloors() {
+  public resetFloors(): void {
     this.container.classList.remove("visible");
     this.fire("floor-changed", { file: null, coords: undefined });
   }
-  updateFloors(overlays: OverlayMap) {
+  public updateFloors(overlays: OverlayMap): void {
     // `floors` is null or a list of floors with data,
     // `visibleId` is the id of the visible floor.
     this.floor_list.innerHTML = "";
@@ -123,7 +123,7 @@ export class FloorControl extends Evented implements IControl {
   }
 
   // Recalculate the layout for displaying n floor buttons
-  private _recalculateLayout(n: number) {
+  private _recalculateLayout(n: number): void {
     // Calculate required and available size to choose between
     // vertical (default) or horizontal layout
     const mapHeight = document.getElementById("interactive-map")?.clientHeight || 0;
@@ -152,7 +152,7 @@ export class FloorControl extends Evented implements IControl {
     }
   }
 
-  private _setActiveFloor(floorListI: number, name: string) {
+  private _setActiveFloor(floorListI: number, name: string): void {
     for (let i = 0; i < this.floor_list.children.length; i++) {
       if (i === floorListI) this.floor_list.children[i].classList.add("active");
       else this.floor_list.children[i].classList.remove("active");

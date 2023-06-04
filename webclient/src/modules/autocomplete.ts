@@ -4,7 +4,7 @@ type SearchResponse = components["schemas"]["SearchResponse"];
 type RoomEntry = components["schemas"]["RoomEntry"];
 type translation = ReturnType<typeof useI18n>["t"];
 type SitesBuildingsEntry = components["schemas"]["SitesBuildingsEntry"];
-function _allowHighlighting(text: string) {
+function _allowHighlighting(text: string): string {
   /// This function does still parse content only from our internal API (which should not try to pawn us in the
   // first place), but for extra redundancy we sanitise this anyway.
   // It is not done by Vue, as we use `v-html`-Tag to include it in the frontend.

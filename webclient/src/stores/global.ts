@@ -31,7 +31,7 @@ export const useGlobalStore = defineStore({
     unfocusSearchBar(): void {
       this.search_focused = false;
     },
-    openFeedback(category: TokenRequest["category"] = "general", subject = "", body = ""):void {
+    openFeedback(category: TokenRequest["category"] = "general", subject = "", body = ""): void {
       this.feedback.open = true;
       this.feedback.category = category;
       this.feedback.subject = subject;
@@ -43,7 +43,7 @@ export const useGlobalStore = defineStore({
       this.feedback.open = false;
       document.body.classList.remove("no-scroll");
     },
-    showInformationModal(body: string, header: string | null = null) :void{
+    showInformationModal(body: string, header: string | null = null): void {
       this.information_modal = { body, header };
     },
   },
