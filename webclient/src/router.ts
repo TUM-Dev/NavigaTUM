@@ -4,27 +4,35 @@ import NotFoundView from "./views/NotFoundView.vue";
 import SearchView from "./views/SearchView.vue";
 
 const routes = [
-  { path: "/", name: "main", component: MainView },
   {
-    path: "/:view(view|campus|site|building|room|poi)/:id",
-    name: "detail",
+    component: MainView,
+    name: "main",
+    path: "/",
+  },
+  {
     component: () => import("./views/DetailsView.vue"),
+    name: "detail",
+    path: "/:view(view|campus|site|building|room|poi)/:id",
   },
-  { path: "/search", name: "search", component: SearchView },
   {
-    path: "/api",
-    name: "api",
+    component: SearchView,
+    name: "search",
+    path: "/search",
+  },
+  {
     component: () => import("./views/APIView.vue"),
+    name: "api",
+    path: "/api",
   },
   {
-    path: "/about/:name",
-    name: "about",
     component: () => import("./views/AboutView.vue"),
+    name: "about",
+    path: "/about/:name",
   },
   {
-    path: "/:catchAll(.*)*",
-    name: "404",
     component: NotFoundView,
+    name: "404",
+    path: "/:catchAll(.*)*",
   },
 ];
 

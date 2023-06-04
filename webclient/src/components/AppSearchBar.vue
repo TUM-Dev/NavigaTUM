@@ -26,7 +26,7 @@ const queryCounter = ref(0);
 const latestUsedQueryId = ref(-1);
 
 function searchFocus() {
-  global.focus_search();
+  global.focusSearchBar();
   autocomplete.highlighted = null;
 }
 
@@ -39,7 +39,7 @@ function searchBlur() {
     }, 0);
     keep_focus.value = false;
   } else {
-    global.unfocus_search();
+    global.unfocusSearchBar();
   }
 }
 
@@ -47,7 +47,7 @@ function searchGo(cleanQuery: boolean) {
   if (query.value.length === 0) return;
 
   router.push(`/search?q=${query.value}`);
-  global.unfocus_search();
+  global.unfocusSearchBar();
   if (cleanQuery) {
     query.value = "";
     autocomplete.sections = [];
@@ -60,7 +60,7 @@ function searchGoTo(id: string, cleanQuery: boolean) {
   // if navigation is aborted for some reason (e.g. the new
   // url is the same or there is a loop in redirects)
   router.push(`/view/${id}`);
-  global.unfocus_search();
+  global.unfocusSearchBar();
   if (cleanQuery) {
     query.value = "";
     autocomplete.sections = [];

@@ -14,12 +14,12 @@ import * as Sentry from "@sentry/vue";
 import { BrowserTracing } from "@sentry/tracing";
 
 const i18n = createI18n({
-  locale: localStorage.getItem("lang") || "de",
   fallbackLocale: "en",
-  messages: { en, de },
-  legacy: false,
-  missingWarning: true,
   include: "yaml",
+  legacy: false,
+  locale: localStorage.getItem("lang") || "de",
+  messages: { en, de },
+  missingWarning: true,
 });
 
 const app = createApp(App);

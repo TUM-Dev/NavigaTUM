@@ -25,13 +25,13 @@ export const useGlobalStore = defineStore({
     },
   }),
   actions: {
-    focus_search() {
+    focusSearchBar(): void {
       this.search_focused = true;
     },
-    unfocus_search() {
+    unfocusSearchBar(): void {
       this.search_focused = false;
     },
-    openFeedback(category: TokenRequest["category"] = "general", subject = "", body = "") {
+    openFeedback(category: TokenRequest["category"] = "general", subject = "", body = ""):void {
       this.feedback.open = true;
       this.feedback.category = category;
       this.feedback.subject = subject;
@@ -39,15 +39,11 @@ export const useGlobalStore = defineStore({
 
       document.body.classList.add("no-scroll");
     },
-    temprarilyCloseFeedback() {
+    temporarilyCloseFeedback(): void {
       this.feedback.open = false;
       document.body.classList.remove("no-scroll");
     },
-    reopenFeedback() {
-      this.feedback.open = false;
-      document.body.classList.remove("no-scroll");
-    },
-    showInformationModal(body: string, header: string | null = null) {
+    showInformationModal(body: string, header: string | null = null) :void{
       this.information_modal = { body, header };
     },
   },
