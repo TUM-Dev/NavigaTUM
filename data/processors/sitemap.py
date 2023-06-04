@@ -48,8 +48,8 @@ def _download_old_data():
         req.add_header("Accept-Encoding", "gzip")
         with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
             return json.loads(gzip.decompress(resp.read()).decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        logging.warning(f"Could not download online data because of {e}. Assuming all entries are new.")
+    except urllib.error.HTTPError as error:
+        logging.warning(f"Could not download online data because of {error}. Assuming all entries are new.")
         return {}
 
 
