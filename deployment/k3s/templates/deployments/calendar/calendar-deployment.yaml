@@ -47,6 +47,7 @@ spec:
                   name: postgres-db-secret
                   key: password
           securityContext:
+            allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             capabilities:
               drop:

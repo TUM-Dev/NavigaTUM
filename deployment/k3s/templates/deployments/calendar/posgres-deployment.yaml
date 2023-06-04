@@ -54,4 +54,6 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: db-vol
+          securityContext:
+            allowPrivilegeEscalation: false
   {{ end }}
