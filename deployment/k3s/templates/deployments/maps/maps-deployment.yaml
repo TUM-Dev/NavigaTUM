@@ -65,6 +65,7 @@ spec:
               mountPath: /data/styles/osm_liberty.json
               subPath: osm_liberty.json
           securityContext:
+            allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             capabilities:
               drop:

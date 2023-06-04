@@ -58,6 +58,7 @@ spec:
             - containerPort: 8070
               name: feedback
           securityContext:
+            allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
           resources:
             requests:
