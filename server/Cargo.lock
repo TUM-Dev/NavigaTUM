@@ -1905,6 +1905,7 @@ dependencies = [
  "futures",
  "image",
  "imageproc",
+ "lazy_static",
  "log",
  "meilisearch-sdk",
  "pretty_assertions",
