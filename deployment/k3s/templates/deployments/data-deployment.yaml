@@ -51,7 +51,6 @@ spec:
             failureThreshold: 60
             periodSeconds: 1
           securityContext:
-            allowPrivilegeEscalation: false
             capabilities:
               drop:
               - ALL
