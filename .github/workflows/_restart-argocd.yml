@@ -13,17 +13,18 @@ on:
         description: Token to authenticate with ArgoCD
 
 jobs:
-  webclient-deployment:
+  deployment:
     if: github.ref == 'refs/heads/main'
-    name: "Restart Deployment navigatum-webclient"
+    name: "Restart the Deployment of ${{ inputs.deployment }}"
     runs-on: ubuntu-latest
     steps:
       - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
-      - run: argocd app actions run navigatum-prod restart --kind Deployment --resource-name ${{ inputs.deployment }} --auth-token ${{ secrets.ARGOCD_TOKEN }} --server argocd.nav.tum.sexy
-  webclient-staging-deployment:
-    if: github.ref != 'refs/heads/main'
-    name: "Restart staging Deployment"
-    runs-on: ubuntu-latest
-    steps:
-      - run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
-      - run: argocd app actions run pr-${{github.event.number}} restart --kind Deployment --resource-name ${{ inputs.deployment }} --auth-token ${{ secrets.ARGOCD_TOKEN }} --server argocd.nav.tum.sexy
+      - run: |
+          echo ${{ github.ref }}
+          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+            echo restarting the production deployment ${{ inputs.deployment }}
+            argocd app actions run navigatum-prod restart --kind Deployment --resource-name ${{ inputs.deployment }} --auth-token ${{ secrets.ARGOCD_TOKEN }} --server argocd.nav.tum.sexy
+          else
+            echo restarting the staging deployment ${{ inputs.deployment }}
+            argocd app actions run pr-${{github.event.number}} restart --kind Deployment --resource-name ${{ inputs.deployment }} --auth-token ${{ secrets.ARGOCD_TOKEN }} --server argocd.nav.tum.sexy
+          fi
