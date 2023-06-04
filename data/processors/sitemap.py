@@ -27,19 +27,11 @@ def generate_sitemap():
     with open("output/api_data.json", encoding="utf-8") as file:
         new_data = json.load(file)
 
-    # Currently online data
-    try:
-        req = urllib.request.Request("https://nav.tum.de/cdn/api_data.json")
-        req.add_header("Accept-Encoding", "gzip")
-        with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
-            old_data = json.loads(gzip.decompress(resp.read()).decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        logging.warning(f"Could not download online data because of {e}. Assuming all entries are new.")
-        old_data = {}
     # Look whether there are currently online sitemaps for the provided
     # sitemaps name. In case there aren't, we assume this sitemap is new,
     # and all entries will be marked as changed.
     old_sitemaps = _download_online_sitemaps(["room", "other"])
+    old_data = _download_old_data()
 
     sitemaps = _extract_sitemap_data(new_data, old_data, old_sitemaps)
 
@@ -47,6 +39,18 @@ def generate_sitemap():
         _write_sitemap_xml(f"output/sitemap-data-{name}.xml", sitemap)
 
     _write_sitemapindex_xml("output/sitemap.xml", sitemaps)
+
+
+def _download_old_data():
+    """Download the currently online data from the server"""
+    try:
+        req = urllib.request.Request("https://nav.tum.de/cdn/api_data.json")
+        req.add_header("Accept-Encoding", "gzip")
+        with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
+            return json.loads(gzip.decompress(resp.read()).decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        logging.warning(f"Could not download online data because of {e}. Assuming all entries are new.")
+        return {}
 
 
 def _extract_sitemap_data(new_data, old_data, old_sitemaps) -> dict[str, list[dict[str, Union[str, float, datetime]]]]:
