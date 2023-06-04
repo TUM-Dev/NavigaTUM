@@ -1,7 +1,7 @@
 FROM node:20 as build-stage
 WORKDIR /app
 RUN apt-get update &&  \
-    apt-get install rsync=3.2.7 -y --no-install-recommends
+    apt-get install rsync=3.2.3-4+deb11u1 -y --no-install-recommends
 COPY package*.json ./
 RUN npm install
 
