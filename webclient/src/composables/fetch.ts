@@ -11,11 +11,11 @@ export function useFetch<T>(
 
   // Add language query param to the request
   const lang = document.documentElement.lang;
-  url += (url.indexOf("?") != -1 ? "&lang=" : "?lang=") + lang;
+  const localisedUrl = url + (url.indexOf("?") != -1 ? "&lang=" : "?lang=") + lang;
 
   const global = useGlobalStore();
   const fetchErrorHandler = errorHandler || ((err: string) => (global.error_message = err));
-  fetch(url)
+  fetch(localisedUrl)
     .then((res) => {
       if (res.status < 200 || res.status >= 300) throw res.statusText;
       return res.json();
