@@ -68,7 +68,7 @@ spec:
             - mountPath: /tmp
               name: tmp-server
           securityContext:
-            allowPrivilegeEscalation: true
+            allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
           resources:
             requests:
