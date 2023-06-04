@@ -35,6 +35,7 @@ Ensure that _NavigaTUM-server_ is running in the background:
 - via [docker](https://docs.docker.com/)  
    _docker isolates the network, but we want these two containers to communicate to each other without being as brittle as IPs._  
    _Naming the `navigatum-mieli-search` container `search` makes us able to connect to it via <`http://search:7700`> from the server_
+
   ```bash
   docker network create navigatum-net
   docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
@@ -131,19 +132,23 @@ There are a few ways of running cypress
 #### Running headless
 
 For running headless, it is assumed, that you are on a normal machine (not a mac) and have [Chrome](https://www.google.com/intl/de/chrome/) + [Firefox Developer Edition](https://www.mozilla.org/de/firefox/developer/) installed.
+
 ```bash
 npm run test
 ```
+
 There are also some subtargets preconfigured like `cy:run:chrome` and `cy:run:firefox`, but likely for debugging you want the second mode.
 
 #### Running headed
 
 The interface for interacting with cypress can be opened via
+
 ```bash
 npm run cy:open
 ```
 
 ### Writing Tests
+
 Our Cypress test suite is located in the cypress directory, organized into different files and folders based on the features and components being tested.
 Each test file follows the naming convention `<name>.spec.ts`.
 
@@ -153,12 +158,13 @@ You can find detailed documentation and examples in the official Cypress documen
 When writing new tests, please ensure to follow our established conventions and guidelines to maintain consistency across the codebase.
 Additionally, make sure to write descriptive test cases that cover different scenarios and edge cases to thoroughly validate the functionality of our frontend.
 
-
 ### Continuous Integration
+
 We have integrated Cypress tests into our CI/CD pipeline to ensure that all changes to the frontend are thoroughly tested before deployment.
 Every push and pull request triggers a build that runs the Cypress tests automatically.
 This helps us catch any regressions or issues early in the development process.
 
 ### Reporting Issues
+
 If you encounter any problems while running the Cypress tests or have suggestions for improving the testing framework, please open an issue/pull request on this repository.
 We appreciate your feedback and contributions.

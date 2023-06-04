@@ -2,7 +2,7 @@
 
 ## Publisher
 
-```
+```raw
 Technische Universität München
 Postanschrift: Arcisstraße 21, 80333 München
 Telefon: +49-(0)89-289-17123
@@ -19,7 +19,7 @@ Die Technische Universität München wird gesetzlich vertreten durch den Präsid
 
 ## Responsible for the content
 
-```
+```raw
 Frank Elsinga
 Postal address: Josef-Fischhaber-Straße 46, 82319 Starnberg, Germany
 Telephone: +49-(0)176 - 56-727-579
