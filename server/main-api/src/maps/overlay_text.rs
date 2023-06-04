@@ -1,7 +1,7 @@
-use cached::lazy_static::lazy_static;
 use image::Rgba;
 use imageproc::definitions::HasBlack;
 use imageproc::drawing::{draw_text_mut, text_size};
+use lazy_static::lazy_static;
 use rusttype::{Font, Scale};
 
 lazy_static! {
