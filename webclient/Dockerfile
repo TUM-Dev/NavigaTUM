@@ -22,4 +22,4 @@ FROM nginx:latest as production-stage
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir /app && apt update && apt upgrade -y
 COPY --from=build-stage /dist /app
-EXPOSE 80
+EXPOSE 9000
