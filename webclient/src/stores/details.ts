@@ -44,11 +44,11 @@ export const useDetailsStore = defineStore({
     },
   }),
   actions: {
-    selectedRoomfinderMap: function () {
+    selectedRoomfinderMap: function (): RoomfinderMapEntry | undefined {
       const index = this.map.roomfinder.selected_index;
       return this.data?.maps.roomfinder?.available[index];
     },
-    showImageSlideshow: function (i: number, openSlideshow = true) {
+    showImageSlideshow: function (i: number, openSlideshow = true): void {
       if (this.data?.imgs && this.data.imgs[i]) {
         this.image.slideshow_open = openSlideshow;
         this.image.shown_image_id = i;
@@ -59,10 +59,10 @@ export const useDetailsStore = defineStore({
         this.image.shown_image = null;
       }
     },
-    hideImageSlideshow: function () {
+    hideImageSlideshow: function (): void {
       this.image.slideshow_open = false;
     },
-    loadData: function (d: DetailsResponse) {
+    loadData: function (d: DetailsResponse): void {
       this.showImageSlideshow(0, false);
 
       // --- Maps ---

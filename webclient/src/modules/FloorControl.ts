@@ -1,5 +1,5 @@
 import { Evented } from "maplibre-gl";
-import type { Map, IControl } from "maplibre-gl";
+import type { IControl, Map } from "maplibre-gl";
 import type { components } from "@/api_types";
 type OverlayMapEntry = components["schemas"]["OverlayMapEntry"];
 type OverlayMap = {

@@ -2,7 +2,7 @@
 import { getLocalStorageWithExpiry, setLocalStorageWithExpiry } from "@/composables/storage";
 import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
 import { Map, Marker } from "maplibre-gl";
-import { NavigationControl, FullscreenControl, AttributionControl, GeolocateControl } from "maplibre-gl";
+import { AttributionControl, FullscreenControl, GeolocateControl, NavigationControl } from "maplibre-gl";
 import { selectedMap, useDetailsStore } from "@/stores/details";
 import type { Coord } from "@/stores/global";
 import { useGlobalStore } from "@/stores/global";

@@ -4,7 +4,7 @@ import router from "@/router";
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
 import { useFetch } from "@/composables/fetch";
-import { ref, reactive, onMounted, computed } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import type { SectionFacet } from "@/modules/autocomplete";
 import type { components } from "@/api_types";
 

@@ -1,10 +1,11 @@
+const MS_PER_HOUR = 3.6e6;
 export function setLocalStorageWithExpiry<T>(key: string, value: T, ttl: number) {
   // ttl in hours
   const now = new Date();
 
   const item = {
-    value: value,
-    expiry: now.getTime() + ttl * 3.6e6,
+    expiry: now.getTime() + ttl * MS_PER_HOUR,
+    value,
   };
   localStorage.setItem(key, JSON.stringify(item));
 
@@ -26,7 +27,7 @@ export function getLocalStorageWithExpiry<T>(key: string, defaultValue: T): T {
   return item.value;
 }
 
-export function removeLocalStorage(key: string) {
+export function removeLocalStorage(key: string): void {
   localStorage.removeItem(key);
   const e = new Event("storage");
   window.dispatchEvent(e);
