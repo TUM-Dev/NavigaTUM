@@ -31,7 +31,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
-              name: cdn
+              name: http
           resources:
             requests:
               cpu: 5m
@@ -41,13 +41,13 @@ spec:
           livenessProbe:
             httpGet:
               path: /cdn/health
-              port: cdn
+              port: http
             failureThreshold: 3
             periodSeconds: 1
           startupProbe:
             httpGet:
               path: /cdn/health
-              port: cdn
+              port: http
             failureThreshold: 60
             periodSeconds: 1
           securityContext:
