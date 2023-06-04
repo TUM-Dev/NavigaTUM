@@ -13,15 +13,19 @@ pub struct CalendarQueryArgs {
     end: NaiveDateTime,   // eg. 2022-01-07T00:00:00
 }
 
-fn get_calendar_url(requested_key: &str, conn: &mut PgConnection) -> QueryResult<String> {
+fn get_room_information(
+    requested_key: &str,
+    conn: &mut PgConnection,
+) -> QueryResult<(String, NaiveDateTime)> {
     use crate::schema::rooms::dsl::*;
     let room = rooms
         .filter(key.eq(requested_key))
         .first::<crate::models::Room>(conn)?;
-    Ok(format!(
-        "https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={}",
-        room.tumonline_calendar_id
-    ))
+    let calendar_url = format!(
+        "https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={id}",
+        id = room.tumonline_calendar_id
+    );
+    Ok((calendar_url, room.last_scrape))
 }
 
 fn get_entries(
@@ -45,14 +49,14 @@ pub async fn calendar_handler(
     let id = params.into_inner();
     let conn = &mut utils::establish_connection();
     let results = get_entries(&id, args, conn);
-    let calendar_url = get_calendar_url(&id, conn);
-    match (results, calendar_url) {
-        (Ok(results), Ok(calendar_url)) => {
-            let last_sync = results.iter().map(|e| e.last_scrape).min().unwrap();
+    let room_information = get_room_information(&id, conn);
+    match (results, room_information) {
+        (Ok(results), Ok((calendar_url, last_room_sync))) => {
+            let last_calendar_sync = results.iter().map(|e| e.last_scrape).min();
             let events = results.into_iter().map(Event::from).collect();
             HttpResponse::Ok().json(Events {
                 events,
-                last_sync,
+                last_sync: last_calendar_sync.unwrap_or(last_room_sync),
                 calendar_url,
             })
         }
