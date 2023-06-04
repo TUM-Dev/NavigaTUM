@@ -114,12 +114,9 @@ function genDescription(): string {
             </RouterLink>
           </li>
         </ul>
-        <p class="search-comment nb_results" v-if="s.estimatedTotalHits === 1">
-          {{ s.estimatedTotalHits }} {{ $t("search.result") }}
-        </p>
-        <p class="search-comment nb_results" v-else>
+        <p class="search-comment nb_results">
           {{ s.estimatedTotalHits > 20 ? $t("search.approx") : "" }}
-          {{ s.estimatedTotalHits }} {{ $t("search.results")
+          {{ $t("search.results", s.estimatedTotalHits)
           }}{{ s.estimatedTotalHits > 10 ? ", " + $t("view_search.max_results") : "" }}
         </p>
       </section>

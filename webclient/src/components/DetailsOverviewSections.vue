@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import { useDetailsStore } from "@/stores/details";
+
 type RoomChild = { readonly id: string; readonly name: string };
 const state = useDetailsStore();
 const combined_list = computed(() => {
@@ -24,6 +25,7 @@ watch(
   () => [search.value, selected.value],
   () => updateRoomsOverview()
 );
+
 function updateRoomsOverview() {
   console.log("updateRoomsOverview");
   const rooms_overview = state.data?.sections?.rooms_overview;
@@ -209,16 +211,10 @@ function updateRoomsOverview() {
             </ul>
           </div>
           <div class="panel-footer">
-            <small>
-              {{
-                selected === null
-                  ? $t("view_view.rooms_overview.choose_usage")
-                  : display_list.length +
-                    " " +
-                    $t("view_view.rooms_overview.result") +
-                    (display_list.length === 1 ? "" : $t("view_view.rooms_overview.results_suffix")) +
-                    (search === "" ? "" : `(${$t("view_view.rooms_overview.filtered")})`)
-              }}
+            <small v-if="selected === null">{{ $t("view_view.rooms_overview.choose_usage") }}</small>
+            <small v-else>
+              {{ $t("view_view.rooms_overview.results", display_list.length) }}
+              {{ search === "" ? "" : `(${$t("view_view.rooms_overview.filtered")})` }}
             </small>
           </div>
         </div>
@@ -229,6 +225,7 @@ function updateRoomsOverview() {
 
 <style lang="scss">
 @import "../assets/variables";
+
 #building-overview {
   a {
     text-decoration: none !important;

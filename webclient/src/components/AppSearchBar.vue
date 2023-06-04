@@ -340,8 +340,7 @@ onMounted(() => {
             +{{ s.entries.length - s.n_visible }} {{ $t("search.hidden") }},
           </a>
           <template>
-            {{ s.estimatedTotalHits > 20 ? $t("search.approx") : "" }}{{ s.estimatedTotalHits }}
-            {{ s.estimatedTotalHits === 1 ? $t("search.result") : $t("search.results") }}
+            {{ s.estimatedTotalHits > 20 ? $t("search.approx") : "" }}{{ $t("search.results", s.estimatedTotalHits) }}
           </template>
         </li>
       </template>

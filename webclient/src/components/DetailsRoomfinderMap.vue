@@ -149,7 +149,7 @@ function delayedLoadRoomfinderModalMap() {
             id="roomfinder-modal-map-cross"
           />
           <img
-            :alt="$t('view_view.map.img_alt')"
+            :alt="$t('view_view.roomfinder_modal.img_alt')"
             :src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap()?.file"
             class="img-responsive"
             :width="state.map.roomfinder.width"
