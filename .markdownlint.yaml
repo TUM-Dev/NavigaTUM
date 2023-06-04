@@ -1,0 +1,15 @@
+default: true
+
+# line_length: sometimes it is better to have a line longer than 80 characters than to break it up,
+# as some html tags are not allowed to be broken up
+line-length: false
+
+# no-duplicate-heading:
+no-duplicate-heading:
+  siblings_only: true
+
+# Inline HTML
+no-inline-html:
+  allowed_elements:
+  - br
+  - img

@@ -61,7 +61,7 @@ repos:
     hooks:
       - id: add-trailing-comma
   - repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: 23.3.0
     hooks:
       - id: black
         language_version: python3
@@ -78,7 +78,7 @@ repos:
         language: system
         types: [python]
   - repo: https://github.com/PyCQA/flake8
-    rev: 5.0.4
+    rev: 6.0.0
     hooks:
       - id: flake8
         additional_dependencies:
@@ -104,8 +104,14 @@ repos:
         language: system
         types: [python]
         exclude: migrations
+  # markdown
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.7.1
+    hooks:
+      - id: markdownlint-cli2-fix
+        exclude: .github/pull_request_template.md
   - repo: https://github.com/gruntwork-io/pre-commit
-    rev: v0.1.19
+    rev: v0.1.22
     hooks:
       - id: shellcheck
       # - id: markdown-link-check

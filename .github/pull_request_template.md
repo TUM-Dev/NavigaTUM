@@ -16,7 +16,7 @@ Fixes #
 -
 -
 
-## Checklist:
+## Checklist
 
 - [ ] I have updated the documentation / No need to update the documentation
 - [ ] I have run the linter

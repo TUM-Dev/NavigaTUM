@@ -8,7 +8,7 @@ The responsible person within the meaning of the data protection laws, in partic
 
 Frank Elsinga representing ["OpenSource @ TUM e.V."](https://tum.dev).
 
-```
+```raw
 Postal address: Josef-Fischhaber-Strasse 46, 82319 Starnberg, Germany.
 Telephone: (0049/0)176 - 56-727-579
 E-mail: navigatum (at-symbol) tum.de
@@ -16,7 +16,7 @@ E-mail: navigatum (at-symbol) tum.de
 
 ### Contact details of the data protection officer
 
-```
+```raw
 The Data Protection Officer of the Technical University of Munich
 Postal address: Arcisstr. 21, 80333 Munich, Germany
 Telephone: 089/289-17052
@@ -37,7 +37,7 @@ For non-public communication, please refer to the contact option via the [Imprin
 
 The technical operation of our data processing systems is carried out by:
 
-```
+```raw
 Leibniz Computing Centre (LRZ) of the Bavarian Academy of Sciences and Humanities
 Boltzmannstraße 1
 D-85748 Garching near Munich
@@ -53,7 +53,7 @@ In the event of electronic transmission, data may be forwarded to the State Offi
 
 ### Duration of storage of personal data
 
-#### Feedback:
+#### Feedback
 
 The data voluntarily provided by a user will not be technically deleted unless the user so requests.
 
@@ -78,7 +78,7 @@ You have the right to object to the processing of your data at any time on groun
 Furthermore, you have the right to lodge a complaint with the Bavarian State Commissioner for Data Protection.
 You can contact the Bavarian State Commissioner for Data Protection at the following address:
 
-```
+```raw
 Postal address: P.O. Box 22 12 19, 80502 Munich, Germany.
 Address: Wagmüllerstraße 18, 80538 Munich, Germany
 Telephone: 089 212672-0
@@ -109,7 +109,7 @@ For more detailed information on the processing of your data and your rights, yo
 Our web server is operated by the Leibniz Computing Centre of the Bavarian Academy of Sciences and Humanities (LRZ).
 The personal data you transmit when visiting our website is therefore processed by the LRZ on our behalf:
 
-```
+```raw
 Leibniz Computing Centre (LRZ) of the Bavarian Academy of Sciences and Humanities
 Boltzmannstrasse 1
 D-85748 Garching near Munich
@@ -176,15 +176,15 @@ You can delete individual cookies or the entire cookie inventory.
 In addition, you will receive information and instructions on how to delete these cookies or block their storage in advance.
 Depending on the provider of your browser, you will find the necessary information under the following links:
 
-- Mozilla Firefox: https://support.mozilla.org/de/kb/cookies-loeschen-daten-von-websites-entfernen
-- Internet Explorer: https://support.microsoft.com/de-de/help/17442/windows-internet-explorer-delete-manage-cookies
-- Google Chrome: https://support.google.com/accounts/answer/61416?hl=de
-- Opera: http://www.opera.com/de/help
-- Safari: https://support.apple.com/kb/PH17191?locale=de_DE&viewlocale=de_DE
+- Mozilla Firefox: <https://support.mozilla.org/de/kb/cookies-loeschen-daten-von-websites-entfernen>
+- Internet Explorer: <https://support.microsoft.com/de-de/help/17442/windows-internet-explorer-delete-manage-cookies>
+- Google Chrome: <https://support.google.com/accounts/answer/61416?hl=de>
+- Opera: <http://www.opera.com/de/help>
+- Safari: <https://support.apple.com/kb/PH17191?locale=de_DE&viewlocale=de_DE>
 
 #### Technically necessary cookies
 
-**Type and purpose of processing:**
+##### Type and purpose of processing
 
 We use cookies to make our website more user-friendly.
 Some elements of our website require that settings selected by the user are also available after a page change.
@@ -199,7 +199,7 @@ We require cookies for the following applications:
 This website uses these cookies solely for the purpose of storing language and theme settings.
 A corresponding, non-personal, cookie is only set when the default setting is changed.
 
-**Storage period**
+##### Storage period
 
 Cookies are not logged or stored on the server side.
 Therefore, tracking via cookies is not possible.
@@ -214,13 +214,13 @@ A traceability to the person is only possible insofar as personal data is contai
 In addition to the data provided by the user, the room about which feedback was given, the date and the time of the feedback creation are also sent.
 It is also stored whether the user wishes the transmitted data to be deleted after the feedback processing has been completed.
 
-**Recipient**
+#### Recipient
 
 The transmitted feedback is stored publicly accessible on [GitHub](https://github.com/TUM-Dev/navigatum/issues) as part of our commitment to transparency.
 This means that they are not technically limited to one group of people.
 The user is presented with an issue link to track the processing of the feedback.
 If the user has requested immediate deletion, this function can no longer be technically provided.
 
-**Provision mandatory or required:**
+#### Provision mandatory or required
 
 The provision of this non-personal data is voluntary.
