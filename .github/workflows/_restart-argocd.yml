@@ -14,7 +14,6 @@ on:
 
 jobs:
   deployment:
-    if: github.ref == 'refs/heads/main'
     name: "Restart the Deployment of ${{ inputs.deployment }}"
     runs-on: ubuntu-latest
     steps:
