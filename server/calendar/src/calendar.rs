@@ -38,6 +38,7 @@ fn get_entries(
         .filter(key.eq(&requested_key))
         .filter(dtstart.ge(&args.start))
         .filter(dtend.le(&args.end))
+        .order(dtstart)
         .load::<XMLEvent>(conn)
 }
 
