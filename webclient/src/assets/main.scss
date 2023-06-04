@@ -60,10 +60,11 @@ body {
   to { opacity: 1; }
 }
 
-// --- Menu general
+/* --- Menu general --- */
 
 #app .menu .menu-item > a,
-#app .menu .menu-item > button {  // Overwrite spectre
+#app .menu .menu-item > button {
+  /* Overwrite spectre */
   &:focus,
   &:hover {
     background: $theme-accent;
@@ -75,13 +76,13 @@ body {
   margin-top: 0;
 }
 
-// --- Cards
+/* --- Cards --- */
 #app .card {
   box-shadow: $card-shadow;
   border-radius: 4px;
 }
 
-// --- Toast buttons
+/* --- Toast buttons --- */
 .toast .btn {
   background: $toast-btn-bg;
   color: $light-color;
