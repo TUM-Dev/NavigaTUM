@@ -23,3 +23,5 @@ COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir /app && apt update && apt upgrade -y
 COPY --from=build-stage /dist /app
 EXPOSE 9000
+
+CMD ["nginx", "-g", "daemon off;"]

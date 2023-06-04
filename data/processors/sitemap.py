@@ -28,11 +28,14 @@ def generate_sitemap():
         new_data = json.load(file)
 
     # Currently online data
-    req = urllib.request.Request("https://nav.tum.de/cdn/api_data.json")
-    req.add_header("Accept-Encoding", "gzip")
-    with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
-        old_data = json.loads(gzip.decompress(resp.read()).decode("utf-8"))
-
+    try:
+        req = urllib.request.Request("https://nav.tum.de/cdn/api_data.json")
+        req.add_header("Accept-Encoding", "gzip")
+        with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
+            old_data = json.loads(gzip.decompress(resp.read()).decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        logging.warning(f"Could not download online data because of {e}. Assuming all entries are new.")
+        old_data = {}
     # Look whether there are currently online sitemaps for the provided
     # sitemaps name. In case there aren't, we assume this sitemap is new,
     # and all entries will be marked as changed.
