@@ -14,7 +14,7 @@ on:
 
 jobs:
   deployment:
-    name: "Restart the Deployment of ${{ inputs.deployment }}"
+    name: Restart the deployment
     runs-on: ubuntu-latest
     steps:
       - name: Install the ArgoCD CLI
