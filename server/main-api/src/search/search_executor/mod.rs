@@ -4,8 +4,8 @@ use log::error;
 
 mod formatter;
 mod lexer;
+mod merger;
 mod parser;
-mod postprocess;
 mod query;
 
 use crate::search::search_executor::parser::ParsedQuery;
@@ -50,7 +50,7 @@ pub async fn do_geoentry_search(
         .await
     {
         Ok(response) => {
-            let (section_buildings, mut section_rooms) = postprocess::merge_search_results(
+            let (section_buildings, mut section_rooms) = merger::merge_search_results(
                 &args,
                 response.results.get(0).unwrap(),
                 response.results.get(1).unwrap(),
