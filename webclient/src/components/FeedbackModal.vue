@@ -120,7 +120,7 @@ function _send() {
         // we reset the token here to be sure that it is the cause of the error
         token.value = null;
         const unexpectedStatusError = t("feedback.error.send_unexpected_status");
-        _showError(`${unexpectedStatusError}${r.status}`, false);
+        _showError(`${unexpectedStatusError}: ${r.status}`, false);
       }
     })
     .catch((r) => {
@@ -254,10 +254,20 @@ function sendForm() {
                   </a>
                 </template>
                 <template v-slot:imprint_url>
-                  <a href="/about/impressum" target="_blank">{{ $t("feedback.public.imprint") }}</a>
+                  <RouterLink to="/about/impressum">
+                    {{ $t("feedback.public.imprint") }}
+                  </RouterLink>
                 </template>
               </Translation>
-              <Translation keypath="feedback.public.legal_fluff" tag="span">
+              <span>
+                {{ $t("feedback.public.processing_based_on_gdpr") }}
+              </span>
+              <span>
+                {{ $t("feedback.public.right_to_information") }}
+                {{ $t("feedback.public.right_of_appeal") }}
+                {{ $t("feedback.public.objection_instruction") }}
+              </span>
+              <Translation keypath="feedback.public.question_contact" tag="span">
                 <template v-slot:tum_data_protection_url>
                   <a href="https://datenschutz.tum.de" target="_blank">datenschutz.tum.de</a>
                 </template>
