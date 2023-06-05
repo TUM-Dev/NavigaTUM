@@ -371,11 +371,19 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
     <div>
       <div id="interactive-map" class="loading" v-if="webglSupport" />
       <template v-else>
-        {{ $t("view_view.map.no_webgl.no_browser_support") }} <br />
-        {{ $t("view_view.map.no_webgl.please_try") }}
+        {{ $t("view_view.map.no_webgl.no_browser_support") }}
+        {{ $t("view_view.map.no_webgl.explain_webgl") }} <br />
+        {{ $t("view_view.map.no_webgl.please_try") }}:
         <ol>
-          <li>{{ $t("view_view.map.no_webgl.upgrade_browser") }}</li>
-          <li>{{ $t("view_view.map.no_webgl.try_different_browser") }}</li>
+          <li>
+            {{ $t("view_view.map.no_webgl.upgrade_browser") }}
+            {{ $t("view_view.map.no_webgl.visit_official_website_to_upgrade_browser") }}
+          </li>
+          <li>
+            {{ $t("view_view.map.no_webgl.try_different_browser") }}
+            {{ $t("view_view.map.no_webgl.known_good_browsers") }}
+            {{ $t("view_view.map.no_webgl.try_different_browser2") }}
+          </li>
         </ol>
       </template>
     </div>

@@ -48,7 +48,7 @@ repos:
     hooks:
       - id: webclient-fmt
         name: npm run lint
-        entry: cd webclient && npm run lint
+        entry: npm run --prefix webclient lint
         language: system
         pass_filenames: false
   # only data
@@ -116,3 +116,10 @@ repos:
       - id: shellcheck
       # - id: markdown-link-check
       #       ^-- can detect wrong links in our docs, but has a lot of false positives. Only run it sometimes.
+  - repo: local
+    hooks:
+      - id: webclient-locale-diff
+        name: check that the webclient locale files are up to date
+        entry: python webclient/src/locales/check_locales.py
+        language: system
+        pass_filenames: false

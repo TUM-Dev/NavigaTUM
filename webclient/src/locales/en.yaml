@@ -1,9 +1,9 @@
 close: Close
 core_js:
   error:
-    "404": 404 Not found
-    "500": 500 Internal Server Error
-    "503": 503 Service Unavailable – Please try again soon
+    '404': 404 Not found
+    '500': 500 Internal Server Error
+    '503': 503 Service Unavailable – Please try again soon
     network: Network Error, please verify that you are connected to the Internet
     status: 'Unexpected status code: '
     unknown: Unknown Error
@@ -24,13 +24,16 @@ feedback:
     title: Select coordinate
   delete: Delete this GitHub issue when resolved.
   error:
-    "429": Sending feedback is currently not possible due to rate-limiting. Please try again in a while or send a mail.
-    "503": Sending feedback is currently not configured on the server.
-    privacy_not_checked: 'Unavailable for legal reasons: You have to accept the privacy statement for us to process the feedback via GitHub. There are other means of contact listed at in our impressum.'
+    '429': Sending feedback is currently not possible due to rate-limiting. Please try again in a while or send a mail.
+    '503': Sending feedback is currently not configured on the server.
+    privacy_not_checked:
+      other_contact_options: There are other means of contact listed at in our impressum.'
+      please_accept_privcacy_statement: You have to accept the privacy statement for us to process the feedback via GitHub.
+      unavailable_for_legal_reasons: Unavailable for legal reasons
     send_invalid_token: Invalid form token (probably expired). Please copy the text and re-open the form.
     send_no_token: An unexpected error occured (no token). Please copy the text and re-open the form.
     send_req_failed: Unexpected error when sending the feedback form. Sending feedback is currently probably not possible. Please send a mail instead.
-    send_unexpected_status: 'Unexpected status code: '
+    send_unexpected_status: Unexpected status code
     server_error: Server Error
     token_req_failed: Unexpected error when loading the feedback form. Sending feedback is currently probably not possible. Please send a mail instead.
     token_unexpected_status: 'Unexpected status code when retrieving a feedback token: '
@@ -47,17 +50,15 @@ feedback:
   message: Message
   public:
     agreement: My feedback data (subject and message) may be stored anonymously but publicly accessible on the {github_project_issues_url}.
-    disclaimer: |
-      By using this feedback form, you explicitly agree to the {github_site_policy_url} as well as a possible transfer of the data outside the European Union.
-      The processing is based on Art. 6 para. 1 lit. a DSGVO.
+    disclaimer: By using this feedback form, you explicitly agree to the {github_site_policy_url} as well as a possible transfer of the data outside the European Union.
     github_project_issues: GitHub project page
     github_site_policy: terms of use and privacy policy of GitHub
     imprint: imprint
-    legal_fluff: |
-      Under the legal conditions and an existing personal reference of the data, there is a right to information, as well as to correction or deletion or to restriction of processing or a right to object to processing as well as the right to data portability.
-      There is also a right of appeal to the Bavarian State Commissioner for Data Protection.
-      If you object to this, please write to us via navigatum (at-symbol) tum.de, or one of the other contact options listed in our {imprint_url}.
-      If you have any questions, please feel free to contact us (navigatum (at-symbol) tum.de) or our data protection officer ({tum_data_protection_url}).
+    objection_instruction: If you object to this, please write to us via navigatum (at-symbol) tum.de, or one of the other contact options listed in our {imprint_url}.
+    processing_based_on_gdpr: The processing is based on Art. 6 para. 1 lit. a DSGVO.
+    question_contact: If you have any questions, please feel free to contact us (navigatum (at-symbol) tum.de) or our data protection officer ({tum_data_protection_url}).
+    right_of_appeal: There is also a right of appeal to the Bavarian State Commissioner for Data Protection.
+    right_to_information: Under the legal conditions and an existing personal reference of the data, there is a right to information, as well as to correction or deletion or to restriction of processing or a right to object to processing as well as the right to data portability.
   send: Send
   subject: Subject
   success:
@@ -106,7 +107,7 @@ search:
   aria-searchlabel: Search-field
   hidden: hidden
   placeholder: Search
-  results: "{count} result | {count} results"
+  results: 1 result | {count} results
   sections:
     and: and
     buildings: Buildings / Sites
@@ -166,17 +167,14 @@ view_view:
     img_source: Image source
     interactive: Interactive Map
     no_webgl:
-      no_browser_support: |
-        We're sorry, but it seems that your browser does not support WebGL, which is required to display the map.
-        WebGL is a technology that enables interactive 3D graphics directly in the web browser, and unfortunately, your browser does not seem to have this capability.
-      please_try: "To resolve this issue and view the map, we recommend trying one of the following:"
-      upgrade_browser: |
-        Upgrade your current browser to the latest version, as newer versions often include support for WebGL.
-        You can visit the official website of your browser to download and install the latest update.
-      try_different_browser: |
-        Alternatively, you can try using a different browser that supports WebGL.
-        Popular browsers like Google Chrome, Mozilla Firefox, and Microsoft Edge are known to have WebGL capabilities.
-        Consider installing one of these browsers and accessing the map again.
+      explain_webgl: WebGL is a technology that enables interactive 3D graphics directly in the web browser, and unfortunately, your browser does not seem to have this capability.
+      known_good_browsers: Popular browsers like Google Chrome, Mozilla Firefox, and Microsoft Edge are known to have WebGL capabilities.
+      no_browser_support: We're sorry, but it seems that your browser does not support WebGL, which is required to display the map.
+      please_try: To resolve this issue and view the map, we recommend trying one of the following
+      try_different_browser: Alternatively, you can try using a different browser that supports WebGL.
+      try_different_browser2: Consider installing one of these browsers and accessing the map again.
+      upgrade_browser: Upgrade your current browser to the latest version, as newer versions often include support for WebGL.
+      visit_official_website_to_upgrade_browser: You can visit the official website of your browser to download and install the latest update.
     open_detailed_modal: Show a larger popup of the map
     roomfinder: Site Plans
     roomfinder_crosshair: Cross showing where the room is located on the hand-drawn roomfinder map image
@@ -211,7 +209,7 @@ view_view:
     filter: Filter
     filtered: filtered
     remove_selection: Remove selection
-    results: "{count} result | {count} results"
+    results: '{count} result | {count} results'
     title: Rooms
   slideshow:
     author: Author
