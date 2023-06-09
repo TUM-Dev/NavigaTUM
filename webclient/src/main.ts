@@ -13,13 +13,13 @@ import en from "./locales/en.yaml";
 import * as Sentry from "@sentry/vue";
 import { BrowserTracing } from "@sentry/tracing";
 
-const i18n = createI18n({
-  fallbackLocale: "en",
-  include: "yaml",
+const i18n = createI18n<[typeof en], "de" | "en", false>({
   legacy: false,
   locale: localStorage.getItem("lang") || "de",
   messages: { en, de },
-  missingWarning: true,
+  globalInjection: true,
+  missingWarn: true,
+  warnHtmlMessage: true,
 });
 
 const app = createApp(App);
