@@ -139,7 +139,7 @@ onMounted(() => {
     // Even though 'mounted' is called there is no guarantee apparently,
     // that we can reference the map by ID in the DOM yet. For this reason we
     // try to poll now (Not the best solution probably)
-    let timeoutInMs = 5;
+    let timeoutInMs = 25;
 
     function pollMap() {
       if (!tryToLoadMap()) {
