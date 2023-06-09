@@ -286,8 +286,15 @@ export type components = {
       /**
        * @description The source of the Coordinates
        * @example roomfinder
+       * @enum {string}
        */
-      readonly source: string;
+      readonly source: "roomfinder" | "navigatum" | "inferred";
+      /**
+       * @description How accurate the coordinate is. Only present, if it is limited to a degree (e.g. we only know the building)
+       * @example building
+       * @enum {string}
+       */
+      readonly accuracy?: "building";
     };
     readonly Maps: {
       /**

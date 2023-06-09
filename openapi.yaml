@@ -1277,6 +1277,16 @@ components:
           description: The source of the Coordinates
           type: string
           example: roomfinder
+          enum:
+          - roomfinder
+          - navigatum
+          - inferred
+        accuracy:
+          description: How accurate the coordinate is. Only present, if it is limited to a degree (e.g. we only know the building)
+          type: string
+          enum:
+          - building
+          example: building
       required:
         - lat
         - lon
