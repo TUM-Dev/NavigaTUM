@@ -1,5 +1,7 @@
 use logos::{Lexer, Logos};
 
+/// An irregular split is defined as at least a letter and 1-4 numbers
+/// Treating words like MW1801 differently has improvements in relevancy for room-level searches
 fn irregular_split(lex: &mut Lexer<Token>) -> (String, String) {
     let slice = lex.slice();
     let mut split = slice.len();
@@ -14,6 +16,8 @@ fn irregular_split(lex: &mut Lexer<Token>) -> (String, String) {
     (text.to_string(), numbers.to_string())
 }
 
+/// Removes the specified prefix and additional whitespace from the token
+/// e.g used to remove the "in:" and "@" prefixes from filters
 fn remove_prefix(lex: &mut Lexer<Token>, prefix: &'static str) -> String {
     lex.slice()[prefix.len()..].trim().to_string()
 }
