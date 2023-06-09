@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import ShareButton from "@/components/ShareButton.vue";
 import DetailsInteractiveMap from "@/components/DetailsInteractiveMap.vue";
-import DetailsOverviewSections from "@/components/DetailsOverviewSections.vue";
+import DetailsRoomOverviewSection from "@/components/DetailsRoomSectionOverviewSection.vue";
+import DetailsBuildingOverviewSection from "@/components/DetailsBuildingOverviewSection.vue";
 import DetailsInfoSection from "@/components/DetailsInfoSection.vue";
 import DetailsSources from "@/components/DetailsSources.vue";
 import DetailsFeedbackButton from "@/components/DetailsFeedbackButton.vue";
@@ -362,7 +363,8 @@ onMounted(() => {
     </div>
 
     <!-- <DetailsFeaturedSection /> -->
-    <DetailsOverviewSections />
+    <DetailsBuildingOverviewSection :buildings="state.data?.sections?.buildings_overview" />
+    <DetailsRoomOverviewSection :rooms="state.data?.sections?.rooms_overview" />
     <DetailsSources />
   </div>
 </template>
@@ -565,19 +567,6 @@ onMounted(() => {
   }
   to {
     opacity: 1;
-  }
-}
-
-// 'sm' (mobile)
-@media (max-width: 600px) {
-  #view-view {
-    #rooms-overview-select .panel-body {
-      max-height: 260px;
-    }
-
-    #rooms-overview-list .panel-body {
-      max-height: 275px;
-    }
   }
 }
 

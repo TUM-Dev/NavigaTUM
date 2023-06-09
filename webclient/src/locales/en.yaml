@@ -204,7 +204,6 @@ view_view:
   rooms_overview:
     any: any
     by_usage: by usage
-    choose_usage: Choose a usage
     clear_filter: Clear the filter
     filter: Filter
     filtered: filtered
