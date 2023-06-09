@@ -67,6 +67,7 @@ From the folder of this README, run:
 
 ```sh
 npx openapi-typescript ../openapi.yaml --output ./src/api_types/index.ts --export-type --immutable-types --support-array-length
+npm run lint
 ```
 
 ## Build files & Serving release build
