@@ -1,36 +1,17 @@
 <script setup lang="ts">
-import AppSearchBar from "@/components/AppSearchBar.vue";
-import AppLanguageToggler from "@/components/AppLanguageToggler.vue";
-import AppThemeToggler from "@/components/AppThemeToggler.vue";
+import Footer from "@/components/AppFooter.vue";
 import { useGlobalStore } from "@/stores/global";
-import FeedbackModal from "@/components/FeedbackModal.vue";
+import FeedbackModal from "@/components/AppFeedbackModal.vue";
+import AppSearchBar from "@/components/AppSearchBar.vue";
+import AppNavHeader from "@/components/AppNavHeader.vue";
 
 const global = useGlobalStore();
 </script>
 
 <template>
-  <header class="navbar" id="navbar">
-    <div class="container grid-lg">
-      <div class="columns">
-        <div class="column hide-lg">
-          <RouterLink to="/">
-            <img :alt="$t('meta.logo_alt')" src="./assets/logo.svg" id="logo" />
-            <!-- 7px for logo1 -->
-          </RouterLink>
-        </div>
-        <div class="column col-8 col-lg-11 col-mx-auto">
-          <AppSearchBar />
-        </div>
-
-        <div class="hide-lg">
-          <RouterLink to="/">
-            <img :alt="$t('meta.tum_logo_alt')" src="./assets/tum_logo.min.svg" id="tum_logo" />
-            <!-- 7px for logo1 -->
-          </RouterLink>
-        </div>
-      </div>
-    </div>
-  </header>
+  <AppNavHeader>
+    <AppSearchBar />
+  </AppNavHeader>
 
   <!-- General error message toast -->
   <div id="content-header" class="container grid-lg" v-cloak>
@@ -56,90 +37,7 @@ const global = useGlobalStore();
     <div class="loading loading-lg" />
   </div>
 
-  <div style="margin-bottom: 30px" />
-  <div style="padding-bottom: 70px" class="show-xs" />
-
-  <!-- Footer -->
-  <footer data-cy="main-footer">
-    <div class="container grid-lg">
-      <div class="columns">
-        <div class="column col-lg-11 col-mx-auto">
-          <div class="columns">
-            <div class="column col-auto col-xs-12 links">
-              <div class="columns">
-                <ul class="column col-auto">
-                  <li>
-                    <a href="https://github.com/TUM-Dev/navigatum">
-                      {{ $t("footer.sourcecode.text") }}
-                    </a>
-                  </li>
-                  <li>
-                    <RouterLink to="/api">
-                      {{ $t("footer.api.text") }}
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink :to="'/about/' + $t('footer.about.link')">
-                      {{ $t("footer.about.text") }}
-                    </RouterLink>
-                  </li>
-                </ul>
-                <ul class="column">
-                  <li>
-                    <button
-                      data-cy="open-feedback-footer"
-                      @click="global.openFeedback()"
-                      class="btn btn-link"
-                      :aria-label="$t('footer.feedback.open')"
-                    >
-                      {{ $t("footer.feedback.text") }}
-                    </button>
-                  </li>
-                  <li>
-                    <RouterLink :to="'/about/' + $t('footer.privacy.link')">
-                      {{ $t("footer.privacy.text") }}
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink :to="'/about/' + $t('footer.imprint.link')">
-                      {{ $t("footer.imprint.text") }}
-                    </RouterLink>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="column col-auto col-ml-auto col-xs-12 settings">
-              <div class="show-xs divider" style="height: 20px" />
-              <div class="columns">
-                <div class="column col-12 col-xs-8 col-mx-auto">
-                  <div class="columns setting-group">
-                    <div class="column col">
-                      <label for="setting-lang"
-                        ><small>{{ $t("footer.language") }}</small>
-                      </label>
-                    </div>
-                    <div class="column col-auto">
-                      <AppLanguageToggler />
-                    </div>
-                  </div>
-                  <div class="columns setting-group">
-                    <div class="column col">
-                      <label for="setting-theme">
-                        <small>{{ $t("footer.theme") }}</small>
-                      </label>
-                    </div>
-                    <div class="column col-auto">
-                      <AppThemeToggler />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <Footer />
   <FeedbackModal v-if="global.feedback.open" />
   <!-- General message modal -->
   <div class="modal active" v-if="global.information_modal?.body">
@@ -165,41 +63,6 @@ const global = useGlobalStore();
 <style lang="scss">
 @import "./assets/variables";
 
-/* === Navbar === */
-#navbar {
-  padding: 10px 0;
-  box-shadow: 0 2px 3px $header-shadow-color;
-  width: 100%;
-  position: fixed;
-  background: $header-color;
-  top: 0;
-  z-index: 2000;
-
-  #logo {
-    height: 24px;
-    margin-top: 9px;
-  }
-
-  #tum_logo {
-    position: absolute;
-    margin: 20px;
-    right: 0;
-    top: 0;
-    height: 20px;
-  }
-
-  @media (max-width: 1130px) {
-    #tum_logo {
-      position: relative;
-      margin: 10px 10px 0 10px;
-    }
-  }
-
-  .input-group button {
-    border: 0;
-  }
-}
-
 /* === Content === */
 #content {
   min-height: calc(100vh - 200px);
@@ -220,86 +83,5 @@ const global = useGlobalStore();
 
 #content.search_focus {
   opacity: 0.7;
-}
-
-/* === Footer === */
-footer {
-  padding: 8px 0 16px;
-  background: $footer-color;
-  position: relative;
-  left: 0;
-  right: 0;
-  top: 0;
-  text-align: center;
-
-  .links {
-    text-align: left;
-
-    ul {
-      margin: 0;
-
-      li {
-        list-style: none;
-        margin-top: 0;
-      }
-    }
-
-    a,
-    RouterLink,
-    button {
-      font-size: 0.6rem;
-    }
-
-    button {
-      height: auto;
-      padding: 0;
-    }
-
-    button:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .settings {
-    .setting-group {
-      margin-top: calc(0.4rem - 1px);
-    }
-
-    .btn-group {
-      min-width: 110px;
-
-      .btn {
-        border-color: transparent;
-
-        &:disabled {
-          background-color: $footer-setting-bg-disabled;
-          color: $footer-setting-color-disabled;
-        }
-      }
-    }
-  }
-}
-
-// 'xs' (mobile)
-@media (max-width: 480px) {
-  footer {
-    bottom: -200px;
-
-    .links {
-      ul {
-        margin: 0.8rem;
-
-        li {
-          margin-top: 0.4rem;
-        }
-      }
-
-      a,
-      RouterLink,
-      button {
-        font-size: 0.7rem;
-      }
-    }
-  }
 }
 </style>
