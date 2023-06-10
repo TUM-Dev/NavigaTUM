@@ -41,7 +41,7 @@ const state = useDetailsStore();
         <template v-else>{{ state.image.shown_image.license.text }}</template>
       </span>
     </p>
-    <p v-if="state.data.coords">
+    <p v-if="state.data?.coords">
       {{ $t("view_view.sources.coords.title") }}:
       <span v-if="state.data.coords.source === 'navigatum'"> {{ $t("view_view.sources.coords.navigatum") }}</span>
       <span v-if="state.data.coords.source === 'roomfinder'">

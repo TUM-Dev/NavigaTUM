@@ -33,7 +33,7 @@ function less(id: string) {
                 <div class="column col-auto">
                   <button
                     class="btn btn-link"
-                    :style="{ visibility: site.id ? '' : 'hidden' }"
+                    :style="{ visibility: site.id ? undefined : 'hidden' }"
                     :aria-label="`show the details for the campus '${site.name}'`"
                   >
                     <i class="icon icon-forward" />

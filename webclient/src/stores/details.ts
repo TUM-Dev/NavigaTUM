@@ -44,9 +44,9 @@ export const useDetailsStore = defineStore({
     },
   }),
   actions: {
-    selectedRoomfinderMap: function (): RoomfinderMapEntry | undefined {
+    selectedRoomfinderMap: function (): RoomfinderMapEntry {
       const index = this.map.roomfinder.selected_index;
-      return this.data?.maps.roomfinder?.available[index];
+      return this.data?.maps.roomfinder?.available[index] as RoomfinderMapEntry;
     },
     showImageSlideshow: function (i: number, openSlideshow = true): void {
       if (this.data?.imgs && this.data.imgs[i]) {

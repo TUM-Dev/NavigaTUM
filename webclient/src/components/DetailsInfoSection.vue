@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useDetailsStore } from "@/stores/details";
+import { useGlobalStore } from "@/stores/global";
 
 const state = useDetailsStore();
+const global = useGlobalStore();
 </script>
 
 <template>
@@ -19,7 +21,7 @@ const state = useDetailsStore();
             <div
               class="popover"
               v-if="prop.extra?.body"
-              @click="state.showInformationModal(prop.extra.body, prop.extra.header)"
+              @click="global.information_modal = { body: prop.extra.body, header: prop.extra.header }"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +133,7 @@ const state = useDetailsStore();
           </tbody>
         </table>
         <span v-else>-</span>
-        <div class="toast toast-warning" v-if="state.data.coords.accuracy === 'building'">
+        <div class="toast toast-warning" v-if="state.data?.coords.accuracy === 'building'">
           {{ $t("view_view.msg.inaccurate_only_building.primary_msg") }}<br />
           <i>
             {{ $t("view_view.msg.inaccurate_only_building.help_others_and") }}
@@ -155,7 +157,7 @@ const state = useDetailsStore();
       </div>-->
     </div>
   </div>
-  <div class="modal modal-lg active" id="modal-slideshow" v-if="state.image.slideshow_open && state.data.imgs">
+  <div class="modal modal-lg active" id="modal-slideshow" v-if="state.image.slideshow_open && state.data?.imgs">
     <a class="modal-overlay" :aria-label="$t('close')" @click="state.hideImageSlideshow" />
     <div class="modal-container modal-fullheight">
       <div class="modal-header">
@@ -172,7 +174,7 @@ const state = useDetailsStore();
                 class="carousel-locator"
                 type="radio"
                 name="carousel-radio"
-                checked="checked"
+                checked
                 hidden
               />
               <input

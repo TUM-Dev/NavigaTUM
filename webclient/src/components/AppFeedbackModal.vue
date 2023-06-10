@@ -17,7 +17,7 @@ type Token = {
   readonly token: string;
 };
 
-const token: typeof ref<Token | null> = useLocalStorage<Token | null>("feedback-token", null, {
+const token = useLocalStorage<Token | null>("feedback-token", null, {
   serializer: {
     read: (v) => (v ? JSON.parse(v) : null),
     write: (v) => JSON.stringify(v),
@@ -30,6 +30,8 @@ const deleteIssueRequested = ref(false);
 watch(() => global.feedback.open, assuereTokenValidity, { immediate: true });
 function assuereTokenValidity() {
   // legacy migration function TODO: remove only after 31.09.2023, to give our users time to migrate to the new token format
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   if (token.value?.expiry) {
     token.value = null;
   }
@@ -103,7 +105,7 @@ function _send() {
         token.value = null;
         const e = new Event("storage");
         window.dispatchEvent(e);
-        successUrl.value = r.text();
+        r.text().then((url) => (successUrl.value = url));
       } else if (r.status === 500) {
         const serverError = t("feedback.error.server_error");
         _showError(`${serverError} (${r.text()})`, false);

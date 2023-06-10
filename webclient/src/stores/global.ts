@@ -14,8 +14,8 @@ export const useGlobalStore = defineStore({
     search_focused: false,
     error_message: null as string | null,
     information_modal: {
-      header: null as string | null,
-      body: null as string | null,
+      header: undefined as string | undefined,
+      body: undefined as string | undefined,
     },
     feedback: {
       open: false,
@@ -42,9 +42,6 @@ export const useGlobalStore = defineStore({
     temporarilyCloseFeedback(): void {
       this.feedback.open = false;
       document.body.classList.remove("no-scroll");
-    },
-    showInformationModal(body: string, header: string | null = null): void {
-      this.information_modal = { body, header };
     },
   },
 });
