@@ -3,10 +3,7 @@ import { useGlobalStore } from "@/stores/global";
 import { reactive, ref, watch } from "vue";
 import { Translation, useI18n } from "vue-i18n";
 import { useLocalStorage } from "@vueuse/core";
-const { t } = useI18n({
-  inheritLocale: true,
-  useScope: "global",
-});
+const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 
 const global = useGlobalStore();
 const loading = ref(false);
@@ -253,11 +250,6 @@ function sendForm() {
                     {{ $t("feedback.public.github_site_policy") }}
                   </a>
                 </template>
-                <template v-slot:imprint_url>
-                  <RouterLink to="/about/impressum">
-                    {{ $t("feedback.public.imprint") }}
-                  </RouterLink>
-                </template>
               </Translation>
               <span>
                 {{ $t("feedback.public.processing_based_on_gdpr") }}
@@ -265,8 +257,14 @@ function sendForm() {
               <span>
                 {{ $t("feedback.public.right_to_information") }}
                 {{ $t("feedback.public.right_of_appeal") }}
-                {{ $t("feedback.public.objection_instruction") }}
               </span>
+              <Translation keypath="feedback.public.objection_instruction" tag="span">
+                <template v-slot:imprint_url>
+                  <RouterLink to="/about/impressum">
+                    {{ $t("feedback.public.imprint") }}
+                  </RouterLink>
+                </template>
+              </Translation>
               <Translation keypath="feedback.public.question_contact" tag="span">
                 <template v-slot:tum_data_protection_url>
                   <a href="https://datenschutz.tum.de" target="_blank">datenschutz.tum.de</a>

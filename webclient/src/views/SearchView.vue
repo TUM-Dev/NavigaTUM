@@ -9,10 +9,7 @@ import type { SectionFacet } from "@/modules/autocomplete";
 import type { components } from "@/api_types";
 type SearchResponse = components["schemas"]["SearchResponse"];
 
-const { t } = useI18n({
-  inheritLocale: true,
-  useScope: "global",
-});
+const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 const global = useGlobalStore();
 
 const query: string = new URLSearchParams(document.location.search).get("q") || "";

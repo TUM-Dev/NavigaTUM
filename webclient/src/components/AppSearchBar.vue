@@ -10,10 +10,7 @@ import type { components } from "@/api_types";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
-const { t } = useI18n({
-  inheritLocale: true,
-  useScope: "global",
-});
+const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 const global = useGlobalStore();
 const keep_focus = ref(false);
 const query = ref("");
