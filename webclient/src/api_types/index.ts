@@ -203,7 +203,8 @@ export type components = {
        * An example of a room with a comment is MW1801.
        */
       readonly comment?: string;
-      readonly calendar_url?: Record<string, never>;
+      /** @description A link to the calendar of the room */
+      readonly calendar_url?: string;
     };
     readonly ComputedProp: {
       /** @example Raumkennung */
@@ -214,7 +215,9 @@ export type components = {
         /** @example Genauere Angaben */
         readonly header?: string;
         /** @example für Prüfungen: 102 in eng, 71 in weit, 49 in corona */
-        readonly body?: string;
+        readonly body: string;
+        /** @example data based on a Survey of chimneysweeps */
+        readonly footer?: string;
       };
     };
     /** @description A link with a localized link text and url */
@@ -373,6 +376,16 @@ export type components = {
        * @example 189
        */
       readonly y: number;
+      /**
+       * @description Where the map was imported from
+       * @example Roomfinder
+       */
+      readonly source: string;
+      /**
+       * @description Where the map is stored
+       * @example rf93.webp
+       */
+      readonly file: string;
     };
     readonly OverlayMapEntry: {
       /**
@@ -442,6 +455,8 @@ export type components = {
        * The number is usually from 0-5.
        * More results might be displayed when clicking "expand".
        * If this field is not present, then all entries are displayed.
+       *
+       * @example 6
        */
       readonly n_visible?: number;
     };
@@ -492,50 +507,84 @@ export type components = {
       readonly type: "room" | "building" | "joined_building" | "area" | "site" | "campus" | "poi";
       readonly coords: components["schemas"]["Coordinate"];
       readonly maps: components["schemas"]["Maps"];
-      readonly sections?: components["schemas"]["DetailsSection"];
-    };
-    readonly DetailsSection: {
-      readonly buildings_overview?: {
-        readonly entries: readonly {
-          /** @description The id of the building */
-          readonly id: string;
-          /** @description Main display name */
-          readonly name: string;
-          /**
-           * @description What should be displayed below this Building
-           * @example Gebäudekomplex mit 512 Räumen
-           */
-          readonly subtext: string;
-          /**
-           * @description The thumbnail for the building
-           * @example mi_0.webp
-           */
-          readonly thumb?: string;
-        }[];
-        /** @example 6 */
-        readonly n_visible: number;
-      };
-      readonly rooms_overview?: {
-        readonly usages?: readonly {
-          /**
-           * @description Category Name
-           * @example Büro
-           */
-          readonly name: string;
-          /**
-           * @description How many children this category has
-           * @example 126
-           */
-          readonly count: number;
-          readonly children: readonly {
-            /** @description The id of the room */
-            readonly id: string;
-            /** @description Main display name */
-            readonly name: string;
-          }[];
-        }[];
+      readonly sections?: {
+        readonly buildings_overview?: components["schemas"]["BuildingsOverview"];
+        readonly rooms_overview?: components["schemas"]["RoomsOverview"];
       };
     };
+    readonly BuildingsOverview: {
+      readonly entries: readonly (components["schemas"]["ChildEntry"] & {
+        /**
+         * @description What should be displayed below this Building
+         * @example Gebäudekomplex mit 512 Räumen
+         */
+        readonly subtext: string;
+        /**
+         * @description The thumbnail for the building
+         * @example mi_0.webp
+         */
+        readonly thumb?: string;
+      })[];
+      /**
+       * Format: int64
+       * @description A recommendation how many of the entries should be displayed by default.
+       * The number is usually from 0-5.
+       * More results might be displayed when clicking "expand".
+       * If this field is not present, then all entries are displayed.
+       *
+       * @example 6
+       */
+      readonly n_visible: number;
+    };
+    readonly RoomsOverview: {
+      readonly usages?: readonly {
+        /**
+         * @description Category Name
+         * @example Büro
+         */
+        readonly name: string;
+        /**
+         * @description How many children this category has
+         * @example 126
+         */
+        readonly count: number;
+        readonly children: readonly components["schemas"]["ChildEntry"][];
+      }[];
+    };
+    readonly ChildEntry: {
+      /**
+       * @description The id of the entry
+       * @example mi
+       */
+      readonly id: string;
+      /**
+       * @description Human display name
+       * @example Mathematik / Informatik
+       */
+      readonly name: string;
+    };
+    /**
+     * @description This is a list of all sites, that are available in the system.
+     * It is sorted by the number of rooms in the site, descending.
+     * The first entry is the site with the most importance
+     */
+    readonly SitesOverview: readonly (components["schemas"]["ChildEntry"] & {
+      /**
+       * Format: int64
+       * @description A recommendation how many of the entries should be displayed by default.
+       * The number is usually from 0-5.
+       * More results might be displayed when clicking "expand".
+       * If this field is not present, then all entries are displayed.
+       *
+       * @example 6
+       */
+      readonly n_visible: number;
+      /**
+       * @description A select list of buildings, that are in this site.
+       * Derived from the areatree.
+       */
+      readonly children: readonly components["schemas"]["ChildEntry"][];
+    })[];
     readonly RootResponse: components["schemas"]["BaseDetailsResponse"] & {
       /**
        * @description The id, that was requested
@@ -547,6 +596,7 @@ export type components = {
        * @enum {string}
        */
       readonly type: "root";
+      readonly sites_overview: components["schemas"]["SitesOverview"];
     };
     readonly BaseDetailsResponse: {
       /** @description The type of the entry in a human-readable form */
@@ -563,9 +613,11 @@ export type components = {
        * ***THIS WILL DISAPEAR IN THE FUTURE, DO NOT RELY ON IT.***
        * This is only here while TUM is transitioning to this system.
        *
+       * null if an `arch_name` would not make sense (i.e. a building/root response)
+       *
        * @example 5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)
        */
-      readonly arch_name?: string;
+      readonly arch_name?: OneOf<[string, null]>;
       readonly parents: readonly string[];
       readonly parent_names: readonly [string, ...string[]];
       readonly props: components["schemas"]["Props"];
@@ -573,6 +625,11 @@ export type components = {
       readonly ranking_factors: components["schemas"]["RankingFactors"];
       /** @description Where we got our data from, should be displayed at the bottom of any page containing this data */
       readonly sources: {
+        /**
+         * @description Was this entry patched by us? (e.g. to fix a typo in the name/...)
+         * If so, we should not display the source, as it is not the original source.
+         */
+        readonly patched?: boolean;
         /** @description What is the basis of the data we have */
         readonly base: readonly {
           /**
@@ -580,6 +637,11 @@ export type components = {
            * @example NavigaTUM
            */
           readonly name: string;
+          /**
+           * @description The url of the provider
+           * @example https://nav.tum.de
+           */
+          readonly url?: string;
         }[];
       };
     };
