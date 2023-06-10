@@ -146,7 +146,7 @@ function delayedLoadRoomfinderModalMap() {
             :alt="$t('view_view.map.roomfinder_crosshair')"
             src="../assets/map/roomfinder_cross-v2.webp"
             :style="{
-              transform: 'translate(' + state.map.roomfinder.modalX + 'px, ' + state.map.roomfinder.modalY + 'px)',
+              transform: `translate(${state.map.roomfinder.modalX}px, ${state.map.roomfinder.modalY}px)`,
             }"
             id="roomfinder-modal-map-cross"
           />
