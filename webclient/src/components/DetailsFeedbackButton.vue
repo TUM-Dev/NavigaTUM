@@ -21,7 +21,7 @@ function _getFeedbackSubject(currentEdits: CurrentEdits) {
   // entry is being edited
   if (
     state.coord_picker.subject_backup &&
-    state.coord_picker.backup_id === state.data.id &&
+    state.coord_picker.backup_id === state.data?.id &&
     state.coord_picker.subject_backup !== subjectPrefix
   ) {
     const backup = state.coord_picker.subject_backup;
@@ -31,6 +31,9 @@ function _getFeedbackSubject(currentEdits: CurrentEdits) {
   return subjectPrefix + subjectMsg;
 }
 function _getFeedbackBody(currentEdits: CurrentEdits) {
+  if (!state.data) {
+    return "Data has not been loaded yet but Feedback is open. This is a bug. Please describe how you got here.";
+  }
   // Look up whether there is a backup of the body and extract the section
   // that is not the coordinate
   let actionMsg = "";
@@ -74,17 +77,19 @@ function _getFeedbackBody(currentEdits: CurrentEdits) {
 defineExpose({
   openFeedbackForm,
 });
-function openFeedbackForm(addLocationPicker: EventListener) {
+function openFeedbackForm(addLocationPicker: EventListener | null = null) {
   // The feedback form is opened. This may be prefilled with previously corrected coordinates.
   // Maybe get the old coordinates from localstorage
   const currentEdits = getLocalStorageWithExpiry<CurrentEdits>("feedback-coords", {});
   const body = _getFeedbackBody(currentEdits);
   const subject = _getFeedbackSubject(currentEdits);
 
-  window.setTimeout(
-    () => document.getElementById("feedback-coordinate-picker")?.addEventListener("click", addLocationPicker),
-    100
-  );
+  if (addLocationPicker !== null) {
+    window.setTimeout(
+      () => document.getElementById("feedback-coordinate-picker")?.addEventListener("click", addLocationPicker),
+      100
+    );
+  }
 
   useGlobalStore().openFeedback("entry", subject, body);
 }
@@ -94,7 +99,7 @@ function openFeedbackForm(addLocationPicker: EventListener) {
   <button
     class="btn btn-link btn-action btn-sm"
     :title="$t('view_view.header.feedback')"
-    @click="openFeedbackForm"
+    @click="openFeedbackForm()"
     data-cy="open-feedback-details"
   >
     <i class="icon icon-flag" />

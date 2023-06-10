@@ -30,7 +30,7 @@ const coord_picker = ref({
 const initialLoaded = ref(false);
 
 const emit = defineEmits<{
-  (e: "openFeedbackForm"): void;
+  (e: "openFeedbackForm", callback: EventListener): void;
 }>();
 function confirmLocationPicker() {
   // add the current edits to the feedback
@@ -130,7 +130,7 @@ function loadInteractiveMap(fromUi = false) {
       marker.value.setLngLat([coords.lon, coords.lat]).addTo(map.value as Map);
 
     const overlays = state.data?.maps?.overlays;
-    if (overlays !== undefined && overlays !== null) floorControl.value.updateFloors(overlays);
+    if (overlays) floorControl.value.updateFloors(overlays);
     else floorControl.value.resetFloors();
 
     const defaultZooms: { [index: string]: number | undefined } = {
@@ -226,8 +226,6 @@ function initMap(containerId: string) {
         fullscreenCtl._container.classList.add("maximize");
         fullscreenCtl._fullscreenButton.classList.add("maplibregl-ctrl-shrink");
         document.body.classList.add("no-scroll");
-        // "instant" is not part of the spec but nonetheless implemented by Firefox/Chrome
-        // @ts-expect-error: TS2322
         window.scrollTo({ top: 0, behavior: "instant" });
       }
 

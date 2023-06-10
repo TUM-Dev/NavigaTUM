@@ -24,7 +24,7 @@ type SiteBuildingFacet = {
   name: string;
   entries: EntryFacet[];
   estimatedTotalHits: number;
-  expanded: false;
+  expanded: boolean;
   n_visible: number;
 };
 type EntryFacet = {

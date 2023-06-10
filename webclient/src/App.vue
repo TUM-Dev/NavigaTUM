@@ -41,13 +41,13 @@ const global = useGlobalStore();
   <FeedbackModal v-if="global.feedback.open" />
   <!-- General message modal -->
   <div class="modal active" v-if="global.information_modal?.body">
-    <a class="modal-overlay" :aria-label="$t('close')" @click="global.information_modal.body = null" />
+    <a class="modal-overlay" :aria-label="$t('close')" @click="global.information_modal.body = undefined" />
     <div class="modal-container">
       <div class="modal-header">
         <button
           class="btn btn-clear float-right"
           :aria-label="$t('close')"
-          @click="global.information_modal.body = null"
+          @click="global.information_modal.body = undefined"
         />
         <div v-if="global.information_modal.header" class="modal-title h5">{{ global.information_modal.header }}</div>
       </div>

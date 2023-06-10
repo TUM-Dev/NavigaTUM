@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ShareButton from "@/components/ShareButton.vue";
 import DetailsInteractiveMap from "@/components/DetailsInteractiveMap.vue";
-import DetailsRoomOverviewSection from "@/components/DetailsRoomSectionOverviewSection.vue";
+import DetailsRoomOverviewSection from "@/components/DetailsRoomOverviewSection.vue";
 import DetailsBuildingOverviewSection from "@/components/DetailsBuildingOverviewSection.vue";
 import DetailsInfoSection from "@/components/DetailsInfoSection.vue";
 import DetailsSources from "@/components/DetailsSources.vue";
@@ -13,7 +13,7 @@ import { getLocalStorageWithExpiry, removeLocalStorage } from "@/composables/sto
 import { setDescription, setTitle } from "@/composables/common";
 import { useClipboard } from "@vueuse/core";
 import { selectedMap, useDetailsStore } from "@/stores/details";
-import { nextTick, onMounted, ref, watchEffect } from "vue";
+import { computed, nextTick, onMounted, ref, watchEffect } from "vue";
 import { useFetch } from "@/composables/fetch";
 import { useRoute } from "vue-router";
 import router from "@/router";
@@ -67,7 +67,8 @@ watchEffect(() => {
 });
 
 const state = useDetailsStore();
-const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: route.source });
+const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
+const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 // Coordinate picker states
 const coord_counter = ref({
   counter: null as number | null,
@@ -105,16 +106,17 @@ function tryToLoadMap() {
    * @return {boolean} Whether the loading was successful
    */
   if (document.getElementById("interactive-map") !== null) {
-    if (state.map.selected === selectedMap.interactive) interactiveMap.value.loadInteractiveMap();
-    else roomfinderMap.value.loadRoomfinderMap(state.map.roomfinder.selected_index);
+    if (state.map.selected === selectedMap.interactive) interactiveMap.value?.loadInteractiveMap();
+    else roomfinderMap.value?.loadRoomfinderMap(state.map.roomfinder.selected_index);
     return true;
   }
   return false;
 }
 
 // following variables are bound to ref objects
-const roomfinderMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>();
-const interactiveMap = ref<InstanceType<typeof DetailsInteractiveMap> | null>();
+const feedbackButton = ref<InstanceType<typeof DetailsFeedbackButton> | null>(null);
+const interactiveMap = ref<InstanceType<typeof DetailsInteractiveMap> | null>(null);
+const roomfinderMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>(null);
 onMounted(() => {
   if (navigator.userAgent === "Rendertron") return;
 
@@ -126,8 +128,8 @@ onMounted(() => {
   window.addEventListener("storage", updateCoordinateCounter);
   window.addEventListener("resize", () => {
     if (state.map.selected === selectedMap.roomfinder) {
-      roomfinderMap.value.loadRoomfinderMap(state.map.roomfinder.selected_index);
-      roomfinderMap.value.loadRoomfinderModalMap();
+      roomfinderMap.value?.loadRoomfinderMap(state.map.roomfinder.selected_index);
+      roomfinderMap.value?.loadRoomfinderModalMap();
     }
   });
   updateCoordinateCounter();
@@ -201,10 +203,7 @@ onMounted(() => {
               {{ $t("view_view.msg.coordinate-counter.delete-confirm") }}
             </span>
           </button>
-          <button
-            class="btn btn-primary btn-sm"
-            @click="(addLocationPicker) => $refs.feedbackButton.openFeedbackForm(addLocationPicker)"
-          >
+          <button class="btn btn-primary btn-sm" @click="feedbackButton?.openFeedbackForm()">
             <i class="icon icon-check" />
             {{ $t("view_view.msg.coordinate-counter.send") }}
           </button>
@@ -232,14 +231,18 @@ onMounted(() => {
     <div class="entry-header">
       <div class="title">
         <div class="hide-sm" v-if="clipboardIsSupported">
-          <button class="btn btn-link btn-action btn-sm" :title="$t('view_view.header.copy_link')" @click="copy">
+          <button
+            class="btn btn-link btn-action btn-sm"
+            :title="$t('view_view.header.copy_link')"
+            @click="copy(`https://nav.tum.de${route.fullPath}`)"
+          >
             <i class="icon icon-check" v-if="copied" />
             <i class="icon icon-link" v-else />
           </button>
         </div>
         <h1>
-          {{ state.data.name
-          }}<!-- <small class="label">Exaktes Ergebnis</small>-->
+          {{ state.data.name }}
+          <!-- <small class="label">Exaktes Ergebnis</small>-->
         </h1>
       </div>
       <div class="columns subtitle">
@@ -247,29 +250,30 @@ onMounted(() => {
           <span>{{ state.data.type_common_name }}</span>
         </div>
         <div class="column col-auto col-ml-auto">
-          <a
-            class="btn btn-link btn-action btn-sm"
-            v-if="state.data?.props?.calendar_url"
-            :href="state.data.props.calendar_url"
-            target="_blank"
-            :title="$t('view_view.header.calendar')"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              style="margin-bottom: -2px"
+          <template v-if="state.data?.props?.calendar_url">
+            <a
+              class="btn btn-link btn-action btn-sm"
+              :href="state.data.props.calendar_url"
+              target="_blank"
+              :title="$t('view_view.header.calendar')"
             >
-              <path
-                d="M4.571 0A1.143 1.143 0 0 0 3.43 1.143H2.286A2.306 2.306 0 0 0 0 3.429v10.285A2.306 2.306 0 0 0 2.286 16h11.428A2.306 2.306 0 0 0 16 13.714V3.43a2.306 2.306 0 0 0-2.286-2.286h-1.143A1.143 1.143 0 0 0 11.43 0a1.143 1.143 0 0 0-1.143 1.143H5.714A1.143 1.143 0 0 0 4.571 0zM2.286 5.714h11.428v8H2.286v-8z"
-              />
-              <path
-                d="M6.857 6.857v2.286h2.286V6.857H6.857zm3.429 0v2.286h2.285V6.857h-2.285zm-6.857 3.429v2.285h2.285v-2.285H3.43zm3.428 0v2.285h2.286v-2.285H6.857z"
-              />
-            </svg>
-          </a>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                style="margin-bottom: -2px"
+              >
+                <path
+                  d="M4.571 0A1.143 1.143 0 0 0 3.43 1.143H2.286A2.306 2.306 0 0 0 0 3.429v10.285A2.306 2.306 0 0 0 2.286 16h11.428A2.306 2.306 0 0 0 16 13.714V3.43a2.306 2.306 0 0 0-2.286-2.286h-1.143A1.143 1.143 0 0 0 11.43 0a1.143 1.143 0 0 0-1.143 1.143H5.714A1.143 1.143 0 0 0 4.571 0zM2.286 5.714h11.428v8H2.286v-8z"
+                />
+                <path
+                  d="M6.857 6.857v2.286h2.286V6.857H6.857zm3.429 0v2.286h2.285V6.857h-2.285zm-6.857 3.429v2.285h2.285v-2.285H3.43zm3.428 0v2.285h2.286v-2.285H6.857z"
+                />
+              </svg>
+            </a>
+          </template>
           <button
             class="btn btn-link btn-action btn-sm"
             :title="$t('view_view.header.external_link.tooltip')"
@@ -329,13 +333,13 @@ onMounted(() => {
 
         <DetailsInteractiveMap
           ref="interactiveMap"
-          @open-feedback-form="(addLocationPicker) => $refs.feedbackButton.openFeedbackForm(addLocationPicker)"
+          @open-feedback-form="(addLocationPicker) => feedbackButton?.openFeedbackForm(addLocationPicker)"
         />
         <DetailsRoomfinderMap ref="roomfinderMap" />
         <div class="btn-group btn-group-block">
           <button
             class="btn btn-sm"
-            @click="$refs.interactiveMap.loadInteractiveMap(true)"
+            @click="interactiveMap?.loadInteractiveMap(true)"
             :class="{
               active: state.map.selected === selectedMap.interactive,
             }"
@@ -344,7 +348,7 @@ onMounted(() => {
           </button>
           <button
             class="btn btn-sm"
-            @click="$refs.roomfinderMap.loadRoomfinderMap(state.map.roomfinder.selected_index, true)"
+            @click="roomfinderMap?.loadRoomfinderMap(state.map.roomfinder.selected_index, true)"
             :class="{
               active: state.map.selected === selectedMap.roomfinder,
             }"

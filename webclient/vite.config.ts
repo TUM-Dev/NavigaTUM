@@ -6,6 +6,8 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import Markdown from "vite-plugin-md";
 import link from "@yankeeinlondon/link-builder";
 import path from "path";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import pluginRewriteAll from "vite-plugin-rewrite-all";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 

@@ -1,29 +1,10 @@
 <script setup lang="ts">
 import { useToggle } from "@vueuse/core";
-
-type Buildings = {
-  readonly entries: readonly {
-    /** @description The id of the building */
-    readonly id: string;
-    /** @description Main display name */
-    readonly name: string;
-    /**
-     * @description What should be displayed below this Building
-     * @example Gebäudekomplex mit 512 Räumen
-     */
-    readonly subtext: string;
-    /**
-     * @description The thumbnail for the building
-     * @example mi_0.webp
-     */
-    readonly thumb?: string;
-  }[];
-  /** @example 6 */
-  readonly n_visible: number;
-};
+import type { components } from "@/api_types";
+type BuildingsOverview = components["schemas"]["BuildingsOverview"];
 
 const props = defineProps<{
-  readonly buildings?: Buildings;
+  readonly buildings?: BuildingsOverview;
 }>();
 
 const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);

@@ -4,7 +4,7 @@ import type { components } from "@/api_types";
 type OverlayMapEntry = components["schemas"]["OverlayMapEntry"];
 type OverlayMap = {
   readonly default: number | null;
-  readonly available: OverlayMapEntry[];
+  readonly available: readonly OverlayMapEntry[];
 };
 // In reality, this extends maplibregl.Control, but this is apparently not working
 export class FloorControl extends Evented implements IControl {
@@ -72,7 +72,7 @@ export class FloorControl extends Evented implements IControl {
     this.floor_list.innerHTML = "";
 
     const _this = this;
-    const clickHandlerBuilder = function (allFloors: Array<OverlayMapEntry> | null, i: number) {
+    const clickHandlerBuilder = function (allFloors: readonly OverlayMapEntry[] | null, i: number) {
       // Because JS
       return () => {
         if (allFloors) {
@@ -91,7 +91,7 @@ export class FloorControl extends Evented implements IControl {
     };
     let btn;
     let visibleI = null;
-    overlays.available.reverse().forEach((floor: OverlayMapEntry, index: number) => {
+    [...overlays.available].reverse().forEach((floor: OverlayMapEntry, index: number) => {
       btn = document.createElement("button");
       btn.innerText = floor.floor;
       btn.addEventListener("click", clickHandlerBuilder(overlays.available, index));

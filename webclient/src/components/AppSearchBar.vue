@@ -22,12 +22,12 @@ const autocomplete = reactive({ sections: [] as SectionFacet[], highlighted: nul
 const queryCounter = ref(0);
 const latestUsedQueryId = ref(-1);
 
-function searchFocus() {
+function searchFocus(): void {
   global.focusSearchBar();
   autocomplete.highlighted = null;
 }
 
-function searchBlur() {
+function searchBlur(): void {
   if (keep_focus.value) {
     window.setTimeout(() => {
       // This is relevant if the call is delayed and focused has
@@ -40,7 +40,7 @@ function searchBlur() {
   }
 }
 
-function searchGo(cleanQuery: boolean) {
+function searchGo(cleanQuery: boolean): void {
   if (query.value.length === 0) return;
 
   router.push(`/search?q=${query.value}`);
@@ -52,7 +52,7 @@ function searchGo(cleanQuery: boolean) {
   document.getElementById("search")?.blur();
 }
 
-function searchGoTo(id: string, cleanQuery: boolean) {
+function searchGoTo(id: string, cleanQuery: boolean): void {
   // Catch is necessary because vue-router throws an error
   // if navigation is aborted for some reason (e.g. the new
   // url is the same or there is a loop in redirects)
@@ -65,15 +65,15 @@ function searchGoTo(id: string, cleanQuery: boolean) {
   document.getElementById("search")?.blur();
 }
 
-function onKeyDown(e) {
+function onKeyDown(e: KeyboardEvent): void {
   let index;
-  switch (e.keyCode) {
-    case 27: // ESC
+  switch (e.key) {
+    case "Escape":
       document.getElementById("search")?.blur();
       break;
 
-    case 40: // Arrow down
-      index = visibleElements.value.indexOf(autocomplete.highlighted);
+    case "ArrowDown":
+      index = visibleElements.value.indexOf(autocomplete.highlighted || "");
       if (index === -1 && visibleElements.value.length > 0) {
         autocomplete.highlighted = visibleElements.value[0];
       } else if (index >= 0 && index < visibleElements.value.length - 1) {
@@ -82,8 +82,8 @@ function onKeyDown(e) {
       e.preventDefault();
       break;
 
-    case 38: // Arrow up
-      index = visibleElements.value.indexOf(autocomplete.highlighted);
+    case "ArrowUp":
+      index = visibleElements.value.indexOf(autocomplete.highlighted || "");
       if (index === 0) {
         autocomplete.highlighted = null;
       } else if (index > 0) {
@@ -92,7 +92,7 @@ function onKeyDown(e) {
       e.preventDefault();
       break;
 
-    case 13: // Enter
+    case "Enter":
       if (autocomplete.highlighted !== null) searchGoTo(autocomplete.highlighted, true);
       else searchGo(false);
       break;
@@ -125,7 +125,7 @@ const visibleElements = computed<string[]>(() => {
 
   autocomplete.sections.forEach((section) => {
     section.entries.forEach((entry, index: number) => {
-      if (section.n_visible === undefined || index < section.n_visible || section.expanded) visible.push(entry.id);
+      if (section.facet !== "sites_buildings" || section.n_visible > index || section.expanded) visible.push(entry.id);
     });
   });
   return visible;

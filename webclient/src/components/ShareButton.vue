@@ -1,19 +1,22 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useClipboard, useShare } from "@vueuse/core";
-import type { ShareOptions } from "@vueuse/core";
+import type { UseShareOptions } from "@vueuse/core";
 import type { components } from "@/api_types";
+import { useRoute } from "vue-router";
 
 const props = defineProps<{
   readonly coords: components["schemas"]["Coordinate"];
   readonly name: string;
 }>();
 
-const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: "abc" });
-const shareOptions = ref<ShareOptions>({
+const route = useRoute();
+const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
+const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
+const shareOptions = ref<UseShareOptions>({
   title: props.name,
   text: document.title,
-  url: window.location.href,
+  url: `https://nav.tum.de${route.fullPath}`,
 });
 const { share, isSupported: shareIsSupported } = useShare(shareOptions);
 </script>
@@ -37,10 +40,10 @@ const { share, isSupported: shareIsSupported } = useShare(shareOptions);
       {{ $t("view_view.header.external_link.other_app") }}
     </a>
     <strong>{{ $t("view_view.header.external_link.share") }}</strong>
-    <button class="btn" @click="share" v-if="shareIsSupported">
+    <button class="btn" @click="share()" v-if="shareIsSupported">
       {{ $t("view_view.header.external_link.share_link") }}
     </button>
-    <button class="btn" @click="copy" v-if="clipboardIsSupported">
+    <button class="btn" @click="copy()" v-if="clipboardIsSupported">
       {{ copied ? $t("view_view.header.external_link.copied") : $t("view_view.header.copy_link") }}
     </button>
   </div>

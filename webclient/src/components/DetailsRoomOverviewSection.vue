@@ -1,31 +1,17 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useVirtualList } from "@vueuse/core";
-
-type RoomChild = { readonly id: string; readonly name: string };
-type Rooms = {
-  readonly usages?: readonly {
-    /**
-     * @description Category Name
-     * @example Büro
-     */
-    readonly name: string;
-    /**
-     * @description How many children this category has
-     * @example 126
-     */
-    readonly count: number;
-    readonly children: readonly RoomChild[];
-  }[];
-};
+import type { components } from "@/api_types";
+type RoomsOverview = components["schemas"]["RoomsOverview"];
+type ChildEntry = components["schemas"]["ChildEntry"];
 
 const props = defineProps<{
-  readonly rooms?: Rooms;
+  readonly rooms?: RoomsOverview;
 }>();
 
 const combined_list = computed(() => {
   const usages = props.rooms?.usages || [];
-  const combinedList = [] as RoomChild[];
+  const combinedList = [] as ChildEntry[];
   usages.forEach((usage) => {
     combinedList.push(...usage.children);
   });
@@ -35,18 +21,24 @@ const combined_list = computed(() => {
 const search = ref("");
 const selected = ref(-1);
 
-const selectedRooms = computed<RoomChild[]>(() => {
+const selectedRooms = computed<readonly ChildEntry[]>(() => {
   if (selected.value === -1) {
     return combined_list.value;
   }
   const rooms_usgage = props.rooms?.usages || [];
   return rooms_usgage[selected.value].children;
 });
-const filteredList = computed<RoomChild[]>(() => {
+const filteredList = computed<readonly ChildEntry[]>(() => {
   const search_term = new RegExp(`.*${search.value}.*`, "i"); // i=>case insensitive
   return selectedRooms.value.filter((f) => search_term.test(f.name));
 });
-const { list, containerProps, wrapperProps } = useVirtualList(filteredList, { itemHeight: 32, overscan: 10 });
+// useVirtualList does not work with readonly arrays
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore-next-line
+const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filteredList, {
+  itemHeight: 32,
+  overscan: 10,
+});
 </script>
 
 <template>
@@ -93,7 +85,7 @@ const { list, containerProps, wrapperProps } = useVirtualList(filteredList, { it
                 <button
                   class="btn"
                   :class="{
-                    active: i === props.rooms.selected,
+                    active: i === selected,
                   }"
                   @click="selected = i"
                 >

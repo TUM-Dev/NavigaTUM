@@ -22,7 +22,8 @@ function loadRoomfinderMap(mapIndex: number, fromUi = false) {
 
   // Using the #map-container since the bounding rect is still all zero
   // if we switched here from interactive map
-  const rect = document.getElementById("map-container")?.getBoundingClientRect();
+  const container = document.getElementById("map-container") as HTMLDivElement;
+  const rect = container.getBoundingClientRect();
   // -1023px, -1023px is top left corner, 16px = 2*8px is element padding
   state.map.roomfinder.x = -1023 + (map.x / map.width) * (rect.width - 16);
 
@@ -34,7 +35,8 @@ function loadRoomfinderMap(mapIndex: number, fromUi = false) {
   state.map.roomfinder.height = map.height;
 
   if (fromUi) {
-    document.getElementById("map-accordion").checked = false;
+    const accordion = document.getElementById("map-accordion") as HTMLInputElement;
+    accordion.checked = false;
     /* window.setTimeout(() => {
                     document.getElementById("roomfinder-map-img").scrollIntoView(false);
                 }, 50); */
@@ -150,7 +152,7 @@ function delayedLoadRoomfinderModalMap() {
           />
           <img
             :alt="$t('view_view.roomfinder_modal.img_alt')"
-            :src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap()?.file"
+            :src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap().file"
             class="img-responsive"
             :width="state.map.roomfinder.width"
             :height="state.map.roomfinder.height"

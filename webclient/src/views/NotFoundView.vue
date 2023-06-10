@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useGlobalStore } from "@/stores/global";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const global = useGlobalStore();
 </script>
 
@@ -9,7 +11,7 @@ const global = useGlobalStore();
   <h5 style="margin-top: 25px">{{ $t("view_404.header") }}</h5>
   <p>{{ $t("view_404.description") }}</p>
   <button
-    @click="global.openFeedback('bug', `404 on ${window.location.href}`, $t('view_404.got_here'))"
+    @click="global.openFeedback('bug', `404 on ${route.fullPath}`, $t('view_404.got_here'))"
     class="btn btn-link p-0"
     :aria-label="$t('view_404.open_feedback')"
   >
