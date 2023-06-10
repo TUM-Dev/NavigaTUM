@@ -1142,9 +1142,8 @@ components:
             An example of a room with a comment is MW1801.
           type: string
         calendar_url:
-          items:
-            type: string
-            description: A link to the calendar of the room
+          description: A link to the calendar of the room
+          type: string
           examples:
             - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J'
             - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
@@ -1168,6 +1167,11 @@ components:
             body:
               type: string
               example: 'für Prüfungen: 102 in eng, 71 in weit, 49 in corona'
+            footer:
+              type: string
+              example: data based on a Survey of chimneysweeps
+          required:
+            - body
       required:
         - name
         - text
@@ -1278,15 +1282,15 @@ components:
           type: string
           example: roomfinder
           enum:
-          - roomfinder
-          - navigatum
-          - inferred
+            - roomfinder
+            - navigatum
+            - inferred
         accuracy:
-          description: How accurate the coordinate is. Only present, if it is limited to a degree (e.g. we only know the building)
+          description: 'How accurate the coordinate is. Only present, if it is limited to a degree (e.g. we only know the building)'
           type: string
-          enum:
-          - building
           example: building
+          enum:
+            - building
       required:
         - lat
         - lon
@@ -1386,6 +1390,14 @@ components:
           format: int32
           example: 189
           minimum: 0
+        source:
+          description: Where the map was imported from
+          type: string
+          example: Roomfinder
+        file:
+          description: Where the map is stored
+          type: string
+          example: rf93.webp
       required:
         - name
         - id
@@ -1394,6 +1406,8 @@ components:
         - width
         - x
         - 'y'
+        - source
+        - file
     OverlayMapEntry:
       type: object
       properties:
@@ -1484,6 +1498,7 @@ components:
             If this field is not present, then all entries are displayed.
           type: integer
           format: int64
+          example: 6
           minimum: 0
       required:
         - estimatedTotalHits
@@ -1590,29 +1605,27 @@ components:
             maps:
               $ref: '#/components/schemas/Maps'
             sections:
-              $ref: '#/components/schemas/DetailsSection'
+              type: object
+              properties:
+                buildings_overview:
+                  $ref: '#/components/schemas/BuildingsOverview'
+                rooms_overview:
+                  $ref: '#/components/schemas/RoomsOverview'
           required:
             - id
             - type
             - coords
             - maps
-    DetailsSection:
+    BuildingsOverview:
       type: object
       properties:
-        buildings_overview:
-          type: object
-          properties:
-            entries:
-              type: array
-              items:
-                type: object
+        entries:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/ChildEntry'
+              - type: object
                 properties:
-                  id:
-                    description: The id of the building
-                    type: string
-                  name:
-                    description: Main display name
-                    type: string
                   subtext:
                     description: What should be displayed below this Building
                     type: string
@@ -1622,51 +1635,90 @@ components:
                     type: string
                     example: mi_0.webp
                 required:
-                  - id
-                  - name
                   - subtext
-            n_visible:
-              type: integer
-              example: 6
-              minimum: 0
-          required:
-            - entries
-            - n_visible
-        rooms_overview:
-          type: object
-          properties:
-            usages:
-              type: array
-              items:
-                type: object
-                properties:
-                  name:
-                    description: Category Name
-                    type: string
-                    example: Büro
-                  count:
-                    description: How many children this category has
-                    type: integer
-                    example: 126
-                    minimum: 0
-                  children:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          description: The id of the room
-                          type: string
-                        name:
-                          description: Main display name
-                          type: string
-                      required:
-                        - id
-                        - name
-                required:
-                  - children
-                  - count
-                  - name
+        n_visible:
+          description: |
+            A recommendation how many of the entries should be displayed by default.  
+            The number is usually from 0-5.  
+            More results might be displayed when clicking "expand".  
+            If this field is not present, then all entries are displayed.
+          type: integer
+          format: int64
+          example: 6
+          minimum: 0
+      required:
+        - entries
+        - n_visible
+    RoomsOverview:
+      type: object
+      properties:
+        usages:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                description: Category Name
+                type: string
+                example: Büro
+              count:
+                description: How many children this category has
+                type: integer
+                example: 126
+                minimum: 0
+              children:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChildEntry'
+            required:
+              - children
+              - count
+              - name
+    ChildEntry:
+      type: object
+      properties:
+        id:
+          description: The id of the entry
+          type: string
+          example: mi
+        name:
+          description: Human display name
+          type: string
+          example: Mathematik / Informatik
+      required:
+        - id
+        - name
+    SitesOverview:
+      description: |
+        This is a list of all sites, that are available in the system.
+        It is sorted by the number of rooms in the site, descending.
+        The first entry is the site with the most importance
+      type: array
+      items:
+        allOf:
+          - $ref: '#/components/schemas/ChildEntry'
+          - type: object
+            properties:
+              n_visible:
+                description: |
+                  A recommendation how many of the entries should be displayed by default.  
+                  The number is usually from 0-5.  
+                  More results might be displayed when clicking "expand".  
+                  If this field is not present, then all entries are displayed.
+                type: integer
+                format: int64
+                example: 6
+                minimum: 0
+              children:
+                description: |
+                  A select list of buildings, that are in this site.
+                  Derived from the areatree.
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChildEntry'
+            required:
+              - n_visible
+              - children
     RootResponse:
       allOf:
         - $ref: '#/components/schemas/BaseDetailsResponse'
@@ -1682,9 +1734,12 @@ components:
               type: string
               enum:
                 - root
+            sites_overview:
+              $ref: '#/components/schemas/SitesOverview'
           required:
             - id
             - type
+            - sites_overview
     BaseDetailsResponse:
       type: object
       properties:
@@ -1702,7 +1757,11 @@ components:
 
             ***THIS WILL DISAPEAR IN THE FUTURE, DO NOT RELY ON IT.***
             This is only here while TUM is transitioning to this system.
-          type: string
+
+            null if an `arch_name` would not make sense (i.e. a building/root response)
+          type:
+            - string
+            - 'null'
           example: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
         parents:
           type: array
@@ -1734,6 +1793,11 @@ components:
           description: 'Where we got our data from, should be displayed at the bottom of any page containing this data'
           type: object
           properties:
+            patched:
+              description: |
+                Was this entry patched by us? (e.g. to fix a typo in the name/...)
+                If so, we should not display the source, as it is not the original source.
+              type: boolean
             base:
               description: What is the basis of the data we have
               type: array
@@ -1745,6 +1809,10 @@ components:
                     description: The name of the provider
                     type: string
                     example: NavigaTUM
+                  url:
+                    description: The url of the provider
+                    type: string
+                    example: 'https://nav.tum.de'
                 required:
                   - name
           required:
