@@ -39,49 +39,28 @@ const global = useGlobalStore();
 
   <Footer />
   <FeedbackModal v-if="global.feedback.open" />
-  <!-- General message modal -->
-  <div class="modal active" v-if="global.information_modal?.body">
-    <a class="modal-overlay" :aria-label="$t('close')" @click="global.information_modal.body = undefined" />
-    <div class="modal-container">
-      <div class="modal-header">
-        <button
-          class="btn btn-clear float-right"
-          :aria-label="$t('close')"
-          @click="global.information_modal.body = undefined"
-        />
-        <div v-if="global.information_modal.header" class="modal-title h5">{{ global.information_modal.header }}</div>
-      </div>
-      <div class="modal-body">
-        <div class="content">
-          <p>{{ global.information_modal.body }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <style lang="scss">
 @import "./assets/variables";
-
-/* === Content === */
-#content {
-  min-height: calc(100vh - 200px);
-}
 
 // 10px + 60px for header
 #content-header {
   margin-top: 70px;
 }
 
-#content.visible {
-  /* For some reason (I assume because the 'visible' class is not set when vue loads),
+#content {
+  min-height: calc(100vh - 200px);
+  &.visible {
+    /* For some reason (I assume because the 'visible' class is not set when vue loads),
      * this class gets removed if vue adds/removes the 'search_focus' class. For this reason
      * opacity on page navigation is set as style property in JS. It is only guaranteed that
      * this class is there on page-load. */
-  transition: opacity 0.07s;
-}
+    transition: opacity 0.07s;
+  }
 
-#content.search_focus {
-  opacity: 0.7;
+  &.search_focus {
+    opacity: 0.7;
+  }
 }
 </style>
