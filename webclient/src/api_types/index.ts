@@ -510,6 +510,7 @@ export type components = {
       readonly sections?: {
         readonly buildings_overview?: components["schemas"]["BuildingsOverview"];
         readonly rooms_overview?: components["schemas"]["RoomsOverview"];
+        readonly featured_overview?: components["schemas"]["FeaturedOverview"];
       };
     };
     readonly BuildingsOverview: {
@@ -550,6 +551,20 @@ export type components = {
         readonly count: number;
         readonly children: readonly components["schemas"]["ChildEntry"][];
       }[];
+    };
+    readonly FeaturedOverview: {
+      readonly entries: readonly (components["schemas"]["ChildEntry"] & {
+        /**
+         * @description What should be displayed below this Building
+         * @example Gebäudekomplex mit 512 Räumen
+         */
+        readonly subtext: string;
+        /**
+         * @description The thumbnail for the building
+         * @example mi_0.webp
+         */
+        readonly image_url: string;
+      })[];
     };
     readonly ChildEntry: {
       /**
