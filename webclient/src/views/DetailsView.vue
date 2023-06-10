@@ -21,10 +21,7 @@ import type { components } from "@/api_types";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 import type { Coord } from "@/stores/global";
 
-const { t } = useI18n({
-  inheritLocale: true,
-  useScope: "global",
-});
+const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 
 const route = useRoute();
 

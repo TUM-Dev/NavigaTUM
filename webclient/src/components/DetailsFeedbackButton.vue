@@ -5,7 +5,7 @@ import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
 import type { Coord } from "@/stores/global";
 
-const { t } = useI18n();
+const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 const state = useDetailsStore();
 type CurrentEdits = { [index: string]: Coord };
 function _getFeedbackSubject(currentEdits: CurrentEdits) {
