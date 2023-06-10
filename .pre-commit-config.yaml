@@ -106,7 +106,7 @@ repos:
         exclude: migrations
   # markdown
   - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.7.1
+    rev: v0.8.0
     hooks:
       - id: markdownlint-cli2-fix
         exclude: .github/pull_request_template.md
