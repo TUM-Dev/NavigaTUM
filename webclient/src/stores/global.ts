@@ -13,10 +13,6 @@ export const useGlobalStore = defineStore({
   state: () => ({
     search_focused: false,
     error_message: null as string | null,
-    information_modal: {
-      header: undefined as string | undefined,
-      body: undefined as string | undefined,
-    },
     feedback: {
       open: false,
       category: "general" as TokenRequest["category"],

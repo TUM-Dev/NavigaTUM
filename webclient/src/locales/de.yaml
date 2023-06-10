@@ -1,4 +1,5 @@
 close: Schließen
+show_more_information: Mehr Informationen anzeigen
 core_js:
   error:
     '404': 404 Nicht gefunden
@@ -161,6 +162,7 @@ view_view:
     image_alt: Header-Bild, zeigt das Gebäude
   info_table:
     links: Links
+    no_information_known: Keine Informationen bekannt
   info_title: Informationen
   map:
     img_alt: Handgezeichnete Roofinder-Kartendarstellung

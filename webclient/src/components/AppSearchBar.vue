@@ -225,10 +225,6 @@ onMounted(() => {
     &.nb_results {
       margin: -4px 0;
       padding: 4px 8px;
-
-      > a {
-        cursor: pointer;
-      }
     }
 
     &.actions {
@@ -330,6 +326,7 @@ onMounted(() => {
         </template>
         <li class="search-comment nb_results">
           <a
+            class="c-hand"
             v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
             @mousedown="keep_focus = true"
             @click="s.expanded = true"
