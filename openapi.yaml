@@ -1611,6 +1611,8 @@ components:
                   $ref: '#/components/schemas/BuildingsOverview'
                 rooms_overview:
                   $ref: '#/components/schemas/RoomsOverview'
+                featured_overview:
+                    $ref: '#/components/schemas/FeaturedOverview'
           required:
             - id
             - type
@@ -1674,6 +1676,29 @@ components:
               - children
               - count
               - name
+    FeaturedOverview:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/ChildEntry'
+              - type: object
+                properties:
+                  subtext:
+                    description: What should be displayed below this Building
+                    type: string
+                    example: Gebäudekomplex mit 512 Räumen
+                  image_url:
+                    description: The thumbnail for the building
+                    type: string
+                    example: mi_0.webp
+                required:
+                  - subtext
+                  - image_url
+      required:
+        - entries
     ChildEntry:
       type: object
       properties:

@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { useDetailsStore } from "@/stores/details";
+import type { components } from "@/api_types";
+type FeaturedOverview = components["schemas"]["FeaturedOverview"];
 
-const state = useDetailsStore();
+const props = defineProps<{
+  readonly featured?: FeaturedOverview;
+}>();
 </script>
 
 <template>
-  <div v-if="state.data?.sections?.featured">
+  <div v-if="props.featured">
     <div class="columns" style="margin-top: 40px">
       <div class="column">
         <h2>Featured</h2>
