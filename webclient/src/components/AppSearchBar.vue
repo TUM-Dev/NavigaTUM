@@ -146,7 +146,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@import "../assets/variables";
+@import "@/assets/variables";
 
 .form-autocomplete {
   .menu {
@@ -304,7 +304,7 @@ onMounted(() => {
                     <i v-if="e.parsed_id" class="icon icon-search" />
                     <i v-else class="icon icon-location" />
                   </template>
-                  <img v-else src="../assets/thumb-building.webp" class="avatar avatar-sm" />
+                  <img v-else src="@/assets/thumb-building.webp" class="avatar avatar-sm" />
                 </div>
                 <div class="tile-content">
                   <span class="tile-title">

@@ -19,7 +19,7 @@ window.setTimeout(() => {
 </template>
 
 <style lang="scss">
-@import "../assets/variables";
+@import "@/assets/variables";
 
 .swagger-ui {
   // we cannot apply loading-lg to this external dependency

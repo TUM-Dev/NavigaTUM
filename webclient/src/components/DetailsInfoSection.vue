@@ -65,7 +65,7 @@ const global = useGlobalStore();
 </template>
 
 <style lang="scss">
-@import "../assets/variables";
+@import "@/assets/variables";
 /* --- Information Card (desktop) --- */
 .card-body .toast {
   margin-top: 12px;

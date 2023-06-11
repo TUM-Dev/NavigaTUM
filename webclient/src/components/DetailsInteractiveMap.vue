@@ -390,7 +390,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 
 <style lang="scss">
 @import "maplibre-gl/dist/maplibre-gl.css";
-@import "../assets/variables";
+@import "@/assets/variables";
 
 /* --- Map container --- */
 #map-container {
@@ -473,7 +473,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   padding: 0;
 
   &.marker-pin {
-    background-image: url(../assets/map/marker_pin.webp);
+    background-image: url(@/assets/map/marker_pin.webp);
     width: 25px;
     height: 36px;
     top: -33px;
@@ -481,7 +481,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   }
 
   &.marker-shadow {
-    background-image: url(../assets/map/marker_pin-shadow.webp);
+    background-image: url(@/assets/map/marker_pin-shadow.webp);
     width: 38px;
     height: 24px;
     top: -20px;

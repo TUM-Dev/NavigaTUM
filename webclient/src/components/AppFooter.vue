@@ -88,7 +88,7 @@ const global = useGlobalStore();
 </template>
 
 <style lang="scss">
-@import "../assets/variables";
+@import "@/assets/variables";
 
 footer {
   margin-top: 30px;

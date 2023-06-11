@@ -140,7 +140,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
 </template>
 
 <style lang="scss" scoped>
-@import "../assets/variables";
+@import "@/assets/variables";
 .panel {
   .menu {
     padding: 0;

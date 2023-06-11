@@ -4,7 +4,7 @@
       <div class="columns">
         <div class="column hide-lg">
           <RouterLink to="/">
-            <img :alt="$t('meta.logo_alt')" src="../assets/logo.svg" id="logo" />
+            <img :alt="$t('meta.logo_alt')" src="@/assets/logo.svg" id="logo" />
             <!-- 7px for logo1 -->
           </RouterLink>
         </div>
@@ -14,7 +14,7 @@
 
         <div class="hide-lg">
           <RouterLink to="/">
-            <img :alt="$t('meta.tum_logo_alt')" src="../assets/tum_logo.min.svg" id="tum_logo" />
+            <img :alt="$t('meta.tum_logo_alt')" src="@/assets/tum_logo.min.svg" id="tum_logo" />
             <!-- 7px for logo1 -->
           </RouterLink>
         </div>
@@ -24,7 +24,7 @@
 </template>
 
 <style lang="scss">
-@import "../assets/variables";
+@import "@/assets/variables";
 
 .navbar {
   padding: 10px 0;

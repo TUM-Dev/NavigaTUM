@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import MainView from "./views/MainView.vue";
-import NotFoundView from "./views/NotFoundView.vue";
-import SearchView from "./views/SearchView.vue";
+import MainView from "@/pages/index.vue";
+import NotFoundView from "@/pages/[...slug].vue";
+import SearchView from "@/pages/search.vue";
 
 const routes = [
   {
@@ -10,7 +10,7 @@ const routes = [
     path: "/",
   },
   {
-    component: () => import("./views/DetailsView.vue"),
+    component: () => import("@/pages/view/[id].vue"),
     name: "detail",
     path: "/:view(view|campus|site|building|room|poi)/:id",
   },
@@ -20,12 +20,12 @@ const routes = [
     path: "/search",
   },
   {
-    component: () => import("./views/APIView.vue"),
+    component: () => import("@/pages/api.vue"),
     name: "api",
     path: "/api",
   },
   {
-    component: () => import("./views/AboutView.vue"),
+    component: () => import("@/pages/about/[name].vue"),
     name: "about",
     path: "/about/:name",
   },
