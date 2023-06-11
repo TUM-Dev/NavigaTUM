@@ -71,7 +71,7 @@ def _infer_internal_id(building, data):
             building.b_id = _id
     if building.b_id is None:
         raise RuntimeError(
-            f"Building '{building}' not found in base data. " f"It may be missing in the areatree.",
+            f"Building '{building}' not found in base data. It may be missing in the areatree.",
         )
     return building.b_id
 
