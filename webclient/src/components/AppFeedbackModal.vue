@@ -323,7 +323,7 @@ function sendForm() {
 </template>
 
 <style lang="scss" scoped>
-@import "../assets/variables";
+@import "@/assets/variables";
 
 .modal {
   z-index: 3000;

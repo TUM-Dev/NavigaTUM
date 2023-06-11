@@ -42,7 +42,7 @@ const global = useGlobalStore();
 </template>
 
 <style lang="scss">
-@import "./assets/variables";
+@import "@/assets/variables";
 
 // 10px + 60px for header
 #content-header {

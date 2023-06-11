@@ -55,7 +55,7 @@ const state = useDetailsStore();
 </template>
 
 <style lang="scss">
-@import "../assets/variables";
+@import "@/assets/variables";
 
 #entry-sources {
   h2 {

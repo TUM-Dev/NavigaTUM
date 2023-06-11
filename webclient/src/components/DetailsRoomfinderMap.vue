@@ -74,7 +74,7 @@ function delayedLoadRoomfinderModalMap() {
     >
       <img
         :alt="$t('view_view.map.roomfinder_crosshair')"
-        src="../assets/map/roomfinder_cross-v2.webp"
+        src="@/assets/map/roomfinder_cross-v2.webp"
         :style="{
           transform: 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)',
         }"
@@ -144,7 +144,7 @@ function delayedLoadRoomfinderModalMap() {
         <div class="roomfinder-map-container">
           <img
             :alt="$t('view_view.map.roomfinder_crosshair')"
-            src="../assets/map/roomfinder_cross-v2.webp"
+            src="@/assets/map/roomfinder_cross-v2.webp"
             :style="{
               transform: `translate(${state.map.roomfinder.modalX}px, ${state.map.roomfinder.modalY}px)`,
             }"
@@ -169,7 +169,7 @@ function delayedLoadRoomfinderModalMap() {
 </template>
 
 <style lang="scss">
-@import "../assets/variables";
+@import "@/assets/variables";
 
 /* --- Roomfinder display --- */
 .roomfinder-map-container {

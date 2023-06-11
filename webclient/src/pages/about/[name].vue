@@ -1,19 +1,19 @@
 <script setup lang="ts">
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import Datenschutz from "../assets/md/datenschutz.md";
+import Datenschutz from "@/assets/md/datenschutz.md";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import Privacy from "../assets/md/privacy.md";
+import Privacy from "@/assets/md/privacy.md";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import AboutUs from "../assets/md/about-us.md";
+import AboutUs from "@/assets/md/about-us.md";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import UeberUns from "../assets/md/ueber-uns.md";
+import UeberUns from "@/assets/md/ueber-uns.md";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import Impressum from "../assets/md/impressum.md";
+import Impressum from "@/assets/md/impressum.md";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -31,7 +31,7 @@ const route = useRoute();
 </template>
 
 <style lang="scss">
-@import "../assets/variables";
+@import "@/assets/variables";
 
 #view-md {
   padding-top: 15px;

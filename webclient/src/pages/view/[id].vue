@@ -371,7 +371,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
-@import "../assets/variables";
+@import "@/assets/variables";
 
 #view-view {
   /* --- General --- */

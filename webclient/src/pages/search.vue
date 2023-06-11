@@ -89,7 +89,7 @@ function genDescription(): string {
                 <img
                   v-else
                   class="avatar avatar-sm"
-                  src="../assets/thumb-building.webp"
+                  src="@/assets/thumb-building.webp"
                   :alt="$t('search.thumbnail_alt')"
                 />
               </div>
@@ -122,7 +122,7 @@ function genDescription(): string {
 </template>
 
 <style lang="scss">
-@import "../assets/variables";
+@import "@/assets/variables";
 
 #view-search {
   padding-top: 25px;

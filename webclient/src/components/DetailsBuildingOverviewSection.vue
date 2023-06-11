@@ -35,7 +35,7 @@ const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);
                   <img
                     v-else
                     :alt="$t('view_view.buildings_overview.default_thumbnail_preview')"
-                    src="../assets/thumb-building.webp"
+                    src="@/assets/thumb-building.webp"
                   />
                 </figure>
               </div>
@@ -69,7 +69,7 @@ const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);
 </template>
 
 <style lang="scss" scoped>
-@import "../assets/variables";
+@import "@/assets/variables";
 
 a {
   text-decoration: none !important;

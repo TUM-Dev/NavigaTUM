@@ -92,7 +92,7 @@ function less(id: string) {
 </template>
 
 <style lang="scss">
-@import "../assets/variables";
+@import "@/assets/variables";
 
 #view-main {
   .panel {
