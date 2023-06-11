@@ -1,0 +1,41 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pr-599
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/TUM-Dev/navigatum.git
+    targetRevision: lexer_parser
+    path: deployment/k3s
+    helm:
+      version: v3
+      values: |
+        namespace: pr-599
+        tag: pr-599
+        url: pr-599.nav.tum.sexy
+        server:
+            MEILI_MASTER_KEY: OGUwNThiNzE0ODllYzRkYjY3MGQK
+            # GITHUB_TOKEN is intentionally omitted, as this file is templated and then added to git in the deployments branch
+            # JWT_KEY is omitted, because adding it would only make sense in conjunction with GITHUB_TOKEN
+            # MEILI_MASTER_KEY being added is not a security risk, since it is a hidden service and even if exposed is heavily restricted by other network policies
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pr-599
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - CreateNamespace=true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
