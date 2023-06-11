@@ -6,7 +6,7 @@ use regex::Regex;
 
 fn github_token() -> String {
     std::env::var("GITHUB_TOKEN")
-        .expect("GITHUB_TOKEN not set")
+        .expect("GITHUB_TOKEN to be set")
         .trim()
         .to_string()
 }
@@ -21,14 +21,15 @@ pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> 
             .body("Subject or body missing or too short");
     }
 
-    let octocrab = Octocrab::builder().personal_token(github_token()).build();
-    if octocrab.is_err() {
-        error!("Error creating issue: {octocrab:?}");
-        return HttpResponse::InternalServerError().body("Could not create Octocrab instance");
-    }
+    let octocrab = match Octocrab::builder().personal_token(github_token()).build() {
+        Err(e) => {
+            error!("Could not create Octocrab instance: {e:?}");
+            return HttpResponse::InternalServerError().body("Failed to create issue");
+        }
+        Ok(octocrab) => octocrab,
+    };
 
     let resp = octocrab
-        .unwrap()
         .issues("TUM-Dev", "navigatum")
         .create(title)
         .body(description)
@@ -44,7 +45,61 @@ pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> 
             error!("Error creating issue: {e:?}");
             HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Failed create issue")
+                .body("Failed to create issue")
+        }
+    };
+}
+
+pub async fn open_pr(
+    branch: String,
+    title: &str,
+    description: &str,
+    labels: Vec<String>,
+) -> HttpResponse {
+    let octocrab = match Octocrab::builder().personal_token(github_token()).build() {
+        Err(e) => {
+            error!("Could not create Octocrab instance: {e:?}");
+            return HttpResponse::InternalServerError().body("Failed to create a pull request");
+        }
+        Ok(octocrab) => octocrab,
+    };
+
+    // create the PR
+    let pr_number = match octocrab
+        .pulls("TUM-Dev", "NavigaTUM")
+        .create(title, branch, "main")
+        .body(description)
+        .maintainer_can_modify(true)
+        .send()
+        .await
+    {
+        Ok(pr) => pr.number,
+        Err(e) => {
+            error!("Error creating pull request: {e:?}");
+            return HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Failed to create a pull request");
+        }
+    };
+
+    // For some reason the labels and assignees cannot be set via the create call, but must be updated afterwards
+    let resp = octocrab
+        .issues("TUM-Dev", "navigatum")
+        .update(pr_number)
+        .labels(&labels)
+        .assignees(&["CommanderStorm".to_string()])
+        .send()
+        .await;
+
+    return match resp {
+        Ok(issue) => HttpResponse::Created()
+            .content_type("text/plain")
+            .body(issue.html_url.to_string()),
+        Err(e) => {
+            error!("Error updating PR: {e:?}");
+            HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Failed to create a pull request")
         }
     };
 }
