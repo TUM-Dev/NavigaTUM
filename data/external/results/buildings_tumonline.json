@@ -1117,7 +1117,7 @@
   {
     "area_id": 42,
     "filter_id": 993,
-    "name": "4264 Protein Modelling, Emil-Erlenmeyer-Forum    8"
+    "name": "4264 Fachschaftenhaus, Emil-Erlenmeyer-Forum    8"
   },
   {
     "area_id": 42,
@@ -1933,6 +1933,11 @@
     "area_id": 34,
     "filter_id": 2630,
     "name": "5537 Interims-Zelt-TUMshop, Boltzmannstr.   15"
+  },
+  {
+    "area_id": 34,
+    "filter_id": 3149,
+    "name": "5539 Interims-Tentomax MW, Boltzmannstr.   15"
   },
   {
     "area_id": 33,

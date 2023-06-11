@@ -1699,13 +1699,7 @@
     "b_id": "2927",
     "b_name": "TUM CS PG18 (AM), Petersgasse 18\n",
     "b_roomCount": 0,
-    "default_map": [
-      "5000",
-      248,
-      "Wissenschaftszentrum Straubing Lageplan",
-      635,
-      788
-    ],
+    "default_map": ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
     "maps": [
       ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
@@ -1720,13 +1714,7 @@
     "b_id": "2929",
     "b_name": "TUM CS SG20 (AM), Schulgasse 20\n",
     "b_roomCount": 0,
-    "default_map": [
-      "5000",
-      248,
-      "Wissenschaftszentrum Straubing Lageplan",
-      635,
-      788
-    ],
+    "default_map": ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
     "maps": [
       ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
@@ -1741,14 +1729,10 @@
     "b_id": "2930",
     "b_name": "TUM CS H\u00f6rsaal Rentamtsberg 1 (AM), Rentamtsberg 1\n",
     "b_roomCount": 0,
-    "default_map": [
-      "5000",
-      248,
-      "Wissenschaftszentrum Straubing Lageplan",
-      635,
-      788
+    "default_map": ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
     ],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
     "utm_easting": 322017.0,
     "utm_northing": 5417537.0,
     "utm_zone": "33"
@@ -1810,7 +1794,9 @@
     "b_name": "Projektb\u00fcro Hainich",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 605435.027128,
     "utm_northing": 5664152.741779,
     "utm_zone": "32"
@@ -1822,7 +1808,9 @@
     "b_name": "Obernach B\u00fcrogeb\u00e4ude",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672420.0,
     "utm_northing": 5269331.0,
     "utm_zone": "32"
@@ -1834,7 +1822,9 @@
     "b_name": "Obernach Vesuchshalle 1",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672381.0,
     "utm_northing": 5269335.0,
     "utm_zone": "32"
@@ -1846,7 +1836,9 @@
     "b_name": "Obernach Werkst\u00e4tten",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672360.0,
     "utm_northing": 5269441.0,
     "utm_zone": "32"
@@ -1858,7 +1850,9 @@
     "b_name": "Obernach Unterstelle",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672415.0,
     "utm_northing": 5269288.0,
     "utm_zone": "32"
@@ -1870,7 +1864,9 @@
     "b_name": "Obernach Archiv/Bibliothek\n",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672416.0,
     "utm_northing": 5269302.0,
     "utm_zone": "32"
@@ -1882,7 +1878,9 @@
     "b_name": "Obernach Lagerhalle",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672336.0,
     "utm_northing": 5269469.0,
     "utm_zone": "32"
@@ -1894,7 +1892,9 @@
     "b_name": "Obernach Freifl\u00e4che\n",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672343.0,
     "utm_northing": 5269649.0,
     "utm_zone": "32"
@@ -1906,7 +1906,9 @@
     "b_name": "Obernach Blockhaus",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672439.0,
     "utm_northing": 5269297.0,
     "utm_zone": "32"
@@ -1918,7 +1920,9 @@
     "b_name": "Obernach Geschiebelager",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672429.0,
     "utm_northing": 5269397.0,
     "utm_zone": "32"
@@ -1930,7 +1934,9 @@
     "b_name": "Obernach Steuerhaus",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672370.0,
     "utm_northing": 5269469.0,
     "utm_zone": "32"
@@ -1942,7 +1948,9 @@
     "b_name": "Obernach Messh\u00fctte",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672388.0,
     "utm_northing": 5269571.0,
     "utm_zone": "32"
@@ -1954,7 +1962,9 @@
     "b_name": "Obernach Trafostation",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672410.0,
     "utm_northing": 5269505.0,
     "utm_zone": "32"
@@ -1966,7 +1976,9 @@
     "b_name": "Obernach Pumpstation 2",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672411.0,
     "utm_northing": 5269505.0,
     "utm_zone": "32"
@@ -1978,7 +1990,9 @@
     "b_name": "Obernach Pumpstation 3",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672379.0,
     "utm_northing": 5269363.0,
     "utm_zone": "32"
@@ -1990,7 +2004,9 @@
     "b_name": "Obernach Pumpstation 4",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672371.0,
     "utm_northing": 5269303.0,
     "utm_zone": "32"
@@ -2002,7 +2018,9 @@
     "b_name": "Obernach Versuchshalle 2",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672389.0,
     "utm_northing": 5269428.0,
     "utm_zone": "32"
@@ -2014,7 +2032,9 @@
     "b_name": "Obernach Holz-/Baulager\n",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672334.0,
     "utm_northing": 5269491.0,
     "utm_zone": "32"
@@ -2026,7 +2046,9 @@
     "b_name": "Obernach Steuerhaus 2",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672441.0,
     "utm_northing": 5269853.0,
     "utm_zone": "32"
@@ -2038,7 +2060,9 @@
     "b_name": "Obernach Turbinenhaus",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672466.0,
     "utm_northing": 5269844.0,
     "utm_zone": "32"
@@ -2050,7 +2074,9 @@
     "b_name": "Obernach Tiefbrunnen\n",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 605435.027128,
     "utm_northing": 5664152.741779,
     "utm_zone": "32"
@@ -2062,7 +2088,9 @@
     "b_name": "Obernach Modellaustellung\n",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672437.0,
     "utm_northing": 5269800.0,
     "utm_zone": "32"
@@ -2074,7 +2102,9 @@
     "b_name": "Obernach Folienhalle\n",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672352.0,
     "utm_northing": 5269533.0,
     "utm_zone": "32"
@@ -2086,7 +2116,9 @@
     "b_name": "Obernach Fl\u00fcssiggastank\n",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672375.0,
     "utm_northing": 5269525.0,
     "utm_zone": "32"
@@ -2098,7 +2130,9 @@
     "b_name": "Obernach unterirdischer Wasserbeh\u00e4lter\n",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 672376.0,
     "utm_northing": 5269498.0,
     "utm_zone": "32"
@@ -2140,13 +2174,7 @@
     "b_id": "3501",
     "b_name": "TUM CS SG16, Schulgasse 16",
     "b_roomCount": 0,
-    "default_map": [
-      "5000",
-      248,
-      "Wissenschaftszentrum Straubing Lageplan",
-      635,
-      788
-    ],
+    "default_map": ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
     "maps": [
       ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
@@ -2161,13 +2189,7 @@
     "b_id": "3502",
     "b_name": "TUM CS SG22 (AM), Schulgasse 22",
     "b_roomCount": 0,
-    "default_map": [
-      "5000",
-      248,
-      "Wissenschaftszentrum Straubing Lageplan",
-      635,
-      788
-    ],
+    "default_map": ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
     "maps": [
       ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
@@ -2182,13 +2204,7 @@
     "b_id": "3503",
     "b_name": "TUM CS PG05, Petersgasse 5",
     "b_roomCount": 0,
-    "default_map": [
-      "5000",
-      248,
-      "Wissenschaftszentrum Straubing Lageplan",
-      635,
-      788
-    ],
+    "default_map": ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
     "maps": [
       ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
@@ -2203,13 +2219,7 @@
     "b_id": "3504",
     "b_name": "TUM CS SG22a, Schulgasse 22a",
     "b_roomCount": 0,
-    "default_map": [
-      "5000",
-      248,
-      "Wissenschaftszentrum Straubing Lageplan",
-      635,
-      788
-    ],
+    "default_map": ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
     "maps": [
       ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
@@ -2224,13 +2234,7 @@
     "b_id": "3505",
     "b_name": "TUM CS H\u00f6rsaal und Forschungsgeb\u00e4ude, Uferstra\u00dfe 53",
     "b_roomCount": 9,
-    "default_map": [
-      "5000",
-      248,
-      "Wissenschaftszentrum Straubing Lageplan",
-      635,
-      788
-    ],
+    "default_map": ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
     "maps": [
       ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
       ["100000000", 9, "Weltkarte Norden", 1619, 396]
@@ -2245,14 +2249,10 @@
     "b_id": "3515",
     "b_name": "TUM CS Essigberg 3 (AM), Am Essigberg 3\n",
     "b_roomCount": 0,
-    "default_map": [
-      "5000",
-      248,
-      "Wissenschaftszentrum Straubing Lageplan",
-      635,
-      788
+    "default_map": ["5000", 248, "Wissenschaftszentrum Straubing Lageplan", 635, 788],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
     ],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
     "utm_easting": 321410.0,
     "utm_northing": 5417166.0,
     "utm_zone": "33"
@@ -4279,7 +4279,9 @@
     "b_name": "VST.Thalh.-Wohngeb\u00e4ude",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 698058.0,
     "utm_northing": 5367199.0,
     "utm_zone": "32"
@@ -4291,7 +4293,9 @@
     "b_name": "VST.Thalh.-Zentralgeb\u00e4ude",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 698067.0,
     "utm_northing": 5367240.0,
     "utm_zone": "32"
@@ -4303,7 +4307,9 @@
     "b_name": "VST.Thalh.-Betriebsgeb\u00e4ude",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 698087.0,
     "utm_northing": 5367290.0,
     "utm_zone": "32"
@@ -4315,7 +4321,9 @@
     "b_name": "VST.Thalh.-Maschinenhalle",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 698108.0,
     "utm_northing": 5367306.0,
     "utm_zone": "32"
@@ -4327,7 +4335,9 @@
     "b_name": "VST.Thalh.-Rinder/K\u00e4lber",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 698018.0,
     "utm_northing": 5367331.0,
     "utm_zone": "32"
@@ -4339,7 +4349,9 @@
     "b_name": "VST.Thalh.-Futterzentrale",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 697990.0,
     "utm_northing": 5367279.0,
     "utm_zone": "32"
@@ -4351,7 +4363,9 @@
     "b_name": "VST.Thalh.-Tr. Sauen/Eber",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 697978.0,
     "utm_northing": 5367249.0,
     "utm_zone": "32"
@@ -4363,7 +4377,9 @@
     "b_name": "VST.Thalh.-Mastschweine 1",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 697945.0,
     "utm_northing": 5367273.0,
     "utm_zone": "32"
@@ -4375,7 +4391,9 @@
     "b_name": "VST.Thalh.-Ferkel/Sauen",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 697959.0,
     "utm_northing": 5367230.0,
     "utm_zone": "32"
@@ -4387,7 +4405,9 @@
     "b_name": "VST.Thalh.-Mastschweine 2",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 697923.0,
     "utm_northing": 5367258.0,
     "utm_zone": "32"
@@ -4399,7 +4419,9 @@
     "b_name": "VST.Thalh.-Legehennen/Broiler",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 697933.0,
     "utm_northing": 5367217.0,
     "utm_zone": "32"
@@ -4411,7 +4433,9 @@
     "b_name": "VST.Thalh.-Probemaststall",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 697901.0,
     "utm_northing": 5367243.0,
     "utm_zone": "32"
@@ -4423,7 +4447,9 @@
     "b_name": "VST.Thalh.-Elterntierstall",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 697911.0,
     "utm_northing": 5367208.0,
     "utm_zone": "32"
@@ -4435,7 +4461,9 @@
     "b_name": "VST.Thalh.-Futtergang",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 697938.0,
     "utm_northing": 5367244.0,
     "utm_zone": "32"
@@ -4447,7 +4475,9 @@
     "b_name": "VST.Thalh.-Strohlager\n",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 698053.0,
     "utm_northing": 5367349.0,
     "utm_zone": "32"
@@ -4459,7 +4489,9 @@
     "b_name": "VST.Thalh.-G\u00fcllebeh\u00e4lter",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 697903.0,
     "utm_northing": 5367166.0,
     "utm_zone": "32"
@@ -4471,7 +4503,9 @@
     "b_name": "VST.Thalh.-Versuchsfelder",
     "b_roomCount": 0,
     "default_map": ["400000", 156, "M\u00fcnchen und Umgebung", 420, 515],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 698004.0,
     "utm_northing": 5367136.0,
     "utm_zone": "32"
@@ -6559,13 +6593,7 @@
     "b_id": "8101",
     "b_name": "Parkring 11-13 Garching b. M\u00fcnchen",
     "b_roomCount": 79,
-    "default_map": [
-      "1000",
-      187,
-      "Garching b. M\u00fcnchen 11-13 Lageplan",
-      600,
-      525
-    ],
+    "default_map": ["1000", 187, "Garching b. M\u00fcnchen 11-13 Lageplan", 600, 525],
     "maps": [
       ["1000", 187, "Garching b. M\u00fcnchen 11-13 Lageplan", 600, 525],
       ["200000", 54, "M\u00fcnchen", 640, 603],
@@ -6582,13 +6610,7 @@
     "b_id": "8102",
     "b_name": "Parkring 35-39 Garching b. M\u00fcnchen",
     "b_roomCount": 117,
-    "default_map": [
-      "1000",
-      182,
-      "Garching b. M\u00fcnchen 35-39 Lageplan",
-      800,
-      565
-    ],
+    "default_map": ["1000", 182, "Garching b. M\u00fcnchen 35-39 Lageplan", 800, 565],
     "maps": [
       ["1000", 182, "Garching b. M\u00fcnchen 35-39 Lageplan", 800, 565],
       ["200000", 54, "M\u00fcnchen", 640, 603],
@@ -6622,7 +6644,9 @@
     "b_name": "TUM Science & Study Center Raitenhaslach",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 781799.0,
     "utm_northing": 5337495.0,
     "utm_zone": "32"
@@ -6634,7 +6658,9 @@
     "b_name": "TUM FZ Friedrich N. Schwarz Berchtesgaden\n",
     "b_roomCount": 0,
     "default_map": ["100000000", 9, "Weltkarte Norden", 1619, 396],
-    "maps": [["100000000", 9, "Weltkarte Norden", 1619, 396]],
+    "maps": [
+      ["100000000", 9, "Weltkarte Norden", 1619, 396]
+    ],
     "utm_easting": 356477.0,
     "utm_northing": 5278572.0,
     "utm_zone": "33"
