@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { useDetailsStore } from "@/stores/details";
-import { useGlobalStore } from "@/stores/global";
 import DetailsImageSlideshowModal from "@/components/DetailsImageSlideshowModal.vue";
 import DetailsPropertyTable from "@/components/DetailsPropertyTable.vue";
 
 const state = useDetailsStore();
-const global = useGlobalStore();
 </script>
 
 <template>
@@ -61,7 +59,7 @@ const global = useGlobalStore();
       </div>-->
     </div>
   </div>
-  <DetailsImageSlideshowModal v-if="state.image.slideshow_open"/>
+  <DetailsImageSlideshowModal v-if="state.image.slideshow_open" />
 </template>
 
 <style lang="scss">

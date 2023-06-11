@@ -1,5 +1,4 @@
 close: Schließen
-show_more_information: Mehr Informationen anzeigen
 core_js:
   error:
     '404': 404 Nicht gefunden
@@ -117,6 +116,7 @@ search:
     rooms: Räume
     were_found: wurden gefunden.
   thumbnail_alt: Vorschaubild für das besagte Gebäude
+show_more_information: Mehr Informationen anzeigen
 view_404:
   call_to_action: Falls du denkst, dass dies ein Fehler ist, teile es uns doch hier mit
   description: Dies könnte sein, weil wir einen Fehler gemacht haben.
