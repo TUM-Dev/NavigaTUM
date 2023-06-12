@@ -8,6 +8,7 @@ class PydanticConfiguration(pydantic.BaseConfig):
     frozen = True
     anystr_strip_whitespace = True
     extra = pydantic.Extra.forbid
+    allow_population_by_field_name = True
 
 
 @dataclass(config=PydanticConfiguration)
