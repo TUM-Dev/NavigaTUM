@@ -217,7 +217,10 @@
   },
   "14442": {
     "org_code": "TUZESPR",
-    "org_name": "TUM CST - Graduation Office and Academic Records",
+    "org_name": {
+      "de": "TUM CST - Graduation Office and Academic Records",
+      "en": "TUM CST - Graduation Office and Academic Records"
+    },
     "org_type": "Arbeitsbereich TUM CST",
     "org_url": null
   },
@@ -484,7 +487,10 @@
   },
   "14881": {
     "org_code": "TUS6OTS",
-    "org_name": "School Office",
+    "org_name": {
+      "de": "School Office",
+      "en": "School Office"
+    },
     "org_type": "Verwaltung der School",
     "org_url": "http://www.mgt.tum.de"
   },
@@ -681,7 +687,7 @@
     "org_code": "TUMWBWM",
     "org_name": {
       "de": "Lehrstuhl f\u00fcr Betriebswissenschaften und Montagetechnik (Prof. Z\u00e4h komm.)",
-      "en": "Chair of  Industrial Management and Assembly Technologies (Prof. Z\u00e4h komm.)"
+      "en": "Chair of Industrial Management and Assembly Technologies (Prof. Z\u00e4h komm.)"
     },
     "org_type": "Lehrstuhl",
     "org_url": "http://www.iwb.tum.de"
@@ -968,8 +974,8 @@
   "15426": {
     "org_code": "TUINI01",
     "org_name": {
-      "de": "Informatik 1 - Lehrstuhl f\u00fcr Engineering Software for Decentralized Systems (Prof. Bhatotia)",
-      "en": "Informatics 1 - Chair of Engineering Software for Decentralized Systems (Prof. Bhatotia)"
+      "de": "Informatik 1 - Lehrstuhl f\u00fcr Distributed Systems and Operating Systems (Prof. Bhatotia)",
+      "en": "Informatics 1 - Chair of Distributed Systems and Operating Systems (Prof. Bhatotia)"
     },
     "org_type": "Lehrstuhl",
     "org_url": "https://dse.in.tum.de"
@@ -1444,7 +1450,10 @@
   },
   "19642": {
     "org_code": "TUGSFGS",
-    "org_name": "TUM Graduate School",
+    "org_name": {
+      "de": "TUM Graduate School",
+      "en": "TUM Graduate School"
+    },
     "org_type": "Graduiertenschulen",
     "org_url": "http://www.gs.tum.de"
   },
@@ -1513,7 +1522,10 @@
   },
   "19701": {
     "org_code": "TUZEZMT",
-    "org_name": "Munich Institute of Biomedical Engineering (MIBE)",
+    "org_name": {
+      "de": "Munich Institute of Biomedical Engineering (MIBE)",
+      "en": "Munich Institute of Biomedical Engineering (MIBE)"
+    },
     "org_type": "Integrative Research Institute",
     "org_url": "http://www.bioengineering.tum.de"
   },
@@ -1537,13 +1549,19 @@
   },
   "19706": {
     "org_code": "TUZEIAS",
-    "org_name": "TUM Institute for Advanced Study (IAS)",
+    "org_name": {
+      "de": "TUM Institute for Advanced Study (IAS)",
+      "en": "TUM Institute for Advanced Study (IAS)"
+    },
     "org_type": "Zentrale wissenschaftliche Einrichtung",
     "org_url": "http://www.ias.tum.de"
   },
   "19710": {
     "org_code": "TUGSSSE",
-    "org_name": "International Graduate School of Science and Engineering (IGSSE)",
+    "org_name": {
+      "de": "International Graduate School of Science and Engineering (IGSSE)",
+      "en": "International Graduate School of Science and Engineering (IGSSE)"
+    },
     "org_type": "Graduiertenschule",
     "org_url": "http://www.igsse.tum.de"
   },
@@ -1658,8 +1676,8 @@
   "23183": {
     "org_code": "TUCHEM1",
     "org_name": {
-      "de": "Professur f\u00fcr Elektronenmikroskopie (Prof. Weinkauf)",
-      "en": "Associate Professorship of Electron Microscopy (Prof. Weinkauf)"
+      "de": "Professur f\u00fcr Elektronenmikroskopie (N.N.)",
+      "en": "Associate Professorship of Electron Microscopy (N.N.)"
     },
     "org_type": "Professur",
     "org_url": "http://www.bio.nat.tum.de/em/"
@@ -1909,7 +1927,10 @@
   },
   "29111": {
     "org_code": "TUWZA7Y",
-    "org_name": "Life Sciences IT (LSIT)",
+    "org_name": {
+      "de": "Life Sciences IT (LSIT)",
+      "en": "Life Sciences IT (LSIT)"
+    },
     "org_type": "Verwaltung der School",
     "org_url": "https://www.itw.wzw.tum.de"
   },
@@ -1951,13 +1972,19 @@
   },
   "31224": {
     "org_code": "TUCSVRW",
-    "org_name": "TUMCS Office",
+    "org_name": {
+      "de": "TUMCS Office",
+      "en": "TUMCS Office"
+    },
     "org_type": "Wissenschaftliches Zentralinstitut",
     "org_url": "http://www.cs.tum.de"
   },
   "31359": {
     "org_code": "TUCHNMR",
-    "org_name": "Bayerisches NMR-Zentrum",
+    "org_name": {
+      "de": "Bayerisches NMR-Zentrum",
+      "en": "Bayerisches NMR-Zentrum"
+    },
     "org_type": "Weitere Einrichtung",
     "org_url": "http://www.bnmrz.org/"
   },
@@ -2206,7 +2233,10 @@
   },
   "38577": {
     "org_code": "TUZV14G",
-    "org_name": "Infrastrukturelles FM Poststelle (4535)",
+    "org_name": {
+      "de": "Infrastrukturelles FM Poststelle (4535)",
+      "en": "Infrastrukturelles FM Poststelle (4535)"
+    },
     "org_type": "Arbeitsbereich",
     "org_url": null
   },
@@ -2275,7 +2305,10 @@
   },
   "39906": {
     "org_code": "TUPELRZ",
-    "org_name": "Leibniz-Rechenzentrum (LRZ)",
+    "org_name": {
+      "de": "Leibniz-Rechenzentrum (LRZ)",
+      "en": "Leibniz-Rechenzentrum (LRZ)"
+    },
     "org_type": "Weitere Einrichtung",
     "org_url": "http://www.lrz.de/"
   },
@@ -2299,7 +2332,10 @@
   },
   "41224": {
     "org_code": "TUPRS03",
-    "org_name": "Munich Dual Career Office",
+    "org_name": {
+      "de": "Munich Dual Career Office",
+      "en": "Munich Dual Career Office"
+    },
     "org_type": "Pr\u00e4sidialstab",
     "org_url": "http://portal.mytum.de/dualcareer/index_html"
   },
@@ -2316,7 +2352,7 @@
     "org_code": "TUMEDE4",
     "org_name": {
       "de": "Professur f\u00fcr Epigenetik der Hautalterung (Prof. Djabali)",
-      "en": "Associate Professorship of  Epigenetics of Skin Aging (Prof. Djabali)"
+      "en": "Associate Professorship of Epigenetics of Skin Aging (Prof. Djabali)"
     },
     "org_type": "Professur",
     "org_url": null
@@ -2350,19 +2386,28 @@
   },
   "42666": {
     "org_code": "TUPHZSS",
-    "org_name": "Radiation Protection & Work Safety (NAT)",
+    "org_name": {
+      "de": "Radiation Protection & Work Safety (NAT)",
+      "en": "Radiation Protection & Work Safety (NAT)"
+    },
     "org_type": "Verwaltung der School",
     "org_url": "https://www.ph.tum.de/about/services/safety/"
   },
   "42667": {
     "org_code": "TUPHZKG",
-    "org_name": "Cryog. Liquids & Gases (NAT)",
+    "org_name": {
+      "de": "Cryog. Liquids & Gases (NAT)",
+      "en": "Cryog. Liquids & Gases (NAT)"
+    },
     "org_type": "Verwaltung der School",
     "org_url": "https://www.ph.tum.de/about/services/cooling/"
   },
   "42668": {
     "org_code": "TUPHZKL",
-    "org_name": "Crystal Lab (NAT)",
+    "org_name": {
+      "de": "Crystal Lab (NAT)",
+      "en": "Crystal Lab (NAT)"
+    },
     "org_type": "Verwaltung der School",
     "org_url": "https://einrichtungen.ph.tum.de/kristallabor/"
   },
@@ -2449,7 +2494,10 @@
   },
   "43589": {
     "org_code": "TUZEMSE",
-    "org_name": "Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)",
+    "org_name": {
+      "de": "Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)",
+      "en": "Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)"
+    },
     "org_type": "Integrative Research Institute",
     "org_url": "https://www.mep.tum.de/"
   },
@@ -2473,7 +2521,10 @@
   },
   "43836": {
     "org_code": "TUPEYIT",
-    "org_name": "Caverion Deutschland GmbH",
+    "org_name": {
+      "de": "Caverion Deutschland GmbH",
+      "en": "Caverion Deutschland GmbH"
+    },
     "org_type": "Weitere Einrichtung",
     "org_url": "http://www.caverion.de"
   },
@@ -2543,8 +2594,8 @@
   "44864": {
     "org_code": "TUMWBME",
     "org_name": {
-      "de": "Professur f\u00fcr Biomechanik (Prof. Lieleg)",
-      "en": "Associate Professorship of Biomechanik (Prof. Lieleg)"
+      "de": "Professur f\u00fcr Biopolymermaterialien (Prof. Lieleg)",
+      "en": "Associate Professorship of Biopolymer Materials (Prof. Lieleg)"
     },
     "org_type": "Professur",
     "org_url": "https://www.mw.tum.de/bme/startseite/"
@@ -2560,7 +2611,10 @@
   },
   "45070": {
     "org_code": "TUZV848",
-    "org_name": "Werkfeuerwehr Weihenstephan (Sachgebiet 468)",
+    "org_name": {
+      "de": "Werkfeuerwehr Weihenstephan (Sachgebiet 468)",
+      "en": "Werkfeuerwehr Weihenstephan (Sachgebiet 468)"
+    },
     "org_type": "Sachgebiet",
     "org_url": "http://www.feuerwehr.wzw.tum.de"
   },
@@ -2602,7 +2656,10 @@
   },
   "45391": {
     "org_code": "TUZEFAM",
-    "org_name": "TUM.Family",
+    "org_name": {
+      "de": "TUM.Family",
+      "en": "TUM.Family"
+    },
     "org_type": "Arbeitsbereich",
     "org_url": "http://www.chancengleichheit.tum.de/familie/"
   },
@@ -2752,7 +2809,10 @@
   },
   "47477": {
     "org_code": "TUPHZTL",
-    "org_name": "Technology (NAT)",
+    "org_name": {
+      "de": "Technology (NAT)",
+      "en": "Technology (NAT)"
+    },
     "org_type": "Verwaltung der School",
     "org_url": "https://www.ph.tum.de/about/services/ztl/"
   },
@@ -2804,8 +2864,8 @@
   "48217": {
     "org_code": "TUPHTFK",
     "org_name": {
-      "de": "Professur f\u00fcr Theoretische Festk\u00f6rperphysik (Prof. Pollmann)",
-      "en": "Associate Professorship of Theoretical Solid-State Physics (Prof. Pollmann)"
+      "de": "Lehrstuhl f\u00fcr Theoretische Festk\u00f6rperphysik (Prof. Pollmann)",
+      "en": "Chair of Theoretical Solid-State Physics (Prof. Pollmann)"
     },
     "org_type": "Lehrstuhl",
     "org_url": null
@@ -2821,13 +2881,19 @@
   },
   "48298": {
     "org_code": "TUZV453",
-    "org_name": "Facility Management und Zeiterfassung (Sachgebiet 453)",
+    "org_name": {
+      "de": "Facility Management und Zeiterfassung (Sachgebiet 453)",
+      "en": "Facility Management und Zeiterfassung (Sachgebiet 453)"
+    },
     "org_type": "Sachgebiet",
     "org_url": null
   },
   "48305": {
     "org_code": "TUZV45G",
-    "org_name": "Infrastrukturelles FM allgemein (4533)",
+    "org_name": {
+      "de": "Infrastrukturelles FM allgemein (4533)",
+      "en": "Infrastrukturelles FM allgemein (4533)"
+    },
     "org_type": "Arbeitsbereich",
     "org_url": null
   },
@@ -2869,7 +2935,10 @@
   },
   "49055": {
     "org_code": "TURM000",
-    "org_name": "Munich Institute of Robotics and Machine Intelligence (MIRMI)",
+    "org_name": {
+      "de": "Munich Institute of Robotics and Machine Intelligence (MIRMI)",
+      "en": "Munich Institute of Robotics and Machine Intelligence (MIRMI)"
+    },
     "org_type": "Integrative Research Institute",
     "org_url": null
   },
@@ -2902,7 +2971,10 @@
   },
   "49597": {
     "org_code": "TUZECPA",
-    "org_name": "Center for Functional Protein Assemblies (CPA)",
+    "org_name": {
+      "de": "Center for Functional Protein Assemblies (CPA)",
+      "en": "Center for Functional Protein Assemblies (CPA)"
+    },
     "org_type": "Wissenschaftliches Zentralinstitut",
     "org_url": "https://www.cpa-munich.org/"
   },
@@ -2919,7 +2991,7 @@
     "org_code": "TUPHTFE",
     "org_name": {
       "de": "Professur f\u00fcr Theory of Functional Energy Materials (Prof. Egger)",
-      "en": "Assistant Professorship of Theory of Functional Energy Materials (Prof. Egger)"
+      "en": "Associate Professorship of Theory of Functional Energy Materials (Prof. Egger)"
     },
     "org_type": "Professur",
     "org_url": "https://theofem.de/"
@@ -2971,7 +3043,10 @@
   },
   "50597": {
     "org_code": "TUZELLL",
-    "org_name": "TUM Institute for Life Long Learning",
+    "org_name": {
+      "de": "TUM Institute for Life Long Learning",
+      "en": "TUM Institute for Life Long Learning"
+    },
     "org_type": "Zentrale wissenschaftliche Einrichtung",
     "org_url": "https://www.tum.de/studium/lebenslanges-lernen/"
   },
@@ -2995,55 +3070,82 @@
   },
   "51258": {
     "org_code": "TUS4000",
-    "org_name": "TUM School of Life Sciences",
+    "org_name": {
+      "de": "TUM School of Life Sciences",
+      "en": "TUM School of Life Sciences"
+    },
     "org_type": "TUM School",
     "org_url": "https://www.wzw.tum.de/index.php?id=2&L=1"
   },
   "51267": {
     "org_code": "TUS2000",
-    "org_name": "TUM School of Engineering and Design",
+    "org_name": {
+      "de": "TUM School of Engineering and Design",
+      "en": "TUM School of Engineering and Design"
+    },
     "org_type": "TUM School",
     "org_url": "https://www.ed.tum.de/ed/startseite/"
   },
   "51317": {
     "org_code": "TUZEDSI",
-    "org_name": "Munich Data Science Institute (MDSI)",
+    "org_name": {
+      "de": "Munich Data Science Institute (MDSI)",
+      "en": "Munich Data Science Institute (MDSI)"
+    },
     "org_type": "Integrative Research Institute",
     "org_url": "http://www.mdsi.tum.de"
   },
   "51457": {
     "org_code": "TUZEGNI",
-    "org_name": "TUM Georg Nemetschek Institute",
+    "org_name": {
+      "de": "TUM Georg Nemetschek Institute",
+      "en": "TUM Georg Nemetschek Institute"
+    },
     "org_type": "Institut",
     "org_url": "http://www.gni.tum.de"
   },
   "51837": {
     "org_code": "TUS2DP1",
-    "org_name": "Department of Aerospace and Geodesy",
+    "org_name": {
+      "de": "Department of Aerospace and Geodesy",
+      "en": "Department of Aerospace and Geodesy"
+    },
     "org_type": "Department",
     "org_url": null
   },
   "51901": {
     "org_code": "TUS7000",
-    "org_name": "TUM School of Social Sciences and Technology",
+    "org_name": {
+      "de": "TUM School of Social Sciences and Technology",
+      "en": "TUM School of Social Sciences and Technology"
+    },
     "org_type": "TUM School",
     "org_url": "https://www.sot.tum.de/"
   },
   "51917": {
     "org_code": "TUS4F4C",
-    "org_name": "TUM Food and Agro Center for Innovation and Technology (FACIT)",
+    "org_name": {
+      "de": "TUM Food and Agro Center for Innovation and Technology (FACIT)",
+      "en": "TUM Food and Agro Center for Innovation and Technology (FACIT)"
+    },
     "org_type": "Core Facility",
     "org_url": null
   },
   "52498": {
     "org_code": "TUS7DP2",
-    "org_name": "Department of Governance",
+    "org_name": {
+      "de": "Department of Governance",
+      "en": "Department of Governance"
+    },
     "org_type": "Department",
     "org_url": null
   },
   "52517": {
     "org_code": "TUS7DP3",
-    "org_name": "Department of Science, Technology and Society",
+    "org_name": {
+      "de": "Department of Science, Technology and Society",
+      "en": "Department of Science, Technology and Society"
+    },
     "org_type": "Department",
     "org_url": null
   },
@@ -3058,8 +3160,20 @@
   },
   "54084": {
     "org_code": "TUS3O11",
-    "org_name": "Facility Management (NAT)",
+    "org_name": {
+      "de": "Facility Management (NAT)",
+      "en": "Facility Management (NAT)"
+    },
     "org_type": "Verwaltung der School",
+    "org_url": null
+  },
+  "54439": {
+    "org_code": "TUS3004",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Angewandte Quantentheorie (Prof. Rabl)",
+      "en": "Chair of Angewandte Quantentheorie (Prof. Rabl)"
+    },
+    "org_type": "Lehrstuhl",
     "org_url": null
   }
 }

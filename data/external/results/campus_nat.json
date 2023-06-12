@@ -1,0 +1,82 @@
+{
+  "1": {
+    "campus": {
+      "de": "M\u00fcnchen Innenstadt",
+      "en": "Munich City Center"
+    },
+    "campusshort": {
+      "de": "M\u00fcnchen",
+      "en": "Munich"
+    }
+  },
+  "10": {
+    "campus": {
+      "de": "Garching Business-Campus Hochbr\u00fcck",
+      "en": "Garching Business Campus Hochbr\u00fcck"
+    },
+    "campusshort": {
+      "de": "Hochbr\u00fcck",
+      "en": "Hochbr\u00fcck"
+    }
+  },
+  "11": {
+    "campus": {
+      "de": "M\u00fcnchen Olympiapark",
+      "en": "Munich Olympia Campus"
+    },
+    "campusshort": {
+      "de": "Olympiapark",
+      "en": "Olympia"
+    }
+  },
+  "16": {
+    "campus": {
+      "de": "Versuchsanstalt Obernach",
+      "en": "Obernach Research Institute"
+    },
+    "campusshort": {
+      "de": "Obernach",
+      "en": "Obernach"
+    }
+  },
+  "17": {
+    "campus": {
+      "de": "M\u00fcnchen Freimann",
+      "en": "Munich Freimann"
+    },
+    "campusshort": {
+      "de": "Freimann",
+      "en": "Freimann"
+    }
+  },
+  "2": {
+    "campus": {
+      "de": "Garching Forschungszentrum",
+      "en": "Garching University and Research Center"
+    },
+    "campusshort": {
+      "de": "Garching",
+      "en": "Garching"
+    }
+  },
+  "3": {
+    "campus": {
+      "de": "Freising Weihenstephan",
+      "en": "Freising Weihenstephan"
+    },
+    "campusshort": {
+      "de": "WZW",
+      "en": "WZW"
+    }
+  },
+  "4": {
+    "campus": {
+      "de": "Straubing",
+      "en": "Straubing"
+    },
+    "campusshort": {
+      "de": "Straubing",
+      "en": "Straubing"
+    }
+  }
+}
