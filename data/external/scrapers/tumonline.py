@@ -3,6 +3,7 @@
 import json
 import logging
 import random
+import re
 
 import requests
 from bs4 import BeautifulSoup, element
@@ -127,11 +128,12 @@ def scrape_rooms():
     while not (usage_id > 300 or len(rooms) >= len(room_index)):
         u_rooms = _retrieve_roomlist(f_type="usage", f_name="pVerwendung", f_value=usage_id, area_id=0)
         for room in u_rooms:
-            room_index[room["roomcode"]]["usage"] = usage_id
+            roomcode = room["roomcode"]
+            room_index[roomcode]["usage"] = usage_id
             if usage_id in extend_for_usages:
-                system_id = room_index[room["roomcode"]]["room_link"][24:]
-                room_index[room["roomcode"]]["extended"] = _retrieve_roominfo(system_id)
-            rooms.append(room_index[room["roomcode"]])
+                system_id = room_index[roomcode]["room_link"][24:]
+                room_index[roomcode]["extended"] = _retrieve_roominfo(system_id)
+            rooms.append(room_index[roomcode])
         usage_id += 1
 
     return sorted(rooms, key=lambda r: (r["list_index"], r["roomcode"]))
@@ -161,7 +163,7 @@ def scrape_usages():
         system_id = example_room["room_link"][24:]
         roominfo = _retrieve_roominfo(system_id)
 
-        usage = roominfo["Basisdaten"]["Verwendung"]
+        usage = roominfo["purpose"]
         parts = []
         for prefix in ["(NF", "(VF", "(TF"]:
             if prefix in usage:
@@ -249,7 +251,7 @@ def _retrieve_roomlist(f_type, f_name, f_value, area_id=0):
     return all_rooms
 
 
-def _retrieve_roominfo(system_id):
+def _retrieve_roominfo(system_id: str) -> dict[str, str | int | float]:
     """Retrieve the extended room information from TUMonline for one room"""
     html_parser: BeautifulSoup = _get_html(
         f"{TUMONLINE_URL}/wbRaum.editRaum?pRaumNr={system_id}",
@@ -258,22 +260,63 @@ def _retrieve_roominfo(system_id):
     )
 
     roominfo = {}
-
     fieldsets = html_parser.find_all("fieldset", class_="MaskS")
     for fieldset in fieldsets:
         legend = fieldset.find("legend")
         table_name = legend.text.strip()
         if table_name in {"Basisdaten", "physikalische Eigenschaften", "Zusatzinformationen"}:
-            roominfo[table_name] = {}
-
             table = fieldset.find("table")
             for row in table.find_all("tr"):
                 columns = row.find_all("td")
                 # Doesn't apply to the PLZ/Ort field, which has another table inside
                 if len(columns) == 2:
-                    roominfo[table_name][columns[0].text.strip()] = columns[1].text.strip()
+                    key = _snake_case(columns[0].text.strip())
+                    value = columns[1].text.replace("  ", " ").strip()
+                    if key != _snake_case(value):
+                        roominfo[key] = value
+                    elif not roominfo.get("address", None):
+                        roominfo["address"] = value
+                    else:
+                        raise RuntimeError(
+                            f"Room {system_id} has multiple duplicate fields: {key}={value} should imply address",
+                        )
+    return _sanitise_roominfo(roominfo)
 
-    return roominfo
+
+def _sanitise_roominfo(roominfo: dict[str, str]) -> dict[str, str | int | float]:
+    """
+    Sanitise the roominfo dict, so that it can be used in pydantic models.
+    """
+    english_labels = {
+        "address": "address",
+        "gebäude": "building",
+        "plz_ort": "zip_code_location",
+        "raumnummer": "room_number",
+        "stockwerk": "floor_number",
+        "boden": "floor_type",
+        "fläche_m2": "area_m2",
+        "architekten_raumnr": "architect_room_nr",
+        "zusatzbezeichnung": "additional_description",
+        "verwendung": "purpose",
+        "rollstuhlplätze": "wheelchair_spaces",
+        "stehplätze": "standing_places",
+        "sitzplätze": "seats",
+    }
+    # new name to convince mypy that this is typed correctly
+    room: dict[str, str | int | float] = {english_labels[key]: value for key, value in roominfo.items()}
+
+    for key in ["wheelchair_spaces", "standing_places", "seats"]:
+        room[key] = int(roominfo.get(key, 0))
+    room["area_m2"] = float(roominfo["area_m2"].replace(",", "."))
+
+    return room
+
+
+def _snake_case(key: str) -> str:
+    key = re.sub("[^a-zA-Zäöü0-9]", " ", key)
+    key = re.sub("([A-Z]+)", r" \1", key)
+    key = re.sub("([A-Z][a-z]+)", r" \1", key)
+    return "_".join(key.split()).lower()
 
 
 def _parse_filter_options(xml_parser: BeautifulSoup, filter_type):

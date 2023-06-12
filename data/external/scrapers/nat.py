@@ -39,6 +39,7 @@ def scrape_rooms():
         rooms[key] = _sanitise_room(room)
 
     _extract_orgs(rooms)
+    _extract_campus(rooms)
     return rooms
 
 
@@ -57,9 +58,33 @@ def _extract_orgs(rooms: dict) -> dict:
             org.pop("org_nameshort")  # Always `null`
 
             org_id = org.pop("org_id")
+            if isinstance(org["org_name"], str):
+                org["org_name"] = _(org["org_name"])
             room["org_id"] = org_id
             orgs[org_id] = org
     return orgs
+
+
+@cached_json("campus_nat.json")
+def _extract_campus(rooms: dict) -> dict:
+    """
+    Extract the organisations from the room information.
+    """
+    logging.info("Extracting orgs from the rooms")
+    campi = {}
+    for room in rooms.values():
+        campus = room.pop("campus")
+        if campus:
+            campus_id = str(campus.pop("campus_id"))
+            if isinstance(campus["campus"], str):
+                campus["campus"] = _(campus["campus"], en_message=campus["campus"])
+            if isinstance(campus["campusshort"], str):
+                campus["campusshort"] = _(campus["campusshort"], en_message=campus["campusshort"])
+            campi[campus_id] = campus
+        else:
+            campus_id = None
+        room["campus_id"] = campus_id
+    return campi
 
 
 def _extract_translations(item: dict):
@@ -101,6 +126,9 @@ def _sanitise_room(room: dict):
     campus_id = room["building"].pop("campus_id")
     if campus_id:
         room["building"]["campus"]["campus_id"] = campus_id
+    if isinstance(room["steckdosen"], str):
+        room["steckdosen"] = _(room["steckdosen"].rstrip("."))
+    room["campus"] = room["building"].pop("campus")
 
     # bauarbeiten is a str, indicating if something is wrong on in the room
     # accuracy is doubtfull sometimes => removal to prevent issues down the line
@@ -109,6 +137,8 @@ def _sanitise_room(room: dict):
     # badly maintained, to some part outdated
     room.pop("corona")
     room.pop("corona_ready")
+    if room["eexam"]:
+        room["eexam"] = _(room["eexam"].rstrip(".").replace("Für", "für"))
 
     # coordinates: there are two sets of coordinates on each entry.
     # This function makes sure, that they are the same
@@ -117,6 +147,7 @@ def _sanitise_room(room: dict):
     room["id"] = room.pop("room_code")  # our naming is id for this datapoint
 
     room.pop("orgs")  # nat internal org, not useful for us or consistent enough
+    room.pop("building")  # scraped in a previous step
 
     for field_name_with_no_information in ["override_seats", "override_teaching", "modified", "contact"]:
         room.pop(field_name_with_no_information)

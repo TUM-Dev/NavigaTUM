@@ -78,9 +78,7 @@ def merge_tumonline_rooms(data):
     Merge the rooms in TUMonline with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
-    with open("external/results/rooms_tumonline.json", encoding="utf-8") as file:
-        rooms = json.load(file)
-
+    rooms = _clean_tumonline_rooms()
     with open("external/results/usages_tumonline.json", encoding="utf-8") as file:
         usages = json.load(file)
     usages_lookup = {usage["id"]: usage for usage in usages}
@@ -89,8 +87,6 @@ def merge_tumonline_rooms(data):
         orgs_de = json.load(file_de)
     with open("external/results/orgs-en_tumonline.json", encoding="utf-8") as file_en:
         orgs_en = json.load(file_en)
-
-    rooms = _clean_tumonline_rooms(rooms)
 
     missing_buildings = {}
     for room in rooms:
@@ -142,11 +138,10 @@ def merge_tumonline_rooms(data):
         if len(room["arch_name"]) > 0:
             r_data["props"]["ids"]["arch_name"] = room["arch_name"]
 
-        if "extended" in room and "physikalische Eigenschaften" in room["extended"]:
-            physical_props = room["extended"]["physikalische Eigenschaften"]
-            r_data["props"]["stats"] = {}
-            if "Sitzplätze" in physical_props:
-                r_data["props"]["stats"]["n_seats"] = int(physical_props["Sitzplätze"])
+        if seat_number := room.get("extended", {}).get("sitzplätze", None):
+            r_data["props"]["stats"] = {
+                "n_seats": int(seat_number),
+            }
 
         # Usage
         if room["usage"] in usages_lookup:
@@ -183,19 +178,21 @@ def merge_tumonline_rooms(data):
             logging.critical(f"No parents exist for {b_id}: {content}")
         logging.critical("This is probably the case, because roompatches were renamed upstream")
         raise RuntimeError("Invariant not preserved")
-    if len(missing_buildings) > 0:
+    if missing_buildings:
         logging.warning(
             f"Ignored {sum(missing_buildings.values())} rooms for the following buildings, "
             f"which were not found: {sorted(missing_buildings.keys())}",
         )
 
 
-def _clean_tumonline_rooms(to_rooms):
+def _clean_tumonline_rooms():
     """
     This applies some known corrections / patches on the TUMonline room data.
     It also searches for inconsistencies not yet patched
     """
 
+    with open("external/results/rooms_tumonline.json", encoding="utf-8") as file:
+        to_rooms = json.load(file)
     roomcode_lookup = {r["roomcode"]: r for r in to_rooms}
 
     with open("sources/15_patches-rooms_tumonline.yaml", encoding="utf-8") as file:

@@ -53,7 +53,7 @@ def merge_roomfinder_buildings(data):
             "b_name": building["b_name"],
             "b_alias": building["b_alias"],
             "b_area": building["b_area"],
-            "b_roomCount": building["b_roomCount"],
+            "b_room_count": building["b_room_count"],
         }
 
         b_data.setdefault("sources", {}).setdefault("base", []).append(
@@ -199,8 +199,8 @@ def _get_roomfinder_maps(obj):
         mapdata = obj["default_map"]
         maps["available"].append(
             {
-                "id": f"rf{mapdata[1]}",  # Roomfinder data is with ints as id, but we use a string based format
                 "scale": mapdata[0],
+                "id": f"rf{mapdata[1]}",  # Roomfinder data is with ints as id, but we use a string based format
                 "name": mapdata[2],
                 "width": mapdata[3],
                 "height": mapdata[4],

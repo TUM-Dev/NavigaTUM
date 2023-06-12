@@ -8,11 +8,13 @@ Adresse: Address
 Anzahl Gebäude: Number of buildings
 Sitzplätze: Seats
 Anzahl Räume: Number of rooms
-"{n_rooms} ({n_rooms_reg} ohne Flure etc.)": "{n_rooms} ({n_rooms_reg} without corridors etc.)"
+'{n_rooms} ({n_rooms_reg} ohne Flure etc.)': '{n_rooms} ({n_rooms_reg} without corridors
+  etc.)'
 Keine Räume bekannt: No rooms known
-"{n_rooms} Räume": "{n_rooms} rooms"
-"{n_buildings} Gebäude, {n_rooms} Räume": "{n_buildings} buildings, {n_rooms} rooms"
-"{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)": "{n_buildings} buildings, {n_rooms} rooms (branch office)"
+'{n_rooms} Räume': '{n_rooms} rooms'
+'{n_buildings} Gebäude, {n_rooms} Räume': '{n_buildings} buildings, {n_rooms} rooms'
+'{n_buildings} Gebäude, {n_rooms} Räume (Außenstelle)': '{n_buildings} buildings,
+  {n_rooms} rooms (branch office)'
 Architekten-Name: Architect's name
 Stockwerk: Floor
 Erdgeschoss: Ground floor
@@ -24,15 +26,15 @@ Zwischengeschoss: mezzanine
 Obergeschoss: upper floor
 OG + 1 Zwischengeschoss: upper floor + 1 mezzanine
 OG + {m} Zwischengeschosse: upper floor + {m} mezzanines
-"1. ": "1st "
-"2. ": "2nd "
-"3. ": "3rd "
-"4. ": "4th "
-"5. ": "5th "
-"6. ": "6th "
-"7. ": "7th "
-"8. ": "8th "
-"9. ": "9th "
+'1. ': '1st '
+'2. ': '2nd '
+'3. ': '3rd '
+'4. ': '4th '
+'5. ': '5th '
+'6. ': '6th '
+'7. ': '7th '
+'8. ': '8th '
+'9. ': '9th '
 # type_common_name
 Gebäudeteil: Part of the building
 Standortübersicht: Location overview
@@ -197,3 +199,59 @@ Validierungsautomat 21 (StudiTUM Innenstadt): Validation machine 21 (StudiTUM Mu
 Validierungsautomat (School of Social Sciences and Technology): Validation machine
   (School of Social Sciences and Technology)
 Validierungsautomat (Straubing): Validation machine (Straubing)
+für e-Prüfungen geeignet: suitable for e-exams
+begrenzt für e-Prüfungen geeignet: limited suitability for e-exams
+Facility Management und Zeiterfassung (Sachgebiet 453): Facility Management und Zeiterfassung (Sachgebiet 453)
+Caverion Deutschland GmbH: Caverion Deutschland GmbH
+TUM School of Engineering and Design: TUM School of Engineering and Design
+International Graduate School of Science and Engineering (IGSSE): International Graduate School of Science and Engineering (IGSSE)
+TUM CST - Graduation Office and Academic Records: TUM CST - Graduation Office and Academic Records
+TUM.Family: TUM.Family
+Munich Institute of Biomedical Engineering (MIBE): Munich Institute of Biomedical Engineering (MIBE)
+Infrastrukturelles FM allgemein (4533): Infrastrukturelles FM allgemein (4533)
+Munich Institute of Integrated Materials, Energy and Process Engineering (MEP): Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)
+TUM Georg Nemetschek Institute: TUM Georg Nemetschek Institute
+Munich Data Science Institute (MDSI): Munich Data Science Institute (MDSI)
+TUM Institute for Life Long Learning: TUM Institute for Life Long Learning
+Department of Aerospace and Geodesy: Department of Aerospace and Geodesy
+TUM School of Life Sciences: TUM School of Life Sciences
+Life Sciences IT (LSIT): Life Sciences IT (LSIT)
+Werkfeuerwehr Weihenstephan (Sachgebiet 468): Werkfeuerwehr Weihenstephan (Sachgebiet 468)
+Technology (NAT): Technology (NAT)
+Facility Management (NAT): Facility Management (NAT)
+Radiation Protection & Work Safety (NAT): Radiation Protection & Work Safety (NAT)
+Cryog. Liquids & Gases (NAT): Cryog. Liquids & Gases (NAT)
+Crystal Lab (NAT): Crystal Lab (NAT)
+Infrastrukturelles FM Poststelle (4535): Infrastrukturelles FM Poststelle (4535)
+TUM Institute for Advanced Study (IAS): TUM Institute for Advanced Study (IAS)
+Leibniz-Rechenzentrum (LRZ): Leibniz-Rechenzentrum (LRZ)
+Bayerisches NMR-Zentrum: Bayerisches NMR-Zentrum
+Center for Functional Protein Assemblies (CPA): Center for Functional Protein Assemblies (CPA)
+School Office: School Office
+Munich Dual Career Office: Munich Dual Career Office
+Department of Science, Technology and Society: Department of Science, Technology and Society
+TUM School of Social Sciences and Technology: TUM School of Social Sciences and Technology
+Department of Governance: Department of Governance
+TUMCS Office: TUMCS Office
+Munich Institute of Robotics and Machine Intelligence (MIRMI): Munich Institute of Robotics and Machine Intelligence (MIRMI)
+TUM Graduate School: TUM Graduate School
+TUM Food and Agro Center for Innovation and Technology (FACIT): TUM Food and Agro Center for Innovation and Technology (FACIT)
+Steckdose an jedem zweiten Platz: Socket at every second place
+Steckdose an jedem dritten Platz: Socket at every third seat
+Keine Steckdosen im Bereich der Sitzreihen: No sockets in the area of the rows of seats
+Steckdosen jeweils an den Wänden, außer Platz 10+11: Sockets at each wall, except seat 10+11
+Steckdosen jeweils an den Wänden: Sockets on the walls of each seat
+Keine Steckdosen im Bereich der Sitzreihen, nur bei den behindertengerechten Plätzen: No sockets in the area of the rows of seats, only at the handicapped accessible seats
+Steckdosen an den einzelnen Tischen: Sockets at the individual tables
+Steckdosen in Bodentanks von jedem Platz aus erreichbar: Sockets in floor tanks accessible from each seat
+Steckdose an jedem Platz: Socket at each seat
+Eine Doppelsteckdose beim Beamer: One double socket at the beamer
+Drei Doppelsteckdosen an der Rückwand (Fensterseite) und je zwei bei den Tafeln: Three double sockets at the back wall (window side) and two each at the blackboards
+Einzelne (insgesamt 10) Steckdosen im Bereich der Sitzreihen: Single (10 in total) sockets in the area of the rows of seats
+Einzelne (insgesamt vier Doppelsteckdosen) im Bereich der Sitzreihen unten: Single (total of four double sockets) in the area of the rows of seats at the bottom
+Es sind in jeder Reihe jeweils in der MItte des Blocks links/rechts zwei Steckdosen vorhanden: There are two sockets in the middle of each row on the left/right side of the block
+15 Steckdosen: 15 sockets
+36 Steckdosen: 36 sockets
+23 Steckdosen: 23 sockets
+Einzelne (insgesamt fünf Doppelsteckdosen) Steckdosen im Bereich der Sitzreihen: Single sockets (five double sockets in total) in the area of the seat rows
+Es sind im vorderen Bereich jeweils an den Außenseiten in den Reihen bis 1, 3, 5, 7, 9 Dreifachsteckdosen vorhanden: There are triple sockets in the front area on the outer sides of each row up to 1, 3, 5, 7, 9.
