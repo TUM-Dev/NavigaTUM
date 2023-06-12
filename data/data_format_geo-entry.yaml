@@ -211,7 +211,7 @@ internal_id:
     b_name: "N1"
     b_alias: "U-Trakt"
     b_area: "München - Stammgelände Nord"
-    b_roomCount: 123
+    b_room_count: 123
     # if room (optional)
     r_alias: ""
     r_number: "N0126B"
