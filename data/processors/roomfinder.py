@@ -4,6 +4,7 @@ import re
 
 import utm  # type: ignore
 import yaml
+from external.models import roomfinder
 
 
 def merge_roomfinder_buildings(data):
@@ -12,7 +13,7 @@ def merge_roomfinder_buildings(data):
     This will not overwrite the existing data, but act directly on the provided data.
     """
     with open("external/results/buildings_roomfinder.json", encoding="utf-8") as file:
-        buildings = json.load(file)
+        buildings = [roomfinder.Building(**b) for b in json.load(file)]
 
     with open("sources/10_patches-roomfinder-buildings.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
@@ -21,21 +22,21 @@ def merge_roomfinder_buildings(data):
     for building in buildings:
         # 'Building' 0000 contains some buildings and places not in TUMonline as rooms.
         # They might be integrated customly somewhere else, but here we ignore these.
-        if building["b_id"] == "0000":
+        if building.b_id == "0000":
             continue
 
         for wrong, correct in patches["replacements"].items():
-            if building["b_id"] == wrong:
-                building["b_id"] = correct
+            if building.b_id == wrong:
+                building.b_id = correct
 
         # Find the corresponding building in the existing data
         internal_id = None
         for _id, _data in data.items():
-            if "b_prefix" in _data and _data["b_prefix"] == building["b_id"]:
+            if "b_prefix" in _data and _data["b_prefix"] == building.b_id:
                 if internal_id is None:
                     internal_id = _id
                 else:
-                    logging.error(f"building id '{building['b_id']}' more than once in base data")
+                    logging.error(f"building id '{building.b_id}' more than once in base data")
                     error = True
                     break
 
@@ -43,32 +44,32 @@ def merge_roomfinder_buildings(data):
             # The Roomfinder appears to be no longer maintained, so sometimes there are still
             # buildings in it that no longer exist. Previously this was an error, but for this
             # reason now it is a warning.
-            logging.warning(f"building '{building['b_id']}' not found in base data. It may be missing in the areatree.")
+            logging.warning(f"building '{building.b_id}' not found in base data. It may be missing in the areatree.")
             continue
 
         b_data = data[internal_id]
 
         b_data["roomfinder_data"] = {
-            "b_id": building["b_id"],
-            "b_name": building["b_name"],
-            "b_alias": building["b_alias"],
-            "b_area": building["b_area"],
-            "b_room_count": building["b_room_count"],
+            "b_id": building.b_id,
+            "b_name": building.b_name,
+            "b_alias": building.b_alias,
+            "b_area": building.b_area,
+            "b_room_count": building.b_room_count,
         }
 
         b_data.setdefault("sources", {}).setdefault("base", []).append(
             {
                 "name": "Roomfinder",
-                "url": f"https://portal.mytum.de/displayRoomMap?@{building['b_id']}",
+                "url": f"https://portal.mytum.de/displayRoomMap?@{building.b_id}",
             },
         )
 
-        if "utm_zone" in building:
+        if building.utm_zone:
             b_data.setdefault("coords", _get_roomfinder_coords(building))
-        if "maps" in building:
+        if building.maps:
             b_data.setdefault("maps", {})["roomfinder"] = _get_roomfinder_maps(building)
 
-        b_data.setdefault("props", {}).setdefault("ids", {}).setdefault("b_id", building["b_id"])
+        b_data.setdefault("props", {}).setdefault("ids", {}).setdefault("b_id", building.b_id)
 
     if error:
         raise RuntimeError("One or more errors, aborting")
@@ -81,7 +82,7 @@ def merge_roomfinder_rooms(data):
     """
 
     with open("external/results/rooms_roomfinder.json", encoding="utf-8") as file:
-        rooms = json.load(file)
+        rooms = [roomfinder.Room(**r) for r in json.load(file)]
 
     with open("sources/16_roomfinder-merge-patches.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
@@ -103,13 +104,13 @@ def merge_roomfinder_rooms(data):
                 continue
         except RoomNotFoundException as error:
             if error.known_issue:
-                r_id = patches["known_issues"]["not_in_tumonline"][room["r_id"]]
+                r_id = patches["known_issues"]["not_in_tumonline"][room.r_id]
                 data[r_id] = {
                     "id": r_id,
                     "type": "room",
                     # The name might be overwritten below
-                    "name": r_id if len(room["r_alias"]) == 0 else f"{r_id} ({room['r_alias']})",
-                    "parents": data[room["b_id"]]["parents"] + [room["b_id"]],
+                    "name": r_id if len(room.r_alias) == 0 else f"{r_id} ({room.r_alias})",
+                    "parents": data[room.b_id]["parents"] + [room.b_id],
                     "data_quality": {"not_in_tumonline": True},
                 }
             else:
@@ -119,39 +120,39 @@ def merge_roomfinder_rooms(data):
         r_data = data[r_id]
 
         # TODO: Optimize integrating the alias name here
-        if "(" not in r_data["name"] and len(room["r_alias"]) > 0:
-            r_data["name"] = f"{r_data['name']} ({room['r_alias']})"
+        if "(" not in r_data["name"] and len(room.r_alias) > 0:
+            r_data["name"] = f"{r_data['name']} ({room.r_alias})"
 
         r_data["roomfinder_data"] = {
-            "r_alias": room["r_alias"],
-            "r_number": room["r_number"],
-            "r_id": room["r_id"],
-            "r_level": room["r_level"],
+            "r_alias": room.r_alias,
+            "r_number": room.r_number,
+            "r_id": room.r_id,
+            "r_level": room.r_level,
         }
 
-        if "utm_zone" in room:
+        if room.utm_zone:
             r_data.setdefault("coords", _get_roomfinder_coords(room))
-        if "maps" in room:
+        if room.maps:
             r_data.setdefault("maps", {})["roomfinder"] = _get_roomfinder_maps(room)
 
         # Add Roomfinder as source
         r_data.setdefault("sources", {}).setdefault("base", []).append(
             {
                 "name": "Roomfinder",
-                "url": f"https://portal.mytum.de/displayRoomMap?roomid={room['r_id']}&disable_decoration=yes",
+                "url": f"https://portal.mytum.de/displayRoomMap?roomid={room.r_id}&disable_decoration=yes",
             },
         )
 
 
-def _get_roomfinder_coords(obj):
+def _get_roomfinder_coords(obj: roomfinder.Building | roomfinder.Room):
     """Get the coordinates from a roomfinder object (room or building)"""
-    # UTM zone is either "32" or "33", corresponding to zones "32U" and "33U"
+    # UTM zone is either 32 or 33, corresponding to zones "32U" and "33U"
     # TODO: Map image boundaries also included "33T". It could maybe be possible to guess
     #       whether it is "U" or "T" based on the northing (which is always the distance
     #       to the equator).
-    if obj["utm_zone"] not in {"32", "33"}:
-        logging.error(f"Unexpected UTM zone '{obj['utm_zone']}'")
-    lat, lon = utm.to_latlon(obj["utm_easting"], obj["utm_northing"], int(obj["utm_zone"]), "U")
+    if obj.utm_zone not in {32, 33}:
+        logging.error(f"Unexpected UTM zone '{obj.utm_zone}'")
+    lat, lon = utm.to_latlon(obj.utm_easting, obj.utm_northing, int(obj.utm_zone), "U")
 
     return {
         "lat": lat,
@@ -160,7 +161,7 @@ def _get_roomfinder_coords(obj):
     }
 
 
-def _get_roomfinder_maps(obj):
+def _get_roomfinder_maps(obj: roomfinder.Building | roomfinder.Room):
     """Get the maps data from a roomfinder object (room or building)"""
     # Maps metadata is extracted in another step. The data here only references the maps.
     # Maps are provided as tuples which are stored as arrays in the given JSON data.
@@ -168,73 +169,71 @@ def _get_roomfinder_maps(obj):
         "available": [],
         "default": None,
     }
-    if len(obj["maps"]) > 0:
-        for mapdata in obj["maps"]:
-            maps["available"].append(
-                {
-                    "id": f"rf{mapdata[1]}",  # Roomfinder data is with ints as id, but we use a string based format
-                    "scale": mapdata[0],
-                    "name": mapdata[2],
-                    "width": mapdata[3],
-                    "height": mapdata[4],
-                },
-            )
+    for mapdata in obj.maps:
+        maps["available"].append(
+            {
+                "scale": mapdata.scale,
+                "id": f"rf{mapdata.map_id}",  # Roomfinder data is with ints as id, but we use a string based format
+                "name": mapdata.name,
+                "width": mapdata.width,
+                "height": mapdata.height,
+            },
+        )
 
-    if not obj["default_map"]:
+    if not obj.default_map:
         return maps
 
     # If the default map is the world map, this is usually
     # the only map available. As we don't include the world
     # map into the available maps, return empty data here
-    if obj["default_map"][1] == 9:
+    if obj.default_map.map_id == 9:
         maps["available"].clear()
         return maps
 
-    maps["default"] = default = f"rf{obj['default_map'][1]}"
+    maps["default"] = default = f"rf{obj.default_map.map_id}"
 
     # sometimes the default map is not in the available maps.
     # This is the case for example the building with id "0510"
     available_map_ids = [m["id"] for m in maps["available"]]
     if default and default not in available_map_ids:
-        mapdata = obj["default_map"]
         maps["available"].append(
             {
-                "scale": mapdata[0],
-                "id": f"rf{mapdata[1]}",  # Roomfinder data is with ints as id, but we use a string based format
-                "name": mapdata[2],
-                "width": mapdata[3],
-                "height": mapdata[4],
+                "scale": obj.default_map.scale,
+                "id": f"rf{obj.default_map.map_id}",  # Roomfinder data is with ints as id, we use a string
+                "name": obj.default_map.name,
+                "width": obj.default_map.width,
+                "height": obj.default_map.height,
             },
         )
     return maps
 
 
-def _find_room_id(room, data, arch_name_lookup, patches):
-    if room["r_id"] in patches["ignore"]:
+def _find_room_id(room: roomfinder.Room, data, arch_name_lookup, patches):
+    if room.r_id in patches["ignore"]:
         return None
 
-    if room["r_id"] in patches["known_issues"]["mapping"]:
-        return patches["known_issues"]["mapping"][room["r_id"]]
+    if room.r_id in patches["known_issues"]["mapping"]:
+        return patches["known_issues"]["mapping"][room.r_id]
 
-    if room["r_id"] in patches["known_issues"]["not_in_tumonline"]:
+    if room.r_id in patches["known_issues"]["not_in_tumonline"]:
         raise RoomNotFoundException(known_issue=True)
 
     # Verify first, that the building is included in the data.
     # Buildings not in the data are ignored.
-    if room["b_id"] not in data:
+    if room.b_id not in data:
         return None
 
-    search_strings = [room["r_id"].lower()]
+    search_strings = [room.r_id.lower()]
     for replacement in patches["replacements"]:
-        alt_str = re.sub(replacement["search"], replacement["replace"], room["r_id"])
-        if alt_str != room["r_id"]:
+        alt_str = re.sub(replacement["search"], replacement["replace"], room.r_id)
+        if alt_str != room.r_id:
             search_strings.append(alt_str.lower())
 
     for search in search_strings:
         if search in arch_name_lookup:
             return arch_name_lookup[search]
 
-    raise RoomNotFoundException(False, f"Could not find roomfinder room in TUMonline data: {room['r_id']}")
+    raise RoomNotFoundException(False, f"Could not find roomfinder room in TUMonline data: {room.r_id}")
 
 
 class RoomNotFoundException(Exception):

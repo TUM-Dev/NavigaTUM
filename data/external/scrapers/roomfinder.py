@@ -4,6 +4,7 @@ import string
 import urllib.parse
 import xmlrpc.client
 import zipfile
+from typing import TypedDict
 
 from defusedxml import ElementTree as ET
 from external.scraping_utils import _download_file, CACHE_PATH, cached_json, maybe_sleep
@@ -23,7 +24,7 @@ def scrape_buildings():
     logging.info("Scraping the buildings of the mytum roomfinder")
 
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
-        buildings = proxy.getBuildings()
+        buildings: list[dict] = proxy.getBuildings()
         for i, building in enumerate(tqdm(buildings, desc="Retrieving", unit="building")):
             # Make sure b_id is numeric. There is an incorrect entry with the value
             # 'CiO/SGInstitute West, Bibliot' which causes a crash
@@ -31,7 +32,7 @@ def scrape_buildings():
                 int(building["b_id"])
             except ValueError:
                 continue
-            extended_data = proxy.getBuildingData(building["b_id"])
+            extended_data: dict[str, str] = proxy.getBuildingData(building["b_id"])
             for key, value in extended_data.items():
                 buildings[i][key] = value
             buildings[i]["maps"] = proxy.getBuildingMaps(building["b_id"])
@@ -40,6 +41,10 @@ def scrape_buildings():
             maybe_sleep(0.05)
 
     return sorted(buildings, key=lambda m: m["b_id"])
+
+
+class SearchResult(TypedDict):
+    r_id: str
 
 
 @cached_json("rooms_roomfinder.json")
@@ -63,7 +68,7 @@ def scrape_rooms():
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
         for building in tqdm(buildings, desc="Guessing queries for building", unit="building"):
             if "b_room_count" in building and building["b_room_count"] > 0:
-                search_results = proxy.searchRoom("", {"r_building": building["b_id"]})
+                search_results: list[SearchResult] = proxy.searchRoom("", {"r_building": building["b_id"]})
                 b_rooms = {room["r_id"] for room in search_results}
 
                 if len(b_rooms) < building["b_room_count"]:

@@ -1,6 +1,7 @@
 import logging
 import os
 from pathlib import Path
+from typing import TypedDict
 
 from PIL import Image
 from ruamel.yaml import YAML
@@ -13,7 +14,12 @@ with open(TRANSLATION_BUFFER_PATH, encoding="utf-8") as yaml_file:
     TRANSLATION_BUFFER = yaml.load(yaml_file)
 
 
-class TranslatableStr(dict):
+class TTranslatableStr(TypedDict):
+    en: str
+    de: str
+
+
+class TranslatableStr(dict):  # type: TTranslatableStr
     """
     Wrapper for translations.
     Takes a string, that should be translated and looks it up in the translation buffer.
@@ -84,14 +90,13 @@ def convert_to_webp(source: Path):
         for img_path in source.iterdir():
             if img_path.suffix not in [".webp", ".yaml", ".json"]:
                 convert_to_webp(img_path)
-        return source
+        return
 
     destination = source.with_suffix(".webp")
 
     image = Image.open(source)
     image.save(destination, format="webp")
     os.remove(source)
-    return str(destination)
 
 
 def setup_logging(level):

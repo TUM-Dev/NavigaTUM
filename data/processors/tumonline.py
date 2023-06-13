@@ -88,7 +88,7 @@ def merge_tumonline_rooms(data):
     with open("external/results/orgs-en_tumonline.json", encoding="utf-8") as file_en:
         orgs_en = json.load(file_en)
 
-    missing_buildings = {}
+    missing_buildings: dict[str, int] = {}
     for room in rooms:
         # Extract building id
         b_id = room["roomcode"].split(".")[0]
@@ -192,19 +192,19 @@ def _clean_tumonline_rooms():
     """
 
     with open("external/results/rooms_tumonline.json", encoding="utf-8") as file:
-        to_rooms = json.load(file)
-    roomcode_lookup = {r["roomcode"]: r for r in to_rooms}
+        rooms = json.load(file)
+    roomcode_lookup = {r["roomcode"]: r for r in rooms}
 
     with open("sources/15_patches-rooms_tumonline.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
-    patched_rooms = apply_patches(to_rooms, patches["patches"], "roomcode")
+    patched_rooms = apply_patches(rooms, patches["patches"], "roomcode")
     patched_room_ids = {r["roomcode"] for r in patched_rooms}
 
     used_arch_names = {}
     used_roomcode_levels = {}
     invalid_rooms = []
-    for room in to_rooms:
+    for room in rooms:
         # Keep track of whether changes were made
         room.setdefault("patched", False)
 
@@ -244,11 +244,11 @@ def _clean_tumonline_rooms():
         room["address"] = _clean_spaces(room["address"])
     if len(invalid_rooms) > 0:
         for room in invalid_rooms:
-            to_rooms.remove(room)
+            rooms.remove(room)
 
         logging.warning(f"Ignored {len(invalid_rooms)} TUMonline rooms because they are invalid.")
 
-    return to_rooms
+    return rooms
 
 
 def _infer_arch_name(room, arch_name_parts, used_arch_names, roomcode_parts, roomcode_lookup):
