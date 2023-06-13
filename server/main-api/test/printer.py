@@ -5,7 +5,7 @@ from termcolor import colored
 def print_specific_queries_result(
     current: list[search_quality_test.Evaluation],
     comparison: list[search_quality_test.Evaluation],
-):
+) -> None:
     """Print the results of the specific queries"""
     comparison_dict = {comp.query: comp for comp in comparison}
     for search in current:
@@ -34,7 +34,7 @@ def print_specific_queries_result(
     print(f"Performed {num_searches} searches")
 
 
-def _gen_colored_query(search: search_quality_test.Evaluation):
+def _gen_colored_query(search: search_quality_test.Evaluation) -> str:
     """
     Generates the colored Query
     - Green indicates when a better position is reached
@@ -79,7 +79,7 @@ def _gen_colored_query(search: search_quality_test.Evaluation):
     return s_query
 
 
-def _generate_grade_cmp(search: search_quality_test.Evaluation, comp: search_quality_test.Evaluation):
+def _generate_grade_cmp(search: search_quality_test.Evaluation, comp: search_quality_test.Evaluation) -> str:
     grade_diff = abs(round(search.grade - comp.grade, 1))
     if comp.grade > search.grade:
         return colored(f" +{grade_diff}", "red", attrs=["bold"])
@@ -88,13 +88,13 @@ def _generate_grade_cmp(search: search_quality_test.Evaluation, comp: search_qua
     return "     "
 
 
-def _gen_colored_stats(search: search_quality_test.Evaluation):
+def _gen_colored_stats(search: search_quality_test.Evaluation) -> str:
     """Generate the colored statistics"""
     num_results = search.full_search.num_results
     return f"{num_results:>4}" + colored(" hits, target: '", "white") + search.query.target + colored("')", "white")
 
 
-def _gen_pos_indicator(search: search_quality_test.Evaluation):
+def _gen_pos_indicator(search: search_quality_test.Evaluation) -> str:
     """The position indicator shows rougly how the results looked like and where the target entry was located"""
     if search.full_search.was_top5:
         target_pos = search.full_search.target_pos or 0

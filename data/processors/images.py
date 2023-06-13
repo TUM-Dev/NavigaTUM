@@ -6,11 +6,55 @@ import shutil
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Any, Optional
+from typing import TypeVar
 
+import pydantic
 import utils
 import yaml
+from external.models.common import PydanticConfiguration
 from PIL import Image
+from pydantic import Field, HttpUrl
+from pydantic.dataclasses import dataclass
+
+
+@dataclass(config=PydanticConfiguration)
+class UrlStr:
+    text: str
+    url: HttpUrl | None = None
+
+
+@dataclass(config=PydanticConfiguration)
+class ImageOffset:
+    header: int = 0
+    thumb: int = 0
+
+
+# here until typing.Self can be used in all expected python versions of developers
+TImageSource = TypeVar("TImageSource", bound="ImageSource")
+
+
+@dataclass(config=PydanticConfiguration)
+class ImageSource:
+    author: str
+    license: UrlStr
+    source: UrlStr
+    meta: dict[str, str | pydantic.types.date] = Field(default_factory=dict)
+    offsets: ImageOffset = Field(default_factory=ImageOffset)
+
+    @classmethod
+    def load_all(cls: TImageSource) -> dict[str, list[TImageSource]]:
+        """Load the image sources from the img-sources.yaml file"""
+        with open(IMAGE_BASE / "img-sources.yaml", encoding="utf-8") as file:
+            raw: dict[str, dict[int, dict]] = yaml.safe_load(file.read())
+            image_sources = {k: [ImageSource(**v) for v in vs.values()] for k, vs in raw.items()}
+        for key in image_sources:
+            if not isinstance(key, str):
+                raise ValueError(
+                    f"Key '{key}' form `img-sources.yaml` is not a string. "
+                    "This is not allowed, as for integers leading zeros are silently ignored.",
+                )
+        return image_sources
+
 
 IMAGE_BASE = Path(__file__).parent.parent / "sources" / "img"
 IMAGE_SOURCE = IMAGE_BASE / "lg"
@@ -122,12 +166,12 @@ def _gen_fixed_size(img: Image.Image, fixed_size: tuple[int, int], offset: int) 
         new_img = img.copy()
     if target_w != target_h:
         # thumbnail may be more efficient, but does only handle square images
-        return new_img.resize(fixed_size, Image.Resampling.LANCZOS)  # type: ignore
-    new_img.thumbnail(fixed_size, Image.Resampling.LANCZOS)  # type: ignore
+        return new_img.resize(fixed_size, Image.Resampling.LANCZOS)
+    new_img.thumbnail(fixed_size, Image.Resampling.LANCZOS)
     return new_img
 
 
-def _gen_max_size(img: Image.Image, max_size: int) -> Optional[Image.Image]:
+def _gen_max_size(img: Image.Image, max_size: int) -> Image.Image | None:
     """Generate an image with at max_size pixel in max(width, height) for the given image."""
     width, height = img.size
     if max(width, height) <= max_size:
@@ -162,14 +206,14 @@ def _refresh_for_all_resolutions(args: tuple[Path, dict[str, int]]) -> None:
         new_img.save(target_filepath, lossless=False, quality=50)
 
 
-def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: dict[str, list[dict[str, Any]]]) -> dict:
+def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: dict[str, list[ImageSource]]) -> ImageOffset:
     """Extract the offsets for the given image. Offsets are only available for the images, we crop"""
     for _target_dir_name, size in RESOLUTIONS:
         if isinstance(size, tuple):
-            if _id in img_sources and _index in img_sources[_id]:
-                return img_sources[_id][_index].get("offsets", {})
-            logging.warning(f"No source information for image '{img_path}', default crop-offset 0 is used")
-    return {}
+            if _id not in img_sources or _index >= len(img_sources[_id]):
+                logging.warning(f"No source information for image '{img_path}', default crop-offset 0 is used")
+            return img_sources[_id][_index].offsets
+    return ImageOffset()
 
 
 def _get_hash_lut() -> dict[str, str]:
@@ -182,7 +226,7 @@ def _get_hash_lut() -> dict[str, str]:
     return {}
 
 
-def _save_hash_lut(img_sources: dict[str, list[dict[str, Any]]]) -> None:
+def _save_hash_lut(img_sources: dict[str, list[ImageSource]]) -> None:
     """Save the current image status to the .hash_lut.json file"""
     hashes_lut = {}
     for img_path in IMAGE_SOURCE.glob("*.webp"):
@@ -193,12 +237,12 @@ def _save_hash_lut(img_sources: dict[str, list[dict[str, Any]]]) -> None:
         json.dump(hashes_lut, file, sort_keys=True, indent=2)
 
 
-def _gen_file_hash(img_path: Path, offsets) -> str:
+def _gen_file_hash(img_path: Path, offsets: ImageOffset) -> str:
     """Generate a hash-string for the given image file and given offsets."""
     with open(img_path, "rb") as file:
         # pylint: disable-next=unexpected-keyword-arg
         file_hash = hashlib.sha256(file.read(), usedforsecurity=False).hexdigest()
-        json_offsets = json.dumps(offsets, sort_keys=True).encode("utf-8")
+        json_offsets = json.dumps({"thumb": offsets.thumb, "header": offsets.header}, sort_keys=True).encode("utf-8")
         # pylint: disable-next=unexpected-keyword-arg
         offset_hash = hashlib.sha256(json_offsets, usedforsecurity=False).hexdigest()
         return f"{file_hash}_{offset_hash}"
@@ -221,7 +265,7 @@ def resize_and_crop() -> None:
     if DEV_MODE:
         expected_hashes_lut = _get_hash_lut()
     start_time = time.time()
-    img_sources = load_image_sources()
+    img_sources = ImageSource.load_all()
     with ThreadPoolExecutor() as executor:
         for img_path in IMAGE_SOURCE.glob("*.webp"):
             _id, _index = parse_image_filename(img_path.name)
@@ -236,16 +280,3 @@ def resize_and_crop() -> None:
     if DEV_MODE:
         _save_hash_lut(img_sources)
     logging.info(f"Resize and crop took {resize_and_crop_time:.2f}s")
-
-
-def load_image_sources() -> dict[str, list[dict[str, Any]]]:
-    """Load the image sources from the img-sources.yaml file"""
-    with open(IMAGE_BASE / "img-sources.yaml", encoding="utf-8") as file:
-        image_sources = yaml.safe_load(file.read())
-    for key in image_sources:
-        if not isinstance(key, str):
-            raise ValueError(
-                f"Key '{key}' form `img-sources.yaml` is not a string. "
-                "This is not allowed, as for integers leading zeros are silently ignored.",
-            )
-    return image_sources

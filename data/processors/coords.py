@@ -1,7 +1,7 @@
 import copy
 import logging
 
-import utm  # type: ignore
+import utm
 
 
 def assert_buildings_have_coords(data):

@@ -6,6 +6,7 @@ import random
 import re
 
 import requests
+import typing
 from bs4 import BeautifulSoup, element
 from defusedxml import ElementTree as ET
 from external.scraping_utils import CACHE_PATH, cached_json, maybe_sleep
@@ -220,19 +221,34 @@ def scrape_orgs(lang):
             }
     return orgs
 
+class ParsedRoom(typing.TypedDict):
+    list_index:str
+    roomcode:str
+    room_link:str
+    calendar:str
+    alt_name:str
+    arch_name:str
+    address:str
+    address_link:str
+    plz_place:str
+    operator:str
+    op_link:str
+
+class ParsedRoomsList(typing.NamedTuple):
+    rooms: list[ParsedRoom] =[]
+    num_pages: int =1
+    current_page: int =0
 
 @cached_json("tumonline/{f_value}.{area_id}.json")
-def _retrieve_roomlist(f_type, f_name, f_value, area_id=0):
+def _retrieve_roomlist(f_type:str, f_name:str, f_value: int, area_id=0)->list[dict[str,str]]:
     """Retrieve all rooms (multi-page) from the TUMonline room search list"""
 
-    all_rooms = []
-    pages_cnt = 1
-    current_page = 0
+    scraped_rooms = ParsedRoomsList()
 
-    with tqdm(desc=f"Searching Rooms for {f_type} {f_value}", total=pages_cnt, leave=False) as prog:
-        while current_page < pages_cnt:
+    with tqdm(desc=f"Searching Rooms for {f_type} {f_value}", total=scraped_rooms.num_pages, leave=False) as prog:
+        while scraped_rooms.current_page < scraped_rooms.num_pages:
             search_params = {
-                "pStart": len(all_rooms) + 1,  # 1 + current_page * 30,
+                "pStart": len(scraped_rooms.rooms) + 1,  # 1 + current_page * 30,
                 "pSuchbegriff": "",
                 "pGebaeudebereich": area_id,  # 0 for all areas
                 "pGebaeude": 0,
@@ -241,14 +257,14 @@ def _retrieve_roomlist(f_type, f_name, f_value, area_id=0):
                 f_name: f_value,
             }
             req = requests.post(f"{TUMONLINE_URL}/wbSuche.raumSuche", data=search_params, timeout=30)
-            rooms_on_page, pages_cnt, current_page = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
-            all_rooms.extend(rooms_on_page)
+            rooms_list = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
+            scraped_rooms.rooms.extend(rooms_list.rooms)
 
-            if prog.total != pages_cnt:
-                prog.reset(pages_cnt)
+            if prog.total != rooms_list.num_pages:
+                prog.reset(rooms_list.num_pages)
             prog.update(1)
             maybe_sleep(1.5)
-    return all_rooms
+    return scraped_rooms.rooms
 
 
 def _retrieve_roominfo(system_id: str) -> dict[str, str | int | float]:
@@ -332,16 +348,15 @@ def _parse_filter_options(xml_parser: BeautifulSoup, filter_type):
     return options
 
 
-def _parse_rooms_list(lxml_parser: BeautifulSoup):
-    rooms = []
+def _parse_rooms_list(lxml_parser: BeautifulSoup)->ParsedRoomsList:
 
     table = lxml_parser.find("table", class_="list")
 
     if table is None:
-        return [], 1, 1
+        return ParsedRoomsList([], 1, 1)
 
+    rooms:list[ParsedRoom] = []
     tbody = table.find("tbody")
-
     for row in tbody.find_all("tr"):
         columns = row.find_all("td")
         if len(columns) != 8:
@@ -352,7 +367,7 @@ def _parse_rooms_list(lxml_parser: BeautifulSoup):
         c_calendar = columns[2].find("a")
         c_address = columns[5].find("a")
         c_operator = columns[7].find("a")
-        data = {
+        rooms.append({
             "list_index": columns[0].text,
             "roomcode": columns[1].text,
             "room_link": None if c_room is None else c_room.attrs["href"],
@@ -364,9 +379,7 @@ def _parse_rooms_list(lxml_parser: BeautifulSoup):
             "plz_place": columns[6].text,
             "operator": columns[7].text,
             "op_link": None if c_operator is None else c_operator.attrs["href"],
-        }
-
-        rooms.append(data)
+        })
 
     # Get information about number of pages
     pages_table = lxml_parser.find("table", class_="wr100")
@@ -382,16 +395,16 @@ def _parse_rooms_list(lxml_parser: BeautifulSoup):
         num_pages = len(columns[3].find_all("option"))
         current_page = int(columns[3].find("option", selected=True).text)  # 1-indexed!
 
-    return rooms, num_pages, current_page
+    return ParsedRoomsList(rooms, num_pages, current_page)
 
 
-def _get_roomsearch_xml(url: str, params: dict, cache_fname: str) -> BeautifulSoup:
+def _get_roomsearch_xml(url: str, params: dict[str, str | int], cache_fname: str) -> BeautifulSoup:
     root = _get_xml(url, params, cache_fname)
     elem = root.find('.//instruction[@jsid="raumSucheKontainerID"]')
     return BeautifulSoup(elem.text, "lxml")
 
 
-def _get_xml(url: str, params: dict, cache_fname: str):
+def _get_xml(url: str, params: dict[str, str | int], cache_fname: str):
     cache_path = CACHE_PATH / cache_fname
     if cache_path.exists():
         tree = ET.parse(cache_path)
