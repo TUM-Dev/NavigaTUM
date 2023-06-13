@@ -58,7 +58,8 @@ Zur Abwehr von Gefahren für die Sicherheit in der Informationstechnik können b
 Die Daten von einem Nutzer freiwillig bereitgestellten Daten werden technisch nicht gelöscht, außer er wünscht dies.
 
 Zudem kann ein Nutzer seinen Kommentar jederzeit durch uns löschen lassen.
-Schreiben Sie dafür bitte eine E-Mail an den unten aufgeführten Datenschutzbeauftragten bzw. die für den Datenschutz zuständige Person und übermitteln den Link zu Ihrem Kommentar.
+Schreiben Sie dafür bitte eine E-Mail an uns (navigatum (at-symbol) tum.de) und übermitteln den Link zu Ihrem Kommentar.
+Darüber hinaus können Sie sich auch an den unten aufgeführten Datenschutzbeauftragten bzw. die für den Datenschutz zuständige Person werden.
 
 ## Ihre Rechte
 
