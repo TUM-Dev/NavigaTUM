@@ -4,9 +4,9 @@ import json
 import logging
 import random
 import re
+import typing
 
 import requests
-import typing
 from bs4 import BeautifulSoup, element
 from defusedxml import ElementTree as ET
 from external.scraping_utils import CACHE_PATH, cached_json, maybe_sleep
@@ -221,26 +221,29 @@ def scrape_orgs(lang):
             }
     return orgs
 
+
 class ParsedRoom(typing.TypedDict):
-    list_index:str
-    roomcode:str
-    room_link:str
-    calendar:str
-    alt_name:str
-    arch_name:str
-    address:str
-    address_link:str
-    plz_place:str
-    operator:str
-    op_link:str
+    list_index: str
+    roomcode: str
+    room_link: str
+    calendar: str
+    alt_name: str
+    arch_name: str
+    address: str
+    address_link: str
+    plz_place: str
+    operator: str
+    op_link: str
+
 
 class ParsedRoomsList(typing.NamedTuple):
-    rooms: list[ParsedRoom] =[]
-    num_pages: int =1
-    current_page: int =0
+    rooms: list[ParsedRoom] = []
+    num_pages: int = 1
+    current_page: int = 0
+
 
 @cached_json("tumonline/{f_value}.{area_id}.json")
-def _retrieve_roomlist(f_type:str, f_name:str, f_value: int, area_id=0)->list[dict[str,str]]:
+def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id=0) -> list[dict[str, str]]:
     """Retrieve all rooms (multi-page) from the TUMonline room search list"""
 
     scraped_rooms = ParsedRoomsList()
@@ -348,14 +351,13 @@ def _parse_filter_options(xml_parser: BeautifulSoup, filter_type):
     return options
 
 
-def _parse_rooms_list(lxml_parser: BeautifulSoup)->ParsedRoomsList:
-
+def _parse_rooms_list(lxml_parser: BeautifulSoup) -> ParsedRoomsList:
     table = lxml_parser.find("table", class_="list")
 
     if table is None:
         return ParsedRoomsList([], 1, 1)
 
-    rooms:list[ParsedRoom] = []
+    rooms: list[ParsedRoom] = []
     tbody = table.find("tbody")
     for row in tbody.find_all("tr"):
         columns = row.find_all("td")
@@ -367,19 +369,21 @@ def _parse_rooms_list(lxml_parser: BeautifulSoup)->ParsedRoomsList:
         c_calendar = columns[2].find("a")
         c_address = columns[5].find("a")
         c_operator = columns[7].find("a")
-        rooms.append({
-            "list_index": columns[0].text,
-            "roomcode": columns[1].text,
-            "room_link": None if c_room is None else c_room.attrs["href"],
-            "calendar": None if c_calendar is None else c_calendar.attrs["href"],
-            "alt_name": columns[3].text,
-            "arch_name": columns[4].text,
-            "address": columns[5].text,
-            "address_link": None if c_address is None else c_address.attrs["href"],
-            "plz_place": columns[6].text,
-            "operator": columns[7].text,
-            "op_link": None if c_operator is None else c_operator.attrs["href"],
-        })
+        rooms.append(
+            {
+                "list_index": columns[0].text,
+                "roomcode": columns[1].text,
+                "room_link": None if c_room is None else c_room.attrs["href"],
+                "calendar": None if c_calendar is None else c_calendar.attrs["href"],
+                "alt_name": columns[3].text,
+                "arch_name": columns[4].text,
+                "address": columns[5].text,
+                "address_link": None if c_address is None else c_address.attrs["href"],
+                "plz_place": columns[6].text,
+                "operator": columns[7].text,
+                "op_link": None if c_operator is None else c_operator.attrs["href"],
+            }
+        )
 
     # Get information about number of pages
     pages_table = lxml_parser.find("table", class_="wr100")
