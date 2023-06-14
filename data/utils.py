@@ -14,12 +14,7 @@ with open(TRANSLATION_BUFFER_PATH, encoding="utf-8") as yaml_file:
     TRANSLATION_BUFFER = yaml.load(yaml_file)
 
 
-class TTranslatableStr(TypedDict):
-    en: str
-    de: str
-
-
-class TranslatableStr(dict):  # type: TTranslatableStr
+class TranslatableStr(dict):
     """
     Wrapper for translations.
     Takes a string, that should be translated and looks it up in the translation buffer.
