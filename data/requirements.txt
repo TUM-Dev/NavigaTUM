@@ -8,3 +8,4 @@ requests~=2.31.0
 ruamel.yaml~=0.17.24
 tqdm~=4.65.0
 utm~=0.7.0
+geopy~=2.3.0
