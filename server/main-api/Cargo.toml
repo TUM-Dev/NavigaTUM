@@ -32,6 +32,8 @@ unicode-truncate = "0.2.0"
 # database
 meilisearch-sdk = "0.24.1"
 diesel = { version = "2.1.0", features = ["default", "sqlite"] }
+libsqlite3-sys = { version = "*", features = ["bundled"] }
+
 
 # maps
 rustls = "0.21.2"
