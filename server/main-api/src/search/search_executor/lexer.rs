@@ -35,16 +35,16 @@ pub enum Token {
     #[regex("[a-zA-Z]+[0-9]{1,4}", irregular_split, priority = 2)]
     SplittableText((String, String)),
 
-    #[regex("in: ?[a-zA-Z0-9]+", | lex | remove_prefix(lex, "in:"), priority = 3)]
-    #[regex("@ ?[a-zA-Z0-9]+", | lex | remove_prefix(lex, "@"), priority = 3)]
+    #[regex("in: ?[a-zA-Z0-9-.]+", | lex | remove_prefix(lex, "in:"), priority = 3)]
+    #[regex("@ ?[a-zA-Z0-9-.]+", | lex | remove_prefix(lex, "@"), priority = 3)]
     ParentFilter(String),
 
-    #[regex("usage: ?[a-zA-Z0-9]+", | lex | remove_prefix(lex, "usage:"), priority = 3)]
-    #[regex("nutzung: ?[a-zA-Z0-9]+", | lex | remove_prefix(lex, "nutzung:"), priority = 3)]
-    #[regex("= ?[a-zA-Z0-9]+", | lex | remove_prefix(lex, "="), priority = 3)]
+    #[regex("usage: ?[a-zA-Z]+", | lex | remove_prefix(lex, "usage:"), priority = 3)]
+    #[regex("nutzung: ?[a-zA-Z]+", | lex | remove_prefix(lex, "nutzung:"), priority = 3)]
+    #[regex("= ?[a-zA-Z]+", | lex | remove_prefix(lex, "="), priority = 3)]
     UsageFilter(String),
 
-    #[regex("type: ?[a-zA-Z0-9]+", | lex | remove_prefix(lex, "type:"), priority = 3)]
+    #[regex("type: ?[a-zA-Z]+", | lex | remove_prefix(lex, "type:"), priority = 3)]
     TypeFilter(String),
 }
 
