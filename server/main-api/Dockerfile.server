@@ -33,7 +33,7 @@ RUN     cargo build --release --bin navigatum-main-api
 FROM alpine:3.18
 
 RUN     apk update --quiet \
-     && apk add -q --no-cache libgcc tini \
+     && apk add -q --no-cache libgcc tini curl \
      && mkdir -p ./src/maps/font
 
 COPY    main-api/src/maps ./src/maps
@@ -43,8 +43,8 @@ COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
 ARG     GIT_COMMIT_SHA
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 
-EXPOSE  8080
 
 ENTRYPOINT ["tini", "--"]
-HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8080/api/status || exit 1
+EXPOSE  8080
+HEALTHCHECK CMD curl --fail localhost:8080/api/status || exit 1
 CMD     /bin/navigatum-main-api

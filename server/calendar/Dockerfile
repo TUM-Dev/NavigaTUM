@@ -34,7 +34,7 @@ RUN     cargo build --release --bin navigatum-calendar --bin navigatum-calendar-
 FROM alpine:3.18
 
 RUN     apk update --quiet \
-     && apk add -q --no-cache libgcc libpq-dev tini
+     && apk add -q --no-cache libgcc libpq-dev tini curl
 
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
@@ -42,8 +42,7 @@ COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
 ARG     GIT_COMMIT_SHA
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 
-EXPOSE  8083
-
 ENTRYPOINT ["tini", "--"]
-HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8083/api/calendar/status || exit 1
+EXPOSE  8060
+HEALTHCHECK CMD curl --fail localhost:8060/api/calendar/status || exit 1
 CMD     /bin/navigatum-calendar
