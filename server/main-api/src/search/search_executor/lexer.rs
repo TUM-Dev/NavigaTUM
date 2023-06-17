@@ -84,7 +84,7 @@ mod tokenizer_tests {
 
     #[test]
     fn normal_splits() {
-        for text in ["foo foo", "foo\nfoo", "foo  foo"] {
+        for text in ["foo foo", "foo\nfoo", "foo  foo", " foo foo", "foo foo ", " foo foo "] {
             let mut lexer = Token::lexer(text);
             assert_eq!(lexer.next(), Some(Ok(Token::Text("foo".to_string()))));
             assert_eq!(lexer.next(), Some(Ok(Token::Text("foo".to_string()))));
