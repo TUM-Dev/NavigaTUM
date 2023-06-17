@@ -34,6 +34,7 @@ FROM nginx:1.25 as production-stage
 RUN mkdir /cdn
 COPY --from=build-stage /app/output /cdn
 COPY nginx.conf /etc/nginx/nginx.conf
-EXPOSE 8000
 
+EXPOSE 8000
+HEALTHCHECK CMD curl --fail localhost:8000/cdn/health || exit 1
 CMD ["nginx", "-g", "daemon off;"]

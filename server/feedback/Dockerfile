@@ -32,7 +32,7 @@ RUN     cargo build --release --bin navigatum-feedback
 FROM alpine:3.18
 
 RUN     apk update --quiet \
-     && apk add -q --no-cache libgcc tini libwebp
+     && apk add -q --no-cache libgcc tini libwebp curl
 
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
@@ -40,8 +40,7 @@ COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
 ARG     GIT_COMMIT_SHA
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 
-EXPOSE  8070
-
 ENTRYPOINT ["tini", "--"]
-HEALTHCHECK --start-period=20m  --timeout=10s CMD curl --fail localhost:8070/api/feedback/status || exit 1
+EXPOSE  8070
+HEALTHCHECK CMD curl --fail localhost:8070/api/feedback/status || exit 1
 CMD     /bin/navigatum-feedback
