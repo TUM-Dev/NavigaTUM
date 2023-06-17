@@ -42,7 +42,7 @@ impl GeoEntryQuery {
         }
     }
     pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
-        let q_default = self.prompt_for_queriing();
+        let q_default = self.prompt_for_querying();
         let ms_url =
             std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
         let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
@@ -57,12 +57,12 @@ impl GeoEntryQuery {
             .multi_search()
             .with_search_query(self.merged_query(&entries, &q_default))
             .with_search_query(self.buildings_query(&entries, &q_default))
-            .with_search_query(self.rooms_query(&entries, &self.prompt_for_queriing_room()))
+            .with_search_query(self.rooms_query(&entries, &self.prompt_for_querying_room()))
             .execute::<MSHit>()
             .await
     }
 
-    fn prompt_for_queriing(&self) -> String {
+    fn prompt_for_querying(&self) -> String {
         self.parsed_input
             .tokens
             .clone()
@@ -74,7 +74,7 @@ impl GeoEntryQuery {
             .collect::<Vec<String>>()
             .join(" ")
     }
-    fn prompt_for_queriing_room(&self) -> String {
+    fn prompt_for_querying_room(&self) -> String {
         self.parsed_input
             .tokens
             .clone()
