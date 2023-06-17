@@ -83,8 +83,41 @@ mod tokenizer_tests {
     }
 
     #[test]
+    fn filter_quoting() {
+        // filtering and quoting is explicitly not supported.
+        // we have not been able to come up with a usecase for complicating things like this
+        for text in ["in:", "@", "usage:", "nutzung:", "="] {
+            for sep in [" ", ""] {
+                for (test_variation, expected_transformation) in
+                    [("\"", "\""), ("\"a", "\"a"), ("\"a\"", "a")]
+                {
+                    let lexed_text = format!("{text}{sep}{test_variation}");
+                    let mut lexer = Token::lexer(&lexed_text);
+                    if sep.is_empty() {
+                        assert_eq!(lexer.next(), Some(Ok(Token::Text(lexed_text.clone()))));
+                    } else {
+                        assert_eq!(lexer.next(), Some(Ok(Token::Text(text.into()))));
+                        assert_eq!(
+                            lexer.next(),
+                            Some(Ok(Token::Text(expected_transformation.into())))
+                        );
+                    }
+                    assert_eq!(lexer.next(), None);
+                }
+            }
+        }
+    }
+
+    #[test]
     fn normal_splits() {
-        for text in ["foo foo", "foo\nfoo", "foo  foo", " foo foo", "foo foo ", " foo foo "] {
+        for text in [
+            "foo foo",
+            "foo\nfoo",
+            "foo  foo",
+            " foo foo",
+            "foo foo ",
+            " foo foo ",
+        ] {
             let mut lexer = Token::lexer(text);
             assert_eq!(lexer.next(), Some(Ok(Token::Text("foo".to_string()))));
             assert_eq!(lexer.next(), Some(Ok(Token::Text("foo".to_string()))));
