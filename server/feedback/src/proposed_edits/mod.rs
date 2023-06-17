@@ -82,7 +82,7 @@ pub async fn propose_edits(
             .content_type("text/plain")
             .body("Using this endpoint without accepting the privacy policy is not allowed");
     };
-    if !req_data.edits.is_empty() {
+    if req_data.edits.is_empty() {
         return HttpResponse::UnprocessableEntity()
             .content_type("text/plain")
             .body("Not enough edits provided");
