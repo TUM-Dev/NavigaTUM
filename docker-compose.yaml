@@ -1,0 +1,141 @@
+version: "3"
+services:
+  # --- data ---
+  # requires `rsync openapi.yaml data/output/openapi.yaml`
+  data:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.data.rule=PathPrefix(`/cdn`)"
+      - "traefik.http.routers.data.priority=11"
+      - "traefik.http.routers.data.entrypoints=web"
+      - "traefik.http.services.data.loadbalancer.server.port=8000"
+    build: data
+    ports:
+      - "8000:8000"
+  # --- webclient ---
+  web:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.web.priority=0"
+      - "traefik.http.routers.web.entrypoints=web"
+      - "traefik.http.services.web.loadbalancer.server.port=9000"
+    build: webclient
+    ports:
+      - "9000:9000"
+  # --- main api ---
+  main-api-init:
+    build:
+      context: server/main-api
+      dockerfile: Dockerfile.dbinit
+    volumes:
+      - main-api:/tmp
+  main-api:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mainapi.rule=PathPrefix(`/api/status`) || PathPrefix(`/api/preview`) || PathPrefix(`/api/legacy`) || PathPrefix(`/api/get`) || PathPrefix(`/api/search`)"
+      - "traefik.http.routers.mainapi.priority=10"
+      - "traefik.http.routers.mainapi.entrypoints=web"
+      - "traefik.http.services.mainapi.loadbalancer.server.port=8080"
+    build:
+      context: server
+      dockerfile: main-api/Dockerfile.server
+    environment:
+      DB_LOCATION: /tmp/server.db
+      MIELI_URL: meilisearch:7700
+    ports:
+      - "8080:8080"
+    depends_on:
+      main-api-init:
+        condition: service_completed_successfully
+    volumes:
+      - main-api:/tmp
+  meilisearch-init:
+    build:
+      context: server/main-api
+      dockerfile: Dockerfile.msinit
+    depends_on:
+      data:
+        condition: service_healthy
+    volumes:
+      - meilisearch:/meili_data
+  meilisearch:
+    image: getmeili/meilisearch:v1.2.0
+    depends_on:
+      meilisearch-init:
+        condition: service_completed_successfully
+    volumes:
+      - meilisearch:/meili_data
+    environment:
+      MEILI_MASTER_KEY: only_for_development
+  # --- calendar ---
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: only_for_development
+      POSTGRES_USER: postgres
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+      PGUSER: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  calendar:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.calendar.rule=PathPrefix(`/api/calendar`)"
+      - "traefik.http.routers.calendar.priority=20"
+      - "traefik.http.routers.calendar.entrypoints=web"
+      - "traefik.http.services.calendar.loadbalancer.server.port=8060"
+    build:
+      context: server
+      dockerfile: calendar/Dockerfile
+    environment:
+      POSTGRES_PASSWORD: only_for_development
+      POSTGRES_USER: postgres
+      POSTGRES_URL: "postgres:5432"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8060:8060"
+  # --- feedback ---
+  feedback:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.feedback.rule=PathPrefix(`/api/feedback`)"
+      - "traefik.http.routers.feedback.priority=21"
+      - "traefik.http.routers.feedback.entrypoints=web"
+      - "traefik.http.services.feedback.loadbalancer.server.port=8070"
+    build:
+      context: server
+      dockerfile: feedback/Dockerfile
+    environment:
+      JWT_KEY: only_for_development
+      GITHUB_TOKEN: only_for_development
+    ports:
+      - "8070:8070"
+  # --- router ---
+  traefik:
+    image: "traefik:v2.10"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8888:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+volumes:
+  postgres: {}
+  meilisearch: {}
+  main-api: {}

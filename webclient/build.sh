@@ -2,8 +2,8 @@
 
 set -e # fail on first error
 
-mkdir -p ../dist
-rm -fr ../dist
+mkdir -p dist
+rm -fr dist
 
 for LANG in en de
 do
