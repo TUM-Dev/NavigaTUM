@@ -21,13 +21,13 @@
         redisEnabled: true
       backend:
         image:
-          tag: 1.18.1
+          tag: 1.18.4
       exporter:
         image:
-          tag: 1.18.1
+          tag: 1.18.4
       frontend:
         image:
-          tag: 1.18.1
+          tag: 1.18.4
       persistence:
         enabled: true
         size: 8Gi
