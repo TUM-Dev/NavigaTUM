@@ -188,8 +188,7 @@ view_view:
       delete-confirm: Really delete?
       info: Changes are stored \n locally for 12 h
       msg-1: Currently
-      msg-2: pending coordinate edit
-      msg-2-plural: pending coordinate edits
+      msg-2: pending coordinate edit|pending coordinate edits
       send: Send
     correct_location:
       btn-cancel: Cancel
