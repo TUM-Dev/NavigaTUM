@@ -176,11 +176,8 @@ onMounted(() => {
         <div class="column col col-sm-12 msg">
           {{ $t("view_view.msg.coordinate-counter.msg-1") }}
           <em>{{ coord_counter.counter }} </em>
-          <span v-if="coord_counter.counter === 1">
-            {{ $t("view_view.msg.coordinate-counter.msg-2") }}
-          </span>
-          <span v-else>
-            {{ $t("view_view.msg.coordinate-counter.msg-2-plural") }}
+          <span>
+            {{ $t("view_view.msg.coordinate-counter.msg-2", coord_counter.counter) }}
           </span>
           <button
             class="btn btn-action btn-sm btn-link tooltip tooltip-left"

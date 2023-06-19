@@ -188,8 +188,7 @@ view_view:
       delete-confirm: Wirklich löschen?
       info: Änderungen werden lokal \n für 12h gespeichert
       msg-1: Aktuell
-      msg-2: ausstehende Koordinatenänderung
-      msg-2-plural: ausstehende Koordinatenänderungen
+      msg-2: ausstehende Koordinatenänderung|ausstehende Koordinatenänderungen
       send: Senden
     correct_location:
       btn-cancel: Abbrechen
