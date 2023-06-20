@@ -5,6 +5,8 @@ import { useGlobalStore } from "@/stores/global";
 const global = useGlobalStore();
 const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
 const lang = (localStorage.getItem("lang") || "de") as "de" | "en";
+// If we do not include the image here like this, vite/rollup is unable to load it
+const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.meta.url);
 </script>
 <template>
   <footer data-cy="main-footer">
@@ -58,7 +60,7 @@ const lang = (localStorage.getItem("lang") || "de") as "de" | "en";
             <div class="column hide-sm official_roomfinder">
               {{ $t("footer.official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
-                <img :alt="$t('meta.tum_logo_alt')" :src="`@/assets/logos/tum_${theme}_${lang}.svg`" height="50" />
+                <img :alt="$t('meta.tum_logo_alt')" :src="brandLogo" height="50" />
               </a>
             </div>
             <div class="column col-auto col-ml-auto col-xs-12 settings">
@@ -90,7 +92,7 @@ const lang = (localStorage.getItem("lang") || "de") as "de" | "en";
             <div class="column col-12 show-sm official_roomfinder">
               {{ $t("footer.official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
-                <img :alt="$t('meta.tum_logo_alt')" :src="`/logos/tum_${theme}_${lang}.svg`" height="50" />
+                <img :alt="$t('meta.tum_logo_alt')" :src="brandLogo" height="50" />
               </a>
             </div>
           </div>
