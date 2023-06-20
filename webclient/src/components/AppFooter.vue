@@ -60,7 +60,7 @@ const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.m
             <div class="column hide-sm official_roomfinder">
               {{ $t("footer.official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
-                <img :alt="$t('meta.tum_logo_alt')" :src="brandLogo" height="50" />
+                <img :alt="$t('meta.tum_logo_alt')" :src="brandLogo.href" height="50" />
               </a>
             </div>
             <div class="column col-auto col-ml-auto col-xs-12 settings">
@@ -92,7 +92,7 @@ const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.m
             <div class="column col-12 show-sm official_roomfinder">
               {{ $t("footer.official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
-                <img :alt="$t('meta.tum_logo_alt')" :src="brandLogo" height="50" />
+                <img :alt="$t('meta.tum_logo_alt')" :src="brandLogo.href" height="50" />
               </a>
             </div>
           </div>

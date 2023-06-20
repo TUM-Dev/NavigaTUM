@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { components } from "@/api_types";
-type TokenRequest = components["schemas"]["TokenRequest"];
+type PostFeedbackRequest = components["schemas"]["PostFeedbackRequest"];
 
 export type Coord = {
   coords: {
@@ -15,7 +15,7 @@ export const useGlobalStore = defineStore({
     error_message: null as string | null,
     feedback: {
       open: false,
-      category: "general" as TokenRequest["category"],
+      category: "general" as PostFeedbackRequest["category"],
       subject: "",
       body: "",
     },
@@ -27,7 +27,7 @@ export const useGlobalStore = defineStore({
     unfocusSearchBar(): void {
       this.search_focused = false;
     },
-    openFeedback(category: TokenRequest["category"] = "general", subject = "", body = ""): void {
+    openFeedback(category: PostFeedbackRequest["category"] = "general", subject = "", body = ""): void {
       this.feedback.open = true;
       this.feedback.category = category;
       this.feedback.subject = subject;
