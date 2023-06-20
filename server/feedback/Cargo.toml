@@ -37,7 +37,7 @@ actix-governor = { version = "0.4.0", features = ["log"] }
 tempfile = "3.6.0"
 image = { version = "0.24.6", features = ["default", "webp-encoder"] }
 imageproc = "0.23.0"
-base64 = "0.21.0"
+base64 = "0.21.2"
 serde_yaml = "0.9"
 
 [dev-dependencies]
