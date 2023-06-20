@@ -118,28 +118,6 @@ export type paths = {
      */
     get: operations["maps_cdn"];
   };
-  "/api/legacy_redirect/{arch_name}": {
-    /**
-     * Get a redirect to our roomfinder
-     * @description The old roomfinder still exists and adoption of our new system is not great.
-     * This is a redirect route which can be a direct redirect for the old room-finder.
-     *
-     * ***THIS WILL DISAPEAR IN THE FUTURE, DO NOT RELY ON IT.***
-     * ***This is only here while TUM is transitioning to this system.***
-     *
-     * After 1-2 years, we will introduce some text to nudging those,
-     * who still have not changed their links, as otherwise we assume this transition will never be done...
-     * Said nudge will include information on who to contact if updating the website is not possible and
-     * tell the users what link to exchange with what other link.
-     * Redirecting to y after a button click or something similar is probably good.
-     *
-     * THIS IS NOT A PERMANENT SOLUTION, AND WILL BE REMOVED IN THE FUTURE
-     *
-     * The reason, why this is not a dumb redirect is, that the old roomfinder has a lot of bugs and `arch_name` not being unique, nor an id is one of them.
-     * We dont want to have two ids for obvious reasons, this is why we dont accept this as an alias
-     */
-    get: operations["legacy_redirect"];
-  };
   "/api/status": {
     /**
      * API healthcheck
@@ -673,6 +651,13 @@ export type components = {
           readonly url?: string;
         }[];
       };
+      /**
+       * @description The url, this item should be displayed at.
+       * Present on both redirects and normal entries, to allow for the common /view/:id path
+       *
+       * @example /room/5602.EG.001
+       */
+      readonly redirect_url: string;
     };
     readonly CalendarResponse: {
       /** @description The entries of the requested */
@@ -1281,49 +1266,6 @@ export type operations = {
       };
       /** @description The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars.. */
       414: never;
-    };
-  };
-  /**
-   * Get a redirect to our roomfinder
-   * @description The old roomfinder still exists and adoption of our new system is not great.
-   * This is a redirect route which can be a direct redirect for the old room-finder.
-   *
-   * ***THIS WILL DISAPEAR IN THE FUTURE, DO NOT RELY ON IT.***
-   * ***This is only here while TUM is transitioning to this system.***
-   *
-   * After 1-2 years, we will introduce some text to nudging those,
-   * who still have not changed their links, as otherwise we assume this transition will never be done...
-   * Said nudge will include information on who to contact if updating the website is not possible and
-   * tell the users what link to exchange with what other link.
-   * Redirecting to y after a button click or something similar is probably good.
-   *
-   * THIS IS NOT A PERMANENT SOLUTION, AND WILL BE REMOVED IN THE FUTURE
-   *
-   * The reason, why this is not a dumb redirect is, that the old roomfinder has a lot of bugs and `arch_name` not being unique, nor an id is one of them.
-   * We dont want to have two ids for obvious reasons, this is why we dont accept this as an alias
-   */
-  legacy_redirect: {
-    parameters: {
-      path: {
-        /** @description Architects name of the redirect you want */
-        arch_name: string;
-      };
-    };
-    responses: {
-      /** @description There are multiple meanings for this arch_name. Please choose one */
-      200: {
-        content: {
-          readonly "text/plain": string;
-        };
-      };
-      /** @description Permanent redirect to the roomfinder */
-      301: never;
-      /** @description Requested Resource Not Found */
-      404: {
-        content: {
-          readonly "text/plain": "Not found";
-        };
-      };
     };
   };
   /**

@@ -1009,62 +1009,6 @@ paths:
           description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
       tags:
         - cdn
-  '/api/legacy_redirect/{arch_name}':
-    get:
-      operationId: legacy_redirect
-      summary: Get a redirect to our roomfinder
-      description: |
-        The old roomfinder still exists and adoption of our new system is not great.
-        This is a redirect route which can be a direct redirect for the old room-finder.
-
-        ***THIS WILL DISAPEAR IN THE FUTURE, DO NOT RELY ON IT.***
-        ***This is only here while TUM is transitioning to this system.***
-
-        After 1-2 years, we will introduce some text to nudging those,
-        who still have not changed their links, as otherwise we assume this transition will never be done...
-        Said nudge will include information on who to contact if updating the website is not possible and
-        tell the users what link to exchange with what other link.
-        Redirecting to y after a button click or something similar is probably good.
-
-        THIS IS NOT A PERMANENT SOLUTION, AND WILL BE REMOVED IN THE FUTURE
-
-        The reason, why this is not a dumb redirect is, that the old roomfinder has a lot of bugs and `arch_name` not being unique, nor an id is one of them.
-        We dont want to have two ids for obvious reasons, this is why we dont accept this as an alias
-      parameters:
-        - name: arch_name
-          in: path
-          description: Architects name of the redirect you want
-          required: true
-          schema:
-            type: string
-            minLength: 1
-          examples:
-            one:
-              summary: A arch_name with one meaning
-              value: 3002@5510
-            two:
-              summary: A arch_name with multiple meanings
-              value: 0203P@5502
-      responses:
-        '200':
-          description: There are multiple meanings for this arch_name. Please choose one
-          content:
-            text/plain:
-              schema:
-                type: string
-        '301':
-          description: Permanent redirect to the roomfinder
-        '404':
-          description: Requested Resource Not Found
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: Not found
-                enum:
-                  - Not found
-      tags:
-        - migration
   /api/status:
     get:
       operationId: api-health
@@ -1909,6 +1853,12 @@ components:
                   - name
           required:
             - base
+        redirect_url:
+          type: string
+          description: |
+              The url, this item should be displayed at.
+              Present on both redirects and normal entries, to allow for the common /view/:id path
+          example: '/room/5602.EG.001'
       required:
         - type_common_name
         - name
@@ -1917,6 +1867,7 @@ components:
         - props
         - ranking_factors
         - sources
+        - redirect_url
     CalendarResponse:
       type: object
       properties:
@@ -2145,8 +2096,6 @@ tags:
     description: Images for some of the rooms
   - name: feedback
     description: the API to access/search for room information
-  - name: migration
-    description: the API to migrate to our service
   - name: health
     description: These endpoints are used to check the health of our components
 externalDocs:
