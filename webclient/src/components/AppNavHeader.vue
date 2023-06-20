@@ -4,19 +4,12 @@
       <div class="columns">
         <div class="column hide-lg">
           <RouterLink to="/">
-            <img :alt="$t('meta.logo_alt')" src="@/assets/logo.svg" id="logo" />
+            <img :alt="$t('meta.logo_alt')" src="@/assets/logos/navigatum.svg" id="logo" />
             <!-- 7px for logo1 -->
           </RouterLink>
         </div>
         <div class="column col-8 col-lg-11 col-mx-auto">
           <slot />
-        </div>
-
-        <div class="hide-lg">
-          <RouterLink to="/">
-            <img :alt="$t('meta.tum_logo_alt')" src="@/assets/tum_logo.min.svg" id="tum_logo" />
-            <!-- 7px for logo1 -->
-          </RouterLink>
         </div>
       </div>
     </div>
@@ -38,21 +31,6 @@
   #logo {
     height: 24px;
     margin-top: 9px;
-  }
-
-  #tum_logo {
-    position: absolute;
-    margin: 20px;
-    right: 0;
-    top: 0;
-    height: 20px;
-  }
-
-  @media (max-width: 1130px) {
-    #tum_logo {
-      position: relative;
-      margin: 10px 10px 0 10px;
-    }
   }
 
   .input-group button {
