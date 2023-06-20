@@ -2035,6 +2035,42 @@ components:
                     required:
                       - lat
                       - lon
+                  image:
+                    type: object
+                    properties:
+                      metadata:
+                        type: object
+                        properties:
+                          author:
+                            type: string
+                          license:
+                            $ref: '#/components/schemas/LinkProp'
+                          source:
+                            $ref: '#/components/schemas/LinkProp'
+                          offsets:
+                            type: object
+                            properties:
+                              header:
+                                type: integer
+                                format: int32
+                              thumb:
+                                type: integer
+                                format: int32
+                          meta:
+                            type: object
+                            additionalProperties:
+                              type: string
+                        required:
+                          - author
+                          - license
+                          - source
+                      content:
+                        type: string
+                        format: byte
+                        description: The image encoded as base64
+                    required:
+                      - metadata
+                      - content
             additional_context:
               description: |
                 Additional context for the edit.  
