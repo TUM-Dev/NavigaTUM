@@ -57,7 +57,9 @@ const lang = (localStorage.getItem("lang") || "de") as "de" | "en";
             </div>
             <div class="column hide-sm official_roomfinder">
               {{ $t("footer.official_roomfinder") }}<br />
-              <img :alt="$t('meta.tum_logo_alt')" :src="`@/assets/logos/tum_${theme}_${lang}.svg`" height="50" />
+              <a href="https://tum.de" target="_blank">
+                <img :alt="$t('meta.tum_logo_alt')" :src="`@/assets/logos/tum_${theme}_${lang}.svg`" height="50" />
+              </a>
             </div>
             <div class="column col-auto col-ml-auto col-xs-12 settings">
               <div class="columns">
@@ -87,7 +89,9 @@ const lang = (localStorage.getItem("lang") || "de") as "de" | "en";
             </div>
             <div class="column col-12 show-sm official_roomfinder">
               {{ $t("footer.official_roomfinder") }}<br />
-              <img :alt="$t('meta.tum_logo_alt')" :src="`/logos/tum_${theme}_${lang}.svg`" height="50" />
+              <a href="https://tum.de" target="_blank">
+                <img :alt="$t('meta.tum_logo_alt')" :src="`/logos/tum_${theme}_${lang}.svg`" height="50" />
+              </a>
             </div>
           </div>
         </div>
