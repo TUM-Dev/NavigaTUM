@@ -2020,6 +2020,21 @@ components:
             edits:
               description: 'The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits.'
               type: object
+              additionalProperties:
+                type: object
+                properties:
+                  coordinate:
+                    type: object
+                    properties:
+                      lat:
+                        type: number
+                        format: double
+                      lon:
+                        type: number
+                        format: double
+                    required:
+                      - lat
+                      - lon
             additional_context:
               description: |
                 Additional context for the edit.  

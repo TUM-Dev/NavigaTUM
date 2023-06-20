@@ -756,7 +756,18 @@ export type components = {
     };
     readonly ProposeEditsRequest: components["schemas"]["TokenRequest"] & {
       /** @description The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits. */
-      readonly edits: Record<string, never>;
+      readonly edits: {
+        [key: string]:
+          | {
+              readonly coordinate?: {
+                /** Format: double */
+                readonly lat: number;
+                /** Format: double */
+                readonly lon: number;
+              };
+            }
+          | undefined;
+      };
       /**
        * @description Additional context for the edit.
        * Will be displayed in the discription field of the PR
