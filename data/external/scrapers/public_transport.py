@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from pathlib import Path
 from external.scraping_utils import cached_json
 from external.scrapers.roomfinder import scrape_maps
@@ -29,28 +28,29 @@ def nearby(building_coords:tuple, stations: list[dict]) -> list[dict]:
             station["lat"]=str(station.get("lat"))  #decimal to string to allow json serialization
             station["lon"]=str(station.get("lon"))
             station["distance"]=distance_to_building
-            results.append(station)#TODO map decimal to string then add to list
+            results.append(station)
     return results
 
 
 @cached_json("public_transport.json")
 def scrape_stations():
-    with Path("data/external/scrapers/MVV_HSTReport2212.csv").open("r") as file:
-        lines = list(csv.reader(file, delimiter=";"))[1:]  # ignore first line as it contains row names
+    with Path("scrapers/MVV_HSTReport2212.csv").open("r") as file:
+        lines = csv.reader(file, delimiter=";")  
+        next(lines) # skip first line as it contains row names
         lines = filter(lambda l: not all(not bool(i) for i in l), lines)  # filter out lines where each value is ''
-    stations = list(
-        map(
-            lambda station: {
-                "id":station[STATIONID],
-                "name":station[NAME],
-                "ort":station[ORT],
-                "global-id":station[GLOBAL_ID],
-                "lat":Decimal(station[WGS84X].replace(",", ".")),
-                "lon":Decimal(station[WSG84Y].replace(",", ".")),
-            },
-            lines,
+        stations = list(
+            map(
+                lambda station: {
+                    "id":station[STATIONID],
+                    "name":station[NAME],
+                    "ort":station[ORT],
+                    "global-id":station[GLOBAL_ID],
+                    "lat":Decimal(station[WGS84X].replace(",", ".")),
+                    "lon":Decimal(station[WSG84Y].replace(",", ".")),
+                },
+                lines,
+            )
         )
-    )
     buildings = scrape_maps()
     building_coords: list = []
     for building in buildings:
