@@ -1,7 +1,7 @@
 import logging
 import os
 
-from external.scrapers import nat, roomfinder, tumonline
+from external.scrapers import nat, roomfinder, tumonline, public_transport
 from external.scraping_utils import CACHE_PATH
 from utils import setup_logging
 
@@ -30,5 +30,7 @@ if __name__ == "__main__":
 
     roomfinder.scrape_maps()
 
+    public_transport.scrape_stations()
+    
     tumonline.scrape_orgs(lang="de")
     tumonline.scrape_orgs(lang="en")
