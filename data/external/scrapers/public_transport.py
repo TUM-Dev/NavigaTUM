@@ -3,8 +3,7 @@ from external.scraping_utils import cached_json
 from external.scrapers.roomfinder import scrape_maps
 import csv
 from decimal import Decimal
-from geopy.distance import distance
-
+from processors.public_transport import nearby
 # CSV indexes
 STATIONID = 0
 NAME = 1
@@ -13,24 +12,8 @@ GLOBAL_ID = 3
 WGS84X = 4  # lat
 WSG84Y = 6  # lon
 
-MAXDISTANCE = 1  # max distance from building
-
-
 def avg(x1, x2):
     return (x1 + x2) / 2
-
-
-def nearby(building_coords:tuple, stations: list[dict]) -> list[dict]:
-    results=[]
-    for station in stations:
-        distance_to_building=round(distance((station.get("lat"), station.get("lon")), (building_coords)).km,2)
-        if distance_to_building <= MAXDISTANCE:
-            station["lat"]=str(station.get("lat"))  #decimal to string to allow json serialization
-            station["lon"]=str(station.get("lon"))
-            station["distance"]=distance_to_building
-            results.append(station)
-    return results
-
 
 @cached_json("public_transport.json")
 def scrape_stations():
