@@ -3,6 +3,8 @@ import AppLanguageToggler from "@/components/AppLanguageToggler.vue";
 import AppThemeToggler from "@/components/AppThemeToggler.vue";
 import { useGlobalStore } from "@/stores/global";
 const global = useGlobalStore();
+const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
+const lang = (localStorage.getItem("lang") || "de") as "de" | "en";
 </script>
 <template>
   <footer data-cy="main-footer">
@@ -12,7 +14,7 @@ const global = useGlobalStore();
           <div class="columns">
             <div class="column col-auto col-xs-12 links">
               <div class="columns">
-                <ul class="column col-auto">
+                <ul class="column">
                   <li>
                     <a href="https://github.com/TUM-Dev/navigatum">
                       {{ $t("footer.sourcecode.text") }}
@@ -53,8 +55,11 @@ const global = useGlobalStore();
                 </ul>
               </div>
             </div>
+            <div class="column hide-sm official_roomfinder">
+              {{ $t("footer.official_roomfinder") }}<br />
+              <img :alt="$t('meta.tum_logo_alt')" :src="`@/assets/logos/tum_${theme}_${lang}.svg`" height="50" />
+            </div>
             <div class="column col-auto col-ml-auto col-xs-12 settings">
-              <div class="show-xs divider" style="height: 20px" />
               <div class="columns">
                 <div class="column col-12 col-xs-8 col-mx-auto">
                   <div class="columns setting-group">
@@ -79,6 +84,10 @@ const global = useGlobalStore();
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="column col-12 show-sm official_roomfinder">
+              {{ $t("footer.official_roomfinder") }}<br />
+              <img :alt="$t('meta.tum_logo_alt')" :src="`/logos/tum_${theme}_${lang}.svg`" height="50" />
             </div>
           </div>
         </div>
@@ -127,6 +136,9 @@ footer {
       text-decoration: underline;
     }
   }
+  .official_roomfinder {
+    font-size: 0.6rem;
+  }
 
   .settings {
     .setting-group {
@@ -154,12 +166,20 @@ footer {
     margin-top: 50px;
     bottom: -200px;
 
+    .links,
+    .settings,
+    .official_roomfinder {
+      margin-top: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
     .links {
       ul {
-        margin: 0.8rem;
-
+        margin-left: 0.8rem;
+        margin-right: 0.8rem;
         li {
           margin-top: 0.4rem;
+          text-align: center !important;
         }
       }
 
