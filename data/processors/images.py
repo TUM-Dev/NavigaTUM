@@ -9,11 +9,13 @@ from pathlib import Path
 from typing import NamedTuple, TypeVar
 
 import pydantic
+
 import utils
 import yaml
 from external.models.common import PydanticConfiguration
 from PIL import Image
-from pydantic import Field, HttpUrl
+from pydantic import Field
+from pydantic.networks import HttpUrl
 from pydantic.dataclasses import dataclass
 
 
@@ -30,6 +32,7 @@ class ImageOffset:
 
 
 # here until typing.Self can be used in all expected python versions of developers
+# pylint: disable-next=c-extension-no-member
 TImageSource = TypeVar("TImageSource", bound="ImageSource")
 
 
@@ -155,13 +158,13 @@ class Resizer:
             # current image is wider than target, so we need to crop the width
             new_width = target_aspect_ratio * height
             new_img = self.img.crop(
-                (mid_w - int(new_width / 2) + offset, 0, mid_w + int(new_width / 2) + offset, height)
+                (mid_w - int(new_width / 2) + offset, 0, mid_w + int(new_width / 2) + offset, height),
             )
         elif target_aspect_ratio > current_aspect_ratio:
             # current image is higher than target, so we need to crop the height
             new_height = (1 / target_aspect_ratio) * width
             new_img = self.img.crop(
-                (0, mid_h - int(new_height / 2) + offset, width, mid_h + int(new_height / 2) + offset)
+                (0, mid_h - int(new_height / 2) + offset, width, mid_h + int(new_height / 2) + offset),
             )
         else:
             # aspect ratio is the same, so no need to crop
