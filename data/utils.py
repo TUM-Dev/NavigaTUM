@@ -1,7 +1,6 @@
 import logging
 import os
 from pathlib import Path
-from typing import TypedDict
 
 from PIL import Image
 from ruamel.yaml import YAML

@@ -382,7 +382,7 @@ def _parse_rooms_list(lxml_parser: BeautifulSoup) -> ParsedRoomsList:
                 "plz_place": columns[6].text,
                 "operator": columns[7].text,
                 "op_link": None if c_operator is None else c_operator.attrs["href"],
-            }
+            },
         )
 
     # Get information about number of pages

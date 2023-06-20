@@ -75,7 +75,6 @@ feedback:
     general: General
     search: Search
 footer:
-  official_roomfinder: Official roomfinder
   about:
     link: about-us
     text: About us
@@ -89,6 +88,7 @@ footer:
     link: impressum
     text: Imprint
   language: Language
+  official_roomfinder: Official roomfinder
   privacy:
     link: privacy
     text: Privacy
