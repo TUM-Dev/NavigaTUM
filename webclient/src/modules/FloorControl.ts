@@ -91,7 +91,7 @@ export class FloorControl extends Evented implements IControl {
     };
     let btn;
     let visibleI = null;
-    [...overlays.available].reverse().forEach((floor: OverlayMapEntry, index: number) => {
+    [...overlays.available].forEach((floor: OverlayMapEntry, index: number) => {
       btn = document.createElement("button");
       btn.innerText = floor.floor;
       btn.addEventListener("click", clickHandlerBuilder(overlays.available, index));
