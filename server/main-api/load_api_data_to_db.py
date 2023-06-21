@@ -110,7 +110,7 @@ def extract_aliases()-> set[Alias]:
 
 def save_aliases_to_database(aliase:set[Alias]):
     con: sqlite3.Connection = sqlite3.connect("data/api_data.db")
-    con.execute(f"DROP TABLE IF EXISTS aliases")
+    con.execute("DROP TABLE IF EXISTS aliases")
     con.execute(
         """
         CREATE TABLE aliases (
