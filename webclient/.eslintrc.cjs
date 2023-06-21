@@ -12,4 +12,12 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
   },
+  rules: {
+    "vue/multi-word-component-names": [
+      "error",
+      {
+        ignores: ["[...slug]", "api", "index", "search", "[id]", "[name]"],
+      },
+    ],
+  },
 };

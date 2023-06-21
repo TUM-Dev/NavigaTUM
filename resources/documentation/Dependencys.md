@@ -71,14 +71,6 @@ The server uses OpenSSL to verify TLS certificates.
 sudo apt-get install build-essential pkg-config openssl libssl-dev
 ```
 
-#### SQLite
-
-The server uses SQLite
-
-```bash
-sudo apt-get install libsqlite3-dev
-```
-
 ### Webclient
 
 #### NodeJS

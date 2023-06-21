@@ -31,10 +31,14 @@ octocrab = "0.25.1"
 # web
 jsonwebtoken = "8.3.0"
 chrono= { version = "0.4.26", default-features = false }
-actix-governor = { version = "0.4.0", features = ["log"] }
+actix-governor = { version = "0.4.1", features = ["log"] }
 
 # proposing feedback
 tempfile = "3.6.0"
+image = { version = "0.24.6", features = ["default", "webp-encoder"] }
+imageproc = "0.23.0"
+base64 = "0.21.2"
+serde_yaml = "0.9"
 
 [dev-dependencies]
 pretty_assertions.workspace = true

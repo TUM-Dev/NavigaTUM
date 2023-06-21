@@ -58,7 +58,8 @@ In the event of electronic transmission, data may be forwarded to the State Offi
 The data voluntarily provided by a user will not be technically deleted unless the user so requests.
 
 In addition, a user can have his or her comment deleted by us at any time.
-To do so, please write an e-mail to the data protection officer listed below or to the person responsible for data protection and submit the link to your comment.
+To do so, please write an e-mail to us (navigatum (at-symbol) tum.de) and provide the link to your comment.
+In addition, you can also contact the data protection officer listed below and/or the person responsible for data protection.
 
 ## Your rights
 

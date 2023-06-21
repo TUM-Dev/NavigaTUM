@@ -52,6 +52,11 @@ impl TempRepo {
         let mut description = Description::default();
         description.add_context(&edits.additional_context);
 
+        let coordinate_edits = edits.edits_for(|edit| edit.coordinate);
+        description.appply_set("coordinate", coordinate_edits, self.dir.path());
+        let image_edits = edits.edits_for(|edit| edit.image);
+        description.appply_set("image", image_edits, self.dir.path());
+
         Ok(description)
     }
 

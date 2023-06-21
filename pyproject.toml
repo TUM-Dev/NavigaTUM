@@ -11,8 +11,8 @@ multi_line_output = 3
 force_grid_wrap = 0
 use_parentheses = true
 
-[mypy]
-python_version = 3.10
+[tool.mypy]
+python_version = "3.10"
 ignore_missing_imports = true
 disallow_incomplete_defs = true
 no_implicit_optional = true
@@ -24,6 +24,21 @@ warn_unused_ignores = true
 no_implicit_reexport = true
 strict_equality = true
 pretty = true
+
+plugins = [
+  "pydantic.mypy"
+]
+
+follow_imports = "silent"
+disallow_any_generics = true
+check_untyped_defs = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
+
 
 [tool.pylint.MASTER]
 #ignore="node_modules,static"

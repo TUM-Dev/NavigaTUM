@@ -1,5 +1,4 @@
 close: Close
-show_more_information: Show more information
 core_js:
   error:
     '404': 404 Not found
@@ -89,6 +88,7 @@ footer:
     link: impressum
     text: Imprint
   language: Language
+  official_roomfinder: Official roomfinder
   privacy:
     link: privacy
     text: Privacy
@@ -117,6 +117,7 @@ search:
     rooms: Rooms
     were_found: were found.
   thumbnail_alt: Thumbnail for said building
+show_more_information: Show more information
 view_404:
   call_to_action: If you think this is a mistake, please let us know here
   description: This could be because we made a mistake.
@@ -188,8 +189,7 @@ view_view:
       delete-confirm: Really delete?
       info: Changes are stored \n locally for 12 h
       msg-1: Currently
-      msg-2: pending coordinate edit
-      msg-2-plural: pending coordinate edits
+      msg-2: pending coordinate edit|pending coordinate edits
       send: Send
     correct_location:
       btn-cancel: Cancel

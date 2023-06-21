@@ -1,5 +1,4 @@
 close: Schließen
-show_more_information: Mehr Informationen anzeigen
 core_js:
   error:
     '404': 404 Nicht gefunden
@@ -89,6 +88,7 @@ footer:
     link: impressum
     text: Impressum
   language: Sprache
+  official_roomfinder: Offizieller Roomfinder
   privacy:
     link: datenschutz
     text: Datenschutz
@@ -117,6 +117,7 @@ search:
     rooms: Räume
     were_found: wurden gefunden.
   thumbnail_alt: Vorschaubild für das besagte Gebäude
+show_more_information: Mehr Informationen anzeigen
 view_404:
   call_to_action: Falls du denkst, dass dies ein Fehler ist, teile es uns doch hier mit
   description: Dies könnte sein, weil wir einen Fehler gemacht haben.
@@ -188,8 +189,7 @@ view_view:
       delete-confirm: Wirklich löschen?
       info: Änderungen werden lokal \n für 12h gespeichert
       msg-1: Aktuell
-      msg-2: ausstehende Koordinatenänderung
-      msg-2-plural: ausstehende Koordinatenänderungen
+      msg-2: ausstehende Koordinatenänderung|ausstehende Koordinatenänderungen
       send: Senden
     correct_location:
       btn-cancel: Abbrechen

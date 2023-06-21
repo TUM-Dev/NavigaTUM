@@ -82,16 +82,15 @@ def convert_to_webp(source: Path):
     """
     if source.is_dir():
         for img_path in source.iterdir():
-            if img_path.suffix not in [".webp", ".yaml", ".json"]:
+            if img_path.suffix not in [".webp", ".yaml", ".json"] and img_path.name != ".gitkeep":
                 convert_to_webp(img_path)
-        return source
+        return
 
     destination = source.with_suffix(".webp")
 
     image = Image.open(source)
     image.save(destination, format="webp")
     os.remove(source)
-    return str(destination)
 
 
 def setup_logging(level):

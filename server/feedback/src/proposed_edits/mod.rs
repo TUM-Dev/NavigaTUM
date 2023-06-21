@@ -1,4 +1,6 @@
 use crate::github;
+use crate::proposed_edits::coordinate::Coordinate;
+use crate::proposed_edits::image::Image;
 use crate::proposed_edits::tmp_repo::TempRepo;
 use crate::tokens::RecordedTokens;
 use actix_web::web::{Data, Json};
@@ -7,11 +9,16 @@ use serde::Deserialize;
 use std::collections::HashMap;
 use std::path::Path;
 
+mod coordinate;
 mod discription;
+mod image;
 mod tmp_repo;
 
 #[derive(Deserialize, Clone)]
-struct Edit {}
+struct Edit {
+    coordinate: Option<Coordinate>,
+    image: Option<Image>,
+}
 pub trait AppliableEdit {
     fn apply(&self, key: &str, base_dir: &Path) -> String;
 }
@@ -45,10 +52,32 @@ impl EditRequest {
     }
 
     fn extract_labels(&self) -> Vec<String> {
-        vec!["webform".to_string()]
+        let mut labels = vec!["webform".to_string()];
+
+        if self.edits.iter().any(|(_, edit)| edit.coordinate.is_none()) {
+            labels.push("coordinate".to_string());
+        }
+        if self.edits.iter().any(|(_, edit)| edit.image.is_none()) {
+            labels.push("image".to_string());
+        }
+        labels
     }
     fn extract_subject(&self) -> String {
-        "No Edits".to_string()
+        let coordinate_edits = self.edits_for(|edit| edit.coordinate);
+        let image_edits = self.edits_for(|edit| edit.image);
+        match (coordinate_edits.len(), image_edits.len()) {
+            (0, 0) => "No Edits".to_string(),
+            (1..=5, 0) => format!("Coordinate Edit for {:?}", coordinate_edits.keys()),
+            (0, 1..=5) => format!("Added Images for {:?}", image_edits.keys()),
+            (0, is) => format!("Added {is} Images"),
+            (1..=3, 1..=3) => format!(
+                "Edited Images for {:?} and Coordinates for {:?}",
+                image_edits.keys(),
+                coordinate_edits.keys()
+            ),
+            (cs, 0) => format!("Edited {cs} Coordinates"),
+            (cs, is) => format!("Edited {is} Images and {cs} Coordinates"),
+        }
     }
 }
 
@@ -68,7 +97,7 @@ pub async fn propose_edits(
             .content_type("text/plain")
             .body("Using this endpoint without accepting the privacy policy is not allowed");
     };
-    if !req_data.edits.is_empty() {
+    if req_data.edits.is_empty() {
         return HttpResponse::UnprocessableEntity()
             .content_type("text/plain")
             .body("Not enough edits provided");

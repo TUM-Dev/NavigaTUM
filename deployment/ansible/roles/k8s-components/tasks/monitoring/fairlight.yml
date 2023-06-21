@@ -10,7 +10,7 @@
     wait: false
     update_repo_cache: yes
     release_state: present
-    chart_version: 2.17.*
+    chart_version: 2.20.*
     chart_ref: fairwinds-stable/insights-agent
     name: insights-agent
     namespace: insights-agent
@@ -28,11 +28,11 @@
         enabled: true
       pluto:
         enabled: true
-      polaris:
-        enabled: true
-      #kube-bench:
-      #  enabled: true
-      #  mode: daemonset
+      polaris: # non debuggable failiour
+        enabled: false
+      kube-bench:
+        enabled: false
+        mode: daemonset
       trivy:
         enabled: true
         maxConcurrentScans: 2
@@ -41,14 +41,14 @@
         enabled: true
         dashboard:
           enabled: true
-      workloads:
-        enabled: true
+      workloads: # non debuggable failiour
+        enabled: false
       kube-hunter:
         enabled: true
-      rbac-reporter:
-        enabled: true
+      rbac-reporter: # non debuggable failiour
+        enabled: false
       prometheus-metrics:
         enabled: true
-        address: http://prometheus-operated.monitoring.svc.cluster.local:9090
+        address: http://prometheus-operated.monitoring.svc.cluster.local:9090 # TODO: change once grafana cloud is ready
       admission:
         enabled: true

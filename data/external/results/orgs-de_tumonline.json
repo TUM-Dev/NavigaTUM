@@ -92,8 +92,8 @@
   "TUARL11": {
     "code": "TUARL11",
     "id": 15212,
-    "name": "Lehrstuhl f\u00fcr Baurealisierung und Baurobotik (Prof. Bock)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Baurealisierung und Baurobotik (Prof. Bock)"
+    "name": "Lehrstuhl f\u00fcr Baurealisierung und Baurobotik (N.N.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Baurealisierung und Baurobotik (N.N.)"
   },
   "TUARL12": {
     "code": "TUARL12",
@@ -537,7 +537,7 @@
     "code": "TUCHDEK",
     "id": 14629,
     "name": "Dekan Ehemalige Fakult\u00e4t f\u00fcr Chemie",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Chemie/Dekan"
+    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Chemie/Dekan/in"
   },
   "TUCHDEP": {
     "code": "TUCHDEP",
@@ -554,8 +554,8 @@
   "TUCHEM1": {
     "code": "TUCHEM1",
     "id": 23183,
-    "name": "Professur f\u00fcr Elektronenmikroskopie (Prof. Weinkauf)",
-    "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Elektronenmikroskopie (Prof. Weinkauf)"
+    "name": "Professur f\u00fcr Elektronenmikroskopie (N.N.)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Elektronenmikroskopie (N.N.)"
   },
   "TUCHFCH": {
     "code": "TUCHFCH",
@@ -665,12 +665,6 @@
     "name": "Professur f\u00fcr Festk\u00f6rper-NMR-Spektroskopie (Prof. Reif)",
     "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Festk\u00f6rper-NMR-Spektroskopie (Prof. Reif)"
   },
-  "TUCHOCD": {
-    "code": "TUCHOCD",
-    "id": 46537,
-    "name": "Professur f\u00fcr Synthetische Biochemie (N.N.)",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Chemie/Department Chemie/Synthetische Biochemie (N.N.)"
-  },
   "TUCHOCE": {
     "code": "TUCHOCE",
     "id": 46937,
@@ -759,7 +753,7 @@
     "code": "TUCHPDK",
     "id": 14631,
     "name": "Prodekan  Ehemalige Fakult\u00e4t f\u00fcr Chemie",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Chemie/Prodekan"
+    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Chemie/Prodekan/in"
   },
   "TUCHRC3": {
     "code": "TUCHRC3",
@@ -782,8 +776,8 @@
   "TUCHTC2": {
     "code": "TUCHTC2",
     "id": 14734,
-    "name": "Lehrstuhl f\u00fcr Technische Chemie II (Prof. Lercher)",
-    "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Technische Chemie II (Prof. Lercher)"
+    "name": "Lehrstuhl f\u00fcr Technische Chemie II (N.N.)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Technische Chemie II (N.N.)"
   },
   "TUCHTC3": {
     "code": "TUCHTC3",
@@ -1053,13 +1047,13 @@
     "code": "TUCSPRK",
     "id": 49100,
     "name": "Prorektorin TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)",
-    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/Prorektor"
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/Prorektor/in"
   },
   "TUCSREK": {
     "code": "TUCSREK",
     "id": 49099,
     "name": "Rektor TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)",
-    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/Rektor"
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/Rektor/in"
   },
   "TUCSSBV": {
     "code": "TUCSSBV",
@@ -1084,18 +1078,6 @@
     "id": 40661,
     "name": "Ehemalige TUM School of Education",
     "path": "TUM/Fakult\u00e4ten/Ehemalige TUM School of Education"
-  },
-  "TUEDFSV": {
-    "code": "TUEDFSV",
-    "id": 44497,
-    "name": "Fachschaftsvertretung",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige TUM School of Education/Fachschaftsvertretung"
-  },
-  "TUEDFVW": {
-    "code": "TUEDFVW",
-    "id": 41924,
-    "name": "Fakult\u00e4tsverwaltung Ehemalige TUM School of Education",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige TUM School of Education/Fakult\u00e4tsverwaltung"
   },
   "TUEDS01": {
     "code": "TUEDS01",
@@ -1275,7 +1257,7 @@
     "code": "TUEIDKN",
     "id": 14254,
     "name": "Dekan Ehemalige Fakult\u00e4t f\u00fcr Elektrotechnik und Informationstechnik",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Elektrotechnik und Informationstechnik/Dekan"
+    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Elektrotechnik und Informationstechnik/Dekan/in"
   },
   "TUEIEAL": {
     "code": "TUEIEAL",
@@ -1431,7 +1413,7 @@
     "code": "TUEILAB",
     "id": 49280,
     "name": "Zentrales Elektronik- und Informationstechnologielabor - ZEITlab",
-    "path": "TUM/Schools/Computation, Information and Technology/Zentrales Elektronik- und Informationstechnologielabor - ZEITlab"
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/School Services (CIT)/Zentrale Laboratorien (CIT)/Zentrales Elektronik- und Informationstechnologielabor - ZEITlab"
   },
   "TUEILBE": {
     "code": "TUEILBE",
@@ -1574,7 +1556,7 @@
   "TUEIMSV": {
     "code": "TUEIMSV",
     "id": 15396,
-    "name": "Professur f\u00fcr Methoden der Signalverarbeitung (Prof. Utschick)",
+    "name": "Lehrstuhl f\u00fcr Methoden der Signalverarbeitung (Prof. Utschick)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Methoden der Signalverarbeitung (Prof. Utschick)"
   },
   "TUEINAN": {
@@ -1604,7 +1586,7 @@
   "TUEIPDK": {
     "code": "TUEIPDK",
     "id": 15327,
-    "name": "Prodekan  Ehemalige Fakult\u00e4t f\u00fcr Elektrotechnik und Informationstechnik",
+    "name": "Prodekan Ehemalige Fakult\u00e4t f\u00fcr Elektrotechnik und Informationstechnik",
     "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Elektrotechnik und Informationstechnik/Prodekan"
   },
   "TUEIQEC": {
@@ -1857,7 +1839,7 @@
     "code": "TUINDKN",
     "id": 15413,
     "name": "Dekan/in Ehemalige Fakult\u00e4t f\u00fcr Informatik",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Informatik/Dekan"
+    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Informatik/Dekan/in"
   },
   "TUINDRU": {
     "code": "TUINDRU",
@@ -1928,8 +1910,8 @@
   "TUINF11": {
     "code": "TUINF11",
     "id": 24674,
-    "name": "Informatik 6 - Professur f\u00fcr Informatik mit Schwerpunkt Telerobotik und Sensordatenfusion - (Prof. Burschka)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 6 - Professur f\u00fcr Informatik mit Schwerpunkt Telerobotik und Sensordatenfusion - (Prof. Burschka)"
+    "name": "Informatik 6 - Professur f\u00fcr Informatik mit Schwerpunkt Telerobotik und Sensordatenfusion (Prof. Burschka)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 6 - Professur f\u00fcr Informatik mit Schwerpunkt Telerobotik und Sensordatenfusion (Prof. Burschka)"
   },
   "TUINF12": {
     "code": "TUINF12",
@@ -2126,14 +2108,14 @@
   "TUINH04": {
     "code": "TUINH04",
     "id": 53357,
-    "name": "Informatik Heilbronn 4 - Professur f\u00fcr Computational Mathematics (Dr. K\u00f6ppl komm.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 4 - Professur f\u00fcr Computational Mathematics (Dr. K\u00f6ppl komm.)"
+    "name": "Informatik Heilbronn 4 - Professur f\u00fcr Computational Mathematics (Dr. Meggendorfer komm.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 4 - Professur f\u00fcr Computational Mathematics (Dr. Meggendorfer komm.)"
   },
   "TUINH05": {
     "code": "TUINH05",
     "id": 53817,
-    "name": "Informatik Heilbronn 5 - Professur f\u00fcr Data Engineering (Prof. Mayer komm.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 5 - Professur f\u00fcr Data Engineering (Prof. Mayer komm.)"
+    "name": "Informatik Heilbronn 5 - Professur f\u00fcr Data Engineering (N.N.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 5 - Professur f\u00fcr Data Engineering (N.N.)"
   },
   "TUINH09": {
     "code": "TUINH09",
@@ -2150,8 +2132,8 @@
   "TUINI01": {
     "code": "TUINI01",
     "id": 15426,
-    "name": "Informatik 1 - Lehrstuhl f\u00fcr Engineering Software for Decentralized Systems (Prof. Bhatotia)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 1 - Lehrstuhl f\u00fcr Engineering Software for Decentralized Systems (Prof. Bhatotia)"
+    "name": "Informatik 1 - Lehrstuhl f\u00fcr Distributed Systems and Operating Systems (Prof. Bhatotia)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 1 - Lehrstuhl f\u00fcr Distributed Systems and Operating Systems (Prof. Bhatotia)"
   },
   "TUINI02": {
     "code": "TUINI02",
@@ -2336,7 +2318,7 @@
   "TUINPDK": {
     "code": "TUINPDK",
     "id": 15414,
-    "name": "Prodekan  Ehemalige Fakult\u00e4t f\u00fcr Informatik",
+    "name": "Prodekan Ehemalige Fakult\u00e4t f\u00fcr Informatik",
     "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Informatik/Prodekan"
   },
   "TUINPER": {
@@ -2438,8 +2420,8 @@
   "TULRFPF": {
     "code": "TULRFPF",
     "id": 15105,
-    "name": "Professur f\u00fcr Photogrammetrie und Fernerkundung (Prof. Stilla)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Photogrammetrie und Fernerkundung (Prof. Stilla)"
+    "name": "Professur f\u00fcr Photogrammetrie und Fernerkundung (Prof. Holst komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Photogrammetrie und Fernerkundung (Prof. Holst komm.)"
   },
   "TULRFSD": {
     "code": "TULRFSD",
@@ -2462,7 +2444,7 @@
   "TULRFVW": {
     "code": "TULRFVW",
     "id": 49537,
-    "name": "Fakult\u00e4tsverwaltung  Ehemalige Fakult\u00e4t f\u00fcr Luftfahrt, Raumfahrt und Geod\u00e4sie",
+    "name": "Fakult\u00e4tsverwaltung Ehemalige Fakult\u00e4t f\u00fcr Luftfahrt, Raumfahrt und Geod\u00e4sie",
     "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Luftfahrt, Raumfahrt und Geod\u00e4sie/Fakult\u00e4tsverwaltung"
   },
   "TULRGDS": {
@@ -2516,8 +2498,8 @@
   "TULRLRT": {
     "code": "TULRLRT",
     "id": 15309,
-    "name": "Lehrstuhl f\u00fcr Raumfahrttechnik (Prof. Walter)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Raumfahrttechnik (Prof. Walter)"
+    "name": "Lehrstuhl f\u00fcr Raumfahrttechnik (Prof. Holzapfel komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Raumfahrttechnik (Prof. Holzapfel komm.)"
   },
   "TULRLTF": {
     "code": "TULRLTF",
@@ -2528,8 +2510,8 @@
   "TULRNAV": {
     "code": "TULRNAV",
     "id": 15369,
-    "name": "Lehrstuhl f\u00fcr Kommunikation und Navigation (Prof. G\u00fcnther)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Kommunikation und Navigation (Prof. G\u00fcnther)"
+    "name": "Lehrstuhl f\u00fcr Kommunikation und Navigation (N.N.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Kommunikation und Navigation (N.N.)"
   },
   "TULRRFA": {
     "code": "TULRRFA",
@@ -2583,7 +2565,7 @@
     "code": "TUMADKN",
     "id": 14198,
     "name": "Dekan Ehemalige Fakult\u00e4t f\u00fcr Mathematik",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Mathematik/Dekan"
+    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Mathematik/Dekan/in"
   },
   "TUMAF01": {
     "code": "TUMAF01",
@@ -2720,7 +2702,7 @@
   "TUMAF30": {
     "code": "TUMAF30",
     "id": 47757,
-    "name": "Professur f\u00fcr Mehrskaligkeit und Stochastische Dynamik (Prof. K\u00fchn)",
+    "name": "Lehrstuhl f\u00fcr Mehrskaligkeit und Stochastische Dynamik (Prof. K\u00fchn)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Mehrskaligkeit und Stochastische Dynamik (Prof. K\u00fchn)"
   },
   "TUMAFFB": {
@@ -2750,8 +2732,8 @@
   "TUMAJNG": {
     "code": "TUMAJNG",
     "id": 19584,
-    "name": "John-von-Neumann-Gastprofessur (Prof. Despr\u00e9s, Prof. Fermanian-Kammerer, Prof. Pareschi, Prof. Pavliotis)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/John-von-Neumann-Gastprofessur (Prof. Despr\u00e9s, Prof. Fermanian-Kammerer, Prof. Pareschi, Prof. Pavliotis)"
+    "name": "John-von-Neumann-Gastprofessur",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/John-von-Neumann-Gastprofessur"
   },
   "TUMAM01": {
     "code": "TUMAM01",
@@ -2865,7 +2847,7 @@
     "code": "TUMAPDK",
     "id": 14199,
     "name": "Prodekan/in  Ehemalige Fakult\u00e4t f\u00fcr Mathematik",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Mathematik/Prodekan"
+    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Mathematik/Prodekan/in"
   },
   "TUMARBG": {
     "code": "TUMARBG",
@@ -3285,13 +3267,19 @@
     "code": "TUMEDKN",
     "id": 15699,
     "name": "Dekanin der Fakult\u00e4t f\u00fcr Medizin",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Dekan"
+    "path": "TUM/Fakult\u00e4ten/Medizin/Dekan/in"
   },
   "TUMEEH0": {
     "code": "TUMEEH0",
     "id": 54559,
     "name": "Institut f\u00fcr Experimentelle H\u00e4matologie (Prof. Schmidt-Supprian)",
     "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Experimentelle H\u00e4matologie (Prof. Schmidt-Supprian)"
+  },
+  "TUMEEK0": {
+    "code": "TUMEEK0",
+    "id": 54777,
+    "name": "Ethikkommission",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Ethikkommission"
   },
   "TUMEEN0": {
     "code": "TUMEEN0",
@@ -3308,26 +3296,32 @@
   "TUMEEO0": {
     "code": "TUMEEO0",
     "id": 15739,
-    "name": "Institut f\u00fcr Experimentelle Onkologie und Therapieforschung (N.N.)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Experimentelle Onkologie und Therapieforschung (N.N.)"
+    "name": "Institut f\u00fcr Experimentelle Onkologie und Therapieforschung (Knolle komm.)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Experimentelle Onkologie und Therapieforschung (Knolle komm.)"
+  },
+  "TUMEEO1": {
+    "code": "TUMEEO1",
+    "id": 16049,
+    "name": "Lehrstuhl f\u00fcr Experimentelle Onkologie und Therapieforschung (Prof. Knolle komm.)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Experimentelle Onkologie und Therapieforschung (Knolle komm.)/Experimentelle Onkologie und Therapieforschung (Prof. Knolle komm.)"
   },
   "TUMEER0": {
     "code": "TUMEER0",
     "id": 15751,
-    "name": "Institut f\u00fcr Ern\u00e4hrungsmedizin (Prof. Hauner)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Ern\u00e4hrungsmedizin (Prof. Hauner)"
+    "name": "Klinik f\u00fcr Ern\u00e4hrungsmedizin (Prof. Hauner)",
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik f\u00fcr Ern\u00e4hrungsmedizin (Prof. Hauner)"
   },
   "TUMEER1": {
     "code": "TUMEER1",
     "id": 16110,
     "name": "Lehrstuhl f\u00fcr Ern\u00e4hrungsmedizin (Prof. Hauner)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Ern\u00e4hrungsmedizin (Prof. Hauner)/Ern\u00e4hrungsmedizin (Prof. Hauner)"
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik f\u00fcr Ern\u00e4hrungsmedizin (Prof. Hauner)/Ern\u00e4hrungsmedizin (Prof. Hauner)"
   },
   "TUMEER2": {
     "code": "TUMEER2",
     "id": 27799,
     "name": "Professur f\u00fcr P\u00e4diatrische Ern\u00e4hrungsmedizin (Prof. Witt)",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Institute/Ern\u00e4hrungsmedizin (Prof. Hauner)/P\u00e4diatrische Ern\u00e4hrungsmedizin (Prof. Witt)"
+    "path": "TUM/Fakult\u00e4ten/Medizin/Kliniken und Polikliniken/Klinik f\u00fcr Ern\u00e4hrungsmedizin (Prof. Hauner)/P\u00e4diatrische Ern\u00e4hrungsmedizin (Prof. Witt)"
   },
   "TUMEET0": {
     "code": "TUMEET0",
@@ -3807,7 +3801,7 @@
     "code": "TUMEPDK",
     "id": 15700,
     "name": "Prodekan  der Fakult\u00e4t f\u00fcr Medizin",
-    "path": "TUM/Fakult\u00e4ten/Medizin/Prodekan"
+    "path": "TUM/Fakult\u00e4ten/Medizin/Prodekan/in"
   },
   "TUMEPF0": {
     "code": "TUMEPF0",
@@ -4112,8 +4106,8 @@
   "TUMWBME": {
     "code": "TUMWBME",
     "id": 44864,
-    "name": "Professur f\u00fcr Biomechanik (Prof. Lieleg)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Materials Engineering/Biomechanik (Prof. Lieleg)"
+    "name": "Professur f\u00fcr Biopolymermaterialien (Prof. Lieleg)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Materials Engineering/Biopolymermaterialien (Prof. Lieleg)"
   },
   "TUMWBVT": {
     "code": "TUMWBVT",
@@ -4166,7 +4160,7 @@
   "TUMWFVW": {
     "code": "TUMWFVW",
     "id": 15252,
-    "name": "Zentrale Dienste  Ehemalige Fakult\u00e4t f\u00fcr Maschinenwesen",
+    "name": "Zentrale Dienste Ehemalige Fakult\u00e4t f\u00fcr Maschinenwesen",
     "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Maschinenwesen/Zentrale Dienste"
   },
   "TUMWFZG": {
@@ -4815,7 +4809,7 @@
     "code": "TUPHDKN",
     "id": 14209,
     "name": "Dekan Ehemalige Fakult\u00e4t f\u00fcr Physik",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Physik/Dekan"
+    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Physik/Dekan/in"
   },
   "TUPHE11": {
     "code": "TUPHE11",
@@ -5018,8 +5012,8 @@
   "TUPHEQM": {
     "code": "TUPHEQM",
     "id": 48098,
-    "name": "Professur f\u00fcr Quantum Matter - Experimental Solid State Physics (Prof. Hassinger)",
-    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Quantum Matter - Experimental Solid State Physics (Prof. Hassinger)"
+    "name": "Professur f\u00fcr Quantum Matter - Experimental Solid State Physics (N.N.)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Quantum Matter - Experimental Solid State Physics (N.N.)"
   },
   "TUPHEQN": {
     "code": "TUPHEQN",
@@ -5061,7 +5055,7 @@
     "code": "TUPHPDK",
     "id": 14210,
     "name": "Prodekan  Ehemalige Fakult\u00e4t f\u00fcr Physik",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Physik/Prodekan"
+    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Physik/Prodekan/in"
   },
   "TUPHSDK": {
     "code": "TUPHSDK",
@@ -5162,7 +5156,7 @@
   "TUPHTFK": {
     "code": "TUPHTFK",
     "id": 48217,
-    "name": "Professur f\u00fcr Theoretische Festk\u00f6rperphysik (Prof. Pollmann)",
+    "name": "Lehrstuhl f\u00fcr Theoretische Festk\u00f6rperphysik (Prof. Pollmann)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Theoretische Festk\u00f6rperphysik (Prof. Pollmann)"
   },
   "TUPHTQM": {
@@ -5302,12 +5296,6 @@
     "id": 47717,
     "name": "Ehemalige TUM School of Governance",
     "path": "TUM/Fakult\u00e4ten/Ehemalige TUM School of Governance"
-  },
-  "TUPOFVW": {
-    "code": "TUPOFVW",
-    "id": 48479,
-    "name": "Fakult\u00e4tsverwaltung  Ehemalige TUM School of Governance",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige TUM School of Governance/Fakult\u00e4tsverwaltung"
   },
   "TUPOL01": {
     "code": "TUPOL01",
@@ -5558,7 +5546,7 @@
   "TUPRVP3": {
     "code": "TUPRVP3",
     "id": 20228,
-    "name": "Gesch\u00e4ftsf\u00fchrender Vizepr\u00e4sident f\u00fcr  Forschung & Innovation",
+    "name": "Gesch\u00e4ftsf\u00fchrender Vizepr\u00e4sident f\u00fcr Forschung & Innovation",
     "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Forschung & Innovation"
   },
   "TUPRVP4": {
@@ -5630,14 +5618,14 @@
   "TUS1111": {
     "code": "TUS1111",
     "id": 54179,
-    "name": "Finanzen (CIT) School Services (CIT)",
-    "path": "TUM/Schools/Computation, Information and Technology/School Office/School Services (CIT)/Finanzen (CIT)"
+    "name": "Service Finanzen (CIT) School Services (CIT)",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/School Services (CIT)/Service Finanzen (CIT)"
   },
   "TUS1112": {
     "code": "TUS1112",
     "id": 54180,
-    "name": "Personal  (CIT) School Services (CIT)",
-    "path": "TUM/Schools/Computation, Information and Technology/School Office/School Services (CIT)/Personal  (CIT)"
+    "name": "Service Personal  (CIT) School Services (CIT)",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/School Services (CIT)/Service Personal  (CIT)"
   },
   "TUS1113": {
     "code": "TUS1113",
@@ -5654,8 +5642,38 @@
   "TUS1130": {
     "code": "TUS1130",
     "id": 54183,
-    "name": "IT-Services (CIT) School Services (CIT)",
-    "path": "TUM/Schools/Computation, Information and Technology/School Office/School Services (CIT)/IT-Services (CIT)"
+    "name": "IT Operations (CIT) School Services (CIT)",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/School Services (CIT)/IT Operations (CIT)"
+  },
+  "TUS1140": {
+    "code": "TUS1140",
+    "id": 54861,
+    "name": "Zentrale Laboratorien (CIT) School Services (CIT)",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/School Services (CIT)/Zentrale Laboratorien (CIT)"
+  },
+  "TUS1150": {
+    "code": "TUS1150",
+    "id": 54857,
+    "name": "Dean's Office, Berufungen (CIT) Dean's Office und Stabsstellen (CIT)",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/Dean's Office und Stabsstellen (CIT)/Dean's Office, Berufungen (CIT)"
+  },
+  "TUS1151": {
+    "code": "TUS1151",
+    "id": 54858,
+    "name": "Stabsstelle Kommunikation (CIT) Dean's Office und Stabsstellen (CIT)",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/Dean's Office und Stabsstellen (CIT)/Stabsstelle Kommunikation (CIT)"
+  },
+  "TUS1152": {
+    "code": "TUS1152",
+    "id": 54859,
+    "name": "Stabsstelle Internationales (CIT) Dean's Office und Stabsstellen (CIT)",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/Dean's Office und Stabsstellen (CIT)/Stabsstelle Internationales (CIT)"
+  },
+  "TUS1153": {
+    "code": "TUS1153",
+    "id": 54860,
+    "name": "Stabstelle Talent Management und Diversity (CIT) Dean's Office und Stabsstellen (CIT)",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/Dean's Office und Stabsstellen (CIT)/Stabstelle Talent Management und Diversity (CIT)"
   },
   "TUS1200": {
     "code": "TUS1200",
@@ -5705,6 +5723,18 @@
     "name": "Informatik Heilbronn 6 - Professur f\u00fcr Data Analytics & Statistics (Prof. Piribauer)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 6 - Professur f\u00fcr Data Analytics & Statistics (Prof. Piribauer)"
   },
+  "TUS1306": {
+    "code": "TUS1306",
+    "id": 54757,
+    "name": "Professur f\u00fcr AI Processor Design (Prof. Amrouch)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/AI Processor Design (Prof. Amrouch)"
+  },
+  "TUS1307": {
+    "code": "TUS1307",
+    "id": 54817,
+    "name": "Informatik Heilbronn 8 - Professur f\u00fcr Cyber-Physical Systems (Dr. Cheng komm.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik Heilbronn 8 - Professur f\u00fcr Cyber-Physical Systems (Dr. Cheng komm.)"
+  },
   "TUS1CHN": {
     "code": "TUS1CHN",
     "id": 54537,
@@ -5715,7 +5745,7 @@
     "code": "TUS1DEA",
     "id": 53877,
     "name": "Dekan der TUM School of Computation, Information and Technology",
-    "path": "TUM/Schools/Computation, Information and Technology/Dekan"
+    "path": "TUM/Schools/Computation, Information and Technology/Dekan/in"
   },
   "TUS1DP1": {
     "code": "TUS1DP1",
@@ -5744,8 +5774,8 @@
   "TUS1OTD": {
     "code": "TUS1OTD",
     "id": 54177,
-    "name": "Office of the Dean & Stabsstellen (CIT) - School Office",
-    "path": "TUM/Schools/Computation, Information and Technology/School Office/Office of the Dean & Stabsstellen (CIT)"
+    "name": "Dean's Office und Stabsstellen (CIT) - School Office",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/Dean's Office und Stabsstellen (CIT)"
   },
   "TUS1OTS": {
     "code": "TUS1OTS",
@@ -5804,8 +5834,8 @@
   "TUS2ABC": {
     "code": "TUS2ABC",
     "id": 53118,
-    "name": "Professur f\u00fcr Architecture and Building Construction (Prof. Kuo)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Architecture and Building Construction (Prof. Kuo)"
+    "name": "Professur f\u00fcr Architektur und Konstruktion (Prof. Kuo)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Architektur und Konstruktion (Prof. Kuo)"
   },
   "TUS2AFS": {
     "code": "TUS2AFS",
@@ -5829,7 +5859,7 @@
     "code": "TUS2DEA",
     "id": 52477,
     "name": "Dekan der TUM School of Engineering and Design",
-    "path": "TUM/Schools/Engineering and Design/Dekan"
+    "path": "TUM/Schools/Engineering and Design/Dekan/in"
   },
   "TUS2DP1": {
     "code": "TUS2DP1",
@@ -6071,11 +6101,17 @@
     "name": "Professur f\u00fcr Theory of Correlated Quantum Materials (Prof. Classen)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Theory of Correlated Quantum Materials (Prof. Classen)"
   },
+  "TUS3006": {
+    "code": "TUS3006",
+    "id": 54818,
+    "name": "Lehrstuhl f\u00fcr Industrielle Chemie und heterogene Katalyse (Prof. Strunk)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Industrielle Chemie und heterogene Katalyse (Prof. Strunk)"
+  },
   "TUS3DEA": {
     "code": "TUS3DEA",
     "id": 53878,
     "name": "Dekan der TUM School of Natural Sciences",
-    "path": "TUM/Schools/Natural Sciences/Dekan"
+    "path": "TUM/Schools/Natural Sciences/Dekan/in"
   },
   "TUS3DP1": {
     "code": "TUS3DP1",
@@ -6128,8 +6164,8 @@
   "TUS3O06": {
     "code": "TUS3O06",
     "id": 54071,
-    "name": "Office Curricular Affairs (NAT) - School Office",
-    "path": "TUM/Schools/Natural Sciences/School Office/Office Curricular Affairs (NAT)"
+    "name": "Studienverwaltung (NAT) - School Office",
+    "path": "TUM/Schools/Natural Sciences/School Office/Studienverwaltung (NAT)"
   },
   "TUS3O07": {
     "code": "TUS3O07",
@@ -6172,48 +6208,6 @@
     "id": 54088,
     "name": "Electronics (NAT) - Central Services (NAT)",
     "path": "TUM/Schools/Natural Sciences/School Office/Central Services (NAT)/Electronics (NAT)"
-  },
-  "TUS3O14": {
-    "code": "TUS3O14",
-    "id": 54072,
-    "name": "Abteilung 1 (NAT) - Office Curricular Affairs (NAT)",
-    "path": "TUM/Schools/Natural Sciences/School Office/Office Curricular Affairs (NAT)/Abteilung 1 (NAT)"
-  },
-  "TUS3O15": {
-    "code": "TUS3O15",
-    "id": 54073,
-    "name": "Abteilung 2 (NAT) - Office Curricular Affairs (NAT)",
-    "path": "TUM/Schools/Natural Sciences/School Office/Office Curricular Affairs (NAT)/Abteilung 2 (NAT)"
-  },
-  "TUS3O16": {
-    "code": "TUS3O16",
-    "id": 54074,
-    "name": "Abteilung 3 (NAT) - Office Curricular Affairs (NAT)",
-    "path": "TUM/Schools/Natural Sciences/School Office/Office Curricular Affairs (NAT)/Abteilung 3 (NAT)"
-  },
-  "TUS3O17": {
-    "code": "TUS3O17",
-    "id": 54075,
-    "name": "Abteilung 4 (NAT) - Office Curricular Affairs (NAT)",
-    "path": "TUM/Schools/Natural Sciences/School Office/Office Curricular Affairs (NAT)/Abteilung 4 (NAT)"
-  },
-  "TUS3O18": {
-    "code": "TUS3O18",
-    "id": 54076,
-    "name": "Abteilung 5 (NAT) - Office Curricular Affairs (NAT)",
-    "path": "TUM/Schools/Natural Sciences/School Office/Office Curricular Affairs (NAT)/Abteilung 5 (NAT)"
-  },
-  "TUS3O19": {
-    "code": "TUS3O19",
-    "id": 54077,
-    "name": "Abteilung 6 (NAT) - Office Curricular Affairs (NAT)",
-    "path": "TUM/Schools/Natural Sciences/School Office/Office Curricular Affairs (NAT)/Abteilung 6 (NAT)"
-  },
-  "TUS3O20": {
-    "code": "TUS3O20",
-    "id": 54078,
-    "name": "Abteilung 7 (NAT) - Office Curricular Affairs (NAT)",
-    "path": "TUM/Schools/Natural Sciences/School Office/Office Curricular Affairs (NAT)/Abteilung 7 (NAT)"
   },
   "TUS3O21": {
     "code": "TUS3O21",
@@ -6323,17 +6317,29 @@
     "name": "Professur f\u00fcr Computational Mass Spectrometry (Prof. Wilhelm)",
     "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Computational Mass Spectrometry (Prof. Wilhelm)"
   },
+  "TUS4C4P": {
+    "code": "TUS4C4P",
+    "id": 54917,
+    "name": "Professur f\u00fcr Chemoinformatics and Protein Modelling (Prof. Di Pizio)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Chemoinformatics and Protein Modelling (Prof. Di Pizio)"
+  },
   "TUS4C6A": {
     "code": "TUS4C6A",
     "id": 53957,
     "name": "Professur f\u00fcr Cellular Agriculture (Prof. Henkel)",
     "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/Cellular Agriculture (Prof. Henkel)"
   },
+  "TUS4C9L": {
+    "code": "TUS4C9L",
+    "id": 54937,
+    "name": "Center of Advanced Light Microscopy (CALM) (LS) - School Office",
+    "path": "TUM/Schools/Life Sciences/School Office/Center of Advanced Light Microscopy (CALM) (LS)"
+  },
   "TUS4DEA": {
     "code": "TUS4DEA",
     "id": 51259,
     "name": "Dekanin der TUM School of Life Sciences",
-    "path": "TUM/Schools/Life Sciences/Dekan"
+    "path": "TUM/Schools/Life Sciences/Dekan/in"
   },
   "TUS4DP1": {
     "code": "TUS4DP1",
@@ -6358,6 +6364,12 @@
     "id": 54117,
     "name": "Professur f\u00fcr Food Process Engineering (Prof. F\u00f6rst)",
     "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/Food Process Engineering (Prof. F\u00f6rst)"
+  },
+  "TUS4F3U": {
+    "code": "TUS4F3U",
+    "id": 54697,
+    "name": "Forest Research Unit",
+    "path": "TUM/Schools/Life Sciences/TUM Plant Technology Center (PTC)/Forest Research Unit"
   },
   "TUS4F4C": {
     "code": "TUS4F4C",
@@ -6437,6 +6449,12 @@
     "name": "School Office der TUM School of Life Sciences",
     "path": "TUM/Schools/Life Sciences/School Office"
   },
+  "TUS4P1D": {
+    "code": "TUS4P1D",
+    "id": 54717,
+    "name": "Professur f\u00fcr Funktionelle Phytometabolomik (Prof. Dawid)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Funktionelle Phytometabolomik (Prof. Dawid)"
+  },
   "TUS4P7T": {
     "code": "TUS4P7T",
     "id": 52257,
@@ -6473,6 +6491,12 @@
     "name": "Fachschaftsvertretung",
     "path": "TUM/Schools/Life Sciences/Fachschaftsvertretung"
   },
+  "TUS4U7M": {
+    "code": "TUS4U7M",
+    "id": 54877,
+    "name": "Professur f\u00fcr Umweltmikrobiologie (Prof. Schloter)",
+    "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Umweltmikrobiologie (Prof. Schloter)"
+  },
   "TUS4VIO": {
     "code": "TUS4VIO",
     "id": 51263,
@@ -6502,6 +6526,24 @@
     "id": 51899,
     "name": "TUM School of Medicine and Health in Gr\u00fcndung",
     "path": "TUM/Schools/Medicine and Health in Gr\u00fcndung"
+  },
+  "TUS5DP1": {
+    "code": "TUS5DP1",
+    "id": 54897,
+    "name": "Department of Health and Sport Sciences",
+    "path": "TUM/Schools/Medicine and Health in Gr\u00fcndung/Departments/Health and Sport Sciences"
+  },
+  "TUS5DP2": {
+    "code": "TUS5DP2",
+    "id": 54898,
+    "name": "Department of Preclinical Medicine",
+    "path": "TUM/Schools/Medicine and Health in Gr\u00fcndung/Departments/Preclinical Medicine"
+  },
+  "TUS5DP3": {
+    "code": "TUS5DP3",
+    "id": 54899,
+    "name": "Department of Clinical Medicine",
+    "path": "TUM/Schools/Medicine and Health in Gr\u00fcndung/Departments/Clinical Medicine"
   },
   "TUS5OTS": {
     "code": "TUS5OTS",
@@ -6567,7 +6609,7 @@
     "code": "TUS6DEA",
     "id": 52417,
     "name": "Dekan der TUM School of Management",
-    "path": "TUM/Schools/Management/Dekan"
+    "path": "TUM/Schools/Management/Dekan/in"
   },
   "TUS6DP1": {
     "code": "TUS6DP1",
@@ -6699,7 +6741,7 @@
     "code": "TUS7DEA",
     "id": 52429,
     "name": "Dekan der TUM School of Social Sciences and Technology",
-    "path": "TUM/Schools/Social Sciences and Technology/Dekan"
+    "path": "TUM/Schools/Social Sciences and Technology/Dekan/in"
   },
   "TUS7DP1": {
     "code": "TUS7DP1",
@@ -6773,11 +6815,23 @@
     "name": "School Office der TUM School of Social Sciences and Technology",
     "path": "TUM/Schools/Social Sciences and Technology/School Office"
   },
+  "TUS7PWT": {
+    "code": "TUS7PWT",
+    "id": 54738,
+    "name": "Professur f\u00fcr Philosophie und Wissenschaftstheorie (Prof. Centrone)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Philosophie und Wissenschaftstheorie (Prof. Centrone)"
+  },
   "TUS7RDP": {
     "code": "TUS7RDP",
     "id": 52435,
     "name": "Datenschutzbevollm\u00e4chtigte/r der TUM School of Social Sciences and Technology",
     "path": "TUM/Schools/Social Sciences and Technology/Beauftragte/Datenschutzbevollm\u00e4chtigte/r"
+  },
+  "TUS7RDS": {
+    "code": "TUS7RDS",
+    "id": 54737,
+    "name": "Lehrstuhl f\u00fcr Responsible Data Science (Prof. Kasneci)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Responsible Data Science (Prof. Kasneci)"
   },
   "TUS7RES": {
     "code": "TUS7RES",
@@ -6861,7 +6915,7 @@
     "code": "TUSPDKN",
     "id": 16119,
     "name": "Dekanin der Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften",
-    "path": "TUM/Fakult\u00e4ten/Sport- und Gesundheitswissenschaften/Dekan"
+    "path": "TUM/Fakult\u00e4ten/Sport- und Gesundheitswissenschaften/Dekan/in"
   },
   "TUSPFFB": {
     "code": "TUSPFFB",
@@ -7034,7 +7088,7 @@
   "TUSPPDK": {
     "code": "TUSPPDK",
     "id": 16120,
-    "name": "Prodekan  der Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften",
+    "name": "Prodekan der Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften",
     "path": "TUM/Fakult\u00e4ten/Sport- und Gesundheitswissenschaften/Prodekan"
   },
   "TUSPSDK": {
@@ -7286,8 +7340,8 @@
   "TUWIB11": {
     "code": "TUWIB11",
     "id": 14814,
-    "name": "Lehrstuhl f\u00fcr Forstliche Wirtschaftslehre (Prof. Moog)",
-    "path": "TUM/Schools/Management/Departments/Economics and Policy/Forstliche Wirtschaftslehre (Prof. Moog)"
+    "name": "Lehrstuhl f\u00fcr Forstliche Wirtschaftslehre (N.N.)",
+    "path": "TUM/Schools/Management/Departments/Economics and Policy/Forstliche Wirtschaftslehre (N.N.)"
   },
   "TUWIB14": {
     "code": "TUWIB14",
@@ -7364,8 +7418,8 @@
   "TUWIB33": {
     "code": "TUWIB33",
     "id": 47157,
-    "name": "Lehrstuhl f\u00fcr Entrepreneurial Finance 2 (Prof. Braun)",
-    "path": "TUM/Schools/Management/Departments/Finance and Accounting/Entrepreneurial Finance 2 (Prof. Braun)"
+    "name": "Lehrstuhl f\u00fcr Entrepreneurial Finance (Prof. Braun)",
+    "path": "TUM/Schools/Management/Departments/Finance and Accounting/Entrepreneurial Finance (Prof. Braun)"
   },
   "TUWIB34": {
     "code": "TUWIB34",
@@ -7478,8 +7532,8 @@
   "TUWIH04": {
     "code": "TUWIH04",
     "id": 49380,
-    "name": "Professur f\u00fcr Innovation (Lude komm.) (TUM Campus Heilbronn)",
-    "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Innovation (Lude komm.) (TUM Campus Heilbronn)"
+    "name": "Professur f\u00fcr Innovation (N.N.) (TUM Campus Heilbronn)",
+    "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Innovation (N.N.) (TUM Campus Heilbronn)"
   },
   "TUWIH05": {
     "code": "TUWIH05",
@@ -7562,8 +7616,8 @@
   "TUWIV04": {
     "code": "TUWIV04",
     "id": 46196,
-    "name": "Lehrstuhl f\u00fcr Economics of Aging (Prof. B\u00f6rsch-Supan)",
-    "path": "TUM/Schools/Management/Departments/Economics and Policy/Economics of Aging (Prof. B\u00f6rsch-Supan)"
+    "name": "Lehrstuhl f\u00fcr Economics of Aging (N.N.)",
+    "path": "TUM/Schools/Management/Departments/Economics and Policy/Economics of Aging (N.N.)"
   },
   "TUWIV05": {
     "code": "TUWIV05",
@@ -7595,18 +7649,6 @@
     "name": "Professur f\u00fcr Geomorphologie und Bodenkunde (Prof. V\u00f6lkel)",
     "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Geomorphologie und Bodenkunde (Prof. V\u00f6lkel)"
   },
-  "TUWZA1L": {
-    "code": "TUWZA1L",
-    "id": 15517,
-    "name": "G\u00fcter",
-    "path": "TUM/Schools/Life Sciences/G\u00fcter"
-  },
-  "TUWZA1N": {
-    "code": "TUWZA1N",
-    "id": 15516,
-    "name": "Anstalten",
-    "path": "TUM/Schools/Life Sciences/Anstalten"
-  },
   "TUWZA1S": {
     "code": "TUWZA1S",
     "id": 28978,
@@ -7635,7 +7677,7 @@
     "code": "TUWZA2F",
     "id": 15680,
     "name": "Landesanstalt f\u00fcr Landtechnik Weihenstephan (BE)",
-    "path": "TUM/Schools/Life Sciences/Anstalten/Landesanstalt f\u00fcr Landtechnik Weihenstephan (BE)"
+    "path": "TUM/Schools/Life Sciences/Landesanstalt f\u00fcr Landtechnik Weihenstephan (BE)"
   },
   "TUWZA2G": {
     "code": "TUWZA2G",
@@ -7647,7 +7689,7 @@
     "code": "TUWZA2H",
     "id": 15682,
     "name": "Forschungsbrauerei (BE)",
-    "path": "TUM/Schools/Life Sciences/Anstalten/Forschungsbrauerei (BE)"
+    "path": "TUM/Schools/Life Sciences/Forschungsbrauerei (BE)"
   },
   "TUWZA2J": {
     "code": "TUWZA2J",
@@ -7832,8 +7874,8 @@
   "TUWZI4V": {
     "code": "TUWZI4V",
     "id": 15626,
-    "name": "Lehrstuhl f\u00fcr Botanik (Prof. Grill)",
-    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Botanik (Prof. Grill)"
+    "name": "Lehrstuhl f\u00fcr Botanik (Prof. Schneitz komm.)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Botanik (Prof. Schneitz komm.)"
   },
   "TUWZI5A": {
     "code": "TUWZI5A",
@@ -7881,7 +7923,7 @@
     "code": "TUWZM4D",
     "id": 40834,
     "name": "Interdepartmentelles Labor f\u00fcr Stabile Isotope (BE)",
-    "path": "TUM/Schools/Life Sciences/G\u00fcter/Interdepartmentelles Labor f\u00fcr Stabile Isotope (BE)"
+    "path": "TUM/Schools/Life Sciences/Interdepartmentelles Labor f\u00fcr Stabile Isotope (BE)"
   },
   "TUWZM5E": {
     "code": "TUWZM5E",
@@ -8006,8 +8048,8 @@
   "TUWZQ7Y": {
     "code": "TUWZQ7Y",
     "id": 15561,
-    "name": "Lehrstuhl f\u00fcr Chemie der Biopolymere (Prof. Langosch)",
-    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Chemie der Biopolymere (Prof. Langosch)"
+    "name": "Lehrstuhl f\u00fcr Chemie der Biopolymere (Prof. Skerra komm.)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Chemie der Biopolymere (Prof. Skerra komm.)"
   },
   "TUWZQ9I": {
     "code": "TUWZQ9I",
@@ -8018,8 +8060,8 @@
   "TUWZQ9P": {
     "code": "TUWZQ9P",
     "id": 39810,
-    "name": "Lehrstuhl f\u00fcr Biochemische Pflanzenpathologie (Prof. Durner)",
-    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biochemische Pflanzenpathologie (Prof. Durner)"
+    "name": "Lehrstuhl f\u00fcr Biochemische Pflanzenpathologie (N.N.)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Biochemische Pflanzenpathologie (N.N.)"
   },
   "TUWZR5P": {
     "code": "TUWZR5P",
@@ -11531,11 +11573,11 @@
     "name": "Zentraler Hochschulsport",
     "path": "TUM/Zentrale Serviceeinrichtungen/Zentraler Hochschulsport"
   },
-  "TUZEZLL": {
-    "code": "TUZEZLL",
-    "id": 16181,
-    "name": "Arbeitsbereiche",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige TUM School of Education/Fakult\u00e4tsverwaltung/Arbeitsbereiche"
+  "TUZEZIP": {
+    "code": "TUZEZIP",
+    "id": 54837,
+    "name": "Zentrum f\u00fcr Infektionspr\u00e4vention (ZIP)",
+    "path": "TUM/Wissenschaftliche Zentralinstitute/Zentrum f\u00fcr Infektionspr\u00e4vention (ZIP)"
   },
   "TUZEZMT": {
     "code": "TUZEZMT",
@@ -12086,7 +12128,7 @@
   "TUZVBFR": {
     "code": "TUZVBFR",
     "id": 43680,
-    "name": "Bevollm\u00e4chtigter des Pr\u00e4sidenten f\u00fcr Fundraising  Hochschulreferat 5 - Fundraising",
+    "name": "Bevollm\u00e4chtigter des Pr\u00e4sidenten f\u00fcr Fundraising Hochschulreferat 5 - Fundraising",
     "path": "TUM/Hochschulreferate/Fundraising/Bevollm\u00e4chtigter des Pr\u00e4sidenten f\u00fcr Fundraising"
   },
   "TUZVFZV": {
@@ -12106,6 +12148,12 @@
     "id": 46997,
     "name": "Gefahrgut",
     "path": "TUM/Hochschulreferate/Gesundheit, Sicherheit, Strahlenschutz/Gefahrgut"
+  },
+  "TUZVGTI": {
+    "code": "TUZVGTI",
+    "id": 54797,
+    "name": "Weitere Einrichtung G\u00e4ste TUM Incubator",
+    "path": "TUM/Hochschulreferate/TUM Forschungsf\u00f6rderung und Technologietransfer (ForTe)/G\u00e4ste TUM Incubator"
   },
   "TUZVHJA": {
     "code": "TUZVHJA",

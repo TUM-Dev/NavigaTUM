@@ -6,25 +6,65 @@ import shutil
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Any, Optional
+from typing import NamedTuple, TypeVar
+
+import pydantic
 
 import utils
 import yaml
+from external.models.common import PydanticConfiguration
 from PIL import Image
+from pydantic import Field
+from pydantic.networks import HttpUrl
+from pydantic.dataclasses import dataclass
+
+
+@dataclass(config=PydanticConfiguration)
+class UrlStr:
+    text: str
+    url: HttpUrl | None = None
+
+
+@dataclass(config=PydanticConfiguration)
+class ImageOffset:
+    header: int = 0
+    thumb: int = 0
+
+
+# here until typing.Self can be used in all expected python versions of developers
+# pylint: disable-next=c-extension-no-member
+TImageSource = TypeVar("TImageSource", bound="ImageSource")
+
+
+@dataclass(config=PydanticConfiguration)
+class ImageSource:
+    author: str
+    license: UrlStr
+    source: UrlStr
+    meta: dict[str, str | pydantic.types.date] = Field(default_factory=dict)
+    offsets: ImageOffset = Field(default_factory=ImageOffset)
+
+    @classmethod
+    def load_all(cls: TImageSource) -> dict[str, list[TImageSource]]:
+        """Load the image sources from the img-sources.yaml file"""
+        with open(IMAGE_BASE / "img-sources.yaml", encoding="utf-8") as file:
+            raw: dict[str, dict[int, dict]] = yaml.safe_load(file.read())
+            image_sources = {k: [ImageSource(**v) for v in vs.values()] for k, vs in raw.items()}
+        for key in image_sources:
+            if not isinstance(key, str):
+                raise ValueError(
+                    f"Key '{key}' form `img-sources.yaml` is not a string. "
+                    "This is not allowed, as for integers leading zeros are silently ignored.",
+                )
+        return image_sources
+
 
 IMAGE_BASE = Path(__file__).parent.parent / "sources" / "img"
 IMAGE_SOURCE = IMAGE_BASE / "lg"
 HASH_LUT = Path(IMAGE_BASE / ".hash_lut.json")
 
 DEV_MODE = "GIT_COMMIT_SHA" not in os.environ
-
-RESOLUTIONS: list[tuple[str, int | tuple[int, int]]] = [
-    ("thumb", (256, 256)),
-    ("header", (512, 210)),
-    ("sm", 1024),  # max. 1024px
-    ("md", 1920),  # max. 1920px
-    ("lg", 3840),  # max. 4k, this is the source
-]
+TARGET_IMAGE_QUALITY = 80
 
 
 def add_img(data):
@@ -97,83 +137,96 @@ def _add_source_info(fname, source_data):
     }
 
 
-def _gen_fixed_size(img: Image.Image, fixed_size: tuple[int, int], offset: int) -> Image.Image:
-    """
-    Generate an image with fixed_size pixels for the given image.
-    An offset can be used, to translate the image across the longer axis.
-    """
-    width, height = img.size
-    mid_h = height // 2
-    mid_w = width // 2
+class Resizer:
+    def __init__(self, source: Path):
+        self.source = source
+        self.img = Image.open(source)
 
-    target_w, target_h = fixed_size
-    target_aspect_ratio = target_w / target_h
-    current_aspect_ratio = width / height
-    if target_aspect_ratio < current_aspect_ratio:
-        # current image is wider than target, so we need to crop the width
-        new_width = target_aspect_ratio * height
-        new_img = img.crop((mid_w - int(new_width / 2) + offset, 0, mid_w + int(new_width / 2) + offset, height))
-    elif target_aspect_ratio > current_aspect_ratio:
-        # current image is higher than target, so we need to crop the height
-        new_height = (1 / target_aspect_ratio) * width
-        new_img = img.crop((0, mid_h - int(new_height / 2) + offset, width, mid_h + int(new_height / 2) + offset))
-    else:
-        # aspect ratio is the same, so no need to crop
-        new_img = img.copy()
-    if target_w != target_h:
-        # thumbnail may be more efficient, but does only handle square images
-        return new_img.resize(fixed_size, Image.Resampling.LANCZOS)  # type: ignore
-    new_img.thumbnail(fixed_size, Image.Resampling.LANCZOS)  # type: ignore
-    return new_img
+    def resize_to_fixed_size(self, target: Path, fixed_size: tuple[int, int], offset: int):
+        """
+        Generate an image with fixed_size pixels for the given image.
+        An offset can be used, to translate the image across the longer axis.
+        """
+        width, height = self.img.size
+        mid_h = height // 2
+        mid_w = width // 2
 
-
-def _gen_max_size(img: Image.Image, max_size: int) -> Optional[Image.Image]:
-    """Generate an image with at max_size pixel in max(width, height) for the given image."""
-    width, height = img.size
-    if max(width, height) <= max_size:
-        # since we are already smaller than the max_size, we can copy the original image.
-        # To indicate this we return None
-        return None
-    if width < height:
-        # image is vertical
-        scaling = max_size / height
-        return img.resize((int(width * scaling), max_size), Image.Resampling.LANCZOS)  # type: ignore
-    # image is horizontal
-    scaling = max_size / width
-    return img.resize((max_size, int(height * scaling)), Image.Resampling.LANCZOS)  # type: ignore
-
-
-def _refresh_for_all_resolutions(args: tuple[Path, dict[str, int]]) -> None:
-    source_filepath, offsets = args
-    img: Image.Image = Image.open(source_filepath)
-    for target_dir_name, size in RESOLUTIONS:
-        target_filepath = IMAGE_BASE / target_dir_name / source_filepath.name
-        if isinstance(size, int):
-            new_img = _gen_max_size(img, size)
-            if new_img is None:  # we are already smaller than the max_size, so we can copy the original image
-                if source_filepath == target_filepath:
-                    continue
-                if target_filepath.is_file():
-                    os.remove(target_filepath)
-                shutil.copy(source_filepath, target_filepath)
-                continue
+        target_w, target_h = fixed_size
+        target_aspect_ratio = target_w / target_h
+        current_aspect_ratio = width / height
+        if target_aspect_ratio < current_aspect_ratio:
+            # current image is wider than target, so we need to crop the width
+            new_width = target_aspect_ratio * height
+            new_img = self.img.crop(
+                (mid_w - int(new_width / 2) + offset, 0, mid_w + int(new_width / 2) + offset, height),
+            )
+        elif target_aspect_ratio > current_aspect_ratio:
+            # current image is higher than target, so we need to crop the height
+            new_height = (1 / target_aspect_ratio) * width
+            new_img = self.img.crop(
+                (0, mid_h - int(new_height / 2) + offset, width, mid_h + int(new_height / 2) + offset),
+            )
         else:
-            new_img = _gen_fixed_size(img, size, offsets.get(target_dir_name, 0))
-        new_img.save(target_filepath, lossless=False, quality=50)
+            # aspect ratio is the same, so no need to crop
+            new_img = self.img.copy()
+        # thumbnail may be more efficient, but does only handle square images
+        if target_w == target_h:
+            new_img.thumbnail(fixed_size, Image.Resampling.LANCZOS)
+        else:
+            new_img = new_img.resize(fixed_size, Image.Resampling.LANCZOS)
+        new_img.save(target, lossless=False, quality=TARGET_IMAGE_QUALITY)
+
+    def resize_to_max_size(self, target: Path, max_size: int):
+        """Generate an image with at max_size pixel in max(width, height) for the given image."""
+        width, height = self.img.size
+        if max_size >= max(width, height):
+            if target != self.source:
+                # since we are already smaller than the max_size, we can copy the original image.
+                if target.is_file():
+                    os.remove(target)
+                shutil.copy(self.source, target)
+            return
+        if width < height:
+            # image is vertical
+            scaling = max_size / height
+            image = self.img.resize((int(width * scaling), max_size), Image.Resampling.LANCZOS)  # type: ignore
+        else:
+            # image is horizontal
+            scaling = max_size / width
+            image = self.img.resize((max_size, int(height * scaling)), Image.Resampling.LANCZOS)  # type: ignore
+        image.save(target, lossless=False, quality=TARGET_IMAGE_QUALITY)
 
 
-def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: dict[str, list[dict[str, Any]]]) -> dict:
+class RefreshResolutionOrder(NamedTuple):
+    source: Path
+    offsets: ImageOffset
+
+
+def _refresh_for_all_resolutions(order: RefreshResolutionOrder) -> None:
+    """Refresh an image for all resolutions"""
+    try:
+        resizer = Resizer(order.source)
+        resizer.resize_to_max_size(IMAGE_BASE / "sm" / order.source.name, 1024)
+        resizer.resize_to_max_size(IMAGE_BASE / "md" / order.source.name, 1920)
+        resizer.resize_to_max_size(IMAGE_BASE / "lg" / order.source.name, 3840)
+        resizer.resize_to_fixed_size(IMAGE_BASE / "thumb" / order.source.name, (256, 256), order.offsets.thumb)
+        resizer.resize_to_fixed_size(IMAGE_BASE / "header" / order.source.name, (512, 210), order.offsets.header)
+    except Exception as error:
+        logging.error(error)  # otherwise we would not see if an error occurs
+
+
+def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: dict[str, list[ImageSource]]) -> ImageOffset:
     """Extract the offsets for the given image. Offsets are only available for the images, we crop"""
-    for _target_dir_name, size in RESOLUTIONS:
-        if isinstance(size, tuple):
-            if _id in img_sources and _index in img_sources[_id]:
-                return img_sources[_id][_index].get("offsets", {})
-            logging.warning(f"No source information for image '{img_path}', default crop-offset 0 is used")
-    return {}
+    if _id not in img_sources or _index >= len(img_sources[_id]):
+        logging.warning(f"No source information for image '{img_path}', default crop-offset 0 is used")
+        return ImageOffset()
+    return img_sources[_id][_index].offsets
 
 
 def _get_hash_lut() -> dict[str, str]:
     """Get a lookup table for the hash of the image files content and offset if present"""
+    if not DEV_MODE:
+        return {}
     logging.info("Since GIT_COMMIT_SHA is unset, we assume this is acting in In Dev mode.")
     logging.info("Only files, with sha256(file-content)_sha256(offset) not present in the .hash_lut.json will be used")
     if HASH_LUT.is_file():
@@ -182,7 +235,7 @@ def _get_hash_lut() -> dict[str, str]:
     return {}
 
 
-def _save_hash_lut(img_sources: dict[str, list[dict[str, Any]]]) -> None:
+def _save_hash_lut(img_sources: dict[str, list[ImageSource]]) -> None:
     """Save the current image status to the .hash_lut.json file"""
     hashes_lut = {}
     for img_path in IMAGE_SOURCE.glob("*.webp"):
@@ -193,12 +246,12 @@ def _save_hash_lut(img_sources: dict[str, list[dict[str, Any]]]) -> None:
         json.dump(hashes_lut, file, sort_keys=True, indent=2)
 
 
-def _gen_file_hash(img_path: Path, offsets) -> str:
+def _gen_file_hash(img_path: Path, offsets: ImageOffset) -> str:
     """Generate a hash-string for the given image file and given offsets."""
     with open(img_path, "rb") as file:
         # pylint: disable-next=unexpected-keyword-arg
         file_hash = hashlib.sha256(file.read(), usedforsecurity=False).hexdigest()
-        json_offsets = json.dumps(offsets, sort_keys=True).encode("utf-8")
+        json_offsets = json.dumps({"thumb": offsets.thumb, "header": offsets.header}, sort_keys=True).encode("utf-8")
         # pylint: disable-next=unexpected-keyword-arg
         offset_hash = hashlib.sha256(json_offsets, usedforsecurity=False).hexdigest()
         return f"{file_hash}_{offset_hash}"
@@ -212,16 +265,10 @@ def resize_and_crop() -> None:
     logging.info(f"convert {IMAGE_BASE} to webp")
     utils.convert_to_webp(IMAGE_BASE)
 
-    for target_dir_name, _size in RESOLUTIONS:
-        target_dir = IMAGE_BASE / target_dir_name
-        if not target_dir.exists():
-            target_dir.mkdir()
     # in DEV, we can save some time by not resizing the images, if they have not changed
-    expected_hashes_lut = {}
-    if DEV_MODE:
-        expected_hashes_lut = _get_hash_lut()
+    expected_hashes_lut = _get_hash_lut()
     start_time = time.time()
-    img_sources = load_image_sources()
+    img_sources = ImageSource.load_all()
     with ThreadPoolExecutor() as executor:
         for img_path in IMAGE_SOURCE.glob("*.webp"):
             _id, _index = parse_image_filename(img_path.name)
@@ -231,21 +278,8 @@ def resize_and_crop() -> None:
                 if actual_hash == expected_hashes_lut.get(img_path.name, ""):
                     continue  # skip this image, since it (and its offsets) have not changed
                 logging.debug(f"Image '{img_path.name}' has changed, resizing and cropping...")
-            executor.submit(_refresh_for_all_resolutions, (img_path, offsets))
-    resize_and_crop_time = time.time() - start_time
+            executor.submit(_refresh_for_all_resolutions, RefreshResolutionOrder(img_path, offsets))
     if DEV_MODE:
         _save_hash_lut(img_sources)
-    logging.info(f"Resize and crop took {resize_and_crop_time:.2f}s")
-
-
-def load_image_sources() -> dict[str, list[dict[str, Any]]]:
-    """Load the image sources from the img-sources.yaml file"""
-    with open(IMAGE_BASE / "img-sources.yaml", encoding="utf-8") as file:
-        image_sources = yaml.safe_load(file.read())
-    for key in image_sources:
-        if not isinstance(key, str):
-            raise ValueError(
-                f"Key '{key}' form `img-sources.yaml` is not a string. "
-                "This is not allowed, as for integers leading zeros are silently ignored.",
-            )
-    return image_sources
+        resize_and_crop_time = time.time() - start_time
+        logging.info(f"Resize and crop took {resize_and_crop_time:.2f}s")

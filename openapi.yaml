@@ -1679,7 +1679,7 @@ components:
                 rooms_overview:
                   $ref: '#/components/schemas/RoomsOverview'
                 featured_overview:
-                    $ref: '#/components/schemas/FeaturedOverview'
+                  $ref: '#/components/schemas/FeaturedOverview'
           required:
             - id
             - type
@@ -2020,6 +2020,57 @@ components:
             edits:
               description: 'The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits.'
               type: object
+              additionalProperties:
+                type: object
+                properties:
+                  coordinate:
+                    type: object
+                    properties:
+                      lat:
+                        type: number
+                        format: double
+                      lon:
+                        type: number
+                        format: double
+                    required:
+                      - lat
+                      - lon
+                  image:
+                    type: object
+                    properties:
+                      metadata:
+                        type: object
+                        properties:
+                          author:
+                            type: string
+                          license:
+                            $ref: '#/components/schemas/LinkProp'
+                          source:
+                            $ref: '#/components/schemas/LinkProp'
+                          offsets:
+                            type: object
+                            properties:
+                              header:
+                                type: integer
+                                format: int32
+                              thumb:
+                                type: integer
+                                format: int32
+                          meta:
+                            type: object
+                            additionalProperties:
+                              type: string
+                        required:
+                          - author
+                          - license
+                          - source
+                      content:
+                        type: string
+                        format: byte
+                        description: The image encoded as base64
+                    required:
+                      - metadata
+                      - content
             additional_context:
               description: |
                 Additional context for the edit.  
