@@ -31,22 +31,19 @@ def scrape_stations():
                     "sub_stations":[]
                 } )
             else:
+                sub_station={
+                        "id":line[STATIONID],
+                        "name":line[NAME],
+                        "lat":line[WGS84X].replace(",", "."),
+                        "lon":line[WSG84Y].replace(",", "."),
+                        "parent":line[PARENT]
+                    }
+                
                 if (parent:=stations.get(line[PARENT])):
-                    parent.get("sub_stations").append({
-                        "id":line[STATIONID],
-                        "name":line[NAME],
-                        "lat":line[WGS84X].replace(",", "."),
-                        "lon":line[WSG84Y].replace(",", "."),
-                        "parent":line[PARENT]
-                    })
+                    parent.get("sub_stations").append(sub_station)
                 else:
-                    repeat_later.append({
-                        "id":line[STATIONID],
-                        "name":line[NAME],
-                        "lat":line[WGS84X].replace(",", "."),
-                        "lon":line[WSG84Y].replace(",", "."),
-                        "parent":line[PARENT]
-                    })
+                    repeat_later.append(sub_station)
+
         for sub in repeat_later:
             if (parent:=stations.get(sub["parent"])):
                 parent.get("sub_stations").append(sub)
