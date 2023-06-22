@@ -255,7 +255,7 @@
         4109:Campusoffice, SSW Studierenden Service Weihenstephan:
         4110:Brau- und Getränketechnologie:
         4111:Forschungsbrauerei Weihenstephan mit Nebengebäude:
-        4113:StudiTUM Weihenstephan|StudiTUM:
+        4113:StudiTUM Weihenstephan|StudiTUM:4113,studitum-wzw
         4114:ehemaliger Bauhof:
         4115:Familienservice:
         4116:Dr. Gudula Wernekke-Rastetter Kindervilla:
@@ -545,7 +545,7 @@
       5519:FTM Fahrzeughalle:
       5530:IGSSE, Exzellenzzentrum Garching, TUM.Family, Prüfungsamt:
     5531:Ingeborg Ortner-Kinderhaus:
-    5532:StudiTUM Garching|StudiTUM:
+    5532:StudiTUM Garching|StudiTUM:5532,studitum-garching
     560,561:Fakultät Mathematik & Informatik (FMI oder MI)|Mathe/Info (MI):mi[joined_building]
       5601:Magistrale / Foyer (BT01):
       5602:Hörsaal 1 (BT02):
