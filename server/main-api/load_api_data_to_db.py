@@ -106,6 +106,10 @@ def extract_aliases()-> set[Alias]:
     for key,value in data.items():
         if arch_name:=value["arch_name"]:
             aliases.add(Alias(arch_name,key,value["type"]))
+        if visible_id:=value.get("visible-id",None):
+            aliases.add(Alias(visible_id,key,value["type"]))
+        # making sure that id is also an alias. Otherwise, a join would be necessary
+        aliases.add(Alias(key,key,value["type"]))
     return aliases
 
 def save_aliases_to_database(aliase:set[Alias]):

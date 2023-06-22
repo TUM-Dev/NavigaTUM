@@ -54,8 +54,7 @@ pub async fn get_handler(
 fn get_alias_and_redirect(conn: &mut SqliteConnection, query: String) -> Option<(String, String)> {
     use crate::schema::aliases::dsl::*;
     let result = aliases
-        .filter(alias.eq(&query))
-        .or_filter(key.eq(&query))
+        .filter(alias.eq(&query).or(key.eq(&query)))
         .select((key, type_))
         .distinct()
         .load::<DBRoomKeyAlias>(conn);
