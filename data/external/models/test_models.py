@@ -2,7 +2,7 @@ import json
 import unittest
 from pathlib import Path
 
-from external.models import nat, roomfinder, tumonline
+from external.models import nat, roomfinder, tumonline, public_transport
 
 RESULTS = Path(__file__).parent.parent / "results"
 
@@ -83,6 +83,14 @@ class TUMonline(unittest.TestCase):
                 for item in json.load(file).values():
                     with self.subTest(item=item, lang=lang):
                         tumonline.Organisation(**item)
+
+class Public_Transport(unittest.TestCase):
+
+    @staticmethod
+    def test_stations():
+        with open(RESULTS/"public_transport.json",encoding="utf-8") as file:
+            for k,v in json.load(file).items():
+                public_transport.Station(**v)
 
 
 if __name__ == "__main__":
