@@ -15,5 +15,6 @@ pub struct DBRoomEntry {
 #[derive(Queryable, Debug, Clone)]
 pub struct DBRoomKeyAlias {
     pub key: String,
+    pub visible_id: String,
     pub type_: String,
 }

@@ -5,6 +5,7 @@ diesel::table! {
         id -> Integer,
         alias -> Text,
         key -> Text,
+        visible_id -> Text,
         #[sql_name = "type"]
         type_ -> Text,
     }

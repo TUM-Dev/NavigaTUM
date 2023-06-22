@@ -92,8 +92,11 @@ def get_localised_data() -> tuple[TranslatedList, TranslatedList]:
 @dataclasses.dataclass
 class Alias:
     alias: str
+    # the key is the id of the entry
     key: str
-    type:str
+    # what we display in the url
+    visible_id: str
+    type: str
 
     def __hash__(self):
         return hash((self.alias,self.key))
@@ -105,11 +108,11 @@ def extract_aliases()-> set[Alias]:
     aliases=set()
     for key,value in data.items():
         if arch_name:=value["arch_name"]:
-            aliases.add(Alias(arch_name,key,value["type"]))
+            aliases.add(Alias(arch_name,key,key,value["type"]))
         if visible_id:=value.get("visible-id",None):
-            aliases.add(Alias(visible_id,key,value["type"]))
+            aliases.add(Alias(visible_id,key,visible_id,value["type"]))
         # making sure that id is also an alias. Otherwise, a join would be necessary
-        aliases.add(Alias(key,key,value["type"]))
+        aliases.add(Alias(key,key,key,value["type"]))
     return aliases
 
 def save_aliases_to_database(aliase:set[Alias]):
@@ -118,10 +121,11 @@ def save_aliases_to_database(aliase:set[Alias]):
     con.execute(
         """
         CREATE TABLE aliases (
-            id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-            alias   TEXT NOT NULL,
-            key     TEXT NOT NULL,
-            type    TEXT NOT NULL
+            id          INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+            alias       TEXT NOT NULL,
+            key         TEXT NOT NULL,
+            visible_id  TEXT NOT NULL,
+            type        TEXT NOT NULL
         );""",
     )
     with con:

@@ -55,14 +55,14 @@ fn get_alias_and_redirect(conn: &mut SqliteConnection, query: String) -> Option<
     use crate::schema::aliases::dsl::*;
     let result = aliases
         .filter(alias.eq(&query).or(key.eq(&query)))
-        .select((key, type_))
+        .select((key, visible_id, type_))
         .distinct()
         .load::<DBRoomKeyAlias>(conn);
     match result {
         Ok(d) => {
             let redirect_url = match d.len() {
                 0 => return None, // not key or alias
-                1 => extract_redirect_exact_match(&d[0].type_, &d[0].key),
+                1 => extract_redirect_exact_match(&d[0].type_, &d[0].visible_id),
                 _ => {
                     let keys = d
                         .clone()
@@ -92,6 +92,6 @@ fn extract_redirect_exact_match(type_: &str, key: &str) -> String {
         "room" => format!("/room/{key}"),
         "virtual_room" => format!("/room/{key}"),
         "poi" => format!("/poi/{key}"),
-        _ => format!("/view/{}", key), // can be triggered if we add a type but don't add it here
+        _ => format!("/view/{key}"), // can be triggered if we add a type but don't add it here
     }
 }
