@@ -102,7 +102,7 @@ def export_for_api(data, path):
 
         entry["aliases"] = []
         if arch_name := extract_arch_name(entry):
-            entry["aliases"].appended(arch_name)
+            entry["aliases"].append(arch_name)
 
         export_data[_id] = {
             "parent_names": [data[p]["name"] for p in entry["parents"]],
