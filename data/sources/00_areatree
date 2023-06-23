@@ -592,11 +592,11 @@
     7896:Freisinger Landstraße 50 (Prandtl):
     7910:Oskar-von-Miller-Turm (Meteo-Mast):
   810,811:Garching Hochbrück:garching-hochbrueck[site]
-    8101:Business Campus Garching (BC1), Parkring 11-13|Business Campus 1:
-    8102:Business Campus Garching (BC2), Parkring 35-39|Business Campus 2:
+    8101:Business Campus Garching (BC1), Parkring 11-13|Business Campus 1:8101,bc1
+    8102:Business Campus Garching (BC2), Parkring 35-39|Business Campus 2:8102,bc2
     8104:Carl-Zeiss-Straße 8:
     8111:Schleißheimerstr. 90a:
-  9001:TUM Science & Study Center Raitenhaslach:
+  9001:TUM Science & Study Center Raitenhaslach:9001,raitenhaslach
   9101:Garmisch-Partenkirchen (A, Bahnhofstr. 37):
   9201:TUM FZ Friedrich N. Schwarz Berchtesgaden:
   93:Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie)|Taufkirchen/Ottobr.:taufkirchen-ottobrunn[campus]
