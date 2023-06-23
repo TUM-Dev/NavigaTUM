@@ -1,11 +1,11 @@
-use super::preprocess;
+use crate::search::search_executor::parser::ParsedQuery;
 use crate::search::search_executor::query::MSHit;
 use meilisearch_sdk::search::{SearchResult, SearchResults};
 use unicode_truncate::UnicodeTruncateStr;
 
 pub(super) fn merge_search_results(
     args: &super::SanitisedSearchQueryArgs,
-    search_tokens: &[preprocess::SearchToken],
+    search_tokens: &ParsedQuery,
     res_merged: &SearchResults<MSHit>,
     res_buildings: &SearchResults<MSHit>,
     res_rooms: &SearchResults<MSHit>,
@@ -119,7 +119,7 @@ fn push_to_buildings_queue(
 fn push_to_rooms_queue(
     section_rooms: &mut super::SearchResultsSection,
     hit: MSHit,
-    search_tokens: &[preprocess::SearchToken],
+    search_tokens: &ParsedQuery,
     formatted_name: String,
     arch_name: String,
     highlighting: (String, String),
@@ -145,33 +145,33 @@ fn push_to_rooms_queue(
 // Parse the search against some known room formats and improve the
 // results display in this case. Room formats are hardcoded for now.
 fn parse_room_formats(
-    search_tokens: &[preprocess::SearchToken],
+    search_tokens: &ParsedQuery,
     hit: &MSHit,
     highlighting: &(String, String),
 ) -> Option<String> {
     // Some building specific roomcode formats are determined by their building prefix
     if search_tokens.len() == 2
-        && match search_tokens[0].s.as_str() {
+        && match search_tokens[0].as_str() {
             "mi" => hit.id.starts_with("560") || hit.id.starts_with("561"),
             "mw" => hit.id.starts_with("550") || hit.id.starts_with("551"),
             "ph" => hit.id.starts_with("5101"),
             "ch" => hit.id.starts_with("540"),
             _ => false,
         }
-        && !search_tokens[1].s.contains('@')
+        && !search_tokens[1].contains('@')
         && hit.arch_name.is_some()
         && hit
             .arch_name
             .as_ref()
             .unwrap()
-            .starts_with(&search_tokens[1].s)
+            .starts_with(&search_tokens[1])
     {
         let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
-        let split_arch_id = unicode_split_at(arch_id, search_tokens[1].s.chars().count());
+        let split_arch_id = unicode_split_at(arch_id, search_tokens[1].chars().count());
         Some(format!(
             "{}{} {}{}{}",
             highlighting.0,
-            search_tokens[0].s.to_uppercase(),
+            search_tokens[0].to_uppercase(),
             split_arch_id.0,
             highlighting.1,
             split_arch_id.1,
@@ -181,20 +181,20 @@ fn parse_room_formats(
     // This is intentionally still restrictive and considers only the first token,
     // because we expect searches for arch names not to start with anything else.
     } else if (search_tokens.len() == 1
-             || (search_tokens.len() > 1 && search_tokens[0].s.len() >= 3))
+             || (search_tokens.len() > 1 && search_tokens[0].len() >= 3))
         //     Needs to be specific enough to be considered relevant ↑
-        && !hit.name.contains(&search_tokens[0].s) // No match in the name
+        && !hit.name.contains(&search_tokens[0]) // No match in the name
         && !hit.parent_building_names.is_empty() // Has parent information to show in query
         && hit.arch_name.is_some()
         && hit
             .arch_name
             .as_ref()
             .unwrap()
-            .starts_with(&search_tokens[0].s)
+            .starts_with(&search_tokens[0])
     {
         // Exclude the part after the "@" if it's not in the query and use the
         // building name instead, because this is probably more helpful
-        let (prefix, parsed_arch_id) = if search_tokens[0].s.contains('@') {
+        let (prefix, parsed_arch_id) = if search_tokens[0].contains('@') {
             (None, hit.arch_name.as_ref().unwrap().to_string())
         } else {
             let arch_id = hit.arch_name.as_ref().unwrap().split('@').next().unwrap();
@@ -227,7 +227,7 @@ fn parse_room_formats(
                 )
             }
         };
-        let parsed_aid = unicode_split_at(&parsed_arch_id, search_tokens[0].s.chars().count());
+        let parsed_aid = unicode_split_at(&parsed_arch_id, search_tokens[0].chars().count());
         Some(format!(
             "{}{}{}{}{}",
             prefix.unwrap_or_default(),
