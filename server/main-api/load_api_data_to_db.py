@@ -43,13 +43,11 @@ def save_entries_to_database(de_data, en_data):
 
     with con:
         con.executemany(
-            "INSERT INTO de(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon) "
-            "VALUES (?,?,?,?,?,?,?,?)",
+            "INSERT INTO de(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon) " "VALUES (?,?,?,?,?,?,?,?)",
             de_data,
         )
         con.executemany(
-            "INSERT INTO en(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon) "
-            "VALUES (?,?,?,?,?,?,?,?)",
+            "INSERT INTO en(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon) " "VALUES (?,?,?,?,?,?,?,?)",
             en_data,
         )
 
@@ -99,23 +97,25 @@ class Alias:
     type: str
 
     def __hash__(self):
-        return hash((self.alias,self.key))
+        return hash((self.alias, self.key))
 
-def extract_aliases()-> set[Alias]:
+
+def extract_aliases() -> set[Alias]:
     """Extracts all aliases from the api_data.json file and returns them as a dict"""
     with open("data/api_data.json", encoding="utf-8") as file:
         data = json.load(file)
-    aliases=set()
-    for key,value in data.items():
-        if arch_name:=value["arch_name"]:
-            aliases.add(Alias(arch_name,key,key,value["type"]))
-        if visible_id:=value.get("visible-id",None):
-            aliases.add(Alias(visible_id,key,visible_id,value["type"]))
+    aliases = set()
+    for key, value in data.items():
+        if arch_name := value["arch_name"]:
+            aliases.add(Alias(arch_name, key, key, value["type"]))
+        if visible_id := value.get("visible-id", None):
+            aliases.add(Alias(visible_id, key, visible_id, value["type"]))
         # making sure that id is also an alias. Otherwise, a join would be necessary
-        aliases.add(Alias(key,key,key,value["type"]))
+        aliases.add(Alias(key, key, key, value["type"]))
     return aliases
 
-def save_aliases_to_database(aliase:set[Alias]):
+
+def save_aliases_to_database(aliase: set[Alias]):
     con: sqlite3.Connection = sqlite3.connect("data/api_data.db")
     con.execute("DROP TABLE IF EXISTS aliases")
     con.execute(
@@ -130,16 +130,15 @@ def save_aliases_to_database(aliase:set[Alias]):
     )
     with con:
         con.executemany(
-            "INSERT INTO aliases(alias,key,visible_id,type)"
-            "VALUES (?,?,?,?)",
-            [(item.alias,item.key,item.visible_id,item.type) for item in aliase],
+            "INSERT INTO aliases(alias,key,visible_id,type)" "VALUES (?,?,?,?)",
+            [(item.alias, item.key, item.visible_id, item.type) for item in aliase],
         )
+
 
 if __name__ == "__main__":
     de, en = get_localised_data()
     save_entries_to_database(de, en)
     print("Initialized KV store")
-    extracted_aliases=extract_aliases()
+    extracted_aliases = extract_aliases()
     save_aliases_to_database(extracted_aliases)
     print("Initialized alias store")
-

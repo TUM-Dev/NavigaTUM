@@ -1854,11 +1854,11 @@ components:
           required:
             - base
         redirect_url:
-          type: string
           description: |
-              The url, this item should be displayed at.
-              Present on both redirects and normal entries, to allow for the common /view/:id path
-          example: '/room/5602.EG.001'
+            The url, this item should be displayed at.
+            Present on both redirects and normal entries, to allow for the common /view/:id path
+          type: string
+          example: /room/5602.EG.001
       required:
         - type_common_name
         - name
