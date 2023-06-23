@@ -2,9 +2,10 @@ use super::SanitisedSearchQueryArgs;
 use cached::proc_macro::cached;
 use log::error;
 
+mod formatter;
 mod lexer;
+mod merger;
 mod parser;
-mod postprocess;
 mod query;
 
 use crate::search::search_executor::parser::ParsedQuery;
@@ -35,7 +36,7 @@ struct ResultEntry {
     parsed_id: Option<String>,
 }
 
-// size=2500 seems to be about 250Mi
+// size=1 ~= 0.1Mi
 #[cached(size = 2500)]
 pub async fn do_geoentry_search(
     q: String,
@@ -49,17 +50,17 @@ pub async fn do_geoentry_search(
         .await
     {
         Ok(response) => {
-            let (section_buildings, mut section_rooms) = postprocess::merge_search_results(
+            let (section_buildings, mut section_rooms) = merger::merge_search_results(
                 &args,
                 response.results.get(0).unwrap(),
                 response.results.get(1).unwrap(),
                 response.results.get(2).unwrap(),
             );
-            for room in section_rooms.entries.iter_mut() {
-                room.parsed_id =
-                    postprocess::parse_room_formats(&parsed_input, &room.hit, &highlighting);
-                room.subtext = postprocess::generate_subtext(&room.hit);
-            }
+            let visitor = formatter::RoomVisitor::from(parsed_input, highlighting);
+            section_rooms
+                .entries
+                .iter_mut()
+                .for_each(|r| visitor.visit(r));
 
             match section_buildings.n_visible {
                 Some(0) => vec![section_rooms, section_buildings],
