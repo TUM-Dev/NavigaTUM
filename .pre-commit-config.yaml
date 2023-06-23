@@ -104,6 +104,13 @@ repos:
         language: system
         types: [python]
         exclude: migrations
+  - repo: https://github.com/sourcery-ai/sourcery
+    rev: v1.4.0
+    hooks:
+    - id: sourcery
+      # * review only changed lines:
+      # * omit the summary
+      args: [--diff=git diff HEAD, --no-summary]
   # markdown
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.8.0

@@ -76,9 +76,7 @@ class Evaluation:
             return 3.0
         if self.full_search.was_top20:
             return 4.0
-        if self.full_search.num_results == 0:
-            return 4.7
-        return 5.0
+        return 4.7 if self.full_search.num_results == 0 else 5.0
 
 
 class EvaluatableQuery(Query):
@@ -86,7 +84,8 @@ class EvaluatableQuery(Query):
         """
         Perform a search for a specific query
         """
-        url = search_endpoint + "?" + urllib.parse.urlencode({"q": self.query[:length]})
+        query_string = urllib.parse.urlencode({"q": self.query[:length]})
+        url = f"{search_endpoint}?{query_string}"
         req = requests.get(url, timeout=10).json()
 
         hits = list(itertools.chain(*[s["entries"] for s in req["sections"]]))

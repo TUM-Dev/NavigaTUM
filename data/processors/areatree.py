@@ -8,7 +8,7 @@ def read_areatree():
     parent_stack = []
     last_element = None
     with open("sources/00_areatree", encoding="utf-8") as file:
-        for line in file.readlines():
+        for line in file:
             # Empty lines and comment lines are ignored
             line = line.split("#")[0]
             if len(line.strip()) == 0:

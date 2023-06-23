@@ -128,10 +128,12 @@ def _extract_sitemap_data(new_data, old_data, old_sitemaps) -> dict[str, list[di
 
 def _download_online_sitemaps(sitemap_names):
     """Download online sitemaps by their names"""
-    sitemaps = {}
-    for name in sitemap_names:
-        sitemaps[name] = _download_online_sitemap(f"https://nav.tum.de/cdn/sitemap-data-{name}.xml")
-    return sitemaps
+    return {
+        name: _download_online_sitemap(
+            f"https://nav.tum.de/cdn/sitemap-data-{name}.xml",
+        )
+        for name in sitemap_names
+    }
 
 
 def _download_online_sitemap(url):
@@ -178,9 +180,7 @@ def _write_sitemapindex_xml(fname, sitemaps):
         sitemap_el = ET.SubElement(sitemapindex, "sitemap")
         loc = ET.SubElement(sitemap_el, "loc")
         loc.text = f"https://nav.tum.de/cdn/sitemap-data-{name}.xml"
-        # we set the lastmod to the latest lastmod of all sitemaps
-        lastmod_dates = {site["lastmod"] for site in sitemap if "lastmod" in site}
-        if lastmod_dates:
+        if lastmod_dates := {site["lastmod"] for site in sitemap if "lastmod" in site}:
             lastmod = ET.SubElement(sitemap_el, "lastmod")
             lastmod.text = max(lastmod_dates).isoformat(timespec="seconds") + "Z"
 
@@ -191,8 +191,7 @@ def _write_sitemapindex_xml(fname, sitemaps):
     web_sitemap_url = "https://nav.tum.de/sitemap-webclient.xml"
     loc.text = web_sitemap_url
     sitemap = _download_online_sitemap(web_sitemap_url)
-    lastmod_dates = set(sitemap.values())
-    if lastmod_dates:
+    if lastmod_dates := set(sitemap.values()):
         lastmod = ET.SubElement(sitemap_el, "lastmod")
         lastmod.text = max(lastmod_dates).isoformat(timespec="seconds") + "Z"
 

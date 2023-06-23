@@ -245,8 +245,7 @@ def localize_links(data):
       `text: { de: "<str>", en: "<str>" }`
     """
     for _id, entry in data.items():
-        links = entry.get("props", {}).get("links", None)
-        if links:
+        if links := entry.get("props", {}).get("links", None):
             for link in links:
                 if isinstance(link["text"], str):
                     link["text"] = {"de": link["text"], "en": link["text"]}

@@ -41,8 +41,7 @@ def merge_nat_buildings(data):
 
     # Sanity-check: Make sure that the buildings in the data are unique
     building_ids = [b["building_code"] for b in buildings]
-    duplicate_building_ids = {b_id: cnt for b_id, cnt in Counter(building_ids).items() if cnt > 1}
-    if duplicate_building_ids:
+    if duplicate_building_ids := {b_id: cnt for b_id, cnt in Counter(building_ids).items() if cnt > 1}:
         raise ValueError(f"There are duplicate buildings in the data: {duplicate_building_ids}")
 
     for building in [NATBuilding(b) for b in buildings]:

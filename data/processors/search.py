@@ -44,8 +44,7 @@ def add_ranking_base(data):
             ranking_factors["rank_usage"] = 100
 
         # Type-specific boosts
-        stats = _data.get("props", {}).get("stats", None)
-        if stats:
+        if stats := _data.get("props", {}).get("stats", None):
             rank_boost = None
             if _data["type"] == "room" and "n_seats" in stats:
                 rank_boost = stats["n_seats"] // 10

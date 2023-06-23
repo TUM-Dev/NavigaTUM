@@ -28,7 +28,7 @@ def merge_tumonline_buildings(data):
         # Extract the building id
         try:
             b_id = b_name.split(" ", 2)[0]
-            if 0 >= int(b_id) or int(b_id) > 9999:
+            if int(b_id) <= 0 or int(b_id) > 9999:
                 logging.error(f"Invalid building id '{b_id}' for building '{b_name}', expected it to be in 1..9999")
                 error = True
                 continue
@@ -172,8 +172,7 @@ def merge_tumonline_rooms(data):
         if room["patched"]:
             data[r_data["id"]]["sources"]["patched"] = True
 
-    parentless = [(b_id, content) for b_id, content in data.items() if "parents" not in content]
-    if parentless:
+    if parentless := [(b_id, content) for b_id, content in data.items() if "parents" not in content]:
         for b_id, content in parentless:
             logging.critical(f"No parents exist for {b_id}: {content}")
         logging.critical("This is probably the case, because roompatches were renamed upstream")
@@ -242,7 +241,7 @@ def _clean_tumonline_rooms():
 
         # The address commonly has duplicate spaces
         room["address"] = _clean_spaces(room["address"])
-    if len(invalid_rooms) > 0:
+    if invalid_rooms:
         for room in invalid_rooms:
             rooms.remove(room)
 

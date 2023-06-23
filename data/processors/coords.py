@@ -11,8 +11,7 @@ def assert_buildings_have_coords(data):
     a coordinate.
     """
     buildings = [(_id, entry) for _id, entry in data.items() if entry["type"] == "building"]
-    buildings_without_coord = {_id for _id, entry in buildings if "coords" not in entry}
-    if buildings_without_coord:
+    if buildings_without_coord := {_id for _id, entry in buildings if "coords" not in entry}:
         raise RuntimeError(
             "No coordinates known for the following buildings:\n"
             + "\n".join([f"{_id}: {data[_id]['name']}" for _id in sorted(buildings_without_coord)]),

@@ -72,9 +72,14 @@ def scrape_buildings():
             f"filter/area_{area['id']}.xml",
         )
         buildings_area = _parse_filter_options(filters_area, "buildings")
-        for building in buildings_area:
-            buildings.append({"filter_id": int(building[0]), "name": building[1], "area_id": area["id"]})
-
+        buildings.extend(
+            {
+                "filter_id": int(building[0]),
+                "name": building[1],
+                "area_id": area["id"],
+            }
+            for building in buildings_area
+        )
     # Not observed so far, I assume all buildings have an assigned area
     if len(buildings) != len(all_buildings):
         logging.warning("Not all buildings have an assigned area. Buildings without an area are discarded")
@@ -126,7 +131,7 @@ def scrape_rooms():
     # to filter for other usage types. That's why we try them out.
     rooms = []
     usage_id = 1  # Observed: usage ids go up to 223, the limit below is for safety
-    while not (usage_id > 300 or len(rooms) >= len(room_index)):
+    while usage_id <= 300 and len(rooms) < len(room_index):
         u_rooms = _retrieve_roomlist(f_type="usage", f_name="pVerwendung", f_value=usage_id, area_id=0)
         for room in u_rooms:
             roomcode = room["roomcode"]
@@ -293,7 +298,7 @@ def _retrieve_roominfo(system_id: str) -> dict[str, str | int | float]:
                     value = columns[1].text.replace("  ", " ").strip()
                     if key != _snake_case(value):
                         roominfo[key] = value
-                    elif not roominfo.get("address", None):
+                    elif not roominfo.get("address"):
                         roominfo["address"] = value
                     else:
                         raise RuntimeError(
@@ -341,14 +346,8 @@ def _snake_case(key: str) -> str:
 def _parse_filter_options(xml_parser: BeautifulSoup, filter_type):
     el_id = {"areas": "pGebaeudebereich", "buildings": "pGebaeude", "usages": "pVerwendung"}[filter_type]
 
-    options = []
-
     sel = xml_parser.find("select", {"name": el_id})
-    for opt in sel:
-        if isinstance(opt, element.Tag) and opt.attrs["value"] != "0":
-            options.append((opt.attrs["value"], opt.text))
-
-    return options
+    return [(opt.attrs["value"], opt.text) for opt in sel if isinstance(opt, element.Tag) and opt.attrs["value"] != "0"]
 
 
 def _parse_rooms_list(lxml_parser: BeautifulSoup) -> ParsedRoomsList:
