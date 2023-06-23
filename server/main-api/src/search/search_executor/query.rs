@@ -6,7 +6,7 @@ use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
 use meilisearch_sdk::Client;
 use serde::Deserialize;
 
-#[derive(Deserialize, Clone, Debug)]
+#[derive(Deserialize, Default, Clone, Debug)]
 #[allow(dead_code)]
 pub(super) struct MSHit {
     ms_id: String,
