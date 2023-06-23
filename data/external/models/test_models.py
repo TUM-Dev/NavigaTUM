@@ -8,82 +8,81 @@ RESULTS = Path(__file__).parent.parent / "results"
 
 
 class NAT(unittest.TestCase):
-    @staticmethod
-    def test_buildings():
+    def test_buildings(self):
         """Test if the buildings can be loaded as nat.Building objects"""
         with open(RESULTS / "buildings_nat.json", encoding="utf-8") as file:
             for item in json.load(file):
-                nat.Building(**item)
+                with self.subTest(item=item):
+                    nat.Building(**item)
 
-    @staticmethod
-    def test_rooms():
+    def test_rooms(self):
         """Test if the rooms can be loaded as nat.Room objects"""
         with open(RESULTS / "rooms_nat.json", encoding="utf-8") as file:
             for item in json.load(file).values():
-                nat.Room(**item)
+                with self.subTest(item=item):
+                    nat.Room(**item)
 
-    @staticmethod
-    def test_campus():
+    def test_campus(self):
         """Test if the campi can be loaded as nat.Campus objects"""
         with open(RESULTS / "campus_nat.json", encoding="utf-8") as file:
             for item in json.load(file).values():
-                nat.Campus(**item)
+                with self.subTest(item=item):
+                    nat.Campus(**item)
 
-    @staticmethod
-    def test_org():
+
+    def test_org(self):
         """Test if the orgs can be loaded as nat.Organisation objects"""
         with open(RESULTS / "orgs_nat.json", encoding="utf-8") as file:
             for item in json.load(file).values():
-                nat.Organisation(**item)
+                with self.subTest(item=item):
+                    nat.Organisation(**item)
 
 
 class Roomfinder(unittest.TestCase):
-    @staticmethod
-    def test_maps():
+    def test_maps(self):
         """Test if the maps can be loaded as roomfinder.Map objects"""
         with open(RESULTS / "maps_roomfinder.json", encoding="utf-8") as file:
             for item in json.load(file):
-                roomfinder.Map(**item)
+                with self.subTest(item=item):
+                    roomfinder.Map(**item)
 
-    @staticmethod
-    def test_rooms():
+    def test_rooms(self):
         """Test if the rooms can be loaded as roomfinder.Room objects"""
         with open(RESULTS / "rooms_roomfinder.json", encoding="utf-8") as file:
             for item in json.load(file):
-                roomfinder.Room(**item)
+                with self.subTest(item=item):
+                    roomfinder.Room(**item)
 
-    @staticmethod
-    def test_buildings():
+    def test_buildings(self):
         """Test if the buildings can be loaded as roomfinder.Building objects"""
         with open(RESULTS / "buildings_roomfinder.json", encoding="utf-8") as file:
             for item in json.load(file):
-                roomfinder.Building(**item)
+                with self.subTest(item=item):
+                    roomfinder.Building(**item)
 
 
 class TUMonline(unittest.TestCase):
-    @staticmethod
-    def test_rooms():
+    def test_rooms(self):
         """Test if the rooms can be loaded as tumonline.Room objects"""
         with open(RESULTS / "rooms_tumonline.json", encoding="utf-8") as file:
             for item in json.load(file):
-                tumonline.Room(**item)
+                with self.subTest(item=item):
+                    tumonline.Room(**item)
 
-    @staticmethod
-    def test_buildings():
+    def test_buildings(self):
         """Test if the buildings can be loaded as tumonline.Building objects"""
         with open(RESULTS / "buildings_tumonline.json", encoding="utf-8") as file:
             for item in json.load(file):
-                tumonline.Building(**item)
+                with self.subTest(item=item):
+                    tumonline.Building(**item)
 
-    @staticmethod
-    def test_orgs():
+    def test_orgs(self):
         """Test if the orgs can be loaded as tumonline.Organisation objects"""
-        with open(RESULTS / "orgs-de_tumonline.json", encoding="utf-8") as file:
-            for item in json.load(file).values():
-                tumonline.Organisation(**item)
-        with open(RESULTS / "orgs-en_tumonline.json", encoding="utf-8") as file:
-            for item in json.load(file).values():
-                tumonline.Organisation(**item)
+        for lang in ("de","en"):
+            with open(RESULTS / f"orgs-{lang}_tumonline.json", encoding="utf-8") as file:
+                for item in json.load(file).values():
+                    with self.subTest(item=item, lang=lang):
+                        tumonline.Organisation(**item)
 
 
 if __name__ == "__main__":
