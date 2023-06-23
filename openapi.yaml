@@ -1786,19 +1786,6 @@ components:
           description: The name of the entry in a human-readable form
           type: string
           example: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
-        arch_name:
-          description: |
-            The name of the entry in the LEGACY format of the old roomfinder.
-            This is only present for some rooms, and only if the room is in the legacy system.
-
-            ***THIS WILL DISAPEAR IN THE FUTURE, DO NOT RELY ON IT.***
-            This is only here while TUM is transitioning to this system.
-
-            null if an `arch_name` would not make sense (i.e. a building/root response)
-          type:
-            - string
-            - 'null'
-          example: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
         parents:
           type: array
           items:

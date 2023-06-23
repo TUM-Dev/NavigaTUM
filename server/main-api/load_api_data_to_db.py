@@ -107,8 +107,9 @@ def extract_aliases() -> set[Alias]:
     aliases = set()
     for key, value in data.items():
         visible_id = value.get("visible-id", key)
-        if arch_name := value["arch_name"]:
-            aliases.add(Alias(arch_name, key, visible_id, value["type"]))
+        if items_aliases := value["aliases"]:
+            for alias in items_aliases:
+                aliases.add(Alias(alias, key, visible_id, value["type"]))
         # making sure that ids are also an aliases. Otherwise, a join would be necessary
         aliases.add(Alias(visible_id, key, visible_id, value["type"]))
         aliases.add(Alias(key, key, visible_id, value["type"]))

@@ -613,18 +613,6 @@ export type components = {
        * @example 5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)
        */
       readonly name: string;
-      /**
-       * @description The name of the entry in the LEGACY format of the old roomfinder.
-       * This is only present for some rooms, and only if the room is in the legacy system.
-       *
-       * ***THIS WILL DISAPEAR IN THE FUTURE, DO NOT RELY ON IT.***
-       * This is only here while TUM is transitioning to this system.
-       *
-       * null if an `arch_name` would not make sense (i.e. a building/root response)
-       *
-       * @example 5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)
-       */
-      readonly arch_name?: OneOf<[string, null]>;
       readonly parents: readonly string[];
       readonly parent_names: readonly [string, ...string[]];
       readonly props: components["schemas"]["Props"];
