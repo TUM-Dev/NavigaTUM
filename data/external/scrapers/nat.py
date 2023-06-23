@@ -73,8 +73,7 @@ def _extract_campus(rooms: dict) -> dict:
     logging.info("Extracting orgs from the rooms")
     campi = {}
     for room in rooms.values():
-        campus = room.pop("campus")
-        if campus:
+        if campus := room.pop("campus"):
             campus_id = str(campus.pop("campus_id"))
             if isinstance(campus["campus"], str):
                 campus["campus"] = _(campus["campus"], en_message=campus["campus"])
@@ -92,7 +91,7 @@ def _extract_translations(item: dict):
     De-Inline the translations of keys into dicts.
     E.g. {"key": "A", "key_en": "B"} will be transformed into {"key": {"de": "A", "en": "B"}}
     """
-    translatable_keys: list[tuple[str, str]] = [(k.removesuffix("_en"), k) for k in item.keys() if k.endswith("_en")]
+    translatable_keys: list[tuple[str, str]] = [(k.removesuffix("_en"), k) for k in item if k.endswith("_en")]
     for key, key_en in translatable_keys:
         eng = item.pop(key_en)
         if eng and item[key] and eng != item[key]:
@@ -123,8 +122,7 @@ def _sanitise_room(room: dict):
     room["purpose"] = _(room["purpose"]["purpose"])
 
     _extract_translation_recursive(room)
-    campus_id = room["building"].pop("campus_id")
-    if campus_id:
+    if campus_id := room["building"].pop("campus_id"):
         room["building"]["campus"]["campus_id"] = campus_id
     if isinstance(room["steckdosen"], str):
         room["steckdosen"] = _(room["steckdosen"].rstrip("."))
@@ -211,12 +209,12 @@ def _get_base_room_infos():
                 if downloaded_file or batch == 1:
                     prog.update(batch)
 
-                if not downloaded_file and batch != 1:
-                    new_batch = batch // 2
-                    new_queue.append((start, new_batch))
-                    new_queue.append((start + new_batch, batch - new_batch))
-                if not downloaded_file and batch == 1:
-                    undownloadable.append(start)
+                if not downloaded_file:
+                    if batch == 1:
+                        undownloadable.append(start)
+                    else:
+                        new_batch = batch // 2
+                        new_queue.extend(((start, new_batch), (start + new_batch, batch - new_batch)))
             work_queue = new_queue
 
     total_hits = _join_room_hits()
@@ -246,15 +244,13 @@ def _report_undownloadable(undownloadable: list[int]):
     start = undownloadable[0]
     end = undownloadable[0]
     for i in range(1, len(undownloadable)):
-        if undownloadable[i] == end + 1:
-            end = undownloadable[i]
-        else:
+        if undownloadable[i] != end + 1:
             if start == end:
                 logging.warning(f"\t{start}")
             else:
                 logging.warning(f"\t{start}->{end} ({end - start + 1} rooms)")
             start = undownloadable[i]
-            end = undownloadable[i]
+        end = undownloadable[i]
 
 
 def _join_room_hits():

@@ -2065,9 +2065,9 @@ components:
                           - license
                           - source
                       content:
-                        type: string
-                        format: byte
                         description: The image encoded as base64
+                        format: byte
+                        type: string
                     required:
                       - metadata
                       - content

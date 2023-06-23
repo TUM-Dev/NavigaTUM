@@ -9,14 +9,13 @@ from pathlib import Path
 from typing import NamedTuple, TypeVar
 
 import pydantic
-
 import utils
 import yaml
 from external.models.common import PydanticConfiguration
 from PIL import Image
 from pydantic import Field
-from pydantic.networks import HttpUrl
 from pydantic.dataclasses import dataclass
+from pydantic.networks import HttpUrl
 
 
 @dataclass(config=PydanticConfiguration)
@@ -89,7 +88,7 @@ def add_img(data):
 
         img_data = []
         for image_path in IMAGE_SOURCE.iterdir():
-            if image_path.name.startswith(_id + "_"):
+            if image_path.name.startswith(f"{_id}_"):
                 source_info = _add_source_info(image_path.name, _source_data)
                 if not source_info:
                     logging.warning(
@@ -125,9 +124,7 @@ def _add_source_info(fname, source_data):
             return None
 
     def _parse(obj):
-        if isinstance(obj, str):
-            return {"text": obj, "url": None}
-        return obj
+        return {"text": obj, "url": None} if isinstance(obj, str) else obj
 
     return {
         "name": fname,

@@ -13,10 +13,10 @@ def apply_patches(objects, patches, searchkey):
 
     patches = [
         (
-            re.compile(p["if_" + searchkey]),
+            re.compile(p[f"if_{searchkey}"]),
             # Remove the "if_" from the patch, the rest of the items will
             # be inserted into the entry's data.
-            {k: v for k, v in p.items() if k != "if_" + searchkey},
+            {k: v for k, v in p.items() if k != f"if_{searchkey}"},
         )
         for p in patches
     ]

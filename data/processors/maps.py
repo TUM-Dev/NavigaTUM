@@ -358,8 +358,8 @@ def _entry_is_not_on_map(entry, _map, map_assignment_data):
     if map_id == "rf9":
         return True
     x_on_map, y_on_map = _calc_xy_of_coords_on_map(entry["coords"], map_assignment_data[map_id])
-    x_invalid = 0 > x_on_map or _map["width"] <= x_on_map
-    y_invalid = 0 > y_on_map or _map["height"] <= y_on_map
+    x_invalid = x_on_map < 0 or _map["width"] <= x_on_map
+    y_invalid = y_on_map < 0 or _map["height"] <= y_on_map
     return x_invalid or y_invalid
 
 
@@ -372,10 +372,9 @@ def _remove_non_covering_maps(data):
         if "roomfinder" not in entry["maps"]:
             continue
         roomfinder = entry["maps"]["roomfinder"]
-        to_be_deleted = []
-        for _map in roomfinder["available"]:
-            if _entry_is_not_on_map(entry, _map, map_assignment_data):
-                to_be_deleted.append(_map)
+        to_be_deleted = [
+            _map for _map in roomfinder["available"] if _entry_is_not_on_map(entry, _map, map_assignment_data)
+        ]
         for _map in to_be_deleted:
             roomfinder["available"].remove(_map)
         if not roomfinder["available"]:
