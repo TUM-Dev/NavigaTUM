@@ -59,7 +59,7 @@ pub async fn get_all_ids() -> Vec<Room> {
         }
     };
     let rooms: Vec<Room> = match rooms {
-        Ok(rooms) => rooms.into_iter().flat_map(Room::from).collect(),
+        Ok(rooms) => rooms.into_iter().filter_map(Room::from).collect(),
         Err(e) => panic!("Failed to parse main-api response: {e:#?}"),
     };
     let start_time = Utc::now().naive_utc();
@@ -70,9 +70,9 @@ pub async fn get_all_ids() -> Vec<Room> {
 }
 
 fn store_in_db(conn: &mut PgConnection, rooms_to_store: &[Room], start_time: &NaiveDateTime) {
-    info!("Storing {} rooms in database", rooms_to_store.len());
-    use crate::schema::rooms::dsl::*;
+    use crate::schema::rooms::dsl;
     use diesel::prelude::*;
+    info!("Storing {} rooms in database", rooms_to_store.len());
     rooms_to_store
         .iter()
         .map(|room| crate::models::Room {
@@ -83,9 +83,9 @@ fn store_in_db(conn: &mut PgConnection, rooms_to_store: &[Room], start_time: &Na
             last_scrape: *start_time,
         })
         .for_each(|room| {
-            let res = diesel::insert_into(rooms)
+            let res = diesel::insert_into(dsl::rooms)
                 .values(&room)
-                .on_conflict(key)
+                .on_conflict(dsl::key)
                 .do_update()
                 .set(&room)
                 .execute(conn);
@@ -95,11 +95,11 @@ fn store_in_db(conn: &mut PgConnection, rooms_to_store: &[Room], start_time: &Na
         });
 }
 fn delete_stale_results(conn: &mut PgConnection, start_time: NaiveDateTime) {
-    info!("Deleting stale rooms from the database");
-    use crate::schema::rooms::dsl::*;
+    use crate::schema::rooms::dsl;
     use diesel::prelude::*;
-    diesel::delete(rooms)
-        .filter(last_scrape.lt(start_time))
+    info!("Deleting stale rooms from the database");
+    diesel::delete(dsl::rooms)
+        .filter(dsl::last_scrape.lt(start_time))
         .execute(conn)
         .expect("Failed to delete stale rooms");
 }

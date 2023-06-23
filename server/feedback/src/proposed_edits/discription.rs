@@ -11,7 +11,7 @@ impl Default for Description {
     fn default() -> Self {
         Self {
             title: "[empty commit]".to_string(),
-            body: Default::default(),
+            body: String::default(),
         }
     }
 }

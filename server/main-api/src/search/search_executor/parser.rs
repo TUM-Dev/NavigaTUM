@@ -39,7 +39,7 @@ impl ParsedQuery {
 
 impl From<&str> for ParsedQuery {
     fn from(query: &str) -> Self {
-        let mut result = ParsedQuery::default();
+        let mut result = Self::default();
         for token in Token::lexer(query) {
             match token {
                 Ok(Token::Text(s)) => {

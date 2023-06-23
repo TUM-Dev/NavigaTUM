@@ -11,24 +11,24 @@ use std::fs::File;
 use std::path::{Path, PathBuf};
 
 #[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq)]
-pub struct ImageSource {
+pub struct Source {
     author: String,
-    license: Prop,
-    source: Prop,
+    license: Property,
+    source: Property,
     #[serde(skip_serializing_if = "Option::is_none")]
-    offsets: Option<ImageOffsets>,
+    offsets: Option<Offsets>,
     #[serde(skip_serializing_if = "Option::is_none")]
     meta: Option<BTreeMap<String, String>>,
 }
 #[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq)]
-struct Prop {
+struct Property {
     text: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     url: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq)]
-pub struct ImageOffsets {
+pub struct Offsets {
     #[serde(skip_serializing_if = "Option::is_none")]
     header: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -37,14 +37,14 @@ pub struct ImageOffsets {
 #[derive(Debug, Deserialize, Clone, Eq, PartialEq)]
 pub struct Image {
     content: String,
-    metadata: ImageSource,
+    metadata: Source,
 }
 
 impl Image {
     fn apply_metadata_to(
         &self,
         key: &str,
-        image_sources: &mut BTreeMap<String, BTreeMap<u32, ImageSource>>,
+        image_sources: &mut BTreeMap<String, BTreeMap<u32, Source>>,
     ) {
         let metadata = self.metadata.clone();
         match image_sources.get_mut(key) {
@@ -60,7 +60,7 @@ impl Image {
     fn save_metadata(&self, key: &str, image_dir: &Path) -> Result<(), Box<dyn error::Error>> {
         let file = File::open(image_dir.join("img-sources.yaml"))?;
         let mut image_sources =
-            serde_yaml::from_reader::<_, BTreeMap<String, BTreeMap<u32, ImageSource>>>(file)?;
+            serde_yaml::from_reader::<_, BTreeMap<String, BTreeMap<u32, Source>>>(file)?;
         // add the desired change
         self.apply_metadata_to(key, &mut image_sources);
         // save to disk
@@ -103,7 +103,7 @@ impl Image {
 impl AppliableEdit for Image {
     fn apply(&self, key: &str, base_dir: &Path) -> String {
         let image_dir = base_dir.join("data").join("images");
-        let target = Image::image_should_be_saved_at(key, &image_dir);
+        let target = Self::image_should_be_saved_at(key, &image_dir);
 
         let content_result = self.save_content(&target);
         let metadata_result = self.save_metadata(key, &image_dir);
@@ -136,13 +136,13 @@ mod image_tests {
     fn test_image() -> Image {
         Image {
             content: "iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII=".to_string(),
-            metadata: ImageSource {
+            metadata: Source {
                 author: "String".to_string(),
-                license: Prop{
+                license: Property {
                     text: "String".to_string(),
                     url: None,
                 },
-                source: Prop{
+                source: Property {
                     text: "String".to_string(),
                     url: None,
                 },

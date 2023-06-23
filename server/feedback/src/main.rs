@@ -38,7 +38,7 @@ async fn main() -> std::io::Result<()> {
     // metrics
     let labels = HashMap::from([(
         "revision".to_string(),
-        std::env::var("GIT_COMMIT_SHA").unwrap_or("development".to_string()),
+        std::env::var("GIT_COMMIT_SHA").unwrap_or_else(|_| "development".to_string()),
     )]);
     let prometheus = PrometheusMetricsBuilder::new("navigatum_feedback")
         .endpoint("/metrics")

@@ -2,17 +2,15 @@ mod fetch_tile;
 mod overlay_map;
 mod overlay_text;
 
-use std::io::Cursor;
-
 use crate::maps::overlay_map::OverlayMapTask;
 use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
 use crate::models::DBRoomEntry;
 use actix_web::{get, web, HttpResponse};
-
 use cached::proc_macro::cached;
 use cached::SizedCache;
 use diesel::prelude::*;
 use image::Rgba;
+use std::io::Cursor;
 
 use log::{debug, error, warn};
 
@@ -34,12 +32,12 @@ fn get_localised_data(id: &str, should_use_english: bool) -> Result<DBRoomEntry,
 
     let result = match should_use_english {
         true => {
-            use crate::schema::en::dsl::*;
-            en.filter(key.eq(&id)).load::<DBRoomEntry>(conn)
+            use crate::schema::en::dsl;
+            dsl::en.filter(dsl::key.eq(&id)).load::<DBRoomEntry>(conn)
         }
         false => {
-            use crate::schema::de::dsl::*;
-            de.filter(key.eq(&id)).load::<DBRoomEntry>(conn)
+            use crate::schema::de::dsl;
+            dsl::de.filter(dsl::key.eq(&id)).load::<DBRoomEntry>(conn)
         }
     };
 
