@@ -110,21 +110,21 @@ impl EventType {
             .clone()
             .unwrap_or_else(|| "Course type is unknown".to_string());
         match xml_event.single_event_type_id.as_str() {
-            "SPERRE" => return (EventType::Barred, "".to_string()),
-            "PT" => return (EventType::Exam, "".to_string()),
-            "P" => return (EventType::Lecture, course_type_name), // Prüfung (geplant) is sometimes used for lectures
+            "SPERRE" => return (Self::Barred, "".to_string()),
+            "PT" => return (Self::Exam, "".to_string()),
+            "P" => return (Self::Lecture, course_type_name), // Prüfung (geplant) is sometimes used for lectures
             _ => {}
         }
         match xml_event.event_type_id.as_str() {
-            "LV" => (EventType::Lecture, course_type_name),
-            "PT" => (EventType::Exam, "".to_string()),
-            "EX" => (EventType::Exercise, "".to_string()),
+            "LV" => (Self::Lecture, course_type_name),
+            "PT" => (Self::Exam, "".to_string()),
+            "EX" => (Self::Exercise, "".to_string()),
             _ => match &xml_event.event_type_name {
                 Some(event_type_name) => (
-                    EventType::Other,
+                    Self::Other,
                     format!("{}: {}", xml_event.single_event_type_name, event_type_name),
                 ),
-                None => (EventType::Other, xml_event.single_event_type_name.clone()),
+                None => (Self::Other, xml_event.single_event_type_name.clone()),
             },
         }
     }

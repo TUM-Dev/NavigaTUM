@@ -135,7 +135,7 @@ fn extract_str(hm: &HashMap<String, String>, key: &str) -> Option<String> {
     hm.get(key).map(|s| s.trim().to_string())
 }
 
-pub(crate) struct XMLEvents {
+pub struct XMLEvents {
     events: Vec<XMLEvent>,
 }
 
@@ -169,7 +169,7 @@ impl XMLEvents {
                 }
             })
     }
-    fn new(room: Room, body: String) -> Option<Self> {
+    fn new(room: &Room, body: String) -> Option<Self> {
         let root = body.parse::<Element>();
         let root = match root {
             Ok(root) => root,
@@ -236,7 +236,7 @@ impl XMLEvents {
             let backoff_duration = Duration::from_millis(backoff_ms);
             match body {
                 RequestStatus::Success(body) => {
-                    return XMLEvents::new(task.room.clone(), body).ok_or(Strategy::NoRetry);
+                    return XMLEvents::new(&task.room, body).ok_or(Strategy::NoRetry);
                 }
                 // This consistently means, that there is no data for this room
                 RequestStatus::NotFound => return Err(Strategy::NoRetry),
