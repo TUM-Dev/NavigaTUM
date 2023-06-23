@@ -106,12 +106,12 @@ def extract_aliases() -> set[Alias]:
         data = json.load(file)
     aliases = set()
     for key, value in data.items():
+        visible_id = value.get("visible-id", key)
         if arch_name := value["arch_name"]:
-            aliases.add(Alias(arch_name, key, key, value["type"]))
-        if visible_id := value.get("visible-id", None):
-            aliases.add(Alias(visible_id, key, visible_id, value["type"]))
-        # making sure that id is also an alias. Otherwise, a join would be necessary
-        aliases.add(Alias(key, key, key, value["type"]))
+            aliases.add(Alias(arch_name, key, visible_id, value["type"]))
+        # making sure that ids are also an aliases. Otherwise, a join would be necessary
+        aliases.add(Alias(visible_id, key, visible_id, value["type"]))
+        aliases.add(Alias(key, key, visible_id, value["type"]))
     return aliases
 
 
