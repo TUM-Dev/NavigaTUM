@@ -2,10 +2,10 @@ name: Remove a Deployment
 
 on:
   pull_request:
-    types: [closed, edited]
+    types: [closed]
 jobs:
   deploy:
-    if: github.event.pull_request.action == 'closed' || github.event.changes.base.ref.from != 'refs/heads/main'
+    if: github.event.pull_request.action == 'closed'
     runs-on: ubuntu-latest
     permissions:
       contents: write
