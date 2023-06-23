@@ -23,7 +23,7 @@ We have a few API endpoints which require additional dependencies.
 As a general rule of thumb, if you probably want to **skip the tileserver**, but want to **do the SQLite Database** and **MeiliSearch** setup.
 The reason for this is, that the `preview` endpoint is the only endpoint, which requires the tileserver and said endpoint is a non-essential part of the project.
 
-#### How to Set up the Sqlite Database (needed for the `get`, `legacy_redirect` and `preview` endpoints)
+#### How to Set up the Sqlite Database (needed for the `get` and `preview` endpoints)
 
 ##### Getting the data
 

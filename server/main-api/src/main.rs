@@ -52,7 +52,6 @@ async fn main() -> std::io::Result<()> {
             .service(health_status_handler)
             .service(web::scope("/api/preview").configure(maps::configure))
             .service(entries::get::get_handler)
-            .service(entries::legacy_redirect::legacy_redirect_handler)
             .service(search::search_handler)
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?

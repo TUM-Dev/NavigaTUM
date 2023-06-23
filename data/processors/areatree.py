@@ -11,7 +11,7 @@ def read_areatree():
         for line in file:
             # Empty lines and comment lines are ignored
             line = line.split("#")[0]
-            if len(line.strip()) == 0:
+            if not line.strip():
                 continue
 
             indent = len(line) - len(line.lstrip(" "))
