@@ -2,7 +2,6 @@ use crate::search::search_executor::lexer::Token;
 use log::warn;
 use logos::Logos;
 use std::collections::HashSet;
-use std::ops::Index;
 
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct Filter {
@@ -24,45 +23,17 @@ pub struct ParsedQuery {
 }
 
 impl ParsedQuery {
-    #[deprecated(note = "workaround to keep the current postprocessing working")]
-    pub(crate) fn len(&self) -> usize {
-        self.tokens
-            .iter()
-            .map(|t| match t {
-                TextToken::Text(_) => 1,
-                TextToken::SplittableText(_) => 2,
-            })
-            .sum()
-    }
-}
-
-impl Index<usize> for ParsedQuery {
-    type Output = String;
-
-    fn index(&self, index: usize) -> &Self::Output {
-        assert!(index < self.len());
-        let mut current_index = 0;
-        for item in self.tokens.iter() {
-            match item {
-                TextToken::Text(t) => {
-                    if current_index == index {
-                        return t;
-                    }
-                    current_index += 1;
-                }
-                TextToken::SplittableText((t1, t2)) => {
-                    if current_index == index {
-                        return t1;
-                    }
-                    current_index += 1;
-                    if current_index == index {
-                        return t2;
-                    }
-                    current_index += 1;
-                }
-            }
+    pub(crate) fn relevant_enough_for_room_highligting(&self) -> bool {
+        if self.tokens.len() == 1 {
+            return true;
         }
-        panic!("index out of bounds")
+        match self.tokens.first() {
+            Some(first) => match first {
+                TextToken::Text(t) => t.len() > 3,
+                TextToken::SplittableText((t0, _)) => t0.len() > 3,
+            },
+            None => false,
+        }
     }
 }
 
