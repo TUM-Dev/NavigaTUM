@@ -1786,6 +1786,17 @@ components:
           description: The name of the entry in a human-readable form
           type: string
           example: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
+        aliases:
+          description: |
+            A list of alternative ids for this entry.  
+            
+            Not to be confused with
+            - `id` which is the unique identifier or
+            - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
+          type: array
+          items:
+            type: string
+            example: '26503@5406'
         parents:
           type: array
           items:

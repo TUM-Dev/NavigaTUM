@@ -613,6 +613,13 @@ export type components = {
        * @example 5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)
        */
       readonly name: string;
+      /**
+       * @description A list of alternative ids for this entry.
+       * Not to be confused with
+       * - `id` which is the unique identifier or
+       * - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
+       */
+      readonly aliases?: readonly string[];
       readonly parents: readonly string[];
       readonly parent_names: readonly [string, ...string[]];
       readonly props: components["schemas"]["Props"];
