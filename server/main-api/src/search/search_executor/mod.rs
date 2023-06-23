@@ -2,10 +2,11 @@ use super::SanitisedSearchQueryArgs;
 use cached::proc_macro::cached;
 use log::error;
 
+mod lexer;
+mod parser;
 mod postprocess;
-mod preprocess;
 mod query;
-use crate::search::search_executor::preprocess::SearchInput;
+use crate::search::search_executor::parser::ParsedQuery;
 use serde::Serialize;
 
 #[derive(Serialize, Debug, Clone)]
@@ -37,7 +38,7 @@ pub async fn do_geoentry_search(
     highlighting: (String, String),
     args: SanitisedSearchQueryArgs,
 ) -> Vec<SearchResultsSection> {
-    let parsed_input = SearchInput::from(q.as_str());
+    let parsed_input = ParsedQuery::from(q.as_str());
 
     match query::GeoEntryQuery::from(&parsed_input, &args, &highlighting)
         .execute()
@@ -45,7 +46,7 @@ pub async fn do_geoentry_search(
     {
         Ok(response) => postprocess::merge_search_results(
             &args,
-            &parsed_input.tokens,
+            &parsed_input,
             response.results.get(0).unwrap(),
             response.results.get(1).unwrap(),
             response.results.get(2).unwrap(),
