@@ -34,7 +34,7 @@ diesel = { version = "2.1.0", features = ["default", "sqlite"] }
 libsqlite3-sys = { version = "*", features = ["bundled"] }
 
 # search
-meilisearch-sdk = "0.24.0"
+meilisearch-sdk = "0.24.1"
 logos="0.13.0"
 
 # maps
