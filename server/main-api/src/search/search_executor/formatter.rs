@@ -9,7 +9,7 @@ pub(super) struct RoomVisitor {
 }
 
 impl RoomVisitor {
-    pub(super) fn from(parsed_input: ParsedQuery, highlighting: (String, String)) -> Self {
+    pub(super) const fn from(parsed_input: ParsedQuery, highlighting: (String, String)) -> Self {
         Self {
             parsed_input,
             highlighting,
@@ -17,7 +17,7 @@ impl RoomVisitor {
     }
     pub(super) fn visit(&self, item: &mut ResultEntry) {
         item.parsed_id = self.parse_room_formats(&item.hit);
-        item.subtext = self.generate_subtext(&item.hit);
+        item.subtext = Self::generate_subtext(&item.hit);
     }
     // Parse the search against some known room formats and improve the
     // results display in this case. Room formats are hardcoded for now.
@@ -67,7 +67,7 @@ impl RoomVisitor {
                     return None;
                 }
 
-                let (prefix, parsed_arch_id) = self.split_prefix_from_arch_building_id(&hit, text);
+                let (prefix, parsed_arch_id) = Self::split_prefix_from_arch_building_id(hit, text);
                 let parsed_aid = unicode_split_at(&parsed_arch_id, text.chars().count());
                 Some(format!(
                     "{}{}{}{}{}",
@@ -85,8 +85,7 @@ impl RoomVisitor {
     /// Exclude the part after the "@" if it's not in the query and use the
     /// building name instead, because this is probably more helpful
     fn split_prefix_from_arch_building_id<'a>(
-        &self,
-        hit: &&MSHit,
+        hit: &MSHit,
         first_token: &str,
     ) -> (Option<&'a str>, String) {
         if first_token.contains('@') {
@@ -125,9 +124,9 @@ impl RoomVisitor {
         }
     }
 
-    fn generate_subtext(&self, hit: &MSHit) -> String {
+    fn generate_subtext(hit: &MSHit) -> String {
         let building = match hit.parent_building_names.len() {
-            0 => String::from(""),
+            0 => String::new(),
             _ => hit.parent_building_names[0].clone(),
         };
 

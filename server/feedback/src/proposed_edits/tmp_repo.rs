@@ -1,11 +1,11 @@
 use crate::proposed_edits::EditRequest;
 use log::{debug, info};
-use std::{error, io};
+use std::error;
 use tokio::process::Command;
 
 use crate::proposed_edits::discription::Description;
 
-pub(crate) struct TempRepo {
+pub struct TempRepo {
     dir: tempfile::TempDir,
     branch_name: String,
 }
@@ -48,7 +48,7 @@ impl TempRepo {
         }
     }
 
-    pub fn apply_and_gen_description(&self, edits: &EditRequest) -> Result<Description, io::Error> {
+    pub fn apply_and_gen_description(&self, edits: &EditRequest) -> Description {
         let mut description = Description::default();
         description.add_context(&edits.additional_context);
 
@@ -57,7 +57,7 @@ impl TempRepo {
         let image_edits = edits.edits_for(|edit| edit.image);
         description.appply_set("image", image_edits, self.dir.path());
 
-        Ok(description)
+        description
     }
 
     pub async fn commit(&self, title: &str) -> Result<(), Box<dyn error::Error>> {

@@ -20,13 +20,13 @@ enum RequestStatus {
 }
 
 async fn request_body(url: String) -> RequestStatus {
-    let req = reqwest::get(&url).await;
-    let body = match req {
-        Ok(res) => match res.status().as_u16() {
-            200 => res.text().await,
+    let request = reqwest::get(&url).await;
+    let body = match request {
+        Ok(response) => match response.status().as_u16() {
+            200 => response.text().await,
             404 => return RequestStatus::NotFound,
             _ => {
-                error!("Error sending request (invalid status code): {res:?}");
+                error!("Error sending request (invalid status code): {response:?}");
                 return RequestStatus::Error;
             }
         },
@@ -62,8 +62,8 @@ fn construct_hm(elem: &Element) -> HashMap<String, String> {
     hm
 }
 
-fn xml_event_from_hm(key: String, hm: HashMap<String, String>) -> XMLEvent {
-    let other_keys = hm
+fn xml_event_from_hm(key: String, xml_hm: &HashMap<String, String>) -> XMLEvent {
+    let other_keys = xml_hm
         .keys()
         .filter(|s| {
             !matches!(
@@ -98,25 +98,26 @@ fn xml_event_from_hm(key: String, hm: HashMap<String, String>) -> XMLEvent {
     }
     XMLEvent {
         key,
-        dtstart: extract_dt(&hm, "dtstart").unwrap(),
-        dtend: extract_dt(&hm, "dtend").unwrap(),
-        dtstamp: extract_dt(&hm, "dtstamp").unwrap(),
-        event_id: extract_i32(&hm, "eventID").unwrap(),
-        event_title: extract_str(&hm, "eventTitle").unwrap_or("Title not available".to_string()), // some deleted entries are broken in this sens
-        single_event_id: extract_i32(&hm, "singleEventID").unwrap(),
-        single_event_type_id: extract_str(&hm, "singleEventTypeID").unwrap(),
-        single_event_type_name: extract_str(&hm, "singleEventTypeName").unwrap(),
-        event_type_id: extract_str(&hm, "eventTypeID").unwrap(),
-        event_type_name: extract_str(&hm, "eventTypeName"),
-        course_type_name: extract_str(&hm, "courseTypeName"),
-        course_type: extract_str(&hm, "courseType"),
-        course_code: extract_str(&hm, "courseCode"),
-        course_semester_hours: extract_i32(&hm, "courseSemesterHours"),
-        group_id: extract_str(&hm, "groupID"),
-        xgroup: extract_str(&hm, "group"),
-        status_id: extract_str(&hm, "statusID").unwrap(),
-        status: extract_str(&hm, "status").unwrap(),
-        comment: extract_str(&hm, "comment").unwrap_or_default(),
+        dtstart: extract_dt(xml_hm, "dtstart").unwrap(),
+        dtend: extract_dt(xml_hm, "dtend").unwrap(),
+        dtstamp: extract_dt(xml_hm, "dtstamp").unwrap(),
+        event_id: extract_i32(xml_hm, "eventID").unwrap(),
+        event_title: extract_str(xml_hm, "eventTitle")
+            .unwrap_or_else(|| "Title not available".to_string()), // some deleted entries are broken in this sens
+        single_event_id: extract_i32(xml_hm, "singleEventID").unwrap(),
+        single_event_type_id: extract_str(xml_hm, "singleEventTypeID").unwrap(),
+        single_event_type_name: extract_str(xml_hm, "singleEventTypeName").unwrap(),
+        event_type_id: extract_str(xml_hm, "eventTypeID").unwrap(),
+        event_type_name: extract_str(xml_hm, "eventTypeName"),
+        course_type_name: extract_str(xml_hm, "courseTypeName"),
+        course_type: extract_str(xml_hm, "courseType"),
+        course_code: extract_str(xml_hm, "courseCode"),
+        course_semester_hours: extract_i32(xml_hm, "courseSemesterHours"),
+        group_id: extract_str(xml_hm, "groupID"),
+        xgroup: extract_str(xml_hm, "group"),
+        status_id: extract_str(xml_hm, "statusID").unwrap(),
+        status: extract_str(xml_hm, "status").unwrap(),
+        comment: extract_str(xml_hm, "comment").unwrap_or_default(),
         last_scrape: Utc::now().naive_utc(),
     }
 }
@@ -150,13 +151,13 @@ impl XMLEvents {
     }
     pub(crate) fn store_in_db(self) -> bool {
         let conn = &mut utils::establish_connection();
-        use schema::calendar::dsl::*;
+        use schema::calendar::dsl;
         self.events
             .iter()
             .map(|event| {
-                diesel::insert_into(calendar)
+                diesel::insert_into(dsl::calendar)
                     .values(event)
-                    .on_conflict(single_event_id)
+                    .on_conflict(dsl::single_event_id)
                     .do_update()
                     .set(event)
                     .execute(conn)
@@ -169,9 +170,8 @@ impl XMLEvents {
                 }
             })
     }
-    fn new(room: &Room, body: String) -> Option<Self> {
-        let root = body.parse::<Element>();
-        let root = match root {
+    fn new(requested_room: &Room, body: &str) -> Option<Self> {
+        let root = match body.parse::<Element>() {
             Ok(root) => root,
             Err(e) => {
                 error!("Error parsing body to xml: {e:?} body={body:?}");
@@ -202,7 +202,7 @@ impl XMLEvents {
                 _ => false,
             };
             if valid_status {
-                events.push(xml_event_from_hm(room.sap_id.clone(), hm));
+                events.push(xml_event_from_hm(requested_room.sap_id.clone(), &hm));
             }
         }
         Some(XMLEvents { events })
@@ -236,7 +236,7 @@ impl XMLEvents {
             let backoff_duration = Duration::from_millis(backoff_ms);
             match body {
                 RequestStatus::Success(body) => {
-                    return XMLEvents::new(&task.room, body).ok_or(Strategy::NoRetry);
+                    return XMLEvents::new(&task.room, &body).ok_or(Strategy::NoRetry);
                 }
                 // This consistently means, that there is no data for this room
                 RequestStatus::NotFound => return Err(Strategy::NoRetry),

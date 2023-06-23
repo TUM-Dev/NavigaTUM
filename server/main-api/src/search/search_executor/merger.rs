@@ -46,7 +46,8 @@ pub(super) fn merge_search_results(
             if section_rooms.entries.len() + current_buildings_cnt >= args.limit_all {
                 break;
             }
-            let formatted_name = extract_formatted_name(hit).unwrap_or(hit.result.name.clone());
+            let formatted_name =
+                extract_formatted_name(hit).unwrap_or_else(|| hit.result.name.clone());
 
             let hit = hit.result.clone();
             match hit.r#type.as_str() {

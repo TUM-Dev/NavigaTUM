@@ -1,4 +1,5 @@
 use crate::models::XMLEvent;
+use crate::schema::rooms::dsl;
 use crate::utils;
 use actix_web::{get, web, HttpResponse};
 use chrono::NaiveDateTime;
@@ -8,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 
 #[derive(Deserialize, Debug)]
-pub struct CalendarQueryArgs {
+pub struct QueryArguments {
     start: NaiveDateTime, // eg. 2022-01-01T00:00:00
     end: NaiveDateTime,   // eg. 2022-01-07T00:00:00
 }
@@ -17,9 +18,8 @@ fn get_room_information(
     requested_key: &str,
     conn: &mut PgConnection,
 ) -> QueryResult<(String, NaiveDateTime)> {
-    use crate::schema::rooms::dsl::*;
-    let room = rooms
-        .filter(key.eq(requested_key))
+    let room = dsl::rooms
+        .filter(dsl::key.eq(requested_key))
         .first::<crate::models::Room>(conn)?;
     let calendar_url = format!(
         "https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={id}",
@@ -30,26 +30,26 @@ fn get_room_information(
 
 fn get_entries(
     requested_key: &str,
-    args: CalendarQueryArgs,
+    args: &QueryArguments,
     conn: &mut PgConnection,
 ) -> QueryResult<Vec<XMLEvent>> {
-    use crate::schema::calendar::dsl::*;
-    calendar
-        .filter(key.eq(&requested_key))
-        .filter(dtstart.ge(&args.start))
-        .filter(dtend.le(&args.end))
-        .order(dtstart)
+    use crate::schema::calendar::dsl;
+    dsl::calendar
+        .filter(dsl::key.eq(&requested_key))
+        .filter(dsl::dtstart.ge(&args.start))
+        .filter(dsl::dtend.le(&args.end))
+        .order(dsl::dtstart)
         .load::<XMLEvent>(conn)
 }
 
 #[get("/api/calendar/{id}")]
 pub async fn calendar_handler(
     params: web::Path<String>,
-    web::Query(args): web::Query<CalendarQueryArgs>,
+    web::Query(args): web::Query<QueryArguments>,
 ) -> HttpResponse {
     let id = params.into_inner();
     let conn = &mut utils::establish_connection();
-    let results = get_entries(&id, args, conn);
+    let results = get_entries(&id, &args, conn);
     let room_information = get_room_information(&id, conn);
     match (results, room_information) {
         (Ok(results), Ok((calendar_url, last_room_sync))) => {
@@ -110,15 +110,15 @@ impl EventType {
             .clone()
             .unwrap_or_else(|| "Course type is unknown".to_string());
         match xml_event.single_event_type_id.as_str() {
-            "SPERRE" => return (Self::Barred, "".to_string()),
-            "PT" => return (Self::Exam, "".to_string()),
+            "SPERRE" => return (Self::Barred, String::new()),
+            "PT" => return (Self::Exam, String::new()),
             "P" => return (Self::Lecture, course_type_name), // Prüfung (geplant) is sometimes used for lectures
             _ => {}
         }
         match xml_event.event_type_id.as_str() {
             "LV" => (Self::Lecture, course_type_name),
-            "PT" => (Self::Exam, "".to_string()),
-            "EX" => (Self::Exercise, "".to_string()),
+            "PT" => (Self::Exam, String::new()),
+            "EX" => (Self::Exercise, String::new()),
             _ => match &xml_event.event_type_name {
                 Some(event_type_name) => (
                     Self::Other,

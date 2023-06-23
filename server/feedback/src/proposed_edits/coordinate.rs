@@ -8,7 +8,7 @@ struct CoordinateFile {
 }
 
 impl CoordinateFile {
-    fn from(path: PathBuf) -> Self {
+    const fn from(path: PathBuf) -> Self {
         Self { path }
     }
     fn matches(&self) -> Range<u32> {
@@ -28,7 +28,7 @@ impl CoordinateFile {
             0 => 0..99999,
             1 => range[0]..range[0],
             2 => range[0]..range[1],
-            _ => panic!("Invalid range: {:?}", range),
+            _ => panic!("Invalid range: {range:?}"),
         }
     }
 }
@@ -59,7 +59,7 @@ pub struct Coordinate {
 }
 
 impl Coordinate {
-    fn best_matching_file(&self, key: &str, base_dir: &Path) -> PathBuf {
+    fn best_matching_file(key: &str, base_dir: &Path) -> PathBuf {
         // we extract the building from the key, defaulting to 90000, as this is out of the range of all buildings
         let key = key.split('-').next().unwrap_or(key);
         let building = key.parse::<u32>().unwrap_or(90000);
@@ -82,7 +82,7 @@ impl Coordinate {
 }
 impl AppliableEdit for Coordinate {
     fn apply(&self, key: &str, base_dir: &Path) -> String {
-        let file = self.best_matching_file(key, base_dir);
+        let file = Self::best_matching_file(key, base_dir);
         let content = std::fs::read_to_string(file.clone()).unwrap();
         let mut lines = content.lines().collect::<Vec<&str>>();
         let pos_of_line_to_edit = lines
@@ -93,25 +93,24 @@ impl AppliableEdit for Coordinate {
             lat = self.lat,
             lon = self.lon,
         );
-        match pos_of_line_to_edit {
-            Some(pos) => {
-                if lines[pos].contains('#') {
-                    new_line += " #";
-                    new_line += lines[pos].split('#').last().unwrap();
-                }
-                lines[pos] = &new_line;
+
+        if let Some(pos) = pos_of_line_to_edit {
+            // persist comments
+            if lines[pos].contains('#') {
+                new_line += " #";
+                new_line += lines[pos].split('#').last().unwrap();
             }
-            None => {
-                //we need to insert a new line at a fitting position
-                let pos_of_line_to_insert = lines
-                    .iter()
-                    .position(|l| {
-                        let key_at_pos = l.split("\":").next().unwrap().strip_prefix('"');
-                        key_at_pos > Some(key)
-                    })
-                    .unwrap_or(lines.len());
-                lines.insert(pos_of_line_to_insert, &new_line)
-            }
+            lines[pos] = &new_line;
+        } else {
+            //we need to insert a new line at a fitting position
+            let pos_of_line_to_insert = lines
+                .iter()
+                .position(|l| {
+                    let key_at_pos = l.split("\":").next().unwrap().strip_prefix('"');
+                    key_at_pos > Some(key)
+                })
+                .unwrap_or(lines.len());
+            lines.insert(pos_of_line_to_insert, &new_line);
         }
         let content = lines.join("\n").trim().to_string();
         std::fs::write(file.as_path(), content + "\n").unwrap();

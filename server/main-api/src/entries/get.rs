@@ -16,15 +16,17 @@ pub async fn get_handler(
     };
     let result = match args.should_use_english() {
         true => {
-            use crate::schema::en::dsl::*;
-            en.filter(key.eq(&probable_id))
-                .select(data)
+            use crate::schema::en::dsl;
+            dsl::en
+                .filter(dsl::key.eq(&id))
+                .select(dsl::data)
                 .load::<String>(conn)
         }
         false => {
-            use crate::schema::de::dsl::*;
-            de.filter(key.eq(&probable_id))
-                .select(data)
+            use crate::schema::de::dsl;
+            dsl::de
+                .filter(dsl::key.eq(&id))
+                .select(dsl::data)
                 .load::<String>(conn)
         }
     };

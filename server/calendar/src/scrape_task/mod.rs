@@ -93,17 +93,17 @@ impl ScrapeTask {
     }
 
     pub fn delete_stale_results(&self) {
-        use crate::schema::calendar::dsl::*;
+        use crate::schema::calendar::dsl;
         let start_time = Instant::now();
-        let scrapeinterval = (
+        let scrape_interval = (
             self.scraping_start - self.time_window / 2,
             self.scraping_start + self.time_window / 2,
         );
         let conn = &mut utils::establish_connection();
-        diesel::delete(calendar)
-            .filter(dtstart.gt(scrapeinterval.0.naive_local()))
-            .filter(dtend.le(scrapeinterval.1.naive_local()))
-            .filter(last_scrape.le(self.scraping_start.naive_local()))
+        diesel::delete(dsl::calendar)
+            .filter(dsl::dtstart.gt(scrape_interval.0.naive_local()))
+            .filter(dsl::dtend.le(scrape_interval.1.naive_local()))
+            .filter(dsl::last_scrape.le(self.scraping_start.naive_local()))
             .execute(conn)
             .expect("Failed to delete calendar");
 

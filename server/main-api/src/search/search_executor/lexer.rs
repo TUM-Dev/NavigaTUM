@@ -24,7 +24,10 @@ fn remove_prefix(lex: &mut Lexer<Token>, prefix: &'static str) -> String {
 
 /// Parses the query string into a list of tokens
 /// priority between tokens is set as follows
-/// Filters|QuotedText > SplittableText > Text > skip
+/// 1. Filters (`ParentFilter`,`UsageFilter`,`TypeFilter`) / quoted `Text`
+/// 2. `SplittableText`
+/// 3. `Text`
+/// 4. skip
 #[derive(Logos, Debug, PartialEq, Eq, Clone)]
 #[logos(skip r"[ \t\n\f]+")]
 pub enum Token {
@@ -63,16 +66,16 @@ mod tokenizer_tests {
     #[test]
     fn quoting() {
         let mut lexer = Token::lexer("\"");
-        assert_eq!(lexer.next(), Some(Ok(Token::Text("\"".to_string()))));
+        assert_eq!(lexer.next(), Some(Ok(Token::Text(String::new()))));
         assert_eq!(lexer.next(), None);
 
         let mut lexer = Token::lexer("\"\"");
-        assert_eq!(lexer.next(), Some(Ok(Token::Text("\"\"".to_string()))));
+        assert_eq!(lexer.next(), Some(Ok(Token::Text(String::new()))));
         assert_eq!(lexer.next(), None);
 
         let mut lexer = Token::lexer("\" \"\"");
         assert_eq!(lexer.next(), Some(Ok(Token::Text(" ".to_string()))));
-        assert_eq!(lexer.next(), Some(Ok(Token::Text("\"".to_string()))));
+        assert_eq!(lexer.next(), Some(Ok(Token::Text(String::new()))));
         assert_eq!(lexer.next(), None);
         for text in ["a", "a ", "a a ", " a a ", " @ = in: contains: type: a "] {
             let quoted_text = format!("\"{text}\"");

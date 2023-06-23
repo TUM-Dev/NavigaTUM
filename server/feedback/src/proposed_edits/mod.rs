@@ -38,7 +38,7 @@ impl EditRequest {
         branch_name: &str,
     ) -> Result<String, Box<dyn std::error::Error>> {
         let repo = TempRepo::clone_and_checkout(GIT_URL, branch_name).await?;
-        let desc = repo.apply_and_gen_description(self)?;
+        let desc = repo.apply_and_gen_description(self);
         repo.commit(&desc.title).await?;
         repo.push().await?;
         Ok(desc.body)
