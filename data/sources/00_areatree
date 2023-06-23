@@ -255,7 +255,7 @@
         4109:Campusoffice, SSW Studierenden Service Weihenstephan:
         4110:Brau- und Getränketechnologie:
         4111:Forschungsbrauerei Weihenstephan mit Nebengebäude:
-        4113:StudiTUM Weihenstephan|StudiTUM:
+        4113:StudiTUM Weihenstephan|StudiTUM:4113,studitum-wzw
         4114:ehemaliger Bauhof:
         4115:Familienservice:
         4116:Dr. Gudula Wernekke-Rastetter Kindervilla:
@@ -545,7 +545,7 @@
       5519:FTM Fahrzeughalle:
       5530:IGSSE, Exzellenzzentrum Garching, TUM.Family, Prüfungsamt:
     5531:Ingeborg Ortner-Kinderhaus:
-    5532:StudiTUM Garching|StudiTUM:
+    5532:StudiTUM Garching|StudiTUM:5532,studitum-garching
     560,561:Fakultät Mathematik & Informatik (FMI oder MI)|Mathe/Info (MI):mi[joined_building]
       5601:Magistrale / Foyer (BT01):
       5602:Hörsaal 1 (BT02):
@@ -592,11 +592,11 @@
     7896:Freisinger Landstraße 50 (Prandtl):
     7910:Oskar-von-Miller-Turm (Meteo-Mast):
   810,811:Garching Hochbrück:garching-hochbrueck[site]
-    8101:Business Campus Garching (BC1), Parkring 11-13|Business Campus 1:
-    8102:Business Campus Garching (BC2), Parkring 35-39|Business Campus 2:
+    8101:Business Campus Garching (BC1), Parkring 11-13|Business Campus 1:8101,bc1
+    8102:Business Campus Garching (BC2), Parkring 35-39|Business Campus 2:8102,bc2
     8104:Carl-Zeiss-Straße 8:
     8111:Schleißheimerstr. 90a:
-  9001:TUM Science & Study Center Raitenhaslach:
+  9001:TUM Science & Study Center Raitenhaslach:9001,raitenhaslach
   9101:Garmisch-Partenkirchen (A, Bahnhofstr. 37):
   9201:TUM FZ Friedrich N. Schwarz Berchtesgaden:
   93:Taufkirchen / Ottobrunn (Luftfahrt, Raumfahrt und Geodäsie)|Taufkirchen/Ottobr.:taufkirchen-ottobrunn[campus]

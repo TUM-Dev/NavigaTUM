@@ -26,22 +26,8 @@ const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 const route = useRoute();
 
 function loadData(data: DetailsResponse) {
-  // Redirect to the correct type if necessary. Technically the type information
-  // is not required, but it makes nicer URLs.
-  const urlTypeName =
-    {
-      campus: "campus",
-      site: "site",
-      area: "site", // Currently also "site", maybe "group"? TODO
-      building: "building",
-      joined_building: "building",
-      room: "room",
-      virtual_room: "room",
-      poi: "poi",
-    }[data.type] || "view";
-
-  if (route.params.view !== urlTypeName) {
-    router.replace({ path: `/${urlTypeName}/${route.params.id}` });
+  if (route.href !== data.redirect_url) {
+    router.replace({ path: data.redirect_url });
   }
   // --- Additional data ---
   setTitle(data.name);
