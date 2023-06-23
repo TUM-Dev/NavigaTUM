@@ -130,9 +130,9 @@ def save_aliases_to_database(aliase:set[Alias]):
     )
     with con:
         con.executemany(
-            "INSERT INTO aliases(alias,key,type)"
-            "VALUES (?,?,?)",
-            [(item.alias,item.key,item.type) for item in aliase],
+            "INSERT INTO aliases(alias,key,visible_id,type)"
+            "VALUES (?,?,?,?)",
+            [(item.alias,item.key,item.visible_id,item.type) for item in aliase],
         )
 
 if __name__ == "__main__":
