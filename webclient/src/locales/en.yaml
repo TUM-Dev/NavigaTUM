@@ -24,8 +24,8 @@ feedback:
     title: Select coordinate
   delete: Delete this GitHub issue when resolved.
   error:
-    '429': Sending feedback is currently not possible due to rate-limiting. Please try again in a while or send a mail.
-    '503': Sending feedback is currently not configured on the server.
+    too_many_requests: Sending feedback is currently not possible due to rate-limiting. Please try again in a while or send a mail.
+    feedback_not_configured: Sending feedback is currently not configured on the server.
     privacy_not_checked:
       other_contact_options: There are other means of contact listed at in our impressum.'
       please_accept_privcacy_statement: You have to accept the privacy statement for us to process the feedback via GitHub.
