@@ -81,7 +81,7 @@ Next, we need to add our index and configure search:
 curl -i -X POST 'http://localhost:7700/indexes' --header 'content-type: application/json' --data '{ "uid": "entries", "primaryKey": "ms_id" }'
 
 # Set filterable attributes
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --data '["facet"]'
+curl -X PUT 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --data '["facet", "parent_keywords", "parent_building_names", "campus", "type", "usage"]'
 
 # Upload entries data
 curl -i -X PUT 'http://localhost:7700/indexes/entries/documents' --header 'content-type: application/json' --data-binary @data/search_data.json

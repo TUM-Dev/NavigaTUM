@@ -1,4 +1,4 @@
-use crate::search::search_executor::parser::{ParsedQuery, TextToken};
+use crate::search::search_executor::parser::{Filter, ParsedQuery, TextToken};
 use crate::search::SanitisedSearchQueryArgs;
 use meilisearch_sdk::errors::Error;
 use meilisearch_sdk::indexes::Index;
@@ -23,10 +23,31 @@ pub(super) struct MSHit {
     rank: i32,
 }
 
+struct GeoEntryFilters {
+    default: String,
+    rooms: String,
+    buildings: String,
+}
+impl GeoEntryFilters {
+    fn from(filters: &Filter) -> Self {
+        let ms_filter = filters.as_meilisearch_filters();
+        let separator = match ms_filter.is_empty() {
+            true => "",
+            false => " AND ",
+        };
+        Self {
+            default: ms_filter.clone(),
+            buildings: format!("facet = \"building\"{separator}{ms_filter}"),
+            rooms: format!("facet = \"room\"{separator}{ms_filter}"),
+        }
+    }
+}
+
 pub(super) struct GeoEntryQuery {
     parsed_input: ParsedQuery,
     args: SanitisedSearchQueryArgs,
     highlighting: (String, String),
+    filters: GeoEntryFilters,
 }
 
 impl GeoEntryQuery {
@@ -39,6 +60,7 @@ impl GeoEntryQuery {
             parsed_input: parsed_input.clone(),
             args: *args,
             highlighting: highlighting.clone(),
+            filters: GeoEntryFilters::from(&parsed_input.filters),
         }
     }
     pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
@@ -87,38 +109,40 @@ impl GeoEntryQuery {
             .join(" ")
     }
 
-    fn merged_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a> {
+    fn common_query<'b: 'a, 'a>(&'b self, entries: &'a Index) -> SearchQuery<'a> {
         SearchQuery::new(entries)
             .with_facets(Selectors::Some(&["facet"]))
             .with_highlight_pre_tag(&self.highlighting.0)
             .with_highlight_post_tag(&self.highlighting.1)
             .with_attributes_to_highlight(Selectors::Some(&["name"]))
-            .with_query(query)
-            .with_limit(self.args.limit_all)
             .build()
     }
 
+    fn merged_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a> {
+        let mut s = self
+            .common_query(entries)
+            .with_query(query)
+            .with_limit(self.args.limit_all)
+            .build();
+        if !self.filters.default.is_empty() {
+            s.with_filter(&self.filters.default).build();
+        }
+        s
+    }
+
     fn buildings_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a> {
-        SearchQuery::new(entries)
-            .with_facets(Selectors::Some(&["facet"]))
-            .with_highlight_pre_tag(&self.highlighting.0)
-            .with_highlight_post_tag(&self.highlighting.1)
-            .with_attributes_to_highlight(Selectors::Some(&["name"]))
+        self.common_query(entries)
             .with_query(query)
             .with_limit(2 * self.args.limit_buildings) // we might do reordering later
-            .with_filter("facet = \"building\"")
+            .with_filter(&self.filters.buildings)
             .build()
     }
 
     fn rooms_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a> {
-        SearchQuery::new(entries)
-            .with_facets(Selectors::Some(&["facet"]))
-            .with_highlight_pre_tag(&self.highlighting.0)
-            .with_highlight_post_tag(&self.highlighting.1)
-            .with_attributes_to_highlight(Selectors::Some(&["name"]))
+        self.common_query(entries)
             .with_query(query)
             .with_limit(self.args.limit_rooms)
-            .with_filter("facet = \"room\"")
+            .with_filter(&self.filters.rooms)
             .build()
     }
 }
