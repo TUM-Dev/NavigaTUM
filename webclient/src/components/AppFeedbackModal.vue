@@ -109,11 +109,6 @@ function sendForm() {
         <div class="content">
           <div id="feedback-error">{{ error.message }}</div>
           <div class="form-group">
-            <div id="feedback-coordinate-picker-helptext" class="d-none toast toast-primary">
-              {{ $t("feedback.coordinatepicker.helptext.enter_serveral") }}<br />
-              {{ $t("feedback.coordinatepicker.helptext.saved_for_12h") }}<br />
-              {{ $t("feedback.coordinatepicker.helptext.limitation_to_coordinates") }}
-            </div>
             <label class="form-label" for="feedback-subject"> {{ $t("feedback.subject") }}</label>
             <div class="input-group">
               <select
@@ -139,18 +134,9 @@ function sendForm() {
           </div>
 
           <div class="form-group">
-            <div>
-              <label class="form-label" for="feedback-body">
-                {{ $t("feedback.message") }}
-              </label>
-              <button
-                id="feedback-coordinate-picker"
-                v-if="global.feedback.category === 'entry'"
-                class="btn btn-sm btn-link"
-              >
-                {{ $t("feedback.coordinatepicker.title") }}
-              </button>
-            </div>
+            <label class="form-label" for="feedback-body">
+              {{ $t("feedback.message") }}
+            </label>
             <textarea
               class="form-input"
               id="feedback-body"
@@ -171,13 +157,6 @@ function sendForm() {
                 }[global.feedback.category]
               }}
             </p>
-          </div>
-
-          <!-- only visible if called through a view, because then the context of the calling building is availible -->
-          <div>
-            <button id="feedback-coordinate-picker" class="btn btn-sm d-none">
-              {{ $t("feedback.coordinatepicker.title") }}
-            </button>
           </div>
 
           <div class="form-group">
@@ -304,15 +283,6 @@ function sendForm() {
 
   #feedback-body {
     min-width: 100%;
-  }
-
-  #feedback-coordinate-picker {
-    float: right;
-    margin-top: 0.5em;
-  }
-
-  #feedback-coordinate-picker-helptext {
-    font-size: 14px;
   }
 }
 </style>

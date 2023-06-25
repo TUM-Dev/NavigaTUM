@@ -11,17 +11,6 @@ core_js:
 feedback:
   cancel: Cancel
   category: Feedback category
-  coordinatepicker:
-    add_coordinate: 'Hello, I would like to add this coordinate to the roomfinder:'
-    correct_coordinate: 'Hello, I would like to correct this coordinate in the roomfinder:'
-    edit_coordinate_subject: Edit coordinate
-    edit_coordinates_subject: Edit coordinates
-    edit_multiple_coordinates: 'Hello, I would like to edit these coordinates in the roomfinder:'
-    helptext:
-      enter_serveral: If you want to correct several coordinates at the same time, you can close this window and edit more coordinates.
-      limitation_to_coordinates: Warning, that's only valid for coordinates!
-      saved_for_12h: We will save your changes locally for 12 hours.
-    title: Select coordinate
   delete: Delete this GitHub issue when resolved.
   error:
     too_many_requests: Sending feedback is currently not possible due to rate-limiting. Please try again in a while or send a mail.
@@ -184,20 +173,7 @@ view_view:
   meta:
     details_for: Details for
   msg:
-    coordinate-counter:
-      delete: Delete
-      delete-confirm: Really delete?
-      info: Changes are stored \n locally for 12 h
-      msg-1: Currently
-      msg-2: pending coordinate edit|pending coordinate edits
-      send: Send
-    correct_location:
-      btn-cancel: Cancel
-      btn-done: Done
-      msg: To set the location, drag the red Marker around.
     inaccurate_only_building:
-      btn: Assign a coordinate
-      help_others_and: If you find it out, you can help others and
       primary_msg: The displayed position only shows the position of the building(part). The exact position within the building is not known to us.
     no_floor_overlay: There is unfortunately no indoor map for the displayed room.
   roomfinder_modal:
