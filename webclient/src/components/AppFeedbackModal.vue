@@ -8,7 +8,7 @@ const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 const global = useGlobalStore();
 const loading = ref(false);
 const successUrl = ref("");
-const { error, token } = useFeedbackToken();
+const { error, token } = useFeedbackToken(t);
 
 const privacyChecked = ref(false);
 const deleteIssueRequested = ref(false);

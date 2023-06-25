@@ -5,15 +5,13 @@ import { useI18n } from "vue-i18n";
 
 type TokenResponse = components["schemas"]["TokenResponse"];
 
-const { t } = useI18n({ inheritLocale: true, useScope: "global" });
-
 enum TokenStatus {
   SUCCESSFULLY_CREATED = 201,
   TOO_MANY_REQUESTS = 429,
   NOT_CONFIGURED = 503,
 }
 
-export function useFeedbackToken(): {
+export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
   error: { message: string; blockSend: boolean };
   token: { value: TokenResponse | null };
 } {

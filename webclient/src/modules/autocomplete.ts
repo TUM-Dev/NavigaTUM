@@ -2,7 +2,6 @@ import type { components } from "@/api_types";
 import type { useI18n } from "vue-i18n";
 type SearchResponse = components["schemas"]["SearchResponse"];
 type RoomEntry = components["schemas"]["RoomEntry"];
-type translation = ReturnType<typeof useI18n>["t"];
 type SitesBuildingsEntry = components["schemas"]["SitesBuildingsEntry"];
 function _allowHighlighting(text: string): string {
   /// This function does still parse content only from our internal API (which should not try to pawn us in the
@@ -36,7 +35,7 @@ type EntryFacet = {
   parsed_id: string | null;
 };
 
-export function extractFacets(data: SearchResponse, t: translation) {
+export function extractFacets(data: SearchResponse, t: ReturnType<typeof useI18n>["t"]) {
   const sections: SectionFacet[] = [];
 
   data.sections.forEach((section) => {
