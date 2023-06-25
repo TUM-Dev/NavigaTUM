@@ -12,6 +12,7 @@ def _great_circle(lon1, lat1, lon2, lat2):
         acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(lon1 - lon2))
     )
 
+
 def _lat_bin_search(position,lst:list[dict])->list[dict]:
   """returns a sublist of stations that are within MAXDISTANCE, assumes the every point has the same lon value."""
   lower,upper=0,len(lst)
@@ -24,6 +25,7 @@ def _lat_bin_search(position,lst:list[dict])->list[dict]:
     current=lower+math.ceil((upper-lower)/2)
   interval= _get_lat_interval(position,lst,current)
   return lst[interval[0]:interval[1]+1]
+
   
 def _get_lat_interval(position:tuple, lst:list[dict], point_in_interval:int)->tuple[int,int]: #TODO invalid values
   upperbound=lowerbound=point_in_interval
@@ -46,9 +48,9 @@ def nearby(building_coords:tuple, stations: list[dict]) -> list[tuple[float,dict
       results.append((distance,station))
   return sorted(results,key=lambda x: x[0])
 
+
 if __name__=="__main__":
     import json
     with open("public_transport.json") as file:
         stations=json.load(file)
         print(nearby((48.1488320687913,11.4606435143223),stations))
-
