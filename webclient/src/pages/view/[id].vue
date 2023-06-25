@@ -83,8 +83,6 @@ const feedbackButton = ref<InstanceType<typeof DetailsFeedbackButton> | null>(nu
 const interactiveMap = ref<InstanceType<typeof DetailsInteractiveMap> | null>(null);
 const roomfinderMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>(null);
 onMounted(() => {
-  if (navigator.userAgent === "Rendertron") return;
-
   window.addEventListener("resize", () => {
     if (state.map.selected === selectedMap.roomfinder) {
       roomfinderMap.value?.loadRoomfinderMap(state.map.roomfinder.selected_index);
@@ -108,7 +106,7 @@ onMounted(() => {
       }
     }
 
-    if (navigator.userAgent !== "Rendertron") pollMap();
+    pollMap();
   });
 });
 </script>
