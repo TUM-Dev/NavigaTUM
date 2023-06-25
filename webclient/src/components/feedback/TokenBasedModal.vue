@@ -5,14 +5,15 @@ import { Translation, useI18n } from "vue-i18n";
 import { useFeedbackToken } from "@/composables/feedbackToken";
 const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 
+const props = defineProps<{
+  data: { [index: string]: string };
+}>();
 const global = useGlobalStore();
 const loading = ref(false);
 const successUrl = ref("");
 const { error, token } = useFeedbackToken(t);
 
 const privacyChecked = ref(false);
-const deleteIssueRequested = ref(false);
-
 function _showError(msg: string, blockSend = false) {
   error.message = msg;
   error.blockSend = blockSend;
@@ -25,20 +26,10 @@ function closeForm() {
   error.message = "";
   document.body.classList.remove("no-scroll");
 }
-
-function mayCloseForm() {
-  if (global.feedback.body.length === 0) closeForm();
-}
-
 function _send() {
-  const data = {
-    token: token.value?.token,
-    category: global.feedback.category,
-    subject: global.feedback.subject,
-    body: global.feedback.body,
-    privacy_checked: privacyChecked.value,
-    deletion_requested: deleteIssueRequested.value,
-  };
+  const data = structuredClone(props.data);
+  data.privacy_checked = privacyChecked.value;
+  data.token = token.value?.token;
   fetch(`/api/feedback/feedback`, {
     method: "POST",
     headers: {
@@ -99,7 +90,7 @@ function sendForm() {
 
 <template>
   <div class="modal active" data-cy="feedback-modal" v-if="!successUrl">
-    <a class="modal-overlay" :aria-label="$t('close')" @click="mayCloseForm" />
+    <a class="modal-overlay" :aria-label="$t('close')" @click="closeForm" />
     <div class="modal-container">
       <div class="modal-header">
         <button class="btn btn-clear float-right" :aria-label="$t('close')" @click="closeForm" />
@@ -107,57 +98,9 @@ function sendForm() {
       </div>
       <div class="modal-body">
         <div class="content">
-          <div id="feedback-error">{{ error.message }}</div>
-          <div class="form-group">
-            <label class="form-label" for="feedback-subject"> {{ $t("feedback.subject") }}</label>
-            <div class="input-group">
-              <select
-                class="form-select"
-                id="feedback-category"
-                :aria-label="$t('feedback.category')"
-                v-model="global.feedback.category"
-              >
-                <option value="general">{{ $t("feedback.type.general") }}</option>
-                <option value="bug">{{ $t("feedback.type.bug") }}</option>
-                <option value="features">{{ $t("feedback.type.features") }}</option>
-                <option value="search">{{ $t("feedback.type.search") }}</option>
-                <option value="entry">{{ $t("feedback.type.entry") }}</option>
-              </select>
-              <input
-                class="form-input"
-                type="text"
-                :placeholder="$t('feedback.subject')"
-                v-model="global.feedback.subject"
-                id="feedback-subject"
-              />
-            </div>
-          </div>
+          <div class="text-error">{{ error.message }}</div>
 
-          <div class="form-group">
-            <label class="form-label" for="feedback-body">
-              {{ $t("feedback.message") }}
-            </label>
-            <textarea
-              class="form-input"
-              id="feedback-body"
-              :placeholder="$t('feedback.message')"
-              v-model="global.feedback.body"
-              rows="6"
-            >
-            </textarea>
-            <p class="text-gray text-tiny">
-              {{
-                {
-                  general: t("feedback.helptext.general"),
-                  bug: t("feedback.helptext.bug"),
-                  feature: t("feedback.helptext.features"),
-                  search: t("feedback.helptext.search"),
-                  entry: t("feedback.helptext.entry"),
-                  other: t("feedback.helptext.other"), // This is only here to make the linter happy, backend uses "other" as a fallback if the category is not known
-                }[global.feedback.category]
-              }}
-            </p>
-          </div>
+          <slot name="modal" />
 
           <div class="form-group">
             <label class="form-checkbox">
@@ -200,10 +143,6 @@ function sendForm() {
                 </template>
               </Translation>
             </label>
-            <label class="form-checkbox" id="feedback-delete-label">
-              <input type="checkbox" id="feedback-delete" v-model="deleteIssueRequested" />
-              <i class="form-icon" /> {{ $t("feedback.delete") }}
-            </label>
           </div>
 
           <div class="float-right">
@@ -233,11 +172,8 @@ function sendForm() {
       </div>
       <div class="modal-body">
         <div class="content">
-          <p>{{ $t("feedback.success.thank_you") }}</p>
-          <p>
-            {{ $t("feedback.success.response_at") }}
-            <a id="feedback-success-url" class="btn-link" :href="successUrl">{{ $t("feedback.success.this_issue") }}</a>
-          </p>
+          <slot name="success" :successUrl="successUrl" />
+
           <div class="buttons">
             <button class="btn btn-primary" @click="closeForm">
               {{ $t("feedback.success.ok") }}
@@ -260,29 +196,8 @@ function sendForm() {
     box-shadow: $feedback-box-shadow;
   }
 
-  label {
-    width: fit-content;
-    display: inline-block;
-  }
-
-  .btn {
-    margin: 0 0.1em;
-  }
-
   .modal-overlay {
     background: $feedback-overlay-bg;
-  }
-
-  #feedback-error {
-    color: $error-color;
-  }
-
-  .form-select {
-    flex: none;
-  }
-
-  #feedback-body {
-    min-width: 100%;
   }
 }
 </style>
