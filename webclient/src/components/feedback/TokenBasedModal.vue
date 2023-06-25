@@ -6,7 +6,7 @@ import { useFeedbackToken } from "@/composables/feedbackToken";
 const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 
 const props = defineProps<{
-  data: { [index: string]: string };
+  data: { [index: string]: string|boolean|number };
 }>();
 const global = useGlobalStore();
 const loading = ref(false);
@@ -26,6 +26,13 @@ function closeForm() {
   error.message = "";
   document.body.classList.remove("no-scroll");
 }
+
+enum SubmissionStatus {
+  SUCCESSFULLY_CREATED = 201,
+  UNAVAILABLE_FOR_LEGAL_REASONS = 451,
+  SERVER_ERROR = 500,
+  FORBIDDEN = 403,
+}
 function _send() {
   const data = structuredClone(props.data);
   data.privacy_checked = privacyChecked.value;
@@ -39,18 +46,18 @@ function _send() {
   })
     .then((r) => {
       loading.value = false;
-      if (r.status === 201) {
+      if (r.status === SubmissionStatus.SUCCESSFULLY_CREATED) {
         localStorage.removeItem("feedback-coords");
         token.value = null;
         const e = new Event("storage");
         window.dispatchEvent(e);
         r.text().then((url) => (successUrl.value = url));
-      } else if (r.status === 500) {
+      } else if (r.status === SubmissionStatus.SERVER_ERROR) {
         const serverError = t("feedback.error.server_error");
         _showError(`${serverError} (${r.text()})`, false);
-      } else if (r.status === 451) {
+      } else if (r.status === SubmissionStatus.UNAVAILABLE_FOR_LEGAL_REASONS) {
         _showError(t("feedback.error.privacy_not_checked"), false);
-      } else if (r.status === 403) {
+      } else if (r.status === SubmissionStatus.FORBIDDEN) {
         token.value = null;
         const invalidTokenError = t("feedback.error.send_invalid_token");
         _showError(`${invalidTokenError} (${r.text()})`, false);
@@ -69,22 +76,32 @@ function _send() {
 }
 
 function sendForm() {
+  // validate the own form
   if (token.value === null) {
     _showError(t("feedback.error.send_no_token"), true);
-  } else if (global.feedback.subject.length < 3) {
-    _showError(t("feedback.error.too_short_subject"));
-  } else if (global.feedback.body.length < 10) {
-    _showError(t("feedback.error.too_short_body"));
-  } else if (!privacyChecked.value) {
-    _showError(t("feedback.error.privacy_not_checked"));
-  } else {
-    loading.value = true;
-    // Token may only be used after a short delay. In case that has not passed
-    // yet, we wait until for a short time.
-    if (Date.now() - token.value.created_at < 1000 * 10)
-      window.setTimeout(_send, 1000 * 10 - (Date.now() - token.value.created_at));
-    else _send();
+    return;
   }
+  if (!privacyChecked.value) {
+    _showError(t("feedback.error.privacy_not_checked"));
+    return;
+  }
+
+  // validate the foreign form
+  if (global.feedback.data.subject.length < 3) {
+    _showError(t("feedback.error.too_short_subject"));
+    return;
+  }
+  if (global.feedback.data.body.length < 10) {
+    _showError(t("feedback.error.too_short_body"));
+    return;
+  }
+
+  loading.value = true;
+  // Token may only be used after a short delay.
+  const MINIMUM_DELAY_MS = 10_000;
+  const timeSinceTokenCreationInMs = Date.now() - token.value.created_at;
+  if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS) window.setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
+  else _send();
 }
 </script>
 
