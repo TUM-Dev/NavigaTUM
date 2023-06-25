@@ -64,7 +64,6 @@ impl TempRepo {
         let out = Command::new("git")
             .current_dir(&self.dir)
             .arg("commit")
-            .arg("--allow-empty") // TODO: remove once the need for empty commits is gone (images+coodinates)
             .arg("--all") // run git add . before commit
             .arg("-m")
             .arg(title)
