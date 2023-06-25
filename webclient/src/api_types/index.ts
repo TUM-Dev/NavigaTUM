@@ -615,6 +615,7 @@ export type components = {
       readonly name: string;
       /**
        * @description A list of alternative ids for this entry.
+       *
        * Not to be confused with
        * - `id` which is the unique identifier or
        * - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
@@ -843,6 +844,16 @@ export type operations = {
         /**
          * @description string you want to search for.
          * Note, that the amounts returned can be controlled using the limit\* paramerters.
+         *
+         * The following query-filters are supported:
+         * - `in:<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
+         *   alternative syntax:
+         *   - `@<parent>`
+         * - `usage:<type>`: Only return entries of the given usage (e.g. `usage:wc` or `usage:büro`)
+         *    alternative syntax:
+         *    - `nutzung:<usage>`
+         *    - `=<usage>`
+         * - `type:<type>`: Only return entries of the given type (e.g. `type:building` or `type:room`)
          */
         q: string;
         /**

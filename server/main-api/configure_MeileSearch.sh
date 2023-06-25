@@ -24,7 +24,7 @@ echo
 echo
 echo "> Set filterable attributes"
 echo
-curl_with_args --request PUT 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --data '["facet"]'
+curl_with_args --request PUT 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --data '["facet", "parent_keywords", "parent_building_names", "campus", "type", "usage"]'
 
 echo
 echo "> Upload entries data:"
