@@ -226,7 +226,7 @@ function initMap(containerId: string) {
         fullscreenCtl._container.classList.add("maximize");
         fullscreenCtl._fullscreenButton.classList.add("maplibregl-ctrl-shrink");
         document.body.classList.add("no-scroll");
-        window.scrollTo({ top: 0, behavior: "instant" });
+        window.scrollTo({ top: 0, behavior: "auto" });
       }
 
       fullscreenCtl._fullscreen = fullscreenCtl._container.classList.contains("maximize");
