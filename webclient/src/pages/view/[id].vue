@@ -9,7 +9,6 @@ import DetailsFeedbackButton from "@/components/DetailsFeedbackButton.vue";
 import DetailsRoomfinderMap from "@/components/DetailsRoomfinderMap.vue";
 //import DetailsFeaturedOverviewSection from "@/components/DetailsFeaturedOverviewSection.vue";
 import { useI18n } from "vue-i18n";
-import { getLocalStorageWithExpiry, removeLocalStorage } from "@/composables/storage";
 import { setDescription, setTitle } from "@/composables/common";
 import { useClipboard } from "@vueuse/core";
 import { selectedMap, useDetailsStore } from "@/stores/details";
@@ -19,7 +18,6 @@ import { useRoute } from "vue-router";
 import router from "@/router";
 import type { components } from "@/api_types";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
-import type { Coord } from "@/stores/global";
 
 const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 
@@ -53,11 +51,6 @@ watchEffect(() => {
 const state = useDetailsStore();
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
-// Coordinate picker states
-const coord_counter = ref({
-  counter: null as number | null,
-  to_confirm_delete: false,
-});
 
 function genDescription(d: DetailsResponse) {
   const detailsFor = t("view_view.meta.details_for");
@@ -71,18 +64,6 @@ function genDescription(d: DetailsResponse) {
   return description;
 }
 // --- Loading components ---
-function deletePendingCoordinates() {
-  if (coord_counter.value.to_confirm_delete) {
-    removeLocalStorage("feedback-coords");
-    coord_counter.value.to_confirm_delete = false;
-    state.coord_picker.body_backup = null;
-    state.coord_picker.subject_backup = null;
-    state.coord_picker.backup_id = null;
-  } else {
-    coord_counter.value.to_confirm_delete = true;
-  }
-}
-
 function tryToLoadMap() {
   /**
    * Try to load the entry map (interactive or roomfinder). It requires the map container
@@ -104,19 +85,12 @@ const roomfinderMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>(null
 onMounted(() => {
   if (navigator.userAgent === "Rendertron") return;
 
-  // Update pending coordinate counter on localStorage changes
-  const updateCoordinateCounter = function () {
-    const coords = getLocalStorageWithExpiry<{ [index: string]: Coord }>("feedback-coords", {});
-    coord_counter.value.counter = Object.keys(coords).length;
-  };
-  window.addEventListener("storage", updateCoordinateCounter);
   window.addEventListener("resize", () => {
     if (state.map.selected === selectedMap.roomfinder) {
       roomfinderMap.value?.loadRoomfinderMap(state.map.roomfinder.selected_index);
       roomfinderMap.value?.loadRoomfinderModalMap();
     }
   });
-  updateCoordinateCounter();
 
   nextTick(() => {
     // Even though 'mounted' is called there is no guarantee apparently,
@@ -153,44 +127,6 @@ onMounted(() => {
         class="img-responsive"
       />
     </a>
-
-    <!-- Pending coordinates counter (if any) -->
-    <div class="panel coord-counter" v-if="coord_counter.counter">
-      <div class="panel-body columns">
-        <div class="column col col-sm-12 msg">
-          {{ $t("view_view.msg.coordinate-counter.msg-1") }}
-          <em>{{ coord_counter.counter }} </em>
-          <span>
-            {{ $t("view_view.msg.coordinate-counter.msg-2", coord_counter.counter) }}
-          </span>
-          <button
-            class="btn btn-action btn-sm btn-link tooltip tooltip-left"
-            :data-tooltip="$t('view_view.msg.coordinate-counter.info')"
-          >
-            &#x1f6c8;
-          </button>
-        </div>
-        <div class="column col-auto col-sm-12 btns">
-          <button
-            class="btn btn-link btn-sm delete"
-            :class="{ 'to-confirm': coord_counter.to_confirm_delete }"
-            @click="deletePendingCoordinates"
-          >
-            <i class="icon icon-cross" />
-            <span class="default">
-              {{ $t("view_view.msg.coordinate-counter.delete") }}
-            </span>
-            <span class="confirm">
-              {{ $t("view_view.msg.coordinate-counter.delete-confirm") }}
-            </span>
-          </button>
-          <button class="btn btn-primary btn-sm" @click="feedbackButton?.openFeedbackForm()">
-            <i class="icon icon-check" />
-            {{ $t("view_view.msg.coordinate-counter.send") }}
-          </button>
-        </div>
-      </div>
-    </div>
 
     <!-- Breadcrumbs -->
     <ol class="breadcrumb" vocab="https://schema.org/" typeof="BreadcrumbList">
@@ -292,15 +228,6 @@ onMounted(() => {
       <!-- Map container -->
       <div class="column col-7 col-md-12" id="map-container">
         <div class="show-sm">
-          <div class="toast toast-warning" v-if="state.data.coords.accuracy === 'building'">
-            {{ $t("view_view.msg.inaccurate_only_building.primary_msg") }}<br />
-            <i>
-              {{ $t("view_view.msg.inaccurate_only_building.help_others_and") }}
-              <button class="btn btn-sm" @click="addLocationPicker">
-                {{ $t("view_view.msg.inaccurate_only_building.btn") }}
-              </button>
-            </i>
-          </div>
           <div
             class="toast toast-warning"
             v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
@@ -312,10 +239,7 @@ onMounted(() => {
           </div>
         </div>
 
-        <DetailsInteractiveMap
-          ref="interactiveMap"
-          @open-feedback-form="(addLocationPicker) => feedbackButton?.openFeedbackForm(addLocationPicker)"
-        />
+        <DetailsInteractiveMap ref="interactiveMap" />
         <DetailsRoomfinderMap ref="roomfinderMap" />
         <div class="btn-group btn-group-block">
           <button
@@ -455,63 +379,6 @@ onMounted(() => {
 
     .divider {
       margin-bottom: 22px;
-    }
-  }
-
-  /* --- Pending coordinates counter --- */
-  .coord-counter {
-    margin: 8px 0;
-    box-shadow: $card-shadow;
-    border: 1px solid $card-border;
-    border-radius: 4px;
-    background: $card-highlighted-bg;
-
-    & .panel-body {
-      overflow-y: visible;
-
-      & .msg {
-        margin: 15px 0;
-
-        & em {
-          color: $theme-accent;
-          font-style: normal;
-          font-weight: bold;
-        }
-
-        & .btn {
-          height: 1.3rem;
-          width: 1.3rem;
-
-          &::after {
-            z-index: 2000;
-          }
-        }
-      }
-
-      & .btns {
-        margin: auto 0 12px;
-
-        .delete .default {
-          display: inline-block;
-        }
-
-        .delete .confirm {
-          display: none;
-        }
-
-        .delete.to-confirm {
-          animation: delay-btn 0.3s steps(1);
-          animation-fill-mode: both;
-        }
-
-        .delete.to-confirm .default {
-          display: none;
-        }
-
-        .delete.to-confirm .confirm {
-          display: inline-block;
-        }
-      }
     }
   }
 

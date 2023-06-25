@@ -32,16 +32,6 @@ export const useDetailsStore = defineStore({
         height: 300,
       },
     },
-    coord_picker: {
-      // The coordinate picker keeps backups of the subject and body
-      // in case someone writes a text and then after that clicks
-      // the set coordinate button in the feedback form. If we wouldn't
-      // make a backup, this would be lost after clicking confirm there.
-      backup_id: null as string | null,
-      subject_backup: null as string | null,
-      body_backup: null as string | null,
-      force_reopen: false,
-    },
   }),
   actions: {
     selectedRoomfinderMap: function (): RoomfinderMapEntry {
