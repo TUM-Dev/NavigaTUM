@@ -37,8 +37,8 @@ export function useFeedbackToken(): {
 
   // Token are renewed much before being invalid on the server.
   const MS_PER_HOUR = 3600000;
-  const TOKEN_VALIDITY_MS = MS_PER_HOUR * 6;
-  if (token.value === null || Date.now() - token.value.created_at > TOKEN_VALIDITY_MS) {
+  const TOKEN_VALIDITY_FRONTEND_HOURS = 6;
+  if (token.value === null || Date.now() - token.value.created_at > TOKEN_VALIDITY_FRONTEND_HOURS * MS_PER_HOUR) {
     fetch(`/api/feedback/get_token`, { method: "POST" })
       .then((r) => {
         if (r.status === TokenStatus.SUCCESSFULLY_CREATED) {
