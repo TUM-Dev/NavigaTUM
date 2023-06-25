@@ -1,6 +1,6 @@
 from decimal import Decimal
 import math
-from math import radians, degrees, sin, cos, asin, acos, sqrt
+from math import radians, sin, cos, acos
 
 MAXDISTANCE = 1000  # max distance from building
 MAXDEGDIFF_LAT=MAXDISTANCE*(1/111210) #111210 is the lenght of 1° lat in meters
@@ -38,10 +38,11 @@ def _get_lat_interval(position:tuple, lst:list[dict], point_in_interval:int)->tu
   return (lowerbound,upperbound)
 
 
-def nearby(building_coords:tuple, stations: list[dict]) -> list[dict]:
+def nearby(building_coords:tuple, stations: list[dict]) -> list[tuple[float,dict]]:
+  """returns a list of tuples in form: [distance in meter, station]"""
   results=[]
   for station in _lat_bin_search(building_coords,stations):
-    if (distance:=_great_circle(float(station["lat"]),float(station["lon"]),building_coords[0],building_coords[1]))*1000 <=MAXDISTANCE:
+    if (distance:=(_great_circle(float(station["lat"]),float(station["lon"]),building_coords[0],building_coords[1]))*1000) <=MAXDISTANCE:
       results.append((distance,station))
   return sorted(results,key=lambda x: x[0])
 
