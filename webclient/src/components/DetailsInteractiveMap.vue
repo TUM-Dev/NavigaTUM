@@ -3,7 +3,6 @@ import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "map
 import { Map, Marker } from "maplibre-gl";
 import { AttributionControl, FullscreenControl, GeolocateControl, NavigationControl } from "maplibre-gl";
 import { selectedMap, useDetailsStore } from "@/stores/details";
-import { useGlobalStore } from "@/stores/global";
 import { nextTick, ref } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
 import { webglSupport } from "@/composables/webglSupport";
@@ -12,7 +11,6 @@ const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
 const state = useDetailsStore();
-const global = useGlobalStore();
 
 const initialLoaded = ref(false);
 

@@ -9,7 +9,6 @@ import DetailsFeedbackButton from "@/components/DetailsFeedbackButton.vue";
 import DetailsRoomfinderMap from "@/components/DetailsRoomfinderMap.vue";
 //import DetailsFeaturedOverviewSection from "@/components/DetailsFeaturedOverviewSection.vue";
 import { useI18n } from "vue-i18n";
-import { getLocalStorageWithExpiry, removeLocalStorage } from "@/composables/storage";
 import { setDescription, setTitle } from "@/composables/common";
 import { useClipboard } from "@vueuse/core";
 import { selectedMap, useDetailsStore } from "@/stores/details";
@@ -19,7 +18,6 @@ import { useRoute } from "vue-router";
 import router from "@/router";
 import type { components } from "@/api_types";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
-import type { Coord } from "@/stores/global";
 
 const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 
@@ -241,7 +239,7 @@ onMounted(() => {
           </div>
         </div>
 
-        <DetailsInteractiveMap ref="interactiveMap"/>
+        <DetailsInteractiveMap ref="interactiveMap" />
         <DetailsRoomfinderMap ref="roomfinderMap" />
         <div class="btn-group btn-group-block">
           <button
