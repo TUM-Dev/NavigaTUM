@@ -90,8 +90,8 @@ class Public_Transport(unittest.TestCase):
     @staticmethod
     def test_stations():
         with open(RESULTS/"public_transport.json",encoding="utf-8") as file:
-            for k,v in json.load(file).items():
-                public_transport.Station(**v)
+            for station in json.load(file):
+                public_transport.Station(**station)
 
 
 if __name__ == "__main__":
