@@ -27,7 +27,8 @@ def _lat_bin_search(position,lst:list[dict])->list[dict]:
   return lst[interval[0]:interval[1]+1]
 
   
-def _get_lat_interval(position:tuple, lst:list[dict], point_in_interval:int)->tuple[int,int]: #TODO invalid values
+def _get_lat_interval(position:tuple, lst:list[dict], point_in_interval:int)->tuple[int,int]:
+  """returns the interval that of values whose lat values are within MAXDEGDIFF_LAT to position"""
   upperbound=lowerbound=point_in_interval
   while upperbound+5<=len(lst)-1 and Decimal(lst[upperbound+5]["lat"])-Decimal(position[0]) <= MAXDEGDIFF_LAT:
     upperbound+=5
@@ -35,7 +36,7 @@ def _get_lat_interval(position:tuple, lst:list[dict], point_in_interval:int)->tu
     upperbound+=1
   while lowerbound-5>=0 and abs(Decimal(lst[lowerbound-5]["lat"])-Decimal(position[0])) <= MAXDEGDIFF_LAT:
     lowerbound-=5
-  if lowerbound-1>=0 and abs(Decimal(lst[lowerbound-1]["lat"])-Decimal(position[0])) <= MAXDEGDIFF_LAT:
+  while lowerbound-1>=0 and abs(Decimal(lst[lowerbound-1]["lat"])-Decimal(position[0])) <= MAXDEGDIFF_LAT:
     lowerbound-=1
   return (lowerbound,upperbound)
 
@@ -47,10 +48,3 @@ def nearby(building_coords:tuple, stations: list[dict]) -> list[tuple[float,dict
     if (distance:=(_great_circle(float(station["lat"]),float(station["lon"]),building_coords[0],building_coords[1]))*1000) <=MAXDISTANCE:
       results.append((distance,station))
   return sorted(results,key=lambda x: x[0])
-
-
-if __name__=="__main__":
-    import json
-    with open("public_transport.json") as file:
-        stations=json.load(file)
-        print(nearby((48.1488320687913,11.4606435143223),stations))
