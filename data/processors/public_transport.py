@@ -1,9 +1,16 @@
 from decimal import Decimal
 import math
-from geopy.distance import great_circle
+from math import radians, degrees, sin, cos, asin, acos, sqrt
 
 MAXDISTANCE = 1000  # max distance from building
 MAXDEGDIFF_LAT=MAXDISTANCE*(1/111210) #111210 is the lenght of 1° lat in meters
+
+# from https://medium.com/@petehouston/calculate-distance-of-two-locations-on-earth-using-python-1501b1944d97
+def _great_circle(lon1, lat1, lon2, lat2):
+    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+    return 6371 * (
+        acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(lon1 - lon2))
+    )
 
 def _lat_bin_search(position,lst:list[dict])->list[dict]:
   """returns a sublist of stations that are within MAXDISTANCE, assumes the every point has the same lon value."""
@@ -18,34 +25,29 @@ def _lat_bin_search(position,lst:list[dict])->list[dict]:
   interval= _get_lat_interval(position,lst,current)
   return lst[interval[0]:interval[1]+1]
   
-def _get_lat_interval(position, lst, point_in_interval)->tuple[int,int]: #TODO invalid values
-  upperbound=point_in_interval+2
-  while Decimal(lst[upperbound+2]["lat"])-Decimal(position[0]) <= MAXDEGDIFF_LAT:
-    upperbound+=2
-  if Decimal(lst[upperbound+1]["lat"])-Decimal(position[0]) <= MAXDEGDIFF_LAT:
+def _get_lat_interval(position:tuple, lst:list[dict], point_in_interval:int)->tuple[int,int]: #TODO invalid values
+  upperbound=lowerbound=point_in_interval
+  while upperbound+5<=len(lst)-1 and Decimal(lst[upperbound+5]["lat"])-Decimal(position[0]) <= MAXDEGDIFF_LAT:
+    upperbound+=5
+  while upperbound+1<=len(lst)-1 and Decimal(lst[upperbound+1]["lat"])-Decimal(position[0]) <= MAXDEGDIFF_LAT:
     upperbound+=1
-  lowerbound=point_in_interval-2
-  while abs(Decimal(lst[lowerbound-2]["lat"])-Decimal(position[0])) <= MAXDEGDIFF_LAT:
-    lowerbound-=2
-  if abs(Decimal(lst[lowerbound-1]["lat"])-Decimal(position[0])) <= MAXDEGDIFF_LAT:
+  while lowerbound-5>=0 and abs(Decimal(lst[lowerbound-5]["lat"])-Decimal(position[0])) <= MAXDEGDIFF_LAT:
+    lowerbound-=5
+  if lowerbound-1>=0 and abs(Decimal(lst[lowerbound-1]["lat"])-Decimal(position[0])) <= MAXDEGDIFF_LAT:
     lowerbound-=1
-  return (lowerbound,upperbound) # stations that are MAXDEGDIFF_LAT away assuming they are on the same lon
+  return (lowerbound,upperbound)
 
 
 def nearby(building_coords:tuple, stations: list[dict]) -> list[dict]:
   results=[]
   for station in _lat_bin_search(building_coords,stations):
-    if (distance:=great_circle(building_coords,(float(station["lat"]),float(station["lon"]))).m) <=MAXDISTANCE:
+    if (distance:=_great_circle(float(station["lat"]),float(station["lon"]),building_coords[0],building_coords[1]))*1000 <=MAXDISTANCE:
       results.append((distance,station))
-  return results
+  return sorted(results,key=lambda x: x[0])
 
 if __name__=="__main__":
     import json
     with open("public_transport.json") as file:
         stations=json.load(file)
-        print(len(stations))
-        import time
-        s=time.time()
         print(nearby((48.1488320687913,11.4606435143223),stations))
-        print(time.time()-s)
 
