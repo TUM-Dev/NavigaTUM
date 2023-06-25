@@ -1,9 +1,6 @@
 from pathlib import Path
 from external.scraping_utils import cached_json
-from external.scrapers.roomfinder import scrape_maps
 import csv
-from decimal import Decimal
-from processors.public_transport import nearby
 # CSV indexes
 STATIONID = "stop_id"
 NAME = "stop_name"
@@ -47,4 +44,4 @@ def scrape_stations():
         for sub in repeat_later:
             if (parent:=stations.get(sub["parent"])):
                 parent.get("sub_stations").append(sub)
-        return stations
+        return sorted(stations.values(),key=lambda x: x["lat"])
