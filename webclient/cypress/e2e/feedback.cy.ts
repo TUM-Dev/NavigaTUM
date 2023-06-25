@@ -44,7 +44,7 @@ function checkFeedbackForm(selector_which_should_open_the_modal: string) {
   // fill out the form, but don't accept the privacy policy
   cy.get("#feedback-body").type("A clear description what happened where and how we should improve it");
   cy.get("#feedback-send").click();
-  cy.get("#feedback-error").contains("Datenschutz");
+  cy.get("#feedback-error").contains("privacy_not_checked");
 
   // accept the privacy policy
   cy.get("#feedback-privacy").parent().click();
