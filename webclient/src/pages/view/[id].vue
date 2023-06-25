@@ -26,9 +26,7 @@ const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 const route = useRoute();
 
 function loadData(data: DetailsResponse) {
-  if (route.href !== data.redirect_url) {
-    router.replace({ path: data.redirect_url });
-  }
+  if (route.fullPath !== data.redirect_url) router.replace({ path: data.redirect_url });
   // --- Additional data ---
   setTitle(data.name);
   setDescription(genDescription(data));
