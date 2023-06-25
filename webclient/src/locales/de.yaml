@@ -11,17 +11,6 @@ core_js:
 feedback:
   cancel: Abbrechen
   category: Feedback-Kategorie
-  coordinatepicker:
-    add_coordinate: 'Hallo, ich möchte diese Koordinate zum Roomfinder hinzufügen:'
-    correct_coordinate: 'Hallo, ich möchte diese Koordinate im Roomfinder korrigieren:'
-    edit_coordinate_subject: Koordinate bearbeiten
-    edit_coordinates_subject: Koordinaten bearbeiten
-    edit_multiple_coordinates: 'Hallo, ich möchte diese Koordinaten beim Roomfinder editieren:'
-    helptext:
-      enter_serveral: Falls du mehrere Koordinaten gleichzeitig korrigieren willst, kannst du dieses Fenster schließen und weitere Koordinaten editieren.
-      limitation_to_coordinates: Achtung, das gilt nur für Koordinaten!
-      saved_for_12h: Wir speichern deine Veränderungen für 12 Stunden bei dir lokal.
-    title: Koordinate auswählen
   delete: Das zugehörige GitHub Issue löschen, sobald es gelöst wurde.
   error:
     too_many_requests: Feedback senden ist aktuell nicht möglich aufgrund von rate-limiting. Bitte versuche es später nochmal oder schreibe eine Mail.
@@ -184,20 +173,7 @@ view_view:
   meta:
     details_for: Details für
   msg:
-    coordinate-counter:
-      delete: Löschen
-      delete-confirm: Wirklich löschen?
-      info: Änderungen werden lokal \n für 12h gespeichert
-      msg-1: Aktuell
-      msg-2: ausstehende Koordinatenänderung|ausstehende Koordinatenänderungen
-      send: Senden
-    correct_location:
-      btn-cancel: Abbrechen
-      btn-done: Fertig
-      msg: Um die richtige Position zu setzen, ziehe den roten Marker über die Karte.
     inaccurate_only_building:
-      btn: Koordinate eintragen
-      help_others_and: Falls du sie herausfindest, kannst du die
       primary_msg: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
     no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
   roomfinder_modal:
