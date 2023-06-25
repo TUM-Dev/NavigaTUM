@@ -5,6 +5,13 @@ import { useI18n } from "vue-i18n";
 type TokenResponse = components["schemas"]["TokenResponse"];
 
 const { t } = useI18n({ inheritLocale: true, useScope: "global" });
+
+enum TokenStatus {
+  SUCCESSFULLY_CREATED = 201,
+  TOO_MANY_REQUESTS = 429,
+  NOT_CONFIGURED=  503,
+}
+
 export function useFeedbackToken() {
   const token = useLocalStorage<TokenResponse | null>("feedback-token", null, {
     serializer: {
@@ -30,7 +37,7 @@ export function useFeedbackToken() {
   if (token.value === null || Date.now() - token.value.created_at > TOKEN_VALIDITY_MS) {
     fetch(`/api/feedback/get_token`, { method: "POST" })
       .then((r) => {
-        if (r.status === 201) {
+        if (r.status === TokenStatus.SUCCESSFULLY_CREATED) {
           r.json()
             .then((j: TokenResponse) => {
               token.value = j;
@@ -39,11 +46,11 @@ export function useFeedbackToken() {
               error.message = t("feedback.error.token_req_failed");
               console.error(r);
             });
-        } else if (r.status === 429) {
-          error.message = t("feedback.error.429");
+        } else if (r.status === TokenStatus.TOO_MANY_REQUESTS) {
+          error.message = t("feedback.error.too_many_requests");
           error.blockSend = true;
-        } else if (r.status === 503) {
-          error.message = t("feedback.error.503");
+        } else if (r.status === TokenStatus.NOT_CONFIGURED) {
+          error.message = t("feedback.error.feedback_not_configured");
           error.blockSend = true;
         } else {
           error.message = `${t("feedback.error.token_unexpected_status")}${r.status}`;
