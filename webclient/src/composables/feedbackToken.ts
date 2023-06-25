@@ -2,6 +2,7 @@ import { reactive } from "vue";
 import type { components } from "@/api_types";
 import { useLocalStorage } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
+
 type TokenResponse = components["schemas"]["TokenResponse"];
 
 const { t } = useI18n({ inheritLocale: true, useScope: "global" });
@@ -9,10 +10,13 @@ const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 enum TokenStatus {
   SUCCESSFULLY_CREATED = 201,
   TOO_MANY_REQUESTS = 429,
-  NOT_CONFIGURED=  503,
+  NOT_CONFIGURED = 503,
 }
 
-export function useFeedbackToken() {
+export function useFeedbackToken(): {
+  error: { message: string; blockSend: boolean };
+  token: { value: TokenResponse | null };
+} {
   const token = useLocalStorage<TokenResponse | null>("feedback-token", null, {
     serializer: {
       read: (v) => (v ? JSON.parse(v) : null),

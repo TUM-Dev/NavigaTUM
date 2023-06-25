@@ -2,7 +2,7 @@
 import { useGlobalStore } from "@/stores/global";
 import { ref } from "vue";
 import { Translation, useI18n } from "vue-i18n";
-import {useFeedbackToken} from "@/composables/feedbackToken";
+import { useFeedbackToken } from "@/composables/feedbackToken";
 const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 
 const global = useGlobalStore();
