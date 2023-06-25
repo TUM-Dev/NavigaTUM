@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useGlobalStore } from "@/stores/global";
-import { ref } from "vue";
-import { Translation, useI18n } from "vue-i18n";
-import { useFeedbackToken } from "@/composables/feedbackToken";
+import {useGlobalStore} from "@/stores/global";
+import {ref} from "vue";
+import {Translation, useI18n} from "vue-i18n";
+import {useFeedbackToken} from "@/composables/feedbackToken";
+
 const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 
 const props = defineProps<{
@@ -14,11 +15,6 @@ const successUrl = ref("");
 const { error, token } = useFeedbackToken(t);
 
 const privacyChecked = ref(false);
-function _showError(msg: string, blockSend = false) {
-  error.message = msg;
-  error.blockSend = blockSend;
-}
-
 function closeForm() {
   global.feedback.open = false;
   successUrl.value = "";
@@ -53,24 +49,21 @@ function _send() {
         window.dispatchEvent(e);
         r.text().then((url) => (successUrl.value = url));
       } else if (r.status === SubmissionStatus.SERVER_ERROR) {
-        const serverError = t("feedback.error.server_error");
-        _showError(`${serverError} (${r.text()})`, false);
+        error.message = `${(t("feedback.error.server_error"))} (${r.text()})`;
       } else if (r.status === SubmissionStatus.UNAVAILABLE_FOR_LEGAL_REASONS) {
-        _showError(t("feedback.error.privacy_not_checked"), false);
+        error.message = t("feedback.error.privacy_not_checked");
       } else if (r.status === SubmissionStatus.FORBIDDEN) {
         token.value = null;
-        const invalidTokenError = t("feedback.error.send_invalid_token");
-        _showError(`${invalidTokenError} (${r.text()})`, false);
+        error.message = `${(t("feedback.error.send_invalid_token"))} (${r.text()})`;
       } else {
         // we reset the token here to be sure that it is the cause of the error
         token.value = null;
-        const unexpectedStatusError = t("feedback.error.send_unexpected_status");
-        _showError(`${unexpectedStatusError}: ${r.status}`, false);
+        error.message = `${(t("feedback.error.send_unexpected_status"))}: ${r.status}`;
       }
     })
     .catch((r) => {
       loading.value = false;
-      _showError(t("feedback.error.send_req_failed"), false);
+      error.message = t("feedback.error.send_req_failed");
       console.error(r);
     });
 }
@@ -78,21 +71,22 @@ function _send() {
 function sendForm() {
   // validate the own form
   if (token.value === null) {
-    _showError(t("feedback.error.send_no_token"), true);
+    error.message=t("feedback.error.send_no_token")
+    error.blockSend=true;
     return;
   }
   if (!privacyChecked.value) {
-    _showError(t("feedback.error.privacy_not_checked"));
+    error.message = t("feedback.error.privacy_not_checked");
     return;
   }
 
   // validate the foreign form
   if (global.feedback.data.subject.length < 3) {
-    _showError(t("feedback.error.too_short_subject"));
+    error.message = t("feedback.error.too_short_subject");
     return;
   }
   if (global.feedback.data.body.length < 10) {
-    _showError(t("feedback.error.too_short_body"));
+    error.message = t("feedback.error.too_short_body");
     return;
   }
 
