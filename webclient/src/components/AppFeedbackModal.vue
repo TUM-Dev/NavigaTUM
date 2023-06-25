@@ -1,69 +1,17 @@
 <script setup lang="ts">
 import { useGlobalStore } from "@/stores/global";
-import { reactive, ref, watch } from "vue";
+import { ref } from "vue";
 import { Translation, useI18n } from "vue-i18n";
-import { useLocalStorage } from "@vueuse/core";
+import { useFeedbackToken } from "@/composables/feedbackToken";
 const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 
 const global = useGlobalStore();
 const loading = ref(false);
 const successUrl = ref("");
-const error = reactive({
-  message: "",
-  blockSend: false,
-});
-type Token = {
-  readonly created_at: number;
-  readonly token: string;
-};
-
-const token = useLocalStorage<Token | null>("feedback-token", null, {
-  serializer: {
-    read: (v) => (v ? JSON.parse(v) : null),
-    write: (v) => JSON.stringify(v),
-  },
-});
+const { error, token } = useFeedbackToken();
 
 const privacyChecked = ref(false);
 const deleteIssueRequested = ref(false);
-
-watch(() => global.feedback.open, assuereTokenValidity, { immediate: true });
-function assuereTokenValidity() {
-  // legacy migration function TODO: remove only after 31.09.2023, to give our users time to migrate to the new token format
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  if (token.value?.expiry) {
-    token.value = null;
-  }
-
-  // Token are renewed after 6 hours here to be sure, even though they may be valid for longer on the server side.
-  if (token.value === null || Date.now() - token.value.created_at > 1000 * 3600 * 6) {
-    fetch(`/api/feedback/get_token`, { method: "POST" })
-      .then((r) => {
-        if (r.status === 201) {
-          r.json()
-            .then((j: Token) => {
-              token.value = j;
-            })
-            .catch((r) => {
-              _showError(t("feedback.error.token_req_failed"), false);
-              console.error(r);
-            });
-        } else if (r.status === 429) {
-          _showError(t("feedback.error.429"), true);
-        } else if (r.status === 503) {
-          _showError(t("feedback.error.503"), true);
-        } else {
-          const unexpectedTS = t("feedback.error.token_unexpected_status");
-          _showError(`${unexpectedTS}${r.status}`, true);
-        }
-      })
-      .catch((r) => {
-        _showError(t("feedback.error.token_req_failed"), false);
-        console.error(r);
-      });
-  }
-}
 
 function _showError(msg: string, blockSend = false) {
   error.message = msg;

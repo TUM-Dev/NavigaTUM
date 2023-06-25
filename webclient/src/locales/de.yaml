@@ -24,8 +24,8 @@ feedback:
     title: Koordinate auswählen
   delete: Das zugehörige GitHub Issue löschen, sobald es gelöst wurde.
   error:
-    '429': Feedback senden ist aktuell nicht möglich aufgrund von rate-limiting. Bitte versuche es später nochmal oder schreibe eine Mail.
-    '503': Das Senden von Feedback ist auf dem Server aktuell nicht konfiguriert.
+    too_many_requests: Feedback senden ist aktuell nicht möglich aufgrund von rate-limiting. Bitte versuche es später nochmal oder schreibe eine Mail.
+    feedback_not_configured: Das Senden von Feedback ist auf dem Server aktuell nicht konfiguriert.
     privacy_not_checked:
       other_contact_options: Es gibt andere Möglichkeiten uns zu kontaktieren, welche im Impressum aufgelistet sind.
       please_accept_privcacy_statement: Du musst die Datenschutzerklärung akzeptiert haben, damit wir dein Feedback via GitHub verarbeiten können.
