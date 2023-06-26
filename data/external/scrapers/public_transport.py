@@ -5,12 +5,10 @@ import csv
 STATIONID = "stop_id"
 NAME = "stop_name"
 TYPE= "location_type"
-WGS84X = "stop_lat"  # lat
-WSG84Y = "stop_lon"  # lon
+LATITUDE = "stop_lat" 
+LONGITUDE = "stop_lon"
 PARENT="parent_station"
 
-def avg(x1, x2):
-    return (x1 + x2) / 2
 
 @cached_json("public_transport.json")
 def scrape_stations():
@@ -23,25 +21,25 @@ def scrape_stations():
                 stations.setdefault(line[STATIONID],{
                     "id":line[STATIONID],
                     "name":line[NAME],
-                    "lat":line[WGS84X].replace(",", "."),
-                    "lon":line[WSG84Y].replace(",", "."),
+                    "lat":line[LATITUDE].replace(",", "."),
+                    "lon":line[LONGITUDE].replace(",", "."),
                     "sub_stations":[]
                 } )
             else:
                 sub_station={
                         "id":line[STATIONID],
                         "name":line[NAME],
-                        "lat":line[WGS84X].replace(",", "."),
-                        "lon":line[WSG84Y].replace(",", "."),
+                        "lat":line[LATITUDE].replace(",", "."),
+                        "lon":line[LONGITUDE].replace(",", "."),
                         "parent":line[PARENT]
                     }
                 
                 if (parent:=stations.get(line[PARENT])):
-                    parent.get("sub_stations").append(sub_station)
+                    parent["sub_stations"].append(sub_station)
                 else:
                     repeat_later.append(sub_station)
 
         for sub in repeat_later:
             if (parent:=stations.get(sub["parent"])):
-                parent.get("sub_stations").append(sub)
+                parent["sub_stations"].append(sub)
         return sorted(stations.values(),key=lambda x: x["lat"])
