@@ -15,6 +15,7 @@ if __name__ == "__main__":
     os.makedirs(CACHE_PATH / "room", exist_ok=True)
     os.makedirs(CACHE_PATH / "maps" / "roomfinder", exist_ok=True)
     os.makedirs(CACHE_PATH / "maps" / "roomfinder" / "kmz", exist_ok=True)
+    os.makedirs(CACHE_PATH / "public_transport", exist_ok=True)
 
     # You can comment out steps that should be skipped.
     # The downloader will automatically create a cache in `cache/`.
