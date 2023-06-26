@@ -1,11 +1,59 @@
 <script setup lang="ts">
-import { useToggle } from "@vueuse/core";
 import type { components } from "@/api_types";
+import { useToggle } from "@vueuse/core";
 type BuildingsOverview = components["schemas"]["BuildingsOverview"];
 
 const props = defineProps<{
   readonly buildings?: BuildingsOverview;
 }>();
+
+import("https://www.mvv-muenchen.de/typo3conf/ext/sn_mvv_efa/Resources/Public/mvv-monitor/mvv-monitor.min.js");
+
+function B64String(station_id: string,station_name: string){
+  return btoa(`{
+    "language": {
+        "departure": "Abfahrt",
+        "trainStops": "Haltestellen",
+        "direction": "Richtung",
+        "footerNote": " Copyright",
+        "footerText": "Weitere Fahrplanausknfte unter www.mvv-auskunft.de oder mit der MVV-App",
+        "headerText": "Abfahrten für heute, ",
+        "language": "de",
+        "line": "Linie",
+        "live": "Live",
+        "stop": "Haltestelle",
+        "track": "Gleis"
+    },
+    "isFullscreen": false,
+    "stations": [
+        {
+            "station": {
+                "usage": "sf",
+                "type": "any",
+                "name": "${station_name}",
+                "anyType": "stop",
+                "sort": "2",
+                "quality": "980",
+                "best": "0",
+                "modes": "0,1,2,4,6",
+                
+                "id": "${station_id}"
+            },
+            "lines": [
+            ],
+            "leadTimeMinutes": 0
+        }
+    ],
+    "lines": [],
+    "maxResults": 10,
+    "fetchIntervalInMinutes": 3,
+    "showNotification": true
+}`)
+};
+function changeStation(station_id:string,station_name:string) {
+  let b64=B64String(station_id,station_name);
+  document.getElementById("mvv-departure-monitor").setAttribute("monitor-configuration",b64);
+}
 
 const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);
 </script>
@@ -20,6 +68,13 @@ const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);
           <a href="#">Übersichtskarte <i class="icon icon-forward" /></a>
         </div>-->
     </div>
+    <!--for station in building.stations:
+          <button v-on:click=(()=>{getdivbyclassname(mvv-departure-monitor).setattribute(monitor-configuration,B64String(station.id,station.name))})()>station.name</button>
+    -->
+    <li v-for="station in props.buildings.nearby_stations"> <!--parent station may give departures of all substations?-->
+      <button class="btn" @click="changeStation(station.id,station.name)">{{station.name}}</button>
+    </li>
+    <div id="mvv-departure-monitor" class="mvv-departure-monitor" monitor-configuration=""></div>
     <div class="columns">
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">
         <div class="column col-4 col-md-12 content" v-if="i < props.buildings.n_visible || buildingsExpanded">
