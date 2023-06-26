@@ -15,9 +15,12 @@ export const useGlobalStore = defineStore({
     error_message: null as string | null,
     feedback: {
       open: false,
-      category: "general" as PostFeedbackRequest["category"],
-      subject: "",
-      body: "",
+      data: {
+        category: "general",
+        subject: "",
+        body: "",
+        deletion_requested: false,
+      } as Omit<PostFeedbackRequest, "privacy_checked" | "token">,
     },
   }),
   actions: {
@@ -29,9 +32,7 @@ export const useGlobalStore = defineStore({
     },
     openFeedback(category: PostFeedbackRequest["category"] = "general", subject = "", body = ""): void {
       this.feedback.open = true;
-      this.feedback.category = category;
-      this.feedback.subject = subject;
-      this.feedback.body = body;
+      this.feedback.data = { category, subject, body, deletion_requested: false };
 
       document.body.classList.add("no-scroll");
     },

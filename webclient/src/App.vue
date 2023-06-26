@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Footer from "@/components/AppFooter.vue";
 import { useGlobalStore } from "@/stores/global";
-import FeedbackModal from "@/components/AppFeedbackModal.vue";
+import FeedbackModal from "@/components/feedback/FeedbackModal.vue";
 import AppSearchBar from "@/components/AppSearchBar.vue";
 import AppNavHeader from "@/components/AppNavHeader.vue";
 

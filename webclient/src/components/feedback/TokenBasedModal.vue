@@ -3,21 +3,18 @@ import { useGlobalStore } from "@/stores/global";
 import { ref } from "vue";
 import { Translation, useI18n } from "vue-i18n";
 import { useFeedbackToken } from "@/composables/feedbackToken";
+
 const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 
+const props = defineProps<{
+  data: { [index: string]: string | boolean | number };
+}>();
 const global = useGlobalStore();
 const loading = ref(false);
 const successUrl = ref("");
 const { error, token } = useFeedbackToken(t);
 
 const privacyChecked = ref(false);
-const deleteIssueRequested = ref(false);
-
-function _showError(msg: string, blockSend = false) {
-  error.message = msg;
-  error.blockSend = blockSend;
-}
-
 function closeForm() {
   global.feedback.open = false;
   successUrl.value = "";
@@ -26,19 +23,17 @@ function closeForm() {
   document.body.classList.remove("no-scroll");
 }
 
-function mayCloseForm() {
-  if (global.feedback.body.length === 0) closeForm();
+enum SubmissionStatus {
+  SUCCESSFULLY_CREATED = 201,
+  UNAVAILABLE_FOR_LEGAL_REASONS = 451,
+  SERVER_ERROR = 500,
+  FORBIDDEN = 403,
 }
-
 function _send() {
-  const data = {
-    token: token.value?.token,
-    category: global.feedback.category,
-    subject: global.feedback.subject,
-    body: global.feedback.body,
-    privacy_checked: privacyChecked.value,
-    deletion_requested: deleteIssueRequested.value,
-  };
+  // data is a `Window` which cannot be cloned by `structuredClone`, but can be by JSON.
+  const data = JSON.parse(JSON.stringify(props.data));
+  data.privacy_checked = privacyChecked.value;
+  data.token = token.value?.token;
   fetch(`/api/feedback/feedback`, {
     method: "POST",
     headers: {
@@ -48,58 +43,64 @@ function _send() {
   })
     .then((r) => {
       loading.value = false;
-      if (r.status === 201) {
-        localStorage.removeItem("feedback-coords");
+      if (r.status === SubmissionStatus.SUCCESSFULLY_CREATED) {
         token.value = null;
-        const e = new Event("storage");
-        window.dispatchEvent(e);
         r.text().then((url) => (successUrl.value = url));
-      } else if (r.status === 500) {
-        const serverError = t("feedback.error.server_error");
-        _showError(`${serverError} (${r.text()})`, false);
-      } else if (r.status === 451) {
-        _showError(t("feedback.error.privacy_not_checked"), false);
-      } else if (r.status === 403) {
+      } else if (r.status === SubmissionStatus.SERVER_ERROR) {
+        error.message = `${t("feedback.error.server_error")} (${r.text()})`;
+      } else if (r.status === SubmissionStatus.UNAVAILABLE_FOR_LEGAL_REASONS) {
+        error.message = t("feedback.error.privacy_not_checked.please_accept_privcacy_statement");
+      } else if (r.status === SubmissionStatus.FORBIDDEN) {
         token.value = null;
-        const invalidTokenError = t("feedback.error.send_invalid_token");
-        _showError(`${invalidTokenError} (${r.text()})`, false);
+        error.message = `${t("feedback.error.send_invalid_token")} (${r.text()})`;
       } else {
         // we reset the token here to be sure that it is the cause of the error
         token.value = null;
-        const unexpectedStatusError = t("feedback.error.send_unexpected_status");
-        _showError(`${unexpectedStatusError}: ${r.status}`, false);
+        error.message = `${t("feedback.error.send_unexpected_status")}: ${r.status}`;
       }
     })
     .catch((r) => {
       loading.value = false;
-      _showError(t("feedback.error.send_req_failed"), false);
+      error.message = t("feedback.error.send_req_failed");
       console.error(r);
     });
 }
 
 function sendForm() {
+  // validate the own form
   if (token.value === null) {
-    _showError(t("feedback.error.send_no_token"), true);
-  } else if (global.feedback.subject.length < 3) {
-    _showError(t("feedback.error.too_short_subject"));
-  } else if (global.feedback.body.length < 10) {
-    _showError(t("feedback.error.too_short_body"));
-  } else if (!privacyChecked.value) {
-    _showError(t("feedback.error.privacy_not_checked"));
-  } else {
-    loading.value = true;
-    // Token may only be used after a short delay. In case that has not passed
-    // yet, we wait until for a short time.
-    if (Date.now() - token.value.created_at < 1000 * 10)
-      window.setTimeout(_send, 1000 * 10 - (Date.now() - token.value.created_at));
-    else _send();
+    error.message = t("feedback.error.send_no_token");
+    error.blockSend = true;
+    return;
   }
+  if (!privacyChecked.value) {
+    error.message = t("feedback.error.privacy_not_checked.please_accept_privcacy_statement");
+    return;
+  }
+
+  // validate the foreign form
+  if (global.feedback.data.subject.length < 3) {
+    error.message = t("feedback.error.too_short_subject");
+    return;
+  }
+  if (global.feedback.data.body.length < 10) {
+    error.message = t("feedback.error.too_short_body");
+    return;
+  }
+
+  loading.value = true;
+  // Token may only be used after a short delay.
+  const MINIMUM_DELAY_MS = 10_000;
+  const timeSinceTokenCreationInMs = Date.now() - token.value.created_at;
+  if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS)
+    window.setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
+  else _send();
 }
 </script>
 
 <template>
   <div class="modal active" data-cy="feedback-modal" v-if="!successUrl">
-    <a class="modal-overlay" :aria-label="$t('close')" @click="mayCloseForm" />
+    <a class="modal-overlay" :aria-label="$t('close')" @click="closeForm" />
     <div class="modal-container">
       <div class="modal-header">
         <button class="btn btn-clear float-right" :aria-label="$t('close')" @click="closeForm" />
@@ -107,57 +108,9 @@ function sendForm() {
       </div>
       <div class="modal-body">
         <div class="content">
-          <div id="feedback-error">{{ error.message }}</div>
-          <div class="form-group">
-            <label class="form-label" for="feedback-subject"> {{ $t("feedback.subject") }}</label>
-            <div class="input-group">
-              <select
-                class="form-select"
-                id="feedback-category"
-                :aria-label="$t('feedback.category')"
-                v-model="global.feedback.category"
-              >
-                <option value="general">{{ $t("feedback.type.general") }}</option>
-                <option value="bug">{{ $t("feedback.type.bug") }}</option>
-                <option value="features">{{ $t("feedback.type.features") }}</option>
-                <option value="search">{{ $t("feedback.type.search") }}</option>
-                <option value="entry">{{ $t("feedback.type.entry") }}</option>
-              </select>
-              <input
-                class="form-input"
-                type="text"
-                :placeholder="$t('feedback.subject')"
-                v-model="global.feedback.subject"
-                id="feedback-subject"
-              />
-            </div>
-          </div>
+          <div class="text-error" data-cy="feedback-error">{{ error.message }}</div>
 
-          <div class="form-group">
-            <label class="form-label" for="feedback-body">
-              {{ $t("feedback.message") }}
-            </label>
-            <textarea
-              class="form-input"
-              id="feedback-body"
-              :placeholder="$t('feedback.message')"
-              v-model="global.feedback.body"
-              rows="6"
-            >
-            </textarea>
-            <p class="text-gray text-tiny">
-              {{
-                {
-                  general: t("feedback.helptext.general"),
-                  bug: t("feedback.helptext.bug"),
-                  feature: t("feedback.helptext.features"),
-                  search: t("feedback.helptext.search"),
-                  entry: t("feedback.helptext.entry"),
-                  other: t("feedback.helptext.other"), // This is only here to make the linter happy, backend uses "other" as a fallback if the category is not known
-                }[global.feedback.category]
-              }}
-            </p>
-          </div>
+          <slot name="modal" />
 
           <div class="form-group">
             <label class="form-checkbox">
@@ -200,10 +153,6 @@ function sendForm() {
                 </template>
               </Translation>
             </label>
-            <label class="form-checkbox" id="feedback-delete-label">
-              <input type="checkbox" id="feedback-delete" v-model="deleteIssueRequested" />
-              <i class="form-icon" /> {{ $t("feedback.delete") }}
-            </label>
           </div>
 
           <div class="float-right">
@@ -212,7 +161,7 @@ function sendForm() {
             </button>
             <button
               class="btn btn-primary"
-              id="feedback-send"
+              data-cy="feedback-send"
               @click="sendForm"
               :class="{ loading: loading }"
               v-bind="{ disabled: loading || error.blockSend }"
@@ -233,11 +182,8 @@ function sendForm() {
       </div>
       <div class="modal-body">
         <div class="content">
-          <p>{{ $t("feedback.success.thank_you") }}</p>
-          <p>
-            {{ $t("feedback.success.response_at") }}
-            <a id="feedback-success-url" class="btn-link" :href="successUrl">{{ $t("feedback.success.this_issue") }}</a>
-          </p>
+          <slot name="success" :successUrl="successUrl" />
+
           <div class="buttons">
             <button class="btn btn-primary" @click="closeForm">
               {{ $t("feedback.success.ok") }}
@@ -260,29 +206,8 @@ function sendForm() {
     box-shadow: $feedback-box-shadow;
   }
 
-  label {
-    width: fit-content;
-    display: inline-block;
-  }
-
-  .btn {
-    margin: 0 0.1em;
-  }
-
   .modal-overlay {
     background: $feedback-overlay-bg;
-  }
-
-  #feedback-error {
-    color: $error-color;
-  }
-
-  .form-select {
-    flex: none;
-  }
-
-  #feedback-body {
-    min-width: 100%;
   }
 }
 </style>
