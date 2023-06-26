@@ -30,7 +30,8 @@ enum SubmissionStatus {
   FORBIDDEN = 403,
 }
 function _send() {
-  const data = structuredClone(props.data);
+  // data is a `Window` which cannot be cloned by `structuredClone`, but can be by JSON.
+  const data = JSON.parse(JSON.stringify(props.data));
   data.privacy_checked = privacyChecked.value;
   data.token = token.value?.token;
   fetch(`/api/feedback/feedback`, {
