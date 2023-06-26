@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import {useGlobalStore} from "@/stores/global";
-import {ref} from "vue";
-import {Translation, useI18n} from "vue-i18n";
-import {useFeedbackToken} from "@/composables/feedbackToken";
+import { useGlobalStore } from "@/stores/global";
+import { ref } from "vue";
+import { Translation, useI18n } from "vue-i18n";
+import { useFeedbackToken } from "@/composables/feedbackToken";
 
 const { t } = useI18n({ inheritLocale: true, useScope: "global" });
 
 const props = defineProps<{
-  data: { [index: string]: string|boolean|number };
+  data: { [index: string]: string | boolean | number };
 }>();
 const global = useGlobalStore();
 const loading = ref(false);
@@ -49,16 +49,16 @@ function _send() {
         window.dispatchEvent(e);
         r.text().then((url) => (successUrl.value = url));
       } else if (r.status === SubmissionStatus.SERVER_ERROR) {
-        error.message = `${(t("feedback.error.server_error"))} (${r.text()})`;
+        error.message = `${t("feedback.error.server_error")} (${r.text()})`;
       } else if (r.status === SubmissionStatus.UNAVAILABLE_FOR_LEGAL_REASONS) {
         error.message = t("feedback.error.privacy_not_checked");
       } else if (r.status === SubmissionStatus.FORBIDDEN) {
         token.value = null;
-        error.message = `${(t("feedback.error.send_invalid_token"))} (${r.text()})`;
+        error.message = `${t("feedback.error.send_invalid_token")} (${r.text()})`;
       } else {
         // we reset the token here to be sure that it is the cause of the error
         token.value = null;
-        error.message = `${(t("feedback.error.send_unexpected_status"))}: ${r.status}`;
+        error.message = `${t("feedback.error.send_unexpected_status")}: ${r.status}`;
       }
     })
     .catch((r) => {
@@ -71,8 +71,8 @@ function _send() {
 function sendForm() {
   // validate the own form
   if (token.value === null) {
-    error.message=t("feedback.error.send_no_token")
-    error.blockSend=true;
+    error.message = t("feedback.error.send_no_token");
+    error.blockSend = true;
     return;
   }
   if (!privacyChecked.value) {
@@ -94,7 +94,8 @@ function sendForm() {
   // Token may only be used after a short delay.
   const MINIMUM_DELAY_MS = 10_000;
   const timeSinceTokenCreationInMs = Date.now() - token.value.created_at;
-  if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS) window.setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
+  if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS)
+    window.setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
   else _send();
 }
 </script>
