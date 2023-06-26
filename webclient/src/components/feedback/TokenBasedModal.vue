@@ -107,7 +107,7 @@ function sendForm() {
       </div>
       <div class="modal-body">
         <div class="content">
-          <div class="text-error">{{ error.message }}</div>
+          <div class="text-error" data-cy="feedback-error">{{ error.message }}</div>
 
           <slot name="modal" />
 
@@ -160,7 +160,7 @@ function sendForm() {
             </button>
             <button
               class="btn btn-primary"
-              id="feedback-send"
+              data-cy="feedback-send"
               @click="sendForm"
               :class="{ loading: loading }"
               v-bind="{ disabled: loading || error.blockSend }"
