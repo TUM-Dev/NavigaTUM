@@ -43,10 +43,7 @@ function _send() {
     .then((r) => {
       loading.value = false;
       if (r.status === SubmissionStatus.SUCCESSFULLY_CREATED) {
-        localStorage.removeItem("feedback-coords");
         token.value = null;
-        const e = new Event("storage");
-        window.dispatchEvent(e);
         r.text().then((url) => (successUrl.value = url));
       } else if (r.status === SubmissionStatus.SERVER_ERROR) {
         error.message = `${t("feedback.error.server_error")} (${r.text()})`;
