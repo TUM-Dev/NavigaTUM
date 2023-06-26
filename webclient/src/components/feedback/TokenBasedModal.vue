@@ -48,7 +48,7 @@ function _send() {
       } else if (r.status === SubmissionStatus.SERVER_ERROR) {
         error.message = `${t("feedback.error.server_error")} (${r.text()})`;
       } else if (r.status === SubmissionStatus.UNAVAILABLE_FOR_LEGAL_REASONS) {
-        error.message = t("feedback.error.privacy_not_checked");
+        error.message = t("feedback.error.privacy_not_checked.please_accept_privcacy_statement");
       } else if (r.status === SubmissionStatus.FORBIDDEN) {
         token.value = null;
         error.message = `${t("feedback.error.send_invalid_token")} (${r.text()})`;
@@ -73,7 +73,7 @@ function sendForm() {
     return;
   }
   if (!privacyChecked.value) {
-    error.message = t("feedback.error.privacy_not_checked");
+    error.message = t("feedback.error.privacy_not_checked.please_accept_privcacy_statement");
     return;
   }
 
