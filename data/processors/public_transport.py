@@ -49,15 +49,15 @@ def _get_lat_interval(position:tuple, lst:list[Station], point_in_interval:int)-
 
 
 def _lat_search(lat:float, stations:list[Station]):
-    max_lat = lat[0] + MAXDEGDIFF_PER_LATITUDE_DEGREE
-    min_lat = lat[0] - MAXDEGDIFF_PER_LATITUDE_DEGREE
+    max_lat = lat + MAXDEGDIFF_PER_LATITUDE_DEGREE
+    min_lat = lat - MAXDEGDIFF_PER_LATITUDE_DEGREE
     return [station for station in stations if min_lat < float(station["lat"]) < max_lat]
 
 
 def nearby(building_coords:tuple, stations: list[Station]) -> list[tuple[float,Station]]:
   """returns a list of tuples in form: [distance in meter, station]"""
   results=[]
-  for station in _lat_search(building_coords,stations):
+  for station in _lat_search(building_coords[0],stations):
     if (distance:=_great_circle(float(station["lat"]),float(station["lon"]),building_coords[0],building_coords[1])) <=MAXDISTANCE:
       results.append((distance,station))
   return sorted(results,key=lambda x: x[0])
