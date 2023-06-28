@@ -7,15 +7,15 @@ from pydantic.dataclasses import dataclass
 class SubStation:
     id:str
     name:str
-    lat:str
-    lon:str
+    lat:float
+    lon:float
     parent:str
 
 @dataclass(config=PydanticConfiguration)
 class Station:
     id:str
     name:str
-    lat:str
-    lon:str
+    lat:float
+    lon:float
     sub_stations:list[SubStation]
 

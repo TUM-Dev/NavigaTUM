@@ -33,16 +33,16 @@ def scrape_stations():
                 stations.setdefault(line[STATIONID],{
                     "id":line[STATIONID],
                     "name":line[NAME],
-                    "lat":line[LATITUDE].replace(",", "."),
-                    "lon":line[LONGITUDE].replace(",", "."),
+                    "lat":float(line[LATITUDE]),
+                    "lon":float(line[LONGITUDE]),
                     "sub_stations":[]
                 } )
             else:
                 sub_station={
                         "id":line[STATIONID],
                         "name":line[NAME],
-                        "lat":line[LATITUDE].replace(",", "."),
-                        "lon":line[LONGITUDE].replace(",", "."),
+                        "lat":float(line[LATITUDE]),
+                        "lon":float(line[LONGITUDE]),
                         "parent":line[PARENT]
                     }
                 

@@ -1,5 +1,4 @@
 from dataclasses import asdict
-from decimal import Decimal
 from math import radians, sin, cos, acos
 import json
 from data.external.models.public_transport import Station
@@ -22,14 +21,14 @@ def _great_circle(lat1:float,lon1:float, lat2:float,lon2:float)->float:
 def _lat_search(lat:float, stations:list[Station]):
     max_lat = lat + MAXDEGDIFF_PER_LATITUDE_DEGREE
     min_lat = lat - MAXDEGDIFF_PER_LATITUDE_DEGREE
-    return [station for station in stations if min_lat < float(station.lat) < max_lat]
+    return [station for station in stations if min_lat < station.lat < max_lat]
 
 
 def nearby(building_coords:tuple, stations: list[Station]) -> list[tuple[float,Station]]:
   """returns a list of tuples in form: [distance in meter, station]"""
   results=[]
   for station in _lat_search(building_coords[0],stations):
-    if (distance:=_great_circle(float(station.lat),float(station.lon),building_coords[0],building_coords[1])) <=MAXDISTANCE:
+    if (distance:=_great_circle(station.lat,station.lon,building_coords[0],building_coords[1])) <=MAXDISTANCE:
       results.append((distance,asdict(station))) #cast do dict, as dataclass cant be encoded to json by default
   return sorted(results,key=lambda x: x[0])
 
