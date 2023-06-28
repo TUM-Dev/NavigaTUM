@@ -15,11 +15,8 @@ def _download_zip(filepath):
     _download_file(url,filepath)
 
 def _extract_stops(zip_location,target_dir):
-    for file in (zip:=ZipFile(zip_location)).infolist():
-        if file.filename=="stops.txt":
-            zip.extract(file,target_dir)
-            return
-    raise FileNotFoundError(f"could not find stops.txt in {zip_location}")
+    zip=ZipFile(zip_location)
+    zip.extract("stops.txt",target_dir)
 
 @cached_json("public_transport.json")
 def scrape_stations():
@@ -27,7 +24,7 @@ def scrape_stations():
     _download_zip(parent_dir / "fahrplandaten.zip")
     _extract_stops(parent_dir / "fahrplandaten.zip", parent_dir)
 
-    with Path(parent_dir / "stops.txt").open("r") as file: #the file is from the zip file "Soll-Fahrplandaten" from https://www.mvv-muenchen.de/fahrplanauskunft/fuer-entwickler/opendata/index.html
+    with Path(parent_dir / "stops.txt").open("r") as file:
         lines = csv.DictReader(file, delimiter=",")  
         stations={}
         repeat_later=[] #when parent station is not already in dict
