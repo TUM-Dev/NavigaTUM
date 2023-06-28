@@ -18,36 +18,6 @@ def _great_circle(lat1:float,lon1:float, lat2:float,lon2:float)->float:
     return EARTH_RADIUS_METERS * angular_distance
 
 
-def _lat_bin_search(position,lst:list[Station])->list[Station]:
-  """do binary search until a point is found, that is within MAXDISTANCE to position. This treats all longitude values as the same. 
-  Then expands in both directions from that point, until the next one would be outside of MAXDISTANCE"""
-  lower,upper=0,len(lst)
-  current=math.ceil((upper-lower)/2)
-  while not abs((distance:=Decimal(lst[current]["lat"])-Decimal(position[0]))) <= MAXDEGDIFF_PER_LATITUDE_DEGREE and not lower==upper:
-    if distance>0:
-       upper=current
-    else:
-      lower=current
-    current=lower+math.ceil((upper-lower)/2)
-  interval= _get_lat_interval(position,lst,current)
-  return lst[interval[0]:interval[1]+1]
-
-  
-def _get_lat_interval(position:tuple, lst:list[Station], point_in_interval:int)->tuple[int,int]:
-  """expanding the interval that of values whose lat values are within MAXDEGDIFF_LAT to position, starting from point_in_interval"""
-  upperbound=lowerbound=point_in_interval
-  while upperbound+5<=len(lst)-1 and Decimal(lst[upperbound+5]["lat"])-Decimal(position[0]) <= MAXDEGDIFF_PER_LATITUDE_DEGREE:
-    upperbound+=5
-  while upperbound+1<=len(lst)-1 and Decimal(lst[upperbound+1]["lat"])-Decimal(position[0]) <= MAXDEGDIFF_PER_LATITUDE_DEGREE:
-    upperbound+=1
-  while lowerbound-5>=0 and abs(Decimal(lst[lowerbound-5]["lat"])-Decimal(position[0])) <= MAXDEGDIFF_PER_LATITUDE_DEGREE:
-    lowerbound-=5
-  while lowerbound-1>=0 and abs(Decimal(lst[lowerbound-1]["lat"])-Decimal(position[0])) <= MAXDEGDIFF_PER_LATITUDE_DEGREE:
-    lowerbound-=1
-  return (lowerbound,upperbound)
-
-
-
 def _lat_search(lat:float, stations:list[Station]):
     max_lat = lat + MAXDEGDIFF_PER_LATITUDE_DEGREE
     min_lat = lat - MAXDEGDIFF_PER_LATITUDE_DEGREE
