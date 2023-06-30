@@ -50,7 +50,7 @@ class Room:
     description: str
     purpose: TranslatableStr
     purpose_id: int
-    area: int
+    area: float
     coordinates: Coordinate
     eexam: TranslatableStr | None
     floor: str

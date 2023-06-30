@@ -28,7 +28,7 @@ class Room:
     alt_name: str
     arch_name: str
     b_area_id: int
-    b_filter_id: str
+    b_filter_id: int
     calendar: str | None
     list_index: str
     op_link: str
