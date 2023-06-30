@@ -12,7 +12,7 @@ env_logger = "0.10.0"
 actix-web-prometheus = "0.1.2"
 
 # runtime + webserver
-tokio = { version = "1.29.0", features = ["full"] }
+tokio = { version = "1.29.1", features = ["full"] }
 actix-web = "4.3.1"
 actix-cors = "0.6.4"
 
