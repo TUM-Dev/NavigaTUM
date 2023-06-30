@@ -21,8 +21,8 @@ class Building:
     b_name: str
     default_map: RfMap | None
     maps: list[RfMap]
-    utm_easting: int
-    utm_northing: int
+    utm_easting: float
+    utm_northing: float
     utm_zone: int
     b_room_count: int
 
@@ -60,8 +60,8 @@ class RoomMetadata:
 # pylint: disable-next=too-many-instance-attributes
 class Room:
     # room specific properties
-    utm_easting: int
-    utm_northing: int
+    utm_easting: float
+    utm_northing: float
     utm_zone: int
     default_map: RfMap | None
     maps: list[RfMap]
