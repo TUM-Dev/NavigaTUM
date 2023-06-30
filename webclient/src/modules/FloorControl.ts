@@ -75,7 +75,9 @@ export class FloorControl extends Evented implements IControl {
       // Because JS
       return () => {
         if (allFloors) {
-          this._setActiveFloor(i, allFloors[i].floor);
+          // floorlist is reversed, so we need to reverse the index
+          const indexInFloorList = allFloors.length - i - 1;
+          this._setActiveFloor(indexInFloorList, allFloors[i].floor);
           this.fire("floor-changed", {
             file: allFloors[i].file,
             coords: allFloors[i].coordinates,
