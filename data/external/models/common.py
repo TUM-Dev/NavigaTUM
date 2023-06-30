@@ -2,13 +2,13 @@ import pydantic
 from pydantic.dataclasses import dataclass
 
 
-# pylint: disable-next=too-few-public-methods
-class PydanticConfiguration(pydantic.BaseConfig):
-    allow_mutation = False
-    frozen = True
-    anystr_strip_whitespace = True
-    extra = pydantic.Extra.forbid
-    allow_population_by_field_name = True
+PydanticConfiguration=pydantic.ConfigDict(
+    frozen=True,
+    str_strip_whitespace=True,
+    extra=pydantic.Extra.forbid,
+    populate_by_name=True,
+    validate_default=True,
+)
 
 
 @dataclass(config=PydanticConfiguration)
