@@ -71,22 +71,21 @@ export class FloorControl extends Evented implements IControl {
     // `visibleId` is the id of the visible floor.
     this.floor_list.innerHTML = "";
 
-    const _this = this;
-    const clickHandlerBuilder = function (allFloors: readonly OverlayMapEntry[] | null, i: number) {
+    const clickHandlerBuilder = (allFloors: readonly OverlayMapEntry[] | null, i: number) => {
       // Because JS
       return () => {
         if (allFloors) {
-          _this._setActiveFloor(i, allFloors[i].floor);
-          _this.fire("floor-changed", {
+          this._setActiveFloor(i, allFloors[i].floor);
+          this.fire("floor-changed", {
             file: allFloors[i].file,
             coords: allFloors[i].coordinates,
           });
         } else {
-          _this._setActiveFloor(i, "∅");
-          _this.fire("floor-changed", { file: null, coords: undefined });
+          this._setActiveFloor(i, "∅");
+          this.fire("floor-changed", { file: null, coords: undefined });
         }
 
-        if (!_this.container.classList.contains("reduced")) _this.container.classList.add("closed");
+        if (!this.container.classList.contains("reduced")) this.container.classList.add("closed");
       };
     };
     let btn;
