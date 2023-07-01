@@ -65,8 +65,8 @@
                 cloudflare:
                   email: my-cloudflare-acc@example.com
                   apiTokenSecretRef:
-                    name: cloudflare-api-token-secret
-                    key: api-token
+                    name: tum-sexy-cf-api-token
+                    key: api-key
                 ingress:
                   class: traefik
 
