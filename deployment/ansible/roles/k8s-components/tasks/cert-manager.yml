@@ -63,7 +63,7 @@
             - dns01:
                 cnameStrategy: Follow
                 cloudflare:
-                  email: my-cloudflare-acc@example.com
+                  email: kb@exgen.io
                   apiTokenSecretRef:
                     name: tum-sexy-cf-api-token
                     key: api-key
