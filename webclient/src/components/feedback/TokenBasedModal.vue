@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useGlobalStore } from "@/stores/global";
 import { ref } from "vue";
-import { Translation, useI18n } from "vue-i18n";
+import { useI18n } from "vue-i18n";
+import I18nT from '@/components/I18nT'
 import { useFeedbackToken } from "@/composables/feedbackToken";
 
 const { t } = useI18n({ inheritLocale: true, useScope: "global" });
@@ -117,22 +118,22 @@ function sendForm() {
               <input type="checkbox" id="feedback-privacy" v-model="privacyChecked" />
               <i class="form-icon" />
               <b>
-                <Translation keypath="feedback.public.agreement" tag="span">
+                <I18nT keypath="feedback.public.agreement" tag="span" scope="global">
                   <template v-slot:github_project_issues_url>
                     <a href="https://github.com/TUM-Dev/navigatum/issues" target="_blank">
                       {{ $t("feedback.public.github_project_issues") }}
                     </a>
                   </template>
-                </Translation>
+                </I18nT>
               </b>
               <br />
-              <Translation keypath="feedback.public.disclaimer" tag="span">
+              <I18nT keypath="feedback.public.disclaimer" tag="span" scope="global">
                 <template v-slot:github_site_policy_url>
                   <a href="https://docs.github.com/en/github/site-policy" target="_blank">
                     {{ $t("feedback.public.github_site_policy") }}
                   </a>
                 </template>
-              </Translation>
+              </I18nT>
               <span>
                 {{ $t("feedback.public.processing_based_on_gdpr") }}
               </span>
@@ -140,18 +141,18 @@ function sendForm() {
                 {{ $t("feedback.public.right_to_information") }}
                 {{ $t("feedback.public.right_of_appeal") }}
               </span>
-              <Translation keypath="feedback.public.objection_instruction" tag="span">
+              <I18nT keypath="feedback.public.objection_instruction" tag="span" scope="global">
                 <template v-slot:imprint_url>
                   <RouterLink to="/about/impressum">
                     {{ $t("feedback.public.imprint") }}
                   </RouterLink>
                 </template>
-              </Translation>
-              <Translation keypath="feedback.public.question_contact" tag="span">
+              </I18nT>
+              <I18nT keypath="feedback.public.question_contact" tag="span" scope="global">
                 <template v-slot:tum_data_protection_url>
                   <a href="https://datenschutz.tum.de" target="_blank">datenschutz.tum.de</a>
                 </template>
-              </Translation>
+              </I18nT>
             </label>
           </div>
 
