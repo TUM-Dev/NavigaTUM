@@ -32,6 +32,7 @@ class ImageOffset:
 
 # here until typing.Self can be used in all expected python versions of developers
 # pylint: disable-next=c-extension-no-member
+# pylint: disable-next=invalid-name
 TImageSource = TypeVar("TImageSource", bound="ImageSource")
 
 
@@ -208,6 +209,7 @@ def _refresh_for_all_resolutions(order: RefreshResolutionOrder) -> None:
         resizer.resize_to_max_size(IMAGE_BASE / "lg" / order.source.name, 3840)
         resizer.resize_to_fixed_size(IMAGE_BASE / "thumb" / order.source.name, (256, 256), order.offsets.thumb)
         resizer.resize_to_fixed_size(IMAGE_BASE / "header" / order.source.name, (512, 210), order.offsets.header)
+    # pylint: disable-next=broad-exception-caught
     except Exception as error:
         logging.error(error)  # otherwise we would not see if an error occurs
 

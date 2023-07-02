@@ -47,7 +47,7 @@ paths:
           description: |
             string you want to search for.
             Note, that the amounts returned can be controlled using the limit\* paramerters.
-            
+
             The following query-filters are supported:
             - `in:<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
               alternative syntax:
@@ -350,186 +350,198 @@ paths:
               examples:
                 mi-hs-1:
                   value:
-                    coords:
-                      lat: 48.26244490906312
-                      lon: 11.669122601167174
-                      source: roomfinder
-                    id: 5602.EG.001
-                    maps:
-                      default: interactive
-                      roomfinder:
-                        available:
-                          - height: 487
-                            id: rf87
-                            name: FMI Garching BT02 EG
-                            path: webp/rf87.webp
-                            scale: '500'
-                            source: Roomfinder
-                            width: 399
-                            x: 234
-                            'y': 286
-                          - height: 461
-                            id: rf142
-                            name: FMI Übersicht
-                            path: webp/rf142.webp
-                            scale: '2000'
-                            source: Roomfinder
-                            width: 639
-                            x: 499
-                            'y': 189
-                          - height: 480
-                            id: rf80
-                            name: Lageplan Campus Garching
-                            path: webp/rf80.webp
-                            scale: '10000'
-                            source: Roomfinder
-                            width: 676
-                            x: 340
-                            'y': 334
-                          - height: 603
-                            id: rf54
-                            name: München
-                            path: webp/rf54.webp
-                            scale: '200000'
-                            source: Roomfinder
-                            width: 640
-                            x: 444
-                            'y': 35
-                          - height: 515
-                            id: rf156
-                            name: München und Umgebung
-                            path: webp/rf156.webp
-                            scale: '400000'
-                            source: Roomfinder
-                            width: 420
-                            x: 265
-                            'y': 167
-                        default: rf142
-                    name: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
                     parent_names:
                       - Standorte
                       - Garching Forschungszentrum
                       - Fakultät Mathematik & Informatik (FMI oder MI)
                       - Hörsaal 1 (BT02)
+                    id: 5602.EG.001
+                    type: room
+                    name: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
                     parents:
                       - root
                       - garching
                       - mi
                       - '5602'
                     props:
+                      calendar_url: 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
+                      operator:
+                        code: TUZVZA4
+                        name: Immobilien (ZA 4)
+                        url: 'https://campus.tum.de/tumonline/webnav.navigate_to?corg=19691'
+                        id: 19691
+                      tumonline_room_nr: 12325
                       computed:
                         - name: Raumkennung
                           text: 5602.EG.001
                         - name: Architekten-Name
                           text: 00.02.001
                         - name: Stockwerk
-                          text: 0 (Erdgeschoss)
+                          text: Erdgeschoss
                         - name: Adresse
-                          text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
-                        - name: Sitzplätze
-                          text: '522'
-                          extra:
-                            header: Genauere Angaben
-                            body: 'für Prüfungen: 102 in eng, 71 in weit, 49 in corona'
-                      calendar_url: 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
-                    ranking_factors:
-                      rank_combined: 900
-                      rank_type: 100
-                      rank_usage: 900
+                          text: 'Boltzmannstr. 3, 85748 Garching b. München'
+                    usage:
+                      name: Hörsaal
+                      din_277: NF5.1
+                      din_277_desc: Unterrichtsräume mit festem Gestühl
                     sources:
                       base:
                         - name: TUMonline
                           url: 'https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=12325'
                         - name: Roomfinder
                           url: 'https://portal.mytum.de/displayRoomMap?roomid=00.02.001@5602&disable_decoration=yes'
-                    type: room
-                    type_common_name: Hörsaal
-                    usage:
-                      din_277: NF5.1
-                      din_277_desc: Unterrichtsräume mit festem Gestühl
-                      name: Hörsaal
-                5606.EG.036:
-                  value:
                     coords:
-                      lat: 48.26217845031176
-                      lon: 11.6686932781057
+                      lat: 48.26244490906312
+                      lon: 11.669122601167174
                       source: roomfinder
-                    id: 5606.EG.036
                     maps:
-                      default: interactive
                       roomfinder:
                         available:
-                          - height: 605
-                            id: rf95
-                            name: FMI Garching BT06 EG
-                            path: webp/rf95.webp
-                            scale: '500'
+                          - scale: '500'
+                            id: rf87
+                            name: FMI Garching BT02 EG
+                            width: 399
+                            height: 487
+                            x: 234
+                            'y': 286
                             source: Roomfinder
-                            width: 318
-                            x: 207
-                            'y': 217
-                          - height: 461
+                            file: rf87.webp
+                          - scale: '2000'
                             id: rf142
                             name: FMI Übersicht
-                            path: webp/rf142.webp
-                            scale: '2000'
-                            source: Roomfinder
                             width: 639
-                            x: 443
-                            'y': 242
-                          - height: 480
+                            height: 461
+                            x: 499
+                            'y': 189
+                            source: Roomfinder
+                            file: rf142.webp
+                          - scale: '10000'
                             id: rf80
                             name: Lageplan Campus Garching
-                            path: webp/rf80.webp
-                            scale: '10000'
-                            source: Roomfinder
                             width: 676
-                            x: 329
-                            'y': 344
-                          - height: 603
+                            height: 480
+                            x: 340
+                            'y': 334
+                            source: Roomfinder
+                            file: rf80.webp
+                          - scale: '200000'
                             id: rf54
                             name: München
-                            path: webp/rf54.webp
-                            scale: '200000'
-                            source: Roomfinder
                             width: 640
+                            height: 603
                             x: 444
-                            'y': 36
-                          - height: 515
+                            'y': 35
+                            source: Roomfinder
+                            file: rf54.webp
+                          - scale: '400000'
                             id: rf156
                             name: München und Umgebung
-                            path: webp/rf156.webp
-                            scale: '400000'
-                            source: Roomfinder
                             width: 420
+                            height: 515
                             x: 265
                             'y': 167
-                        default: rf142
-                    name: 5606.EG.036 (MPI Fachschaftsbüro im MI)
+                            source: Roomfinder
+                            file: rf156.webp
+                        default: rf87
+                      overlays:
+                        available:
+                          - id: -1
+                            floor: U1
+                            file: mi_-1.webp
+                            name: MI Gebäude (UG) – © TUM WWW & Online Services
+                            coordinates:
+                              - - 11.666739
+                                - 48.263478
+                              - - 11.669666
+                                - 48.263125
+                              - - 11.669222
+                                - 48.261585
+                              - - 11.666331
+                                - 48.261929
+                          - id: 0
+                            floor: EG
+                            file: mi_0.webp
+                            name: MI Gebäude (EG) – © TUM WWW & Online Services
+                            coordinates:
+                              - - 11.666739
+                                - 48.263478
+                              - - 11.669666
+                                - 48.263125
+                              - - 11.669222
+                                - 48.261585
+                              - - 11.666331
+                                - 48.261929
+                          - id: 1
+                            floor: '01'
+                            file: mi_1.webp
+                            name: MI Gebäude (1.OG) – © TUM WWW & Online Services
+                            coordinates:
+                              - - 11.666739
+                                - 48.263478
+                              - - 11.669666
+                                - 48.263125
+                              - - 11.669222
+                                - 48.261585
+                              - - 11.666331
+                                - 48.261929
+                          - id: 2
+                            floor: '02'
+                            file: mi_2.webp
+                            name: MI Gebäude (2.OG) – © TUM WWW & Online Services
+                            coordinates:
+                              - - 11.666739
+                                - 48.263478
+                              - - 11.669666
+                                - 48.263125
+                              - - 11.669222
+                                - 48.261585
+                              - - 11.666331
+                                - 48.261929
+                          - id: 3
+                            floor: '03'
+                            file: mi_3.webp
+                            name: MI Gebäude (3.OG) – © TUM WWW & Online Services
+                            coordinates:
+                              - - 11.666739
+                                - 48.263478
+                              - - 11.669666
+                                - 48.263125
+                              - - 11.669222
+                                - 48.261585
+                              - - 11.666331
+                                - 48.261929
+                          - id: 4
+                            floor: '04'
+                            file: mi_4.webp
+                            name: MI Gebäude (4.OG) – © TUM WWW & Online Services
+                            coordinates:
+                              - - 11.666739
+                                - 48.263478
+                              - - 11.669666
+                                - 48.263125
+                              - - 11.669222
+                                - 48.261585
+                              - - 11.666331
+                                - 48.261929
+                        default: 0
+                      default: interactive
+                    type_common_name: Hörsaal
+                    ranking_factors:
+                      rank_type: 100
+                      rank_usage: 900
+                      rank_combined: 900
+                    aliases:
+                      - 00.02.001@5602
+                    redirect_url: /room/5602.EG.001
+                5606.EG.036:
+                  value:
                     parent_names:
                       - Standorte
                       - Garching Forschungszentrum
                       - Fakultät Mathematik & Informatik (FMI oder MI)
                       - Finger 06 (BT06)
-                    parents:
-                      - root
-                      - garching
-                      - mi
-                      - '5606'
-                    props:
-                      computed:
-                        - name: Raumkennung
-                          text: 5606.EG.036
-                        - name: Architekten-Name
-                          text: 00.06.036
-                        - name: Stockwerk
-                          text: 0 (Erdgeschoss)
-                        - name: Adresse
-                          text: 'Boltzmannstr. 3, EG, 85748 Garching b. München'
-                    ranking_factors:
-                      rank_combined: 100
-                      rank_type: 100
-                      rank_usage: 100
+                    name: 5606.EG.036 (Büro Fachschaft Mathe Physik Informatik Chemie / MPIC)
+                    short_name: MPIC Büro
                     sources:
                       base:
                         - name: NavigaTUM
@@ -537,12 +549,176 @@ paths:
                           url: 'https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=55601'
                         - name: Roomfinder
                           url: 'https://portal.mytum.de/displayRoomMap?roomid=00.06.036@5606&disable_decoration=yes'
+                    id: 5606.EG.036
                     type: room
-                    type_common_name: Büro
+                    parents:
+                      - root
+                      - garching
+                      - mi
+                      - '5606'
+                    props:
+                      operator:
+                        code: TUVBMPI
+                        name: Fachschaftsverbund Mathematik/Physik/Informatik/Chemie
+                        url: 'https://campus.tum.de/tumonline/webnav.navigate_to?corg=45500'
+                        id: 45500
+                      tumonline_room_nr: 55601
+                      computed:
+                        - name: Raumkennung
+                          text: 5606.EG.036
+                        - name: Architekten-Name
+                          text: 00.06.036
+                        - name: Stockwerk
+                          text: Erdgeschoss
+                        - name: Adresse
+                          text: 'Boltzmannstr. 3, 85748 Garching b. München'
                     usage:
+                      name: Büro
                       din_277: NF2.1
                       din_277_desc: Büroräume
-                      name: Büro
+                    coords:
+                      lat: 48.26217845031176
+                      lon: 11.668693278105701
+                      source: roomfinder
+                    maps:
+                      roomfinder:
+                        available:
+                          - scale: '500'
+                            id: rf95
+                            name: FMI Garching BT06 EG
+                            width: 318
+                            height: 605
+                            x: 207
+                            'y': 217
+                            source: Roomfinder
+                            file: rf95.webp
+                          - scale: '2000'
+                            id: rf142
+                            name: FMI Übersicht
+                            width: 639
+                            height: 461
+                            x: 443
+                            'y': 242
+                            source: Roomfinder
+                            file: rf142.webp
+                          - scale: '10000'
+                            id: rf80
+                            name: Lageplan Campus Garching
+                            width: 676
+                            height: 480
+                            x: 329
+                            'y': 344
+                            source: Roomfinder
+                            file: rf80.webp
+                          - scale: '200000'
+                            id: rf54
+                            name: München
+                            width: 640
+                            height: 603
+                            x: 444
+                            'y': 36
+                            source: Roomfinder
+                            file: rf54.webp
+                          - scale: '400000'
+                            id: rf156
+                            name: München und Umgebung
+                            width: 420
+                            height: 515
+                            x: 265
+                            'y': 167
+                            source: Roomfinder
+                            file: rf156.webp
+                        default: rf95
+                      overlays:
+                        available:
+                          - id: -1
+                            floor: U1
+                            file: mi_-1.webp
+                            name: MI Gebäude (UG) – © TUM WWW & Online Services
+                            coordinates:
+                              - - 11.666739
+                                - 48.263478
+                              - - 11.669666
+                                - 48.263125
+                              - - 11.669222
+                                - 48.261585
+                              - - 11.666331
+                                - 48.261929
+                          - id: 0
+                            floor: EG
+                            file: mi_0.webp
+                            name: MI Gebäude (EG) – © TUM WWW & Online Services
+                            coordinates:
+                              - - 11.666739
+                                - 48.263478
+                              - - 11.669666
+                                - 48.263125
+                              - - 11.669222
+                                - 48.261585
+                              - - 11.666331
+                                - 48.261929
+                          - id: 1
+                            floor: '01'
+                            file: mi_1.webp
+                            name: MI Gebäude (1.OG) – © TUM WWW & Online Services
+                            coordinates:
+                              - - 11.666739
+                                - 48.263478
+                              - - 11.669666
+                                - 48.263125
+                              - - 11.669222
+                                - 48.261585
+                              - - 11.666331
+                                - 48.261929
+                          - id: 2
+                            floor: '02'
+                            file: mi_2.webp
+                            name: MI Gebäude (2.OG) – © TUM WWW & Online Services
+                            coordinates:
+                              - - 11.666739
+                                - 48.263478
+                              - - 11.669666
+                                - 48.263125
+                              - - 11.669222
+                                - 48.261585
+                              - - 11.666331
+                                - 48.261929
+                          - id: 3
+                            floor: '03'
+                            file: mi_3.webp
+                            name: MI Gebäude (3.OG) – © TUM WWW & Online Services
+                            coordinates:
+                              - - 11.666739
+                                - 48.263478
+                              - - 11.669666
+                                - 48.263125
+                              - - 11.669222
+                                - 48.261585
+                              - - 11.666331
+                                - 48.261929
+                          - id: 4
+                            floor: '04'
+                            file: mi_4.webp
+                            name: MI Gebäude (4.OG) – © TUM WWW & Online Services
+                            coordinates:
+                              - - 11.666739
+                                - 48.263478
+                              - - 11.669666
+                                - 48.263125
+                              - - 11.669222
+                                - 48.261585
+                              - - 11.666331
+                                - 48.261929
+                        default: 0
+                      default: interactive
+                    type_common_name: Büro
+                    ranking_factors:
+                      rank_type: 100
+                      rank_usage: 100
+                      rank_combined: 100
+                    aliases:
+                      - 00.06.036@5606
+                    redirect_url: /room/5606.EG.036
         '404':
           description: Invalid input
           content:
@@ -1634,6 +1810,17 @@ components:
                   $ref: '#/components/schemas/RoomsOverview'
                 featured_overview:
                   $ref: '#/components/schemas/FeaturedOverview'
+            poi:
+              type: object
+              properties:
+                mvg:
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/Station'
+              required:
+                - mvg
           required:
             - id
             - type
@@ -1799,14 +1986,14 @@ components:
         aliases:
           description: |
             A list of alternative ids for this entry.  
-            
+
             Not to be confused with
             - `id` which is the unique identifier or
             - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
           type: array
           items:
             type: string
-            example: '26503@5406'
+            example: 26503@5406
         parents:
           type: array
           items:
@@ -2095,6 +2282,66 @@ components:
       required:
         - token
         - privacy_checked
+    Station:
+      type: object
+      x-examples:
+        Example 1:
+          distance: 264.3434461761658
+          station_id: 'de:09184:2051'
+          name: 'Oberschleißh., Regattaanlage'
+          lat: 48.2526907440601
+          lon: 11.5246215288662
+          sub_stations:
+            - station_id: 'de:09184:2051:0:1'
+              name: 'Oberschleißh., Regattaanlage'
+              lat: 48.2526129857745
+              lon: 11.5251605180367
+            - station_id: 'de:09184:2051:0:2'
+              name: 'Oberschleißh., Regattaanlage'
+              lat: 48.2528223347355
+              lon: 11.5240016913201
+      properties:
+        distance:
+          type: number
+          format: double
+          exclusiveMinimum: 0
+        station_id:
+          type: string
+        name:
+          type: string
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
+        sub_stations:
+          type: array
+          items:
+            type: object
+            properties:
+              station_id:
+                type: string
+              name:
+                type: string
+              lat:
+                type: number
+                format: double
+              lon:
+                type: number
+                format: double
+            required:
+              - station_id
+              - name
+              - lat
+              - lon
+      required:
+        - distance
+        - station_id
+        - name
+        - lat
+        - lon
+        - sub_stations
 tags:
   - name: core
     description: the API to access/search for room information
