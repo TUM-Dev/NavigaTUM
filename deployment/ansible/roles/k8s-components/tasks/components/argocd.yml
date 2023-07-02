@@ -9,7 +9,7 @@
     wait: false
     update_repo_cache: yes
     release_state: present
-    chart_version: 5.32.1
+    chart_version: 5.36.11
     chart_ref: argo/argo-cd
     name: argo-cd
     namespace: argocd
