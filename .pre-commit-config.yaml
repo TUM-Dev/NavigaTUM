@@ -117,12 +117,6 @@ repos:
     hooks:
       - id: markdownlint-cli2-fix
         exclude: .github/pull_request_template.md
-  - repo: https://github.com/gruntwork-io/pre-commit
-    rev: v0.1.22
-    hooks:
-      - id: shellcheck
-      # - id: markdown-link-check
-      #       ^-- can detect wrong links in our docs, but has a lot of false positives. Only run it sometimes.
   - repo: local
     hooks:
       - id: webclient-locale-diff
