@@ -1,57 +1,50 @@
-from pathlib import Path
-from external.scraping_utils import cached_json, _download_file,CACHE_PATH
-from zipfile import ZipFile
 import csv
-# CSV indexes
-STATIONID = "stop_id"
-NAME = "stop_name"
-TYPE= "location_type"
-LATITUDE = "stop_lat" 
-LONGITUDE = "stop_lon"
-PARENT="parent_station"
+from zipfile import ZipFile
 
-def _download_zip(filepath):
-    url="https://www.mvv-muenchen.de/fileadmin/mediapool/02-Fahrplanauskunft/03-Downloads/openData/mvv_gtfs.zip"
-    _download_file(url,filepath)
+from external.scraping_utils import _download_file, CACHE_PATH, cached_json
 
-def _extract_stops(zip_location,target_dir):
-    zip=ZipFile(zip_location)
-    zip.extract("stops.txt",target_dir)
+MVV_GTFS_URL = "https://www.mvv-muenchen.de/fileadmin/mediapool/02-Fahrplanauskunft/03-Downloads/openData/mvv_gtfs.zip"
+PUBLIC_TRANSPORT_CACHE_PATH = CACHE_PATH / "public_transport"
+
 
 @cached_json("public_transport.json")
 def scrape_stations():
-    parent_dir=CACHE_PATH / "public_transport"
-    _download_zip(parent_dir / "fahrplandaten.zip")
-    _extract_stops(parent_dir / "fahrplandaten.zip", parent_dir)
+    """Scrape the stations from the MVV GTFS data and return them as a list of dicts"""
+    _download_file(MVV_GTFS_URL, PUBLIC_TRANSPORT_CACHE_PATH / "fahrplandaten.zip")
+    with ZipFile(PUBLIC_TRANSPORT_CACHE_PATH / "fahrplandaten.zip") as file_zip:
+        file_zip.extract("stops.txt", PUBLIC_TRANSPORT_CACHE_PATH)
 
-    with Path(parent_dir / "stops.txt").open("r") as file:
-        lines = csv.DictReader(file, delimiter=",")  
-        stations={}
-        repeat_later=[] #when parent station is not already in dict
+    with open(PUBLIC_TRANSPORT_CACHE_PATH / "stops.txt", encoding="utf-8") as file:
+        lines = csv.DictReader(file, delimiter=",")
+        stations = {}
+        repeat_later = []  # when parent station is not already in dict
         for line in lines:
-            if line[TYPE]:
-                stations.setdefault(line[STATIONID],{
-                    "id":line[STATIONID],
-                    "name":line[NAME],
-                    "lat":float(line[LATITUDE]),
-                    "lon":float(line[LONGITUDE]),
-                    "sub_stations":[]
-                } )
+            if line["location_type"]:
+                stations.setdefault(
+                    line["stop_id"],
+                    {
+                        "station_id": line["stop_id"],
+                        "name": line["stop_name"],
+                        "lat": float(line["stop_lat"]),
+                        "lon": float(line["stop_lon"]),
+                        "sub_stations": [],
+                    },
+                )
             else:
-                sub_station={
-                        "id":line[STATIONID],
-                        "name":line[NAME],
-                        "lat":float(line[LATITUDE]),
-                        "lon":float(line[LONGITUDE]),
-                        "parent":line[PARENT]
-                    }
-                
-                if (parent:=stations.get(line[PARENT])):
+                sub_station = {
+                    "station_id": line["stop_id"],
+                    "name": line["stop_name"],
+                    "lat": float(line["stop_lat"]),
+                    "lon": float(line["stop_lon"]),
+                    "parent": line["parent_station"],
+                }
+
+                if parent := stations.get(line["parent_station"]):
                     parent["sub_stations"].append(sub_station)
                 else:
                     repeat_later.append(sub_station)
 
         for sub in repeat_later:
-            if (parent:=stations.get(sub["parent"])):
+            if parent := stations.get(sub["parent"]):
                 parent["sub_stations"].append(sub)
-        return sorted(stations.values(),key=lambda x: x["lat"])
+        return sorted(stations.values(), key=lambda x: x["lat"])

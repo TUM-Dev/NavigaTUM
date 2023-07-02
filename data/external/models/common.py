@@ -1,8 +1,7 @@
 import pydantic
 from pydantic.dataclasses import dataclass
 
-
-PydanticConfiguration=pydantic.ConfigDict(
+PydanticConfiguration = pydantic.ConfigDict(
     frozen=True,
     str_strip_whitespace=True,
     extra=pydantic.Extra.forbid,

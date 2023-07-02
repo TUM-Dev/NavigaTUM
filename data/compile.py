@@ -10,13 +10,13 @@ from processors import (
     merge,
     nat,
     poi,
+    public_transport,
     roomfinder,
     search,
     sections,
     sitemap,
     structure,
     tumonline,
-    public_transport
 )
 from utils import setup_logging
 

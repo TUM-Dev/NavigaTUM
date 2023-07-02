@@ -47,7 +47,7 @@ paths:
           description: |
             string you want to search for.
             Note, that the amounts returned can be controlled using the limit\* paramerters.
-            
+
             The following query-filters are supported:
             - `in:<parent>`: Only return rooms in the given parent (e.g. `in:5304` or `in:garching`)
               alternative syntax:
@@ -1799,14 +1799,14 @@ components:
         aliases:
           description: |
             A list of alternative ids for this entry.  
-            
+
             Not to be confused with
             - `id` which is the unique identifier or
             - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
           type: array
           items:
             type: string
-            example: '26503@5406'
+            example: 26503@5406
         parents:
           type: array
           items:

@@ -45,3 +45,6 @@ You can find an overview where which data comes here:
 - **Rooms:** The rooms were mainly taken from TUMonline and extended with information from the Roomfinder. Exceptions are special rooms or spaces such as branch libraries.
   - [Branch Libraries](https://www.ub.tum.de/en/branch-libraries)
 - **Images:** All images were collected independently and assigned to the entries.
+- **Public transport:** Station locations and departure data is taken from the MVV
+  - [Station Data](https://www.mvv-muenchen.de/fahrplanauskunft/fuer-entwickler/opendata/index.html)
+  - [Departure Data](https://www.mvv-muenchen.de/fahrplanauskunft/fuer-entwickler/homepage-services/index.html)
