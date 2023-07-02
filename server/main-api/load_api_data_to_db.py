@@ -3,8 +3,10 @@ import json
 import sqlite3
 from typing import Any, TypeAlias, Union
 
+TranslatedList: TypeAlias = list[tuple[str, str, Any]]
 
-def save_entries_to_database(de_data, en_data):
+
+def save_entries_to_database(de_data: TranslatedList, en_data: TranslatedList) -> None:
     """add data consisting of 2x(key, data_json, data) to the sqlite database"""
     con: sqlite3.Connection = sqlite3.connect("data/api_data.db")
     for lang in ["de", "en"]:
@@ -68,9 +70,6 @@ def localise(value: Union[str, list[Any], dict[str, Any]], language: str) -> Any
     raise ValueError(f"Unhandled type {type(value)}")
 
 
-TranslatedList: TypeAlias = list[tuple[str, str, Any]]
-
-
 def get_localised_data() -> tuple[TranslatedList, TranslatedList]:
     """get all data from the json dump and convert it to a list of tuples"""
     with open("data/api_data.json", encoding="utf-8") as file:
@@ -116,7 +115,7 @@ def extract_aliases() -> set[Alias]:
     return aliases
 
 
-def save_aliases_to_database(aliase: set[Alias]):
+def save_aliases_to_database(aliase: set[Alias]) -> None:
     """add all aliases to the sqlite database"""
     con: sqlite3.Connection = sqlite3.connect("data/api_data.db")
     con.execute("DROP TABLE IF EXISTS aliases")

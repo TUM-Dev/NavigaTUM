@@ -27,7 +27,7 @@ def scrape_areas():
         "filter/empty.xml",
     )
 
-    return [{"id": int(e[0]), "name": e[1]} for e in _parse_filter_options(filters, "areas")]
+    return [{"id": int(attrs), "name": text} for (attrs, text) in _parse_filter_options(filters, "pGebaeudebereich")]
 
 
 def scrape_usages_filter():
@@ -43,7 +43,7 @@ def scrape_usages_filter():
         "filter/empty.xml",
     )
 
-    return [{"id": int(e[0]), "name": e[1]} for e in _parse_filter_options(filters, "usages")]
+    return [{"id": int(attrs), "name": text} for (attrs, text) in _parse_filter_options(filters, "pVerwendung")]
 
 
 @cached_json("buildings_tumonline.json")
@@ -62,7 +62,7 @@ def scrape_buildings():
         {"pGebaeudebereich": 0},
         "filter/empty.xml",
     )
-    all_buildings = _parse_filter_options(filters, "buildings")
+    all_buildings = _parse_filter_options(filters, "pGebaeude")
 
     buildings = []
     for area in areas:
@@ -71,14 +71,14 @@ def scrape_buildings():
             {"pGebaeudebereich": area["id"]},
             f"filter/area_{area['id']}.xml",
         )
-        buildings_area = _parse_filter_options(filters_area, "buildings")
+        buildings_area = _parse_filter_options(filters_area, "pGebaeude")
         buildings.extend(
             {
-                "filter_id": int(building[0]),
-                "name": building[1],
+                "filter_id": int(attrs),
+                "name": text,
                 "area_id": area["id"],
             }
-            for building in buildings_area
+            for (attrs, text) in buildings_area
         )
     # Not observed so far, I assume all buildings have an assigned area
     if len(buildings) != len(all_buildings):
@@ -169,7 +169,7 @@ def scrape_usages():
         system_id = example_room["room_link"][24:]
         roominfo = _retrieve_roominfo(system_id)
 
-        usage = roominfo["purpose"]
+        usage: str = roominfo["purpose"]
         parts = []
         for prefix in ["(NF", "(VF", "(TF"]:
             if prefix in usage:
@@ -230,15 +230,15 @@ def scrape_orgs(lang):
 class ParsedRoom(typing.TypedDict):
     list_index: str
     roomcode: str
-    room_link: str
-    calendar: str
+    room_link: str | None
+    calendar: str | None
     alt_name: str
     arch_name: str
     address: str
-    address_link: str
+    address_link: str | None
     plz_place: str
     operator: str
-    op_link: str
+    op_link: str | None
 
 
 class ParsedRoomsList(typing.NamedTuple):
@@ -248,7 +248,7 @@ class ParsedRoomsList(typing.NamedTuple):
 
 
 @cached_json("tumonline/{f_value}.{area_id}.json")
-def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id=0) -> list[dict[str, str]]:
+def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id: int = 0) -> list[ParsedRoom]:
     """Retrieve all rooms (multi-page) from the TUMonline room search list"""
 
     scraped_rooms = ParsedRoomsList()
@@ -343,9 +343,7 @@ def _snake_case(key: str) -> str:
     return "_".join(key.split()).lower()
 
 
-def _parse_filter_options(xml_parser: BeautifulSoup, filter_type):
-    el_id = {"areas": "pGebaeudebereich", "buildings": "pGebaeude", "usages": "pVerwendung"}[filter_type]
-
+def _parse_filter_options(xml_parser: BeautifulSoup, el_id: str) -> list[tuple[str, str]]:
     sel = xml_parser.find("select", {"name": el_id})
     return [(opt.attrs["value"], opt.text) for opt in sel if isinstance(opt, element.Tag) and opt.attrs["value"] != "0"]
 
@@ -407,7 +405,7 @@ def _get_roomsearch_xml(url: str, params: dict[str, str | int], cache_fname: str
     return BeautifulSoup(elem.text, "lxml")
 
 
-def _get_xml(url: str, params: dict[str, str | int], cache_fname: str):
+def _get_xml(url: str, params: dict[str, str | int], cache_fname: str) -> ET:
     cache_path = CACHE_PATH / cache_fname
     if cache_path.exists():
         tree = ET.parse(cache_path)

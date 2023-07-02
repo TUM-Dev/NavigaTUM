@@ -115,7 +115,7 @@ def _extract_available_maps(entry, custom_maps, maps_list):
     return sorted(available_maps, key=_sort_key)
 
 
-def _merge_str(s_1: str, s_2: str):
+def _merge_str(s_1: str, s_2: str) -> str:
     """
     Merges two strings. The Result is of the format common_prefix s1/s2 common_suffix.
     Example: "Thierschbau 5. OG" and "Thierschbau 6. OG" -> "Thierschbau 5/6. OG"
@@ -126,7 +126,7 @@ def _merge_str(s_1: str, s_2: str):
     suffix = os.path.commonprefix((s_1[::-1], s_2[::-1]))[::-1]
     s_1 = s_1.removeprefix(prefix).removesuffix(suffix)
     s_2 = s_2.removeprefix(prefix).removesuffix(suffix)
-    return prefix + s_1 + "/" + s_2 + suffix
+    return f"{prefix}{s_1}/{s_2}{suffix}"
 
 
 def _merge_maps(map1, map2):

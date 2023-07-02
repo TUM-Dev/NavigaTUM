@@ -71,7 +71,7 @@ class TranslatableStr(dict):
         return self
 
 
-def convert_to_webp(source: Path):
+def convert_to_webp(source: Path) -> None:
     """Convert image(s) to WebP.
 
     Args:

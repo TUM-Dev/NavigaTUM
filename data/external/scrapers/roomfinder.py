@@ -120,7 +120,7 @@ def _guess_queries(rooms, n_rooms):
 
 
 @cached_json("maps_roomfinder.json")
-def scrape_maps():
+def scrape_maps() -> list[dict]:
     """
     Retrieve the maps including the data about them from Roomfinder.
     Map files will be stored in 'cache/maps/roomfinder'.

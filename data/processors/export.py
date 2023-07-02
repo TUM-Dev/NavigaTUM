@@ -88,7 +88,7 @@ def export_for_search(data, path):
         json.dump(export, file)
 
 
-def extract_arch_name(entry: dict):
+def extract_arch_name(entry: dict) -> str | None:
     """Extract the arch name from the entry"""
     if entry["type"] == "building":
         return f"@{entry['id']}"

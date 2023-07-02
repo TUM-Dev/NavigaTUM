@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
-import { Translation } from 'vue-i18n'
+import { defineComponent } from "vue";
+import { Translation } from "vue-i18n";
 
-export default defineComponent(Translation)
+export default defineComponent(Translation);

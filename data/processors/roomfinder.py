@@ -2,7 +2,7 @@ import json
 import logging
 import re
 
-import utm  # type: ignore
+import utm
 import yaml
 from external.models import roomfinder
 
@@ -144,7 +144,7 @@ def merge_roomfinder_rooms(data):
         )
 
 
-def _get_roomfinder_coords(obj: roomfinder.Building | roomfinder.Room):
+def _get_roomfinder_coords(obj: roomfinder.Building | roomfinder.Room) -> dict[str, str | float]:
     """Get the coordinates from a roomfinder object (room or building)"""
     # UTM zone is either 32 or 33, corresponding to zones "32U" and "33U"
     # TODO: Map image boundaries also included "33T". It could maybe be possible to guess
@@ -208,7 +208,7 @@ def _get_roomfinder_maps(obj: roomfinder.Building | roomfinder.Room):
     return maps
 
 
-def _find_room_id(room: roomfinder.Room, data, arch_name_lookup, patches):
+def _find_room_id(room: roomfinder.Room, data: dict, arch_name_lookup: dict[str, str], patches) -> str | None:
     if room.r_id in patches["ignore"]:
         return None
 
@@ -230,8 +230,8 @@ def _find_room_id(room: roomfinder.Room, data, arch_name_lookup, patches):
             search_strings.append(alt_str.lower())
 
     for search in search_strings:
-        if search in arch_name_lookup:
-            return arch_name_lookup[search]
+        if search_result := arch_name_lookup.get(search):
+            return search_result
 
     raise RoomNotFoundException(False, f"Could not find roomfinder room in TUMonline data: {room.r_id}")
 
