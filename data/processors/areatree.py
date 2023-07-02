@@ -1,5 +1,4 @@
 import logging
-from typing import TypedDict
 
 
 def read_areatree():
