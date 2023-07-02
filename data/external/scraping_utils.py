@@ -49,7 +49,7 @@ def cached_json(filename: str):
     return decorator
 
 
-def _download_file(url, target_cache_file, quiet=False, quiet_errors=False):
+def _download_file(url: str, target_cache_file: Path, quiet: bool = False, quiet_errors: bool = False) -> Path | None:
     if not target_cache_file.exists():
         # url parameter does not allow path traversal, because we build it further up in the callstack
         try:

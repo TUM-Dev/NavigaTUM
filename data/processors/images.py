@@ -140,7 +140,7 @@ class Resizer:
         self.source = source
         self.img = Image.open(source)
 
-    def resize_to_fixed_size(self, target: Path, fixed_size: tuple[int, int], offset: int):
+    def resize_to_fixed_size(self, target: Path, fixed_size: tuple[int, int], offset: int) -> None:
         """
         Generate an image with fixed_size pixels for the given image.
         An offset can be used, to translate the image across the longer axis.
@@ -174,7 +174,7 @@ class Resizer:
             new_img = new_img.resize(fixed_size, Image.Resampling.LANCZOS)
         new_img.save(target, lossless=False, quality=TARGET_IMAGE_QUALITY)
 
-    def resize_to_max_size(self, target: Path, max_size: int):
+    def resize_to_max_size(self, target: Path, max_size: int) -> None:
         """Generate an image with at max_size pixel in max(width, height) for the given image."""
         width, height = self.img.size
         if max_size >= max(width, height):
@@ -230,7 +230,7 @@ def _get_hash_lut() -> dict[str, str]:
     logging.info("Only files, with sha256(file-content)_sha256(offset) not present in the .hash_lut.json will be used")
     if HASH_LUT.is_file():
         with open(HASH_LUT, encoding="utf-8") as file:
-            return json.load(file)
+            return json.load(file)  # type: ignore
     return {}
 
 

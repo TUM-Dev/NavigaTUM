@@ -2,6 +2,7 @@
 import json
 import logging
 from multiprocessing.pool import ThreadPool
+from pathlib import Path
 
 import requests
 from external.scraping_utils import _download_file, CACHE_PATH, cached_json
@@ -86,7 +87,7 @@ def _extract_campus(rooms: dict) -> dict:
     return campi
 
 
-def _extract_translations(item: dict):
+def _extract_translations(item: dict) -> None:
     """
     De-Inline the translations of keys into dicts.
     E.g. {"key": "A", "key_en": "B"} will be transformed into {"key": {"de": "A", "en": "B"}}
@@ -111,7 +112,7 @@ def _extract_translation_recursive(item):
             _extract_translation_recursive(sub_item)
 
 
-def _sanitise_room(room: dict):
+def _sanitise_room(room: dict) -> dict:
     """
     Sanitise the room information.
     After this step:
@@ -197,12 +198,12 @@ def _get_base_room_infos():
     => we need to do with binary search workaround
     """
     # download the provided ids in chunks (the API is only offering chunks of 5_000)
-    undownloadable = []
+    undownloadable: list[int] = []
     work_queue = [(i, 5_000) for i in range(0, 50_000, 5_000)]
     pool = ThreadPool()
     with tqdm(desc="Downloaded nat base room info", total=50_000) as prog:
         while work_queue:
-            new_queue = []  # modifiying work_queue while iterating over it is a bad idea
+            new_queue: list[tuple[int, int]] = []  # modifiying work_queue while iterating over it is a bad idea
             for (start, batch), downloaded_file in pool.starmap(_try_download_room_base_info, work_queue):
                 # there may be files which we did not download due to one error...
 
@@ -223,7 +224,7 @@ def _get_base_room_infos():
     return total_hits  # noqa: R504
 
 
-def _try_download_room_base_info(start: int, batch: int):
+def _try_download_room_base_info(start: int, batch: int) -> tuple[tuple[int, int], Path | None]:
     downloaded_file = _download_file(
         f"{NAT_API_URL}/?limit={batch}&offset={start}",
         NAT_CACHE_DIR / f"rooms_base_{start}_to_{start + batch - 1 }.json",
@@ -233,7 +234,7 @@ def _try_download_room_base_info(start: int, batch: int):
     return (start, batch), downloaded_file
 
 
-def _report_undownloadable(undownloadable: list[int]):
+def _report_undownloadable(undownloadable: list[int]) -> None:
     """
     Report the undownloadable rooms in a range based format
     """
