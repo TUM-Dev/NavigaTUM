@@ -8,7 +8,6 @@ class SubStation:
     name: str
     lat: float
     lon: float
-    parent: str
 
 
 @dataclass(config=PydanticConfiguration)

@@ -2296,12 +2296,10 @@ components:
               name: 'Oberschleißh., Regattaanlage'
               lat: 48.2526129857745
               lon: 11.5251605180367
-              parent: 'de:09184:2051'
             - station_id: 'de:09184:2051:0:2'
               name: 'Oberschleißh., Regattaanlage'
               lat: 48.2528223347355
               lon: 11.5240016913201
-              parent: 'de:09184:2051'
       properties:
         distance:
           type: number
@@ -2332,14 +2330,11 @@ components:
               lon:
                 type: number
                 format: double
-              parent:
-                type: string
             required:
               - station_id
               - name
               - lat
               - lon
-              - parent
       required:
         - distance
         - station_id

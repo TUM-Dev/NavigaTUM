@@ -835,7 +835,6 @@ export type components = {
         readonly lat: number;
         /** Format: double */
         readonly lon: number;
-        readonly parent: string;
       }[];
     };
   };

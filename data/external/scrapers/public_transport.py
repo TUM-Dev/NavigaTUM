@@ -47,4 +47,8 @@ def scrape_stations():
         for sub in repeat_later:
             if parent := stations.get(sub["parent"]):
                 parent["sub_stations"].append(sub)
+        # remove parent property from sub stations
+        for station in stations.values():
+            for sub in station["sub_stations"]:
+                del sub["parent"]
         return sorted(stations.values(), key=lambda x: x["lat"])
