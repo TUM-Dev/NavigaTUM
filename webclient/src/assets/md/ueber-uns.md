@@ -46,3 +46,6 @@ Eine Übersicht woher welche Daten stammen findest du hier:
 - **Räume:** Die Räume wurden großteils aus TUMonline übernommen und ggf. mit Informationen aus dem Roomfinder ergänzt. Ausnahmen sind spezielle Räume oder Bereiche wie Teilbibliotheken.
   - [Teilbibliotheken](https://www.ub.tum.de/teilbibliotheken)
 - **Bilder:** Die Bilder wurden unabhängig der sonstigen Daten gesammelt und den Einträgen zugeordnet.
+- **Öffentliche Verkehrsmittel:** Stationen und Fahrpläne stammen vom MVV
+  - [Stationen](https://www.mvv-muenchen.de/fahrplanauskunft/fuer-entwickler/opendata/index.html)
+  - [Fahrpläne](https://www.mvv-muenchen.de/fahrplanauskunft/fuer-entwickler/homepage-services/index.html)

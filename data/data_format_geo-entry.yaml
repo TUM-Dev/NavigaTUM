@@ -267,6 +267,12 @@ internal_id:
       children:
         - {name: "StudiTUM Garching", id: "5532"}
   
+  #if building
+  nearby_public_transport:
+    - distance: 242.20831985118855
+      station: # a parent station has one child station for each type of public transport, e.g. bus, train, tram...
+        { id: "de:09184:2073", lat: "48.2611537274888", lon: "11.6684777384851", name: "Garching, Boltzmannstra\u00dfe", 
+          sub_stations: [{id: "de:09184:2073:0:1", lat: "48.2611537274888", lon: "11.6684777384851", name: "Garching, Boltzmannstra\u00dfe", parent: "de:09184:2073"}]}
   
   generate_rooms_overview:
     sections:

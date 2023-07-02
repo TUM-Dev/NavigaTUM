@@ -13,7 +13,6 @@ feedback:
   category: Feedback category
   delete: Delete this GitHub issue when resolved.
   error:
-    too_many_requests: Sending feedback is currently not possible due to rate-limiting. Please try again in a while or send a mail.
     feedback_not_configured: Sending feedback is currently not configured on the server.
     privacy_not_checked:
       other_contact_options: There are other means of contact listed at in our impressum.'
@@ -26,6 +25,7 @@ feedback:
     server_error: Server Error
     token_req_failed: Unexpected error when loading the feedback form. Sending feedback is currently probably not possible. Please send a mail instead.
     token_unexpected_status: 'Unexpected status code when retrieving a feedback token: '
+    too_many_requests: Sending feedback is currently not possible due to rate-limiting. Please try again in a while or send a mail.
     too_short_body: 'Error: Message missing or too short'
     too_short_subject: 'Error: Subject missing or too short'
   helptext:

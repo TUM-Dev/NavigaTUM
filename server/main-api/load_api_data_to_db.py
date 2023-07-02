@@ -43,11 +43,11 @@ def save_entries_to_database(de_data, en_data):
 
     with con:
         con.executemany(
-            "INSERT INTO de(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon) " "VALUES (?,?,?,?,?,?,?,?)",
+            "INSERT INTO de(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)",
             de_data,
         )
         con.executemany(
-            "INSERT INTO en(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon) " "VALUES (?,?,?,?,?,?,?,?)",
+            "INSERT INTO en(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon) VALUES (?,?,?,?,?,?,?,?)",
             en_data,
         )
 
@@ -117,6 +117,7 @@ def extract_aliases() -> set[Alias]:
 
 
 def save_aliases_to_database(aliase: set[Alias]):
+    """add all aliases to the sqlite database"""
     con: sqlite3.Connection = sqlite3.connect("data/api_data.db")
     con.execute("DROP TABLE IF EXISTS aliases")
     con.execute(
@@ -131,7 +132,7 @@ def save_aliases_to_database(aliase: set[Alias]):
     )
     with con:
         con.executemany(
-            "INSERT INTO aliases(alias,key,visible_id,type)" "VALUES (?,?,?,?)",
+            "INSERT INTO aliases(alias,key,visible_id,type) VALUES (?,?,?,?)",
             [(item.alias, item.key, item.visible_id, item.type) for item in aliase],
         )
 

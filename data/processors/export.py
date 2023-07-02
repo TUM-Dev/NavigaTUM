@@ -67,7 +67,7 @@ def export_for_search(data, path):
                 # Parents always exclude root
                 # "parent_names": _data["parents"][1:], [data[p]["name"] for p in _data["parents"][1:]],
                 # For rooms, the (joined_)building parents are extra to put more emphasis on them.
-                # Also their name is included
+                # Also, their name is included
                 "parent_building_names": [
                     data[p]["short_name"] for p in entry["parents"][building_parents_index:] if "short_name" in data[p]
                 ]
@@ -87,10 +87,13 @@ def export_for_search(data, path):
     with open(path, "w", encoding="utf-8") as file:
         json.dump(export, file)
 
+
 def extract_arch_name(entry: dict):
+    """Extract the arch name from the entry"""
     if entry["type"] == "building":
         return f"@{entry['id']}"
     return entry.get("tumonline_data", {}).get("arch_name", None)
+
 
 def export_for_api(data, path):
     """Add some more information about parents to the data and export for the /get/:id api"""
