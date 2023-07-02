@@ -1810,6 +1810,17 @@ components:
                   $ref: '#/components/schemas/RoomsOverview'
                 featured_overview:
                   $ref: '#/components/schemas/FeaturedOverview'
+            poi:
+              type: object
+              properties:
+                mvg:
+                  type: array
+                  minItems: 1
+                  uniqueItems: true
+                  items:
+                    $ref: '#/components/schemas/Station'
+              required:
+                - mvg
           required:
             - id
             - type
@@ -2271,6 +2282,71 @@ components:
       required:
         - token
         - privacy_checked
+    Station:
+      type: object
+      x-examples:
+        Example 1:
+          distance: 264.3434461761658
+          station_id: 'de:09184:2051'
+          name: 'Oberschleißh., Regattaanlage'
+          lat: 48.2526907440601
+          lon: 11.5246215288662
+          sub_stations:
+            - station_id: 'de:09184:2051:0:1'
+              name: 'Oberschleißh., Regattaanlage'
+              lat: 48.2526129857745
+              lon: 11.5251605180367
+              parent: 'de:09184:2051'
+            - station_id: 'de:09184:2051:0:2'
+              name: 'Oberschleißh., Regattaanlage'
+              lat: 48.2528223347355
+              lon: 11.5240016913201
+              parent: 'de:09184:2051'
+      properties:
+        distance:
+          type: number
+          format: double
+          exclusiveMinimum: 0
+        station_id:
+          type: string
+        name:
+          type: string
+        lat:
+          type: number
+          format: double
+        lon:
+          type: number
+          format: double
+        sub_stations:
+          type: array
+          items:
+            type: object
+            properties:
+              station_id:
+                type: string
+              name:
+                type: string
+              lat:
+                type: number
+                format: double
+              lon:
+                type: number
+                format: double
+              parent:
+                type: string
+            required:
+              - station_id
+              - name
+              - lat
+              - lon
+              - parent
+      required:
+        - distance
+        - station_id
+        - name
+        - lat
+        - lon
+        - sub_stations
 tags:
   - name: core
     description: the API to access/search for room information

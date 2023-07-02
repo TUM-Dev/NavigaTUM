@@ -31,13 +31,13 @@ def _filter_by_latitude(lat: float, stations: list[Station]) -> list[Station]:
     return [station for station in stations if min_lat < station.lat < max_lat]
 
 
-def nearby_stations(lat: float, lon: float, stations: list[Station]) -> list[tuple[float, Station]]:
+def nearby_stations(lat: float, lon: float, stations: list[Station]) -> list[dict]:
     """returns a list of tuples in form: [distance in meter, station]"""
     results = []
     for station in _filter_by_latitude(lat, stations):
         if (distance := _distance_via_great_circle(station.lat, station.lon, lat, lon)) <= MAXDISTANCE:
-            results.append((distance, asdict(station)))  # cast do dict, as dataclass cant be encoded to json by default
-    return sorted(results, key=lambda x: x[0])
+            results.append({"distance": distance}|asdict(station))  # cast do dict, as dataclass cant be encoded to json by default
+    return sorted(results, key=lambda x: x["distance"])
 
 
 def add_nearby_public_transport(data):
@@ -47,5 +47,7 @@ def add_nearby_public_transport(data):
 
     for entry in data.values():
         if coords := entry.get("coords", None):
-            options = nearby_stations(coords["lat"], coords["lon"], stations)
-            entry["nearby_public_transport"] = options
+            if nearby_mvg := nearby_stations(coords["lat"], coords["lon"], stations):
+                poi = entry.get("poi", {})
+                poi["nearby_public_transport"] = {"mvg": [nearby_mvg]}
+                entry["poi"] = poi

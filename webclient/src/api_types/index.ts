@@ -6,7 +6,6 @@
 /** OneOf type helpers */
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
 type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type OneOf<T extends any[]> = T extends [infer Only]
   ? Only
   : T extends [infer A, infer B, ...infer Rest]
@@ -504,6 +503,9 @@ export type components = {
         readonly rooms_overview?: components["schemas"]["RoomsOverview"];
         readonly featured_overview?: components["schemas"]["FeaturedOverview"];
       };
+      readonly poi?: {
+        readonly mvg: readonly [components["schemas"]["Station"], ...components["schemas"]["Station"][]];
+      };
     };
     readonly BuildingsOverview: {
       readonly entries: readonly (components["schemas"]["ChildEntry"] & {
@@ -816,6 +818,25 @@ export type components = {
        * @example true
        */
       readonly privacy_checked: boolean;
+    };
+    readonly Station: {
+      /** Format: double */
+      readonly distance: number;
+      readonly station_id: string;
+      readonly name: string;
+      /** Format: double */
+      readonly lat: number;
+      /** Format: double */
+      readonly lon: number;
+      readonly sub_stations: readonly {
+        readonly station_id: string;
+        readonly name: string;
+        /** Format: double */
+        readonly lat: number;
+        /** Format: double */
+        readonly lon: number;
+        readonly parent: string;
+      }[];
     };
   };
   responses: never;
