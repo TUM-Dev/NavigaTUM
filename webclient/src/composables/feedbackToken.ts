@@ -37,7 +37,7 @@ export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
   const MS_PER_HOUR = 3600000;
   const TOKEN_VALIDITY_FRONTEND_HOURS = 6;
   if (token.value === null || Date.now() - token.value.created_at > TOKEN_VALIDITY_FRONTEND_HOURS * MS_PER_HOUR) {
-    fetch(`/api/feedback/get_token`, { method: "POST" })
+    fetch(`${import.meta.env.VITE_APP_URL}/api/feedback/get_token`, { method: "POST" })
       .then((r) => {
         if (r.status === TokenStatus.SUCCESSFULLY_CREATED) {
           r.json()

@@ -10,8 +10,9 @@ export function useFetch<T>(
   // for some of our endpoints, we might want to have access to the lang/theme cookies
 
   // Add language query param to the request
-  const lang = document.documentElement.lang;
-  const localisedUrl = url + (url.indexOf("?") != -1 ? "&lang=" : "?lang=") + lang;
+  const lang = localStorage.getItem("lang") || "de";
+  const langQuery = `${url.indexOf("?") != -1 ? "&lang=" : "?lang="}${lang}`;
+  const localisedUrl = `${import.meta.env.VITE_APP_URL}${url}${langQuery}`;
 
   const global = useGlobalStore();
   const fetchErrorHandler = errorHandler || ((err: string) => (global.error_message = err));
