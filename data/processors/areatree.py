@@ -1,80 +1,92 @@
 import logging
 
 
-def read_areatree():
-    """Reads the areatree file and the basic data, gained from the areatree"""
+def _areatree_lines():
+    """
+    Generator that yields lines from the areatree file
 
-    data = {}
-    parent_stack: list[str] = []
-    last_element: str | None = None
+    ignores:
+    - Empty lines,
+    - comment lines and
+    - comments in lines
+    """
+
     with open("sources/00_areatree", encoding="utf-8") as file:
         for line in file:
             # Empty lines and comment lines are ignored
             line = line.split("#")[0]
             if not line.strip():
                 continue
+            yield line
 
-            indent = len(line) - len(line.lstrip(" "))
-            if indent % 2 != 0:
-                raise RuntimeError(f"Indentation not multiple of 2: '{line}'")
-            if (indent // 2) > len(parent_stack):
-                parent_stack.append(last_element)
-            elif (indent // 2) < len(parent_stack):
-                parent_stack = parent_stack[: indent // 2]
 
-            last_element = _parse_areatree_line(line, parent_stack, data)
+def read_areatree():
+    """Reads the areatree file and the basic data, gained from the areatree"""
+
+    data = {}
+    parent_stack: list[str] = []
+
+    # The first line is extracted as mypy cannot make sense of this otherwise
+    lines = _areatree_lines()
+    last_element = _parse_areatree_line(next(lines))
+    for line in lines:
+        indent = len(line) - len(line.lstrip(" "))
+        if indent % 2 != 0:
+            raise RuntimeError(f"Indentation not multiple of 2: '{line}'")
+        if (indent // 2) > len(parent_stack):
+            parent_stack.append(last_element)
+        elif (indent // 2) < len(parent_stack):
+            parent_stack = parent_stack[: indent // 2]
+
+        building_data = _parse_areatree_line(line)
+        data[building_data["id"]] = building_data | {"parents":parent_stack[:]}
+        last_element = building_data["id"]
     return data
 
-
-def _parse_areatree_line(line: str, parent_stack: list[str], data: dict) -> str:
-    """Parses a line from the areatree file to reveal the correct parent and children"""
-
-    # The syntax is building-id(s):name(s):internal-id[,visible-id]
+def _split_line(line: str) -> tuple[str, str, str]:
+    """
+    Splits a line from the areatree file into the three parts
+    The syntax is building-id(s):name(s):internal-id[,visible-id]
+    """
     parts = line.split(":")
     if len(parts) != 3:
         raise RuntimeError(f"Invalid line, expected 3 ':'-separated parts: '{line}'")
+    internal_id: str
+    raw_names: str
+    building_ids: str
+    (building_ids, raw_names, internal_id) = parts
+    return building_ids.strip(), raw_names.strip(), internal_id.strip()
 
-    building_data = {
-        "parents": parent_stack[:],
-    }
+
+def _parse_areatree_line(line:str) -> dict:
+    """Parses a line from the areatree file to reveal the correct parent and children"""
+    building_data = {}
+    (building_ids, raw_names, internal_id) = _split_line(line)
 
     # building id(s)
-    if "-" in parts[0]:
+    if "-" in building_ids:
         building_data["data_quality"] = {"areatree_uncertain": True}
-        parts[0] = parts[0].replace("-", "")
+        building_ids = building_ids.replace("-", "")
 
-    if "," in parts[0]:
-        building_data["b_prefix"] = parts[0].strip().split(",")
-    elif len(parts[0].strip()) > 0:
-        b_id = parts[0].strip()
-        building_data["b_prefix"] = b_id
-        building_data["id"] = b_id
+    if "," in building_ids:
+        building_data["b_prefix"] = building_ids.split(",")
+    elif building_ids:
+        building_data["b_prefix"] = building_ids
+        building_data["id"] = building_ids
 
-    # name
-    names = parts[1].split("|")
-    building_data["name"] = names[0]
-    if len(names) == 2:
-        if len(names[1]) > 20:
-            logging.warning(f"'{names[1]}' is very long for a short name (>20 chars)")
-
-        building_data["short_name"] = names[1]
-    elif len(names) > 2:
-        raise RuntimeError(f"Too many names: {names}")
+    building_data |= _extract_names(raw_names.split("|"))
 
     # id and type
-    if "[" in parts[2]:
-        building_data["type"] = parts[2].split("[")[1].strip()[:-1]
-        parts[2] = parts[2].split("[")[0]
+    if "[" in internal_id:
+        internal_id, building_data["type"] = internal_id.removesuffix("]").split("[")
 
-    if "," in parts[2]:
-        ids = parts[2].strip().split(",")
+    if "," in internal_id:
+        ids = internal_id.split(",")
         if len(ids) != 2:
             raise RuntimeError(f"More than two ids found: '{line}'")
-
-        building_data["id"] = ids[0]
-        building_data["visible-id"] = ids[1]
-    elif len(parts[2].strip()) > 0:
-        building_data["id"] = parts[2].strip()
+        building_data["id"], building_data["visible-id"] = ids
+    elif internal_id:
+        building_data["id"] = internal_id
 
     if "id" not in building_data:
         raise RuntimeError(f"No id provided in line: '{line}'")
@@ -86,5 +98,16 @@ def _parse_areatree_line(line: str, parent_stack: list[str], data: dict) -> str:
         else:
             building_data["type"] = "area"
 
-    data[building_data["id"]] = building_data
-    return building_data["id"]
+    return building_data
+
+
+def _extract_names(names: list[str])-> dict[str, str]:
+    building_data = {"name": names[0]}
+    if len(names) == 2:
+        if len(names[1]) > 20:
+            logging.warning(f"'{names[1]}' is very long for a short name (>20 chars)")
+
+        building_data["short_name"] = names[1]
+    elif len(names) > 2:
+        raise RuntimeError(f"Too many names: {names}")
+    return building_data
