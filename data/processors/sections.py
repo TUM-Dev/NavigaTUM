@@ -5,8 +5,8 @@ def extract_tumonline_props(data):
     """Extracts some of the TUMonline data and provides it as `prop`."""
     for entry in data.values():
         if entry.get("tumonline_data", {}).get("calendar", None):
-            url: str = f"https://campus.tum.de/tumonline/{entry['tumonline_data']['calendar']}"
-            entry["props"]["calendar_url"] = url
+            calendar_url = f"https://campus.tum.de/tumonline/{entry['tumonline_data']['calendar']}"
+            entry["props"]["calendar_url"] = calendar_url
         if entry.get("tumonline_data", {}).get("operator", None):
             entry["props"]["operator"] = {
                 "code": entry["tumonline_data"]["operator"],
@@ -18,11 +18,11 @@ def extract_tumonline_props(data):
                 "id": entry["tumonline_data"]["operator_id"],
             }
         if entry.get("tumonline_data", {}).get("room_link", None):
-            url: str = entry["tumonline_data"]["room_link"]
-            entry["props"]["tumonline_room_nr"] = int(url.removeprefix("wbRaum.editRaum?pRaumNr="))
+            room_url: str = entry["tumonline_data"]["room_link"]
+            entry["props"]["tumonline_room_nr"] = int(room_url.removeprefix("wbRaum.editRaum?pRaumNr="))
         elif entry.get("tumonline_data", {}).get("address_link", None):
-            url: str = entry["tumonline_data"]["address_link"]
-            entry["props"]["tumonline_room_nr"] = int(url.removeprefix("ris.einzelraum?raumkey="))
+            adress_url: str = entry["tumonline_data"]["address_link"]
+            entry["props"]["tumonline_room_nr"] = int(adress_url.removeprefix("ris.einzelraum?raumkey="))
 
 
 def compute_floor_prop(data):
@@ -182,16 +182,20 @@ def compute_props(data):
     Create the "computed" value in "props".
     """
     for _id, entry in data.items():
-        if "props" in entry:
-            props = entry["props"]
+        if props := entry.get("props"):
             computed = _gen_computed_props(_id, entry, props)
 
             # Reformat if required (just to have less verbosity in the code above)
-            for i, computed_prop in enumerate(computed):
-                if "name" not in computed_prop:
-                    computed[i] = {"name": list(computed_prop.keys())[0], "text": list(computed_prop.values())[0]}
+            reformatted_computed: list[dict[_ | str, str]] = []
+            for computed_prop in computed:
+                if "name" in computed_prop:
+                    reformatted_computed.append(computed_prop)
+                else:
+                    reformatted_computed.append(
+                        {"name": list(computed_prop.keys())[0], "text": list(computed_prop.values())[0]},
+                    )
 
-            entry["props"]["computed"] = computed
+            entry["props"]["computed"] = reformatted_computed
 
 
 def _append_if_present(props, computed_results, key, human_name):
@@ -199,15 +203,14 @@ def _append_if_present(props, computed_results, key, human_name):
         computed_results.append({human_name: str(props[key])})
 
 
-def _gen_computed_props(_id, entry, props):
-    computed = []
+def _gen_computed_props(_id: str, entry: dict[str, str], props: dict) -> list[dict[_ | str, str]]:
+    computed: list[dict[_, str]] = []
     if "ids" in props:
         _append_if_present(props["ids"], computed, "b_id", _("Gebäudekennung"))
         _append_if_present(props["ids"], computed, "roomcode", _("Raumkennung"))
         if "arch_name" in props["ids"]:
             computed.append({_("Architekten-Name"): props["ids"]["arch_name"].split("@")[0]})
-    if "floor" in props:
-        floor = props["floor"]
+    if floor := props.get("floor"):
         if floor["trivial"]:
             computed.append({_("Stockwerk"): floor["name"]})
         else:
@@ -216,23 +219,22 @@ def _gen_computed_props(_id, entry, props):
         b_prefix = [entry["b_prefix"]] if isinstance(entry["b_prefix"], str) else entry["b_prefix"]
         building_names = ", ".join([p.ljust(4, "x") for p in b_prefix])
         computed.append({_("Gebäudekennungen"): building_names})
-    if "address" in props:
-        address = props["address"]
+    if address := props.get("address"):
         computed.append({_("Adresse"): f"{address['street']}, {address['plz_place']}"})
-    if "stats" in props:
-        _append_if_present(props["stats"], computed, "n_buildings", _("Anzahl Gebäude"))
-        _append_if_present(props["stats"], computed, "n_seats", _("Sitzplätze"))
-        if "n_rooms" in props["stats"]:
-            if props["stats"]["n_rooms"] == props["stats"]["n_rooms_reg"]:
-                computed.append({_("Anzahl Räume"): str(props["stats"]["n_rooms"])})
+    if stats := props.get("stats"):
+        _append_if_present(stats, computed, "n_buildings", _("Anzahl Gebäude"))
+        _append_if_present(stats, computed, "n_seats", _("Sitzplätze"))
+        if "n_rooms" in stats:
+            if stats["n_rooms"] == stats["n_rooms_reg"]:
+                computed.append({_("Anzahl Räume"): str(stats["n_rooms"])})
             else:
                 value = _("{n_rooms} ({n_rooms_reg} ohne Flure etc.)").format(
-                    n_rooms=props["stats"]["n_rooms"],
-                    n_rooms_reg=props["stats"]["n_rooms_reg"],
+                    n_rooms=stats["n_rooms"],
+                    n_rooms_reg=stats["n_rooms_reg"],
                 )
                 computed.append({_("Anzahl Räume"): value})
-    if "generic" in props:
-        computed.extend(props["generic"])
+    if generic_props := props.get("generic"):
+        computed.extend(generic_props)
     return computed
 
 

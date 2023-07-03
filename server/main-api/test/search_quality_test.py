@@ -16,7 +16,7 @@ class Query:  # split into Query and EvaluatableQuery for import reasons
     query: str
     among: int = 1
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.target, self.query, self.among))
 
 
@@ -28,17 +28,17 @@ class SearchResult:
     num_results: int
 
     @property
-    def was_successful(self):
+    def was_successful(self) -> bool:
         """Whether the search was successful (i.e. there were results)"""
         return self.target_pos is not None
 
     @property
-    def was_top5(self):
+    def was_top5(self) -> bool:
         """Whether the target was among the first 5 results"""
         return self.target_pos is not None and 0 <= self.target_pos < 5
 
     @property
-    def was_top20(self):
+    def was_top20(self) -> bool:
         """Whether the target was among the first 20 results"""
         return self.target_pos is not None and 0 <= self.target_pos < 20
 
@@ -53,7 +53,7 @@ class Evaluation:
     full_search: SearchResult
 
     @property
-    def grade(self):
+    def grade(self) -> float:
         """
         Calculate the grade of a search.
 
