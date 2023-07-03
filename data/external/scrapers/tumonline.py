@@ -5,6 +5,7 @@ import logging
 import random
 import re
 import typing
+from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup, element
@@ -27,7 +28,7 @@ def scrape_areas():
         "filter/empty.xml",
     )
 
-    return [{"id": int(e[0]), "name": e[1]} for e in _parse_filter_options(filters, "areas")]
+    return [{"id": int(attrs), "name": text} for (attrs, text) in _parse_filter_options(filters, "pGebaeudebereich")]
 
 
 def scrape_usages_filter():
@@ -43,7 +44,7 @@ def scrape_usages_filter():
         "filter/empty.xml",
     )
 
-    return [{"id": int(e[0]), "name": e[1]} for e in _parse_filter_options(filters, "usages")]
+    return [{"id": int(attrs), "name": text} for (attrs, text) in _parse_filter_options(filters, "pVerwendung")]
 
 
 @cached_json("buildings_tumonline.json")
@@ -62,7 +63,7 @@ def scrape_buildings():
         {"pGebaeudebereich": 0},
         "filter/empty.xml",
     )
-    all_buildings = _parse_filter_options(filters, "buildings")
+    all_buildings = _parse_filter_options(filters, "pGebaeude")
 
     buildings = []
     for area in areas:
@@ -71,14 +72,14 @@ def scrape_buildings():
             {"pGebaeudebereich": area["id"]},
             f"filter/area_{area['id']}.xml",
         )
-        buildings_area = _parse_filter_options(filters_area, "buildings")
+        buildings_area = _parse_filter_options(filters_area, "pGebaeude")
         buildings.extend(
             {
-                "filter_id": int(building[0]),
-                "name": building[1],
+                "filter_id": int(attrs),
+                "name": text,
                 "area_id": area["id"],
             }
-            for building in buildings_area
+            for (attrs, text) in buildings_area
         )
     # Not observed so far, I assume all buildings have an assigned area
     if len(buildings) != len(all_buildings):
@@ -145,6 +146,12 @@ def scrape_rooms():
     return sorted(rooms, key=lambda r: (r["list_index"], r["roomcode"]))
 
 
+class Usage(typing.TypedDict):
+    id: str
+    name: str
+    din_277: str
+
+
 @cached_json("usages_tumonline.json")
 def scrape_usages():
     """
@@ -157,33 +164,32 @@ def scrape_usages():
 
     logging.info("Scraping the room-usages of tumonline")
 
-    used_usage_types = {}
+    used_usage_types: dict[str,] = {}
     for room in rooms:
         if room["usage"] not in used_usage_types:
             used_usage_types[room["usage"]] = room
 
-    usages = []
-
-    for usage_type, example_room in sorted(used_usage_types.items(), key=lambda u: u[0]):
+    usages: list[Usage] = []
+    for usage_type, example_room in used_usage_types.items():
         # room links start with "wbRaum.editRaum?pRaumNr=..."
         system_id = example_room["room_link"][24:]
         roominfo = _retrieve_roominfo(system_id)
 
-        usage = roominfo["purpose"]
+        purpose: str = roominfo["purpose"]
         parts = []
         for prefix in ["(NF", "(VF", "(TF"]:
-            if prefix in usage:
-                parts = usage.split(prefix, 2)
+            if prefix in purpose:
+                parts = purpose.split(prefix, 2)
                 parts[1] = prefix + parts[1]
                 break
         if len(parts) != 2:
-            logging.warning(f"Unknown usage specification: {usage}")
+            logging.warning(f"Unknown usage specification: {purpose}")
             continue
         usage_name = parts[0].strip()
         usage_din_277 = parts[1].strip("()")
 
-        usages.append({"id": usage_type, "name": usage_name, "din_277": usage_din_277})
-    return usages
+        usages.append(Usage(id=usage_type, name=usage_name, din_277=usage_din_277))
+    return sorted(usages, key=lambda usage: usage.id)
 
 
 @cached_json("orgs-{lang}_tumonline.json")
@@ -217,10 +223,10 @@ def scrape_orgs(lang):
     orgs = {}
     for _item in results:
         item = _item["content"]["organisationSearchDto"]
-        if "designation" in item:
-            orgs[item["designation"]] = {
+        if designation := item.get("designation"):
+            orgs[designation] = {
                 "id": item["id"],
-                "code": item["designation"],
+                "code": designation,
                 "name": item["name"],
                 "path": item["orgPath"],
             }
@@ -230,15 +236,15 @@ def scrape_orgs(lang):
 class ParsedRoom(typing.TypedDict):
     list_index: str
     roomcode: str
-    room_link: str
-    calendar: str
+    room_link: str | None
+    calendar: str | None
     alt_name: str
     arch_name: str
     address: str
-    address_link: str
+    address_link: str | None
     plz_place: str
     operator: str
-    op_link: str
+    op_link: str | None
 
 
 class ParsedRoomsList(typing.NamedTuple):
@@ -248,7 +254,7 @@ class ParsedRoomsList(typing.NamedTuple):
 
 
 @cached_json("tumonline/{f_value}.{area_id}.json")
-def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id=0) -> list[dict[str, str]]:
+def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id: int = 0) -> list[ParsedRoom]:
     """Retrieve all rooms (multi-page) from the TUMonline room search list"""
 
     scraped_rooms = ParsedRoomsList()
@@ -279,8 +285,7 @@ def _retrieve_roominfo(system_id: str) -> dict[str, str | int | float]:
     """Retrieve the extended room information from TUMonline for one room"""
     html_parser: BeautifulSoup = _get_html(
         f"{TUMONLINE_URL}/wbRaum.editRaum?pRaumNr={system_id}",
-        {},
-        f"room/{system_id}",
+        CACHE_PATH / "room" / system_id,
     )
 
     roominfo = {}
@@ -343,9 +348,7 @@ def _snake_case(key: str) -> str:
     return "_".join(key.split()).lower()
 
 
-def _parse_filter_options(xml_parser: BeautifulSoup, filter_type):
-    el_id = {"areas": "pGebaeudebereich", "buildings": "pGebaeude", "usages": "pVerwendung"}[filter_type]
-
+def _parse_filter_options(xml_parser: BeautifulSoup, el_id: str) -> list[tuple[str, str]]:
     sel = xml_parser.find("select", {"name": el_id})
     return [(opt.attrs["value"], opt.text) for opt in sel if isinstance(opt, element.Tag) and opt.attrs["value"] != "0"]
 
@@ -407,7 +410,7 @@ def _get_roomsearch_xml(url: str, params: dict[str, str | int], cache_fname: str
     return BeautifulSoup(elem.text, "lxml")
 
 
-def _get_xml(url: str, params: dict[str, str | int], cache_fname: str):
+def _get_xml(url: str, params: dict[str, str | int], cache_fname: str) -> ET:
     cache_path = CACHE_PATH / cache_fname
     if cache_path.exists():
         tree = ET.parse(cache_path)
@@ -420,17 +423,15 @@ def _get_xml(url: str, params: dict[str, str | int], cache_fname: str):
     return ET.fromstring(req.text)
 
 
-def _get_html(url: str, params: dict, cache_fname: str) -> BeautifulSoup:
-    cached_xml_file = CACHE_PATH / cache_fname
+def _get_html(url: str, cached_xml_file: Path) -> BeautifulSoup:
     if cached_xml_file.exists():
         with open(cached_xml_file, encoding="utf-8") as file:
-            result = file.read()
-    else:
-        req = requests.get(url, params, timeout=10)
-        maybe_sleep(0.5)  # Not the best place to put this
-        with open(cached_xml_file, "w", encoding="utf-8") as file:
-            result = req.text
-            file.write(result)
+            return BeautifulSoup(file.read(), "lxml")
+    req = requests.get(url, timeout=10)
+    maybe_sleep(0.5)  # Not the best place to put this
+    with open(cached_xml_file, "w", encoding="utf-8") as file:
+        result = req.text
+        file.write(result)
     return BeautifulSoup(result, "lxml")
 
 

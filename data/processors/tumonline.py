@@ -192,7 +192,7 @@ def _clean_tumonline_rooms():
 
     with open("external/results/rooms_tumonline.json", encoding="utf-8") as file:
         rooms = json.load(file)
-    roomcode_lookup = {r["roomcode"]: r for r in rooms}
+    roomcode_lookup: dict[str, dict] = {r["roomcode"]: r for r in rooms}
 
     with open("sources/15_patches-rooms_tumonline.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
@@ -200,7 +200,7 @@ def _clean_tumonline_rooms():
     patched_rooms = apply_patches(rooms, patches["patches"], "roomcode")
     patched_room_ids = {r["roomcode"] for r in patched_rooms}
 
-    used_arch_names = {}
+    used_arch_names: dict[str, str] = {}
     used_roomcode_levels = {}
     invalid_rooms = []
     for room in rooms:
@@ -211,7 +211,7 @@ def _clean_tumonline_rooms():
             room["patched"] = True
 
         # Validate the roomcode
-        roomcode_parts = room["roomcode"].split(".")
+        roomcode_parts: tuple[str, str, str] = room["roomcode"].split(".")
         if len(roomcode_parts) != 3:
             logging.warning(f"Invalid roomcode: Not three '.'-separated parts: {room['roomcode']}")
             invalid_rooms.append(room)
@@ -226,7 +226,7 @@ def _clean_tumonline_rooms():
             used_roomcode_levels[roomcode_parts[1]] = room["roomcode"]
 
         # Validate the arch_name.
-        arch_name_parts = room["arch_name"].split("@")
+        arch_name_parts: tuple[str, str] = room["arch_name"].split("@")
         if len(arch_name_parts) != 2:
             logging.warning(f"Invalid arch_name: No '@' in '{room['arch_name']}' (room {room['roomcode']})")
             invalid_rooms.append(room)
@@ -250,7 +250,13 @@ def _clean_tumonline_rooms():
     return rooms
 
 
-def _infer_arch_name(room, arch_name_parts, used_arch_names, roomcode_parts, roomcode_lookup):
+def _infer_arch_name(
+    room: dict,
+    arch_name_parts: tuple[str, str],
+    used_arch_names: dict[str, str],
+    roomcode_parts: tuple[str, str, str],
+    roomcode_lookup: dict[str, dict],
+) -> None:
     """
     Infer the arch name and other related properties
     """

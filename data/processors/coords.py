@@ -112,9 +112,7 @@ def check_coords(input_data):
         if data["coords"]["lat"] == 0.0 or data["coords"]["lon"] == 0.0:
             raise RuntimeError(f"{iid}: lat and/or lon coordinate is zero. Please provide an accurate coordinate!")
 
-        if "utm" in data["coords"] and (
-            data["coords"]["utm"]["easting"] == 0.0 or data["coords"]["utm"]["northing"] == 0.0
-        ):
+        if (utm_coord := data["coords"].get("utm")) and (utm_coord["easting"] == 0.0 or utm_coord["northing"] == 0.0):
             raise RuntimeError(
                 f"{iid}: utm coordinate is zero. There is very likely an error in the source data "
                 f"(UTM coordinates are either from the Roomfinder or automatically calculated).",

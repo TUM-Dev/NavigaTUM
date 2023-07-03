@@ -67,22 +67,22 @@ def scrape_rooms():
     unreported_warnings = []
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
         for building in tqdm(buildings, desc="Guessing queries for building", unit="building"):
-            if "b_room_count" in building and building["b_room_count"] > 0:
+            if (b_room_count := building.get("b_room_count")) > 0:
                 search_results: list[SearchResult] = proxy.searchRoom("", {"r_building": building["b_id"]})
                 b_rooms = {room["r_id"] for room in search_results}
 
-                if len(b_rooms) < building["b_room_count"]:
+                if len(b_rooms) < b_room_count:
                     # Collect guess queries that are executed until
                     # all buildings are found or the query list is exhausted
-                    for guessed_query in _guess_queries(b_rooms, building["b_room_count"]):
+                    for guessed_query in _guess_queries(b_rooms, b_room_count):
                         search_results = proxy.searchRoom(guessed_query, {"r_building": building["b_id"]})
                         b_rooms |= {r["r_id"] for r in search_results}
 
-                    if len(b_rooms) < building["b_room_count"]:
-                        unreported_warnings.append(
-                            f"Could not guess all queries for building {building['b_id']}, "
-                            f"because |b_rooms|={len(b_rooms)} < b_room_count={building['b_room_count']}",
-                        )
+                if len(b_rooms) < b_room_count:
+                    unreported_warnings.append(
+                        f"Could not guess all queries for building {building['b_id']}, "
+                        f"because |b_rooms|={len(b_rooms)} < b_room_count={building['b_room_count']}",
+                    )
                 rooms_list.extend(list(b_rooms))
     # reporting these issues here, to not fuck with tqdm
     for unreported_warning in unreported_warnings:
@@ -120,7 +120,7 @@ def _guess_queries(rooms, n_rooms):
 
 
 @cached_json("maps_roomfinder.json")
-def scrape_maps():
+def scrape_maps() -> list[dict]:
     """
     Retrieve the maps including the data about them from Roomfinder.
     Map files will be stored in 'cache/maps/roomfinder'.

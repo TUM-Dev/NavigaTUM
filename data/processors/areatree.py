@@ -5,8 +5,8 @@ def read_areatree():
     """Reads the areatree file and the basic data, gained from the areatree"""
 
     data = {}
-    parent_stack = []
-    last_element = None
+    parent_stack: list[str] = []
+    last_element: str | None = None
     with open("sources/00_areatree", encoding="utf-8") as file:
         for line in file:
             # Empty lines and comment lines are ignored
@@ -26,7 +26,7 @@ def read_areatree():
     return data
 
 
-def _parse_areatree_line(line, parent_stack, data):
+def _parse_areatree_line(line: str, parent_stack: list[str], data: dict) -> str:
     """Parses a line from the areatree file to reveal the correct parent and children"""
 
     # The syntax is building-id(s):name(s):internal-id[,visible-id]

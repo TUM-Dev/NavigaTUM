@@ -39,7 +39,7 @@ def parse_files() -> list[tuple[str, list[str]]]:
     return files
 
 
-def diff_files(files: list[tuple[str, list[str]]]):
+def diff_files(files: list[tuple[str, list[str]]]) -> None:
     """
     Compares all files in the list via difflib and prints the differences.
     Raises an error if any two files have different content
@@ -49,7 +49,7 @@ def diff_files(files: list[tuple[str, list[str]]]):
             print(f"{filename1} and {filename2} have different content:")
             for line in difflib.context_diff(content1, content2, fromfile=filename1, tofile=filename2):
                 print(line.strip())
-    if not all(c1 == c2 for _, c1 in files for _, c2 in files):
+    if any(c1 != c2 for _, c1 in files for _, c2 in files):
         raise ValueError("Files have different content")
 
 
