@@ -61,10 +61,10 @@ def infer_addresses(data):
     Infer addresses from children.
     """
     for _id, entry in data.items():
-        if entry.get("props", {}).get("address", None) is None and "children_flat" in entry:
+        if entry.get("props", {}).get("address", None) is None and (children_flat := entry.get("children_flat")):
             child_addresses = set()
 
-            for child_id in entry["children_flat"]:
+            for child_id in children_flat:
                 child = data[child_id]
 
                 street, plz_place = (

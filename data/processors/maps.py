@@ -3,7 +3,7 @@ import logging
 import math
 import os.path
 from pathlib import Path
-from typing import Any
+from typing import Any, TypedDict
 
 import utils
 import yaml
@@ -177,17 +177,14 @@ def _load_maps_list():
     """Read the Roomfinder maps. The world-map is not used"""
     with open("external/results/maps_roomfinder.json", encoding="utf-8") as file:
         maps_list: list[dict[str, Any]] = json.load(file)
-    world_map = None
+    # remove the world map
+    maps_list = [_map for _map in maps_list if _map["id"] != 9]
     for _map in maps_list:
-        if _map["id"] == 9:  # World map is not used
-            world_map = _map
-        else:
-            _map["latlonbox"]["north"] = float(_map["latlonbox"]["north"])
-            _map["latlonbox"]["south"] = float(_map["latlonbox"]["south"])
-            _map["latlonbox"]["east"] = float(_map["latlonbox"]["east"])
-            _map["latlonbox"]["west"] = float(_map["latlonbox"]["west"])
-            _map["id"] = f"rf{_map['id']}"
-    maps_list.remove(world_map)
+        _map["latlonbox"]["north"] = float(_map["latlonbox"]["north"])
+        _map["latlonbox"]["south"] = float(_map["latlonbox"]["south"])
+        _map["latlonbox"]["east"] = float(_map["latlonbox"]["east"])
+        _map["latlonbox"]["west"] = float(_map["latlonbox"]["west"])
+        _map["id"] = f"rf{_map['id']}"
 
     # remove 1:1 content duplicates
     return _deduplicate_maps(maps_list)
@@ -212,7 +209,12 @@ def _build_roomfinder_maps(data):
                 entry_map.setdefault("file", f"{entry_map['id']}.webp")
 
 
-def _calc_xy_of_coords_on_map(coords, map_data) -> tuple[int, int]:
+class Coordinate(TypedDict):
+    lat: float
+    lon: float
+
+
+def _calc_xy_of_coords_on_map(coords: Coordinate, map_data: dict) -> tuple[int, int]:
     """
     For the map regions used we can assume that the lat/lon graticule is
     rectangular within that map. It is however not square (roughly 2:3 aspect),
@@ -317,10 +319,9 @@ def add_overlay_maps(data):
 
 
 def _assign_default_roomfinder_map(data):
-    """Selects map with lowest scale as default"""
+    """Selects map with the lowest scale as default"""
     for _id, entry in data.items():
-        if "maps" in entry and "roomfinder" in entry["maps"]:
-            rf_maps = entry["maps"]["roomfinder"]
+        if rf_maps := entry.get("maps", {}).get("roomfinder"):
             rf_maps.setdefault("default", None)
             if not rf_maps.get("available", None):
                 continue

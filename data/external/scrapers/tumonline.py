@@ -5,6 +5,7 @@ import logging
 import random
 import re
 import typing
+from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup, element
@@ -145,6 +146,12 @@ def scrape_rooms():
     return sorted(rooms, key=lambda r: (r["list_index"], r["roomcode"]))
 
 
+class Usage(typing.TypedDict):
+    id: str
+    name: str
+    din_277: str
+
+
 @cached_json("usages_tumonline.json")
 def scrape_usages():
     """
@@ -157,33 +164,32 @@ def scrape_usages():
 
     logging.info("Scraping the room-usages of tumonline")
 
-    used_usage_types = {}
+    used_usage_types: dict[str,] = {}
     for room in rooms:
         if room["usage"] not in used_usage_types:
             used_usage_types[room["usage"]] = room
 
-    usages = []
-
-    for usage_type, example_room in sorted(used_usage_types.items(), key=lambda u: u[0]):
+    usages: list[Usage] = []
+    for usage_type, example_room in used_usage_types.items():
         # room links start with "wbRaum.editRaum?pRaumNr=..."
         system_id = example_room["room_link"][24:]
         roominfo = _retrieve_roominfo(system_id)
 
-        usage: str = roominfo["purpose"]
+        purpose: str = roominfo["purpose"]
         parts = []
         for prefix in ["(NF", "(VF", "(TF"]:
-            if prefix in usage:
-                parts = usage.split(prefix, 2)
+            if prefix in purpose:
+                parts = purpose.split(prefix, 2)
                 parts[1] = prefix + parts[1]
                 break
         if len(parts) != 2:
-            logging.warning(f"Unknown usage specification: {usage}")
+            logging.warning(f"Unknown usage specification: {purpose}")
             continue
         usage_name = parts[0].strip()
         usage_din_277 = parts[1].strip("()")
 
-        usages.append({"id": usage_type, "name": usage_name, "din_277": usage_din_277})
-    return usages
+        usages.append(Usage(id=usage_type, name=usage_name, din_277=usage_din_277))
+    return sorted(usages, key=lambda usage: usage.id)
 
 
 @cached_json("orgs-{lang}_tumonline.json")
@@ -217,10 +223,10 @@ def scrape_orgs(lang):
     orgs = {}
     for _item in results:
         item = _item["content"]["organisationSearchDto"]
-        if "designation" in item:
-            orgs[item["designation"]] = {
+        if designation := item.get("designation"):
+            orgs[designation] = {
                 "id": item["id"],
-                "code": item["designation"],
+                "code": designation,
                 "name": item["name"],
                 "path": item["orgPath"],
             }
@@ -279,8 +285,7 @@ def _retrieve_roominfo(system_id: str) -> dict[str, str | int | float]:
     """Retrieve the extended room information from TUMonline for one room"""
     html_parser: BeautifulSoup = _get_html(
         f"{TUMONLINE_URL}/wbRaum.editRaum?pRaumNr={system_id}",
-        {},
-        f"room/{system_id}",
+        CACHE_PATH / "room" / system_id,
     )
 
     roominfo = {}
@@ -418,17 +423,15 @@ def _get_xml(url: str, params: dict[str, str | int], cache_fname: str) -> ET:
     return ET.fromstring(req.text)
 
 
-def _get_html(url: str, params: dict, cache_fname: str) -> BeautifulSoup:
-    cached_xml_file = CACHE_PATH / cache_fname
+def _get_html(url: str, cached_xml_file: Path) -> BeautifulSoup:
     if cached_xml_file.exists():
         with open(cached_xml_file, encoding="utf-8") as file:
-            result = file.read()
-    else:
-        req = requests.get(url, params, timeout=10)
-        maybe_sleep(0.5)  # Not the best place to put this
-        with open(cached_xml_file, "w", encoding="utf-8") as file:
-            result = req.text
-            file.write(result)
+            return BeautifulSoup(file.read(), "lxml")
+    req = requests.get(url, timeout=10)
+    maybe_sleep(0.5)  # Not the best place to put this
+    with open(cached_xml_file, "w", encoding="utf-8") as file:
+        result = req.text
+        file.write(result)
     return BeautifulSoup(result, "lxml")
 
 
