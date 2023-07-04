@@ -72,7 +72,6 @@ def _parse_areatree_line(line: str) -> dict:
         building_data["b_prefix"] = building_ids.split(",")
     elif building_ids:
         building_data["b_prefix"] = building_ids
-        building_data["id"] = building_ids
 
     building_data |= _extract_names(raw_names.split("|"))
 
@@ -87,6 +86,8 @@ def _parse_areatree_line(line: str) -> dict:
         building_data["id"], building_data["visible-id"] = ids
     elif internal_id:
         building_data["id"] = internal_id
+    elif isinstance(building_data["b_prefix"], str) and building_ids:
+        building_data["id"] = building_ids
 
     if "id" not in building_data:
         raise RuntimeError(f"No id provided in line: '{line}'")
