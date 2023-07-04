@@ -4,12 +4,13 @@ import logging
 def read_areatree():
     """Reads the areatree file and the basic data, gained from the areatree"""
 
-    data = {}
     parent_stack: list[str] = []
 
     # The first line is extracted as mypy cannot make sense of this otherwise
     lines = _areatree_lines()
-    last_element: str = _parse_areatree_line(next(lines))["id"]
+    root_building_data = _parse_areatree_line(next(lines))
+    last_element: str = root_building_data["id"]
+    data = {root_building_data["id"]:root_building_data|{"parents": []}}
     for line in lines:
         indent = len(line) - len(line.lstrip(" "))
         if indent % 2 != 0:
