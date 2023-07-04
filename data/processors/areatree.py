@@ -1,25 +1,6 @@
 import logging
 
 
-def _areatree_lines():
-    """
-    Generator that yields lines from the areatree file
-
-    ignores:
-    - Empty lines,
-    - comment lines and
-    - comments in lines
-    """
-
-    with open("sources/00_areatree", encoding="utf-8") as file:
-        for line in file:
-            # Empty lines and comment lines are ignored
-            line = line.split("#")[0]
-            if not line.strip():
-                continue
-            yield line
-
-
 def read_areatree():
     """Reads the areatree file and the basic data, gained from the areatree"""
 
@@ -41,6 +22,25 @@ def read_areatree():
         last_element,building_data = _parse_areatree_line(line)
         data[building_data["id"]] = building_data | {"parents": parent_stack[:]}
     return data
+
+
+def _areatree_lines():
+    """
+    Generator that yields lines from the areatree file
+
+    ignores:
+    - Empty lines,
+    - comment lines and
+    - comments in lines
+    """
+
+    with open("sources/00_areatree", encoding="utf-8") as file:
+        for line in file:
+            # Empty lines and comment lines are ignored
+            line = line.split("#")[0]
+            if not line.strip():
+                continue
+            yield line
 
 
 def _split_line(line: str) -> tuple[str, str, str]:
