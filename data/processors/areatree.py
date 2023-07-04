@@ -28,7 +28,7 @@ def read_areatree():
 
     # The first line is extracted as mypy cannot make sense of this otherwise
     lines = _areatree_lines()
-    last_element = _parse_areatree_line(next(lines))
+    last_element:str = _parse_areatree_line(next(lines))["id"]
     for line in lines:
         indent = len(line) - len(line.lstrip(" "))
         if indent % 2 != 0:
@@ -38,10 +38,10 @@ def read_areatree():
         elif (indent // 2) < len(parent_stack):
             parent_stack = parent_stack[: indent // 2]
 
-        building_data = _parse_areatree_line(line)
-        data[building_data["id"]] = building_data | {"parents":parent_stack[:]}
-        last_element = building_data["id"]
+        last_element,building_data = _parse_areatree_line(line)
+        data[building_data["id"]] = building_data | {"parents": parent_stack[:]}
     return data
+
 
 def _split_line(line: str) -> tuple[str, str, str]:
     """
@@ -58,7 +58,7 @@ def _split_line(line: str) -> tuple[str, str, str]:
     return building_ids.strip(), raw_names.strip(), internal_id.strip()
 
 
-def _parse_areatree_line(line:str) -> dict:
+def _parse_areatree_line(line: str) -> dict:
     """Parses a line from the areatree file to reveal the correct parent and children"""
     building_data = {}
     (building_ids, raw_names, internal_id) = _split_line(line)
@@ -101,7 +101,7 @@ def _parse_areatree_line(line:str) -> dict:
     return building_data
 
 
-def _extract_names(names: list[str])-> dict[str, str]:
+def _extract_names(names: list[str]) -> dict[str, str]:
     building_data = {"name": names[0]}
     if len(names) == 2:
         if len(names[1]) > 20:
