@@ -60,19 +60,9 @@ def _split_line(line: str) -> tuple[str, str, str]:
 
 def _parse_areatree_line(line: str) -> dict:
     """Parses a line from the areatree file to reveal the correct parent and children"""
-    building_data = {}
     (building_ids, raw_names, internal_id) = _split_line(line)
 
-    # building id(s)
-    if "-" in building_ids:
-        building_data["data_quality"] = {"areatree_uncertain": True}
-        building_ids = building_ids.replace("-", "")
-
-    if "," in building_ids:
-        building_data["b_prefix"] = building_ids.split(",")
-    elif building_ids:
-        building_data["b_prefix"] = building_ids
-
+    building_data = _extract_building_data(building_ids)
     building_data |= _extract_names(raw_names.split("|"))
 
     # id and type
@@ -86,7 +76,7 @@ def _parse_areatree_line(line: str) -> dict:
         building_data["id"], building_data["visible-id"] = ids
     elif internal_id:
         building_data["id"] = internal_id
-    elif isinstance(building_data["b_prefix"], str) and building_ids:
+    elif isinstance(building_data["b_prefix"], str) and building_data["b_prefix"]:
         building_data["id"] = building_ids
 
     if "id" not in building_data:
@@ -100,6 +90,21 @@ def _parse_areatree_line(line: str) -> dict:
             building_data["type"] = "area"
 
     return building_data
+
+
+def _extract_building_data(building_ids:str)->dict:
+    results = {}
+    # areatree_uncertain
+    if "-" in building_ids:
+        results["data_quality"] = {"areatree_uncertain": True}
+        building_ids = building_ids.replace("-", "")
+
+    # b_prefix
+    if "," in building_ids:
+        results["b_prefix"] = building_ids.split(",")
+    elif building_ids:
+        results["b_prefix"] = building_ids
+    return results
 
 
 def _extract_names(names: list[str]) -> dict[str, str]:
