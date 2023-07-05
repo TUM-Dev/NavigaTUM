@@ -10,9 +10,9 @@
 #   The name of this building, area etc. Optionally, a short name can be supplied,
 #   separated by a '|'.
 # <id(s) & type>:
-#   Format: <id>,<visible-id>[<type>]
+#   Format: <id>,<visible_id>[<type>]
 #   The building id to use internally. If not provided the building prefix is used if only
-#   one is given. The visible-id can be optionally given, if this id is better
+#   one is given. The visible_id can be optionally given, if this id is better
 #   understandable by humans but does not match the systematics.
 #   Lastly the type can be given optionally.
 #   Possible values are "root", "site", "campus", "area", "joined_building", "building".

@@ -105,7 +105,7 @@ def extract_aliases() -> set[Alias]:
         data = json.load(file)
     aliases = set()
     for key, value in data.items():
-        visible_id = value.get("visible-id", key)
+        visible_id = value.get("visible_id", key)
         if items_aliases := value["aliases"]:
             for alias in items_aliases:
                 aliases.add(Alias(alias, key, visible_id, value["type"]))
