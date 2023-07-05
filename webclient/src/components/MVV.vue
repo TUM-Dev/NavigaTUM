@@ -151,4 +151,3 @@ li.substation {
   display: table-cell;
 }
 </style>
-./mvv-monitor.min.js
