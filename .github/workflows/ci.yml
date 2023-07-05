@@ -43,8 +43,23 @@ jobs:
             webclient:
               - '.github/**'
               - 'webclient/**'
+  cargo-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v2
+      - name: Setup | Rust
+        uses: ATiltedTree/setup-rust@v1
+        with:
+          rust-version: stable
+          components: clippy
+      - name: Build | Lint
+        run: cargo clippy --manifest-path "server/Cargo.toml" --workspace
+      - name: Build | Test
+        run: cargo test --manifest-path "server/Cargo.toml" --workspace
   feedback-build:
     needs:
+      - cargo-test
       - changes
     if: ${{ needs.changes.outputs.feedback == 'true' }}
     uses: ./.github/workflows/_docker-build.yml
@@ -65,6 +80,7 @@ jobs:
       ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   calendar-build:
     needs:
+      - cargo-test
       - changes
     if: ${{ needs.changes.outputs.calendar == 'true' }}
     uses: ./.github/workflows/_docker-build.yml
@@ -86,6 +102,7 @@ jobs:
   main-api-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
+      - cargo-test
       - changes
     if: ${{ needs.changes.outputs.main-api == 'true' }}
     with:
@@ -98,6 +115,7 @@ jobs:
   building-db-init-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
+      - cargo-test
       - changes
     if: ${{ needs.changes.outputs.main-api == 'true' }}
     with:
@@ -110,6 +128,7 @@ jobs:
   mieli-search-init-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
+      - cargo-test
       - changes
     if: ${{ needs.changes.outputs.main-api == 'true' }}
     with:
