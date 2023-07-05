@@ -1,8 +1,9 @@
 import logging
-from typing import TypedDict
+from pathlib import Path
 
-# python 3.11 feature => move to typing when 3.11 is mainstream
-from typing_extensions import NotRequired
+from processors.areatree import models
+
+AREATREE_FILE = Path(__file__).parent / "config.areatree"
 
 
 def read_areatree():
@@ -36,13 +37,11 @@ def _areatree_lines():
     - comments in lines
     """
 
-    with open("sources/00_areatree", encoding="utf-8") as file:
+    with open(AREATREE_FILE, encoding="utf-8") as file:
         for line in file:
-            # Empty lines and comment lines are ignored
-            line = line.split("#")[0]
-            if not line.strip():
-                continue
-            yield line
+            line_without_comments = line.split("#")[0]
+            if line_without_comments_and_whitespace := line_without_comments.rstrip():
+                yield line_without_comments_and_whitespace
 
 
 def _split_line(line: str) -> tuple[str, str, str]:
@@ -60,33 +59,7 @@ def _split_line(line: str) -> tuple[str, str, str]:
     return building_ids.strip(), raw_names.strip(), internal_id.strip()
 
 
-class BuildingPrefix(TypedDict):
-    data_quality: NotRequired[dict[str, bool]]
-    b_prefix: NotRequired[str | list[str]]
-
-
-class IdType(TypedDict):
-    id: str
-    visible_id: NotRequired[str]
-    type: str
-
-
-class Names(TypedDict):
-    name: str
-    short_name: NotRequired[str]
-
-
-class AreatreeBuidling(TypedDict):
-    data_quality: NotRequired[dict[str, bool]]
-    b_prefix: NotRequired[str | list[str]]
-    id: str
-    visible_id: NotRequired[str]
-    type: str
-    name: str
-    short_name: NotRequired[str]
-
-
-def _parse_areatree_line(line: str) -> AreatreeBuidling:
+def _parse_areatree_line(line: str) -> models.AreatreeBuidling:
     """Parses a line from the areatree file to reveal the correct parent and children"""
     (building_ids, raw_names, internal_id) = _split_line(line)
 
@@ -94,7 +67,7 @@ def _parse_areatree_line(line: str) -> AreatreeBuidling:
     names = _extract_names(raw_names.split("|"))
     id_and_type = _extract_id_and_type(internal_id, building_data.get("b_prefix"))
     # we merge the results like this for mypy to be happy, sigh
-    result: AreatreeBuidling = {
+    result: models.AreatreeBuidling = {
         "id": id_and_type["id"],
         "type": id_and_type["type"],
         "name": names["name"],
@@ -110,9 +83,9 @@ def _parse_areatree_line(line: str) -> AreatreeBuidling:
     return result
 
 
-def _extract_id_and_type(internal_id: str, b_prefix: str | list[str] | None) -> IdType:
+def _extract_id_and_type(internal_id: str, b_prefix: str | list[str] | None) -> models.IdType:
     """Extracts the id and type from the internal_id"""
-    results: IdType = {"id": "", "type": ""}
+    results: models.IdType = {"id": "", "type": ""}
     if "[" in internal_id:
         internal_id, results["type"] = internal_id.removesuffix("]").split("[")
     if "," in internal_id:
@@ -132,13 +105,13 @@ def _extract_id_and_type(internal_id: str, b_prefix: str | list[str] | None) -> 
     return results
 
 
-def _extract_building_prefix(building_ids: str) -> BuildingPrefix:
+def _extract_building_prefix(building_ids: str) -> models.BuildingPrefix:
     """Extracts the building prefix from the building_ids"""
-    results: BuildingPrefix = {}
+    results: models.BuildingPrefix = {}
     # areatree_uncertain
-    if "-" in building_ids:
+    if building_ids.startswith("-"):
         results["data_quality"] = {"areatree_uncertain": True}
-        building_ids = building_ids.replace("-", "")
+        building_ids = building_ids.lstrip("-")
 
     # b_prefix
     if "," in building_ids:
@@ -148,9 +121,9 @@ def _extract_building_prefix(building_ids: str) -> BuildingPrefix:
     return results
 
 
-def _extract_names(names: list[str]) -> Names:
+def _extract_names(names: list[str]) -> models.Names:
     """Extracts the name and the possible short_name"""
-    building_data: Names = {"name": names[0]}
+    building_data: models.Names = {"name": names[0]}
     if len(names) == 2:
         if len(names[1]) > 20:
             logging.warning(f"'{names[1]}' is very long for a short name (>20 chars)")

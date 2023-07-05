@@ -1,8 +1,8 @@
 import logging
 import os
 
+import processors.areatree.process as areatree
 from processors import (
-    areatree,
     coords,
     export,
     images,
