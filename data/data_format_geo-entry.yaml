@@ -13,7 +13,7 @@ internal_id:
   # it is visible to the user, such as in the URL. In these cases, the displayed
   # id might be replaced by this more well-known identifier.
   # E.g. building "0101" is commonly referred to as "n1".
-  visible-id: "n1"
+  visible_id: "n1"
   
   # Currently the following entry types are defined:
   #  - root: An entry with no parents, that is displayed differently to a 'regular'
