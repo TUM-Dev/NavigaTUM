@@ -33,16 +33,6 @@ repos:
         entry: cargo fmt --manifest-path "server/Cargo.toml" --workspace
         language: system
         pass_filenames: false
-      - id: cargo-check
-        name: cargo check
-        entry: cargo check --manifest-path "server/Cargo.toml" --workspace
-        language: system
-        pass_filenames: false
-      - id: cargo-clippy
-        name: cargo clippy
-        entry: cargo clippy --manifest-path "server/Cargo.toml" --workspace
-        language: system
-        pass_filenames: false
   # only webclient
   - repo: local
     hooks:
