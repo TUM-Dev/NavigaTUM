@@ -44,6 +44,7 @@ image = "0.24.6"
 imageproc = "0.23.0"
 rusttype = "0.9.3"
 lazy_static = "1.4.0"
+cacache = { version = "*", default-features = false, features = ["tokio-runtime"] }
 
 [dev-dependencies]
 pretty_assertions.workspace = true
