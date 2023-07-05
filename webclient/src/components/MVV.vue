@@ -150,4 +150,8 @@ li.substation {
 .monitor-container {
   display: table-cell;
 }
+
+img[alt="MVV Logo"] {
+  display: none;
+}
 </style>
