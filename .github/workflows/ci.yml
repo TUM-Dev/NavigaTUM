@@ -218,12 +218,25 @@ jobs:
       deployment: server
     secrets:
       ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+  webclient-test:
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.webclient == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - run: npm install
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+        with:
+          start: npm run dev
   webclient-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
       - changes
+      - webclient-test
       - linting
-    if: ${{ needs.changes.outputs.webclient == 'true' }}
     with:
       image_suffix: webclient
       context: ./webclient
