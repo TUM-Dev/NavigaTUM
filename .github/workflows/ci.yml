@@ -169,11 +169,31 @@ jobs:
           pip install -r data/requirements.txt -r requirements_dev.txt -r server/main-api/test/requirements.txt
       - name: Run pre-commit
         uses: pre-commit/action@v3
-  data-build:
+  data-test:
     needs:
       - changes
-      - linting
     if: ${{ needs.changes.outputs.data == 'true' }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r data/requirements.txt
+      - name: Test with unittest
+        run: |
+          python -m unittest discover
+  data-build:
+    needs:
+      - data-test
+      - linting
     uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: data
