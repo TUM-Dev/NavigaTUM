@@ -63,25 +63,34 @@ impl FetchTileTask {
         }
     }
 
-    /// gets the image fro the server. using a disk-cached image if possible
     pub async fn fulfill(self) -> Option<((u32, u32), image::DynamicImage)> {
-        let dir = std::env::temp_dir().join("tiles");
+        // gets the image fro the server. using a disk-cached image if possible
         let filename = format!("{}_{}_{}@2x.png", self.z, self.x, self.y);
-        let tile = match cacache::read(&dir, &filename).await {
+        let file = std::env::temp_dir().join("tiles").join(filename);
+        let tile = match tokio::fs::read(&file).await {
             Ok(content) => web::Bytes::from(content),
-            Err(_) => match self.download_map_image(&dir, &filename).await {
-                Ok(t) => t,
-                Err(e) => {
-                    error!("could not fulfill {filename:?} 3 times. Giving up. Last error {e:?}");
-                    return None;
+            Err(_) => {
+                let mut tile = self.download_map_image(&file).await;
+                for i in 1..3 {
+                    if tile.is_err() {
+                        warn!("Error while downloading {file:?} {i} times. Retrying");
+                        tile = self.download_map_image(&file).await;
+                    }
                 }
-            },
+                match tile {
+                    Ok(t) => t,
+                    Err(e) => {
+                        error!("could not fulfill {file:?} 3 times. Giving up. Last error {e:?}");
+                        return None;
+                    }
+                }
+            }
         };
 
         match image::load_from_memory(&tile) {
             Ok(img) => Some((self.index, img)),
             Err(e) => {
-                error!("Error while parsing {filename}: {e:#?}");
+                error!("Error while parsing image: {e:#?} for {file:?}");
                 None
             }
         }
@@ -97,23 +106,20 @@ impl FetchTileTask {
     }
     async fn download_map_image(
         &self,
-        dir: &std::path::PathBuf,
-        filename: &str,
+        file: &std::path::PathBuf,
     ) -> Result<web::Bytes, Box<dyn std::error::Error>> {
         let url = self.get_tileserver_url();
         let res = reqwest::get(&url).await?.bytes().await?;
 
         match res.len() {
-            response_size @ 0..=100 => Err(io::Error::new(
+            response_size @ 0..=500 => Err(io::Error::new(
                 ErrorKind::Other,
                 format!("Got a short Response from {url}. . Response ({response_size}B): {res:?}"),
             )
             .into()),
             _ => {
-                if let Err(e) = cacache::write(dir, filename, &res).await {
-                    warn!(
-                        "failed to write {url} to {filename:?} because {e:?}. Files wont be cached"
-                    );
+                if let Err(e) = tokio::fs::write(file, &res).await {
+                    warn!("failed to write {url} to {file:?} because {e:?}. Files wont be cached");
                 };
                 Ok(res)
             }
