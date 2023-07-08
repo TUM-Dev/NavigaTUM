@@ -35,7 +35,13 @@ def parse_files() -> list[tuple[str, list[str]]]:
             files.append((file_path.stem, recursively_simplify([], item_dict)))
         # making sure that all files are written in the same style (sorted, avoiding special characters)
         with open(file_path, "w", encoding="utf-8") as file:
-            yaml.dump(item_dict, file, sort_keys=True, allow_unicode=True, width=1000)
+            yaml.dump(item_dict, file, sort_keys=True, allow_unicode=True, default_flow_style=False, width=1000)
+        # making sure that all double quotes are handled the same as in prettier, sigh
+        with open(file_path, encoding="utf-8") as file:
+            content = file.read()
+        with open(file_path, "w", encoding="utf-8") as file:
+            file.write(content.replace("'", '"'))
+
     return files
 
 
