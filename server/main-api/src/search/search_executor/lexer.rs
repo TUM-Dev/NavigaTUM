@@ -66,16 +66,16 @@ mod tokenizer_tests {
     #[test]
     fn quoting() {
         let mut lexer = Token::lexer("\"");
-        assert_eq!(lexer.next(), Some(Ok(Token::Text(String::new()))));
+        assert_eq!(lexer.next(), Some(Ok(Token::Text(String::from("\"")))));
         assert_eq!(lexer.next(), None);
 
         let mut lexer = Token::lexer("\"\"");
-        assert_eq!(lexer.next(), Some(Ok(Token::Text(String::new()))));
+        assert_eq!(lexer.next(), Some(Ok(Token::Text(String::from("\"\"")))));
         assert_eq!(lexer.next(), None);
 
         let mut lexer = Token::lexer("\" \"\"");
         assert_eq!(lexer.next(), Some(Ok(Token::Text(" ".to_string()))));
-        assert_eq!(lexer.next(), Some(Ok(Token::Text(String::new()))));
+        assert_eq!(lexer.next(), Some(Ok(Token::Text(String::from("\"")))));
         assert_eq!(lexer.next(), None);
         for text in ["a", "a ", "a a ", " a a ", " @ = in: contains: type: a "] {
             let quoted_text = format!("\"{text}\"");
