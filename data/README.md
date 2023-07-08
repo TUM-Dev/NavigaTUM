@@ -21,7 +21,7 @@ Please follow the [system dependencys docs](/resources/documentation/Dependencys
 
 ### Dependencies
 
-Since data needs some python dependencys, you will need to install them first.
+Since data needs some python dependency's, you will need to install them first.
 We recommend doing this in a virtual environment.
 
 From the root of the project, run:

@@ -13,7 +13,10 @@ import { sentryVitePlugin } from "@sentry/vite-plugin";
 
 // https://vitejs.dev/config/
 let commit_message = process.env.GIT_COMMIT_MESSAGE || "development";
-commit_message = commit_message.replaceAll(/[^a-z0-9 ]+/gi, "_").replaceAll(/_$/g, "").trim();
+commit_message = commit_message
+  .replaceAll(/[^a-z0-9 ]+/gi, "_")
+  .replaceAll(/_$/g, "")
+  .trim();
 export default defineConfig({
   envDir: path.resolve(__dirname, "./env"),
   appType: "spa",
