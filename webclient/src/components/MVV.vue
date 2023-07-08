@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import type { components } from "@/api_types";
+import { onMounted } from "vue";
 import { ref } from "vue";
-import "./mvv-monitor.min.js";
 type Station = components["schemas"]["Station"];
 //const props = defineProps<{
 //  readonly stations? : Station[];
 //}>();
-
+onMounted(() => {
+  const script = document.createElement("script");
+  script.setAttribute(
+    "src",
+    "https://www.mvv-muenchen.de/typo3conf/ext/sn_mvv_efa/Resources/Public/mvv-monitor/mvv-monitor.min.js"
+  );
+  script.setAttribute("type", "text/javascript");
+  document.head.appendChild(script);
+  script.onload = () => document.dispatchEvent(new Event("DOMContentLoaded"));
+});
 const props = ref({
   stations: [
     {
@@ -250,6 +259,7 @@ function changeStation(station_id: string) {
     }
   }
 }
+
 function flat(stations: any) {
   return stations.flatMap((station) => {
     const y = [station];
@@ -282,20 +292,22 @@ function flat(stations: any) {
           </li>
         </ul>
       </div>
-      <ul id="monitor-container" class="grid-item monitor-container table-column">
-        <div
-          :id="station.id"
-          v-for="(station, index) in flat(props.stations)"
-          :key="station.id"
-          :style="index == 0 ? 'display:block' : 'display:none'"
-        >
+      <div class="monitor-container table-column">
+        <ul id="monitor-container">
           <div
-            id="mvv-departure-monitor"
-            class="mvv-departure-monitor"
-            :monitor-configuration="B64String(station.id, station.name)"
-          />
-        </div>
-      </ul>
+            :id="station.id"
+            v-for="(station, index) in flat(props.stations)"
+            :key="station.id"
+            :style="index == 0 ? 'display:block' : 'display:none'"
+          >
+            <div
+              id="mvv-departure-monitor"
+              class="mvv-departure-monitor"
+              :monitor-configuration="B64String(station.id, station.name)"
+            />
+          </div>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -328,7 +340,6 @@ ul {
   border: none;
   line-height: 85%;
   height: 85%;
-  font-size: 85%;
 }
 
 .btn.sub {
