@@ -25,7 +25,7 @@ serde.workspace = true
 serde_json.workspace = true
 
 rand = "0.8.5"
-regex = "1.9.0"
+regex = "1.9.1"
 octocrab = "0.25.1"
 
 # web
