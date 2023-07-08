@@ -36,9 +36,9 @@ repos:
   # only webclient
   - repo: local
     hooks:
-      - id: webclient-fmt
-        name: npm run fmt
-        entry: npm run --prefix webclient fmt
+      - id: webclient-format
+        name: npm run format
+        entry: npm run --prefix webclient format
         language: system
         pass_filenames: false
   # only data

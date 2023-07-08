@@ -25,17 +25,18 @@ declare module "vue" {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends
+        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K];
           }>
         : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never,
     >(
       key: Key | ResourceKeys | Path,
       plural?: number,
-      options?: TranslateOptions
+      options?: TranslateOptions,
     ): string;
   }
 }

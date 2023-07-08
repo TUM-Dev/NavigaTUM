@@ -99,7 +99,7 @@ onMounted(() => {
     function pollMap() {
       if (!tryToLoadMap()) {
         console.warn(
-          `'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in ${timeoutInMs}ms`
+          `'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in ${timeoutInMs}ms`,
         );
         window.setTimeout(pollMap, timeoutInMs);
         timeoutInMs *= 1.5;
@@ -348,7 +348,9 @@ onMounted(() => {
         visibility: hidden;
         opacity: 0;
         transform: translateY(-5px);
-        transition: opacity 0.05s, transform 0.05s;
+        transition:
+          opacity 0.05s,
+          transform 0.05s;
 
         a,
         button {
@@ -412,6 +414,7 @@ onMounted(() => {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
