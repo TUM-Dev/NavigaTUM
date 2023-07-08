@@ -48,6 +48,8 @@ jobs:
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v2
+      - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - run: git config --global user.name "github-actions[bot]"
       - name: Setup | Rust
         uses: ATiltedTree/setup-rust@v1
         with:
