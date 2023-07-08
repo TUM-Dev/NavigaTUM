@@ -63,6 +63,13 @@ impl TempRepo {
     pub async fn commit(&self, title: &str) -> Result<(), Box<dyn error::Error>> {
         let out = Command::new("git")
             .current_dir(&self.dir)
+            .arg("add")
+            .arg(".")
+            .output()
+            .await?;
+        debug!("git-add output: {out:?}");
+        let out = Command::new("git")
+            .current_dir(&self.dir)
             .arg("commit")
             .arg("--all") // run git add . before commit
             .arg("-m")
@@ -109,7 +116,9 @@ mod tests {
     #[tokio::test]
     async fn test_new() {
         let _ = env_logger::builder().is_test(true).try_init();
-        let temp_repo = TempRepo::clone_and_checkout(GIT_URL, "main").await.unwrap();
+        let temp_repo = TempRepo::clone_and_checkout(GIT_URL, "branch_does_not_exist")
+            .await
+            .unwrap();
         assert!(temp_repo.dir.path().exists());
         assert!(temp_repo.dir.path().join(".git").exists());
         assert!(temp_repo.dir.path().join("README.md").exists());
@@ -123,11 +132,15 @@ mod tests {
             .unwrap();
         // test the branch was created
 
-        // test the commit
         let title = "Test commit";
+        // test if adding files works
         let file_path = temp_repo.dir.path().join("test-file.txt");
         fs::write(file_path, "test content").unwrap();
 
+        temp_repo.commit(title).await.unwrap();
+        // test if editing files works
+        let file_path = temp_repo.dir.path().join("test-file.txt");
+        fs::write(file_path, "different content").unwrap();
         temp_repo.commit(title).await.unwrap();
     }
 }

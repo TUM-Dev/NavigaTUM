@@ -2,18 +2,10 @@ use crate::proposed_edits::AppliableEdit;
 use std::collections::HashMap;
 use std::path::Path;
 
+#[derive(Default)]
 pub struct Description {
     pub title: String,
     pub body: String,
-}
-
-impl Default for Description {
-    fn default() -> Self {
-        Self {
-            title: "[empty commit]".to_string(),
-            body: String::default(),
-        }
-    }
 }
 
 impl Description {
@@ -29,7 +21,7 @@ impl Description {
         base_dir: &Path,
     ) {
         if !set.is_empty() {
-            self.title += &format!("{amount} {category_name} edits", amount = set.len());
+            self.title = format!("{amount} {category_name} edits", amount = set.len());
 
             self.body += &format!("The following {category_name} edits were made:\n");
 

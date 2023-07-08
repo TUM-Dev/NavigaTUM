@@ -43,8 +43,25 @@ jobs:
             webclient:
               - '.github/**'
               - 'webclient/**'
+  cargo-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v2
+      - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - run: git config --global user.name "github-actions[bot]"
+      - name: Setup | Rust
+        uses: ATiltedTree/setup-rust@v1
+        with:
+          rust-version: stable
+          components: clippy
+      - name: Build | Lint
+        run: cargo clippy --manifest-path "server/Cargo.toml" --workspace
+      - name: Build | Test
+        run: cargo test --manifest-path "server/Cargo.toml" --workspace
   feedback-build:
     needs:
+      - cargo-test
       - changes
     if: ${{ needs.changes.outputs.feedback == 'true' }}
     uses: ./.github/workflows/_docker-build.yml
@@ -65,6 +82,7 @@ jobs:
       ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   calendar-build:
     needs:
+      - cargo-test
       - changes
     if: ${{ needs.changes.outputs.calendar == 'true' }}
     uses: ./.github/workflows/_docker-build.yml
@@ -86,6 +104,7 @@ jobs:
   main-api-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
+      - cargo-test
       - changes
     if: ${{ needs.changes.outputs.main-api == 'true' }}
     with:
@@ -98,6 +117,7 @@ jobs:
   building-db-init-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
+      - cargo-test
       - changes
     if: ${{ needs.changes.outputs.main-api == 'true' }}
     with:
@@ -110,6 +130,7 @@ jobs:
   mieli-search-init-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
+      - cargo-test
       - changes
     if: ${{ needs.changes.outputs.main-api == 'true' }}
     with:
@@ -129,10 +150,31 @@ jobs:
       deployment: server
     secrets:
       ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
-  data-build:
+  data-test:
     needs:
       - changes
     if: ${{ needs.changes.outputs.data == 'true' }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r data/requirements.txt
+      - name: Test with unittest
+        run: |
+          python -m unittest discover
+  data-build:
+    needs:
+      - changes
+      - data-test
     uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: data

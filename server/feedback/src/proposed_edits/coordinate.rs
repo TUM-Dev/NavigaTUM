@@ -143,23 +143,31 @@ mod test_coordinate {
 
     #[test]
     fn test_best_matching_file() {
-        let coord = Coordinate::default();
         let (dir, target_file) = setup();
         assert_eq!(
-            coord.best_matching_file("100", dir.path()),
+            Coordinate::best_matching_file("100", dir.path()),
             target_file.parent().unwrap().join("100-110.yaml")
         );
         assert_eq!(
-            coord.best_matching_file("101", dir.path()),
+            Coordinate::best_matching_file("101", dir.path()),
             target_file.parent().unwrap().join("101-102.yaml")
         );
         assert_eq!(
-            coord.best_matching_file("130", dir.path()),
+            Coordinate::best_matching_file("130", dir.path()),
             target_file.parent().unwrap().join("100-200.yaml")
         );
-        assert_eq!(coord.best_matching_file("11", dir.path()), target_file);
-        assert_eq!(coord.best_matching_file("300", dir.path()), target_file);
-        assert_eq!(coord.best_matching_file("mi", dir.path()), target_file);
+        assert_eq!(
+            Coordinate::best_matching_file("11", dir.path()),
+            target_file
+        );
+        assert_eq!(
+            Coordinate::best_matching_file("300", dir.path()),
+            target_file
+        );
+        assert_eq!(
+            Coordinate::best_matching_file("mi", dir.path()),
+            target_file
+        );
     }
 
     #[test]
