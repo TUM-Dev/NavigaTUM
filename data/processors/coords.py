@@ -117,7 +117,8 @@ def check_coords(input_data):
                 f"{iid}: utm coordinate is zero. There is very likely an error in the source data "
                 f"(UTM coordinates are either from the Roomfinder or automatically calculated).",
             )
-        if not (47.359814 < data["coords"]["lat"] < 51.442943  and 7.235464 < data["coords"]["lon"] < 13.345712):   
+        
+        if not (47.359814 < data["coords"]["lat"] < 51.442943 and 7.235464 < data["coords"]["lon"] < 13.345712):
             raise RuntimeError(f"{iid} {data['coords']}: lat and/or lon coordinate do not make sense for a TUM building. Please provide an accurate coordinate!")
 
 def add_and_check_coords(data):
