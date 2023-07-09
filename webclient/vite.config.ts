@@ -12,6 +12,8 @@ import pluginRewriteAll from "vite-plugin-rewrite-all";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 
 // https://vitejs.dev/config/
+let commit_message = process.env.GIT_COMMIT_MESSAGE || "development";
+commit_message = commit_message.replaceAll(/[^a-z0-9 ]+/gi, "_").replaceAll(/_$/g, "").trim();
 export default defineConfig({
   envDir: path.resolve(__dirname, "./env"),
   appType: "spa",
@@ -66,7 +68,7 @@ export default defineConfig({
           started: new Date().toISOString(),
           url: "https://nav.tum.de",
         },
-        name: process.env.GIT_COMMIT_MESSAGE || "development",
+        name: commit_message,
         //setCommits: {
         //  repo: "TUM-Dev/NavigaTUM",
         //  commit: process.env.GIT_COMMIT_SHA || "development",
