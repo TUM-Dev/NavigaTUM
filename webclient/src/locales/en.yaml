@@ -1,13 +1,13 @@
 close: Close
 core_js:
   error:
-    '404': 404 Not found
-    '500': 500 Internal Server Error
-    '503': 503 Service Unavailable – Please try again soon
+    "404": 404 Not found
+    "500": 500 Internal Server Error
+    "503": 503 Service Unavailable – Please try again soon
     network: Network Error, please verify that you are connected to the Internet
-    status: 'Unexpected status code: '
+    status: "Unexpected status code: "
     unknown: Unknown Error
-    view_load_timeout: 'Page could not be loaded: Timeout'
+    view_load_timeout: "Page could not be loaded: Timeout"
 feedback:
   cancel: Cancel
   category: Feedback category
@@ -15,7 +15,7 @@ feedback:
   error:
     feedback_not_configured: Sending feedback is currently not configured on the server.
     privacy_not_checked:
-      other_contact_options: There are other means of contact listed at in our impressum.'
+      other_contact_options: There are other means of contact listed at in our impressum.
       please_accept_privcacy_statement: You have to accept the privacy statement for us to process the feedback via GitHub.
       unavailable_for_legal_reasons: Unavailable for legal reasons
     send_invalid_token: Invalid form token (probably expired). Please copy the text and re-open the form.
@@ -24,16 +24,16 @@ feedback:
     send_unexpected_status: Unexpected status code
     server_error: Server Error
     token_req_failed: Unexpected error when loading the feedback form. Sending feedback is currently probably not possible. Please send a mail instead.
-    token_unexpected_status: 'Unexpected status code when retrieving a feedback token: '
+    token_unexpected_status: "Unexpected status code when retrieving a feedback token: "
     too_many_requests: Sending feedback is currently not possible due to rate-limiting. Please try again in a while or send a mail.
-    too_short_body: 'Error: Message missing or too short'
-    too_short_subject: 'Error: Subject missing or too short'
+    too_short_body: "Error: Message missing or too short"
+    too_short_subject: "Error: Subject missing or too short"
   helptext:
     bug: Which bug did you find? Where did you find it? Please provide a detailed description.
     entry: Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?
     features: Features you would like to see on this website
     general: General Feedback about this website
-    other: 'Feedback encountered issue: Category invalid'
+    other: "Feedback encountered issue: Category invalid"
     search: Feedback about the search. What was your search query? What did you expect to see?
   mail: E-Mail (optional)
   message: Message
@@ -161,7 +161,7 @@ view_view:
     no_webgl:
       explain_webgl: WebGL is a technology that enables interactive 3D graphics directly in the web browser, and unfortunately, your browser does not seem to have this capability.
       known_good_browsers: Popular browsers like Google Chrome, Mozilla Firefox, and Microsoft Edge are known to have WebGL capabilities.
-      no_browser_support: We're sorry, but it seems that your browser does not support WebGL, which is required to display the map.
+      no_browser_support: We are sorry, but it seems that your browser does not support WebGL, which is required to display the map.
       please_try: To resolve this issue and view the map, we recommend trying one of the following
       try_different_browser: Alternatively, you can try using a different browser that supports WebGL.
       try_different_browser2: Consider installing one of these browsers and accessing the map again.
@@ -186,7 +186,7 @@ view_view:
     filter: Filter
     filtered: filtered
     remove_selection: Remove selection
-    results: '{count} result | {count} results'
+    results: "{count} result | {count} results"
     title: Rooms
   slideshow:
     author: Author

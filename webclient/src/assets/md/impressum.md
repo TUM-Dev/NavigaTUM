@@ -63,7 +63,7 @@ Für diese Informationen wird die Richtigkeit und Aktualität gewährleistet.
 
 ## Links
 
-Von unseren eigenen Inhalten sind Querverweise („Links“) auf die Webseiten anderer Anbieter zu unterscheiden.
+Von unseren eigenen Inhalten sind Querverweise ("Links") auf die Webseiten anderer Anbieter zu unterscheiden.
 Durch diese Links ermöglichen wir lediglich den Zugang zur Nutzung fremder Inhalte nach § 8 Telemediengesetz.
 Bei der erstmaligen Verknüpfung mit diesen Internetangeboten haben wir diese fremden Inhalte daraufhin überprüft, ob durch sie eine mögliche zivilrechtliche oder strafrechtliche Verantwortlichkeit ausgelöst wird.
 Wir können diese fremden Inhalte aber nicht ständig auf Veränderungen überprüfen und daher auch keine Verantwortung dafür übernehmen.

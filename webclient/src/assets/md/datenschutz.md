@@ -171,7 +171,7 @@ Diese erlauben keine Rückführung auf die Personen, die die Dienste nutzen.
 
 ### Cookies
 
-Wie viele andere Webseiten verwenden wir auch sogenannte „Cookies“.
+Wie viele andere Webseiten verwenden wir auch sogenannte "Cookies".
 Bei Cookies handelt es sich um kleine Textdateien, die auf Ihrem Endgerät (Laptop, Tablet, Smartphone o.ä.) gespeichert werden, wenn Sie unsere Webseite besuchen.
 
 Sie können Sie einzelne Cookies oder den gesamten Cookie-Bestand löschen.
@@ -186,7 +186,7 @@ Je nach Anbieter Ihres Browsers finden Sie die notwendigen Informationen unter d
 
 #### Technisch notwendige Cookies
 
-##### Art und Zweck der Verarbeitung:**
+##### Art und Zweck der Verarbeitung
 
 Wir setzen Cookies ein, um unsere Website nutzerfreundlicher zu gestalten.
 Einige Elemente unserer Internetseite erfordern es, dass vom Benutzer gewählte Einstellungen auch nach einem Seitenwechsel vorhanden sind.

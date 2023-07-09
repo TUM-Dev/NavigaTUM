@@ -11,7 +11,8 @@
     "preview": "vite preview --port 8000",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
-    "lint": "eslint . --ext .vue,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "lint": "eslint . --ext .vue,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@sentry/tracing": "^7.57.0",
@@ -40,7 +41,7 @@
     "eslint-plugin-vue": "^9.15.1",
     "isomorphic-fetch": "^3.0.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.0",
     "sass": "^1.63.6",
     "stylelint-scss": "^5.0.1",
     "typescript": "^5.0.4",

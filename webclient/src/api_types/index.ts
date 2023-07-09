@@ -316,7 +316,7 @@ export type components = {
             readonly default: OneOf<[number, null]>;
             readonly available: readonly components["schemas"]["OverlayMapEntry"][];
           },
-          null
+          null,
         ]
       >;
     };
@@ -411,7 +411,7 @@ export type components = {
         readonly [number, number],
         readonly [number, number],
         readonly [number, number],
-        readonly [number, number]
+        readonly [number, number],
       ];
     };
     readonly Rooms: {

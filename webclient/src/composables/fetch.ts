@@ -4,7 +4,7 @@ import { useGlobalStore } from "@/stores/global";
 export function useFetch<T>(
   url: string,
   successHandler: (d: T) => void,
-  errorHandler: ((e: string) => void) | undefined = undefined
+  errorHandler: ((e: string) => void) | undefined = undefined,
 ) {
   const data = shallowRef<T | null>(null);
   // for some of our endpoints, we might want to have access to the lang/theme cookies
