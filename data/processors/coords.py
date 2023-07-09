@@ -125,13 +125,13 @@ def validate_coords(input_data):
             continue
         coords=data["coords"]
         parent_coords=input_data[data["parents"][-1]]["coords"]
-        
+
         if coords["lat"]==parent_coords["lat"] and coords["lon"]==parent_coords["lon"]:
             continue
-        
+
         distance_to_parent=_distance_via_great_circle(coords["lat"],coords["lon"],parent_coords["lat"],parent_coords["lon"])
 
-        if distance_to_parent>100:
+        if distance_to_parent>1000:
             print(f"{k} has a distance of {distance_to_parent} to {data['parents'][-1]}")
 
 def add_and_check_coords(data):
