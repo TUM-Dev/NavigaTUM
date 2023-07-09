@@ -1,6 +1,7 @@
 import copy
 import logging
-
+import sys
+import json
 import utm
 from processors.public_transport import _distance_via_great_circle
 
@@ -24,6 +25,12 @@ def assign_coordinates(data):
     Assign coordinates to all entries (except root) and make sure they match the data format.
     """
     # TODO: In the future we might calculate the coordinates from OSM data
+    with open("coords_override.json") as file:
+        overrides=json.load(file)
+
+    for iid, override in overrides.items():
+        override["source"]="manual_override"
+        data[iid]["coords"]=override
 
     error = False
 
@@ -120,8 +127,8 @@ def check_coords(input_data):
             )
 
 def validate_coords(input_data):
-    for k,data in input_data.items():
-        if len(data["parents"])<=1 and not data["type"]=="room": #entry is root or child of root
+    for iid, data in input_data.items():
+        if not data["type"] =="room":
             continue
         coords=data["coords"]
         parent_coords=input_data[data["parents"][-1]]["coords"]
@@ -131,8 +138,9 @@ def validate_coords(input_data):
 
         distance_to_parent=_distance_via_great_circle(coords["lat"],coords["lon"],parent_coords["lat"],parent_coords["lon"])
 
-        if distance_to_parent>1000:
-            print(f"{k} has a distance of {distance_to_parent} to {data['parents'][-1]}")
+        if distance_to_parent>100:
+            logging.warn(f"{iid} {data['coords']} has a distance of {distance_to_parent}m to " +
+                  f"{data['parents'][-1]} {input_data[data['parents'][-1]]['coords']}")
 
 def add_and_check_coords(data):
     """Add coordinates to all entries and check for issues"""
