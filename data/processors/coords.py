@@ -2,6 +2,7 @@ import copy
 import logging
 
 import utm
+from processors.public_transport import _distance_via_great_circle
 
 
 def assert_buildings_have_coords(data):
@@ -118,11 +119,24 @@ def check_coords(input_data):
                 f"(UTM coordinates are either from the Roomfinder or automatically calculated).",
             )
 
-        if not (47.359814 < data["coords"]["lat"] < 51.442943 and 7.235464 < data["coords"]["lon"] < 13.345712):
-            raise RuntimeError(f"{iid} {data['coords']}: lat and/or lon coordinate do not make sense for a TUM building. Please provide an accurate coordinate!")
+def validate_coords(input_data):
+    for k,data in input_data.items():
+        if len(data["parents"])<=1 and not data["type"]=="room": #entry is root or child of root
+            continue
+        coords=data["coords"]
+        parent_coords=input_data[data["parents"][-1]]["coords"]
+        
+        if coords["lat"]==parent_coords["lat"] and coords["lon"]==parent_coords["lon"]:
+            continue
+        
+        distance_to_parent=_distance_via_great_circle(coords["lat"],coords["lon"],parent_coords["lat"],parent_coords["lon"])
+
+        if distance_to_parent>100:
+            print(f"{k} has a distance of {distance_to_parent} to {data['parents'][-1]}")
 
 def add_and_check_coords(data):
     """Add coordinates to all entries and check for issues"""
     assert_buildings_have_coords(data)
     assign_coordinates(data)
     check_coords(data)
+    validate_coords(data)
