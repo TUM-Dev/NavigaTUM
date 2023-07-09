@@ -9,7 +9,7 @@ window.setTimeout(() => {
       url: "/cdn/openapi.yaml",
       dom_id: "#swagger-ui",
       presets: [SwaggerUIBundle.presets.apis],
-    })
+    }),
   );
 }, 10);
 </script>

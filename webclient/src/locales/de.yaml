@@ -1,13 +1,13 @@
 close: Schließen
 core_js:
   error:
-    '404': 404 Nicht gefunden
-    '500': 500 Interner Serverfehler
-    '503': 503 Dienst nicht verfügbar – Bitte probiere es in Kürze wieder
+    "404": 404 Nicht gefunden
+    "500": 500 Interner Serverfehler
+    "503": 503 Dienst nicht verfügbar – Bitte probiere es in Kürze wieder
     network: Netzwerkfehler, bitte überprüfe, dass du mit dem Internet verbunden bist.
-    status: 'Unerwarteter Status-Code: '
+    status: "Unerwarteter Status-Code: "
     unknown: Unbekannter Fehler
-    view_load_timeout: 'Seite konnte nicht geladen werden: Timeout'
+    view_load_timeout: "Seite konnte nicht geladen werden: Timeout"
 feedback:
   cancel: Abbrechen
   category: Feedback-Kategorie
@@ -24,16 +24,16 @@ feedback:
     send_unexpected_status: Unerwarteter Status Code
     server_error: Server Fehler
     token_req_failed: Unerwarteter Fehler beim Laden des Feedback-Formulars. Das Senden von Feedback ist gerade vermutlich nicht möglich. Bitte schreibe stattdessen eine Mail.
-    token_unexpected_status: 'Unerwarteter Status Code beim Abrufen eines Feedback Tokens: '
+    token_unexpected_status: "Unerwarteter Status Code beim Abrufen eines Feedback Tokens: "
     too_many_requests: Feedback senden ist aktuell nicht möglich aufgrund von rate-limiting. Bitte versuche es später nochmal oder schreibe eine Mail.
-    too_short_body: 'Fehler: Nachricht fehlt oder ist zu kurz'
-    too_short_subject: 'Fehler: Betreff fehlt oder ist zu kurz'
+    too_short_body: "Fehler: Nachricht fehlt oder ist zu kurz"
+    too_short_subject: "Fehler: Betreff fehlt oder ist zu kurz"
   helptext:
     bug: Welchen Fehler hast du gefunden? Wo hast du ihn gefunden? Bitte gib eine genaue Beschreibung an.
     entry: Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten, die du siehst (Namen, Koordinaten, Adressen, ...) anpassen. Was können wir verbessern?
     features: Features, die du gerne auf dieser Website haben würdest
     general: Generelles Feedback über diese Website
-    other: 'Feedback ist auf ein Problem gestoßen: Kategorie ungültig'
+    other: "Feedback ist auf ein Problem gestoßen: Kategorie ungültig"
     search: Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?
   mail: E-Mail (optional)
   message: Nachricht
