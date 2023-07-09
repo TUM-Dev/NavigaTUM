@@ -72,7 +72,7 @@ spec:
             readOnlyRootFilesystem: true
           resources:
             requests:
-              cpu: 500m
+              cpu: {{ if eq "nav.tum.de" $.Values.url }}500m{{ else }}5m{{ end }}
               memory: 60Mi
             limits:
               memory: 200Mi
