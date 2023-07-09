@@ -1,6 +1,5 @@
 import copy
 import logging
-import sys
 import json
 import utm
 from processors.public_transport import _distance_via_great_circle
