@@ -204,7 +204,7 @@ function B64String(station_id: string, station_name: string) {
 }`);
 }
 
-const selected = ref("");
+const selected = ref([...props.mvg].sort((s1, s2) => s1.distance - s2.distance)[0].station_id);
 </script>
 <template>
   <div v-if="props.mvg">
