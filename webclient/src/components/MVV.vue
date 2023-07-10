@@ -2,7 +2,6 @@
 import type { components } from "@/api_types";
 import { onMounted } from "vue";
 import { ref } from "vue";
-type Station = components["schemas"]["Station"];
 //const props = defineProps<{
 //  readonly stations? : Station[];
 //}>();
@@ -16,194 +15,153 @@ onMounted(() => {
   document.head.appendChild(script);
   script.onload = () => document.dispatchEvent(new Event("DOMContentLoaded"));
 });
-const props = ref({
-  stations: [
-    {
-      distance: 500,
-      id: "de:09179:6300",
-      lat: 48.2648076286257,
-      lon: 11.1179991154529,
-      name: "Vogach",
-      sub_stations: [
-        {
-          id: "de:09179:6300:0:1",
-          lat: 48.2648016486408,
-          lon: 11.1180260649114,
-          name: "Vogach",
-        },
-        {
-          id: "de:09179:6300:0:2",
-          lat: 48.2647956686552,
-          lon: 11.1179901323001,
-          name: "Vogach",
-        },
-        {
-          id: "de:09179:6300:0:95",
-          lat: 48.2647478287455,
-          lon: 11.1181518290512,
-          name: "Vogach",
-        },
-      ],
-    },
-    {
-      distance: 700,
-      id: "de:09184:460",
-      lat: 48.264861448458,
-      lon: 11.6712265832549,
-      name: "Garch.,Forschungsz.",
-      sub_stations: [
-        {
-          id: "de:09184:460:30:1",
-          lat: 48.2647777286943,
-          lon: 11.6712265832549,
-          name: "Garch.,Forschungsz.",
-        },
-        {
-          id: "de:09184:460:30:2",
-          lat: 48.264998987772,
-          lon: 11.671280482172,
-          name: "Garch.,Forschungsz.",
-        },
-      ],
-    },
+
+const props: components["schemas"]["DetailsResponse"]["poi"] = {
+  mvg: [
     {
       distance: 100,
-      id: "de:09177:3483",
-      lat: 48.2648973283147,
-      lon: 11.7594321610149,
-      name: "Finsingerm.,Brennerm\u00fchlstr",
+      station_id: "de:09179:6386",
+      lat: 48.1403085455476,
+      lon: 11.2624841457708,
+      name: "Germannsberg",
       sub_stations: [
         {
-          id: "de:09177:3483:0:1",
-          lat: 48.2649451680845,
-          lon: 11.7594770767791,
-          name: "Finsingerm.,Brennerm\u00fchlstr",
+          station_id: "de:09179:6386:0:1",
+          lat: 48.1402965564732,
+          lon: 11.2624482131594,
+          name: "Germannsberg",
         },
         {
-          id: "de:09177:3483:0:2",
-          lat: 48.2648554684794,
-          lon: 11.7593872452507,
-          name: "Finsingerm.,Brennerm\u00fchlstr",
+          station_id: "de:09179:6386:0:2",
+          lat: 48.1403025510107,
+          lon: 11.2625021120765,
+          name: "Germannsberg",
+        },
+        {
+          station_id: "de:09179:6386:0:95",
+          lat: 48.1403085455476,
+          lon: 11.2624841457708,
+          name: "Germannsberg",
         },
       ],
     },
     {
-      distance: 30,
-      id: "de:09174:7081",
-      lat: 48.2649092882614,
-      lon: 11.4753579186782,
-      name: "Dachau, Karl-Benz-Stra\u00dfe",
+      distance: 200,
+      station_id: "de:09162:6",
+      lat: 48.1403114185532,
+      lon: 11.5611056053238,
+      name: "Hauptbahnhof (S, U, Bus, Tram)",
+      sub_stations: [],
+    },
+    {
+      distance: 130,
+      station_id: "de:09162:1627",
+      lat: 48.1403664682758,
+      lon: 11.4617937800982,
+      name: "Weinbergerstra\u00dfe",
+      sub_stations: [],
+    },
+    {
+      distance: 2400,
+      station_id: "de:09162:1727",
+      lat: 48.1404077419819,
+      lon: 11.4687401833924,
+      name: "Benedikterstra\u00dfe",
+      sub_stations: [],
+    },
+    {
+      distance: 140,
+      station_id: "de:09162:811",
+      lat: 48.140488617811,
+      lon: 11.6804229399256,
+      name: "Graf-Lehndorff-Stra\u00dfe",
+      sub_stations: [],
+    },
+    {
+      distance: 104,
+      station_id: "de:09162:1668",
+      lat: 48.1405363374306,
+      lon: 11.4480940498014,
+      name: "Wehnerstra\u00dfe",
       sub_stations: [
         {
-          id: "de:09174:7081:0:2",
-          lat: 48.2649332081463,
-          lon: 11.4754477502067,
-          name: "Dachau, Karl-Benz-Stra\u00dfe",
+          station_id: "de:09162:1668:3:WEN 2",
+          lat: 48.1406262550009,
+          lon: 11.4481479487185,
+          name: "Wehnerstra\u00dfe",
         },
       ],
     },
     {
-      distance: 1000,
-      id: "de:09174:7095",
-      lat: 48.2650647673131,
-      lon: 11.4307565648155,
-      name: "Dachau, Waldfriedhof",
+      distance: 1005,
+      station_id: "de:09162:1716",
+      lat: 48.1405423319402,
+      lon: 11.4251331111361,
+      name: "Veldensteinstra\u00dfe",
       sub_stations: [
         {
-          id: "de:09174:7095:0:1",
-          lat: 48.2649810478825,
-          lon: 11.4308284300382,
-          name: "Dachau, Waldfriedhof",
+          station_id: "de:09162:1716:1:1",
+          lat: 48.1405962824949,
+          lon: 11.425195993206,
+          name: "Veldensteinstra\u00dfe",
         },
         {
-          id: "de:09174:7095:0:2",
-          lat: 48.2651544665509,
-          lon: 11.4307116490513,
-          name: "Dachau, Waldfriedhof",
+          station_id: "de:09162:1716:1:2",
+          lat: 48.1404943758439,
+          lon: 11.4250702290662,
+          name: "Veldensteinstra\u00dfe",
         },
       ],
     },
     {
-      distance: 600,
-      id: "de:09174:7076",
-      lat: 48.2651365267159,
-      lon: 11.4708393927985,
-      name: "Dachau, Robert-Bosch-Stra\u00dfe",
-      sub_stations: [
-        {
-          id: "de:09174:7076:0:1",
-          lat: 48.2653518043198,
-          lon: 11.4708393927985,
-          name: "Dachau, Robert-Bosch-Stra\u00dfe",
-        },
-      ],
+      distance: 180,
+      station_id: "de:09162:731",
+      lat: 48.1405978994335,
+      lon: 11.6620003731536,
+      name: "Rennbahnstra\u00dfe",
+      sub_stations: [],
     },
     {
-      distance: 600,
-      id: "de:09184:2050",
-      lat: 48.2651724063795,
-      lon: 11.5867849465359,
-      name: "Lohhof, Haimhauser Stra\u00dfe",
-      sub_stations: [
-        {
-          id: "de:09184:2050:0:1",
-          lat: 48.2652441656312,
-          lon: 11.5867759633831,
-          name: "Lohhof, Haimhauser Stra\u00dfe",
-        },
-        {
-          id: "de:09184:2050:0:2",
-          lat: 48.2650707472672,
-          lon: 11.5867849465359,
-          name: "Lohhof, Haimhauser Stra\u00dfe",
-        },
-      ],
+      distance: 40,
+      station_id: "de:09162:805",
+      lat: 48.1406811218803,
+      lon: 11.68173855848,
+      name: "Martin-Empl-Ring",
+      sub_stations: [],
     },
     {
-      distance: 4050,
-      id: "de:09184:2084",
-      lat: 48.2653817039154,
-      lon: 11.7307220045304,
-      name: "Ismaning, Peterhof",
-      sub_stations: [
-        {
-          id: "de:09184:2084:0:1",
-          lat: 48.2646222487695,
-          lon: 11.7287007951409,
-          name: "Ismaning, Peterhof",
-        },
-        {
-          id: "de:09184:2084:0:2",
-          lat: 48.2661351679478,
-          lon: 11.7328330454484,
-          name: "Ismaning, Peterhof",
-        },
-      ],
+      distance: 400,
+      station_id: "de:09162:73",
+      lat: 48.1407321820681,
+      lon: 11.6000689672441,
+      name: "Friedensengel/Villa Stuck",
+      sub_stations: [],
     },
     {
-      distance: 350,
-      id: "de:09174:6928",
-      lat: 48.2658840145045,
-      lon: 11.4530258007119,
-      name: "Dachau, J.-F.-Kennedy-Platz",
+      distance: 900,
+      station_id: "de:09162:1206",
+      lat: 48.1407404161784,
+      lon: 11.524217700077,
+      name: "Am Lokschuppen",
+      sub_stations: [],
+    },
+    {
+      distance: 750,
+      station_id: "de:09179:6384",
+      lat: 48.1407461448496,
+      lon: 11.2998810110539,
+      name: "Alling, Griesstra\u00dfe",
       sub_stations: [
         {
-          id: "de:09174:6928:0:1",
-          lat: 48.2658301957489,
-          lon: 11.4530707164761,
-          name: "Dachau, J.-F.-Kennedy-Platz",
-        },
-        {
-          id: "de:09174:6928:0:2",
-          lat: 48.2659438130553,
-          lon: 11.4530258007119,
-          name: "Dachau, J.-F.-Kennedy-Platz",
+          station_id: "de:09179:6384:0:1",
+          lat: 48.140776117268,
+          lon: 11.3000606741107,
+          name: "Alling, Griesstra\u00dfe",
         },
       ],
     },
   ],
-});
-
+};
 function B64String(station_id: string, station_name: string) {
   return btoa(`{
     "language": {
@@ -245,65 +203,73 @@ function B64String(station_id: string, station_name: string) {
     "showNotification": true
 }`);
 }
-function changeStation(station_id: string) {
-  const children = document.getElementById("monitor-container")?.children;
-  if (!children) {
-    return;
-  }
-  for (let index = 0; index < children.length; index++) {
-    const div = children[index];
-    if (div.id === station_id) {
-      div.setAttribute("style", "display:block");
-    } else {
-      div.setAttribute("style", "display:none");
-    }
-  }
-}
 
-function flat(stations: any) {
-  return stations.flatMap((station) => {
-    const y = [station];
-    if (station.sub_stations.length > 1) {
-      // if substations == 1 then sub is a duplicate of parent
-      for (const sub of station.sub_stations) {
-        y.push(sub);
-      }
-    }
-    return y;
-  });
-}
+const selected = ref("");
 </script>
 <template>
-  <div class="MVV">
-    <div class="table">
-      <div class="station-buttons table-column">
-        <ul class="buttons">
-          <h2>Nearby Public Transport</h2>
-          <li v-for="station in props.stations.sort((s1, s2) => s1.distance - s2.distance)" :key="station.id">
-            <button class="btn parent" @click="changeStation(station.id)">
-              {{ station.distance }}m: {{ station.name }}
-            </button>
-            <ul v-if="station.sub_stations.length > 1">
-              <!--only 1 substations means sub == parent -->
-              <li class="substation" v-for="sub in station.sub_stations" :key="sub.id">
-                <button class="btn sub" @click="changeStation(sub.id)">{{ sub.name }}</button>
+  <div v-if="props.mvg">
+    <div class="columns">
+      <div class="column">
+        <h2>{{ $t("view_view.rooms_overview.public_transport") }}</h2>
+      </div>
+      <!--<div class="column col-auto">
+        <div class="dropdown"><a class="btn btn-link dropdown-toggle" tabindex="0">{{ $t("view_view.rooms_overview.by_usage") }} <i class="icon icon-caret" /></a>
+          <ul class="menu">
+                  <li class="menu-item"><a href="#dropdowns">nach Nutzung</a></li>
+                  <li class="menu-item"><a href="#dropdowns">nach ...</a></li>
+          </ul>
+        </div>
+      </div>-->
+    </div>
+    <div class="columns content" v-if="props.mvg">
+      <div class="column col-4 col-md-12 col-sm-12" id="button-list">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title h6">{{ $t("view_view.rooms_overview.by_distance") }}:</div>
+          </div>
+          <div class="panel-body">
+            <ul class="menu">
+              <li
+                class="menu-item"
+                v-for="s in [...props.mvg].sort((s1, s2) => s1.distance - s2.distance)"
+                :key="s.station_id"
+              >
+                <button
+                  class="btn"
+                  :class="{
+                    active: s.station_id === selected,
+                  }"
+                  @click="selected = s.station_id"
+                >
+                  <i class="icon icon-arrow-right" />
+                  <div class="menu-text">{{ s.name }}</div>
+                  <label class="label">{{ s.distance }}</label>
+                </button>
               </li>
             </ul>
-          </li>
-        </ul>
+          </div>
+          <div class="panel-footer">
+            <button
+              class="btn btn-link btn-sm"
+              @click="selected = [...props.mvg].sort((s1, s2) => s1.distance - s2.distance)[0].station_id"
+            >
+              {{ $t("view_view.rooms_overview.remove_selection") }}
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="monitor-container table-column">
+      <div class="column col-8 col-md-12 col-sm-12" id="rooms-list">
         <ul id="monitor-container">
           <div
-            :id="station.id"
-            v-for="(station, index) in flat(props.stations)"
-            :key="station.id"
-            :style="index == 0 ? 'display:block' : 'display:none'"
+            :id="station.station_id"
+            v-for="station in props.mvg"
+            :key="station.station_id"
+            :style="selected == station.station_id ? 'display:block' : 'display:none'"
           >
             <div
               id="mvv-departure-monitor"
               class="mvv-departure-monitor"
-              :monitor-configuration="B64String(station.id, station.name)"
+              :monitor-configuration="B64String(station.station_id, station.name)"
             />
           </div>
         </ul>
@@ -313,42 +279,98 @@ function flat(stations: any) {
 </template>
 
 <style>
-.MVV {
-  display: inline-block;
-  margin-right: auto;
-  margin-left: auto;
-}
-.table {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  .table-column {
-    flex: 1;
-  }
-}
-ul {
+ul#monitor-container {
   margin: 0 0;
+  position: relative;
 }
 
 .mvv-departure-monitor {
   width: 500px;
+  position: absolute;
 }
-.btn {
-  text-align: left;
-  color: #0065bd;
-  cursor: pointer;
-  border: none;
-  line-height: 85%;
-  height: 85%;
+</style>
+<style lang="scss" scoped>
+@import "@/assets/variables";
+.panel {
+  .menu {
+    padding: 0;
+    box-shadow: none;
+
+    .menu-item button {
+      text-align: left !important;
+      border: 0 transparent !important;
+      width: 100%;
+    }
+    .menu-item {
+      height: 32px;
+    }
+
+    .menu-item a,
+    .menu-item label,
+    .menu-item button {
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+
+  #category-select .menu-item {
+    padding: 0;
+
+    & .icon-arrow-right {
+      margin-right: 4px;
+    }
+  }
+
+  .menu-item button {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    width: 100%;
+
+    .menu-text {
+      flex-grow: 1;
+      flex-shrink: 1;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .icon,
+    label {
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
+
+    .icon {
+      top: 5px;
+    }
+  }
+
+  .panel-title {
+    font-weight: bold;
+  }
+
+  .panel-body {
+    height: 500px;
+    padding-bottom: 4px;
+
+    .divider {
+      margin: 6px 0;
+    }
+  }
+
+  .panel-footer {
+    color: $text-gray;
+  }
 }
 
-.btn.sub {
-  line-height: 70%;
-  height: 70%;
-  font-size: 70%;
-}
+// 'sm' (mobile)
+@media (max-width: 600px) {
+  #category-select .panel-body {
+    height: 260px;
+  }
 
-img[alt="MVV Logo"] {
-  display: none;
+  #rooms-list .panel-body {
+    height: 275px;
+  }
 }
 </style>

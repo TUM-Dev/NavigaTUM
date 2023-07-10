@@ -181,10 +181,12 @@ view_view:
     img_alt: Image showing the Site Plan
   rooms_overview:
     any: any
+    by_distance: by distance
     by_usage: by usage
     clear_filter: Clear the filter
     filter: Filter
     filtered: filtered
+    public_transport: MVV Connections
     remove_selection: Remove selection
     results: '{count} result | {count} results'
     title: Rooms
