@@ -181,7 +181,7 @@ view_view:
     img_alt: Bild des Lageplans
   rooms_overview:
     any: beliebig
-    by_distance: nach Entfernung
+    by_distance: nach Entfernung (geschätzt)
     by_usage: nach Nutzung
     clear_filter: Filter löschen
     filter: Filter

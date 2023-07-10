@@ -181,7 +181,7 @@ view_view:
     img_alt: Image showing the Site Plan
   rooms_overview:
     any: any
-    by_distance: by distance
+    by_distance: by distance (approximate)
     by_usage: by usage
     clear_filter: Clear the filter
     filter: Filter
