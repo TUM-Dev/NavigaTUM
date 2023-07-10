@@ -1,8 +1,10 @@
 import copy
 import logging
-import json
+
 import utm
-from processors.public_transport import _distance_via_great_circle
+from utils import distance_via_great_circle
+
+MAX_DISTANCE_METERS_FROM_PARENT = 100
 
 
 def assert_buildings_have_coords(data):
@@ -24,12 +26,6 @@ def assign_coordinates(data):
     Assign coordinates to all entries (except root) and make sure they match the data format.
     """
     # TODO: In the future we might calculate the coordinates from OSM data
-    with open("coords_override.json") as file:
-        overrides=json.load(file)
-
-    for iid, override in overrides.items():
-        override["source"]="manual_override"
-        data[iid]["coords"]=override
 
     error = False
 
@@ -125,21 +121,28 @@ def check_coords(input_data):
                 f"(UTM coordinates are either from the Roomfinder or automatically calculated).",
             )
 
+
 def validate_coords(input_data):
     for iid, data in input_data.items():
-        if not data["type"] =="room":
+        if not data["type"] == "room":
             continue
-        coords=data["coords"]
-        parent_coords=input_data[data["parents"][-1]]["coords"]
+        coords = data["coords"]
+        parent_id = data["parents"][-1]
+        parent_coords = input_data[parent_id]["coords"]
 
-        if coords["lat"]==parent_coords["lat"] and coords["lon"]==parent_coords["lon"]:
-            continue
+        distance_to_parent = distance_via_great_circle(
+            coords["lat"],
+            coords["lon"],
+            parent_coords["lat"],
+            parent_coords["lon"],
+        )
 
-        distance_to_parent=_distance_via_great_circle(coords["lat"],coords["lon"],parent_coords["lat"],parent_coords["lon"])
+        if distance_to_parent > MAX_DISTANCE_METERS_FROM_PARENT:
+            logging.warn(
+                f"{iid} {coords} is {distance_to_parent}m away from its parent "
+                + f"{parent_id} {parent_coords}. Please recheck if the coordinate makes sense",
+            )
 
-        if distance_to_parent>100:
-            logging.warn(f"{iid} {data['coords']} has a distance of {distance_to_parent}m to " +
-                  f"{data['parents'][-1]} {input_data[data['parents'][-1]]['coords']}")
 
 def add_and_check_coords(data):
     """Add coordinates to all entries and check for issues"""
