@@ -124,7 +124,7 @@ def check_coords(input_data):
 
 def validate_coords(input_data):
     for iid, data in input_data.items():
-        if not data["type"] == "room":
+        if data["type"] != "room":
             continue
         coords = data["coords"]
         parent_id = data["parents"][-1]
