@@ -243,7 +243,7 @@ const selected = ref([...props.mvg].sort((s1, s2) => s1.distance - s2.distance)[
                 >
                   <i class="icon icon-arrow-right" />
                   <div class="menu-text">{{ s.name }}</div>
-                  <label class="label">{{ s.distance }}m</label>
+                  <label class="label">{{ Math.round(s.distance) }}m</label>
                 </button>
               </li>
             </ul>
