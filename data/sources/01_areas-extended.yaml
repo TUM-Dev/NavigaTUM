@@ -181,6 +181,7 @@ zentralgelaende:
         "05": { use_as: "04" }
 "0510": # Verwaltungsbau (Z10)
   osm: ["relation/6758375"] # smaller part: "way/31095179"
+  coords: { lat: 48.14884, lon: 11.56790 }
 "0511": # Elektro/Werkstatt/Lösungsmittel (Z11)
   osm: ["way/42918170"]
 #"0512":  # Garagen (Z12)
