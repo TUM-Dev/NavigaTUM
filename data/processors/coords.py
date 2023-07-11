@@ -123,6 +123,7 @@ def check_coords(input_data):
 
 
 def validate_coords(input_data):
+    """Check that coordinates are not too far away from their parent"""
     for iid, data in input_data.items():
         if data["type"] != "room":
             continue
