@@ -4,7 +4,7 @@ import logging
 import utm
 from utils import distance_via_great_circle
 
-MAX_DISTANCE_METERS_FROM_PARENT = 100
+MAX_DISTANCE_METERS_FROM_PARENT = 200
 
 
 def assert_buildings_have_coords(data):
