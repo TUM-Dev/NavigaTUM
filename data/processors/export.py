@@ -129,8 +129,10 @@ def export_for_api(data, path):
     with open(path, "w", encoding="utf-8") as file:
         json.dump(export_data, file, cls=EnhancedJSONEncoder)
 
+
 class EnhancedJSONEncoder(json.JSONEncoder):
-        def default(self, o):
-            if dataclasses.is_dataclass(o):
-                return dataclasses.asdict(o)
-            return super().default(o)
+    def default(self, o):
+        """Enhanced JSONEncoder that can handle dataclasses"""
+        if dataclasses.is_dataclass(o):
+            return dataclasses.asdict(o)
+        return super().default(o)

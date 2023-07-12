@@ -73,6 +73,7 @@ def merge_tumonline_buildings(data):
 
 
 @pydantic.dataclasses.dataclass
+# pylint: disable=too-few-public-methods
 class InactiveOrg:
     name: str
 
@@ -316,7 +317,7 @@ def _infer_arch_name(
         room["patched"] = True
 
 
-def _maybe_set_alt_name(arch_name_parts:tuple[str, str], room: dict) -> None:
+def _maybe_set_alt_name(arch_name_parts: tuple[str, str], room: dict) -> None:
     """
     deduces the alt_name from the roomname
 
