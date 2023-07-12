@@ -1,3 +1,4 @@
+import dataclasses
 import json
 from pathlib import Path
 from typing import Any, Union
@@ -126,4 +127,10 @@ def export_for_api(data, path):
                 del export_data[_id]["props"][k]
 
     with open(path, "w", encoding="utf-8") as file:
-        json.dump(export_data, file)
+        json.dump(export_data, file, cls=EnhancedJSONEncoder)
+
+class EnhancedJSONEncoder(json.JSONEncoder):
+        def default(self, o):
+            if dataclasses.is_dataclass(o):
+                return dataclasses.asdict(o)
+            return super().default(o)

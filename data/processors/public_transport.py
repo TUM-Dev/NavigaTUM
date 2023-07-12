@@ -31,8 +31,7 @@ def nearby_stations(lat: float, lon: float, stations: list[Station]) -> list[dic
 
 def add_nearby_public_transport(data):
     """Add the nearby public transport stations to the data"""
-    with open("external/results/public_transport.json", encoding="utf-8") as file:
-        stations = [Station(**x) for x in json.load(file)]
+    stations = Station.load_all()
 
     for entry in data.values():
         if coords := entry.get("coords", None):  # noqa: SIM102

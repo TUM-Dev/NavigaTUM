@@ -1,9 +1,11 @@
 import json
 import logging
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 
 import yaml
+
+from external.models import nat
 
 with open("sources/12_nat_excluded_buildings.yaml", encoding="utf-8") as excluded_buildings_raw:
     EXCLUDED_BUILDINGS = set(yaml.safe_load(excluded_buildings_raw.read()))
@@ -18,17 +20,13 @@ class NATBuilding:
     b_alias: None | str
     b_address: None | str
 
-    def __init__(self, data: dict):
+    def __init__(self, data: nat.Building):
         self.b_id = None  # Later set by _infer_internal_id()
-        self.b_code = data["building_code"]  # Building id/code used by the NAT roomfinder
-        self.b_name = data["building_name"]
-        self.b_tumonline_id = data["building_id"]
-        self.b_alias = data["building_short"]
-        self.b_address = data["address"]
-
-    def as_dict(self):
-        """Return the building data as dict"""
-        return self.__dict__
+        self.b_code = data.building_code  # Building id/code used by the NAT roomfinder
+        self.b_name = data.building_name
+        self.b_tumonline_id = data.building_id
+        self.b_alias = data.building_short
+        self.b_address = data.address
 
 
 def merge_nat_buildings(data):
@@ -36,11 +34,10 @@ def merge_nat_buildings(data):
     Merge the buildings in the NAT Roomfinder with the existing data.
     This may overwrite existing data, if they have patched some fields.
     """
-    with open("external/results/buildings_nat.json", encoding="utf-8") as file:
-        buildings = json.load(file)
+    buildings = nat.Building.load_all()
 
     # Sanity-check: Make sure that the buildings in the data are unique
-    building_ids = [b["building_code"] for b in buildings]
+    building_ids = [b.building_code for b in buildings]
     if duplicate_building_ids := {b_id: cnt for b_id, cnt in Counter(building_ids).items() if cnt > 1}:
         raise ValueError(f"There are duplicate buildings in the data: {duplicate_building_ids}")
 
@@ -75,11 +72,11 @@ def _infer_internal_id(building, data):
     return building.b_id
 
 
-def _merge_building(data, building):
+def _merge_building(data: dict, building: NATBuilding) -> None:
     internal_id = _infer_internal_id(building, data)
 
     b_data = data[internal_id]
-    b_data["nat_data"] = building.as_dict()
+    b_data["nat_data"] = asdict(building)
 
     # NAT buildings are merged after TUMonline and the MyTUM Roomfinder. So if the others
     # weren't used as sources, but the NAT Roomfinder has this building, we know it's from there.
