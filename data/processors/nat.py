@@ -101,7 +101,7 @@ def merge_nat_rooms(_data):
     """
 
     with open("external/results/rooms_nat.json", encoding="utf-8") as file:
-        _rooms = json.load(file)
+        _rooms = json.load(file)  # noqa: F841
 
     # TODO: implement the merging of NAT rooms
     logging.warning("Merging NAT rooms is not yet implemented")
