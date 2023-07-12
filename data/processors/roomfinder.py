@@ -12,14 +12,11 @@ def merge_roomfinder_buildings(data):
     Merge the buildings in Roomfinder with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
-    with open("external/results/buildings_roomfinder.json", encoding="utf-8") as file:
-        buildings = [roomfinder.Building(**b) for b in json.load(file)]
-
     with open("sources/10_patches-roomfinder-buildings.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
     error = False
-    for building in buildings:
+    for building in roomfinder.Building.load_all():
         # 'Building' 0000 contains some buildings and places not in TUMonline as rooms.
         # They might be integrated customly somewhere else, but here we ignore these.
         if building.b_id == "0000":
@@ -81,9 +78,6 @@ def merge_roomfinder_rooms(data):
     This will not overwrite the existing data, but act directly on the provided data.
     """
 
-    with open("external/results/rooms_roomfinder.json", encoding="utf-8") as file:
-        rooms = [roomfinder.Room(**r) for r in json.load(file)]
-
     with open("sources/16_roomfinder-merge-patches.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
@@ -95,7 +89,7 @@ def merge_roomfinder_rooms(data):
         if ("type" in _data and _data["type"] == "room" and "tumonline_data" in _data)
     }
 
-    for room in rooms:
+    for room in roomfinder.Room.load_all():
         # Try to find the existing room id (which is based on the SAP Code).
         # We use the TUMonline arch_name for this, because we don't know the SAP Code here.
         try:

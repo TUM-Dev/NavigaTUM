@@ -2,7 +2,9 @@ import json
 import logging
 import string
 
+import pydantic
 import yaml
+from external.models import tumonline
 from processors.merge import recursively_merge
 from processors.patch import apply_patches
 from utils import TranslatableStr as _
@@ -17,13 +19,10 @@ def merge_tumonline_buildings(data):
     Merge the buildings in TUMonline with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
-    with open("external/results/buildings_tumonline.json", encoding="utf-8") as file:
-        buildings = json.load(file)
-
     error = False
-    for building in buildings:
+    for building in tumonline.Building.load_all():
         # Normalize the building name (sometimes has more than one space)
-        b_name = " ".join(building["name"].split()).strip()
+        b_name = " ".join(building.name.split()).strip()
 
         # Extract the building id
         try:
@@ -62,8 +61,8 @@ def merge_tumonline_buildings(data):
 
         b_data["tumonline_data"] = {
             "name": b_name,
-            "filter_id": building["filter_id"],
-            "area_id": building["area_id"],
+            "filter_id": building.filter_id,
+            "area_id": building.area_id,
         }
 
         b_data.setdefault("props", {}).setdefault("ids", {}).setdefault("b_id", b_id)
@@ -73,20 +72,21 @@ def merge_tumonline_buildings(data):
     return data
 
 
+@pydantic.dataclasses.dataclass
+class InactiveOrg:
+    name: str
+
+
+# pylint: disable=too-many-locals
 def merge_tumonline_rooms(data):
     """
     Merge the rooms in TUMonline with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
     rooms = _clean_tumonline_rooms()
-    with open("external/results/usages_tumonline.json", encoding="utf-8") as file:
-        usages = json.load(file)
-    usages_lookup = {usage["id"]: usage for usage in usages}
 
-    with open("external/results/orgs-de_tumonline.json", encoding="utf-8") as file_de:
-        orgs_de = json.load(file_de)
-    with open("external/results/orgs-en_tumonline.json", encoding="utf-8") as file_en:
-        orgs_en = json.load(file_en)
+    orgs_de = tumonline.Organisation.load_all_for("de")
+    orgs_en = tumonline.Organisation.load_all_for("en")
 
     missing_buildings: dict[str, int] = {}
     for room in rooms:
@@ -114,8 +114,8 @@ def merge_tumonline_rooms(data):
                 "operator_id": int(room["op_link"].strip(OPERATOR_WEBNAV_LINK_PREFIX)),
                 "operator_link": room["op_link"],
                 "operator_name": _(
-                    orgs_de.get(operator, {}).get("name", f"Inaktive Organisation ({operator})"),
-                    orgs_en.get(operator, {}).get("name", f"Inactive Organisation ({operator})"),
+                    orgs_de.get(operator, InactiveOrg(name=f"Inaktive Organisation ({operator})").name),
+                    orgs_en.get(operator, InactiveOrg(name=f"Inactive Organisation ({operator})").name),
                 ),
                 "room_link": room["room_link"],
                 "calendar": room["calendar"],
@@ -144,11 +144,12 @@ def merge_tumonline_rooms(data):
             }
 
         # Usage
+        usages_lookup = tumonline.Usage.load_all()
         if room["usage"] in usages_lookup:
             tumonline_usage = usages_lookup[room["usage"]]
-            parts = tumonline_usage["din_277"].split(" - ")
+            parts = tumonline_usage.din_277.split(" - ")
             r_data["usage"] = {
-                "name": _(tumonline_usage["name"]),
+                "name": _(tumonline_usage.name),
                 "din_277": parts[0],
                 "din_277_desc": parts[1],
             }
@@ -315,7 +316,7 @@ def _infer_arch_name(
         room["patched"] = True
 
 
-def _maybe_set_alt_name(arch_name_parts, room):
+def _maybe_set_alt_name(arch_name_parts:tuple[str, str], room: dict) -> None:
     """
     deduces the alt_name from the roomname
 
