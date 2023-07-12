@@ -1,4 +1,3 @@
-import json
 from dataclasses import asdict
 
 from external.models.public_transport import Station

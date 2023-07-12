@@ -1,10 +1,9 @@
 import json
 import logging
 from collections import Counter
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 
 import yaml
-
 from external.models import nat
 
 with open("sources/12_nat_excluded_buildings.yaml", encoding="utf-8") as excluded_buildings_raw:
