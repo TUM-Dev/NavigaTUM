@@ -108,9 +108,9 @@ mod overlay_tests {
 
     #[test]
     fn test_lat_lon_z_to_xyz() {
-        let (x, y, _) = lat_lon_z_to_xyz(52.520008, 13.404954, 17);
-        assert_eq!(x, 70416.59);
-        assert_eq!(y, 42985.734);
+        let (x, y, _) = lat_lon_z_to_xyz(52.520_008, 13.404_954, 17);
+        assert_eq!(x, 70416.59_f32);
+        assert_eq!(y, 42985.734_f32);
     }
 
     #[test]
