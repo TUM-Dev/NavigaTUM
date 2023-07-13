@@ -17,15 +17,15 @@ impl Filter {
             let parents: Vec<&str> = self.parents.iter().map(|s| s.as_str()).collect();
             filters.push(format!(
                 "((parent_keywords IN {parents:?}) OR (parent_building_names IN {parents:?}) OR (campus IN {parents:?}))"
-            ))
+            ));
         }
         if !self.types.is_empty() {
             let types: Vec<&str> = self.types.iter().map(|s| s.as_str()).collect();
-            filters.push(format!("(type IN {types:?})"))
+            filters.push(format!("(type IN {types:?})"));
         }
         if !self.usages.is_empty() {
             let usages: Vec<&str> = self.usages.iter().map(|s| s.as_str()).collect();
-            filters.push(format!("(usage IN {usages:?})"))
+            filters.push(format!("(usage IN {usages:?})"));
         }
         filters.join(" AND ")
     }

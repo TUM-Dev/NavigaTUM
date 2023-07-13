@@ -75,8 +75,7 @@ mod test_discription {
     #[test]
     fn test_apply_set() {
         let mut description = Description::default();
-        let mut set = HashMap::new();
-        set.insert("key".to_string(), TestEdit::default());
+        let set = HashMap::from([("key".to_string(), TestEdit)]);
         description.appply_set("category", set, Path::new(""));
         assert_eq!(description.title, "1 category edits");
         assert_eq!(description.body, "The following category edits were made:\n| entry | edit | \n| --- | --- | \n| [`key`](https://nav.tum.de/view/key) | applied_value |\n");

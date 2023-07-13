@@ -9,7 +9,7 @@ pub struct RecordedTokens(Mutex<Vec<TokenRecord>>);
 
 pub struct TokenRecord {
     kid: u64,
-    next_reset: usize,
+    next_reset: i64,
 }
 
 fn able_to_process_feedback() -> bool {
@@ -19,20 +19,20 @@ fn able_to_process_feedback() -> bool {
 // Additionally, there is a short delay until a token can be used.
 // Clients need to wait that time if (for some reason) the user submitted
 // faster than limited here.
-const TOKEN_MIN_AGE: usize = 5;
-const TOKEN_MAX_AGE: usize = 3600 * 12; // 12h
+const TOKEN_MIN_AGE: i64 = 5;
+const TOKEN_MAX_AGE: i64 = 3600 * 12; // 12h
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
-    exp: usize, // Required (validate_exp defaults to true in validation). Expiration time (as UTC timestamp)
-    iat: usize, // Optional. Issued at (as UTC timestamp)
-    nbf: usize, // Optional. Not Before (as UTC timestamp)
-    kid: u64,   // Optional. Key ID
+    exp: i64, // Required (validate_exp defaults to true in validation). Expiration time (as UTC timestamp)
+    iat: i64, // Optional. Issued at (as UTC timestamp)
+    nbf: i64, // Optional. Not Before (as UTC timestamp)
+    kid: u64, // Optional. Key ID
 }
 
 impl Claims {
     pub fn new() -> Self {
-        let now = chrono::Utc::now().timestamp() as usize;
+        let now = chrono::Utc::now().timestamp();
         Self {
             exp: now + TOKEN_MAX_AGE,
             iat: now,
@@ -78,7 +78,7 @@ impl RecordedTokens {
         // - neither synced across multiple feedback instances, nor
         // - persisted between reboots
 
-        let now = chrono::Utc::now().timestamp() as usize;
+        let now = chrono::Utc::now().timestamp();
         let mut tokens = self.0.lock().await;
         // remove outdated tokens (no longer relevant for rate limit)
         tokens.retain(|t| t.next_reset > now);
@@ -100,7 +100,7 @@ impl RecordedTokens {
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Token {
-    created_at: usize, // unix timestamp
+    created_at: i64, // unix timestamp
     token: String,
 }
 
@@ -120,7 +120,7 @@ pub async fn get_token() -> HttpResponse {
 
     match token {
         Ok(token) => {
-            let created_at = chrono::Utc::now().timestamp() as usize;
+            let created_at = chrono::Utc::now().timestamp();
             HttpResponse::Created().json(Token { created_at, token })
         }
         Err(e) => {
