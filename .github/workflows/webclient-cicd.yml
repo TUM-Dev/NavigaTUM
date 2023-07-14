@@ -43,7 +43,6 @@ jobs:
     uses: ./.github/workflows/_docker-build.yml
     needs:
       - webclient-test
-      - webclient-ui-test-macos
       - webclient-ui-test-ubuntu
     with:
       image_suffix: webclient
