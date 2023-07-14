@@ -19,7 +19,14 @@ jobs:
         with:
           toolchain: stable
           components: clippy
-      - run: cargo clippy --manifest-path "server/Cargo.toml" --workspace
+          cache: false
+      - name: Setup | Rust-Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            server
+      - run: cargo --workspace
+        working-directory: server
   linting:
     runs-on: ubuntu-latest
     steps:
@@ -29,7 +36,14 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
         with:
           toolchain: stable
-      - run: cargo clippy --manifest-path "server/Cargo.toml" --workspace
+          cache: false
+      - name: Setup | Rust-Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            server
+      - run: cargo clippy --workspace
+        working-directory: server
   feedback-build:
     needs:
       - tests
