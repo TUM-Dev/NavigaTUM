@@ -9,25 +9,31 @@ on:
   workflow_dispatch:
 
 jobs:
-  cargo-test:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v3
-      - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
-      - run: git config --global user.name "github-actions[bot]"
       - name: Setup | Rust
-        uses: ATiltedTree/setup-rust@v1
+        uses: actions-rust-lang/setup-rust@v1.5.0
         with:
-          rust-version: stable
+          toolchain: stable
           components: clippy
-      - name: Build | Lint
-        run: cargo clippy --manifest-path "server/Cargo.toml" --workspace
-      - name: Build | Test
-        run: cargo test --manifest-path "server/Cargo.toml" --workspace
+      - run: cargo clippy --manifest-path "server/Cargo.toml" --workspace
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v3
+      - name: Setup | Rust
+        uses: actions-rust-lang/setup-rust@v1.5.0
+        with:
+          toolchain: stable
+      - run: cargo clippy --manifest-path "server/Cargo.toml" --workspace
   feedback-build:
     needs:
-      - cargo-test
+      - tests
+      - linting
     uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: feedback
@@ -46,7 +52,8 @@ jobs:
       ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   calendar-build:
     needs:
-      - cargo-test
+      - tests
+      - linting
     uses: ./.github/workflows/_docker-build.yml
     with:
       image_suffix: calendar
@@ -66,7 +73,8 @@ jobs:
   main-api-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
-      - cargo-test
+      - tests
+      - linting
     with:
       image_suffix: main-api
       context: ./server
@@ -77,7 +85,8 @@ jobs:
   building-db-init-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
-      - cargo-test
+      - tests
+      - linting
     with:
       image_suffix: building-db-init
       context: ./server/main-api
@@ -88,7 +97,8 @@ jobs:
   mieli-search-init-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
-      - cargo-test
+      - tests
+      - linting
     with:
       image_suffix: mieli-search-init
       context: ./server/main-api
