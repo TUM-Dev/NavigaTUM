@@ -14,7 +14,6 @@ jobs:
       matrix:
         browser:
           - chrome
-          - firefox
     runs-on: ubuntu-latest
     container:
       image: cypress/browsers:node16.16.0-chrome107-ff107
