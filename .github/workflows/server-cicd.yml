@@ -25,7 +25,7 @@ jobs:
         with:
           workspaces: |
             server
-      - run: cargo --workspace
+      - run: cargo test --workspace
         working-directory: server
   linting:
     runs-on: ubuntu-latest
