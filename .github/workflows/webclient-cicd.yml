@@ -1,0 +1,28 @@
+name: Webclient CI/CD
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  webclient-build:
+    uses: ./.github/workflows/_docker-build.yml
+    with:
+      image_suffix: webclient
+      context: ./webclient
+      dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  webclient-deployment:
+    uses: ./.github/workflows/_restart-argocd.yml
+    needs:
+      - webclient-build
+    with:
+      deployment: webclient
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
