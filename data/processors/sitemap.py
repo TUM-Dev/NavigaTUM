@@ -5,15 +5,23 @@ import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET  # nosec: used for writing to a file, not for reading
 from datetime import datetime
-from typing import Union
+from typing import Union, TypedDict
 
 from compile import DEBUG_MODE
+from datetime import timezone
 from defusedxml import ElementTree as defusedET
 
 # defusedxml only supports parse()
 
+class SitemapEntry(TypedDict):
+    url: str
+    lastmod: datetime
+    priority: float
+class Sitemaps(TypedDict):
+    room: list[SitemapEntry]
+    other: list[SitemapEntry]
 
-def generate_sitemap():
+def generate_sitemap() -> None:
     """Generate a sitemap that diffs changes since to the currently online data"""
 
     if DEBUG_MODE:
@@ -41,7 +49,7 @@ def generate_sitemap():
     _write_sitemapindex_xml("output/sitemap.xml", sitemaps)
 
 
-def _download_old_data():
+def _download_old_data() -> dict:
     """Download the currently online data from the server"""
     try:
         req = urllib.request.Request("https://nav.tum.de/cdn/api_data.json")
@@ -53,10 +61,10 @@ def _download_old_data():
         return {}
 
 
-def _extract_sitemap_data(new_data, old_data, old_sitemaps) -> dict[str, list[dict[str, Union[str, float, datetime]]]]:
+def _extract_sitemap_data(new_data, old_data, old_sitemaps) -> Sitemaps:
     """
     Extract sitemap data.
-    Lastmod is set to the current time if the entry is modified (idicated via comparing newdata vs olddata),
+    Lastmod is set to the current time if the entry is modified (indicated via comparing newdata vs olddata),
     or to the last modification time of the online sitemap if the entry is not modified.
     """
 
@@ -67,7 +75,7 @@ def _extract_sitemap_data(new_data, old_data, old_sitemaps) -> dict[str, list[di
     # sitemap is split into one for rooms and one for the rest.
     # Note that the root element is not included, because it just redirects
     # to the main page.
-    sitemaps: dict[str, list[dict[str, Union[str, float, datetime]]]] = {
+    sitemaps: Sitemaps = {
         "room": [],
         "other": [],
     }
@@ -94,13 +102,13 @@ def _extract_sitemap_data(new_data, old_data, old_sitemaps) -> dict[str, list[di
         }[entry["type"]]
         url = f"https://nav.tum.de/{url_type_name}/{_id}"
         if _id not in old_data or entry != old_data[_id]:
-            lastmod = datetime.utcnow()
+            lastmod = datetime.now(timezone.utc)
             changed_count += 1
         else:
             # Try to look up the last changed date in the old sitemap
             lastmod = old_sitemaps.get(sitemap_name, {}).get(url, None)
             if lastmod is None:
-                lastmod = datetime.utcnow()
+                lastmod = datetime.now(timezone.utc)
                 changed_count += 1
 
         # Priority is a relative measure from 0.0 to 1.0.
@@ -126,7 +134,7 @@ def _extract_sitemap_data(new_data, old_data, old_sitemaps) -> dict[str, list[di
     return sitemaps
 
 
-def _download_online_sitemaps(sitemap_names):
+def _download_online_sitemaps(sitemap_names : list[str])-> Sitemaps:  # noqa: E501 (line too long
     """Download online sitemaps by their names"""
     return {
         name: _download_online_sitemap(
@@ -136,7 +144,7 @@ def _download_online_sitemaps(sitemap_names):
     }
 
 
-def _download_online_sitemap(url):
+def _download_online_sitemap(url: str):
     xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"  # noqa: FS003
     req = urllib.request.Request(url)
     req.add_header("Accept-Encoding", "gzip")
@@ -155,7 +163,7 @@ def _download_online_sitemap(url):
     return sitemap
 
 
-def _write_sitemap_xml(fname, sitemap):
+def _write_sitemap_xml(fname:str, sitemap):
     """Write the sitemap XML for a single sitemap"""
     urlset = ET.Element("urlset")
     urlset.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
