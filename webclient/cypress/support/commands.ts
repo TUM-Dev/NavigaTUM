@@ -23,7 +23,7 @@
 //
 //
 // -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+// Cypress.Commands.overwrite('visit', (originalFn, url_path, options) => { ... })
 //
 // declare global {
 //   namespace Cypress {
@@ -31,7 +31,7 @@
 //       login(email: string, password: string): Chainable<void>
 //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
+//       visit(originalFn: CommandOriginalFn, url_path: string, options: Partial<VisitOptions>): Chainable<Element>
 //     }
 //   }
 // }

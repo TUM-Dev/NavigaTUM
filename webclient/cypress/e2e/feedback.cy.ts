@@ -1,5 +1,6 @@
 describe("Check if opening the feedback form works from every subview", () => {
   it("main page", () => {
+    cy.intercept("GET", "/api/get/root", { statusCode: 200, fixture: "get_root.json" });
     cy.visit("http://localhost:8000/");
     cy.contains("Standorte");
 
@@ -7,11 +8,13 @@ describe("Check if opening the feedback form works from every subview", () => {
     checkFeedbackForm('[data-cy="open-feedback-footer"]');
   });
   it("search page", () => {
-    cy.visit("http://localhost:8000/search?q=mw%20fachschaft");
+    cy.intercept("GET", "/api/search?q=fsmw", { statusCode: 200, fixture: "search?q_fsmw.json" });
+    cy.visit("http://localhost:8000/search?q=fsmw");
 
     checkFeedbackForm('[data-cy="open-feedback-search"]');
   });
   it("details page (general feedback)", () => {
+    cy.intercept("GET", "/api/get/mi", { statusCode: 200, fixture: "get_mi.json" });
     cy.visit("http://localhost:8000/view/mi");
     cy.get('[data-cy="open-feedback-details"]').should("exist", { timeout: 10_000 }); // wait for the site to be interactive
 

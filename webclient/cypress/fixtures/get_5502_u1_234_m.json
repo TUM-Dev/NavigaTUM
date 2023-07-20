@@ -1,0 +1,144 @@
+{
+  "arch_name": "U234M@5502",
+  "coords": {
+    "lat": 48.26588647102977,
+    "lon": 11.669872327213966,
+    "source": "navigatum"
+  },
+  "id": "5502.U1.234M",
+  "maps": {
+    "default": "interactive",
+    "overlays": {
+      "available": [
+        {
+          "coordinates": [
+            [
+              11.667617801785777,
+              48.26719015728
+            ],
+            [
+              11.67160725799323,
+              48.26672188711042
+            ],
+            [
+              11.670921198214224,
+              48.264131842720005
+            ],
+            [
+              11.66693174200677,
+              48.26460011288958
+            ]
+          ],
+          "file": "mw_0.webp",
+          "floor": "EG",
+          "id": 0,
+          "name": "Maschinenwesen (EG)"
+        }
+      ],
+      "default": null
+    },
+    "roomfinder": {
+      "available": [
+        {
+          "file": "rf80.webp",
+          "height": 480,
+          "id": "rf80",
+          "name": "Lageplan Campus Garching",
+          "scale": "10000",
+          "source": "Roomfinder",
+          "width": 676,
+          "x": 360,
+          "y": 198
+        },
+        {
+          "file": "rf54.webp",
+          "height": 603,
+          "id": "rf54",
+          "name": "M\u00fcnchen",
+          "scale": "200000",
+          "source": "Roomfinder",
+          "width": 640,
+          "x": 446,
+          "y": 27
+        },
+        {
+          "file": "rf156.webp",
+          "height": 515,
+          "id": "rf156",
+          "name": "M\u00fcnchen und Umgebung",
+          "scale": "400000",
+          "source": "Roomfinder",
+          "width": 420,
+          "x": 266,
+          "y": 163
+        }
+      ],
+      "default": "rf80"
+    }
+  },
+  "name": "5502.U1.234M (Druckerei Fachschaft Maschinenbau / FSMB)",
+  "parent_names": [
+    "Standorte",
+    "Garching Forschungszentrum",
+    "Maschinenwesen (MW)",
+    "Geb\u00e4udeteil 2, Institut f\u00fcr Werkstoffe und Verarbeitung"
+  ],
+  "parents": [
+    "root",
+    "garching",
+    "mw",
+    "5502"
+  ],
+  "props": {
+    "computed": [
+      {
+        "name": "Raumkennung",
+        "text": "5502.U1.234M"
+      },
+      {
+        "name": "Architekten-Name",
+        "text": "U234M"
+      },
+      {
+        "name": "Stockwerk",
+        "text": "1. Untergeschoss"
+      },
+      {
+        "name": "Adresse",
+        "text": "Boltzmannstr. 15, 85748 Garching b. M\u00fcnchen"
+      }
+    ],
+    "operator": {
+      "code": "TUMWFSM",
+      "id": 38689,
+      "name": "Inaktive Organisation (TUMWFSM)",
+      "url": "https://campus.tum.de/tumonline/webnav.navigate_to?corg=38689"
+    },
+    "tumonline_room_nr": 58066
+  },
+  "ranking_factors": {
+    "rank_combined": 10,
+    "rank_type": 100,
+    "rank_usage": 10
+  },
+  "redirect_url": "/room/5502.U1.234M",
+  "short_name": "FSMB Druckerei",
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      },
+      {
+        "name": "TUMonline",
+        "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr=58066"
+      }
+    ]
+  },
+  "type": "room",
+  "type_common_name": "Lager",
+  "usage": {
+    "din_277": "NF4.1",
+    "din_277_desc": "Lagerr\u00e4ume",
+    "name": "Lager"
+  }
+}

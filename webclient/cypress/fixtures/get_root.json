@@ -1,0 +1,168 @@
+{
+  "arch_name": null,
+  "id": "root",
+  "name": "Standorte",
+  "parent_names": [],
+  "parents": [],
+  "props": {
+    "computed": [
+      {
+        "name": "Anzahl Geb\u00e4ude",
+        "text": "479"
+      },
+      {
+        "name": "Anzahl R\u00e4ume",
+        "text": "33978 (26662 ohne Flure etc.)"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_combined": 0,
+    "rank_type": 0,
+    "rank_usage": 100
+  },
+  "redirect_url": "",
+  "sites_overview": [
+    {
+      "children": [
+        {
+          "id": "mi",
+          "name": "Mathematik / Informatik"
+        },
+        {
+          "id": "mw",
+          "name": "Maschinenwesen"
+        },
+        {
+          "id": "physik",
+          "name": "Physik"
+        },
+        {
+          "id": "chemie",
+          "name": "Chemie"
+        },
+        {
+          "id": "garching-interims",
+          "name": "Interimsh\u00f6rs\u00e4le"
+        },
+        {
+          "id": "5532",
+          "name": "StudiTUM Garching"
+        }
+      ],
+      "id": "garching",
+      "n_visible": 4,
+      "name": "Garching Forschungszentrum"
+    },
+    {
+      "children": [
+        {
+          "id": "zentralgelaende",
+          "name": "Zentralgel\u00e4nde"
+        },
+        {
+          "id": "nordgelaende",
+          "name": "Nordgel\u00e4nde"
+        },
+        {
+          "id": "suedgelaende",
+          "name": "S\u00fcdgel\u00e4nde"
+        },
+        {
+          "id": "suedwestgelaende",
+          "name": "S\u00fcdwestgel\u00e4nde"
+        },
+        {
+          "id": "0201",
+          "name": "StudiTUM Innenstadt"
+        },
+        {
+          "id": "2910",
+          "name": "RiWa 1 (HfP, Governance)"
+        }
+      ],
+      "id": "stammgelaende",
+      "n_visible": 3,
+      "name": "Stammgel\u00e4nde"
+    },
+    {
+      "children": [
+        {
+          "id": "wzw-berg",
+          "name": "Gebiet 4100 Berg"
+        },
+        {
+          "id": "wzw-mitte",
+          "name": "Gebiet 4200 Mitte"
+        },
+        {
+          "id": "wzw-nord",
+          "name": "Gebiet 4300 Nord"
+        },
+        {
+          "id": "duernast",
+          "name": "D\u00fcrnast (Versuchsstation)"
+        },
+        {
+          "id": "roggenstein",
+          "name": "Roggenstein (Versuchsstation)"
+        },
+        {
+          "id": "thalhausen",
+          "name": "Thalhausen (Versuchsstation)"
+        },
+        {
+          "id": "veitshof",
+          "name": "Veitshof (Stallungen)"
+        },
+        {
+          "id": "viehhausen",
+          "name": "Viehhausen (Versuchsstation)"
+        }
+      ],
+      "id": "wzw",
+      "n_visible": 3,
+      "name": "Weihenstephan (Freising)"
+    },
+    {
+      "children": [
+        {
+          "id": "mri",
+          "name": "MRI Klinikum rechts der Isar"
+        },
+        {
+          "id": "olympiapark",
+          "name": "Campus im Olympiapark"
+        },
+        {
+          "coords": {
+            "lat": 48.884541355672695,
+            "lon": 12.58400509316536
+          },
+          "id": "cs",
+          "name": "Campus Straubing"
+        },
+        {
+          "id": "garching-hochbrueck",
+          "name": "Garching Hochbr\u00fcck"
+        },
+        {
+          "id": "taufkirchen-ottobrunn",
+          "name": "Taufkirchen / Ottobrunn"
+        }
+      ],
+      "id": null,
+      "n_visible": 5,
+      "name": "Sonstige"
+    }
+  ],
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      }
+    ]
+  },
+  "type": "root",
+  "type_common_name": "Standort\u00fcbersicht"
+}
