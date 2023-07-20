@@ -18,7 +18,7 @@ def _load_bus_stations() -> dict:
                 stations.setdefault(
                     line["stop_id"],
                     {
-                        "id": line["stop_id"],
+                        "station_id": line["stop_id"],
                         "name": line["stop_name"],
                         "lat": float(line["stop_lat"]),
                         "lon": float(line["stop_lon"]),
@@ -27,7 +27,7 @@ def _load_bus_stations() -> dict:
                 )
             else:
                 sub_station = {
-                    "id": line["stop_id"],
+                    "station_id": line["stop_id"],
                     "name": line["stop_name"],
                     "lat": float(line["stop_lat"]),
                     "lon": float(line["stop_lon"]),
@@ -57,7 +57,7 @@ def _load_train_stations(stations: dict) -> list:
                 stations.setdefault(
                     line["Globale ID"],
                     {
-                        "id": line["Globale ID"],
+                        "station_id": line["Globale ID"],
                         "name": line["Name ohne Ort"],
                         "lat": float(line["WGS84 X"].replace(",", ".")),
                         "lon": float(line["WGS84 Y"].replace(",", ".")),
@@ -67,7 +67,7 @@ def _load_train_stations(stations: dict) -> list:
             else:
                 parent_id = ".".join(line["Globale ID"].split(":")[0:3])
                 sub_station = {
-                    "id": line["Globale ID"],
+                    "station_id": line["Globale ID"],
                     "name": line["Name ohne Ort"],
                     "lat": float(line["WGS84 X"].replace(",", ".")),
                     "lon": float(line["WGS84 Y"].replace(",", ".")),
