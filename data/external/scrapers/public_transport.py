@@ -38,7 +38,7 @@ def _load_bus_stations(stations: dict) -> None:
                 "parent": line["parent_station"],
             }
             if not sub_station["parent"]:
-                sub_station["parent"]=":".join(line["stop_id"].split(":")[:3])
+                sub_station["parent"] = ":".join(line["stop_id"].split(":")[:3])
 
             if parent := stations.get(line["parent_station"]):
                 parent["sub_stations"].append(sub_station)
@@ -50,7 +50,8 @@ def _load_bus_stations(stations: dict) -> None:
             parent["sub_stations"].append(sub)
         else:
             if sub["station_id"]:
-                logging.warn(f"{sub['name']} with id {sub['station_id']} has no parent in our data")
+                logging.warning(f"{sub['name']} with id {sub['station_id']} has no parent in our data")
+
 
 def _load_train_stations(stations: dict) -> None:
     """Load the bus stations from the MVV_HST_REPORT data and add them to stations dict"""
