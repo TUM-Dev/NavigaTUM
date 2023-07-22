@@ -3,6 +3,7 @@ import logging
 from zipfile import ZipFile
 
 from external.scraping_utils import _download_file, CACHE_PATH, cached_json
+
 MVV_OPENDATA_URL = "https://www.mvv-muenchen.de/fileadmin/mediapool/02-Fahrplanauskunft/03-Downloads/openData"
 MVV_GTFS_URL = f"{MVV_OPENDATA_URL}/mvv_gtfs.zip"
 MVV_HST_REPORT_URL = f"{MVV_OPENDATA_URL}/MVV_HSTReport2212.csv"  # train/tram stations + some bus stations
@@ -90,7 +91,7 @@ def _load_train_stations(stations: dict) -> None:
             parent["sub_stations"].append(sub)
         else:
             if sub["station_id"]:
-                logging.warn(f"{sub['name']} with id {sub['station_id']} has no parent in our data")
+                logging.warning(f"{sub['name']} with id {sub['station_id']} has no parent in our data")
 
 
 @cached_json("public_transport.json")
