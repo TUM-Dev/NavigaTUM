@@ -1,4 +1,5 @@
 import csv
+import logging
 from zipfile import ZipFile
 
 from external.scraping_utils import _download_file, CACHE_PATH, cached_json
@@ -21,7 +22,7 @@ def _load_bus_stations(stations: dict) -> None:
             stations.setdefault(
                 line["stop_id"],
                 {
-                    "id": line["stop_id"],
+                    "station_id": line["stop_id"],
                     "name": line["stop_name"],
                     "lat": float(line["stop_lat"]),
                     "lon": float(line["stop_lon"]),
@@ -30,12 +31,14 @@ def _load_bus_stations(stations: dict) -> None:
             )
         else:
             sub_station = {
-                "id": line["stop_id"],
+                "station_id": line["stop_id"],
                 "name": line["stop_name"],
                 "lat": float(line["stop_lat"]),
                 "lon": float(line["stop_lon"]),
                 "parent": line["parent_station"],
             }
+            if not sub_station["parent"]:
+                sub_station["parent"]=":".join(line["stop_id"].split(":")[:3])
 
             if parent := stations.get(line["parent_station"]):
                 parent["sub_stations"].append(sub_station)
@@ -45,7 +48,9 @@ def _load_bus_stations(stations: dict) -> None:
     for sub in repeat_later:
         if parent := stations.get(sub["parent"]):
             parent["sub_stations"].append(sub)
-
+        else:
+            if sub["station_id"]:
+                logging.warn(f"{sub['name']} with id {sub['station_id']} has no parent in our data")
 
 def _load_train_stations(stations: dict) -> None:
     """Load the bus stations from the MVV_HST_REPORT data and add them to stations dict"""
@@ -54,11 +59,11 @@ def _load_train_stations(stations: dict) -> None:
         lines = [line for line in csv.DictReader(file, delimiter=";") if line["\ufeffHstNummer"]]
     repeat_later = []  # when parent station is not already in dict
     for line in lines:
-        if line["Globale ID"].count(":") == 3:  # example: de:09184:460
+        if line["Globale ID"].count(":") == 2:  # example: de:09184:460
             stations.setdefault(
                 line["Globale ID"],
                 {
-                    "id": line["Globale ID"],
+                    "station_id": line["Globale ID"],
                     "name": line["Name ohne Ort"],
                     "lat": float(line["WGS84 X"].replace(",", ".")),
                     "lon": float(line["WGS84 Y"].replace(",", ".")),
@@ -68,7 +73,7 @@ def _load_train_stations(stations: dict) -> None:
         else:
             parent_id = ":".join(line["Globale ID"].split(":")[:3])
             sub_station = {
-                "id": line["Globale ID"],
+                "station_id": line["Globale ID"],
                 "name": line["Name ohne Ort"],
                 "lat": float(line["WGS84 X"].replace(",", ".")),
                 "lon": float(line["WGS84 Y"].replace(",", ".")),
@@ -79,17 +84,20 @@ def _load_train_stations(stations: dict) -> None:
                 parent["sub_stations"].append(sub_station)
             else:
                 repeat_later.append(sub_station)
-        for sub in repeat_later:
-            if parent := stations.get(sub["parent"]):
-                parent["sub_stations"].append(sub)
+    for sub in repeat_later:
+        if parent := stations.get(sub["parent"]):
+            parent["sub_stations"].append(sub)
+        else:
+            if sub["station_id"]:
+                logging.warn(f"{sub['name']} with id {sub['station_id']} has no parent in our data")
 
 
 @cached_json("public_transport.json")
 def scrape_stations():
     """Scrape the stations from the MVV GTFS data and return them as a list of dicts"""
     stations = {}
-    _load_bus_stations(stations)
     _load_train_stations(stations)
+    _load_bus_stations(stations)
     # remove parent property from sub stations
     for station in stations.values():
         for sub in station["sub_stations"]:
