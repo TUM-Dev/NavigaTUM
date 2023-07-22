@@ -1,30 +1,34 @@
 import json
-import re
-from pathlib import Path
+import urllib.request
 import requests
+from pathlib import Path
 
-FIXTURES=Path(__file__).parent
+FIXTURES = Path(__file__).parent
 
-def to_file_name(key: str) -> str:
-    """"""
-    key = re.sub("[^a-zA-Z0-9&?]", " ", key)
-    key = re.sub("([A-Z]+)", r" \1", key)
-    key = re.sub("([A-Z][a-z]+)", r" \1", key)
-    return "_".join(key.split()).lower()
 
-def scrape(url_path:str) -> None:
-    req = requests.get(f"http://localhost:8080/api{url_path}", timeout=10)
-    filename = f"{to_file_name(url_path)}.json"
-    with open(FIXTURES/filename, "w", encoding="utf-8") as file:
-        data=json.loads(req.text)
-        json.dump(data, file,sort_keys=True,indent=2)
-    print(url_path.ljust(20), "->", filename)
+def to_filepath(url_path: str) -> Path:
+  """Converts an url path to a filepath"""
+  filename = f"{urllib.request.url2pathname(url_path)}.json"
+  filepath = FIXTURES / filename.removeprefix("/")
+  filepath.parent.mkdir(parents=True, exist_ok=True)
+  return filepath
+
+
+def scrape(url_path: str) -> None:
+  """Scrapes the given url path and saves it to a file"""
+  req = requests.get(f"https://nav.tum.de/api{url_path}", timeout=10)
+  filepath = to_filepath(url_path)
+  with open(filepath, "w", encoding="utf-8") as file:
+    data = json.loads(req.text)
+    json.dump(data, file, sort_keys=True, indent=2)
+  print(url_path.ljust(20), "->", filepath)
+
 
 if __name__ == "__main__":
-    # details
-    for item in ["root", "mi", "mw", "5502.U1.234M"]:
-      scrape(f"/get/{item}")
-    # search
-    for full_search in ["fsmw", "fsmpic"]:
-        for until_index in range(len(full_search)):
-            scrape(f"/search?q={full_search[:until_index+1]}")
+  # details
+  for item in ["root", "mi", "mw", "5502.U1.234M"]:
+    scrape(f"/get/{item}")
+  # search
+  for full_search in ["fsmw", "fsmpic"]:
+    for until_index in range(len(full_search)):
+      scrape(f"/search?q={full_search[:until_index + 1]}")
