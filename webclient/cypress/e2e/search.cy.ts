@@ -1,7 +1,7 @@
 describe("Check if the search page works as expected", () => {
   it("searching for rooms", () => {
-    cy.intercept("GET", "/api/get/root", { statusCode: 200, fixture: "get_root.json" });
-    cy.intercept("GET", "/api/get/5502.U1.234M", { statusCode: 200, fixture: "get_5502_u1_234_m.json" });
+    cy.intercept("GET", "/api/get/root", { statusCode: 200, fixture: "get/root.json" });
+    cy.intercept("GET", "/api/get/5502.U1.234M", { statusCode: 200, fixture: "get/5502.U1.234M.json" });
     cy.intercept("GET", "/api/search?q=f", { statusCode: 200, fixture: "search?q_f.json" });
     cy.intercept("GET", "/api/search?q=fs", { statusCode: 200, fixture: "search?q_fs.json" });
     cy.intercept("GET", "/api/search?q=fsm", { statusCode: 200, fixture: "search?q_fsm.json" });
@@ -27,7 +27,7 @@ describe("Check if the search page works as expected", () => {
   });
   it("navigate to the details page", () => {
     cy.intercept("GET", "/api/search?q=fsmw", { statusCode: 200, fixture: "search?q_fsmw.json" });
-    cy.intercept("GET", "/api/get/5502.U1.234M", { statusCode: 200, fixture: "get_5502_u1_234_m.json" });
+    cy.intercept("GET", "/api/get/5502.U1.234M", { statusCode: 200, fixture: "get/5502.U1.234M.json" });
     cy.visit("http://localhost:8000/search?q=fsmw");
     cy.contains("5502.U1.234M").click({ force: true });
     cy.url().should("include", "/5502.U1.234M");

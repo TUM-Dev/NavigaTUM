@@ -1,6 +1,6 @@
 describe("Check if opening the feedback form works from every subview", () => {
   it("main page", () => {
-    cy.intercept("GET", "/api/get/root", { statusCode: 200, fixture: "get_root.json" });
+    cy.intercept("GET", "/api/get/root", { statusCode: 200, fixture: "get/root.json" });
     cy.visit("http://localhost:8000/");
     cy.contains("Standorte");
 
@@ -8,13 +8,13 @@ describe("Check if opening the feedback form works from every subview", () => {
     checkFeedbackForm('[data-cy="open-feedback-footer"]');
   });
   it("search page", () => {
-    cy.intercept("GET", "/api/search?q=fsmw", { statusCode: 200, fixture: "search?q_fsmw.json" });
+    cy.intercept("GET", "/api/search?q=fsmw", { statusCode: 200, fixture: "search?q=fsmw.json" });
     cy.visit("http://localhost:8000/search?q=fsmw");
 
     checkFeedbackForm('[data-cy="open-feedback-search"]');
   });
   it("details page (general feedback)", () => {
-    cy.intercept("GET", "/api/get/mi", { statusCode: 200, fixture: "get_mi.json" });
+    cy.intercept("GET", "/api/get/mi", { statusCode: 200, fixture: "get/mi.json" });
     cy.visit("http://localhost:8000/view/mi");
     cy.get('[data-cy="open-feedback-details"]').should("exist", { timeout: 10_000 }); // wait for the site to be interactive
 
@@ -24,8 +24,8 @@ describe("Check if opening the feedback form works from every subview", () => {
 
 function checkFeedbackForm(selector_which_should_open_the_modal: string) {
   // mock the feedback api
-  cy.intercept("POST", "/api/feedback/get_token", { statusCode: 201, fixture: "feedback_token.json" });
-  cy.intercept("POST", "/api/feedback/feedback", { statusCode: 201, fixture: "feedback_response.json" });
+  cy.intercept("POST", "/api/feedback/get_token", { statusCode: 201, fixture: "feedback/get_token.json" });
+  cy.intercept("POST", "/api/feedback/feedback", { statusCode: 201, fixture: "feedback/feedback.json" });
   // open the modal
   cy.get('[data-cy="feedback-modal"]').should("not.exist");
   cy.get(selector_which_should_open_the_modal).click({ scrollBehavior: false });
