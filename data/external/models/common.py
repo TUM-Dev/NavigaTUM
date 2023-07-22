@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pydantic
 from pydantic.dataclasses import dataclass
 
@@ -8,6 +10,9 @@ PydanticConfiguration = pydantic.ConfigDict(
     populate_by_name=True,
     validate_default=True,
 )
+
+
+RESULTS = Path(__file__).parent.parent / "results"
 
 
 @dataclass(config=PydanticConfiguration)

@@ -30,15 +30,12 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
 fn get_localised_data(id: &str, should_use_english: bool) -> Result<DBRoomEntry, HttpResponse> {
     let conn = &mut utils::establish_connection();
 
-    let result = match should_use_english {
-        true => {
-            use crate::schema::en::dsl;
-            dsl::en.filter(dsl::key.eq(&id)).load::<DBRoomEntry>(conn)
-        }
-        false => {
-            use crate::schema::de::dsl;
-            dsl::de.filter(dsl::key.eq(&id)).load::<DBRoomEntry>(conn)
-        }
+    let result = if should_use_english {
+        use crate::schema::en::dsl;
+        dsl::en.filter(dsl::key.eq(&id)).load::<DBRoomEntry>(conn)
+    } else {
+        use crate::schema::de::dsl;
+        dsl::de.filter(dsl::key.eq(&id)).load::<DBRoomEntry>(conn)
     };
 
     match result {
@@ -77,10 +74,10 @@ async fn construct_image_from_data(_id: &str, data: DBRoomEntry) -> Option<Vec<u
 
     draw_bottom(&data, &mut img);
     debug!("overlay finish {:?}", start_time.elapsed());
-    Some(wrap_image_in_response(img))
+    Some(wrap_image_in_response(&img))
 }
 
-fn wrap_image_in_response(img: image::RgbaImage) -> Vec<u8> {
+fn wrap_image_in_response(img: &image::RgbaImage) -> Vec<u8> {
     let mut w = Cursor::new(Vec::new());
     img.write_to(&mut w, image::ImageOutputFormat::Png).unwrap();
     w.into_inner()

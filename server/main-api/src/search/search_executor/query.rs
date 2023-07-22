@@ -31,10 +31,7 @@ struct GeoEntryFilters {
 impl GeoEntryFilters {
     fn from(filters: &Filter) -> Self {
         let ms_filter = filters.as_meilisearch_filters();
-        let separator = match ms_filter.is_empty() {
-            true => "",
-            false => " AND ",
-        };
+        let separator = if ms_filter.is_empty() { " " } else { " AND " };
         Self {
             default: ms_filter.clone(),
             buildings: format!("facet = \"building\"{separator}{ms_filter}"),

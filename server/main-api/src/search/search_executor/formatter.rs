@@ -52,7 +52,6 @@ impl RoomVisitor {
                     split_arch_id.1,
                 ))
             }
-            TextToken::SplittableText(_) => None,
 
             // If it doesn't match some precise room format, but the search is clearly
             // matching the arch name and not the main name, then we highlight this arch name.
@@ -78,7 +77,9 @@ impl RoomVisitor {
                     parsed_aid.1,
                 ))
             }
-            TextToken::Text(_) => None,
+
+            // not relevant enough for room highlighting
+            TextToken::Text(_) | TextToken::SplittableText(_) => None,
         }
     }
 

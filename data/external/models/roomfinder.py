@@ -1,6 +1,7 @@
+import json
 import typing
 
-from external.models.common import PydanticConfiguration
+from external.models.common import PydanticConfiguration, RESULTS
 from pydantic.dataclasses import dataclass
 
 
@@ -26,6 +27,12 @@ class Building:
     utm_zone: int
     b_room_count: int
 
+    @classmethod
+    def load_all(cls) -> list["Building"]:
+        """Load all nat.Building's"""
+        with open(RESULTS / "buildings_roomfinder.json", encoding="utf-8") as file:
+            return [cls(**item) for item in json.load(file)]
+
 
 @dataclass(config=PydanticConfiguration)
 class LatLonBox:
@@ -45,6 +52,12 @@ class Map:
     width: int
     scale: int
     latlonbox: LatLonBox | None = None
+
+    @classmethod
+    def load_all(cls) -> list["Map"]:
+        """Load all nat.Map's"""
+        with open(RESULTS / "maps_roomfinder.json", encoding="utf-8") as file:
+            return [cls(**item) for item in json.load(file)]
 
 
 @dataclass(config=PydanticConfiguration)
@@ -76,3 +89,9 @@ class Room:
     b_id: str
     b_name: str
     b_room_count: int = 0
+
+    @classmethod
+    def load_all(cls) -> list["Room"]:
+        """Load all nat.Room's"""
+        with open(RESULTS / "rooms_roomfinder.json", encoding="utf-8") as file:
+            return [cls(**item) for item in json.load(file)]

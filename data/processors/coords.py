@@ -2,6 +2,9 @@ import copy
 import logging
 
 import utm
+from utils import distance_via_great_circle
+
+MAX_DISTANCE_METERS_FROM_PARENT = 200
 
 
 def assert_buildings_have_coords(data):
@@ -119,8 +122,32 @@ def check_coords(input_data):
             )
 
 
+def validate_coords(input_data):
+    """Check that coordinates are not too far away from their parent"""
+    for iid, data in input_data.items():
+        if data["type"] != "room":
+            continue
+        coords = data["coords"]
+        parent_id = data["parents"][-1]
+        parent_coords = input_data[parent_id]["coords"]
+
+        distance_to_parent = distance_via_great_circle(
+            coords["lat"],
+            coords["lon"],
+            parent_coords["lat"],
+            parent_coords["lon"],
+        )
+
+        if distance_to_parent > MAX_DISTANCE_METERS_FROM_PARENT:
+            logging.warning(
+                f"{iid} {coords} is {distance_to_parent}m away from its parent {parent_id} {parent_coords}. "
+                "Please recheck if the coordinate makes sense",
+            )
+
+
 def add_and_check_coords(data):
     """Add coordinates to all entries and check for issues"""
     assert_buildings_have_coords(data)
     assign_coordinates(data)
     check_coords(data)
+    validate_coords(data)
