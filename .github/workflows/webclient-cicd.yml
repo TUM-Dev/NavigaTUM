@@ -20,9 +20,6 @@ jobs:
           - browser: safari
             runs-on: macos-latest
     runs-on: ${{ matrix.runs-on }}
-    container:
-      image: cypress/browsers:node16.16.0-chrome107-ff107
-      options: --user 1001
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
