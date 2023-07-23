@@ -25,7 +25,6 @@ jobs:
         with:
           cache: 'npm'
           cache-dependency-path: 'webclient/package.json'
-      - run: npm install --prefix webclient
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
