@@ -8,14 +8,7 @@
   },
   "generators": {
     "buildings_overview": {
-      "list_start": [
-        "mi",
-        "mw",
-        "physik",
-        "chemie",
-        "garching-interims",
-        "5532"
-      ],
+      "list_start": ["mi", "mw", "physik", "chemie", "garching-interims", "5532"],
       "n_visible": 6
     }
   },
@@ -97,16 +90,9 @@
     }
   },
   "name": "Garching Forschungszentrum",
-  "osm": [
-    "way/296754880",
-    "node/3232218361"
-  ],
-  "parent_names": [
-    "Standorte"
-  ],
-  "parents": [
-    "root"
-  ],
+  "osm": ["way/296754880", "node/3232218361"],
+  "parent_names": ["Standorte"],
+  "parents": ["root"],
   "poi": {
     "nearby_public_transport": {
       "mvg": [

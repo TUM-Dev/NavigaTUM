@@ -8,7 +8,9 @@ describe("Check if opening the feedback form works from every subview", () => {
     checkFeedbackForm('[data-cy="open-feedback-footer"]');
   });
   it("search page", () => {
-    cy.intercept("GET", "/api/search?q=fsmb&limit_buildings=10&limit_rooms=30&limit_all=30&lang=de", { fixture: "search/fsmb.long.de.json" });
+    cy.intercept("GET", "/api/search?q=fsmb&limit_buildings=10&limit_rooms=30&limit_all=30&lang=de", {
+      fixture: "search/fsmb.long.de.json",
+    });
     cy.visit("http://localhost:8000/search?q=fsmb");
 
     checkFeedbackForm('[data-cy="open-feedback-search"]');

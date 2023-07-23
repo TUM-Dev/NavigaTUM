@@ -48,14 +48,8 @@
     }
   },
   "name": "Interimsh\u00f6rs\u00e4le",
-  "parent_names": [
-    "Standorte",
-    "Garching Forschungszentrum"
-  ],
-  "parents": [
-    "root",
-    "garching"
-  ],
+  "parent_names": ["Standorte", "Garching Forschungszentrum"],
+  "parents": ["root", "garching"],
   "poi": {
     "nearby_public_transport": {
       "mvg": [
