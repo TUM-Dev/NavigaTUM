@@ -12,10 +12,9 @@ jobs:
   webclient-ui-test:
     strategy:
       matrix:
-        include:
-          - browser: chrome
-            runs-on: ubuntu-latest
-    runs-on: ${{ matrix.runs-on }}
+        browser:
+          - chrome
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
