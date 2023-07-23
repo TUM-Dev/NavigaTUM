@@ -1,0 +1,436 @@
+{
+  "aliases": [],
+  "coords": {
+    "lat": 48.265346093925615,
+    "lon": 11.66939813473795,
+    "source": "inferred"
+  },
+  "id": "garching-interims",
+  "maps": {
+    "default": "interactive",
+    "roomfinder": {
+      "available": [
+        {
+          "file": "rf80.webp",
+          "height": 480,
+          "id": "rf80",
+          "name": "Lageplan Campus Garching",
+          "scale": "10000",
+          "source": "Roomfinder",
+          "width": 676,
+          "x": 347,
+          "y": 219
+        },
+        {
+          "file": "rf54.webp",
+          "height": 603,
+          "id": "rf54",
+          "name": "M\u00fcnchen",
+          "scale": "200000",
+          "source": "Roomfinder",
+          "width": 640,
+          "x": 445,
+          "y": 28
+        },
+        {
+          "file": "rf156.webp",
+          "height": 515,
+          "id": "rf156",
+          "name": "M\u00fcnchen und Umgebung",
+          "scale": "400000",
+          "source": "Roomfinder",
+          "width": 420,
+          "x": 265,
+          "y": 164
+        }
+      ],
+      "default": "rf80"
+    }
+  },
+  "name": "Interimsh\u00f6rs\u00e4le",
+  "parent_names": [
+    "Standorte",
+    "Garching Forschungszentrum"
+  ],
+  "parents": [
+    "root",
+    "garching"
+  ],
+  "poi": {
+    "nearby_public_transport": {
+      "mvg": [
+        [
+          {
+            "distance": 145.67749552342772,
+            "lat": 48.264861448458,
+            "lon": 11.6712265832549,
+            "name": "Garch.,Forschungsz.",
+            "station_id": "de:09184:460",
+            "sub_stations": [
+              {
+                "lat": 48.2647777286943,
+                "lon": 11.6712265832549,
+                "name": "Garch.,Forschungsz.",
+                "station_id": "de:09184:460:30:1"
+              },
+              {
+                "lat": 48.264998987772,
+                "lon": 11.671280482172,
+                "name": "Garch.,Forschungsz.",
+                "station_id": "de:09184:460:30:2"
+              }
+            ]
+          },
+          {
+            "distance": 377.6279619291787,
+            "lat": 48.26754040849,
+            "lon": 11.6655043148943,
+            "name": "Garching, Lichtenbergstra\u00dfe",
+            "station_id": "de:09184:2070",
+            "sub_stations": [
+              {
+                "lat": 48.2675344288249,
+                "lon": 11.6655132980471,
+                "name": "Garching, Lichtenbergstra\u00dfe",
+                "station_id": "de:09184:2070:0:1"
+              }
+            ]
+          },
+          {
+            "distance": 471.1222486504986,
+            "lat": 48.2611537274888,
+            "lon": 11.6684777384851,
+            "name": "Garching, Boltzmannstra\u00dfe",
+            "station_id": "de:09184:2073",
+            "sub_stations": [
+              {
+                "lat": 48.2611537274888,
+                "lon": 11.6684777384851,
+                "name": "Garching, Boltzmannstra\u00dfe",
+                "station_id": "de:09184:2073:0:1"
+              }
+            ]
+          },
+          {
+            "distance": 670.5532721301503,
+            "lat": 48.2619251948158,
+            "lon": 11.6619380032158,
+            "name": "Garching, Ludwig-Prandtl-Str.",
+            "station_id": "de:09184:2071",
+            "sub_stations": [
+              {
+                "lat": 48.2619251948158,
+                "lon": 11.6619380032158,
+                "name": "Garching, Ludwig-Prandtl-Str.",
+                "station_id": "de:09184:2071:0:1"
+              }
+            ]
+          }
+        ]
+      ]
+    }
+  },
+  "props": {
+    "computed": [
+      {
+        "name": "Anzahl Geb\u00e4ude",
+        "text": "2"
+      },
+      {
+        "name": "Anzahl R\u00e4ume",
+        "text": "39 (32 ohne Flure etc.)"
+      }
+    ]
+  },
+  "ranking_factors": {
+    "rank_boost": 2,
+    "rank_combined": 1102,
+    "rank_type": 1100,
+    "rank_usage": 100
+  },
+  "redirect_url": "/site/garching-interims",
+  "sections": {
+    "buildings_overview": {
+      "entries": [
+        {
+          "id": "5416",
+          "name": "Interims II",
+          "subtext": "21 R\u00e4ume",
+          "thumb": "5416_0.webp"
+        },
+        {
+          "id": "5620",
+          "name": "Interims I",
+          "subtext": "18 R\u00e4ume",
+          "thumb": "5620_0.webp"
+        }
+      ],
+      "n_visible": 6
+    },
+    "rooms_overview": {
+      "usages": [
+        {
+          "children": [
+            {
+              "id": "5620.EG.010",
+              "name": "5620.EG.010 (Hausanschluss)"
+            },
+            {
+              "id": "5620.EG.012",
+              "name": "5620.EG.012 (ELT-UV)"
+            },
+            {
+              "id": "5620.EG.013",
+              "name": "5620.EG.013 (SI-Bel.)"
+            }
+          ],
+          "count": 3,
+          "name": "Elektrische Stromversorgung"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.01.101",
+              "name": "5416.01.101 (Flur/Eingangsbereich HS)"
+            },
+            {
+              "id": "5416.EG.002",
+              "name": "5416.EG.002 (Flur)"
+            },
+            {
+              "id": "5620.EG.001",
+              "name": "5620.EG.001 (Foyer)"
+            },
+            {
+              "id": "5620.EG.020",
+              "name": "5620.EG.020 (Flur)"
+            }
+          ],
+          "count": 4,
+          "name": "Flur"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.EG.001",
+              "name": "5416.EG.001 (Foyer/Eingangshalle)"
+            }
+          ],
+          "count": 1,
+          "name": "Foyer"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.01.102",
+              "name": "5416.01.102 (Technik)"
+            },
+            {
+              "id": "5416.EG.009",
+              "name": "5416.EG.009 (Technik)"
+            },
+            {
+              "id": "5416.EG.011",
+              "name": "5416.EG.011 (Hausanschlussraum)"
+            },
+            {
+              "id": "5416.EG.014",
+              "name": "5416.EG.014 (Si-Bel)"
+            },
+            {
+              "id": "5416.EG.016",
+              "name": "5416.EG.016 (Technik)"
+            },
+            {
+              "id": "5620.01.103",
+              "name": "5620.01.103 (Wartungsschacht)"
+            },
+            {
+              "id": "5620.EG.008",
+              "name": "5620.EG.008 (Technik)"
+            },
+            {
+              "id": "5620.EG.009",
+              "name": "5620.EG.009 (IT/Audio)"
+            },
+            {
+              "id": "5620.EG.011",
+              "name": "5620.EG.011 (Technik)"
+            }
+          ],
+          "count": 9,
+          "name": "Geb\u00e4udeleittechnik"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.01.003",
+              "name": "5416.01.003 (H\u00f6rsaal 2, \"Interims II\")"
+            },
+            {
+              "id": "5416.01.004",
+              "name": "5416.01.004 (H\u00f6rsaal 1 \"Interims II\")"
+            },
+            {
+              "id": "5620.01.101",
+              "name": "5620.01.101 (H\u00f6rsaal 1, \"Interims I\")"
+            },
+            {
+              "id": "5620.01.102",
+              "name": "5620.01.102 (H\u00f6rsaal 2, \"Interims I\")"
+            }
+          ],
+          "count": 4,
+          "name": "H\u00f6rsaal"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.EG.010",
+              "name": "5416.EG.010 (IT/Audio)"
+            }
+          ],
+          "count": 1,
+          "name": "Labor - Video"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.EG.015",
+              "name": "5416.EG.015 (Lager)"
+            },
+            {
+              "id": "5416.EG.017",
+              "name": "5416.EG.017 (Lager)"
+            }
+          ],
+          "count": 2,
+          "name": "Lager"
+        },
+        {
+          "children": [
+            {
+              "id": "5620.EG.007",
+              "name": "5620.EG.007 (K\u00e4ltemaschine)"
+            }
+          ],
+          "count": 1,
+          "name": "Lufttechnische Anlage"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.EG.008",
+              "name": "5416.EG.008 (Putzraum)"
+            },
+            {
+              "id": "5620.EG.005",
+              "name": "5620.EG.005 (Putzraum)"
+            }
+          ],
+          "count": 2,
+          "name": "Putzraum"
+        },
+        {
+          "children": [
+            {
+              "id": "5620.01.120",
+              "name": "5620.01.120 (Treppe/Flur)"
+            }
+          ],
+          "count": 1,
+          "name": "Treppenhaus"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.EG.018",
+              "name": "5416.EG.018 (Vorbereitung)"
+            },
+            {
+              "id": "5620.EG.002",
+              "name": "5620.EG.002 (Vorbereitung)"
+            }
+          ],
+          "count": 2,
+          "name": "Vorbereitungsraum"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.EG.007",
+              "name": "5416.EG.007 (WC-Beh.)"
+            },
+            {
+              "id": "5620.EG.006",
+              "name": "5620.EG.006 (Beh.-WC)"
+            }
+          ],
+          "count": 2,
+          "name": "WC Barrierefrei"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.EG.013",
+              "name": "5416.EG.013 (WC-Damen)"
+            },
+            {
+              "id": "5620.EG.003",
+              "name": "5620.EG.003 (WC-Damen)"
+            }
+          ],
+          "count": 2,
+          "name": "WC Damen"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.EG.005",
+              "name": "5416.EG.005 (WC-Vorraum Damen u. Herren)"
+            },
+            {
+              "id": "5416.EG.006",
+              "name": "5416.EG.006 (WC-Herren)"
+            },
+            {
+              "id": "5620.EG.004",
+              "name": "5620.EG.004 (WC-Herren)"
+            }
+          ],
+          "count": 3,
+          "name": "WC Herren"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.EG.012",
+              "name": "5416.EG.012 (WC-Vorraum Damen)"
+            }
+          ],
+          "count": 1,
+          "name": "WC Vorraum"
+        },
+        {
+          "children": [
+            {
+              "id": "5416.EG.001A",
+              "name": "5416.EG.001A (Foyer/Windfang)"
+            }
+          ],
+          "count": 1,
+          "name": "Windfang"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "base": [
+      {
+        "name": "NavigaTUM"
+      }
+    ]
+  },
+  "type": "area",
+  "type_common_name": "Gebiet / Gruppe von Geb\u00e4uden"
+}

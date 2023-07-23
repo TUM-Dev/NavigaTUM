@@ -31,11 +31,29 @@
           "name": "Max-Planck-Institut f\u00fcr extraterrestrische Physik",
           "subtext": "Geb\u00e4ude",
           "type": "building"
+        },
+        {
+          "id": "mpp",
+          "name": "Max-Planck-Institut f\u00fcr Physik",
+          "subtext": "Geb\u00e4ude",
+          "type": "building"
+        },
+        {
+          "id": "mpq",
+          "name": "Max-Planck-Institut f\u00fcr Quantenoptik",
+          "subtext": "Geb\u00e4ude",
+          "type": "building"
+        },
+        {
+          "id": "origins-cluster",
+          "name": "Exzellenzcluster ORIGINS",
+          "subtext": "Geb\u00e4ude",
+          "type": "building"
         }
       ],
       "estimatedTotalHits": 7,
       "facet": "sites_buildings",
-      "n_visible": 5
+      "n_visible": 8
     },
     {
       "entries": [
@@ -73,11 +91,18 @@
           "subtext": "Garching, Mathe/Info (MI)",
           "subtext_bold": "00.06.038@5606",
           "type": "room"
+        },
+        {
+          "id": "5606.EG.039",
+          "name": "5606.EG.039 (Skriptenverkauf Fachschaft Mathe Physik Informatik Chemie / \u0019MPIC\u0017)",
+          "subtext": "Garching, Mathe/Info (MI)",
+          "subtext_bold": "00.06.039@5606",
+          "type": "room"
         }
       ],
       "estimatedTotalHits": 6,
       "facet": "rooms"
     }
   ],
-  "time_ms": 7
+  "time_ms": 0
 }

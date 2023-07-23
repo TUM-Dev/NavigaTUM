@@ -1,6 +1,6 @@
 describe("Check if opening the feedback form works from every subview", () => {
   it("main page", () => {
-    cy.intercept("GET", "/api/get/root", { fixture: "get/root.json" });
+    cy.intercept("GET", "/api/get/root?lang=de", { fixture: "get/root.de.json" });
     cy.visit("http://localhost:8000/");
     cy.contains("Standorte");
 
@@ -8,13 +8,13 @@ describe("Check if opening the feedback form works from every subview", () => {
     checkFeedbackForm('[data-cy="open-feedback-footer"]');
   });
   it("search page", () => {
-    cy.intercept("GET", "/api/search?q=fsmw", { fixture: "search?q=fsmw.json" });
-    cy.visit("http://localhost:8000/search?q=fsmw");
+    cy.intercept("GET", "/api/search?q=fsmb&limit_buildings=10&limit_rooms=30&limit_all=30&lang=de", { fixture: "search/fsmb.long.de.json" });
+    cy.visit("http://localhost:8000/search?q=fsmb");
 
     checkFeedbackForm('[data-cy="open-feedback-search"]');
   });
   it("details page (general feedback)", () => {
-    cy.intercept("GET", "/api/get/mi", { fixture: "get/mi.json" });
+    cy.intercept("GET", "/api/get/mi?lang=de", { fixture: "get/mi.de.json" });
     cy.visit("http://localhost:8000/view/mi");
     cy.get('[data-cy="open-feedback-details"]').should("exist", { timeout: 10_000 }); // wait for the site to be interactive
 
