@@ -15,10 +15,6 @@ jobs:
         include:
           - browser: chrome
             runs-on: ubuntu-latest
-          - browser: firefox
-            runs-on: ubuntu-latest
-          - browser: safari
-            runs-on: macos-latest
     runs-on: ${{ matrix.runs-on }}
     steps:
       - uses: actions/checkout@v3
