@@ -9,8 +9,45 @@ on:
   workflow_dispatch:
 
 jobs:
+  webclient-ui-test:
+    strategy:
+      matrix:
+        browser:
+          - chrome
+          - firefox
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node16.16.0-chrome107-ff107
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'npm'
+          cache-dependency-path: 'webclient/package-lock.json'
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+        with:
+          start: npm run dev
+          wait-on: "http://localhost:8000"
+          browser: ${{ matrix.browser }}
+          working-directory: webclient
+  webclient-linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'npm'
+          cache-dependency-path: 'webclient/package.json'
+      - run: npm install --prefix webclient
+      - run: npm run lint --prefix webclient
+      #- run: npm run type-check --prefix webclient
   webclient-build:
     uses: ./.github/workflows/_docker-build.yml
+    needs:
+      - webclient-linting
+      - webclient-ui-test
     with:
       image_suffix: webclient
       context: ./webclient
