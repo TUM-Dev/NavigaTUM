@@ -93,7 +93,7 @@ def _load_train_stations(stations: dict) -> None:
 
 
 @cached_json("public_transport.json")
-def scrape_stations():
+def scrape_stations() -> list[dict]:
     """Scrape the stations from the MVV GTFS data and return them as a list of dicts"""
     stations = {}
     _load_train_stations(stations)

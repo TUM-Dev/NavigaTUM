@@ -1,6 +1,7 @@
 import json
 import logging
 import string
+from typing import Any
 
 import pydantic
 import yaml
@@ -14,7 +15,7 @@ OPERATOR_STRIP_CHARS = "[ ]"
 OPERATOR_WEBNAV_LINK_PREFIX = "webnav.navigate_to?corg="
 
 
-def merge_tumonline_buildings(data):
+def merge_tumonline_buildings(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the buildings in TUMonline with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
@@ -79,7 +80,7 @@ class InactiveOrg:
 
 
 # pylint: disable=too-many-locals
-def merge_tumonline_rooms(data):
+def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the rooms in TUMonline with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.

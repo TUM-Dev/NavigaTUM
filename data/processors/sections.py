@@ -1,7 +1,11 @@
-from utils import TranslatableStr as _
+from typing import Any
+
+from utils import TranslatableStr
+
+_ = TranslatableStr
 
 
-def extract_tumonline_props(data):
+def extract_tumonline_props(data: dict[str, dict[str, Any]]) -> None:
     """Extracts some of the TUMonline data and provides it as `prop`."""
     for entry in data.values():
         if entry.get("tumonline_data", {}).get("calendar", None):
@@ -25,9 +29,9 @@ def extract_tumonline_props(data):
             entry["props"]["tumonline_room_nr"] = int(adress_url.removeprefix("ris.einzelraum?raumkey="))
 
 
-def compute_floor_prop(data):
+def compute_floor_prop(data: dict[str, Any]) -> None:
     """
-    Create a human and machine readable floor information prop that takes into account
+    Create a human and machine-readable floor information prop that takes into account
     special floor numbering systems of buildings.
     """
     for _id, entry in data.items():
@@ -50,7 +54,7 @@ def compute_floor_prop(data):
             room_entry.setdefault("props", {})["floor"] = lookup[room["floor"]]
 
 
-def _collect_floors_room_data(data, entry):
+def _collect_floors_room_data(data: dict[str, Any], entry: dict[str, Any]) -> list[dict[str, Any]]:
     """Collect floors of a (joined_)building"""
     room_data = []
     for child_id in entry["children_flat"]:
@@ -177,7 +181,7 @@ def _get_floor_name_and_type(f_id: int, floor: str, mezzanine_shift: int) -> tup
     return "upper", str(og_floor), floor_name
 
 
-def compute_props(data):
+def compute_props(data: dict[str, Any]) -> None:
     """
     Create the "computed" value in "props".
     """
@@ -198,13 +202,22 @@ def compute_props(data):
             entry["props"]["computed"] = reformatted_computed
 
 
-def _append_if_present(props, computed_results, key, human_name):
+def _append_if_present(
+    props: dict,
+    computed_results: list[dict[TranslatableStr, TranslatableStr | str]],
+    key: str,
+    human_name: TranslatableStr,
+) -> None:
     if key in props:
         computed_results.append({human_name: str(props[key])})
 
 
-def _gen_computed_props(_id: str, entry: dict[str, str], props: dict) -> list[dict[_ | str, str]]:
-    computed: list[dict[_, str]] = []
+def _gen_computed_props(
+    _id: str,
+    entry: dict[str, str],
+    props: dict,
+) -> list[dict[TranslatableStr | str, TranslatableStr | str]]:
+    computed: list[dict[TranslatableStr, TranslatableStr | str]] = []
     if "ids" in props:
         _append_if_present(props["ids"], computed, "b_id", _("Gebäudekennung"))
         _append_if_present(props["ids"], computed, "roomcode", _("Raumkennung"))
@@ -238,7 +251,7 @@ def _gen_computed_props(_id: str, entry: dict[str, str], props: dict) -> list[di
     return computed
 
 
-def localize_links(data):
+def localize_links(data: dict[str, Any]) -> None:
     """
     Reformat the "links" value in "props" to be explicitly localized.
     This is a convenience function for the source data format that converts e.g.:
@@ -246,7 +259,7 @@ def localize_links(data):
     into
       `text: { de: "<str>", en: "<str>" }`
     """
-    for _id, entry in data.items():
+    for entry in data.values():
         if links := entry.get("props", {}).get("links", None):
             for link in links:
                 if isinstance(link["text"], str):
@@ -255,7 +268,7 @@ def localize_links(data):
                     link["url"] = {"de": link["url"], "en": link["url"]}
 
 
-def generate_buildings_overview(data):
+def generate_buildings_overview(data: dict[str, Any]) -> None:
     """
     Generate the "buildings_overview" section
     """
@@ -324,7 +337,7 @@ def generate_buildings_overview(data):
             )
 
 
-def generate_rooms_overview(data):
+def generate_rooms_overview(data: dict[str, dict[str, Any]]) -> None:
     """
     Generate the "rooms_overview" section
     """

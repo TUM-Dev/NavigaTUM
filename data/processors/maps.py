@@ -14,7 +14,7 @@ RF_MAPS_PATH = EXTERNAL_RESULTS_PATH / "maps" / "roomfinder"
 CUSTOM_RF_DIR = Path(__file__).parent.parent / "sources" / "img" / "maps" / "roomfinder"
 
 
-def _assign_roomfinder_maps(data):
+def _assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """
     Assign roomfinder maps to all entries if there are none yet specified.
     """
@@ -190,7 +190,7 @@ def _load_maps_list():
     return _deduplicate_maps(maps_list)
 
 
-def _build_roomfinder_maps(data):
+def _build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """Generate the map information for the Roomfinder maps."""
 
     map_assignment_data = _generate_assignment_data()
@@ -278,7 +278,7 @@ def _load_custom_maps():
     return maps_out
 
 
-def add_overlay_maps(data):
+def add_overlay_maps(data: dict[str, dict[str, Any]]) -> None:
     """Add the overlay maps to all entries where they apply"""
     with open("sources/46_overlay-maps.yaml", encoding="utf-8") as file:
         overlay_maps = yaml.safe_load(file.read())
@@ -318,7 +318,7 @@ def add_overlay_maps(data):
             overlay_data.setdefault("default", None)
 
 
-def _assign_default_roomfinder_map(data):
+def _assign_default_roomfinder_map(data: dict[str, dict[str, Any]]) -> None:
     """Selects map with the lowest scale as default"""
     for _id, entry in data.items():
         if rf_maps := entry.get("maps", {}).get("roomfinder"):
@@ -364,7 +364,7 @@ def _entry_is_not_on_map(entry, _map, map_assignment_data):
     return x_invalid or y_invalid
 
 
-def _remove_non_covering_maps(data):
+def _remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
     """Removes maps from entries, that do not cover said coordinates"""
     map_assignment_data = _generate_assignment_data()
     for _id, entry in data.items():
@@ -383,7 +383,7 @@ def _remove_non_covering_maps(data):
             del entry["maps"]["roomfinder"]
 
 
-def roomfinder_maps(data):
+def roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """Adds roomfinder maps to entries"""
     _assign_roomfinder_maps(data)
     _remove_non_covering_maps(data)

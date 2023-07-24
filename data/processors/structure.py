@@ -1,9 +1,10 @@
 import logging
+from typing import Any
 
 from utils import TranslatableStr as _
 
 
-def add_children_properties(data):
+def add_children_properties(data: dict[str, dict[str, Any]]) -> None:
     """
     Add the "children" and "children_flat" properties to every object
     using the "parents" property.
@@ -16,7 +17,7 @@ def add_children_properties(data):
                 data[parent].setdefault("children", []).append(_id)
 
 
-def add_stats(data):
+def add_stats(data: dict[str, dict[str, Any]]) -> None:
     """
     Calculate structural statistics for each entry (number of children etc).
     This requires the children property.
@@ -56,7 +57,7 @@ def add_stats(data):
             stats["n_buildings"] = n_buildings
 
 
-def infer_addresses(data):
+def infer_addresses(data: dict[str, dict[str, Any]]) -> None:
     """
     Infer addresses from children.
     """
@@ -87,25 +88,27 @@ def infer_addresses(data):
                 )
 
 
-def infer_type_common_name(data):
+TYPE_COMMON_NAME_BY_TYPE = {
+    "root": _("Standortübersicht"),
+    "site": _("Standort"),
+    "campus": "Campus",
+    "area": _("Gebiet / Gruppe von Gebäuden"),
+    "joined_building": _("Gebäudekomplex"),
+    "building": _("Gebäude"),
+    "room": _("Raum"),
+    "virtual_room": _("Raum/Gebäudeteil"),
+    "poi": "POI",
+}
+
+
+def infer_type_common_name(data: dict[str, dict[str, Any]]) -> None:
     """This function infers the type_common_name property for each entry via the type property."""
 
-    def _get_type(_id, _data):
-        if _data["type"] == "building" and data[_data["parents"][-1]]["type"] == "joined_building":
-            return _("Gebäudeteil")
-        if _data["type"] in {"room", "virtual_room", "poi"} and "usage" in _data:
-            return _data["usage"]["name"]
-        return {
-            "root": _("Standortübersicht"),
-            "site": _("Standort"),
-            "campus": "Campus",
-            "area": _("Gebiet / Gruppe von Gebäuden"),
-            "joined_building": _("Gebäudekomplex"),
-            "building": _("Gebäude"),
-            "room": _("Raum"),
-            "virtual_room": _("Raum/Gebäudeteil"),
-            "poi": "POI",
-        }[_data["type"]]
-
-    for _id, _data in data.items():
-        _data["type_common_name"] = _get_type(_id, _data)
+    for _data in data.values():
+        joined_building_as_parent = data[_data["parents"][-1]]["type"] == "joined_building"
+        if _data["type"] == "building" and joined_building_as_parent:
+            _data["type_common_name"] = _("Gebäudeteil")
+        elif _data["type"] in {"room", "virtual_room", "poi"} and "usage" in _data:
+            _data["type_common_name"] = _data["usage"]["name"]
+        else:
+            _data["type_common_name"] = TYPE_COMMON_NAME_BY_TYPE[_data["type"]]

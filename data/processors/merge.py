@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Any, Union
 
 import yaml
+from processors.areatree.models import AreatreeBuidling
 from utils import TranslatableStr
 
 
@@ -72,7 +73,7 @@ def recursively_merge(dict_a, dict_b, overwrite=True):
     return dict_a
 
 
-def patch_areas(data, path):
+def patch_areas(data: dict[str, AreatreeBuidling], path: str) -> dict:
     """
     Merge areas from the yaml file at path on top of the given data.
     """

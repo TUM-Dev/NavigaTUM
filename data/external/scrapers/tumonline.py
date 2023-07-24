@@ -16,7 +16,7 @@ from tqdm import tqdm
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
 
 
-def scrape_areas():
+def scrape_areas() -> list[dict[str, typing.Any]]:
     """
     Retrieve the building areas as in TUMonline.
 
@@ -31,7 +31,7 @@ def scrape_areas():
     return [{"id": int(attrs), "name": text} for (attrs, text) in _parse_filter_options(filters, "pGebaeudebereich")]
 
 
-def scrape_usages_filter():
+def scrape_usages_filter() -> list[dict[str, typing.Any]]:
     """
     Retrieve the room usage types that are available as a filter in TUMonline.
     These are not all usage types known to TUMonline!
@@ -48,7 +48,7 @@ def scrape_usages_filter():
 
 
 @cached_json("buildings_tumonline.json")
-def scrape_buildings():
+def scrape_buildings() -> list[dict[str, typing.Any]]:
     """
     Retrieve the buildings as in TUMonline with their assigned TUMonline area.
     This may retrieve TUMonline areas.
@@ -65,7 +65,7 @@ def scrape_buildings():
     )
     all_buildings = _parse_filter_options(filters, "pGebaeude")
 
-    buildings = []
+    buildings: list[typing.Any] = []
     for area in areas:
         filters_area = _get_roomsearch_xml(
             _get_tumonline_api_url("wbSuche.cbRaumForm"),
@@ -89,7 +89,7 @@ def scrape_buildings():
 
 
 @cached_json("rooms_tumonline.json")
-def scrape_rooms():
+def scrape_rooms() -> list[dict[str, typing.Any]]:
     """
     Retrieve the rooms as in TUMonline including building and usage type.
     For some room types (e.g. lecture halls) additional information is retrieved.
@@ -153,7 +153,7 @@ class Usage(typing.TypedDict):
 
 
 @cached_json("usages_tumonline.json")
-def scrape_usages():
+def scrape_usages() -> list[Usage]:
     """
     Retrieve all usage types available in TUMonline.
     This may retrieve TUMonline rooms.
@@ -164,7 +164,7 @@ def scrape_usages():
 
     logging.info("Scraping the room-usages of tumonline")
 
-    used_usage_types: dict[str,] = {}
+    used_usage_types: dict[str, typing.Any] = {}
     for room in rooms:
         if room["usage"] not in used_usage_types:
             used_usage_types[room["usage"]] = room
@@ -193,7 +193,7 @@ def scrape_usages():
 
 
 @cached_json("orgs-{lang}_tumonline.json")
-def scrape_orgs(lang):
+def scrape_orgs(lang: typing.Literal["de", "en"]) -> dict[str, typing.Any]:
     """
     Retrieve all organisations in TUMonline, that may operate rooms.
 
@@ -255,7 +255,7 @@ class ParsedRoomsList(typing.NamedTuple):
 
 @cached_json("tumonline/{f_value}.{area_id}.json")
 def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id: int = 0) -> list[ParsedRoom]:
-    """Retrieve all rooms (multi-page) from the TUMonline room search list"""
+    """Retrieve all rooms from the TUMonline room search list (multipage)"""
 
     scraped_rooms = ParsedRoomsList()
 
@@ -435,8 +435,8 @@ def _get_html(url: str, cached_xml_file: Path) -> BeautifulSoup:
     return BeautifulSoup(result, "lxml")
 
 
-def _get_tumonline_api_url(base_target):
-    # I have no idea, what this magic_string is, or why it exists..
-    # Usage is the same as from TUMonline..
+def _get_tumonline_api_url(base_target: str) -> str:
+    # I have no idea, what this magic_string is, or why it exists…
+    # Usage is the same as from TUMonline…
     magic_string = f"NC_{str(random.randint(0, 9999)).zfill(4)}"  # nosec: random is not used security/crypto purposes
     return f"{TUMONLINE_URL}/{base_target}/{magic_string}"

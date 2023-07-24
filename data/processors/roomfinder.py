@@ -1,12 +1,13 @@
 import logging
 import re
+from typing import Any
 
 import utm
 import yaml
 from external.models import roomfinder
 
 
-def merge_roomfinder_buildings(data):
+def merge_roomfinder_buildings(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the buildings in Roomfinder with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
@@ -71,7 +72,7 @@ def merge_roomfinder_buildings(data):
         raise RuntimeError("One or more errors, aborting")
 
 
-def merge_roomfinder_rooms(data):
+def merge_roomfinder_rooms(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the rooms in Roomfinder with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
