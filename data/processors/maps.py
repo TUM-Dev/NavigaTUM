@@ -14,7 +14,7 @@ RF_MAPS_PATH = EXTERNAL_RESULTS_PATH / "maps" / "roomfinder"
 CUSTOM_RF_DIR = Path(__file__).parent.parent / "sources" / "img" / "maps" / "roomfinder"
 
 
-def _assign_roomfinder_maps(data):
+def _assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """
     Assign roomfinder maps to all entries if there are none yet specified.
     """
@@ -105,7 +105,7 @@ def _extract_available_maps(entry, custom_maps, maps_list):
             available_maps.append(_map)
     available_maps += maps_list
 
-    def _sort_key(_map):
+    def _sort_key(_map: dict) -> tuple[int, int]:
         """sort by scale and area"""
         scale = int(_map["scale"])
         coords = _map["latlonbox"]
@@ -129,10 +129,10 @@ def _merge_str(s_1: str, s_2: str) -> str:
     return f"{prefix}{s_1}/{s_2}{suffix}"
 
 
-def _merge_maps(map1, map2):
+def _merge_maps(map1: dict, map2: dict) -> dict:
     """Merges two Maps into one merged map"""
     result_map = {}
-    for key in map1.keys():
+    for key in map1:
         if key == "id":
             result_map["id"] = map1["id"]
         elif isinstance(map1[key], dict):
@@ -190,12 +190,12 @@ def _load_maps_list():
     return _deduplicate_maps(maps_list)
 
 
-def _build_roomfinder_maps(data):
+def _build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """Generate the map information for the Roomfinder maps."""
 
     map_assignment_data = _generate_assignment_data()
 
-    for _id, entry in data.items():
+    for entry in data.values():
         if len(entry.get("maps", {}).get("roomfinder", {}).get("available", [])) > 0:
             for entry_map in entry["maps"]["roomfinder"]["available"]:
                 map_data = map_assignment_data[entry_map["id"]]
@@ -278,7 +278,7 @@ def _load_custom_maps():
     return maps_out
 
 
-def add_overlay_maps(data):
+def add_overlay_maps(data: dict[str, dict[str, Any]]) -> None:
     """Add the overlay maps to all entries where they apply"""
     with open("sources/46_overlay-maps.yaml", encoding="utf-8") as file:
         overlay_maps = yaml.safe_load(file.read())
@@ -318,9 +318,9 @@ def add_overlay_maps(data):
             overlay_data.setdefault("default", None)
 
 
-def _assign_default_roomfinder_map(data):
+def _assign_default_roomfinder_map(data: dict[str, dict[str, Any]]) -> None:
     """Selects map with the lowest scale as default"""
-    for _id, entry in data.items():
+    for entry in data.values():
         if rf_maps := entry.get("maps", {}).get("roomfinder"):
             rf_maps.setdefault("default", None)
             if not rf_maps.get("available", None):
@@ -364,7 +364,7 @@ def _entry_is_not_on_map(entry, _map, map_assignment_data):
     return x_invalid or y_invalid
 
 
-def _remove_non_covering_maps(data):
+def _remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
     """Removes maps from entries, that do not cover said coordinates"""
     map_assignment_data = _generate_assignment_data()
     for _id, entry in data.items():
@@ -383,7 +383,7 @@ def _remove_non_covering_maps(data):
             del entry["maps"]["roomfinder"]
 
 
-def roomfinder_maps(data):
+def roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """Adds roomfinder maps to entries"""
     _assign_roomfinder_maps(data)
     _remove_non_covering_maps(data)

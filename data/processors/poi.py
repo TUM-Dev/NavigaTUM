@@ -1,8 +1,10 @@
+from typing import Any
+
 from processors import merge
 from utils import TranslatableStr as _
 
 
-def merge_poi(data):
+def merge_poi(data: dict[str, dict[str, Any]]) -> None:
     """Merge POIs from `sources/21_pois.yaml` into the data"""
     poi_data = merge.load_yaml("sources/21_pois.yaml")
 

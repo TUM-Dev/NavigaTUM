@@ -2,6 +2,7 @@ import logging
 import os
 from math import acos, cos, radians, sin
 from pathlib import Path
+from typing import Any, Union
 
 from PIL import Image
 from ruamel.yaml import YAML
@@ -28,9 +29,11 @@ class TranslatableStr(dict):
     Translatable strings will be exported as {"de": "<de string>", "en": "<en string>"}.
     """
 
-    def __init__(self, message, en_message=None):
-        if message is None or (isinstance(message, str) and message.strip() == ""):
-            raise ValueError("message must not be present or empty")
+    def __init__(self, message: str, en_message: str | None = None) -> None:
+        if not isinstance(message, str):
+            raise ValueError("message must be a str")
+        if not message.strip():
+            raise ValueError("message must not be empty")
         if en_message is None:
             if message in TRANSLATION_BUFFER:
                 en_message = TRANSLATION_BUFFER[message]
@@ -41,31 +44,31 @@ class TranslatableStr(dict):
                     yaml.dump(TRANSLATION_BUFFER, file)
         super().__init__(en=en_message, de=message)
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         """returns a hash as if this was a string."""
         return hash(self["de"])
 
-    def __le__(self, other):
+    def __le__(self, other: "TranslatableStr") -> bool:
         """compares one String to another, sorting by the german string."""
         return self["de"] <= other["de"]
 
-    def __lt__(self, other):
+    def __lt__(self, other: "TranslatableStr") -> bool:
         """compares one String to another, sorting by the german string."""
         return self["de"] < other["de"]
 
-    def __add__(self, other):
+    def __add__(self, other: Union[str, "TranslatableStr"]) -> "TranslatableStr":
         if isinstance(other, str):
             return TranslatableStr(self["de"] + other, self["en"] + other)
         if isinstance(other, TranslatableStr):
             return TranslatableStr(self["de"] + other["de"], self["en"] + other["en"])
         raise ValueError(f"{self} + {other} is not implmented")
 
-    def __radd__(self, other):
+    def __radd__(self, other: str) -> "TranslatableStr":
         if isinstance(other, str):
             return TranslatableStr(other + self["de"], other + self["en"])
         raise ValueError(f"{other} + {self} is not implmented")
 
-    def format(self, *args, **kwargs):
+    def format(self, *args: Any, **kwargs: Any) -> "TranslatableStr":
         """Format the string using the .format() method, as if this was a string."""
         self["de"] = self["de"].format(*args, **kwargs)
         self["en"] = self["en"].format(*args, **kwargs)
@@ -94,7 +97,7 @@ def convert_to_webp(source: Path) -> None:
     os.remove(source)
 
 
-def setup_logging(level):
+def setup_logging(level: int = logging.INFO) -> None:
     """
     Sets up the loglevels with colors, with correct terminal colors
     """

@@ -4,7 +4,8 @@ import string
 import urllib.parse
 import xmlrpc.client
 import zipfile
-from typing import TypedDict
+from pathlib import Path
+from typing import Iterator, Literal, TypedDict
 
 from defusedxml import ElementTree as ET
 from external.scraping_utils import _download_file, CACHE_PATH, cached_json, maybe_sleep
@@ -102,9 +103,9 @@ def scrape_rooms():
     return sorted(rooms, key=lambda r: (r["b_id"], r["r_id"]))
 
 
-def _guess_queries(rooms, n_rooms):
+def _guess_queries(rooms: list, n_rooms: int) -> Iterator[str]:
     """
-    Iterates through all single/double digit/ascii_lowercase strings to find successfull queries
+    Iterates through all single/double character strings consisting of digit/ascii_lowercase to find successful queries
 
     Ordering because of number of entries:
     - single before double
@@ -176,7 +177,7 @@ def _download_maps(used_maps):
         if _map[1] == 9:
             continue
 
-        f_path = _download_map(_map, e_id, e_type)
+        f_path = _download_map(_map[1], e_id, e_type)
 
         with zipfile.ZipFile(f_path, "r") as zip_f, zip_f.open("RoomFinder.kml") as file:
             root = ET.fromstring(file.read())
@@ -194,14 +195,14 @@ def _download_maps(used_maps):
     return maps
 
 
-def _download_map(_map, e_id, e_type):
-    filepath = CACHE_PATH / "maps" / "roomfinder" / "kmz" / f"{_map[1]}.kmz"
+def _download_map(_map_id: int, e_id: str, e_type: Literal["room", "building"]) -> Path | None:
+    filepath = CACHE_PATH / "maps" / "roomfinder" / "kmz" / f"{_map_id}.kmz"
     if e_type == "room":
         base_url = "https://portal.mytum.de/campus/roomfinder/getRoomPlacemark"
-        url = f"{base_url}?roomid={urllib.parse.quote_plus(e_id)}&mapid={_map[1]}"
+        url = f"{base_url}?roomid={urllib.parse.quote_plus(e_id)}&mapid={_map_id}"
         return _download_file(url, filepath)
     if e_type == "building":
         base_url = "https://portal.mytum.de/campus/roomfinder/getBuildingPlacemark"
-        url = f"{base_url}?b_id={e_id}&mapid={_map[1]}"
+        url = f"{base_url}?b_id={e_id}&mapid={_map_id}"
         return _download_file(url, filepath)
     raise RuntimeError(f"Unknown entity type: {e_type}")
