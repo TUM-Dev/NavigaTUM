@@ -163,7 +163,9 @@ def _download_online_sitemap(url: str) -> dict[str, datetime]:
                 loc = child.find(f"{xmlns}loc")
                 lastmod = child.find(f"{xmlns}lastmod")
                 if loc is not None and lastmod is not None:
-                    sitemap[loc.text] = datetime.fromisoformat(lastmod.text.rstrip("Z"))
+                    lastmod_time = datetime.fromisoformat(lastmod.text.rstrip("Z"))
+                    lastmod_time.replace(tzinfo=timezone.utc)
+                    sitemap[loc.text] = lastmod_time
     except urllib.error.HTTPError as error:
         logging.warning(f"Failed to download sitemap '{url}': {error}")
     return sitemap
