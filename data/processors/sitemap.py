@@ -5,6 +5,7 @@ import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET  # nosec: used for writing to a file, not for reading
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Literal, TypedDict
 
 from compile import DEBUG_MODE
@@ -29,6 +30,9 @@ class SimplifiedSitemaps(TypedDict):
     other: dict[str, datetime]
 
 
+OUTPUT_DIR = Path(__file__).parent.parent / "output"
+
+
 def generate_sitemap() -> None:
     """Generate a sitemap that diffs changes since to the currently online data"""
 
@@ -40,7 +44,7 @@ def generate_sitemap() -> None:
     # directly, but re-parsing the output file instead, because the export not
     # export all fields. This way we're also guaranteed to have the same types
     # (and not e.g. numpy floats).
-    with open("output/api_data.json", encoding="utf-8") as file:
+    with open(OUTPUT_DIR / "api_data.json", encoding="utf-8") as file:
         new_data: dict = json.load(file)
 
     # Look whether there are currently online sitemaps for the provided
@@ -52,9 +56,9 @@ def generate_sitemap() -> None:
     sitemaps: Sitemaps = _extract_sitemap_data(new_data, old_data, old_sitemaps)
 
     for name, sitemap in sitemaps.items():
-        _write_sitemap_xml(f"output/sitemap-data-{name}.xml", sitemap)
+        _write_sitemap_xml(OUTPUT_DIR / f"sitemap-data-{name}.xml", sitemap)
 
-    _write_sitemapindex_xml("output/sitemap.xml", sitemaps)
+    _write_sitemapindex_xml(OUTPUT_DIR / "sitemap.xml", sitemaps)
 
 
 def _download_old_data() -> dict:
@@ -164,14 +168,13 @@ def _download_online_sitemap(url: str) -> dict[str, datetime]:
                 lastmod = child.find(f"{xmlns}lastmod")
                 if loc is not None and lastmod is not None:
                     lastmod_time = datetime.fromisoformat(lastmod.text.rstrip("Z"))
-                    lastmod_time.replace(tzinfo=timezone.utc)
-                    sitemap[loc.text] = lastmod_time
+                    sitemap[loc.text] = lastmod_time.replace(tzinfo=timezone.utc)
     except urllib.error.HTTPError as error:
         logging.warning(f"Failed to download sitemap '{url}': {error}")
     return sitemap
 
 
-def _write_sitemap_xml(fname: str, sitemap: list[SitemapEntry]) -> None:
+def _write_sitemap_xml(fname: Path, sitemap: list[SitemapEntry]) -> None:
     """Write the sitemap XML for a single sitemap"""
     urlset = ET.Element("urlset")
     urlset.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
@@ -188,7 +191,7 @@ def _write_sitemap_xml(fname: str, sitemap: list[SitemapEntry]) -> None:
     root.write(fname, encoding="utf-8", xml_declaration=True)
 
 
-def _write_sitemapindex_xml(fname: str, sitemaps: Sitemaps) -> None:
+def _write_sitemapindex_xml(fname: Path, sitemaps: Sitemaps) -> None:
     """Write the sitemapindex XML"""
     sitemapindex = ET.Element("sitemapindex")
     sitemapindex.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
