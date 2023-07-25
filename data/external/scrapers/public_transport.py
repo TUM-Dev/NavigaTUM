@@ -49,9 +49,8 @@ def _load_bus_stations(stations: dict) -> None:
     for sub in repeat_later:
         if parent := stations.get(sub["parent"]):
             parent["sub_stations"].append(sub)
-        else:
-            if sub["station_id"]:
-                logging.warning(f"{sub['name']} with id {sub['station_id']} has no parent in our data")
+        elif sub["station_id"]:
+            logging.warning(f"{sub['name']} with id {sub['station_id']} has no parent in our data")
 
 
 def _load_train_stations(stations: dict) -> None:
@@ -89,13 +88,12 @@ def _load_train_stations(stations: dict) -> None:
     for sub in repeat_later:
         if parent := stations.get(sub["parent"]):
             parent["sub_stations"].append(sub)
-        else:
-            if sub["station_id"]:
-                logging.warning(f"{sub['name']} with id {sub['station_id']} has no parent in our data")
+        elif sub["station_id"]:
+            logging.warning(f"{sub['name']} with id {sub['station_id']} has no parent in our data")
 
 
 @cached_json("public_transport.json")
-def scrape_stations():
+def scrape_stations() -> list[dict]:
     """Scrape the stations from the MVV GTFS data and return them as a list of dicts"""
     stations = {}
     _load_train_stations(stations)

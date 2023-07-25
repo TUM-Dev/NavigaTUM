@@ -24,7 +24,7 @@ DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ
 
 
 # pylint: disable=too-many-locals,too-many-statements
-def main():
+def main() -> None:
     """Main function"""
     # --- Read base data ---
     logging.info("-- 00 areatree")

@@ -4,12 +4,13 @@ import logging
 import time
 import urllib.request
 from pathlib import Path
+from typing import Callable, ParamSpec, TypeVar
 from urllib.error import HTTPError
 
 CACHE_PATH = Path(__file__).parent / "cache"
 
 
-def maybe_sleep(duration):
+def maybe_sleep(duration: float) -> None:
     """
     Sleep for the given duration, but only if the script was called during a workday and working hours.
     """
@@ -17,18 +18,22 @@ def maybe_sleep(duration):
         time.sleep(duration)
 
 
-def cached_json(filename: str):
+P = ParamSpec("P")
+R = TypeVar("R")
+
+
+def cached_json(filename: str) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """
     Decorator which caches the functions' returned results in json format
 
     :filename: where to store the file
     """
 
-    def decorator(func):  # needed, as we want to pass filename to the annotation
-        decorator_filename = filename  # needed, as otherwise this context would be lost
+    def decorator(func: Callable[[], R]) -> Callable[P, R]:  # needed, as we want to pass filename to the annotation
+        decorator_filename: str = filename  # needed, as otherwise this context would be lost
 
         @functools.wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             # prepare the filepath
             wrapper_filename = decorator_filename
             if args or kwargs:
@@ -37,7 +42,7 @@ def cached_json(filename: str):
             # get already existing file
             if path.exists():
                 with open(path, encoding="utf-8") as file:
-                    return json.load(file)
+                    return json.load(file)  # type: ignore
             # produce new file
             result = func(*args, **kwargs)
             with open(CACHE_PATH / wrapper_filename, "w", encoding="utf-8") as file:

@@ -28,7 +28,7 @@ def nearby_stations(lat: float, lon: float, stations: list[Station]) -> list[dic
     return sorted(results, key=lambda x: x["distance"])
 
 
-def add_nearby_public_transport(data):
+def add_nearby_public_transport(data: dict) -> None:
     """Add the nearby public transport stations to the data"""
     stations = Station.load_all()
 

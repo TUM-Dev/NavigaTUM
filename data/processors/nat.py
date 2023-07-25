@@ -2,6 +2,7 @@ import json
 import logging
 from collections import Counter
 from dataclasses import asdict, dataclass
+from typing import Any
 
 import yaml
 from external.models import nat
@@ -28,7 +29,7 @@ class NATBuilding:
         self.b_address = data.address
 
 
-def merge_nat_buildings(data):
+def merge_nat_buildings(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the buildings in the NAT Roomfinder with the existing data.
     This may overwrite existing data, if they have patched some fields.

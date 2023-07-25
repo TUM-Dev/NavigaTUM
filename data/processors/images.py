@@ -6,7 +6,7 @@ import shutil
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import NamedTuple, TypeVar
+from typing import Any, NamedTuple, TypeVar
 
 import pydantic
 import utils
@@ -67,7 +67,7 @@ DEV_MODE = "GIT_COMMIT_SHA" not in os.environ
 TARGET_IMAGE_QUALITY = 80
 
 
-def add_img(data):
+def add_img(data: dict[str, dict[str, Any]]) -> None:
     """
     Automatically add processed images to the 'img' property.
     """

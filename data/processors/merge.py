@@ -1,11 +1,12 @@
 from pathlib import Path
-from typing import Any, Union
+from typing import Any, TypeVar, Union
 
 import yaml
+from processors.areatree.models import AreatreeBuidling
 from utils import TranslatableStr
 
 
-def load_yaml(path):
+def load_yaml(path: str) -> Any:
     """
     Merge yaml data at path on top of the given data.
     This operates on the data dict directly without creating a copy.
@@ -42,7 +43,7 @@ def load_yaml(path):
     return yaml_data
 
 
-def add_coordinates(data, path):
+def add_coordinates(data: dict, path: str) -> None:
     """
     Merge coordinates from yaml files placed at path on top of the given data.
     (Merging happens in alphanumeric order, so later files would overwrite earlier files)
@@ -54,11 +55,15 @@ def add_coordinates(data, path):
         recursively_merge(data, {_id: {"coords": val} for _id, val in yaml_data.items()})
 
 
-def recursively_merge(dict_a, dict_b, overwrite=True):
+A = TypeVar("A")
+B = TypeVar("B")
+
+
+def recursively_merge(dict_a: dict | A, dict_b: dict | B, overwrite: bool = True) -> dict | A | B:
     """
     Recursively merge dict b on dict a (b overwrites a).
     Returns b if any of a or b is not a dict.
-    This operates on dict a directly without creating a copy.
+    This operates on `dict_a` directly without creating a copy.
     """
     if not isinstance(dict_a, dict) or not isinstance(dict_b, dict):
         return dict_b if overwrite else dict_a
@@ -72,7 +77,7 @@ def recursively_merge(dict_a, dict_b, overwrite=True):
     return dict_a
 
 
-def patch_areas(data, path):
+def patch_areas(data: dict[str, AreatreeBuidling], path: str) -> dict[str, dict[str, Any]]:
     """
     Merge areas from the yaml file at path on top of the given data.
     """
@@ -80,7 +85,7 @@ def patch_areas(data, path):
     return recursively_merge(data, yaml_data)
 
 
-def patch_rooms(data, path):
+def patch_rooms(data: dict[str, dict[str, Any]], path: str) -> dict[str, dict[str, Any]]:
     """
     Merge rooms from the yaml file at path on top of the given data.
     """
