@@ -42,7 +42,7 @@ def add_ranking_base(data: dict) -> None:
 
         ranking_factors["rank_type"] = RANKING_FACTOR_BY_TYPE.get(_data["type"], 100)
 
-        din_usage: str | None = _data.get("usage", {}).get("din_277", None)
+        din_usage: str = _data.get("usage", {}).get("din_277", "")
         ranking_factors["rank_usage"] = (
             RANKING_FACTOR_BY_DIN_USAGE.get(din_usage, 10) if _data["type"] == "room" else 100
         )

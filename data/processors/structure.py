@@ -105,8 +105,8 @@ def infer_type_common_name(data: dict[str, dict[str, Any]]) -> None:
     """This function infers the type_common_name property for each entry via the type property."""
 
     for _data in data.values():
-        joined_building_as_parent = data[_data["parents"][-1]]["type"] == "joined_building"
-        if _data["type"] == "building" and joined_building_as_parent:
+        building_inside_joined_building = _data["type"] == "building" and data[_data["parents"][-1]]["type"] == "joined_building"
+        if building_inside_joined_building:
             _data["type_common_name"] = _("Gebäudeteil")
         elif _data["type"] in {"room", "virtual_room", "poi"} and "usage" in _data:
             _data["type_common_name"] = _data["usage"]["name"]

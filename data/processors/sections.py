@@ -78,7 +78,7 @@ def _build_sorted_floor_list(room_data):
     """Build a physically sorted list of floors (using TUMonline floor names)"""
     floors = {room["floor"] for room in room_data}
 
-    def floor_quantifier(floor_name):
+    def floor_quantifier(floor_name: str) -> int:
         """Assign each floor a virtual ID for sorting"""
         if floor_name == "EG":
             return 0

@@ -2,6 +2,7 @@ import logging
 import os
 from math import acos, cos, radians, sin
 from pathlib import Path
+from typing import Any, Union
 
 from PIL import Image
 from ruamel.yaml import YAML
@@ -55,7 +56,7 @@ class TranslatableStr(dict):
         """compares one String to another, sorting by the german string."""
         return self["de"] < other["de"]
 
-    def __add__(self, other: str | "TranslatableStr") -> "TranslatableStr":
+    def __add__(self, other: Union[str, "TranslatableStr"]) -> "TranslatableStr":
         if isinstance(other, str):
             return TranslatableStr(self["de"] + other, self["en"] + other)
         if isinstance(other, TranslatableStr):
@@ -67,7 +68,7 @@ class TranslatableStr(dict):
             return TranslatableStr(other + self["de"], other + self["en"])
         raise ValueError(f"{other} + {self} is not implmented")
 
-    def format(self, *args, **kwargs) -> "TranslatableStr":
+    def format(self, *args: Any, **kwargs: Any) -> "TranslatableStr":
         """Format the string using the .format() method, as if this was a string."""
         self["de"] = self["de"].format(*args, **kwargs)
         self["en"] = self["en"].format(*args, **kwargs)
@@ -96,7 +97,7 @@ def convert_to_webp(source: Path) -> None:
     os.remove(source)
 
 
-def setup_logging(level: int = logging.INFO):
+def setup_logging(level: int = logging.INFO) -> None:
     """
     Sets up the loglevels with colors, with correct terminal colors
     """
