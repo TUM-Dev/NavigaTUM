@@ -59,7 +59,7 @@ ENTRYPOINT ["tini", "--"]
 # These are coomands that can be chosen to run
 # - a respective server or
 # - an admin task
-CMD     /bin/navigatum-calendar-scraper
-CMD     /bin/navigatum-calendar
-CMD     /bin/navigatum-feedback
+# CMD     /bin/navigatum-calendar-scraper
+# CMD     /bin/navigatum-calendar
+# CMD     /bin/navigatum-feedback
 CMD     /bin/navigatum-main-api
