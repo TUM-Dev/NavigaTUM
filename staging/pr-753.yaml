@@ -19,7 +19,7 @@ spec:
         tag: pr-753
         url: pr-753.nav.tum.sexy
         server:
-            MEILI_MASTER_KEY: ZWE4MGY1OTgzNzcwZDEzZmU0MTIK
+            MEILI_MASTER_KEY: ZjIwYTUyNzdlODMyNWFhNjFjOWYK
             # GITHUB_TOKEN is intentionally omitted, as this file is templated and then added to git in the deployments branch
             # JWT_KEY is omitted, because adding it would only make sense in conjunction with GITHUB_TOKEN
             # MEILI_MASTER_KEY being added is not a security risk, since it is a hidden service and even if exposed is heavily restricted by other network policies
