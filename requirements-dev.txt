@@ -1,7 +1,7 @@
-mypy~=1.4.1
+mypy~=1.5.0
 pre-commit~=3.3.2
 pylint~=2.17.4
-sourcery~=1.5.0
+sourcery~=1.7.0
 types-Pillow~=10.0.0.2
 types-PyYAML~=6.0.12.10
 types-requests~=2.31.0.1

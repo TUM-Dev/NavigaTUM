@@ -60,7 +60,7 @@ from sources:
 ```bash
 # Clone MeiliSearch
 cd ..
-git clone https://github.com/meilisearch/MeiliSearch.git -b v0.22.0
+git clone https://github.com/meilisearch/MeiliSearch.git -b v1.3.1
 cd MeiliSearch
 
 # Build and run
