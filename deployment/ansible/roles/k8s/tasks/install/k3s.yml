@@ -1,4 +1,12 @@
 ---
+- name: make shure /etc/rancher/k3s/config.yaml includes all the limits we want
+  template:
+    src: config.yaml.j2
+    dest: /etc/rancher/k3s/config.yaml
+    owner: root
+    group: root
+    mode: 0644
+
 - name: Install k3s
   shell: >
     curl -sfL https://get.k3s.io | sh -s -
