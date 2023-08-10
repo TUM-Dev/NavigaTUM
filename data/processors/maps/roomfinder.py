@@ -14,7 +14,7 @@ RF_MAPS_PATH = EXTERNAL_RESULTS_PATH / "maps" / "roomfinder"
 CUSTOM_RF_DIR = Path(__file__).parent.parent / "sources" / "img" / "maps" / "roomfinder"
 
 
-def _assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
+def assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """
     Assign roomfinder maps to all entries if there are none yet specified.
     """
@@ -190,7 +190,7 @@ def _load_maps_list():
     return _deduplicate_maps(maps_list)
 
 
-def _build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
+def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """Generate the map information for the Roomfinder maps."""
 
     map_assignment_data = _generate_assignment_data()
@@ -278,47 +278,7 @@ def _load_custom_maps():
     return maps_out
 
 
-def add_overlay_maps(data: dict[str, dict[str, Any]]) -> None:
-    """Add the overlay maps to all entries where they apply"""
-    with open("sources/46_overlay-maps.yaml", encoding="utf-8") as file:
-        overlay_maps = yaml.safe_load(file.read())
-
-    parent_lut = {_map["props"]["parent"]: _map for _map in overlay_maps}
-    parent_ids = set(parent_lut.keys())
-
-    for _id, entry in data.items():
-        candidates = parent_ids.intersection(entry["parents"])
-        if len(candidates) > 1:
-            logging.warning(
-                f"Multiple candidates as overlay map for {_id}: {candidates}. "
-                f"Currently this is not supported! Skipping ...",
-            )
-        elif bool(candidates) ^ (_id in parent_ids):
-            # either a candidate exist or _id is one of the parent ids, but not both
-            overlay = parent_lut[list(candidates)[0] if len(candidates) == 1 else _id]
-            overlay_data = entry.setdefault("maps", {}).setdefault("overlays", {})
-            overlay_data["available"] = []
-            for _map in overlay["maps"]:
-                overlay_data["available"].append(
-                    {
-                        "id": _map["id"],
-                        "floor": _map["floor"],
-                        "file": _map["file"],
-                        "name": _map["desc"],
-                        "coordinates": overlay["props"]["box"],
-                    },
-                )
-
-                # The 'tumonline' field overwrites which TUMonline ID floor to match
-                if (f".{_map.get('tumonline', '')}." in _id) or (
-                    overlay_data.get("default", None) is None and f".{_map['floor']}." in _id
-                ):
-                    overlay_data["default"] = _map["id"]
-
-            overlay_data.setdefault("default", None)
-
-
-def _assign_default_roomfinder_map(data: dict[str, dict[str, Any]]) -> None:
+def assign_default_roomfinder_map(data: dict[str, dict[str, Any]]) -> None:
     """Selects map with the lowest scale as default"""
     for entry in data.values():
         if rf_maps := entry.get("maps", {}).get("roomfinder"):
@@ -364,7 +324,7 @@ def _entry_is_not_on_map(entry, _map, map_assignment_data):
     return x_invalid or y_invalid
 
 
-def _remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
+def remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
     """Removes maps from entries, that do not cover said coordinates"""
     map_assignment_data = _generate_assignment_data()
     for _id, entry in data.items():
@@ -381,11 +341,3 @@ def _remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
         if not roomfinder["available"]:
             # no availible roomfinder maps dont carry any meaning and are deleted
             del entry["maps"]["roomfinder"]
-
-
-def roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
-    """Adds roomfinder maps to entries"""
-    _assign_roomfinder_maps(data)
-    _remove_non_covering_maps(data)
-    _assign_default_roomfinder_map(data)
-    _build_roomfinder_maps(data)
