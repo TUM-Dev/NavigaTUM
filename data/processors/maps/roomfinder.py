@@ -3,15 +3,17 @@ import logging
 import math
 import os.path
 from pathlib import Path
-from typing import Any, TypedDict
+from typing import Any
 
-import utils
 import yaml
+from external.models import roomfinder
 from PIL import Image
+from processors.maps.models import Coordinate, MapKey
 
-EXTERNAL_RESULTS_PATH = Path(__file__).parent.parent / "external" / "results"
+BASE = Path(__file__).parent.parent
+EXTERNAL_RESULTS_PATH = BASE / "external" / "results"
 RF_MAPS_PATH = EXTERNAL_RESULTS_PATH / "maps" / "roomfinder"
-CUSTOM_RF_DIR = Path(__file__).parent.parent / "sources" / "img" / "maps" / "roomfinder"
+CUSTOM_RF_DIR = BASE / "sources" / "img" / "maps" / "roomfinder"
 
 
 def assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
@@ -209,11 +211,6 @@ def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
                 entry_map.setdefault("file", f"{entry_map['id']}.webp")
 
 
-class Coordinate(TypedDict):
-    lat: float
-    lon: float
-
-
 def _calc_xy_of_coords_on_map(coords: Coordinate, map_data: dict) -> tuple[int, int]:
     """
     For the map regions used we can assume that the lat/lon graticule is
@@ -247,23 +244,9 @@ def _load_custom_maps():
     with open("sources/45_custom-maps.yaml", encoding="utf-8") as file:
         custom_maps = yaml.safe_load(file.read())
 
-    utils.convert_to_webp(CUSTOM_RF_DIR)
-
     # Convert into the format used by maps_roomfinder.json:
-    maps_out = {}
+    maps_out: dict[MapKey, roomfinder.Map] = {}
     for map_group in custom_maps:
-        base_data = {
-            "source": map_group["props"].get("source", "NavigaTUM-Contributors"),
-            # For some reason, these are given as str
-            "scale": str(map_group["props"]["scale"]),
-            "latlonbox": {
-                "north": map_group["props"]["north"],
-                "east": map_group["props"]["east"],
-                "west": map_group["props"]["west"],
-                "south": map_group["props"]["south"],
-                "rotation": map_group["props"]["rotation"],
-            },
-        }
         for sub_map in map_group["maps"]:
             img = Image.open(CUSTOM_RF_DIR / sub_map["file"])
             maps_out[(sub_map["b_id"], sub_map["floor"])] = {
@@ -272,7 +255,16 @@ def _load_custom_maps():
                 "file": sub_map["file"],
                 "width": img.width,
                 "height": img.height,
-                **base_data,
+                "source": map_group["props"].get("source", "NavigaTUM-Contributors"),
+                # For some reason, these are given as str
+                "scale": str(map_group["props"]["scale"]),
+                "latlonbox": {
+                    "north": map_group["props"]["north"],
+                    "east": map_group["props"]["east"],
+                    "west": map_group["props"]["west"],
+                    "south": map_group["props"]["south"],
+                    "rotation": map_group["props"]["rotation"],
+                },
             }
 
     return maps_out
@@ -332,12 +324,12 @@ def remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
             continue
         if "roomfinder" not in entry["maps"]:
             continue
-        roomfinder = entry["maps"]["roomfinder"]
+        rf_maps = entry["maps"]["roomfinder"]
         to_be_deleted = [
-            _map for _map in roomfinder["available"] if _entry_is_not_on_map(entry, _map, map_assignment_data)
+            _map for _map in rf_maps["available"] if _entry_is_not_on_map(entry, _map, map_assignment_data)
         ]
         for _map in to_be_deleted:
-            roomfinder["available"].remove(_map)
-        if not roomfinder["available"]:
-            # no availible roomfinder maps dont carry any meaning and are deleted
+            rf_maps["available"].remove(_map)
+        if not rf_maps["available"]:
+            # no availible roomfinder maps don't carry any meaning and are deleted
             del entry["maps"]["roomfinder"]

@@ -1,11 +1,13 @@
 from typing import Any
 
+import utils
 from processors.maps.models import Overlay
 from processors.maps.overlay import add_overlay_map
 from processors.maps.roomfinder import (
     assign_default_roomfinder_map,
     assign_roomfinder_maps,
     build_roomfinder_maps,
+    CUSTOM_RF_DIR,
     remove_non_covering_maps,
 )
 
@@ -21,6 +23,8 @@ def add_overlay_maps(data: dict[str, dict[str, Any]]) -> None:
 
 def add_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """Adds roomfinder maps to entries"""
+    utils.convert_to_webp(CUSTOM_RF_DIR)
+
     assign_roomfinder_maps(data)
     remove_non_covering_maps(data)
     assign_default_roomfinder_map(data)

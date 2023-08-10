@@ -1,3 +1,4 @@
+import typing
 from pathlib import Path
 
 import yaml
@@ -33,3 +34,13 @@ class Overlay:
         """Load all nat.Room's"""
         with open(BASE / "overlay-maps.yaml", encoding="utf-8") as file:
             return {_map["props"]["parent"]: cls(**_map) for _map in yaml.safe_load(file.read())}
+
+
+class MapKey(typing.NamedTuple):
+    building_id: str
+    floor: str
+
+
+class Coordinate(typing.TypedDict):
+    lat: float
+    lon: float
