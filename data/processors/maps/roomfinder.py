@@ -2,6 +2,7 @@ import json
 import logging
 import math
 import os.path
+from collections import abc
 from pathlib import Path
 from typing import Any
 
@@ -11,9 +12,10 @@ from PIL import Image
 from processors.maps.models import Coordinate, MapKey
 
 BASE = Path(__file__).parent.parent
-EXTERNAL_RESULTS_PATH = BASE / "external" / "results"
-RF_MAPS_PATH = EXTERNAL_RESULTS_PATH / "maps" / "roomfinder"
-CUSTOM_RF_DIR = BASE / "sources" / "img" / "maps" / "roomfinder"
+RESULTS_PATH = BASE / "external" / "results"
+RF_MAPS_PATH = RESULTS_PATH / "maps" / "roomfinder"
+SOURCES_PATH = BASE / "sources"
+CUSTOM_RF_DIR = SOURCES_PATH / "img" / "maps" / "roomfinder"
 
 
 def assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
@@ -96,6 +98,9 @@ def _set_maps_from_parent(data, entry):
 
 
 def _extract_available_maps(entry, custom_maps, maps_list):
+    """
+    Extracts all available maps for the given entry.
+    """
     available_maps = []
     for (b_id, floor), _map in custom_maps.items():
         if (
@@ -128,16 +133,26 @@ def _merge_str(s_1: str, s_2: str) -> str:
     suffix = os.path.commonprefix((s_1[::-1], s_2[::-1]))[::-1]
     s_1 = s_1.removeprefix(prefix).removesuffix(suffix)
     s_2 = s_2.removeprefix(prefix).removesuffix(suffix)
-    return f"{prefix}{s_1}/{s_2}{suffix}"
+    if s_1 and s_2:
+        return f"{prefix}{s_1}/{s_2}{suffix}"
+    # special case: one string is a pre/postfix of the other
+    common = s_1 or s_2
+    while common.endswith(" "):
+        common = common.removesuffix(" ")
+        suffix = f" {suffix}"
+    while common.startswith(" "):
+        common = common.removeprefix(" ")
+        prefix = f"{prefix} "
+    return f"{prefix}({common.strip()}){suffix}"
 
 
-def _merge_maps(map1: dict, map2: dict) -> dict:
+def _merge_maps(map1: abc.Mapping, map2: abc.Mapping) -> abc.Mapping:
     """Merges two Maps into one merged map"""
     result_map = {}
     for key in map1:
         if key == "id":
             result_map["id"] = map1["id"]
-        elif isinstance(map1[key], dict):
+        elif isinstance(map1[key], abc.Mapping):
             result_map[key] = _merge_maps(map1[key], map2[key])
         elif isinstance(map1[key], str):
             result_map[key] = _merge_str(map1[key], map2[key])
@@ -146,8 +161,8 @@ def _merge_maps(map1: dict, map2: dict) -> dict:
         elif isinstance(map1[key], float):
             result_map[key] = (map1[key] + map2[key]) / 2
         else:
-            values = map1[key]
-            raise NotImplementedError(f"the {key=} of with {type(values)=} does not have a merging-operation defined")
+            value = map1[key]
+            raise NotImplementedError(f"{key=} ({value=}, {type(value)=}) without a merge-operation defined")
     return result_map
 
 
@@ -177,7 +192,7 @@ def _deduplicate_maps(maps_list):
 
 def _load_maps_list():
     """Read the Roomfinder maps. The world-map is not used"""
-    with open("external/results/maps_roomfinder.json", encoding="utf-8") as file:
+    with open(RESULTS_PATH / "maps_roomfinder.json", encoding="utf-8") as file:
         maps_list: list[dict[str, Any]] = json.load(file)
     # remove the world map
     maps_list = [_map for _map in maps_list if _map["id"] != 9]
@@ -241,7 +256,7 @@ def _calc_xy_of_coords_on_map(coords: Coordinate, map_data: dict) -> tuple[int, 
 
 def _load_custom_maps():
     """Load the custom maps like Roomfinder maps"""
-    with open("sources/45_custom-maps.yaml", encoding="utf-8") as file:
+    with open(SOURCES_PATH / "45_custom-maps.yaml", encoding="utf-8") as file:
         custom_maps = yaml.safe_load(file.read())
 
     # Convert into the format used by maps_roomfinder.json:
@@ -289,7 +304,7 @@ def assign_default_roomfinder_map(data: dict[str, dict[str, Any]]) -> None:
 
 def _generate_assignment_data():
     # Read the Roomfinder and custom maps
-    with open("external/results/maps_roomfinder.json", encoding="utf-8") as file:
+    with open(RESULTS_PATH / "maps_roomfinder.json", encoding="utf-8") as file:
         maps_list = json.load(file)
     custom_maps = _load_custom_maps()
     # For each map, we calculate the boundaries in UTM beforehand
