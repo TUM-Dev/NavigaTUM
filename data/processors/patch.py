@@ -1,22 +1,32 @@
 import logging
 import re
+from typing import TypedDict
+
+# python 3.11 feature => move to typing when 3.11 is mainstream
+from typing_extensions import NotRequired
 
 
-def apply_patches(objects, patches, searchkey):
+class Patch(TypedDict):
+    if_roomcode: str
+    alt_name: NotRequired[str]
+    arch_name: NotRequired[str]
+
+
+def apply_roomcode_patch(objects: list[dict[str, str | int]], patches: list[Patch]):
     """Apply patches to objects.
 
     Args:
         objects: list of objects to apply patches to
         patches: list of patches to apply
-        searchkey: key to search for in objects"""
+    """
     patched = []
 
     patches = [
         (
-            re.compile(p[f"if_{searchkey}"]),
+            re.compile(p["if_roomcode"]),
             # Remove the "if_" from the patch, the rest of the items will
             # be inserted into the entry's data.
-            {k: v for k, v in p.items() if k != f"if_{searchkey}"},
+            {k: v for k, v in p.items() if k != "if_roomcode"},
         )
         for p in patches
     ]
@@ -25,7 +35,7 @@ def apply_patches(objects, patches, searchkey):
     applied_patches = set()
     for i, obj in enumerate(objects):
         for patch_check, patch in patches:
-            if patch_check.match(obj[searchkey]) is not None:
+            if patch_check.match(obj["roomcode"]) is not None:
                 applied_patches.add(patch_check)
                 if "__delete" in patch and patch["__delete"]:
                     to_delete.append(i)
@@ -40,7 +50,7 @@ def apply_patches(objects, patches, searchkey):
     for patch_check, _ in patches:
         if patch_check not in applied_patches:
             logging.warning(
-                f"The patch for {searchkey}: r'{patch_check.pattern}' was never applied. "
+                f"The patch for roomcode: r'{patch_check.pattern}' was never applied. "
                 f"Make sure it is still required.",
             )
 

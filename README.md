@@ -96,7 +96,7 @@ since we use [pre-commit](https://pre-commit.com/) to format our code, you can i
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-pip install -r data/requirements.txt -r server/test/requirements.txt -r requirements_dev.txt # for mypy the server and data requirements are needed
+pip install -r data/requirements.txt -r server/test/requirements.txt -r requirements-dev.txt # for mypy the server and data requirements are needed
 ```
 
 To format all files, run the following command:

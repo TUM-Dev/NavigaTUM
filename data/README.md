@@ -29,7 +29,7 @@ From the root of the project, run:
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-pip install -r data/requirements.txt -r requirements_dev.txt
+pip install -r data/requirements.txt -r requirements-dev.txt
 ```
 
 ## Getting external data

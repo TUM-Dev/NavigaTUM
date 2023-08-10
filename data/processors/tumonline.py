@@ -1,12 +1,13 @@
 import json
 import logging
 import string
+from typing import Any
 
 import pydantic
 import yaml
 from external.models import tumonline
 from processors.merge import recursively_merge
-from processors.patch import apply_patches
+from processors.patch import apply_roomcode_patch
 from utils import TranslatableStr as _
 
 ALLOWED_ROOMCODE_CHARS = set(string.ascii_letters) | set(string.digits) | {".", "-"}
@@ -14,7 +15,7 @@ OPERATOR_STRIP_CHARS = "[ ]"
 OPERATOR_WEBNAV_LINK_PREFIX = "webnav.navigate_to?corg="
 
 
-def merge_tumonline_buildings(data):
+def merge_tumonline_buildings(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the buildings in TUMonline with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
@@ -79,7 +80,7 @@ class InactiveOrg:
 
 
 # pylint: disable=too-many-locals
-def merge_tumonline_rooms(data):
+def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the rooms in TUMonline with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
@@ -115,8 +116,8 @@ def merge_tumonline_rooms(data):
                 "operator_id": int(room["op_link"].strip(OPERATOR_WEBNAV_LINK_PREFIX)),
                 "operator_link": room["op_link"],
                 "operator_name": _(
-                    orgs_de.get(operator, InactiveOrg(name=f"Inaktive Organisation ({operator})").name),
-                    orgs_en.get(operator, InactiveOrg(name=f"Inactive Organisation ({operator})").name),
+                    orgs_de.get(operator, InactiveOrg(name=f"Inaktive Organisation ({operator})")).name,
+                    orgs_en.get(operator, InactiveOrg(name=f"Inactive Organisation ({operator})")).name,
                 ),
                 "room_link": room["room_link"],
                 "calendar": room["calendar"],
@@ -199,7 +200,7 @@ def _clean_tumonline_rooms():
     with open("sources/15_patches-rooms_tumonline.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
-    patched_rooms = apply_patches(rooms, patches["patches"], "roomcode")
+    patched_rooms = apply_roomcode_patch(rooms, patches["patches"])
     patched_room_ids = {r["roomcode"] for r in patched_rooms}
 
     used_arch_names: dict[str, str] = {}

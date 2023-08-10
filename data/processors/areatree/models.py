@@ -28,3 +28,4 @@ class AreatreeBuidling(TypedDict):
     type: str
     name: str
     short_name: NotRequired[str]
+    parents: list[str]

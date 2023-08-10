@@ -22,7 +22,7 @@ def unlocalise(value: Union[str, list[Any], dict[str, Any]]) -> Any:
     raise ValueError(f"Unhandled type {type(value)}")
 
 
-def export_for_search(data, path):
+def export_for_search(data: dict, path: str) -> None:
     """export a subset of the data for the /search api"""
     export = []
     for _id, entry in data.items():
@@ -96,7 +96,7 @@ def extract_arch_name(entry: dict) -> str | None:
     return entry.get("tumonline_data", {}).get("arch_name", None)
 
 
-def export_for_api(data, path):
+def export_for_api(data: dict, path: str) -> None:
     """Add some more information about parents to the data and export for the /get/:id api"""
 
     export_data = {}
@@ -131,7 +131,7 @@ def export_for_api(data, path):
 
 
 class EnhancedJSONEncoder(json.JSONEncoder):
-    def default(self, o):
+    def default(self, o: Any) -> Any:
         """Enhanced JSONEncoder that can handle dataclasses"""
         if dataclasses.is_dataclass(o):
             return dataclasses.asdict(o)
