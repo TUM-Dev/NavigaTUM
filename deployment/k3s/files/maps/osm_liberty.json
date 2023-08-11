@@ -20,7 +20,7 @@
       "type": "raster"
     }
   },
-  "sprite": "https://maputnik.github.io/osm-liberty/sprites/osm-liberty",
+  "sprite": "{styleJsonFolder}/osm-liberty",
   "glyphs": "{fontstack}/{range}.pbf",
   "layers": [
     {

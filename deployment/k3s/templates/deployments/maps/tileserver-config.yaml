@@ -6,6 +6,14 @@ metadata:
 data:
   osm_liberty.json: |-
 {{ .Files.Get "files/maps/osm_liberty.json" | indent 4 }}
+  sprites_osm_liberty.json: |-
+{{ .Files.Get "files/maps/sprites/osm_liberty.json" | indent 4 }}
+  sprites_osm_liberty@2x.json: |-
+{{ .Files.Get "files/maps/sprites/osm_liberty@2x.json" | indent 4 }}
+  sprites_osm_liberty.png: |-
+{{ .Files.Get "files/maps/sprites/osm_liberty.png" | indent 4 }}
+  sprites_osm_liberty@2x.png: |-
+{{ .Files.Get "files/maps/sprites/osm_liberty@2x.png" | indent 4 }}
   config.json: |-
     {
       "options": {
