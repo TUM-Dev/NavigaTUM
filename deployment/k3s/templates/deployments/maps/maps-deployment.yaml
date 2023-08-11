@@ -80,8 +80,8 @@ spec:
             - name: sprites-tileserver
               mountPath: /data/sprites
             - name: tileserver-config
-              mountPath: /data/styles/osm_liberty.json
-              subPath: osm_liberty.json
+              mountPath: /data/styles/osm-liberty.json
+              subPath: osm-liberty.json
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true

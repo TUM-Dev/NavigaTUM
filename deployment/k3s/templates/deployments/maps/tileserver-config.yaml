@@ -4,8 +4,8 @@ metadata:
   name: tileserver-config
   namespace: {{ $.Values.namespace }}
 data:
-  osm_liberty.json: |-
-{{ .Files.Get "files/maps/osm_liberty.json" | indent 4 }}
+  osm-liberty.json: |-
+{{ .Files.Get "files/maps/osm-liberty.json" | indent 4 }}
   config.json: |-
     {
       "options": {
@@ -36,8 +36,8 @@ data:
         "tileMargin": 0
       },
       "styles": {
-        "osm_liberty": {
-          "style": "osm_liberty.json",
+        "osm-liberty": {
+          "style": "osm-liberty.json",
           "serve_rendered": true,
           "serve_data": true,
           "tilejson": {
