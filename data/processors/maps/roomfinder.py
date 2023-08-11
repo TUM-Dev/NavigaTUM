@@ -11,7 +11,7 @@ from external.models import roomfinder
 from PIL import Image
 from processors.maps.models import Coordinate, MapKey
 
-BASE = Path(__file__).parent.parent
+BASE = Path(__file__).parent.parent.parent
 RESULTS_PATH = BASE / "external" / "results"
 RF_MAPS_PATH = RESULTS_PATH / "maps" / "roomfinder"
 SOURCES_PATH = BASE / "sources"
@@ -264,15 +264,14 @@ def _load_custom_maps():
     for map_group in custom_maps:
         for sub_map in map_group["maps"]:
             img = Image.open(CUSTOM_RF_DIR / sub_map["file"])
-            maps_out[(sub_map["b_id"], sub_map["floor"])] = {
+            maps_out[MapKey(sub_map["b_id"], sub_map["floor"])] = {
                 "desc": sub_map["desc"],
                 "id": ".".join(sub_map["file"].split(".")[:-1]),
                 "file": sub_map["file"],
                 "width": img.width,
                 "height": img.height,
                 "source": map_group["props"].get("source", "NavigaTUM-Contributors"),
-                # For some reason, these are given as str
-                "scale": str(map_group["props"]["scale"]),
+                "scale": str(map_group["props"]["scale"]), # For some reason, these are given as str
                 "latlonbox": {
                     "north": map_group["props"]["north"],
                     "east": map_group["props"]["east"],
