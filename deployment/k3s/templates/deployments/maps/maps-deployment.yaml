@@ -63,19 +63,19 @@ spec:
               subPath: config.json
             - name: tileserver-config
               mountPath: /data/styles/osm_liberty.json
-              subPath: osm_liberty.json
+              subPath: style.json
             - name: tileserver-config
               mountPath: /data/sprites/osm_liberty.json
-              subPath: sprites_osm_liberty.json
+              subPath: sprites.json
             - name: tileserver-config
               mountPath: /data/sprites/osm_liberty@2x.json
-              subPath: sprites_osm_liberty_2x.json
+              subPath: sprites_2x.json
             - name: tileserver-config
               mountPath: /data/sprites/osm_liberty.png
-              subPath: sprites_osm_liberty.png
+              subPath: sprites.png
             - name: tileserver-config
               mountPath: /data/sprites/osm_liberty@2x.png
-              subPath: sprites_osm_liberty_2x.png
+              subPath: sprites_2x.png
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true

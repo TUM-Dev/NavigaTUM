@@ -4,15 +4,15 @@ metadata:
   name: tileserver-config
   namespace: {{ $.Values.namespace }}
 data:
-  osm_liberty.json: |-
+  style.json: |-
 {{ .Files.Get "files/maps/osm_liberty.json" | indent 4 }}
-  sprites_osm_liberty.json: |-
+  sprite.json: |-
 {{ .Files.Get "files/maps/sprites/osm_liberty.json" | indent 4 }}
-  sprites_osm_liberty_2x.json: |-
+  sprite_2x.json: |-
 {{ .Files.Get "files/maps/sprites/osm_liberty@2x.json" | indent 4 }}
-  sprites_osm_liberty.png: |-
+  sprite.png: |-
 {{ .Files.Get "files/maps/sprites/osm_liberty.png" | indent 4 }}
-  sprites_osm_liberty_2x.png: |-
+  sprite_2x.png: |-
 {{ .Files.Get "files/maps/sprites/osm_liberty@2x.png" | indent 4 }}
   config.json: |-
     {
