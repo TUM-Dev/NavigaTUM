@@ -37,6 +37,8 @@ spec:
       volumes:
         - name: tmp-tileserver
           emptyDir: {}
+        - name: sprites-tileserver
+          emptyDir: {}
         - name: tileserver-vol
           persistentVolumeClaim:
             readOnly: false
@@ -44,6 +46,20 @@ spec:
         - name: tileserver-config
           configMap:
             name: tileserver-config
+      initContainers:
+        - name: tileserver-init-sprites
+          image: "busybox:latest"
+          command:
+          - wget
+          - -P
+          - /sprites
+          - https://raw.githubusercontent.com/maputnik/osm-liberty/gh-pages/sprites/osm-liberty.json
+          - https://raw.githubusercontent.com/maputnik/osm-liberty/gh-pages/sprites/osm-liberty@2x.json
+          - https://raw.githubusercontent.com/maputnik/osm-liberty/gh-pages/sprites/osm-liberty.png
+          - https://raw.githubusercontent.com/maputnik/osm-liberty/gh-pages/sprites/osm-liberty@2x.png
+          volumeMounts:
+            - mountPath: /sprites
+              name: sprites-tileserver
       containers:
         - name: tileserver
           image: maptiler/tileserver-gl:latest
@@ -61,21 +77,11 @@ spec:
             - name: tileserver-config
               mountPath: /data/config.json
               subPath: config.json
+            - name: sprites-tileserver
+              mountPath: /data/sprites
             - name: tileserver-config
               mountPath: /data/styles/osm_liberty.json
-              subPath: style.json
-            - name: tileserver-config
-              mountPath: /data/sprites/osm_liberty.json
-              subPath: sprites.json
-            - name: tileserver-config
-              mountPath: /data/sprites/osm_liberty@2x.json
-              subPath: sprites_2x.json
-            - name: tileserver-config
-              mountPath: /data/sprites/osm_liberty.png
-              subPath: sprites.png
-            - name: tileserver-config
-              mountPath: /data/sprites/osm_liberty@2x.png
-              subPath: sprites_2x.png
+              subPath: osm_liberty.json
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
