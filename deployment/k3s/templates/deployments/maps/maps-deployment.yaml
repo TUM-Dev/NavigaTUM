@@ -52,7 +52,7 @@ spec:
             - containerPort: 8080
               name: tileserver
           args:
-            - --public_url=https://nav.tum.de/maps/ # we want this to live under /maps/
+            - --public_url=https://{{ $.Values.url }}/maps/ # we want this to live under /maps/
           volumeMounts:
             - mountPath: /tmp
               name: tmp-tileserver
