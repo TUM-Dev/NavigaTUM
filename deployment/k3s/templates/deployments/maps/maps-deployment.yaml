@@ -54,26 +54,26 @@ spec:
           args:
             - --public_url=https://{{ $.Values.url }}/maps/ # we want this to live under /maps/
           volumeMounts:
-            - mountPath: /tmp
-              name: tmp-tileserver
-            - mountPath: /data
-              name: tileserver-vol
+            - name: tmp-tileserver
+              mountPath: /tmp
+            - name: tileserver-vol
+              mountPath: /data
             - name: tileserver-config
               mountPath: /data/config.json
               subPath: config.json
             - name: tileserver-config
               mountPath: /data/styles/osm_liberty.json
               subPath: osm_liberty.json
-            - name: tileserver-sprites-json
+            - name: tileserver-config
               mountPath: /data/styles/osm_liberty.json
               subPath: sprites_osm_liberty.json
-            - name: tileserver-sprites-json-2x
+            - name: tileserver-config
               mountPath: /data/styles/osm_liberty@2x.json
               subPath: sprites_osm_liberty@2x.json
-            - name: tileserver-sprites-png
+            - name: tileserver-config
               mountPath: /data/styles/osm_liberty.png
               subPath: sprites_osm_liberty.png
-            - name: tileserver-sprites-png-2x
+            - name: tileserver-config
               mountPath: /data/styles/osm_liberty@2x.png
               subPath: sprites_osm_liberty@2x.png
           securityContext:
