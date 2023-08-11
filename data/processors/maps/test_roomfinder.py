@@ -1,6 +1,9 @@
+import itertools
+import typing
 import unittest
 
-from processors.maps.roomfinder import _merge_maps, _merge_str
+from processors.maps.models import Coordinate
+from processors.maps.roomfinder import _calc_xy_of_coords_on_map, _merge_maps, _merge_str
 
 
 class TestMerging(unittest.TestCase):
@@ -61,6 +64,53 @@ class TestMerging(unittest.TestCase):
         self.assertRaises(KeyError, _merge_maps, {"a": 1}, {"b": 2})  # different key in b
         self.assertRaises(KeyError, _merge_maps, {"a": 1}, {})  # no key in b
         _merge_maps({}, {"b": 2})  # no key in a
+
+
+class CoordinateToMap(unittest.TestCase):
+    def test_coords_to_xy_center_rotation(self):
+        """Test if xy coordinates are assigned correctly"""
+        for rotation in range(360):
+            with self.subTest(f"{rotation}° rotated around the center"):
+                self.assertEqual(
+                    _calc_xy_of_coords_on_map(Coordinate(lat=0, lon=0), self.default_map(rotate=rotation)),
+                    (50, 50),
+                )
+
+    def test_coords_to_xy_translation(self):
+        """Test if xy coordinates translate correctly"""
+        for lon, lat in itertools.product(range(-100, 100), range(-100, 100)):
+            actual_x, actual_y = _calc_xy_of_coords_on_map(Coordinate(lon=lon, lat=lat), self.default_map())
+            self.assertAlmostEqual(actual_x, (lon + 100) / 200 * 100, delta=0.6)
+            self.assertAlmostEqual(actual_y, 100.0 - (lat + 100) / 200 * 100, delta=0.6)
+
+    def test_coords_to_xy_translation_rotation(self):
+        """Test if xy coordinates translate and rotate correctly"""
+
+        class Expected(typing.NamedTuple):
+            coordinate: Coordinate
+            expected: tuple[int, int]
+            rotation: int
+
+        expected = [
+            Expected(Coordinate(lon=10, lat=10), (10, 10), 45),
+        ]
+        for item in expected:
+            self.assertEqual(_calc_xy_of_coords_on_map(item.coordinate, self.default_map()), item.expected)
+
+    @staticmethod
+    def default_map(rotate=0):
+        """Create a basic map"""
+        return {
+            "latlonbox": {
+                "west": -100,
+                "east": 100,
+                "north": 100,
+                "south": -100,
+                "rotation": rotate,
+            },
+            "width": 100,
+            "height": 100,
+        }
 
 
 if __name__ == "__main__":
