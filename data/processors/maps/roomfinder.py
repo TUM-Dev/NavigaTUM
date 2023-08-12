@@ -2,19 +2,23 @@ import json
 import logging
 import math
 import os.path
+from collections import abc
 from pathlib import Path
-from typing import Any, TypedDict
+from typing import Any
 
-import utils
 import yaml
+from external.models import roomfinder
 from PIL import Image
+from processors.maps.models import Coordinate, MapKey
 
-EXTERNAL_RESULTS_PATH = Path(__file__).parent.parent / "external" / "results"
-RF_MAPS_PATH = EXTERNAL_RESULTS_PATH / "maps" / "roomfinder"
-CUSTOM_RF_DIR = Path(__file__).parent.parent / "sources" / "img" / "maps" / "roomfinder"
+BASE = Path(__file__).parent.parent.parent
+RESULTS_PATH = BASE / "external" / "results"
+RF_MAPS_PATH = RESULTS_PATH / "maps" / "roomfinder"
+SOURCES_PATH = BASE / "sources"
+CUSTOM_RF_DIR = SOURCES_PATH / "img" / "maps" / "roomfinder"
 
 
-def _assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
+def assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """
     Assign roomfinder maps to all entries if there are none yet specified.
     """
@@ -94,6 +98,9 @@ def _set_maps_from_parent(data, entry):
 
 
 def _extract_available_maps(entry, custom_maps, maps_list):
+    """
+    Extracts all available maps for the given entry.
+    """
     available_maps = []
     for (b_id, floor), _map in custom_maps.items():
         if (
@@ -120,22 +127,32 @@ def _merge_str(s_1: str, s_2: str) -> str:
     Merges two strings. The Result is of the format common_prefix s1/s2 common_suffix.
     Example: "Thierschbau 5. OG" and "Thierschbau 6. OG" -> "Thierschbau 5/6. OG"
     """
-    if s_1 == s_2:
-        return s_1
+    if s_1.strip() == s_2.strip():
+        return s_1.strip()
     prefix = os.path.commonprefix((s_1, s_2))
     suffix = os.path.commonprefix((s_1[::-1], s_2[::-1]))[::-1]
     s_1 = s_1.removeprefix(prefix).removesuffix(suffix)
     s_2 = s_2.removeprefix(prefix).removesuffix(suffix)
-    return f"{prefix}{s_1}/{s_2}{suffix}"
+    if s_1 and s_2:
+        return f"{prefix}{s_1}/{s_2}{suffix}"
+    # special case: one string is a pre/postfix of the other
+    common = s_1 or s_2
+    while common.endswith(" "):
+        common = common.removesuffix(" ")
+        suffix = f" {suffix}"
+    while common.startswith(" "):
+        common = common.removeprefix(" ")
+        prefix = f"{prefix} "
+    return f"{prefix}({common.strip()}){suffix}"
 
 
-def _merge_maps(map1: dict, map2: dict) -> dict:
+def _merge_maps(map1: abc.Mapping, map2: abc.Mapping) -> abc.Mapping:
     """Merges two Maps into one merged map"""
     result_map = {}
     for key in map1:
         if key == "id":
             result_map["id"] = map1["id"]
-        elif isinstance(map1[key], dict):
+        elif isinstance(map1[key], abc.Mapping):
             result_map[key] = _merge_maps(map1[key], map2[key])
         elif isinstance(map1[key], str):
             result_map[key] = _merge_str(map1[key], map2[key])
@@ -144,8 +161,8 @@ def _merge_maps(map1: dict, map2: dict) -> dict:
         elif isinstance(map1[key], float):
             result_map[key] = (map1[key] + map2[key]) / 2
         else:
-            values = map1[key]
-            raise NotImplementedError(f"the {key=} of with {type(values)=} does not have a merging-operation defined")
+            value = map1[key]
+            raise NotImplementedError(f"{key=} ({value=}, {type(value)=}) without a merge-operation defined")
     return result_map
 
 
@@ -175,7 +192,7 @@ def _deduplicate_maps(maps_list):
 
 def _load_maps_list():
     """Read the Roomfinder maps. The world-map is not used"""
-    with open("external/results/maps_roomfinder.json", encoding="utf-8") as file:
+    with open(RESULTS_PATH / "maps_roomfinder.json", encoding="utf-8") as file:
         maps_list: list[dict[str, Any]] = json.load(file)
     # remove the world map
     maps_list = [_map for _map in maps_list if _map["id"] != 9]
@@ -190,7 +207,7 @@ def _load_maps_list():
     return _deduplicate_maps(maps_list)
 
 
-def _build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
+def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """Generate the map information for the Roomfinder maps."""
 
     map_assignment_data = _generate_assignment_data()
@@ -207,11 +224,6 @@ def _build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
                 # set source and filepath so that they are available for all maps
                 entry_map.setdefault("source", "Roomfinder")
                 entry_map.setdefault("file", f"{entry_map['id']}.webp")
-
-
-class Coordinate(TypedDict):
-    lat: float
-    lon: float
 
 
 def _calc_xy_of_coords_on_map(coords: Coordinate, map_data: dict) -> tuple[int, int]:
@@ -244,81 +256,35 @@ def _calc_xy_of_coords_on_map(coords: Coordinate, map_data: dict) -> tuple[int, 
 
 def _load_custom_maps():
     """Load the custom maps like Roomfinder maps"""
-    with open("sources/45_custom-maps.yaml", encoding="utf-8") as file:
+    with open(SOURCES_PATH / "45_custom-maps.yaml", encoding="utf-8") as file:
         custom_maps = yaml.safe_load(file.read())
 
-    utils.convert_to_webp(CUSTOM_RF_DIR)
-
     # Convert into the format used by maps_roomfinder.json:
-    maps_out = {}
+    maps_out: dict[MapKey, roomfinder.Map] = {}
     for map_group in custom_maps:
-        base_data = {
-            "source": map_group["props"].get("source", "NavigaTUM-Contributors"),
-            # For some reason, these are given as str
-            "scale": str(map_group["props"]["scale"]),
-            "latlonbox": {
-                "north": map_group["props"]["north"],
-                "east": map_group["props"]["east"],
-                "west": map_group["props"]["west"],
-                "south": map_group["props"]["south"],
-                "rotation": map_group["props"]["rotation"],
-            },
-        }
         for sub_map in map_group["maps"]:
             img = Image.open(CUSTOM_RF_DIR / sub_map["file"])
-            maps_out[(sub_map["b_id"], sub_map["floor"])] = {
+            maps_out[MapKey(sub_map["b_id"], sub_map["floor"])] = {
                 "desc": sub_map["desc"],
                 "id": ".".join(sub_map["file"].split(".")[:-1]),
                 "file": sub_map["file"],
                 "width": img.width,
                 "height": img.height,
-                **base_data,
+                "source": map_group["props"].get("source", "NavigaTUM-Contributors"),
+                "scale": str(map_group["props"]["scale"]),  # For some reason, these are given as str
+                "latlonbox": {
+                    "north": map_group["props"]["north"],
+                    "east": map_group["props"]["east"],
+                    "west": map_group["props"]["west"],
+                    "south": map_group["props"]["south"],
+                    "rotation": map_group["props"]["rotation"],
+                },
             }
 
     return maps_out
 
 
-def add_overlay_maps(data: dict[str, dict[str, Any]]) -> None:
-    """Add the overlay maps to all entries where they apply"""
-    with open("sources/46_overlay-maps.yaml", encoding="utf-8") as file:
-        overlay_maps = yaml.safe_load(file.read())
-
-    parent_lut = {_map["props"]["parent"]: _map for _map in overlay_maps}
-    parent_ids = set(parent_lut.keys())
-
-    for _id, entry in data.items():
-        candidates = parent_ids.intersection(entry["parents"])
-        if len(candidates) > 1:
-            logging.warning(
-                f"Multiple candidates as overlay map for {_id}: {candidates}. "
-                f"Currently this is not supported! Skipping ...",
-            )
-        elif bool(candidates) ^ (_id in parent_ids):
-            # either a candidate exist or _id is one of the parent ids, but not both
-            overlay = parent_lut[list(candidates)[0] if len(candidates) == 1 else _id]
-            overlay_data = entry.setdefault("maps", {}).setdefault("overlays", {})
-            overlay_data["available"] = []
-            for _map in overlay["maps"]:
-                overlay_data["available"].append(
-                    {
-                        "id": _map["id"],
-                        "floor": _map["floor"],
-                        "file": _map["file"],
-                        "name": _map["desc"],
-                        "coordinates": overlay["props"]["box"],
-                    },
-                )
-
-                # The 'tumonline' field overwrites which TUMonline ID floor to match
-                if (f".{_map.get('tumonline', '')}." in _id) or (
-                    overlay_data.get("default", None) is None and f".{_map['floor']}." in _id
-                ):
-                    overlay_data["default"] = _map["id"]
-
-            overlay_data.setdefault("default", None)
-
-
-def _assign_default_roomfinder_map(data: dict[str, dict[str, Any]]) -> None:
+def assign_default_roomfinder_map(data: dict[str, dict[str, Any]]) -> None:
     """Selects map with the lowest scale as default"""
     for entry in data.values():
         if rf_maps := entry.get("maps", {}).get("roomfinder"):
@@ -337,7 +303,7 @@ def _assign_default_roomfinder_map(data: dict[str, dict[str, Any]]) -> None:
 
 def _generate_assignment_data():
     # Read the Roomfinder and custom maps
-    with open("external/results/maps_roomfinder.json", encoding="utf-8") as file:
+    with open(RESULTS_PATH / "maps_roomfinder.json", encoding="utf-8") as file:
         maps_list = json.load(file)
     custom_maps = _load_custom_maps()
     # For each map, we calculate the boundaries in UTM beforehand
@@ -364,7 +330,7 @@ def _entry_is_not_on_map(entry, _map, map_assignment_data):
     return x_invalid or y_invalid
 
 
-def _remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
+def remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
     """Removes maps from entries, that do not cover said coordinates"""
     map_assignment_data = _generate_assignment_data()
     for _id, entry in data.items():
@@ -372,20 +338,12 @@ def _remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
             continue
         if "roomfinder" not in entry["maps"]:
             continue
-        roomfinder = entry["maps"]["roomfinder"]
+        rf_maps = entry["maps"]["roomfinder"]
         to_be_deleted = [
-            _map for _map in roomfinder["available"] if _entry_is_not_on_map(entry, _map, map_assignment_data)
+            _map for _map in rf_maps["available"] if _entry_is_not_on_map(entry, _map, map_assignment_data)
         ]
         for _map in to_be_deleted:
-            roomfinder["available"].remove(_map)
-        if not roomfinder["available"]:
-            # no availible roomfinder maps dont carry any meaning and are deleted
+            rf_maps["available"].remove(_map)
+        if not rf_maps["available"]:
+            # no availible roomfinder maps don't carry any meaning and are deleted
             del entry["maps"]["roomfinder"]
-
-
-def roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
-    """Adds roomfinder maps to entries"""
-    _assign_roomfinder_maps(data)
-    _remove_non_covering_maps(data)
-    _assign_default_roomfinder_map(data)
-    _build_roomfinder_maps(data)
