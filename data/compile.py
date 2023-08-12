@@ -2,11 +2,11 @@ import logging
 import os
 
 import processors.areatree.process as areatree
+import processors.maps.process as maps
 from processors import (
     coords,
     export,
     images,
-    maps,
     merge,
     nat,
     poi,
@@ -89,7 +89,7 @@ def main() -> None:
     coords.add_and_check_coords(data)
 
     logging.info("-- 45 Roomfinder maps")
-    maps.roomfinder_maps(data)
+    maps.add_roomfinder_maps(data)
 
     logging.info("-- 46 Overlay maps")
     maps.add_overlay_maps(data)
