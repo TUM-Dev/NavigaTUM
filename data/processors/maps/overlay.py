@@ -4,7 +4,7 @@ from typing import Any
 from processors.maps.models import Overlay
 
 
-def add_overlay_map(_id:str, entry:dict[str, Any], parent_ids:set[str], parent_lut:dict[str, Overlay]):
+def add_overlay_map(_id: str, entry: dict[str, Any], parent_ids: set[str], parent_lut: dict[str, Overlay]):
     """Add the overlay maps to all entries where they apply"""
     candidates = parent_ids.intersection(entry["parents"])
     if len(candidates) > 1:

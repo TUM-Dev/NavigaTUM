@@ -127,8 +127,8 @@ def _merge_str(s_1: str, s_2: str) -> str:
     Merges two strings. The Result is of the format common_prefix s1/s2 common_suffix.
     Example: "Thierschbau 5. OG" and "Thierschbau 6. OG" -> "Thierschbau 5/6. OG"
     """
-    if s_1 == s_2:
-        return s_1
+    if s_1.strip() == s_2.strip():
+        return s_1.strip()
     prefix = os.path.commonprefix((s_1, s_2))
     suffix = os.path.commonprefix((s_1[::-1], s_2[::-1]))[::-1]
     s_1 = s_1.removeprefix(prefix).removesuffix(suffix)
@@ -271,7 +271,7 @@ def _load_custom_maps():
                 "width": img.width,
                 "height": img.height,
                 "source": map_group["props"].get("source", "NavigaTUM-Contributors"),
-                "scale": str(map_group["props"]["scale"]), # For some reason, these are given as str
+                "scale": str(map_group["props"]["scale"]),  # For some reason, these are given as str
                 "latlonbox": {
                     "north": map_group["props"]["north"],
                     "east": map_group["props"]["east"],
