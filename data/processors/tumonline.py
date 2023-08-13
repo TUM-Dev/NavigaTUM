@@ -89,6 +89,7 @@ def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
 
     orgs_de = tumonline.Organisation.load_all_for("de")
     orgs_en = tumonline.Organisation.load_all_for("en")
+    usages_lookup = tumonline.Usage.load_all()
 
     missing_buildings: dict[str, int] = {}
     for room in rooms:
@@ -146,7 +147,6 @@ def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
             }
 
         # Usage
-        usages_lookup = tumonline.Usage.load_all()
         if room["usage"] in usages_lookup:
             tumonline_usage = usages_lookup[room["usage"]]
             parts = tumonline_usage.din_277.split(" - ")
