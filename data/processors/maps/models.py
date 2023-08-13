@@ -63,6 +63,7 @@ class CustomMapItem(PydanticConfiguration):
     floor: str
 
     def dimensions(self):
+        """Get the dimensions of the image"""
         with Image.open(CUSTOM_RF_DIR_PATH / self.file) as img:
             return {"width": img.width, "height": img.height}
 
@@ -77,7 +78,7 @@ class CustomBuildingMap(PydanticConfiguration):
         with open(SOURCES_PATH / "45_custom-maps.yaml", encoding="utf-8") as file:
             return [cls.model_validate(_map) for _map in yaml.safe_load(file.read())]
 
-    def _as_roomfinder_maps(self) -> dict[MapKey, roomfinder.Map]:
+    def as_roomfinder_maps(self) -> dict[MapKey, roomfinder.Map]:
         """Convert to roomfinder.Map"""
         return {
             MapKey(_map.b_id, _map.floor): roomfinder.Map(
@@ -105,5 +106,5 @@ class CustomBuildingMap(PydanticConfiguration):
         """Load all custom maps as roomfinder.Map's"""
         results: dict[MapKey, roomfinder.Map] = {}
         for _map in cls.load_all_raw():
-            results |= _map._as_roomfinder_maps()
+            results |= _map.as_roomfinder_maps()
         return results

@@ -3,11 +3,10 @@ import hashlib
 import logging
 import math
 import os.path
+import typing
 from collections import abc
 from pathlib import Path
 from typing import Any, TypeVar, Union
-
-import typing
 
 from external.models import roomfinder
 from external.models.common import PydanticConfiguration

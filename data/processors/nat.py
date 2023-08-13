@@ -1,7 +1,7 @@
+import dataclasses
 import json
 import logging
 from collections import Counter
-import dataclasses
 from typing import Any
 
 import yaml
