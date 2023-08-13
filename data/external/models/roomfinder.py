@@ -57,12 +57,16 @@ class Map:
     width: int
     scale: int
     latlonbox: LatLonBox
+    file: str
+    source: str = "Roomfinder"
 
     @classmethod
     def load_all(cls) -> list["Map"]:
         """Load all nat.Map's"""
         with open(RESULTS / "maps_roomfinder.json", encoding="utf-8") as file:
-            return [cls(**item) for item in json.load(file) if item["id"] != "rf9"]  # rf9 is the world map
+            return [
+                cls(file=f"{item['id']}.webp", **item) for item in json.load(file) if item["id"] != "rf9"
+            ]  # rf9 is the world map
 
 
 @dataclass(config=PydanticConfiguration)

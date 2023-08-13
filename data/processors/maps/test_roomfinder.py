@@ -2,6 +2,7 @@ import itertools
 import typing
 import unittest
 
+from external.models import roomfinder
 from processors.maps.models import Coordinate
 from processors.maps.roomfinder import _calc_xy_of_coords_on_map, _merge_maps, _merge_str
 
@@ -105,19 +106,24 @@ class CoordinateToMap(unittest.TestCase):
             )
 
     @staticmethod
-    def default_map(rotate=0):
+    def default_map(rotate=0) -> roomfinder.Map:
         """Create a basic map"""
-        return {
-            "latlonbox": {
-                "west": -100,
-                "east": 100,
-                "north": 100,
-                "south": -100,
-                "rotation": rotate,
-            },
-            "width": 100,
-            "height": 100,
-        }
+        latlonbox = roomfinder.LatLonBox(
+            west=-100,
+            east=100,
+            north=100,
+            south=-100,
+            rotation=rotate,
+        )
+        return roomfinder.Map(
+            id="test-map",
+            file="test-map.png",
+            desc="Test Map",
+            scale=1,
+            latlonbox=latlonbox,
+            width=100,
+            height=100,
+        )
 
 
 if __name__ == "__main__":
