@@ -7,10 +7,15 @@ from pydantic.dataclasses import dataclass
 
 class RfMap(typing.NamedTuple):
     scale: str
-    map_id: int
+    map_id: str
     name: str
     width: int
     height: int
+
+    @property
+    def is_world_map(self) -> bool:
+        """Check if this is the world map"""
+        return self.map_id == "rf9"
 
 
 @dataclass(config=PydanticConfiguration)
@@ -46,18 +51,18 @@ class LatLonBox:
 @dataclass(config=PydanticConfiguration)
 class Map:
     # pylint: disable-next=invalid-name
-    id: int
-    desc: str | None
+    id: str
+    desc: str
     height: int
     width: int
     scale: int
-    latlonbox: LatLonBox | None = None
+    latlonbox: LatLonBox
 
     @classmethod
     def load_all(cls) -> list["Map"]:
         """Load all nat.Map's"""
         with open(RESULTS / "maps_roomfinder.json", encoding="utf-8") as file:
-            return [cls(**item) for item in json.load(file)]
+            return [cls(**item) for item in json.load(file) if item["id"] != "rf9"]  # rf9 is the world map
 
 
 @dataclass(config=PydanticConfiguration)
