@@ -2,7 +2,6 @@ import json
 import typing
 
 from external.models.common import PydanticConfiguration, RESULTS
-from pydantic.dataclasses import dataclass
 
 
 class RfMap(typing.NamedTuple):
@@ -18,9 +17,8 @@ class RfMap(typing.NamedTuple):
         return self.map_id == "rf9"
 
 
-@dataclass(config=PydanticConfiguration)
 # pylint: disable-next=too-many-instance-attributes
-class Building:
+class Building(PydanticConfiguration):
     b_alias: str
     b_area: str
     b_id: str
@@ -36,11 +34,10 @@ class Building:
     def load_all(cls) -> list["Building"]:
         """Load all nat.Building's"""
         with open(RESULTS / "buildings_roomfinder.json", encoding="utf-8") as file:
-            return [cls(**item) for item in json.load(file)]
+            return [cls.model_validate(item) for item in json.load(file)]
 
 
-@dataclass(config=PydanticConfiguration)
-class LatLonBox:
+class LatLonBox(PydanticConfiguration):
     north: float
     south: float
     east: float
@@ -48,8 +45,7 @@ class LatLonBox:
     rotation: float
 
 
-@dataclass(config=PydanticConfiguration)
-class Map:
+class Map(PydanticConfiguration):
     # pylint: disable-next=invalid-name
     id: str
     desc: str
@@ -69,8 +65,7 @@ class Map:
             ]  # rf9 is the world map
 
 
-@dataclass(config=PydanticConfiguration)
-class RoomMetadata:
+class RoomMetadata(PydanticConfiguration):
     m_desc: str
     m_name: str
     m_size: int
@@ -78,9 +73,7 @@ class RoomMetadata:
     meta_id: int
 
 
-@dataclass(config=PydanticConfiguration)
-# pylint: disable-next=too-many-instance-attributes
-class Room:
+class Room(PydanticConfiguration):
     # room specific properties
     utm_easting: float
     utm_northing: float
@@ -103,4 +96,4 @@ class Room:
     def load_all(cls) -> list["Room"]:
         """Load all nat.Room's"""
         with open(RESULTS / "rooms_roomfinder.json", encoding="utf-8") as file:
-            return [cls(**item) for item in json.load(file)]
+            return [cls.model_validate(item) for item in json.load(file)]

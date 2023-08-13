@@ -5,7 +5,6 @@ import yaml
 from external.models import roomfinder
 from external.models.common import PydanticConfiguration
 from PIL import Image
-from pydantic.dataclasses import dataclass
 
 BASE = Path(__file__).parent.parent.parent
 EXTERNAL_RESULTS_PATH = BASE / "external" / "results"
@@ -13,8 +12,7 @@ SOURCES_PATH = BASE / "sources"
 CUSTOM_RF_DIR_PATH = SOURCES_PATH / "img" / "maps" / "roomfinder"
 
 
-@dataclass(config=PydanticConfiguration)
-class OverlayMap:
+class OverlayMap(PydanticConfiguration):
     file: str
     floor_index: int
     desc: str
@@ -22,14 +20,12 @@ class OverlayMap:
     tumonline: str | None = None
 
 
-@dataclass(config=PydanticConfiguration)
-class OverlayProps:
+class OverlayProps(PydanticConfiguration):
     parent: str
     box: tuple[tuple[float, float], tuple[float, float], tuple[float, float], tuple[float, float]]
 
 
-@dataclass(config=PydanticConfiguration)
-class Overlay:
+class Overlay(PydanticConfiguration):
     props: OverlayProps
     maps: list[OverlayMap]
 
@@ -37,7 +33,7 @@ class Overlay:
     def load_all(cls) -> dict[str, "Overlay"]:
         """Load all nat.Room's"""
         with open(SOURCES_PATH / "46_overlay-maps.yaml", encoding="utf-8") as file:
-            return {_map["props"]["parent"]: cls(**_map) for _map in yaml.safe_load(file.read())}
+            return {_map["props"]["parent"]: cls.model_validate(_map) for _map in yaml.safe_load(file.read())}
 
 
 class MapKey(typing.NamedTuple):
@@ -50,8 +46,7 @@ class Coordinate(typing.TypedDict):
     lon: float
 
 
-@dataclass(config=PydanticConfiguration)
-class CustomMapProps:
+class CustomMapProps(PydanticConfiguration):
     scale: str
     north: float
     east: float
@@ -61,8 +56,7 @@ class CustomMapProps:
     source: str = "NavigaTUM-Contributors"
 
 
-@dataclass(config=PydanticConfiguration)
-class CustomMapItem:
+class CustomMapItem(PydanticConfiguration):
     file: str
     b_id: str
     desc: str
@@ -73,8 +67,7 @@ class CustomMapItem:
             return {"width": img.width, "height": img.height}
 
 
-@dataclass(config=PydanticConfiguration)
-class CustomBuildingMap:
+class CustomBuildingMap(PydanticConfiguration):
     props: CustomMapProps
     maps: list[CustomMapItem]
 
@@ -82,7 +75,7 @@ class CustomBuildingMap:
     def load_all_raw(cls) -> list["CustomBuildingMap"]:
         """Load all nat.Room's"""
         with open(SOURCES_PATH / "45_custom-maps.yaml", encoding="utf-8") as file:
-            return [cls(**_map) for _map in yaml.safe_load(file.read())]
+            return [cls.model_validate(_map) for _map in yaml.safe_load(file.read())]
 
     def _as_roomfinder_maps(self) -> dict[MapKey, roomfinder.Map]:
         """Convert to roomfinder.Map"""

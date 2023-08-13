@@ -7,7 +7,10 @@ from collections import abc
 from pathlib import Path
 from typing import Any, TypeVar, Union
 
+import typing
+
 from external.models import roomfinder
+from external.models.common import PydanticConfiguration
 from processors.maps.models import Coordinate, CustomBuildingMap, MapKey
 
 BASE = Path(__file__).parent.parent.parent
@@ -153,15 +156,16 @@ def _merge_str(s_1: str, s_2: str) -> str:
     return f"{prefix}({common.strip()}){suffix}"
 
 
-MergeMap = TypeVar("MergeMap", bound=Union[abc.Mapping, dataclasses.dataclass])
+MergeMap = TypeVar("MergeMap", bound=Union[abc.Mapping, dataclasses.dataclass, typing.Type[PydanticConfiguration]])
 
 
 def _merge_maps(map1: MergeMap, map2: MergeMap) -> MergeMap:
     """Merges two Maps into one merged map"""
     result_map = {}
-    final_transform = map1.__class__ if dataclasses.is_dataclass(map1) else None
-    if final_transform is not None:
-        return final_transform(**_merge_maps(dataclasses.asdict(map1), dataclasses.asdict(map2)))
+    if dataclasses.is_dataclass(map1):
+        return map1.__class__(**_merge_maps(dataclasses.asdict(map1), dataclasses.asdict(map2)))
+    if isinstance(map1, PydanticConfiguration):
+        return map1.__class__.model_validate(_merge_maps(map1.model_dump(), map2.model_dump()))
 
     for key in map1:
         if key == "id":
