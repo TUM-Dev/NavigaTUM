@@ -320,7 +320,7 @@ def _generate_assignment_data():
 
 def _entry_is_not_on_map(entry, _map, map_assignment_data):
     map_id = _map["id"]
-    # The world map (id 9) is currently excluded, because it would need a different
+    # The world map (id rf9) is currently excluded, because it would need a different
     # projection treatment.
     if map_id == "rf9":
         return True

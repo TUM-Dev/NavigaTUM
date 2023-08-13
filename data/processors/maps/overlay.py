@@ -20,7 +20,7 @@ def add_overlay_map(_id: str, entry: dict[str, Any], parent_ids: set[str], paren
         for _map in overlay.maps:
             overlay_data["available"].append(
                 {
-                    "id": _map.id,
+                    "id": _map.floor_index,
                     "floor": _map.floor,
                     "file": _map.file,
                     "name": _map.desc,
@@ -32,6 +32,6 @@ def add_overlay_map(_id: str, entry: dict[str, Any], parent_ids: set[str], paren
             if (f".{_map.tumonline or ''}." in _id) or (
                 overlay_data.get("default", None) is None and f".{_map.floor}." in _id
             ):
-                overlay_data["default"] = _map.id
+                overlay_data["default"] = _map.floor_index
 
         overlay_data.setdefault("default", None)
