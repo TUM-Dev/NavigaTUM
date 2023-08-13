@@ -4,6 +4,7 @@ from math import acos, cos, radians, sin
 from pathlib import Path
 from typing import Any, Union
 
+import numba
 from PIL import Image
 from ruamel.yaml import YAML
 
@@ -108,9 +109,10 @@ def setup_logging(level: int = logging.INFO) -> None:
     logging.addLevelName(logging.CRITICAL, f"\033[1;41m{logging.getLevelName(logging.CRITICAL)}\033[1;0m")
 
 
-EARTH_RADIUS_METERS = 6_371_000
+EARTH_RADIUS_METERS: int = 6_371_000
 
 
+@numba.njit(cache=True, fastmath=True)
 def distance_via_great_circle(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """
     Calculate the approximate distance in meters betweeen two points using the great circle approach
@@ -118,7 +120,9 @@ def distance_via_great_circle(lat1: float, lon1: float, lat2: float, lon2: float
     """
     if lat1 == lat2 and lon1 == lon2:
         return 0.0
-    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+    lat1, lon1 = radians(lat1), radians(lon1)
+    lat2, lon2 = radians(lat2), radians(lon2)
+
     # angular distance using the https://wikipedia.org/wiki/Haversine_formula
     angular_distance = acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(lon1 - lon2))
     return EARTH_RADIUS_METERS * angular_distance

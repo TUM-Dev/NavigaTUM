@@ -1,5 +1,7 @@
 import logging
 import os
+from concurrent.futures import ThreadPoolExecutor
+from multiprocessing import Process
 
 import processors.areatree.process as areatree
 import processors.maps.process as maps
@@ -26,6 +28,11 @@ DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ
 # pylint: disable=too-many-locals,too-many-statements
 def main() -> None:
     """Main function"""
+    # start other thread to resize images
+    logging.info("-- (Parallel) Convert, resize and crop the images for different resolutions and formats")
+    resizer = Process(target=images.resize_and_crop)
+    resizer.start()
+
     # --- Read base data ---
     logging.info("-- 00 areatree")
     data = areatree.read_areatree()
@@ -94,8 +101,6 @@ def main() -> None:
     logging.info("-- 46 Overlay maps")
     maps.add_overlay_maps(data)
 
-    logging.info("-- 50 Convert, resize and crop the images for different resolutions and formats")
-    images.resize_and_crop()
     logging.info("-- 51 Add image information")
     images.add_img(data)
 
@@ -118,15 +123,12 @@ def main() -> None:
     logging.info("-- 97 Search: Get combined ranking")
     search.add_ranking_combined(data)
 
-    logging.info("-- 99 Search: Export")
-    export.export_for_search(data, "output/search_data.json")
-
-    logging.info("-- 100 Export: API")
-    export.export_for_api(data, "output/api_data.json")
-
-    # Sitemap is only generated for deployments
-    logging.info("-- 101 Extra: Sitemap")
-    sitemap.generate_sitemap()
+    logging.info("-- 100 Export and generate Sitemap")
+    with ThreadPoolExecutor(max_workers=3) as executor:
+        executor.submit(export.export_for_search, data, "output/search_data.json")
+        executor.submit(export.export_for_api, data, "output/api_data.json")
+        executor.submit(sitemap.generate_sitemap)  # only for deployments
+    resizer.join(timeout=60 * 4)
 
 
 if __name__ == "__main__":
