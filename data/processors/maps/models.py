@@ -13,8 +13,7 @@ SOURCES = BASE / "sources"
 @dataclass(config=PydanticConfiguration)
 class OverlayMap:
     file: str
-    # pylint: disable-next=invalid-name
-    id: int
+    floor_index: int
     desc: str
     floor: str
     tumonline: str | None = None
