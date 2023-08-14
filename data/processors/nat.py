@@ -1,7 +1,7 @@
+import dataclasses
 import json
 import logging
 from collections import Counter
-from dataclasses import asdict, dataclass
 from typing import Any
 
 import yaml
@@ -11,7 +11,7 @@ with open("sources/12_nat_excluded_buildings.yaml", encoding="utf-8") as exclude
     EXCLUDED_BUILDINGS = set(yaml.safe_load(excluded_buildings_raw.read()))
 
 
-@dataclass
+@dataclasses.dataclass
 class NATBuilding:
     b_id: None | str
     b_code: str
@@ -76,7 +76,7 @@ def _merge_building(data: dict, building: NATBuilding) -> None:
     internal_id = _infer_internal_id(building, data)
 
     b_data = data[internal_id]
-    b_data["nat_data"] = asdict(building)
+    b_data["nat_data"] = dataclasses.asdict(building)
 
     # NAT buildings are merged after TUMonline and the MyTUM Roomfinder. So if the others
     # weren't used as sources, but the NAT Roomfinder has this building, we know it's from there.
