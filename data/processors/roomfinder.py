@@ -167,7 +167,7 @@ def _get_roomfinder_maps(obj: roomfinder.Building | roomfinder.Room):
         maps["available"].append(
             {
                 "scale": mapdata.scale,
-                "id": f"rf{mapdata.map_id}",  # Roomfinder data is with ints as id, but we use a string based format
+                "id": mapdata.map_id,
                 "name": mapdata.name,
                 "width": mapdata.width,
                 "height": mapdata.height,
@@ -180,20 +180,20 @@ def _get_roomfinder_maps(obj: roomfinder.Building | roomfinder.Room):
     # If the default map is the world map, this is usually
     # the only map available. As we don't include the world
     # map into the available maps, return empty data here
-    if obj.default_map.map_id == 9:
+    if obj.default_map.is_world_map:
         maps["available"].clear()
         return maps
 
-    maps["default"] = default = f"rf{obj.default_map.map_id}"
+    maps["default"] = default = obj.default_map.map_id
 
     # sometimes the default map is not in the available maps.
     # This is the case for example the building with id "0510"
     available_map_ids = [m["id"] for m in maps["available"]]
-    if default and default not in available_map_ids:
+    if default not in available_map_ids:
         maps["available"].append(
             {
                 "scale": obj.default_map.scale,
-                "id": f"rf{obj.default_map.map_id}",  # Roomfinder data is with ints as id, we use a string
+                "id": obj.default_map.map_id,
                 "name": obj.default_map.name,
                 "width": obj.default_map.width,
                 "height": obj.default_map.height,

@@ -37,7 +37,11 @@ def scrape_buildings():
             for key, value in extended_data.items():
                 buildings[i][key] = value
             buildings[i]["maps"] = proxy.getBuildingMaps(building["b_id"])
+            for _map in buildings[i]["maps"]:
+                _map[1] = f"rf{_map[1]}"
             buildings[i]["default_map"] = proxy.getBuildingDefaultMap(building["b_id"]) or None
+            if default_map := buildings[i]["default_map"]:
+                default_map[1] = f"rf{default_map[1]}"
             buildings[i]["b_room_count"] = buildings[i].pop("b_roomCount")
             maybe_sleep(0.05)
 
@@ -94,9 +98,13 @@ def scrape_rooms():
         extended_data = proxy.getRoomData(room)
         # for k, v in extended_data.items():
         #    rooms[i][k] = v
-        extended_data["maps"] = proxy.getRoomMaps(room)
-        extended_data["default_map"] = proxy.getDefaultMap(room)
         extended_data["metas"] = proxy.getRoomMetas(room)
+        extended_data["maps"] = proxy.getRoomMaps(room)
+        for _map in extended_data["maps"]:
+            _map[1] = f"rf{_map[1]}"
+        extended_data["default_map"] = proxy.getDefaultMap(room)
+        if default_map := extended_data["default_map"][1]:
+            default_map[1] = f"rf{default_map[1]}"
         rooms.append(extended_data)
         maybe_sleep(0.05)
 
@@ -158,14 +166,14 @@ def _download_maps(used_maps):
     maps = []
     for e_type, e_id, _map in used_maps.values():
         # Download as file
-        url = f"{ROOMFINDER_API_URL}/getMapImage?m_id={_map[1]}"
-        filepath = CACHE_PATH / "maps" / "roomfinder" / f"rf{_map[1]}.gif"
+        url = f"{ROOMFINDER_API_URL}/getMapImage?m_id={_map[1].removeprefix('rf')}"
+        filepath = CACHE_PATH / "maps" / "roomfinder" / f"{_map[1]}.gif"
         _download_file(url, filepath)
         convert_to_webp(filepath)
 
         map_data = {
-            "id": _map[1],
             "scale": _map[0],
+            "id": _map[1],
             "desc": _map[2],
             "width": _map[3],
             "height": _map[4],
@@ -173,8 +181,8 @@ def _download_maps(used_maps):
         maps.append(map_data)
 
         # Download as kmz to get the map boundary coordinates.
-        # The world map (id 9) does not support kmz download
-        if _map[1] == 9:
+        # The world map (id rf9) does not support kmz download
+        if _map[1] == "rf9":
             continue
 
         f_path = _download_map(_map[1], e_id, e_type)
@@ -195,14 +203,14 @@ def _download_maps(used_maps):
     return maps
 
 
-def _download_map(_map_id: int, e_id: str, e_type: Literal["room", "building"]) -> Path | None:
+def _download_map(_map_id: str, e_id: str, e_type: Literal["room", "building"]) -> Path | None:
     filepath = CACHE_PATH / "maps" / "roomfinder" / "kmz" / f"{_map_id}.kmz"
     if e_type == "room":
         base_url = "https://portal.mytum.de/campus/roomfinder/getRoomPlacemark"
-        url = f"{base_url}?roomid={urllib.parse.quote_plus(e_id)}&mapid={_map_id}"
+        url = f"{base_url}?roomid={urllib.parse.quote_plus(e_id)}&mapid={_map_id.removeprefix('rf')}"
         return _download_file(url, filepath)
     if e_type == "building":
         base_url = "https://portal.mytum.de/campus/roomfinder/getBuildingPlacemark"
-        url = f"{base_url}?b_id={e_id}&mapid={_map_id}"
+        url = f"{base_url}?b_id={e_id}&mapid={_map_id.removeprefix('rf')}"
         return _download_file(url, filepath)
     raise RuntimeError(f"Unknown entity type: {e_type}")

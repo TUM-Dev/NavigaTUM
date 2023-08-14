@@ -1,5 +1,3 @@
-from dataclasses import asdict
-
 from external.models.public_transport import Station
 from utils import distance_via_great_circle
 
@@ -23,8 +21,7 @@ def nearby_stations(lat: float, lon: float, stations: list[Station]) -> list[dic
     results = []
     for station in _filter_by_latitude(lat, stations):
         if (distance := distance_via_great_circle(station.lat, station.lon, lat, lon)) <= MAXDISTANCE:
-            station_dict = {"distance": distance} | asdict(station)
-            results.append(station_dict)
+            results.append({"distance": distance} | station.model_dump())
     return sorted(results, key=lambda x: x["distance"])
 
 

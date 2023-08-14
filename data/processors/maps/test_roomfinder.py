@@ -2,31 +2,32 @@ import itertools
 import typing
 import unittest
 
+from external.models import roomfinder
 from processors.maps.models import Coordinate
 from processors.maps.roomfinder import _calc_xy_of_coords_on_map, _merge_maps, _merge_str
 
 
 class TestMerging(unittest.TestCase):
-    def test_merge_identical(self):
+    def test_merge_identical(self) -> None:
         """Test if identical inputs are stripped of whitespace"""
         test_corpus = ["abc", " abc", "abc"]
         for s_1, s_2 in itertools.combinations(test_corpus, 2):
             self.assertEqual("abc", _merge_str(s_1, s_2))
 
-    def test_merge_strings_happy_path(self):
+    def test_merge_strings_happy_path(self) -> None:
         """Test if the merging of strings works as expected in the regular case"""
         self.assertEqual("Thierschbau 5/6. OG", _merge_str("Thierschbau 5. OG", "Thierschbau 6. OG"))
         self.assertEqual("Pre Something/Different Suf", _merge_str("Pre Something Suf", "Pre Different Suf"))
         self.assertEqual("Hello World/Universe", _merge_str("Hello World", "Hello Universe"))
 
-    def test_merge_strings_subset(self):
+    def test_merge_strings_subset(self) -> None:
         """Test if the merging of strings works as expected when one string is a subset of the other"""
         self.assertEqual("(Another) POSTFIX", _merge_str("POSTFIX", "Another POSTFIX"))
         self.assertEqual("(Another) POSTFIX", _merge_str("Another POSTFIX", "POSTFIX"))
         self.assertEqual("PREFIX (Another)", _merge_str("PREFIX", "PREFIX Another"))
         self.assertEqual("PREFIX (Another)", _merge_str("PREFIX Another", "PREFIX"))
 
-    def test_merge_maps(self):
+    def test_merge_maps(self) -> None:
         """Test if the merging of maps works as expected"""
         map1 = {
             "id": 1,
@@ -63,7 +64,7 @@ class TestMerging(unittest.TestCase):
 
         self.assertEqual(expected_map, _merge_maps(map1, map2))
 
-    def test_merge_maps_unequal_keys(self):
+    def test_merge_maps_unequal_keys(self) -> None:
         """Test if the merging of maps works as expected when the keyspace is not equal"""
         self.assertRaises(KeyError, _merge_maps, {"a": 1}, {"b": 2})  # different key in b
         self.assertRaises(KeyError, _merge_maps, {"a": 1}, {})  # no key in b
@@ -71,7 +72,7 @@ class TestMerging(unittest.TestCase):
 
 
 class CoordinateToMap(unittest.TestCase):
-    def test_coords_to_xy_center_rotation(self):
+    def test_coords_to_xy_center_rotation(self) -> None:
         """Test if xy coordinates are assigned correctly"""
         for rotation in range(360):
             with self.subTest(f"{rotation}° rotated around the center"):
@@ -80,14 +81,14 @@ class CoordinateToMap(unittest.TestCase):
                     _calc_xy_of_coords_on_map(Coordinate(lat=0, lon=0), self.default_map(rotate=rotation)),
                 )
 
-    def test_coords_to_xy_translation(self):
+    def test_coords_to_xy_translation(self) -> None:
         """Test if xy coordinates translate correctly"""
         for lon, lat in itertools.product(range(-100, 100), range(-100, 100)):
             actual_x, actual_y = _calc_xy_of_coords_on_map(Coordinate(lon=lon, lat=lat), self.default_map())
             self.assertAlmostEqual((lon + 100) / 200 * 100, actual_x, delta=0.6)
             self.assertAlmostEqual(100.0 - (lat + 100) / 200 * 100, actual_y, delta=0.6)
 
-    def test_coords_to_xy_translation_rotation(self):
+    def test_coords_to_xy_translation_rotation(self) -> None:
         """Test if xy coordinates translate and rotate correctly"""
 
         class Expected(typing.NamedTuple):
@@ -105,19 +106,24 @@ class CoordinateToMap(unittest.TestCase):
             )
 
     @staticmethod
-    def default_map(rotate=0):
+    def default_map(rotate: int = 0) -> roomfinder.Map:
         """Create a basic map"""
-        return {
-            "latlonbox": {
-                "west": -100,
-                "east": 100,
-                "north": 100,
-                "south": -100,
-                "rotation": rotate,
-            },
-            "width": 100,
-            "height": 100,
-        }
+        latlonbox = roomfinder.LatLonBox(
+            west=-100,
+            east=100,
+            north=100,
+            south=-100,
+            rotation=rotate,
+        )
+        return roomfinder.Map(
+            id="test-map",
+            file="test-map.png",
+            desc="Test Map",
+            scale="10",
+            latlonbox=latlonbox,
+            width=100,
+            height=100,
+        )
 
 
 if __name__ == "__main__":
