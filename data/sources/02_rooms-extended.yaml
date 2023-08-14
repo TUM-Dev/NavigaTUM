@@ -225,8 +225,11 @@
   generators:
     floors:
       floor_patch: "01"
+#ikom switched offices
 "5510.EG.026C":
   name: IKOM-Besprechungsraum
+"5510.EG.018":
+  name: Büro
 
 # === Galileo Garching ===
 "8120.EG.001":
