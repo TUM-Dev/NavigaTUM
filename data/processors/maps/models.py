@@ -56,13 +56,18 @@ class CustomMapProps(PydanticConfiguration):
     source: str = "NavigaTUM-Contributors"
 
 
+class ImageDimensions(typing.TypedDict):
+    width: int
+    height: int
+
+
 class CustomMapItem(PydanticConfiguration):
     file: str
     b_id: str
     desc: str
     floor: str
 
-    def dimensions(self):
+    def dimensions(self) -> ImageDimensions:
         """Get the dimensions of the image"""
         with Image.open(CUSTOM_RF_DIR_PATH / self.file) as img:
             return {"width": img.width, "height": img.height}
@@ -82,21 +87,19 @@ class CustomBuildingMap(PydanticConfiguration):
         """Convert to roomfinder.Map"""
         return {
             MapKey(_map.b_id, _map.floor): roomfinder.Map(
-                **{
-                    "desc": _map.desc,
-                    "id": ".".join(_map.file.split(".")[:-1]),
-                    "file": _map.file,
-                    "source": self.props.source,
-                    "scale": self.props.scale,
-                    "latlonbox": {
-                        "north": self.props.north,
-                        "east": self.props.east,
-                        "west": self.props.west,
-                        "south": self.props.south,
-                        "rotation": self.props.rotation,
-                    },
-                    **_map.dimensions(),
-                },
+                desc=_map.desc,
+                id=".".join(_map.file.split(".")[:-1]),
+                file=_map.file,
+                source=self.props.source,
+                scale=self.props.scale,
+                latlonbox=roomfinder.LatLonBox(
+                    north=self.props.north,
+                    east=self.props.east,
+                    west=self.props.west,
+                    south=self.props.south,
+                    rotation=self.props.rotation,
+                ),
+                **_map.dimensions(),
             )
             for _map in self.maps
         }

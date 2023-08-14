@@ -1,4 +1,3 @@
-import dataclasses
 import hashlib
 import logging
 import math
@@ -84,11 +83,11 @@ def _save_map_data(available_maps: list[roomfinder.Map], entry: dict[str, Any]) 
     entry.setdefault("maps", {})["roomfinder"] = roomfinder_map_data
 
 
-def _set_maps_from_parent(data, entry):
-    building_parent = [e for e in entry["parents"] if data[e]["type"] == "building"]
+def _set_maps_from_parent(data: dict[str, dict[str, Any]], entry: dict[str, Any]) -> None:
+    building_parents: list[str] = [e for e in entry["parents"] if data[e]["type"] == "building"]
     # Verification of this already done for coords.
     # rooms that will not be contained in a parents map will be filtered out in the maps-coverage filter
-    building_parent = data[building_parent[0]]
+    building_parent = data[building_parents[0]]
     if building_parent.get("maps", {}).get("roomfinder", {}).get("available", []):
         # TODO: 5510.02.001
         roomfinder_map_data = entry.setdefault("maps", {}).get("roomfinder", {})
@@ -106,7 +105,7 @@ def _extract_available_maps(
     entry: dict[str, Any],
     custom_maps: dict[MapKey, roomfinder.Map],
     maps_list: list[roomfinder.Map],
-):
+) -> list[roomfinder.Map]:
     """
     Extracts all available maps for the given entry.
     """
@@ -155,14 +154,12 @@ def _merge_str(s_1: str, s_2: str) -> str:
     return f"{prefix}({common.strip()}){suffix}"
 
 
-MergeMap = TypeVar("MergeMap", bound=Union[abc.Mapping, dataclasses.dataclass, typing.Type[PydanticConfiguration]])
+MergeMap = TypeVar("MergeMap", bound=Union[dict[str, Any], typing.Type[PydanticConfiguration]])
 
 
 def _merge_maps(map1: MergeMap, map2: MergeMap) -> MergeMap:
     """Merges two Maps into one merged map"""
     result_map = {}
-    if dataclasses.is_dataclass(map1):
-        return map1.__class__(**_merge_maps(dataclasses.asdict(map1), dataclasses.asdict(map2)))
     if isinstance(map1, PydanticConfiguration):
         return map1.__class__.model_validate(_merge_maps(map1.model_dump(), map2.model_dump()))
 
@@ -185,7 +182,7 @@ def _merge_maps(map1: MergeMap, map2: MergeMap) -> MergeMap:
 
 def _deduplicate_maps(maps_list: list[roomfinder.Map]) -> list[roomfinder.Map]:
     """Remove content 1:1 duplicates from the maps_list"""
-    content_to_filename_dict = {}
+    content_to_filename_dict: dict[str, str] = {}
     file_renaming_table: dict[str, str] = {}
     for filename in RF_MAPS_PATH.iterdir():
         file_hash = hashlib.sha256(filename.read_bytes(), usedforsecurity=False).hexdigest()
