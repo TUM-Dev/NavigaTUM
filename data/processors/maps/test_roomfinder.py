@@ -119,7 +119,7 @@ class CoordinateToMap(unittest.TestCase):
             id="test-map",
             file="test-map.png",
             desc="Test Map",
-            scale=1,
+            scale="10",
             latlonbox=latlonbox,
             width=100,
             height=100,

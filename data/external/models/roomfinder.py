@@ -51,7 +51,7 @@ class Map(PydanticConfiguration):
     desc: str
     height: int
     width: int
-    scale: int
+    scale: str
     latlonbox: LatLonBox
     file: str
     source: str = "Roomfinder"
