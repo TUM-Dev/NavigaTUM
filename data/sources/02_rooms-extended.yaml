@@ -230,6 +230,11 @@
   name: IKOM-Besprechungsraum
 "5510.EG.018":
   name: Büro
+"5510.EG.014M":
+  props:
+    comment:
+      de: Nur für Mitarbeiter mit Transponder zugänglich
+      en: Only accessible for employees with transponder
 
 # === Galileo Garching ===
 "8120.EG.001":
