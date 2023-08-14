@@ -95,11 +95,19 @@ class Room:
 
 
 @dataclass(config=PydanticConfiguration)
+class School:
+    org_code: str
+    org_name: TranslatableStr | str
+    org_id: int
+
+
+@dataclass(config=PydanticConfiguration)
 class Organisation:
     org_code: str
     org_name: TranslatableStr
     org_type: str
     org_url: str | None
+    school: School | None
 
     @classmethod
     def load_all(cls) -> dict[str, "Organisation"]:
