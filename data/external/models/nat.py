@@ -86,11 +86,18 @@ class Room(PydanticConfiguration):
             return {key: cls.model_validate(item) for key, item in json.load(file).items()}
 
 
+class School(PydanticConfiguration):
+    org_code: str
+    org_name: TranslatableStr | str
+    org_id: int
+
+
 class Organisation(PydanticConfiguration):
     org_code: str
     org_name: TranslatableStr
     org_type: str
     org_url: str | None
+    school: School | None
 
     @classmethod
     def load_all(cls) -> dict[str, "Organisation"]:
