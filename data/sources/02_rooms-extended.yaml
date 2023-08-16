@@ -205,6 +205,21 @@
           de: Öffnungszeiten & Artikel
           en: Opening hours & articles
         url: https://fsmb.de/studierende/skriptenverkauf/
+"5510.EG.029": # previous Praktikumsraum
+  name: Zentrum für Schlüsselkompetenzen Kreativwerkstatt
+  short_name: ZSK Kreativwerkstatt
+"5510.EG.026N": # previous Büro
+  name: Study and Teaching Qualitätsmanagement
+"5510.EG.026M": # previous Studienbüro
+  name: School Office Finanzen
+"5510.EG.026A": # previous Leitung Prüfungsbüro
+  name: Leitung Study & Teaching, Studienfachberatung
+"5510.EG.015": # previous Hausmeisterbüro
+  name: Bachelorprüfungsausschuss
+"5510.EG.012A": # previous Büro
+  name: Prüfungsplanung und Praktikumsamt
+"5510.EG.012": # previous Prüfungsbüro
+  name: Masterprüfungsausschuss
 
 "5501.02.150":
   name: IKOM-Büro
