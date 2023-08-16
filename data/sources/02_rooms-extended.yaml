@@ -250,6 +250,13 @@
     comment:
       de: Nur für Mitarbeiter mit Transponder zugänglich
       en: Only accessible for employees with transponder
+"5515.EG.001": # name-type mismatch
+  usage:
+    name:
+      de: WC-Damen
+      en: WC Women
+    din_277: NF7.1
+    din_277_desc: Sanitärräume
 
 # === Galileo Garching ===
 "8120.EG.001":
