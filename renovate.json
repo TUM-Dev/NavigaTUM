@@ -1,4 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"]
+  "extends": [
+    "config:base",
+    "group:allNonMajor"
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
+  "packageRules": [
+    {
+      "matchDepTypes": ["devDependencies"],
+      "matchPackagePatterns": ["eslint", "prettier", "pylint", "sourcery", "pretty_assertions"],
+      "automerge": true
+    }
+  ]
 }

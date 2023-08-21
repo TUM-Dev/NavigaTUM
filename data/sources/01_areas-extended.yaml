@@ -181,6 +181,7 @@ zentralgelaende:
         "05": { use_as: "04" }
 "0510": # Verwaltungsbau (Z10)
   osm: ["relation/6758375"] # smaller part: "way/31095179"
+  coords: { lat: 48.14884, lon: 11.56790 }
 "0511": # Elektro/Werkstatt/Lösungsmittel (Z11)
   osm: ["way/42918170"]
 #"0512":  # Garagen (Z12)
@@ -727,6 +728,8 @@ garching:
         url: "https://www.youtube.com/playlist?list=PLPFs4xTkIH1sPp48qQ0Podcfp_WMG9wpB"
   image_comments:
     1: "Orthographische Luftbildaufnahme des Campus Garching"
+5109: { coords: { lat: 48.268577248990766, lon: 11.673859666057135 } }
+5123: { coords: { lat: 48.268944587721684, lon: 11.674007663134363 } }
 
 # --- Buildings not in TUMonline ---
 ipp:

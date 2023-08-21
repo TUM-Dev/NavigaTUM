@@ -6,7 +6,7 @@ import shutil
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import NamedTuple, TypeVar
+from typing import Any, NamedTuple, TypeVar
 
 import pydantic
 import utils
@@ -14,18 +14,15 @@ import yaml
 from external.models.common import PydanticConfiguration
 from PIL import Image
 from pydantic import Field
-from pydantic.dataclasses import dataclass
 from pydantic.networks import HttpUrl
 
 
-@dataclass(config=PydanticConfiguration)
-class UrlStr:
+class UrlStr(PydanticConfiguration):
     text: str
     url: HttpUrl | None = None
 
 
-@dataclass(config=PydanticConfiguration)
-class ImageOffset:
+class ImageOffset(PydanticConfiguration):
     header: int = 0
     thumb: int = 0
 
@@ -36,8 +33,7 @@ class ImageOffset:
 TImageSource = TypeVar("TImageSource", bound="ImageSource")
 
 
-@dataclass(config=PydanticConfiguration)
-class ImageSource:
+class ImageSource(PydanticConfiguration):
     author: str
     license: UrlStr
     source: UrlStr
@@ -67,7 +63,7 @@ DEV_MODE = "GIT_COMMIT_SHA" not in os.environ
 TARGET_IMAGE_QUALITY = 80
 
 
-def add_img(data):
+def add_img(data: dict[str, dict[str, Any]]) -> None:
     """
     Automatically add processed images to the 'img' property.
     """

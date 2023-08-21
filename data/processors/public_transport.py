@@ -1,24 +1,9 @@
-import json
-from dataclasses import asdict
-from math import acos, cos, radians, sin
-
 from external.models.public_transport import Station
+from utils import distance_via_great_circle
 
 MAXDISTANCE = 1000
 METERS_PER_LATITUDE_DEGREE = 111210
 MAXDEGDIFF_PER_LATITUDE_DEGREE = MAXDISTANCE / METERS_PER_LATITUDE_DEGREE
-EARTH_RADIUS_METERS = 6_371_000
-
-
-def _distance_via_great_circle(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    """
-    Calculate the approximate distance in meters betweeen two points using the great circle approach
-    Basic idea from https://blog.petehouston.com/calculate-distance-of-two-locations-on-earth/
-    """
-    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
-    # angular distance using the https://wikipedia.org/wiki/Haversine_formula
-    angular_distance = acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(lon1 - lon2))
-    return EARTH_RADIUS_METERS * angular_distance
 
 
 def _filter_by_latitude(lat: float, stations: list[Station]) -> list[Station]:
@@ -35,16 +20,14 @@ def nearby_stations(lat: float, lon: float, stations: list[Station]) -> list[dic
     """returns a list of tuples in form: [distance in meter, station]"""
     results = []
     for station in _filter_by_latitude(lat, stations):
-        if (distance := _distance_via_great_circle(station.lat, station.lon, lat, lon)) <= MAXDISTANCE:
-            station_dict = {"distance": distance} | asdict(station)
-            results.append(station_dict)
+        if (distance := distance_via_great_circle(station.lat, station.lon, lat, lon)) <= MAXDISTANCE:
+            results.append({"distance": distance} | station.model_dump())
     return sorted(results, key=lambda x: x["distance"])
 
 
-def add_nearby_public_transport(data):
+def add_nearby_public_transport(data: dict) -> None:
     """Add the nearby public transport stations to the data"""
-    with open("external/results/public_transport.json", encoding="utf-8") as file:
-        stations = [Station(**x) for x in json.load(file)]
+    stations = Station.load_all()
 
     for entry in data.values():
         if coords := entry.get("coords", None):  # noqa: SIM102

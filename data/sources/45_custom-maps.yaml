@@ -2,8 +2,7 @@
 # `scale` is an estimate, doesn't make much sense actually
 
 - props:
-    type: "indoor"
-    scale: 300
+    scale: "300"
     north: 48.147833
     east: 11.567110
     south: 48.147640
@@ -16,8 +15,7 @@
     - {file: "0201_3.webp", b_id: "0201", floor: "03", desc: "StudiTUM Innenstadt (3.OG)"}
 
 - props:
-    type: "indoor"
-    scale: 400
+    scale: "400"
     north: 48.266941
     east: 11.670441
     south: 48.266729
@@ -31,8 +29,7 @@
     - {file: "5532_4.webp", b_id: "5532", floor: "03", desc: "StudiTUM Garching (3.OG)"}
 
 - props:
-    type: "indoor"
-    scale: 1500
+    scale: "1500"
     north: 48.269547
     east: 11.671167
     south: 48.267818

@@ -1,12 +1,13 @@
 import logging
 from pathlib import Path
+from typing import Iterator
 
 from processors.areatree import models
 
 AREATREE_FILE = Path(__file__).parent / "config.areatree"
 
 
-def read_areatree():
+def read_areatree() -> dict[str, models.AreatreeBuidling]:
     """Reads the areatree file and the basic data, gained from the areatree"""
 
     parent_stack: list[str] = []
@@ -21,13 +22,13 @@ def read_areatree():
         elif (indent // 2) < len(parent_stack):
             parent_stack = parent_stack[: indent // 2]
 
-        building_data = _parse_areatree_line(line)
+        building_data = _parse_areatree_line(line, parent_stack[:])
+        data[building_data["id"]] = building_data
         last_element = building_data["id"]
-        data[building_data["id"]] = {"parents": parent_stack[:], **building_data}
     return data
 
 
-def _areatree_lines():
+def _areatree_lines() -> Iterator[str]:
     """
     Generator that yields lines from the areatree file
 
@@ -59,7 +60,7 @@ def _split_line(line: str) -> tuple[str, str, str]:
     return building_ids.strip(), raw_names.strip(), internal_id.strip()
 
 
-def _parse_areatree_line(line: str) -> models.AreatreeBuidling:
+def _parse_areatree_line(line: str, parents: list[str]) -> models.AreatreeBuidling:
     """Parses a line from the areatree file to reveal the correct parent and children"""
     (building_ids, raw_names, internal_id) = _split_line(line)
 
@@ -71,6 +72,7 @@ def _parse_areatree_line(line: str) -> models.AreatreeBuidling:
         "id": id_and_type["id"],
         "type": id_and_type["type"],
         "name": names["name"],
+        "parents": parents,
     }
     if "data_quality" in building_data:
         result["data_quality"] = building_data["data_quality"]

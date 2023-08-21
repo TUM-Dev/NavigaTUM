@@ -10,7 +10,7 @@ pub async fn get_handler(
     web::Query(args): web::Query<utils::LangQueryArgs>,
 ) -> HttpResponse {
     let conn = &mut utils::establish_connection();
-    let (probable_id, redirect_url) = match get_alias_and_redirect(conn, params.into_inner()) {
+    let (probable_id, redirect_url) = match get_alias_and_redirect(conn, &params.into_inner()) {
         Some(alias_and_redirect) => alias_and_redirect,
         None => return HttpResponse::NotFound().body("Not found"),
     };
@@ -53,10 +53,10 @@ pub async fn get_handler(
     }
 }
 
-fn get_alias_and_redirect(conn: &mut SqliteConnection, query: String) -> Option<(String, String)> {
-    use crate::schema::aliases::dsl::*;
+fn get_alias_and_redirect(conn: &mut SqliteConnection, query: &str) -> Option<(String, String)> {
+    use crate::schema::aliases::dsl::{alias, aliases, key, type_, visible_id};
     let result = aliases
-        .filter(alias.eq(&query).or(key.eq(&query)))
+        .filter(alias.eq(query).or(key.eq(query)))
         .select((key, visible_id, type_))
         .distinct()
         .load::<DBRoomKeyAlias>(conn);
@@ -85,14 +85,11 @@ fn get_alias_and_redirect(conn: &mut SqliteConnection, query: String) -> Option<
 
 fn extract_redirect_exact_match(type_: &str, key: &str) -> String {
     match type_ {
-        "root" => "".to_string(),
+        "root" => String::new(),
         "campus" => format!("/campus/{key}"),
-        "site" => format!("/site/{key}"),
-        "area" => format!("/site/{key}"), // Currently also "site", maybe "group"? TODO
-        "building" => format!("/building/{key}"),
-        "joined_building" => format!("/building/{key}"),
-        "room" => format!("/room/{key}"),
-        "virtual_room" => format!("/room/{key}"),
+        "site" | "area" => format!("/site/{key}"),
+        "building" | "joined_building" => format!("/building/{key}"),
+        "room" | "virtual_room" => format!("/room/{key}"),
         "poi" => format!("/poi/{key}"),
         _ => format!("/view/{key}"), // can be triggered if we add a type but don't add it here
     }

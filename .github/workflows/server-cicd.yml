@@ -1,0 +1,136 @@
+name: Server CI/CD
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v3
+      - name: Setup | Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
+        with:
+          toolchain: stable
+          components: clippy
+          cache: false
+      - name: Setup | Rust-Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            server
+      - name: Setup | Setup Git to run feedback unit-tests
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - run: cargo test --workspace
+        working-directory: server
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v3
+      - name: Setup | Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1.5.0
+        with:
+          toolchain: stable
+          cache: false
+      - name: Setup | Rust-Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            server
+      - run: cargo clippy --workspace
+        working-directory: server
+  feedback-build:
+    needs:
+      - tests
+      - linting
+    uses: ./.github/workflows/_docker-build.yml
+    with:
+      image_suffix: feedback
+      context: ./server
+      dockerfile: feedback/Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  feedback-deployment:
+    uses: ./.github/workflows/_restart-argocd.yml
+    needs:
+      - feedback-build
+    with:
+      deployment: feedback
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+  calendar-build:
+    needs:
+      - tests
+      - linting
+    uses: ./.github/workflows/_docker-build.yml
+    with:
+      image_suffix: calendar
+      context: ./server
+      dockerfile: calendar/Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  calendar-deployment:
+    uses: ./.github/workflows/_restart-argocd.yml
+    needs:
+      - calendar-build
+    with:
+      deployment: calendar
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+  main-api-build:
+    uses: ./.github/workflows/_docker-build.yml
+    needs:
+      - tests
+      - linting
+    with:
+      image_suffix: main-api
+      context: ./server
+      dockerfile: main-api/Dockerfile.server
+    permissions:
+      contents: read
+      packages: write
+  building-db-init-build:
+    uses: ./.github/workflows/_docker-build.yml
+    needs:
+      - tests
+      - linting
+    with:
+      image_suffix: building-db-init
+      context: ./server/main-api
+      dockerfile: Dockerfile.dbinit
+    permissions:
+      contents: read
+      packages: write
+  mieli-search-init-build:
+    uses: ./.github/workflows/_docker-build.yml
+    needs:
+      - tests
+      - linting
+    with:
+      image_suffix: mieli-search-init
+      context: ./server/main-api
+      dockerfile: Dockerfile.msinit
+    permissions:
+      contents: read
+      packages: write
+  server-deployment:
+    uses: ./.github/workflows/_restart-argocd.yml
+    needs:
+      - main-api-build
+      - building-db-init-build
+      - mieli-search-init-build
+    with:
+      deployment: server
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}

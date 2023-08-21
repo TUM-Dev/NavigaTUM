@@ -30,7 +30,7 @@ repos:
     hooks:
       - id: cargo-fmt
         name: cargo fmt
-        entry: cargo fmt --manifest-path "server/Cargo.toml" --workspace
+        entry: cargo fmt --all --manifest-path "server/Cargo.toml"
         language: system
         pass_filenames: false
   # only webclient
@@ -60,13 +60,6 @@ repos:
     hooks:
       - id: python-check-blanket-noqa
       - id: python-use-type-annotations
-  - repo: local
-    hooks:
-      - id: mypy
-        name: mypy
-        entry: mypy --ignore-missing-imports
-        language: system
-        types: [python]
   - repo: https://github.com/PyCQA/flake8
     rev: 6.0.0
     hooks:

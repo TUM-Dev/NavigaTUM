@@ -1,0 +1,71 @@
+name: Data CI/CD
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  data-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r data/requirements.txt
+      - name: Test with unittest
+        run: |
+          python -m unittest discover
+  #type-check:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v3
+  #- name: Set up Python ${{ matrix.python-version }}
+  #      uses: actions/setup-python@v4
+  #      with:
+  #        python-version: "3.10"
+  #    - name: Install dependencies
+  #      run: |
+  #        python -m pip install --upgrade pip
+  #        pip install -r data/requirements.txt -r requirements-dev.txt -r server/main-api/test/requirements.txt
+  #    - name: Run mypy
+  #      run: |
+  #        mypy --strict data
+  data-build:
+    needs:
+      - data-test
+    uses: ./.github/workflows/_docker-build.yml
+    with:
+      image_suffix: data
+      context: ./data
+      dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
+  data-deployment-1:
+    uses: ./.github/workflows/_restart-argocd.yml
+    needs:
+      - data-build
+    with:
+      deployment: data
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+  data-deployment-2: # we need to restart the server, as otherwise it will not serve the new data
+    uses: ./.github/workflows/_restart-argocd.yml
+    needs:
+      - data-deployment-1
+    with:
+      deployment: server
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
