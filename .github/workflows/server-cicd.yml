@@ -48,55 +48,15 @@ jobs:
             server
       - run: cargo clippy --workspace
         working-directory: server
-  feedback-build:
-    needs:
-      - tests
-      - linting
-    uses: ./.github/workflows/_docker-build.yml
-    with:
-      image_suffix: feedback
-      context: ./server
-      dockerfile: feedback/Dockerfile
-    permissions:
-      contents: read
-      packages: write
-  feedback-deployment:
-    uses: ./.github/workflows/_restart-argocd.yml
-    needs:
-      - feedback-build
-    with:
-      deployment: feedback
-    secrets:
-      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
-  calendar-build:
-    needs:
-      - tests
-      - linting
-    uses: ./.github/workflows/_docker-build.yml
-    with:
-      image_suffix: calendar
-      context: ./server
-      dockerfile: calendar/Dockerfile
-    permissions:
-      contents: read
-      packages: write
-  calendar-deployment:
-    uses: ./.github/workflows/_restart-argocd.yml
-    needs:
-      - calendar-build
-    with:
-      deployment: calendar
-    secrets:
-      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
-  main-api-build:
+  server-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
       - tests
       - linting
     with:
-      image_suffix: main-api
+      image_suffix: server
       context: ./server
-      dockerfile: main-api/Dockerfile.server
+      dockerfile: Dockerfile
     permissions:
       contents: read
       packages: write
@@ -124,10 +84,26 @@ jobs:
     permissions:
       contents: read
       packages: write
+  feedback-deployment:
+    uses: ./.github/workflows/_restart-argocd.yml
+    needs:
+      - server-build
+    with:
+      deployment: feedback
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+  calendar-deployment:
+    uses: ./.github/workflows/_restart-argocd.yml
+    needs:
+      - server-build
+    with:
+      deployment: calendar
+    secrets:
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   server-deployment:
     uses: ./.github/workflows/_restart-argocd.yml
     needs:
-      - main-api-build
+      - server-build
       - building-db-init-build
       - mieli-search-init-build
     with:

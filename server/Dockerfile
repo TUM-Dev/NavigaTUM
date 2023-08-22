@@ -9,7 +9,7 @@ WORKDIR /compiler
 ENV     USER=root
 ENV     RUSTFLAGS="-C target-feature=-crt-static"
 
-# first run of the image build (probably cached => workspace wide dependencies
+# (probably cached) first run of the image build => only dependencies
 COPY    ./Cargo.* ./
 COPY    main-api/Cargo.* ./main-api/
 COPY    feedback/Cargo.* ./feedback/
@@ -25,15 +25,20 @@ RUN     cargo build --release --workspace \
 
 # second run of the image build (including our code)
 COPY    main-api/diesel.toml ./main-api/diesel.toml
+COPY    calendar/diesel.toml ./calendar/diesel.toml
+COPY    calendar/migrations calendar/migrations
+
+COPY    feedback/src ./feedback/src
+COPY    calendar/src ./calendar/src
 COPY    main-api/src ./main-api/src
-RUN     cargo build --release --bin navigatum-main-api
+RUN     cargo build --release --workspace
 
 
 # RUN
 FROM alpine:3.18
 
 RUN     apk update --quiet \
-     && apk add -q --no-cache libgcc tini curl \
+     && apk add -q --no-cache libgcc libpq-dev libwebp tini curl \
      && mkdir -p ./src/maps/font
 
 COPY    main-api/src/maps ./src/maps
@@ -45,6 +50,16 @@ ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 
 
 ENTRYPOINT ["tini", "--"]
-EXPOSE  8080
-HEALTHCHECK CMD curl --fail localhost:8080/api/status || exit 1
+
+# Healthchecks and exopsing ports is ommited from the dockerfile, as this
+# - is done by the kubernetes deployment
+# - is not needed for local development
+# - would prevent us merging the different servers into one dockerfile
+
+# These are coomands that can be chosen to run
+# - a respective server or
+# - an admin task
+# CMD     /bin/navigatum-calendar-scraper
+# CMD     /bin/navigatum-calendar
+# CMD     /bin/navigatum-feedback
 CMD     /bin/navigatum-main-api
