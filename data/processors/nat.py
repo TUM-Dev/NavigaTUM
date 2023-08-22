@@ -1,13 +1,16 @@
 import dataclasses
-import json
 import logging
 from collections import Counter
+from pathlib import Path
 from typing import Any
 
 import yaml
 from external.models import nat
 
-with open("sources/12_nat_excluded_buildings.yaml", encoding="utf-8") as excluded_buildings_raw:
+BASE = Path(__file__).parent.parent
+SOURCES = BASE / "sources"
+
+with open(SOURCES / "12_nat_excluded_buildings.yaml", encoding="utf-8") as excluded_buildings_raw:
     EXCLUDED_BUILDINGS = set(yaml.safe_load(excluded_buildings_raw.read()))
 
 
@@ -97,8 +100,7 @@ def merge_nat_rooms(_data):
     This will not overwrite the existing data, but act directly on the provided data.
     """
 
-    with open("external/results/rooms_nat.json", encoding="utf-8") as file:
-        _rooms = json.load(file)  # noqa: F841
+    _rooms = nat.Room.load_all()  # noqa: F841
 
     # TODO: implement the merging of NAT rooms
     logging.warning("Merging NAT rooms is not yet implemented")
