@@ -27,28 +27,13 @@
 			"version": "latest",
 			"profile": "default"
 		},
-		"ghcr.io/devcontainers-contrib/features/pre-commit:2": {
-			"version": "latest"
-		},
 		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
 			"plugins": "ssh-agent npm",
 			"omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions",
 			"username": "root"
 		}
-	}
-
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "uname -a",
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	},
+	"forwardPorts": [3000, 8000, 8888],
+	"postCreateCommand": "pip install -r data/requirements.txt -r requirements-dev.txt -r server/main-api/test/requirements.txt",
+	"customizations": {}
 }
