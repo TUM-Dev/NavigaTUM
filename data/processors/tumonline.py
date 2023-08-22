@@ -1,6 +1,7 @@
 import json
 import logging
 import string
+from pathlib import Path
 from typing import Any
 
 import pydantic
@@ -13,6 +14,9 @@ from utils import TranslatableStr as _
 ALLOWED_ROOMCODE_CHARS = set(string.ascii_letters) | set(string.digits) | {".", "-"}
 OPERATOR_STRIP_CHARS = "[ ]"
 OPERATOR_WEBNAV_LINK_PREFIX = "webnav.navigate_to?corg="
+
+BASE = Path(__file__).parent.parent
+SOURCES = BASE / "sources"
 
 
 def merge_tumonline_buildings(data: dict[str, dict[str, Any]]) -> None:
@@ -197,7 +201,7 @@ def _clean_tumonline_rooms():
         rooms = json.load(file)
     roomcode_lookup: dict[str, dict] = {r["roomcode"]: r for r in rooms}
 
-    with open("sources/15_patches-rooms_tumonline.yaml", encoding="utf-8") as file:
+    with open(SOURCES / "15_patches-rooms_tumonline.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
     patched_rooms = apply_roomcode_patch(rooms, patches["patches"])
