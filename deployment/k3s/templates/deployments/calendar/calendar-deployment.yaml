@@ -28,8 +28,9 @@ spec:
       priorityClassName: {{ $.Values.url }}
       containers:
         - name: calendar
-          image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"
+          image: "ghcr.io/tum-dev/navigatum-server:{{ $.Values.tag }}"
           imagePullPolicy: Always
+          command: ["/bin/navigatum-calendar"]
           ports:
             - containerPort: 8060
               name: calendar
