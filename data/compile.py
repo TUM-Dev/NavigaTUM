@@ -1,6 +1,5 @@
 import logging
 import os
-from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Process
 
 import processors.areatree.process as areatree
@@ -124,11 +123,13 @@ def main() -> None:
     search.add_ranking_combined(data)
 
     logging.info("-- 100 Export and generate Sitemap")
-    with ThreadPoolExecutor(max_workers=3) as executor:
-        executor.submit(export.export_for_search, data, "output/search_data.json")
-        executor.submit(export.export_for_api, data, "output/api_data.json")
-        executor.submit(sitemap.generate_sitemap)  # only for deployments
+    export.export_for_search(data, "output/search_data.json")
+    export.export_for_api(data, "output/api_data.json")
+    sitemap.generate_sitemap()  # only for deployments
+
     resizer.join(timeout=60 * 4)
+    if resizer.exitcode != 0:
+        raise RuntimeError("Resizer process during the execution of the script")
 
 
 if __name__ == "__main__":

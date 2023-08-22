@@ -1,9 +1,11 @@
 import dataclasses
 import json
 import sqlite3
+from pathlib import Path
 from typing import Any, TypeAlias, Union
 
 TranslatedList: TypeAlias = list[tuple[str, str, Any]]
+BASE_DIR = Path(__file__).parent
 
 
 def save_entries_to_database(de_data: TranslatedList, en_data: TranslatedList) -> None:
@@ -72,7 +74,7 @@ def localise(value: Union[str, list[Any], dict[str, Any]], language: str) -> Any
 
 def get_localised_data() -> tuple[TranslatedList, TranslatedList]:
     """get all data from the json dump and convert it to a list of tuples"""
-    with open("data/api_data.json", encoding="utf-8") as file:
+    with open(BASE_DIR / "data" / "api_data.json", encoding="utf-8") as file:
         data = json.load(file)
     split_data: list[tuple[str, Any, Any]] = [
         (key, localise(value, "de"), localise(value, "en")) for key, value in data.items()
@@ -101,7 +103,7 @@ class Alias:
 
 def extract_aliases() -> set[Alias]:
     """Extracts all aliases from the api_data.json file and returns them as a dict"""
-    with open("data/api_data.json", encoding="utf-8") as file:
+    with open(BASE_DIR / "data" / "api_data.json", encoding="utf-8") as file:
         data = json.load(file)
     aliases = set()
     for key, value in data.items():
