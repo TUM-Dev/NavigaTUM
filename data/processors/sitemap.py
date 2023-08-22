@@ -1,17 +1,15 @@
-import gzip
 import json
 import logging
-import urllib.error
-import urllib.request
-import xml.etree.ElementTree as ET  # nosec: used for writing to a file, not for reading
+import xml.etree.ElementTree as ET  # nosec: used for writing files, defusedxml only supports parse()
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Literal, TypedDict
 
+import requests
 from compile import DEBUG_MODE
 from defusedxml import ElementTree as defusedET
 
-# defusedxml only supports parse()
+OLD_DATA_URL = "https://nav.tum.de/cdn/api_data.json"
 
 
 class SitemapEntry(TypedDict):
@@ -49,7 +47,7 @@ def generate_sitemap() -> None:
 
     # Look whether there are currently online sitemaps for the provided
     # sitemaps name. In case there aren't, we assume this sitemap is new,
-    # and all entries will be marked as changed.
+    # and all entries will be marked as changed
     old_sitemaps = _download_online_sitemaps()
     old_data = _download_old_data()
 
@@ -64,12 +62,8 @@ def generate_sitemap() -> None:
 def _download_old_data() -> dict:
     """Download the currently online data from the server"""
     try:
-        req = urllib.request.Request("https://nav.tum.de/cdn/api_data.json")
-        req.add_header("Accept-Encoding", "gzip")
-        with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
-            decompressed_data = gzip.decompress(resp.read()).decode("utf-8")
-            return json.loads(decompressed_data)
-    except urllib.error.HTTPError as error:
+        return requests.get(OLD_DATA_URL, headers={"Accept-Encoding": "gzip"}, timeout=120).json()
+    except requests.exceptions.RequestException as error:
         logging.warning(f"Could not download online data because of {error}. Assuming all entries are new.")
         return {}
 
@@ -155,22 +149,22 @@ def _download_online_sitemaps() -> SimplifiedSitemaps:
 
 
 def _download_online_sitemap(url: str) -> dict[str, datetime]:
-    xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"  # noqa: FS003
-    req = urllib.request.Request(url)
-    req.add_header("Accept-Encoding", "gzip")
-    sitemap = {}
+    """Download a single online sitemap and return a dict of URL -> lastmod time"""
     try:
-        with urllib.request.urlopen(req) as resp:  # nosec: url parameter is fixed and does not allow for file traversal
-            sitemap_str = gzip.decompress(resp.read()).decode("utf-8")
-            root = defusedET.fromstring(sitemap_str)
-            for child in root.iter(f"{xmlns}url"):
-                loc = child.find(f"{xmlns}loc")
-                lastmod = child.find(f"{xmlns}lastmod")
-                if loc is not None and lastmod is not None:
-                    lastmod_time = datetime.fromisoformat(lastmod.text.rstrip("Z"))
-                    sitemap[loc.text] = lastmod_time.replace(tzinfo=timezone.utc)
-    except urllib.error.HTTPError as error:
+        req = requests.get(url, headers={"Accept-Encoding": "gzip"}, timeout=10)
+    except requests.exceptions.RequestException as error:
         logging.warning(f"Failed to download sitemap '{url}': {error}")
+        return {}
+
+    xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"  # noqa: FS003
+    sitemap = {}
+    root = defusedET.fromstring(req.text)
+    for child in root.iter(f"{xmlns}url"):
+        loc = child.find(f"{xmlns}loc")
+        lastmod = child.find(f"{xmlns}lastmod")
+        if loc is not None and lastmod is not None:
+            lastmod_time = datetime.fromisoformat(lastmod.text.rstrip("Z"))
+            sitemap[loc.text] = lastmod_time.replace(tzinfo=timezone.utc)
     return sitemap
 
 
