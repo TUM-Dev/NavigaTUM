@@ -1960,6 +1960,7 @@ dependencies = [
  "rusttype",
  "serde",
  "serde_json",
+ "serde_yaml",
  "tokio",
  "unicode-truncate",
 ]
