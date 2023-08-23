@@ -1,10 +1,14 @@
 import logging
 import re
+from pathlib import Path
 from typing import Any
 
 import utm
 import yaml
 from external.models import roomfinder
+
+BASE = Path(__file__).parent.parent
+SOURCES = BASE / "sources"
 
 
 def merge_roomfinder_buildings(data: dict[str, dict[str, Any]]) -> None:
@@ -12,7 +16,7 @@ def merge_roomfinder_buildings(data: dict[str, dict[str, Any]]) -> None:
     Merge the buildings in Roomfinder with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
-    with open("sources/10_patches-roomfinder-buildings.yaml", encoding="utf-8") as file:
+    with open(SOURCES / "10_patches-roomfinder-buildings.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
     error = False
@@ -78,7 +82,7 @@ def merge_roomfinder_rooms(data: dict[str, dict[str, Any]]) -> None:
     This will not overwrite the existing data, but act directly on the provided data.
     """
 
-    with open("sources/16_roomfinder-merge-patches.yaml", encoding="utf-8") as file:
+    with open(SOURCES / "16_roomfinder-merge-patches.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
     # It is significantly faster to first generate a lookup to the rooms in the
