@@ -4,7 +4,50 @@ metadata:
   name: tileserver-config
   namespace: {{ $.Values.namespace }}
 data:
-  osm_liberty.json: |-
-{{ .Files.Get "files/maps/osm_liberty.json" | indent 4 }}
+  osm-liberty.json: |-
+{{ .Files.Get "files/maps/osm-liberty.json" | indent 4 }}
   config.json: |-
-{{ .Files.Get "files/maps/config.json" | indent 4 }}
+    {
+      "options": {
+        "paths": {
+          "root": "",
+          "fonts": "fonts",
+          "sprites": "sprites",
+          "styles": "styles",
+          "mbtiles": ""
+        },
+        "domains": [
+          "{{ $.Values.url }}",
+          "localhost:8080",
+          "127.0.0.1:8080"
+        ],
+        "formatQuality": {
+          "jpeg": 80,
+          "webp": 90
+        },
+        "maxScaleFactor": 2,
+        "minRendererPoolSizes": [2, 4],
+        "maxRendererPoolSizes": [2, 4],
+        "maxSize": 2048,
+        "pbfAlias": "pbf",
+        "serveAllFonts": true,
+        "serveAllStyles": true,
+        "serveStaticMaps": true,
+        "tileMargin": 0
+      },
+      "styles": {
+        "osm-liberty": {
+          "style": "osm-liberty.json",
+          "serve_rendered": true,
+          "serve_data": true,
+          "tilejson": {
+            "format": "png"
+          }
+        }
+      },
+      "data": {
+        "openmaptiles": {
+          "mbtiles": "output.mbtiles"
+        }
+      }
+    }

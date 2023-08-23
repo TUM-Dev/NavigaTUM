@@ -77,7 +77,7 @@ docker run -it --rm -v /tmp/navigatum/meili:/meili_data ghcr.io/tum-dev/navigatu
 docker run -it --rm -p 7700:7700 --name search -v /tmp/navigatum/meili:/meili_data --network navigatum-net getmeili/meilisearch:latest
 
 docker run -it --rm -v /tmp:/navigatum/server/ ghcr.io/tum-dev/navigatum-building-db-init:main
-docker run -it --rm -p 8080:8080 --network navigatum-net -e API_SVC_SERVICE_HOST=search ghcr.io/tum-dev/navigatum-main-api:main
+docker run -it --rm -p 8080:8080 --network navigatum-net -e API_SVC_SERVICE_HOST=search ghcr.io/tum-dev/navigatum-server:main /bin/navigatum-main-api
 ```
 
 Else you can follow the steps in the [server documentation](server/README.md).

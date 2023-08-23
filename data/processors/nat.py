@@ -1,17 +1,20 @@
-import json
+import dataclasses
 import logging
 from collections import Counter
-from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Any
 
 import yaml
 from external.models import nat
 
-with open("sources/12_nat_excluded_buildings.yaml", encoding="utf-8") as excluded_buildings_raw:
+BASE = Path(__file__).parent.parent
+SOURCES = BASE / "sources"
+
+with open(SOURCES / "12_nat_excluded_buildings.yaml", encoding="utf-8") as excluded_buildings_raw:
     EXCLUDED_BUILDINGS = set(yaml.safe_load(excluded_buildings_raw.read()))
 
 
-@dataclass
+@dataclasses.dataclass
 class NATBuilding:
     b_id: None | str
     b_code: str
@@ -76,7 +79,7 @@ def _merge_building(data: dict, building: NATBuilding) -> None:
     internal_id = _infer_internal_id(building, data)
 
     b_data = data[internal_id]
-    b_data["nat_data"] = asdict(building)
+    b_data["nat_data"] = dataclasses.asdict(building)
 
     # NAT buildings are merged after TUMonline and the MyTUM Roomfinder. So if the others
     # weren't used as sources, but the NAT Roomfinder has this building, we know it's from there.
@@ -97,8 +100,7 @@ def merge_nat_rooms(_data):
     This will not overwrite the existing data, but act directly on the provided data.
     """
 
-    with open("external/results/rooms_nat.json", encoding="utf-8") as file:
-        _rooms = json.load(file)  # noqa: F841
+    _rooms = nat.Room.load_all()  # noqa: F841
 
     # TODO: implement the merging of NAT rooms
     logging.warning("Merging NAT rooms is not yet implemented")

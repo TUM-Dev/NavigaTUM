@@ -1,0 +1,65 @@
+# Compile
+FROM    rust:1.71-alpine AS compiler
+
+# to ache the build this line inludes all the dependencys all servers need
+# this is not an issue since we copy the generated binary to a more minimal envornment
+RUN     apk add -q --update-cache --no-cache build-base openssl-dev libpq-dev libwebp-dev
+
+WORKDIR /compiler
+ENV     USER=root
+ENV     RUSTFLAGS="-C target-feature=-crt-static"
+
+# (probably cached) first run of the image build => only dependencies
+COPY    ./Cargo.* ./
+COPY    main-api/Cargo.* ./main-api/
+COPY    feedback/Cargo.* ./feedback/
+COPY    calendar/Cargo.* ./calendar/
+RUN     mkdir ./main-api/src/ ./feedback/src/ ./calendar/src/ \
+     && echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/main.rs\
+     && echo "fn main() { println!(\"Hello, world!\");}" > ./feedback/src/main.rs\
+     && echo "fn main() { println!(\"Hello, world!\");}" > ./calendar/src/main.rs\
+     && echo "fn main() { println!(\"Hello, world!\");}" > ./calendar/src/scraper.rs
+
+RUN     cargo build --release --workspace \
+     && rm -fr target/release/deps/navigatum*
+
+# second run of the image build (including our code)
+COPY    main-api/diesel.toml ./main-api/diesel.toml
+COPY    calendar/diesel.toml ./calendar/diesel.toml
+COPY    calendar/migrations calendar/migrations
+
+COPY    feedback/src ./feedback/src
+COPY    calendar/src ./calendar/src
+COPY    main-api/src ./main-api/src
+RUN     cargo build --release --workspace
+
+
+# RUN
+FROM alpine:3.18
+
+RUN     apk update --quiet \
+     && apk add -q --no-cache libgcc libpq-dev libwebp tini curl \
+     && mkdir -p ./src/maps/font
+
+COPY    main-api/src/maps ./src/maps
+# add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
+COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
+
+ARG     GIT_COMMIT_SHA
+ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+
+
+ENTRYPOINT ["tini", "--"]
+
+# Healthchecks and exopsing ports is ommited from the dockerfile, as this
+# - is done by the kubernetes deployment
+# - is not needed for local development
+# - would prevent us merging the different servers into one dockerfile
+
+# These are coomands that can be chosen to run
+# - a respective server or
+# - an admin task
+# CMD     /bin/navigatum-calendar-scraper
+# CMD     /bin/navigatum-calendar
+# CMD     /bin/navigatum-feedback
+CMD     /bin/navigatum-main-api

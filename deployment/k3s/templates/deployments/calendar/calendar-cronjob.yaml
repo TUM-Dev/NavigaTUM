@@ -18,7 +18,7 @@ spec:
           priorityClassName: {{ $.Values.url }}
           containers:
           - name: {{ $scrape_task.name }}
-            image: "ghcr.io/tum-dev/navigatum-calendar:{{ $.Values.tag }}"
+            image: "ghcr.io/tum-dev/navigatum-server:{{ $.Values.tag }}"
             imagePullPolicy: Always
             command: ["/bin/navigatum-calendar-scraper"]
             env:

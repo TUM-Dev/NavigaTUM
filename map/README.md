@@ -39,7 +39,7 @@ cp config.json ../deployment/k3s/files/maps/config.json
 
 ```bash
 mkdir -p styles
-cp styles/osm_liberty.json ../deployment/k3s/files/maps/osm_liberty.json
+cp styles/osm-liberty.json ../deployment/k3s/files/maps/osm-liberty.json
 ```
 
 ### Serve the tileset

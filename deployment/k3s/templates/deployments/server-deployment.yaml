@@ -51,8 +51,9 @@ spec:
               name: tmp-mieli-search
       containers:
         - name: server
-          image: "ghcr.io/tum-dev/navigatum-main-api:{{ $.Values.tag }}"
+          image: "ghcr.io/tum-dev/navigatum-server:{{ $.Values.tag }}"
           imagePullPolicy: Always
+          command: ["/bin/navigatum-main-api"]
           {{ if $.Values.server.MEILI_MASTER_KEY }}
           envFrom:
             - secretRef:

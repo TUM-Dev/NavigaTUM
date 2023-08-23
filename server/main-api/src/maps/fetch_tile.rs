@@ -100,7 +100,7 @@ impl FetchTileTask {
 
     fn get_tileserver_url(&self) -> String {
         format!(
-            "https://nav.tum.de/maps/styles/osm_liberty/{z}/{x}/{y}@2x.png",
+            "https://nav.tum.de/maps/styles/osm-liberty/{z}/{x}/{y}@2x.png",
             z = self.z,
             x = self.x,
             y = self.y,

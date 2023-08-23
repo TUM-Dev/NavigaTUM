@@ -1,7 +1,8 @@
-import dataclasses
 import json
 from pathlib import Path
 from typing import Any, Union
+
+from external.models.common import PydanticConfiguration
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
@@ -133,6 +134,6 @@ def export_for_api(data: dict, path: str) -> None:
 class EnhancedJSONEncoder(json.JSONEncoder):
     def default(self, o: Any) -> Any:
         """Enhanced JSONEncoder that can handle dataclasses"""
-        if dataclasses.is_dataclass(o):
-            return dataclasses.asdict(o)
+        if isinstance(o, PydanticConfiguration):
+            return o.model_dump()
         return super().default(o)

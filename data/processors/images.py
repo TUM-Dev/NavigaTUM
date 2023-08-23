@@ -14,18 +14,15 @@ import yaml
 from external.models.common import PydanticConfiguration
 from PIL import Image
 from pydantic import Field
-from pydantic.dataclasses import dataclass
 from pydantic.networks import HttpUrl
 
 
-@dataclass(config=PydanticConfiguration)
-class UrlStr:
+class UrlStr(PydanticConfiguration):
     text: str
     url: HttpUrl | None = None
 
 
-@dataclass(config=PydanticConfiguration)
-class ImageOffset:
+class ImageOffset(PydanticConfiguration):
     header: int = 0
     thumb: int = 0
 
@@ -36,8 +33,7 @@ class ImageOffset:
 TImageSource = TypeVar("TImageSource", bound="ImageSource")
 
 
-@dataclass(config=PydanticConfiguration)
-class ImageSource:
+class ImageSource(PydanticConfiguration):
     author: str
     license: UrlStr
     source: UrlStr

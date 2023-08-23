@@ -1,15 +1,8 @@
 [
   {
-    "desc": "Weltkarte Norden",
-    "height": 396,
-    "id": 9,
-    "scale": "100000000",
-    "width": 1619
-  },
-  {
     "desc": "Lageplan TUM",
     "height": 951,
-    "id": 10,
+    "id": "rf10",
     "latlonbox": {
       "east": "11.5720980987",
       "north": "48.1524440049",
@@ -21,1171 +14,9 @@
     "width": 657
   },
   {
-    "desc": "Stammgel\u00e4nde Basiskarte",
-    "height": 484,
-    "id": 12,
-    "latlonbox": {
-      "east": "11.5716665221",
-      "north": "48.1513605477",
-      "rotation": "-23.4999992847",
-      "south": "48.1464320713",
-      "west": "11.5641018846"
-    },
-    "scale": "4000",
-    "width": 501
-  },
-  {
-    "desc": "Thierschbau EG",
-    "height": 298,
-    "id": 14,
-    "latlonbox": {
-      "east": "11.5673200711",
-      "north": "48.1488534693",
-      "rotation": "-22.9999992847",
-      "south": "48.1479510623",
-      "west": "11.5655599404"
-    },
-    "scale": "1200",
-    "width": 386
-  },
-  {
-    "desc": "Thierschbau 1. OG",
-    "height": 298,
-    "id": 15,
-    "latlonbox": {
-      "east": "11.5673200711",
-      "north": "48.1488534693",
-      "rotation": "-22.9999992847",
-      "south": "48.1479510623",
-      "west": "11.5655599404"
-    },
-    "scale": "1200",
-    "width": 386
-  },
-  {
-    "desc": "Thierschbau 2. OG",
-    "height": 298,
-    "id": 16,
-    "latlonbox": {
-      "east": "11.5673200711",
-      "north": "48.1488534693",
-      "rotation": "-22.9999992847",
-      "south": "48.1479510623",
-      "west": "11.5655599404"
-    },
-    "scale": "1200",
-    "width": 386
-  },
-  {
-    "desc": "Thierschbau Zwischengeschoss",
-    "height": 298,
-    "id": 17,
-    "latlonbox": {
-      "east": "11.5673200711",
-      "north": "48.1488534693",
-      "rotation": "-22.9999992847",
-      "south": "48.1479510623",
-      "west": "11.5655599404"
-    },
-    "scale": "1200",
-    "width": 386
-  },
-  {
-    "desc": "Thierschbau 3. OG",
-    "height": 298,
-    "id": 18,
-    "latlonbox": {
-      "east": "11.5673200711",
-      "north": "48.1488534693",
-      "rotation": "-22.9999992847",
-      "south": "48.1479510623",
-      "west": "11.5655599404"
-    },
-    "scale": "1200",
-    "width": 386
-  },
-  {
-    "desc": "Thierschbau 4. OG",
-    "height": 298,
-    "id": 19,
-    "latlonbox": {
-      "east": "11.5673200711",
-      "north": "48.1488534693",
-      "rotation": "-22.9999992847",
-      "south": "48.1479510623",
-      "west": "11.5655599404"
-    },
-    "scale": "1200",
-    "width": 386
-  },
-  {
-    "desc": "Thierschbau 5. OG",
-    "height": 298,
-    "id": 20,
-    "latlonbox": {
-      "east": "11.5673200711",
-      "north": "48.1488534693",
-      "rotation": "-22.9999992847",
-      "south": "48.1479510623",
-      "west": "11.5655599404"
-    },
-    "scale": "1200",
-    "width": 386
-  },
-  {
-    "desc": "Thierschbau 6. OG",
-    "height": 298,
-    "id": 21,
-    "latlonbox": {
-      "east": "11.5673200711",
-      "north": "48.1488534693",
-      "rotation": "-22.9999992847",
-      "south": "48.1479510623",
-      "west": "11.5655599404"
-    },
-    "scale": "1200",
-    "width": 386
-  },
-  {
-    "desc": "Thierschbau 7. OG",
-    "height": 298,
-    "id": 22,
-    "latlonbox": {
-      "east": "11.5673200711",
-      "north": "48.1488534693",
-      "rotation": "-22.9999992847",
-      "south": "48.1479510623",
-      "west": "11.5655599404"
-    },
-    "scale": "1200",
-    "width": 386
-  },
-  {
-    "desc": "Neubau Innenhof EG",
-    "height": 500,
-    "id": 25,
-    "latlonbox": {
-      "east": "11.5677004126",
-      "north": "48.1498358873",
-      "rotation": "-22.9999992847",
-      "south": "48.1486144129",
-      "west": "11.5666273052"
-    },
-    "scale": "1000",
-    "width": 297
-  },
-  {
-    "desc": "Neubau Innenhof ZG",
-    "height": 500,
-    "id": 26,
-    "latlonbox": {
-      "east": "11.5677004126",
-      "north": "48.1498358873",
-      "rotation": "-22.9999992847",
-      "south": "48.1486144129",
-      "west": "11.5666273052"
-    },
-    "scale": "1000",
-    "width": 297
-  },
-  {
-    "desc": "Neubau Innenhof 1. OG",
-    "height": 500,
-    "id": 27,
-    "latlonbox": {
-      "east": "11.5677004126",
-      "north": "48.1498358873",
-      "rotation": "-22.9999992847",
-      "south": "48.1486144129",
-      "west": "11.5666273052"
-    },
-    "scale": "1000",
-    "width": 297
-  },
-  {
-    "desc": "Neubau Innenhof 2. OG",
-    "height": 500,
-    "id": 28,
-    "latlonbox": {
-      "east": "11.5677004126",
-      "north": "48.1498358873",
-      "rotation": "-22.9999992847",
-      "south": "48.1486144129",
-      "west": "11.5666273052"
-    },
-    "scale": "1000",
-    "width": 297
-  },
-  {
-    "desc": "Neubau Innenhof 3. OG",
-    "height": 500,
-    "id": 29,
-    "latlonbox": {
-      "east": "11.5677004126",
-      "north": "48.1498358873",
-      "rotation": "-22.9999992847",
-      "south": "48.1486144129",
-      "west": "11.5666273052"
-    },
-    "scale": "1000",
-    "width": 297
-  },
-  {
-    "desc": "Neubau Innenhof 1.UG",
-    "height": 500,
-    "id": 30,
-    "latlonbox": {
-      "east": "11.5677004126",
-      "north": "48.1498358873",
-      "rotation": "-22.9999992847",
-      "south": "48.1486144129",
-      "west": "11.5666273052"
-    },
-    "scale": "1000",
-    "width": 297
-  },
-  {
-    "desc": "Neubau Innenhof 2. UG",
-    "height": 500,
-    "id": 31,
-    "latlonbox": {
-      "east": "11.5677004126",
-      "north": "48.1498358873",
-      "rotation": "-22.9999992847",
-      "south": "48.1486144129",
-      "west": "11.5666273052"
-    },
-    "scale": "1000",
-    "width": 297
-  },
-  {
-    "desc": "Neubau Innenhof 4. OG",
-    "height": 500,
-    "id": 32,
-    "latlonbox": {
-      "east": "11.5677004126",
-      "north": "48.1498358873",
-      "rotation": "-22.9999992847",
-      "south": "48.1486144129",
-      "west": "11.5666273052"
-    },
-    "scale": "1000",
-    "width": 297
-  },
-  {
-    "desc": "Verwaltungsbau EG",
-    "height": 370,
-    "id": 33,
-    "latlonbox": {
-      "east": "11.5687140587",
-      "north": "48.1489736637",
-      "rotation": "-22.9999992847",
-      "south": "48.1485225002",
-      "west": "11.5678434088"
-    },
-    "scale": "500",
-    "width": 481
-  },
-  {
-    "desc": "Verwaltungsbau ZG",
-    "height": 370,
-    "id": 34,
-    "latlonbox": {
-      "east": "11.5687140587",
-      "north": "48.1489736637",
-      "rotation": "-22.9999992847",
-      "south": "48.1485225002",
-      "west": "11.5678434088"
-    },
-    "scale": "500",
-    "width": 481
-  },
-  {
-    "desc": "Verwaltungsbau 1. OG",
-    "height": 370,
-    "id": 35,
-    "latlonbox": {
-      "east": "11.5687140587",
-      "north": "48.1489736637",
-      "rotation": "-22.9999992847",
-      "south": "48.1485225002",
-      "west": "11.5678434088"
-    },
-    "scale": "500",
-    "width": 481
-  },
-  {
-    "desc": "Verwaltungsbau 2. OG",
-    "height": 370,
-    "id": 36,
-    "latlonbox": {
-      "east": "11.5687140587",
-      "north": "48.1489736637",
-      "rotation": "-22.9999992847",
-      "south": "48.1485225002",
-      "west": "11.5678434088"
-    },
-    "scale": "500",
-    "width": 481
-  },
-  {
-    "desc": "Verwaltungsbau 3. OG",
-    "height": 370,
-    "id": 37,
-    "latlonbox": {
-      "east": "11.5687140587",
-      "north": "48.1489736637",
-      "rotation": "-22.9999992847",
-      "south": "48.1485225002",
-      "west": "11.5678434088"
-    },
-    "scale": "500",
-    "width": 481
-  },
-  {
-    "desc": "Verwaltungsbau 1. UG",
-    "height": 370,
-    "id": 38,
-    "latlonbox": {
-      "east": "11.5687140587",
-      "north": "48.1489736637",
-      "rotation": "-22.9999992847",
-      "south": "48.1485225002",
-      "west": "11.5678434088"
-    },
-    "scale": "500",
-    "width": 481
-  },
-  {
-    "desc": "Elektrophysik EG",
-    "height": 517,
-    "id": 39,
-    "latlonbox": {
-      "east": "11.5688656008",
-      "north": "48.1512033",
-      "rotation": "-22.9999992847",
-      "south": "48.1505690113",
-      "west": "11.5682003557"
-    },
-    "scale": "500",
-    "width": 370
-  },
-  {
-    "desc": "Elektrophysik 1. OG",
-    "height": 517,
-    "id": 40,
-    "latlonbox": {
-      "east": "11.5688656008",
-      "north": "48.1512033",
-      "rotation": "-22.9999992847",
-      "south": "48.1505690113",
-      "west": "11.5682003557"
-    },
-    "scale": "500",
-    "width": 370
-  },
-  {
-    "desc": "Elektrophysik 2. OG",
-    "height": 517,
-    "id": 41,
-    "latlonbox": {
-      "east": "11.5688656008",
-      "north": "48.1512033",
-      "rotation": "-22.9999992847",
-      "south": "48.1505690113",
-      "west": "11.5682003557"
-    },
-    "scale": "500",
-    "width": 370
-  },
-  {
-    "desc": "Elektrophysik 3. OG",
-    "height": 517,
-    "id": 42,
-    "latlonbox": {
-      "east": "11.5688656008",
-      "north": "48.1512033",
-      "rotation": "-22.9999992847",
-      "south": "48.1505690113",
-      "west": "11.5682003557"
-    },
-    "scale": "500",
-    "width": 370
-  },
-  {
-    "desc": "Elektrophysik 4. OG",
-    "height": 517,
-    "id": 43,
-    "latlonbox": {
-      "east": "11.5688656008",
-      "north": "48.1512033",
-      "rotation": "-22.9999992847",
-      "south": "48.1505690113",
-      "west": "11.5682003557"
-    },
-    "scale": "500",
-    "width": 370
-  },
-  {
-    "desc": "Elektrophysik 5. OG",
-    "height": 517,
-    "id": 44,
-    "latlonbox": {
-      "east": "11.5688656008",
-      "north": "48.1512033",
-      "rotation": "-22.9999992847",
-      "south": "48.1505690113",
-      "west": "11.5682003557"
-    },
-    "scale": "500",
-    "width": 370
-  },
-  {
-    "desc": "Elektrophysik 1. UG",
-    "height": 517,
-    "id": 45,
-    "latlonbox": {
-      "east": "11.5688656008",
-      "north": "48.1512033",
-      "rotation": "-22.9999992847",
-      "south": "48.1505690113",
-      "west": "11.5682003557"
-    },
-    "scale": "500",
-    "width": 370
-  },
-  {
-    "desc": "Geb\u00e4ude N3 1. UG",
-    "height": 454,
-    "id": 46,
-    "latlonbox": {
-      "east": "11.5681741413",
-      "north": "48.1514027032",
-      "rotation": "-22.9999992847",
-      "south": "48.1506360161",
-      "west": "11.5672386137"
-    },
-    "scale": "500",
-    "width": 374
-  },
-  {
-    "desc": "Geb\u00e4ude N3 EG",
-    "height": 454,
-    "id": 47,
-    "latlonbox": {
-      "east": "11.5681741413",
-      "north": "48.1514027032",
-      "rotation": "-22.9999992847",
-      "south": "48.1506360161",
-      "west": "11.5672386137"
-    },
-    "scale": "500",
-    "width": 374
-  },
-  {
-    "desc": "Geb\u00e4ude N3 1. OG",
-    "height": 454,
-    "id": 48,
-    "latlonbox": {
-      "east": "11.5681741413",
-      "north": "48.1514027032",
-      "rotation": "-22.9999992847",
-      "south": "48.1506360161",
-      "west": "11.5672386137"
-    },
-    "scale": "500",
-    "width": 374
-  },
-  {
-    "desc": "Geb\u00e4ude N3 2. OG",
-    "height": 454,
-    "id": 49,
-    "latlonbox": {
-      "east": "11.5681741413",
-      "north": "48.1514027032",
-      "rotation": "-22.9999992847",
-      "south": "48.1506360161",
-      "west": "11.5672386137"
-    },
-    "scale": "500",
-    "width": 374
-  },
-  {
-    "desc": "Geb\u00e4ude N3 3. OG",
-    "height": 454,
-    "id": 50,
-    "latlonbox": {
-      "east": "11.5681741413",
-      "north": "48.1514027032",
-      "rotation": "-22.9999992847",
-      "south": "48.1506360161",
-      "west": "11.5672386137"
-    },
-    "scale": "500",
-    "width": 374
-  },
-  {
-    "desc": "Geb\u00e4ude N3 4. OG",
-    "height": 454,
-    "id": 51,
-    "latlonbox": {
-      "east": "11.5681741413",
-      "north": "48.1514027032",
-      "rotation": "-22.9999992847",
-      "south": "48.1506360161",
-      "west": "11.5672386137"
-    },
-    "scale": "500",
-    "width": 374
-  },
-  {
-    "desc": "Geb\u00e4ude N3 5. OG",
-    "height": 454,
-    "id": 52,
-    "latlonbox": {
-      "east": "11.5681741413",
-      "north": "48.1514027032",
-      "rotation": "-22.9999992847",
-      "south": "48.1506360161",
-      "west": "11.5672386137"
-    },
-    "scale": "500",
-    "width": 374
-  },
-  {
-    "desc": "Geb\u00e4ude N3 6. OG",
-    "height": 454,
-    "id": 53,
-    "latlonbox": {
-      "east": "11.5681741413",
-      "north": "48.1514027032",
-      "rotation": "-22.9999992847",
-      "south": "48.1506360161",
-      "west": "11.5672386137"
-    },
-    "scale": "500",
-    "width": 374
-  },
-  {
-    "desc": "M\u00fcnchen",
-    "height": 603,
-    "id": 54,
-    "latlonbox": {
-      "east": "11.7936101916",
-      "north": "48.2770909284",
-      "rotation": "0.19987988472",
-      "south": "48.0223527366",
-      "west": "11.388442136"
-    },
-    "scale": "200000",
-    "width": 640
-  },
-  {
-    "desc": "Hochvolthaus KG",
-    "height": 454,
-    "id": 57,
-    "latlonbox": {
-      "east": "11.5678012399",
-      "north": "48.1508650881",
-      "rotation": "-22.9999992847",
-      "south": "48.1501420203",
-      "west": "11.5668666962"
-    },
-    "scale": "500",
-    "width": 398
-  },
-  {
-    "desc": "Hochvolthaus EG",
-    "height": 454,
-    "id": 58,
-    "latlonbox": {
-      "east": "11.5678012399",
-      "north": "48.1508650881",
-      "rotation": "-22.9999992847",
-      "south": "48.1501420203",
-      "west": "11.5668666962"
-    },
-    "scale": "500",
-    "width": 398
-  },
-  {
-    "desc": "Hochvolthaus ZG",
-    "height": 454,
-    "id": 59,
-    "latlonbox": {
-      "east": "11.5678012399",
-      "north": "48.1508650881",
-      "rotation": "-22.9999992847",
-      "south": "48.1501420203",
-      "west": "11.5668666962"
-    },
-    "scale": "500",
-    "width": 398
-  },
-  {
-    "desc": "Hochvolthaus 1.OG",
-    "height": 454,
-    "id": 60,
-    "latlonbox": {
-      "east": "11.5678012399",
-      "north": "48.1508650881",
-      "rotation": "-22.9999992847",
-      "south": "48.1501420203",
-      "west": "11.5668666962"
-    },
-    "scale": "500",
-    "width": 398
-  },
-  {
-    "desc": "Hochvolthaus 2.OG",
-    "height": 454,
-    "id": 61,
-    "latlonbox": {
-      "east": "11.5678012399",
-      "north": "48.1508650881",
-      "rotation": "-22.9999992847",
-      "south": "48.1501420203",
-      "west": "11.5668666962"
-    },
-    "scale": "500",
-    "width": 398
-  },
-  {
-    "desc": "Hochvolthaus 3.OG",
-    "height": 454,
-    "id": 62,
-    "latlonbox": {
-      "east": "11.5678012399",
-      "north": "48.1508650881",
-      "rotation": "-22.9999992847",
-      "south": "48.1501420203",
-      "west": "11.5668666962"
-    },
-    "scale": "500",
-    "width": 398
-  },
-  {
-    "desc": "Hochvolthaus 4.OG",
-    "height": 454,
-    "id": 63,
-    "latlonbox": {
-      "east": "11.5678012399",
-      "north": "48.1508650881",
-      "rotation": "-22.9999992847",
-      "south": "48.1501420203",
-      "west": "11.5668666962"
-    },
-    "scale": "500",
-    "width": 398
-  },
-  {
-    "desc": "Hochvolthaus 5.OG",
-    "height": 454,
-    "id": 64,
-    "latlonbox": {
-      "east": "11.5678012399",
-      "north": "48.1508650881",
-      "rotation": "-22.9999992847",
-      "south": "48.1501420203",
-      "west": "11.5668666962"
-    },
-    "scale": "500",
-    "width": 398
-  },
-  {
-    "desc": "U-Trakt UG",
-    "height": 443,
-    "id": 65,
-    "latlonbox": {
-      "east": "11.5691673501",
-      "north": "48.1508102642",
-      "rotation": "-22.9999992847",
-      "south": "48.1498683634",
-      "west": "11.5675154129"
-    },
-    "scale": "500",
-    "width": 525
-  },
-  {
-    "desc": "U-Trakt EG",
-    "height": 443,
-    "id": 66,
-    "latlonbox": {
-      "east": "11.5691673501",
-      "north": "48.1508102642",
-      "rotation": "-22.9999992847",
-      "south": "48.1498683634",
-      "west": "11.5675154129"
-    },
-    "scale": "500",
-    "width": 525
-  },
-  {
-    "desc": "U-Trakt ZG",
-    "height": 443,
-    "id": 67,
-    "latlonbox": {
-      "east": "11.5691673501",
-      "north": "48.1508102642",
-      "rotation": "-22.9999992847",
-      "south": "48.1498683634",
-      "west": "11.5675154129"
-    },
-    "scale": "500",
-    "width": 525
-  },
-  {
-    "desc": "U-Trakt 1. OG",
-    "height": 443,
-    "id": 68,
-    "latlonbox": {
-      "east": "11.5691673501",
-      "north": "48.1508102642",
-      "rotation": "-22.9999992847",
-      "south": "48.1498683634",
-      "west": "11.5675154129"
-    },
-    "scale": "500",
-    "width": 525
-  },
-  {
-    "desc": "U-Trakt 2. OG",
-    "height": 443,
-    "id": 69,
-    "latlonbox": {
-      "east": "11.5691673501",
-      "north": "48.1508102642",
-      "rotation": "-22.9999992847",
-      "south": "48.1498683634",
-      "west": "11.5675154129"
-    },
-    "scale": "500",
-    "width": 525
-  },
-  {
-    "desc": "U-Trakt 3. OG",
-    "height": 443,
-    "id": 70,
-    "latlonbox": {
-      "east": "11.5691673501",
-      "north": "48.1508102642",
-      "rotation": "-22.9999992847",
-      "south": "48.1498683634",
-      "west": "11.5675154129"
-    },
-    "scale": "500",
-    "width": 525
-  },
-  {
-    "desc": "Neubau E-Technik UG",
-    "height": 472,
-    "id": 71,
-    "latlonbox": {
-      "east": "11.5694264986",
-      "north": "48.1510523204",
-      "rotation": "-22.9999992847",
-      "south": "48.1504507911",
-      "west": "11.5688134899"
-    },
-    "scale": "500",
-    "width": 327
-  },
-  {
-    "desc": "Neubau E-Technik EG",
-    "height": 472,
-    "id": 72,
-    "latlonbox": {
-      "east": "11.5694264986",
-      "north": "48.1510523204",
-      "rotation": "-22.9999992847",
-      "south": "48.1504507911",
-      "west": "11.5688134899"
-    },
-    "scale": "500",
-    "width": 327
-  },
-  {
-    "desc": "Neubau E-Technik 1.OG",
-    "height": 472,
-    "id": 73,
-    "latlonbox": {
-      "east": "11.5694264986",
-      "north": "48.1510523204",
-      "rotation": "-22.9999992847",
-      "south": "48.1504507911",
-      "west": "11.5688134899"
-    },
-    "scale": "500",
-    "width": 327
-  },
-  {
-    "desc": "Neubau E-Technik 2.OG",
-    "height": 472,
-    "id": 74,
-    "latlonbox": {
-      "east": "11.5694264986",
-      "north": "48.1510523204",
-      "rotation": "-22.9999992847",
-      "south": "48.1504507911",
-      "west": "11.5688134899"
-    },
-    "scale": "500",
-    "width": 327
-  },
-  {
-    "desc": "Neubau E-Technik 3.OG",
-    "height": 472,
-    "id": 75,
-    "latlonbox": {
-      "east": "11.5694264986",
-      "north": "48.1510523204",
-      "rotation": "-22.9999992847",
-      "south": "48.1504507911",
-      "west": "11.5688134899"
-    },
-    "scale": "500",
-    "width": 327
-  },
-  {
-    "desc": "Neubau E-Technik 4.OG",
-    "height": 472,
-    "id": 76,
-    "latlonbox": {
-      "east": "11.5694264986",
-      "north": "48.1510523204",
-      "rotation": "-22.9999992847",
-      "south": "48.1504507911",
-      "west": "11.5688134899"
-    },
-    "scale": "500",
-    "width": 327
-  },
-  {
-    "desc": "Neubau E-Technik 5.OG",
-    "height": 472,
-    "id": 77,
-    "latlonbox": {
-      "east": "11.5694264986",
-      "north": "48.1510523204",
-      "rotation": "-22.9999992847",
-      "south": "48.1504507911",
-      "west": "11.5688134899"
-    },
-    "scale": "500",
-    "width": 327
-  },
-  {
-    "desc": "Neubau E-Technik 6.OG",
-    "height": 472,
-    "id": 78,
-    "latlonbox": {
-      "east": "11.5694264986",
-      "north": "48.1510523204",
-      "rotation": "-22.9999992847",
-      "south": "48.1504507911",
-      "west": "11.5688134899"
-    },
-    "scale": "500",
-    "width": 327
-  },
-  {
-    "desc": "Neubau E-Technik 7.OG",
-    "height": 472,
-    "id": 79,
-    "latlonbox": {
-      "east": "11.5694264986",
-      "north": "48.1510523204",
-      "rotation": "-22.9999992847",
-      "south": "48.1504507911",
-      "west": "11.5688134899"
-    },
-    "scale": "500",
-    "width": 327
-  },
-  {
-    "desc": "Lageplan Campus Garching",
-    "height": 480,
-    "id": 80,
-    "latlonbox": {
-      "east": "11.6817977201",
-      "north": "48.2709215782",
-      "rotation": "2.93098878501e-14",
-      "south": "48.258723721",
-      "west": "11.6562831601"
-    },
-    "scale": "10000",
-    "width": 676
-  },
-  {
-    "desc": "RiWa EG",
-    "height": 399,
-    "id": 81,
-    "latlonbox": {
-      "east": "11.5645265314",
-      "north": "48.1486603624",
-      "rotation": "-22.9999992847",
-      "south": "48.1482526544",
-      "west": "11.5638991142"
-    },
-    "scale": "500",
-    "width": 416
-  },
-  {
-    "desc": "RiWa 1.OG",
-    "height": 399,
-    "id": 82,
-    "latlonbox": {
-      "east": "11.5645265314",
-      "north": "48.1486603624",
-      "rotation": "-22.9999992847",
-      "south": "48.1482526544",
-      "west": "11.5638991142"
-    },
-    "scale": "500",
-    "width": 416
-  },
-  {
-    "desc": "RiWa 2.OG",
-    "height": 399,
-    "id": 83,
-    "latlonbox": {
-      "east": "11.5645265314",
-      "north": "48.1486603624",
-      "rotation": "-22.9999992847",
-      "south": "48.1482526544",
-      "west": "11.5638991142"
-    },
-    "scale": "500",
-    "width": 416
-  },
-  {
-    "desc": "RiWa 3.OG",
-    "height": 399,
-    "id": 84,
-    "latlonbox": {
-      "east": "11.5645265314",
-      "north": "48.1486603624",
-      "rotation": "-22.9999992847",
-      "south": "48.1482526544",
-      "west": "11.5638991142"
-    },
-    "scale": "500",
-    "width": 416
-  },
-  {
-    "desc": "RiWa 4.OG",
-    "height": 399,
-    "id": 85,
-    "latlonbox": {
-      "east": "11.5645265314",
-      "north": "48.1486603624",
-      "rotation": "-22.9999992847",
-      "south": "48.1482526544",
-      "west": "11.5638991142"
-    },
-    "scale": "500",
-    "width": 416
-  },
-  {
-    "desc": "FMI Garching BT01 EG",
-    "height": 487,
-    "id": 86,
-    "latlonbox": {
-      "east": "11.669435922",
-      "north": "48.2628024724",
-      "rotation": "-10.3610203266",
-      "south": "48.2622042567",
-      "west": "11.6687126826"
-    },
-    "scale": "500",
-    "width": 399
-  },
-  {
-    "desc": "FMI Garching BT02 EG",
-    "height": 487,
-    "id": 87,
-    "latlonbox": {
-      "east": "11.669435922",
-      "north": "48.2628024724",
-      "rotation": "-10.3610203266",
-      "south": "48.2622042567",
-      "west": "11.6687126826"
-    },
-    "scale": "500",
-    "width": 399
-  },
-  {
-    "desc": "FMI Garching BT03 EG",
-    "height": 406,
-    "id": 88,
-    "latlonbox": {
-      "east": "11.6672805281",
-      "north": "48.2627276996",
-      "rotation": "-10.3610203266",
-      "south": "48.2622312904",
-      "west": "11.6665297717"
-    },
-    "scale": "500",
-    "width": 413
-  },
-  {
-    "desc": "FMI Garching BT07 EG",
-    "height": 605,
-    "id": 89,
-    "latlonbox": {
-      "east": "11.668395612",
-      "north": "48.2632793351",
-      "rotation": "-10.3610203266",
-      "south": "48.2625406375",
-      "west": "11.6678615773"
-    },
-    "scale": "500",
-    "width": 295
-  },
-  {
-    "desc": "FMI Garching BT09 EG",
-    "height": 605,
-    "id": 90,
-    "latlonbox": {
-      "east": "11.6679650598",
-      "north": "48.2633375443",
-      "rotation": "-10.3610203266",
-      "south": "48.2625981388",
-      "west": "11.6673775864"
-    },
-    "scale": "500",
-    "width": 324
-  },
-  {
-    "desc": "FMI Garching BT11 EG",
-    "height": 605,
-    "id": 91,
-    "latlonbox": {
-      "east": "11.6675829898",
-      "north": "48.2633791832",
-      "rotation": "-10.3610203266",
-      "south": "48.2626404816",
-      "west": "11.6670489655"
-    },
-    "scale": "500",
-    "width": 295
-  },
-  {
-    "desc": "FMI Garching BT13 EG",
-    "height": 605,
-    "id": 92,
-    "latlonbox": {
-      "east": "11.6672220567",
-      "north": "48.263419054",
-      "rotation": "-10.3610203266",
-      "south": "48.2626803506",
-      "west": "11.6666880371"
-    },
-    "scale": "500",
-    "width": 295
-  },
-  {
-    "desc": "FMI Garching BT05 EG",
-    "height": 605,
-    "id": 93,
-    "latlonbox": {
-      "east": "11.6688626768",
-      "north": "48.263223499",
-      "rotation": "-10.3610203266",
-      "south": "48.2624848036",
-      "west": "11.668328636"
-    },
-    "scale": "500",
-    "width": 295
-  },
-  {
-    "desc": "FMI Garching BT04 EG",
-    "height": 605,
-    "id": 94,
-    "latlonbox": {
-      "east": "11.6692351229",
-      "north": "48.2623922745",
-      "rotation": "-15.7610714436",
-      "south": "48.2616521234",
-      "west": "11.6687007967"
-    },
-    "scale": "500",
-    "width": 295
-  },
-  {
-    "desc": "FMI Garching BT06 EG",
-    "height": 605,
-    "id": 95,
-    "latlonbox": {
-      "east": "11.6688558645",
-      "north": "48.2624632522",
-      "rotation": "-15.7610714436",
-      "south": "48.2617256799",
-      "west": "11.6682807315"
-    },
-    "scale": "500",
-    "width": 318
-  },
-  {
-    "desc": "FMI Garching BT08 EG",
-    "height": 605,
-    "id": 96,
-    "latlonbox": {
-      "east": "11.6685017928",
-      "north": "48.2625262025",
-      "rotation": "-15.7610714436",
-      "south": "48.2617861816",
-      "west": "11.6679682931"
-    },
-    "scale": "500",
-    "width": 295
-  },
-  {
-    "desc": "FMI Garching BT10 EG",
-    "height": 605,
-    "id": 97,
-    "latlonbox": {
-      "east": "11.6680580096",
-      "north": "48.2626084903",
-      "rotation": "-15.7610714436",
-      "south": "48.2618684672",
-      "west": "11.6675245154"
-    },
-    "scale": "500",
-    "width": 295
-  },
-  {
-    "desc": "FMI Garching BT12 EG",
-    "height": 605,
-    "id": 98,
-    "latlonbox": {
-      "east": "11.6676459574",
-      "north": "48.2626855408",
-      "rotation": "-15.7610714436",
-      "south": "48.2619455157",
-      "west": "11.6671124682"
-    },
-    "scale": "500",
-    "width": 295
-  },
-  {
-    "desc": "FMI Garching BT03 1.OG",
-    "height": 406,
-    "id": 99,
-    "latlonbox": {
-      "east": "11.6672805281",
-      "north": "48.2627276996",
-      "rotation": "-10.3610203266",
-      "south": "48.2622312904",
-      "west": "11.6665297717"
-    },
-    "scale": "500",
-    "width": 413
-  },
-  {
     "desc": "FMI Garching BT04 1.OG",
     "height": 605,
-    "id": 100,
+    "id": "rf100",
     "latlonbox": {
       "east": "11.6692351229",
       "north": "48.2623922745",
@@ -1199,7 +30,7 @@
   {
     "desc": "FMI Garching BT05 1.OG",
     "height": 605,
-    "id": 101,
+    "id": "rf101",
     "latlonbox": {
       "east": "11.6688626768",
       "north": "48.263223499",
@@ -1213,7 +44,7 @@
   {
     "desc": "FMI Garching BT06 1.OG",
     "height": 605,
-    "id": 102,
+    "id": "rf102",
     "latlonbox": {
       "east": "11.6689180365",
       "north": "48.2624491279",
@@ -1227,7 +58,7 @@
   {
     "desc": "FMI Garching BT07 1.OG",
     "height": 605,
-    "id": 103,
+    "id": "rf103",
     "latlonbox": {
       "east": "11.668395612",
       "north": "48.2632793351",
@@ -1241,7 +72,7 @@
   {
     "desc": "FMI Garching BT08 1.OG",
     "height": 605,
-    "id": 104,
+    "id": "rf104",
     "latlonbox": {
       "east": "11.6685017928",
       "north": "48.2625262025",
@@ -1255,7 +86,7 @@
   {
     "desc": "FMI Garching BT09 1.OG",
     "height": 605,
-    "id": 105,
+    "id": "rf105",
     "latlonbox": {
       "east": "11.6679386367",
       "north": "48.2633349857",
@@ -1269,7 +100,7 @@
   {
     "desc": "FMI Garching BT10 1.OG",
     "height": 605,
-    "id": 106,
+    "id": "rf106",
     "latlonbox": {
       "east": "11.6680580096",
       "north": "48.2626084903",
@@ -1283,7 +114,7 @@
   {
     "desc": "FMI Garching BT11 1.OG",
     "height": 605,
-    "id": 107,
+    "id": "rf107",
     "latlonbox": {
       "east": "11.6675829898",
       "north": "48.2633791832",
@@ -1297,7 +128,7 @@
   {
     "desc": "FMI Garching BT12 1.OG",
     "height": 605,
-    "id": 108,
+    "id": "rf108",
     "latlonbox": {
       "east": "11.6676459574",
       "north": "48.2626855408",
@@ -1311,7 +142,7 @@
   {
     "desc": "FMI Garching BT13 1.OG",
     "height": 605,
-    "id": 109,
+    "id": "rf109",
     "latlonbox": {
       "east": "11.6672220567",
       "north": "48.263419054",
@@ -1325,7 +156,7 @@
   {
     "desc": "FMI Garching Magistrale EG",
     "height": 148,
-    "id": 110,
+    "id": "rf110",
     "latlonbox": {
       "east": "11.669261568",
       "north": "48.2626794494",
@@ -1339,7 +170,7 @@
   {
     "desc": "FMI Garching BT04 2.OG",
     "height": 605,
-    "id": 112,
+    "id": "rf112",
     "latlonbox": {
       "east": "11.6692351229",
       "north": "48.2623922745",
@@ -1353,7 +184,7 @@
   {
     "desc": "FMI Garching BT04 3.OG",
     "height": 605,
-    "id": 113,
+    "id": "rf113",
     "latlonbox": {
       "east": "11.6692351229",
       "north": "48.2623922745",
@@ -1367,7 +198,7 @@
   {
     "desc": "FMI Garching BT04 4.OG",
     "height": 605,
-    "id": 114,
+    "id": "rf114",
     "latlonbox": {
       "east": "11.6692351229",
       "north": "48.2623922745",
@@ -1381,7 +212,7 @@
   {
     "desc": "FMI Garching BT05 2.OG",
     "height": 605,
-    "id": 115,
+    "id": "rf115",
     "latlonbox": {
       "east": "11.6688626768",
       "north": "48.263223499",
@@ -1395,7 +226,7 @@
   {
     "desc": "FMI Garching BT05 3.OG",
     "height": 605,
-    "id": 116,
+    "id": "rf116",
     "latlonbox": {
       "east": "11.6688626768",
       "north": "48.263223499",
@@ -1409,7 +240,7 @@
   {
     "desc": "FMI Garching BT05 4.OG",
     "height": 605,
-    "id": 117,
+    "id": "rf117",
     "latlonbox": {
       "east": "11.6687397185",
       "north": "48.2632398515",
@@ -1423,7 +254,7 @@
   {
     "desc": "FMI Garching BT06 2.OG",
     "height": 605,
-    "id": 118,
+    "id": "rf118",
     "latlonbox": {
       "east": "11.6689180365",
       "north": "48.2624491279",
@@ -1437,7 +268,7 @@
   {
     "desc": "FMI Garching BT06 3.OG",
     "height": 605,
-    "id": 119,
+    "id": "rf119",
     "latlonbox": {
       "east": "11.6689180365",
       "north": "48.2624491279",
@@ -1449,9 +280,23 @@
     "width": 295
   },
   {
+    "desc": "Stammgel\u00e4nde Basiskarte",
+    "height": 484,
+    "id": "rf12",
+    "latlonbox": {
+      "east": "11.5716665221",
+      "north": "48.1513605477",
+      "rotation": "-23.4999992847",
+      "south": "48.1464320713",
+      "west": "11.5641018846"
+    },
+    "scale": "4000",
+    "width": 501
+  },
+  {
     "desc": "FMI Garching BT06 4.OG",
     "height": 605,
-    "id": 120,
+    "id": "rf120",
     "latlonbox": {
       "east": "11.6687495155",
       "north": "48.2624800354",
@@ -1465,7 +310,7 @@
   {
     "desc": "FMI Garching BT07 2.OG",
     "height": 605,
-    "id": 121,
+    "id": "rf121",
     "latlonbox": {
       "east": "11.668395612",
       "north": "48.2632793351",
@@ -1479,7 +324,7 @@
   {
     "desc": "FMI Garching BT07 3.OG",
     "height": 605,
-    "id": 122,
+    "id": "rf122",
     "latlonbox": {
       "east": "11.668395612",
       "north": "48.2632793351",
@@ -1493,7 +338,7 @@
   {
     "desc": "FMI Garching BT07 4.OG",
     "height": 605,
-    "id": 123,
+    "id": "rf123",
     "latlonbox": {
       "east": "11.668395612",
       "north": "48.2632793351",
@@ -1507,7 +352,7 @@
   {
     "desc": "FMI Garching BT08 2.OG",
     "height": 605,
-    "id": 124,
+    "id": "rf124",
     "latlonbox": {
       "east": "11.6685017928",
       "north": "48.2625262025",
@@ -1521,7 +366,7 @@
   {
     "desc": "FMI Garching BT08 3.OG",
     "height": 605,
-    "id": 125,
+    "id": "rf125",
     "latlonbox": {
       "east": "11.6685017928",
       "north": "48.2625262025",
@@ -1535,7 +380,7 @@
   {
     "desc": "FMI Garching BT08 4.OG",
     "height": 605,
-    "id": 126,
+    "id": "rf126",
     "latlonbox": {
       "east": "11.6685017928",
       "north": "48.2625262025",
@@ -1549,7 +394,7 @@
   {
     "desc": "FMI Garching BT09 2.OG",
     "height": 605,
-    "id": 127,
+    "id": "rf127",
     "latlonbox": {
       "east": "11.6679386367",
       "north": "48.2633349857",
@@ -1563,7 +408,7 @@
   {
     "desc": "FMI Garching BT09 3.OG",
     "height": 605,
-    "id": 128,
+    "id": "rf128",
     "latlonbox": {
       "east": "11.6679386367",
       "north": "48.2633349857",
@@ -1577,7 +422,7 @@
   {
     "desc": "FMI Garching BT09 4. OG",
     "height": 605,
-    "id": 129,
+    "id": "rf129",
     "latlonbox": {
       "east": "11.6678197919",
       "north": "48.2633568779",
@@ -1591,7 +436,7 @@
   {
     "desc": "FMI Garching BT10 2.OG",
     "height": 605,
-    "id": 130,
+    "id": "rf130",
     "latlonbox": {
       "east": "11.6680580096",
       "north": "48.2626084903",
@@ -1605,7 +450,7 @@
   {
     "desc": "FMI Garching BT10 3.OG",
     "height": 605,
-    "id": 131,
+    "id": "rf131",
     "latlonbox": {
       "east": "11.6680580096",
       "north": "48.2626084903",
@@ -1619,7 +464,7 @@
   {
     "desc": "FMI Garching BT10 4.OG",
     "height": 605,
-    "id": 132,
+    "id": "rf132",
     "latlonbox": {
       "east": "11.6679120436",
       "north": "48.2626344585",
@@ -1633,7 +478,7 @@
   {
     "desc": "FMI Garching BT11 2.OG",
     "height": 605,
-    "id": 133,
+    "id": "rf133",
     "latlonbox": {
       "east": "11.6675829898",
       "north": "48.2633791832",
@@ -1647,7 +492,7 @@
   {
     "desc": "FMI Garching BT11 3.OG",
     "height": 605,
-    "id": 134,
+    "id": "rf134",
     "latlonbox": {
       "east": "11.6675829898",
       "north": "48.2633791832",
@@ -1661,7 +506,7 @@
   {
     "desc": "FMI Garching BT11 4.OG",
     "height": 605,
-    "id": 135,
+    "id": "rf135",
     "latlonbox": {
       "east": "11.6675829898",
       "north": "48.2633791832",
@@ -1675,7 +520,7 @@
   {
     "desc": "FMI Garching BT12 2.OG",
     "height": 605,
-    "id": 136,
+    "id": "rf136",
     "latlonbox": {
       "east": "11.6676459574",
       "north": "48.2626855408",
@@ -1689,7 +534,7 @@
   {
     "desc": "FMI Garching BT12 3.OG",
     "height": 605,
-    "id": 137,
+    "id": "rf137",
     "latlonbox": {
       "east": "11.6676459574",
       "north": "48.2626855408",
@@ -1703,7 +548,7 @@
   {
     "desc": "FMI Garching BT12 4.OG",
     "height": 605,
-    "id": 138,
+    "id": "rf138",
     "latlonbox": {
       "east": "11.6676459574",
       "north": "48.2626855408",
@@ -1717,7 +562,7 @@
   {
     "desc": "FMI Garching BT13 2.OG",
     "height": 605,
-    "id": 139,
+    "id": "rf139",
     "latlonbox": {
       "east": "11.6672220567",
       "north": "48.263419054",
@@ -1729,9 +574,23 @@
     "width": 295
   },
   {
+    "desc": "Thierschbau EG",
+    "height": 298,
+    "id": "rf14",
+    "latlonbox": {
+      "east": "11.5673200711",
+      "north": "48.1488534693",
+      "rotation": "-22.9999992847",
+      "south": "48.1479510623",
+      "west": "11.5655599404"
+    },
+    "scale": "1200",
+    "width": 386
+  },
+  {
     "desc": "FMI Garching BT13 3.OG",
     "height": 605,
-    "id": 140,
+    "id": "rf140",
     "latlonbox": {
       "east": "11.6672220567",
       "north": "48.263419054",
@@ -1745,7 +604,7 @@
   {
     "desc": "FMI Garching BT13 4.OG",
     "height": 605,
-    "id": 141,
+    "id": "rf141",
     "latlonbox": {
       "east": "11.6672220567",
       "north": "48.263419054",
@@ -1759,7 +618,7 @@
   {
     "desc": "FMI \u00dcbersicht",
     "height": 461,
-    "id": 142,
+    "id": "rf142",
     "latlonbox": {
       "east": "11.6701789257",
       "north": "48.2634089827",
@@ -1773,7 +632,7 @@
   {
     "desc": "FMI Garching BT01 UG",
     "height": 156,
-    "id": 143,
+    "id": "rf143",
     "latlonbox": {
       "east": "11.6694723397",
       "north": "48.2627192914",
@@ -1787,7 +646,7 @@
   {
     "desc": "FMI Garching BT02 UG",
     "height": 487,
-    "id": 144,
+    "id": "rf144",
     "latlonbox": {
       "east": "11.669435922",
       "north": "48.2628024724",
@@ -1801,7 +660,7 @@
   {
     "desc": "FMI Garching BT04 UG",
     "height": 605,
-    "id": 145,
+    "id": "rf145",
     "latlonbox": {
       "east": "11.6692351229",
       "north": "48.2623922745",
@@ -1815,7 +674,7 @@
   {
     "desc": "FMI Garching BT05 UG",
     "height": 605,
-    "id": 146,
+    "id": "rf146",
     "latlonbox": {
       "east": "11.6688626768",
       "north": "48.263223499",
@@ -1829,7 +688,7 @@
   {
     "desc": "FMI Garching BT06 UG",
     "height": 605,
-    "id": 147,
+    "id": "rf147",
     "latlonbox": {
       "east": "11.6689180365",
       "north": "48.2624491279",
@@ -1843,7 +702,7 @@
   {
     "desc": "FMI Garching BT07 UG",
     "height": 605,
-    "id": 148,
+    "id": "rf148",
     "latlonbox": {
       "east": "11.668369768",
       "north": "48.2632844342",
@@ -1857,7 +716,7 @@
   {
     "desc": "FMI Garching BT08 UG",
     "height": 605,
-    "id": 149,
+    "id": "rf149",
     "latlonbox": {
       "east": "11.6685017928",
       "north": "48.2625262025",
@@ -1869,9 +728,23 @@
     "width": 295
   },
   {
+    "desc": "Thierschbau 1. OG",
+    "height": 298,
+    "id": "rf15",
+    "latlonbox": {
+      "east": "11.5673200711",
+      "north": "48.1488534693",
+      "rotation": "-22.9999992847",
+      "south": "48.1479510623",
+      "west": "11.5655599404"
+    },
+    "scale": "1200",
+    "width": 386
+  },
+  {
     "desc": "FMI Garching BT09 UG",
     "height": 605,
-    "id": 150,
+    "id": "rf150",
     "latlonbox": {
       "east": "11.6679386367",
       "north": "48.2633349857",
@@ -1885,7 +758,7 @@
   {
     "desc": "FMI Garching BT10 UG",
     "height": 605,
-    "id": 151,
+    "id": "rf151",
     "latlonbox": {
       "east": "11.6680332685",
       "north": "48.2626184682",
@@ -1899,7 +772,7 @@
   {
     "desc": "FMI Garching BT11 UG",
     "height": 605,
-    "id": 152,
+    "id": "rf152",
     "latlonbox": {
       "east": "11.6675829898",
       "north": "48.2633791832",
@@ -1913,7 +786,7 @@
   {
     "desc": "FMI Garching BT12 UG",
     "height": 605,
-    "id": 153,
+    "id": "rf153",
     "latlonbox": {
       "east": "11.6676459574",
       "north": "48.2626855408",
@@ -1927,7 +800,7 @@
   {
     "desc": "FMI Garching BT13 UG",
     "height": 605,
-    "id": 154,
+    "id": "rf154",
     "latlonbox": {
       "east": "11.6672220567",
       "north": "48.263419054",
@@ -1941,7 +814,7 @@
   {
     "desc": "M\u00fcnchen und Umgebung",
     "height": 515,
-    "id": 156,
+    "id": "rf156",
     "latlonbox": {
       "east": "11.8899909647",
       "north": "48.4236128844",
@@ -1953,9 +826,23 @@
     "width": 420
   },
   {
+    "desc": "Thierschbau 2. OG",
+    "height": 298,
+    "id": "rf16",
+    "latlonbox": {
+      "east": "11.5673200711",
+      "north": "48.1488534693",
+      "rotation": "-22.9999992847",
+      "south": "48.1479510623",
+      "west": "11.5655599404"
+    },
+    "scale": "1200",
+    "width": 386
+  },
+  {
     "desc": "WZ Weihenstephan \u00dcbersicht",
     "height": 777,
-    "id": 160,
+    "id": "rf160",
     "latlonbox": {
       "east": "11.7371732652",
       "north": "48.4111924014",
@@ -1969,7 +856,7 @@
   {
     "desc": "WZ Weihenstephan Mitte",
     "height": 402,
-    "id": 161,
+    "id": "rf161",
     "latlonbox": {
       "east": "11.7282893506",
       "north": "48.403147203",
@@ -1983,7 +870,7 @@
   {
     "desc": "WZ Weihenstephan S\u00fcd",
     "height": 373,
-    "id": 162,
+    "id": "rf162",
     "latlonbox": {
       "east": "11.7327298515",
       "north": "48.3982201509",
@@ -1997,7 +884,7 @@
   {
     "desc": "Biologikum EG",
     "height": 456,
-    "id": 163,
+    "id": "rf163",
     "latlonbox": {
       "east": "11.721028659",
       "north": "48.4001076666",
@@ -2011,7 +898,7 @@
   {
     "desc": "Biologikum 1.OG",
     "height": 456,
-    "id": 164,
+    "id": "rf164",
     "latlonbox": {
       "east": "11.721028659",
       "north": "48.4001076666",
@@ -2025,7 +912,7 @@
   {
     "desc": "Biologikum 2.OG",
     "height": 456,
-    "id": 165,
+    "id": "rf165",
     "latlonbox": {
       "east": "11.721028659",
       "north": "48.4001076666",
@@ -2039,7 +926,7 @@
   {
     "desc": "Biologikum KG",
     "height": 456,
-    "id": 166,
+    "id": "rf166",
     "latlonbox": {
       "east": "11.721028659",
       "north": "48.4001076666",
@@ -2053,7 +940,7 @@
   {
     "desc": "M\u00fcnchner S\u00fcden",
     "height": 633,
-    "id": 167,
+    "id": "rf167",
     "latlonbox": {
       "east": "11.6187586284",
       "north": "48.1593483872",
@@ -2067,7 +954,7 @@
   {
     "desc": "Iffeldorf",
     "height": 560,
-    "id": 168,
+    "id": "rf168",
     "latlonbox": {
       "east": "11.3460068752",
       "north": "47.7857443638",
@@ -2081,7 +968,35 @@
   {
     "desc": "M\u00fcnchner S\u00fcden",
     "height": 633,
-    "id": 169,
+    "id": "rf169",
+    "latlonbox": {
+      "east": "11.6187586284",
+      "north": "48.1593483872",
+      "rotation": "2.93098878501e-14",
+      "south": "47.75753844",
+      "west": "11.2541909508"
+    },
+    "scale": "500000",
+    "width": 387
+  },
+  {
+    "desc": "Thierschbau Zwischengeschoss",
+    "height": 298,
+    "id": "rf17",
+    "latlonbox": {
+      "east": "11.5673200711",
+      "north": "48.1488534693",
+      "rotation": "-22.9999992847",
+      "south": "48.1479510623",
+      "west": "11.5655599404"
+    },
+    "scale": "1200",
+    "width": 386
+  },
+  {
+    "desc": "M\u00fcnchner S\u00fcden",
+    "height": 633,
+    "id": "rf170",
     "latlonbox": {
       "east": "11.6187586284",
       "north": "48.1593483872",
@@ -2095,21 +1010,7 @@
   {
     "desc": "M\u00fcnchner S\u00fcden",
     "height": 633,
-    "id": 170,
-    "latlonbox": {
-      "east": "11.6187586284",
-      "north": "48.1593483872",
-      "rotation": "2.93098878501e-14",
-      "south": "47.75753844",
-      "west": "11.2541909508"
-    },
-    "scale": "500000",
-    "width": 387
-  },
-  {
-    "desc": "M\u00fcnchner S\u00fcden",
-    "height": 633,
-    "id": 171,
+    "id": "rf171",
     "latlonbox": {
       "east": "11.6187586284",
       "north": "48.1593483872",
@@ -2123,7 +1024,7 @@
   {
     "desc": "Physik II Garching EG",
     "height": 600,
-    "id": 172,
+    "id": "rf172",
     "latlonbox": {
       "east": "11.6760545435",
       "north": "48.2682546583",
@@ -2137,7 +1038,7 @@
   {
     "desc": "Physik II Garching 1.OG",
     "height": 600,
-    "id": 173,
+    "id": "rf173",
     "latlonbox": {
       "east": "11.6760545435",
       "north": "48.2682546583",
@@ -2151,7 +1052,7 @@
   {
     "desc": "Physik II Garching UG",
     "height": 600,
-    "id": 174,
+    "id": "rf174",
     "latlonbox": {
       "east": "11.6760545435",
       "north": "48.2682546583",
@@ -2165,7 +1066,7 @@
   {
     "desc": "Physik I Garching EG",
     "height": 562,
-    "id": 175,
+    "id": "rf175",
     "latlonbox": {
       "east": "11.6769769968",
       "north": "48.2676205702",
@@ -2179,7 +1080,7 @@
   {
     "desc": "Physik I Garching 1.OG",
     "height": 562,
-    "id": 176,
+    "id": "rf176",
     "latlonbox": {
       "east": "11.6769769968",
       "north": "48.2676205702",
@@ -2193,7 +1094,7 @@
   {
     "desc": "Physik I Garching 2.OG",
     "height": 562,
-    "id": 177,
+    "id": "rf177",
     "latlonbox": {
       "east": "11.6769769968",
       "north": "48.2676205702",
@@ -2207,7 +1108,7 @@
   {
     "desc": "Physik I Garching 1.UG",
     "height": 562,
-    "id": 178,
+    "id": "rf178",
     "latlonbox": {
       "east": "11.6769769968",
       "north": "48.2676205702",
@@ -2221,7 +1122,7 @@
   {
     "desc": "Physik I Garching 2.UG",
     "height": 562,
-    "id": 179,
+    "id": "rf179",
     "latlonbox": {
       "east": "11.6769769968",
       "north": "48.2676205702",
@@ -2233,9 +1134,23 @@
     "width": 799
   },
   {
+    "desc": "Thierschbau 3. OG",
+    "height": 298,
+    "id": "rf18",
+    "latlonbox": {
+      "east": "11.5673200711",
+      "north": "48.1488534693",
+      "rotation": "-22.9999992847",
+      "south": "48.1479510623",
+      "west": "11.5655599404"
+    },
+    "scale": "1200",
+    "width": 386
+  },
+  {
     "desc": "Olympiapark ZHS",
     "height": 891,
-    "id": 180,
+    "id": "rf180",
     "latlonbox": {
       "east": "11.5588942531",
       "north": "48.1864461042",
@@ -2249,7 +1164,7 @@
   {
     "desc": "Uptown M\u00fcnchen",
     "height": 450,
-    "id": 181,
+    "id": "rf181",
     "latlonbox": {
       "east": "11.535343736",
       "north": "48.1782601496",
@@ -2263,7 +1178,7 @@
   {
     "desc": "Garching b. M\u00fcnchen 35-39 Lageplan",
     "height": 565,
-    "id": 182,
+    "id": "rf182",
     "latlonbox": {
       "east": "11.6360655469",
       "north": "48.2505288537",
@@ -2277,7 +1192,7 @@
   {
     "desc": "Garching b. M\u00fcnchen 35-39 3.OG",
     "height": 550,
-    "id": 183,
+    "id": "rf183",
     "latlonbox": {
       "east": "11.6347192408",
       "north": "48.2499729904",
@@ -2291,7 +1206,7 @@
   {
     "desc": "Garching b. M\u00fcnchen 35-39 2.OG",
     "height": 550,
-    "id": 184,
+    "id": "rf184",
     "latlonbox": {
       "east": "11.6347192408",
       "north": "48.2499729904",
@@ -2305,7 +1220,7 @@
   {
     "desc": "Garching b. M\u00fcnchen 35-39 1.OG",
     "height": 550,
-    "id": 185,
+    "id": "rf185",
     "latlonbox": {
       "east": "11.6347192408",
       "north": "48.2499729904",
@@ -2319,7 +1234,7 @@
   {
     "desc": "Garching b. M\u00fcnchen 35-39 EG",
     "height": 550,
-    "id": 186,
+    "id": "rf186",
     "latlonbox": {
       "east": "11.6347192408",
       "north": "48.2499729904",
@@ -2333,7 +1248,7 @@
   {
     "desc": "Garching b. M\u00fcnchen 11-13 Lageplan",
     "height": 525,
-    "id": 187,
+    "id": "rf187",
     "latlonbox": {
       "east": "11.6366131172",
       "north": "48.2531561456",
@@ -2347,7 +1262,7 @@
   {
     "desc": "Garching b. M\u00fcnchen Parkring 11-13 2.OG",
     "height": 322,
-    "id": 188,
+    "id": "rf188",
     "latlonbox": {
       "east": "11.6357710021",
       "north": "48.2526663796",
@@ -2361,7 +1276,7 @@
   {
     "desc": "Garching b. M\u00fcnchen Parkring 11-13 3.OG",
     "height": 322,
-    "id": 189,
+    "id": "rf189",
     "latlonbox": {
       "east": "11.6357710021",
       "north": "48.2526663796",
@@ -2373,9 +1288,23 @@
     "width": 640
   },
   {
+    "desc": "Thierschbau 4. OG",
+    "height": 298,
+    "id": "rf19",
+    "latlonbox": {
+      "east": "11.5673200711",
+      "north": "48.1488534693",
+      "rotation": "-22.9999992847",
+      "south": "48.1479510623",
+      "west": "11.5655599404"
+    },
+    "scale": "1200",
+    "width": 386
+  },
+  {
     "desc": "Marsstr. 20-22 / 1.OG",
     "height": 640,
-    "id": 190,
+    "id": "rf190",
     "latlonbox": {
       "east": "11.5585966027",
       "north": "48.1444873044",
@@ -2389,7 +1318,7 @@
   {
     "desc": "Marsstr. 20-22 / 6.OG",
     "height": 640,
-    "id": 191,
+    "id": "rf191",
     "latlonbox": {
       "east": "11.5585966027",
       "north": "48.1444873044",
@@ -2403,7 +1332,7 @@
   {
     "desc": "Marsstr. 20-22 Lageplan",
     "height": 420,
-    "id": 192,
+    "id": "rf192",
     "latlonbox": {
       "east": "11.5601417728",
       "north": "48.1445487785",
@@ -2417,7 +1346,7 @@
   {
     "desc": "(Z5) Wirtschaftswissenschaften EG",
     "height": 800,
-    "id": 193,
+    "id": "rf193",
     "latlonbox": {
       "east": "11.5673500585",
       "north": "48.150291852",
@@ -2431,7 +1360,7 @@
   {
     "desc": "(Z5) Wirtschaftswissenschaften ZG",
     "height": 800,
-    "id": 194,
+    "id": "rf194",
     "latlonbox": {
       "east": "11.5673500585",
       "north": "48.150291852",
@@ -2445,7 +1374,7 @@
   {
     "desc": "(Z5) Wirtschaftswissenschaften 1. OG",
     "height": 800,
-    "id": 195,
+    "id": "rf195",
     "latlonbox": {
       "east": "11.5673500585",
       "north": "48.150291852",
@@ -2459,7 +1388,7 @@
   {
     "desc": "(Z5) Wirtschaftswissenschaften 2. OG",
     "height": 800,
-    "id": 196,
+    "id": "rf196",
     "latlonbox": {
       "east": "11.5673500585",
       "north": "48.150291852",
@@ -2473,7 +1402,7 @@
   {
     "desc": "(Z5) Wirtschaftswissenschaften 3. OG",
     "height": 800,
-    "id": 197,
+    "id": "rf197",
     "latlonbox": {
       "east": "11.5673500585",
       "north": "48.150291852",
@@ -2487,7 +1416,7 @@
   {
     "desc": "(Z5) Wirtschaftswissenschaften DG",
     "height": 800,
-    "id": 198,
+    "id": "rf198",
     "latlonbox": {
       "east": "11.5673500585",
       "north": "48.150291852",
@@ -2501,7 +1430,7 @@
   {
     "desc": "(Z5) Wirtschaftswissenschaften UG",
     "height": 800,
-    "id": 199,
+    "id": "rf199",
     "latlonbox": {
       "east": "11.5673500585",
       "north": "48.150291852",
@@ -2513,9 +1442,23 @@
     "width": 481
   },
   {
+    "desc": "Thierschbau 5. OG",
+    "height": 298,
+    "id": "rf20",
+    "latlonbox": {
+      "east": "11.5673200711",
+      "north": "48.1488534693",
+      "rotation": "-22.9999992847",
+      "south": "48.1479510623",
+      "west": "11.5655599404"
+    },
+    "scale": "1200",
+    "width": 386
+  },
+  {
     "desc": "Karlstra\u00dfe 45-47 Lageplan",
     "height": 520,
-    "id": 201,
+    "id": "rf201",
     "latlonbox": {
       "east": "11.5619462198",
       "north": "48.1452075122",
@@ -2529,7 +1472,7 @@
   {
     "desc": "Karlstra\u00dfe 45-47 UG",
     "height": 516,
-    "id": 202,
+    "id": "rf202",
     "latlonbox": {
       "east": "11.5612225337",
       "north": "48.1446912515",
@@ -2543,7 +1486,7 @@
   {
     "desc": "Karlstra\u00dfe 45-47 EG",
     "height": 516,
-    "id": 203,
+    "id": "rf203",
     "latlonbox": {
       "east": "11.5612225337",
       "north": "48.1446912515",
@@ -2557,7 +1500,7 @@
   {
     "desc": "Karlstra\u00dfe 45-47 1.OG",
     "height": 516,
-    "id": 204,
+    "id": "rf204",
     "latlonbox": {
       "east": "11.5612225337",
       "north": "48.1446912515",
@@ -2571,7 +1514,7 @@
   {
     "desc": "Karlstra\u00dfe 45-47 2.OG",
     "height": 516,
-    "id": 205,
+    "id": "rf205",
     "latlonbox": {
       "east": "11.5612225337",
       "north": "48.1446912515",
@@ -2585,7 +1528,7 @@
   {
     "desc": "Karlstra\u00dfe 45-47 3.OG",
     "height": 516,
-    "id": 206,
+    "id": "rf206",
     "latlonbox": {
       "east": "11.5612225337",
       "north": "48.1446912515",
@@ -2599,7 +1542,7 @@
   {
     "desc": "Karlstra\u00dfe 45-47 4.OG",
     "height": 516,
-    "id": 207,
+    "id": "rf207",
     "latlonbox": {
       "east": "11.5612225337",
       "north": "48.1446912515",
@@ -2613,7 +1556,7 @@
   {
     "desc": "Karlstra\u00dfe 45-47 5.OG",
     "height": 516,
-    "id": 208,
+    "id": "rf208",
     "latlonbox": {
       "east": "11.5612225337",
       "north": "48.1446912515",
@@ -2627,7 +1570,7 @@
   {
     "desc": "Karlstra\u00dfe 45-47 DG",
     "height": 516,
-    "id": 209,
+    "id": "rf209",
     "latlonbox": {
       "east": "11.5612225337",
       "north": "48.1446912515",
@@ -2639,9 +1582,23 @@
     "width": 800
   },
   {
+    "desc": "Thierschbau 6. OG",
+    "height": 298,
+    "id": "rf21",
+    "latlonbox": {
+      "east": "11.5673200711",
+      "north": "48.1488534693",
+      "rotation": "-22.9999992847",
+      "south": "48.1479510623",
+      "west": "11.5655599404"
+    },
+    "scale": "1200",
+    "width": 386
+  },
+  {
     "desc": "01-05-0502 Bestelmeyer S\u00fcd EG",
     "height": 540,
-    "id": 210,
+    "id": "rf210",
     "latlonbox": {
       "east": "11.5682370375",
       "north": "48.1484752532",
@@ -2655,7 +1612,7 @@
   {
     "desc": "01-05-0502 Bestelmeyer S\u00fcd UG",
     "height": 540,
-    "id": 211,
+    "id": "rf211",
     "latlonbox": {
       "east": "11.5682370375",
       "north": "48.1484752532",
@@ -2669,7 +1626,7 @@
   {
     "desc": "01-05-0502 Bestelmeyer S\u00fcd ZG",
     "height": 540,
-    "id": 212,
+    "id": "rf212",
     "latlonbox": {
       "east": "11.5682370375",
       "north": "48.1484752532",
@@ -2683,7 +1640,7 @@
   {
     "desc": "01-05-0502 Bestelmeyer S\u00fcd 1.OG",
     "height": 540,
-    "id": 213,
+    "id": "rf213",
     "latlonbox": {
       "east": "11.5682370375",
       "north": "48.1484752532",
@@ -2697,7 +1654,7 @@
   {
     "desc": "01-05-0502 Bestelmeyer S\u00fcd 2.OG",
     "height": 540,
-    "id": 214,
+    "id": "rf214",
     "latlonbox": {
       "east": "11.5682370375",
       "north": "48.1484752532",
@@ -2711,7 +1668,7 @@
   {
     "desc": "01-05-0502 Bestelmeyer S\u00fcd 3.OG",
     "height": 540,
-    "id": 215,
+    "id": "rf215",
     "latlonbox": {
       "east": "11.5682370375",
       "north": "48.1484752532",
@@ -2725,7 +1682,7 @@
   {
     "desc": "01-05-0502 Bestelmeyer S\u00fcd DG",
     "height": 540,
-    "id": 216,
+    "id": "rf216",
     "latlonbox": {
       "east": "11.5682370375",
       "north": "48.1484752532",
@@ -2737,9 +1694,23 @@
     "width": 720
   },
   {
+    "desc": "Thierschbau 7. OG",
+    "height": 298,
+    "id": "rf22",
+    "latlonbox": {
+      "east": "11.5673200711",
+      "north": "48.1488534693",
+      "rotation": "-22.9999992847",
+      "south": "48.1479510623",
+      "west": "11.5655599404"
+    },
+    "scale": "1200",
+    "width": 386
+  },
+  {
     "desc": "01-05-0507 Bestelmeyer Nord EG",
     "height": 540,
-    "id": 228,
+    "id": "rf228",
     "latlonbox": {
       "east": "11.5691283808",
       "north": "48.1498640994",
@@ -2753,7 +1724,7 @@
   {
     "desc": "01-05-0507 Bestelmeyer Nord 1.OG",
     "height": 540,
-    "id": 229,
+    "id": "rf229",
     "latlonbox": {
       "east": "11.5691283808",
       "north": "48.1498640994",
@@ -2767,7 +1738,7 @@
   {
     "desc": "01-05-0507 Bestelmeyer Nord 2.OG",
     "height": 540,
-    "id": 230,
+    "id": "rf230",
     "latlonbox": {
       "east": "11.5691283808",
       "north": "48.1498640994",
@@ -2781,7 +1752,7 @@
   {
     "desc": "01-05-0507 Bestelmeyer Nord 3.OG",
     "height": 540,
-    "id": 231,
+    "id": "rf231",
     "latlonbox": {
       "east": "11.5691283808",
       "north": "48.1498640994",
@@ -2795,7 +1766,7 @@
   {
     "desc": "01-05-0507 Bestelmeyer Nord 1.UG",
     "height": 540,
-    "id": 232,
+    "id": "rf232",
     "latlonbox": {
       "east": "11.5691283808",
       "north": "48.1498640994",
@@ -2809,7 +1780,7 @@
   {
     "desc": "01-05-0507 Bestelmeyer Nord 2.UG",
     "height": 540,
-    "id": 233,
+    "id": "rf233",
     "latlonbox": {
       "east": "11.5691283808",
       "north": "48.1498640994",
@@ -2823,7 +1794,7 @@
   {
     "desc": "01-05-0504 Landwirtschaftsbau EG",
     "height": 737,
-    "id": 235,
+    "id": "rf235",
     "latlonbox": {
       "east": "11.5665716582",
       "north": "48.1495444673",
@@ -2837,7 +1808,7 @@
   {
     "desc": "01-05-0504 Landwirtschaftsbau 1.OG",
     "height": 737,
-    "id": 236,
+    "id": "rf236",
     "latlonbox": {
       "east": "11.5665716582",
       "north": "48.1495444673",
@@ -2851,7 +1822,7 @@
   {
     "desc": "01-05-0504 Landwirtschaftsbau 2.OG",
     "height": 737,
-    "id": 237,
+    "id": "rf237",
     "latlonbox": {
       "east": "11.5665716582",
       "north": "48.1495444673",
@@ -2865,7 +1836,7 @@
   {
     "desc": "01-05-0504 Landwirtschaftsbau 3.OG",
     "height": 737,
-    "id": 238,
+    "id": "rf238",
     "latlonbox": {
       "east": "11.5665716582",
       "north": "48.1495444673",
@@ -2879,7 +1850,7 @@
   {
     "desc": "01-05-0504 Landwirtschaftsbau 1.UG",
     "height": 737,
-    "id": 239,
+    "id": "rf239",
     "latlonbox": {
       "east": "11.5665716582",
       "north": "48.1495444673",
@@ -2893,7 +1864,7 @@
   {
     "desc": "01-05-0504 Landwirtschaftsbau 2.UG",
     "height": 737,
-    "id": 240,
+    "id": "rf240",
     "latlonbox": {
       "east": "11.5665716582",
       "north": "48.1495444673",
@@ -2907,7 +1878,7 @@
   {
     "desc": "01-05-0506 Theresianum EG",
     "height": 230,
-    "id": 241,
+    "id": "rf241",
     "latlonbox": {
       "east": "11.568340325",
       "north": "48.1500714334",
@@ -2921,7 +1892,7 @@
   {
     "desc": "01-05-0506 Theresianum ZG",
     "height": 230,
-    "id": 242,
+    "id": "rf242",
     "latlonbox": {
       "east": "11.568340325",
       "north": "48.1500714334",
@@ -2935,7 +1906,7 @@
   {
     "desc": "01-05-0506 Theresianum 1. OG",
     "height": 230,
-    "id": 243,
+    "id": "rf243",
     "latlonbox": {
       "east": "11.568340325",
       "north": "48.1500714334",
@@ -2949,7 +1920,7 @@
   {
     "desc": "01-05-0506 Theresianum 2. OG",
     "height": 230,
-    "id": 244,
+    "id": "rf244",
     "latlonbox": {
       "east": "11.568340325",
       "north": "48.1500714334",
@@ -2963,7 +1934,7 @@
   {
     "desc": "01-05-0506 Theresianum 3. OG",
     "height": 230,
-    "id": 245,
+    "id": "rf245",
     "latlonbox": {
       "east": "11.568340325",
       "north": "48.1500714334",
@@ -2977,7 +1948,7 @@
   {
     "desc": "01-05-0506 Theresianum DG",
     "height": 230,
-    "id": 246,
+    "id": "rf246",
     "latlonbox": {
       "east": "11.568340325",
       "north": "48.1500714334",
@@ -2991,7 +1962,7 @@
   {
     "desc": "01-05-0506 Theresianum  UG",
     "height": 230,
-    "id": 247,
+    "id": "rf247",
     "latlonbox": {
       "east": "11.568340325",
       "north": "48.1500714334",
@@ -3005,7 +1976,7 @@
   {
     "desc": "Wissenschaftszentrum Straubing Lageplan",
     "height": 788,
-    "id": 248,
+    "id": "rf248",
     "latlonbox": {
       "east": "12.5848936007",
       "north": "48.8870099226",
@@ -3015,5 +1986,1034 @@
     },
     "scale": "5000",
     "width": 635
+  },
+  {
+    "desc": "Neubau Innenhof EG",
+    "height": 500,
+    "id": "rf25",
+    "latlonbox": {
+      "east": "11.5677004126",
+      "north": "48.1498358873",
+      "rotation": "-22.9999992847",
+      "south": "48.1486144129",
+      "west": "11.5666273052"
+    },
+    "scale": "1000",
+    "width": 297
+  },
+  {
+    "desc": "Neubau Innenhof ZG",
+    "height": 500,
+    "id": "rf26",
+    "latlonbox": {
+      "east": "11.5677004126",
+      "north": "48.1498358873",
+      "rotation": "-22.9999992847",
+      "south": "48.1486144129",
+      "west": "11.5666273052"
+    },
+    "scale": "1000",
+    "width": 297
+  },
+  {
+    "desc": "Neubau Innenhof 1. OG",
+    "height": 500,
+    "id": "rf27",
+    "latlonbox": {
+      "east": "11.5677004126",
+      "north": "48.1498358873",
+      "rotation": "-22.9999992847",
+      "south": "48.1486144129",
+      "west": "11.5666273052"
+    },
+    "scale": "1000",
+    "width": 297
+  },
+  {
+    "desc": "Neubau Innenhof 2. OG",
+    "height": 500,
+    "id": "rf28",
+    "latlonbox": {
+      "east": "11.5677004126",
+      "north": "48.1498358873",
+      "rotation": "-22.9999992847",
+      "south": "48.1486144129",
+      "west": "11.5666273052"
+    },
+    "scale": "1000",
+    "width": 297
+  },
+  {
+    "desc": "Neubau Innenhof 3. OG",
+    "height": 500,
+    "id": "rf29",
+    "latlonbox": {
+      "east": "11.5677004126",
+      "north": "48.1498358873",
+      "rotation": "-22.9999992847",
+      "south": "48.1486144129",
+      "west": "11.5666273052"
+    },
+    "scale": "1000",
+    "width": 297
+  },
+  {
+    "desc": "Neubau Innenhof 1.UG",
+    "height": 500,
+    "id": "rf30",
+    "latlonbox": {
+      "east": "11.5677004126",
+      "north": "48.1498358873",
+      "rotation": "-22.9999992847",
+      "south": "48.1486144129",
+      "west": "11.5666273052"
+    },
+    "scale": "1000",
+    "width": 297
+  },
+  {
+    "desc": "Neubau Innenhof 2. UG",
+    "height": 500,
+    "id": "rf31",
+    "latlonbox": {
+      "east": "11.5677004126",
+      "north": "48.1498358873",
+      "rotation": "-22.9999992847",
+      "south": "48.1486144129",
+      "west": "11.5666273052"
+    },
+    "scale": "1000",
+    "width": 297
+  },
+  {
+    "desc": "Neubau Innenhof 4. OG",
+    "height": 500,
+    "id": "rf32",
+    "latlonbox": {
+      "east": "11.5677004126",
+      "north": "48.1498358873",
+      "rotation": "-22.9999992847",
+      "south": "48.1486144129",
+      "west": "11.5666273052"
+    },
+    "scale": "1000",
+    "width": 297
+  },
+  {
+    "desc": "Verwaltungsbau EG",
+    "height": 370,
+    "id": "rf33",
+    "latlonbox": {
+      "east": "11.5687140587",
+      "north": "48.1489736637",
+      "rotation": "-22.9999992847",
+      "south": "48.1485225002",
+      "west": "11.5678434088"
+    },
+    "scale": "500",
+    "width": 481
+  },
+  {
+    "desc": "Verwaltungsbau ZG",
+    "height": 370,
+    "id": "rf34",
+    "latlonbox": {
+      "east": "11.5687140587",
+      "north": "48.1489736637",
+      "rotation": "-22.9999992847",
+      "south": "48.1485225002",
+      "west": "11.5678434088"
+    },
+    "scale": "500",
+    "width": 481
+  },
+  {
+    "desc": "Verwaltungsbau 1. OG",
+    "height": 370,
+    "id": "rf35",
+    "latlonbox": {
+      "east": "11.5687140587",
+      "north": "48.1489736637",
+      "rotation": "-22.9999992847",
+      "south": "48.1485225002",
+      "west": "11.5678434088"
+    },
+    "scale": "500",
+    "width": 481
+  },
+  {
+    "desc": "Verwaltungsbau 2. OG",
+    "height": 370,
+    "id": "rf36",
+    "latlonbox": {
+      "east": "11.5687140587",
+      "north": "48.1489736637",
+      "rotation": "-22.9999992847",
+      "south": "48.1485225002",
+      "west": "11.5678434088"
+    },
+    "scale": "500",
+    "width": 481
+  },
+  {
+    "desc": "Verwaltungsbau 3. OG",
+    "height": 370,
+    "id": "rf37",
+    "latlonbox": {
+      "east": "11.5687140587",
+      "north": "48.1489736637",
+      "rotation": "-22.9999992847",
+      "south": "48.1485225002",
+      "west": "11.5678434088"
+    },
+    "scale": "500",
+    "width": 481
+  },
+  {
+    "desc": "Verwaltungsbau 1. UG",
+    "height": 370,
+    "id": "rf38",
+    "latlonbox": {
+      "east": "11.5687140587",
+      "north": "48.1489736637",
+      "rotation": "-22.9999992847",
+      "south": "48.1485225002",
+      "west": "11.5678434088"
+    },
+    "scale": "500",
+    "width": 481
+  },
+  {
+    "desc": "Elektrophysik EG",
+    "height": 517,
+    "id": "rf39",
+    "latlonbox": {
+      "east": "11.5688656008",
+      "north": "48.1512033",
+      "rotation": "-22.9999992847",
+      "south": "48.1505690113",
+      "west": "11.5682003557"
+    },
+    "scale": "500",
+    "width": 370
+  },
+  {
+    "desc": "Elektrophysik 1. OG",
+    "height": 517,
+    "id": "rf40",
+    "latlonbox": {
+      "east": "11.5688656008",
+      "north": "48.1512033",
+      "rotation": "-22.9999992847",
+      "south": "48.1505690113",
+      "west": "11.5682003557"
+    },
+    "scale": "500",
+    "width": 370
+  },
+  {
+    "desc": "Elektrophysik 2. OG",
+    "height": 517,
+    "id": "rf41",
+    "latlonbox": {
+      "east": "11.5688656008",
+      "north": "48.1512033",
+      "rotation": "-22.9999992847",
+      "south": "48.1505690113",
+      "west": "11.5682003557"
+    },
+    "scale": "500",
+    "width": 370
+  },
+  {
+    "desc": "Elektrophysik 3. OG",
+    "height": 517,
+    "id": "rf42",
+    "latlonbox": {
+      "east": "11.5688656008",
+      "north": "48.1512033",
+      "rotation": "-22.9999992847",
+      "south": "48.1505690113",
+      "west": "11.5682003557"
+    },
+    "scale": "500",
+    "width": 370
+  },
+  {
+    "desc": "Elektrophysik 4. OG",
+    "height": 517,
+    "id": "rf43",
+    "latlonbox": {
+      "east": "11.5688656008",
+      "north": "48.1512033",
+      "rotation": "-22.9999992847",
+      "south": "48.1505690113",
+      "west": "11.5682003557"
+    },
+    "scale": "500",
+    "width": 370
+  },
+  {
+    "desc": "Elektrophysik 5. OG",
+    "height": 517,
+    "id": "rf44",
+    "latlonbox": {
+      "east": "11.5688656008",
+      "north": "48.1512033",
+      "rotation": "-22.9999992847",
+      "south": "48.1505690113",
+      "west": "11.5682003557"
+    },
+    "scale": "500",
+    "width": 370
+  },
+  {
+    "desc": "Elektrophysik 1. UG",
+    "height": 517,
+    "id": "rf45",
+    "latlonbox": {
+      "east": "11.5688656008",
+      "north": "48.1512033",
+      "rotation": "-22.9999992847",
+      "south": "48.1505690113",
+      "west": "11.5682003557"
+    },
+    "scale": "500",
+    "width": 370
+  },
+  {
+    "desc": "Geb\u00e4ude N3 1. UG",
+    "height": 454,
+    "id": "rf46",
+    "latlonbox": {
+      "east": "11.5681741413",
+      "north": "48.1514027032",
+      "rotation": "-22.9999992847",
+      "south": "48.1506360161",
+      "west": "11.5672386137"
+    },
+    "scale": "500",
+    "width": 374
+  },
+  {
+    "desc": "Geb\u00e4ude N3 EG",
+    "height": 454,
+    "id": "rf47",
+    "latlonbox": {
+      "east": "11.5681741413",
+      "north": "48.1514027032",
+      "rotation": "-22.9999992847",
+      "south": "48.1506360161",
+      "west": "11.5672386137"
+    },
+    "scale": "500",
+    "width": 374
+  },
+  {
+    "desc": "Geb\u00e4ude N3 1. OG",
+    "height": 454,
+    "id": "rf48",
+    "latlonbox": {
+      "east": "11.5681741413",
+      "north": "48.1514027032",
+      "rotation": "-22.9999992847",
+      "south": "48.1506360161",
+      "west": "11.5672386137"
+    },
+    "scale": "500",
+    "width": 374
+  },
+  {
+    "desc": "Geb\u00e4ude N3 2. OG",
+    "height": 454,
+    "id": "rf49",
+    "latlonbox": {
+      "east": "11.5681741413",
+      "north": "48.1514027032",
+      "rotation": "-22.9999992847",
+      "south": "48.1506360161",
+      "west": "11.5672386137"
+    },
+    "scale": "500",
+    "width": 374
+  },
+  {
+    "desc": "Geb\u00e4ude N3 3. OG",
+    "height": 454,
+    "id": "rf50",
+    "latlonbox": {
+      "east": "11.5681741413",
+      "north": "48.1514027032",
+      "rotation": "-22.9999992847",
+      "south": "48.1506360161",
+      "west": "11.5672386137"
+    },
+    "scale": "500",
+    "width": 374
+  },
+  {
+    "desc": "Geb\u00e4ude N3 4. OG",
+    "height": 454,
+    "id": "rf51",
+    "latlonbox": {
+      "east": "11.5681741413",
+      "north": "48.1514027032",
+      "rotation": "-22.9999992847",
+      "south": "48.1506360161",
+      "west": "11.5672386137"
+    },
+    "scale": "500",
+    "width": 374
+  },
+  {
+    "desc": "Geb\u00e4ude N3 5. OG",
+    "height": 454,
+    "id": "rf52",
+    "latlonbox": {
+      "east": "11.5681741413",
+      "north": "48.1514027032",
+      "rotation": "-22.9999992847",
+      "south": "48.1506360161",
+      "west": "11.5672386137"
+    },
+    "scale": "500",
+    "width": 374
+  },
+  {
+    "desc": "Geb\u00e4ude N3 6. OG",
+    "height": 454,
+    "id": "rf53",
+    "latlonbox": {
+      "east": "11.5681741413",
+      "north": "48.1514027032",
+      "rotation": "-22.9999992847",
+      "south": "48.1506360161",
+      "west": "11.5672386137"
+    },
+    "scale": "500",
+    "width": 374
+  },
+  {
+    "desc": "M\u00fcnchen",
+    "height": 603,
+    "id": "rf54",
+    "latlonbox": {
+      "east": "11.7936101916",
+      "north": "48.2770909284",
+      "rotation": "0.19987988472",
+      "south": "48.0223527366",
+      "west": "11.388442136"
+    },
+    "scale": "200000",
+    "width": 640
+  },
+  {
+    "desc": "Hochvolthaus KG",
+    "height": 454,
+    "id": "rf57",
+    "latlonbox": {
+      "east": "11.5678012399",
+      "north": "48.1508650881",
+      "rotation": "-22.9999992847",
+      "south": "48.1501420203",
+      "west": "11.5668666962"
+    },
+    "scale": "500",
+    "width": 398
+  },
+  {
+    "desc": "Hochvolthaus EG",
+    "height": 454,
+    "id": "rf58",
+    "latlonbox": {
+      "east": "11.5678012399",
+      "north": "48.1508650881",
+      "rotation": "-22.9999992847",
+      "south": "48.1501420203",
+      "west": "11.5668666962"
+    },
+    "scale": "500",
+    "width": 398
+  },
+  {
+    "desc": "Hochvolthaus ZG",
+    "height": 454,
+    "id": "rf59",
+    "latlonbox": {
+      "east": "11.5678012399",
+      "north": "48.1508650881",
+      "rotation": "-22.9999992847",
+      "south": "48.1501420203",
+      "west": "11.5668666962"
+    },
+    "scale": "500",
+    "width": 398
+  },
+  {
+    "desc": "Hochvolthaus 1.OG",
+    "height": 454,
+    "id": "rf60",
+    "latlonbox": {
+      "east": "11.5678012399",
+      "north": "48.1508650881",
+      "rotation": "-22.9999992847",
+      "south": "48.1501420203",
+      "west": "11.5668666962"
+    },
+    "scale": "500",
+    "width": 398
+  },
+  {
+    "desc": "Hochvolthaus 2.OG",
+    "height": 454,
+    "id": "rf61",
+    "latlonbox": {
+      "east": "11.5678012399",
+      "north": "48.1508650881",
+      "rotation": "-22.9999992847",
+      "south": "48.1501420203",
+      "west": "11.5668666962"
+    },
+    "scale": "500",
+    "width": 398
+  },
+  {
+    "desc": "Hochvolthaus 3.OG",
+    "height": 454,
+    "id": "rf62",
+    "latlonbox": {
+      "east": "11.5678012399",
+      "north": "48.1508650881",
+      "rotation": "-22.9999992847",
+      "south": "48.1501420203",
+      "west": "11.5668666962"
+    },
+    "scale": "500",
+    "width": 398
+  },
+  {
+    "desc": "Hochvolthaus 4.OG",
+    "height": 454,
+    "id": "rf63",
+    "latlonbox": {
+      "east": "11.5678012399",
+      "north": "48.1508650881",
+      "rotation": "-22.9999992847",
+      "south": "48.1501420203",
+      "west": "11.5668666962"
+    },
+    "scale": "500",
+    "width": 398
+  },
+  {
+    "desc": "Hochvolthaus 5.OG",
+    "height": 454,
+    "id": "rf64",
+    "latlonbox": {
+      "east": "11.5678012399",
+      "north": "48.1508650881",
+      "rotation": "-22.9999992847",
+      "south": "48.1501420203",
+      "west": "11.5668666962"
+    },
+    "scale": "500",
+    "width": 398
+  },
+  {
+    "desc": "U-Trakt UG",
+    "height": 443,
+    "id": "rf65",
+    "latlonbox": {
+      "east": "11.5691673501",
+      "north": "48.1508102642",
+      "rotation": "-22.9999992847",
+      "south": "48.1498683634",
+      "west": "11.5675154129"
+    },
+    "scale": "500",
+    "width": 525
+  },
+  {
+    "desc": "U-Trakt EG",
+    "height": 443,
+    "id": "rf66",
+    "latlonbox": {
+      "east": "11.5691673501",
+      "north": "48.1508102642",
+      "rotation": "-22.9999992847",
+      "south": "48.1498683634",
+      "west": "11.5675154129"
+    },
+    "scale": "500",
+    "width": 525
+  },
+  {
+    "desc": "U-Trakt ZG",
+    "height": 443,
+    "id": "rf67",
+    "latlonbox": {
+      "east": "11.5691673501",
+      "north": "48.1508102642",
+      "rotation": "-22.9999992847",
+      "south": "48.1498683634",
+      "west": "11.5675154129"
+    },
+    "scale": "500",
+    "width": 525
+  },
+  {
+    "desc": "U-Trakt 1. OG",
+    "height": 443,
+    "id": "rf68",
+    "latlonbox": {
+      "east": "11.5691673501",
+      "north": "48.1508102642",
+      "rotation": "-22.9999992847",
+      "south": "48.1498683634",
+      "west": "11.5675154129"
+    },
+    "scale": "500",
+    "width": 525
+  },
+  {
+    "desc": "U-Trakt 2. OG",
+    "height": 443,
+    "id": "rf69",
+    "latlonbox": {
+      "east": "11.5691673501",
+      "north": "48.1508102642",
+      "rotation": "-22.9999992847",
+      "south": "48.1498683634",
+      "west": "11.5675154129"
+    },
+    "scale": "500",
+    "width": 525
+  },
+  {
+    "desc": "U-Trakt 3. OG",
+    "height": 443,
+    "id": "rf70",
+    "latlonbox": {
+      "east": "11.5691673501",
+      "north": "48.1508102642",
+      "rotation": "-22.9999992847",
+      "south": "48.1498683634",
+      "west": "11.5675154129"
+    },
+    "scale": "500",
+    "width": 525
+  },
+  {
+    "desc": "Neubau E-Technik UG",
+    "height": 472,
+    "id": "rf71",
+    "latlonbox": {
+      "east": "11.5694264986",
+      "north": "48.1510523204",
+      "rotation": "-22.9999992847",
+      "south": "48.1504507911",
+      "west": "11.5688134899"
+    },
+    "scale": "500",
+    "width": 327
+  },
+  {
+    "desc": "Neubau E-Technik EG",
+    "height": 472,
+    "id": "rf72",
+    "latlonbox": {
+      "east": "11.5694264986",
+      "north": "48.1510523204",
+      "rotation": "-22.9999992847",
+      "south": "48.1504507911",
+      "west": "11.5688134899"
+    },
+    "scale": "500",
+    "width": 327
+  },
+  {
+    "desc": "Neubau E-Technik 1.OG",
+    "height": 472,
+    "id": "rf73",
+    "latlonbox": {
+      "east": "11.5694264986",
+      "north": "48.1510523204",
+      "rotation": "-22.9999992847",
+      "south": "48.1504507911",
+      "west": "11.5688134899"
+    },
+    "scale": "500",
+    "width": 327
+  },
+  {
+    "desc": "Neubau E-Technik 2.OG",
+    "height": 472,
+    "id": "rf74",
+    "latlonbox": {
+      "east": "11.5694264986",
+      "north": "48.1510523204",
+      "rotation": "-22.9999992847",
+      "south": "48.1504507911",
+      "west": "11.5688134899"
+    },
+    "scale": "500",
+    "width": 327
+  },
+  {
+    "desc": "Neubau E-Technik 3.OG",
+    "height": 472,
+    "id": "rf75",
+    "latlonbox": {
+      "east": "11.5694264986",
+      "north": "48.1510523204",
+      "rotation": "-22.9999992847",
+      "south": "48.1504507911",
+      "west": "11.5688134899"
+    },
+    "scale": "500",
+    "width": 327
+  },
+  {
+    "desc": "Neubau E-Technik 4.OG",
+    "height": 472,
+    "id": "rf76",
+    "latlonbox": {
+      "east": "11.5694264986",
+      "north": "48.1510523204",
+      "rotation": "-22.9999992847",
+      "south": "48.1504507911",
+      "west": "11.5688134899"
+    },
+    "scale": "500",
+    "width": 327
+  },
+  {
+    "desc": "Neubau E-Technik 5.OG",
+    "height": 472,
+    "id": "rf77",
+    "latlonbox": {
+      "east": "11.5694264986",
+      "north": "48.1510523204",
+      "rotation": "-22.9999992847",
+      "south": "48.1504507911",
+      "west": "11.5688134899"
+    },
+    "scale": "500",
+    "width": 327
+  },
+  {
+    "desc": "Neubau E-Technik 6.OG",
+    "height": 472,
+    "id": "rf78",
+    "latlonbox": {
+      "east": "11.5694264986",
+      "north": "48.1510523204",
+      "rotation": "-22.9999992847",
+      "south": "48.1504507911",
+      "west": "11.5688134899"
+    },
+    "scale": "500",
+    "width": 327
+  },
+  {
+    "desc": "Neubau E-Technik 7.OG",
+    "height": 472,
+    "id": "rf79",
+    "latlonbox": {
+      "east": "11.5694264986",
+      "north": "48.1510523204",
+      "rotation": "-22.9999992847",
+      "south": "48.1504507911",
+      "west": "11.5688134899"
+    },
+    "scale": "500",
+    "width": 327
+  },
+  {
+    "desc": "Lageplan Campus Garching",
+    "height": 480,
+    "id": "rf80",
+    "latlonbox": {
+      "east": "11.6817977201",
+      "north": "48.2709215782",
+      "rotation": "2.93098878501e-14",
+      "south": "48.258723721",
+      "west": "11.6562831601"
+    },
+    "scale": "10000",
+    "width": 676
+  },
+  {
+    "desc": "RiWa EG",
+    "height": 399,
+    "id": "rf81",
+    "latlonbox": {
+      "east": "11.5645265314",
+      "north": "48.1486603624",
+      "rotation": "-22.9999992847",
+      "south": "48.1482526544",
+      "west": "11.5638991142"
+    },
+    "scale": "500",
+    "width": 416
+  },
+  {
+    "desc": "RiWa 1.OG",
+    "height": 399,
+    "id": "rf82",
+    "latlonbox": {
+      "east": "11.5645265314",
+      "north": "48.1486603624",
+      "rotation": "-22.9999992847",
+      "south": "48.1482526544",
+      "west": "11.5638991142"
+    },
+    "scale": "500",
+    "width": 416
+  },
+  {
+    "desc": "RiWa 2.OG",
+    "height": 399,
+    "id": "rf83",
+    "latlonbox": {
+      "east": "11.5645265314",
+      "north": "48.1486603624",
+      "rotation": "-22.9999992847",
+      "south": "48.1482526544",
+      "west": "11.5638991142"
+    },
+    "scale": "500",
+    "width": 416
+  },
+  {
+    "desc": "RiWa 3.OG",
+    "height": 399,
+    "id": "rf84",
+    "latlonbox": {
+      "east": "11.5645265314",
+      "north": "48.1486603624",
+      "rotation": "-22.9999992847",
+      "south": "48.1482526544",
+      "west": "11.5638991142"
+    },
+    "scale": "500",
+    "width": 416
+  },
+  {
+    "desc": "RiWa 4.OG",
+    "height": 399,
+    "id": "rf85",
+    "latlonbox": {
+      "east": "11.5645265314",
+      "north": "48.1486603624",
+      "rotation": "-22.9999992847",
+      "south": "48.1482526544",
+      "west": "11.5638991142"
+    },
+    "scale": "500",
+    "width": 416
+  },
+  {
+    "desc": "FMI Garching BT01 EG",
+    "height": 487,
+    "id": "rf86",
+    "latlonbox": {
+      "east": "11.669435922",
+      "north": "48.2628024724",
+      "rotation": "-10.3610203266",
+      "south": "48.2622042567",
+      "west": "11.6687126826"
+    },
+    "scale": "500",
+    "width": 399
+  },
+  {
+    "desc": "FMI Garching BT02 EG",
+    "height": 487,
+    "id": "rf87",
+    "latlonbox": {
+      "east": "11.669435922",
+      "north": "48.2628024724",
+      "rotation": "-10.3610203266",
+      "south": "48.2622042567",
+      "west": "11.6687126826"
+    },
+    "scale": "500",
+    "width": 399
+  },
+  {
+    "desc": "FMI Garching BT03 EG",
+    "height": 406,
+    "id": "rf88",
+    "latlonbox": {
+      "east": "11.6672805281",
+      "north": "48.2627276996",
+      "rotation": "-10.3610203266",
+      "south": "48.2622312904",
+      "west": "11.6665297717"
+    },
+    "scale": "500",
+    "width": 413
+  },
+  {
+    "desc": "FMI Garching BT07 EG",
+    "height": 605,
+    "id": "rf89",
+    "latlonbox": {
+      "east": "11.668395612",
+      "north": "48.2632793351",
+      "rotation": "-10.3610203266",
+      "south": "48.2625406375",
+      "west": "11.6678615773"
+    },
+    "scale": "500",
+    "width": 295
+  },
+  {
+    "desc": "Weltkarte Norden",
+    "height": 396,
+    "id": "rf9",
+    "scale": "100000000",
+    "width": 1619
+  },
+  {
+    "desc": "FMI Garching BT09 EG",
+    "height": 605,
+    "id": "rf90",
+    "latlonbox": {
+      "east": "11.6679650598",
+      "north": "48.2633375443",
+      "rotation": "-10.3610203266",
+      "south": "48.2625981388",
+      "west": "11.6673775864"
+    },
+    "scale": "500",
+    "width": 324
+  },
+  {
+    "desc": "FMI Garching BT11 EG",
+    "height": 605,
+    "id": "rf91",
+    "latlonbox": {
+      "east": "11.6675829898",
+      "north": "48.2633791832",
+      "rotation": "-10.3610203266",
+      "south": "48.2626404816",
+      "west": "11.6670489655"
+    },
+    "scale": "500",
+    "width": 295
+  },
+  {
+    "desc": "FMI Garching BT13 EG",
+    "height": 605,
+    "id": "rf92",
+    "latlonbox": {
+      "east": "11.6672220567",
+      "north": "48.263419054",
+      "rotation": "-10.3610203266",
+      "south": "48.2626803506",
+      "west": "11.6666880371"
+    },
+    "scale": "500",
+    "width": 295
+  },
+  {
+    "desc": "FMI Garching BT05 EG",
+    "height": 605,
+    "id": "rf93",
+    "latlonbox": {
+      "east": "11.6688626768",
+      "north": "48.263223499",
+      "rotation": "-10.3610203266",
+      "south": "48.2624848036",
+      "west": "11.668328636"
+    },
+    "scale": "500",
+    "width": 295
+  },
+  {
+    "desc": "FMI Garching BT04 EG",
+    "height": 605,
+    "id": "rf94",
+    "latlonbox": {
+      "east": "11.6692351229",
+      "north": "48.2623922745",
+      "rotation": "-15.7610714436",
+      "south": "48.2616521234",
+      "west": "11.6687007967"
+    },
+    "scale": "500",
+    "width": 295
+  },
+  {
+    "desc": "FMI Garching BT06 EG",
+    "height": 605,
+    "id": "rf95",
+    "latlonbox": {
+      "east": "11.6688558645",
+      "north": "48.2624632522",
+      "rotation": "-15.7610714436",
+      "south": "48.2617256799",
+      "west": "11.6682807315"
+    },
+    "scale": "500",
+    "width": 318
+  },
+  {
+    "desc": "FMI Garching BT08 EG",
+    "height": 605,
+    "id": "rf96",
+    "latlonbox": {
+      "east": "11.6685017928",
+      "north": "48.2625262025",
+      "rotation": "-15.7610714436",
+      "south": "48.2617861816",
+      "west": "11.6679682931"
+    },
+    "scale": "500",
+    "width": 295
+  },
+  {
+    "desc": "FMI Garching BT10 EG",
+    "height": 605,
+    "id": "rf97",
+    "latlonbox": {
+      "east": "11.6680580096",
+      "north": "48.2626084903",
+      "rotation": "-15.7610714436",
+      "south": "48.2618684672",
+      "west": "11.6675245154"
+    },
+    "scale": "500",
+    "width": 295
+  },
+  {
+    "desc": "FMI Garching BT12 EG",
+    "height": 605,
+    "id": "rf98",
+    "latlonbox": {
+      "east": "11.6676459574",
+      "north": "48.2626855408",
+      "rotation": "-15.7610714436",
+      "south": "48.2619455157",
+      "west": "11.6671124682"
+    },
+    "scale": "500",
+    "width": 295
+  },
+  {
+    "desc": "FMI Garching BT03 1.OG",
+    "height": 406,
+    "id": "rf99",
+    "latlonbox": {
+      "east": "11.6672805281",
+      "north": "48.2627276996",
+      "rotation": "-10.3610203266",
+      "south": "48.2622312904",
+      "west": "11.6665297717"
+    },
+    "scale": "500",
+    "width": 413
   }
 ]

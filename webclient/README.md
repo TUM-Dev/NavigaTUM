@@ -39,7 +39,7 @@ Ensure that _NavigaTUM-server_ is running in the background:
   ```bash
   docker network create navigatum-net
   docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
-  docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main
+  docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main /bin/navigatum-main-api
   ```
 
 By default, the webclient will connect to the server on `http://localhost:8080`.  
