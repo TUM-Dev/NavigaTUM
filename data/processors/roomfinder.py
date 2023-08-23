@@ -1,25 +1,26 @@
-import json
 import logging
 import re
+from pathlib import Path
+from typing import Any
 
 import utm
 import yaml
 from external.models import roomfinder
 
+BASE = Path(__file__).parent.parent
+SOURCES = BASE / "sources"
 
-def merge_roomfinder_buildings(data):
+
+def merge_roomfinder_buildings(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the buildings in Roomfinder with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
-    with open("external/results/buildings_roomfinder.json", encoding="utf-8") as file:
-        buildings = [roomfinder.Building(**b) for b in json.load(file)]
-
-    with open("sources/10_patches-roomfinder-buildings.yaml", encoding="utf-8") as file:
+    with open(SOURCES / "10_patches-roomfinder-buildings.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
     error = False
-    for building in buildings:
+    for building in roomfinder.Building.load_all():
         # 'Building' 0000 contains some buildings and places not in TUMonline as rooms.
         # They might be integrated customly somewhere else, but here we ignore these.
         if building.b_id == "0000":
@@ -75,16 +76,13 @@ def merge_roomfinder_buildings(data):
         raise RuntimeError("One or more errors, aborting")
 
 
-def merge_roomfinder_rooms(data):
+def merge_roomfinder_rooms(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the rooms in Roomfinder with the existing data.
     This will not overwrite the existing data, but act directly on the provided data.
     """
 
-    with open("external/results/rooms_roomfinder.json", encoding="utf-8") as file:
-        rooms = [roomfinder.Room(**r) for r in json.load(file)]
-
-    with open("sources/16_roomfinder-merge-patches.yaml", encoding="utf-8") as file:
+    with open(SOURCES / "16_roomfinder-merge-patches.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
     # It is significantly faster to first generate a lookup to the rooms in the
@@ -95,7 +93,7 @@ def merge_roomfinder_rooms(data):
         if ("type" in _data and _data["type"] == "room" and "tumonline_data" in _data)
     }
 
-    for room in rooms:
+    for room in roomfinder.Room.load_all():
         # Try to find the existing room id (which is based on the SAP Code).
         # We use the TUMonline arch_name for this, because we don't know the SAP Code here.
         try:
@@ -173,7 +171,7 @@ def _get_roomfinder_maps(obj: roomfinder.Building | roomfinder.Room):
         maps["available"].append(
             {
                 "scale": mapdata.scale,
-                "id": f"rf{mapdata.map_id}",  # Roomfinder data is with ints as id, but we use a string based format
+                "id": mapdata.map_id,
                 "name": mapdata.name,
                 "width": mapdata.width,
                 "height": mapdata.height,
@@ -186,20 +184,20 @@ def _get_roomfinder_maps(obj: roomfinder.Building | roomfinder.Room):
     # If the default map is the world map, this is usually
     # the only map available. As we don't include the world
     # map into the available maps, return empty data here
-    if obj.default_map.map_id == 9:
+    if obj.default_map.is_world_map:
         maps["available"].clear()
         return maps
 
-    maps["default"] = default = f"rf{obj.default_map.map_id}"
+    maps["default"] = default = obj.default_map.map_id
 
     # sometimes the default map is not in the available maps.
     # This is the case for example the building with id "0510"
     available_map_ids = [m["id"] for m in maps["available"]]
-    if default and default not in available_map_ids:
+    if default not in available_map_ids:
         maps["available"].append(
             {
                 "scale": obj.default_map.scale,
-                "id": f"rf{obj.default_map.map_id}",  # Roomfinder data is with ints as id, we use a string
+                "id": obj.default_map.map_id,
                 "name": obj.default_map.name,
                 "width": obj.default_map.width,
                 "height": obj.default_map.height,

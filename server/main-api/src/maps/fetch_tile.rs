@@ -66,21 +66,23 @@ impl FetchTileTask {
     pub async fn fulfill(self) -> Option<((u32, u32), image::DynamicImage)> {
         // gets the image fro the server. using a disk-cached image if possible
         let filename = format!("{}_{}_{}@2x.png", self.z, self.x, self.y);
-        let file = std::env::temp_dir().join("tiles").join(filename);
-        let tile = match tokio::fs::read(&file).await {
+        let file_path = std::env::temp_dir().join("tiles").join(filename);
+        let tile = match tokio::fs::read(&file_path).await {
             Ok(content) => web::Bytes::from(content),
             Err(_) => {
-                let mut tile = self.download_map_image(&file).await;
+                let mut tile = self.download_map_image(&file_path).await;
                 for i in 1..3 {
                     if tile.is_err() {
-                        warn!("Error while downloading {file:?} {i} times. Retrying");
-                        tile = self.download_map_image(&file).await;
+                        warn!("Error while downloading {file_path:?} {i} times. Retrying");
+                        tile = self.download_map_image(&file_path).await;
                     }
                 }
                 match tile {
                     Ok(t) => t,
                     Err(e) => {
-                        error!("could not fulfill {file:?} 3 times. Giving up. Last error {e:?}");
+                        error!(
+                            "could not fulfill {file_path:?} 3 times. Giving up. Last error {e:?}"
+                        );
                         return None;
                     }
                 }
@@ -90,7 +92,7 @@ impl FetchTileTask {
         match image::load_from_memory(&tile) {
             Ok(img) => Some((self.index, img)),
             Err(e) => {
-                error!("Error while parsing image: {e:#?} for {file:?}");
+                error!("Error while parsing image: {e:#?} for {file_path:?}");
                 None
             }
         }
@@ -98,7 +100,7 @@ impl FetchTileTask {
 
     fn get_tileserver_url(&self) -> String {
         format!(
-            "https://nav.tum.de/maps/styles/osm_liberty/{z}/{x}/{y}@2x.png",
+            "https://nav.tum.de/maps/styles/osm-liberty/{z}/{x}/{y}@2x.png",
             z = self.z,
             x = self.x,
             y = self.y,
@@ -111,18 +113,17 @@ impl FetchTileTask {
         let url = self.get_tileserver_url();
         let res = reqwest::get(&url).await?.bytes().await?;
 
-        match res.len() {
-            response_size @ 0..=500 => Err(io::Error::new(
+        if let response_size @ 0..=500 = res.len() {
+            return Err(io::Error::new(
                 ErrorKind::Other,
                 format!("Got a short Response from {url}. . Response ({response_size}B): {res:?}"),
             )
-            .into()),
-            _ => {
-                if let Err(e) = tokio::fs::write(file, &res).await {
-                    warn!("failed to write {url} to {file:?} because {e:?}. Files wont be cached");
-                };
-                Ok(res)
-            }
+            .into());
         }
+
+        if let Err(e) = tokio::fs::write(file, &res).await {
+            warn!("failed to write {url} to {file:?} because {e:?}. Files wont be cached");
+        };
+        Ok(res)
     }
 }

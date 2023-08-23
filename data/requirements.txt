@@ -1,10 +1,11 @@
 beautifulsoup4~=4.12.2
 defusedxml~=0.7.1
 lxml~=4.9.2
+numba~=0.57.1
 Pillow~=10.0.0
-pydantic~=2.0.0
+pydantic~=2.2.1
 pyyaml~=6.0
 requests~=2.31.0
 ruamel.yaml~=0.17.24
-tqdm~=4.65.0
+tqdm~=4.66.0
 utm~=0.7.0
