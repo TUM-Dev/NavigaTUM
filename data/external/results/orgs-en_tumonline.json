@@ -1127,12 +1127,6 @@
     "name": "Chair of Educational Psychology (Prof. Seidel)",
     "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Educational Psychology (Prof. Seidel)"
   },
-  "TUEDS18": {
-    "code": "TUEDS18",
-    "id": 43860,
-    "name": "Chair of School Pedagogy (N.N.)",
-    "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/School Pedagogy (N.N.)"
-  },
   "TUEDS22": {
     "code": "TUEDS22",
     "id": 44904,
@@ -1156,12 +1150,6 @@
     "id": 47457,
     "name": "Chair of Teaching and Learning with Digital Media (Prof. Bannert)",
     "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Teaching and Learning with Digital Media (Prof. Bannert)"
-  },
-  "TUEDS26": {
-    "code": "TUEDS26",
-    "id": 48757,
-    "name": "Assistant Professorship of Personality and Social Psychology (N.N.)",
-    "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Personality and Social Psychology (N.N.)"
   },
   "TUEDS27": {
     "code": "TUEDS27",
@@ -3063,13 +3051,13 @@
     "code": "TUMEBB1",
     "id": 27418,
     "name": "Chair of Biological Imaging (HMGU) (Prof. Ntziachristos)",
-    "path": "TUM/Academic department/Medicine/Biological Imaging (HMGU) (Prof. Ntziachristos)"
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Biological Imaging (HMGU) (Prof. Ntziachristos)"
   },
   "TUMEBB3": {
     "code": "TUMEBB3",
     "id": 51557,
     "name": "Assistant Professorship of Translationale Optoakustik (HMGU) (Prof. Pleitez Rafael)",
-    "path": "TUM/Academic department/Medicine/Translationale Optoakustik (HMGU) (Prof. Pleitez Rafael)"
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Translationale Optoakustik (HMGU) (Prof. Pleitez Rafael)"
   },
   "TUMEBDS": {
     "code": "TUMEBDS",
@@ -3159,7 +3147,7 @@
     "code": "TUMEDF2",
     "id": 44966,
     "name": "Chair of Metabolic Diseases (HMGU) (Prof. Tsch\u00f6p)",
-    "path": "TUM/Academic department/Medicine/Metabolic Diseases (HMGU) (Prof. Tsch\u00f6p)"
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Metabolic Diseases (HMGU) (Prof. Tsch\u00f6p)"
   },
   "TUMEDF3": {
     "code": "TUMEDF3",
@@ -3531,7 +3519,7 @@
     "code": "TUMELP0",
     "id": 45511,
     "name": "Chair of Neuroproteomik (DZNE) (Prof. Lichtenthaler)",
-    "path": "TUM/Academic department/Medicine/Neuroproteomik (DZNE) (Prof. Lichtenthaler)"
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Neuroproteomik (DZNE) (Prof. Lichtenthaler)"
   },
   "TUMEMA0": {
     "code": "TUMEMA0",
@@ -3555,7 +3543,7 @@
     "code": "TUMEMD0",
     "id": 47897,
     "name": "Chair of Medical Education (Prof. Berberat)",
-    "path": "TUM/Academic department/Medicine/Medical Education (Prof. Berberat)"
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Medical Education (Prof. Berberat)"
   },
   "TUMEMI0": {
     "code": "TUMEMI0",
@@ -3615,7 +3603,7 @@
     "code": "TUMEMS0",
     "id": 54661,
     "name": "Chair of Molecular Mechanisms of Metabolism (HMGU) (Prof. Herzig)",
-    "path": "TUM/Academic department/Medicine/Molecular Mechanisms of Metabolism (HMGU) (Prof. Herzig)"
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Molecular Mechanisms of Metabolism (HMGU) (Prof. Herzig)"
   },
   "TUMENC0": {
     "code": "TUMENC0",
@@ -3639,7 +3627,7 @@
     "code": "TUMEND0",
     "id": 54664,
     "name": "Associate Professorship of Neurobiology of Diabetes (HMGU) (Prof. Pfluger)",
-    "path": "TUM/Academic department/Medicine/Neurobiology of Diabetes (HMGU) (Prof. Pfluger)"
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Neurobiology of Diabetes (HMGU) (Prof. Pfluger)"
   },
   "TUMENL0": {
     "code": "TUMENL0",
@@ -3897,7 +3885,7 @@
     "code": "TUMESO0",
     "id": 54659,
     "name": "Chair of Applied Stem Cell and Organoidsystems (Prof. Hebrok)",
-    "path": "TUM/Academic department/Medicine/Applied Stem Cell and Organoidsystems (Prof. Hebrok)"
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Applied Stem Cell and Organoidsystems (Prof. Hebrok)"
   },
   "TUMESSK": {
     "code": "TUMESSK",
@@ -3945,13 +3933,13 @@
     "code": "TUMETG0",
     "id": 54667,
     "name": "Chair of Translational Genomics (HMGU) (Prof. Zeggini)",
-    "path": "TUM/Academic department/Medicine/Translational Genomics (HMGU) (Prof. Zeggini)"
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Translational Genomics (HMGU) (Prof. Zeggini)"
   },
   "TUMETIU": {
     "code": "TUMETIU",
     "id": 51637,
     "name": "Assistant Professorship of Translational Immunology in Environmental Health (UNIKA-T) (Prof. Renner)",
-    "path": "TUM/Academic department/Medicine/Translational Immunology in Environmental Health (UNIKA-T) (Prof. Renner)"
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Translational Immunology in Environmental Health (UNIKA-T) (Prof. Renner)"
   },
   "TUMETU0": {
     "code": "TUMETU0",
@@ -3981,7 +3969,7 @@
     "code": "TUMEUM0",
     "id": 46577,
     "name": "Chair of Umweltmedizin (Prof. Traidl-Hoffmann)",
-    "path": "TUM/Academic department/Medicine/Umweltmedizin (Prof. Traidl-Hoffmann)"
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Umweltmedizin (Prof. Traidl-Hoffmann)"
   },
   "TUMEUR0": {
     "code": "TUMEUR0",
@@ -5693,6 +5681,12 @@
     "name": "Chair of Informatics Heilbronn 6 - Assistant Professorship of Data Analytics and Statistics (Prof. Piribauer)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics Heilbronn 6 - Assistant Professorship of Data Analytics and Statistics (Prof. Piribauer)"
   },
+  "TUS1305": {
+    "code": "TUS1305",
+    "id": 55237,
+    "name": "Assistant Professorship of AI Planning in Dynamic Environments (Prof. Khadiv)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/AI Planning in Dynamic Environments (Prof. Khadiv)"
+  },
   "TUS1306": {
     "code": "TUS1306",
     "id": 54757,
@@ -6568,6 +6562,12 @@
     "id": 52088,
     "name": "School Office of the TUM School of Medicine and Health in formation",
     "path": "TUM/Schools/Medicine and Health in formation/School Office"
+  },
+  "TUS5PL0": {
+    "code": "TUS5PL0",
+    "id": 55217,
+    "name": "Further Chairs and Professorships",
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships"
   },
   "TUS6000": {
     "code": "TUS6000",
@@ -8036,8 +8036,8 @@
   "TUWZP9O": {
     "code": "TUWZP9O",
     "id": 15669,
-    "name": "Chair of Animal Hygiene (Prof. Langosch komm.)",
-    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Animal Hygiene (Prof. Langosch komm.)"
+    "name": "Chair of Animal Hygiene (N.N.)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Animal Hygiene (N.N.)"
   },
   "TUWZQ3Z": {
     "code": "TUWZQ3Z",
