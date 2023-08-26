@@ -1031,10 +1031,13 @@ galileo:
 # --- Interims ---
 #garching-interims:
 # no specific coordinates
-5620: # Interims-Audimax I
-  osm: ["way/104255082"]
 5416: # Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude
   osm: ["way/618517674"]
+5539: # Interimshörsäle III, Interims-Tentomax MW
+  osm: ["way/618517675"]
+  coords: { lat: 48.2665826474772, lon: 11.671473663339693 }
+5620: # Interims-Audimax I
+  osm: ["way/1191888066"]
 
 # --- External buildings in Garching (South-West) ---
 garching-sued-west:
