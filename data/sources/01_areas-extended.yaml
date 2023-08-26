@@ -293,7 +293,7 @@ mri-psychosomatik:
   coords: { lat: 48.13697, lon: 11.60185 }
   osm: ["way/75376256"]
 
-mri-imse:
+1720:
   coords: { lat: 48.13490, lon: 11.61119 }
   osm: ["node/1383888738"] # addr:housenumber
   external_data:
