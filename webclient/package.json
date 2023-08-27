@@ -48,7 +48,7 @@
     "vite": "4.4.9",
     "vite-plugin-md": "0.21.5",
     "vite-plugin-rewrite-all": "1.0.1",
-    "vue-i18n": "9.3.0-beta.14-77e850b",
+    "vue-i18n": "9.3.0-beta.26",
     "vue-tsc": "1.8.8"
   },
   "type": "module"
