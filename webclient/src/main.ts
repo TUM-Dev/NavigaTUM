@@ -18,6 +18,7 @@ const i18n = createI18n<[typeof en], "de" | "en", false>({
   locale: localStorage.getItem("lang") || "de",
   messages: { en, de },
   globalInjection: true,
+  allowComposition: true,
   missingWarn: true,
   warnHtmlMessage: true,
 });
