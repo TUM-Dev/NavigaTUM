@@ -1,5 +1,5 @@
 # Compile
-FROM    rust:1.71-alpine AS compiler
+FROM    rust:1.72-alpine AS compiler
 
 # to ache the build this line inludes all the dependencys all servers need
 # this is not an issue since we copy the generated binary to a more minimal envornment
