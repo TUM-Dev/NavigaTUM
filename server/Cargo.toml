@@ -14,7 +14,7 @@ actix-web-prometheus = "0.1.2"
 
 # runtime + webserver
 tokio = { version = "1.32", features = ["full"] }
-actix-web = "4.3.1"
+actix-web = "4.4.0"
 actix-cors = "0.6.4"
 
 #serialisation
