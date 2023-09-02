@@ -21,11 +21,8 @@ impl Alias {
     }
 }
 
-const DATABASE_URL: &str = "sqlite:data/api_data.db";
+const DATABASE_URL: &str = "api_data.db?mode=rwc";
 pub(crate) async fn setup_database() -> Result<(), Box<dyn std::error::Error>> {
-    if !sqlx::Sqlite::database_exists(DATABASE_URL).await? {
-        sqlx::Sqlite::create_database(DATABASE_URL).await?;
-    }
     let pool = SqlitePoolOptions::new().connect(DATABASE_URL).await?;
     sqlx::migrate!("../migrations").run(&pool).await?;
     // this is to setup the database faster
