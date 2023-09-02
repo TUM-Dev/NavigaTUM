@@ -61,7 +61,14 @@ Migrations can be added using
 sqlx migrate add -r <migration-name>
 ```
 
-and ran using `sqlx migrate run && sqlx prepare`
+##### Adding queries
+
+To get compiletime guarantees for our queries, we use sqlx.
+To add a query, you will need to run the following command:
+
+```bash
+cargo sqlx prepare --database-url sqlite://main-api/api_data.db --workspace
+```
 
 #### How to Set up the tileserver (needed for the `preview` endpoint)
 

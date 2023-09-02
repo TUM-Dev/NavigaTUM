@@ -17,10 +17,11 @@ impl Alias {
 
         info!("Extracted {inserted_aliases} aliases");
         sqlx::query!(
-            r#"INSERT INTO aliases (alias, key, type, visible_id) VALUES (?, ?, ?, ?)"#,
-            "alias",
-            "key",
-            "type",
+            r#"INSERT OR REPLACE INTO aliases (alias, key, type, visible_id)
+            VALUES (?, ?, ?, ?)"#,
+            "abc",
+            "dsa",
+            "das",
             "visible_id"
         )
         .fetch_all(pool)
@@ -38,6 +39,16 @@ pub(crate) async fn setup_database() -> Result<(), Box<dyn std::error::Error>> {
     // we don't want to use an acid compliant database for this step ;)
     pool.execute("PRAGMA journal_mode = OFF;");
     pool.execute("PRAGMA synchronous = OFF;");
+
+    // delete all onld data
+    sqlx::query!(
+        r#"DELETE FROM aliases;
+    DELETE FROM de;
+    DELETE FROM en;
+    "#
+    )
+    .execute(&pool)
+    .await?;
 
     Alias::load_all_to_db(&pool).await?;
     Ok(())
