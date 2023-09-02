@@ -12,23 +12,35 @@ struct ExtractedFields {
     lat: f32,
     lon: f32,
 }
-impl ExtractedFields {
-    fn extract(value: Value) -> Option<Self> {
-        let obj = value.as_object()?;
-        let props = obj.get("props")?.as_object()?;
-        let tumonline_room_nr = match props.get("tumonline_room_nr") {
-            Some(v) => Some(v.as_i64()? as i32),
+impl From<Value> for ExtractedFields {
+    fn from(value: Value) -> Self {
+        let obj = value.as_object().unwrap();
+        let props = obj.get("props").unwrap().as_object().unwrap();
+        let tumonline_room_nr = props
+            .get("tumonline_room_nr")
+            .map(|v| v.as_i64().unwrap() as i32);
+        let coords = obj.get("props").unwrap().as_object().unwrap();
+        let lat = match coords.get("lat") {
+            Some(v) => v.as_f64(),
             None => None,
         };
-        let coords = obj.get("props")?.as_object()?;
-        Some(ExtractedFields {
-            name: obj.get("name")?.as_str()?.to_string(),
+        let lon = match coords.get("lon") {
+            Some(v) => v.as_f64(),
+            None => None,
+        };
+        ExtractedFields {
+            name: obj.get("name").unwrap().as_str().unwrap().to_string(),
             tumonline_room_nr,
-            r#type: obj.get("type")?.as_str()?.to_string(),
-            type_common_name: obj.get("type_common_name")?.as_str()?.to_string(),
-            lat: coords.get("lat")?.as_f64().unwrap_or(48.14903) as f32,
-            lon: coords.get("lon")?.as_f64().unwrap_or(11.56735) as f32,
-        })
+            r#type: obj.get("type").unwrap().as_str().unwrap().to_string(),
+            type_common_name: obj
+                .get("type_common_name")
+                .unwrap()
+                .as_str()
+                .unwrap()
+                .to_string(),
+            lat: lat.unwrap_or(48.14903) as f32,
+            lon: lon.unwrap_or(11.56735) as f32,
+        }
     }
 }
 
@@ -37,12 +49,7 @@ struct StorableValue;
 impl StorableValue {
     fn from(value: Value) -> (String, ExtractedFields) {
         let data = serde_json::to_string(&value).unwrap();
-        match ExtractedFields::extract(value) {
-            Some(v) => (data, v),
-            None => {
-                panic!("failed to store de for {data}")
-            }
-        }
+        (data, ExtractedFields::from(value))
     }
 }
 
@@ -127,13 +134,15 @@ impl DelocalisedValues {
 }
 pub(crate) async fn load_all_to_db(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let raw_tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
+    let tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?
-        .json::<HashMap<String, Value>>()
-        .await?;
+        .json::<serde_json::Map<String, Value>>()
+        .await?
+        .into_iter()
+        .map(DelocalisedValues::from);
     let start = Instant::now();
     let mut tx = pool.begin().await?;
-    for task in raw_tasks.into_iter().map(DelocalisedValues::from) {
+    for task in tasks {
         task.store(&mut tx).await?;
     }
     tx.commit().await?;

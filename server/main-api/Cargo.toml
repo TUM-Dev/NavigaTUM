@@ -55,6 +55,3 @@ lazy_static = "1.4.0"
 
 [dev-dependencies]
 pretty_assertions.workspace = true
-
-[features]
-skip_meilisearch = []
