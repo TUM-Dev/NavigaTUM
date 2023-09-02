@@ -39,6 +39,7 @@ serde_yaml = "0.9"
 # database
 diesel = { version = "2.1.1", features = ["default", "sqlite"] }
 libsqlite3-sys = { version = "*", features = ["bundled"] }
+sqlx = { version = "0.7.1", features = ["sqlite", "runtime-tokio"] }
 
 # search
 meilisearch-sdk = "0.24.1"

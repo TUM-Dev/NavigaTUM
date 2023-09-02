@@ -28,7 +28,7 @@ The reason for this is, that the `preview` endpoint is the only endpoint, which 
 ##### Getting the data
 
 To populate the database, you will need to get said data.
-There are multiple ways to do this, but the easiest way is to download the data from our [website](https://nav.tum.de/).
+There are multiple ways to do this, but the easiest way is to download the data from our [website](https://nav.tum.de/cdn/api_data.json).
 
 (Assuming you are in the `server` directory)
 
@@ -45,6 +45,24 @@ To set up the database, you will need to run the `load_api_data_to_db.py` script
 python3 load_api_data_to_db.py
 ```
 
+
+##### Adding Migrations
+
+For the database-connector we use sqlx.
+Migrations can be run with the `sqlx-cli` tool. Said tool can be installed with:
+
+```bash
+cargo install sqlx-cli
+```
+
+Migrations can be added using
+
+```bash
+sqlx migrate add -r <migration-name>
+```
+
+and ran using `sqlx migrate run && sqlx prepare`
+
 #### How to Set up the tileserver (needed for the `preview` endpoint)
 
 To set up your tileserver, head over to the [`map`](https://github.com/TUM-Dev/NavigaTUM/tree/main/map) folder and follow the instructions there.
@@ -54,50 +72,7 @@ To set up your tileserver, head over to the [`map`](https://github.com/TUM-Dev/N
 The server uses [MeiliSearch](https://github.com/meilisearch/MeiliSearch) as a backend for search.
 For a local test environment you can skip this step if you don't want to test or work on search.
 
-There are a lot of different ways to run MeiliSearch (see on their repo). Here we compile it
-from sources:
 
-```bash
-# Clone MeiliSearch
-cd ..
-git clone https://github.com/meilisearch/MeiliSearch.git -b v1.3.1
-cd MeiliSearch
-
-# Build and run
-cargo run --release
-```
-
-Next, we need to add our index and configure search:
-
-```bash
-# Create index
-curl -i -X POST 'http://localhost:7700/indexes' --header 'content-type: application/json' --data '{ "uid": "entries", "primaryKey": "ms_id" }'
-
-# Set filterable attributes
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --data '["facet", "parent_keywords", "parent_building_names", "campus", "type", "usage"]'
-
-# Upload entries data
-curl -i -X PUT 'http://localhost:7700/indexes/entries/documents' --header 'content-type: application/json' --data-binary @data/search_data.json
-
-# Configure index
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/ranking-rules' --data '["words","typo","rank:desc","exactness","proximity","attribute"]'
-
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/synonyms' --data @../data/search_synonyms.json
-
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --data '[ "ms_id", "name", "arch_name", "type", "type_common_name", "parent_building", "parent_keywords", "address", "usage" ]'
-```
-
-If you want to update the data in the index, run:
-
-```bash
-curl -i -X PUT 'http://localhost:7700/indexes/entries/documents' --header 'content-type: application/json' --data-binary @data/search_data.json
-```
-
-And if you want to delete the index, run:
-
-```bash
-curl -X DELETE 'http://localhost:7700/indexes/entries'
-```
 
 MeiliSearch provides an interactive interface at [http://localhost:7700](http://localhost:7700).
 
@@ -126,7 +101,7 @@ st run --workers=auto --base-url=http://localhost:8080 --checks=all ../openapi.y
 ```
 
 Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN) and some fuzzing-goals are automatically tested in our CI.  
-You can exchange `--base-url=http://localhost:8080` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/search`.
+You can exchange `--base-url=http://localhost:8080` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using an option like `--endpoint=/api/search`.
 
 ## License
 
