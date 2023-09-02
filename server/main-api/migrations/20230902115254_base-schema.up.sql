@@ -19,5 +19,6 @@ CREATE TABLE en
     type_common_name  TEXT                    NOT NULL,
     lat               FLOAT                   NOT NULL,
     lon               FLOAT                   NOT NULL,
-    data              TEXT                    NOT NULL
+    data              TEXT                    NOT NULL,
+    FOREIGN KEY(key) REFERENCES de(key)
 );

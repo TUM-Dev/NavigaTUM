@@ -5,7 +5,8 @@ CREATE TABLE aliases
     alias      TEXT                              NOT NULL,
     key        TEXT                              NOT NULL,
     visible_id TEXT                              NOT NULL,
-    type       TEXT                              NOT NULL
+    type       TEXT                              NOT NULL,
+    FOREIGN KEY(key) REFERENCES de(key)
 );
 
 -- prevent duplicate aliases
