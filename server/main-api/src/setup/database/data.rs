@@ -20,13 +20,14 @@ impl ExtractedFields {
             Some(v) => Some(v.as_i64()? as i32),
             None => None,
         };
+        let coords = obj.get("props")?.as_object()?;
         Some(ExtractedFields {
             name: obj.get("name")?.as_str()?.to_string(),
             tumonline_room_nr,
             r#type: obj.get("type")?.as_str()?.to_string(),
             type_common_name: obj.get("type_common_name")?.as_str()?.to_string(),
-            lat: 1.0,
-            lon: 1.0,
+            lat: coords.get("lat")?.as_f64().unwrap_or(48.14903) as f32,
+            lon: coords.get("lon")?.as_f64().unwrap_or(11.56735) as f32,
         })
     }
 }
