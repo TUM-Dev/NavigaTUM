@@ -2,6 +2,7 @@ use log::info;
 use serde::Deserialize;
 use sqlx::SqlitePool;
 use std::collections::HashMap;
+use std::time::Instant;
 
 #[derive(Debug)]
 struct Alias {
@@ -89,7 +90,7 @@ impl Iterator for AliasIterator {
 impl Alias {
     async fn store(
         self,
-        pool: &SqlitePool,
+        tx: &mut sqlx::Transaction<'_, sqlx::Sqlite>,
     ) -> Result<sqlx::sqlite::SqliteQueryResult, sqlx::Error> {
         sqlx::query!(
             r#"INSERT OR REPLACE INTO aliases (alias, key, type, visible_id)
@@ -99,7 +100,7 @@ impl Alias {
             self.r#type,
             self.visible_id
         )
-        .execute(pool)
+        .execute(&mut **tx)
         .await
     }
 }
@@ -110,13 +111,17 @@ pub(crate) async fn load_all_to_db(pool: &SqlitePool) -> Result<(), Box<dyn std:
         .await?
         .json::<HashMap<String, AliasData>>()
         .await?;
+    let start = Instant::now();
+    let mut tx = pool.begin().await?;
     let set_aliase = raw_aliase
         .into_iter()
         .map(AliasIterator::from)
-        .flat_map(|alias| alias.into_iter())
-        .map(|alias| alias.store(pool));
-    futures::future::try_join_all(set_aliase).await?;
-    info!("loaded aliases");
+        .flat_map(|alias| alias.into_iter());
+    for task in set_aliase {
+        task.store(&mut tx).await?;
+    }
+    tx.commit().await?;
+    info!("loaded aliases in {elapsed:?}", elapsed = start.elapsed());
 
     Ok(())
 }

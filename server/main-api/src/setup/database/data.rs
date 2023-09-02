@@ -132,13 +132,9 @@ pub(crate) async fn load_all_to_db(pool: &SqlitePool) -> Result<(), Box<dyn std:
         .json::<HashMap<String, Value>>()
         .await?;
     let start = Instant::now();
-    let mut index = 0;
     let mut tx = pool.begin().await?;
     for task in raw_tasks.into_iter().map(DelocalisedValues::from) {
         task.store(&mut tx).await?;
-        index += 1;
-        let elapsed = start.elapsed();
-        info!("{index} in {elapsed:?} => avg: {:?}", elapsed / index);
     }
     tx.commit().await?;
     info!("loaded data in {elapsed:?}", elapsed = start.elapsed());
