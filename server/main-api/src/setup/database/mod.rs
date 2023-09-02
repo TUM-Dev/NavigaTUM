@@ -1,4 +1,3 @@
-mod alias;
 mod data;
 
 use sqlx::sqlite::SqlitePoolOptions;
@@ -19,6 +18,5 @@ pub(crate) async fn setup_database() -> Result<(), Box<dyn std::error::Error>> {
     sqlx::query!("DELETE FROM en").execute(&pool).await?;
 
     data::load_all_to_db(&pool).await?;
-    alias::load_all_to_db(&pool).await?;
     Ok(())
 }
