@@ -66,21 +66,9 @@ jobs:
       - tests
       - linting
     with:
-      image_suffix: building-db-init
+      image_suffix: server-init
       context: ./server/main-api
-      dockerfile: Dockerfile.dbinit
-    permissions:
-      contents: read
-      packages: write
-  mieli-search-init-build:
-    uses: ./.github/workflows/_docker-build.yml
-    needs:
-      - tests
-      - linting
-    with:
-      image_suffix: mieli-search-init
-      context: ./server/main-api
-      dockerfile: Dockerfile.msinit
+      dockerfile: Dockerfile.init
     permissions:
       contents: read
       packages: write

@@ -12,9 +12,8 @@ struct ExtractedFields {
     lat: f32,
     lon: f32,
 }
-impl From<Value> for ExtractedFields {
-    fn from(value: Value) -> Self {
-        let obj = value.as_object().unwrap();
+impl From<HashMap<String, Value>> for ExtractedFields {
+    fn from(obj: HashMap<String, Value>) -> Self {
         let props = obj.get("props").unwrap().as_object().unwrap();
         let tumonline_room_nr = props
             .get("tumonline_room_nr")
@@ -47,7 +46,7 @@ impl From<Value> for ExtractedFields {
 struct StorableValue;
 
 impl StorableValue {
-    fn from(value: Value) -> (String, ExtractedFields) {
+    fn from(value: HashMap<String, Value>) -> (String, ExtractedFields) {
         let data = serde_json::to_string(&value).unwrap();
         (data, ExtractedFields::from(value))
     }
@@ -80,15 +79,23 @@ fn delocalise(value: Value, language: &'static str) -> Value {
 
 struct DelocalisedValues {
     key: String,
-    de: Value,
-    en: Value,
+    de: HashMap<String, Value>,
+    en: HashMap<String, Value>,
 }
 
-impl From<(String, Value)> for DelocalisedValues {
-    fn from((key, value): (String, Value)) -> Self {
+impl From<(String, HashMap<String, Value>)> for DelocalisedValues {
+    fn from((key, value): (String, HashMap<String, Value>)) -> Self {
         Self {
-            de: delocalise(value.clone(), "de"),
-            en: delocalise(value.clone(), "en"),
+            de: value
+                .clone()
+                .into_iter()
+                .map(|(k, v)| (k, delocalise(v.clone(), "de")))
+                .collect(),
+            en: value
+                .clone()
+                .into_iter()
+                .map(|(k, v)| (k, delocalise(v.clone(), "en")))
+                .collect(),
             key,
         }
     }
@@ -133,13 +140,15 @@ impl DelocalisedValues {
     }
 }
 pub(crate) async fn load_all_to_db(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
+    let start = Instant::now();
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?
-        .json::<serde_json::Map<String, Value>>()
+        .json::<HashMap<String, HashMap<String, Value>>>()
         .await?
         .into_iter()
         .map(DelocalisedValues::from);
+    info!("downloaded data in {elapsed:?}", elapsed = start.elapsed());
     let start = Instant::now();
     let mut tx = pool.begin().await?;
     for task in tasks {

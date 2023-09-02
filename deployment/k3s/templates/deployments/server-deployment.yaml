@@ -38,17 +38,18 @@ spec:
           emptyDir: {}
       initContainers:
         - name: building-db-init
-          image: "ghcr.io/tum-dev/navigatum-building-db-init:{{ $.Values.tag }}"
+          image: "ghcr.io/tum-dev/navigatum-server-init:{{ $.Values.tag }}"
           imagePullPolicy: Always
           volumeMounts:
             - mountPath: /tmp
               name: tmp-server
-        - name: meili-init
-          image: "ghcr.io/tum-dev/navigatum-mieli-search-init:{{ $.Values.tag }}"
-          imagePullPolicy: Always
-          volumeMounts:
-            - mountPath: /meili_data
-              name: tmp-mieli-search
+          resources:
+            requests:
+              cpu: 200m
+              memory: 1500Mi
+            limits:
+              cpu: 1000m
+              memory: 2000Mi
       containers:
         - name: server
           image: "ghcr.io/tum-dev/navigatum-server:{{ $.Values.tag }}"
