@@ -22,6 +22,10 @@ pub(crate) async fn setup_meilisearch() -> Result<(), Box<dyn std::error::Error>
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
     let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
 
+    client.health().await.map_err(|e| {
+        format!("Meilisearch is not healthy. Please make sure that it is running. error={e:?}")
+    })?;
+
     client
         .create_index("entries", Some("ms_id"))
         .await?
