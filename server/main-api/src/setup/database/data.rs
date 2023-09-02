@@ -1,7 +1,8 @@
-use log::info;
+use log::{error, info};
 use serde_json::Value;
 use sqlx::SqlitePool;
 use std::collections::HashMap;
+use std::time::Instant;
 
 struct ExtractedFields {
     name: String,
@@ -14,18 +15,19 @@ struct ExtractedFields {
 struct StorableValue;
 
 impl StorableValue {
-    fn from(value: Value) -> (String, ExtractedFields) {
-        (
-            "a".to_string(),
+    fn from(value: Value) -> Option<(String, ExtractedFields)> {
+        let obj = value.as_object()?;
+        Some((
+            obj.get("id")?.as_str()?.to_string(),
             ExtractedFields {
-                name: "a".to_string(),
+                name: obj.get("name")?.as_str()?.to_string(),
                 tumonline_room_nr: Some(1),
-                r#type: "a".to_string(),
-                type_common_name: "a".to_string(),
+                r#type: obj.get("type")?.as_str()?.to_string(),
+                type_common_name: obj.get("type_common_name")?.as_str()?.to_string(),
                 lat: 1.0,
                 lon: 1.0,
             },
-        )
+        ))
     }
 }
 
@@ -76,50 +78,61 @@ impl DelocalisedValues {
         pool: &SqlitePool,
     ) -> Result<sqlx::sqlite::SqliteQueryResult, sqlx::Error> {
         let key = self.key.clone(); // has to be here due to livetimes somehow
-        let (data, fields) = StorableValue::from(self.de);
-        sqlx::query!(
-            r#"INSERT INTO de(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon)
+        if let Some((data, fields)) = StorableValue::from(self.de) {
+            sqlx::query!(
+                r#"INSERT INTO de(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon)
             VALUES (?,?,?,?,?,?,?,?)"#,
-            key,
-            data,
-            fields.name,
-            fields.tumonline_room_nr,
-            fields.r#type,
-            fields.type_common_name,
-            fields.lat,
-            fields.lon,
-        )
-        .execute(pool)
-        .await?;
-        let (data, fields) = StorableValue::from(self.en);
-        sqlx::query!(
-            r#"INSERT INTO en(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon)
+                key,
+                data,
+                fields.name,
+                fields.tumonline_room_nr,
+                fields.r#type,
+                fields.type_common_name,
+                fields.lat,
+                fields.lon,
+            )
+            .execute(pool)
+            .await?;
+        } else {
+            error!("failed to store de for {key}");
+            return Err(sqlx::Error::Protocol(format!(
+                "failed to store de for {key}"
+            )));
+        }
+        if let Some((data, fields)) = StorableValue::from(self.en) {
+            sqlx::query!(
+                r#"INSERT INTO en(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon)
             VALUES (?,?,?,?,?,?,?,?)"#,
-            self.key,
-            data,
-            fields.name,
-            fields.tumonline_room_nr,
-            fields.r#type,
-            fields.type_common_name,
-            fields.lat,
-            fields.lon,
-        )
-        .execute(pool)
-        .await
+                self.key,
+                data,
+                fields.name,
+                fields.tumonline_room_nr,
+                fields.r#type,
+                fields.type_common_name,
+                fields.lat,
+                fields.lon,
+            )
+            .execute(pool)
+            .await
+        } else {
+            error!("failed to store de for {key}");
+            Err(sqlx::Error::Protocol(format!(
+                "failed to store de for {key}"
+            )))
+        }
     }
 }
 pub(crate) async fn load_all_to_db(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let raw_data = reqwest::get(format!("{cdn_url}/api_data.json"))
+    let raw_tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?
         .json::<HashMap<String, Value>>()
         .await?;
-    let tasks = raw_data
-        .into_iter()
-        .map(DelocalisedValues::from)
-        .map(|delocalised| delocalised.store(pool));
-    futures::future::try_join_all(tasks).await?;
-    info!("loaded data");
+    let start = Instant::now();
+    for task in raw_tasks.into_iter().map(DelocalisedValues::from) {
+        task.store(pool).await?;
+    }
+    info!("loaded data in {elapsed:?}", elapsed = start.elapsed());
 
     Ok(())
 }
