@@ -29,6 +29,31 @@ impl StorableValue {
     }
 }
 
+fn delocalise(value: Value, language: &'static str) -> Value {
+    match value {
+        Value::Array(arr) => Value::Array(
+            arr.into_iter()
+                .map(|value| delocalise(value, language))
+                .collect(),
+        ),
+        Value::Object(obj) => {
+            if obj.contains_key("de") || obj.contains_key("en") {
+                obj.get(language)
+                    .cloned()
+                    .unwrap_or(Value::String("".to_string()))
+            } else {
+                Value::Object(
+                    obj.into_iter()
+                        .map(|(key, value)| (key, delocalise(value, language)))
+                        .filter(|(key, _)| key != "de" && key != "en")
+                        .collect(),
+                )
+            }
+        }
+        a => a,
+    }
+}
+
 struct DelocalisedValues {
     key: String,
     de: Value,
@@ -38,8 +63,8 @@ struct DelocalisedValues {
 impl From<(String, Value)> for DelocalisedValues {
     fn from((key, value): (String, Value)) -> Self {
         Self {
-            de: value.clone(),
-            en: value.clone(),
+            de: delocalise(value.clone(), "de"),
+            en: delocalise(value.clone(), "en"),
             key,
         }
     }
