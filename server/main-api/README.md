@@ -45,7 +45,6 @@ To set up the database, you will need to run the `load_api_data_to_db.py` script
 python3 load_api_data_to_db.py
 ```
 
-
 ##### Adding Migrations
 
 For the database-connector we use sqlx.
@@ -78,8 +77,6 @@ To set up your tileserver, head over to the [`map`](https://github.com/TUM-Dev/N
 
 The server uses [MeiliSearch](https://github.com/meilisearch/MeiliSearch) as a backend for search.
 For a local test environment you can skip this step if you don't want to test or work on search.
-
-
 
 MeiliSearch provides an interactive interface at [http://localhost:7700](http://localhost:7700).
 
