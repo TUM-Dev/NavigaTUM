@@ -92,8 +92,7 @@ jobs:
     uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - server-build
-      - building-db-init-build
-      - mieli-search-init-build
+      - server-init-build
     with:
       deployment: server
     secrets:
