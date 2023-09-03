@@ -36,7 +36,7 @@
     "@vue/eslint-config-typescript": "11.0.3",
     "@vue/tsconfig": "0.4.0",
     "@yankeeinlondon/link-builder": "1.2.1",
-    "cypress": "12.17.4",
+    "cypress": "13.1.0",
     "eslint": "8.48.0",
     "eslint-plugin-vue": "9.17.0",
     "isomorphic-fetch": "3.0.0",
