@@ -4,10 +4,6 @@
     "config:base",
     "group:allNonMajor"
   ],
-  "lockFileMaintenance": {
-    "enabled": true,
-    "automerge": true
-  },
   "packageRules": [
     {
       "matchDepTypes": ["devDependencies"],
