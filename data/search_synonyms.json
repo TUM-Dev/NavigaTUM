@@ -113,6 +113,13 @@
 
     "Interims": ["Interimshörsäle", "Interims-Audimax"],
 
+    "permanentomax": ["Interims-Tentomax MW", "Interims III"],
+    "blechomax": ["Interims-Tentomax MW", "Interims III"],
+    "Interims-Tentomax MW": ["Interims-Tentomax MW", "Interims III"],
+    "Interims-III": ["Interims-Tentomax MW", "Interims III"],
+    "Interims III": ["Interims-Tentomax MW", "Interims III"],
+    "Interims 3": ["Interims-Tentomax MW", "Interims III"],
+
     "Fachschaft": ["FS", "Fachschaftsbüro", "Fachschaftsraum"],
     "FS": ["Fachschaft", "Fachschaftsbüro", "Fachschaftsraum"],
     "Fachschaftsbüro": ["Fachschaft", "FS", "Fachschaftsraum"],
