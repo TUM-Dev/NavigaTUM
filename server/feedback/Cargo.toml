@@ -25,12 +25,12 @@ serde.workspace = true
 serde_json.workspace = true
 
 rand = "0.8.5"
-regex = "1.9.4"
-octocrab = "0.29.3"
+regex = "1.9.5"
+octocrab = "0.30.1"
 
 # web
 jsonwebtoken = "8.3.0"
-chrono= { version = "0.4.26", default-features = false }
+chrono= { version = "0.4.28", default-features = false }
 actix-governor = { version = "0.4.1", features = ["log"] }
 
 # proposing feedback
