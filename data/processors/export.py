@@ -47,6 +47,9 @@ def export_for_search(data: dict, path: str) -> None:
                     campus_name = campus.get("short_name", campus["name"])
                     # intentionally no break, because sites might be below a campus
 
+        geo = {}
+        if coords := entry.get("coords"):
+            geo["_geo"] = {"lat": coords["lat"], "lon": coords["lon"]}
         export.append(
             {
                 # MeiliSearch requires an id without "."
@@ -65,29 +68,31 @@ def export_for_search(data: dict, path: str) -> None:
                     "building": "building",
                     "room": "room",
                     "virtual_room": "room",
-                }.get(entry["type"], None),
-                # Parents always exclude root
-                # "parent_names": _data["parents"][1:], [data[p]["name"] for p in _data["parents"][1:]],
-                # For rooms, the (joined_)building parents are extra to put more emphasis on them.
-                # Also, their name is included
-                "parent_building_names": [
-                    data[p]["short_name"] for p in entry["parents"][building_parents_index:] if "short_name" in data[p]
-                ]
-                + [data[p]["name"] for p in entry["parents"][building_parents_index:]],
+                }.get(entry["type"]),
+                "parent_building_names": extract_parent_building_names(data, entry["parents"], building_parents_index),
                 # For all other parents, only the ids and their keywords (TODO) are searchable
                 "parent_keywords": entry["parents"][1:],
                 "campus": campus_name,
                 "address": entry.get("tumonline_data", {}).get("address", None),
                 "usage": entry.get("usage", {}).get("name", None),
                 "rank": int(entry["ranking_factors"]["rank_combined"]),
+                **geo
             },
         )
 
-    # the data contains translations, currently we dont allow these in the search api
+    # the data contains translations, currently we don't allow these in the search api
     export = unlocalise(export)
 
     with open(path, "w", encoding="utf-8") as file:
         json.dump(export, file)
+
+
+def extract_parent_building_names(data: dict, parents: list, building_parents_index: int) -> list:
+    """Extract the parents building names from the data"""
+    # For rooms, the (joined_)building parents are extra to put more emphasis on them.
+    short_names = [data[p]["short_name"] for p in parents[building_parents_index:] if "short_name" in data[p]]
+    long_names = [data[p]["name"] for p in parents[building_parents_index:]]
+    return short_names + long_names
 
 
 def extract_arch_name(entry: dict) -> str | None:
