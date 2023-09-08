@@ -14,8 +14,8 @@ pub(crate) async fn setup_database() -> Result<(), Box<dyn std::error::Error>> {
 
     // delete all old data
     sqlx::query!("DELETE FROM aliases").execute(&pool).await?;
-    sqlx::query!("DELETE FROM de").execute(&pool).await?;
     sqlx::query!("DELETE FROM en").execute(&pool).await?;
+    sqlx::query!("DELETE FROM de").execute(&pool).await?;
 
     data::load_all_to_db(&pool).await?;
     alias::load_all_to_db(&pool).await?;
