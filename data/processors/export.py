@@ -104,8 +104,7 @@ def extract_arch_name(entry: dict) -> str | None:
 
 def export_for_api(data: dict, path: str) -> None:
     """Add some more information about parents to the data and export for the /get/:id api"""
-
-    export_data = {}
+    export_data = []
     for _id, entry in data.items():
         if entry["type"] != "root":
             entry.setdefault("maps", {})["default"] = "interactive"
@@ -114,26 +113,30 @@ def export_for_api(data: dict, path: str) -> None:
         if arch_name := extract_arch_name(entry):
             entry["aliases"].append(arch_name)
 
-        export_data[_id] = {
-            "parent_names": [data[p]["name"] for p in entry["parents"]],
-            **entry,
-        }
-        if "children" in export_data[_id]:
-            del export_data[_id]["children"]
-            del export_data[_id]["children_flat"]
-
-        for key in ["tumonline_data", "roomfinder_data", "nat_data"]:
-            if key in export_data[_id]:
-                del export_data[_id][key]
-
-        if "props" in export_data[_id]:
-            prop_keys_to_keep = {"computed", "links", "comment", "calendar_url", "tumonline_room_nr", "operator"}
-            to_delete = [e for e in export_data[_id]["props"].keys() if e not in prop_keys_to_keep]
-            for k in to_delete:
-                del export_data[_id]["props"][k]
+        export_data.append(extract_exported_item(data, entry))
 
     with open(path, "w", encoding="utf-8") as file:
         json.dump(export_data, file, cls=EnhancedJSONEncoder)
+
+
+def extract_exported_item(data, entry):
+    """Extract the item that will be finally exported to the api"""
+    result = {
+        "parent_names": [data[p]["name"] for p in entry["parents"]],
+        **entry,
+    }
+    if "children" in result:
+        del result["children"]
+        del result["children_flat"]
+    for key in ["tumonline_data", "roomfinder_data", "nat_data"]:
+        if key in result:
+            del result[key]
+    if "props" in result:
+        prop_keys_to_keep = {"computed", "links", "comment", "calendar_url", "tumonline_room_nr", "operator"}
+        to_delete = [e for e in result["props"].keys() if e not in prop_keys_to_keep]
+        for k in to_delete:
+            del result["props"][k]
+    return result
 
 
 class EnhancedJSONEncoder(json.JSONEncoder):

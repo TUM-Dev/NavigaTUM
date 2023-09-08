@@ -31,4 +31,4 @@ def merge_poi(data: dict[str, dict[str, Any]]) -> None:
 
         poi.setdefault("sources", {"base": [{"name": "NavigaTUM"}]})
 
-    return merge.recursively_merge(data, poi_data)
+    merge.recursively_merge(data, poi_data)
