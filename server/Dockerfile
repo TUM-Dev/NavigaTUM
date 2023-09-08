@@ -18,7 +18,8 @@ COPY    ./Cargo.* ./
 COPY    main-api/Cargo.* ./main-api/
 COPY    feedback/Cargo.* ./feedback/
 COPY    calendar/Cargo.* ./calendar/
-RUN     mkdir ./main-api/src/ ./feedback/src/ ./calendar/src/ \
+RUN     mkdir ./main-api/src/ ./main-api/src/setup/ ./feedback/src/ ./calendar/src/ \
+     && echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/setup/mod.rs \
      && echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/main.rs\
      && echo "fn main() { println!(\"Hello, world!\");}" > ./feedback/src/main.rs\
      && echo "fn main() { println!(\"Hello, world!\");}" > ./calendar/src/main.rs\
