@@ -3,7 +3,6 @@ use diesel::PgConnection;
 use log::{error, info};
 use regex::Regex;
 use serde::Deserialize;
-use std::collections::HashMap;
 
 fn api_url_from_env() -> Option<String> {
     let main_api_addr = std::env::var("CDN_SVC_SERVICE_HOST").ok()?;
