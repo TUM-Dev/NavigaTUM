@@ -3,7 +3,7 @@ FROM    rust:1.72-alpine AS compiler
 
 # to ache the build this line inludes all the dependencys all servers need
 # this is not an issue since we copy the generated binary to a more minimal envornment
-RUN     apk add -q --update-cache --no-cache build-base openssl-dev libpq-dev libwebp-dev
+RUN     apk add -q --update-cache --no-cache build-base libpq-dev libwebp-dev
 
 WORKDIR /compiler
 ENV     USER=root
