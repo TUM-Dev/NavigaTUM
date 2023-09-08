@@ -111,6 +111,12 @@ iv: ["4"]
 "4": [iv]
 
 Interims: [Interimshörsäle, Interims-Audimax]
+Permanentomax: ["Interims-Tentomax MW", "Interims III"],
+Blechomax: ["Interims-Tentomax MW", "Interims III"],
+"Interims-Tentomax MW": ["Interims III"],
+Interims-III: ["Interims-Tentomax MW", "Interims III"],
+"Interims III": ["Interims-Tentomax MW"],
+"Interims 3": ["Interims-Tentomax MW", "Interims III"],
 
 Fachschaft: [FS, Fachschaftsbüro, Fachschaftsraum]
 FS: [Fachschaft, Fachschaftsbüro, Fachschaftsraum]
