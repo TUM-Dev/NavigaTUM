@@ -77,7 +77,7 @@ def get_localised_data() -> tuple[TranslatedList, TranslatedList]:
     with open(BASE_DIR / "data" / "api_data.json", encoding="utf-8") as file:
         data = json.load(file)
     split_data: list[tuple[str, Any, Any]] = [
-        (value["key"], localise(value, "de"), localise(value, "en")) for value in data
+        (value["id"], localise(value, "de"), localise(value, "en")) for value in data
     ]
 
     de_data = []

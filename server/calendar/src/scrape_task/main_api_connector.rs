@@ -15,7 +15,7 @@ fn api_url_from_env() -> Option<String> {
 
 #[derive(Deserialize, Debug)]
 pub struct ReducedRoom {
-    key: String,
+    id: String,
     props: ReducedRoomProps,
 }
 
@@ -39,7 +39,7 @@ impl Room {
         let regex = Regex::new(r".*cOrg=(?P<org>\d+)&cRes=(?P<cal>\d+)\D.*").unwrap();
         let captures = regex.captures(&url)?;
         Some(Room {
-            sap_id: room.key,
+            sap_id: room.id,
             tumonline_org_id: captures.name("org")?.as_str().parse().ok()?,
             tumonline_calendar_id: captures.name("cal")?.as_str().parse().ok()?,
             tumonline_room_id: room.props.tumonline_room_nr?,

@@ -89,8 +89,8 @@ def _extract_sitemap_data(new_data: list, old_data: list, old_sitemaps: Simplifi
         "room": [],
         "other": [],
     }
-    old_data_dict = {entry["key"]: entry for entry in old_data}
-    new_data_dict = {entry["key"]: entry for entry in new_data}
+    old_data_dict = {entry["id"]: entry for entry in old_data}
+    new_data_dict = {entry["id"]: entry for entry in new_data}
     changed_count = 0
     for _id, entry in new_data_dict.items():
         if entry["type"] == "root":
