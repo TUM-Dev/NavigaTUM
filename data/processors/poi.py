@@ -16,6 +16,7 @@ def merge_poi(data: dict[str, dict[str, Any]]) -> None:
             raise ValueError(f"Parent '{poi['parent']}' of POI '{_id}' not found")
 
         poi["type"] = "poi"
+        poi["id"] = _id
 
         # make sure that name and usage is internationalized
         poi["usage"]["name"] = _(poi["usage"]["name"])
