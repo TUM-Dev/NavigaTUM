@@ -43,7 +43,7 @@ def generate_sitemap() -> None:
     # export all fields. This way we're also guaranteed to have the same types
     # (and not e.g. numpy floats).
     with open(OUTPUT_DIR / "api_data.json", encoding="utf-8") as file:
-        new_data: dict = json.load(file)
+        new_data: list = json.load(file)
 
     # Look whether there are currently online sitemaps for the provided
     # sitemaps name. In case there aren't, we assume this sitemap is new,
@@ -59,16 +59,19 @@ def generate_sitemap() -> None:
     _write_sitemapindex_xml(OUTPUT_DIR / "sitemap.xml", sitemaps)
 
 
-def _download_old_data() -> dict:
+def _download_old_data() -> list:
     """Download the currently online data from the server"""
     try:
-        return requests.get(OLD_DATA_URL, headers={"Accept-Encoding": "gzip"}, timeout=120).json()
+        old_data = requests.get(OLD_DATA_URL, headers={"Accept-Encoding": "gzip"}, timeout=120).json()
+        if isinstance(old_data, dict):
+            old_data = list(old_data.values())
+        return old_data
     except requests.exceptions.RequestException as error:
         logging.warning(f"Could not download online data because of {error}. Assuming all entries are new.")
-        return {}
+        return []
 
 
-def _extract_sitemap_data(new_data: dict, old_data: dict, old_sitemaps: SimplifiedSitemaps) -> Sitemaps:
+def _extract_sitemap_data(new_data: list, old_data: list, old_sitemaps: SimplifiedSitemaps) -> Sitemaps:
     """
     Extract sitemap data.
     Lastmod is set to the current time if the entry is modified (indicated via comparing newdata vs olddata),
@@ -86,9 +89,10 @@ def _extract_sitemap_data(new_data: dict, old_data: dict, old_sitemaps: Simplifi
         "room": [],
         "other": [],
     }
-
+    old_data_dict = {entry["id"]: entry for entry in old_data}
+    new_data_dict = {entry["id"]: entry for entry in new_data}
     changed_count = 0
-    for _id, entry in new_data.items():
+    for _id, entry in new_data_dict.items():
         if entry["type"] == "root":
             continue
 
@@ -108,7 +112,7 @@ def _extract_sitemap_data(new_data: dict, old_data: dict, old_sitemaps: Simplifi
             "poi": "poi",
         }[entry["type"]]
         url = f"https://nav.tum.de/{url_type_name}/{_id}"
-        if _id not in old_data or entry != old_data[_id]:
+        if _id not in old_data_dict or entry != old_data_dict[_id]:
             lastmod = datetime.now(timezone.utc)
             changed_count += 1
         elif old_lastmod := old_sitemaps[sitemap_name].get(url):
