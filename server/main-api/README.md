@@ -23,27 +23,19 @@ We have a few API endpoints which require additional dependencies.
 As a general rule of thumb, if you probably want to **skip the tileserver**, but want to **do the SQLite Database** and **MeiliSearch** setup.
 The reason for this is, that the `preview` endpoint is the only endpoint, which requires the tileserver and said endpoint is a non-essential part of the project.
 
-#### How to Set up the Sqlite Database (needed for the `get` and `preview` endpoints)
+#### How to Set up the Databases (needed for the `get`,`preview`,`search` endpoints)
 
-##### Getting the data
+To set up the databases, you will need to run the `cargo run --bin navigatum-init-main-api` script.
+This will ensure that the sqlite database and meilisearch index is created.
+Said script is not bundled with the server, as this way we can reduce the permissions needed to run the server.
 
-To populate the database, you will need to get said data.
-There are multiple ways to do this, but the easiest way is to download the data from our [website](https://nav.tum.de/cdn/api_data.json).
-
-(Assuming you are in the `server` directory)
-
-```bash
-mkdir -p data
-wget -P data https://nav.tum.de/cdn/api_data.json
-```
-
-##### Setting up the database
-
-To set up the database, you will need to run the `load_api_data_to_db.py` script:
+To set up [MeiliSearch](https://github.com/meilisearch/MeiliSearch), either follow their installation instructions or use 
 
 ```bash
-python3 load_api_data_to_db.py
+docker run -it --rm -p 7700:7700 getmeili/meilisearch:latest
 ```
+
+MeiliSearch provides an interactive interface at <http://localhost:7700>.
 
 ##### Adding Migrations
 
@@ -72,13 +64,6 @@ cargo sqlx prepare --database-url sqlite://main-api/api_data.db --workspace
 #### How to Set up the tileserver (needed for the `preview` endpoint)
 
 To set up your tileserver, head over to the [`map`](https://github.com/TUM-Dev/NavigaTUM/tree/main/map) folder and follow the instructions there.
-
-#### How to Set up MeiliSearch (needed for the `search` endpoint)
-
-The server uses [MeiliSearch](https://github.com/meilisearch/MeiliSearch) as a backend for search.
-For a local test environment you can skip this step if you don't want to test or work on search.
-
-MeiliSearch provides an interactive interface at [http://localhost:7700](http://localhost:7700).
 
 ### API-Changes
 
