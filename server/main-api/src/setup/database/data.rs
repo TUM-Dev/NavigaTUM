@@ -83,8 +83,8 @@ struct DelocalisedValues {
     en: HashMap<String, Value>,
 }
 
-impl From<(String, HashMap<String, Value>)> for DelocalisedValues {
-    fn from((key, value): (String, HashMap<String, Value>)) -> Self {
+impl From<HashMap<String, Value>> for DelocalisedValues {
+    fn from(value: HashMap<String, Value>) -> Self {
         Self {
             de: value
                 .clone()
@@ -96,7 +96,13 @@ impl From<(String, HashMap<String, Value>)> for DelocalisedValues {
                 .into_iter()
                 .map(|(k, v)| (k, delocalise(v.clone(), "en")))
                 .collect(),
-            key,
+            key: value
+                .clone()
+                .get("key")
+                .unwrap()
+                .as_str()
+                .unwrap()
+                .to_string(),
         }
     }
 }
@@ -144,7 +150,7 @@ pub(crate) async fn load_all_to_db(pool: &SqlitePool) -> Result<(), Box<dyn std:
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?
-        .json::<HashMap<String, HashMap<String, Value>>>()
+        .json::<Vec<HashMap<String, Value>>>()
         .await?
         .into_iter()
         .map(DelocalisedValues::from);
