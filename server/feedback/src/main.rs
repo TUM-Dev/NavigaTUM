@@ -4,7 +4,7 @@ use std::collections::HashMap;
 
 use crate::tokens::RecordedTokens;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
-use actix_web_prometheus::PrometheusMetricsBuilder;
+use actix_web_prom::PrometheusMetricsBuilder;
 mod github;
 mod post_feedback;
 mod proposed_edits;

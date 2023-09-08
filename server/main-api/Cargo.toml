@@ -21,7 +21,7 @@ env_logger.workspace = true
 tokio.workspace = true
 actix-web.workspace = true
 actix-cors.workspace = true
-actix-web-prometheus.workspace = true
+actix-web-prom.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 

@@ -10,7 +10,7 @@ lto = true
 # logging/obeservability
 log = "0.4.20"
 env_logger = "0.10.0"
-actix-web-prometheus = "0.1.2"
+actix-web-prom = { version = "0.7.0", default-features = false, features = [] }
 
 # runtime + webserver
 tokio = { version = "1.32", features = ["full"] }

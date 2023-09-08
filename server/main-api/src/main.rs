@@ -1,6 +1,6 @@
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
-use actix_web_prometheus::PrometheusMetricsBuilder;
+use actix_web_prom::PrometheusMetricsBuilder;
 use std::collections::HashMap;
 mod entries;
 mod maps;
