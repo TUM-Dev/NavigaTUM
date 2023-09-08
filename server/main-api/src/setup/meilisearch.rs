@@ -50,6 +50,7 @@ pub(crate) async fn setup_meilisearch() -> Result<(), Box<dyn std::error::Error>
             "proximity",
             "attribute",
         ])
+        .with_sortable_attributes(["_geo"])
         .with_searchable_attributes([
             "ms_id",
             "name",
