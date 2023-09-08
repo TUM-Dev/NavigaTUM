@@ -76,7 +76,7 @@ def export_for_search(data: dict, path: str) -> None:
                 "address": entry.get("tumonline_data", {}).get("address", None),
                 "usage": entry.get("usage", {}).get("name", None),
                 "rank": int(entry["ranking_factors"]["rank_combined"]),
-                **geo
+                **geo,
             },
         )
 
