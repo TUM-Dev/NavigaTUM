@@ -14,10 +14,6 @@ default-run = "navigatum-main-api"
 name = "navigatum-main-api"
 path = "src/main.rs"
 
-[[bin]]
-name = "navigatum-init-main-api"
-path = "src/setup/mod.rs"
-
 [dependencies]
 # shared
 log.workspace = true

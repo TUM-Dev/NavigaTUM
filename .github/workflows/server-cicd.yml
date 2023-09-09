@@ -60,18 +60,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-  server-init-build:
-    uses: ./.github/workflows/_docker-build.yml
-    needs:
-      - tests
-      - linting
-    with:
-      image_suffix: server-init
-      context: ./server
-      dockerfile: ./main-api/Dockerfile.init
-    permissions:
-      contents: read
-      packages: write
   feedback-deployment:
     uses: ./.github/workflows/_restart-argocd.yml
     needs:
@@ -92,7 +80,6 @@ jobs:
     uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - server-build
-      - server-init-build
     with:
       deployment: server
     secrets:

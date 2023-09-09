@@ -1,8 +1,9 @@
-use log::info;
+use log::{error, info};
 use meilisearch_sdk::settings::Settings;
 use meilisearch_sdk::Client;
 use serde_json::Value;
 use std::collections::HashMap;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Duration;
 
 const TIMEOUT: Option<Duration> = Some(Duration::from_secs(20));
@@ -17,14 +18,36 @@ impl Synonyms {
     }
 }
 
+async fn wait_for_healthy(client: &Client) {
+    let mut counter = 0;
+    loop {
+        match client.health().await {
+            Ok(status) => {
+                if status.status == "available" {
+                    return;
+                } else if counter > 10 {
+                    error!(
+                        "Meilisearch responding, but {status}. Please make sure that it is running",
+                        status = status.status
+                    )
+                }
+            }
+            Err(e) => {
+                if counter > 10 {
+                    error!("Meilisearch unhealthy. Please make sure that it is running err={e:?}")
+                }
+            }
+        }
+        counter += 1;
+        tokio::time::sleep(Duration::from_secs(1)).await;
+    }
+}
+
 pub(crate) async fn setup_meilisearch() -> Result<(), Box<dyn std::error::Error>> {
     let start = std::time::Instant::now();
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
     let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
-
-    client.health().await.map_err(|e| {
-        format!("Meilisearch is not healthy. Please make sure that it is running. error={e:?}")
-    })?;
+    wait_for_healthy(&client).await;
 
     client
         .create_index("entries", Some("ms_id"))

@@ -1,5 +1,6 @@
 mod alias;
 mod data;
+
 use sqlx::sqlite::SqlitePoolOptions;
 use sqlx::Executor;
 

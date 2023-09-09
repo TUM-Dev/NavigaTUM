@@ -36,20 +36,6 @@ spec:
           emptyDir: {}
         - name: tmp-mieli-search
           emptyDir: {}
-      initContainers:
-        - name: server-init
-          image: "ghcr.io/tum-dev/navigatum-server-init:{{ $.Values.tag }}"
-          imagePullPolicy: Always
-          volumeMounts:
-            - mountPath: /tmp
-              name: tmp-server
-          resources:
-            requests:
-              cpu: 200m
-              memory: 1500Mi
-            limits:
-              cpu: 1000m
-              memory: 2000Mi
       containers:
         - name: server
           image: "ghcr.io/tum-dev/navigatum-server:{{ $.Values.tag }}"
@@ -75,9 +61,9 @@ spec:
           resources:
             requests:
               cpu: {{ if eq "nav.tum.de" $.Values.url }}500m{{ else }}5m{{ end }}
-              memory: 60Mi
+              memory: 1000Mi
             limits:
-              memory: 200Mi
+              memory: 2000Mi
           livenessProbe:
             httpGet:
               path: /api/status
