@@ -60,7 +60,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-  building-db-init-build:
+  server-init-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
       - tests
