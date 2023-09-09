@@ -1,6 +1,7 @@
 FROM    rust:1.72-alpine AS compiler
 
-RUN apk add --no-cache musl-dev
+# Same as the main dockerfile to hopefully not require twice the cache
+RUN     apk add -q --update-cache --no-cache musl-dev libpq-dev libwebp-dev
 
 WORKDIR /compiler
 ENV     USER=root

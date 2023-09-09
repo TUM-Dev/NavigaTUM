@@ -1,4 +1,3 @@
-# Compile
 FROM    rust:1.72-alpine AS compiler
 
 # to ache the build this line inludes all the dependencys all servers need
