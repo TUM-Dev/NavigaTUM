@@ -29,7 +29,7 @@ To set up the databases, you will need to run the `cargo run --bin navigatum-ini
 This will ensure that the sqlite database and meilisearch index is created.
 Said script is not bundled with the server, as this way we can reduce the permissions needed to run the server.
 
-To set up [MeiliSearch](https://github.com/meilisearch/MeiliSearch), either follow their installation instructions or use 
+To set up [MeiliSearch](https://github.com/meilisearch/MeiliSearch), either follow their installation instructions or use
 
 ```bash
 docker run -it --rm -p 7700:7700 getmeili/meilisearch:latest
