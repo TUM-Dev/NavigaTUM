@@ -42,6 +42,7 @@ After setting up MeiliSearch, you will need to run the previously mentioned `nav
 ```bash
 cargo run --bin --release navigatum-init-main-api
 ```
+
 ##### Adding Migrations
 
 For the database-connector we use sqlx.
