@@ -60,30 +60,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-  building-db-init-build:
-    uses: ./.github/workflows/_docker-build.yml
-    needs:
-      - tests
-      - linting
-    with:
-      image_suffix: building-db-init
-      context: ./server/main-api
-      dockerfile: Dockerfile.dbinit
-    permissions:
-      contents: read
-      packages: write
-  mieli-search-init-build:
-    uses: ./.github/workflows/_docker-build.yml
-    needs:
-      - tests
-      - linting
-    with:
-      image_suffix: mieli-search-init
-      context: ./server/main-api
-      dockerfile: Dockerfile.msinit
-    permissions:
-      contents: read
-      packages: write
   feedback-deployment:
     uses: ./.github/workflows/_restart-argocd.yml
     needs:
@@ -104,8 +80,6 @@ jobs:
     uses: ./.github/workflows/_restart-argocd.yml
     needs:
       - server-build
-      - building-db-init-build
-      - mieli-search-init-build
     with:
       deployment: server
     secrets:
