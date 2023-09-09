@@ -43,7 +43,7 @@ spec:
           {{ end }}
           env:
             - name: DB_LOCATION
-              value: /tmp/server.db
+              value: api_data.db
           ports:
             - containerPort: 8080
               name: api
