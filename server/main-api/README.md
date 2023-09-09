@@ -23,83 +23,53 @@ We have a few API endpoints which require additional dependencies.
 As a general rule of thumb, if you probably want to **skip the tileserver**, but want to **do the SQLite Database** and **MeiliSearch** setup.
 The reason for this is, that the `preview` endpoint is the only endpoint, which requires the tileserver and said endpoint is a non-essential part of the project.
 
-#### How to Set up the Sqlite Database (needed for the `get` and `preview` endpoints)
+#### How to Set up the Databases (needed for the `get`,`preview`,`search` endpoints)
 
-##### Getting the data
+To set up the databases, you will need to run the `navigatum-init-main-api` script.
+This will ensure that the sqlite database and meilisearch index is created.
+Said script is not bundled with the server, as this way we can reduce the permissions needed to run the server.
 
-To populate the database, you will need to get said data.
-There are multiple ways to do this, but the easiest way is to download the data from our [website](https://nav.tum.de/).
-
-(Assuming you are in the `server` directory)
+To set up [MeiliSearch](https://github.com/meilisearch/MeiliSearch), either follow their installation instructions or use
 
 ```bash
-mkdir -p data
-wget -P data https://nav.tum.de/cdn/api_data.json
+docker run -it --rm -p 7700:7700 getmeili/meilisearch:latest
 ```
 
-##### Setting up the database
+MeiliSearch provides an interactive interface at <http://localhost:7700>.
 
-To set up the database, you will need to run the `load_api_data_to_db.py` script:
+After setting up MeiliSearch, you will need to run the previously mentioned `navigatum-init-main-api` script:
 
 ```bash
-python3 load_api_data_to_db.py
+cargo run --bin --release navigatum-init-main-api
+```
+
+##### Adding Migrations
+
+For the database-connector we use sqlx.
+Migrations can be run with the `sqlx-cli` tool. Said tool can be installed with:
+
+```bash
+cargo install sqlx-cli
+```
+
+Migrations can be added using
+
+```bash
+sqlx migrate add -r <migration-name>
+```
+
+##### Adding queries
+
+To get compiletime guarantees for our queries, we use sqlx.
+To add a query, you will need to run the following command:
+
+```bash
+cargo sqlx prepare --database-url sqlite://main-api/api_data.db --workspace
 ```
 
 #### How to Set up the tileserver (needed for the `preview` endpoint)
 
 To set up your tileserver, head over to the [`map`](https://github.com/TUM-Dev/NavigaTUM/tree/main/map) folder and follow the instructions there.
-
-#### How to Set up MeiliSearch (needed for the `search` endpoint)
-
-The server uses [MeiliSearch](https://github.com/meilisearch/MeiliSearch) as a backend for search.
-For a local test environment you can skip this step if you don't want to test or work on search.
-
-There are a lot of different ways to run MeiliSearch (see on their repo). Here we compile it
-from sources:
-
-```bash
-# Clone MeiliSearch
-cd ..
-git clone https://github.com/meilisearch/MeiliSearch.git -b v1.3.1
-cd MeiliSearch
-
-# Build and run
-cargo run --release
-```
-
-Next, we need to add our index and configure search:
-
-```bash
-# Create index
-curl -i -X POST 'http://localhost:7700/indexes' --header 'content-type: application/json' --data '{ "uid": "entries", "primaryKey": "ms_id" }'
-
-# Set filterable attributes
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/filterable-attributes' --data '["facet", "parent_keywords", "parent_building_names", "campus", "type", "usage"]'
-
-# Upload entries data
-curl -i -X PUT 'http://localhost:7700/indexes/entries/documents' --header 'content-type: application/json' --data-binary @data/search_data.json
-
-# Configure index
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/ranking-rules' --data '["words","typo","rank:desc","exactness","proximity","attribute"]'
-
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/synonyms' --data @../data/search_synonyms.json
-
-curl -X PUT 'http://localhost:7700/indexes/entries/settings/searchable-attributes' --data '[ "ms_id", "name", "arch_name", "type", "type_common_name", "parent_building", "parent_keywords", "address", "usage" ]'
-```
-
-If you want to update the data in the index, run:
-
-```bash
-curl -i -X PUT 'http://localhost:7700/indexes/entries/documents' --header 'content-type: application/json' --data-binary @data/search_data.json
-```
-
-And if you want to delete the index, run:
-
-```bash
-curl -X DELETE 'http://localhost:7700/indexes/entries'
-```
-
-MeiliSearch provides an interactive interface at [http://localhost:7700](http://localhost:7700).
 
 ### API-Changes
 
@@ -126,7 +96,7 @@ st run --workers=auto --base-url=http://localhost:8080 --checks=all ../openapi.y
 ```
 
 Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN) and some fuzzing-goals are automatically tested in our CI.  
-You can exchange `--base-url=http://localhost:8080` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/search`.
+You can exchange `--base-url=http://localhost:8080` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using an option like `--endpoint=/api/search`.
 
 ## License
 

@@ -79,8 +79,7 @@ data
 │   ├── img/
 │   └── <custom data>
 ├── compile.py           # 🠔 The main script
-├── data-format_*.yaml   # 🠔 Data format specification
-└── search_synonyms.json # 🠔 synonyms that MeiliSearch considers
+└── data-format_*.yaml   # 🠔 Data format specification
 ```
 
 Deployment related there are also these files:
