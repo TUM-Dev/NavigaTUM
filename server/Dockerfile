@@ -32,10 +32,12 @@ RUN     cargo build --release --workspace \
 COPY    main-api/diesel.toml ./main-api/diesel.toml
 COPY    calendar/diesel.toml ./calendar/diesel.toml
 COPY    calendar/migrations calendar/migrations
+COPY    .sqlx .sqlx
 
 COPY    feedback/src ./feedback/src
 COPY    calendar/src ./calendar/src
 COPY    main-api/src ./main-api/src
+COPY    main-api/migrations ./main-api/migrations
 RUN     cargo build --release --workspace
 
 
