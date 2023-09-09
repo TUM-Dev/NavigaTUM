@@ -149,6 +149,28 @@ mod parser_tests {
     }
 
     #[test]
+    fn location_sort() {
+        for sep in ["", " "] {
+            assert_eq!(
+                ParsedQuery::from(format!("near:{sep}45.32,59.3").as_str()).sorting,
+                Sorting {
+                    location: HashSet::from(["45.32,59.3".to_string()]),
+                    ..Default::default()
+                }
+            );
+        }
+        for sep in ["", " "] {
+            assert_eq!(
+                ParsedQuery::from(format!("near:{sep}45.3,59.00000003").as_str()).sorting,
+                Sorting {
+                    location: HashSet::from(["45.3,59.00000003".to_string()]),
+                    ..Default::default()
+                }
+            );
+        }
+    }
+
+    #[test]
     fn text_token() {
         assert_eq!(
             ParsedQuery::from("foo").tokens,
@@ -173,7 +195,7 @@ mod parser_tests {
     #[test]
     fn text_filter_mixed() {
         assert_eq!(
-            ParsedQuery::from("foo in:abc bar @abc foo").tokens,
+            ParsedQuery::from("foo in:abc bar @abc foo near:45.32,59.3").tokens,
             vec![
                 TextToken::Text("foo".to_string()),
                 TextToken::Text("bar".to_string()),
@@ -181,7 +203,7 @@ mod parser_tests {
             ]
         );
         assert_eq!(
-            ParsedQuery::from("foo in:abc bar @abc =def usage:dd nutzung:gh type:fdh foo").tokens,
+            ParsedQuery::from("foo in:abc bar @abc =def usage:dd nutzung:gh type:fdh foo near:45.32,59.3").tokens,
             vec![
                 TextToken::Text("foo".to_string()),
                 TextToken::Text("bar".to_string()),
