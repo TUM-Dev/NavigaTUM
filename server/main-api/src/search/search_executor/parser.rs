@@ -9,7 +9,6 @@ pub struct Filter {
     types: HashSet<String>,
     usages: HashSet<String>,
 }
-
 impl Filter {
     pub(crate) fn as_meilisearch_filters(&self) -> String {
         let mut filters = vec![];
@@ -31,6 +30,17 @@ impl Filter {
     }
 }
 
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct Sorting {
+    location: HashSet<String>,
+}
+
+impl Sorting {
+    pub(crate) fn as_meilisearch_sorting(&self)-> Vec<String>{
+        self.location.iter().map(|s| format!("_geoPoint({s}):asc")).collect()
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum TextToken {
     Text(String),
@@ -41,6 +51,7 @@ pub enum TextToken {
 pub struct ParsedQuery {
     pub tokens: Vec<TextToken>,
     pub filters: Filter,
+    pub sorting: Sorting
 }
 
 impl ParsedQuery {
@@ -77,6 +88,9 @@ impl From<&str> for ParsedQuery {
                 }
                 Ok(Token::TypeFilter(filter)) => {
                     result.filters.types.insert(filter);
+                }
+                Ok(Token::LocationSort(location)) => {
+                    result.sorting.location.insert(location);
                 }
                 Err(e) => {
                     warn!("Error in query parsing: {e:?}");
