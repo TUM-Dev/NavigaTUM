@@ -25,7 +25,7 @@ The reason for this is, that the `preview` endpoint is the only endpoint, which 
 
 #### How to Set up the Databases (needed for the `get`,`preview`,`search` endpoints)
 
-To set up the databases, you will need to run the `cargo run --bin navigatum-init-main-api` script.
+To set up the databases, you will need to run the `navigatum-init-main-api` script.
 This will ensure that the sqlite database and meilisearch index is created.
 Said script is not bundled with the server, as this way we can reduce the permissions needed to run the server.
 
@@ -37,6 +37,11 @@ docker run -it --rm -p 7700:7700 getmeili/meilisearch:latest
 
 MeiliSearch provides an interactive interface at <http://localhost:7700>.
 
+After setting up MeiliSearch, you will need to run the previously mentioned `navigatum-init-main-api` script:
+
+```bash
+cargo run --bin --release navigatum-init-main-api
+```
 ##### Adding Migrations
 
 For the database-connector we use sqlx.
