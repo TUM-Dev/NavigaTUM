@@ -9,26 +9,19 @@ This folder contains the main backend server for NavigaTUM.
 For getting started, there are some system dependencys which you will need.
 Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of our project.
 
-### Starting the server
-
-Run `cargo run` to start the server.
-The server should now be available on `localhost:8080`.
-
-Note that `cargo run --release` is used to start the server for an optimised production build (use this if you want to profile the `search` or `preview` functions, it makes quite a difference).
-
-### Additional dependency's for some API endpoints
+### Additional dependency
 
 We have a few API endpoints which require additional dependencies.
 
-As a general rule of thumb, if you probably want to **skip the tileserver**, but want to **do the SQLite Database** and **MeiliSearch** setup.
+As a general rule of thumb, if you probably want to **skip the tileserver**, but need to **do the SQLite Database** and **MeiliSearch** setup.
 The reason for this is, that the `preview` endpoint is the only endpoint, which requires the tileserver and said endpoint is a non-essential part of the project.
 
-#### How to Set up the Databases (needed for the `get`,`preview`,`search` endpoints)
+#### How to Set up the Databases
 
-To set up the databases, you will need to run the `navigatum-init-main-api` script.
+At the beginning of the main api we set up both meilisearch and the database.
 This will ensure that the sqlite database and meilisearch index is created.
-Said script is not bundled with the server, as this way we can reduce the permissions needed to run the server.
 
+This requires meilisearch to be online.
 To set up [MeiliSearch](https://github.com/meilisearch/MeiliSearch), either follow their installation instructions or use
 
 ```bash
@@ -37,13 +30,15 @@ docker run -it --rm -p 7700:7700 getmeili/meilisearch:latest
 
 MeiliSearch provides an interactive interface at <http://localhost:7700>.
 
-After setting up MeiliSearch, you will need to run the previously mentioned `navigatum-init-main-api` script:
+### Starting the server
 
-```bash
-cargo run --bin --release navigatum-init-main-api
-```
+Run `cargo run` to start the server.
+The server should now be available on `localhost:8080`.
 
-##### Adding Migrations
+> [!NOTE]
+> `cargo run --release` is used to start the server for an optimised production build (use this if you want to profile the `search` or `preview` functions, it makes quite a difference).
+
+### Adding Migrations
 
 For the database-connector we use sqlx.
 Migrations can be run with the `sqlx-cli` tool. Said tool can be installed with:
@@ -58,16 +53,16 @@ Migrations can be added using
 sqlx migrate add -r <migration-name>
 ```
 
-##### Adding queries
+### Adding/editing database queries
 
 To get compiletime guarantees for our queries, we use sqlx.
-To add a query, you will need to run the following command:
+To add/edit a query, you will need to run the following command:
 
 ```bash
 cargo sqlx prepare --database-url sqlite://main-api/api_data.db --workspace
 ```
 
-#### How to Set up the tileserver (needed for the `preview` endpoint)
+### How to Set up the tileserver (needed for the `preview` endpoint)
 
 To set up your tileserver, head over to the [`map`](https://github.com/TUM-Dev/NavigaTUM/tree/main/map) folder and follow the instructions there.
 
