@@ -3,7 +3,6 @@ use meilisearch_sdk::settings::Settings;
 use meilisearch_sdk::Client;
 use serde_json::Value;
 use std::collections::HashMap;
-use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Duration;
 
 const TIMEOUT: Option<Duration> = Some(Duration::from_secs(20));
