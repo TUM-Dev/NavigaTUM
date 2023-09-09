@@ -37,7 +37,7 @@ spec:
         - name: tmp-mieli-search
           emptyDir: {}
       initContainers:
-        - name: building-db-init
+        - name: server-init
           image: "ghcr.io/tum-dev/navigatum-server-init:{{ $.Values.tag }}"
           imagePullPolicy: Always
           volumeMounts:
