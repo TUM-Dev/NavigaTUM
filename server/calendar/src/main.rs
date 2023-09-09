@@ -5,7 +5,7 @@ mod utils;
 
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
-use actix_web_prometheus::PrometheusMetricsBuilder;
+use actix_web_prom::PrometheusMetricsBuilder;
 use std::collections::HashMap;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
