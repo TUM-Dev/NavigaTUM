@@ -35,9 +35,9 @@ RUN     cargo build --release --bin navigatum-init-main-api
 
 FROM getmeili/meilisearch:v1.3.3 as runtime
 
+RUN     apk update --quiet && apk add -q --no-cache libgcc
+
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
 
-CMD    /meilisearch & \
-    && /bin/navigatum-init-main-api \
-    && exit 0
+CMD    /meilisearch & /bin/navigatum-init-main-api && exit 0
