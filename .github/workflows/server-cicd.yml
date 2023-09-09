@@ -67,8 +67,8 @@ jobs:
       - linting
     with:
       image_suffix: server-init
-      context: ./server/main-api
-      dockerfile: Dockerfile.init
+      context: ./server
+      dockerfile: ./main-api/Dockerfile.init
     permissions:
       contents: read
       packages: write
