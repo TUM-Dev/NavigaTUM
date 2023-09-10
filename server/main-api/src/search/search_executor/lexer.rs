@@ -24,11 +24,11 @@ fn remove_prefix(lex: &mut Lexer<Token>, prefix: &'static str) -> String {
 
 /// Parses the query string into a list of tokens
 /// priority between tokens is set as follows
-/// 1. Filters (`ParentFilter`,`UsageFilter`,`TypeFilter`) / quoted `Text`
+/// 1. Filters (`ParentFilter`,`UsageFilter`,`TypeFilter`) / quoted `Text` / `LocationSort`
 /// 2. `SplittableText`
 /// 3. `Text`
 /// 4. skip
-#[derive(Logos, Debug, PartialEq, Eq, Clone)]
+#[derive(Logos, Debug, PartialEq, Clone)]
 #[logos(skip r"[ \t\n\f]+")]
 pub enum Token {
     #[regex("\"[^\"]+\"", | lex | lex.slice()[1..lex.slice().len() - 1].to_string(), priority = 3)]
@@ -41,6 +41,9 @@ pub enum Token {
     #[regex("in: ?[a-zA-Z0-9-.]+", | lex | remove_prefix(lex, "in:"), priority = 3)]
     #[regex("@ ?[a-zA-Z0-9-.]+", | lex | remove_prefix(lex, "@"), priority = 3)]
     ParentFilter(String),
+
+    #[regex("near: ?[0-9]+[.][0-9.]+,[0-9]+[.][0-9.]+", | lex | remove_prefix(lex, "near:"), priority = 3)]
+    LocationSort(String), // e.g. near:lat,lon
 
     #[regex("usage: ?[a-zA-Z]+", | lex | remove_prefix(lex, "usage:"), priority = 3)]
     #[regex("nutzung: ?[a-zA-Z]+", | lex | remove_prefix(lex, "nutzung:"), priority = 3)]
@@ -198,6 +201,19 @@ mod tokenizer_tests {
                     assert_eq!(lexer.next(), None);
                 }
             }
+        }
+    }
+
+    #[test]
+    fn sortings() {
+        for sep in ["", " "] {
+            let quoted_text = format!("near:{sep}12.345,6.789");
+            let mut lexer = Token::lexer(&quoted_text);
+            assert_eq!(
+                lexer.next(),
+                Some(Ok(Token::LocationSort("12.345,6.789".to_string())))
+            );
+            assert_eq!(lexer.next(), None);
         }
     }
 }
