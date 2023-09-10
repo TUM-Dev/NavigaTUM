@@ -66,4 +66,4 @@ ENTRYPOINT ["tini", "--"]
 # CMD     /bin/navigatum-calendar-scraper
 # CMD     /bin/navigatum-calendar
 # CMD     /bin/navigatum-feedback
-CMD     pwd && ls -lah && /bin/navigatum-main-api
+CMD     /bin/navigatum-main-api
