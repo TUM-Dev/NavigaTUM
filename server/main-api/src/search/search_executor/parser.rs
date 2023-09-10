@@ -9,7 +9,6 @@ pub struct Filter {
     types: HashSet<String>,
     usages: HashSet<String>,
 }
-
 impl Filter {
     pub(crate) fn as_meilisearch_filters(&self) -> String {
         let mut filters = vec![];
@@ -31,6 +30,20 @@ impl Filter {
     }
 }
 
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct Sorting {
+    location: HashSet<String>,
+}
+
+impl Sorting {
+    pub(crate) fn as_meilisearch_sorting(&self) -> Vec<String> {
+        self.location
+            .iter()
+            .map(|s| format!("_geoPoint({s}):asc"))
+            .collect()
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum TextToken {
     Text(String),
@@ -41,6 +54,7 @@ pub enum TextToken {
 pub struct ParsedQuery {
     pub tokens: Vec<TextToken>,
     pub filters: Filter,
+    pub sorting: Sorting,
 }
 
 impl ParsedQuery {
@@ -77,6 +91,9 @@ impl From<&str> for ParsedQuery {
                 }
                 Ok(Token::TypeFilter(filter)) => {
                     result.filters.types.insert(filter);
+                }
+                Ok(Token::LocationSort(location)) => {
+                    result.sorting.location.insert(location);
                 }
                 Err(e) => {
                     warn!("Error in query parsing: {e:?}");
@@ -135,6 +152,28 @@ mod parser_tests {
     }
 
     #[test]
+    fn location_sort() {
+        for sep in ["", " "] {
+            assert_eq!(
+                ParsedQuery::from(format!("near:{sep}45.32,59.3").as_str()).sorting,
+                Sorting {
+                    location: HashSet::from(["45.32,59.3".to_string()]),
+                    ..Default::default()
+                }
+            );
+        }
+        for sep in ["", " "] {
+            assert_eq!(
+                ParsedQuery::from(format!("near:{sep}45.3,59.00000003").as_str()).sorting,
+                Sorting {
+                    location: HashSet::from(["45.3,59.00000003".to_string()]),
+                    ..Default::default()
+                }
+            );
+        }
+    }
+
+    #[test]
     fn text_token() {
         assert_eq!(
             ParsedQuery::from("foo").tokens,
@@ -159,7 +198,7 @@ mod parser_tests {
     #[test]
     fn text_filter_mixed() {
         assert_eq!(
-            ParsedQuery::from("foo in:abc bar @abc foo").tokens,
+            ParsedQuery::from("foo in:abc bar @abc foo near:45.32,59.3").tokens,
             vec![
                 TextToken::Text("foo".to_string()),
                 TextToken::Text("bar".to_string()),
@@ -167,7 +206,10 @@ mod parser_tests {
             ]
         );
         assert_eq!(
-            ParsedQuery::from("foo in:abc bar @abc =def usage:dd nutzung:gh type:fdh foo").tokens,
+            ParsedQuery::from(
+                "foo in:abc bar @abc =def usage:dd nutzung:gh type:fdh foo near:45.32,59.3"
+            )
+            .tokens,
             vec![
                 TextToken::Text("foo".to_string()),
                 TextToken::Text("bar".to_string()),
