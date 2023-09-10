@@ -69,9 +69,10 @@ pub(crate) async fn setup_meilisearch() -> Result<(), Box<dyn std::error::Error>
             "words",
             "typo",
             "rank:desc",
-            "exactness",
             "proximity",
             "attribute",
+            "sort",
+            "exactness",
         ])
         .with_sortable_attributes(["_geo"])
         .with_searchable_attributes([
