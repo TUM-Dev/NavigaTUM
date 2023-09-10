@@ -4,14 +4,22 @@ from typing import Any, Union
 
 import re
 from external.models.common import PydanticConfiguration
+from utils import TranslatableStr
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
 SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9_-]+")
 
 
-def maybe_slugify(value: str | None) -> str | None:
+def maybe_slugify(value: str | None | TranslatableStr) -> str | None:
     """Slugify a value if it exists"""
-    return SLUGIFY_REGEX.sub("-", value.lower()).strip("-") if value else value
+    if value is None:
+        return None
+    if isinstance(value, TranslatableStr):
+        value = unlocalise(value)
+
+    if not isinstance(value, str):
+        raise ValueError(f"Expected str, got {type(value)}")
+    return SLUGIFY_REGEX.sub("-", value.lower()).strip("-")
 
 
 def unlocalise(value: Union[str, list[Any], dict[str, Any]]) -> Any:
