@@ -2,11 +2,11 @@ import json
 from pathlib import Path
 from typing import Any, Union
 
-import regex
+import re
 from external.models.common import PydanticConfiguration
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
-SLUGIFY_REGEX = regex.compile(r"[^a-zA-Z0-9_-]+")
+SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9_-]+")
 
 
 def maybe_slugify(value: str | None) -> str | None:
