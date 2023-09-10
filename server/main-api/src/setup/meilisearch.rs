@@ -1,5 +1,6 @@
 use log::{error, info};
 use meilisearch_sdk::settings::Settings;
+use meilisearch_sdk::tasks::Task;
 use meilisearch_sdk::Client;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -72,7 +73,7 @@ pub(crate) async fn setup_meilisearch() -> Result<(), Box<dyn std::error::Error>
             "proximity",
             "attribute",
         ])
-        .with_sortable_attributes(["_geo"])
+        // .with_sortable_attributes(["_geo"])
         .with_searchable_attributes([
             "ms_id",
             "name",
@@ -86,22 +87,29 @@ pub(crate) async fn setup_meilisearch() -> Result<(), Box<dyn std::error::Error>
         ])
         .with_synonyms(Synonyms::try_load()?.0);
 
-    entries
+    let res = entries
         .set_settings(&settings)
         .await?
         .wait_for_completion(&client, POLLING_RATE, TIMEOUT)
         .await?;
+    if let Task::Failed { content } = res {
+        panic!("Failed to add documents to Meilisearch: {content:#?}");
+    }
 
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let documents = reqwest::get(format!("{cdn_url}/search_data.json"))
         .await?
         .json::<Vec<Value>>()
         .await?;
-    entries
+    let res = entries
         .add_documents(&documents, Some("ms_id"))
         .await?
         .wait_for_completion(&client, POLLING_RATE, TIMEOUT)
         .await?;
+    if let Task::Failed { content } = res {
+        panic!("Failed to add documents to Meilisearch: {content:#?}");
+    }
+
     info!(
         "{cnt} documents added in {elapsed:?}",
         elapsed = start.elapsed(),
