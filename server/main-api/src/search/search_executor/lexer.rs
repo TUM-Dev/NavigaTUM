@@ -78,15 +78,24 @@ mod tokenizer_tests {
     }
 
     #[test]
-    fn test_slugify() {
+    fn test_slugify_identical() {
+        // identical
         assert_eq!(&slugify(""), "");
         assert_eq!(&slugify("a"), "a");
+        assert_eq!(&slugify("1234567890"), "1234567890");
+        assert_eq!(&slugify("äöüßa."), "äöüßa.");
+    }
+
+    #[test]
+    fn test_slugify() {
+        // to-lower
         assert_eq!(&slugify("B"), "b");
-        assert_eq!(&slugify("-B"), "b");
-        assert_eq!(&slugify("-B"), "b");
-        assert_eq!(&slugify("+#.a.-21"), "a-21");
-        assert_eq!(&slugify("a--21"), "a-21");
         assert_eq!(&slugify("aA"), "aa");
+        // leading/tailing "-" get stripped
+        assert_eq!(&slugify("-B-"), "b");
+        // no double dashes
+        assert_eq!(&slugify("a--21"), "a-21");
+        assert_eq!(&slugify("a**21"), "a-21");
     }
 
     #[test]
