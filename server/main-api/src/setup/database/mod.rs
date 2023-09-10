@@ -4,9 +4,10 @@ mod data;
 use sqlx::sqlite::SqlitePoolOptions;
 use sqlx::Executor;
 
-const DATABASE_URL: &str = "main-api/api_data.db?mode=rwc";
 pub(crate) async fn setup_database() -> Result<(), Box<dyn std::error::Error>> {
-    let pool = SqlitePoolOptions::new().connect(DATABASE_URL).await?;
+    let uri = std::env::var("DB_LOCATION").unwrap_or_else(|_| "main-api/api_data.db".to_string());
+    let uri = format!("{uri}?mode=rwc");
+    let pool = SqlitePoolOptions::new().connect(&uri).await?;
     sqlx::migrate!("./migrations").run(&pool).await?;
     // this is to setup the database faster
     // we don't want to use an acid compliant database for this step ;)
