@@ -5,7 +5,7 @@ use sqlx::sqlite::SqlitePoolOptions;
 use sqlx::Executor;
 
 pub(crate) async fn setup_database() -> Result<(), Box<dyn std::error::Error>> {
-    let uri = std::env::var("DB_LOCATION").unwrap_or_else(|_| "main-api/api_data.db".to_string());
+    let uri = std::env::var("DB_LOCATION").unwrap_or_else(|_| "api_data.db".to_string());
     let uri = format!("{uri}?mode=rwc");
     let pool = SqlitePoolOptions::new().connect(&uri).await?;
     sqlx::migrate!("./migrations").run(&pool).await?;
