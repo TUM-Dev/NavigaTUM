@@ -1,8 +1,8 @@
 import json
+import re
 from pathlib import Path
 from typing import Any, Union
 
-import re
 from external.models.common import PydanticConfiguration
 from utils import TranslatableStr
 
