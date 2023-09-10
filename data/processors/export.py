@@ -2,9 +2,16 @@ import json
 from pathlib import Path
 from typing import Any, Union
 
+import regex
 from external.models.common import PydanticConfiguration
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
+SLUGIFY_REGEX = regex.compile(r"[^a-zA-Z0-9_-]+")
+
+
+def maybe_slugify(value: str | None) -> str | None:
+    """Slugify a value if it exists"""
+    return SLUGIFY_REGEX.sub("-", value.lower()).strip("-") if value else value
 
 
 def unlocalise(value: Union[str, list[Any], dict[str, Any]]) -> Any:
@@ -72,9 +79,9 @@ def export_for_search(data: dict, path: str) -> None:
                 "parent_building_names": extract_parent_building_names(data, entry["parents"], building_parents_index),
                 # For all other parents, only the ids and their keywords (TODO) are searchable
                 "parent_keywords": entry["parents"][1:],
-                "campus": campus_name,
+                "campus": maybe_slugify(campus_name),
                 "address": entry.get("tumonline_data", {}).get("address", None),
-                "usage": entry.get("usage", {}).get("name", None),
+                "usage": maybe_slugify(entry.get("usage", {}).get("name", None)),
                 "rank": int(entry["ranking_factors"]["rank_combined"]),
                 **geo,
             },
@@ -87,12 +94,12 @@ def export_for_search(data: dict, path: str) -> None:
         json.dump(export, file)
 
 
-def extract_parent_building_names(data: dict, parents: list, building_parents_index: int) -> list:
+def extract_parent_building_names(data: dict, parents: list[str], building_parents_index: int) -> list[str]:
     """Extract the parents building names from the data"""
     # For rooms, the (joined_)building parents are extra to put more emphasis on them.
     short_names = [data[p]["short_name"] for p in parents[building_parents_index:] if "short_name" in data[p]]
     long_names = [data[p]["name"] for p in parents[building_parents_index:]]
-    return short_names + long_names
+    return [maybe_slugify(value) for value in short_names + long_names]
 
 
 def extract_arch_name(entry: dict) -> str | None:
