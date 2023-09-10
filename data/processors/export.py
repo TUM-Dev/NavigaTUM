@@ -7,7 +7,7 @@ from external.models.common import PydanticConfiguration
 from utils import TranslatableStr
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
-SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9_-]+")
+SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9_äöüß]+")
 
 
 def maybe_slugify(value: str | None | TranslatableStr) -> str | None:
