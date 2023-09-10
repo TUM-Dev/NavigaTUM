@@ -25,7 +25,7 @@ fn remove_prefix(lex: &mut Lexer<Token>, prefix: &'static str) -> String {
 
 /// Removes non-ascii characters from the token (replacing them with at most one whitespace)
 fn slugify<S: Into<String>>(input: S) -> String {
-    let slugify_regex = Regex::new(r"[^a-zA-Z0-9_äöüß]+").unwrap();
+    let slugify_regex = Regex::new(r"[^a-zA-Z0-9-äöüß.]+").unwrap();
     let slug = slugify_regex
         .replace_all(&input.into(), "-")
         .to_lowercase()
@@ -49,19 +49,19 @@ pub enum Token {
     #[regex("[a-zA-Z]+[0-9]{1,4}", irregular_split, priority = 2)]
     SplittableText((String, String)),
 
-    #[regex("in: ?[a-zA-Z0-9-.]+", | lex | slugify(remove_prefix(lex, "in:")), priority = 3)]
-    #[regex("@ ?[a-zA-Z0-9-.]+", | lex | slugify(remove_prefix(lex, "@")), priority = 3)]
+    #[regex("in: ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "in:")), priority = 3)]
+    #[regex("@ ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "@")), priority = 3)]
     ParentFilter(String),
 
-    #[regex("near: ?[0-9]+[.][0-9.]+,[0-9]+[.][0-9.]+", | lex | remove_prefix(lex, "near:"), priority = 3)]
+    #[regex("near: ?-?[0-9]+[.][0-9.]+,-?[0-9]+[.][0-9.]+", | lex | remove_prefix(lex, "near:"), priority = 3)]
     LocationSort(String), // e.g. near:lat,lon
 
-    #[regex("usage: ?[a-zA-Z]+", | lex | slugify(remove_prefix(lex, "usage:")), priority = 3)]
-    #[regex("nutzung: ?[a-zA-Z]+", | lex | slugify(remove_prefix(lex, "nutzung:")), priority = 3)]
-    #[regex("= ?[a-zA-Z]+", | lex | slugify(remove_prefix(lex, "=")), priority = 3)]
+    #[regex("usage: ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "usage:")), priority = 3)]
+    #[regex("nutzung: ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "nutzung:")), priority = 3)]
+    #[regex("= ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "=")), priority = 3)]
     UsageFilter(String),
 
-    #[regex("type: ?[a-zA-Z]+", | lex | slugify(remove_prefix(lex, "type:")), priority = 3)]
+    #[regex("type: ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "type:")), priority = 3)]
     TypeFilter(String),
 }
 
