@@ -36,8 +36,11 @@ pub struct Sorting {
 }
 
 impl Sorting {
-    pub(crate) fn as_meilisearch_sorting(&self)-> Vec<String>{
-        self.location.iter().map(|s| format!("_geoPoint({s}):asc")).collect()
+    pub(crate) fn as_meilisearch_sorting(&self) -> Vec<String> {
+        self.location
+            .iter()
+            .map(|s| format!("_geoPoint({s}):asc"))
+            .collect()
     }
 }
 
@@ -51,7 +54,7 @@ pub enum TextToken {
 pub struct ParsedQuery {
     pub tokens: Vec<TextToken>,
     pub filters: Filter,
-    pub sorting: Sorting
+    pub sorting: Sorting,
 }
 
 impl ParsedQuery {
@@ -203,7 +206,10 @@ mod parser_tests {
             ]
         );
         assert_eq!(
-            ParsedQuery::from("foo in:abc bar @abc =def usage:dd nutzung:gh type:fdh foo near:45.32,59.3").tokens,
+            ParsedQuery::from(
+                "foo in:abc bar @abc =def usage:dd nutzung:gh type:fdh foo near:45.32,59.3"
+            )
+            .tokens,
             vec![
                 TextToken::Text("foo".to_string()),
                 TextToken::Text("bar".to_string()),

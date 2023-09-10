@@ -55,11 +55,11 @@ impl GeoEntryQuery {
         highlighting: &(String, String),
     ) -> Self {
         Self {
-            parsed_input:parsed_input.clone(),
+            parsed_input: parsed_input.clone(),
             args: *args,
             highlighting: highlighting.clone(),
             filters: GeoEntryFilters::from(&parsed_input.filters),
-            sorting: parsed_input.sorting.as_meilisearch_sorting()
+            sorting: parsed_input.sorting.as_meilisearch_sorting(),
         }
     }
     pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
@@ -71,7 +71,11 @@ impl GeoEntryQuery {
 
         // due to lifetime shenanigans this is added here (I can't make it move down to the other statements)
         // If you can make it, please propose a PR, I know that this is really hacky ^^
-        let sorting=self.sorting.iter().map(|s|s.as_str()).collect::<Vec<&str>>();
+        let sorting = self
+            .sorting
+            .iter()
+            .map(|s| s.as_str())
+            .collect::<Vec<&str>>();
 
         // Currently ranking is designed to put buildings at the top if they equally
         // match the term compared to a room. For this reason there is only a search
@@ -80,9 +84,21 @@ impl GeoEntryQuery {
         // buildings will be hidden (e.g. building parts), so the extra room search ....
         client
             .multi_search()
-            .with_search_query(self.merged_query(&entries, &q_default).with_sort(&sorting).build())
-            .with_search_query(self.buildings_query(&entries, &q_default).with_sort(&sorting).build())
-            .with_search_query(self.rooms_query(&entries, &self.prompt_for_querying_room()).with_sort(&sorting).build())
+            .with_search_query(
+                self.merged_query(&entries, &q_default)
+                    .with_sort(&sorting)
+                    .build(),
+            )
+            .with_search_query(
+                self.buildings_query(&entries, &q_default)
+                    .with_sort(&sorting)
+                    .build(),
+            )
+            .with_search_query(
+                self.rooms_query(&entries, &self.prompt_for_querying_room())
+                    .with_sort(&sorting)
+                    .build(),
+            )
             .execute::<MSHit>()
             .await
     }
