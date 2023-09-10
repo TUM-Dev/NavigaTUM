@@ -13,7 +13,6 @@ impl LangQueryArgs {
 }
 
 pub fn establish_connection() -> SqliteConnection {
-    let database_loc =
-        std::env::var("DB_LOCATION").unwrap_or_else(|_| "main-api/api_data.db".to_string());
+    let database_loc = std::env::var("DB_LOCATION").unwrap_or_else(|_| "api_data.db".to_string());
     SqliteConnection::establish(&database_loc).expect("Cannot open database")
 }
