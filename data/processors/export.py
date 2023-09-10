@@ -49,7 +49,7 @@ def export_for_search(data: dict, path: str) -> None:
 
         geo = {}
         if coords := entry.get("coords"):
-            geo["_geo"] = {"lat": coords["lat"], "lon": coords["lon"]}
+            geo["_geo"] = {"lat": coords["lat"], "lng": coords["lon"]}
         export.append(
             {
                 # MeiliSearch requires an id without "."
