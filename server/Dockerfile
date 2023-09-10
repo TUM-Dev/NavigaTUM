@@ -43,15 +43,21 @@ RUN     cargo build --release --workspace
 # RUN
 FROM alpine:3.18
 
+ARG     GIT_COMMIT_SHA
+ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+
 RUN     apk update --quiet \
      && apk add -q --no-cache libgcc libpq-dev libwebp tini curl
 
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
 
-ARG     GIT_COMMIT_SHA
-ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
-
+# after this point, we don't need the root user anymore
+RUN    adduser -D navigatum \
+     && mkdir -p /home/navigatum \
+     && chown -R navigatum:navigatum /home/navigatum
+WORKDIR /home/navigatum
+USER    navigatum
 
 ENTRYPOINT ["tini", "--"]
 
