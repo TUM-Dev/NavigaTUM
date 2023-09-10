@@ -25,7 +25,7 @@ fn remove_prefix(lex: &mut Lexer<Token>, prefix: &'static str) -> String {
 
 /// Removes non-ascii characters from the token (replacing them with at most one whitespace)
 fn slugify<S: Into<String>>(input: S) -> String {
-    let slugify_regex = Regex::new(r"[^a-zA-Z0-9-]+").unwrap();
+    let slugify_regex = Regex::new(r"[^a-zA-Z0-9_äöüß]+").unwrap();
     let slug = slugify_regex
         .replace_all(&input.into(), "-")
         .to_lowercase()
