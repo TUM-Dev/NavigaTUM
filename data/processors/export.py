@@ -87,7 +87,7 @@ def export_for_search(data: dict, path: str) -> None:
                 }.get(entry["type"]),
                 "parent_building_names": parent_building_names,
                 # For all other parents, only the ids and their keywords (TODO) are searchable
-                "parent_keywords": [maybe_slugify(value) for value in parent_building_names+entry["parents"][1:]],
+                "parent_keywords": [maybe_slugify(value) for value in parent_building_names + entry["parents"][1:]],
                 "campus": maybe_slugify(campus_name),
                 "address": entry.get("tumonline_data", {}).get("address", None),
                 "usage": maybe_slugify(entry.get("usage", {}).get("name", None)),
