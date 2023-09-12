@@ -38,7 +38,7 @@ libsqlite3-sys = { version = "*", features = ["bundled"] }
 sqlx = { version = "0.7.1", features = ["sqlite", "runtime-tokio", "migrate", "macros"] }
 
 # search
-meilisearch-sdk = "0.24.1"
+meilisearch-sdk = "0.24.2"
 logos="0.13.0"
 regex = "1.9.5"
 
