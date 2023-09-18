@@ -112,10 +112,10 @@ impl TempRepo {
 mod tests {
     use super::*;
     use std::fs;
+
     const GIT_URL: &str = "https://github.com/CommanderStorm/dotfiles.git";
     #[tokio::test]
     async fn test_new() {
-        let _ = env_logger::builder().is_test(true).try_init();
         let temp_repo = TempRepo::clone_and_checkout(GIT_URL, "branch_does_not_exist")
             .await
             .unwrap();
@@ -126,7 +126,6 @@ mod tests {
 
     #[tokio::test]
     async fn test_checkout_and_commit() {
-        let _ = env_logger::builder().is_test(true).try_init();
         let temp_repo = TempRepo::clone_and_checkout(GIT_URL, "branch_does_not_exist")
             .await
             .unwrap();

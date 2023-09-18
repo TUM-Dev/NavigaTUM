@@ -4,6 +4,8 @@ use actix_web_prom::PrometheusMetricsBuilder;
 use futures::try_join;
 use log::info;
 use std::collections::HashMap;
+use structured_logger::async_json::new_writer;
+use structured_logger::Builder;
 
 mod entries;
 mod maps;
@@ -28,7 +30,9 @@ async fn health_status_handler() -> HttpResponse {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
+    Builder::with_level("info")
+        .with_target_writer("*", new_writer(tokio::io::stdout()))
+        .init();
     info!("setting up dependency's");
     try_join!(
         setup::meilisearch::setup_meilisearch(),
