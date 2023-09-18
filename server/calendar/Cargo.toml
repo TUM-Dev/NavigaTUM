@@ -20,7 +20,7 @@ path = "src/scraper.rs"
 [dependencies]
 # shared
 log.workspace = true
-env_logger.workspace = true
+structured-logger.workspace = true
 tokio.workspace = true
 actix-web.workspace = true
 actix-cors.workspace = true

@@ -112,10 +112,15 @@ impl TempRepo {
 mod tests {
     use super::*;
     use std::fs;
+    use structured_logger::async_json::new_writer;
+    use structured_logger::Builder;
+
     const GIT_URL: &str = "https://github.com/CommanderStorm/dotfiles.git";
     #[tokio::test]
     async fn test_new() {
-        let _ = env_logger::builder().is_test(true).try_init();
+        Builder::with_level("debug")
+            .with_target_writer("*", new_writer(tokio::io::stdout()))
+            .init();
         let temp_repo = TempRepo::clone_and_checkout(GIT_URL, "branch_does_not_exist")
             .await
             .unwrap();
@@ -126,7 +131,9 @@ mod tests {
 
     #[tokio::test]
     async fn test_checkout_and_commit() {
-        let _ = env_logger::builder().is_test(true).try_init();
+        Builder::with_level("debug")
+            .with_target_writer("*", new_writer(tokio::io::stdout()))
+            .init();
         let temp_repo = TempRepo::clone_and_checkout(GIT_URL, "branch_does_not_exist")
             .await
             .unwrap();

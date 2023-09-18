@@ -22,6 +22,9 @@ async fn health_status_handler() -> HttpResponse {
 }
 
 use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
+use structured_logger::async_json::new_writer;
+use structured_logger::Builder;
+
 pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!("migrations");
 
 fn apply_db_migrations() {
@@ -32,7 +35,9 @@ fn apply_db_migrations() {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
+    Builder::with_level("info")
+        .with_target_writer("*", new_writer(tokio::io::stdout()))
+        .init();
     apply_db_migrations();
 
     // metrics
