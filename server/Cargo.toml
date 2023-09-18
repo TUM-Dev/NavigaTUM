@@ -9,7 +9,7 @@ lto = "thin"
 [workspace.dependencies]
 # logging/obeservability
 log = "0.4.20"
-env_logger = "0.10.0"
+structured-logger = "1.0.3"
 actix-web-prom = { version = "0.7.0", default-features = false, features = [] }
 
 # runtime + webserver
