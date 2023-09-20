@@ -91,7 +91,7 @@ fn draw_bottom(data: &DBRoomEntry, img: &mut image::RgbaImage) {
         }
     }
     // add our logo so the bottom
-    let logo = image::open("src/maps/static/logo.png").unwrap();
+    let logo = image::load_from_memory(include_bytes!("static/logo.png")).unwrap();
     image::imageops::overlay(
         img,
         &logo,
@@ -113,7 +113,7 @@ fn draw_bottom(data: &DBRoomEntry, img: &mut image::RgbaImage) {
 
 fn load_default_image() -> Vec<u8> {
     warn!("Loading default preview image, as map rendering failed. Check the connection to the tileserver");
-    let img = image::open("src/maps/static/logo-card.png").unwrap();
+    let img = image::load_from_memory(include_bytes!("static/logo-card.png")).unwrap();
     // encode the image as PNG
     let mut w = Cursor::new(Vec::new());
     img.write_to(&mut w, image::ImageOutputFormat::Png).unwrap();

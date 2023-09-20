@@ -103,7 +103,7 @@ def scrape_rooms():
         for _map in extended_data["maps"]:
             _map[1] = f"rf{_map[1]}"
         extended_data["default_map"] = proxy.getDefaultMap(room)
-        if default_map := extended_data["default_map"][1]:
+        if default_map := extended_data["default_map"]:
             default_map[1] = f"rf{default_map[1]}"
         rooms.append(extended_data)
         maybe_sleep(0.05)

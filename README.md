@@ -60,7 +60,6 @@ download the latest compiled files:
 ```bash
 wget -P data/output https://nav.tum.de/cdn/api_data.json
 wget -P data/output https://nav.tum.de/cdn/search_data.json
-wget -P data/output https://nav.tum.de/cdn/search_synonyms.json
 ```
 
 Else you can follow the steps in the [data documentation](data/README.md).

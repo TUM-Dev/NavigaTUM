@@ -2,17 +2,24 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base",
+    "group:recommended",
     "group:allNonMajor"
   ],
-  "lockFileMaintenance": {
-    "enabled": true,
-    "automerge": true
+  "vulnerabilityAlerts": {
+    "enabled": true
   },
   "packageRules": [
     {
       "matchDepTypes": ["devDependencies"],
-      "matchPackagePatterns": ["eslint", "prettier", "pylint", "sourcery", "pretty_assertions"],
-      "automerge": true
+      "prPriority": -1
+    },
+    {
+      "matchPackagePatterns": ["eslint", "prettier", "pylint", "sourcery", "pretty_assertions", "pre-commit", "mypy", "sourcery"],
+      "groupName": "linting"
+    },
+    {
+      "matchPackagePatterns": ["@types/.*", "types-.*"],
+      "groupName": "types"
     }
   ]
 }

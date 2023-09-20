@@ -8,12 +8,9 @@ server:
 mielisearch:
   image:
     repository: 'getmeili/meilisearch'
-    tag: v1.3.1
+    tag: v1.3.4
 calendar:
   scrape_tasks:
-    - name: refresh-calendar-fast # takes ~4m to complete
-      schedule: "20-50/10 * * * *" # at :20, :30, :40, :50  every hour
-      scraped_time_window_months: 2
     - name: refresh-calendar-slow # takes ~6m to complete
       schedule: "5 * * * *" # at :05 every hour
       scraped_time_window_months: 120 # 120 months = 10 years

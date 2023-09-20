@@ -187,9 +187,8 @@ def scrape_usages() -> list[Usage]:
             continue
         usage_name = parts[0].strip()
         usage_din_277 = parts[1].strip("()")
-
         usages.append(Usage(id=usage_type, name=usage_name, din_277=usage_din_277))
-    return sorted(usages, key=lambda usage: usage.id)
+    return sorted(usages, key=lambda usage: usage["id"])
 
 
 @cached_json("orgs-{lang}_tumonline.json")
@@ -252,6 +251,14 @@ class ParsedRoomsList(typing.NamedTuple):
     num_pages: int = 1
     current_page: int = 0
 
+    def merge(self, other: "ParsedRoomsList") -> "ParsedRoomsList":
+        """Merge two ParsedRoomsList objects"""
+        return ParsedRoomsList(
+            rooms=self.rooms + other.rooms,
+            num_pages=max(self.num_pages, other.num_pages),
+            current_page=max(self.current_page, other.current_page),
+        )
+
 
 @cached_json("tumonline/{f_value}.{area_id}.json")
 def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id: int = 0) -> list[ParsedRoom]:
@@ -272,7 +279,7 @@ def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id: int = 0)
             }
             req = requests.post(f"{TUMONLINE_URL}/wbSuche.raumSuche", data=search_params, timeout=30)
             rooms_list = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
-            scraped_rooms.rooms.extend(rooms_list.rooms)
+            scraped_rooms = scraped_rooms.merge(rooms_list)
 
             if prog.total != rooms_list.num_pages:
                 prog.reset(rooms_list.num_pages)
@@ -334,9 +341,10 @@ def _sanitise_roominfo(roominfo: dict[str, str]) -> dict[str, str | int | float]
     # new name to convince mypy that this is typed correctly
     room: dict[str, str | int | float] = {english_labels[key]: value for key, value in roominfo.items()}
 
+    # make the values typed correctly
     for key in ["wheelchair_spaces", "standing_places", "seats"]:
-        room[key] = int(roominfo.get(key, 0))
-    room["area_m2"] = float(roominfo["area_m2"].replace(",", "."))
+        room[key] = int(room.get(key, 0))
+    room["area_m2"] = float(room["area_m2"].replace(",", "."))
 
     return room
 
