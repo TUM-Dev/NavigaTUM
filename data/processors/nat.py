@@ -146,9 +146,9 @@ def _is_room_excluded(internal_id, b_id, data):
     """
     Some rooms are excluded from merging because they are more likely outdated (removed).
     This concerns rooms that are so far not in `data` (so not in TUMonline), but
-    from a building that is not only only from the NAT Roomfinder. In other words,
-    new rooms are only added if the entire building is only added because of the
-    NAT Roomfinder.
+    from a building that is not only only from the NAT Roomfinder. 
+    In other words, new rooms are only added if the entire building is added by the
+    NAT Roomfinder's data.
     """
     if internal_id in data:
         return False
