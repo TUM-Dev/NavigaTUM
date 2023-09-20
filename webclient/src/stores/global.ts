@@ -13,6 +13,9 @@ export const useGlobalStore = defineStore({
   state: () => ({
     search_focused: false,
     error_message: null as string | null,
+    calendar: {
+      open: false,
+    },
     feedback: {
       open: false,
       data: {
