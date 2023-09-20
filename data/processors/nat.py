@@ -84,7 +84,7 @@ def _merge_building(data, building: NATBuilding) -> None:
     # weren't used as sources, but the NAT Roomfinder has this building, we know it's from there.
     # All buildings are at least in the areatree, which is always the first source.
     base_sources = b_data.setdefault("sources", {}).setdefault("base", [])
-    if len(base_sources) == 1:
+    if not base_sources:
         base_sources.append(
             {
                 "name": "NAT Roomfinder",
