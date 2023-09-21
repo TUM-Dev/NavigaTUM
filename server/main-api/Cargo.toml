@@ -17,29 +17,34 @@ path = "src/main.rs"
 [dependencies]
 # shared
 log.workspace = true
-env_logger.workspace = true
+structured-logger.workspace = true
 tokio.workspace = true
 actix-web.workspace = true
 actix-cors.workspace = true
-actix-web-prometheus.workspace = true
+actix-web-prom.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 
-cached = "0.44.0"
+cached = { version = "0.45.1", features = ["default", "async", "tokio"] }
 futures = "0.3.28"
 unicode-truncate = "0.2.0"
 
+# setup
+serde_yaml = "0.9"
+
 # database
-diesel = { version = "2.1.0", features = ["default", "sqlite"] }
+diesel = { version = "2.1.1", features = ["default", "sqlite"] }
 libsqlite3-sys = { version = "*", features = ["bundled"] }
+sqlx = { version = "0.7.1", features = ["sqlite", "runtime-tokio", "migrate", "macros"] }
 
 # search
-meilisearch-sdk = "0.24.1"
+meilisearch-sdk = "0.24.2"
 logos="0.13.0"
+regex = "1.9.5"
 
 # maps
-rustls = "0.21.6"
-reqwest = { version= "0.11.19", features = ["rustls"] }
+rustls = "0.21.7"
+reqwest = { version= "0.11.20", default-features = false, features = ["rustls-tls", "json", "gzip"] }
 image = "0.24.7"
 imageproc = "0.23.0"
 rusttype = "0.9.3"

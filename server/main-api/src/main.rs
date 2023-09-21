@@ -1,12 +1,18 @@
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
-use actix_web_prometheus::PrometheusMetricsBuilder;
+use actix_web_prom::PrometheusMetricsBuilder;
+use futures::try_join;
+use log::info;
 use std::collections::HashMap;
+use structured_logger::async_json::new_writer;
+use structured_logger::Builder;
+
 mod entries;
 mod maps;
 mod models;
 mod schema;
 mod search;
+mod setup;
 mod utils;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
@@ -22,9 +28,18 @@ async fn health_status_handler() -> HttpResponse {
         .body(format!("healthy\nsource_code: {github_link}"))
 }
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    Builder::with_level("info")
+        .with_target_writer("*", new_writer(tokio::io::stdout()))
+        .init();
+    info!("setting up dependency's");
+    try_join!(
+        setup::meilisearch::setup_meilisearch(),
+        setup::database::setup_database(),
+    )?;
+
+    info!("running the server");
     // metrics
     let labels = HashMap::from([(
         "revision".to_string(),
@@ -56,5 +71,6 @@ async fn main() -> std::io::Result<()> {
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?
     .run()
-    .await
+    .await?;
+    Ok(())
 }

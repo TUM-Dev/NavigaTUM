@@ -1,4 +1,5 @@
 use logos::{Lexer, Logos};
+use regex::Regex;
 
 /// An irregular split is defined as at least a letter and 1-4 numbers
 /// Treating words like MW1801 differently has improvements in relevancy for room-level searches
@@ -22,13 +23,23 @@ fn remove_prefix(lex: &mut Lexer<Token>, prefix: &'static str) -> String {
     lex.slice()[prefix.len()..].trim().to_string()
 }
 
+/// Removes non-ascii characters from the token (replacing them with at most one whitespace)
+fn slugify<S: Into<String>>(input: S) -> String {
+    let slugify_regex = Regex::new(r"[^a-zA-Z0-9-äöüß.]+").unwrap();
+    let slug = slugify_regex
+        .replace_all(&input.into(), "-")
+        .to_lowercase()
+        .replace("--", "-");
+    slug.trim_matches('-').to_string()
+}
+
 /// Parses the query string into a list of tokens
 /// priority between tokens is set as follows
-/// 1. Filters (`ParentFilter`,`UsageFilter`,`TypeFilter`) / quoted `Text`
+/// 1. Filters (`ParentFilter`,`UsageFilter`,`TypeFilter`) / quoted `Text` / `LocationSort`
 /// 2. `SplittableText`
 /// 3. `Text`
 /// 4. skip
-#[derive(Logos, Debug, PartialEq, Eq, Clone)]
+#[derive(Logos, Debug, PartialEq, Clone)]
 #[logos(skip r"[ \t\n\f]+")]
 pub enum Token {
     #[regex("\"[^\"]+\"", | lex | lex.slice()[1..lex.slice().len() - 1].to_string(), priority = 3)]
@@ -38,16 +49,19 @@ pub enum Token {
     #[regex("[a-zA-Z]+[0-9]{1,4}", irregular_split, priority = 2)]
     SplittableText((String, String)),
 
-    #[regex("in: ?[a-zA-Z0-9-.]+", | lex | remove_prefix(lex, "in:"), priority = 3)]
-    #[regex("@ ?[a-zA-Z0-9-.]+", | lex | remove_prefix(lex, "@"), priority = 3)]
+    #[regex("in: ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "in:")), priority = 3)]
+    #[regex("@ ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "@")), priority = 3)]
     ParentFilter(String),
 
-    #[regex("usage: ?[a-zA-Z]+", | lex | remove_prefix(lex, "usage:"), priority = 3)]
-    #[regex("nutzung: ?[a-zA-Z]+", | lex | remove_prefix(lex, "nutzung:"), priority = 3)]
-    #[regex("= ?[a-zA-Z]+", | lex | remove_prefix(lex, "="), priority = 3)]
+    #[regex("near: ?-?[0-9]+[.][0-9.]+,-?[0-9]+[.][0-9.]+", | lex | remove_prefix(lex, "near:"), priority = 3)]
+    LocationSort(String), // e.g. near:lat,lon
+
+    #[regex("usage: ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "usage:")), priority = 3)]
+    #[regex("nutzung: ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "nutzung:")), priority = 3)]
+    #[regex("= ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "=")), priority = 3)]
     UsageFilter(String),
 
-    #[regex("type: ?[a-zA-Z]+", | lex | remove_prefix(lex, "type:"), priority = 3)]
+    #[regex("type: ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "type:")), priority = 3)]
     TypeFilter(String),
 }
 
@@ -61,6 +75,27 @@ mod tokenizer_tests {
         assert_eq!(Token::lexer("\t").next(), None);
         assert_eq!(Token::lexer("\n").next(), None);
         assert_eq!(Token::lexer("  ").next(), None);
+    }
+
+    #[test]
+    fn test_slugify_identical() {
+        // identical
+        assert_eq!(&slugify(""), "");
+        assert_eq!(&slugify("a"), "a");
+        assert_eq!(&slugify("1234567890"), "1234567890");
+        assert_eq!(&slugify("äöüßa."), "äöüßa.");
+    }
+
+    #[test]
+    fn test_slugify() {
+        // to-lower
+        assert_eq!(&slugify("B"), "b");
+        assert_eq!(&slugify("aA"), "aa");
+        // leading/tailing "-" get stripped
+        assert_eq!(&slugify("-B-"), "b");
+        // no double dashes
+        assert_eq!(&slugify("a--21"), "a-21");
+        assert_eq!(&slugify("a**21"), "a-21");
     }
 
     #[test]
@@ -198,6 +233,19 @@ mod tokenizer_tests {
                     assert_eq!(lexer.next(), None);
                 }
             }
+        }
+    }
+
+    #[test]
+    fn sortings() {
+        for sep in ["", " "] {
+            let quoted_text = format!("near:{sep}12.345,6.789");
+            let mut lexer = Token::lexer(&quoted_text);
+            assert_eq!(
+                lexer.next(),
+                Some(Ok(Token::LocationSort("12.345,6.789".to_string())))
+            );
+            assert_eq!(lexer.next(), None);
         }
     }
 }

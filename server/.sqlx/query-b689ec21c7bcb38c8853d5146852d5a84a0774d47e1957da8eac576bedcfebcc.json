@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO en(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon)\n            VALUES (?,?,?,?,?,?,?,?)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 8
+    },
+    "nullable": []
+  },
+  "hash": "b689ec21c7bcb38c8853d5146852d5a84a0774d47e1957da8eac576bedcfebcc"
+}

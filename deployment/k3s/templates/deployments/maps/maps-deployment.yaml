@@ -50,13 +50,10 @@ spec:
         - name: tileserver-init-sprites
           image: "busybox:latest"
           command:
-          - wget
-          - -P
-          - /sprites
-          - https://raw.githubusercontent.com/maputnik/osm-liberty/gh-pages/sprites/osm-liberty.json
-          - https://raw.githubusercontent.com/maputnik/osm-liberty/gh-pages/sprites/osm-liberty@2x.json
-          - https://raw.githubusercontent.com/maputnik/osm-liberty/gh-pages/sprites/osm-liberty.png
-          - https://raw.githubusercontent.com/maputnik/osm-liberty/gh-pages/sprites/osm-liberty@2x.png
+          - sh
+          - -c
+          {{- $spritesURL := "https://raw.githubusercontent.com/maputnik/osm-liberty/gh-pages/sprites" }}
+          - "rm -f /sprites/* && wget -P /sprites {{ $spritesURL }}/osm-liberty.json {{ $spritesURL }}/osm-liberty@2x.json {{ $spritesURL }}/osm-liberty.png {{ $spritesURL }}/osm-liberty@2x.png"
           volumeMounts:
             - mountPath: /sprites
               name: sprites-tileserver

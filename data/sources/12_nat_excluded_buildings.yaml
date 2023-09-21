@@ -85,7 +85,7 @@
 - "0598"
 - "4298"
 - "5538"
-- "5539" # Interims-Tentomax MW => buildings no longer exist
+#- "5539" # Interims-Tentomax MW => buildings exist temporary again ^^
 - "5998" # "Interims-Tentomax => buildings no longer exist
 - "5516"
 - "5600" # phantom buildings, which don't exist
