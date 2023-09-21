@@ -20,18 +20,18 @@ path = "src/scraper.rs"
 [dependencies]
 # shared
 log.workspace = true
-env_logger.workspace = true
+structured-logger.workspace = true
 tokio.workspace = true
 actix-web.workspace = true
 actix-cors.workspace = true
-actix-web-prometheus.workspace = true
+actix-web-prom.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 
-chrono = { version = "0.4.26", default-features = false, features = ["serde"] }
+chrono = { version = "0.4.31", default-features = false, features = ["serde"] }
 
 # database
-diesel = { version = "2.1.0", features = ["default", "chrono", "postgres"] }
+diesel = { version = "2.1.1", features = ["default", "chrono", "postgres"] }
 diesel_migrations = "2.1.0"
 
 # metrics
@@ -41,10 +41,10 @@ prometheus = { version = "0.13.3", features = ["default", "push"] }
 # scraper
 rand = "0.8.5"
 futures = "0.3.28"
-rustls = "0.21.6"
-reqwest = { version = "0.11.19", features = ["rustls", "json"] }
+rustls = "0.21.7"
+reqwest = { version = "0.11.20", default-features = false, features = ["rustls", "json"] }
 minidom = "0.15.2"
-regex = "1.9.3"
+regex = "1.9.5"
 
 [dev-dependencies]
 pretty_assertions.workspace = true

@@ -1,10 +1,25 @@
 import json
+import re
 from pathlib import Path
 from typing import Any, Union
 
 from external.models.common import PydanticConfiguration
+from utils import TranslatableStr
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
+SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9-äöüß.]+")
+
+
+def maybe_slugify(value: str | None | TranslatableStr) -> str | None:
+    """Slugify a value if it exists"""
+    if value is None:
+        return None
+    if isinstance(value, TranslatableStr):
+        value = unlocalise(value)
+
+    if not isinstance(value, str):
+        raise ValueError(f"Expected str, got {type(value)}")
+    return SLUGIFY_REGEX.sub("-", value.lower()).strip("-")
 
 
 def unlocalise(value: Union[str, list[Any], dict[str, Any]]) -> Any:
@@ -47,6 +62,10 @@ def export_for_search(data: dict, path: str) -> None:
                     campus_name = campus.get("short_name", campus["name"])
                     # intentionally no break, because sites might be below a campus
 
+        geo = {}
+        if coords := entry.get("coords"):
+            geo["_geo"] = {"lat": coords["lat"], "lng": coords["lon"]}
+        parent_building_names = extract_parent_building_names(data, entry["parents"], building_parents_index)
         export.append(
             {
                 # MeiliSearch requires an id without "."
@@ -65,29 +84,31 @@ def export_for_search(data: dict, path: str) -> None:
                     "building": "building",
                     "room": "room",
                     "virtual_room": "room",
-                }.get(entry["type"], None),
-                # Parents always exclude root
-                # "parent_names": _data["parents"][1:], [data[p]["name"] for p in _data["parents"][1:]],
-                # For rooms, the (joined_)building parents are extra to put more emphasis on them.
-                # Also, their name is included
-                "parent_building_names": [
-                    data[p]["short_name"] for p in entry["parents"][building_parents_index:] if "short_name" in data[p]
-                ]
-                + [data[p]["name"] for p in entry["parents"][building_parents_index:]],
+                }.get(entry["type"]),
+                "parent_building_names": parent_building_names,
                 # For all other parents, only the ids and their keywords (TODO) are searchable
-                "parent_keywords": entry["parents"][1:],
-                "campus": campus_name,
+                "parent_keywords": [maybe_slugify(value) for value in parent_building_names + entry["parents"][1:]],
+                "campus": maybe_slugify(campus_name),
                 "address": entry.get("tumonline_data", {}).get("address", None),
-                "usage": entry.get("usage", {}).get("name", None),
+                "usage": maybe_slugify(entry.get("usage", {}).get("name", None)),
                 "rank": int(entry["ranking_factors"]["rank_combined"]),
+                **geo,
             },
         )
 
-    # the data contains translations, currently we dont allow these in the search api
+    # the data contains translations, currently we don't allow these in the search api
     export = unlocalise(export)
 
     with open(path, "w", encoding="utf-8") as file:
         json.dump(export, file)
+
+
+def extract_parent_building_names(data: dict, parents: list[str], building_parents_index: int) -> list[str]:
+    """Extract the parents building names from the data"""
+    # For rooms, the (joined_)building parents are extra to put more emphasis on them.
+    short_names = [data[p]["short_name"] for p in parents[building_parents_index:] if "short_name" in data[p]]
+    long_names = [data[p]["name"] for p in parents[building_parents_index:]]
+    return short_names + long_names
 
 
 def extract_arch_name(entry: dict) -> str | None:
@@ -99,8 +120,7 @@ def extract_arch_name(entry: dict) -> str | None:
 
 def export_for_api(data: dict, path: str) -> None:
     """Add some more information about parents to the data and export for the /get/:id api"""
-
-    export_data = {}
+    export_data = []
     for _id, entry in data.items():
         if entry["type"] != "root":
             entry.setdefault("maps", {})["default"] = "interactive"
@@ -109,26 +129,30 @@ def export_for_api(data: dict, path: str) -> None:
         if arch_name := extract_arch_name(entry):
             entry["aliases"].append(arch_name)
 
-        export_data[_id] = {
-            "parent_names": [data[p]["name"] for p in entry["parents"]],
-            **entry,
-        }
-        if "children" in export_data[_id]:
-            del export_data[_id]["children"]
-            del export_data[_id]["children_flat"]
-
-        for key in ["tumonline_data", "roomfinder_data", "nat_data"]:
-            if key in export_data[_id]:
-                del export_data[_id][key]
-
-        if "props" in export_data[_id]:
-            prop_keys_to_keep = {"computed", "links", "comment", "calendar_url", "tumonline_room_nr", "operator"}
-            to_delete = [e for e in export_data[_id]["props"].keys() if e not in prop_keys_to_keep]
-            for k in to_delete:
-                del export_data[_id]["props"][k]
+        export_data.append(extract_exported_item(data, entry))
 
     with open(path, "w", encoding="utf-8") as file:
         json.dump(export_data, file, cls=EnhancedJSONEncoder)
+
+
+def extract_exported_item(data, entry):
+    """Extract the item that will be finally exported to the api"""
+    result = {
+        "parent_names": [data[p]["name"] for p in entry["parents"]],
+        **entry,
+    }
+    if "children" in result:
+        del result["children"]
+        del result["children_flat"]
+    for key in ["tumonline_data", "roomfinder_data", "nat_data"]:
+        if key in result:
+            del result[key]
+    if "props" in result:
+        prop_keys_to_keep = {"computed", "links", "comment", "calendar_url", "tumonline_room_nr", "operator"}
+        to_delete = [e for e in result["props"].keys() if e not in prop_keys_to_keep]
+        for k in to_delete:
+            del result["props"][k]
+    return result
 
 
 class EnhancedJSONEncoder(json.JSONEncoder):

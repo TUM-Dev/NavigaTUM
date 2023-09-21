@@ -1,9 +1,10 @@
 use crate::scrape_task::ScrapeTask;
 use log::{error, info};
+use structured_logger::{async_json::new_writer, Builder};
+
 use std::fmt;
 
 use prometheus::labels;
-
 mod models;
 mod schema;
 mod scrape_task;
@@ -40,7 +41,9 @@ impl fmt::Debug for TimeWindow {
 
 #[tokio::main]
 async fn main() {
-    env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
+    Builder::with_level("info")
+        .with_target_writer("*", new_writer(tokio::io::stdout()))
+        .init();
 
     let time_window = TimeWindow::init_from_env();
     info!("Scraping time window: {time_window:?}");

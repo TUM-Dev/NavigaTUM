@@ -24,9 +24,6 @@ COPY output/openapi.yaml output/openapi.yaml
 # put all data into the cdn folder
 COPY external/results/maps/roomfinder output/maps/roomfinder
 
-# Synonyms are also provided via the cdn for the server container build
-COPY search_synonyms.json output/
-
 # compress data (only using gzip, because brotli on ngnix is a royal pain)
 RUN gzip --force --keep --recursive output/
 
