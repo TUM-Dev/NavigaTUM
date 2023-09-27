@@ -4,14 +4,14 @@ use futures::{stream::FuturesUnordered, StreamExt};
 use log::warn;
 
 pub(crate) struct OverlayMapTask {
-    pub(crate) x: f32,
-    pub(crate) y: f32,
+    pub(crate) x: f64,
+    pub(crate) y: f64,
     pub(crate) z: u32,
 }
 
 impl OverlayMapTask {
     pub fn with(entry: &DBRoomEntry) -> Self {
-        let zoom = match entry.type_.as_str() {
+        let zoom = match entry.r#type.as_str() {
             "campus" => 14,
             "area" | "site" => 15,
             "building" | "joined_building" => 16,
@@ -77,11 +77,11 @@ impl OverlayMapTask {
     }
 }
 
-fn lat_lon_z_to_xyz(lat_deg: f32, lon_deg: f32, zoom: u32) -> (f32, f32, u32) {
+fn lat_lon_z_to_xyz(lat_deg: f64, lon_deg: f64, zoom: u32) -> (f64, f64, u32) {
     let lat_rad = lat_deg.to_radians();
-    let n = 2_u32.pow(zoom) as f32;
+    let n = 2_u64.pow(zoom) as f64;
     let xtile = (lon_deg + 180.0) / 360.0 * n;
-    let ytile = (1.0 - lat_rad.tan().asinh() / std::f32::consts::PI) / 2.0 * n;
+    let ytile = (1.0 - lat_rad.tan().asinh() / std::f64::consts::PI) / 2.0 * n;
     (xtile, ytile, zoom)
 }
 
@@ -109,16 +109,16 @@ mod overlay_tests {
     #[test]
     fn test_lat_lon_z_to_xyz() {
         let (x, y, _) = lat_lon_z_to_xyz(52.520_008, 13.404_954, 17);
-        assert_eq!(x, 70416.59_f32);
-        assert_eq!(y, 42985.734_f32);
+        assert_eq!(x, 70416.59_f64);
+        assert_eq!(y, 42985.734_f64);
     }
 
     #[test]
     fn test_lat_lon_no_zoom_mut() {
         for x in -5..5 {
-            let x = x as f32;
+            let x = x as f64;
             for y in -5..5 {
-                let y = y as f32;
+                let y = y as f64;
                 for z in 0..20 {
                     let (_, _, zg) = lat_lon_z_to_xyz(x + y / 100.0, y, z);
                     assert_eq!(z, zg);
