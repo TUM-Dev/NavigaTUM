@@ -13,6 +13,9 @@ def print_specific_queries_result(
         s_pos_indicator = _gen_pos_indicator(search)
 
         # Grade
+        s_grade = str(round(search.grade, 1))
+        if s_grade == "1.0":
+            continue
         s_grade = {
             "1.0": colored("1.0", "green", attrs=["bold"]),
             "2.0": colored("2.0", "green", attrs=[]),
@@ -20,7 +23,7 @@ def print_specific_queries_result(
             "4.0": colored("4.0", "yellow", attrs=[]),
             "4.7": colored("4.7", "red", attrs=[]),
             "5.0": colored("5.0", "red", attrs=["bold"]),
-        }[str(round(search.grade, 1))]
+        }[s_grade]
 
         # Grade cmp
         s_cmp = _generate_grade_cmp(search, comp)
@@ -108,7 +111,7 @@ def _gen_pos_indicator(search: search_quality_test.Evaluation) -> str:
             + " "
         )
     if search.full_search.was_top20:
-        return colored("[     ]", "white") + colored(">", "yellow") + " "
+        return colored("[     ]", "white") + colored(">", "yellow")
     if search.full_search.num_results > 0:
         return (
             colored("[", "white")
