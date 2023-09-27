@@ -25,6 +25,9 @@
 - { target: "5608.03.011",  query: "03.08.011"          }
 - { target: "5602.EG.001",  query: "mi hs 1"            }
 - { target: "5508.02.801",  query: "MW 1801"            }
+- { target: "5508.02.801",  query: "MW1801"             } # splitting necessary
+- { target: "5510.EG.001",  query: "MW0001"             } # splitting nessesary
+- { target: "5510.02.001",  query: "MW2001"             } # splitting nessesary
 - { target: "5508.02.801",  query: "1801 maschinen"     }
 - { target: "5503.EG.337",  query: "Raum 0337 mw"       }
 - { target: "5510.EG.001",  query: "niemann"            }
