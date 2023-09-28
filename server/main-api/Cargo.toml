@@ -17,7 +17,7 @@ path = "src/main.rs"
 [dependencies]
 # shared
 log.workspace = true
-env_logger.workspace = true
+structured-logger.workspace = true
 tokio.workspace = true
 actix-web.workspace = true
 actix-cors.workspace = true
@@ -25,7 +25,7 @@ actix-web-prom.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 
-cached = { version = "0.45.1", features = ["default", "async", "tokio"] }
+cached = { version = "0.46.0", features = ["default", "async", "tokio"] }
 futures = "0.3.28"
 unicode-truncate = "0.2.0"
 
@@ -34,10 +34,10 @@ serde_yaml = "0.9"
 
 # database
 libsqlite3-sys = { version = "*", features = ["bundled"] }
-sqlx = { version = "0.7.1", features = ["sqlite", "runtime-tokio", "migrate", "macros"] }
+sqlx = { version = "0.7.2", features = ["sqlite", "runtime-tokio", "migrate", "macros"] }
 
 # search
-meilisearch-sdk = "0.24.1"
+meilisearch-sdk = "0.24.2"
 logos="0.13.0"
 regex = "1.9.5"
 

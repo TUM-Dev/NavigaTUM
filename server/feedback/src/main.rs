@@ -5,6 +5,9 @@ use std::collections::HashMap;
 use crate::tokens::RecordedTokens;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
+use structured_logger::async_json::new_writer;
+use structured_logger::Builder;
+
 mod github;
 mod post_feedback;
 mod proposed_edits;
@@ -26,7 +29,9 @@ async fn health_status_handler() -> HttpResponse {
 const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
-    env_logger::init_from_env(env_logger::Env::default().default_filter_or("info"));
+    Builder::with_level("info")
+        .with_target_writer("*", new_writer(tokio::io::stdout()))
+        .init();
 
     let feedback_ratelimit = GovernorConfigBuilder::default()
         .key_extractor(GlobalKeyExtractor)

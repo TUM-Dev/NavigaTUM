@@ -65,6 +65,7 @@ def export_for_search(data: dict, path: str) -> None:
         geo = {}
         if coords := entry.get("coords"):
             geo["_geo"] = {"lat": coords["lat"], "lng": coords["lon"]}
+        parent_building_names = extract_parent_building_names(data, entry["parents"], building_parents_index)
         export.append(
             {
                 # MeiliSearch requires an id without "."
@@ -84,9 +85,9 @@ def export_for_search(data: dict, path: str) -> None:
                     "room": "room",
                     "virtual_room": "room",
                 }.get(entry["type"]),
-                "parent_building_names": extract_parent_building_names(data, entry["parents"], building_parents_index),
+                "parent_building_names": parent_building_names,
                 # For all other parents, only the ids and their keywords (TODO) are searchable
-                "parent_keywords": entry["parents"][1:],
+                "parent_keywords": [maybe_slugify(value) for value in parent_building_names + entry["parents"][1:]],
                 "campus": maybe_slugify(campus_name),
                 "address": entry.get("tumonline_data", {}).get("address", None),
                 "usage": maybe_slugify(entry.get("usage", {}).get("name", None)),
@@ -107,7 +108,7 @@ def extract_parent_building_names(data: dict, parents: list[str], building_paren
     # For rooms, the (joined_)building parents are extra to put more emphasis on them.
     short_names = [data[p]["short_name"] for p in parents[building_parents_index:] if "short_name" in data[p]]
     long_names = [data[p]["name"] for p in parents[building_parents_index:]]
-    return [maybe_slugify(value) for value in short_names + long_names]
+    return short_names + long_names
 
 
 def extract_arch_name(entry: dict) -> str | None:
