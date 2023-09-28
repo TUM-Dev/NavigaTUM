@@ -15,8 +15,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@sentry/tracing": "7.69.0",
-    "@sentry/vue": "7.69.0",
+    "@sentry/tracing": "7.72.0",
+    "@sentry/vue": "7.72.0",
     "@vueuse/core": "10.4.1",
     "maplibre-gl": "3.3.1",
     "pinia": "2.1.6",
@@ -24,7 +24,7 @@
     "swagger-ui-dist": "5.7.2",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "vue": "3.3.4",
-    "vue-router": "4.2.4"
+    "vue-router": "4.2.5"
   },
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "1.2.0",
@@ -36,20 +36,20 @@
     "@vue/eslint-config-typescript": "12.0.0",
     "@vue/tsconfig": "0.4.0",
     "@yankeeinlondon/link-builder": "1.2.1",
-    "cypress": "13.2.0",
+    "cypress": "13.3.0",
     "eslint": "8.50.0",
     "eslint-plugin-vue": "9.17.0",
     "isomorphic-fetch": "3.0.0",
     "npm-run-all": "4.1.5",
     "prettier": "3.0.3",
-    "sass": "1.67.0",
+    "sass": "1.68.0",
     "stylelint-scss": "5.2.1",
     "typescript": "5.2.2",
     "vite": "4.4.9",
     "vite-plugin-md": "0.21.5",
     "vite-plugin-rewrite-all": "1.0.1",
     "vue-i18n": "9.4.1",
-    "vue-tsc": "1.8.11"
+    "vue-tsc": "1.8.15"
   },
   "type": "module"
 }
