@@ -28,7 +28,6 @@ RUN     cargo build --release --workspace \
      && rm -fr target/release/deps/navigatum*
 
 # second run of the image build (including our code)
-COPY    main-api/diesel.toml ./main-api/diesel.toml
 COPY    calendar/diesel.toml ./calendar/diesel.toml
 COPY    calendar/migrations calendar/migrations
 COPY    .sqlx .sqlx
