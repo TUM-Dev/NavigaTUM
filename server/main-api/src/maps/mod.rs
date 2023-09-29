@@ -8,49 +8,20 @@ use crate::models::DBRoomEntry;
 use actix_web::{get, web, HttpResponse};
 use cached::proc_macro::cached;
 use cached::SizedCache;
-use diesel::prelude::*;
 use image::Rgba;
 use std::io::Cursor;
 
 use log::{debug, error, warn};
-
 use tokio::time::Instant;
 use unicode_truncate::UnicodeTruncateStr;
 
-use crate::utils;
+use crate::{utils, AppState};
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
     cfg.service(maps_handler);
     let tile_cache = std::env::temp_dir().join("tiles");
     if !tile_cache.exists() {
         std::fs::create_dir(tile_cache).unwrap();
-    }
-}
-
-fn get_localised_data(id: &str, should_use_english: bool) -> Result<DBRoomEntry, HttpResponse> {
-    let conn = &mut utils::establish_connection();
-
-    let result = if should_use_english {
-        use crate::schema::en::dsl;
-        dsl::en.filter(dsl::key.eq(&id)).load::<DBRoomEntry>(conn)
-    } else {
-        use crate::schema::de::dsl;
-        dsl::de.filter(dsl::key.eq(&id)).load::<DBRoomEntry>(conn)
-    };
-
-    match result {
-        Ok(r) => match r.len() {
-            0 => Err(HttpResponse::NotFound()
-                .content_type("text/plain")
-                .body("Not found")),
-            _ => Ok(r[0].clone()),
-        },
-        Err(e) => {
-            error!("Error preparing statement: {e:?}");
-            return Err(HttpResponse::InternalServerError()
-                .content_type("text/plain")
-                .body("Internal Server Error"));
-        }
     }
 }
 
@@ -124,13 +95,28 @@ fn load_default_image() -> Vec<u8> {
 pub async fn maps_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<utils::LangQueryArgs>,
+    data: web::Data<AppState>,
 ) -> HttpResponse {
     let start_time = Instant::now();
     let id = params.into_inner();
-    let data = match get_localised_data(&id, args.should_use_english()) {
-        Ok(data) => data,
+    let result = if args.should_use_english() {
+        sqlx::query_as!(DBRoomEntry,"SELECT key,name,tumonline_room_nr,type,type_common_name,lat,lon,data FROM en WHERE key = ?", id).fetch_optional(&data.db).await
+    } else {
+        sqlx::query_as!(DBRoomEntry,"SELECT key,name,tumonline_room_nr,type,type_common_name,lat,lon,data FROM de WHERE key = ?", id).fetch_optional(&data.db).await
+    };
+
+    let data = match result {
+        Ok(Some(d)) => d.clone(),
+        Ok(None) => {
+            return HttpResponse::NotFound()
+                .content_type("text/plain")
+                .body("Not found")
+        }
         Err(e) => {
-            return e;
+            error!("Error getting {e:?}");
+            return HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body("Internal Server Error");
         }
     };
     let img = construct_image_from_data(&id, data)
