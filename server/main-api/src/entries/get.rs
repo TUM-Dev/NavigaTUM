@@ -1,43 +1,40 @@
-use crate::{utils, AppState};
+use crate::models::DBRoomKeyAlias;
+use crate::utils;
 use actix_web::{get, web, HttpResponse};
+use diesel::prelude::*;
 use log::error;
-use sqlx::SqlitePool;
-
-#[derive(Debug, Clone)]
-pub struct DBRoomKeyAlias {
-    pub key: String,
-    pub visible_id: String,
-    pub r#type: String,
-}
 
 #[get("/api/get/{id}")]
 pub async fn get_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<utils::LangQueryArgs>,
-    data: web::Data<AppState>,
 ) -> HttpResponse {
-    let (probable_id, redirect_url) =
-        match get_alias_and_redirect(&data.db, &params.into_inner()).await {
-            Some(alias_and_redirect) => alias_and_redirect,
-            None => return HttpResponse::NotFound().body("Not found"),
-        };
+    let conn = &mut utils::establish_connection();
+    let (probable_id, redirect_url) = match get_alias_and_redirect(conn, &params.into_inner()) {
+        Some(alias_and_redirect) => alias_and_redirect,
+        None => return HttpResponse::NotFound().body("Not found"),
+    };
     let result = match args.should_use_english() {
         true => {
-            sqlx::query_scalar!("SELECT data FROM en WHERE key = ?", probable_id)
-                .fetch_optional(&data.db)
-                .await
+            use crate::schema::en::dsl;
+            dsl::en
+                .filter(dsl::key.eq(&probable_id))
+                .select(dsl::data)
+                .load::<String>(conn)
         }
         false => {
-            sqlx::query_scalar!("SELECT data FROM de WHERE key = ?", probable_id)
-                .fetch_optional(&data.db)
-                .await
+            use crate::schema::de::dsl;
+            dsl::de
+                .filter(dsl::key.eq(&probable_id))
+                .select(dsl::data)
+                .load::<String>(conn)
         }
     };
     match result {
-        Ok(d) => match d {
-            None => HttpResponse::NotFound().body("Not found"),
-            Some(s) => {
-                let mut response_json = s.clone();
+        Ok(d) => match d.len() {
+            0 => HttpResponse::NotFound().body("Not found"),
+            _ => {
+                let mut response_json = d[0].clone();
                 // We don not want to serialise this data at any point in the server.
                 // This just flows through the server, but adding redirect_url to the response is necessary
                 response_json.pop(); // remove last }
@@ -56,19 +53,18 @@ pub async fn get_handler(
     }
 }
 
-async fn get_alias_and_redirect(conn: &SqlitePool, query: &str) -> Option<(String, String)> {
-    let result = sqlx::query_as!(
-        DBRoomKeyAlias,
-        "SELECT DISTINCT key,visible_id,type FROM aliases WHERE alias = ?",
-        query
-    )
-    .fetch_all(conn)
-    .await;
+fn get_alias_and_redirect(conn: &mut SqliteConnection, query: &str) -> Option<(String, String)> {
+    use crate::schema::aliases::dsl::{alias, aliases, key, type_, visible_id};
+    let result = aliases
+        .filter(alias.eq(query).or(key.eq(query)))
+        .select((key, visible_id, type_))
+        .distinct()
+        .load::<DBRoomKeyAlias>(conn);
     match result {
         Ok(d) => {
             let redirect_url = match d.len() {
                 0 => return None, // not key or alias
-                1 => extract_redirect_exact_match(&d[0].r#type, &d[0].visible_id),
+                1 => extract_redirect_exact_match(&d[0].type_, &d[0].visible_id),
                 _ => {
                     let keys = d
                         .clone()

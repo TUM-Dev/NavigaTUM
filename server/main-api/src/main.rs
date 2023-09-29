@@ -3,8 +3,6 @@ use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
 use futures::try_join;
 use log::{debug, info};
-use sqlx::sqlite::SqlitePoolOptions;
-use sqlx::SqlitePool;
 use std::collections::HashMap;
 use structured_logger::async_json::new_writer;
 use structured_logger::Builder;
@@ -12,14 +10,12 @@ use structured_logger::Builder;
 mod entries;
 mod maps;
 mod models;
+mod schema;
 mod search;
 mod setup;
 mod utils;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
-pub struct AppState {
-    db: SqlitePool,
-}
 
 #[get("/api/status")]
 async fn health_status_handler() -> HttpResponse {
@@ -54,11 +50,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build()
         .unwrap();
 
-    debug!("setting up the database");
-    let uri = std::env::var("DB_LOCATION").unwrap_or_else(|_| "api_data.db".to_string());
-    let uri = format!("{uri}?mode=ro");
-    let pool = SqlitePoolOptions::new().connect(&uri).await?;
-
     info!("running the server");
     HttpServer::new(move || {
         let cors = Cors::default()
@@ -72,7 +63,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .wrap(cors)
             .wrap(middleware::Logger::default().exclude("/api/status"))
             .wrap(middleware::Compress::default())
-            .app_data(web::Data::new(pool.clone()))
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .service(health_status_handler)
             .service(web::scope("/api/preview").configure(maps::configure))
