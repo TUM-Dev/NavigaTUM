@@ -2,7 +2,7 @@ use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
 use futures::try_join;
-use log::info;
+use log::{debug, info};
 use sqlx::sqlite::SqlitePoolOptions;
 use sqlx::SqlitePool;
 use std::collections::HashMap;
@@ -43,8 +43,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         setup::database::setup_database(),
     )?;
 
-    info!("running the server");
-    // metrics
+    debug!("setting up metrics");
     let labels = HashMap::from([(
         "revision".to_string(),
         std::env::var("GIT_COMMIT_SHA").unwrap_or_else(|_| "development".to_string()),
@@ -55,10 +54,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build()
         .unwrap();
 
+    debug!("setting up the database");
     let uri = std::env::var("DB_LOCATION").unwrap_or_else(|_| "api_data.db".to_string());
     let uri = format!("{uri}?mode=ro");
     let pool = SqlitePoolOptions::new().connect(&uri).await?;
 
+    info!("running the server");
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
