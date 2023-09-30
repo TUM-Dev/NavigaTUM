@@ -1,5 +1,4 @@
 import logging
-import os
 from multiprocessing import Process
 
 import processors.areatree.process as areatree
