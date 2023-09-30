@@ -223,23 +223,6 @@
       }
     }
   },
-  "14202": {
-    "org_code": "TUMADEK",
-    "org_name": {
-      "de": "Dekanat MA",
-      "en": "Dean's Office Dekanat MA"
-    },
-    "org_type": "Dekanat",
-    "org_url": "http://www.ma.tum.de/Dekanat/WebHome",
-    "school": {
-      "org_code": "TUMAFMA",
-      "org_id": 14178,
-      "org_name": {
-        "de": "Ehemalige Fakult\u00e4t f\u00fcr Mathematik",
-        "en": "Former TUM Department of Mathematics"
-      }
-    }
-  },
   "14208": {
     "org_code": "TUMAZMA",
     "org_name": {
@@ -676,23 +659,6 @@
       "org_name": "TUM School of Natural Sciences"
     }
   },
-  "14721": {
-    "org_code": "TUCHLC1",
-    "org_name": {
-      "de": "Lehrstuhl f\u00fcr Lebensmittelchemie (N.N.)",
-      "en": "Chair of Food Chemistry (N.N.)"
-    },
-    "org_type": "Lehrstuhl",
-    "org_url": "www.leb.chemie.tu-muenchen.de/",
-    "school": {
-      "org_code": "TUCHFCH",
-      "org_id": 14180,
-      "org_name": {
-        "de": "Ehemalige Fakult\u00e4t f\u00fcr Chemie",
-        "en": "Former TUM Department of Chemistry"
-      }
-    }
-  },
   "14722": {
     "org_code": "TUCHPC1",
     "org_name": {
@@ -705,40 +671,6 @@
       "org_code": "TUS3000",
       "org_id": 51898,
       "org_name": "TUM School of Natural Sciences"
-    }
-  },
-  "14723": {
-    "org_code": "TUCHPC2",
-    "org_name": {
-      "de": "Lehrstuhl f\u00fcr Biophysikalische Chemie (N.N.)",
-      "en": "Chair of Biophysical Chemistry (N.N.)"
-    },
-    "org_type": "Lehrstuhl",
-    "org_url": null,
-    "school": {
-      "org_code": "TUCHFCH",
-      "org_id": 14180,
-      "org_name": {
-        "de": "Ehemalige Fakult\u00e4t f\u00fcr Chemie",
-        "en": "Former TUM Department of Chemistry"
-      }
-    }
-  },
-  "14724": {
-    "org_code": "TUCHTH1",
-    "org_name": {
-      "de": "Lehrstuhl f\u00fcr Theoretische Chemie (Prof. em. Domcke)",
-      "en": "Chair of Theoretical Chemistry (Prof. em. Domcke)"
-    },
-    "org_type": "Lehrstuhl",
-    "org_url": "www.theo.ch.tum.de",
-    "school": {
-      "org_code": "TUCHFCH",
-      "org_id": 14180,
-      "org_name": {
-        "de": "Ehemalige Fakult\u00e4t f\u00fcr Chemie",
-        "en": "Former TUM Department of Chemistry"
-      }
     }
   },
   "14733": {
@@ -819,6 +751,20 @@
     },
     "org_type": "Forschungseinrichtung",
     "org_url": "http://www.wb.bv.tum.de",
+    "school": {
+      "org_code": "TUS2000",
+      "org_id": 51267,
+      "org_name": "TUM School of Engineering and Design"
+    }
+  },
+  "14945": {
+    "org_code": "TUBVHBB",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Holzbau und Baukonstruktion (Prof. Winter)",
+      "en": "Chair of Timber Structures and Building Construction (Prof. Winter)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "www.hb.bgu.tum.de",
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
@@ -2335,7 +2281,7 @@
       "en": "Real Estate Management (Central department 4)"
     },
     "org_type": "Abteilungen",
-    "org_url": "https://wiki.tum.de/pages/viewpage.action?pageId=1182499516",
+    "org_url": "https://collab.dvb.bayern/display/TUMimmobilienza4",
     "school": null
   },
   "19699": {
@@ -2541,40 +2487,6 @@
       "org_name": "TUM School of Natural Sciences"
     }
   },
-  "23056": {
-    "org_code": "TUCHAC7",
-    "org_name": {
-      "de": "Professur f\u00fcr Analytische Chemie (N.N.)",
-      "en": "Associate Professorship of Analytical Chemistry (N.N.)"
-    },
-    "org_type": "Professur",
-    "org_url": null,
-    "school": {
-      "org_code": "TUCHFCH",
-      "org_id": 14180,
-      "org_name": {
-        "de": "Ehemalige Fakult\u00e4t f\u00fcr Chemie",
-        "en": "Former TUM Department of Chemistry"
-      }
-    }
-  },
-  "23181": {
-    "org_code": "TUCHPC3",
-    "org_name": {
-      "de": "Professur f\u00fcr Physikalische Chemie (N.N.)",
-      "en": "Associate Professorship of Physical Chemistry (N.N.)"
-    },
-    "org_type": "Professur",
-    "org_url": null,
-    "school": {
-      "org_code": "TUCHFCH",
-      "org_id": 14180,
-      "org_name": {
-        "de": "Ehemalige Fakult\u00e4t f\u00fcr Chemie",
-        "en": "Former TUM Department of Chemistry"
-      }
-    }
-  },
   "23182": {
     "org_code": "TUCHTH2",
     "org_name": {
@@ -2721,8 +2633,8 @@
   "25918": {
     "org_code": "TUZV141",
     "org_name": {
-      "de": "Bauliche Entwicklungsplanung Campus Garching",
-      "en": "Structural development planning Garching"
+      "de": "Baumanagement Garching",
+      "en": "Construction Management Garching"
     },
     "org_type": "Referat",
     "org_url": null,
@@ -2731,8 +2643,8 @@
   "25925": {
     "org_code": "TUZV142",
     "org_name": {
-      "de": "Geb\u00e4udemanagement Campus Garching (Referat 45)",
-      "en": "Facility management Garching (department 45)"
+      "de": "Geb\u00e4udemanagement Garching",
+      "en": "Facility management Garching"
     },
     "org_type": "Referat",
     "org_url": null,
@@ -2771,18 +2683,18 @@
   "26050": {
     "org_code": "TUZVR40",
     "org_name": {
-      "de": "Grundsatzangelegenheiten (Referat 40)",
-      "en": "General affairs of the department (department 40)"
+      "de": "Ressourcenplanung",
+      "en": "Resource Planning"
     },
     "org_type": "Referat",
-    "org_url": null,
+    "org_url": "https://collab.dvb.bayern/display/TUMimmobilienza4",
     "school": null
   },
   "26055": {
     "org_code": "TUZVR42",
     "org_name": {
-      "de": "Bauliche Entwicklungsplanung Campus M\u00fcnchen",
-      "en": "Structural development planning Munich"
+      "de": "Baumanagement M\u00fcnchen",
+      "en": "Construction Management Munich"
     },
     "org_type": "Referat",
     "org_url": null,
@@ -2791,7 +2703,7 @@
   "26059": {
     "org_code": "TUZVR43",
     "org_name": {
-      "de": "Baumanagement (Referat 43)",
+      "de": "Baumanagement",
       "en": "Construction management (department 43)"
     },
     "org_type": "Referat",
@@ -2801,8 +2713,8 @@
   "26064": {
     "org_code": "TUZVR44",
     "org_name": {
-      "de": "Geb\u00e4udemanagement Campus M\u00fcnchen (Referat 44)",
-      "en": "Facility management Munich (department 44)"
+      "de": "Geb\u00e4udemanagement M\u00fcnchen",
+      "en": "Facility management Munich"
     },
     "org_type": "Referat",
     "org_url": null,
@@ -2811,8 +2723,8 @@
   "26081": {
     "org_code": "TUZV443",
     "org_name": {
-      "de": "Infrastruktur (Sachgebiet 443)",
-      "en": "Infrastructure (unit 443)"
+      "de": "Infrastruktur M\u00fcnchen",
+      "en": "Infrastructure Munich"
     },
     "org_type": "Sachgebiet",
     "org_url": null,
@@ -2821,8 +2733,8 @@
   "26175": {
     "org_code": "TUZVR84",
     "org_name": {
-      "de": "Geb\u00e4udemanagement Campus Weihenstephan (Referat 46)",
-      "en": "Facility management Weihenstephan (department 46)"
+      "de": "Geb\u00e4udemanagement Weihenstephan",
+      "en": "Facility management Weihenstephan"
     },
     "org_type": "Referat",
     "org_url": "http://go.tum.de/424800",
@@ -2831,10 +2743,10 @@
   "26233": {
     "org_code": "TUZV845",
     "org_name": {
-      "de": "Betriebshof, Hausverwaltung (Sachgebiet 465)",
-      "en": "Depot, Property management (unit 465)"
+      "de": "Betriebshof, Hausverwaltung",
+      "en": "Depot, Property management"
     },
-    "org_type": "Sachgebiet",
+    "org_type": "Arbeitsbereich",
     "org_url": "http://www.gm.wzw.tum.de",
     "school": null
   },
@@ -3017,8 +2929,8 @@
   "37555": {
     "org_code": "TUZV44A",
     "org_name": {
-      "de": "Technisches B\u00fcro Maschinenwesen (4410)",
-      "en": "Technical office Mechanical engineering (unit 4410)"
+      "de": "Technisches B\u00fcro Maschinenwesen",
+      "en": "Technical office Mechanical engineering"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3027,8 +2939,8 @@
   "37569": {
     "org_code": "TUZV44B",
     "org_name": {
-      "de": "Werkstatt Regel- und F\u00f6rdertechnik (4426)",
-      "en": "Repair shop Control engineering and Conveyor technique (unit 4426)"
+      "de": "Werkstatt Regel- und F\u00f6rdertechnik",
+      "en": "Repair shop Control engineering and Conveyor technique"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3037,8 +2949,8 @@
   "37584": {
     "org_code": "TUZV44C",
     "org_name": {
-      "de": "Werkstatt Heizung - Klima - Sanit\u00e4r einschl. TUM CiO (4412)",
-      "en": "Repair shop Heating air - Conditioning - Sanitary incl. TUM CiO (unit 4412)"
+      "de": "Werkstatt Heizung - Klima - Sanit\u00e4r",
+      "en": "Repair shop Heating air - Conditioning - Sanitary"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3047,8 +2959,8 @@
   "37585": {
     "org_code": "TUZV44D",
     "org_name": {
-      "de": "Werkstatt Schreinerei und Schlosserei einschl. TUM CiO (4413)",
-      "en": "Joinery and Metal workshop incl. TUM CiO (unit 4412)"
+      "de": "Werkstatt Schreinerei und Schlosserei",
+      "en": "Joinery and Metal workshop"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3057,8 +2969,8 @@
   "37586": {
     "org_code": "TUZV44E",
     "org_name": {
-      "de": "Werkstatt Pasing Heizungs- und Klimatechnik (4414)",
-      "en": "Heating and Air conditioning technology (Pasing) (unit 4414)"
+      "de": "Werkstatt Pasing Heizungs- und Klimatechnik",
+      "en": "Heating and Air conditioning technology (Pasing)"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3067,8 +2979,8 @@
   "37622": {
     "org_code": "TUZV44G",
     "org_name": {
-      "de": "Technisches B\u00fcro Elektrotechnik, H\u00f6rsaaltechnik (4420)",
-      "en": "Technical office Electrical engineering (unit 4420)"
+      "de": "Technisches B\u00fcro Elektrotechnik, H\u00f6rsaaltechnik",
+      "en": "Technical office Electrical engineering"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3077,8 +2989,8 @@
   "37623": {
     "org_code": "TUZV44H",
     "org_name": {
-      "de": "Technisches B\u00fcro Fernmelde-, BMA- und ELA-Technik einschl. Telefonabrechnung (4421)",
-      "en": "Technical office Telecommunication  (unit 4421)"
+      "de": "Technisches B\u00fcro Fernmelde-, BMA- und ELA-Technik einschl. Telefonabrechnung",
+      "en": "Technical office Telecommunication"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3087,8 +2999,8 @@
   "37668": {
     "org_code": "TUZV44J",
     "org_name": {
-      "de": "Werkstatt Elektrotechnik (4422)",
-      "en": "Repair shop Electrical engineering (unit 4422)"
+      "de": "Werkstatt Elektrotechnik",
+      "en": "Repair shop Electrical engineering"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3097,8 +3009,8 @@
   "37796": {
     "org_code": "TUZV44K",
     "org_name": {
-      "de": "Werkstatt H\u00f6rsaaltechnik, Medientechnik (4423)",
-      "en": "Repair shop Media technology (unit 4423)"
+      "de": "Werkstatt H\u00f6rsaaltechnik, Medientechnik",
+      "en": "Repair shop Media technology"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3107,8 +3019,8 @@
   "37801": {
     "org_code": "TUZV44L",
     "org_name": {
-      "de": "Werkstatt Fernmelde-, BMA- und ELA-Technik (4425)",
-      "en": "Repair shop Telecommunication (unit 4425)"
+      "de": "Werkstatt Fernmelde-, BMA- und ELA-Technik",
+      "en": "Repair shop Telecommunication"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3117,8 +3029,8 @@
   "37984": {
     "org_code": "TUZV44M",
     "org_name": {
-      "de": "Poststelle, Kurierdienst (4437)",
-      "en": "Post office, Courier service (unit 4437)"
+      "de": "Poststelle, Kurierdienst",
+      "en": "Post office, Courier service"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3127,8 +3039,8 @@
   "37985": {
     "org_code": "TUZV44N",
     "org_name": {
-      "de": "Posteinlauf Verwaltung, Registratur (4438)",
-      "en": "Registrar's office (unit 4438)"
+      "de": "Posteinlauf Verwaltung, Registratur",
+      "en": "Registrar's office"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3137,8 +3049,8 @@
   "37986": {
     "org_code": "TUZV44O",
     "org_name": {
-      "de": "Dienstfahrzeuge (4431)",
-      "en": "Official vehicle (unit 4431)"
+      "de": "Dienstfahrzeuge",
+      "en": "Official vehicle"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3147,8 +3059,8 @@
   "37988": {
     "org_code": "TUZV44Q",
     "org_name": {
-      "de": "Bewachung, Vermittlung (4432)",
-      "en": "Guarding (unit 4432)"
+      "de": "Bewachung, Vermittlung",
+      "en": "Guarding"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3157,8 +3069,8 @@
   "37989": {
     "org_code": "TUZV44R",
     "org_name": {
-      "de": "Reinigung, Pflege der Au\u00dfenanlagen, Ausschreibungen (4439)",
-      "en": "Cleaning, Maintenance of outside facilities, Invitations to bid (unit 4439)"
+      "de": "Reinigung, Pflege der Au\u00dfenanlagen, Ausschreibungen",
+      "en": "Cleaning, Maintenance of outside facilities, Invitations to bid"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3167,8 +3079,8 @@
   "37990": {
     "org_code": "TUZV44S",
     "org_name": {
-      "de": "Schl\u00fcsselverwaltung (4433)",
-      "en": "Key management (unit 4433)"
+      "de": "Schl\u00fcsselverwaltung",
+      "en": "Key management"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3177,8 +3089,8 @@
   "37992": {
     "org_code": "TUZV44U",
     "org_name": {
-      "de": "Hausmeisterdienste (4435)",
-      "en": "Caretaking service (unit 4435)"
+      "de": "Hausmeisterdienste",
+      "en": "Caretaking service"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3187,8 +3099,8 @@
   "38003": {
     "org_code": "TUZV44V",
     "org_name": {
-      "de": "Hausmeisterdienste am TUM CiO (44310)",
-      "en": "Maintenance Service at TUM CiO (unit 44310)"
+      "de": "Hausmeisterdienste am TUM CiO",
+      "en": "Maintenance Service at TUM CiO"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3197,8 +3109,8 @@
   "38004": {
     "org_code": "TUZV44W",
     "org_name": {
-      "de": "Werkstatt Elektrotechnik am TUM CiO (4424)",
-      "en": "Electrical engineering, Metalworking shop (unit 4442)"
+      "de": "Werkstatt Elektrotechnik am TUM CiO",
+      "en": "Electrical engineering, Metalworking shop"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3207,8 +3119,8 @@
   "38006": {
     "org_code": "TUZV44Y",
     "org_name": {
-      "de": "Wassersportplatz Starnberg (44311)",
-      "en": "Water sports ground Starnberg (unit 44311)"
+      "de": "Wassersportplatz Starnberg",
+      "en": "Water sports ground Starnberg"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3217,8 +3129,8 @@
   "38010": {
     "org_code": "TUZV45A",
     "org_name": {
-      "de": "H\u00f6rsaalvergabe (4451)",
-      "en": "Lecture hall management (unit 4451)"
+      "de": "H\u00f6rsaalvergabe",
+      "en": "Lecture hall management"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3227,8 +3139,8 @@
   "38011": {
     "org_code": "TUZV45B",
     "org_name": {
-      "de": "Externe An- und Vermietung, Veranstaltungen einschl. TUM CiO (4452)",
-      "en": "External Rental and Renting incl. TUM CiO (unit 4452)"
+      "de": "Externe An- und Vermietung, Veranstaltungen einschl. TUM CiO",
+      "en": "External Rental and Renting incl. TUM CiO"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3251,8 +3163,8 @@
   "38541": {
     "org_code": "TUZV14D",
     "org_name": {
-      "de": "Maschinentechnische Anlagen (Sachgebiet 451)",
-      "en": "Mechanical plants (unit 451)"
+      "de": "Anlagentechnik Garching",
+      "en": "Plant Technology Garching"
     },
     "org_type": "Sachgebiet",
     "org_url": null,
@@ -3261,8 +3173,8 @@
   "38542": {
     "org_code": "TUZV14E",
     "org_name": {
-      "de": "Elektrotechnische Anlagen (Sachgebiet 452)",
-      "en": "Electrotechnical (unit 452)"
+      "de": "Elektrotechnik Garching",
+      "en": "Electrical Engineering Garching"
     },
     "org_type": "Sachgebiet",
     "org_url": null,
@@ -3271,8 +3183,8 @@
   "38577": {
     "org_code": "TUZV14G",
     "org_name": {
-      "de": "Infrastrukturelles FM Poststelle (4535)",
-      "en": "Infrastrukturelles FM Poststelle (4535)"
+      "de": "Infrastrukturelles FM Poststelle",
+      "en": ""
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3281,8 +3193,8 @@
   "38580": {
     "org_code": "TUZV14J",
     "org_name": {
-      "de": "Werkstatt Heizungs- und Klimatechnik (4512)",
-      "en": "Heating and Ventilation (4512)"
+      "de": "Werkstatt Heizungs- und Klimatechnik",
+      "en": "Heating and Ventilation"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3291,8 +3203,8 @@
   "38581": {
     "org_code": "TUZV14K",
     "org_name": {
-      "de": "Werkstatt Sanit\u00e4r- und K\u00e4ltetechnik (4511)",
-      "en": "Sanitary and Air conditioning systems (4511)"
+      "de": "Werkstatt Sanit\u00e4r- und K\u00e4ltetechnik",
+      "en": "Sanitary and Air conditioning systems"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3301,8 +3213,8 @@
   "38597": {
     "org_code": "TUZV14O",
     "org_name": {
-      "de": "Werkstatt Elektrotechnik (4522)",
-      "en": "Electric (4522)"
+      "de": "Werkstatt Elektrotechnik",
+      "en": "Electric"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3315,7 +3227,7 @@
       "en": "Chair of Brewing and Beverage Technology (Prof. Becker)"
     },
     "org_type": "Lehrstuhl",
-    "org_url": "lbgt.wzw.tum.de/",
+    "org_url": "https://www.lse.ls.tum.de/bgt/",
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
@@ -3769,8 +3681,8 @@
   "44344": {
     "org_code": "TUZV44F",
     "org_name": {
-      "de": "Umz\u00fcge, Beschilderungen (4436)",
-      "en": "Removals, Labelling (unit 4436)"
+      "de": "Umz\u00fcge, Beschilderungen",
+      "en": "Removals, Labelling"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3817,8 +3729,8 @@
   "45070": {
     "org_code": "TUZV848",
     "org_name": {
-      "de": "Werkfeuerwehr Weihenstephan (Sachgebiet 468)",
-      "en": "Werkfeuerwehr Weihenstephan (Sachgebiet 468)"
+      "de": "Werkfeuerwehr Weihenstephan",
+      "en": ""
     },
     "org_type": "Sachgebiet",
     "org_url": "http://www.feuerwehr.wzw.tum.de",
@@ -3934,8 +3846,8 @@
   "45971": {
     "org_code": "TUZVR87",
     "org_name": {
-      "de": "Bauliche Entwicklungsplanung Campus Weihenstephan",
-      "en": "Structural development planning Weihenstephan"
+      "de": "Baumanagement Weihenstephan",
+      "en": "Construction Management Weihenstephan"
     },
     "org_type": "Referat",
     "org_url": null,
@@ -4005,20 +3917,6 @@
     },
     "org_type": "Professur",
     "org_url": "www.energy.ph.tum.de/",
-    "school": {
-      "org_code": "TUS3000",
-      "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
-    }
-  },
-  "46837": {
-    "org_code": "TUCHACB",
-    "org_name": {
-      "de": "Professur f\u00fcr Bioanorganische Chemie (N.N.)",
-      "en": "Assistant Professorship of Bioinorganic Chemistry (N.N.)"
-    },
-    "org_type": "Professur",
-    "org_url": "www.ch.nat.tum.de/bioinorganic/",
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
@@ -4095,6 +3993,20 @@
       "org_name": "TUM School of Natural Sciences"
     }
   },
+  "47357": {
+    "org_code": "TUCHOCG",
+    "org_name": {
+      "de": "Professur f\u00fcr Supramolekulare Chemie (Prof. Boekhoven)",
+      "en": "Associate Professorship of Supramolecular Chemistry (Prof. Boekhoven)"
+    },
+    "org_type": "Professur",
+    "org_url": "www.boekhovenlab.com",
+    "school": {
+      "org_code": "TUS3000",
+      "org_id": 51898,
+      "org_name": "TUM School of Natural Sciences"
+    }
+  },
   "47377": {
     "org_code": "TUCHACC",
     "org_name": {
@@ -4117,6 +4029,20 @@
     },
     "org_type": "Verwaltung der School",
     "org_url": "https://www.ph.tum.de/about/services/ztl/",
+    "school": {
+      "org_code": "TUS3000",
+      "org_id": 51898,
+      "org_name": "TUM School of Natural Sciences"
+    }
+  },
+  "47598": {
+    "org_code": "TUCHACD",
+    "org_name": {
+      "de": "Professur f\u00fcr Siliciumchemie (Prof. Inoue)",
+      "en": "Associate Professorship of Silicon Chemistry (Prof. Inoue)"
+    },
+    "org_type": "Professur",
+    "org_url": "www.department.ch.tum.de/si/",
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
@@ -4230,8 +4156,8 @@
   "48298": {
     "org_code": "TUZV453",
     "org_name": {
-      "de": "Facility Management und Zeiterfassung (Sachgebiet 453)",
-      "en": "Facility Management und Zeiterfassung (Sachgebiet 453)"
+      "de": "Infrastruktur Garching",
+      "en": "Infrastructure Garching"
     },
     "org_type": "Sachgebiet",
     "org_url": null,
@@ -4240,8 +4166,8 @@
   "48305": {
     "org_code": "TUZV45G",
     "org_name": {
-      "de": "Infrastrukturelles FM allgemein (4533)",
-      "en": "Infrastrukturelles FM allgemein (4533)"
+      "de": "Infrastrukturelles FM",
+      "en": ""
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -4255,6 +4181,20 @@
     },
     "org_type": "Professur",
     "org_url": "https://www.groups.ph.tum.de/qtech",
+    "school": {
+      "org_code": "TUS3000",
+      "org_id": 51898,
+      "org_name": "TUM School of Natural Sciences"
+    }
+  },
+  "48497": {
+    "org_code": "TUCHPC6",
+    "org_name": {
+      "de": "Professur f\u00fcr Dynamische Spektroskopien (Prof. Hauer)",
+      "en": "Associate Professorship of Dynamic Spectroscopy (Prof. Hauer)"
+    },
+    "org_type": "Professur",
+    "org_url": "www.ch.nat.tum.de/dynspec/",
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
@@ -4325,6 +4265,20 @@
       "org_code": "TUS1000",
       "org_id": 51897,
       "org_name": "TUM School of Computation, Information and Technology"
+    }
+  },
+  "49297": {
+    "org_code": "TUEDS28",
+    "org_name": {
+      "de": "Professur f\u00fcr Didaktik der Chemie (Prof. Koenen)",
+      "en": "Assistant Professorship of Chemistry Education (Prof. Koenen)"
+    },
+    "org_type": "Professur",
+    "org_url": "www.edu.tum.de/dichem/",
+    "school": {
+      "org_code": "TUS7000",
+      "org_id": 51901,
+      "org_name": "TUM School of Social Sciences and Technology"
     }
   },
   "49317": {
@@ -4473,6 +4427,34 @@
     "org_url": "https://www.tum.de/studium/lebenslanges-lernen/",
     "school": null
   },
+  "50697": {
+    "org_code": "TUCHACF",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Chemie der Festk\u00f6rperelektrolyte (Prof. Rupp)",
+      "en": "Chair of Solid-State Electrolyte Chemistry (Prof. Rupp)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "www.ch.nat.tum.de/ecm/",
+    "school": {
+      "org_code": "TUS3000",
+      "org_id": 51898,
+      "org_name": "TUM School of Natural Sciences"
+    }
+  },
+  "50738": {
+    "org_code": "TUCHACG",
+    "org_name": {
+      "de": "Lehrstuhl f\u00fcr Bauchemie (Prof. G\u00e4dt)",
+      "en": "Chair of Construction Chemistry (Prof. G\u00e4dt)"
+    },
+    "org_type": "Lehrstuhl",
+    "org_url": "www.ch.nat.tum.de/cc",
+    "school": {
+      "org_code": "TUS3000",
+      "org_id": 51898,
+      "org_name": "TUM School of Natural Sciences"
+    }
+  },
   "50817": {
     "org_code": "TUWZI2M",
     "org_name": {
@@ -4487,6 +4469,20 @@
       "org_name": "TUM School of Life Sciences"
     }
   },
+  "50919": {
+    "org_code": "TUCHTH7",
+    "org_name": {
+      "de": "Professur f\u00fcr Theoretical Methods in Spectroscopy (Prof. Ortmann)",
+      "en": "Assistant Professorship of Theoretical Methods in Spectroscopy (Prof. Ortmann)"
+    },
+    "org_type": "Professur",
+    "org_url": "www.department.ch.tum.de/tms/",
+    "school": {
+      "org_code": "TUS3000",
+      "org_id": 51898,
+      "org_name": "TUM School of Natural Sciences"
+    }
+  },
   "51157": {
     "org_code": "TUINI31",
     "org_name": {
@@ -4499,6 +4495,20 @@
       "org_code": "TUS1000",
       "org_id": 51897,
       "org_name": "TUM School of Computation, Information and Technology"
+    }
+  },
+  "51220": {
+    "org_code": "TUCHPC7",
+    "org_name": {
+      "de": "Professur f\u00fcr Functional Nanomaterials (Prof. Lechner)",
+      "en": "Assistant Professorship of Functional Nanomaterials (Prof. Lechner)"
+    },
+    "org_type": "Professur",
+    "org_url": "www.ch.nat.tum.de/nanomaterials/",
+    "school": {
+      "org_code": "TUS3000",
+      "org_id": 51898,
+      "org_name": "TUM School of Natural Sciences"
     }
   },
   "51258": {
@@ -4561,6 +4571,20 @@
       "org_code": "TUS2000",
       "org_id": 51267,
       "org_name": "TUM School of Engineering and Design"
+    }
+  },
+  "51898": {
+    "org_code": "TUS3000",
+    "org_name": {
+      "de": "TUM School of Natural Sciences",
+      "en": ""
+    },
+    "org_type": "TUM School",
+    "org_url": "https://www.nat.tum.de",
+    "school": {
+      "org_code": "TUS3000",
+      "org_id": 51898,
+      "org_name": "TUM School of Natural Sciences"
     }
   },
   "51901": {
@@ -4647,6 +4671,20 @@
       "org_name": "TUM School of Natural Sciences"
     }
   },
+  "54139": {
+    "org_code": "TUS3002",
+    "org_name": {
+      "de": "Professur f\u00fcr Theoretische Chemie (Prof. Stein)",
+      "en": "Associate Professorship of Theoretical Chemistry (Prof. Stein)"
+    },
+    "org_type": "Professur",
+    "org_url": "www.ch.nat.tum.de/theochem/",
+    "school": {
+      "org_code": "TUS3000",
+      "org_id": 51898,
+      "org_name": "TUM School of Natural Sciences"
+    }
+  },
   "54439": {
     "org_code": "TUS3004",
     "org_name": {
@@ -4655,6 +4693,20 @@
     },
     "org_type": "Lehrstuhl",
     "org_url": "https://www.wmi.badw.de/home",
+    "school": {
+      "org_code": "TUS3000",
+      "org_id": 51898,
+      "org_name": "TUM School of Natural Sciences"
+    }
+  },
+  "54997": {
+    "org_code": "TUS3007",
+    "org_name": {
+      "de": "Professur f\u00fcr Digitale Katalyse (Prof. Stein)",
+      "en": "Associate Professorship of Digital Catalysis (Prof. Stein)"
+    },
+    "org_type": "Professur",
+    "org_url": "www.ch.nat.tum.de/digicat/",
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
