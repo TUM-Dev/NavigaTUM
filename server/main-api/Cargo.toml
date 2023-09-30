@@ -40,7 +40,7 @@ sqlx = { version = "0.7.2", features = ["sqlite", "runtime-tokio", "migrate", "m
 # search
 meilisearch-sdk = "0.24.2"
 logos="0.13.0"
-regex = "1.9.5"
+regex = "1.9.6"
 
 # maps
 rustls = "0.21.7"
