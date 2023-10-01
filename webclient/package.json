@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "1.4.0",
-    "@rushstack/eslint-patch": "1.5.0",
+    "@rushstack/eslint-patch": "1.5.1",
     "@sentry/vite-plugin": "2.7.1",
     "@types/swagger-ui-dist": "3.30.2",
     "@vitejs/plugin-vue": "4.3.4",
