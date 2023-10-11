@@ -45,7 +45,7 @@ spec:
         - name: webclient-svc
           port: 9000
     - kind: Rule
-      match: Host(`nav.tum.app`) || Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)
+      match: Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)
       services:
         - name: noop@internal
           kind: TraefikService
@@ -73,7 +73,7 @@ spec:
       middlewares:
         - name: https
     - kind: Rule
-      match: Host(`nav.tum.app`) || Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)
+      match: Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)
       services:
         - name: noop@internal
           kind: TraefikService
