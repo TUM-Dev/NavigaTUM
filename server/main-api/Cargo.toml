@@ -33,18 +33,18 @@ unicode-truncate = "0.2.0"
 serde_yaml = "0.9"
 
 # database
-diesel = { version = "2.1.2", features = ["default", "sqlite"] }
+diesel = { version = "2.1.3", features = ["default", "sqlite"] }
 libsqlite3-sys = { version = "*", features = ["bundled"] }
 sqlx = { version = "0.7.2", features = ["sqlite", "runtime-tokio", "migrate", "macros"] }
 
 # search
 meilisearch-sdk = "0.24.2"
 logos="0.13.0"
-regex = "1.9.6"
+regex = "1.10.2"
 
 # maps
 rustls = "0.21.7"
-reqwest = { version= "0.11.20", default-features = false, features = ["rustls-tls", "json", "gzip"] }
+reqwest = { version= "0.11.22", default-features = false, features = ["rustls-tls", "json", "gzip"] }
 image = "0.24.7"
 imageproc = "0.23.0"
 rusttype = "0.9.3"
