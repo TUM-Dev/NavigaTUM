@@ -1,5 +1,4 @@
 import logging
-import os
 from multiprocessing import Process
 
 import processors.areatree.process as areatree
@@ -19,9 +18,7 @@ from processors import (
     structure,
     tumonline,
 )
-from utils import setup_logging
-
-DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ
+from utils import DEBUG_MODE, setup_logging
 
 
 # pylint: disable=too-many-locals,too-many-statements
