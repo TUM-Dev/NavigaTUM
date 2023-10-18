@@ -101,6 +101,22 @@
   comment:
     de: Unter dieser Treppe existiert ein WC, dessen Raumnummer und designierung (men/women/unisex) unklar ist
     en: Under this staircase there is a toilet whose room number and designation (men/women/unisex) is unclear
+"0504.03.407":
+  name: Büro # previously: Kartensammlung
+  usage: # previously: Lehrmittelraum
+    name:
+      de: Büro
+      en: Office
+    din_277: NF2.1
+    din_277_desc: Büroräume
+"0504.03.409":
+  name: Büro # previously: Kartensammlung
+  usage: # previously: Lehrmittelraum
+    name:
+      de: Büro
+      en: Office
+    din_277: NF2.1
+    din_277_desc: Büroräume
 "0509.EG.980":
   name: Audimax, Werner-von-Siemens-Hörsaal
   ranking_factors:
