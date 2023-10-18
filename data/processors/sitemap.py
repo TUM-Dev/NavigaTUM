@@ -6,8 +6,8 @@ from pathlib import Path
 from typing import Literal, TypedDict
 
 import requests
-from compile import DEBUG_MODE
 from defusedxml import ElementTree as defusedET
+from utils import DEBUG_MODE
 
 OLD_DATA_URL = "https://nav.tum.de/cdn/api_data.json"
 
