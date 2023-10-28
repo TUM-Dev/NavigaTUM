@@ -3,16 +3,6 @@
  * Do not make direct changes to the file.
  */
 
-/** OneOf type helpers */
-type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
-type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type OneOf<T extends any[]> = T extends [infer Only]
-  ? Only
-  : T extends [infer A, infer B, ...infer Rest]
-  ? OneOf<[XOR<A, B>, ...Rest]>
-  : never;
-
 export type paths = {
   "/api/search": {
     /**
@@ -23,7 +13,7 @@ export type paths = {
      *
      * Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
      * (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
-     * Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `pre_highlight` query parameters.
+     * Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
      */
     get: operations["search"];
   };
@@ -175,7 +165,7 @@ export type components = {
          *
          * @example TUM School of Social Sciences and Technology
          */
-        readonly name?: OneOf<[string, null]>;
+        readonly name?: string | null;
         /**
          * @description A link to the operator
          * @example https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901
@@ -263,7 +253,7 @@ export type components = {
       /** @description The text to display */
       readonly text: string;
       /** @description The URL to the referenced information. Always either null or a valid URL */
-      readonly url?: OneOf<[string, null]>;
+      readonly url?: string | null;
     };
     readonly Coordinate: {
       /**
@@ -302,23 +292,18 @@ export type components = {
        * @description null would mean no overlay maps are displayed by default.
        * For rooms you should add a warning that no floor map is available for this room
        */
-      readonly overlays?: OneOf<
-        [
-          {
-            /**
-             * @description The floor-id of the map, that should be shown as a default.
-             * null:
-             * - We suggest, you dont show a map by default.
-             * - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
-             *
-             * @example 0
-             */
-            readonly default: OneOf<[number, null]>;
-            readonly available: readonly components["schemas"]["OverlayMapEntry"][];
-          },
-          null,
-        ]
-      >;
+      readonly overlays?: {
+        /**
+         * @description The floor-id of the map, that should be shown as a default.
+         * null:
+         * - We suggest, you dont show a map by default.
+         * - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
+         *
+         * @example 0
+         */
+        readonly default: number | null;
+        readonly available: readonly components["schemas"]["OverlayMapEntry"][];
+      } | null;
     };
     readonly RoomfinderMap: {
       /**
@@ -741,37 +726,35 @@ export type components = {
     readonly ProposeEditsRequest: components["schemas"]["TokenRequest"] & {
       /** @description The edits to be made to the room. The keys are the ID of the props to be edited, the values are the proposed Edits. */
       readonly edits: {
-        [key: string]:
-          | {
-              readonly coordinate?: {
-                /** Format: double */
-                readonly lat: number;
-                /** Format: double */
-                readonly lon: number;
+        [key: string]: {
+          readonly coordinate?: {
+            /** Format: double */
+            readonly lat: number;
+            /** Format: double */
+            readonly lon: number;
+          };
+          readonly image?: {
+            readonly metadata: {
+              readonly author: string;
+              readonly license: components["schemas"]["LinkProp"];
+              readonly source: components["schemas"]["LinkProp"];
+              readonly offsets?: {
+                /** Format: int32 */
+                readonly header?: number;
+                /** Format: int32 */
+                readonly thumb?: number;
               };
-              readonly image?: {
-                readonly metadata: {
-                  readonly author: string;
-                  readonly license: components["schemas"]["LinkProp"];
-                  readonly source: components["schemas"]["LinkProp"];
-                  readonly offsets?: {
-                    /** Format: int32 */
-                    readonly header?: number;
-                    /** Format: int32 */
-                    readonly thumb?: number;
-                  };
-                  readonly meta?: {
-                    [key: string]: string | undefined;
-                  };
-                };
-                /**
-                 * Format: byte
-                 * @description The image encoded as base64
-                 */
-                readonly content: string;
+              readonly meta?: {
+                [key: string]: string;
               };
-            }
-          | undefined;
+            };
+            /**
+             * Format: byte
+             * @description The image encoded as base64
+             */
+            readonly content: string;
+          };
+        };
       };
       /**
        * @description Additional context for the edit.
@@ -846,6 +829,8 @@ export type components = {
   pathItems: never;
 };
 
+export type $defs = Record<string, never>;
+
 export type external = Record<string, never>;
 
 export type operations = {
@@ -857,7 +842,7 @@ export type operations = {
    *
    * Some fields support highlighting the query terms and it uses \x19 and \x17 to mark the beginning/end of a highlighted sequence.
    * (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).
-   * Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `pre_highlight` query parameters.
+   * Some text-renderers will ignore them, but in case you do not want to use them, you might want to remove them from the responses via empty `pre_highlight` and `post_highlight` query parameters.
    */
   search: {
     parameters: {
@@ -912,7 +897,9 @@ export type operations = {
         };
       };
       /** @description Invalid Request */
-      400: never;
+      400: {
+        content: never;
+      };
       /** @description `search_query` is empty. Since searching for nothing is nonsensical, we dont support this. */
       404: {
         content: {
@@ -920,7 +907,9 @@ export type operations = {
         };
       };
       /** @description The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars.. */
-      414: never;
+      414: {
+        content: never;
+      };
     };
   };
   /**
@@ -1058,14 +1047,18 @@ export type operations = {
        * @description Too many requests.
        * We are rate-limiting everyone's requests, please try again later.
        */
-      429: never;
+      429: {
+        content: never;
+      };
       /**
        * @description Service unavailable.
        * We have not configured a GitHub Access Token or a JWT Key.
        * This could be because we are experiencing technical difficulties or intentional if we experience abuse of these endpoints.
        * Please try again later.
        */
-      503: never;
+      503: {
+        content: never;
+      };
     };
   };
   /**
@@ -1095,7 +1088,9 @@ export type operations = {
         };
       };
       /** @description If not all fields in the body are present as defined above */
-      400: never;
+      400: {
+        content: never;
+      };
       /**
        * @description Forbidden. Causes are (delivered via the body):
        *
@@ -1117,24 +1112,32 @@ export type operations = {
        * @description Unprocessable Entity
        * Subject or body missing or too short.
        */
-      422: never;
+      422: {
+        content: never;
+      };
       /**
        * @description Unavailable for legal reasons.
        * Using this endpoint without accepting the privacy policy is not allowed.
        * For us to post to GitHub, this has to be true
        */
-      451: never;
+      451: {
+        content: never;
+      };
       /**
        * @description Internal Server Error.
        * We have a problem communicating with GitHubs servers. Please try again later.
        */
-      500: never;
+      500: {
+        content: never;
+      };
       /**
        * @description Service unavailable.
        * We have not configured a GitHub Access Token.
        * This could be because we are experiencing technical difficulties or intentional. Please try again later.
        */
-      503: never;
+      503: {
+        content: never;
+      };
     };
   };
   /**
@@ -1164,7 +1167,9 @@ export type operations = {
         };
       };
       /** @description If not all fields in the body are present as defined above */
-      400: never;
+      400: {
+        content: never;
+      };
       /**
        * @description Forbidden. Causes are (delivered via the body):
        *
@@ -1186,24 +1191,32 @@ export type operations = {
        * @description Unprocessable Entity
        * Subject or body missing or too short.
        */
-      422: never;
+      422: {
+        content: never;
+      };
       /**
        * @description Unavailable for legal reasons.
        * Using this endpoint without accepting the privacy policy is not allowed.
        * For us to post to GitHub, this has to be true
        */
-      451: never;
+      451: {
+        content: never;
+      };
       /**
        * @description Internal Server Error.
        * We have a problem communicating with GitHubs servers. Please try again later.
        */
-      500: never;
+      500: {
+        content: never;
+      };
       /**
        * @description Service unavailable.
        * We have not configured a GitHub Access Token.
        * This could be because we are experiencing technical difficulties or intentional. Please try again later.
        */
-      503: never;
+      503: {
+        content: never;
+      };
     };
   };
   /**
@@ -1247,7 +1260,9 @@ export type operations = {
        * The request was malformed.
        * Please check your request and try again.
        */
-      400: never;
+      400: {
+        content: never;
+      };
       /** @description Requested Resource Not Found */
       404: {
         content: {
@@ -1255,7 +1270,9 @@ export type operations = {
         };
       };
       /** @description The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars.. */
-      414: never;
+      414: {
+        content: never;
+      };
     };
   };
   /**
@@ -1284,7 +1301,9 @@ export type operations = {
        * The request was malformed.
        * Please check your request and try again.
        */
-      400: never;
+      400: {
+        content: never;
+      };
       /** @description Requested Resource Not Found */
       404: {
         content: {
@@ -1292,7 +1311,9 @@ export type operations = {
         };
       };
       /** @description The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars.. */
-      414: never;
+      414: {
+        content: never;
+      };
     };
   };
   /**
@@ -1308,7 +1329,9 @@ export type operations = {
         };
       };
       /** @description Service Unavailable */
-      503: never;
+      503: {
+        content: never;
+      };
     };
   };
   /**
@@ -1324,7 +1347,9 @@ export type operations = {
         };
       };
       /** @description Service Unavailable */
-      503: never;
+      503: {
+        content: never;
+      };
     };
   };
   /**
@@ -1340,7 +1365,9 @@ export type operations = {
         };
       };
       /** @description Service Unavailable */
-      503: never;
+      503: {
+        content: never;
+      };
     };
   };
   /**
@@ -1356,7 +1383,9 @@ export type operations = {
         };
       };
       /** @description Service Unavailable */
-      503: never;
+      503: {
+        content: never;
+      };
     };
   };
   /**
@@ -1372,7 +1401,9 @@ export type operations = {
         };
       };
       /** @description Service Unavailable */
-      503: never;
+      503: {
+        content: never;
+      };
     };
   };
 };
