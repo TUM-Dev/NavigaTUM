@@ -29,7 +29,7 @@ app.use(createPinia());
 if (import.meta.env.PROD) {
   Sentry.init({
     app,
-    dsn: "https://e7192dffa92c4f4cbfb8cf8967c83583@sentry.mm.rbg.tum.de/6",
+    dsn: "https://4e10b1156a2f4320acaac22148c8a568@glitchtip.nav.tum.sexy/2",
     integrations: [
       new Sentry.Replay(),
       new BrowserTracing({
