@@ -45,22 +45,22 @@ export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
               token.value = j;
             })
             .catch((r) => {
-              error.message = t("feedback.error.token_req_failed");
+              error.message = t("error.token_req_failed");
               console.error(r);
             });
         } else if (r.status === TokenStatus.TOO_MANY_REQUESTS) {
-          error.message = t("feedback.error.too_many_requests");
+          error.message = t("error.too_many_requests");
           error.blockSend = true;
         } else if (r.status === TokenStatus.NOT_CONFIGURED) {
-          error.message = t("feedback.error.feedback_not_configured");
+          error.message = t("error.feedback_not_configured");
           error.blockSend = true;
         } else {
-          error.message = `${t("feedback.error.token_unexpected_status")}${r.status}`;
+          error.message = `${t("error.token_unexpected_status")}${r.status}`;
           error.blockSend = true;
         }
       })
       .catch((r) => {
-        error.message = t("feedback.error.token_req_failed");
+        error.message = t("error.token_req_failed");
         console.error(r);
       });
   }
