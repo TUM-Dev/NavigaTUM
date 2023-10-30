@@ -8,61 +8,6 @@ core_js:
     status: "Unexpected status code: "
     unknown: Unknown Error
     view_load_timeout: "Page could not be loaded: Timeout"
-feedback:
-  cancel: Cancel
-  category: Feedback category
-  delete: Delete this GitHub issue when resolved.
-  error:
-    feedback_not_configured: Sending feedback is currently not configured on the server.
-    privacy_not_checked:
-      other_contact_options: There are other means of contact listed at in our impressum.
-      please_accept_privcacy_statement: You have to accept the privacy statement for us to process the feedback via GitHub.
-      unavailable_for_legal_reasons: Unavailable for legal reasons
-    send_invalid_token: Invalid form token (probably expired). Please copy the text and re-open the form.
-    send_no_token: An unexpected error occured (no token). Please copy the text and re-open the form.
-    send_req_failed: Unexpected error when sending the feedback form. Sending feedback is currently probably not possible. Please send a mail instead.
-    send_unexpected_status: Unexpected status code
-    server_error: Server Error
-    token_req_failed: Unexpected error when loading the feedback form. Sending feedback is currently probably not possible. Please send a mail instead.
-    token_unexpected_status: "Unexpected status code when retrieving a feedback token: "
-    too_many_requests: Sending feedback is currently not possible due to rate-limiting. Please try again in a while or send a mail.
-    too_short_body: "Error: Message missing or too short"
-    too_short_subject: "Error: Subject missing or too short"
-  helptext:
-    bug: Which bug did you find? Where did you find it? Please provide a detailed description.
-    entry: Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?
-    features: Features you would like to see on this website
-    general: General Feedback about this website
-    other: "Feedback encountered issue: Category invalid"
-    search: Feedback about the search. What was your search query? What did you expect to see?
-  mail: E-Mail (optional)
-  message: Message
-  public:
-    agreement: My feedback data (subject and message) may be stored anonymously but publicly accessible on the {github_project_issues_url}.
-    disclaimer: By using this feedback form, you explicitly agree to the {github_site_policy_url} as well as a possible transfer of the data outside the European Union.
-    github_project_issues: GitHub project page
-    github_site_policy: terms of use and privacy policy of GitHub
-    imprint: imprint
-    objection_instruction: If you object to this, please write to us via navigatum (at-symbol) tum.de, or one of the other contact options listed in our {imprint_url}.
-    processing_based_on_gdpr: The processing is based on Art. 6 para. 1 lit. a DSGVO.
-    question_contact: If you have any questions, please feel free to contact us (navigatum (at-symbol) tum.de) or our data protection officer ({tum_data_protection_url}).
-    right_of_appeal: There is also a right of appeal to the Bavarian State Commissioner for Data Protection.
-    right_to_information: Under the legal conditions and an existing personal reference of the data, there is a right to information, as well as to correction or deletion or to restriction of processing or a right to object to processing as well as the right to data portability.
-  send: Send
-  subject: Subject
-  success:
-    ok: OK
-    response_at: You can see our response at
-    thank_you: Thank you for giving your feedback. We will work on this as soon as possible.
-    this_issue: this GitHub issue
-    title: Thank you!
-  title: Send Feedback
-  type:
-    bug: Bug
-    entry: Entry
-    features: Features
-    general: General
-    search: Search
 footer:
   about:
     link: about-us

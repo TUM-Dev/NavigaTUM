@@ -8,61 +8,6 @@ core_js:
     status: "Unerwarteter Status-Code: "
     unknown: Unbekannter Fehler
     view_load_timeout: "Seite konnte nicht geladen werden: Timeout"
-feedback:
-  cancel: Abbrechen
-  category: Feedback-Kategorie
-  delete: Das zugehörige GitHub Issue löschen, sobald es gelöst wurde.
-  error:
-    feedback_not_configured: Das Senden von Feedback ist auf dem Server aktuell nicht konfiguriert.
-    privacy_not_checked:
-      other_contact_options: Es gibt andere Möglichkeiten uns zu kontaktieren, welche im Impressum aufgelistet sind.
-      please_accept_privcacy_statement: Du musst die Datenschutzerklärung akzeptiert haben, damit wir dein Feedback via GitHub verarbeiten können.
-      unavailable_for_legal_reasons: Aus rechtlichen Gründen nicht zulässig
-    send_invalid_token: Formular-Token ungültig (vermutlich abgelaufen). Bitte kopiere den Text und öffne das Formular nochmal.
-    send_no_token: Ein unerwarteter Fehler ist aufgetreten (Kein Token). Bitte kopiere den Text und öffne das Formular nochmal.
-    send_req_failed: Unerwarteter Fehler beim Senden des Feedback-Formulars. Das Senden von Feedback ist gerade vermutlich nicht möglich. Bitte schreibe stattdessen eine Mail.
-    send_unexpected_status: Unerwarteter Status Code
-    server_error: Server Fehler
-    token_req_failed: Unerwarteter Fehler beim Laden des Feedback-Formulars. Das Senden von Feedback ist gerade vermutlich nicht möglich. Bitte schreibe stattdessen eine Mail.
-    token_unexpected_status: "Unerwarteter Status Code beim Abrufen eines Feedback Tokens: "
-    too_many_requests: Feedback senden ist aktuell nicht möglich aufgrund von rate-limiting. Bitte versuche es später nochmal oder schreibe eine Mail.
-    too_short_body: "Fehler: Nachricht fehlt oder ist zu kurz"
-    too_short_subject: "Fehler: Betreff fehlt oder ist zu kurz"
-  helptext:
-    bug: Welchen Fehler hast du gefunden? Wo hast du ihn gefunden? Bitte gib eine genaue Beschreibung an.
-    entry: Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten, die du siehst (Namen, Koordinaten, Adressen, ...) anpassen. Was können wir verbessern?
-    features: Features, die du gerne auf dieser Website haben würdest
-    general: Generelles Feedback über diese Website
-    other: "Feedback ist auf ein Problem gestoßen: Kategorie ungültig"
-    search: Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?
-  mail: E-Mail (optional)
-  message: Nachricht
-  public:
-    agreement: Meine Feedback Daten (Betreff und Nachricht) dürfen anonym, aber öffentlich zugänglich auf der {github_project_issues_url} gespeichert werden.
-    disclaimer: Mit der Nutzung dieses Feedbackformulars stimmst du explizit den {github_site_policy_url} sowie einer möglichen Übertragung der Daten außerhalb der Europäischen Union zu.
-    github_project_issues: GitHub Projektseite
-    github_site_policy: Nutzungsbedingungen und Datenschutzbestimmungen von GitHub
-    imprint: Impressum
-    objection_instruction: Falls du dies ablehnst, schreibe uns bitte über navigatum (at-symbol) tum.de, oder eine der anderen in unserem {imprint_url} gelisteten Kontaktmöglichkeiten.
-    processing_based_on_gdpr: Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
-    question_contact: Bei Fragen könne dich gerne an uns (navigatum (at-symbol) tum.de) oder an unseren Datenschutzbeauftragten ({tum_data_protection_url}).
-    right_of_appeal: Es besteht zudem ein Beschwerderecht beim Bayerischen Landesbeauftragten für den Datenschutz.
-    right_to_information: Unter den gesetzlichen Voraussetzungen und einem vorhandenen Personenbezug der Daten besteht ein Recht auf Auskunft, sowie auf Berichtigung oder Löschung oder auf Einschränkung der Verarbeitung oder eines Widerspruchsrechts gegen die Verarbeitung sowie des Rechts auf Datenübertragbarkeit.
-  send: Senden
-  subject: Betreff
-  success:
-    ok: OK
-    response_at: Antwort auf dein Feedback findest du auf
-    thank_you: Vielen Dank für dein Feedback! Wir werden es schnellstmöglich bearbeiten.
-    this_issue: diesem GitHub Issue
-    title: Vielen Dank!
-  title: Feedback senden
-  type:
-    bug: Fehler
-    entry: Eintrag
-    features: Features
-    general: Allgemein
-    search: Suche
 footer:
   about:
     link: ueber-uns
