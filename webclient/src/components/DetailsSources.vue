@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { useDetailsStore } from "@/stores/details";
+import {useI18n} from "vue-i18n";
 
 const state = useDetailsStore();
+const { t } = useI18n({useScope:"local"});
 </script>
 
 <template>
   <section id="entry-sources">
     <div class="columns">
       <div class="column">
-        <h2>{{ $t("view_view.sources.title") }}</h2>
+        <h2>{{ t("title") }}</h2>
       </div>
     </div>
     <p v-if="state.data?.sources.base">
-      {{ $t("view_view.sources.base.title") }}:
+      {{ t("base.title") }}:
       <span v-for="(e, i) in state.data.sources.base" :key="e.name">
         <a v-if="e.url" :href="e.url">{{ e.name }}</a>
         <template v-else>{{ e.name }}</template>
@@ -20,11 +22,11 @@ const state = useDetailsStore();
       </span>
       <span v-if="state.data.sources.patched">
         <br />
-        ({{ $t("view_view.sources.base.patched") }})
+        ({{ t("base.patched") }})
       </span>
     </p>
     <p v-if="state.image.shown_image">
-      {{ $t("view_view.sources.header_img") }}:
+      {{ t("header_img") }}:
       <span>{{ state.image.shown_image.author.text }}</span>
       <span v-if="state.image.shown_image.source"
         >•
@@ -42,13 +44,13 @@ const state = useDetailsStore();
       </span>
     </p>
     <p v-if="state.data?.coords">
-      {{ $t("view_view.sources.coords.title") }}:
-      <span v-if="state.data.coords.source === 'navigatum'"> {{ $t("view_view.sources.coords.navigatum") }}</span>
+      {{ t("coords.title") }}:
+      <span v-if="state.data.coords.source === 'navigatum'"> {{ t("coords.navigatum") }}</span>
       <span v-if="state.data.coords.source === 'roomfinder'">
-        {{ $t("view_view.sources.coords.roomfinder") }}
+        {{ t("coords.roomfinder") }}
       </span>
       <span v-if="state.data.coords.source === 'inferred'">
-        {{ $t("view_view.sources.coords.inferred") }}
+        {{ t("coords.inferred") }}
       </span>
     </p>
   </section>
@@ -67,3 +69,28 @@ const state = useDetailsStore();
   }
 }
 </style>
+
+<i18n lang="yaml">
+de:
+  base:
+    patched: Bei diesem Eintrag wurden automatische Korrekturen zu externen Daten angewandt
+    title: Basisdaten
+  coords:
+    inferred: Automatisch berechnet aus den zugehörigen Räumen oder Gebäuden
+    navigatum: NavigaTUM Mitwirkende
+    roomfinder: Roomfinder
+    title: Koordinaten
+  header_img: Bild
+  title: Quellen
+en:
+  base:
+    patched: For this entry automatic patches were applied to external data
+    title: Base data
+  coords:
+    inferred: Automatically computed based on the associated rooms or buildings
+    navigatum: NavigaTUM Contributors
+    roomfinder: Roomfinder
+    title: Coordinates
+  header_img: Image
+  title: Sources
+</i18n>

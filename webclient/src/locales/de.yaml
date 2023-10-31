@@ -62,14 +62,3 @@ view_view:
     remove_selection: Auswahl löschen
     results: 1 Ergebnis | {count} Ergebnisse
     title: Räume
-  sources:
-    base:
-      patched: Bei diesem Eintrag wurden automatische Korrekturen zu externen Daten angewandt
-      title: Basisdaten
-    coords:
-      inferred: Automatisch berechnet aus den zugehörigen Räumen oder Gebäuden
-      navigatum: NavigaTUM Mitwirkende
-      roomfinder: Roomfinder
-      title: Koordinaten
-    header_img: Bild
-    title: Quellen
