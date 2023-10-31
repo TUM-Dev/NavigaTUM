@@ -26,8 +26,6 @@ search:
     were_found: were found.
   thumbnail_alt: Thumbnail for said building
 show_more_information: Show more information
-view_api:
-  title: NavigaTUMs API Documentation
 view_search:
   feedback:
     give: Send feedback to search

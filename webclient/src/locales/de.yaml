@@ -26,9 +26,6 @@ search:
     were_found: wurden gefunden.
   thumbnail_alt: Vorschaubild für das besagte Gebäude
 show_more_information: Mehr Informationen anzeigen
-view_api:
-  title: NavigaTUMs API Documentation
-view_md: {}
 view_search:
   feedback:
     give: Feedback zur Suche geben
