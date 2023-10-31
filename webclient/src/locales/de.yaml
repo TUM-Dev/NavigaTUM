@@ -34,9 +34,6 @@ view_view:
     favorites: Zu Favoriten hinzufügen
     feedback: Problem melden oder Änderung vorschlagen
     image_alt: Header-Bild, zeigt das Gebäude
-  info_table:
-    links: Links
-    no_information_known: Keine Informationen bekannt
   info_title: Informationen
   map:
     img_alt: Handgezeichnete Roofinder-Kartendarstellung

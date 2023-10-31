@@ -34,9 +34,6 @@ view_view:
     favorites: Add to favorites
     feedback: Report issue or suggest changes
     image_alt: Header-Image, showing the building
-  info_table:
-    links: Links
-    no_information_known: No information known
   info_title: Information
   map:
     img_alt: Hand-drawn roomfinder map image
