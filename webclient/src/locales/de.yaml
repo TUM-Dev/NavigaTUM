@@ -48,8 +48,7 @@ view_view:
   meta:
     details_for: Details für
   msg:
-    inaccurate_only_building:
-      primary_msg: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
+    inaccurate_only_building: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
     no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
   roomfinder_modal:
     header: Lageplan

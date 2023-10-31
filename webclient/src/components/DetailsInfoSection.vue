@@ -36,7 +36,7 @@ const state = useDetailsStore();
       <div class="card-body">
         <DetailsPropertyTable />
         <div class="toast toast-warning" v-if="state.data?.coords.accuracy === 'building'">
-          {{ $t("view_view.msg.inaccurate_only_building.primary_msg") }}<br />
+          {{ $t("view_view.msg.inaccurate_only_building") }}<br />
         </div>
         <div
           class="toast toast-warning"
