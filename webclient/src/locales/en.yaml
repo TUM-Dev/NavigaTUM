@@ -62,12 +62,6 @@ view_view:
     remove_selection: Remove selection
     results: "{count} result | {count} results"
     title: Rooms
-  slideshow:
-    author: Author
-    header: Image Showcase
-    image_alt: Image showing the building
-    license: License
-    source: Source
   sources:
     base:
       patched: For this entry automatic patches were applied to external data

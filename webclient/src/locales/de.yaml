@@ -62,12 +62,6 @@ view_view:
     remove_selection: Auswahl löschen
     results: 1 Ergebnis | {count} Ergebnisse
     title: Räume
-  slideshow:
-    author: Autor
-    header: Bilder-Showcase
-    image_alt: Ein Bild welches das Gebäude zeigt
-    license: Lizenz
-    source: Quelle
   sources:
     base:
       patched: Bei diesem Eintrag wurden automatische Korrekturen zu externen Daten angewandt
