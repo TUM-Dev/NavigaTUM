@@ -1,8 +1,8 @@
 import type { components } from "@/api_types";
-import type { useI18n } from "vue-i18n";
 type SearchResponse = components["schemas"]["SearchResponse"];
 type RoomEntry = components["schemas"]["RoomEntry"];
 type SitesBuildingsEntry = components["schemas"]["SitesBuildingsEntry"];
+
 function _allowHighlighting(text: string): string {
   /// This function does still parse content only from our internal API (which should not try to pawn us in the
   // first place), but for extra redundancy we sanitise this anyway.
@@ -35,7 +35,7 @@ type EntryFacet = {
   parsed_id: string | null;
 };
 
-export function extractFacets(data: SearchResponse, t: ReturnType<typeof useI18n>["t"]) {
+export function extractFacets(data: SearchResponse, roomName: string, buildingName: string) {
   const sections: SectionFacet[] = [];
 
   data.sections.forEach((section) => {
@@ -55,7 +55,7 @@ export function extractFacets(data: SearchResponse, t: ReturnType<typeof useI18n
         });
         sections.push({
           facet: "rooms",
-          name: t("search.sections.rooms"),
+          name: roomName,
           entries: entries,
           estimatedTotalHits: section.estimatedTotalHits,
         });
@@ -73,7 +73,7 @@ export function extractFacets(data: SearchResponse, t: ReturnType<typeof useI18n
         });
         sections.push({
           facet: "sites_buildings",
-          name: t("search.sections.buildings"),
+          name: buildingName,
           expanded: false,
           entries: entries,
           estimatedTotalHits: section.estimatedTotalHits,

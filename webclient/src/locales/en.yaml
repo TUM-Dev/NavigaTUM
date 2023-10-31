@@ -2,6 +2,9 @@ close: Close
 meta:
   description: Navigate around TUM with excellence. This is a website to find rooms, buildings and other places at TUM easier than the current RoomFinder, developed by students.
 search:
+  sections:
+    buildings: Buildings / Sites
+    rooms: Rooms
   action: Go
   approx: approx.
   aria-actionlabel: Search for the room-query entered in the search field

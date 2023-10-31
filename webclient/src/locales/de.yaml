@@ -2,6 +2,9 @@ close: Schließen
 meta:
   description: Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden.
 search:
+  sections:
+    buildings: Gebäude / Standorte
+    rooms: Räume
   action: Go
   approx: ca.
   aria-actionlabel: Suche nach dem im Suchfeld eingetragenen Raum

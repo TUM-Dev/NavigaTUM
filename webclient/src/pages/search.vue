@@ -20,7 +20,7 @@ const sections = computed<SectionFacet[] | null>(() => {
   // Currently borrowing this functionality from autocomplete.
   // In the future it is planned that this search results page
   // has a different format.
-  return extractFacets(data.value, t);
+  return extractFacets(data.value, t("sections.rooms"), t("sections.buildings"));
 });
 const apiUrl = computed(() => {
   const q = route.query.q;
@@ -91,12 +91,7 @@ function genDescription(): string {
                   <i v-if="e.parsed_id" class="icon icon-search" />
                   <i v-else class="icon icon-location" />
                 </template>
-                <img
-                  v-else
-                  class="avatar avatar-sm"
-                  src="@/assets/thumb-building.webp"
-                  :alt="t('thumbnail_alt')"
-                />
+                <img v-else class="avatar avatar-sm" src="@/assets/thumb-building.webp" :alt="t('thumbnail_alt')" />
               </div>
               <div class="tile-content">
                 <div class="tile-title">
@@ -219,11 +214,11 @@ function genDescription(): string {
 <i18n lang="yaml">
 de:
   sections:
-    and: und
     buildings: Gebäude / Standorte
+    rooms: Räume
+    and: und
     no_buildings_rooms_found: Keine Gebäude / Standorte oder Räume konnten gefunden werden.
     of_which_visible: davon sichtbar
-    rooms: Räume
     were_found: wurden gefunden.
   feedback:
     give: Feedback zur Suche geben
@@ -236,11 +231,11 @@ de:
   results: 1 Ergebnis | {count} Ergebnisse
 en:
   sections:
-    and: and
     buildings: Buildings / Sites
+    rooms: Rooms
+    and: and
     no_buildings_rooms_found: No buildings / locations or rooms could be found.
     of_which_visible: of them visible
-    rooms: Rooms
     were_found: were found.
   feedback:
     give: Send feedback to search

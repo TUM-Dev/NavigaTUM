@@ -114,7 +114,7 @@ function onInput() {
       // but we need to discard the data here if it arrived out of order.
       if (queryId > latestUsedQueryId.value) {
         latestUsedQueryId.value = queryId;
-        autocomplete.sections = extractFacets(d, t);
+        autocomplete.sections = extractFacets(d, t("search.sections.rooms"), t("search.sections.buildings"));
       }
     });
   }
