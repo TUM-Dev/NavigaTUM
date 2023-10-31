@@ -9,22 +9,7 @@ search:
   hidden: ausgeblendet
   placeholder: Suche
   results: 1 Ergebnis | {count} Ergebnisse
-  sections:
-    and: und
-    buildings: Gebäude / Standorte
-    no_buildings_rooms_found: Keine Gebäude / Standorte oder Räume konnten gefunden werden.
-    of_which_visible: davon sichtbar
-    rooms: Räume
-    were_found: wurden gefunden.
-  thumbnail_alt: Vorschaubild für das besagte Gebäude
 show_more_information: Mehr Informationen anzeigen
-view_search:
-  feedback:
-    give: Feedback zur Suche geben
-    open: Feedback-Formular für Rückmeldungen zur Suchanfrage geben
-  max_results: bitte grenze die Suche weiter ein
-  runtime: Laufzeit
-  search_for: Suche nach
 view_view:
   header:
     calendar: Kalender öffnen

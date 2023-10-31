@@ -9,22 +9,7 @@ search:
   hidden: hidden
   placeholder: Search
   results: 1 result | {count} results
-  sections:
-    and: and
-    buildings: Buildings / Sites
-    no_buildings_rooms_found: No buildings / locations or rooms could be found.
-    of_which_visible: of them visible
-    rooms: Rooms
-    were_found: were found.
-  thumbnail_alt: Thumbnail for said building
 show_more_information: Show more information
-view_search:
-  feedback:
-    give: Send feedback to search
-    open: Open the feedback-form for feedback about the search
-  max_results: please narrow the search further
-  runtime: Runtime
-  search_for: Search for
 view_view:
   header:
     calendar: Open calendar
