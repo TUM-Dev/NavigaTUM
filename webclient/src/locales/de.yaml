@@ -10,7 +10,6 @@ core_js:
     view_load_timeout: "Seite konnte nicht geladen werden: Timeout"
 meta:
   description: Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden.
-  logo_alt: Das Logo von NavigaTUM
 search:
   action: Go
   approx: ca.

@@ -10,7 +10,6 @@ core_js:
     view_load_timeout: "Page could not be loaded: Timeout"
 meta:
   description: Navigate around TUM with excellence. This is a website to find rooms, buildings and other places at TUM easier than the current RoomFinder, developed by students.
-  logo_alt: The Logo of NavigaTUM
 search:
   action: Go
   approx: approx.

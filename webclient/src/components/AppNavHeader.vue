@@ -4,7 +4,7 @@
       <div class="columns">
         <div class="column hide-lg">
           <RouterLink to="/">
-            <img :alt="$t('meta.logo_alt')" src="@/assets/logos/navigatum.svg" id="logo" />
+            <img alt="Navigatum Logo" src="@/assets/logos/navigatum.svg" id="logo" />
             <!-- 7px for logo1 -->
           </RouterLink>
         </div>
