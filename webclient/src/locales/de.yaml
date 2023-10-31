@@ -8,33 +8,9 @@ core_js:
     status: "Unerwarteter Status-Code: "
     unknown: Unbekannter Fehler
     view_load_timeout: "Seite konnte nicht geladen werden: Timeout"
-footer:
-  about:
-    link: ueber-uns
-    text: Über uns
-  api:
-    link: api
-    text: API
-  feedback:
-    open: Feedback Form öffnen
-    text: Feedback senden
-  imprint:
-    link: impressum
-    text: Impressum
-  language: Sprache
-  official_roomfinder: Offizieller Roomfinder
-  privacy:
-    link: datenschutz
-    text: Datenschutz
-  sourcecode:
-    text: Source Code
-  theme: Theme
-  theme_dark: dunkel
-  theme_light: hell
 meta:
   description: Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden.
   logo_alt: Das Logo von NavigaTUM
-  tum_logo_alt: Das Logo der Technischen Universität München
 search:
   action: Go
   approx: ca.

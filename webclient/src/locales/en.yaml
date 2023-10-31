@@ -8,33 +8,9 @@ core_js:
     status: "Unexpected status code: "
     unknown: Unknown Error
     view_load_timeout: "Page could not be loaded: Timeout"
-footer:
-  about:
-    link: about-us
-    text: About us
-  api:
-    link: api
-    text: API
-  feedback:
-    open: Open the feedback-form
-    text: Feedback
-  imprint:
-    link: impressum
-    text: Imprint
-  language: Language
-  official_roomfinder: Official roomfinder
-  privacy:
-    link: privacy
-    text: Privacy
-  sourcecode:
-    text: Source Code
-  theme: Theme
-  theme_dark: dark
-  theme_light: light
 meta:
   description: Navigate around TUM with excellence. This is a website to find rooms, buildings and other places at TUM easier than the current RoomFinder, developed by students.
   logo_alt: The Logo of NavigaTUM
-  tum_logo_alt: The Logo of the Technical University Munich
 search:
   action: Go
   approx: approx.
