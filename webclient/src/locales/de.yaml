@@ -28,13 +28,6 @@ search:
 show_more_information: Mehr Informationen anzeigen
 view_api:
   title: NavigaTUMs API Documentation
-view_main:
-  less: weniger
-  less_aria: weniger Gebäude anzeigen
-  more: mehr
-  more_aria: mehr Gebäude anzeigen
-  overview_map: Übersichtskarte
-  sites: Standorte
 view_md: {}
 view_search:
   feedback:

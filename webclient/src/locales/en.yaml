@@ -28,14 +28,6 @@ search:
 show_more_information: Show more information
 view_api:
   title: NavigaTUMs API Documentation
-view_main:
-  less: less
-  less_aria: show more buildings
-  more: more
-  more_aria: show more buildings
-  overview_map: Overview Map
-  sites: Sites
-view_md: {}
 view_search:
   feedback:
     give: Send feedback to search
