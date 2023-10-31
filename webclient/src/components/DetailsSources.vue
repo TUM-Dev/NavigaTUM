@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useDetailsStore } from "@/stores/details";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 
 const state = useDetailsStore();
-const { t } = useI18n({useScope:"local"});
+const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>

@@ -3,7 +3,7 @@ import { useDetailsStore } from "@/stores/details";
 import TinyModal from "@/components/TinyModal.vue";
 import { useI18n } from "vue-i18n";
 const state = useDetailsStore();
-const { t } =useI18n({useScope:"local"})
+const { t } = useI18n({ useScope: "local" });
 </script>
 <template>
   <table class="info-table">

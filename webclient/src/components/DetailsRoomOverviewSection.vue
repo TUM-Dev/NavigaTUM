@@ -2,7 +2,7 @@
 import { computed, ref } from "vue";
 import { useVirtualList } from "@vueuse/core";
 import type { components } from "@/api_types";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 type RoomsOverview = components["schemas"]["RoomsOverview"];
 type ChildEntry = components["schemas"]["ChildEntry"];
 
@@ -10,7 +10,7 @@ const props = defineProps<{
   readonly rooms?: RoomsOverview;
 }>();
 
-const { t } = useI18n({useScope: "local"});
+const { t } = useI18n({ useScope: "local" });
 const combined_list = computed(() => {
   const usages = props.rooms?.usages || [];
   const combinedList = [] as ChildEntry[];
@@ -111,11 +111,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
           <div class="panel-header">
             <div class="input-group">
               <input v-model="search" :placeholder="t('filter')" class="form-input" />
-              <button
-                class="btn btn-primary input-group-btn"
-                @click="search = ''"
-                :aria-label="t('clear_filter')"
-              >
+              <button class="btn btn-primary input-group-btn" @click="search = ''" :aria-label="t('clear_filter')">
                 <i class="icon icon-cross" />
               </button>
             </div>

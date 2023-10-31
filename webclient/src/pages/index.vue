@@ -2,7 +2,7 @@
 import { setTitle } from "@/composables/common";
 import { useFetch } from "@/composables/fetch";
 import type { components } from "@/api_types";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 type RootResponse = components["schemas"]["RootResponse"];
 
 const { t } = useI18n({ useScope: "local" });
