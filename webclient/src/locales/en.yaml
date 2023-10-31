@@ -53,12 +53,3 @@ view_view:
   roomfinder_modal:
     header: Site Plan
     img_alt: Image showing the Site Plan
-  rooms_overview:
-    any: any
-    by_usage: by usage
-    clear_filter: Clear the filter
-    filter: Filter
-    filtered: filtered
-    remove_selection: Remove selection
-    results: "{count} result | {count} results"
-    title: Rooms

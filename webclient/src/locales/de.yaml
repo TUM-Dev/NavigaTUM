@@ -53,12 +53,3 @@ view_view:
   roomfinder_modal:
     header: Lageplan
     img_alt: Bild des Lageplans
-  rooms_overview:
-    any: beliebig
-    by_usage: nach Nutzung
-    clear_filter: Filter löschen
-    filter: Filter
-    filtered: gefiltert
-    remove_selection: Auswahl löschen
-    results: 1 Ergebnis | {count} Ergebnisse
-    title: Räume
