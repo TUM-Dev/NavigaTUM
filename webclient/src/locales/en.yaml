@@ -30,11 +30,6 @@ view_view:
     calendar: Open calendar
     copy_link: Copy link
     external_link:
-      copied: Copied
-      open_in: Open in
-      other_app: Other app ...
-      share: Share
-      share_link: Share with ...
       tooltip: External links
     favorites: Add to favorites
     feedback: Report issue or suggest changes

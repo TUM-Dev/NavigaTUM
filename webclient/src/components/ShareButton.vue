@@ -25,7 +25,7 @@ function shareOptions(): UseShareOptions {
 
 <template>
   <div class="link-popover">
-    <strong>{{ $t("view_view.header.external_link.open_in") }}</strong>
+    <strong>{{ $t("open_in") }}</strong>
     <a
       class="btn"
       target="_blank"
@@ -39,14 +39,28 @@ function shareOptions(): UseShareOptions {
       >Google Maps</a
     >
     <a class="btn" :href="`geo:${coords.lat},${coords.lon}`">
-      {{ $t("view_view.header.external_link.other_app") }}
+      {{ $t("other_app") }}
     </a>
-    <strong>{{ $t("view_view.header.external_link.share") }}</strong>
+    <strong>{{ $t("share") }}</strong>
     <button class="btn" @click="share(shareOptions())" v-if="shareIsSupported">
-      {{ $t("view_view.header.external_link.share_link") }}
+      {{ $t("share_link") }}
     </button>
     <button class="btn" @click="copy()" v-if="clipboardIsSupported">
-      {{ copied ? $t("view_view.header.external_link.copied") : $t("view_view.header.copy_link") }}
+      {{ copied ? $t("copied") : $t("view_view.header.copy_link") }}
     </button>
   </div>
 </template>
+<i18n>
+de:
+  copied: Kopiert
+  open_in: Öffnen in
+  other_app: Andere App ...
+  share: Teilen
+  share_link: Teilen mit ...
+en:
+  copied: Copied
+  open_in: Open in
+  other_app: Other app ...
+  share: Share
+  share_link: Share with ...
+</i18n>
