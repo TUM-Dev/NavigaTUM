@@ -26,12 +26,6 @@ view_search:
   runtime: Runtime
   search_for: Search for
 view_view:
-  buildings_overview:
-    default_thumbnail_preview: Default-thumbnail, as no thumbnail is available
-    less: less
-    more: more
-    thumbnail_preview: Thumbnail, showing a preview of the building
-    title: Buildings / Areas
   header:
     calendar: Open calendar
     copy_link: Copy link

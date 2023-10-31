@@ -26,12 +26,6 @@ view_search:
   runtime: Laufzeit
   search_for: Suche nach
 view_view:
-  buildings_overview:
-    default_thumbnail_preview: Standard-Thumbnail, da kein Thumbnail verfügbar ist
-    less: weniger
-    more: mehr
-    thumbnail_preview: Thumbnail, das eine Vorschau des Gebäudes zeigt
-    title: Gebäude / Gebiete
   header:
     calendar: Kalender öffnen
     copy_link: Link kopieren
