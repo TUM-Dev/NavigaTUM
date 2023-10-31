@@ -201,7 +201,7 @@ footer {
 }
 </style>
 
-<i18n>
+<i18n lang="yaml">
 de:
   about:
     link: ueber-uns

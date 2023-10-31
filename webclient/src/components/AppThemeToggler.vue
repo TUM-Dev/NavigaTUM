@@ -45,7 +45,7 @@ onMounted(() => setTheme(theme.value, false));
   </div>
 </template>
 
-<i18n>
+<i18n lang="yaml">
 de:
   dark: Dunkel
   light: Hell
