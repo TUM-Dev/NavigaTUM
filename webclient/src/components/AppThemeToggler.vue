@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { saveCooke } from "@/composables/cookies";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 
 type UserTheme = "light" | "dark";
 

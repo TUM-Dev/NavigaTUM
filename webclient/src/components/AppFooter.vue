@@ -2,7 +2,7 @@
 import AppLanguageToggler from "@/components/AppLanguageToggler.vue";
 import AppThemeToggler from "@/components/AppThemeToggler.vue";
 import { useGlobalStore } from "@/stores/global";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 const global = useGlobalStore();
 const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
 const lang = (localStorage.getItem("lang") || "de") as "de" | "en";
