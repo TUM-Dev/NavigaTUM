@@ -1,7 +1,6 @@
 close: Close
 core_js:
   error:
-    "404": 404 Not found
     "500": 500 Internal Server Error
     "503": 503 Service Unavailable – Please try again soon
     network: Network Error, please verify that you are connected to the Internet
@@ -27,12 +26,6 @@ search:
     were_found: were found.
   thumbnail_alt: Thumbnail for said building
 show_more_information: Show more information
-view_404:
-  call_to_action: If you think this is a mistake, please let us know here
-  description: This could be because we made a mistake.
-  got_here: "I have found the error by:\r\n1. ..."
-  header: The requested website could not to be found.
-  open_feedback: Open the feedback-form
 view_api:
   title: NavigaTUMs API Documentation
 view_main:
