@@ -71,15 +71,6 @@ view_view:
     img_alt: Handgezeichnete Roofinder-Kartendarstellung
     img_source: Bildquelle
     interactive: Interaktive Karte
-    no_webgl:
-      explain_webgl: WebGL ist eine Technologie, die interaktive 3D-Grafiken direkt im Webbrowser ermöglicht, und leider scheint Ihr Browser diese Fähigkeit nicht zu besitzen.
-      known_good_browsers: Beliebte Browser wie Google Chrome, Mozilla Firefox und Microsoft Edge sind dafür bekannt, dass sie WebGL-Funktionen haben.
-      no_browser_support: Es tut uns leid, aber es scheint, dass Ihr Browser WebGL nicht unterstützt, was für die Anzeige der Karte erforderlich ist.
-      please_try: Um dieses Problem zu beheben und die Karte anzuzeigen, empfehlen wir, eine der folgenden Möglichkeiten auszuprobieren
-      try_different_browser: Alternativ können Sie auch einen anderen Browser verwenden, der WebGL unterstützt.
-      try_different_browser2: Versuchen Sie, einen dieser Browser zu installieren und die Karte erneut aufzurufen.
-      upgrade_browser: Aktualisieren Sie Ihren aktuellen Browser auf die neueste Version, da neuere Versionen oft Unterstützung für WebGL enthalten.
-      visit_official_website_to_upgrade_browser: Sie können die offizielle Website Ihres Browsers besuchen, um das neueste Update herunterzuladen und zu installieren.
     open_detailed_modal: Ein größeres Popup der Karte anzeigen
     roomfinder: Lagepläne
     roomfinder_crosshair: Kreuz, das anzeigt, wo sich der Raum auf dem handgezeichneten Raumfinderkartenbild befindet
