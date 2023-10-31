@@ -1,12 +1,4 @@
 close: Close
-core_js:
-  error:
-    "500": 500 Internal Server Error
-    "503": 503 Service Unavailable – Please try again soon
-    network: Network Error, please verify that you are connected to the Internet
-    status: "Unexpected status code: "
-    unknown: Unknown Error
-    view_load_timeout: "Page could not be loaded: Timeout"
 meta:
   description: Navigate around TUM with excellence. This is a website to find rooms, buildings and other places at TUM easier than the current RoomFinder, developed by students.
 search:

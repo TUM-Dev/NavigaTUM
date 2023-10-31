@@ -1,12 +1,4 @@
 close: Schließen
-core_js:
-  error:
-    "500": 500 Interner Serverfehler
-    "503": 503 Dienst nicht verfügbar – Bitte probiere es in Kürze wieder
-    network: Netzwerkfehler, bitte überprüfe, dass du mit dem Internet verbunden bist.
-    status: "Unerwarteter Status-Code: "
-    unknown: Unbekannter Fehler
-    view_load_timeout: "Seite konnte nicht geladen werden: Timeout"
 meta:
   description: Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden.
 search:
