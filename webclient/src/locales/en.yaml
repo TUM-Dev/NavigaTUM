@@ -1,4 +1,3 @@
-close: Close
 meta:
   description: Navigate around TUM with excellence. This is a website to find rooms, buildings and other places at TUM easier than the current RoomFinder, developed by students.
 view_view:
@@ -12,17 +11,10 @@ view_view:
     image_alt: Header-Image, showing the building
   info_title: Information
   map:
-    img_alt: Hand-drawn roomfinder map image
-    img_source: Image source
     interactive: Interactive Map
-    open_detailed_modal: Show a larger popup of the map
     roomfinder: Site Plans
-    roomfinder_crosshair: Cross showing where the room is located on the hand-drawn roomfinder map image
   meta:
     details_for: Details for
   msg:
     inaccurate_only_building: The displayed position only shows the position of the building(part). The exact position within the building is not known to us.
     no_floor_overlay: There is unfortunately no indoor map for the displayed room.
-  roomfinder_modal:
-    header: Site Plan
-    img_alt: Image showing the Site Plan

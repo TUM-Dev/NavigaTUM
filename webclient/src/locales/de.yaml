@@ -1,4 +1,3 @@
-close: Schließen
 meta:
   description: Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden.
 view_view:
@@ -12,17 +11,10 @@ view_view:
     image_alt: Header-Bild, zeigt das Gebäude
   info_title: Informationen
   map:
-    img_alt: Handgezeichnete Roofinder-Kartendarstellung
-    img_source: Bildquelle
     interactive: Interaktive Karte
-    open_detailed_modal: Ein größeres Popup der Karte anzeigen
     roomfinder: Lagepläne
-    roomfinder_crosshair: Kreuz, das anzeigt, wo sich der Raum auf dem handgezeichneten Raumfinderkartenbild befindet
   meta:
     details_for: Details für
   msg:
     inaccurate_only_building: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
     no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
-  roomfinder_modal:
-    header: Lageplan
-    img_alt: Bild des Lageplans
