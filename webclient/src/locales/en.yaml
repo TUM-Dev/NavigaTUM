@@ -1,7 +1,6 @@
 close: Close
 meta:
   description: Navigate around TUM with excellence. This is a website to find rooms, buildings and other places at TUM easier than the current RoomFinder, developed by students.
-show_more_information: Show more information
 view_view:
   header:
     calendar: Open calendar

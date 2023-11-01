@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useToggle, useBreakpoints } from "@vueuse/core";
+import {useI18n} from "vue-i18n";
 const props = defineProps<{
   content: {
     title?: string;
@@ -8,6 +9,7 @@ const props = defineProps<{
   };
 }>();
 
+const { t } = useI18n({ useScope: "local" });
 const breakpoints = useBreakpoints({ xs: 0, sm: 601, md: 841, lg: 961, xl: 1281 });
 const showPopoverInstead = breakpoints.greaterOrEqual("md");
 const [modalOpen, toggleModal] = useToggle(false);
@@ -31,15 +33,15 @@ const [modalOpen, toggleModal] = useToggle(false);
     </div>
   </div>
   <template v-else>
-    <a class="c-hand" @click="toggleModal()" :aria-label="$t('show_more_information')">
+    <a class="c-hand" @click="toggleModal()" :aria-label="t('show_more_information')">
       <slot name="icon" />
     </a>
     <Teleport to="body" v-if="modalOpen">
       <div class="modal active">
-        <a class="modal-overlay" :aria-label="$t('close')" @click="toggleModal()" />
+        <a class="modal-overlay" :aria-label="t('close')" @click="toggleModal()" />
         <div class="modal-container">
           <div class="modal-header">
-            <button class="btn btn-clear float-right" :aria-label="$t('close')" @click="toggleModal()" />
+            <button class="btn btn-clear float-right" :aria-label="t('close')" @click="toggleModal()" />
             <div v-if="props.content.title" class="modal-title h5">{{ props.content.title }}</div>
           </div>
           <div class="modal-body">
@@ -53,3 +55,12 @@ const [modalOpen, toggleModal] = useToggle(false);
     </Teleport>
   </template>
 </template>
+
+<i18n lang="yaml">
+de:
+  show_more_information: Mehr Informationen anzeigen
+  close: Schließen
+en:
+  show_more_information: Show more information
+  close: Close
+</i18n>
