@@ -24,7 +24,7 @@ Please follow the [system dependencys docs](/resources/documentation/Dependencys
 ### Installing Dependency's
 
 ```bash
-npm install
+pnpm install
 ```
 
 ## Run
@@ -46,19 +46,19 @@ By default, the webclient will connect to the server on `http://localhost:8080`.
 If you want to connect to the public API instead, change `VITE_APP_URL` in [`env/.env`](./env/.env) to `https://nav.tum.de`.
 
 ```sh
-npm run dev
+pnpm run dev
 ```
 
 ### Type-Check, Compile and Minify for Production
 
 ```sh
-npm run build
+pnpm run build
 ```
 
 ### Linting with [ESLint](https://eslint.org/)
 
 ```sh
-npm run lint
+pnpm run lint
 ```
 
 ### Update the API's type definitions
@@ -67,7 +67,7 @@ From the folder of this README, run:
 
 ```sh
 npx openapi-typescript ../openapi.yaml --output ./src/api_types/index.ts --export-type --immutable-types --support-array-length
-npm run lint
+pnpm run lint
 ```
 
 ## Build files & Serving release build
@@ -135,7 +135,7 @@ There are a few ways of running cypress
 For running headless, it is assumed, that you are on a normal machine (not a mac) and have [Chrome](https://www.google.com/intl/de/chrome/) + [Firefox Developer Edition](https://www.mozilla.org/de/firefox/developer/) installed.
 
 ```bash
-npm run test
+pnpm run test
 ```
 
 There are also some subtargets preconfigured like `cy:run:chrome` and `cy:run:firefox`, but likely for debugging you want the second mode.
@@ -145,7 +145,7 @@ There are also some subtargets preconfigured like `cy:run:chrome` and `cy:run:fi
 The interface for interacting with cypress can be opened via
 
 ```bash
-npm run cy:open
+pnpm run cy:open
 ```
 
 ### Writing Tests
