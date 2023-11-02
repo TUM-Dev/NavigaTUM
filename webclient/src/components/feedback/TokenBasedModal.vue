@@ -80,7 +80,7 @@ function sendForm() {
 
   // validate the foreign form
   if (global.feedback.data.subject.length < 3) {
-    error.message = t("error.too_short_subject");
+    error.message = t("error.form.too_short_subject");
     return;
   }
   if (global.feedback.data.body.length < 10) {
