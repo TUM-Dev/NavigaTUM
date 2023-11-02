@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import { useGlobalStore } from "@/stores/global";
 import { useRoute } from "vue-router";
+import {useI18n} from "vue-i18n";
 
 const route = useRoute();
 const global = useGlobalStore();
+const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
   <button
     class="btn btn-link btn-action btn-sm"
-    :title="$t('view_view.header.feedback')"
+    :title="t('feedback')"
     @click="global.openFeedback('entry', `[${route.params.id}]: `)"
     data-cy="open-feedback-details"
   >
     <i class="icon icon-flag" />
   </button>
 </template>
+<i18n lang="yaml">
+de:
+  feedback: Problem melden oder Änderung vorschlagen
+en:
+  feedback: Report issue or suggest changes
+</i18n>

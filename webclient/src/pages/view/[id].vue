@@ -53,7 +53,7 @@ const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 
 function genDescription(d: DetailsResponse) {
-  const detailsFor = t("view_view.meta.details_for");
+  const detailsFor = t("details_for");
   let description = `${detailsFor} ${d.type_common_name} ${d.name}`;
   if (d.props.computed) {
     description += ":";
@@ -120,7 +120,7 @@ onMounted(() => {
       v-if="state.image.shown_image"
     >
       <img
-        :alt="$t('view_view.header.image_alt')"
+        :alt="t('image_alt')"
         :src="'/cdn/header/' + state.image.shown_image.name"
         class="img-responsive"
       />
@@ -148,7 +148,7 @@ onMounted(() => {
         <div class="hide-sm" v-if="clipboardIsSupported">
           <button
             class="btn btn-link btn-action btn-sm"
-            :title="$t('view_view.header.copy_link')"
+            :title="t('header.copy_link')"
             @click="copy(`https://nav.tum.de${route.fullPath}`)"
           >
             <i class="icon icon-check" v-if="copied" />
@@ -170,7 +170,7 @@ onMounted(() => {
               class="btn btn-link btn-action btn-sm"
               :href="state.data.props.calendar_url"
               target="_blank"
-              :title="$t('view_view.header.calendar')"
+              :title="t('header.calendar')"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +191,7 @@ onMounted(() => {
           </template>
           <button
             class="btn btn-link btn-action btn-sm"
-            :title="$t('view_view.header.external_link.tooltip')"
+            :title="t('header.external_link')"
             onclick="this.focus()"
           >
             <!-- The onclick handler is a fix for Safari -->
@@ -213,7 +213,7 @@ onMounted(() => {
           <ShareButton :coords="state.data.coords" :name="state.data.name" />
           <DetailsFeedbackButton ref="feedbackButton" />
           <!--<button class="btn btn-link btn-action btn-sm"
-                  :title="$t('view_view.header.favorites')">
+                  :title="t('header.favorites')">
             <i class="icon icon-bookmark" />
           </button>-->
         </div>
@@ -230,7 +230,7 @@ onMounted(() => {
             class="toast toast-warning"
             v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
           >
-            {{ $t("view_view.msg.no_floor_overlay") }}
+            {{ t("no_floor_overlay") }}
           </div>
           <div class="toast" v-if="state.data?.props?.comment">
             {{ state.data.props.comment }}
@@ -247,7 +247,7 @@ onMounted(() => {
               active: state.map.selected === selectedMap.interactive,
             }"
           >
-            {{ $t("view_view.map.interactive") }}
+            {{ t("map.interactive") }}
           </button>
           <button
             class="btn btn-sm"
@@ -257,7 +257,7 @@ onMounted(() => {
             }"
             :disabled="!state.data.maps.roomfinder?.available"
           >
-            {{ $t("view_view.map.roomfinder") }}
+            {{ t("map.roomfinder") }}
           </button>
         </div>
         <div class="divider" style="margin-top: 10px" />
@@ -323,7 +323,7 @@ onMounted(() => {
 
     .subtitle {
       span {
-        color: $text-gray;
+        color: text-gray;
       }
 
       button svg {
@@ -423,7 +423,7 @@ onMounted(() => {
 @keyframes delay-btn {
   from {
     pointer-events: none;
-    color: $text-gray;
+    color: text-gray;
   }
 
   to {
@@ -432,3 +432,30 @@ onMounted(() => {
   }
 }
 </style>
+
+<i18n lang="yaml">
+de:
+  image_alt: Header-Bild, zeigt das Gebäude
+  details_for: Details für
+  map:
+    interactive: Interaktive Karte
+    roomfinder: Lagepläne
+    no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
+  header:
+    calendar: Kalender öffnen
+    copy_link: Link kopieren
+    external_link: Externe Links
+    favorites: Zu Favoriten hinzufügen
+en:
+  image_alt: Header image, showing the building
+  details_for: Details for
+  map:
+    interactive: Interactive Map
+    roomfinder: Site Plans
+  no_floor_overlay: There is unfortunately no indoor map for the displayed room.
+  header:
+    calendar: Open calendar
+    copy_link: Copy link
+    external_link: External links
+    favorites: Add to favorites
+</i18n>
