@@ -4,19 +4,12 @@ import { createPinia } from "pinia";
 import App from "@/App.vue";
 import router from "@/router";
 import { createI18n } from "vue-i18n";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import de from "@/locales/de.yaml";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import en from "@/locales/en.yaml";
 import * as Sentry from "@sentry/vue";
-import { BrowserTracing } from "@sentry/tracing";
 
-const i18n = createI18n<[typeof en], "de" | "en", false>({
+const i18n = createI18n<Record<string, never>, "de" | "en", false>({
   legacy: false,
   locale: localStorage.getItem("lang") || "de",
-  messages: { en, de },
+  messages: { de: {}, en: {} },
   globalInjection: true,
   missingWarn: true,
   warnHtmlMessage: true,
@@ -32,15 +25,14 @@ if (import.meta.env.PROD) {
     dsn: "https://4e10b1156a2f4320acaac22148c8a568@glitchtip.nav.tum.sexy/2",
     integrations: [
       new Sentry.Replay(),
-      new BrowserTracing({
+      new Sentry.BrowserTracing({
         routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-        tracePropagationTargets: ["nav.tum.de"],
       }),
     ],
     replaysSessionSampleRate: 0,
     replaysOnErrorSampleRate: 1.0,
-    tracesSampleRate: 1.0,
-    // 1.0 =>  capturing 100% of transactions
+    tracesSampleRate: 1.0, // 1.0 =>  capturing 100% of transactions
+    tracePropagationTargets: ["nav.tum.de"],
   });
 }
 

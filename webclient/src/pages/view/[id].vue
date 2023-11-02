@@ -19,7 +19,7 @@ import router from "@/router";
 import type { components } from "@/api_types";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
-const { t } = useI18n({ inheritLocale: true, useScope: "global" });
+const { t } = useI18n({ useScope: "local" });
 
 const route = useRoute();
 
@@ -432,7 +432,7 @@ de:
   map:
     interactive: Interaktive Karte
     roomfinder: Lagepläne
-    no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
+  no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
   header:
     calendar: Kalender öffnen
     copy_link: Link kopieren
