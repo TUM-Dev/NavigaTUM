@@ -4,7 +4,7 @@ import { useClipboard, useShare } from "@vueuse/core";
 import type { UseShareOptions } from "@vueuse/core";
 import type { components } from "@/api_types";
 import { useRoute } from "vue-router";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
   readonly coords: components["schemas"]["Coordinate"];
@@ -13,7 +13,7 @@ const props = defineProps<{
 
 const route = useRoute();
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
-const { t } = useI18n({useScope: "local"})
+const { t } = useI18n({ useScope: "local" });
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 const { share, isSupported: shareIsSupported } = useShare();
 function shareOptions(): UseShareOptions {
