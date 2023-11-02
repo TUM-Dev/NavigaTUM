@@ -118,20 +118,20 @@ function sendForm() {
               <i class="form-icon" />
               <b>
                 <span>
-                {{ t("public.agreement.pre") }}
+                  {{ t("public.agreement.pre") }}
                   <a href="https://github.com/TUM-Dev/navigatum/issues" target="_blank">
                     {{ t("public.github_project_issues") }}
                   </a>
-                {{ t("public.agreement.post") }}
+                  {{ t("public.agreement.post") }}
                 </span>
               </b>
               <br />
               <span>
-                    {{ t("public.disclaimer.pre") }}
-                  <a href="https://docs.github.com/en/github/site-policy" target="_blank">
-                    {{ t("public.github_site_policy") }}
-                  </a>
-                    {{ t("public.disclaimer.post") }}
+                {{ t("public.disclaimer.pre") }}
+                <a href="https://docs.github.com/en/github/site-policy" target="_blank">
+                  {{ t("public.github_site_policy") }}
+                </a>
+                {{ t("public.disclaimer.post") }}
               </span>
               <span>
                 {{ t("public.processing_based_on_gdpr") }}
@@ -141,11 +141,11 @@ function sendForm() {
                 {{ t("public.right_of_appeal") }}
               </span>
               <span>
-{{ t("public.objection_instruction.pre") }}
-                  <RouterLink to="/about/impressum">
-                    {{ t("public.imprint") }}
-                  </RouterLink>
-{{ t("public.objection_instruction.post") }}
+                {{ t("public.objection_instruction.pre") }}
+                <RouterLink to="/about/impressum">
+                  {{ t("public.imprint") }}
+                </RouterLink>
+                {{ t("public.objection_instruction.post") }}
               </span>
               <span>
                 {{ t("public.question_contact") }}

@@ -37,7 +37,7 @@ if (import.meta.env.PROD) {
     ],
     replaysSessionSampleRate: 0,
     replaysOnErrorSampleRate: 1.0,
-    tracesSampleRate: 1.0,// 1.0 =>  capturing 100% of transactions
+    tracesSampleRate: 1.0, // 1.0 =>  capturing 100% of transactions
     tracePropagationTargets: ["nav.tum.de"],
   });
 }
