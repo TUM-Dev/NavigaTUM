@@ -79,19 +79,17 @@ button {
   margin-top: 8px;
 }
 </style>
-<i18n>
+<i18n lang="yaml">
 de:
-  buildings_overview:
-    default_thumbnail_preview: Standard-Thumbnail, da kein Thumbnail verfügbar ist
-    less: weniger
-    more: mehr
-    thumbnail_preview: Thumbnail, das eine Vorschau des Gebäudes zeigt
-    title: Gebäude / Gebiete
+  default_thumbnail_preview: Standard-Thumbnail, da kein Thumbnail verfügbar ist
+  less: weniger
+  more: mehr
+  thumbnail_preview: Thumbnail, das eine Vorschau des Gebäudes zeigt
+  title: Gebäude / Gebiete
 en:
-  buildings_overview:
-    default_thumbnail_preview: Default-thumbnail, as no thumbnail is available
-    less: less
-    more: more
-    thumbnail_preview: Thumbnail, showing a preview of the building
-    title: Buildings / Areas
+  default_thumbnail_preview: Default-thumbnail, as no thumbnail is available
+  less: less
+  more: more
+  thumbnail_preview: Thumbnail, showing a preview of the building
+  title: Buildings / Areas
 </i18n>
