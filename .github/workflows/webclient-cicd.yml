@@ -22,9 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
       - uses: actions/setup-node@v4
-        with:
-          cache: 'npm'
-          cache-dependency-path: 'webclient/package-lock.json'
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
