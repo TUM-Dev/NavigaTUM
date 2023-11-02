@@ -2,8 +2,10 @@
 import { setTitle } from "@/composables/common";
 import { useFetch } from "@/composables/fetch";
 import type { components } from "@/api_types";
+import { useI18n } from "vue-i18n";
 type RootResponse = components["schemas"]["RootResponse"];
 
+const { t } = useI18n({ useScope: "local" });
 const { data } = useFetch<RootResponse>(`/api/get/root`, (d) => setTitle(d.name));
 function more(id: string) {
   document.getElementById(`panel-${id}`)?.classList.add("open");
@@ -17,9 +19,9 @@ function less(id: string) {
   <div id="view-main" v-if="data">
     <div class="columns" style="margin-top: 25px">
       <div class="column">
-        <h5>{{ $t("view_main.sites") }}</h5>
+        <h5>{{ t("sites") }}</h5>
       </div>
-      <!--<div class="column col-auto"><a href="#"><i class="icon icon-location" /> {{ $t("view_main.overview_map") }}</a></div>-->
+      <!--<div class="column col-auto"><a href="#"><i class="icon icon-location" /> {{ t("overview_map") }}</a></div>-->
     </div>
     <div class="columns">
       <div class="column col-6 col-xs-12" v-for="site in data.sites_overview" :key="site.id">
@@ -73,16 +75,16 @@ function less(id: string) {
             </RouterLink>
             <button
               class="btn btn-link btn-more"
-              :aria-label="$t('view_main.more_aria')"
+              :aria-label="t('more_aria')"
               @click="more(site.id)"
               v-if="site.children.length > site.n_visible"
             >
               <i class="icon icon-arrow-right" />
-              {{ $t("view_main.more") }}
+              {{ t("more") }}
             </button>
-            <button class="btn btn-link btn-less" :aria-label="$t('view_main.less_aria')" @click="less(site.id)">
+            <button class="btn btn-link btn-less" :aria-label="t('less_aria')" @click="less(site.id)">
               <i class="icon icon-arrow-up" />
-              {{ $t("view_main.less") }}
+              {{ t("less") }}
             </button>
           </div>
         </div>
@@ -191,3 +193,19 @@ function less(id: string) {
   }
 }
 </style>
+<i18n lang="yaml">
+de:
+  less: weniger
+  less_aria: weniger Gebäude anzeigen
+  more: mehr
+  more_aria: mehr Gebäude anzeigen
+  overview_map: Übersichtskarte
+  sites: Standorte
+en:
+  less: less
+  less_aria: show more buildings
+  more: more
+  more_aria: show more buildings
+  overview_map: Overview Map
+  sites: Sites
+</i18n>

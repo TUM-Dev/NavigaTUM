@@ -4,18 +4,12 @@ import { createPinia } from "pinia";
 import App from "@/App.vue";
 import router from "@/router";
 import { createI18n } from "vue-i18n";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import de from "@/locales/de.yaml";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import en from "@/locales/en.yaml";
 import * as Sentry from "@sentry/vue";
 
-const i18n = createI18n<[typeof en], "de" | "en", false>({
+const i18n = createI18n<Record<string, never>, "de" | "en", false>({
   legacy: false,
   locale: localStorage.getItem("lang") || "de",
-  messages: { en, de },
+  messages: { de: {}, en: {} },
   globalInjection: true,
   missingWarn: true,
   warnHtmlMessage: true,

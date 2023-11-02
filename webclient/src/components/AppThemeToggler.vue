@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { saveCooke } from "@/composables/cookies";
+import { useI18n } from "vue-i18n";
 
 type UserTheme = "light" | "dark";
 
@@ -19,7 +20,7 @@ function getMediaPreference(): UserTheme {
   return hasDarkPreference ? "dark" : "light";
 }
 const theme = ref<UserTheme>(getTheme() || getMediaPreference());
-
+const { t } = useI18n({ useScope: "local" });
 onMounted(() => setTheme(theme.value, false));
 </script>
 
@@ -31,7 +32,7 @@ onMounted(() => setTheme(theme.value, false));
       :class="{ active: theme === 'light' }"
       v-bind="{ disabled: theme === 'light' }"
     >
-      {{ $t("footer.theme_light") }}
+      {{ t("light") }}
     </button>
     <button
       class="btn btn-sm"
@@ -39,7 +40,16 @@ onMounted(() => setTheme(theme.value, false));
       :class="{ active: theme === 'dark' }"
       v-bind="{ disabled: theme === 'dark' }"
     >
-      {{ $t("footer.theme_dark") }}
+      {{ t("dark") }}
     </button>
   </div>
 </template>
+
+<i18n lang="yaml">
+de:
+  dark: Dunkel
+  light: Hell
+en:
+  dark: Dark
+  light: Light
+</i18n>

@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import { useDetailsStore } from "@/stores/details";
+import { useI18n } from "vue-i18n";
+
 const state = useDetailsStore();
+const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
   <Teleport to="body" v-if="state.data?.imgs">
     <div class="modal modal-lg active" id="modal-slideshow">
-      <a class="modal-overlay" :aria-label="$t('close')" @click="state.hideImageSlideshow" />
+      <a class="modal-overlay" :aria-label="t('close')" @click="state.hideImageSlideshow" />
       <div class="modal-container modal-fullheight">
         <div class="modal-header">
-          <button class="btn btn-clear float-right" :aria-label="$t('close')" @click="state.hideImageSlideshow" />
-          <h5 class="modal-title">{{ $t("view_view.slideshow.header") }}</h5>
+          <button class="btn btn-clear float-right" :aria-label="t('close')" @click="state.hideImageSlideshow" />
+          <h5 class="modal-title">{{ t("header") }}</h5>
         </div>
         <div class="modal-body">
           <div class="content">
@@ -57,7 +60,7 @@ const state = useDetailsStore();
                   <div itemscope itemtype="http://schema.org/ImageObject">
                     <img
                       itemprop="contentUrl"
-                      :alt="$t('view_view.slideshow.image_alt')"
+                      :alt="t('image_alt')"
                       loading="lazy"
                       :src="'/cdn/lg/' + img.name"
                       :srcset="`/cdn/sm/${img.name} 1024w,/cdn/md/${img.name} 1920w,/cdn/lg/${img.name} 3860w`"
@@ -86,21 +89,21 @@ const state = useDetailsStore();
         <div class="modal-footer" v-if="state.image.shown_image">
           <div class="columns">
             <div class="column col-4 col-sm-6 col-md-6 text-left">
-              <h6>{{ $t("view_view.slideshow.source") }}</h6>
+              <h6>{{ t("source") }}</h6>
               <a v-if="state.image.shown_image.source.url" :href="state.image.shown_image.source.url">
                 {{ state.image.shown_image.source.text }}
               </a>
               <template v-else>{{ state.image.shown_image.source.text }}</template>
             </div>
             <div class="column col-4 col-sm-6 col-md-6 text-center text-md-right">
-              <h6>{{ $t("view_view.slideshow.author") }}</h6>
+              <h6>{{ t("author") }}</h6>
               <a v-if="state.image.shown_image.author.url" :href="state.image.shown_image.author.url">
                 {{ state.image.shown_image.author.text }}
               </a>
               <template v-else>{{ state.image.shown_image.author.text }}</template>
             </div>
             <div class="column col-4 col-sm-12 col-md-12 text-md-center mt-md-3">
-              <h6>{{ $t("view_view.slideshow.license") }}</h6>
+              <h6>{{ t("license") }}</h6>
               <a v-if="state.image.shown_image.license.url" :href="state.image.shown_image.license.url">
                 {{ state.image.shown_image.license.text }}
               </a>
@@ -130,3 +133,19 @@ const state = useDetailsStore();
   }
 }
 </style>
+<i18n lang="yaml">
+de:
+  close: Schließen
+  author: Autor
+  header: Bilder-Showcase
+  image_alt: Ein Bild welches das Gebäude zeigt
+  license: Lizenz
+  source: Quelle
+en:
+  close: Close
+  author: Author
+  header: Image Showcase
+  image_alt: Image showing the building
+  license: License
+  source: Source
+</i18n>

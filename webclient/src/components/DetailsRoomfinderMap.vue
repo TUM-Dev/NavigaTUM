@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { selectedMap, useDetailsStore } from "@/stores/details";
+import { useI18n } from "vue-i18n";
 
 const state = useDetailsStore();
+const { t } = useI18n({ useScope: "local" });
 
 defineExpose({
   loadRoomfinderMap,
@@ -65,7 +67,7 @@ function delayedLoadRoomfinderModalMap() {
   <a
     @click="state.map.roomfinder.modal_open = true"
     v-on:click="delayedLoadRoomfinderModalMap"
-    :aria-label="$t('view_view.map.open_detailed_modal')"
+    :aria-label="t('roomfinder.open_detailed_modal')"
   >
     <div
       class="roomfinder-map-container"
@@ -73,15 +75,15 @@ function delayedLoadRoomfinderModalMap() {
       v-if="state.data?.maps.roomfinder?.available"
     >
       <img
-        :alt="$t('view_view.map.roomfinder_crosshair')"
+        :alt="t('roomfinder.crosshair')"
         src="@/assets/map/roomfinder_cross-v2.webp"
         :style="{
-          transform: 'translate(' + state.map.roomfinder.x + 'px, ' + state.map.roomfinder.y + 'px)',
+          transform: `translate(${state.map.roomfinder.x}px, ${state.map.roomfinder.y}px)`,
         }"
         id="roomfinder-map-cross"
       />
       <img
-        :alt="$t('view_view.map.img_alt')"
+        :alt="t('img_alt')"
         :src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap().file"
         class="img-responsive"
         :width="state.map.roomfinder.width"
@@ -89,7 +91,7 @@ function delayedLoadRoomfinderModalMap() {
         id="roomfinder-map-img"
       />
       <div>
-        {{ $t("view_view.map.img_source") }}:
+        {{ t("img_source") }}:
         {{ state.selectedRoomfinderMap().source }}
       </div>
     </div>
@@ -130,20 +132,20 @@ function delayedLoadRoomfinderModalMap() {
     :class="{ active: state.map.roomfinder.modal_open }"
     v-if="state.data?.maps.roomfinder?.available"
   >
-    <a class="modal-overlay" :aria-label="$t('close')" @click="state.map.roomfinder.modal_open = false" />
+    <a class="modal-overlay" :aria-label="t('close')" @click="state.map.roomfinder.modal_open = false" />
     <div class="modal-container modal-fullheight" id="roomfinder-modal-container">
       <div class="modal-header">
         <button
           class="btn btn-clear float-right"
-          :aria-label="$t('close')"
+          :aria-label="t('close')"
           @click="state.map.roomfinder.modal_open = false"
         />
-        <h5 class="modal-title">{{ $t("view_view.roomfinder_modal.header") }}</h5>
+        <h5 class="modal-title">{{ t("roomfinder.modal.header") }}</h5>
       </div>
       <div class="modal-body">
         <div class="roomfinder-map-container">
           <img
-            :alt="$t('view_view.map.roomfinder_crosshair')"
+            :alt="t('roomfinder.crosshair')"
             src="@/assets/map/roomfinder_cross-v2.webp"
             :style="{
               transform: `translate(${state.map.roomfinder.modalX}px, ${state.map.roomfinder.modalY}px)`,
@@ -151,7 +153,7 @@ function delayedLoadRoomfinderModalMap() {
             id="roomfinder-modal-map-cross"
           />
           <img
-            :alt="$t('view_view.roomfinder_modal.img_alt')"
+            :alt="t('roomfinder.modal.img_alt')"
             :src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap().file"
             class="img-responsive"
             :width="state.map.roomfinder.width"
@@ -159,7 +161,7 @@ function delayedLoadRoomfinderModalMap() {
             id="roomfinder-modal-map-img"
           />
           <div>
-            {{ $t("view_view.map.img_source") }}:
+            {{ t("img_source") }}:
             {{ state.selectedRoomfinderMap().source }}
           </div>
         </div>
@@ -238,3 +240,25 @@ function delayedLoadRoomfinderModalMap() {
   }
 }
 </style>
+<i18n lang="yaml">
+de:
+  close: Schließen
+  img_source: Bildquelle
+  img_alt: Handgezeichnete Roofinder-Kartendarstellung
+  roomfinder:
+    open_detailed_modal: Show a larger popup of the map
+    modal:
+      header: Lageplan
+      img_alt: Bild des Lageplans
+    crosshair: Kreuz, das anzeigt, wo sich der Raum auf dem handgezeichneten Raumfinderkartenbild befindet
+en:
+  close: Close
+  img_source: Image source
+  img_alt: Hand-drawn roomfinder map image
+  roomfinder:
+    open_detailed_modal: Ein größeres Popup der Karte anzeigen
+    modal:
+      header: Site Plan
+      img_alt: Image showing the Site Plan
+    crosshair: Cross showing where the room is located on the hand-drawn roomfinder map image
+</i18n>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useToggle } from "@vueuse/core";
 import type { components } from "@/api_types";
+import { useI18n } from "vue-i18n";
 type BuildingsOverview = components["schemas"]["BuildingsOverview"];
 
 const props = defineProps<{
@@ -8,13 +9,14 @@ const props = defineProps<{
 }>();
 
 const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);
+const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
   <section v-if="props.buildings">
     <div class="columns">
       <div class="column">
-        <h2>{{ $t("view_view.buildings_overview.title") }}</h2>
+        <h2>{{ t("title") }}</h2>
       </div>
       <!--<div class="column col-auto">
           <a href="#">Übersichtskarte <i class="icon icon-forward" /></a>
@@ -27,16 +29,8 @@ const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);
             <div class="tile tile-centered">
               <div class="tile-icon">
                 <figure class="avatar avatar-lg">
-                  <img
-                    v-if="b.thumb"
-                    :alt="$t('view_view.buildings_overview.thumbnail_preview')"
-                    :src="'/cdn/thumb/' + b.thumb"
-                  />
-                  <img
-                    v-else
-                    :alt="$t('view_view.buildings_overview.default_thumbnail_preview')"
-                    src="@/assets/thumb-building.webp"
-                  />
+                  <img v-if="b.thumb" :alt="t('thumbnail_preview')" :src="'/cdn/thumb/' + b.thumb" />
+                  <img v-else :alt="t('default_thumbnail_preview')" src="@/assets/thumb-building.webp" />
                 </figure>
               </div>
               <div class="tile-content">
@@ -57,11 +51,11 @@ const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);
       <button class="btn btn-link" @click="toggleBuildingsExpanded()">
         <template v-if="buildingsExpanded">
           <i class="icon icon-arrow-up" />
-          {{ $t("view_view.buildings_overview.less") }}
+          {{ t("less") }}
         </template>
         <template v-else>
           <i class="icon icon-arrow-right" />
-          {{ $t("view_view.buildings_overview.more") }}
+          {{ t("more") }}
         </template>
       </button>
     </div>
@@ -85,3 +79,17 @@ button {
   margin-top: 8px;
 }
 </style>
+<i18n lang="yaml">
+de:
+  default_thumbnail_preview: Standard-Thumbnail, da kein Thumbnail verfügbar ist
+  less: weniger
+  more: mehr
+  thumbnail_preview: Thumbnail, das eine Vorschau des Gebäudes zeigt
+  title: Gebäude / Gebiete
+en:
+  default_thumbnail_preview: Default-thumbnail, as no thumbnail is available
+  less: less
+  more: more
+  thumbnail_preview: Thumbnail, showing a preview of the building
+  title: Buildings / Areas
+</i18n>
