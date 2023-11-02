@@ -119,11 +119,7 @@ onMounted(() => {
       @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
       v-if="state.image.shown_image"
     >
-      <img
-        :alt="t('image_alt')"
-        :src="'/cdn/header/' + state.image.shown_image.name"
-        class="img-responsive"
-      />
+      <img :alt="t('image_alt')" :src="'/cdn/header/' + state.image.shown_image.name" class="img-responsive" />
     </a>
 
     <!-- Breadcrumbs -->
@@ -189,11 +185,7 @@ onMounted(() => {
               </svg>
             </a>
           </template>
-          <button
-            class="btn btn-link btn-action btn-sm"
-            :title="t('header.external_link')"
-            onclick="this.focus()"
-          >
+          <button class="btn btn-link btn-action btn-sm" :title="t('header.external_link')" onclick="this.focus()">
             <!-- The onclick handler is a fix for Safari -->
             <svg
               xmlns="http://www.w3.org/2000/svg"

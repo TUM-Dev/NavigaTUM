@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useToggle, useBreakpoints } from "@vueuse/core";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 const props = defineProps<{
   content: {
     title?: string;

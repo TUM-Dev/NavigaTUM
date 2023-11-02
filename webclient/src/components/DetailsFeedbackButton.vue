@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGlobalStore } from "@/stores/global";
 import { useRoute } from "vue-router";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 
 const route = useRoute();
 const global = useGlobalStore();
