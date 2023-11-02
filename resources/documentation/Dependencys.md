@@ -79,4 +79,4 @@ Setting NodeJS up is a bit more complicated than setting up python/rust, but it 
 
 - On linux, you can get it through your favorite package manager.
   You normally should need to install `nodejs` and `pnpm`.
-- On WSL, use [this guide](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl) and [this guide](https://pnpm.io/installation) 
+- On WSL, use [this guide](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl) and [this guide](https://pnpm.io/installation)
