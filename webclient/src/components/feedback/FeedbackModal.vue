@@ -98,10 +98,8 @@ const deleteIssueRequested = ref(false);
   }
 }
 </style>
-<i18n>
 
-</i18n>
-<i18n>
+<i18n lang="yaml">
 de:
   category: Feedback-Kategorie
   delete: Das zugehörige GitHub Issue löschen, sobald es gelöst wurde.

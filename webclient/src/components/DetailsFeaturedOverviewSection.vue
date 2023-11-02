@@ -29,7 +29,7 @@ const props = defineProps<{
       </div>
       <div class="card" style="width: 250px; display: inline-flex; margin-right: 8px">
         <div class="card-image">
-          <img :alt="$t('view_view.header.image_alt')" src="/cdn/header/mi_0.webp" class="img-responsive" />
+          <img alt="Header-Bild, zeigt das Gebäude" src="/cdn/header/mi_0.webp" class="img-responsive" />
         </div>
         <div class="card-header">
           <div class="card-title h6" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap">
@@ -48,7 +48,7 @@ const props = defineProps<{
         style="width: 250px; display: inline-flex; margin-right: 8px; height: 200px; vertical-align: top"
       >
         <div class="card-image" style="display: none">
-          <img :alt="$t('view_view.header.image_alt')" src="/cdn/header/mi_0.webp" class="img-responsive" />
+          <img alt="Header-Bild, zeigt das Gebäude" src="/cdn/header/mi_0.webp" class="img-responsive" />
         </div>
         <div class="card-header">
           <div class="card-title h6" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap">

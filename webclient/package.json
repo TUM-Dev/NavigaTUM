@@ -15,7 +15,6 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@sentry/tracing": "7.74.1",
     "@sentry/vue": "7.74.1",
     "@vueuse/core": "10.5.0",
     "maplibre-gl": "3.5.1",

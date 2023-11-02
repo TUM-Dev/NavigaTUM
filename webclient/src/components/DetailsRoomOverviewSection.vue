@@ -2,6 +2,7 @@
 import { computed, ref } from "vue";
 import { useVirtualList } from "@vueuse/core";
 import type { components } from "@/api_types";
+import { useI18n } from "vue-i18n";
 type RoomsOverview = components["schemas"]["RoomsOverview"];
 type ChildEntry = components["schemas"]["ChildEntry"];
 
@@ -9,6 +10,7 @@ const props = defineProps<{
   readonly rooms?: RoomsOverview;
 }>();
 
+const { t } = useI18n({ useScope: "local" });
 const combined_list = computed(() => {
   const usages = props.rooms?.usages || [];
   const combinedList = [] as ChildEntry[];
@@ -45,10 +47,10 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
   <section v-if="props.rooms">
     <div class="columns">
       <div class="column">
-        <h2>{{ $t("view_view.rooms_overview.title") }}</h2>
+        <h2>{{ t("title") }}</h2>
       </div>
       <!--<div class="column col-auto">
-          <div class="dropdown"><a class="btn btn-link dropdown-toggle" tabindex="0">{{ $t("view_view.rooms_overview.by_usage") }} <i class="icon icon-caret" /></a>
+          <div class="dropdown"><a class="btn btn-link dropdown-toggle" tabindex="0">{{ t("by_usage") }} <i class="icon icon-caret" /></a>
             <ul class="menu">
                     <li class="menu-item"><a href="#dropdowns">nach Nutzung</a></li>
                     <li class="menu-item"><a href="#dropdowns">nach ...</a></li>
@@ -61,7 +63,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
       <div class="column col-4 col-md-12 col-sm-12" id="category-select">
         <div class="panel">
           <div class="panel-header">
-            <div class="panel-title h6">{{ $t("view_view.rooms_overview.by_usage") }}:</div>
+            <div class="panel-title h6">{{ t("by_usage") }}:</div>
           </div>
           <div class="panel-body">
             <ul class="menu">
@@ -75,7 +77,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
                 >
                   <i class="icon icon-arrow-right" />
                   <div class="menu-text">
-                    {{ $t("view_view.rooms_overview.any") }}
+                    {{ t("any") }}
                   </div>
                   <label class="label">{{ combined_list.length }}</label>
                 </button>
@@ -98,7 +100,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
           </div>
           <div class="panel-footer">
             <button class="btn btn-link btn-sm" @click="selected = -1">
-              {{ $t("view_view.rooms_overview.remove_selection") }}
+              {{ t("remove_selection") }}
             </button>
           </div>
         </div>
@@ -108,12 +110,8 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
         <div class="panel">
           <div class="panel-header">
             <div class="input-group">
-              <input v-model="search" :placeholder="$t('view_view.rooms_overview.filter')" class="form-input" />
-              <button
-                class="btn btn-primary input-group-btn"
-                @click="search = ''"
-                :aria-label="$t('view_view.rooms_overview.clear_filter')"
-              >
+              <input v-model="search" :placeholder="t('filter')" class="form-input" />
+              <button class="btn btn-primary input-group-btn" @click="search = ''" :aria-label="t('clear_filter')">
                 <i class="icon icon-cross" />
               </button>
             </div>
@@ -129,8 +127,8 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
           </div>
           <div class="panel-footer">
             <small>
-              {{ $t("view_view.rooms_overview.results", filteredList.length) }}
-              {{ search === "" ? "" : `(${$t("view_view.rooms_overview.filtered")})` }}
+              {{ t("results", filteredList.length) }}
+              {{ search === "" ? "" : `(${t("filtered")})` }}
             </small>
           </div>
         </div>
@@ -224,3 +222,23 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
   }
 }
 </style>
+<i18n lang="yaml">
+de:
+  any: beliebig
+  by_usage: nach Nutzung
+  clear_filter: Filter löschen
+  filter: Filter
+  filtered: gefiltert
+  remove_selection: Auswahl löschen
+  results: 1 Ergebnis | {count} Ergebnisse
+  title: Räume
+en:
+  any: any
+  by_usage: by usage
+  clear_filter: Clear the filter
+  filter: Filter
+  filtered: filtered
+  remove_selection: Remove selection
+  results: "{count} result | {count} results"
+  title: Rooms
+</i18n>

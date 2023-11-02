@@ -7,7 +7,7 @@ repos:
       - id: check-yaml
         args:
           - --allow-multiple-documents
-        exclude: "(data/data_format_geo-entry.yaml)|(deployment/k3s/.*)"
+        exclude: "(data/data_format_geo-entry.yaml)|(deployment/k3s/.*)|(webclient/pnpm-lock.yaml)"
       - id: check-json
       - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
@@ -100,10 +100,3 @@ repos:
     hooks:
       - id: markdownlint-cli2-fix
         exclude: .github/pull_request_template.md
-  - repo: local
-    hooks:
-      - id: webclient-locale-diff
-        name: check that the webclient locale files are up to date
-        entry: python webclient/src/locales/check_locales.py
-        language: system
-        pass_filenames: false

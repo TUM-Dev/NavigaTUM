@@ -209,7 +209,7 @@ function sendForm() {
 }
 </style>
 
-<i18n>
+<i18n lang="yaml">
 de:
   title: Feedback senden
   cancel: Abbrechen

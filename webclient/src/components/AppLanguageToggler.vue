@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { saveCooke } from "@/composables/cookies";
-const { locale } = useI18n({
-  inheritLocale: true,
-  useScope: "global",
-});
+const { locale } = useI18n({ inheritLocale: true });
 
 function setLang(lang: string) {
   locale.value = lang;
