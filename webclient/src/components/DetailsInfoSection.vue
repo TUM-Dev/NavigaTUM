@@ -2,14 +2,16 @@
 import { useDetailsStore } from "@/stores/details";
 import DetailsImageSlideshowModal from "@/components/DetailsImageSlideshowModal.vue";
 import DetailsPropertyTable from "@/components/DetailsPropertyTable.vue";
+import {useI18n} from "vue-i18n";
 
 const state = useDetailsStore();
+const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
   <!-- Information section (on mobile) -->
   <div class="column col-5 col-sm-12 show-sm mobile-info-section" v-if="state.data?.props?.computed">
-    <h2>{{ $t("view_view.info_title") }}</h2>
+    <h2>{{ t("info_title") }}</h2>
     <DetailsPropertyTable />
   </div>
 
@@ -24,25 +26,25 @@ const state = useDetailsStore();
         v-if="state.image.shown_image"
       >
         <img
-          :alt="$t('view_view.header.image_alt')"
+          :alt="t('image_alt')"
           :src="'/cdn/header/' + state.image.shown_image.name"
           class="img-responsive"
           style="width: 100%"
         />
       </a>
       <div class="card-header">
-        <div class="card-title h5">{{ $t("view_view.info_title") }}</div>
+        <div class="card-title h5">{{ t("info_title") }}</div>
       </div>
       <div class="card-body">
         <DetailsPropertyTable />
         <div class="toast toast-warning" v-if="state.data?.coords.accuracy === 'building'">
-          {{ $t("view_view.msg.inaccurate_only_building") }}<br />
+          {{ t("msg.inaccurate_only_building") }}<br />
         </div>
         <div
           class="toast toast-warning"
           v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
         >
-          {{ $t("view_view.msg.no_floor_overlay") }}
+          {{ t("msg.no_floor_overlay") }}
         </div>
         <div class="toast" v-if="state.data?.props?.comment">
           {{ state.data.props.comment }}
@@ -71,3 +73,18 @@ const state = useDetailsStore();
   }
 }
 </style>
+
+<i18n lang="yaml">
+de:
+  image_alt: Header-Bild, zeigt das Gebäude
+  info_title: Informationen
+  msg:
+    inaccurate_only_building: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
+    no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
+en:
+  image_alt: Header image, showing the building
+  info_title: Information
+  msg:
+    inaccurate_only_building: The displayed position only shows the position of the building(part). The exact position within the building is not known to us.
+    no_floor_overlay: There is unfortunately no indoor map for the displayed room.
+</i18n>

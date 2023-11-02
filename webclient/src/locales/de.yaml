@@ -8,13 +8,8 @@ view_view:
       tooltip: Externe Links
     favorites: Zu Favoriten hinzufügen
     feedback: Problem melden oder Änderung vorschlagen
-    image_alt: Header-Bild, zeigt das Gebäude
-  info_title: Informationen
   map:
     interactive: Interaktive Karte
     roomfinder: Lagepläne
   meta:
     details_for: Details für
-  msg:
-    inaccurate_only_building: Die angezeigte Position zeigt nur die Position des Gebäude(teils). Die genaue Lage innerhalb des Gebäudes ist uns nicht bekannt.
-    no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.

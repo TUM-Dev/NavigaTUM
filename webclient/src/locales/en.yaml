@@ -8,13 +8,8 @@ view_view:
       tooltip: External links
     favorites: Add to favorites
     feedback: Report issue or suggest changes
-    image_alt: Header-Image, showing the building
-  info_title: Information
   map:
     interactive: Interactive Map
     roomfinder: Site Plans
   meta:
     details_for: Details for
-  msg:
-    inaccurate_only_building: The displayed position only shows the position of the building(part). The exact position within the building is not known to us.
-    no_floor_overlay: There is unfortunately no indoor map for the displayed room.
