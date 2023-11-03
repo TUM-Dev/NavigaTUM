@@ -12,8 +12,6 @@ do
     # make sure we are really only building the right theme and language
     sed -i "s/\$theme: .*/\$theme: \"${THEME}\";/" src/assets/variables.scss
     sed -i "s/locale: .*/locale: \"${LANG}\",/" src/main.ts
-    sed -i "/fallbackLocale: .*/d" src/main.ts
-    sed -i "s/messages: .*/messages: { ${LANG} },/" src/main.ts
 
     echo "Building ${LANG}-${THEME}"
     npm run build-only
