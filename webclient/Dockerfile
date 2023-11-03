@@ -1,4 +1,4 @@
-FROM node:20 as build-stage
+FROM node:21 as build-stage
 WORKDIR /app
 RUN apt-get update &&  \
     apt-get install rsync -y --no-install-recommends
