@@ -73,3 +73,5 @@ volumes:
     driver: local
   tileserver-sprites:
     driver: local
+  postgres-data:
+    driver: local
