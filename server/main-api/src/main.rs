@@ -1,7 +1,6 @@
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
-use futures::try_join;
 use log::{debug, info};
 use std::collections::HashMap;
 use structured_logger::async_json::new_writer;

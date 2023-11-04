@@ -1,4 +1,5 @@
 output.mbtiles
+tile_weights.tsv.gz
 sources/
 tmp/
 data/
