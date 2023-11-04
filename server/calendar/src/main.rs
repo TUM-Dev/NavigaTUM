@@ -22,12 +22,14 @@ async fn health_status_handler() -> HttpResponse {
 }
 
 use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
+use log::debug;
 use structured_logger::async_json::new_writer;
 use structured_logger::Builder;
 
 pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!("migrations");
 
 fn apply_db_migrations() {
+    info!("Applying database migrations");
     let con = &mut utils::establish_connection();
     con.run_pending_migrations(MIGRATIONS)
         .expect("Migrations could not be applied");
