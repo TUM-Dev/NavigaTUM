@@ -51,7 +51,7 @@ This may be one optimisation point in the future.
 From the root of the repository, run:
 
 ```bash
-docker run --rm -it -v $(pwd)/map:/data -p 7770:80 maptiler/tileserver-gl
+docker compose up --build
 ```
 
 ### Edit the style

@@ -8,11 +8,13 @@ services:
   # maps
   tileserver-init-sprites:
     image: busybox:latest
-    restart: always
+    restart: on-failure
     command:
       - sh
       - -c
-      - "rm -f /sprites/* && wget -P /sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
+      - "mkdir -p /sprites/ && rm -f /sprites/* && wget -P /sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
+    volumes:
+      - tileserver-sprites:/sprites
   tileserver:
     image: maptiler/tileserver-gl:latest
     restart: always
@@ -23,7 +25,8 @@ services:
       - ./map/osm-liberty.json:/data/styles/osm-liberty.json:ro
       - ./map/tileserver-config.json:/data/config.json:ro
       - tileserver-sprites:/data/sprites:ro
-      - ./map/data:/data
+      - tileserver-fonts:/data/fonts:ro
+      - ./map/output.mbtiles:/data/output.mbtiles:ro
     read_only: true
     ports:
       - "3001:8080"
@@ -45,14 +48,30 @@ services:
     command: /bin/navigatum-main-api
     ports:
       - "3003:3003"
+    volumes:
+      - type: tmpfs
+        target: /home/navigatum/.cache
+    user: 1000:3000
+    environment:
+      MIELI_URL: http://meilisearch:7700
     depends_on:
       meilisearch:
         condition: service_healthy
+        required: true
+        restart: true
+    healthcheck:
+      test: wget -q --spider http://localhost:3003/api/status
+      retries: 5
+      interval: 10s
+      start_period: 30s
   meilisearch:
     image: getmeili/meilisearch:v1.4.1
     restart: always
-    build: ./server
-    command: /bin/navigatum-main-api
+    healthcheck:
+      test: wget -q --spider http://localhost:7700/health
+      retries: 5
+      interval: 10s
+      start_period: 10s
   feedback-api:
     image: ghcr.io/tum-dev/navigatum-server:latest
     restart: always
@@ -60,18 +79,33 @@ services:
     command: /bin/navigatum-feedback
     ports:
       - "3004:3004"
+    healthcheck:
+      test: wget -q --spider http://localhost:3004/api/feedback/status
+      retries: 5
+      start_period: 10s
   db:
     image: postgres:15
     restart: unless-stopped
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_USER}
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      retries: 5
+      interval: 10s
+      start_period: 10s
+
 
 volumes:
   db-data:
     driver: local
   tileserver-sprites:
+    driver: local
+  tileserver-fonts:
     driver: local
   postgres-data:
     driver: local
