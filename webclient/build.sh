@@ -5,19 +5,15 @@ set -e # fail on first error
 mkdir -p ../dist
 rm -fr ../dist
 
-for LANG in en de
+for THEME in light dark
 do
-  for THEME in light dark
-  do
-    # make sure we are really only building the right theme and language
-    sed -i "s/\$theme: .*/\$theme: \"${THEME}\";/" src/assets/variables.scss
-    sed -i "s/locale: .*/locale: \"${LANG}\",/" src/main.ts
+  # make sure we are really only building the right theme and language
+  sed -i "s/\$theme: .*/\$theme: \"${THEME}\";/" src/assets/variables.scss
 
-    echo "Building ${LANG}-${THEME}"
-    npm run build-only
-    mv dist/index.html dist/${LANG}-${THEME}.html
-    rsync -r dist/* ../dist
-  done
+  echo "Building ${THEME}"
+  npm run build-only
+  mv dist/index.html dist/${THEME}.html
+  rsync -r dist/* ../dist
 done
 
 
