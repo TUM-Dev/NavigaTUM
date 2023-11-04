@@ -67,7 +67,7 @@ async fn main() -> std::io::Result<()> {
             .service(health_status_handler)
             .service(calendar::calendar_handler)
     })
-    .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8060".to_string()))?
+    .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3005".to_string()))?
     .run()
     .await
 }

@@ -13,22 +13,22 @@ spec:
       match: Host(`{{ $.Values.url }}`) && PathPrefix(`/api/feedback/`)
       services:
         - name: feedback-svc
-          port: 8070
+          port: 3004
     - kind: Rule
       match: Host(`{{ $.Values.url }}`) && PathPrefix(`/api/calendar/`)
       services:
         - name: calendar-svc
-          port: 8060
+          port: 3005
     - kind: Rule
       match: Host(`{{ $.Values.url }}`) && PathPrefix(`/api/`)
       services:
         - name: api-svc
-          port: 7000
+          port: 3003
     - kind: Rule
       match: Host(`{{ $.Values.url }}`) && PathPrefix(`/maps/`)
       services:
         - name: maps-svc
-          port: 7770
+          port: 3001
       middlewares:
         - name: stripprefix
         - name: cache-2-months
@@ -36,14 +36,14 @@ spec:
       match: Host(`{{ $.Values.url }}`) && PathPrefix(`/cdn/`)
       services:
         - name: cdn-svc
-          port: 8000
+          port: 3002
       middlewares:
         - name: stripprefix
     - kind: Rule
       match: Host(`{{ $.Values.url }}`)
       services:
         - name: webclient-svc
-          port: 9000
+          port: 3000
     - kind: Rule
       match: Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)
       services:

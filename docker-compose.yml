@@ -4,7 +4,7 @@ services:
     restart: always
     build: ./webclient
     ports:
-    - "3000:9000"
+      - "3000:3000"
   # maps
   tileserver-init-sprites:
     image: busybox:latest
@@ -30,6 +30,13 @@ services:
     depends_on:
       tileserver-init-sprites:
         condition: service_completed_successfully
+  # cdn
+  data:
+    image: ghcr.io/tum-dev/navigatum-cdn:latest
+    restart: always
+    build: ./data
+    ports:
+      - "3002:3002"
   # server
   main-api:
     image: ghcr.io/tum-dev/navigatum-main-api:latest
@@ -37,7 +44,7 @@ services:
     build: ./server
     command: /bin/navigatum-main-api
     ports:
-      - "3002:8080"
+      - "3003:3003"
     depends_on:
       meilisearch:
         condition: service_healthy
@@ -52,7 +59,7 @@ services:
     build: ./server
     command: /bin/navigatum-feedback
     ports:
-      - "3002:8080"
+      - "3004:3004"
   db:
     image: postgres:15
     restart: unless-stopped
@@ -60,7 +67,7 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres-data:/var/lib/postgresql/data
-        
+
 volumes:
   db-data:
     driver: local
