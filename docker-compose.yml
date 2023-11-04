@@ -1,0 +1,68 @@
+services:
+  webclient:
+    image: ghcr.io/tum-dev/navigatum-webclient:latest
+    restart: always
+    build: ./webclient
+    ports:
+    - "3000:9000"
+  # maps
+  tileserver-init-sprites:
+    image: busybox:latest
+    restart: always
+    command:
+      - sh
+      - -c
+      - "rm -f /sprites/* && wget -P /sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
+  tileserver:
+    image: maptiler/tileserver-gl:latest
+    restart: always
+    command: /todo --public_url=https://nav.tum.de/maps/
+    tmpfs:
+      - /tmp
+    volumes:
+      - ./map/osm-liberty.json:/data/styles/osm-liberty.json:ro
+      - ./map/tileserver-config.json:/data/config.json:ro
+      - tileserver-sprites:/data/sprites:ro
+      - ./map/data:/data
+    read_only: true
+    ports:
+      - "3001:8080"
+    depends_on:
+      tileserver-init-sprites:
+        condition: service_completed_successfully
+  # server
+  main-api:
+    image: ghcr.io/tum-dev/navigatum-main-api:latest
+    restart: always
+    build: ./server
+    command: /bin/navigatum-main-api
+    ports:
+      - "3002:8080"
+    depends_on:
+      meilisearch:
+        condition: service_healthy
+  meilisearch:
+    image: getmeili/meilisearch:v1.4.1
+    restart: always
+    build: ./server
+    command: /bin/navigatum-main-api
+  feedback-api:
+    image: ghcr.io/tum-dev/navigatum-server:latest
+    restart: always
+    build: ./server
+    command: /bin/navigatum-feedback
+    ports:
+      - "3002:8080"
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+        
+volumes:
+  db-data:
+    driver: local
+  tileserver-sprites:
+    driver: local

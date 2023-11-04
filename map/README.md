@@ -24,7 +24,7 @@ Generating `europe` takes 3h10m on a modern laptop with 32GB RAM and an SSD. The
 From the root of the repository, run:
 
 ```bash
-docker run -it -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --area=europe --languages=de,en --Xmx10g --storage=mmap
+docker run -it -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --area=germany --languages=de,en --Xmx10g --storage=mmap
 ```
 
 For `planet`, you might want to increase the `--Xmx` parameter to 20GB. For 128GB of RAM or more you will want to use `--storage=ram` instead of `--storage=mmap`.
