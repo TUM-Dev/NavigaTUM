@@ -18,7 +18,7 @@ services:
   tileserver:
     image: maptiler/tileserver-gl:latest
     restart: always
-    command: /todo --public_url=https://nav.tum.de/maps/
+    command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
     tmpfs:
       - /tmp
     volumes:

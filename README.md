@@ -41,8 +41,6 @@ Note: The API is still under development, and we are open to Issues, Feature Req
 NavigaTUM consists of three main parts + deployment resources.
 
 Depending on what you want to work on, you **do not need to set up all of them**.
-For an overview of how the components work, have a look at the
-[deployment documentation](deployment/README.md).
 
 - `data/` contains the code to obtain and process the data
 - `server/` contains the APIs written in Rust
@@ -50,7 +48,19 @@ For an overview of how the components work, have a look at the
 - `deployment/` contains deployment related configuration
 - `map/` contains information about our own map, how to style it and how to run it
 
-The following steps assume you have just cloned the repository and are in the root directory of it.
+Let's go through them one by one, but first, you need to clone the repository:
+
+```bash
+git clone https://github.com/TUM-Dev/Navigatum.git
+cd Navigatum
+```
+
+> [!NOTE]
+> You can skip all the parts if you run `docker compose up --build` in the root of the repository
+> and then open [http://localhost:3000](http://localhost:3000) in your browser.
+> This will run the server, the data processing and the webclient in docker containers.
+> 
+> To be able to run the map
 
 ### Data Processing
 
