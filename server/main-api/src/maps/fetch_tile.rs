@@ -106,10 +106,7 @@ impl FetchTileTask {
             y = self.y,
         )
     }
-    async fn download_map_image(
-        &self,
-        file: &std::path::PathBuf,
-    ) -> Result<web::Bytes, Box<dyn std::error::Error>> {
+    async fn download_map_image(&self, file: &std::path::PathBuf, ) -> Result<web::Bytes, Box<dyn std::error::Error>> {
         let url = self.get_tileserver_url();
         let res = reqwest::get(&url).await?.bytes().await?;
 
