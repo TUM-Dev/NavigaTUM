@@ -6,7 +6,12 @@ mod utils;
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
+use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
+use log::info;
 use std::collections::HashMap;
+use std::error::Error;
+use structured_logger::async_json::new_writer;
+use structured_logger::Builder;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
@@ -21,18 +26,14 @@ async fn health_status_handler() -> HttpResponse {
         .body(format!("healthy\nsource_code: {github_link}"))
 }
 
-use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
-use log::debug;
-use structured_logger::async_json::new_writer;
-use structured_logger::Builder;
-
 pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!("migrations");
 
-fn apply_db_migrations() {
+fn apply_db_migrations() -> Result<(),Box<dyn Error + Send + Sync>> {
     info!("Applying database migrations");
     let con = &mut utils::establish_connection();
-    con.run_pending_migrations(MIGRATIONS)
-        .expect("Migrations could not be applied");
+    con.run_pending_migrations(MIGRATIONS)?;
+    info!("database migrations applied");
+    Ok(())
 }
 
 #[actix_web::main]
@@ -40,7 +41,7 @@ async fn main() -> std::io::Result<()> {
     Builder::with_level("info")
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();
-    apply_db_migrations();
+    apply_db_migrations()?;
 
     // metrics
     let labels = HashMap::from([(

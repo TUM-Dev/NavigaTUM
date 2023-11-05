@@ -59,8 +59,6 @@ cd Navigatum
 > You can skip all the parts if you run `docker compose up --build` in the root of the repository
 > and then open [http://localhost:3000](http://localhost:3000) in your browser.
 > This will run the server, the data processing and the webclient in docker containers.
-> 
-> To be able to run the map
 
 ### Data Processing
 
