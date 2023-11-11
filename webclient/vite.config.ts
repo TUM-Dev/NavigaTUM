@@ -9,14 +9,7 @@ import path from "path";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import pluginRewriteAll from "vite-plugin-rewrite-all";
-import { sentryVitePlugin } from "@sentry/vite-plugin";
 
-// https://vitejs.dev/config/
-let commit_message = process.env.GIT_COMMIT_MESSAGE || "development";
-commit_message = commit_message
-  .replaceAll(/[^a-z0-9 ]+/gi, "_")
-  .replaceAll(/_$/g, "")
-  .trim();
 export default defineConfig({
   envDir: path.resolve(__dirname, "./env"),
   appType: "spa",
