@@ -25,4 +25,4 @@ COPY --from=build-stage /dist /app
 
 EXPOSE 3000
 HEALTHCHECK CMD curl --fail localhost:3000/health || exit 1
-CMD sh -c "sed -i 's|TILESERVER_URL|${TILESERVER_URL}|g' /etc/nginx/nginx.conf && sed -i 's|CDN_URL|${CDN_URL}|g' /etc/nginx/nginx.conf && sed -i 's|MAIN_API_URL|${MAIN_API_URL}|g' /etc/nginx/nginx.conf && sed -i 's|FEEDBACK_API_URL|${FEEDBACK_API_URL}|g' /etc/nginx/nginx.conf && sed -i 's|CALENDAR_API_URL|${CALENDAR_API_URL}|g' /etc/nginx/nginx.conf && cat /etc/nginx/nginx.conf && nginx -g daemon off;"]
+CMD sh -c "sed -i 's|TILESERVER_URL|${TILESERVER_URL}|g' /etc/nginx/nginx.conf && sed -i 's|CDN_URL|${CDN_URL}|g' /etc/nginx/nginx.conf && sed -i 's|MAIN_API_URL|${MAIN_API_URL}|g' /etc/nginx/nginx.conf && sed -i 's|FEEDBACK_API_URL|${FEEDBACK_API_URL}|g' /etc/nginx/nginx.conf && sed -i 's|CALENDAR_API_URL|${CALENDAR_API_URL}|g' /etc/nginx/nginx.conf && cat /etc/nginx/nginx.conf && nginx -g 'daemon off;'"

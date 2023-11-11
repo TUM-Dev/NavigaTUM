@@ -7,10 +7,21 @@ services:
       - "3000:3000"
     environment:
       TILESERVER_URL: http://tilserver:3001
-      CDN_URL: http://cdn:3002
+      CDN_URL: http://data:3002
       MAIN_API_URL: http://main-api:3003
       FEEDBACK_API_URL: http://feedback-api:3004
       CALENDAR_API_URL: http://calendar-api:3005
+    depends_on:
+      tileserver:
+        condition: service_healthy
+      data:
+        condition: service_healthy
+      main-api:
+        condition: service_healthy
+      feedback-api:
+        condition: service_healthy
+      calendar-api:
+        condition: service_healthy
   # maps
   tileserver-init-sprites:
     image: alpine:latest
