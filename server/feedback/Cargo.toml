@@ -26,18 +26,18 @@ serde_json.workspace = true
 
 rand = "0.8.5"
 regex = "1.10.2"
-octocrab = "0.31.2"
+octocrab = "0.32.0"
 
 # web
-jsonwebtoken = "9.0.0"
+jsonwebtoken = "9.1.0"
 chrono= { version = "0.4.31", default-features = false }
 actix-governor = { version = "0.5.0", features = ["log"] }
 
 # proposing feedback
-tempfile = "3.8.0"
+tempfile = "3.8.1"
 image = { version = "0.24.7", features = ["default", "webp-encoder"] }
 imageproc = "0.23.0"
-base64 = "0.21.4"
+base64 = "0.21.5"
 serde_yaml = "0.9"
 
 [dev-dependencies]
