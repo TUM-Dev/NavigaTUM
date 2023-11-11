@@ -15,7 +15,6 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@sentry/vue": "7.74.1",
     "@vueuse/core": "10.5.0",
     "maplibre-gl": "3.5.1",
     "pinia": "2.1.7",
@@ -28,7 +27,6 @@
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "1.4.0",
     "@rushstack/eslint-patch": "1.5.1",
-    "@sentry/vite-plugin": "2.8.0",
     "@types/swagger-ui-dist": "3.30.4",
     "@vitejs/plugin-vue": "4.4.0",
     "@vue/eslint-config-prettier": "8.0.0",
