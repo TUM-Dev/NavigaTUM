@@ -22,7 +22,7 @@ services:
     tmpfs:
       - /tmp
     volumes:
-      - ./map/osm-liberty.json:/data/styles/osm-liberty.json:ro
+      - ./deployment/k3s/files/osm-liberty.json:/data/styles/osm-liberty.json:ro
       - ./map/tileserver-config.json:/data/config.json:ro
       - tileserver-sprites:/data/sprites:ro
       - tileserver-fonts:/data/fonts:ro
