@@ -13,8 +13,8 @@ spec:
     app.kubernetes.io/name: api
   ports:
     - name: http
-      port: 7000
-      targetPort: 8080
+      port: 3003
+      targetPort: 3003
 ---
 apiVersion: v1
 kind: Service
@@ -31,8 +31,8 @@ spec:
     app.kubernetes.io/name: feedback
   ports:
     - name: http
-      port: 8070
-      targetPort: 8070
+      port: 3004
+      targetPort: 3004
 ---
 apiVersion: v1
 kind: Service
@@ -49,8 +49,8 @@ spec:
     app.kubernetes.io/name: calendar
   ports:
     - name: http
-      port: 8060
-      targetPort: 8060
+      port: 3005
+      targetPort: 3005
 ---
 apiVersion: v1
 kind: Service
@@ -67,7 +67,7 @@ spec:
     app.kubernetes.io/name: maps
   ports:
     - name: http
-      port: 7770
+      port: 3001
       targetPort: 8080
     - name: src
       port: 7771
@@ -88,8 +88,8 @@ spec:
     app.kubernetes.io/name: cdn
   ports:
     - name: http
-      port: 8000
-      targetPort: 8000
+      port: 3002
+      targetPort: 3002
 ---
 apiVersion: v1
 kind: Service
@@ -106,8 +106,8 @@ spec:
     app.kubernetes.io/name: web
   ports:
     - name: http
-      port: 9000
-      targetPort: 9000
+      port: 3000
+      targetPort: 3000
 {{- if eq "nav.tum.de" $.Values.url }}
 ---
 apiVersion: v1

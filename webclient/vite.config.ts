@@ -14,7 +14,7 @@ export default defineConfig({
   envDir: path.resolve(__dirname, "./env"),
   appType: "spa",
   server: {
-    port: 8000,
+    port: 3000,
     strictPort: true,
     open: false,
     proxy: {

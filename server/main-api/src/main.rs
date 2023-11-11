@@ -1,7 +1,6 @@
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
-use futures::try_join;
 use log::{debug, info};
 use std::collections::HashMap;
 use structured_logger::async_json::new_writer;
@@ -33,11 +32,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::with_level("info")
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();
-    info!("setting up dependency's");
-    try_join!(
-        setup::meilisearch::setup_meilisearch(),
-        setup::database::setup_database(),
-    )?;
+    info!("setting up meilisearch");
+    setup::meilisearch::setup_meilisearch().await?;
+    info!("setting up the database");
+    setup::database::setup_database().await?;
 
     debug!("setting up metrics");
     let labels = HashMap::from([(
@@ -69,7 +67,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .service(entries::get::get_handler)
             .service(search::search_handler)
     })
-    .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:8080".to_string()))?
+    .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?
     .run()
     .await?;
     Ok(())

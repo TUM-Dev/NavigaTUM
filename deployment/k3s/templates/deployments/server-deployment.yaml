@@ -45,7 +45,7 @@ spec:
             - name: DB_LOCATION
               value: api_data.db
           ports:
-            - containerPort: 8080
+            - containerPort: 3003
               name: api
           securityContext:
             allowPrivilegeEscalation: false
