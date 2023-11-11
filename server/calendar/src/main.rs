@@ -28,7 +28,7 @@ async fn health_status_handler() -> HttpResponse {
 
 pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!("migrations");
 
-fn apply_db_migrations() -> Result<(),Box<dyn Error + Send + Sync>> {
+fn apply_db_migrations() -> Result<(), Box<dyn Error + Send + Sync>> {
     info!("Applying database migrations");
     let con = &mut utils::establish_connection();
     con.run_pending_migrations(MIGRATIONS)?;
@@ -37,7 +37,7 @@ fn apply_db_migrations() -> Result<(),Box<dyn Error + Send + Sync>> {
 }
 
 #[tokio::main]
-async fn main() -> Result<(),Box<dyn Error + Send + Sync>> {
+async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     Builder::with_level("info")
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();
