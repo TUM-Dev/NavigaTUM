@@ -52,4 +52,3 @@ lazy_static = "1.4.0"
 
 [dev-dependencies]
 pretty_assertions.workspace = true
-rstest = "0.18.2"
