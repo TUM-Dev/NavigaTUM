@@ -62,6 +62,7 @@ jobs:
       packages: write
   feedback-deployment:
     uses: ./.github/workflows/_restart-argocd.yml
+    if: ${{ github.ref }} == 'refs/heads/main'
     needs:
       - server-build
     with:
@@ -70,6 +71,7 @@ jobs:
       ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   calendar-deployment:
     uses: ./.github/workflows/_restart-argocd.yml
+    if: ${{ github.ref }} == 'refs/heads/main'
     needs:
       - server-build
     with:
@@ -78,6 +80,7 @@ jobs:
       ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
   server-deployment:
     uses: ./.github/workflows/_restart-argocd.yml
+    if: ${{ github.ref }} == 'refs/heads/main'
     needs:
       - server-build
     with:
