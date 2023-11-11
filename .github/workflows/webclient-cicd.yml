@@ -58,6 +58,7 @@ jobs:
       packages: write
   webclient-deployment:
     uses: ./.github/workflows/_restart-argocd.yml
+    if: ${{ github.ref }} == 'refs/heads/main'
     needs:
       - webclient-build
     with:
