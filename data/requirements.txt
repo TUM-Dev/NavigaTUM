@@ -6,6 +6,6 @@ Pillow~=10.1.0
 pydantic~=2.4.2
 pyyaml~=6.0
 requests~=2.31.0
-ruamel.yaml~=0.17.24
+ruamel.yaml~=0.18.5
 tqdm~=4.66.0
 utm~=0.7.0
