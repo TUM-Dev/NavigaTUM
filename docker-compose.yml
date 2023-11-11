@@ -7,7 +7,7 @@ services:
       - "3000:3000"
   # maps
   tileserver-init-sprites:
-    image: busybox:latest
+    image: alpine:latest
     restart: on-failure
     command:
       - sh
@@ -15,6 +15,12 @@ services:
       - "mkdir -p /sprites/ && rm -f /sprites/* && wget -P /sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
     volumes:
       - tileserver-sprites:/sprites
+  tileserver-init-src:
+    image: alpine:latest
+    restart: on-failure
+    command: wget -P /map --continue https://nav.tum.de/maps/vol/output.mbtiles
+    volumes:
+      - ./map:/map
   tileserver:
     image: maptiler/tileserver-gl:latest
     restart: always
@@ -32,6 +38,8 @@ services:
       - "3001:8080"
     depends_on:
       tileserver-init-sprites:
+        condition: service_completed_successfully
+      tileserver-init-src:
         condition: service_completed_successfully
   # cdn
   data:
