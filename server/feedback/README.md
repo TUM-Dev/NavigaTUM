@@ -19,7 +19,7 @@ The following environment variables are required for all features to work:
 | `JWT_KEY`      | A key used to sign JWTs. This is used to authenticate that feedback tokens were given out by us.   |
 
 Run `cargo run` to start the server.
-The server should now be available on `localhost:8070`.
+The server should now be available on `localhost:3004`.
 
 Note that `cargo run --release` is used to start the server for an optimised production build (use this if you want to profile performance, it makes quite a difference).
 
@@ -43,11 +43,11 @@ To make sure that this specification is up-to-date and without holes, we run [sc
 python -m venv venv
 source venv/bin/activate
 pip install schemathesis
-st run --workers=auto --base-url=http://localhost:8070 --checks=all ../openapi.yaml
+st run --workers=auto --base-url=http://localhost:3004 --checks=all ../openapi.yaml
 ```
 
 Some fuzzing-goals may not be available for you locally, as they require prefix-routing (f.ex.`/cdn` to the CDN) and some fuzzing-goals are automatically tested in our CI.  
-You can exchange `--base-url=http://localhost:8070` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/feedback/`.
+You can exchange `--base-url=http://localhost:3004` to `--base-url=https://nav.tum.sexy` for the full public API, or restrict your scope using a option like `--endpoint=/api/feedback/`.
 
 ## License
 

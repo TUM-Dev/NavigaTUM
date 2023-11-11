@@ -1,4 +1,0 @@
-- name: restart_fail2ban
-  service:
-    name: fail2ban
-    state: restarted

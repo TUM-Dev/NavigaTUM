@@ -32,6 +32,6 @@ RUN mkdir /cdn
 COPY --from=build-stage /app/output /cdn
 COPY nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 8000
-HEALTHCHECK CMD curl --fail localhost:8000/cdn/health || exit 1
+EXPOSE 3002
+HEALTHCHECK CMD curl --fail http://localhost:3002/cdn/health || exit 1
 CMD ["nginx", "-g", "daemon off;"]

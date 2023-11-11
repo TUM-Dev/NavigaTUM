@@ -23,6 +23,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir /app && apt update && apt upgrade -y
 COPY --from=build-stage /dist /app
 
-EXPOSE 9000
-HEALTHCHECK CMD curl --fail localhost:9000/health || exit 1
+EXPOSE 3000
+HEALTHCHECK CMD curl --fail localhost:3000/health || exit 1
 CMD ["nginx", "-g", "daemon off;"]

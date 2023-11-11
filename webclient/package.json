@@ -8,7 +8,7 @@
     "test": "run-p cy:run:chrome cy:run:firefox",
     "dev": "vite",
     "build": "run-p type-check build-only",
-    "preview": "vite preview --port 8000",
+    "preview": "vite preview --port 3000",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",

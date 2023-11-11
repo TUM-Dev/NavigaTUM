@@ -1,0 +1,136 @@
+services:
+  webclient:
+    image: ghcr.io/tum-dev/navigatum-webclient:latest
+    restart: always
+    build: ./webclient
+    ports:
+      - "3000:3000"
+  # maps
+  tileserver-init-sprites:
+    image: alpine:latest
+    restart: on-failure
+    command:
+      - sh
+      - -c
+      - "mkdir -p /sprites/ && rm -f /sprites/* && wget -P /sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
+    volumes:
+      - tileserver-sprites:/sprites
+  tileserver-init-src:
+    image: alpine:latest
+    restart: on-failure
+    command: wget -P /map --continue https://nav.tum.de/maps/vol/output.mbtiles
+    volumes:
+      - ./map:/map
+  tileserver:
+    image: maptiler/tileserver-gl:latest
+    restart: always
+    command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
+    tmpfs:
+      - /tmp
+    volumes:
+      - ./deployment/k3s/files/osm-liberty.json:/data/styles/osm-liberty.json:ro
+      - ./map/tileserver-config.json:/data/config.json:ro
+      - tileserver-sprites:/data/sprites:ro
+      - tileserver-fonts:/data/fonts:ro
+      - ./map/output.mbtiles:/data/output.mbtiles:ro
+    read_only: true
+    ports:
+      - "3001:8080"
+    depends_on:
+      tileserver-init-sprites:
+        condition: service_completed_successfully
+      tileserver-init-src:
+        condition: service_completed_successfully
+  # cdn
+  data:
+    image: ghcr.io/tum-dev/navigatum-cdn:latest
+    restart: always
+    build: ./data
+    ports:
+      - "3002:3002"
+  # server
+  main-api:
+    image: ghcr.io/tum-dev/navigatum-main-api:latest
+    restart: always
+    build: ./server
+    command: /bin/navigatum-main-api
+    ports:
+      - "3003:3003"
+    volumes:
+      - type: tmpfs
+        target: /home/navigatum/.cache
+    user: 1000:3000
+    environment:
+      MIELI_URL: http://meilisearch:7700
+    depends_on:
+      meilisearch:
+        condition: service_healthy
+    healthcheck:
+      test: wget -q --spider http://localhost:3003/api/status
+      retries: 5
+      interval: 10s
+      start_period: 30s
+  meilisearch:
+    image: getmeili/meilisearch:v1.4.1
+    restart: always
+    healthcheck:
+      test: wget -q --spider http://localhost:7700/health
+      retries: 5
+      interval: 10s
+      start_period: 10s
+  feedback-api:
+    image: ghcr.io/tum-dev/navigatum-server:latest
+    restart: always
+    build: ./server
+    command: /bin/navigatum-feedback
+    ports:
+      - "3004:3004"
+    healthcheck:
+      test: wget -q --spider http://localhost:3004/api/feedback/status
+      retries: 5
+      start_period: 10s
+  calendar-api:
+    image: ghcr.io/tum-dev/navigatum-server:latest
+    restart: always
+    build: ./server
+    command: /bin/navigatum-calendar
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_URL: postgres:5432
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3005:3005"
+    healthcheck:
+      test: wget -q --spider http://localhost:3005/api/calendar/status
+      retries: 5
+      start_period: 10s
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      retries: 5
+      interval: 10s
+      start_period: 10s
+
+
+volumes:
+  db-data:
+    driver: local
+  tileserver-sprites:
+    driver: local
+  tileserver-fonts:
+    driver: local
+  postgres-data:
+    driver: local

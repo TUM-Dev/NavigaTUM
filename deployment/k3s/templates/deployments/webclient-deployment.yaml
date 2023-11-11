@@ -30,7 +30,7 @@ spec:
           image: "ghcr.io/tum-dev/navigatum-webclient:{{ $.Values.tag }}"
           imagePullPolicy: Always
           ports:
-            - containerPort: 9000
+            - containerPort: 3000
               name: webclient
           resources:
             requests:
