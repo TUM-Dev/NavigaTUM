@@ -25,6 +25,11 @@ spec:
         - name: api-svc
           port: 3003
     - kind: Rule
+      match: Host(`{{ $.Values.url }}`) && PathPrefix(`/maps/vol/`)
+      services:
+        - name: maps-svc
+          port: 7771
+    - kind: Rule
       match: Host(`{{ $.Values.url }}`) && PathPrefix(`/maps/`)
       services:
         - name: maps-svc
