@@ -36,8 +36,8 @@ fn apply_db_migrations() -> Result<(),Box<dyn Error + Send + Sync>> {
     Ok(())
 }
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
+#[tokio::main]
+async fn main() -> Result<(),Box<dyn Error + Send + Sync>> {
     Builder::with_level("info")
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();
@@ -72,5 +72,6 @@ async fn main() -> std::io::Result<()> {
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3005".to_string()))?
     .run()
-    .await
+    .await?;
+    Ok(())
 }
