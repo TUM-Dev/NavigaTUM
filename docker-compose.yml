@@ -5,6 +5,12 @@ services:
     build: ./webclient
     ports:
       - "3000:3000"
+    environment:
+      TILESERVER_URL: http://tilserver:3001
+      CDN_URL: http://cdn:3002
+      MAIN_API_URL: http://main-api:3003
+      FEEDBACK_API_URL: http://feedback-api:3004
+      CALENDAR_API_URL: http://calendar-api:3005
   # maps
   tileserver-init-sprites:
     image: alpine:latest
