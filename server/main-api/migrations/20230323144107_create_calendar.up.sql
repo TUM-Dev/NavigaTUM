@@ -23,4 +23,4 @@ CREATE TABLE calendar (
     last_scrape             TIMESTAMP NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS calendar_lut ON calendar(key, dtstart, dtend)
+CREATE INDEX IF NOT EXISTS calendar_lut ON calendar(key, dtstart, dtend);
