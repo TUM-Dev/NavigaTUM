@@ -2,7 +2,7 @@ use crate::models::DBRoomKeyAlias;
 use crate::utils;
 use actix_web::{get, web, HttpResponse};
 use log::error;
-use sqlx::SqlitePool;
+use sqlx::PgPool;
 
 #[get("/api/get/{id}")]
 pub async fn get_handler(
@@ -17,12 +17,12 @@ pub async fn get_handler(
         };
     let result = match args.should_use_english() {
         true => {
-            sqlx::query_scalar!("SELECT data FROM en WHERE key = ?", probable_id)
+            sqlx::query_scalar!("SELECT data FROM en WHERE key = $1", probable_id)
                 .fetch_optional(&data.db)
                 .await
         }
         false => {
-            sqlx::query_scalar!("SELECT data FROM de WHERE key = ?", probable_id)
+            sqlx::query_scalar!("SELECT data FROM de WHERE key = $1", probable_id)
                 .fetch_optional(&data.db)
                 .await
         }
@@ -50,15 +50,13 @@ pub async fn get_handler(
     }
 }
 
-async fn get_alias_and_redirect(conn: &SqlitePool, query: &str) -> Option<(String, String)> {
+async fn get_alias_and_redirect(conn: &PgPool, query: &str) -> Option<(String, String)> {
     let result = sqlx::query_as!(
         DBRoomKeyAlias,
         r#"
         SELECT key, visible_id, type
         FROM aliases
-        WHERE key = ? OR key = ?
-        "#,
-        query,
+        WHERE key = $1 OR key = $1 "#,
         query
     )
     .fetch_all(conn)

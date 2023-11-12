@@ -1,51 +1,53 @@
 {
-  "db_name": "SQLite",
-  "query": "SELECT * FROM en WHERE key = ?",
+  "db_name": "PostgreSQL",
+  "query": "SELECT * FROM de WHERE key = $1",
   "describe": {
     "columns": [
       {
-        "name": "key",
         "ordinal": 0,
+        "name": "key",
         "type_info": "Text"
       },
       {
-        "name": "name",
         "ordinal": 1,
+        "name": "name",
         "type_info": "Text"
       },
       {
-        "name": "tumonline_room_nr",
         "ordinal": 2,
-        "type_info": "Int64"
+        "name": "tumonline_room_nr",
+        "type_info": "Int4"
       },
       {
-        "name": "type",
         "ordinal": 3,
+        "name": "type",
         "type_info": "Text"
       },
       {
-        "name": "type_common_name",
         "ordinal": 4,
+        "name": "type_common_name",
         "type_info": "Text"
       },
       {
-        "name": "lat",
         "ordinal": 5,
-        "type_info": "Float"
+        "name": "lat",
+        "type_info": "Float8"
       },
       {
-        "name": "lon",
         "ordinal": 6,
-        "type_info": "Float"
+        "name": "lon",
+        "type_info": "Float8"
       },
       {
-        "name": "data",
         "ordinal": 7,
+        "name": "data",
         "type_info": "Text"
       }
     ],
     "parameters": {
-      "Right": 1
+      "Left": [
+        "Text"
+      ]
     },
     "nullable": [
       false,
@@ -58,5 +60,5 @@
       false
     ]
   },
-  "hash": "84ee8b091b1e17632363a2c7e4efdc195d4716f7857a99494918905ee5bfb868"
+  "hash": "a87d33b55872d9135ab82391b36d1a495534817fb39a9e25f6720267c6025965"
 }

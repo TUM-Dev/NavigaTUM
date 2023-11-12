@@ -29,7 +29,6 @@ RUN     cargo build --release --workspace \
 
 # second run of the image build (including our code)
 COPY    calendar/diesel.toml ./calendar/diesel.toml
-COPY    calendar/migrations calendar/migrations
 COPY    .sqlx .sqlx
 
 COPY    feedback/src ./feedback/src

@@ -1,26 +1,28 @@
 {
-  "db_name": "SQLite",
-  "query": "\n        SELECT key, visible_id, type\n        FROM aliases\n        WHERE key = ? OR key = ?\n        ",
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT key, visible_id, type\n        FROM aliases\n        WHERE key = $1 OR key = $1 ",
   "describe": {
     "columns": [
       {
-        "name": "key",
         "ordinal": 0,
+        "name": "key",
         "type_info": "Text"
       },
       {
-        "name": "visible_id",
         "ordinal": 1,
+        "name": "visible_id",
         "type_info": "Text"
       },
       {
-        "name": "type",
         "ordinal": 2,
+        "name": "type",
         "type_info": "Text"
       }
     ],
     "parameters": {
-      "Right": 2
+      "Left": [
+        "Text"
+      ]
     },
     "nullable": [
       false,
@@ -28,5 +30,5 @@
       false
     ]
   },
-  "hash": "c407c4d9fe1ce6bd90db434750df722d58068d3187a54cdf95dd8361db2d4c26"
+  "hash": "8874c6d22d9ef278efa392191441a8d4ec920f8b46eaeaa37205c307b27b7332"
 }

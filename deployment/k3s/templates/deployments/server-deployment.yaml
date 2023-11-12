@@ -42,8 +42,18 @@ spec:
                 name: server-api-keys # MEILI_MASTER_KEY
           {{ end }}
           env:
-            - name: DB_LOCATION
-              value: api_data.db
+            - name: POSTGRES_URL
+              value: postgres-rw.navigatum.svc.cluster.local
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: password
           ports:
             - containerPort: 3003
               name: api

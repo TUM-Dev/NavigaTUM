@@ -2,7 +2,7 @@
 pub struct DBRoomEntry {
     pub key: String,
     pub name: String,
-    pub tumonline_room_nr: Option<i64>,
+    pub tumonline_room_nr: Option<i32>,
     pub r#type: String,
     pub type_common_name: String,
     pub lat: f64,

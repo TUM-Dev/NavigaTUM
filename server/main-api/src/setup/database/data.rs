@@ -1,6 +1,6 @@
 use log::info;
 use serde_json::Value;
-use sqlx::SqlitePool;
+use sqlx::PgPool;
 use std::collections::HashMap;
 use std::time::Instant;
 
@@ -9,8 +9,8 @@ struct ExtractedFields {
     tumonline_room_nr: Option<i32>,
     r#type: String,
     type_common_name: String,
-    lat: f32,
-    lon: f32,
+    lat: f64,
+    lon: f64,
 }
 impl From<HashMap<String, Value>> for ExtractedFields {
     fn from(obj: HashMap<String, Value>) -> Self {
@@ -37,8 +37,8 @@ impl From<HashMap<String, Value>> for ExtractedFields {
                 .as_str()
                 .unwrap()
                 .to_string(),
-            lat: lat.unwrap_or(48.14903) as f32,
-            lon: lon.unwrap_or(11.56735) as f32,
+            lat: lat.unwrap_or(48.14903),
+            lon: lon.unwrap_or(11.56735),
         }
     }
 }
@@ -108,12 +108,15 @@ impl From<HashMap<String, Value>> for DelocalisedValues {
 }
 
 impl DelocalisedValues {
-    async fn store(self, tx: &mut sqlx::Transaction<'_, sqlx::Sqlite>) -> Result<(), sqlx::Error> {
+    async fn store(
+        self,
+        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+    ) -> Result<(), sqlx::Error> {
         let key = self.key.clone(); // has to be here due to livetimes somehow
         let (data, fields) = StorableValue::from(self.de);
         sqlx::query!(
             r#"INSERT INTO de(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon)
-            VALUES (?,?,?,?,?,?,?,?)"#,
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8)"#,
             key,
             data,
             fields.name,
@@ -129,7 +132,7 @@ impl DelocalisedValues {
         let (data, fields) = StorableValue::from(self.en);
         sqlx::query!(
             r#"INSERT INTO en(key,data,name,tumonline_room_nr,type,type_common_name,lat,lon)
-            VALUES (?,?,?,?,?,?,?,?)"#,
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8)"#,
             self.key,
             data,
             fields.name,
@@ -145,7 +148,7 @@ impl DelocalisedValues {
         Ok(())
     }
 }
-pub(crate) async fn load_all_to_db(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
+pub(crate) async fn load_all_to_db(pool: &PgPool) -> Result<(), Box<dyn std::error::Error>> {
     let start = Instant::now();
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
