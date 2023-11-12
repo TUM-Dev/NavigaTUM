@@ -1,7 +1,7 @@
 -- Add up migration script here
 CREATE TABLE aliases
 (
-    id         INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    id         SERIAL PRIMARY KEY NOT NULL,
     alias      TEXT                              NOT NULL,
     key        TEXT                              NOT NULL,
     visible_id TEXT                              NOT NULL,

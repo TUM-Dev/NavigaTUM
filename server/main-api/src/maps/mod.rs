@@ -12,7 +12,7 @@ use image::Rgba;
 use std::io::Cursor;
 
 use log::{debug, error, warn};
-use sqlx::SqlitePool;
+use sqlx::PgPool;
 
 use tokio::time::Instant;
 use unicode_truncate::UnicodeTruncateStr;
@@ -28,16 +28,16 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
 }
 
 async fn get_localised_data(
-    conn: &SqlitePool,
+    conn: &PgPool,
     id: &str,
     should_use_english: bool,
 ) -> Result<DBRoomEntry, HttpResponse> {
     let result = if should_use_english {
-        sqlx::query_as!(DBRoomEntry, "SELECT * FROM en WHERE key = ?", id)
+        sqlx::query_as!(DBRoomEntry, "SELECT * FROM en WHERE key = $1", id)
             .fetch_all(conn)
             .await
     } else {
-        sqlx::query_as!(DBRoomEntry, "SELECT * FROM de WHERE key = ?", id)
+        sqlx::query_as!(DBRoomEntry, "SELECT * FROM de WHERE key = $1", id)
             .fetch_all(conn)
             .await
     };
