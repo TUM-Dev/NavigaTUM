@@ -35,7 +35,7 @@ services:
   tileserver-init-src:
     image: alpine:latest
     restart: on-failure
-    command: wget -P /map --continue https://nav.tum.de/maps/vol/output.mbtiles
+    command: rsync -u -z --progress --partial --human-readable --stats rsync://nav.tum.de/maps/vol/output.mbtiles
     volumes:
       - ./map:/map
   tileserver:
@@ -58,6 +58,13 @@ services:
         condition: service_completed_successfully
       tileserver-init-src:
         condition: service_completed_successfully
+  tileserver-rsync-deamon-src:
+    image: alpine:3.18
+    restart: always
+    command: sh -c "apk add --no-cache rsync && rsync --daemon --no-detach --config=/etc/rsyncd.conf"
+    volumes:
+      - ./deployment/k3s/files/rsyncd.conf:/etc/rsyncd.conf:ro
+      - ./map/output.mbtiles:/home/share/output.mbtiles:ro
   # cdn
   data:
     image: ghcr.io/tum-dev/navigatum-cdn:latest
