@@ -2,8 +2,8 @@ use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
 use log::{debug, error, info};
-use sqlx::prelude::*;
 use sqlx::postgres::PgPoolOptions;
+use sqlx::prelude::*;
 use sqlx::PgPool;
 use std::collections::HashMap;
 use structured_logger::async_json::new_writer;
@@ -55,7 +55,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::with_level("info")
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();
-    let uri=connection_string();
+    let uri = connection_string();
     let pool = PgPoolOptions::new().connect(&uri).await?;
     info!("setting up the database");
     setup::database::setup_database(&pool).await?;

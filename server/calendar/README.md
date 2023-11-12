@@ -16,7 +16,7 @@ Please follow the [system dependencys docs](resources/documentation/Dependencys.
 To set up the database, you will need to run a `postgres` instance. We recommend this configuration:
 
 ```bash
-docker run -p 5432:5432 -e POSTGRES_PASSWORD=password postgres
+docker run -it --rm -e POSTGRES_PASSWORD=password -p 5432:5432 postgres:latest
 ```
 
 Any migrations this database needs are applied on first run of the server.

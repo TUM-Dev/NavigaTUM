@@ -108,7 +108,10 @@ impl From<HashMap<String, Value>> for DelocalisedValues {
 }
 
 impl DelocalisedValues {
-    async fn store(self, tx: &mut sqlx::Transaction<'_, sqlx::Postgres>) -> Result<(), sqlx::Error> {
+    async fn store(
+        self,
+        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+    ) -> Result<(), sqlx::Error> {
         let key = self.key.clone(); // has to be here due to livetimes somehow
         let (data, fields) = StorableValue::from(self.de);
         sqlx::query!(
