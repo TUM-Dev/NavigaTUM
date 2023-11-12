@@ -5,14 +5,13 @@ pub mod tumonline_calendar_connector;
 use crate::scrape_task::main_api_connector::{get_all_ids, Room};
 use crate::scrape_task::scrape_room_task::ScrapeRoomTask;
 use crate::scrape_task::tumonline_calendar_connector::{Strategy, XMLEvents};
-use crate::utils;
 use chrono::{DateTime, NaiveDate, Utc};
-use diesel::prelude::*;
 use futures::stream::FuturesUnordered;
 use futures::StreamExt;
 use lazy_static::lazy_static;
 use log::{info, warn};
 use prometheus::{register_counter, register_histogram, Counter, Histogram};
+use sqlx::PgPool;
 use std::time::{Duration, Instant};
 use tokio::time::sleep;
 lazy_static! {
@@ -44,8 +43,8 @@ pub struct ScrapeTask {
 
 const CONCURRENT_REQUESTS: usize = 2;
 impl ScrapeTask {
-    pub async fn new(time_window: chrono::Duration) -> Self {
-        let rooms_to_scrape = get_all_ids().await;
+    pub async fn new(conn: &PgPool, time_window: chrono::Duration) -> Self {
+        let rooms_to_scrape = get_all_ids(conn).await;
         let rooms_cnt = rooms_to_scrape.len();
         Self {
             rooms_to_scrape,
@@ -55,7 +54,7 @@ impl ScrapeTask {
         }
     }
 
-    pub async fn scrape_to_db(&mut self) {
+    pub async fn scrape_to_db(&mut self, conn: &sqlx::PgPool) {
         info!("Starting scraping calendar entries");
         let mut work_queue = FuturesUnordered::new();
         let start = self.scraping_start - self.time_window / 2;
@@ -66,7 +65,7 @@ impl ScrapeTask {
                     // It is critical for successfully scraping that we are not blocked.
                     sleep(Duration::from_millis(50)).await;
 
-                    work_queue.push(scrape(room, start.date_naive(), self.time_window));
+                    work_queue.push(scrape(conn, room, start.date_naive(), self.time_window));
                 }
             }
             work_queue.next().await;
@@ -92,20 +91,21 @@ impl ScrapeTask {
         (Utc::now() - self.scraping_start).to_std().unwrap()
     }
 
-    pub fn delete_stale_results(&self) {
-        use crate::schema::calendar::dsl;
+    pub async fn delete_stale_results(&self, conn: &PgPool) {
         let start_time = Instant::now();
         let scrape_interval = (
             self.scraping_start - self.time_window / 2,
             self.scraping_start + self.time_window / 2,
         );
-        let conn = &mut utils::establish_connection();
-        diesel::delete(dsl::calendar)
-            .filter(dsl::dtstart.gt(scrape_interval.0.naive_local()))
-            .filter(dsl::dtend.le(scrape_interval.1.naive_local()))
-            .filter(dsl::last_scrape.le(self.scraping_start.naive_local()))
-            .execute(conn)
-            .expect("Failed to delete calendar");
+        sqlx::query!(
+            "DELETE FROM calendar WHERE dtstart > $1 AND dtend < $2 AND last_scrape < $3",
+            scrape_interval.0.naive_local(),
+            scrape_interval.1.naive_local(),
+            self.scraping_start.naive_local()
+        )
+        .execute(conn)
+        .await
+        .expect("Failed to delete calendar");
 
         info!(
             "Finished deleting stale results ({time_window} in {passed:?})",
@@ -115,7 +115,7 @@ impl ScrapeTask {
     }
 }
 
-async fn scrape(room: Room, from: NaiveDate, duration: chrono::Duration) {
+async fn scrape(conn: &PgPool, room: Room, from: NaiveDate, duration: chrono::Duration) {
     let _timer = REQ_TIME_HISTOGRAM.start_timer(); // drop as observe
 
     // request and parse the xml file
@@ -130,7 +130,7 @@ async fn scrape(room: Room, from: NaiveDate, duration: chrono::Duration) {
             match events {
                 Ok(events) => {
                     success_cnt += events.len();
-                    events.store_in_db();
+                    events.store_in_db(conn).await;
                 }
                 Err(retry) => match retry {
                     Strategy::NoRetry => {}

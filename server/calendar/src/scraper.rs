@@ -5,8 +5,9 @@ use structured_logger::{async_json::new_writer, Builder};
 use std::fmt;
 
 use prometheus::labels;
+use sqlx::postgres::PgPoolOptions;
+
 mod models;
-mod schema;
 mod scrape_task;
 mod utils;
 
@@ -45,11 +46,17 @@ async fn main() {
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();
 
+    let uri = utils::connection_string();
+    let pool = PgPoolOptions::new()
+        .max_connections(20)
+        .connect(&uri)
+        .await
+        .expect("Failed to connect to database");
     let time_window = TimeWindow::init_from_env();
     info!("Scraping time window: {time_window:?}");
-    let mut scraper = ScrapeTask::new(time_window.duration).await;
-    scraper.scrape_to_db().await;
-    scraper.delete_stale_results();
+    let mut scraper = ScrapeTask::new(&pool, time_window.duration).await;
+    scraper.scrape_to_db(&pool).await;
+    scraper.delete_stale_results(&pool).await;
 
     info!("Pushing metrics to the pushgateway");
     tokio::task::spawn_blocking(move || {
