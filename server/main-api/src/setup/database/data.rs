@@ -37,8 +37,8 @@ impl From<HashMap<String, Value>> for ExtractedFields {
                 .as_str()
                 .unwrap()
                 .to_string(),
-            lat: lat.unwrap_or(48.14903) as f64,
-            lon: lon.unwrap_or(11.56735) as f64,
+            lat: lat.unwrap_or(48.14903),
+            lon: lon.unwrap_or(11.56735),
         }
     }
 }
