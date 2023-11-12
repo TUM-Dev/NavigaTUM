@@ -16,16 +16,13 @@ Please follow the [system dependencys docs](resources/documentation/Dependencys.
 To set up the database, you will need to run a `postgres` instance. We recommend this configuration:
 
 ```bash
-docker run -p 5432:5432 -e POSTGRES_PASSWORD=password postgres
+docker run -it --rm -e POSTGRES_PASSWORD=password -p 5432:5432 postgres:latest
 ```
 
 Any migrations this database needs are applied on first run of the server.
 In order to change the connection parameters that the calendar server uses you can use the environment variables:
 
-- `POSTGRES_USER` (default `postgres`)
-- `POSTGRES_PASSWORD` (default `password`)
-- `POSTGRES_URL` (default `localhost`, specify the port if different from 5432)
-- `POSTGRES_DB` (default: same as `POSTGRES_USER`)
+- `DATABASE_URL` (default `postgres`)
 
 ### Starting the server
 

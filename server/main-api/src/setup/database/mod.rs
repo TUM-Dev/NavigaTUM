@@ -1,9 +1,9 @@
 mod alias;
 mod data;
 
-use sqlx::{Executor, SqlitePool};
+use sqlx::{Executor, PgPool};
 
-pub(crate) async fn setup_database(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
+pub(crate) async fn setup_database(pool: &PgPool) -> Result<(), Box<dyn std::error::Error>> {
     sqlx::migrate!("./migrations").run(pool).await?;
     // this is to setup the database faster
     // we don't want to use an acid compliant database for this step ;)

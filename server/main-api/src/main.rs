@@ -2,9 +2,9 @@ use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
 use log::{debug, error, info};
+use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
-use sqlx::sqlite::SqlitePoolOptions;
-use sqlx::SqlitePool;
+use sqlx::PgPool;
 use std::collections::HashMap;
 use structured_logger::async_json::new_writer;
 use structured_logger::Builder;
@@ -20,7 +20,7 @@ const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
 #[derive(Clone, Debug)]
 pub struct AppData {
-    db: SqlitePool,
+    db: PgPool,
 }
 
 #[get("/api/status")]
@@ -42,13 +42,21 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
     };
 }
 
+fn connection_string() -> String {
+    let username = std::env::var("POSTGRES_USER").unwrap_or_else(|_| "postgres".to_string());
+    let password = std::env::var("POSTGRES_PASSWORD").unwrap_or_else(|_| "password".to_string());
+    let url = std::env::var("POSTGRES_URL").unwrap_or_else(|_| "localhost".to_string());
+    let db = std::env::var("POSTGRES_DB").unwrap_or_else(|_| username.clone());
+    format!("postgres://{username}:{password}@{url}/{db}")
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::with_level("info")
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();
-    let uri = std::env::var("DB_LOCATION").unwrap_or_else(|_| "api_data.db".to_string());
-    let pool = SqlitePoolOptions::new().connect(&uri).await?;
+    let uri = connection_string();
+    let pool = PgPoolOptions::new().connect(&uri).await?;
     info!("setting up the database");
     setup::database::setup_database(&pool).await?;
     info!("setting up meilisearch");

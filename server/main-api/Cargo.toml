@@ -33,8 +33,7 @@ unicode-truncate = "0.2.0"
 serde_yaml = "0.9"
 
 # database
-libsqlite3-sys = { version = "*", features = ["bundled"] }
-sqlx = { version = "0.7.2", features = ["sqlite", "runtime-tokio", "migrate", "macros"] }
+sqlx = { version = "0.7.2", features = ["postgres", "runtime-tokio-rustls", "migrate", "macros"] }
 
 # search
 meilisearch-sdk = "0.24.3"

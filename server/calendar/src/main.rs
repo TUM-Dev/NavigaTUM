@@ -6,8 +6,6 @@ mod utils;
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
-use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
-use log::info;
 use std::collections::HashMap;
 use std::error::Error;
 use structured_logger::async_json::new_writer;
@@ -26,22 +24,11 @@ async fn health_status_handler() -> HttpResponse {
         .body(format!("healthy\nsource_code: {github_link}"))
 }
 
-pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!("migrations");
-
-fn apply_db_migrations() -> Result<(), Box<dyn Error + Send + Sync>> {
-    info!("Applying database migrations");
-    let con = &mut utils::establish_connection();
-    con.run_pending_migrations(MIGRATIONS)?;
-    info!("database migrations applied");
-    Ok(())
-}
-
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     Builder::with_level("info")
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();
-    apply_db_migrations()?;
 
     // metrics
     let labels = HashMap::from([(
