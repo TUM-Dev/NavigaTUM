@@ -104,7 +104,7 @@ spec:
             failureThreshold: 6
             periodSeconds: 10
         - name: tileserver-src # serve tileserver-vol  at /maps/vol/...
-          image: alpine:18
+          image: alpine:3.18
           imagePullPolicy: IfNotPresent
           command:
           - sh
