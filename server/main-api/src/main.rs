@@ -1,7 +1,6 @@
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
-use futures::try_join;
 use log::{debug, error, info};
 use sqlx::sqlite::SqlitePoolOptions;
 use sqlx::SqlitePool;
@@ -13,7 +12,6 @@ use structured_logger::Builder;
 mod entries;
 mod maps;
 mod models;
-mod schema;
 mod search;
 mod setup;
 mod utils;

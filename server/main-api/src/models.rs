@@ -1,6 +1,5 @@
-use diesel::prelude::*;
 
-#[derive(Queryable, Debug, Clone)]
+#[derive(Debug, Clone)]
 pub struct DBRoomEntry {
     pub key: String,
     pub name: String,
@@ -12,7 +11,7 @@ pub struct DBRoomEntry {
     pub data: String,
 }
 
-#[derive(Queryable, Debug, Clone)]
+#[derive(Debug, Clone)]
 pub struct DBRoomKeyAlias {
     pub key: String,
     pub visible_id: String,

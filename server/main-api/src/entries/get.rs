@@ -1,33 +1,27 @@
 use crate::models::DBRoomKeyAlias;
 use crate::utils;
 use actix_web::{get, web, HttpResponse};
-use diesel::prelude::*;
 use log::error;
+use sqlx::{Executor};
 
 #[get("/api/get/{id}")]
 pub async fn get_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<utils::LangQueryArgs>,
+    data: web::Data<crate::AppData>
 ) -> HttpResponse {
-    let conn = &mut utils::establish_connection();
-    let (probable_id, redirect_url) = match get_alias_and_redirect(conn, &params.into_inner()) {
+    let (probable_id, redirect_url) = match get_alias_and_redirect(&data.db, &params.into_inner()).await {
         Some(alias_and_redirect) => alias_and_redirect,
         None => return HttpResponse::NotFound().body("Not found"),
     };
     let result = match args.should_use_english() {
         true => {
-            use crate::schema::en::dsl;
-            dsl::en
-                .filter(dsl::key.eq(&probable_id))
-                .select(dsl::data)
-                .load::<String>(conn)
+            sqlx::query!("SELECT data FROM en WHERE key = ?",probable_id)
+                .fetch_one::<String>(&data.db).await
         }
         false => {
-            use crate::schema::de::dsl;
-            dsl::de
-                .filter(dsl::key.eq(&probable_id))
-                .select(dsl::data)
-                .load::<String>(conn)
+            sqlx::query!("SELECT data FROM de WHERE key = ?",probable_id)
+                .fetch_one::<String>(&data.db).await
         }
     };
     match result {
@@ -53,13 +47,16 @@ pub async fn get_handler(
     }
 }
 
-fn get_alias_and_redirect(conn: &mut SqliteConnection, query: &str) -> Option<(String, String)> {
-    use crate::schema::aliases::dsl::{alias, aliases, key, type_, visible_id};
-    let result = aliases
-        .filter(alias.eq(query).or(key.eq(query)))
-        .select((key, visible_id, type_))
-        .distinct()
-        .load::<DBRoomKeyAlias>(conn);
+async fn get_alias_and_redirect<'a, Conn: Executor<'a>>(conn: Conn, query: &str) -> Option<(String, String)> {
+    let result=sqlx::query!(
+        r#"
+        SELECT key, visible_id, type
+        FROM aliases
+        WHERE key = ? OR key = ?
+        "#,
+        query,
+        query
+    ).fetch_one::<DBRoomKeyAlias>(conn).await?;
     match result {
         Ok(d) => {
             let redirect_url = match d.len() {

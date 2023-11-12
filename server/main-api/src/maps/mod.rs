@@ -8,11 +8,11 @@ use crate::models::DBRoomEntry;
 use actix_web::{get, web, HttpResponse};
 use cached::proc_macro::cached;
 use cached::SizedCache;
-use diesel::prelude::*;
 use image::Rgba;
 use std::io::Cursor;
 
 use log::{debug, error, warn};
+use sqlx::SqlitePool;
 
 use tokio::time::Instant;
 use unicode_truncate::UnicodeTruncateStr;
@@ -27,15 +27,14 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
     }
 }
 
-fn get_localised_data(id: &str, should_use_english: bool) -> Result<DBRoomEntry, HttpResponse> {
-    let conn = &mut utils::establish_connection();
+async fn get_localised_data(conn:&SqlitePool,id: &str, should_use_english: bool) -> Result<DBRoomEntry, HttpResponse> {
 
     let result = if should_use_english {
-        use crate::schema::en::dsl;
-        dsl::en.filter(dsl::key.eq(&id)).load::<DBRoomEntry>(conn)
+        sqlx::query!("SELECT * FROM en WHERE key = ?",id)
+            .fetch_all::<DBRoomEntry>(conn).await?
     } else {
-        use crate::schema::de::dsl;
-        dsl::de.filter(dsl::key.eq(&id)).load::<DBRoomEntry>(conn)
+        sqlx::query!("SELECT * FROM de WHERE key = ?",id)
+            .fetch_all::<DBRoomEntry>(conn).await?
     };
 
     match result {
@@ -123,11 +122,11 @@ fn load_default_image() -> Vec<u8> {
 #[get("/{id}")]
 pub async fn maps_handler(
     params: web::Path<String>,
-    web::Query(args): web::Query<utils::LangQueryArgs>,
+    web::Query(args): web::Query<utils::LangQueryArgs>,data: web::Data<crate::AppData>
 ) -> HttpResponse {
     let start_time = Instant::now();
     let id = params.into_inner();
-    let data = match get_localised_data(&id, args.should_use_english()) {
+    let data = match get_localised_data(&data.db,&id, args.should_use_english()).await {
         Ok(data) => data,
         Err(e) => {
             return e;
