@@ -6,8 +6,6 @@ metadata:
 data:
   osm-liberty.json: |-
 {{ .Files.Get "files/maps/osm-liberty.json" | indent 4 }}
-  rsyncd.conf: |-
-{{ .Files.Get "files/maps/rsyncd.conf" | indent 4 }}
   config.json: |-
     {
       "options": {
