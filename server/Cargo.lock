@@ -856,9 +856,7 @@ dependencies = [
  "chrono",
  "diesel_derives",
  "itoa",
- "libsqlite3-sys",
  "pq-sys",
- "time",
 ]
 
 [[package]]
@@ -2125,7 +2123,6 @@ dependencies = [
  "actix-web",
  "actix-web-prom",
  "cached",
- "diesel",
  "futures",
  "image",
  "imageproc",
