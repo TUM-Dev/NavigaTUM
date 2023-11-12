@@ -35,7 +35,7 @@ services:
   tileserver-init-src:
     image: alpine:latest
     restart: on-failure
-    command: rsync -u -z --progress --partial --human-readable --stats rsync://nav.tum.de/maps/vol/output.mbtiles
+    command: rsync --update --compress --progress --partial --human-readable --stats rsync://nav.tum.de/maps/vol/output.mbtiles /map/output.mbtiles
     volumes:
       - ./map:/map
   tileserver:
