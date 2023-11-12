@@ -32,10 +32,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::with_level("info")
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();
-    info!("setting up meilisearch");
-    setup::meilisearch::setup_meilisearch().await?;
     info!("setting up the database");
     setup::database::setup_database().await?;
+    info!("setting up meilisearch");
+    setup::meilisearch::setup_meilisearch().await?;
 
     debug!("setting up metrics");
     let labels = HashMap::from([(
