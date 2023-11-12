@@ -33,9 +33,9 @@ services:
     volumes:
       - tileserver-sprites:/sprites
   tileserver-init-src:
-    image: alpine:latest
+    image: ubuntu:latest
     restart: on-failure
-    command: wget -P /map --continue https://nav.tum.de/maps/vol/output.mbtiles
+    command: sh -c "apt update && apt install wget -y && wget --timestamping --directory-prefix=/map --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
     volumes:
       - ./map:/map
   tileserver:
