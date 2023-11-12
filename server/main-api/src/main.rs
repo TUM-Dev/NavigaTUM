@@ -2,9 +2,9 @@ use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
 use log::{debug, error, info};
+use sqlx::prelude::*;
 use sqlx::sqlite::SqlitePoolOptions;
 use sqlx::SqlitePool;
-use sqlx::prelude::*;
 use std::collections::HashMap;
 use structured_logger::async_json::new_writer;
 use structured_logger::Builder;
@@ -19,7 +19,7 @@ mod utils;
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
 #[derive(Clone, Debug)]
-struct AppData {
+pub struct AppData {
     db: SqlitePool,
 }
 

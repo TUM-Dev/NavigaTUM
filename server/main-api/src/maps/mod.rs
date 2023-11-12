@@ -27,14 +27,19 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
     }
 }
 
-async fn get_localised_data(conn:&SqlitePool,id: &str, should_use_english: bool) -> Result<DBRoomEntry, HttpResponse> {
-
+async fn get_localised_data(
+    conn: &SqlitePool,
+    id: &str,
+    should_use_english: bool,
+) -> Result<DBRoomEntry, HttpResponse> {
     let result = if should_use_english {
-        sqlx::query!("SELECT * FROM en WHERE key = ?",id)
-            .fetch_all::<DBRoomEntry>(conn).await?
+        sqlx::query_as!(DBRoomEntry, "SELECT * FROM en WHERE key = ?", id)
+            .fetch_all(conn)
+            .await
     } else {
-        sqlx::query!("SELECT * FROM de WHERE key = ?",id)
-            .fetch_all::<DBRoomEntry>(conn).await?
+        sqlx::query_as!(DBRoomEntry, "SELECT * FROM de WHERE key = ?", id)
+            .fetch_all(conn)
+            .await
     };
 
     match result {
@@ -122,11 +127,12 @@ fn load_default_image() -> Vec<u8> {
 #[get("/{id}")]
 pub async fn maps_handler(
     params: web::Path<String>,
-    web::Query(args): web::Query<utils::LangQueryArgs>,data: web::Data<crate::AppData>
+    web::Query(args): web::Query<utils::LangQueryArgs>,
+    data: web::Data<crate::AppData>,
 ) -> HttpResponse {
     let start_time = Instant::now();
     let id = params.into_inner();
-    let data = match get_localised_data(&data.db,&id, args.should_use_english()).await {
+    let data = match get_localised_data(&data.db, &id, args.should_use_english()).await {
         Ok(data) => data,
         Err(e) => {
             return e;

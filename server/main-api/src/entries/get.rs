@@ -2,33 +2,36 @@ use crate::models::DBRoomKeyAlias;
 use crate::utils;
 use actix_web::{get, web, HttpResponse};
 use log::error;
-use sqlx::{Executor};
+use sqlx::SqlitePool;
 
 #[get("/api/get/{id}")]
 pub async fn get_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<utils::LangQueryArgs>,
-    data: web::Data<crate::AppData>
+    data: web::Data<crate::AppData>,
 ) -> HttpResponse {
-    let (probable_id, redirect_url) = match get_alias_and_redirect(&data.db, &params.into_inner()).await {
-        Some(alias_and_redirect) => alias_and_redirect,
-        None => return HttpResponse::NotFound().body("Not found"),
-    };
+    let (probable_id, redirect_url) =
+        match get_alias_and_redirect(&data.db, &params.into_inner()).await {
+            Some(alias_and_redirect) => alias_and_redirect,
+            None => return HttpResponse::NotFound().body("Not found"),
+        };
     let result = match args.should_use_english() {
         true => {
-            sqlx::query!("SELECT data FROM en WHERE key = ?",probable_id)
-                .fetch_one::<String>(&data.db).await
+            sqlx::query_scalar!("SELECT data FROM en WHERE key = ?", probable_id)
+                .fetch_optional(&data.db)
+                .await
         }
         false => {
-            sqlx::query!("SELECT data FROM de WHERE key = ?",probable_id)
-                .fetch_one::<String>(&data.db).await
+            sqlx::query_scalar!("SELECT data FROM de WHERE key = ?", probable_id)
+                .fetch_optional(&data.db)
+                .await
         }
     };
     match result {
-        Ok(d) => match d.len() {
-            0 => HttpResponse::NotFound().body("Not found"),
-            _ => {
-                let mut response_json = d[0].clone();
+        Ok(d) => match d {
+            None => HttpResponse::NotFound().body("Not found"),
+            Some(d) => {
+                let mut response_json = d.clone();
                 // We don not want to serialise this data at any point in the server.
                 // This just flows through the server, but adding redirect_url to the response is necessary
                 response_json.pop(); // remove last }
@@ -47,8 +50,9 @@ pub async fn get_handler(
     }
 }
 
-async fn get_alias_and_redirect<'a, Conn: Executor<'a>>(conn: Conn, query: &str) -> Option<(String, String)> {
-    let result=sqlx::query!(
+async fn get_alias_and_redirect(conn: &SqlitePool, query: &str) -> Option<(String, String)> {
+    let result = sqlx::query_as!(
+        DBRoomKeyAlias,
         r#"
         SELECT key, visible_id, type
         FROM aliases
@@ -56,12 +60,14 @@ async fn get_alias_and_redirect<'a, Conn: Executor<'a>>(conn: Conn, query: &str)
         "#,
         query,
         query
-    ).fetch_one::<DBRoomKeyAlias>(conn).await?;
+    )
+    .fetch_all(conn)
+    .await;
     match result {
         Ok(d) => {
             let redirect_url = match d.len() {
                 0 => return None, // not key or alias
-                1 => extract_redirect_exact_match(&d[0].type_, &d[0].visible_id),
+                1 => extract_redirect_exact_match(&d[0].r#type, &d[0].visible_id),
                 _ => {
                     let keys = d
                         .clone()
