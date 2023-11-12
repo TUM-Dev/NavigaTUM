@@ -8,10 +8,10 @@ metadata:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: postgres
 spec:
-  storageClassName: longhorn
+  storageClassName: local-path
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 3Gi
-  {{ end}}
+{{ end }}
