@@ -70,8 +70,8 @@ spec:
       port: 3001
       targetPort: 8080
     - name: src
-      port: 873
-      targetPort: 873
+      port: 7771
+      targetPort: 80
 ---
 apiVersion: v1
 kind: Service

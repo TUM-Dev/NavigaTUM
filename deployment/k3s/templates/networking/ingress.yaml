@@ -28,7 +28,7 @@ spec:
       match: Host(`{{ $.Values.url }}`) && PathPrefix(`/maps/vol/`)
       services:
         - name: maps-svc
-          port: 873
+          port: 7771
     - kind: Rule
       match: Host(`{{ $.Values.url }}`) && PathPrefix(`/maps/`)
       services:

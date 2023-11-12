@@ -104,19 +104,12 @@ spec:
             failureThreshold: 6
             periodSeconds: 10
         - name: tileserver-src # serve tileserver-vol  at /maps/vol/...
-          image: alpine:3.18
+          image: nginx:1.25
           imagePullPolicy: IfNotPresent
-          command:
-          - sh
-          - -c
-          - "apk add --no-cache rsync && rsync --daemon --no-detach --config=/etc/rsyncd.conf"
           ports:
-            - containerPort: 873
-              name: rsync
+            - containerPort: 80
+              name: http
           volumeMounts:
             - name: tileserver-vol
-              mountPath: /home/maps/vol
+              mountPath: /usr/share/nginx/html/maps/vol
               readOnly: true
-            - name: tileserver-config
-              mountPath: /etc/rsyncd.conf
-              subPath: rsyncd.conf
