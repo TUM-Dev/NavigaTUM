@@ -31,7 +31,7 @@ serde_json.workspace = true
 chrono = { version = "0.4.31", default-features = false, features = ["serde"] }
 
 # database
-diesel = { version = "2.1.3", features = ["default", "chrono", "postgres"] }
+diesel = { version = "2.1.3", default-features = false, features = ["default", "chrono", "postgres"] }
 
 # metrics
 lazy_static = "1.4.0"
