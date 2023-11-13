@@ -74,13 +74,6 @@ async fn store_in_db(conn: &PgPool, rooms_to_store: &[Room], start_time: &NaiveD
         cnt = rooms_to_store.len()
     );
     for room in rooms_to_store {
-        let room = crate::models::Room {
-            key: room.sap_id.clone(),
-            tumonline_org_id: room.tumonline_org_id,
-            tumonline_calendar_id: room.tumonline_calendar_id,
-            tumonline_room_id: room.tumonline_room_id,
-            last_scrape: *start_time,
-        };
         if let Err(e) =sqlx::query!(r#"
             INSERT INTO rooms(key,tumonline_org_id,tumonline_calendar_id,tumonline_room_id,last_scrape)
             VALUES ($1,$2,$3,$4,$5)
@@ -88,14 +81,14 @@ async fn store_in_db(conn: &PgPool, rooms_to_store: &[Room], start_time: &NaiveD
               tumonline_org_id=$2,
               tumonline_calendar_id=$3,
               tumonline_room_id=$4,
-              last_scrape=$5"#,
-            room.key,
+              last_scrape=$5
+            "#,
+            room.sap_id.clone(),
             room.tumonline_org_id,
             room.tumonline_calendar_id,
             room.tumonline_room_id,
-            room.last_scrape)
-            .execute(conn)
-            .await           {
+            *start_time,
+        ).execute(conn).await {
                 error!("Error inserting into database: {e:?}");
             }
     }

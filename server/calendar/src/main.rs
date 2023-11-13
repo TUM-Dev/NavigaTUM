@@ -5,11 +5,11 @@ mod utils;
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
+use log::error;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::{Executor, PgPool};
 use std::collections::HashMap;
 use std::error::Error;
-use log::error;
 use structured_logger::async_json::new_writer;
 use structured_logger::Builder;
 
