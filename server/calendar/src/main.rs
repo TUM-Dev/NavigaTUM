@@ -6,9 +6,10 @@ use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
 use sqlx::postgres::PgPoolOptions;
-use sqlx::PgPool;
+use sqlx::{Executor, PgPool};
 use std::collections::HashMap;
 use std::error::Error;
+use log::error;
 use structured_logger::async_json::new_writer;
 use structured_logger::Builder;
 
@@ -20,14 +21,22 @@ pub struct AppData {
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
 #[get("/api/calendar/status")]
-async fn health_status_handler() -> HttpResponse {
+async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
     let github_link = match std::env::var("GIT_COMMIT_SHA") {
         Ok(hash) => format!("https://github.com/TUM-Dev/navigatum/tree/{hash}"),
         Err(_) => "unknown commit hash, probably running in development".to_string(),
     };
-    HttpResponse::Ok()
-        .content_type("text/plain")
-        .body(format!("healthy\nsource_code: {github_link}"))
+    return match data.db.execute("SELECT 1").await {
+        Ok(_) => HttpResponse::Ok()
+            .content_type("text/plain")
+            .body(format!("healthy\nsource_code: {github_link}")),
+        Err(e) => {
+            error!("database error: {e:?}",);
+            HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body(format!("unhealthy\nsource_code: {github_link}"))
+        }
+    };
 }
 
 #[tokio::main]
