@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n        SELECT key, visible_id, type\n        FROM aliases\n        WHERE key = $1 OR key = $1 ",
+  "query": "\n        SELECT DISTINCT key, visible_id, type\n        FROM aliases\n        WHERE key = $1 OR key = $1 ",
   "describe": {
     "columns": [
       {
@@ -30,5 +30,5 @@
       false
     ]
   },
-  "hash": "8874c6d22d9ef278efa392191441a8d4ec920f8b46eaeaa37205c307b27b7332"
+  "hash": "ea36e0bc96d683b48870ca9baefa02a0f5247fc264a17db0d454972454cfb26b"
 }
