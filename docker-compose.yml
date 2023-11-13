@@ -46,7 +46,7 @@ services:
       - /tmp
     volumes:
       - ./deployment/k3s/files/osm-liberty.json:/data/styles/osm-liberty.json:ro
-      - ./map/tileserver-config.json:/data/config.json:ro
+      - ./deployment/k3s/files/config.json:/data/config.json:ro
       - tileserver-sprites:/data/sprites:ro
       - tileserver-fonts:/data/fonts:ro
       - ./map/output.mbtiles:/data/output.mbtiles:ro
