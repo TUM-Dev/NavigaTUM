@@ -1,11 +1,10 @@
+use crate::models::Room;
 use crate::models::XMLEvent;
-use crate::schema::rooms::dsl;
-use crate::utils;
 use actix_web::{get, web, HttpResponse};
 use chrono::NaiveDateTime;
-use diesel::prelude::*;
 use log::error;
 use serde::{Deserialize, Serialize};
+use sqlx::PgPool;
 use std::fmt::Debug;
 
 #[derive(Deserialize, Debug)]
@@ -14,45 +13,55 @@ pub struct QueryArguments {
     end: NaiveDateTime,   // eg. 2022-01-07T00:00:00
 }
 
-fn get_room_information(
+async fn get_room_information(
     requested_key: &str,
-    conn: &mut PgConnection,
-) -> QueryResult<(String, NaiveDateTime)> {
-    let room = dsl::rooms
-        .filter(dsl::key.eq(requested_key))
-        .first::<crate::models::Room>(conn)?;
-    let calendar_url = format!(
-        "https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={id}",
-        id = room.tumonline_calendar_id
-    );
-    Ok((calendar_url, room.last_scrape))
+    conn: &PgPool,
+) -> Result<Option<(String, NaiveDateTime)>, sqlx::Error> {
+    let room = sqlx::query_as!(Room, "SELECT * FROM rooms WHERE key = $1", requested_key)
+        .fetch_optional(conn)
+        .await?;
+    match room {
+        Some(r) => {
+            let calendar_url = format!(
+                "https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={id}",
+                id = r.tumonline_calendar_id
+            );
+            Ok(Some((calendar_url, r.last_scrape)))
+        }
+        None => Ok(None),
+    }
 }
 
-fn get_entries(
+async fn get_entries(
     requested_key: &str,
     args: &QueryArguments,
-    conn: &mut PgConnection,
-) -> QueryResult<Vec<XMLEvent>> {
-    use crate::schema::calendar::dsl;
-    dsl::calendar
-        .filter(dsl::key.eq(&requested_key))
-        .filter(dsl::dtstart.ge(&args.start))
-        .filter(dsl::dtend.le(&args.end))
-        .order(dsl::dtstart)
-        .load::<XMLEvent>(conn)
+    conn: &PgPool,
+) -> Result<Vec<XMLEvent>, sqlx::Error> {
+    sqlx::query_as!(
+        XMLEvent,
+        r#"SELECT *
+    FROM calendar
+    WHERE key = $1 AND dtstart >= $2 AND dtend <= $3
+    ORDER BY dtstart"#,
+        requested_key,
+        args.start,
+        args.end
+    )
+    .fetch_all(conn)
+    .await
 }
 
 #[get("/api/calendar/{id}")]
 pub async fn calendar_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<QueryArguments>,
+    data: web::Data<crate::AppData>,
 ) -> HttpResponse {
     let id = params.into_inner();
-    let conn = &mut utils::establish_connection();
-    let results = get_entries(&id, &args, conn);
-    let room_information = get_room_information(&id, conn);
+    let results = get_entries(&id, &args, &data.db).await;
+    let room_information = get_room_information(&id, &data.db).await;
     match (results, room_information) {
-        (Ok(results), Ok((calendar_url, last_room_sync))) => {
+        (Ok(results), Ok(Some((calendar_url, last_room_sync)))) => {
             let last_calendar_sync = results.iter().map(|e| e.last_scrape).min();
             let events = results.into_iter().map(Event::from).collect();
             HttpResponse::Ok().json(Events {
@@ -61,6 +70,9 @@ pub async fn calendar_handler(
                 calendar_url,
             })
         }
+        (_, Ok(None)) => HttpResponse::NotFound()
+            .content_type("text/plain")
+            .body("Room not found"),
         (Err(e), _) => {
             error!("Error loading calendar entries: {e:?}");
             HttpResponse::InternalServerError()

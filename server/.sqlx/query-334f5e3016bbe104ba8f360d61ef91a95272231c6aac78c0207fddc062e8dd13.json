@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM calendar WHERE dtstart > $1 AND dtend < $2 AND last_scrape < $3",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Timestamp",
+        "Timestamp",
+        "Timestamp"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "334f5e3016bbe104ba8f360d61ef91a95272231c6aac78c0207fddc062e8dd13"
+}

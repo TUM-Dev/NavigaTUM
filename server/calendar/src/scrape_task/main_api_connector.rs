@@ -1,8 +1,8 @@
 use chrono::{NaiveDateTime, Utc};
-use diesel::PgConnection;
 use log::{error, info};
 use regex::Regex;
 use serde::Deserialize;
+use sqlx::PgPool;
 
 fn api_url_from_env() -> Option<String> {
     let main_api_addr = std::env::var("CDN_SVC_SERVICE_HOST").ok()?;
@@ -47,7 +47,7 @@ impl Room {
     }
 }
 
-pub async fn get_all_ids() -> Vec<Room> {
+pub async fn get_all_ids(conn: &PgPool) -> Vec<Room> {
     let url =
         api_url_from_env().unwrap_or_else(|| "https://nav.tum.de/cdn/api_data.json".to_string());
     let res = reqwest::get(&url).await;
@@ -63,43 +63,42 @@ pub async fn get_all_ids() -> Vec<Room> {
         Err(e) => panic!("Failed to parse main-api response: {e:#?}"),
     };
     let start_time = Utc::now().naive_utc();
-    let conn = &mut crate::utils::establish_connection();
-    store_in_db(conn, &rooms, &start_time);
-    delete_stale_results(conn, start_time);
+    store_in_db(conn, &rooms, &start_time).await;
+    delete_stale_results(conn, start_time).await;
     rooms
 }
 
-fn store_in_db(conn: &mut PgConnection, rooms_to_store: &[Room], start_time: &NaiveDateTime) {
-    use crate::schema::rooms::dsl;
-    use diesel::prelude::*;
-    info!("Storing {} rooms in database", rooms_to_store.len());
-    rooms_to_store
-        .iter()
-        .map(|room| crate::models::Room {
-            key: room.sap_id.clone(),
-            tumonline_org_id: room.tumonline_org_id,
-            tumonline_calendar_id: room.tumonline_calendar_id,
-            tumonline_room_id: room.tumonline_room_id,
-            last_scrape: *start_time,
-        })
-        .for_each(|room| {
-            let res = diesel::insert_into(dsl::rooms)
-                .values(&room)
-                .on_conflict(dsl::key)
-                .do_update()
-                .set(&room)
-                .execute(conn);
-            if let Err(e) = res {
+async fn store_in_db(conn: &PgPool, rooms_to_store: &[Room], start_time: &NaiveDateTime) {
+    info!(
+        "Storing {cnt} rooms in database",
+        cnt = rooms_to_store.len()
+    );
+    for room in rooms_to_store {
+        if let Err(e) =sqlx::query!(r#"
+            INSERT INTO rooms(key,tumonline_org_id,tumonline_calendar_id,tumonline_room_id,last_scrape)
+            VALUES ($1,$2,$3,$4,$5)
+            ON CONFLICT (key) DO UPDATE SET
+              tumonline_org_id=$2,
+              tumonline_calendar_id=$3,
+              tumonline_room_id=$4,
+              last_scrape=$5
+            "#,
+            room.sap_id.clone(),
+            room.tumonline_org_id,
+            room.tumonline_calendar_id,
+            room.tumonline_room_id,
+            *start_time,
+        ).execute(conn).await {
                 error!("Error inserting into database: {e:?}");
             }
-        });
+    }
 }
-fn delete_stale_results(conn: &mut PgConnection, start_time: NaiveDateTime) {
-    use crate::schema::rooms::dsl;
-    use diesel::prelude::*;
+async fn delete_stale_results(conn: &PgPool, start_time: NaiveDateTime) {
     info!("Deleting stale rooms from the database");
-    diesel::delete(dsl::rooms)
-        .filter(dsl::last_scrape.lt(start_time))
+    if let Err(e) = sqlx::query!("DELETE FROM rooms WHERE last_scrape < $1", start_time)
         .execute(conn)
-        .expect("Failed to delete stale rooms");
+        .await
+    {
+        error!("Error deleting stale rooms from database: {e:?}");
+    }
 }
