@@ -152,29 +152,10 @@ impl XMLEvents {
         for event in self.events {
             if let Err(e) = sqlx::query!(r#"
                 INSERT INTO calendar(key, dtstart, dtend, dtstamp, event_id, event_title, single_event_id, single_event_type_id, single_event_type_name, event_type_id, event_type_name, course_type_name, course_type, course_code, course_semester_hours, group_id, xgroup, status_id, status, comment, last_scrape)
-                VALUES               ($1,  $2,      $3,    $4,      $5,       $6,          $7,              $8,                   $9,                     $10,           $11,             $12,              $13,         $14,         $15,                   $16,      $17,    $18,       $19,    $20,     $21)
-                ON CONFLICT (key, dtstart, dtend) DO UPDATE SET
-                dtstamp=$4,
-                event_id=$5,
-                event_title=$6,
-                single_event_id=$7,
-                single_event_type_id=$8,
-                single_event_type_name=$9,
-                event_type_id=$10,
-                event_type_name=$11,
-                course_type_name=$12,
-                course_type=$13,
-                course_code=$14,
-                course_semester_hours=$15,
-                group_id=$16,
-                xgroup=$17,
-                status_id=$18,
-                status=$19,
-                comment=$20,
-                last_scrape=$21"#,
+                VALUES               ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)"#,
                     event.key, event.dtstart, event.dtend, event.dtstamp, event.event_id, event.event_title, event.single_event_id, event.single_event_type_id, event.single_event_type_name, event.event_type_id, event.event_type_name, event.course_type_name, event.course_type, event.course_code, event.course_semester_hours, event.group_id, event.xgroup, event.status_id, event.status, event.comment, event.last_scrape)
                     .execute(conn).await {
-                error!("#Error inserting into database: {e:?}");
+                error!("Error inserting into database: {e:?}");
             }
         }
     }
