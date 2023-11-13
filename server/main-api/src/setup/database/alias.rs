@@ -89,7 +89,7 @@ impl Alias {
         sqlx::query!(
             r#"INSERT INTO aliases (alias, key, type, visible_id)
             VALUES ($1, $2, $3, $4)
-            ON CONFLICT (alias) DO UPDATE
+            ON CONFLICT (alias,key) DO UPDATE
             SET
              key = $2,
              type = $3,
