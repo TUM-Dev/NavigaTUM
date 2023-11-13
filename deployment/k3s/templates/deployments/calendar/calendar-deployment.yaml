@@ -63,11 +63,11 @@ spec:
             httpGet:
               path: /api/calendar/status
               port: calendar
-            failureThreshold: 2
-            periodSeconds: 10
+            failureThreshold: 5
+            periodSeconds: 1
           startupProbe:
             httpGet:
               path: /api/calendar/status
               port: calendar
-            failureThreshold: 60
+            failureThreshold: 240
             periodSeconds: 1
