@@ -56,7 +56,7 @@ async fn get_alias_and_redirect(conn: &PgPool, query: &str) -> Option<(String, S
         r#"
         SELECT DISTINCT key, visible_id, type
         FROM aliases
-        WHERE key = $1 OR key = $1 "#,
+        WHERE alias = $1 OR key = $1 "#,
         query
     )
     .fetch_all(conn)
