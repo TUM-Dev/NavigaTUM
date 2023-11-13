@@ -54,7 +54,7 @@ async fn get_alias_and_redirect(conn: &PgPool, query: &str) -> Option<(String, S
     let result = sqlx::query_as!(
         DBRoomKeyAlias,
         r#"
-        SELECT key, visible_id, type
+        SELECT DISTINCT key, visible_id, type
         FROM aliases
         WHERE key = $1 OR key = $1 "#,
         query
