@@ -26,17 +26,16 @@ serde_json.workspace = true
 
 rand = "0.8.5"
 regex = "1.10.2"
-octocrab = "0.32.0"
+octocrab = { version = "0.32.0", default-features = false, features=["rustls","rustls-webpki-tokio","retry","tokio"] }
 
 # web
 jsonwebtoken = "9.1.0"
 chrono= { version = "0.4.31", default-features = false }
-actix-governor = { version = "0.5.0", features = ["log"] }
+actix-governor = { version = "0.5.0", features = ["logger"] }
 
 # proposing feedback
 tempfile = "3.8.1"
 image = { version = "0.24.7", features = ["default", "webp-encoder"] }
-imageproc = "0.23.0"
 base64 = "0.21.5"
 serde_yaml = "0.9"
 
