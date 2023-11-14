@@ -7,7 +7,6 @@ import DetailsInfoSection from "@/components/DetailsInfoSection.vue";
 import DetailsSources from "@/components/DetailsSources.vue";
 import DetailsFeedbackButton from "@/components/DetailsFeedbackButton.vue";
 import DetailsRoomfinderMap from "@/components/DetailsRoomfinderMap.vue";
-//import DetailsFeaturedOverviewSection from "@/components/DetailsFeaturedOverviewSection.vue";
 import { useI18n } from "vue-i18n";
 import { setDescription, setTitle } from "@/composables/common";
 import { useClipboard } from "@vueuse/core";
@@ -259,7 +258,6 @@ onMounted(() => {
       <DetailsInfoSection />
     </div>
 
-    <!--DetailsFeaturedOverviewSection :featured="state.data?.sections?.featured_overview" /-->
     <DetailsBuildingOverviewSection :buildings="state.data?.sections?.buildings_overview" />
     <DetailsRoomOverviewSection :rooms="state.data?.sections?.rooms_overview" />
     <DetailsSources />
