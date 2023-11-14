@@ -94,7 +94,7 @@ const { t } = useI18n({ useScope: "local" });
             <div class="column col-12 show-sm official_roomfinder mt-3">
               {{ t("official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
-                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="mx-auto"  />
+                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="mx-auto" />
               </a>
             </div>
           </div>

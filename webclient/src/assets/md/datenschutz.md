@@ -216,13 +216,11 @@ Eine Rückführung auf die Person ist dabei nur insoweit möglich, wie personenb
 Neben dem vom Nutzer bereitgestellten Daten wird außerdem der Raum, über den Feedback abgegeben wurde, das Datum und die Uhrzeit der Feedbackserstellung gesendet.
 Es wird zudem gespeichert, ob der Nutzer die Löschung der übertragenen Daten nach Beendigung der Feedbackbearbeitung wünscht.
 
-**Empfänger:**
-
+**Empfänger:**  
 Das übertragene Feedback wird, im Rahmen unserem Commitment zur Transparenz, öffentlich zugänglich auf [Github](https://github.com/TUM-Dev/navigatum/issues) gespeichert.
 Sie sind also technisch nicht auf einen Personenkreis beschränkt.
 Dem Nutzer wird ein Issue-link präsentiert, um die Bearbeitung des Feedbacks nachvollziehen zu können.
 Falls der Nutzer die sofortige Löschung gewünscht hat, kann diese Funktion nicht mehr technisch bereitgestellt werden.
 
-**Bereitstellung vorgeschrieben oder erforderlich:**
-
+**Bereitstellung vorgeschrieben oder erforderlich:**  
 Die Bereitstellung dieser nicht personenbezogenen Daten erfolgt freiwillig.
