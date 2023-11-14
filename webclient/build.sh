@@ -7,8 +7,9 @@ rm -fr ../dist
 
 for THEME in light dark
 do
-  # make sure we are really only building the right theme and language
+  # make sure we are really only building the right theme
   sed -i "s/\$theme: .*/\$theme: \"${THEME}\";/" src/assets/variables.scss
+  sed -i "s/>THEME</${THEME}/" index.html
 
   echo "Building ${THEME}"
   npm run build-only
