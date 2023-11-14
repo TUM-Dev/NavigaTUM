@@ -29,8 +29,7 @@ const appURL = import.meta.env.VITE_APP_URL;
         <img
           :alt="t('image_alt')"
           :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-          class="img-responsive"
-          style="width: 100%"
+          class="block h-auto max-w-full w-full bg-zinc-100"
         />
       </a>
       <div class="card-header">

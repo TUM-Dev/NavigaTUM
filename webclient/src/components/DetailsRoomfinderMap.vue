@@ -86,7 +86,7 @@ function delayedLoadRoomfinderModalMap() {
       <img
         :alt="t('img_alt')"
         :src="`${appURL}/cdn/maps/roomfinder/${state.selectedRoomfinderMap().file}`"
-        class="img-responsive"
+        class="block h-auto max-w-full bg-zinc-100"
         :width="state.map.roomfinder.width"
         :height="state.map.roomfinder.height"
         id="roomfinder-map-img"
@@ -156,7 +156,7 @@ function delayedLoadRoomfinderModalMap() {
           <img
             :alt="t('roomfinder.modal.img_alt')"
             :src="`${appURL}/cdn/maps/roomfinder/${state.selectedRoomfinderMap().file}`"
-            class="img-responsive"
+            class="block h-auto max-w-full bg-zinc-100"
             :width="state.map.roomfinder.width"
             :height="state.map.roomfinder.height"
             id="roomfinder-modal-map-img"

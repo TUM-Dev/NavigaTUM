@@ -66,7 +66,7 @@ const appURL = import.meta.env.VITE_APP_URL;
                       :src="`${appURL}/cdn/lg/${img.name}`"
                       :srcset="`${appURL}/cdn/sm/${img.name} 1024w,${appURL}/cdn/md/${img.name} 1920w,${appURL}/cdn/lg/${img.name} 3860w`"
                       sizes="100vw"
-                      class="img-responsive rounded"
+                      class="block h-auto max-w-full bg-zinc-100 rounded"
                     />
                     <span class="d-none" v-if="img.license.url" itemprop="license"> {{ img.license.url }}</span>
                     <span class="d-none" v-else itemprop="license"> img.license.text</span>

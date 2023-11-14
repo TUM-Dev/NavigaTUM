@@ -119,7 +119,11 @@ onMounted(() => {
       @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
       v-if="state.image.shown_image"
     >
-      <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${state.image.shown_image.name}`" class="img-responsive" />
+      <img
+        :alt="t('image_alt')"
+        :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
+        class="block h-auto max-w-full bg-zinc-100"
+      />
     </a>
 
     <!-- Breadcrumbs -->
