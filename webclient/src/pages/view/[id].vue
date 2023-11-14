@@ -51,6 +51,7 @@ watchEffect(() => {
 const state = useDetailsStore();
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
+const appURL = import.meta.env.VITE_APP_URL;
 
 function genDescription(d: DetailsResponse) {
   const detailsFor = t("details_for");
@@ -119,7 +120,7 @@ onMounted(() => {
       @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
       v-if="state.image.shown_image"
     >
-      <img :alt="t('image_alt')" :src="'/cdn/header/' + state.image.shown_image.name" class="img-responsive" />
+      <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${state.image.shown_image.name}`" class="img-responsive" />
     </a>
 
     <!-- Breadcrumbs -->

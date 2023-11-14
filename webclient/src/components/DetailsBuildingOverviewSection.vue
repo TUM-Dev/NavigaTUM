@@ -10,6 +10,7 @@ const props = defineProps<{
 
 const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);
 const { t } = useI18n({ useScope: "local" });
+const appURL = import.meta.env.VITE_APP_URL;
 </script>
 
 <template>
@@ -29,7 +30,7 @@ const { t } = useI18n({ useScope: "local" });
             <div class="tile tile-centered">
               <div class="tile-icon">
                 <figure class="avatar avatar-lg">
-                  <img v-if="b.thumb" :alt="t('thumbnail_preview')" :src="'/cdn/thumb/' + b.thumb" />
+                  <img v-if="b.thumb" :alt="t('thumbnail_preview')" :src="`${appURL}/cdn/thumb/${b.thumb}`" />
                   <img v-else :alt="t('default_thumbnail_preview')" src="@/assets/thumb-building.webp" />
                 </figure>
               </div>

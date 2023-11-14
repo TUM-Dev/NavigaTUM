@@ -4,6 +4,7 @@ import { useI18n } from "vue-i18n";
 
 const state = useDetailsStore();
 const { t } = useI18n({ useScope: "local" });
+const appURL = import.meta.env.VITE_APP_URL;
 </script>
 
 <template>
@@ -62,8 +63,8 @@ const { t } = useI18n({ useScope: "local" });
                       itemprop="contentUrl"
                       :alt="t('image_alt')"
                       loading="lazy"
-                      :src="'/cdn/lg/' + img.name"
-                      :srcset="`/cdn/sm/${img.name} 1024w,/cdn/md/${img.name} 1920w,/cdn/lg/${img.name} 3860w`"
+                      :src="`${appURL}/cdn/lg/${img.name}`"
+                      :srcset="`${appURL}/cdn/sm/${img.name} 1024w,${appURL}/cdn/md/${img.name} 1920w,${appURL}/cdn/lg/${img.name} 3860w`"
                       sizes="100vw"
                       class="img-responsive rounded"
                     />

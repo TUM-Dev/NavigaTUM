@@ -106,7 +106,7 @@ function initMap(containerId: string) {
 
     // preview of the following style is available at
     // https://nav.tum.de/maps/
-    style: "/maps/styles/osm-liberty/style.json",
+    style: `${import.meta.env.VITE_APP_URL}/maps/styles/osm-liberty/style.json`,
 
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible
@@ -191,7 +191,7 @@ function initMap(containerId: string) {
   }
 
   floorControl.value.on("floor-changed", (args: FloorChangedEvent) => {
-    const url = args.file ? `/cdn/maps/overlay/${args.file}` : null;
+    const url = args.file ? `${import.meta.env.VITE_APP_URL}/cdn/maps/overlay/${args.file}` : null;
     setOverlayImage(url, args.coords);
   });
   map.addControl(floorControl.value, "bottom-left");

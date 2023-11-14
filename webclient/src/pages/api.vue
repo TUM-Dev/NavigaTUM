@@ -6,7 +6,7 @@ window.setTimeout(() => {
   // therefore waiting is effective
   import("swagger-ui-dist").then(({ SwaggerUIBundle }) =>
     SwaggerUIBundle({
-      url: "/cdn/openapi.yaml",
+      url: `${import.meta.env.VITE_APP_URL}/cdn/openapi.yaml`,
       dom_id: "#swagger-ui",
       presets: [SwaggerUIBundle.presets.apis],
     }),

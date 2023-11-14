@@ -4,6 +4,7 @@ import { useI18n } from "vue-i18n";
 
 const state = useDetailsStore();
 const { t } = useI18n({ useScope: "local" });
+const appURL = import.meta.env.VITE_APP_URL;
 
 defineExpose({
   loadRoomfinderMap,
@@ -84,7 +85,7 @@ function delayedLoadRoomfinderModalMap() {
       />
       <img
         :alt="t('img_alt')"
-        :src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap().file"
+        :src="`${appURL}/cdn/maps/roomfinder/${state.selectedRoomfinderMap().file}`"
         class="img-responsive"
         :width="state.map.roomfinder.width"
         :height="state.map.roomfinder.height"
@@ -154,7 +155,7 @@ function delayedLoadRoomfinderModalMap() {
           />
           <img
             :alt="t('roomfinder.modal.img_alt')"
-            :src="'/cdn/maps/roomfinder/' + state.selectedRoomfinderMap().file"
+            :src="`${appURL}/cdn/maps/roomfinder/${state.selectedRoomfinderMap().file}`"
             class="img-responsive"
             :width="state.map.roomfinder.width"
             :height="state.map.roomfinder.height"

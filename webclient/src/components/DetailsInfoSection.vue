@@ -6,6 +6,7 @@ import { useI18n } from "vue-i18n";
 
 const state = useDetailsStore();
 const { t } = useI18n({ useScope: "local" });
+const appURL = import.meta.env.VITE_APP_URL;
 </script>
 
 <template>
@@ -27,7 +28,7 @@ const { t } = useI18n({ useScope: "local" });
       >
         <img
           :alt="t('image_alt')"
-          :src="'/cdn/header/' + state.image.shown_image.name"
+          :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
           class="img-responsive"
           style="width: 100%"
         />
