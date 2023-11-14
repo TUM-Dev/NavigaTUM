@@ -11,7 +11,7 @@ const appURL = import.meta.env.VITE_APP_URL;
 
 <template>
   <!-- Information section (on mobile) -->
-  <div class="column col-5 col-sm-12 show-sm mobile-info-section" v-if="state.data?.props?.computed">
+  <div class="column col-5 col-sm-12 show-sm mt-4" v-if="state.data?.props?.computed">
     <h2>{{ t("info_title") }}</h2>
     <DetailsPropertyTable />
   </div>
@@ -37,16 +37,16 @@ const appURL = import.meta.env.VITE_APP_URL;
       </div>
       <div class="card-body">
         <DetailsPropertyTable />
-        <div class="toast toast-warning" v-if="state.data?.coords.accuracy === 'building'">
+        <div class="toast toast-warning mt-3" v-if="state.data?.coords.accuracy === 'building'">
           {{ t("msg.inaccurate_only_building") }}<br />
         </div>
         <div
-          class="toast toast-warning"
+          class="toast toast-warning mt-3"
           v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
         >
           {{ t("msg.no_floor_overlay") }}
         </div>
-        <div class="toast" v-if="state.data?.props?.comment">
+        <div class="toast mt-3" v-if="state.data?.props?.comment">
           {{ state.data.props.comment }}
         </div>
       </div>
@@ -57,22 +57,6 @@ const appURL = import.meta.env.VITE_APP_URL;
   </div>
   <DetailsImageSlideshowModal v-if="state.image.slideshow_open" />
 </template>
-
-<style lang="scss">
-@import "@/assets/variables";
-/* --- Information Card (desktop) --- */
-.card-body .toast {
-  margin-top: 12px;
-}
-/* --- Information Section (mobile) --- */
-.mobile-info-section {
-  margin-top: 15px;
-
-  & > .info-table {
-    margin-top: 16px;
-  }
-}
-</style>
 
 <i18n lang="yaml">
 de:
