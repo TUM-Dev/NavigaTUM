@@ -47,7 +47,7 @@ const { t } = useI18n({ useScope: "local" });
           </ul>
         </td>
       </tr>
-      <tr v-if="!!state.data?.props.links && !!state.data?.props.computed">
+      <tr v-if="!state.data?.props.links && !state.data?.props.computed">
         <td>
           <strong>{{ t("no_information_known") }}</strong>
         </td>
