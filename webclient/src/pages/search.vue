@@ -187,7 +187,7 @@ function genDescription(): string {
       em {
         font-style: normal;
         font-weight: bold;
-        color: theme-accent;
+        color: $theme-accent;
       }
     }
   }

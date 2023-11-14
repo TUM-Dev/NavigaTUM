@@ -293,11 +293,11 @@ onMounted(() => {
 
         &.active {
           color: #fff;
-          background-color: theme-accent;
+          background-color: $theme-accent;
         }
 
         em {
-          color: theme-accent;
+          color: $theme-accent;
           font-style: normal;
           font-weight: bold;
         }
