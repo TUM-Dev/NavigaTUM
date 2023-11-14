@@ -1,4 +1,7 @@
 @import "@/assets/variables.scss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* === General === */
 html {

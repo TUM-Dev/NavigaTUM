@@ -62,7 +62,7 @@ const { t } = useI18n({ useScope: "local" });
             <div class="column hide-sm official_roomfinder">
               {{ t("official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
-                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" height="50" />
+                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" />
               </a>
             </div>
             <div class="column col-auto col-ml-auto col-xs-12 settings">
@@ -94,7 +94,7 @@ const { t } = useI18n({ useScope: "local" });
             <div class="column col-12 show-sm official_roomfinder">
               {{ t("official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
-                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" height="50" />
+                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" />
               </a>
             </div>
           </div>
