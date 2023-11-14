@@ -114,7 +114,7 @@ function onInput() {
       // but we need to discard the data here if it arrived out of order.
       if (queryId > latestUsedQueryId.value) {
         latestUsedQueryId.value = queryId;
-        autocomplete.sections = extractFacets(d, t("search.sections.rooms"), t("search.sections.buildings"));
+        autocomplete.sections = extractFacets(d, t("sections.rooms"), t("sections.buildings"));
       }
     });
   }
@@ -232,7 +232,7 @@ onMounted(() => {
             +{{ s.entries.length - s.n_visible }} {{ t("hidden") }},
           </a>
           <template>
-            {{ s.estimatedTotalHits > 20 ? t("search.approx") : "" }}{{ t("results", s.estimatedTotalHits) }}
+            {{ s.estimatedTotalHits > 20 ? t("approx") : "" }}{{ t("results", s.estimatedTotalHits) }}
           </template>
         </li>
       </template>
