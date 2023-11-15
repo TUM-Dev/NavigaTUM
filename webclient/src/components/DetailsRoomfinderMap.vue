@@ -60,36 +60,33 @@ function loadRoomfinderModalMap() {
   state.map.roomfinder.modalY = -1023 + (map.y / map.height) * (width - 65) * (map.height / map.width);
 }
 function delayedLoadRoomfinderModalMap() {
+  state.map.roomfinder.modal_open = true;
   setTimeout(loadRoomfinderModalMap, 1000);
 }
 </script>
 
 <template>
-  <a
-    @click="state.map.roomfinder.modal_open = true"
-    v-on:click="delayedLoadRoomfinderModalMap"
-    :aria-label="t('roomfinder.open_detailed_modal')"
-  >
+  <a :aria-label="t('roomfinder.open_detailed_modal')" @click="delayedLoadRoomfinderModalMap">
     <div
+      v-if="state.data?.maps.roomfinder?.available"
       class="roomfinder-map-container"
       :class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
-      v-if="state.data?.maps.roomfinder?.available"
     >
       <img
+        id="roomfinder-map-cross"
         :alt="t('roomfinder.crosshair')"
         src="@/assets/map/roomfinder_cross-v2.webp"
         :style="{
           transform: `translate(${state.map.roomfinder.x}px, ${state.map.roomfinder.y}px)`,
         }"
-        id="roomfinder-map-cross"
       />
       <img
+        id="roomfinder-map-img"
         :alt="t('img_alt')"
         :src="`${appURL}/cdn/maps/roomfinder/${state.selectedRoomfinderMap().file}`"
         class="img-responsive"
         :width="state.map.roomfinder.width"
         :height="state.map.roomfinder.height"
-        id="roomfinder-map-img"
       />
       <div>
         {{ t("img_source") }}:
@@ -98,20 +95,21 @@ function delayedLoadRoomfinderModalMap() {
     </div>
   </a>
   <div
-    class="accordion"
-    id="roomfinder-map-select"
-    :class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
     v-if="state.data?.maps.roomfinder?.available"
+    id="roomfinder-map-select"
+    class="accordion"
+    :class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
   >
     <input id="map-accordion" type="checkbox" name="accordion-checkbox" hidden />
-    <label for="map-accordion" class="btn btn-sm btn-block accordion-header">
+    <label for="map-accordion" class="accordion-header btn btn-block btn-sm">
       1:{{ state.selectedRoomfinderMap().scale }}, {{ state.selectedRoomfinderMap().name }}
       <i class="icon icon-caret" />
     </label>
-    <div class="accordion-body" v-if="state.data.maps?.roomfinder">
+    <div v-if="state.data.maps?.roomfinder" class="accordion-body">
       <ul class="menu menu-nav">
-        <li class="menu-item" v-for="(m, i) in state.data.maps.roomfinder.available" :key="m.id">
+        <li v-for="(m, i) in state.data.maps.roomfinder.available" :key="m.id" class="menu-item">
           <button
+            type="button"
             class="btn btn-sm"
             :aria-label="`show the map '${m.name}' at the scale 1:${m.scale}`"
             :class="{
@@ -128,15 +126,16 @@ function delayedLoadRoomfinderModalMap() {
 
   <!-- roomfinder-modal -->
   <div
-    class="modal modal-lg"
-    id="roomfinder-modal"
-    :class="{ active: state.map.roomfinder.modal_open }"
     v-if="state.data?.maps.roomfinder?.available"
+    id="roomfinder-modal"
+    class="modal modal-lg"
+    :class="{ active: state.map.roomfinder.modal_open }"
   >
     <a class="modal-overlay" :aria-label="t('close')" @click="state.map.roomfinder.modal_open = false" />
-    <div class="modal-container modal-fullheight" id="roomfinder-modal-container">
+    <div id="roomfinder-modal-container" class="modal-container modal-fullheight">
       <div class="modal-header">
         <button
+          type="button"
           class="btn btn-clear float-right"
           :aria-label="t('close')"
           @click="state.map.roomfinder.modal_open = false"
@@ -146,20 +145,20 @@ function delayedLoadRoomfinderModalMap() {
       <div class="modal-body">
         <div class="roomfinder-map-container">
           <img
+            id="roomfinder-modal-map-cross"
             :alt="t('roomfinder.crosshair')"
             src="@/assets/map/roomfinder_cross-v2.webp"
             :style="{
               transform: `translate(${state.map.roomfinder.modalX}px, ${state.map.roomfinder.modalY}px)`,
             }"
-            id="roomfinder-modal-map-cross"
           />
           <img
+            id="roomfinder-modal-map-img"
             :alt="t('roomfinder.modal.img_alt')"
             :src="`${appURL}/cdn/maps/roomfinder/${state.selectedRoomfinderMap().file}`"
             class="img-responsive"
             :width="state.map.roomfinder.width"
             :height="state.map.roomfinder.height"
-            id="roomfinder-modal-map-img"
           />
           <div>
             {{ t("img_source") }}:
@@ -241,6 +240,7 @@ function delayedLoadRoomfinderModalMap() {
   }
 }
 </style>
+
 <i18n lang="yaml">
 de:
   close: Schließen

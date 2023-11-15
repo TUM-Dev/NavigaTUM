@@ -13,7 +13,6 @@ const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
 const state = useDetailsStore();
 const { t } = useI18n({ useScope: "local" });
-
 const initialLoaded = ref(false);
 
 defineExpose({
@@ -266,7 +265,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
     :class="{ 'd-none': state.map.selected !== selectedMap.interactive, errormessage: !webglSupport }"
   >
     <div>
-      <div id="interactive-map" class="loading" v-if="webglSupport" />
+      <div v-if="webglSupport" id="interactive-map" class="loading" />
       <template v-else>
         {{ t("no_webgl.no_browser_support") }}
         {{ t("no_webgl.explain_webgl") }} <br />
@@ -468,6 +467,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   }
 }
 </style>
+
 <i18n lang="yaml">
 de:
   no_webgl:

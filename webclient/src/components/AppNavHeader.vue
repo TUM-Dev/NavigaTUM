@@ -4,11 +4,11 @@
       <div class="columns">
         <div class="column hide-lg">
           <RouterLink to="/">
-            <img alt="Navigatum Logo" src="@/assets/logos/navigatum.svg" id="logo" />
+            <img id="logo" alt="Navigatum Logo" src="@/assets/logos/navigatum.svg" />
             <!-- 7px for logo1 -->
           </RouterLink>
         </div>
-        <div class="column col-8 col-lg-11 col-mx-auto">
+        <div class="col-8 col-lg-11 col-mx-auto column">
           <slot />
         </div>
       </div>

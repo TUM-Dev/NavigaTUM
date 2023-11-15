@@ -11,7 +11,7 @@ const appURL = import.meta.env.VITE_APP_URL;
 
 <template>
   <!-- Information section (on mobile) -->
-  <div class="column col-5 col-sm-12 show-sm mobile-info-section" v-if="state.data?.props?.computed">
+  <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column mobile-info-section show-sm">
     <h2>{{ t("info_title") }}</h2>
     <DetailsPropertyTable />
   </div>
@@ -19,12 +19,12 @@ const appURL = import.meta.env.VITE_APP_URL;
   <!-- Informationen card (desktop) -->
   <!-- Some elements are currently duplicate, which is not optimal but should be okay
        as long as only little information is there -->
-  <div class="column col-5 col-md-12 hide-sm">
+  <div class="col-5 col-md-12 column hide-sm">
     <div class="card">
       <a
-        class="card-image c-hand"
-        @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
         v-if="state.image.shown_image"
+        class="c-hand card-image"
+        @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
       >
         <img
           :alt="t('image_alt')"
@@ -38,22 +38,22 @@ const appURL = import.meta.env.VITE_APP_URL;
       </div>
       <div class="card-body">
         <DetailsPropertyTable />
-        <div class="toast toast-warning" v-if="state.data?.coords.accuracy === 'building'">
+        <div v-if="state.data?.coords.accuracy === 'building'" class="toast toast-warning">
           {{ t("msg.inaccurate_only_building") }}<br />
         </div>
         <div
-          class="toast toast-warning"
           v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
+          class="toast toast-warning"
         >
           {{ t("msg.no_floor_overlay") }}
         </div>
-        <div class="toast" v-if="state.data?.props?.comment">
+        <div v-if="state.data?.props?.comment" class="toast">
           {{ state.data.props.comment }}
         </div>
       </div>
-      <!--<div class="card-footer">
+      <!-- <div class="card-footer">
           <button class="btn btn-link">Mehr Infos</button>
-      </div>-->
+      </div> -->
     </div>
   </div>
   <DetailsImageSlideshowModal v-if="state.image.slideshow_open" />

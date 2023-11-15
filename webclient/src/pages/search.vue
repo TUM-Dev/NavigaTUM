@@ -6,15 +6,15 @@ import type { SectionFacet } from "@/modules/autocomplete";
 import { extractFacets } from "@/modules/autocomplete";
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
-import type { components } from "@/api_types";
 import { useRoute } from "vue-router";
 
+import type { components } from "@/api_types";
 type SearchResponse = components["schemas"]["SearchResponse"];
 
 const { t } = useI18n({ useScope: "local" });
 const global = useGlobalStore();
-
 const route = useRoute();
+
 const sections = computed<SectionFacet[] | null>(() => {
   if (data.value === null) return null;
   // Currently borrowing this functionality from autocomplete.
@@ -34,10 +34,12 @@ const apiUrl = computed(() => {
 
   return `/api/search?${params.toString()}`;
 });
+// eslint-disable-next-line vue/no-ref-object-reactivity-loss
 const { data } = useFetch<SearchResponse>(apiUrl.value, () => {
   setTitle(`${t("search_for")} "${route.query.q}"`);
   setDescription(genDescription());
 });
+
 function genDescription(): string {
   let sectionsDescr = "";
   let estimatedTotalHits = 0;
@@ -63,14 +65,15 @@ function genDescription(): string {
 </script>
 
 <template>
-  <div id="view-search" v-if="data">
+  <div v-if="data" id="view-search">
     <small class="search_meta">
       {{ t("runtime") }}: {{ data.time_ms }}ms –
       <button
+        type="button"
         data-cy="open-feedback-search"
-        @click="global.openFeedback('search')"
         class="btn btn-link"
         :aria-label="t('feedback.open')"
+        @click="global.openFeedback('search')"
       >
         {{ t("feedback.give") }}
       </button>
@@ -99,19 +102,19 @@ function genDescription(): string {
                   <i v-if="e.parsed_id" class="icon icon-caret" />
                   <span v-html="e.name" />
                 </div>
-                <small class="tile-subtitle text-gray">
+                <small class="text-gray tile-subtitle">
                   {{ e.subtext }}<template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
                 </small>
               </div>
-              <!--<div class="tile-action">
+              <!-- <div class="tile-action">
               <button class="btn btn-link">
                 <i class="icon icon-more-vert" />
               </button>
-            </div>-->
+            </div> -->
             </RouterLink>
           </li>
         </ul>
-        <p class="search-comment nb_results">
+        <p class="nb_results search-comment">
           {{ s.estimatedTotalHits > 20 ? t("approx") : "" }}
           {{ t("results", s.estimatedTotalHits) }}{{ s.estimatedTotalHits > 10 ? ", " + t("max_results") : "" }}
         </p>
@@ -211,6 +214,7 @@ function genDescription(): string {
   }
 }
 </style>
+
 <i18n lang="yaml">
 de:
   sections:
