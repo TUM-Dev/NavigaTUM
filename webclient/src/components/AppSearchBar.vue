@@ -176,6 +176,7 @@ onMounted(() => {
     <ul
       v-cloak
       class="menu"
+      data-cy="autocomplete-menu"
       :class="{
         'd-none': !global.search_focused || autocomplete.sections.length === 0,
       }"
