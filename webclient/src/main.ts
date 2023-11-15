@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 
 import App from "@/App.vue";
-import router from "@/router";
+import { router } from "@/router";
 import { createI18n } from "vue-i18n";
 
 const i18n = createI18n<Record<string, never>, "de" | "en", false>({

@@ -3,7 +3,7 @@ import MainView from "@/pages/index.vue";
 import NotFoundView from "@/pages/[...slug].vue";
 import SearchView from "@/pages/search.vue";
 
-const routes = [
+export const routes = [
   {
     component: MainView,
     name: "main",
@@ -36,7 +36,7 @@ const routes = [
   },
 ];
 
-const router = createRouter({
+export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: routes,
   scrollBehavior(to, from, savedPosition) {
@@ -73,5 +73,3 @@ const router = createRouter({
 router.afterEach(
   () => document.querySelector('meta[property="og:url"]')?.setAttribute("content", window.location.href),
 );
-
-export default router;
