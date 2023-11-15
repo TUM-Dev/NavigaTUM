@@ -5,6 +5,8 @@ import { useI18n } from "vue-i18n";
 
 type UserTheme = "light" | "dark";
 
+const theme = ref<UserTheme>(getTheme() || getMediaPreference());
+const { t } = useI18n({ useScope: "local" });
 function setTheme(newTheme: UserTheme, reload = true) {
   theme.value = newTheme;
   document.documentElement.className = newTheme;
@@ -19,26 +21,26 @@ function getMediaPreference(): UserTheme {
   const hasDarkPreference = window.matchMedia("(prefers-color-scheme: dark)").matches;
   return hasDarkPreference ? "dark" : "light";
 }
-const theme = ref<UserTheme>(getTheme() || getMediaPreference());
-const { t } = useI18n({ useScope: "local" });
 onMounted(() => setTheme(theme.value, false));
 </script>
 
 <template>
-  <div class="btn-group btn-group-block" id="setting-theme">
+  <div id="setting-theme" class="btn-group btn-group-block">
     <button
+      type="button"
       class="btn btn-sm"
-      @click="setTheme('light')"
       :class="{ active: theme === 'light' }"
       v-bind="{ disabled: theme === 'light' }"
+      @click="setTheme('light')"
     >
       {{ t("light") }}
     </button>
     <button
+      type="button"
       class="btn btn-sm"
-      @click="setTheme('dark')"
       :class="{ active: theme === 'dark' }"
       v-bind="{ disabled: theme === 'dark' }"
+      @click="setTheme('dark')"
     >
       {{ t("dark") }}
     </button>

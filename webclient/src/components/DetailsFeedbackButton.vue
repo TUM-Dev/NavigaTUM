@@ -10,14 +10,16 @@ const { t } = useI18n({ useScope: "local" });
 
 <template>
   <button
-    class="btn btn-link btn-action btn-sm"
+    type="button"
+    class="btn btn-action btn-link btn-sm"
     :title="t('feedback')"
-    @click="global.openFeedback('entry', `[${route.params.id}]: `)"
     data-cy="open-feedback-details"
+    @click="global.openFeedback('entry', `[${route.params.id}]: `)"
   >
     <i class="icon icon-flag" />
   </button>
 </template>
+
 <i18n lang="yaml">
 de:
   feedback: Problem melden oder Änderung vorschlagen

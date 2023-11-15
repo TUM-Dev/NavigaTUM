@@ -16,6 +16,7 @@ const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { t } = useI18n({ useScope: "local" });
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 const { share, isSupported: shareIsSupported } = useShare();
+
 function shareOptions(): UseShareOptions {
   return {
     title: props.name,
@@ -44,14 +45,15 @@ function shareOptions(): UseShareOptions {
       {{ t("other_app") }}
     </a>
     <strong>{{ t("share") }}</strong>
-    <button class="btn" @click="share(shareOptions())" v-if="shareIsSupported">
+    <button v-if="shareIsSupported" type="button" class="btn" @click="share(shareOptions())">
       {{ t("share_link") }}
     </button>
-    <button class="btn" @click="copy()" v-if="clipboardIsSupported">
+    <button v-if="clipboardIsSupported" type="button" class="btn" @click="copy()">
       {{ copied ? t("copied") : t("copy_link") }}
     </button>
   </div>
 </template>
+
 <i18n lang="yaml">
 de:
   copied: Kopiert

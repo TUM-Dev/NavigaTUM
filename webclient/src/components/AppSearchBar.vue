@@ -23,6 +23,17 @@ const queryCounter = ref(0);
 const latestUsedQueryId = ref(-1);
 const router = useRouter();
 
+const visibleElements = computed<string[]>(() => {
+  const visible: string[] = [];
+
+  autocomplete.sections.forEach((section) => {
+    section.entries.forEach((entry, index: number) => {
+      if (section.facet !== "sites_buildings" || section.n_visible > index || section.expanded) visible.push(entry.id);
+    });
+  });
+  return visible;
+});
+
 function searchFocus(): void {
   global.focusSearchBar();
   autocomplete.highlighted = null;
@@ -121,17 +132,6 @@ function onInput() {
   }
 }
 
-const visibleElements = computed<string[]>(() => {
-  const visible: string[] = [];
-
-  autocomplete.sections.forEach((section) => {
-    section.entries.forEach((entry, index: number) => {
-      if (section.facet !== "sites_buildings" || section.n_visible > index || section.expanded) visible.push(entry.id);
-    });
-  });
-  return visible;
-});
-
 onMounted(() => {
   window.addEventListener("keydown", (e) => {
     if (
@@ -148,41 +148,42 @@ onMounted(() => {
 
 <template>
   <div class="form-autocomplete">
-    <div class="input-group has-icon-left">
+    <div class="has-icon-left input-group">
       <input
         id="search"
+        v-model="query"
         type="text"
         class="form-input input-lg"
         :placeholder="t('input.placeholder')"
-        v-model="query"
+        autocomplete="off"
+        :aria-label="t('input.aria-searchlabel')"
         @input="onInput"
         @focus="searchFocus"
         @blur="searchBlur"
         @keydown="onKeyDown"
-        autocomplete="off"
-        :aria-label="t('input.aria-searchlabel')"
       />
       <i class="form-icon icon icon-search" />
       <button
-        class="btn btn-primary input-group-btn btn-lg"
-        @click="searchGo(false)"
+        type="button"
+        class="btn btn-lg btn-primary input-group-btn"
         :aria-label="t('input.aria-actionlabel')"
+        @click="searchGo(false)"
       >
         {{ t("input.action") }}
       </button>
     </div>
     <!-- Autocomplete -->
     <ul
+      v-cloak
       class="menu"
       :class="{
         'd-none': !global.search_focused || autocomplete.sections.length === 0,
       }"
-      v-cloak
     >
-      <!--<li class="search-comment filter">
+      <!-- <li class="search-comment filter">
                     Suche einschränken auf:
                     <a class="bt btn-link btn-sm">Räume</a>
-                  </li>-->
+                  </li> -->
 
       <template v-for="s in autocomplete.sections" :key="s.facet">
         <li class="divider" :data-content="s.name" />
@@ -209,36 +210,34 @@ onMounted(() => {
                   <span class="tile-title">
                     <span v-if="e.parsed_id" v-html="e.parsed_id" />
                     <i v-if="e.parsed_id" class="icon icon-caret" />
-                    <span v-html="e.name" :style="{ opacity: e.parsed_id ? 0.5 : 1 }" />
+                    <span :style="{ opacity: e.parsed_id ? 0.5 : 1 }" v-html="e.name" />
                   </span>
-                  <small class="tile-subtitle text-gray">
+                  <small class="text-gray tile-subtitle">
                     {{ e.subtext }}
                     <template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
                   </small>
                 </div>
               </div>
             </a>
-            <!--<div class="menu-badge">
+            <!-- <div class="menu-badge">
                         <label class="label label-primary">2</label>
-                      </div>-->
+                      </div> -->
           </li>
         </template>
-        <li class="search-comment nb_results">
+        <li class="nb_results search-comment">
           <a
-            class="c-hand"
             v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
+            class="c-hand"
             @mousedown="keep_focus = true"
             @click="s.expanded = true"
           >
             +{{ s.entries.length - s.n_visible }} {{ t("hidden") }},
           </a>
-          <template>
-            {{ s.estimatedTotalHits > 20 ? t("approx") : "" }}{{ t("results", s.estimatedTotalHits) }}
-          </template>
+          {{ s.estimatedTotalHits > 20 ? t("approx") : "" }}{{ t("results", s.estimatedTotalHits) }}
         </li>
       </template>
 
-      <!--<li class="search-comment actions">
+      <!-- <li class="search-comment actions">
                     <div>
                       <button class="btn btn-sm">
                         <i class="icon icon-arrow-right" /> in Gebäude Suchen
@@ -254,9 +253,9 @@ onMounted(() => {
                         <i class="icon icon-location" /> Seminarräume
                       </button>
                     </div>
-                  </li>-->
+                  </li> -->
 
-      <!--<li class="divider" data-content="Veranstaltungen" />
+      <!-- <li class="divider" data-content="Veranstaltungen" />
                   <li class="menu-item">
                     <a href="#">
                       <div class="tile">
@@ -276,7 +275,7 @@ onMounted(() => {
                     <div class="menu-badge" style="display: none;">
                       <label class="label label-primary">frei</label>
                     </div>
-                  </li>-->
+                  </li> -->
     </ul>
   </div>
 </template>
@@ -382,6 +381,7 @@ onMounted(() => {
   }
 }
 </style>
+
 <i18n lang="yaml">
 de:
   input:

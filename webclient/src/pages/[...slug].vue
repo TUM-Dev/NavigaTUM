@@ -13,9 +13,10 @@ const { t } = useI18n({ useScope: "local" });
   <h5 style="margin-top: 25px">{{ t("header") }}</h5>
   <p>{{ t("description") }}</p>
   <button
-    @click="global.openFeedback('bug', `404 on ${route.fullPath}`, t('got_here'))"
+    type="button"
     class="btn btn-link p-0"
     :aria-label="t('open_feedback')"
+    @click="global.openFeedback('bug', `404 on ${route.fullPath}`, t('got_here'))"
   >
     {{ t("call_to_action") }}
   </button>

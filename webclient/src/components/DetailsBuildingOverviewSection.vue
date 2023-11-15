@@ -19,13 +19,13 @@ const appURL = import.meta.env.VITE_APP_URL;
       <div class="column">
         <h2>{{ t("title") }}</h2>
       </div>
-      <!--<div class="column col-auto">
+      <!-- <div class="column col-auto">
           <a href="#">Übersichtskarte <i class="icon icon-forward" /></a>
-        </div>-->
+        </div> -->
     </div>
     <div class="columns">
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">
-        <div class="column col-4 col-md-12 content" v-if="i < props.buildings.n_visible || buildingsExpanded">
+        <div v-if="i < props.buildings.n_visible || buildingsExpanded" class="col-4 col-md-12 column content">
           <RouterLink :to="'/view/' + b.id">
             <div class="tile tile-centered">
               <div class="tile-icon">
@@ -36,10 +36,14 @@ const appURL = import.meta.env.VITE_APP_URL;
               </div>
               <div class="tile-content">
                 <p class="tile-title">{{ b.name }}</p>
-                <small class="tile-subtitle text-dark">{{ b.subtext }}</small>
+                <small class="text-dark tile-subtitle">{{ b.subtext }}</small>
               </div>
               <div class="tile-action">
-                <button class="btn btn-link" :aria-label="`show the details for the building '${b.name}'`">
+                <button
+                  type="button"
+                  class="btn btn-link"
+                  :aria-label="`show the details for the building '${b.name}'`"
+                >
                   <i class="icon icon-arrow-right" />
                 </button>
               </div>
@@ -49,7 +53,7 @@ const appURL = import.meta.env.VITE_APP_URL;
       </template>
     </div>
     <div v-if="props.buildings.n_visible < props.buildings.entries.length">
-      <button class="btn btn-link" @click="toggleBuildingsExpanded()">
+      <button type="button" class="btn btn-link" @click="toggleBuildingsExpanded()">
         <template v-if="buildingsExpanded">
           <i class="icon icon-arrow-up" />
           {{ t("less") }}
@@ -80,6 +84,7 @@ button {
   margin-top: 8px;
 }
 </style>
+
 <i18n lang="yaml">
 de:
   default_thumbnail_preview: Standard-Thumbnail, da kein Thumbnail verfügbar ist

@@ -2,9 +2,11 @@
 import { useDetailsStore } from "@/stores/details";
 import TinyModal from "@/components/TinyModal.vue";
 import { useI18n } from "vue-i18n";
+
 const state = useDetailsStore();
 const { t } = useI18n({ useScope: "local" });
 </script>
+
 <template>
   <table class="info-table">
     <tbody>
@@ -14,7 +16,7 @@ const { t } = useI18n({ useScope: "local" });
         </td>
         <td>
           {{ prop.text }}
-          <TinyModal :content="prop.extra" v-if="prop.extra?.body">
+          <TinyModal v-if="prop.extra?.body" :content="prop.extra">
             <template #icon>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

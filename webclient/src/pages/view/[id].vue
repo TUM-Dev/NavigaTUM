@@ -18,9 +18,12 @@ import type { components } from "@/api_types";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
 const { t } = useI18n({ useScope: "local" });
-
 const route = useRoute();
 const router = useRouter();
+const state = useDetailsStore();
+const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
+const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
+const appURL = import.meta.env.VITE_APP_URL;
 
 function loadData(data: DetailsResponse) {
   if (route.fullPath !== data.redirect_url) router.replace({ path: data.redirect_url });
@@ -46,11 +49,6 @@ watchEffect(() => {
     });
   });
 });
-
-const state = useDetailsStore();
-const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
-const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
-const appURL = import.meta.env.VITE_APP_URL;
 
 function genDescription(d: DetailsResponse) {
   const detailsFor = t("details_for");
@@ -112,12 +110,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="view-view" v-if="state.data">
+  <div v-if="state.data" id="view-view">
     <!-- Header image (on mobile) -->
     <a
-      class="show-sm header-image-mobile c-hand"
-      @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
       v-if="state.image.shown_image"
+      class="c-hand header-image-mobile show-sm"
+      @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
     >
       <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${state.image.shown_image.name}`" class="img-responsive" />
     </a>
@@ -125,9 +123,9 @@ onMounted(() => {
     <!-- Breadcrumbs -->
     <ol class="breadcrumb" vocab="https://schema.org/" typeof="BreadcrumbList">
       <li
-        class="breadcrumb-item"
         v-for="(p, i) in state.data.parent_names"
         :key="p"
+        class="breadcrumb-item"
         property="itemListElement"
         typeof="ListItem"
       >
@@ -141,29 +139,30 @@ onMounted(() => {
     <!-- Entry header / title -->
     <div class="entry-header">
       <div class="title">
-        <div class="hide-sm" v-if="clipboardIsSupported">
+        <div v-if="clipboardIsSupported" class="hide-sm">
           <button
-            class="btn btn-link btn-action btn-sm"
+            type="button"
+            class="btn btn-action btn-link btn-sm"
             :title="t('header.copy_link')"
             @click="copy(`https://nav.tum.de${route.fullPath}`)"
           >
-            <i class="icon icon-check" v-if="copied" />
-            <i class="icon icon-link" v-else />
+            <i v-if="copied" class="icon icon-check" />
+            <i v-else class="icon icon-link" />
           </button>
         </div>
         <h1>
           {{ state.data.name }}
-          <!-- <small class="label">Exaktes Ergebnis</small>-->
+          <!-- <small class="label">Exaktes Ergebnis</small> -->
         </h1>
       </div>
       <div class="columns subtitle">
-        <div class="column col-auto">
+        <div class="col-auto column">
           <span>{{ state.data.type_common_name }}</span>
         </div>
-        <div class="column col-auto col-ml-auto">
+        <div class="col-auto col-ml-auto column">
           <template v-if="state.data?.props?.calendar_url">
             <a
-              class="btn btn-link btn-action btn-sm"
+              class="btn btn-action btn-link btn-sm"
               :href="state.data.props.calendar_url"
               target="_blank"
               :title="t('header.calendar')"
@@ -185,7 +184,12 @@ onMounted(() => {
               </svg>
             </a>
           </template>
-          <button class="btn btn-link btn-action btn-sm" :title="t('header.external_link')" onclick="this.focus()">
+          <button
+            type="button"
+            class="btn btn-action btn-link btn-sm"
+            :title="t('header.external_link')"
+            onclick="this.focus()"
+          >
             <!-- The onclick handler is a fix for Safari -->
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -204,10 +208,10 @@ onMounted(() => {
           </button>
           <ShareButton :coords="state.data.coords" :name="state.data.name" />
           <DetailsFeedbackButton ref="feedbackButton" />
-          <!--<button class="btn btn-link btn-action btn-sm"
+          <!-- <button class="btn btn-link btn-action btn-sm"
                   :title="t('header.favorites')">
             <i class="icon icon-bookmark" />
-          </button>-->
+          </button> -->
         </div>
       </div>
       <div class="divider" />
@@ -216,15 +220,15 @@ onMounted(() => {
     <!-- First info section (map + infocard) -->
     <div class="columns">
       <!-- Map container -->
-      <div class="column col-7 col-md-12" id="map-container">
+      <div id="map-container" class="col-7 col-md-12 column">
         <div class="show-sm">
           <div
-            class="toast toast-warning"
             v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
+            class="toast toast-warning"
           >
             {{ t("no_floor_overlay") }}
           </div>
-          <div class="toast" v-if="state.data?.props?.comment">
+          <div v-if="state.data?.props?.comment" class="toast">
             {{ state.data.props.comment }}
           </div>
         </div>
@@ -233,21 +237,23 @@ onMounted(() => {
         <DetailsRoomfinderMap ref="roomfinderMap" />
         <div class="btn-group btn-group-block">
           <button
+            type="button"
             class="btn btn-sm"
-            @click="interactiveMap?.loadInteractiveMap(true)"
             :class="{
               active: state.map.selected === selectedMap.interactive,
             }"
+            @click="interactiveMap?.loadInteractiveMap(true)"
           >
             {{ t("map.interactive") }}
           </button>
           <button
+            type="button"
             class="btn btn-sm"
-            @click="roomfinderMap?.loadRoomfinderMap(state.map.roomfinder.selected_index, true)"
             :class="{
               active: state.map.selected === selectedMap.roomfinder,
             }"
             :disabled="!state.data.maps.roomfinder?.available"
+            @click="roomfinderMap?.loadRoomfinderMap(state.map.roomfinder.selected_index, true)"
           >
             {{ t("map.roomfinder") }}
           </button>

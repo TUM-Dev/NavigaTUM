@@ -11,15 +11,15 @@ const deleteIssueRequested = ref(false);
 
 <template>
   <TokenBasedModal :data="global.feedback.data">
-    <template v-slot:modal>
+    <template #modal>
       <div class="form-group">
         <label class="form-label" for="feedback-subject"> {{ t("subject") }}</label>
         <div class="input-group">
           <select
-            class="form-select"
             id="feedback-category"
-            :aria-label="t('category')"
             v-model="global.feedback.data.category"
+            class="form-select"
+            :aria-label="t('category')"
           >
             <option value="general">{{ t("type.general") }}</option>
             <option value="bug">{{ t("type.bug") }}</option>
@@ -28,11 +28,11 @@ const deleteIssueRequested = ref(false);
             <option value="entry">{{ t("type.entry") }}</option>
           </select>
           <input
+            id="feedback-subject"
+            v-model="global.feedback.data.subject"
             class="form-input"
             type="text"
             :placeholder="t('subject')"
-            v-model="global.feedback.data.subject"
-            id="feedback-subject"
           />
         </div>
       </div>
@@ -42,10 +42,10 @@ const deleteIssueRequested = ref(false);
           {{ t("message") }}
         </label>
         <textarea
-          class="form-input"
           id="feedback-body"
-          :placeholder="t('message')"
           v-model="global.feedback.data.body"
+          class="form-input"
+          :placeholder="t('message')"
           rows="6"
         >
         </textarea>
@@ -64,13 +64,13 @@ const deleteIssueRequested = ref(false);
       </div>
 
       <div class="form-group">
-        <label class="form-checkbox" id="feedback-delete-label">
-          <input type="checkbox" id="feedback-delete" v-model="deleteIssueRequested" />
+        <label id="feedback-delete-label" class="form-checkbox">
+          <input id="feedback-delete" v-model="deleteIssueRequested" type="checkbox" />
           <i class="form-icon" /> {{ t("delete") }}
         </label>
       </div>
     </template>
-    <template v-slot:success="{ successUrl }">
+    <template #success="{ successUrl }">
       <p>{{ t("success.thank_you") }}</p>
       <p>
         {{ t("success.response_at") }}
