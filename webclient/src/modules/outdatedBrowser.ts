@@ -58,7 +58,18 @@ function shouldWarnForOutdatedBrowser(): boolean {
 if (shouldWarnForOutdatedBrowser()) {
   const error = document.createElement("div");
   error.classList.add("toast", "toast-error");
-  error.innerHTML = "${{_.core_js.error.browser_outdated}}$";
+  error.innerHTML = `We regret to inform you that your current web browser is outdated and unsupported for the optimal performance of this website.
+
+To ensure a secure and efficient browsing experience, we recommend updating your browser to the latest version or switching to a more modern and supported browser. Outdated browsers may not be able to render the website correctly, leading to potential security vulnerabilities and reduced functionality.
+
+Please consider upgrading your browser to one of the following recommended options:
+
+Google Chrome
+Mozilla Firefox
+
+If you need assistance with updating your browser, please refer to your browser's official website or your IT department for guidance.
+
+Thank you for your understanding, and we look forward to providing you with an enhanced browsing experience once your browser is up-to-date.`;
   document.getElementById("errorToasts")?.appendChild(error);
   localStorage.setItem("lastOutdatedBrowserWarningTime", new Date().getTime().toString());
 }

@@ -42,10 +42,20 @@ spec:
                 name: server-api-keys # MEILI_MASTER_KEY
           {{ end }}
           env:
-            - name: DB_LOCATION
-              value: api_data.db
+            - name: POSTGRES_URL
+              value: postgres-rw.navigatum.svc.cluster.local
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-secret
+                  key: password
           ports:
-            - containerPort: 8080
+            - containerPort: 3003
               name: api
           securityContext:
             allowPrivilegeEscalation: false
@@ -59,13 +69,14 @@ spec:
             httpGet:
               path: /api/status
               port: api
-            failureThreshold: 1
+            failureThreshold: 5
             periodSeconds: 1
           startupProbe:
             httpGet:
               path: /api/status
               port: api
-            failureThreshold: 60
+            failureThreshold: 240
+            initialDelaySeconds: 30
             periodSeconds: 1
         - name: mieli-search
           image: {{ $.Values.mielisearch.image.repository }}:{{ $.Values.mielisearch.image.tag }}
@@ -87,24 +98,26 @@ spec:
               memory: {{ if eq "nav.tum.de" $.Values.url }}200Mi{{ else }}50Mi{{ end }}
             limits:
               memory: 500Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            failureThreshold: 2
+            periodSeconds: 10
           startupProbe:
             httpGet:
               path: /health
               port: http
             periodSeconds: 1
-            initialDelaySeconds: 1
+            initialDelaySeconds: 10
             failureThreshold: 60
           readinessProbe:
             httpGet:
               path: /health
               port: http
             periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: http
-            periodSeconds: 10
-{{ if $.Values.server.MEILI_MASTER_KEY }}
+            failureThreshold: 2
+  {{ if $.Values.server.MEILI_MASTER_KEY }}
 ---
 apiVersion: v1
 kind: Secret
@@ -117,6 +130,6 @@ metadata:
     app.kubernetes.io/name: api
 data:
   {{ if $.Values.server.MEILI_MASTER_KEY }}
-    MEILI_MASTER_KEY: {{ $.Values.server.MEILI_MASTER_KEY }}
+  MEILI_MASTER_KEY: {{ $.Values.server.MEILI_MASTER_KEY }}
   {{ end }}
-{{ end }}
+  {{ end }}

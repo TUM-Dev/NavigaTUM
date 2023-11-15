@@ -30,8 +30,19 @@ spec:
           image: "ghcr.io/tum-dev/navigatum-webclient:{{ $.Values.tag }}"
           imagePullPolicy: Always
           ports:
-            - containerPort: 9000
+            - containerPort: 3000
               name: webclient
+          env:
+            - name: TILESERVER_URL
+              value: http://maps-svc.navigatum.svc.cluster.local:3001
+            - name: CDN_URL
+              value: http://cdn-svc.navigatum.svc.cluster.local:3002
+            - name: MAIN_API_URL
+              value: http://api-svc.navigatum.svc.cluster.local:3003
+            - name: FEEDBACK_API_URL
+              value: http://feedback-svc.navigatum.svc.cluster.local:3004
+            - name: CALENDAR_API_URL
+              value: http://calendar-svc.navigatum.svc.cluster.local:3005
           resources:
             requests:
               cpu: 5m

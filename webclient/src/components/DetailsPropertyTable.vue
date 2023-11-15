@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useDetailsStore } from "@/stores/details";
 import TinyModal from "@/components/TinyModal.vue";
+import { useI18n } from "vue-i18n";
 const state = useDetailsStore();
+const { t } = useI18n({ useScope: "local" });
 </script>
 <template>
   <table class="info-table">
@@ -33,7 +35,7 @@ const state = useDetailsStore();
       </tr>
       <tr v-if="state.data?.props.links">
         <td>
-          <strong>{{ $t("view_view.info_table.links") }}</strong>
+          <strong>{{ t("links") }}</strong>
         </td>
         <td>
           <ul>
@@ -45,9 +47,9 @@ const state = useDetailsStore();
           </ul>
         </td>
       </tr>
-      <tr v-if="!!state.data?.props.links && !!state.data?.props.computed">
+      <tr v-if="!state.data?.props.links && !state.data?.props.computed">
         <td>
-          <strong>{{ $t("view_view.info_table.no_information_known") }}</strong>
+          <strong>{{ t("no_information_known") }}</strong>
         </td>
       </tr>
     </tbody>
@@ -107,3 +109,12 @@ const state = useDetailsStore();
   }
 }
 </style>
+
+<i18n lang="yaml">
+de:
+  links: Links
+  no_information_known: No information known
+en:
+  links: Links
+  no_information_known: Keine Informationen bekannt
+</i18n>

@@ -46,8 +46,11 @@ async fn wait_for_healthy(client: &Client) {
 pub(crate) async fn setup_meilisearch() -> Result<(), Box<dyn std::error::Error>> {
     let start = std::time::Instant::now();
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
+    info!("connecting to Meilisearch at {ms_url}", ms_url = ms_url);
     let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
+    info!("waiting for Meilisearch to be healthy");
     wait_for_healthy(&client).await;
+    info!("Meilisearch is healthy");
 
     client
         .create_index("entries", Some("ms_id"))

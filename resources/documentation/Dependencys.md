@@ -78,16 +78,5 @@ We use NodeJS for the webclient.
 Setting NodeJS up is a bit more complicated than setting up python/rust, but it is still pretty easy.
 
 - On linux, you can get it through your favorite package manager.
-  You normally should need to install `nodejs` and `npm`.
-- On WSL, use [this guide](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl)
-
-#### Gulp
-
-We (current) use Gulp to build the webclient. gulp is a task runner, which is used to automate tasks.
-Gulp needs to be installed globally, so that it can be used from the command line.
-
-Installing _Gulp_ with npm:
-
-```bash
-sudo npm install -g gulp
-```
+  You normally should need to install `nodejs` and `pnpm`.
+- On WSL, use [this guide](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl) and [this guide](https://pnpm.io/installation)

@@ -1,12 +1,11 @@
 use crate::models::XMLEvent;
 use crate::scrape_task::main_api_connector::Room;
 use crate::scrape_task::scrape_room_task::ScrapeRoomTask;
-use crate::{schema, utils};
 use chrono::{NaiveDateTime, Utc};
-use diesel::prelude::*;
 use log::{debug, error, warn};
 use minidom::Element;
 use rand::Rng;
+use sqlx::PgPool;
 use std::collections::HashMap;
 use std::time::Duration;
 use tokio::time::sleep;
@@ -149,26 +148,16 @@ impl XMLEvents {
     pub(crate) fn len(&self) -> usize {
         self.events.len()
     }
-    pub(crate) fn store_in_db(self) -> bool {
-        let conn = &mut utils::establish_connection();
-        use schema::calendar::dsl;
-        self.events
-            .iter()
-            .map(|event| {
-                diesel::insert_into(dsl::calendar)
-                    .values(event)
-                    .on_conflict(dsl::single_event_id)
-                    .do_update()
-                    .set(event)
-                    .execute(conn)
-            })
-            .all(|res| match res {
-                Ok(_) => true,
-                Err(e) => {
-                    error!("Error inserting into database: {e:?}");
-                    false
-                }
-            })
+    pub(crate) async fn store_in_db(self, conn: &PgPool) {
+        for event in self.events {
+            if let Err(e) = sqlx::query!(r#"
+                INSERT INTO calendar(key, dtstart, dtend, dtstamp, event_id, event_title, single_event_id, single_event_type_id, single_event_type_name, event_type_id, event_type_name, course_type_name, course_type, course_code, course_semester_hours, group_id, xgroup, status_id, status, comment, last_scrape)
+                VALUES               ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)"#,
+                    event.key, event.dtstart, event.dtend, event.dtstamp, event.event_id, event.event_title, event.single_event_id, event.single_event_type_id, event.single_event_type_name, event.event_type_id, event.event_type_name, event.course_type_name, event.course_type, event.course_code, event.course_semester_hours, event.group_id, event.xgroup, event.status_id, event.status, event.comment, event.last_scrape)
+                    .execute(conn).await {
+                error!("Error inserting into database: {e:?}");
+            }
+        }
     }
     fn new(requested_room: &Room, body: &str) -> Option<Self> {
         let root = match body.parse::<Element>() {

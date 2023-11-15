@@ -4,6 +4,7 @@ import { useClipboard, useShare } from "@vueuse/core";
 import type { UseShareOptions } from "@vueuse/core";
 import type { components } from "@/api_types";
 import { useRoute } from "vue-router";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
   readonly coords: components["schemas"]["Coordinate"];
@@ -12,6 +13,7 @@ const props = defineProps<{
 
 const route = useRoute();
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
+const { t } = useI18n({ useScope: "local" });
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 const { share, isSupported: shareIsSupported } = useShare();
 function shareOptions(): UseShareOptions {
@@ -25,7 +27,7 @@ function shareOptions(): UseShareOptions {
 
 <template>
   <div class="link-popover">
-    <strong>{{ $t("view_view.header.external_link.open_in") }}</strong>
+    <strong>{{ t("open_in") }}</strong>
     <a
       class="btn"
       target="_blank"
@@ -39,14 +41,30 @@ function shareOptions(): UseShareOptions {
       >Google Maps</a
     >
     <a class="btn" :href="`geo:${coords.lat},${coords.lon}`">
-      {{ $t("view_view.header.external_link.other_app") }}
+      {{ t("other_app") }}
     </a>
-    <strong>{{ $t("view_view.header.external_link.share") }}</strong>
+    <strong>{{ t("share") }}</strong>
     <button class="btn" @click="share(shareOptions())" v-if="shareIsSupported">
-      {{ $t("view_view.header.external_link.share_link") }}
+      {{ t("share_link") }}
     </button>
     <button class="btn" @click="copy()" v-if="clipboardIsSupported">
-      {{ copied ? $t("view_view.header.external_link.copied") : $t("view_view.header.copy_link") }}
+      {{ copied ? t("copied") : t("copy_link") }}
     </button>
   </div>
 </template>
+<i18n lang="yaml">
+de:
+  copied: Kopiert
+  copy_link: Link kopieren
+  open_in: Öffnen in
+  other_app: Andere App ...
+  share: Teilen
+  share_link: Teilen mit ...
+en:
+  copied: Copied
+  copy_link: Copy link
+  open_in: Open in
+  other_app: Other app ...
+  share: Share
+  share_link: Share with ...
+</i18n>

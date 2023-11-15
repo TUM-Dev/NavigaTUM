@@ -30,6 +30,12 @@ docker run -it --rm -p 7700:7700 getmeili/meilisearch:latest
 
 MeiliSearch provides an interactive interface at <http://localhost:7700>.
 
+To set up the Postgres, run the following command:
+
+```bash
+docker run -it --rm -e POSTGRES_PASSWORD=password -p 5432:5432 postgres:latest
+```
+
 ### Starting the server
 
 Run `cargo run` to start the server.

@@ -2,11 +2,13 @@
 import AppLanguageToggler from "@/components/AppLanguageToggler.vue";
 import AppThemeToggler from "@/components/AppThemeToggler.vue";
 import { useGlobalStore } from "@/stores/global";
+import { useI18n } from "vue-i18n";
 const global = useGlobalStore();
 const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
 const lang = (localStorage.getItem("lang") || "de") as "de" | "en";
 // If we do not include the image here like this, vite/rollup is unable to load it
 const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.meta.url);
+const { t } = useI18n({ useScope: "local" });
 </script>
 <template>
   <footer data-cy="main-footer">
@@ -19,17 +21,17 @@ const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.m
                 <ul class="column">
                   <li>
                     <a href="https://github.com/TUM-Dev/navigatum">
-                      {{ $t("footer.sourcecode.text") }}
+                      {{ t("sourcecode.text") }}
                     </a>
                   </li>
                   <li>
                     <RouterLink to="/api">
-                      {{ $t("footer.api.text") }}
+                      {{ t("api.text") }}
                     </RouterLink>
                   </li>
                   <li>
-                    <RouterLink :to="'/about/' + $t('footer.about.link')">
-                      {{ $t("footer.about.text") }}
+                    <RouterLink :to="'/about/' + t('about.link')">
+                      {{ t("about.text") }}
                     </RouterLink>
                   </li>
                 </ul>
@@ -39,28 +41,28 @@ const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.m
                       data-cy="open-feedback-footer"
                       @click="global.openFeedback()"
                       class="btn btn-link"
-                      :aria-label="$t('footer.feedback.open')"
+                      :aria-label="t('feedback.open')"
                     >
-                      {{ $t("footer.feedback.text") }}
+                      {{ t("feedback.text") }}
                     </button>
                   </li>
                   <li>
-                    <RouterLink :to="'/about/' + $t('footer.privacy.link')">
-                      {{ $t("footer.privacy.text") }}
+                    <RouterLink :to="'/about/' + t('privacy.link')">
+                      {{ t("privacy.text") }}
                     </RouterLink>
                   </li>
                   <li>
-                    <RouterLink :to="'/about/' + $t('footer.imprint.link')">
-                      {{ $t("footer.imprint.text") }}
+                    <RouterLink :to="'/about/' + t('imprint.link')">
+                      {{ t("imprint.text") }}
                     </RouterLink>
                   </li>
                 </ul>
               </div>
             </div>
             <div class="column hide-sm official_roomfinder">
-              {{ $t("footer.official_roomfinder") }}<br />
+              {{ t("official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
-                <img :alt="$t('meta.tum_logo_alt')" :src="brandLogo.href" height="50" />
+                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" height="50" />
               </a>
             </div>
             <div class="column col-auto col-ml-auto col-xs-12 settings">
@@ -69,7 +71,7 @@ const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.m
                   <div class="columns setting-group">
                     <div class="column col">
                       <label for="setting-lang"
-                        ><small>{{ $t("footer.language") }}</small>
+                        ><small>{{ t("language") }}</small>
                       </label>
                     </div>
                     <div class="column col-auto">
@@ -79,7 +81,7 @@ const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.m
                   <div class="columns setting-group">
                     <div class="column col">
                       <label for="setting-theme">
-                        <small>{{ $t("footer.theme") }}</small>
+                        <small>{{ t("theme") }}</small>
                       </label>
                     </div>
                     <div class="column col-auto">
@@ -90,9 +92,9 @@ const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.m
               </div>
             </div>
             <div class="column col-12 show-sm official_roomfinder">
-              {{ $t("footer.official_roomfinder") }}<br />
+              {{ t("official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
-                <img :alt="$t('meta.tum_logo_alt')" :src="brandLogo.href" height="50" />
+                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" height="50" />
               </a>
             </div>
           </div>
@@ -198,3 +200,50 @@ footer {
   }
 }
 </style>
+
+<i18n lang="yaml">
+de:
+  about:
+    link: ueber-uns
+    text: Über uns
+  api:
+    link: api
+    text: API
+  feedback:
+    open: Feedback Form öffnen
+    text: Feedback senden
+  imprint:
+    link: impressum
+    text: Impressum
+  language: Sprache
+  official_roomfinder: Offizieller Roomfinder
+  privacy:
+    link: datenschutz
+    text: Datenschutz
+  sourcecode:
+    text: Source Code
+  theme: Theme
+  tum_logo_alt: The Logo of the Technical University Munich
+en:
+  about:
+    link: about-us
+    text: About us
+  api:
+    link: api
+    text: API
+  feedback:
+    open: Open the feedback-form
+    text: Feedback
+  imprint:
+    link: impressum
+    text: Imprint
+  language: Language
+  official_roomfinder: Official roomfinder
+  privacy:
+    link: privacy
+    text: Privacy
+  sourcecode:
+    text: Source Code
+  theme: Theme
+  tum_logo_alt: Das Logo der Technischen Universität München
+</i18n>

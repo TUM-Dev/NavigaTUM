@@ -1,6 +1,6 @@
 use log::info;
 use serde::Deserialize;
-use sqlx::SqlitePool;
+use sqlx::PgPool;
 use std::time::Instant;
 
 #[derive(Debug)]
@@ -84,22 +84,26 @@ impl Iterator for AliasIterator {
 impl Alias {
     async fn store(
         self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Sqlite>,
-    ) -> Result<sqlx::sqlite::SqliteQueryResult, sqlx::Error> {
+        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
         sqlx::query!(
-            r#"INSERT OR REPLACE INTO aliases (alias, key, type, visible_id)
-            VALUES (?, ?, ?, ?)"#,
+            r#"INSERT INTO aliases (alias, key, type, visible_id)
+            VALUES ($1, $2, $3, $4)
+            ON CONFLICT (alias,key) DO UPDATE SET
+             key = $2,
+             type = $3,
+             visible_id = $4"#,
             self.alias,
             self.key,
             self.r#type,
-            self.visible_id
+            self.visible_id,
         )
         .execute(&mut **tx)
         .await
     }
 }
 
-pub(crate) async fn load_all_to_db(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
+pub(crate) async fn load_all_to_db(pool: &PgPool) -> Result<(), Box<dyn std::error::Error>> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let raw_aliase = reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?

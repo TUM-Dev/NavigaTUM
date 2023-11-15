@@ -9,7 +9,7 @@ describe("Check if the search page works as expected", () => {
     cy.intercept("GET", "/api/search?q=fsmb&limit_buildings=10&limit_rooms=30&limit_all=30&lang=de", {
       fixture: "search/fsmb.long.de.json",
     });
-    cy.visit("http://localhost:8000/");
+    cy.visit("http://localhost:3000/");
     cy.get("input").type("fsmb");
     cy.contains("Go").click();
     cy.url().should("include", "/search?q=fsmb");
@@ -36,7 +36,7 @@ describe("Check if the search page works as expected", () => {
       fixture: "search/fsmb.long.de.json",
     });
     cy.intercept("GET", "/api/get/5502.U1.234M?lang=de", { fixture: "get/5502.U1.234M.de.json" });
-    cy.visit("http://localhost:8000/search?q=fsmb");
+    cy.visit("http://localhost:3000/search?q=fsmb");
     cy.contains("5502.U1.234M").click({ force: true });
     cy.url().should("include", "/5502.U1.234M");
   });

@@ -32,7 +32,7 @@ spec:
           imagePullPolicy: Always
           command: ["/bin/navigatum-calendar"]
           ports:
-            - containerPort: 8060
+            - containerPort: 3005
               name: calendar
           env:
             - name: POSTGRES_URL
@@ -63,11 +63,11 @@ spec:
             httpGet:
               path: /api/calendar/status
               port: calendar
-            failureThreshold: 2
-            periodSeconds: 10
+            failureThreshold: 5
+            periodSeconds: 1
           startupProbe:
             httpGet:
               path: /api/calendar/status
               port: calendar
-            failureThreshold: 60
+            failureThreshold: 240
             periodSeconds: 1

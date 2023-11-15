@@ -17,12 +17,6 @@
     "name": "Department Administration Architecture",
     "path": "TUM/Academic department/Former TUM Department of Architecture/Department Administration"
   },
-  "TUARF05": {
-    "code": "TUARF05",
-    "id": 15114,
-    "name": "Dean of Studies",
-    "path": "TUM/Academic department/Former TUM Department of Architecture/Dean of Studies"
-  },
   "TUARF07": {
     "code": "TUARF07",
     "id": 15115,
@@ -521,24 +515,6 @@
     "name": "Assistant Professorship of Analytical Chemistry (Prof. Strittmatter)",
     "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Analytical Chemistry (Prof. Strittmatter)"
   },
-  "TUCHBDS": {
-    "code": "TUCHBDS",
-    "id": 32786,
-    "name": "Data Protection Representative Chemistry",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Representatives/Data Protection Representative"
-  },
-  "TUCHBIO": {
-    "code": "TUCHBIO",
-    "id": 32785,
-    "name": "Information Officer Chemistry",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Representatives/Information Officer"
-  },
-  "TUCHDEK": {
-    "code": "TUCHDEK",
-    "id": 14629,
-    "name": "Dean Chemistry",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Dean"
-  },
   "TUCHDEP": {
     "code": "TUCHDEP",
     "id": 22127,
@@ -569,23 +545,11 @@
     "name": "Dean's Office Dekanat CH",
     "path": "TUM/Academic department/Former TUM Department of Chemistry/Dean's Office"
   },
-  "TUCHFFB": {
-    "code": "TUCHFFB",
-    "id": 44214,
-    "name": "Gender Equality Officer Chemistry",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Representatives/Gender Equality Officer"
-  },
   "TUCHFSS": {
     "code": "TUCHFSS",
     "id": 14633,
     "name": "Student Office CH",
     "path": "TUM/Academic department/Former TUM Department of Chemistry/Student Office CH"
-  },
-  "TUCHFSV": {
-    "code": "TUCHFSV",
-    "id": 44488,
-    "name": "Student Council",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Student Council"
   },
   "TUCHFV0": {
     "code": "TUCHFV0",
@@ -598,12 +562,6 @@
     "id": 34759,
     "name": "Wacker-Institute for Silicon Chemistry (Prof. Rieger)",
     "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Silicon Chemistry (Prof. Rieger)"
-  },
-  "TUCHLC1": {
-    "code": "TUCHLC1",
-    "id": 14721,
-    "name": "Chair of Food Chemistry (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Food Chemistry (N.N.)"
   },
   "TUCHNMR": {
     "code": "TUCHNMR",
@@ -707,18 +665,6 @@
     "name": "Chair of Physical Chemistry (Prof. Heiz)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Physical Chemistry (Prof. Heiz)"
   },
-  "TUCHPC2": {
-    "code": "TUCHPC2",
-    "id": 14723,
-    "name": "Chair of Biophysical Chemistry (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Biophysical Chemistry (N.N.)"
-  },
-  "TUCHPC3": {
-    "code": "TUCHPC3",
-    "id": 23181,
-    "name": "Associate Professorship of Physical Chemistry (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Physical Chemistry (N.N.)"
-  },
   "TUCHPC4": {
     "code": "TUCHPC4",
     "id": 43583,
@@ -749,23 +695,11 @@
     "name": "Chair of Electron Microscopy with research emphasis on Energy Materials (Prof. Willinger)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Electron Microscopy with research emphasis on Energy Materials (Prof. Willinger)"
   },
-  "TUCHPDK": {
-    "code": "TUCHPDK",
-    "id": 14631,
-    "name": "Vice Dean  Chemistry",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Vice Dean"
-  },
   "TUCHRC3": {
     "code": "TUCHRC3",
     "id": 44364,
     "name": "Chair of Pharmaceutical Radiochemistry (Prof. Casini komm.)",
     "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Pharmaceutical Radiochemistry (Prof. Casini komm.)"
-  },
-  "TUCHSDK": {
-    "code": "TUCHSDK",
-    "id": 14632,
-    "name": "Dean of Studies",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Dean of Studies"
   },
   "TUCHTC1": {
     "code": "TUCHTC1",
@@ -821,23 +755,11 @@
     "name": "Assistant Professorship of Theoretical Methods in Spectroscopy (Prof. Ortmann)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Theoretical Methods in Spectroscopy (Prof. Ortmann)"
   },
-  "TUCHWA0": {
-    "code": "TUCHWA0",
-    "id": 14635,
-    "name": "Institute for Hydrochemistry",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Hydrochemistry"
-  },
   "TUCHWA1": {
     "code": "TUCHWA1",
     "id": 14706,
     "name": "Chair of Analytical Chemistry and Water Chemistry (Prof. Elsner)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Analytical Chemistry and Water Chemistry (Prof. Elsner)"
-  },
-  "TUCHZAN": {
-    "code": "TUCHZAN",
-    "id": 47017,
-    "name": "Central Analysis",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Central institutions/Central Analysis"
   },
   "TUCHZB1": {
     "code": "TUCHZB1",
@@ -1199,12 +1121,6 @@
     "name": "Associate Professorship of Bio-inspired Information Processing (Prof. Hemmert)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Bio-inspired Information Processing (Prof. Hemmert)"
   },
-  "TUEIBDS": {
-    "code": "TUEIBDS",
-    "id": 32905,
-    "name": "Data Protection Representative Former TUM Department of Electrical and Computer Engineering",
-    "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Representatives/Data Protection Representative"
-  },
   "TUEIBIO": {
     "code": "TUEIBIO",
     "id": 32904,
@@ -1241,12 +1157,6 @@
     "name": "Dean's Office Dekanat EI",
     "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Department Administration/Dean's Office"
   },
-  "TUEIDKN": {
-    "code": "TUEIDKN",
-    "id": 14254,
-    "name": "Dean Former TUM Department of Electrical and Computer Engineering",
-    "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Dean"
-  },
   "TUEIEAL": {
     "code": "TUEIEAL",
     "id": 15357,
@@ -1262,8 +1172,8 @@
   "TUEIEEN": {
     "code": "TUEIEEN",
     "id": 15360,
-    "name": "Associate Professorship of Power Transmission Systems (Prof. Witzmann)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Power Transmission Systems (Prof. Witzmann)"
+    "name": "Chair of Power Transmission Systems (Prof. Tonkoski)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Power Transmission Systems (Prof. Tonkoski)"
   },
   "TUEIEES": {
     "code": "TUEIEES",
@@ -1571,12 +1481,6 @@
     "name": "Assistant Professorship of Neuroscientific System Theory (N.N.)",
     "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Chairs and Professorships/Neuroscientific System Theory (N.N.)"
   },
-  "TUEIPDK": {
-    "code": "TUEIPDK",
-    "id": 15327,
-    "name": "Vice Dean Former TUM Department of Electrical and Computer Engineering",
-    "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Vice Dean"
-  },
   "TUEIQEC": {
     "code": "TUEIQEC",
     "id": 49639,
@@ -1787,24 +1691,6 @@
     "name": "Vorstand Vorstand",
     "path": "TUM/TUM Graduate School/Vorstand"
   },
-  "TUINBDS": {
-    "code": "TUINBDS",
-    "id": 32913,
-    "name": "Data Protection Representative Former TUM Department of Informatics",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Representatives/Data Protection Representative"
-  },
-  "TUINBEI": {
-    "code": "TUINBEI",
-    "id": 44046,
-    "name": "Advisory board Former TUM Department of Informatics",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Advisory board"
-  },
-  "TUINBIO": {
-    "code": "TUINBIO",
-    "id": 32912,
-    "name": "Information Officer (IO) Former TUM Department of Informatics",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Representatives/Information Officer (IO)"
-  },
   "TUINDEK": {
     "code": "TUINDEK",
     "id": 15415,
@@ -1816,12 +1702,6 @@
     "id": 44268,
     "name": "Board of directors Institute of Informatics",
     "path": "TUM/Academic department/Former TUM Department of Informatics/Institute of Informatics/Board of directors"
-  },
-  "TUINDKN": {
-    "code": "TUINDKN",
-    "id": 15413,
-    "name": "Dean Former TUM Department of Informatics",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Dean"
   },
   "TUINDRU": {
     "code": "TUINDRU",
@@ -2003,18 +1883,6 @@
     "name": "Informatics 24 - Assistant Professorship of Ethics in Systems Design and Machine Learning (Prof. Kilbertus)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 24 - Assistant Professorship of Ethics in Systems Design and Machine Learning (Prof. Kilbertus)"
   },
-  "TUINFAR": {
-    "code": "TUINFAR",
-    "id": 44045,
-    "name": "Faculty council Former TUM Department of Informatics",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Faculty council"
-  },
-  "TUINFB1": {
-    "code": "TUINFB1",
-    "id": 44207,
-    "name": "Gender Equality Officer Former TUM Department of Informatics",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Representatives/Gender Equality Officer"
-  },
   "TUINFIN": {
     "code": "TUINFIN",
     "id": 14189,
@@ -2026,12 +1894,6 @@
     "id": 44008,
     "name": "Service office Finances Informatics (SB-F-IN)",
     "path": "TUM/Academic department/Former TUM Department of Informatics/Central institutions of the academic department/Service office Finances Informatics (SB-F-IN)"
-  },
-  "TUINFSV": {
-    "code": "TUINFSV",
-    "id": 44487,
-    "name": "Student Council",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Student Council"
   },
   "TUINGDF": {
     "code": "TUINGDF",
@@ -2291,18 +2153,6 @@
     "name": "Informatics 14 - Chair of Algorithms and Complexity (Prof. Albers)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 14 - Chair of Algorithms and Complexity (Prof. Albers)"
   },
-  "TUINOEA": {
-    "code": "TUINOEA",
-    "id": 44038,
-    "name": "Public relations Former TUM Department of Informatics",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Representatives/Public relations"
-  },
-  "TUINPDK": {
-    "code": "TUINPDK",
-    "id": 15414,
-    "name": "Vice Dean Former TUM Department of Informatics",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Vice Dean"
-  },
   "TUINPER": {
     "code": "TUINPER",
     "id": 44009,
@@ -2321,12 +2171,6 @@
     "name": "Service office Planning and Building Informatics and Mathematics (SB-R)",
     "path": "TUM/Academic department/Former TUM Department of Informatics/Central institutions of the academic department/Service office Planning and Building Informatics and Mathematics (SB-R)"
   },
-  "TUINSBA": {
-    "code": "TUINSBA",
-    "id": 44037,
-    "name": "Security officer Former TUM Department of Informatics",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Representatives/Security officer"
-  },
   "TUINSBS": {
     "code": "TUINSBS",
     "id": 15417,
@@ -2338,18 +2182,6 @@
     "id": 44265,
     "name": "Service office Temporary workers and Business trips Informatics and Mathematics (SB-Z)",
     "path": "TUM/Academic department/Former TUM Department of Informatics/Central institutions of the academic department/Service office Temporary workers and Business trips Informatics and Mathematics (SB-Z)"
-  },
-  "TUINSDK": {
-    "code": "TUINSDK",
-    "id": 15416,
-    "name": "Dean of Studies",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Dean of Studies"
-  },
-  "TUINWEB": {
-    "code": "TUINWEB",
-    "id": 44039,
-    "name": "Web-precence Former TUM Department of Informatics",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Representatives/Web-precence"
   },
   "TUINZE1": {
     "code": "TUINZE1",
@@ -2456,7 +2288,7 @@
   "TULRLEW": {
     "code": "TULRLEW",
     "id": 15099,
-    "name": "Associate Professorship of Land Management (Prof. de Vries)",
+    "name": "Chair of Land Management (Prof. de Vries)",
     "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Land Management (Prof. de Vries)"
   },
   "TULRLFK": {
@@ -2524,30 +2356,6 @@
     "id": 50117,
     "name": "Academic Programs Office LRG",
     "path": "TUM/Academic department/Former TUM Department of Aerospace and Geodesy/Administration of the department/Academic Programs Office LRG"
-  },
-  "TUMABDS": {
-    "code": "TUMABDS",
-    "id": 32757,
-    "name": "Data Protection Representative Mathematics",
-    "path": "TUM/Academic department/Former TUM Department of Mathematics/Representatives/Data Protection Representative"
-  },
-  "TUMABIO": {
-    "code": "TUMABIO",
-    "id": 32758,
-    "name": "Representative Information Officer Mathematics",
-    "path": "TUM/Academic department/Former TUM Department of Mathematics/Representatives/Representative"
-  },
-  "TUMADEK": {
-    "code": "TUMADEK",
-    "id": 14202,
-    "name": "Dean's Office Dekanat MA",
-    "path": "TUM/Academic department/Former TUM Department of Mathematics/Dean's Office"
-  },
-  "TUMADKN": {
-    "code": "TUMADKN",
-    "id": 14198,
-    "name": "Dean Mathematics",
-    "path": "TUM/Academic department/Former TUM Department of Mathematics/Dean"
   },
   "TUMAF01": {
     "code": "TUMAF01",
@@ -2687,12 +2495,6 @@
     "name": "Chair of Multiscale and Stochastic Dynamics (Prof. K\u00fchn)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Multiscale and Stochastic Dynamics (Prof. K\u00fchn)"
   },
-  "TUMAFFB": {
-    "code": "TUMAFFB",
-    "id": 44212,
-    "name": "Gender Equality Officer Mathematics",
-    "path": "TUM/Academic department/Former TUM Department of Mathematics/Representatives/Gender Equality Officer"
-  },
   "TUMAFMA": {
     "code": "TUMAFMA",
     "id": 14178,
@@ -2704,12 +2506,6 @@
     "id": 44013,
     "name": "Finances",
     "path": "TUM/Academic department/Former TUM Department of Mathematics/Service office Mathematics/Finances"
-  },
-  "TUMAFSV": {
-    "code": "TUMAFSV",
-    "id": 44485,
-    "name": "Student Council",
-    "path": "TUM/Academic department/Former TUM Department of Mathematics/Student Council"
   },
   "TUMAJNG": {
     "code": "TUMAJNG",
@@ -2825,12 +2621,6 @@
     "name": "Chair of Arithmetic Algebra (N.N.)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Arithmetic Algebra (N.N.)"
   },
-  "TUMAPDK": {
-    "code": "TUMAPDK",
-    "id": 14199,
-    "name": "Vice Dean  Mathematics",
-    "path": "TUM/Academic department/Former TUM Department of Mathematics/Vice Dean"
-  },
   "TUMARBG": {
     "code": "TUMARBG",
     "id": 44884,
@@ -2842,12 +2632,6 @@
     "id": 44011,
     "name": "Service office Mathematics",
     "path": "TUM/Academic department/Former TUM Department of Mathematics/Service office Mathematics"
-  },
-  "TUMASDK": {
-    "code": "TUMASDK",
-    "id": 14200,
-    "name": "Dean of Studies",
-    "path": "TUM/Academic department/Former TUM Department of Mathematics/Dean of Studies"
   },
   "TUMASSK": {
     "code": "TUMASSK",
@@ -4709,12 +4493,6 @@
     "name": "Aptitude Assessment Commission",
     "path": "TUM/Academic department/Former TUM Department of Physics/Special committees/Aptitude Assessment Commission"
   },
-  "TUPHAEL": {
-    "code": "TUPHAEL",
-    "id": 49969,
-    "name": "Aptitude Assessment Commission Degree Program M.Sc. Matter to Life",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Special committees/Aptitude Assessment Commission/M.Sc. Matter to Life"
-  },
   "TUPHAEM": {
     "code": "TUPHAEM",
     "id": 50177,
@@ -4739,18 +4517,6 @@
     "name": "Special committees",
     "path": "TUM/Academic department/Former TUM Department of Physics/Special committees"
   },
-  "TUPHBDS": {
-    "code": "TUPHBDS",
-    "id": 32802,
-    "name": "Data Protection Representative Former TUM Department of Physics",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Representatives/Data Protection Representative"
-  },
-  "TUPHBIO": {
-    "code": "TUPHBIO",
-    "id": 32801,
-    "name": "Representative Information Officer Former TUM Department of Physics",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Representatives/Representative"
-  },
   "TUPHCOM": {
     "code": "TUPHCOM",
     "id": 42670,
@@ -4762,12 +4528,6 @@
     "id": 14217,
     "name": "Physics Department",
     "path": "TUM/Academic department/Former TUM Department of Physics/Physics Department"
-  },
-  "TUPHDKN": {
-    "code": "TUPHDKN",
-    "id": 14209,
-    "name": "Dean Former TUM Department of Physics",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Dean"
   },
   "TUPHE11": {
     "code": "TUPHE11",
@@ -4991,12 +4751,6 @@
     "name": "Chair of Precision Measurements at Extreme Conditions (Prof. Fierlinger)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Precision Measurements at Extreme Conditions (Prof. Fierlinger)"
   },
-  "TUPHFBA": {
-    "code": "TUPHFBA",
-    "id": 44213,
-    "name": "Gender Equality Officer Former TUM Department of Physics",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Representatives/Gender Equality Officer"
-  },
   "TUPHFPH": {
     "code": "TUPHFPH",
     "id": 14179,
@@ -5008,18 +4762,6 @@
     "id": 44486,
     "name": "Student Council",
     "path": "TUM/Academic department/Former TUM Department of Physics/Student Council"
-  },
-  "TUPHPDK": {
-    "code": "TUPHPDK",
-    "id": 14210,
-    "name": "Vice Dean  Former TUM Department of Physics",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Vice Dean"
-  },
-  "TUPHSDK": {
-    "code": "TUPHSDK",
-    "id": 14211,
-    "name": "Dean of Studies",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Dean of Studies"
   },
   "TUPHSSK": {
     "code": "TUPHSSK",
@@ -5038,12 +4780,6 @@
     "id": 16214,
     "name": "Chair of Theoretical Elementary Particle Physics (Prof. Beneke)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Theoretical Elementary Particle Physics (Prof. Beneke)"
-  },
-  "TUPHT34": {
-    "code": "TUPHT34",
-    "id": 16216,
-    "name": "Chair of Theoretical Physics V - (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Physics Department/Theoretical Physics V - (N.N.)"
   },
   "TUPHT35": {
     "code": "TUPHT35",
@@ -5159,12 +4895,6 @@
     "name": "Academic administration",
     "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Academic administration"
   },
-  "TUPHZDM": {
-    "code": "TUPHZDM",
-    "id": 42660,
-    "name": "Third-party funds",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department/Third-party funds"
-  },
   "TUPHZEI": {
     "code": "TUPHZEI",
     "id": 21879,
@@ -5195,29 +4925,11 @@
     "name": "Crystal Lab (NAT) - Central Services (NAT)",
     "path": "TUM/Schools/Natural Sciences/School Office/Central Services (NAT)/Crystal Lab (NAT)"
   },
-  "TUPHZMA": {
-    "code": "TUPHZMA",
-    "id": 42663,
-    "name": "Materials store",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department/Materials store"
-  },
-  "TUPHZMB": {
-    "code": "TUPHZMB",
-    "id": 42661,
-    "name": "Budget management",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department/Budget management"
-  },
   "TUPHZPE": {
     "code": "TUPHZPE",
     "id": 42659,
     "name": "other service institutes Personalstelle",
     "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department/other service institutes"
-  },
-  "TUPHZPS": {
-    "code": "TUPHZPS",
-    "id": 42665,
-    "name": "Post office",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department/Post office"
   },
   "TUPHZSS": {
     "code": "TUPHZSS",
@@ -5236,12 +4948,6 @@
     "id": 42658,
     "name": "Administration physics department",
     "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department"
-  },
-  "TUPHZWA": {
-    "code": "TUPHZWA",
-    "id": 42664,
-    "name": "Receiving department",
-    "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department/Receiving department"
   },
   "TUPHZWS": {
     "code": "TUPHZWS",
@@ -5462,8 +5168,8 @@
   "TUPRSSU": {
     "code": "TUPRSSU",
     "id": 50537,
-    "name": "TUM Sustainability",
-    "path": "TUM/TUM Board of Management/TUM Sustainability"
+    "name": "TUM Sustainability Office",
+    "path": "TUM/TUM Board of Management/TUM Sustainability Office"
   },
   "TUPRSTB": {
     "code": "TUPRSTB",
@@ -5696,14 +5402,26 @@
   "TUS1307": {
     "code": "TUS1307",
     "id": 54817,
-    "name": "Informatics Heilbronn 8 - Assistant Professorship of Cyber-Physical Systems (Dr. Cheng komm.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatics Heilbronn 8 - Assistant Professorship of Cyber-Physical Systems (Dr. Cheng komm.)"
+    "name": "Informatics Heilbronn 8 - Assistant Professorship of Cyber-Physical Systems (Prof. Abdelhafez)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatics Heilbronn 8 - Assistant Professorship of Cyber-Physical Systems (Prof. Abdelhafez)"
   },
   "TUS1308": {
     "code": "TUS1308",
     "id": 54957,
     "name": "Associate Professorship of Quantum Communication Systems Engineering (Prof. Vogl)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Quantum Communication Systems Engineering (Prof. Vogl)"
+  },
+  "TUS1309": {
+    "code": "TUS1309",
+    "id": 55438,
+    "name": "Chair of Foundations of Deep Neural Networks (Prof. Jegelka)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Foundations of Deep Neural Networks (Prof. Jegelka)"
+  },
+  "TUS1310": {
+    "code": "TUS1310",
+    "id": 55437,
+    "name": "Chair of Resource Aware Machine Learning (Prof. Sra)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Resource Aware Machine Learning (Prof. Sra)"
   },
   "TUS1CHN": {
     "code": "TUS1CHN",
@@ -5818,6 +5536,12 @@
     "id": 53437,
     "name": "Assistant Professorship of Architecture and Design (Prof. Fanelsa)",
     "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Architecture and Design (Prof. Fanelsa)"
+  },
+  "TUS2BJT": {
+    "code": "TUS2BJT",
+    "id": 55377,
+    "name": "Chair of Binder Jetting Technology (Prof. Lowke)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Materials Engineering/Binder Jetting Technology (Prof. Lowke)"
   },
   "TUS2DAT": {
     "code": "TUS2DAT",
@@ -6425,6 +6149,12 @@
     "name": "Chair of Livestock Systems (Prof. Rufino)",
     "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Livestock Systems (Prof. Rufino)"
   },
+  "TUS4M1D": {
+    "code": "TUS4M1D",
+    "id": 55318,
+    "name": "Assistant Professorship of Translational Microbiome Data Integration (Prof. Schirmer)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Translational Microbiome Data Integration (Prof. Schirmer)"
+  },
   "TUS4M5B": {
     "code": "TUS4M5B",
     "id": 53117,
@@ -6472,6 +6202,12 @@
     "id": 52257,
     "name": "TUM Plant Technology Center (PTC)",
     "path": "TUM/Schools/Life Sciences/TUM Plant Technology Center (PTC)"
+  },
+  "TUS4P9N": {
+    "code": "TUS4P9N",
+    "id": 55317,
+    "name": "Associate Professorship of Plant Proteins and Nutrition (Prof. Weisz)",
+    "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/Plant Proteins and Nutrition (Prof. Weisz)"
   },
   "TUS4R5I": {
     "code": "TUS4R5I",
@@ -6539,6 +6275,12 @@
     "name": "TUM School of Medicine and Health in formation",
     "path": "TUM/Schools/Medicine and Health in formation"
   },
+  "TUS5DEA": {
+    "code": "TUS5DEA",
+    "id": 55357,
+    "name": "Dean of the TUM School of Medicine and Health in formation",
+    "path": "TUM/Schools/Medicine and Health in formation/Dean"
+  },
   "TUS5DP1": {
     "code": "TUS5DP1",
     "id": 54897,
@@ -6568,6 +6310,30 @@
     "id": 55217,
     "name": "Further Chairs and Professorships",
     "path": "TUM/Academic department/Medicine/Further Chairs and Professorships"
+  },
+  "TUS5VIO": {
+    "code": "TUS5VIO",
+    "id": 55361,
+    "name": "Vice Dean Information Officer of the TUM School of Medicine and Health in formation",
+    "path": "TUM/Schools/Medicine and Health in formation/Vice Dean/Information Officer"
+  },
+  "TUS5VRI": {
+    "code": "TUS5VRI",
+    "id": 55358,
+    "name": "Vice Dean Research and Innovation of the TUM School of Medicine and Health in formation",
+    "path": "TUM/Schools/Medicine and Health in formation/Vice Dean/Research and Innovation"
+  },
+  "TUS5VST": {
+    "code": "TUS5VST",
+    "id": 55359,
+    "name": "Vice Dean Study and Teaching of the TUM School of Medicine and Health in formation",
+    "path": "TUM/Schools/Medicine and Health in formation/Vice Dean/Study and Teaching"
+  },
+  "TUS5VTD": {
+    "code": "TUS5VTD",
+    "id": 55360,
+    "name": "Vice Dean Talent Management and Diversity of the TUM School of Medicine and Health in formation",
+    "path": "TUM/Schools/Medicine and Health in formation/Vice Dean/Talent Management and Diversity"
   },
   "TUS6000": {
     "code": "TUS6000",
@@ -6713,6 +6479,12 @@
     "name": "Representative for international affairs of the TUM School of Management",
     "path": "TUM/Schools/Management/Representatives/Representative for international affairs"
   },
+  "TUS6SAF": {
+    "code": "TUS6SAF",
+    "id": 55277,
+    "name": "Assistant Professorship of Sustainability Assessment of Food and Agricultural Systems (Prof. Cabernard, Joint Appointment between TUM School of Management and TUM School of Life Sciences)",
+    "path": "TUM/Schools/Management/Departments/Economics and Policy/Sustainability Assessment of Food and Agricultural Systems (Prof. Cabernard, Joint Appointment between TUM School of Management and TUM School of Life Sciences)"
+  },
   "TUS6STC": {
     "code": "TUS6STC",
     "id": 52557,
@@ -6748,6 +6520,12 @@
     "id": 51901,
     "name": "TUM School of Social Sciences and Technology",
     "path": "TUM/Schools/Social Sciences and Technology"
+  },
+  "TUS7AST": {
+    "code": "TUS7AST",
+    "id": 55397,
+    "name": "Chair of Anthropology of Science and Technology (Prof. Niew\u00f6hner)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Anthropology of Science and Technology (Prof. Niew\u00f6hner)"
   },
   "TUS7DDP": {
     "code": "TUS7DDP",
@@ -6827,11 +6605,23 @@
     "name": "Assistant Professorship of Learning Sciences and Educational Design Technologies (Prof. Keune)",
     "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Learning Sciences and Educational Design Technologies (Prof. Keune)"
   },
+  "TUS7LRD": {
+    "code": "TUS7LRD",
+    "id": 55338,
+    "name": "Chair of Law and Regulation of the Digital Transformation (Prof. Paal)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Law and Regulation of the Digital Transformation (Prof. Paal)"
+  },
   "TUS7OTS": {
     "code": "TUS7OTS",
     "id": 52085,
     "name": "School Office of the TUM School of Social Sciences and Technology",
     "path": "TUM/Schools/Social Sciences and Technology/School Office"
+  },
+  "TUS7PMP": {
+    "code": "TUS7PMP",
+    "id": 55337,
+    "name": "Assistant Professorship of Mobility Policy (Prof. Loder)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Mobility Policy (Prof. Loder)"
   },
   "TUS7PWT": {
     "code": "TUS7PWT",
@@ -8753,6 +8543,12 @@
     "name": "Academic Programs ME Archiv",
     "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/ME Archiv"
   },
+  "TUXB507": {
+    "code": "TUXB507",
+    "id": 55257,
+    "name": "Academic Programs Promotionen",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen"
+  },
   "TUXB601": {
     "code": "TUXB601",
     "id": 52198,
@@ -9731,6 +9527,18 @@
     "name": "Degree Program M.Sc. Mechatronics, Robotics, and Biomechanical Engineering",
     "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Degree Program"
   },
+  "TUXS233": {
+    "code": "TUXS233",
+    "id": 55278,
+    "name": "Degree Program M.Sc. Medizintechnik",
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Degree Program"
+  },
+  "TUXS234": {
+    "code": "TUXS234",
+    "id": 55279,
+    "name": "Degree Program B.Sc. Ingenieur- und Werkstoffwissenschaften (PLUS)",
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/B.Sc. Ingenieur- und Werkstoffwissenschaften (PLUS)"
+  },
   "TUXS300": {
     "code": "TUXS300",
     "id": 53022,
@@ -10118,8 +9926,8 @@
   "TUXS501": {
     "code": "TUXS501",
     "id": 55124,
-    "name": "Degree Program B.Sc. Sports Sciences",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Sports Sciences/B.Sc. Sports Sciences"
+    "name": "Degree Program B.Sc. Sports Science",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Sports Sciences/B.Sc. Sports Science"
   },
   "TUXS502": {
     "code": "TUXS502",
@@ -10130,8 +9938,8 @@
   "TUXS503": {
     "code": "TUXS503",
     "id": 55126,
-    "name": "Degree Program B.Sc. Health Sciences",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Health Sciences/B.Sc. Health Sciences"
+    "name": "Degree Program B.Sc. Health Science",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Health Sciences/B.Sc. Health Science"
   },
   "TUXS504": {
     "code": "TUXS504",
@@ -10414,6 +10222,90 @@
     "id": 55179,
     "name": "Degree Program Medizin (Vorklinisch), Austausch (nicht studienbeitragspflichtig)",
     "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/ME Archiv/Medizin (Vorklinisch), Austausch (nicht studienbeitragspflichtig)"
+  },
+  "TUXS51F": {
+    "code": "TUXS51F",
+    "id": 55258,
+    "name": "Degree Program TUM School of Medicine and Health (Sport)",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/TUM School of Medicine and Health (Sport)"
+  },
+  "TUXS51G": {
+    "code": "TUXS51G",
+    "id": 55259,
+    "name": "Degree Program TUM School of Medicine and Health (Gesundheit)",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/TUM School of Medicine and Health (Gesundheit)"
+  },
+  "TUXS51H": {
+    "code": "TUXS51H",
+    "id": 55260,
+    "name": "Degree Program TUM School of Medicine and Health (Medizin)",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/TUM School of Medicine and Health (Medizin)"
+  },
+  "TUXS51I": {
+    "code": "TUXS51I",
+    "id": 55261,
+    "name": "Degree Program Gastpromotion (TUM School of Medicine and Health - Sport)",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Gastpromotion (TUM School of Medicine and Health - Sport)"
+  },
+  "TUXS51J": {
+    "code": "TUXS51J",
+    "id": 55262,
+    "name": "Degree Program Gastpromotion (TUM School of Medicine and Health - Medizin)",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Gastpromotion (TUM School of Medicine and Health - Medizin)"
+  },
+  "TUXS51K": {
+    "code": "TUXS51K",
+    "id": 55263,
+    "name": "Degree Program Medical Life Science and Technology, Ph.D.",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Medical Life Science and Technology, Ph.D."
+  },
+  "TUXS51L": {
+    "code": "TUXS51L",
+    "id": 55264,
+    "name": "Degree Program Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften (Sportwissenschaften)",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften (Sportwissenschaften)"
+  },
+  "TUXS51M": {
+    "code": "TUXS51M",
+    "id": 55265,
+    "name": "Degree Program Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften (Gesundheitswissenschaften)",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften (Gesundheitswissenschaften)"
+  },
+  "TUXS51N": {
+    "code": "TUXS51N",
+    "id": 55266,
+    "name": "Degree Program Fakult\u00e4t f\u00fcr Medizin",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Fakult\u00e4t f\u00fcr Medizin"
+  },
+  "TUXS51O": {
+    "code": "TUXS51O",
+    "id": 55267,
+    "name": "Degree Program Sportwissenschaft",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Sportwissenschaft"
+  },
+  "TUXS51P": {
+    "code": "TUXS51P",
+    "id": 55268,
+    "name": "Degree Program Sportwissenschaft",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Sportwissenschaft"
+  },
+  "TUXS51Q": {
+    "code": "TUXS51Q",
+    "id": 55269,
+    "name": "Degree Program Medizin",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Medizin"
+  },
+  "TUXS51R": {
+    "code": "TUXS51R",
+    "id": 55270,
+    "name": "Degree Program Medizin",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Medizin"
+  },
+  "TUXS51S": {
+    "code": "TUXS51S",
+    "id": 55271,
+    "name": "Degree Program Gastpromotion (ME)",
+    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Gastpromotion (ME)"
   },
   "TUXS601": {
     "code": "TUXS601",
@@ -11723,12 +11615,6 @@
     "name": "TUM CST - Fees and Scholarships",
     "path": "TUM/Central Service Institutions/TUM Center for Study and Teaching/TUM CST - Fees and Scholarships"
   },
-  "TUZESFE": {
-    "code": "TUZESFE",
-    "id": 43590,
-    "name": "Study Office MEP",
-    "path": "TUM/Integrative Research Institutes/Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)/Study Office MEP"
-  },
   "TUZESIM": {
     "code": "TUZESIM",
     "id": 14432,
@@ -11966,104 +11852,104 @@
   "TUZV141": {
     "code": "TUZV141",
     "id": 25918,
-    "name": "Structural development planning Garching",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Structural development planning (department 42)/Structural development planning Garching"
+    "name": "Construction Management Garching",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Construction Management Garching"
   },
   "TUZV142": {
     "code": "TUZV142",
     "id": 25925,
-    "name": "Facility management Garching (department 45)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)"
+    "name": "Facility management Garching",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching"
   },
   "TUZV14C": {
     "code": "TUZV14C",
     "id": 38540,
-    "name": "Heating plants with control room  (unit 450)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Heating plants with control room  (unit 450)"
+    "name": "Heating plants with control room",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Zentrale Technik/Energy and Media Supply/Heating plants with control room"
   },
   "TUZV14D": {
     "code": "TUZV14D",
     "id": 38541,
-    "name": "Mechanical plants (unit 451)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Mechanical plants (unit 451)"
+    "name": "Plant Technology Garching",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Plant Technology Garching"
   },
   "TUZV14E": {
     "code": "TUZV14E",
     "id": 38542,
-    "name": "Electrotechnical (unit 452)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Electrotechnical (unit 452)"
+    "name": "Electrical Engineering Garching",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Electrical Engineering Garching"
   },
   "TUZV14F": {
     "code": "TUZV14F",
     "id": 38543,
-    "name": "Environment / Waste disposal (unit 454)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Environment / Waste disposal (unit 454)"
+    "name": "Environment / Waste disposal",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Zentrale Technik/Disposal and Environment/Environment / Waste disposal"
   },
   "TUZV14G": {
     "code": "TUZV14G",
     "id": 38577,
-    "name": "Infrastrukturelles FM Poststelle (4535)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Facility Management und Zeiterfassung (Sachgebiet 453)/Infrastrukturelles FM Poststelle (4535)"
+    "name": "Infrastrukturelles FM Poststelle",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Infrastructure Garching/Infrastrukturelles FM Poststelle"
   },
   "TUZV14I": {
     "code": "TUZV14I",
     "id": 38579,
-    "name": "Technical Office (4510)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Mechanical plants (unit 451)/Technical Office (4510)"
+    "name": "Technical Office",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Plant Technology Garching/Technical Office"
   },
   "TUZV14J": {
     "code": "TUZV14J",
     "id": 38580,
-    "name": "Heating and Ventilation (4512)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Mechanical plants (unit 451)/Heating and Ventilation (4512)"
+    "name": "Heating and Ventilation",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Plant Technology Garching/Heating and Ventilation"
   },
   "TUZV14K": {
     "code": "TUZV14K",
     "id": 38581,
-    "name": "Sanitary and Air conditioning systems (4511)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Mechanical plants (unit 451)/Sanitary and Air conditioning systems (4511)"
+    "name": "Sanitary and Air conditioning systems",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Plant Technology Garching/Sanitary and Air conditioning systems"
   },
   "TUZV14L": {
     "code": "TUZV14L",
     "id": 38582,
-    "name": "Mechanic, Carpenter, Gardener (4513)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Mechanical plants (unit 451)/Mechanic, Carpenter, Gardener (4513)"
+    "name": "Mechanic, Carpenter, Gardener",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Plant Technology Garching/Mechanic, Carpenter, Gardener"
   },
   "TUZV14N": {
     "code": "TUZV14N",
     "id": 38596,
-    "name": "Technical Office / Lecture hall engineering (4520)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Electrotechnical (unit 452)/Technical Office / Lecture hall engineering (4520)"
+    "name": "Technical Office / Lecture hall engineering",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Electrical Engineering Garching/Technical Office / Lecture hall engineering"
   },
   "TUZV14O": {
     "code": "TUZV14O",
     "id": 38597,
-    "name": "Electric (4522)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Electrotechnical (unit 452)/Electric (4522)"
+    "name": "Electric",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Electrical Engineering Garching/Electric"
   },
   "TUZV14P": {
     "code": "TUZV14P",
     "id": 38598,
-    "name": "Telecommunication (4521)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Electrotechnical (unit 452)/Telecommunication (4521)"
+    "name": "Telecommunication",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Electrical Engineering Garching/Telecommunication"
   },
   "TUZV14Q": {
     "code": "TUZV14Q",
     "id": 38599,
-    "name": "Central Building control system (4523)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Electrotechnical (unit 452)/Central Building control system (4523)"
+    "name": "Central Building control system",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Electrical Engineering Garching/Central Building control system"
   },
   "TUZV14R": {
     "code": "TUZV14R",
     "id": 46757,
-    "name": "Werkstatt MSR-Technik (4524)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Mechanical plants (unit 451)/Werkstatt MSR-Technik (4524)"
+    "name": "Werkstatt MSR-Technik",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Plant Technology Garching/Werkstatt MSR-Technik"
   },
   "TUZV14Z": {
     "code": "TUZV14Z",
     "id": 48622,
-    "name": "Versorgungsnetze (Sachgebiet 455)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Versorgungsnetze (Sachgebiet 455)"
+    "name": "Versorgungsnetze",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Zentrale Technik/Versorgungsnetze"
   },
   "TUZV350": {
     "code": "TUZV350",
@@ -12098,368 +11984,368 @@
   "TUZV40A": {
     "code": "TUZV40A",
     "id": 48324,
-    "name": "Strategisches und operatives Controlling",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/General affairs of the department (department 40)/Strategisches und operatives Controlling"
+    "name": "Controlling and Reporting",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning/Controlling and Reporting"
   },
   "TUZV440": {
     "code": "TUZV440",
     "id": 26069,
-    "name": "Energiemonitoring, Contracting (unit 440)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Energiemonitoring, Contracting (unit 440)"
+    "name": "Energiemonitoring, Contracting",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Zentrale Technik/Energy and Media Supply/Energiemonitoring, Contracting"
   },
   "TUZV441": {
     "code": "TUZV441",
     "id": 26073,
-    "name": "Mechanical plants (unit 441)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Mechanical plants (unit 441)"
+    "name": "Plant Technology Munich",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Plant Technology Munich"
   },
   "TUZV442": {
     "code": "TUZV442",
     "id": 26077,
-    "name": "Electrotechnical (unit 442)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Electrotechnical (unit 442)"
+    "name": "Electrical Engineering Munich",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Electrical Engineering Munich"
   },
   "TUZV443": {
     "code": "TUZV443",
     "id": 26081,
-    "name": "Infrastructure (unit 443)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Infrastructure (unit 443)"
+    "name": "Infrastructure Munich",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Infrastructure Munich"
   },
   "TUZV445": {
     "code": "TUZV445",
     "id": 26089,
-    "name": "Floor-space management (unit 445)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Floor-space management (unit 445)"
+    "name": "Floor-space management",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning/Public Procurement Law and Floor-Space Management/Floor-space management"
   },
   "TUZV44A": {
     "code": "TUZV44A",
     "id": 37555,
-    "name": "Technical office Mechanical engineering (unit 4410)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Mechanical plants (unit 441)/Technical office Mechanical engineering (unit 4410)"
+    "name": "Technical office Mechanical engineering",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Plant Technology Munich/Technical office Mechanical engineering"
   },
   "TUZV44B": {
     "code": "TUZV44B",
     "id": 37569,
-    "name": "Repair shop Control engineering and Conveyor technique (unit 4426)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Electrotechnical (unit 442)/Repair shop Control engineering and Conveyor technique (unit 4426)"
+    "name": "Repair shop Control engineering and Conveyor technique",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Electrical Engineering Munich/Repair shop Control engineering and Conveyor technique"
   },
   "TUZV44C": {
     "code": "TUZV44C",
     "id": 37584,
-    "name": "Repair shop Heating air - Conditioning - Sanitary incl. TUM CiO (unit 4412)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Mechanical plants (unit 441)/Repair shop Heating air - Conditioning - Sanitary incl. TUM CiO (unit 4412)"
+    "name": "Repair shop Heating air - Conditioning - Sanitary",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Plant Technology Munich/Repair shop Heating air - Conditioning - Sanitary"
   },
   "TUZV44D": {
     "code": "TUZV44D",
     "id": 37585,
-    "name": "Joinery and Metal workshop incl. TUM CiO (unit 4412)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Mechanical plants (unit 441)/Joinery and Metal workshop incl. TUM CiO (unit 4412)"
+    "name": "Joinery and Metal workshop",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Plant Technology Munich/Joinery and Metal workshop"
   },
   "TUZV44E": {
     "code": "TUZV44E",
     "id": 37586,
-    "name": "Heating and Air conditioning technology (Pasing) (unit 4414)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Mechanical plants (unit 441)/Heating and Air conditioning technology (Pasing) (unit 4414)"
+    "name": "Heating and Air conditioning technology (Pasing)",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Plant Technology Munich/Heating and Air conditioning technology (Pasing)"
   },
   "TUZV44F": {
     "code": "TUZV44F",
     "id": 44344,
-    "name": "Removals, Labelling (unit 4436)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Infrastructure (unit 443)/Removals, Labelling (unit 4436)"
+    "name": "Removals, Labelling",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Infrastructure Munich/Removals, Labelling"
   },
   "TUZV44G": {
     "code": "TUZV44G",
     "id": 37622,
-    "name": "Technical office Electrical engineering (unit 4420)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Electrotechnical (unit 442)/Technical office Electrical engineering (unit 4420)"
+    "name": "Technical office Electrical engineering",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Electrical Engineering Munich/Technical office Electrical engineering"
   },
   "TUZV44H": {
     "code": "TUZV44H",
     "id": 37623,
-    "name": "Technical office Telecommunication  (unit 4421)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Electrotechnical (unit 442)/Technical office Telecommunication  (unit 4421)"
+    "name": "Technical office Telecommunication",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Electrical Engineering Munich/Technical office Telecommunication"
   },
   "TUZV44J": {
     "code": "TUZV44J",
     "id": 37668,
-    "name": "Repair shop Electrical engineering (unit 4422)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Electrotechnical (unit 442)/Repair shop Electrical engineering (unit 4422)"
+    "name": "Repair shop Electrical engineering",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Electrical Engineering Munich/Repair shop Electrical engineering"
   },
   "TUZV44K": {
     "code": "TUZV44K",
     "id": 37796,
-    "name": "Repair shop Media technology (unit 4423)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Electrotechnical (unit 442)/Repair shop Media technology (unit 4423)"
+    "name": "Repair shop Media technology",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Electrical Engineering Munich/Repair shop Media technology"
   },
   "TUZV44L": {
     "code": "TUZV44L",
     "id": 37801,
-    "name": "Repair shop Telecommunication (unit 4425)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Electrotechnical (unit 442)/Repair shop Telecommunication (unit 4425)"
+    "name": "Repair shop Telecommunication",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Electrical Engineering Munich/Repair shop Telecommunication"
   },
   "TUZV44M": {
     "code": "TUZV44M",
     "id": 37984,
-    "name": "Post office, Courier service (unit 4437)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Infrastructure (unit 443)/Post office, Courier service (unit 4437)"
+    "name": "Post office, Courier service",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Infrastructure Munich/Post office, Courier service"
   },
   "TUZV44N": {
     "code": "TUZV44N",
     "id": 37985,
-    "name": "Registrar's office (unit 4438)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Infrastructure (unit 443)/Registrar's office (unit 4438)"
+    "name": "Registrar's office",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Infrastructure Munich/Registrar's office"
   },
   "TUZV44O": {
     "code": "TUZV44O",
     "id": 37986,
-    "name": "Official vehicle (unit 4431)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Infrastructure (unit 443)/Official vehicle (unit 4431)"
+    "name": "Official vehicle",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Infrastructure Munich/Official vehicle"
   },
   "TUZV44Q": {
     "code": "TUZV44Q",
     "id": 37988,
-    "name": "Guarding (unit 4432)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Infrastructure (unit 443)/Guarding (unit 4432)"
+    "name": "Guarding",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Infrastructure Munich/Guarding"
   },
   "TUZV44R": {
     "code": "TUZV44R",
     "id": 37989,
-    "name": "Cleaning, Maintenance of outside facilities, Invitations to bid (unit 4439)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Infrastructure (unit 443)/Cleaning, Maintenance of outside facilities, Invitations to bid (unit 4439)"
+    "name": "Cleaning, Maintenance of outside facilities, Invitations to bid",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Infrastructure Munich/Cleaning, Maintenance of outside facilities, Invitations to bid"
   },
   "TUZV44S": {
     "code": "TUZV44S",
     "id": 37990,
-    "name": "Key management (unit 4433)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Infrastructure (unit 443)/Key management (unit 4433)"
+    "name": "Key management",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Infrastructure Munich/Key management"
   },
   "TUZV44U": {
     "code": "TUZV44U",
     "id": 37992,
-    "name": "Caretaking service (unit 4435)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Infrastructure (unit 443)/Caretaking service (unit 4435)"
+    "name": "Caretaking service",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Infrastructure Munich/Caretaking service"
   },
   "TUZV44V": {
     "code": "TUZV44V",
     "id": 38003,
-    "name": "Maintenance Service at TUM CiO (unit 44310)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Infrastructure (unit 443)/Maintenance Service at TUM CiO (unit 44310)"
+    "name": "Maintenance Service at TUM CiO",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/TUM Campus at the Olympic Park/Maintenance Service at TUM CiO"
   },
   "TUZV44W": {
     "code": "TUZV44W",
     "id": 38004,
-    "name": "Electrical engineering, Metalworking shop (unit 4442)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Electrotechnical (unit 442)/Electrical engineering, Metalworking shop (unit 4442)"
+    "name": "Electrical engineering, Metalworking shop",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/TUM Campus at the Olympic Park/Electrical engineering, Metalworking shop"
   },
   "TUZV44Y": {
     "code": "TUZV44Y",
     "id": 38006,
-    "name": "Water sports ground Starnberg (unit 44311)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Infrastructure (unit 443)/Water sports ground Starnberg (unit 44311)"
+    "name": "Water sports ground Starnberg",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich/Infrastructure Munich/Water sports ground Starnberg"
   },
   "TUZV453": {
     "code": "TUZV453",
     "id": 48298,
-    "name": "Facility Management und Zeiterfassung (Sachgebiet 453)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Facility Management und Zeiterfassung (Sachgebiet 453)"
+    "name": "Infrastructure Garching",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Infrastructure Garching"
   },
   "TUZV454": {
     "code": "TUZV454",
     "id": 48417,
-    "name": "Sachgebiet Abfallentsorgung/Umwelt (SG 444) - siehe SG 454 Abfallentsorgung/Umwelt",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Abfallentsorgung/Umwelt (SG 444) - siehe SG 454 Abfallentsorgung/Umwelt"
+    "name": "Sachgebiet Abfallentsorgung/Umwelt",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Zentrale Technik/Disposal and Environment/Abfallentsorgung/Umwelt"
   },
   "TUZV45A": {
     "code": "TUZV45A",
     "id": 38010,
-    "name": "Lecture hall management (unit 4451)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Floor-space management (unit 445)/Lecture hall management (unit 4451)"
+    "name": "Lecture hall management",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning/Public Procurement Law and Floor-Space Management/Floor-space management/Lecture hall management"
   },
   "TUZV45B": {
     "code": "TUZV45B",
     "id": 38011,
-    "name": "External Rental and Renting incl. TUM CiO (unit 4452)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)/Floor-space management (unit 445)/External Rental and Renting incl. TUM CiO (unit 4452)"
+    "name": "External Rental and Renting incl. TUM CiO",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning/Public Procurement Law and Floor-Space Management/Floor-space management/External Rental and Renting incl. TUM CiO"
   },
   "TUZV45D": {
     "code": "TUZV45D",
     "id": 48302,
-    "name": "Zeiterfassung (4530)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Facility Management und Zeiterfassung (Sachgebiet 453)/Zeiterfassung (4530)"
+    "name": "Zeiterfassung",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Infrastructure Garching/Zeiterfassung"
   },
   "TUZV45E": {
     "code": "TUZV45E",
     "id": 48303,
-    "name": "Kaufm\u00e4nnisches FM (4531)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Facility Management und Zeiterfassung (Sachgebiet 453)/Kaufm\u00e4nnisches FM (4531)"
+    "name": "Kaufm\u00e4nnisches FM",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Infrastructure Garching/Kaufm\u00e4nnisches FM"
   },
   "TUZV45F": {
     "code": "TUZV45F",
     "id": 48304,
-    "name": "Technisches FM (4532)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Facility Management und Zeiterfassung (Sachgebiet 453)/Technisches FM (4532)"
+    "name": "Technisches FM",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Infrastructure Garching/Technisches FM"
   },
   "TUZV45G": {
     "code": "TUZV45G",
     "id": 48305,
-    "name": "Infrastrukturelles FM allgemein (4533)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Facility Management und Zeiterfassung (Sachgebiet 453)/Infrastrukturelles FM allgemein (4533)"
+    "name": "Infrastrukturelles FM",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Infrastructure Garching/Infrastrukturelles FM"
   },
   "TUZV45H": {
     "code": "TUZV45H",
     "id": 48306,
-    "name": "Infrastrukturelles FM Geb\u00e4udereinigung (4534)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Garching (department 45)/Facility Management und Zeiterfassung (Sachgebiet 453)/Infrastrukturelles FM Geb\u00e4udereinigung (4534)"
+    "name": "Infrastrukturelles FM Geb\u00e4udereinigung",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching/Facility management Garching/Infrastructure Garching/Infrastrukturelles FM Geb\u00e4udereinigung"
   },
   "TUZV46A": {
     "code": "TUZV46A",
     "id": 48307,
-    "name": "Technisches B\u00fcro Maschinentechnische Anlagen (4610)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Mechanical plants (unit 461)/Technisches B\u00fcro Maschinentechnische Anlagen (4610)"
+    "name": "Technisches B\u00fcro Maschinentechnische Anlagen",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Mechanical plants Weihenstephan/Technisches B\u00fcro Maschinentechnische Anlagen"
   },
   "TUZV46B": {
     "code": "TUZV46B",
     "id": 48308,
-    "name": "Werkstatt Heizung und L\u00fcftung (4611)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Mechanical plants (unit 461)/Werkstatt Heizung und L\u00fcftung (4611)"
+    "name": "Werkstatt Heizung und L\u00fcftung",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Mechanical plants Weihenstephan/Werkstatt Heizung und L\u00fcftung"
   },
   "TUZV46C": {
     "code": "TUZV46C",
     "id": 48309,
-    "name": "Werkstatt Sanit\u00e4r und Schlosserei (4612)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Mechanical plants (unit 461)/Werkstatt Sanit\u00e4r und Schlosserei (4612)"
+    "name": "Werkstatt Sanit\u00e4r",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Mechanical plants Weihenstephan/Werkstatt Sanit\u00e4r"
   },
   "TUZV46D": {
     "code": "TUZV46D",
     "id": 48310,
-    "name": "Werkstatt K\u00e4lte- und Drucklufttechnik (4613)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Mechanical plants (unit 461)/Werkstatt K\u00e4lte- und Drucklufttechnik (4613)"
+    "name": "Werkstatt K\u00e4ltetechnik",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Mechanical plants Weihenstephan/Werkstatt K\u00e4ltetechnik"
   },
   "TUZV46E": {
     "code": "TUZV46E",
     "id": 48311,
-    "name": "Technisches B\u00fcro Elektrotechnik (4620)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Electrical engineering (unit 462)/Technisches B\u00fcro Elektrotechnik (4620)"
+    "name": "Technisches B\u00fcro Elektrotechnik",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Electrical Engineering Weihenstephan/Technisches B\u00fcro Elektrotechnik"
   },
   "TUZV46F": {
     "code": "TUZV46F",
     "id": 48312,
-    "name": "Werkstatt Starkstromtechnik (4621)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Electrical engineering (unit 462)/Werkstatt Starkstromtechnik (4621)"
+    "name": "Werkstatt Starkstromtechnik",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Electrical Engineering Weihenstephan/Werkstatt Starkstromtechnik"
   },
   "TUZV46G": {
     "code": "TUZV46G",
     "id": 48313,
-    "name": "Werkstatt Mess- und Regelungstechnik (4622)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Electrical engineering (unit 462)/Werkstatt Mess- und Regelungstechnik (4622)"
+    "name": "Werkstatt Mess- und Regelungstechnik",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Electrical Engineering Weihenstephan/Werkstatt Mess- und Regelungstechnik"
   },
   "TUZV46H": {
     "code": "TUZV46H",
     "id": 48314,
-    "name": "Telefonzentrale (4623)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Electrical engineering (unit 462)/Telefonzentrale (4623)"
+    "name": "Telefonzentrale",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Electrical Engineering Weihenstephan/Telefonzentrale"
   },
   "TUZV46I": {
     "code": "TUZV46I",
     "id": 48315,
-    "name": "Schl\u00fcsselverwaltung (4640)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Key management, Industrial cleaning (unit 464)/Schl\u00fcsselverwaltung (4640)"
+    "name": "Schl\u00fcsselverwaltung",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Infrastructure Weihenstephan/Infrastructural Facility Management/Schl\u00fcsselverwaltung"
   },
   "TUZV46J": {
     "code": "TUZV46J",
     "id": 48316,
-    "name": "Reinigung und Bewachung (4641)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Key management, Industrial cleaning (unit 464)/Reinigung und Bewachung (4641)"
+    "name": "Reinigung und Bewachung",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Infrastructure Weihenstephan/Infrastructural Facility Management/Reinigung und Bewachung"
   },
   "TUZV46K": {
     "code": "TUZV46K",
     "id": 48317,
-    "name": "Raumbestandsverwaltung (4642)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Key management, Industrial cleaning (unit 464)/Raumbestandsverwaltung (4642)"
+    "name": "Raumbestandsverwaltung",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning/Public Procurement Law and Floor-Space Management/Raumbestandsverwaltung"
   },
   "TUZV46L": {
     "code": "TUZV46L",
     "id": 48318,
-    "name": "Betriebshof, Hausverwaltung (4650)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Depot, Property management (unit 465)/Betriebshof, Hausverwaltung (4650)"
+    "name": "Betriebshof, Hausverwaltung",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Infrastructure Weihenstephan/Depot, Property management/Betriebshof, Hausverwaltung"
   },
   "TUZV46M": {
     "code": "TUZV46M",
     "id": 48319,
-    "name": "Dienstfahrzeuge (4651)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Depot, Property management (unit 465)/Dienstfahrzeuge (4651)"
+    "name": "Dienstfahrzeuge und Drucklufttechnik",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Mechanical plants Weihenstephan/Dienstfahrzeuge und Drucklufttechnik"
   },
   "TUZV46N": {
     "code": "TUZV46N",
     "id": 48320,
-    "name": "Poststelle (4661)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Service operation (unit 466)/Poststelle (4661)"
+    "name": "Poststelle",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Infrastructure Weihenstephan/Infrastructural Facility Management/Poststelle"
   },
   "TUZV46O": {
     "code": "TUZV46O",
     "id": 48321,
-    "name": "Registratur (4662)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Service operation (unit 466)/Registratur (4662)"
+    "name": "Registratur",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Infrastructure Weihenstephan/Infrastructural Facility Management/Registratur"
   },
   "TUZV46P": {
     "code": "TUZV46P",
     "id": 48322,
-    "name": "Archiv (4663)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Service operation (unit 466)/Archiv (4663)"
+    "name": "Archiv",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Infrastructure Weihenstephan/Infrastructural Facility Management/Archiv"
   },
   "TUZV46Q": {
     "code": "TUZV46Q",
     "id": 48323,
-    "name": "H\u00f6rsaalvermietung (4664)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Service operation (unit 466)/H\u00f6rsaalvermietung (4664)"
+    "name": "H\u00f6rsaalvermietung",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Service operation/H\u00f6rsaalvermietung"
   },
   "TUZV841": {
     "code": "TUZV841",
     "id": 26217,
-    "name": "Mechanical plants (unit 461)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Mechanical plants (unit 461)"
+    "name": "Mechanical plants Weihenstephan",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Mechanical plants Weihenstephan"
   },
   "TUZV842": {
     "code": "TUZV842",
     "id": 26221,
-    "name": "Electrical engineering (unit 462)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Electrical engineering (unit 462)"
+    "name": "Electrical Engineering Weihenstephan",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Electrical Engineering Weihenstephan"
   },
   "TUZV843": {
     "code": "TUZV843",
     "id": 26225,
-    "name": "Environmental technology and Disposal (unit 463)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Environmental technology and Disposal (unit 463)"
+    "name": "Environmental technology and Disposal",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Zentrale Technik/Disposal and Environment/Environmental technology and Disposal"
   },
   "TUZV844": {
     "code": "TUZV844",
     "id": 26229,
-    "name": "Key management, Industrial cleaning (unit 464)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Key management, Industrial cleaning (unit 464)"
+    "name": "Infrastructure Weihenstephan",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Infrastructure Weihenstephan"
   },
   "TUZV845": {
     "code": "TUZV845",
     "id": 26233,
-    "name": "Depot, Property management (unit 465)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Depot, Property management (unit 465)"
+    "name": "Depot, Property management",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Infrastructure Weihenstephan/Depot, Property management"
   },
   "TUZV846": {
     "code": "TUZV846",
     "id": 26237,
-    "name": "Service operation (unit 466)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Service operation (unit 466)"
+    "name": "Service operation",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Service operation"
   },
   "TUZV847": {
     "code": "TUZV847",
     "id": 38369,
-    "name": "Constructional workshop (unit 467)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Constructional workshop (unit 467)"
+    "name": "Constructional workshop",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Mechanical plants Weihenstephan/Constructional workshop"
   },
   "TUZV848": {
     "code": "TUZV848",
     "id": 45070,
-    "name": "Werkfeuerwehr Weihenstephan (Sachgebiet 468)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)/Werkfeuerwehr Weihenstephan (Sachgebiet 468)"
+    "name": "Werkfeuerwehr Weihenstephan",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Werkfeuerwehr Weihenstephan"
   },
   "TUZVACM": {
     "code": "TUZVACM",
@@ -12503,11 +12389,29 @@
     "name": "Representative of the President for Fundraising Hochschulreferat 5 - Fundraising (HR5)",
     "path": "TUM/Functional Units/Fundraising (HR5)/Representative of the President for Fundraising"
   },
+  "TUZVCIO": {
+    "code": "TUZVCIO",
+    "id": 55301,
+    "name": "TUM Campus at the Olympic Park",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/TUM Campus at the Olympic Park"
+  },
+  "TUZVEUM": {
+    "code": "TUZVEUM",
+    "id": 55306,
+    "name": "Energy and Media Supply",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Zentrale Technik/Energy and Media Supply"
+  },
   "TUZVFZV": {
     "code": "TUZVFZV",
     "id": 19640,
     "name": "Central Administration",
     "path": "TUM/Central Administration"
+  },
+  "TUZVGAR": {
+    "code": "TUZVGAR",
+    "id": 55299,
+    "name": "Standort Garching",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Garching"
   },
   "TUZVGET": {
     "code": "TUZVGET",
@@ -12593,11 +12497,35 @@
     "name": "TUM CST - Communications",
     "path": "TUM/Central Service Institutions/TUM Center for Study and Teaching/TUM CST - Communications"
   },
+  "TUZVIGM": {
+    "code": "TUZVIGM",
+    "id": 55305,
+    "name": "Infrastructural Facility Management",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan/Infrastructure Weihenstephan/Infrastructural Facility Management"
+  },
+  "TUZVMUC": {
+    "code": "TUZVMUC",
+    "id": 55298,
+    "name": "Standort M\u00fcnchen",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen"
+  },
   "TUZVPRE": {
     "code": "TUZVPRE",
     "id": 42605,
     "name": "Press and Media relations",
     "path": "TUM/Functional Units/Corporate Communications Center (HR2)/Press and Media relations"
+  },
+  "TUZVPUD": {
+    "code": "TUZVPUD",
+    "id": 55303,
+    "name": "Units Processes and Digitization",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning/Processes and Digitization"
+  },
+  "TUZVPUS": {
+    "code": "TUZVPUS",
+    "id": 55304,
+    "name": "Personnel",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning/Personnel"
   },
   "TUZVR15": {
     "code": "TUZVR15",
@@ -12704,26 +12632,26 @@
   "TUZVR40": {
     "code": "TUZVR40",
     "id": 26050,
-    "name": "General affairs of the department (department 40)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/General affairs of the department (department 40)"
+    "name": "Resource Planning",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning"
   },
   "TUZVR42": {
     "code": "TUZVR42",
     "id": 26055,
-    "name": "Structural development planning Munich",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Structural development planning (department 42)/Structural development planning Munich"
+    "name": "Construction Management Munich",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Construction Management Munich"
   },
   "TUZVR43": {
     "code": "TUZVR43",
     "id": 26059,
     "name": "Construction management (department 43)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Construction management (department 43)"
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Construction Management Munich/Construction management (department 43)"
   },
   "TUZVR44": {
     "code": "TUZVR44",
     "id": 26064,
-    "name": "Facility management Munich (department 44)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Munich (department 44)"
+    "name": "Facility management Munich",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Facility management Munich"
   },
   "TUZVR51": {
     "code": "TUZVR51",
@@ -12776,20 +12704,20 @@
   "TUZVR84": {
     "code": "TUZVR84",
     "id": 26175,
-    "name": "Facility management Weihenstephan (department 46)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Facility management Weihenstephan (department 46)"
+    "name": "Facility management Weihenstephan",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Facility management Weihenstephan"
   },
   "TUZVR87": {
     "code": "TUZVR87",
     "id": 45971,
-    "name": "Structural development planning Weihenstephan",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Structural development planning (department 42)/Structural development planning Weihenstephan"
+    "name": "Construction Management Weihenstephan",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Construction Management Weihenstephan"
   },
   "TUZVRBE": {
     "code": "TUZVRBE",
     "id": 48297,
-    "name": "Structural development planning (department 42)",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Structural development planning (department 42)"
+    "name": "Structural development planning",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort M\u00fcnchen/Construction Management Munich/Structural development planning"
   },
   "TUZVSCH": {
     "code": "TUZVSCH",
@@ -12806,14 +12734,20 @@
   "TUZVSEU": {
     "code": "TUZVSEU",
     "id": 49618,
-    "name": "Staff Unit Disposal and Environment",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Disposal and Environment"
+    "name": "Disposal and Environment",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Zentrale Technik/Disposal and Environment"
   },
   "TUZVSIR": {
     "code": "TUZVSIR",
     "id": 47777,
     "name": "Staff Unit Internal Audit",
     "path": "TUM/Central Administration/Internal Audit"
+  },
+  "TUZVSOP": {
+    "code": "TUZVSOP",
+    "id": 55417,
+    "name": "Special projects",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Special projects"
   },
   "TUZVSQM": {
     "code": "TUZVSQM",
@@ -12833,11 +12767,29 @@
     "name": "Legal issues (department 50)",
     "path": "TUM/Central Administration/TUM Legal Office (Central department 5)/Legal issues (department 50)"
   },
+  "TUZVTPL": {
+    "code": "TUZVTPL",
+    "id": 55307,
+    "name": "Technical Project Management Life Sciences",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan/Technical Project Management Life Sciences"
+  },
+  "TUZVVUF": {
+    "code": "TUZVVUF",
+    "id": 55302,
+    "name": "Public Procurement Law and Floor-Space Management",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning/Public Procurement Law and Floor-Space Management"
+  },
   "TUZVWEB": {
     "code": "TUZVWEB",
     "id": 46071,
     "name": "Web Communications (Internet)",
     "path": "TUM/Functional Units/Corporate Communications Center (HR2)/Web Communications (Internet)"
+  },
+  "TUZVWHS": {
+    "code": "TUZVWHS",
+    "id": 55300,
+    "name": "Standort Weihenstephan",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Standort Weihenstephan"
   },
   "TUZVZA2": {
     "code": "TUZVZA2",
@@ -12868,5 +12820,11 @@
     "id": 14156,
     "name": "Central Information Technology",
     "path": "TUM/Central Service Institutions/IT Service Center (ITSZ)/Central Information Technology"
+  },
+  "TUZVZTE": {
+    "code": "TUZVZTE",
+    "id": 55297,
+    "name": "Zentrale Technik",
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Zentrale Technik"
   }
 }

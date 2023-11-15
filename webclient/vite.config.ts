@@ -9,19 +9,12 @@ import path from "path";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import pluginRewriteAll from "vite-plugin-rewrite-all";
-import { sentryVitePlugin } from "@sentry/vite-plugin";
 
-// https://vitejs.dev/config/
-let commit_message = process.env.GIT_COMMIT_MESSAGE || "development";
-commit_message = commit_message
-  .replaceAll(/[^a-z0-9 ]+/gi, "_")
-  .replaceAll(/_$/g, "")
-  .trim();
 export default defineConfig({
   envDir: path.resolve(__dirname, "./env"),
   appType: "spa",
   server: {
-    port: 8000,
+    port: 3000,
     strictPort: true,
     open: false,
     proxy: {
@@ -60,25 +53,6 @@ export default defineConfig({
     //The next one is included due to https://github.com/vitejs/vite/issues/2415
     // otherwise the router won't serve the details pages, as they include dots
     pluginRewriteAll(),
-    sentryVitePlugin({
-      org: "rbg",
-      project: "navigatum",
-      authToken: "3279def15c0543e797ec3550b0273fbf58e4eb2e67e64a5ba5474bd83d5fa149",
-      url: "https://sentry.mm.rbg.tum.de/",
-      release: {
-        deploy: {
-          env: process.env.GIT_COMMIT_SHA ? "production" : "staging",
-          started: new Date().toISOString(),
-          url: "https://nav.tum.de",
-        },
-        name: commit_message,
-        //setCommits: {
-        //  repo: "TUM-Dev/NavigaTUM",
-        //  commit: process.env.GIT_COMMIT_SHA || "development",
-        //  auto: false,
-        //},
-      },
-    }),
   ],
   resolve: {
     alias: {

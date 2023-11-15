@@ -238,7 +238,7 @@ zentralgelaende:
       source: "navigatum"
 
 # ========= MRI =========
-# If no coordinates are given, the are probably already in the roomfinder
+# If no coordinates are given, they are probably already in the roomfinder
 1501: # Bau 501
   osm: ["way/19901815"]
 
@@ -492,6 +492,15 @@ heilbronn:
 1902:
   coords: { lat: 49.14852, lon: 9.21514 }
   osm: ["way/443802898"]
+
+1910:
+  coords: { lat: 49.15203640405564, lon: 9.215772773105478 }
+
+1915:
+  coords: { lat: 49.153491683965264, lon: 9.215594950464627 }
+
+1999:
+  coords: { lat: 49.15206894787071, lon: 9.215827629945748 }
 
 # ========= Others in Munich and around =========
 2202:

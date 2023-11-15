@@ -31,8 +31,7 @@ serde_json.workspace = true
 chrono = { version = "0.4.31", default-features = false, features = ["serde"] }
 
 # database
-diesel = { version = "2.1.1", features = ["default", "chrono", "postgres"] }
-diesel_migrations = "2.1.0"
+sqlx = { version = "0.7.2", features = ["postgres", "runtime-tokio-rustls", "migrate", "macros","chrono"] }
 
 # metrics
 lazy_static = "1.4.0"
@@ -40,11 +39,11 @@ prometheus = { version = "0.13.3", features = ["default", "push"] }
 
 # scraper
 rand = "0.8.5"
-futures = "0.3.28"
-rustls = "0.21.7"
-reqwest = { version = "0.11.20", default-features = false, features = ["rustls", "json"] }
+futures = "0.3.29"
+rustls = "0.21.8"
+reqwest = { version = "0.11.22", default-features = false, features = ["rustls", "json"] }
 minidom = "0.15.2"
-regex = "1.9.5"
+regex = "1.10.2"
 
 [dev-dependencies]
 pretty_assertions.workspace = true

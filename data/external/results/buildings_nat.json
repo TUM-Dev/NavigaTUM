@@ -455,6 +455,27 @@
     "building_short": null
   },
   {
+    "address": "Weipertstr. 8-10",
+    "building_code": "1910",
+    "building_id": 3189,
+    "building_name": "Bildungscampus C",
+    "building_short": null
+  },
+  {
+    "address": "Etzelstr. 38",
+    "building_code": "1915",
+    "building_id": 3191,
+    "building_name": "Bildungscampus/Etzelstr.38",
+    "building_short": null
+  },
+  {
+    "address": "Weipertstr. 8-10",
+    "building_code": "1999",
+    "building_id": 3190,
+    "building_name": "Containerburg CB",
+    "building_short": null
+  },
+  {
     "address": null,
     "building_code": "2103",
     "building_id": 614,

@@ -11,7 +11,7 @@ A tileserver takes these two components and produces a variety of formats (png, 
 
 ### generate your own tileset
 
-Sadly tilesets are really large (`europe` is ca. 30GB, `planet` ca. 80GB).
+Sadly tilesets are really large (`germany` is ~10GB, `planet` ~90GB).
 Because of limited badwith and storage space we can't provide a tileset for everyone.
 You can generate your own tileset from [OpenStreetMap Data](https://osmdata.openstreetmap.de/) via [planettiler](https://github.com/onthegomap/planetiler) or other equivalent tools.
 
@@ -24,23 +24,10 @@ Generating `europe` takes 3h10m on a modern laptop with 32GB RAM and an SSD. The
 From the root of the repository, run:
 
 ```bash
-docker run -it -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --area=europe --languages=de,en --Xmx10g --storage=mmap
+docker run -it -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --area=bavaria --languages=de,en --Xmx10g --storage=mmap
 ```
 
 For `planet`, you might want to increase the `--Xmx` parameter to 20GB. For 128GB of RAM or more you will want to use `--storage=ram` instead of `--storage=mmap`.
-
-### Copy the currently deployed style
-
-```bash
-cp config.json ../deployment/k3s/files/maps/config.json
-```
-
-### Copy the currently deployed configuration
-
-```bash
-mkdir -p styles
-cp styles/osm-liberty.json ../deployment/k3s/files/maps/osm-liberty.json
-```
 
 ### Serve the tileset
 
@@ -51,7 +38,7 @@ This may be one optimisation point in the future.
 From the root of the repository, run:
 
 ```bash
-docker run --rm -it -v $(pwd)/map:/data -p 7770:80 maptiler/tileserver-gl
+docker compose up --build
 ```
 
 ### Edit the style
@@ -60,31 +47,17 @@ For editing the style we use [Maputnik](https://github.com/maputnik/editor).
 It is a web-based editor for Maplibre styles.
 You can use it to edit the style and see the changes live.
 
-Sadly, it is not fully compatible with tileserver-gl.
+> [!NOTE]
+> Maputnik is not fully compatible with tileserver-gl
+> Maputnik expects the data on an url, tileserver-gl expects it to be a file.
+> For maputnik to accept the file, you need to do the following:
 
-While maputnik expects the data on an url, tileserver-gl expects it to be a file.
-More concretely, maputnik expects this:
-
-```json
-{
+```diff
 "openmaptiles": {
   "type": "vector",
-  "url": "http://localhost:7770/data/openmaptiles.json"
+-   "url": "mbtiles://output.mbtiles"
++   "url": "http://localhost:7770/data/openmaptiles.json"
 },
-...
-}
-```
-
-tileserver-gl expects this
-
-```json
-{
-"openmaptiles": {
-  "type": "vector",
-  "url": "mbtiles://output.mbtiles"
-},
-...
-}
 ```
 
 To edit the style you thus need to run maputnik and tileserver-gl at the same time.
@@ -95,7 +68,9 @@ You cannot preview the style in tileserver-gl, but you can see the changes in ma
 docker run -it --rm -p 8888:8888 maputnik/editor
 ```
 
-![Where in Maputnik to click to import a style](/resources/documentation/maputnik-import1.png)
-![Where in Maputnik to click then to import a style](/resources/documentation/maputnik-import2.png)
+> [!WARNING]
+> After exporting the edited style don't forget to revert the change to the vector url 😉
 
-After exporting the edited style don't forget to revert the change to the vector url 😉
+| Step 1                                                                                         | Step 2                                                                                              |
+|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| ![Where in Maputnik to click to import a style](/resources/documentation/maputnik-import1.png) | ![Where in Maputnik to click then to import a style](/resources/documentation/maputnik-import2.png) |

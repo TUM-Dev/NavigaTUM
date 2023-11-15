@@ -26,7 +26,7 @@ spec:
       {{- if eq "nav.tum.de" $.Values.url }}
       annotations:
         prometheus.io/path: /metrics
-        prometheus.io/port: '8070'
+        prometheus.io/port: '3004'
         prometheus.io/scrape: 'true'
       {{- end }}
     spec:
@@ -56,7 +56,7 @@ spec:
                 name: feedback-api-keys # GITHUB_TOKEN, JWT_KEY
           {{ end }}
           ports:
-            - containerPort: 8070
+            - containerPort: 3004
               name: feedback
           securityContext:
             allowPrivilegeEscalation: false
@@ -71,13 +71,13 @@ spec:
             httpGet:
               path: /api/feedback/status
               port: feedback
-            failureThreshold: 2
+            failureThreshold: 5
             periodSeconds: 1
           startupProbe:
             httpGet:
               path: /api/feedback/status
               port: feedback
-            failureThreshold: 6
+            failureThreshold: 60
             periodSeconds: 1
 {{ if or (.Values.server.GITHUB_TOKEN) (.Values.server.JWT_KEY) }}
 ---

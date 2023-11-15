@@ -6,8 +6,8 @@ from pathlib import Path
 from typing import Literal, TypedDict
 
 import requests
-from compile import DEBUG_MODE
 from defusedxml import ElementTree as defusedET
+from utils import DEBUG_MODE
 
 OLD_DATA_URL = "https://nav.tum.de/cdn/api_data.json"
 
@@ -62,7 +62,11 @@ def generate_sitemap() -> None:
 def _download_old_data() -> list:
     """Download the currently online data from the server"""
     try:
-        old_data = requests.get(OLD_DATA_URL, headers={"Accept-Encoding": "gzip"}, timeout=120).json()
+        req = requests.get(OLD_DATA_URL, headers={"Accept-Encoding": "gzip"}, timeout=120)
+        if req.status_code != 200:
+            logging.warning(f"Could not download online data because of {req.status_code=}. Assuming all are new")
+            return []
+        old_data = req.json()
         if isinstance(old_data, dict):
             old_data = list(old_data.values())
         return old_data
@@ -158,6 +162,9 @@ def _download_online_sitemap(url: str) -> dict[str, datetime]:
         req = requests.get(url, headers={"Accept-Encoding": "gzip"}, timeout=10)
     except requests.exceptions.RequestException as error:
         logging.warning(f"Failed to download sitemap '{url}': {error}")
+        return {}
+    if req.status_code != 200:
+        logging.warning(f"Failed to download sitemap '{url}': Status code {req.status_code}")
         return {}
 
     xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"  # noqa: FS003

@@ -1,4 +1,4 @@
-FROM node:20 as build-stage
+FROM node:21 as build-stage
 WORKDIR /app
 RUN apt-get update &&  \
     apt-get install rsync -y --no-install-recommends
@@ -23,6 +23,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir /app && apt update && apt upgrade -y
 COPY --from=build-stage /dist /app
 
-EXPOSE 9000
-HEALTHCHECK CMD curl --fail localhost:9000/health || exit 1
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000
+HEALTHCHECK CMD curl --fail localhost:3000/health || exit 1
+CMD sh -c "sed -i 's|TILESERVER_URL|${TILESERVER_URL}|g' /etc/nginx/nginx.conf && sed -i 's|CDN_URL|${CDN_URL}|g' /etc/nginx/nginx.conf && sed -i 's|MAIN_API_URL|${MAIN_API_URL}|g' /etc/nginx/nginx.conf && sed -i 's|FEEDBACK_API_URL|${FEEDBACK_API_URL}|g' /etc/nginx/nginx.conf && sed -i 's|CALENDAR_API_URL|${CALENDAR_API_URL}|g' /etc/nginx/nginx.conf && nginx -g 'daemon off;'"

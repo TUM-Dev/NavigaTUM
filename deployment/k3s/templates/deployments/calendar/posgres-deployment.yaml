@@ -33,7 +33,7 @@ spec:
               claimName: postgres-pvc
       containers:
         - name: postgres
-          image: postgres:15
+          image: postgres:16
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5432

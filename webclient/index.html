@@ -30,7 +30,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta name="description" v-bind:content="$t('meta.description')" />
+    <meta
+      name="description"
+      content="Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden."
+    />
     <meta name="author" content="@octycs and @CommanderStorm" />
     <meta name="copyright" content="GNU General Public License v3.0. Images may be licensed differently." />
     <meta name="robots" content="index, follow" />
@@ -40,9 +43,12 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="NavigaTUM" />
     <meta property="og:url" content="https://nav.tum.de" />
-    <meta property="og:description" v-bind:content="$t('meta.description')" />
+    <meta
+      property="og:description"
+      content="Navigate around TUM with excellence. This is a website to find rooms, buildings and other places at TUM easier than the current RoomFinder, developed by students."
+    />
     <meta property="og:image" content="/navigatum-card.png" />
-    <meta property="og:image:alt" v-bind:content="$t('meta.logo_alt')" />
+    <meta property="og:image:alt" content="Navigatum Logo" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:mime" content="image/png" />
@@ -78,5 +84,6 @@
 
     <script type="module" src="/src/main.ts" defer></script>
     <script type="module" src="/src/modules/outdatedBrowser.ts" defer></script>
+    <script async defer data-domain="nav.tum.de" src="https://analytics.nav.tum.sexy/js/plausible.js"></script>
   </body>
 </html>

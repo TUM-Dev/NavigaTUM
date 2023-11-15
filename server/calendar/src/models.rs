@@ -1,9 +1,6 @@
 use chrono::NaiveDateTime;
-use diesel::prelude::*;
-use diesel::Insertable;
 
-#[derive(Insertable, Queryable, AsChangeset)]
-#[diesel(table_name = crate::schema::calendar)]
+#[derive(Clone, Debug)]
 pub struct XMLEvent {
     pub key: String,
     pub dtstart: NaiveDateTime,
@@ -28,8 +25,7 @@ pub struct XMLEvent {
     pub last_scrape: NaiveDateTime,
 }
 
-#[derive(Insertable, Queryable, AsChangeset, Clone)]
-#[diesel(table_name = crate::schema::rooms)]
+#[derive(Clone, Debug)]
 pub struct Room {
     pub key: String,
     pub tumonline_org_id: i32,
