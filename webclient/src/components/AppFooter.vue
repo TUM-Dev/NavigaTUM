@@ -235,7 +235,7 @@ en:
     open: Open the feedback-form
     text: Feedback
   imprint:
-    link: impressum
+    link: imprint
     text: Imprint
   language: Language
   official_roomfinder: Official roomfinder

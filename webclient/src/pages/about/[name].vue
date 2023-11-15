@@ -14,6 +14,9 @@ import UeberUns from "@/assets/md/ueber-uns.md";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Impressum from "@/assets/md/impressum.md";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import Imprint from "@/assets/md/imprint.md";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -26,6 +29,7 @@ const route = useRoute();
     <AboutUs v-else-if="route.params.name === 'about-us'" />
     <UeberUns v-else-if="route.params.name === 'ueber-uns'" />
     <Impressum v-else-if="route.params.name === 'impressum'" />
+    <Imprint v-else-if="route.params.name === 'imprint'" />
     <p v-else>Not found</p>
   </div>
 </template>
