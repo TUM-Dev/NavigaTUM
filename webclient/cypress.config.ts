@@ -1,5 +1,11 @@
 import { defineConfig } from "cypress";
 
 export default defineConfig({
-  e2e: {},
+    e2e: {},
+    component: {
+        devServer: {
+            framework: "vue",
+            bundler: "vite",
+        },
+    },
 });
