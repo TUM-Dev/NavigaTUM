@@ -13,14 +13,14 @@ import { useClipboard } from "@vueuse/core";
 import { selectedMap, useDetailsStore } from "@/stores/details";
 import { computed, nextTick, onMounted, ref, watchEffect } from "vue";
 import { useFetch } from "@/composables/fetch";
-import { useRoute } from "vue-router";
-import router from "@/router";
+import { useRoute, useRouter } from "vue-router";
 import type { components } from "@/api_types";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
 const { t } = useI18n({ useScope: "local" });
 
 const route = useRoute();
+const router = useRouter();
 
 function loadData(data: DetailsResponse) {
   if (route.fullPath !== data.redirect_url) router.replace({ path: data.redirect_url });

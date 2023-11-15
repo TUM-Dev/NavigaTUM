@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { extractFacets } from "@/modules/autocomplete";
-import router from "@/router";
+import { useRouter } from "vue-router";
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
 import { useFetch } from "@/composables/fetch";
@@ -21,6 +21,7 @@ const autocomplete = reactive({ sections: [] as SectionFacet[], highlighted: nul
 // visible results.
 const queryCounter = ref(0);
 const latestUsedQueryId = ref(-1);
+const router = useRouter();
 
 function searchFocus(): void {
   global.focusSearchBar();
