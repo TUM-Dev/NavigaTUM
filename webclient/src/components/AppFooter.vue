@@ -21,7 +21,7 @@ const { t } = useI18n({ useScope: "local" });
             <div class="col-auto col-xs-12 column links">
               <div class="columns">
                 <ul class="column">
-                  <li>
+                  <li style="min-width: 71px" >
                     <a href="https://github.com/TUM-Dev/navigatum">
                       {{ t("sourcecode.text") }}
                     </a>
