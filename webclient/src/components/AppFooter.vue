@@ -3,6 +3,7 @@ import AppLanguageToggler from "@/components/AppLanguageToggler.vue";
 import AppThemeToggler from "@/components/AppThemeToggler.vue";
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
+import { useBreakpoints } from "@vueuse/core";
 
 const global = useGlobalStore();
 const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
@@ -10,6 +11,8 @@ const lang = (localStorage.getItem("lang") || "de") as "de" | "en";
 // If we do not include the image here like this, vite/rollup is unable to load it
 const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.meta.url);
 const { t } = useI18n({ useScope: "local" });
+const breakpoints = useBreakpoints({ xs: 0, sm: 601, md: 841, lg: 961, xl: 1281 });
+const showBrandBetween = breakpoints.greaterOrEqual("md");
 </script>
 
 <template>
@@ -62,7 +65,7 @@ const { t } = useI18n({ useScope: "local" });
                 </ul>
               </div>
             </div>
-            <div class="column hide-sm official_roomfinder">
+            <div v-if="showBrandBetween" class="column official_roomfinder">
               {{ t("official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
                 <img :alt="t('tum_logo_alt')" :src="brandLogo.href" height="50" />
@@ -94,7 +97,7 @@ const { t } = useI18n({ useScope: "local" });
                 </div>
               </div>
             </div>
-            <div class="col-12 column official_roomfinder show-sm">
+            <div v-if="!showBrandBetween"  class="col-12 column official_roomfinder">
               {{ t("official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
                 <img :alt="t('tum_logo_alt')" :src="brandLogo.href" height="50" />
