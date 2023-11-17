@@ -35,6 +35,9 @@ jobs:
           working-directory: webclient
   webclient-component-test:
     runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:latest
+      options: --user 1001
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -47,6 +50,7 @@ jobs:
         with:
           component: true
           working-directory: webclient
+          browser: chrome
   webclient-linting:
     runs-on: ubuntu-latest
     steps:
