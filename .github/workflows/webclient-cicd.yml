@@ -41,6 +41,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           component: true
+          working-directory: webclient
   webclient-linting:
     runs-on: ubuntu-latest
     steps:
