@@ -97,7 +97,7 @@ const showBrandBetween = breakpoints.greaterOrEqual("md");
                 </div>
               </div>
             </div>
-            <div v-if="!showBrandBetween"  class="col-12 column official_roomfinder">
+            <div v-if="!showBrandBetween" class="col-12 column official_roomfinder">
               {{ t("official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
                 <img :alt="t('tum_logo_alt')" :src="brandLogo.href" height="50" />
