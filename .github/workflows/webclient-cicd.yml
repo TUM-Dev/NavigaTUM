@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  webclient-ui-test:
+  webclient-e2e-test:
     strategy:
       matrix:
         browser:
@@ -20,29 +20,31 @@ jobs:
       image: cypress/browsers:node16.16.0-chrome107-ff107
       options: --user 1001
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8
           package_json_file: webclient/package.json
-      - name: Cypress - component tests
-        uses: cypress-io/github-action@v5
-        with:
-          component: true
-          browser: ${{ matrix.browser }}
-          working-directory: webclient
-      - name: Cypress - e2e tests
+      - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
           start: npm run dev
           wait-on: "http://localhost:3000"
           browser: ${{ matrix.browser }}
           working-directory: webclient
+  webclient-component-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          component: true
   webclient-linting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           cache: 'npm'
@@ -54,7 +56,8 @@ jobs:
     uses: ./.github/workflows/_docker-build.yml
     needs:
       - webclient-linting
-      - webclient-ui-test
+      - webclient-e2e-test
+      - webclient-component-test
     with:
       image_suffix: webclient
       context: ./webclient
