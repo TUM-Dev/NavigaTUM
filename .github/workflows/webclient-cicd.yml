@@ -50,7 +50,7 @@ jobs:
         run: pnpm install
         working-directory: webclient
       - name: Cypress run
-        run: pnpm run test:components
+        run: pnpm run cy:run:chrome:component
         working-directory: webclient
   webclient-linting:
     runs-on: ubuntu-latest
