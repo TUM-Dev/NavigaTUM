@@ -46,11 +46,8 @@ jobs:
           version: 8
           package_json_file: webclient/package.json
       - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          component: true
-          working-directory: webclient
-          browser: chrome
+        run: pnpm run test:components
+        working-directory: webclient
   webclient-linting:
     runs-on: ubuntu-latest
     steps:
