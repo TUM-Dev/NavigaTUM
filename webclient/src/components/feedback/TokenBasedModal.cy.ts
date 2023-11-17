@@ -1,12 +1,6 @@
 import TokenBasedModal from "./TokenBasedModal.vue";
 
 describe("<TokenBasedModal>", () => {
-  it("not accepted privacy policy", () => {
-    cy.intercept("POST", "/api/feedback/get_token", {statusCode: 201, fixture: "feedback/get_token.json"});
-    cy.mount(TokenBasedModal);
-    cy.get('[data-cy="feedback-send"]').click();
-    cy.get('[data-cy="feedback-error"]').contains("musst die Datenschutzerklärung akzeptiert haben");
-  });
   it("accepted privacy policy", () => {
     cy.intercept("POST", "/api/feedback/get_token", {statusCode: 201, fixture: "feedback/get_token.json"});
     cy.mount(TokenBasedModal);
@@ -14,6 +8,12 @@ describe("<TokenBasedModal>", () => {
     cy.get('[data-cy="feedback-privacy"]').should("be.checked");
     cy.get('[data-cy="feedback-send"]').click();
     cy.contains("Betreff fehlt"); // todo fix one in a more sensible place
+  });
+  it("not accepted privacy policy", () => {
+    cy.intercept("POST", "/api/feedback/get_token", {statusCode: 201, fixture: "feedback/get_token.json"});
+    cy.mount(TokenBasedModal);
+    cy.get('[data-cy="feedback-send"]').click();
+    cy.get('[data-cy="feedback-error"]').contains("musst die Datenschutzerklärung akzeptiert haben");
   });
   it("tokens ratelimited", () => {
     cy.intercept("POST", "/api/feedback/get_token", {statusCode: 429});
