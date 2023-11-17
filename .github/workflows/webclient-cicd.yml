@@ -41,13 +41,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-      - uses: pnpm/action-setup@v2.4.0
+      - uses: pnpm/action-setup@v2
         with:
-          dest: webclient
           version: 8
-          package_json_file: package.json
       - name: Cypress run
-        run: pnpm run test:components
+        run: pnpm install && run test:components
         working-directory: webclient
   webclient-linting:
     runs-on: ubuntu-latest
