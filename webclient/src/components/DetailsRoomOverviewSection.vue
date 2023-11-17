@@ -13,13 +13,6 @@ const props = defineProps<{
 const { t } = useI18n({ useScope: "local" });
 const search = ref("");
 const selected = ref(-1);
-// useVirtualList does not work with readonly arrays
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore-next-line
-const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filteredList, {
-  itemHeight: 32,
-  overscan: 10,
-});
 
 const combined_list = computed(() => {
   const usages = props.rooms?.usages || [];
@@ -39,6 +32,13 @@ const selectedRooms = computed<readonly ChildEntry[]>(() => {
 const filteredList = computed<readonly ChildEntry[]>(() => {
   const search_term = new RegExp(`.*${search.value}.*`, "i"); // i=>case insensitive
   return selectedRooms.value.filter((f) => search_term.test(f.name));
+});
+// useVirtualList does not work with readonly arrays
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore-next-line
+const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filteredList, {
+  itemHeight: 32,
+  overscan: 10,
 });
 </script>
 
