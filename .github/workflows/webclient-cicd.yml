@@ -17,7 +17,7 @@ jobs:
           - firefox
     runs-on: ubuntu-latest
     container:
-      image: cypress/browsers:node16.16.0-chrome107-ff107
+      image: cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
       options: --user 1001
     steps:
       - uses: actions/checkout@v4
@@ -36,11 +36,13 @@ jobs:
   webclient-component-test:
     runs-on: ubuntu-latest
     container:
-      image: cypress/browsers:latest
+      image: cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
       options: --user 1001
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+        with:
+          node-version: 20.9.0
       - uses: pnpm/action-setup@v2
         with:
           version: 8
