@@ -43,6 +43,7 @@ jobs:
       - uses: actions/setup-node@v4
       - uses: pnpm/action-setup@v2.4.0
         with:
+          dest: webclient
           version: 8
           package_json_file: webclient/package.json
       - name: Cypress run
