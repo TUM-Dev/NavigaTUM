@@ -26,7 +26,14 @@ jobs:
         with:
           version: 8
           package_json_file: webclient/package.json
-      - name: Cypress run
+      - name: Cypress - component tests
+        uses: cypress-io/github-action@v5
+        with:
+          component: true
+          wait-on: "http://localhost:3000"
+          browser: ${{ matrix.browser }}
+          working-directory: webclient
+      - name: Cypress - e2e tests
         uses: cypress-io/github-action@v5
         with:
           start: npm run dev
