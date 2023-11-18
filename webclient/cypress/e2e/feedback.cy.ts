@@ -26,8 +26,8 @@ describe("Check if opening the feedback form works from every subview", () => {
 
 function checkFeedbackForm(selector_which_should_open_the_modal: string) {
   cy.get('[data-cy="feedback-modal"]').should("not.exist");
-  cy.intercept("POST", "/api/feedback/get_token", {statusCode: 201, fixture: "feedback/get_token.json"});
-  cy.get(selector_which_should_open_the_modal).click({scrollBehavior: false});
+  cy.intercept("POST", "/api/feedback/get_token", { statusCode: 201, fixture: "feedback/get_token.json" });
+  cy.get(selector_which_should_open_the_modal).click({ scrollBehavior: false });
   cy.get('[data-cy="feedback-modal"]').should("exist");
 }
 
