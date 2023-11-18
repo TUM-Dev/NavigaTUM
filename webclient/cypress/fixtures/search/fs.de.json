@@ -5,35 +5,35 @@
         {
           "id": "9377.01.130",
           "name": "9377.01.130 (Projektraum \u0019Fachschaft\u0017)",
-          "subtext": "Taufkirchen/Ottobr., Lise-Meitner-Stra\u00dfe 9-11",
+          "subtext": "taufkirchen-ottobr., Lise-Meitner-Stra\u00dfe 9-11",
           "subtext_bold": "01.130@9377",
-          "type": "room"
-        },
-        {
-          "id": "2333.01.103",
-          "name": "2333.01.103 (\u0019Fachschaft\u0017 Sport)",
-          "subtext": "Campus im Olympiapark (SZ), CiO/SG Hallen Ost",
-          "subtext_bold": "01.2333.103@2333",
           "type": "room"
         },
         {
           "id": "5506.EG.690D",
           "name": "5506.EG.690D (Halle \u0019FS\u0017D/Ironbird/Forschungsflugzeug)",
-          "subtext": "Garching, Maschinenwesen (MW)",
+          "subtext": "garching, Maschinenwesen (MW)",
           "subtext_bold": "0690D@5506",
+          "type": "room"
+        },
+        {
+          "id": "2333.01.103",
+          "name": "2333.01.103 (\u0019Fachschaft\u0017 Sport)",
+          "subtext": "campus-im-olympiapark-sz, CiO/SG Hallen Ost",
+          "subtext_bold": "01.2333.103@2333",
           "type": "room"
         },
         {
           "id": "0504.EG.424",
           "name": "0504.EG.424 (Arbeitsraum/Studenten/\u0019Fachschaft\u0017)",
-          "subtext": "Stammgel\u00e4nde, Landwirtschaftsbau (Z4)",
+          "subtext": "stammgel\u00e4nde, Landwirtschaftsbau (Z4)",
           "subtext_bold": "0424@0504",
           "type": "room"
         },
         {
           "id": "0101.02.157",
           "name": "0101.02.157 (\u0019Fachschaft\u0017 Bau, Geo und Umwelt)",
-          "subtext": "Stammgel\u00e4nde, U-Trakt (N1)",
+          "subtext": "stammgel\u00e4nde, U-Trakt (N1)",
           "subtext_bold": "N2157@0101",
           "type": "room"
         },
@@ -45,31 +45,31 @@
           "type": "room"
         },
         {
+          "id": "5101.EG.257",
+          "name": "5101.EG.257 (B\u00fcro \u0019Fachschaft\u0017 Mathe Physik Informatik Chemie / MPIC)",
+          "subtext": "garching, Physik I",
+          "subtext_bold": "2257@5101",
+          "type": "room"
+        },
+        {
+          "id": "5606.EG.036",
+          "name": "5606.EG.036 (B\u00fcro \u0019Fachschaft\u0017 Mathe Physik Informatik Chemie / MPIC)",
+          "subtext": "garching, Mathe/Info (MI)",
+          "subtext_bold": "00.06.036@5606",
+          "type": "room"
+        },
+        {
+          "id": "5606.EG.037",
+          "name": "5606.EG.037 (Besprechungsraum \u0019Fachschaft\u0017 Mathe Physik Informatik Chemie / MPIC)",
+          "subtext": "garching, Mathe/Info (MI)",
+          "subtext_bold": "00.06.037@5606",
+          "type": "room"
+        },
+        {
           "id": "5406.01.650C",
           "name": "5406.01.650C (B\u00fcro \u0019Fachschaft\u0017 Mathe Physik Informatik Chemie / MPIC)",
-          "subtext": "Garching, Chemie",
+          "subtext": "garching, Chemie",
           "subtext_bold": "26503@5406",
-          "type": "room"
-        },
-        {
-          "id": "2941.01.101L",
-          "name": "2941.01.101L (\u0019Fachschaft\u0017)",
-          "subtext": "Campus im Olympiapark (SZ), Institutsgeb\u00e4ude Sportmedizin, Uptown M\u00fcnchen",
-          "subtext_bold": "L101@2941",
-          "type": "room"
-        },
-        {
-          "id": "4219.U1.002",
-          "name": "4219.U1.002 (B\u00fcro \u0019Fachschaft\u0017 Landschaft)",
-          "subtext": "Weihenstephan, Landschaftsentwicklung",
-          "subtext_bold": "U 02@4219",
-          "type": "room"
-        },
-        {
-          "id": "0104.U1.403",
-          "name": "0104.U1.403 (\u0019Fachschaft\u0017 EI)",
-          "subtext": "Stammgel\u00e4nde, E-Technik Elektrophysik (N4)",
-          "subtext_bold": "N-1403@0104",
           "type": "room"
         }
       ],

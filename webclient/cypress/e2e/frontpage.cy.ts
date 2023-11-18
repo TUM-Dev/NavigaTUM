@@ -1,10 +1,10 @@
 describe("Check if navigating from the frontpage works as expected", () => {
-  it("navigating to the mi", () => {
+  it("navigating to the mri", () => {
     cy.intercept("GET", "/api/get/root?lang=de", { fixture: "get/root.de.json" });
     cy.visit("http://localhost:3000/");
     cy.intercept("GET", "/api/get/mi?lang=de", { fixture: "get/mi.de.json" });
-    cy.contains("Informatik").click();
-    cy.url().should("include", "/building/mi");
+    cy.contains("MRI").click();
+    cy.url().should("to.match", /(site|campus|view)\/mri/);
   });
   it("navigating to an initally hidden entry", () => {
     cy.intercept("GET", "/api/get/root?lang=de", { fixture: "get/root.de.json" });

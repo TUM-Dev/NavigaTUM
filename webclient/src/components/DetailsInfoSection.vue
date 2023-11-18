@@ -11,7 +11,7 @@ const appURL = import.meta.env.VITE_APP_URL;
 
 <template>
   <!-- Information section (on mobile) -->
-  <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column mobile-info-section show-sm">
+  <div v-if="state.data?.props?.computed" class="column col-5 col-sm-12 show-sm mt-4">
     <h2>{{ t("info_title") }}</h2>
     <DetailsPropertyTable />
   </div>
@@ -29,8 +29,7 @@ const appURL = import.meta.env.VITE_APP_URL;
         <img
           :alt="t('image_alt')"
           :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-          class="img-responsive"
-          style="width: 100%"
+          class="block h-auto max-w-full w-full bg-zinc-100"
         />
       </a>
       <div class="card-header">
@@ -38,16 +37,16 @@ const appURL = import.meta.env.VITE_APP_URL;
       </div>
       <div class="card-body">
         <DetailsPropertyTable />
-        <div v-if="state.data?.coords.accuracy === 'building'" class="toast toast-warning">
+        <div v-if="state.data?.coords.accuracy === 'building'" class="toast toast-warning mt-3">
           {{ t("msg.inaccurate_only_building") }}<br />
         </div>
         <div
           v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
-          class="toast toast-warning"
+          class="toast toast-warning mt-3"
         >
           {{ t("msg.no_floor_overlay") }}
         </div>
-        <div v-if="state.data?.props?.comment" class="toast">
+        <div v-if="state.data?.props?.comment" class="toast mt-3">
           {{ state.data.props.comment }}
         </div>
       </div>
@@ -58,22 +57,6 @@ const appURL = import.meta.env.VITE_APP_URL;
   </div>
   <DetailsImageSlideshowModal v-if="state.image.slideshow_open" />
 </template>
-
-<style lang="scss">
-@import "@/assets/variables";
-/* --- Information Card (desktop) --- */
-.card-body .toast {
-  margin-top: 12px;
-}
-/* --- Information Section (mobile) --- */
-.mobile-info-section {
-  margin-top: 15px;
-
-  & > .info-table {
-    margin-top: 16px;
-  }
-}
-</style>
 
 <i18n lang="yaml">
 de:

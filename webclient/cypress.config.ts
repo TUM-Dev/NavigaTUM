@@ -8,5 +8,10 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       initPlugin(on, config);
     },
+  component: {
+    devServer: {
+      framework: "vue",
+      bundler: "vite",
+    },
   },
 });
