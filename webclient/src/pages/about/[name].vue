@@ -23,7 +23,7 @@ const route = useRoute();
 </script>
 
 <template>
-  <div id="view-md">
+  <div class="pt-4" id="contentwrapper">
     <Datenschutz v-if="route.params.name === 'datenschutz'" />
     <Privacy v-else-if="route.params.name === 'privacy'" />
     <AboutUs v-else-if="route.params.name === 'about-us'" />
@@ -34,32 +34,23 @@ const route = useRoute();
   </div>
 </template>
 
-<style lang="scss">
-@import "@/assets/variables";
-
-#view-md {
-  padding-top: 15px;
-
+<style lang="postcss">
+#contentwrapper {
   h1 {
-    font-size: 1.8rem;
+    @apply text-3xl font-medium;
   }
-
   h2 {
-    font-size: 1.5rem;
+    @apply text-2xl font-medium;
   }
-
-  h1,
-  h2,
   h3 {
-    font-weight: 500;
+    @apply text-lg font-medium;
+  }
+  h4 {
+    @apply text-sm font-medium;
   }
 
   code {
-    background: $code-bg;
-  }
-
-  .code code {
-    background: $bg-color;
+    @apply text-xs font-mono max-w-full overflow-auto inline-flex text-left items-center space-x-4 rounded-md px-4 py-3 bg-blue-50 text-blue-950 mb-4;
   }
 }
 </style>

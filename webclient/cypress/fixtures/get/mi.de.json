@@ -82,6 +82,20 @@
   "imgs": [
     {
       "author": {
+        "text": "Scharger, Albert / TUM",
+        "url": null
+      },
+      "license": {
+        "text": "Free for use in reporting on TUM, with the copyright noted"
+      },
+      "name": "mi_4.webp",
+      "source": {
+        "text": "mediaTUM",
+        "url": "https://mediatum.ub.tum.de/1232767?show_id=608137"
+      }
+    },
+    {
+      "author": {
         "text": "Benz, Uli / TUM",
         "url": null
       },
@@ -102,10 +116,10 @@
       "license": {
         "text": "Free for use in reporting on TUM, with the copyright noted"
       },
-      "name": "mi_4.webp",
+      "name": "mi_3.webp",
       "source": {
         "text": "mediaTUM",
-        "url": "https://mediatum.ub.tum.de/1232767?show_id=608137"
+        "url": "https://mediatum.ub.tum.de/1232767?show_id=614629"
       }
     },
     {
@@ -134,20 +148,6 @@
       "source": {
         "text": "mediaTUM",
         "url": "https://mediatum.ub.tum.de/1232767?show_id=1575463"
-      }
-    },
-    {
-      "author": {
-        "text": "Scharger, Albert / TUM",
-        "url": null
-      },
-      "license": {
-        "text": "Free for use in reporting on TUM, with the copyright noted"
-      },
-      "name": "mi_3.webp",
-      "source": {
-        "text": "mediaTUM",
-        "url": "https://mediatum.ub.tum.de/1232767?show_id=614629"
       }
     }
   ],
@@ -233,6 +233,28 @@
     "roomfinder": {
       "available": [
         {
+          "file": "rf101.webp",
+          "height": 605,
+          "id": "rf101",
+          "name": "FMI Garching BT05 1.OG",
+          "scale": "500",
+          "source": "Roomfinder",
+          "width": 295,
+          "x": 187,
+          "y": 574
+        },
+        {
+          "file": "rf116.webp",
+          "height": 605,
+          "id": "rf116",
+          "name": "FMI Garching BT05 3.OG",
+          "scale": "500",
+          "source": "Roomfinder",
+          "width": 295,
+          "x": 187,
+          "y": 574
+        },
+        {
           "file": "rf93.webp",
           "height": 605,
           "id": "rf93",
@@ -244,32 +266,10 @@
           "y": 574
         },
         {
-          "file": "rf115.webp",
+          "file": "rf130.webp",
           "height": 605,
-          "id": "rf115",
-          "name": "FMI Garching BT05 2.OG",
-          "scale": "500",
-          "source": "Roomfinder",
-          "width": 295,
-          "x": 187,
-          "y": 574
-        },
-        {
-          "file": "rf146.webp",
-          "height": 605,
-          "id": "rf146",
-          "name": "FMI Garching BT05 UG",
-          "scale": "500",
-          "source": "Roomfinder",
-          "width": 295,
-          "x": 187,
-          "y": 574
-        },
-        {
-          "file": "rf106.webp",
-          "height": 605,
-          "id": "rf106",
-          "name": "FMI Garching BT10 1.OG",
+          "id": "rf130",
+          "name": "FMI Garching BT10 2.OG",
           "scale": "500",
           "source": "Roomfinder",
           "width": 295,
@@ -277,10 +277,10 @@
           "y": 38
         },
         {
-          "file": "rf131.webp",
+          "file": "rf97.webp",
           "height": 605,
-          "id": "rf131",
-          "name": "FMI Garching BT10 3.OG",
+          "id": "rf97",
+          "name": "FMI Garching BT10 EG",
           "scale": "500",
           "source": "Roomfinder",
           "width": 295,
@@ -310,10 +310,10 @@
           "y": 62
         },
         {
-          "file": "rf94.webp",
+          "file": "rf100.webp",
           "height": 605,
-          "id": "rf94",
-          "name": "FMI Garching BT04 EG",
+          "id": "rf100",
+          "name": "FMI Garching BT04 1.OG",
           "scale": "500",
           "source": "Roomfinder",
           "width": 295,
@@ -321,10 +321,10 @@
           "y": 59
         },
         {
-          "file": "rf112.webp",
+          "file": "rf113.webp",
           "height": 605,
-          "id": "rf112",
-          "name": "FMI Garching BT04 2.OG",
+          "id": "rf113",
+          "name": "FMI Garching BT04 3.OG",
           "scale": "500",
           "source": "Roomfinder",
           "width": 295,
@@ -332,10 +332,10 @@
           "y": 59
         },
         {
-          "file": "rf114.webp",
+          "file": "rf145.webp",
           "height": 605,
-          "id": "rf114",
-          "name": "FMI Garching BT04 4.OG",
+          "id": "rf145",
+          "name": "FMI Garching BT04 UG",
           "scale": "500",
           "source": "Roomfinder",
           "width": 295,
@@ -354,10 +354,10 @@
           "y": 69
         },
         {
-          "file": "rf144.webp",
+          "file": "rf87/6.webp",
           "height": 487,
-          "id": "rf144",
-          "name": "FMI Garching BT02 UG",
+          "id": "rf87",
+          "name": "FMI Garching BT02/1 EG",
           "scale": "500",
           "source": "Roomfinder",
           "width": 399,
@@ -431,7 +431,7 @@
           "y": 167
         }
       ],
-      "default": "rf93"
+      "default": "rf101"
     }
   },
   "name": "Fakult\u00e4t Mathematik & Informatik (FMI oder MI)",
@@ -442,10 +442,10 @@
       "mvg": [
         [
           {
-            "distance": 154.74928238048713,
-            "lat": 48.2611537274888,
-            "lon": 11.6684777384851,
-            "name": "Garching, Boltzmannstra\u00dfe",
+            "distance": 154.61981732778332,
+            "lat": 48.261153584156,
+            "lon": 11.6684673014264,
+            "name": "Boltzmannstra\u00dfe",
             "station_id": "de:09184:2073",
             "sub_stations": [
               {
@@ -457,10 +457,10 @@
             ]
           },
           {
-            "distance": 349.33813612854465,
-            "lat": 48.264861448458,
-            "lon": 11.6712265832549,
-            "name": "Garch.,Forschungsz.",
+            "distance": 348.6049478416985,
+            "lat": 48.2648576635194,
+            "lon": 11.6712180818262,
+            "name": "Garching, Forschungszentrum",
             "station_id": "de:09184:460",
             "sub_stations": [
               {
@@ -478,10 +478,10 @@
             ]
           },
           {
-            "distance": 459.44652240644797,
-            "lat": 48.2619251948158,
-            "lon": 11.6619380032158,
-            "name": "Garching, Ludwig-Prandtl-Str.",
+            "distance": 460.01673270054545,
+            "lat": 48.2619259866443,
+            "lon": 11.6619300467174,
+            "name": "Ludwig-Prandtl-Stra\u00dfe",
             "station_id": "de:09184:2071",
             "sub_stations": [
               {
@@ -493,10 +493,10 @@
             ]
           },
           {
-            "distance": 589.9029164550143,
-            "lat": 48.26754040849,
-            "lon": 11.6655043148943,
-            "name": "Garching, Lichtenbergstra\u00dfe",
+            "distance": 590.1208669059968,
+            "lat": 48.2675391261317,
+            "lon": 11.6654896055231,
+            "name": "Technische Universit\u00e4t",
             "station_id": "de:09184:2070",
             "sub_stations": [
               {
@@ -1490,6 +1490,10 @@
             {
               "id": "5605.03.040",
               "name": "5605.03.040 (B\u00fcro)"
+            },
+            {
+              "id": "5605.03.041",
+              "name": "5605.03.041 (B\u00fcro)"
             },
             {
               "id": "5605.03.042",
@@ -3420,7 +3424,7 @@
               "name": "5613.EG.065 (Prof.-B\u00fcro)"
             }
           ],
-          "count": 568,
+          "count": 569,
           "name": "B\u00fcro"
         },
         {
@@ -5732,10 +5736,6 @@
               "name": "5605.03.039 (Computerlabor)"
             },
             {
-              "id": "5605.03.041",
-              "name": "5605.03.041 (Computerlabor)"
-            },
-            {
               "id": "5607.01.038",
               "name": "5607.01.038 (Labor)"
             },
@@ -5776,7 +5776,7 @@
               "name": "5613.03.007 (Labor)"
             }
           ],
-          "count": 18,
+          "count": 17,
           "name": "Labor - Physik"
         },
         {

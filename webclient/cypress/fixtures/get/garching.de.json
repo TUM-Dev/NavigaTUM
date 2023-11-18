@@ -98,10 +98,10 @@
       "mvg": [
         [
           {
-            "distance": 61.61505625703897,
-            "lat": 48.264861448458,
-            "lon": 11.6712265832549,
-            "name": "Garch.,Forschungsz.",
+            "distance": 62.232314520383866,
+            "lat": 48.2648576635194,
+            "lon": 11.6712180818262,
+            "name": "Garching, Forschungszentrum",
             "station_id": "de:09184:460",
             "sub_stations": [
               {
@@ -119,10 +119,10 @@
             ]
           },
           {
-            "distance": 505.942339949703,
-            "lat": 48.26754040849,
-            "lon": 11.6655043148943,
-            "name": "Garching, Lichtenbergstra\u00dfe",
+            "distance": 506.8332653806992,
+            "lat": 48.2675391261317,
+            "lon": 11.6654896055231,
+            "name": "Technische Universit\u00e4t",
             "station_id": "de:09184:2070",
             "sub_stations": [
               {
@@ -134,10 +134,10 @@
             ]
           },
           {
-            "distance": 521.1123725115802,
-            "lat": 48.2611537274888,
-            "lon": 11.6684777384851,
-            "name": "Garching, Boltzmannstra\u00dfe",
+            "distance": 521.4610814943909,
+            "lat": 48.261153584156,
+            "lon": 11.6684673014264,
+            "name": "Boltzmannstra\u00dfe",
             "station_id": "de:09184:2073",
             "sub_stations": [
               {
@@ -149,10 +149,10 @@
             ]
           },
           {
-            "distance": 806.6378814596823,
-            "lat": 48.2619251948158,
-            "lon": 11.6619380032158,
-            "name": "Garching, Ludwig-Prandtl-Str.",
+            "distance": 807.113914025057,
+            "lat": 48.2619259866443,
+            "lon": 11.6619300467174,
+            "name": "Ludwig-Prandtl-Stra\u00dfe",
             "station_id": "de:09184:2071",
             "sub_stations": [
               {
@@ -175,11 +175,11 @@
       },
       {
         "name": "Anzahl Geb\u00e4ude",
-        "text": "90"
+        "text": "91"
       },
       {
         "name": "Anzahl R\u00e4ume",
-        "text": "12894 (10047 ohne Flure etc.)"
+        "text": "12949 (10097 ohne Flure etc.)"
       }
     ],
     "links": [
@@ -194,8 +194,8 @@
     ]
   },
   "ranking_factors": {
-    "rank_boost": 90,
-    "rank_combined": 1190,
+    "rank_boost": 91,
+    "rank_combined": 1191,
     "rank_type": 1100,
     "rank_usage": 100
   },
@@ -207,13 +207,13 @@
           "id": "mi",
           "name": "Mathe/Info (MI)",
           "subtext": "1907 R\u00e4ume",
-          "thumb": "mi_1.webp"
+          "thumb": "mi_4.webp"
         },
         {
           "id": "mw",
           "name": "Maschinenwesen (MW)",
           "subtext": "3654 R\u00e4ume",
-          "thumb": "mw_0.webp"
+          "thumb": "mw_1.webp"
         },
         {
           "id": "physik",
@@ -230,20 +230,20 @@
         {
           "id": "garching-interims",
           "name": "Interimsh\u00f6rs\u00e4le",
-          "subtext": "2 Geb\u00e4ude, 39 R\u00e4ume",
+          "subtext": "3 Geb\u00e4ude, 43 R\u00e4ume",
           "thumb": null
         },
         {
           "id": "5532",
           "name": "StudiTUM",
           "subtext": "83 R\u00e4ume",
-          "thumb": "5532_0.webp"
+          "thumb": "5532_1.webp"
         },
         {
           "id": "frm-2",
           "name": "FRM II",
           "subtext": "38 Geb\u00e4ude, 593 R\u00e4ume",
-          "thumb": "frm-2_1.webp"
+          "thumb": "frm-2_4.webp"
         },
         {
           "id": "chemie-nebengebaeude",
@@ -255,7 +255,7 @@
           "id": "5901",
           "name": "Elektro- und Informationstechnik (EI, ZEITlab)",
           "subtext": "364 R\u00e4ume",
-          "thumb": "5901_4.webp"
+          "thumb": "5901_0.webp"
         },
         {
           "id": "5415",
@@ -264,16 +264,22 @@
           "thumb": "5415_1.webp"
         },
         {
+          "id": "5302",
+          "name": "(Alte) Mensa Garching",
+          "subtext": "238 R\u00e4ume",
+          "thumb": "5302_0.webp"
+        },
+        {
           "id": "galileo",
           "name": "Galileo",
           "subtext": "222 R\u00e4ume",
-          "thumb": "galileo_0.webp"
+          "thumb": "galileo_1.webp"
         },
         {
           "id": "5304",
           "name": "(Neue) Mensa Garching",
           "subtext": "219 R\u00e4ume",
-          "thumb": "5304_2.webp"
+          "thumb": "5304_3.webp"
         },
         {
           "id": "5701",
@@ -282,16 +288,10 @@
           "thumb": "5701_0.webp"
         },
         {
-          "id": "5302",
-          "name": "(Alte) Mensa Garching",
-          "subtext": "187 R\u00e4ume",
-          "thumb": "5302_0.webp"
-        },
-        {
           "id": "5414",
           "name": "Zentrum f\u00fcr Energie und Information (ZEI)",
           "subtext": "174 R\u00e4ume",
-          "thumb": "5414_3.webp"
+          "thumb": "5414_2.webp"
         },
         {
           "id": "5301",
@@ -303,7 +303,7 @@
           "id": "5433",
           "name": "Entrepreneurship Research Institute",
           "subtext": "101 R\u00e4ume",
-          "thumb": "5433_2.webp"
+          "thumb": "5433_3.webp"
         },
         {
           "id": "5531",
@@ -315,7 +315,7 @@
           "id": "5622",
           "name": "Sportanlage Garching / Dusch Container",
           "subtext": "18 R\u00e4ume",
-          "thumb": "5622_1.webp"
+          "thumb": "5622_0.webp"
         },
         {
           "id": "mpi",
@@ -577,34 +577,6 @@
               "name": "5212.EG.003 (Post/Annahme)"
             },
             {
-              "id": "5302.01.101A",
-              "name": "5302.01.101A (Cafe-Kiosk)"
-            },
-            {
-              "id": "5302.01.107",
-              "name": "5302.01.107 (Ausgabe)"
-            },
-            {
-              "id": "5302.EG.012",
-              "name": "5302.EG.012 (Annahme)"
-            },
-            {
-              "id": "5302.EG.014",
-              "name": "5302.EG.014 (Ausgabe)"
-            },
-            {
-              "id": "5302.EG.039",
-              "name": "5302.EG.039 (Ausgabe)"
-            },
-            {
-              "id": "5302.EG.040",
-              "name": "5302.EG.040 (Annahme/Ausgabe)"
-            },
-            {
-              "id": "5302.EG.050",
-              "name": "5302.EG.050 (Speiseausgabe)"
-            },
-            {
               "id": "5304.01.105",
               "name": "5304.01.105 (Geschirrr\u00fcckgabe)"
             },
@@ -645,7 +617,7 @@
               "name": "5606.EG.040 (Post)"
             }
           ],
-          "count": 24,
+          "count": 17,
           "name": "Anlieferung"
         },
         {
@@ -717,6 +689,14 @@
             {
               "id": "5301.U1.009",
               "name": "5301.U1.009 (Archiv)"
+            },
+            {
+              "id": "5302.01.014",
+              "name": "5302.01.014 (Archiv Verwaltung)"
+            },
+            {
+              "id": "5302.01.037",
+              "name": "5302.01.037 (Archiv/Lager)"
             },
             {
               "id": "5401.EG.117C",
@@ -899,7 +879,7 @@
               "name": "5701.01.028 (Dokumentation)"
             }
           ],
-          "count": 62,
+          "count": 64,
           "name": "Archiv"
         },
         {
@@ -1097,12 +1077,8 @@
               "name": "5301.EG.506 (Aufzug)"
             },
             {
-              "id": "5302.EG.033A",
-              "name": "5302.EG.033A (Aufzug)"
-            },
-            {
-              "id": "5302.EG.046",
-              "name": "5302.EG.046 (Personen Aufzug)"
+              "id": "5302.EG.809E",
+              "name": "5302.EG.809E (Aufzug)"
             },
             {
               "id": "5304.02.024",
@@ -1841,7 +1817,7 @@
               "name": "5901.U1.502 (Personenaufzug)"
             }
           ],
-          "count": 234,
+          "count": 233,
           "name": "Aufzug"
         },
         {
@@ -1891,8 +1867,8 @@
               "name": "5301.U1.506 (Aufzugsschacht)"
             },
             {
-              "id": "5302.EG.047",
-              "name": "5302.EG.047 (Aufzugsmaschr.)"
+              "id": "5302.EG.800B",
+              "name": "5302.EG.800B (Aufzugstechnik)"
             },
             {
               "id": "5302.U2.002",
@@ -2073,12 +2049,8 @@
               "name": "5301.04.506 (Aufzugschacht)"
             },
             {
-              "id": "5302.01.121",
-              "name": "5302.01.121 (Aufzugschacht)"
-            },
-            {
-              "id": "5302.01.122",
-              "name": "5302.01.122 (Aufzugschacht)"
+              "id": "5302.EG.801B",
+              "name": "5302.EG.801B (Aufzugsschacht)"
             },
             {
               "id": "5302.U1.013",
@@ -2173,7 +2145,7 @@
               "name": "5532.Z1.091 (Aufzugsraum)"
             }
           ],
-          "count": 36,
+          "count": 35,
           "name": "Aufzugsschacht"
         },
         {
@@ -2707,8 +2679,8 @@
               "name": "5257.02.030 (Kranken u. Ruheraum)"
             },
             {
-              "id": "5302.EG.003A",
-              "name": "5302.EG.003A (Sanit\u00e4tsraum)"
+              "id": "5302.EG.006A",
+              "name": "5302.EG.006A (Sanit\u00e4tsraum)"
             },
             {
               "id": "5304.EG.302",
@@ -2945,6 +2917,10 @@
             {
               "id": "5301.03.021",
               "name": "5301.03.021 (Besprechungsraum 4)"
+            },
+            {
+              "id": "5302.01.036",
+              "name": "5302.01.036 (Besprechungsraum)"
             },
             {
               "id": "5302.Z1.218Z",
@@ -3595,10 +3571,6 @@
               "name": "8123.05.008 (Besprechungsraum 4)"
             },
             {
-              "id": "8123.05.009",
-              "name": "8123.05.009 (Besprechungsraum 3)"
-            },
-            {
               "id": "8123.05.016",
               "name": "8123.05.016 (Besprechungsraum 1)"
             },
@@ -3655,6 +3627,10 @@
             {
               "id": "5204.EG.010",
               "name": "5204.EG.010 (Bibliothek)"
+            },
+            {
+              "id": "5302.01.038",
+              "name": "5302.01.038 (Bibliothek)"
             },
             {
               "id": "5402.03.230H",
@@ -3733,7 +3709,7 @@
               "name": "5701.01.006 (Bibliothek)"
             }
           ],
-          "count": 30,
+          "count": 31,
           "name": "Bibliothek"
         },
         {
@@ -6827,20 +6803,188 @@
               "name": "5301.EG.008 (Information)"
             },
             {
-              "id": "5302.01.105",
-              "name": "5302.01.105 (B\u00fcro)"
+              "id": "5302.01.001",
+              "name": "5302.01.001 (B\u00fcro)"
             },
             {
-              "id": "5302.01.106",
-              "name": "5302.01.106 (B\u00fcro)"
+              "id": "5302.01.004",
+              "name": "5302.01.004 (B\u00fcro)"
             },
             {
-              "id": "5302.EG.011",
-              "name": "5302.EG.011 (B\u00fcro)"
+              "id": "5302.01.005",
+              "name": "5302.01.005 (B\u00fcro)"
             },
             {
-              "id": "5302.EG.030",
-              "name": "5302.EG.030 (B\u00fcro)"
+              "id": "5302.01.006",
+              "name": "5302.01.006 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.007",
+              "name": "5302.01.007 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.009",
+              "name": "5302.01.009 (Prof.-B\u00fcro)"
+            },
+            {
+              "id": "5302.01.010",
+              "name": "5302.01.010 (Prof.-B\u00fcro)"
+            },
+            {
+              "id": "5302.01.012",
+              "name": "5302.01.012 (Prof.-B\u00fcro)"
+            },
+            {
+              "id": "5302.01.015",
+              "name": "5302.01.015 (ELT. Versorgung)"
+            },
+            {
+              "id": "5302.01.018",
+              "name": "5302.01.018 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.019",
+              "name": "5302.01.019 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.020",
+              "name": "5302.01.020 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.024",
+              "name": "5302.01.024 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.025",
+              "name": "5302.01.025 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.032",
+              "name": "5302.01.032 (Bacheloranden- / Masteranden)"
+            },
+            {
+              "id": "5302.01.040",
+              "name": "5302.01.040 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.041",
+              "name": "5302.01.041 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.042",
+              "name": "5302.01.042 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.044",
+              "name": "5302.01.044 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.045",
+              "name": "5302.01.045 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.046",
+              "name": "5302.01.046 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.047",
+              "name": "5302.01.047 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.048",
+              "name": "5302.01.048 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.049",
+              "name": "5302.01.049 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.050",
+              "name": "5302.01.050 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.051",
+              "name": "5302.01.051 (B\u00fcro)"
+            },
+            {
+              "id": "5302.01.052",
+              "name": "5302.01.052 (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.032B",
+              "name": "5302.EG.032B (Thermografieauswertung)"
+            },
+            {
+              "id": "5302.EG.041C",
+              "name": "5302.EG.041C (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.042C",
+              "name": "5302.EG.042C (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.043C",
+              "name": "5302.EG.043C (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.044C",
+              "name": "5302.EG.044C (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.045C",
+              "name": "5302.EG.045C (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.046C",
+              "name": "5302.EG.046C (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.047C",
+              "name": "5302.EG.047C (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.048C",
+              "name": "5302.EG.048C (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.055C",
+              "name": "5302.EG.055C (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.056C",
+              "name": "5302.EG.056C (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.057C",
+              "name": "5302.EG.057C (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.058C",
+              "name": "5302.EG.058C (Auswertung/Dokum.)"
+            },
+            {
+              "id": "5302.EG.069F",
+              "name": "5302.EG.069F (B\u00fcro Elektronikwerkstatt)"
+            },
+            {
+              "id": "5302.EG.077F",
+              "name": "5302.EG.077F (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.078F",
+              "name": "5302.EG.078F (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.079F",
+              "name": "5302.EG.079F (Auswertung/Dokum.)"
+            },
+            {
+              "id": "5302.EG.080F",
+              "name": "5302.EG.080F (B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.081F",
+              "name": "5302.EG.081F (Auswertung/Dokum.)"
             },
             {
               "id": "5302.TP.207A",
@@ -10980,11 +11124,11 @@
             },
             {
               "id": "5510.EG.012",
-              "name": "5510.EG.012 (Pr\u00fcfungsb\u00fcro)"
+              "name": "5510.EG.012 (Masterpr\u00fcfungsausschuss)"
             },
             {
               "id": "5510.EG.012A",
-              "name": "5510.EG.012A (B\u00fcro)"
+              "name": "5510.EG.012A (Pr\u00fcfungsplanung und Praktikumsamt)"
             },
             {
               "id": "5510.EG.014",
@@ -10992,7 +11136,7 @@
             },
             {
               "id": "5510.EG.015",
-              "name": "5510.EG.015 (Hausmeisterb\u00fcro)"
+              "name": "5510.EG.015 (Bachelorpr\u00fcfungsausschuss)"
             },
             {
               "id": "5510.EG.016",
@@ -11004,7 +11148,7 @@
             },
             {
               "id": "5510.EG.018",
-              "name": "5510.EG.018 (IKOM)"
+              "name": "5510.EG.018 (B\u00fcro)"
             },
             {
               "id": "5510.EG.025",
@@ -11012,7 +11156,7 @@
             },
             {
               "id": "5510.EG.026A",
-              "name": "5510.EG.026A (Leitung Pr\u00fcfungsb\u00fcro)"
+              "name": "5510.EG.026A (Leitung Study & Teaching, Studienfachberatung)"
             },
             {
               "id": "5510.EG.026B",
@@ -11020,11 +11164,11 @@
             },
             {
               "id": "5510.EG.026M",
-              "name": "5510.EG.026M (Studienb\u00fcro)"
+              "name": "5510.EG.026M (School Office Finanzen)"
             },
             {
               "id": "5510.EG.026N",
-              "name": "5510.EG.026N (B\u00fcro)"
+              "name": "5510.EG.026N (Study and Teaching Qualit\u00e4tsmanagement)"
             },
             {
               "id": "5510.EG.050A",
@@ -11489,6 +11633,10 @@
             {
               "id": "5605.03.040",
               "name": "5605.03.040 (B\u00fcro)"
+            },
+            {
+              "id": "5605.03.041",
+              "name": "5605.03.041 (B\u00fcro)"
             },
             {
               "id": "5605.03.042",
@@ -14111,6 +14259,10 @@
               "name": "8123.05.007 (B\u00fcro)"
             },
             {
+              "id": "8123.05.009",
+              "name": "8123.05.009 (B\u00fcro)"
+            },
+            {
               "id": "8123.05.025",
               "name": "8123.05.025 (B\u00fcro)"
             },
@@ -14131,7 +14283,7 @@
               "name": "8124.EG.016 (Gro\u00dfraumb\u00fcro)"
             }
           ],
-          "count": 2598,
+          "count": 2642,
           "name": "B\u00fcro"
         },
         {
@@ -14143,10 +14295,6 @@
             {
               "id": "5301.EG.010",
               "name": "5301.EG.010 (Kiosk)"
-            },
-            {
-              "id": "5302.EG.002",
-              "name": "5302.EG.002 (Cafeteria)"
             },
             {
               "id": "5304.EG.201",
@@ -14177,7 +14325,7 @@
               "name": "5610.EG.021 (Cafeteria)"
             }
           ],
-          "count": 10,
+          "count": 9,
           "name": "Cafeteria"
         },
         {
@@ -14995,18 +15143,6 @@
             {
               "id": "5301.U1.505",
               "name": "5301.U1.505 (Trafo)"
-            },
-            {
-              "id": "5302.EG.063",
-              "name": "5302.EG.063 (Transformatoren)"
-            },
-            {
-              "id": "5302.EG.064",
-              "name": "5302.EG.064 (Transformatoren)"
-            },
-            {
-              "id": "5302.EG.065",
-              "name": "5302.EG.065 (Transformatoren)"
             },
             {
               "id": "5302.TP.219",
@@ -16173,7 +16309,7 @@
               "name": "5701.U1.206 (Batterieraum)"
             }
           ],
-          "count": 391,
+          "count": 388,
           "name": "Elektrische Stromversorgung"
         },
         {
@@ -18167,44 +18303,96 @@
               "name": "5301.U1.704 (Flur)"
             },
             {
-              "id": "5302.01.101",
-              "name": "5302.01.101 (Foyer)"
+              "id": "5302.01.701",
+              "name": "5302.01.701 (Flur)"
             },
             {
-              "id": "5302.EG.002C",
-              "name": "5302.EG.002C (Flur / Cafeteria)"
+              "id": "5302.01.702",
+              "name": "5302.01.702 (Flur)"
             },
             {
-              "id": "5302.EG.018B",
-              "name": "5302.EG.018B (Flur)"
+              "id": "5302.01.703",
+              "name": "5302.01.703 (Flur)"
             },
             {
-              "id": "5302.EG.018C",
-              "name": "5302.EG.018C (Flur)"
+              "id": "5302.01.704",
+              "name": "5302.01.704 (Flur)"
             },
             {
-              "id": "5302.EG.023",
-              "name": "5302.EG.023 (Flur)"
+              "id": "5302.01.705",
+              "name": "5302.01.705 (Flur)"
             },
             {
-              "id": "5302.EG.042",
-              "name": "5302.EG.042 (Flur)"
+              "id": "5302.01.706",
+              "name": "5302.01.706 (Flur)"
             },
             {
-              "id": "5302.EG.044",
-              "name": "5302.EG.044 (Flur)"
+              "id": "5302.01.709",
+              "name": "5302.01.709 (Flur)"
             },
             {
-              "id": "5302.EG.044A",
-              "name": "5302.EG.044A (Flur)"
+              "id": "5302.01.710",
+              "name": "5302.01.710 (Flur)"
             },
             {
-              "id": "5302.EG.052",
-              "name": "5302.EG.052 (Flur)"
+              "id": "5302.EG.700A",
+              "name": "5302.EG.700A (Flur)"
             },
             {
-              "id": "5302.EG.055",
-              "name": "5302.EG.055 (Flur)"
+              "id": "5302.EG.701A",
+              "name": "5302.EG.701A (Flur)"
+            },
+            {
+              "id": "5302.EG.702A",
+              "name": "5302.EG.702A (Flur)"
+            },
+            {
+              "id": "5302.EG.703B",
+              "name": "5302.EG.703B (Flur)"
+            },
+            {
+              "id": "5302.EG.704B",
+              "name": "5302.EG.704B (Flur)"
+            },
+            {
+              "id": "5302.EG.705B",
+              "name": "5302.EG.705B (Flur)"
+            },
+            {
+              "id": "5302.EG.706C",
+              "name": "5302.EG.706C (Flur)"
+            },
+            {
+              "id": "5302.EG.707C",
+              "name": "5302.EG.707C (Flur)"
+            },
+            {
+              "id": "5302.EG.708C",
+              "name": "5302.EG.708C (Flur)"
+            },
+            {
+              "id": "5302.EG.709D",
+              "name": "5302.EG.709D (Flur)"
+            },
+            {
+              "id": "5302.EG.710D",
+              "name": "5302.EG.710D (Flur)"
+            },
+            {
+              "id": "5302.EG.711F",
+              "name": "5302.EG.711F (Flur)"
+            },
+            {
+              "id": "5302.EG.712F",
+              "name": "5302.EG.712F (Flur)"
+            },
+            {
+              "id": "5302.EG.713F",
+              "name": "5302.EG.713F (Flur)"
+            },
+            {
+              "id": "5302.EG.714E",
+              "name": "5302.EG.714E (Flur)"
             },
             {
               "id": "5302.TP.109",
@@ -22475,7 +22663,7 @@
               "name": "8124.EG.016C (Flur/Treppe (Anteilige Allgem. Fl.))"
             }
           ],
-          "count": 1349,
+          "count": 1362,
           "name": "Flur"
         },
         {
@@ -24135,20 +24323,12 @@
               "name": "5301.U1.004 (Umkleide-Herren)"
             },
             {
-              "id": "5302.EG.004",
-              "name": "5302.EG.004 (Umkleide)"
+              "id": "5302.EG.007A",
+              "name": "5302.EG.007A (Umkleide Herren)"
             },
             {
-              "id": "5302.EG.005A",
-              "name": "5302.EG.005A (Umkleide)"
-            },
-            {
-              "id": "5302.EG.005B",
-              "name": "5302.EG.005B (Umkleide)"
-            },
-            {
-              "id": "5302.EG.005C",
-              "name": "5302.EG.005C (Umkleide)"
+              "id": "5302.EG.010A",
+              "name": "5302.EG.010A (Umkleide Damen)"
             },
             {
               "id": "5304.EG.318",
@@ -24487,7 +24667,7 @@
               "name": "8120.04.029 (Flur/Garderobe)"
             }
           ],
-          "count": 99,
+          "count": 97,
           "name": "Garderobe"
         },
         {
@@ -25127,56 +25307,8 @@
               "name": "5301.U1.504 (Technik)"
             },
             {
-              "id": "5302.01.112",
-              "name": "5302.01.112 (Install.Schacht)"
-            },
-            {
-              "id": "5302.01.114",
-              "name": "5302.01.114 (Install.Schacht)"
-            },
-            {
-              "id": "5302.01.117",
-              "name": "5302.01.117 (Installation)"
-            },
-            {
-              "id": "5302.01.124",
-              "name": "5302.01.124 (Install.Schacht)"
-            },
-            {
-              "id": "5302.01.125",
-              "name": "5302.01.125 (Install.Schacht)"
-            },
-            {
-              "id": "5302.EG.018A",
-              "name": "5302.EG.018A (Install.Schacht)"
-            },
-            {
-              "id": "5302.EG.026",
-              "name": "5302.EG.026 (Hausanschluss)"
-            },
-            {
-              "id": "5302.EG.048",
-              "name": "5302.EG.048 (Install.Schacht)"
-            },
-            {
-              "id": "5302.EG.056",
-              "name": "5302.EG.056 (Install.Schacht)"
-            },
-            {
-              "id": "5302.EG.057",
-              "name": "5302.EG.057 (Install.Schacht)"
-            },
-            {
-              "id": "5302.EG.058",
-              "name": "5302.EG.058 (Install.Schacht)"
-            },
-            {
-              "id": "5302.EG.059",
-              "name": "5302.EG.059 (Install.Schacht)"
-            },
-            {
-              "id": "5302.EG.060",
-              "name": "5302.EG.060 (Install. Schacht)"
+              "id": "5302.EG.019A",
+              "name": "5302.EG.019A (Hydraulikaggregate)"
             },
             {
               "id": "5302.TP.108",
@@ -29987,6 +30119,10 @@
               "name": "5532.U1.002 (BMA)"
             },
             {
+              "id": "5539.EG.003",
+              "name": "5539.EG.003 (Technikraum Tentomax)"
+            },
+            {
               "id": "5601.U1.034B",
               "name": "5601.U1.034B (Hebeanlage)"
             },
@@ -30371,7 +30507,7 @@
               "name": "8122.01.005A (Technik)"
             }
           ],
-          "count": 1450,
+          "count": 1439,
           "name": "Geb\u00e4udeleittechnik"
         },
         {
@@ -30379,6 +30515,18 @@
             {
               "id": "5204.U1.002",
               "name": "5204.U1.002 (Lager Ger\u00e4te)"
+            },
+            {
+              "id": "5302.EG.038B",
+              "name": "5302.EG.038B (Ger\u00e4telager)"
+            },
+            {
+              "id": "5302.EG.082E",
+              "name": "5302.EG.082E (Ger\u00e4telager)"
+            },
+            {
+              "id": "5302.EG.082F",
+              "name": "5302.EG.082F (Ger\u00e4telager)"
             },
             {
               "id": "5407.02.720J",
@@ -30405,7 +30553,7 @@
               "name": "5506.EG.661O (Ger\u00e4telager)"
             }
           ],
-          "count": 7,
+          "count": 10,
           "name": "Ger\u00e4teraum"
         },
         {
@@ -30439,18 +30587,6 @@
             {
               "id": "5125.EG.001",
               "name": "5125.EG.001 (BMZ)"
-            },
-            {
-              "id": "5302.01.102",
-              "name": "5302.01.102 (Gesch\u00e4ft 1)"
-            },
-            {
-              "id": "5302.01.102A",
-              "name": "5302.01.102A (Gesch\u00e4ft 2)"
-            },
-            {
-              "id": "5302.01.102B",
-              "name": "5302.01.102B (Gesch\u00e4ft 3)"
             },
             {
               "id": "5304.EG.102",
@@ -30489,7 +30625,7 @@
               "name": "5530.EG.006 (Empfang)"
             }
           ],
-          "count": 16,
+          "count": 13,
           "name": "Gesch\u00e4ftsraum"
         },
         {
@@ -31249,6 +31385,18 @@
               "name": "5510.EG.001 (Gustav-Niemann-H\u00f6rsaal)"
             },
             {
+              "id": "5539.EG.001A",
+              "name": "5539.EG.001A (H\u00f6rsaal 1A)"
+            },
+            {
+              "id": "5539.EG.001B",
+              "name": "5539.EG.001B (H\u00f6rsaal 1B)"
+            },
+            {
+              "id": "5539.EG.002",
+              "name": "5539.EG.002 (H\u00f6rsaal 2)"
+            },
+            {
               "id": "5602.EG.001",
               "name": "5602.EG.001 (MI HS 1, Friedrich L. Bauer H\u00f6rsaal)"
             },
@@ -31285,7 +31433,7 @@
               "name": "8120.EG.001 (H\u00f6rsaal im Galileo)"
             }
           ],
-          "count": 27,
+          "count": 30,
           "name": "H\u00f6rsaal"
         },
         {
@@ -31417,6 +31565,22 @@
             {
               "id": "5301.03.033",
               "name": "5301.03.033 (Drucker)"
+            },
+            {
+              "id": "5302.01.016",
+              "name": "5302.01.016 (Kopierer)"
+            },
+            {
+              "id": "5302.01.030",
+              "name": "5302.01.030 (Kopierer)"
+            },
+            {
+              "id": "5302.01.054",
+              "name": "5302.01.054 (Kopierer)"
+            },
+            {
+              "id": "5302.EG.054C",
+              "name": "5302.EG.054C (Kopierer)"
             },
             {
               "id": "5401.01.100C",
@@ -31739,7 +31903,7 @@
               "name": "8122.01.057 (Kopierer/Lager)"
             }
           ],
-          "count": 98,
+          "count": 102,
           "name": "Kopierraum"
         },
         {
@@ -31809,40 +31973,8 @@
               "name": "5301.EG.009 (Cafeteria K\u00fcche)"
             },
             {
-              "id": "5302.01.108",
-              "name": "5302.01.108 (Mensak\u00fcche)"
-            },
-            {
-              "id": "5302.01.109",
-              "name": "5302.01.109 (Sp\u00fclk\u00fcche)"
-            },
-            {
-              "id": "5302.EG.002D",
-              "name": "5302.EG.002D (Cafeteria-K\u00fcche)"
-            },
-            {
-              "id": "5302.EG.028",
-              "name": "5302.EG.028 (K\u00fcchenvorb.)"
-            },
-            {
-              "id": "5302.EG.029",
-              "name": "5302.EG.029 (K\u00fcchenvorb.)"
-            },
-            {
-              "id": "5302.EG.029A",
-              "name": "5302.EG.029A (K\u00fcchenvorb.)"
-            },
-            {
-              "id": "5302.EG.031",
-              "name": "5302.EG.031 (Gro\u00dfk\u00fcche)"
-            },
-            {
-              "id": "5302.EG.038",
-              "name": "5302.EG.038 (Sp\u00fclk\u00fcche)"
-            },
-            {
-              "id": "5302.EG.041",
-              "name": "5302.EG.041 (Sp\u00fclk\u00fcche)"
+              "id": "5302.01.028",
+              "name": "5302.01.028 (K\u00fcche/Pausenraum)"
             },
             {
               "id": "5304.01.102",
@@ -31957,7 +32089,7 @@
               "name": "8122.01.017 (K\u00fcche)"
             }
           ],
-          "count": 53,
+          "count": 45,
           "name": "K\u00fcche"
         },
         {
@@ -31981,38 +32113,6 @@
             {
               "id": "5301.04.006",
               "name": "5301.04.006 (K\u00fchlung)"
-            },
-            {
-              "id": "5302.01.110",
-              "name": "5302.01.110 (K\u00fchlraum)"
-            },
-            {
-              "id": "5302.EG.015A",
-              "name": "5302.EG.015A (K\u00fchlraum)"
-            },
-            {
-              "id": "5302.EG.015B",
-              "name": "5302.EG.015B (K\u00fchlraum)"
-            },
-            {
-              "id": "5302.EG.016A",
-              "name": "5302.EG.016A (K\u00fchlraum)"
-            },
-            {
-              "id": "5302.EG.016B",
-              "name": "5302.EG.016B (K\u00fchlraum)"
-            },
-            {
-              "id": "5302.EG.020",
-              "name": "5302.EG.020 (K\u00fchlraum)"
-            },
-            {
-              "id": "5302.EG.021",
-              "name": "5302.EG.021 (K\u00fchlraum)"
-            },
-            {
-              "id": "5302.EG.024",
-              "name": "5302.EG.024 (K\u00fchlraum)"
             },
             {
               "id": "5304.01.305",
@@ -32087,7 +32187,7 @@
               "name": "5701.EG.023 (K\u00fchlraum)"
             }
           ],
-          "count": 31,
+          "count": 23,
           "name": "K\u00fchlraum"
         },
         {
@@ -32119,6 +32219,10 @@
             {
               "id": "5204.EG.009",
               "name": "5204.EG.009 (Techn. Labor)"
+            },
+            {
+              "id": "5302.EG.062D",
+              "name": "5302.EG.062D (M\u00f6rtellabor)"
             },
             {
               "id": "5302.TP.101",
@@ -32741,7 +32845,7 @@
               "name": "5901.EG.063 (Prozesslab. / Etching)"
             }
           ],
-          "count": 162,
+          "count": 163,
           "name": "Labor (Technik)"
         },
         {
@@ -33007,6 +33111,10 @@
             {
               "id": "5251.U1.007",
               "name": "5251.U1.007 (Dekontaminationsraum)"
+            },
+            {
+              "id": "5302.EG.065F",
+              "name": "5302.EG.065F (Elektrochemielabor)"
             },
             {
               "id": "5401.EG.100A",
@@ -34569,7 +34677,7 @@
               "name": "5901.EG.084 (Biolabor-Zellkultur S2)"
             }
           ],
-          "count": 452,
+          "count": 453,
           "name": "Labor - Chemie"
         },
         {
@@ -35757,6 +35865,110 @@
               "name": "5257.EG.022 (Me\u00dfmittelraum)"
             },
             {
+              "id": "5302.EG.016A",
+              "name": "5302.EG.016A (Pr\u00fcfhalle Staubzone)"
+            },
+            {
+              "id": "5302.EG.017A",
+              "name": "5302.EG.017A (Termografiepr\u00fcfraum)"
+            },
+            {
+              "id": "5302.EG.018A",
+              "name": "5302.EG.018A (Pr\u00fcfhalle HFP)"
+            },
+            {
+              "id": "5302.EG.024A",
+              "name": "5302.EG.024A (Nebelkammer)"
+            },
+            {
+              "id": "5302.EG.027B",
+              "name": "5302.EG.027B (Nebelkammer)"
+            },
+            {
+              "id": "5302.EG.029B",
+              "name": "5302.EG.029B (Pr\u00fcfraum Living Lab)"
+            },
+            {
+              "id": "5302.EG.030B",
+              "name": "5302.EG.030B (Betonpr\u00fcfraum)"
+            },
+            {
+              "id": "5302.EG.031B",
+              "name": "5302.EG.031B (Feinm\u00f6rtelpr\u00fcfraum)"
+            },
+            {
+              "id": "5302.EG.033B",
+              "name": "5302.EG.033B (Termografiepr\u00fcfraum)"
+            },
+            {
+              "id": "5302.EG.052C",
+              "name": "5302.EG.052C (Pr\u00fcfraum REM)"
+            },
+            {
+              "id": "5302.EG.053C",
+              "name": "5302.EG.053C (Physiklabor XRD)"
+            },
+            {
+              "id": "5302.EG.059C",
+              "name": "5302.EG.059C (Pr\u00fcflabor Messraum)"
+            },
+            {
+              "id": "5302.EG.061D",
+              "name": "5302.EG.061D (Pr\u00fcflabor Autoklav.)"
+            },
+            {
+              "id": "5302.EG.063D",
+              "name": "5302.EG.063D (Pr\u00fcflabor Thermoan.)"
+            },
+            {
+              "id": "5302.EG.064F",
+              "name": "5302.EG.064F (Pr\u00fcflabor Ofenraum)"
+            },
+            {
+              "id": "5302.EG.066F",
+              "name": "5302.EG.066F (Bewehrungsvermessung)"
+            },
+            {
+              "id": "5302.EG.067F",
+              "name": "5302.EG.067F (Pr\u00fcflabor Hg-Druckpor.)"
+            },
+            {
+              "id": "5302.EG.068F",
+              "name": "5302.EG.068F (Pr\u00fcflabor Hg-Druckpor.)"
+            },
+            {
+              "id": "5302.EG.070F",
+              "name": "5302.EG.070F (Labor/Elektronikwerkstatt/B\u00fcro)"
+            },
+            {
+              "id": "5302.EG.072F",
+              "name": "5302.EG.072F (Pr\u00fcfraum Feinmessraum)"
+            },
+            {
+              "id": "5302.EG.073F",
+              "name": "5302.EG.073F (Pr\u00fcflabor Frostpr\u00fcfung)"
+            },
+            {
+              "id": "5302.EG.074F",
+              "name": "5302.EG.074F (Betondruckraum Kuka-Rob.)"
+            },
+            {
+              "id": "5302.EG.075F",
+              "name": "5302.EG.075F (Pr\u00fcflabor Dauerhaftig.)"
+            },
+            {
+              "id": "5302.EG.076F",
+              "name": "5302.EG.076F (Pr\u00fcflabor)"
+            },
+            {
+              "id": "5302.EG.084E",
+              "name": "5302.EG.084E (Spannungsrisskorrosionslabor)"
+            },
+            {
+              "id": "5302.EG.091E",
+              "name": "5302.EG.091E (ZIP-Labor)"
+            },
+            {
               "id": "5302.TP.202",
               "name": "5302.TP.202 (Messraum)"
             },
@@ -36557,10 +36769,6 @@
               "name": "5605.03.039 (Computerlabor)"
             },
             {
-              "id": "5605.03.041",
-              "name": "5605.03.041 (Computerlabor)"
-            },
-            {
               "id": "5607.01.038",
               "name": "5607.01.038 (Labor)"
             },
@@ -36609,7 +36817,7 @@
               "name": "5901.EG.066 (Prozesslab. / Ofenr.)"
             }
           ],
-          "count": 488,
+          "count": 513,
           "name": "Labor - Physik"
         },
         {
@@ -37225,36 +37433,60 @@
               "name": "5301.U1.502 (Lager)"
             },
             {
-              "id": "5302.01.111",
-              "name": "5302.01.111 (Lager)"
+              "id": "5302.01.053",
+              "name": "5302.01.053 (B\u00fcrobedarfslager)"
             },
             {
-              "id": "5302.EG.002E",
-              "name": "5302.EG.002E (Lager / Cafeteria)"
+              "id": "5302.01.057",
+              "name": "5302.01.057 (Lager)"
             },
             {
-              "id": "5302.EG.010",
-              "name": "5302.EG.010 (Lager)"
+              "id": "5302.EG.012A",
+              "name": "5302.EG.012A (Klimaraum Konstantklima 3)"
             },
             {
-              "id": "5302.EG.017",
-              "name": "5302.EG.017 (Lager)"
+              "id": "5302.EG.013A",
+              "name": "5302.EG.013A (Klimaraum Konstantklima 4)"
             },
             {
-              "id": "5302.EG.018",
-              "name": "5302.EG.018 (Lager)"
+              "id": "5302.EG.015A",
+              "name": "5302.EG.015A (Klimaraum Konstantklima 1)"
             },
             {
-              "id": "5302.EG.022",
-              "name": "5302.EG.022 (Lager)"
+              "id": "5302.EG.020A",
+              "name": "5302.EG.020A (Probenlager Stahl)"
             },
             {
-              "id": "5302.EG.029B",
-              "name": "5302.EG.029B (Lager)"
+              "id": "5302.EG.025A",
+              "name": "5302.EG.025A (Lager)"
             },
             {
-              "id": "5302.EG.032",
-              "name": "5302.EG.032 (Lager)"
+              "id": "5302.EG.026B",
+              "name": "5302.EG.026B (Ger\u00e4telager)"
+            },
+            {
+              "id": "5302.EG.034B",
+              "name": "5302.EG.034B (Lager)"
+            },
+            {
+              "id": "5302.EG.035B",
+              "name": "5302.EG.035B (Lager)"
+            },
+            {
+              "id": "5302.EG.060D",
+              "name": "5302.EG.060D (Probenlager)"
+            },
+            {
+              "id": "5302.EG.083E",
+              "name": "5302.EG.083E (Pr\u00fcfmittellager)"
+            },
+            {
+              "id": "5302.EG.089E",
+              "name": "5302.EG.089E (Konstantklima 5)"
+            },
+            {
+              "id": "5302.EG.090E",
+              "name": "5302.EG.090E (Probenlager)"
             },
             {
               "id": "5302.U2.003",
@@ -38973,7 +39205,7 @@
               "name": "5901.U1.049 (Lager)"
             }
           ],
-          "count": 583,
+          "count": 589,
           "name": "Lager"
         },
         {
@@ -39029,18 +39261,6 @@
               "name": "5301.02.022 (Zeitschriften/Lesesaal)"
             },
             {
-              "id": "5302.01.123",
-              "name": "5302.01.123 (Leseraum)"
-            },
-            {
-              "id": "5302.01.127",
-              "name": "5302.01.127 (Lesepl\u00e4tze)"
-            },
-            {
-              "id": "5302.01.128",
-              "name": "5302.01.128 (Lesepl\u00e4tze)"
-            },
-            {
               "id": "5401.01.100A",
               "name": "5401.01.100A (Lesesaal)"
             },
@@ -39081,7 +39301,7 @@
               "name": "5603.EG.019 (Lesesaal)"
             }
           ],
-          "count": 17,
+          "count": 14,
           "name": "Lesesaal"
         },
         {
@@ -39597,14 +39817,6 @@
         {
           "children": [
             {
-              "id": "5302.EG.001",
-              "name": "5302.EG.001 (Speisesaal)"
-            },
-            {
-              "id": "5302.EG.001B",
-              "name": "5302.EG.001B (Speisesaal)"
-            },
-            {
               "id": "5304.01.101",
               "name": "5304.01.101 (Speisesaal)"
             },
@@ -39613,7 +39825,7 @@
               "name": "5508.EG.801 (Speisesaal)"
             }
           ],
-          "count": 4,
+          "count": 2,
           "name": "Mensa"
         },
         {
@@ -39785,14 +39997,6 @@
               "name": "5143.EG.012 (M\u00fcllentsorgung)"
             },
             {
-              "id": "5302.01.118",
-              "name": "5302.01.118 (M\u00fcll)"
-            },
-            {
-              "id": "5302.EG.009",
-              "name": "5302.EG.009 (M\u00fcll)"
-            },
-            {
               "id": "5402.01.201K",
               "name": "5402.01.201K (Sonderm\u00fcllzwischenlager)"
             },
@@ -39893,7 +40097,7 @@
               "name": "5531.EG.019 (M\u00fcllraum)"
             }
           ],
-          "count": 28,
+          "count": 26,
           "name": "M\u00fcllsammelraum"
         },
         {
@@ -40447,12 +40651,8 @@
               "name": "5301.U1.002 (Putzraum)"
             },
             {
-              "id": "5302.01.116",
-              "name": "5302.01.116 (Putzraum)"
-            },
-            {
-              "id": "5302.EG.035",
-              "name": "5302.EG.035 (Putzraum)"
+              "id": "5302.01.029",
+              "name": "5302.01.029 (Putzraum)"
             },
             {
               "id": "5302.TP.213A",
@@ -40987,7 +41187,7 @@
               "name": "8123.05.030 (Putzraum)"
             }
           ],
-          "count": 164,
+          "count": 163,
           "name": "Putzraum"
         },
         {
@@ -41599,6 +41799,18 @@
               "name": "5212.EG.704B (Schleuse)"
             },
             {
+              "id": "5302.EG.022A",
+              "name": "5302.EG.022A (Schleuse 3)"
+            },
+            {
+              "id": "5302.EG.023A",
+              "name": "5302.EG.023A (Schleuse 2)"
+            },
+            {
+              "id": "5302.EG.088E",
+              "name": "5302.EG.088E (Schleuse 1)"
+            },
+            {
               "id": "5402.04.241L",
               "name": "5402.04.241L (Schleuse)"
             },
@@ -41715,7 +41927,7 @@
               "name": "5901.EG.080 (Personalschleuse)"
             }
           ],
-          "count": 54,
+          "count": 57,
           "name": "Schleuse"
         },
         {
@@ -41763,6 +41975,14 @@
             {
               "id": "5212.02.013",
               "name": "5212.02.013 (Sekretariat)"
+            },
+            {
+              "id": "5302.01.008",
+              "name": "5302.01.008 (Sekretariat)"
+            },
+            {
+              "id": "5302.01.011",
+              "name": "5302.01.011 (Sekretariat)"
             },
             {
               "id": "5403.02.310D",
@@ -42157,7 +42377,7 @@
               "name": "8120.05.007 (Sekretariat)"
             }
           ],
-          "count": 109,
+          "count": 111,
           "name": "Sekretariat"
         },
         {
@@ -42213,6 +42433,14 @@
             {
               "id": "5212.EG.006",
               "name": "5212.EG.006 (Seminar 1)"
+            },
+            {
+              "id": "5302.01.022",
+              "name": "5302.01.022 (Seminarraum 2)"
+            },
+            {
+              "id": "5302.01.023",
+              "name": "5302.01.023 (Seminarraum 1)"
             },
             {
               "id": "5403.02.310A",
@@ -42460,7 +42688,7 @@
             },
             {
               "id": "5510.EG.029",
-              "name": "5510.EG.029 (Praktikumsraum)"
+              "name": "5510.EG.029 (Zentrum f\u00fcr Schl\u00fcsselkompetenzen Kreativwerkstatt)"
             },
             {
               "id": "5515.EG.005",
@@ -42763,7 +42991,7 @@
               "name": "8123.05.017 (Seminarraum)"
             }
           ],
-          "count": 150,
+          "count": 152,
           "name": "Seminarraum"
         },
         {
@@ -42859,6 +43087,26 @@
             {
               "id": "5301.U1.008",
               "name": "5301.U1.008 (EDV)"
+            },
+            {
+              "id": "5302.01.017",
+              "name": "5302.01.017 (Dateninstall.)"
+            },
+            {
+              "id": "5302.01.055",
+              "name": "5302.01.055 (Dateninstall.)"
+            },
+            {
+              "id": "5302.01.058",
+              "name": "5302.01.058 (Serverraum)"
+            },
+            {
+              "id": "5302.EG.040C",
+              "name": "5302.EG.040C (Dateiinstall.)"
+            },
+            {
+              "id": "5302.EG.087E",
+              "name": "5302.EG.087E (Dateiinstall.)"
             },
             {
               "id": "5304.02.202",
@@ -43421,7 +43669,7 @@
               "name": "8123.05.002 (Server)"
             }
           ],
-          "count": 163,
+          "count": 168,
           "name": "Serverraum"
         },
         {
@@ -43573,6 +43821,18 @@
             {
               "id": "5301.04.003",
               "name": "5301.04.003 (Kaminzimmer)"
+            },
+            {
+              "id": "5302.01.039",
+              "name": "5302.01.039 (Raum optional)"
+            },
+            {
+              "id": "5302.EG.005A",
+              "name": "5302.EG.005A (Sozialraum)"
+            },
+            {
+              "id": "5302.EG.092E",
+              "name": "5302.EG.092E (Relaxationsraum)"
             },
             {
               "id": "5304.EG.214",
@@ -43999,18 +44259,8 @@
               "name": "8123.05.015 (Empfang/Aufenthalt/Teek\u00fcche)"
             }
           ],
-          "count": 133,
+          "count": 136,
           "name": "Sozialraum"
-        },
-        {
-          "children": [
-            {
-              "id": "5302.01.103",
-              "name": "5302.01.103 (Cafeteria)"
-            }
-          ],
-          "count": 1,
-          "name": "Speiseraum"
         },
         {
           "children": [
@@ -44371,6 +44621,10 @@
             {
               "id": "5212.EG.027",
               "name": "5212.EG.027 (Teek\u00fcche)"
+            },
+            {
+              "id": "5302.EG.049C",
+              "name": "5302.EG.049C (Teek\u00fcche)"
             },
             {
               "id": "5401.01.100D",
@@ -44749,7 +45003,7 @@
               "name": "8123.05.003 (Teek\u00fcche)"
             }
           ],
-          "count": 102,
+          "count": 103,
           "name": "Teek\u00fcche"
         },
         {
@@ -45433,80 +45687,40 @@
               "name": "5301.U1.800 (Treppenhaus)"
             },
             {
-              "id": "5302.01.126",
-              "name": "5302.01.126 (Treppe)"
+              "id": "5302.01.752",
+              "name": "5302.01.752 (Treppenhaus 3)"
             },
             {
-              "id": "5302.01.160",
-              "name": "5302.01.160 (Treppe)"
+              "id": "5302.01.753",
+              "name": "5302.01.753 (Treppenhaus 4)"
             },
             {
-              "id": "5302.01.162",
-              "name": "5302.01.162 (Treppe)"
-            },
-            {
-              "id": "5302.01.163",
-              "name": "5302.01.163 (Treppe)"
-            },
-            {
-              "id": "5302.01.164",
-              "name": "5302.01.164 (Treppe)"
-            },
-            {
-              "id": "5302.01.165",
-              "name": "5302.01.165 (Treppe)"
-            },
-            {
-              "id": "5302.01.166",
-              "name": "5302.01.166 (Treppe)"
-            },
-            {
-              "id": "5302.01.167",
-              "name": "5302.01.167 (Treppe)"
-            },
-            {
-              "id": "5302.01.168",
-              "name": "5302.01.168 (Treppe)"
+              "id": "5302.01.754",
+              "name": "5302.01.754 (Treppenhaus 5)"
             },
             {
               "id": "5302.02.205",
               "name": "5302.02.205 (Treppenraum)"
             },
             {
-              "id": "5302.EG.037",
-              "name": "5302.EG.037 (Treppenhaus)"
+              "id": "5302.EG.750E",
+              "name": "5302.EG.750E (Treppenhaus 1)"
             },
             {
-              "id": "5302.EG.042A",
-              "name": "5302.EG.042A (Treppe)"
+              "id": "5302.EG.751C",
+              "name": "5302.EG.751C (Treppenhaus 2)"
             },
             {
-              "id": "5302.EG.051",
-              "name": "5302.EG.051 (Treppe)"
+              "id": "5302.EG.752D",
+              "name": "5302.EG.752D (Treppenhaus 3)"
             },
             {
-              "id": "5302.EG.052A",
-              "name": "5302.EG.052A (Treppe)"
+              "id": "5302.EG.753F",
+              "name": "5302.EG.753F (Treppenhaus 4)"
             },
             {
-              "id": "5302.EG.053",
-              "name": "5302.EG.053 (Treppe)"
-            },
-            {
-              "id": "5302.EG.054",
-              "name": "5302.EG.054 (Treppe)"
-            },
-            {
-              "id": "5302.EG.055A",
-              "name": "5302.EG.055A (Treppe)"
-            },
-            {
-              "id": "5302.EG.061",
-              "name": "5302.EG.061 (Treppe)"
-            },
-            {
-              "id": "5302.EG.062",
-              "name": "5302.EG.062 (Treppe)"
+              "id": "5302.EG.754F",
+              "name": "5302.EG.754F (Treppenhaus 5)"
             },
             {
               "id": "5302.TP.214B",
@@ -47537,7 +47751,7 @@
               "name": "5901.U1.403 (Treppenhaus C)"
             }
           ],
-          "count": 662,
+          "count": 652,
           "name": "Treppenhaus"
         },
         {
@@ -47675,6 +47889,10 @@
             {
               "id": "5204.EG.036",
               "name": "5204.EG.036 (Versuchshalle)"
+            },
+            {
+              "id": "5302.EG.028B",
+              "name": "5302.EG.028B (Testfeld)"
             },
             {
               "id": "5401.EG.111K",
@@ -47841,7 +48059,7 @@
               "name": "5701.EG.204 (Versuchshalle)"
             }
           ],
-          "count": 56,
+          "count": 57,
           "name": "Versuchshalle"
         },
         {
@@ -48013,6 +48231,10 @@
             {
               "id": "5212.U1.602",
               "name": "5212.U1.602 (WC)"
+            },
+            {
+              "id": "5302.01.003",
+              "name": "5302.01.003 (WC)"
             },
             {
               "id": "5304.EG.218",
@@ -48223,7 +48445,7 @@
               "name": "5701.EG.211 (WC)"
             }
           ],
-          "count": 55,
+          "count": 56,
           "name": "WC"
         },
         {
@@ -48281,8 +48503,8 @@
               "name": "5301.U1.030 (Beh.-WC)"
             },
             {
-              "id": "5302.01.115A",
-              "name": "5302.01.115A (Beh.-WC / Wickeltisch)"
+              "id": "5302.01.002",
+              "name": "5302.01.002 (Beh.-WC)"
             },
             {
               "id": "5304.EG.207",
@@ -48619,16 +48841,12 @@
               "name": "5301.U1.032 (WC-Damen)"
             },
             {
-              "id": "5302.01.113",
-              "name": "5302.01.113 (WC-Damen)"
+              "id": "5302.EG.011A",
+              "name": "5302.EG.011A (WC-Damen mit Dusche)"
             },
             {
-              "id": "5302.EG.002A",
-              "name": "5302.EG.002A (WC-Damen / Cafeteria)"
-            },
-            {
-              "id": "5302.EG.025A",
-              "name": "5302.EG.025A (WC-Damen / Wickeltisch)"
+              "id": "5302.EG.051C",
+              "name": "5302.EG.051C (WC-Damen)"
             },
             {
               "id": "5302.TP.210",
@@ -49323,7 +49541,7 @@
               "name": "8123.05.023 (WC-Damen)"
             }
           ],
-          "count": 221,
+          "count": 220,
           "name": "WC Damen"
         },
         {
@@ -49541,16 +49759,16 @@
               "name": "5301.U1.031 (WC-Herren)"
             },
             {
-              "id": "5302.01.115",
-              "name": "5302.01.115 (WC-Herren)"
+              "id": "5302.EG.008A",
+              "name": "5302.EG.008A (WC-Herren mit Dusche)"
             },
             {
-              "id": "5302.EG.002B",
-              "name": "5302.EG.002B (WC-Herren / Cafeteria)"
+              "id": "5302.EG.009A",
+              "name": "5302.EG.009A (WC-Herren mit Dusche)"
             },
             {
-              "id": "5302.EG.025B",
-              "name": "5302.EG.025B (WC-Herren)"
+              "id": "5302.EG.050C",
+              "name": "5302.EG.050C (WC-Herren)"
             },
             {
               "id": "5302.TP.209",
@@ -50419,6 +50637,10 @@
               "name": "5257.EG.013 (WC-Vorraum Damen)"
             },
             {
+              "id": "5302.01.027",
+              "name": "5302.01.027 (WC-Herren)"
+            },
+            {
               "id": "5304.EG.205",
               "name": "5304.EG.205 (WC-Vorraum Damen / Cafeteria)"
             },
@@ -50715,10 +50937,6 @@
               "name": "5510.U1.001E (WC-Damen Vorraum)"
             },
             {
-              "id": "5515.EG.001",
-              "name": "5515.EG.001 (WC-Damen)"
-            },
-            {
               "id": "5515.EG.001A",
               "name": "5515.EG.001A (WC-Vorraum Damen)"
             },
@@ -50881,6 +51099,16 @@
         {
           "children": [
             {
+              "id": "5515.EG.001",
+              "name": "5515.EG.001 (WC-Damen)"
+            }
+          ],
+          "count": 1,
+          "name": "WC-Damen"
+        },
+        {
+          "children": [
+            {
               "id": "5101.U1.014A",
               "name": "5101.U1.014A (Waschraum)"
             },
@@ -50915,22 +51143,6 @@
             {
               "id": "5257.EG.012",
               "name": "5257.EG.012 (Waschraum Damen)"
-            },
-            {
-              "id": "5302.EG.006",
-              "name": "5302.EG.006 (Waschraum)"
-            },
-            {
-              "id": "5302.EG.007A",
-              "name": "5302.EG.007A (Waschraum)"
-            },
-            {
-              "id": "5302.EG.007B",
-              "name": "5302.EG.007B (Waschraum)"
-            },
-            {
-              "id": "5302.EG.007C",
-              "name": "5302.EG.007C (Waschraum)"
             },
             {
               "id": "5304.EG.303",
@@ -50977,7 +51189,7 @@
               "name": "5608.U1.018B (Waschraum)"
             }
           ],
-          "count": 24,
+          "count": 20,
           "name": "Waschraum"
         },
         {
@@ -51333,8 +51545,12 @@
               "name": "5257.EG.020C (Werkstatt)"
             },
             {
-              "id": "5302.EG.019",
-              "name": "5302.EG.019 (Werkstatt)"
+              "id": "5302.EG.003A",
+              "name": "5302.EG.003A (Aufbereitung Siebraum)"
+            },
+            {
+              "id": "5302.EG.071F",
+              "name": "5302.EG.071F (Maschinenwerkstatt/B\u00fcro)"
             },
             {
               "id": "5302.TP.107",
@@ -51825,7 +52041,7 @@
               "name": "5901.EG.048 (E- Werkstatt)"
             }
           ],
-          "count": 155,
+          "count": 156,
           "name": "Werkstatt"
         },
         {
@@ -51895,12 +52111,16 @@
               "name": "5257.EG.004 (Windfang)"
             },
             {
-              "id": "5302.01.119A",
-              "name": "5302.01.119A (Windfang)"
+              "id": "5302.01.700",
+              "name": "5302.01.700 (Empfang S\u00fcd)"
             },
             {
-              "id": "5302.01.119B",
-              "name": "5302.01.119B (Windfang)"
+              "id": "5302.01.707",
+              "name": "5302.01.707 (Empfang Ost 1)"
+            },
+            {
+              "id": "5302.01.708",
+              "name": "5302.01.708 (Empfang Ost 2)"
             },
             {
               "id": "5401.01.101J",
@@ -52003,7 +52223,7 @@
               "name": "5901.EG.001D (Foyer - Windfang)"
             }
           ],
-          "count": 43,
+          "count": 44,
           "name": "Windfang"
         },
         {
@@ -52132,7 +52352,7 @@
             },
             {
               "id": "5504.02.450",
-              "name": "5504.02.450 (Zeichensaal)"
+              "name": "5504.02.450 (Empore Zeichensaal MW zu 1450)"
             },
             {
               "id": "5505.01.550",
