@@ -24,12 +24,12 @@ export class FloorControl extends Evented implements IControl {
     // vertical open/collapse button
     const verticalOpenClose = document.createElement("button");
     verticalOpenClose.classList.add("vertical-oc");
-    verticalOpenClose.innerHTML = "<span id='vertical-oc-text' /><span class='arrow'>▲</span>";
+    verticalOpenClose.innerHTML = `<span id="vertical-oc-text" /><span class="arrow">▲</span>`;
     verticalOpenClose.addEventListener("click", () => this.container.classList.toggle("closed"));
     // horizontal (primarily on mobile)
     const horizontalOpenClose = document.createElement("button");
     horizontalOpenClose.classList.add("horizontal-oc");
-    horizontalOpenClose.innerHTML = "<span id='horizontal-oc-text' /><span class='arrow'>❯</span>";
+    horizontalOpenClose.innerHTML = `<span id="horizontal-oc-text" /><span class="arrow">❯</span>`;
     horizontalOpenClose.addEventListener("click", () => {
       this.container.classList.toggle("closed");
     });

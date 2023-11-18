@@ -68,7 +68,7 @@ const showBrandBetween = breakpoints.greaterOrEqual("md");
             <div v-if="showBrandBetween" class="column official_roomfinder">
               {{ t("official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
-                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" height="50" />
+                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="mx-auto" />
               </a>
             </div>
             <div class="col-auto col-ml-auto col-xs-12 column settings">
@@ -100,7 +100,7 @@ const showBrandBetween = breakpoints.greaterOrEqual("md");
             <div v-if="!showBrandBetween" class="col-12 column official_roomfinder">
               {{ t("official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
-                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" height="50" />
+                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="mx-auto" />
               </a>
             </div>
           </div>
