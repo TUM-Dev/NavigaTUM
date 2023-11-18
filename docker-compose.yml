@@ -94,7 +94,7 @@ services:
       interval: 10s
       start_period: 30s
   meilisearch:
-    image: getmeili/meilisearch:v1.4.1
+    image: getmeili/meilisearch:v1.4.2
     restart: always
     healthcheck:
       test: wget -q --spider http://localhost:7700/health
