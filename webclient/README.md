@@ -131,7 +131,8 @@ There are a few ways of running cypress
 #### e2e tests
 
 For running e2e tests, it is assumed, that you
-- are on a normal machine (not a mac) 
+
+- are on a normal machine (not a mac)
 - have [Chrome](https://www.google.com/intl/de/chrome/) + [Firefox Developer Edition](https://www.mozilla.org/de/firefox/developer/) installed.
 - have the webclient running on `http://localhost:3000` (i.e. `npm run dev`)
 
@@ -158,7 +159,6 @@ pnpm run test:components
 Currently, these are not run in CI, as I could not get cypress to behave in [#892](https://github.com/TUM-Dev/NavigaTUM/pull/892)
 
 #### Running headed
-
 
 ### Writing Tests
 
