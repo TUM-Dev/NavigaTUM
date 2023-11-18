@@ -77,17 +77,15 @@ Each of those files are similar but differ in some aspects.
 If you serve the release build with a webserver (such as Nginx) you need to select the correct files based on the request URL and headers.
 
 ```plain
-<theme>-<lang>.html
-   ↑       ↑
-   │       └── The page language. Either "de" or "en" at the moment.
-   │           It should be selected based on the "lang" Cookie or else the "Accept-Language" header.
+<theme>.html
+   ↑
    └── The page theme. Either "light" or "dark" at the moment.
        It should be selected based on the "theme" Cookie ("light" by default).
 ```
 
 The language-selector is working in development and this differentialtion is only happening in the build.  
 For the theme we can not do so for some reason (If you know of a better way, hit us up).  
-To test a different theme, you can change `$theme` [here](./src/assets/variables.scss). Values are `light` and `dark`.
+To test a different theme, you can change `$theme` [here](./src/assets/variables.scss) and `theme='...'` [here](./index.html). Values are `light` and `dark`.
 
 ## Architecture
 
