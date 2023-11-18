@@ -90,7 +90,8 @@ To test a different theme, you can change `$theme` [here](./src/assets/variables
 ## Architecture
 
 The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/).  
-For state management we use [pinia](https://pinia.vuejs.org/) and our CSS framework is [Spectre.css](https://picturepan2.github.io/spectre/).
+For state management we use [pinia](https://pinia.vuejs.org/).
+Our CSS framework is currently being migrated from [Spectre.css](https://picturepan2.github.io/spectre/) to [Tailwind](https://tailwindcss.com/). (if you're interested in helping out, please contact us ^^)
 
 ### Directory structure (only the important parts)
 
@@ -98,7 +99,7 @@ For state management we use [pinia](https://pinia.vuejs.org/) and our CSS framew
 webclient
 ├── public/         # 🠔 Static assets such as icons, which cannot get inlined
 ├── src/
-│   ├── codegen/    # 🠔 code generated via openapi.yaml for typechecking reasons
+│   ├── api_types/  # 🠔 code generated via openapi.yaml for typechecking reasons
 │   ├── assets/     # 🠔 Static assets such as icons
 │   │   ├── md/                 # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
 │   │   ├── variables.scss      # 🠔 Include-script for Spectre.CSS
@@ -106,12 +107,11 @@ webclient
 │   │   ├── spectre-all.scss    # 🠔 Include-script for Spectre.CSS
 │   │   └── logos               # 🠔 The Logos used by the app
 │   ├── components/ # 🠔 Vue components, which are used in views.
-│   ├── views/      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
-│   ├── router.ts   # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
+│   ├── pages/      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
+│   ├── router.ts   # 🠔 The routes of our app. This is where the views are loaded.
 │   ├── App.vue     # 🠔 Main view
-│   └── main.ts     # 🠔 Inialization of Vue.js. This is the entrypoint of our app, from which App.vue and associated Views/Components are loaded
+│   └── main.ts     # 🠔 Inialization of Vue.js. This is the entrypoint of our app, from which App.vue and associated views/components are loaded
 ├── vite.config.ts  # 🠔 Build configuration
-├── gulpfile.js     # 🠔 Gulp configuration
 └── package.json    # 🠔 Node package definition and dependencies
 ```
 
@@ -128,9 +128,20 @@ The reason behind these tests is that they fundamentally increase the future pro
 
 There are a few ways of running cypress
 
-#### Running headless
+#### e2e tests
 
-For running headless, it is assumed, that you are on a normal machine (not a mac) and have [Chrome](https://www.google.com/intl/de/chrome/) + [Firefox Developer Edition](https://www.mozilla.org/de/firefox/developer/) installed.
+For running e2e tests, it is assumed, that you
+- are on a normal machine (not a mac) 
+- have [Chrome](https://www.google.com/intl/de/chrome/) + [Firefox Developer Edition](https://www.mozilla.org/de/firefox/developer/) installed.
+- have the webclient running on `http://localhost:3000` (i.e. `npm run dev`)
+
+The interface for interacting with cypress can be opened via
+
+```bash
+pnpm run cy:open
+```
+
+##### Running headless
 
 ```bash
 pnpm run test
@@ -138,13 +149,16 @@ pnpm run test
 
 There are also some subtargets preconfigured like `cy:run:chrome` and `cy:run:firefox`, but likely for debugging you want the second mode.
 
-#### Running headed
-
-The interface for interacting with cypress can be opened via
+#### component tests
 
 ```bash
-pnpm run cy:open
+pnpm run test:components
 ```
+
+Currently, these are not run in CI, as I could not get cypress to behave in [#892](https://github.com/TUM-Dev/NavigaTUM/pull/892)
+
+#### Running headed
+
 
 ### Writing Tests
 
