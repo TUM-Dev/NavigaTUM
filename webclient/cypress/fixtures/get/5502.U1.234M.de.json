@@ -12,7 +12,7 @@
       "available": [
         {
           "coordinates": [
-            [11.667617801785777, 48.26719015728],
+            [11.667617801785775, 48.26719015728],
             [11.67160725799323, 48.26672188711042],
             [11.670921198214224, 48.264131842720005],
             [11.66693174200677, 48.26460011288958]
@@ -77,10 +77,10 @@
       "mvg": [
         [
           {
-            "distance": 151.78735095918518,
-            "lat": 48.264861448458,
-            "lon": 11.6712265832549,
-            "name": "Garch.,Forschungsz.",
+            "distance": 151.68967369397032,
+            "lat": 48.2648576635194,
+            "lon": 11.6712180818262,
+            "name": "Garching, Forschungszentrum",
             "station_id": "de:09184:460",
             "sub_stations": [
               {
@@ -98,10 +98,10 @@
             ]
           },
           {
-            "distance": 371.9601320484891,
-            "lat": 48.26754040849,
-            "lon": 11.6655043148943,
-            "name": "Garching, Lichtenbergstra\u00dfe",
+            "distance": 372.836588151467,
+            "lat": 48.2675391261317,
+            "lon": 11.6654896055231,
+            "name": "Technische Universit\u00e4t",
             "station_id": "de:09184:2070",
             "sub_stations": [
               {
@@ -113,10 +113,10 @@
             ]
           },
           {
-            "distance": 536.2865825745195,
-            "lat": 48.2611537274888,
-            "lon": 11.6684777384851,
-            "name": "Garching, Boltzmannstra\u00dfe",
+            "distance": 536.4514806807185,
+            "lat": 48.261153584156,
+            "lon": 11.6684673014264,
+            "name": "Boltzmannstra\u00dfe",
             "station_id": "de:09184:2073",
             "sub_stations": [
               {
@@ -128,10 +128,10 @@
             ]
           },
           {
-            "distance": 734.139257166537,
-            "lat": 48.2619251948158,
-            "lon": 11.6619380032158,
-            "name": "Garching, Ludwig-Prandtl-Str.",
+            "distance": 734.5577320501662,
+            "lat": 48.2619259866443,
+            "lon": 11.6619300467174,
+            "name": "Ludwig-Prandtl-Stra\u00dfe",
             "station_id": "de:09184:2071",
             "sub_stations": [
               {

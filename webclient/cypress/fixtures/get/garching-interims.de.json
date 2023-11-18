@@ -1,8 +1,8 @@
 {
   "aliases": [],
   "coords": {
-    "lat": 48.265346093925615,
-    "lon": 11.66939813473795,
+    "lat": 48.26575827844281,
+    "lon": 11.6700899776052,
     "source": "inferred"
   },
   "id": "garching-interims",
@@ -18,8 +18,8 @@
           "scale": "10000",
           "source": "Roomfinder",
           "width": 676,
-          "x": 347,
-          "y": 219
+          "x": 366,
+          "y": 203
         },
         {
           "file": "rf54.webp",
@@ -29,8 +29,8 @@
           "scale": "200000",
           "source": "Roomfinder",
           "width": 640,
-          "x": 445,
-          "y": 28
+          "x": 446,
+          "y": 27
         },
         {
           "file": "rf156.webp",
@@ -40,8 +40,8 @@
           "scale": "400000",
           "source": "Roomfinder",
           "width": 420,
-          "x": 265,
-          "y": 164
+          "x": 266,
+          "y": 163
         }
       ],
       "default": "rf80"
@@ -55,10 +55,10 @@
       "mvg": [
         [
           {
-            "distance": 145.67749552342772,
-            "lat": 48.264861448458,
-            "lon": 11.6712265832549,
-            "name": "Garch.,Forschungsz.",
+            "distance": 130.3898215039303,
+            "lat": 48.2648576635194,
+            "lon": 11.6712180818262,
+            "name": "Garching, Forschungszentrum",
             "station_id": "de:09184:460",
             "sub_stations": [
               {
@@ -76,10 +76,10 @@
             ]
           },
           {
-            "distance": 377.6279619291787,
-            "lat": 48.26754040849,
-            "lon": 11.6655043148943,
-            "name": "Garching, Lichtenbergstra\u00dfe",
+            "distance": 393.90537089882025,
+            "lat": 48.2675391261317,
+            "lon": 11.6654896055231,
+            "name": "Technische Universit\u00e4t",
             "station_id": "de:09184:2070",
             "sub_stations": [
               {
@@ -91,10 +91,10 @@
             ]
           },
           {
-            "distance": 471.1222486504986,
-            "lat": 48.2611537274888,
-            "lon": 11.6684777384851,
-            "name": "Garching, Boltzmannstra\u00dfe",
+            "distance": 525.9190675284061,
+            "lat": 48.261153584156,
+            "lon": 11.6684673014264,
+            "name": "Boltzmannstra\u00dfe",
             "station_id": "de:09184:2073",
             "sub_stations": [
               {
@@ -106,10 +106,10 @@
             ]
           },
           {
-            "distance": 670.5532721301503,
-            "lat": 48.2619251948158,
-            "lon": 11.6619380032158,
-            "name": "Garching, Ludwig-Prandtl-Str.",
+            "distance": 739.2073320979617,
+            "lat": 48.2619259866443,
+            "lon": 11.6619300467174,
+            "name": "Ludwig-Prandtl-Stra\u00dfe",
             "station_id": "de:09184:2071",
             "sub_stations": [
               {
@@ -128,17 +128,17 @@
     "computed": [
       {
         "name": "Anzahl Geb\u00e4ude",
-        "text": "2"
+        "text": "3"
       },
       {
         "name": "Anzahl R\u00e4ume",
-        "text": "39 (32 ohne Flure etc.)"
+        "text": "43 (36 ohne Flure etc.)"
       }
     ]
   },
   "ranking_factors": {
-    "rank_boost": 2,
-    "rank_combined": 1102,
+    "rank_boost": 3,
+    "rank_combined": 1103,
     "rank_type": 1100,
     "rank_usage": 100
   },
@@ -157,6 +157,12 @@
           "name": "Interims I",
           "subtext": "18 R\u00e4ume",
           "thumb": "5620_0.webp"
+        },
+        {
+          "id": "5539",
+          "name": "Interims III",
+          "subtext": "4 R\u00e4ume",
+          "thumb": null
         }
       ],
       "n_visible": 6
@@ -236,6 +242,10 @@
               "name": "5416.EG.016 (Technik)"
             },
             {
+              "id": "5539.EG.003",
+              "name": "5539.EG.003 (Technikraum Tentomax)"
+            },
+            {
               "id": "5620.01.103",
               "name": "5620.01.103 (Wartungsschacht)"
             },
@@ -252,7 +262,7 @@
               "name": "5620.EG.011 (Technik)"
             }
           ],
-          "count": 9,
+          "count": 10,
           "name": "Geb\u00e4udeleittechnik"
         },
         {
@@ -266,6 +276,18 @@
               "name": "5416.01.004 (H\u00f6rsaal 1 \"Interims II\")"
             },
             {
+              "id": "5539.EG.001A",
+              "name": "5539.EG.001A (H\u00f6rsaal 1A)"
+            },
+            {
+              "id": "5539.EG.001B",
+              "name": "5539.EG.001B (H\u00f6rsaal 1B)"
+            },
+            {
+              "id": "5539.EG.002",
+              "name": "5539.EG.002 (H\u00f6rsaal 2)"
+            },
+            {
               "id": "5620.01.101",
               "name": "5620.01.101 (H\u00f6rsaal 1, \"Interims I\")"
             },
@@ -274,7 +296,7 @@
               "name": "5620.01.102 (H\u00f6rsaal 2, \"Interims I\")"
             }
           ],
-          "count": 4,
+          "count": 7,
           "name": "H\u00f6rsaal"
         },
         {

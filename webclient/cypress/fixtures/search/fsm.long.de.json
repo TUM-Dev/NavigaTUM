@@ -5,21 +5,21 @@
         {
           "id": "5501.EG.101",
           "name": "5501.EG.101 (Fachschaft Maschinenbau / \u0019FSM\u0017B)",
-          "subtext": "Garching, Maschinenwesen (MW)",
+          "subtext": "garching, Maschinenwesen (MW)",
           "subtext_bold": "0101@5501",
           "type": "room"
         },
         {
           "id": "5502.U1.234M",
           "name": "5502.U1.234M (Druckerei Fachschaft Maschinenbau / \u0019FSM\u0017B)",
-          "subtext": "Garching, Maschinenwesen (MW)",
+          "subtext": "garching, Maschinenwesen (MW)",
           "subtext_bold": "U234M@5502",
           "type": "room"
         },
         {
           "id": "5510.EG.011M",
           "name": "5510.EG.011M (Skriptenverkauf Fachschaft Maschinenbau / \u0019FSM\u0017B)",
-          "subtext": "Garching, Maschinenwesen (MW)",
+          "subtext": "garching, Maschinenwesen (MW)",
           "subtext_bold": "0011M@5510",
           "type": "room"
         }

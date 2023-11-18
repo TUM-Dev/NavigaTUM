@@ -8,11 +8,11 @@
     "computed": [
       {
         "name": "Anzahl Geb\u00e4ude",
-        "text": "479"
+        "text": "483"
       },
       {
         "name": "Anzahl R\u00e4ume",
-        "text": "33978 (26662 ohne Flure etc.)"
+        "text": "34081 (26754 ohne Flure etc.)"
       }
     ]
   },
@@ -135,10 +135,6 @@
           "name": "Campus im Olympiapark"
         },
         {
-          "coords": {
-            "lat": 48.884541355672695,
-            "lon": 12.58400509316536
-          },
           "id": "cs",
           "name": "Campus Straubing"
         },

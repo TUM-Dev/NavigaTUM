@@ -9,6 +9,34 @@
   "imgs": [
     {
       "author": {
+        "text": "Heddergott, Andreas / TUM",
+        "url": null
+      },
+      "license": {
+        "text": "frei f\u00fcer Berichterstattung \u00fcber TU M\u00fcnchen"
+      },
+      "name": "mw_1.webp",
+      "source": {
+        "text": "mediaTUM",
+        "url": "https://mediatum.ub.tum.de/652209?show_id=1165202"
+      }
+    },
+    {
+      "author": {
+        "text": "Andreas Heddergott",
+        "url": null
+      },
+      "license": {
+        "text": "\u00a9Andreas Heddergott / TUM150; frei f\u00fcr die Berichterstattung \u00fcber die TUM unter Nennung des Copyrightde"
+      },
+      "name": "mw_2.webp",
+      "source": {
+        "text": "mediaTUM",
+        "url": "https://mediatum.ub.tum.de/1436723?show_id=1437615"
+      }
+    },
+    {
+      "author": {
         "text": "Renardo la vulpo",
         "url": null
       },
@@ -35,34 +63,6 @@
         "text": "mediaTUM",
         "url": "https://mediatum.ub.tum.de/1232767?show_id=998437"
       }
-    },
-    {
-      "author": {
-        "text": "Heddergott, Andreas / TUM",
-        "url": null
-      },
-      "license": {
-        "text": "frei f\u00fcer Berichterstattung \u00fcber TU M\u00fcnchen"
-      },
-      "name": "mw_1.webp",
-      "source": {
-        "text": "mediaTUM",
-        "url": "https://mediatum.ub.tum.de/652209?show_id=1165202"
-      }
-    },
-    {
-      "author": {
-        "text": "Andreas Heddergott",
-        "url": null
-      },
-      "license": {
-        "text": "\u00a9Andreas Heddergott / TUM150; frei f\u00fcr die Berichterstattung \u00fcber die TUM unter Nennung des Copyrightde"
-      },
-      "name": "mw_2.webp",
-      "source": {
-        "text": "mediaTUM",
-        "url": "https://mediatum.ub.tum.de/1436723?show_id=1437615"
-      }
     }
   ],
   "maps": {
@@ -71,7 +71,7 @@
       "available": [
         {
           "coordinates": [
-            [11.667617801785777, 48.26719015728],
+            [11.667617801785775, 48.26719015728],
             [11.67160725799323, 48.26672188711042],
             [11.670921198214224, 48.264131842720005],
             [11.66693174200677, 48.26460011288958]
@@ -132,10 +132,10 @@
       "mvg": [
         [
           {
-            "distance": 171.45136085771452,
-            "lat": 48.264861448458,
-            "lon": 11.6712265832549,
-            "name": "Garch.,Forschungsz.",
+            "distance": 171.111887759142,
+            "lat": 48.2648576635194,
+            "lon": 11.6712180818262,
+            "name": "Garching, Forschungszentrum",
             "station_id": "de:09184:460",
             "sub_stations": [
               {
@@ -153,10 +153,10 @@
             ]
           },
           {
-            "distance": 347.6119944567136,
-            "lat": 48.26754040849,
-            "lon": 11.6655043148943,
-            "name": "Garching, Lichtenbergstra\u00dfe",
+            "distance": 348.3843981354987,
+            "lat": 48.2675391261317,
+            "lon": 11.6654896055231,
+            "name": "Technische Universit\u00e4t",
             "station_id": "de:09184:2070",
             "sub_stations": [
               {
@@ -168,10 +168,10 @@
             ]
           },
           {
-            "distance": 499.57615780846555,
-            "lat": 48.2611537274888,
-            "lon": 11.6684777384851,
-            "name": "Garching, Boltzmannstra\u00dfe",
+            "distance": 499.6764180387375,
+            "lat": 48.261153584156,
+            "lon": 11.6684673014264,
+            "name": "Boltzmannstra\u00dfe",
             "station_id": "de:09184:2073",
             "sub_stations": [
               {
@@ -183,10 +183,10 @@
             ]
           },
           {
-            "distance": 677.1645168316126,
-            "lat": 48.2619251948158,
-            "lon": 11.6619380032158,
-            "name": "Garching, Ludwig-Prandtl-Str.",
+            "distance": 677.5794127376404,
+            "lat": 48.2619259866443,
+            "lon": 11.6619300467174,
+            "name": "Ludwig-Prandtl-Stra\u00dfe",
             "station_id": "de:09184:2071",
             "sub_stations": [
               {
@@ -3431,11 +3431,11 @@
             },
             {
               "id": "5510.EG.012",
-              "name": "5510.EG.012 (Pr\u00fcfungsb\u00fcro)"
+              "name": "5510.EG.012 (Masterpr\u00fcfungsausschuss)"
             },
             {
               "id": "5510.EG.012A",
-              "name": "5510.EG.012A (B\u00fcro)"
+              "name": "5510.EG.012A (Pr\u00fcfungsplanung und Praktikumsamt)"
             },
             {
               "id": "5510.EG.014",
@@ -3443,7 +3443,7 @@
             },
             {
               "id": "5510.EG.015",
-              "name": "5510.EG.015 (Hausmeisterb\u00fcro)"
+              "name": "5510.EG.015 (Bachelorpr\u00fcfungsausschuss)"
             },
             {
               "id": "5510.EG.016",
@@ -3455,7 +3455,7 @@
             },
             {
               "id": "5510.EG.018",
-              "name": "5510.EG.018 (IKOM)"
+              "name": "5510.EG.018 (B\u00fcro)"
             },
             {
               "id": "5510.EG.025",
@@ -3463,7 +3463,7 @@
             },
             {
               "id": "5510.EG.026A",
-              "name": "5510.EG.026A (Leitung Pr\u00fcfungsb\u00fcro)"
+              "name": "5510.EG.026A (Leitung Study & Teaching, Studienfachberatung)"
             },
             {
               "id": "5510.EG.026B",
@@ -3471,11 +3471,11 @@
             },
             {
               "id": "5510.EG.026M",
-              "name": "5510.EG.026M (Studienb\u00fcro)"
+              "name": "5510.EG.026M (School Office Finanzen)"
             },
             {
               "id": "5510.EG.026N",
-              "name": "5510.EG.026N (B\u00fcro)"
+              "name": "5510.EG.026N (Study and Teaching Qualit\u00e4tsmanagement)"
             },
             {
               "id": "5510.EG.050A",
@@ -12479,7 +12479,7 @@
             },
             {
               "id": "5510.EG.029",
-              "name": "5510.EG.029 (Praktikumsraum)"
+              "name": "5510.EG.029 (Zentrum f\u00fcr Schl\u00fcsselkompetenzen Kreativwerkstatt)"
             },
             {
               "id": "5515.EG.005",
@@ -14764,10 +14764,6 @@
               "name": "5510.U1.001E (WC-Damen Vorraum)"
             },
             {
-              "id": "5515.EG.001",
-              "name": "5515.EG.001 (WC-Damen)"
-            },
-            {
               "id": "5515.EG.001A",
               "name": "5515.EG.001A (WC-Vorraum Damen)"
             },
@@ -14784,8 +14780,18 @@
               "name": "5517.EG.870P (WC-Damen Vorraum)"
             }
           ],
-          "count": 20,
+          "count": 19,
           "name": "WC Vorraum"
+        },
+        {
+          "children": [
+            {
+              "id": "5515.EG.001",
+              "name": "5515.EG.001 (WC-Damen)"
+            }
+          ],
+          "count": 1,
+          "name": "WC-Damen"
         },
         {
           "children": [
@@ -15263,7 +15269,7 @@
             },
             {
               "id": "5504.02.450",
-              "name": "5504.02.450 (Zeichensaal)"
+              "name": "5504.02.450 (Empore Zeichensaal MW zu 1450)"
             },
             {
               "id": "5505.01.550",

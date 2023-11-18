@@ -63,149 +63,149 @@
           "type": "area"
         }
       ],
-      "estimatedTotalHits": 134,
+      "estimatedTotalHits": 135,
       "facet": "sites_buildings",
       "n_visible": 10
     },
     {
       "entries": [
         {
+          "id": "0503.EG.360",
+          "name": "0503.EG.360 (Theodor-\u0019F\u0017ischer-H\u00f6rsaal)",
+          "subtext": "stammgel\u00e4nde, Thierschbau (Z3)",
+          "subtext_bold": "0360@0503",
+          "type": "room"
+        },
+        {
           "id": "0503.02.300",
           "name": "0503.02.300 (\u0019F\u0017riedrich von Thiersch H\u00f6rsaal)",
-          "subtext": "Stammgel\u00e4nde, Thierschbau (Z3)",
+          "subtext": "stammgel\u00e4nde, Thierschbau (Z3)",
           "subtext_bold": "2300@0503",
+          "type": "room"
+        },
+        {
+          "id": "0101.Z1.080",
+          "name": "0101.Z1.080 (August-\u0019F\u0017\u00f6ppl-H\u00f6rsaal)",
+          "subtext": "stammgel\u00e4nde, U-Trakt (N1)",
+          "subtext_bold": "N1080ZG@0101",
           "type": "room"
         },
         {
           "id": "5401.01.101K",
           "name": "5401.01.101K (Hans-\u0019F\u0017ischer-H\u00f6rsaal)",
-          "subtext": "Garching, Chemie",
+          "subtext": "garching, Chemie",
           "subtext_bold": "21010@5401",
           "type": "room"
         },
         {
           "id": "5602.EG.001",
           "name": "5602.EG.001 (MI HS 1, \u0019F\u0017riedrich L. Bauer H\u00f6rsaal)",
-          "subtext": "Garching, Mathe/Info (MI)",
+          "subtext": "garching, Mathe/Info (MI)",
           "subtext_bold": "00.02.001@5602",
-          "type": "room"
-        },
-        {
-          "id": "0101.Z1.080",
-          "name": "0101.Z1.080 (August-\u0019F\u0017\u00f6ppl-H\u00f6rsaal)",
-          "subtext": "Stammgel\u00e4nde, U-Trakt (N1)",
-          "subtext_bold": "N1080ZG@0101",
-          "type": "room"
-        },
-        {
-          "id": "0503.EG.360",
-          "name": "0503.EG.360 (Theodor-\u0019F\u0017ischer-H\u00f6rsaal)",
-          "subtext": "Stammgel\u00e4nde, Thierschbau (Z3)",
-          "subtext_bold": "0360@0503",
           "type": "room"
         },
         {
           "id": "4277.EG.127",
           "name": "4277.EG.127 (H\u00f6rsaal 24 (WZWH24))",
-          "subtext": "Weihenstephan, Forstwissenschaften",
+          "subtext": "weihenstephan, Forstwissenschaften",
           "subtext_bold": "2.0.EG 8@4277",
           "type": "room"
         },
         {
           "id": "4277.EG.128",
           "name": "4277.EG.128 (H\u00f6rsaal 23 (WZWH23))",
-          "subtext": "Weihenstephan, Forstwissenschaften",
+          "subtext": "weihenstephan, Forstwissenschaften",
           "subtext_bold": "2.0.EG 6 H23@4277",
           "type": "room"
         },
         {
           "id": "4277.EG.129",
           "name": "4277.EG.129 (H\u00f6rsaal 22 (WZWH22))",
-          "subtext": "Weihenstephan, Forstwissenschaften",
+          "subtext": "weihenstephan, Forstwissenschaften",
           "subtext_bold": "2.0.EG 4@4277",
           "type": "room"
         },
         {
           "id": "4277.EG.130",
           "name": "4277.EG.130 (H\u00f6rsaal 21 (WZWH21))",
-          "subtext": "Weihenstephan, Forstwissenschaften",
+          "subtext": "weihenstephan, Forstwissenschaften",
           "subtext_bold": "2.0.EG 2@4277",
           "type": "room"
         },
         {
           "id": "5301.EG.001",
           "name": "5301.EG.001 (Auditorium)",
-          "subtext": "Garching, Institute for Advanced Study (IAS)",
+          "subtext": "garching, Institute for Advanced Study (IAS)",
           "subtext_bold": "0.001@5301",
+          "type": "room"
+        },
+        {
+          "id": "1608.EG.001",
+          "name": "1608.EG.001 (H\u00f6rsaal)",
+          "subtext": "am-biederstein-mri-au\u00dfenstelle, Altbau 8, Institut f\u00fcr Medizinische Mikr (Bau 608)",
+          "subtext_bold": "8.0.1@1608",
           "type": "room"
         },
         {
           "id": "3505.EG.017",
           "name": "3505.EG.017 (H\u00f6rsaal U7-a)",
-          "subtext": "Campus Straubing (CS), Biotechnologie und Nachhaltigkeit, H\u00f6rsaal und Forschungsgeb\u00e4ude (Uferstra\u00dfe 53)",
+          "subtext": "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, H\u00f6rsaal und Forschungsgeb\u00e4ude (Uferstra\u00dfe 53)",
           "subtext_bold": "00.520@3505",
           "type": "room"
         },
         {
           "id": "3505.EG.021",
           "name": "3505.EG.021 (H\u00f6rsaal U7-b)",
-          "subtext": "Campus Straubing (CS), Biotechnologie und Nachhaltigkeit, H\u00f6rsaal und Forschungsgeb\u00e4ude (Uferstra\u00dfe 53)",
+          "subtext": "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, H\u00f6rsaal und Forschungsgeb\u00e4ude (Uferstra\u00dfe 53)",
           "subtext_bold": "00.510@3505",
           "type": "room"
         },
         {
           "id": "3505.EG.064",
           "name": "3505.EG.064 (H\u00f6rsaal U1)",
-          "subtext": "Campus Straubing (CS), Biotechnologie und Nachhaltigkeit, H\u00f6rsaal und Forschungsgeb\u00e4ude (Uferstra\u00dfe 53)",
+          "subtext": "campus-straubing-cs-biotechnologie-und-nachhaltigkeit, H\u00f6rsaal und Forschungsgeb\u00e4ude (Uferstra\u00dfe 53)",
           "subtext_bold": "00.220@3505",
-          "type": "room"
-        },
-        {
-          "id": "1608.EG.001",
-          "name": "1608.EG.001 (H\u00f6rsaal)",
-          "subtext": "Am Biederstein (MRI Au\u00dfenstelle), Altbau 8, Institut f\u00fcr Medizinische Mikr (Bau 608)",
-          "subtext_bold": "8.0.1@1608",
           "type": "room"
         },
         {
           "id": "5604.EG.011",
           "name": "5604.EG.011 (MI H\u00f6rsaal 2)",
-          "subtext": "Garching, Mathe/Info (MI)",
+          "subtext": "garching, Mathe/Info (MI)",
           "subtext_bold": "00.04.011@5604",
           "type": "room"
         },
         {
           "id": "5606.EG.011",
           "name": "5606.EG.011 (MI H\u00f6rsaal 3)",
-          "subtext": "Garching, Mathe/Info (MI)",
+          "subtext": "garching, Mathe/Info (MI)",
           "subtext_bold": "00.06.011@5606",
           "type": "room"
         },
         {
           "id": "5502.EG.250",
           "name": "5502.EG.250 (Ludwig-Prandtl-H\u00f6rsaal)",
-          "subtext": "Garching, Maschinenwesen (MW)",
+          "subtext": "garching, Maschinenwesen (MW)",
           "subtext_bold": "0250@5502",
           "type": "room"
         },
         {
           "id": "5502.01.250",
           "name": "5502.01.250 (H\u00f6rsaal)",
-          "subtext": "Garching, Maschinenwesen (MW)",
+          "subtext": "garching, Maschinenwesen (MW)",
           "subtext_bold": "1250@5502",
           "type": "room"
         },
         {
           "id": "5506.EG.608M",
           "name": "5506.EG.608M (Otto-Lilienthal-H\u00f6rsaal)",
-          "subtext": "Garching, Maschinenwesen (MW)",
+          "subtext": "garching, Maschinenwesen (MW)",
           "subtext_bold": "0608M@5506",
           "type": "room"
         },
         {
           "id": "5503.EG.350",
           "name": "5503.EG.350 (Egbert-von-Hoyer-H\u00f6rsaal)",
-          "subtext": "Garching, Maschinenwesen (MW)",
+          "subtext": "garching, Maschinenwesen (MW)",
           "subtext_bold": "0350@5503",
           "type": "room"
         }

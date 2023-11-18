@@ -114,7 +114,7 @@ function sendForm() {
 
           <div class="form-group">
             <label class="form-checkbox">
-              <input id="feedback-privacy" v-model="privacyChecked" type="checkbox" />
+              <input v-model="privacyChecked" data-cy="feedback-privacy" type="checkbox" />
               <i class="form-icon" />
               <b>
                 <span>

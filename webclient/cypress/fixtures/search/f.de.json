@@ -33,45 +33,45 @@
           "type": "area"
         }
       ],
-      "estimatedTotalHits": 134,
+      "estimatedTotalHits": 135,
       "facet": "sites_buildings",
       "n_visible": 5
     },
     {
       "entries": [
         {
+          "id": "0503.EG.360",
+          "name": "0503.EG.360 (Theodor-\u0019F\u0017ischer-H\u00f6rsaal)",
+          "subtext": "stammgel\u00e4nde, Thierschbau (Z3)",
+          "subtext_bold": "0360@0503",
+          "type": "room"
+        },
+        {
           "id": "0503.02.300",
           "name": "0503.02.300 (\u0019F\u0017riedrich von Thiersch H\u00f6rsaal)",
-          "subtext": "Stammgel\u00e4nde, Thierschbau (Z3)",
+          "subtext": "stammgel\u00e4nde, Thierschbau (Z3)",
           "subtext_bold": "2300@0503",
+          "type": "room"
+        },
+        {
+          "id": "0101.Z1.080",
+          "name": "0101.Z1.080 (August-\u0019F\u0017\u00f6ppl-H\u00f6rsaal)",
+          "subtext": "stammgel\u00e4nde, U-Trakt (N1)",
+          "subtext_bold": "N1080ZG@0101",
           "type": "room"
         },
         {
           "id": "5401.01.101K",
           "name": "5401.01.101K (Hans-\u0019F\u0017ischer-H\u00f6rsaal)",
-          "subtext": "Garching, Chemie",
+          "subtext": "garching, Chemie",
           "subtext_bold": "21010@5401",
           "type": "room"
         },
         {
           "id": "5602.EG.001",
           "name": "5602.EG.001 (MI HS 1, \u0019F\u0017riedrich L. Bauer H\u00f6rsaal)",
-          "subtext": "Garching, Mathe/Info (MI)",
+          "subtext": "garching, Mathe/Info (MI)",
           "subtext_bold": "00.02.001@5602",
-          "type": "room"
-        },
-        {
-          "id": "0101.Z1.080",
-          "name": "0101.Z1.080 (August-\u0019F\u0017\u00f6ppl-H\u00f6rsaal)",
-          "subtext": "Stammgel\u00e4nde, U-Trakt (N1)",
-          "subtext_bold": "N1080ZG@0101",
-          "type": "room"
-        },
-        {
-          "id": "0503.EG.360",
-          "name": "0503.EG.360 (Theodor-\u0019F\u0017ischer-H\u00f6rsaal)",
-          "subtext": "Stammgel\u00e4nde, Thierschbau (Z3)",
-          "subtext_bold": "0360@0503",
           "type": "room"
         }
       ],
