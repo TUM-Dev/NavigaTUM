@@ -7,6 +7,7 @@ type RootResponse = components["schemas"]["RootResponse"];
 
 const { t } = useI18n({ useScope: "local" });
 const { data } = useFetch<RootResponse>(`/api/get/root`, (d) => setTitle(d.name));
+
 function more(id: string) {
   document.getElementById(`panel-${id}`)?.classList.add("open");
 }
@@ -16,24 +17,25 @@ function less(id: string) {
 </script>
 
 <template>
-  <div id="view-main" v-if="data">
+  <div v-if="data" id="view-main">
     <div class="columns" style="margin-top: 25px">
       <div class="column">
         <h5>{{ t("sites") }}</h5>
       </div>
-      <!--<div class="column col-auto"><a href="#"><i class="icon icon-location" /> {{ t("overview_map") }}</a></div>-->
+      <!-- <div class="column col-auto"><a href="#"><i class="icon icon-location" /> {{ t("overview_map") }}</a></div> -->
     </div>
     <div class="columns">
-      <div class="column col-6 col-xs-12" v-for="site in data.sites_overview" :key="site.id">
+      <div v-for="site in data.sites_overview" :key="site.id" class="col-6 col-xs-12 column">
         <div class="panel" v-bind="{ id: `panel-${site.id}` }">
           <div class="panel-header">
-            <RouterLink :to="'/view/' + site.id" v-if="site.id">
+            <RouterLink v-if="site.id" :to="'/view/' + site.id">
               <div class="columns">
                 <div class="column">
-                  <div class="panel-title h6">{{ site.name }}</div>
+                  <div class="h6 panel-title">{{ site.name }}</div>
                 </div>
-                <div class="column col-auto">
+                <div class="col-auto column">
                   <button
+                    type="button"
                     class="btn btn-link"
                     :style="{ visibility: site.id ? undefined : 'hidden' }"
                     :aria-label="`show the details for the campus '${site.name}'`"
@@ -43,46 +45,51 @@ function less(id: string) {
                 </div>
               </div>
             </RouterLink>
-            <div class="columns" v-else>
+            <div v-else class="columns">
               <div class="column">
-                <div class="panel-title h6">{{ site.name }}</div>
+                <div class="h6 panel-title">{{ site.name }}</div>
               </div>
             </div>
           </div>
           <div class="panel-body">
             <RouterLink
-              :to="'/view/' + c.id"
               v-for="(c, i) in site.children"
-              :class="{ 'link-more': i >= site.n_visible }"
               :key="c.id"
+              :to="'/view/' + c.id"
+              :class="{ 'link-more': i >= site.n_visible }"
               :aria-label="`show the details for the building '${c.name}'`"
             >
               <div class="tile tile-centered">
                 <div class="tile-icon">
                   <div class="example-tile-icon">
-                    <i class="icon icon-location centered" />
+                    <i class="centered icon icon-location" />
                   </div>
                 </div>
                 <div class="tile-content">
                   <div class="tile-title">{{ c.name }}</div>
                 </div>
                 <div class="tile-action">
-                  <button class="btn btn-link" :aria-label="`show the details for the building '${c.name}'`">
+                  <button
+                    type="button"
+                    class="btn btn-link"
+                    :aria-label="`show the details for the building '${c.name}'`"
+                  >
                     <i class="icon icon-arrow-right" />
                   </button>
                 </div>
               </div>
             </RouterLink>
             <button
+              v-if="site.children.length > site.n_visible"
+              type="button"
               class="btn btn-link btn-more"
               :aria-label="t('more_aria')"
               @click="more(site.id)"
-              v-if="site.children.length > site.n_visible"
             >
               <i class="icon icon-arrow-right" />
               {{ t("more") }}
             </button>
-            <button class="btn btn-link btn-less" :aria-label="t('less_aria')" @click="less(site.id)">
+            <button type="button" class="btn btn-less btn-link" :aria-label="t('less_aria')" @click="less(site.id)">
               <i class="icon icon-arrow-up" />
               {{ t("less") }}
             </button>
@@ -193,6 +200,7 @@ function less(id: string) {
   }
 }
 </style>
+
 <i18n lang="yaml">
 de:
   less: weniger

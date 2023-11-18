@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useToggle, useBreakpoints } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
+
 const props = defineProps<{
   content: {
     title?: string;
@@ -16,33 +17,33 @@ const [modalOpen, toggleModal] = useToggle(false);
 </script>
 
 <template>
-  <div class="popover" v-if="showPopoverInstead">
+  <div v-if="showPopoverInstead" class="popover">
     <slot name="icon" />
     <div class="popover-container">
       <div class="card">
-        <div class="card-header" v-if="props.content.title">
+        <div v-if="props.content.title" class="card-header">
           {{ props.content.title }}
         </div>
-        <div class="card-body" v-if="props.content.body">
+        <div v-if="props.content.body" class="card-body">
           {{ props.content.body }}
         </div>
-        <div class="card-footer" v-if="props.content.footer">
+        <div v-if="props.content.footer" class="card-footer">
           {{ props.content.footer }}
         </div>
       </div>
     </div>
   </div>
   <template v-else>
-    <a class="c-hand" @click="toggleModal()" :aria-label="t('show_more_information')">
+    <a class="c-hand" :aria-label="t('show_more_information')" @click="toggleModal()">
       <slot name="icon" />
     </a>
-    <Teleport to="body" v-if="modalOpen">
-      <div class="modal active">
+    <Teleport v-if="modalOpen" to="body">
+      <div class="active modal">
         <a class="modal-overlay" :aria-label="t('close')" @click="toggleModal()" />
         <div class="modal-container">
           <div class="modal-header">
-            <button class="btn btn-clear float-right" :aria-label="t('close')" @click="toggleModal()" />
-            <div v-if="props.content.title" class="modal-title h5">{{ props.content.title }}</div>
+            <button type="button" class="btn btn-clear float-right" :aria-label="t('close')" @click="toggleModal()" />
+            <div v-if="props.content.title" class="h5 modal-title">{{ props.content.title }}</div>
           </div>
           <div class="modal-body">
             <div class="content">

@@ -4,17 +4,17 @@ import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useFeedbackToken } from "@/composables/feedbackToken";
 
-const { t } = useI18n({ useScope: "local" });
-
 const props = defineProps<{
   data: { [index: string]: string | boolean | number };
 }>();
+
+const { t } = useI18n({ useScope: "local" });
 const global = useGlobalStore();
 const loading = ref(false);
 const successUrl = ref("");
 const { error, token } = useFeedbackToken(t);
-
 const privacyChecked = ref(false);
+
 function closeForm() {
   global.feedback.open = false;
   successUrl.value = "";
@@ -99,12 +99,12 @@ function sendForm() {
 </script>
 
 <template>
-  <div class="modal active" data-cy="feedback-modal" v-if="!successUrl">
+  <div v-if="!successUrl" class="active modal" data-cy="feedback-modal">
     <a class="modal-overlay" :aria-label="t('close')" @click="closeForm" />
     <div class="modal-container">
       <div class="modal-header">
-        <button class="btn btn-clear float-right" :aria-label="t('close')" @click="closeForm" />
-        <div class="modal-title h5">{{ t("title") }}</div>
+        <button type="button" class="btn btn-clear float-right" :aria-label="t('close')" @click="closeForm" />
+        <div class="h5 modal-title">{{ t("title") }}</div>
       </div>
       <div class="modal-body">
         <div class="content">
@@ -114,7 +114,7 @@ function sendForm() {
 
           <div class="form-group">
             <label class="form-checkbox">
-              <input type="checkbox" id="feedback-privacy" v-model="privacyChecked" />
+              <input v-model="privacyChecked" data-cy="feedback-privacy" type="checkbox" />
               <i class="form-icon" />
               <b>
                 <span>
@@ -155,15 +155,16 @@ function sendForm() {
           </div>
 
           <div class="float-right">
-            <button class="btn" @click="closeForm">
+            <button type="button" class="btn" @click="closeForm">
               {{ t("cancel") }}
             </button>
             <button
+              type="button"
               class="btn btn-primary"
               data-cy="feedback-send"
-              @click="sendForm"
               :class="{ loading: loading }"
               v-bind="{ disabled: loading || error.blockSend }"
+              @click="sendForm"
             >
               {{ t("send") }}
             </button>
@@ -172,19 +173,19 @@ function sendForm() {
       </div>
     </div>
   </div>
-  <div class="modal active" data-cy="feedback-success-modal" v-if="successUrl">
+  <div v-if="successUrl" class="active modal" data-cy="feedback-success-modal">
     <a class="modal-overlay" :aria-label="t('close')" @click="closeForm" />
     <div class="modal-container">
       <div class="modal-header">
-        <button class="btn btn-clear float-right" :aria-label="t('close')" @click="closeForm" />
-        <div class="modal-title h5">{{ t("thank_you") }}</div>
+        <button type="button" class="btn btn-clear float-right" :aria-label="t('close')" @click="closeForm" />
+        <div class="h5 modal-title">{{ t("thank_you") }}</div>
       </div>
       <div class="modal-body">
         <div class="content">
-          <slot name="success" :successUrl="successUrl" />
+          <slot name="success" :success-url="successUrl" />
 
           <div class="buttons">
-            <button class="btn btn-primary" @click="closeForm">OK</button>
+            <button type="button" class="btn btn-primary" @click="closeForm">OK</button>
           </div>
         </div>
       </div>

@@ -3,23 +3,28 @@ import AppLanguageToggler from "@/components/AppLanguageToggler.vue";
 import AppThemeToggler from "@/components/AppThemeToggler.vue";
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
+import { useBreakpoints } from "@vueuse/core";
+
 const global = useGlobalStore();
 const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
 const lang = (localStorage.getItem("lang") || "de") as "de" | "en";
 // If we do not include the image here like this, vite/rollup is unable to load it
 const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.meta.url);
 const { t } = useI18n({ useScope: "local" });
+const breakpoints = useBreakpoints({ xs: 0, sm: 601, md: 841, lg: 961, xl: 1281 });
+const showBrandBetween = breakpoints.greaterOrEqual("md");
 </script>
+
 <template>
   <footer data-cy="main-footer">
     <div class="container grid-lg">
       <div class="columns">
-        <div class="column col-lg-11 col-mx-auto">
+        <div class="col-lg-11 col-mx-auto column">
           <div class="columns">
-            <div class="column col-auto col-xs-12 links">
+            <div class="col-auto col-xs-12 column links">
               <div class="columns">
                 <ul class="column">
-                  <li>
+                  <li style="min-width: 71px">
                     <a href="https://github.com/TUM-Dev/navigatum">
                       {{ t("sourcecode.text") }}
                     </a>
@@ -38,10 +43,11 @@ const { t } = useI18n({ useScope: "local" });
                 <ul class="column">
                   <li>
                     <button
+                      type="button"
                       data-cy="open-feedback-footer"
-                      @click="global.openFeedback()"
                       class="btn btn-link"
                       :aria-label="t('feedback.open')"
+                      @click="global.openFeedback()"
                     >
                       {{ t("feedback.text") }}
                     </button>
@@ -59,39 +65,39 @@ const { t } = useI18n({ useScope: "local" });
                 </ul>
               </div>
             </div>
-            <div class="column hide-sm official_roomfinder">
+            <div v-if="showBrandBetween" class="column official_roomfinder">
               {{ t("official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
                 <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="mx-auto" />
               </a>
             </div>
-            <div class="column col-auto col-ml-auto col-xs-12 settings">
+            <div class="col-auto col-ml-auto col-xs-12 column settings">
               <div class="columns">
-                <div class="column col-12 col-xs-8 col-mx-auto">
+                <div class="col-12 col-mx-auto col-xs-8 column">
                   <div class="columns setting-group">
-                    <div class="column col">
+                    <div class="col column">
                       <label for="setting-lang"
                         ><small>{{ t("language") }}</small>
                       </label>
                     </div>
-                    <div class="column col-auto">
+                    <div class="col-auto column">
                       <AppLanguageToggler />
                     </div>
                   </div>
                   <div class="columns setting-group">
-                    <div class="column col">
+                    <div class="col column">
                       <label for="setting-theme">
                         <small>{{ t("theme") }}</small>
                       </label>
                     </div>
-                    <div class="column col-auto">
+                    <div class="col-auto column">
                       <AppThemeToggler />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="column col-12 show-sm official_roomfinder mt-3">
+            <div v-if="!showBrandBetween" class="col-12 column official_roomfinder">
               {{ t("official_roomfinder") }}<br />
               <a href="https://tum.de" target="_blank">
                 <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="mx-auto" />
@@ -235,7 +241,7 @@ en:
     open: Open the feedback-form
     text: Feedback
   imprint:
-    link: impressum
+    link: imprint
     text: Imprint
   language: Language
   official_roomfinder: Official roomfinder

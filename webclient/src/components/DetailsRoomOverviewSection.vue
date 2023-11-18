@@ -11,6 +11,9 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n({ useScope: "local" });
+const search = ref("");
+const selected = ref(-1);
+
 const combined_list = computed(() => {
   const usages = props.rooms?.usages || [];
   const combinedList = [] as ChildEntry[];
@@ -19,10 +22,6 @@ const combined_list = computed(() => {
   });
   return combinedList;
 });
-
-const search = ref("");
-const selected = ref(-1);
-
 const selectedRooms = computed<readonly ChildEntry[]>(() => {
   if (selected.value === -1) {
     return combined_list.value;
@@ -49,26 +48,27 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
       <div class="column">
         <h2>{{ t("title") }}</h2>
       </div>
-      <!--<div class="column col-auto">
+      <!-- <div class="column col-auto">
           <div class="dropdown"><a class="btn btn-link dropdown-toggle" tabindex="0">{{ t("by_usage") }} <i class="icon icon-caret" /></a>
             <ul class="menu">
                     <li class="menu-item"><a href="#dropdowns">nach Nutzung</a></li>
                     <li class="menu-item"><a href="#dropdowns">nach ...</a></li>
             </ul>
           </div>
-        </div>-->
+        </div> -->
     </div>
 
     <div class="columns content">
-      <div class="column col-4 col-md-12 col-sm-12" id="category-select">
+      <div id="category-select" class="col-4 col-md-12 col-sm-12 column">
         <div class="panel">
           <div class="panel-header">
-            <div class="panel-title h6">{{ t("by_usage") }}:</div>
+            <div class="h6 panel-title">{{ t("by_usage") }}:</div>
           </div>
           <div class="panel-body">
             <ul class="menu">
               <li class="menu-item">
                 <button
+                  type="button"
                   class="btn"
                   :class="{
                     active: selected === -1,
@@ -83,8 +83,9 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
                 </button>
               </li>
               <li class="divider" data-content="" />
-              <li class="menu-item" v-for="(u, i) in props.rooms.usages" :key="u.name">
+              <li v-for="(u, i) in props.rooms.usages" :key="u.name" class="menu-item">
                 <button
+                  type="button"
                   class="btn"
                   :class="{
                     active: i === selected,
@@ -99,26 +100,31 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
             </ul>
           </div>
           <div class="panel-footer">
-            <button class="btn btn-link btn-sm" @click="selected = -1">
+            <button type="button" class="btn btn-link btn-sm" @click="selected = -1">
               {{ t("remove_selection") }}
             </button>
           </div>
         </div>
       </div>
-      <div class="column col-8 col-md-12 col-sm-12" id="rooms-list">
+      <div id="rooms-list" class="col-8 col-md-12 col-sm-12 column">
         <div class="show-sm" style="height: 15px" />
         <div class="panel">
           <div class="panel-header">
             <div class="input-group">
               <input v-model="search" :placeholder="t('filter')" class="form-input" />
-              <button class="btn btn-primary input-group-btn" @click="search = ''" :aria-label="t('clear_filter')">
+              <button
+                type="button"
+                class="btn btn-primary input-group-btn"
+                :aria-label="t('clear_filter')"
+                @click="search = ''"
+              >
                 <i class="icon icon-cross" />
               </button>
             </div>
           </div>
           <div v-bind="containerProps" class="panel-body">
             <ul v-bind="wrapperProps" class="menu">
-              <li class="menu-item" v-for="item in list" :key="item.index">
+              <li v-for="item in list" :key="item.index" class="menu-item">
                 <RouterLink :to="'/view/' + item.data.id" class="text-ellipsis">
                   <i class="icon icon-location" /> {{ item.data.name }}
                 </RouterLink>
@@ -222,6 +228,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
   }
 }
 </style>
+
 <i18n lang="yaml">
 de:
   any: beliebig

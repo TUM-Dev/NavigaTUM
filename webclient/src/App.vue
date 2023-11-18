@@ -14,10 +14,10 @@ const global = useGlobalStore();
   </AppNavHeader>
 
   <!-- General error message toast -->
-  <div id="content-header" class="container grid-lg" v-cloak>
+  <div v-cloak id="content-header" class="container grid-lg">
     <div class="columns">
-      <div class="column col-lg-11 col-mx-auto">
-        <div class="toast toast-error" v-if="global.error_message">
+      <div class="col-lg-11 col-mx-auto column">
+        <div v-if="global.error_message" class="toast toast-error">
           {{ global.error_message }}
         </div>
       </div>
@@ -27,13 +27,13 @@ const global = useGlobalStore();
   <!-- Page content container -->
   <div id="content" class="container grid-lg visible" :class="{ search_focus: global.search_focused }">
     <div class="columns">
-      <div class="column col-lg-11 col-mx-auto">
+      <div class="col-lg-11 col-mx-auto column">
         <RouterView />
       </div>
     </div>
   </div>
   <!-- Loading indicator -->
-  <div id="loading-page" v-cloak>
+  <div v-cloak id="loading-page">
     <div class="loading loading-lg" />
   </div>
 
