@@ -393,23 +393,6 @@ onMounted(() => {
   }
 }
 
-// 'md' (
-@media (max-width: 840px) {
-  #view-view {
-    .text-md-right {
-      text-align: right !important;
-    }
-
-    .text-md-center {
-      text-align: center !important;
-    }
-
-    .mt-md-3 {
-      margin-top: 1rem !important;
-    }
-  }
-}
-
 // Animations
 @keyframes fade-in {
   from {
@@ -424,7 +407,7 @@ onMounted(() => {
 @keyframes delay-btn {
   from {
     pointer-events: none;
-    color: text-gray;
+    color: $text-gray;
   }
 
   to {
