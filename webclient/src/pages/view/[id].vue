@@ -114,7 +114,7 @@ onMounted(() => {
     <!-- Header image (on mobile) -->
     <a
       v-if="state.image.shown_image"
-      class="c-hand header-image-mobile show-sm"
+      class="cursor-pointer header-image-mobile show-sm"
       @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
     >
       <img

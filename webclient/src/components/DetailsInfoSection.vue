@@ -11,7 +11,7 @@ const appURL = import.meta.env.VITE_APP_URL;
 
 <template>
   <!-- Information section (on mobile) -->
-  <div v-if="state.data?.props?.computed" class="column col-5 col-sm-12 show-sm mt-4">
+  <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column mt-4 show-sm">
     <h2>{{ t("info_title") }}</h2>
     <DetailsPropertyTable />
   </div>
@@ -23,7 +23,7 @@ const appURL = import.meta.env.VITE_APP_URL;
     <div class="card">
       <a
         v-if="state.image.shown_image"
-        class="c-hand card-image"
+        class="card-image cursor-pointer"
         @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
       >
         <img
@@ -37,16 +37,16 @@ const appURL = import.meta.env.VITE_APP_URL;
       </div>
       <div class="card-body">
         <DetailsPropertyTable />
-        <div v-if="state.data?.coords.accuracy === 'building'" class="toast toast-warning mt-3">
+        <div v-if="state.data?.coords.accuracy === 'building'" class="mt-3 toast toast-warning">
           {{ t("msg.inaccurate_only_building") }}<br />
         </div>
         <div
           v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
-          class="toast toast-warning mt-3"
+          class="mt-3 toast toast-warning"
         >
           {{ t("msg.no_floor_overlay") }}
         </div>
-        <div v-if="state.data?.props?.comment" class="toast mt-3">
+        <div v-if="state.data?.props?.comment" class="mt-3 toast">
           {{ state.data.props.comment }}
         </div>
       </div>

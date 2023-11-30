@@ -49,9 +49,9 @@ onMounted(() => setTheme(theme.value, false));
 
 <i18n lang="yaml">
 de:
-  dark: Dunkel
-  light: Hell
+  dark: dunkel
+  light: hell
 en:
-  dark: Dark
-  light: Light
+  dark: dark
+  light: light
 </i18n>
