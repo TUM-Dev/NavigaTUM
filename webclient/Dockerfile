@@ -5,13 +5,7 @@ RUN apt-get update &&  \
 COPY package*.json ./
 RUN npm install
 
-COPY build.sh build.sh
-COPY env env
-COPY *.json ./
-COPY *.ts ./
-COPY public public
-COPY *.html ./
-COPY src src
+COPY . .
 ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 ARG GIT_COMMIT_MESSAGE
