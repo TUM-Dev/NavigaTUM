@@ -324,7 +324,7 @@ onMounted(() => {
 
     .subtitle {
       span {
-        color: text-gray;
+        color: $text-gray;
       }
 
       button svg {
