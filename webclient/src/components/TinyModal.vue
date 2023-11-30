@@ -34,7 +34,7 @@ const [modalOpen, toggleModal] = useToggle(false);
     </div>
   </div>
   <template v-else>
-    <a class="c-hand" :aria-label="t('show_more_information')" @click="toggleModal()">
+    <a class="cursor-pointer" :aria-label="t('show_more_information')" @click="toggleModal()">
       <slot name="icon" />
     </a>
     <Teleport v-if="modalOpen" to="body">

@@ -227,7 +227,7 @@ onMounted(() => {
         <li class="nb_results search-comment">
           <a
             v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
-            class="c-hand"
+            class="cursor-pointer"
             @mousedown="keep_focus = true"
             @click="s.expanded = true"
           >

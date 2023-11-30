@@ -23,7 +23,7 @@ const route = useRoute();
 </script>
 
 <template>
-  <div class="pt-4" id="contentwrapper">
+  <div id="contentwrapper" class="pt-4">
     <Datenschutz v-if="route.params.name === 'datenschutz'" />
     <Privacy v-else-if="route.params.name === 'privacy'" />
     <AboutUs v-else-if="route.params.name === 'about-us'" />

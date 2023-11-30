@@ -84,7 +84,7 @@ const appURL = import.meta.env.VITE_APP_URL;
                 <label
                   v-for="(_, i) in state.data.imgs"
                   :key="i"
-                  class="c-hand nav-item text-hide"
+                  class="cursor-pointer nav-item text-hide"
                   :for="`slide-${i + 1}`"
                   >{{ i + 1 }}</label
                 >
