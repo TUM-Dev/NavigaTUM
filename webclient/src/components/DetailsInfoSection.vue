@@ -29,7 +29,7 @@ const appURL = import.meta.env.VITE_APP_URL;
         <img
           :alt="t('image_alt')"
           :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-          class="block h-auto max-w-full w-full bg-zinc-100"
+          class="bg-zinc-100 block h-auto max-w-full w-full"
         />
       </a>
       <div class="card-header">

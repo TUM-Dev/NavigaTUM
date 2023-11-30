@@ -120,7 +120,7 @@ onMounted(() => {
       <img
         :alt="t('image_alt')"
         :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-        class="block h-auto max-w-full bg-zinc-100"
+        class="bg-zinc-100 block h-auto max-w-full"
       />
     </a>
 
