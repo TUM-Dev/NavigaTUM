@@ -14,53 +14,17 @@ const global = useGlobalStore();
   </AppNavHeader>
 
   <!-- General error message toast -->
-  <div v-cloak id="content-header" class="container grid-lg">
-    <div class="columns">
-      <div class="col-lg-11 col-mx-auto column">
-        <div v-if="global.error_message" class="toast toast-error">
-          {{ global.error_message }}
-        </div>
-      </div>
+  <div v-cloak class="max-w-3xl mt-16">
+    <div v-if="global.error_message" class="toast toast-error">
+      {{ global.error_message }}
     </div>
   </div>
 
   <!-- Page content container -->
-  <div id="content" class="container grid-lg visible" :class="{ search_focus: global.search_focused }">
-    <div class="columns">
-      <div class="col-lg-11 col-mx-auto column">
-        <RouterView />
-      </div>
-    </div>
-  </div>
-  <!-- Loading indicator -->
-  <div v-cloak id="loading-page">
-    <div class="loading loading-lg" />
+  <div class="max-w-3xl min-h-[calc(100vh-200px)] mx-auto transition-opacity" :class="{ 'opacity-70': global.search_focused }">
+    <RouterView />
   </div>
 
   <Footer />
   <FeedbackModal v-if="global.feedback.open" />
 </template>
-
-<style lang="scss">
-@import "@/assets/variables";
-
-// 10px + 60px for header
-#content-header {
-  margin-top: 70px;
-}
-
-#content {
-  min-height: calc(100vh - 200px);
-  &.visible {
-    /* For some reason (I assume because the 'visible' class is not set when vue loads),
-     * this class gets removed if vue adds/removes the 'search_focus' class. For this reason
-     * opacity on page navigation is set as style property in JS. It is only guaranteed that
-     * this class is there on page-load. */
-    transition: opacity 0.07s;
-  }
-
-  &.search_focus {
-    opacity: 0.7;
-  }
-}
-</style>
