@@ -3,6 +3,7 @@ import { computed, ref } from "vue";
 import { useVirtualList } from "@vueuse/core";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
+import { MapPinIcon, ChevronRightIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 type RoomsOverview = components["schemas"]["RoomsOverview"];
 type ChildEntry = components["schemas"]["ChildEntry"];
 
@@ -75,7 +76,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
                   }"
                   @click="selected = -1"
                 >
-                  <i class="icon icon-arrow-right" />
+                  <ChevronRightIcon class="h-4 w-4" />
                   <div class="menu-text">
                     {{ t("any") }}
                   </div>
@@ -92,7 +93,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
                   }"
                   @click="selected = i"
                 >
-                  <i class="icon icon-arrow-right" />
+                  <ChevronRightIcon class="h-4 w-4" />
                   <div class="menu-text">{{ u.name }}</div>
                   <label class="label">{{ u.count }}</label>
                 </button>
@@ -118,7 +119,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
                 :aria-label="t('clear_filter')"
                 @click="search = ''"
               >
-                <i class="icon icon-cross" />
+                <XMarkIcon class="h-4 w-4" />
               </button>
             </div>
           </div>
@@ -126,7 +127,9 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
             <ul v-bind="wrapperProps" class="menu">
               <li v-for="item in list" :key="item.index" class="menu-item">
                 <RouterLink :to="'/view/' + item.data.id" class="text-ellipsis">
-                  <i class="icon icon-location" /> {{ item.data.name }}
+                  <div class="flex flex-row gap-1">
+                    <MapPinIcon class="h-4 mt-0.5 w-4" /> {{ item.data.name }}
+                  </div>
                 </RouterLink>
               </li>
             </ul>

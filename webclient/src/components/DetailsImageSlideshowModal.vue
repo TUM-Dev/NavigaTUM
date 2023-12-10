@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useDetailsStore } from "@/stores/details";
 import { useI18n } from "vue-i18n";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/outline";
 
 const state = useDetailsStore();
 const { t } = useI18n({ useScope: "local" });
@@ -53,7 +54,7 @@ const appURL = import.meta.env.VITE_APP_URL;
                     :for="`slide-${i}`"
                     @click="state.showImageSlideshow(i - 1)"
                   >
-                    <i class="icon icon-arrow-left" />
+                    <ChevronLeftIcon class="h-4 w-4" />
                   </label>
                   <label
                     v-if="i + 1 !== state.data.imgs.length"
@@ -61,7 +62,7 @@ const appURL = import.meta.env.VITE_APP_URL;
                     :for="`slide-${i + 2}`"
                     @click="state.showImageSlideshow(i + 1)"
                   >
-                    <i class="icon icon-arrow-right" />
+                    <ChevronRightIcon class="h-4 w-4" />
                   </label>
                   <div itemscope itemtype="http://schema.org/ImageObject">
                     <img

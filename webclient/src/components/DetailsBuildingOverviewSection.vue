@@ -2,6 +2,7 @@
 import { useToggle } from "@vueuse/core";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
+import { ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/24/outline";
 type BuildingsOverview = components["schemas"]["BuildingsOverview"];
 
 const props = defineProps<{
@@ -44,7 +45,7 @@ const appURL = import.meta.env.VITE_APP_URL;
                   class="btn btn-link"
                   :aria-label="`show the details for the building '${b.name}'`"
                 >
-                  <i class="icon icon-arrow-right" />
+                  <ChevronRightIcon class="h-4 w-4" />
                 </button>
               </div>
             </div>
@@ -54,14 +55,16 @@ const appURL = import.meta.env.VITE_APP_URL;
     </div>
     <div v-if="props.buildings.n_visible < props.buildings.entries.length">
       <button type="button" class="btn btn-link" @click="toggleBuildingsExpanded()">
-        <template v-if="buildingsExpanded">
-          <i class="icon icon-arrow-up" />
-          {{ t("less") }}
-        </template>
-        <template v-else>
-          <i class="icon icon-arrow-right" />
-          {{ t("more") }}
-        </template>
+        <div class="flex flex-row gap-2">
+          <template v-if="buildingsExpanded">
+            <ChevronUpIcon class="h-4 w-4" />
+            {{ t("less") }}
+          </template>
+          <template v-else>
+            <ChevronDownIcon class="h-4 w-4" />
+            {{ t("more") }}
+          </template>
+        </div>
       </button>
     </div>
   </section>

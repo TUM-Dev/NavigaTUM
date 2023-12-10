@@ -8,6 +8,7 @@ import { computed, onMounted, reactive, ref } from "vue";
 import type { SectionFacet } from "@/modules/autocomplete";
 import type { components } from "@/api_types";
 
+import { MapPinIcon, MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
 type SearchResponse = components["schemas"]["SearchResponse"];
 
 const { t } = useI18n({ useScope: "local" });
@@ -162,7 +163,7 @@ onMounted(() => {
         @blur="searchBlur"
         @keydown="onKeyDown"
       />
-      <i class="form-icon icon icon-search" />
+      <MagnifyingGlassIcon class="form-icon h-4 w-4" />
       <button
         type="button"
         class="btn btn-lg btn-primary input-group-btn"
@@ -201,8 +202,8 @@ onMounted(() => {
               <div class="tile">
                 <div class="tile-icon">
                   <template v-if="e.type === 'room' || e.type === 'virtual_room'">
-                    <i v-if="e.parsed_id" class="icon icon-search" />
-                    <i v-else class="icon icon-location" />
+                    <MagnifyingGlassIcon v-if="e.parsed_id" class="h-4 w-4" />
+                    <MapPinIcon v-else class="h-4 w-4" />
                   </template>
                   <img v-else src="@/assets/thumb-building.webp" class="avatar avatar-sm" />
                 </div>
@@ -240,17 +241,17 @@ onMounted(() => {
       <!-- <li class="search-comment actions">
                     <div>
                       <button class="btn btn-sm">
-                        <i class="icon icon-arrow-right" /> in Gebäude Suchen
+                        <ChevronRightIcon class="h-4 w-4" /> in Gebäude Suchen
                       </button>
                     </div>
                     <div>
                       <button class="btn btn-sm">
-                        <i class="icon icon-location" /> Hörsäle
+                        <MapPinIcon class="h-4 w-4" /> Hörsäle
                       </button>
                     </div>
                     <div>
                       <button class="btn btn-sm">
-                        <i class="icon icon-location" /> Seminarräume
+                        <MapPinIcon class="h-4 w-4" /> Seminarräume
                       </button>
                     </div>
                   </li> -->
@@ -260,7 +261,7 @@ onMounted(() => {
                     <a href="#">
                       <div class="tile">
                         <div class="tile-icon">
-                          <i class="icon icon-time" />
+                          <ClockIcon class="h-4 w-4"  />
                         </div>
                         <div class="tile-content">
                           <span class="tile-title">
