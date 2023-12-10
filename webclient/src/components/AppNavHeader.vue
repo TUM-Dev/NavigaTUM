@@ -1,5 +1,5 @@
 <template>
-  <header class="navbar">
+  <header class="fixed navbar top-0 w-full z-10">
     <div class="container grid-lg">
       <div class="columns">
         <div class="column hide-lg">
@@ -22,11 +22,7 @@
 .navbar {
   padding: 10px 0;
   box-shadow: 0 2px 3px $header-shadow-color;
-  width: 100%;
-  position: fixed;
   background: $header-color;
-  top: 0;
-  z-index: 2000;
 
   #logo {
     height: 24px;

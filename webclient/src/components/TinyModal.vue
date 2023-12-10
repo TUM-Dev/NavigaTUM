@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useToggle, useBreakpoints } from "@vueuse/core";
+import { useBreakpoints } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
+import { ref } from "vue";
 
 const props = defineProps<{
   content: {
@@ -13,7 +14,7 @@ const props = defineProps<{
 const { t } = useI18n({ useScope: "local" });
 const breakpoints = useBreakpoints({ xs: 0, sm: 601, md: 841, lg: 961, xl: 1281 });
 const showPopoverInstead = breakpoints.greaterOrEqual("md");
-const [modalOpen, toggleModal] = useToggle(false);
+const modalOpen = ref(false);
 </script>
 
 <template>
@@ -34,34 +35,19 @@ const [modalOpen, toggleModal] = useToggle(false);
     </div>
   </div>
   <template v-else>
-    <a class="cursor-pointer" :aria-label="t('show_more_information')" @click="toggleModal()">
+    <a class="cursor-pointer" :aria-label="t('show_more_information')" @click="() => (modalOpen = true)">
       <slot name="icon" />
     </a>
-    <Teleport v-if="modalOpen" to="body">
-      <div class="active modal">
-        <a class="modal-overlay" :aria-label="t('close')" @click="toggleModal()" />
-        <div class="modal-container">
-          <div class="modal-header">
-            <button type="button" class="btn btn-clear float-right" :aria-label="t('close')" @click="toggleModal()" />
-            <div v-if="props.content.title" class="h5 modal-title">{{ props.content.title }}</div>
-          </div>
-          <div class="modal-body">
-            <div class="content">
-              <p v-if="props.content.body">{{ props.content.body }}</p>
-              <p v-if="props.content.footer">{{ props.content.footer }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Teleport>
+    <Modal v-model:open="modalOpen" :title="props.content.title">
+      <p v-if="props.content.body">{{ props.content.body }}</p>
+      <p v-if="props.content.footer">{{ props.content.footer }}</p>
+    </Modal>
   </template>
 </template>
 
 <i18n lang="yaml">
 de:
   show_more_information: Mehr Informationen anzeigen
-  close: Schließen
 en:
   show_more_information: Show more information
-  close: Close
 </i18n>

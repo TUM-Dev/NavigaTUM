@@ -127,9 +127,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
             <ul v-bind="wrapperProps" class="menu">
               <li v-for="item in list" :key="item.index" class="menu-item">
                 <RouterLink :to="'/view/' + item.data.id" class="text-ellipsis">
-                  <div class="flex flex-row gap-1">
-                    <MapPinIcon class="h-4 mt-0.5 w-4" /> {{ item.data.name }}
-                  </div>
+                  <div class="flex flex-row gap-1"><MapPinIcon class="h-4 mt-0.5 w-4" /> {{ item.data.name }}</div>
                 </RouterLink>
               </li>
             </ul>

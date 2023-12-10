@@ -1,0 +1,121 @@
+<script setup lang="ts">
+import type { components } from "@/api_types";
+import { useI18n } from "vue-i18n";
+import { onMounted, watch } from "vue";
+import { useInterval } from "@vueuse/core";
+type RoomfinderMapEntry = components["schemas"]["RoomfinderMapEntry"];
+
+const props = defineProps<{
+  map: RoomfinderMapEntry;
+  id: string;
+}>();
+
+const { t } = useI18n({ useScope: "local" });
+const appURL = import.meta.env.VITE_APP_URL;
+const crosshairURL = new URL(`/src/assets/map/roomfinder_cross-v2.webp`, import.meta.url);
+const crosshairSprite = new Image();
+crosshairSprite.src = crosshairURL.href;
+
+// count will increase every 150ms
+const counter = useInterval(150);
+const animationColors = [
+  "#ff6666",
+  "#f19f9f",
+  "#f8cfcf",
+  "#ffffff",
+  "#e4efff",
+  "#aecdff",
+  "#70a5ff",
+  "#3984ff",
+  "#0062ff",
+  "#3984ff",
+  "#70a5ff",
+  "#aecdff",
+  "#e4efff",
+  "#ffffff",
+  "#f8cfcf",
+  "#f19f9f",
+  "#ff6666",
+  "#ff5151",
+];
+watch(counter, () => {
+  const ctx = getContext();
+  if (ctx == null) return;
+
+  const size = 10;
+  const outerBorder = 2;
+  //outer
+  ctx.fillStyle = "#fff";
+  ctx?.fillRect(
+    props.map.x - size / 2 - outerBorder,
+    props.map.y - size / 2 - outerBorder,
+    size + outerBorder * 2,
+    size + outerBorder * 2,
+  );
+  // inner
+  ctx.fillStyle = animationColors[counter.value % animationColors.length];
+  ctx?.fillRect(props.map.x - size / 2, props.map.y - size / 2, size, size);
+  // stripes
+  ctx.setLineDash([1, 2]);
+  ctx.beginPath();
+
+  ctx.moveTo(props.map.x, 0);
+  ctx.lineTo(props.map.x, props.map.y - size);
+  ctx.moveTo(props.map.x, props.map.y + size);
+  ctx.lineTo(props.map.x, props.map.height);
+
+  ctx.moveTo(0, props.map.y);
+  ctx.lineTo(props.map.x - size, props.map.y);
+  ctx.moveTo(props.map.x + size, props.map.y);
+  ctx.lineTo(props.map.width, props.map.y);
+
+  ctx.stroke();
+});
+
+function getContext(): CanvasRenderingContext2D | null {
+  const canvas = document.getElementById(props.id) as HTMLCanvasElement;
+  return canvas?.getContext("2d");
+}
+function draw() {
+  const ctx = getContext();
+  if (ctx == null) return;
+  const mapURL = new URL(`${appURL}/cdn/maps/roomfinder/${props.map.file}`, import.meta.url);
+  const mapSprite = new Image();
+  mapSprite.src = mapURL.href;
+
+  mapSprite.addEventListener("load", () => {
+    ctx?.drawImage(mapSprite, 0, 0);
+    ctx.textAlign="end"
+    ctx.font = "12px sans-serif";
+    const txt=t("img_source") + ": "+ props.map.source
+    const measurement=ctx.measureText(txt)
+    const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
+    ctx.fillStyle = theme==="light"?"#fafafa":"#1f2937"
+    ctx?.fillRect(props.map.width-measurement.width-10, props.map.height-20, measurement.width+10, 20);
+    ctx.fillStyle = theme==="light"?"#374151":"#DBD5D1"
+    ctx.fillText(txt,props.map.width-5,props.map.height-5);
+})
+  }
+watch(props, draw);
+onMounted(draw);
+</script>
+
+<template>
+  <div
+class="mx-auto"
+:class="{
+'max-w-sm': map.height > map.width,
+'max-w-2xl': map.height <= map.width,
+  }">
+    <canvas :id="props.id" class=" w-full" :width="map.width" :height="map.height"> </canvas>
+  </div>
+</template>
+
+<i18n lang="yaml">
+de:
+  img_alt: Bild des Lageplans
+  img_source: Bildquelle
+en:
+  img_alt: Image showing the Site Plan
+  img_source: Image source
+</i18n>

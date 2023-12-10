@@ -86,7 +86,6 @@ onMounted(() => {
   window.addEventListener("resize", () => {
     if (state.map.selected === selectedMap.roomfinder) {
       roomfinderMap.value?.loadRoomfinderMap(state.map.roomfinder.selected_index);
-      roomfinderMap.value?.loadRoomfinderModalMap();
     }
   });
 
@@ -303,7 +302,6 @@ de:
   header:
     calendar: Kalender öffnen
     copy_link: Link kopieren
-    external_link: Externe Links
     favorites: Zu Favoriten hinzufügen
 en:
   image_alt: Header image, showing the building
@@ -315,6 +313,5 @@ en:
   header:
     calendar: Open calendar
     copy_link: Copy link
-    external_link: External links
     favorites: Add to favorites
 </i18n>

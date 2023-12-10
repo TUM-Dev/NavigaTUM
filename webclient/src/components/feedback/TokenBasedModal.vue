@@ -3,6 +3,8 @@ import { useGlobalStore } from "@/stores/global";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useFeedbackToken } from "@/composables/feedbackToken";
+import Modal from "@/components/Modal.vue";
+import Toast from "@/components/Toast.vue";
 
 const props = defineProps<{
   data: { [index: string]: string | boolean | number };
@@ -20,7 +22,6 @@ function closeForm() {
   successUrl.value = "";
   error.blockSend = false;
   error.message = "";
-  document.body.classList.remove("no-scroll");
 }
 
 enum SubmissionStatus {
@@ -99,116 +100,88 @@ function sendForm() {
 </script>
 
 <template>
-  <div v-if="!successUrl" class="active modal" data-cy="feedback-modal">
-    <a class="modal-overlay" :aria-label="t('close')" @click="closeForm" />
-    <div class="modal-container">
-      <div class="modal-header">
-        <button type="button" class="btn btn-clear float-right" :aria-label="t('close')" @click="closeForm" />
-        <div class="h5 modal-title">{{ t("title") }}</div>
-      </div>
-      <div class="modal-body">
-        <div class="content">
-          <div class="text-error" data-cy="feedback-error">{{ error.message }}</div>
+  <Modal
+    v-if="!successUrl"
+    v-model:open="global.feedback.open"
+    data-cy="feedback-modal"
+    :title="t('title')"
+    @close="closeForm"
+  >
+    <Toast v-if="error.message" class="mb-4" :msg="error.message" level="error" data-cy="feedback-error" />
 
-          <slot name="modal" />
-
-          <div class="form-group">
-            <label class="form-checkbox">
-              <input v-model="privacyChecked" data-cy="feedback-privacy" type="checkbox" />
-              <i class="form-icon" />
-              <b>
-                <span>
-                  {{ t("public.agreement.pre") }}
-                  <a href="https://github.com/TUM-Dev/navigatum/issues" target="_blank">
-                    {{ t("public.github_project_issues") }}
-                  </a>
-                  {{ t("public.agreement.post") }}
-                </span>
-              </b>
-              <br />
-              <span>
-                {{ t("public.disclaimer.pre") }}
-                <a href="https://docs.github.com/en/github/site-policy" target="_blank">
-                  {{ t("public.github_site_policy") }}
-                </a>
-                {{ t("public.disclaimer.post") }}
-              </span>
-              <span>
-                {{ t("public.processing_based_on_gdpr") }}
-              </span>
-              <span>
-                {{ t("public.right_to_information") }}
-                {{ t("public.right_of_appeal") }}
-              </span>
-              <span>
-                {{ t("public.objection_instruction.pre") }}
-                <RouterLink to="/about/impressum">
-                  {{ t("public.imprint") }}
-                </RouterLink>
-                {{ t("public.objection_instruction.post") }}
-              </span>
-              <span>
-                {{ t("public.question_contact") }}
-                (<a href="https://datenschutz.tum.de" target="_blank">datenschutz.tum.de</a>).
-              </span>
-            </label>
-          </div>
-
-          <div class="float-right">
-            <button type="button" class="btn" @click="closeForm">
-              {{ t("cancel") }}
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              data-cy="feedback-send"
-              :class="{ loading: loading }"
-              v-bind="{ disabled: loading || error.blockSend }"
-              @click="sendForm"
-            >
-              {{ t("send") }}
-            </button>
-          </div>
-        </div>
-      </div>
+    <slot name="modal" />
+    <div class="form-group">
+      <label class="form-checkbox">
+        <input v-model="privacyChecked" data-cy="feedback-privacy" type="checkbox" />
+        <i class="form-icon" />
+        <b>
+          <span>
+            {{ t("public.agreement.pre") }}
+            <a href="https://github.com/TUM-Dev/navigatum/issues" target="_blank">
+              {{ t("public.github_project_issues") }}
+            </a>
+            {{ t("public.agreement.post") }}
+          </span>
+        </b>
+        <br />
+        <span>
+          {{ t("public.disclaimer.pre") }}
+          <a href="https://docs.github.com/en/github/site-policy" target="_blank">
+            {{ t("public.github_site_policy") }}
+          </a>
+          {{ t("public.disclaimer.post") }}
+        </span>
+        <span>
+          {{ t("public.processing_based_on_gdpr") }}
+        </span>
+        <span>
+          {{ t("public.right_to_information") }}
+          {{ t("public.right_of_appeal") }}
+        </span>
+        <span>
+          {{ t("public.objection_instruction.pre") }}
+          <RouterLink to="/about/impressum">
+            {{ t("public.imprint") }}
+          </RouterLink>
+          {{ t("public.objection_instruction.post") }}
+        </span>
+        <span>
+          {{ t("public.question_contact") }}
+          (<a href="https://datenschutz.tum.de" target="_blank">datenschutz.tum.de</a>).
+        </span>
+      </label>
     </div>
-  </div>
-  <div v-if="successUrl" class="active modal" data-cy="feedback-success-modal">
-    <a class="modal-overlay" :aria-label="t('close')" @click="closeForm" />
-    <div class="modal-container">
-      <div class="modal-header">
-        <button type="button" class="btn btn-clear float-right" :aria-label="t('close')" @click="closeForm" />
-        <div class="h5 modal-title">{{ t("thank_you") }}</div>
-      </div>
-      <div class="modal-body">
-        <div class="content">
-          <slot name="success" :success-url="successUrl" />
 
-          <div class="buttons">
-            <button type="button" class="btn btn-primary" @click="closeForm">OK</button>
-          </div>
-        </div>
-      </div>
+    <div class="float-right">
+      <button type="button" class="btn" @click="closeForm">
+        {{ t("cancel") }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-cy="feedback-send"
+        :class="{ loading: loading }"
+        v-bind="{ disabled: loading || error.blockSend }"
+        @click="sendForm"
+      >
+        {{ t("send") }}
+      </button>
     </div>
-  </div>
+  </Modal>
+  <Modal
+    v-if="successUrl"
+    v-model:open="global.feedback.open"
+    data-cy="feedback-success-modal"
+    :title="t('thank_you')"
+    @close="closeForm"
+  >
+    <slot name="success" :success-url="successUrl" />
+
+    <div class="buttons">
+      <button type="button" class="btn btn-primary" @click="closeForm">OK</button>
+    </div>
+  </Modal>
 </template>
-
-<style lang="scss" scoped>
-@import "@/assets/variables";
-
-.modal {
-  z-index: 3000;
-
-  .modal-container {
-    max-height: 95vh;
-    box-shadow: $feedback-box-shadow;
-  }
-
-  .modal-overlay {
-    background: $feedback-overlay-bg;
-  }
-}
-</style>
 
 <i18n lang="yaml">
 de:
@@ -247,7 +220,6 @@ de:
     right_of_appeal: Es besteht zudem ein Beschwerderecht beim Bayerischen Landesbeauftragten für den Datenschutz.
     right_to_information: Unter den gesetzlichen Voraussetzungen und einem vorhandenen Personenbezug der Daten besteht ein Recht auf Auskunft, sowie auf Berichtigung oder Löschung oder auf Einschränkung der Verarbeitung oder eines Widerspruchsrechts gegen die Verarbeitung sowie des Rechts auf Datenübertragbarkeit.
   send: Senden
-  close: Schließen
   thank_you: Vielen Dank!
 en:
   title: Send Feedback
@@ -285,6 +257,5 @@ en:
     right_of_appeal: There is also a right of appeal to the Bavarian State Commissioner for Data Protection.
     right_to_information: Under the legal conditions and an existing personal reference of the data, there is a right to information, as well as to correction or deletion or to restriction of processing or a right to object to processing as well as the right to data portability.
   send: Send
-  close: Close
   thank_you: Thank you!
 </i18n>
