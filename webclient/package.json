@@ -19,6 +19,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@heroicons/vue": "2.1.1",
     "@vueuse/core": "10.7.2",
     "maplibre-gl": "4.0.1",
     "markdown-it-prism": "2.3.0",

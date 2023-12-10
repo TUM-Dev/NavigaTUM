@@ -3,6 +3,7 @@ import { setTitle } from "@/composables/common";
 import { useFetch } from "@/composables/fetch";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
+import { ArrowRightIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/24/outline";
 type RootResponse = components["schemas"]["RootResponse"];
 
 const { t } = useI18n({ useScope: "local" });
@@ -40,7 +41,7 @@ function less(id: string) {
                     :style="{ visibility: site.id ? undefined : 'hidden' }"
                     :aria-label="`show the details for the campus '${site.name}'`"
                   >
-                    <i class="icon icon-forward" />
+                    <ArrowRightIcon class="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -74,7 +75,7 @@ function less(id: string) {
                     class="btn btn-link"
                     :aria-label="`show the details for the building '${c.name}'`"
                   >
-                    <i class="icon icon-arrow-right" />
+                    <ChevronRightIcon class="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -86,12 +87,16 @@ function less(id: string) {
               :aria-label="t('more_aria')"
               @click="more(site.id)"
             >
-              <i class="icon icon-arrow-right" />
-              {{ t("more") }}
+              <div class="flex flex-row gap-2">
+                <ChevronDownIcon class="h-4 w-4" />
+                {{ t("more") }}
+              </div>
             </button>
             <button type="button" class="btn btn-less btn-link" :aria-label="t('less_aria')" @click="less(site.id)">
-              <i class="icon icon-arrow-up" />
-              {{ t("less") }}
+              <div class="flex flex-row gap-2">
+                <ChevronUpIcon class="h-4 w-4" />
+                {{ t("less") }}
+              </div>
             </button>
           </div>
         </div>

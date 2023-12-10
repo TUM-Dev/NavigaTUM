@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useClipboard, useShare } from "@vueuse/core";
+import { useClipboard, useShare, useToggle } from "@vueuse/core";
 import type { UseShareOptions } from "@vueuse/core";
 import type { components } from "@/api_types";
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { ShareIcon } from "@heroicons/vue/24/outline";
 
 const props = defineProps<{
   readonly coords: components["schemas"]["Coordinate"];
@@ -25,31 +26,50 @@ const shareOptions = computed<UseShareOptions>(() => ({
 </script>
 
 <template>
-  <div class="link-popover">
-    <strong>{{ t("open_in") }}</strong>
-    <a
-      class="btn"
-      target="_blank"
-      :href="`https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lon}#map=17/${coords.lat}/${coords.lon}&layers=T`"
-      >OpenStreetMap</a
-    ><br />
-    <a
-      class="btn"
-      target="_blank"
-      :href="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
-      >Google Maps</a
-    >
-    <a class="btn" :href="`geo:${coords.lat},${coords.lon}`">
-      {{ t("other_app") }}
-    </a>
-    <strong>{{ t("share") }}</strong>
-    <button v-if="shareIsSupported" type="button" class="btn" @click="share(shareOptions)">
-      {{ t("share_link") }}
-    </button>
-    <button v-if="clipboardIsSupported" type="button" class="btn" @click="copy()">
-      {{ copied ? t("copied") : t("copy_link") }}
-    </button>
-  </div>
+  <button type="button" :title="t('header.external_link')" @click="toggleModal()">
+    <!-- The onclick handler is a fix for Safari -->
+    <ShareIcon class="h-4 w-4" />
+  </button>
+  <Teleport v-if="modalOpen" to="body">
+    <div class="active modal">
+      <a class="modal-overlay" :aria-label="t('close')" @click="toggleModal()" />
+      <div class="modal-container">
+        <div class="modal-header">
+          <button type="button" class="btn btn-clear float-right" :aria-label="t('close')" @click="toggleModal()" />
+          <div class="h5 modal-title">{{ t("share") }}</div>
+        </div>
+        <div class="modal-body">
+          <div class="flex flex-col gap-5">
+            <div class="flex flex-col gap-2">
+            <strong>{{ t("open_in") }}</strong>
+            <a
+              class="btn"
+              target="_blank"
+              :href="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
+              >Google Maps</a>
+              <a
+                class="btn"
+                target="_blank"
+                :href="`https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lon}#map=17/${coords.lat}/${coords.lon}&layers=T`"
+              >OpenStreetMap</a>
+            <a class="btn" :href="`geo:${coords.lat},${coords.lon}`">
+              {{ t("other_app") }}
+            </a>
+              </div>
+            <div class="flex flex-col gap-2">
+            <strong>{{ t("share") }}</strong>
+            <button v-if="shareIsSupported" type="button" class="btn" @click="share(shareOptions())">
+              {{ t("share_link") }}
+            </button>
+            <button v-if="clipboardIsSupported" type="button" class="btn" @click="copy()">
+              {{ copied ? t("copied") : t("copy_link") }}
+            </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <i18n lang="yaml">

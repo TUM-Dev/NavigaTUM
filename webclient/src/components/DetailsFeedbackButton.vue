@@ -2,6 +2,7 @@
 import { useGlobalStore } from "@/stores/global";
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { FlagIcon } from "@heroicons/vue/24/outline";
 
 const route = useRoute();
 const global = useGlobalStore();
@@ -16,7 +17,7 @@ const { t } = useI18n({ useScope: "local" });
     data-cy="open-feedback-details"
     @click="global.openFeedback('entry', `[${route.params.id}]: `)"
   >
-    <i class="icon icon-flag" />
+    <FlagIcon class="h-4 w-4" />
   </button>
 </template>
 
