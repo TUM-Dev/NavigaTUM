@@ -26,10 +26,7 @@ const shareOptions = computed<UseShareOptions>(() => ({
 </script>
 
 <template>
-  <button type="button" :title="t('header.external_link')" @click="toggleModal()">
-    <!-- The onclick handler is a fix for Safari -->
-    <ShareIcon class="h-4 w-4" />
-  </button>
+  <a type="button" :title="t('header.external_link')" @click="toggleModal()"><ShareIcon class="h-4 w-4" /></a>
   <Teleport v-if="modalOpen" to="body">
     <div class="active modal">
       <a class="modal-overlay" :aria-label="t('close')" @click="toggleModal()" />
@@ -41,29 +38,31 @@ const shareOptions = computed<UseShareOptions>(() => ({
         <div class="modal-body">
           <div class="flex flex-col gap-5">
             <div class="flex flex-col gap-2">
-            <strong>{{ t("open_in") }}</strong>
-            <a
-              class="btn"
-              target="_blank"
-              :href="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
-              >Google Maps</a>
+              <strong>{{ t("open_in") }}</strong>
+              <a
+                class="btn"
+                target="_blank"
+                :href="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
+                >Google Maps</a
+              >
               <a
                 class="btn"
                 target="_blank"
                 :href="`https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lon}#map=17/${coords.lat}/${coords.lon}&layers=T`"
-              >OpenStreetMap</a>
-            <a class="btn" :href="`geo:${coords.lat},${coords.lon}`">
-              {{ t("other_app") }}
-            </a>
-              </div>
+                >OpenStreetMap</a
+              >
+              <a class="btn" :href="`geo:${coords.lat},${coords.lon}`">
+                {{ t("other_app") }}
+              </a>
+            </div>
             <div class="flex flex-col gap-2">
-            <strong>{{ t("share") }}</strong>
-            <button v-if="shareIsSupported" type="button" class="btn" @click="share(shareOptions())">
-              {{ t("share_link") }}
-            </button>
-            <button v-if="clipboardIsSupported" type="button" class="btn" @click="copy()">
-              {{ copied ? t("copied") : t("copy_link") }}
-            </button>
+              <strong>{{ t("share") }}</strong>
+              <button v-if="shareIsSupported" type="button" class="btn" @click="share(shareOptions())">
+                {{ t("share_link") }}
+              </button>
+              <button v-if="clipboardIsSupported" type="button" class="btn" @click="copy()">
+                {{ copied ? t("copied") : t("copy_link") }}
+              </button>
             </div>
           </div>
         </div>

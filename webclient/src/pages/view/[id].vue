@@ -16,6 +16,7 @@ import { useFetch } from "@/composables/fetch";
 import { useRoute, useRouter } from "vue-router";
 import type { components } from "@/api_types";
 import Toast from "@/components/Toast.vue";
+import { CalendarDaysIcon } from "@heroicons/vue/24/outline";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
 const { t } = useI18n({ useScope: "local" });
@@ -156,70 +157,29 @@ onMounted(() => {
           </button>
         </div>
         <h1>
-          {{ state.data.name }}
+          {{ state.data?.name }}
           <!-- <small class="label">Exaktes Ergebnis</small> -->
         </h1>
       </div>
-      <div class="columns subtitle">
-        <div class="col-auto column">
-          <span>{{ state.data.type_common_name }}</span>
-        </div>
-        <div class="col-auto col-ml-auto column">
-          <template v-if="state.data?.props?.calendar_url">
-            <a
-              class="btn btn-action btn-link btn-sm"
-              :href="state.data.props.calendar_url"
-              target="_blank"
-              :title="t('header.calendar')"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                style="margin-bottom: -2px"
-              >
-                <path
-                  d="M4.571 0A1.143 1.143 0 0 0 3.43 1.143H2.286A2.306 2.306 0 0 0 0 3.429v10.285A2.306 2.306 0 0 0 2.286 16h11.428A2.306 2.306 0 0 0 16 13.714V3.43a2.306 2.306 0 0 0-2.286-2.286h-1.143A1.143 1.143 0 0 0 11.43 0a1.143 1.143 0 0 0-1.143 1.143H5.714A1.143 1.143 0 0 0 4.571 0zM2.286 5.714h11.428v8H2.286v-8z"
-                />
-                <path
-                  d="M6.857 6.857v2.286h2.286V6.857H6.857zm3.429 0v2.286h2.285V6.857h-2.285zm-6.857 3.429v2.285h2.285v-2.285H3.43zm3.428 0v2.285h2.286v-2.285H6.857z"
-                />
-              </svg>
-            </a>
-          </template>
-          <button
-            type="button"
-            class="btn btn-action btn-link btn-sm"
-            :title="t('header.external_link')"
-            onclick="this.focus()"
-          >
-            <!-- The onclick handler is a fix for Safari -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 3.704 3.704"
-              fill="none"
-              stroke="#0065bd"
-              stroke-width=".529"
-              stroke-linecap="round"
-            >
-              <path d="M2.912 2.179v1.26H.267V.794h1.197" stroke-linejoin="round" />
-              <path d="M1.407 2.297l2.03-2.03" />
-              <path d="M2.352.268h1.085v1.085" stroke-linejoin="round" />
-            </svg>
-          </button>
-          <ShareButton :coords="state.data.coords" :name="state.data.name" />
-          <DetailsFeedbackButton ref="feedbackButton" />
-          <!-- <button class="btn btn-link btn-action btn-sm"
+      <div class="subtitle">
+        <div class="flex grow justify-between place-items-center">
+          <span class="text-neutral-400">{{ state.data?.type_common_name }}</span>
+          <div class="flex flex-row gap-3 place-items-center">
+            <template v-if="state.data?.props?.calendar_url">
+              <a :href="state.data.props.calendar_url" target="_blank" :title="t('header.calendar')">
+                <CalendarDaysIcon class="h-4 mt-0.5 w-4" />
+              </a>
+            </template>
+            <ShareButton :coords="state.data.coords" :name="state.data.name" />
+            <DetailsFeedbackButton ref="feedbackButton" />
+            <!-- <button class="btn btn-link btn-action btn-sm"
                   :title="t('header.favorites')">
             <i class="icon icon-bookmark" />
           </button> -->
+          </div>
         </div>
       </div>
-      <div class="divider" />
+      <div class="divider mb-5" />
     </div>
 
     <!-- First info section (map + infocard) -->
@@ -260,7 +220,7 @@ onMounted(() => {
             {{ t("map.roomfinder") }}
           </button>
         </div>
-        <div class="divider" style="margin-top: 10px" />
+        <div class="divider mt-2" />
       </div>
 
       <DetailsInfoSection />
@@ -319,66 +279,6 @@ onMounted(() => {
         opacity: 1;
       }
     }
-
-    .subtitle {
-      span {
-        color: $text-gray;
-      }
-
-      button svg {
-        margin-top: 4px;
-        stroke: $primary-color;
-      }
-
-      .column:last-child {
-        position: relative;
-      }
-
-      .link-popover {
-        position: absolute;
-        z-index: 1000;
-        padding: 6px 10px;
-        width: 200px;
-        right: 36px;
-        background: $light-color;
-        box-shadow: $card-shadow-dark;
-        border-radius: 2px;
-        border: 1px solid $card-border;
-        visibility: hidden;
-        opacity: 0;
-        transform: translateY(-5px);
-        transition:
-          opacity 0.05s,
-          transform 0.05s;
-
-        a,
-        button {
-          width: 100%;
-          margin: 4px 0;
-        }
-
-        strong {
-          margin-top: 2px;
-          display: block;
-
-          & + a,
-          & + button {
-            margin-top: 2px;
-          }
-        }
-      }
-
-      button:focus + .link-popover,
-      .link-popover:hover {
-        visibility: visible;
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .divider {
-      margin-bottom: 22px;
-    }
   }
 
   /* --- Sections general --- */
@@ -388,29 +288,6 @@ onMounted(() => {
     .content {
       margin-top: 15px;
     }
-  }
-}
-
-// Animations
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes delay-btn {
-  from {
-    pointer-events: none;
-    color: $text-gray;
-  }
-
-  to {
-    pointer-events: all;
-    color: $error-color;
   }
 }
 </style>
