@@ -36,12 +36,7 @@ module.exports = {
       "error",
       ["script-setup", "composition"], // "script-setup", "composition", "composition-vue2", or "options"
     ],
-    "vue/multi-word-component-names": [
-      "error",
-      {
-        ignores: ["[...slug]", "api", "index", "search", "[id]", "[name]"],
-      },
-    ],
+    "vue/multi-word-component-names": "off",
     "vue/component-name-in-template-casing": ["error", "PascalCase", { registeredComponentsOnly: false }],
     "vue/custom-event-name-casing": ["error", "camelCase"],
     "vue/define-macros-order": "error",

@@ -15,6 +15,7 @@ import { computed, nextTick, onMounted, ref, watchEffect } from "vue";
 import { useFetch } from "@/composables/fetch";
 import { useRoute, useRouter } from "vue-router";
 import type { components } from "@/api_types";
+import Toast from "@/components/Toast.vue";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
 const { t } = useI18n({ useScope: "local" });
@@ -225,16 +226,13 @@ onMounted(() => {
     <div class="columns">
       <!-- Map container -->
       <div id="map-container" class="col-7 col-md-12 column">
-        <div class="show-sm">
-          <div
+        <div class="gap-2 grid mb-3 md:hidden">
+          <Toast
             v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
-            class="toast toast-warning"
-          >
-            {{ t("no_floor_overlay") }}
-          </div>
-          <div v-if="state.data?.props?.comment" class="toast">
-            {{ state.data.props.comment }}
-          </div>
+            level="warning"
+            :msg="t('no_floor_overlay')"
+          />
+          <Toast v-if="state.data?.props?.comment" :msg="state.data.props.comment" />
         </div>
 
         <DetailsInteractiveMap ref="interactiveMap" />

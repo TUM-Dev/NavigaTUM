@@ -2,6 +2,7 @@
 import { useDetailsStore } from "@/stores/details";
 import DetailsImageSlideshowModal from "@/components/DetailsImageSlideshowModal.vue";
 import DetailsPropertyTable from "@/components/DetailsPropertyTable.vue";
+import Toast from "@/components/Toast.vue";
 import { useI18n } from "vue-i18n";
 
 const state = useDetailsStore();
@@ -37,17 +38,18 @@ const appURL = import.meta.env.VITE_APP_URL;
       </div>
       <div class="card-body">
         <DetailsPropertyTable />
-        <div v-if="state.data?.coords.accuracy === 'building'" class="mt-3 toast toast-warning">
-          {{ t("msg.inaccurate_only_building") }}<br />
-        </div>
-        <div
-          v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
-          class="mt-3 toast toast-warning"
-        >
-          {{ t("msg.no_floor_overlay") }}
-        </div>
-        <div v-if="state.data?.props?.comment" class="mt-3 toast">
-          {{ state.data.props.comment }}
+        <div class="gap-2 grid mt-3">
+          <Toast
+            v-if="state.data?.coords.accuracy === 'building'"
+            level="warning"
+            :msg="t('msg.inaccurate_only_building')"
+          />
+          <Toast
+            v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
+            level="warning"
+            :msg="t('msg.no_floor_overlay')"
+          />
+          <Toast v-if="state.data?.props?.comment" :msg="state.data.props.comment" />
         </div>
       </div>
       <!-- <div class="card-footer">

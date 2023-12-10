@@ -4,6 +4,7 @@ import { useGlobalStore } from "@/stores/global";
 import FeedbackModal from "@/components/feedback/FeedbackModal.vue";
 import AppSearchBar from "@/components/AppSearchBar.vue";
 import AppNavHeader from "@/components/AppNavHeader.vue";
+import Toast from "@/components/Toast.vue";
 
 const global = useGlobalStore();
 </script>
@@ -13,16 +14,15 @@ const global = useGlobalStore();
     <AppSearchBar />
   </AppNavHeader>
 
-  <!-- General error message toast -->
-  <div v-cloak class="max-w-3xl mt-16">
-    <div v-if="global.error_message" class="toast toast-error">
-      {{ global.error_message }}
-    </div>
-  </div>
-
   <!-- Page content container -->
-  <div class="max-w-3xl min-h-[calc(100vh-200px)] mx-auto transition-opacity" :class="{ 'opacity-70': global.search_focused }">
-    <RouterView />
+  <div
+    class="max-w-4xl min-h-[calc(100vh-200px)] mt-16 mx-auto transition-opacity"
+    :class="{ 'opacity-70': global.search_focused }"
+  >
+    <div id="errorToasts" class="gap-2 grid mx-5">
+      <Toast v-if="global.error_message" :msg="global.error_message" level="error" />
+    </div>
+    <RouterView class="mx-5" />
   </div>
 
   <Footer />

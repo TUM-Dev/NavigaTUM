@@ -9,7 +9,7 @@ const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
-  <div class="toast toast-error">{{ t("error_404") }}</div>
+  <Toast level="warning" :msg="t('error_404')" />
   <h5 style="margin-top: 25px">{{ t("header") }}</h5>
   <p>{{ t("description") }}</p>
   <button
