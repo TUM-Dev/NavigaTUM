@@ -66,7 +66,7 @@ module.exports = {
     "vue/prefer-separate-static-class": "error",
     "vue/require-macro-variable-name": "error",
     "vue/require-typed-ref": "error",
-    "vue/static-class-names-order": "error", // we may want to disable this rule if it does not work well with tailwind
+    "vue/static-class-names-order": "off",
     "vue/v-for-delimiter-style": "error",
     "vue/no-constant-condition": "error",
   },

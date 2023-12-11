@@ -7,7 +7,7 @@ const props = defineProps<{
 
 <template>
   <div
-    class="p-1.5 rounded-sm"
+    class="rounded-sm p-1.5"
     :class="{
       'bg-red-300': props.level === 'error',
       'text-red-950': props.level === 'error',

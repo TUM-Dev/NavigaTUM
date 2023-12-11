@@ -12,7 +12,7 @@ const appURL = import.meta.env.VITE_APP_URL;
 
 <template>
   <!-- Information section (on mobile) -->
-  <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column mt-4 show-sm">
+  <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column show-sm mt-4">
     <h2>{{ t("info_title") }}</h2>
     <DetailsPropertyTable />
   </div>
@@ -30,7 +30,7 @@ const appURL = import.meta.env.VITE_APP_URL;
         <img
           :alt="t('image_alt')"
           :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-          class="bg-zinc-100 block h-auto max-w-full w-full"
+          class="block h-auto w-full max-w-full bg-zinc-100"
         />
       </a>
       <div class="card-header">
@@ -38,7 +38,7 @@ const appURL = import.meta.env.VITE_APP_URL;
       </div>
       <div class="card-body">
         <DetailsPropertyTable />
-        <div class="gap-2 grid mt-3">
+        <div class="mt-3 grid gap-2">
           <Toast
             v-if="state.data?.coords.accuracy === 'building'"
             level="warning"

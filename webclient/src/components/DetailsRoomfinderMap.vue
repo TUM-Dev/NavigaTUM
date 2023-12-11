@@ -3,7 +3,7 @@ import { selectedMap, useDetailsStore } from "@/stores/details";
 import { useI18n } from "vue-i18n";
 import Modal from "@/components/Modal.vue";
 import RoomfinderImageLocation from "@/components/RoomfinderImageLocation.vue";
-import {ref} from "vue";
+import { ref } from "vue";
 
 const state = useDetailsStore();
 const { t } = useI18n({ useScope: "local" });
@@ -34,7 +34,7 @@ function loadRoomfinderMap(mapIndex: number, fromUi = false) {
   }
 }
 
-const modalOpen = ref(false)
+const modalOpen = ref(false);
 </script>
 
 <template>
@@ -76,11 +76,7 @@ const modalOpen = ref(false)
       </div>
     </div>
 
-    <Modal
-      v-model:open="modalOpen"
-      :title="t('roomfinder.modal.header')"
-      :classes="{ modal: 'items-baseline' }"
-    >
+    <Modal v-model:open="modalOpen" :title="t('roomfinder.modal.header')" :classes="{ modal: 'items-baseline' }">
       <RoomfinderImageLocation id="rf_modal_image" :map="state.selectedRoomfinderMap()" /> </Modal
   ></template>
 </template>

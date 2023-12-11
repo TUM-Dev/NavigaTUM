@@ -20,10 +20,10 @@ const modelOpen = ref(false);
   <!-- Page content container -->
 
   <div
-    class="max-w-4xl min-h-[calc(100vh-200px)] mt-16 mx-auto transition-opacity"
+    class="mx-auto mt-16 min-h-[calc(100vh-200px)] max-w-4xl transition-opacity"
     :class="{ 'opacity-70': global.search_focused }"
   >
-    <div id="errorToasts" class="gap-2 grid mx-5">
+    <div id="errorToasts" class="mx-5 grid gap-2">
       <Toast v-if="global.error_message" :msg="global.error_message" level="error" />
     </div>
     <RouterView class="mx-5" />

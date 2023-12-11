@@ -115,13 +115,13 @@ onMounted(() => {
     <!-- Header image (on mobile) -->
     <a
       v-if="state.image.shown_image"
-      class="cursor-pointer header-image-mobile show-sm"
+      class="header-image-mobile show-sm cursor-pointer"
       @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
     >
       <img
         :alt="t('image_alt')"
         :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-        class="bg-zinc-100 block h-auto max-w-full"
+        class="block h-auto max-w-full bg-zinc-100"
       />
     </a>
 
@@ -161,12 +161,12 @@ onMounted(() => {
         </h1>
       </div>
       <div class="subtitle">
-        <div class="flex grow justify-between place-items-center">
+        <div class="flex grow place-items-center justify-between">
           <span class="text-neutral-400">{{ state.data?.type_common_name }}</span>
-          <div class="flex flex-row gap-3 place-items-center">
+          <div class="flex flex-row place-items-center gap-3">
             <template v-if="state.data?.props?.calendar_url">
               <a :href="state.data.props.calendar_url" target="_blank" :title="t('header.calendar')">
-                <CalendarDaysIcon class="h-4 mt-0.5 w-4" />
+                <CalendarDaysIcon class="mt-0.5 h-4 w-4" />
               </a>
             </template>
             <ShareButton :coords="state.data.coords" :name="state.data.name" />
@@ -185,7 +185,7 @@ onMounted(() => {
     <div class="columns">
       <!-- Map container -->
       <div id="map-container" class="col-7 col-md-12 column">
-        <div class="gap-2 grid mb-3 md:hidden">
+        <div class="mb-3 grid gap-2 md:hidden">
           <Toast
             v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
             level="warning"

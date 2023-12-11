@@ -17,11 +17,11 @@ const showBrandBetween = breakpoints.greaterOrEqual("md");
 
 <template>
   <footer data-cy="main-footer">
-    <div class="container grid-lg">
+    <div class="grid-lg container">
       <div class="columns">
         <div class="col-lg-11 col-mx-auto column">
           <div class="columns">
-            <div class="col-auto col-xs-12 column links">
+            <div class="col-xs-12 column links col-auto">
               <div class="columns">
                 <ul class="column">
                   <li style="min-width: 71px">
@@ -71,7 +71,7 @@ const showBrandBetween = breakpoints.greaterOrEqual("md");
                 <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="mx-auto" />
               </a>
             </div>
-            <div class="col-auto col-ml-auto col-xs-12 column settings">
+            <div class="col-ml-auto col-xs-12 column settings col-auto">
               <div class="columns">
                 <div class="col-12 col-mx-auto col-xs-8 column">
                   <div class="columns setting-group">
@@ -80,7 +80,7 @@ const showBrandBetween = breakpoints.greaterOrEqual("md");
                         ><small>{{ t("language") }}</small>
                       </label>
                     </div>
-                    <div class="col-auto column">
+                    <div class="column col-auto">
                       <AppLanguageToggler />
                     </div>
                   </div>
@@ -90,7 +90,7 @@ const showBrandBetween = breakpoints.greaterOrEqual("md");
                         <small>{{ t("theme") }}</small>
                       </label>
                     </div>
-                    <div class="col-auto column">
+                    <div class="column col-auto">
                       <AppThemeToggler />
                     </div>
                   </div>

@@ -64,28 +64,28 @@ function closeIfShown() {
     >
       <div
         v-if="props.open"
-        class="bg-smoke-800 fixed m-5 flex h-screen inset-0 items-center justify-center w-full z-50"
+        class="bg-smoke-800 fixed inset-0 z-50 m-5 flex h-screen w-full items-center justify-center"
         :class="props.classes.background"
         @click.self="closeIfShown"
       >
         <div
-          class="flex flex-col max-h-screen max-w-2xl relative rounded-md shadow-2xl w-full"
+          class="relative flex max-h-screen w-full max-w-2xl flex-col rounded-md shadow-2xl"
           :class="props.classes.modal"
         >
-          <div class="bg-gray-100 flex flex-row justify-between p-5 rounded-t-md w-full">
+          <div class="flex w-full flex-row justify-between rounded-t-md bg-gray-100 p-5">
             <div v-if="props.title" class="text-xl">{{ props.title }}</div>
             <button
               v-if="!props.disableClose"
               type="button"
               :aria-label="t('close')"
-              class="mx-4 my-2 text-gray-700 text-xl"
+              class="mx-4 my-2 text-xl text-gray-700"
               :class="props.classes.close"
               @click.prevent="close"
             >
               <XMarkIcon class="h-4 w-4" />
             </button>
           </div>
-          <div class="bg-white max-h-screen overflow-auto rounded-md p-6 w-full">
+          <div class="max-h-screen w-full overflow-auto rounded-md bg-white p-6">
             <slot />
           </div>
         </div>

@@ -85,29 +85,30 @@ function draw() {
 
   mapSprite.addEventListener("load", () => {
     ctx?.drawImage(mapSprite, 0, 0);
-    ctx.textAlign="end"
+    ctx.textAlign = "end";
     ctx.font = "12px sans-serif";
-    const txt=t("img_source") + ": "+ props.map.source
-    const measurement=ctx.measureText(txt)
+    const txt = t("img_source") + ": " + props.map.source;
+    const measurement = ctx.measureText(txt);
     const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
-    ctx.fillStyle = theme==="light"?"#fafafa":"#1f2937"
-    ctx?.fillRect(props.map.width-measurement.width-10, props.map.height-20, measurement.width+10, 20);
-    ctx.fillStyle = theme==="light"?"#374151":"#DBD5D1"
-    ctx.fillText(txt,props.map.width-5,props.map.height-5);
-})
-  }
+    ctx.fillStyle = theme === "light" ? "#fafafa" : "#1f2937";
+    ctx?.fillRect(props.map.width - measurement.width - 10, props.map.height - 20, measurement.width + 10, 20);
+    ctx.fillStyle = theme === "light" ? "#374151" : "#DBD5D1";
+    ctx.fillText(txt, props.map.width - 5, props.map.height - 5);
+  });
+}
 watch(props, draw);
 onMounted(draw);
 </script>
 
 <template>
   <div
-class="mx-auto"
-:class="{
-'max-w-sm': map.height > map.width,
-'max-w-2xl': map.height <= map.width,
-  }">
-    <canvas :id="props.id" class=" w-full" :width="map.width" :height="map.height"> </canvas>
+    class="mx-auto"
+    :class="{
+      'max-w-sm': map.height > map.width,
+      'max-w-2xl': map.height <= map.width,
+    }"
+  >
+    <canvas :id="props.id" class="w-full" :width="map.width" :height="map.height"> </canvas>
   </div>
 </template>
 

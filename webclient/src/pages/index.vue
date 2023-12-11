@@ -34,7 +34,7 @@ function less(id: string) {
                 <div class="column">
                   <div class="h6 panel-title">{{ site.name }}</div>
                 </div>
-                <div class="col-auto column">
+                <div class="column col-auto">
                   <button
                     type="button"
                     class="btn btn-link"

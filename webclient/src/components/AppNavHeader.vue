@@ -1,6 +1,6 @@
 <template>
-  <header class="fixed navbar top-0 w-full z-10">
-    <div class="container grid-lg">
+  <header class="navbar fixed top-0 z-10 w-full">
+    <div class="grid-lg container">
       <div class="columns">
         <div class="column hide-lg">
           <RouterLink to="/">
