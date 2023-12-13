@@ -51,7 +51,7 @@ const shareOptions = computed<UseShareOptions>(() => ({
       </div>
       <div class="flex flex-col gap-2">
         <strong>{{ t("share") }}</strong>
-        <button v-if="shareIsSupported" type="button" class="btn" @click="share(shareOptions())">
+        <button v-if="shareIsSupported" type="button" class="btn" @click="share(shareOptions)">
           {{ t("share_link") }}
         </button>
         <button v-if="clipboardIsSupported" type="button" class="btn" @click="copy()">
