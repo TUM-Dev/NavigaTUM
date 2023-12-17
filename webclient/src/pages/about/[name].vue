@@ -50,7 +50,7 @@ const route = useRoute();
   }
 
   code {
-    @apply mb-4 inline-flex max-w-full items-center space-x-4 overflow-auto rounded-md bg-blue-50 px-4 py-3 text-left font-mono text-xs text-blue-950;
+    @apply mb-4 inline-flex max-w-full items-center space-x-4 overflow-auto rounded-md bg-tumBlue-50 px-4 py-3 text-left font-mono text-xs text-blue-950;
   }
 }
 </style>
