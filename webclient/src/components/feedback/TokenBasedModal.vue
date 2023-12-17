@@ -107,7 +107,7 @@ function sendForm() {
     :title="t('title')"
     @close="closeForm"
   >
-    <Toast v-if="error.message" class="mb-4" :msg="error.message" level="error" data-cy="feedback-error" />
+    <Toast v-if="error.message" class="mb-4" :msg="error.message" level="error" />
 
     <slot name="modal" />
     <div class="form-group">
