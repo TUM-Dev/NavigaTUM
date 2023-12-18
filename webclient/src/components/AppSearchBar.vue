@@ -5,6 +5,7 @@ import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
 import { useFetch } from "@/composables/fetch";
 import { computed, onMounted, reactive, ref } from "vue";
+import Button from "@/components/Button.vue";
 import type { SectionFacet } from "@/modules/autocomplete";
 import type { components } from "@/api_types";
 
@@ -164,14 +165,14 @@ onMounted(() => {
         @keydown="onKeyDown"
       />
       <MagnifyingGlassIcon class="form-icon h-4 w-4" />
-      <button
-        type="button"
-        class="btn btn-lg btn-primary input-group-btn"
+      <Button
+        size="lg"
+        variant="primary"
         :aria-label="t('input.aria-actionlabel')"
         @click="searchGo(false)"
       >
         {{ t("input.action") }}
-      </button>
+      </Button>
     </div>
     <!-- Autocomplete -->
     <ul
@@ -181,10 +182,10 @@ onMounted(() => {
         'd-none': !global.search_focused || autocomplete.sections.length === 0,
       }"
     >
-      <!-- <li class="search-comment filter">
-                    Suche einschränken auf:
-                    <a class="bt btn-link btn-sm">Räume</a>
-                  </li> -->
+      <li class="search-comment filter">
+        Suche einschränken auf:
+        <a class="bt btn-link btn-sm">Räume</a>
+      </li>
 
       <template v-for="s in autocomplete.sections" :key="s.facet">
         <li class="divider" :data-content="s.name" />
@@ -238,45 +239,32 @@ onMounted(() => {
         </li>
       </template>
 
-      <!-- <li class="search-comment actions">
-                    <div>
-                      <button class="btn btn-sm">
-                        <ChevronRightIcon class="h-4 w-4" /> in Gebäude Suchen
-                      </button>
-                    </div>
-                    <div>
-                      <button class="btn btn-sm">
-                        <MapPinIcon class="h-4 w-4" /> Hörsäle
-                      </button>
-                    </div>
-                    <div>
-                      <button class="btn btn-sm">
-                        <MapPinIcon class="h-4 w-4" /> Seminarräume
-                      </button>
-                    </div>
-                  </li> -->
+      <!--
+      <li class="search-comment actions">
+        <Button size="sm"><ChevronRightIcon class="h-4 w-4" /> in Gebäude Suchen</Button>
+        <Button size="sm"><MapPinIcon class="h-4 w-4" /> Hörsäle</Button>
+        <Button size="sm"><MapPinIcon class="h-4 w-4" /> Seminarräume</Button>
+      </li>
 
-      <!-- <li class="divider" data-content="Veranstaltungen" />
-                  <li class="menu-item">
-                    <a href="#">
-                      <div class="tile">
-                        <div class="tile-icon">
-                          <ClockIcon class="h-4 w-4"  />
-                        </div>
-                        <div class="tile-content">
-                          <span class="tile-title">
-                            Advanced Practical Course Games Engineering: Building Information Modeling (IN7106)
-                          </span>
-                          <small class="tile-subtitle text-gray">
-                            Übung mit 4 Gruppen
-                          </small>
-                        </div>
-                      </div>
-                    </a>
-                    <div class="menu-badge" style="display: none;">
-                      <label class="label label-primary">frei</label>
-                    </div>
-                  </li> -->
+      <li class="divider" data-content="Veranstaltungen" />
+      <li class="menu-item">
+        <RouterLink to="/event/">
+          <div class="tile">
+            <div class="tile-icon">
+              <ClockIcon class="h-4 w-4" />
+            </div>
+            <div class="tile-content">
+              <span class="tile-title">
+                Advanced Practical Course Games Engineering: Building Information Modeling (IN7106)
+              </span>
+              <small class="tile-subtitle text-gray"> Übung mit 4 Gruppen </small>
+            </div>
+          </div>
+        </RouterLink>
+        <div class="menu-badge" style="display: none">
+          <label class="label label-primary">frei</label>
+        </div>
+      </li> -->
     </ul>
   </div>
 </template>

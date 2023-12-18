@@ -1,12 +1,16 @@
 <script setup lang="ts">
-const props = defineProps<{
-  msg: string;
-  level?: "error" | "warning" | "info";
-}>();
+const props = withDefaults(
+  defineProps<{
+    msg: string;
+    level?: "error" | "warning" | "info" | "default";
+  }>(),
+  { level: "default" },
+);
 </script>
 
 <template>
   <div
+    :data-cy="'toast-' + props.level"
     class="rounded-sm p-1.5"
     :class="{
       'bg-red-300': props.level === 'error',
@@ -15,8 +19,8 @@ const props = defineProps<{
       'text-orange-950': props.level === 'warning',
       'bg-blue-300': props.level === 'info',
       'text-blue-950': props.level === 'info',
-      'bg-gray-300': props.level === undefined,
-      'text-gray-950': props.level === undefined,
+      'bg-gray-300': props.level === 'default',
+      'text-gray-950': props.level === 'default',
     }"
   >
     {{ props.msg }}

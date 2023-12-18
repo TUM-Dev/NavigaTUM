@@ -18,7 +18,6 @@ const modelOpen = ref(false);
   </AppNavHeader>
 
   <!-- Page content container -->
-
   <div
     class="mx-auto mt-16 min-h-[calc(100vh-200px)] max-w-4xl transition-opacity"
     :class="{ 'opacity-70': global.search_focused }"
