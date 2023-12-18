@@ -5,7 +5,6 @@ import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
 import { useFetch } from "@/composables/fetch";
 import { computed, onMounted, reactive, ref } from "vue";
-import Button from "@/components/Button.vue";
 import type { SectionFacet } from "@/modules/autocomplete";
 import type { components } from "@/api_types";
 
@@ -149,13 +148,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="form-autocomplete">
-    <div class="has-icon-left input-group">
+  <div class="flex flex-row">
+    <div
+      class="flex flex-grow flex-row rounded-s-sm border px-2.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-tumBlue-600"
+    >
+      <MagnifyingGlassIcon class="my-auto h-4 w-4" />
       <input
         id="search"
         v-model="query"
         type="text"
-        class="form-input input-lg"
+        class="flex-grow px-3 py-2.5 focus:outline-0"
         :placeholder="t('input.placeholder')"
         autocomplete="off"
         :aria-label="t('input.aria-searchlabel')"
@@ -164,17 +166,18 @@ onMounted(() => {
         @blur="searchBlur"
         @keydown="onKeyDown"
       />
-      <MagnifyingGlassIcon class="form-icon h-4 w-4" />
-      <Button
-        size="lg"
-        variant="primary"
-        :aria-label="t('input.aria-actionlabel')"
-        @click="searchGo(false)"
-      >
-        {{ t("input.action") }}
-      </Button>
     </div>
-    <!-- Autocomplete -->
+    <button
+      type="button"
+      class="rounded-e-sm bg-tumBlue-500 px-3 py-1 text-xs font-semibold text-white shadow-sm hover:bg-tumBlue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tumBlue-600"
+      :aria-label="t('input.aria-actionlabel')"
+      @click="searchGo(false)"
+    >
+      {{ t("input.action") }}
+    </button>
+  </div>
+  <!-- Autocomplete -->
+  <div class="form-autocomplete mt-2">
     <ul
       v-cloak
       class="menu"
@@ -182,10 +185,11 @@ onMounted(() => {
         'd-none': !global.search_focused || autocomplete.sections.length === 0,
       }"
     >
+      <!--
       <li class="search-comment filter">
         Suche einschränken auf:
         <a class="bt btn-link btn-sm">Räume</a>
-      </li>
+      </li> -->
 
       <template v-for="s in autocomplete.sections" :key="s.facet">
         <li class="divider" :data-content="s.name" />
