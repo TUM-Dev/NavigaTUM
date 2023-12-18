@@ -150,14 +150,14 @@ onMounted(() => {
 <template>
   <div class="flex flex-row">
     <div
-      class="flex flex-grow flex-row rounded-s-sm border px-2.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-tumBlue-600"
+      class="flex flex-grow flex-row rounded-s-sm border px-2.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-tumBlue-600 dark:border-gray-200"
     >
       <MagnifyingGlassIcon class="my-auto h-4 w-4" />
       <input
         id="search"
         v-model="query"
         type="text"
-        class="flex-grow px-3 py-2.5 focus:outline-0"
+        class="flex-grow bg-transparent px-3 py-2.5 focus:outline-0"
         :placeholder="t('input.placeholder')"
         autocomplete="off"
         :aria-label="t('input.aria-searchlabel')"
@@ -169,7 +169,7 @@ onMounted(() => {
     </div>
     <button
       type="button"
-      class="rounded-e-sm bg-tumBlue-500 px-3 py-1 text-xs font-semibold text-white shadow-sm hover:bg-tumBlue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tumBlue-600"
+      class="rounded-e-sm bg-tumBlue-500 px-3 py-1 text-xs font-semibold text-white shadow-sm hover:bg-tumBlue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-tumBlue-600"
       :aria-label="t('input.aria-actionlabel')"
       @click="searchGo(false)"
     >
@@ -177,12 +177,12 @@ onMounted(() => {
     </button>
   </div>
   <!-- Autocomplete -->
-  <div class="form-autocomplete mt-2">
+  <div class="mt-2">
     <ul
       v-cloak
-      class="menu"
+      class="absolute top-0 list-none bg-white p-3.5 shadow-2xl shadow-zinc-700/30 dark:bg-zinc-900 dark:shadow-black/60"
       :class="{
-        'd-none': !global.search_focused || autocomplete.sections.length === 0,
+        hidden: !global.search_focused || autocomplete.sections.length === 0,
       }"
     >
       <!--
@@ -275,101 +275,94 @@ onMounted(() => {
 
 <style lang="scss">
 @import "@/assets/variables";
+.menu-item {
+  & > a {
+    cursor: pointer;
 
-.form-autocomplete {
-  .menu {
-    box-shadow: $autocomplete-box-shadow;
+    &.active {
+      color: #fff;
+      background-color: $theme-accent;
+    }
 
-    .menu-item {
-      & > a {
-        cursor: pointer;
+    em {
+      color: $theme-accent;
+      font-style: normal;
+      font-weight: bold;
+    }
 
-        &.active {
-          color: #fff;
-          background-color: $theme-accent;
-        }
+    &:focus em,
+    &:hover em,
+    &.active em {
+      color: #fff;
+    }
+  }
+}
 
-        em {
-          color: $theme-accent;
-          font-style: normal;
-          font-weight: bold;
-        }
+.tile-content {
+  max-width: 100%;
+  margin-bottom: -5px;
+  line-height: 100%;
+  padding-bottom: 0.2rem;
+}
 
-        &:focus em,
-        &:hover em,
-        &.active em {
-          color: #fff;
-        }
-      }
+.tile-title {
+  margin-right: 3px;
+
+  i.icon-caret {
+    transform: rotate(-90deg);
+  }
+}
+
+.tile-subtitle {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  padding-right: 16px;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: middle;
+  margin-top: -5px;
+
+  // Correction for Chrome
+  padding-top: 2px;
+  height: 1.2rem;
+}
+
+.search-comment {
+  margin: -8px -8px 0;
+  padding: 6px 16px;
+  font-size: 14px;
+  color: $autocomplete-comment-color;
+
+  &.filter {
+    color: $autocomplete-filter-text;
+    background-color: $autocomplete-filter-bg;
+    border-bottom: 1px solid $border-light;
+
+    > a {
+      display: inline;
     }
   }
 
-  .tile-content {
-    max-width: 100%;
-    margin-bottom: -5px;
-    line-height: 100%;
-    padding-bottom: 0.2rem;
+  &.nb_results {
+    margin: -4px 0;
+    padding: 4px 8px;
   }
 
-  .tile-title {
-    margin-right: 3px;
-
-    i.icon-caret {
-      transform: rotate(-90deg);
-    }
-  }
-
-  .tile-subtitle {
-    text-overflow: ellipsis;
+  &.actions {
+    margin: -4px 0 -4px 32px;
+    padding: 4px 8px;
+    overflow-x: auto;
     white-space: nowrap;
-    max-width: 100%;
-    padding-right: 16px;
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: middle;
-    margin-top: -5px;
 
-    // Correction for Chrome
-    padding-top: 2px;
-    height: 1.2rem;
-  }
-
-  .menu .search-comment {
-    margin: -8px -8px 0;
-    padding: 6px 16px;
-    font-size: 14px;
-    color: $autocomplete-comment-color;
-
-    &.filter {
-      color: $autocomplete-filter-text;
-      background-color: $autocomplete-filter-bg;
-      border-bottom: 1px solid $border-light;
-
-      > a {
-        display: inline;
-      }
+    div {
+      display: inline-block;
+      margin-right: 8px;
     }
 
-    &.nb_results {
-      margin: -4px 0;
-      padding: 4px 8px;
-    }
-
-    &.actions {
-      margin: -4px 0 -4px 32px;
-      padding: 4px 8px;
-      overflow-x: auto;
-      white-space: nowrap;
-
-      div {
-        display: inline-block;
-        margin-right: 8px;
-      }
-
-      button {
-        margin-top: 6px;
-        margin-bottom: 3px;
-      }
+    button {
+      margin-top: 6px;
+      margin-bottom: 3px;
     }
   }
 }
