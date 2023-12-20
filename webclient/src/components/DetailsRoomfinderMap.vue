@@ -50,7 +50,7 @@ const modalOpen = ref(false);
     <div
       id="roomfinder-map-select"
       class="accordion"
-      :class="{ 'd-none': state.map.selected !== selectedMap.roomfinder }"
+      :class="{ hidden: state.map.selected !== selectedMap.roomfinder }"
     >
       <input id="map-accordion" type="checkbox" name="accordion-checkbox" hidden />
       <label for="map-accordion" class="accordion-header btn btn-block btn-sm">

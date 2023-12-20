@@ -61,10 +61,10 @@ const appURL = import.meta.env.VITE_APP_URL;
               sizes="100vw"
               class="block h-auto max-w-full rounded bg-zinc-100"
             />
-            <span v-if="img.license.url" class="d-none" itemprop="license"> {{ img.license.url }}</span>
-            <span v-else class="d-none" itemprop="license"> img.license.text</span>
-            <span v-if="img.license.url" class="d-none" itemprop="author"> {{ img.author.url }}</span>
-            <span v-else class="d-none" itemprop="author"> img.author.text</span>
+            <span v-if="img.license.url" class="hidden" itemprop="license"> {{ img.license.url }}</span>
+            <span v-else class="hidden" itemprop="license"> img.license.text</span>
+            <span v-if="img.license.url" class="hidden" itemprop="author"> {{ img.author.url }}</span>
+            <span v-else class="hidden" itemprop="author"> img.author.text</span>
           </div>
         </figure>
       </div>

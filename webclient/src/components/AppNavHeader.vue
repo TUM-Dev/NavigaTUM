@@ -1,36 +1,16 @@
 <template>
-  <header class="navbar fixed top-0 z-10 w-full">
-    <div class="grid-lg container">
-      <div class="columns">
-        <div class="column hide-lg">
-          <RouterLink to="/">
-            <img id="logo" alt="Navigatum Logo" src="@/assets/logos/navigatum.svg" />
-            <!-- 7px for logo1 -->
-          </RouterLink>
-        </div>
-        <div class="col-8 col-lg-11 col-mx-auto column">
+  <header class="fixed top-0 z-10 w-full bg-white shadow-md shadow-black/10">
+    <!-- dark:bg-gray-900 dark:shadow-black/40"> -->
+    <nav class="mx-auto max-w-4xl">
+      <div class="mx-10 my-2.5 bg-amber-500 gap-x-10 flex justify-between place-content-between content-between">
+        <RouterLink class="hidden lg:block bg-green-500" to="/">
+          <img alt="Navigatum Logo" class="my-auto h-10" width="200" src="@/assets/logos/navigatum.svg" />
+          <!-- 7px for logo1 -->
+        </RouterLink>
+        <div class="mx-auto my-auto lg:col-span-3 bg-pink-500 flex-grow max-w-lg">
           <slot />
         </div>
       </div>
-    </div>
+    </nav>
   </header>
 </template>
-
-<style lang="scss">
-@import "@/assets/variables";
-
-.navbar {
-  padding: 10px 0;
-  box-shadow: 0 2px 3px $header-shadow-color;
-  background: $header-color;
-
-  #logo {
-    height: 24px;
-    margin-top: 9px;
-  }
-
-  .input-group button {
-    border: 0;
-  }
-}
-</style>

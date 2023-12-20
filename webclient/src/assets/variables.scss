@@ -27,7 +27,6 @@ $border-color-light: color.adjust($border-color, $lightness: 8%);
 
 /* -- Custom vars -- */
 $header-color: #fff;
-$header-shadow-color: rgba(0, 0, 0, 10%);
 $autocomplete-comment-color: #777;
 $autocomplete-filter-bg: #f8f8f8;
 $autocomplete-filter-text: $autocomplete-comment-color;
@@ -65,8 +64,6 @@ $search-border-hover: #dadee4;
   $bg-color: #222428 !global;
 
   /* -- Custom vars -- */
-  $header-color: #1b1c1e;
-  $header-shadow-color: rgba(0, 0, 0, 40%);
   $autocomplete-comment-color: #777;
   $autocomplete-filter-bg: #232526;
   $autocomplete-filter-text: #999;

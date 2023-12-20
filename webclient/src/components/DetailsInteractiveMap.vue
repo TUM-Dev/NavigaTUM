@@ -262,7 +262,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 <template>
   <div
     id="interactive-map-container"
-    :class="{ 'd-none': state.map.selected !== selectedMap.interactive, errormessage: !webglSupport }"
+    :class="{ hidden: state.map.selected !== selectedMap.interactive, errormessage: !webglSupport }"
   >
     <div>
       <div v-if="webglSupport" id="interactive-map" class="loading" />
