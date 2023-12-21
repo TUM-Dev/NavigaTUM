@@ -188,6 +188,10 @@ def _download_and_merge_room(base):
     if not downloaded_file:
         return None
     content = json.loads(downloaded_file.read_text(encoding="utf-8"))
+    for useless_key in ["events_end","events_start"]:
+        if useless_key in content:
+            del content[useless_key]
+    content["area"] = float(content["area"])
     return _merge(content, base)
 
 
