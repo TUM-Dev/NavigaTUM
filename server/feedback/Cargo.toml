@@ -29,7 +29,7 @@ regex = "1.10.2"
 octocrab = { version = "0.32.0", default-features = false, features=["rustls","rustls-webpki-tokio","retry","tokio"] }
 
 # web
-jsonwebtoken = "9.1.0"
+jsonwebtoken = "9.2.0"
 chrono= { version = "0.4.31", default-features = false }
 actix-governor = { version = "0.5.0", features = ["logger"] }
 
