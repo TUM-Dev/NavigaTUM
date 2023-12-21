@@ -8,7 +8,7 @@ The responsible person within the meaning of the data protection laws, in partic
 
 Frank Elsinga representing ["OpenSource @ TUM e.V."](https://tum.dev).
 
-```
+```plain
 Postal address: Josef-Fischhaber-Strasse 46, 82319 Starnberg, Germany.
 Telephone: (0049/0)176 - 56-727-579
 E-mail: navigatum (at-symbol) tum.de
@@ -16,7 +16,7 @@ E-mail: navigatum (at-symbol) tum.de
 
 ### Contact details of the data protection officer
 
-```
+```plain
 The Data Protection Officer of the Technical University of Munich
 Postal address: Arcisstr. 21, 80333 Munich, Germany
 Telephone: 089/289-17052
@@ -37,7 +37,7 @@ For non-public communication, please refer to the contact option via the [Imprin
 
 The technical operation of our data processing systems is carried out by:
 
-```
+```plain
 Leibniz Computing Centre (LRZ) of the Bavarian Academy of Sciences and Humanities
 Boltzmannstraße 1
 D-85748 Garching near Munich
@@ -79,7 +79,7 @@ You have the right to object to the processing of your data at any time on groun
 Furthermore, you have the right to lodge a complaint with the Bavarian State Commissioner for Data Protection.
 You can contact the Bavarian State Commissioner for Data Protection at the following address:
 
-```
+```plain
 Postal address: P.O. Box 22 12 19, 80502 Munich, Germany.
 Address: Wagmüllerstraße 18, 80538 Munich, Germany
 Telephone: 089 212672-0
@@ -110,7 +110,7 @@ For more detailed information on the processing of your data and your rights, yo
 Our web server is operated by the Leibniz Computing Centre of the Bavarian Academy of Sciences and Humanities (LRZ).
 The personal data you transmit when visiting our website is therefore processed by the LRZ on our behalf:
 
-```
+```plain
 Leibniz Computing Centre (LRZ) of the Bavarian Academy of Sciences and Humanities
 Boltzmannstrasse 1
 D-85748 Garching near Munich
