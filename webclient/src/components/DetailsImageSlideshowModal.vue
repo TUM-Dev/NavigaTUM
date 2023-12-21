@@ -71,7 +71,7 @@ const appURL = import.meta.env.VITE_APP_URL;
                       :src="`${appURL}/cdn/lg/${img.name}`"
                       :srcset="`${appURL}/cdn/sm/${img.name} 1024w,${appURL}/cdn/md/${img.name} 1920w,${appURL}/cdn/lg/${img.name} 3860w`"
                       sizes="100vw"
-                      class="block h-auto max-w-full bg-zinc-100 rounded"
+                      class="bg-zinc-100 block h-auto max-w-full rounded"
                     />
                     <span v-if="img.license.url" class="d-none" itemprop="license"> {{ img.license.url }}</span>
                     <span v-else class="d-none" itemprop="license"> img.license.text</span>
@@ -84,7 +84,7 @@ const appURL = import.meta.env.VITE_APP_URL;
                 <label
                   v-for="(_, i) in state.data.imgs"
                   :key="i"
-                  class="c-hand nav-item text-hide"
+                  class="cursor-pointer nav-item text-hide"
                   :for="`slide-${i + 1}`"
                   >{{ i + 1 }}</label
                 >
@@ -93,22 +93,22 @@ const appURL = import.meta.env.VITE_APP_URL;
           </div>
         </div>
         <div v-if="state.image.shown_image" class="modal-footer">
-          <div class="columns">
-            <div class="col-4 col-md-6 col-sm-6 column text-left">
+          <div class="gap-5 grid grid-cols-3 text-center">
+            <div class="col-span-3 md:col-span-1 md:text-left">
               <h6>{{ t("source") }}</h6>
               <a v-if="state.image.shown_image.source.url" :href="state.image.shown_image.source.url">
                 {{ state.image.shown_image.source.text }}
               </a>
               <template v-else>{{ state.image.shown_image.source.text }}</template>
             </div>
-            <div class="col-4 col-md-6 col-sm-6 column text-center text-md-right">
+            <div class="col-span-3 md:col-span-1">
               <h6>{{ t("author") }}</h6>
               <a v-if="state.image.shown_image.author.url" :href="state.image.shown_image.author.url">
                 {{ state.image.shown_image.author.text }}
               </a>
               <template v-else>{{ state.image.shown_image.author.text }}</template>
             </div>
-            <div class="col-4 col-md-12 col-sm-12 column mt-md-3 text-md-center">
+            <div class="col-span-3 md:!text-right md:col-span-1">
               <h6>{{ t("license") }}</h6>
               <a v-if="state.image.shown_image.license.url" :href="state.image.shown_image.license.url">
                 {{ state.image.shown_image.license.text }}

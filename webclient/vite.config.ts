@@ -19,8 +19,11 @@ export default defineConfig({
         target: "https://nav.tum.de",
       },
       "^/api/[^cf].*": {
-        target: "http://127.0.0.1:8080",
+        target: "http://127.0.0.1:3003",
         secure: false,
+      },
+      "/cdn": {
+        target: "https://nav.tum.de",
       },
     },
   },

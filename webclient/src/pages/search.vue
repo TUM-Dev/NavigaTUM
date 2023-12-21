@@ -144,7 +144,7 @@ function genDescription(): string {
 
     .search-comment {
       &.nb_results {
-        color: text-gray;
+        color: $text-gray;
       }
     }
   }
@@ -205,7 +205,7 @@ function genDescription(): string {
     .search_meta {
       display: block;
 
-      // color: text-gray;
+      // color: $text-gray;
 
       a {
         color: $body-font-color;

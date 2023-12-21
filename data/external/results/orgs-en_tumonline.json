@@ -17,12 +17,6 @@
     "name": "Department Administration Architecture",
     "path": "TUM/Academic department/Former TUM Department of Architecture/Department Administration"
   },
-  "TUARF07": {
-    "code": "TUARF07",
-    "id": 15115,
-    "name": "Service office Architecture",
-    "path": "TUM/Academic department/Former TUM Department of Architecture/Department Administration/Service office Architecture"
-  },
   "TUARFAR": {
     "code": "TUARFAR",
     "id": 14185,
@@ -197,18 +191,6 @@
     "name": "Design Factory",
     "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Design Factory"
   },
-  "TUARZ04": {
-    "code": "TUARZ04",
-    "id": 44967,
-    "name": "ar:toolbox",
-    "path": "TUM/Academic department/Former TUM Department of Architecture/ar:toolbox"
-  },
-  "TUARZ05": {
-    "code": "TUARZ05",
-    "id": 49559,
-    "name": "Architecture Research Incubator (ARI)",
-    "path": "TUM/Academic department/Former TUM Department of Architecture/Architecture Research Incubator (ARI)"
-  },
   "TUBVBMA": {
     "code": "TUBVBMA",
     "id": 14935,
@@ -251,12 +233,6 @@
     "name": "Chair of Computational Modeling and Simulation (Prof. Borrmann)",
     "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Computational Modeling and Simulation (Prof. Borrmann)"
   },
-  "TUBVDBV": {
-    "code": "TUBVDBV",
-    "id": 14900,
-    "name": "Dean's Office Dekanat BGU",
-    "path": "TUM/Academic department/Former TUM Department of Civil, Geo and Environmental Engineering/Department Administration/Dean's Office"
-  },
   "TUBVDTL": {
     "code": "TUBVDTL",
     "id": 46175,
@@ -280,12 +256,6 @@
     "id": 44491,
     "name": "Civil, Geo and Environmental Engineering",
     "path": "TUM/Schools/Engineering and Design/Student Council/Civil, Geo and Environmental Engineering"
-  },
-  "TUBVFVW": {
-    "code": "TUBVFVW",
-    "id": 14906,
-    "name": "Department Administration Former TUM Department of Civil, Geo and Environmental Engineering",
-    "path": "TUM/Academic department/Former TUM Department of Civil, Geo and Environmental Engineering/Department Administration"
   },
   "TUBVFWW": {
     "code": "TUBVFWW",
@@ -515,6 +485,24 @@
     "name": "Assistant Professorship of Analytical Chemistry (Prof. Strittmatter)",
     "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Analytical Chemistry (Prof. Strittmatter)"
   },
+  "TUCHBDS": {
+    "code": "TUCHBDS",
+    "id": 32786,
+    "name": "Data Protection Representative Chemistry",
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Representatives/Data Protection Representative"
+  },
+  "TUCHBIO": {
+    "code": "TUCHBIO",
+    "id": 32785,
+    "name": "Information Officer Chemistry",
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Representatives/Information Officer"
+  },
+  "TUCHDEK": {
+    "code": "TUCHDEK",
+    "id": 14629,
+    "name": "Dean Chemistry",
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Dean"
+  },
   "TUCHDEP": {
     "code": "TUCHDEP",
     "id": 22127,
@@ -545,11 +533,23 @@
     "name": "Dean's Office Dekanat CH",
     "path": "TUM/Academic department/Former TUM Department of Chemistry/Dean's Office"
   },
+  "TUCHFFB": {
+    "code": "TUCHFFB",
+    "id": 44214,
+    "name": "Gender Equality Officer Chemistry",
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Representatives/Gender Equality Officer"
+  },
   "TUCHFSS": {
     "code": "TUCHFSS",
     "id": 14633,
     "name": "Student Office CH",
     "path": "TUM/Academic department/Former TUM Department of Chemistry/Student Office CH"
+  },
+  "TUCHFSV": {
+    "code": "TUCHFSV",
+    "id": 44488,
+    "name": "Student Council",
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Student Council"
   },
   "TUCHFV0": {
     "code": "TUCHFV0",
@@ -562,6 +562,12 @@
     "id": 34759,
     "name": "Wacker-Institute for Silicon Chemistry (Prof. Rieger)",
     "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Silicon Chemistry (Prof. Rieger)"
+  },
+  "TUCHLC1": {
+    "code": "TUCHLC1",
+    "id": 14721,
+    "name": "Chair of Food Chemistry (N.N.)",
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Food Chemistry (N.N.)"
   },
   "TUCHNMR": {
     "code": "TUCHNMR",
@@ -665,6 +671,18 @@
     "name": "Chair of Physical Chemistry (Prof. Heiz)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Physical Chemistry (Prof. Heiz)"
   },
+  "TUCHPC2": {
+    "code": "TUCHPC2",
+    "id": 14723,
+    "name": "Chair of Biophysical Chemistry (N.N.)",
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Biophysical Chemistry (N.N.)"
+  },
+  "TUCHPC3": {
+    "code": "TUCHPC3",
+    "id": 23181,
+    "name": "Associate Professorship of Physical Chemistry (N.N.)",
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Physical Chemistry (N.N.)"
+  },
   "TUCHPC4": {
     "code": "TUCHPC4",
     "id": 43583,
@@ -695,11 +713,23 @@
     "name": "Chair of Electron Microscopy with research emphasis on Energy Materials (Prof. Willinger)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Electron Microscopy with research emphasis on Energy Materials (Prof. Willinger)"
   },
+  "TUCHPDK": {
+    "code": "TUCHPDK",
+    "id": 14631,
+    "name": "Vice Dean Prodekan Chemistry",
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Vice Dean"
+  },
   "TUCHRC3": {
     "code": "TUCHRC3",
     "id": 44364,
     "name": "Chair of Pharmaceutical Radiochemistry (Prof. Casini komm.)",
     "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Pharmaceutical Radiochemistry (Prof. Casini komm.)"
+  },
+  "TUCHSDK": {
+    "code": "TUCHSDK",
+    "id": 14632,
+    "name": "Dean of Studies",
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Dean of Studies"
   },
   "TUCHTC1": {
     "code": "TUCHTC1",
@@ -754,6 +784,12 @@
     "id": 50919,
     "name": "Assistant Professorship of Theoretical Methods in Spectroscopy (Prof. Ortmann)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Theoretical Methods in Spectroscopy (Prof. Ortmann)"
+  },
+  "TUCHWA0": {
+    "code": "TUCHWA0",
+    "id": 14635,
+    "name": "Institute for Hydrochemistry",
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Hydrochemistry"
   },
   "TUCHWA1": {
     "code": "TUCHWA1",
@@ -1004,8 +1040,8 @@
   "TUEDS01": {
     "code": "TUEDS01",
     "id": 14827,
-    "name": "Associate Professorship of History of Technology (Prof. Zetti komm.)",
-    "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/History of Technology (Prof. Zetti komm.)"
+    "name": "Associate Professorship of History of Technology (Dr. Reichenberger komm.)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/History of Technology (Dr. Reichenberger komm.)"
   },
   "TUEDS02": {
     "code": "TUEDS02",
@@ -1076,13 +1112,13 @@
   "TUEDS27": {
     "code": "TUEDS27",
     "id": 48758,
-    "name": "Assistant Professorship of Kognitions- und Entwicklungspsychologie (Prof. Ruggeri)",
+    "name": "Chair of Kognitions- und Entwicklungspsychologie (Prof. Ruggeri)",
     "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Kognitions- und Entwicklungspsychologie (Prof. Ruggeri)"
   },
   "TUEDS28": {
     "code": "TUEDS28",
     "id": 49297,
-    "name": "Assistant Professorship of Chemistry Education (Prof. Koenen)",
+    "name": "Associate Professorship of Chemistry Education (Prof. Koenen)",
     "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Chemistry Education (Prof. Koenen)"
   },
   "TUEDS29": {
@@ -1125,7 +1161,7 @@
     "code": "TUEIBIO",
     "id": 32904,
     "name": "Information officer Former TUM Department of Electrical and Computer Engineering",
-    "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Representatives/Information officer"
+    "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Information officer"
   },
   "TUEICDA": {
     "code": "TUEICDA",
@@ -1172,8 +1208,8 @@
   "TUEIEEN": {
     "code": "TUEIEEN",
     "id": 15360,
-    "name": "Chair of Power Transmission Systems (Prof. Tonkoski)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Power Transmission Systems (Prof. Tonkoski)"
+    "name": "Chair of Electric Power Transmission and Distribution (Prof. Tonkoski)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Energy and Process Engineering/Electric Power Transmission and Distribution (Prof. Tonkoski)"
   },
   "TUEIEES": {
     "code": "TUEIEES",
@@ -1229,12 +1265,6 @@
     "name": "Former TUM Department of Electrical and Computer Engineering",
     "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering"
   },
-  "TUEIFFB": {
-    "code": "TUEIFFB",
-    "id": 44218,
-    "name": "Gender Equality Officer Former TUM Department of Electrical and Computer Engineering",
-    "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Representatives/Gender Equality Officer"
-  },
   "TUEIFSB": {
     "code": "TUEIFSB",
     "id": 15331,
@@ -1246,12 +1276,6 @@
     "id": 44494,
     "name": "Student Council",
     "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Student Council"
-  },
-  "TUEIFWS": {
-    "code": "TUEIFWS",
-    "id": 49278,
-    "name": "Central Workshop",
-    "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Central Services/Central Workshop"
   },
   "TUEIHCR": {
     "code": "TUEIHCR",
@@ -1400,7 +1424,7 @@
   "TUEIMLI": {
     "code": "TUEIMLI",
     "id": 49638,
-    "name": "Assistant Professorship of Machine Learning (Prof. Heckel)",
+    "name": "Associate Professorship of Machine Learning (Prof. Heckel)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Machine Learning (Prof. Heckel)"
   },
   "TUEIMMK": {
@@ -1532,8 +1556,8 @@
   "TUEITEP": {
     "code": "TUEITEP",
     "id": 15376,
-    "name": "Chair of Physics of Electrotechnology (Prof. Schrag komm.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Physics of Electrotechnology (Prof. Schrag komm.)"
+    "name": "Associate Professorship of Microsensors and Actuators (Prof. Schrag)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Microsensors and Actuators (Prof. Schrag)"
   },
   "TUEIZDI": {
     "code": "TUEIZDI",
@@ -1697,18 +1721,6 @@
     "name": "Dean's Office Dekanat IN",
     "path": "TUM/Academic department/Former TUM Department of Informatics/Dean's Office"
   },
-  "TUINDIR": {
-    "code": "TUINDIR",
-    "id": 44268,
-    "name": "Board of directors Institute of Informatics",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Institute of Informatics/Board of directors"
-  },
-  "TUINDRU": {
-    "code": "TUINDRU",
-    "id": 44007,
-    "name": "Printery Informatics and Mathematics (SB-Print)",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Central institutions of the academic department/Printery Informatics and Mathematics (SB-Print)"
-  },
   "TUINF01": {
     "code": "TUINF01",
     "id": 24633,
@@ -1739,12 +1751,6 @@
     "name": "Informatics 25 - Chair of Data Science and Engineering (Prof. Neumann)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 25 - Chair of Data Science and Engineering (Prof. Neumann)"
   },
-  "TUINF06": {
-    "code": "TUINF06",
-    "id": 24660,
-    "name": "Informatics 5 - Associate Professorship of Scientific computing - (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Institute of Informatics/Informatics 5 - Associate Professorship of Scientific computing - (N.N.)"
-  },
   "TUINF07": {
     "code": "TUINF07",
     "id": 24669,
@@ -1756,12 +1762,6 @@
     "id": 46356,
     "name": "Informatics 15 - Associate Professorship of Physics-based Simulation (Prof. Thuerey)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 15 - Associate Professorship of Physics-based Simulation (Prof. Thuerey)"
-  },
-  "TUINF09": {
-    "code": "TUINF09",
-    "id": 46375,
-    "name": "Informatics 16 - Associate Professorship of Image-based Biomedical Modeling (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Institute of Informatics/Informatics 16 - Associate Professorship of Image-based Biomedical Modeling (N.N.)"
   },
   "TUINF10": {
     "code": "TUINF10",
@@ -1780,12 +1780,6 @@
     "id": 24661,
     "name": "Informatics 16 - Associate Professorship of Augmented Reality (Prof. Klinker)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 16 - Associate Professorship of Augmented Reality (Prof. Klinker)"
-  },
-  "TUINF13": {
-    "code": "TUINF13",
-    "id": 45210,
-    "name": "Informatics 6 - Associate Professorship of Biomimetische Robotersysteme und Maschinelles Lernen (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Institute of Informatics/Informatics 6 - Associate Professorship of Biomimetische Robotersysteme und Maschinelles Lernen (N.N.)"
   },
   "TUINF14": {
     "code": "TUINF14",
@@ -1894,42 +1888,6 @@
     "id": 44008,
     "name": "Service office Finances Informatics (SB-F-IN)",
     "path": "TUM/Academic department/Former TUM Department of Informatics/Central institutions of the academic department/Service office Finances Informatics (SB-F-IN)"
-  },
-  "TUINGDF": {
-    "code": "TUINGDF",
-    "id": 44271,
-    "name": "Managing Director Finances (GD-F)",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Institute of Informatics/Managing Director Finances (GD-F)"
-  },
-  "TUINGDI": {
-    "code": "TUINGDI",
-    "id": 44270,
-    "name": "Managing Director Informatikrechner (GD-RBG)",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Institute of Informatics/Managing Director Informatikrechner (GD-RBG)"
-  },
-  "TUINGDP": {
-    "code": "TUINGDP",
-    "id": 44272,
-    "name": "Managing Direktor Personnel (GD-P)",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Institute of Informatics/Managing Direktor Personnel (GD-P)"
-  },
-  "TUINGDR": {
-    "code": "TUINGDR",
-    "id": 44273,
-    "name": "Managing Director Planning and Building (GD-R)",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Institute of Informatics/Managing Director Planning and Building (GD-R)"
-  },
-  "TUINGDS": {
-    "code": "TUINGDS",
-    "id": 44274,
-    "name": "Managing Direktor Study (GD-S)",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Institute of Informatics/Managing Direktor Study (GD-S)"
-  },
-  "TUINGF1": {
-    "code": "TUINGF1",
-    "id": 44275,
-    "name": "Managing Director (GF)",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Institute of Informatics/Managing Director (GF)"
   },
   "TUINH01": {
     "code": "TUINH01",
@@ -2165,23 +2123,11 @@
     "name": "System Administration Group Informatics (RBG-IN)",
     "path": "TUM/Academic department/Former TUM Department of Informatics/Central institutions of the academic department/System Administration Group Informatics (RBG-IN)"
   },
-  "TUINRUB": {
-    "code": "TUINRUB",
-    "id": 44010,
-    "name": "Service office Planning and Building Informatics and Mathematics (SB-R)",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Central institutions of the academic department/Service office Planning and Building Informatics and Mathematics (SB-R)"
-  },
   "TUINSBS": {
     "code": "TUINSBS",
     "id": 15417,
     "name": "Service office Academic Programs (SB-S-IN)",
     "path": "TUM/Academic department/Former TUM Department of Informatics/Central institutions of the academic department/Service office Academic Programs (SB-S-IN)"
-  },
-  "TUINSBZ": {
-    "code": "TUINSBZ",
-    "id": 44265,
-    "name": "Service office Temporary workers and Business trips Informatics and Mathematics (SB-Z)",
-    "path": "TUM/Academic department/Former TUM Department of Informatics/Central institutions of the academic department/Service office Temporary workers and Business trips Informatics and Mathematics (SB-Z)"
   },
   "TUINZE1": {
     "code": "TUINZE1",
@@ -2330,8 +2276,8 @@
   "TULRRFA": {
     "code": "TULRRFA",
     "id": 44566,
-    "name": "Chair of Space Propulsion (Prof. Manfletti)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Space Propulsion (Prof. Manfletti)"
+    "name": "Chair of Space Mobility and Propulsion (Prof. Manfletti)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Space Mobility and Propulsion (Prof. Manfletti)"
   },
   "TULRSFM": {
     "code": "TULRSFM",
@@ -2350,12 +2296,6 @@
     "id": 47297,
     "name": "Chair of Data Science in Earth Observation (Prof. Zhu)",
     "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Data Science in Earth Observation (Prof. Zhu)"
-  },
-  "TULRSTD": {
-    "code": "TULRSTD",
-    "id": 50117,
-    "name": "Academic Programs Office LRG",
-    "path": "TUM/Academic department/Former TUM Department of Aerospace and Geodesy/Administration of the department/Academic Programs Office LRG"
   },
   "TUMAF01": {
     "code": "TUMAF01",
@@ -2384,7 +2324,7 @@
   "TUMAF07": {
     "code": "TUMAF07",
     "id": 14612,
-    "name": "Assistant Professorship of Discrete Mathematics (Prof. Weltge)",
+    "name": "Associate Professorship of Discrete Mathematics (Prof. Weltge)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Discrete Mathematics (Prof. Weltge)"
   },
   "TUMAF08": {
@@ -2450,8 +2390,8 @@
   "TUMAF20": {
     "code": "TUMAF20",
     "id": 14614,
-    "name": "Assistant Professorship of Mathematical Finance (N.N.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Mathematical Finance (N.N.)"
+    "name": "Assistant Professorship of Mathematical Finance (Prof. Knochenhauer)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Mathematical Finance (Prof. Knochenhauer)"
   },
   "TUMAF22": {
     "code": "TUMAF22",
@@ -2651,179 +2591,173 @@
     "name": "Assistant Professorship of Topology (Prof. Scheimbauer)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Topology (Prof. Scheimbauer)"
   },
-  "TUMAZMA": {
-    "code": "TUMAZMA",
-    "id": 14208,
-    "name": "Research Department Mathematics Centre",
-    "path": "TUM/Academic department/Former TUM Department of Mathematics/Mathematics Centre"
-  },
   "TUME1M0": {
     "code": "TUME1M0",
     "id": 15718,
     "name": "Department of Internal Medicine I - Cardiology (Prof. Laugwitz)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine I - Cardiology (Prof. Laugwitz)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine I - Cardiology (Prof. Laugwitz)"
   },
   "TUME1M1": {
     "code": "TUME1M1",
     "id": 15934,
     "name": "Chair of Internal Medicine I - Cardiology (DHM) (Prof. Schunkert)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Internal Medicine I - Cardiology (DHM) (Prof. Schunkert)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Internal Medicine I - Cardiology (DHM) (Prof. Schunkert)"
   },
   "TUME1M2": {
     "code": "TUME1M2",
     "id": 27811,
     "name": "Associate Professorship of Internal Medicine (DHM) (Prof. Kastrati)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Internal Medicine (DHM) (Prof. Kastrati)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Internal Medicine (DHM) (Prof. Kastrati)"
   },
   "TUME1M3": {
     "code": "TUME1M3",
     "id": 54565,
     "name": "Assistant Professorship of Gene Editing (Prof. Gr\u00fcnewald)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine I - Cardiology (Prof. Laugwitz)/Gene Editing (Prof. Gr\u00fcnewald)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine I - Cardiology (Prof. Laugwitz)/Gene Editing (Prof. Gr\u00fcnewald)"
   },
   "TUME1M4": {
     "code": "TUME1M4",
     "id": 54566,
     "name": "Associate Professorship of Cardiovascular Translation in Large Animal Models (Prof. Klymiuk)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine I - Cardiology (Prof. Laugwitz)/Cardiovascular Translation in Large Animal Models (Prof. Klymiuk)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine I - Cardiology (Prof. Laugwitz)/Cardiovascular Translation in Large Animal Models (Prof. Klymiuk)"
   },
   "TUME1M5": {
     "code": "TUME1M5",
     "id": 54600,
     "name": "Associate Professorship of Molekulare Kardiologie (Prof. Laugwitz)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine I - Cardiology (Prof. Laugwitz)/Molekulare Kardiologie (Prof. Laugwitz)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine I - Cardiology (Prof. Laugwitz)/Molekulare Kardiologie (Prof. Laugwitz)"
   },
   "TUME1M6": {
     "code": "TUME1M6",
     "id": 54601,
     "name": "Associate Professorship of Regenerative Medicine in Cardiovascular Disease (Prof. Moretti)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine I - Cardiology (Prof. Laugwitz)/Regenerative Medicine in Cardiovascular Disease (Prof. Moretti)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine I - Cardiology (Prof. Laugwitz)/Regenerative Medicine in Cardiovascular Disease (Prof. Moretti)"
   },
   "TUME2M0": {
     "code": "TUME2M0",
     "id": 15719,
     "name": "Department of Internal Medicine II - Gastroenterology (Prof. Schmid)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine II - Gastroenterology (Prof. Schmid)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)"
   },
   "TUME2M1": {
     "code": "TUME2M1",
     "id": 15939,
     "name": "Chair of Internal Medicine II (Prof. Schmid)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine II - Gastroenterology (Prof. Schmid)/Internal Medicine II (Prof. Schmid)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Internal Medicine II (Prof. Schmid)"
   },
   "TUME2M2": {
     "code": "TUME2M2",
     "id": 54567,
     "name": "Associate Professorship of Tumormetabolism (Prof. Alg\u00fcl)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine II - Gastroenterology (Prof. Schmid)/Tumormetabolism (Prof. Alg\u00fcl)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Tumormetabolism (Prof. Alg\u00fcl)"
   },
   "TUME2M3": {
     "code": "TUME2M3",
     "id": 15941,
     "name": "Associate Professorship of Nephrology (Prof. Heemann)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine II - Gastroenterology (Prof. Schmid)/Abteilung f\u00fcr Nephrologie (Prof. Heemann)/Nephrology (Prof. Heemann)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Abteilung f\u00fcr Nephrologie (Prof. Heemann)/Nephrology (Prof. Heemann)"
   },
   "TUME2M5": {
     "code": "TUME2M5",
     "id": 45571,
     "name": "Abteilung f\u00fcr Klinische Toxikologie (Prof. Eyer)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine II - Gastroenterology (Prof. Schmid)/Abteilung f\u00fcr Klinische Toxikologie (Prof. Eyer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Abteilung f\u00fcr Klinische Toxikologie (Prof. Eyer)"
   },
   "TUME2M6": {
     "code": "TUME2M6",
     "id": 45771,
     "name": "Molecular Oncology and Functional Genomics (Prof. Rad)",
-    "path": "TUM/Academic department/Medicine/Institutes/Molecular Oncology and Functional Genomics (Prof. Rad)/Molecular Oncology and Functional Genomics (Prof. Rad)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Molecular Oncology and Functional Genomics (Prof. Rad)/Molecular Oncology and Functional Genomics (Prof. Rad)"
   },
   "TUME2M7": {
     "code": "TUME2M7",
     "id": 54658,
     "name": "Associate Professorship of Clinical Toxicology (Prof. Eyer)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine II - Gastroenterology (Prof. Schmid)/Abteilung f\u00fcr Klinische Toxikologie (Prof. Eyer)/Clinical Toxicology (Prof. Eyer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Abteilung f\u00fcr Klinische Toxikologie (Prof. Eyer)/Clinical Toxicology (Prof. Eyer)"
   },
   "TUME2M8": {
     "code": "TUME2M8",
     "id": 54660,
     "name": "Abteilung f\u00fcr Nephrologie (Prof. Heemann)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine II - Gastroenterology (Prof. Schmid)/Abteilung f\u00fcr Nephrologie (Prof. Heemann)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Abteilung f\u00fcr Nephrologie (Prof. Heemann)"
   },
   "TUME2M9": {
     "code": "TUME2M9",
     "id": 54665,
-    "name": "Assistant Professorship of Translationale Pankreaskrebsforschung (Prof. Reichert)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine II - Gastroenterology (Prof. Schmid)/Translationale Pankreaskrebsforschung (Prof. Reichert)"
+    "name": "Associate Professorship of Translationale Pankreaskrebsforschung (Prof. Reichert)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine II - Gastroenterology (Prof. Schmid)/Translationale Pankreaskrebsforschung (Prof. Reichert)"
   },
   "TUME3M0": {
     "code": "TUME3M0",
     "id": 15720,
     "name": "Department of Internal Medicine III - Hematology and Medical Oncology (Prof. Bassermann)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine III - Hematology and Medical Oncology (Prof. Bassermann)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine III - Hematology and Medical Oncology (Prof. Bassermann)"
   },
   "TUME3M1": {
     "code": "TUME3M1",
     "id": 15946,
     "name": "Chair of Internal Medicine III - Hematology und Onkology (Prof. Bassermann)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine III - Hematology and Medical Oncology (Prof. Bassermann)/Internal Medicine III - Hematology und Onkology (Prof. Bassermann)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine III - Hematology and Medical Oncology (Prof. Bassermann)/Internal Medicine III - Hematology und Onkology (Prof. Bassermann)"
   },
   "TUME3M2": {
     "code": "TUME3M2",
     "id": 27805,
     "name": "Associate Professorship of Experimental Hematology (Prof. Schmidt-Supprian)",
-    "path": "TUM/Academic department/Medicine/Institutes/Experimental Hematology (Prof. Schmidt-Supprian)/Experimental Hematology (Prof. Schmidt-Supprian)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Experimental Hematology (Prof. Schmidt-Supprian)/Experimental Hematology (Prof. Schmidt-Supprian)"
   },
   "TUME3M3": {
     "code": "TUME3M3",
     "id": 54568,
     "name": "Associate Professorship of Translational Immunotherapy (Prof. Krackhardt)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine III - Hematology and Medical Oncology (Prof. Bassermann)/Translational Immunotherapy (Prof. Krackhardt)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine III - Hematology and Medical Oncology (Prof. Bassermann)/Translational Immunotherapy (Prof. Krackhardt)"
   },
   "TUME3M4": {
     "code": "TUME3M4",
     "id": 54662,
     "name": "Associate Professorship of Personalized Oncology (Prof. Illert)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Internal Medicine III - Hematology and Medical Oncology (Prof. Bassermann)/Personalized Oncology (Prof. Illert)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Internal Medicine III - Hematology and Medical Oncology (Prof. Bassermann)/Personalized Oncology (Prof. Illert)"
   },
   "TUMEAM0": {
     "code": "TUMEAM0",
     "id": 42655,
     "name": "Institute of General Medicine (Prof. Schneider)",
-    "path": "TUM/Academic department/Medicine/Institutes/General Medicine (Prof. Schneider)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/General Medicine (Prof. Schneider)"
   },
   "TUMEAM1": {
     "code": "TUMEAM1",
     "id": 42656,
     "name": "Chair of General Practice (Prof. Schneider)",
-    "path": "TUM/Academic department/Medicine/Institutes/General Medicine (Prof. Schneider)/General Practice (Prof. Schneider)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/General Medicine (Prof. Schneider)/General Practice (Prof. Schneider)"
   },
   "TUMEAN0": {
     "code": "TUMEAN0",
     "id": 15717,
     "name": "Department of Anesthesiology and Intensive Care (Prof. Schneider)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Anesthesiology and Intensive Care (Prof. Schneider)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Anesthesiology and Intensive Care (Prof. Schneider)"
   },
   "TUMEAN1": {
     "code": "TUMEAN1",
     "id": 15928,
     "name": "Chair of Anesthesiology (Prof. Schneider)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Anesthesiology and Intensive Care (Prof. Schneider)/Anesthesiology (Prof. Schneider)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Anesthesiology and Intensive Care (Prof. Schneider)/Anesthesiology (Prof. Schneider)"
   },
   "TUMEAP0": {
     "code": "TUMEAP0",
     "id": 42043,
     "name": "Pharmacy",
-    "path": "TUM/Academic department/Medicine/Pharmacy"
+    "path": "TUM/Schools/Medicine and Health/More Units MRI/Pharmacy"
   },
   "TUMEAU0": {
     "code": "TUMEAU0",
     "id": 26541,
     "name": "Department of Ophthalmology",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Ophthalmology"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Ophthalmology"
   },
   "TUMEAU1": {
     "code": "TUMEAU1",
     "id": 15995,
     "name": "Chair of Ophtalmology (Prof. Maier komm.)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Ophthalmology/Ophtalmology (Prof. Maier komm.)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Ophthalmology/Ophtalmology (Prof. Maier komm.)"
   },
   "TUMEBB0": {
     "code": "TUMEBB0",
@@ -2835,235 +2769,211 @@
     "code": "TUMEBB1",
     "id": 27418,
     "name": "Chair of Biological Imaging (HMGU) (Prof. Ntziachristos)",
-    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Biological Imaging (HMGU) (Prof. Ntziachristos)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrst\u00fchle und Professuren Preclinical Medicine/Biological Imaging (HMGU) (Prof. Ntziachristos)"
   },
   "TUMEBB3": {
     "code": "TUMEBB3",
     "id": 51557,
     "name": "Assistant Professorship of Translationale Optoakustik (HMGU) (Prof. Pleitez Rafael)",
-    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Translationale Optoakustik (HMGU) (Prof. Pleitez Rafael)"
-  },
-  "TUMEBDS": {
-    "code": "TUMEBDS",
-    "id": 32923,
-    "name": "Data Protection Representative TUM Department of Medicine",
-    "path": "TUM/Academic department/Medicine/Representatives/Data Protection Representative"
-  },
-  "TUMEBFF": {
-    "code": "TUMEBFF",
-    "id": 54197,
-    "name": "Representative Research Funding Support TUM Department of Medicine",
-    "path": "TUM/Academic department/Medicine/Representatives/Research Funding Support"
-  },
-  "TUMEBIO": {
-    "code": "TUMEBIO",
-    "id": 32922,
-    "name": "Representative Information Officer TUM Department of Medicine",
-    "path": "TUM/Academic department/Medicine/Representatives/Representative"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrst\u00fchle und Professuren Preclinical Medicine/Translationale Optoakustik (HMGU) (Prof. Pleitez Rafael)"
   },
   "TUMEBTS": {
     "code": "TUMEBTS",
     "id": 44664,
-    "name": "Animal Protection Representative TUM Department of Medicine",
-    "path": "TUM/Academic department/Medicine/Representatives/Animal Protection Representative"
+    "name": "Animal Protection Representative of the TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Animal Protection Representative"
   },
   "TUMECC0": {
     "code": "TUMECC0",
     "id": 45651,
     "name": "Roman Herzog Comprehensive Cancer Center",
-    "path": "TUM/Academic department/Medicine/Roman Herzog Comprehensive Cancer Center"
+    "path": "TUM/Schools/Medicine and Health/Roman Herzog Comprehensive Cancer Center"
   },
   "TUMECH0": {
     "code": "TUMECH0",
     "id": 15715,
     "name": "Department of Surgery (Prof. Friess)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Surgery (Prof. Friess)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Surgery (Prof. Friess)"
   },
   "TUMECH1": {
     "code": "TUMECH1",
     "id": 15919,
     "name": "Chair of Surgery (Prof. Friess)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Surgery (Prof. Friess)/Surgery (Prof. Friess)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Surgery (Prof. Friess)/Surgery (Prof. Friess)"
   },
   "TUMECH2": {
     "code": "TUMECH2",
     "id": 15923,
     "name": "Associate Professorship of Immunosuppression and Postoperative Sepsis (Prof. Holzmann)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Surgery (Prof. Friess)/Immunosuppression and Postoperative Sepsis (Prof. Holzmann)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Surgery (Prof. Friess)/Immunosuppression and Postoperative Sepsis (Prof. Holzmann)"
   },
   "TUMECH3": {
     "code": "TUMECH3",
     "id": 15921,
     "name": "Associate Professorship of Surgical Clinic Department Vascular Surgery (Prof. Eckstein )",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Vascular and Endovascular Surgery (Prof. Eckstein)/Surgical Clinic Department Vascular Surgery (Prof. Eckstein )"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Vascular and Endovascular Surgery (Prof. Eckstein)/Surgical Clinic Department Vascular Surgery (Prof. Eckstein )"
   },
   "TUMECH7": {
     "code": "TUMECH7",
     "id": 54598,
     "name": "Associate Professorship of Paediatrics (Prof. Hosie)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Surgery (Prof. Friess)/Paediatrics (Prof. Hosie)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Surgery (Prof. Friess)/Paediatrics (Prof. Hosie)"
   },
   "TUMEDE0": {
     "code": "TUMEDE0",
     "id": 15731,
     "name": "Department of Dermatology and Allergology (Prof. Biedermann)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Dermatology and Allergology (Prof. Biedermann)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Dermatology and Allergology (Prof. Biedermann)"
   },
   "TUMEDE1": {
     "code": "TUMEDE1",
     "id": 16005,
     "name": "Chair of Dermatology and Allergology (Prof. Biedermann)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Dermatology and Allergology (Prof. Biedermann)/Dermatology and Allergology (Prof. Biedermann)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Dermatology and Allergology (Prof. Biedermann)/Dermatology and Allergology (Prof. Biedermann)"
   },
   "TUMEDE4": {
     "code": "TUMEDE4",
     "id": 41785,
     "name": "Associate Professorship of Epigenetics of Skin Aging (Prof. Djabali)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Dermatology and Allergology (Prof. Biedermann)/Epigenetics of Skin Aging (Prof. Djabali)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrst\u00fchle und Professuren Preclinical Medicine/Epigenetics of Skin Aging (Prof. Djabali)"
   },
   "TUMEDF1": {
     "code": "TUMEDF1",
     "id": 44965,
     "name": "Chair of Diabetes Research/beta-cell biology (HMGU) (Prof. Lickert)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Pediatric Medicine (Prof. Hauer)/Diabetes Research/beta-cell biology (HMGU) (Prof. Lickert)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Pediatric Medicine (Prof. Hauer)/Diabetes Research/beta-cell biology (HMGU) (Prof. Lickert)"
   },
   "TUMEDF2": {
     "code": "TUMEDF2",
     "id": 44966,
     "name": "Chair of Metabolic Diseases (HMGU) (Prof. Tsch\u00f6p)",
-    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Metabolic Diseases (HMGU) (Prof. Tsch\u00f6p)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrst\u00fchle und Professuren Clinical Medicine/Metabolic Diseases (HMGU) (Prof. Tsch\u00f6p)"
   },
   "TUMEDF3": {
     "code": "TUMEDF3",
     "id": 45452,
     "name": "Chair of Diabetes und Gestationsdiabetes (HMGU) (Prof. Ziegler)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Pediatric Medicine (Prof. Hauer)/Diabetes und Gestationsdiabetes (HMGU) (Prof. Ziegler)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Pediatric Medicine (Prof. Hauer)/Diabetes und Gestationsdiabetes (HMGU) (Prof. Ziegler)"
   },
   "TUMEDH0": {
     "code": "TUMEDH0",
     "id": 16102,
     "name": "Clinic for Heart and Vascular Diseases (DHM) (Prof. Schunkert)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Heart and Vascular Diseases (DHM) (Prof. Schunkert)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Heart and Vascular Diseases (DHM) (Prof. Schunkert)"
   },
   "TUMEDH1": {
     "code": "TUMEDH1",
     "id": 16100,
     "name": "Clinic for Heart and Vascular Surgery (DHM) (Prof. Lange)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Heart and Vascular Surgery (DHM) (Prof. Lange)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Heart and Vascular Surgery (DHM) (Prof. Lange)"
   },
   "TUMEDH2": {
     "code": "TUMEDH2",
     "id": 16101,
     "name": "Clinic for Paediatric Cardiology (DHM) (Prof. Ewert)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Paediatric Cardiology (DHM) (Prof. Ewert)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Paediatric Cardiology (DHM) (Prof. Ewert)"
   },
   "TUMEDH3": {
     "code": "TUMEDH3",
     "id": 27783,
     "name": "Associate Professorship of Cardioanaesthesiology (DHM) (Prof. Tassani-Prell)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Institute of Anaesthesiology (DHM) (Prof. Tassani-Prell)/Cardioanaesthesiology (DHM) (Prof. Tassani-Prell)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Institute of Anaesthesiology (DHM) (Prof. Tassani-Prell)/Cardioanaesthesiology (DHM) (Prof. Tassani-Prell)"
   },
   "TUMEDH5": {
     "code": "TUMEDH5",
     "id": 27785,
     "name": "Associate Professorship of Cardiovascular Biology (DHM) (Prof. G\u00f6rlach)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Paediatric Cardiology (DHM) (Prof. Ewert)/Cardiovascular Biology (DHM) (Prof. G\u00f6rlach)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Paediatric Cardiology (DHM) (Prof. Ewert)/Cardiovascular Biology (DHM) (Prof. G\u00f6rlach)"
   },
   "TUMEDH6": {
     "code": "TUMEDH6",
     "id": 50958,
     "name": "Clinic for Congenital and Pediatric Heart Surgery (DHM) (Prof. H\u00f6rer)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Congenital and Pediatric Heart Surgery (DHM) (Prof. H\u00f6rer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Congenital and Pediatric Heart Surgery (DHM) (Prof. H\u00f6rer)"
   },
   "TUMEDH7": {
     "code": "TUMEDH7",
     "id": 54619,
     "name": "Institute of Anaesthesiology (DHM) (Prof. Tassani-Prell)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Institute of Anaesthesiology (DHM) (Prof. Tassani-Prell)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Institute of Anaesthesiology (DHM) (Prof. Tassani-Prell)"
   },
   "TUMEDH8": {
     "code": "TUMEDH8",
     "id": 54618,
     "name": "Assistant Professorship of Cardiovascular Inflammation (DHM) (Prof. Sager)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Cardiovascular Inflammation (DHM) (Prof. Sager)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Cardiovascular Inflammation (DHM) (Prof. Sager)"
   },
   "TUMEDH9": {
     "code": "TUMEDH9",
     "id": 54617,
     "name": "Associate Professorship of Early Clinical Trials in Cardiology (DHM) (Prof. Joner)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Early Clinical Trials in Cardiology (DHM) (Prof. Joner)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Heart and Vascular Diseases (DHM) (Prof. Schunkert)/Early Clinical Trials in Cardiology (DHM) (Prof. Joner)"
   },
   "TUMEDHA": {
     "code": "TUMEDHA",
     "id": 54657,
     "name": "Chair of Pediatric Cardiology and Cogenital Heart Defects (DHM) (Prof. Ewert)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Paediatric Cardiology (DHM) (Prof. Ewert)/Pediatric Cardiology and Cogenital Heart Defects (DHM) (Prof. Ewert)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Paediatric Cardiology (DHM) (Prof. Ewert)/Pediatric Cardiology and Cogenital Heart Defects (DHM) (Prof. Ewert)"
   },
   "TUMEDHB": {
     "code": "TUMEDHB",
     "id": 54669,
     "name": "Chair of Congenital Cardiac Surgery (DHM) (Prof. H\u00f6rer)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Congenital and Pediatric Heart Surgery (DHM) (Prof. H\u00f6rer)/Congenital Cardiac Surgery (DHM) (Prof. H\u00f6rer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Congenital and Pediatric Heart Surgery (DHM) (Prof. H\u00f6rer)/Congenital Cardiac Surgery (DHM) (Prof. H\u00f6rer)"
   },
   "TUMEDHC": {
     "code": "TUMEDHC",
     "id": 54663,
     "name": "Chair of Herzchirurgie (DHM) (Prof. Lange)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Heart and Vascular Surgery (DHM) (Prof. Lange)/Herzchirurgie (DHM) (Prof. Lange)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Heart and Vascular Surgery (DHM) (Prof. Lange)/Herzchirurgie (DHM) (Prof. Lange)"
   },
   "TUMEDHD": {
     "code": "TUMEDHD",
     "id": 54670,
     "name": "Assistant Professorship of Adult Congenital Heart Disease (DHM) (Prof. Tutarel)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Paediatric Cardiology (DHM) (Prof. Ewert)/Adult Congenital Heart Disease (DHM) (Prof. Tutarel)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Paediatric Cardiology (DHM) (Prof. Ewert)/Adult Congenital Heart Disease (DHM) (Prof. Tutarel)"
   },
   "TUMEDHE": {
     "code": "TUMEDHE",
     "id": 55097,
     "name": "Institute for Radiology and Nuclear Medicine (DHM) (Dr. Martinoff)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Institute for Radiology and Nuclear Medicine (DHM) (Dr. Martinoff)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Institute for Radiology and Nuclear Medicine (DHM) (Dr. Martinoff)"
   },
   "TUMEDHF": {
     "code": "TUMEDHF",
     "id": 55098,
     "name": "Institute of Laboratory Medicine (DHM) (Prof. Holdenrieder)",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich/Institute of Laboratory Medicine (DHM) (Prof. Holdenrieder)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Institute of Laboratory Medicine (DHM) (Prof. Holdenrieder)"
   },
   "TUMEDHX": {
     "code": "TUMEDHX",
     "id": 15749,
     "name": "German Heart Centre Munich",
-    "path": "TUM/Academic department/Medicine/German Heart Centre Munich"
-  },
-  "TUMEDKN": {
-    "code": "TUMEDKN",
-    "id": 15699,
-    "name": "Dean TUM Department of Medicine",
-    "path": "TUM/Academic department/Medicine/Dean"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich"
   },
   "TUMEEH0": {
     "code": "TUMEEH0",
     "id": 54559,
     "name": "Institute of Experimental Hematology (Prof. Schmidt-Supprian)",
-    "path": "TUM/Academic department/Medicine/Institutes/Experimental Hematology (Prof. Schmidt-Supprian)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Experimental Hematology (Prof. Schmidt-Supprian)"
   },
   "TUMEEK0": {
     "code": "TUMEEK0",
     "id": 54777,
-    "name": "Ethics Commission",
-    "path": "TUM/Academic department/Medicine/Ethics Commission"
+    "name": "Ethics Commission med., AMG",
+    "path": "TUM/Schools/Medicine and Health/Ethics Commissions/Ethics Commission med., AMG"
   },
   "TUMEEN0": {
     "code": "TUMEEN0",
     "id": 54560,
     "name": "Institute of Experimental Neuroimmunology (Prof. Korn)",
-    "path": "TUM/Academic department/Medicine/Institutes/Experimental Neuroimmunology (Prof. Korn)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Experimental Neuroimmunology (Prof. Korn)"
   },
   "TUMEEN1": {
     "code": "TUMEEN1",
     "id": 54561,
     "name": "Chair of Experimental Neuroimmunology (Prof. Korn)",
-    "path": "TUM/Academic department/Medicine/Institutes/Experimental Neuroimmunology (Prof. Korn)/Experimental Neuroimmunology (Prof. Korn)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Experimental Neuroimmunology (Prof. Korn)/Experimental Neuroimmunology (Prof. Korn)"
   },
   "TUMEEO0": {
     "code": "TUMEEO0",
@@ -3081,97 +2991,91 @@
     "code": "TUMEER0",
     "id": 15751,
     "name": "Clinic of Nutritional Medicine (Prof. Hauner)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Nutritional Medicine (Prof. Hauner)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nutritional Medicine (Prof. Hauner)"
   },
   "TUMEER1": {
     "code": "TUMEER1",
     "id": 16110,
     "name": "Chair of Nutritional Medicine (Prof. Hauner)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Nutritional Medicine (Prof. Hauner)/Nutritional Medicine (Prof. Hauner)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nutritional Medicine (Prof. Hauner)/Nutritional Medicine (Prof. Hauner)"
   },
   "TUMEER2": {
     "code": "TUMEER2",
     "id": 27799,
     "name": "Associate Professorship of Paediatric Nutritional Medicine (Prof. Witt)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Nutritional Medicine (Prof. Hauner)/Paediatric Nutritional Medicine (Prof. Witt)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrst\u00fchle und Professuren Preclinical Medicine/Paediatric Nutritional Medicine (Prof. Witt)"
   },
   "TUMEET0": {
     "code": "TUMEET0",
     "id": 54562,
     "name": "Institute of Exerimentelle Tumortherapie (Prof. Saur)",
-    "path": "TUM/Academic department/Medicine/Institutes/Exerimentelle Tumortherapie (Prof. Saur)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Exerimentelle Tumortherapie (Prof. Saur)"
   },
   "TUMEET1": {
     "code": "TUMEET1",
     "id": 54563,
     "name": "Chair of Translational Tumor Research (DKTK) (Prof. Saur)",
-    "path": "TUM/Academic department/Medicine/Institutes/Exerimentelle Tumortherapie (Prof. Saur)/Translational Tumor Research (DKTK) (Prof. Saur)"
-  },
-  "TUMEFFB": {
-    "code": "TUMEFFB",
-    "id": 44220,
-    "name": "Gender Equality Officer TUM Department of Medicine",
-    "path": "TUM/Academic department/Medicine/Representatives/Gender Equality Officer"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Exerimentelle Tumortherapie (Prof. Saur)/Translational Tumor Research (DKTK) (Prof. Saur)"
   },
   "TUMEFME": {
     "code": "TUMEFME",
     "id": 14191,
-    "name": "TUM Department of Medicine",
+    "name": "Former TUM Department of Medicine",
     "path": "TUM/Academic department/Medicine"
   },
   "TUMEFSV": {
     "code": "TUMEFSV",
     "id": 44495,
     "name": "Student Council MH-ME",
-    "path": "TUM/Academic department/Medicine/Student Council MH-ME"
+    "path": "TUM/Schools/Medicine and Health/Student Council/Student Council MH-ME"
   },
   "TUMEFVW": {
     "code": "TUMEFVW",
     "id": 15704,
-    "name": "Department Administration TUM Department of Medicine",
+    "name": "Department Administration Former TUM Department of Medicine",
     "path": "TUM/Academic department/Medicine/Department Administration"
   },
   "TUMEGC0": {
     "code": "TUMEGC0",
     "id": 44684,
     "name": "Clinic and Polyclinic for Vascular and Endovascular Surgery (Prof. Eckstein)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Vascular and Endovascular Surgery (Prof. Eckstein)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Vascular and Endovascular Surgery (Prof. Eckstein)"
   },
   "TUMEGC1": {
     "code": "TUMEGC1",
     "id": 45512,
     "name": "Associate Professorship of Vaskul\u00e4re Biologie (Prof. Maegdefessel)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Vascular and Endovascular Surgery (Prof. Eckstein)/Vaskul\u00e4re Biologie (Prof. Maegdefessel)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Vascular and Endovascular Surgery (Prof. Eckstein)/Vaskul\u00e4re Biologie (Prof. Maegdefessel)"
   },
   "TUMEGE0": {
     "code": "TUMEGE0",
     "id": 15744,
     "name": "Institute of History and Ethics of Medicine (Prof. Buyx)",
-    "path": "TUM/Academic department/Medicine/Institutes/History and Ethics of Medicine (Prof. Buyx)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/History and Ethics of Medicine (Prof. Buyx)"
   },
   "TUMEGE1": {
     "code": "TUMEGE1",
     "id": 16080,
     "name": "Associate Professorship of Ethics in Medicine and Health Technologies (Prof. Buyx)",
-    "path": "TUM/Academic department/Medicine/Institutes/History and Ethics of Medicine (Prof. Buyx)/Ethics in Medicine and Health Technologies (Prof. Buyx)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/History and Ethics of Medicine (Prof. Buyx)/Ethics in Medicine and Health Technologies (Prof. Buyx)"
   },
   "TUMEGE2": {
     "code": "TUMEGE2",
     "id": 54324,
     "name": "Assistant Professorship of Ethics of AI and Neuroscience (Prof. Ienca)",
-    "path": "TUM/Academic department/Medicine/Institutes/History and Ethics of Medicine (Prof. Buyx)/Ethics of AI and Neuroscience (Prof. Ienca)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/History and Ethics of Medicine (Prof. Buyx)/Ethics of AI and Neuroscience (Prof. Ienca)"
   },
   "TUMEGY0": {
     "code": "TUMEGY0",
     "id": 26519,
     "name": "Department of Gynecology (Prof. Kiechle)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Gynecology (Prof. Kiechle)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Gynecology (Prof. Kiechle)"
   },
   "TUMEGY1": {
     "code": "TUMEGY1",
     "id": 15950,
     "name": "Chair of Gynaecology (Prof. Kiechle)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Gynecology (Prof. Kiechle)/Gynaecology (Prof. Kiechle)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Gynecology (Prof. Kiechle)/Gynaecology (Prof. Kiechle)"
   },
   "TUMEGZ0": {
     "code": "TUMEGZ0",
@@ -3183,91 +3087,91 @@
     "code": "TUMEHM0",
     "id": 15737,
     "name": "Institute of Human Genetics  (Prof. Winkelmann)",
-    "path": "TUM/Academic department/Medicine/Institutes/Human Genetics  (Prof. Winkelmann)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Human Genetics  (Prof. Winkelmann)"
   },
   "TUMEHM1": {
     "code": "TUMEHM1",
     "id": 16041,
     "name": "Chair of Human Genetics (Prof. Winkelmann)",
-    "path": "TUM/Academic department/Medicine/Institutes/Human Genetics  (Prof. Winkelmann)/Human Genetics (Prof. Winkelmann)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Human Genetics  (Prof. Winkelmann)/Human Genetics (Prof. Winkelmann)"
   },
   "TUMEHN1": {
     "code": "TUMEHN1",
     "id": 15977,
     "name": "Chair of Otorhinolaryngology (Prof. Wollenberg)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Otolaryngology (Prof. Wollenberg)/Otorhinolaryngology (Prof. Wollenberg)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Otolaryngology (Prof. Wollenberg)/Otorhinolaryngology (Prof. Wollenberg)"
   },
   "TUMEHN3": {
     "code": "TUMEHN3",
     "id": 54603,
     "name": "Assistant Professorship of Experimental Audiology (Prof. Wimmer)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Otolaryngology (Prof. Wollenberg)/Experimental Audiology (Prof. Wimmer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Otolaryngology (Prof. Wollenberg)/Experimental Audiology (Prof. Wimmer)"
   },
   "TUMEHNO": {
     "code": "TUMEHNO",
     "id": 15726,
     "name": "Department of Otolaryngology (Prof. Wollenberg)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Otolaryngology (Prof. Wollenberg)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Otolaryngology (Prof. Wollenberg)"
   },
   "TUMEIA0": {
     "code": "TUMEIA0",
     "id": 46737,
     "name": "Institute of Industrial Medicine - LMU",
-    "path": "TUM/Academic department/Medicine/Institutes/Industrial Medicine - LMU"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Kooperationen mit der LMU/Industrial Medicine - LMU"
   },
   "TUMEIM0": {
     "code": "TUMEIM0",
     "id": 45774,
     "name": "Institute of Molecular Immunology (Prof. Knolle)",
-    "path": "TUM/Academic department/Medicine/Institutes/Molecular Immunology (Prof. Knolle)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Molecular Immunology (Prof. Knolle)"
   },
   "TUMEIM1": {
     "code": "TUMEIM1",
     "id": 45780,
     "name": "Chair of Molekulare Immunologie (Prof. Knolle)",
-    "path": "TUM/Academic department/Medicine/Institutes/Molecular Immunology (Prof. Knolle)/Molekulare Immunologie (Prof. Knolle)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Molecular Immunology (Prof. Knolle)/Molekulare Immunologie (Prof. Knolle)"
   },
   "TUMEIR0": {
     "code": "TUMEIR0",
     "id": 15750,
     "name": "Institute of Forensic Medicine - LMU",
-    "path": "TUM/Academic department/Medicine/Institutes/Forensic Medicine - LMU"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Kooperationen mit der LMU/Forensic Medicine - LMU"
   },
   "TUMEIS0": {
     "code": "TUMEIS0",
     "id": 15743,
     "name": "Institute of AI and Informatics in Medicine (Prof. R\u00fcckert)",
-    "path": "TUM/Academic department/Medicine/Institutes/AI and Informatics in Medicine (Prof. R\u00fcckert)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/AI and Informatics in Medicine (Prof. R\u00fcckert)"
   },
   "TUMEIS1": {
     "code": "TUMEIS1",
     "id": 16070,
     "name": "Chair of Medical Informatics (Prof. Boeker)",
-    "path": "TUM/Academic department/Medicine/Institutes/AI and Informatics in Medicine (Prof. R\u00fcckert)/Medical Informatics (Prof. Boeker)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/AI and Informatics in Medicine (Prof. R\u00fcckert)/Medical Informatics (Prof. Boeker)"
   },
   "TUMEIS2": {
     "code": "TUMEIS2",
     "id": 51177,
     "name": "Chair of Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment between Department of Medicine and TUM School of Computation, Information and Technology)",
-    "path": "TUM/Academic department/Medicine/Institutes/AI and Informatics in Medicine (Prof. R\u00fcckert)/Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment between Department of Medicine and TUM School of Computation, Information and Technology)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/AI and Informatics in Medicine (Prof. R\u00fcckert)/Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment between Department of Medicine and TUM School of Computation, Information and Technology)"
   },
   "TUMEKC0": {
     "code": "TUMEKC0",
     "id": 15738,
     "name": "Institute of Clinical Chemistry and Pathobiochemistry (Prof. Ruland)",
-    "path": "TUM/Academic department/Medicine/Institutes/Clinical Chemistry and Pathobiochemistry (Prof. Ruland)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Clinical Chemistry and Pathobiochemistry (Prof. Ruland)"
   },
   "TUMEKC1": {
     "code": "TUMEKC1",
     "id": 16045,
     "name": "Chair of Clinical Chemistry and Pathobiochemistry (Prof. Ruland)",
-    "path": "TUM/Academic department/Medicine/Institutes/Clinical Chemistry and Pathobiochemistry (Prof. Ruland)/Clinical Chemistry and Pathobiochemistry (Prof. Ruland)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Clinical Chemistry and Pathobiochemistry (Prof. Ruland)/Clinical Chemistry and Pathobiochemistry (Prof. Ruland)"
   },
   "TUMEKC2": {
     "code": "TUMEKC2",
     "id": 54564,
     "name": "Assistant Professorship of Molecular Medicine - Immune Signaling (Prof. Jellusova)",
-    "path": "TUM/Academic department/Medicine/Institutes/Clinical Chemistry and Pathobiochemistry (Prof. Ruland)/Molecular Medicine - Immune Signaling (Prof. Jellusova)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Clinical Chemistry and Pathobiochemistry (Prof. Ruland)/Molecular Medicine - Immune Signaling (Prof. Jellusova)"
   },
   "TUMEKCK": {
     "code": "TUMEKCK",
@@ -3279,397 +3183,385 @@
     "code": "TUMEKI0",
     "id": 15734,
     "name": "Department of Pediatric Medicine (Prof. Hauer)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Pediatric Medicine (Prof. Hauer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Pediatric Medicine (Prof. Hauer)"
   },
   "TUMEKI1": {
     "code": "TUMEKI1",
     "id": 16021,
     "name": "Chair of Paediatrics (Prof. Hauer)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Pediatric Medicine (Prof. Hauer)/Paediatrics (Prof. Hauer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Pediatric Medicine (Prof. Hauer)/Paediatrics (Prof. Hauer)"
   },
   "TUMEKI4": {
     "code": "TUMEKI4",
     "id": 45090,
     "name": "Chair of Sozialp\u00e4diatrie (Prof. Mall)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Pediatric Medicine (Prof. Hauer)/Sozialp\u00e4diatrie (Prof. Mall)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Pediatric Medicine (Prof. Hauer)/Sozialp\u00e4diatrie (Prof. Mall)"
   },
   "TUMEKI5": {
     "code": "TUMEKI5",
     "id": 54597,
     "name": "Associate Professorship of Pediatric Infectiology and Immunobiology (Prof. Behrends)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Pediatric Medicine (Prof. Hauer)/Pediatric Infectiology and Immunobiology (Prof. Behrends)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Pediatric Medicine (Prof. Hauer)/Pediatric Infectiology and Immunobiology (Prof. Behrends)"
   },
   "TUMELP0": {
     "code": "TUMELP0",
     "id": 45511,
     "name": "Chair of Neuroproteomik (DZNE) (Prof. Lichtenthaler)",
-    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Neuroproteomik (DZNE) (Prof. Lichtenthaler)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrst\u00fchle und Professuren Clinical Medicine/Neuroproteomik (DZNE) (Prof. Lichtenthaler)"
   },
   "TUMEMA0": {
     "code": "TUMEMA0",
     "id": 45772,
     "name": "Institute of Molecular Allergology (Prof. Schmidt-Weber)",
-    "path": "TUM/Academic department/Medicine/Institutes/Molecular Allergology (Prof. Schmidt-Weber)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Molecular Allergology (Prof. Schmidt-Weber)"
   },
   "TUMEMA1": {
     "code": "TUMEMA1",
     "id": 16007,
     "name": "Chair of Molecular allergology and Environment (Prof. Schmidt-Weber)",
-    "path": "TUM/Academic department/Medicine/Institutes/Molecular Allergology (Prof. Schmidt-Weber)/Molecular allergology and Environment (Prof. Schmidt-Weber)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Molecular Allergology (Prof. Schmidt-Weber)/Molecular allergology and Environment (Prof. Schmidt-Weber)"
   },
   "TUMEMA2": {
     "code": "TUMEMA2",
     "id": 54357,
     "name": "Associate Professorship of Functional Allergology (HMGU) (Prof. Eyerich)",
-    "path": "TUM/Academic department/Medicine/Institutes/Molecular Allergology (Prof. Schmidt-Weber)/Functional Allergology (HMGU) (Prof. Eyerich)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Molecular Allergology (Prof. Schmidt-Weber)/Functional Allergology (HMGU) (Prof. Eyerich)"
   },
   "TUMEMD0": {
     "code": "TUMEMD0",
     "id": 47897,
     "name": "Chair of Medical Education (Prof. Berberat)",
-    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Medical Education (Prof. Berberat)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrst\u00fchle und Professuren Clinical Medicine/Medical Education (Prof. Berberat)"
   },
   "TUMEMI0": {
     "code": "TUMEMI0",
     "id": 15740,
     "name": "Institute of Medical Microbiology, Immunology and Hygiene (Prof. Busch)",
-    "path": "TUM/Academic department/Medicine/Institutes/Medical Microbiology, Immunology and Hygiene (Prof. Busch)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Medical Microbiology, Immunology and Hygiene (Prof. Busch)"
   },
   "TUMEMI1": {
     "code": "TUMEMI1",
     "id": 16053,
     "name": "Chair of Medical Microbiology, Immunology and Hygiene (Prof. Busch)",
-    "path": "TUM/Academic department/Medicine/Institutes/Medical Microbiology, Immunology and Hygiene (Prof. Busch)/Medical Microbiology, Immunology and Hygiene (Prof. Busch)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Medical Microbiology, Immunology and Hygiene (Prof. Busch)/Medical Microbiology, Immunology and Hygiene (Prof. Busch)"
   },
   "TUMEMI2": {
     "code": "TUMEMI2",
     "id": 27718,
     "name": "Associate Professorship of Medical Microbiology and Immunology  (Prof. Gerhard)",
-    "path": "TUM/Academic department/Medicine/Institutes/Medical Microbiology, Immunology and Hygiene (Prof. Busch)/Medical Microbiology and Immunology  (Prof. Gerhard)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Medical Microbiology, Immunology and Hygiene (Prof. Busch)/Medical Microbiology and Immunology  (Prof. Gerhard)"
   },
   "TUMEMI3": {
     "code": "TUMEMI3",
     "id": 27717,
     "name": "Assistant Professorship of Engineering Immune Cells for Therapy (Prof. Schumann)",
-    "path": "TUM/Academic department/Medicine/Institutes/Medical Microbiology, Immunology and Hygiene (Prof. Busch)/Engineering Immune Cells for Therapy (Prof. Schumann)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Medical Microbiology, Immunology and Hygiene (Prof. Busch)/Engineering Immune Cells for Therapy (Prof. Schumann)"
   },
   "TUMEMK0": {
     "code": "TUMEMK0",
     "id": 15732,
     "name": "Department of Oral and Maxillofacial Surgery (Prof. Wolff)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Oral and Maxillofacial Surgery (Prof. Wolff)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Oral and Maxillofacial Surgery (Prof. Wolff)"
   },
   "TUMEMK1": {
     "code": "TUMEMK1",
     "id": 16012,
     "name": "Chair of Odontology, in particular Oral and Maxillofacial Surgery (Prof. Wolff)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Oral and Maxillofacial Surgery (Prof. Wolff)/Odontology, in particular Oral and Maxillofacial Surgery (Prof. Wolff)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Oral and Maxillofacial Surgery (Prof. Wolff)/Odontology, in particular Oral and Maxillofacial Surgery (Prof. Wolff)"
   },
   "TUMEMK2": {
     "code": "TUMEMK2",
     "id": 16013,
     "name": "Associate Professorship of Dental Surgery and Implantology (Prof. Deppe)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Oral and Maxillofacial Surgery (Prof. Wolff)/Dental Surgery and Implantology (Prof. Deppe)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Oral and Maxillofacial Surgery (Prof. Wolff)/Dental Surgery and Implantology (Prof. Deppe)"
   },
   "TUMEMO0": {
     "code": "TUMEMO0",
     "id": 49897,
     "name": "Institute of Molecular Oncology and Functional Genomics (Prof. Rad)",
-    "path": "TUM/Academic department/Medicine/Institutes/Molecular Oncology and Functional Genomics (Prof. Rad)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Molecular Oncology and Functional Genomics (Prof. Rad)"
   },
   "TUMEMP0": {
     "code": "TUMEMP0",
     "id": 46924,
     "name": "Central unit of the faculty administration Pr\u00fcfungsamt ME",
-    "path": "TUM/Academic department/Medicine/Department Administration/Central unit of the faculty administration"
+    "path": "TUM/Schools/Medicine and Health/Central unit of the faculty administration"
   },
   "TUMEMS0": {
     "code": "TUMEMS0",
     "id": 54661,
     "name": "Chair of Molecular Mechanisms of Metabolism (HMGU) (Prof. Herzig)",
-    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Molecular Mechanisms of Metabolism (HMGU) (Prof. Herzig)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrst\u00fchle und Professuren Clinical Medicine/Molecular Mechanisms of Metabolism (HMGU) (Prof. Herzig)"
   },
   "TUMENC0": {
     "code": "TUMENC0",
     "id": 15723,
     "name": "Department of Neurosurgery (Prof. Meyer)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Neurosurgery (Prof. Meyer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neurosurgery (Prof. Meyer)"
   },
   "TUMENC1": {
     "code": "TUMENC1",
     "id": 15963,
     "name": "Chair of Neurosurgery (Prof. Meyer)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Neurosurgery (Prof. Meyer)/Neurosurgery (Prof. Meyer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neurosurgery (Prof. Meyer)/Neurosurgery (Prof. Meyer)"
   },
   "TUMENC2": {
     "code": "TUMENC2",
     "id": 54571,
     "name": "Assistant Professorship of Translational Neurotechnology (Prof. Jacob)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Neurosurgery (Prof. Meyer)/Translational Neurotechnology (Prof. Jacob)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neurosurgery (Prof. Meyer)/Translational Neurotechnology (Prof. Jacob)"
   },
   "TUMEND0": {
     "code": "TUMEND0",
     "id": 54664,
     "name": "Associate Professorship of Neurobiology of Diabetes (HMGU) (Prof. Pfluger)",
-    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Neurobiology of Diabetes (HMGU) (Prof. Pfluger)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrst\u00fchle und Professuren Clinical Medicine/Neurobiology of Diabetes (HMGU) (Prof. Pfluger)"
   },
   "TUMENL0": {
     "code": "TUMENL0",
     "id": 15722,
     "name": "Department of Neurology (Prof. Hemmer)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Neurology (Prof. Hemmer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neurology (Prof. Hemmer)"
   },
   "TUMENL1": {
     "code": "TUMENL1",
     "id": 15956,
     "name": "Chair of Neurology (Prof. Hemmer)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Neurology (Prof. Hemmer)/Neurology (Prof. Hemmer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neurology (Prof. Hemmer)/Neurology (Prof. Hemmer)"
   },
   "TUMENL2": {
     "code": "TUMENL2",
     "id": 27831,
     "name": "Associate Professorship of Neurology focusing on Neurological Pain Theory and Pain Research (Prof. T\u00f6lle)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Neurology (Prof. Hemmer)/Neurology focusing on Neurological Pain Theory and Pain Research (Prof. T\u00f6lle)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neurology (Prof. Hemmer)/Neurology focusing on Neurological Pain Theory and Pain Research (Prof. T\u00f6lle)"
   },
   "TUMENL5": {
     "code": "TUMENL5",
     "id": 54602,
     "name": "Associate Professorship of Human Pain Research (Prof. Ploner)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Neurology (Prof. Hemmer)/Human Pain Research (Prof. Ploner)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Neurology (Prof. Hemmer)/Human Pain Research (Prof. Ploner)"
   },
   "TUMENM0": {
     "code": "TUMENM0",
     "id": 15730,
     "name": "Department of Nuclear Medicine (Prof. Weber)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Nuclear Medicine (Prof. Weber)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nuclear Medicine (Prof. Weber)"
   },
   "TUMENM1": {
     "code": "TUMENM1",
     "id": 15999,
     "name": "Chair of Nuclear Medicine (Prof. Weber)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Nuclear Medicine (Prof. Weber)/Nuclear Medicine (Prof. Weber)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nuclear Medicine (Prof. Weber)/Nuclear Medicine (Prof. Weber)"
   },
   "TUMENM2": {
     "code": "TUMENM2",
     "id": 54573,
     "name": "Assistant Professorship of Imaging and Biomarkers in Oncology (Prof. Kossatz)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Nuclear Medicine (Prof. Weber)/Imaging and Biomarkers in Oncology (Prof. Kossatz)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nuclear Medicine (Prof. Weber)/Imaging and Biomarkers in Oncology (Prof. Kossatz)"
   },
   "TUMENM3": {
     "code": "TUMENM3",
     "id": 54572,
     "name": "Assistant Professorship of Biomedical Magnetic Resonance (Prof. Schilling)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Nuclear Medicine (Prof. Weber)/Biomedical Magnetic Resonance (Prof. Schilling)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Nuclear Medicine (Prof. Weber)/Biomedical Magnetic Resonance (Prof. Schilling)"
   },
   "TUMENN0": {
     "code": "TUMENN0",
     "id": 54569,
     "name": "Clinic and Polyclinic for Neonatology (Prof. Peters komm.)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Clinic and Polyclinic for Neonatology (Prof. Peters komm.)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Clinic and Polyclinic for Neonatology (Prof. Peters komm.)"
   },
   "TUMENN1": {
     "code": "TUMENN1",
     "id": 54570,
     "name": "Assistant Professorship of Neonatology (Prof. Peters komm.)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Clinic and Polyclinic for Neonatology (Prof. Peters komm.)/Neonatology (Prof. Peters komm.)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Clinic and Polyclinic for Neonatology (Prof. Peters komm.)/Neonatology (Prof. Peters komm.)"
   },
   "TUMENW0": {
     "code": "TUMENW0",
     "id": 27382,
     "name": "Institute of Neuroscience (Prof. Konnerth)",
-    "path": "TUM/Academic department/Medicine/Institutes/Neuroscience (Prof. Konnerth)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Neuroscience (Prof. Konnerth)"
   },
   "TUMENW1": {
     "code": "TUMENW1",
     "id": 16114,
     "name": "Hertie Senior Research Professorship in Neuroscience (Prof. Konnerth)",
-    "path": "TUM/Academic department/Medicine/Institutes/Neuroscience (Prof. Konnerth)/Hertie Senior Research Professorship in Neuroscience (Prof. Konnerth)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Neuroscience (Prof. Konnerth)/Hertie Senior Research Professorship in Neuroscience (Prof. Konnerth)"
   },
   "TUMENW3": {
     "code": "TUMENW3",
     "id": 50498,
     "name": "Assistant Professorship of Brain Circuit Function and Dysfunction (Prof. Portugues Peters)",
-    "path": "TUM/Academic department/Medicine/Institutes/Neuroscience (Prof. Konnerth)/Brain Circuit Function and Dysfunction (Prof. Portugues Peters)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Neuroscience (Prof. Konnerth)/Brain Circuit Function and Dysfunction (Prof. Portugues Peters)"
   },
   "TUMEOR0": {
     "code": "TUMEOR0",
     "id": 15728,
     "name": "Department of Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)"
   },
   "TUMEOR1": {
     "code": "TUMEOR1",
     "id": 15988,
     "name": "Chair of Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)/Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)/Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)"
   },
   "TUMEOR2": {
     "code": "TUMEOR2",
     "id": 28310,
     "name": "Associate Professorship of Paediatric Neuroorthopaedics, Main Research: Cerebral Palsy  (Prof. Lampe)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)/Paediatric Neuroorthopaedics, Main Research: Cerebral Palsy  (Prof. Lampe)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)/Paediatric Neuroorthopaedics, Main Research: Cerebral Palsy  (Prof. Lampe)"
   },
   "TUMEOR3": {
     "code": "TUMEOR3",
     "id": 15989,
     "name": "Associate Professorship of Sports Orthopaedy (N.N.)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)/Sports Orthopaedy (N.N.)"
+    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Sports Orthopaedy (N.N.)"
   },
   "TUMEPA0": {
     "code": "TUMEPA0",
     "id": 15741,
     "name": "Institute of General and Surgical Pathology (Dr. Mogler komm.)",
-    "path": "TUM/Academic department/Medicine/Institutes/General and Surgical Pathology (Dr. Mogler komm.)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/General and Surgical Pathology (Dr. Mogler komm.)"
   },
   "TUMEPA1": {
     "code": "TUMEPA1",
     "id": 16057,
     "name": "Chair of Pathology (N.N.)",
-    "path": "TUM/Academic department/Medicine/Institutes/General and Surgical Pathology (Dr. Mogler komm.)/Pathology (N.N.)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/General and Surgical Pathology (Dr. Mogler komm.)/Pathology (N.N.)"
   },
   "TUMEPA5": {
     "code": "TUMEPA5",
     "id": 51417,
     "name": "Assistant Professorship of Computational Pathology (Prof. Sch\u00fcffler)",
-    "path": "TUM/Academic department/Medicine/Institutes/General and Surgical Pathology (Dr. Mogler komm.)/Computational Pathology (Prof. Sch\u00fcffler)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/General and Surgical Pathology (Dr. Mogler komm.)/Computational Pathology (Prof. Sch\u00fcffler)"
   },
   "TUMEPC0": {
     "code": "TUMEPC0",
     "id": 15716,
     "name": "Department of Plastic Surgery and Hand Surgery  (Prof. Machens)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Plastic Surgery and Hand Surgery  (Prof. Machens)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Plastic Surgery and Hand Surgery  (Prof. Machens)"
   },
   "TUMEPC1": {
     "code": "TUMEPC1",
     "id": 27611,
     "name": "Chair of Plastic Surgery (Prof. Machens)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Plastic Surgery and Hand Surgery  (Prof. Machens)/Plastic Surgery (Prof. Machens)"
-  },
-  "TUMEPDK": {
-    "code": "TUMEPDK",
-    "id": 15700,
-    "name": "Vice Dean  TUM Department of Medicine",
-    "path": "TUM/Academic department/Medicine/Vice Dean"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Plastic Surgery and Hand Surgery  (Prof. Machens)/Plastic Surgery (Prof. Machens)"
   },
   "TUMEPF0": {
     "code": "TUMEPF0",
     "id": 44665,
     "name": "Zentrum f\u00fcr Pr\u00e4klinische Forschung (ZPF)",
-    "path": "TUM/Academic department/Medicine/Zentrum f\u00fcr Pr\u00e4klinische Forschung (ZPF)"
+    "path": "TUM/Schools/Medicine and Health/Zentrum f\u00fcr Pr\u00e4klinische Forschung (ZPF)"
   },
   "TUMEPM0": {
     "code": "TUMEPM0",
     "id": 15724,
     "name": "Department of Psychosomatic Medicine and Psychotherapy  (Prof. Henningsen)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Psychosomatic Medicine and Psychotherapy  (Prof. Henningsen)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Psychosomatic Medicine and Psychotherapy  (Prof. Henningsen)"
   },
   "TUMEPM1": {
     "code": "TUMEPM1",
     "id": 15968,
     "name": "Chair of Psychosomatic Medicine and Psychotherapy (Prof. Henningsen)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Psychosomatic Medicine and Psychotherapy  (Prof. Henningsen)/Psychosomatic Medicine and Psychotherapy (Prof. Henningsen)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Psychosomatic Medicine and Psychotherapy  (Prof. Henningsen)/Psychosomatic Medicine and Psychotherapy (Prof. Henningsen)"
   },
   "TUMEPR0": {
     "code": "TUMEPR0",
     "id": 15735,
-    "name": "Department of Preventive and Rehabilitative Sports Medicine (Prof. Halle)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Preventive and Rehabilitative Sports Medicine (Prof. Halle)"
+    "name": "Department of Preventive Sports Medicine and Sports Cardiology (Prof. Halle)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Preventive Sports Medicine and Sports Cardiology (Prof. Halle)"
   },
   "TUMEPR1": {
     "code": "TUMEPR1",
     "id": 16029,
-    "name": "Chair of Preventive and Rehabilitative Sports Medicine (Prof. Halle)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Preventive and Rehabilitative Sports Medicine (Prof. Halle)/Preventive and Rehabilitative Sports Medicine (Prof. Halle)"
+    "name": "Chair of Preventive Sports Medicine and Sports Cardiology (Prof. Halle) (Prof. Halle)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Preventive Sports Medicine and Sports Cardiology (Prof. Halle)/Preventive Sports Medicine and Sports Cardiology (Prof. Halle) (Prof. Halle)"
   },
   "TUMEPS0": {
     "code": "TUMEPS0",
     "id": 27635,
     "name": "Department of Psychiatry and Psychotherapy (Prof. Priller)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Psychiatry and Psychotherapy (Prof. Priller)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Psychiatry and Psychotherapy (Prof. Priller)"
   },
   "TUMEPS1": {
     "code": "TUMEPS1",
     "id": 16017,
     "name": "Chair of Psychiatry and Psychotherapy (Prof. Priller)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Psychiatry and Psychotherapy (Prof. Priller)/Psychiatry and Psychotherapy (Prof. Priller)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Psychiatry and Psychotherapy (Prof. Priller)/Psychiatry and Psychotherapy (Prof. Priller)"
   },
   "TUMEPS3": {
     "code": "TUMEPS3",
     "id": 54666,
     "name": "Assistant Professorship of Humane Organoidtechnologien zur Erforschung psychischer Erkrankungen (Prof. Sch\u00e4fer)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Psychiatry and Psychotherapy (Prof. Priller)/Humane Organoidtechnologien zur Erforschung psychischer Erkrankungen (Prof. Sch\u00e4fer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Psychiatry and Psychotherapy (Prof. Priller)/Humane Organoidtechnologien zur Erforschung psychischer Erkrankungen (Prof. Sch\u00e4fer)"
   },
   "TUMEPT0": {
     "code": "TUMEPT0",
     "id": 15742,
     "name": "Institute of Pharmacology and Toxicology (Prof. Engelhardt)",
-    "path": "TUM/Academic department/Medicine/Institutes/Pharmacology and Toxicology (Prof. Engelhardt)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Pharmacology and Toxicology (Prof. Engelhardt)"
   },
   "TUMEPT1": {
     "code": "TUMEPT1",
     "id": 16065,
     "name": "Chair of Pharmacology and Toxicology (Prof. Engelhardt)",
-    "path": "TUM/Academic department/Medicine/Institutes/Pharmacology and Toxicology (Prof. Engelhardt)/Pharmacology and Toxicology (Prof. Engelhardt)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Pharmacology and Toxicology (Prof. Engelhardt)/Pharmacology and Toxicology (Prof. Engelhardt)"
   },
   "TUMERO0": {
     "code": "TUMERO0",
     "id": 15736,
     "name": "Institute of Radiology (Prof. Makowski)",
-    "path": "TUM/Academic department/Medicine/Institutes/Radiology (Prof. Makowski)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiology (Prof. Makowski)"
   },
   "TUMERO1": {
     "code": "TUMERO1",
     "id": 16034,
     "name": "Chair of Radiology (Prof. Makowski)",
-    "path": "TUM/Academic department/Medicine/Institutes/Radiology (Prof. Makowski)/Radiology (Prof. Makowski)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiology (Prof. Makowski)/Radiology (Prof. Makowski)"
   },
   "TUMERO2": {
     "code": "TUMERO2",
     "id": 16036,
     "name": "Associate Professorship of Department Interventional Radiology (Prof. Paprottka)",
-    "path": "TUM/Academic department/Medicine/Institutes/Radiology (Prof. Makowski)/Department Interventional Radiology (Prof. Paprottka)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiology (Prof. Makowski)/Department Interventional Radiology (Prof. Paprottka)"
   },
   "TUMERO3": {
     "code": "TUMERO3",
     "id": 16037,
     "name": "Associate Professorship of Neuroradiology (Prof. Zimmer)",
-    "path": "TUM/Academic department/Medicine/Institutes/Radiology (Prof. Makowski)/Abteilung f\u00fcr Diagnostische und Interventionelle Neuroradiologie (Prof. Zimmer)/Neuroradiology (Prof. Zimmer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiology (Prof. Makowski)/Abteilung f\u00fcr Diagnostische und Interventionelle Neuroradiologie (Prof. Zimmer)/Neuroradiology (Prof. Zimmer)"
   },
   "TUMERO5": {
     "code": "TUMERO5",
     "id": 54558,
     "name": "Assistant Professorship of Artificial Intelligence in Radiology (Prof. Wachinger)",
-    "path": "TUM/Academic department/Medicine/Institutes/Radiology (Prof. Makowski)/Assistant Professorship of Artificial Intelligence in Radiology (Prof. Wachinger)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiology (Prof. Makowski)/Assistant Professorship of Artificial Intelligence in Radiology (Prof. Wachinger)"
   },
   "TUMERO6": {
     "code": "TUMERO6",
     "id": 54599,
     "name": "Assistant Professorship of Experimental Magnetic Resonance Imaging (Prof. Karampinos)",
-    "path": "TUM/Academic department/Medicine/Institutes/Radiology (Prof. Makowski)/Experimental Magnetic Resonance Imaging (Prof. Karampinos)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiology (Prof. Makowski)/Experimental Magnetic Resonance Imaging (Prof. Karampinos)"
   },
   "TUMERO7": {
     "code": "TUMERO7",
     "id": 54668,
     "name": "Abteilung f\u00fcr Diagnostische und Interventionelle Neuroradiologie (Prof. Zimmer)",
-    "path": "TUM/Academic department/Medicine/Institutes/Radiology (Prof. Makowski)/Abteilung f\u00fcr Diagnostische und Interventionelle Neuroradiologie (Prof. Zimmer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiology (Prof. Makowski)/Abteilung f\u00fcr Diagnostische und Interventionelle Neuroradiologie (Prof. Zimmer)"
   },
   "TUMERZ0": {
     "code": "TUMERZ0",
     "id": 42041,
     "name": "Information Technology",
-    "path": "TUM/Academic department/Medicine/Information Technology"
-  },
-  "TUMESDK": {
-    "code": "TUMESDK",
-    "id": 15702,
-    "name": "Dean of Studies",
-    "path": "TUM/Academic department/Medicine/Dean of Studies"
+    "path": "TUM/Schools/Medicine and Health/More Units MRI/Information Technology"
   },
   "TUMESO0": {
     "code": "TUMESO0",
     "id": 54659,
     "name": "Chair of Applied Stem Cell and Organoidsystems (Prof. Hebrok)",
-    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Applied Stem Cell and Organoidsystems (Prof. Hebrok)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrst\u00fchle und Professuren Clinical Medicine/Applied Stem Cell and Organoidsystems (Prof. Hebrok)"
   },
   "TUMESSK": {
     "code": "TUMESSK",
@@ -3681,73 +3573,73 @@
     "code": "TUMEST0",
     "id": 15725,
     "name": "Department of Radiooncology and Radiation Therapy  (Prof. Combs)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Radiooncology and Radiation Therapy  (Prof. Combs)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiooncology and Radiation Therapy  (Prof. Combs)"
   },
   "TUMEST1": {
     "code": "TUMEST1",
     "id": 15973,
     "name": "Chair of Radiotherapy and Radiological Oncology (Prof. Combs)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Radiooncology and Radiation Therapy  (Prof. Combs)/Radiotherapy and Radiological Oncology (Prof. Combs)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiooncology and Radiation Therapy  (Prof. Combs)/Radiotherapy and Radiological Oncology (Prof. Combs)"
   },
   "TUMEST2": {
     "code": "TUMEST2",
     "id": 27844,
     "name": "Associate Professorship of Experimental Radiation Oncology / Radiation Biology (Prof. Multhoff)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Radiooncology and Radiation Therapy  (Prof. Combs)/Experimental Radiation Oncology / Radiation Biology (Prof. Multhoff)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiooncology and Radiation Therapy  (Prof. Combs)/Experimental Radiation Oncology / Radiation Biology (Prof. Multhoff)"
   },
   "TUMEST3": {
     "code": "TUMEST3",
     "id": 44087,
     "name": "Associate Professorship of Medical Radiation Physics (Prof. Wilkens)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Radiooncology and Radiation Therapy  (Prof. Combs)/Medical Radiation Physics (Prof. Wilkens)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiooncology and Radiation Therapy  (Prof. Combs)/Medical Radiation Physics (Prof. Wilkens)"
   },
   "TUMESVW": {
     "code": "TUMESVW",
     "id": 46925,
     "name": "Sonstige Verwaltung",
-    "path": "TUM/Academic department/Medicine/Department Administration/Sonstige Verwaltung"
+    "path": "TUM/Schools/Medicine and Health/More Units MRI/Sonstige Verwaltung"
   },
   "TUMETBB": {
     "code": "TUMETBB",
     "id": 48657,
     "name": "Medizintechnik",
-    "path": "TUM/Academic department/Medicine/Medizintechnik"
+    "path": "TUM/Schools/Medicine and Health/More Units MRI/Medizintechnik"
   },
   "TUMETG0": {
     "code": "TUMETG0",
     "id": 54667,
     "name": "Chair of Translational Genomics (HMGU) (Prof. Zeggini)",
-    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Translational Genomics (HMGU) (Prof. Zeggini)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrst\u00fchle und Professuren Clinical Medicine/Translational Genomics (HMGU) (Prof. Zeggini)"
   },
   "TUMETIU": {
     "code": "TUMETIU",
     "id": 51637,
     "name": "Assistant Professorship of Translational Immunology in Environmental Health (UNIKA-T) (Prof. Renner)",
-    "path": "TUM/Academic department/Medicine/Further Chairs and Professorships/Translational Immunology in Environmental Health (UNIKA-T) (Prof. Renner)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrst\u00fchle und Professuren Clinical Medicine/Translational Immunology in Environmental Health (UNIKA-T) (Prof. Renner)"
   },
   "TUMETU0": {
     "code": "TUMETU0",
     "id": 15747,
     "name": "Institute of Toxicology and Environmental Hygiene (Prof. G\u00f6ttlicher)",
-    "path": "TUM/Academic department/Medicine/Institutes/Toxicology and Environmental Hygiene (Prof. G\u00f6ttlicher)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Toxicology and Environmental Hygiene (Prof. G\u00f6ttlicher)"
   },
   "TUMETU1": {
     "code": "TUMETU1",
     "id": 16091,
     "name": "Chair of Toxicology and Environmental Hygiene (HMGU) (Prof. G\u00f6ttlicher)",
-    "path": "TUM/Academic department/Medicine/Institutes/Toxicology and Environmental Hygiene (Prof. G\u00f6ttlicher)/Toxicology and Environmental Hygiene (HMGU) (Prof. G\u00f6ttlicher)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Toxicology and Environmental Hygiene (Prof. G\u00f6ttlicher)/Toxicology and Environmental Hygiene (HMGU) (Prof. G\u00f6ttlicher)"
   },
   "TUMEUC0": {
     "code": "TUMEUC0",
     "id": 44685,
     "name": "Department of Trauma Surgery  (Prof. Biberthaler)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Trauma Surgery  (Prof. Biberthaler)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Trauma Surgery  (Prof. Biberthaler)"
   },
   "TUMEUC1": {
     "code": "TUMEUC1",
     "id": 15991,
     "name": "Chair of Trauma Surgery (Prof. Biberthaler)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Trauma Surgery  (Prof. Biberthaler)/Trauma Surgery (Prof. Biberthaler)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Trauma Surgery  (Prof. Biberthaler)/Trauma Surgery (Prof. Biberthaler)"
   },
   "TUMEUM0": {
     "code": "TUMEUM0",
@@ -3759,31 +3651,31 @@
     "code": "TUMEUR0",
     "id": 15727,
     "name": "Department of Urology (Prof. Gschwend)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Urology (Prof. Gschwend)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Urology (Prof. Gschwend)"
   },
   "TUMEUR1": {
     "code": "TUMEUR1",
     "id": 15982,
     "name": "Chair of Urology (Prof. Gschwend)",
-    "path": "TUM/Academic department/Medicine/Clinics and Polyclinics/Urology (Prof. Gschwend)/Urology (Prof. Gschwend)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Urology (Prof. Gschwend)/Urology (Prof. Gschwend)"
   },
   "TUMEVI0": {
     "code": "TUMEVI0",
     "id": 15748,
     "name": "Institute of Virology (Prof. Protzer)",
-    "path": "TUM/Academic department/Medicine/Institutes/Virology (Prof. Protzer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Virology (Prof. Protzer)"
   },
   "TUMEVI1": {
     "code": "TUMEVI1",
     "id": 16095,
     "name": "Chair of Virology (HMGU) (Prof. Protzer)",
-    "path": "TUM/Academic department/Medicine/Institutes/Virology (Prof. Protzer)/Virology (HMGU) (Prof. Protzer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Virology (Prof. Protzer)/Virology (HMGU) (Prof. Protzer)"
   },
   "TUMEVI4": {
     "code": "TUMEVI4",
     "id": 48277,
     "name": "Associate Professorship of Immunopathology of Viral Infection (Prof. Pichlmair)",
-    "path": "TUM/Academic department/Medicine/Institutes/Virology (Prof. Protzer)/Immunopathology of Viral Infection (Prof. Pichlmair)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Virology (Prof. Protzer)/Immunopathology of Viral Infection (Prof. Pichlmair)"
   },
   "TUMEZD0": {
     "code": "TUMEZD0",
@@ -3795,37 +3687,37 @@
     "code": "TUMEZN0",
     "id": 46031,
     "name": "Institute of Cell Biology of the Nervous System (Prof. Misgeld)",
-    "path": "TUM/Academic department/Medicine/Institutes/Cell Biology of the Nervous System (Prof. Misgeld)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Cell Biology of the Nervous System (Prof. Misgeld)"
   },
   "TUMEZN1": {
     "code": "TUMEZN1",
     "id": 40711,
     "name": "Chair of Neuronal Cell Biology (Prof. Misgeld)",
-    "path": "TUM/Academic department/Medicine/Institutes/Cell Biology of the Nervous System (Prof. Misgeld)/Neuronal Cell Biology (Prof. Misgeld)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Cell Biology of the Nervous System (Prof. Misgeld)/Neuronal Cell Biology (Prof. Misgeld)"
   },
   "TUMEZN2": {
     "code": "TUMEZN2",
     "id": 47158,
     "name": "Chair of Molecular Neurobiology (Prof. Simons)",
-    "path": "TUM/Academic department/Medicine/Institutes/Cell Biology of the Nervous System (Prof. Misgeld)/Molecular Neurobiology (Prof. Simons)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Cell Biology of the Nervous System (Prof. Misgeld)/Molecular Neurobiology (Prof. Simons)"
   },
   "TUMEZN3": {
     "code": "TUMEZN3",
     "id": 50317,
     "name": "Associate Professorship of Neurons and Metabolism (MPI) (Prof. Harbauer)",
-    "path": "TUM/Academic department/Medicine/Institutes/Cell Biology of the Nervous System (Prof. Misgeld)/Neurons and Metabolism (MPI) (Prof. Harbauer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Cell Biology of the Nervous System (Prof. Misgeld)/Neurons and Metabolism (MPI) (Prof. Harbauer)"
   },
   "TUMEZN4": {
     "code": "TUMEZN4",
     "id": 52177,
     "name": "Associate Professorship of Systems Biology of Metabolism (HMGU) (Prof. Perocchi)",
-    "path": "TUM/Academic department/Medicine/Institutes/Cell Biology of the Nervous System (Prof. Misgeld)/Systems Biology of Metabolism (HMGU) (Prof. Perocchi)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Cell Biology of the Nervous System (Prof. Misgeld)/Systems Biology of Metabolism (HMGU) (Prof. Perocchi)"
   },
   "TUMEZT0": {
     "code": "TUMEZT0",
     "id": 45011,
     "name": "Interdisziplin\u00e4res Zentrum f\u00fcr Zelltherapie (TUMCells)",
-    "path": "TUM/Academic department/Medicine/Interdisziplin\u00e4res Zentrum f\u00fcr Zelltherapie (TUMCells)"
+    "path": "TUM/Schools/Medicine and Health/Interdisziplin\u00e4res Zentrum f\u00fcr Zelltherapie (TUMCells)"
   },
   "TUMWAER": {
     "code": "TUMWAER",
@@ -3968,8 +3860,8 @@
   "TUMWLTD": {
     "code": "TUMWLTD",
     "id": 15315,
-    "name": "Chair of Thermodynamics and Heat Transfer (Prof. Wen)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Thermodynamics and Heat Transfer (Prof. Wen)"
+    "name": "Chair of Thermodynamics (Prof. Wen)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Thermodynamics (Prof. Wen)"
   },
   "TUMWLVK": {
     "code": "TUMWLVK",
@@ -4048,12 +3940,6 @@
     "id": 45071,
     "name": "Chair of Produktion und Technik in der Medienbranche (Prof. Spanner-Ulmer)",
     "path": "TUM/Schools/Engineering and Design/Departments/Mechanical Engineering/Produktion und Technik in der Medienbranche (Prof. Spanner-Ulmer)"
-  },
-  "TUMWQMC": {
-    "code": "TUMWQMC",
-    "id": 47318,
-    "name": "Qualit\u00e4tsmanagement und Controlling",
-    "path": "TUM/Academic department/Former TUM Department of Mechanical Engineering/Central Services/Qualit\u00e4tsmanagement und Controlling"
   },
   "TUMWRTK": {
     "code": "TUMWRTK",
@@ -4409,6 +4295,12 @@
     "name": "Virtual University of Bavaria (vhb)",
     "path": "TUM/Institutions close to the University/Virtual University of Bavaria (vhb)"
   },
+  "TUPEVLM": {
+    "code": "TUPEVLM",
+    "id": 55737,
+    "name": "TUM Venture Labs",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs"
+  },
   "TUPEVWA": {
     "code": "TUPEVWA",
     "id": 40142,
@@ -4493,6 +4385,12 @@
     "name": "Aptitude Assessment Commission",
     "path": "TUM/Academic department/Former TUM Department of Physics/Special committees/Aptitude Assessment Commission"
   },
+  "TUPHAEL": {
+    "code": "TUPHAEL",
+    "id": 49969,
+    "name": "Aptitude Assessment Commission Degree Program M.Sc. Matter to Life",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Special committees/Aptitude Assessment Commission/M.Sc. Matter to Life"
+  },
   "TUPHAEM": {
     "code": "TUPHAEM",
     "id": 50177,
@@ -4517,6 +4415,18 @@
     "name": "Special committees",
     "path": "TUM/Academic department/Former TUM Department of Physics/Special committees"
   },
+  "TUPHBDS": {
+    "code": "TUPHBDS",
+    "id": 32802,
+    "name": "Data Protection Representative Former TUM Department of Physics",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Representatives/Data Protection Representative"
+  },
+  "TUPHBIO": {
+    "code": "TUPHBIO",
+    "id": 32801,
+    "name": "Representative Information Officer Former TUM Department of Physics",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Representatives/Representative"
+  },
   "TUPHCOM": {
     "code": "TUPHCOM",
     "id": 42670,
@@ -4528,6 +4438,12 @@
     "id": 14217,
     "name": "Physics Department",
     "path": "TUM/Academic department/Former TUM Department of Physics/Physics Department"
+  },
+  "TUPHDKN": {
+    "code": "TUPHDKN",
+    "id": 14209,
+    "name": "Dean Former TUM Department of Physics",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Dean"
   },
   "TUPHE11": {
     "code": "TUPHE11",
@@ -4646,7 +4562,7 @@
   "TUPHE62": {
     "code": "TUPHE62",
     "id": 21512,
-    "name": "Associate Professorship of Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti)",
+    "name": "Chair of Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti)"
   },
   "TUPHEBI": {
@@ -4700,7 +4616,7 @@
   "TUPHEMM": {
     "code": "TUPHEMM",
     "id": 48097,
-    "name": "Assistant Professorship of  Experimental Biophysics (Dr. Duderstadt)",
+    "name": "Associate Professorship of Experimental Biophysics (Dr. Duderstadt)",
     "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Experimental Biophysics (Dr. Duderstadt)"
   },
   "TUPHENA": {
@@ -4751,6 +4667,12 @@
     "name": "Chair of Precision Measurements at Extreme Conditions (Prof. Fierlinger)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Precision Measurements at Extreme Conditions (Prof. Fierlinger)"
   },
+  "TUPHFBA": {
+    "code": "TUPHFBA",
+    "id": 44213,
+    "name": "Gender Equality Officer Former TUM Department of Physics",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Representatives/Gender Equality Officer"
+  },
   "TUPHFPH": {
     "code": "TUPHFPH",
     "id": 14179,
@@ -4762,6 +4684,18 @@
     "id": 44486,
     "name": "Student Council",
     "path": "TUM/Academic department/Former TUM Department of Physics/Student Council"
+  },
+  "TUPHPDK": {
+    "code": "TUPHPDK",
+    "id": 14210,
+    "name": "Vice Dean Prodekan Former TUM Department of Physics",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Vice Dean"
+  },
+  "TUPHSDK": {
+    "code": "TUPHSDK",
+    "id": 14211,
+    "name": "Dean of Studies",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Dean of Studies"
   },
   "TUPHSSK": {
     "code": "TUPHSSK",
@@ -4780,6 +4714,12 @@
     "id": 16214,
     "name": "Chair of Theoretical Elementary Particle Physics (Prof. Beneke)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Theoretical Elementary Particle Physics (Prof. Beneke)"
+  },
+  "TUPHT34": {
+    "code": "TUPHT34",
+    "id": 16216,
+    "name": "Chair of Theoretical Physics V - (N.N.)",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Physics Department/Theoretical Physics V - (N.N.)"
   },
   "TUPHT35": {
     "code": "TUPHT35",
@@ -4895,6 +4835,12 @@
     "name": "Academic administration",
     "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Academic administration"
   },
+  "TUPHZDM": {
+    "code": "TUPHZDM",
+    "id": 42660,
+    "name": "Third-party funds",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department/Third-party funds"
+  },
   "TUPHZEI": {
     "code": "TUPHZEI",
     "id": 21879,
@@ -4925,11 +4871,29 @@
     "name": "Crystal Lab (NAT) - Central Services (NAT)",
     "path": "TUM/Schools/Natural Sciences/School Office/Central Services (NAT)/Crystal Lab (NAT)"
   },
+  "TUPHZMA": {
+    "code": "TUPHZMA",
+    "id": 42663,
+    "name": "Materials store",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department/Materials store"
+  },
+  "TUPHZMB": {
+    "code": "TUPHZMB",
+    "id": 42661,
+    "name": "Budget management",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department/Budget management"
+  },
   "TUPHZPE": {
     "code": "TUPHZPE",
     "id": 42659,
     "name": "other service institutes Personalstelle",
     "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department/other service institutes"
+  },
+  "TUPHZPS": {
+    "code": "TUPHZPS",
+    "id": 42665,
+    "name": "Post office",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department/Post office"
   },
   "TUPHZSS": {
     "code": "TUPHZSS",
@@ -4949,17 +4913,17 @@
     "name": "Administration physics department",
     "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department"
   },
+  "TUPHZWA": {
+    "code": "TUPHZWA",
+    "id": 42664,
+    "name": "Receiving department",
+    "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Administration physics department/Receiving department"
+  },
   "TUPHZWS": {
     "code": "TUPHZWS",
     "id": 14215,
     "name": "Central Repair Shop",
     "path": "TUM/Academic department/Former TUM Department of Physics/Central institutions of the academic department/Central Repair Shop"
-  },
-  "TUPOFPO": {
-    "code": "TUPOFPO",
-    "id": 47717,
-    "name": "Former TUM School of Governance",
-    "path": "TUM/Academic department/Former TUM School of Governance"
   },
   "TUPOL01": {
     "code": "TUPOL01",
@@ -4982,8 +4946,8 @@
   "TUPOL04": {
     "code": "TUPOL04",
     "id": 47857,
-    "name": "Assistant Professorship of Political Philosophy and Theory (S\u00e9ville komm.)",
-    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Political Philosophy and Theory (S\u00e9ville komm.)"
+    "name": "Assistant Professorship of Political Philosophy and Theory (Prof. Ulbricht komm.)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Political Philosophy and Theory (Prof. Ulbricht komm.)"
   },
   "TUPOL05": {
     "code": "TUPOL05",
@@ -5042,14 +5006,14 @@
   "TUPOL16": {
     "code": "TUPOL16",
     "id": 50937,
-    "name": "Assistant Professorship of International Political Economy (Prof. Betz)",
-    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/International Political Economy (Prof. Betz)"
+    "name": "Assistant Professorship of International Political Economy (Seb\u00f6 komm.)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/International Political Economy (Seb\u00f6 komm.)"
   },
   "TUPOL17": {
     "code": "TUPOL17",
     "id": 51057,
-    "name": "Assistant Professorship of Politics of Finance (Prof. Pond)",
-    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Politics of Finance (Prof. Pond)"
+    "name": "Assistant Professorship of Politics of Finance (N.N.)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Politics of Finance (N.N.)"
   },
   "TUPOL18": {
     "code": "TUPOL18",
@@ -5402,8 +5366,8 @@
   "TUS1307": {
     "code": "TUS1307",
     "id": 54817,
-    "name": "Informatics Heilbronn 8 - Assistant Professorship of Cyber-Physical Systems (Prof. Abdelhafez)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatics Heilbronn 8 - Assistant Professorship of Cyber-Physical Systems (Prof. Abdelhafez)"
+    "name": "Informatics Heilbronn 8 - Assistant Professorship of Cyber-Physical Systems (Prof. Alanwar)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatics Heilbronn 8 - Assistant Professorship of Cyber-Physical Systems (Prof. Alanwar)"
   },
   "TUS1308": {
     "code": "TUS1308",
@@ -5422,6 +5386,18 @@
     "id": 55437,
     "name": "Chair of Resource Aware Machine Learning (Prof. Sra)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Resource Aware Machine Learning (Prof. Sra)"
+  },
+  "TUS1311": {
+    "code": "TUS1311",
+    "id": 55497,
+    "name": "Assistant Profesorship of Cryptography (Prof. Panny)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Cryptography (Prof. Panny)"
+  },
+  "TUS1312": {
+    "code": "TUS1312",
+    "id": 55597,
+    "name": "Chair of Representation Theory (Dr. Cobbe, komm.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Representation Theory (Dr. Cobbe, komm.)"
   },
   "TUS1CHN": {
     "code": "TUS1CHN",
@@ -5636,8 +5612,8 @@
   "TUS2LPE": {
     "code": "TUS2LPE",
     "id": 53277,
-    "name": "Assistant Professorship of  Lunar and Planetary Exploration Technologies (Prof. Rei\u00df)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Lunar and Planetary Exploration Technologies (Prof. Rei\u00df)"
+    "name": "Assistant Professorship of  Lunar and Planetary Exploration (Prof. Rei\u00df)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Lunar and Planetary Exploration (Prof. Rei\u00df)"
   },
   "TUS2OTD": {
     "code": "TUS2OTD",
@@ -5740,6 +5716,12 @@
     "id": 54397,
     "name": "Techcore ASG",
     "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Techcore ASG"
+  },
+  "TUS2TSG": {
+    "code": "TUS2TSG",
+    "id": 55717,
+    "name": "Chair of Test and Simulation for Gas Turbines (Prof. Ardey)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Test and Simulation for Gas Turbines (Prof. Ardey)"
   },
   "TUS2VIO": {
     "code": "TUS2VIO",
@@ -6047,6 +6029,12 @@
     "name": "Assistant Professorship of Soil Biophysics and Environmental Systems (Prof. Zare)",
     "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Soil Biophysics and Environmental Systems (Prof. Zare)"
   },
+  "TUS4C1B": {
+    "code": "TUS4C1B",
+    "id": 55577,
+    "name": "Clinical Microbiome (Prof. Gerner)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Clinical Microbiome (Prof. Gerner)"
+  },
   "TUS4C2M": {
     "code": "TUS4C2M",
     "id": 51517,
@@ -6070,6 +6058,12 @@
     "id": 54937,
     "name": "Center of Advanced Light Microscopy (CALM) (LS) - School Office",
     "path": "TUM/Schools/Life Sciences/School Office/Center of Advanced Light Microscopy (CALM) (LS)"
+  },
+  "TUS4D5B": {
+    "code": "TUS4D5B",
+    "id": 55637,
+    "name": "Assistant Professorship of Data Science in Systems Biology (Prof. List)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Data Science in Systems Biology (Prof. List)"
   },
   "TUS4DEA": {
     "code": "TUS4DEA",
@@ -6140,8 +6134,8 @@
   "TUS4K2T": {
     "code": "TUS4K2T",
     "id": 52262,
-    "name": "Kleintier-Unit",
-    "path": "TUM/Schools/Life Sciences/TUM Animal Research Center (ARC)/Kleintier-Unit"
+    "name": "Small animal unit",
+    "path": "TUM/Schools/Life Sciences/TUM Animal Research Center (ARC)/Small animal unit"
   },
   "TUS4L3S": {
     "code": "TUS4L3S",
@@ -6164,8 +6158,8 @@
   "TUS4N1T": {
     "code": "TUS4N1T",
     "id": 52261,
-    "name": "Nutztier-Unit",
-    "path": "TUM/Schools/Life Sciences/TUM Animal Research Center (ARC)/Nutztier-Unit"
+    "name": "Farm animal unit",
+    "path": "TUM/Schools/Life Sciences/TUM Animal Research Center (ARC)/Farm animal unit"
   },
   "TUS4N7M": {
     "code": "TUS4N7M",
@@ -6233,6 +6227,12 @@
     "name": "Representative for international affairs of the TUM School of Life Sciences",
     "path": "TUM/Schools/Life Sciences/Representatives/Representative for international affairs"
   },
+  "TUS4RSH": {
+    "code": "TUS4RSH",
+    "id": 51300,
+    "name": "Representative of the severely handicapped persons of the TUM School of Life Sciences",
+    "path": "TUM/Schools/Life Sciences/Representatives/Representative of the severely handicapped persons"
+  },
   "TUS4STC": {
     "code": "TUS4STC",
     "id": 51297,
@@ -6272,38 +6272,74 @@
   "TUS5000": {
     "code": "TUS5000",
     "id": 51899,
-    "name": "TUM School of Medicine and Health in formation",
-    "path": "TUM/Schools/Medicine and Health in formation"
+    "name": "TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health"
   },
   "TUS5DEA": {
     "code": "TUS5DEA",
     "id": 55357,
-    "name": "Dean of the TUM School of Medicine and Health in formation",
-    "path": "TUM/Schools/Medicine and Health in formation/Dean"
+    "name": "Dean of the TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Dean"
   },
   "TUS5DP1": {
     "code": "TUS5DP1",
     "id": 54897,
     "name": "Department of Health and Sport Sciences",
-    "path": "TUM/Schools/Medicine and Health in formation/Departments/Health and Sport Sciences"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences"
   },
   "TUS5DP2": {
     "code": "TUS5DP2",
     "id": 54898,
     "name": "Department of Preclinical Medicine",
-    "path": "TUM/Schools/Medicine and Health in formation/Departments/Preclinical Medicine"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine"
   },
   "TUS5DP3": {
     "code": "TUS5DP3",
     "id": 54899,
     "name": "Department of Clinical Medicine",
-    "path": "TUM/Schools/Medicine and Health in formation/Departments/Clinical Medicine"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine"
+  },
+  "TUS5EK0": {
+    "code": "TUS5EK0",
+    "id": 55461,
+    "name": "Ethics Commissions",
+    "path": "TUM/Schools/Medicine and Health/Ethics Commissions"
+  },
+  "TUS5EK1": {
+    "code": "TUS5EK1",
+    "id": 55462,
+    "name": "Ethics Commission not-med.",
+    "path": "TUM/Schools/Medicine and Health/Ethics Commissions/Ethics Commission not-med."
+  },
+  "TUS5LMU": {
+    "code": "TUS5LMU",
+    "id": 55466,
+    "name": "Kooperationen mit der LMU",
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Kooperationen mit der LMU"
+  },
+  "TUS5LPC": {
+    "code": "TUS5LPC",
+    "id": 55467,
+    "name": "Weitere Lehrst\u00fchle und Professuren Clinical Medicine",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrst\u00fchle und Professuren Clinical Medicine"
+  },
+  "TUS5LPP": {
+    "code": "TUS5LPP",
+    "id": 55465,
+    "name": "Weitere Lehrst\u00fchle und Professuren Preclinical Medicine",
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrst\u00fchle und Professuren Preclinical Medicine"
+  },
+  "TUS5OTD": {
+    "code": "TUS5OTD",
+    "id": 55458,
+    "name": "Dean`s Office School Office",
+    "path": "TUM/Schools/Medicine and Health/School Office/Dean`s Office"
   },
   "TUS5OTS": {
     "code": "TUS5OTS",
     "id": 52088,
-    "name": "School Office of the TUM School of Medicine and Health in formation",
-    "path": "TUM/Schools/Medicine and Health in formation/School Office"
+    "name": "School Office of the TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/School Office"
   },
   "TUS5PL0": {
     "code": "TUS5PL0",
@@ -6314,26 +6350,38 @@
   "TUS5VIO": {
     "code": "TUS5VIO",
     "id": 55361,
-    "name": "Vice Dean Information Officer of the TUM School of Medicine and Health in formation",
-    "path": "TUM/Schools/Medicine and Health in formation/Vice Dean/Information Officer"
+    "name": "Vice Dean Information Officer of the TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Vice Dean/Information Officer"
   },
   "TUS5VRI": {
     "code": "TUS5VRI",
     "id": 55358,
-    "name": "Vice Dean Research and Innovation of the TUM School of Medicine and Health in formation",
-    "path": "TUM/Schools/Medicine and Health in formation/Vice Dean/Research and Innovation"
+    "name": "Vice Dean Research and Innovation of the TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Vice Dean/Research and Innovation"
   },
   "TUS5VST": {
     "code": "TUS5VST",
     "id": 55359,
-    "name": "Vice Dean Study and Teaching of the TUM School of Medicine and Health in formation",
-    "path": "TUM/Schools/Medicine and Health in formation/Vice Dean/Study and Teaching"
+    "name": "Vice Dean Study and Teaching of the TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Vice Dean/Study and Teaching"
   },
   "TUS5VTD": {
     "code": "TUS5VTD",
     "id": 55360,
-    "name": "Vice Dean Talent Management and Diversity of the TUM School of Medicine and Health in formation",
-    "path": "TUM/Schools/Medicine and Health in formation/Vice Dean/Talent Management and Diversity"
+    "name": "Vice Dean Talent Management and Diversity of the TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Vice Dean/Talent Management and Diversity"
+  },
+  "TUS5WEK": {
+    "code": "TUS5WEK",
+    "id": 55464,
+    "name": "More Units MRI",
+    "path": "TUM/Schools/Medicine and Health/More Units MRI"
+  },
+  "TUS5WTK": {
+    "code": "TUS5WTK",
+    "id": 55463,
+    "name": "Student Council",
+    "path": "TUM/Schools/Medicine and Health/Student Council"
   },
   "TUS6000": {
     "code": "TUS6000",
@@ -6485,6 +6533,12 @@
     "name": "Assistant Professorship of Sustainability Assessment of Food and Agricultural Systems (Prof. Cabernard, Joint Appointment between TUM School of Management and TUM School of Life Sciences)",
     "path": "TUM/Schools/Management/Departments/Economics and Policy/Sustainability Assessment of Food and Agricultural Systems (Prof. Cabernard, Joint Appointment between TUM School of Management and TUM School of Life Sciences)"
   },
+  "TUS6SIG": {
+    "code": "TUS6SIG",
+    "id": 55657,
+    "name": "Study Support and International Affairs (MGT) - School Office",
+    "path": "TUM/Schools/Management/School Office/Study Support and International Affairs (MGT)"
+  },
   "TUS6STC": {
     "code": "TUS6STC",
     "id": 52557,
@@ -6623,6 +6677,12 @@
     "name": "Assistant Professorship of Mobility Policy (Prof. Loder)",
     "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Mobility Policy (Prof. Loder)"
   },
+  "TUS7PTL": {
+    "code": "TUS7PTL",
+    "id": 55677,
+    "name": "Associate Professorship of Psychology of Teaching and Learning (Prof. Holzberger)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Psychology of Teaching and Learning (Prof. Holzberger)"
+  },
   "TUS7PWT": {
     "code": "TUS7PWT",
     "id": 54738,
@@ -6658,6 +6718,18 @@
     "id": 53966,
     "name": "Representative for international affairs of the TUM School of Social Sciences and Technology",
     "path": "TUM/Schools/Social Sciences and Technology/Representatives/Representative for international affairs"
+  },
+  "TUS7SFZ": {
+    "code": "TUS7SFZ",
+    "id": 55517,
+    "name": "Sch\u00fclerforschungszentrum Miesbach",
+    "path": "TUM/Schools/Social Sciences and Technology/Sch\u00fclerforschungszentrum Miesbach"
+  },
+  "TUS7SOC": {
+    "code": "TUS7SOC",
+    "id": 55779,
+    "name": "Assistant Professorship of Societal Computing (Prof. Papakyriakopoulos)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Societal Computing (Prof. Papakyriakopoulos)"
   },
   "TUS7STC": {
     "code": "TUS7STC",
@@ -6695,42 +6767,6 @@
     "name": "Vice Dean Talent Management and Diversity of the TUM School of Social Sciences and Technology",
     "path": "TUM/Schools/Social Sciences and Technology/Vice Dean/Talent Management and Diversity"
   },
-  "TUSPBBS": {
-    "code": "TUSPBBS",
-    "id": 50678,
-    "name": "Fire Protection Officer TUM Department of Sport and Health Sciences",
-    "path": "TUM/Academic department/Sport and Health Sciences/Representatives/Fire Protection Officer"
-  },
-  "TUSPBDS": {
-    "code": "TUSPBDS",
-    "id": 32928,
-    "name": "Data Protection Representative TUM Department of Sport and Health Sciences",
-    "path": "TUM/Academic department/Sport and Health Sciences/Representatives/Data Protection Representative"
-  },
-  "TUSPBIO": {
-    "code": "TUSPBIO",
-    "id": 32927,
-    "name": "Information Officer TUM Department of Sport and Health Sciences",
-    "path": "TUM/Academic department/Sport and Health Sciences/Representatives/Information Officer"
-  },
-  "TUSPBSO": {
-    "code": "TUSPBSO",
-    "id": 50679,
-    "name": "Weitere Beauftragte TUM Department of Sport and Health Sciences",
-    "path": "TUM/Academic department/Sport and Health Sciences/Representatives/Weitere Beauftragte"
-  },
-  "TUSPDKN": {
-    "code": "TUSPDKN",
-    "id": 16119,
-    "name": "Dean TUM Department of Sport and Health Sciences",
-    "path": "TUM/Academic department/Sport and Health Sciences/Dean"
-  },
-  "TUSPFFB": {
-    "code": "TUSPFFB",
-    "id": 44221,
-    "name": "Gender Equality Officer TUM Department of Sport and Health Sciences",
-    "path": "TUM/Academic department/Sport and Health Sciences/Representatives/Gender Equality Officer"
-  },
   "TUSPFMG": {
     "code": "TUSPFMG",
     "id": 16123,
@@ -6740,19 +6776,19 @@
   "TUSPFSP": {
     "code": "TUSPFSP",
     "id": 14195,
-    "name": "TUM Department of Sport and Health Sciences",
+    "name": "Former TUM Department of Sport and Health Sciences",
     "path": "TUM/Academic department/Sport and Health Sciences"
   },
   "TUSPFSV": {
     "code": "TUSPFSV",
     "id": 44496,
     "name": "Student Council MH-SG",
-    "path": "TUM/Academic department/Sport and Health Sciences/Student Council MH-SG"
+    "path": "TUM/Schools/Medicine and Health/Student Council/Student Council MH-SG"
   },
   "TUSPFVW": {
     "code": "TUSPFVW",
     "id": 16124,
-    "name": "Department Administration TUM Department of Sport and Health Sciences",
+    "name": "Department Administration Former TUM Department of Sport and Health Sciences",
     "path": "TUM/Academic department/Sport and Health Sciences/Department Administration"
   },
   "TUSPL00": {
@@ -6765,85 +6801,85 @@
     "code": "TUSPL01",
     "id": 16133,
     "name": "Associate Professorship of Biomechanics in sports (Prof. Schwirtz)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Biomechanics in sports (Prof. Schwirtz)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Biomechanics in sports (Prof. Schwirtz)"
   },
   "TUSPL02": {
     "code": "TUSPL02",
     "id": 16130,
     "name": "Chair of Preventive pediatric (Prof. Oberhoffer-Fritz)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Preventive pediatric (Prof. Oberhoffer-Fritz)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Preventive pediatric (Prof. Oberhoffer-Fritz)"
   },
   "TUSPL03": {
     "code": "TUSPL03",
     "id": 16136,
     "name": "Associate Professorship of Neuromuscular Diagnostics (Prof. Franklin)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Neuromuscular Diagnostics (Prof. Franklin)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Neuromuscular Diagnostics (Prof. Franklin)"
   },
   "TUSPL04": {
     "code": "TUSPL04",
     "id": 16129,
     "name": "Working Area Media and Communication (Dr. Schaffrath)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Working Area Media and Communication (Dr. Schaffrath)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Working Area Media and Communication (Dr. Schaffrath)"
   },
   "TUSPL05": {
     "code": "TUSPL05",
     "id": 16132,
     "name": "Working Area Sport Psychology (Dr. Ehrlenspiel)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Working Area Sport Psychology (Dr. Ehrlenspiel)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Working Area Sport Psychology (Dr. Ehrlenspiel)"
   },
   "TUSPL06": {
     "code": "TUSPL06",
     "id": 16131,
     "name": "Assistant Professorship of Educational Science in Sport and Health (Prof. Demetriou)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Educational Science in Sport and Health (Prof. Demetriou)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Educational Science in Sport and Health (Prof. Demetriou)"
   },
   "TUSPL07": {
     "code": "TUSPL07",
     "id": 49877,
     "name": "Assistant Professorship of Exercise, nutrition and health (Prof. K\u00f6hler)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Exercise, nutrition and health (Prof. K\u00f6hler)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Exercise, nutrition and health (Prof. K\u00f6hler)"
   },
   "TUSPL08": {
     "code": "TUSPL08",
     "id": 16135,
     "name": "Associate Professorship of Health Economics (Prof. Sundmacher)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Health Economics (Prof. Sundmacher)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Health Economics (Prof. Sundmacher)"
   },
   "TUSPL09": {
     "code": "TUSPL09",
     "id": 42297,
     "name": "Chair of Training Science and Computer Science in Sports (Prof. Lames)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Training Science and Computer Science in Sports (Prof. Lames)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Training Science and Computer Science in Sports (Prof. Lames)"
   },
   "TUSPL10": {
     "code": "TUSPL10",
     "id": 51398,
     "name": "Assistant Professorship of Public Health and Prevention (Prof. Laxy)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Public Health and Prevention (Prof. Laxy)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Public Health and Prevention (Prof. Laxy)"
   },
   "TUSPL11": {
     "code": "TUSPL11",
     "id": 44187,
     "name": "Chair of Human movement science (Prof. Hermsd\u00f6rfer)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Human movement science (Prof. Hermsd\u00f6rfer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Human movement science (Prof. Hermsd\u00f6rfer)"
   },
   "TUSPL12": {
     "code": "TUSPL12",
     "id": 44245,
     "name": "Associate Professorship of Conservative and Rehabilitative Orthopaedics (Prof. Horstmann)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Conservative and Rehabilitative Orthopaedics (Prof. Horstmann)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Conservative and Rehabilitative Orthopaedics (Prof. Horstmann)"
   },
   "TUSPL13": {
     "code": "TUSPL13",
     "id": 44927,
     "name": "Associate Professorship of Didactics in Sport and Health (Prof. Mess)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Didactics in Sport and Health (Prof. Mess)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Didactics in Sport and Health (Prof. Mess)"
   },
   "TUSPL14": {
     "code": "TUSPL14",
     "id": 45711,
     "name": "Chair of Sport- und Gesundheitsmanagement (Prof. K\u00f6nigstorfer)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Sport- und Gesundheitsmanagement (Prof. K\u00f6nigstorfer)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Sport- und Gesundheitsmanagement (Prof. K\u00f6nigstorfer)"
   },
   "TUSPL15": {
     "code": "TUSPL15",
@@ -6855,61 +6891,43 @@
     "code": "TUSPL16",
     "id": 51477,
     "name": "Assistant Professorship of Psychology & Digital Mental Health Care (Prof. Ebert)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Psychology & Digital Mental Health Care (Prof. Ebert)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Psychology & Digital Mental Health Care (Prof. Ebert)"
   },
   "TUSPL18": {
     "code": "TUSPL18",
     "id": 47637,
     "name": "Associate Professorship of Exercise Biology (Prof. Wackerhage)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Exercise Biology (Prof. Wackerhage)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Exercise Biology (Prof. Wackerhage)"
   },
   "TUSPL19": {
     "code": "TUSPL19",
     "id": 47737,
     "name": "Chair of Epidemiology (Prof. Klug)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Epidemiology (Prof. Klug)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Epidemiology (Prof. Klug)"
   },
   "TUSPL20": {
     "code": "TUSPL20",
     "id": 52617,
     "name": "Assistant Professorship of Health Literacy (Prof. Okan)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Health Literacy (Prof. Okan)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Health Literacy (Prof. Okan)"
   },
   "TUSPL21": {
     "code": "TUSPL21",
     "id": 52618,
     "name": "Assistant Professorship of Behavioral Science for Disease Prevention and Health Care (Prof. Sudharsanan)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Behavioral Science for Disease Prevention and Health Care (Prof. Sudharsanan)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Behavioral Science for Disease Prevention and Health Care (Prof. Sudharsanan)"
   },
   "TUSPL22": {
     "code": "TUSPL22",
     "id": 52937,
     "name": "Assistant Professorship of Chronobiology & Health (Prof. Spitschan)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Chronobiology & Health (Prof. Spitschan)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Chronobiology & Health (Prof. Spitschan)"
   },
   "TUSPL23": {
     "code": "TUSPL23",
     "id": 53237,
     "name": "Chair of Social Determinants of Health (Prof. Richter)",
-    "path": "TUM/Academic department/Sport and Health Sciences/Chairs and Professorships/Social Determinants of Health (Prof. Richter)"
-  },
-  "TUSPPDK": {
-    "code": "TUSPPDK",
-    "id": 16120,
-    "name": "Vice Dean Prodekan TUM Department of Sport and Health Sciences",
-    "path": "TUM/Academic department/Sport and Health Sciences/Vice Dean"
-  },
-  "TUSPSDK": {
-    "code": "TUSPSDK",
-    "id": 16122,
-    "name": "Dean of Studies BA / MA",
-    "path": "TUM/Academic department/Sport and Health Sciences/Dean of Studies/BA / MA"
-  },
-  "TUSPSDL": {
-    "code": "TUSPSDL",
-    "id": 33182,
-    "name": "Dean of Studies LA",
-    "path": "TUM/Academic department/Sport and Health Sciences/Dean of Studies/LA"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Social Determinants of Health (Prof. Richter)"
   },
   "TUSPZ01": {
     "code": "TUSPZ01",
@@ -6921,7 +6939,7 @@
     "code": "TUSPZ05",
     "id": 16128,
     "name": "Central Branch Applied Sports Science",
-    "path": "TUM/Academic department/Sport and Health Sciences/Central Branch Applied Sports Science"
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Central Branch Applied Sports Science"
   },
   "TUVB000": {
     "code": "TUVB000",
@@ -7340,8 +7358,8 @@
   "TUWIH04": {
     "code": "TUWIH04",
     "id": 49380,
-    "name": "Assistant Professorship of Innovation (N.N.) (TUM Campus Heilbronn)",
-    "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Innovation (N.N.) (TUM Campus Heilbronn)"
+    "name": "Assistant Professorship of Organizational Behavior and Human Resources (Reinwald) (TUM Campus Heilbronn)",
+    "path": "TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Organizational Behavior and Human Resources (Reinwald) (TUM Campus Heilbronn)"
   },
   "TUWIH05": {
     "code": "TUWIH05",
@@ -7418,8 +7436,8 @@
   "TUWIS06": {
     "code": "TUWIS06",
     "id": 14825,
-    "name": "Chair of Forest and Environmental Policies (Prof. Suda)",
-    "path": "TUM/Schools/Management/Departments/Economics and Policy/Forest and Environmental Policies (Prof. Suda)"
+    "name": "Chair of Forest and Environmental Policies (N.N.)",
+    "path": "TUM/Schools/Management/Departments/Economics and Policy/Forest and Environmental Policies (N.N.)"
   },
   "TUWIV04": {
     "code": "TUWIV04",
@@ -7670,8 +7688,8 @@
   "TUWZI2M": {
     "code": "TUWZI2M",
     "id": 50817,
-    "name": "Associate Professorship of Intestinal Microbiome (Prof. Hall)",
-    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Intestinal Microbiome (Prof. Hall)"
+    "name": "Associate Professorship of Intestinal Microbiome (N.N.)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Intestinal Microbiome (N.N.)"
   },
   "TUWZI2W": {
     "code": "TUWZI2W",
@@ -7707,7 +7725,7 @@
     "code": "TUWZK1A",
     "id": 44444,
     "name": "Kleintierforschungszentrum Weihenstephan",
-    "path": "TUM/Schools/Life Sciences/TUM Animal Research Center (ARC)/Kleintier-Unit/Kleintierforschungszentrum Weihenstephan"
+    "path": "TUM/Schools/Life Sciences/TUM Animal Research Center (ARC)/Small animal unit/Kleintierforschungszentrum Weihenstephan"
   },
   "TUWZLPT": {
     "code": "TUWZLPT",
@@ -7725,7 +7743,7 @@
     "code": "TUWZM2B",
     "id": 43315,
     "name": "Research Facility Versuchsstation f\u00fcr Tierzucht (Staatsgut Thalhausen)",
-    "path": "TUM/Schools/Life Sciences/TUM Animal Research Center (ARC)/Nutztier-Unit/Research Facility"
+    "path": "TUM/Schools/Life Sciences/TUM Animal Research Center (ARC)/Farm animal unit/Research Facility"
   },
   "TUWZM4D": {
     "code": "TUWZM4D",
@@ -7790,8 +7808,8 @@
   "TUWZP2O": {
     "code": "TUWZP2O",
     "id": 15611,
-    "name": "Chair of Forest Yield Science (Prof. Pretzsch)",
-    "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Forest Yield Science (Prof. Pretzsch)"
+    "name": "Chair of Forest Yield Science (Prof. Seidl komm.)",
+    "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Forest Yield Science (Prof. Seidl komm.)"
   },
   "TUWZP3C": {
     "code": "TUWZP3C",
@@ -7892,8 +7910,8 @@
   "TUWZS9A": {
     "code": "TUWZS9A",
     "id": 15644,
-    "name": "Chair of Wood Science (Prof. Richter)",
-    "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/Wood Science (Prof. Richter)"
+    "name": "Chair of Wood Science (Prof. Benz komm.)",
+    "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/Wood Science (Prof. Benz komm.)"
   },
   "TUWZS9X": {
     "code": "TUWZS9X",
@@ -7977,7 +7995,7 @@
     "code": "TUWZVH1",
     "id": 48717,
     "name": "Versuchsstation Veitshof",
-    "path": "TUM/Schools/Life Sciences/TUM Animal Research Center (ARC)/Nutztier-Unit/Versuchsstation Veitshof"
+    "path": "TUM/Schools/Life Sciences/TUM Animal Research Center (ARC)/Farm animal unit/Versuchsstation Veitshof"
   },
   "TUWZW1T": {
     "code": "TUWZW1T",
@@ -8505,49 +8523,49 @@
     "code": "TUXB500",
     "id": 55117,
     "name": "Academic Programs Sports Sciences",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Sports Sciences"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Sports Sciences"
   },
   "TUXB501": {
     "code": "TUXB501",
     "id": 55118,
     "name": "Academic Programs Health Sciences",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Health Sciences"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Health Sciences"
   },
   "TUXB502": {
     "code": "TUXB502",
     "id": 55119,
     "name": "Academic Programs Lehramt Sport",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport"
   },
   "TUXB503": {
     "code": "TUXB503",
     "id": 55120,
     "name": "Academic Programs Biomedical Sciences",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Biomedical Sciences"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Biomedical Sciences"
   },
   "TUXB504": {
     "code": "TUXB504",
     "id": 55121,
     "name": "Academic Programs Medizin",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Medizin"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Medizin"
   },
   "TUXB505": {
     "code": "TUXB505",
     "id": 55122,
     "name": "Academic Programs SG Archiv",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv"
   },
   "TUXB506": {
     "code": "TUXB506",
     "id": 55123,
     "name": "Academic Programs ME Archiv",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/ME Archiv"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/ME Archiv"
   },
   "TUXB507": {
     "code": "TUXB507",
     "id": 55257,
-    "name": "Academic Programs Promotionen",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen"
+    "name": "Academic Programs Promotionen MH",
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH"
   },
   "TUXB601": {
     "code": "TUXB601",
@@ -8768,8 +8786,8 @@
   "TUXO500": {
     "code": "TUXO500",
     "id": 55017,
-    "name": "Academic Program Administration of the TUM School of Medicine and Health in formation",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration"
+    "name": "Academic Program Administration of the TUM School of Medicine and Health",
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration"
   },
   "TUXO600": {
     "code": "TUXO600",
@@ -9923,389 +9941,401 @@
     "name": "Degree Program TUM School of LS (Lebensmittelchemie)",
     "path": "TUM/Schools/Life Sciences/Academic Program Administration/Doctoral Programs  LS/TUM School of LS (Lebensmittelchemie)"
   },
+  "TUXS415": {
+    "code": "TUXS415",
+    "id": 55538,
+    "name": "Degree Program M.Sc. AgriFood Economics, Policy and Regulation",
+    "path": "TUM/Schools/Life Sciences/Academic Program Administration/Agricultural and Horticultural Sciences/Agricultural Sciences/Degree Program"
+  },
+  "TUXS416": {
+    "code": "TUXS416",
+    "id": 55558,
+    "name": "Degree Program M.Sc. Sustainable Food (GIST TUM Asia)",
+    "path": "TUM/Schools/Life Sciences/Academic Program Administration/Nutrition Sciences/Life Sciences Nutrition/Degree Program"
+  },
   "TUXS501": {
     "code": "TUXS501",
     "id": 55124,
     "name": "Degree Program B.Sc. Sports Science",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Sports Sciences/B.Sc. Sports Science"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Sports Sciences/B.Sc. Sports Science"
   },
   "TUXS502": {
     "code": "TUXS502",
     "id": 55125,
     "name": "Degree Program M.Sc. Sport and Exercise Science",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Sports Sciences/M.Sc. Sport and Exercise Science"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Sports Sciences/M.Sc. Sport and Exercise Science"
   },
   "TUXS503": {
     "code": "TUXS503",
     "id": 55126,
     "name": "Degree Program B.Sc. Health Science",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Health Sciences/B.Sc. Health Science"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Health Sciences/B.Sc. Health Science"
   },
   "TUXS504": {
     "code": "TUXS504",
     "id": 55127,
     "name": "Degree Program M.Sc. Health Science - Prevention and Health Promotion",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Health Sciences/M.Sc. Health Science - Prevention and Health Promotion"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Health Sciences/M.Sc. Health Science - Prevention and Health Promotion"
   },
   "TUXS505": {
     "code": "TUXS505",
     "id": 55128,
     "name": "Degree Program M.Sc. Traditionelle Chinesische Medizin",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Health Sciences/M.Sc. Traditionelle Chinesische Medizin"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Health Sciences/M.Sc. Traditionelle Chinesische Medizin"
   },
   "TUXS506": {
     "code": "TUXS506",
     "id": 55129,
     "name": "Degree Program B.Ed. Sport (Lehramt an Gymnasien - Naturwissenschaftliche Bildung)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Degree Program"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Degree Program"
   },
   "TUXS507": {
     "code": "TUXS507",
     "id": 55130,
     "name": "Degree Program B.Ed. Sport (Lehramt an beruflichen Schulen - Berufliche Bildung)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/B.Ed. Sport (Lehramt an beruflichen Schulen - Berufliche Bildung)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/B.Ed. Sport (Lehramt an beruflichen Schulen - Berufliche Bildung)"
   },
   "TUXS508": {
     "code": "TUXS508",
     "id": 55131,
     "name": "Degree Program M.Ed. Sport (Lehramt an Gymnasien - Naturwissenschaftliche Bildung)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/M.Ed. Sport (Lehramt an Gymnasien - Naturwissenschaftliche Bildung)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/M.Ed. Sport (Lehramt an Gymnasien - Naturwissenschaftliche Bildung)"
   },
   "TUXS509": {
     "code": "TUXS509",
     "id": 55132,
     "name": "Degree Program M.Ed. Sport (Lehramt an beruflichen Schulen - Berufliche Bildung)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Degree Program"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Degree Program"
   },
   "TUXS50A": {
     "code": "TUXS50A",
     "id": 55133,
     "name": "Degree Program Sport, Lehramt Grundschule",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Sport, Lehramt Grundschule"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Sport, Lehramt Grundschule"
   },
   "TUXS50B": {
     "code": "TUXS50B",
     "id": 55134,
     "name": "Degree Program Sport, Lehramt Mittelschulen",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Sport, Lehramt Mittelschulen"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Sport, Lehramt Mittelschulen"
   },
   "TUXS50C": {
     "code": "TUXS50C",
     "id": 55135,
     "name": "Degree Program Sport, Lehramt Realschulen",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Sport, Lehramt Realschulen"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Sport, Lehramt Realschulen"
   },
   "TUXS50D": {
     "code": "TUXS50D",
     "id": 55136,
     "name": "Degree Program Sport, Lehramt Gymnasien",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Sport, Lehramt Gymnasien"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Sport, Lehramt Gymnasien"
   },
   "TUXS50E": {
     "code": "TUXS50E",
     "id": 55137,
     "name": "Degree Program Sport, Lehramt Grundschule Erweiterungsfach",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Sport, Lehramt Grundschule Erweiterungsfach"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Sport, Lehramt Grundschule Erweiterungsfach"
   },
   "TUXS50F": {
     "code": "TUXS50F",
     "id": 55138,
     "name": "Degree Program Sport, Lehramt Mittelschulen Erweiterungsfach",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Sport, Lehramt Mittelschulen Erweiterungsfach"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Sport, Lehramt Mittelschulen Erweiterungsfach"
   },
   "TUXS50G": {
     "code": "TUXS50G",
     "id": 55139,
     "name": "Degree Program Sport, Lehramt Realschulen Erweiterungsfach",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Sport, Lehramt Realschulen Erweiterungsfach"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Sport, Lehramt Realschulen Erweiterungsfach"
   },
   "TUXS50H": {
     "code": "TUXS50H",
     "id": 55140,
     "name": "Degree Program Sport, Lehramt Gymnasien Erweiterungsfach",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Sport, Lehramt Gymnasien Erweiterungsfach"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Sport, Lehramt Gymnasien Erweiterungsfach"
   },
   "TUXS50I": {
     "code": "TUXS50I",
     "id": 55141,
     "name": "Degree Program Didaktikfach Sport f\u00fcr das Lehramt an Grundschulen",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Didaktikfach Sport f\u00fcr das Lehramt an Grundschulen"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Didaktikfach Sport f\u00fcr das Lehramt an Grundschulen"
   },
   "TUXS50J": {
     "code": "TUXS50J",
     "id": 55142,
     "name": "Degree Program Didaktikfach Sport f\u00fcr das Lehramt an Mittelschulen",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Didaktikfach Sport f\u00fcr das Lehramt an Mittelschulen"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Didaktikfach Sport f\u00fcr das Lehramt an Mittelschulen"
   },
   "TUXS50K": {
     "code": "TUXS50K",
     "id": 55143,
     "name": "Degree Program Sport f\u00fcr Wirtschaftsp\u00e4dagogik, bB Erweiterung um ein Unterrichtsfach mit Zertifikat",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Sport f\u00fcr Wirtschaftsp\u00e4dagogik, bB Erweiterung um ein Unterrichtsfach mit Zertifikat"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Sport f\u00fcr Wirtschaftsp\u00e4dagogik, bB Erweiterung um ein Unterrichtsfach mit Zertifikat"
   },
   "TUXS50L": {
     "code": "TUXS50L",
     "id": 55144,
     "name": "Degree Program Sport, Erweiterungsfach b. B.",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Sport, Erweiterungsfach b. B."
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Sport, Erweiterungsfach b. B."
   },
   "TUXS50M": {
     "code": "TUXS50M",
     "id": 55145,
     "name": "Degree Program Didaktikfach Sport, Lehramt Hauptschule",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Didaktikfach Sport, Lehramt Hauptschule"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Didaktikfach Sport, Lehramt Hauptschule"
   },
   "TUXS50N": {
     "code": "TUXS50N",
     "id": 55146,
     "name": "Degree Program Sport, Lehramt Hauptschule",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Lehramt Sport/Sport, Lehramt Hauptschule"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Lehramt Sport/Sport, Lehramt Hauptschule"
   },
   "TUXS50O": {
     "code": "TUXS50O",
     "id": 55147,
     "name": "Degree Program M.Sc. Radiation Biology",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Biomedical Sciences/M.Sc. Radiation Biology"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Biomedical Sciences/M.Sc. Radiation Biology"
   },
   "TUXS50P": {
     "code": "TUXS50P",
     "id": 55148,
     "name": "Degree Program M.Sc. Biomedical Neuroscience",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Biomedical Sciences/M.Sc. Biomedical Neuroscience"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Biomedical Sciences/M.Sc. Biomedical Neuroscience"
   },
   "TUXS50Q": {
     "code": "TUXS50Q",
     "id": 55149,
     "name": "Degree Program Medizin (Klinisch), Staatsexamen",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Medizin/Medizin (Klinisch), Staatsexamen"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Medizin/Medizin (Klinisch), Staatsexamen"
   },
   "TUXS50R": {
     "code": "TUXS50R",
     "id": 55150,
     "name": "Degree Program Medizin (Vorklinisch LMU),Staatsexamen",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Medizin/Medizin (Vorklinisch LMU),Staatsexamen"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Medizin/Medizin (Vorklinisch LMU),Staatsexamen"
   },
   "TUXS50S": {
     "code": "TUXS50S",
     "id": 55157,
     "name": "Degree Program B.Sc. Sports Science",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/B.Sc. Sports Science"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/B.Sc. Sports Science"
   },
   "TUXS50T": {
     "code": "TUXS50T",
     "id": 55158,
     "name": "Degree Program B.Sc. Wissenschaftliche Grundlagen des Sports",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/B.Sc. Wissenschaftliche Grundlagen des Sports"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/B.Sc. Wissenschaftliche Grundlagen des Sports"
   },
   "TUXS50U": {
     "code": "TUXS50U",
     "id": 55159,
     "name": "Degree Program M.Sc. Sports Engineering",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/M.Sc. Sports Engineering"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/M.Sc. Sports Engineering"
   },
   "TUXS50V": {
     "code": "TUXS50V",
     "id": 55160,
     "name": "Degree Program M.Sc. Diagnostik und Training",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/M.Sc. Diagnostik und Training"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/M.Sc. Diagnostik und Training"
   },
   "TUXS50W": {
     "code": "TUXS50W",
     "id": 55161,
     "name": "Degree Program M.Sc. Diagnostics and Training",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/M.Sc. Diagnostics and Training"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/M.Sc. Diagnostics and Training"
   },
   "TUXS50X": {
     "code": "TUXS50X",
     "id": 55162,
     "name": "Degree Program M.Sc. Sportwissenschaft",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/M.Sc. Sportwissenschaft"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/M.Sc. Sportwissenschaft"
   },
   "TUXS50Y": {
     "code": "TUXS50Y",
     "id": 55163,
     "name": "Degree Program M.Sc. Bewegung & Gesundheit - Diagnostik, Pr\u00e4vention & Intervention in der Lebensspanne",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/M.Sc. Bewegung & Gesundheit - Diagnostik, Pr\u00e4vention & Intervention in der Lebensspanne"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/M.Sc. Bewegung & Gesundheit - Diagnostik, Pr\u00e4vention & Intervention in der Lebensspanne"
   },
   "TUXS50Z": {
     "code": "TUXS50Z",
     "id": 55164,
     "name": "Degree Program Sport, Lehramt Sonderschulen",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/Sport, Lehramt Sonderschulen"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Sport, Lehramt Sonderschulen"
   },
   "TUXS510": {
     "code": "TUXS510",
     "id": 55165,
     "name": "Degree Program Sport, Lehramt berufliche Schulen",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/Sport, Lehramt berufliche Schulen"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Sport, Lehramt berufliche Schulen"
   },
   "TUXS511": {
     "code": "TUXS511",
     "id": 55166,
     "name": "Degree Program Sport, Lehramt berufliche Schulen Erweriterung",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/Sport, Lehramt berufliche Schulen Erweriterung"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Sport, Lehramt berufliche Schulen Erweriterung"
   },
   "TUXS512": {
     "code": "TUXS512",
     "id": 55167,
     "name": "Degree Program Sport, Lehramt Mittelschulen Erweriterung",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/Sport, Lehramt Mittelschulen Erweriterung"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Sport, Lehramt Mittelschulen Erweriterung"
   },
   "TUXS513": {
     "code": "TUXS513",
     "id": 55168,
     "name": "Degree Program Sport, Lehramt Sonderschulen Erweriterung",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/Sport, Lehramt Sonderschulen Erweriterung"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Sport, Lehramt Sonderschulen Erweriterung"
   },
   "TUXS514": {
     "code": "TUXS514",
     "id": 55169,
     "name": "Degree Program Wissenschaftliche Grundlagen des Sports, Austausch\t",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/Wissenschaftliche Grundlagen des Sports, Austausch\t"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Wissenschaftliche Grundlagen des Sports, Austausch\t"
   },
   "TUXS515": {
     "code": "TUXS515",
     "id": 55170,
     "name": "Degree Program Wissenschaftliche Grundlagen des Sports, Austausch",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/Wissenschaftliche Grundlagen des Sports, Austausch"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Wissenschaftliche Grundlagen des Sports, Austausch"
   },
   "TUXS516": {
     "code": "TUXS516",
     "id": 55171,
     "name": "Degree Program Sportwissenschaft, Austausch",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/Sportwissenschaft, Austausch"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Sportwissenschaft, Austausch"
   },
   "TUXS517": {
     "code": "TUXS517",
     "id": 55172,
     "name": "Degree Program Sportlehrer im freien Beruf, Abschlu\u00df Sportlehrer i. freien Beruf",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/Sportlehrer im freien Beruf, Abschlu\u00df Sportlehrer i. freien Beruf"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Sportlehrer im freien Beruf, Abschlu\u00df Sportlehrer i. freien Beruf"
   },
   "TUXS518": {
     "code": "TUXS518",
     "id": 55173,
     "name": "Degree Program Wissenschaftliche Grundlagen des Sports, Studienkolleg",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/Wissenschaftliche Grundlagen des Sports, Studienkolleg"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Wissenschaftliche Grundlagen des Sports, Studienkolleg"
   },
   "TUXS519": {
     "code": "TUXS519",
     "id": 55174,
     "name": "Degree Program Wissenschaftliche Grundlagen des Sports, Studienkolleg",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/SG Archiv/Wissenschaftliche Grundlagen des Sports, Studienkolleg"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Wissenschaftliche Grundlagen des Sports, Studienkolleg"
   },
   "TUXS51A": {
     "code": "TUXS51A",
     "id": 55175,
     "name": "Degree Program Medizin Prakt. Jahr, Staatsexamen",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/ME Archiv/Medizin Prakt. Jahr, Staatsexamen"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/ME Archiv/Medizin Prakt. Jahr, Staatsexamen"
   },
   "TUXS51B": {
     "code": "TUXS51B",
     "id": 55176,
     "name": "Degree Program Medizin (Vorklinisch), Staatsexamen",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/ME Archiv/Medizin (Vorklinisch), Staatsexamen"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/ME Archiv/Medizin (Vorklinisch), Staatsexamen"
   },
   "TUXS51C": {
     "code": "TUXS51C",
     "id": 55177,
     "name": "Degree Program Medizin (Klinisch), Austausch (studienbeitragspflichtig)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/ME Archiv/Medizin (Klinisch), Austausch (studienbeitragspflichtig)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/ME Archiv/Medizin (Klinisch), Austausch (studienbeitragspflichtig)"
   },
   "TUXS51D": {
     "code": "TUXS51D",
     "id": 55178,
     "name": "Degree Program Medizin (Vorklinisch), Austausch (studienbeitragspflichtig)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/ME Archiv/Medizin (Vorklinisch), Austausch (studienbeitragspflichtig)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/ME Archiv/Medizin (Vorklinisch), Austausch (studienbeitragspflichtig)"
   },
   "TUXS51E": {
     "code": "TUXS51E",
     "id": 55179,
     "name": "Degree Program Medizin (Vorklinisch), Austausch (nicht studienbeitragspflichtig)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/ME Archiv/Medizin (Vorklinisch), Austausch (nicht studienbeitragspflichtig)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/ME Archiv/Medizin (Vorklinisch), Austausch (nicht studienbeitragspflichtig)"
   },
   "TUXS51F": {
     "code": "TUXS51F",
     "id": 55258,
     "name": "Degree Program TUM School of Medicine and Health (Sport)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/TUM School of Medicine and Health (Sport)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/TUM School of Medicine and Health (Sport)"
   },
   "TUXS51G": {
     "code": "TUXS51G",
     "id": 55259,
     "name": "Degree Program TUM School of Medicine and Health (Gesundheit)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/TUM School of Medicine and Health (Gesundheit)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/TUM School of Medicine and Health (Gesundheit)"
   },
   "TUXS51H": {
     "code": "TUXS51H",
     "id": 55260,
     "name": "Degree Program TUM School of Medicine and Health (Medizin)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/TUM School of Medicine and Health (Medizin)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/TUM School of Medicine and Health (Medizin)"
   },
   "TUXS51I": {
     "code": "TUXS51I",
     "id": 55261,
     "name": "Degree Program Gastpromotion (TUM School of Medicine and Health - Sport)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Gastpromotion (TUM School of Medicine and Health - Sport)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Gastpromotion (TUM School of Medicine and Health - Sport)"
   },
   "TUXS51J": {
     "code": "TUXS51J",
     "id": 55262,
     "name": "Degree Program Gastpromotion (TUM School of Medicine and Health - Medizin)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Gastpromotion (TUM School of Medicine and Health - Medizin)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Gastpromotion (TUM School of Medicine and Health - Medizin)"
   },
   "TUXS51K": {
     "code": "TUXS51K",
     "id": 55263,
     "name": "Degree Program Medical Life Science and Technology, Ph.D.",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Medical Life Science and Technology, Ph.D."
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Medical Life Science and Technology, Ph.D."
   },
   "TUXS51L": {
     "code": "TUXS51L",
     "id": 55264,
     "name": "Degree Program Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften (Sportwissenschaften)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften (Sportwissenschaften)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften (Sportwissenschaften)"
   },
   "TUXS51M": {
     "code": "TUXS51M",
     "id": 55265,
     "name": "Degree Program Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften (Gesundheitswissenschaften)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften (Gesundheitswissenschaften)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften (Gesundheitswissenschaften)"
   },
   "TUXS51N": {
     "code": "TUXS51N",
     "id": 55266,
     "name": "Degree Program Fakult\u00e4t f\u00fcr Medizin",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Fakult\u00e4t f\u00fcr Medizin"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Fakult\u00e4t f\u00fcr Medizin"
   },
   "TUXS51O": {
     "code": "TUXS51O",
     "id": 55267,
     "name": "Degree Program Sportwissenschaft",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Sportwissenschaft"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Sportwissenschaft"
   },
   "TUXS51P": {
     "code": "TUXS51P",
     "id": 55268,
     "name": "Degree Program Sportwissenschaft",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Sportwissenschaft"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Sportwissenschaft"
   },
   "TUXS51Q": {
     "code": "TUXS51Q",
     "id": 55269,
     "name": "Degree Program Medizin",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Medizin"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Medizin"
   },
   "TUXS51R": {
     "code": "TUXS51R",
     "id": 55270,
     "name": "Degree Program Medizin",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Medizin"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Medizin"
   },
   "TUXS51S": {
     "code": "TUXS51S",
     "id": 55271,
     "name": "Degree Program Gastpromotion (ME)",
-    "path": "TUM/Schools/Medicine and Health in formation/Academic Program Administration/Promotionen/Gastpromotion (ME)"
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/Promotionen MH/Gastpromotion (ME)"
   },
   "TUXS601": {
     "code": "TUXS601",
@@ -10462,6 +10492,12 @@
     "id": 55057,
     "name": "Degree Program M.Sc. Management and Digital Technology",
     "path": "TUM/Schools/Management/Academic Program Administration/School of Management Location Heilbronn/M.Sc. Management and Digital Technology"
+  },
+  "TUXS60R": {
+    "code": "TUXS60R",
+    "id": 55537,
+    "name": "Degree Program B.Sc. Management and Data Science",
+    "path": "TUM/Schools/Management/Academic Program Administration/School of Management Location Heilbronn/Degree Program"
   },
   "TUXS701": {
     "code": "TUXS701",
@@ -10943,6 +10979,18 @@
     "name": "Degree Program B.Ed. Biologie, Informatik",
     "path": "TUM/Schools/Social Sciences and Technology/Academic Program Administration/Teaching at Academic Secondary Schools/Bachelor of Education - Scientific Education/Degree Program"
   },
+  "TUXS729": {
+    "code": "TUXS729",
+    "id": 55557,
+    "name": "Degree Program M.Sc. AI in Society",
+    "path": "TUM/Schools/Social Sciences and Technology/Academic Program Administration/Political, Social and Educational Sciences/Social Science & Technology/Degree Program"
+  },
+  "TUXS730": {
+    "code": "TUXS730",
+    "id": 55757,
+    "name": "Degree Program M.Ed. Biologie, Informatik",
+    "path": "TUM/Schools/Social Sciences and Technology/Academic Program Administration/Teaching at Academic Secondary Schools/Master of Education Scientific Education/Degree Program"
+  },
   "TUZEACS": {
     "code": "TUZEACS",
     "id": 49397,
@@ -10960,6 +11008,12 @@
     "id": 45841,
     "name": "Data Protection Representative Walter Schottky Institute \u2013 Center for Nanotechnology and Nanomaterials (WSI)",
     "path": "TUM/Corporate Research Centers/Walter Schottky Institute \u2013 Center for Nanotechnology and Nanomaterials (WSI)/Data Protection Representative"
+  },
+  "TUZEBAC": {
+    "code": "TUZEBAC",
+    "id": 55518,
+    "name": "Bavarian AM Cluster",
+    "path": "TUM/Integrative Research Institutes/Munich Institute of Integrated Materials, Energy and Process Engineering (MEP)/Bavarian AM Cluster"
   },
   "TUZEBCH": {
     "code": "TUZEBCH",
@@ -11192,8 +11246,8 @@
   "TUZEFAM": {
     "code": "TUZEFAM",
     "id": 45391,
-    "name": "TUM.Family",
-    "path": "TUM/Central Administration/Diversity & Equal Opportunities/TUM.Family"
+    "name": "TUM Family Service",
+    "path": "TUM/Central Administration/Diversity & Equal Opportunities/TUM Family Service"
   },
   "TUZEFCL": {
     "code": "TUZEFCL",
@@ -11236,12 +11290,6 @@
     "id": 19639,
     "name": "Central Service Institutions",
     "path": "TUM/Central Service Institutions"
-  },
-  "TUZEGEN": {
-    "code": "TUZEGEN",
-    "id": 41149,
-    "name": "TUM.Diversity",
-    "path": "TUM/Central Administration/Diversity & Equal Opportunities/TUM.Diversity"
   },
   "TUZEGNI": {
     "code": "TUZEGNI",

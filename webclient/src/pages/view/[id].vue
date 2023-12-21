@@ -114,13 +114,13 @@ onMounted(() => {
     <!-- Header image (on mobile) -->
     <a
       v-if="state.image.shown_image"
-      class="c-hand header-image-mobile show-sm"
+      class="cursor-pointer header-image-mobile show-sm"
       @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
     >
       <img
         :alt="t('image_alt')"
         :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-        class="block h-auto max-w-full bg-zinc-100"
+        class="bg-zinc-100 block h-auto max-w-full"
       />
     </a>
 
@@ -324,7 +324,7 @@ onMounted(() => {
 
     .subtitle {
       span {
-        color: text-gray;
+        color: $text-gray;
       }
 
       button svg {
@@ -393,23 +393,6 @@ onMounted(() => {
   }
 }
 
-// 'md' (
-@media (max-width: 840px) {
-  #view-view {
-    .text-md-right {
-      text-align: right !important;
-    }
-
-    .text-md-center {
-      text-align: center !important;
-    }
-
-    .mt-md-3 {
-      margin-top: 1rem !important;
-    }
-  }
-}
-
 // Animations
 @keyframes fade-in {
   from {
@@ -424,7 +407,7 @@ onMounted(() => {
 @keyframes delay-btn {
   from {
     pointer-events: none;
-    color: text-gray;
+    color: $text-gray;
   }
 
   to {

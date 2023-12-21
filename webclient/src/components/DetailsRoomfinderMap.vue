@@ -84,7 +84,7 @@ function delayedLoadRoomfinderModalMap() {
         id="roomfinder-map-img"
         :alt="t('img_alt')"
         :src="`${appURL}/cdn/maps/roomfinder/${state.selectedRoomfinderMap().file}`"
-        class="block h-auto max-w-full bg-zinc-100"
+        class="bg-zinc-100 block h-auto max-w-full"
         :width="state.map.roomfinder.width"
         :height="state.map.roomfinder.height"
       />
@@ -156,7 +156,7 @@ function delayedLoadRoomfinderModalMap() {
             id="roomfinder-modal-map-img"
             :alt="t('roomfinder.modal.img_alt')"
             :src="`${appURL}/cdn/maps/roomfinder/${state.selectedRoomfinderMap().file}`"
-            class="block h-auto max-w-full bg-zinc-100"
+            class="bg-zinc-100 block h-auto max-w-full"
             :width="state.map.roomfinder.width"
             :height="state.map.roomfinder.height"
           />
