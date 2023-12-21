@@ -1,6 +1,5 @@
 use log::info;
 use serde::Deserialize;
-use sqlx::PgPool;
 use std::time::Instant;
 
 #[derive(Debug)]
@@ -103,7 +102,9 @@ impl Alias {
     }
 }
 
-pub(crate) async fn load_all_to_db(pool: &PgPool) -> Result<(), Box<dyn std::error::Error>> {
+pub(crate) async fn load_all_to_db(
+    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+) -> Result<(), Box<dyn std::error::Error>> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let raw_aliase = reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?
@@ -114,11 +115,9 @@ pub(crate) async fn load_all_to_db(pool: &PgPool) -> Result<(), Box<dyn std::err
         .into_iter()
         .map(AliasIterator::from)
         .flat_map(|alias| alias.into_iter());
-    let mut tx = pool.begin().await?;
     for task in set_aliase {
-        task.store(&mut tx).await?;
+        task.store(tx).await?;
     }
-    tx.commit().await?;
     info!("loaded aliases in {elapsed:?}", elapsed = start.elapsed());
 
     Ok(())

@@ -1,6 +1,5 @@
 use log::info;
 use serde_json::Value;
-use sqlx::PgPool;
 use std::collections::HashMap;
 use std::time::Instant;
 
@@ -148,7 +147,9 @@ impl DelocalisedValues {
         Ok(())
     }
 }
-pub(crate) async fn load_all_to_db(pool: &PgPool) -> Result<(), Box<dyn std::error::Error>> {
+pub(crate) async fn load_all_to_db(
+    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+) -> Result<(), Box<dyn std::error::Error>> {
     let start = Instant::now();
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
@@ -159,11 +160,9 @@ pub(crate) async fn load_all_to_db(pool: &PgPool) -> Result<(), Box<dyn std::err
         .map(DelocalisedValues::from);
     info!("downloaded data in {elapsed:?}", elapsed = start.elapsed());
     let start = Instant::now();
-    let mut tx = pool.begin().await?;
     for task in tasks {
-        task.store(&mut tx).await?;
+        task.store(tx).await?;
     }
-    tx.commit().await?;
     info!("loaded data in {elapsed:?}", elapsed = start.elapsed());
 
     Ok(())
