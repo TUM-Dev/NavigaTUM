@@ -3,8 +3,8 @@ import { URL, fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import Vue from "@vitejs/plugin-vue";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
-import Markdown from "vite-plugin-md";
-import link from "@yankeeinlondon/link-builder";
+import Markdown from "unplugin-vue-markdown/vite";
+import prism from "markdown-it-prism";
 import path from "path";
 
 export default defineConfig({
@@ -48,7 +48,7 @@ export default defineConfig({
       fullInstall: false,
     }),
     Markdown({
-      builders: [link()],
+      markdownItUses: [prism],
     }),
   ],
   resolve: {
