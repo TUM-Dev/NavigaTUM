@@ -21,10 +21,12 @@
   "dependencies": {
     "@vueuse/core": "10.6.1",
     "maplibre-gl": "3.6.1",
+    "markdown-it-prism": "^2.3.0",
     "pinia": "2.1.7",
     "spectre.css": "github:Valexr/spectre#dfe3bc2c59d23cd4bfd43c690aae3655576ff708",
     "swagger-ui-dist": "5.10.0",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
+    "unplugin-vue-markdown": "^0.25.2",
     "vue": "3.3.8",
     "vue-router": "4.2.5"
   },
@@ -36,7 +38,6 @@
     "@vue/eslint-config-prettier": "8.0.0",
     "@vue/eslint-config-typescript": "12.0.0",
     "@vue/tsconfig": "0.4.0",
-    "@yankeeinlondon/link-builder": "1.2.1",
     "autoprefixer": "^10.4.16",
     "cypress": "13.5.1",
     "eslint": "8.56.0",
@@ -50,7 +51,6 @@
     "tailwindcss": "^3.3.5",
     "typescript": "5.2.2",
     "vite": "4.5.1",
-    "vite-plugin-md": "0.21.5",
     "vite-plugin-rewrite-all": "1.0.2",
     "vue-i18n": "9.7.0",
     "vue-tsc": "1.8.22"

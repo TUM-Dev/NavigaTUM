@@ -3,8 +3,8 @@ import { URL, fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import Vue from "@vitejs/plugin-vue";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
-import Markdown from "vite-plugin-md";
-import link from "@yankeeinlondon/link-builder";
+import Markdown from "unplugin-vue-markdown/vite";
+import prism from "markdown-it-prism";
 import path from "path";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -51,7 +51,7 @@ export default defineConfig({
       fullInstall: false,
     }),
     Markdown({
-      builders: [link()],
+      markdownItUses: [prism],
     }),
     //The next one is included due to https://github.com/vitejs/vite/issues/2415
     // otherwise the router won't serve the details pages, as they include dots

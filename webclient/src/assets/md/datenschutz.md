@@ -8,7 +8,7 @@ Verantwortlicher im Sinne der Datenschutzgesetze, insbesondere der EU-Datenschut
 
 Frank Elsinga in Vertretung für ["OpenSource @ TUM e.V."](https://tum.dev).
 
-```raw
+```
 Postanschrift: Josef-Fischhaber-Straße 46, 82319 Starnberg
 Telefon: (0049/0)176 – 56–727-579
 E-Mail: navigatum (at-symbol) tum.de
@@ -16,7 +16,7 @@ E-Mail: navigatum (at-symbol) tum.de
 
 ### Kontaktdaten des Datenschutzbeauftragten
 
-```raw
+```
 Der/Die Datenschutzbeauftragte der Technischen Universität München
 Postanschrift: Arcisstr. 21, 80333 München
 Telefon: 089/289-17052
@@ -37,7 +37,7 @@ Für nicht öffentliche Kommunikation wird auf die Kontaktmöglichkeit über das
 
 Der technische Betrieb unserer Datenverarbeitungssysteme erfolgt durch:
 
-```raw
+```
 Leibniz-Rechenzentrum (LRZ) der Bayerischen Akademie der Wissenschaften
 Boltzmannstraße 1
 D-85748 Garching bei München
@@ -79,7 +79,7 @@ Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeb
 Weiterhin besteht ein Beschwerderecht beim Bayerischen Landesbeauftragten für den Datenschutz.
 Diesen können Sie unter folgenden Kontaktdaten erreichen:
 
-```raw
+```
 Postanschrift: Postfach 22 12 19, 80502 München
 Adresse: Wagmüllerstraße 18, 80538 München
 Telefon: 089 212672-0
@@ -111,7 +111,7 @@ Für nähere Informationen zur Verarbeitung Ihrer Daten und zu Ihren Rechten kö
 Unser Webserver wird durch das Leibniz-Rechenzentrum der Bayerischen Akademie der Wissenschaften (LRZ) betrieben.
 Die von Ihnen im Rahmen des Besuchs unseres Webauftritts übermittelten personenbezogenen Daten werden daher in unserem Auftrag durch das LRZ verarbeitet:
 
-```raw
+```
 Leibniz-Rechenzentrum (LRZ) der Bayerischen Akademie der Wissenschaften
 Boltzmannstraße 1
 D-85748 Garching bei München
