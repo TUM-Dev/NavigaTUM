@@ -77,8 +77,6 @@ class Room(PydanticConfiguration):
     room_identifier: str | None
     campus_id: str | None
     building_code: str
-    events_end: str | None  # no idea what this is...
-    events_start: str | None  # no idea what this is...
     org_id: int | None = None
 
     @classmethod
