@@ -1106,8 +1106,8 @@
     "station_id": "de:09190:40511",
     "sub_stations": [
       {
-        "lat": 47.7515216842041,
-        "lon": 11.3760671303107,
+        "lat": 47.751527724001,
+        "lon": 11.376049164005,
         "name": "Penzberg, Zentrum",
         "station_id": "de:09190:40511:0:1"
       }
@@ -1128,7 +1128,7 @@
     "sub_stations": [
       {
         "lat": 47.752083382312,
-        "lon": 11.3747735563014,
+        "lon": 11.3747825394542,
         "name": "Penzberg, Philippstra\u00dfe",
         "station_id": "de:09190:41467:0:1"
       }
@@ -1881,7 +1881,7 @@
       },
       {
         "lat": 47.7713284484373,
-        "lon": 11.5565835866796,
+        "lon": 11.5566015529853,
         "name": "Bad T\u00f6lz, Friedhof",
         "station_id": "de:09173:4978:0:2"
       }
@@ -3235,20 +3235,7 @@
     "lon": 11.4794820711338,
     "name": "Verdiweg",
     "station_id": "de:09173:4747",
-    "sub_stations": [
-      {
-        "lat": 47.8531023480889,
-        "lon": 11.4795530510556,
-        "name": "Geretsried, Verdiweg",
-        "station_id": "de:09173:4747:0:1"
-      },
-      {
-        "lat": 47.8530420680696,
-        "lon": 11.4793823711516,
-        "name": "Geretsried, Verdiweg",
-        "station_id": "de:09173:4747:0:2"
-      }
-    ]
+    "sub_stations": []
   },
   {
     "lat": 47.8531300936303,
@@ -4080,12 +4067,6 @@
     "station_id": "de:09173:4725",
     "sub_stations": [
       {
-        "lat": 47.8766242888777,
-        "lon": 11.470408201462,
-        "name": "Geretsried, Rotkehlchenweg",
-        "station_id": "de:09173:4725:0:1"
-      },
-      {
         "lat": 47.8766182636137,
         "lon": 11.4703004036279,
         "name": "Geretsried, Rotkehlchenweg",
@@ -4132,20 +4113,7 @@
     "lon": 11.462303404837,
     "name": "Graslitzer Stra\u00dfe",
     "station_id": "de:09173:4735",
-    "sub_stations": [
-      {
-        "lat": 47.8779076541321,
-        "lon": 11.4631498139653,
-        "name": "Geretsried, Graslitzer Stra\u00dfe",
-        "station_id": "de:09173:4735:2:3"
-      },
-      {
-        "lat": 47.8778413778317,
-        "lon": 11.4633923590921,
-        "name": "Geretsried, Graslitzer Stra\u00dfe",
-        "station_id": "de:09173:4735:2:4"
-      }
-    ]
+    "sub_stations": []
   },
   {
     "lat": 47.8776529738723,
@@ -4522,7 +4490,14 @@
     "lon": 11.2404983536238,
     "name": "Kampberg, Primelweg",
     "station_id": "de:09188:9399",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 47.8838360274609,
+        "lon": 11.2399364321363,
+        "name": "Kampberg, Enzianweg",
+        "station_id": "de:09188:9399:0:1"
+      }
+    ]
   },
   {
     "lat": 47.8840719683053,
@@ -4530,6 +4505,20 @@
     "name": "Holzkirchen",
     "station_id": "de:09182:43227",
     "sub_stations": []
+  },
+  {
+    "lat": 47.8843119548433,
+    "lon": 11.2212335079183,
+    "name": "Diemendorf",
+    "station_id": "de:09188:5709",
+    "sub_stations": [
+      {
+        "lat": 47.8843420766824,
+        "lon": 11.2211616426955,
+        "name": "Diemendorf",
+        "station_id": "de:09188:5709:0:1"
+      }
+    ]
   },
   {
     "lat": 47.8849187771743,
@@ -4712,7 +4701,14 @@
     "lon": 11.2660081331856,
     "name": "Diemendorfer Stra\u00dfe",
     "station_id": "de:09188:5301",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 47.8898058885129,
+        "lon": 11.2667421602181,
+        "name": "Unterzeism., Maibaum",
+        "station_id": "de:09188:5301:0:1"
+      }
+    ]
   },
   {
     "lat": 47.8898474806128,
@@ -4793,14 +4789,40 @@
     "lon": 11.2653702073662,
     "name": "An der Leiten",
     "station_id": "de:09188:5302",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 47.8911009743953,
+        "lon": 11.2654575693616,
+        "name": "Unterzeismering, An der Leiten",
+        "station_id": "de:09188:5302:0:1"
+      },
+      {
+        "lat": 47.8913238463738,
+        "lon": 11.2654845188202,
+        "name": "Unterzeismering, An der Leiten",
+        "station_id": "de:09188:5302:0:2"
+      }
+    ]
   },
   {
     "lat": 47.8920842274698,
     "lon": 11.2450466588129,
     "name": "Kampberg Abzw.",
     "station_id": "de:09188:9393",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 47.8920767851533,
+        "lon": 11.2448232672825,
+        "name": "Kampberg Abzw.",
+        "station_id": "de:09188:9393:0:1"
+      },
+      {
+        "lat": 47.8921731605268,
+        "lon": 11.2446975031427,
+        "name": "Kampberg Abzw.",
+        "station_id": "de:09188:9393:0:2"
+      }
+    ]
   },
   {
     "lat": 47.8927559108868,
@@ -4895,7 +4917,20 @@
     "lon": 11.2691752543285,
     "name": "Gr\u00f6schlstra\u00dfe",
     "station_id": "de:09188:9391",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 47.8966243026335,
+        "lon": 11.2692754093197,
+        "name": "Unterzeismering, Gr\u00f6schlstra\u00dfe",
+        "station_id": "de:09188:9391:0:1"
+      },
+      {
+        "lat": 47.8963954305036,
+        "lon": 11.2690328641929,
+        "name": "Unterzeismering, Gr\u00f6schlstra\u00dfe",
+        "station_id": "de:09188:9391:0:2"
+      }
+    ]
   },
   {
     "lat": 47.8965836884351,
@@ -5078,6 +5113,20 @@
     "name": "Ort",
     "station_id": "de:09187:41698",
     "sub_stations": []
+  },
+  {
+    "lat": 47.9004427041852,
+    "lon": 11.2725542601072,
+    "name": "Tutzing, W\u00fcrmseestadion",
+    "station_id": "de:09188:5308",
+    "sub_stations": [
+      {
+        "lat": 47.900484861621,
+        "lon": 11.2724464622731,
+        "name": "Tutzing, W\u00fcrmseestadion",
+        "station_id": "de:09188:5308:0:1"
+      }
+    ]
   },
   {
     "lat": 47.9005241063608,
@@ -5708,6 +5757,12 @@
     "station_id": "de:09173:4871",
     "sub_stations": [
       {
+        "lat": 47.9089638308061,
+        "lon": 11.439964296479,
+        "name": "Wolfratshausen, Stob\u00e4usstra\u00dfe",
+        "station_id": "de:09173:4871:0:1"
+      },
+      {
         "lat": 47.908753077809,
         "lon": 11.4398205660335,
         "name": "Wolfratshausen, Stob\u00e4usstra\u00dfe",
@@ -6004,6 +6059,26 @@
     ]
   },
   {
+    "lat": 47.9134677182687,
+    "lon": 11.2442932612648,
+    "name": "Obertraubing, Haltabergstra\u00dfe",
+    "station_id": "de:09188:9306",
+    "sub_stations": [
+      {
+        "lat": 47.9134616972905,
+        "lon": 11.2440686824438,
+        "name": "Obertraubing, Haltabergstra\u00dfe",
+        "station_id": "de:09188:9306:0:1"
+      },
+      {
+        "lat": 47.9135640538256,
+        "lon": 11.2442034297364,
+        "name": "Obertraubing, Haltabergstra\u00dfe",
+        "station_id": "de:09188:9306:0:2"
+      }
+    ]
+  },
+  {
     "lat": 47.9137089806965,
     "lon": 11.431596981124,
     "name": "Auenstra\u00dfe",
@@ -6132,14 +6207,14 @@
     "station_id": "de:09188:5665",
     "sub_stations": [
       {
-        "lat": 47.9143768779457,
-        "lon": 11.27518632389,
+        "lat": 47.9142745230185,
+        "lon": 11.2752941217241,
         "name": "Tutzing, Von-Hillern-Weg",
         "station_id": "de:09188:5665:0:1"
       },
       {
-        "lat": 47.9142925856674,
-        "lon": 11.2751503912786,
+        "lat": 47.9143768779457,
+        "lon": 11.2750605597502,
         "name": "Tutzing, Von-Hillern-Weg",
         "station_id": "de:09188:5665:0:2"
       }
@@ -6325,6 +6400,26 @@
         "lon": 11.2731830808061,
         "name": "Tutzing, Luswiese",
         "station_id": "de:09188:5667:0:2"
+      }
+    ]
+  },
+  {
+    "lat": 47.9186756020654,
+    "lon": 11.2385170939871,
+    "name": "Obertraubing West",
+    "station_id": "de:09188:9305",
+    "sub_stations": [
+      {
+        "lat": 47.9188501925563,
+        "lon": 11.2384542119172,
+        "name": "Obertraubing West",
+        "station_id": "de:09188:9305:0:1"
+      },
+      {
+        "lat": 47.9185491741007,
+        "lon": 11.238696757044,
+        "name": "Obertraubing West",
+        "station_id": "de:09188:9305:0:2"
       }
     ]
   },
@@ -6926,7 +7021,20 @@
     "lon": 12.0411477023499,
     "name": "Osterm\u00fcnchen",
     "station_id": "de:09187:42002",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 47.9424806940302,
+        "lon": 12.0417187559359,
+        "name": "Osterm\u00fcnchen, Bahnhof",
+        "station_id": "de:09187:42002:30:1"
+      },
+      {
+        "lat": 47.9428718366353,
+        "lon": 12.041314514058,
+        "name": "Osterm\u00fcnchen, Bahnhof",
+        "station_id": "de:09187:42002:30:2"
+      }
+    ]
   },
   {
     "lat": 47.9433980628244,
@@ -7034,7 +7142,20 @@
     "lon": 11.2813256716109,
     "name": "Koempelstra\u00dfe",
     "station_id": "de:09188:5758",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 47.9443942558268,
+        "lon": 11.2815194466439,
+        "name": "Feldafing, Rauhenbergweg",
+        "station_id": "gen:09188:5758:0:1"
+      },
+      {
+        "lat": 47.9442498385399,
+        "lon": 11.2811331710717,
+        "name": "Feldafing, Rauhenbergweg",
+        "station_id": "gen:09188:5758:0:2"
+      }
+    ]
   },
   {
     "lat": 47.9445151709568,
@@ -7050,10 +7171,16 @@
     "station_id": "de:09188:5604",
     "sub_stations": [
       {
-        "lat": 47.9446770718448,
-        "lon": 11.2581093503365,
+        "lat": 47.9446409677585,
+        "lon": 11.2578218894456,
         "name": "Traubing, Maibaum",
         "station_id": "de:09188:5604:0:1"
+      },
+      {
+        "lat": 47.9443822210683,
+        "lon": 11.2577500242228,
+        "name": "Traubing, Maibaum",
+        "station_id": "de:09188:5604:0:2"
       }
     ]
   },
@@ -7092,6 +7219,12 @@
     "station_id": "de:09188:5659",
     "sub_stations": [
       {
+        "lat": 47.9454292345751,
+        "lon": 11.2861008545936,
+        "name": "Feldafing, Traubinger Stra\u00dfe",
+        "station_id": "de:09188:5659:0:1"
+      },
+      {
         "lat": 47.9453329583565,
         "lon": 11.2861817029692,
         "name": "Feldafing, Traubinger Stra\u00dfe",
@@ -7110,6 +7243,26 @@
         "lon": 11.6440705122122,
         "name": "Lochhofen, Michelistra\u00dfe",
         "station_id": "de:09184:2414:0:1"
+      }
+    ]
+  },
+  {
+    "lat": 47.9460550256252,
+    "lon": 11.3906108547626,
+    "name": "H\u00f6henrain, Birkenweg",
+    "station_id": "de:09188:5712",
+    "sub_stations": [
+      {
+        "lat": 47.9460550256252,
+        "lon": 11.390700686291,
+        "name": "H\u00f6henrain, Birkenweg",
+        "station_id": "de:09188:5712:0:1"
+      },
+      {
+        "lat": 47.9460851115425,
+        "lon": 11.390530006387,
+        "name": "H\u00f6henrain, Birkenweg",
+        "station_id": "de:09188:5712:0:2"
       }
     ]
   },
@@ -7357,14 +7510,14 @@
     "station_id": "de:09188:5658",
     "sub_stations": [
       {
-        "lat": 47.9503150171884,
-        "lon": 11.2976801386075,
+        "lat": 47.9501585830308,
+        "lon": 11.2983089593065,
         "name": "Feldafing, Am Kirchplatz",
         "station_id": "de:09188:5658:0:1"
       },
       {
-        "lat": 47.9504534008562,
-        "lon": 11.297653189149,
+        "lat": 47.9502849337334,
+        "lon": 11.2982460772366,
         "name": "Feldafing, Am Kirchplatz",
         "station_id": "de:09188:5658:0:2"
       }
@@ -7382,7 +7535,20 @@
     "lon": 11.4971791934752,
     "name": "Bergstra\u00dfe",
     "station_id": "de:09173:4858",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 47.9507722835495,
+        "lon": 11.4973666431422,
+        "name": "Deining, Bergstra\u00dfe",
+        "station_id": "de:09173:4858:0:1"
+      },
+      {
+        "lat": 47.9506278840831,
+        "lon": 11.4969893507228,
+        "name": "Deining, Bergstra\u00dfe",
+        "station_id": "de:09173:4858:0:2"
+      }
+    ]
   },
   {
     "lat": 47.9509551471656,
@@ -7472,6 +7638,18 @@
     "station_id": "de:09173:4856",
     "sub_stations": [
       {
+        "lat": 47.9536962859334,
+        "lon": 11.4975732556576,
+        "name": "Deining, Gh.zur Post",
+        "station_id": "de:09173:4856:0:1"
+      },
+      {
+        "lat": 47.9536240903358,
+        "lon": 11.4976451208803,
+        "name": "Deining, Gh.zur Post",
+        "station_id": "de:09173:4856:0:2"
+      },
+      {
         "lat": 47.9539970998376,
         "lon": 11.4984176720248,
         "name": "Deining, Gh.zur Post",
@@ -7512,8 +7690,14 @@
     "station_id": "de:09188:5602",
     "sub_stations": [
       {
-        "lat": 47.9543279931095,
-        "lon": 11.2685298076338,
+        "lat": 47.9539188883909,
+        "lon": 11.2679548858518,
+        "name": "Wieling",
+        "station_id": "de:09188:5602:0:1"
+      },
+      {
+        "lat": 47.9540753111658,
+        "lon": 11.2682153972843,
         "name": "Wieling",
         "station_id": "de:09188:5602:0:2"
       }
@@ -8024,6 +8208,12 @@
         "lon": 11.5823562521846,
         "name": "Gumpertshausen",
         "station_id": "de:09184:2432:0:1"
+      },
+      {
+        "lat": 47.9644162125102,
+        "lon": 11.5823023532675,
+        "name": "Gumpertshausen",
+        "station_id": "de:09184:2432:0:2"
       }
     ]
   },
@@ -8534,16 +8724,36 @@
     "station_id": "de:09188:5597",
     "sub_stations": [
       {
-        "lat": 47.9721389559436,
-        "lon": 11.304210890724,
+        "lat": 47.972175040819,
+        "lon": 11.3042198738768,
         "name": "P\u00f6cking, Enzianweg",
         "station_id": "de:09188:5597:0:1"
       },
       {
-        "lat": 47.9721269276462,
-        "lon": 11.3040402108199,
+        "lat": 47.9723073518133,
+        "lon": 11.3040851265842,
         "name": "P\u00f6cking, Enzianweg",
         "station_id": "de:09188:5597:0:2"
+      }
+    ]
+  },
+  {
+    "lat": 47.9719705595247,
+    "lon": 12.0476206873534,
+    "name": "Kronau (Emmering)",
+    "station_id": "de:09175:4383",
+    "sub_stations": [
+      {
+        "lat": 47.9718562902135,
+        "lon": 12.0476476368119,
+        "name": "Kronau (Emmering)",
+        "station_id": "de:09175:4383:0:1"
+      },
+      {
+        "lat": 47.9720788144284,
+        "lon": 12.0476117042005,
+        "name": "Kronau (Emmering)",
+        "station_id": "de:09175:4383:0:2"
       }
     ]
   },
@@ -8712,6 +8922,12 @@
     "sub_stations": [
       {
         "lat": 47.9753864937473,
+        "lon": 11.9579867882915,
+        "name": "Hohenthann, Mitte",
+        "station_id": "de:09187:4271:0:1"
+      },
+      {
+        "lat": 47.9753864937473,
         "lon": 11.9581754345012,
         "name": "Hohenthann, Mitte",
         "station_id": "de:09187:4271:0:2"
@@ -8788,7 +9004,7 @@
       {
         "lat": 47.9773048506701,
         "lon": 11.955848797915,
-        "name": "Hohentann, Nord",
+        "name": "Hohenthann, Nord",
         "station_id": "de:09187:4272:0:1"
       }
     ]
@@ -8984,14 +9200,34 @@
     "sub_stations": []
   },
   {
+    "lat": 47.982013242754,
+    "lon": 12.0537471975919,
+    "name": "Einholz",
+    "station_id": "de:09175:4382",
+    "sub_stations": [
+      {
+        "lat": 47.9820372947401,
+        "lon": 12.0536663492164,
+        "name": "Einholz",
+        "station_id": "de:09175:4382:0:1"
+      },
+      {
+        "lat": 47.9821034376441,
+        "lon": 12.0537112649806,
+        "name": "Einholz",
+        "station_id": "de:09175:4382:0:2"
+      }
+    ]
+  },
+  {
     "lat": 47.9822666209161,
     "lon": 11.3157761304616,
     "name": "GWG Schmalzhof",
     "station_id": "de:09188:5306",
     "sub_stations": [
       {
-        "lat": 47.9822778139848,
-        "lon": 11.3157632252793,
+        "lat": 47.9815983442296,
+        "lon": 11.3151613540389,
         "name": "P\u00f6cking, GWG Schmalzhof",
         "station_id": "de:09188:5306:0:1"
       }
@@ -9164,18 +9400,26 @@
         "lon": 11.7004667457571,
         "name": "Hofolding",
         "station_id": "de:09184:2326:0:2"
+      }
+    ]
+  },
+  {
+    "lat": 47.983781033875,
+    "lon": 12.0531453263515,
+    "name": "Wagenreith",
+    "station_id": "de:09175:4379",
+    "sub_stations": [
+      {
+        "lat": 47.9836788163096,
+        "lon": 12.0530824442816,
+        "name": "Wagenreith",
+        "station_id": "de:09175:4379:0:1"
       },
       {
-        "lat": 47.9832699440239,
-        "lon": 11.701553707251,
-        "name": "Hofolding",
-        "station_id": "de:09184:2326:0:3"
-      },
-      {
-        "lat": 47.9831797511719,
-        "lon": 11.7015267577925,
-        "name": "Hofolding",
-        "station_id": "de:09184:2326:0:4"
+        "lat": 47.9838712256764,
+        "lon": 12.0531902421157,
+        "name": "Wagenreith",
+        "station_id": "de:09175:4379:0:2"
       }
     ]
   },
@@ -9200,14 +9444,14 @@
     "station_id": "de:09188:5568",
     "sub_stations": [
       {
-        "lat": 47.9836487522813,
-        "lon": 11.3096187487351,
+        "lat": 47.9836667907004,
+        "lon": 11.3095019677482,
         "name": "P\u00f6cking Maxhof",
         "station_id": "de:09188:5568:0:1"
       },
       {
-        "lat": 47.98431015686,
-        "lon": 11.3090078943418,
+        "lat": 47.984364271405,
+        "lon": 11.3089809448833,
         "name": "P\u00f6cking Maxhof",
         "station_id": "de:09188:5568:0:2"
       }
@@ -9280,8 +9524,8 @@
     "station_id": "de:09188:5566",
     "sub_stations": [
       {
-        "lat": 47.9860598317443,
-        "lon": 11.2888946151276,
+        "lat": 47.9853142730661,
+        "lon": 11.2903139532767,
         "name": "Maising",
         "station_id": "de:09188:5566:0:1"
       },
@@ -9350,6 +9594,20 @@
         "lon": 11.885259182879,
         "name": "Wetterling",
         "station_id": "de:09175:4228:0:2"
+      }
+    ]
+  },
+  {
+    "lat": 47.9861620445946,
+    "lon": 11.2888047835992,
+    "name": "Maising, Maibaum",
+    "station_id": "de:09188:5726",
+    "sub_stations": [
+      {
+        "lat": 47.9861620445946,
+        "lon": 11.2888946151276,
+        "name": "Maising, Maibaum",
+        "station_id": "de:09188:5726:0:1"
       }
     ]
   },
@@ -9424,6 +9682,12 @@
         "lon": 11.8983206871119,
         "name": "Georgenberg",
         "station_id": "de:09175:4237:0:1"
+      },
+      {
+        "lat": 47.987081951139,
+        "lon": 11.8981140745966,
+        "name": "Georgenberg",
+        "station_id": "de:09175:4237:0:2"
       }
     ]
   },
@@ -9518,6 +9782,12 @@
         "lon": 12.135161511803,
         "name": "Rott am Inn, Bahnhof",
         "station_id": "de:09187:41915:32:3"
+      },
+      {
+        "lat": 47.9868534791485,
+        "lon": 12.1352693096371,
+        "name": "Rott am Inn, Bahnhof",
+        "station_id": "de:09187:41915:34:5"
       }
     ]
   },
@@ -9616,6 +9886,20 @@
     ]
   },
   {
+    "lat": 47.9894207246626,
+    "lon": 12.1789633650628,
+    "name": "Griesst\u00e4tt, Lagerhaus",
+    "station_id": "de:09187:41710",
+    "sub_stations": [
+      {
+        "lat": 47.9893545911348,
+        "lon": 12.1790442134384,
+        "name": "Griesst\u00e4tt, Lagerhaus",
+        "station_id": "de:09187:41710:0:1"
+      }
+    ]
+  },
+  {
     "lat": 47.98963383361,
     "lon": 11.993972610855,
     "name": "A\u00dfling",
@@ -9626,6 +9910,26 @@
         "lon": 11.9939732985783,
         "name": "A\u00dfling",
         "station_id": "de:09175:4202:1:1"
+      }
+    ]
+  },
+  {
+    "lat": 47.9897934756892,
+    "lon": 12.0552384009638,
+    "name": "Haus (Emmering)",
+    "station_id": "de:09175:4378",
+    "sub_stations": [
+      {
+        "lat": 47.9897093063379,
+        "lon": 12.0551845020467,
+        "name": "Haus (Emmering)",
+        "station_id": "de:09175:4378:0:1"
+      },
+      {
+        "lat": 47.9899558019077,
+        "lon": 12.0552563672695,
+        "name": "Haus (Emmering)",
+        "station_id": "de:09175:4378:0:2"
       }
     ]
   },
@@ -9929,6 +10233,12 @@
         "lon": 11.8977188158715,
         "name": "Herrmannsdorf",
         "station_id": "de:09175:4574:0:1"
+      },
+      {
+        "lat": 47.9919457596074,
+        "lon": 11.8976110180374,
+        "name": "Herrmannsdorf",
+        "station_id": "de:09175:4574:0:2"
       }
     ]
   },
@@ -9996,6 +10306,20 @@
         "lon": 11.9105826907419,
         "name": "Kleinrohrsdorf,Abzw.",
         "station_id": "de:09175:4256:0:2"
+      }
+    ]
+  },
+  {
+    "lat": 47.9926852107382,
+    "lon": 12.1780650497785,
+    "name": "Griesst\u00e4tt, Raiffeisenbank",
+    "station_id": "de:09187:41712",
+    "sub_stations": [
+      {
+        "lat": 47.9927393165025,
+        "lon": 12.1781189486956,
+        "name": "Griesst\u00e4tt, Raiffeisenbank",
+        "station_id": "de:09187:41712:0:1"
       }
     ]
   },
@@ -10229,8 +10553,8 @@
         "station_id": "de:09188:5414:0:1"
       },
       {
-        "lat": 47.9954385209515,
-        "lon": 11.170334963913,
+        "lat": 47.9949035005546,
+        "lon": 11.1695983453799,
         "name": "Herrsching, Dampfersteg",
         "station_id": "de:09188:5414:0:2"
       }
@@ -10359,6 +10683,20 @@
         "lon": 11.6415642125692,
         "name": "Lanzenhaar, M\u00fcnchener Str.",
         "station_id": "de:09184:2408:0:2"
+      }
+    ]
+  },
+  {
+    "lat": 47.9963943300994,
+    "lon": 12.1784513253508,
+    "name": "Griesst\u00e4tt, Nord",
+    "station_id": "de:09187:41711",
+    "sub_stations": [
+      {
+        "lat": 47.9965085451025,
+        "lon": 12.1785770894906,
+        "name": "Griesst\u00e4tt, Nord",
+        "station_id": "de:09187:41711:0:1"
       }
     ]
   },
@@ -10627,6 +10965,12 @@
     "name": "Wittelsbacherstra\u00dfe",
     "station_id": "de:09188:5549",
     "sub_stations": [
+      {
+        "lat": 47.9990933433538,
+        "lon": 11.3429282794749,
+        "name": "Starnberg, Wittelsbacherstr.",
+        "station_id": "de:09188:5549:0:1"
+      },
       {
         "lat": 47.9985283054939,
         "lon": 11.3428204816408,
@@ -11654,8 +11998,8 @@
     "station_id": "de:09175:4442",
     "sub_stations": [
       {
-        "lat": 48.0089624746,
-        "lon": 12.0104753503499,
+        "lat": 48.0088482871682,
+        "lon": 12.0107268786295,
         "name": "P\u00f6rsdorf (A\u00dfling)",
         "station_id": "de:09175:4442:0:2"
       }
@@ -12032,20 +12376,20 @@
     "station_id": "de:09188:5526",
     "sub_stations": [
       {
-        "lat": 48.0144311555704,
-        "lon": 11.2834328581994,
+        "lat": 48.0142869340676,
+        "lon": 11.2833609929766,
         "name": "Hadorf",
         "station_id": "de:09188:5526:0:1"
       },
       {
-        "lat": 48.0143590448694,
-        "lon": 11.2832621782954,
+        "lat": 48.014034545467,
+        "lon": 11.28305556578,
         "name": "Hadorf",
         "station_id": "de:09188:5526:0:2"
       },
       {
-        "lat": 48.0142508786288,
-        "lon": 11.2833340435181,
+        "lat": 48.014070601057,
+        "lon": 11.2832352288368,
         "name": "Hadorf",
         "station_id": "de:09188:5526:0:3"
       }
@@ -12243,7 +12587,20 @@
     "lon": 11.3275864176941,
     "name": "Betriebshof",
     "station_id": "de:09188:5670",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0168588236545,
+        "lon": 11.3282048919661,
+        "name": "Starnberg, Betriebshof",
+        "station_id": "de:09188:5670:0:1"
+      },
+      {
+        "lat": 48.0177841917949,
+        "lon": 11.3276120038785,
+        "name": "Starnberg, Betriebshof",
+        "station_id": "de:09188:5670:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0178715336396,
@@ -12298,8 +12655,8 @@
         "station_id": "de:09184:2970:0:1"
       },
       {
-        "lat": 48.0181567379154,
-        "lon": 11.5964598021472,
+        "lat": 48.0180365620416,
+        "lon": 11.5963879369245,
         "name": "Deisenhofen, T\u00f6lzer Stra\u00dfe",
         "station_id": "de:09184:2970:0:2"
       }
@@ -12395,6 +12752,38 @@
         "lon": 11.8534678049696,
         "name": "Niederseeon, Steinsee",
         "station_id": "de:09175:3247:0:2"
+      }
+    ]
+  },
+  {
+    "lat": 48.0191962475322,
+    "lon": 11.5831827022461,
+    "name": "Deisenhofen West",
+    "station_id": "de:09184:3534",
+    "sub_stations": [
+      {
+        "lat": 48.0205601965649,
+        "lon": 11.582733544604,
+        "name": "Deisenhofen West",
+        "station_id": "de:09184:3534:5:5"
+      },
+      {
+        "lat": 48.0204159922057,
+        "lon": 11.5826347299227,
+        "name": "Deisenhofen West",
+        "station_id": "de:09184:3534:5:6"
+      },
+      {
+        "lat": 48.0179284035157,
+        "lon": 11.583928303932,
+        "name": "Deisenhofen West",
+        "station_id": "de:09184:3534:7:7"
+      },
+      {
+        "lat": 48.0177841917949,
+        "lon": 11.5836138935825,
+        "name": "Deisenhofen West",
+        "station_id": "de:09184:3534:7:8"
       }
     ]
   },
@@ -12526,6 +12915,38 @@
         "lon": 11.5826347299227,
         "name": "Deisenhofen",
         "station_id": "de:09184:2340:3:4"
+      }
+    ]
+  },
+  {
+    "lat": 48.0202597703614,
+    "lon": 11.5839462702377,
+    "name": "Deisenhofen Ost",
+    "station_id": "de:09184:3535",
+    "sub_stations": [
+      {
+        "lat": 48.0203198557421,
+        "lon": 11.5840091523076,
+        "name": "Deisenhofen Ost",
+        "station_id": "de:09184:3535:1:3"
+      },
+      {
+        "lat": 48.0202958215982,
+        "lon": 11.5840900006832,
+        "name": "Deisenhofen Ost",
+        "station_id": "de:09184:3535:1:4"
+      },
+      {
+        "lat": 48.0203318728099,
+        "lon": 11.5838564387093,
+        "name": "Deisenhofen Ost",
+        "station_id": "de:09184:3535:2:1"
+      },
+      {
+        "lat": 48.020145607945,
+        "lon": 11.5838654218621,
+        "name": "Deisenhofen Ost",
+        "station_id": "de:09184:3535:4:2"
       }
     ]
   },
@@ -12764,7 +13185,20 @@
     "lon": 11.7295429775364,
     "name": "Harthauser Stra\u00dfe",
     "station_id": "de:09184:2312",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.022512924213,
+        "lon": 11.7283863847914,
+        "name": "H\u00f6henkirchen-S, Harthauser Str",
+        "station_id": "de:09184:2312:0:1"
+      },
+      {
+        "lat": 48.022542965599,
+        "lon": 11.7285480815426,
+        "name": "H\u00f6henkirchen-S, Harthauser Str",
+        "station_id": "de:09184:2312:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0234029393901,
@@ -12859,6 +13293,12 @@
         "lon": 11.856010037224,
         "name": "Niederseeon, Steinsee Nord",
         "station_id": "de:09175:4221:0:1"
+      },
+      {
+        "lat": 48.0243514247896,
+        "lon": 11.8560280035297,
+        "name": "Niederseeon, Steinsee Nord",
+        "station_id": "de:09175:4221:0:2"
       }
     ]
   },
@@ -14173,7 +14613,20 @@
     "lon": 11.9483609450178,
     "name": "Schammach",
     "station_id": "de:09175:4250",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0368226580211,
+        "lon": 11.9477010782869,
+        "name": "Grafing, Schammach",
+        "station_id": "de:09175:4250:0:1"
+      },
+      {
+        "lat": 48.0368707108858,
+        "lon": 11.9477280277454,
+        "name": "Grafing, Schammach",
+        "station_id": "de:09175:4250:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0369838033026,
@@ -14200,7 +14653,20 @@
     "lon": 11.9458128320539,
     "name": "Gewerbegebiet Schammach",
     "station_id": "de:09175:4240",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0369548032914,
+        "lon": 11.9459224140241,
+        "name": "Grafing, Gewerbege. Schammach",
+        "station_id": "de:09175:4240:0:1"
+      },
+      {
+        "lat": 48.0369908428517,
+        "lon": 11.9460032623996,
+        "name": "Grafing, Gewerbege. Schammach",
+        "station_id": "de:09175:4240:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0371146905964,
@@ -14482,14 +14948,14 @@
     "station_id": "de:09188:5677",
     "sub_stations": [
       {
-        "lat": 48.0393633917823,
-        "lon": 11.1917777497479,
+        "lat": 48.0394354675081,
+        "lon": 11.1914184236342,
         "name": "Hechendorf, G\u00fcnteringer Str.",
         "station_id": "de:09188:5677:0:1"
       },
       {
-        "lat": 48.0392312526897,
-        "lon": 11.191831648665,
+        "lat": 48.0393273538816,
+        "lon": 11.1913285921058,
         "name": "Hechendorf, G\u00fcnteringer Str.",
         "station_id": "de:09188:5677:0:2"
       }
@@ -14951,7 +15417,7 @@
     "station_id": "de:09188:5499",
     "sub_stations": [
       {
-        "lat": 48.0430571428892,
+        "lat": 48.0430811664198,
         "lon": 11.1701912334675,
         "name": "Inning, Schlagenhofen-Weich",
         "station_id": "de:09188:5499:0:1"
@@ -15071,10 +15537,22 @@
         "station_id": "de:09184:2401:1:1"
       },
       {
+        "lat": 48.0436397103462,
+        "lon": 11.6239751993036,
+        "name": "Bergham, Edelwei\u00dfstra\u00dfe",
+        "station_id": "de:09184:2401:1:3"
+      },
+      {
         "lat": 48.043645716162,
         "lon": 11.6227085747529,
         "name": "Bergham, Edelwei\u00dfstra\u00dfe",
         "station_id": "de:09184:2401:2:2"
+      },
+      {
+        "lat": 48.0436276987126,
+        "lon": 11.6240829971378,
+        "name": "Bergham, Edelwei\u00dfstra\u00dfe",
+        "station_id": "de:09184:2401:2:4"
       }
     ]
   },
@@ -15107,6 +15585,12 @@
         "lon": 11.9406403201527,
         "name": "Grafing Bahnhof",
         "station_id": "de:09175:4050:1:4"
+      },
+      {
+        "lat": 48.0435255997137,
+        "lon": 11.9410265957249,
+        "name": "Grafing Bahnhof",
+        "station_id": "de:09175:4050:60:60"
       }
     ]
   },
@@ -15179,13 +15663,13 @@
       {
         "lat": 48.0446967231363,
         "lon": 11.9602146101964,
-        "name": "Grafing, Gymnasium",
+        "name": "Grafing, Max-Mannheimer-Gymn.",
         "station_id": "de:09175:4101:0:1"
       },
       {
         "lat": 48.0446847117492,
         "lon": 11.9598642672355,
-        "name": "Grafing, Gymnasium",
+        "name": "Grafing, Max-Mannheimer-Gymn.",
         "station_id": "de:09175:4101:0:2"
       }
     ]
@@ -15309,7 +15793,20 @@
     "lon": 11.6290731868099,
     "name": "Aurikelstra\u00dfe",
     "station_id": "de:09184:2407",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0463542676972,
+        "lon": 11.6291764447994,
+        "name": "Winning, Aurikelstra\u00dfe",
+        "station_id": "de:09184:2407:0:1"
+      },
+      {
+        "lat": 48.0460419807712,
+        "lon": 11.6289518659784,
+        "name": "Winning, Aurikelstra\u00dfe",
+        "station_id": "de:09184:2407:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0462445962335,
@@ -15376,7 +15873,20 @@
     "lon": 11.9698111148025,
     "name": "\u00d6xinger Platz",
     "station_id": "de:09175:4422",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0464743775492,
+        "lon": 11.9699253984191,
+        "name": "Grafing, \u00d6xinger Platz",
+        "station_id": "de:09175:4422:0:1"
+      },
+      {
+        "lat": 48.046486388519,
+        "lon": 11.9697277690565,
+        "name": "Grafing, \u00d6xinger Platz",
+        "station_id": "de:09175:4422:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0464980290692,
@@ -15581,6 +16091,12 @@
     "station_id": "de:09184:2409",
     "sub_stations": [
       {
+        "lat": 48.0470569063579,
+        "lon": 11.6263557348069,
+        "name": "Winning, Riegerweg/Altersheim",
+        "station_id": "de:09184:2409:0:1"
+      },
+      {
         "lat": 48.0481859125061,
         "lon": 11.6283320284322,
         "name": "Winning, Riegerweg/Altersheim",
@@ -15673,7 +16189,20 @@
     "lon": 11.9555519548403,
     "name": "Adalbert-Stifter-Stra\u00dfe",
     "station_id": "de:09175:3999",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0472130469807,
+        "lon": 11.9606547846857,
+        "name": "Grafing, Poststra\u00dfe",
+        "station_id": "de:09175:3999:0:1"
+      },
+      {
+        "lat": 48.0475373375311,
+        "lon": 11.9606817341442,
+        "name": "Grafing, Poststra\u00dfe",
+        "station_id": "de:09175:3999:0:2"
+      }
+    ]
   },
   {
     "lat": 48.048843919928,
@@ -15730,6 +16259,26 @@
     ]
   },
   {
+    "lat": 48.0495190687498,
+    "lon": 11.8964791407792,
+    "name": "F\u00fcrmoosen",
+    "station_id": "de:09175:4374",
+    "sub_stations": [
+      {
+        "lat": 48.0495911302664,
+        "lon": 11.8965420228491,
+        "name": "F\u00fcrmoosen",
+        "station_id": "de:09175:4374:0:1"
+      },
+      {
+        "lat": 48.0494650225463,
+        "lon": 11.8964252418622,
+        "name": "F\u00fcrmoosen",
+        "station_id": "de:09175:4374:0:2"
+      }
+    ]
+  },
+  {
     "lat": 48.0495343864052,
     "lon": 11.5988563950933,
     "name": "Hainbuchenstra\u00dfe",
@@ -15774,7 +16323,20 @@
     "lon": 11.9722773465086,
     "name": "Schulzentrum Kapellenstra\u00dfe",
     "station_id": "de:09175:4438",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0496151507495,
+        "lon": 11.9725394958962,
+        "name": "Grafing,Schulzentrum Kap.-Str.",
+        "station_id": "de:09175:4438:0:1"
+      },
+      {
+        "lat": 48.0495851251438,
+        "lon": 11.9721442371712,
+        "name": "Grafing,Schulzentrum Kap.-Str.",
+        "station_id": "de:09175:4438:0:2"
+      }
+    ]
   },
   {
     "lat": 48.049639774099,
@@ -15901,7 +16463,20 @@
     "lon": 11.9577096290588,
     "name": "Hesselfurt",
     "station_id": "de:09175:4435",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.050666035918,
+        "lon": 11.9594869748161,
+        "name": "Grafing, Ganghoferstra\u00dfe",
+        "station_id": "de:09175:4435:0:1"
+      },
+      {
+        "lat": 48.0505939759056,
+        "lon": 11.9595678231917,
+        "name": "Grafing, Ganghoferstra\u00dfe",
+        "station_id": "de:09175:4435:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0510200540129,
@@ -16211,7 +16786,20 @@
     "lon": 11.9766350321525,
     "name": "Engerloh",
     "station_id": "de:09175:4426",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0532060869346,
+        "lon": 11.9767975103435,
+        "name": "Engerloh",
+        "station_id": "de:09175:4426:0:1"
+      },
+      {
+        "lat": 48.0531400351852,
+        "lon": 11.9765908978282,
+        "name": "Engerloh",
+        "station_id": "de:09175:4426:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0533568991745,
@@ -16572,7 +17160,20 @@
     "lon": 11.9584170338208,
     "name": "Seeschneid",
     "station_id": "de:09175:4434",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0548153215605,
+        "lon": 11.9584449290864,
+        "name": "Grafing, Seeschneid",
+        "station_id": "de:09175:4434:0:1"
+      },
+      {
+        "lat": 48.0549474206767,
+        "lon": 11.9585347606149,
+        "name": "Grafing, Seeschneid",
+        "station_id": "de:09175:4434:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0557192012951,
@@ -16741,7 +17342,20 @@
     "lon": 11.9921813321186,
     "name": "Haus-Nr. 14",
     "station_id": "de:09175:4437",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0571870495639,
+        "lon": 11.9921587017041,
+        "name": "Gasteig, Nirschlhof",
+        "station_id": "de:09175:4437:0:1"
+      },
+      {
+        "lat": 48.0573911931968,
+        "lon": 11.992221583774,
+        "name": "Gasteig, Nirschlhof",
+        "station_id": "de:09175:4437:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0575141695626,
@@ -16749,6 +17363,20 @@
     "name": "Fachoberschule",
     "station_id": "de:09187:42032",
     "sub_stations": []
+  },
+  {
+    "lat": 48.0575232857044,
+    "lon": 11.3652873468997,
+    "name": "K\u00f6nigswiesen, St.-Ulrichs-Weg",
+    "station_id": "de:09188:5316",
+    "sub_stations": [
+      {
+        "lat": 48.0574752521045,
+        "lon": 11.3652873468997,
+        "name": "K\u00f6nigswiesen, St.-Ulrichs-Weg",
+        "station_id": "gen:09188:5316:0:1"
+      }
+    ]
   },
   {
     "lat": 48.0575861895916,
@@ -16819,16 +17447,16 @@
     "station_id": "de:09188:5497",
     "sub_stations": [
       {
-        "lat": 48.0583278418413,
-        "lon": 11.1611182490966,
-        "name": "Bachern, Wallerstra\u00dfe",
-        "station_id": "de:09188:5497:0:2"
-      },
-      {
-        "lat": 48.0584359155883,
-        "lon": 11.1611721480137,
+        "lat": 48.0583038254222,
+        "lon": 11.1609565523455,
         "name": "Bachern, Wallerstra\u00dfe",
         "station_id": "de:09188:5497:0:1"
+      },
+      {
+        "lat": 48.0582377802121,
+        "lon": 11.1610374007211,
+        "name": "Bachern, Wallerstra\u00dfe",
+        "station_id": "de:09188:5497:0:2"
       }
     ]
   },
@@ -16904,7 +17532,20 @@
     "lon": 12.0032220843664,
     "name": "Abzw.",
     "station_id": "de:09175:4431",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0587661395209,
+        "lon": 12.0033337438401,
+        "name": "Dieding, Abzw.",
+        "station_id": "de:09175:4431:0:1"
+      },
+      {
+        "lat": 48.0588201759628,
+        "lon": 12.0031630639361,
+        "name": "Dieding, Abzw.",
+        "station_id": "de:09175:4431:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0589703315004,
@@ -16931,7 +17572,20 @@
     "lon": 12.01043966389,
     "name": "Traxl, Abzw.",
     "station_id": "de:09175:4432",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0589042325374,
+        "lon": 12.0105202661141,
+        "name": "Traxl, Abzw.",
+        "station_id": "de:09175:4432:0:1"
+      },
+      {
+        "lat": 48.0588922244637,
+        "lon": 12.01041246828,
+        "name": "Traxl, Abzw.",
+        "station_id": "de:09175:4432:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0592012296835,
@@ -16965,7 +17619,20 @@
     "lon": 11.9972387454205,
     "name": "Haus-Nr. 5",
     "station_id": "de:09175:4436",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.05934252531,
+        "lon": 11.9972251999073,
+        "name": "Dieding West",
+        "station_id": "de:09175:4436:0:1"
+      },
+      {
+        "lat": 48.0593905571679,
+        "lon": 11.9972701156715,
+        "name": "Dieding West",
+        "station_id": "de:09175:4436:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0594616946168,
@@ -17558,8 +18225,8 @@
     "station_id": "de:09188:5496",
     "sub_stations": [
       {
-        "lat": 48.0627226579093,
-        "lon": 11.164118622146,
+        "lat": 48.062602585953,
+        "lon": 11.1640916726875,
         "name": "Bachern",
         "station_id": "de:09188:5496:0:1"
       },
@@ -17635,12 +18302,6 @@
         "lon": 11.6799851572763,
         "name": "Ottobrunn",
         "station_id": "de:09184:2210:2:2"
-      },
-      {
-        "lat": 48.0636772199981,
-        "lon": 11.6764907108206,
-        "name": "Ottobrunn",
-        "station_id": "de:09184:2210:3:3"
       }
     ]
   },
@@ -18183,6 +18844,32 @@
     ]
   },
   {
+    "lat": 48.0666308471593,
+    "lon": 11.8917270529256,
+    "name": "Kirchseeon, Gymnasium",
+    "station_id": "de:09175:4373",
+    "sub_stations": [
+      {
+        "lat": 48.0666608628255,
+        "lon": 11.8917719686898,
+        "name": "Kirchseeon, Gymnasium",
+        "station_id": "de:09175:4373:0:1"
+      },
+      {
+        "lat": 48.0665588094889,
+        "lon": 11.8916731540085,
+        "name": "Kirchseeon, Gymnasium",
+        "station_id": "de:09175:4373:0:2"
+      },
+      {
+        "lat": 48.0668769751054,
+        "lon": 11.892787064961,
+        "name": "Kirchseeon, Gymnasium",
+        "station_id": "gen:09175:4373:0:3"
+      }
+    ]
+  },
+  {
     "lat": 48.0667632212616,
     "lon": 11.5270995139856,
     "name": "Gymnasium",
@@ -18631,6 +19318,12 @@
         "station_id": "de:09188:5430:1:1"
       },
       {
+        "lat": 48.0701425613201,
+        "lon": 11.3761839112976,
+        "name": "Gauting",
+        "station_id": "de:09188:5430:1:6"
+      },
+      {
         "lat": 48.0699264627524,
         "lon": 11.3763096754374,
         "name": "Gauting",
@@ -18643,16 +19336,16 @@
         "station_id": "de:09188:5430:2:3"
       },
       {
+        "lat": 48.0696323271328,
+        "lon": 11.376103062922,
+        "name": "Gauting",
+        "station_id": "de:09188:5430:2:4"
+      },
+      {
         "lat": 48.0699984957091,
         "lon": 11.3760581471578,
         "name": "Gauting",
         "station_id": "de:09188:5430:2:5"
-      },
-      {
-        "lat": 48.0701425613201,
-        "lon": 11.3761839112976,
-        "name": "Gauting",
-        "station_id": "de:09188:5430:1:6"
       }
     ]
   },
@@ -18823,7 +19516,20 @@
     "lon": 12.0068997224021,
     "name": "Rinding",
     "station_id": "de:09175:4292",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0712770639129,
+        "lon": 12.0067383587674,
+        "name": "Rinding",
+        "station_id": "de:09175:4292:0:1"
+      },
+      {
+        "lat": 48.0711930275415,
+        "lon": 12.0067383587674,
+        "name": "Rinding",
+        "station_id": "de:09175:4292:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0710884869672,
@@ -19001,10 +19707,16 @@
     "station_id": "de:09188:5551",
     "sub_stations": [
       {
-        "lat": 48.0715531824526,
-        "lon": 11.1571746449988,
+        "lat": 48.0715411773296,
+        "lon": 11.1571207460817,
         "name": "Inning, Bacherner Weg",
         "station_id": "de:09188:5551:0:1"
+      },
+      {
+        "lat": 48.071517167075,
+        "lon": 11.156994981942,
+        "name": "Inning, Bacherner Weg",
+        "station_id": "de:09188:5551:0:2"
       }
     ]
   },
@@ -19339,6 +20051,20 @@
     ]
   },
   {
+    "lat": 48.0737320659098,
+    "lon": 11.9106635391175,
+    "name": "Kirchseeon, Berufsbildungswerk",
+    "station_id": "de:09175:4270",
+    "sub_stations": [
+      {
+        "lat": 48.0738341050223,
+        "lon": 11.9107084548817,
+        "name": "Kirchseeon, Berufsbildungswerk",
+        "station_id": "de:09175:4270:0:1"
+      }
+    ]
+  },
+  {
     "lat": 48.0738295087906,
     "lon": 11.2025513530967,
     "name": "Maistra\u00dfe",
@@ -19558,6 +20284,12 @@
         "lon": 11.9649397485915,
         "name": "Ebersberg, Sparkassenplatz",
         "station_id": "de:09175:4149:0:1"
+      },
+      {
+        "lat": 48.074848482842,
+        "lon": 11.9649038159801,
+        "name": "Ebersberg, Sparkassenplatz",
+        "station_id": "de:09175:4149:0:2"
       }
     ]
   },
@@ -19654,7 +20386,14 @@
     "lon": 11.969204190998,
     "name": "Dr.-Wintrich-Stra\u00dfe",
     "station_id": "de:09175:4433",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.075580743159,
+        "lon": 11.9694043755542,
+        "name": "Ebersberg, Landratsamt",
+        "station_id": "de:09175:4433:0:1"
+      }
+    ]
   },
   {
     "lat": 48.0753539434963,
@@ -19920,6 +20659,20 @@
     "sub_stations": []
   },
   {
+    "lat": 48.076355007077,
+    "lon": 11.7245954942919,
+    "name": "Putzbrunn, Hermann-Oberth-Str.",
+    "station_id": "de:09184:2319",
+    "sub_stations": [
+      {
+        "lat": 48.0763970210648,
+        "lon": 11.7246044774447,
+        "name": "Putzbrunn, Hermann-Oberth-Str.",
+        "station_id": "de:09184:2319:0:1"
+      }
+    ]
+  },
+  {
     "lat": 48.0766226830231,
     "lon": 11.6602984456868,
     "name": "Neubiberg",
@@ -20061,14 +20814,14 @@
     "station_id": "de:09188:5442",
     "sub_stations": [
       {
-        "lat": 48.0770452325295,
-        "lon": 11.1523506919224,
+        "lat": 48.0770272267657,
+        "lon": 11.1524045908395,
         "name": "Inning, Marktplatz",
         "station_id": "de:09188:5442:0:1"
       },
       {
-        "lat": 48.0770692402047,
-        "lon": 11.1522878098525,
+        "lat": 48.0771052516964,
+        "lon": 11.1522339109355,
         "name": "Inning, Marktplatz",
         "station_id": "de:09188:5442:0:2"
       }
@@ -20348,7 +21101,20 @@
     "lon": 11.9966340161267,
     "name": "Kirche",
     "station_id": "de:09175:4178",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.078713739289,
+        "lon": 11.9966323118197,
+        "name": "Oberndorf (Ebersberg)",
+        "station_id": "de:09175:4178:0:1"
+      },
+      {
+        "lat": 48.0783836433245,
+        "lon": 11.9952938220461,
+        "name": "Oberndorf (Ebersberg)",
+        "station_id": "de:09175:4178:2:2"
+      }
+    ]
   },
   {
     "lat": 48.0787650970677,
@@ -20490,8 +21256,8 @@
         "station_id": "de:09184:2300:1:1"
       },
       {
-        "lat": 48.079457947875,
-        "lon": 11.6069161920558,
+        "lat": 48.0794699511511,
+        "lon": 11.6069880572786,
         "name": "Fasanenpark",
         "station_id": "de:09184:2300:1:2"
       }
@@ -20522,7 +21288,20 @@
     "lon": 11.9875480293214,
     "name": "Langwied (EBE)",
     "station_id": "de:09175:4313",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.0797520273325,
+        "lon": 11.9872089844879,
+        "name": "Langwied (EBE)",
+        "station_id": "de:09175:4313:0:1"
+      },
+      {
+        "lat": 48.0793619215656,
+        "lon": 11.9880174682438,
+        "name": "Langwied (EBE)",
+        "station_id": "de:09175:4313:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0797783507219,
@@ -20543,20 +21322,7 @@
     "lon": 11.7019090213655,
     "name": "Waldkolonie",
     "station_id": "de:09184:2288",
-    "sub_stations": [
-      {
-        "lat": 48.0798240465353,
-        "lon": 11.7019220165175,
-        "name": "Putzbrunn, Waldkolonie",
-        "station_id": "de:09184:2288:0:1"
-      },
-      {
-        "lat": 48.0799020672244,
-        "lon": 11.7018860839062,
-        "name": "Putzbrunn, Waldkolonie",
-        "station_id": "de:09184:2288:0:2"
-      }
-    ]
+    "sub_stations": []
   },
   {
     "lat": 48.0800685275374,
@@ -22468,6 +23234,12 @@
     "station_id": "de:09175:4061",
     "sub_stations": [
       {
+        "lat": 48.0919938435191,
+        "lon": 11.7936669564974,
+        "name": "Baldham, Karwendelplatz",
+        "station_id": "de:09175:4061:0:1"
+      },
+      {
         "lat": 48.0916878336245,
         "lon": 11.7932447483139,
         "name": "Baldham, Karwendelplatz",
@@ -22638,6 +23410,12 @@
     "station_id": "de:09175:3929",
     "sub_stations": [
       {
+        "lat": 48.0927138596171,
+        "lon": 11.789813183928,
+        "name": "Baldham, Wallbergstra\u00dfe",
+        "station_id": "de:09175:3929:0:1"
+      },
+      {
         "lat": 48.0928038609205,
         "lon": 11.7899119986093,
         "name": "Baldham, Wallbergstra\u00dfe",
@@ -22658,6 +23436,26 @@
     "name": "Neunkirchner Stra\u00dfe",
     "station_id": "de:09162:1162",
     "sub_stations": []
+  },
+  {
+    "lat": 48.0928518615513,
+    "lon": 11.7839382019691,
+    "name": "Baldham, Eichenstra\u00dfe",
+    "station_id": "de:09175:4384",
+    "sub_stations": [
+      {
+        "lat": 48.092989863115,
+        "lon": 11.7840819324146,
+        "name": "Baldham, Eichenstra\u00dfe",
+        "station_id": "de:09175:4384:0:1"
+      },
+      {
+        "lat": 48.0927498601574,
+        "lon": 11.7837585389122,
+        "name": "Baldham, Eichenstra\u00dfe",
+        "station_id": "de:09175:4384:0:2"
+      }
+    ]
   },
   {
     "lat": 48.0928678696522,
@@ -22989,6 +23787,12 @@
         "lon": 11.7868217940315,
         "name": "Baldham, Geranienweg",
         "station_id": "de:09175:4278:0:1"
+      },
+      {
+        "lat": 48.0937878648946,
+        "lon": 11.786624164669,
+        "name": "Baldham, Geranienweg",
+        "station_id": "de:09175:4278:0:2"
       }
     ]
   },
@@ -23256,6 +24060,12 @@
     "station_id": "de:09175:4074",
     "sub_stations": [
       {
+        "lat": 48.0954318295235,
+        "lon": 11.7996138036791,
+        "name": "Baldham, Hochwaldstra\u00dfe",
+        "station_id": "de:09175:4074:0:1"
+      },
+      {
         "lat": 48.0954258297482,
         "lon": 11.7994970226922,
         "name": "Baldham, Hochwaldstra\u00dfe",
@@ -23344,6 +24154,20 @@
     "name": "Gmunder Stra\u00dfe",
     "station_id": "de:09162:1327",
     "sub_stations": []
+  },
+  {
+    "lat": 48.0957198179166,
+    "lon": 11.9624514152542,
+    "name": "Ebersberg, Gewerbegebiet Nord",
+    "station_id": "de:09175:4441",
+    "sub_stations": [
+      {
+        "lat": 48.0956838194557,
+        "lon": 11.9624783647127,
+        "name": "Ebersberg, Gewerbegebiet Nord",
+        "station_id": "de:09175:4441:0:1"
+      }
+    ]
   },
   {
     "lat": 48.0958195023322,
@@ -23478,6 +24302,12 @@
         "lon": 11.8029555365365,
         "name": "Baldham, Ingelsberger Weg",
         "station_id": "de:09175:4277:0:1"
+      },
+      {
+        "lat": 48.09676376232,
+        "lon": 11.8030184186064,
+        "name": "Baldham, Ingelsberger Weg",
+        "station_id": "de:09175:4277:0:3"
       }
     ]
   },
@@ -23559,6 +24389,12 @@
         "lon": 11.7907204823651,
         "name": "Baldham, Allauchplatz",
         "station_id": "de:09175:4137:1:1"
+      },
+      {
+        "lat": 48.0968417573152,
+        "lon": 11.7906306508367,
+        "name": "Baldham, Allauchplatz",
+        "station_id": "de:09175:4137:1:2"
       }
     ]
   },
@@ -23595,6 +24431,12 @@
     "name": "Rose-Breitenbach-Platz",
     "station_id": "de:09175:4229",
     "sub_stations": [
+      {
+        "lat": 48.0972977256889,
+        "lon": 11.7767516796951,
+        "name": "Vaterst. Rose-Breitenbach-Pl.",
+        "station_id": "de:09175:4229:0:1"
+      },
       {
         "lat": 48.0973337230198,
         "lon": 11.7766618481667,
@@ -23648,6 +24490,12 @@
         "lon": 11.7827075100297,
         "name": "Baldham, F.-Kamerseder-Str.",
         "station_id": "de:09175:4051:0:1"
+      },
+      {
+        "lat": 48.0974417148615,
+        "lon": 11.7827524257939,
+        "name": "Baldham, F.-Kamerseder-Str.",
+        "station_id": "de:09175:4051:0:2"
       }
     ]
   },
@@ -23689,6 +24537,12 @@
         "lon": 11.7859594113586,
         "name": "Baldham S\u00fcd (Bahnhofpl.)",
         "station_id": "de:09175:4127:0:1"
+      },
+      {
+        "lat": 48.097819684521,
+        "lon": 11.7857258493847,
+        "name": "Baldham S\u00fcd (Bahnhofpl.)",
+        "station_id": "de:09175:4127:0:2"
       }
     ]
   },
@@ -23738,6 +24592,12 @@
         "lon": 11.8033777447201,
         "name": "Baldham, Heideweg",
         "station_id": "de:09175:4055:0:1"
+      },
+      {
+        "lat": 48.0980296664645,
+        "lon": 11.8034675762486,
+        "name": "Baldham, Heideweg",
+        "station_id": "de:09175:4055:0:2"
       }
     ]
   },
@@ -23806,6 +24666,18 @@
         "lon": 11.7880165533595,
         "name": "Baldham, Realschule",
         "station_id": "de:09175:4065:0:1"
+      },
+      {
+        "lat": 48.0984496277786,
+        "lon": 11.7884297783903,
+        "name": "Baldham, Realschule",
+        "station_id": "gen:09175:4065:0:2"
+      },
+      {
+        "lat": 48.0983716352225,
+        "lon": 11.7879806207482,
+        "name": "Baldham, Realschule",
+        "station_id": "gen:09175:4065:0:3"
       }
     ]
   },
@@ -23945,8 +24817,8 @@
     "station_id": "de:09179:6082",
     "sub_stations": [
       {
-        "lat": 48.0990795633176,
-        "lon": 11.1087105354138,
+        "lat": 48.0989895729989,
+        "lon": 11.1088362995536,
         "name": "Zankenhausen, Am Malerwinkel",
         "station_id": "de:09179:6082:0:1"
       }
@@ -24004,6 +24876,12 @@
         "lon": 11.7968380094508,
         "name": "Baldham, Schlehdornweg",
         "station_id": "de:09175:4053:0:1"
+      },
+      {
+        "lat": 48.0994755188487,
+        "lon": 11.7967391947696,
+        "name": "Baldham, Schlehdornweg",
+        "station_id": "de:09175:4053:0:2"
       }
     ]
   },
@@ -24122,6 +25000,12 @@
         "lon": 11.7919152416932,
         "name": "Baldham, Mondstra\u00dfe",
         "station_id": "de:09175:3933:0:1"
+      },
+      {
+        "lat": 48.1004353983873,
+        "lon": 11.7919511743045,
+        "name": "Baldham, Mondstra\u00dfe",
+        "station_id": "de:09175:3933:0:2"
       }
     ]
   },
@@ -24171,6 +25055,12 @@
         "lon": 11.7727002777632,
         "name": "Vaterstetten, Luitpoldring",
         "station_id": "de:09175:4067:0:1"
+      },
+      {
+        "lat": 48.1007533545328,
+        "lon": 11.7731404522525,
+        "name": "Vaterstetten, Luitpoldring",
+        "station_id": "de:09175:4067:0:2"
       }
     ]
   },
@@ -24264,8 +25154,8 @@
     "station_id": "de:09179:6677",
     "sub_stations": [
       {
-        "lat": 48.1011912909097,
-        "lon": 11.0830007519787,
+        "lat": 48.1010833069441,
+        "lon": 11.0830726172015,
         "name": "T\u00fcrkenfeld, Beurer Stra\u00dfe",
         "station_id": "de:09179:6677:0:1"
       }
@@ -24389,13 +25279,13 @@
       {
         "lat": 48.1021691353816,
         "lon": 11.4261931231715,
-        "name": "Planegg, Kardinal-Faulhaber-Stra\u00dfe",
+        "name": "Planegg, Kardinal-Faulhaber-Str.",
         "station_id": "de:09184:2588:0:1"
       },
       {
         "lat": 48.1022111282859,
         "lon": 11.4256361676953,
-        "name": "Planegg, Kardinal-Faulhaber-Stra\u00dfe",
+        "name": "Planegg, Kardinal-Faulhaber-Str.",
         "station_id": "de:09184:2588:0:2"
       }
     ]
@@ -24419,20 +25309,7 @@
     "lon": 11.2953747486602,
     "name": "Flurgrenzstra\u00dfe",
     "station_id": "de:09188:5371",
-    "sub_stations": [
-      {
-        "lat": 48.1022831160421,
-        "lon": 11.2953984177855,
-        "name": "Neugilching, Flurgrenzstra\u00dfe",
-        "station_id": "de:09188:5371:0:1"
-      },
-      {
-        "lat": 48.1023790995601,
-        "lon": 11.2953445188685,
-        "name": "Neugilching, Flurgrenzstra\u00dfe",
-        "station_id": "de:09188:5371:0:2"
-      }
-    ]
+    "sub_stations": []
   },
   {
     "lat": 48.1023222703073,
@@ -24441,16 +25318,22 @@
     "station_id": "de:09179:5924",
     "sub_stations": [
       {
-        "lat": 48.1021871323448,
-        "lon": 11.1055664319189,
+        "lat": 48.1022051293017,
+        "lon": 11.1059527074912,
         "name": "Zankenhausen",
         "station_id": "de:09179:5924:0:1"
       },
       {
-        "lat": 48.1021991303167,
-        "lon": 11.1056023645303,
+        "lat": 48.1023071119384,
+        "lon": 11.1060425390196,
         "name": "Zankenhausen",
         "station_id": "de:09179:5924:0:2"
+      },
+      {
+        "lat": 48.1022411231966,
+        "lon": 11.1056023645303,
+        "name": "Zankenhausen",
+        "station_id": "de:09179:5924:0:3"
       }
     ]
   },
@@ -24563,8 +25446,8 @@
         "station_id": "de:09188:5587:0:1"
       },
       {
-        "lat": 48.1030689758229,
-        "lon": 11.3079838149178,
+        "lat": 48.1031589590007,
+        "lon": 11.3081455116689,
         "name": "Gilching, GWG Argelsried",
         "station_id": "de:09188:5587:0:2"
       }
@@ -24773,6 +25656,12 @@
     "station_id": "de:09175:4045",
     "sub_stations": [
       {
+        "lat": 48.1040107919465,
+        "lon": 11.7794286592422,
+        "name": "Vaterstetten, Beethovenstra\u00dfe",
+        "station_id": "de:09175:4045:0:1"
+      },
+      {
         "lat": 48.1038848175411,
         "lon": 11.7794286592422,
         "name": "Vaterstetten, Beethovenstra\u00dfe",
@@ -24814,8 +25703,8 @@
     "station_id": "de:09179:5929",
     "sub_stations": [
       {
-        "lat": 48.1040887759474,
-        "lon": 11.0827492236991,
+        "lat": 48.1041727585854,
+        "lon": 11.0827671900048,
         "name": "T\u00fcrkenfeld, Keltenstra\u00dfe",
         "station_id": "de:09179:5929:0:1"
       }
@@ -24872,6 +25761,12 @@
         "lon": 11.7655946038648,
         "name": "Vaterstetten",
         "station_id": "de:09175:4000:2:2"
+      },
+      {
+        "lat": 48.1048386160723,
+        "lon": 11.7657293511574,
+        "name": "Vaterstetten",
+        "station_id": "gen:09175:4000:2:4"
       }
     ]
   },
@@ -24947,6 +25842,12 @@
         "lon": 11.7831297182133,
         "name": "Vaterst., H.-Marschner-Str.",
         "station_id": "de:09175:4260:0:2"
+      },
+      {
+        "lat": 48.1048926041392,
+        "lon": 11.7831297182133,
+        "name": "Vaterst., H.-Marschner-Str.",
+        "station_id": "de:09175:4260:0:3"
       }
     ]
   },
@@ -25070,10 +25971,16 @@
     "station_id": "de:09179:6230",
     "sub_stations": [
       {
-        "lat": 48.1050905598991,
-        "lon": 11.0780779842211,
+        "lat": 48.105156544983,
+        "lon": 11.0780869673739,
         "name": "T\u00fcrkenfeld",
         "station_id": "de:09179:6230:10:1"
+      },
+      {
+        "lat": 48.1051265517735,
+        "lon": 11.077970186387,
+        "name": "T\u00fcrkenfeld",
+        "station_id": "de:09179:6230:10:2"
       },
       {
         "lat": 48.1050905598991,
@@ -25161,6 +26068,18 @@
         "lon": 11.7709395798061,
         "name": "Vaterstetten, Rathaus",
         "station_id": "de:09175:4087:1:1"
+      },
+      {
+        "lat": 48.1051145544849,
+        "lon": 11.77025686019,
+        "name": "Vaterstetten, Rathaus",
+        "station_id": "de:09175:4087:1:3"
+      },
+      {
+        "lat": 48.1047786292649,
+        "lon": 11.7710114450288,
+        "name": "Vaterstetten, Rathaus",
+        "station_id": "de:09175:4087:2:2"
       }
     ]
   },
@@ -25349,18 +26268,6 @@
         "lon": 11.4138592543188,
         "name": "Planegg West",
         "station_id": "de:09184:2601:1:2"
-      },
-      {
-        "lat": 48.1058943724244,
-        "lon": 11.4133651809125,
-        "name": "Planegg West",
-        "station_id": "de:09184:2601:1:3"
-      },
-      {
-        "lat": 48.1064162439755,
-        "lon": 11.4138592543188,
-        "name": "Planegg West",
-        "station_id": "de:09184:2601:1:4"
       }
     ]
   },
@@ -25378,8 +26285,8 @@
     "station_id": "de:09181:502",
     "sub_stations": [
       {
-        "lat": 48.1064402379424,
-        "lon": 11.0365488686304,
+        "lat": 48.106272279939,
+        "lon": 11.0365668349361,
         "name": "Geltendorf",
         "station_id": "de:09181:502:30:1"
       }
@@ -25524,12 +26431,6 @@
         "lon": 11.3008332252552,
         "name": "Gilching-Argelsried",
         "station_id": "de:09188:5360:1:1"
-      },
-      {
-        "lat": 48.106794147653,
-        "lon": 11.3009410230893,
-        "name": "Gilching-Argelsried",
-        "station_id": "de:09188:5360:1:9_alt"
       }
     ]
   },
@@ -25619,6 +26520,12 @@
     "name": "Friedhof",
     "station_id": "de:09175:4043",
     "sub_stations": [
+      {
+        "lat": 48.1071660501465,
+        "lon": 11.7770301574332,
+        "name": "Vaterstetten, Friedhof",
+        "station_id": "de:09175:4043:0:1"
+      },
       {
         "lat": 48.1071360581097,
         "lon": 11.7768235449179,
@@ -25717,14 +26624,14 @@
     "station_id": "de:09179:5932",
     "sub_stations": [
       {
-        "lat": 48.1074179825648,
-        "lon": 11.0856328157616,
+        "lat": 48.107399987433,
+        "lon": 11.0855250179275,
         "name": "T\u00fcrkenfeld, Duringstra\u00dfe",
         "station_id": "de:09179:5932:0:1"
       },
       {
-        "lat": 48.1074899630289,
-        "lon": 11.0858034956656,
+        "lat": 48.1074119841882,
+        "lon": 11.0857136641371,
         "name": "T\u00fcrkenfeld, Duringstra\u00dfe",
         "station_id": "de:09179:5932:0:2"
       }
@@ -25778,14 +26685,14 @@
     "station_id": "de:09179:5920",
     "sub_stations": [
       {
-        "lat": 48.1076099302451,
+        "lat": 48.1076699137481,
         "lon": 11.1139387303681,
         "name": "Pleitmannswang",
         "station_id": "de:09179:5920:0:1"
       },
       {
-        "lat": 48.1075859368243,
-        "lon": 11.1139656798266,
+        "lat": 48.107537949949,
+        "lon": 11.1139027977567,
         "name": "Pleitmannswang",
         "station_id": "de:09179:5920:0:2"
       }
@@ -26171,14 +27078,14 @@
     "station_id": "de:09179:6676",
     "sub_stations": [
       {
-        "lat": 48.1089895331039,
-        "lon": 11.0836475389834,
+        "lat": 48.1088755673145,
+        "lon": 11.0851387423552,
         "name": "T\u00fcrkenfeld, Drexlhof/Maibaum",
         "station_id": "de:09179:6676:0:1"
       },
       {
-        "lat": 48.1090615113669,
-        "lon": 11.0836655052891,
+        "lat": 48.1088515744845,
+        "lon": 11.084752466783,
         "name": "T\u00fcrkenfeld, Drexlhof/Maibaum",
         "station_id": "de:09179:6676:0:2"
       }
@@ -26233,16 +27140,16 @@
     "station_id": "de:09179:5910",
     "sub_stations": [
       {
-        "lat": 48.1093194326485,
-        "lon": 11.188238387528,
-        "name": "Mauern (FFB)",
-        "station_id": "de:09179:5910:0:2"
-      },
-      {
-        "lat": 48.1092294602554,
-        "lon": 11.1883641516678,
+        "lat": 48.1092054675907,
+        "lon": 11.1883461853621,
         "name": "Mauern (FFB)",
         "station_id": "de:09179:5910:0:1"
+      },
+      {
+        "lat": 48.1093374271082,
+        "lon": 11.188292286445,
+        "name": "Mauern (FFB)",
+        "station_id": "de:09179:5910:0:2"
       }
     ]
   },
@@ -26289,13 +27196,13 @@
     "sub_stations": [
       {
         "lat": 48.109595347005,
-        "lon": 11.1881305896939,
+        "lon": 11.1881575391524,
         "name": "Mauern, R\u00f6merstra\u00dfe",
         "station_id": "de:09179:5914:0:1"
       },
       {
         "lat": 48.1096193394877,
-        "lon": 11.1880946570825,
+        "lon": 11.1880587244711,
         "name": "Mauern, R\u00f6merstra\u00dfe",
         "station_id": "de:09179:5914:0:2"
       }
@@ -26498,14 +27405,14 @@
     "station_id": "de:09181:2207",
     "sub_stations": [
       {
-        "lat": 48.1102251459646,
-        "lon": 11.0364949697134,
+        "lat": 48.1099612311496,
+        "lon": 11.0365668349361,
         "name": "Geltendorf, Heuweg",
         "station_id": "de:09181:2207:0:1"
       },
       {
-        "lat": 48.1102371420604,
-        "lon": 11.0365398854776,
+        "lat": 48.1101831596075,
+        "lon": 11.0366117507003,
         "name": "Geltendorf, Heuweg",
         "station_id": "de:09181:2207:0:2"
       }
@@ -26817,7 +27724,20 @@
     "lon": 11.5698244937096,
     "name": "Candidplatz",
     "station_id": "de:09162:1180",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.1117726,
+        "lon": 11.5698427,
+        "name": "Candidplatz",
+        "station_id": "de:09162:1180:1:1"
+      },
+      {
+        "lat": 48.1111068,
+        "lon": 11.5700493,
+        "name": "Candidplatz",
+        "station_id": "de:09162:1180:2:2"
+      }
+    ]
   },
   {
     "lat": 48.1115058363589,
@@ -26830,6 +27750,12 @@
         "lon": 11.776931342752,
         "name": "Vaterstetten, Baldhamer Str.",
         "station_id": "de:09175:4105:0:1"
+      },
+      {
+        "lat": 48.1116346680495,
+        "lon": 11.7768055786122,
+        "name": "Vaterstetten, Baldhamer Str.",
+        "station_id": "de:09175:4105:0:2"
       },
       {
         "lat": 48.1114187437696,
@@ -26870,6 +27796,12 @@
         "lon": 11.7726823114575,
         "name": "Vaterstetten, Dorfstra\u00dfe",
         "station_id": "de:09175:4042:0:1"
+      },
+      {
+        "lat": 48.1110588679537,
+        "lon": 11.7726014630819,
+        "name": "Vaterstetten, Dorfstra\u00dfe",
+        "station_id": "de:09175:4042:0:2"
       }
     ]
   },
@@ -26878,7 +27810,20 @@
     "lon": 11.5761618756792,
     "name": "Tegernseer Landstra\u00dfe",
     "station_id": "de:09162:1115",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.1119405,
+        "lon": 11.5753763,
+        "name": "Tegernseer Landstra\u00dfe",
+        "station_id": "de:09162:1115:3:3"
+      },
+      {
+        "lat": 48.1113047,
+        "lon": 11.576589,
+        "name": "Tegernseer Landstra\u00dfe",
+        "station_id": "de:09162:1115:5:5"
+      }
+    ]
   },
   {
     "lat": 48.1116928217749,
@@ -26940,7 +27885,20 @@
     "lon": 11.5486944501836,
     "name": "Bruderm\u00fchlstra\u00dfe",
     "station_id": "de:09162:1430",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.1121204,
+        "lon": 11.5481304,
+        "name": "Brudermuehlstra\u00dfe",
+        "station_id": "de:09162:1430:2:2"
+      },
+      {
+        "lat": 48.1121684,
+        "lon": 11.5489748,
+        "name": "Brudermuehlstra\u00dfe",
+        "station_id": "de:09162:1430:1:1"
+      }
+    ]
   },
   {
     "lat": 48.1121956768303,
@@ -26987,7 +27945,20 @@
     "lon": 11.5535949391705,
     "name": "Sch\u00e4ftlarnstra\u00dfe / Gasteig HP8",
     "station_id": "de:09162:1148",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.1123484,
+        "lon": 11.5528645,
+        "name": "Schaeftlarnstra\u00dfe / Gasteig HP8",
+        "station_id": "de:09162:1148:1:1"
+      },
+      {
+        "lat": 48.1121084,
+        "lon": 11.5544096,
+        "name": "Schaeftlarnstra\u00dfe / Gasteig HP8",
+        "station_id": "de:09162:1148:2:2"
+      }
+    ]
   },
   {
     "lat": 48.1123393635921,
@@ -26995,6 +27966,12 @@
     "name": "Klinikum Gro\u00dfhadern Nord",
     "station_id": "de:09162:1474",
     "sub_stations": [
+      {
+        "lat": 48.1122764376364,
+        "lon": 11.4665544288926,
+        "name": "Klinikum Gro\u00dfhadern Nord",
+        "station_id": "de:09162:1474:1:1"
+      },
       {
         "lat": 48.1124143870618,
         "lon": 11.4671203675217,
@@ -27207,14 +28184,14 @@
     "station_id": "de:09181:99193",
     "sub_stations": [
       {
-        "lat": 48.1129481878708,
-        "lon": 11.0357583511803,
+        "lat": 48.1125343427828,
+        "lon": 11.0356954691104,
         "name": "Geltendorf, H\u00f6henweg",
         "station_id": "de:09181:99193:0:1"
       },
       {
-        "lat": 48.1129601833309,
-        "lon": 11.0358122500974,
+        "lat": 48.1129841742427,
+        "lon": 11.0358391995559,
         "name": "Geltendorf, H\u00f6henweg",
         "station_id": "de:09181:99193:0:2"
       }
@@ -27364,6 +28341,18 @@
     "station_id": "de:09179:6611",
     "sub_stations": [
       {
+        "lat": 48.1144176108933,
+        "lon": 11.3538607764841,
+        "name": "Germering, Freibad / Polariom",
+        "station_id": "de:09179:6611:0:1"
+      },
+      {
+        "lat": 48.1144655913447,
+        "lon": 11.3535014503704,
+        "name": "Germering, Freibad / Polariom",
+        "station_id": "de:09179:6611:0:2"
+      },
+      {
         "lat": 48.1138358443543,
         "lon": 11.352100078527,
         "name": "Germering, Freibad / Polariom",
@@ -27472,14 +28461,14 @@
     "station_id": "de:09179:5911",
     "sub_stations": [
       {
-        "lat": 48.1143816255253,
-        "lon": 11.1783389530956,
+        "lat": 48.1144296060104,
+        "lon": 11.1783299699428,
         "name": "Unteralting, Aussiedlerhof",
         "station_id": "de:09179:5911:0:1"
       },
       {
-        "lat": 48.114357635266,
-        "lon": 11.1783299699428,
+        "lat": 48.1143096547137,
+        "lon": 11.1783479362484,
         "name": "Unteralting, Aussiedlerhof",
         "station_id": "de:09179:5911:0:2"
       }
@@ -27543,6 +28532,26 @@
         "lon": 11.7745418240959,
         "name": "Vaterstetten, Parsdorfer Weg",
         "station_id": "de:09175:4341:0:2"
+      }
+    ]
+  },
+  {
+    "lat": 48.1146155299668,
+    "lon": 11.73012013329,
+    "name": "Haar, Sportpark",
+    "station_id": "de:09184:2733",
+    "sub_stations": [
+      {
+        "lat": 48.1146815028218,
+        "lon": 11.7301650490542,
+        "name": "Haar, Sportpark",
+        "station_id": "de:09184:2733:0:1"
+      },
+      {
+        "lat": 48.1145555545705,
+        "lon": 11.7300931838315,
+        "name": "Haar, Sportpark",
+        "station_id": "de:09184:2733:0:2"
       }
     ]
   },
@@ -27716,14 +28725,14 @@
     "station_id": "de:09179:6448",
     "sub_stations": [
       {
-        "lat": 48.1152452674014,
-        "lon": 11.3592776176481,
+        "lat": 48.115197287678,
+        "lon": 11.3587565947833,
         "name": "Germering, Kerschenst.Schule",
         "station_id": "de:09179:6448:0:1"
       },
       {
-        "lat": 48.1152692572463,
-        "lon": 11.3592686344953,
+        "lat": 48.1151133230543,
+        "lon": 11.358828460006,
         "name": "Germering, Kerschenst.Schule",
         "station_id": "de:09179:6448:0:2"
       },
@@ -27742,14 +28751,14 @@
     "station_id": "de:09181:2206",
     "sub_stations": [
       {
-        "lat": 48.1153292318095,
-        "lon": 11.0332700178429,
+        "lat": 48.1153652165139,
+        "lon": 11.0331083210918,
         "name": "Geltendorf, Schulstra\u00dfe",
         "station_id": "de:09181:2206:0:1"
       },
       {
-        "lat": 48.1153412267138,
-        "lon": 11.0334047651356,
+        "lat": 48.1154251909651,
+        "lon": 11.0332251020787,
         "name": "Geltendorf, Schulstra\u00dfe",
         "station_id": "de:09181:2206:0:2"
       }
@@ -27772,6 +28781,12 @@
         "lon": 11.4281334841855,
         "name": "Gr\u00e4felfing, Rottenbucher Str.",
         "station_id": "de:09184:2576:0:2"
+      },
+      {
+        "lat": 48.1156530932414,
+        "lon": 11.4285916249805,
+        "name": "Gr\u00e4felfing, Rottenbucher Str.",
+        "station_id": "de:09184:2576:0:3"
       }
     ]
   },
@@ -27822,8 +28837,8 @@
     "station_id": "de:09179:6450",
     "sub_stations": [
       {
-        "lat": 48.1155391422296,
-        "lon": 11.3561424973061,
+        "lat": 48.1157550491956,
+        "lon": 11.3559897837078,
         "name": "Germering, Theodor-Heuss-Str.",
         "station_id": "de:09179:6450:0:1"
       },
@@ -27863,8 +28878,8 @@
     "station_id": "de:09179:6471",
     "sub_stations": [
       {
-        "lat": 48.1157670440004,
-        "lon": 11.3597716910545,
+        "lat": 48.1156171087386,
+        "lon": 11.3598255899715,
         "name": "Germering, Kerschenst. Schule Ost",
         "station_id": "de:09179:6471:0:1"
       },
@@ -27911,14 +28926,14 @@
     "station_id": "de:09179:6456",
     "sub_stations": [
       {
-        "lat": 48.116048921108,
-        "lon": 11.3617030689156,
+        "lat": 48.1161388815615,
+        "lon": 11.3618288330554,
         "name": "Germering, Montessoristra\u00dfe",
         "station_id": "de:09179:6456:0:1"
       },
       {
-        "lat": 48.1160249316272,
-        "lon": 11.3617210352213,
+        "lat": 48.1160729105777,
+        "lon": 11.3619006982781,
         "name": "Germering, Montessoristra\u00dfe",
         "station_id": "de:09179:6456:0:2"
       },
@@ -27935,7 +28950,20 @@
     "lon": 11.7348994535506,
     "name": "Ahrntaler Platz",
     "station_id": "de:09184:2258",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.1161508762768,
+        "lon": 11.734908153755,
+        "name": "Haar, Ahrntaler Platz",
+        "station_id": "de:09184:2258:0:1"
+      },
+      {
+        "lat": 48.1162648259318,
+        "lon": 11.734908153755,
+        "name": "Haar, Ahrntaler Platz",
+        "station_id": "de:09184:2258:0:2"
+      }
+    ]
   },
   {
     "lat": 48.116274557083,
@@ -27950,6 +28978,20 @@
     "name": "Holzapfelkreuth",
     "station_id": "de:09162:1510",
     "sub_stations": []
+  },
+  {
+    "lat": 48.1163487886738,
+    "lon": 11.74671201659,
+    "name": "Haar, Klinikum Mitte",
+    "station_id": "de:09184:2818",
+    "sub_stations": [
+      {
+        "lat": 48.1163907699934,
+        "lon": 11.7467389660485,
+        "name": "Haar, Klinikum Mitte",
+        "station_id": "de:09184:2818:0:1"
+      }
+    ]
   },
   {
     "lat": 48.1163700451109,
@@ -28032,14 +29074,14 @@
     "station_id": "de:09179:6479",
     "sub_stations": [
       {
-        "lat": 48.1166186679867,
-        "lon": 11.3682158547264,
+        "lat": 48.1166366598905,
+        "lon": 11.3681350063508,
         "name": "Germering, Riegerstra\u00dfe",
         "station_id": "de:09179:6479:0:1"
       },
       {
-        "lat": 48.1165946787718,
-        "lon": 11.3682068715735,
+        "lat": 48.1165586949286,
+        "lon": 11.3681619558093,
         "name": "Germering, Riegerstra\u00dfe",
         "station_id": "de:09179:6479:0:2"
       }
@@ -28320,14 +29362,14 @@
     "station_id": "de:09179:5906",
     "sub_stations": [
       {
-        "lat": 48.1177941257934,
-        "lon": 11.1648282912206,
+        "lat": 48.1178241116101,
+        "lon": 11.1647384596921,
         "name": "Unteralting",
         "station_id": "de:09179:5906:0:1"
       },
       {
         "lat": 48.1177821314618,
-        "lon": 11.1648552406791,
+        "lon": 11.1649540553604,
         "name": "Unteralting",
         "station_id": "de:09179:5906:0:2"
       }
@@ -28354,14 +29396,14 @@
     "station_id": "de:09179:6478",
     "sub_stations": [
       {
-        "lat": 48.118016020423,
-        "lon": 11.3736237127375,
+        "lat": 48.1180400089742,
+        "lon": 11.373596763279,
         "name": "Germering, Neue Gautinger Str.",
         "station_id": "de:09179:6478:0:1"
       },
       {
-        "lat": 48.1179860347183,
-        "lon": 11.3736416790432,
+        "lat": 48.117968043287,
+        "lon": 11.3736506621961,
         "name": "Germering, Neue Gautinger Str.",
         "station_id": "de:09179:6478:0:2"
       }
@@ -28489,14 +29531,14 @@
     "station_id": "de:09179:6465",
     "sub_stations": [
       {
-        "lat": 48.1186337220473,
-        "lon": 11.3670660111625,
+        "lat": 48.118777651456,
+        "lon": 11.3670929606211,
         "name": "Germering, Waldfriedhof",
         "station_id": "de:09179:6465:0:1"
       },
       {
-        "lat": 48.1186337220473,
-        "lon": 11.367039061704,
+        "lat": 48.1185497630393,
+        "lon": 11.3669941459398,
         "name": "Germering, Waldfriedhof",
         "station_id": "de:09179:6465:0:2"
       }
@@ -28612,14 +29654,14 @@
     "station_id": "de:09179:6644",
     "sub_stations": [
       {
-        "lat": 48.1192274282592,
-        "lon": 11.3508065045177,
+        "lat": 48.1172183947177,
+        "lon": 11.3510131170331,
         "name": "Germering, Westpark",
         "station_id": "de:09179:6644:0:1"
       },
       {
-        "lat": 48.1192274282592,
-        "lon": 11.3508514202819,
+        "lat": 48.1175122582603,
+        "lon": 11.351075999103,
         "name": "Germering, Westpark",
         "station_id": "de:09179:6644:0:2"
       }
@@ -28667,14 +29709,14 @@
     "station_id": "de:09179:6477",
     "sub_stations": [
       {
-        "lat": 48.1198750999381,
-        "lon": 11.3773157885558,
+        "lat": 48.1200550072887,
+        "lon": 11.3770013782063,
         "name": "Germering, Am Forst",
         "station_id": "de:09179:6477:2:3"
       },
       {
-        "lat": 48.1198151306812,
-        "lon": 11.3773068054029,
+        "lat": 48.1197791490935,
+        "lon": 11.3772798559444,
         "name": "Germering, Am Forst",
         "station_id": "de:09179:6477:2:4"
       }
@@ -28687,14 +29729,14 @@
     "station_id": "de:09179:6461",
     "sub_stations": [
       {
-        "lat": 48.11962922554,
-        "lon": 11.325761474393,
+        "lat": 48.1198151306812,
+        "lon": 11.325474013502,
         "name": "Nebel",
         "station_id": "de:09179:6461:0:1"
       },
       {
-        "lat": 48.119557262079,
-        "lon": 11.3255997776418,
+        "lat": 48.1199050845403,
+        "lon": 11.3252314683753,
         "name": "Nebel",
         "station_id": "de:09179:6461:0:2"
       },
@@ -28727,14 +29769,14 @@
     "station_id": "de:09179:6454",
     "sub_stations": [
       {
-        "lat": 48.119653213338,
-        "lon": 11.3559358847908,
+        "lat": 48.1196052377309,
+        "lon": 11.355864019568,
         "name": "Germering, Ringstra\u00dfe",
         "station_id": "de:09179:6454:0:1"
       },
       {
-        "lat": 48.1196652072328,
-        "lon": 11.3559089353322,
+        "lat": 48.1196712041791,
+        "lon": 11.3558460532623,
         "name": "Germering, Ringstra\u00dfe",
         "station_id": "de:09179:6454:0:2"
       },
@@ -28835,14 +29877,14 @@
     "station_id": "de:09179:6464",
     "sub_stations": [
       {
-        "lat": 48.1201329669449,
-        "lon": 11.3668953312585,
+        "lat": 48.1201389638367,
+        "lon": 11.3669312638699,
         "name": "Germering, Fichtenstra\u00dfe",
         "station_id": "de:09179:6464:0:1"
       },
       {
-        "lat": 48.1203608483387,
-        "lon": 11.3668324491886,
+        "lat": 48.120396829519,
+        "lon": 11.3667785502716,
         "name": "Germering, Fichtenstra\u00dfe",
         "station_id": "de:09179:6464:0:2"
       }
@@ -28958,14 +30000,14 @@
     "station_id": "de:09179:6469",
     "sub_stations": [
       {
-        "lat": 48.1208046144678,
-        "lon": 11.3598974551943,
+        "lat": 48.1208765761816,
+        "lon": 11.360086101404,
         "name": "Germering, Friedenstra\u00dfe",
         "station_id": "de:09179:6469:0:1"
       },
       {
-        "lat": 48.1208226049057,
-        "lon": 11.3598615225829,
+        "lat": 48.1209605313869,
+        "lon": 11.3600411856398,
         "name": "Germering, Friedenstra\u00dfe",
         "station_id": "de:09179:6469:0:2"
       },
@@ -29066,7 +30108,7 @@
     "sub_stations": [
       {
         "lat": 48.1211644220286,
-        "lon": 11.1996110590265,
+        "lon": 11.1996829242493,
         "name": "Sch\u00f6ngeising, Jexhof",
         "station_id": "de:09179:6421:0:1"
       }
@@ -29181,14 +30223,14 @@
     "station_id": "de:09179:6462",
     "sub_stations": [
       {
-        "lat": 48.1221418865125,
-        "lon": 11.3579121784161,
+        "lat": 48.122087916566,
+        "lon": 11.3580738751673,
         "name": "Germering, Masurenweg",
         "station_id": "de:09179:6462:0:1"
       },
       {
-        "lat": 48.1222198430018,
-        "lon": 11.3577684479706,
+        "lat": 48.1221178998766,
+        "lon": 11.3578313300405,
         "name": "Germering, Masurenweg",
         "station_id": "de:09179:6462:0:2"
       }
@@ -29201,14 +30243,14 @@
     "station_id": "de:09181:2205",
     "sub_stations": [
       {
-        "lat": 48.1218000758937,
-        "lon": 11.0271255412987,
+        "lat": 48.1215542107088,
+        "lon": 11.0276106315522,
         "name": "Geltendorf, Ortsmitte",
         "station_id": "de:09181:2205:0:1"
       },
       {
-        "lat": 48.1218060725908,
-        "lon": 11.0271794402158,
+        "lat": 48.1216201746544,
+        "lon": 11.0276645304693,
         "name": "Geltendorf, Ortsmitte",
         "station_id": "de:09181:2205:0:2"
       }
@@ -29242,8 +30284,14 @@
     "station_id": "de:09179:6486",
     "sub_stations": [
       {
-        "lat": 48.1221358898545,
-        "lon": 11.3630415586891,
+        "lat": 48.1221778664453,
+        "lon": 11.3634188511085,
+        "name": "Germering, Lerchenstra\u00dfe",
+        "station_id": "de:09179:6486:0:1"
+      },
+      {
+        "lat": 48.1222858060926,
+        "lon": 11.3634098679557,
         "name": "Germering, Lerchenstra\u00dfe",
         "station_id": "de:09179:6486:0:2"
       }
@@ -29312,14 +30360,14 @@
     "station_id": "de:09179:5912",
     "sub_stations": [
       {
-        "lat": 48.1226575964749,
-        "lon": 11.1392712213838,
+        "lat": 48.1226515998772,
+        "lon": 11.1391634235497,
         "name": "Kottgeisering, Siedlung",
         "station_id": "de:09179:5912:0:1"
       },
       {
-        "lat": 48.1224597083806,
-        "lon": 11.1390286762571,
+        "lat": 48.1224537117598,
+        "lon": 11.1390466425627,
         "name": "Kottgeisering, Siedlung",
         "station_id": "de:09179:5912:0:2"
       }
@@ -29332,14 +30380,14 @@
     "station_id": "de:09179:6551",
     "sub_stations": [
       {
-        "lat": 48.1227415487695,
-        "lon": 11.3727613300647,
+        "lat": 48.1227715316986,
+        "lon": 11.3727523469118,
         "name": "Germering, A.-Stifter-Str.",
         "station_id": "de:09179:6551:0:1"
       },
       {
-        "lat": 48.1227115658229,
-        "lon": 11.3726804816891,
+        "lat": 48.1226995726394,
+        "lon": 11.3726714985362,
         "name": "Germering, A.-Stifter-Str.",
         "station_id": "de:09179:6551:0:2"
       }
@@ -29367,13 +30415,13 @@
     "sub_stations": [
       {
         "lat": 48.1232512561839,
-        "lon": 11.3664910893806,
+        "lon": 11.3665629546034,
         "name": "Germering, Otto-Wagner-Stra\u00dfe",
         "station_id": "de:09179:6490:0:1"
       },
       {
         "lat": 48.1225856372561,
-        "lon": 11.3665629546034,
+        "lon": 11.3664821062278,
         "name": "Germering, Otto-Wagner-Stra\u00dfe",
         "station_id": "de:09179:6490:0:2"
       }
@@ -29393,14 +30441,14 @@
     "station_id": "de:09179:5908",
     "sub_stations": [
       {
-        "lat": 48.1229754151523,
-        "lon": 11.1610463838739,
+        "lat": 48.1230113945013,
+        "lon": 11.1609206197341,
         "name": "Grafrath, Schule",
         "station_id": "de:09179:5908:0:1"
       },
       {
-        "lat": 48.1229574254683,
-        "lon": 11.1610912996381,
+        "lat": 48.1229334392133,
+        "lon": 11.1610194344154,
         "name": "Grafrath, Schule",
         "station_id": "de:09179:5908:0:2"
       }
@@ -29413,14 +30461,14 @@
     "station_id": "de:09179:6488",
     "sub_stations": [
       {
-        "lat": 48.1231193323971,
-        "lon": 11.367838562307,
+        "lat": 48.12317330126,
+        "lon": 11.3679912759053,
         "name": "Germering, Don-Bosco-Stra\u00dfe",
         "station_id": "de:09179:6488:0:1"
       },
       {
-        "lat": 48.1231792977968,
-        "lon": 11.3677397476257,
+        "lat": 48.1232752422906,
+        "lon": 11.3680541579752,
         "name": "Germering, Don-Bosco-Stra\u00dfe",
         "station_id": "de:09179:6488:0:2"
       },
@@ -29439,20 +30487,20 @@
     "station_id": "de:09179:6487",
     "sub_stations": [
       {
-        "lat": 48.1232392631264,
-        "lon": 11.354839940144,
+        "lat": 48.1228794700984,
+        "lon": 11.354040439541,
         "name": "Germering, Alfons-Baumann-Str.",
         "station_id": "de:09179:6487:0:1"
       },
       {
-        "lat": 48.1232572527117,
-        "lon": 11.3548219738383,
+        "lat": 48.1229394357781,
+        "lon": 11.3539775574711,
         "name": "Germering, Alfons-Baumann-Str.",
         "station_id": "de:09179:6487:0:2"
       },
       {
-        "lat": 48.1232272700661,
-        "lon": 11.3548579064497,
+        "lat": 48.12299340483,
+        "lon": 11.3542290857507,
         "name": "Germering, Alfons-Baumann-Str.",
         "station_id": "de:09179:6487:0:95"
       }
@@ -29506,14 +30554,14 @@
     "station_id": "de:09181:2204",
     "sub_stations": [
       {
-        "lat": 48.123665014954,
-        "lon": 11.0273141875084,
+        "lat": 48.1236770079122,
+        "lon": 11.0274669011067,
         "name": "Geltendorf, Alter Wirt",
         "station_id": "de:09181:2204:0:1"
       },
       {
-        "lat": 48.1235270957343,
-        "lon": 11.0273680864255,
+        "lat": 48.1236230395786,
+        "lon": 11.0275567326352,
         "name": "Geltendorf, Alter Wirt",
         "station_id": "de:09181:2204:0:2"
       }
@@ -29628,14 +30676,14 @@
     "station_id": "de:09179:5909",
     "sub_stations": [
       {
-        "lat": 48.1245944609082,
-        "lon": 11.1702630986902,
+        "lat": 48.1246604209497,
+        "lon": 11.1703978459829,
         "name": "Grafrath, Amperbr\u00fccke",
         "station_id": "de:09179:5909:0:1"
       },
       {
-        "lat": 48.1246484282212,
-        "lon": 11.1701553008561,
+        "lat": 48.1247443699709,
+        "lon": 11.1702900481488,
         "name": "Grafrath, Amperbr\u00fccke",
         "station_id": "de:09179:5909:0:2"
       }
@@ -29812,14 +30860,14 @@
     "station_id": "de:09179:6463",
     "sub_stations": [
       {
-        "lat": 48.1257817286955,
-        "lon": 11.3684314503946,
+        "lat": 48.1258296985343,
+        "lon": 11.3683865346304,
         "name": "Germering, Gl\u00fcckstr./ZENJA",
         "station_id": "de:09179:6463:0:1"
       },
       {
-        "lat": 48.1257037776118,
-        "lon": 11.3683865346304,
+        "lat": 48.1256498114077,
+        "lon": 11.3684045009361,
         "name": "Germering, Gl\u00fcckstr./ZENJA",
         "station_id": "de:09179:6463:0:2"
       }
@@ -29866,14 +30914,14 @@
     "station_id": "de:09179:5919",
     "sub_stations": [
       {
-        "lat": 48.1257997173903,
-        "lon": 11.1766770698197,
+        "lat": 48.1261295090119,
+        "lon": 11.1774675872699,
         "name": "Grafrath, Marthashofen",
         "station_id": "de:09179:5919:0:1"
       },
       {
-        "lat": 48.1257877249277,
-        "lon": 11.1766950361254,
+        "lat": 48.1260275736458,
+        "lon": 11.1773597894358,
         "name": "Grafrath, Marthashofen",
         "station_id": "de:09179:5919:0:2"
       }
@@ -29928,14 +30976,14 @@
     "station_id": "de:09179:6643",
     "sub_stations": [
       {
-        "lat": 48.126213455632,
-        "lon": 11.3607867873257,
+        "lat": 48.1262554288906,
+        "lon": 11.3608406862427,
         "name": "Unterpfaffenhofen, Volksfestplatz",
         "station_id": "de:09179:6643:0:1"
       },
       {
-        "lat": 48.1262014632661,
-        "lon": 11.3608047536314,
+        "lat": 48.1262074594494,
+        "lon": 11.3609035683126,
         "name": "Unterpfaffenhofen, Volksfestplatz",
         "station_id": "de:09179:6643:0:2"
       }
@@ -29989,14 +31037,14 @@
     "station_id": "de:09181:99200",
     "sub_stations": [
       {
-        "lat": 48.1264592985159,
-        "lon": 11.0325962813798,
+        "lat": 48.1263213867991,
+        "lon": 11.0325154330042,
         "name": "Geltendorf, Neuer Friedhof",
         "station_id": "de:09181:99200:0:1"
       },
       {
-        "lat": 48.1263693561339,
-        "lon": 11.0327220455196,
+        "lat": 48.1262854097686,
+        "lon": 11.0325962813798,
         "name": "Geltendorf, Neuer Friedhof",
         "station_id": "de:09181:99200:0:2"
       }
@@ -30023,14 +31071,14 @@
     "station_id": "de:09179:6377",
     "sub_stations": [
       {
-        "lat": 48.126543244597,
-        "lon": 11.3488302108924,
+        "lat": 48.1266092021359,
+        "lon": 11.3487044467526,
         "name": "Germering, Br\u00fcckenstra\u00dfe",
         "station_id": "de:09179:6377:0:1"
       },
       {
-        "lat": 48.1265612330251,
-        "lon": 11.3486505478355,
+        "lat": 48.1267351208386,
+        "lon": 11.3485607163071,
         "name": "Germering, Br\u00fcckenstra\u00dfe",
         "station_id": "de:09179:6377:0:2"
       },
@@ -30116,26 +31164,26 @@
         "station_id": "de:09179:6489:1:2"
       },
       {
-        "lat": 48.127040922117,
-        "lon": 11.3666438029789,
+        "lat": 48.1269809612255,
+        "lon": 11.3667695671187,
         "name": "Germering, Kleiner Stachus",
         "station_id": "de:09179:6489:2:3"
       },
       {
-        "lat": 48.126921000264,
-        "lon": 11.3665988872147,
+        "lat": 48.1269030119619,
+        "lon": 11.3666258366733,
         "name": "Germering, Kleiner Stachus",
         "station_id": "de:09179:6489:2:4"
       },
       {
-        "lat": 48.1272747689249,
-        "lon": 11.3664192241579,
+        "lat": 48.1271368593977,
+        "lon": 11.3639847897376,
         "name": "Germering, Kleiner Stachus",
         "station_id": "de:09179:6489:3:5"
       },
       {
-        "lat": 48.1272987531526,
-        "lon": 11.3659071844459,
+        "lat": 48.1272208043714,
+        "lon": 11.3650268354673,
         "name": "Germering, Kleiner Stachus",
         "station_id": "de:09179:6489:3:6"
       }
@@ -30176,14 +31224,14 @@
     "station_id": "de:09179:6473",
     "sub_stations": [
       {
-        "lat": 48.1274246701648,
-        "lon": 11.3498632734693,
+        "lat": 48.1274426582842,
+        "lon": 11.3510221001859,
         "name": "Germering, St. Jakob",
         "station_id": "de:09179:6473:0:1"
       },
       {
-        "lat": 48.1275206067287,
-        "lon": 11.3498632734693,
+        "lat": 48.127508614668,
+        "lon": 11.3507526056007,
         "name": "Germering, St. Jakob",
         "station_id": "de:09179:6473:0:2"
       },
@@ -30209,14 +31257,14 @@
     "station_id": "de:09179:5904",
     "sub_stations": [
       {
-        "lat": 48.1276225391315,
-        "lon": 11.1604445126335,
+        "lat": 48.1276645112386,
+        "lon": 11.1603097653408,
         "name": "Grafrath, Bahnhofstra\u00dfe",
         "station_id": "de:09179:5904:0:1"
       },
       {
-        "lat": 48.127592559034,
-        "lon": 11.1604534957863,
+        "lat": 48.127526602758,
+        "lon": 11.1606780746074,
         "name": "Grafrath, Bahnhofstra\u00dfe",
         "station_id": "de:09179:5904:0:2"
       }
@@ -30229,20 +31277,20 @@
     "station_id": "de:09179:6485",
     "sub_stations": [
       {
-        "lat": 48.1276645112386,
-        "lon": 11.3701921483517,
+        "lat": 48.1275146106987,
+        "lon": 11.3696262097226,
         "name": "Germering, Hart-/Flurstra\u00dfe",
         "station_id": "de:09179:6485:0:1"
       },
       {
-        "lat": 48.1276525192115,
-        "lon": 11.3702101146574,
+        "lat": 48.1274066820391,
+        "lon": 11.369608243417,
         "name": "Germering, Hart-/Flurstra\u00dfe",
         "station_id": "de:09179:6485:0:2"
       },
       {
-        "lat": 48.1276705072511,
-        "lon": 11.3701831651989,
+        "lat": 48.1276345311656,
+        "lon": 11.3701382494347,
         "name": "Germering, Hart-/Flurstra\u00dfe",
         "station_id": "de:09179:6485:0:95"
       }
@@ -30302,8 +31350,8 @@
     "station_id": "de:09179:6468",
     "sub_stations": [
       {
-        "lat": 48.1277244713321,
-        "lon": 11.3552801146333,
+        "lat": 48.1277304673375,
+        "lon": 11.3553250303975,
         "name": "Germering, Salzstra\u00dfe",
         "station_id": "de:09179:6468:0:1"
       },
@@ -30383,8 +31431,8 @@
     "station_id": "de:09179:5913",
     "sub_stations": [
       {
-        "lat": 48.1281441900262,
-        "lon": 11.1399898736112,
+        "lat": 48.1281921576585,
+        "lon": 11.1399629241527,
         "name": "Kottgeisering, Johannish\u00f6he",
         "station_id": "de:09179:5913:0:1"
       }
@@ -30418,14 +31466,14 @@
     "station_id": "de:09179:6105",
     "sub_stations": [
       {
-        "lat": 48.1283780318107,
-        "lon": 11.3740728703797,
+        "lat": 48.1282940887285,
+        "lon": 11.3739111736285,
         "name": "Germering, Streiflacher Stra\u00dfe",
         "station_id": "de:09179:6105:0:1"
       },
       {
-        "lat": 48.1283600440189,
-        "lon": 11.3740908366853,
+        "lat": 48.1284379910711,
+        "lon": 11.3741627019081,
         "name": "Germering, Streiflacher Stra\u00dfe",
         "station_id": "de:09179:6105:0:2"
       },
@@ -30492,16 +31540,16 @@
     "station_id": "de:09179:6401",
     "sub_stations": [
       {
+        "lat": 48.128683823307,
+        "lon": 11.3603645791421,
+        "name": "Germering West",
+        "station_id": "de:09179:6401:0:1"
+      },
+      {
         "lat": 48.1288337204343,
         "lon": 11.3603555959892,
         "name": "Germering West",
         "station_id": "de:09179:6401:0:2"
-      },
-      {
-        "lat": 48.128683823307,
-        "lon": 11.3603645791421,
-        "name": "Germering (S) West",
-        "station_id": "de:09179:6401:0:1"
       }
     ]
   },
@@ -30526,14 +31574,14 @@
     "station_id": "de:09179:6669",
     "sub_stations": [
       {
-        "lat": 48.1289056708999,
-        "lon": 11.3786452951765,
+        "lat": 48.1288756915515,
+        "lon": 11.378160204923,
         "name": "Germering, Wallbergstra\u00dfe",
         "station_id": "de:09179:6669:0:1"
       },
       {
-        "lat": 48.1288696956797,
-        "lon": 11.3786452951765,
+        "lat": 48.128857703934,
+        "lon": 11.3785105478838,
         "name": "Germering, Wallbergstra\u00dfe",
         "station_id": "de:09179:6669:0:2"
       }
@@ -30615,6 +31663,12 @@
         "lon": 11.363221221746,
         "name": "Germering-Unterpfaffenhofen",
         "station_id": "de:09179:6250:2:4"
+      },
+      {
+        "lat": 48.1292114592546,
+        "lon": 11.3636883456938,
+        "name": "Germering-Unterpfaffenhofen",
+        "station_id": "de:09179:6250:3:6"
       }
     ]
   },
@@ -30816,14 +31870,14 @@
     "station_id": "de:09179:6668",
     "sub_stations": [
       {
-        "lat": 48.1301647877322,
-        "lon": 11.3832087368204,
+        "lat": 48.1302607191776,
+        "lon": 11.3838195912137,
         "name": "Germering, Wendelsteinstra\u00dfe",
         "station_id": "de:09179:6668:0:1"
       },
       {
-        "lat": 48.1301468005663,
-        "lon": 11.3832087368204,
+        "lat": 48.1301767791727,
+        "lon": 11.3836219618512,
         "name": "Germering, Wendelsteinstra\u00dfe",
         "station_id": "de:09179:6668:0:2"
       }
@@ -30842,6 +31896,18 @@
     "name": "Adalbert-Stifter-Stra\u00dfe",
     "station_id": "de:09184:2148",
     "sub_stations": [
+      {
+        "lat": 48.1311300897306,
+        "lon": 11.7376390322191,
+        "name": "Ottendichl, A.-Stifter-Str.",
+        "station_id": "de:09184:2148:1:1"
+      },
+      {
+        "lat": 48.1311180985127,
+        "lon": 11.7377737795118,
+        "name": "Ottendichl, A.-Stifter-Str.",
+        "station_id": "de:09184:2148:1:2"
+      },
       {
         "lat": 48.1315138072241,
         "lon": 11.736561053878,
@@ -30978,14 +32044,14 @@
     "station_id": "de:09179:6457",
     "sub_stations": [
       {
-        "lat": 48.1309921905561,
-        "lon": 11.3715126718196,
+        "lat": 48.1315198027872,
+        "lon": 11.3711623288587,
         "name": "Germering, Oskar-v.-Miller-Str.",
         "station_id": "de:09179:6457:0:1"
       },
       {
-        "lat": 48.1309682080531,
-        "lon": 11.3714767392082,
+        "lat": 48.1312140281773,
+        "lon": 11.3711623288587,
         "name": "Germering, Oskar-v.-Miller-Str.",
         "station_id": "de:09179:6457:0:2"
       },
@@ -31045,6 +32111,18 @@
     "name": "Holzkirchner Stra\u00dfe",
     "station_id": "de:09179:6474",
     "sub_stations": [
+      {
+        "lat": 48.1313639179195,
+        "lon": 11.3518575334003,
+        "name": "Germering, Holzkirchner Stra\u00dfe",
+        "station_id": "de:09179:6474:0:1"
+      },
+      {
+        "lat": 48.131154072158,
+        "lon": 11.3518934660117,
+        "name": "Germering, Holzkirchner Stra\u00dfe",
+        "station_id": "de:09179:6474:0:2"
+      },
       {
         "lat": 48.131190045778,
         "lon": 11.3518844828588,
@@ -31116,14 +32194,14 @@
     "station_id": "de:09179:6472",
     "sub_stations": [
       {
-        "lat": 48.1319035173685,
-        "lon": 11.356034699472,
+        "lat": 48.131735642592,
+        "lon": 11.3557562217339,
         "name": "Germering, Krippfeldstra\u00dfe",
         "station_id": "de:09179:6472:0:1"
       },
       {
-        "lat": 48.1319274994347,
-        "lon": 11.3560257163192,
+        "lat": 48.1318435621542,
+        "lon": 11.3557472385811,
         "name": "Germering, Krippfeldstra\u00dfe",
         "station_id": "de:09179:6472:0:2"
       }
@@ -31191,14 +32269,14 @@
     "station_id": "de:09179:6366",
     "sub_stations": [
       {
-        "lat": 48.1321793104529,
-        "lon": 11.3643530990041,
+        "lat": 48.1321913014229,
+        "lon": 11.3643800484627,
         "name": "Germering, Beethovenstra\u00dfe",
         "station_id": "de:09179:6366:0:1"
       },
       {
-        "lat": 48.1322692426601,
-        "lon": 11.3642722506285,
+        "lat": 48.1321913014229,
+        "lon": 11.3642273348643,
         "name": "Germering, Beethovenstra\u00dfe",
         "station_id": "de:09179:6366:0:2"
       }
@@ -31218,8 +32296,8 @@
     "station_id": "de:09179:6220",
     "sub_stations": [
       {
-        "lat": 48.1323771611009,
-        "lon": 11.1528986642458,
+        "lat": 48.132347183779,
+        "lon": 11.1528178158702,
         "name": "Grafrath",
         "station_id": "de:09179:6220:1:1"
       }
@@ -31281,14 +32359,14 @@
     "station_id": "de:09179:6383",
     "sub_stations": [
       {
-        "lat": 48.1331026069551,
-        "lon": 11.3135084539159,
+        "lat": 48.1330786254378,
+        "lon": 11.3136072685971,
         "name": "Alling, Na\u00dflhof",
         "station_id": "de:09179:6383:0:1"
       },
       {
-        "lat": 48.1330606392925,
-        "lon": 11.3133737066232,
+        "lat": 48.1330726300567,
+        "lon": 11.3134186223875,
         "name": "Alling, Na\u00dflhof",
         "station_id": "de:09179:6383:0:2"
       },
@@ -31431,14 +32509,14 @@
     "station_id": "de:09179:6470",
     "sub_stations": [
       {
-        "lat": 48.1335882302712,
-        "lon": 11.3595291459277,
+        "lat": 48.133540267679,
+        "lon": 11.3594662638578,
         "name": "Germering, Schillerstra\u00dfe",
         "station_id": "de:09179:6470:0:1"
       },
       {
-        "lat": 48.1336182068687,
-        "lon": 11.3595201627749,
+        "lat": 48.1336361928187,
+        "lon": 11.3594123649408,
         "name": "Germering, Schillerstra\u00dfe",
         "station_id": "de:09179:6470:0:2"
       }
@@ -31568,14 +32646,14 @@
     "station_id": "de:09179:6368",
     "sub_stations": [
       {
-        "lat": 48.1343856018039,
-        "lon": 11.3634008848028,
+        "lat": 48.1344035874851,
+        "lon": 11.363445800567,
         "name": "Germering, Rathaus",
         "station_id": "de:09179:6368:0:1"
       },
       {
-        "lat": 48.1343736113462,
-        "lon": 11.3633829184971,
+        "lat": 48.1343436351898,
+        "lon": 11.3633469858858,
         "name": "Germering, Rathaus",
         "station_id": "de:09179:6368:0:2"
       }
@@ -31671,14 +32749,14 @@
     "station_id": "de:09179:6493",
     "sub_stations": [
       {
-        "lat": 48.1349971114318,
+        "lat": 48.1350270872067,
         "lon": 11.3700663842119,
         "name": "Germering, Max-Born-Gymnasium",
         "station_id": "de:09179:6493:0:1"
       },
       {
-        "lat": 48.1349971114318,
-        "lon": 11.3702640135745,
+        "lat": 48.1350091017439,
+        "lon": 11.370515541854,
         "name": "Germering, Max-Born-Gymnasium",
         "station_id": "de:09179:6493:0:2"
       }
@@ -31740,14 +32818,14 @@
     "station_id": "de:09179:6492",
     "sub_stations": [
       {
-        "lat": 48.1354467462179,
-        "lon": 11.3756898378913,
+        "lat": 48.135512692322,
+        "lon": 11.3758874672538,
         "name": "Germering, Wittelsbacherstra\u00dfe",
         "station_id": "de:09179:6492:0:1"
       },
       {
-        "lat": 48.1353568195757,
-        "lon": 11.3757167873498,
+        "lat": 48.1354467462179,
+        "lon": 11.3761210292277,
         "name": "Germering, Wittelsbacherstra\u00dfe",
         "station_id": "de:09179:6492:0:2"
       }
@@ -31815,6 +32893,18 @@
     "station_id": "de:09179:6449",
     "sub_stations": [
       {
+        "lat": 48.1355546579806,
+        "lon": 11.3539685743183,
+        "name": "Germering, Obere Bahnhofstra\u00dfe",
+        "station_id": "de:09179:6449:0:1"
+      },
+      {
+        "lat": 48.1352129366205,
+        "lon": 11.3536092482046,
+        "name": "Germering, Obere Bahnhofstra\u00dfe",
+        "station_id": "de:09179:6449:0:2"
+      },
+      {
         "lat": 48.1356206039462,
         "lon": 11.3541392542223,
         "name": "Germering, Obere Bahnhofstra\u00dfe",
@@ -31850,20 +32940,20 @@
     "station_id": "de:09179:6359",
     "sub_stations": [
       {
-        "lat": 48.1358064512117,
-        "lon": 11.365673622472,
+        "lat": 48.135512692322,
+        "lon": 11.3647663240349,
         "name": "Germering, Kirchenschule",
         "station_id": "de:09179:6359:0:1"
       },
       {
-        "lat": 48.1358184413347,
-        "lon": 11.3656556561663,
+        "lat": 48.1356146088619,
+        "lon": 11.3647393745764,
         "name": "Germering, Kirchenschule",
         "station_id": "de:09179:6359:0:2"
       },
       {
-        "lat": 48.1357884660218,
-        "lon": 11.3656646393191,
+        "lat": 48.1358244363952,
+        "lon": 11.3658173529174,
         "name": "Germering, Kirchenschule",
         "station_id": "de:09179:6359:0:95"
       }
@@ -31876,8 +32966,8 @@
     "station_id": "de:09179:6491",
     "sub_stations": [
       {
-        "lat": 48.1357465005544,
-        "lon": 11.3781781712287,
+        "lat": 48.1357165251995,
+        "lon": 11.3777290135865,
         "name": "Germering, Wittelsbach. Schule",
         "station_id": "de:09179:6491:0:1"
       },
@@ -31937,14 +33027,14 @@
     "station_id": "de:09179:6381",
     "sub_stations": [
       {
-        "lat": 48.1360222729984,
-        "lon": 11.3102116368227,
+        "lat": 48.1362440888894,
+        "lon": 11.310022990613,
         "name": "Alling, Holzkirchen",
         "station_id": "de:09179:6381:0:1"
       },
       {
-        "lat": 48.1360462531409,
-        "lon": 11.3103912998796,
+        "lat": 48.1363759789648,
+        "lon": 11.3099870580016,
         "name": "Alling, Holzkirchen",
         "station_id": "de:09179:6381:0:2"
       },
@@ -32092,13 +33182,13 @@
     "station_id": "de:09179:6605",
     "sub_stations": [
       {
-        "lat": 48.1367836370561,
-        "lon": 11.3699855358363,
+        "lat": 48.136837591561,
+        "lon": 11.3701921483517,
         "name": "Germering, Ludwigstra\u00dfe",
         "station_id": "de:09179:6605:0:1"
       },
       {
-        "lat": 48.1367656522086,
+        "lat": 48.1367416724021,
         "lon": 11.3699855358363,
         "name": "Germering, Ludwigstra\u00dfe",
         "station_id": "de:09179:6605:0:2"
@@ -32159,14 +33249,14 @@
     "station_id": "de:09179:6496",
     "sub_stations": [
       {
-        "lat": 48.1371133581446,
-        "lon": 11.3865864022892,
+        "lat": 48.1370653988451,
+        "lon": 11.3865145370664,
         "name": "Germering, Odinstra\u00dfe",
         "station_id": "de:09179:6496:0:1"
       },
       {
-        "lat": 48.1370054496578,
-        "lon": 11.3866133517477,
+        "lat": 48.1369994547352,
+        "lon": 11.3866313180534,
         "name": "Germering, Odinstra\u00dfe",
         "station_id": "de:09179:6496:0:2"
       }
@@ -32201,19 +33291,19 @@
     "sub_stations": [
       {
         "lat": 48.1374131027511,
-        "lon": 11.3745310111746,
+        "lon": 11.3742345671308,
         "name": "Germering, GEP",
         "station_id": "de:09179:6606:0:1"
       },
       {
-        "lat": 48.137389123247,
-        "lon": 11.3745489774803,
+        "lat": 48.1373831283692,
+        "lon": 11.3746298258559,
         "name": "Germering, GEP",
         "station_id": "de:09179:6606:0:2"
       },
       {
-        "lat": 48.137389123247,
-        "lon": 11.3745399943275,
+        "lat": 48.1373651437317,
+        "lon": 11.3744860954104,
         "name": "Germering, GEP",
         "station_id": "de:09179:6606:0:95"
       }
@@ -32247,14 +33337,14 @@
     "station_id": "de:09179:6445",
     "sub_stations": [
       {
-        "lat": 48.1375869538211,
-        "lon": 11.3642812337814,
+        "lat": 48.1376049383809,
+        "lon": 11.3641375033359,
         "name": "Germering, St. Martin (alt)",
         "station_id": "de:09179:6445:0:1"
       },
       {
-        "lat": 48.1375629743982,
-        "lon": 11.3642992000871,
+        "lat": 48.1375150155187,
+        "lon": 11.3641464864887,
         "name": "Germering, St. Martin (alt)",
         "station_id": "de:09179:6445:0:2"
       },
@@ -32326,8 +33416,8 @@
         "station_id": "de:09179:5801:0:1"
       },
       {
-        "lat": 48.1379166697506,
-        "lon": 11.2103638929789,
+        "lat": 48.1382523783395,
+        "lon": 11.2103998255903,
         "name": "Sch\u00f6ngeising, Orlando-di-Lasso-Str.",
         "station_id": "de:09179:5801:0:2"
       }
@@ -32346,6 +33436,18 @@
     "name": "Quirin-W\u00f6rl-Stra\u00dfe",
     "station_id": "de:09179:6447",
     "sub_stations": [
+      {
+        "lat": 48.1381384774572,
+        "lon": 11.3599423709585,
+        "name": "Germering, Quirin-W\u00f6rl-Stra\u00dfe",
+        "station_id": "de:09179:6447:0:1"
+      },
+      {
+        "lat": 48.1380425607287,
+        "lon": 11.359969320417,
+        "name": "Germering, Quirin-W\u00f6rl-Stra\u00dfe",
+        "station_id": "de:09179:6447:0:2"
+      },
       {
         "lat": 48.1380845243194,
         "lon": 11.359969320417,
@@ -32368,16 +33470,16 @@
     "station_id": "de:09179:6607",
     "sub_stations": [
       {
-        "lat": 48.1383722737322,
-        "lon": 11.3752227139435,
-        "name": "Germering, Danziger Stra\u00dfe",
-        "station_id": "de:09179:6607:0:2"
-      },
-      {
-        "lat": 48.1383662789692,
-        "lon": 11.3752227139435,
+        "lat": 48.1381085034988,
+        "lon": 11.3753035623191,
         "name": "Germering, Danziger Stra\u00dfe",
         "station_id": "de:09179:6607:0:1"
+      },
+      {
+        "lat": 48.1381085034988,
+        "lon": 11.375420343306,
+        "name": "Germering, Danziger Stra\u00dfe",
+        "station_id": "de:09179:6607:0:2"
       }
     ]
   },
@@ -32435,14 +33537,14 @@
     "station_id": "de:09179:6370",
     "sub_stations": [
       {
-        "lat": 48.1384442108334,
-        "lon": 11.3605352590461,
+        "lat": 48.1384562003404,
+        "lon": 11.3605622085046,
         "name": "Germering, Dorfstra\u00dfe",
         "station_id": "de:09179:6370:0:1"
       },
       {
-        "lat": 48.1384202318108,
-        "lon": 11.3604993264347,
+        "lat": 48.1386420373419,
+        "lon": 11.3603286465307,
         "name": "Germering, Dorfstra\u00dfe",
         "station_id": "de:09179:6370:0:2"
       }
@@ -32504,8 +33606,8 @@
     "station_id": "de:09179:6387",
     "sub_stations": [
       {
-        "lat": 48.1388218789608,
-        "lon": 11.2346992540291,
+        "lat": 48.1388338683797,
+        "lon": 11.2344028099853,
         "name": "Alling, Holzhausen",
         "station_id": "de:09179:6387:0:1"
       },
@@ -32668,16 +33770,16 @@
     "station_id": "de:09179:6467",
     "sub_stations": [
       {
-        "lat": 48.1395472337626,
-        "lon": 11.3746118595502,
-        "name": "Germering, Leipziger Stra\u00dfe",
-        "station_id": "de:09179:6467:0:2"
-      },
-      {
-        "lat": 48.139577206881,
-        "lon": 11.3746388090087,
+        "lat": 48.1397630398246,
+        "lon": 11.3742704997422,
         "name": "Germering, Leipziger Stra\u00dfe",
         "station_id": "de:09179:6467:0:1"
+      },
+      {
+        "lat": 48.1397930128171,
+        "lon": 11.3744771122576,
+        "name": "Germering, Leipziger Stra\u00dfe",
+        "station_id": "de:09179:6467:0:2"
       }
     ]
   },
@@ -32688,14 +33790,14 @@
     "station_id": "de:09179:6498",
     "sub_stations": [
       {
-        "lat": 48.1394992767367,
-        "lon": 11.3864426718437,
+        "lat": 48.139463308938,
+        "lon": 11.3863887729266,
         "name": "Germering, Kriemhildenstra\u00dfe",
         "station_id": "de:09179:6498:0:1"
       },
       {
-        "lat": 48.1395112659974,
-        "lon": 11.3863797897738,
+        "lat": 48.1395352445103,
+        "lon": 11.3863438571624,
         "name": "Germering, Kriemhildenstra\u00dfe",
         "station_id": "de:09179:6498:0:2"
       },
@@ -32777,14 +33879,14 @@
     "station_id": "de:09179:6382",
     "sub_stations": [
       {
-        "lat": 48.139966855828,
-        "lon": 11.3026478221294,
+        "lat": 48.1398829316893,
+        "lon": 11.3024861253782,
         "name": "Alling, Sportplatz",
         "station_id": "de:09179:6382:0:1"
       },
       {
-        "lat": 48.1399788449795,
-        "lon": 11.3026298558237,
+        "lat": 48.1401227145787,
+        "lon": 11.302899350409,
         "name": "Alling, Sportplatz",
         "station_id": "de:09179:6382:0:2"
       },
@@ -33051,14 +34153,14 @@
     "station_id": "de:09179:6536",
     "sub_stations": [
       {
-        "lat": 48.1411477738027,
-        "lon": 11.3584062518224,
+        "lat": 48.1408180786244,
+        "lon": 11.3587476116304,
         "name": "Germering, Hochrainweg",
         "station_id": "de:09179:6536:0:1"
       },
       {
-        "lat": 48.1411537682409,
-        "lon": 11.3584511675866,
+        "lat": 48.1410278848919,
+        "lon": 11.3586757464077,
         "name": "Germering, Hochrainweg",
         "station_id": "de:09179:6536:0:2"
       }
@@ -33127,14 +34229,20 @@
     "station_id": "de:09179:6385",
     "sub_stations": [
       {
-        "lat": 48.1417292310477,
-        "lon": 11.3029262998675,
+        "lat": 48.1418431239635,
+        "lon": 11.3027376536578,
+        "name": "Alling, Parsbergstra\u00dfe",
+        "station_id": "de:09179:6385:0:1"
+      },
+      {
+        "lat": 48.1417532085247,
+        "lon": 11.3029622324789,
         "name": "Alling, Parsbergstra\u00dfe",
         "station_id": "de:09179:6385:0:2"
       },
       {
-        "lat": 48.141717242305,
-        "lon": 11.3029083335618,
+        "lat": 48.1416992591857,
+        "lon": 11.3029262998675,
         "name": "Alling, Parsbergstra\u00dfe",
         "station_id": "de:09179:6385:0:95"
       }
@@ -33320,8 +34428,14 @@
     "station_id": "de:09179:6435",
     "sub_stations": [
       {
-        "lat": 48.1429101084807,
-        "lon": 11.198443249157,
+        "lat": 48.1431199061979,
+        "lon": 11.1982366366416,
+        "name": "Sch\u00f6ng., Rothschwaiger Str.",
+        "station_id": "de:09179:6435:1:1"
+      },
+      {
+        "lat": 48.1428741430716,
+        "lon": 11.1983893502399,
         "name": "Sch\u00f6ng., Rothschwaiger Str.",
         "station_id": "de:09179:6435:2:2"
       }
@@ -33376,14 +34490,14 @@
     "station_id": "de:09179:6441",
     "sub_stations": [
       {
-        "lat": 48.1434136215614,
-        "lon": 11.1981378219604,
+        "lat": 48.1434016332122,
+        "lon": 11.1980569735848,
         "name": "Sch\u00f6ngeising, Bahnhofstra\u00dfe",
         "station_id": "de:09179:6441:1:1"
       },
       {
-        "lat": 48.143419615735,
-        "lon": 11.198101889349,
+        "lat": 48.1433656681475,
+        "lon": 11.1981288388075,
         "name": "Sch\u00f6ngeising, Bahnhofstra\u00dfe",
         "station_id": "de:09179:6441:2:2"
       }
@@ -33410,14 +34524,14 @@
     "station_id": "de:09179:6417",
     "sub_stations": [
       {
-        "lat": 48.1436473938129,
-        "lon": 11.2041116186006,
+        "lat": 48.143617423071,
+        "lon": 11.2041026354477,
         "name": "Sch\u00f6ngeising, Ahornstra\u00dfe",
         "station_id": "de:09179:6417:0:1"
       },
       {
-        "lat": 48.1436653762497,
-        "lon": 11.2041116186006,
+        "lat": 48.1437073352444,
+        "lon": 11.2041295849063,
         "name": "Sch\u00f6ngeising, Ahornstra\u00dfe",
         "station_id": "de:09179:6417:0:2"
       }
@@ -33464,8 +34578,8 @@
     "station_id": "de:09179:6397",
     "sub_stations": [
       {
-        "lat": 48.1437612824728,
-        "lon": 11.2443202107234,
+        "lat": 48.1439171297032,
+        "lon": 11.2443920759461,
         "name": "Alling, Neuried",
         "station_id": "de:09179:6397:0:1"
       },
@@ -33517,8 +34631,8 @@
         "station_id": "de:09179:6380:0:1"
       },
       {
-        "lat": 48.1439171297032,
-        "lon": 11.3011027198405,
+        "lat": 48.1436593821048,
+        "lon": 11.301129669299,
         "name": "Alling, Hoflacher Stra\u00dfe",
         "station_id": "de:09179:6380:0:2"
       }
@@ -33861,14 +34975,14 @@
     "station_id": "de:09179:6210",
     "sub_stations": [
       {
-        "lat": 48.146524503565,
-        "lon": 11.1911668953546,
+        "lat": 48.1463147197633,
+        "lon": 11.1917867329007,
         "name": "Sch\u00f6ngeising",
         "station_id": "de:09179:6210:1:1"
       },
       {
-        "lat": 48.1462907444171,
-        "lon": 11.1917418171365,
+        "lat": 48.146200836769,
+        "lon": 11.1918585981235,
         "name": "Sch\u00f6ngeising",
         "station_id": "de:09179:6210:2:2"
       }
@@ -34194,8 +35308,8 @@
     "station_id": "de:09179:6510",
     "sub_stations": [
       {
-        "lat": 48.1476333465582,
-        "lon": 11.3480486765951,
+        "lat": 48.1473516427705,
+        "lon": 11.3481924070406,
         "name": "Puchheim Ort, Kirche",
         "station_id": "de:09179:6510:0:1"
       }
@@ -34369,14 +35483,7 @@
     "lon": 11.4541190268067,
     "name": "Scapinellistra\u00dfe",
     "station_id": "de:09162:1662",
-    "sub_stations": [
-      {
-        "lat": 48.1483525832579,
-        "lon": 11.4540498801359,
-        "name": "Scapinellistra\u00dfe",
-        "station_id": "de:09162:1662:2:2"
-      }
-    ]
+    "sub_stations": []
   },
   {
     "lat": 48.1482028695207,
@@ -34652,14 +35759,14 @@
     "station_id": "de:09179:6509",
     "sub_stations": [
       {
-        "lat": 48.149779039559,
-        "lon": 11.345542376952,
+        "lat": 48.1498209935559,
+        "lon": 11.3454615285765,
         "name": "Puchheim Ort, Maibaum",
         "station_id": "de:09179:6509:0:1"
       },
       {
-        "lat": 48.1498090067032,
-        "lon": 11.3455513601049,
+        "lat": 48.1498329804058,
+        "lon": 11.3455603432577,
         "name": "Puchheim Ort, Maibaum",
         "station_id": "de:09179:6509:0:2"
       }
@@ -34993,8 +36100,8 @@
         "station_id": "de:09179:6430:0:1"
       },
       {
-        "lat": 48.150893805538,
-        "lon": 11.0605877856368,
+        "lat": 48.1508578457231,
+        "lon": 11.0606866003181,
         "name": "Eismerszell",
         "station_id": "de:09179:6430:0:2"
       }
@@ -35148,8 +36255,8 @@
     "station_id": "de:09179:6516",
     "sub_stations": [
       {
-        "lat": 48.151385253816,
-        "lon": 11.3389397596128,
+        "lat": 48.1516249829755,
+        "lon": 11.3389487427657,
         "name": "Puchheim Ort, Eichenauer Stra\u00dfe",
         "station_id": "de:09179:6516:0:1"
       }
@@ -35218,8 +36325,8 @@
     "station_id": "de:09179:6373",
     "sub_stations": [
       {
-        "lat": 48.1521703626411,
-        "lon": 11.339613496076,
+        "lat": 48.1521224174084,
+        "lon": 11.3395955297703,
         "name": "Puchheim Ort, Mitterl\u00e4ngstra\u00dfe",
         "station_id": "de:09179:6373:0:1"
       }
@@ -35307,16 +36414,10 @@
     "station_id": "de:09179:6502",
     "sub_stations": [
       {
-        "lat": 48.1525599159964,
-        "lon": 11.3426587848896,
+        "lat": 48.1525119711276,
+        "lon": 11.3426857343481,
         "name": "Puchheim Ort, Vogelsangstra\u00dfe",
         "station_id": "de:09179:6502:0:1"
-      },
-      {
-        "lat": 48.1524879986764,
-        "lon": 11.3427037006538,
-        "name": "Puchheim Ort, Vogelsangstra\u00dfe",
-        "station_id": "de:09179:6502:0:2"
       }
     ]
   },
@@ -35428,7 +36529,14 @@
     "lon": 11.6203738048729,
     "name": "Arabellapark",
     "station_id": "de:09162:670",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.1533689,
+        "lon": 11.620328,
+        "name": "Arabellapark",
+        "station_id": "de:09162:670:3:6"
+      }
+    ]
   },
   {
     "lat": 48.1532969341352,
@@ -35506,7 +36614,7 @@
     "sub_stations": [
       {
         "lat": 48.1536446566794,
-        "lon": 11.3478690135382,
+        "lon": 11.3480486765951,
         "name": "Puchheim Ort, Schwarz\u00e4ckerstra\u00dfe",
         "station_id": "de:09179:6517:0:1"
       }
@@ -35517,7 +36625,14 @@
     "lon": 11.6206800752342,
     "name": "Arabellapark Nord",
     "station_id": "de:09162:671",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.1535367,
+        "lon": 11.6204717,
+        "name": "Arabellapark Nord",
+        "station_id": "de:09162:671:2:2"
+      }
+    ]
   },
   {
     "lat": 48.1536913430833,
@@ -35594,14 +36709,14 @@
     "station_id": "de:09179:6518",
     "sub_stations": [
       {
-        "lat": 48.1542379581805,
-        "lon": 11.0852195907308,
+        "lat": 48.1542679227207,
+        "lon": 11.0852824728007,
         "name": "Moorenweis, Am Gewerbering",
         "station_id": "de:09179:6518:0:1"
       },
       {
-        "lat": 48.1542079936227,
-        "lon": 11.085210607578,
+        "lat": 48.1541780290474,
+        "lon": 11.085264506495,
         "name": "Moorenweis, Am Gewerbering",
         "station_id": "de:09179:6518:0:2"
       }
@@ -35683,14 +36798,14 @@
     "station_id": "de:09179:6446",
     "sub_stations": [
       {
-        "lat": 48.1548312528212,
-        "lon": 11.079281726702,
+        "lat": 48.1548492313397,
+        "lon": 11.0792278277849,
         "name": "Moorenweis, Landsberger Stra\u00dfe",
         "station_id": "de:09179:6446:0:1"
       },
       {
-        "lat": 48.1550050449018,
-        "lon": 11.079281726702,
+        "lat": 48.1549391238371,
+        "lon": 11.0793176593133,
         "name": "Moorenweis, Landsberger Stra\u00dfe",
         "station_id": "de:09179:6446:0:2"
       }
@@ -35901,14 +37016,14 @@
     "station_id": "de:09179:6428",
     "sub_stations": [
       {
-        "lat": 48.1560537777212,
-        "lon": 11.0765238987793,
+        "lat": 48.1560717558112,
+        "lon": 11.0766406797663,
         "name": "Moorenweis, Post",
         "station_id": "de:09179:6428:0:1"
       },
       {
-        "lat": 48.1560058361171,
-        "lon": 11.0766316966134,
+        "lat": 48.155993850709,
+        "lon": 11.0766137303077,
         "name": "Moorenweis, Post",
         "station_id": "de:09179:6428:0:2"
       }
@@ -36039,8 +37154,8 @@
     "station_id": "de:09179:5995",
     "sub_stations": [
       {
-        "lat": 48.1568687781385,
-        "lon": 11.0779252706227,
+        "lat": 48.1568028594683,
+        "lon": 11.0775749276619,
         "name": "Moorenweis, Alter Pfarrhof",
         "station_id": "de:09179:5995:0:1"
       }
@@ -36485,15 +37600,15 @@
     "station_id": "de:09179:6641",
     "sub_stations": [
       {
-        "lat": 48.1592717554776,
-        "lon": 11.2262820398157,
+        "lat": 48.1592597708325,
+        "lon": 11.2262191577458,
         "name": "Buchenau S\u00fcd",
         "station_id": "de:09179:6641:1:1"
       },
       {
-        "lat": 48.1591998475649,
-        "lon": 11.2263898376498,
-        "name": "Buchenau (S) S\u00fcd",
+        "lat": 48.1591339318898,
+        "lon": 11.2261832251345,
+        "name": "Buchenau S\u00fcd",
         "station_id": "de:09179:6641:2:2"
       }
     ]
@@ -36519,14 +37634,14 @@
     "station_id": "de:09179:5994",
     "sub_stations": [
       {
-        "lat": 48.1593975940822,
-        "lon": 11.0756345666479,
+        "lat": 48.159445532517,
+        "lon": 11.0756525329536,
         "name": "Moorenweis, R\u00f6merstra\u00dfe",
         "station_id": "de:09179:5994:0:1"
       },
       {
-        "lat": 48.1592657631554,
-        "lon": 11.0755357519667,
+        "lat": 48.1592717554776,
+        "lon": 11.0754998193553,
         "name": "Moorenweis, R\u00f6merstra\u00dfe",
         "station_id": "de:09179:5994:0:2"
       }
@@ -36757,14 +37872,14 @@
     "station_id": "de:09179:6390",
     "sub_stations": [
       {
-        "lat": 48.1609675545339,
-        "lon": 11.2548215163962,
+        "lat": 48.16057806501,
+        "lon": 11.2550730446758,
         "name": "Pfaffing (FFB)",
         "station_id": "de:09179:6390:0:1"
       },
       {
-        "lat": 48.160997515144,
-        "lon": 11.2549832131473,
+        "lat": 48.1606379866677,
+        "lon": 11.2551898256627,
         "name": "Pfaffing (FFB)",
         "station_id": "de:09179:6390:0:2"
       },
@@ -36790,8 +37905,8 @@
     "station_id": "de:09179:6513",
     "sub_stations": [
       {
-        "lat": 48.1610035072639,
-        "lon": 11.341095716295,
+        "lat": 48.1611353337252,
+        "lon": 11.3418592842866,
         "name": "Puchheim Bf, Lilienthalstra\u00dfe",
         "station_id": "de:09179:6513:0:1"
       }
@@ -36892,8 +38007,14 @@
     "station_id": "de:09179:6200",
     "sub_stations": [
       {
-        "lat": 48.1615907316211,
+        "lat": 48.1616027157216,
         "lon": 11.2255544044355,
+        "name": "Buchenau",
+        "station_id": "de:09179:6200:1:1"
+      },
+      {
+        "lat": 48.1613630331785,
+        "lon": 11.2254376234485,
         "name": "Buchenau",
         "station_id": "de:09179:6200:1:2"
       },
@@ -36902,12 +38023,6 @@
         "lon": 11.2238386222426,
         "name": "Buchenau",
         "station_id": "de:09179:6200:1:3"
-      },
-      {
-        "lat": 48.1613510490219,
-        "lon": 11.2254466066014,
-        "name": "Buchenau",
-        "station_id": "de:09179:6200:1:1"
       }
     ]
   },
@@ -36918,8 +38033,8 @@
     "station_id": "de:09179:6515",
     "sub_stations": [
       {
-        "lat": 48.1615308110763,
-        "lon": 11.3396673949931,
+        "lat": 48.1615667634115,
+        "lon": 11.3395506140061,
         "name": "Puchheim Bf, Dornierstra\u00dfe",
         "station_id": "de:09179:6515:0:1"
       }
@@ -36973,16 +38088,16 @@
     "station_id": "de:09179:5803",
     "sub_stations": [
       {
-        "lat": 48.1619562454287,
-        "lon": 11.2312946391018,
-        "name": "Buchenau, Kiefernstra\u00dfe",
-        "station_id": "de:09179:5803:0:2"
-      },
-      {
         "lat": 48.1620161654765,
         "lon": 11.2311958244206,
         "name": "Buchenau, Kiefernstra\u00dfe",
         "station_id": "de:09179:5803:0:1"
+      },
+      {
+        "lat": 48.1619562454287,
+        "lon": 11.2312946391018,
+        "name": "Buchenau, Kiefernstra\u00dfe",
+        "station_id": "de:09179:5803:0:2"
       }
     ]
   },
@@ -37308,16 +38423,16 @@
     "station_id": "de:09184:2217",
     "sub_stations": [
       {
-        "lat": 48.1638436933131,
-        "lon": 11.7577073956691,
+        "lat": 48.1637058820084,
+        "lon": 11.7592974137222,
         "name": "Heimstetten, R\u00e4terzentrum",
-        "station_id": "de:09184:2217:0:1"
+        "station_id": "de:09184:2217:2:3"
       },
       {
-        "lat": 48.1637658000125,
-        "lon": 11.7575187494594,
+        "lat": 48.1638317097361,
+        "lon": 11.7582463848397,
         "name": "Heimstetten, R\u00e4terzentrum",
-        "station_id": "de:09184:2217:0:2"
+        "station_id": "de:09184:2217:2:4"
       }
     ]
   },
@@ -37396,14 +38511,14 @@
     "station_id": "de:09179:6432",
     "sub_stations": [
       {
-        "lat": 48.1641552653328,
-        "lon": 11.0277094462335,
+        "lat": 48.1641312983216,
+        "lon": 11.0276914799278,
         "name": "D\u00fcnzelbach, Sch\u00e4fflerweg",
         "station_id": "de:09179:6432:0:1"
       },
       {
-        "lat": 48.1641852240812,
-        "lon": 11.0277094462335,
+        "lat": 48.164233158042,
+        "lon": 11.0276555473164,
         "name": "D\u00fcnzelbach, Sch\u00e4fflerweg",
         "station_id": "de:09179:6432:0:2"
       }
@@ -37525,14 +38640,14 @@
     "station_id": "de:09179:6617",
     "sub_stations": [
       {
-        "lat": 48.1644189017174,
-        "lon": 11.1324350420707,
+        "lat": 48.1643949348294,
+        "lon": 11.1323811431537,
         "name": "Jesenwang, Grafrather Stra\u00dfe",
         "station_id": "de:09179:6617:0:1"
       },
       {
-        "lat": 48.1644368768761,
-        "lon": 11.1324619915292,
+        "lat": 48.1641792323329,
+        "lon": 11.1325158904463,
         "name": "Jesenwang, Grafrather Stra\u00dfe",
         "station_id": "de:09179:6617:0:2"
       }
@@ -37573,14 +38688,14 @@
     "station_id": "de:09179:6434",
     "sub_stations": [
       {
-        "lat": 48.1645387359898,
-        "lon": 11.0220859925541,
+        "lat": 48.1644908023144,
+        "lon": 11.0221039588598,
         "name": "D\u00fcnzelbach, Kirche",
         "station_id": "de:09179:6434:0:1"
       },
       {
-        "lat": 48.1645686945141,
-        "lon": 11.0221129420126,
+        "lat": 48.1645027857375,
+        "lon": 11.0223914197507,
         "name": "D\u00fcnzelbach, Kirche",
         "station_id": "de:09179:6434:0:2"
       }
@@ -37838,14 +38953,14 @@
     "station_id": "de:09179:6444",
     "sub_stations": [
       {
-        "lat": 48.1660186661733,
-        "lon": 11.1304497652925,
+        "lat": 48.1660486238332,
+        "lon": 11.1306473946551,
         "name": "Jesenwang, Abzw. Mammendorf",
         "station_id": "de:09179:6444:0:1"
       },
       {
         "lat": 48.1661504797461,
-        "lon": 11.1306294283494,
+        "lon": 11.1305126473624,
         "name": "Jesenwang, Abzw. Mammendorf",
         "station_id": "de:09179:6444:0:2"
       }
@@ -37986,14 +39101,14 @@
     "station_id": "de:09179:6084",
     "sub_stations": [
       {
-        "lat": 48.1667376451822,
-        "lon": 11.0202893619856,
+        "lat": 48.1667855767578,
+        "lon": 11.02020851361,
         "name": "D\u00fcnzelbach, Deckerberg",
         "station_id": "de:09179:6084:0:1"
       },
       {
-        "lat": 48.1667616109756,
-        "lon": 11.0203522440555,
+        "lat": 48.1669054055008,
+        "lon": 11.0203073282913,
         "name": "D\u00fcnzelbach, Deckerberg",
         "station_id": "de:09179:6084:0:2"
       }
@@ -38080,6 +39195,18 @@
     "name": "Gymnasium",
     "station_id": "de:09184:2135",
     "sub_stations": [
+      {
+        "lat": 48.1658149536217,
+        "lon": 11.75982741974,
+        "name": "Kirchheim, Gymnasium",
+        "station_id": "de:09184:2135:1:4"
+      },
+      {
+        "lat": 48.1655333496446,
+        "lon": 11.7592435148052,
+        "name": "Kirchheim, Gymnasium",
+        "station_id": "de:09184:2135:1:5"
+      },
       {
         "lat": 48.167804112149,
         "lon": 11.7581296038527,
@@ -38331,14 +39458,14 @@
     "station_id": "de:09179:6440",
     "sub_stations": [
       {
-        "lat": 48.1677142421928,
-        "lon": 11.1645408303296,
+        "lat": 48.1677861381703,
+        "lon": 11.1645587966353,
         "name": "Babenried",
         "station_id": "de:09179:6440:0:1"
       },
       {
-        "lat": 48.1681995380852,
-        "lon": 11.1644150661898,
+        "lat": 48.1681156601111,
+        "lon": 11.1643701504256,
         "name": "Babenried",
         "station_id": "de:09179:6440:0:2"
       }
@@ -38426,13 +39553,13 @@
     "sub_stations": [
       {
         "lat": 48.1681935468059,
-        "lon": 11.0826863416292,
+        "lon": 11.0826054932537,
         "name": "Albertshofen, Kreisstra\u00dfe",
         "station_id": "de:09179:6429:0:1"
       },
       {
-        "lat": 48.1681755729637,
-        "lon": 11.0827043079349,
+        "lat": 48.1681635903988,
+        "lon": 11.0827132910878,
         "name": "Albertshofen, Kreisstra\u00dfe",
         "station_id": "de:09179:6429:0:2"
       }
@@ -38627,14 +39754,14 @@
     "station_id": "de:09179:6501",
     "sub_stations": [
       {
-        "lat": 48.1690383102815,
-        "lon": 11.3547950243798,
+        "lat": 48.1695535492574,
+        "lon": 11.3542021362922,
         "name": "Puchheim Bf, Heussstra\u00dfe",
         "station_id": "de:09179:6501:0:1"
       },
       {
-        "lat": 48.1690562838212,
-        "lon": 11.3548040075326,
+        "lat": 48.1693798064603,
+        "lon": 11.354498580336,
         "name": "Puchheim Bf, Heussstra\u00dfe",
         "station_id": "de:09179:6501:0:2"
       }
@@ -38809,14 +39936,7 @@
     "lon": 11.8173745898514,
     "name": "Rathaus",
     "station_id": "de:09175:4024",
-    "sub_stations": [
-      {
-        "lat": 48.1701167115192,
-        "lon": 11.8171938337918,
-        "name": "Poing, Rathaus",
-        "station_id": "de:09175:4024:0:1"
-      }
-    ]
+    "sub_stations": []
   },
   {
     "lat": 48.1697931708071,
@@ -38825,16 +39945,16 @@
     "station_id": "de:09179:6619",
     "sub_stations": [
       {
-        "lat": 48.1698231489842,
-        "lon": 11.1345370998358,
-        "name": "Jesenwang, R\u00f6merstra\u00dfe",
-        "station_id": "de:09179:6619:0:2"
-      },
-      {
         "lat": 48.1698051757132,
         "lon": 11.1346628639756,
         "name": "Jesenwang, R\u00f6merstra\u00dfe",
         "station_id": "de:09179:6619:0:1"
+      },
+      {
+        "lat": 48.1698231489842,
+        "lon": 11.1345370998358,
+        "name": "Jesenwang, R\u00f6merstra\u00dfe",
+        "station_id": "de:09179:6619:0:2"
       }
     ]
   },
@@ -39086,6 +40206,12 @@
     "name": "Lindenviertel",
     "station_id": "de:09184:2134",
     "sub_stations": [
+      {
+        "lat": 48.1707098225339,
+        "lon": 11.7556412705154,
+        "name": "Kirchheim, Lindenviertel",
+        "station_id": "de:09184:2134:0:1"
+      },
       {
         "lat": 48.1706918495737,
         "lon": 11.7553987253886,
@@ -39391,8 +40517,8 @@
     "station_id": "de:09179:6433",
     "sub_stations": [
       {
-        "lat": 48.171758234315,
-        "lon": 11.0086471959018,
+        "lat": 48.1717103073869,
+        "lon": 11.0086112632904,
         "name": "Zell (Lkr. FFB)",
         "station_id": "de:09179:6433:0:1"
       }
@@ -39441,6 +40567,12 @@
         "lon": 11.3522617752782,
         "name": "Puchheim S\u00fcd",
         "station_id": "de:09179:6103:1:1"
+      },
+      {
+        "lat": 48.1718061611984,
+        "lon": 11.3527827981431,
+        "name": "Puchheim S\u00fcd",
+        "station_id": "de:09179:6103:2:2"
       }
     ]
   },
@@ -39519,7 +40651,7 @@
       },
       {
         "lat": 48.1723273631628,
-        "lon": 11.2264257702612,
+        "lon": 11.2264437365669,
         "name": "FFB, Cerveteristr./Stadtwerke FFB",
         "station_id": "de:09179:6345:0:2"
       },
@@ -39785,8 +40917,8 @@
     "station_id": "de:09179:6521",
     "sub_stations": [
       {
-        "lat": 48.1729264393364,
-        "lon": 11.3623318896146,
+        "lat": 48.1730163001588,
+        "lon": 11.3627451146453,
         "name": "Puchheim Bf, Am M\u00fchlstetter Gr",
         "station_id": "de:09179:6521:0:1"
       }
@@ -39921,8 +41053,8 @@
     "station_id": "de:09179:6208",
     "sub_stations": [
       {
-        "lat": 48.1737651342211,
-        "lon": 11.3245397656064,
+        "lat": 48.1737591435921,
+        "lon": 11.3245577319121,
         "name": "Eichenau, Bahnhofstra\u00dfe",
         "station_id": "de:09179:6208:0:1"
       },
@@ -40339,7 +41471,7 @@
     "station_id": "de:09179:6523",
     "sub_stations": [
       {
-        "lat": 48.1755323392498,
+        "lat": 48.1754125306641,
         "lon": 11.3662215947954,
         "name": "Puchheim Bf, Weiherstra\u00dfe",
         "station_id": "de:09179:6523:0:1"
@@ -40442,7 +41574,7 @@
     "sub_stations": [
       {
         "lat": 48.175999590059,
-        "lon": 11.2558366126674,
+        "lon": 11.2558635621259,
         "name": "FFB, F\u00fcrstenfelder Stra\u00dfe",
         "station_id": "de:09179:6547:0:1"
       }
@@ -40704,14 +41836,14 @@
     "station_id": "de:09179:6423",
     "sub_stations": [
       {
-        "lat": 48.176532730012,
-        "lon": 11.0936907038612,
+        "lat": 48.1762871269021,
+        "lon": 11.0936188386385,
         "name": "R\u00f6mertshofen",
         "station_id": "de:09179:6423:0:1"
       },
       {
         "lat": 48.176532730012,
-        "lon": 11.0936547712499,
+        "lon": 11.0936188386385,
         "name": "R\u00f6mertshofen",
         "station_id": "de:09179:6423:0:2"
       }
@@ -41154,6 +42286,12 @@
         "lon": 11.1869627798244,
         "name": "Aich, Schlossbergstra\u00dfe",
         "station_id": "de:09179:6317:0:1"
+      },
+      {
+        "lat": 48.1788868659875,
+        "lon": 11.1870705776585,
+        "name": "Aich, Schlossbergstra\u00dfe",
+        "station_id": "de:09179:6317:0:2"
       }
     ]
   },
@@ -41522,8 +42660,8 @@
     "station_id": "de:09179:6422",
     "sub_stations": [
       {
-        "lat": 48.1794738856008,
-        "lon": 11.0802878398203,
+        "lat": 48.1794678956387,
+        "lon": 11.0802069914447,
         "name": "Purk",
         "station_id": "de:09179:6422:0:1"
       },
@@ -41716,14 +42854,14 @@
     "station_id": "de:09179:6425",
     "sub_stations": [
       {
-        "lat": 48.1799231307644,
-        "lon": 11.0881391154046,
+        "lat": 48.1799830298222,
+        "lon": 11.088058267029,
         "name": "Langwied (FFB), Ort",
         "station_id": "de:09179:6425:0:1"
       },
       {
-        "lat": 48.1799650601122,
-        "lon": 11.0879774186534,
+        "lat": 48.1799411004891,
+        "lon": 11.0879504691949,
         "name": "Langwied (FFB), Ort",
         "station_id": "de:09179:6425:0:2"
       }
@@ -42244,14 +43382,14 @@
     "station_id": "de:09179:6410",
     "sub_stations": [
       {
-        "lat": 48.1818698143147,
-        "lon": 11.1381483272785,
+        "lat": 48.181899762715,
+        "lon": 11.1381303609728,
         "name": "Pfaffenhofen (FFB)",
         "station_id": "de:09179:6410:0:1"
       },
       {
-        "lat": 48.1818398658969,
-        "lon": 11.1375015402738,
+        "lat": 48.1818039277724,
+        "lon": 11.137492557121,
         "name": "Pfaffenhofen (FFB)",
         "station_id": "de:09179:6410:0:2"
       }
@@ -43015,14 +44153,14 @@
     "station_id": "de:09179:6596",
     "sub_stations": [
       {
-        "lat": 48.1854694866847,
-        "lon": 11.3888232073469,
+        "lat": 48.1854754759456,
+        "lon": 11.3887872747356,
         "name": "Gr\u00f6benzell, Industriestra\u00dfe",
         "station_id": "de:09179:6596:0:1"
       },
       {
-        "lat": 48.1854275618393,
-        "lon": 11.3886435442901,
+        "lat": 48.1853976155001,
+        "lon": 11.3887603252771,
         "name": "Gr\u00f6benzell, Industriestra\u00dfe",
         "station_id": "de:09179:6596:0:2"
       }
@@ -43272,14 +44410,14 @@
     "station_id": "de:09179:6420",
     "sub_stations": [
       {
-        "lat": 48.1866613358033,
-        "lon": 11.0532126171532,
+        "lat": 48.1881406275672,
+        "lon": 11.0528083752753,
         "name": "Steinbach",
         "station_id": "de:09179:6420:0:1"
       },
       {
-        "lat": 48.18663737931,
-        "lon": 11.0533743139043,
+        "lat": 48.1881046938603,
+        "lon": 11.0529341394151,
         "name": "Steinbach",
         "station_id": "de:09179:6420:0:2"
       }
@@ -43292,14 +44430,14 @@
     "station_id": "de:09179:6418",
     "sub_stations": [
       {
-        "lat": 48.1866912814041,
-        "lon": 11.0851387423552,
+        "lat": 48.1870206818584,
+        "lon": 11.0864592658231,
         "name": "Grunertshofen, Ort",
         "station_id": "de:09179:6418:0:1"
       },
       {
-        "lat": 48.1867152378722,
-        "lon": 11.0851387423552,
+        "lat": 48.1867631507747,
+        "lon": 11.0851477255081,
         "name": "Grunertshofen, Ort",
         "station_id": "de:09179:6418:0:2"
       }
@@ -43563,14 +44701,14 @@
     "station_id": "de:09179:6409",
     "sub_stations": [
       {
-        "lat": 48.1881885391372,
-        "lon": 11.1522069614769,
+        "lat": 48.1881705723037,
+        "lon": 11.1520811973371,
         "name": "Egg, Ort",
         "station_id": "de:09179:6409:0:1"
       },
       {
-        "lat": 48.1882005170227,
-        "lon": 11.152144079407,
+        "lat": 48.1881825501934,
+        "lon": 11.1522428940883,
         "name": "Egg, Ort",
         "station_id": "de:09179:6409:0:2"
       }
@@ -43590,14 +44728,14 @@
     "station_id": "de:09181:1603",
     "sub_stations": [
       {
-        "lat": 48.1882544174728,
-        "lon": 10.983665047847,
+        "lat": 48.1883562292794,
+        "lon": 10.9837728456811,
         "name": "Egling a.d.Paar, Pfarrkirche",
         "station_id": "de:09181:1603:0:1"
       },
       {
-        "lat": 48.1882783732102,
-        "lon": 10.9836201320827,
+        "lat": 48.1881765612489,
+        "lon": 10.9834674184844,
         "name": "Egling a.d.Paar, Pfarrkirche",
         "station_id": "de:09181:1603:0:2"
       }
@@ -46361,14 +47499,14 @@
     "station_id": "de:09179:6217",
     "sub_stations": [
       {
-        "lat": 48.2036137354598,
-        "lon": 11.3270370820966,
+        "lat": 48.2036017611771,
+        "lon": 11.3270640315551,
         "name": "Olching, Grundschule",
         "station_id": "de:09179:6217:0:1"
       },
       {
-        "lat": 48.203571825458,
-        "lon": 11.3270909810137,
+        "lat": 48.2035658383121,
+        "lon": 11.3271628462364,
         "name": "Olching, Grundschule",
         "station_id": "de:09179:6217:0:2"
       }
@@ -46401,8 +47539,8 @@
     "station_id": "de:09179:6589",
     "sub_stations": [
       {
-        "lat": 48.2037215038785,
-        "lon": 11.3608766188541,
+        "lat": 48.2036676196975,
+        "lon": 11.3604633938233,
         "name": "Gr\u00f6benzell, Exterstra\u00dfe",
         "station_id": "de:09179:6589:0:1"
       }
@@ -47125,14 +48263,14 @@
     "station_id": "de:09179:6316",
     "sub_stations": [
       {
-        "lat": 48.2093670544986,
-        "lon": 11.1203347351919,
+        "lat": 48.209349095091,
+        "lon": 11.1202988025806,
         "name": "Hattenhofen, Loitershofen",
         "station_id": "de:09179:6316:0:1"
       },
       {
-        "lat": 48.2093730409664,
-        "lon": 11.120388634109,
+        "lat": 48.2094029732949,
+        "lon": 11.1203976172618,
         "name": "Hattenhofen, Loitershofen",
         "station_id": "de:09179:6316:0:2"
       }
@@ -47266,8 +48404,8 @@
         "station_id": "de:09179:6226:0:1"
       },
       {
-        "lat": 48.2100255617618,
-        "lon": 11.3475276537302,
+        "lat": 48.2100195753703,
+        "lon": 11.3475905358001,
         "name": "Olching, Max-Reger-Stra\u00dfe",
         "station_id": "de:09179:6226:0:2"
       }
@@ -47940,7 +49078,20 @@
     "lon": 11.5402669141907,
     "name": "Feldmoching",
     "station_id": "de:09162:320",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.2138806,
+        "lon": 11.5406115,
+        "name": "Feldmoching",
+        "station_id": "de:09162:320:2:2"
+      },
+      {
+        "lat": 48.2139584,
+        "lon": 11.5396593,
+        "name": "Feldmoching",
+        "station_id": "de:09162:320:30:70"
+      }
+    ]
   },
   {
     "lat": 48.2139573310907,
@@ -48053,6 +49204,12 @@
         "lon": 11.3459915345942,
         "name": "Gra\u00dflfing, Georgenstra\u00dfe",
         "station_id": "de:09179:6256:0:2"
+      },
+      {
+        "lat": 48.2146169179535,
+        "lon": 11.3460274672055,
+        "name": "Gra\u00dflfing, Georgenstra\u00dfe",
+        "station_id": "de:09179:6256:0:3"
       }
     ]
   },
@@ -48103,8 +49260,8 @@
         "station_id": "de:09179:6140:1:1"
       },
       {
-        "lat": 48.2147486065818,
-        "lon": 11.2573008665807,
+        "lat": 48.2147725499323,
+        "lon": 11.2573817149563,
         "name": "Maisach",
         "station_id": "de:09179:6140:1:3"
       }
@@ -48195,7 +49352,20 @@
     "lon": 11.5306745134287,
     "name": "Josef-Frankl-Stra\u00dfe",
     "station_id": "de:09162:1984",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.2150897,
+        "lon": 11.531278,
+        "name": "Josef-Frankl-Stra\u00dfe",
+        "station_id": "de:09162:1984:3:4"
+      },
+      {
+        "lat": 48.2151735,
+        "lon": 11.5313409,
+        "name": "Josef-Frankl-Stra\u00dfe",
+        "station_id": "de:09162:1984:3:3"
+      }
+    ]
   },
   {
     "lat": 48.215225926138,
@@ -48466,14 +49636,14 @@
     "station_id": "de:09179:6160",
     "sub_stations": [
       {
-        "lat": 48.2166879817007,
+        "lat": 48.2166760104747,
         "lon": 11.1743863658449,
         "name": "Mammendorf",
         "station_id": "de:09179:6160:1:1"
       },
       {
-        "lat": 48.216699952924,
-        "lon": 11.1746558604302,
+        "lat": 48.2167119241444,
+        "lon": 11.174610944666,
         "name": "Mammendorf",
         "station_id": "de:09179:6160:1:2"
       }
@@ -49663,8 +50833,8 @@
     "station_id": "de:09179:6524",
     "sub_stations": [
       {
-        "lat": 48.2234093830737,
-        "lon": 11.0992602586236,
+        "lat": 48.2234393071973,
+        "lon": 11.0991973765537,
         "name": "Haspelmoor Nord",
         "station_id": "de:09179:6524:0:1"
       }
@@ -49784,14 +50954,14 @@
     "station_id": "de:09179:6248",
     "sub_stations": [
       {
-        "lat": 48.2255040294775,
-        "lon": 11.343036077309,
+        "lat": 48.225521983219,
+        "lon": 11.3430809930732,
         "name": "Geiselbullach, Kapellenweg",
         "station_id": "de:09179:6248:0:1"
       },
       {
-        "lat": 48.2255159986392,
-        "lon": 11.3429731952391,
+        "lat": 48.2255100140587,
+        "lon": 11.3429282794749,
         "name": "Geiselbullach, Kapellenweg",
         "station_id": "de:09179:6248:0:2"
       }
@@ -50049,8 +51219,8 @@
     "station_id": "de:09179:6663",
     "sub_stations": [
       {
-        "lat": 48.227927727618,
-        "lon": 11.3429282794749,
+        "lat": 48.2278259944483,
+        "lon": 11.3427935321823,
         "name": "Geiselbullach, Florianstra\u00dfe",
         "station_id": "de:09179:6663:0:1"
       }
@@ -50625,8 +51795,8 @@
     "station_id": "de:09179:5334",
     "sub_stations": [
       {
-        "lat": 48.2322601760865,
-        "lon": 11.3603735622949,
+        "lat": 48.2322721436682,
+        "lon": 11.3604005117534,
         "name": "Gra\u00dflfing, Josef-Kistler-Weg",
         "station_id": "de:09179:5334:0:1"
       }
@@ -51033,8 +52203,8 @@
     "station_id": "de:09174:6805",
     "sub_stations": [
       {
-        "lat": 48.2369751865724,
-        "lon": 11.3514892241337,
+        "lat": 48.2368794546404,
+        "lon": 11.3513275273826,
         "name": "Bergkirchen, GADA Ost",
         "station_id": "de:09174:6805:0:1"
       },
@@ -51132,14 +52302,14 @@
     "station_id": "de:09174:7067",
     "sub_stations": [
       {
-        "lat": 48.2383513132998,
-        "lon": 11.3455783095634,
+        "lat": 48.2383572963786,
+        "lon": 11.3456771242447,
         "name": "Bergkirchen, GADA West",
         "station_id": "de:09174:7067:0:1"
       },
       {
-        "lat": 48.2380641246913,
-        "lon": 11.34594661883,
+        "lat": 48.2380820740266,
+        "lon": 11.3458837367601,
         "name": "Bergkirchen, GADA West",
         "station_id": "de:09174:7067:0:2"
       }
@@ -51178,8 +52348,8 @@
     "station_id": "de:09174:6817",
     "sub_stations": [
       {
-        "lat": 48.2385667036981,
-        "lon": 11.3547411254627,
+        "lat": 48.2385547375887,
+        "lon": 11.3547860412269,
         "name": "Bergkirchen, Kreuzacker/GADA",
         "station_id": "de:09174:6817:0:1"
       },
@@ -52470,6 +53640,26 @@
     "name": "M\u00fchldorf (Oberbay)",
     "station_id": "de:09183:6530",
     "sub_stations": []
+  },
+  {
+    "lat": 48.2484198446591,
+    "lon": 11.5510589476815,
+    "name": "Oberschl., Sch\u00f6nleutnerstr.",
+    "station_id": "de:09184:2877",
+    "sub_stations": [
+      {
+        "lat": 48.2483241341437,
+        "lon": 11.5510769139872,
+        "name": "Oberschl., Sch\u00f6nleutnerstr.",
+        "station_id": "de:09184:2877:0:1"
+      },
+      {
+        "lat": 48.2484856455345,
+        "lon": 11.5510230150701,
+        "name": "Oberschl., Sch\u00f6nleutnerstr.",
+        "station_id": "de:09184:2877:0:2"
+      }
+    ]
   },
   {
     "lat": 48.248653413434,
@@ -55721,6 +56911,18 @@
         "lon": 11.671280482172,
         "name": "Garch.,Forschungsz.",
         "station_id": "de:09184:460:30:2"
+      },
+      {
+        "lat": 48.2645026485054,
+        "lon": 11.671163701185,
+        "name": "Garch.,Forschungsz.",
+        "station_id": "de:09184:460:30:3"
+      },
+      {
+        "lat": 48.263474074682,
+        "lon": 11.6708582739884,
+        "name": "Garch.,Forschungsz.",
+        "station_id": "de:09184:460:31:4"
       }
     ]
   },
@@ -55931,14 +57133,14 @@
     "station_id": "de:09771:1181",
     "sub_stations": [
       {
-        "lat": 48.266278683647,
-        "lon": 11.1057101623644,
+        "lat": 48.2662846634591,
+        "lon": 11.1058089770457,
         "name": "Glon",
         "station_id": "de:09771:1181:0:A"
       },
       {
         "lat": 48.2662308451254,
-        "lon": 11.1057101623644,
+        "lon": 11.1057640612815,
         "name": "Glon",
         "station_id": "de:09771:1181:0:E"
       }
@@ -56648,14 +57850,14 @@
     "station_id": "de:09179:6794",
     "sub_stations": [
       {
-        "lat": 48.2712775623303,
-        "lon": 11.077170685784,
+        "lat": 48.272168459463,
+        "lon": 11.0786259565445,
         "name": "Tegernbach,Baindlkirchner Str.",
         "station_id": "de:09179:6794:0:1"
       },
       {
-        "lat": 48.2712656038739,
-        "lon": 11.0771976352425,
+        "lat": 48.2718575441073,
+        "lon": 11.0781857820552,
         "name": "Tegernbach,Baindlkirchner Str.",
         "station_id": "de:09179:6794:0:2"
       },
@@ -57436,14 +58638,14 @@
     "station_id": "de:09771:1180",
     "sub_stations": [
       {
-        "lat": 48.2759650616837,
-        "lon": 11.0932145967606,
+        "lat": 48.27599495507,
+        "lon": 11.0932235799134,
         "name": "Baindlkirch, Feuerwehrhaus",
         "station_id": "de:09771:1180:0:A"
       },
       {
-        "lat": 48.275498722593,
-        "lon": 11.0940320636692,
+        "lat": 48.2754867651244,
+        "lon": 11.0940051142107,
         "name": "Baindlkirch, Feuerwehrhaus",
         "station_id": "de:09771:1180:0:E"
       }
@@ -57746,6 +58948,26 @@
         "lon": 11.5887432738556,
         "name": "Lohhof, S\u00fcdl. Ingolst\u00e4dter Str",
         "station_id": "de:09184:7508:0:2"
+      }
+    ]
+  },
+  {
+    "lat": 48.2780814702155,
+    "lon": 11.673104062199,
+    "name": "Dietersheim, Am Isardamm",
+    "station_id": "de:09178:9458",
+    "sub_stations": [
+      {
+        "lat": 48.278009728989,
+        "lon": 11.6730052475177,
+        "name": "Dietersheim, Am Isardamm",
+        "station_id": "de:09178:9458:0:1"
+      },
+      {
+        "lat": 48.278027664305,
+        "lon": 11.6730681295876,
+        "name": "Dietersheim, Am Isardamm",
+        "station_id": "de:09178:9458:0:2"
       }
     ]
   },
@@ -58312,14 +59534,14 @@
     "station_id": "de:09174:6872",
     "sub_stations": [
       {
-        "lat": 48.2819971926712,
-        "lon": 11.3687368775912,
+        "lat": 48.2821047960737,
+        "lon": 11.3671917753023,
         "name": "Oberbachern",
         "station_id": "de:09174:6872:0:1"
       },
       {
-        "lat": 48.282009148616,
-        "lon": 11.3688177259668,
+        "lat": 48.2821645756438,
+        "lon": 11.3678744949184,
         "name": "Oberbachern",
         "station_id": "de:09174:6872:0:2"
       }
@@ -59297,6 +60519,18 @@
         "lon": 11.5802182618081,
         "name": "Lohhof Nord",
         "station_id": "de:09184:7516:1:2"
+      },
+      {
+        "lat": 48.2876400875641,
+        "lon": 11.5797960536245,
+        "name": "Lohhof Nord",
+        "station_id": "de:09184:7516:2:3"
+      },
+      {
+        "lat": 48.287711815266,
+        "lon": 11.5801553797382,
+        "name": "Lohhof Nord",
+        "station_id": "de:09184:7516:2:4"
       }
     ]
   },
@@ -59735,8 +60969,8 @@
     "station_id": "de:09174:7280",
     "sub_stations": [
       {
-        "lat": 48.2920212698278,
-        "lon": 11.435400854835,
+        "lat": 48.29194357137,
+        "lon": 11.4356523831146,
         "name": "Goppertshofen",
         "station_id": "de:09174:7280:0:1"
       },
@@ -60686,14 +61920,14 @@
     "station_id": "de:09178:2708",
     "sub_stations": [
       {
-        "lat": 48.2984160452558,
-        "lon": 11.620417870778,
+        "lat": 48.2981710265616,
+        "lon": 11.6206334664463,
         "name": "Eching, Bahnhofstra\u00dfe",
         "station_id": "de:09178:2708:0:1"
       },
       {
-        "lat": 48.2980574809144,
-        "lon": 11.6205436349178,
+        "lat": 48.2984279973571,
+        "lon": 11.6203370224025,
         "name": "Eching, Bahnhofstra\u00dfe",
         "station_id": "de:09178:2708:0:2"
       }
@@ -61590,14 +62824,14 @@
         "station_id": "de:09174:7320:0:2"
       },
       {
-        "lat": 48.3044813770514,
-        "lon": 11.4888326479419,
+        "lat": 48.3044694263673,
+        "lon": 11.4890123109987,
         "name": "Ampermoching, Maibaum",
         "station_id": "de:09174:7320:0:3"
       },
       {
-        "lat": 48.3043917468527,
-        "lon": 11.4890841762215,
+        "lat": 48.3043080918586,
+        "lon": 11.4891740077499,
         "name": "Ampermoching, Maibaum",
         "station_id": "de:09174:7320:0:4"
       }
@@ -62027,16 +63261,16 @@
     "station_id": "de:09174:9867",
     "sub_stations": [
       {
-        "lat": 48.3057481336942,
-        "lon": 11.1381573104313,
-        "name": "Stockach, Abzw. Oberumbach",
-        "station_id": "de:09174:9867:0:2"
-      },
-      {
         "lat": 48.3058258111445,
         "lon": 11.1381034115143,
         "name": "Stockach, Abzw. Oberumbach",
         "station_id": "de:09174:9867:0:1"
+      },
+      {
+        "lat": 48.3057481336942,
+        "lon": 11.1381573104313,
+        "name": "Stockach, Abzw. Oberumbach",
+        "station_id": "de:09174:9867:0:2"
       }
     ]
   },
@@ -62134,13 +63368,13 @@
     "station_id": "de:09174:6894",
     "sub_stations": [
       {
-        "lat": 48.3059273891704,
-        "lon": 11.3507705719063,
+        "lat": 48.3059453146834,
+        "lon": 11.3507166729893,
         "name": "Schwabhausen, Augsburger Str.",
         "station_id": "de:09174:6894:0:1"
       },
       {
-        "lat": 48.3060110415105,
+        "lat": 48.3060229918336,
         "lon": 11.350905319199,
         "name": "Schwabhausen, Augsburger Str.",
         "station_id": "de:09174:6894:0:2"
@@ -64073,6 +65307,18 @@
         "lon": 11.4929648982494,
         "name": "Lotzbach",
         "station_id": "de:09174:7296:0:2"
+      },
+      {
+        "lat": 48.3150207908094,
+        "lon": 11.4920845492709,
+        "name": "Lotzbach",
+        "station_id": "de:09174:7296:0:3"
+      },
+      {
+        "lat": 48.3152119618875,
+        "lon": 11.4921743807993,
+        "name": "Lotzbach",
+        "station_id": "gen:09174:7296:0:4"
       }
     ]
   },
@@ -65348,8 +66594,8 @@
         "station_id": "de:09174:7373:0:1"
       },
       {
-        "lat": 48.3247636295614,
-        "lon": 11.4944201690099,
+        "lat": 48.3247815484578,
+        "lon": 11.49435728694,
         "name": "Hebertshausen, G\u00e4nsstall",
         "station_id": "de:09174:7373:0:2"
       }
@@ -65651,8 +66897,14 @@
     "station_id": "de:09178:2624",
     "sub_stations": [
       {
-        "lat": 48.3292252403886,
-        "lon": 11.7351686651874,
+        "lat": 48.3290998189102,
+        "lon": 11.7350518842005,
+        "name": "Hallbergmoos, Otl-Aicher-Weg",
+        "station_id": "de:09178:2624:0:2"
+      },
+      {
+        "lat": 48.3292431577174,
+        "lon": 11.7351327325761,
         "name": "Hallbergmoos, Otl-Aicher-Weg",
         "station_id": "de:09178:2624:0:95"
       }
@@ -65699,42 +66951,42 @@
     ]
   },
   {
-    "lat": 48.3295298341232,
-    "lon": 11.4499445792869,
-    "name": "R\u00f6hrmoos, Blumenstra\u00dfe",
-    "station_id": "de:09174:7377",
-    "sub_stations": [
-      {
-        "lat": 48.3296313649638,
-        "lon": 11.4496301689375,
-        "name": "R\u00f6hrmoos, Blumenstra\u00dfe",
-        "station_id": "de:09174:7377:0:1"
-      },
-      {
-        "lat": 48.3296433097553,
-        "lon": 11.4495133879505,
-        "name": "R\u00f6hrmoos, Blumenstra\u00dfe",
-        "station_id": "de:09174:7377:0:2"
-      }
-    ]
-  },
-  {
     "lat": 48.3295776854629,
     "lon": 11.4960730253532,
     "name": "Durchsamsried, Abzw.",
     "station_id": "de:09174:7372",
     "sub_stations": [
       {
-        "lat": 48.3296074753724,
-        "lon": 11.4960910354386,
+        "lat": 48.3296015029729,
+        "lon": 11.4961629006613,
         "name": "Durchsamsried, Abzw.",
         "station_id": "de:09174:7372:0:1"
       },
       {
-        "lat": 48.3294880272478,
-        "lon": 11.4960910354386,
+        "lat": 48.3294760824199,
+        "lon": 11.496010187063,
         "name": "Durchsamsried, Abzw.",
         "station_id": "de:09174:7372:0:2"
+      }
+    ]
+  },
+  {
+    "lat": 48.3296373373599,
+    "lon": 11.4495762700204,
+    "name": "R\u00f6hrmoos, Blumenstra\u00dfe",
+    "station_id": "de:09174:7377",
+    "sub_stations": [
+      {
+        "lat": 48.329655254544,
+        "lon": 11.4496481352431,
+        "name": "R\u00f6hrmoos, Blumenstra\u00dfe",
+        "station_id": "de:09174:7377:0:1"
+      },
+      {
+        "lat": 48.3296134477713,
+        "lon": 11.4495133879505,
+        "name": "R\u00f6hrmoos, Blumenstra\u00dfe",
+        "station_id": "de:09174:7377:0:2"
       }
     ]
   },
@@ -65751,8 +67003,8 @@
         "station_id": "de:09178:2627:0:1"
       },
       {
-        "lat": 48.3289027273925,
-        "lon": 11.7320964269153,
+        "lat": 48.3299479009929,
+        "lon": 11.7298057229405,
         "name": "Hallbergm.,Messerschmittstr.",
         "station_id": "de:09178:2627:0:2"
       }
@@ -65899,14 +67151,14 @@
     "station_id": "de:09178:9868",
     "sub_stations": [
       {
-        "lat": 48.3305988840091,
-        "lon": 11.7346117097112,
+        "lat": 48.3309452752541,
+        "lon": 11.7337313607326,
         "name": "Hallberg., Lilienthalstr. 17a",
         "station_id": "de:09178:9868:0:1"
       },
       {
-        "lat": 48.330574994871,
-        "lon": 11.7346027265584,
+        "lat": 48.3308676360417,
+        "lon": 11.7336684786628,
         "name": "Hallberg., Lilienthalstr. 17a",
         "station_id": "de:09178:9868:0:2"
       }
@@ -66324,18 +67576,6 @@
         "lon": 11.4349516971929,
         "name": "Gro\u00dfinzemoos, Finkenweg",
         "station_id": "de:09174:7356:0:2"
-      },
-      {
-        "lat": 48.334241846584,
-        "lon": 11.4383922447316,
-        "name": "Gro\u00dfinzemoos, Finkenweg",
-        "station_id": "de:09174:7356:0:3"
-      },
-      {
-        "lat": 48.3342000435716,
-        "lon": 11.4384012278844,
-        "name": "Gro\u00dfinzemoos, Finkenweg",
-        "station_id": "de:09174:7356:0:4"
       }
     ]
   },
@@ -66683,8 +67923,8 @@
     "station_id": "de:09174:7360",
     "sub_stations": [
       {
-        "lat": 48.3382428334224,
-        "lon": 11.4498098319943,
+        "lat": 48.3382249192558,
+        "lon": 11.4497918656886,
         "name": "Riedenzhofen",
         "station_id": "de:09174:7360:0:1"
       }
@@ -67213,20 +68453,20 @@
     ]
   },
   {
-    "lat": 48.3450796140054,
-    "lon": 11.4071578222984,
+    "lat": 48.3450557316518,
+    "lon": 11.4072027380626,
     "name": "Stra\u00dfbach",
     "station_id": "de:09174:7389",
     "sub_stations": [
       {
-        "lat": 48.3451393198403,
-        "lon": 11.4071488391455,
+        "lat": 48.3450796140054,
+        "lon": 11.407121889687,
         "name": "Stra\u00dfbach",
         "station_id": "de:09174:7389:0:1"
       },
       {
-        "lat": 48.3449542315244,
-        "lon": 11.4073015527439,
+        "lat": 48.3450199081005,
+        "lon": 11.4073105358967,
         "name": "Stra\u00dfbach",
         "station_id": "de:09174:7389:0:2"
       }
@@ -67300,8 +68540,8 @@
     "station_id": "de:09174:7374",
     "sub_stations": [
       {
-        "lat": 48.3457304038321,
-        "lon": 11.4934949042671,
+        "lat": 48.3457423448522,
+        "lon": 11.4936386347126,
         "name": "Biberbach, Schulstra\u00dfe",
         "station_id": "de:09174:7374:0:1"
       }
@@ -67315,8 +68555,8 @@
     "sub_stations": [
       {
         "lat": 48.3462199833622,
-        "lon": 11.4962167995784,
-        "name": "Biberbach, Maibaum Ersatzhalt",
+        "lon": 11.4962617153426,
+        "name": "Biberbach, Maibaum",
         "station_id": "de:09174:7376:0:1"
       }
     ]
@@ -67328,8 +68568,8 @@
     "station_id": "de:09174:7375",
     "sub_stations": [
       {
-        "lat": 48.3406910436466,
-        "lon": 11.4974654578235,
+        "lat": 48.340631332601,
+        "lon": 11.4973486768365,
         "name": "Biberbach, Lindenhof",
         "station_id": "de:09174:7375:0:1"
       }
@@ -68078,7 +69318,7 @@
         "station_id": "de:09178:3239:1:1"
       },
       {
-        "lat": 48.3531870262195,
+        "lat": 48.3531929958563,
         "lon": 11.785878562983,
         "name": "Flughafen, MAC/Terminal 1",
         "station_id": "de:09178:3239:1:3"
@@ -68144,7 +69384,14 @@
     "lon": 11.7870766547501,
     "name": "Flughafen, Terminalstr. Mitte",
     "station_id": "de:09178:3244",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.3538257733954,
+        "lon": 11.7871631538395,
+        "name": "Flughafen, Terminalstr. Mitte",
+        "station_id": "de:09178:3244:0:1"
+      }
+    ]
   },
   {
     "lat": 48.3539363038731,
@@ -68491,7 +69738,7 @@
     "sub_stations": [
       {
         "lat": 48.3561717573913,
-        "lon": 11.7898670828451,
+        "lon": 11.7898580996922,
         "name": "Flughafen, Terminal 2",
         "station_id": "de:09178:2726:1:16"
       }
@@ -68851,14 +70098,14 @@
     "station_id": "de:09178:9851",
     "sub_stations": [
       {
-        "lat": 48.3604217128143,
-        "lon": 11.7044732319248,
+        "lat": 48.3604097752339,
+        "lon": 11.7048145917328,
         "name": "Pulling, Sommerstra\u00dfe",
         "station_id": "de:09178:9851:0:1"
       },
       {
         "lat": 48.3603500872895,
-        "lon": 11.7044193330077,
+        "lon": 11.7047876422743,
         "name": "Pulling, Sommerstra\u00dfe",
         "station_id": "de:09178:9851:0:2"
       }
@@ -69154,14 +70401,14 @@
     "station_id": "de:09178:9852",
     "sub_stations": [
       {
-        "lat": 48.363173250475,
-        "lon": 11.7074646218213,
+        "lat": 48.3632747143151,
+        "lon": 11.7075454701969,
         "name": "Pulling, Bahnhof (Badgasse)",
         "station_id": "de:09178:9852:0:1"
       },
       {
-        "lat": 48.3631075972943,
-        "lon": 11.7074017397514,
+        "lat": 48.3632687458595,
+        "lon": 11.7074466555157,
         "name": "Pulling, Bahnhof (Badgasse)",
         "station_id": "de:09178:9852:0:2"
       }
@@ -73199,7 +74446,14 @@
     "lon": 11.7423867360813,
     "name": "F\u00fcrstendamm",
     "station_id": "de:09178:9723",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.3970390046593,
+        "lon": 11.7423462043086,
+        "name": "Freising, F\u00fcrstendamm",
+        "station_id": "de:09178:9723:0:1"
+      }
+    ]
   },
   {
     "lat": 48.3971165095621,
@@ -73254,7 +74508,14 @@
     "lon": 11.7393045088916,
     "name": "Johannisstra\u00dfe",
     "station_id": "de:09178:9724",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.3976712374971,
+        "lon": 11.7393727807177,
+        "name": "Freising, Johannisstra\u00dfe",
+        "station_id": "de:09178:9724:0:1"
+      }
+    ]
   },
   {
     "lat": 48.3977190289628,
@@ -73624,7 +74885,14 @@
     "lon": 11.7416177883888,
     "name": "Kriegerdenkmal",
     "station_id": "de:09178:2854",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.3995738530698,
+        "lon": 11.741753316221,
+        "name": "Freising, Obere Hauptstra\u00dfe",
+        "station_id": "de:09178:2854:0:2"
+      }
+    ]
   },
   {
     "lat": 48.3998001951184,
@@ -73825,7 +75093,14 @@
     "lon": 11.7438548005424,
     "name": "Marienplatz",
     "station_id": "de:09178:2851",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4005400443925,
+        "lon": 11.7438643571389,
+        "name": "Freising, Marienplatz",
+        "station_id": "de:09178:2851:0:1"
+      }
+    ]
   },
   {
     "lat": 48.4005891418469,
@@ -73947,7 +75222,14 @@
     "lon": 11.741432861156,
     "name": "Ziegelgasse",
     "station_id": "de:09178:9872",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4013213338323,
+        "lon": 11.7415556868584,
+        "name": "Freising, Ziegelgasse",
+        "station_id": "de:09178:9872:0:1"
+      }
+    ]
   },
   {
     "lat": 48.4014811450821,
@@ -73997,16 +75279,16 @@
     "station_id": "de:09178:2853",
     "sub_stations": [
       {
-        "lat": 48.4011841617457,
-        "lon": 11.7486433944511,
-        "name": "Freising, Untere Hauptstra\u00dfe",
-        "station_id": "de:09178:2853:0:2"
-      },
-      {
         "lat": 48.401577785002,
         "lon": 11.7483559335602,
         "name": "Freising, Untere Hauptstra\u00dfe",
         "station_id": "de:09178:2853:0:1"
+      },
+      {
+        "lat": 48.4011841617457,
+        "lon": 11.7486433944511,
+        "name": "Freising, Untere Hauptstra\u00dfe",
+        "station_id": "de:09178:2853:0:2"
       }
     ]
   },
@@ -74071,6 +75353,26 @@
     ]
   },
   {
+    "lat": 48.4019952608848,
+    "lon": 11.9931737979753,
+    "name": "Wartenberg, Gartenstra\u00dfe",
+    "station_id": "de:09177:3811",
+    "sub_stations": [
+      {
+        "lat": 48.4020549000169,
+        "lon": 11.993021084377,
+        "name": "Wartenberg, Gartenstra\u00dfe",
+        "station_id": "de:09177:3811:0:1"
+      },
+      {
+        "lat": 48.4019177299085,
+        "lon": 11.9933534610322,
+        "name": "Wartenberg, Gartenstra\u00dfe",
+        "station_id": "de:09177:3811:0:2"
+      }
+    ]
+  },
+  {
     "lat": 48.4019983560444,
     "lon": 11.4124887027382,
     "name": "Fr\u00e4nking, Abzw.",
@@ -74107,6 +75409,18 @@
         "lon": 11.9904429195112,
         "name": "Wartenberg, Sonnenhof",
         "station_id": "de:09177:3392:0:2"
+      },
+      {
+        "lat": 48.4016433885819,
+        "lon": 11.9916197125336,
+        "name": "Wartenberg, Sonnenhof",
+        "station_id": "gen:09177:3392:0:3"
+      },
+      {
+        "lat": 48.4017030281266,
+        "lon": 11.9914669989353,
+        "name": "Wartenberg, Sonnenhof",
+        "station_id": "gen:09177:3392:0:4"
       }
     ]
   },
@@ -74792,7 +76106,14 @@
     "lon": 11.7540790646902,
     "name": "Schule Neustift",
     "station_id": "de:09178:2887",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4059790012347,
+        "lon": 11.7540871850736,
+        "name": "Freising, Schule Neustift",
+        "station_id": "de:09178:2887:0:1"
+      }
+    ]
   },
   {
     "lat": 48.4060256413004,
@@ -75295,14 +76616,14 @@
     "station_id": "de:09174:7176",
     "sub_stations": [
       {
-        "lat": 48.4091753097813,
-        "lon": 11.4679288512775,
+        "lat": 48.410248651921,
+        "lon": 11.4654944168572,
         "name": "Petershausen, Jetzendorfer Str",
         "station_id": "de:09174:7176:0:1"
       },
       {
-        "lat": 48.4092587927602,
-        "lon": 11.467955800736,
+        "lat": 48.410278466657,
+        "lon": 11.4655123831629,
         "name": "Petershausen, Jetzendorfer Str",
         "station_id": "de:09174:7176:0:2"
       }
@@ -75509,6 +76830,12 @@
     "name": "Prechtlstra\u00dfe",
     "station_id": "de:09178:9401",
     "sub_stations": [
+      {
+        "lat": 48.4102069112611,
+        "lon": 11.7412502596618,
+        "name": "Freising, Prechtlstra\u00dfe",
+        "station_id": "de:09178:9401:0:1"
+      },
       {
         "lat": 48.4103500219522,
         "lon": 11.7408729672424,
@@ -75849,7 +77176,7 @@
       {
         "lat": 48.4126039622101,
         "lon": 11.4699231112085,
-        "name": "Petershausen",
+        "name": "Petershausen, Ost",
         "station_id": "de:09174:6840:1:1"
       }
     ]
@@ -75871,6 +77198,20 @@
         "lon": 11.7578421429618,
         "name": "Freising, Moltkestra\u00dfe",
         "station_id": "de:09178:2894:0:2"
+      }
+    ]
+  },
+  {
+    "lat": 48.4126039622101,
+    "lon": 11.4699141280557,
+    "name": "Petershausen (S) Ost",
+    "station_id": "de:09174:7399",
+    "sub_stations": [
+      {
+        "lat": 48.4126039622101,
+        "lon": 11.4699141280557,
+        "name": "Petershausen (S) Ost",
+        "station_id": "de:09174:7399:1:1"
       }
     ]
   },
@@ -76043,14 +77384,20 @@
       {
         "lat": 48.4131763755732,
         "lon": 11.46904276223,
-        "name": "Petershausen P+R-Platz",
+        "name": "Petershausen, West",
         "station_id": "de:09174:7167:0:1"
       },
       {
         "lat": 48.4132717771739,
         "lon": 11.4691864926755,
-        "name": "Petershausen P+R-Platz",
+        "name": "Petershausen, West",
         "station_id": "de:09174:7167:0:2"
+      },
+      {
+        "lat": 48.4133015901374,
+        "lon": 11.4692224252868,
+        "name": "Petershausen, West",
+        "station_id": "de:09174:7167:0:3"
       }
     ]
   },
@@ -77274,7 +78621,7 @@
     "station_id": "de:09178:2667",
     "sub_stations": [
       {
-        "lat": 48.4286171789948,
+        "lat": 48.4285873750125,
         "lon": 11.5852218779413,
         "name": "Oberallershausen, Staatsstr.",
         "station_id": "de:09178:2667:0:1"
@@ -77439,7 +78786,20 @@
     "lon": 12.0433831637979,
     "name": "Thann",
     "station_id": "de:09274:81371",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4294278406092,
+        "lon": 12.0440094599107,
+        "name": "Thann",
+        "station_id": "de:09274:81371:0:1"
+      },
+      {
+        "lat": 48.4296066612833,
+        "lon": 12.0438477631596,
+        "name": "Thann",
+        "station_id": "de:09274:81371:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4298156702292,
@@ -78095,7 +79455,40 @@
     "lon": 12.0397390368122,
     "name": "Holzh\u00e4useln, Abzw.",
     "station_id": "de:09274:81368",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.43513190998,
+        "lon": 12.0399490748259,
+        "name": "Holzh\u00e4useln",
+        "station_id": "de:09274:81368:0:1"
+      },
+      {
+        "lat": 48.4350842297134,
+        "lon": 12.0397783949219,
+        "name": "Holzh\u00e4useln",
+        "station_id": "de:09274:81368:0:2"
+      }
+    ]
+  },
+  {
+    "lat": 48.4352034302959,
+    "lon": 11.6886359334636,
+    "name": "Hahnbach",
+    "station_id": "de:09178:3537",
+    "sub_stations": [
+      {
+        "lat": 48.4352451504336,
+        "lon": 11.6886269503107,
+        "name": "Hahnbach",
+        "station_id": "de:09178:3537:0:1"
+      },
+      {
+        "lat": 48.4352213103591,
+        "lon": 11.6885820345465,
+        "name": "Hahnbach",
+        "station_id": "de:09178:3537:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4352713038444,
@@ -78537,7 +79930,20 @@
     "lon": 12.0375416448825,
     "name": "Am Metzgerfeld",
     "station_id": "de:09274:80516",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4412584519271,
+        "lon": 12.0382243094802,
+        "name": "Buch a Erlbach, Am Metzgerfeld",
+        "station_id": "de:09274:80516:0:1"
+      },
+      {
+        "lat": 48.441461068124,
+        "lon": 12.0379907475063,
+        "name": "Buch a Erlbach, Am Metzgerfeld",
+        "station_id": "de:09274:80516:0:2"
+      }
+    ]
   },
   {
     "lat": 48.442682733564,
@@ -78618,14 +80024,40 @@
     "lon": 12.0365035186731,
     "name": "Kirchgasse",
     "station_id": "de:09274:80519",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4456621924364,
+        "lon": 12.0368319207896,
+        "name": "Buch a Erlbach, Kirchgasse",
+        "station_id": "de:09274:80519:0:1"
+      },
+      {
+        "lat": 48.4454476753586,
+        "lon": 12.0367061566498,
+        "name": "Buch a Erlbach, Kirchgasse",
+        "station_id": "de:09274:80519:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4492818682083,
     "lon": 12.0336671297977,
     "name": "Erlbacher Str.",
     "station_id": "de:09274:81118",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4480694886165,
+        "lon": 12.034586132579,
+        "name": "Buch a Erlbach, Erlbacher Str.",
+        "station_id": "de:09274:81118:0:1"
+      },
+      {
+        "lat": 48.4480814056405,
+        "lon": 12.0348466440114,
+        "name": "Buch a Erlbach, Erlbacher Str.",
+        "station_id": "de:09274:81118:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4495792657163,
@@ -78638,6 +80070,26 @@
         "lon": 11.9026146341706,
         "name": "Thonstetten",
         "station_id": "de:09178:9485:0:95"
+      }
+    ]
+  },
+  {
+    "lat": 48.4496544282582,
+    "lon": 12.0317654225865,
+    "name": "Buch am Erlbach, Abzw. Einberg",
+    "station_id": "de:09274:81366",
+    "sub_stations": [
+      {
+        "lat": 48.4497259281286,
+        "lon": 12.0317654225865,
+        "name": "Buch am Erlbach, Abzw. Einberg",
+        "station_id": "de:09274:81366:0:1"
+      },
+      {
+        "lat": 48.4496008032894,
+        "lon": 12.0317564394336,
+        "name": "Buch am Erlbach, Abzw. Einberg",
+        "station_id": "de:09274:81366:0:2"
       }
     ]
   },
@@ -78678,6 +80130,12 @@
         "lon": 11.6072845013224,
         "name": "Aiterbach, Abzw.",
         "station_id": "de:09178:2873:0:2"
+      },
+      {
+        "lat": 48.4511916532849,
+        "lon": 11.6068982257502,
+        "name": "Aiterbach, Abzw.",
+        "station_id": "de:09178:2873:0:3"
       }
     ]
   },
@@ -78686,7 +80144,20 @@
     "lon": 12.0277744121069,
     "name": "Stenzel",
     "station_id": "de:09274:81363",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4513286904661,
+        "lon": 12.0279475826284,
+        "name": "Buch a Erlbach, Stenzel",
+        "station_id": "de:09274:81363:0:1"
+      },
+      {
+        "lat": 48.4504766706891,
+        "lon": 12.0290525104281,
+        "name": "Buch a Erlbach, Stenzel",
+        "station_id": "de:09274:81363:0:2"
+      }
+    ]
   },
   {
     "lat": 48.45174183113,
@@ -78807,7 +80278,20 @@
     "lon": 12.0224093303901,
     "name": "Abzw. Brunnenstra\u00dfe",
     "station_id": "de:09274:81364",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4550702584191,
+        "lon": 12.0227553202855,
+        "name": "Buch a Erlbach, Abzw. Brunnenstr",
+        "station_id": "de:09274:81364:0:1"
+      },
+      {
+        "lat": 48.4550345122591,
+        "lon": 12.0226295561457,
+        "name": "Buch a Erlbach, Abzw. Brunnenstr",
+        "station_id": "de:09274:81364:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4564337273153,
@@ -78854,7 +80338,20 @@
     "lon": 12.0195439779485,
     "name": "Flurstra\u00dfe",
     "station_id": "de:09274:28008",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4581919926486,
+        "lon": 12.0171677992175,
+        "name": "Niedererlbach, Flurstra\u00dfe",
+        "station_id": "de:09274:28008:0:1"
+      },
+      {
+        "lat": 48.4581383766961,
+        "lon": 12.0170779676891,
+        "name": "Niedererlbach, Flurstra\u00dfe",
+        "station_id": "de:09274:28008:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4576608579169,
@@ -79043,7 +80540,20 @@
     "lon": 12.013149453628,
     "name": "Bergweg",
     "station_id": "de:09274:81369",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4592881285978,
+        "lon": 12.0123438461411,
+        "name": "Niedererlbach, Bergweg",
+        "station_id": "de:09274:81369:0:1"
+      },
+      {
+        "lat": 48.4591928133679,
+        "lon": 12.0122090988485,
+        "name": "Niedererlbach, Bergweg",
+        "station_id": "de:09274:81369:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4597901601532,
@@ -79104,14 +80614,40 @@
     "lon": 12.0082687001533,
     "name": "Am Schulfang",
     "station_id": "de:09274:70025",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.460753577729,
+        "lon": 12.0081666800694,
+        "name": "Niedererlbach, Am Schulfang",
+        "station_id": "de:09274:70025:0:1"
+      },
+      {
+        "lat": 48.4607476207043,
+        "lon": 12.0079690507068,
+        "name": "Niedererlbach, Am Schulfang",
+        "station_id": "de:09274:70025:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4608420921706,
     "lon": 11.9865538382578,
     "name": "Mitte",
     "station_id": "de:09178:9888",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4602531852213,
+        "lon": 11.9878557714926,
+        "name": "Aich, Mitte",
+        "station_id": "de:09178:9888:0:1"
+      },
+      {
+        "lat": 48.4599970300049,
+        "lon": 11.9878557714926,
+        "name": "Aich, Mitte",
+        "station_id": "de:09178:9888:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4612040327188,
@@ -79138,7 +80674,20 @@
     "lon": 11.9837006953211,
     "name": "Preisingerlohweg",
     "station_id": "de:09178:9889",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4615279849811,
+        "lon": 11.9836426728095,
+        "name": "Aich, Preisingerlohweg",
+        "station_id": "de:09178:9889:0:1"
+      },
+      {
+        "lat": 48.4615041572418,
+        "lon": 11.9831396162503,
+        "name": "Aich, Preisingerlohweg",
+        "station_id": "de:09178:9889:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4615181299364,
@@ -79335,7 +80884,20 @@
     "lon": 11.9635782524343,
     "name": "Holzlandstra\u00dfe",
     "station_id": "de:09178:9488",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4655785380815,
+        "lon": 11.9638078713334,
+        "name": "Moosburg, Holzlandstra\u00dfe",
+        "station_id": "de:09178:9488:0:1"
+      },
+      {
+        "lat": 48.4655904509962,
+        "lon": 11.9637090566521,
+        "name": "Moosburg, Holzlandstra\u00dfe",
+        "station_id": "de:09178:9488:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4654208066673,
@@ -79595,7 +81157,20 @@
     "lon": 11.9653867197394,
     "name": "Degernpoint Nord",
     "station_id": "de:09178:9487",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4709271555482,
+        "lon": 11.964625338242,
+        "name": "Moosburg, Degernpoint Nord",
+        "station_id": "de:09178:9487:0:1"
+      },
+      {
+        "lat": 48.4708675972103,
+        "lon": 11.964742119229,
+        "name": "Moosburg, Degernpoint Nord",
+        "station_id": "de:09178:9487:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4712064912302,
@@ -79689,7 +81264,20 @@
     "lon": 11.9651003174303,
     "name": "Uppenbornstra\u00dfe",
     "station_id": "de:09178:9421",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.47464941295,
+        "lon": 11.9653889062336,
+        "name": "Volkmannsdorferau, Uppenbornstra\u00dfe",
+        "station_id": "de:09178:9421:0:1"
+      },
+      {
+        "lat": 48.4739585826134,
+        "lon": 11.9647600855347,
+        "name": "Volkmannsdorferau, Uppenbornstra\u00dfe",
+        "station_id": "de:09178:9421:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4744849719476,
@@ -79807,20 +81395,20 @@
     ]
   },
   {
-    "lat": 48.4777758981443,
-    "lon": 11.9300671492571,
+    "lat": 48.4776984827421,
+    "lon": 11.9301839302441,
     "name": "Moosburg, Amperaustra\u00dfe",
     "station_id": "de:09178:9489",
     "sub_stations": [
       {
-        "lat": 48.4778414033924,
-        "lon": 11.9300581661043,
+        "lat": 48.4780855585719,
+        "lon": 11.9299773177287,
         "name": "Moosburg, Amperaustra\u00dfe",
         "station_id": "de:09178:9489:0:1"
       },
       {
-        "lat": 48.4777044377772,
-        "lon": 11.9300851155628,
+        "lat": 48.4769005017112,
+        "lon": 11.9305791889692,
         "name": "Moosburg, Amperaustra\u00dfe",
         "station_id": "de:09178:9489:0:2"
       }
@@ -80100,20 +81688,14 @@
     "station_id": "de:09178:3078",
     "sub_stations": [
       {
-        "lat": 48.4831291843986,
-        "lon": 11.6983646879919,
-        "name": "Billingsdorf, J\u00e4gersdorfer Str",
-        "station_id": "de:09178:3078:0:1"
-      },
-      {
-        "lat": 48.4828552813522,
-        "lon": 11.6985982499658,
+        "lat": 48.4828255091928,
+        "lon": 11.6985802836602,
         "name": "Billingsdorf, J\u00e4gersdorfer Str",
         "station_id": "de:09178:3078:0:2"
       },
       {
-        "lat": 48.4827778737014,
-        "lon": 11.6983646879919,
+        "lat": 48.4828314636261,
+        "lon": 11.6984096037562,
         "name": "Billingsdorf, J\u00e4gersdorfer Str",
         "station_id": "de:09178:3078:0:3"
       }
@@ -80164,7 +81746,20 @@
     "lon": 11.9613871855462,
     "name": "Gasthaus Gandorfer",
     "station_id": "de:09178:9451",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4824980142862,
+        "lon": 11.9614003863716,
+        "name": "Volkmannsdorferau, Gasthaus Gandorfer",
+        "station_id": "de:09178:9451:0:1"
+      },
+      {
+        "lat": 48.4820037906965,
+        "lon": 11.9616339483455,
+        "name": "Volkmannsdorferau, Gasthaus Gandorfer",
+        "station_id": "de:09178:9451:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4848622232743,
@@ -80213,14 +81808,14 @@
     "station_id": "de:09178:3094",
     "sub_stations": [
       {
-        "lat": 48.4849928767239,
-        "lon": 11.7006284425082,
+        "lat": 48.4838377528082,
+        "lon": 11.6983377385334,
         "name": "Billingsdorf, Wolframstra\u00dfe",
         "station_id": "de:09178:3094:0:1"
       },
       {
-        "lat": 48.4849333348971,
-        "lon": 11.7007092908838,
+        "lat": 48.4831589563797,
+        "lon": 11.6983467216863,
         "name": "Billingsdorf, Wolframstra\u00dfe",
         "station_id": "de:09178:3094:0:2"
       }
@@ -80393,7 +81988,20 @@
     "lon": 11.9653723660605,
     "name": "Weidenstra\u00dfe",
     "station_id": "de:09178:9425",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4921016684074,
+        "lon": 11.9654877209149,
+        "name": "Volkmannsdorferau, Weidenstra\u00dfe",
+        "station_id": "de:09178:9425:0:1"
+      },
+      {
+        "lat": 48.4919885547342,
+        "lon": 11.9655865355962,
+        "name": "Volkmannsdorferau, Weidenstra\u00dfe",
+        "station_id": "de:09178:9425:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4934934729165,
@@ -80447,7 +82055,20 @@
     "lon": 11.9357262095705,
     "name": "Aselm\u00fchle",
     "station_id": "de:09178:9438",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4951318302507,
+        "lon": 11.9322680217035,
+        "name": "Wang, Aselm\u00fchle",
+        "station_id": "de:09178:9438:0:1"
+      },
+      {
+        "lat": 48.4950306293402,
+        "lon": 11.9321692070223,
+        "name": "Wang, Aselm\u00fchle",
+        "station_id": "de:09178:9438:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4956262000518,
@@ -80474,7 +82095,20 @@
     "lon": 11.9386205129473,
     "name": "Schlo\u00dfbreiten",
     "station_id": "de:09178:9435",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4957568902211,
+        "lon": 11.9387358917501,
+        "name": "Wang, Schlo\u00dfbreiten",
+        "station_id": "de:09178:9435:0:1"
+      },
+      {
+        "lat": 48.4956497376306,
+        "lon": 11.9387718243615,
+        "name": "Wang, Schlo\u00dfbreiten",
+        "station_id": "de:09178:9435:0:2"
+      }
+    ]
   },
   {
     "lat": 48.4964939192583,
@@ -80615,7 +82249,20 @@
     "lon": 11.9539328632016,
     "name": "Gemeindekanzlei",
     "station_id": "de:09178:9433",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.4997094719609,
+        "lon": 11.9529921553111,
+        "name": "Volkmannsdorf, Gemeindekanzlei",
+        "station_id": "de:09178:9433:0:1"
+      },
+      {
+        "lat": 48.5000725701888,
+        "lon": 11.9540072515823,
+        "name": "Volkmannsdorf, Gemeindekanzlei",
+        "station_id": "de:09178:9433:0:2"
+      }
+    ]
   },
   {
     "lat": 48.5001553369176,
@@ -80642,7 +82289,20 @@
     "lon": 11.9552713487981,
     "name": "Geiglbergstra\u00dfe",
     "station_id": "de:09178:9432",
-    "sub_stations": []
+    "sub_stations": [
+      {
+        "lat": 48.5015249370922,
+        "lon": 11.9550942130762,
+        "name": "Volkmannsdorf, Geiglbergstra\u00dfe",
+        "station_id": "de:09178:9432:0:1"
+      },
+      {
+        "lat": 48.501471366921,
+        "lon": 11.9554176065785,
+        "name": "Volkmannsdorf, Geiglbergstra\u00dfe",
+        "station_id": "de:09178:9432:0:2"
+      }
+    ]
   },
   {
     "lat": 48.5016543340863,
@@ -81971,6 +83631,12 @@
         "lon": 11.751787497946,
         "name": "K\u00fcrzling",
         "station_id": "de:09178:3035:0:1"
+      },
+      {
+        "lat": 48.5460281257677,
+        "lon": 11.7516078348891,
+        "name": "K\u00fcrzling",
+        "station_id": "de:09178:3035:0:2"
       }
     ]
   },
@@ -82346,6 +84012,12 @@
         "lon": 11.742436035837,
         "name": "Au, Rathaus",
         "station_id": "de:09178:2978:0:1"
+      },
+      {
+        "lat": 48.5575164456059,
+        "lon": 11.7424090863785,
+        "name": "Au, Rathaus",
+        "station_id": "de:09178:2978:0:2"
       }
     ]
   },

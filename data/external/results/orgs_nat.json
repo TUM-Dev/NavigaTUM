@@ -1,4 +1,14 @@
 {
+  "1": {
+    "org_code": "TU00000",
+    "org_name": {
+      "de": "Technische Universit\u00e4t M\u00fcnchen",
+      "en": ""
+    },
+    "org_type": "Universit\u00e4t",
+    "org_url": "https://www.tum.de/",
+    "school": null
+  },
   "13946": {
     "org_code": "TUPR000",
     "org_name": {
@@ -33,7 +43,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Mathematik",
         "en": "Former TUM Department of Mathematics"
-      }
+      },
+      "org_url": "http://www.ma.tum.de"
     }
   },
   "14179": {
@@ -50,7 +61,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Physik",
         "en": "Former TUM Department of Physics"
-      }
+      },
+      "org_url": "https://www.ph.tum.de/"
     }
   },
   "14180": {
@@ -67,7 +79,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Chemie",
         "en": "Former TUM Department of Chemistry"
-      }
+      },
+      "org_url": "http://www.ch.tum.de"
     }
   },
   "14181": {
@@ -84,7 +97,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Wirtschaftswissenschaften",
         "en": "Former TUM Department of Management"
-      }
+      },
+      "org_url": "http://www.wi.tum.de"
     }
   },
   "14184": {
@@ -101,7 +115,8 @@
       "org_name": {
         "de": "Ehemalige Ingenieurfakult\u00e4t Bau Geo Umwelt",
         "en": "Former TUM Department of Civil, Geo and Environmental Engineering"
-      }
+      },
+      "org_url": "http://www.bgu.tum.de"
     }
   },
   "14185": {
@@ -118,7 +133,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Architektur",
         "en": "Former TUM Department of Architecture"
-      }
+      },
+      "org_url": "http://www.ar.tum.de"
     }
   },
   "14187": {
@@ -135,7 +151,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Maschinenwesen",
         "en": "Former TUM Department of Mechanical Engineering"
-      }
+      },
+      "org_url": "http://www.mw.tum.de"
     }
   },
   "14188": {
@@ -152,7 +169,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Elektrotechnik und Informationstechnik",
         "en": "Former TUM Department of Electrical and Computer Engineering"
-      }
+      },
+      "org_url": "http://www.ei.tum.de"
     }
   },
   "14189": {
@@ -169,7 +187,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Informatik",
         "en": "Former TUM Department of Informatics"
-      }
+      },
+      "org_url": "http://www.in.tum.de"
     }
   },
   "14190": {
@@ -186,14 +205,15 @@
       "org_name": {
         "de": "Ehemaliges Wissenschaftszentrum Weihenstephan f\u00fcr Ern\u00e4hrung, Landnutzung und Umwelt",
         "en": "Former TUM Department of Life Sciences Weihenstephan"
-      }
+      },
+      "org_url": "http://www.wzw.tum.de"
     }
   },
   "14191": {
     "org_code": "TUMEFME",
     "org_name": {
-      "de": "Fakult\u00e4t f\u00fcr Medizin",
-      "en": "TUM Department of Medicine"
+      "de": "Ehemalige Fakult\u00e4t f\u00fcr Medizin",
+      "en": "Former TUM Department of Medicine"
     },
     "org_type": "Fakult\u00e4t",
     "org_url": "http://www.med.tum.de",
@@ -201,16 +221,17 @@
       "org_code": "TUMEFME",
       "org_id": 14191,
       "org_name": {
-        "de": "Fakult\u00e4t f\u00fcr Medizin",
-        "en": "TUM Department of Medicine"
-      }
+        "de": "Ehemalige Fakult\u00e4t f\u00fcr Medizin",
+        "en": "Former TUM Department of Medicine"
+      },
+      "org_url": "http://www.med.tum.de"
     }
   },
   "14195": {
     "org_code": "TUSPFSP",
     "org_name": {
-      "de": "Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften",
-      "en": "TUM Department of Sport and Health Sciences"
+      "de": "Ehemalige Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften",
+      "en": "Former TUM Department of Sport and Health Sciences"
     },
     "org_type": "Fakult\u00e4t",
     "org_url": "http://www.sg.tum.de",
@@ -218,26 +239,10 @@
       "org_code": "TUSPFSP",
       "org_id": 14195,
       "org_name": {
-        "de": "Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften",
-        "en": "TUM Department of Sport and Health Sciences"
-      }
-    }
-  },
-  "14208": {
-    "org_code": "TUMAZMA",
-    "org_name": {
-      "de": "Zentrum Mathematik",
-      "en": "Research Department Mathematics Centre"
-    },
-    "org_type": "Forschungsdepartment",
-    "org_url": null,
-    "school": {
-      "org_code": "TUMAFMA",
-      "org_id": 14178,
-      "org_name": {
-        "de": "Ehemalige Fakult\u00e4t f\u00fcr Mathematik",
-        "en": "Former TUM Department of Mathematics"
-      }
+        "de": "Ehemalige Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften",
+        "en": "Former TUM Department of Sport and Health Sciences"
+      },
+      "org_url": "http://www.sg.tum.de"
     }
   },
   "14212": {
@@ -254,7 +259,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Physik",
         "en": "Former TUM Department of Physics"
-      }
+      },
+      "org_url": "https://www.ph.tum.de/"
     }
   },
   "14213": {
@@ -271,7 +277,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Physik",
         "en": "Former TUM Department of Physics"
-      }
+      },
+      "org_url": "https://www.ph.tum.de/"
     }
   },
   "14214": {
@@ -288,7 +295,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Physik",
         "en": "Former TUM Department of Physics"
-      }
+      },
+      "org_url": "https://www.ph.tum.de/"
     }
   },
   "14215": {
@@ -305,7 +313,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Physik",
         "en": "Former TUM Department of Physics"
-      }
+      },
+      "org_url": "https://www.ph.tum.de/"
     }
   },
   "14217": {
@@ -322,7 +331,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Physik",
         "en": "Former TUM Department of Physics"
-      }
+      },
+      "org_url": "https://www.ph.tum.de/"
     }
   },
   "14228": {
@@ -336,7 +346,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14411": {
@@ -390,7 +401,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "14583": {
@@ -404,7 +416,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "14596": {
@@ -418,7 +431,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "14597": {
@@ -432,7 +446,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "14598": {
@@ -446,7 +461,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "14599": {
@@ -460,7 +476,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "14600": {
@@ -474,7 +491,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "14602": {
@@ -488,7 +506,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "14603": {
@@ -502,7 +521,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "14604": {
@@ -516,7 +536,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "14605": {
@@ -530,7 +551,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "14607": {
@@ -544,7 +566,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "14684": {
@@ -558,7 +581,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14692": {
@@ -572,7 +596,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14706": {
@@ -586,7 +611,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14711": {
@@ -600,7 +626,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14712": {
@@ -614,7 +641,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14713": {
@@ -628,7 +656,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14714": {
@@ -642,7 +671,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14715": {
@@ -656,7 +686,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14722": {
@@ -670,7 +701,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14733": {
@@ -684,7 +716,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14734": {
@@ -698,7 +731,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14823": {
@@ -712,7 +746,8 @@
     "school": {
       "org_code": "TUS6000",
       "org_id": 51900,
-      "org_name": "TUM School of Management"
+      "org_name": "TUM School of Management",
+      "org_url": "www.mgt.tum.de"
     }
   },
   "14874": {
@@ -726,7 +761,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "14881": {
@@ -740,7 +776,8 @@
     "school": {
       "org_code": "TUS6000",
       "org_id": 51900,
-      "org_name": "TUM School of Management"
+      "org_name": "TUM School of Management",
+      "org_url": "www.mgt.tum.de"
     }
   },
   "14927": {
@@ -754,7 +791,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "14945": {
@@ -768,7 +806,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "14947": {
@@ -782,7 +821,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "14991": {
@@ -796,7 +836,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15074": {
@@ -810,7 +851,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15098": {
@@ -824,7 +866,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15101": {
@@ -838,7 +881,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15103": {
@@ -852,7 +896,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15187": {
@@ -866,7 +911,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15200": {
@@ -880,13 +926,14 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15220": {
     "org_code": "TUARL23",
     "org_name": {
-      "de": "Lehrstuhl f\u00fcr Landschaftsarchitektur und -transformation (Prof. Weilacher)",
+      "de": "Lehrstuhl f\u00fcr Landschaftsarchitektur und Transformation (Prof. Weilacher)",
       "en": "Chair of Landscape Architecture and Transformation (Prof. Weilacher)"
     },
     "org_type": "Lehrstuhl",
@@ -894,7 +941,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15252": {
@@ -911,7 +959,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Maschinenwesen",
         "en": "Former TUM Department of Mechanical Engineering"
-      }
+      },
+      "org_url": "http://www.mw.tum.de"
     }
   },
   "15268": {
@@ -925,7 +974,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15270": {
@@ -939,7 +989,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15271": {
@@ -953,7 +1004,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15272": {
@@ -967,7 +1019,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15276": {
@@ -981,7 +1034,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15277": {
@@ -995,7 +1049,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15278": {
@@ -1009,7 +1064,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15279": {
@@ -1023,7 +1079,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15284": {
@@ -1037,7 +1094,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15285": {
@@ -1051,7 +1109,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15286": {
@@ -1065,7 +1124,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15294": {
@@ -1079,7 +1139,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15298": {
@@ -1093,7 +1154,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15299": {
@@ -1107,7 +1169,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15300": {
@@ -1121,7 +1184,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15304": {
@@ -1135,7 +1199,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15305": {
@@ -1149,7 +1214,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15307": {
@@ -1163,7 +1229,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15308": {
@@ -1177,7 +1244,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15309": {
@@ -1191,21 +1259,23 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15315": {
     "org_code": "TUMWLTD",
     "org_name": {
-      "de": "Lehrstuhl f\u00fcr Thermodynamics and Heat Transfer (Prof. Wen)",
-      "en": "Chair of Thermodynamics and Heat Transfer (Prof. Wen)"
+      "de": "Lehrstuhl f\u00fcr Thermodynamik (Prof. Wen)",
+      "en": "Chair of Thermodynamics (Prof. Wen)"
     },
     "org_type": "Lehrstuhl",
     "org_url": "https://www.epc.ed.tum.de/td/startseite/",
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15316": {
@@ -1219,7 +1289,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15318": {
@@ -1233,7 +1304,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15319": {
@@ -1247,7 +1319,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15355": {
@@ -1261,7 +1334,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15356": {
@@ -1275,7 +1349,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15358": {
@@ -1289,7 +1364,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "15364": {
@@ -1303,7 +1379,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15365": {
@@ -1317,7 +1394,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15366": {
@@ -1331,7 +1409,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15367": {
@@ -1345,7 +1424,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15368": {
@@ -1359,7 +1439,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15370": {
@@ -1373,21 +1454,23 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15376": {
     "org_code": "TUEITEP",
     "org_name": {
-      "de": "Lehrstuhl f\u00fcr Technische Elektrophysik (Prof. Schrag komm.)",
-      "en": "Chair of Physics of Electrotechnology (Prof. Schrag komm.)"
+      "de": "Professur f\u00fcr Microsensors and Actuators (Prof. Schrag)",
+      "en": "Associate Professorship of Microsensors and Actuators (Prof. Schrag)"
     },
-    "org_type": "Lehrstuhl",
+    "org_type": "Professur",
     "org_url": "www.tep.ei.tum.de",
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15379": {
@@ -1401,7 +1484,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15392": {
@@ -1415,7 +1499,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15393": {
@@ -1429,7 +1514,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15394": {
@@ -1443,7 +1529,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15395": {
@@ -1457,7 +1544,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15396": {
@@ -1471,7 +1559,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15403": {
@@ -1485,7 +1574,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15405": {
@@ -1499,7 +1589,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15426": {
@@ -1513,7 +1604,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15427": {
@@ -1527,7 +1619,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15428": {
@@ -1541,7 +1634,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15430": {
@@ -1555,7 +1649,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15431": {
@@ -1569,7 +1664,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15432": {
@@ -1583,7 +1679,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15433": {
@@ -1597,7 +1694,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15434": {
@@ -1611,7 +1709,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15435": {
@@ -1625,7 +1724,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15436": {
@@ -1639,7 +1739,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15437": {
@@ -1653,7 +1754,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15438": {
@@ -1667,7 +1769,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15439": {
@@ -1681,7 +1784,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15440": {
@@ -1691,11 +1795,12 @@
       "en": "Informatics 15 - Chair of Computer Graphics and Visualization (Prof. Westermann)"
     },
     "org_type": "Lehrstuhl",
-    "org_url": "www15.in.tum.de",
+    "org_url": "https://www.cs.cit.tum.de/cg",
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15441": {
@@ -1709,7 +1814,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15442": {
@@ -1723,7 +1829,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15443": {
@@ -1737,7 +1844,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15444": {
@@ -1751,7 +1859,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "15556": {
@@ -1765,7 +1874,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "15561": {
@@ -1779,7 +1889,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "15563": {
@@ -1793,7 +1904,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "15575": {
@@ -1807,7 +1919,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "15578": {
@@ -1821,7 +1934,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "15579": {
@@ -1835,7 +1949,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "15605": {
@@ -1849,7 +1964,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "15607": {
@@ -1863,7 +1979,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "15636": {
@@ -1877,7 +1994,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "15645": {
@@ -1891,7 +2009,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "15646": {
@@ -1905,7 +2024,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "16053": {
@@ -1917,12 +2037,10 @@
     "org_type": "Lehrstuhl",
     "org_url": "www.mikrobio.med.tum.de/",
     "school": {
-      "org_code": "TUMEFME",
-      "org_id": 14191,
-      "org_name": {
-        "de": "Fakult\u00e4t f\u00fcr Medizin",
-        "en": "TUM Department of Medicine"
-      }
+      "org_code": "TUS5000",
+      "org_id": 51899,
+      "org_name": "TUM School of Medicine and Health",
+      "org_url": null
     }
   },
   "16130": {
@@ -1934,12 +2052,10 @@
     "org_type": "Lehrstuhl",
     "org_url": "www.gesundheit.sp.tum.de",
     "school": {
-      "org_code": "TUSPFSP",
-      "org_id": 14195,
-      "org_name": {
-        "de": "Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften",
-        "en": "TUM Department of Sport and Health Sciences"
-      }
+      "org_code": "TUS5000",
+      "org_id": 51899,
+      "org_name": "TUM School of Medicine and Health",
+      "org_url": null
     }
   },
   "16134": {
@@ -1953,7 +2069,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "16201": {
@@ -1967,7 +2084,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "16202": {
@@ -1981,7 +2099,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "16203": {
@@ -1995,7 +2114,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "16205": {
@@ -2009,7 +2129,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "16206": {
@@ -2023,7 +2144,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "16208": {
@@ -2037,7 +2159,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "16209": {
@@ -2054,7 +2177,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Physik",
         "en": "Former TUM Department of Physics"
-      }
+      },
+      "org_url": "https://www.ph.tum.de/"
     }
   },
   "16210": {
@@ -2068,7 +2192,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "16213": {
@@ -2082,7 +2207,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "16214": {
@@ -2096,7 +2222,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "16218": {
@@ -2110,7 +2237,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "16219": {
@@ -2127,7 +2255,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Physik",
         "en": "Former TUM Department of Physics"
-      }
+      },
+      "org_url": "https://www.ph.tum.de/"
     }
   },
   "16343": {
@@ -2221,7 +2350,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "19642": {
@@ -2305,7 +2435,8 @@
     "school": {
       "org_code": "TUS7000",
       "org_id": 51901,
-      "org_name": "TUM School of Social Sciences and Technology"
+      "org_name": "TUM School of Social Sciences and Technology",
+      "org_url": "https://www.sot.tum.de/"
     }
   },
   "19701": {
@@ -2369,7 +2500,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "21511": {
@@ -2386,21 +2518,23 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Physik",
         "en": "Former TUM Department of Physics"
-      }
+      },
+      "org_url": "https://www.ph.tum.de/"
     }
   },
   "21512": {
     "org_code": "TUPHE62",
     "org_name": {
-      "de": "Professur f\u00fcr Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti)",
-      "en": "Associate Professorship of Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti)"
+      "de": "Lehrstuhl f\u00fcr Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti)",
+      "en": "Chair of Experimentalphysik - Dense and Strange Hadronic Matter (Prof. Fabbietti)"
     },
-    "org_type": "Professur",
+    "org_type": "Lehrstuhl",
     "org_url": "www.denseandstrange.ph.tum.de/",
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "21527": {
@@ -2414,7 +2548,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "21548": {
@@ -2428,7 +2563,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "21554": {
@@ -2442,7 +2578,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "21569": {
@@ -2456,7 +2593,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "22510": {
@@ -2470,7 +2608,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "23046": {
@@ -2484,7 +2623,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "23182": {
@@ -2501,7 +2641,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Chemie",
         "en": "Former TUM Department of Chemistry"
-      }
+      },
+      "org_url": "http://www.ch.tum.de"
     }
   },
   "23183": {
@@ -2515,7 +2656,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "23184": {
@@ -2529,7 +2671,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "23185": {
@@ -2543,7 +2686,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "24074": {
@@ -2557,7 +2701,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "24207": {
@@ -2571,7 +2716,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "24472": {
@@ -2585,7 +2731,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "24659": {
@@ -2599,7 +2746,8 @@
     "school": {
       "org_code": "TUS7000",
       "org_id": 51901,
-      "org_name": "TUM School of Social Sciences and Technology"
+      "org_name": "TUM School of Social Sciences and Technology",
+      "org_url": "https://www.sot.tum.de/"
     }
   },
   "24670": {
@@ -2613,7 +2761,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "24777": {
@@ -2627,7 +2776,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "25918": {
@@ -2764,7 +2914,8 @@
       "org_name": {
         "de": "TUM Sprachenzentrum",
         "en": "TUM Language Center"
-      }
+      },
+      "org_url": "http://www.sprachenzentrum.tum.de/"
     }
   },
   "26729": {
@@ -2828,7 +2979,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "29165": {
@@ -2872,7 +3024,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "31224": {
@@ -2889,7 +3042,8 @@
       "org_name": {
         "de": "TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)",
         "en": "TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)"
-      }
+      },
+      "org_url": "https://www.cs.tum.de/"
     }
   },
   "31359": {
@@ -2903,7 +3057,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "31437": {
@@ -3157,7 +3312,8 @@
     "school": {
       "org_code": "TUS6000",
       "org_id": 51900,
-      "org_name": "TUM School of Management"
+      "org_name": "TUM School of Management",
+      "org_url": "www.mgt.tum.de"
     }
   },
   "38541": {
@@ -3184,7 +3340,7 @@
     "org_code": "TUZV14G",
     "org_name": {
       "de": "Infrastrukturelles FM Poststelle",
-      "en": ""
+      "en": "Infrastrukturelles FM Poststelle"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -3231,7 +3387,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "39536": {
@@ -3288,7 +3445,8 @@
       "org_name": {
         "de": "Ehemalige TUM School of Education",
         "en": "Former TUM School of Education"
-      }
+      },
+      "org_url": null
     }
   },
   "40981": {
@@ -3302,7 +3460,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "41224": {
@@ -3322,11 +3481,12 @@
       "en": "Chair of Bioseparation Engineering (Prof. Berensmeier)"
     },
     "org_type": "Lehrstuhl",
-    "org_url": "www.mw.tum.de/de/stt/selektive-trenntechnik/",
+    "org_url": "https://www.epe.ed.tum.de/biose/bioseparation-engineering/",
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "41785": {
@@ -3338,12 +3498,10 @@
     "org_type": "Professur",
     "org_url": null,
     "school": {
-      "org_code": "TUMEFME",
-      "org_id": 14191,
-      "org_name": {
-        "de": "Fakult\u00e4t f\u00fcr Medizin",
-        "en": "TUM Department of Medicine"
-      }
+      "org_code": "TUS5000",
+      "org_id": 51899,
+      "org_name": "TUM School of Medicine and Health",
+      "org_url": null
     }
   },
   "42570": {
@@ -3370,7 +3528,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Physik",
         "en": "Former TUM Department of Physics"
-      }
+      },
+      "org_url": "https://www.ph.tum.de/"
     }
   },
   "42658": {
@@ -3387,7 +3546,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Physik",
         "en": "Former TUM Department of Physics"
-      }
+      },
+      "org_url": "https://www.ph.tum.de/"
     }
   },
   "42666": {
@@ -3401,7 +3561,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "42667": {
@@ -3415,7 +3576,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "42668": {
@@ -3429,7 +3591,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "42669": {
@@ -3443,7 +3606,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "42670": {
@@ -3457,7 +3621,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "42933": {
@@ -3471,7 +3636,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "43299": {
@@ -3485,7 +3651,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "43428": {
@@ -3499,7 +3666,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "43429": {
@@ -3513,7 +3681,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "43449": {
@@ -3527,7 +3696,8 @@
     "school": {
       "org_code": "TUS6000",
       "org_id": 51900,
-      "org_name": "TUM School of Management"
+      "org_name": "TUM School of Management",
+      "org_url": "www.mgt.tum.de"
     }
   },
   "43476": {
@@ -3541,7 +3711,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "43583": {
@@ -3555,7 +3726,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "43589": {
@@ -3579,7 +3751,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "43835": {
@@ -3593,7 +3766,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "43836": {
@@ -3617,7 +3791,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "44264": {
@@ -3634,7 +3809,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Informatik",
         "en": "Former TUM Department of Informatics"
-      }
+      },
+      "org_url": "http://www.in.tum.de"
     }
   },
   "44266": {
@@ -3651,7 +3827,8 @@
       "org_name": {
         "de": "Ehemalige Fakult\u00e4t f\u00fcr Informatik",
         "en": "Former TUM Department of Informatics"
-      }
+      },
+      "org_url": "http://www.in.tum.de"
     }
   },
   "44284": {
@@ -3665,7 +3842,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "44304": {
@@ -3709,7 +3887,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "45028": {
@@ -3723,14 +3902,15 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "45070": {
     "org_code": "TUZV848",
     "org_name": {
       "de": "Werkfeuerwehr Weihenstephan",
-      "en": ""
+      "en": "Werkfeuerwehr Weihenstephan"
     },
     "org_type": "Sachgebiet",
     "org_url": "http://www.feuerwehr.wzw.tum.de",
@@ -3747,7 +3927,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "45310": {
@@ -3761,7 +3942,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "45351": {
@@ -3778,7 +3960,8 @@
       "org_name": {
         "de": "Ehemaliges Munich Center for Technology in Society (MCTS)",
         "en": "Former Munich Center for Technology in Society (MCTS)"
-      }
+      },
+      "org_url": "http://www.mcts.tum.de"
     }
   },
   "45370": {
@@ -3792,14 +3975,15 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "45391": {
     "org_code": "TUZEFAM",
     "org_name": {
-      "de": "TUM.Family",
-      "en": "TUM.Family"
+      "de": "TUM Familienservice",
+      "en": "TUM Family Service"
     },
     "org_type": "Arbeitsbereich",
     "org_url": "http://www.chancengleichheit.tum.de/familie/",
@@ -3826,7 +4010,8 @@
     "school": {
       "org_code": "TUS7000",
       "org_id": 51901,
-      "org_name": "TUM School of Social Sciences and Technology"
+      "org_name": "TUM School of Social Sciences and Technology",
+      "org_url": "https://www.sot.tum.de/"
     }
   },
   "45951": {
@@ -3836,11 +4021,12 @@
       "en": "Chair of Wind Energy (Prof. Bottasso)"
     },
     "org_type": "Lehrstuhl",
-    "org_url": "www.wind.mw.tum.de/",
+    "org_url": "https://www.epe.ed.tum.de/en/wind/home/",
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "45971": {
@@ -3864,7 +4050,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "46275": {
@@ -3878,7 +4065,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "46357": {
@@ -3892,7 +4080,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "46617": {
@@ -3906,7 +4095,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "46657": {
@@ -3920,7 +4110,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "46937": {
@@ -3934,7 +4125,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "46938": {
@@ -3948,7 +4140,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "47097": {
@@ -3962,7 +4155,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "47098": {
@@ -3976,7 +4170,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "47278": {
@@ -3990,7 +4185,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "47357": {
@@ -4004,7 +4200,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "47377": {
@@ -4018,7 +4215,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "47477": {
@@ -4032,7 +4230,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "47598": {
@@ -4046,7 +4245,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "47617": {
@@ -4060,7 +4260,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "47637": {
@@ -4072,29 +4273,10 @@
     "org_type": "Professur",
     "org_url": "www.exercisebiology.sg.tum.de",
     "school": {
-      "org_code": "TUSPFSP",
-      "org_id": 14195,
-      "org_name": {
-        "de": "Fakult\u00e4t f\u00fcr Sport- und Gesundheitswissenschaften",
-        "en": "TUM Department of Sport and Health Sciences"
-      }
-    }
-  },
-  "47717": {
-    "org_code": "TUPOFPO",
-    "org_name": {
-      "de": "Ehemalige TUM School of Governance",
-      "en": "Former TUM School of Governance"
-    },
-    "org_type": "Fakult\u00e4t",
-    "org_url": "http://www.gov.tum.de",
-    "school": {
-      "org_code": "TUPOFPO",
-      "org_id": 47717,
-      "org_name": {
-        "de": "Ehemalige TUM School of Governance",
-        "en": "Former TUM School of Governance"
-      }
+      "org_code": "TUS5000",
+      "org_id": 51899,
+      "org_name": "TUM School of Medicine and Health",
+      "org_url": null
     }
   },
   "48099": {
@@ -4108,7 +4290,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "48100": {
@@ -4118,11 +4301,12 @@
       "en": "Associate Professorship of Observational Cosmology (Prof. Suyu)"
     },
     "org_type": "Professur",
-    "org_url": "www.mpa-garching.mpg.de/mitarbeiter/47527/164238",
+    "org_url": "https://www.ph.nat.tum.de/observational-cosmology/home/",
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "48217": {
@@ -4136,7 +4320,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "48258": {
@@ -4150,7 +4335,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "48298": {
@@ -4167,7 +4353,7 @@
     "org_code": "TUZV45G",
     "org_name": {
       "de": "Infrastrukturelles FM",
-      "en": ""
+      "en": "Infrastrukturelles FM"
     },
     "org_type": "Arbeitsbereich",
     "org_url": null,
@@ -4184,7 +4370,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "48497": {
@@ -4198,7 +4385,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "48698": {
@@ -4212,7 +4400,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "48837": {
@@ -4226,7 +4415,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "48957": {
@@ -4240,7 +4430,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "49055": {
@@ -4264,21 +4455,23 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "49297": {
     "org_code": "TUEDS28",
     "org_name": {
       "de": "Professur f\u00fcr Didaktik der Chemie (Prof. Koenen)",
-      "en": "Assistant Professorship of Chemistry Education (Prof. Koenen)"
+      "en": "Associate Professorship of Chemistry Education (Prof. Koenen)"
     },
     "org_type": "Professur",
     "org_url": "www.edu.tum.de/dichem/",
     "school": {
       "org_code": "TUS7000",
       "org_id": 51901,
-      "org_name": "TUM School of Social Sciences and Technology"
+      "org_name": "TUM School of Social Sciences and Technology",
+      "org_url": "https://www.sot.tum.de/"
     }
   },
   "49317": {
@@ -4292,7 +4485,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "49382": {
@@ -4306,7 +4500,8 @@
     "school": {
       "org_code": "TUS6000",
       "org_id": 51900,
-      "org_name": "TUM School of Management"
+      "org_name": "TUM School of Management",
+      "org_url": "www.mgt.tum.de"
     }
   },
   "49597": {
@@ -4330,7 +4525,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "49797": {
@@ -4344,7 +4540,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "50157": {
@@ -4358,7 +4555,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "50158": {
@@ -4372,7 +4570,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "50277": {
@@ -4386,7 +4585,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "50301": {
@@ -4400,7 +4600,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "50457": {
@@ -4414,7 +4615,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "50597": {
@@ -4438,7 +4640,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "50738": {
@@ -4452,21 +4655,23 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "50817": {
     "org_code": "TUWZI2M",
     "org_name": {
-      "de": "Professur f\u00fcr Intestinal Microbiome (Prof. Hall)",
-      "en": "Associate Professorship of Intestinal Microbiome (Prof. Hall)"
+      "de": "Professur f\u00fcr Intestinal Microbiome (N.N.)",
+      "en": "Associate Professorship of Intestinal Microbiome (N.N.)"
     },
     "org_type": "Professur",
     "org_url": "https://www1.ls.tum.de/imb/home/",
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "50919": {
@@ -4480,7 +4685,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "51157": {
@@ -4494,7 +4700,8 @@
     "school": {
       "org_code": "TUS1000",
       "org_id": 51897,
-      "org_name": "TUM School of Computation, Information and Technology"
+      "org_name": "TUM School of Computation, Information and Technology",
+      "org_url": "www.cit.tum.de"
     }
   },
   "51220": {
@@ -4508,7 +4715,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "51258": {
@@ -4522,7 +4730,8 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "51267": {
@@ -4536,7 +4745,8 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "51317": {
@@ -4562,7 +4772,7 @@
   "51837": {
     "org_code": "TUS2DP1",
     "org_name": {
-      "de": "Department of Aerospace and Geodesy",
+      "de": "Department Aerospace and Geodesy",
       "en": "Department of Aerospace and Geodesy"
     },
     "org_type": "Department",
@@ -4570,21 +4780,23 @@
     "school": {
       "org_code": "TUS2000",
       "org_id": 51267,
-      "org_name": "TUM School of Engineering and Design"
+      "org_name": "TUM School of Engineering and Design",
+      "org_url": "https://www.ed.tum.de/ed/startseite/"
     }
   },
   "51898": {
     "org_code": "TUS3000",
     "org_name": {
       "de": "TUM School of Natural Sciences",
-      "en": ""
+      "en": "TUM School of Natural Sciences"
     },
     "org_type": "TUM School",
     "org_url": "https://www.nat.tum.de",
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "51901": {
@@ -4598,7 +4810,8 @@
     "school": {
       "org_code": "TUS7000",
       "org_id": 51901,
-      "org_name": "TUM School of Social Sciences and Technology"
+      "org_name": "TUM School of Social Sciences and Technology",
+      "org_url": "https://www.sot.tum.de/"
     }
   },
   "51917": {
@@ -4612,13 +4825,14 @@
     "school": {
       "org_code": "TUS4000",
       "org_id": 51258,
-      "org_name": "TUM School of Life Sciences"
+      "org_name": "TUM School of Life Sciences",
+      "org_url": "https://www.ls.tum.de/ls/startseite/"
     }
   },
   "52498": {
     "org_code": "TUS7DP2",
     "org_name": {
-      "de": "Department of Governance",
+      "de": "Department Governance",
       "en": "Department of Governance"
     },
     "org_type": "Department",
@@ -4626,13 +4840,14 @@
     "school": {
       "org_code": "TUS7000",
       "org_id": 51901,
-      "org_name": "TUM School of Social Sciences and Technology"
+      "org_name": "TUM School of Social Sciences and Technology",
+      "org_url": "https://www.sot.tum.de/"
     }
   },
   "52517": {
     "org_code": "TUS7DP3",
     "org_name": {
-      "de": "Department of Science, Technology and Society",
+      "de": "Department Science, Technology and Society",
       "en": "Department of Science, Technology and Society"
     },
     "org_type": "Department",
@@ -4640,7 +4855,8 @@
     "school": {
       "org_code": "TUS7000",
       "org_id": 51901,
-      "org_name": "TUM School of Social Sciences and Technology"
+      "org_name": "TUM School of Social Sciences and Technology",
+      "org_url": "https://www.sot.tum.de/"
     }
   },
   "53837": {
@@ -4654,7 +4870,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "54084": {
@@ -4668,7 +4885,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "54139": {
@@ -4682,7 +4900,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "54439": {
@@ -4696,7 +4915,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   },
   "54997": {
@@ -4710,7 +4930,8 @@
     "school": {
       "org_code": "TUS3000",
       "org_id": 51898,
-      "org_name": "TUM School of Natural Sciences"
+      "org_name": "TUM School of Natural Sciences",
+      "org_url": "https://www.nat.tum.de"
     }
   }
 }
