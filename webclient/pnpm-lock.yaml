@@ -97,9 +97,6 @@ devDependencies:
   vite:
     specifier: 5.0.0
     version: 5.0.0(sass@1.69.5)
-  vite-plugin-rewrite-all:
-    specifier: 1.0.2
-    version: 1.0.2(vite@5.0.0)
   vue-i18n:
     specifier: 9.7.0
     version: 9.7.0(vue@3.3.8)
@@ -1731,11 +1728,6 @@ packages:
 
   /concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
-    dev: true
-
-  /connect-history-api-fallback@1.6.0:
-    resolution: {integrity: sha512-e54B99q/OUoH64zYYRf3HBP5z24G38h5D3qXu23JGRoigpX5Ss4r9ZnDk3g0Z8uQC2x2lPaJ+UlWBc1ZWBWdLg==}
-    engines: {node: '>=0.8'}
     dev: true
 
   /core-util-is@1.0.2:
@@ -4881,16 +4873,6 @@ packages:
       assert-plus: 1.0.0
       core-util-is: 1.0.2
       extsprintf: 1.3.0
-    dev: true
-
-  /vite-plugin-rewrite-all@1.0.2(vite@5.0.0):
-    resolution: {integrity: sha512-NpiFyHi9w8iHm3kZ28ma/IU16LFCkNJNqTvGy6cjoit2EMBi7dgFWFZFYcwZjUrc+pOMup//rsQTRVILvF2efQ==}
-    engines: {node: '>=12.0.0'}
-    peerDependencies:
-      vite: ^2.0.0 || ^3.0.0 || ^4.0.0
-    dependencies:
-      connect-history-api-fallback: 1.6.0
-      vite: 5.0.0(sass@1.69.5)
     dev: true
 
   /vite@5.0.0(sass@1.69.5):
