@@ -19,7 +19,7 @@ const modelOpen = ref(false);
 
   <!-- Page content container -->
   <div
-    class="mx-auto mt-16 min-h-[calc(100vh-200px)] max-w-4xl transition-opacity"
+    class="mx-auto mt-16 mb-16 min-h-[calc(100vh-400px)] max-w-4xl transition-opacity"
     :class="{ 'opacity-70': global.search_focused }"
   >
     <div id="errorToasts" class="mx-5 grid gap-2">
