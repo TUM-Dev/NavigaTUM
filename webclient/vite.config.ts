@@ -6,9 +6,6 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import Markdown from "unplugin-vue-markdown/vite";
 import prism from "markdown-it-prism";
 import path from "path";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import pluginRewriteAll from "vite-plugin-rewrite-all";
 
 export default defineConfig({
   envDir: path.resolve(__dirname, "./env"),
@@ -53,9 +50,6 @@ export default defineConfig({
     Markdown({
       markdownItUses: [prism],
     }),
-    //The next one is included due to https://github.com/vitejs/vite/issues/2415
-    // otherwise the router won't serve the details pages, as they include dots
-    pluginRewriteAll(),
   ],
   resolve: {
     alias: {
