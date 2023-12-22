@@ -27,7 +27,7 @@
     "swagger-ui-dist": "5.10.5",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "unplugin-vue-markdown": "^0.25.2",
-    "vue": "3.3.8",
+    "vue": "3.3.13",
     "vue-router": "4.2.5"
   },
   "devDependencies": {
