@@ -1156,7 +1156,7 @@ taufkirchen-ottobrunn:
   coords: { lat: 48.05453, lon: 11.65308 }
 
 9378:
-  coords: { lat: 48.05226, lon: 11.65557 }
+  coords: { lat: 48.05236862253642, lon: 11.654884006956397 }
   osm: ["way/30081572"]
 
 9379:

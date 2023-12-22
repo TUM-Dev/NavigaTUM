@@ -38,7 +38,7 @@ RUN     cargo build --release --workspace
 
 
 # RUN
-FROM alpine:3.18
+FROM alpine:3.19
 
 ARG     GIT_COMMIT_SHA
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
