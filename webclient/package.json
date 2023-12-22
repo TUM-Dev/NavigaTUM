@@ -27,14 +27,14 @@
     "swagger-ui-dist": "5.10.5",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "unplugin-vue-markdown": "^0.25.2",
-    "vue": "3.3.8",
+    "vue": "3.3.13",
     "vue-router": "4.2.5"
   },
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "2.0.0",
     "@rushstack/eslint-patch": "1.6.1",
     "@types/swagger-ui-dist": "3.30.4",
-    "@vitejs/plugin-vue": "4.5.0",
+    "@vitejs/plugin-vue": "4.5.2",
     "@vue/eslint-config-prettier": "8.0.0",
     "@vue/eslint-config-typescript": "12.0.0",
     "@vue/tsconfig": "0.4.0",
@@ -53,7 +53,7 @@
     "vite": "4.5.1",
     "vite-plugin-rewrite-all": "1.0.2",
     "vue-i18n": "9.8.0",
-    "vue-tsc": "1.8.22"
+    "vue-tsc": "1.8.26"
   },
   "type": "module"
 }
