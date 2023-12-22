@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@heroicons/vue':
-    specifier: ^2.0.18
-    version: 2.1.1(vue@3.3.8)
+    specifier: ^2.1.1
+    version: 2.1.1(vue@3.3.13)
   '@vueuse/core':
     specifier: 10.7.2
     version: 10.7.2(vue@3.4.19)
@@ -770,12 +770,12 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@heroicons/vue@2.1.1(vue@3.3.8):
+  /@heroicons/vue@2.1.1(vue@3.3.13):
     resolution: {integrity: sha512-Yi5nh/89L193ALgHyJUQUdNLsKXPrrE3yj5yiR8WAlo7nZyXGxGauQcEAmBsa2XJGMhBMuEdoOiuZ8wEwTBxVQ==}
     peerDependencies:
       vue: '>= 3'
     dependencies:
-      vue: 3.3.8(typescript@5.2.2)
+      vue: 3.3.13(typescript@5.2.2)
     dev: false
 
   /@humanwhocodes/config-array@0.11.13:
