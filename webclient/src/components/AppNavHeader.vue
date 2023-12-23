@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import PreferencesPopup from "@/components/PreferencesPopup.vue";
+</script>
+
 <template>
   <header class="fixed top-0 z-10 w-full bg-white shadow-md shadow-black/10">
     <!-- dark:bg-gray-900 dark:shadow-black/40"> -->
@@ -10,6 +14,7 @@
         <div class="mx-auto my-auto lg:col-span-3 bg-pink-500 flex-grow max-w-lg">
           <slot />
         </div>
+        <PreferencesPopup />
       </div>
     </nav>
   </header>

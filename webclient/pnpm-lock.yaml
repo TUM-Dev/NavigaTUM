@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@headlessui/vue':
+    specifier: ^1.7.16
+    version: 1.7.16(vue@3.3.13)
   '@heroicons/vue':
     specifier: ^2.1.1
     version: 2.1.1(vue@3.3.13)
@@ -769,6 +772,15 @@ packages:
     resolution: {integrity: sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@headlessui/vue@1.7.16(vue@3.3.13):
+    resolution: {integrity: sha512-nKT+nf/q6x198SsyK54mSszaQl/z+QxtASmgMEJtpxSX2Q0OPJX0upS/9daDyiECpeAsvjkoOrm2O/6PyBQ+Qg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      vue: 3.3.13(typescript@5.2.2)
+    dev: false
 
   /@heroicons/vue@2.1.1(vue@3.3.13):
     resolution: {integrity: sha512-Yi5nh/89L193ALgHyJUQUdNLsKXPrrE3yj5yiR8WAlo7nZyXGxGauQcEAmBsa2XJGMhBMuEdoOiuZ8wEwTBxVQ==}
