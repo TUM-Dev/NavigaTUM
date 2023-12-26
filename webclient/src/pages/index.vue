@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import "@/assets/spectre-all.scss";
 import { setTitle } from "@/composables/common";
 import { useFetch } from "@/composables/fetch";
 import type { components } from "@/api_types";

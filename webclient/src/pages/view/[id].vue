@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import "@/assets/spectre-all.scss";
 import ShareButton from "@/components/ShareButton.vue";
 import DetailsInteractiveMap from "@/components/DetailsInteractiveMap.vue";
 import DetailsRoomOverviewSection from "@/components/DetailsRoomOverviewSection.vue";
