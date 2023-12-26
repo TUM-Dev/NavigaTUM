@@ -5,11 +5,8 @@ import FeedbackModal from "@/components/feedback/FeedbackModal.vue";
 import AppSearchBar from "@/components/AppSearchBar.vue";
 import AppNavHeader from "@/components/AppNavHeader.vue";
 import Toast from "@/components/Toast.vue";
-import Modal from "@/components/Modal.vue";
-import { ref } from "vue";
 
 const global = useGlobalStore();
-const modelOpen = ref(false);
 </script>
 
 <template>
@@ -19,15 +16,15 @@ const modelOpen = ref(false);
 
   <!-- Page content container -->
   <div
-    class="mx-auto mt-16 mb-16 min-h-[calc(100vh-400px)] max-w-4xl transition-opacity"
+    id="pageContent"
+    class="mx-auto mb-16 mt-16 min-h-[calc(100vh-400px)] max-w-4xl transition-opacity"
     :class="{ 'opacity-70': global.search_focused }"
   >
-    <div id="errorToasts" class="mx-5 grid gap-2">
-      <Toast v-if="global.error_message" :msg="global.error_message" level="error" />
+    <div v-if="global.error_message" class="mx-5 pt-5">
+      <Toast :msg="global.error_message" level="error" />
     </div>
     <RouterView class="mx-5" />
   </div>
-  <Modal v-model:open="modelOpen" title="awsome title goes here"> less awsome body </Modal>
 
   <Footer />
   <FeedbackModal v-if="global.feedback.open" />

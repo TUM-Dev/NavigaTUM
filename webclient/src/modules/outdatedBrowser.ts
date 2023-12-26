@@ -75,7 +75,7 @@ if (shouldWarnForOutdatedBrowser()) {
     If you need assistance with updating your browser, please refer to your browser's official website or your IT department for guidance.
     Thank you for your understanding, and we look forward to providing you with an enhanced browsing experience once your browser is up-to-date.
   </p>`;
-  document.getElementById("errorToasts")?.appendChild(error);
+  document.getElementById("pageContent")?.appendChild(error);
   localStorage.setItem("lastOutdatedBrowserWarningTime", new Date().getTime().toString());
 }
 export {};
