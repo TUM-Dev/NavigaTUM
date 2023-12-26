@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import "@/assets/spectre-all.scss";
+//import "@/assets/spectre-all.scss";
 import { useFetch } from "@/composables/fetch";
 import { computed } from "vue";
 import { setDescription, setTitle } from "@/composables/common";
@@ -10,6 +10,7 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
 import type { components } from "@/api_types";
+import { MapPinIcon, MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
 type SearchResponse = components["schemas"]["SearchResponse"];
 
 const { t } = useI18n({ useScope: "local" });
@@ -92,8 +93,8 @@ function genDescription(): string {
             <RouterLink :to="'/view/' + e.id" class="tile tile-centered">
               <div class="tile-icon">
                 <template v-if="e.type === 'room' || e.type === 'virtual_room'">
-                  <i v-if="e.parsed_id" class="icon icon-search" />
-                  <i v-else class="icon icon-location" />
+                  <MagnifyingGlassIcon v-if="e.parsed_id" class="h-4 w-4" />
+                  <MapPinIcon v-else class="h-4 w-4" />
                 </template>
                 <img v-else class="avatar avatar-sm" src="@/assets/thumb-building.webp" :alt="t('thumbnail_alt')" />
               </div>
