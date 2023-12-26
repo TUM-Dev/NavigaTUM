@@ -29,7 +29,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
           <RouterLink
             v-if="site.id"
             :to="'/view/' + site.id"
-            :aria-label="`show the details for the campus '${site.name}'`"
+            :aria-label="t('show_details_for_campus', [site.name])"
             class="flex grow-0 flex-row justify-between !no-underline"
           >
             <span class="text-xl font-semibold text-slate-700 hover:text-tumBlue-500">{{ site.name }}</span>
@@ -38,12 +38,11 @@ const openPanels = ref<(boolean | undefined)[]>([]);
           <div v-else class="text-xl font-semibold">{{ site.name }}</div>
         </div>
         <div class="flex flex-col gap-3">
-          {{ openPanels[siteIndex] }}?{{ site.children.length }}:{{ site.n_visible }}
           <RouterLink
             v-for="c in site.children.slice(0, openPanels[siteIndex] ? site.children.length : site.n_visible)"
             :key="c.id"
             :to="'/view/' + c.id"
-            :aria-label="`show the details for the building '${c.name}'`"
+            :aria-label="t('show_details_for_building', [c.name])"
             class="flex flex-row justify-between text-tumBlue-600 !no-underline hover:text-tumBlue-500"
           >
             <div class="flex flex-row gap-3">
@@ -90,6 +89,8 @@ de:
   overview_map: Übersichtskarte
   sites: Standorte
   "Loading data...": Lädt daten...
+  show_details_for_campus: show the details for the campus '{0}'
+  show_details_for_building: show the details for the building '{0}'
 en:
   less: less
   less_aria: show more buildings
@@ -98,4 +99,6 @@ en:
   overview_map: Overview Map
   sites: Sites
   "Loading data...": Loading data...
+  show_details_for_campus: show the details for the campus '{0}'
+  show_details_for_building: show the details for the building '{0}'
 </i18n>
