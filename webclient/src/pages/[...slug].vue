@@ -10,7 +10,7 @@ const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
-  <div class="mt-4 max-w-xl mx-auto">
+  <div class="mx-auto mt-4 max-w-xl">
     <img class="" src="@/assets/404_navigatum.svg" :alt="t('img_alt')" />
     <div>
       <h5 class="mt-5">{{ t("header") }}</h5>
@@ -20,7 +20,7 @@ const { t } = useI18n({ useScope: "local" });
           {{ t("go_home") }}
         </Button>
         <Button variant="link" @click="global.openFeedback('bug', `404 on \`${route.fullPath}\``, t('got_here'))">
-          {{ t("call_to_action") }} <ArrowRightIcon class="h-4 w-4 mt-0.5" />
+          {{ t("call_to_action") }} <ArrowRightIcon class="mt-0.5 h-4 w-4" />
         </Button>
       </div>
     </div>

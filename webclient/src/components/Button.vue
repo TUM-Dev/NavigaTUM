@@ -54,7 +54,7 @@ const sizeClasses = computed(() => {
     :aria-label="ariaLabel"
     :type="props.type"
     v-bind="{ disabled: disabled }"
-    :class="`!no-underline flex-row flex gap-1 ${variantClasses} ${sizeClasses}`"
+    :class="`flex flex-row gap-1 !no-underline ${variantClasses} ${sizeClasses}`"
     @click="emit('click')"
   >
     <slot />
@@ -64,7 +64,7 @@ const sizeClasses = computed(() => {
     :aria-label="ariaLabel"
     :type="props.type"
     v-bind="{ disabled: disabled }"
-    :class="`flex-row flex gap-1 ${variantClasses} ${sizeClasses}`"
+    :class="`flex flex-row gap-1 ${variantClasses} ${sizeClasses}`"
     @click="emit('click')"
   >
     <slot />
