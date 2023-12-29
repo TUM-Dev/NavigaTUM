@@ -52,7 +52,7 @@ pub async fn do_geoentry_search(
         Ok(response) => {
             let (section_buildings, mut section_rooms) = merger::merge_search_results(
                 &args,
-                response.results.get(0).unwrap(),
+                response.results.first().unwrap(),
                 response.results.get(1).unwrap(),
                 response.results.get(2).unwrap(),
             );
