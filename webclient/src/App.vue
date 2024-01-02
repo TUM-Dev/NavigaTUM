@@ -23,7 +23,9 @@ const global = useGlobalStore();
     <div v-if="global.error_message" class="mx-5 pt-5">
       <Toast :msg="global.error_message" level="error" />
     </div>
-    <RouterView class="mx-5" />
+    <div class="mx-5">
+      <RouterView />
+    </div>
   </div>
 
   <Footer />
