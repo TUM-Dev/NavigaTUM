@@ -14,7 +14,7 @@ actix-web-prom = { version = "0.7.0", default-features = false, features = [] }
 
 # runtime + webserver
 tokio = { version = "1.35", features = ["full"] }
-actix-web = { version = "4.4.0", default-features = false, features = ["macros","compress-gzip","cookies","http2"] }
+actix-web = { version = "4.4.1", default-features = false, features = ["macros","compress-gzip","cookies","http2"] }
 actix-cors = "0.6.5"
 
 #serialisation
