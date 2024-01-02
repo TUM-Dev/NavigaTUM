@@ -10,7 +10,7 @@ const appURL = import.meta.env.VITE_APP_URL;
 </script>
 
 <template>
-  <Modal v-if="state.data?.imgs" v-model:open="state.image.slideshow_open" :title="t('header')">
+  <Modal v-if="state.data?.imgs" v-model="state.image.slideshow_open" :title="t('header')">
     <div class="carousel">
       <template v-for="(_, i) in state.data.imgs" :key="i">
         <input

@@ -5,7 +5,6 @@ import { useI18n } from "vue-i18n";
 
 export interface Props {
   title: string;
-  open: boolean;
   disableClose?: boolean;
   classes?: {
     background?: string;
@@ -21,11 +20,12 @@ const props = withDefaults(defineProps<Props>(), {
     modal: "",
   }),
 });
-const emit = defineEmits(["close", "update:open"]);
+const emit = defineEmits(["close"]);
+const isOpen = defineModel<boolean>({ required: true });
 
 const { t } = useI18n({ useScope: "local" });
 watch(props, () => {
-  if (props.open) {
+  if (isOpen) {
     return document.querySelector("body")?.classList.add("overflow-hidden");
   } else {
     return document.querySelector("body")?.classList.remove("overflow-hidden");
@@ -45,7 +45,7 @@ onBeforeUnmount(() => document.querySelector("body")?.classList.remove("overflow
 function close() {
   document.querySelector("body")?.classList.remove("overflow-hidden");
   emit("close");
-  emit("update:open", false);
+  isOpen.value = false;
 }
 
 function closeIfShown() {
@@ -63,7 +63,7 @@ function closeIfShown() {
       leave-active-class="transition duration-75"
     >
       <div
-        v-if="props.open"
+        v-if="isOpen"
         class="bg-smoke-800 fixed inset-0 z-50 m-5 flex h-screen w-full items-center justify-center"
         :class="props.classes.background"
         @click.self="closeIfShown"

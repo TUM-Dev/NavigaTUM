@@ -4,13 +4,12 @@ import { computed } from "vue";
 
 interface Props {
   label?: string;
-  selected: string;
   values: [string, string];
 }
-
 const props = withDefaults(defineProps<Props>(), { label: "" });
-const emit = defineEmits(["update:selected"]);
-const firstValueSelected = computed(() => props.selected === props.values[0]);
+const selected = defineModel<string>({ required: true });
+
+const firstValueSelected = computed(() => selected.value === props.values[0]);
 </script>
 
 <template>
@@ -20,7 +19,7 @@ const firstValueSelected = computed(() => props.selected === props.values[0]);
       <Switch
         class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent text-slate-400 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-tumBlue-500 focus:ring-offset-2"
         :class="[firstValueSelected ? 'bg-tumBlue-500' : 'bg-slate-200']"
-        @update:model-value="(value: boolean) => emit('update:selected', value ? props.values[0] : props.values[1])"
+        @update:model-value="(value: boolean) => (selected = props.values[value ? 0 : 1])"
       >
         <span class="sr-only">Use setting</span>
         <span

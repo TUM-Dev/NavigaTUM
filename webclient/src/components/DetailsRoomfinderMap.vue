@@ -76,7 +76,7 @@ const modalOpen = ref(false);
       </div>
     </div>
 
-    <Modal v-model:open="modalOpen" :title="t('roomfinder.modal.header')" :classes="{ modal: 'items-baseline' }">
+    <Modal v-model="modalOpen" :title="t('roomfinder.modal.header')" :classes="{ modal: 'items-baseline' }">
       <RoomfinderImageLocation id="rf_modal_image" :map="state.selectedRoomfinderMap()" /> </Modal
   ></template>
 </template>

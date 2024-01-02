@@ -102,7 +102,7 @@ function sendForm() {
 <template>
   <Modal
     v-if="!successUrl"
-    v-model:open="global.feedback.open"
+    v-model="global.feedback.open"
     data-cy="feedback-modal"
     :title="t('title')"
     @close="closeForm"
@@ -170,7 +170,7 @@ function sendForm() {
   </Modal>
   <Modal
     v-if="successUrl"
-    v-model:open="global.feedback.open"
+    v-model="global.feedback.open"
     data-cy="feedback-success-modal"
     :title="t('thank_you')"
     @close="closeForm"
