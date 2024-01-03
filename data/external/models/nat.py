@@ -90,6 +90,7 @@ class School(PydanticConfiguration):
     org_code: str
     org_name: TranslatableStr | str
     org_id: int
+    org_url: str | None
 
 
 class Organisation(PydanticConfiguration):
