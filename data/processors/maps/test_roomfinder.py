@@ -27,26 +27,26 @@ def default_map(rotate: int = 0) -> roomfinder.Map:
     )
 
 
-@pytest.mark.parametrize("s1", ["abc", " abc", "abc"])
-@pytest.mark.parametrize("s2", ["abc", " abc", "abc"])
-def test_merge_identical(s1: str, s2: str) -> None:
+@pytest.mark.parametrize("s_1", ["abc", " abc", "abc"])
+@pytest.mark.parametrize("s_2", ["abc", " abc", "abc"])
+def test_merge_identical(s_1: str, s_2: str) -> None:
     """Test if identical inputs are stripped of whitespace"""
-    assert _merge_str(s1, s2) == "abc"
+    assert _merge_str(s_1, s_2) == "abc"
 
 
 def test_merge_strings_happy_path() -> None:
     """Test if the merging of strings works as expected in the regular case"""
-    assert "Thierschbau 5/6. OG" == _merge_str("Thierschbau 5. OG", "Thierschbau 6. OG")
-    assert "Pre Something/Different Suf" == _merge_str("Pre Something Suf", "Pre Different Suf")
-    assert "Hello World/Universe" == _merge_str("Hello World", "Hello Universe")
+    assert _merge_str("Thierschbau 5. OG", "Thierschbau 6. OG") == "Thierschbau 5/6. OG"
+    assert _merge_str("Pre Something Suf", "Pre Different Suf") == "Pre Something/Different Suf"
+    assert _merge_str("Hello World", "Hello Universe") == "Hello World/Universe"
 
 
 def test_merge_strings_subset() -> None:
     """Test if the merging of strings works as expected when one string is a subset of the other"""
-    assert "(Another) POSTFIX" == _merge_str("POSTFIX", "Another POSTFIX")
-    assert "(Another) POSTFIX" == _merge_str("Another POSTFIX", "POSTFIX")
-    assert "PREFIX (Another)" == _merge_str("PREFIX", "PREFIX Another")
-    assert "PREFIX (Another)" == _merge_str("PREFIX Another", "PREFIX")
+    assert _merge_str("POSTFIX", "Another POSTFIX") == "(Another) POSTFIX"
+    assert _merge_str("Another POSTFIX", "POSTFIX") == "(Another) POSTFIX"
+    assert _merge_str("PREFIX", "PREFIX Another") == "PREFIX (Another)"
+    assert _merge_str("PREFIX Another", "PREFIX") == "PREFIX (Another)"
 
 
 def test_merge_maps() -> None:

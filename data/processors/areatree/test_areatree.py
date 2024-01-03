@@ -72,8 +72,7 @@ def test_empty() -> None:
 
 def test_building_ids_without_separator() -> None:
     """If the building id is not separated by a dash or comma, it is returned as is"""
-    expected_result = {"b_prefix": "b1"}
-    assert _extract_building_prefix("b1") == expected_result
+    assert _extract_building_prefix("b1") == {"b_prefix": "b1"}
 
 
 def test_specified_type() -> None:
