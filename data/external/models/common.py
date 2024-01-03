@@ -8,7 +8,7 @@ class PydanticConfiguration(BaseModel):
     model_config = pydantic.ConfigDict(
         frozen=True,
         str_strip_whitespace=True,
-        extra=pydantic.Extra.forbid,
+        extra="forbid",
         populate_by_name=True,
         validate_default=True,
     )
