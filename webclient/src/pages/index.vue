@@ -33,7 +33,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             class="flex grow-0 flex-row justify-between !no-underline"
           >
             <span class="text-xl font-semibold text-slate-700 hover:text-tumBlue-500">{{ site.name }}</span>
-            <ArrowRightIcon v-if="site.id" class="my-auto hidden md:block h-6 w-6" />
+            <ArrowRightIcon v-if="site.id" class="my-auto hidden h-6 w-6 md:block" />
           </RouterLink>
           <div v-else class="text-xl font-semibold">{{ site.name }}</div>
         </div>
@@ -49,7 +49,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
               <MapPinIcon class="my-auto h-4 w-4" />
               <span class="text-lg">{{ c.name }}</span>
             </div>
-            <ChevronRightIcon class="h-5 w-5 hidden sm:block" />
+            <ChevronRightIcon class="hidden h-5 w-5 sm:block" />
           </RouterLink>
           <div v-if="site.children.length > site.n_visible" class="mt-2">
             <button
@@ -69,7 +69,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
               :aria-label="t('more_aria')"
               @click="() => (openPanels[siteIndex] = true)"
             >
-              <ChevronDownIcon class="h-4 w-4 my-auto" />
+              <ChevronDownIcon class="my-auto h-4 w-4" />
               {{ t("more") }}
             </button>
           </div>
