@@ -3,7 +3,6 @@ import tempfile
 from pathlib import Path
 
 import pytest
-
 from processors import areatree
 from processors.areatree.process import (
     _areatree_lines,

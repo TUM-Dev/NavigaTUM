@@ -2,7 +2,6 @@ import itertools
 import typing
 
 import pytest
-
 from external.models import roomfinder
 from processors.maps.models import Coordinate
 from processors.maps.roomfinder import _calc_xy_of_coords_on_map, _merge_maps, _merge_str
@@ -98,7 +97,7 @@ def test_merge_maps_unequal_keys() -> None:
 
 
 @pytest.mark.parametrize("rotation", range(360))
-def test_coords_to_xy_center_rotation(rotation:int) -> None:
+def test_coords_to_xy_center_rotation(rotation: int) -> None:
     """Test if xy coordinates are assigned correctly"""
     print(f"{rotation}° rotated around the center")
     assert _calc_xy_of_coords_on_map(Coordinate(lat=0, lon=0), default_map(rotate=rotation)) == (50, 50)
@@ -109,8 +108,8 @@ def test_coords_to_xy_translation(lon, lat) -> None:
     """Test if xy coordinates translate correctly"""
 
     actual_x, actual_y = _calc_xy_of_coords_on_map(Coordinate(lon=lon, lat=lat), default_map())
-    expected_x=(lon + 100) / 200 * 100
-    expected_y =100.0 - (lat + 100) / 200 * 100
+    expected_x = (lon + 100) / 200 * 100
+    expected_y = 100.0 - (lat + 100) / 200 * 100
     assert expected_x - 0.6 < actual_x < expected_x + 0.6
     assert expected_y - 0.6 < actual_y < expected_y + 0.6
 
@@ -121,9 +120,12 @@ class ExpectedCoordinate(typing.NamedTuple):
     expected: tuple[int, int]
 
 
-@pytest.mark.parametrize("item", [
-    ExpectedCoordinate(Coordinate(lon=10, lat=10), default_map(rotate=45), (57, 50)),  # TODO: add more testcases
-])
+@pytest.mark.parametrize(
+    "item",
+    [
+        ExpectedCoordinate(Coordinate(lon=10, lat=10), default_map(rotate=45), (57, 50)),  # TODO: add more testcases
+    ],
+)
 def test_coords_to_xy_translation_rotation(item: ExpectedCoordinate) -> None:
     """Test if xy coordinates translate and rotate correctly"""
     assert _calc_xy_of_coords_on_map(item.coordinate, item.map) == item.expected
