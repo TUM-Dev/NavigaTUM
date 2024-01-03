@@ -1,6 +1,9 @@
 [tool.black]
 line-length = 120
 
+[tool.bandit]
+skips = ["B101"]
+
 [tool.isort]
 line_length = 120
 force_single_line = false
