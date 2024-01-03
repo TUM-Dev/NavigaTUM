@@ -25,26 +25,3 @@
 #app .menu .menu-item + .menu-item {
   margin-top: 0;
 }
-
-/* --- Toast buttons --- */
-.toast .btn {
-  background: $toast-btn-bg;
-  color: $light-color;
-  border-color: $light-color;
-  font-weight: bold;
-
-  &:hover {
-    background: $toast-btn-bg-hover;
-    border-color: $light-color;
-  }
-
-  &:active {
-    background: $toast-btn-bg-active;
-    border-color: $light-color;
-  }
-
-  &:focus {
-    background: $toast-btn-bg;
-    border-color: $light-color;
-  }
-}
