@@ -67,7 +67,7 @@ def test_comma_separator() -> None:
 
 def test_empty() -> None:
     """If the building id is empty, an empty dict is returned"""
-    assert _extract_building_prefix("") == {}
+    assert not _extract_building_prefix("")
 
 
 def test_building_ids_without_separator() -> None:
@@ -109,7 +109,7 @@ def test_empty_file() -> None:
     """Empty file returns empty list"""
     with tempfile.NamedTemporaryFile() as file:
         areatree.process.AREATREE_FILE = Path(file.name)
-        assert list(_areatree_lines()) == []
+        assert not list(_areatree_lines())
 
 
 def test_comment_lines() -> None:
