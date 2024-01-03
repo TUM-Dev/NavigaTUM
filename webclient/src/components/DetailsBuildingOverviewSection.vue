@@ -21,7 +21,7 @@ const appURL = import.meta.env.VITE_APP_URL;
         <h2>{{ t("title") }}</h2>
       </div>
       <!-- <div class="column col-auto">
-          <a href="#">Übersichtskarte <i class="icon icon-forward" /></a>
+          <a class="no-underline" href="#">Übersichtskarte <i class="icon icon-forward" /></a>
         </div> -->
     </div>
     <div class="columns">
@@ -42,7 +42,7 @@ const appURL = import.meta.env.VITE_APP_URL;
               <div class="tile-action">
                 <button
                   type="button"
-                  class="btn btn-link"
+                  class="btn btn-link mt-2"
                   :aria-label="`show the details for the building '${b.name}'`"
                 >
                   <ChevronRightIcon class="h-4 w-4" />
@@ -54,7 +54,7 @@ const appURL = import.meta.env.VITE_APP_URL;
       </template>
     </div>
     <div v-if="props.buildings.n_visible < props.buildings.entries.length">
-      <button type="button" class="btn btn-link" @click="toggleBuildingsExpanded()">
+      <button type="button" class="btn btn-link mt-2" @click="toggleBuildingsExpanded()">
         <div class="flex flex-row gap-2">
           <template v-if="buildingsExpanded">
             <ChevronUpIcon class="h-4 w-4" />
@@ -70,21 +70,9 @@ const appURL = import.meta.env.VITE_APP_URL;
   </section>
 </template>
 
-<style lang="scss" scoped>
-@import "@/assets/variables";
-
-a {
-  text-decoration: none !important;
-}
-
+<style lang="postcss" scoped>
 .tile {
-  border: 0.05rem solid $card-border;
-  padding: 8px;
-  border-radius: 0.1rem;
-}
-
-button {
-  margin-top: 8px;
+  @apply border-neutral-200 dark:border-neutral-700 border-solid border p-2 rounded-sm;
 }
 </style>
 

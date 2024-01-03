@@ -134,12 +134,12 @@ function initMap(containerId: string) {
     else {
       if (fullscreenCtl._container.classList.contains("maximize")) {
         fullscreenCtl._container.classList.remove("maximize");
-        document.body.classList.remove("no-scroll");
+        document.body.classList.remove("overflow-y-hidden");
         fullscreenCtl._fullscreenButton.classList.remove("maplibregl-ctrl-shrink");
       } else {
         fullscreenCtl._container.classList.add("maximize");
         fullscreenCtl._fullscreenButton.classList.add("maplibregl-ctrl-shrink");
-        document.body.classList.add("no-scroll");
+        document.body.classList.add("overflow-y-hidden");
         window.scrollTo({ top: 0, behavior: "auto" });
       }
 
