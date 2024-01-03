@@ -3,37 +3,29 @@ import { Menu, MenuButton, MenuItem, MenuItems, Switch } from "@headlessui/vue";
 import { AdjustmentsHorizontalIcon, MoonIcon, SunIcon } from "@heroicons/vue/24/outline";
 import SelectionSwitch from "@/components/SelectionSwitch.vue";
 
-import { onMounted, ref } from "vue";
+import { ref, watchEffect } from "vue";
 
 import { saveCooke } from "@/composables/cookies";
 import { useI18n } from "vue-i18n";
 type UserTheme = "light" | "dark";
 
-const theme = ref<UserTheme>(getTheme() || getMediaPreference());
+const theme = ref<UserTheme>(initialUserTheme());
+watchEffect(() => {
+  console.log();
+  document.documentElement.className = theme.value;
+  saveCooke("theme", theme.value);
+});
 
-const { t } = useI18n({ useScope: "local" });
+function initialUserTheme(): UserTheme {
+  const storedPreference = localStorage.getItem("theme") as UserTheme;
+  if (storedPreference) return storedPreference;
 
-function setTheme(newTheme: UserTheme, reload = true) {
-  theme.value = newTheme;
-  document.documentElement.className = newTheme;
-  saveCooke("theme", newTheme, reload);
-}
-
-function getTheme(): UserTheme {
-  return localStorage.getItem("theme") as UserTheme;
-}
-
-function getMediaPreference(): UserTheme {
   const hasDarkPreference = window.matchMedia("(prefers-color-scheme: dark)").matches;
   return hasDarkPreference ? "dark" : "light";
 }
-onMounted(() => setTheme(theme.value, false));
-const { locale, availableLocales } = useI18n({ inheritLocale: true });
-
-function setLang(lang: string) {
-  locale.value = lang;
-  saveCooke("lang", lang, true);
-}
+const { locale } = useI18n({ useScope: "global" });
+const { t } = useI18n({ useScope: "local" });
+watchEffect(() => saveCooke("lang", locale.value));
 </script>
 
 <template>
@@ -55,14 +47,19 @@ function setLang(lang: string) {
       <MenuItems
         class="absolute -right-2 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
-        <MenuItem as="div" class="block px-4 py-2 text-xs font-semibold text-slate-500">
+        <MenuItem as="div" class="block px-4 py-2 text-sm font-semibold text-slate-400">
+          {{ t("preferences") }}
+        </MenuItem>
+        <MenuItem as="div" class="text-md block px-4 py-1 font-semibold text-slate-500">
           <SelectionSwitch v-model="theme" label="Theme" :values="['dark', 'light']">
             <template #option1><MoonIcon class="h-3 w-3" /></template>
             <template #option2><SunIcon class="h-3 w-3" /></template>
           </SelectionSwitch>
-          <SelectionSwitch v-model="locale" label="Language" :values="['de', 'en']">
-            <template #option1>de</template>
-            <template #option2>en</template>
+        </MenuItem>
+        <MenuItem as="div" class="text-md block px-4 py-1 font-semibold text-slate-500">
+          <SelectionSwitch v-model="locale" :label="t('language')" :values="['de', 'en']">
+            <template #option1><span class="text-xs">de</span></template>
+            <template #option2><span class="text-xs">en</span></template>
           </SelectionSwitch>
         </MenuItem>
       </MenuItems>
@@ -73,6 +70,8 @@ function setLang(lang: string) {
 <i18n lang="yaml">
 de:
   preferences: Präferenzen
+  language: Sprache
 en:
   preferences: Preferences
+  language: Language
 </i18n>
