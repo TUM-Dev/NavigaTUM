@@ -21,7 +21,7 @@ const appURL = import.meta.env.VITE_APP_URL;
   <!-- Some elements are currently duplicate, which is not optimal but should be okay
        as long as only little information is there -->
   <div class="col-5 col-md-12 column hide-sm">
-    <div class="shadow-neutral-500/5 shadow-md dark:shadow-white/20">
+    <div class="card shadow-neutral-500/5 shadow-md dark:shadow-white/20">
       <a
         v-if="state.image.shown_image"
         class="card-image cursor-pointer"
