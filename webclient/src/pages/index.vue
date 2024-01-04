@@ -30,7 +30,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             v-if="site.id"
             :to="'/view/' + site.id"
             :aria-label="t('show_details_for_campus', [site.name])"
-            class="flex grow-0 flex-row justify-between !no-underline"
+            class="flex grow-0 focusable rounded flex-row justify-between !no-underline"
           >
             <span class="text-xl font-semibold text-slate-700 hover:text-tumBlue-500">{{ site.name }}</span>
             <ArrowRightIcon v-if="site.id" class="my-auto hidden h-6 w-6 md:block" />
@@ -43,7 +43,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             :key="c.id"
             :to="'/view/' + c.id"
             :aria-label="t('show_details_for_building', [c.name])"
-            class="flex flex-row justify-between text-tumBlue-600 !no-underline hover:text-tumBlue-500"
+            class="flex flex-row focusable rounded justify-between text-tumBlue-600 !no-underline hover:text-tumBlue-500"
           >
             <div class="flex flex-row gap-3">
               <MapPinIcon class="my-auto h-4 w-4" />
@@ -51,24 +51,17 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             </div>
             <ChevronRightIcon class="hidden h-5 w-5 sm:block" />
           </RouterLink>
-          <div v-if="site.children.length > site.n_visible" class="mt-2">
-            <button
+          <div v-if="site.children.length > site.n_visible" class="mx-auto">
+            <Button
               v-if="openPanels[siteIndex]"
-              type="button"
+              variant="link"
               :aria-label="t('less_aria')"
-              class="flex flex-row gap-2"
               @click="() => (openPanels[siteIndex] = false)"
             >
               <ChevronUpIcon class="h-4 w-4" />
               {{ t("less") }}
-            </button>
-            <button
-              v-else
-              type="button"
-              class="flex flex-row gap-2"
-              :aria-label="t('more_aria')"
-              @click="() => (openPanels[siteIndex] = true)"
-            >
+            </Button>
+            <Button v-else variant="link" :aria-label="t('more_aria')" @click="() => (openPanels[siteIndex] = true)">
               <ChevronDownIcon class="my-auto h-4 w-4" />
               {{ t("more") }}
             </button>

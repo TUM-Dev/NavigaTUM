@@ -24,7 +24,7 @@ const appURL = import.meta.env.VITE_APP_URL;
         <RouterLink
           v-if="i < props.buildings.n_visible || buildingsExpanded"
           :to="'/view/' + b.id"
-          class="!no-underline focus:outline-none focus:ring-2 focus:ring-tumBlue-500 focus:ring-offset-2 flex flex-row justify-between border-neutral-200 dark:border-neutral-700 border-solid border p-3.5 rounded-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900"
+          class="!no-underline focusable flex flex-row justify-between border-neutral-200 dark:border-neutral-700 border-solid border p-3.5 rounded-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900"
           :aria-label="`show the details for the building '${b.name}'`"
         >
           <div class="flex flex-row gap-3">

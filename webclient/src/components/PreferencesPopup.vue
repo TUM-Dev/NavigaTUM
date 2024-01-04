@@ -32,7 +32,7 @@ watchEffect(() => saveCooke("lang", locale.value));
   <Menu as="div" class="relative my-auto ml-4 flex-shrink-0">
     <div>
       <MenuButton
-        class="relative flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
+        class="relative focusable flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
       >
         <span class="absolute -inset-1.5" />
         <span class="sr-only">Open preferences menu</span>

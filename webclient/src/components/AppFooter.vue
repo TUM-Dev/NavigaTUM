@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
+import Button from "@/components/Button.vue";
 
 const global = useGlobalStore();
 const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
@@ -40,11 +41,15 @@ const navigation = [
           <a
             v-if="item.href.startsWith('https')"
             :href="item.href"
-            class="!hover:text-gray-900 !text-gray-600 !no-underline"
+            class="hover:!text-gray-900 focusable rounded !text-gray-600 !no-underline"
           >
             {{ item.name }}
           </a>
-          <RouterLink v-else :to="item.href" class="!hover:text-gray-900 !text-gray-600">
+          <RouterLink
+            v-else
+            :to="item.href"
+            class="!no-underline focusable rounded hover:!text-gray-900 !text-gray-600"
+          >
             {{ item.name }}
           </RouterLink>
         </div>
@@ -52,7 +57,7 @@ const navigation = [
           <button
             type="button"
             data-cy="open-feedback-footer"
-            class="text-sm leading-6 text-gray-600 hover:text-gray-900"
+            class="text-sm focusable rounded leading-6 text-gray-600 hover:text-gray-900"
             :aria-label="t('feedback.open')"
             @click="global.openFeedback()"
           >
@@ -61,11 +66,11 @@ const navigation = [
         </div>
       </nav>
       <div class="mt-10 flex justify-center space-x-10 text-center">
-        <p class="text-center">
+        <p class="text-center text-gray-500 text-xs">
           {{ t("official_roomfinder") }}<br />
-          <a href="https://tum.de" target="_blank">
+          <Button to="https://tum.de" variant="" size="sm">
             <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="h-20" aria-hidden="true" />
-          </a>
+          </Button>
         </p>
       </div>
     </div>
