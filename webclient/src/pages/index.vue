@@ -15,7 +15,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
 </script>
 
 <template>
-  <div class="flex flex-row justify-between pt-14">
+  <div class="flex flex-row justify-between pt-8">
     <div class="!text-lg font-semibold text-slate-600">{{ t("sites") }}</div>
     <!-- <a href="#" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</a> -->
   </div>
@@ -24,7 +24,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
       <div
         v-for="(site, siteIndex) in data.sites_overview"
         :key="site.id"
-        class="flex flex-col gap-4 rounded-lg border-2 p-6"
+        class="flex flex-col gap-4 rounded-lg border-2 p-5"
       >
         <div>
           <RouterLink
@@ -33,10 +33,10 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             :aria-label="t('show_details_for_campus', [site.name])"
             class="flex grow-0 focusable rounded flex-row justify-between !no-underline"
           >
-            <span class="text-lg font-semibold text-slate-700 hover:text-tumBlue-500">{{ site.name }}</span>
+            <span class="text-md font-semibold text-slate-700 hover:text-tumBlue-500">{{ site.name }}</span>
             <ArrowRightIcon v-if="site.id" class="my-auto hidden h-6 w-6 md:block" />
           </RouterLink>
-          <div v-else class="text-lg font-semibold">{{ site.name }}</div>
+          <div v-else class="text-md text-slate-700 font-semibold">{{ site.name }}</div>
         </div>
         <div class="flex flex-col gap-3">
           <RouterLink
