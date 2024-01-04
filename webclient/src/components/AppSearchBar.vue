@@ -177,73 +177,72 @@ onMounted(() => {
     </button>
   </div>
   <!-- Autocomplete -->
-  <div class="mt-2">
-    <ul
-      v-cloak
-      class="absolute top-0 list-none bg-white p-3.5 shadow-2xl shadow-zinc-700/30 dark:bg-zinc-900 dark:shadow-black/60"
-      :class="{
-        hidden: !global.search_focused || autocomplete.sections.length === 0,
-      }"
-    >
-      <!--
-      <li class="search-comment filter">
-        Suche einschränken auf:
-        <a class="bt btn-link btn-sm">Räume</a>
-      </li> -->
+  <ul
+    v-cloak
+    class="absolute mt-16 top-0 list-none bg-white p-3.5 shadow-2xl shadow-zinc-700/30 dark:bg-zinc-900 dark:shadow-black/60"
+    :class="{
+      hidden: !global.search_focused || autocomplete.sections.length === 0,
+    }"
+  >
+    <!--
+    <li class="search-comment filter">
+      Suche einschränken auf:
+      <a class="bt btn-link btn-sm">Räume</a>
+    </li> -->
 
-      <template v-for="s in autocomplete.sections" :key="s.facet">
-        <li class="divider" :data-content="s.name" />
-        <template v-for="(e, i) in s.entries" :key="e.id">
-          <li v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded" class="menu-item">
-            <a
-              :class="{
-                active: e.id === autocomplete.highlighted,
-              }"
-              :href="'/view/' + e.id"
-              @click.exact.prevent="searchGoTo(e.id, true)"
-              @mousedown="keep_focus = true"
-              @mouseover="autocomplete.highlighted = null"
-            >
-              <div class="tile">
-                <div class="tile-icon">
-                  <template v-if="e.type === 'room' || e.type === 'virtual_room'">
-                    <MagnifyingGlassIcon v-if="e.parsed_id" class="h-4 w-4" />
-                    <MapPinIcon v-else class="h-4 w-4" />
-                  </template>
-                  <img v-else src="@/assets/thumb-building.webp" class="avatar avatar-sm" />
-                </div>
-                <div class="tile-content">
-                  <span class="tile-title">
-                    <span v-if="e.parsed_id" v-html="e.parsed_id" />
-                    <i v-if="e.parsed_id" class="icon icon-caret" />
-                    <span :style="{ opacity: e.parsed_id ? 0.5 : 1 }" v-html="e.name" />
-                  </span>
-                  <small class="text-gray tile-subtitle">
-                    {{ e.subtext }}
-                    <template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
-                  </small>
-                </div>
-              </div>
-            </a>
-            <!-- <div class="menu-badge">
-                        <label class="label label-primary">2</label>
-                      </div> -->
-          </li>
-        </template>
-        <li class="nb_results search-comment">
+    <template v-for="s in autocomplete.sections" :key="s.facet">
+      <li class="divider" :data-content="s.name" />
+      <template v-for="(e, i) in s.entries" :key="e.id">
+        <li v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded" class="menu-item">
           <a
-            v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
-            class="cursor-pointer"
+            :class="{
+              active: e.id === autocomplete.highlighted,
+            }"
+            :href="'/view/' + e.id"
+            @click.exact.prevent="searchGoTo(e.id, true)"
             @mousedown="keep_focus = true"
-            @click="s.expanded = true"
+            @mouseover="autocomplete.highlighted = null"
           >
-            +{{ s.entries.length - s.n_visible }} {{ t("hidden") }},
+            <div class="tile">
+              <div class="tile-icon">
+                <template v-if="e.type === 'room' || e.type === 'virtual_room'">
+                  <MagnifyingGlassIcon v-if="e.parsed_id" class="h-4 w-4" />
+                  <MapPinIcon v-else class="h-4 w-4" />
+                </template>
+                <img v-else src="@/assets/thumb-building.webp" class="avatar avatar-sm" />
+              </div>
+              <div class="tile-content">
+                <span class="tile-title">
+                  <span v-if="e.parsed_id" v-html="e.parsed_id" />
+                  <i v-if="e.parsed_id" class="icon icon-caret" />
+                  <span :style="{ opacity: e.parsed_id ? 0.5 : 1 }" v-html="e.name" />
+                </span>
+                <small class="text-gray tile-subtitle">
+                  {{ e.subtext }}
+                  <template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
+                </small>
+              </div>
+            </div>
           </a>
-          {{ s.estimatedTotalHits > 20 ? t("approx") : "" }}{{ t("results", s.estimatedTotalHits) }}
+          <!-- <div class="menu-badge">
+              <label class="label label-primary">2</label>
+            </div> -->
         </li>
       </template>
+      <li class="nb_results search-comment">
+        <a
+          v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
+          class="cursor-pointer"
+          @mousedown="keep_focus = true"
+          @click="s.expanded = true"
+        >
+          +{{ s.entries.length - s.n_visible }} {{ t("hidden") }},
+        </a>
+        {{ s.estimatedTotalHits > 20 ? t("approx") : "" }}{{ t("results", s.estimatedTotalHits) }}
+      </li>
+    </template>
 
-      <!--
+    <!--
       <li class="search-comment actions">
         <Button size="sm"><ChevronRightIcon class="h-4 w-4" /> in Gebäude Suchen</Button>
         <Button size="sm"><MapPinIcon class="h-4 w-4" /> Hörsäle</Button>
@@ -269,8 +268,7 @@ onMounted(() => {
           <label class="label label-primary">frei</label>
         </div>
       </li> -->
-    </ul>
-  </div>
+  </ul>
 </template>
 
 <style lang="scss">
