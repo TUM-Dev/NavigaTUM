@@ -106,7 +106,6 @@ webclient
 │   │   ├── md/                 # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
 │   │   ├── variables.scss      # 🠔 Include-script for Spectre.CSS
 │   │   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
-│   │   ├── spectre-all.scss    # 🠔 Include-script for Spectre.CSS
 │   │   └── logos               # 🠔 The Logos used by the app
 │   ├── components/ # 🠔 Vue components, which are used in views.
 │   ├── pages/      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.

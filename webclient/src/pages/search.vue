@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import "@/assets/spectre-all.scss";
 import { useFetch } from "@/composables/fetch";
 import { computed } from "vue";
 import { setDescription, setTitle } from "@/composables/common";
