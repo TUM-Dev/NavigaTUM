@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { useVirtualList } from "@vueuse/core";
+import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/vue";
+import { CheckIcon, ChevronUpDownIcon, MapPinIcon, FunnelIcon, MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
-import { MapPinIcon, ChevronRightIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import Button from "@/components/Button.vue";
 type RoomsOverview = components["schemas"]["RoomsOverview"];
 type ChildEntry = components["schemas"]["ChildEntry"];
 
@@ -12,9 +13,8 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n({ useScope: "local" });
+const selectedUsage = ref(-1);
 const search = ref("");
-const selected = ref(-1);
-
 const combined_list = computed(() => {
   const usages = props.rooms?.usages || [];
   const combinedList = [] as ChildEntry[];
@@ -23,230 +23,147 @@ const combined_list = computed(() => {
   });
   return combinedList;
 });
-const selectedRooms = computed<readonly ChildEntry[]>(() => {
-  if (selected.value === -1) {
-    return combined_list.value;
+type SelectedRoomGroup = {
+  rooms: readonly ChildEntry[];
+  label: string;
+};
+const selectedRooms = computed<SelectedRoomGroup>(() => {
+  if (selectedUsage.value === -1) {
+    return { rooms: combined_list.value, label: t("any_usage") };
   }
   const rooms_usgage = props.rooms?.usages || [];
-  return rooms_usgage[selected.value].children;
+  return { rooms: rooms_usgage[selectedUsage.value].children, label: rooms_usgage[selectedUsage.value].name };
 });
 const filteredList = computed<readonly ChildEntry[]>(() => {
   const search_term = new RegExp(`.*${search.value}.*`, "i"); // i=>case insensitive
-  return selectedRooms.value.filter((f) => search_term.test(f.name));
-});
-// useVirtualList does not work with readonly arrays
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore-next-line
-const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filteredList, {
-  itemHeight: 32,
-  overscan: 10,
+  return selectedRooms.value.rooms.filter((f) => search_term.test(f.name));
 });
 </script>
 
 <template>
-  <section v-if="props.rooms">
-    <div class="columns">
-      <div class="column">
-        <h2>{{ t("title") }}</h2>
-      </div>
-      <!-- <div class="column col-auto">
-          <div class="dropdown"><a class="btn btn-link dropdown-toggle" tabindex="0">{{ t("by_usage") }} <i class="icon icon-caret" /></a>
-            <ul class="menu">
-                    <li class="menu-item"><a href="#dropdowns">nach Nutzung</a></li>
-                    <li class="menu-item"><a href="#dropdowns">nach ...</a></li>
-            </ul>
-          </div>
-        </div> -->
-    </div>
+  <div v-if="props.rooms?.usages" class="flex-col mt-5 flex gap-1 p-4 border rounded">
+    <p class="font-semibold text-lg">{{ t("title") }}</p>
+    <div class="gap-3 flex flex-col">
+      <Listbox v-model="selectedUsage" as="div" class="z-10 relative">
+        <ListboxButton
+          class="relative w-full border rounded-sm dark:border-gray-200 bg-white py-2 pr-10 text-left focusable sm:text-sm"
+        >
+          <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+            <FunnelIcon class="h-4 w-4 text-zinc-400" aria-hidden="true" />
+          </span>
+          <span class="ps-8 block truncate">{{ selectedRooms.label }}</span>
+          <span class="absolute inset-y-0 right-0 flex items-center pr-2">
+            <ChevronUpDownIcon class="h-5 w-5 text-zinc-400" aria-hidden="true" />
+          </span>
+        </ListboxButton>
 
-    <div class="columns content">
-      <div id="category-select" class="col-4 col-md-12 col-sm-12 column">
-        <div class="panel">
-          <div class="panel-header">
-            <div class="h6 panel-title">{{ t("by_usage") }}:</div>
-          </div>
-          <div class="panel-body">
-            <ul class="menu">
-              <li class="menu-item">
-                <button
-                  type="button"
-                  class="btn"
-                  :class="{
-                    active: selected === -1,
-                  }"
-                  @click="selected = -1"
-                >
-                  <ChevronRightIcon class="h-4 w-4" />
-                  <div class="menu-text">
-                    {{ t("any") }}
-                  </div>
-                  <label class="label">{{ combined_list.length }}</label>
-                </button>
-              </li>
-              <li class="divider" data-content="" />
-              <li v-for="(u, i) in props.rooms.usages" :key="u.name" class="menu-item">
-                <button
-                  type="button"
-                  class="btn"
-                  :class="{
-                    active: i === selected,
-                  }"
-                  @click="selected = i"
-                >
-                  <ChevronRightIcon class="h-4 w-4" />
-                  <div class="menu-text">{{ u.name }}</div>
-                  <label class="label">{{ u.count }}</label>
-                </button>
-              </li>
-            </ul>
-          </div>
-          <div class="panel-footer">
-            <button type="button" class="btn btn-link btn-sm" @click="selected = -1">
-              {{ t("remove_selection") }}
-            </button>
-          </div>
-        </div>
-      </div>
-      <div id="rooms-list" class="col-8 col-md-12 col-sm-12 column">
-        <div class="show-sm" style="height: 15px" />
-        <div class="panel">
-          <div class="panel-header">
-            <div class="input-group">
-              <input v-model="search" :placeholder="t('filter')" class="form-input" />
-              <button
-                type="button"
-                class="btn btn-primary input-group-btn"
-                :aria-label="t('clear_filter')"
-                @click="search = ''"
+        <Transition
+          leave-active-class="transition duration-100 ease-in"
+          leave-from-class="opacity-100"
+          leave-to-class="opacity-0"
+        >
+          <ListboxOptions
+            class="absolute mt-1 !m-0 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+          >
+            <ListboxOption v-slot="{ active, selected }" :key="-1" :value="-1" as="template">
+              <li
+                class="flex flex-row justify-between list-none cursor-pointer select-none py-2 pl-10 pr-4"
+                :class="[active ? 'bg-tumBlue-100 text-tumBlue-900' : 'text-zinc-900']"
               >
-                <XMarkIcon class="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-          <div v-bind="containerProps" class="panel-body">
-            <ul v-bind="wrapperProps" class="menu">
-              <li v-for="item in list" :key="item.index" class="menu-item">
-                <RouterLink :to="'/view/' + item.data.id" class="text-ellipsis">
-                  <div class="flex flex-row gap-1"><MapPinIcon class="mt-0.5 h-4 w-4" /> {{ item.data.name }}</div>
-                </RouterLink>
+                <span class="block truncate" :class="[selected ? 'font-medium' : 'font-normal']"
+                  >{{ t("any_usage") }}
+                </span>
+                <span class="bg-tumBlue-300 text-tumBlue-950 text-sm px-2 py-1 rounded-md"
+                  >{{ t("rooms", combined_list.length) }}
+                </span>
+
+                <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-tumBlue-600">
+                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                </span>
               </li>
-            </ul>
-          </div>
-          <div class="panel-footer">
-            <small>
-              {{ t("results", filteredList.length) }}
-              {{ search === "" ? "" : `(${t("filtered")})` }}
-            </small>
-          </div>
-        </div>
+            </ListboxOption>
+            <ListboxOption
+              v-for="(usage, i) in props.rooms.usages"
+              v-slot="{ active, selected }"
+              :key="i"
+              :value="i"
+              as="template"
+            >
+              <li
+                class="flex flex-row justify-between list-none cursor-pointer select-none py-2 pl-10 pr-4"
+                :class="[active ? 'bg-tumBlue-100 text-tumBlue-900' : 'text-zinc-900']"
+              >
+                <span class="my-auto block truncate" :class="[selected ? 'font-medium' : 'font-normal']">
+                  {{ usage.name }}
+                </span>
+                <span class="bg-tumBlue-300 text-tumBlue-950 text-sm px-2 py-1 rounded-md"
+                  >{{ t("rooms", usage.count) }}
+                </span>
+                <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-tumBlue-600">
+                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                </span>
+              </li>
+            </ListboxOption>
+          </ListboxOptions>
+        </Transition>
+      </Listbox>
+      <div class="relative z-0 w-full border dark:border-gray-200">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <MagnifyingGlassIcon class="h-4 w-4 text-zinc-400" aria-hidden="true" />
+        </span>
+        <input
+          id="search-input"
+          v-model="search"
+          class="w-full ps-8 focusable rounded-sm flex-grow py-2"
+          :placeholder="t('search')"
+        />
       </div>
     </div>
-  </section>
+    <div>
+      <ul v-if="filteredList.length > 0" class="list-none max-h-96 overflow-y-scroll pe-2.5">
+        <RouterLink v-for="(room, index) in filteredList" :key="index" :to="`/view/${room.id}`" class="!no-underline">
+          <li class="hover:bg-tumBlue-500 hover:text-white p-1.5 px-3 flex-row gap-2 flex">
+            <MapPinIcon class="h-4 w-4 my-auto" aria-hidden="true" /> {{ room.name }}
+          </li>
+        </RouterLink>
+      </ul>
+      <div v-else class="flex flex-row items-baseline">
+        {{ t("no_results_with_these_filters") }}
+        <Button
+          size="sm"
+          variant="link"
+          @click="
+            () => {
+              search = '';
+              selectedUsage = -1;
+            }
+          "
+          >{{ t("clear_filter") }}</Button
+        >
+      </div>
+      <small>
+        {{ t("results", filteredList.length) }}
+      </small>
+    </div>
+  </div>
 </template>
-
-<style lang="scss" scoped>
-@import "@/assets/variables";
-.panel {
-  .menu {
-    padding: 0;
-    box-shadow: none;
-
-    .menu-item button {
-      text-align: left !important;
-      border: 0 transparent !important;
-      width: 100%;
-    }
-    .menu-item {
-      height: 32px;
-    }
-
-    .menu-item a,
-    .menu-item label,
-    .menu-item button {
-      cursor: pointer;
-      user-select: none;
-    }
-  }
-
-  #category-select .menu-item {
-    padding: 0;
-
-    & .icon-arrow-right {
-      margin-right: 4px;
-    }
-  }
-
-  .menu-item button {
-    display: flex;
-    flex-direction: row;
-    box-sizing: border-box;
-    width: 100%;
-
-    .menu-text {
-      flex-grow: 1;
-      flex-shrink: 1;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-
-    .icon,
-    label {
-      flex-grow: 0;
-      flex-shrink: 0;
-    }
-
-    .icon {
-      top: 5px;
-    }
-  }
-
-  .panel-title {
-    font-weight: bold;
-  }
-
-  .panel-body {
-    height: 500px;
-    padding-bottom: 4px;
-
-    .divider {
-      margin: 6px 0;
-    }
-  }
-
-  .panel-footer {
-    color: $text-gray;
-  }
-}
-
-// 'sm' (mobile)
-@media (max-width: 600px) {
-  #category-select .panel-body {
-    height: 260px;
-  }
-
-  #rooms-list .panel-body {
-    height: 275px;
-  }
-}
-</style>
 
 <i18n lang="yaml">
 de:
-  any: beliebig
-  by_usage: nach Nutzung
+  any_usage: beliebige Nutzung
+  filter_by_usage: nach Nutzung filtern
+  no_results_with_these_filters: Keine Ergebnisse mit diesen Filtern gefunden.
   clear_filter: Filter löschen
-  filter: Filter
-  filtered: gefiltert
-  remove_selection: Auswahl löschen
+  search: durchsuchen
   results: 1 Ergebnis | {count} Ergebnisse
+  rooms: 1 Raum | {count} Räume
   title: Räume
 en:
-  any: any
-  by_usage: by usage
-  clear_filter: Clear the filter
-  filter: Filter
-  filtered: filtered
-  remove_selection: Remove selection
+  any_usage: any usage
+  filter_by_usage: filter by usage
+  no_results_with_these_filters: No results found with these filters.
+  clear_filter: Clear the filters
+  search: search
   results: "{count} result | {count} results"
   title: Rooms
 </i18n>
