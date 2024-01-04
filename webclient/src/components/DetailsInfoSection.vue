@@ -12,7 +12,7 @@ const appURL = import.meta.env.VITE_APP_URL;
 
 <template>
   <!-- Information section (on mobile) -->
-  <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column show-sm mt-4">
+  <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column block lg:hidden mt-4">
     <h2>{{ t("info_title") }}</h2>
     <DetailsPropertyTable />
   </div>
@@ -20,11 +20,11 @@ const appURL = import.meta.env.VITE_APP_URL;
   <!-- Informationen card (desktop) -->
   <!-- Some elements are currently duplicate, which is not optimal but should be okay
        as long as only little information is there -->
-  <div class="col-5 col-md-12 column hide-sm">
-    <div class="card shadow-neutral-500/5 shadow-md dark:shadow-white/20">
+  <div class="hidden lg:block">
+    <div class="shadow-neutral-500/5 shadow-md dark:shadow-white/20">
       <a
         v-if="state.image.shown_image"
-        class="card-image cursor-pointer"
+        class="cursor-pointer"
         @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
       >
         <img
@@ -33,29 +33,23 @@ const appURL = import.meta.env.VITE_APP_URL;
           class="block h-auto w-full max-w-full bg-zinc-100"
         />
       </a>
-      <div class="card-header">
-        <div class="card-title h5">{{ t("info_title") }}</div>
+      <div>{{ t("info_title") }}</div>
+      <DetailsPropertyTable />
+      <div class="mt-3 grid gap-2">
+        <Toast
+          v-if="state.data?.coords.accuracy === 'building'"
+          level="warning"
+          :msg="t('msg.inaccurate_only_building')"
+        />
+        <Toast
+          v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
+          level="warning"
+          :msg="t('msg.no_floor_overlay')"
+        />
+        <Toast v-if="state.data?.props?.comment" :msg="state.data.props.comment" />
       </div>
-      <div class="card-body">
-        <DetailsPropertyTable />
-        <div class="mt-3 grid gap-2">
-          <Toast
-            v-if="state.data?.coords.accuracy === 'building'"
-            level="warning"
-            :msg="t('msg.inaccurate_only_building')"
-          />
-          <Toast
-            v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
-            level="warning"
-            :msg="t('msg.no_floor_overlay')"
-          />
-          <Toast v-if="state.data?.props?.comment" :msg="state.data.props.comment" />
-        </div>
-      </div>
-      <!-- <div class="card-footer">
-          <button class="btn btn-link">Mehr Infos</button>
-      </div> -->
     </div>
+    <!-- <button class="btn btn-link">Mehr Infos</button> -->
   </div>
   <DetailsImageSlideshowModal v-if="state.image.slideshow_open" />
 </template>

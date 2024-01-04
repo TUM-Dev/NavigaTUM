@@ -111,11 +111,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="state.data" id="view-view">
+  <div v-if="state.data">
     <!-- Header image (on mobile) -->
     <a
       v-if="state.image.shown_image"
-      class="header-image-mobile show-sm cursor-pointer"
+      class="block lg:hidden cursor-pointer"
       @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
     >
       <img
@@ -126,14 +126,8 @@ onMounted(() => {
     </a>
 
     <!-- Breadcrumbs -->
-    <ol class="breadcrumb" vocab="https://schema.org/" typeof="BreadcrumbList">
-      <li
-        v-for="(p, i) in state.data.parent_names"
-        :key="p"
-        class="breadcrumb-item"
-        property="itemListElement"
-        typeof="ListItem"
-      >
+    <ol vocab="https://schema.org/" typeof="BreadcrumbList">
+      <li v-for="(p, i) in state.data.parent_names" :key="p" property="itemListElement" typeof="ListItem">
         <RouterLink v-bind="{ to: '/view/' + state.data.parents[i] }" property="item" typeof="WebPage">
           <span property="name">{{ p }}</span>
         </RouterLink>
@@ -142,9 +136,9 @@ onMounted(() => {
     </ol>
 
     <!-- Entry header / title -->
-    <div class="entry-header">
-      <div class="title">
-        <div v-if="clipboardIsSupported" class="hide-sm">
+    <div>
+      <div>
+        <div v-if="clipboardIsSupported" class="hidden lg:block">
           <button
             type="button"
             class="btn btn-action btn-link btn-sm"
@@ -230,66 +224,6 @@ onMounted(() => {
     <DetailsSources />
   </div>
 </template>
-
-<style lang="scss">
-@import "@/assets/variables";
-
-#view-view {
-  /* --- General --- */
-  h1 {
-    font-size: 1.2rem;
-    font-weight: 500;
-  }
-
-  h2 {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-
-  /* --- Header --- */
-  .header-image-mobile {
-    margin: -10px -23px 10px;
-
-    > img {
-      min-width: 100%;
-      min-height: 100px;
-      max-height: 200px;
-      object-fit: cover;
-    }
-  }
-
-  .breadcrumb {
-    margin-top: 0;
-    font-size: 12px;
-  }
-
-  .entry-header {
-    .title {
-      position: relative;
-
-      & > div {
-        position: absolute;
-        left: -32px;
-        opacity: 0;
-        transition: opacity 0.2s;
-      }
-
-      &:hover > div {
-        opacity: 1;
-      }
-    }
-  }
-
-  /* --- Sections general --- */
-  section {
-    margin-top: 40px;
-
-    .content {
-      margin-top: 15px;
-    }
-  }
-}
-</style>
 
 <i18n lang="yaml">
 de:

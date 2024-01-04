@@ -18,20 +18,9 @@ window.setTimeout(() => {
   <div id="swagger-ui" />
 </template>
 
-<style lang="scss">
-@import "@/assets/variables";
-
-.swagger-ui {
-  // we cannot apply loading-lg to this external dependency
-  .loading-container .loading {
-    min-height: 2rem;
-  }
-
-  .loading-container .loading::after {
-    height: 1.6rem;
-    margin-left: -0.8rem;
-    margin-top: -0.8rem;
-    width: 1.6rem;
-  }
+<style lang="postcss" scoped>
+// we cannot apply loading-lg to this external dependency
+.loading-container .loading {
+  @apply min-h-8 after:h-6 after:-ml-2.5 after:-mt-3.5 after:w-6;
 }
 </style>

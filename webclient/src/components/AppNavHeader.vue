@@ -7,7 +7,7 @@ import PreferencesPopup from "@/components/PreferencesPopup.vue";
     <!-- dark:bg-gray-900 dark:shadow-black/40"> -->
     <nav class="mx-auto max-w-4xl">
       <div class="mx-10 my-2.5 flex place-content-between content-between justify-between gap-x-10">
-        <RouterLink class="hidden my-auto lg:block" to="/">
+        <RouterLink class="my-auto hidden lg:block" to="/">
           <img alt="Navigatum Logo" class="pt-2 h-10" width="200" src="@/assets/logos/navigatum.svg" />
           <!-- 7px for logo1 -->
         </RouterLink>

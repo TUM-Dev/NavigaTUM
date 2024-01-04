@@ -290,13 +290,6 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 @import "maplibre-gl/dist/maplibre-gl.css";
 @import "@/assets/variables";
 
-/* --- Map container --- */
-#map-container {
-  // This does not change anything (except using px instead of rem),
-  // but ensures that roomfinder position calculations are predictable.
-  padding: 0 8px;
-}
-
 /* --- Interactive map display --- */
 #interactive-map-container {
   margin-bottom: 10px;
