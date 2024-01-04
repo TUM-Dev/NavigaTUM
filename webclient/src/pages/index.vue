@@ -6,6 +6,7 @@ import { useI18n } from "vue-i18n";
 import { MapPinIcon } from "@heroicons/vue/24/outline";
 import { ArrowRightIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/24/solid";
 import { ref } from "vue";
+import Button from "@/components/Button.vue";
 type RootResponse = components["schemas"]["RootResponse"];
 
 const { t } = useI18n({ useScope: "local" });
@@ -15,7 +16,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
 
 <template>
   <div class="flex flex-row justify-between pt-14">
-    <div class="!text-xl font-semibold text-slate-600">{{ t("sites") }}</div>
+    <div class="!text-lg font-semibold text-slate-600">{{ t("sites") }}</div>
     <!-- <a href="#" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</a> -->
   </div>
   <div v-if="data" class="mt-5">
@@ -23,7 +24,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
       <div
         v-for="(site, siteIndex) in data.sites_overview"
         :key="site.id"
-        class="flex flex-col gap-4 rounded-xl border-2 p-8"
+        class="flex flex-col gap-4 rounded-lg border-2 p-6"
       >
         <div>
           <RouterLink
@@ -32,10 +33,10 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             :aria-label="t('show_details_for_campus', [site.name])"
             class="flex grow-0 focusable rounded flex-row justify-between !no-underline"
           >
-            <span class="text-xl font-semibold text-slate-700 hover:text-tumBlue-500">{{ site.name }}</span>
+            <span class="text-lg font-semibold text-slate-700 hover:text-tumBlue-500">{{ site.name }}</span>
             <ArrowRightIcon v-if="site.id" class="my-auto hidden h-6 w-6 md:block" />
           </RouterLink>
-          <div v-else class="text-xl font-semibold">{{ site.name }}</div>
+          <div v-else class="text-lg font-semibold">{{ site.name }}</div>
         </div>
         <div class="flex flex-col gap-3">
           <RouterLink
@@ -45,11 +46,11 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             :aria-label="t('show_details_for_building', [c.name])"
             class="flex flex-row focusable rounded justify-between text-tumBlue-600 !no-underline hover:text-tumBlue-500"
           >
-            <div class="flex flex-row gap-3">
-              <MapPinIcon class="my-auto h-4 w-4" />
-              <span class="text-lg">{{ c.name }}</span>
+            <div class="flex flex-row gap-2">
+              <MapPinIcon class="w-5 h-4" />
+              <span>{{ c.name }}</span>
             </div>
-            <ChevronRightIcon class="hidden h-5 w-5 sm:block" />
+            <ChevronRightIcon class="hidden my-auto h-4 w-4 sm:block" />
           </RouterLink>
           <div v-if="site.children.length > site.n_visible" class="mx-auto">
             <Button
@@ -64,7 +65,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             <Button v-else variant="link" :aria-label="t('more_aria')" @click="() => (openPanels[siteIndex] = true)">
               <ChevronDownIcon class="my-auto h-4 w-4" />
               {{ t("more") }}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

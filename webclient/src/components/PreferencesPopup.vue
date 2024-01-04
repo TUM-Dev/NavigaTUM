@@ -29,14 +29,14 @@ watchEffect(() => saveCooke("lang", locale.value));
 </script>
 
 <template>
-  <Menu as="div" class="relative my-auto ml-4 flex-shrink-0">
+  <Menu as="div">
     <div>
       <MenuButton
         class="relative focusable flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
       >
         <span class="absolute -inset-1.5" />
         <span class="sr-only">Open preferences menu</span>
-        <AdjustmentsHorizontalIcon class="h-7 w-7" />
+        <AdjustmentsHorizontalIcon class="h-6 w-6" />
       </MenuButton>
     </div>
     <Transition
@@ -45,7 +45,7 @@ watchEffect(() => saveCooke("lang", locale.value));
       leave-to-class="transform opacity-0 scale-95"
     >
       <MenuItems
-        class="absolute -right-2 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="absolute -right-1 top-12 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <MenuItem as="div" class="block px-4 py-2 text-sm font-semibold text-slate-400">
           {{ t("preferences") }}

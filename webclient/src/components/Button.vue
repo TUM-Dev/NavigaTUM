@@ -3,10 +3,10 @@ import { computed } from "vue";
 
 export interface Props {
   type?: "submit" | "reset" | "button";
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | string;
   to?: string;
   disabled?: boolean;
-  variant?: "action" | "link" | "base" | "info" | "primary";
+  variant?: "action" | "link" | "info" | "primary" | string;
   ariaLabel?: string;
 }
 
@@ -14,7 +14,7 @@ const props = withDefaults(defineProps<Props>(), {
   type: "button",
   size: "md",
   to: "",
-  variant: "base",
+  variant: "primary",
   ariaLabel: "",
   disabled: false,
 });
@@ -26,23 +26,21 @@ const variantClasses = computed(() => {
     case "primary":
       return "bg-tumBlue-500 visited:text-tumBlue-50 text-tumBlue-50 hover:bg-tumBlue-600 hover:text-white";
     case "link":
-      return "bg-transparent visited:text-tumBlue-600 text-tumBlue-600 hover:bg-tumBlue-100 hover:text-tumBlue-500";
-    case "base":
-      return "";
+      return "bg-transparent visited:text-tumBlue-600 text-tumBlue-600 hover:bg-tumBlue-50 hover:text-tumBlue-500";
     default:
-      return "";
+      return props.variant;
   }
 });
 const sizeClasses = computed(() => {
   switch (props.size) {
     case "sm":
-      return "text-md px-1.5 rounded-xs";
+      return "text-xs font-semibold px-1.5 rounded-md";
     case "md":
       return "text-md px-4 py-1.5 rounded-sm";
     case "lg":
       return "text-lg px-2.5 rounded-md";
     default:
-      return "";
+      return props.size;
   }
 });
 </script>
