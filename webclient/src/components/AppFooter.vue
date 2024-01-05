@@ -41,14 +41,14 @@ const navigation = [
           <a
             v-if="item.href.startsWith('https')"
             :href="item.href"
-            class="hover:!text-gray-900 focusable rounded !text-gray-600 !no-underline"
+            class="focusable rounded !text-gray-600 !no-underline hover:!text-gray-900"
           >
             {{ item.name }}
           </a>
           <RouterLink
             v-else
             :to="item.href"
-            class="!no-underline focusable rounded hover:!text-gray-900 !text-gray-600"
+            class="focusable rounded !text-gray-600 !no-underline hover:!text-gray-900"
           >
             {{ item.name }}
           </RouterLink>
@@ -57,7 +57,7 @@ const navigation = [
           <button
             type="button"
             data-cy="open-feedback-footer"
-            class="text-sm focusable rounded leading-6 text-gray-600 hover:text-gray-900"
+            class="focusable rounded text-sm leading-6 text-gray-600 hover:text-gray-900"
             :aria-label="t('feedback.open')"
             @click="global.openFeedback()"
           >
@@ -66,7 +66,7 @@ const navigation = [
         </div>
       </nav>
       <div class="mt-10 flex justify-center space-x-10 text-center">
-        <p class="text-center text-gray-500 text-xs">
+        <p class="text-center text-xs text-gray-500">
           {{ t("official_roomfinder") }}<br />
           <Button to="https://tum.de" variant="" size="sm">
             <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="h-20" aria-hidden="true" />

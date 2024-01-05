@@ -115,7 +115,7 @@ onMounted(() => {
     <!-- Header image (on mobile) -->
     <a
       v-if="state.image.shown_image"
-      class="block lg:hidden cursor-pointer"
+      class="block cursor-pointer lg:hidden"
       @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
     >
       <img

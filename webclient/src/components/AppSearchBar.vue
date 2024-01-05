@@ -179,7 +179,7 @@ onMounted(() => {
   <!-- Autocomplete -->
   <ul
     v-cloak
-    class="absolute mt-16 top-0 list-none bg-white p-3.5 shadow-2xl shadow-zinc-700/30 dark:bg-zinc-900 dark:shadow-black/60"
+    class="absolute top-0 mt-16 list-none bg-white p-3.5 shadow-2xl shadow-zinc-700/30 dark:bg-zinc-900 dark:shadow-black/60"
     :class="{
       hidden: !global.search_focused || autocomplete.sections.length === 0,
     }"

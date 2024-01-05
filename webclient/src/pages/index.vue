@@ -31,12 +31,12 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             v-if="site.id"
             :to="'/view/' + site.id"
             :aria-label="t('show_details_for_campus', [site.name])"
-            class="flex grow-0 focusable rounded flex-row justify-between !no-underline"
+            class="focusable flex grow-0 flex-row justify-between rounded !no-underline"
           >
             <span class="text-md font-semibold text-slate-700 hover:text-tumBlue-500">{{ site.name }}</span>
             <ArrowRightIcon v-if="site.id" class="my-auto hidden h-6 w-6 md:block" />
           </RouterLink>
-          <div v-else class="text-md text-slate-700 font-semibold">{{ site.name }}</div>
+          <div v-else class="text-md font-semibold text-slate-700">{{ site.name }}</div>
         </div>
         <div class="flex flex-col gap-3">
           <RouterLink
@@ -44,13 +44,13 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             :key="c.id"
             :to="'/view/' + c.id"
             :aria-label="t('show_details_for_building', [c.name])"
-            class="flex flex-row focusable rounded justify-between text-tumBlue-600 !no-underline hover:text-tumBlue-500"
+            class="focusable flex flex-row justify-between rounded text-tumBlue-600 !no-underline hover:text-tumBlue-500"
           >
             <div class="flex flex-row gap-2">
-              <MapPinIcon class="w-5 h-4" />
+              <MapPinIcon class="h-4 w-5" />
               <span>{{ c.name }}</span>
             </div>
-            <ChevronRightIcon class="hidden my-auto h-4 w-4 sm:block" />
+            <ChevronRightIcon class="my-auto hidden h-4 w-4 sm:block" />
           </RouterLink>
           <div v-if="site.children.length > site.n_visible" class="mx-auto">
             <Button

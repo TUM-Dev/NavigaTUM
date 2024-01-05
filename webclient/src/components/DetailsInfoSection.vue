@@ -12,7 +12,7 @@ const appURL = import.meta.env.VITE_APP_URL;
 
 <template>
   <!-- Information section (on mobile) -->
-  <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column block lg:hidden mt-4">
+  <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column mt-4 block lg:hidden">
     <h2>{{ t("info_title") }}</h2>
     <DetailsPropertyTable />
   </div>
@@ -21,7 +21,7 @@ const appURL = import.meta.env.VITE_APP_URL;
   <!-- Some elements are currently duplicate, which is not optimal but should be okay
        as long as only little information is there -->
   <div class="hidden lg:block">
-    <div class="shadow-neutral-500/5 shadow-md dark:shadow-white/20">
+    <div class="shadow-md shadow-neutral-500/5 dark:shadow-white/20">
       <a
         v-if="state.image.shown_image"
         class="cursor-pointer"

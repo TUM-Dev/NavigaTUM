@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Menu, MenuButton, MenuItem, MenuItems, Switch } from "@headlessui/vue";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { AdjustmentsHorizontalIcon, MoonIcon, SunIcon } from "@heroicons/vue/24/outline";
 import SelectionSwitch from "@/components/SelectionSwitch.vue";
 
@@ -32,7 +32,7 @@ watchEffect(() => saveCooke("lang", locale.value));
   <Menu as="div">
     <div>
       <MenuButton
-        class="relative focusable flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
+        class="focusable relative flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
       >
         <span class="absolute -inset-1.5" />
         <span class="sr-only">Open preferences menu</span>

@@ -52,7 +52,7 @@ const sizeClasses = computed(() => {
     :aria-label="ariaLabel"
     :type="props.type"
     v-bind="{ disabled: disabled }"
-    :class="`flex flex-row gap-1 !no-underline focusable ${variantClasses} ${sizeClasses}`"
+    :class="`focusable flex flex-row gap-1 !no-underline ${variantClasses} ${sizeClasses}`"
     @click="emit('click')"
   >
     <slot />
@@ -62,7 +62,7 @@ const sizeClasses = computed(() => {
     :aria-label="ariaLabel"
     :type="props.type"
     v-bind="{ disabled: disabled }"
-    :class="`flex flex-row gap-1 focusable ${variantClasses} ${sizeClasses}`"
+    :class="`focusable flex flex-row gap-1 ${variantClasses} ${sizeClasses}`"
     @click="emit('click')"
   >
     <slot />

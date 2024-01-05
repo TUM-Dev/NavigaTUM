@@ -21,6 +21,6 @@ window.setTimeout(() => {
 <style lang="postcss" scoped>
 // we cannot apply loading-lg to this external dependency
 .loading-container .loading {
-  @apply min-h-8 after:h-6 after:-ml-2.5 after:-mt-3.5 after:w-6;
+  @apply min-h-8 after:-ml-2.5 after:-mt-3.5 after:h-6 after:w-6;
 }
 </style>

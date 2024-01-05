@@ -8,6 +8,6 @@
   display: none;
 }
 
-.focusable{
-  @apply focus:ring-2 focus-visible:outline-0 focus:ring-tumBlue-500 focus:ring-offset-2
+.focusable {
+  @apply focus:ring-2 focus:ring-tumBlue-500 focus:ring-offset-2 focus-visible:outline-0;
 }

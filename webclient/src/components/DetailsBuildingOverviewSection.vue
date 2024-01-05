@@ -19,25 +19,25 @@ const appURL = import.meta.env.VITE_APP_URL;
   <section v-if="props.buildings">
     <h2>{{ t("title") }}</h2>
     <!--  <a class="no-underline" href="#">Übersichtskarte <i class="icon icon-forward" /> -->
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+    <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">
         <RouterLink
           v-if="i < props.buildings.n_visible || buildingsExpanded"
           :to="'/view/' + b.id"
-          class="!no-underline focusable flex flex-row justify-between border-neutral-200 dark:border-neutral-700 border-solid border p-3.5 rounded-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 dark:bg-zinc-900"
+          class="focusable flex flex-row justify-between rounded-sm border border-solid border-neutral-200 p-3.5 !no-underline hover:bg-zinc-50 dark:border-neutral-700 dark:bg-zinc-900 dark:hover:bg-zinc-800"
           :aria-label="`show the details for the building '${b.name}'`"
         >
           <div class="flex flex-row gap-3">
-            <figure class="h-12 w-12 flex justify-around">
+            <figure class="flex h-12 w-12 justify-around">
               <img
                 v-if="b.thumb"
-                class="rounded-full aspect-square max-w-none"
+                class="aspect-square max-w-none rounded-full"
                 :alt="t('thumbnail_preview')"
                 :src="`${appURL}/cdn/thumb/${b.thumb}`"
               />
               <img
                 v-else
-                class="rounded-full aspect-square max-w-none"
+                class="aspect-square max-w-none rounded-full"
                 :alt="t('default_thumbnail_preview')"
                 src="@/assets/thumb-building.webp"
               />
@@ -57,7 +57,7 @@ const appURL = import.meta.env.VITE_APP_URL;
     <div v-if="props.buildings.n_visible < props.buildings.entries.length" class="mt-2">
       <Button variant="link" @click="toggleBuildingsExpanded()">
         <template v-if="buildingsExpanded"> <ChevronUpIcon class="mt-0.5 h-4 w-4" /> {{ t("less") }} </template>
-        <template v-else> <ChevronDownIcon class="h-4 w-4 mt-0.5" /> {{ t("more") }} </template>
+        <template v-else> <ChevronDownIcon class="mt-0.5 h-4 w-4" /> {{ t("more") }} </template>
       </Button>
     </div>
   </section>

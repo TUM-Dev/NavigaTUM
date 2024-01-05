@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/vue";
+import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/vue";
 import { CheckIcon, ChevronUpDownIcon, MapPinIcon, FunnelIcon, MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
@@ -41,17 +41,17 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
 </script>
 
 <template>
-  <div v-if="props.rooms?.usages" class="flex-col mt-5 flex gap-1 p-4 border rounded">
-    <p class="font-semibold text-lg">{{ t("title") }}</p>
-    <div class="gap-3 flex flex-col">
-      <Listbox v-model="selectedUsage" as="div" class="z-10 relative">
+  <div v-if="props.rooms?.usages" class="mt-5 flex flex-col gap-1 rounded border p-4">
+    <p class="text-lg font-semibold">{{ t("title") }}</p>
+    <div class="flex flex-col gap-3">
+      <Listbox v-model="selectedUsage" as="div" class="relative z-10">
         <ListboxButton
-          class="relative w-full border rounded-sm dark:border-gray-200 bg-white py-2 pr-10 text-left focusable sm:text-sm"
+          class="focusable relative w-full rounded-sm border bg-white py-2 pr-10 text-left sm:text-sm dark:border-gray-200"
         >
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
             <FunnelIcon class="h-4 w-4 text-zinc-400" aria-hidden="true" />
           </span>
-          <span class="ps-8 block truncate">{{ selectedRooms.label }}</span>
+          <span class="block truncate ps-8">{{ selectedRooms.label }}</span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon class="h-5 w-5 text-zinc-400" aria-hidden="true" />
           </span>
@@ -63,17 +63,17 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
           leave-to-class="opacity-0"
         >
           <ListboxOptions
-            class="absolute mt-1 !m-0 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            class="absolute !m-0 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
           >
             <ListboxOption v-slot="{ active, selected }" :key="-1" :value="-1" as="template">
               <li
-                class="flex flex-row justify-between list-none cursor-pointer select-none py-2 pl-10 pr-4"
+                class="flex cursor-pointer select-none list-none flex-row justify-between py-2 pl-10 pr-4"
                 :class="[active ? 'bg-tumBlue-100 text-tumBlue-900' : 'text-zinc-900']"
               >
                 <span class="block truncate" :class="[selected ? 'font-medium' : 'font-normal']"
                   >{{ t("any_usage") }}
                 </span>
-                <span class="bg-tumBlue-300 text-tumBlue-950 text-sm px-2 py-1 rounded-md"
+                <span class="rounded-md bg-tumBlue-300 px-2 py-1 text-sm text-tumBlue-950"
                   >{{ t("rooms", combined_list.length) }}
                 </span>
 
@@ -90,13 +90,13 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
               as="template"
             >
               <li
-                class="flex flex-row justify-between list-none cursor-pointer select-none py-2 pl-10 pr-4"
+                class="flex cursor-pointer select-none list-none flex-row justify-between py-2 pl-10 pr-4"
                 :class="[active ? 'bg-tumBlue-100 text-tumBlue-900' : 'text-zinc-900']"
               >
                 <span class="my-auto block truncate" :class="[selected ? 'font-medium' : 'font-normal']">
                   {{ usage.name }}
                 </span>
-                <span class="bg-tumBlue-300 text-tumBlue-950 text-sm px-2 py-1 rounded-md"
+                <span class="rounded-md bg-tumBlue-300 px-2 py-1 text-sm text-tumBlue-950"
                   >{{ t("rooms", usage.count) }}
                 </span>
                 <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-tumBlue-600">
@@ -114,16 +114,16 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
         <input
           id="search-input"
           v-model="search"
-          class="w-full ps-8 focusable rounded-sm flex-grow py-2"
+          class="focusable w-full flex-grow rounded-sm py-2 ps-8"
           :placeholder="t('search')"
         />
       </div>
     </div>
     <div>
-      <ul v-if="filteredList.length > 0" class="list-none max-h-96 overflow-y-scroll pe-2.5">
+      <ul v-if="filteredList.length > 0" class="max-h-96 list-none overflow-y-scroll pe-2.5">
         <RouterLink v-for="(room, index) in filteredList" :key="index" :to="`/view/${room.id}`" class="!no-underline">
-          <li class="hover:bg-tumBlue-500 hover:text-white p-1.5 px-3 flex-row gap-2 flex">
-            <MapPinIcon class="h-4 w-4 my-auto" aria-hidden="true" /> {{ room.name }}
+          <li class="flex flex-row gap-2 p-1.5 px-3 hover:bg-tumBlue-500 hover:text-white">
+            <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" /> {{ room.name }}
           </li>
         </RouterLink>
       </ul>
