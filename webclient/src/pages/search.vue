@@ -9,7 +9,8 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
 import type { components } from "@/api_types";
-import { MapPinIcon, MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
+import { ChevronDownIcon } from "@heroicons/vue/16/solid";
+import { MapPinIcon, MagnifyingGlassIcon, BuildingOfficeIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
 type SearchResponse = components["schemas"]["SearchResponse"];
 
 const { t } = useI18n({ useScope: "local" });
@@ -66,13 +67,13 @@ function genDescription(): string {
 </script>
 
 <template>
-  <div v-if="data" id="view-search">
-    <small class="search_meta">
+  <div v-if="data" class="flex flex-col gap-5 pt-5">
+    <small class="text-zinc-500">
       {{ t("runtime") }}: {{ data.time_ms }}ms –
       <button
-        type="button"
         data-cy="open-feedback-search"
-        class="btn btn-link"
+        type="button"
+        class="focusable text-tumBlue-600 visited:text-tumBlue-600 hover:text-tumBlue-500"
         :aria-label="t('feedback.open')"
         @click="global.openFeedback('search')"
       >
@@ -81,29 +82,28 @@ function genDescription(): string {
     </small>
 
     <template v-for="s in sections" :key="s.type">
-      <section>
-        <div class="columns">
-          <div class="column">
-            <h2>{{ s.name }}</h2>
-          </div>
-        </div>
-        <ul class="result-list">
-          <li v-for="e in s.entries" :key="e.id">
-            <RouterLink :to="'/view/' + e.id" class="tile tile-centered">
-              <div class="tile-icon">
-                <template v-if="e.type === 'room' || e.type === 'virtual_room'">
-                  <MagnifyingGlassIcon v-if="e.parsed_id" class="h-4 w-4" />
-                  <MapPinIcon v-else class="h-4 w-4" />
-                </template>
-                <img v-else class="avatar avatar-sm" src="@/assets/thumb-building.webp" :alt="t('thumbnail_alt')" />
+      <section class="flex flex-col gap-2">
+        <h2 class="text-md font-semibold text-zinc-500">{{ s.name }}</h2>
+        <ul class="flex flex-col gap-3">
+          <li v-for="e in s.entries" :key="e.id" class="focusable rounded-sm border hover:bg-tumBlue-50">
+            <RouterLink :to="'/view/' + e.id" class="flex gap-3 p-4">
+              <div class="my-auto">
+                <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="p-2">
+                  <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
+                  <MapPinIcon v-else class="h-6 w-6" />
+                </div>
+                <div v-else class="rounded-full bg-tumBlue-500 p-2 text-white">
+                  <BuildingOfficeIcon v-if="e.type === 'building'" class="h-6 w-6" />
+                  <BuildingOffice2Icon v-else class="h-6 w-6" />
+                </div>
               </div>
-              <div class="tile-content">
-                <div class="tile-title">
+              <div class="flex flex-col gap-0.5">
+                <div class="flex flex-row">
                   <span v-if="e.parsed_id" v-html="e.parsed_id" />
-                  <i v-if="e.parsed_id" class="icon icon-caret" />
+                  <ChevronDownIcon v-if="e.parsed_id" class="h-4 w-4" />
                   <span v-html="e.name" />
                 </div>
-                <small class="text-gray tile-subtitle">
+                <small class="text-zinc-500">
                   {{ e.subtext }}<template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
                 </small>
               </div>
@@ -115,7 +115,7 @@ function genDescription(): string {
             </RouterLink>
           </li>
         </ul>
-        <p class="nb_results search-comment">
+        <p class="search-comment">
           {{ s.estimatedTotalHits > 20 ? t("approx") : "" }}
           {{ t("results", s.estimatedTotalHits) }}{{ s.estimatedTotalHits > 10 ? ", " + t("max_results") : "" }}
         </p>
