@@ -80,25 +80,6 @@ const deleteIssueRequested = ref(false);
   </TokenBasedModal>
 </template>
 
-<style lang="scss" scoped>
-@import "@/assets/variables";
-
-.modal {
-  label {
-    width: fit-content;
-    display: inline-block;
-  }
-
-  .form-select {
-    flex: none;
-  }
-
-  #feedback-body {
-    min-width: 100%;
-  }
-}
-</style>
-
 <i18n lang="yaml">
 de:
   category: Feedback-Kategorie

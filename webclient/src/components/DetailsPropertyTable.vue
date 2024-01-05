@@ -47,60 +47,6 @@ const { t } = useI18n({ useScope: "local" });
   </table>
 </template>
 
-<style lang="scss">
-@import "@/assets/variables";
-.info-table {
-  width: 100%;
-  border-collapse: collapse;
-
-  td {
-    vertical-align: top;
-    padding: 4px 0;
-
-    &:last-child {
-      padding-left: 10px;
-    }
-
-    .popover {
-      .card {
-        box-shadow: 0 0 6px rgba(106, 106, 106, 0.08);
-        border: 0.05rem solid #e1e1e1;
-
-        .card-header {
-          font-weight: bold;
-        }
-      }
-
-      svg {
-        margin-left: 5px;
-        margin-bottom: -2px;
-      }
-    }
-  }
-
-  tr {
-    border-bottom: 1px solid $border-light;
-
-    &:last-child {
-      border-bottom: 0;
-    }
-  }
-
-  ul {
-    list-style-type: none;
-    margin: 0;
-  }
-
-  li {
-    margin: 0 0 0.4rem;
-
-    &:last-child {
-      margin: 0;
-    }
-  }
-}
-</style>
-
 <i18n lang="yaml">
 de:
   links: Links

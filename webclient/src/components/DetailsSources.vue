@@ -56,20 +56,6 @@ const { t } = useI18n({ useScope: "local" });
   </section>
 </template>
 
-<style lang="scss">
-@import "@/assets/variables";
-
-#entry-sources {
-  h2 {
-    margin-bottom: 16px;
-  }
-
-  p {
-    margin-bottom: 6px;
-  }
-}
-</style>
-
 <i18n lang="yaml">
 de:
   base:

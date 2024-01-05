@@ -81,27 +81,6 @@ const modalOpen = ref(false);
   ></template>
 </template>
 
-<style lang="scss">
-@import "@/assets/variables";
-
-/* --- Roomfinder display --- */
-#roomfinder-map-select > label {
-  padding: 0.05rem 0.3rem;
-}
-
-.accordion-body {
-  ul,
-  button,
-  li {
-    font-size: 12px;
-  }
-
-  .selected {
-    background: $roomfinder-selected-bg;
-  }
-}
-</style>
-
 <i18n lang="yaml">
 de:
   img_alt: Handgezeichnete Roofinder-Kartendarstellung
