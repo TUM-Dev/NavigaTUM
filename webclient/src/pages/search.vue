@@ -115,9 +115,11 @@ function genDescription(): string {
             </RouterLink>
           </li>
         </ul>
-        <p class="search-comment">
-          {{ s.estimatedTotalHits > 20 ? t("approx") : "" }}
-          {{ t("results", s.estimatedTotalHits) }}{{ s.estimatedTotalHits > 10 ? ", " + t("max_results") : "" }}
+        <p v-if="s.estimatedTotalHits > 20" class="text-zinc-500 text-sm">
+          {{ t("approx_results", s.estimatedTotalHits) }}
+        </p>
+        <p v-else class="text-zinc-500 text-sm">
+          {{ t("results", s.estimatedTotalHits) }}
         </p>
       </section>
     </template>
@@ -134,13 +136,12 @@ de:
     of_which_visible: davon sichtbar
     were_found: wurden gefunden.
   feedback:
-    give: Feedback zur Suche geben
+    give: Feedback zu Sucheergebnissen geben
     open: Feedback-Formular für Rückmeldungen zur Suchanfrage geben
-  max_results: bitte grenze die Suche weiter ein
   runtime: Laufzeit
   search_for: Suche nach
   thumbnail_alt: Vorschaubild für das besagte Gebäude
-  approx: ca.
+  approx_results: ca. {count} Ergebnisse, bitte grenze die Suche weiter ein
   results: 1 Ergebnis | {count} Ergebnisse
 en:
   sections:
@@ -151,12 +152,11 @@ en:
     of_which_visible: of them visible
     were_found: were found.
   feedback:
-    give: Send feedback to search
+    give: Send feedback about search results
     open: Open the feedback-form for feedback about the search
-  max_results: please narrow the search further
   runtime: Runtime
   search_for: Search for
   thumbnail_alt: Thumbnail for said building
-  approx: approx.
+  approx_results: approx. {count} results, please narrow the search further
   results: 1 result | {count} results
 </i18n>
