@@ -1,0 +1,31 @@
+<script lang="ts" setup>
+type Item = { to: string; name: string };
+const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), { class: "" });
+</script>
+
+<template>
+  <ol vocab="https://schema.org/" typeof="BreadcrumbList" class="text-sm flex flex-row gap-2" :class="props.class">
+    <template v-for="(item, i) in props.items" :key="item.to">
+      <span v-if="i > 0" class="text-zinc-500">/</span>
+      <li property="itemListElement" typeof="ListItem">
+        <RouterLink
+          :to="item.to"
+          property="item"
+          typeof="WebPage"
+          class="focusable rounded-sm hover:underline"
+          :class="{
+            'visited:text-tumBlue-500': i > 0,
+            'visited:text-zinc-500': i === 0,
+            'hover:text-tumBlue-600': i > 0,
+            'hover:text-zinc-600': i === 0,
+            'text-tumBlue-500': i > 0,
+            'text-zinc-500': i === 0,
+          }"
+        >
+          <span property="name">{{ item.name }}</span>
+        </RouterLink>
+        <meta property="position" :content="`${i + 1}`" />
+      </li>
+    </template>
+  </ol>
+</template>

@@ -17,6 +17,7 @@ import { useRoute, useRouter } from "vue-router";
 import type { components } from "@/api_types";
 import Toast from "@/components/Toast.vue";
 import { CalendarDaysIcon } from "@heroicons/vue/24/outline";
+import BreadcrumbList from "@/components/BreadcrumbList.vue";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
 const { t } = useI18n({ useScope: "local" });
@@ -125,15 +126,9 @@ onMounted(() => {
       />
     </a>
 
-    <!-- Breadcrumbs -->
-    <ol vocab="https://schema.org/" typeof="BreadcrumbList">
-      <li v-for="(p, i) in state.data.parent_names" :key="p" property="itemListElement" typeof="ListItem">
-        <RouterLink v-bind="{ to: '/view/' + state.data.parents[i] }" property="item" typeof="WebPage">
-          <span property="name">{{ p }}</span>
-        </RouterLink>
-        <meta property="position" :content="`${i + 1}`" />
-      </li>
-    </ol>
+    <BreadcrumbList
+      :items="state.data.parent_names.map((n, i) => ({ name: n, to: '/view/' + state.data?.parents[i] }))"
+    />
 
     <!-- Entry header / title -->
     <div>
