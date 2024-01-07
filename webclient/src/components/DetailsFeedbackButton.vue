@@ -12,7 +12,7 @@ const { t } = useI18n({ useScope: "local" });
 <template>
   <button
     type="button"
-    class="btn btn-action btn-link btn-sm"
+    class="focusable rounded-sm"
     :title="t('feedback')"
     data-cy="open-feedback-details"
     @click="global.openFeedback('entry', `[${route.params.id}]: `)"

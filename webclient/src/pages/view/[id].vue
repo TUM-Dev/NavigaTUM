@@ -150,11 +150,15 @@ onMounted(() => {
         <div class="flex grow place-items-center justify-between">
           <span class="text-neutral-400">{{ state.data?.type_common_name }}</span>
           <div class="flex flex-row place-items-center gap-3">
-            <template v-if="state.data?.props?.calendar_url">
-              <a :href="state.data.props.calendar_url" target="_blank" :title="t('header.calendar')">
-                <CalendarDaysIcon class="mt-0.5 h-4 w-4" />
-              </a>
-            </template>
+            <a
+              v-if="state.data?.props?.calendar_url"
+              :href="state.data.props.calendar_url"
+              target="_blank"
+              class="focusable rounded-sm"
+              :title="t('header.calendar')"
+            >
+              <CalendarDaysIcon class="mt-0.5 h-4 w-4" />
+            </a>
             <ShareButton :coords="state.data.coords" :name="state.data.name" />
             <DetailsFeedbackButton ref="feedbackButton" />
             <!-- <button class="btn btn-link btn-action btn-sm"
