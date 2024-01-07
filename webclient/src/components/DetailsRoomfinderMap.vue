@@ -4,6 +4,7 @@ import { useI18n } from "vue-i18n";
 import Modal from "@/components/Modal.vue";
 import RoomfinderImageLocation from "@/components/RoomfinderImageLocation.vue";
 import { ref } from "vue";
+import { ChevronDownIcon } from "@heroicons/vue/24/outline";
 
 const state = useDetailsStore();
 const { t } = useI18n({ useScope: "local" });
@@ -55,7 +56,7 @@ const modalOpen = ref(false);
       <input id="map-accordion" type="checkbox" name="accordion-checkbox" hidden />
       <label for="map-accordion" class="accordion-header btn btn-block btn-sm">
         1:{{ state.selectedRoomfinderMap().scale }}, {{ state.selectedRoomfinderMap().name }}
-        <i class="icon icon-caret" />
+        <ChevronDownIcon class="w-4 h-4" />
       </label>
       <div v-if="state.data.maps?.roomfinder" class="accordion-body">
         <ul class="menu menu-nav">

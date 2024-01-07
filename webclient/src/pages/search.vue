@@ -109,7 +109,7 @@ function genDescription(): string {
               </div>
               <!-- <div class="tile-action">
               <button class="btn btn-link">
-                <i class="icon icon-more-vert" />
+                <EllipsisVerticalIcon class="h-4 w-4"
               </button>
             </div> -->
             </RouterLink>

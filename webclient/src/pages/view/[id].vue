@@ -16,7 +16,7 @@ import { useFetch } from "@/composables/fetch";
 import { useRoute, useRouter } from "vue-router";
 import type { components } from "@/api_types";
 import Toast from "@/components/Toast.vue";
-import { CalendarDaysIcon } from "@heroicons/vue/24/outline";
+import { CalendarDaysIcon, CheckIcon, ClipboardDocumentCheckIcon } from "@heroicons/vue/24/outline";
 import BreadcrumbList from "@/components/BreadcrumbList.vue";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
@@ -140,8 +140,8 @@ onMounted(() => {
             :title="t('header.copy_link')"
             @click="copy(`https://nav.tum.de${route.fullPath}`)"
           >
-            <i v-if="copied" class="icon icon-check" />
-            <i v-else class="icon icon-link" />
+            <CheckIcon v-if="copied" class="w-4 h-4" />
+            <ClipboardDocumentCheckIcon v-else class="w-4 h-4" />
           </button>
         </div>
         <h1>
@@ -162,7 +162,8 @@ onMounted(() => {
             <DetailsFeedbackButton ref="feedbackButton" />
             <!-- <button class="btn btn-link btn-action btn-sm"
                   :title="t('header.favorites')">
-            <i class="icon icon-bookmark" />
+            <BookmarkIcon class="w-4 h-4" v-if="bookmarked" />
+            <BookmarkSquareIcon class="w-4 h-4" v-else />
           </button> -->
           </div>
         </div>
