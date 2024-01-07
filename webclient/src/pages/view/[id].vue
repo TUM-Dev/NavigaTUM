@@ -114,17 +114,14 @@ onMounted(() => {
 <template>
   <div v-if="state.data">
     <!-- Header image (on mobile) -->
-    <a
+    <button
       v-if="state.image.shown_image"
+      type="button"
       class="block cursor-pointer lg:hidden"
       @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
     >
-      <img
-        :alt="t('image_alt')"
-        :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-        class="block h-auto max-w-full bg-zinc-100"
-      />
-    </a>
+      <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${state.image.shown_image.name}`" class="block w-full" />
+    </button>
 
     <BreadcrumbList
       :items="state.data.parent_names.map((n, i) => ({ name: n, to: '/view/' + state.data?.parents[i] }))"
@@ -219,6 +216,7 @@ onMounted(() => {
     <DetailsRoomOverviewSection :rooms="state.data?.sections?.rooms_overview" />
     <DetailsSources />
   </div>
+  <div v-else>{{ t("Loading data...") }}</div>
 </template>
 
 <i18n lang="yaml">
@@ -233,6 +231,7 @@ de:
     calendar: Kalender öffnen
     copy_link: Link kopieren
     favorites: Zu Favoriten hinzufügen
+  Loading data...: Lädt daten...
 en:
   image_alt: Header image, showing the building
   details_for: Details for
@@ -244,4 +243,5 @@ en:
     calendar: Open calendar
     copy_link: Copy link
     favorites: Add to favorites
+  Loading data...: Loading data...
 </i18n>
