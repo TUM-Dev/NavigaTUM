@@ -16,7 +16,7 @@ import { useFetch } from "@/composables/fetch";
 import { useRoute, useRouter } from "vue-router";
 import type { components } from "@/api_types";
 import Toast from "@/components/Toast.vue";
-import { CalendarDaysIcon, CheckIcon, ClipboardDocumentCheckIcon } from "@heroicons/vue/24/outline";
+import { CalendarDaysIcon, LinkIcon, ClipboardDocumentCheckIcon } from "@heroicons/vue/24/outline";
 import BreadcrumbList from "@/components/BreadcrumbList.vue";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
@@ -123,32 +123,28 @@ onMounted(() => {
       <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${state.image.shown_image.name}`" class="block w-full" />
     </button>
 
-    <BreadcrumbList
-      :items="state.data.parent_names.map((n, i) => ({ name: n, to: '/view/' + state.data?.parents[i] }))"
-    />
-
     <!-- Entry header / title -->
     <div>
-      <div>
-        <div v-if="clipboardIsSupported" class="hidden lg:block">
-          <button
-            type="button"
-            class="btn btn-action btn-link btn-sm"
-            :title="t('header.copy_link')"
-            @click="copy(`https://nav.tum.de${route.fullPath}`)"
-          >
-            <CheckIcon v-if="copied" class="w-4 h-4" />
-            <ClipboardDocumentCheckIcon v-else class="w-4 h-4" />
-          </button>
-        </div>
-        <h1>
-          {{ state.data?.name }}
-          <!-- <small class="label">Exaktes Ergebnis</small> -->
-        </h1>
+      <BreadcrumbList
+        :items="state.data.parent_names.map((n, i) => ({ name: n, to: '/view/' + state.data?.parents[i] }))"
+        class="pt-6 pb-3"
+      />
+      <div class="group flex flex-row -ms-6 gap-2">
+        <button
+          v-if="clipboardIsSupported"
+          :title="t('header.copy_link')"
+          type="button"
+          class="hidden lg:block group-hover:text-blue-500 text-transparent"
+          @click="copy(`https://nav.tum.de${route.fullPath}`)"
+        >
+          <ClipboardDocumentCheckIcon v-if="copied" class="w-4 h-4" />
+          <LinkIcon v-else class="w-4 h-4" />
+        </button>
+        <h1 class="text-xl font-bold text-zinc-700">{{ state.data?.name }}</h1>
       </div>
-      <div class="subtitle">
+      <div>
         <div class="flex grow place-items-center justify-between">
-          <span class="text-neutral-400">{{ state.data?.type_common_name }}</span>
+          <span class="text-sm mt-0.5 text-neutral-400">{{ state.data?.type_common_name }}</span>
           <div class="flex flex-row place-items-center gap-3">
             <a
               v-if="state.data?.props?.calendar_url"
@@ -157,7 +153,7 @@ onMounted(() => {
               class="focusable rounded-sm"
               :title="t('header.calendar')"
             >
-              <CalendarDaysIcon class="mt-0.5 h-4 w-4" />
+              <CalendarDaysIcon class="mt-0.5 text-blue-600 h-4 w-4" />
             </a>
             <ShareButton :coords="state.data.coords" :name="state.data.name" />
             <DetailsFeedbackButton ref="feedbackButton" />
