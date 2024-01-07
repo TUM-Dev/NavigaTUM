@@ -3,7 +3,7 @@ import PreferencesPopup from "@/components/PreferencesPopup.vue";
 </script>
 
 <template>
-  <header class="fixed top-0 z-10 w-full bg-white shadow-md shadow-black/10">
+  <header class="fixed top-0 z-20 w-full bg-white shadow-md shadow-black/10">
     <!-- dark:bg-gray-900 dark:shadow-black/40"> -->
     <nav class="mx-auto max-w-4xl">
       <div class="mx-10 my-2.5 flex place-content-between content-between justify-between gap-x-10">
