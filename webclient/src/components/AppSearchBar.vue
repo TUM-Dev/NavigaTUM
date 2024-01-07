@@ -8,9 +8,11 @@ import { computed, onMounted, reactive, ref } from "vue";
 import type { SectionFacet } from "@/modules/autocomplete";
 import type { components } from "@/api_types";
 
-import { MapPinIcon, MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
 type SearchResponse = components["schemas"]["SearchResponse"];
 
+import { MapPinIcon, MagnifyingGlassIcon, BuildingOfficeIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
+import { ChevronDownIcon } from "@heroicons/vue/16/solid";
+import Button from "@/components/Button.vue";
 const { t } = useI18n({ useScope: "local" });
 const global = useGlobalStore();
 const keep_focus = ref(false);
@@ -177,72 +179,77 @@ onMounted(() => {
     </button>
   </div>
   <!-- Autocomplete -->
-  <ul
-    v-cloak
-    class="absolute top-0 mt-16 list-none bg-white p-3.5 shadow-2xl shadow-zinc-700/30 dark:bg-zinc-900 dark:shadow-black/60"
-    :class="{
-      hidden: !global.search_focused || autocomplete.sections.length === 0,
-    }"
+  <div
+    v-if="global.search_focused && autocomplete.sections.length !== 0"
+    class="absolute top-3 max-h-[calc(100vh-75px)] max-w-xl mt-16 bg-white p-3.5 shadow-2xl shadow-zinc-700/30 dark:bg-zinc-900 dark:shadow-black/60"
   >
-    <!--
+    <ul v-for="s in autocomplete.sections" v-cloak :key="s.facet" class="flex mb-4 flex-col gap-2">
+      <div class="flex items-center">
+        <span class="flex-shrink me-4 text-md text-zinc-500">{{ s.name }}</span>
+        <div class="flex-grow border-t border-zinc-500"></div>
+      </div>
+      <!--
     <li class="search-comment filter">
       Suche einschränken auf:
       <a class="bt btn-link btn-sm">Räume</a>
     </li> -->
 
-    <template v-for="s in autocomplete.sections" :key="s.facet">
-      <li class="divider" :data-content="s.name" />
       <template v-for="(e, i) in s.entries" :key="e.id">
-        <li v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded" class="menu-item">
-          <a
+        <li v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded" class="rounded-sm border hover:bg-tumBlue-50">
+          <RouterLink
             :class="{
-              active: e.id === autocomplete.highlighted,
+              'bg-tumBlue-200': e.id === autocomplete.highlighted,
             }"
-            :href="'/view/' + e.id"
-            @click.exact.prevent="searchGoTo(e.id, true)"
+            :to="'/view/' + e.id"
+            class="flex gap-3 px-4 py-3"
+            @click.exact.prevent="searchGoTo(e.id, false)"
             @mousedown="keep_focus = true"
             @mouseover="autocomplete.highlighted = null"
           >
-            <div class="tile">
-              <div class="tile-icon">
-                <template v-if="e.type === 'room' || e.type === 'virtual_room'">
-                  <MagnifyingGlassIcon v-if="e.parsed_id" class="h-4 w-4" />
-                  <MapPinIcon v-else class="h-4 w-4" />
-                </template>
-                <img v-else src="@/assets/thumb-building.webp" class="avatar avatar-sm" />
+            <div class="my-auto">
+              <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="p-2">
+                <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
+                <MapPinIcon v-else class="h-6 w-6" />
               </div>
-              <div class="tile-content">
-                <span class="tile-title">
-                  <span v-if="e.parsed_id" v-html="e.parsed_id" />
-                  <i v-if="e.parsed_id" class="icon icon-caret" />
-                  <span :style="{ opacity: e.parsed_id ? 0.5 : 1 }" v-html="e.name" />
-                </span>
-                <small class="text-gray tile-subtitle">
-                  {{ e.subtext }}
-                  <template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
-                </small>
+              <div v-else class="rounded-full bg-tumBlue-500 p-2 text-white">
+                <BuildingOfficeIcon v-if="e.type === 'building'" class="h-6 w-6" />
+                <BuildingOffice2Icon v-else class="h-6 w-6" />
               </div>
             </div>
-          </a>
+            <div class="flex flex-col gap-0.5">
+              <div class="flex flex-row">
+                <span v-if="e.parsed_id" v-html="e.parsed_id" />
+                <ChevronDownIcon v-if="e.parsed_id" class="h-4 w-4" />
+                <span v-html="e.name" />
+              </div>
+              <small class="text-zinc-500">
+                {{ e.subtext }}<template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
+              </small>
+            </div>
+          </RouterLink>
           <!-- <div class="menu-badge">
               <label class="label label-primary">2</label>
             </div> -->
         </li>
       </template>
-      <li class="nb_results search-comment">
-        <a
+      <li class="-mt-2">
+        <Button
           v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
-          class="cursor-pointer"
+          variant="link"
+          size="sm"
           @mousedown="keep_focus = true"
           @click="s.expanded = true"
         >
-          +{{ s.entries.length - s.n_visible }} {{ t("hidden") }},
-        </a>
-        {{ s.estimatedTotalHits > 20 ? t("approx") : "" }}{{ t("results", s.estimatedTotalHits) }}
+          {{ t("show_hidden", s.entries.length - s.n_visible) }}
+        </Button>
+        <span class="text-zinc-400 text-sm">
+          {{
+            s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
+          }}
+        </span>
       </li>
-    </template>
 
-    <!--
+      <!--
       <li class="search-comment actions">
         <Button size="sm"><ChevronRightIcon class="h-4 w-4" /> in Gebäude Suchen</Button>
         <Button size="sm"><MapPinIcon class="h-4 w-4" /> Hörsäle</Button>
@@ -268,7 +275,8 @@ onMounted(() => {
           <label class="label label-primary">frei</label>
         </div>
       </li> -->
-  </ul>
+    </ul>
+  </div>
 </template>
 
 <i18n lang="yaml">
@@ -278,22 +286,22 @@ de:
     aria-actionlabel: Suche nach dem im Suchfeld eingetragenen Raum
     aria-searchlabel: Suchfeld
     action: Go
-  approx: ca.
-  hidden: ausgeblendet
+  show_hidden: +{count} ausgeblendet
   sections:
     buildings: Gebäude / Standorte
     rooms: Räume
   results: 1 Ergebnis | {count} Ergebnisse
+  approx_results: ca. {count} Ergebnisse
 en:
   input:
     placeholder: Search
     aria-actionlabel: Search for the room-query entered in the search field
     aria-searchlabel: Search-field
     action: Go
-  approx: approx.
-  hidden: hidden
+  show_hidden: +{count} hidden
   sections:
     buildings: Buildings / Sites
     rooms: Rooms
   results: 1 result | {count} results
+  approx_results: approx. {count} results
 </i18n>
