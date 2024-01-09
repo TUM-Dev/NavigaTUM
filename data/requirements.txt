@@ -1,6 +1,6 @@
 beautifulsoup4~=4.12.2
 defusedxml~=0.7.1
-lxml~=5.0.0
+lxml~=5.1.0
 numba~=0.59.0rc1
 Pillow~=10.2.0
 pydantic~=2.5.1
