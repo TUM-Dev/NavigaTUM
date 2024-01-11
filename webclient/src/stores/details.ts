@@ -4,8 +4,8 @@ type DetailsResponse = components["schemas"]["DetailsResponse"];
 type ImageInfo = components["schemas"]["ImageInfo"];
 type RoomfinderMapEntry = components["schemas"]["RoomfinderMapEntry"];
 export enum selectedMap {
-  roomfinder,
   interactive,
+  roomfinder,
 }
 
 export const useDetailsStore = defineStore({

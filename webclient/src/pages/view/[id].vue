@@ -16,6 +16,7 @@ import { useFetch } from "@/composables/fetch";
 import { useRoute, useRouter } from "vue-router";
 import type { components } from "@/api_types";
 import Toast from "@/components/Toast.vue";
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
 import { CalendarDaysIcon, LinkIcon, ClipboardDocumentCheckIcon } from "@heroicons/vue/24/outline";
 import BreadcrumbList from "@/components/BreadcrumbList.vue";
 type DetailsResponse = components["schemas"]["DetailsResponse"];
@@ -169,45 +170,26 @@ onMounted(() => {
     </div>
 
     <!-- First info section (map + infocard) -->
-    <div class="columns">
-      <!-- Map container -->
-      <div id="map-container" class="col-7 col-md-12 column">
+    <div class="grid grid-cols-1 md:col-span-3">
+      <TabGroup class="col-span-1 md:col-span-2" as="div" manual>
         <div class="mb-3 grid gap-2 md:hidden">
-          <Toast
-            v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
-            level="warning"
-            :msg="t('no_floor_overlay')"
-          />
-          <Toast v-if="state.data?.props?.comment" :msg="state.data.props.comment" />
+          <Toast level="warning" :msg="t('no_floor_overlay')" />
+          <Toast :msg="state.data.props.comment" />
         </div>
-
-        <DetailsInteractiveMap ref="interactiveMap" />
-        <DetailsRoomfinderMap ref="roomfinderMap" />
-        <div class="btn-group btn-group-block">
-          <button
-            type="button"
-            class="btn btn-sm"
-            :class="{
-              active: state.map.selected === selectedMap.interactive,
-            }"
-            @click="interactiveMap?.loadInteractiveMap(true)"
-          >
-            {{ t("map.interactive") }}
-          </button>
-          <button
-            type="button"
-            class="btn btn-sm"
-            :class="{
-              active: state.map.selected === selectedMap.roomfinder,
-            }"
+        <TabPanels>
+          <TabPanel :unmount="false"><DetailsInteractiveMap ref="interactiveMap" /></TabPanel>
+          <TabPanel :unmount="false"><DetailsRoomfinderMap ref="roomfinderMap" /></TabPanel>
+        </TabPanels>
+        <TabList>
+          <Tab @click="interactiveMap?.loadInteractiveMap(true)">{{ t("map.interactive") }}</Tab>
+          <Tab
             :disabled="!state.data.maps.roomfinder?.available"
             @click="roomfinderMap?.loadRoomfinderMap(state.map.roomfinder.selected_index, true)"
+            >{{ t("map.roomfinder") }}</Tab
           >
-            {{ t("map.roomfinder") }}
-          </button>
-        </div>
-        <div class="divider mt-2" />
-      </div>
+        </TabList>
+      </TabGroup>
+      <!-- Map container -->
 
       <DetailsInfoSection />
     </div>
