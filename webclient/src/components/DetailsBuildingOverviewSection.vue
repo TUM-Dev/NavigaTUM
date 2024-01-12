@@ -3,7 +3,7 @@ import { useToggle } from "@vueuse/core";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
 import Btn from "@/components/Btn.vue";
-import { ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/24/outline";
+import { ChevronRightIcon, ChevronDownIcon, ChevronUpIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
 type BuildingsOverview = components["schemas"]["BuildingsOverview"];
 
 const props = defineProps<{
@@ -35,12 +35,7 @@ const appURL = import.meta.env.VITE_APP_URL;
                 :alt="t('thumbnail_preview')"
                 :src="`${appURL}/cdn/thumb/${b.thumb}`"
               />
-              <img
-                v-else
-                class="aspect-square max-w-none rounded-full"
-                :alt="t('default_thumbnail_preview')"
-                src="@/assets/thumb-building.webp"
-              />
+              <BuildingOffice2Icon v-else class="rounded-full bg-tumBlue-500 h-6 w-6" />
             </figure>
             <div class="flex flex-col justify-evenly">
               <div>{{ b.name }}</div>
