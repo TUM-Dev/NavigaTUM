@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 const route = useRoute();
 import { ArrowRightIcon } from "@heroicons/vue/24/outline";
-import Button from "@/components/Button.vue";
+import Btn from "@/components/Btn.vue";
 const global = useGlobalStore();
 const { t } = useI18n({ useScope: "local" });
 </script>
@@ -16,12 +16,12 @@ const { t } = useI18n({ useScope: "local" });
       <h5 class="mt-5">{{ t("header") }}</h5>
       <p>{{ t("description") }}</p>
       <div class="flex flex-row gap-4">
-        <Button to="/" variant="primary">
+        <Btn to="/" variant="primary">
           {{ t("go_home") }}
-        </Button>
-        <Button variant="link" @click="global.openFeedback('bug', `404 on \`${route.fullPath}\``, t('got_here'))">
+        </Btn>
+        <Btn variant="link" @click="global.openFeedback('bug', `404 on \`${route.fullPath}\``, t('got_here'))">
           {{ t("call_to_action") }} <ArrowRightIcon class="mt-0.5 h-4 w-4" />
-        </Button>
+        </Btn>
       </div>
     </div>
   </div>

@@ -12,7 +12,7 @@ type SearchResponse = components["schemas"]["SearchResponse"];
 
 import { MapPinIcon, MagnifyingGlassIcon, BuildingOfficeIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
 import { ChevronDownIcon } from "@heroicons/vue/16/solid";
-import Button from "@/components/Button.vue";
+import Btn from "@/components/Btn.vue";
 const { t } = useI18n({ useScope: "local" });
 const global = useGlobalStore();
 const keep_focus = ref(false);
@@ -233,7 +233,7 @@ onMounted(() => {
         </li>
       </template>
       <li class="-mt-2">
-        <Button
+        <Btn
           v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
           variant="link"
           size="sm"
@@ -241,7 +241,7 @@ onMounted(() => {
           @click="s.expanded = true"
         >
           {{ t("show_hidden", s.entries.length - s.n_visible) }}
-        </Button>
+        </Btn>
         <span class="text-zinc-400 text-sm">
           {{
             s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
@@ -251,9 +251,9 @@ onMounted(() => {
 
       <!--
       <li class="search-comment actions">
-        <Button size="sm"><ChevronRightIcon class="h-4 w-4" /> in Gebäude Suchen</Button>
-        <Button size="sm"><MapPinIcon class="h-4 w-4" /> Hörsäle</Button>
-        <Button size="sm"><MapPinIcon class="h-4 w-4" /> Seminarräume</Button>
+        <Btn size="sm"><ChevronRightIcon class="h-4 w-4" /> in Gebäude Suchen</Btn>
+        <Btn size="sm"><MapPinIcon class="h-4 w-4" /> Hörsäle</Btn>
+        <Btn size="sm"><MapPinIcon class="h-4 w-4" /> Seminarräume</Btn>
       </li>
 
       <li class="divider" data-content="Veranstaltungen" />

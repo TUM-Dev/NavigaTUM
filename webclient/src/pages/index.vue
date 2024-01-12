@@ -6,7 +6,7 @@ import { useI18n } from "vue-i18n";
 import { MapPinIcon } from "@heroicons/vue/24/outline";
 import { ArrowRightIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/24/solid";
 import { ref } from "vue";
-import Button from "@/components/Button.vue";
+import Btn from "@/components/Btn.vue";
 type RootResponse = components["schemas"]["RootResponse"];
 
 const { t } = useI18n({ useScope: "local" });
@@ -53,7 +53,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             <ChevronRightIcon class="my-auto hidden h-4 w-4 sm:block" />
           </RouterLink>
           <div v-if="site.children.length > site.n_visible" class="mx-auto">
-            <Button
+            <Btn
               v-if="openPanels[siteIndex]"
               variant="link"
               :aria-label="t('less_aria')"
@@ -61,11 +61,11 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             >
               <ChevronUpIcon class="h-4 w-4" />
               {{ t("less") }}
-            </Button>
-            <Button v-else variant="link" :aria-label="t('more_aria')" @click="() => (openPanels[siteIndex] = true)">
+            </Btn>
+            <Btn v-else variant="link" :aria-label="t('more_aria')" @click="() => (openPanels[siteIndex] = true)">
               <ChevronDownIcon class="my-auto h-4 w-4" />
               {{ t("more") }}
-            </Button>
+            </Btn>
           </div>
         </div>
       </div>

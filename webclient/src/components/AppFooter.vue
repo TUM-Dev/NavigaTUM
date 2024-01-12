@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
-import Button from "@/components/Button.vue";
+import Btn from "@/components/Btn.vue";
 
 const global = useGlobalStore();
 const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
@@ -68,9 +68,9 @@ const navigation = [
       <div class="mt-10 flex justify-center space-x-10 text-center">
         <p class="text-center text-xs text-gray-500">
           {{ t("official_roomfinder") }}<br />
-          <Button to="https://tum.de" variant="" size="sm">
+          <Btn to="https://tum.de" variant="" size="sm">
             <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="h-20" aria-hidden="true" />
-          </Button>
+          </Btn>
         </p>
       </div>
     </div>

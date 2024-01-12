@@ -4,7 +4,8 @@ import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headless
 import { CheckIcon, ChevronUpDownIcon, MapPinIcon, FunnelIcon, MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
-import Button from "@/components/Button.vue";
+import Btn from "@/components/Btn.vue";
+
 type RoomsOverview = components["schemas"]["RoomsOverview"];
 type ChildEntry = components["schemas"]["ChildEntry"];
 
@@ -123,13 +124,14 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
       <ul v-if="filteredList.length > 0" class="max-h-96 list-none overflow-y-scroll pe-2.5">
         <RouterLink v-for="(room, index) in filteredList" :key="index" :to="`/view/${room.id}`" class="!no-underline">
           <li class="flex flex-row gap-2 p-1.5 px-3 hover:bg-tumBlue-500 hover:text-white">
-            <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" /> {{ room.name }}
+            <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" />
+            {{ room.name }}
           </li>
         </RouterLink>
       </ul>
       <div v-else class="flex flex-row items-baseline">
         {{ t("no_results_with_these_filters") }}
-        <Button
+        <Btn
           size="sm"
           variant="link"
           @click="
@@ -138,8 +140,8 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
               selectedUsage = -1;
             }
           "
-          >{{ t("clear_filter") }}</Button
-        >
+          >{{ t("clear_filter") }}
+        </Btn>
       </div>
       <small>
         {{ t("results", filteredList.length) }}

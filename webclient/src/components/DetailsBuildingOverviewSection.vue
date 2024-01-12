@@ -2,7 +2,7 @@
 import { useToggle } from "@vueuse/core";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
-import Button from "@/components/Button.vue";
+import Btn from "@/components/Btn.vue";
 import { ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/24/outline";
 type BuildingsOverview = components["schemas"]["BuildingsOverview"];
 
@@ -55,10 +55,10 @@ const appURL = import.meta.env.VITE_APP_URL;
       </template>
     </div>
     <div v-if="props.buildings.n_visible < props.buildings.entries.length" class="mt-2">
-      <Button variant="link" @click="toggleBuildingsExpanded()">
+      <Btn variant="link" @click="toggleBuildingsExpanded()">
         <template v-if="buildingsExpanded"> <ChevronUpIcon class="mt-0.5 h-4 w-4" /> {{ t("less") }} </template>
         <template v-else> <ChevronDownIcon class="mt-0.5 h-4 w-4" /> {{ t("more") }} </template>
-      </Button>
+      </Btn>
     </div>
   </section>
 </template>
