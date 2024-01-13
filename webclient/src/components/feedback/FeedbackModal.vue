@@ -3,6 +3,7 @@ import { useGlobalStore } from "@/stores/global";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import TokenBasedModal from "@/components/feedback/TokenBasedModal.vue";
+import Checkbox from "@/components/Checkbox.vue";
 
 const { t } = useI18n({ useScope: "local" });
 const global = useGlobalStore();
@@ -63,12 +64,7 @@ const deleteIssueRequested = ref(false);
         </p>
       </div>
 
-      <div class="form-group">
-        <label id="feedback-delete-label" class="form-checkbox">
-          <input id="feedback-delete" v-model="deleteIssueRequested" type="checkbox" />
-          <i class="form-icon" /> {{ t("delete") }}
-        </label>
-      </div>
+      <Checkbox v-model="deleteIssueRequested">{{ t("delete") }}</Checkbox>
     </template>
     <template #success="{ successUrl }">
       <p>{{ t("success.thank_you") }}</p>

@@ -8,7 +8,7 @@
 }
 
 .focusable {
-  @apply focus:ring-2 focus:ring-tumBlue-500 focus:ring-offset-2 focus-visible:outline-0;
+  @apply focus:ring-2 dark:ring-offset-zinc-800 focus:ring-tumBlue-500 dark:focus:ring-tumBlue-600 focus:ring-offset-2 focus-visible:outline-0;
 }
 
 /* see https://www.youtube.com/watch?v=cH8VbLM1958 why this is here */
