@@ -43,7 +43,7 @@ regex = "1.10.2"
 # maps
 rustls = "0.22.2"
 reqwest = { version= "0.11.23", default-features = false, features = ["tokio-rustls", "json", "gzip"] }
-image = "0.24.7"
+image = "0.24.8"
 imageproc = "0.23.0"
 rusttype = "0.9.3"
 lazy_static = "1.4.0"
