@@ -35,7 +35,7 @@ actix-governor = { version = "0.5.0", features = ["logger"] }
 
 # proposing feedback
 tempfile = "3.9.0"
-image = { version = "0.24.7", features = ["default", "webp-encoder"] }
+image = { version = "0.24.8", features = ["default", "webp-encoder"] }
 base64 = "0.21.7"
 serde_yaml = "0.9"
 

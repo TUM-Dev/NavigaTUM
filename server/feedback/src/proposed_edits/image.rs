@@ -160,7 +160,7 @@ mod image_tests {
         image.save_content(&target).unwrap();
         assert!(target.exists());
         let meta = fs::metadata(&target).unwrap();
-        assert_eq!(meta.len(), 56);
+        assert_eq!(meta.len(), 82);
         assert!(meta.file_type().is_file());
     }
 
