@@ -19,7 +19,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@vueuse/core": "10.7.1",
+    "@vueuse/core": "10.7.2",
     "maplibre-gl": "3.6.2",
     "markdown-it-prism": "2.3.0",
     "pinia": "2.1.7",
