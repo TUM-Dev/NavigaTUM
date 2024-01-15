@@ -6,21 +6,25 @@ use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
 use sqlx::PgPool;
 use std::collections::HashMap;
+use chrono::{DateTime, NaiveDateTime, Utc};
 use structured_logger::async_json::new_writer;
 use structured_logger::Builder;
+use tokio::sync::{Mutex, RwLock};
 
 mod entries;
 mod maps;
 mod models;
 mod search;
 mod setup;
+mod calendar;
 mod utils;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 pub struct AppData {
     db: PgPool,
+    last_calendar_requests: RwLock<HashMap<String,DateTime<Utc>>>
 }
 
 #[get("/api/status")]
@@ -87,8 +91,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .wrap(middleware::Logger::default().exclude("/api/status"))
             .wrap(middleware::Compress::default())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
-            .app_data(web::Data::new(AppData { db: pool.clone() }))
+            .app_data(web::Data::new(AppData { db: pool.clone(),last_calendar_requests: RwLock::default() }))
             .service(health_status_handler)
+            .service(calendar::calendar_handler)
             .service(web::scope("/api/preview").configure(maps::configure))
             .service(entries::get::get_handler)
             .service(search::search_handler)

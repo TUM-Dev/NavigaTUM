@@ -1974,6 +1974,7 @@ dependencies = [
  "actix-web",
  "actix-web-prom",
  "cached",
+ "chrono",
  "futures",
  "image",
  "imageproc",
