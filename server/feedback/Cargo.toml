@@ -26,7 +26,7 @@ serde_json.workspace = true
 
 rand = "0.8.5"
 regex = "1.10.2"
-octocrab = { version = "0.32.0", default-features = false, features=["rustls","rustls-webpki-tokio","retry","tokio"] }
+octocrab = { version = "0.33.0", default-features = false, features=["rustls","rustls-webpki-tokio","retry","tokio","timeout"] }
 
 # web
 jsonwebtoken = "9.2.0"
