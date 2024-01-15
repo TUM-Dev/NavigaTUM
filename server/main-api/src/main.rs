@@ -18,6 +18,7 @@ mod search;
 mod setup;
 mod calendar;
 mod utils;
+mod details;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
