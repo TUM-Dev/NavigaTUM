@@ -6,12 +6,11 @@ use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
 use sqlx::PgPool;
 use std::collections::HashMap;
-use chrono::{DateTime, Local, NaiveDateTime, Utc};
+use chrono::{DateTime, Local};
 use structured_logger::async_json::new_writer;
 use structured_logger::Builder;
-use tokio::sync::{Mutex, RwLock};
+use tokio::sync::RwLock;
 
-mod entries;
 mod maps;
 mod models;
 mod search;
@@ -96,7 +95,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .service(health_status_handler)
             .service(calendar::calendar_handler)
             .service(web::scope("/api/preview").configure(maps::configure))
-            .service(entries::get::get_handler)
+            .service(details::get_handler)
             .service(search::search_handler)
     })
         .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?

@@ -8,7 +8,7 @@ pub(super) struct Events {
     pub(super) calendar_url: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, sqlx::Type)]
 pub(super) struct Event {
     pub(super) id: i32,
     /// e.g. 5121.EG.003
@@ -29,9 +29,32 @@ pub(super) struct Event {
     pub(super) detailed_entry_type: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+impl Event {
+    pub(crate) async fn store(
+        &self,
+        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+        sqlx::query!(
+            r#"INSERT INTO calendar (id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type,detailed_entry_type)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)"#,
+            self.id,
+            self.room_code,
+            self.start_at,
+            self.end_at,
+            self.stp_title_de,
+            self.stp_title_en,
+            self.stp_type,
+            self.entry_type.clone() as EventType, // see https://github.com/launchbadge/sqlx/issues/1004 => our type is not possible (?)
+            self.detailed_entry_type,
+        ).execute(&mut **tx).await
+    }
+}
+
+#[derive(Serialize, Deserialize,Clone, Debug, sqlx::Type)]
+#[sqlx(type_name = "EventType")]
+#[sqlx(rename_all = "lowercase")]
 #[serde(rename_all = "lowercase")]
-pub(super) enum EventType {
+pub enum EventType {
     Lecture,
     Exercise,
     Exam,

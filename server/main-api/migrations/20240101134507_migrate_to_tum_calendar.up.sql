@@ -7,8 +7,8 @@ CREATE TABLE calendar
 (
     id                  INTEGER UNIQUE PRIMARY KEY NOT NULL,
     room_code           VARCHAR(30)                NOT NULL,
-    start_at            timestamp                  NOT NULL,
-    end_at              timestamp                  NOT NULL,
+    start_at            TIMESTAMPTZ                NOT NULL,
+    end_at              TIMESTAMPTZ                NOT NULL,
     stp_title_de        TEXT                       NOT NULL,
     stp_title_en        TEXT                       NOT NULL,
     stp_type            TEXT                       NOT NULL,

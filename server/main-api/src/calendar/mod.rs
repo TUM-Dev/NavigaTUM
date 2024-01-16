@@ -1,6 +1,5 @@
 mod models;
 
-use std::any::Any;
 use std::error::Error;
 use std::ops::Sub;
 use actix_web::{get, HttpResponse, web};
@@ -10,7 +9,8 @@ use log::error;
 use sqlx::PgPool;
 use crate::models::Location;
 use oauth2::basic::BasicClient;
-use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenUrl};
+use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
+use oauth2::reqwest::async_http_client;
 use std::env;
 
 #[derive(Deserialize, Debug)]
@@ -21,17 +21,19 @@ pub struct QueryArguments {
     end_before: DateTime<Local>,
 }
 
-const ONE_HOUR: FixedOffset = FixedOffset::east_opt(60 * 60 * 1).unwrap();
-const THREE_DAYS: FixedOffset = FixedOffset::east_opt(60 * 60 * 3).unwrap();
-
 fn has_to_refetch(last_requests: &DateTime<Local>) -> bool {
-    let refetch_if_not_done_after = Local::now().sub(ONE_HOUR);
+    let one_hour=FixedOffset::east_opt(60 * 60 * 1 * 1).unwrap();
+    let refetch_if_not_done_after = Local::now().sub(one_hour);
     last_requests < &refetch_if_not_done_after
 }
 
 fn can_use_stale_result_from_db(last_requests: &DateTime<Local>) -> bool {
-    let can_reuse_if_done_after = Local::now().sub(THREE_DAYS);
+    let three_days=FixedOffset::east_opt(60 * 60 * 12 * 3).unwrap();
+    let can_reuse_if_done_after = Local::now().sub(three_days);
     last_requests < &can_reuse_if_done_after
+}
+async fn delete_events(id:&str,tx: &mut sqlx::Transaction<'_, sqlx::Postgres>) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+    sqlx::query!(r#"DELETE FROM calendar WHERE room_code = $1"#, id).execute(&mut **tx).await
 }
 
 async fn refetch_calendar_for(id: &str, pool: &PgPool) -> Result<(DateTime<Local>, Vec<models::Event>), Box<dyn Error + Send + Sync>> {
@@ -42,34 +44,30 @@ async fn refetch_calendar_for(id: &str, pool: &PgPool) -> Result<(DateTime<Local
         AuthUrl::new("https://review.campus.tum.de/RSYSTEM/co/public/sec/auth/realms/CAMPUSonline".to_string())?,
         Some(TokenUrl::new("https://example.com/token".to_string())?),
     );
+    let http_client = reqwest::Client::new();
 
     // Make OAuth2 secured request
-    let auth_url = client
-        .authorize_url(CsrfToken::new_random)
+    let token_result = oauth2_client.exchange_client_credentials()
         .add_scope(Scope::new("connectum-rooms.read".into()))
-        .url();
-    let events: Vec<models::Event> = reqwest::get(format!("https://review.campus.tum.de/RSYSTEM/co/connectum/api/rooms/{id}/calendar")).await?.json().await?;
+        .request_async(async_http_client).await?;
+    let acccess_token = token_result.access_token();
+
+    let url = format!("https://review.campus.tum.de/RSYSTEM/co/connectum/api/rooms/{id}/calendar");
+    let events: Vec<models::Event> = http_client.get(url)
+        .bearer_auth(format!("{acccess_token:?}"))
+        .send().await?
+        .json().await?;
     // insert into db
     let mut tx = pool.begin().await?;
-    if let Err(e) = sqlx::query!(r#"DROP FROM calendar WHERE key = $1"#, id).execute(&mut tx).await {
+    if let Err(e) = delete_events(&id,&mut tx).await {
+        error!("could not delete existing events because {e:?}");
         tx.rollback().await?;
+        return Err(e.into());
     }
     for (i, event) in events.iter().enumerate() {
         // conflicts cannot occur because all values for said room were dropped
-        if let Err(e) = sqlx::query!(
-            r#"INSERT INTO calendar (id,room_code,start,end,stp_title_de,stp_title_en,stp_type,entry_type,detailed_entry_type)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)"#,
-            event.id,
-            event.room_code,
-            event.start,
-            event.end,
-            event.stp_title_de,
-            event.stp_title_en,
-            event.stp_type,
-            event.entry_type,
-            event.detailed_entry_type,
-        ).execute(&mut tx).await {
-            error!("could not insert {event:?} ({i}/{total}) ignoring",total=events.len());
+        if let Err(e) = event.store(&mut tx).await {
+            error!("ignoring insert {event:?} ({i}/{total}) because {e:?}",total=events.len());
         }
     }
     tx.commit().await?;
@@ -83,10 +81,13 @@ async fn get_location(pool: &PgPool, id: &str) -> Result<Option<Location>, sqlx:
 }
 
 async fn get_events_from_db(pool: &PgPool, id: &str, start_after: &DateTime<Local>, end_before: &DateTime<Local>) -> Result<Vec<models::Event>, sqlx::Error> {
-    sqlx::query_as!(models::Event, "SELECT * FROM calendar WHERE room_code = $1 AND start_at >= $2 AND end_at <= $3", id, start_after, end_before)
+    sqlx::query_as!(models::Event, r#"SELECT id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type AS "entry_type!: models::EventType",detailed_entry_type
+    FROM calendar
+    WHERE room_code = $1 AND start_at >= $2 AND end_at <= $3"#, id, start_after, end_before)
         .fetch_all(pool)
         .await
 }
+
 
 #[get("/api/calendar/{id}")]
 pub async fn calendar_handler(
@@ -95,7 +96,7 @@ pub async fn calendar_handler(
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
     let id = params.into_inner();
-    let room = match get_location(&data.db, &id).await {
+    match get_location(&data.db, &id).await {
         Err(e) => {
             error!("could not refetch due to {e:?}");
             return HttpResponse::InternalServerError().body("could not get calendar entrys, please try again later");
@@ -107,9 +108,11 @@ pub async fn calendar_handler(
         }
         Ok(Some(loc)) => loc,
     };
-    let calendar_url = format!("https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={id}", id = room.tumonline_calendar_id);
+    let calendar_url = format!("https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={id}", id = 0); // TODO: room.tumonline_calendar_id
 
-    let last_sync = data.last_calendar_requests.read().await.get(&id).unwrap_or(&DateTime::default());
+    let sync_times = data.last_calendar_requests.read().await;
+    let default_sync_time = DateTime::default();
+    let last_sync = sync_times.get(&id).unwrap_or(&default_sync_time);
     let (last_sync, events) = if !has_to_refetch(last_sync) {
         match refetch_calendar_for(&id, &data.db).await {
             Ok((last_sync, events)) => {
