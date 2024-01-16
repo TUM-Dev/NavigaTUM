@@ -1,5 +1,5 @@
 use chrono::{DateTime, Local};
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub(super) struct Events {
@@ -50,7 +50,7 @@ impl Event {
     }
 }
 
-#[derive(Serialize, Deserialize,Clone, Debug, sqlx::Type)]
+#[derive(Serialize, Deserialize, Clone, Debug, sqlx::Type)]
 #[sqlx(type_name = "EventType")]
 #[sqlx(rename_all = "lowercase")]
 #[serde(rename_all = "lowercase")]
