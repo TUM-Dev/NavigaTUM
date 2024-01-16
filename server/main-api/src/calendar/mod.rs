@@ -31,6 +31,20 @@ fn has_to_refetch(last_requests: &DateTime<Utc>) -> bool {
 
 async fn refetch_calendar_for(id: &str, pool: &PgPool) -> Result<DateTime<Utc>, Box<dyn Error + Send + Sync>> {
     // fetch entries
+
+    match async_http_client()
+    let client = BasicClient::new(
+        ClientId::new(env::var("TUMONLINE_OAUTH_CLIENT_ID")?),
+        Some(ClientSecret::new(env::var("TUMONLINE_OAUTH_CLIENT_SECRET")?)),
+        AuthUrl::new("https://review.campus.tum.de/RSYSTEM/co/public/sec/auth/realms/CAMPUSonline".to_string())?,
+        Some(TokenUrl::new("https://example.com/token".to_string())?),
+    );
+
+    // Make OAuth2 secured request
+    let auth_url = client
+        .authorize_url(CsrfToken::new_random)
+        .add_scope(Scope::new("connectum-rooms.read".into()))
+        .url();
     let events: Vec<models::Event> = reqwest::get(format!("https://review.campus.tum.de/RSYSTEM/co/connectum/api/rooms/{id}/calendar")).await?.json().await?;
     // insert into db
     let mut tx = pool.begin().await?;
