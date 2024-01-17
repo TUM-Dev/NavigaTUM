@@ -44,7 +44,7 @@ impl From<AliasData> for AliasIterator {
     fn from(alias_data: AliasData) -> Self {
         Self {
             data: alias_data,
-            state: Default::default(),
+            state: AliasIteratorState::default(),
         }
     }
 }

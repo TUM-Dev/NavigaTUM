@@ -100,7 +100,7 @@ fn draw_bottom(data: &Location, img: &mut image::RgbaImage) {
         img,
         &logo,
         15,
-        630 - (125 / 2) - (logo.height() as i64 / 2) + 9,
+        630 - (125 / 2) - (i64::from(logo.height()) / 2) + 9,
     );
     let name = if data.name.chars().count() >= 45 {
         format!("{}...", data.name.unicode_truncate(45).0)

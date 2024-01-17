@@ -45,7 +45,7 @@ pub async fn do_geoentry_search(
 ) -> Vec<SearchResultsSection> {
     let parsed_input = ParsedQuery::from(q.as_str());
 
-    match query::GeoEntryQuery::from(parsed_input.clone(), &args, &highlighting)
+    match query::GeoEntryQuery::from(&parsed_input, &args, &highlighting)
         .execute()
         .await
     {
