@@ -27,7 +27,7 @@
     "swagger-ui-dist": "5.11.0",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "unplugin-vue-markdown": "0.25.2",
-    "vue": "3.4.13",
+    "vue": "3.4.14",
     "vue-router": "4.2.5"
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
     "@vue/eslint-config-typescript": "12.0.0",
     "@vue/tsconfig": "0.5.1",
     "autoprefixer": "10.4.16",
-    "cypress": "13.6.2",
+    "cypress": "13.6.3",
     "eslint": "8.56.0",
     "eslint-plugin-vue": "9.20.1",
     "isomorphic-fetch": "3.0.0",
