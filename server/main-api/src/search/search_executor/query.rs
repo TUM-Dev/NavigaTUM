@@ -50,7 +50,7 @@ pub(super) struct GeoEntryQuery {
 
 impl GeoEntryQuery {
     pub fn from(
-        parsed_input: ParsedQuery,
+        parsed_input: &ParsedQuery,
         args: &SanitisedSearchQueryArgs,
         highlighting: &(String, String),
     ) -> Self {

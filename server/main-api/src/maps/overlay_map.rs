@@ -70,8 +70,8 @@ impl OverlayMapTask {
         image::imageops::overlay(
             img,
             &pin,
-            1200 / 2 - pin.width() as i64 / 2,
-            (630 - 125) / 2 - pin.height() as i64,
+            1200 / 2 - i64::from(pin.width()) / 2,
+            (630 - 125) / 2 - i64::from(pin.height()),
         );
         true
     }

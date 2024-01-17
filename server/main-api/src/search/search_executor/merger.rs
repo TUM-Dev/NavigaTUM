@@ -32,7 +32,7 @@ pub(super) fn merge_search_results(
     // let mut observed_joined_buildings = Vec::<String>::new();
     let mut observed_ids = Vec::<String>::new();
     for hits in [&res_merged.hits, &res_rooms.hits] {
-        for hit in hits.iter() {
+        for hit in hits {
             // Prevent duplicates from being added to the results
             if observed_ids.contains(&hit.result.id) {
                 continue;
