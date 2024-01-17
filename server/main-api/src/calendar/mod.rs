@@ -12,6 +12,7 @@ use sqlx::PgPool;
 use std::env;
 use std::error::Error;
 use std::ops::Sub;
+use reqwest::Url;
 
 fn has_to_refetch(last_requests: &DateTime<Local>) -> bool {
     let one_hour = FixedOffset::east_opt(60 * 60).expect("time travel is impossible and chronos is 2038-save");
@@ -35,36 +36,30 @@ async fn delete_events(
 }
 
 async fn fetch_oauth_token() -> Result<BasicTokenResponse, Box<dyn Error + Send + Sync>> {
-    let oauth2_client = BasicClient::new(
-        ClientId::new(env::var("TUMONLINE_OAUTH_CLIENT_ID")?),
-        Some(ClientSecret::new(env::var(
-            "TUMONLINE_OAUTH_CLIENT_SECRET",
-        )?)),
-        AuthUrl::new(
-            "https://review.campus.tum.de/RSYSTEM/co/public/sec/auth/realms/CAMPUSonline"
-                .to_string(),
-        )?,
-        Some(TokenUrl::new("https://example.com/token".to_string())?),
-    );
+    let client_id = env::var("TUMONLINE_OAUTH_CLIENT_ID").expect("please configure the environment variable TUMONLINE_OAUTH_CLIENT_ID to use this endpoint");
+    let client_secret = env::var("TUMONLINE_OAUTH_CLIENT_SECRET").expect("please configure the environment variable TUMONLINE_OAUTH_CLIENT_SECRET to use this endpoint");
 
-    let token = oauth2_client
-        .exchange_client_credentials()
+    // for urls see https://review.campus.tum.de/RSYSTEM/co/public/sec/auth/realms/CAMPUSonline/.well-known/openid-configuration
+    let auth_url = Url::parse("https://review.campus.tum.de/RSYSTEM/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/auth")?;
+    let token_url = Url::parse("https://review.campus.tum.de/RSYSTEM/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/token")?;
+
+    let token = BasicClient::new(
+        ClientId::new(client_id),
+        Some(ClientSecret::new(client_secret)),
+        AuthUrl::from_url(auth_url),
+        Some(TokenUrl::from_url(token_url)),
+    ).exchange_client_credentials()
         .add_scope(Scope::new("connectum-rooms.read".into()))
         .request_async(async_http_client)
-        .await?; // not directly returned for typing issues
-    Ok(token)
+        .await;
+    Ok(token?) // not directly returned for typing issues
 }
 
-async fn refetch_calendar_for(
-    id: &str,
-    pool: &PgPool,
-) -> Result<(DateTime<Local>, Vec<models::Event>), Box<dyn Error + Send + Sync>> {
+async fn refetch_calendar_for(id: &str, pool: &PgPool) -> Result<(DateTime<Local>, Vec<models::Event>), Box<dyn Error + Send + Sync>> {
     // Make OAuth2 secured request
     let oauth_token = fetch_oauth_token().await?;
     let events: Vec<models::Event> = reqwest::Client::new()
-        .get(format!(
-            "https://review.campus.tum.de/RSYSTEM/co/connectum/api/rooms/{id}/calendar"
-        ))
+        .get(format!("https://review.campus.tum.de/RSYSTEM/co/connectum/api/rooms/{id}/calendars"))
         .bearer_auth(oauth_token.access_token().secret().clone())
         .send()
         .await?
