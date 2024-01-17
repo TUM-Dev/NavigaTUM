@@ -111,9 +111,9 @@ async fn get_events_from_db(
 
 #[derive(Deserialize, Debug)]
 pub struct QueryArguments {
-    /// eg. 2039-01-19T03:14:07
+    /// eg. 2039-01-19T03:14:07+1
     start_after: DateTime<Local>,
-    /// eg. 2042-01-07T00:00:00
+    /// eg. 2042-01-07T00:00:00 UTC
     end_before: DateTime<Local>,
 }
 
@@ -166,13 +166,13 @@ pub async fn calendar_handler(
                     {
                         Ok(res) => (*last_sync, res),
                         Err(e) => {
-                            error!("could substitute from db {e:?}");
+                            error!("could not get substitute from db due to {e:?}");
                             return HttpResponse::InternalServerError()
                                 .body("could not get calendar entrys, please try again later");
                         }
                     }
                 } else {
-                    error!("could substitute from db {e:?}");
+                    error!("cannot get substitute from db due to staleness");
                     return HttpResponse::InternalServerError()
                         .body("could not get calendar entrys, please try again later");
                 }
