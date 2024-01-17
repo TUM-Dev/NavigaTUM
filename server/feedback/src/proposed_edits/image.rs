@@ -110,12 +110,12 @@ impl AppliableEdit for Image {
 
         let success=format!("<img src='data:image/png;base64,{content}' alt='Full image for {key}' height='50%' />  Layout", content=self.content);
         match (content_result, metadata_result) {
-            (Ok(_), Ok(_)) => success,
-            (Err(e), Ok(_)) => {
+            (Ok(()), Ok(())) => success,
+            (Err(e), Ok(())) => {
                 error!("Error saving image: {e:?} for {self:?}");
                 "Error saving image".to_string()
             }
-            (Ok(_), Err(e)) => {
+            (Ok(()), Err(e)) => {
                 error!("Error saving metadata: {e:?} for {self:?}");
                 "Error saving metadata".to_string()
             }

@@ -62,7 +62,7 @@ fn delocalise(value: Value, language: &'static str) -> Value {
             if obj.contains_key("de") || obj.contains_key("en") {
                 obj.get(language)
                     .cloned()
-                    .unwrap_or(Value::String("".to_string()))
+                    .unwrap_or(Value::String(String::new()))
             } else {
                 Value::Object(
                     obj.into_iter()
