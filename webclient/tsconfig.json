@@ -6,8 +6,8 @@
     "baseUrl": ".",
     "types": ["cypress", "@intlify/unplugin-vue-i18n/messages"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
     },
-    "lib": ["es5", "esnext", "dom", "dom.iterable"]
-  }
+    "lib": ["es5", "esnext", "dom", "dom.iterable"],
+  },
 }
