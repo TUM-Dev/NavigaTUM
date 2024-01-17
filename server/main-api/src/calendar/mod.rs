@@ -65,17 +65,22 @@ async fn refetch_calendar_for(
     id: &str,
     pool: &PgPool,
 ) -> Result<(DateTime<Local>, Vec<models::Event>), Box<dyn Error + Send + Sync>> {
-    debug!("start refetching for {id}");
+    debug!("requesting oauth credentials");
     // Make OAuth2 secured request
     let oauth_token = fetch_oauth_token().await?;
-    let events: Vec<models::Event> = reqwest::Client::new()
-        .get(format!("https://review.campus.tum.de/RSYSTEM/co/connectum/api/rooms/{id}/calendars"))
-        .bearer_auth(oauth_token.access_token().secret().clone())
+    let bearer_token=oauth_token.access_token().secret().clone();
+    debug!("bearer={bearer_token}");
+    let url =format!("https://review.campus.tum.de/RSYSTEM/co/connectum/api/rooms/{id}/calendars");
+    debug!("url={url}");
+    let events: Vec<models::Event> = vec![];
+    let req: String = reqwest::Client::new()
+        .get(url)
+        .bearer_auth(bearer_token)
         .send()
         .await?
-        .json()
+        .text()
         .await?;
-    debug!("finished fetching for {id}: {req}");
+    println!("finished fetching for {id}:\n->{req}");
     // insert into db
     let mut tx = pool.begin().await?;
     if let Err(e) = delete_events(id, &mut tx).await {

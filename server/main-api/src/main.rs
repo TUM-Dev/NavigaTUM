@@ -56,15 +56,15 @@ fn connection_string() -> String {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    Builder::with_level("info")
+    Builder::with_level("debug")
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();
     let uri = connection_string();
     let pool = PgPoolOptions::new().connect(&uri).await?;
-    info!("setting up the database");
-    setup::database::setup_database(&pool).await?;
-    info!("setting up meilisearch");
-    setup::meilisearch::setup_meilisearch().await?;
+    //info!("setting up the database");
+    //setup::database::setup_database(&pool).await?;
+    //info!("setting up meilisearch");
+    //setup::meilisearch::setup_meilisearch().await?;
 
     debug!("setting up metrics");
     let labels = HashMap::from([(
