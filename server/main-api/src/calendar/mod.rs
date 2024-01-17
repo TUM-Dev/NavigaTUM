@@ -14,15 +14,15 @@ use std::error::Error;
 use std::ops::Sub;
 
 fn has_to_refetch(last_requests: &DateTime<Local>) -> bool {
-    let one_hour = FixedOffset::east_opt(60 * 60).unwrap();
+    let one_hour = FixedOffset::east_opt(60 * 60).expect("time travel is impossible and chronos is 2038-save");
     let refetch_if_not_done_after = Local::now().sub(one_hour);
-    last_requests < &refetch_if_not_done_after
+    &refetch_if_not_done_after < last_requests
 }
 
 fn can_use_stale_result_from_db(last_requests: &DateTime<Local>) -> bool {
-    let three_days = FixedOffset::east_opt(60 * 60 * 12 * 3).unwrap();
-    let can_reuse_if_done_after = Local::now().sub(three_days);
-    last_requests < &can_reuse_if_done_after
+    let three_days = chrono::Days::new(3);
+    let can_reuse_if_done_after = Local::now().checked_sub_days(three_days).expect("time travel is impossible and chronos is 2038-save");
+    &can_reuse_if_done_after < last_requests
 }
 
 async fn delete_events(
@@ -160,7 +160,7 @@ pub async fn calendar_handler(
             }
             Err(e) => {
                 error!("could not refetch due to {e:?}");
-                if can_use_stale_result_from_db(last_sync) {
+                if !can_use_stale_result_from_db(last_sync) {
                     match get_events_from_db(&data.db, &id, &args.start_after, &args.end_before)
                         .await
                     {
