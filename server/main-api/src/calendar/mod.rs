@@ -3,26 +3,29 @@ mod models;
 use crate::models::Location;
 use actix_web::{get, web, HttpResponse};
 use chrono::{DateTime, FixedOffset, Local};
-use log::{error, debug};
+use log::{debug, error};
 use oauth2::basic::{BasicClient, BasicTokenResponse};
 use oauth2::reqwest::async_http_client;
 use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
+use reqwest::Url;
 use serde::Deserialize;
 use sqlx::PgPool;
 use std::env;
 use std::error::Error;
 use std::ops::Sub;
-use reqwest::Url;
 
 fn has_to_refetch(last_requests: &DateTime<Local>) -> bool {
-    let one_hour = FixedOffset::east_opt(60 * 60).expect("time travel is impossible and chronos is 2038-save");
+    let one_hour = FixedOffset::east_opt(60 * 60)
+        .expect("time travel is impossible and chronos is Y2K38-safe");
     let refetch_if_not_done_after = Local::now().sub(one_hour);
     &refetch_if_not_done_after < last_requests
 }
 
 fn can_use_stale_result_from_db(last_requests: &DateTime<Local>) -> bool {
     let three_days = chrono::Days::new(3);
-    let can_reuse_if_done_after = Local::now().checked_sub_days(three_days).expect("time travel is impossible and chronos is 2038-save");
+    let can_reuse_if_done_after = Local::now()
+        .checked_sub_days(three_days)
+        .expect("time travel is impossible and chronos is Y2K38-save");
     &can_reuse_if_done_after < last_requests
 }
 
@@ -36,7 +39,9 @@ async fn delete_events(
 }
 
 async fn fetch_oauth_token() -> Result<BasicTokenResponse, Box<dyn Error + Send + Sync>> {
-    let client_id = env::var("TUMONLINE_OAUTH_CLIENT_ID").expect("please configure the environment variable TUMONLINE_OAUTH_CLIENT_ID to use this endpoint");
+    let client_id = env::var("TUMONLINE_OAUTH_CLIENT_ID").expect(
+        "please configure the environment variable TUMONLINE_OAUTH_CLIENT_ID to use this endpoint",
+    );
     let client_secret = env::var("TUMONLINE_OAUTH_CLIENT_SECRET").expect("please configure the environment variable TUMONLINE_OAUTH_CLIENT_SECRET to use this endpoint");
 
     // for urls see https://review.campus.tum.de/RSYSTEM/co/public/sec/auth/realms/CAMPUSonline/.well-known/openid-configuration
@@ -48,14 +53,18 @@ async fn fetch_oauth_token() -> Result<BasicTokenResponse, Box<dyn Error + Send 
         Some(ClientSecret::new(client_secret)),
         AuthUrl::from_url(auth_url),
         Some(TokenUrl::from_url(token_url)),
-    ).exchange_client_credentials()
-        .add_scope(Scope::new("connectum-rooms.read".into()))
-        .request_async(async_http_client)
-        .await;
+    )
+    .exchange_client_credentials()
+    .add_scope(Scope::new("connectum-rooms.read".into()))
+    .request_async(async_http_client)
+    .await;
     Ok(token?) // not directly returned for typing issues
 }
 
-async fn refetch_calendar_for(id: &str, pool: &PgPool) -> Result<(DateTime<Local>, Vec<models::Event>), Box<dyn Error + Send + Sync>> {
+async fn refetch_calendar_for(
+    id: &str,
+    pool: &PgPool,
+) -> Result<(DateTime<Local>, Vec<models::Event>), Box<dyn Error + Send + Sync>> {
     debug!("start refetching for {id}");
     // Make OAuth2 secured request
     let oauth_token = fetch_oauth_token().await?;
@@ -144,7 +153,7 @@ pub async fn calendar_handler(
     let default_sync_time = DateTime::default();
     let last_sync = sync_times.get(&id).unwrap_or(&default_sync_time);
     let (last_sync, events) = if !has_to_refetch(last_sync) {
-        let tumonline_id=id.clone().replace('.',"");
+        let tumonline_id = id.clone().replace('.', "");
         match refetch_calendar_for(&tumonline_id, &data.db).await {
             Ok((last_sync, events)) => {
                 data.last_calendar_requests
