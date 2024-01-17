@@ -1367,18 +1367,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "hyper-timeout"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bbb958482e8c7be4bc3cf272a766a2b0bf1a6755e7a6ae777f017a31d11b13b1"
-dependencies = [
- "hyper",
- "pin-project-lite",
- "tokio",
- "tokio-io-timeout",
-]
-
-[[package]]
 name = "hyper-tls"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2160,7 +2148,6 @@ dependencies = [
  "http-body",
  "hyper",
  "hyper-rustls",
- "hyper-timeout",
  "jsonwebtoken 9.2.0",
  "once_cell",
  "percent-encoding",
@@ -2171,7 +2158,6 @@ dependencies = [
  "serde_path_to_error",
  "serde_urlencoded",
  "snafu",
- "tokio",
  "tower",
  "tower-http",
  "url",
@@ -3653,16 +3639,6 @@ dependencies = [
  "socket2 0.5.5",
  "tokio-macros",
  "windows-sys 0.48.0",
-]
-
-[[package]]
-name = "tokio-io-timeout"
-version = "1.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "30b74022ada614a1b4834de765f9bb43877f910cc8ce4be40e89042c9223a8bf"
-dependencies = [
- "pin-project-lite",
- "tokio",
 ]
 
 [[package]]
