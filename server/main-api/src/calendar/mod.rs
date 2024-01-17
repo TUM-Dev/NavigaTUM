@@ -3,7 +3,7 @@ mod models;
 use crate::models::Location;
 use actix_web::{get, web, HttpResponse};
 use chrono::{DateTime, FixedOffset, Local};
-use log::error;
+use log::{error, debug};
 use oauth2::basic::{BasicClient, BasicTokenResponse};
 use oauth2::reqwest::async_http_client;
 use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
@@ -56,6 +56,7 @@ async fn fetch_oauth_token() -> Result<BasicTokenResponse, Box<dyn Error + Send 
 }
 
 async fn refetch_calendar_for(id: &str, pool: &PgPool) -> Result<(DateTime<Local>, Vec<models::Event>), Box<dyn Error + Send + Sync>> {
+    debug!("start refetching for {id}");
     // Make OAuth2 secured request
     let oauth_token = fetch_oauth_token().await?;
     let events: Vec<models::Event> = reqwest::Client::new()
@@ -65,6 +66,7 @@ async fn refetch_calendar_for(id: &str, pool: &PgPool) -> Result<(DateTime<Local
         .await?
         .json()
         .await?;
+    debug!("finished fetching for {id}: {req}");
     // insert into db
     let mut tx = pool.begin().await?;
     if let Err(e) = delete_events(id, &mut tx).await {
@@ -82,6 +84,7 @@ async fn refetch_calendar_for(id: &str, pool: &PgPool) -> Result<(DateTime<Local
         }
     }
     tx.commit().await?;
+    debug!("finished inserting into the db for {id}");
     Ok((Local::now(), events))
 }
 
@@ -141,7 +144,8 @@ pub async fn calendar_handler(
     let default_sync_time = DateTime::default();
     let last_sync = sync_times.get(&id).unwrap_or(&default_sync_time);
     let (last_sync, events) = if !has_to_refetch(last_sync) {
-        match refetch_calendar_for(&id, &data.db).await {
+        let tumonline_id=id.clone().replace('.',"");
+        match refetch_calendar_for(&tumonline_id, &data.db).await {
             Ok((last_sync, events)) => {
                 data.last_calendar_requests
                     .write()
