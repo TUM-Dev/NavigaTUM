@@ -83,8 +83,8 @@ devDependencies:
     specifier: 3.2.4
     version: 3.2.4
   sass:
-    specifier: 1.69.7
-    version: 1.69.7
+    specifier: 1.70.0
+    version: 1.70.0
   stylelint-scss:
     specifier: 6.0.0
     version: 6.0.0(stylelint@16.0.2)
@@ -96,7 +96,7 @@ devDependencies:
     version: 5.3.3
   vite:
     specifier: 5.0.11
-    version: 5.0.11(sass@1.69.7)
+    version: 5.0.11(sass@1.70.0)
   vue-i18n:
     specifier: 9.9.0
     version: 9.9.0(vue@3.4.14)
@@ -1035,7 +1035,7 @@ packages:
       vite: ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.0.11(sass@1.69.7)
+      vite: 5.0.11(sass@1.70.0)
       vue: 3.4.14(typescript@5.3.3)
     dev: true
 
@@ -4122,8 +4122,8 @@ packages:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: true
 
-  /sass@1.69.7:
-    resolution: {integrity: sha512-rzj2soDeZ8wtE2egyLXgOOHQvaC2iosZrkF6v3EUG+tBwEvhqUCzm0VP3k9gHF9LXbSrRhT5SksoI56Iw8NPnQ==}
+  /sass@1.70.0:
+    resolution: {integrity: sha512-uUxNQ3zAHeAx5nRFskBnrWzDUJrrvpCPD5FNAoRvTi0WwremlheES3tg+56PaVtCs5QDRX5CBLxxKMDJMEa1WQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
@@ -4804,7 +4804,7 @@ packages:
       '@types/markdown-it': 13.0.7
       markdown-it: 13.0.2
       unplugin: 1.5.0
-      vite: 5.0.11(sass@1.69.7)
+      vite: 5.0.11(sass@1.70.0)
     transitivePeerDependencies:
       - rollup
     dev: false
@@ -4871,7 +4871,7 @@ packages:
       extsprintf: 1.3.0
     dev: true
 
-  /vite@5.0.11(sass@1.69.7):
+  /vite@5.0.11(sass@1.70.0):
     resolution: {integrity: sha512-XBMnDjZcNAw/G1gEiskiM1v6yzM4GE5aMGvhWTlHAYYhxb7S3/V1s3m2LDHa8Vh6yIWYYB0iJwsEaS523c4oYA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -4902,7 +4902,7 @@ packages:
       esbuild: 0.19.10
       postcss: 8.4.33
       rollup: 4.9.1
-      sass: 1.69.7
+      sass: 1.70.0
     optionalDependencies:
       fsevents: 2.3.3
 
