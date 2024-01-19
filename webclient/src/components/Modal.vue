@@ -85,7 +85,7 @@ function closeIfShown() {
               <XMarkIcon class="h-4 w-4" />
             </button>
           </div>
-          <div class="max-h-screen w-full overflow-auto rounded-md bg-white p-6">
+          <div class="max-h-screen w-full overflow-auto rounded-b-md bg-white p-6">
             <slot />
           </div>
         </div>

@@ -22,11 +22,7 @@ const appURL = import.meta.env.VITE_APP_URL;
        as long as only little information is there -->
   <div class="hidden lg:block">
     <div class="shadow-md shadow-neutral-500/5 dark:shadow-white/20">
-      <a
-        v-if="state.image.shown_image"
-        class="cursor-pointer"
-        @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
-      >
+      <a v-if="state.image.shown_image" class="cursor-pointer" @click="state.showImageSlideshow(true)">
         <img
           :alt="t('image_alt')"
           :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"

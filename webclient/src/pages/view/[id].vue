@@ -119,7 +119,7 @@ onMounted(() => {
       v-if="state.image.shown_image"
       type="button"
       class="block cursor-pointer lg:hidden"
-      @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
+      @click="state.showImageSlideshow(true)"
     >
       <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${state.image.shown_image.name}`" class="block w-full" />
     </button>
@@ -173,8 +173,12 @@ onMounted(() => {
     <div class="grid grid-cols-1 md:col-span-3">
       <TabGroup class="col-span-1 md:col-span-2" as="div" manual>
         <div class="mb-3 grid gap-2 md:hidden">
-          <Toast level="warning" :msg="t('no_floor_overlay')" />
-          <Toast :msg="state.data.props.comment" />
+          <Toast
+            v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
+            level="warning"
+            :msg="t('no_floor_overlay')"
+          />
+          <Toast v-if="state.data.props.comment" :msg="state.data.props.comment" />
         </div>
         <TabPanels>
           <TabPanel :unmount="false"><DetailsInteractiveMap ref="interactiveMap" /></TabPanel>

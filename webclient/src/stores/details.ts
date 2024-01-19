@@ -14,7 +14,6 @@ export const useDetailsStore = defineStore({
     data: null as DetailsResponse | null,
     image: {
       shown_image: null as ImageInfo | null,
-      shown_image_id: null as number | null,
       slideshow_open: false,
     },
     map: {
@@ -31,19 +30,11 @@ export const useDetailsStore = defineStore({
       const index = this.map.roomfinder.selected_index;
       return this.data?.maps.roomfinder?.available[index] as RoomfinderMapEntry;
     },
-    showImageSlideshow: function (i: number, openSlideshow = true): void {
-      if (this.data?.imgs && this.data.imgs[i]) {
-        this.image.slideshow_open = openSlideshow;
-        this.image.shown_image_id = i;
-        this.image.shown_image = this.data.imgs[i];
-      } else {
-        this.image.slideshow_open = false;
-        this.image.shown_image_id = null;
-        this.image.shown_image = null;
-      }
+    showImageSlideshow: function (openSlideshow: boolean): void {
+      this.image.slideshow_open = this.data?.imgs ? openSlideshow : false;
     },
     loadData: function (d: DetailsResponse): void {
-      this.showImageSlideshow(0, false);
+      this.showImageSlideshow(false);
 
       // --- Maps ---
       this.map.selected = d.maps.default === "interactive" ? selectedMap.interactive : selectedMap.roomfinder;
@@ -60,7 +51,8 @@ export const useDetailsStore = defineStore({
       // --- Images ---
       if (d.imgs && d.imgs.length > 0) {
         this.image.shown_image = d.imgs[0];
-        this.image.shown_image_id = 0;
+      } else {
+        this.image.shown_image = null;
       }
 
       this.data = d;

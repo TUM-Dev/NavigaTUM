@@ -29,7 +29,8 @@
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "unplugin-vue-markdown": "0.26.0",
     "vue": "3.4.19",
-    "vue-router": "4.2.5"
+    "vue-router": "4.2.5",
+    "vue3-carousel": "0.3.1"
   },
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "2.0.0",
