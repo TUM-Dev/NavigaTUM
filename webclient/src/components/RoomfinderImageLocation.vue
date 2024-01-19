@@ -12,9 +12,6 @@ const props = defineProps<{
 
 const { t } = useI18n({ useScope: "local" });
 const appURL = import.meta.env.VITE_APP_URL;
-const crosshairURL = new URL(`/src/assets/map/roomfinder_cross-v2.webp`, import.meta.url);
-const crosshairSprite = new Image();
-crosshairSprite.src = crosshairURL.href;
 
 // count will increase every 150ms
 const counter = useInterval(150);
