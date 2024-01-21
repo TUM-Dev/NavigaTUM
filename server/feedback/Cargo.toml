@@ -25,7 +25,7 @@ serde.workspace = true
 serde_json.workspace = true
 
 rand = "0.8.5"
-regex = "1.10.2"
+regex = "1.10.3"
 octocrab = { version = "0.33.1", default-features = false, features=["rustls","rustls-webpki-tokio","retry"] }
 
 # web
