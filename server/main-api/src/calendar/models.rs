@@ -1,10 +1,10 @@
-use chrono::{DateTime, Local};
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub(super) struct Events {
     pub(super) events: Vec<Event>,
-    pub(super) last_sync: DateTime<Local>,
+    pub(super) last_sync: DateTime<Utc>,
     pub(super) calendar_url: String,
 }
 
@@ -14,9 +14,9 @@ pub(super) struct Event {
     /// e.g. 5121.EG.003
     pub(super) room_code: String,
     /// e.g. 2018-01-01T00:00:00
-    pub(super) start_at: DateTime<Local>,
+    pub(super) start_at: DateTime<Utc>,
     /// e.g. 2019-01-01T00:00:00
-    pub(super) end_at: DateTime<Local>,
+    pub(super) end_at: DateTime<Utc>,
     /// e.g. Quantenteleportation
     pub(super) stp_title_de: String,
     /// e.g. Quantum teleportation
@@ -36,7 +36,16 @@ impl Event {
     ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
         sqlx::query!(
             r#"INSERT INTO calendar (id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type,detailed_entry_type)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)"#,
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            ON CONFLICT (id) DO UPDATE SET
+             room_code = $2,
+             start_at = $3,
+             end_at = $4,
+             stp_title_de = $5,
+             stp_title_en = $6,
+             stp_type = $7,
+             entry_type = $8,
+             detailed_entry_type = $9"#,
             self.id,
             self.room_code,
             self.start_at,

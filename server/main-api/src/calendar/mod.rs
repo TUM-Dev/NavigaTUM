@@ -1,32 +1,43 @@
-mod models;
-
-use crate::models::Location;
-use actix_web::{get, web, HttpResponse};
-use chrono::{DateTime, FixedOffset, Local};
-use log::{debug, error};
-use oauth2::basic::{BasicClient, BasicTokenResponse};
-use oauth2::reqwest::async_http_client;
-use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
-use reqwest::Url;
-use serde::Deserialize;
-use sqlx::PgPool;
 use std::env;
 use std::error::Error;
 use std::ops::Sub;
 
-fn has_to_refetch(last_requests: &DateTime<Local>) -> bool {
+use actix_web::{get, HttpResponse, web};
+use cached::instant::Instant;
+use chrono::{DateTime, FixedOffset, Local, Utc};
+use log::{debug, error, info};
+use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
+use oauth2::basic::{BasicClient, BasicTokenResponse};
+use oauth2::reqwest::async_http_client;
+use reqwest::Url;
+use serde::Deserialize;
+use sqlx::PgPool;
+
+use crate::models::Location;
+
+mod models;
+mod fetcher;
+mod fetch;
+
+fn has_to_refetch(last_requests: &Option<DateTime<Utc>>) -> bool {
     let one_hour = FixedOffset::east_opt(60 * 60)
         .expect("time travel is impossible and chronos is Y2K38-safe");
     let refetch_if_not_done_after = Local::now().sub(one_hour);
-    &refetch_if_not_done_after < last_requests
+    match last_requests {
+        Some(last) => &refetch_if_not_done_after < last,
+        None => true,
+    }
 }
 
-fn can_use_stale_result_from_db(last_requests: &DateTime<Local>) -> bool {
+fn can_use_stale_result_from_db(last_requests: &Option<DateTime<Utc>>) -> bool {
     let three_days = chrono::Days::new(3);
     let can_reuse_if_done_after = Local::now()
         .checked_sub_days(three_days)
         .expect("time travel is impossible and chronos is Y2K38-save");
-    &can_reuse_if_done_after < last_requests
+    match last_requests {
+        Some(last) => &can_reuse_if_done_after < last,
+        None => false,
+    }
 }
 
 async fn delete_events(
@@ -62,25 +73,24 @@ async fn fetch_oauth_token() -> Result<BasicTokenResponse, Box<dyn Error + Send 
 }
 
 async fn refetch_calendar_for(
+    tumonline_id: &str,
     id: &str,
     pool: &PgPool,
-) -> Result<(DateTime<Local>, Vec<models::Event>), Box<dyn Error + Send + Sync>> {
-    debug!("requesting oauth credentials");
+) -> Result<(DateTime<Utc>, Vec<models::Event>), Box<dyn Error + Send + Sync>> {
+    let start = Instant::now();
     // Make OAuth2 secured request
     let oauth_token = fetch_oauth_token().await?;
-    let bearer_token=oauth_token.access_token().secret().clone();
-    debug!("bearer={bearer_token}");
-    let url =format!("https://review.campus.tum.de/RSYSTEM/co/connectum/api/rooms/{id}/calendars");
-    debug!("url={url}");
-    let events: Vec<models::Event> = vec![];
-    let req: String = reqwest::Client::new()
+    let bearer_token = oauth_token.access_token().secret().clone();
+    let url = format!("https://review.campus.tum.de/RSYSTEM/co/connectum/api/rooms/{tumonline_id}/calendars");
+
+    let events: Vec<models::Event> = reqwest::Client::new()
         .get(url)
         .bearer_auth(bearer_token)
         .send()
         .await?
-        .text()
+        .json()
         .await?;
-    println!("finished fetching for {id}:\n->{req}");
+    info!("finished fetching for {id}: {cnt} calendar events in {elapsed:?}", cnt=events.len(), elapsed=start.elapsed());
     // insert into db
     let mut tx = pool.begin().await?;
     if let Err(e) = delete_events(id, &mut tx).await {
@@ -99,11 +109,11 @@ async fn refetch_calendar_for(
     }
     tx.commit().await?;
     debug!("finished inserting into the db for {id}");
-    Ok((Local::now(), events))
+    Ok((Utc::now(), events))
 }
 
 async fn get_location(pool: &PgPool, id: &str) -> Result<Option<Location>, sqlx::Error> {
-    sqlx::query_as!(Location, "SELECT * FROM en WHERE key = $1", id)
+    sqlx::query_as!(Location, "SELECT * FROM de WHERE key = $1", id)
         .fetch_optional(pool)
         .await
 }
@@ -111,8 +121,8 @@ async fn get_location(pool: &PgPool, id: &str) -> Result<Option<Location>, sqlx:
 async fn get_events_from_db(
     pool: &PgPool,
     id: &str,
-    start_after: &DateTime<Local>,
-    end_before: &DateTime<Local>,
+    start_after: &DateTime<Utc>,
+    end_before: &DateTime<Utc>,
 ) -> Result<Vec<models::Event>, sqlx::Error> {
     sqlx::query_as!(models::Event, r#"SELECT id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type AS "entry_type!:models::EventType",detailed_entry_type
     FROM calendar
@@ -124,9 +134,9 @@ async fn get_events_from_db(
 #[derive(Deserialize, Debug)]
 pub struct QueryArguments {
     /// eg. 2039-01-19T03:14:07+1
-    start_after: DateTime<Local>,
+    start_after: DateTime<Utc>,
     /// eg. 2042-01-07T00:00:00 UTC
-    end_before: DateTime<Local>,
+    end_before: DateTime<Utc>,
 }
 
 #[get("/api/calendar/{id}")]
@@ -136,7 +146,7 @@ pub async fn calendar_handler(
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
     let id = params.into_inner();
-    match get_location(&data.db, &id).await {
+    let location = match get_location(&data.db, &id).await {
         Err(e) => {
             error!("could not refetch due to {e:?}");
             return HttpResponse::InternalServerError()
@@ -153,18 +163,11 @@ pub async fn calendar_handler(
         "https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={id}",
         id = 0
     ); // TODO: room.tumonline_calendar_id
-
-    let sync_times = data.last_calendar_requests.read().await;
-    let default_sync_time = DateTime::default();
-    let last_sync = sync_times.get(&id).unwrap_or(&default_sync_time);
-    let (last_sync, events) = if !has_to_refetch(last_sync) {
+    let (last_sync, events) = if !has_to_refetch(&location.last_calendar_scrape_at) {
         let tumonline_id = id.clone().replace('.', "");
-        match refetch_calendar_for(&tumonline_id, &data.db).await {
+        match refetch_calendar_for(&tumonline_id, &id, &data.db).await {
             Ok((last_sync, events)) => {
-                data.last_calendar_requests
-                    .write()
-                    .await
-                    .insert(id, last_sync);
+                sqlx::query!("UPDATE de SET last_calendar_scrape_at = $1 WHERE key=$2", last_sync, id).execute(&data.db).await;
                 let events = events
                     .into_iter()
                     .filter(|e| args.start_after <= e.start_at && args.end_before >= e.end_at)
@@ -173,11 +176,11 @@ pub async fn calendar_handler(
             }
             Err(e) => {
                 error!("could not refetch due to {e:?}");
-                if !can_use_stale_result_from_db(last_sync) {
+                if !can_use_stale_result_from_db(&location.last_calendar_scrape_at) {
                     match get_events_from_db(&data.db, &id, &args.start_after, &args.end_before)
                         .await
                     {
-                        Ok(res) => (*last_sync, res),
+                        Ok(res) => (location.last_calendar_scrape_at, res),
                         Err(e) => {
                             error!("could not get substitute from db due to {e:?}");
                             return HttpResponse::InternalServerError()
@@ -193,7 +196,7 @@ pub async fn calendar_handler(
         }
     } else {
         match get_events_from_db(&data.db, &id, &args.start_after, &args.end_before).await {
-            Ok(res) => (*last_sync, res),
+            Ok(res) => (location.last_calendar_scrape_at, res),
             Err(e) => {
                 error!("could not refetch due to {e:?}");
                 return HttpResponse::InternalServerError()

@@ -42,6 +42,11 @@
         "ordinal": 7,
         "name": "data",
         "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "last_calendar_scrape_at",
+        "type_info": "Timestamptz"
       }
     ],
     "parameters": {
@@ -57,7 +62,8 @@
       false,
       false,
       false,
-      false
+      false,
+      true
     ]
   },
   "hash": "a87d33b55872d9135ab82391b36d1a495534817fb39a9e25f6720267c6025965"
