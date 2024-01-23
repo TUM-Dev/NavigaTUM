@@ -16,7 +16,7 @@ mod models;
 mod search;
 mod setup;
 mod utils;
-
+type BoxedError=Box<dyn Error + Send + Sync>;
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
 #[derive(Debug)]
