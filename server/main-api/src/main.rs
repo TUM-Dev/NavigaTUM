@@ -6,6 +6,7 @@ use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
 use sqlx::PgPool;
 use std::collections::HashMap;
+use std::error::Error;
 use structured_logger::async_json::new_writer;
 use structured_logger::Builder;
 
@@ -52,7 +53,7 @@ fn connection_string() -> String {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> Result<(), crate::BoxedError> {
     Builder::with_level("info")
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();

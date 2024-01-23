@@ -4,7 +4,6 @@ use meilisearch_sdk::tasks::Task;
 use meilisearch_sdk::Client;
 use serde_json::Value;
 use std::collections::HashMap;
-use std::error::Error;
 use std::time::Duration;
 
 const TIMEOUT: Option<Duration> = Some(Duration::from_secs(20));
@@ -44,7 +43,8 @@ async fn wait_for_healthy(client: &Client) {
     }
 }
 
-pub(crate) async fn setup_meilisearch() -> Result<(), Box<dyn Error>> {
+pub(crate) async fn setup_meilisearch() -> Result<(), crate::BoxedError> {
+    info!("setting up meilisearch");
     let start = std::time::Instant::now();
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
     info!("connecting to Meilisearch at {ms_url}", ms_url = ms_url);

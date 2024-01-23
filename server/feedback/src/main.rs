@@ -1,6 +1,7 @@
 use actix_cors::Cors;
 use actix_governor::{GlobalKeyExtractor, Governor, GovernorConfigBuilder};
 use std::collections::HashMap;
+use std::error::Error;
 
 use crate::tokens::RecordedTokens;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
@@ -12,6 +13,7 @@ mod github;
 mod post_feedback;
 mod proposed_edits;
 mod tokens;
+type BoxedError=Box<dyn Error + Send + Sync>;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
