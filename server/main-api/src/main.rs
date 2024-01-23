@@ -58,10 +58,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .init();
     let uri = connection_string();
     let pool = PgPoolOptions::new().connect(&uri).await?;
-    info!("setting up the database");
+    #[cfg(not(feature = "skip_db_setup"))]
     setup::database::setup_database(&pool).await?;
-    //info!("setting up meilisearch");
-    //setup::meilisearch::setup_meilisearch().await?;
+    #[cfg(not(feature = "skip_ms_setup"))]
+    setup::meilisearch::setup_meilisearch().await?;
 
     debug!("setting up metrics");
     let labels = HashMap::from([(
