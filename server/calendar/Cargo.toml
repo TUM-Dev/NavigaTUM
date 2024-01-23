@@ -28,7 +28,7 @@ actix-web-prom.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 
-chrono = { version = "0.4.31", default-features = false, features = ["serde"] }
+chrono = { version = "0.4.32", default-features = false, features = ["serde"] }
 
 # database
 sqlx = { version = "0.7.3", features = ["postgres", "runtime-tokio-rustls", "migrate", "macros", "chrono"] }
