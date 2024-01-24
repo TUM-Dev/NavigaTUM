@@ -10,14 +10,19 @@ use db::DbRequestor;
 
 use crate::calendar::models::Event;
 
-mod db;
 mod connectum;
+mod db;
 
 type CalendarEntries = (DateTime<Utc>, Vec<Event>);
 
 trait CalendarEntryFetcher {
     fn new(pool: &PgPool, last_calendar_scrape_at: &Option<DateTime<Utc>>) -> Self;
-    async fn fetch(&self, id: &str, start_after: &DateTime<Utc>, end_before: &DateTime<Utc>) -> Result<CalendarEntries, crate::BoxedError>;
+    async fn fetch(
+        &self,
+        id: &str,
+        start_after: &DateTime<Utc>,
+        end_before: &DateTime<Utc>,
+    ) -> Result<CalendarEntries, crate::BoxedError>;
 }
 
 pub struct StrategyExecutor {
@@ -28,7 +33,12 @@ pub struct StrategyExecutor {
 }
 
 impl StrategyExecutor {
-    pub(super) fn new(pool: &PgPool, id: &str, start_after: &DateTime<Utc>, end_before: &DateTime<Utc>) -> Self {
+    pub(super) fn new(
+        pool: &PgPool,
+        id: &str,
+        start_after: &DateTime<Utc>,
+        end_before: &DateTime<Utc>,
+    ) -> Self {
         Self {
             pool: pool.clone(),
             id: id.into(),
@@ -36,17 +46,27 @@ impl StrategyExecutor {
             end_before: *end_before,
         }
     }
-    async fn exec<T: CalendarEntryFetcher>(&self, last_calendar_scrape_at: &Option<DateTime<Utc>>) -> Result<CalendarEntries, crate::BoxedError> {
-        T::new(&self.pool,last_calendar_scrape_at).fetch(&self.id, &self.start_after, &self.end_before).await
+    async fn exec<T: CalendarEntryFetcher>(
+        &self,
+        last_calendar_scrape_at: &Option<DateTime<Utc>>,
+    ) -> Result<CalendarEntries, crate::BoxedError> {
+        T::new(&self.pool, last_calendar_scrape_at)
+            .fetch(&self.id, &self.start_after, &self.end_before)
+            .await
     }
 
-    pub(super) async fn exec_with_retrying(self, last_calendar_scrape_at: &Option<DateTime<Utc>>) -> Result<CalendarEntries, HttpResponse> {
+    pub(super) async fn exec_with_retrying(
+        self,
+        last_calendar_scrape_at: &Option<DateTime<Utc>>,
+    ) -> Result<CalendarEntries, HttpResponse> {
         let intial = match last_calendar_scrape_at {
-            Some(l) => if Self::one_hour_ago() < *l {
-                self.exec::<APIRequestor>(last_calendar_scrape_at).await
-            } else {
-                self.exec::<DbRequestor>(last_calendar_scrape_at).await
-            },
+            Some(l) => {
+                if Self::one_hour_ago() < *l {
+                    self.exec::<APIRequestor>(last_calendar_scrape_at).await
+                } else {
+                    self.exec::<DbRequestor>(last_calendar_scrape_at).await
+                }
+            }
             None => self.exec::<APIRequestor>(last_calendar_scrape_at).await,
         };
 
@@ -54,7 +74,7 @@ impl StrategyExecutor {
             Ok(r) => Ok(r),
             Err(e) => {
                 error!("could not fetch due to {e:?}");
-                let last_scrape=last_calendar_scrape_at.unwrap_or_default();
+                let last_scrape = last_calendar_scrape_at.unwrap_or_default();
                 if Self::three_days_ago() < last_scrape {
                     match self.exec::<DbRequestor>(last_calendar_scrape_at).await {
                         Ok(res) => Ok(res),

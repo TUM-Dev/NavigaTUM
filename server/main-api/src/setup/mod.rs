@@ -1,4 +1,3 @@
-
 #[cfg(not(feature = "skip_db_setup"))]
 pub(crate) mod database;
 

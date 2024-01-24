@@ -17,7 +17,7 @@ mod models;
 mod search;
 mod setup;
 mod utils;
-type BoxedError=Box<dyn Error + Send + Sync>;
+type BoxedError = Box<dyn Error + Send + Sync>;
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
 #[derive(Debug)]
@@ -89,9 +89,7 @@ async fn main() -> Result<(), crate::BoxedError> {
             .wrap(middleware::Logger::default().exclude("/api/status"))
             .wrap(middleware::Compress::default())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
-            .app_data(web::Data::new(AppData {
-                db: pool.clone(),
-            }))
+            .app_data(web::Data::new(AppData { db: pool.clone() }))
             .service(health_status_handler)
             .service(calendar::calendar_handler)
             .service(web::scope("/api/preview").configure(maps::configure))

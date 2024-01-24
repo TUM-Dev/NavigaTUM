@@ -13,7 +13,7 @@ mod github;
 mod post_feedback;
 mod proposed_edits;
 mod tokens;
-type BoxedError=Box<dyn Error + Send + Sync>;
+type BoxedError = Box<dyn Error + Send + Sync>;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 

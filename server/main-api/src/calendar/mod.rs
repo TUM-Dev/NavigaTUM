@@ -1,4 +1,4 @@
-use actix_web::{get, HttpResponse, web};
+use actix_web::{get, web, HttpResponse};
 use chrono::{DateTime, Utc};
 use log::error;
 use serde::Deserialize;
@@ -6,9 +6,8 @@ use sqlx::PgPool;
 
 use crate::models::Location;
 
-mod models;
 mod fetch;
-
+mod models;
 
 async fn get_location(pool: &PgPool, id: &str) -> Result<Option<Location>, sqlx::Error> {
     sqlx::query_as!(Location, "SELECT * FROM de WHERE key = $1", id)
@@ -48,8 +47,12 @@ pub async fn calendar_handler(
         "https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={id}",
         id = 0
     ); // TODO: room.tumonline_calendar_id
-    let fetching_strategy = fetch::StrategyExecutor::new(&data.db, &id, &args.start_after, &args.end_before);
-    match fetching_strategy.exec_with_retrying(&location.last_calendar_scrape_at).await {
+    let fetching_strategy =
+        fetch::StrategyExecutor::new(&data.db, &id, &args.start_after, &args.end_before);
+    match fetching_strategy
+        .exec_with_retrying(&location.last_calendar_scrape_at)
+        .await
+    {
         Ok((last_sync, events)) => HttpResponse::Ok().json(models::Events {
             events,
             last_sync,
