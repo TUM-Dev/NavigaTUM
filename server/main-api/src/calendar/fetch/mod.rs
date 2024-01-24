@@ -61,10 +61,10 @@ impl StrategyExecutor {
     ) -> Result<CalendarEntries, HttpResponse> {
         let intial = match last_calendar_scrape_at {
             Some(l) => {
-                if Self::one_hour_ago() < *l {
-                    self.exec::<APIRequestor>(last_calendar_scrape_at).await
-                } else {
+                if *l > Self::one_hour_ago() {
                     self.exec::<DbRequestor>(last_calendar_scrape_at).await
+                } else {
+                    self.exec::<APIRequestor>(last_calendar_scrape_at).await
                 }
             }
             None => self.exec::<APIRequestor>(last_calendar_scrape_at).await,
@@ -75,7 +75,7 @@ impl StrategyExecutor {
             Err(e) => {
                 error!("could not fetch due to {e:?}");
                 let last_scrape = last_calendar_scrape_at.unwrap_or_default();
-                if Self::three_days_ago() < last_scrape {
+                if last_scrape < Self::three_days_ago() {
                     match self.exec::<DbRequestor>(last_calendar_scrape_at).await {
                         Ok(res) => Ok(res),
                         Err(e) => {
