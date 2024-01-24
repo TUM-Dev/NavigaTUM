@@ -19,8 +19,6 @@ services:
         condition: service_healthy
       feedback-api:
         condition: service_healthy
-      calendar-api:
-        condition: service_healthy
   # maps
   tileserver-init-sprites:
     image: alpine:latest
