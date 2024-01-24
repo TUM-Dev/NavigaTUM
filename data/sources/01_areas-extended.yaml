@@ -1098,7 +1098,7 @@ feuerwehrwache-garching:
   osm: ["way/179243758"]
 
 7894: # Newton
-  coords: { lat: 48.26924, lon: 11.66523 }
+  coords: { lat: 48.26996878943009, lon: 11.665900783489633 }
   osm: ["relation/5365461"]
 
 # Really not sure about the coordinates of 7895 and 7896.
