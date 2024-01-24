@@ -1,3 +1,6 @@
+use std::collections::HashMap;
+use std::error::Error;
+
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
@@ -5,20 +8,22 @@ use log::{debug, error, info};
 use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
 use sqlx::PgPool;
-use std::collections::HashMap;
 use structured_logger::async_json::new_writer;
 use structured_logger::Builder;
 
-mod entries;
+mod calendar;
+mod details;
 mod maps;
 mod models;
 mod search;
 mod setup;
 mod utils;
 
+type BoxedError = Box<dyn Error + Send + Sync>;
+
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 pub struct AppData {
     db: PgPool,
 }
@@ -51,15 +56,15 @@ fn connection_string() -> String {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> Result<(), crate::BoxedError> {
     Builder::with_level("info")
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();
     let uri = connection_string();
     let pool = PgPoolOptions::new().connect(&uri).await?;
-    info!("setting up the database");
+    #[cfg(not(feature = "skip_db_setup"))]
     setup::database::setup_database(&pool).await?;
-    info!("setting up meilisearch");
+    #[cfg(not(feature = "skip_ms_setup"))]
     setup::meilisearch::setup_meilisearch().await?;
 
     debug!("setting up metrics");
@@ -89,8 +94,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .app_data(web::Data::new(AppData { db: pool.clone() }))
             .service(health_status_handler)
+            .service(calendar::calendar_handler)
             .service(web::scope("/api/preview").configure(maps::configure))
-            .service(entries::get::get_handler)
+            .service(details::get_handler)
             .service(search::search_handler)
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?

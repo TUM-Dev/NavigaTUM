@@ -34,15 +34,19 @@ serde_yaml = "0.9"
 
 # database
 sqlx = { version = "0.7.3", features = ["postgres", "runtime-tokio-rustls", "migrate", "macros", "chrono"] }
+chrono = { version = "0.4.31", default-features = false, features = ["serde"] }
 
 # search
 meilisearch-sdk = "0.24.3"
-logos="0.13.0"
+logos = "0.13.0"
 regex = "1.10.3"
 
-# maps
+# web access
+oauth2 = { version = "4.4.2", default-features = false, features = ["rustls-tls", "reqwest"] }
 rustls = "0.22.2"
-reqwest = { version= "0.11.23", default-features = false, features = ["tokio-rustls", "json", "gzip"] }
+reqwest = { version = "0.11.23", default-features = false, features = ["tokio-rustls", "rustls-tls-webpki-roots", "rustls", "webpki-roots", "json", "gzip"] }
+
+# image production
 image = "0.24.8"
 imageproc = "0.23.0"
 rusttype = "0.9.3"
@@ -50,3 +54,7 @@ lazy_static = "1.4.0"
 
 [dev-dependencies]
 pretty_assertions.workspace = true
+
+[features]
+skip_db_setup = []
+skip_ms_setup = []
