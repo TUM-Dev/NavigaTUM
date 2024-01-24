@@ -3,6 +3,7 @@
  * Do not make direct changes to the file.
  */
 
+
 export type paths = {
   "/api/search": {
     /**
@@ -121,13 +122,6 @@ export type paths = {
      * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
      */
     get: operations["feedback-health"];
-  };
-  "/api/calendar/status": {
-    /**
-     * calendar-API healthcheck
-     * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
-     */
-    get: operations["calendar-health"];
   };
   "/cdn/health": {
     /**
@@ -292,7 +286,7 @@ export type components = {
        * @description null would mean no overlay maps are displayed by default.
        * For rooms you should add a warning that no floor map is available for this room
        */
-      readonly overlays?: {
+      readonly overlays?: ({
         /**
          * @description The floor-id of the map, that should be shown as a default.
          * null:
@@ -303,7 +297,7 @@ export type components = {
          */
         readonly default: number | null;
         readonly available: readonly components["schemas"]["OverlayMapEntry"][];
-      } | null;
+      }) | null;
     };
     readonly RoomfinderMap: {
       /**
@@ -392,12 +386,7 @@ export type components = {
        */
       readonly file: string;
       /** @description Coordinates are four [lon, lat] pairs, for the top left, top right, bottom right, bottom left image corners. */
-      readonly coordinates: readonly [
-        readonly [number, number],
-        readonly [number, number],
-        readonly [number, number],
-        readonly [number, number],
-      ];
+      readonly coordinates: readonly [readonly [number, number], readonly [number, number], readonly [number, number], readonly [number, number]];
     };
     readonly Rooms: {
       /**
@@ -474,7 +463,7 @@ export type components = {
        */
       readonly time_ms: number;
     };
-    readonly DetailsResponse: components["schemas"]["BaseDetailsResponse"] & {
+    readonly DetailsResponse: components["schemas"]["BaseDetailsResponse"] & ({
       /** @description The id, that was requested */
       readonly id: string;
       /**
@@ -492,20 +481,20 @@ export type components = {
       readonly poi?: {
         readonly mvg: readonly [components["schemas"]["Station"], ...components["schemas"]["Station"][]];
       };
-    };
+    });
     readonly BuildingsOverview: {
       readonly entries: readonly (components["schemas"]["ChildEntry"] & {
-        /**
-         * @description What should be displayed below this Building
-         * @example Gebäudekomplex mit 512 Räumen
-         */
-        readonly subtext: string;
-        /**
-         * @description The thumbnail for the building
-         * @example mi_0.webp
-         */
-        readonly thumb?: string;
-      })[];
+          /**
+           * @description What should be displayed below this Building
+           * @example Gebäudekomplex mit 512 Räumen
+           */
+          readonly subtext: string;
+          /**
+           * @description The thumbnail for the building
+           * @example mi_0.webp
+           */
+          readonly thumb?: string;
+        })[];
       /**
        * Format: int64
        * @description A recommendation how many of the entries should be displayed by default.
@@ -519,32 +508,32 @@ export type components = {
     };
     readonly RoomsOverview: {
       readonly usages?: readonly {
-        /**
-         * @description Category Name
-         * @example Büro
-         */
-        readonly name: string;
-        /**
-         * @description How many children this category has
-         * @example 126
-         */
-        readonly count: number;
-        readonly children: readonly components["schemas"]["ChildEntry"][];
-      }[];
+          /**
+           * @description Category Name
+           * @example Büro
+           */
+          readonly name: string;
+          /**
+           * @description How many children this category has
+           * @example 126
+           */
+          readonly count: number;
+          readonly children: readonly components["schemas"]["ChildEntry"][];
+        }[];
     };
     readonly FeaturedOverview: {
       readonly entries: readonly (components["schemas"]["ChildEntry"] & {
-        /**
-         * @description What should be displayed below this Building
-         * @example Gebäudekomplex mit 512 Räumen
-         */
-        readonly subtext: string;
-        /**
-         * @description The thumbnail for the building
-         * @example mi_0.webp
-         */
-        readonly image_url: string;
-      })[];
+          /**
+           * @description What should be displayed below this Building
+           * @example Gebäudekomplex mit 512 Räumen
+           */
+          readonly subtext: string;
+          /**
+           * @description The thumbnail for the building
+           * @example mi_0.webp
+           */
+          readonly image_url: string;
+        })[];
     };
     readonly ChildEntry: {
       /**
@@ -564,22 +553,22 @@ export type components = {
      * The first entry is the site with the most importance
      */
     readonly SitesOverview: readonly (components["schemas"]["ChildEntry"] & {
-      /**
-       * Format: int64
-       * @description A recommendation how many of the entries should be displayed by default.
-       * The number is usually from 0-5.
-       * More results might be displayed when clicking "expand".
-       * If this field is not present, then all entries are displayed.
-       *
-       * @example 6
-       */
-      readonly n_visible: number;
-      /**
-       * @description A select list of buildings, that are in this site.
-       * Derived from the areatree.
-       */
-      readonly children: readonly components["schemas"]["ChildEntry"][];
-    })[];
+        /**
+         * Format: int64
+         * @description A recommendation how many of the entries should be displayed by default.
+         * The number is usually from 0-5.
+         * More results might be displayed when clicking "expand".
+         * If this field is not present, then all entries are displayed.
+         *
+         * @example 6
+         */
+        readonly n_visible: number;
+        /**
+         * @description A select list of buildings, that are in this site.
+         * Derived from the areatree.
+         */
+        readonly children: readonly components["schemas"]["ChildEntry"][];
+      })[];
     readonly RootResponse: components["schemas"]["BaseDetailsResponse"] & {
       /**
        * @description The id, that was requested
@@ -623,17 +612,17 @@ export type components = {
         readonly patched?: boolean;
         /** @description What is the basis of the data we have */
         readonly base: readonly {
-          /**
-           * @description The name of the provider
-           * @example NavigaTUM
-           */
-          readonly name: string;
-          /**
-           * @description The url of the provider
-           * @example https://nav.tum.de
-           */
-          readonly url?: string;
-        }[];
+            /**
+             * @description The name of the provider
+             * @example NavigaTUM
+             */
+            readonly name: string;
+            /**
+             * @description The url of the provider
+             * @example https://nav.tum.de
+             */
+            readonly url?: string;
+          }[];
       };
       /**
        * @description The url, this item should be displayed at.
@@ -764,7 +753,7 @@ export type components = {
        */
       readonly additional_context: string;
     };
-    readonly PostFeedbackRequest: components["schemas"]["TokenRequest"] & {
+    readonly PostFeedbackRequest: components["schemas"]["TokenRequest"] & ({
       /**
        * @description The category of the feedback.
        * Enum attribute is softly enforced: Any value not listed below will be replaced by "other"
@@ -790,7 +779,7 @@ export type components = {
        * @example true
        */
       readonly deletion_requested: boolean;
-    };
+    });
     readonly TokenRequest: {
       /**
        * @description The JWT token, that can be used to generate feedback
@@ -813,13 +802,13 @@ export type components = {
       /** Format: double */
       readonly lon: number;
       readonly sub_stations: readonly {
-        readonly station_id: string;
-        readonly name: string;
-        /** Format: double */
-        readonly lat: number;
-        /** Format: double */
-        readonly lon: number;
-      }[];
+          readonly station_id: string;
+          readonly name: string;
+          /** Format: double */
+          readonly lat: number;
+          /** Format: double */
+          readonly lon: number;
+        }[];
     };
   };
   responses: never;
@@ -834,6 +823,7 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export type operations = {
+
   /**
    * Search entries
    * @description This endpoint is designed to support search-as-you-type results.
@@ -1101,11 +1091,7 @@ export type operations = {
        */
       403: {
         content: {
-          readonly "text/plain":
-            | "Invalid token"
-            | "Token not old enough, please wait"
-            | "Token expired"
-            | "Token already used";
+          readonly "text/plain": "Invalid token" | "Token not old enough, please wait" | "Token expired" | "Token already used";
         };
       };
       /**
@@ -1180,11 +1166,7 @@ export type operations = {
        */
       403: {
         content: {
-          readonly "text/plain":
-            | "Invalid token"
-            | "Token not old enough, please wait"
-            | "Token expired"
-            | "Token already used";
+          readonly "text/plain": "Invalid token" | "Token not old enough, please wait" | "Token expired" | "Token already used";
         };
       };
       /**
@@ -1339,24 +1321,6 @@ export type operations = {
    * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
    */
   "feedback-health": {
-    responses: {
-      /** @description Ok */
-      200: {
-        content: {
-          readonly "text/plain": string;
-        };
-      };
-      /** @description Service Unavailable */
-      503: {
-        content: never;
-      };
-    };
-  };
-  /**
-   * calendar-API healthcheck
-   * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
-   */
-  "calendar-health": {
     responses: {
       /** @description Ok */
       200: {
