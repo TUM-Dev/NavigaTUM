@@ -15,11 +15,6 @@ spec:
         - name: feedback-svc
           port: 3004
     - kind: Rule
-      match: Host(`{{ $.Values.url }}`) && PathPrefix(`/api/calendar/`)
-      services:
-        - name: calendar-svc
-          port: 3005
-    - kind: Rule
       match: Host(`{{ $.Values.url }}`) && PathPrefix(`/api/`)
       services:
         - name: api-svc
