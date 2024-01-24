@@ -55,10 +55,11 @@ pnpm run dev
 pnpm run build
 ```
 
-### Linting with [ESLint](https://eslint.org/)
+### Linting with [ESLint](https://eslint.org/) and formatting via prettier
 
 ```sh
 pnpm run lint
+pnpm run format
 ```
 
 ### Update the API's type definitions
@@ -68,6 +69,7 @@ From the folder of this README, run:
 ```sh
 npx openapi-typescript ../openapi.yaml --output ./src/api_types/index.ts --export-type --immutable-types --support-array-length
 pnpm run lint
+pnpm run format
 ```
 
 ## Build files & Serving release build
