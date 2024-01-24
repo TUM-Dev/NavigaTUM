@@ -733,26 +733,42 @@ paths:
   '/api/calendar/{id}':
     get:
       operationId: calendar
-      summary: Get a entry-preview
+      summary: Retrieve Calendar Entries
       description: |
-        This returns the a 1200x630px preview for the entry (room/building/..).
+        Retrieves calendar entries for a specific `id` within the requested time span. 
+        The time span is defined by the `start_after` and `end_before` query parameters.
+        Ensure to provide valid date-time formats for these parameters.
 
-        This is usefull for implementing custom OpenGraph images for detail previews.
+        If successful, returns additional entries in the requested time span.
       parameters:
-        - name: start
+        - name: start_after
           in: query
           description: The first allowed time the calendar would like to display
           required: true
           schema:
             type: string
             format: date-time
-        - name: end
+          examples:
+            use_tz:
+              summary: how timezones are defined
+              value: '2039-01-19T03:14:07+01:00'
+            utc:
+              summary: how utc is defined
+              value: '2042-01-07T00:00:00 UTC'
+        - name: end_before
           in: query
           description: The last allowed time the calendar would like to display
           required: true
           schema:
             type: string
             format: date-time
+          examples:
+            use_tz:
+              summary: how timezones are defined
+              value: '2039-01-19T03:14:07+01:00'
+            utc:
+              summary: how utc is defined
+              value: '2042-01-07T00:00:00 UTC'
         - name: id
           in: path
           description: string you want to search for
@@ -822,9 +838,9 @@ paths:
       operationId: previews
       summary: Get a entry-preview
       description: |
-        This returns the a 1200x630px preview for the entry (room/building/..).
+        This returns a 1200x630px preview for the location (room/building/..).
 
-        This is usefull for implementing custom OpenGraph images for detail previews.
+        This is usefully for implementing custom OpenGraph images for detail previews.
       parameters:
         - name: lang
           in: query
@@ -1219,26 +1235,6 @@ paths:
     get:
       operationId: feedback-health
       summary: feedback-API healthcheck
-      description: |
-        If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
-      responses:
-        '200':
-          description: Ok
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: |
-                  healthy
-                  source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
-        '503':
-          description: Service Unavailable
-      tags:
-        - health
-  /api/calendar/status:
-    get:
-      operationId: calendar-health
-      summary: calendar-API healthcheck
       description: |
         If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
       responses:

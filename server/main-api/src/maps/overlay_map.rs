@@ -1,5 +1,5 @@
 use crate::maps::fetch_tile::FetchTileTask;
-use crate::models::DBRoomEntry;
+use crate::models::Location;
 use futures::{stream::FuturesUnordered, StreamExt};
 use log::warn;
 
@@ -10,7 +10,7 @@ pub(crate) struct OverlayMapTask {
 }
 
 impl OverlayMapTask {
-    pub fn with(entry: &DBRoomEntry) -> Self {
+    pub fn with(entry: &Location) -> Self {
         let zoom = match entry.r#type.as_str() {
             "campus" => 14,
             "area" | "site" => 15,

@@ -1,4 +1,4 @@
-use crate::models::DBRoomKeyAlias;
+use crate::models::LocationKeyAlias;
 use crate::utils;
 use actix_web::{get, web, HttpResponse};
 use log::error;
@@ -52,7 +52,7 @@ pub async fn get_handler(
 
 async fn get_alias_and_redirect(conn: &PgPool, query: &str) -> Option<(String, String)> {
     let result = sqlx::query_as!(
-        DBRoomKeyAlias,
+        LocationKeyAlias,
         r#"
         SELECT DISTINCT key, visible_id, type
         FROM aliases

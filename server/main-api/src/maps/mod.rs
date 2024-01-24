@@ -4,7 +4,7 @@ mod overlay_text;
 
 use crate::maps::overlay_map::OverlayMapTask;
 use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
-use crate::models::DBRoomEntry;
+use crate::models::Location;
 use actix_web::{get, web, HttpResponse};
 use cached::proc_macro::cached;
 use cached::SizedCache;
@@ -31,13 +31,13 @@ async fn get_localised_data(
     conn: &PgPool,
     id: &str,
     should_use_english: bool,
-) -> Result<DBRoomEntry, HttpResponse> {
+) -> Result<Location, HttpResponse> {
     let result = if should_use_english {
-        sqlx::query_as!(DBRoomEntry, "SELECT * FROM en WHERE key = $1", id)
+        sqlx::query_as!(Location, "SELECT * FROM en WHERE key = $1", id)
             .fetch_all(conn)
             .await
     } else {
-        sqlx::query_as!(DBRoomEntry, "SELECT * FROM de WHERE key = $1", id)
+        sqlx::query_as!(Location, "SELECT * FROM de WHERE key = $1", id)
             .fetch_all(conn)
             .await
     };
@@ -66,7 +66,7 @@ async fn get_localised_data(
     option = true,
     convert = r#"{ _id.to_string() }"#
 )]
-async fn construct_image_from_data(_id: &str, data: DBRoomEntry) -> Option<Vec<u8>> {
+async fn construct_image_from_data(_id: &str, data: Location) -> Option<Vec<u8>> {
     let start_time = Instant::now();
     let mut img = image::RgbaImage::new(1200, 630);
 
@@ -87,7 +87,7 @@ fn wrap_image_in_response(img: &image::RgbaImage) -> Vec<u8> {
     w.into_inner()
 }
 
-fn draw_bottom(data: &DBRoomEntry, img: &mut image::RgbaImage) {
+fn draw_bottom(data: &Location, img: &mut image::RgbaImage) {
     // draw background white
     for x in 0..1200 {
         for y in 630 - 125..630 {

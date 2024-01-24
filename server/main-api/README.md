@@ -65,7 +65,8 @@ To get compiletime guarantees for our queries, we use sqlx.
 To add/edit a query, you will need to run the following command:
 
 ```bash
-cargo sqlx prepare --database-url sqlite://main-api/api_data.db --workspace
+sqlx migrate run --database-url postgres://postgres:password@localhost:5432/postgres
+cargo sqlx prepare --database-url postgres://postgres:password@localhost:5432/postgres --workspace
 ```
 
 ### How to Set up the tileserver (needed for the `preview` endpoint)

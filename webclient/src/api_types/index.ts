@@ -31,19 +31,21 @@ export type paths = {
   };
   "/api/calendar/{id}": {
     /**
-     * Get a entry-preview
-     * @description This returns the a 1200x630px preview for the entry (room/building/..).
+     * Get a
+     * @description Retrieves calendar entries for a specific `id` within the requested time span.
+     * The time span is defined by the `start_after` and `end_before` query parameters.
+     * Ensure to provide valid date-time formats for these parameters.
      *
-     * This is usefull for implementing custom OpenGraph images for detail previews.
+     * If successful, returns additional entries in the requested time span.
      */
     get: operations["calendar"];
   };
   "/api/preview/{id}": {
     /**
      * Get a entry-preview
-     * @description This returns the a 1200x630px preview for the entry (room/building/..).
+     * @description This returns a 1200x630px preview for the location (room/building/..).
      *
-     * This is usefull for implementing custom OpenGraph images for detail previews.
+     * This is usefully for implementing custom OpenGraph images for detail previews.
      */
     get: operations["previews"];
   };
@@ -121,13 +123,6 @@ export type paths = {
      * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
      */
     get: operations["feedback-health"];
-  };
-  "/api/calendar/status": {
-    /**
-     * calendar-API healthcheck
-     * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
-     */
-    get: operations["calendar-health"];
   };
   "/cdn/health": {
     /**
@@ -948,18 +943,20 @@ export type operations = {
     };
   };
   /**
-   * Get a entry-preview
-   * @description This returns the a 1200x630px preview for the entry (room/building/..).
+   * Get a
+   * @description Retrieves calendar entries for a specific `id` within the requested time span.
+   * The time span is defined by the `start_after` and `end_before` query parameters.
+   * Ensure to provide valid date-time formats for these parameters.
    *
-   * This is usefull for implementing custom OpenGraph images for detail previews.
+   * If successful, returns additional entries in the requested time span.
    */
   calendar: {
     parameters: {
       query: {
         /** @description The first allowed time the calendar would like to display */
-        start: string;
+        start_after: string;
         /** @description The last allowed time the calendar would like to display */
-        end: string;
+        end_before: string;
       };
       path: {
         /** @description string you want to search for */
@@ -989,9 +986,9 @@ export type operations = {
   };
   /**
    * Get a entry-preview
-   * @description This returns the a 1200x630px preview for the entry (room/building/..).
+   * @description This returns a 1200x630px preview for the location (room/building/..).
    *
-   * This is usefull for implementing custom OpenGraph images for detail previews.
+   * This is usefully for implementing custom OpenGraph images for detail previews.
    */
   previews: {
     parameters: {
@@ -1339,24 +1336,6 @@ export type operations = {
    * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
    */
   "feedback-health": {
-    responses: {
-      /** @description Ok */
-      200: {
-        content: {
-          readonly "text/plain": string;
-        };
-      };
-      /** @description Service Unavailable */
-      503: {
-        content: never;
-      };
-    };
-  };
-  /**
-   * calendar-API healthcheck
-   * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
-   */
-  "calendar-health": {
     responses: {
       /** @description Ok */
       200: {

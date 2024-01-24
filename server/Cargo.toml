@@ -1,5 +1,5 @@
 [workspace]
-members = ["feedback", "calendar", "main-api"]
+members = ["feedback", "main-api"]
 resolver = "2"
 
 [profile.release]

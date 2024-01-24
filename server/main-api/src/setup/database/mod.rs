@@ -3,7 +3,8 @@ mod data;
 
 use log::info;
 
-pub(crate) async fn setup_database(pool: &sqlx::PgPool) -> Result<(), Box<dyn std::error::Error>> {
+pub(crate) async fn setup_database(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
+    info!("setting up the database");
     sqlx::migrate!("./migrations").run(pool).await?;
     info!("migrations complete");
 
@@ -14,7 +15,7 @@ pub(crate) async fn setup_database(pool: &sqlx::PgPool) -> Result<(), Box<dyn st
 }
 async fn load_data(
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-) -> Result<(), Box<dyn std::error::Error>> {
+) -> Result<(), crate::BoxedError> {
     info!("deleting old data");
     sqlx::query!("DELETE FROM aliases")
         .execute(&mut **tx)

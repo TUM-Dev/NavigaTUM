@@ -104,7 +104,7 @@ impl Alias {
 
 pub(crate) async fn load_all_to_db(
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-) -> Result<(), Box<dyn std::error::Error>> {
+) -> Result<(), crate::BoxedError> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let raw_aliase = reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?

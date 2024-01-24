@@ -69,21 +69,3 @@ jobs:
       deployment: feedback
     secrets:
       ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
-  calendar-deployment:
-    uses: ./.github/workflows/_restart-argocd.yml
-    if: ${{ github.ref }} == 'refs/heads/main'
-    needs:
-      - server-build
-    with:
-      deployment: calendar
-    secrets:
-      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
-  server-deployment:
-    uses: ./.github/workflows/_restart-argocd.yml
-    if: ${{ github.ref }} == 'refs/heads/main'
-    needs:
-      - server-build
-    with:
-      deployment: server
-    secrets:
-      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}

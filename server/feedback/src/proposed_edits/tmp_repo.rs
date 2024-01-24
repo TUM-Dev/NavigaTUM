@@ -1,6 +1,5 @@
 use crate::proposed_edits::EditRequest;
 use log::{debug, info};
-use std::error;
 use tokio::process::Command;
 
 use crate::proposed_edits::discription::Description;
@@ -13,7 +12,7 @@ impl TempRepo {
     pub async fn clone_and_checkout(
         url: &'static str,
         branch_name: &str,
-    ) -> Result<Self, Box<dyn error::Error>> {
+    ) -> Result<Self, crate::BoxedError> {
         let dir = tempfile::tempdir()?;
 
         info!("Cloning {url} into {dir:?}");
@@ -60,7 +59,7 @@ impl TempRepo {
         description
     }
 
-    pub async fn commit(&self, title: &str) -> Result<(), Box<dyn error::Error>> {
+    pub async fn commit(&self, title: &str) -> Result<(), crate::BoxedError> {
         let out = Command::new("git")
             .current_dir(&self.dir)
             .arg("add")
@@ -82,7 +81,7 @@ impl TempRepo {
             _ => Err(format!("git commit failed with output: {out:?}").into()),
         }
     }
-    pub async fn push(&self) -> Result<(), Box<dyn error::Error>> {
+    pub async fn push(&self) -> Result<(), crate::BoxedError> {
         let out = Command::new("git")
             .current_dir(&self.dir)
             .arg("status")
