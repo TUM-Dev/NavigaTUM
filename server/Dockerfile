@@ -16,10 +16,10 @@ ENV     RUSTFLAGS="-C target-feature=-crt-static"
 COPY    ./Cargo.* ./
 COPY    main-api/Cargo.* ./main-api/
 COPY    feedback/Cargo.* ./feedback/
-RUN     mkdir ./main-api/src/ ./main-api/src/setup/ ./feedback/src/ \
-     && echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/setup/mod.rs \
-     && echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/main.rs\
-     && echo "fn main() { println!(\"Hello, world!\");}" > ./feedback/src/main.rs
+RUN     mkdir ./main-api/src/ ./main-api/src/setup/ ./feedback/src/
+RUN     echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/setup/mod.rs
+RUN     echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/main.rs
+RUN     echo "fn main() { println!(\"Hello, world!\");}" > ./feedback/src/main.rs
 
 RUN     cargo build --release --workspace \
      && rm -fr target/release/deps/navigatum*
