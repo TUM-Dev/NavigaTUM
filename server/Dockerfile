@@ -16,13 +16,10 @@ ENV     RUSTFLAGS="-C target-feature=-crt-static"
 COPY    ./Cargo.* ./
 COPY    main-api/Cargo.* ./main-api/
 COPY    feedback/Cargo.* ./feedback/
-COPY    calendar/Cargo.* ./calendar/
-RUN     mkdir ./main-api/src/ ./main-api/src/setup/ ./feedback/src/ ./calendar/src/ \
+RUN     mkdir ./main-api/src/ ./main-api/src/setup/ ./feedback/src/ \
      && echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/setup/mod.rs \
      && echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/main.rs\
-     && echo "fn main() { println!(\"Hello, world!\");}" > ./feedback/src/main.rs\
-     && echo "fn main() { println!(\"Hello, world!\");}" > ./calendar/src/main.rs\
-     && echo "fn main() { println!(\"Hello, world!\");}" > ./calendar/src/scraper.rs
+     && echo "fn main() { println!(\"Hello, world!\");}" > ./feedback/src/main.rs
 
 RUN     cargo build --release --workspace \
      && rm -fr target/release/deps/navigatum*
@@ -31,7 +28,6 @@ RUN     cargo build --release --workspace \
 COPY    .sqlx .sqlx
 
 COPY    feedback/src ./feedback/src
-COPY    calendar/src ./calendar/src
 COPY    main-api/src ./main-api/src
 COPY    main-api/migrations ./main-api/migrations
 RUN     cargo build --release --workspace
@@ -66,7 +62,5 @@ ENTRYPOINT ["tini", "--"]
 # These are coomands that can be chosen to run
 # - a respective server or
 # - an admin task
-# CMD     /bin/navigatum-calendar-scraper
-# CMD     /bin/navigatum-calendar
 # CMD     /bin/navigatum-feedback
 CMD     /bin/navigatum-main-api
