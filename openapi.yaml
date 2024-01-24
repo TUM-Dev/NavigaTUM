@@ -738,7 +738,7 @@ paths:
         Retrieves calendar entries for a specific `id` within the requested time span. 
         The time span is defined by the `start_after` and `end_before` query parameters.
         Ensure to provide valid date-time formats for these parameters.
-        
+
         If successful, returns additional entries in the requested time span.
       parameters:
         - name: start_after
