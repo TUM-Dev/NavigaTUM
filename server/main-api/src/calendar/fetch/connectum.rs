@@ -1,12 +1,13 @@
+use std::env;
+
 use cached::instant::Instant;
 use chrono::{DateTime, Utc};
-use log::{debug, error, info};
+use log::{debug, error, info, warn};
 use oauth2::basic::{BasicClient, BasicTokenResponse};
 use oauth2::reqwest::async_http_client;
 use oauth2::url::Url;
 use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
 use sqlx::PgPool;
-use std::env;
 
 use crate::calendar::fetch::CalendarEntryFetcher;
 use crate::calendar::models::Event;
@@ -34,8 +35,12 @@ impl CalendarEntryFetcher for APIRequestor {
         let sync_start = Utc::now();
         let start = Instant::now();
         // Make OAuth2 secured request
-        let oauth_token = self.fetch_oauth_token().await?;
-        let bearer_token = oauth_token.access_token().secret().clone();
+        let oauth_token = self
+            .fetch_oauth_token()
+            .await?
+            .access_token()
+            .secret()
+            .clone();
         let url = format!(
             "https://review.campus.tum.de/RSYSTEM/co/connectum/api/rooms/{tumonline_id}/calendars"
         );
@@ -43,7 +48,7 @@ impl CalendarEntryFetcher for APIRequestor {
         let events: Vec<Event> = self
             .client
             .get(url)
-            .bearer_auth(bearer_token)
+            .bearer_auth(oauth_token)
             .send()
             .await?
             .json()
@@ -86,7 +91,7 @@ impl APIRequestor {
         for (i, event) in events.iter().enumerate() {
             // conflicts cannot occur because all values for said room were dropped
             if let Err(e) = event.store(&mut tx).await {
-                debug!(
+                warn!(
                     "ignoring insert {event:?} ({i}/{total}) because {e:?}",
                     total = events.len()
                 );
