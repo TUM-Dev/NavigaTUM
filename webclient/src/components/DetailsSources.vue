@@ -7,18 +7,14 @@ const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
-  <section id="entry-sources">
-    <div class="columns">
-      <div class="column">
-        <h2>{{ t("title") }}</h2>
-      </div>
-    </div>
+  <section>
+    <h2 class="text-lg font-semibold">{{ t("title") }}</h2>
     <p v-if="state.data?.sources.base">
       {{ t("base.title") }}:
       <span v-for="(e, i) in state.data.sources.base" :key="e.name">
         <a v-if="e.url" :href="e.url">{{ e.name }}</a>
         <template v-else>{{ e.name }}</template>
-        <template v-if="i < state.data.sources.base.length - 1">&#32;•&#32;</template>
+        <template v-if="i < state.data.sources.base.length - 1"> • </template>
       </span>
       <span v-if="state.data.sources.patched">
         <br />
@@ -28,15 +24,15 @@ const { t } = useI18n({ useScope: "local" });
     <p v-if="state.image.shown_image">
       {{ t("header_img") }}:
       <span>{{ state.image.shown_image.author.text }}</span>
-      <span v-if="state.image.shown_image.source"
-        >•
+      <span v-if="state.image.shown_image.source">
+        •
         <a v-if="state.image.shown_image.source.url" :href="state.image.shown_image.source.url" target="_blank">
           {{ state.image.shown_image.source.text }}
         </a>
         <template v-else>{{ state.image.shown_image.source.text }}</template>
       </span>
-      <span v-if="state.image.shown_image.license"
-        >&#32;•
+      <span v-if="state.image.shown_image.license">
+        •
         <a v-if="state.image.shown_image.license.url" :href="state.image.shown_image.license.url" target="_blank">
           {{ state.image.shown_image.license.text }}
         </a>
