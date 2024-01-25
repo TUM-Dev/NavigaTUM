@@ -1043,7 +1043,7 @@ galileo:
   osm: ["way/618517674"]
 5539: # Interimshörsäle III, Interims-Tentomax MW
   osm: ["way/618517675"]
-  coords: { lat: 48.2665826474772, lon: 11.671473663339693 }
+  coords: { lat: 48.26638702163251, lon: 11.671288967701608 }
 5620: # Interims-Audimax I
   osm: ["way/1191888066"]
 
