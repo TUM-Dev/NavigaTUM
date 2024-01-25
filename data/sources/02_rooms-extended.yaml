@@ -274,6 +274,16 @@
     din_277: NF7.1
     din_277_desc: Sanitärräume
 
+# === unternehmertum ===
+"7894.EG.302":
+  name: TUM Venture Lab Additive Manufacturing # previously: Besprechungsraum
+  props:
+    links:
+      - text:
+          de: Homepage
+          en: Homepage
+        url: https://www.tum-venture-labs.de/labs/additive-manufacturing/
+
 # === Galileo Garching ===
 "8120.EG.001":
   name: Hörsaal im Galileo
