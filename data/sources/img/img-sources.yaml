@@ -1756,6 +1756,17 @@
       headline: TIMpuls Grossbrandversuch / large fire test Garching 2021
       image_url: https://mediatum.ub.tum.de/image/1597127.jpg
       location: Garching
+7894.EG.302:
+  0:
+    author: Nick-Marlon Loth
+    license:
+      text: CC0 1.0
+      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
+    source:
+      text: TUM Venture Labs
+      url: https://tum-venture-labs.de
+    offsets:
+      thumb: -500
 '8101':
   0:
     author: David Bonello
