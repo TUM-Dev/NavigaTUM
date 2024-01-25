@@ -1452,6 +1452,17 @@
       url: https://mediatum.ub.tum.de/1232774?show_id=1475840
     meta:
       date: 2019-01-23
+'5539':
+  0:
+    author: Frank Elsinga
+    license:
+      text: CC0 1.0
+      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
+    source:
+      text: NavigaTUM Team
+      url: https://nav.tum.de
+    offsets:
+      header: 100
 '5620':
   0:
     author: Frank Elsinga
