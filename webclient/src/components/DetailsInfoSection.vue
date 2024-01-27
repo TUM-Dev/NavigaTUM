@@ -33,7 +33,7 @@ const appURL = import.meta.env.VITE_APP_URL;
         <img
           :alt="t('image_alt')"
           :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-          class="block h-auto w-full max-w-full bg-zinc-100"
+          class="block rounded-t-lg h-auto w-full max-w-full bg-zinc-100"
         />
       </button>
       <div class="p-5">
