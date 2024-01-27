@@ -21,28 +21,37 @@ const appURL = import.meta.env.VITE_APP_URL;
   <!-- Some elements are currently duplicate, which is not optimal but should be okay
        as long as only little information is there -->
   <div class="hidden lg:block">
-    <div class="shadow-md shadow-neutral-500/5 dark:shadow-white/20">
-      <a v-if="state.image.shown_image" class="cursor-pointer" @click="state.showImageSlideshow(true)">
+    <div
+      class="max-w-sm bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 shadow-md shadow-neutral-500/5 dark:shadow-white/20"
+    >
+      <button
+        v-if="state.image.shown_image"
+        type="button"
+        class="cursor-pointer"
+        @click="state.showImageSlideshow(true)"
+      >
         <img
           :alt="t('image_alt')"
           :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
           class="block h-auto w-full max-w-full bg-zinc-100"
         />
-      </a>
-      <div>{{ t("info_title") }}</div>
-      <DetailsPropertyTable />
-      <div class="mt-3 grid gap-2">
-        <Toast
-          v-if="state.data?.coords.accuracy === 'building'"
-          level="warning"
-          :msg="t('msg.inaccurate_only_building')"
-        />
-        <Toast
-          v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
-          level="warning"
-          :msg="t('msg.no_floor_overlay')"
-        />
-        <Toast v-if="state.data?.props?.comment" :msg="state.data.props.comment" />
+      </button>
+      <div class="p-5">
+        <h3 class="text-lg font-semibold">{{ t("info_title") }}</h3>
+        <DetailsPropertyTable />
+        <div class="mt-3 grid gap-2">
+          <Toast
+            v-if="state.data?.coords.accuracy === 'building'"
+            level="warning"
+            :msg="t('msg.inaccurate_only_building')"
+          />
+          <Toast
+            v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
+            level="warning"
+            :msg="t('msg.no_floor_overlay')"
+          />
+          <Toast v-if="state.data?.props?.comment" :msg="state.data.props.comment" />
+        </div>
       </div>
     </div>
     <!-- <button class="btn btn-link">Mehr Infos</button> -->
