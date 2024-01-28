@@ -41,8 +41,8 @@ devDependencies:
     specifier: 2.0.0
     version: 2.0.0(vue-i18n@9.9.0)
   '@rushstack/eslint-patch':
-    specifier: 1.7.1
-    version: 1.7.1
+    specifier: 1.7.2
+    version: 1.7.2
   '@types/swagger-ui-dist':
     specifier: 3.30.4
     version: 3.30.4
@@ -805,8 +805,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@rushstack/eslint-patch@1.7.1:
-    resolution: {integrity: sha512-irBNt5094vHloql4QzY8RdeI8Tns2kGsaiJ/m6jENWx9xCz/m/F4gKQ1dAailFmpL0Id9tgWLqZbTUO4SINM/Q==}
+  /@rushstack/eslint-patch@1.7.2:
+    resolution: {integrity: sha512-RbhOOTCNoCrbfkRyoXODZp75MlpiHMgbE5MEBZAnnnLyQNgrigEj4p0lzsMDyc1zVsJDLrivB58tgg3emX0eEA==}
     dev: true
 
   /@types/estree@1.0.3:
