@@ -16,9 +16,10 @@ import { useFetch } from "@/composables/fetch";
 import { useRoute, useRouter } from "vue-router";
 import type { components } from "@/api_types";
 import Toast from "@/components/Toast.vue";
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
-import { CalendarDaysIcon, LinkIcon, ClipboardDocumentCheckIcon } from "@heroicons/vue/24/outline";
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
+import { CalendarDaysIcon, ClipboardDocumentCheckIcon, LinkIcon } from "@heroicons/vue/24/outline";
 import BreadcrumbList from "@/components/BreadcrumbList.vue";
+
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
 const { t } = useI18n({ useScope: "local" });
@@ -38,6 +39,7 @@ function loadData(data: DetailsResponse) {
   state.loadData(data);
   tryToLoadMap();
 }
+
 watchEffect(() => {
   if (route.params.id === "root") {
     router.replace({ path: "/" });
@@ -65,6 +67,7 @@ function genDescription(d: DetailsResponse) {
   }
   return description;
 }
+
 // --- Loading components ---
 function tryToLoadMap() {
   /**
@@ -129,7 +132,7 @@ onMounted(() => {
           v-if="clipboardIsSupported"
           :title="t('header.copy_link')"
           type="button"
-          class="hidden lg:block group-hover:text-blue-500 text-transparent"
+          class="hidden lg:block group-hover:text-tumBlue-500 text-transparent"
           @click="copy(`https://nav.tum.de${route.fullPath}`)"
         >
           <ClipboardDocumentCheckIcon v-if="copied" class="w-4 h-4" />
@@ -148,7 +151,7 @@ onMounted(() => {
               class="focusable rounded-sm"
               :title="t('header.calendar')"
             >
-              <CalendarDaysIcon class="mt-0.5 text-blue-600 h-4 w-4" />
+              <CalendarDaysIcon class="mt-0.5 text-tumBlue-600 h-4 w-4" />
             </a>
             <ShareButton :coords="state.data.coords" :name="state.data.name" />
             <DetailsFeedbackButton ref="feedbackButton" />
@@ -175,12 +178,44 @@ onMounted(() => {
           <Toast v-if="state.data.props.comment" :msg="state.data.props.comment" />
         </div>
         <TabPanels>
-          <TabPanel :unmount="false"><DetailsInteractiveMap ref="interactiveMap" /></TabPanel>
-          <TabPanel :unmount="false"><DetailsRoomfinderMap ref="roomfinderMap" /></TabPanel>
+          <TabPanel :unmount="false">
+            <DetailsInteractiveMap ref="interactiveMap" />
+          </TabPanel>
+          <TabPanel :unmount="false">
+            <DetailsRoomfinderMap ref="roomfinderMap" />
+          </TabPanel>
         </TabPanels>
-        <TabList>
-          <Tab @click="interactiveMap?.loadInteractiveMap(true)">{{ t("map.interactive") }}</Tab>
-          <Tab :disabled="!state.data.maps.roomfinder?.available">{{ t("map.roomfinder") }}</Tab>
+        <TabList class="flex space-x-1 rounded-xl bg-tumBlue-900/20 p-1">
+          <Tab
+            v-slot="{ selected }"
+            class="w-full focusable rounded-lg py-2.5 text-sm font-medium leading-5"
+            @click="interactiveMap?.loadInteractiveMap(true)"
+          >
+            <span
+              :class="[
+                selected
+                  ? 'bg-white text-tumBlue-700 shadow'
+                  : 'text-tumBlue-100 hover:bg-white/[0.12] hover:text-white',
+              ]"
+            >
+              {{ t("map.interactive") }}
+            </span>
+          </Tab>
+          <Tab
+            v-slot="{ selected }"
+            class="w-full focusable rounded-lg py-2.5 text-sm font-medium leading-5"
+            :disabled="!state.data.maps.roomfinder?.available"
+          >
+            <span
+              :class="[
+                selected
+                  ? 'bg-white text-tumBlue-700 shadow'
+                  : 'text-tumBlue-100 hover:bg-white/[0.12] hover:text-white',
+              ]"
+            >
+              {{ t("map.roomfinder") }}
+            </span>
+          </Tab>
         </TabList>
       </TabGroup>
       <!-- Map container -->
