@@ -43,7 +43,7 @@
     "eslint": "8.56.0",
     "eslint-plugin-vue": "9.20.1",
     "isomorphic-fetch": "3.0.0",
-    "npm-run-all2": "5.0.0",
+    "npm-run-all2": "6.1.1",
     "postcss": "8.4.33",
     "prettier": "3.2.4",
     "sass": "1.70.0",
