@@ -10,7 +10,7 @@ import DetailsRoomfinderMap from "@/components/DetailsRoomfinderMap.vue";
 import { useI18n } from "vue-i18n";
 import { setDescription, setTitle } from "@/composables/common";
 import { useClipboard } from "@vueuse/core";
-import { selectedMap, useDetailsStore } from "@/stores/details";
+import { MapSelections, useDetailsStore } from "@/stores/details";
 import { computed, nextTick, onMounted, ref, watchEffect } from "vue";
 import { useFetch } from "@/composables/fetch";
 import { useRoute, useRouter } from "vue-router";
@@ -73,7 +73,7 @@ function tryToLoadMap() {
    * @return {boolean} Whether the loading was successful
    */
   if (document.getElementById("interactive-map") !== null) {
-    if (state.map.selected === selectedMap.interactive) interactiveMap.value?.loadInteractiveMap();
+    if (state.map.selected === MapSelections.interactive) interactiveMap.value?.loadInteractiveMap();
     else roomfinderMap.value?.loadRoomfinderMap(state.map.roomfinder.selected_index);
     return true;
   }
@@ -85,12 +85,6 @@ const feedbackButton = ref<InstanceType<typeof DetailsFeedbackButton> | null>(nu
 const interactiveMap = ref<InstanceType<typeof DetailsInteractiveMap> | null>(null);
 const roomfinderMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>(null);
 onMounted(() => {
-  window.addEventListener("resize", () => {
-    if (state.map.selected === selectedMap.roomfinder) {
-      roomfinderMap.value?.loadRoomfinderMap(state.map.roomfinder.selected_index);
-    }
-  });
-
   nextTick(() => {
     // Even though 'mounted' is called there is no guarantee apparently,
     // that we can reference the map by ID in the DOM yet. For this reason we
@@ -186,11 +180,7 @@ onMounted(() => {
         </TabPanels>
         <TabList>
           <Tab @click="interactiveMap?.loadInteractiveMap(true)">{{ t("map.interactive") }}</Tab>
-          <Tab
-            :disabled="!state.data.maps.roomfinder?.available"
-            @click="roomfinderMap?.loadRoomfinderMap(state.map.roomfinder.selected_index, true)"
-            >{{ t("map.roomfinder") }}</Tab
-          >
+          <Tab :disabled="!state.data.maps.roomfinder?.available">{{ t("map.roomfinder") }}</Tab>
         </TabList>
       </TabGroup>
       <!-- Map container -->

@@ -2,7 +2,7 @@
 import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
 import { Map, Marker } from "maplibre-gl";
 import { AttributionControl, FullscreenControl, GeolocateControl, NavigationControl } from "maplibre-gl";
-import { selectedMap, useDetailsStore } from "@/stores/details";
+import { MapSelections, useDetailsStore } from "@/stores/details";
 import { nextTick, ref } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
 import { webglSupport } from "@/composables/webglSupport";
@@ -24,7 +24,7 @@ function loadInteractiveMap(fromUi = false) {
 
   const fromMap = state.map.selected;
 
-  state.map.selected = selectedMap.interactive;
+  state.map.selected = MapSelections.interactive;
 
   const doMapUpdate = function () {
     // The map might or might not be initialized depending on the type
@@ -53,7 +53,7 @@ function loadInteractiveMap(fromUi = false) {
     };
 
     if (coords !== undefined) {
-      if (fromMap === selectedMap.interactive) {
+      if (fromMap === MapSelections.interactive) {
         map.value?.flyTo({
           center: [coords.lon, coords.lat],
           zoom: defaultZooms[state.data?.type || "undefined"] || 16,
@@ -262,7 +262,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 <template>
   <div
     id="interactive-map-container"
-    :class="{ hidden: state.map.selected !== selectedMap.interactive, errormessage: !webglSupport }"
+    :class="{ hidden: state.map.selected !== MapSelections.interactive, errormessage: !webglSupport }"
   >
     <div>
       <div v-if="webglSupport" id="interactive-map" class="loading" />
