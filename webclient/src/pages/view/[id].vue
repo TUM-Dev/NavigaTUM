@@ -185,13 +185,11 @@ onMounted(() => {
             <DetailsRoomfinderMap ref="roomfinderMap" />
           </TabPanel>
         </TabPanels>
-        <TabList class="flex space-x-1 rounded-xl bg-tumBlue-900/20 p-1">
-          <Tab
-            v-slot="{ selected }"
-            class="focusable w-full rounded-lg py-2.5 text-sm font-medium leading-5"
-            @click="interactiveMap?.loadInteractiveMap(true)"
-          >
-            <span
+        <TabList class="flex space-x-1 rounded-md bg-tumBlue-900/20 p-1">
+          <Tab v-slot="{ selected }" as="template" @click="interactiveMap?.loadInteractiveMap(true)">
+            <button
+              type="button"
+              class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
               :class="[
                 selected
                   ? 'bg-white text-tumBlue-700 shadow'
@@ -199,22 +197,18 @@ onMounted(() => {
               ]"
             >
               {{ t("map.interactive") }}
-            </span>
+            </button>
           </Tab>
-          <Tab
-            v-slot="{ selected }"
-            class="focusable w-full rounded-lg py-2.5 text-sm font-medium leading-5"
-            :disabled="!state.data.maps.roomfinder?.available"
-          >
-            <span
+          <Tab v-slot="{ selected }" as="template" :disabled="!state.data.maps.roomfinder?.available">
+            <button
+              type="button"
+              class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
               :class="[
-                selected
-                  ? 'bg-white text-tumBlue-700 shadow'
-                  : 'text-tumBlue-100 hover:bg-white/[0.12] hover:text-white',
+                selected ? 'bg-white text-tumBlue-700 shadow' : 'text-tumBlue-50 hover:bg-white/[0.1] hover:text-white',
               ]"
             >
               {{ t("map.roomfinder") }}
-            </span>
+            </button>
           </Tab>
         </TabList>
       </TabGroup>
