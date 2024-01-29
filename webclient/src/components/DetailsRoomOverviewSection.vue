@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/vue";
-import { CheckIcon, ChevronUpDownIcon, MapPinIcon, FunnelIcon, MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
+import { CheckIcon, ChevronUpDownIcon, FunnelIcon, MagnifyingGlassIcon, MapPinIcon } from "@heroicons/vue/24/outline";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
 import Btn from "@/components/Btn.vue";
@@ -66,51 +66,61 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
           <ListboxOptions
             class="absolute !m-0 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
           >
-            <ListboxOption v-slot="{ active, selected }" :key="-1" :value="-1" as="template">
-              <li
-                class="flex cursor-pointer select-none list-none flex-row justify-between py-2 pl-10 pr-4"
+            <ListboxOption
+              v-slot="{ active, selected }"
+              :key="-1"
+              :value="-1"
+              as="li"
+              class="cursor-pointer select-none list-none"
+            >
+              <div
+                class="flex flex-row justify-start gap-3 py-2 px-3"
                 :class="[active ? 'bg-tumBlue-100 text-tumBlue-900' : 'text-zinc-900']"
               >
-                <span class="block truncate" :class="[selected ? 'font-medium' : 'font-normal']"
-                  >{{ t("any_usage") }}
+                <span v-if="selected" class="my-auto text-tumBlue-600">
+                  <CheckIcon class="h-5 w-5" />
                 </span>
-                <span class="rounded-md bg-tumBlue-300 px-2 py-1 text-sm text-tumBlue-950"
-                  >{{ t("rooms", combined_list.length) }}
-                </span>
-
-                <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-tumBlue-600">
-                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                </span>
-              </li>
+                <div class="flex flex-grow flex-row justify-between gap-3">
+                  <span class="my-auto block truncate" :class="[selected ? 'font-medium' : 'ms-10 font-normal']">
+                    {{ t("any_usage") }}
+                  </span>
+                  <span class="rounded-md bg-tumBlue-300 px-2 py-1 text-sm text-tumBlue-950"
+                    >{{ t("rooms", combined_list.length) }}
+                  </span>
+                </div>
+              </div>
             </ListboxOption>
             <ListboxOption
               v-for="(usage, i) in props.rooms.usages"
               v-slot="{ active, selected }"
               :key="i"
               :value="i"
-              as="template"
+              as="li"
+              class="cursor-pointer select-none list-none"
             >
-              <li
-                class="flex cursor-pointer select-none list-none flex-row justify-between py-2 pl-10 pr-4"
+              <div
+                class="flex flex-row justify-start gap-3 py-2 px-3"
                 :class="[active ? 'bg-tumBlue-100 text-tumBlue-900' : 'text-zinc-900']"
               >
-                <span class="my-auto block truncate" :class="[selected ? 'font-medium' : 'font-normal']">
-                  {{ usage.name }}
+                <span v-if="selected" class="my-auto text-tumBlue-600">
+                  <CheckIcon class="h-5 w-5" />
                 </span>
-                <span class="rounded-md bg-tumBlue-300 px-2 py-1 text-sm text-tumBlue-950"
-                  >{{ t("rooms", usage.count) }}
-                </span>
-                <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-tumBlue-600">
-                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                </span>
-              </li>
+                <div class="flex flex-grow flex-row justify-between gap-3">
+                  <span class="my-auto block truncate" :class="[selected ? 'font-medium' : 'ms-10 font-normal']">
+                    {{ usage.name }}
+                  </span>
+                  <span class="rounded-md bg-tumBlue-300 px-2 py-1 text-sm text-tumBlue-950"
+                    >{{ t("rooms", usage.count) }}
+                  </span>
+                </div>
+              </div>
             </ListboxOption>
           </ListboxOptions>
         </Transition>
       </Listbox>
       <div class="relative z-0 w-full border dark:border-gray-200">
         <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-          <MagnifyingGlassIcon class="h-4 w-4 text-zinc-400" />
+          <MagnifyingGlassIcon class="h-4 w-4 text-zinc-400" aria-hidden="true" />
         </span>
         <input
           id="search-input"
@@ -124,7 +134,7 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
       <ul v-if="filteredList.length > 0" class="max-h-96 list-none overflow-y-scroll pe-2.5">
         <RouterLink v-for="(room, index) in filteredList" :key="index" :to="`/view/${room.id}`" class="!no-underline">
           <li class="flex flex-row gap-2 p-1.5 px-3 hover:bg-tumBlue-500 hover:text-white">
-            <MapPinIcon class="my-auto h-4 w-4" />
+            <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" />
             {{ room.name }}
           </li>
         </RouterLink>
@@ -167,5 +177,6 @@ en:
   clear_filter: Clear the filters
   search: search
   results: "{count} result | {count} results"
+  rooms: 1 room | {count} rooms
   title: Rooms
 </i18n>
