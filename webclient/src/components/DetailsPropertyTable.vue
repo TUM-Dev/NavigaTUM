@@ -3,6 +3,7 @@ import { useDetailsStore } from "@/stores/details";
 import TinyModal from "@/components/TinyModal.vue";
 import { InformationCircleIcon } from "@heroicons/vue/24/outline";
 import { useI18n } from "vue-i18n";
+import Btn from "@/components/Btn.vue";
 
 const state = useDetailsStore();
 const { t } = useI18n({ useScope: "local" });
@@ -31,9 +32,9 @@ const { t } = useI18n({ useScope: "local" });
         <td>
           <ul>
             <li v-for="link in state.data.props.links" :key="link.text">
-              <a :href="link.url">
+              <Btn size="" variant="link" :to="link.url">
                 {{ link.text }}
-              </a>
+              </Btn>
             </li>
           </ul>
         </td>

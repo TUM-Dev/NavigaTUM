@@ -55,14 +55,14 @@ const openPanels = ref<(boolean | undefined)[]>([]);
           <div v-if="site.children.length > site.n_visible" class="mx-auto">
             <Btn
               v-if="openPanels[siteIndex]"
-              variant="link"
+              variant="linkButton"
               :aria-label="t('less_aria')"
               @click="() => (openPanels[siteIndex] = false)"
             >
               <ChevronUpIcon class="h-4 w-4" />
               {{ t("less") }}
             </Btn>
-            <Btn v-else variant="link" :aria-label="t('more_aria')" @click="() => (openPanels[siteIndex] = true)">
+            <Btn v-else variant="linkButton" :aria-label="t('more_aria')" @click="() => (openPanels[siteIndex] = true)">
               <ChevronDownIcon class="my-auto h-4 w-4" />
               {{ t("more") }}
             </Btn>

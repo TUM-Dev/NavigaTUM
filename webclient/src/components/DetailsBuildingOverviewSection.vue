@@ -50,7 +50,7 @@ const appURL = import.meta.env.VITE_APP_URL;
       </template>
     </div>
     <div v-if="props.buildings.n_visible < props.buildings.entries.length" class="mt-2">
-      <Btn variant="link" @click="toggleBuildingsExpanded()">
+      <Btn variant="linkButton" @click="toggleBuildingsExpanded()">
         <template v-if="buildingsExpanded"> <ChevronUpIcon class="mt-0.5 h-4 w-4" /> {{ t("less") }} </template>
         <template v-else> <ChevronDownIcon class="mt-0.5 h-4 w-4" /> {{ t("more") }} </template>
       </Btn>

@@ -235,7 +235,7 @@ onMounted(() => {
       <li class="-mt-2">
         <Btn
           v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
-          variant="link"
+          variant="linkButton"
           size="sm"
           @mousedown="keep_focus = true"
           @click="s.expanded = true"

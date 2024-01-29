@@ -133,7 +133,7 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
         {{ t("no_results_with_these_filters") }}
         <Btn
           size="sm"
-          variant="link"
+          variant="linkButton"
           @click="
             () => {
               search = '';

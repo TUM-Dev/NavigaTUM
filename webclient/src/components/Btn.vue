@@ -6,7 +6,7 @@ export interface Props {
   size?: "sm" | "md" | "lg" | string;
   to?: string;
   disabled?: boolean;
-  variant?: "action" | "link" | "info" | "primary" | string;
+  variant?: "action" | "link" | "linkButton" | "info" | "primary" | string;
   ariaLabel?: string;
 }
 
@@ -25,8 +25,10 @@ const variantClasses = computed(() => {
       return "";
     case "primary":
       return "bg-tumBlue-500 visited:text-tumBlue-50 text-tumBlue-50 hover:bg-tumBlue-600 hover:text-white";
-    case "link":
+    case "linkButton":
       return "bg-transparent visited:text-tumBlue-600 text-tumBlue-600 hover:bg-tumBlue-50 hover:text-tumBlue-500";
+    case "link":
+      return "bg-transparent visited:text-tumBlue-600 text-tumBlue-600";
     default:
       return props.variant;
   }
@@ -46,13 +48,24 @@ const sizeClasses = computed(() => {
 </script>
 
 <template>
+  <a
+    v-if="props.to.length && !disabled && props.to.startsWith('http')"
+    :href="props.to"
+    :aria-label="ariaLabel"
+    :type="props.type"
+    v-bind="{ disabled: disabled }"
+    :class="`focusable flex flex-row gap-1 hover:underline ${variantClasses} ${sizeClasses}`"
+    target="_blank"
+  >
+    <slot />
+  </a>
   <RouterLink
-    v-if="props.to.length"
+    v-else-if="props.to.length"
     :to="props.to"
     :aria-label="ariaLabel"
     :type="props.type"
     v-bind="{ disabled: disabled }"
-    :class="`focusable flex flex-row gap-1 !no-underline ${variantClasses} ${sizeClasses}`"
+    :class="`focusable flex flex-row gap-1 ${variantClasses} ${sizeClasses}`"
     @click="emit('click')"
   >
     <slot />

@@ -31,7 +31,7 @@ const appURL = import.meta.env.VITE_APP_URL;
           class="block h-auto w-full max-w-full rounded-t-lg bg-zinc-100"
         />
       </button>
-      <div class="p-5">
+      <div class="px-5 py-3">
         <h3 class="text-lg font-semibold">{{ t("info_title") }}</h3>
         <DetailsPropertyTable />
         <div class="mt-3 grid gap-2">

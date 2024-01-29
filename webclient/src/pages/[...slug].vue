@@ -19,7 +19,7 @@ const { t } = useI18n({ useScope: "local" });
         <Btn to="/" variant="primary">
           {{ t("go_home") }}
         </Btn>
-        <Btn variant="link" @click="global.openFeedback('bug', `404 on \`${route.fullPath}\``, t('got_here'))">
+        <Btn variant="linkButton" @click="global.openFeedback('bug', `404 on \`${route.fullPath}\``, t('got_here'))">
           {{ t("call_to_action") }} <ArrowRightIcon class="mt-0.5 h-4 w-4" />
         </Btn>
       </div>
