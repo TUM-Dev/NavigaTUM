@@ -50,11 +50,11 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
           class="focusable relative w-full rounded-sm border bg-white py-2 pr-10 text-left dark:border-gray-200 sm:text-sm"
         >
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-            <FunnelIcon class="h-4 w-4 text-zinc-400" aria-hidden="true" />
+            <FunnelIcon class="h-4 w-4 text-zinc-400" />
           </span>
           <span class="block truncate ps-8">{{ selectedRooms.label }}</span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2">
-            <ChevronUpDownIcon class="h-5 w-5 text-zinc-400" aria-hidden="true" />
+            <ChevronUpDownIcon class="h-5 w-5 text-zinc-400" />
           </span>
         </ListboxButton>
 
@@ -110,7 +110,7 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
       </Listbox>
       <div class="relative z-0 w-full border dark:border-gray-200">
         <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-          <MagnifyingGlassIcon class="h-4 w-4 text-zinc-400" aria-hidden="true" />
+          <MagnifyingGlassIcon class="h-4 w-4 text-zinc-400" />
         </span>
         <input
           id="search-input"
@@ -124,7 +124,7 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
       <ul v-if="filteredList.length > 0" class="max-h-96 list-none overflow-y-scroll pe-2.5">
         <RouterLink v-for="(room, index) in filteredList" :key="index" :to="`/view/${room.id}`" class="!no-underline">
           <li class="flex flex-row gap-2 p-1.5 px-3 hover:bg-tumBlue-500 hover:text-white">
-            <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" />
+            <MapPinIcon class="my-auto h-4 w-4" />
             {{ room.name }}
           </li>
         </RouterLink>
