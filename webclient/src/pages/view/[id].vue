@@ -127,12 +127,12 @@ onMounted(() => {
         :items="state.data.parent_names.map((n, i) => ({ name: n, to: '/view/' + state.data?.parents[i] }))"
         class="pb-3 pt-6"
       />
-      <div class="group -ms-6 flex flex-row gap-2">
+      <div class="group flex flex-row gap-2">
         <button
           v-if="clipboardIsSupported"
           :title="t('header.copy_link')"
           type="button"
-          class="hidden text-transparent group-hover:text-tumBlue-500 lg:block"
+          class="hidden -ms-6 text-transparent group-hover:text-tumBlue-500 lg:block"
           @click="copy(`https://nav.tum.de${route.fullPath}`)"
         >
           <ClipboardDocumentCheckIcon v-if="copied" class="h-4 w-4" />
@@ -167,7 +167,7 @@ onMounted(() => {
     </div>
 
     <!-- First info section (map + infocard) -->
-    <div class="grid grid-cols-1 md:col-span-3">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <TabGroup class="col-span-1 md:col-span-2" as="div" manual>
         <div class="mb-3 grid gap-2 md:hidden">
           <Toast
