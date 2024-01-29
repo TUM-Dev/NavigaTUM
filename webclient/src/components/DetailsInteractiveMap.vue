@@ -73,9 +73,6 @@ function loadInteractiveMap(fromUi = false) {
 
   // To have an animation when the roomfinder is opened some time later,
   // the cursor is set to 'zero' while the interactive map is displayed.
-  state.map.roomfinder.x = -1023 - 10;
-  state.map.roomfinder.y = -1023 - 10;
-
   if (fromUi) {
     window.scrollTo(0, 0);
   }

@@ -34,7 +34,7 @@ function onSlide({ currentSlideIndex }: OnSlideData): void {
       :pause-autoplay-on-hover="true"
       @slide-end="onSlide"
     >
-      <Slide v-for="img in state.data.imgs" :key="img">
+      <Slide v-for="img in state.data.imgs" :key="img.name">
         <div itemscope itemtype="http://schema.org/ImageObject" class="px-2">
           <img
             itemprop="contentUrl"
