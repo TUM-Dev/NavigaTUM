@@ -38,7 +38,7 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
       <Listbox v-model="state.map.roomfinder.selected_index">
         <div class="relative mt-1">
           <ListboxButton
-            class="relative cursor-pointer w-full rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focusable sm:text-sm"
+            class="focusable relative w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md sm:text-sm"
           >
             <span class="block truncate">1:{{ selectedMap.scale }}, {{ selectedMap.name }}</span>
             <span class="absolute inset-y-0 right-0 flex items-center pr-2">

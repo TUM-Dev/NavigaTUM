@@ -47,7 +47,7 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
     <div class="flex flex-col gap-3">
       <Listbox v-model="selectedUsage" as="div" class="relative z-10">
         <ListboxButton
-          class="focusable relative w-full rounded-sm border bg-white py-2 pr-10 text-left sm:text-sm dark:border-gray-200"
+          class="focusable relative w-full rounded-sm border bg-white py-2 pr-10 text-left dark:border-gray-200 sm:text-sm"
         >
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
             <FunnelIcon class="h-4 w-4 text-zinc-400" aria-hidden="true" />

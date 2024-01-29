@@ -35,7 +35,7 @@ const appURL = import.meta.env.VITE_APP_URL;
                 :alt="t('thumbnail_preview')"
                 :src="`${appURL}/cdn/thumb/${b.thumb}`"
               />
-              <BuildingOffice2Icon v-else class="rounded-full bg-tumBlue-500 h-6 w-6" />
+              <BuildingOffice2Icon v-else class="h-6 w-6 rounded-full bg-tumBlue-500" />
             </figure>
             <div class="flex flex-col justify-evenly">
               <div>{{ b.name }}</div>

@@ -42,7 +42,7 @@ function onSlide({ currentSlideIndex }: OnSlideData): void {
             :src="`${appURL}/cdn/lg/${img.name}`"
             :srcset="`${appURL}/cdn/sm/${img.name} 1024w,${appURL}/cdn/md/${img.name} 1920w,${appURL}/cdn/lg/${img.name} 3860w`"
             sizes="100vw"
-            class="h-full rounded w-full"
+            class="h-full w-full rounded"
           />
           <span v-if="img.license.url" class="hidden" itemprop="license"> {{ img.license.url }}</span>
           <span v-else class="hidden" itemprop="license"> img.license.text</span>

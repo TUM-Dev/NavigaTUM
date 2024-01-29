@@ -115,10 +115,10 @@ function genDescription(): string {
             </RouterLink>
           </li>
         </ul>
-        <p v-if="s.estimatedTotalHits > 20" class="text-zinc-500 text-sm">
+        <p v-if="s.estimatedTotalHits > 20" class="text-sm text-zinc-500">
           {{ t("approx_results", s.estimatedTotalHits) }}
         </p>
-        <p v-else class="text-zinc-500 text-sm">
+        <p v-else class="text-sm text-zinc-500">
           {{ t("results", s.estimatedTotalHits) }}
         </p>
       </section>

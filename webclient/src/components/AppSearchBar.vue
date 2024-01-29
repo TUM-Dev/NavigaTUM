@@ -181,11 +181,11 @@ onMounted(() => {
   <!-- Autocomplete -->
   <div
     v-if="global.search_focused && autocomplete.sections.length !== 0"
-    class="absolute top-3 max-h-[calc(100vh-75px)] max-w-xl mt-16 bg-white p-3.5 shadow-2xl shadow-zinc-700/30 dark:bg-zinc-900 dark:shadow-black/60"
+    class="absolute top-3 mt-16 max-h-[calc(100vh-75px)] max-w-xl bg-white p-3.5 shadow-2xl shadow-zinc-700/30 dark:bg-zinc-900 dark:shadow-black/60"
   >
-    <ul v-for="s in autocomplete.sections" v-cloak :key="s.facet" class="flex mb-4 flex-col gap-2">
+    <ul v-for="s in autocomplete.sections" v-cloak :key="s.facet" class="mb-4 flex flex-col gap-2">
       <div class="flex items-center">
-        <span class="flex-shrink me-4 text-md text-zinc-500">{{ s.name }}</span>
+        <span class="text-md me-4 flex-shrink text-zinc-500">{{ s.name }}</span>
         <div class="flex-grow border-t border-zinc-500"></div>
       </div>
       <!--
@@ -242,7 +242,7 @@ onMounted(() => {
         >
           {{ t("show_hidden", s.entries.length - s.n_visible) }}
         </Btn>
-        <span class="text-zinc-400 text-sm">
+        <span class="text-sm text-zinc-400">
           {{
             s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
           }}

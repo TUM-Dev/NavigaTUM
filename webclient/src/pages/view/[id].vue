@@ -125,24 +125,24 @@ onMounted(() => {
     <div>
       <BreadcrumbList
         :items="state.data.parent_names.map((n, i) => ({ name: n, to: '/view/' + state.data?.parents[i] }))"
-        class="pt-6 pb-3"
+        class="pb-3 pt-6"
       />
-      <div class="group flex flex-row -ms-6 gap-2">
+      <div class="group -ms-6 flex flex-row gap-2">
         <button
           v-if="clipboardIsSupported"
           :title="t('header.copy_link')"
           type="button"
-          class="hidden lg:block group-hover:text-tumBlue-500 text-transparent"
+          class="hidden text-transparent group-hover:text-tumBlue-500 lg:block"
           @click="copy(`https://nav.tum.de${route.fullPath}`)"
         >
-          <ClipboardDocumentCheckIcon v-if="copied" class="w-4 h-4" />
-          <LinkIcon v-else class="w-4 h-4" />
+          <ClipboardDocumentCheckIcon v-if="copied" class="h-4 w-4" />
+          <LinkIcon v-else class="h-4 w-4" />
         </button>
         <h1 class="text-xl font-bold text-zinc-700">{{ state.data?.name }}</h1>
       </div>
       <div>
         <div class="flex grow place-items-center justify-between">
-          <span class="text-sm mt-0.5 text-neutral-400">{{ state.data?.type_common_name }}</span>
+          <span class="mt-0.5 text-sm text-neutral-400">{{ state.data?.type_common_name }}</span>
           <div class="flex flex-row place-items-center gap-3">
             <a
               v-if="state.data?.props?.calendar_url"
@@ -151,7 +151,7 @@ onMounted(() => {
               class="focusable rounded-sm"
               :title="t('header.calendar')"
             >
-              <CalendarDaysIcon class="mt-0.5 text-tumBlue-600 h-4 w-4" />
+              <CalendarDaysIcon class="mt-0.5 h-4 w-4 text-tumBlue-600" />
             </a>
             <ShareButton :coords="state.data.coords" :name="state.data.name" />
             <DetailsFeedbackButton ref="feedbackButton" />
@@ -188,7 +188,7 @@ onMounted(() => {
         <TabList class="flex space-x-1 rounded-xl bg-tumBlue-900/20 p-1">
           <Tab
             v-slot="{ selected }"
-            class="w-full focusable rounded-lg py-2.5 text-sm font-medium leading-5"
+            class="focusable w-full rounded-lg py-2.5 text-sm font-medium leading-5"
             @click="interactiveMap?.loadInteractiveMap(true)"
           >
             <span
@@ -203,7 +203,7 @@ onMounted(() => {
           </Tab>
           <Tab
             v-slot="{ selected }"
-            class="w-full focusable rounded-lg py-2.5 text-sm font-medium leading-5"
+            class="focusable w-full rounded-lg py-2.5 text-sm font-medium leading-5"
             :disabled="!state.data.maps.roomfinder?.available"
           >
             <span

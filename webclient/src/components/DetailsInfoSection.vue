@@ -22,7 +22,7 @@ const appURL = import.meta.env.VITE_APP_URL;
        as long as only little information is there -->
   <div class="hidden lg:block">
     <div
-      class="max-w-sm bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 shadow-md shadow-neutral-500/5 dark:shadow-white/20"
+      class="max-w-sm rounded-lg border border-gray-200 bg-white shadow-md shadow-neutral-500/5 dark:border-gray-700 dark:bg-gray-800 dark:shadow-white/20"
     >
       <button
         v-if="state.image.shown_image"
@@ -33,7 +33,7 @@ const appURL = import.meta.env.VITE_APP_URL;
         <img
           :alt="t('image_alt')"
           :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-          class="block rounded-t-lg h-auto w-full max-w-full bg-zinc-100"
+          class="block h-auto w-full max-w-full rounded-t-lg bg-zinc-100"
         />
       </button>
       <div class="p-5">
