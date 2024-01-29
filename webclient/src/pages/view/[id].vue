@@ -110,12 +110,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="state.data">
+  <div v-if="state.data" class="flex flex-col gap-5">
     <!-- Header image (on mobile) -->
     <button
       v-if="state.image.shown_image"
       type="button"
-      class="block cursor-pointer lg:hidden"
+      class="block lg:hidden"
       @click="state.showImageSlideshow(true)"
     >
       <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${state.image.shown_image.name}`" class="block w-full" />
@@ -163,7 +163,6 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div class="divider mb-5" />
     </div>
 
     <!-- First info section (map + infocard) -->

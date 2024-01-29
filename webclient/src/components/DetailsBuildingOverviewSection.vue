@@ -17,7 +17,7 @@ const appURL = import.meta.env.VITE_APP_URL;
 
 <template>
   <section v-if="props.buildings">
-    <h2>{{ t("title") }}</h2>
+    <h2 class="text-lg font-semibold">{{ t("title") }}</h2>
     <!--  <a class="no-underline" href="#">Übersichtskarte <ArrowRightIcon class="w-4 h-4" /> -->
     <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">

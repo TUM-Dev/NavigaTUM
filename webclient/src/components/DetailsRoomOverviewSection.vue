@@ -42,7 +42,7 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
 </script>
 
 <template>
-  <div v-if="props.rooms?.usages" class="mt-5 flex flex-col gap-1 rounded border p-4">
+  <div v-if="props.rooms?.usages" class="flex flex-col gap-1 rounded border p-4">
     <p class="text-lg font-semibold">{{ t("title") }}</p>
     <div class="flex flex-col gap-3">
       <Listbox v-model="selectedUsage" as="div" class="relative z-10">
