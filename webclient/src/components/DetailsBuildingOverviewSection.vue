@@ -3,7 +3,13 @@ import { useToggle } from "@vueuse/core";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
 import Btn from "@/components/Btn.vue";
-import { ChevronRightIcon, ChevronDownIcon, ChevronUpIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
+import {
+  ChevronRightIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  BuildingOffice2Icon,
+  BuildingOfficeIcon,
+} from "@heroicons/vue/24/outline";
 type BuildingsOverview = components["schemas"]["BuildingsOverview"];
 
 const props = defineProps<{
@@ -24,28 +30,27 @@ const appURL = import.meta.env.VITE_APP_URL;
         <RouterLink
           v-if="i < props.buildings.n_visible || buildingsExpanded"
           :to="'/view/' + b.id"
-          class="focusable flex flex-row justify-between rounded-sm border border-solid border-neutral-200 p-3.5 !no-underline hover:bg-zinc-50 dark:border-neutral-700 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+          class="focusable flex flex-row items-center justify-between rounded-sm border border-solid border-neutral-200 p-3.5 !no-underline hover:bg-zinc-50 dark:border-neutral-700 dark:bg-zinc-900 dark:hover:bg-zinc-800"
           :aria-label="`show the details for the building '${b.name}'`"
         >
-          <div class="flex flex-row gap-3">
-            <figure class="flex h-12 w-12 justify-around">
+          <div class="flex flex-row gap-3 items-center">
+            <figure class="min-w-11 max-h-11 min-h-11">
               <img
                 v-if="b.thumb"
-                class="aspect-square max-w-none rounded-full"
+                class="aspect-square h-11 w-11 rounded-full"
                 :alt="t('thumbnail_preview')"
                 :src="`${appURL}/cdn/thumb/${b.thumb}`"
               />
-              <BuildingOffice2Icon v-else class="h-6 w-6 rounded-full bg-tumBlue-500" />
+              <div v-else class="rounded-full bg-tumBlue-500 p-2 text-white">
+                <BuildingOffice2Icon class="h-7 w-7" />
+              </div>
             </figure>
             <div class="flex flex-col justify-evenly">
               <div>{{ b.name }}</div>
               <small class="text-zinc-600 dark:text-zinc-300">{{ b.subtext }}</small>
             </div>
           </div>
-          <div class="flex-grow" />
-          <div class="my-auto">
-            <ChevronRightIcon class="h-4 w-4" />
-          </div>
+          <ChevronRightIcon class="h-4 w-4" />
         </RouterLink>
       </template>
     </div>
