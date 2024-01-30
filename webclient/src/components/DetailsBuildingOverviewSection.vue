@@ -55,7 +55,11 @@ const appURL = import.meta.env.VITE_APP_URL;
       </template>
     </div>
     <div v-if="props.buildings.n_visible < props.buildings.entries.length" class="mt-2">
-      <Btn variant="linkButton" @click="toggleBuildingsExpanded()">
+      <Btn
+        variant="linkButton"
+        :aria-label="buildingsExpanded ? t('show_less_buildings') : t('show_more_buildings')"
+        @click="toggleBuildingsExpanded()"
+      >
         <template v-if="buildingsExpanded"> <ChevronUpIcon class="mt-0.5 h-4 w-4" /> {{ t("less") }} </template>
         <template v-else> <ChevronDownIcon class="mt-0.5 h-4 w-4" /> {{ t("more") }} </template>
       </Btn>
@@ -68,12 +72,16 @@ de:
   default_thumbnail_preview: Standard-Thumbnail, da kein Thumbnail verfügbar ist
   less: weniger
   more: mehr
+  show_less_buildings: weniger Gebäude anzeigen
+  show_more_buildings: mehr Gebäude anzeigen
   thumbnail_preview: Thumbnail, das eine Vorschau des Gebäudes zeigt
   title: Gebäude / Gebiete
 en:
   default_thumbnail_preview: Default-thumbnail, as no thumbnail is available
   less: less
   more: more
+  show_less_buildings: show less buildings
+  show_more_buildings: show more buildings
   thumbnail_preview: Thumbnail, showing a preview of the building
   title: Buildings / Areas
 </i18n>

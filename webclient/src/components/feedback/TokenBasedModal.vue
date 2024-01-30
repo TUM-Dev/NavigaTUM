@@ -174,9 +174,7 @@ function sendForm() {
   <Modal v-if="successUrl" v-model="global.feedback.open" :title="t('thank_you')" @close="closeForm">
     <slot name="success" :success-url="successUrl" />
 
-    <div class="buttons">
-      <Btn size="md" variant="primary" @click="closeForm">OK</Btn>
-    </div>
+    <Btn size="md" variant="primary" @click="closeForm">OK</Btn>
   </Modal>
 </template>
 
