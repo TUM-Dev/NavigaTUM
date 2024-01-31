@@ -1,7 +1,8 @@
-use log::info;
-use serde_json::Value;
 use std::collections::HashMap;
 use std::time::Instant;
+
+use log::info;
+use serde_json::Value;
 
 struct ExtractedFields {
     name: String,
@@ -11,20 +12,20 @@ struct ExtractedFields {
     lat: f64,
     lon: f64,
 }
+
 impl From<HashMap<String, Value>> for ExtractedFields {
     fn from(obj: HashMap<String, Value>) -> Self {
         let props = obj.get("props").unwrap().as_object().unwrap();
         let tumonline_room_nr = props
             .get("tumonline_room_nr")
             .map(|v| v.as_i64().unwrap() as i32);
-        let coords = obj.get("props").unwrap().as_object().unwrap();
-        let lat = match coords.get("lat") {
-            Some(v) => v.as_f64(),
-            None => None,
-        };
-        let lon = match coords.get("lon") {
-            Some(v) => v.as_f64(),
-            None => None,
+        let (lat, lon) = match obj.get("coords") {
+            Some(coords) => {
+                let lat = coords.get("lat").unwrap().as_f64();
+                let lon = coords.get("lon").unwrap().as_f64();
+                (lat, lon)
+            }
+            None => (None, None),
         };
         ExtractedFields {
             name: obj.get("name").unwrap().as_str().unwrap().to_string(),
@@ -147,6 +148,7 @@ impl DelocalisedValues {
         Ok(())
     }
 }
+
 pub(crate) async fn load_all_to_db(
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
 ) -> Result<(), crate::BoxedError> {
