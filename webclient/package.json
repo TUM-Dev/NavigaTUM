@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@vueuse/core": "10.7.2",
-    "maplibre-gl": "3.6.2",
+    "maplibre-gl": "4.0.0",
     "markdown-it-prism": "2.3.0",
     "pinia": "2.1.7",
     "spectre.css": "github:Valexr/spectre#dfe3bc2c59d23cd4bfd43c690aae3655576ff708",
