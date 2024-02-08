@@ -43,7 +43,7 @@ fn slugify<S: Into<String>>(input: S) -> String {
 #[logos(skip r"[ \t\n\f]+")]
 pub enum Token {
     #[regex("\"[^\"]+\"", | lex | lex.slice()[1..lex.slice().len() - 1].to_string(), priority = 3)]
-    #[regex(r"[^ \t\n\f]+", | lex | lex.slice().to_string())]
+    #[regex(r"[^ \t\n\f]+", | lex | lex.slice().to_string(), priority = 1)]
     Text(String),
 
     #[regex("[a-zA-Z]+[0-9]{1,4}", irregular_split, priority = 2)]
