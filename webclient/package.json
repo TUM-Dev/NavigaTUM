@@ -24,10 +24,10 @@
     "markdown-it-prism": "2.3.0",
     "pinia": "2.1.7",
     "spectre.css": "github:Valexr/spectre#dfe3bc2c59d23cd4bfd43c690aae3655576ff708",
-    "swagger-ui-dist": "5.11.2",
+    "swagger-ui-dist": "5.11.3",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "unplugin-vue-markdown": "0.26.0",
-    "vue": "3.4.15",
+    "vue": "3.4.16",
     "vue-router": "4.2.5"
   },
   "devDependencies": {
@@ -44,13 +44,13 @@
     "eslint-plugin-vue": "9.21.1",
     "isomorphic-fetch": "3.0.0",
     "npm-run-all2": "6.1.2",
-    "postcss": "8.4.33",
+    "postcss": "8.4.35",
     "prettier": "3.2.5",
     "sass": "1.70.0",
     "stylelint-scss": "6.1.0",
     "tailwindcss": "3.4.1",
     "typescript": "5.3.3",
-    "vite": "5.0.12",
+    "vite": "5.1.0",
     "vue-i18n": "9.9.1",
     "vue-tsc": "1.8.27"
   },
