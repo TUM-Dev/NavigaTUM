@@ -38,7 +38,7 @@ chrono = { version = "0.4.33", default-features = false, features = ["serde"] }
 
 # search
 meilisearch-sdk = "0.24.3"
-logos = "0.13.0"
+logos = "0.14.0"
 regex = "1.10.3"
 
 # web access
