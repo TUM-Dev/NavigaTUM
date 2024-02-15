@@ -122,7 +122,7 @@ impl GeoEntryQuery {
             .into_iter()
             .map(|s| match s {
                 TextToken::Text(t) => t,
-                TextToken::SplittableText((t1, t2)) => format!("{t1}{t2} {t1} {t2}"),
+                TextToken::SplittableText((t1, t2)) => format!("{t2} {t1} {t1}{t2}"),
             })
             .collect::<Vec<String>>()
             .join(" ")
