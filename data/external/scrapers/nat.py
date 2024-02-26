@@ -151,8 +151,16 @@ def _sanitise_room(room: dict) -> dict:
     room.pop("orgs")  # nat internal org, not useful for us or consistent enough
     room.pop("building")  # scraped in a previous step
 
-    for field_name_with_no_information in ["override_seats", "override_teaching", "modified", "contact"]:
-        room.pop(field_name_with_no_information)
+    fields_with_no_information = [
+        "override_seats",
+        "override_teaching",
+        "modified",
+        "contact",
+        "events_end",
+        "events_start",
+    ]
+    for field_name in fields_with_no_information:
+        room.pop(field_name)
     return room
 
 
@@ -195,6 +203,7 @@ def _download_and_merge_room(base):
         if useless_key in content:
             del content[useless_key]
     content["area"] = float(content["area"])
+    base["area"] = float(base["area"])
     return _merge(content, base)
 
 
