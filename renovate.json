@@ -14,7 +14,7 @@
       "prPriority": -1
     },
     {
-      "matchPackagePatterns": ["eslint", "prettier", "pylint", "sourcery", "pretty_assertions", "pre-commit", "mypy", "sourcery"],
+      "matchPackagePatterns": ["eslint", "prettier", "pylint", "pretty_assertions", "pre-commit", "mypy", "sourcery"],
       "groupName": "linting"
     },
     {
