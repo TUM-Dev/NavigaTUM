@@ -6,6 +6,7 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import Markdown from "unplugin-vue-markdown/vite";
 import prism from "markdown-it-prism";
 import path from "path";
+import VueDevTools from "vite-plugin-vue-devtools";
 
 export default defineConfig({
   envDir: path.resolve(__dirname, "./env"),
@@ -50,6 +51,7 @@ export default defineConfig({
     Markdown({
       markdownItUses: [prism],
     }),
+    VueDevTools(),
   ],
   resolve: {
     alias: {
