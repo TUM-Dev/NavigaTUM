@@ -91,9 +91,11 @@ def _extract_id_and_type(internal_id: str, b_prefix: str | list[str] | None) -> 
     if "[" in internal_id:
         internal_id, results["type"] = internal_id.removesuffix("]").split("[")
         if "," in results["type"]:
-            raise RuntimeError(f"can't parse {internal_id}."
-                               f"The type has to be specified after specifying visible_ids."
-                               f"try :id,visible_ids[type] instead")
+            raise RuntimeError(
+                f"can't parse {internal_id}."
+                f"The type has to be specified after specifying visible_ids."
+                f"try :id,visible_ids[type] instead",
+            )
     if "," in internal_id:
         ids = internal_id.split(",")
         if len(ids) != 2:
