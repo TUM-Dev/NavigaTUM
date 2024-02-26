@@ -881,6 +881,9 @@ frm-2:
   ranking_factors:
     rank_custom: -5
 
+5305:
+  coords: { lat: 48.26700052343523, lon: 11.671869485689989 }
+
 5304: # Neue Mensa
   coords: { lat: 48.26799, lon: 11.67216 }
   props:
