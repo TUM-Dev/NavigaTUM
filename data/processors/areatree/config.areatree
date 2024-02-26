@@ -463,7 +463,7 @@
       5142:Parkhaus P1:
       -5143:Versorgungsstation:
       5160:UCN-Testanlage (Container):
-    :Max-Planck-Institut:mpi[site] # manually added, see NAT merger
+    :Max-Planck-Institut Garching:mpg[site],mpi # manually added, see NAT merger
       :Max-Planck-Institut für Plasmaphysik:ipp[building]
       :Max-Planck-Institut für Astrophysik:mpa[building]
       :Max-Planck-Institut für Biochemie:mpb[building]

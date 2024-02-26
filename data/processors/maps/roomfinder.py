@@ -184,7 +184,7 @@ def _deduplicate_maps(maps_list: list[roomfinder.Map]) -> list[roomfinder.Map]:
     """Remove content 1:1 duplicates from the maps_list"""
     content_to_filename_dict: dict[str, str] = {}
     file_renaming_table: dict[str, str] = {}
-    for filename in RF_MAPS_PATH.iterdir():
+    for filename in RF_MAPS_PATH.glob("*.webp"):
         file_hash = hashlib.sha256(filename.read_bytes(), usedforsecurity=False).hexdigest()
         _id = filename.with_suffix("").name
         if file_hash in content_to_filename_dict:
