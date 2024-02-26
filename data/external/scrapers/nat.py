@@ -5,7 +5,7 @@ from multiprocessing.pool import ThreadPool
 from pathlib import Path
 
 import requests
-from external.scraping_utils import _download_file, CACHE_PATH, cached_json
+from external.scraping_utils import _download_file, CACHE_PATH
 from tqdm import tqdm
 from tqdm.contrib.concurrent import thread_map
 from utils import TranslatableStr as _
@@ -14,21 +14,20 @@ NAT_API_URL = "https://api.srv.nat.tum.de/api/v1/rom"
 NAT_CACHE_DIR = CACHE_PATH / "nat"
 
 
-@cached_json("buildings_nat.json")
 def scrape_buildings():
     """
     Retrieve the buildings as in the NAT roomfinder.
     """
     logging.info("Scraping the buildings of the NAT")
-    return requests.get(f"{NAT_API_URL}/building", timeout=30).json()
+    buildings = requests.get(f"{NAT_API_URL}/building", timeout=30).json()
+
+    with open(CACHE_PATH / "buildings_nat.json", "w", encoding="utf-8") as file:
+        json.dump(buildings, file, indent=2, sort_keys=True)
 
 
-@cached_json("rooms_nat.json")
-def scrape_rooms():
+def scrape_rooms() -> None:
     """
     Retrieve the rooms as in the NAT roomfinder.
-
-    :returns: A list of rooms, each room is a dict
     """
     logging.info("Scraping the rooms of the NAT")
     base_info = _get_base_room_infos()
@@ -41,11 +40,12 @@ def scrape_rooms():
 
     _extract_orgs(rooms)
     _extract_campus(rooms)
-    return rooms
+
+    with open(CACHE_PATH / "rooms_nat.json", "w", encoding="utf-8") as file:
+        json.dump(rooms, file, indent=2, sort_keys=True)
 
 
-@cached_json("orgs_nat.json")
-def _extract_orgs(rooms: dict) -> dict:
+def _extract_orgs(rooms: dict) -> None:
     """
     Extract the organisations from the room information.
     """
@@ -63,11 +63,12 @@ def _extract_orgs(rooms: dict) -> dict:
                 org["org_name"] = _(org["org_name"])
             room["org_id"] = org_id
             orgs[org_id] = org
-    return orgs
+
+    with open(CACHE_PATH / "orgs_nat.json", "w", encoding="utf-8") as file:
+        json.dump(orgs, file, indent=2, sort_keys=True)
 
 
-@cached_json("campus_nat.json")
-def _extract_campus(rooms: dict) -> dict:
+def _extract_campus(rooms: dict) -> None:
     """
     Extract the organisations from the room information.
     """
@@ -84,7 +85,9 @@ def _extract_campus(rooms: dict) -> dict:
         else:
             campus_id = None
         room["campus_id"] = campus_id
-    return campi
+
+    with open(CACHE_PATH / "campus_nat.json", "w", encoding="utf-8") as file:
+        json.dump(campi, file, indent=2, sort_keys=True)
 
 
 def _extract_translations(item: dict) -> None:
@@ -195,7 +198,6 @@ def _download_and_merge_room(base):
     return _merge(content, base)
 
 
-@cached_json("nat/base_info.json")
 def _get_base_room_infos():
     """
     The API is a bit buggy and some rooms are throwing 500 errors
