@@ -3,7 +3,7 @@ import json
 import logging
 import string
 import urllib.parse
-import xmlrpc.client
+import xmlrpc.client  # nosec: B411
 import zipfile
 from pathlib import Path
 from typing import Iterator, Literal, TypedDict
@@ -57,61 +57,66 @@ def scrape_rooms() -> None:
     Retrieve the (extended, i.e. with coordinates) rooms data from the Roomfinder API.
     This may retrieve the Roomfinder buildings.
     """
-    with open(CACHE_PATH / "buildings_roomfinder.json", "r", encoding="utf-8") as file:
-        buildings = json.load(file)
     logging.info("Scraping the rooms of the mytum roomfinder")
-    rooms_list = []
 
-    # Get all rooms in a building
-    # The API does not provide such a function directly, so we
-    # have to use search for this. Since search returns a max
-    # of 50 results we need to guess to collect all rooms.
     logging.info("Searching for rooms in each building")
-    unreported_warnings = []
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
-        for building in tqdm(buildings, desc="Guessing queries for building", unit="building"):
-            if (b_room_count := building.get("b_room_count")) > 0:
-                search_results: list[SearchResult] = proxy.searchRoom("", {"r_building": building["b_id"]})
-                b_rooms = {room["r_id"] for room in search_results}
-
-                if len(b_rooms) < b_room_count:
-                    # Collect guess queries that are executed until
-                    # all buildings are found or the query list is exhausted
-                    for guessed_query in _guess_queries(b_rooms, b_room_count):
-                        search_results = proxy.searchRoom(guessed_query, {"r_building": building["b_id"]})
-                        b_rooms |= {r["r_id"] for r in search_results}
-
-                if len(b_rooms) < b_room_count:
-                    unreported_warnings.append(
-                        f"Could not guess all queries for building {building['b_id']}, "
-                        f"because |b_rooms|={len(b_rooms)} < b_room_count={building['b_room_count']}",
-                    )
-                rooms_list.extend(list(b_rooms))
-    # reporting these issues here, to not fuck with tqdm
-    for unreported_warning in unreported_warnings:
-        logging.warning(unreported_warning)
-
-    rooms = []
-    for room in tqdm(rooms_list, desc=f"Retrieving {len(rooms_list)} rooms"):
-        extended_data = proxy.getRoomData(room)
-        # for k, v in extended_data.items():
-        #    rooms[i][k] = v
-        extended_data["metas"] = proxy.getRoomMetas(room)
-        extended_data["maps"] = proxy.getRoomMaps(room)
-        for _map in extended_data["maps"]:
-            _map[1] = f"rf{_map[1]}"
-        extended_data["default_map"] = proxy.getDefaultMap(room)
-        if default_map := extended_data["default_map"]:
-            default_map[1] = f"rf{default_map[1]}"
-        rooms.append(extended_data)
-        maybe_sleep(0.05)
+        rooms_list = _get_all_rooms_for_all_buildings(proxy)
+        rooms = []
+        for room in tqdm(rooms_list, desc=f"Retrieving {len(rooms_list)} rooms"):
+            extended_data = proxy.getRoomData(room)
+            # for k, v in extended_data.items():
+            #    rooms[i][k] = v
+            extended_data["metas"] = proxy.getRoomMetas(room)
+            extended_data["maps"] = proxy.getRoomMaps(room)
+            for _map in extended_data["maps"]:
+                _map[1] = f"rf{_map[1]}"
+            extended_data["default_map"] = proxy.getDefaultMap(room)
+            if default_map := extended_data["default_map"]:
+                default_map[1] = f"rf{default_map[1]}"
+            rooms.append(extended_data)
+            maybe_sleep(0.05)
 
     rooms = sorted(rooms, key=lambda r: (r["b_id"], r["r_id"]))
     with open(CACHE_PATH / "rooms_roomfinder.json", "w", encoding="utf-8") as file:
         json.dump(rooms, file, indent=2, sort_keys=True)
 
 
-def _guess_queries(rooms: list, n_rooms: int) -> Iterator[str]:
+def _get_all_rooms_for_all_buildings(proxy:xmlrpc.client.ServerProxy) -> list:
+    """
+    Get all rooms in a building
+    The API does not provide such a function directly, so we have to use search for this.
+    Since search returns a max of 50 results we need to guess to collect all rooms.
+    """
+    with open(CACHE_PATH / "buildings_roomfinder.json", "r", encoding="utf-8") as file:
+        buildings = json.load(file)
+    unreported_warnings = []
+    rooms_list = []
+    for building in tqdm(buildings, desc="Guessing queries for building", unit="building"):
+        if (b_room_count := building.get("b_room_count")) > 0:
+            search_results: list[SearchResult] = proxy.searchRoom("", {"r_building": building["b_id"]})
+            b_rooms = {room["r_id"] for room in search_results}
+
+            if len(b_rooms) < b_room_count:
+                # Collect guess queries that are executed until
+                # all buildings are found or the query list is exhausted
+                for guessed_query in _guess_queries(b_rooms, b_room_count):
+                    search_results = proxy.searchRoom(guessed_query, {"r_building": building["b_id"]})
+                    b_rooms |= {r["r_id"] for r in search_results}
+
+            if len(b_rooms) < b_room_count:
+                unreported_warnings.append(
+                    f"Could not guess all queries for building {building['b_id']}, "
+                    f"because {len(b_rooms)=} < {building['b_room_count']=}",
+                )
+            rooms_list.extend(list(b_rooms))
+    # reporting these issues here, to not fuck with tqdm
+    for unreported_warning in unreported_warnings:
+        logging.warning(unreported_warning)
+    return rooms_list
+
+
+def _guess_queries(rooms: set[str], n_rooms: int) -> Iterator[str]:
     """
     Iterates through all single/double character strings consisting of digit/ascii_lowercase to find successful queries
 
