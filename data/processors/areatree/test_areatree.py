@@ -85,7 +85,7 @@ def test_specified_type() -> None:
 def test_comma_specified_type() -> None:
     """If the building id is separated by a comma, it is split into a list"""
 
-    expected = {"id": "abc", "type": "building", 'visible_id': 'bcd'}
+    expected = {"id": "abc", "type": "building", "visible_id": "bcd"}
     with pytest.raises(RuntimeError):
         assert _extract_id_and_type("abc[building],bcd", None)
     assert _extract_id_and_type("abc,bcd[building]", None) == expected
