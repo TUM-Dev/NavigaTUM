@@ -7,7 +7,7 @@ from external.scraping_utils import _download_file, CACHE_PATH
 
 MVV_OPENDATA_URL = "https://www.mvv-muenchen.de/fileadmin/mediapool/02-Fahrplanauskunft/03-Downloads/openData"
 MVV_GTFS_URL = f"{MVV_OPENDATA_URL}/mvv_gtfs.zip"
-MVV_HST_REPORT_URL = f"{MVV_OPENDATA_URL}/MVV_HSTReport2212.csv"  # train/tram stations + some bus stations
+MVV_HST_REPORT_URL = f"{MVV_OPENDATA_URL}/MVV_HSTReport2312.csv"  # train/tram stations + some bus stations
 PUBLIC_TRANSPORT_CACHE_PATH = CACHE_PATH / "public_transport"
 
 
@@ -58,9 +58,17 @@ def _load_train_stations(stations: dict) -> None:
     """Load the bus stations from the MVV_HST_REPORT data and add them to stations dict"""
     _download_file(MVV_HST_REPORT_URL, PUBLIC_TRANSPORT_CACHE_PATH / "train_stations.csv")
     with open(PUBLIC_TRANSPORT_CACHE_PATH / "train_stations.csv", encoding="utf-8") as file:
-        lines = [line for line in csv.DictReader(file, delimiter=";") if line["\ufeffHstNummer"]]
+        lines = list(csv.DictReader(file, delimiter=";"))
     repeat_later = []  # when parent station is not already in dict
+    ignored_stations_no_id = 0
+    ignored_stations_no_coordinate = 0
     for line in lines:
+        if not line["WGS84 X"] or not line["WGS84 X"]:
+            ignored_stations_no_coordinate += 1
+            continue
+        if not line["Globale ID"]:
+            ignored_stations_no_id += 1
+            continue
         if line["Globale ID"].count(":") == 2:  # example: de:09184:460
             stations.setdefault(
                 line["Globale ID"],
@@ -86,6 +94,10 @@ def _load_train_stations(stations: dict) -> None:
                 parent["sub_stations"].append(sub_station)
             else:
                 repeat_later.append(sub_station)
+    if ignored_stations_no_id:
+        logging.warning(f"ignored because of not having an id: {ignored_stations_no_id}")
+    if ignored_stations_no_coordinate:
+        logging.warning(f"ignored because of not having coordinates: {ignored_stations_no_coordinate}")
     for sub in repeat_later:
         if parent := stations.get(sub["parent"]):
             parent["sub_stations"].append(sub)
@@ -95,6 +107,7 @@ def _load_train_stations(stations: dict) -> None:
 
 def scrape_stations() -> None:
     """Scrape the stations from the MVV GTFS data and return them as a list of dicts"""
+    logging.info("Scraping the bus and train stations of the MVV")
     stations = {}
     _load_train_stations(stations)
     _load_bus_stations(stations)
