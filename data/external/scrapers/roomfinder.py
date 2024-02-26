@@ -82,7 +82,7 @@ def scrape_rooms() -> None:
         json.dump(rooms, file, indent=2, sort_keys=True)
 
 
-def _get_all_rooms_for_all_buildings(proxy:xmlrpc.client.ServerProxy) -> list:
+def _get_all_rooms_for_all_buildings(proxy: xmlrpc.client.ServerProxy) -> list:
     """
     Get all rooms in a building
     The API does not provide such a function directly, so we have to use search for this.
