@@ -19,36 +19,6 @@
       "en": "Hochbr\u00fcck"
     }
   },
-  "11": {
-    "campus": {
-      "de": "M\u00fcnchen Olympiapark",
-      "en": "Munich Olympia Campus"
-    },
-    "campusshort": {
-      "de": "Olympiapark",
-      "en": "Olympia"
-    }
-  },
-  "16": {
-    "campus": {
-      "de": "Versuchsanstalt Obernach",
-      "en": "Obernach Research Institute"
-    },
-    "campusshort": {
-      "de": "Obernach",
-      "en": "Obernach"
-    }
-  },
-  "17": {
-    "campus": {
-      "de": "M\u00fcnchen Freimann",
-      "en": "Munich Freimann"
-    },
-    "campusshort": {
-      "de": "Freimann",
-      "en": "Freimann"
-    }
-  },
   "2": {
     "campus": {
       "de": "Garching Forschungszentrum",
@@ -67,16 +37,6 @@
     "campusshort": {
       "de": "WZW",
       "en": "WZW"
-    }
-  },
-  "4": {
-    "campus": {
-      "de": "Straubing",
-      "en": "Straubing"
-    },
-    "campusshort": {
-      "de": "Straubing",
-      "en": "Straubing"
     }
   }
 }

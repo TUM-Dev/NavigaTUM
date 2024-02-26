@@ -5,18 +5,6 @@
     "name": "Technische Universit\u00e4t M\u00fcnchen",
     "path": "TUM"
   },
-  "TUARF01": {
-    "code": "TUARF01",
-    "id": 15113,
-    "name": "Dekanat AR",
-    "path": "TUM/Academic department/Former TUM Department of Architecture/Department Administration/Dean's Office"
-  },
-  "TUARF02": {
-    "code": "TUARF02",
-    "id": 15116,
-    "name": "Department Administration Architecture",
-    "path": "TUM/Academic department/Former TUM Department of Architecture/Department Administration"
-  },
   "TUARFAR": {
     "code": "TUARFAR",
     "id": 14185,
@@ -76,12 +64,6 @@
     "id": 15203,
     "name": "Chair of Restoration-Conservation, Art Technology and Conservation Science (Prof. Danzl)",
     "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Restoration-Conservation, Art Technology and Conservation Science (Prof. Danzl)"
-  },
-  "TUARL11": {
-    "code": "TUARL11",
-    "id": 15212,
-    "name": "Chair of Building Realization and Robotics (N.N.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Building Realization and Robotics (N.N.)"
   },
   "TUARL12": {
     "code": "TUARL12",
@@ -431,12 +413,6 @@
     "name": "Chair of Inorganic Chemistry with Focus on New Materials (Prof. F\u00e4ssler)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Inorganic Chemistry with Focus on New Materials (Prof. F\u00e4ssler)"
   },
-  "TUCHAC7": {
-    "code": "TUCHAC7",
-    "id": 23056,
-    "name": "Associate Professorship of Analytical Chemistry (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Analytical Chemistry (N.N.)"
-  },
   "TUCHAC9": {
     "code": "TUCHAC9",
     "id": 40494,
@@ -485,24 +461,6 @@
     "name": "Assistant Professorship of Analytical Chemistry (Prof. Strittmatter)",
     "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Analytical Chemistry (Prof. Strittmatter)"
   },
-  "TUCHBDS": {
-    "code": "TUCHBDS",
-    "id": 32786,
-    "name": "Data Protection Representative Chemistry",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Representatives/Data Protection Representative"
-  },
-  "TUCHBIO": {
-    "code": "TUCHBIO",
-    "id": 32785,
-    "name": "Information Officer Chemistry",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Representatives/Information Officer"
-  },
-  "TUCHDEK": {
-    "code": "TUCHDEK",
-    "id": 14629,
-    "name": "Dean Chemistry",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Dean"
-  },
   "TUCHDEP": {
     "code": "TUCHDEP",
     "id": 22127,
@@ -527,47 +485,11 @@
     "name": "Former TUM Department of Chemistry",
     "path": "TUM/Academic department/Former TUM Department of Chemistry"
   },
-  "TUCHFDE": {
-    "code": "TUCHFDE",
-    "id": 14630,
-    "name": "Dean's Office Dekanat CH",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Dean's Office"
-  },
-  "TUCHFFB": {
-    "code": "TUCHFFB",
-    "id": 44214,
-    "name": "Gender Equality Officer Chemistry",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Representatives/Gender Equality Officer"
-  },
-  "TUCHFSS": {
-    "code": "TUCHFSS",
-    "id": 14633,
-    "name": "Student Office CH",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Student Office CH"
-  },
-  "TUCHFSV": {
-    "code": "TUCHFSV",
-    "id": 44488,
-    "name": "Student Council",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Student Council"
-  },
   "TUCHFV0": {
     "code": "TUCHFV0",
     "id": 14874,
     "name": "IT Operation 5400 (NAT) - IT Office (NAT)",
     "path": "TUM/Schools/Natural Sciences/School Office/IT Office (NAT)/IT Operation 5400 (NAT)"
-  },
-  "TUCHISC": {
-    "code": "TUCHISC",
-    "id": 34759,
-    "name": "Wacker-Institute for Silicon Chemistry (Prof. Rieger)",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Silicon Chemistry (Prof. Rieger)"
-  },
-  "TUCHLC1": {
-    "code": "TUCHLC1",
-    "id": 14721,
-    "name": "Chair of Food Chemistry (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Food Chemistry (N.N.)"
   },
   "TUCHNMR": {
     "code": "TUCHNMR",
@@ -647,12 +569,6 @@
     "name": "Associate Professorship of Supramolecular Chemistry (Prof. Boekhoven)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Supramolecular Chemistry (Prof. Boekhoven)"
   },
-  "TUCHOCJ": {
-    "code": "TUCHOCJ",
-    "id": 48917,
-    "name": "Assistant Professorship of Biomimetic Catalysis (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Biomimetic Catalysis (N.N.)"
-  },
   "TUCHOCK": {
     "code": "TUCHOCK",
     "id": 48838,
@@ -670,18 +586,6 @@
     "id": 14722,
     "name": "Chair of Physical Chemistry (Prof. Heiz)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Physical Chemistry (Prof. Heiz)"
-  },
-  "TUCHPC2": {
-    "code": "TUCHPC2",
-    "id": 14723,
-    "name": "Chair of Biophysical Chemistry (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Biophysical Chemistry (N.N.)"
-  },
-  "TUCHPC3": {
-    "code": "TUCHPC3",
-    "id": 23181,
-    "name": "Associate Professorship of Physical Chemistry (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Physical Chemistry (N.N.)"
   },
   "TUCHPC4": {
     "code": "TUCHPC4",
@@ -712,12 +616,6 @@
     "id": 53317,
     "name": "Chair of Electron Microscopy with research emphasis on Energy Materials (Prof. Willinger)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Electron Microscopy with research emphasis on Energy Materials (Prof. Willinger)"
-  },
-  "TUCHPDK": {
-    "code": "TUCHPDK",
-    "id": 14631,
-    "name": "Vice Dean Prodekan Chemistry",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Vice Dean"
   },
   "TUCHRC3": {
     "code": "TUCHRC3",
@@ -761,12 +659,6 @@
     "name": "Chair of Theoretical Chemistry (Prof. em. Domcke)",
     "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Theoretical Chemistry (Prof. em. Domcke)"
   },
-  "TUCHTH2": {
-    "code": "TUCHTH2",
-    "id": 23182,
-    "name": "Associate Professorship of Theoretical Chemistry (N.N.)",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Theoretical Chemistry (N.N.)"
-  },
   "TUCHTH4": {
     "code": "TUCHTH4",
     "id": 43242,
@@ -784,12 +676,6 @@
     "id": 50919,
     "name": "Assistant Professorship of Theoretical Methods in Spectroscopy (Prof. Ortmann)",
     "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Theoretical Methods in Spectroscopy (Prof. Ortmann)"
-  },
-  "TUCHWA0": {
-    "code": "TUCHWA0",
-    "id": 14635,
-    "name": "Institute for Hydrochemistry",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Hydrochemistry"
   },
   "TUCHWA1": {
     "code": "TUCHWA1",
@@ -815,23 +701,17 @@
     "name": "Supplies & Waste Treatment (NAT) - Central Services (NAT)",
     "path": "TUM/Schools/Natural Sciences/School Office/Central Services (NAT)/Supplies & Waste Treatment (NAT)"
   },
-  "TUCHZEI": {
-    "code": "TUCHZEI",
-    "id": 43838,
-    "name": "Central institutions",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Central institutions"
-  },
   "TUCHZPR": {
     "code": "TUCHZPR",
     "id": 46517,
     "name": "Traineeships",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Central institutions/Traineeships"
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Traineeships"
   },
   "TUCHZWE": {
     "code": "TUCHZWE",
     "id": 43839,
     "name": "Workshops",
-    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Central institutions/Workshops"
+    "path": "TUM/Academic department/Former TUM Department of Chemistry/Chemistry Department/Workshops"
   },
   "TUCS000": {
     "code": "TUCS000",
@@ -1037,6 +917,12 @@
     "name": "Former TUM School of Education",
     "path": "TUM/Academic department/Former TUM School of Education"
   },
+  "TUEDFVW": {
+    "code": "TUEDFVW",
+    "id": 41924,
+    "name": "Department Administration Former TUM School of Education",
+    "path": "TUM/Academic department/Former TUM School of Education/Department Administration"
+  },
   "TUEDS01": {
     "code": "TUEDS01",
     "id": 14827,
@@ -1157,11 +1043,17 @@
     "name": "Associate Professorship of Bio-inspired Information Processing (Prof. Hemmert)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Bio-inspired Information Processing (Prof. Hemmert)"
   },
+  "TUEIBDS": {
+    "code": "TUEIBDS",
+    "id": 32905,
+    "name": "Data Protection Representative Former TUM Department of Electrical and Computer Engineering",
+    "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Representatives/Data Protection Representative"
+  },
   "TUEIBIO": {
     "code": "TUEIBIO",
     "id": 32904,
     "name": "Information officer Former TUM Department of Electrical and Computer Engineering",
-    "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Information officer"
+    "path": "TUM/Academic department/Former TUM Department of Electrical and Computer Engineering/Representatives/Information officer"
   },
   "TUEICDA": {
     "code": "TUEICDA",
@@ -1910,8 +1802,8 @@
   "TUINH04": {
     "code": "TUINH04",
     "id": 53357,
-    "name": "Informatics Heilbronn 4 -  Assistant Professorship of Computational Mathematics (Dr. Meggendorfer komm.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics Heilbronn 4 -  Assistant Professorship of Computational Mathematics (Dr. Meggendorfer komm.)"
+    "name": "Computational Mathematics (Prof. Anzt)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Computational Mathematics (Prof. Anzt)"
   },
   "TUINH05": {
     "code": "TUINH05",
@@ -2072,8 +1964,8 @@
   "TUINI31": {
     "code": "TUINI31",
     "id": 51157,
-    "name": "Informatics 31 - Chair of Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment between Department of Medicine und TUM School of Computation, Information and Technology)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 31 - Chair of Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment between Department of Medicine und TUM School of Computation, Information and Technology)"
+    "name": "Informatics 31 - Chair of Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment between TUM School of Medicine and Health und TUM School of Computation, Information and Technology)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 31 - Chair of Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment between TUM School of Medicine and Health und TUM School of Computation, Information and Technology)"
   },
   "TUINI32": {
     "code": "TUINI32",
@@ -2153,12 +2045,6 @@
     "name": "Assistant Professorship of Big Geospatial Data Management (Prof. Werner)",
     "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Big Geospatial Data Management (Prof. Werner)"
   },
-  "TULRDEK": {
-    "code": "TULRDEK",
-    "id": 49519,
-    "name": "Dean's Office Dekanat LRG",
-    "path": "TUM/Academic department/Former TUM Department of Aerospace and Geodesy/Administration of the department/Dean's Office"
-  },
   "TULREAV": {
     "code": "TULREAV",
     "id": 51257,
@@ -2201,12 +2087,6 @@
     "name": "Aerospace and Geodesy",
     "path": "TUM/Schools/Engineering and Design/Student Council/Aerospace and Geodesy"
   },
-  "TULRFVW": {
-    "code": "TULRFVW",
-    "id": 49537,
-    "name": "Administration of the department Former TUM Department of Aerospace and Geodesy",
-    "path": "TUM/Academic department/Former TUM Department of Aerospace and Geodesy/Administration of the department"
-  },
   "TULRGDS": {
     "code": "TULRGDS",
     "id": 15098,
@@ -2222,8 +2102,8 @@
   "TULRHST": {
     "code": "TULRHST",
     "id": 43429,
-    "name": "Chair of Rotorcraft and Powered Lift Vehicles (Prof. Yavrucuk)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Rotorcraft and Powered Lift Vehicles (Prof. Yavrucuk)"
+    "name": "Chair of Rotorcraft and Vertical Flight (Prof. Yavrucuk)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Rotorcraft and Vertical Flight (Prof. Yavrucuk)"
   },
   "TULRLCC": {
     "code": "TULRLCC",
@@ -2864,8 +2744,8 @@
   "TUMEDH1": {
     "code": "TUMEDH1",
     "id": 16100,
-    "name": "Clinic for Heart and Vascular Surgery (DHM) (Prof. Lange)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Heart and Vascular Surgery (DHM) (Prof. Lange)"
+    "name": "Clinic for Heart and Vascular Surgery (DHM) (Prof. Krane)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Heart and Vascular Surgery (DHM) (Prof. Krane)"
   },
   "TUMEDH2": {
     "code": "TUMEDH2",
@@ -2924,8 +2804,8 @@
   "TUMEDHC": {
     "code": "TUMEDHC",
     "id": 54663,
-    "name": "Chair of Herzchirurgie (DHM) (Prof. Lange)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Heart and Vascular Surgery (DHM) (Prof. Lange)/Herzchirurgie (DHM) (Prof. Lange)"
+    "name": "Chair of Herzchirurgie (DHM) (Prof. Krane)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/German Heart Centre Munich/Heart and Vascular Surgery (DHM) (Prof. Krane)/Herzchirurgie (DHM) (Prof. Krane)"
   },
   "TUMEDHD": {
     "code": "TUMEDHD",
@@ -3152,8 +3032,14 @@
   "TUMEIS2": {
     "code": "TUMEIS2",
     "id": 51177,
-    "name": "Chair of Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment between Department of Medicine and TUM School of Computation, Information and Technology)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/AI and Informatics in Medicine (Prof. R\u00fcckert)/Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment between Department of Medicine and TUM School of Computation, Information and Technology)"
+    "name": "Chair of Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment between TUM School of Medicine and Health and TUM School of Computation, Information and Technology)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/AI and Informatics in Medicine (Prof. R\u00fcckert)/Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment between TUM School of Medicine and Health and TUM School of Computation, Information and Technology)"
+  },
+  "TUMEIS3": {
+    "code": "TUMEIS3",
+    "id": 55797,
+    "name": "Chair of Health Informatics (Prof. Schuller)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/AI and Informatics in Medicine (Prof. R\u00fcckert)/Health Informatics (Prof. Schuller)"
   },
   "TUMEKC0": {
     "code": "TUMEKC0",
@@ -4289,11 +4175,89 @@
     "name": "Center for Innovation and Business Creation at TUM",
     "path": "TUM/Institutions close to the University/Center for Innovation and Business Creation at TUM"
   },
+  "TUPEV10": {
+    "code": "TUPEV10",
+    "id": 55886,
+    "name": "MOBILITY",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs/MOBILITY"
+  },
+  "TUPEV11": {
+    "code": "TUPEV11",
+    "id": 55887,
+    "name": "SUSTAINABILITY CIRCULAR",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs/SUSTAINABILITY CIRCULAR"
+  },
+  "TUPEV12": {
+    "code": "TUPEV12",
+    "id": 55888,
+    "name": "LEGAL TECH COLAB",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs/LEGAL TECH COLAB"
+  },
   "TUPEVHB": {
     "code": "TUPEVHB",
     "id": 16352,
     "name": "Virtual University of Bavaria (vhb)",
     "path": "TUM/Institutions close to the University/Virtual University of Bavaria (vhb)"
+  },
+  "TUPEVL1": {
+    "code": "TUPEVL1",
+    "id": 55877,
+    "name": "BUILT ENVIRONMENT",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs/BUILT ENVIRONMENT"
+  },
+  "TUPEVL2": {
+    "code": "TUPEVL2",
+    "id": 55878,
+    "name": "CHEM SPACE",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs/CHEM SPACE"
+  },
+  "TUPEVL3": {
+    "code": "TUPEVL3",
+    "id": 55879,
+    "name": "QUANTUM",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs/QUANTUM"
+  },
+  "TUPEVL4": {
+    "code": "TUPEVL4",
+    "id": 55880,
+    "name": "ROBOTICS AI",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs/ROBOTICS AI"
+  },
+  "TUPEVL5": {
+    "code": "TUPEVL5",
+    "id": 55881,
+    "name": "FOOD AGRO BIOTECH",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs/FOOD AGRO BIOTECH"
+  },
+  "TUPEVL6": {
+    "code": "TUPEVL6",
+    "id": 55882,
+    "name": "HEALTH CARE",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs/HEALTH CARE"
+  },
+  "TUPEVL7": {
+    "code": "TUPEVL7",
+    "id": 55883,
+    "name": "ADDITIVE MANUFACTURING",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs/ADDITIVE MANUFACTURING"
+  },
+  "TUPEVL8": {
+    "code": "TUPEVL8",
+    "id": 55884,
+    "name": "SOFTWARE AI",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs/SOFTWARE AI"
+  },
+  "TUPEVL9": {
+    "code": "TUPEVL9",
+    "id": 55885,
+    "name": "AERO SPACE",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs/AERO SPACE"
+  },
+  "TUPEVLG": {
+    "code": "TUPEVLG",
+    "id": 55889,
+    "name": "TUM Venture Labs Management gGmbH (VLM)",
+    "path": "TUM/Institutions close to the University/TUM Venture Labs Management gGmbH (VLM)"
   },
   "TUPEVLM": {
     "code": "TUPEVLM",
@@ -4568,7 +4532,7 @@
   "TUPHEBI": {
     "code": "TUPHEBI",
     "id": 48897,
-    "name": "Assistant Professorship of Physics in Biomedical Imaging (Prof. Herzen)",
+    "name": "Associate Professorship of Physics in Biomedical Imaging (Prof. Herzen)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Physics in Biomedical Imaging (Prof. Herzen)"
   },
   "TUPHECP": {
@@ -5399,6 +5363,30 @@
     "name": "Chair of Representation Theory (Dr. Cobbe, komm.)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Representation Theory (Dr. Cobbe, komm.)"
   },
+  "TUS1313": {
+    "code": "TUS1313",
+    "id": 55818,
+    "name": "Chair of Interpretable and Reliable Machine Learning (Prof. Akata-Schulz)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Interpretable and Reliable Machine Learning (Prof. Akata-Schulz)"
+  },
+  "TUS1314": {
+    "code": "TUS1314",
+    "id": 55937,
+    "name": "Chair of Software Engineering & AI (Prof. Chen)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software Engineering & AI (Prof. Chen)"
+  },
+  "TUS1315": {
+    "code": "TUS1315",
+    "id": 55938,
+    "name": "Associate Professorship of Intelligent Robotics (Prof. B\u00e4uml)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Intelligent Robotics (Prof. B\u00e4uml)"
+  },
+  "TUS1316": {
+    "code": "TUS1316",
+    "id": 55997,
+    "name": "Associate Professorship of Physics-enhanced Machine Learning (Prof. Dietrich)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physics-enhanced Machine Learning (Prof. Dietrich)"
+  },
   "TUS1CHN": {
     "code": "TUS1CHN",
     "id": 54537,
@@ -5636,8 +5624,8 @@
   "TUS2PNS": {
     "code": "TUS2PNS",
     "id": 53899,
-    "name": "Chair of Pico and Nano Satellites, and Satellite Constellations (Prof. Aliakbargolkar)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Pico and Nano Satellites, and Satellite Constellations (Prof. Aliakbargolkar)"
+    "name": "Chair of Spacecraft Systems (Prof. Aliakbargolkar)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Spacecraft Systems (Prof. Aliakbargolkar)"
   },
   "TUS2RDP": {
     "code": "TUS2RDP",
@@ -6053,6 +6041,12 @@
     "name": "Assistant Professorship of Cellular Agriculture (Prof. Henkel)",
     "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/Cellular Agriculture (Prof. Henkel)"
   },
+  "TUS4C8B": {
+    "code": "TUS4C8B",
+    "id": 55897,
+    "name": "Assistant Professorship of Computational Plant Biology (Prof. Kamal)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Computational Plant Biology (Prof. Kamal)"
+  },
   "TUS4C9L": {
     "code": "TUS4C9L",
     "id": 54937,
@@ -6088,6 +6082,12 @@
     "id": 51266,
     "name": "Department of Life Science Systems",
     "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems"
+  },
+  "TUS4E0M": {
+    "code": "TUS4E0M",
+    "id": 55898,
+    "name": "Assistant Professorship of Earth Observation for Ecosystem Management (Prof. Senf)",
+    "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Earth Observation for Ecosystem Management (Prof. Senf)"
   },
   "TUS4F1P": {
     "code": "TUS4F1P",
@@ -6346,6 +6346,18 @@
     "id": 55217,
     "name": "Further Chairs and Professorships",
     "path": "TUM/Academic department/Medicine/Further Chairs and Professorships"
+  },
+  "TUS5SAA": {
+    "code": "TUS5SAA",
+    "id": 55459,
+    "name": "School and Academic Affairs School Office",
+    "path": "TUM/Schools/Medicine and Health/School Office/School and Academic Affairs"
+  },
+  "TUS5STO": {
+    "code": "TUS5STO",
+    "id": 55460,
+    "name": "Student Office School Office",
+    "path": "TUM/Schools/Medicine and Health/School Office/Student Office"
   },
   "TUS5VIO": {
     "code": "TUS5VIO",
@@ -6629,6 +6641,12 @@
     "name": "Lehrertum",
     "path": "TUM/Schools/Social Sciences and Technology/Student Council/Lehrertum"
   },
+  "TUS7HCC": {
+    "code": "TUS7HCC",
+    "id": 55857,
+    "name": "Chair of Human-Centered Computing (Prof. Diesner)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Human-Centered Computing (Prof. Diesner)"
+  },
   "TUS7HRM": {
     "code": "TUS7HRM",
     "id": 52740,
@@ -6670,6 +6688,12 @@
     "id": 52085,
     "name": "School Office of the TUM School of Social Sciences and Technology",
     "path": "TUM/Schools/Social Sciences and Technology/School Office"
+  },
+  "TUS7PGT": {
+    "code": "TUS7PGT",
+    "id": 55859,
+    "name": "Assistant Professorship of Public Policy for the Green Transition (Prof. Egli)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Public Policy for the Green Transition (Prof. Egli)"
   },
   "TUS7PMP": {
     "code": "TUS7PMP",
@@ -7436,8 +7460,8 @@
   "TUWIS06": {
     "code": "TUWIS06",
     "id": 14825,
-    "name": "Chair of Forest and Environmental Policies (N.N.)",
-    "path": "TUM/Schools/Management/Departments/Economics and Policy/Forest and Environmental Policies (N.N.)"
+    "name": "Chair of Forest and Environmental Policies (Prof. Roosen komm.)",
+    "path": "TUM/Schools/Management/Departments/Economics and Policy/Forest and Environmental Policies (Prof. Roosen komm.)"
   },
   "TUWIV04": {
     "code": "TUWIV04",
@@ -7622,8 +7646,8 @@
   "TUWZE1B": {
     "code": "TUWZE1B",
     "id": 48698,
-    "name": "Chair of Experimental Bioinformatics (Prof. K\u00fcster komm.)",
-    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Experimental Bioinformatics (Prof. K\u00fcster komm.)"
+    "name": "Chair of Experimental Bioinformatics (N.N.)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Experimental Bioinformatics (N.N.)"
   },
   "TUWZFAG": {
     "code": "TUWZFAG",
@@ -7802,7 +7826,7 @@
   "TUWZP2I": {
     "code": "TUWZP2I",
     "id": 50377,
-    "name": "Assistant Professorship of Plant-Insect Interaction (Prof. Leonhardt)",
+    "name": "Associate Professorship of Plant-Insect Interaction (Prof. Leonhardt)",
     "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Plant-Insect Interaction (Prof. Leonhardt)"
   },
   "TUWZP2O": {
@@ -8759,6 +8783,12 @@
     "name": "Academic Programs Master Vocational Education and Innovation",
     "path": "TUM/Schools/Social Sciences and Technology/Academic Program Administration/Teaching at Vocational Schools/Academic Programs"
   },
+  "TUXB70R": {
+    "code": "TUXB70R",
+    "id": 55918,
+    "name": "Academic Programs AI in Society",
+    "path": "TUM/Schools/Social Sciences and Technology/Academic Program Administration/Political, Social and Educational Sciences/Academic Programs"
+  },
   "TUXO100": {
     "code": "TUXO100",
     "id": 53638,
@@ -9034,6 +9064,12 @@
     "id": 54497,
     "name": "Degree Program M.Sc. Data Engineering and Analytics",
     "path": "TUM/Schools/Computation, Information and Technology/Academic Program Administration/Informatik/M.Sc. Data Engineering and Analytics"
+  },
+  "TUXS113": {
+    "code": "TUXS113",
+    "id": 55957,
+    "name": "Degree Program M.Sc. Information Engineering",
+    "path": "TUM/Schools/Computation, Information and Technology/Academic Program Administration/Heilbronn/Degree Program"
   },
   "TUXS200": {
     "code": "TUXS200",
@@ -9556,6 +9592,24 @@
     "id": 55279,
     "name": "Degree Program B.Sc. Ingenieur- und Werkstoffwissenschaften (PLUS)",
     "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/B.Sc. Ingenieur- und Werkstoffwissenschaften (PLUS)"
+  },
+  "TUXS235": {
+    "code": "TUXS235",
+    "id": 55837,
+    "name": "Degree Program M.Sc. Rail and Urban Transport",
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/Degree Program"
+  },
+  "TUXS236": {
+    "code": "TUXS236",
+    "id": 55838,
+    "name": "Degree Program M.Sc. Logistics Engineering and Management",
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Civil and Environmental Engineering/Degree Program"
+  },
+  "TUXS237": {
+    "code": "TUXS237",
+    "id": 55839,
+    "name": "Degree Program M.Sc. Human Factors Engineering",
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Interdisciplinary Engineering/Degree Program"
   },
   "TUXS300": {
     "code": "TUXS300",
@@ -10983,7 +11037,7 @@
     "code": "TUXS729",
     "id": 55557,
     "name": "Degree Program M.Sc. AI in Society",
-    "path": "TUM/Schools/Social Sciences and Technology/Academic Program Administration/Political, Social and Educational Sciences/Social Science & Technology/Degree Program"
+    "path": "TUM/Schools/Social Sciences and Technology/Academic Program Administration/Political, Social and Educational Sciences/Academic Programs/Degree Program"
   },
   "TUXS730": {
     "code": "TUXS730",
@@ -11174,8 +11228,8 @@
   "TUZECLA": {
     "code": "TUZECLA",
     "id": 48577,
-    "name": "Carl von Linde Academy",
-    "path": "TUM/TUM Institute for Life Long Learning/Carl von Linde Academy"
+    "name": "People Development",
+    "path": "TUM/TUM Institute for Life Long Learning/People Development"
   },
   "TUZECOS": {
     "code": "TUZECOS",
@@ -11577,7 +11631,7 @@
     "code": "TUZELCD",
     "id": 53297,
     "name": "CareerDesign@TUM",
-    "path": "TUM/TUM Institute for Life Long Learning/Carl von Linde Academy/CareerDesign@TUM"
+    "path": "TUM/TUM Institute for Life Long Learning/People Development/CareerDesign@TUM"
   },
   "TUZELDM": {
     "code": "TUZELDM",
@@ -11585,11 +11639,11 @@
     "name": "TUM Leibniz-Institute Deutsches Museum",
     "path": "TUM/TUM Leibniz-Institute/TUM Leibniz-Institute"
   },
-  "TUZELFC": {
-    "code": "TUZELFC",
-    "id": 53298,
+  "TUZELFT": {
+    "code": "TUZELFT",
+    "id": 55890,
     "name": "Faculty@TUM",
-    "path": "TUM/TUM Institute for Life Long Learning/Carl von Linde Academy/Faculty@TUM"
+    "path": "TUM/TUM Institute for Life Long Learning/People Development/Faculty@TUM"
   },
   "TUZELLL": {
     "code": "TUZELLL",
@@ -11602,6 +11656,12 @@
     "id": 48859,
     "name": "TUM Leibniz-Institute Leibniz-Institut f\u00fcr Lebensmittelsystembiologie an der Technischen Universit\u00e4t M\u00fcnchen",
     "path": "TUM/TUM Leibniz-Institute/TUM Leibniz-Institute"
+  },
+  "TUZELSM": {
+    "code": "TUZELSM",
+    "id": 55891,
+    "name": "ScienceManagement@TUM",
+    "path": "TUM/TUM Institute for Life Long Learning/People Development/ScienceManagement@TUM"
   },
   "TUZEMCT": {
     "code": "TUZEMCT",
@@ -11625,13 +11685,13 @@
     "code": "TUZEMZ0",
     "id": 19704,
     "name": "ProLehre Medien und Didaktik",
-    "path": "TUM/TUM Institute for Life Long Learning/Carl von Linde Academy/ProLehre Medien und Didaktik"
+    "path": "TUM/TUM Institute for Life Long Learning/ProLehre Medien und Didaktik"
   },
   "TUZEMZ1": {
     "code": "TUZEMZ1",
     "id": 49497,
     "name": "Representative Data Protection Representative ProLehre Medien und Didaktik",
-    "path": "TUM/TUM Institute for Life Long Learning/Carl von Linde Academy/ProLehre Medien und Didaktik/Data Protection Representative"
+    "path": "TUM/TUM Institute for Life Long Learning/ProLehre Medien und Didaktik/Data Protection Representative"
   },
   "TUZEPRG": {
     "code": "TUZEPRG",
@@ -12501,7 +12561,7 @@
     "code": "TUZVHR3",
     "id": 19661,
     "name": "Horizons@TUM",
-    "path": "TUM/TUM Institute for Life Long Learning/Carl von Linde Academy/Horizons@TUM"
+    "path": "TUM/TUM Institute for Life Long Learning/People Development/Horizons@TUM"
   },
   "TUZVHR4": {
     "code": "TUZVHR4",
@@ -12596,8 +12656,8 @@
   "TUZVR22": {
     "code": "TUZVR22",
     "id": 25975,
-    "name": "Human Resources - Faculties, Schools and Departments with service affiliation to Munich and in central supervision responsibility (department 22)",
-    "path": "TUM/Central Administration/Human Resources (Central department 2)/Human Resources - Faculties, Schools and Departments with service affiliation to Munich and in central supervision responsibility (department 22)"
+    "name": "Human Resources - Schools and Departments with service affiliation to Munich and in central supervision responsibility (department 22)",
+    "path": "TUM/Central Administration/Human Resources (Central department 2)/Human Resources - Schools and Departments with service affiliation to Munich and in central supervision responsibility (department 22)"
   },
   "TUZVR23": {
     "code": "TUZVR23",

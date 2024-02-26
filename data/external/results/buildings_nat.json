@@ -910,7 +910,7 @@
     "building_short": null
   },
   {
-    "address": "Karlstra\u00dfe 45-47",
+    "address": "Karlstr. 45-47",
     "building_code": "2906",
     "building_id": 995,
     "building_name": "Karlstra\u00dfe 45/47 (AM)\n",
@@ -3234,6 +3234,13 @@
     "building_short": null
   },
   {
+    "address": "Lichtenbergstr. 2c",
+    "building_code": "5305",
+    "building_id": 3209,
+    "building_name": "Modulbau NDB 2",
+    "building_short": null
+  },
+  {
     "address": "Lichtenbergstr. 4",
     "building_code": "5401",
     "building_id": 818,
@@ -3301,35 +3308,35 @@
     "building_code": "5410",
     "building_id": 1405,
     "building_name": "Katalysezentrum",
-    "building_short": null
+    "building_short": "CRC"
   },
   {
     "address": "Ernst-Otto-Fischer-Str. 2",
     "building_code": "5413",
     "building_id": 1989,
     "building_name": "Bayerisches NMR-Zentrum",
-    "building_short": null
+    "building_short": "BNMRZ"
   },
   {
     "address": "Lichtenbergstr. 4a",
     "building_code": "5414",
     "building_id": 1670,
     "building_name": "Zentrum f\u00fcr Energie u. Information (ZEI)",
-    "building_short": null
+    "building_short": "ZEI"
   },
   {
     "address": "Ernst-Otto-Fischer-Str. 8",
     "building_code": "5415",
     "building_id": 2729,
     "building_name": "CPA Center for Functional Protein Assembly",
-    "building_short": null
+    "building_short": "CPA"
   },
   {
     "address": "Lichtenbergstr. 2b",
     "building_code": "5416",
     "building_id": 2269,
     "building_name": "Interimsh\u00f6rs\u00e4le II",
-    "building_short": null
+    "building_short": "Interims II"
   },
   {
     "address": "Lichtenbergstr. 6",
@@ -3878,11 +3885,18 @@
     "building_short": "MPE"
   },
   {
+    "address": "Boltzmannstr. 8, 85748 Garching",
+    "building_code": "XMPG",
+    "building_id": null,
+    "building_name": "Max-Planck-Institut f\u00fcr Physik (Forschungszentrum Garching)",
+    "building_short": "MPP"
+  },
+  {
     "address": null,
     "building_code": "XMPP",
     "building_id": null,
-    "building_name": "Max-Planck-Institut f\u00fcr Physik",
-    "building_short": "MPP"
+    "building_name": "Max-Planck-Institut f\u00fcr Physik (Freimann)",
+    "building_short": "MPP Freimann"
   },
   {
     "address": null,

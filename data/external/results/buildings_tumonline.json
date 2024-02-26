@@ -1780,6 +1780,11 @@
     "name": "5304 Mensa Garching (Neubau), Boltzmannstr.   19"
   },
   {
+    "area_id": 30,
+    "filter_id": 3209,
+    "name": "5305 Modulbau NDB 2, Lichtenbergstr.   2c"
+  },
+  {
     "area_id": 36,
     "filter_id": 818,
     "name": "5401 Bibliothek, H\u00f6rsaal CH 1, Lichtenbergstr.    4"
