@@ -1,5 +1,6 @@
 # This script takes care of downloading data from the Roomfinder and TUMonline
 # and caching the results
+import functools
 import json
 import logging
 import random
@@ -10,17 +11,15 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup, element
 from defusedxml import ElementTree as ET
-from external.scraping_utils import CACHE_PATH, cached_json, maybe_sleep
+from external.scraping_utils import CACHE_PATH, maybe_sleep
 from tqdm import tqdm
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
 
 
-def scrape_areas() -> list[dict[str, typing.Any]]:
+def _scrape_areas() -> list[dict[str, typing.Any]]:
     """
     Retrieve the building areas as in TUMonline.
-
-    :returns: A list of areas together with their id
     """
     filters = _get_roomsearch_xml(
         _get_tumonline_api_url("wbSuche.cbRaumForm"),
@@ -47,16 +46,13 @@ def scrape_usages_filter() -> list[dict[str, typing.Any]]:
     return [{"id": int(attrs), "name": text} for (attrs, text) in _parse_filter_options(filters, "pVerwendung")]
 
 
-@cached_json("buildings_tumonline.json")
-def scrape_buildings() -> list[dict[str, typing.Any]]:
+def scrape_buildings() -> None:
     """
     Retrieve the buildings as in TUMonline with their assigned TUMonline area.
     This may retrieve TUMonline areas.
-
-    :returns: A list of buildings, each building is a dict
     """
 
-    areas = scrape_areas()
+    areas = _scrape_areas()
     logging.info("Scraping the buildings of tumonline")
     filters = _get_roomsearch_xml(
         _get_tumonline_api_url("wbSuche.cbRaumForm"),
@@ -85,17 +81,16 @@ def scrape_buildings() -> list[dict[str, typing.Any]]:
     if len(buildings) != len(all_buildings):
         logging.warning("Not all buildings have an assigned area. Buildings without an area are discarded")
 
-    return sorted(buildings, key=lambda b: (b["name"], b["area_id"], b["filter_id"]))
+    buildings = sorted(buildings, key=lambda b: (b["name"], b["area_id"], b["filter_id"]))
+    with open(CACHE_PATH / "buildings_tumonline.json", "w", encoding="utf-8") as file:
+        json.dump(buildings, file, indent=2, sort_keys=True)
 
 
-@cached_json("rooms_tumonline.json")
-def scrape_rooms() -> list[dict[str, typing.Any]]:
+def scrape_rooms() -> None:
     """
     Retrieve the rooms as in TUMonline including building and usage type.
     For some room types (e.g. lecture halls) additional information is retrieved.
     This may retrieve TUMonline buildings.
-
-    :returns: A list of rooms, each room is a dict
     """
     # To get both area/building and usage type for all buildings without needing to
     # query the details of all >30k rooms, the rooms are queried two times.
@@ -112,7 +107,8 @@ def scrape_rooms() -> list[dict[str, typing.Any]]:
         131,  # Übungsraum
     }
 
-    buildings = scrape_buildings()
+    with open(CACHE_PATH / "buildings_tumonline.json", "r", encoding="utf-8") as file:
+        buildings = json.load(file)
 
     logging.info("Scraping the rooms of tumonline")
     room_index = {}
@@ -143,7 +139,9 @@ def scrape_rooms() -> list[dict[str, typing.Any]]:
             rooms.append(room_index[roomcode])
         usage_id += 1
 
-    return sorted(rooms, key=lambda r: (r["list_index"], r["roomcode"]))
+    rooms = sorted(rooms, key=lambda r: (r["list_index"], r["roomcode"]))
+    with open(CACHE_PATH / "rooms_tumonline.json", "w", encoding="utf-8") as file:
+        json.dump(rooms, file, indent=2, sort_keys=True)
 
 
 class Usage(typing.TypedDict):
@@ -152,15 +150,13 @@ class Usage(typing.TypedDict):
     din_277: str
 
 
-@cached_json("usages_tumonline.json")
-def scrape_usages() -> list[Usage]:
+def scrape_usages() -> None:
     """
     Retrieve all usage types available in TUMonline.
     This may retrieve TUMonline rooms.
-
-    :returns: A list of usages, each usage is a dict
     """
-    rooms = scrape_rooms()
+    with open(CACHE_PATH / "rooms_tumonline.json", "r", encoding="utf-8") as file:
+        rooms = json.load(file)
 
     logging.info("Scraping the room-usages of tumonline")
 
@@ -188,16 +184,16 @@ def scrape_usages() -> list[Usage]:
         usage_name = parts[0].strip()
         usage_din_277 = parts[1].strip("()")
         usages.append(Usage(id=usage_type, name=usage_name, din_277=usage_din_277))
-    return sorted(usages, key=lambda usage: usage["id"])
+    usages = sorted(usages, key=lambda usage: usage["id"])
+    with open(CACHE_PATH / "usages_tumonline.json", "w", encoding="utf-8") as file:
+        json.dump(usages, file, indent=2, sort_keys=True)
 
 
-@cached_json("orgs-{lang}_tumonline.json")
-def scrape_orgs(lang: typing.Literal["de", "en"]) -> dict[str, typing.Any]:
+def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
     """
     Retrieve all organisations in TUMonline, that may operate rooms.
 
     :params lang: 'en' or 'de'
-    :returns: A dict of orgs like {org_code: {...}}
     """
 
     logging.info("Scraping the orgs of tumonline")
@@ -229,7 +225,9 @@ def scrape_orgs(lang: typing.Literal["de", "en"]) -> dict[str, typing.Any]:
                 "name": item["name"],
                 "path": item["orgPath"],
             }
-    return orgs
+
+    with open(CACHE_PATH / f"orgs-{lang}_tumonline.json", "w", encoding="utf-8") as file:
+        json.dump(orgs, file, indent=2, sort_keys=True)
 
 
 class ParsedRoom(typing.TypedDict):
@@ -260,7 +258,7 @@ class ParsedRoomsList(typing.NamedTuple):
         )
 
 
-@cached_json("tumonline/{f_value}.{area_id}.json")
+@functools.cache
 def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id: int = 0) -> list[ParsedRoom]:
     """Retrieve all rooms from the TUMonline room search list (multipage)"""
 

@@ -6,4 +6,4 @@ output
 /sources/img/md/
 /sources/img/sm/
 /sources/img/.hash_lut.json
-/external/cache/
+/external/results/*

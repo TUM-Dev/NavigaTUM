@@ -1,8 +1,9 @@
 import csv
+import json
 import logging
 from zipfile import ZipFile
 
-from external.scraping_utils import _download_file, CACHE_PATH, cached_json
+from external.scraping_utils import _download_file, CACHE_PATH
 
 MVV_OPENDATA_URL = "https://www.mvv-muenchen.de/fileadmin/mediapool/02-Fahrplanauskunft/03-Downloads/openData"
 MVV_GTFS_URL = f"{MVV_OPENDATA_URL}/mvv_gtfs.zip"
@@ -92,8 +93,7 @@ def _load_train_stations(stations: dict) -> None:
             logging.warning(f"{sub['name']} with id {sub['station_id']} has no parent in our data")
 
 
-@cached_json("public_transport.json")
-def scrape_stations() -> list[dict]:
+def scrape_stations() -> None:
     """Scrape the stations from the MVV GTFS data and return them as a list of dicts"""
     stations = {}
     _load_train_stations(stations)
@@ -102,4 +102,6 @@ def scrape_stations() -> list[dict]:
     for station in stations.values():
         for sub in station["sub_stations"]:
             del sub["parent"]
-    return sorted(stations.values(), key=lambda x: x["lat"])
+    stations = sorted(stations.values(), key=lambda x: x["lat"])
+    with open(CACHE_PATH / "public_transport.json", "w", encoding="utf-8") as file:
+        json.dump(stations, file, indent=2, sort_keys=True)
