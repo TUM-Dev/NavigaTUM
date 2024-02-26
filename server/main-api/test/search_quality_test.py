@@ -160,6 +160,6 @@ class Evaluations:
 
 if __name__ == "__main__":
     current = Evaluations(search_endpoint="https://nav.tum.de/api/search")
-    comparison = Evaluations(search_endpoint="http://localhost:8080/api/search")
+    comparison = Evaluations(search_endpoint="http://localhost:3003/api/search")
 
     printer.print_specific_queries_result(current.results, comparison.results)
