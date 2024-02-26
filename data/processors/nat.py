@@ -58,6 +58,8 @@ def _infer_internal_id(building, data):
     if building.b_code.startswith("X"):
         if building.b_code == "XUCL":
             building.b_id = "origins-cluster"
+        elif building.b_code == "XMPG":
+            building.b_id = "mpi"
         else:
             building.b_id = building.b_code[1:].lower()
 
