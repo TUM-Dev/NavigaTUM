@@ -82,6 +82,16 @@ def test_specified_type() -> None:
     assert _extract_id_and_type("abc[building]", "cdf") == expected
 
 
+def test_comma_specified_type() -> None:
+    """If the building id is separated by a comma, it is split into a list"""
+
+    expected = {"id": "abc", "type": "building", 'visible_id': 'bcd'}
+    with pytest.raises(RuntimeError):
+        assert _extract_id_and_type("abc[building],bcd", None)
+    assert _extract_id_and_type("abc,bcd[building]", None) == expected
+    assert _extract_id_and_type("abc,bcd[building]", "cdf") == expected
+
+
 def test_comma() -> None:
     """If the id is inferable from the line, it is returned"""
     expected = {"id": "123", "visible_id": "visible_id", "type": "area"}
