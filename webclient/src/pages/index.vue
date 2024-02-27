@@ -16,7 +16,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
 
 <template>
   <div class="flex flex-row justify-between pt-8">
-    <div class="!text-lg font-semibold text-slate-600">{{ t("sites") }}</div>
+    <div class="text-zinc-600 !text-lg font-semibold">{{ t("sites") }}</div>
     <!-- <a href="#" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</a> -->
   </div>
   <div v-if="data" class="mt-5">
@@ -24,19 +24,19 @@ const openPanels = ref<(boolean | undefined)[]>([]);
       <div
         v-for="(site, siteIndex) in data.sites_overview"
         :key="site.id"
-        class="flex flex-col gap-4 rounded-lg border-2 p-5"
+        class="border-zinc-200 flex flex-col gap-4 rounded-lg border-2 p-5"
       >
         <div>
           <RouterLink
             v-if="site.id"
             :to="'/view/' + site.id"
             :aria-label="t('show_details_for_campus', [site.name])"
-            class="focusable flex grow-0 flex-row justify-between rounded !no-underline"
+            class="focusable text-zinc-700 flex grow-0 flex-row justify-between rounded !no-underline hover:text-tumBlue-500"
           >
-            <span class="text-md font-semibold text-slate-700 hover:text-tumBlue-500">{{ site.name }}</span>
+            <span class="text-md font-semibold">{{ site.name }}</span>
             <ArrowRightIcon v-if="site.id" class="my-auto hidden h-6 w-6 md:block" />
           </RouterLink>
-          <div v-else class="text-md font-semibold text-slate-700">{{ site.name }}</div>
+          <div v-else class="text-md text-zinc-700 font-semibold">{{ site.name }}</div>
         </div>
         <div class="flex flex-col gap-3">
           <RouterLink
@@ -44,7 +44,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             :key="c.id"
             :to="'/view/' + c.id"
             :aria-label="t('show_details_for_building', [c.name])"
-            class="focusable flex flex-row justify-between rounded text-tumBlue-600 !no-underline hover:text-tumBlue-500"
+            class="focusable text-tumBlue-600 flex flex-row justify-between rounded !no-underline hover:text-tumBlue-500"
           >
             <div class="flex flex-row gap-2">
               <MapPinIcon class="h-4 w-5" />

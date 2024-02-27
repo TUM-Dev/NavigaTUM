@@ -6,7 +6,7 @@ export interface Props {
   size?: "sm" | "md" | "lg" | string;
   to?: string;
   disabled?: boolean;
-  variant?: "action" | "link" | "linkButton" | "info" | "primary" | string;
+  variant?: "action" | "link" | "linkButton" | "info" | "primary" | "secondary" | string;
   ariaLabel?: string;
 }
 
@@ -25,8 +25,10 @@ const variantClasses = computed(() => {
       return "";
     case "primary":
       return "bg-tumBlue-500 visited:text-tumBlue-50 text-tumBlue-50 hover:bg-tumBlue-600 hover:text-white";
+    case "secondary":
+      return "bg-zinc-500 visited:text-zinc-50 text-zinc-50 hover:bg-zinc-600 hover:text-white";
     case "linkButton":
-      return "bg-transparent visited:text-tumBlue-600 text-tumBlue-600 hover:bg-tumBlue-50 hover:text-tumBlue-500";
+      return "bg-transparent visited:text-tumBlue-600 text-tumBlue-600 hover:bg-tumBlue-900/10 dark:hover:bg-tumBlue-50/20 hover:text-tumBlue-500";
     case "link":
       return "bg-transparent visited:text-tumBlue-600 text-tumBlue-600";
     default:
@@ -49,7 +51,7 @@ const sizeClasses = computed(() => {
 
 <template>
   <a
-    v-if="props.to.length && !disabled && props.to.startsWith('http')"
+    v-if="props.to.length && !disabled && (props.to.startsWith('http') || props.to.startsWith('geo:'))"
     :href="props.to"
     :aria-label="ariaLabel"
     :type="props.type"

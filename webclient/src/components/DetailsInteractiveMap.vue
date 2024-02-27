@@ -261,6 +261,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 <template>
   <div
     id="interactive-map-container"
+    class="mb-2.5 aspect-4/3"
     :class="{ hidden: state.map.selected !== MapSelections.interactive, errormessage: !webglSupport }"
   >
     <div>
@@ -285,34 +286,27 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   </div>
 </template>
 
-<style lang="scss">
+<style lang="postcss">
 @import "maplibre-gl/dist/maplibre-gl.css";
-@import "@/assets/variables";
 
 /* --- Interactive map display --- */
 #interactive-map-container {
-  margin-bottom: 10px;
-  aspect-ratio: 4 / 3; // Not yet supported by all browsers
-
   /* --- User location dot --- */
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    background-color: $primary-color;
+    @apply bg-tumBlue-500;
   }
 
   > div {
-    padding-bottom: 75%; // 4:3 aspect ratio
+    padding-bottom: 75%; /* 4:3 aspect ratio */
     border: 1px solid $border-light;
     background-color: $container-loading-bg;
     position: relative;
   }
   &.errormessage {
-    background-color: $error-color;
+    @apply bg-red-300;
     & div {
-      border: 0;
-      padding: 1rem;
-      background-color: $error-color;
-      color: white;
+      @apply bg-red-300 border-0 p-1 text-red-950;
     }
   }
 
@@ -408,7 +402,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
     }
   }
 
-  // vertical is default layout
+  /* vertical is default layout */
   & > .horizontal-oc {
     display: none;
   }

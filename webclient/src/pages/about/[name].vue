@@ -37,20 +37,24 @@ const route = useRoute();
 <style lang="postcss">
 #contentwrapper {
   h1 {
-    @apply text-3xl font-medium;
+    @apply text-zinc-900 pb-3 pt-4 text-3xl font-medium;
   }
   h2 {
-    @apply text-2xl font-medium;
+    @apply text-zinc-900 pb-2 pt-3 text-2xl font-medium;
   }
   h3 {
-    @apply text-lg font-medium;
+    @apply text-zinc-800 pb-1 pt-2 text-lg font-medium;
   }
+  p,
+  ul,
   h4 {
-    @apply text-sm font-medium;
+    @apply text-zinc-700 py-1 text-sm font-medium;
   }
-
+  li {
+    @apply list-inside list-disc;
+  }
   code {
-    @apply mb-4 inline-flex max-w-full items-center space-x-4 overflow-auto rounded-md bg-tumBlue-50 px-4 py-3 text-left font-mono text-xs text-blue-950;
+    @apply mb-4 inline-flex max-w-full items-center space-x-4 overflow-auto rounded-md bg-tumBlue-100/60 px-4 py-3 text-left font-mono text-xs text-blue-950 text-tumBlue-950;
   }
 }
 </style>

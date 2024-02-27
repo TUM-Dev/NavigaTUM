@@ -3,13 +3,7 @@ import { useToggle } from "@vueuse/core";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
 import Btn from "@/components/Btn.vue";
-import {
-  ChevronRightIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  BuildingOffice2Icon,
-  BuildingOfficeIcon,
-} from "@heroicons/vue/24/outline";
+import { ChevronRightIcon, ChevronDownIcon, ChevronUpIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
 type BuildingsOverview = components["schemas"]["BuildingsOverview"];
 
 const props = defineProps<{
@@ -23,31 +17,30 @@ const appURL = import.meta.env.VITE_APP_URL;
 
 <template>
   <section v-if="props.buildings">
-    <h2 class="text-lg font-semibold">{{ t("title") }}</h2>
+    <h2 class="text-zinc-800 text-lg font-semibold">{{ t("title") }}</h2>
     <!--  <a class="no-underline" href="#">Übersichtskarte <ArrowRightIcon class="w-4 h-4" /> -->
-    <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+    <div class="text-zinc-600 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">
         <RouterLink
           v-if="i < props.buildings.n_visible || buildingsExpanded"
           :to="'/view/' + b.id"
-          class="focusable flex flex-row items-center justify-between rounded-sm border border-solid border-neutral-200 p-3.5 !no-underline hover:bg-zinc-50 dark:border-neutral-700 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+          class="focusable border-zinc-200 flex flex-row items-center justify-between rounded-sm border border-solid p-3.5 !no-underline hover:bg-zinc-100"
           :aria-label="`show the details for the building '${b.name}'`"
         >
-          <div class="flex flex-row gap-3 items-center">
-            <figure class="min-w-11 max-h-11 min-h-11">
+          <div class="flex flex-row items-center gap-3">
+            <figure v-if="b.thumb" class="max-h-11 min-h-11 min-w-11">
               <img
-                v-if="b.thumb"
                 class="aspect-square h-11 w-11 rounded-full"
                 :alt="t('thumbnail_preview')"
                 :src="`${appURL}/cdn/thumb/${b.thumb}`"
               />
-              <div v-else class="rounded-full bg-tumBlue-500 p-2 text-white">
-                <BuildingOffice2Icon class="h-7 w-7" />
-              </div>
             </figure>
+            <div v-else class="text-white bg-tumBlue-500 min-w-11 rounded-full p-2">
+              <BuildingOffice2Icon class="mx-auto h-7 w-7" />
+            </div>
             <div class="flex flex-col justify-evenly">
               <div>{{ b.name }}</div>
-              <small class="text-zinc-600 dark:text-zinc-300">{{ b.subtext }}</small>
+              <small class="text-zinc-600">{{ b.subtext }}</small>
             </div>
           </div>
           <ChevronRightIcon class="h-4 w-4" />

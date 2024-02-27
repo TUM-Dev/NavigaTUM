@@ -19,8 +19,8 @@ const props = withDefaults(
       'text-orange-950': props.level === 'warning',
       'bg-blue-300': props.level === 'info',
       'text-blue-950': props.level === 'info',
-      'bg-gray-300': props.level === 'default',
-      'text-gray-950': props.level === 'default',
+      'bg-zinc-300': props.level === 'default',
+      'text-zinc-950': props.level === 'default',
     }"
   >
     {{ props.msg }}

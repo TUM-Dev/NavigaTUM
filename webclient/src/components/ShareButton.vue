@@ -5,8 +5,9 @@ import type { UseShareOptions } from "@vueuse/core";
 import type { components } from "@/api_types";
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { ShareIcon } from "@heroicons/vue/24/outline";
+import { ShareIcon, ClipboardIcon, ClipboardDocumentCheckIcon } from "@heroicons/vue/24/outline";
 import Modal from "@/components/Modal.vue";
+import Btn from "@/components/Btn.vue";
 
 const props = defineProps<{
   readonly coords: components["schemas"]["Coordinate"];
@@ -29,36 +30,35 @@ const shareOptions = computed<UseShareOptions>(() => ({
 
 <template>
   <button type="button" :title="t('external_link')" class="focusable rounded-sm" @click="modalOpen = true">
-    <ShareIcon class="h-4 w-4 text-blue-600" />
+    <ShareIcon class="text-blue-600 h-4 w-4" />
   </button>
   <Modal v-model="modalOpen" :title="t('share')">
     <div class="flex flex-col gap-5">
       <div class="flex flex-col gap-2">
-        <strong>{{ t("open_in") }}</strong>
-        <a
-          class="btn"
-          target="_blank"
-          :href="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
-          >Google Maps</a
+        <h3 class="text-md text-zinc-600 font-semibold">{{ t("open_in") }}</h3>
+        <Btn variant="link" :to="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
+          >Google Maps</Btn
         >
-        <a
-          class="btn"
-          target="_blank"
-          :href="`https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lon}#map=17/${coords.lat}/${coords.lon}&layers=T`"
-          >OpenStreetMap</a
+        <Btn
+          variant="link"
+          :to="`https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lon}#map=17/${coords.lat}/${coords.lon}&layers=T`"
+          >OpenStreetMap</Btn
         >
-        <a class="btn" :href="`geo:${coords.lat},${coords.lon}`">
+        <Btn variant="link" :to="`geo:${coords.lat},${coords.lon}`">
           {{ t("other_app") }}
-        </a>
+        </Btn>
       </div>
       <div class="flex flex-col gap-2">
-        <strong>{{ t("share") }}</strong>
-        <button v-if="shareIsSupported" type="button" class="btn" @click="share(shareOptions)">
+        <h3 class="text-md text-zinc-600 font-semibold">{{ t("share") }}</h3>
+        <Btn v-if="shareIsSupported" variant="primary" @click="share(shareOptions)">
+          <ShareIcon v-if="copied" class="my-auto h-4 w-4" />
           {{ t("share_link") }}
-        </button>
-        <button v-if="clipboardIsSupported" type="button" class="btn" @click="copy()">
+        </Btn>
+        <Btn v-if="clipboardIsSupported" variant="primary" @click="copy()">
+          <ClipboardDocumentCheckIcon v-if="copied" class="my-auto h-4 w-4" />
+          <ClipboardIcon v-else class="my-auto h-4 w-4" />
           {{ copied ? t("copied") : t("copy_link") }}
-        </button>
+        </Btn>
       </div>
     </div>
   </Modal>

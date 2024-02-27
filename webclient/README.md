@@ -87,7 +87,7 @@ If you serve the release build with a webserver (such as Nginx) you need to sele
 
 The language-selector is working in development and this differentialtion is only happening in the build.  
 For the theme we can not do so for some reason (If you know of a better way, hit us up).  
-To test a different theme, you can change `$theme` [here](./src/assets/variables.scss) and `theme='...'` [here](./index.html). Values are `light` and `dark`.
+To test a different theme, you can change `theme='...'` [here](./index.html). Values are `light` and `dark`.
 
 ## Architecture
 
@@ -104,7 +104,6 @@ webclient
 │   ├── api_types/  # 🠔 code generated via openapi.yaml for typechecking reasons
 │   ├── assets/     # 🠔 Static assets such as icons
 │   │   ├── md/                 # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
-│   │   ├── variables.scss      # 🠔 Include-script for Spectre.CSS
 │   │   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
 │   │   └── logos               # 🠔 The Logos used by the app
 │   ├── components/ # 🠔 Vue components, which are used in views.

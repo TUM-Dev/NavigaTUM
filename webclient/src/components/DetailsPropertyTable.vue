@@ -10,7 +10,7 @@ const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
-  <table class="info-table">
+  <table class="text-zinc-600">
     <tbody>
       <tr v-for="prop in state.data?.props.computed" :key="prop.name">
         <td>

@@ -152,14 +152,14 @@ onMounted(() => {
 <template>
   <div class="flex flex-row">
     <div
-      class="flex flex-grow flex-row rounded-s-sm border px-2.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-tumBlue-600 dark:border-gray-200"
+      class="bg-zinc-200 border-zinc-400 flex flex-grow flex-row rounded-s-sm border px-2.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-tumBlue-600"
     >
-      <MagnifyingGlassIcon class="my-auto h-4 w-4" />
+      <MagnifyingGlassIcon class="text-zinc-800 my-auto h-4 w-4" />
       <input
         id="search"
         v-model="query"
         type="text"
-        class="flex-grow bg-transparent px-3 py-2.5 focus:outline-0"
+        class="text-zinc-800 flex-grow bg-transparent px-3 py-2.5 font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal focus:outline-0"
         :placeholder="t('input.placeholder')"
         autocomplete="off"
         :aria-label="t('input.aria-searchlabel')"
@@ -171,7 +171,7 @@ onMounted(() => {
     </div>
     <button
       type="button"
-      class="rounded-e-sm bg-tumBlue-500 px-3 py-1 text-xs font-semibold text-white shadow-sm hover:bg-tumBlue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-tumBlue-600"
+      class="text-white bg-tumBlue-500 rounded-e-sm px-3 py-1 text-xs font-semibold shadow-sm hover:bg-tumBlue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-tumBlue-600"
       :aria-label="t('input.aria-actionlabel')"
       @click="searchGo(false)"
     >
@@ -181,12 +181,12 @@ onMounted(() => {
   <!-- Autocomplete -->
   <div
     v-if="global.search_focused && autocomplete.sections.length !== 0"
-    class="absolute top-3 mt-16 max-h-[calc(100vh-75px)] max-w-xl bg-white p-3.5 shadow-2xl shadow-zinc-700/30 dark:bg-zinc-900 dark:shadow-black/60"
+    class="bg-zinc-50 absolute top-3 mt-16 max-h-[calc(100vh-75px)] max-w-xl p-3.5 shadow-2xl shadow-zinc-700/30"
   >
     <ul v-for="s in autocomplete.sections" v-cloak :key="s.facet" class="mb-4 flex flex-col gap-2">
       <div class="flex items-center">
-        <span class="text-md me-4 flex-shrink text-zinc-500">{{ s.name }}</span>
-        <div class="flex-grow border-t border-zinc-500"></div>
+        <span class="text-md text-zinc-800 me-4 flex-shrink">{{ s.name }}</span>
+        <div class="border-zinc-800 flex-grow border-t"></div>
       </div>
       <!--
     <li class="search-comment filter">
@@ -195,7 +195,10 @@ onMounted(() => {
     </li> -->
 
       <template v-for="(e, i) in s.entries" :key="e.id">
-        <li v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded" class="rounded-sm border hover:bg-tumBlue-50">
+        <li
+          v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded"
+          class="bg-zinc-50 border-zinc-200 rounded-sm border hover:bg-tumBlue-100"
+        >
           <RouterLink
             :class="{
               'bg-tumBlue-200': e.id === autocomplete.highlighted,
@@ -207,22 +210,22 @@ onMounted(() => {
             @mouseover="autocomplete.highlighted = null"
           >
             <div class="my-auto">
-              <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="p-2">
+              <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 min-w-11 p-2">
                 <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
                 <MapPinIcon v-else class="h-6 w-6" />
               </div>
-              <div v-else class="rounded-full bg-tumBlue-500 p-2 text-white">
-                <BuildingOfficeIcon v-if="e.type === 'building'" class="h-6 w-6" />
-                <BuildingOffice2Icon v-else class="h-6 w-6" />
+              <div v-else class="text-white bg-tumBlue-500 min-w-11 rounded-full p-2">
+                <BuildingOfficeIcon v-if="e.type === 'building'" class="mx-auto h-6 w-6" />
+                <BuildingOffice2Icon v-else class="mx-auto h-6 w-6" />
               </div>
             </div>
-            <div class="flex flex-col gap-0.5">
+            <div class="text-zinc-600 flex flex-col gap-0.5">
               <div class="flex flex-row">
                 <span v-if="e.parsed_id" v-html="e.parsed_id" />
                 <ChevronDownIcon v-if="e.parsed_id" class="h-4 w-4" />
                 <span v-html="e.name" />
               </div>
-              <small class="text-zinc-500">
+              <small>
                 {{ e.subtext }}<template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
               </small>
             </div>
@@ -242,7 +245,7 @@ onMounted(() => {
         >
           {{ t("show_hidden", s.entries.length - s.n_visible) }}
         </Btn>
-        <span class="text-sm text-zinc-400">
+        <span class="text-zinc-400 text-sm">
           {{
             s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
           }}

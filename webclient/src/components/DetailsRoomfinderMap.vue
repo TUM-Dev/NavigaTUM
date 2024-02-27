@@ -38,11 +38,11 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
       <Listbox v-model="state.map.roomfinder.selected_index">
         <div class="relative mt-1">
           <ListboxButton
-            class="focusable relative w-full cursor-pointer rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md sm:text-sm"
+            class="focusable bg-white relative w-full cursor-pointer rounded-lg py-2 pl-3 pr-10 text-left shadow-md sm:text-sm"
           >
             <span class="block truncate">1:{{ selectedMap.scale }}, {{ selectedMap.name }}</span>
             <span class="absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon class="h-5 w-5 text-slate-400" />
+              <ChevronUpDownIcon class="text-zinc-400 h-5 w-5" />
             </span>
           </ListboxButton>
 
@@ -52,7 +52,7 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
             leave-to-class="opacity-0"
           >
             <ListboxOptions
-              class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+              class="bg-white absolute mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
             >
               <ListboxOption
                 v-for="(map, i) in state.data?.maps.roomfinder?.available"
@@ -63,12 +63,12 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
               >
                 <li
                   class="relative cursor-pointer select-none py-2 pl-10 pr-4"
-                  :class="[active ? 'bg-tumBlue-100 text-tumBlue-900' : 'text-slate-900']"
+                  :class="[active ? 'text-tumBlue-900 bg-tumBlue-100' : 'text-zinc-900']"
                 >
                   <span class="block truncate" :class="[selected ? 'font-medium' : 'font-normal']">
                     1:{{ map.scale }}, {{ map.name }}
                   </span>
-                  <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3 text-tumBlue-600">
+                  <span v-if="selected" class="text-tumBlue-600 absolute inset-y-0 left-0 flex items-center pl-3">
                     <CheckIcon class="h-5 w-5" />
                   </span>
                 </li>

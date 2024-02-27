@@ -83,7 +83,7 @@ function genDescription(): string {
 
     <template v-for="s in sections" :key="s.type">
       <section class="flex flex-col gap-2">
-        <h2 class="text-md font-semibold text-zinc-500">{{ s.name }}</h2>
+        <h2 class="text-md text-zinc-500 font-semibold">{{ s.name }}</h2>
         <ul class="flex flex-col gap-3">
           <li v-for="e in s.entries" :key="e.id" class="focusable rounded-sm border hover:bg-tumBlue-50">
             <RouterLink :to="'/view/' + e.id" class="flex gap-3 p-4">
@@ -92,9 +92,9 @@ function genDescription(): string {
                   <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
                   <MapPinIcon v-else class="h-6 w-6" />
                 </div>
-                <div v-else class="rounded-full bg-tumBlue-500 p-2 text-white">
-                  <BuildingOfficeIcon v-if="e.type === 'building'" class="h-6 w-6" />
-                  <BuildingOffice2Icon v-else class="h-6 w-6" />
+                <div v-else class="text-white bg-tumBlue-500 min-w-11 rounded-full p-2">
+                  <BuildingOfficeIcon v-if="e.type === 'building'" class="mx-auto h-6 w-6" />
+                  <BuildingOffice2Icon v-else class="mx-auto h-6 w-6" />
                 </div>
               </div>
               <div class="flex flex-col gap-0.5">
@@ -115,10 +115,10 @@ function genDescription(): string {
             </RouterLink>
           </li>
         </ul>
-        <p v-if="s.estimatedTotalHits > 20" class="text-sm text-zinc-500">
+        <p v-if="s.estimatedTotalHits > 20" class="text-zinc-500 text-sm">
           {{ t("approx_results", s.estimatedTotalHits) }}
         </p>
-        <p v-else class="text-sm text-zinc-500">
+        <p v-else class="text-zinc-500 text-sm">
           {{ t("results", s.estimatedTotalHits) }}
         </p>
       </section>

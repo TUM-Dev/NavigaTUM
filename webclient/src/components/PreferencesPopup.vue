@@ -32,11 +32,11 @@ watchEffect(() => saveCooke("lang", locale.value));
   <Menu as="div">
     <div>
       <MenuButton
-        class="focusable relative flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
+        class="focusable relative flex rounded-full bg-transparent p-2 text-sm ring-2 ring-white ring-opacity-0 hover:bg-slate-100/10 hover:ring-opacity-20 focus:outline-none focus:ring-opacity-100"
       >
         <span class="absolute -inset-1.5" />
         <span class="sr-only">Open preferences menu</span>
-        <AdjustmentsHorizontalIcon class="h-6 w-6" />
+        <AdjustmentsHorizontalIcon class="text-black h-6 w-6" />
       </MenuButton>
     </div>
     <Transition
@@ -45,18 +45,18 @@ watchEffect(() => saveCooke("lang", locale.value));
       leave-to-class="transform opacity-0 scale-95"
     >
       <MenuItems
-        class="absolute -right-1 top-12 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="bg-white absolute -right-1 top-12 z-10 mt-5 w-48 origin-top-right rounded-md py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-zinc-100 focus:outline-none"
       >
-        <MenuItem as="div" class="block px-4 py-2 text-sm font-semibold text-slate-400">
+        <MenuItem as="div" class="text-zinc-400 block px-4 py-2 text-sm font-semibold">
           {{ t("preferences") }}
         </MenuItem>
-        <MenuItem as="div" class="text-md block px-4 py-1 font-semibold text-slate-500">
+        <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
           <SelectionSwitch v-model="theme" label="Theme" :values="['dark', 'light']">
             <template #option1><MoonIcon class="h-3 w-3" /></template>
             <template #option2><SunIcon class="h-3 w-3" /></template>
           </SelectionSwitch>
         </MenuItem>
-        <MenuItem as="div" class="text-md block px-4 py-1 font-semibold text-slate-500">
+        <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
           <SelectionSwitch v-model="locale" :label="t('language')" :values="['de', 'en']">
             <template #option1><span class="text-xs">de</span></template>
             <template #option2><span class="text-xs">en</span></template>

@@ -132,17 +132,17 @@ onMounted(() => {
           v-if="clipboardIsSupported"
           :title="t('header.copy_link')"
           type="button"
-          class="hidden -ms-6 text-transparent group-hover:text-tumBlue-500 lg:block"
+          class="-ms-6 hidden text-transparent group-hover:text-tumBlue-500 lg:block"
           @click="copy(`https://nav.tum.de${route.fullPath}`)"
         >
           <ClipboardDocumentCheckIcon v-if="copied" class="h-4 w-4" />
           <LinkIcon v-else class="h-4 w-4" />
         </button>
-        <h1 class="text-xl font-bold text-zinc-700">{{ state.data?.name }}</h1>
+        <h1 class="text-zinc-700 text-xl font-bold">{{ state.data?.name }}</h1>
       </div>
       <div>
         <div class="flex grow place-items-center justify-between">
-          <span class="mt-0.5 text-sm text-neutral-400">{{ state.data?.type_common_name }}</span>
+          <span class="text-zinc-400 mt-0.5 text-sm">{{ state.data?.type_common_name }}</span>
           <div class="flex flex-row place-items-center gap-3">
             <a
               v-if="state.data?.props?.calendar_url"
@@ -151,7 +151,7 @@ onMounted(() => {
               class="focusable rounded-sm"
               :title="t('header.calendar')"
             >
-              <CalendarDaysIcon class="mt-0.5 h-4 w-4 text-tumBlue-600" />
+              <CalendarDaysIcon class="text-tumBlue-600 mt-0.5 h-4 w-4" />
             </a>
             <ShareButton :coords="state.data.coords" :name="state.data.name" />
             <DetailsFeedbackButton ref="feedbackButton" />
@@ -166,7 +166,7 @@ onMounted(() => {
     </div>
 
     <!-- First info section (map + infocard) -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
       <TabGroup class="col-span-1 md:col-span-2" as="div" manual>
         <div class="mb-3 grid gap-2 md:hidden">
           <Toast
@@ -184,15 +184,15 @@ onMounted(() => {
             <DetailsRoomfinderMap ref="roomfinderMap" />
           </TabPanel>
         </TabPanels>
-        <TabList class="flex space-x-1 rounded-md bg-tumBlue-900/20 p-1">
+        <TabList class="bg-zinc-100 flex space-x-1 rounded-md p-1">
           <Tab v-slot="{ selected }" as="template" @click="interactiveMap?.loadInteractiveMap(true)">
             <button
               type="button"
               class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
               :class="[
                 selected
-                  ? 'bg-white text-tumBlue-700 shadow'
-                  : 'text-tumBlue-100 hover:bg-white/[0.12] hover:text-white',
+                  ? 'text-zinc-900 bg-zinc-300 shadow'
+                  : 'text-zinc-800 bg-zinc-300/5 hover:text-zinc-900 hover:bg-zinc-500/20',
               ]"
             >
               {{ t("map.interactive") }}
@@ -203,7 +203,9 @@ onMounted(() => {
               type="button"
               class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
               :class="[
-                selected ? 'bg-white text-tumBlue-700 shadow' : 'text-tumBlue-50 hover:bg-white/[0.1] hover:text-white',
+                selected
+                  ? 'text-zinc-900 bg-zinc-300 shadow'
+                  : 'text-zinc-800 bg-zinc-300/5 hover:text-zinc-900 hover:bg-zinc-500/20',
               ]"
             >
               {{ t("map.roomfinder") }}

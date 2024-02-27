@@ -8,7 +8,6 @@ rm -fr ../dist
 for THEME in light dark
 do
   # make sure we are really only building the right theme
-  sed -i "s/\$theme: .*/\$theme: \"${THEME}\";/" src/assets/variables.scss
   sed -i "s/<html class=\"[^\"]*\"/<html class=\"${THEME} scroll-smooth\"/" index.html
 
   echo "Building ${THEME}"

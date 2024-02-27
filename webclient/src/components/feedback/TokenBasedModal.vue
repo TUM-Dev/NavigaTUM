@@ -118,7 +118,11 @@ function sendForm() {
           <template #default>
             <p class="font-bold">
               {{ t("public.agreement.pre") }}
-              <a href="https://github.com/TUM-Dev/navigatum/issues" target="_blank">
+              <a
+                class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline"
+                href="https://github.com/TUM-Dev/navigatum/issues"
+                target="_blank"
+              >
                 {{ t("public.github_project_issues") }}
               </a>
               {{ t("public.agreement.post") }}
@@ -128,7 +132,11 @@ function sendForm() {
             <p>
               <span
                 >{{ t("public.disclaimer.pre") }}
-                <a href="https://docs.github.com/en/github/site-policy" target="_blank">
+                <a
+                  class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline"
+                  href="https://docs.github.com/en/github/site-policy"
+                  target="_blank"
+                >
                   {{ t("public.github_site_policy") }}
                 </a>
                 {{ t("public.disclaimer.post") }}
@@ -141,15 +149,18 @@ function sendForm() {
             </p>
             <p>
               <span>
-                {{ t("public.objection_instruction.pre") }}
-                <RouterLink to="/about/impressum">
-                  {{ t("public.imprint") }}
-                </RouterLink>
-                {{ t("public.objection_instruction.post") }}
+                {{ t("public.objection_instruction") }}
+                <RouterLink to="/about/impressum" class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline">
+                  {{ t("public.imprint") }} </RouterLink
+                >.
               </span>
               {{ t("public.question_contact.pre") }}
-              (<a href="https://datenschutz.tum.de" target="_blank">datenschutz.tum.de</a>).
-              {{ t("public.question_contact.post") }}
+              (<a
+                class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline"
+                href="https://datenschutz.tum.de"
+                target="_blank"
+                >datenschutz.tum.de</a
+              >){{ t("public.question_contact.post") }}
             </p>
           </template>
         </Checkbox>
@@ -157,7 +168,7 @@ function sendForm() {
     </div>
 
     <div class="float-right flex flex-row gap-2">
-      <Btn variant="primary" size="md" @click="closeForm">
+      <Btn variant="linkButton" size="md" @click="closeForm">
         {{ t("cancel") }}
       </Btn>
       <Btn
@@ -206,10 +217,8 @@ de:
       post: sowie einer möglichen Übertragung der Daten außerhalb der Europäischen Union zu.
     github_project_issues: GitHub Projektseite
     github_site_policy: Nutzungsbedingungen und Datenschutzbestimmungen von GitHub
-    imprint: Impressum
-    objection_instruction:
-      pre: Falls du dies ablehnst, schreibe uns bitte über navigatum (at-symbol) tum.de, oder eine der anderen in unserem
-      post: gelisteten Kontaktmöglichkeiten.
+    imprint: Impressum gelisteten Kontaktmöglichkeiten
+    objection_instruction: Falls du dies ablehnst, schreibe uns bitte über navigatum (at-symbol) tum.de, oder eine der anderen in unserem
     processing_based_on_gdpr: Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
     question_contact:
       pre: Bei Fragen kannst du dich gerne an uns (navigatum (at-symbol) tum.de) oder an unseren Datenschutzbeauftragten
@@ -245,10 +254,8 @@ en:
       post: as well as a possible transfer of the data outside the European Union.
     github_project_issues: GitHub project page
     github_site_policy: terms of use and privacy policy of GitHub
-    imprint: imprint
-    objection_instruction:
-      pre: If you object to this, please write to us via navigatum (at-symbol) tum.de, or one of the other contact options listed in our
-      post: .
+    imprint: contact options listed in our imprint
+    objection_instruction: If you object to this, please write to us via navigatum (at-symbol) tum.de, or one of the other
     processing_based_on_gdpr: The processing is based on Art. 6 para. 1 lit. a DSGVO.
     question_contact:
       pre: If you have any questions, please feel free to contact us (navigatum (at-symbol) tum.de) or our data protection officer

@@ -17,13 +17,13 @@ const firstValueSelected = computed(() => selected.value === props.values[0]);
     <div class="mt-2 flex flex-row justify-between">
       <SwitchLabel v-if="props.label.length">{{ props.label }}</SwitchLabel>
       <Switch
-        class="focusable relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent text-slate-400 transition-colors duration-200 ease-in-out"
-        :class="[firstValueSelected ? 'bg-slate-200' : 'bg-tumBlue-500']"
+        class="focusable text-zinc-400 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out"
+        :class="[firstValueSelected ? 'bg-zinc-200' : 'bg-tumBlue-500']"
         @update:model-value="(val: boolean) => (selected = props.values[val ? 1 : 0])"
       >
         <span class="sr-only">Use setting</span>
         <span
-          class="pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+          class="bg-white pointer-events-none relative inline-block h-5 w-5 transform rounded-full shadow ring-0 transition duration-200 ease-in-out"
           :class="[firstValueSelected ? 'translate-x-0' : 'translate-x-5']"
         >
           <span

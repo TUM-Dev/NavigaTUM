@@ -8,8 +8,8 @@ const { t } = useI18n({ useScope: "local" });
 
 <template>
   <section>
-    <h2 class="text-lg font-semibold">{{ t("title") }}</h2>
-    <p v-if="state.data?.sources.base">
+    <h2 class="text-zinc-800 text-lg font-semibold">{{ t("title") }}</h2>
+    <p v-if="state.data?.sources.base" class="text-zinc-600">
       {{ t("base.title") }}:
       <span v-for="(e, i) in state.data.sources.base" :key="e.name">
         <a v-if="e.url" :href="e.url">{{ e.name }}</a>
@@ -21,7 +21,7 @@ const { t } = useI18n({ useScope: "local" });
         ({{ t("base.patched") }})
       </span>
     </p>
-    <p v-if="state.image.shown_image">
+    <p v-if="state.image.shown_image" class="text-zinc-600">
       {{ t("header_img") }}:
       <span>{{ state.image.shown_image.author.text }}</span>
       <span v-if="state.image.shown_image.source">
@@ -39,7 +39,7 @@ const { t } = useI18n({ useScope: "local" });
         <template v-else>{{ state.image.shown_image.license.text }}</template>
       </span>
     </p>
-    <p v-if="state.data?.coords">
+    <p v-if="state.data?.coords" class="text-zinc-600">
       {{ t("coords.title") }}:
       <span v-if="state.data.coords.source === 'navigatum'"> {{ t("coords.navigatum") }}</span>
       <span v-if="state.data.coords.source === 'roomfinder'">

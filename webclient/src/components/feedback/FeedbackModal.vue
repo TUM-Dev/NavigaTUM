@@ -13,49 +13,44 @@ const deleteIssueRequested = ref(false);
 <template>
   <TokenBasedModal :data="global.feedback.data">
     <template #modal>
-      <div class="form-group">
-        <label class="form-label" for="feedback-subject"> {{ t("subject") }}</label>
-        <div class="input-group">
-          <select
-            id="feedback-category"
-            v-model="global.feedback.data.category"
-            class="form-select"
-            :aria-label="t('category')"
-          >
-            <option value="general">{{ t("type.general") }}</option>
-            <option value="bug">{{ t("type.bug") }}</option>
-            <option value="features">{{ t("type.features") }}</option>
-            <option value="search">{{ t("type.search") }}</option>
-            <option value="entry">{{ t("type.entry") }}</option>
-          </select>
-          <input
-            id="feedback-subject"
-            v-model="global.feedback.data.subject"
-            class="form-input"
-            type="text"
-            :placeholder="t('subject')"
-          />
-        </div>
+      <label class="text-zinc-600 text-sm font-semibold" for="feedback-subject"> {{ t("subject") }}</label>
+      <div class="text-zinc-600 flex flex-row gap-2 rounded pb-3">
+        <select
+          v-model="global.feedback.data.category"
+          class="focusable bg-zinc-300 px-2 py-1"
+          :aria-label="t('category')"
+        >
+          <option value="general">{{ t("type.general") }}</option>
+          <option value="bug">{{ t("type.bug") }}</option>
+          <option value="feature">{{ t("type.feature") }}</option>
+          <option value="search">{{ t("type.search") }}</option>
+          <option value="entry">{{ t("type.entry") }}</option>
+        </select>
+        <input
+          v-model="global.feedback.data.subject"
+          class="focusable bg-zinc-300 flex-grow px-2 py-1"
+          type="text"
+          :placeholder="t('subject')"
+        />
       </div>
 
-      <div class="form-group">
-        <label class="form-label" for="feedback-body">
+      <div class="flex flex-col pb-5">
+        <label class="text-zinc-600 text-sm font-semibold" for="feedback-body">
           {{ t("message") }}
         </label>
         <textarea
-          id="feedback-body"
           v-model="global.feedback.data.body"
-          class="form-input"
+          class="focusable bg-zinc-300 px-2 py-1"
           :placeholder="t('message')"
           rows="6"
         >
         </textarea>
-        <p class="text-gray text-tiny">
+        <p class="text-zinc-500 text-xs">
           {{
             {
               general: t("helptext.general"),
               bug: t("helptext.bug"),
-              feature: t("helptext.features"),
+              feature: t("helptext.feature"),
               search: t("helptext.search"),
               entry: t("helptext.entry"),
               other: t("helptext.other"), // This is only here to make the linter happy, backend uses "other" as a fallback if the category is not known
@@ -83,7 +78,7 @@ de:
   helptext:
     bug: Welchen Fehler hast du gefunden? Wo hast du ihn gefunden? Bitte gib eine genaue Beschreibung an.
     entry: Feedback zu einem Eintrag. Wir können Räume/Gebäude/Standorte hinzufügen und alle Daten, die du siehst (Namen, Koordinaten, Adressen, ...) anpassen. Was können wir verbessern?
-    features: Features, die du gerne auf dieser Website haben würdest
+    feature: Features, die du gerne auf dieser Website haben würdest
     general: Generelles Feedback über diese Website
     other: "Feedback ist auf ein Problem gestoßen: Kategorie ungültig"
     search: Feedback zur Suche. Was war dein Suchbegriff? Was hättest du als Ergebnis erwartet?
@@ -96,7 +91,7 @@ de:
   type:
     bug: Fehler
     entry: Eintrag
-    features: Features
+    feature: Features
     general: Allgemein
     search: Suche
 en:
@@ -105,7 +100,7 @@ en:
   helptext:
     bug: Which bug did you find? Where did you find it? Please provide a detailed description.
     entry: Feedback about an entry. We can add rooms/buildings/locations and adjust all data you see (names, coordinates, addresses, ...). What can we improve?
-    features: Features you would like to see on this website
+    feature: Features you would like to see on this website
     general: General Feedback about this website
     other: "Feedback encountered issue: Category invalid"
     search: Feedback about the search. What was your search query? What did you expect to see?
@@ -118,7 +113,7 @@ en:
   type:
     bug: Bug
     entry: Entry
-    features: Features
+    feature: Features
     general: General
     search: Search
 </i18n>

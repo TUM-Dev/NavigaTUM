@@ -5,6 +5,9 @@ export default <Partial<Config>>{
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      aspectRatio: {
+        "4/3": "4 / 3",
+      },
       colors: {
         tumBlue: {
           50: "#f3f6fc",
@@ -22,5 +25,5 @@ export default <Partial<Config>>{
       },
     },
   },
-  plugins: [],
+  plugins: [require("nightwind")],
 };

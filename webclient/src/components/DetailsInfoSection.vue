@@ -13,7 +13,7 @@ const appURL = import.meta.env.VITE_APP_URL;
 <template>
   <!-- Information section (on mobile) -->
   <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column mt-4 block lg:hidden">
-    <h2>{{ t("info_title") }}</h2>
+    <h2 class="text-zinc-800 text-lg font-semibold">{{ t("info_title") }}</h2>
     <DetailsPropertyTable />
   </div>
 
@@ -21,18 +21,16 @@ const appURL = import.meta.env.VITE_APP_URL;
   <!-- Some elements are currently duplicate, which is not optimal but should be okay
        as long as only little information is there -->
   <div class="hidden lg:block">
-    <div
-      class="max-w-sm rounded-lg border border-gray-200 bg-white shadow-md shadow-neutral-500/5 dark:border-gray-700 dark:bg-gray-800 dark:shadow-white/20"
-    >
+    <div class="bg-white border-zinc-200 max-w-sm rounded-lg border shadow-md shadow-zinc-500/5 dark:bg-zinc-100">
       <button v-if="state.image.shown_image" type="button" @click="state.showImageSlideshow(true)">
         <img
           :alt="t('image_alt')"
           :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-          class="block h-auto w-full max-w-full rounded-t-lg bg-zinc-100"
+          class="bg-zinc-100 block h-auto w-full max-w-full rounded-t-lg"
         />
       </button>
       <div class="px-5 py-3">
-        <h3 class="text-lg font-semibold">{{ t("info_title") }}</h3>
+        <h2 class="text-zinc-800 text-lg font-semibold">{{ t("info_title") }}</h2>
         <DetailsPropertyTable />
         <div class="mt-3 grid gap-2">
           <Toast

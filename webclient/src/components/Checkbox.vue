@@ -12,14 +12,14 @@ const model = defineModel<boolean>();
         :id="id"
         v-model="model"
         type="checkbox"
-        class="focusable z-40 min-h-4 min-w-4 rounded border-zinc-300 bg-zinc-100 text-tumBlue-600 dark:border-zinc-600 dark:bg-zinc-700"
+        class="focusable text-tumBlue-600 bg-zinc-100 border-zinc-300 z-40 min-h-4 min-w-4 rounded"
       />
     </div>
     <div class="ms-2">
-      <label :for="id" class="z-30 text-sm font-medium text-zinc-900 dark:text-zinc-300">
+      <label :for="id" class="text-zinc-900 z-30 text-sm font-medium">
         <slot />
       </label>
-      <p v-if="$slots.helptext" class="text-xs font-normal text-gray-500 dark:text-gray-300">
+      <p v-if="$slots.helptext" class="text-zinc-500 text-xs font-normal">
         <slot name="helptext" />
       </p>
     </div>

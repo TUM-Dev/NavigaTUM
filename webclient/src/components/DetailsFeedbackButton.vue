@@ -17,7 +17,7 @@ const { t } = useI18n({ useScope: "local" });
     data-cy="open-feedback-details"
     @click="global.openFeedback('entry', `[${route.params.id}]: `)"
   >
-    <FlagIcon class="h-4 w-4 text-blue-600" />
+    <FlagIcon class="text-blue-600 h-4 w-4" />
   </button>
 </template>
 

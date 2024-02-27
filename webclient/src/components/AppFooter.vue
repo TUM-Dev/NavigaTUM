@@ -34,21 +34,21 @@ const navigation = [
 </script>
 
 <template>
-  <footer data-cy="main-footer" class="dark:zinc-900 mt-10 bg-zinc-50">
+  <footer data-cy="main-footer" class="bg-zinc-100 mt-10">
     <div class="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-14 lg:px-8">
       <nav class="-mb-6 columns-2 text-center sm:columns-3 sm:justify-center sm:space-x-12 md:flex" aria-label="Footer">
         <div v-for="item in navigation" :key="item.name" class="pb-6 text-sm leading-6">
           <a
             v-if="item.href.startsWith('https')"
             :href="item.href"
-            class="focusable rounded !text-gray-600 !no-underline hover:!text-gray-900"
+            class="focusable !text-zinc-600 rounded !no-underline hover:!text-zinc-900"
           >
             {{ item.name }}
           </a>
           <RouterLink
             v-else
             :to="item.href"
-            class="focusable rounded !text-gray-600 !no-underline hover:!text-gray-900"
+            class="focusable !text-zinc-600 rounded !no-underline hover:!text-zinc-900"
           >
             {{ item.name }}
           </RouterLink>
@@ -57,7 +57,7 @@ const navigation = [
           <button
             type="button"
             data-cy="open-feedback-footer"
-            class="focusable rounded text-sm leading-6 text-gray-600 hover:text-gray-900"
+            class="focusable text-zinc-600 rounded text-sm leading-6 hover:text-zinc-900"
             :aria-label="t('feedback.open')"
             @click="global.openFeedback()"
           >
@@ -66,7 +66,7 @@ const navigation = [
         </div>
       </nav>
       <div class="mt-10 flex justify-center space-x-10 text-center">
-        <p class="text-center text-xs text-gray-500">
+        <p class="text-zinc-500 text-center text-xs">
           {{ t("official_roomfinder") }}<br />
           <Btn to="https://tum.de" variant="" size="sm">
             <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="h-20" aria-hidden="true" />
