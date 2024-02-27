@@ -1,13 +1,34 @@
-use crate::maps::overlay_map::OverlayMapTask;
-use actix_web::web;
-use log::{error, warn};
-use std::io;
-use std::io::ErrorKind;
+use std::fmt;
+use std::fmt::Display;
+use std::time::Duration;
 
-pub(crate) struct FetchTileTask {
+use cached::proc_macro::io_cached;
+use log::{error, warn};
+
+use crate::BoxedError;
+use crate::maps::overlay_map::OverlayMapTask;
+
+#[derive(Hash, Debug, Copy, Clone)]
+struct TileLocation {
     x: u32,
     y: u32,
     z: u32,
+}
+
+impl Display for TileLocation {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_tuple("TileLocation")
+            .field(&self.x)
+            .field(&self.y)
+            .field(&self.z)
+            .finish()
+    }
+}
+
+
+#[derive(Debug)]
+pub(crate) struct FetchTileTask {
+    location: TileLocation,
     index: (u32, u32),
 }
 
@@ -20,10 +41,12 @@ fn zoom_aware_offset(zoom: u32, value: u32, offset: i32) -> u32 {
     }
     (offset_value % possible_tiles) as u32
 }
+
 #[cfg(test)]
 mod test_tiles {
-    use super::*;
     use pretty_assertions::assert_eq;
+
+    use super::*;
 
     #[test]
     fn test_zoom_aware_offset() {
@@ -41,17 +64,22 @@ mod test_tiles {
 impl FetchTileTask {
     pub fn from(order: &OverlayMapTask) -> Self {
         Self {
-            x: order.x as u32,
-            y: order.y as u32,
-            z: order.z,
+            location: TileLocation {
+                x: order.x as u32,
+                y: order.y as u32,
+                z: order.z,
+            },
             index: (0, 0),
         }
     }
 
     pub(crate) fn offset_by(self, x_offset: i32, y_offset: i32) -> Self {
         Self {
-            x: zoom_aware_offset(self.z, self.x, x_offset),
-            y: zoom_aware_offset(self.z, self.y, y_offset),
+            location: TileLocation {
+                x: zoom_aware_offset(self.location.z, self.location.x, x_offset),
+                y: zoom_aware_offset(self.location.z, self.location.y, y_offset),
+                z: self.location.z,
+            },
             ..self
         }
     }
@@ -63,67 +91,40 @@ impl FetchTileTask {
         }
     }
 
+
+    // type and create are specified, because a custom conversion is needed
     pub async fn fulfill(self) -> Option<((u32, u32), image::DynamicImage)> {
-        // gets the image fro the server. using a disk-cached image if possible
-        let filename = format!("{}_{}_{}@2x.png", self.z, self.x, self.y);
-        let file_path = std::env::temp_dir().join("tiles").join(filename);
-        let tile = match tokio::fs::read(&file_path).await {
-            Ok(content) => web::Bytes::from(content),
-            Err(_) => {
-                let mut tile = self.download_map_image(&file_path).await;
-                for i in 1..3 {
-                    if tile.is_err() {
-                        warn!("Error while downloading {file_path:?} {i} times. Retrying");
-                        tile = self.download_map_image(&file_path).await;
-                    }
-                }
-                match tile {
-                    Ok(t) => t,
-                    Err(e) => {
-                        error!(
-                            "could not fulfill {file_path:?} 3 times. Giving up. Last error {e:?}"
-                        );
-                        return None;
-                    }
+        let raw_tile = download_map_image(self.location).await;
+        match raw_tile {
+            Ok(bytes) => match image::load_from_memory(&bytes) {
+                Ok(img) => Some((self.index, img)),
+                Err(e) => {
+                    error!("Error while parsing image: {e:#?} for {self:?}");
+                    None
                 }
             }
-        };
-
-        match image::load_from_memory(&tile) {
-            Ok(img) => Some((self.index, img)),
             Err(e) => {
-                error!("Error while parsing image: {e:#?} for {file_path:?}");
+                error!("could not fulfill {self:?} because {e}");
                 None
             }
         }
     }
+}
 
-    fn get_tileserver_url(&self) -> String {
-        format!(
-            "https://nav.tum.de/maps/styles/osm-liberty/{z}/{x}/{y}@2x.png",
-            z = self.z,
-            x = self.x,
-            y = self.y,
-        )
-    }
-    async fn download_map_image(
-        &self,
-        file: &std::path::PathBuf,
-    ) -> Result<web::Bytes, crate::BoxedError> {
-        let url = self.get_tileserver_url();
+#[io_cached(disk = true, map_error = r##"|e| format!("{e:?}")"##)]
+async fn download_map_image(location: TileLocation) -> Result<Vec<u8>, BoxedError> {
+    let url = format!("https://nav.tum.de/maps/styles/osm-liberty/{z}/{x}/{y}@2x.png", x = location.x, y = location.y, z = location.z);
+    for i in 1..5 {
         let res = reqwest::get(&url).await?.bytes().await?;
-
-        if let response_size @ 0..=500 = res.len() {
-            return Err(io::Error::new(
-                ErrorKind::Other,
-                format!("Got a short Response from {url}. . Response ({response_size}B): {res:?}"),
-            )
-            .into());
+        // wait with exponential backoff
+        if res.len() > 500 {
+            return Ok(res.into());
+        } else {
+            let wait_time_ms = 1.5_f32.powi(i).round() as u64;
+            let wait_time = Duration::from_millis(wait_time_ms);
+            warn!("retrying tileserver-request in {wait_time:?} because it is only {request_len}B", request_len=res.len());
+            tokio::time::sleep(wait_time).await;
         }
-
-        if let Err(e) = tokio::fs::write(file, &res).await {
-            warn!("failed to write {url} to {file:?} because {e:?}. Files wont be cached");
-        };
-        Ok(res)
-    }
+    };
+    Err(format!("Got only short Responses from {url}").into())
 }

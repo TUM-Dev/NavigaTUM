@@ -6,8 +6,6 @@ use crate::maps::overlay_map::OverlayMapTask;
 use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
 use crate::models::Location;
 use actix_web::{get, web, HttpResponse};
-use cached::proc_macro::cached;
-use cached::SizedCache;
 use image::Rgba;
 use std::io::Cursor;
 
@@ -58,14 +56,6 @@ async fn get_localised_data(
     }
 }
 
-// type and create are specified, because a custom conversion is needed
-// size=1 is about 3Mi
-#[cached(
-    type = "SizedCache<String, Vec<u8>>",
-    create = "{ SizedCache::with_size(5) }",
-    option = true,
-    convert = r#"{ _id.to_string() }"#
-)]
 async fn construct_image_from_data(_id: &str, data: Location) -> Option<Vec<u8>> {
     let start_time = Instant::now();
     let mut img = image::RgbaImage::new(1200, 630);
