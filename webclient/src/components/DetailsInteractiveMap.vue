@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
+import type { Coordinates } from "maplibre-gl";
 import { Map, Marker } from "maplibre-gl";
 import { AttributionControl, FullscreenControl, GeolocateControl, NavigationControl } from "maplibre-gl";
 import { selectedMap, useDetailsStore } from "@/stores/details";
@@ -200,7 +200,7 @@ function initMap(containerId: string) {
 
 // Set the currently visible overlay image in the map,
 // or hide it if imgUrl is null.
-function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined) {
+async function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined) {
   // Even if the map is initialized, it could be that
   // it hasn't loaded yet, so we need to postpone adding
   // the overlay layer.
@@ -213,49 +213,24 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
     map.value?.on("load", () => setOverlayImage(imgUrl, coords));
     return;
   }
+  const res = await fetch("http://localhost:3000/example.json");
+  const resJson = await res.json();
 
-  if (imgUrl === null) {
-    // Hide overlay
-    if (map.value?.getLayer("overlay-layer")) map.value?.setLayoutProperty("overlay-layer", "visibility", "none");
-    if (map.value?.getLayer("overlay-bg")) map.value?.setLayoutProperty("overlay-bg", "visibility", "none");
-  } else {
-    const source = map.value?.getSource("overlay-src") as ImageSource | undefined;
-    if (source === undefined) {
-      if (coords !== undefined)
-        map.value?.addSource("overlay-src", {
-          type: "image",
-          url: imgUrl,
-          coordinates: coords,
-        });
-    } else
-      source.updateImage({
-        url: imgUrl,
-        coordinates: coords,
-      });
-
-    const layer = map.value?.getLayer("overlay-layer") as BackgroundLayerSpecification | undefined;
-    if (!layer) {
-      map.value?.addLayer({
-        id: "overlay-bg",
-        type: "background",
-        paint: {
-          "background-color": "#ffffff",
-          "background-opacity": 0.6,
-        },
-      });
-      map.value?.addLayer({
-        id: "overlay-layer",
-        type: "raster",
-        source: "overlay-src",
-        paint: {
-          "raster-fade-duration": 0,
-        },
-      });
-    } else {
-      map.value?.setLayoutProperty("overlay-layer", "visibility", "visible");
-      map.value?.setLayoutProperty("overlay-bg", "visibility", "visible");
-    }
-  }
+  map.value?.addSource("base", {
+    type: "geojson",
+    data: resJson,
+  });
+  map.value?.addLayer({
+    id: "base",
+    type: "fill",
+    source: "base",
+    layout: {},
+    paint: {
+      "fill-color": "#880000",
+      "fill-opacity": 0.8,
+    },
+  });
+  map.value?.setCenter({ lat: 49.0332499, lng: 8.3909479 });
 }
 </script>
 
