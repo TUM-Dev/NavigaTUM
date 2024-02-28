@@ -47,7 +47,7 @@ watchEffect(() => saveCooke("lang", locale.value));
       <MenuItems
         class="bg-white absolute -right-1 top-12 z-10 mt-5 w-48 origin-top-right rounded-md py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-zinc-100 focus:outline-none"
       >
-        <MenuItem as="div" class="text-zinc-400 block px-4 py-2 text-sm font-semibold">
+        <MenuItem as="div" class="text-zinc-400 block px-4 py-2 text-xs font-semibold">
           {{ t("preferences") }}
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
