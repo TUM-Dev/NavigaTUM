@@ -3,46 +3,36 @@ import json
 from external.models.common import PydanticConfiguration, RESULTS
 
 
-# pylint: disable-next=too-many-instance-attributes
-class ExtendedRoomData(PydanticConfiguration):
-    address: str
-    building: str
-    zip_code_location: str
-    room_number: str
-    floor_number: str
-    floor_type: str
-    area_m2: float
-    architect_room_nr: str
-    additional_description: str
-    purpose: str
-    wheelchair_spaces: int
-    standing_places: int
-    seats: int
+class Address(PydanticConfiguration):
+    floor: str
+    place: str
+    street: str
+    zip_code: str
+
+
+class Seats(PydanticConfiguration):
+    sitting: int | None = None
+    wheelchair: int | None = None
+    standing: int | None = None
 
 
 # pylint: disable-next=too-many-instance-attributes
 class Room(PydanticConfiguration):
-    address: str
-    address_link: str
-    alt_name: str
-    arch_name: str
-    b_area_id: int
-    b_filter_id: int
-    calendar: str | None
-    list_index: str
-    op_link: str
-    operator: str
-    plz_place: str
-    room_link: str
-    roomcode: str
-    usage: int
-    extended: ExtendedRoomData | None = None
+    address: Address
+    seats: Seats
+    area_id: int
+    building_id: int
+    floor_type: str
+    main_operator_id: int
+    usage_id: int
+    arch_name: str | None = None
+    calendar_resource_nr: int | None = None
 
     @classmethod
-    def load_all(cls) -> list["Room"]:
+    def load_all(cls) -> dict[str, "Room"]:
         """Load all tumonline.Room's"""
         with open(RESULTS / "rooms_tumonline.json", encoding="utf-8") as file:
-            return [cls.model_validate(item) for item in json.load(file)]
+            return {key: cls.model_validate(item) for key, item in json.load(file).items()}
 
 
 class Building(PydanticConfiguration):
@@ -74,7 +64,8 @@ class Organisation(PydanticConfiguration):
 class Usage(PydanticConfiguration):
     # pylint: disable-next=invalid-name
     id: int
-    din_277: str
+    din277_id: str
+    din277_name: str
     name: str
 
     @classmethod
