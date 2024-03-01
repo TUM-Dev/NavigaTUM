@@ -53,8 +53,8 @@ def scrape_rooms() -> None:
         val["address"] = {
             "floor": val.pop("adress_floor"),
             "place": val.pop("adress_place"),
-            "street": val.pop("adress_street"),
-            "zip_code": val.pop("adress_zip_code"),
+            "street": _clean_spaces(val.pop("adress_street")),  # no clue why some streets have more/fewer spaces
+            "zip_code": int(val.pop("adress_zip_code")),
         }
         val["seats"] = {
             "sitting": val.pop("seats", None),
@@ -68,6 +68,11 @@ def scrape_rooms() -> None:
 
     with open(CACHE_PATH / "rooms_tumonline.json", "w", encoding="utf-8") as file:
         json.dump(rooms, file, indent=2, sort_keys=True)
+
+
+def _clean_spaces(_string: str) -> str:
+    """Remove leading and trailing spaces as well as duplicate spaces in-between"""
+    return " ".join(_string.split())
 
 
 def scrape_usages() -> None:
