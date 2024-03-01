@@ -7,7 +7,7 @@ class Address(PydanticConfiguration):
     floor: str
     place: str
     street: str
-    zip_code: str
+    zip_code: int
 
 
 class Seats(PydanticConfiguration):
