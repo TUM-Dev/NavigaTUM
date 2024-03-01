@@ -10,7 +10,7 @@ from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
-CONNECTUM_URL = "https://campus.tum.de/tumonline/co/connectum"
+CONNECTUM_URL = f"{TUMONLINE_URL}/co/connectum"
 
 
 def _generate_oauth_headers() -> dict[typing.Literal["Authorization"], str]:
