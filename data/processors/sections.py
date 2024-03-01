@@ -228,7 +228,7 @@ def _append_if_present(
     key: str,
     human_name: TranslatableStr,
 ) -> None:
-    if key in props:
+    if key in props and props[key] is not None:
         computed_results.append({human_name: str(props[key])})
 
 
@@ -253,7 +253,7 @@ def _gen_computed_props(
         building_names = ", ".join([p.ljust(4, "x") for p in b_prefix])
         computed.append({_("Gebäudekennungen"): building_names})
     if address := props.get("address"):
-        computed.append({_("Adresse"): f"{address['street']}, {address['plz_place']}"})
+        computed.append({_("Adresse"): f"{address['street']}, {address['zip_code']} {address['place']}"})
     if stats := props.get("stats"):
         _append_if_present(stats, computed, "n_buildings", _("Anzahl Gebäude"))
         _append_if_present(stats, computed, "n_seats", _("Sitzplätze"))

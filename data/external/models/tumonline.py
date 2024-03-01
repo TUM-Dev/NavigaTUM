@@ -27,6 +27,7 @@ class Room(PydanticConfiguration):
     usage_id: int
     arch_name: str | None = None
     calendar_resource_nr: int | None = None
+    patched: bool = False
 
     @classmethod
     def load_all(cls) -> dict[str, "Room"]:
@@ -55,7 +56,7 @@ class Organisation(PydanticConfiguration):
     path: str
 
     @classmethod
-    def load_all_for(cls, lang: str) -> dict[str, "Organisation"]:
+    def load_all_for(cls, lang: str) -> dict[int, "Organisation"]:
         """Load all tumonline.Organisation's for a specific language"""
         with open(RESULTS / f"orgs-{lang}_tumonline.json", encoding="utf-8") as file:
             return {key: cls.model_validate(item) for key, item in json.load(file).items()}

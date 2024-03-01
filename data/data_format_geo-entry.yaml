@@ -245,7 +245,6 @@ internal_id:
     address_link: "ris.einzelraum?raumkey=37463"
     plz_place: "80333 München"
     operator: "[ TUZVR44 ]"
-    operator_link: "webnav.navigate_to?corg=26064"
     room_link: "wbRaum.editRaum?pRaumNr=37463"
     calendar: null # or "tvKalender.wSicht?cOrg=15203&cRes=18135&cReadonly=J"
     b_filter_id: 575

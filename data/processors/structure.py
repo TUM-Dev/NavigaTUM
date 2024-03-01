@@ -62,26 +62,29 @@ def infer_addresses(data: dict[str, dict[str, Any]]) -> None:
     """Infer addresses from children."""
     for _id, entry in data.items():
         if entry.get("props", {}).get("address", None) is None and (children_flat := entry.get("children_flat")):
-            child_addresses = set()
+            child_addresses: set[tuple[str, int, str]] = set()
 
             for child_id in children_flat:
                 child = data[child_id]
 
-                street, plz_place = (
-                    child.get("props", {}).get("address", {}).get("street", None),
-                    child.get("props", {}).get("address", {}).get("plz_place", None),
+                address = child.get("props", {}).get("address", {})
+                street, zip_code, place = (
+                    address.get("street", None),
+                    address.get("zip_code", None),
+                    address.get("place", None),
                 )
 
-                if street is not None and plz_place is not None:
-                    child_addresses.add((street, plz_place))
+                if street is not None and zip_code is not None and place is not None:
+                    child_addresses.add((street, zip_code, place))
 
             if len(child_addresses) == 1:
-                street, plz_place = child_addresses.pop()
+                street, zip_code, place = child_addresses.pop()
                 entry.setdefault("props").setdefault(
                     "address",
                     {
                         "street": street,
-                        "plz_place": plz_place,
+                        "zip_code": zip_code,
+                        "place": place,
                         "source": "inferred",
                     },
                 )

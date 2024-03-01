@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 class PydanticConfiguration(BaseModel):
     model_config = pydantic.ConfigDict(
-        frozen=True,
+        frozen=False,
         str_strip_whitespace=True,
         extra="forbid",
         populate_by_name=True,

@@ -44,6 +44,7 @@ def scrape_buildings() -> None:
     with open(CACHE_PATH / "buildings_tumonline.json", "w", encoding="utf-8") as file:
         json.dump(buildings, file, indent=2, sort_keys=True)
 
+
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def scrape_rooms() -> None:
     """Retrieve the rooms as in TUMonline"""
@@ -55,8 +56,8 @@ def scrape_rooms() -> None:
         val["address"] = {
             "floor": val.pop("address_floor"),
             "place": val.pop("address_place"),
-            "street": val.pop("address_street"),
-            "zip_code": val.pop("address_zip_code"),
+            "street": _clean_spaces(val.pop("address_street")),  # no clue why some streets have more/fewer spaces
+            "zip_code": int(val.pop("address_zip_code")),
         }
         val["seats"] = {
             "sitting": val.pop("seats", None),
@@ -71,6 +72,12 @@ def scrape_rooms() -> None:
     with open(CACHE_PATH / "rooms_tumonline.json", "w", encoding="utf-8") as file:
         json.dump(rooms, file, indent=2, sort_keys=True)
 
+
+def _clean_spaces(_string: str) -> str:
+    """Remove leading and trailing spaces as well as duplicate spaces in-between"""
+    return " ".join(_string.split())
+
+
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def scrape_usages() -> None:
     """Retrieve all usage types available in TUMonline."""
@@ -84,7 +91,6 @@ def scrape_usages() -> None:
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
-    """Retrieve all organisations in TUMonline, that may operate rooms"""
     """
     Retrieve all organisations in TUMonline, that may operate rooms.
 
