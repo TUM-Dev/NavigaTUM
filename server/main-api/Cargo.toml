@@ -47,7 +47,7 @@ oauth2 = { version = "4.4.2", default-features = false, features = ["rustls-tls"
 reqwest = { version = "0.11.24", default-features = false, features = ["tokio-rustls", "rustls-tls-webpki-roots", "rustls", "webpki-roots", "json", "gzip"] }
 
 # image production
-image = { version = "0.24.8", default-features = false, features = ["jpeg", "png", "webp", "webp-encoder"] }
+image = { version = "0.24.9", default-features = false, features = ["jpeg", "png", "webp", "webp-encoder"] }
 imageproc = "0.23.0"
 rusttype = "0.9.3"
 lazy_static = "1.4.0"
