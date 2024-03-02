@@ -24,6 +24,7 @@ actix-cors.workspace = true
 actix-web-prom.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+rustls.workspace = true
 
 cached = { version = "0.49.2", features = ["default", "async", "tokio", "disk_store"] }
 futures = "0.3.30"
@@ -43,11 +44,10 @@ regex = "1.10.3"
 
 # web access
 oauth2 = { version = "4.4.2", default-features = false, features = ["rustls-tls", "reqwest"] }
-rustls = { version = "0.23.1", default-features = false, features = ["ring"]  } # the aws' fips complient libary has weird bingen issues which require deeper looking into
 reqwest = { version = "0.11.24", default-features = false, features = ["tokio-rustls", "rustls-tls-webpki-roots", "rustls", "webpki-roots", "json", "gzip"] }
 
 # image production
-image = "0.24.8"
+image = { version = "0.24.8", default-features = false, features = ["jpeg", "png", "webp", "webp-encoder"] }
 imageproc = "0.23.0"
 rusttype = "0.9.3"
 lazy_static = "1.4.0"
