@@ -47,11 +47,12 @@ const route = useRoute();
   }
   p,
   ul,
+  ol,
   h4 {
     @apply text-zinc-700 py-1 text-sm font-medium;
   }
   li {
-    @apply list-inside list-disc;
+    @apply ms-5 list-outside list-disc;
   }
   code {
     @apply mb-4 inline-flex max-w-full items-center space-x-4 overflow-auto rounded-md bg-tumBlue-100/60 px-4 py-3 text-left font-mono text-xs text-blue-950 text-tumBlue-950;
