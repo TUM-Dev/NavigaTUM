@@ -181,7 +181,7 @@ onMounted(() => {
   <!-- Autocomplete -->
   <div
     v-if="global.search_focused && autocomplete.sections.length !== 0"
-    class="bg-zinc-50 absolute top-3 mt-16 max-h-[calc(100vh-75px)] max-w-xl p-3.5 shadow-2xl shadow-zinc-700/30"
+    class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 -ms-2 me-3 mt-16 max-h-[calc(100vh-75px)] max-w-xl overflow-auto rounded border p-3.5 shadow-zinc-700/30"
   >
     <ul v-for="s in autocomplete.sections" v-cloak :key="s.facet" class="mb-4 flex flex-col gap-2">
       <div class="flex items-center">

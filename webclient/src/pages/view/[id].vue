@@ -115,7 +115,7 @@ onMounted(() => {
     <button
       v-if="state.image.shown_image"
       type="button"
-      class="block lg:hidden"
+      class="!-mx-5 block lg:hidden"
       @click="state.showImageSlideshow(true)"
     >
       <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${state.image.shown_image.name}`" class="block w-full" />

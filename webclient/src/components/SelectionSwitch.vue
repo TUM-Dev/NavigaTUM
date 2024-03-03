@@ -16,7 +16,7 @@ const selectedValue = defineModel<string>({ required: true });
     <Listbox v-model="selectedValue">
       <div class="relative mt-1">
         <ListboxButton
-          class="bg-zinc-400 relative w-full cursor-pointer rounded-lg py-2 pl-3 pr-10 text-left shadow-md focus-visible:border-tumBlue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-tumBlue-300 sm:text-sm"
+          class="bg-zinc-200 border-zinc-400 relative w-full cursor-pointer rounded-lg border py-2 pl-3 pr-10 text-left shadow-md focus-visible:border-tumBlue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-tumBlue-300 sm:text-sm"
         >
           <span class="text-zinc-600 block truncate">{{ selectedValue }}</span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -30,7 +30,7 @@ const selectedValue = defineModel<string>({ required: true });
           leave-to-class="opacity-0"
         >
           <ListboxOptions
-            class="bg-zinc-400 absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            class="bg-zinc-200 absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-md py-1 shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
           >
             <ListboxOption v-slot="{ active, selected }" :value="values[0]" as="template">
               <li

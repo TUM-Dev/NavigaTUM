@@ -4,6 +4,8 @@ import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 import { useDetailsStore } from "@/stores/details";
 import { useI18n } from "vue-i18n";
 import Modal from "@/components/Modal.vue";
+import Btn from "@/components/Btn.vue";
+import { computed } from "vue";
 
 const state = useDetailsStore();
 const { t } = useI18n({ useScope: "local" });
@@ -18,6 +20,19 @@ function onSlide({ currentSlideIndex }: OnSlideData): void {
   // if-statement just to make ts happy
   if (state.data?.imgs) state.image.shown_image = state.data?.imgs[currentSlideIndex];
 }
+interface SubTitle {
+  title: string;
+  url?: string | null;
+  text: string;
+}
+const subtitles = computed<SubTitle[]>(() => {
+  if (!state.image.shown_image) return [];
+  return [
+    { title: t("source"), ...state.image.shown_image.source },
+    { title: t("license"), ...state.image.shown_image.license },
+    { title: t("author"), ...state.image.shown_image.author },
+  ];
+});
 </script>
 
 <template>
@@ -28,7 +43,7 @@ function onSlide({ currentSlideIndex }: OnSlideData): void {
     :classes="{ modal: '!min-w-[60vw]' }"
   >
     <Carousel
-      :items-to-show="1.15"
+      :items-to-show="1.1"
       snap-align="center"
       :autoplay="10_000"
       :pause-autoplay-on-hover="true"
@@ -57,26 +72,19 @@ function onSlide({ currentSlideIndex }: OnSlideData): void {
     </Carousel>
     <div v-if="state.image.shown_image" class="pt-5">
       <div class="grid grid-cols-3 gap-5 text-center">
-        <div class="col-span-3 md:col-span-1 md:text-left">
-          <h6>{{ t("source") }}</h6>
-          <a v-if="state.image.shown_image.source.url" :href="state.image.shown_image.source.url">
-            {{ state.image.shown_image.source.text }}
-          </a>
-          <template v-else>{{ state.image.shown_image.source.text }}</template>
-        </div>
-        <div class="col-span-3 md:col-span-1">
-          <h6>{{ t("author") }}</h6>
-          <a v-if="state.image.shown_image.author.url" :href="state.image.shown_image.author.url">
-            {{ state.image.shown_image.author.text }}
-          </a>
-          <template v-else>{{ state.image.shown_image.author.text }}</template>
-        </div>
-        <div class="col-span-3 md:col-span-1 md:!text-right">
-          <h6>{{ t("license") }}</h6>
-          <a v-if="state.image.shown_image.license.url" :href="state.image.shown_image.license.url">
-            {{ state.image.shown_image.license.text }}
-          </a>
-          <template v-else>{{ state.image.shown_image.license.text }}</template>
+        <div
+          v-for="(sub, i) in subtitles"
+          :key="i"
+          class="col-span-3 md:col-span-1"
+          :class="{ 'md:!text-left': i % 3 == 0, 'md:!text-center': i % 3 == 1, 'md:!text-right': i % 3 == 2 }"
+        >
+          <h6 class="text-zinc-600 text-sm font-semibold">{{ sub.title }}</h6>
+          <div class="text-zinc-600 text-sm">
+            <Btn v-if="sub.url" variant="link" size="-ps-1" :to="sub.url">
+              {{ sub.text }}
+            </Btn>
+            <template v-else>{{ sub.text }}</template>
+          </div>
         </div>
       </div>
     </div>

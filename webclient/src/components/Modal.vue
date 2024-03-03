@@ -72,7 +72,7 @@ function closeIfShown() {
           class="relative flex max-h-screen w-full max-w-2xl flex-col rounded-md shadow-2xl"
           :class="props.classes.modal"
         >
-          <div class="bg-zinc-100 flex w-full flex-row justify-between rounded-t-md p-5">
+          <div class="bg-zinc-200 flex w-full flex-row justify-between rounded-t-md p-5">
             <h2 v-if="props.title" class="text-zinc-800 text-lg font-semibold">{{ props.title }}</h2>
             <button
               v-if="!props.disableClose"
@@ -85,7 +85,7 @@ function closeIfShown() {
               <XMarkIcon class="h-4 w-4" />
             </button>
           </div>
-          <div class="text-zinc-600 bg-zinc-200 max-h-screen w-full overflow-auto rounded-b-md p-6">
+          <div class="bg-white text-zinc-600 max-h-screen w-full overflow-auto rounded-b-md p-6 dark:bg-zinc-100">
             <slot />
           </div>
         </div>

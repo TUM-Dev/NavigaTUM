@@ -30,7 +30,7 @@ const variantClasses = computed(() => {
     case "linkButton":
       return "bg-transparent visited:text-tumBlue-600 text-tumBlue-600 hover:bg-tumBlue-900/10 dark:hover:bg-tumBlue-50/20 hover:text-tumBlue-500";
     case "link":
-      return "bg-transparent visited:text-tumBlue-600 text-tumBlue-600";
+      return "bg-transparent visited:text-tumBlue-600 text-tumBlue-600 hover:underline";
     default:
       return props.variant;
   }
@@ -56,7 +56,7 @@ const sizeClasses = computed(() => {
     :aria-label="ariaLabel"
     :type="props.type"
     v-bind="{ disabled: disabled }"
-    :class="`focusable flex flex-row gap-1 hover:underline ${variantClasses} ${sizeClasses}`"
+    :class="`focusable flex flex-row gap-1 ${variantClasses} ${sizeClasses} `"
     target="_blank"
   >
     <slot />

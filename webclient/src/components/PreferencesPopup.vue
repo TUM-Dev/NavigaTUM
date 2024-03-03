@@ -45,15 +45,15 @@ watchEffect(() => saveCooke("lang", locale.value));
       leave-to-class="transform opacity-0 scale-95"
     >
       <MenuItems
-        class="bg-white absolute -right-1 top-12 z-10 mt-5 w-48 origin-top-right rounded-md py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-zinc-100 focus:outline-none"
+        class="bg-white absolute -right-1 top-20 z-10 w-48 origin-top-right rounded-md py-5 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-zinc-100 focus:outline-none"
       >
-        <MenuItem as="div" class="text-zinc-400 block px-4 py-2 text-xs font-semibold">
+        <MenuItem as="div" class="text-zinc-400 block px-4 pb-2 text-xs font-semibold">
           {{ t("preferences") }}
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
           <SelectionSwitch v-model="theme" label="Theme" :values="['dark', 'light']">
-            <template #option1><MoonIcon class="h-3 w-3" /></template>
-            <template #option2><SunIcon class="h-3 w-3" /></template>
+            <template #option1><MoonIcon class="h-3.5 w-3.5" /></template>
+            <template #option2><SunIcon class="h-3.5 w-3.5" /></template>
           </SelectionSwitch>
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">

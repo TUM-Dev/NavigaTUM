@@ -38,31 +38,12 @@ const navigation = [
     <div class="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-14 lg:px-8">
       <nav class="-mb-6 columns-2 text-center sm:columns-3 sm:justify-center sm:space-x-12 md:flex" aria-label="Footer">
         <div v-for="item in navigation" :key="item.name" class="pb-6 text-sm leading-6">
-          <a
-            v-if="item.href.startsWith('https')"
-            :href="item.href"
-            class="focusable !text-zinc-600 rounded !no-underline hover:!text-zinc-900"
-          >
-            {{ item.name }}
-          </a>
-          <RouterLink
-            v-else
-            :to="item.href"
-            class="focusable !text-zinc-600 rounded !no-underline hover:!text-zinc-900"
-          >
-            {{ item.name }}
-          </RouterLink>
+          <Btn variant="link" :to="item.href">{{ item.name }}</Btn>
         </div>
         <div class="pb-6">
-          <button
-            type="button"
-            data-cy="open-feedback-footer"
-            class="focusable text-zinc-600 rounded text-sm leading-6 hover:text-zinc-900"
-            :aria-label="t('feedback.open')"
-            @click="global.openFeedback()"
-          >
+          <Btn variant="link" type="button" :aria-label="t('feedback.open')" @click="global.openFeedback()">
             {{ t("feedback.text") }}
-          </button>
+          </Btn>
         </div>
       </nav>
       <div class="mt-10 flex justify-center space-x-10 text-center">
