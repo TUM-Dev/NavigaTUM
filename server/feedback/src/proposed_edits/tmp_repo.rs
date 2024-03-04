@@ -19,6 +19,7 @@ impl TempRepo {
         let out = Command::new("git")
             .current_dir(&dir)
             .arg("clone")
+            .arg("--depth=1")
             .arg(url)
             .arg(dir.path())
             .output()
