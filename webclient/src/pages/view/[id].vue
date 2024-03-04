@@ -19,6 +19,7 @@ import Toast from "@/components/Toast.vue";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import { CalendarDaysIcon, ClipboardDocumentCheckIcon, LinkIcon } from "@heroicons/vue/24/outline";
 import BreadcrumbList from "@/components/BreadcrumbList.vue";
+import Spinner from "@/components/Spinner.vue";
 
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
@@ -222,7 +223,10 @@ onMounted(() => {
     <DetailsRoomOverviewSection :rooms="state.data?.sections?.rooms_overview" />
     <DetailsSources />
   </div>
-  <div v-else>{{ t("Loading data...") }}</div>
+  <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
+    <Spinner class="h-8 w-8" />
+    {{ t("Loading data...") }}
+  </div>
 </template>
 
 <i18n lang="yaml">

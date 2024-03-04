@@ -7,6 +7,7 @@ import { MapPinIcon } from "@heroicons/vue/24/outline";
 import { ArrowRightIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/24/solid";
 import { ref } from "vue";
 import Btn from "@/components/Btn.vue";
+import Spinner from "@/components/Spinner.vue";
 type RootResponse = components["schemas"]["RootResponse"];
 
 const { t } = useI18n({ useScope: "local" });
@@ -71,7 +72,10 @@ const openPanels = ref<(boolean | undefined)[]>([]);
       </div>
     </div>
   </div>
-  <div v-else>{{ t("Loading data...") }}</div>
+  <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
+    <Spinner class="h-8 w-8" />
+    {{ t("Loading data...") }}
+  </div>
 </template>
 
 <i18n lang="yaml">
