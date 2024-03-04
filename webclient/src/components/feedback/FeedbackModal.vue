@@ -14,10 +14,10 @@ const deleteIssueRequested = ref(false);
   <TokenBasedModal :data="global.feedback.data">
     <template #modal>
       <label class="text-zinc-600 text-sm font-semibold" for="feedback-subject"> {{ t("subject") }}</label>
-      <div class="text-zinc-600 flex flex-row gap-2 rounded pb-3">
+      <div class="text-zinc-600 flex flex-row gap-2 pb-3">
         <select
           v-model="global.feedback.data.category"
-          class="focusable bg-zinc-300 px-2 py-1"
+          class="focusable bg-zinc-300 rounded px-2 py-1"
           :aria-label="t('category')"
         >
           <option value="general">{{ t("type.general") }}</option>
@@ -28,7 +28,7 @@ const deleteIssueRequested = ref(false);
         </select>
         <input
           v-model="global.feedback.data.subject"
-          class="focusable bg-zinc-300 flex-grow px-2 py-1"
+          class="focusable bg-zinc-300 flex-grow rounded px-2 py-1"
           type="text"
           :placeholder="t('subject')"
         />
@@ -40,7 +40,7 @@ const deleteIssueRequested = ref(false);
         </label>
         <textarea
           v-model="global.feedback.data.body"
-          class="focusable bg-zinc-300 px-2 py-1"
+          class="focusable bg-zinc-300 rounded px-2 py-1"
           :placeholder="t('message')"
           rows="6"
         >
@@ -65,7 +65,7 @@ const deleteIssueRequested = ref(false);
       <p>{{ t("success.thank_you") }}</p>
       <p>
         {{ t("success.response_at") }}
-        <a id="feedback-success-url" class="btn-link" :href="successUrl">{{ t("success.this_issue") }}</a>
+        <a id="feedback-success-url" tabindex="1" class="btn-link" :href="successUrl">{{ t("success.this_issue") }}</a>
       </p>
     </template>
   </TokenBasedModal>

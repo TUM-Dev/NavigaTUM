@@ -7,12 +7,12 @@ const model = defineModel<boolean>();
 
 <template>
   <div class="mb-4 flex gap-2">
-    <div class="flex h-5 min-w-4 items-center">
+    <div class="flex h-5 min-w-4 items-center rounded">
       <input
         :id="id"
         v-model="model"
         type="checkbox"
-        class="focusable text-tumBlue-600 bg-zinc-100 border-zinc-300 z-40 min-h-4 min-w-4 rounded"
+        class="focusable text-tumBlue-600 bg-zinc-100 border-zinc-300 z-40 min-h-4 min-w-4"
       />
     </div>
     <div class="ps-1">

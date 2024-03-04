@@ -26,30 +26,31 @@ const isOpen = defineModel<boolean>({ required: true });
 const { t } = useI18n({ useScope: "local" });
 watch(props, () => {
   if (isOpen.value) {
-    return document.querySelector("body")?.classList.add("overflow-hidden");
+    return document.querySelector("body")?.classList.add("overflow-y-hidden");
   } else {
-    return document.querySelector("body")?.classList.remove("overflow-hidden");
+    return document.querySelector("body")?.classList.remove("overflow-y-hidden");
   }
 });
 
 onMounted(() => {
-  if (props.disableClose) return;
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       close();
     }
   });
 });
-onBeforeUnmount(() => document.querySelector("body")?.classList.remove("overflow-hidden"));
+onBeforeUnmount(() => {
+  document.querySelector("body")?.classList.remove("overflow-y-hidden");
+});
 
 function close() {
-  document.querySelector("body")?.classList.remove("overflow-hidden");
+  if (props.disableClose) return;
+  document.querySelector("body")?.classList.remove("overflow-y-hidden");
   emit("close");
   isOpen.value = false;
 }
 
 function closeIfShown() {
-  if (props.disableClose) return;
   close();
 }
 </script>
@@ -66,7 +67,7 @@ function closeIfShown() {
         v-if="isOpen"
         class="fixed inset-0 z-50 flex h-screen w-full items-center justify-center backdrop-blur-sm backdrop-brightness-95"
         :class="props.classes.background"
-        @click.self="closeIfShown"
+        @click.self="close"
       >
         <div
           class="relative flex max-h-screen w-full max-w-2xl flex-col rounded-md shadow-2xl"

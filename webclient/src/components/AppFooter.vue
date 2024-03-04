@@ -49,7 +49,7 @@ const navigation = [
       <div class="mt-10 flex justify-center space-x-10 text-center">
         <p class="text-zinc-500 text-center text-xs">
           {{ t("official_roomfinder") }}<br />
-          <Btn to="https://tum.de" variant="" size="sm">
+          <Btn to="https://tum.de" variant="rounded-xl focusable" size="sm">
             <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="h-20" aria-hidden="true" />
           </Btn>
         </p>

@@ -102,13 +102,7 @@ function sendForm() {
 </script>
 
 <template>
-  <Modal
-    v-if="!successUrl"
-    v-model="global.feedback.open"
-    data-cy="feedback-modal"
-    :title="t('title')"
-    @close="closeForm"
-  >
+  <Modal v-if="!successUrl" v-model="global.feedback.open" :title="t('title')" @close="closeForm">
     <Toast v-if="error.message" class="mb-4" :msg="error.message" level="error" />
 
     <div class="flex flex-col gap-1">
@@ -119,6 +113,7 @@ function sendForm() {
             <p class="font-bold">
               {{ t("public.agreement.pre") }}
               <a
+                tabindex="1"
                 class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline"
                 href="https://github.com/TUM-Dev/navigatum/issues"
                 target="_blank"
@@ -133,6 +128,7 @@ function sendForm() {
               <span
                 >{{ t("public.disclaimer.pre") }}
                 <a
+                  tabindex="1"
                   class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline"
                   href="https://docs.github.com/en/github/site-policy"
                   target="_blank"
@@ -150,12 +146,17 @@ function sendForm() {
             <p>
               <span>
                 {{ t("public.objection_instruction") }}
-                <RouterLink to="/about/impressum" class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline">
+                <RouterLink
+                  tabindex="1"
+                  to="/about/impressum"
+                  class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline"
+                >
                   {{ t("public.imprint") }} </RouterLink
                 >.
               </span>
               {{ t("public.question_contact.pre") }}
               (<a
+                tabindex="1"
                 class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline"
                 href="https://datenschutz.tum.de"
                 target="_blank"
@@ -167,10 +168,7 @@ function sendForm() {
       </div>
     </div>
 
-    <div class="float-right flex flex-row gap-2">
-      <Btn variant="linkButton" size="md" @click="closeForm">
-        {{ t("cancel") }}
-      </Btn>
+    <div class="float-right flex flex-row-reverse gap-2">
       <Btn
         variant="primary"
         size="md"
@@ -179,6 +177,9 @@ function sendForm() {
         @click="sendForm"
       >
         {{ t("send") }}
+      </Btn>
+      <Btn variant="linkButton" size="md" @click="closeForm">
+        {{ t("cancel") }}
       </Btn>
     </div>
   </Modal>
