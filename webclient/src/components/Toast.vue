@@ -11,16 +11,12 @@ const props = withDefaults(
 <template>
   <div
     :data-cy="'toast-' + props.level"
-    class="rounded-sm p-1.5"
+    class="rounded border p-1.5 text-sm leading-5"
     :class="{
-      'bg-red-300': props.level === 'error',
-      'text-red-950': props.level === 'error',
-      'bg-orange-200': props.level === 'warning',
-      'text-orange-950': props.level === 'warning',
-      'bg-blue-300': props.level === 'info',
-      'text-blue-950': props.level === 'info',
-      'bg-zinc-300': props.level === 'default',
-      'text-zinc-950': props.level === 'default',
+      'text-red-900 bg-red-100 border-red-300': props.level === 'error',
+      'text-orange-900 bg-orange-100 border-orange-300': props.level === 'warning',
+      'text-blue-900 bg-blue-100 border-blue-300': props.level === 'info',
+      'text-zinc-900 bg-zinc-100 border-zinc-300': props.level === 'default',
     }"
   >
     {{ props.msg }}

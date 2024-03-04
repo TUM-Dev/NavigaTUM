@@ -49,10 +49,6 @@ function close() {
   emit("close");
   isOpen.value = false;
 }
-
-function closeIfShown() {
-  close();
-}
 </script>
 
 <template>

@@ -5,6 +5,7 @@ import { CheckIcon, ChevronUpDownIcon, FunnelIcon, MagnifyingGlassIcon, MapPinIc
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
 import Btn from "@/components/Btn.vue";
+import { useVirtualList } from "@vueuse/core";
 
 type RoomsOverview = components["schemas"]["RoomsOverview"];
 type ChildEntry = components["schemas"]["ChildEntry"];
@@ -38,6 +39,9 @@ const selectedRooms = computed<SelectedRoomGroup>(() => {
 const filteredList = computed<readonly ChildEntry[]>(() => {
   const search_term = new RegExp(`.*${search.value}.*`, "i"); // i=>case insensitive
   return selectedRooms.value.rooms.filter((f) => search_term.test(f.name));
+});
+const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filteredList, {
+  itemHeight: 36,
 });
 </script>
 
@@ -140,17 +144,22 @@ const filteredList = computed<readonly ChildEntry[]>(() => {
       </div>
     </div>
     <div class="text-zinc-600">
-      <ul
+      <div
         v-if="filteredList.length > 0"
+        v-bind="containerProps"
         class="bg-zinc-100 border-zinc-400 max-h-96 overflow-y-scroll border p-2 dark:bg-zinc-200"
       >
-        <RouterLink v-for="(room, index) in filteredList" :key="index" :to="`/view/${room.id}`" class="!no-underline">
-          <li class="flex flex-row gap-2 p-1.5 px-3 hover:text-white hover:bg-tumBlue-500">
-            <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" />
-            {{ room.name }}
-          </li>
-        </RouterLink>
-      </ul>
+        <ul v-bind="wrapperProps">
+          <a v-for="(room, index) in list" :key="index" :href="`/view/${room.data.id}`" class="!no-underline">
+            <li
+              class="flex h-[36px] max-h-[36px] min-h-[36px] flex-row gap-2 p-1.5 px-3 hover:text-white hover:bg-tumBlue-500"
+            >
+              <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" />
+              {{ room.data.name }}
+            </li>
+          </a>
+        </ul>
+      </div>
       <div v-else class="flex flex-row items-baseline">
         {{ t("no_results_with_these_filters") }}
         <Btn
