@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useDetailsStore } from "@/stores/details";
 import TinyModal from "@/components/TinyModal.vue";
-import { InformationCircleIcon } from "@heroicons/vue/24/outline";
+import { InformationCircleIcon, ArrowTopRightOnSquareIcon } from "@heroicons/vue/24/outline";
 import { useI18n } from "vue-i18n";
 import Btn from "@/components/Btn.vue";
 
@@ -10,42 +10,29 @@ const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
-  <table class="text-zinc-600">
-    <tbody>
-      <tr v-for="prop in state.data?.props.computed" :key="prop.name">
-        <td>
-          <strong>{{ prop.name }}</strong>
-        </td>
-        <td>
-          {{ prop.text }}
-          <TinyModal v-if="prop.extra?.body" :content="prop.extra">
-            <template #icon>
-              <InformationCircleIcon class="h-4 w-4" />
-            </template>
-          </TinyModal>
-        </td>
-      </tr>
-      <tr v-if="state.data?.props.links">
-        <td>
-          <strong>{{ t("links") }}</strong>
-        </td>
-        <td>
-          <ul>
-            <li v-for="link in state.data.props.links" :key="link.text">
-              <Btn size="" variant="link" :to="link.url">
-                {{ link.text }}
-              </Btn>
-            </li>
-          </ul>
-        </td>
-      </tr>
-      <tr v-if="!state.data?.props.links && !state.data?.props.computed">
-        <td>
-          <strong>{{ t("no_information_known") }}</strong>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div v-if="state.data?.props.links || state.data?.props.computed" class="text-zinc-800 flex flex-col gap-3">
+    <p v-for="prop in state.data?.props.computed" :key="prop.name" class="flex flex-col">
+      <span class="text-zinc-500 text-xs font-semibold uppercase">{{ prop.name }}</span>
+      <span>{{ prop.text }}</span>
+      <TinyModal v-if="prop.extra?.body" :content="prop.extra">
+        <template #icon>
+          <InformationCircleIcon class="h-4 w-4" />
+        </template>
+      </TinyModal>
+    </p>
+    <div>
+      <ul v-if="state.data?.props.links" class="flex flex-col gap-1.5">
+        <li v-for="link in state.data.props.links" :key="link.text">
+          <Btn size="text-md px-3 py-1 rounded" variant="secondary" :to="link.url">
+            <ArrowTopRightOnSquareIcon class="mt-0.5 h-4 w-4" /> {{ link.text }}
+          </Btn>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div v-else>
+    {{ t("no_information_known") }}
+  </div>
 </template>
 
 <i18n lang="yaml">

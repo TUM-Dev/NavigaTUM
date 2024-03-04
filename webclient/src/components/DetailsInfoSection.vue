@@ -13,7 +13,7 @@ const appURL = import.meta.env.VITE_APP_URL;
 <template>
   <!-- Information section (on mobile) -->
   <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column mt-4 block lg:hidden">
-    <h2 class="text-zinc-800 text-lg font-semibold">{{ t("info_title") }}</h2>
+    <h2 class="text-zinc-800 pb-3 text-lg font-semibold">{{ t("info_title") }}</h2>
     <DetailsPropertyTable />
   </div>
 
@@ -30,7 +30,7 @@ const appURL = import.meta.env.VITE_APP_URL;
         />
       </button>
       <div class="px-5 py-3">
-        <h2 class="text-zinc-800 text-lg font-semibold">{{ t("info_title") }}</h2>
+        <h2 class="sr-only">{{ t("info_title") }}</h2>
         <DetailsPropertyTable />
         <div class="mt-3 grid gap-2">
           <Toast
