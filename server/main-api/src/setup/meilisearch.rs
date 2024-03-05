@@ -88,6 +88,7 @@ pub(crate) async fn setup_meilisearch() -> Result<(), crate::BoxedError> {
             "parent_building_names",
             "parent_keywords",
             "address",
+            "place",
             "usage",
         ])
         .with_synonyms(Synonyms::try_load()?.0);

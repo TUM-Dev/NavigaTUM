@@ -10,7 +10,6 @@ if __name__ == "__main__":
     # Create cache directory structure
     os.makedirs(CACHE_PATH, exist_ok=True)
     os.makedirs(CACHE_PATH / "filter", exist_ok=True)
-    os.makedirs(CACHE_PATH / "tumonline", exist_ok=True)
     os.makedirs(CACHE_PATH / "nat", exist_ok=True)
     os.makedirs(CACHE_PATH / "room", exist_ok=True)
     os.makedirs(CACHE_PATH / "maps" / "roomfinder", exist_ok=True)
