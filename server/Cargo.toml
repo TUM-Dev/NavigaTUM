@@ -8,7 +8,7 @@ lto = "thin"
 
 [workspace.dependencies]
 # logging/obeservability
-log = "0.4.20"
+log = "0.4.21"
 structured-logger = "1.0.3"
 actix-web-prom = { version = "0.8.0", default-features = false, features = [] }
 
@@ -16,6 +16,7 @@ actix-web-prom = { version = "0.8.0", default-features = false, features = [] }
 tokio = { version = "1.36", features = ["full"] }
 actix-web = { version = "4.5.1", default-features = false, features = ["macros","compress-gzip","cookies","http2"] }
 actix-cors = "0.7.0"
+rustls = { version = "0.23.1", default-features = false, features = ["ring"]  } # the aws' fips complient libary has weird bingen issues which require deeper looking into
 
 #serialisation
 serde = { version = "1.0", features = ["derive"] }
