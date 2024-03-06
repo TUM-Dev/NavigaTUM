@@ -19,15 +19,14 @@ class RfMap(typing.NamedTuple):
 
 # pylint: disable-next=too-many-instance-attributes
 class Building(PydanticConfiguration):
+    lat: float
+    lon: float
     b_alias: str
     b_area: str
     b_id: str
     b_name: str
     default_map: RfMap | None
     maps: list[RfMap]
-    utm_easting: float
-    utm_northing: float
-    utm_zone: int
     b_room_count: int
 
     @classmethod
@@ -75,9 +74,8 @@ class RoomMetadata(PydanticConfiguration):
 
 class Room(PydanticConfiguration):
     # room specific properties
-    utm_easting: float
-    utm_northing: float
-    utm_zone: int
+    lat: float
+    lon: float
     default_map: RfMap | None
     maps: list[RfMap]
     r_alias: str
