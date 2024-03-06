@@ -17,7 +17,7 @@ const deleteIssueRequested = ref(false);
       <div class="text-zinc-600 flex flex-row gap-2 pb-3">
         <select
           v-model="global.feedback.data.category"
-          class="focusable bg-zinc-300 rounded px-2 py-1"
+          class="focusable bg-zinc-200 border-zinc-400 rounded border px-2 py-1"
           :aria-label="t('category')"
         >
           <option value="general">{{ t("type.general") }}</option>
@@ -28,7 +28,7 @@ const deleteIssueRequested = ref(false);
         </select>
         <input
           v-model="global.feedback.data.subject"
-          class="focusable bg-zinc-300 flex-grow rounded px-2 py-1"
+          class="focusable bg-zinc-200 border-zinc-400 flex-grow rounded border px-2 py-1"
           type="text"
           :placeholder="t('subject')"
         />
@@ -40,7 +40,7 @@ const deleteIssueRequested = ref(false);
         </label>
         <textarea
           v-model="global.feedback.data.body"
-          class="focusable bg-zinc-300 rounded px-2 py-1"
+          class="focusable bg-zinc-200 border-zinc-400 rounded border px-2 py-1"
           :placeholder="t('message')"
           rows="6"
         >
