@@ -181,9 +181,9 @@ onMounted(() => {
   <!-- Autocomplete -->
   <div
     v-if="global.search_focused && autocomplete.sections.length !== 0"
-    class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 -ms-2 me-3 mt-16 max-h-[calc(100vh-75px)] max-w-xl overflow-auto rounded border p-3.5 shadow-zinc-700/30"
+    class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 -ms-2 me-3 mt-16 flex max-h-[calc(100vh-75px)] max-w-xl flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30"
   >
-    <ul v-for="s in autocomplete.sections" v-cloak :key="s.facet" class="mb-4 flex flex-col gap-2">
+    <ul v-for="s in autocomplete.sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
       <div class="flex items-center">
         <span class="text-md text-zinc-800 me-4 flex-shrink">{{ s.name }}</span>
         <div class="border-zinc-800 flex-grow border-t"></div>
@@ -209,12 +209,12 @@ onMounted(() => {
             @mousedown="keep_focus = true"
             @mouseover="autocomplete.highlighted = null"
           >
-            <div class="my-auto">
-              <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 min-w-11 p-2">
+            <div class="my-auto min-w-11">
+              <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 p-2">
                 <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
                 <MapPinIcon v-else class="h-6 w-6" />
               </div>
-              <div v-else class="text-white bg-tumBlue-500 min-w-11 rounded-full p-2">
+              <div v-else class="text-white bg-tumBlue-500 rounded-full p-2">
                 <BuildingOfficeIcon v-if="e.type === 'building'" class="mx-auto h-6 w-6" />
                 <BuildingOffice2Icon v-else class="mx-auto h-6 w-6" />
               </div>
@@ -223,7 +223,7 @@ onMounted(() => {
               <div class="flex flex-row">
                 <span v-if="e.parsed_id" v-html="e.parsed_id" />
                 <ChevronDownIcon v-if="e.parsed_id" class="h-4 w-4" />
-                <span v-html="e.name" />
+                <span class="line-clamp-1" v-html="e.name" />
               </div>
               <small>
                 {{ e.subtext }}<template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
