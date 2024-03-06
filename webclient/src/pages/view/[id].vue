@@ -133,7 +133,8 @@ onMounted(() => {
           v-if="clipboardIsSupported"
           :title="t('header.copy_link')"
           type="button"
-          class="-ms-6 hidden text-transparent group-hover:text-tumBlue-500 lg:block"
+          tabindex="1"
+          class="-ms-8 hidden px-1 text-transparent transition-colors focus:text-zinc-800 group-hover:text-zinc-800 lg:block"
           @click="copy(`https://nav.tum.de${route.fullPath}`)"
         >
           <ClipboardDocumentCheckIcon v-if="copied" class="h-4 w-4" />
