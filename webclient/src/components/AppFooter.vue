@@ -40,8 +40,8 @@ const navigation = [
         <div v-for="item in navigation" :key="item.name" class="pb-6 text-sm leading-6">
           <Btn variant="link" :to="item.href">{{ item.name }}</Btn>
         </div>
-        <div class="pb-6">
-          <Btn variant="link" type="button" :aria-label="t('feedback.open')" @click="global.openFeedback()">
+        <div class="pb-6 text-sm leading-6">
+          <Btn variant="link" :aria-label="t('feedback.open')" @click="global.openFeedback()">
             {{ t("feedback.text") }}
           </Btn>
         </div>
