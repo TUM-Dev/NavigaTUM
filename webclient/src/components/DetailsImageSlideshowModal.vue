@@ -43,7 +43,7 @@ const subtitles = computed<SubTitle[]>(() => {
     :classes="{ modal: '!min-w-[60vw]' }"
   >
     <Carousel
-      :items-to-show="1.1"
+      :items-to-show="1.15"
       snap-align="center"
       :autoplay="10_000"
       :pause-autoplay-on-hover="true"
@@ -56,8 +56,7 @@ const subtitles = computed<SubTitle[]>(() => {
             :alt="t('image_alt')"
             :src="`${appURL}/cdn/lg/${img.name}`"
             :srcset="`${appURL}/cdn/sm/${img.name} 1024w,${appURL}/cdn/md/${img.name} 1920w,${appURL}/cdn/lg/${img.name} 3860w`"
-            sizes="100vw"
-            class="h-full w-full rounded"
+            class="max-h-2/3 w-full rounded sm:max-h-[30rem]"
           />
           <span v-if="img.license.url" class="hidden" itemprop="license"> {{ img.license.url }}</span>
           <span v-else class="hidden" itemprop="license"> img.license.text</span>
@@ -71,16 +70,22 @@ const subtitles = computed<SubTitle[]>(() => {
       </template>
     </Carousel>
     <div v-if="state.image.shown_image" class="pt-5">
-      <div class="grid grid-cols-3 gap-5 text-center">
+      <div class="grid min-h-20 auto-cols-auto grid-cols-5 gap-5 text-center">
         <div
           v-for="(sub, i) in subtitles"
           :key="i"
-          class="col-span-3 md:col-span-1"
-          :class="{ 'md:!text-left': i % 3 == 0, 'md:!text-center': i % 3 == 1, 'md:!text-right': i % 3 == 2 }"
+          class="text-balance"
+          :class="{
+            'md:!text-left': i % 3 == 0,
+            'md:!text-center': i % 3 == 1,
+            'md:!text-right': i % 3 == 2,
+            'col-span-5 md:col-span-1': i % 3 != 1,
+            'col-span-5 md:col-span-3': i % 3 === 1,
+          }"
         >
           <h6 class="text-zinc-600 text-sm font-semibold">{{ sub.title }}</h6>
-          <div class="text-zinc-600 text-sm">
-            <Btn v-if="sub.url" variant="link" size="-ps-1" :to="sub.url">
+          <div class="wrap- text-zinc-600 text-sm" :class="[i % 3 == 1 ? 'text-xs' : '']">
+            <Btn v-if="sub.url" variant="link" size="-ps-1 !inline" :to="sub.url">
               {{ sub.text }}
             </Btn>
             <template v-else>{{ sub.text }}</template>
