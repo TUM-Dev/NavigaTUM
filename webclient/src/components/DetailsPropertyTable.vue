@@ -23,8 +23,8 @@ const { t } = useI18n({ useScope: "local" });
     <div>
       <ul v-if="state.data?.props.links" class="flex flex-col gap-1.5">
         <li v-for="link in state.data.props.links" :key="link.text">
-          <Btn size="text-md px-3 py-1 rounded" variant="secondary" :to="link.url">
-            <ArrowTopRightOnSquareIcon class="mt-0.5 h-4 w-4" /> {{ link.text }}
+          <Btn size="text-md gap-2.5 px-3 py-1.5 rounded leading-snug" variant="secondary" :to="link.url">
+            <ArrowTopRightOnSquareIcon class="my-auto h-5 min-h-5 w-5 min-w-5 pb-0.5" /> {{ link.text }}
           </Btn>
         </li>
       </ul>
