@@ -167,9 +167,9 @@ onMounted(() => {
     </div>
 
     <!-- First info section (map + infocard) -->
-    <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
-      <TabGroup class="col-span-1 md:col-span-2" as="div" manual>
-        <div class="mb-3 grid gap-2 md:hidden">
+    <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
+      <TabGroup class="col-span-1 lg:col-span-2" as="div" manual>
+        <div class="mb-3 grid gap-2 lg:hidden">
           <Toast
             v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
             level="warning"
