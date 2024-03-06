@@ -11039,6 +11039,12 @@
     "name": "Studiengang M.Sc. AI in Society",
     "path": "TUM/Schools/Social Sciences and Technology/Studienorganisation/Political, Social and Educational Sciences/AI in Society/M.Sc. AI in Society"
   },
+  "TUXS72A": {
+    "code": "TUXS72A",
+    "id": 56017,
+    "name": "Studiengang M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik",
+    "path": "TUM/Schools/Social Sciences and Technology/Studienorganisation/Berufliche Bildung/Master of Education Berufliche Bildung/M.Ed. Bautechnik mit affiner Fachrichtung Holztechnik"
+  },
   "TUXS730": {
     "code": "TUXS730",
     "id": 55757,
