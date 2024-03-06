@@ -39,7 +39,7 @@ const appURL = import.meta.env.VITE_APP_URL;
               <BuildingOffice2Icon class="mx-auto h-7 w-7" />
             </div>
             <div class="flex flex-col justify-evenly">
-              <div>{{ b.name }}</div>
+              <div class="line-clamp-2 text-balance">{{ b.name }}</div>
               <small class="text-zinc-600">{{ b.subtext }}</small>
             </div>
           </div>
