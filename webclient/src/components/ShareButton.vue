@@ -30,7 +30,7 @@ const shareOptions = computed<UseShareOptions>(() => ({
 
 <template>
   <button type="button" :title="t('external_link')" class="focusable rounded-sm" @click="modalOpen = true">
-    <ShareIcon class="text-blue-600 h-4 w-4" />
+    <ShareIcon class="text-tumBlue-600 h-4 w-4 hover:text-tumBlue-900" />
   </button>
   <Modal v-model="modalOpen" :title="t('share')">
     <div class="flex flex-col gap-5">

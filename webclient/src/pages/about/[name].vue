@@ -57,7 +57,7 @@ const route = useRoute();
     @apply ms-5 list-outside list-disc;
   }
   code {
-    @apply text-blue-900 bg-tumBlue-100 mb-4 inline-flex max-w-full items-center space-x-4 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs text-tumBlue-950 dark:bg-tumBlue-50;
+    @apply text-tumBlue-900 bg-tumBlue-100 mb-4 inline-flex max-w-full items-center space-x-4 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs text-tumBlue-950 dark:bg-tumBlue-50;
   }
   a {
     @apply text-tumBlue-600 gap-1 rounded bg-transparent visited:text-tumBlue-600 hover:underline focus:ring-2 focus:ring-tumBlue-500 focus:ring-offset-2 focus-visible:outline-0;
