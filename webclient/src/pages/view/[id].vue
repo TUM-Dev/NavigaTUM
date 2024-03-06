@@ -203,11 +203,12 @@ onMounted(() => {
             <button
               type="button"
               class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
-              :class="[
-                selected
-                  ? 'text-zinc-900 bg-zinc-300 shadow'
-                  : 'text-zinc-800 bg-zinc-300/5 hover:text-zinc-900 hover:bg-zinc-500/20',
-              ]"
+              :class="{
+                'text-zinc-900 bg-zinc-300 shadow': selected,
+                'text-zinc-800 bg-zinc-300/5': !selected,
+                'hover:text-zinc-900 hover:bg-zinc-500/20': state.data.maps.roomfinder?.available,
+                '!text-zinc-400 cursor-not-allowed': !state.data.maps.roomfinder?.available,
+              }"
             >
               {{ t("map.roomfinder") }}
             </button>
