@@ -8,12 +8,29 @@ import zipfile
 from pathlib import Path
 from typing import Iterator, Literal, TypedDict
 
+import utm
 from defusedxml import ElementTree as ET
 from external.scraping_utils import _download_file, CACHE_PATH, maybe_sleep
 from tqdm import tqdm
 from utils import convert_to_webp
 
 ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192"
+
+
+def _sanitise_building(building: dict):
+    for _map in building["maps"]:
+        _map[1] = f"rf{_map[1]}"
+    if default_map := building["default_map"]:
+        default_map[1] = f"rf{default_map[1]}"
+    building["b_room_count"] = building.pop("b_roomCount")
+    # the Building "Sonstige" does not have a valid lat/lon => we chose the main campus of TUM as a default
+    zone_number = (int(building.pop("utm_zone")),)
+    easting = (building.pop("utm_easting"),)
+    northing = (building.pop("utm_northing"),)
+    if building["b_id"] == "0000":
+        building["lat"], building["lon"] = 48.14903, 11.56735
+    else:
+        building["lat"], building["lon"] = _utm_to_latlon(easting, northing, zone_number)
 
 
 def scrape_buildings() -> None:
@@ -24,23 +41,18 @@ def scrape_buildings() -> None:
 
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
         buildings: list[dict] = proxy.getBuildings()
-        for i, building in enumerate(tqdm(buildings, desc="Retrieving", unit="building")):
+        for building in tqdm(buildings, desc="Retrieving", unit="building"):
             # Make sure b_id is numeric. There is an incorrect entry with the value
             # 'CiO/SGInstitute West, Bibliot' which causes a crash
             try:
                 int(building["b_id"])
             except ValueError:
                 continue
-            extended_data: dict[str, str] = proxy.getBuildingData(building["b_id"])
-            for key, value in extended_data.items():
-                buildings[i][key] = value
-            buildings[i]["maps"] = proxy.getBuildingMaps(building["b_id"])
-            for _map in buildings[i]["maps"]:
-                _map[1] = f"rf{_map[1]}"
-            buildings[i]["default_map"] = proxy.getBuildingDefaultMap(building["b_id"]) or None
-            if default_map := buildings[i]["default_map"]:
-                default_map[1] = f"rf{default_map[1]}"
-            buildings[i]["b_room_count"] = buildings[i].pop("b_roomCount")
+            extended_data = proxy.getBuildingData(building["b_id"])
+            building.update(**extended_data)
+            building["maps"] = proxy.getBuildingMaps(building["b_id"])
+            building["default_map"] = proxy.getBuildingDefaultMap(building["b_id"]) or None
+            _sanitise_building(building)
             maybe_sleep(0.05)
 
     buildings = sorted(buildings, key=lambda m: m["b_id"])
@@ -48,8 +60,32 @@ def scrape_buildings() -> None:
         json.dump(buildings, file, indent=2, sort_keys=True)
 
 
+def _utm_to_latlon(easting: float, northing: float, zone_number: int, zone_letter: str = "U") -> tuple[float, float]:
+    # UTM zone is either 32 or 33, corresponding to zones "32U" and "33U"
+    # TODO: Map image boundaries also included "33T". It could maybe be possible to guess
+    #       whether it is "U" or "T" based on the northing (which is always the distance
+    #       to the equator).
+    utm.check_valid_zone(zone_number, zone_letter)
+    if zone_number not in {32, 33}:
+        raise RuntimeError(f"Unexpected UTM zone '{zone_number}'")
+    return utm.to_latlon(easting, northing, zone_number, zone_letter)
+
+
 class SearchResult(TypedDict):
     r_id: str
+
+
+def _sanitise_room(room: dict) -> dict:
+    for _map in room["maps"]:
+        _map[1] = f"rf{_map[1]}"
+    if default_map := room["default_map"]:
+        default_map[1] = f"rf{default_map[1]}"
+    room["lat"], room["lon"] = _utm_to_latlon(
+        zone_number=int(room.pop("utm_zone")),
+        easting=room.pop("utm_easting"),
+        northing=room.pop("utm_northing"),
+    )
+    return room
 
 
 def scrape_rooms() -> None:
@@ -57,24 +93,16 @@ def scrape_rooms() -> None:
     Retrieve the (extended, i.e. with coordinates) rooms data from the Roomfinder API.
     This may retrieve the Roomfinder buildings.
     """
-    logging.info("Scraping the rooms of the mytum roomfinder")
-
-    logging.info("Searching for rooms in each building")
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
-        rooms_list = _get_all_rooms_for_all_buildings(proxy)
+        room_ids = _get_all_rooms_for_all_buildings(proxy)
+        logging.info("Scraping the rooms of the mytum roomfinder")
         rooms = []
-        for room in tqdm(rooms_list, desc=f"Retrieving {len(rooms_list)} rooms"):
-            extended_data = proxy.getRoomData(room)
-            # for k, v in extended_data.items():
-            #    rooms[i][k] = v
-            extended_data["metas"] = proxy.getRoomMetas(room)
-            extended_data["maps"] = proxy.getRoomMaps(room)
-            for _map in extended_data["maps"]:
-                _map[1] = f"rf{_map[1]}"
-            extended_data["default_map"] = proxy.getDefaultMap(room)
-            if default_map := extended_data["default_map"]:
-                default_map[1] = f"rf{default_map[1]}"
-            rooms.append(extended_data)
+        for room_id in tqdm(room_ids, desc=f"Retrieving {len(room_ids)} rooms"):
+            room = proxy.getRoomData(room_id)
+            room["metas"] = proxy.getRoomMetas(room_id)
+            room["maps"] = proxy.getRoomMaps(room_id)
+            room["default_map"] = proxy.getDefaultMap(room_id)
+            rooms.append(_sanitise_room(room))
             maybe_sleep(0.05)
 
     rooms = sorted(rooms, key=lambda r: (r["b_id"], r["r_id"]))
@@ -88,6 +116,7 @@ def _get_all_rooms_for_all_buildings(proxy: xmlrpc.client.ServerProxy) -> list:
     The API does not provide such a function directly, so we have to use search for this.
     Since search returns a max of 50 results we need to guess to collect all rooms.
     """
+    logging.info("Searching for rooms in each building")
     with open(CACHE_PATH / "buildings_roomfinder.json", "r", encoding="utf-8") as file:
         buildings = json.load(file)
     unreported_warnings = []
