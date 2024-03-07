@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFetch } from "@/composables/fetch";
-import { computed } from "vue";
+import { computed, shallowRef, watchEffect } from "vue";
 import { setDescription, setTitle } from "@/composables/common";
 import type { SectionFacet } from "@/modules/autocomplete";
 import { extractFacets } from "@/modules/autocomplete";
@@ -31,13 +31,12 @@ const apiUrl = computed(() => {
     params.append("q", q);
   }
   params.append("limit_buildings", "10");
-  params.append("limit_rooms", "30");
-  params.append("limit_all", "30");
+  params.append("limit_rooms", "50");
+  params.append("limit_all", "60");
 
   return `/api/search?${params.toString()}`;
 });
-// eslint-disable-next-line vue/no-ref-object-reactivity-loss
-const { data } = useFetch<SearchResponse>(apiUrl.value, () => {
+const { data } = useFetch<SearchResponse>(apiUrl, () => {
   setTitle(`${t("search_for")} "${route.query.q}"`);
   setDescription(genDescription());
 });
@@ -87,23 +86,23 @@ function genDescription(): string {
         <ul class="flex flex-col gap-3">
           <li v-for="e in s.entries" :key="e.id" class="focusable rounded-sm border hover:bg-tumBlue-50">
             <RouterLink :to="'/view/' + e.id" class="flex gap-3 p-4">
-              <div class="my-auto">
-                <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="p-2">
+              <div class="my-auto min-w-11">
+                <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 p-2">
                   <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
                   <MapPinIcon v-else class="h-6 w-6" />
                 </div>
-                <div v-else class="text-white bg-tumBlue-500 min-w-11 rounded-full p-2">
+                <div v-else class="text-white bg-tumBlue-500 rounded-full p-2">
                   <BuildingOfficeIcon v-if="e.type === 'building'" class="mx-auto h-6 w-6" />
                   <BuildingOffice2Icon v-else class="mx-auto h-6 w-6" />
                 </div>
               </div>
-              <div class="flex flex-col gap-0.5">
+              <div class="text-zinc-600 flex flex-col gap-0.5">
                 <div class="flex flex-row">
                   <span v-if="e.parsed_id" v-html="e.parsed_id" />
                   <ChevronDownIcon v-if="e.parsed_id" class="h-4 w-4" />
-                  <span v-html="e.name" />
+                  <span class="line-clamp-1" v-html="e.name" />
                 </div>
-                <small class="text-zinc-500">
+                <small>
                   {{ e.subtext }}<template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
                 </small>
               </div>
