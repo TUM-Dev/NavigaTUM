@@ -11,7 +11,7 @@ import Spinner from "@/components/Spinner.vue";
 type RootResponse = components["schemas"]["RootResponse"];
 
 const { t, locale } = useI18n({ useScope: "local" });
-const url = computed<string>(() => `/api/get/root&lang=${locale.value}`);
+const url = computed<string>(() => `/api/get/root?lang=${locale.value}`);
 const { data } = useFetch<RootResponse>(url, (d) => setTitle(d.name));
 const openPanels = ref<(boolean | undefined)[]>([]);
 </script>
