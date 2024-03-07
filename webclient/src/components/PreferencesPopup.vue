@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// @ts-ignore
-import nightwind from "nightwind/helper";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { AdjustmentsHorizontalIcon, MoonIcon, SunIcon } from "@heroicons/vue/24/outline";
 import SelectionSwitch from "@/components/SelectionSwitch.vue";

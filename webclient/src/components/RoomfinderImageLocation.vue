@@ -3,7 +3,6 @@ import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
 import { onMounted, watch } from "vue";
 import { useInterval } from "@vueuse/core";
-import { useGlobalStore } from "@/stores/global";
 type RoomfinderMapEntry = components["schemas"]["RoomfinderMapEntry"];
 
 const props = defineProps<{
@@ -13,7 +12,6 @@ const props = defineProps<{
 
 const { t } = useI18n({ useScope: "local" });
 const appURL = import.meta.env.VITE_APP_URL;
-const global = useGlobalStore();
 
 // count will increase every 150ms
 const counter = useInterval(150);

@@ -25,8 +25,8 @@ const appURL = import.meta.env.VITE_APP_URL;
       <button
         v-if="state.image.shown_image"
         type="button"
-        @click="state.showImageSlideshow(true)"
         class="focusable rounded-t-lg"
+        @click="state.showImageSlideshow(true)"
       >
         <img
           :alt="t('image_alt')"

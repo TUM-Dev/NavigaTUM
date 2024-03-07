@@ -29,7 +29,11 @@ pnpm install
 
 ## Run
 
-Ensure that _NavigaTUM-server_ is running in the background:
+Ensure that _NavigaTUM-server_ is running in the background.
+By default, the webclient will connect to the server on `https://nav.tum.de`.  
+If you want to connect to a local version instead, change `VITE_APP_URL` in [`env/.env`](./env/.env) to `http://localhost:3003`.
+
+To get a local server running, please:
 
 - either via following the [guide to local development](../server/README.md), or
 - via [docker](https://docs.docker.com/)  
@@ -41,9 +45,6 @@ Ensure that _NavigaTUM-server_ is running in the background:
   docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
   docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main /bin/navigatum-main-api
   ```
-
-By default, the webclient will connect to the server on `http://localhost:8080`.  
-If you want to connect to the public API instead, change `VITE_APP_URL` in [`env/.env`](./env/.env) to `https://nav.tum.de`.
 
 ```sh
 pnpm run dev
