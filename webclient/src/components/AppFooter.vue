@@ -53,7 +53,7 @@ const navigation = computed(() => [
         <Btn to="https://tum.de" variant="rounded-xl px-3 py-2 focusable" size="sm">
           <p class="text-zinc-600 text-center text-xs">
             {{ t("official_roomfinder") }}<br />
-            <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="h-20" aria-hidden="true" />
+            <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" height="80" aria-hidden="true" />
           </p>
         </Btn>
       </div>
