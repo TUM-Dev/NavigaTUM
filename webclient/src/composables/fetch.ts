@@ -1,6 +1,5 @@
 import { type MaybeRefOrGetter, shallowRef, toValue, watchEffect } from "vue";
 import { useGlobalStore } from "@/stores/global";
-import { useI18n } from "vue-i18n";
 
 export function useFetch<T>(
   url: MaybeRefOrGetter<string>,
