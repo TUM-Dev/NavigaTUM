@@ -37,8 +37,8 @@ async fn main() -> std::io::Result<()> {
 
     let feedback_ratelimit = GovernorConfigBuilder::default()
         .key_extractor(GlobalKeyExtractor)
-        .per_second(SECONDS_PER_DAY / 100) // replenish new token every .. seconds
-        .burst_size(20)
+        .per_second(SECONDS_PER_DAY / 300) // replenish new token every .. seconds
+        .burst_size(50)
         .finish()
         .expect("Invalid configuration of the governor");
 
