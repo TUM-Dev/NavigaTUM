@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import "swagger-ui-dist/swagger-ui.css";
-
+// TODO: this is reaaaly hacky, but I have no idea how to
+//  - convince vue to allow conditional css imports
+//  - postcss to allow for imports under a selector
+if (localStorage.getItem("theme") === "dark") {
+  import("swaggerdark/SwaggerDark.css");
+}
 window.setTimeout(() => {
   // we need to make sure, that swagger-ui exists, otherwise the following command will fail
   // therefore waiting is effective
@@ -15,7 +20,7 @@ window.setTimeout(() => {
 </script>
 
 <template>
-  <div id="swagger-ui" />
+  <div id="swagger-ui" class="pt-0.5" />
 </template>
 
 <style lang="postcss" scoped>

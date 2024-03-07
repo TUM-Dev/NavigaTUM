@@ -11,7 +11,6 @@ type UserTheme = "light" | "dark";
 
 const theme = ref<UserTheme>(initialUserTheme());
 watchEffect(() => {
-  console.log();
   document.documentElement.className = theme.value;
   saveCooke("theme", theme.value);
 });
