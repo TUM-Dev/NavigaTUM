@@ -25,7 +25,7 @@ const global = useGlobalStore();
       <Btn
         variant="link"
         size="ms-0 rounded-sm"
-        :aria-label="t('feedback.open')"
+        :aria-label="t('toast.open')"
         @click="global.openFeedback('general', t('toast.feedback_subject'), t('toast.feedback_body'))"
       >
         {{ t("toast.call_to_action") }}
@@ -115,6 +115,7 @@ de:
       - Verbesserung 1
       - Verbesserung 2
     call_to_action: Gibt es etwas, das du nicht gut findest? Erzähle uns bitte davon!
+    open: Feedback Form öffnen
 en:
   less: less
   less_aria: show more buildings
@@ -137,4 +138,5 @@ en:
       - improvement 1
       - improvement 2
     call_to_action: Is there something you don't like? Please tell us about it!
+    open: Open the feedback-form
 </i18n>
