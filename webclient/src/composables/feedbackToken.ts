@@ -58,6 +58,8 @@ export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
           error.message = `${t("error.token_unexpected_status")}${r.status}`;
           error.blockSend = true;
         }
+        if (r.status !== TokenStatus.SUCCESSFULLY_CREATED)
+          document.getElementById("token-modal-error")?.scrollIntoView({ behavior: "smooth" });
       })
       .catch((r) => {
         error.message = t("error.token_req_failed");

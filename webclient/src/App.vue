@@ -4,8 +4,11 @@ import { useGlobalStore } from "@/stores/global";
 import FeedbackModal from "@/components/feedback/FeedbackModal.vue";
 import AppSearchBar from "@/components/AppSearchBar.vue";
 import AppNavHeader from "@/components/AppNavHeader.vue";
-
+import Btn from "@/components/Btn.vue";
+import Toast from "@/components/Toast.vue";
+import { useI18n } from "vue-i18n";
 const global = useGlobalStore();
+const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
@@ -13,54 +16,61 @@ const global = useGlobalStore();
     <AppSearchBar />
   </AppNavHeader>
 
-  <!-- General error message toast -->
-  <div v-cloak id="content-header" class="container grid-lg">
-    <div class="columns">
-      <div class="col-lg-11 col-mx-auto column">
-        <div v-if="global.error_message" class="toast toast-error">
-          {{ global.error_message }}
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Page content container -->
-  <div id="content" class="container grid-lg visible" :class="{ search_focus: global.search_focused }">
-    <div class="columns">
-      <div class="col-lg-11 col-mx-auto column">
-        <RouterView />
-      </div>
+  <div
+    class="mx-auto mb-16 mt-16 min-h-[calc(100vh-400px)] max-w-4xl transition-opacity"
+    :class="{ 'opacity-70': global.search_focused }"
+  >
+    <div class="mx-5 -mb-1 flex flex-col gap-4 pt-5">
+      <Toast level="info">
+        {{ t("toast.released_many_changes") }}
+        <Btn
+          variant="link"
+          size="ms-0 rounded-sm text-start pt-1.5"
+          :aria-label="t('toast.open')"
+          @click="global.openFeedback('general', t('toast.feedback_subject'), t('toast.feedback_body'))"
+        >
+          {{ t("toast.call_to_action") }}
+        </Btn>
+      </Toast>
+      <Toast v-if="global.error_message" :msg="global.error_message" level="error" />
     </div>
-  </div>
-  <!-- Loading indicator -->
-  <div v-cloak id="loading-page">
-    <div class="loading loading-lg" />
+    <div class="mx-5">
+      <RouterView />
+    </div>
   </div>
 
   <Footer />
   <FeedbackModal v-if="global.feedback.open" />
 </template>
 
-<style lang="scss">
-@import "@/assets/variables";
+<i18n lang="yaml">
+de:
+  toast:
+    released_many_changes: Wir haben vor ein paar Tagen eine neue Version unseres Frontends mit einer Vielzahl von Änderungen veröffentlicht.
+    feedback_subject: Feedback zum neuen Frontend
+    feedback_body: |
+      Es gefällt mir, dass:
+      - Detail 1
+      - Einzelheit 2
 
-// 10px + 60px for header
-#content-header {
-  margin-top: 70px;
-}
+      Ich denke, das sollte verbessert werden:
+      - Verbesserung 1
+      - Verbesserung 2
+    call_to_action: Gibt es etwas, das du nicht gut findest? Erzähle uns bitte davon!
+    open: Feedback Form öffnen
+en:
+  toast:
+    released_many_changes: We have recently released a new version of our frontend with a ton of changes.
+    feedback_subject: Feedback about new Frontend
+    feedback_body: |
+      I like:
+      - detail 1
+      - detail 2
 
-#content {
-  min-height: calc(100vh - 200px);
-  &.visible {
-    /* For some reason (I assume because the 'visible' class is not set when vue loads),
-     * this class gets removed if vue adds/removes the 'search_focus' class. For this reason
-     * opacity on page navigation is set as style property in JS. It is only guaranteed that
-     * this class is there on page-load. */
-    transition: opacity 0.07s;
-  }
-
-  &.search_focus {
-    opacity: 0.7;
-  }
-}
-</style>
+      I think this should be improved:
+      - improvement 1
+      - improvement 2
+    call_to_action: Is there something you don't like? Please tell us about it!
+    open: Open the feedback-form
+</i18n>

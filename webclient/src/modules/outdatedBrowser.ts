@@ -28,15 +28,15 @@ function extractBrowserInfo(): BrowserInfo {
 function isSupportedBrowser(browserName: BrowserName, browserVersion: number) {
   switch (browserName) {
     case "Chrome":
-      return 98 >= browserVersion;
+      return 98 <= browserVersion;
     case "Firefox":
-      return 94 >= browserVersion;
+      return 94 <= browserVersion;
     case "Edge":
-      return 98 >= browserVersion;
+      return 98 <= browserVersion;
     case "Opera":
-      return 84 >= browserVersion;
+      return 84 <= browserVersion;
     case "Safari":
-      return 15.3 >= browserVersion;
+      return 15.3 <= browserVersion;
     default:
       return false;
   }
@@ -45,6 +45,7 @@ function isSupportedBrowser(browserName: BrowserName, browserVersion: number) {
 function shouldWarnForOutdatedBrowser(): boolean {
   const browser = extractBrowserInfo();
   if (isSupportedBrowser(browser.name, browser.version)) return false;
+  console.table(browser);
   const optLastTime = localStorage.getItem("lastOutdatedBrowserWarningTime");
   if (optLastTime === null) return true;
   const lastTime = new Date(optLastTime);
@@ -56,21 +57,20 @@ function shouldWarnForOutdatedBrowser(): boolean {
 }
 
 if (shouldWarnForOutdatedBrowser()) {
-  const error = document.createElement("div");
-  error.classList.add("toast", "toast-error");
-  error.innerHTML = `We regret to inform you that your current web browser is outdated and unsupported for the optimal performance of this website.
+  alert(
+    `Please consider upgrading your browser to one of the following recommended options:
 
-To ensure a secure and efficient browsing experience, we recommend updating your browser to the latest version or switching to a more modern and supported browser. Outdated browsers may not be able to render the website correctly, leading to potential security vulnerabilities and reduced functionality.
+- Google Chrome
+- Mozilla Firefox
+- Microsoft Edge
 
-Please consider upgrading your browser to one of the following recommended options:
-
-Google Chrome
-Mozilla Firefox
+We regret to inform you that your current web browser is outdated and unsupported for the optimal performance of this website.
+To ensure a secure and efficient browsing experience, we recommend updating your browser to the latest version or switching to a more modern and supported browser.
+Outdated browsers may not be able to render the website correctly thus leading to reduced functionality or lead to potential security vulnerabilities.
 
 If you need assistance with updating your browser, please refer to your browser's official website or your IT department for guidance.
-
-Thank you for your understanding, and we look forward to providing you with an enhanced browsing experience once your browser is up-to-date.`;
-  document.getElementById("errorToasts")?.appendChild(error);
+Thank you for your understanding, and we look forward to providing you with an enhanced browsing experience once your browser is up-to-date.`,
+  );
   localStorage.setItem("lastOutdatedBrowserWarningTime", new Date().getTime().toString());
 }
 export {};

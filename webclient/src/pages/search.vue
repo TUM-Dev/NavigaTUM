@@ -9,9 +9,11 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
 import type { components } from "@/api_types";
+import { ChevronDownIcon } from "@heroicons/vue/16/solid";
+import { MapPinIcon, MagnifyingGlassIcon, BuildingOfficeIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
 type SearchResponse = components["schemas"]["SearchResponse"];
 
-const { t } = useI18n({ useScope: "local" });
+const { t, locale } = useI18n({ useScope: "local" });
 const global = useGlobalStore();
 const route = useRoute();
 
@@ -29,13 +31,13 @@ const apiUrl = computed(() => {
     params.append("q", q);
   }
   params.append("limit_buildings", "10");
-  params.append("limit_rooms", "30");
-  params.append("limit_all", "30");
+  params.append("limit_rooms", "50");
+  params.append("limit_all", "60");
+  params.append("lang", locale.value);
 
   return `/api/search?${params.toString()}`;
 });
-// eslint-disable-next-line vue/no-ref-object-reactivity-loss
-const { data } = useFetch<SearchResponse>(apiUrl.value, () => {
+const { data } = useFetch<SearchResponse>(apiUrl, () => {
   setTitle(`${t("search_for")} "${route.query.q}"`);
   setDescription(genDescription());
 });
@@ -65,13 +67,13 @@ function genDescription(): string {
 </script>
 
 <template>
-  <div v-if="data" id="view-search">
-    <small class="search_meta">
+  <div v-if="data" class="flex flex-col gap-5 pt-5">
+    <small class="text-zinc-500">
       {{ t("runtime") }}: {{ data.time_ms }}ms –
       <button
-        type="button"
         data-cy="open-feedback-search"
-        class="btn btn-link"
+        type="button"
+        class="focusable text-tumBlue-600 visited:text-tumBlue-600 hover:text-tumBlue-500"
         :aria-label="t('feedback.open')"
         @click="global.openFeedback('search')"
       >
@@ -80,140 +82,49 @@ function genDescription(): string {
     </small>
 
     <template v-for="s in sections" :key="s.type">
-      <section>
-        <div class="columns">
-          <div class="column">
-            <h2>{{ s.name }}</h2>
-          </div>
-        </div>
-        <ul class="result-list">
-          <li v-for="e in s.entries" :key="e.id">
-            <RouterLink :to="'/view/' + e.id" class="tile tile-centered">
-              <div class="tile-icon">
-                <template v-if="e.type === 'room' || e.type === 'virtual_room'">
-                  <i v-if="e.parsed_id" class="icon icon-search" />
-                  <i v-else class="icon icon-location" />
-                </template>
-                <img v-else class="avatar avatar-sm" src="@/assets/thumb-building.webp" :alt="t('thumbnail_alt')" />
-              </div>
-              <div class="tile-content">
-                <div class="tile-title">
-                  <span v-if="e.parsed_id" v-html="e.parsed_id" />
-                  <i v-if="e.parsed_id" class="icon icon-caret" />
-                  <span v-html="e.name" />
+      <section class="flex flex-col gap-2">
+        <h2 class="text-md text-zinc-500 font-semibold">{{ s.name }}</h2>
+        <ul class="flex flex-col gap-3">
+          <li v-for="e in s.entries" :key="e.id" class="focusable rounded-sm border hover:bg-tumBlue-50">
+            <RouterLink :to="'/view/' + e.id" class="flex gap-3 p-4">
+              <div class="my-auto min-w-11">
+                <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 p-2">
+                  <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
+                  <MapPinIcon v-else class="h-6 w-6" />
                 </div>
-                <small class="text-gray tile-subtitle">
+                <div v-else class="text-white bg-tumBlue-500 rounded-full p-2">
+                  <BuildingOfficeIcon v-if="e.type === 'building'" class="mx-auto h-6 w-6" />
+                  <BuildingOffice2Icon v-else class="mx-auto h-6 w-6" />
+                </div>
+              </div>
+              <div class="text-zinc-600 flex flex-col gap-0.5">
+                <div class="flex flex-row">
+                  <span v-if="e.parsed_id" v-html="e.parsed_id" />
+                  <ChevronDownIcon v-if="e.parsed_id" class="h-4 w-4" />
+                  <span class="line-clamp-1" v-html="e.name" />
+                </div>
+                <small>
                   {{ e.subtext }}<template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
                 </small>
               </div>
               <!-- <div class="tile-action">
               <button class="btn btn-link">
-                <i class="icon icon-more-vert" />
+                <EllipsisVerticalIcon class="h-4 w-4"
               </button>
             </div> -->
             </RouterLink>
           </li>
         </ul>
-        <p class="nb_results search-comment">
-          {{ s.estimatedTotalHits > 20 ? t("approx") : "" }}
-          {{ t("results", s.estimatedTotalHits) }}{{ s.estimatedTotalHits > 10 ? ", " + t("max_results") : "" }}
+        <p v-if="s.estimatedTotalHits > 20" class="text-zinc-500 text-sm">
+          {{ t("approx_results", s.estimatedTotalHits) }}
+        </p>
+        <p v-else class="text-zinc-500 text-sm">
+          {{ t("results", s.estimatedTotalHits) }}
         </p>
       </section>
     </template>
   </div>
 </template>
-
-<style lang="scss">
-@import "@/assets/variables";
-
-#view-search {
-  padding-top: 25px;
-
-  h1 {
-    font-size: 1.2rem;
-    font-weight: 500;
-  }
-
-  h2 {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-
-  section {
-    margin-top: 40px;
-
-    .search-comment {
-      &.nb_results {
-        color: $text-gray;
-      }
-    }
-  }
-
-  .divider + section {
-    margin-top: 30px;
-  }
-
-  ul.result-list {
-    list-style: none;
-    margin-left: 0;
-    margin-top: 0;
-
-    li {
-      padding: 8px 10px 6px;
-      border-radius: 6px;
-      box-shadow: 3px 3px 4px rgba(106, 106, 106, 1%);
-      border: 0.05rem solid $search-border;
-      transition: border 0.2s;
-
-      &:hover {
-        box-shadow: 3px 3px 4px rgba(106, 106, 106, 3%);
-        border: 0.05rem solid $search-border-hover;
-      }
-
-      a {
-        text-decoration: none;
-        color: $body-font-color;
-      }
-
-      .tile-title {
-        line-height: 1rem;
-
-        i.icon-caret {
-          transform: rotate(-90deg);
-        }
-      }
-
-      .tile-subtitle {
-        line-height: 1rem;
-      }
-
-      em {
-        font-style: normal;
-        font-weight: bold;
-        color: $theme-accent;
-      }
-    }
-  }
-
-  small {
-    button {
-      // feedback-form, ..
-      font-size: 12px;
-      padding: 0;
-    }
-
-    .search_meta {
-      display: block;
-
-      // color: $text-gray;
-
-      a {
-        color: $body-font-color;
-      }
-    }
-  }
-}
-</style>
 
 <i18n lang="yaml">
 de:
@@ -225,13 +136,12 @@ de:
     of_which_visible: davon sichtbar
     were_found: wurden gefunden.
   feedback:
-    give: Feedback zur Suche geben
+    give: Feedback zu Sucheergebnissen geben
     open: Feedback-Formular für Rückmeldungen zur Suchanfrage geben
-  max_results: bitte grenze die Suche weiter ein
   runtime: Laufzeit
   search_for: Suche nach
   thumbnail_alt: Vorschaubild für das besagte Gebäude
-  approx: ca.
+  approx_results: ca. {count} Ergebnisse, bitte grenze die Suche weiter ein
   results: 1 Ergebnis | {count} Ergebnisse
 en:
   sections:
@@ -242,12 +152,11 @@ en:
     of_which_visible: of them visible
     were_found: were found.
   feedback:
-    give: Send feedback to search
+    give: Send feedback about search results
     open: Open the feedback-form for feedback about the search
-  max_results: please narrow the search further
   runtime: Runtime
   search_for: Search for
   thumbnail_alt: Thumbnail for said building
-  approx: approx.
+  approx_results: approx. {count} results, please narrow the search further
   results: 1 result | {count} results
 </i18n>

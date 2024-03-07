@@ -8,6 +8,7 @@ export type Coord = {
     lon: number | undefined;
   };
 };
+
 export const useGlobalStore = defineStore({
   id: "global",
   state: () => ({
@@ -34,11 +35,11 @@ export const useGlobalStore = defineStore({
       this.feedback.open = true;
       this.feedback.data = { category, subject, body, deletion_requested: false };
 
-      document.body.classList.add("no-scroll");
+      document.body.classList.add("overflow-y-hidden");
     },
     temporarilyCloseFeedback(): void {
       this.feedback.open = false;
-      document.body.classList.remove("no-scroll");
+      document.body.classList.remove("overflow-y-hidden");
     },
   },
 });

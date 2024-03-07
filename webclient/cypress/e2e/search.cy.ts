@@ -25,7 +25,7 @@ describe("Check if the search page works as expected", () => {
     cy.get("input").clear();
     cy.get("input").type("fsmpic{enter}");
     cy.url().should("include", "/search?q=fsmpic");
-    cy.contains("5502.U1.234M");
+    cy.contains("5101.EG.257");
 
     //go back
     cy.go(-1);

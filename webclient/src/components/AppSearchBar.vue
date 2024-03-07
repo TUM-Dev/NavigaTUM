@@ -10,7 +10,10 @@ import type { components } from "@/api_types";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
-const { t } = useI18n({ useScope: "local" });
+import { MapPinIcon, MagnifyingGlassIcon, BuildingOfficeIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
+import { ChevronDownIcon } from "@heroicons/vue/16/solid";
+import Btn from "@/components/Btn.vue";
+const { t, locale } = useI18n({ useScope: "local" });
 const global = useGlobalStore();
 const keep_focus = ref(false);
 const query = ref("");
@@ -121,7 +124,7 @@ function onInput() {
   } else {
     const queryId = queryCounter.value;
     queryCounter.value += 1;
-    useFetch<SearchResponse>(`/api/search?q=${encodeURIComponent(query.value)}`, (d) => {
+    useFetch<SearchResponse>(`/api/search?q=${encodeURIComponent(query.value)}&lang=${locale.value}`, (d) => {
       // Data will be cached anyway in case the user hits backspace,
       // but we need to discard the data here if it arrived out of order.
       if (queryId > latestUsedQueryId.value) {
@@ -147,13 +150,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="form-autocomplete">
-    <div class="has-icon-left input-group">
+  <div class="flex flex-row">
+    <div
+      class="bg-zinc-200 border-zinc-400 flex flex-grow flex-row rounded-s-sm border px-2.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-tumBlue-600"
+    >
+      <MagnifyingGlassIcon class="text-zinc-800 my-auto h-4 w-4" />
       <input
         id="search"
         v-model="query"
         type="text"
-        class="form-input input-lg"
+        class="text-zinc-800 flex-grow bg-transparent px-3 py-2.5 font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal focus:outline-0"
         :placeholder="t('input.placeholder')"
         autocomplete="off"
         :aria-label="t('input.aria-searchlabel')"
@@ -162,225 +168,119 @@ onMounted(() => {
         @blur="searchBlur"
         @keydown="onKeyDown"
       />
-      <i class="form-icon icon icon-search" />
-      <button
-        type="button"
-        class="btn btn-lg btn-primary input-group-btn"
-        :aria-label="t('input.aria-actionlabel')"
-        @click="searchGo(false)"
-      >
-        {{ t("input.action") }}
-      </button>
     </div>
-    <!-- Autocomplete -->
-    <ul
-      v-cloak
-      class="menu"
-      :class="{
-        'd-none': !global.search_focused || autocomplete.sections.length === 0,
-      }"
+    <button
+      type="button"
+      class="text-white bg-tumBlue-500 rounded-e-sm px-3 py-1 text-xs font-semibold shadow-sm hover:bg-tumBlue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-tumBlue-600"
+      :aria-label="t('input.aria-actionlabel')"
+      @click="searchGo(false)"
     >
-      <!-- <li class="search-comment filter">
-                    Suche einschränken auf:
-                    <a class="bt btn-link btn-sm">Räume</a>
-                  </li> -->
+      {{ t("input.action") }}
+    </button>
+  </div>
+  <!-- Autocomplete -->
+  <div
+    v-if="global.search_focused && autocomplete.sections.length !== 0"
+    class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 -ms-2 me-3 mt-16 flex max-h-[calc(100vh-75px)] max-w-xl flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30"
+  >
+    <ul v-for="s in autocomplete.sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
+      <div class="flex items-center">
+        <span class="text-md text-zinc-800 me-4 flex-shrink">{{ s.name }}</span>
+        <div class="border-zinc-800 flex-grow border-t"></div>
+      </div>
+      <!--
+    <li class="search-comment filter">
+      Suche einschränken auf:
+      <a class="bt btn-link btn-sm">Räume</a>
+    </li> -->
 
-      <template v-for="s in autocomplete.sections" :key="s.facet">
-        <li class="divider" :data-content="s.name" />
-        <template v-for="(e, i) in s.entries" :key="e.id">
-          <li v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded" class="menu-item">
-            <a
-              :class="{
-                active: e.id === autocomplete.highlighted,
-              }"
-              :href="'/view/' + e.id"
-              @click.exact.prevent="searchGoTo(e.id, true)"
-              @mousedown="keep_focus = true"
-              @mouseover="autocomplete.highlighted = null"
-            >
-              <div class="tile">
-                <div class="tile-icon">
-                  <template v-if="e.type === 'room' || e.type === 'virtual_room'">
-                    <i v-if="e.parsed_id" class="icon icon-search" />
-                    <i v-else class="icon icon-location" />
-                  </template>
-                  <img v-else src="@/assets/thumb-building.webp" class="avatar avatar-sm" />
-                </div>
-                <div class="tile-content">
-                  <span class="tile-title">
-                    <span v-if="e.parsed_id" v-html="e.parsed_id" />
-                    <i v-if="e.parsed_id" class="icon icon-caret" />
-                    <span :style="{ opacity: e.parsed_id ? 0.5 : 1 }" v-html="e.name" />
-                  </span>
-                  <small class="text-gray tile-subtitle">
-                    {{ e.subtext }}
-                    <template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
-                  </small>
-                </div>
-              </div>
-            </a>
-            <!-- <div class="menu-badge">
-                        <label class="label label-primary">2</label>
-                      </div> -->
-          </li>
-        </template>
-        <li class="nb_results search-comment">
-          <a
-            v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
-            class="cursor-pointer"
+      <template v-for="(e, i) in s.entries" :key="e.id">
+        <li
+          v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded"
+          class="bg-zinc-50 border-zinc-200 rounded-sm border hover:bg-tumBlue-100"
+        >
+          <RouterLink
+            :class="{
+              'bg-tumBlue-200': e.id === autocomplete.highlighted,
+            }"
+            :to="'/view/' + e.id"
+            class="flex gap-3 px-4 py-3"
+            @click.exact.prevent="searchGoTo(e.id, false)"
             @mousedown="keep_focus = true"
-            @click="s.expanded = true"
+            @mouseover="autocomplete.highlighted = null"
           >
-            +{{ s.entries.length - s.n_visible }} {{ t("hidden") }},
-          </a>
-          {{ s.estimatedTotalHits > 20 ? t("approx") : "" }}{{ t("results", s.estimatedTotalHits) }}
+            <div class="my-auto min-w-11">
+              <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 p-2">
+                <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
+                <MapPinIcon v-else class="h-6 w-6" />
+              </div>
+              <div v-else class="text-white bg-tumBlue-500 rounded-full p-2">
+                <BuildingOfficeIcon v-if="e.type === 'building'" class="mx-auto h-6 w-6" />
+                <BuildingOffice2Icon v-else class="mx-auto h-6 w-6" />
+              </div>
+            </div>
+            <div class="text-zinc-600 flex flex-col gap-0.5">
+              <div class="flex flex-row">
+                <span v-if="e.parsed_id" v-html="e.parsed_id" />
+                <ChevronDownIcon v-if="e.parsed_id" class="h-4 w-4" />
+                <span class="line-clamp-1" v-html="e.name" />
+              </div>
+              <small>
+                {{ e.subtext }}<template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
+              </small>
+            </div>
+          </RouterLink>
+          <!-- <div class="menu-badge">
+              <label class="label label-primary">2</label>
+            </div> -->
         </li>
       </template>
+      <li class="-mt-2">
+        <Btn
+          v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
+          variant="linkButton"
+          size="sm"
+          @mousedown="keep_focus = true"
+          @click="s.expanded = true"
+        >
+          {{ t("show_hidden", s.entries.length - s.n_visible) }}
+        </Btn>
+        <span class="text-zinc-400 text-sm">
+          {{
+            s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
+          }}
+        </span>
+      </li>
 
-      <!-- <li class="search-comment actions">
-                    <div>
-                      <button class="btn btn-sm">
-                        <i class="icon icon-arrow-right" /> in Gebäude Suchen
-                      </button>
-                    </div>
-                    <div>
-                      <button class="btn btn-sm">
-                        <i class="icon icon-location" /> Hörsäle
-                      </button>
-                    </div>
-                    <div>
-                      <button class="btn btn-sm">
-                        <i class="icon icon-location" /> Seminarräume
-                      </button>
-                    </div>
-                  </li> -->
+      <!--
+      <li class="search-comment actions">
+        <Btn size="sm"><ChevronRightIcon class="h-4 w-4" /> in Gebäude Suchen</Btn>
+        <Btn size="sm"><MapPinIcon class="h-4 w-4" /> Hörsäle</Btn>
+        <Btn size="sm"><MapPinIcon class="h-4 w-4" /> Seminarräume</Btn>
+      </li>
 
-      <!-- <li class="divider" data-content="Veranstaltungen" />
-                  <li class="menu-item">
-                    <a href="#">
-                      <div class="tile">
-                        <div class="tile-icon">
-                          <i class="icon icon-time" />
-                        </div>
-                        <div class="tile-content">
-                          <span class="tile-title">
-                            Advanced Practical Course Games Engineering: Building Information Modeling (IN7106)
-                          </span>
-                          <small class="tile-subtitle text-gray">
-                            Übung mit 4 Gruppen
-                          </small>
-                        </div>
-                      </div>
-                    </a>
-                    <div class="menu-badge" style="display: none;">
-                      <label class="label label-primary">frei</label>
-                    </div>
-                  </li> -->
+      <li class="divider" data-content="Veranstaltungen" />
+      <li class="menu-item">
+        <RouterLink to="/event/">
+          <div class="tile">
+            <div class="tile-icon">
+              <ClockIcon class="h-4 w-4" />
+            </div>
+            <div class="tile-content">
+              <span class="tile-title">
+                Advanced Practical Course Games Engineering: Building Information Modeling (IN7106)
+              </span>
+              <small class="tile-subtitle text-gray"> Übung mit 4 Gruppen </small>
+            </div>
+          </div>
+        </RouterLink>
+        <div class="menu-badge" style="display: none">
+          <label class="label label-primary">frei</label>
+        </div>
+      </li> -->
     </ul>
   </div>
 </template>
-
-<style lang="scss">
-@import "@/assets/variables";
-
-.form-autocomplete {
-  .menu {
-    box-shadow: $autocomplete-box-shadow;
-
-    .menu-item {
-      & > a {
-        cursor: pointer;
-
-        &.active {
-          color: #fff;
-          background-color: $theme-accent;
-        }
-
-        em {
-          color: $theme-accent;
-          font-style: normal;
-          font-weight: bold;
-        }
-
-        &:focus em,
-        &:hover em,
-        &.active em {
-          color: #fff;
-        }
-      }
-    }
-  }
-
-  .tile-content {
-    max-width: 100%;
-    margin-bottom: -5px;
-    line-height: 100%;
-    padding-bottom: 0.2rem;
-  }
-
-  .tile-title {
-    margin-right: 3px;
-
-    i.icon-caret {
-      transform: rotate(-90deg);
-    }
-  }
-
-  .tile-subtitle {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%;
-    padding-right: 16px;
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: middle;
-    margin-top: -5px;
-
-    // Correction for Chrome
-    padding-top: 2px;
-    height: 1.2rem;
-  }
-
-  .menu .search-comment {
-    margin: -8px -8px 0;
-    padding: 6px 16px;
-    font-size: 14px;
-    color: $autocomplete-comment-color;
-
-    &.filter {
-      color: $autocomplete-filter-text;
-      background-color: $autocomplete-filter-bg;
-      border-bottom: 1px solid $border-light;
-
-      > a {
-        display: inline;
-      }
-    }
-
-    &.nb_results {
-      margin: -4px 0;
-      padding: 4px 8px;
-    }
-
-    &.actions {
-      margin: -4px 0 -4px 32px;
-      padding: 4px 8px;
-      overflow-x: auto;
-      white-space: nowrap;
-
-      div {
-        display: inline-block;
-        margin-right: 8px;
-      }
-
-      button {
-        margin-top: 6px;
-        margin-bottom: 3px;
-      }
-    }
-  }
-}
-</style>
 
 <i18n lang="yaml">
 de:
@@ -389,22 +289,22 @@ de:
     aria-actionlabel: Suche nach dem im Suchfeld eingetragenen Raum
     aria-searchlabel: Suchfeld
     action: Go
-  approx: ca.
-  hidden: ausgeblendet
+  show_hidden: +{count} ausgeblendet
   sections:
     buildings: Gebäude / Standorte
     rooms: Räume
   results: 1 Ergebnis | {count} Ergebnisse
+  approx_results: ca. {count} Ergebnisse
 en:
   input:
     placeholder: Search
     aria-actionlabel: Search for the room-query entered in the search field
     aria-searchlabel: Search-field
     action: Go
-  approx: approx.
-  hidden: hidden
+  show_hidden: +{count} hidden
   sections:
     buildings: Buildings / Sites
     rooms: Rooms
   results: 1 result | {count} results
+  approx_results: approx. {count} results
 </i18n>

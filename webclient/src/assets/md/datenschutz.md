@@ -9,8 +9,8 @@ Verantwortlicher im Sinne der Datenschutzgesetze, insbesondere der EU-Datenschut
 Frank Elsinga in Vertretung für ["OpenSource @ TUM e.V."](https://tum.dev).
 
 ```plain
-Postanschrift: Josef-Fischhaber-Straße 46, 82319 Starnberg
-Telefon: (0049/0)176 – 56–727-579
+Postal address: Boltzmannstr. 3, 85748 Garching b. München, Germany.
+Telephone: 089/289-17052
 E-Mail: navigatum (at-symbol) tum.de
 ```
 

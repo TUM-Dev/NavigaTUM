@@ -1,211 +1,65 @@
 <script setup lang="ts">
-import AppLanguageToggler from "@/components/AppLanguageToggler.vue";
-import AppThemeToggler from "@/components/AppThemeToggler.vue";
 import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
-import { useBreakpoints } from "@vueuse/core";
+import Btn from "@/components/Btn.vue";
+import { computed } from "vue";
+import { useDark } from "@vueuse/core";
 
 const global = useGlobalStore();
-const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
-const lang = (localStorage.getItem("lang") || "de") as "de" | "en";
 // If we do not include the image here like this, vite/rollup is unable to load it
-const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.meta.url);
-const { t } = useI18n({ useScope: "local" });
-const breakpoints = useBreakpoints({ xs: 0, sm: 601, md: 841, lg: 961, xl: 1281 });
-const showBrandBetween = breakpoints.greaterOrEqual("md");
+const dark = useDark({ storageKey: "theme" });
+const brandLogo = computed(
+  () => new URL(`/src/assets/logos/tum_${dark.value ? "dark" : "light"}_${locale.value}.svg`, import.meta.url),
+);
+const { t, locale } = useI18n({ useScope: "local" });
+const navigation = computed(() => [
+  {
+    name: t("sourcecode.text"),
+    href: "https://github.com/TUM-Dev/navigatum",
+  },
+  {
+    name: t("api.text"),
+    href: "/api",
+  },
+  {
+    name: t("about.text"),
+    href: "/about/" + t("about.link"),
+  },
+  {
+    name: t("privacy.text"),
+    href: "/about/" + t("privacy.link"),
+  },
+  {
+    name: t("imprint.text"),
+    href: "/about/" + t("imprint.link"),
+  },
+]);
 </script>
 
 <template>
-  <footer data-cy="main-footer">
-    <div class="container grid-lg">
-      <div class="columns">
-        <div class="col-lg-11 col-mx-auto column">
-          <div class="columns">
-            <div class="col-auto col-xs-12 column links">
-              <div class="columns">
-                <ul class="column">
-                  <li style="min-width: 71px">
-                    <a href="https://github.com/TUM-Dev/navigatum">
-                      {{ t("sourcecode.text") }}
-                    </a>
-                  </li>
-                  <li>
-                    <RouterLink to="/api">
-                      {{ t("api.text") }}
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink :to="'/about/' + t('about.link')">
-                      {{ t("about.text") }}
-                    </RouterLink>
-                  </li>
-                </ul>
-                <ul class="column">
-                  <li>
-                    <button
-                      type="button"
-                      data-cy="open-feedback-footer"
-                      class="btn btn-link"
-                      :aria-label="t('feedback.open')"
-                      @click="global.openFeedback()"
-                    >
-                      {{ t("feedback.text") }}
-                    </button>
-                  </li>
-                  <li>
-                    <RouterLink :to="'/about/' + t('privacy.link')">
-                      {{ t("privacy.text") }}
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink :to="'/about/' + t('imprint.link')">
-                      {{ t("imprint.text") }}
-                    </RouterLink>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div v-if="showBrandBetween" class="column official_roomfinder">
-              {{ t("official_roomfinder") }}<br />
-              <a href="https://tum.de" target="_blank">
-                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="mx-auto" />
-              </a>
-            </div>
-            <div class="col-auto col-ml-auto col-xs-12 column settings">
-              <div class="columns">
-                <div class="col-12 col-mx-auto col-xs-8 column">
-                  <div class="columns setting-group">
-                    <div class="col column">
-                      <label for="setting-lang"
-                        ><small>{{ t("language") }}</small>
-                      </label>
-                    </div>
-                    <div class="col-auto column">
-                      <AppLanguageToggler />
-                    </div>
-                  </div>
-                  <div class="columns setting-group">
-                    <div class="col column">
-                      <label for="setting-theme">
-                        <small>{{ t("theme") }}</small>
-                      </label>
-                    </div>
-                    <div class="col-auto column">
-                      <AppThemeToggler />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div v-if="!showBrandBetween" class="col-12 column official_roomfinder">
-              {{ t("official_roomfinder") }}<br />
-              <a href="https://tum.de" target="_blank">
-                <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="mx-auto" />
-              </a>
-            </div>
-          </div>
+  <footer data-cy="main-footer" class="bg-zinc-100 mt-10">
+    <div class="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-14 lg:px-8">
+      <nav class="-mb-6 columns-2 text-center sm:columns-3 sm:justify-center sm:space-x-12 md:flex" aria-label="Footer">
+        <div v-for="item in navigation" :key="item.name" class="pb-6 text-sm leading-6">
+          <Btn variant="link" :to="item.href">{{ item.name }}</Btn>
         </div>
+        <div class="pb-6 text-sm leading-6">
+          <Btn variant="link" :aria-label="t('feedback.open')" @click="global.openFeedback()">
+            {{ t("feedback.text") }}
+          </Btn>
+        </div>
+      </nav>
+      <div class="mt-10 flex justify-center space-x-10 text-center">
+        <Btn to="https://tum.de" variant="rounded-xl px-3 py-2 focusable" size="sm">
+          <p class="text-zinc-600 text-center text-xs">
+            {{ t("official_roomfinder") }}<br />
+            <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" height="80" aria-hidden="true" />
+          </p>
+        </Btn>
       </div>
     </div>
   </footer>
 </template>
-
-<style lang="scss">
-@import "@/assets/variables";
-
-footer {
-  margin-top: 30px;
-  padding: 8px 0 16px;
-  background: $footer-color;
-  position: relative;
-  left: 0;
-  right: 0;
-  top: 0;
-  text-align: center;
-
-  .links {
-    text-align: left;
-
-    ul {
-      margin: 0;
-
-      li {
-        list-style: none;
-        margin-top: 0;
-      }
-    }
-
-    a,
-    RouterLink,
-    button {
-      font-size: 0.6rem;
-    }
-
-    button {
-      height: auto;
-      padding: 0;
-    }
-
-    button:hover {
-      text-decoration: underline;
-    }
-  }
-  .official_roomfinder {
-    font-size: 0.6rem;
-  }
-
-  .settings {
-    .setting-group {
-      margin-top: calc(0.4rem - 1px);
-    }
-
-    .btn-group {
-      min-width: 110px;
-
-      .btn {
-        border-color: transparent;
-
-        &:disabled {
-          background-color: $footer-setting-bg-disabled;
-          color: $footer-setting-color-disabled;
-        }
-      }
-    }
-  }
-}
-
-// 'xs' (mobile)
-@media (max-width: 480px) {
-  footer {
-    margin-top: 50px;
-    bottom: -200px;
-
-    .links,
-    .settings,
-    .official_roomfinder {
-      margin-top: 0.8rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .links {
-      ul {
-        margin-left: 0.8rem;
-        margin-right: 0.8rem;
-        li {
-          margin-top: 0.4rem;
-          text-align: center !important;
-        }
-      }
-
-      a,
-      RouterLink,
-      button {
-        font-size: 0.7rem;
-      }
-    }
-  }
-}
-</style>
 
 <i18n lang="yaml">
 de:

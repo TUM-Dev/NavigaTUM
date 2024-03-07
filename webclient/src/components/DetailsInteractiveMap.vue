@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
-import { Map, Marker } from "maplibre-gl";
-import { AttributionControl, FullscreenControl, GeolocateControl, NavigationControl } from "maplibre-gl";
-import { selectedMap, useDetailsStore } from "@/stores/details";
+import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
+import { MapSelections, useDetailsStore } from "@/stores/details";
 import { nextTick, ref } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
 import { webglSupport } from "@/composables/webglSupport";
@@ -24,7 +23,7 @@ function loadInteractiveMap(fromUi = false) {
 
   const fromMap = state.map.selected;
 
-  state.map.selected = selectedMap.interactive;
+  state.map.selected = MapSelections.interactive;
 
   const doMapUpdate = function () {
     // The map might or might not be initialized depending on the type
@@ -33,6 +32,8 @@ function loadInteractiveMap(fromUi = false) {
       if (document.getElementById("interactive-map")?.classList.contains("maplibregl-map")) {
         marker.value?.remove();
       } else {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore recursive calls are not supported by ts
         map.value = initMap("interactive-map");
 
         document.getElementById("interactive-map")?.classList.remove("loading");
@@ -53,7 +54,7 @@ function loadInteractiveMap(fromUi = false) {
     };
 
     if (coords !== undefined) {
-      if (fromMap === selectedMap.interactive) {
+      if (fromMap === MapSelections.interactive) {
         map.value?.flyTo({
           center: [coords.lon, coords.lat],
           zoom: defaultZooms[state.data?.type || "undefined"] || 16,
@@ -73,9 +74,6 @@ function loadInteractiveMap(fromUi = false) {
 
   // To have an animation when the roomfinder is opened some time later,
   // the cursor is set to 'zero' while the interactive map is displayed.
-  state.map.roomfinder.x = -1023 - 10;
-  state.map.roomfinder.y = -1023 - 10;
-
   if (fromUi) {
     window.scrollTo(0, 0);
   }
@@ -113,8 +111,7 @@ function initMap(containerId: string) {
     attributionControl: false,
   });
 
-  const nav = new NavigationControl({});
-  map.addControl(nav, "top-left");
+  map.addControl(new NavigationControl({}), "top-left");
 
   // (Browser) Fullscreen is enabled only on mobile, on desktop the map
   // is maximized instead. This is determined once to select the correct
@@ -134,12 +131,12 @@ function initMap(containerId: string) {
     else {
       if (fullscreenCtl._container.classList.contains("maximize")) {
         fullscreenCtl._container.classList.remove("maximize");
-        document.body.classList.remove("no-scroll");
+        document.body.classList.remove("overflow-y-hidden");
         fullscreenCtl._fullscreenButton.classList.remove("maplibregl-ctrl-shrink");
       } else {
         fullscreenCtl._container.classList.add("maximize");
         fullscreenCtl._fullscreenButton.classList.add("maplibregl-ctrl-shrink");
-        document.body.classList.add("no-scroll");
+        document.body.classList.add("overflow-y-hidden");
         window.scrollTo({ top: 0, behavior: "auto" });
       }
 
@@ -262,7 +259,8 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 <template>
   <div
     id="interactive-map-container"
-    :class="{ 'd-none': state.map.selected !== selectedMap.interactive, errormessage: !webglSupport }"
+    class="mb-2.5 aspect-4/3"
+    :class="{ hidden: state.map.selected !== MapSelections.interactive, errormessage: !webglSupport }"
   >
     <div>
       <div v-if="webglSupport" id="interactive-map" class="loading" />
@@ -286,55 +284,27 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   </div>
 </template>
 
-<style lang="scss">
+<style lang="postcss">
 @import "maplibre-gl/dist/maplibre-gl.css";
-@import "@/assets/variables";
 
-/* --- Map container --- */
-#map-container {
-  // This does not change anything (except using px instead of rem),
-  // but ensures that roomfinder position calculations are predictable.
-  padding: 0 8px;
-}
-
-.toast.location-picker {
-  animation: fade-in 0.1s linear 0.05s;
-  animation-fill-mode: both;
-
-  & .btns {
-    margin: auto 0;
-  }
-
-  .toast {
-    // Mobile
-    margin-bottom: 9px;
-    font-size: 0.7rem;
-  }
-}
 /* --- Interactive map display --- */
 #interactive-map-container {
-  margin-bottom: 10px;
-  aspect-ratio: 4 / 3; // Not yet supported by all browsers
-
   /* --- User location dot --- */
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    background-color: $primary-color;
+    @apply bg-tumBlue-500;
   }
 
   > div {
-    padding-bottom: 75%; // 4:3 aspect ratio
+    padding-bottom: 75%; /* 4:3 aspect ratio */
     border: 1px solid $border-light;
     background-color: $container-loading-bg;
     position: relative;
   }
   &.errormessage {
-    background-color: $error-color;
+    @apply bg-red-300;
     & div {
-      border: 0;
-      padding: 1rem;
-      background-color: $error-color;
-      color: white;
+      @apply bg-red-300 border-0 p-1 text-red-950;
     }
   }
 
@@ -430,7 +400,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
     }
   }
 
-  // vertical is default layout
+  /* vertical is default layout */
   & > .horizontal-oc {
     display: none;
   }

@@ -6,7 +6,7 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import Markdown from "unplugin-vue-markdown/vite";
 import prism from "markdown-it-prism";
 import path from "path";
-import VueDevTools from "vite-plugin-vue-devtools";
+//import VueDevTools from "vite-plugin-vue-devtools";
 
 export default defineConfig({
   envDir: path.resolve(__dirname, "./env"),
@@ -35,7 +35,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           maplibre_gl: ["maplibre-gl"],
-          swagger_ui_dist: ["swagger-ui-dist"],
+          swagger_ui: ["swagger-ui"],
         },
       },
     },
@@ -51,7 +51,9 @@ export default defineConfig({
     Markdown({
       markdownItUses: [prism],
     }),
-    VueDevTools(),
+    // currently the devtools fucks MAJORLY with the darkmode with no way of configuring it
+    // (darkmode will get randomly enabled/disabled)
+    // VueDevTools(),
   ],
   resolve: {
     alias: {
