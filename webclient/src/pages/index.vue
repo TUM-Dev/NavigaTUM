@@ -8,29 +8,15 @@ import { ArrowRightIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from
 import { ref } from "vue";
 import Btn from "@/components/Btn.vue";
 import Spinner from "@/components/Spinner.vue";
-import Toast from "@/components/Toast.vue";
-import { useGlobalStore } from "@/stores/global";
 type RootResponse = components["schemas"]["RootResponse"];
 
 const { t } = useI18n({ useScope: "local" });
 const { data } = useFetch<RootResponse>(`/api/get/root`, (d) => setTitle(d.name));
 const openPanels = ref<(boolean | undefined)[]>([]);
-const global = useGlobalStore();
 </script>
 
 <template>
   <div class="flex flex-col justify-between gap-3 pt-8">
-    <Toast level="info">
-      {{ t("toast.released_many_changes") }}
-      <Btn
-        variant="link"
-        size="ms-0 rounded-sm"
-        :aria-label="t('toast.open')"
-        @click="global.openFeedback('general', t('toast.feedback_subject'), t('toast.feedback_body'))"
-      >
-        {{ t("toast.call_to_action") }}
-      </Btn>
-    </Toast>
     <div class="text-zinc-600 !text-lg font-semibold">{{ t("sites") }}</div>
     <!-- <a href="#" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</a> -->
   </div>
@@ -103,19 +89,6 @@ de:
   "Loading data...": Lädt daten...
   show_details_for_campus: show the details for the campus '{0}'
   show_details_for_building: show the details for the building '{0}'
-  toast:
-    released_many_changes: Wir haben vor ein paar Tagen eine neue Version unseres Frontends mit einer Vielzahl von Änderungen veröffentlicht.
-    feedback_subject: Feedback zum neuen Frontend
-    feedback_body: |
-      Es gefällt mir, dass:
-      - Detail 1
-      - Einzelheit 2
-
-      Ich denke, das sollte verbessert werden:
-      - Verbesserung 1
-      - Verbesserung 2
-    call_to_action: Gibt es etwas, das du nicht gut findest? Erzähle uns bitte davon!
-    open: Feedback Form öffnen
 en:
   less: less
   less_aria: show more buildings
@@ -126,17 +99,4 @@ en:
   "Loading data...": Loading data...
   show_details_for_campus: show the details for the campus '{0}'
   show_details_for_building: show the details for the building '{0}'
-  toast:
-    released_many_changes: We have recently released a new version of our frontend with a ton of changes.
-    feedback_subject: Feedback about new Frontend
-    feedback_body: |
-      I like:
-      - detail 1
-      - detail 2
-
-      I think this should be improved:
-      - improvement 1
-      - improvement 2
-    call_to_action: Is there something you don't like? Please tell us about it!
-    open: Open the feedback-form
 </i18n>

@@ -11,7 +11,7 @@ const props = withDefaults(
 <template>
   <div
     :data-cy="'toast-' + props.level"
-    class="rounded border p-1.5 text-sm leading-5"
+    class="text-pretty rounded border p-1.5 text-sm leading-5"
     :class="{
       'text-red-900 bg-red-100 border-red-300': props.level === 'error',
       'text-orange-900 bg-orange-100 border-orange-300': props.level === 'warning',
