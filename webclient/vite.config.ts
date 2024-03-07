@@ -35,7 +35,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           maplibre_gl: ["maplibre-gl"],
-          swagger_ui_dist: ["swagger-ui-dist"],
+          swagger_ui: ["swagger-ui"],
         },
       },
     },

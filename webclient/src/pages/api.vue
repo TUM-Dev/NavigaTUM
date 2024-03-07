@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import "swagger-ui-dist/swagger-ui.css";
-import { useGlobalStore } from "@/stores/global";
+import "swagger-ui/dist/swagger-ui.css";
+import { useDark } from "@vueuse/core";
 // TODO: this is reaaaly hacky, but I have no idea how to
 //  - convince vue to allow conditional css imports
 //  - postcss to allow for imports under a selector
-const global = useGlobalStore();
+const dark = useDark({ storageKey: "theme" });
+if (dark.value) {
+  import("swaggerdark/SwaggerDark.css");
+}
 window.setTimeout(() => {
   // we need to make sure, that swagger-ui exists, otherwise the following command will fail
   // therefore waiting is effective
-  import("swagger-ui-dist").then(({ SwaggerUIBundle }) =>
-    SwaggerUIBundle({
+  import("swagger-ui").then((SwaggerUI) =>
+    SwaggerUI({
       url: `${import.meta.env.VITE_APP_URL}/cdn/openapi.yaml`,
       dom_id: "#swagger-ui",
-      presets: [SwaggerUIBundle.presets.apis],
     }),
   );
 }, 10);
