@@ -9,12 +9,7 @@ export function useFetch<T>(
 ) {
   const data = shallowRef<T | null>(null);
   const fetchData = () => {
-    // for some of our endpoints, we might want to have access to the lang/theme cookies
-    // Add language query param to the request
-    const fetchUrl = toValue(url);
-    const { locale } = useI18n({ useScope: "global" });
-    const langQuery = `${fetchUrl.indexOf("?") != -1 ? "&lang=" : "?lang="}${locale}`;
-    const localisedUrl = `${import.meta.env.VITE_APP_URL}${fetchUrl}${langQuery}`;
+    const localisedUrl = `${import.meta.env.VITE_APP_URL}${toValue(url)}`;
 
     const global = useGlobalStore();
     const fetchErrorHandler = errorHandler || ((err: string) => (global.error_message = err));

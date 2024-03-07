@@ -13,7 +13,7 @@ type SearchResponse = components["schemas"]["SearchResponse"];
 import { MapPinIcon, MagnifyingGlassIcon, BuildingOfficeIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
 import { ChevronDownIcon } from "@heroicons/vue/16/solid";
 import Btn from "@/components/Btn.vue";
-const { t } = useI18n({ useScope: "local" });
+const { t, locale } = useI18n({ useScope: "local" });
 const global = useGlobalStore();
 const keep_focus = ref(false);
 const query = ref("");
@@ -124,7 +124,7 @@ function onInput() {
   } else {
     const queryId = queryCounter.value;
     queryCounter.value += 1;
-    useFetch<SearchResponse>(`/api/search?q=${encodeURIComponent(query.value)}`, (d) => {
+    useFetch<SearchResponse>(`/api/search?q=${encodeURIComponent(query.value)}&lang=${locale.value}`, (d) => {
       // Data will be cached anyway in case the user hits backspace,
       // but we need to discard the data here if it arrived out of order.
       if (queryId > latestUsedQueryId.value) {

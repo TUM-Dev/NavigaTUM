@@ -5,13 +5,14 @@ import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
 import { MapPinIcon } from "@heroicons/vue/24/outline";
 import { ArrowRightIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/24/solid";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import Btn from "@/components/Btn.vue";
 import Spinner from "@/components/Spinner.vue";
 type RootResponse = components["schemas"]["RootResponse"];
 
-const { t } = useI18n({ useScope: "local" });
-const { data } = useFetch<RootResponse>(`/api/get/root`, (d) => setTitle(d.name));
+const { t, locale } = useI18n({ useScope: "local" });
+const url = computed<string>(() => `/api/get/root&lang=${locale.value}`);
+const { data } = useFetch<RootResponse>(url, (d) => setTitle(d.name));
 const openPanels = ref<(boolean | undefined)[]>([]);
 </script>
 

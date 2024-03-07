@@ -13,7 +13,7 @@ import { ChevronDownIcon } from "@heroicons/vue/16/solid";
 import { MapPinIcon, MagnifyingGlassIcon, BuildingOfficeIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
 type SearchResponse = components["schemas"]["SearchResponse"];
 
-const { t } = useI18n({ useScope: "local" });
+const { t, locale } = useI18n({ useScope: "local" });
 const global = useGlobalStore();
 const route = useRoute();
 
@@ -33,6 +33,7 @@ const apiUrl = computed(() => {
   params.append("limit_buildings", "10");
   params.append("limit_rooms", "50");
   params.append("limit_all", "60");
+  params.append("lang", locale.value);
 
   return `/api/search?${params.toString()}`;
 });

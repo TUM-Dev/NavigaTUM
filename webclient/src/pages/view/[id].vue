@@ -23,7 +23,7 @@ import Spinner from "@/components/Spinner.vue";
 
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
-const { t } = useI18n({ useScope: "local" });
+const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const router = useRouter();
 const state = useDetailsStore();
@@ -46,7 +46,7 @@ watchEffect(() => {
     router.replace({ path: "/" });
     return;
   }
-  useFetch<DetailsResponse>(`/api/get/${route.params.id}`, loadData, () => {
+  useFetch<DetailsResponse>(`/api/get/${route.params.id}?lang=${locale.value}`, loadData, () => {
     router.push({
       name: "404",
       // preserve current path and remove the first char to avoid the target URL starting with `//`
