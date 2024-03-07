@@ -97,9 +97,7 @@ onMounted(() => {
 
     function pollMap() {
       if (!tryToLoadMap()) {
-        console.warn(
-          `'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in ${timeoutInMs}ms`,
-        );
+        console.info(`'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`);
         window.setTimeout(pollMap, timeoutInMs);
         timeoutInMs *= 1.5;
       }
