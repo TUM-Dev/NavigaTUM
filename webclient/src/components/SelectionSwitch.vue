@@ -1,13 +1,14 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/vue";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/24/outline";
 
 interface Props {
   label?: string;
-  values: [string, string];
+  values: [T, T];
+  current: string;
 }
 const props = withDefaults(defineProps<Props>(), { label: "" });
-const selectedValue = defineModel<string>({ required: true });
+const selectedValue = defineModel<T>({ required: true });
 </script>
 
 <template>
@@ -18,7 +19,7 @@ const selectedValue = defineModel<string>({ required: true });
         <ListboxButton
           class="bg-zinc-200 border-zinc-400 relative w-full cursor-pointer rounded-lg border py-2 pl-3 pr-10 text-left shadow-md focus-visible:border-tumBlue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-tumBlue-300 sm:text-sm"
         >
-          <span class="text-zinc-600 block truncate">{{ selectedValue }}</span>
+          <span class="text-zinc-600 block truncate">{{ current }}</span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon class="text-zinc-600 h-5 w-5" aria-hidden="true" />
           </span>

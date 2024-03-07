@@ -5,16 +5,12 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { AdjustmentsHorizontalIcon, MoonIcon, SunIcon } from "@heroicons/vue/24/outline";
 import SelectionSwitch from "@/components/SelectionSwitch.vue";
 
-import { ref, watchEffect } from "vue";
+import { watchEffect } from "vue";
 
 import { persistentlyStore } from "@/composables/persistance";
 import { useI18n } from "vue-i18n";
-eval(nightwind.init());
-const theme = ref<"light" | "dark" | null>(null);
-watchEffect(() => {
-  if (theme.value == null) return;
-  nightwind.enable(theme.value === "dark");
-});
+import { useDark } from "@vueuse/core";
+const dark = useDark({ storageKey: "theme" });
 const { locale } = useI18n({ useScope: "global" });
 const { t } = useI18n({ useScope: "local" });
 watchEffect(() => persistentlyStore("lang", locale.value));
@@ -43,13 +39,13 @@ watchEffect(() => persistentlyStore("lang", locale.value));
           {{ t("preferences") }}
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
-          <SelectionSwitch v-model="theme" label="Theme" :values="['dark', 'light']">
+          <SelectionSwitch v-model="dark" label="Theme" :values="[true, false]" :current="dark ? 'dark' : 'light'">
             <template #option1><MoonIcon class="h-3.5 w-3.5" /></template>
             <template #option2><SunIcon class="h-3.5 w-3.5" /></template>
           </SelectionSwitch>
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
-          <SelectionSwitch v-model="locale" :label="t('language')" :values="['de', 'en']">
+          <SelectionSwitch v-model="locale" :label="t('language')" :values="['de', 'en']" :current="locale">
             <template #option1><span class="text-xs">de</span></template>
             <template #option2><span class="text-xs">en</span></template>
           </SelectionSwitch>
