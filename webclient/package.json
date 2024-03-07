@@ -19,7 +19,7 @@
     "format": "prettier --plugin=prettier-plugin-tailwindcss --write ."
   },
   "dependencies": {
-    "@headlessui/vue": "1.7.16",
+    "@headlessui/vue": "1.7.19",
     "@heroicons/vue": "2.1.1",
     "@vueuse/core": "10.9.0",
     "maplibre-gl": "4.1.0",
