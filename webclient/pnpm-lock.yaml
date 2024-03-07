@@ -767,7 +767,7 @@ packages:
     peerDependencies:
       vue: ^3.2.0
     dependencies:
-      vue: 3.4.21(5.4.2)
+      vue: 3.4.21(typescript@5.4.2)
     dev: false
 
   /@heroicons/vue@2.1.1(vue@3.4.21):
@@ -775,7 +775,7 @@ packages:
     peerDependencies:
       vue: '>= 3'
     dependencies:
-      vue: 3.4.21(5.4.2)
+      vue: 3.4.21(typescript@5.4.2)
     dev: false
 
   /@humanwhocodes/config-array@0.11.14:
@@ -5196,7 +5196,7 @@ packages:
     peerDependencies:
       vue: ^3.2.0
     dependencies:
-      vue: 3.4.21(5.4.2)
+      vue: 3.4.21(typescript@5.4.2)
     dev: false
 
   /vue@3.4.21(typescript@5.4.2):
