@@ -3,203 +3,81 @@ import { setTitle } from "@/composables/common";
 import { useFetch } from "@/composables/fetch";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
+import { MapPinIcon } from "@heroicons/vue/24/outline";
+import { ArrowRightIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/vue/24/solid";
+import { computed, ref } from "vue";
+import Btn from "@/components/Btn.vue";
+import Spinner from "@/components/Spinner.vue";
 type RootResponse = components["schemas"]["RootResponse"];
 
-const { t } = useI18n({ useScope: "local" });
-const { data } = useFetch<RootResponse>(`/api/get/root`, (d) => setTitle(d.name));
-
-function more(id: string) {
-  document.getElementById(`panel-${id}`)?.classList.add("open");
-}
-function less(id: string) {
-  document.getElementById(`panel-${id}`)?.classList.remove("open");
-}
+const { t, locale } = useI18n({ useScope: "local" });
+const url = computed<string>(() => `/api/get/root?lang=${locale.value}`);
+const { data } = useFetch<RootResponse>(url, (d) => setTitle(d.name));
+const openPanels = ref<(boolean | undefined)[]>([]);
 </script>
 
 <template>
-  <div v-if="data" id="view-main">
-    <div class="columns" style="margin-top: 25px">
-      <div class="column">
-        <h5>{{ t("sites") }}</h5>
-      </div>
-      <!-- <div class="column col-auto"><a href="#"><i class="icon icon-location" /> {{ t("overview_map") }}</a></div> -->
-    </div>
-    <div class="columns">
-      <div v-for="site in data.sites_overview" :key="site.id" class="col-6 col-xs-12 column">
-        <div class="panel" v-bind="{ id: `panel-${site.id}` }">
-          <div class="panel-header">
-            <RouterLink v-if="site.id" :to="'/view/' + site.id">
-              <div class="columns">
-                <div class="column">
-                  <div class="h6 panel-title">{{ site.name }}</div>
-                </div>
-                <div class="col-auto column">
-                  <button
-                    type="button"
-                    class="btn btn-link"
-                    :style="{ visibility: site.id ? undefined : 'hidden' }"
-                    :aria-label="`show the details for the campus '${site.name}'`"
-                  >
-                    <i class="icon icon-forward" />
-                  </button>
-                </div>
-              </div>
-            </RouterLink>
-            <div v-else class="columns">
-              <div class="column">
-                <div class="h6 panel-title">{{ site.name }}</div>
-              </div>
+  <div class="flex flex-col justify-between gap-3 pt-8">
+    <div class="text-zinc-600 !text-lg font-semibold">{{ t("sites") }}</div>
+    <!-- <a href="#" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</a> -->
+  </div>
+  <div v-if="data" class="mt-5">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div
+        v-for="(site, siteIndex) in data.sites_overview"
+        :key="site.id"
+        class="border-zinc-200 flex flex-col gap-4 rounded-lg border-2 p-5"
+      >
+        <div>
+          <RouterLink
+            v-if="site.id"
+            :to="'/view/' + site.id"
+            :aria-label="t('show_details_for_campus', [site.name])"
+            class="focusable text-zinc-700 flex grow-0 flex-row justify-between rounded !no-underline hover:text-tumBlue-500"
+          >
+            <span class="text-md font-semibold">{{ site.name }}</span>
+            <ArrowRightIcon v-if="site.id" class="my-auto hidden h-6 w-6 md:block" />
+          </RouterLink>
+          <div v-else class="text-md text-zinc-700 font-semibold">{{ site.name }}</div>
+        </div>
+        <div class="flex flex-col gap-3">
+          <RouterLink
+            v-for="c in site.children.slice(0, openPanels[siteIndex] ? site.children.length : site.n_visible)"
+            :key="c.id"
+            :to="'/view/' + c.id"
+            :aria-label="t('show_details_for_building', [c.name])"
+            class="focusable text-tumBlue-600 flex flex-row justify-between rounded !no-underline hover:text-tumBlue-500"
+          >
+            <div class="flex flex-row gap-2">
+              <MapPinIcon class="h-4 w-5" />
+              <span>{{ c.name }}</span>
             </div>
-          </div>
-          <div class="panel-body">
-            <RouterLink
-              v-for="(c, i) in site.children"
-              :key="c.id"
-              :to="'/view/' + c.id"
-              :class="{ 'link-more': i >= site.n_visible }"
-              :aria-label="`show the details for the building '${c.name}'`"
+            <ChevronRightIcon class="my-auto hidden h-4 w-4 sm:block" />
+          </RouterLink>
+          <div v-if="site.children.length > site.n_visible" class="mx-auto">
+            <Btn
+              v-if="openPanels[siteIndex]"
+              variant="linkButton"
+              :aria-label="t('less_aria')"
+              @click="() => (openPanels[siteIndex] = false)"
             >
-              <div class="tile tile-centered">
-                <div class="tile-icon">
-                  <div class="example-tile-icon">
-                    <i class="centered icon icon-location" />
-                  </div>
-                </div>
-                <div class="tile-content">
-                  <div class="tile-title">{{ c.name }}</div>
-                </div>
-                <div class="tile-action">
-                  <button
-                    type="button"
-                    class="btn btn-link"
-                    :aria-label="`show the details for the building '${c.name}'`"
-                  >
-                    <i class="icon icon-arrow-right" />
-                  </button>
-                </div>
-              </div>
-            </RouterLink>
-            <button
-              v-if="site.children.length > site.n_visible"
-              type="button"
-              class="btn btn-link btn-more"
-              :aria-label="t('more_aria')"
-              @click="more(site.id)"
-            >
-              <i class="icon icon-arrow-right" />
-              {{ t("more") }}
-            </button>
-            <button type="button" class="btn btn-less btn-link" :aria-label="t('less_aria')" @click="less(site.id)">
-              <i class="icon icon-arrow-up" />
+              <ChevronUpIcon class="h-4 w-4" />
               {{ t("less") }}
-            </button>
+            </Btn>
+            <Btn v-else variant="linkButton" :aria-label="t('more_aria')" @click="() => (openPanels[siteIndex] = true)">
+              <ChevronDownIcon class="my-auto h-4 w-4" />
+              {{ t("more") }}
+            </Btn>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
+    <Spinner class="h-8 w-8" />
+    {{ t("Loading data...") }}
+  </div>
 </template>
-
-<style lang="scss">
-@import "@/assets/variables";
-
-#view-main {
-  .panel {
-    border: 1px solid $card-border;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: $card-shadow-dark;
-    margin: 10px 0;
-    padding-bottom: 12px;
-
-    .panel-header {
-      width: 100%;
-      margin-bottom: 8px;
-
-      & > a {
-        text-decoration: none;
-
-        .h6 {
-          text-align: left;
-          color: $body-font-color;
-          transition: color 0.1s;
-
-          &:hover,
-          &:active {
-            color: $primary-color;
-          }
-        }
-
-        button {
-          margin-top: -7px;
-          margin-bottom: -7px;
-        }
-      }
-
-      a.btn {
-        margin: -8px 0;
-      }
-
-      .h6 {
-        font-weight: bold;
-      }
-    }
-
-    .panel-body {
-      & > a {
-        text-decoration: none;
-      }
-
-      .link-more {
-        opacity: 0.5;
-        transition: opacity 0.1s;
-
-        .tile {
-          display: none;
-        }
-      }
-
-      .tile-icon {
-        color: $body-font-color;
-        margin-top: -4px;
-      }
-
-      .tile-title {
-        padding-left: 8px;
-      }
-    }
-
-    .btn-more,
-    .btn-less {
-      margin-top: 5px;
-      padding-bottom: 0;
-      padding-left: 0;
-    }
-
-    .btn-less {
-      display: none;
-    }
-  }
-
-  .panel.open {
-    .panel-body .link-more {
-      opacity: 1;
-
-      .tile {
-        display: flex;
-      }
-    }
-
-    .btn-more {
-      display: none;
-    }
-
-    .btn-less {
-      display: inline-block;
-    }
-  }
-}
-</style>
 
 <i18n lang="yaml">
 de:
@@ -209,6 +87,9 @@ de:
   more_aria: mehr Gebäude anzeigen
   overview_map: Übersichtskarte
   sites: Standorte
+  "Loading data...": Lädt daten...
+  show_details_for_campus: show the details for the campus '{0}'
+  show_details_for_building: show the details for the building '{0}'
 en:
   less: less
   less_aria: show more buildings
@@ -216,4 +97,7 @@ en:
   more_aria: show more buildings
   overview_map: Overview Map
   sites: Sites
+  "Loading data...": Loading data...
+  show_details_for_campus: show the details for the campus '{0}'
+  show_details_for_building: show the details for the building '{0}'
 </i18n>

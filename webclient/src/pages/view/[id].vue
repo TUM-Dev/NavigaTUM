@@ -10,14 +10,20 @@ import DetailsRoomfinderMap from "@/components/DetailsRoomfinderMap.vue";
 import { useI18n } from "vue-i18n";
 import { setDescription, setTitle } from "@/composables/common";
 import { useClipboard } from "@vueuse/core";
-import { selectedMap, useDetailsStore } from "@/stores/details";
+import { MapSelections, useDetailsStore } from "@/stores/details";
 import { computed, nextTick, onMounted, ref, watchEffect } from "vue";
 import { useFetch } from "@/composables/fetch";
 import { useRoute, useRouter } from "vue-router";
 import type { components } from "@/api_types";
+import Toast from "@/components/Toast.vue";
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
+import { CalendarDaysIcon, ClipboardDocumentCheckIcon, LinkIcon } from "@heroicons/vue/24/outline";
+import BreadcrumbList from "@/components/BreadcrumbList.vue";
+import Spinner from "@/components/Spinner.vue";
+
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
-const { t } = useI18n({ useScope: "local" });
+const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const router = useRouter();
 const state = useDetailsStore();
@@ -34,12 +40,13 @@ function loadData(data: DetailsResponse) {
   state.loadData(data);
   tryToLoadMap();
 }
+
 watchEffect(() => {
   if (route.params.id === "root") {
     router.replace({ path: "/" });
     return;
   }
-  useFetch<DetailsResponse>(`/api/get/${route.params.id}`, loadData, () => {
+  useFetch<DetailsResponse>(`/api/get/${route.params.id}?lang=${locale.value}`, loadData, () => {
     router.push({
       name: "404",
       // preserve current path and remove the first char to avoid the target URL starting with `//`
@@ -61,6 +68,7 @@ function genDescription(d: DetailsResponse) {
   }
   return description;
 }
+
 // --- Loading components ---
 function tryToLoadMap() {
   /**
@@ -69,7 +77,7 @@ function tryToLoadMap() {
    * @return {boolean} Whether the loading was successful
    */
   if (document.getElementById("interactive-map") !== null) {
-    if (state.map.selected === selectedMap.interactive) interactiveMap.value?.loadInteractiveMap();
+    if (state.map.selected === MapSelections.interactive) interactiveMap.value?.loadInteractiveMap();
     else roomfinderMap.value?.loadRoomfinderMap(state.map.roomfinder.selected_index);
     return true;
   }
@@ -81,13 +89,6 @@ const feedbackButton = ref<InstanceType<typeof DetailsFeedbackButton> | null>(nu
 const interactiveMap = ref<InstanceType<typeof DetailsInteractiveMap> | null>(null);
 const roomfinderMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>(null);
 onMounted(() => {
-  window.addEventListener("resize", () => {
-    if (state.map.selected === selectedMap.roomfinder) {
-      roomfinderMap.value?.loadRoomfinderMap(state.map.roomfinder.selected_index);
-      roomfinderMap.value?.loadRoomfinderModalMap();
-    }
-  });
-
   nextTick(() => {
     // Even though 'mounted' is called there is no guarantee apparently,
     // that we can reference the map by ID in the DOM yet. For this reason we
@@ -96,9 +97,7 @@ onMounted(() => {
 
     function pollMap() {
       if (!tryToLoadMap()) {
-        console.warn(
-          `'mounted' called, but page doesn't appear to be mounted yet. Retrying to load the map in ${timeoutInMs}ms`,
-        );
+        console.info(`'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`);
         window.setTimeout(pollMap, timeoutInMs);
         timeoutInMs *= 1.5;
       }
@@ -110,160 +109,112 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="state.data" id="view-view">
+  <div v-if="state.data" class="flex flex-col gap-5">
     <!-- Header image (on mobile) -->
-    <a
+    <button
       v-if="state.image.shown_image"
-      class="cursor-pointer header-image-mobile show-sm"
-      @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
+      type="button"
+      class="focusable !-mx-5 block lg:hidden"
+      @click="state.showImageSlideshow(true)"
     >
-      <img
-        :alt="t('image_alt')"
-        :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-        class="bg-zinc-100 block h-auto max-w-full"
-      />
-    </a>
-
-    <!-- Breadcrumbs -->
-    <ol class="breadcrumb" vocab="https://schema.org/" typeof="BreadcrumbList">
-      <li
-        v-for="(p, i) in state.data.parent_names"
-        :key="p"
-        class="breadcrumb-item"
-        property="itemListElement"
-        typeof="ListItem"
-      >
-        <RouterLink v-bind="{ to: '/view/' + state.data.parents[i] }" property="item" typeof="WebPage">
-          <span property="name">{{ p }}</span>
-        </RouterLink>
-        <meta property="position" :content="`${i + 1}`" />
-      </li>
-    </ol>
+      <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${state.image.shown_image.name}`" class="block w-full" />
+    </button>
 
     <!-- Entry header / title -->
-    <div class="entry-header">
-      <div class="title">
-        <div v-if="clipboardIsSupported" class="hide-sm">
-          <button
-            type="button"
-            class="btn btn-action btn-link btn-sm"
-            :title="t('header.copy_link')"
-            @click="copy(`https://nav.tum.de${route.fullPath}`)"
-          >
-            <i v-if="copied" class="icon icon-check" />
-            <i v-else class="icon icon-link" />
-          </button>
-        </div>
-        <h1>
-          {{ state.data.name }}
-          <!-- <small class="label">Exaktes Ergebnis</small> -->
-        </h1>
+    <div>
+      <BreadcrumbList
+        :items="state.data.parent_names.map((n, i) => ({ name: n, to: '/view/' + state.data?.parents[i] }))"
+        class="pb-3 pt-6"
+      />
+      <div class="group flex flex-row gap-2">
+        <button
+          v-if="clipboardIsSupported"
+          :title="t('header.copy_link')"
+          type="button"
+          tabindex="1"
+          class="-ms-8 hidden px-1 text-transparent transition-colors focus:text-zinc-800 group-hover:text-zinc-800 lg:block"
+          @click="copy(`https://nav.tum.de${route.fullPath}`)"
+        >
+          <ClipboardDocumentCheckIcon v-if="copied" class="h-4 w-4" />
+          <LinkIcon v-else class="h-4 w-4" />
+        </button>
+        <h1 class="text-zinc-700 text-xl font-bold">{{ state.data?.name }}</h1>
       </div>
-      <div class="columns subtitle">
-        <div class="col-auto column">
-          <span>{{ state.data.type_common_name }}</span>
-        </div>
-        <div class="col-auto col-ml-auto column">
-          <template v-if="state.data?.props?.calendar_url">
+      <div>
+        <div class="flex grow place-items-center justify-between">
+          <span class="text-zinc-400 mt-0.5 text-sm">{{ state.data?.type_common_name }}</span>
+          <div class="flex flex-row place-items-center gap-3">
             <a
-              class="btn btn-action btn-link btn-sm"
+              v-if="state.data?.props?.calendar_url"
               :href="state.data.props.calendar_url"
               target="_blank"
+              class="focusable rounded-sm"
               :title="t('header.calendar')"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                style="margin-bottom: -2px"
-              >
-                <path
-                  d="M4.571 0A1.143 1.143 0 0 0 3.43 1.143H2.286A2.306 2.306 0 0 0 0 3.429v10.285A2.306 2.306 0 0 0 2.286 16h11.428A2.306 2.306 0 0 0 16 13.714V3.43a2.306 2.306 0 0 0-2.286-2.286h-1.143A1.143 1.143 0 0 0 11.43 0a1.143 1.143 0 0 0-1.143 1.143H5.714A1.143 1.143 0 0 0 4.571 0zM2.286 5.714h11.428v8H2.286v-8z"
-                />
-                <path
-                  d="M6.857 6.857v2.286h2.286V6.857H6.857zm3.429 0v2.286h2.285V6.857h-2.285zm-6.857 3.429v2.285h2.285v-2.285H3.43zm3.428 0v2.285h2.286v-2.285H6.857z"
-                />
-              </svg>
+              <CalendarDaysIcon class="text-tumBlue-600 mt-0.5 h-4 w-4" />
             </a>
-          </template>
-          <button
-            type="button"
-            class="btn btn-action btn-link btn-sm"
-            :title="t('header.external_link')"
-            onclick="this.focus()"
-          >
-            <!-- The onclick handler is a fix for Safari -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 3.704 3.704"
-              fill="none"
-              stroke="#0065bd"
-              stroke-width=".529"
-              stroke-linecap="round"
-            >
-              <path d="M2.912 2.179v1.26H.267V.794h1.197" stroke-linejoin="round" />
-              <path d="M1.407 2.297l2.03-2.03" />
-              <path d="M2.352.268h1.085v1.085" stroke-linejoin="round" />
-            </svg>
-          </button>
-          <ShareButton :coords="state.data.coords" :name="state.data.name" />
-          <DetailsFeedbackButton ref="feedbackButton" />
-          <!-- <button class="btn btn-link btn-action btn-sm"
+            <ShareButton :coords="state.data.coords" :name="state.data.name" />
+            <DetailsFeedbackButton ref="feedbackButton" />
+            <!-- <button class="btn btn-link btn-action btn-sm"
                   :title="t('header.favorites')">
-            <i class="icon icon-bookmark" />
+            <BookmarkIcon class="w-4 h-4" v-if="bookmarked" />
+            <BookmarkSquareIcon class="w-4 h-4" v-else />
           </button> -->
+          </div>
         </div>
       </div>
-      <div class="divider" />
     </div>
 
     <!-- First info section (map + infocard) -->
-    <div class="columns">
-      <!-- Map container -->
-      <div id="map-container" class="col-7 col-md-12 column">
-        <div class="show-sm">
-          <div
+    <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
+      <TabGroup class="col-span-1 lg:col-span-2" as="div" manual>
+        <div class="mb-3 grid gap-2 lg:hidden">
+          <Toast
             v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
-            class="toast toast-warning"
-          >
-            {{ t("no_floor_overlay") }}
-          </div>
-          <div v-if="state.data?.props?.comment" class="toast">
-            {{ state.data.props.comment }}
-          </div>
+            level="warning"
+            :msg="t('no_floor_overlay')"
+          />
+          <Toast v-if="state.data.props.comment" :msg="state.data.props.comment" />
         </div>
-
-        <DetailsInteractiveMap ref="interactiveMap" />
-        <DetailsRoomfinderMap ref="roomfinderMap" />
-        <div class="btn-group btn-group-block">
-          <button
-            type="button"
-            class="btn btn-sm"
-            :class="{
-              active: state.map.selected === selectedMap.interactive,
-            }"
-            @click="interactiveMap?.loadInteractiveMap(true)"
-          >
-            {{ t("map.interactive") }}
-          </button>
-          <button
-            type="button"
-            class="btn btn-sm"
-            :class="{
-              active: state.map.selected === selectedMap.roomfinder,
-            }"
-            :disabled="!state.data.maps.roomfinder?.available"
-            @click="roomfinderMap?.loadRoomfinderMap(state.map.roomfinder.selected_index, true)"
-          >
-            {{ t("map.roomfinder") }}
-          </button>
-        </div>
-        <div class="divider" style="margin-top: 10px" />
-      </div>
+        <TabPanels>
+          <TabPanel :unmount="false">
+            <DetailsInteractiveMap ref="interactiveMap" />
+          </TabPanel>
+          <TabPanel :unmount="false">
+            <DetailsRoomfinderMap ref="roomfinderMap" />
+          </TabPanel>
+        </TabPanels>
+        <TabList class="bg-zinc-100 flex space-x-1 rounded-md p-1">
+          <Tab v-slot="{ selected }" as="template" @click="interactiveMap?.loadInteractiveMap(true)">
+            <button
+              type="button"
+              class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
+              :class="[
+                selected
+                  ? 'text-zinc-900 bg-zinc-300 shadow'
+                  : 'text-zinc-800 bg-zinc-300/5 hover:text-zinc-900 hover:bg-zinc-500/20',
+              ]"
+            >
+              {{ t("map.interactive") }}
+            </button>
+          </Tab>
+          <Tab v-slot="{ selected }" as="template" :disabled="!state.data.maps.roomfinder?.available">
+            <button
+              type="button"
+              class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
+              :class="{
+                'text-zinc-900 bg-zinc-300 shadow': selected,
+                'text-zinc-800 bg-zinc-300/5': !selected,
+                'hover:text-zinc-900 hover:bg-zinc-500/20': state.data.maps.roomfinder?.available,
+                '!text-zinc-400 cursor-not-allowed': !state.data.maps.roomfinder?.available,
+              }"
+            >
+              {{ t("map.roomfinder") }}
+            </button>
+          </Tab>
+        </TabList>
+      </TabGroup>
+      <!-- Map container -->
 
       <DetailsInfoSection />
     </div>
@@ -272,150 +223,11 @@ onMounted(() => {
     <DetailsRoomOverviewSection :rooms="state.data?.sections?.rooms_overview" />
     <DetailsSources />
   </div>
+  <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
+    <Spinner class="h-8 w-8" />
+    {{ t("Loading data...") }}
+  </div>
 </template>
-
-<style lang="scss">
-@import "@/assets/variables";
-
-#view-view {
-  /* --- General --- */
-  h1 {
-    font-size: 1.2rem;
-    font-weight: 500;
-  }
-
-  h2 {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-
-  /* --- Header --- */
-  .header-image-mobile {
-    margin: -10px -23px 10px;
-
-    > img {
-      min-width: 100%;
-      min-height: 100px;
-      max-height: 200px;
-      object-fit: cover;
-    }
-  }
-
-  .breadcrumb {
-    margin-top: 0;
-    font-size: 12px;
-  }
-
-  .entry-header {
-    .title {
-      position: relative;
-
-      & > div {
-        position: absolute;
-        left: -32px;
-        opacity: 0;
-        transition: opacity 0.2s;
-      }
-
-      &:hover > div {
-        opacity: 1;
-      }
-    }
-
-    .subtitle {
-      span {
-        color: $text-gray;
-      }
-
-      button svg {
-        margin-top: 4px;
-        stroke: $primary-color;
-      }
-
-      .column:last-child {
-        position: relative;
-      }
-
-      .link-popover {
-        position: absolute;
-        z-index: 1000;
-        padding: 6px 10px;
-        width: 200px;
-        right: 36px;
-        background: $light-color;
-        box-shadow: $card-shadow-dark;
-        border-radius: 2px;
-        border: 1px solid $card-border;
-        visibility: hidden;
-        opacity: 0;
-        transform: translateY(-5px);
-        transition:
-          opacity 0.05s,
-          transform 0.05s;
-
-        a,
-        button {
-          width: 100%;
-          margin: 4px 0;
-        }
-
-        strong {
-          margin-top: 2px;
-          display: block;
-
-          & + a,
-          & + button {
-            margin-top: 2px;
-          }
-        }
-      }
-
-      button:focus + .link-popover,
-      .link-popover:hover {
-        visibility: visible;
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .divider {
-      margin-bottom: 22px;
-    }
-  }
-
-  /* --- Sections general --- */
-  section {
-    margin-top: 40px;
-
-    .content {
-      margin-top: 15px;
-    }
-  }
-}
-
-// Animations
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes delay-btn {
-  from {
-    pointer-events: none;
-    color: $text-gray;
-  }
-
-  to {
-    pointer-events: all;
-    color: $error-color;
-  }
-}
-</style>
 
 <i18n lang="yaml">
 de:
@@ -428,8 +240,8 @@ de:
   header:
     calendar: Kalender öffnen
     copy_link: Link kopieren
-    external_link: Externe Links
     favorites: Zu Favoriten hinzufügen
+  Loading data...: Lädt daten...
 en:
   image_alt: Header image, showing the building
   details_for: Details for
@@ -440,6 +252,6 @@ en:
   header:
     calendar: Open calendar
     copy_link: Copy link
-    external_link: External links
     favorites: Add to favorites
+  Loading data...: Loading data...
 </i18n>

@@ -1,40 +1,21 @@
+<script setup lang="ts">
+import PreferencesPopup from "@/components/PreferencesPopup.vue";
+</script>
+
 <template>
-  <header class="navbar">
-    <div class="container grid-lg">
-      <div class="columns">
-        <div class="column hide-lg">
-          <RouterLink to="/">
-            <img id="logo" alt="Navigatum Logo" src="@/assets/logos/navigatum.svg" />
-            <!-- 7px for logo1 -->
-          </RouterLink>
-        </div>
-        <div class="col-8 col-lg-11 col-mx-auto column">
+  <header class="bg-zinc-50 fixed top-0 z-20 w-full shadow-md shadow-black/5 dark:bg-zinc-100 dark:shadow-black/20">
+    <nav class="mx-auto max-w-4xl">
+      <div class="mx-5 my-2.5 flex place-content-between content-between justify-between gap-x-10 lg:mx-10">
+        <RouterLink class="my-auto hidden lg:block" to="/">
+          <img alt="Navigatum Logo" class="pt-2" width="201" height="32" src="@/assets/logos/navigatum.svg" />
+        </RouterLink>
+        <div class="my-auto max-w-lg flex-grow lg:col-span-3">
           <slot />
         </div>
+        <div class="relative my-auto flex-shrink-0 xl:absolute xl:right-5 xl:top-3">
+          <PreferencesPopup />
+        </div>
       </div>
-    </div>
+    </nav>
   </header>
 </template>
-
-<style lang="scss">
-@import "@/assets/variables";
-
-.navbar {
-  padding: 10px 0;
-  box-shadow: 0 2px 3px $header-shadow-color;
-  width: 100%;
-  position: fixed;
-  background: $header-color;
-  top: 0;
-  z-index: 2000;
-
-  #logo {
-    height: 24px;
-    margin-top: 9px;
-  }
-
-  .input-group button {
-    border: 0;
-  }
-}
-</style>

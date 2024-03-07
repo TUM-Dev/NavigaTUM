@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="light" lang="de" prefix="og: https://ogp.me/ns#">
+<html class="scroll-smooth" lang="de" prefix="og: https://ogp.me/ns#">
   <head>
     <script type="application/ld+json">
       {
@@ -34,7 +34,7 @@
       name="description"
       content="Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden."
     />
-    <meta name="author" content="@octycs and @CommanderStorm" />
+    <meta name="author" content="OpenSource @ TUM e.V. partnering with TUM IT Management" />
     <meta name="copyright" content="GNU General Public License v3.0. Images may be licensed differently." />
     <meta name="robots" content="index, follow" />
     <meta name="rating" content="safe for kids" />
@@ -55,31 +55,26 @@
     <meta property="og:site_name" content="NavigaTUM" />
 
     <link rel="stylesheet" href="./src/assets/main.scss" />
-    <link rel="stylesheet" href="./src/assets/spectre-all.scss" />
 
     <link rel="icon" href="/favicon.ico" />
     <link rel="canonical" href="https://nav.tum.de" />
     <title>NavigaTUM</title>
     <!-- Title  isupdated by JS later during pageload -->
   </head>
-  <body>
+  <body class="relative">
     <noscript>
-      <div id="content-header" class="container grid-lg">
-        <div class="columns">
-          <div class="column col-lg-11 col-mx-auto">
-            <div class="toast toast-error">
-              JavaScript is required to use this application, as our main functionality (search bar, map) depends on
-              this.<br />
-              We do not think that there is a graceful fallback or any option for progressive enhancement, but are
-              planning on adding ServerSideRendering in the future.<br />
-              Please enable JavaScript in your browser.
-            </div>
-          </div>
+      <div class="mx-auto mt-16 max-w-3xl">
+        <div class="bg-red-300 rounded-sm p-1.5 text-red-950">
+          JavaScript is required to use this application, as our main functionality (search bar, map) depends on
+          this.<br />
+          We do not think that there is a graceful fallback or any option for progressive enhancement, but are planning
+          on adding ServerSideRendering in the future.<br />
+          Please enable JavaScript in your browser.
         </div>
       </div>
     </noscript>
     <!-- BEGIN of Vue.js template code -->
-    <div id="app"></div>
+    <div id="app" class="bg-zinc-50"></div>
     <!-- END of Vue.js template code -->
 
     <script type="module" src="/src/main.ts" defer></script>

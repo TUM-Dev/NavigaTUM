@@ -36,12 +36,7 @@ module.exports = {
       "error",
       ["script-setup", "composition"], // "script-setup", "composition", "composition-vue2", or "options"
     ],
-    "vue/multi-word-component-names": [
-      "error",
-      {
-        ignores: ["[...slug]", "api", "index", "search", "[id]", "[name]"],
-      },
-    ],
+    "vue/multi-word-component-names": "off",
     "vue/component-name-in-template-casing": ["error", "PascalCase", { registeredComponentsOnly: false }],
     "vue/custom-event-name-casing": ["error", "camelCase"],
     "vue/define-macros-order": "error",
@@ -71,7 +66,7 @@ module.exports = {
     "vue/prefer-separate-static-class": "error",
     "vue/require-macro-variable-name": "error",
     "vue/require-typed-ref": "error",
-    "vue/static-class-names-order": "error", // we may want to disable this rule if it does not work well with tailwind
+    "vue/static-class-names-order": "off",
     "vue/v-for-delimiter-style": "error",
     "vue/no-constant-condition": "error",
   },

@@ -29,7 +29,11 @@ pnpm install
 
 ## Run
 
-Ensure that _NavigaTUM-server_ is running in the background:
+Ensure that _NavigaTUM-server_ is running in the background.
+By default, the webclient will connect to the server on `https://nav.tum.de`.  
+If you want to connect to a local version instead, change `VITE_APP_URL` in [`env/.env`](./env/.env) to `http://localhost:3003`.
+
+To get a local server running, please:
 
 - either via following the [guide to local development](../server/README.md), or
 - via [docker](https://docs.docker.com/)  
@@ -41,9 +45,6 @@ Ensure that _NavigaTUM-server_ is running in the background:
   docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
   docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main /bin/navigatum-main-api
   ```
-
-By default, the webclient will connect to the server on `http://localhost:8080`.  
-If you want to connect to the public API instead, change `VITE_APP_URL` in [`env/.env`](./env/.env) to `https://nav.tum.de`.
 
 ```sh
 pnpm run dev
@@ -87,7 +88,7 @@ If you serve the release build with a webserver (such as Nginx) you need to sele
 
 The language-selector is working in development and this differentialtion is only happening in the build.  
 For the theme we can not do so for some reason (If you know of a better way, hit us up).  
-To test a different theme, you can change `$theme` [here](./src/assets/variables.scss) and `theme='...'` [here](./index.html). Values are `light` and `dark`.
+To test a different theme, you can change `theme='...'` [here](./index.html). Values are `light` and `dark`.
 
 ## Architecture
 
@@ -104,9 +105,7 @@ webclient
 │   ├── api_types/  # 🠔 code generated via openapi.yaml for typechecking reasons
 │   ├── assets/     # 🠔 Static assets such as icons
 │   │   ├── md/                 # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
-│   │   ├── variables.scss      # 🠔 Include-script for Spectre.CSS
 │   │   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
-│   │   ├── spectre-all.scss    # 🠔 Include-script for Spectre.CSS
 │   │   └── logos               # 🠔 The Logos used by the app
 │   ├── components/ # 🠔 Vue components, which are used in views.
 │   ├── pages/      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.

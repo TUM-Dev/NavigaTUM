@@ -2,6 +2,7 @@
 import { useDetailsStore } from "@/stores/details";
 import DetailsImageSlideshowModal from "@/components/DetailsImageSlideshowModal.vue";
 import DetailsPropertyTable from "@/components/DetailsPropertyTable.vue";
+import Toast from "@/components/Toast.vue";
 import { useI18n } from "vue-i18n";
 
 const state = useDetailsStore();
@@ -11,49 +12,47 @@ const appURL = import.meta.env.VITE_APP_URL;
 
 <template>
   <!-- Information section (on mobile) -->
-  <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column mt-4 show-sm">
-    <h2>{{ t("info_title") }}</h2>
+  <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column mt-4 block lg:hidden">
+    <h2 class="text-zinc-800 pb-3 text-lg font-semibold">{{ t("info_title") }}</h2>
     <DetailsPropertyTable />
   </div>
 
   <!-- Informationen card (desktop) -->
   <!-- Some elements are currently duplicate, which is not optimal but should be okay
        as long as only little information is there -->
-  <div class="col-5 col-md-12 column hide-sm">
-    <div class="card">
-      <a
+  <div class="hidden lg:block">
+    <div class="bg-white border-zinc-200 max-w-sm rounded-lg border shadow-md shadow-zinc-500/5 dark:bg-zinc-100">
+      <button
         v-if="state.image.shown_image"
-        class="card-image cursor-pointer"
-        @click="state.showImageSlideshow(state.image.shown_image_id || 0)"
+        type="button"
+        class="focusable rounded-t-lg"
+        @click="state.showImageSlideshow(true)"
       >
         <img
           :alt="t('image_alt')"
           :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
-          class="bg-zinc-100 block h-auto max-w-full w-full"
+          class="bg-zinc-100 block h-auto w-full max-w-full rounded-t-lg"
         />
-      </a>
-      <div class="card-header">
-        <div class="card-title h5">{{ t("info_title") }}</div>
-      </div>
-      <div class="card-body">
+      </button>
+      <div class="px-5 py-3">
+        <h2 class="sr-only">{{ t("info_title") }}</h2>
         <DetailsPropertyTable />
-        <div v-if="state.data?.coords.accuracy === 'building'" class="mt-3 toast toast-warning">
-          {{ t("msg.inaccurate_only_building") }}<br />
-        </div>
-        <div
-          v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
-          class="mt-3 toast toast-warning"
-        >
-          {{ t("msg.no_floor_overlay") }}
-        </div>
-        <div v-if="state.data?.props?.comment" class="mt-3 toast">
-          {{ state.data.props.comment }}
+        <div class="mt-3 grid gap-2">
+          <Toast
+            v-if="state.data?.coords.accuracy === 'building'"
+            level="warning"
+            :msg="t('msg.inaccurate_only_building')"
+          />
+          <Toast
+            v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
+            level="warning"
+            :msg="t('msg.no_floor_overlay')"
+          />
+          <Toast v-if="state.data?.props?.comment" :msg="state.data.props.comment" />
         </div>
       </div>
-      <!-- <div class="card-footer">
-          <button class="btn btn-link">Mehr Infos</button>
-      </div> -->
     </div>
+    <!-- <button class="btn btn-link">Mehr Infos</button> -->
   </div>
   <DetailsImageSlideshowModal v-if="state.image.slideshow_open" />
 </template>

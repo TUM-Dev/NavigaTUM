@@ -2,6 +2,8 @@
 import { useToggle } from "@vueuse/core";
 import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
+import Btn from "@/components/Btn.vue";
+import { ChevronRightIcon, ChevronDownIcon, ChevronUpIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
 type BuildingsOverview = components["schemas"]["BuildingsOverview"];
 
 const props = defineProps<{
@@ -15,87 +17,66 @@ const appURL = import.meta.env.VITE_APP_URL;
 
 <template>
   <section v-if="props.buildings">
-    <div class="columns">
-      <div class="column">
-        <h2>{{ t("title") }}</h2>
-      </div>
-      <!-- <div class="column col-auto">
-          <a href="#">Übersichtskarte <i class="icon icon-forward" /></a>
-        </div> -->
-    </div>
-    <div class="columns">
+    <h2 class="text-zinc-800 pb-3 text-lg font-semibold">{{ t("title") }}</h2>
+    <!--  <a class="no-underline" href="#">Übersichtskarte <ArrowRightIcon class="w-4 h-4" /> -->
+    <div class="text-zinc-600 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">
-        <div v-if="i < props.buildings.n_visible || buildingsExpanded" class="col-4 col-md-12 column content">
-          <RouterLink :to="'/view/' + b.id">
-            <div class="tile tile-centered">
-              <div class="tile-icon">
-                <figure class="avatar avatar-lg">
-                  <img v-if="b.thumb" :alt="t('thumbnail_preview')" :src="`${appURL}/cdn/thumb/${b.thumb}`" />
-                  <img v-else :alt="t('default_thumbnail_preview')" src="@/assets/thumb-building.webp" />
-                </figure>
-              </div>
-              <div class="tile-content">
-                <p class="tile-title">{{ b.name }}</p>
-                <small class="text-dark tile-subtitle">{{ b.subtext }}</small>
-              </div>
-              <div class="tile-action">
-                <button
-                  type="button"
-                  class="btn btn-link"
-                  :aria-label="`show the details for the building '${b.name}'`"
-                >
-                  <i class="icon icon-arrow-right" />
-                </button>
-              </div>
+        <RouterLink
+          v-if="i < props.buildings.n_visible || buildingsExpanded"
+          :to="'/view/' + b.id"
+          class="focusable border-zinc-200 flex flex-row items-center justify-between rounded-sm border border-solid p-3.5 !no-underline hover:bg-zinc-100"
+          :aria-label="t('show_details_for', [b.name])"
+        >
+          <div class="flex flex-row items-center gap-3">
+            <figure v-if="b.thumb" class="max-h-11 min-h-11 min-w-11">
+              <img
+                class="aspect-square h-11 w-11 rounded-full"
+                :alt="t('thumbnail_preview')"
+                :src="`${appURL}/cdn/thumb/${b.thumb}`"
+              />
+            </figure>
+            <div v-else class="text-white bg-tumBlue-500 min-w-11 rounded-full p-2">
+              <BuildingOffice2Icon class="mx-auto h-7 w-7" />
             </div>
-          </RouterLink>
-        </div>
+            <div class="flex flex-col justify-evenly">
+              <div class="line-clamp-2 text-balance">{{ b.name }}</div>
+              <small class="text-zinc-600">{{ b.subtext }}</small>
+            </div>
+          </div>
+          <ChevronRightIcon class="h-4 w-4" />
+        </RouterLink>
       </template>
     </div>
-    <div v-if="props.buildings.n_visible < props.buildings.entries.length">
-      <button type="button" class="btn btn-link" @click="toggleBuildingsExpanded()">
-        <template v-if="buildingsExpanded">
-          <i class="icon icon-arrow-up" />
-          {{ t("less") }}
-        </template>
-        <template v-else>
-          <i class="icon icon-arrow-right" />
-          {{ t("more") }}
-        </template>
-      </button>
+    <div v-if="props.buildings.n_visible < props.buildings.entries.length" class="mt-2">
+      <Btn
+        variant="linkButton"
+        :aria-label="buildingsExpanded ? t('show_less_buildings') : t('show_more_buildings')"
+        @click="toggleBuildingsExpanded()"
+      >
+        <template v-if="buildingsExpanded"><ChevronUpIcon class="mt-0.5 h-4 w-4" /> {{ t("less") }}</template>
+        <template v-else><ChevronDownIcon class="mt-0.5 h-4 w-4" /> {{ t("more") }}</template>
+      </Btn>
     </div>
   </section>
 </template>
-
-<style lang="scss" scoped>
-@import "@/assets/variables";
-
-a {
-  text-decoration: none !important;
-}
-
-.tile {
-  border: 0.05rem solid $card-border;
-  padding: 8px;
-  border-radius: 0.1rem;
-}
-
-button {
-  margin-top: 8px;
-}
-</style>
 
 <i18n lang="yaml">
 de:
   default_thumbnail_preview: Standard-Thumbnail, da kein Thumbnail verfügbar ist
   less: weniger
   more: mehr
+  show_less_buildings: weniger Gebäude anzeigen
+  show_more_buildings: mehr Gebäude anzeigen
   thumbnail_preview: Thumbnail, das eine Vorschau des Gebäudes zeigt
   title: Gebäude / Gebiete
+  show_details_for: Details für das Gebäude '{0}' anzeigen
 en:
   default_thumbnail_preview: Default-thumbnail, as no thumbnail is available
   less: less
   more: more
+  show_less_buildings: show less buildings
+  show_more_buildings: show more buildings
   thumbnail_preview: Thumbnail, showing a preview of the building
   title: Buildings / Areas
+  show_details_for: show the details for the building '{0}'
 </i18n>

@@ -9,7 +9,7 @@ describe("Check if navigating from the frontpage works as expected", () => {
   it("navigating to an initally hidden entry", () => {
     cy.intercept("GET", "/api/get/root?lang=de", { fixture: "get/root.de.json" });
     cy.visit("http://localhost:3000/");
-    cy.contains("mehr").click();
+    cy.contains("more").click();
     cy.intercept("GET", "/api/get/garching-interims?lang=de", { fixture: "get/garching-interims.de.json" });
     cy.contains("Interims").click();
     cy.url().should("include", "/site/");

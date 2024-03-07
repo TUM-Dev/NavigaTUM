@@ -9,8 +9,8 @@ The responsible person within the meaning of the data protection laws, in partic
 Frank Elsinga representing ["OpenSource @ TUM e.V."](https://tum.dev).
 
 ```plain
-Postal address: Josef-Fischhaber-Strasse 46, 82319 Starnberg, Germany.
-Telephone: (0049/0)176 - 56-727-579
+Postal address: Boltzmannstr. 3, 85748 Garching b. München, Germany.
+Telephone: 089/289-17052
 E-mail: navigatum (at-symbol) tum.de
 ```
 

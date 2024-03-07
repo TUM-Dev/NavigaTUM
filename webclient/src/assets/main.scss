@@ -1,114 +1,17 @@
-@import "@/assets/variables.scss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* === General === */
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  position: relative;
-
-  &.no-scroll {
-    overflow-y: hidden;
-  }
-}
 
 /* v-cloak is set until vue loaded */
 [v-cloak] {
   display: none;
 }
 
-.loading-container,
-#loading-page {
-  display: block;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  pointer-events: none;
+.focusable {
+  @apply focus:ring-2 focus:ring-tumBlue-500 focus:ring-offset-2 focus-visible:outline-0;
 }
 
-.loading-container > .loading,
-#loading-page > .loading {
-  margin: 0 auto;
-  display: block;
-  position: static;
-}
-
-.loading-container > .loading::after,
-#loading-page > .loading::after {
-  border-bottom-color: transparent;
-  border-left-color: #ccc;
-}
-
-#loading-page:not([v-cloak]) {
-  display: none;
-
-  &.show {
-    display: block;
-    opacity: 1;
-    animation: loading-in 0.07s linear 0.1s;
-    animation-fill-mode: both;
-  }
-}
-
-.img-responsive {
-  background-color: $image-loading-bg;
-}
-
-@keyframes loading-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-/* --- Menu general --- */
-
-#app .menu .menu-item > a,
-#app .menu .menu-item > button {
-  /* Overwrite spectre */
-  &:focus,
-  &:hover {
-    background: $theme-accent;
-    color: #fff;
-  }
-}
-
-#app .menu .menu-item + .menu-item {
-  margin-top: 0;
-}
-
-/* --- Cards --- */
-#app .card {
-  box-shadow: $card-shadow;
-  border-radius: 4px;
-}
-
-/* --- Toast buttons --- */
-.toast .btn {
-  background: $toast-btn-bg;
-  color: $light-color;
-  border-color: $light-color;
-  font-weight: bold;
-
-  &:hover {
-    background: $toast-btn-bg-hover;
-    border-color: $light-color;
-  }
-
-  &:active {
-    background: $toast-btn-bg-active;
-    border-color: $light-color;
-  }
-
-  &:focus {
-    background: $toast-btn-bg;
-    border-color: $light-color;
-  }
+/* see https://www.youtube.com/watch?v=cH8VbLM1958 why this is here */
+* {
+  min-width: 0;
 }
