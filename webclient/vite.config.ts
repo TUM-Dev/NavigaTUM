@@ -51,7 +51,9 @@ export default defineConfig({
     Markdown({
       markdownItUses: [prism],
     }),
-    VueDevTools(),
+    // currently the devtools fucks MAJORLY with the darkmode with no way of configuring it
+    // (darkmode will get randomly enabled/disabled)
+    // VueDevTools(),
   ],
   resolve: {
     alias: {

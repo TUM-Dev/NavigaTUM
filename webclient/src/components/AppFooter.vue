@@ -3,10 +3,14 @@ import { useGlobalStore } from "@/stores/global";
 import { useI18n } from "vue-i18n";
 import Btn from "@/components/Btn.vue";
 import { computed } from "vue";
+import { useDark } from "@vueuse/core";
 
 const global = useGlobalStore();
 // If we do not include the image here like this, vite/rollup is unable to load it
-const brandLogo = computed(() => new URL(`/src/assets/logos/tum_dark_${locale.value}.svg`, import.meta.url));
+const dark = useDark({ storageKey: "theme" });
+const brandLogo = computed(
+  () => new URL(`/src/assets/logos/tum_${dark.value ? "dark" : "light"}_${locale.value}.svg`, import.meta.url),
+);
 const { t, locale } = useI18n({ useScope: "local" });
 const navigation = computed(() => [
   {
