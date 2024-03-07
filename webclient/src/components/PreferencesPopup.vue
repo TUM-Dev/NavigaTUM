@@ -1,17 +1,19 @@
 <script setup lang="ts">
+// @ts-ignore
+import nightwind from "nightwind/helper";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { AdjustmentsHorizontalIcon, MoonIcon, SunIcon } from "@heroicons/vue/24/outline";
 import SelectionSwitch from "@/components/SelectionSwitch.vue";
 
-import { watchEffect } from "vue";
+import { ref, watchEffect } from "vue";
 
 import { persistentlyStore } from "@/composables/persistance";
 import { useI18n } from "vue-i18n";
-import { useGlobalStore } from "@/stores/global";
-const global = useGlobalStore();
+eval(nightwind.init());
+const theme = ref<"light" | "dark" | null>(null);
 watchEffect(() => {
-  document.documentElement.className = global.theme;
-  persistentlyStore("theme", global.theme);
+  if (theme.value == null) return;
+  nightwind.enable(theme.value === "dark");
 });
 const { locale } = useI18n({ useScope: "global" });
 const { t } = useI18n({ useScope: "local" });
@@ -41,7 +43,7 @@ watchEffect(() => persistentlyStore("lang", locale.value));
           {{ t("preferences") }}
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
-          <SelectionSwitch v-model="global.theme" label="Theme" :values="['dark', 'light']">
+          <SelectionSwitch v-model="theme" label="Theme" :values="['dark', 'light']">
             <template #option1><MoonIcon class="h-3.5 w-3.5" /></template>
             <template #option2><SunIcon class="h-3.5 w-3.5" /></template>
           </SelectionSwitch>

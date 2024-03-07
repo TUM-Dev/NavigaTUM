@@ -88,9 +88,9 @@ function draw() {
     ctx.font = "12px sans-serif";
     const txt = t("img_source") + ": " + props.map.source;
     const measurement = ctx.measureText(txt);
-    ctx.fillStyle = global.theme === "light" ? "#fafafa" : "#1f2937";
+    ctx.fillStyle = "#fafafa";
     ctx?.fillRect(props.map.width - measurement.width - 10, props.map.height - 20, measurement.width + 10, 20);
-    ctx.fillStyle = global.theme === "light" ? "#374151" : "#DBD5D1";
+    ctx.fillStyle = "#374151";
     ctx.fillText(txt, props.map.width - 5, props.map.height - 5);
   });
 }

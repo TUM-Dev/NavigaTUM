@@ -6,7 +6,7 @@ import { computed } from "vue";
 
 const global = useGlobalStore();
 // If we do not include the image here like this, vite/rollup is unable to load it
-const brandLogo = computed(() => new URL(`/src/assets/logos/tum_${global.theme}_${locale.value}.svg`, import.meta.url));
+const brandLogo = computed(() => new URL(`/src/assets/logos/tum_dark_${locale.value}.svg`, import.meta.url));
 const { t, locale } = useI18n({ useScope: "local" });
 const navigation = computed(() => [
   {

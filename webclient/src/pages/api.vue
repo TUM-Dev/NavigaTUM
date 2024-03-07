@@ -5,9 +5,6 @@ import { useGlobalStore } from "@/stores/global";
 //  - convince vue to allow conditional css imports
 //  - postcss to allow for imports under a selector
 const global = useGlobalStore();
-if (global.theme === "dark") {
-  import("swaggerdark/SwaggerDark.css");
-}
 window.setTimeout(() => {
   // we need to make sure, that swagger-ui exists, otherwise the following command will fail
   // therefore waiting is effective

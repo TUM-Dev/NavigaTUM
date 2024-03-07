@@ -8,19 +8,7 @@ export type Coord = {
     lon: number | undefined;
   };
 };
-type UserTheme = "dark" | "light";
-function initialUserTheme(): UserTheme {
-  const storedPreference = localStorage.getItem("theme") as UserTheme;
-  if (["dark", "light"].includes(storedPreference)) {
-    document.documentElement.className = `${storedPreference} scroll-smooth`;
-    return storedPreference;
-  }
 
-  const hasDarkPreference = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const preference = hasDarkPreference ? "dark" : "light";
-  document.documentElement.className = `${preference} scroll-smooth`;
-  return preference;
-}
 export const useGlobalStore = defineStore({
   id: "global",
   state: () => ({
@@ -35,7 +23,6 @@ export const useGlobalStore = defineStore({
         deletion_requested: false,
       } as Omit<PostFeedbackRequest, "privacy_checked" | "token">,
     },
-    theme: initialUserTheme(),
   }),
   actions: {
     focusSearchBar(): void {
