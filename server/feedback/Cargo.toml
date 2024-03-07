@@ -27,11 +27,11 @@ rustls.workspace = true
 
 rand = "0.8.5"
 regex = "1.10.3"
-octocrab = { version = "0.34.2", default-features = false, features = ["rustls", "rustls-webpki-tokio", "retry"] }
+octocrab = { version = "0.34.3", default-features = false, features = ["rustls", "rustls-webpki-tokio", "retry"] }
 
 # web
 jsonwebtoken = { version = "9.2.0", default-features = false, features = [] }
-chrono = { version = "0.4.34", default-features = false, features = [] }
+chrono = { version = "0.4.35", default-features = false, features = [] }
 actix-governor = { version = "0.5.0", features = ["logger"] }
 
 # proposing feedback

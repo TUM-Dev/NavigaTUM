@@ -26,7 +26,7 @@
     "markdown-it-prism": "2.3.0",
     "nightwind": "^1.1.13",
     "pinia": "2.1.7",
-    "swagger-ui-dist": "5.11.9",
+    "swagger-ui-dist": "5.11.10",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "unplugin-vue-markdown": "0.26.0",
     "vue": "3.4.21",
@@ -51,13 +51,13 @@
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "0.5.11",
     "sass": "1.71.1",
-    "stylelint-scss": "6.2.0",
+    "stylelint-scss": "6.2.1",
     "tailwindcss": "3.4.1",
-    "typescript": "5.3.3",
-    "vite": "5.1.4",
+    "typescript": "5.4.2",
+    "vite": "5.1.5",
     "vite-plugin-vue-devtools": "7.0.16",
     "vue-i18n": "9.10.1",
-    "vue-tsc": "2.0.4"
+    "vue-tsc": "2.0.5"
   },
   "type": "module"
 }
