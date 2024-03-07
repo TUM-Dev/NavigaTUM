@@ -2,6 +2,7 @@
 import { useBreakpoints } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { ref } from "vue";
+import Modal from "@/components/Modal.vue";
 
 const props = defineProps<{
   content: {

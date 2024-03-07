@@ -108,7 +108,7 @@ function sendForm() {
     <div class="flex flex-col gap-1">
       <slot name="modal" />
       <div>
-        <Checkbox v-model="privacyChecked">
+        <Checkbox id="privacy-checked" v-model="privacyChecked">
           <template #default>
             <p class="font-bold">
               {{ t("public.agreement.pre") }}

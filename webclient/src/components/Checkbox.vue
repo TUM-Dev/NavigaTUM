@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-const id = ref("checkbox_" + Math.random());
+defineProps<{ id: string }>();
 const model = defineModel<boolean>();
 </script>
 

@@ -1,5 +1,6 @@
 import { type MaybeRefOrGetter, shallowRef, toValue, watchEffect } from "vue";
 import { useGlobalStore } from "@/stores/global";
+import { useI18n } from "vue-i18n";
 
 export function useFetch<T>(
   url: MaybeRefOrGetter<string>,
@@ -11,8 +12,8 @@ export function useFetch<T>(
     // for some of our endpoints, we might want to have access to the lang/theme cookies
     // Add language query param to the request
     const fetchUrl = toValue(url);
-    const lang = localStorage.getItem("lang") || "de";
-    const langQuery = `${fetchUrl.indexOf("?") != -1 ? "&lang=" : "?lang="}${lang}`;
+    const { locale } = useI18n({ useScope: "global" });
+    const langQuery = `${fetchUrl.indexOf("?") != -1 ? "&lang=" : "?lang="}${locale}`;
     const localisedUrl = `${import.meta.env.VITE_APP_URL}${fetchUrl}${langQuery}`;
 
     const global = useGlobalStore();

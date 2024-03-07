@@ -25,7 +25,7 @@ const appURL = import.meta.env.VITE_APP_URL;
           v-if="i < props.buildings.n_visible || buildingsExpanded"
           :to="'/view/' + b.id"
           class="focusable border-zinc-200 flex flex-row items-center justify-between rounded-sm border border-solid p-3.5 !no-underline hover:bg-zinc-100"
-          :aria-label="`show the details for the building '${b.name}'`"
+          :aria-label="t('show_details_for', [b.name])"
         >
           <div class="flex flex-row items-center gap-3">
             <figure v-if="b.thumb" class="max-h-11 min-h-11 min-w-11">
@@ -53,8 +53,8 @@ const appURL = import.meta.env.VITE_APP_URL;
         :aria-label="buildingsExpanded ? t('show_less_buildings') : t('show_more_buildings')"
         @click="toggleBuildingsExpanded()"
       >
-        <template v-if="buildingsExpanded"> <ChevronUpIcon class="mt-0.5 h-4 w-4" /> {{ t("less") }} </template>
-        <template v-else> <ChevronDownIcon class="mt-0.5 h-4 w-4" /> {{ t("more") }} </template>
+        <template v-if="buildingsExpanded"><ChevronUpIcon class="mt-0.5 h-4 w-4" /> {{ t("less") }}</template>
+        <template v-else><ChevronDownIcon class="mt-0.5 h-4 w-4" /> {{ t("more") }}</template>
       </Btn>
     </div>
   </section>
@@ -69,6 +69,7 @@ de:
   show_more_buildings: mehr Gebäude anzeigen
   thumbnail_preview: Thumbnail, das eine Vorschau des Gebäudes zeigt
   title: Gebäude / Gebiete
+  show_details_for: Details für das Gebäude '{0}' anzeigen
 en:
   default_thumbnail_preview: Default-thumbnail, as no thumbnail is available
   less: less
@@ -77,4 +78,5 @@ en:
   show_more_buildings: show more buildings
   thumbnail_preview: Thumbnail, showing a preview of the building
   title: Buildings / Areas
+  show_details_for: show the details for the building '{0}'
 </i18n>

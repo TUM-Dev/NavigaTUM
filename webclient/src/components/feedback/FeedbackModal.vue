@@ -59,7 +59,7 @@ const deleteIssueRequested = ref(false);
         </p>
       </div>
 
-      <Checkbox v-model="deleteIssueRequested">{{ t("delete") }}</Checkbox>
+      <Checkbox id="delete-issue" v-model="deleteIssueRequested">{{ t("delete") }}</Checkbox>
     </template>
     <template #success="{ successUrl }">
       <p>{{ t("success.thank_you") }}</p>

@@ -37,7 +37,7 @@ const selectedRooms = computed<SelectedRoomGroup>(() => {
   return { rooms: rooms_usgage[selectedUsage.value].children, label: rooms_usgage[selectedUsage.value].name };
 });
 const filteredList = computed<readonly ChildEntry[]>(() => {
-  const search_term = new RegExp(`.*${search.value}.*`, "i"); // i=>case insensitive
+  const search_term = new RegExp(`.*${search.value}.*`, "i"); // i ^= case-insensitive
   return selectedRooms.value.rooms.filter((f) => search_term.test(f.name));
 });
 const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filteredList, {
