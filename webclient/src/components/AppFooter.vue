@@ -4,10 +4,9 @@ import { useI18n } from "vue-i18n";
 import Btn from "@/components/Btn.vue";
 
 const global = useGlobalStore();
-const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
-const lang = (localStorage.getItem("lang") || "de") as "de" | "en";
+const { locale } = useI18n({ useScope: "global" });
 // If we do not include the image here like this, vite/rollup is unable to load it
-const brandLogo = new URL(`/src/assets/logos/tum_${theme}_${lang}.svg`, import.meta.url);
+const brandLogo = new URL(`/src/assets/logos/tum_${global.theme}_${locale}.svg`, import.meta.url);
 const { t } = useI18n({ useScope: "local" });
 const navigation = [
   {

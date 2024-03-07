@@ -3,6 +3,7 @@ import type { components } from "@/api_types";
 import { useI18n } from "vue-i18n";
 import { onMounted, watch } from "vue";
 import { useInterval } from "@vueuse/core";
+import { useGlobalStore } from "@/stores/global";
 type RoomfinderMapEntry = components["schemas"]["RoomfinderMapEntry"];
 
 const props = defineProps<{
@@ -12,6 +13,7 @@ const props = defineProps<{
 
 const { t } = useI18n({ useScope: "local" });
 const appURL = import.meta.env.VITE_APP_URL;
+const global = useGlobalStore();
 
 // count will increase every 150ms
 const counter = useInterval(150);
@@ -86,10 +88,9 @@ function draw() {
     ctx.font = "12px sans-serif";
     const txt = t("img_source") + ": " + props.map.source;
     const measurement = ctx.measureText(txt);
-    const theme = (localStorage.getItem("theme") || "light") as "light" | "dark";
-    ctx.fillStyle = theme === "light" ? "#fafafa" : "#1f2937";
+    ctx.fillStyle = global.theme === "light" ? "#fafafa" : "#1f2937";
     ctx?.fillRect(props.map.width - measurement.width - 10, props.map.height - 20, measurement.width + 10, 20);
-    ctx.fillStyle = theme === "light" ? "#374151" : "#DBD5D1";
+    ctx.fillStyle = global.theme === "light" ? "#374151" : "#DBD5D1";
     ctx.fillText(txt, props.map.width - 5, props.map.height - 5);
   });
 }

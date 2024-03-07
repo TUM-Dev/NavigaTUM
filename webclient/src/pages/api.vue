@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import "swagger-ui-dist/swagger-ui.css";
+import { useGlobalStore } from "@/stores/global";
 // TODO: this is reaaaly hacky, but I have no idea how to
 //  - convince vue to allow conditional css imports
 //  - postcss to allow for imports under a selector
-if (localStorage.getItem("theme") === "dark") {
+const global = useGlobalStore();
+if (global.theme === "dark") {
   import("swaggerdark/SwaggerDark.css");
 }
 window.setTimeout(() => {

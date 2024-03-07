@@ -5,9 +5,17 @@ import App from "@/App.vue";
 import { router } from "@/router";
 import { createI18n } from "vue-i18n";
 
-const i18n = createI18n<Record<string, never>, "de" | "en", false>({
+type UserLocale = "de" | "en";
+function defaultLocale(): UserLocale {
+  const lang = localStorage.getItem("lang");
+  if (lang && ["de", "en"].includes(lang)) return lang as UserLocale;
+  const locales = [...navigator.languages, "de"];
+  const relevantLocales = locales.filter((l) => ["de", "en"].includes(l));
+  return relevantLocales[0] as UserLocale;
+}
+const i18n = createI18n<Record<string, never>, UserLocale, false>({
   legacy: false,
-  locale: localStorage.getItem("lang") || "de",
+  locale: defaultLocale(),
   messages: { de: {}, en: {} },
   globalInjection: true,
   missingWarn: true,

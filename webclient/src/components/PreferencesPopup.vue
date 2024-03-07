@@ -3,28 +3,19 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { AdjustmentsHorizontalIcon, MoonIcon, SunIcon } from "@heroicons/vue/24/outline";
 import SelectionSwitch from "@/components/SelectionSwitch.vue";
 
-import { ref, watchEffect } from "vue";
+import { watchEffect } from "vue";
 
-import { saveCooke } from "@/composables/cookies";
+import { persistentlyStore } from "@/composables/persistance";
 import { useI18n } from "vue-i18n";
-type UserTheme = "light" | "dark";
-
-const theme = ref<UserTheme>(initialUserTheme());
+import { useGlobalStore } from "@/stores/global";
+const global = useGlobalStore();
 watchEffect(() => {
-  document.documentElement.className = theme.value;
-  saveCooke("theme", theme.value);
+  document.documentElement.className = global.theme;
+  persistentlyStore("theme", global.theme);
 });
-
-function initialUserTheme(): UserTheme {
-  const storedPreference = localStorage.getItem("theme") as UserTheme;
-  if (storedPreference) return storedPreference;
-
-  const hasDarkPreference = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  return hasDarkPreference ? "dark" : "light";
-}
 const { locale } = useI18n({ useScope: "global" });
 const { t } = useI18n({ useScope: "local" });
-watchEffect(() => saveCooke("lang", locale.value));
+watchEffect(() => persistentlyStore("lang", locale.value));
 </script>
 
 <template>
@@ -50,7 +41,7 @@ watchEffect(() => saveCooke("lang", locale.value));
           {{ t("preferences") }}
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
-          <SelectionSwitch v-model="theme" label="Theme" :values="['dark', 'light']">
+          <SelectionSwitch v-model="global.theme" label="Theme" :values="['dark', 'light']">
             <template #option1><MoonIcon class="h-3.5 w-3.5" /></template>
             <template #option2><SunIcon class="h-3.5 w-3.5" /></template>
           </SelectionSwitch>
