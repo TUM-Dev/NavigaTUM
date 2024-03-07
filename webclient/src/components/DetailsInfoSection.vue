@@ -22,7 +22,12 @@ const appURL = import.meta.env.VITE_APP_URL;
        as long as only little information is there -->
   <div class="hidden lg:block">
     <div class="bg-white border-zinc-200 max-w-sm rounded-lg border shadow-md shadow-zinc-500/5 dark:bg-zinc-100">
-      <button v-if="state.image.shown_image" type="button" @click="state.showImageSlideshow(true)">
+      <button
+        v-if="state.image.shown_image"
+        type="button"
+        @click="state.showImageSlideshow(true)"
+        class="focusable rounded-t-lg"
+      >
         <img
           :alt="t('image_alt')"
           :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"

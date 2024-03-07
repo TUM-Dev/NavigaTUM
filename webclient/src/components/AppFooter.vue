@@ -46,12 +46,12 @@ const navigation = computed(() => [
         </div>
       </nav>
       <div class="mt-10 flex justify-center space-x-10 text-center">
-        <p class="text-zinc-500 text-center text-xs">
-          {{ t("official_roomfinder") }}<br />
-          <Btn to="https://tum.de" variant="rounded-xl focusable" size="sm">
+        <Btn to="https://tum.de" variant="rounded-xl px-3 py-2 focusable" size="sm">
+          <p class="text-zinc-600 text-center text-xs">
+            {{ t("official_roomfinder") }}<br />
             <img :alt="t('tum_logo_alt')" :src="brandLogo.href" width="200" class="h-20" aria-hidden="true" />
-          </Btn>
-        </p>
+          </p>
+        </Btn>
       </div>
     </div>
   </footer>

@@ -150,14 +150,17 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
         class="bg-zinc-100 border-zinc-400 max-h-96 overflow-y-scroll border p-2 dark:bg-zinc-200"
       >
         <ul v-bind="wrapperProps">
-          <a v-for="(room, index) in list" :key="index" :href="`/view/${room.data.id}`" class="!no-underline">
-            <li
+          <li>
+            <a
+              v-for="(room, index) in list"
+              :key="index"
+              :href="`/view/${room.data.id}`"
               class="flex h-[36px] max-h-[36px] min-h-[36px] flex-row gap-2 p-1.5 px-3 hover:text-white hover:bg-tumBlue-500"
             >
               <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" />
               {{ room.data.name }}
-            </li>
-          </a>
+            </a>
+          </li>
         </ul>
       </div>
       <div v-else class="flex flex-row items-baseline">

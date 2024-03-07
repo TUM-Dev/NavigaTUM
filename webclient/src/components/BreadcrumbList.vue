@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), { c
     :class="props.class"
   >
     <template v-for="(item, i) in props.items" :key="item.to">
-      <span v-if="i > 0" class="text-zinc-500">/</span>
+      <span v-if="i > 0" aria-hidden="true" class="text-zinc-500">/</span>
       <li property="itemListElement" typeof="ListItem">
         <RouterLink
           :to="item.to"

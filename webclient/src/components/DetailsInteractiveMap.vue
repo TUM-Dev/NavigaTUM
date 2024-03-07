@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
-import { Map, Marker } from "maplibre-gl";
-import { AttributionControl, FullscreenControl, GeolocateControl, NavigationControl } from "maplibre-gl";
+import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
 import { MapSelections, useDetailsStore } from "@/stores/details";
 import { nextTick, ref } from "vue";
 import { FloorControl } from "@/modules/FloorControl";
@@ -112,8 +111,7 @@ function initMap(containerId: string) {
     attributionControl: false,
   });
 
-  const nav = new NavigationControl({});
-  map.addControl(nav, "top-left");
+  map.addControl(new NavigationControl({}), "top-left");
 
   // (Browser) Fullscreen is enabled only on mobile, on desktop the map
   // is maximized instead. This is determined once to select the correct
