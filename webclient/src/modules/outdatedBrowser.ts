@@ -28,15 +28,15 @@ function extractBrowserInfo(): BrowserInfo {
 function isSupportedBrowser(browserName: BrowserName, browserVersion: number) {
   switch (browserName) {
     case "Chrome":
-      return 98 >= browserVersion;
+      return 98 <= browserVersion;
     case "Firefox":
-      return 94 >= browserVersion;
+      return 94 <= browserVersion;
     case "Edge":
-      return 98 >= browserVersion;
+      return 98 <= browserVersion;
     case "Opera":
-      return 84 >= browserVersion;
+      return 84 <= browserVersion;
     case "Safari":
-      return 15.3 >= browserVersion;
+      return 15.3 <= browserVersion;
     default:
       return false;
   }
@@ -45,6 +45,7 @@ function isSupportedBrowser(browserName: BrowserName, browserVersion: number) {
 function shouldWarnForOutdatedBrowser(): boolean {
   const browser = extractBrowserInfo();
   if (isSupportedBrowser(browser.name, browser.version)) return false;
+  console.table(browser);
   const optLastTime = localStorage.getItem("lastOutdatedBrowserWarningTime");
   if (optLastTime === null) return true;
   const lastTime = new Date(optLastTime);
