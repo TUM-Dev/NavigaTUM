@@ -56,26 +56,20 @@ function shouldWarnForOutdatedBrowser(): boolean {
 }
 
 if (shouldWarnForOutdatedBrowser()) {
-  const error = document.createElement("div");
-  error.classList.add("p-1.5", "rounded-sm", "bg-red-300", "text-red-950");
-  error.innerHTML = `
-  <p>
-    We regret to inform you that your current web browser is outdated and unsupported for the optimal performance of this website.
-    To ensure a secure and efficient browsing experience, we recommend updating your browser to the latest version or switching to a more modern and supported browser. Outdated browsers may not be able to render the website correctly, leading to potential security vulnerabilities and reduced functionality.
-  </p>
-  <p>
-    <b>Please consider upgrading your browser to one of the following recommended options:</b
-  
-    <ul class="list-disc list-inside">
-      <li>Google Chrome</li>
-      <li>Mozilla Firefox</li>
-      <li>Microsoft Edge</li>
-    </ul>
-  
-    If you need assistance with updating your browser, please refer to your browser's official website or your IT department for guidance.
-    Thank you for your understanding, and we look forward to providing you with an enhanced browsing experience once your browser is up-to-date.
-  </p>`;
-  document.getElementById("pageContent")?.appendChild(error);
+  alert(
+    `Please consider upgrading your browser to one of the following recommended options:
+
+- Google Chrome
+- Mozilla Firefox
+- Microsoft Edge
+
+We regret to inform you that your current web browser is outdated and unsupported for the optimal performance of this website.
+To ensure a secure and efficient browsing experience, we recommend updating your browser to the latest version or switching to a more modern and supported browser.
+Outdated browsers may not be able to render the website correctly thus leading to reduced functionality or lead to potential security vulnerabilities.
+
+If you need assistance with updating your browser, please refer to your browser's official website or your IT department for guidance.
+Thank you for your understanding, and we look forward to providing you with an enhanced browsing experience once your browser is up-to-date.`,
+  );
   localStorage.setItem("lastOutdatedBrowserWarningTime", new Date().getTime().toString());
 }
 export {};
