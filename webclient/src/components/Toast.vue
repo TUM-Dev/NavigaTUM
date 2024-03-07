@@ -1,15 +1,17 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
+    id?: string;
     msg?: string;
     level?: "error" | "warning" | "info" | "default";
   }>(),
-  { level: "default", msg: "" },
+  { level: "default", msg: "", id: undefined },
 );
 </script>
 
 <template>
   <div
+    v-bind="{ id }"
     :data-cy="'toast-' + props.level"
     class="text-pretty rounded border p-1.5 text-sm leading-5"
     :class="{

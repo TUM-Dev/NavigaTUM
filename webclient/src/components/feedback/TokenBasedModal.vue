@@ -7,6 +7,7 @@ import Modal from "@/components/Modal.vue";
 import Toast from "@/components/Toast.vue";
 import Btn from "@/components/Btn.vue";
 import Checkbox from "@/components/Checkbox.vue";
+import Spinner from "@/components/Spinner.vue";
 
 const props = defineProps<{
   data: { [index: string]: string | boolean | number };
@@ -61,11 +62,15 @@ function _send() {
         token.value = null;
         error.message = `${t("status.send_unexpected_status")}: ${r.status}`;
       }
+      if (r.status !== SubmissionStatus.SUCCESSFULLY_CREATED) {
+        document.getElementById("token-modal-error")?.scrollIntoView({ behavior: "smooth" });
+      }
     })
     .catch((r) => {
       loading.value = false;
       error.message = t("error.send_req_failed");
       console.error(r);
+      document.getElementById("token-modal-error")?.scrollIntoView({ behavior: "smooth" });
     });
 }
 
@@ -172,11 +177,16 @@ function sendForm() {
       <Btn
         variant="primary"
         size="md"
-        :class="{ loading: loading }"
+        :class="{
+          '!text-tumBlue-900 !bg-tumBlue-200 cursor-progress': loading,
+          '!text-tumBlue-50 !bg-tumBlue-300 cursor-not-allowed': error.blockSend,
+        }"
         v-bind="{ disabled: loading || error.blockSend }"
         @click="sendForm"
       >
-        {{ t("send") }}
+        <template v-if="loading"><Spinner class="my-auto h-4 w-4"></Spinner> {{ t("sending...") }}</template>
+        <template v-else-if="error.blockSend">{{ t("try_again_later") }}</template>
+        <template v-else>{{ t("send") }}</template>
       </Btn>
       <Btn variant="linkButton" size="md" @click="closeForm">
         {{ t("cancel") }}
@@ -226,6 +236,8 @@ de:
       post: wenden.
     right_of_appeal: Es besteht zudem ein Beschwerderecht beim Bayerischen Landesbeauftragten für den Datenschutz.
     right_to_information: Unter den gesetzlichen Voraussetzungen und einem vorhandenen Personenbezug der Daten besteht ein Recht auf Auskunft, sowie auf Berichtigung oder Löschung oder auf Einschränkung der Verarbeitung oder eines Widerspruchsrechts gegen die Verarbeitung sowie des Rechts auf Datenübertragbarkeit.
+  sending: Wird gesendet
+  try_again_later: Bitte versuche es später noch einmal
   send: Senden
   thank_you: Vielen Dank!
 en:
@@ -263,6 +275,8 @@ en:
       post: .
     right_of_appeal: There is also a right of appeal to the Bavarian State Commissioner for Data Protection.
     right_to_information: Under the legal conditions and an existing personal reference of the data, there is a right to information, as well as to correction or deletion or to restriction of processing or a right to object to processing as well as the right to data portability.
+  sending: Sending
+  try_again_later: not possible
   send: Send
   thank_you: Thank you!
 </i18n>
