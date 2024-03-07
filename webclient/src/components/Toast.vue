@@ -4,7 +4,7 @@ const props = withDefaults(
     msg?: string;
     level?: "error" | "warning" | "info" | "default";
   }>(),
-  { level: "default" },
+  { level: "default", msg: "" },
 );
 </script>
 
@@ -19,7 +19,6 @@ const props = withDefaults(
       'text-zinc-900 bg-zinc-100 border-zinc-300': props.level === 'default',
     }"
   >
-    <slot />
-    {{ props.msg }}
+    <slot>{{ props.msg }}</slot>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFetch } from "@/composables/fetch";
-import { computed, shallowRef, watchEffect } from "vue";
+import { computed } from "vue";
 import { setDescription, setTitle } from "@/composables/common";
 import type { SectionFacet } from "@/modules/autocomplete";
 import { extractFacets } from "@/modules/autocomplete";

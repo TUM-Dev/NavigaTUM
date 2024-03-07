@@ -1,6 +1,6 @@
 {
   "name": "navigatum",
-  "version": "0.1.0",
+  "version": "1.5.0",
   "scripts": {
     "cy:run:chrome:e2e": "cypress run --browser chrome --e2e",
     "cy:run:firefox:e2e": "cypress run --browser firefox:dev --e2e",
