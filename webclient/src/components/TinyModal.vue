@@ -7,7 +7,7 @@ import Modal from "@/components/Modal.vue";
 const props = defineProps<{
   content: {
     title?: string;
-    body?: string;
+    body: string;
     footer?: string;
   };
 }>();
@@ -26,7 +26,7 @@ const modalOpen = ref(false);
         <div v-if="props.content.title" class="card-header">
           {{ props.content.title }}
         </div>
-        <div v-if="props.content.body" class="card-body">
+        <div class="card-body">
           {{ props.content.body }}
         </div>
         <div v-if="props.content.footer" class="card-footer">
@@ -39,7 +39,7 @@ const modalOpen = ref(false);
     <a class="cursor-pointer" :aria-label="t('show_more_information')" @click="() => (modalOpen = true)">
       <slot name="icon" />
     </a>
-    <Modal v-model="modalOpen" :title="props.content.title">
+    <Modal v-model="modalOpen" :title="props.content.title || ''">
       <p v-if="props.content.body">{{ props.content.body }}</p>
       <p v-if="props.content.footer">{{ props.content.footer }}</p>
     </Modal>

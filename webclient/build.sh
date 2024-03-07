@@ -5,7 +5,7 @@ set -e # fail on first error
 mkdir -p ../dist
 rm -fr ../dist
 
-npm run build-only
+npm run build
 rsync -r dist/* ../dist
 
 # compress data (only using gzip, because brotli on ngnix is a royal pain)

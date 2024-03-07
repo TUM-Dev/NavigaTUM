@@ -8,15 +8,14 @@ const dark = useDark({ storageKey: "theme" });
 if (dark.value) {
   import("swaggerdark/SwaggerDark.css");
 }
-window.setTimeout(() => {
+window.setTimeout(async () => {
   // we need to make sure, that swagger-ui exists, otherwise the following command will fail
   // therefore waiting is effective
-  import("swagger-ui").then((SwaggerUI) =>
-    SwaggerUI({
-      url: `${import.meta.env.VITE_APP_URL}/cdn/openapi.yaml`,
-      dom_id: "#swagger-ui",
-    }),
-  );
+  const SwaggerUI = await import("swagger-ui");
+  SwaggerUI.default({
+    url: `${import.meta.env.VITE_APP_URL}/cdn/openapi.yaml`,
+    dom_id: "#swagger-ui",
+  });
 }, 10);
 </script>
 

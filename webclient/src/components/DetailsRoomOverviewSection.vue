@@ -36,7 +36,7 @@ const selectedRooms = computed<SelectedRoomGroup>(() => {
   const rooms_usgage = props.rooms?.usages || [];
   return { rooms: rooms_usgage[selectedUsage.value].children, label: rooms_usgage[selectedUsage.value].name };
 });
-const filteredList = computed<readonly ChildEntry[]>(() => {
+const filteredList = computed<ChildEntry[]>(() => {
   const search_term = new RegExp(`.*${search.value}.*`, "i"); // i ^= case-insensitive
   return selectedRooms.value.rooms.filter((f) => search_term.test(f.name));
 });
