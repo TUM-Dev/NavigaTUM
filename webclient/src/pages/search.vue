@@ -11,6 +11,8 @@ import { useRoute } from "vue-router";
 import type { components } from "@/api_types";
 import { ChevronDownIcon } from "@heroicons/vue/16/solid";
 import { MapPinIcon, MagnifyingGlassIcon, BuildingOfficeIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
+import Toast from "@/components/Toast.vue";
+import ManyChangesToast from "@/components/ManyChangesToast.vue";
 type SearchResponse = components["schemas"]["SearchResponse"];
 
 const { t, locale } = useI18n({ useScope: "local" });
@@ -67,6 +69,10 @@ function genDescription(): string {
 </script>
 
 <template>
+  <div class="-mb-1 flex flex-col gap-4 pt-5">
+    <Toast v-if="global.error_message" :msg="global.error_message" level="error" />
+    <ManyChangesToast />
+  </div>
   <div v-if="data" class="flex flex-col gap-5 pt-5">
     <small class="text-zinc-500">
       {{ t("runtime") }}: {{ data.time_ms }}ms –

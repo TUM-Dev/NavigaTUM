@@ -18,11 +18,19 @@ import Impressum from "@/assets/md/impressum.md";
 // @ts-ignore
 import Imprint from "@/assets/md/imprint.md";
 import { useRoute } from "vue-router";
+import Toast from "@/components/Toast.vue";
+import ManyChangesToast from "@/components/ManyChangesToast.vue";
+import { useGlobalStore } from "@/stores/global";
 
 const route = useRoute();
+const global = useGlobalStore();
 </script>
 
 <template>
+  <div class="-mb-1 flex flex-col gap-4 pt-5">
+    <Toast v-if="global.error_message" :msg="global.error_message" level="error" />
+    <ManyChangesToast />
+  </div>
   <div id="contentwrapper" class="pt-4">
     <Datenschutz v-if="route.params.name === 'datenschutz'" />
     <Privacy v-else-if="route.params.name === 'privacy'" />

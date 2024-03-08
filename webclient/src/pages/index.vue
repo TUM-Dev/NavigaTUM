@@ -8,15 +8,23 @@ import { ArrowRightIcon, ChevronRightIcon, ChevronDownIcon, ChevronUpIcon } from
 import { computed, ref } from "vue";
 import Btn from "@/components/Btn.vue";
 import Spinner from "@/components/Spinner.vue";
+import Toast from "@/components/Toast.vue";
+import { useGlobalStore } from "@/stores/global";
+import ManyChangesToast from "@/components/ManyChangesToast.vue";
 type RootResponse = components["schemas"]["RootResponse"];
 
 const { t, locale } = useI18n({ useScope: "local" });
 const url = computed<string>(() => `/api/get/root?lang=${locale.value}`);
 const { data } = useFetch<RootResponse>(url, (d) => setTitle(d.name));
 const openPanels = ref<(boolean | undefined)[]>([]);
+const global = useGlobalStore();
 </script>
 
 <template>
+  <div class="-mb-1 flex flex-col gap-4 pt-5">
+    <Toast v-if="global.error_message" :msg="global.error_message" level="error" />
+    <ManyChangesToast />
+  </div>
   <div class="flex flex-col justify-between gap-3 pt-8">
     <div class="text-zinc-600 !text-lg font-semibold">{{ t("sites") }}</div>
     <!-- <a href="#" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</a> -->
