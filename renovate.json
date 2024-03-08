@@ -15,8 +15,8 @@
     },
     {
       "matchPackagePatterns": ["eslint", "prettier", "pylint", "pytest", "pretty_assertions", "pre-commit", "mypy", "sourcery", "@types/.*", "types-.*"],
-      "groupName": "linting"
+      "groupName": "linting",
       "automerge": true
-    },
+    }
   ]
 }
