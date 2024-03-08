@@ -11,15 +11,12 @@
   "packageRules": [
     {
       "matchDepTypes": ["devDependencies"],
-      "prPriority": -1
+      "groupName": "devDependencies"
     },
     {
-      "matchPackagePatterns": ["eslint", "prettier", "pylint", "pretty_assertions", "pre-commit", "mypy", "sourcery"],
+      "matchPackagePatterns": ["eslint", "prettier", "pylint", "pytest", "pretty_assertions", "pre-commit", "mypy", "sourcery", "@types/.*", "types-.*"],
       "groupName": "linting"
+      "automerge": true
     },
-    {
-      "matchPackagePatterns": ["@types/.*", "types-.*"],
-      "groupName": "types"
-    }
   ]
 }
