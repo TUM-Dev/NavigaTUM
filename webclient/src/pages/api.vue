@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import "swagger-ui/dist/swagger-ui.css";
 import { useDark } from "@vueuse/core";
+import Toast from "@/components/Toast.vue";
+import { useGlobalStore } from "@/stores/global";
+import ManyChangesToast from "@/components/ManyChangesToast.vue";
+const global = useGlobalStore();
 // TODO: this is reaaaly hacky, but I have no idea how to
 //  - convince vue to allow conditional css imports
 //  - postcss to allow for imports under a selector
@@ -20,6 +24,10 @@ window.setTimeout(async () => {
 </script>
 
 <template>
+  <div class="-mb-1 flex flex-col gap-4 pt-5">
+    <Toast v-if="global.error_message" :msg="global.error_message" level="error" />
+    <ManyChangesToast />
+  </div>
   <div id="swagger-ui" class="pt-0.5" />
 </template>
 
