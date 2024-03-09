@@ -24,19 +24,28 @@ services:
   # maps
   tileserver-init-sprites:
     image: alpine:latest
-    restart: on-failure
     command: sh -c "mkdir -p /data/sprites/ && rm -f /data/sprites/* && wget -P /data/sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
     volumes:
       - tileserver-src:/data
+  tileserver-init-config:
+    image: alpine:latest
+    command: sh -c "apk update --no-progress --quiet && apk add rsync --no-progress --quiet && rsync /to_data/ /data/"
+    volumes:
+      - tileserver-src:/data
+      - ./deployment/k3s/files/:/to_data/:ro
+    depends_on:
+      tileserver-init-sprites:
+        condition: service_completed_successfully
   tileserver-srv-src: # needed for simpler initialisation of dev environments
     image: nginx:1.25
     restart: on-failure
     labels:
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
-    command: sh -c "apt update && apt install wget -y && wget --timestamping --directory-prefix=/map --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
     volumes:
       - tileserver-src:/usr/share/nginx/html/maps/vol:ro
     depends_on:
+      tileserver-init-config:
+        condition: service_completed_successfully
       tileserver-init-sprites:
         condition: service_completed_successfully
   tileserver:
@@ -50,14 +59,13 @@ services:
     tmpfs:
       - /tmp
     volumes:
-      - ./deployment/k3s/files/osm-liberty.json:/data/styles/osm-liberty.json:ro
-      - ./deployment/k3s/files/config.json:/data/config.json:ro
       - tileserver-src:/data/:ro
-      - ./map/output.mbtiles:/data/output.mbtiles:ro
     read_only: true
     ports:
       - "3001:8080"
     depends_on:
+      tileserver-init-config:
+        condition: service_completed_successfully
       tileserver-init-sprites:
         condition: service_completed_successfully
   # cdn
@@ -71,7 +79,7 @@ services:
       - "3002:3002"
   # server
   main-api:
-    image: ghcr.io/tum-dev/navigatum-main-api:main
+    image: ghcr.io/tum-dev/navigatum-server:main
     restart: always
     labels:
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"

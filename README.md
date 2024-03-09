@@ -77,9 +77,12 @@ Else you can follow the steps in the [data documentation](data/README.md).
 
 If you want to work on the webclient only (and not server or data), you don't need to set up the server. You can instead either use the public API (see the [webclient documentation](webclient/README.md#Testing)) or use our ready-made docker images to run the server locally:
 
-```bash
-docker run -v tileserver-sprites:/sprites alpine:latest sh -c "mkdir -p /sprites/ && rm -f /sprites/* && wget -P /sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
-```
+> [!NOTE]
+> Because we have a tileserver, running the following command is required once.
+>
+> ```bash
+> docker run -v tileserver-src:/data ubuntu:latest sh -c "apt -qq update && apt -qq install wget -y && wget --progress=bar:force:noscroll --timestamping --directory-prefix=/map --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
+> ```
 
 ```bash
 docker compose up --build
