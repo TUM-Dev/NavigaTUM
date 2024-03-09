@@ -49,7 +49,7 @@ spec:
     app.kubernetes.io/name: maps
   ports:
     - name: http
-      port: 3001
+      port: 8080
       targetPort: 8080
     - name: src
       port: 7771

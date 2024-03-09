@@ -34,7 +34,7 @@ spec:
               name: webclient
           env:
             - name: TILESERVER_URL
-              value: http://maps-svc.navigatum.svc.cluster.local:3001
+              value: http://maps-svc.navigatum.svc.cluster.local:8080
             - name: CDN_URL
               value: http://cdn-svc.navigatum.svc.cluster.local:3002
             - name: MAIN_API_URL
