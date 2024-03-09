@@ -81,7 +81,7 @@ If you want to work on the webclient only (and not server or data), you don't ne
 > Because we have a tileserver, running the following command is required once.
 >
 > ```bash
-> docker run -v tileserver-src:/data ubuntu:latest sh -c "apt -qq update && apt -qq install wget -y && wget --progress=bar:force:noscroll --timestamping --directory-prefix=/map --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
+> docker run -it --rm -v navigatum_tileserver-src:/data ubuntu:latest sh -c "apt -qq update && apt -qq install wget -y && wget --progress=bar:force:noscroll --timestamping --directory-prefix=/map --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
 > ```
 
 ```bash
