@@ -3,6 +3,8 @@ services:
     image: ghcr.io/tum-dev/navigatum-webclient:latest
     restart: always
     build: ./webclient
+    labels:
+      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`)"
     ports:
       - "3000:3000"
     environment:
@@ -20,24 +22,30 @@ services:
       feedback-api:
         condition: service_healthy
   # maps
-  tileserver-init-sprites:
-    image: alpine:latest
-    restart: on-failure
-    command:
-      - sh
-      - -c
-      - "mkdir -p /sprites/ && rm -f /sprites/* && wget -P /sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
-    volumes:
-      - tileserver-sprites:/sprites
   tileserver-init-src:
     image: ubuntu:latest
     restart: on-failure
     command: sh -c "apt update && apt install wget -y && wget --timestamping --directory-prefix=/map --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
     volumes:
       - ./map:/map
+  tileserver-srv-src: # needed for simpler initialisation of dev environments
+    image: nginx:1.25
+    restart: on-failure
+    labels:
+      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
+    command: sh -c "apt update && apt install wget -y && wget --timestamping --directory-prefix=/map --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
+    volumes:
+      - tileserver-vol:/usr/share/nginx/html/maps/vol:ro
+    depends_on:
+      tileserver-init-src:
+        condition: service_completed_successfully
   tileserver:
     image: maptiler/tileserver-gl:latest
     restart: always
+    labels:
+      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
+      - "traefik.http.routers.navigatum.middlewares=navigatum-stripprefix@docker"
+      - "traefik.http.middlewares.navigatum-stripprefix.stripprefix.prefixes=/maps"
     command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
     tmpfs:
       - /tmp
@@ -51,14 +59,14 @@ services:
     ports:
       - "3001:8080"
     depends_on:
-      tileserver-init-sprites:
-        condition: service_completed_successfully
       tileserver-init-src:
         condition: service_completed_successfully
   # cdn
   data:
     image: ghcr.io/tum-dev/navigatum-cdn:latest
     restart: always
+    labels:
+      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
     build: ./data
     ports:
       - "3002:3002"
@@ -66,6 +74,8 @@ services:
   main-api:
     image: ghcr.io/tum-dev/navigatum-main-api:latest
     restart: always
+    labels:
+      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
     build: ./server
     command: /bin/navigatum-main-api
     ports:
@@ -101,6 +111,8 @@ services:
   feedback-api:
     image: ghcr.io/tum-dev/navigatum-server:latest
     restart: always
+    labels:
+      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/api/feedback`)"
     build: ./server
     command: /bin/navigatum-feedback
     ports:
@@ -126,6 +138,17 @@ services:
       retries: 5
       interval: 10s
       start_period: 10s
+  redirect:
+    image: alpine
+    restart: always
+    labels:
+      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)"
+      - "traefik.http.routers.navigatum.middlewares=navigatum-redirectregex@docker"
+      - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.regex=^(https?://.*)nav.tum.(app|sexy)/(.*)$"
+      - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.replacement=${1}nav.tum.de/${3}"
+      - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.permanent=true"
+    command: sh -c 'while sleep 3600; do :; done'
+
 
 
 volumes:
