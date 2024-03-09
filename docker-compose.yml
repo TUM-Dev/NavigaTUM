@@ -4,6 +4,7 @@ services:
     restart: always
     build: ./webclient
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`)"
     ports:
       - "3000:3000"
@@ -40,6 +41,7 @@ services:
     image: nginx:1.25
     restart: on-failure
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
     volumes:
       - tileserver-src:/usr/share/nginx/html/maps/vol:ro
@@ -52,6 +54,7 @@ services:
     image: maptiler/tileserver-gl:latest
     restart: always
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
       - "traefik.http.routers.navigatum.middlewares=navigatum-stripprefix@docker"
       - "traefik.http.middlewares.navigatum-stripprefix.stripprefix.prefixes=/maps"
@@ -73,6 +76,7 @@ services:
     image: ghcr.io/tum-dev/navigatum-data:main
     restart: always
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
     build: ./data
     ports:
@@ -82,6 +86,7 @@ services:
     image: ghcr.io/tum-dev/navigatum-server:main
     restart: always
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
     build: ./server
     command: /bin/navigatum-main-api
@@ -119,6 +124,7 @@ services:
     image: ghcr.io/tum-dev/navigatum-server:main
     restart: always
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/api/feedback`)"
     build: ./server
     command: /bin/navigatum-feedback
@@ -149,6 +155,7 @@ services:
     image: alpine:latest
     restart: always
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)"
       - "traefik.http.routers.navigatum.middlewares=navigatum-redirectregex@docker"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.regex=^(https?://.*)nav.tum.(app|sexy)/(.*)$$"
