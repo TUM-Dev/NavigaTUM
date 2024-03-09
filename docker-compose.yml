@@ -6,10 +6,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`)"
-    ports:
-      - "127.0.0.1:3000:3000"
+    expose:
+      - "3000"
     environment:
-      TILESERVER_URL: http://tileserver:3001
+      TILESERVER_URL: http://tileserver:8080
       CDN_URL: http://data:3002
       MAIN_API_URL: http://main-api:3003
       FEEDBACK_API_URL: http://feedback-api:3004
@@ -64,8 +64,8 @@ services:
     volumes:
       - tileserver-src:/data/:ro
     read_only: true
-    ports:
-      - "127.0.0.1:3001:8080"
+    expose:
+      - "8080"
     depends_on:
       tileserver-init-config:
         condition: service_completed_successfully
@@ -79,8 +79,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
     build: ./data
-    ports:
-      - "127.0.0.1:3002:3002"
+    expose:
+      - "3002"
   # server
   main-api:
     image: ghcr.io/tum-dev/navigatum-server:main
@@ -90,8 +90,8 @@ services:
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
     build: ./server
     command: /bin/navigatum-main-api
-    ports:
-      - "127.0.0.1:3003:3003"
+    expose:
+      - "3003"
     volumes:
       - type: tmpfs
         target: /home/navigatum/.cache
@@ -115,6 +115,8 @@ services:
   meilisearch:
     image: getmeili/meilisearch:v1.6.2
     restart: always
+    expose:
+      - "7700"
     healthcheck:
       test: wget -q --spider http://localhost:7700/health
       retries: 5
@@ -128,8 +130,8 @@ services:
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/api/feedback`)"
     build: ./server
     command: /bin/navigatum-feedback
-    ports:
-      - "127.0.0.1:3004:3004"
+    expose:
+      - "3004"
     healthcheck:
       test: wget -q --spider http://localhost:3004/api/feedback/status
       retries: 5
@@ -144,8 +146,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    expose:
+      - "5432"
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
       retries: 5

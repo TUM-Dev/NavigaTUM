@@ -28,7 +28,7 @@ spec:
       match: Host(`{{ $.Values.url }}`) && PathPrefix(`/maps/`)
       services:
         - name: maps-svc
-          port: 3001
+          port: 8080
       middlewares:
         - name: stripprefix
         - name: cache-2-months
