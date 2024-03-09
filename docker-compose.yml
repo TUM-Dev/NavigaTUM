@@ -63,7 +63,7 @@ services:
         condition: service_completed_successfully
   # cdn
   data:
-    image: ghcr.io/tum-dev/navigatum-cdn:latest
+    image: ghcr.io/tum-dev/navigatum-data:latest
     restart: always
     labels:
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
