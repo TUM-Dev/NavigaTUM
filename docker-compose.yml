@@ -7,7 +7,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`)"
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     environment:
       TILESERVER_URL: http://tileserver:3001
       CDN_URL: http://data:3002
@@ -65,7 +65,7 @@ services:
       - tileserver-src:/data/:ro
     read_only: true
     ports:
-      - "3001:8080"
+      - "127.0.0.1:3001:8080"
     depends_on:
       tileserver-init-config:
         condition: service_completed_successfully
@@ -80,7 +80,7 @@ services:
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
     build: ./data
     ports:
-      - "3002:3002"
+      - "127.0.0.1:3002:3002"
   # server
   main-api:
     image: ghcr.io/tum-dev/navigatum-server:main
@@ -91,7 +91,7 @@ services:
     build: ./server
     command: /bin/navigatum-main-api
     ports:
-      - "3003:3003"
+      - "127.0.0.1:3003:3003"
     volumes:
       - type: tmpfs
         target: /home/navigatum/.cache
@@ -129,7 +129,7 @@ services:
     build: ./server
     command: /bin/navigatum-feedback
     ports:
-      - "3004:3004"
+      - "127.0.0.1:3004:3004"
     healthcheck:
       test: wget -q --spider http://localhost:3004/api/feedback/status
       retries: 5
