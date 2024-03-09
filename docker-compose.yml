@@ -1,6 +1,6 @@
 services:
   webclient:
-    image: ghcr.io/tum-dev/navigatum-webclient:latest
+    image: ghcr.io/tum-dev/navigatum-webclient:main
     restart: always
     build: ./webclient
     labels:
@@ -22,12 +22,12 @@ services:
       feedback-api:
         condition: service_healthy
   # maps
-  tileserver-init-src:
-    image: ubuntu:latest
+  tileserver-init-sprites:
+    image: alpine:latest
     restart: on-failure
-    command: sh -c "apt update && apt install wget -y && wget --timestamping --directory-prefix=/map --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
+    command: sh -c "mkdir -p /data/sprites/ && rm -f /data/sprites/* && wget -P /data/sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
     volumes:
-      - ./map:/map
+      - tileserver-src:/data
   tileserver-srv-src: # needed for simpler initialisation of dev environments
     image: nginx:1.25
     restart: on-failure
@@ -35,9 +35,9 @@ services:
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
     command: sh -c "apt update && apt install wget -y && wget --timestamping --directory-prefix=/map --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
     volumes:
-      - tileserver-vol:/usr/share/nginx/html/maps/vol:ro
+      - tileserver-src:/usr/share/nginx/html/maps/vol:ro
     depends_on:
-      tileserver-init-src:
+      tileserver-init-sprites:
         condition: service_completed_successfully
   tileserver:
     image: maptiler/tileserver-gl:latest
@@ -52,18 +52,17 @@ services:
     volumes:
       - ./deployment/k3s/files/osm-liberty.json:/data/styles/osm-liberty.json:ro
       - ./deployment/k3s/files/config.json:/data/config.json:ro
-      - tileserver-sprites:/data/sprites:ro
-      - tileserver-fonts:/data/fonts:ro
+      - tileserver-src:/data/:ro
       - ./map/output.mbtiles:/data/output.mbtiles:ro
     read_only: true
     ports:
       - "3001:8080"
     depends_on:
-      tileserver-init-src:
+      tileserver-init-sprites:
         condition: service_completed_successfully
   # cdn
   data:
-    image: ghcr.io/tum-dev/navigatum-data:latest
+    image: ghcr.io/tum-dev/navigatum-data:main
     restart: always
     labels:
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
@@ -72,7 +71,7 @@ services:
       - "3002:3002"
   # server
   main-api:
-    image: ghcr.io/tum-dev/navigatum-main-api:latest
+    image: ghcr.io/tum-dev/navigatum-main-api:main
     restart: always
     labels:
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
@@ -109,7 +108,7 @@ services:
       interval: 10s
       start_period: 10s
   feedback-api:
-    image: ghcr.io/tum-dev/navigatum-server:latest
+    image: ghcr.io/tum-dev/navigatum-server:main
     restart: always
     labels:
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/api/feedback`)"
@@ -139,24 +138,20 @@ services:
       interval: 10s
       start_period: 10s
   redirect:
-    image: alpine
+    image: alpine:latest
     restart: always
     labels:
       - "traefik.http.routers.navigatum.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)"
       - "traefik.http.routers.navigatum.middlewares=navigatum-redirectregex@docker"
-      - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.regex=^(https?://.*)nav.tum.(app|sexy)/(.*)$"
-      - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.replacement=${1}nav.tum.de/${3}"
+      - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.regex=^(https?://.*)nav.tum.(app|sexy)/(.*)$$"
+      - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.replacement=$${1}nav.tum.de/$${3}"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.permanent=true"
     command: sh -c 'while sleep 3600; do :; done'
-
-
 
 volumes:
   db-data:
     driver: local
-  tileserver-sprites:
-    driver: local
-  tileserver-fonts:
+  tileserver-src:
     driver: local
   postgres-data:
     driver: local
