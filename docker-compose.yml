@@ -159,7 +159,7 @@ services:
       interval: 10s
       start_period: 10s
   redirect:
-    image: alpine:latest
+    image: traefik/whoami
     restart: always
     labels:
       - "traefik.enable=true"
@@ -169,7 +169,6 @@ services:
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.regex=^(https?://.*)nav.tum.(app|sexy)/(.*)$$"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.replacement=$${1}nav.tum.de/$${3}"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.permanent=true"
-    command: sh -c 'while sleep 3600; do :; done'
 
 volumes:
   db-data:
