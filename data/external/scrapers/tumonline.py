@@ -18,9 +18,7 @@ TUMONLINE_URL = "https://campus.tum.de/tumonline"
 
 
 def _scrape_areas() -> list[dict[str, typing.Any]]:
-    """
-    Retrieve the building areas as in TUMonline.
-    """
+    """Retrieve the building areas as in TUMonline."""
     filters = _get_roomsearch_xml(
         _get_tumonline_api_url("wbSuche.cbRaumForm"),
         {"pGebaeudebereich": 0},
@@ -32,8 +30,7 @@ def _scrape_areas() -> list[dict[str, typing.Any]]:
 
 def scrape_usages_filter() -> list[dict[str, typing.Any]]:
     """
-    Retrieve the room usage types that are available as a filter in TUMonline.
-    These are not all usage types known to TUMonline!
+    Retrieve the room usage types that are available as a filter (not all usages) in TUMonline.
 
     :returns: A list of usage types together with their id
     """
@@ -49,9 +46,9 @@ def scrape_usages_filter() -> list[dict[str, typing.Any]]:
 def scrape_buildings() -> None:
     """
     Retrieve the buildings as in TUMonline with their assigned TUMonline area.
+
     This may retrieve TUMonline areas.
     """
-
     areas = _scrape_areas()
     logging.info("Scraping the buildings of tumonline")
     filters = _get_roomsearch_xml(
@@ -89,8 +86,8 @@ def scrape_buildings() -> None:
 def scrape_rooms() -> None:
     """
     Retrieve the rooms as in TUMonline including building and usage type.
+
     For some room types (e.g. lecture halls) additional information is retrieved.
-    This may retrieve TUMonline buildings.
     """
     # To get both area/building and usage type for all buildings without needing to
     # query the details of all >30k rooms, the rooms are queried two times.
@@ -107,7 +104,7 @@ def scrape_rooms() -> None:
         131,  # Übungsraum
     }
 
-    with open(CACHE_PATH / "buildings_tumonline.json", "r", encoding="utf-8") as file:
+    with open(CACHE_PATH / "buildings_tumonline.json", encoding="utf-8") as file:
         buildings = json.load(file)
 
     logging.info("Scraping the rooms of tumonline")
@@ -151,11 +148,8 @@ class Usage(typing.TypedDict):
 
 
 def scrape_usages() -> None:
-    """
-    Retrieve all usage types available in TUMonline.
-    This may retrieve TUMonline rooms.
-    """
-    with open(CACHE_PATH / "rooms_tumonline.json", "r", encoding="utf-8") as file:
+    """Retrieve all usage types available in TUMonline."""
+    with open(CACHE_PATH / "rooms_tumonline.json", encoding="utf-8") as file:
         rooms = json.load(file)
 
     logging.info("Scraping the room-usages of tumonline")
@@ -195,7 +189,6 @@ def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
 
     :params lang: 'en' or 'de'
     """
-
     logging.info("Scraping the orgs of tumonline")
     # There is also this URL, which is used to retrieve orgs that have courses,
     # but this is not merged in at the moment:
@@ -245,9 +238,9 @@ class ParsedRoom(typing.TypedDict):
 
 
 class ParsedRoomsList(typing.NamedTuple):
-    rooms: list[ParsedRoom] = []
-    num_pages: int = 1
-    current_page: int = 0
+    rooms: list[ParsedRoom]
+    num_pages: int
+    current_page: int
 
     def merge(self, other: "ParsedRoomsList") -> "ParsedRoomsList":
         """Merge two ParsedRoomsList objects"""
@@ -261,7 +254,6 @@ class ParsedRoomsList(typing.NamedTuple):
 @functools.cache
 def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id: int = 0) -> list[ParsedRoom]:
     """Retrieve all rooms from the TUMonline room search list (multipage)"""
-
     scraped_rooms = ParsedRoomsList()
 
     with tqdm(desc=f"Searching Rooms for {f_type} {f_value}", total=scraped_rooms.num_pages, leave=False) as prog:
@@ -318,9 +310,7 @@ def _retrieve_roominfo(system_id: str) -> dict[str, str | int | float]:
 
 
 def _sanitise_roominfo(roominfo: dict[str, str]) -> dict[str, str | int | float]:
-    """
-    Sanitise the roominfo dict, so that it can be used in pydantic models.
-    """
+    """Sanitise the roominfo dict, so that it can be used in pydantic models."""
     english_labels = {
         "address": "address",
         "gebäude": "building",

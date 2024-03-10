@@ -39,7 +39,9 @@ def print_specific_queries_result(
 
 def _gen_colored_query(search: search_quality_test.Evaluation) -> str:
     """
-    Generates the colored Query
+    Generate the colored Query
+
+    Colors are chosen as followed
     - Green indicates when a better position is reached
     - White (not formatted) indicates minimum to reach top 5
     - Underline indicates minimum to reach final position
@@ -98,7 +100,11 @@ def _gen_colored_stats(search: search_quality_test.Evaluation) -> str:
 
 
 def _gen_pos_indicator(search: search_quality_test.Evaluation) -> str:
-    """The position indicator shows rougly how the results looked like and where the target entry was located"""
+    """
+    Generate the position indicator
+
+    Said indicator is showing rougly how the results looked like and where the target entry was located
+    """
     if search.full_search.was_top5:
         target_pos = search.full_search.target_pos or 0
         return (

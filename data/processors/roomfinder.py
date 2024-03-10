@@ -13,6 +13,7 @@ SOURCES = BASE / "sources"
 def merge_roomfinder_buildings(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the buildings in Roomfinder with the existing data.
+
     This will not overwrite the existing data, but act directly on the provided data.
     """
     with open(SOURCES / "10_patches-roomfinder-buildings.yaml", encoding="utf-8") as file:
@@ -84,9 +85,9 @@ def merge_roomfinder_buildings(data: dict[str, dict[str, Any]]) -> None:
 def merge_roomfinder_rooms(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the rooms in Roomfinder with the existing data.
+
     This will not overwrite the existing data, but act directly on the provided data.
     """
-
     with open(SOURCES / "16_roomfinder-merge-patches.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 

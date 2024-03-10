@@ -14,7 +14,8 @@ def add_overlay_map(_id: str, entry: dict[str, Any], parent_ids: set[str], paren
         )
     elif bool(candidates) ^ (_id in parent_ids):
         # either a candidate exist or _id is one of the parent ids, but not both
-        overlay = parent_lut[list(candidates)[0] if len(candidates) == 1 else _id]
+        key = candidates.pop() if len(candidates) == 1 else _id
+        overlay = parent_lut[key]
         overlay_data = entry.setdefault("maps", {}).setdefault("overlays", {})
         overlay_data["available"] = []
         for _map in overlay.maps:

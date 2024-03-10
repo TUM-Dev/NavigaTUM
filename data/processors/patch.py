@@ -13,11 +13,14 @@ class Patch(TypedDict):
 
 
 def apply_roomcode_patch(objects: list[dict[str, str | int]], patches: list[Patch]):
-    """Apply patches to objects.
+    """
+    Apply patches to objects.
 
     Args:
+    ----
         objects: list of objects to apply patches to
         patches: list of patches to apply
+
     """
     patched = []
 
@@ -37,7 +40,7 @@ def apply_roomcode_patch(objects: list[dict[str, str | int]], patches: list[Patc
         for patch_check, patch in patches:
             if patch_check.match(obj["roomcode"]) is not None:
                 applied_patches.add(patch_check)
-                if "__delete" in patch and patch["__delete"]:
+                if patch.get("__delete"):
                     to_delete.append(i)
                     continue
                 for patch_key, patched_value in patch.items():

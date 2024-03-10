@@ -14,7 +14,7 @@
       "groupName": "devDependencies"
     },
     {
-      "matchPackagePatterns": ["eslint", "prettier", "pylint", "pytest", "pretty_assertions", "pre-commit", "mypy", "sourcery", "@types/.*", "types-.*"],
+      "matchPackagePatterns": ["eslint", "prettier", "ruff", "pytest", "pretty_assertions", "pre-commit", "mypy", "sourcery", "@types/.*", "types-.*"],
       "groupName": "linting",
       "automerge": true
     }

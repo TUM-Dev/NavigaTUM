@@ -6,8 +6,8 @@ from utils import TranslatableStr as _
 
 def add_children_properties(data: dict[str, dict[str, Any]]) -> None:
     """
-    Add the "children" and "children_flat" properties to every object
-    using the "parents" property.
+    Add the "children" and "children_flat" properties to every object using the "parents" property.
+
     This operates on the data dict directly without creating a copy.
     """
     for _id, entry in data.items():
@@ -20,6 +20,7 @@ def add_children_properties(data: dict[str, dict[str, Any]]) -> None:
 def add_stats(data: dict[str, dict[str, Any]]) -> None:
     """
     Calculate structural statistics for each entry (number of children etc).
+
     This requires the children property.
     """
     for _id, entry in data.items():
@@ -58,9 +59,7 @@ def add_stats(data: dict[str, dict[str, Any]]) -> None:
 
 
 def infer_addresses(data: dict[str, dict[str, Any]]) -> None:
-    """
-    Infer addresses from children.
-    """
+    """Infer addresses from children."""
     for _id, entry in data.items():
         if entry.get("props", {}).get("address", None) is None and (children_flat := entry.get("children_flat")):
             child_addresses = set()
@@ -102,8 +101,7 @@ TYPE_COMMON_NAME_BY_TYPE = {
 
 
 def infer_type_common_name(data: dict[str, dict[str, Any]]) -> None:
-    """This function infers the type_common_name property for each entry via the type property."""
-
+    """Infer the type_common_name property for each entry via the type property."""
     for _data in data.values():
         building_inside_joined_building = (
             _data["type"] == "building" and data[_data["parents"][-1]]["type"] == "joined_building"

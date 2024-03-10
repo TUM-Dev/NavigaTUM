@@ -64,9 +64,7 @@ TARGET_IMAGE_QUALITY = 80
 
 
 def add_img(data: dict[str, dict[str, Any]]) -> None:
-    """
-    Automatically add processed images to the 'img' property.
-    """
+    """Automatically add processed images to the 'img' property."""
     with open(IMAGE_BASE / "img-sources.yaml", encoding="utf-8") as file:
         img_sources = yaml.safe_load(file.read())
 
@@ -99,7 +97,7 @@ def add_img(data: dict[str, dict[str, Any]]) -> None:
 
 
 def parse_image_filename(image_name: str) -> tuple[str, int]:
-    """parse the filename of an image to get the id and index"""
+    """Parse the filename of an image to get the id and index"""
     if ".webp" not in image_name:
         raise RuntimeError(f"Missing webp for '{image_name}'")
     parts = image_name.replace(".webp", "").split("_")
@@ -139,6 +137,7 @@ class Resizer:
     def resize_to_fixed_size(self, target: Path, fixed_size: tuple[int, int], offset: int) -> None:
         """
         Generate an image with fixed_size pixels for the given image.
+
         An offset can be used, to translate the image across the longer axis.
         """
         width, height = self.img.size
@@ -255,6 +254,7 @@ def _gen_file_hash(img_path: Path, offsets: ImageOffset) -> str:
 def resize_and_crop() -> None:
     """
     Resize and crop the images for the given data to the desired resolutions.
+
     This will overwrite any existing thumbs/header-small's.
     """
     logging.info(f"convert {IMAGE_BASE} to webp")

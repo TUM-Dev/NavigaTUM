@@ -106,7 +106,6 @@ def test_coords_to_xy_center_rotation(rotation: int) -> None:
 @pytest.mark.parametrize("lat,lon", itertools.product(range(-10, 10), range(-10, 10)))
 def test_coords_to_xy_translation(lon, lat) -> None:
     """Test if xy coordinates translate correctly"""
-
     actual_x, actual_y = _calc_xy_of_coords_on_map(Coordinate(lon=lon, lat=lat), default_map())
     expected_x = (lon + 100) / 200 * 100
     expected_y = 100.0 - (lat + 100) / 200 * 100

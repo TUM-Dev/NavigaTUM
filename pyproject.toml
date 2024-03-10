@@ -1,18 +1,5 @@
-[tool.black]
-line-length = 120
-
 [tool.bandit]
 skips = ["B101"]
-
-[tool.isort]
-line_length = 120
-force_single_line = false
-lexicographical = true
-order_by_type = false
-include_trailing_comma = true
-multi_line_output = 3
-force_grid_wrap = 0
-use_parentheses = true
 
 [tool.mypy]
 python_version = "3.10"
@@ -42,18 +29,100 @@ init_typed = true
 warn_required_dynamic_aliases = true
 warn_untyped_fields = true
 
-
-[tool.pylint.MASTER]
-#ignore="node_modules,static"
-jobs=0
-
-[tool.pylint."MESSAGES CONTROL"]
-disable=[
-    "logging-fstring-interpolation", # not using fstrings in logging calls looks awfull, and would only be a small permance optimization
-    "missing-module-docstring", # too much work
-    "missing-class-docstring", # too much work
-    "line-too-long", # we have another hook for this
-    "wrong-import-position", # we have another hook for this
-    "no-member", # mypy does this job with less false positives
-    "fixme", # prevents users from committing things with a TODO in comments. Having more frequent commits is desirable
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
 ]
+line-length = 120
+indent-width = 4
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "W", "RUF", "UP", "D"]
+ignore = [
+    #### modules
+    "EM", # no formatting in exceptions (why is this a rule?)
+    "C90", # mccabe complexity
+    "DJ",  # django
+    "TD", # too many todos/fixmes
+
+    #### rules
+    "SIM108", # ternary operator should be used without a concearn for the code complexity
+    "G004", # while if all parameters had
+
+    # docstrings
+    "D100", # Missing docstring in public module => too much work
+    "D101", # Missing docstring in public class => too much work
+    "D104", # Missing docstring in public package => too much work
+    "D107", #docstring in `__init__`
+    "D203", # `one-blank-line-before-class` (D203) and `no-blank-line-before-class` (D211) are incompatible
+    "D212", # `multi-line-summary-first-line` (D212) and `multi-line-summary-second-line` (D213) are incompatible.
+    "D400", # Gramar police much? (First line should end with a period)
+    "D415", # Gramar police much? (First line should end with a period, question mark, or exclamation point)
+
+    # formatter conflicts
+    "W191", # tab-indentation
+    "E501", # line-too-long
+    "E111", # indentation-with-invalid-multiple
+    "E114", # indentation-with-invalid-multiple-comment
+    "E117", # over-indented
+    "D206", # indent-with-spaces
+    "D300", # triple-single-quotes
+    "Q000", # bad-quotes-inline-string
+    "Q001", # bad-quotes-multiline-string
+    "Q002", # bad-quotes-docstring
+    "Q003", # avoidable-escaped-quote
+    "COM812", # missing-trailing-comma
+    "COM819", # prohibited-trailing-comma
+    "ISC001", # single-line-implicit-string-concatenation
+    "ISC002", # multi-line-implicit-string-concatenation
+
+    # deprecated
+    "ANN101", # enforeces classmethods calasses have types
+    "ANN102", # enforeces self has a type
+]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+# Enable auto-formatting of code examples in docstrings.
+docstring-code-format = true
+
+# Set the line length limit used when formatting code snippets in docstrings.
+docstring-code-line-length = "dynamic"

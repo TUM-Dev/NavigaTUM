@@ -34,7 +34,8 @@ RANKING_FACTOR_BY_DIN_USAGE = {  # DIN-Desc in brackets
 
 def add_ranking_base(data: dict) -> None:
     """
-    Add the base ranking attributes by type, usage
+    Add the base ranking attributes by type and usage
+
     This operates on the data dict directly without creating a copy.
     """
     for _data in data.values():
@@ -63,6 +64,7 @@ def add_ranking_base(data: dict) -> None:
 def add_ranking_combined(data: dict) -> None:
     """
     Add the combined ranking factor.
+
     This operates on the data dict directly without creating a copy.
     """
     for _data in data.values():
