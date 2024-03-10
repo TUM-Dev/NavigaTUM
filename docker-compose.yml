@@ -165,6 +165,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-redirect.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)"
       - "traefik.http.routers.navigatum-redirect.middlewares=navigatum-redirectregex@docker"
+      - "traefik.http.routers.navigatum-redirect.service=noop@internal"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.regex=^(https?://.*)nav.tum.(app|sexy)/(.*)$$"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.replacement=$${1}nav.tum.de/$${3}"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.permanent=true"
