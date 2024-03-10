@@ -10,14 +10,11 @@ import yaml
 from tqdm.contrib.concurrent import thread_map
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(frozen=True, unsafe_hash=True)
 class Query:  # split into Query and EvaluatableQuery for import reasons
     target: str
     query: str
     among: int = 1
-
-    def __hash__(self) -> int:
-        return hash((self.target, self.query, self.among))
 
 
 @dataclasses.dataclass
@@ -81,9 +78,7 @@ class Evaluation:
 
 class EvaluatableQuery(Query):
     def do_search(self, search_endpoint: str, length: int) -> SearchResult:
-        """
-        Perform a search for a specific query
-        """
+        """Perform a search for a specific query"""
         query_string = urllib.parse.urlencode({"q": self.query[:length]})
         url = f"{search_endpoint}?{query_string}"
         req = requests.get(url, timeout=10).json()

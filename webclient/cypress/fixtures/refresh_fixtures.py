@@ -7,7 +7,7 @@ FIXTURES = Path(__file__).parent
 
 
 def to_filepath(filename: str) -> Path:
-    """Converts an url path to a filepath"""
+    """Convert an url path to a filepath"""
     filepath = FIXTURES / filename.removeprefix("/")
     filepath.parent.mkdir(parents=True, exist_ok=True)
     return filepath

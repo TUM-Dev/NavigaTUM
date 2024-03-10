@@ -1,7 +1,7 @@
 import json
 import re
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 from external.models.common import PydanticConfiguration
 from utils import TranslatableStr
@@ -22,9 +22,9 @@ def maybe_slugify(value: str | None | TranslatableStr) -> str | None:
     return SLUGIFY_REGEX.sub("-", value.lower()).strip("-")
 
 
-def unlocalise(value: Union[str, list[Any], dict[str, Any]]) -> Any:
+def unlocalise(value: str | list[Any] | dict[str, Any]) -> Any:
     """Recursively unlocalise a dictionary"""
-    if isinstance(value, (bool, float, int, str)) or value is None:
+    if isinstance(value, bool | float | int | str) or value is None:
         return value
     if isinstance(value, list):
         return [unlocalise(v) for v in value]
@@ -39,7 +39,7 @@ def unlocalise(value: Union[str, list[Any], dict[str, Any]]) -> Any:
 
 
 def export_for_search(data: dict, path: str) -> None:
-    """export a subset of the data for the /search api"""
+    """Export a subset of the data for the /search api"""
     export = []
     for _id, entry in data.items():
         # Currently, the "root" entry is excluded from search

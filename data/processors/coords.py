@@ -10,6 +10,8 @@ MAX_DISTANCE_METERS_FROM_PARENT = 200
 
 def assert_buildings_have_coords(data: dict[str, dict[str, Any]]) -> None:
     """
+    Assert that all buildings have coordinates
+
     The inference of coordinates in further functions for all entries is based on the
     coordinates of buildings, so it is necessary, that at least all buildings have
     a coordinate.
@@ -23,9 +25,7 @@ def assert_buildings_have_coords(data: dict[str, dict[str, Any]]) -> None:
 
 
 def assign_coordinates(data: dict[str, dict[str, Any]]) -> None:
-    """
-    Assign coordinates to all entries (except root) and make sure they match the data format.
-    """
+    """Assign coordinates to all entries (except root) and make sure they match the data format."""
     # TODO: In the future we might calculate the coordinates from OSM data
 
     error = False
@@ -108,7 +108,6 @@ def _calc_coordinte_from_children(data, entry):
 
 def check_coords(input_data):
     """Check for issues with coordinates"""
-
     for iid, data in input_data.items():
         if data["type"] == "root":
             continue

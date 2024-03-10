@@ -22,6 +22,7 @@ SOURCES = BASE / "sources"
 def merge_tumonline_buildings(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the buildings in TUMonline with the existing data.
+
     This will not overwrite the existing data, but act directly on the provided data.
     """
     error = False
@@ -87,6 +88,7 @@ class InactiveOrg:
 def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the rooms in TUMonline with the existing data.
+
     This will not overwrite the existing data, but act directly on the provided data.
     """
     rooms = _clean_tumonline_rooms()
@@ -193,10 +195,10 @@ def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
 
 def _clean_tumonline_rooms():
     """
-    This applies some known corrections / patches on the TUMonline room data.
+    Apply some known corrections / patches on the TUMonline room data.
+
     It also searches for inconsistencies not yet patched
     """
-
     with open("external/results/rooms_tumonline.json", encoding="utf-8") as file:
         rooms = json.load(file)
     roomcode_lookup: dict[str, dict] = {r["roomcode"]: r for r in rooms}
@@ -264,10 +266,7 @@ def _infer_arch_name(
     roomcode_parts: tuple[str, str, str],
     roomcode_lookup: dict[str, dict],
 ) -> None:
-    """
-    Infer the arch name and other related properties
-    """
-
+    """Infer the arch name and other related properties"""
     # Some rooms don't have an arch_name. The value is then usually just like "@1234".
     # Since this is not helpful (the building is already known for all rooms) rooms are then dropped.
     if len(arch_name_parts[0]) == 0:
@@ -324,7 +323,7 @@ def _infer_arch_name(
 
 def _maybe_set_alt_name(arch_name_parts: tuple[str, str], room: dict) -> None:
     """
-    deduces the alt_name from the roomname
+    Deduces the alt_name from the roomname
 
     The alt_name commonly begins with the roomname.
     Since ther roomname should be encoded in the arch_name as the part before the "@" we verify,

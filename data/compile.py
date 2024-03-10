@@ -23,7 +23,7 @@ from utils import DEBUG_MODE, setup_logging
 
 # pylint: disable=too-many-locals,too-many-statements
 def main() -> None:
-    """Main function"""
+    """Process data and generate output."""
     # start other thread to resize images
     logging.info("-- (Parallel) Convert, resize and crop the images for different resolutions and formats")
     resizer = Process(target=images.resize_and_crop)

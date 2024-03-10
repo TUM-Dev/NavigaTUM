@@ -22,7 +22,7 @@ def add_overlay_maps(data: dict[str, dict[str, Any]]) -> None:
 
 
 def add_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
-    """Adds roomfinder maps to entries"""
+    """Add roomfinder maps to entries"""
     utils.convert_to_webp(CUSTOM_RF_DIR)
 
     assign_roomfinder_maps(data)

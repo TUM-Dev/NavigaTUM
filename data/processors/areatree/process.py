@@ -1,6 +1,6 @@
 import logging
 from pathlib import Path
-from typing import Iterator
+from collections.abc import Iterator
 
 from processors.areatree import models
 
@@ -8,8 +8,7 @@ AREATREE_FILE = Path(__file__).parent / "config.areatree"
 
 
 def read_areatree() -> dict[str, models.AreatreeBuidling]:
-    """Reads the areatree file and the basic data, gained from the areatree"""
-
+    """Read the areatree file and the basic data, gained from the areatree"""
     parent_stack: list[str] = []
     last_element: str = ""
     data = {}
@@ -30,14 +29,13 @@ def read_areatree() -> dict[str, models.AreatreeBuidling]:
 
 def _areatree_lines() -> Iterator[str]:
     """
-    Generator that yields lines from the areatree file
+    Extract the lines from the areatree file via a generator pattern
 
-    ignores:
+    Ignores:
     - Empty lines,
     - comment lines and
     - comments in lines
     """
-
     with open(AREATREE_FILE, encoding="utf-8") as file:
         for line in file:
             line_without_comments = line.split("#")[0]
@@ -47,7 +45,8 @@ def _areatree_lines() -> Iterator[str]:
 
 def _split_line(line: str) -> tuple[str, str, str]:
     """
-    Splits a line from the areatree file into the three parts
+    Split a line from the areatree file into the three parts (building-ids,name,internal-id)
+
     The syntax is building-id(s):name(s):internal-id[,visible_id]
     """
     parts = line.split(":")
@@ -61,7 +60,7 @@ def _split_line(line: str) -> tuple[str, str, str]:
 
 
 def _parse_areatree_line(line: str, parents: list[str]) -> models.AreatreeBuidling:
-    """Parses a line from the areatree file to reveal the correct parent and children"""
+    """Parse a line from the areatree file to reveal the correct parent and children"""
     (building_ids, raw_names, internal_id) = _split_line(line)
 
     building_data = _extract_building_prefix(building_ids)
@@ -86,7 +85,7 @@ def _parse_areatree_line(line: str, parents: list[str]) -> models.AreatreeBuidli
 
 
 def _extract_id_and_type(internal_id: str, b_prefix: str | list[str] | None) -> models.IdType:
-    """Extracts the id and type from the internal_id"""
+    """Extract the id and type from the internal_id"""
     results: models.IdType = {"id": "", "type": ""}
     if "[" in internal_id:
         internal_id, results["type"] = internal_id.removesuffix("]").split("[")
@@ -114,7 +113,7 @@ def _extract_id_and_type(internal_id: str, b_prefix: str | list[str] | None) -> 
 
 
 def _extract_building_prefix(building_ids: str) -> models.BuildingPrefix:
-    """Extracts the building prefix from the building_ids"""
+    """Extract the building prefix from the building_ids"""
     results: models.BuildingPrefix = {}
     # areatree_uncertain
     if building_ids.startswith("-"):
@@ -130,7 +129,7 @@ def _extract_building_prefix(building_ids: str) -> models.BuildingPrefix:
 
 
 def _extract_names(names: list[str]) -> models.Names:
-    """Extracts the name and the possible short_name"""
+    """Extract the name and the possible short_name"""
     building_data: models.Names = {"name": names[0]}
     if len(names) == 2:
         if len(names[1]) > 20:

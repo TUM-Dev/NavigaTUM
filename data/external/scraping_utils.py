@@ -8,9 +8,7 @@ CACHE_PATH = Path(__file__).parent / "results"
 
 
 def maybe_sleep(duration: float) -> None:
-    """
-    Sleep for the given duration, but only if the script was called during a workday and working hours.
-    """
+    """Sleep for the given duration, but only if the script was called during a workday and working hours."""
     if time.gmtime().tm_wday not in [5, 6] and 5 <= time.gmtime().tm_hour <= 22:
         time.sleep(duration)
 

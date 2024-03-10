@@ -33,7 +33,6 @@ OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
 def generate_sitemap() -> None:
     """Generate a sitemap that diffs changes since to the currently online data"""
-
     if DEBUG_MODE:
         logging.info("Skipping sitemap generation in Dev Mode (GIT_COMMIT_SHA is unset)")
         return
@@ -78,10 +77,10 @@ def _download_old_data() -> list:
 def _extract_sitemap_data(new_data: list, old_data: list, old_sitemaps: SimplifiedSitemaps) -> Sitemaps:
     """
     Extract sitemap data.
+
     Lastmod is set to the current time if the entry is modified (indicated via comparing newdata vs olddata),
     or to the last modification time of the online sitemap if the entry is not modified.
     """
-
     # Each sitemap has a limit of 50MB uncompressed or 50000 entries
     # (that means 1KB per site). We have currently about 33000 entries,
     # so it's unlikely that we'll hit this limit without adding a lot of
@@ -102,8 +101,9 @@ def _extract_sitemap_data(new_data: list, old_data: list, old_sitemaps: Simplifi
 
         sitemap_name: Literal["room"] | Literal["other"] = entry["type"] if entry["type"] in sitemaps else "other"
 
-        # Just copied from the webclient. The webclient doesn't care about
-        # the prefix – if it is wrong it'll be corrected (without a redirect).
+        # Just copied from the webclient.
+        # The webclient doesn't care about the prefix.
+        # If the prefix is wrong it'll be corrected (without a redirect).
         # However, this way search engines can already index the final URL.
         url_type_name = {
             "campus": "campus",
@@ -167,7 +167,7 @@ def _download_online_sitemap(url: str) -> dict[str, datetime]:
         logging.warning(f"Failed to download sitemap '{url}': Status code {req.status_code}")
         return {}
 
-    xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"  # noqa: FS003
+    xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
     sitemap = {}
     root = defusedET.fromstring(req.text)
     for child in root.iter(f"{xmlns}url"):

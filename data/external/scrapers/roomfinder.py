@@ -6,7 +6,8 @@ import urllib.parse
 import xmlrpc.client  # nosec: B411
 import zipfile
 from pathlib import Path
-from typing import Iterator, Literal, TypedDict
+from typing import Literal, TypedDict
+from collections.abc import Iterator
 
 import utm
 from defusedxml import ElementTree as ET
@@ -34,9 +35,7 @@ def _sanitise_building(building: dict):
 
 
 def scrape_buildings() -> None:
-    """
-    Retrieve the (extended, i.e. with coordinates) buildings data from the Roomfinder API
-    """
+    """Retrieve the (extended, i.e. with coordinates) buildings data from the Roomfinder API"""
     logging.info("Scraping the buildings of the mytum roomfinder")
 
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
@@ -91,6 +90,7 @@ def _sanitise_room(room: dict) -> dict:
 def scrape_rooms() -> None:
     """
     Retrieve the (extended, i.e. with coordinates) rooms data from the Roomfinder API.
+
     This may retrieve the Roomfinder buildings.
     """
     with xmlrpc.client.ServerProxy(ROOMFINDER_API_URL) as proxy:
@@ -113,11 +113,12 @@ def scrape_rooms() -> None:
 def _get_all_rooms_for_all_buildings(proxy: xmlrpc.client.ServerProxy) -> list:
     """
     Get all rooms in a building
+
     The API does not provide such a function directly, so we have to use search for this.
     Since search returns a max of 50 results we need to guess to collect all rooms.
     """
     logging.info("Searching for rooms in each building")
-    with open(CACHE_PATH / "buildings_roomfinder.json", "r", encoding="utf-8") as file:
+    with open(CACHE_PATH / "buildings_roomfinder.json", encoding="utf-8") as file:
         buildings = json.load(file)
     unreported_warnings = []
     rooms_list = []
@@ -147,7 +148,7 @@ def _get_all_rooms_for_all_buildings(proxy: xmlrpc.client.ServerProxy) -> list:
 
 def _guess_queries(rooms: set[str], n_rooms: int) -> Iterator[str]:
     """
-    Iterates through all single/double character strings consisting of digit/ascii_lowercase to find successful queries
+    Iterate through all single/double character strings consisting of digit/ascii_lowercase to find successful queries
 
     Ordering because of number of entries:
     - single before double
@@ -165,16 +166,14 @@ def _guess_queries(rooms: set[str], n_rooms: int) -> Iterator[str]:
 def scrape_maps() -> None:
     """
     Retrieve the maps including the data about them from Roomfinder.
+
     Map files will be stored in 'cache/maps/roomfinder'.
-
-    This may retrieve Roomfinder rooms and buildings.
     """
-
     # The only way to get the map boundaries seems to be to download the kml with overlaid map.
     # For this api we need a room or building for each map available.
-    with open(CACHE_PATH / "rooms_roomfinder.json", "r", encoding="utf-8") as file:
+    with open(CACHE_PATH / "rooms_roomfinder.json", encoding="utf-8") as file:
         rooms = json.load(file)
-    with open(CACHE_PATH / "buildings_roomfinder.json", "r", encoding="utf-8") as file:
+    with open(CACHE_PATH / "buildings_roomfinder.json", encoding="utf-8") as file:
         buildings = json.load(file)
 
     logging.info("Scraping the rooms-maps of the mytum roomfinder")

@@ -1,3 +1,4 @@
+import typing
 from typing import Any
 
 from utils import TranslatableStr
@@ -6,7 +7,7 @@ _ = TranslatableStr
 
 
 def extract_tumonline_props(data: dict[str, dict[str, Any]]) -> None:
-    """Extracts some of the TUMonline data and provides it as `prop`."""
+    """Extract some of the TUMonline data and provides it as `prop`."""
     for entry in data.values():
         if entry.get("tumonline_data", {}).get("calendar", None):
             calendar_url = f"https://campus.tum.de/tumonline/{entry['tumonline_data']['calendar']}"
@@ -31,8 +32,9 @@ def extract_tumonline_props(data: dict[str, dict[str, Any]]) -> None:
 
 def compute_floor_prop(data: dict[str, Any]) -> None:
     """
-    Create a human and machine-readable floor information prop that takes into account
-    special floor numbering systems of buildings.
+    Create a human and machine-readable floor information prop.
+
+    This takes into account special floor numbering systems of buildings.
     """
     for _id, entry in data.items():
         if entry["type"] not in {"building", "joined_building"}:
@@ -143,6 +145,7 @@ def _get_floor_details(entry, room_data):
 def _get_floor_name_and_type(f_id: int, floor: str, mezzanine_shift: int) -> tuple[str, str, _]:
     """
     Generate a machine-readable floor type and human-readable floor name (long & short)
+
     :param f_id: Floor id (0 for ground floor if there is one, else 0 for the lowest)
     :param floor: Floor name in TUMonline
     :param mezzanine_shift: How many mezzanines are between this floor and floor 0 (only >= 0)
@@ -181,22 +184,39 @@ def _get_floor_name_and_type(f_id: int, floor: str, mezzanine_shift: int) -> tup
     return "upper", str(og_floor), floor_name
 
 
+class RawComputedProp(typing.TypedDict):
+    name: str
+    text: str
+
+
+class TranslatedComputedProp(typing.TypedDict):
+    name: TranslatableStr
+    text: TranslatableStr
+
+
 def compute_props(data: dict[str, Any]) -> None:
-    """
-    Create the "computed" value in "props".
-    """
+    """Create the "computed" value in "props"."""
     for _id, entry in data.items():
         if props := entry.get("props"):
             computed = _gen_computed_props(_id, entry, props)
 
             # Reformat if required (just to have less verbosity in the code above)
-            reformatted_computed: list[dict[_ | str, str]] = []
+            reformatted_computed: list[RawComputedProp | TranslatedComputedProp] = []
+            computed_prop: RawComputedProp | dict[TranslatableStr, str]
             for computed_prop in computed:
                 if "name" in computed_prop:
-                    reformatted_computed.append(computed_prop)
+                    reformatted_computed.append(
+                        {
+                            "name": computed_prop["name"],
+                            "text": computed_prop["text"],
+                        }
+                    )
                 else:
                     reformatted_computed.append(
-                        {"name": list(computed_prop.keys())[0], "text": list(computed_prop.values())[0]},
+                        {
+                            "name": next(iter(computed_prop.keys())),
+                            "text": next(iter(computed_prop.values())),
+                        }
                     )
 
             entry["props"]["computed"] = reformatted_computed
@@ -254,6 +274,7 @@ def _gen_computed_props(
 def localize_links(data: dict[str, Any]) -> None:
     """
     Reformat the "links" value in "props" to be explicitly localized.
+
     This is a convenience function for the source data format that converts e.g.:
       `text: "<str>"`
     into
@@ -269,9 +290,7 @@ def localize_links(data: dict[str, Any]) -> None:
 
 
 def generate_buildings_overview(data: dict[str, Any]) -> None:
-    """
-    Generate the "buildings_overview" section
-    """
+    """Generate the "buildings_overview" section"""
     for _id, entry in data.items():
         if entry["type"] not in {"area", "site", "campus"} or "children_flat" not in entry:
             continue
@@ -338,9 +357,7 @@ def generate_buildings_overview(data: dict[str, Any]) -> None:
 
 
 def generate_rooms_overview(data: dict[str, dict[str, Any]]) -> None:
-    """
-    Generate the "rooms_overview" section
-    """
+    """Generate the "rooms_overview" section"""
     for _id, entry in data.items():
         # if entry["type"] not in {"building", "joined_building", "virtual_room"} or \
         if (
