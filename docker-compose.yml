@@ -50,6 +50,11 @@ services:
         condition: service_completed_successfully
       tileserver-init-sprites:
         condition: service_completed_successfully
+    healthcheck:
+      test: service nginx status || exit 1
+      retries: 2
+      interval: 10s
+      start_period: 10s
   tileserver:
     image: maptiler/tileserver-gl:latest
     restart: always
