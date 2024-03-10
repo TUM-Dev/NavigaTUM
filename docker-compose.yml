@@ -5,7 +5,7 @@ services:
     build: ./webclient
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`)"
+      - "traefik.http.routers.navigatum-webclient.rule=Host(`nav.tum.de`)"
     expose:
       - "3000"
     environment:
@@ -42,7 +42,7 @@ services:
     restart: on-failure
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
+      - "traefik.http.routers.navigatum-tileserver-srv.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
     volumes:
       - tileserver-src:/usr/share/nginx/html/maps/vol:ro
     depends_on:
@@ -60,8 +60,8 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
-      - "traefik.http.routers.navigatum.middlewares=navigatum-stripprefix@docker"
+      - "traefik.http.routers.navigatum-tileserver.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
+      - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-stripprefix@docker"
       - "traefik.http.middlewares.navigatum-stripprefix.stripprefix.prefixes=/maps"
     command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
     tmpfs:
@@ -82,7 +82,7 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
+      - "traefik.http.routers.navigatum-data.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
     build: ./data
     expose:
       - "3002"
@@ -92,7 +92,7 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
+      - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
     build: ./server
     command: /bin/navigatum-main-api
     expose:
@@ -132,7 +132,7 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.de`) && PathPrefix(`/api/feedback`)"
+      - "traefik.http.routers.navigatum-feedback-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/feedback`)"
     build: ./server
     command: /bin/navigatum-feedback
     expose:
@@ -163,8 +163,8 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.navigatum.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)"
-      - "traefik.http.routers.navigatum.middlewares=navigatum-redirectregex@docker"
+      - "traefik.http.routers.navigatum-redirect.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)"
+      - "traefik.http.routers.navigatum-redirect.middlewares=navigatum-redirectregex@docker"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.regex=^(https?://.*)nav.tum.(app|sexy)/(.*)$$"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.replacement=$${1}nav.tum.de/$${3}"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.permanent=true"
