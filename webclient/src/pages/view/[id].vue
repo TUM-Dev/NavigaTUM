@@ -142,7 +142,7 @@ onMounted(() => {
       </div>
       <div>
         <div class="flex grow place-items-center justify-between">
-          <span class="text-zinc-400 mt-0.5 text-sm">{{ state.data?.type_common_name }}</span>
+          <span class="text-zinc-500 mt-0.5 text-sm">{{ state.data?.type_common_name }}</span>
           <div class="flex flex-row place-items-center gap-3">
             <a
               v-if="state.data?.props?.calendar_url"
