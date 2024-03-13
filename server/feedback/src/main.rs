@@ -48,7 +48,7 @@ async fn main() -> std::io::Result<()> {
         std::env::var("GIT_COMMIT_SHA").unwrap_or_else(|_| "development".to_string()),
     )]);
     let prometheus = PrometheusMetricsBuilder::new("navigatum_feedback")
-        .endpoint("/metrics")
+        .endpoint("/api/feedback/metrics")
         .const_labels(labels)
         .build()
         .unwrap();
