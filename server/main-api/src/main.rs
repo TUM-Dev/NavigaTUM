@@ -73,7 +73,7 @@ async fn main() -> Result<(), crate::BoxedError> {
         std::env::var("GIT_COMMIT_SHA").unwrap_or_else(|_| "development".to_string()),
     )]);
     let prometheus = PrometheusMetricsBuilder::new("navigatum_mainapi")
-        .endpoint("/metrics")
+        .endpoint("/api/main/metrics")
         .const_labels(labels)
         .build()
         .unwrap();
