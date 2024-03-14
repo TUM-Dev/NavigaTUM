@@ -125,57 +125,9 @@ For this part of the project, the tests consist mainly of hot-path e2e tests and
 PRs improving the coverage are very likely to be accepted.
 The reason behind these tests is that they fundamentally increase the future productivity by allowing faster review cycles.
 
-### Running Tests
-
-There are a few ways of running cypress
-
-#### e2e tests
-
-For running e2e tests, it is assumed, that you
-
-- are on a normal machine (not a mac)
-- have [Chrome](https://www.google.com/intl/de/chrome/) + [Firefox Developer Edition](https://www.mozilla.org/de/firefox/developer/) installed.
-- have the webclient running on `http://localhost:3000` (i.e. `npm run dev`)
-
-The interface for interacting with cypress can be opened via
-
-```bash
-pnpm run cy:open
-```
-
-##### Running headless
-
-```bash
-pnpm run test
-```
-
-There are also some subtargets preconfigured like `cy:run:chrome` and `cy:run:firefox`, but likely for debugging you want the second mode.
-
-#### component tests
-
-```bash
-pnpm run test:components
-```
-
-Currently, these are not run in CI, as I could not get cypress to behave in [#892](https://github.com/TUM-Dev/NavigaTUM/pull/892)
-
-#### Running headed
-
-### Writing Tests
-
-Our Cypress test suite is located in the cypress directory, organized into different files and folders based on the features and components being tested.
-Each test file follows the naming convention `<name>.spec.ts`.
-
-Cypress provides a comprehensive API for interacting with and asserting against elements on the web page.
-You can find detailed documentation and examples in the official Cypress documentation: <https://docs.cypress.io>
-
-When writing new tests, please ensure to follow our established conventions and guidelines to maintain consistency across the codebase.
-Additionally, make sure to write descriptive test cases that cover different scenarios and edge cases to thoroughly validate the functionality of our frontend.
-
 ### Continuous Integration
 
-We have integrated Cypress tests into our CI/CD pipeline to ensure that all changes to the frontend are thoroughly tested before deployment.
-Every push and pull request triggers a build that runs the Cypress tests automatically.
+Every push and pull request triggers a build that runs linting issues (cypress is currently temporarily disabled to help in the nuxt transition).
 This helps us catch any regressions or issues early in the development process.
 
 ### Reporting Issues
