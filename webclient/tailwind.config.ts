@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 
 export default <Partial<Config>>{
   darkMode: "selector",
-  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  content: ["./index.html", "./**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
       aspectRatio: {
