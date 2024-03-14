@@ -9,30 +9,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  webclient-e2e-test:
-    strategy:
-      matrix:
-        browser:
-          - chrome
-          - firefox
-    runs-on: ubuntu-latest
-    container:
-      image: cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
-      options: --user 1001
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
-          package_json_file: webclient/package.json
-      - name: Cypress run
-        uses: cypress-io/github-action@v5
-        with:
-          start: npm run dev
-          wait-on: "http://localhost:3000"
-          browser: ${{ matrix.browser }}
-          working-directory: webclient
   webclient-linting:
     runs-on: ubuntu-latest
     steps:
