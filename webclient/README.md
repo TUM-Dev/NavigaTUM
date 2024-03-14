@@ -68,7 +68,7 @@ pnpm run format
 From the folder of this README, run:
 
 ```sh
-npx openapi-typescript ../openapi.yaml --output ./src/api_types/index.ts --export-type --immutable-types --support-array-length
+npx openapi-typescript ../openapi.yaml --output ./api_types/index.ts --export-type --immutable-types --support-array-length
 pnpm run lint
 pnpm run format
 ```
@@ -101,23 +101,22 @@ Our CSS framework is currently being migrated from [Spectre.css](https://picture
 ```plain
 webclient
 ├── public/         # 🠔 Static assets such as icons, which cannot get inlined
-├── src/
-│   ├── api_types/  # 🠔 code generated via openapi.yaml for typechecking reasons
-│   ├── assets/     # 🠔 Static assets such as icons
-│   │   ├── md/                 # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
-│   │   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
-│   │   └── logos               # 🠔 The Logos used by the app
-│   ├── components/ # 🠔 Vue components, which are used in views.
-│   ├── pages/      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
-│   ├── router.ts   # 🠔 The routes of our app. This is where the views are loaded.
-│   ├── App.vue     # 🠔 Main view
-│   └── main.ts     # 🠔 Inialization of Vue.js. This is the entrypoint of our app, from which App.vue and associated views/components are loaded
+├── api_types/  # 🠔 code generated via openapi.yaml for typechecking reasons
+├── assets/     # 🠔 Static assets such as icons
+│   ├── md/                 # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
+│   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
+│   └── logos               # 🠔 The Logos used by the app
+├── components/ # 🠔 Vue components, which are used in views.
+├── pages/      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
+├── router.ts   # 🠔 The routes of our app. This is where the views are loaded.
+├── App.vue     # 🠔 Main view
+├── main.ts     # 🠔 Inialization of Vue.js. This is the entrypoint of our app, from which App.vue and associated views/components are loaded
 ├── vite.config.ts  # 🠔 Build configuration
 └── package.json    # 🠔 Node package definition and dependencies
 ```
 
 Note that new views are automatically included in the build, but they are not routed.  
-To add a new view, you need to add a new route in `src/router.ts`.
+To add a new view, you need to add a new route in `router.ts`.
 
 ## Testing
 

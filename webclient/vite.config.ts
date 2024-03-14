@@ -1,5 +1,3 @@
-import { URL, fileURLToPath } from "node:url";
-
 import { defineConfig } from "vite";
 import Vue from "@vitejs/plugin-vue";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
@@ -9,7 +7,7 @@ import path from "path";
 //import VueDevTools from "vite-plugin-vue-devtools";
 
 export default defineConfig({
-  envDir: path.resolve(__dirname, "./env"),
+  envDir: "env",
   appType: "spa",
   server: {
     port: 3000,
@@ -31,7 +29,7 @@ export default defineConfig({
   build: {
     sourcemap: true,
     rollupOptions: {
-      input: path.resolve(__dirname, "./index.html"),
+      input: path.resolve("./index.html"),
       output: {
         manualChunks: {
           maplibre_gl: ["maplibre-gl"],
@@ -45,7 +43,7 @@ export default defineConfig({
       include: [/\.vue$/, /\.md$/],
     }),
     VueI18nPlugin({
-      include: path.resolve(__dirname, "./src/locales/**"),
+      include: path.resolve("./locales/**"),
       fullInstall: false,
     }),
     Markdown({
@@ -57,8 +55,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
-      vue: path.resolve(__dirname, "node_modules/vue/dist/vue.esm-bundler.js"),
+      vue: path.resolve("node_modules/vue/dist/vue.esm-bundler.js"),
     },
   },
 });
