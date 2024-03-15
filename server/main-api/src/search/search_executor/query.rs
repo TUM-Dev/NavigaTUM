@@ -1,10 +1,11 @@
-use crate::search::search_executor::parser::{Filter, ParsedQuery, TextToken};
-use crate::search::SanitisedSearchQueryArgs;
+use meilisearch_sdk::Client;
 use meilisearch_sdk::errors::Error;
 use meilisearch_sdk::indexes::Index;
 use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
-use meilisearch_sdk::Client;
 use serde::Deserialize;
+
+use crate::search::SanitisedSearchQueryArgs;
+use crate::search::search_executor::parser::{Filter, ParsedQuery, TextToken};
 
 #[derive(Deserialize, Default, Clone, Debug)]
 #[allow(dead_code)]
@@ -144,7 +145,7 @@ impl GeoEntryQuery {
             .with_limit(self.args.limit_all)
             .build();
         if !self.filters.default.is_empty() {
-            s.with_filter(&self.filters.default).build();
+            s = s.with_filter(&self.filters.default).build();
         }
         s
     }
