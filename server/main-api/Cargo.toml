@@ -34,17 +34,17 @@ unicode-truncate = "0.2.0"
 serde_yaml = "0.9"
 
 # database
-sqlx = { version = "0.7.3", features = ["postgres", "runtime-tokio-rustls", "migrate", "macros", "chrono"] }
+sqlx = { version = "0.7.4", features = ["postgres", "runtime-tokio-rustls", "migrate", "macros", "chrono"] }
 chrono = { version = "0.4.35", default-features = false, features = ["serde"] }
 
 # search
-meilisearch-sdk = "0.24.3"
+meilisearch-sdk = "0.25.0"
 logos = "0.14.0"
 regex = "1.10.3"
 
 # web access
 oauth2 = { version = "4.4.2", default-features = false, features = ["rustls-tls", "reqwest"] }
-reqwest = { version = "0.11.25", default-features = false, features = ["tokio-rustls", "rustls-tls-webpki-roots", "rustls", "webpki-roots", "json", "gzip"] }
+reqwest = { version = "0.11.26", default-features = false, features = ["tokio-rustls", "rustls-tls-webpki-roots", "rustls", "webpki-roots", "json", "gzip"] }
 
 # image production
 image = { version = "0.24.9", default-features = false, features = ["jpeg", "png", "webp", "webp-encoder"] }
