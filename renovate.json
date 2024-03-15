@@ -22,6 +22,10 @@
       "matchPackagePatterns": ["eslint", "prettier", "ruff", "pretty_assertions", "pre-commit", "mypy", "sourcery", "@types/.*", "types-.*"],
       "groupName": "linting",
       "automerge": true
+    },
+    {
+      "matchPackagePatterns": ["image", "imageproc"],
+      "groupName": "image-workaround"
     }
   ]
 }
