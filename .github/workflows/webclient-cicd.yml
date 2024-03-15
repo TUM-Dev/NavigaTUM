@@ -24,7 +24,6 @@ jobs:
     uses: ./.github/workflows/_docker-build.yml
     needs:
       - webclient-linting
-      - webclient-e2e-test
     with:
       image_suffix: webclient
       context: ./webclient
