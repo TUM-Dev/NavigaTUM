@@ -1,11 +1,11 @@
-use meilisearch_sdk::Client;
 use meilisearch_sdk::errors::Error;
 use meilisearch_sdk::indexes::Index;
 use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
+use meilisearch_sdk::Client;
 use serde::Deserialize;
 
-use crate::search::SanitisedSearchQueryArgs;
 use crate::search::search_executor::parser::{Filter, ParsedQuery, TextToken};
+use crate::search::SanitisedSearchQueryArgs;
 
 #[derive(Deserialize, Default, Clone, Debug)]
 #[allow(dead_code)]
