@@ -14,7 +14,7 @@
     "@headlessui/vue": "1.7.19",
     "@heroicons/vue": "2.1.1",
     "@vueuse/core": "10.9.0",
-    "maplibre-gl": "4.1.0",
+    "maplibre-gl": "4.1.1",
     "markdown-it-prism": "2.3.0",
     "nightwind": "^1.1.13",
     "pinia": "2.1.7",
