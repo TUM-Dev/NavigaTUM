@@ -15,8 +15,8 @@ dependencies:
     specifier: 10.9.0
     version: 10.9.0(vue@3.4.21)
   maplibre-gl:
-    specifier: 4.1.0
-    version: 4.1.0
+    specifier: 4.1.1
+    version: 4.1.1
   markdown-it-prism:
     specifier: 2.3.0
     version: 2.3.0
@@ -3699,8 +3699,8 @@ packages:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  /maplibre-gl@4.1.0:
-    resolution: {integrity: sha512-4RQFJSroo/JAJml6Rj2FFIZOfnjsqPp0O9kSp8aVXQUY0HGXNupltzPKbBZeucqi7ynRQHFeu+onTM3hY0Makw==}
+  /maplibre-gl@4.1.1:
+    resolution: {integrity: sha512-DmHru9FTHCOngNHzIx9W2+MlUziYPfPxd2qjyeWwczBYNx2SDpmH394MkuCvSgnfUm5Zvs4NaYCqMu44jUga1Q==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
     dependencies:
       '@mapbox/geojson-rewind': 0.5.2
