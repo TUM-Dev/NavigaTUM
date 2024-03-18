@@ -5,7 +5,8 @@
 [![API Uptime over 30 days](https://nav-monitoring.mm.rbg.tum.de/api/badge/2/uptime/720?label=API%20Uptime/30&labelSuffix=d)](https://uptime.nav.tum.sexy/status/navigatum)
 [![CDN Uptime over 30 days](https://nav-monitoring.mm.rbg.tum.de/api/badge/1/uptime/720?label=CDN%20Uptime/30&labelSuffix=d)](https://uptime.nav.tum.sexy/status/navigatum)
 
-NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute, we are open to new people 😄.
+NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de).
+Feel free to contribute, we are open to new people 😄.
 
 Features:
 
@@ -30,7 +31,9 @@ You can consume our API Documentation in two ways:
 - We also describe our API in an [OpenAPI 3.0](https://de.wikipedia.org/wiki/OpenAPI) compliant file.  
   You can find it [here](./openapi.yaml).  
   Using this Specification you can generate your own client to access the API in the language of your choice.
-  To do this head over to the [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml) or other similar [OpenAPI tools](https://openapi.tools/).
+  To do this head over to
+  the [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml)
+  or other similar [OpenAPI tools](https://openapi.tools/).
 
 Note: The API is still under development, and we are open to Issues, Feature Requests or Pull Requests.
 
@@ -55,12 +58,6 @@ git clone https://github.com/TUM-Dev/Navigatum.git
 cd Navigatum
 ```
 
-> [!NOTE]
-> You can skip all the parts if you run `docker compose up --build` in the root of the repository
-> and then open [http://localhost:3000](http://localhost:3000) in your browser.
-> This will run the server, the data processing and the webclient in docker containers.
-> Initial setup will take a while, as it needs to download maps data for the entire planet (~90GB).
-
 ### Data Processing
 
 In case you do not want to work on the data processing, you can instead
@@ -75,7 +72,9 @@ Else you can follow the steps in the [data documentation](data/README.md).
 
 ### Server
 
-If you want to work on the webclient only (and not server or data), you don't need to set up the server. You can instead either use the public API (see the [webclient documentation](webclient/README.md#Testing)) or use our ready-made docker images to run the server locally:
+If you want to work on the webclient only (and not server or data), you don't need to set up the server.
+You can instead either use the public API (see the [webclient documentation](webclient/README.md#Testing)) or use our
+ready-made docker images to run the server locally:
 
 > [!NOTE]
 > Because we have a tileserver, running the following command is required once.
@@ -85,7 +84,7 @@ If you want to work on the webclient only (and not server or data), you don't ne
 > ```
 
 ```bash
-docker compose up --build
+docker compose -f docker-compose.dev.yml up --build
 ```
 
 Else you can follow the steps in the [server documentation](server/README.md).
@@ -93,13 +92,15 @@ Else you can follow the steps in the [server documentation](server/README.md).
 ### Webclient
 
 Follow the steps in the [webclient documentation](webclient/README.md).
-If you want to only run the webclient locally, you can skip the "Data" and "Server" steps above and use docker (as seen above) or you can [edit the webclient configuration](webclient/README.md#testing) to point to production.
+If you want to only run the webclient locally, you can skip the "Data" and "Server" steps above and use docker (as seen
+above) or you can [edit the webclient configuration](webclient/README.md#testing) to point to production.
 
 ### Formatting
 
 We have multiple programming languages in this repository, and we use different tools to format them.
 
-since we use [pre-commit](https://pre-commit.com/) to format our code, you can install it in an virtual environment with:
+since we use [pre-commit](https://pre-commit.com/) to format our code, you can install it in an virtual environment
+with:
 
 ```bash
 python3 -m venv venv

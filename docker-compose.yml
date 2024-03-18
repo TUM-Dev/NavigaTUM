@@ -1,8 +1,7 @@
 services:
     webclient:
         image: ghcr.io/tum-dev/navigatum-webclient:main
-        restart: always
-        build: ./webclient
+        restart: unless-stopped
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-webclient.entrypoints=webs"
@@ -42,7 +41,7 @@ services:
                 condition: service_completed_successfully
     tileserver-srv-src: # needed for simpler initialisation of dev environments
         image: nginx:1.25
-        restart: on-failure
+        restart: unless-stopped
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-tileserver-srv.entrypoints=webs"
@@ -63,7 +62,7 @@ services:
             start_period: 10s
     tileserver:
         image: maptiler/tileserver-gl:latest
-        restart: always
+        restart: unless-stopped
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-tileserver.entrypoints=webs"
@@ -88,27 +87,25 @@ services:
     # cdn
     data:
         image: ghcr.io/tum-dev/navigatum-data:main
-        restart: always
+        restart: unless-stopped
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-data.entrypoints=webs"
             - "traefik.http.routers.navigatum-data.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-data.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
             - "traefik.http.services.navigatum-data.loadbalancer.server.port=3002"
-        build: ./data
         expose:
             - "3002"
     # server
     main-api:
         image: ghcr.io/tum-dev/navigatum-server:main
-        restart: always
+        restart: unless-stopped
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-main-api.entrypoints=webs"
             - "traefik.http.routers.navigatum-main-api.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
             - "traefik.http.services.navigatum-main-api.loadbalancer.server.port=3003"
-        build: ./server
         command: /bin/navigatum-main-api
         expose:
             - "3003"
@@ -136,7 +133,7 @@ services:
             start_period: 60s
     meilisearch:
         image: getmeili/meilisearch:v1.7.1
-        restart: always
+        restart: unless-stopped
         expose:
             - "7700"
         healthcheck:
@@ -146,14 +143,13 @@ services:
             start_period: 10s
     feedback-api:
         image: ghcr.io/tum-dev/navigatum-server:main
-        restart: always
+        restart: unless-stopped
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-feedback-api.entrypoints=webs"
             - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-feedback-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/feedback`)"
             - "traefik.http.services.navigatum-feedback-api.loadbalancer.server.port=3004"
-        build: ./server
         command: /bin/navigatum-feedback
         expose:
             - "3004"
@@ -180,7 +176,7 @@ services:
             start_period: 10s
     redirect:
         image: traefik/whoami
-        restart: always
+        restart: unless-stopped
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-redirect-unsecure.entrypoints=web"
