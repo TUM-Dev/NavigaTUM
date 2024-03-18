@@ -5,7 +5,7 @@ services:
         build: ./webclient
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-webclient.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-webclient.rule=Host(`nav.tum.de`)"
         expose:
             - "3000"
@@ -43,7 +43,7 @@ services:
         restart: on-failure
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-tileserver-srv.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-tileserver-srv.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
         volumes:
             - tileserver-src:/usr/share/nginx/html/maps/vol:ro
@@ -62,7 +62,7 @@ services:
         restart: always
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-tileserver.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-tileserver.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
             - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-stripprefix@docker"
             - "traefik.http.middlewares.navigatum-stripprefix.stripprefix.prefixes=/maps"
@@ -85,7 +85,7 @@ services:
         restart: always
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-data.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-data.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
         build: ./data
         expose:
@@ -96,7 +96,7 @@ services:
         restart: always
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-main-api-api.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
         build: ./server
         command: /bin/navigatum-main-api
@@ -169,7 +169,7 @@ services:
         restart: always
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-redirect.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-redirect.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)"
             - "traefik.http.routers.navigatum-redirect.middlewares=navigatum-redirectregex@docker"
             - "traefik.http.routers.navigatum-redirect.service=noop@internal"
