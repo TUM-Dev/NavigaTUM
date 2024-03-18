@@ -2,6 +2,8 @@ services:
     webclient:
         image: ghcr.io/tum-dev/navigatum-webclient:main
         restart: unless-stopped
+        networks:
+            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-webclient.entrypoints=webs"
@@ -42,6 +44,8 @@ services:
     tileserver-srv-src: # needed for simpler initialisation of dev environments
         image: nginx:1.25
         restart: unless-stopped
+        networks:
+            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-tileserver-srv.entrypoints=webs"
@@ -63,6 +67,8 @@ services:
     tileserver:
         image: maptiler/tileserver-gl:latest
         restart: unless-stopped
+        networks:
+            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-tileserver.entrypoints=webs"
@@ -88,6 +94,8 @@ services:
     data:
         image: ghcr.io/tum-dev/navigatum-data:main
         restart: unless-stopped
+        networks:
+            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-data.entrypoints=webs"
@@ -100,6 +108,8 @@ services:
     main-api:
         image: ghcr.io/tum-dev/navigatum-server:main
         restart: unless-stopped
+        networks:
+            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-main-api.entrypoints=webs"
@@ -144,6 +154,8 @@ services:
     feedback-api:
         image: ghcr.io/tum-dev/navigatum-server:main
         restart: unless-stopped
+        networks:
+            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-feedback-api.entrypoints=webs"
@@ -177,6 +189,8 @@ services:
     redirect:
         image: traefik/whoami
         restart: unless-stopped
+        networks:
+            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-redirect-unsecure.entrypoints=web"
@@ -202,3 +216,7 @@ volumes:
         driver: local
     postgres-data:
         driver: local
+
+networks:
+    traefik_traefik:
+        external: true
