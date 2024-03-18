@@ -1,179 +1,186 @@
 services:
-  webclient:
-    image: ghcr.io/tum-dev/navigatum-webclient:main
-    restart: always
-    build: ./webclient
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.navigatum-webclient.rule=Host(`nav.tum.de`)"
-    expose:
-      - "3000"
-    environment:
-      TILESERVER_URL: http://tileserver:8080
-      CDN_URL: http://data:3002
-      MAIN_API_URL: http://main-api:3003
-      FEEDBACK_API_URL: http://feedback-api:3004
-    depends_on:
-      tileserver:
-        condition: service_healthy
-      data:
-        condition: service_healthy
-      main-api:
-        condition: service_healthy
-      feedback-api:
-        condition: service_healthy
-  # maps
-  tileserver-init-sprites:
-    image: alpine:latest
-    command: sh -c "mkdir -p /data/sprites/ && rm -f /data/sprites/* && wget -P /data/sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
-    volumes:
-      - tileserver-src:/data
-  tileserver-init-config:
-    image: alpine:latest
-    command: sh -c "apk update --no-progress --quiet && apk add rsync --no-progress --quiet && rsync /to_data/ /data/"
-    volumes:
-      - tileserver-src:/data
-      - ./deployment/k3s/files/:/to_data/:ro
-    depends_on:
-      tileserver-init-sprites:
-        condition: service_completed_successfully
-  tileserver-srv-src: # needed for simpler initialisation of dev environments
-    image: nginx:1.25
-    restart: on-failure
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.navigatum-tileserver-srv.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
-    volumes:
-      - tileserver-src:/usr/share/nginx/html/maps/vol:ro
-    depends_on:
-      tileserver-init-config:
-        condition: service_completed_successfully
-      tileserver-init-sprites:
-        condition: service_completed_successfully
-    healthcheck:
-      test: service nginx status || exit 1
-      retries: 2
-      interval: 10s
-      start_period: 10s
-  tileserver:
-    image: maptiler/tileserver-gl:latest
-    restart: always
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.navigatum-tileserver.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
-      - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-stripprefix@docker"
-      - "traefik.http.middlewares.navigatum-stripprefix.stripprefix.prefixes=/maps"
-    command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
-    tmpfs:
-      - /tmp
-    volumes:
-      - tileserver-src:/data/:ro
-    read_only: true
-    expose:
-      - "8080"
-    depends_on:
-      tileserver-init-config:
-        condition: service_completed_successfully
-      tileserver-init-sprites:
-        condition: service_completed_successfully
-  # cdn
-  data:
-    image: ghcr.io/tum-dev/navigatum-data:main
-    restart: always
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.navigatum-data.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
-    build: ./data
-    expose:
-      - "3002"
-  # server
-  main-api:
-    image: ghcr.io/tum-dev/navigatum-server:main
-    restart: always
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
-    build: ./server
-    command: /bin/navigatum-main-api
-    expose:
-      - "3003"
-    volumes:
-      - type: tmpfs
-        target: /home/navigatum/.cache
-    user: 1000:3000
-    environment:
-      MIELI_URL: http://meilisearch:7700
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_URL: db:5432
-    depends_on:
-      meilisearch:
-        condition: service_healthy
-      db:
-        condition: service_healthy
-    healthcheck:
-      test: wget -q --spider http://localhost:3003/api/status
-      retries: 5
-      interval: 10s
-      start_period: 60s
-  meilisearch:
-    image: getmeili/meilisearch:v1.7.1
-    restart: always
-    expose:
-      - "7700"
-    healthcheck:
-      test: wget -q --spider http://localhost:7700/health
-      retries: 5
-      interval: 10s
-      start_period: 10s
-  feedback-api:
-    image: ghcr.io/tum-dev/navigatum-server:main
-    restart: always
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.navigatum-feedback-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/feedback`)"
-    build: ./server
-    command: /bin/navigatum-feedback
-    expose:
-      - "3004"
-    healthcheck:
-      test: wget -q --spider http://localhost:3004/api/feedback/status
-      retries: 5
-      start_period: 10s
-  db:
-    image: postgres:16
-    restart: unless-stopped
-    environment:
-      PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    expose:
-      - "5432"
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
-      retries: 5
-      interval: 10s
-      start_period: 10s
-  redirect:
-    image: traefik/whoami
-    restart: always
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.navigatum-redirect.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)"
-      - "traefik.http.routers.navigatum-redirect.middlewares=navigatum-redirectregex@docker"
-      - "traefik.http.routers.navigatum-redirect.service=noop@internal"
-      - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.regex=^(https?://.*)nav.tum.(app|sexy)/(.*)$$"
-      - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.replacement=$${1}nav.tum.de/$${3}"
-      - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.permanent=true"
+    webclient:
+        image: ghcr.io/tum-dev/navigatum-webclient:main
+        restart: always
+        build: ./webclient
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-webclient.rule=Host(`nav.tum.de`)"
+        expose:
+            - "3000"
+        environment:
+            TILESERVER_URL: http://tileserver:8080
+            CDN_URL: http://data:3002
+            MAIN_API_URL: http://main-api:3003
+            FEEDBACK_API_URL: http://feedback-api:3004
+        depends_on:
+            tileserver:
+                condition: service_healthy
+            data:
+                condition: service_healthy
+            main-api:
+                condition: service_healthy
+            feedback-api:
+                condition: service_healthy
+    # maps
+    tileserver-init-sprites:
+        image: alpine:latest
+        command: sh -c "mkdir -p /data/sprites/ && rm -f /data/sprites/* && wget -P /data/sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
+        volumes:
+            - tileserver-src:/data
+    tileserver-init-config:
+        image: alpine:latest
+        command: sh -c "apk update --no-progress --quiet && apk add rsync --no-progress --quiet && rsync /to_data/ /data/"
+        volumes:
+            - tileserver-src:/data
+            - ./deployment/k3s/files/:/to_data/:ro
+        depends_on:
+            tileserver-init-sprites:
+                condition: service_completed_successfully
+    tileserver-srv-src: # needed for simpler initialisation of dev environments
+        image: nginx:1.25
+        restart: on-failure
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-tileserver-srv.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
+        volumes:
+            - tileserver-src:/usr/share/nginx/html/maps/vol:ro
+        depends_on:
+            tileserver-init-config:
+                condition: service_completed_successfully
+            tileserver-init-sprites:
+                condition: service_completed_successfully
+        healthcheck:
+            test: service nginx status || exit 1
+            retries: 2
+            interval: 10s
+            start_period: 10s
+    tileserver:
+        image: maptiler/tileserver-gl:latest
+        restart: always
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-tileserver.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
+            - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-stripprefix@docker"
+            - "traefik.http.middlewares.navigatum-stripprefix.stripprefix.prefixes=/maps"
+        command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
+        tmpfs:
+            - /tmp
+        volumes:
+            - tileserver-src:/data/:ro
+        read_only: true
+        expose:
+            - "8080"
+        depends_on:
+            tileserver-init-config:
+                condition: service_completed_successfully
+            tileserver-init-sprites:
+                condition: service_completed_successfully
+    # cdn
+    data:
+        image: ghcr.io/tum-dev/navigatum-data:main
+        restart: always
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-data.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
+        build: ./data
+        expose:
+            - "3002"
+    # server
+    main-api:
+        image: ghcr.io/tum-dev/navigatum-server:main
+        restart: always
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
+        build: ./server
+        command: /bin/navigatum-main-api
+        expose:
+            - "3003"
+        volumes:
+            -   type: tmpfs
+                target: /home/navigatum/.cache
+        user: 1000:3000
+        environment:
+            MIELI_URL: http://meilisearch:7700
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_URL: db:5432
+        depends_on:
+            meilisearch:
+                condition: service_healthy
+            db:
+                condition: service_healthy
+        healthcheck:
+            test: wget -q --spider http://localhost:3003/api/status
+            retries: 5
+            interval: 10s
+            start_period: 60s
+    meilisearch:
+        image: getmeili/meilisearch:v1.7.1
+        restart: always
+        expose:
+            - "7700"
+        healthcheck:
+            test: wget -q --spider http://localhost:7700/health
+            retries: 5
+            interval: 10s
+            start_period: 10s
+    feedback-api:
+        image: ghcr.io/tum-dev/navigatum-server:main
+        restart: always
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-feedback-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/feedback`)"
+        build: ./server
+        command: /bin/navigatum-feedback
+        expose:
+            - "3004"
+        healthcheck:
+            test: wget -q --spider http://localhost:3004/api/feedback/status
+            retries: 5
+            start_period: 10s
+    db:
+        image: postgres:16
+        restart: unless-stopped
+        environment:
+            PGDATA: /var/lib/postgresql/data/pgdata
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_DB: ${POSTGRES_DB}
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+        expose:
+            - "5432"
+        healthcheck:
+            test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
+            retries: 5
+            interval: 10s
+            start_period: 10s
+    redirect:
+        image: traefik/whoami
+        restart: always
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
+            - "traefik.http.routers.navigatum-redirect.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)"
+            - "traefik.http.routers.navigatum-redirect.middlewares=navigatum-redirectregex@docker"
+            - "traefik.http.routers.navigatum-redirect.service=noop@internal"
+            - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.regex=^(https?://.*)nav.tum.(app|sexy)/(.*)$$"
+            - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.replacement=$${1}nav.tum.de/$${3}"
+            - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.permanent=true"
 
 volumes:
-  db-data:
-    driver: local
-  tileserver-src:
-    driver: local
-  postgres-data:
-    driver: local
+    db-data:
+        driver: local
+    tileserver-src:
+        driver: local
+    postgres-data:
+        driver: local
