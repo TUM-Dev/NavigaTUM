@@ -175,6 +175,10 @@ services:
         restart: always
         labels:
             - "traefik.enable=true"
+            - "traefik.http.routers.navigatum-redirect-unsecure.entrypoints=web"
+            - "traefik.http.routers.navigatum-redirect-unsecure.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`) || Host(`nav.tum.de`)"
+            - "traefik.http.routers.navigatum-redirect-unsecure.middlewares=webs-redirectscheme"
+
             - "traefik.http.routers.navigatum-redirect.entrypoints=webs"
             - "traefik.http.routers.navigatum-redirect.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-redirect.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)"
