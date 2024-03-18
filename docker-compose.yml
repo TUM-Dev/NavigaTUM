@@ -8,6 +8,7 @@ services:
             - "traefik.http.routers.navigatum-webclient.entrypoints=webs"
             - "traefik.http.routers.navigatum-webclient.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-webclient.rule=Host(`nav.tum.de`)"
+            - "traefik.http.services.navigatum-webclient.loadbalancer.server.port=3000"
         expose:
             - "3000"
         environment:
@@ -47,6 +48,7 @@ services:
             - "traefik.http.routers.navigatum-tileserver-srv.entrypoints=webs"
             - "traefik.http.routers.navigatum-tileserver-srv.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-tileserver-srv.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
+            - "traefik.http.services.navigatum-tileserver-srv.loadbalancer.server.port=80"
         volumes:
             - tileserver-src:/usr/share/nginx/html/maps/vol:ro
         depends_on:
@@ -69,6 +71,7 @@ services:
             - "traefik.http.routers.navigatum-tileserver.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
             - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-stripprefix@docker"
             - "traefik.http.middlewares.navigatum-stripprefix.stripprefix.prefixes=/maps"
+            - "traefik.http.services.navigatum-tileserver.loadbalancer.server.port=8080"
         command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
         tmpfs:
             - /tmp
@@ -91,6 +94,7 @@ services:
             - "traefik.http.routers.navigatum-data.entrypoints=webs"
             - "traefik.http.routers.navigatum-data.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-data.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
+            - "traefik.http.services.navigatum-data.loadbalancer.server.port=3002"
         build: ./data
         expose:
             - "3002"
@@ -103,6 +107,7 @@ services:
             - "traefik.http.routers.navigatum-main-api.entrypoints=webs"
             - "traefik.http.routers.navigatum-main-api.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
+            - "traefik.http.services.navigatum-main-api.loadbalancer.server.port=3003"
         build: ./server
         command: /bin/navigatum-main-api
         expose:
@@ -147,6 +152,7 @@ services:
             - "traefik.http.routers.navigatum-feedback-api.entrypoints=webs"
             - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-feedback-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/feedback`)"
+            - "traefik.http.services.navigatum-feedback-api.loadbalancer.server.port=3004"
         build: ./server
         command: /bin/navigatum-feedback
         expose:
@@ -182,6 +188,7 @@ services:
             - "traefik.http.routers.navigatum-redirect-unsecure.middlewares=navigatum-webs-redirectscheme"
             - "traefik.http.middlewares.navigatum-webs-redirectscheme.redirectscheme.scheme=https"
             - "traefik.http.middlewares.navigatum-webs-redirectscheme.redirectscheme.permanent=true"
+            - "traefik.http.routers.navigatum-webs-redirectscheme.service=noop@internal"
 
             - "traefik.http.routers.navigatum-redirect.entrypoints=webs"
             - "traefik.http.routers.navigatum-redirect.tls.certresolver=leacme"
