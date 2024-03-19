@@ -85,6 +85,7 @@ def export_for_search(data: dict, path: str) -> None:
                     "room": "room",
                     "virtual_room": "room",
                 }.get(entry["type"]),
+                "operator_name": entry["props"].get("operator", {}).get("name", None),
                 "parent_building_names": parent_building_names,
                 # For all other parents, only the ids and their keywords (TODO) are searchable
                 "parent_keywords": [maybe_slugify(value) for value in parent_building_names + entry["parents"][1:]],
