@@ -1,21 +1,25 @@
 FROM node:21 as build-stage
 WORKDIR /app
-RUN apt-get update &&  \
-    apt-get install rsync -y --no-install-recommends
-COPY package*.json ./
-RUN npm install
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 COPY . .
 ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 ARG GIT_COMMIT_MESSAGE
 ENV GIT_COMMIT_MESSAGE=${GIT_COMMIT_MESSAGE}
-RUN sh build.sh
+RUN npm run build-only
+RUN gzip --force --keep --recursive ./dist
+
 
 FROM nginx:1.25 as production-stage
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir /app && apt update && apt upgrade -y
-COPY --from=build-stage /dist /app
+COPY --from=build-stage /app/dist /app
 
 EXPOSE 3000
 HEALTHCHECK CMD curl --fail localhost:3000/health || exit 1
