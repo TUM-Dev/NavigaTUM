@@ -39,7 +39,7 @@
     "eslint-plugin-vue": "9.23.0",
     "isomorphic-fetch": "3.0.0",
     "npm-run-all2": "6.1.2",
-    "postcss": "8.4.36",
+    "postcss": "8.4.37",
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "0.5.12",
     "sass": "1.72.0",
@@ -47,7 +47,7 @@
     "tailwindcss": "3.4.1",
     "typescript": "5.4.2",
     "vite": "5.1.6",
-    "vite-plugin-vue-devtools": "7.0.18",
+    "vite-plugin-vue-devtools": "7.0.19",
     "vue-i18n": "9.10.2",
     "vue-tsc": "2.0.6"
   },
