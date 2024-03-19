@@ -5,14 +5,15 @@ import string
 import urllib.parse
 import xmlrpc.client  # nosec: B411
 import zipfile
+from collections.abc import Iterator
 from pathlib import Path
 from typing import Literal, TypedDict
-from collections.abc import Iterator
 
 import utm
 from defusedxml import ElementTree as ET
-from external.scraping_utils import _download_file, CACHE_PATH, maybe_sleep
 from tqdm import tqdm
+
+from external.scraping_utils import _download_file, CACHE_PATH, maybe_sleep
 from utils import convert_to_webp
 
 ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192"

@@ -11,8 +11,9 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup, element
 from defusedxml import ElementTree as ET
-from external.scraping_utils import CACHE_PATH, maybe_sleep
 from tqdm import tqdm
+
+from external.scraping_utils import CACHE_PATH, maybe_sleep
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
 
@@ -129,7 +130,14 @@ def scrape_rooms() -> None:
         u_rooms = _retrieve_roomlist(f_type="usage", f_name="pVerwendung", f_value=usage_id, area_id=0)
         for room in u_rooms:
             roomcode = room["roomcode"]
-            room_index[roomcode]["usage"] = usage_id
+            try:
+                room_index[roomcode]["usage"] = usage_id
+            except KeyError:
+                logging.warning(
+                    f"ignoring unknown room {roomcode} in the usage assignment. "
+                    "We have likely missed it during the first part"
+                )
+                continue
             if usage_id in extend_for_usages:
                 system_id = room_index[roomcode]["room_link"][24:]
                 room_index[roomcode]["extended"] = _retrieve_roominfo(system_id)
@@ -254,7 +262,7 @@ class ParsedRoomsList(typing.NamedTuple):
 @functools.cache
 def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id: int = 0) -> list[ParsedRoom]:
     """Retrieve all rooms from the TUMonline room search list (multipage)"""
-    scraped_rooms = ParsedRoomsList()
+    scraped_rooms = ParsedRoomsList(rooms=[], num_pages=1, current_page=0)
 
     with tqdm(desc=f"Searching Rooms for {f_type} {f_value}", total=scraped_rooms.num_pages, leave=False) as prog:
         while scraped_rooms.current_page < scraped_rooms.num_pages:
