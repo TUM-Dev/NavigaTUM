@@ -9,6 +9,7 @@ services:
             CDN_URL: http://data:3002
             MAIN_API_URL: http://main-api:3003
             FEEDBACK_API_URL: http://feedback-api:3004
+            VITE_APP_URL: http://localhost:3000
         depends_on:
             tileserver:
                 condition: service_healthy
