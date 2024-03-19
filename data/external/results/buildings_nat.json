@@ -469,6 +469,13 @@
     "building_short": null
   },
   {
+    "address": "Bildungscampus 3",
+    "building_code": "1998",
+    "building_id": 3289,
+    "building_name": "Interim, Bildungscampus 3",
+    "building_short": null
+  },
+  {
     "address": "Weipertstr. 8-10",
     "building_code": "1999",
     "building_id": 3190,
@@ -949,6 +956,20 @@
     "building_code": "2911",
     "building_id": 1889,
     "building_name": "Richard-Wagner-Str. 3",
+    "building_short": null
+  },
+  {
+    "address": "Augustenstr. 40",
+    "building_code": "2912",
+    "building_id": 3250,
+    "building_name": "Brienner Forum Haus E (AM)",
+    "building_short": null
+  },
+  {
+    "address": "Augustenstr. 40",
+    "building_code": "2913",
+    "building_id": 3249,
+    "building_name": "Brienner Forum Haus F(AM)",
     "building_short": null
   },
   {
@@ -3644,6 +3665,13 @@
     "building_code": "5901",
     "building_id": 2849,
     "building_name": "Elektro- und Informationstechnik",
+    "building_short": null
+  },
+  {
+    "address": "Friedrich-Ludwig-Bauer-Str. 3",
+    "building_code": "5932",
+    "building_id": 3169,
+    "building_name": "Siemens Science Center Garching",
     "building_short": null
   },
   {

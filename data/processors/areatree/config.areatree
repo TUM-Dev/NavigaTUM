@@ -48,6 +48,8 @@
       2903:Haus Soller Augustenstr. 44-46:
       2910:Richard-Wagner-Str. 1 / Haus B + Haus H, Hochschule für Politik (HfP)/ Department of Governance (GOV)|RiWa 1 (HfP/GOV):2910,riwa1
       2911:Richard-Wagner-Str. 3 / Haus C, TUM Sprachenzentrum:2911,riwa3
+      2912:Brienner Forum Haus E (AM):
+      2913:Brienner Forum Haus F (AM):
     05:Zentralgelände:zentralgelaende
       0501:Hauptgebäude (Z1):
       0502:Bestelmeyer Süd (Z2):
@@ -132,6 +134,7 @@
     1902:Bildungscampus L, Gebäude 9, TUM Tower:
     1910:Bildungscampus C, Weipertstr. 8-10:
     1915:Bildungscampus/Etzelstr.38, Etzelstr. 38:
+    1998:Interim, Bildungscampus 3:
     1999:Containerburg CB, Weipertstr. 8-10:
   21:Kapuzinerhölzl, Motorenlabor, Lehrstuhl für Verbrennungskraftmaschinen:kapuzinerhoelzl[site]
     2103:Werkstattgebäude:
@@ -568,6 +571,7 @@
     5701:Munich Institute of Biomedical Engineering, MIBE (ehem. IMETUM, ZIMT, MSB)|MIBE:
     5801:Leibnitz-Rechenzenturm (LRZ):
     5901:Elektro- und Informationstechnik (EI, ZEITlab):5901,ei-garching[building]
+    5932:Siemens Science Center Garching:5932,siemens-garching
     812:Galileo Garching|Galileo:galileo[joined_building]
       8120:Conference Center:
       8121:Courtyard Hotel:

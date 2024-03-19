@@ -1796,8 +1796,8 @@
   "TUINH03": {
     "code": "TUINH03",
     "id": 52720,
-    "name": "Informatik Heilbronn 3 - Professur f\u00fcr Software Engineering (Prof. Krusche)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 3 - Professur f\u00fcr Software Engineering (Prof. Krusche)"
+    "name": "Informatik Heilbronn 3 - Lehrstuhl f\u00fcr Software Engineering (Prof. Wagner)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 3 - Lehrstuhl f\u00fcr Software Engineering (Prof. Wagner)"
   },
   "TUINH04": {
     "code": "TUINH04",
@@ -2048,8 +2048,8 @@
   "TULREAV": {
     "code": "TULREAV",
     "id": 51257,
-    "name": "Professur f\u00fcr eAviation (Prof. Armanini)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/eAviation (Prof. Armanini)"
+    "name": "Professur f\u00fcr eAviation (N.N.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/eAviation (N.N.)"
   },
   "TULRESP": {
     "code": "TULRESP",
