@@ -44,7 +44,7 @@ regex = "1.10.3"
 
 # web access
 oauth2 = { version = "4.4.2", default-features = false, features = ["rustls-tls", "reqwest"] }
-reqwest = { version = "0.11.27", default-features = false, features = ["tokio-rustls", "rustls-tls-webpki-roots", "rustls", "webpki-roots", "json", "gzip"] }
+reqwest = { version = "0.11.27", default-features = false, features = ["tokio-rustls", "rustls-tls-webpki-roots", "rustls", "webpki-roots", "json", "gzip", "hickory-dns"] }
 
 # image production
 image = { version = "0.24.9", default-features = false, features = ["jpeg", "png", "webp", "webp-encoder"] }
