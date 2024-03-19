@@ -55,7 +55,7 @@ services:
         tmpfs:
             - /tmp
         volumes:
-            - tileserver-src:/data/:ro
+            - tileserver-src:/data/
         read_only: true
         ports:
             - "8080:8080"
