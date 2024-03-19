@@ -6,4 +6,7 @@ output
 /sources/img/md/
 /sources/img/sm/
 /sources/img/.hash_lut.json
-/external/results/*
+/external/results/filter/*
+/external/results/nat/*
+/external/results/room/*
+/external/results/public_transport/*
