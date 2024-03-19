@@ -210,8 +210,6 @@ services:
             - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.permanent=true"
 
 volumes:
-    db-data:
-        driver: local
     tileserver-src:
         driver: local
     postgres-data:
