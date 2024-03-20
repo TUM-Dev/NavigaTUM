@@ -3,8 +3,9 @@ FROM    rust:1.76-alpine AS compiler
 # to ache the build this line inludes all the dependencys all servers need
 # this is not an issue since we copy the generated binary to a more minimal envornment
 # Descriptions:
-# - musl-dev is needed fpr musl to compile the binary
-RUN     apk add -q --update-cache --no-cache musl-dev
+# - musl-dev is needed for musl to compile the binary
+# - openssl-dev is needed for https://github.com/meilisearch/meilisearch-rust to compile the binary, as their http-libraryy won't support tls until v2.0 https://github.com/sagebind/isahc/issues/199
+RUN     apk add -q --update-cache --no-cache musl-dev openssl-dev
 
 WORKDIR /compiler
 ENV     USER=root
@@ -38,7 +39,7 @@ ARG     GIT_COMMIT_SHA
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 
 RUN     apk update --quiet \
-     && apk add -q --no-cache libgcc tini curl
+     && apk add -q --no-cache libgcc tini curl openssl
 
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
