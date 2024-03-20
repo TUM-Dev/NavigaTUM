@@ -26,9 +26,9 @@ def _sanitise_building(building: dict):
         default_map[1] = f"rf{default_map[1]}"
     building["b_room_count"] = building.pop("b_roomCount")
     # the Building "Sonstige" does not have a valid lat/lon => we chose the main campus of TUM as a default
-    zone_number = (int(building.pop("utm_zone")),)
-    easting = (building.pop("utm_easting"),)
-    northing = (building.pop("utm_northing"),)
+    zone_number = int(building.pop("utm_zone"))
+    easting = building.pop("utm_easting")
+    northing = building.pop("utm_northing")
     if building["b_id"] == "0000":
         building["lat"], building["lon"] = 48.14903, 11.56735
     else:
