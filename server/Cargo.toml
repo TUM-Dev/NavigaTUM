@@ -26,4 +26,4 @@ serde_json = "1.0"
 pretty_assertions = "1.4.0"
 
 # images
-image = { version = "0.25.0", default-features = false, features = ["jpeg", "png", "webp", "webp-encoder"] }
+image = { version = "0.25.0", default-features = false, features = ["jpeg", "png", "webp"] }
