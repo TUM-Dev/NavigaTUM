@@ -75,7 +75,7 @@ impl GeoEntryQuery {
         let sorting = self
             .sorting
             .iter()
-            .map(|s| s.as_str())
+            .map(String::as_str)
             .collect::<Vec<&str>>();
 
         // Currently ranking is designed to put buildings at the top if they equally

@@ -1,13 +1,15 @@
-use crate::proposed_edits::AppliableEdit;
-use base64::prelude::BASE64_STANDARD;
-use base64::Engine;
-use log::error;
-use serde::Deserialize;
-use serde::Serialize;
 use std::cmp::max;
 use std::collections::BTreeMap;
 use std::fs::File;
 use std::path::{Path, PathBuf};
+
+use base64::Engine;
+use base64::prelude::BASE64_STANDARD;
+use log::error;
+use serde::Deserialize;
+use serde::Serialize;
+
+use crate::proposed_edits::AppliableEdit;
 
 #[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq)]
 pub struct Source {
@@ -72,7 +74,7 @@ impl Image {
         let search_prefix = format!("{key}_");
         let next_free_slot = std::fs::read_dir(image_dir.clone())
             .unwrap()
-            .filter_map(|res| res.ok())
+            .filter_map(Result::ok)
             .map(|e| e.file_name().to_str().unwrap().to_string())
             .filter(|filename| filename.starts_with(&search_prefix))
             .count()
@@ -129,8 +131,9 @@ impl AppliableEdit for Image {
 
 #[cfg(test)]
 mod image_tests {
-    use super::*;
     use std::fs;
+
+    use super::*;
 
     fn test_image() -> Image {
         Image {

@@ -1,6 +1,6 @@
 use std::io::Cursor;
 
-use actix_web::{get, web, HttpResponse};
+use actix_web::{get, HttpResponse, web};
 use image::Rgba;
 use log::{debug, error, warn};
 use sqlx::PgPool;
@@ -8,7 +8,7 @@ use tokio::time::Instant;
 use unicode_truncate::UnicodeTruncateStr;
 
 use crate::maps::overlay_map::OverlayMapTask;
-use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
+use crate::maps::overlay_text::{CANTARELL_BOLD, CANTARELL_REGULAR, OverlayText};
 use crate::models::Location;
 use crate::utils;
 
@@ -55,7 +55,7 @@ async fn get_localised_data(
     }
 }
 
-async fn construct_image_from_data(_id: &str, data: Location) -> Option<Vec<u8>> {
+async fn construct_image_from_data(data: Location) -> Option<Vec<u8>> {
     let start_time = Instant::now();
     let mut img = image::RgbaImage::new(1200, 630);
 
@@ -127,7 +127,7 @@ pub async fn maps_handler(
             return e;
         }
     };
-    let img = construct_image_from_data(&id, data)
+    let img = construct_image_from_data(data)
         .await
         .unwrap_or_else(load_default_image);
     let res = HttpResponse::Ok().content_type("image/png").body(img);

@@ -1,8 +1,9 @@
-use crate::models::LocationKeyAlias;
-use crate::utils;
-use actix_web::{get, web, HttpResponse};
+use actix_web::{get, HttpResponse, web};
 use log::error;
 use sqlx::PgPool;
+
+use crate::models::LocationKeyAlias;
+use crate::utils;
 
 #[get("/api/get/{id}")]
 pub async fn get_handler(
@@ -10,22 +11,19 @@ pub async fn get_handler(
     web::Query(args): web::Query<utils::LangQueryArgs>,
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
-    let (probable_id, redirect_url) =
-        match get_alias_and_redirect(&data.db, &params.into_inner()).await {
-            Some(alias_and_redirect) => alias_and_redirect,
-            None => return HttpResponse::NotFound().body("Not found"),
-        };
-    let result = match args.should_use_english() {
-        true => {
-            sqlx::query_scalar!("SELECT data FROM en WHERE key = $1", probable_id)
-                .fetch_optional(&data.db)
-                .await
-        }
-        false => {
-            sqlx::query_scalar!("SELECT data FROM de WHERE key = $1", probable_id)
-                .fetch_optional(&data.db)
-                .await
-        }
+    let Some((probable_id, redirect_url)) =
+        get_alias_and_redirect(&data.db, &params.into_inner()).await
+    else {
+        return HttpResponse::NotFound().body("Not found");
+    };
+    let result = if args.should_use_english() {
+        sqlx::query_scalar!("SELECT data FROM en WHERE key = $1", probable_id)
+            .fetch_optional(&data.db)
+            .await
+    } else {
+        sqlx::query_scalar!("SELECT data FROM de WHERE key = $1", probable_id)
+            .fetch_optional(&data.db)
+            .await
     };
     match result {
         Ok(d) => match d {
