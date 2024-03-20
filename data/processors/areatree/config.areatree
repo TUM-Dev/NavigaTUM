@@ -52,12 +52,12 @@
       2913:Brienner Forum Haus F (AM):
     05:Zentralgelände:zentralgelaende
       0501:Hauptgebäude (Z1):
-      0502:Bestelmeyer Süd (Z2):
+      0502:Zentralgebäude 2 (Z2):
       0503:Thierschbau (Z3):
       0504:Landwirtschaftsbau (Z4):
       0505:Wirtschaftswissenschaften (Z5):
       0506:Theresianum (Z6):
-      0507:Bestelmeyer Nord (Z7):
+      0507:Zentralgebäude 7 (Z7):
       0508:Heizkraftwerk, Dieter-Thoma-Labor (Z8)|Heizkraftwerk (Z8):
       0509:Wienandsbau, E-Technik / Audimax (Z9)|Wienandsbau (Z9):
       0510:Verwaltungsbau (Z10):
@@ -261,7 +261,7 @@
         4109:Campusoffice, SSW Studierenden Service Weihenstephan:
         4110:Brau- und Getränketechnologie:
         4111:Forschungsbrauerei Weihenstephan mit Nebengebäude:
-        4113:StudiTUM Weihenstephan|StudiTUM:4113,studitum-wzw
+        4113:StudiTUM  mergenWeihenstephan|StudiTUM:4113,studitum-wzw
         4114:ehemaliger Bauhof:
         4115:Familienservice:
         4116:Dr. Gudula Wernekke-Rastetter Kindervilla:
@@ -598,7 +598,7 @@
   7:Garching Forschungszentrum (außerhalb):garching-extra
     7894:Newton:
     7895:Pascal Halle:
-    7896:Freisinger Landstraße 50 (Prandtl):
+    7896:Freisinger Landstraße 50 (MW Halle):
     7910:Oskar-von-Miller-Turm (Meteo-Mast):
   810,811:Garching Hochbrück:garching-hochbrueck[site]
     8101:Business Campus Garching (BC1), Parkring 11-13|Business Campus 1:8101,bc1
