@@ -50,8 +50,8 @@ devDependencies:
     specifier: 3.0.1
     version: 3.0.1(vue-i18n@9.10.2)
   '@rushstack/eslint-patch':
-    specifier: 1.7.2
-    version: 1.7.2
+    specifier: 1.8.0
+    version: 1.8.0
   '@types/node':
     specifier: ^20.11.27
     version: 20.11.30
@@ -1102,8 +1102,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@rushstack/eslint-patch@1.7.2:
-    resolution: {integrity: sha512-RbhOOTCNoCrbfkRyoXODZp75MlpiHMgbE5MEBZAnnnLyQNgrigEj4p0lzsMDyc1zVsJDLrivB58tgg3emX0eEA==}
+  /@rushstack/eslint-patch@1.8.0:
+    resolution: {integrity: sha512-0HejFckBN2W+ucM6cUOlwsByTKt9/+0tWhqUffNIcHqCXkthY/mZ7AuYPK/2IIaGWhdl0h+tICDO0ssLMd6XMQ==}
     dev: true
 
   /@swagger-api/apidom-ast@0.97.0:
@@ -2444,7 +2444,7 @@ packages:
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
     dependencies:
       mdn-data: 2.0.30
-      source-map-js: 1.1.0
+      source-map-js: 1.2.0
     dev: true
 
   /css.escape@1.5.1:
