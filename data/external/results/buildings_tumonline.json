@@ -92,7 +92,7 @@
   {
     "area_id": 23,
     "filter_id": 578,
-    "name": "0502 (Z2) Bestelmeyer S\u00fcd, Arcisstr.   21"
+    "name": "0502 (Z2) Zentralgeb\u00e4ude 2, Arcisstr.   21"
   },
   {
     "area_id": 23,
@@ -117,7 +117,7 @@
   {
     "area_id": 23,
     "filter_id": 583,
-    "name": "0507 (Z7) Bestelmeyer Nord, Arcisstr.   21"
+    "name": "0507 (Z7) Zentralgeb\u00e4ude 7, Arcisstr.   21"
   },
   {
     "area_id": 23,
@@ -288,6 +288,11 @@
     "area_id": 243,
     "filter_id": 3191,
     "name": "1915 Bildungscampus/Etzelstr.38, Etzelstr.   38"
+  },
+  {
+    "area_id": 243,
+    "filter_id": 3289,
+    "name": "1998 Interim, Bildungscampus 3, Bildungscampus    3"
   },
   {
     "area_id": 243,
@@ -543,6 +548,16 @@
     "area_id": 29,
     "filter_id": 1889,
     "name": "2911 RiWa Nr. 3/Haus C, Richard-Wagner-Str.    3"
+  },
+  {
+    "area_id": 29,
+    "filter_id": 3250,
+    "name": "2912 Brienner Forum Haus E (AM), Augustenstr.   40"
+  },
+  {
+    "area_id": 29,
+    "filter_id": 3249,
+    "name": "2913 Brienner Forum Haus F(AM), Augustenstr.   40"
   },
   {
     "area_id": 29,
@@ -2045,6 +2060,11 @@
     "name": "5901 Elektro- und Informationstechnik, Hans-Piloty-Str.    1"
   },
   {
+    "area_id": 57,
+    "filter_id": 3169,
+    "name": "5932 Siemens Science Center Garching, Friedrich-Ludwig-Bauer-Str.    3"
+  },
+  {
     "area_id": 31,
     "filter_id": 805,
     "name": "6101 Heizwerk, R\u00f6merhofweg   67"
@@ -2087,7 +2107,7 @@
   {
     "area_id": 57,
     "filter_id": 3069,
-    "name": "7896 Prandtl (AM, Freisinger Landstr.   50"
+    "name": "7896 MW Halle (AM), Freisinger Landstr.   50"
   },
   {
     "area_id": 58,

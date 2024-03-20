@@ -875,7 +875,7 @@
     "building_short": null
   },
   {
-    "address": "Oettingenstra\u00dfe 15",
+    "address": "Oettingenstr. 15",
     "building_code": "2806",
     "building_id": 594,
     "building_name": "Werkstattgeb\u00e4ude National Museum (NR)",
@@ -1295,7 +1295,7 @@
     "building_short": null
   },
   {
-    "address": null,
+    "address": "Unterer Seeweg 5",
     "building_code": "3901",
     "building_id": 645,
     "building_name": "Starnberg Kiosk",
@@ -1337,7 +1337,7 @@
     "building_short": null
   },
   {
-    "address": "Alte Akademie 6",
+    "address": "Alte Akademie 8a",
     "building_code": "4103",
     "building_id": 717,
     "building_name": "Sammlungsbau",
@@ -1750,7 +1750,7 @@
     "building_short": null
   },
   {
-    "address": "V\u00f6ttinger Stra\u00dfe 40",
+    "address": "V\u00f6ttinger Str. 40",
     "building_code": "4222",
     "building_id": 2929,
     "building_name": "Servicegeb\u00e4ude I",
@@ -2058,7 +2058,7 @@
     "building_short": null
   },
   {
-    "address": "Liesel-Beckmann-Stra\u00dfe",
+    "address": "Liesel-Beckmann-Str.",
     "building_code": "4319",
     "building_id": 1505,
     "building_name": "Trafostation VI",
@@ -2093,7 +2093,7 @@
     "building_short": null
   },
   {
-    "address": "Lange Point 20",
+    "address": "Lange Point 20+22",
     "building_code": "4324",
     "building_id": 659,
     "building_name": "GM Garage / Werkdienstwohnungen\n",
@@ -2912,7 +2912,7 @@
     "building_short": null
   },
   {
-    "address": "Boltzmannstra\u00dfe 10a",
+    "address": "Boltzmannstr. 10a",
     "building_code": "5130",
     "building_id": 783,
     "building_name": "Telefonzentrale",
@@ -3234,7 +3234,7 @@
     "building_short": null
   },
   {
-    "address": "Lichtenbergstra\u00dfe 2a",
+    "address": "Lichtenbergstr. 2a",
     "building_code": "5301",
     "building_id": 1120,
     "building_name": "IAS, Institut f\u00fcr Advanced Study",
@@ -3318,7 +3318,7 @@
     "building_short": null
   },
   {
-    "address": "Lichtenbergstr. 4",
+    "address": "Ernst-Otto-Fischer-Str. 4",
     "building_code": "5409",
     "building_id": 830,
     "building_name": "CH Umf\u00fcllstation / Sonderm\u00fcll",
@@ -3661,7 +3661,7 @@
     "building_short": "LRZ"
   },
   {
-    "address": "Hans-Piloty-Stra\u00dfe 1",
+    "address": "Hans-Piloty-Str. 1",
     "building_code": "5901",
     "building_id": 2849,
     "building_name": "Elektro- und Informationstechnik",
@@ -3731,7 +3731,7 @@
     "building_short": null
   },
   {
-    "address": "Freisinger Landstra\u00dfe 52",
+    "address": "Freisinger Landstr. 52",
     "building_code": "7894",
     "building_id": 3010,
     "building_name": "Newton (AM)",
@@ -3752,7 +3752,7 @@
     "building_short": null
   },
   {
-    "address": "Ludwig-Prandtl-Stra\u00dfe 1",
+    "address": "Ludwig-Prandtl-Str. 1",
     "building_code": "7910",
     "building_id": 1040,
     "building_name": "Oskar-von-Miller Turm",
@@ -3787,21 +3787,21 @@
     "building_short": null
   },
   {
-    "address": "Walther-von-Dyck-Strasse 10",
+    "address": "Walther-von-Dyck-Str. 10",
     "building_code": "8120",
     "building_id": 2131,
     "building_name": "Conference Center",
     "building_short": null
   },
   {
-    "address": "Walther-von-Dyck-Strasse 12",
+    "address": "Walther-von-Dyck-Str. 12",
     "building_code": "8121",
     "building_id": 2132,
     "building_name": "Courtyard Hotel",
     "building_short": null
   },
   {
-    "address": "Walther-von-Dyck-Strasse 6",
+    "address": "Walther-von-Dyck-Str. 6",
     "building_code": "8122",
     "building_id": 2591,
     "building_name": "Galileo B\u00fcro, W. v. Dyck-Str. 6",
