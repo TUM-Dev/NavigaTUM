@@ -5,8 +5,8 @@ use std::time::Duration;
 use cached::proc_macro::io_cached;
 use log::{error, warn};
 
-use crate::BoxedError;
 use crate::maps::overlay_map::OverlayMapTask;
+use crate::BoxedError;
 
 #[derive(Hash, Debug, Copy, Clone)]
 struct TileLocation {
