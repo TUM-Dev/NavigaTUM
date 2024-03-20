@@ -142,7 +142,7 @@ services:
             interval: 10s
             start_period: 60s
     meilisearch:
-        image: getmeili/meilisearch:v1.7.1
+        image: getmeili/meilisearch:v1.7.2
         restart: unless-stopped
         expose:
             - "7700"
