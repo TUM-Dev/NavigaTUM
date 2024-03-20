@@ -1,21 +1,20 @@
-mod fetch_tile;
-mod overlay_map;
-mod overlay_text;
+use std::io::Cursor;
+
+use actix_web::{get, web, HttpResponse};
+use image::Rgba;
+use log::{debug, error, warn};
+use sqlx::PgPool;
+use tokio::time::Instant;
+use unicode_truncate::UnicodeTruncateStr;
 
 use crate::maps::overlay_map::OverlayMapTask;
 use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
 use crate::models::Location;
-use actix_web::{get, web, HttpResponse};
-use image::Rgba;
-use std::io::Cursor;
-
-use log::{debug, error, warn};
-use sqlx::PgPool;
-
-use tokio::time::Instant;
-use unicode_truncate::UnicodeTruncateStr;
-
 use crate::utils;
+
+mod fetch_tile;
+mod overlay_map;
+mod overlay_text;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
     cfg.service(maps_handler);
@@ -73,7 +72,7 @@ async fn construct_image_from_data(_id: &str, data: Location) -> Option<Vec<u8>>
 
 fn wrap_image_in_response(img: &image::RgbaImage) -> Vec<u8> {
     let mut w = Cursor::new(Vec::new());
-    img.write_to(&mut w, image::ImageOutputFormat::Png).unwrap();
+    img.write_to(&mut w, image::ImageFormat::Png).unwrap();
     w.into_inner()
 }
 
@@ -110,7 +109,7 @@ fn load_default_image() -> Vec<u8> {
     let img = image::load_from_memory(include_bytes!("static/logo-card.png")).unwrap();
     // encode the image as PNG
     let mut w = Cursor::new(Vec::new());
-    img.write_to(&mut w, image::ImageOutputFormat::Png).unwrap();
+    img.write_to(&mut w, image::ImageFormat::Png).unwrap();
     w.into_inner()
 }
 

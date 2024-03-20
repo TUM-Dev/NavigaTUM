@@ -49,7 +49,7 @@ reqwest = { version = "0.11.27", default-features = false, features = ["tokio-ru
 # image production
 image = { version = "0.25.0", default-features = false, features = ["jpeg", "png", "webp"] }
 imageproc = "0.24.0"
-rusttype = "0.9.3"
+ab_glyph = "0.2.23"
 lazy_static = "1.4.0"
 
 [dev-dependencies]
