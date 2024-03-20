@@ -4,9 +4,7 @@ FROM    rust:1.76-alpine AS compiler
 # this is not an issue since we copy the generated binary to a more minimal envornment
 # Descriptions:
 # - musl-dev is needed fpr musl to compile the binary
-# - libpq-dev is needed for diesel (sigh)
-# - libwebp-dev is until the `image` has finsihed the refactoring effort
-RUN     apk add -q --update-cache --no-cache musl-dev libpq-dev libwebp-dev
+RUN     apk add -q --update-cache --no-cache musl-dev
 
 WORKDIR /compiler
 ENV     USER=root
@@ -40,7 +38,7 @@ ARG     GIT_COMMIT_SHA
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 
 RUN     apk update --quiet \
-     && apk add -q --no-cache libgcc libpq-dev libwebp tini curl
+     && apk add -q --no-cache libgcc tini curl
 
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
