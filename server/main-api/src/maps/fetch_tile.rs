@@ -122,15 +122,14 @@ async fn download_map_image(location: TileLocation) -> Result<Vec<u8>, BoxedErro
         // wait with exponential backoff
         if res.len() > 500 {
             return Ok(res.into());
-        } else {
-            let wait_time_ms = 1.5_f32.powi(i).round() as u64;
-            let wait_time = Duration::from_millis(wait_time_ms);
-            warn!(
-                "retrying tileserver-request in {wait_time:?} because it is only {request_len}B",
-                request_len = res.len()
-            );
-            tokio::time::sleep(wait_time).await;
         }
+        let wait_time_ms = 1.5_f32.powi(i).round() as u64;
+        let wait_time = Duration::from_millis(wait_time_ms);
+        warn!(
+            "retrying tileserver-request in {wait_time:?} because it is only {request_len}B",
+            request_len = res.len()
+        );
+        tokio::time::sleep(wait_time).await;
     }
     Err(format!("Got only short Responses from {url}").into())
 }

@@ -1,7 +1,9 @@
-use crate::search::search_executor::lexer::Token;
+use std::collections::HashSet;
+
 use log::warn;
 use logos::Logos;
-use std::collections::HashSet;
+
+use crate::search::search_executor::lexer::Token;
 
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct Filter {
@@ -13,17 +15,17 @@ impl Filter {
     pub(crate) fn as_meilisearch_filters(&self) -> String {
         let mut filters = vec![];
         if !self.parents.is_empty() {
-            let parents: Vec<&str> = self.parents.iter().map(|s| s.as_str()).collect();
+            let parents: Vec<&str> = self.parents.iter().map(String::as_str).collect();
             filters.push(format!(
                 "((parent_keywords IN {parents:?}) OR (parent_building_names IN {parents:?}) OR (campus IN {parents:?}))"
             ));
         }
         if !self.types.is_empty() {
-            let types: Vec<&str> = self.types.iter().map(|s| s.as_str()).collect();
+            let types: Vec<&str> = self.types.iter().map(String::as_str).collect();
             filters.push(format!("(type IN {types:?})"));
         }
         if !self.usages.is_empty() {
-            let usages: Vec<&str> = self.usages.iter().map(|s| s.as_str()).collect();
+            let usages: Vec<&str> = self.usages.iter().map(String::as_str).collect();
             filters.push(format!("(usage IN {usages:?})"));
         }
         filters.join(" AND ")

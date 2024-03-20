@@ -1,7 +1,9 @@
-use crate::proposed_edits::AppliableEdit;
-use serde::Deserialize;
 use std::ops::Range;
 use std::path::{Path, PathBuf};
+
+use serde::Deserialize;
+
+use crate::proposed_edits::AppliableEdit;
 
 struct CoordinateFile {
     path: PathBuf,
@@ -68,7 +70,7 @@ impl Coordinate {
         let filenames = std::fs::read_dir(coord_dir)
             .unwrap()
             .map(|res| res.map(|e| e.path()))
-            .filter_map(|res| res.ok())
+            .filter_map(Result::ok)
             .map(CoordinateFile::from);
         let best_match = filenames
             .filter(|co| co.matches().contains(&building))
@@ -125,9 +127,11 @@ impl AppliableEdit for Coordinate {
 
 #[cfg(test)]
 mod test_coordinate {
-    use super::*;
-    use pretty_assertions::assert_eq;
     use std::fs;
+
+    use pretty_assertions::assert_eq;
+
+    use super::*;
 
     fn setup() -> (tempfile::TempDir, PathBuf) {
         let dir = tempfile::TempDir::new().unwrap();
