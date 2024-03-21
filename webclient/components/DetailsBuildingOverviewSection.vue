@@ -16,7 +16,7 @@ const appURL = import.meta.env.VITE_APP_URL;
 </script>
 
 <template>
-  <section v-if="props.buildings">
+  <section v-if="props.buildings" class="print:!hidden">
     <h2 class="text-zinc-800 pb-3 text-lg font-semibold">{{ t("title") }}</h2>
     <!--  <a class="no-underline" href="#">Übersichtskarte <ArrowRightIcon class="w-4 h-4" /> -->
     <div class="text-zinc-600 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">

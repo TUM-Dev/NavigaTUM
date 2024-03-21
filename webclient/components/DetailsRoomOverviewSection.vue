@@ -48,7 +48,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
 <template>
   <div
     v-if="props.rooms?.usages"
-    class="bg-white border-zinc-300 flex flex-col gap-3 rounded border p-4 dark:bg-zinc-100"
+    class="bg-white border-zinc-300 flex flex-col gap-3 rounded border p-4 dark:bg-zinc-100 print:!hidden"
   >
     <p class="text-zinc-800 text-lg font-semibold">{{ t("title") }}</p>
     <div class="flex flex-col gap-2">

@@ -98,7 +98,7 @@ onMounted(draw);
 
 <template>
   <div
-    class="mx-auto"
+    class="mx-auto print:!max-w-40"
     :class="{
       'max-w-sm': map.height > map.width,
       'max-w-2xl': map.height <= map.width,
