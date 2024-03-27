@@ -37,7 +37,7 @@ const navigation = computed(() => [
 </script>
 
 <template>
-  <footer data-cy="main-footer" class="bg-zinc-100 mt-10">
+  <footer data-cy="main-footer" class="bg-zinc-100 mt-10 print:!hidden">
     <div class="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-14 lg:px-8">
       <nav class="-mb-6 columns-2 text-center sm:columns-3 sm:justify-center sm:space-x-12 md:flex" aria-label="Footer">
         <div v-for="item in navigation" :key="item.name" class="pb-6 text-sm leading-6">

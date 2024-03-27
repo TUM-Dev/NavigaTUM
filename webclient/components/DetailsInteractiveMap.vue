@@ -101,6 +101,11 @@ function initMap(containerId: string) {
     // slower, but prettier and therefore worth it for our use case
     antialias: true,
 
+    // without this true, printing the webpage is not possible
+    // with this true the performance is halfed though...
+    // => we are deliberetely not supporing printing of this part of the webpage
+    preserveDrawingBuffer: false,
+
     // preview of the following style is available at
     // https://nav.tum.de/maps/
     style: `${import.meta.env.VITE_APP_URL}/maps/styles/osm-liberty/style.json`,
@@ -259,7 +264,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 <template>
   <div
     id="interactive-map-container"
-    class="mb-2.5 aspect-4/3"
+    class="mb-2.5 aspect-4/3 print:!hidden"
     :class="{ hidden: state.map.selected !== MapSelections.interactive, errormessage: !webglSupport }"
   >
     <div>
@@ -335,7 +340,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   padding: 0;
 
   &.marker-pin {
-    background-image: url(@/assets/map/marker_pin.webp);
+    background-image: url(/assets/map/marker_pin.webp);
     width: 25px;
     height: 36px;
     top: -33px;
@@ -343,14 +348,16 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   }
 
   &.marker-shadow {
-    background-image: url(@/assets/map/marker_pin-shadow.webp);
+    background-image: url(/assets/map/marker_pin-shadow.webp);
     width: 38px;
     height: 24px;
     top: -20px;
     left: -12px;
   }
 }
-
+.maplibregl-control-container {
+  @apply print:!hidden;
+}
 .maplibregl-ctrl-group.floor-ctrl {
   max-width: 100%;
   display: none;

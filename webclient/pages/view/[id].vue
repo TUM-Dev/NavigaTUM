@@ -114,7 +114,7 @@ onMounted(() => {
     <button
       v-if="state.image.shown_image"
       type="button"
-      class="focusable !-mx-5 block lg:hidden"
+      class="focusable !-mx-5 block lg:hidden print:!hidden"
       @click="state.showImageSlideshow(true)"
     >
       <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${state.image.shown_image.name}`" class="block w-full" />
@@ -184,7 +184,7 @@ onMounted(() => {
             <DetailsRoomfinderMap ref="roomfinderMap" />
           </TabPanel>
         </TabPanels>
-        <TabList class="bg-zinc-100 flex space-x-1 rounded-md p-1">
+        <TabList class="bg-zinc-100 flex space-x-1 rounded-md p-1 print:!hidden">
           <Tab v-slot="{ selected }" as="template" @click="interactiveMap?.loadInteractiveMap(true)">
             <button
               type="button"
