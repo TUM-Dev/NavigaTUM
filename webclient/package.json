@@ -41,7 +41,7 @@
     "npm-run-all2": "6.1.2",
     "postcss": "8.4.38",
     "prettier": "3.2.5",
-    "prettier-plugin-tailwindcss": "0.5.12",
+    "prettier-plugin-tailwindcss": "0.5.13",
     "sass": "1.72.0",
     "stylelint-scss": "6.2.1",
     "tailwindcss": "3.4.1",
