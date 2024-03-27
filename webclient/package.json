@@ -44,10 +44,10 @@
     "prettier-plugin-tailwindcss": "0.5.13",
     "sass": "1.72.0",
     "stylelint-scss": "6.2.1",
-    "tailwindcss": "3.4.1",
+    "tailwindcss": "3.4.2",
     "typescript": "5.4.3",
-    "vite": "5.2.3",
-    "vite-plugin-vue-devtools": "7.0.20",
+    "vite": "5.2.6",
+    "vite-plugin-vue-devtools": "7.0.24",
     "vue-i18n": "9.10.2",
     "vue-tsc": "2.0.7"
   },
