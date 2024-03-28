@@ -4,7 +4,6 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import Markdown from "unplugin-vue-markdown/vite";
 import prism from "markdown-it-prism";
 import path from "path";
-//import VueDevTools from "vite-plugin-vue-devtools";
 
 export default defineConfig({
   envDir: "env",
@@ -49,9 +48,6 @@ export default defineConfig({
     Markdown({
       markdownItUses: [prism],
     }),
-    // currently the devtools fucks MAJORLY with the darkmode with no way of configuring it
-    // (darkmode will get randomly enabled/disabled)
-    // VueDevTools(),
   ],
   resolve: {
     alias: {
