@@ -31,7 +31,7 @@ export type paths = {
   };
   "/api/calendar/{id}": {
     /**
-     * Get a
+     * Retrieve Calendar Entries
      * @description Retrieves calendar entries for a specific `id` within the requested time span.
      * The time span is defined by the `start_after` and `end_before` query parameters.
      * Ensure to provide valid date-time formats for these parameters.
@@ -609,27 +609,7 @@ export type components = {
       readonly props: components["schemas"]["Props"];
       readonly imgs?: readonly components["schemas"]["ImageInfo"][];
       readonly ranking_factors: components["schemas"]["RankingFactors"];
-      /** @description Where we got our data from, should be displayed at the bottom of any page containing this data */
-      readonly sources: {
-        /**
-         * @description Was this entry patched by us? (e.g. to fix a typo in the name/...)
-         * If so, we should not display the source, as it is not the original source.
-         */
-        readonly patched?: boolean;
-        /** @description What is the basis of the data we have */
-        readonly base: readonly {
-          /**
-           * @description The name of the provider
-           * @example NavigaTUM
-           */
-          readonly name: string;
-          /**
-           * @description The url of the provider
-           * @example https://nav.tum.de
-           */
-          readonly url?: string;
-        }[];
-      };
+      readonly sources: components["schemas"]["DataSources"];
       /**
        * @description The url, this item should be displayed at.
        * Present on both redirects and normal entries, to allow for the common /view/:id path
@@ -687,6 +667,27 @@ export type components = {
        * @example Vorlesung mit Zentralübung
        */
       readonly detailed_entry_type: string;
+    };
+    /** @description Where we got our data from, should be displayed at the bottom of any page containing this data */
+    readonly DataSources: {
+      /**
+       * @description Was this entry patched by us? (e.g. to fix a typo in the name/...)
+       * If so, we should not display the source, as it is not the original source.
+       */
+      readonly patched?: boolean;
+      /** @description What is the basis of the data we have */
+      readonly base: readonly {
+        /**
+         * @description The name of the provider
+         * @example NavigaTUM
+         */
+        readonly name: string;
+        /**
+         * @description The url of the provider
+         * @example https://nav.tum.de
+         */
+        readonly url?: string;
+      }[];
     };
     readonly RankingFactors: {
       /**
@@ -943,7 +944,7 @@ export type operations = {
     };
   };
   /**
-   * Get a
+   * Retrieve Calendar Entries
    * @description Retrieves calendar entries for a specific `id` within the requested time span.
    * The time span is defined by the `start_after` and `end_before` query parameters.
    * Ensure to provide valid date-time formats for these parameters.

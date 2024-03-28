@@ -213,10 +213,10 @@ paths:
                   value:
                     sections:
                       - facet: sites_buildings
-                        entries: []
+                        entries: [ ]
                         estimatedTotalHits: 0
                       - facet: rooms
-                        entries: []
+                        entries: [ ]
                         estimatedTotalHits: 0
                     time_ms: 6
                 interims-2:
@@ -893,7 +893,7 @@ paths:
         '200':
           description: More data about the requested building/room
           content:
-            image/png: {}
+            image/png: { }
         '404':
           description: Invalid input
           content:
@@ -1135,7 +1135,7 @@ paths:
         '200':
           description: The image you requested
           content:
-            image/webp: {}
+            image/webp: { }
         '400':
           description: |
             Bad Request.    
@@ -1192,7 +1192,7 @@ paths:
         '200':
           description: The map you requested
           content:
-            image/webp: {}
+            image/webp: { }
         '400':
           description: |
             Bad Request.    
@@ -2017,33 +2017,7 @@ components:
         ranking_factors:
           $ref: '#/components/schemas/RankingFactors'
         sources:
-          description: 'Where we got our data from, should be displayed at the bottom of any page containing this data'
-          type: object
-          properties:
-            patched:
-              description: |
-                Was this entry patched by us? (e.g. to fix a typo in the name/...)
-                If so, we should not display the source, as it is not the original source.
-              type: boolean
-            base:
-              description: What is the basis of the data we have
-              type: array
-              items:
-                type: object
-                minProperties: 1
-                properties:
-                  name:
-                    description: The name of the provider
-                    type: string
-                    example: NavigaTUM
-                  url:
-                    description: The url of the provider
-                    type: string
-                    example: 'https://nav.tum.de'
-                required:
-                  - name
-          required:
-            - base
+          $ref: '#/components/schemas/DataSources'
         redirect_url:
           description: |
             The url, this item should be displayed at.
@@ -2123,6 +2097,34 @@ components:
         - end
         - entry_type
         - detailed_entry_type
+    DataSources:
+      description: 'Where we got our data from, should be displayed at the bottom of any page containing this data'
+      type: object
+      properties:
+        patched:
+          description: |
+            Was this entry patched by us? (e.g. to fix a typo in the name/...)
+            If so, we should not display the source, as it is not the original source.
+          type: boolean
+        base:
+          description: What is the basis of the data we have
+          type: array
+          items:
+            type: object
+            minProperties: 1
+            properties:
+              name:
+                description: The name of the provider
+                type: string
+                example: NavigaTUM
+              url:
+                description: The url of the provider
+                type: string
+                example: 'https://nav.tum.de'
+            required:
+              - name
+      required:
+        - base
     RankingFactors:
       type: object
       properties:
