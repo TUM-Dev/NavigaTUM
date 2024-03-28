@@ -26,12 +26,12 @@ serde_json.workspace = true
 rustls.workspace = true
 
 rand = "0.8.5"
-regex = "1.10.3"
-octocrab = { version = "0.36.0", default-features = false, features = ["rustls", "rustls-webpki-tokio", "retry", "default-client"] }
+regex = "1.10.4"
+octocrab = { version = "0.37.0", default-features = false, features = ["rustls", "rustls-webpki-tokio", "retry", "default-client"] }
 
 # web
-jsonwebtoken = { version = "9.2.0", default-features = false, features = [] }
-chrono = { version = "0.4.35", default-features = false, features = [] }
+jsonwebtoken = { version = "9.3.0", default-features = false, features = [] }
+chrono = { version = "0.4.37", default-features = false, features = [] }
 actix-governor = { version = "0.5.0", features = ["logger"] }
 
 # proposing feedback
