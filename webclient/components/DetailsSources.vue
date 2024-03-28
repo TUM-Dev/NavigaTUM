@@ -1,8 +1,17 @@
 <script setup lang="ts">
-import { useDetailsStore } from "../stores/details";
 import { useI18n } from "vue-i18n";
+import type { components } from "../api_types";
 
-const state = useDetailsStore();
+type ImageInfo = components["schemas"]["ImageInfo"];
+type Coordinate = components["schemas"]["Coordinate"];
+type DataSources = components["schemas"]["DataSources"];
+
+defineProps<{
+  coords: Coordinate;
+  sources: DataSources;
+  shownImage?: ImageInfo;
+}>();
+
 const { t } = useI18n({ useScope: "local" });
 </script>
 
@@ -10,43 +19,43 @@ const { t } = useI18n({ useScope: "local" });
   <section>
     <h2 class="text-md text-zinc-800 font-semibold">{{ t("title") }}</h2>
     <div class="text-zinc-600 text-sm">
-      <p v-if="state.data?.sources.base">
+      <p>
         {{ t("base.title") }}:
-        <span v-for="(e, i) in state.data.sources.base" :key="e.name">
+        <span v-for="(e, i) in sources.base" :key="e.name">
           <a v-if="e.url" :href="e.url">{{ e.name }}</a>
           <template v-else>{{ e.name }}</template>
-          <template v-if="i < state.data.sources.base.length - 1"> • </template>
+          <template v-if="i < sources.base.length - 1"> • </template>
         </span>
-        <span v-if="state.data.sources.patched">
+        <span v-if="sources.patched">
           <br />
           ({{ t("base.patched") }})
         </span>
       </p>
-      <p v-if="state.image.shown_image">
+      <p v-if="shownImage">
         {{ t("header_img") }}:
-        <span>{{ state.image.shown_image.author.text }}</span>
-        <span v-if="state.image.shown_image.source">
+        <span>{{ shownImage.author.text }}</span>
+        <span v-if="shownImage.source">
           •
-          <a v-if="state.image.shown_image.source.url" :href="state.image.shown_image.source.url" target="_blank">
-            {{ state.image.shown_image.source.text }}
+          <a v-if="shownImage.source.url" :href="shownImage.source.url" target="_blank">
+            {{ shownImage.source.text }}
           </a>
-          <template v-else>{{ state.image.shown_image.source.text }}</template>
+          <template v-else>{{ shownImage.source.text }}</template>
         </span>
-        <span v-if="state.image.shown_image.license">
+        <span v-if="shownImage.license">
           •
-          <a v-if="state.image.shown_image.license.url" :href="state.image.shown_image.license.url" target="_blank">
-            {{ state.image.shown_image.license.text }}
+          <a v-if="shownImage.license.url" :href="shownImage.license.url" target="_blank">
+            {{ shownImage.license.text }}
           </a>
-          <template v-else>{{ state.image.shown_image.license.text }}</template>
+          <template v-else>{{ shownImage.license.text }}</template>
         </span>
       </p>
-      <p v-if="state.data?.coords">
+      <p>
         {{ t("coords.title") }}:
-        <span v-if="state.data.coords.source === 'navigatum'"> {{ t("coords.navigatum") }}</span>
-        <span v-if="state.data.coords.source === 'roomfinder'">
+        <span v-if="coords.source === 'navigatum'"> {{ t("coords.navigatum") }}</span>
+        <span v-if="coords.source === 'roomfinder'">
           {{ t("coords.roomfinder") }}
         </span>
-        <span v-if="state.data.coords.source === 'inferred'">
+        <span v-if="coords.source === 'inferred'">
           {{ t("coords.inferred") }}
         </span>
       </p>

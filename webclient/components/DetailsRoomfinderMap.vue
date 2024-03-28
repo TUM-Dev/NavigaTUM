@@ -1,41 +1,36 @@
 <script setup lang="ts">
-import { MapSelections, useDetailsStore } from "../stores/details";
 import { useI18n } from "vue-i18n";
 import Modal from "../components/Modal.vue";
 import RoomfinderImageLocation from "../components/RoomfinderImageLocation.vue";
-import { computed, ref } from "vue";
+import { computed, onBeforeMount, ref } from "vue";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 import type { components } from "../api_types";
 
 type RoomfinderMapEntry = components["schemas"]["RoomfinderMapEntry"];
 
-const state = useDetailsStore();
+const props = defineProps<{ available: readonly RoomfinderMapEntry[]; defaultMapId: string }>();
 const { t } = useI18n({ useScope: "local" });
 
-defineExpose({
-  loadRoomfinderMap,
-});
-
-function loadRoomfinderMap(mapIndex: number, fromUi = false) {
-  state.map.selected = MapSelections.roomfinder;
-  state.map.roomfinder.selected_index = mapIndex;
-
-  if (fromUi) {
-    window.scrollTo(0, 0);
-  }
-}
-
 const modalOpen = ref(false);
+onBeforeMount(() => {
+  for (let index = 0; index < props.available.length; index++) {
+    if (props.available[index].id === props.defaultMapId) {
+      selected_index.value = index;
+      return;
+    }
+  }
+});
+const selected_index = ref(0);
 const selectedMap = computed<RoomfinderMapEntry>(() => {
-  return state.data?.maps.roomfinder?.available[state.map.roomfinder.selected_index] as RoomfinderMapEntry;
+  return props.available[selected_index.value] as RoomfinderMapEntry;
 });
 </script>
 
 <template>
-  <template v-if="state.data?.maps.roomfinder?.available">
+  <template v-if="available">
     <div>
-      <Listbox v-model="state.map.roomfinder.selected_index">
+      <Listbox v-model="selected_index">
         <div class="relative mt-1">
           <ListboxButton
             class="focusable bg-white relative w-full cursor-pointer rounded-lg py-2 pl-3 pr-10 text-left shadow-md sm:text-sm"
@@ -55,7 +50,7 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
               class="bg-white absolute mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
             >
               <ListboxOption
-                v-for="(map, i) in state.data?.maps.roomfinder?.available"
+                v-for="(map, i) in available"
                 v-slot="{ active, selected }"
                 :key="map.id"
                 :value="i"
@@ -78,12 +73,12 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
         </div>
       </Listbox>
       <button type="button" :aria-label="t('open_detailed_modal')" @click="modalOpen = true">
-        <RoomfinderImageLocation id="rf_outer_image" :map="state.selectedRoomfinderMap()" />
+        <RoomfinderImageLocation id="rf_outer_image" :map="selectedMap" />
       </button>
     </div>
 
     <Modal v-model="modalOpen" :title="t('modal.header')" :classes="{ modal: 'items-baseline' }">
-      <RoomfinderImageLocation id="rf_modal_image" :map="state.selectedRoomfinderMap()" />
+      <RoomfinderImageLocation id="rf_modal_image" :map="selectedMap" />
     </Modal>
   </template>
 </template>

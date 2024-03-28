@@ -10,8 +10,7 @@ import DetailsRoomfinderMap from "../../components/DetailsRoomfinderMap.vue";
 import { useI18n } from "vue-i18n";
 import { setDescription, setTitle } from "../../composables/common";
 import { useClipboard } from "@vueuse/core";
-import { MapSelections, useDetailsStore } from "../../stores/details";
-import { computed, nextTick, onMounted, ref, watchEffect } from "vue";
+import { computed, nextTick, onMounted, ref, shallowRef, watchEffect } from "vue";
 import { useFetch } from "../../composables/fetch";
 import { useRoute, useRouter } from "vue-router";
 import type { components } from "../../api_types";
@@ -22,22 +21,34 @@ import BreadcrumbList from "../../components/BreadcrumbList.vue";
 import Spinner from "../../components/Spinner.vue";
 
 type DetailsResponse = components["schemas"]["DetailsResponse"];
+type ImageInfo = components["schemas"]["ImageInfo"];
 
 const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const router = useRouter();
-const state = useDetailsStore();
+const data = shallowRef<DetailsResponse | null>(null);
+const shownImage = ref<ImageInfo | undefined>(undefined);
+const slideshowOpen = ref(false);
+
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 const appURL = import.meta.env.VITE_APP_URL;
+const selectedMap = ref<"interactive" | "roomfinder">("interactive");
 
-function loadData(data: DetailsResponse) {
-  if (route.fullPath !== data.redirect_url) router.replace({ path: data.redirect_url });
+function loadData(d: DetailsResponse) {
+  if (route.fullPath !== d.redirect_url) router.replace({ path: d.redirect_url });
+  data.value = d;
   // --- Additional data ---
-  setTitle(data.name);
-  setDescription(genDescription(data));
-  state.$reset();
-  state.loadData(data);
+  slideshowOpen.value = false;
+  setTitle(d.name);
+  setDescription(genDescription(d));
+  selectedMap.value = d.maps.default;
+  // --- Images ---
+  if (d.imgs && d.imgs.length > 0) {
+    shownImage.value = d.imgs[0];
+  } else {
+    shownImage.value = undefined;
+  }
   tryToLoadMap();
 }
 
@@ -77,8 +88,10 @@ function tryToLoadMap() {
    * @return {boolean} Whether the loading was successful
    */
   if (document.getElementById("interactive-map") !== null) {
-    if (state.map.selected === MapSelections.interactive) interactiveMap.value?.loadInteractiveMap();
-    else roomfinderMap.value?.loadRoomfinderMap(state.map.roomfinder.selected_index);
+    const previoslyOnInteractiveMap = false
+    if ( === "interactive") interactiveMap.value?.loadInteractiveMap(false,previoslyOnInteractiveMap);
+    // scrolling to the top after navigation
+    window.scrollTo({ top: 0, behavior: "auto" });
     return true;
   }
   return false;
@@ -109,21 +122,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="state.data" class="flex flex-col gap-5">
+  <div v-if="data" class="flex flex-col gap-5">
     <!-- Header image (on mobile) -->
     <button
-      v-if="state.image.shown_image"
+      v-if="shownImage"
       type="button"
       class="focusable !-mx-5 block lg:hidden print:!hidden"
-      @click="state.showImageSlideshow(true)"
+      @click="slideshowOpen = !!data.imgs"
     >
-      <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${state.image.shown_image.name}`" class="block w-full" />
+      <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${shownImage.name}`" class="block w-full" />
     </button>
 
     <!-- Entry header / title -->
     <div>
       <BreadcrumbList
-        :items="state.data.parent_names.map((n, i) => ({ name: n, to: '/view/' + state.data?.parents[i] }))"
+        :items="data.parent_names.map((n, i) => ({ name: n, to: '/view/' + data?.parents[i] }))"
         class="pb-3 pt-6"
       />
       <div class="group flex flex-row gap-2">
@@ -138,22 +151,22 @@ onMounted(() => {
           <ClipboardDocumentCheckIcon v-if="copied" class="h-4 w-4" />
           <LinkIcon v-else class="h-4 w-4" />
         </button>
-        <h1 class="text-zinc-700 text-xl font-bold">{{ state.data?.name }}</h1>
+        <h1 class="text-zinc-700 text-xl font-bold">{{ data.name }}</h1>
       </div>
       <div>
         <div class="flex grow place-items-center justify-between">
-          <span class="text-zinc-500 mt-0.5 text-sm">{{ state.data?.type_common_name }}</span>
+          <span class="text-zinc-500 mt-0.5 text-sm">{{ data.type_common_name }}</span>
           <div class="flex flex-row place-items-center gap-3">
             <a
-              v-if="state.data?.props?.calendar_url"
-              :href="state.data.props.calendar_url"
+              v-if="data.props?.calendar_url"
+              :href="data.props.calendar_url"
               target="_blank"
               class="focusable rounded-sm"
               :title="t('header.calendar')"
             >
               <CalendarDaysIcon class="text-tumBlue-600 mt-0.5 h-4 w-4" />
             </a>
-            <ShareButton :coords="state.data.coords" :name="state.data.name" />
+            <ShareButton :coords="data.coords" :name="data.name" />
             <DetailsFeedbackButton ref="feedbackButton" />
             <!-- <button class="btn btn-link btn-action btn-sm"
                   :title="t('header.favorites')">
@@ -170,22 +183,36 @@ onMounted(() => {
       <TabGroup class="col-span-1 lg:col-span-2" as="div" manual>
         <div class="mb-3 grid gap-2 lg:hidden">
           <Toast
-            v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
+            v-if="data.type === 'room' && data.maps?.overlays?.default === null"
             level="warning"
             :msg="t('no_floor_overlay')"
           />
-          <Toast v-if="state.data.props.comment" :msg="state.data.props.comment" />
+          <Toast v-if="data.props.comment" :msg="data.props.comment" />
         </div>
         <TabPanels>
           <TabPanel :unmount="false">
-            <DetailsInteractiveMap ref="interactiveMap" />
+            <DetailsInteractiveMap ref="interactiveMap" :data="data" />
           </TabPanel>
           <TabPanel :unmount="false">
-            <DetailsRoomfinderMap ref="roomfinderMap" />
+            <DetailsRoomfinderMap
+              v-if="data.maps.roomfinder?.available"
+              ref="roomfinderMap"
+              :available="data.maps.roomfinder.available"
+              :default-map-id="data.maps.roomfinder.default"
+            />
           </TabPanel>
         </TabPanels>
         <TabList class="bg-zinc-100 flex space-x-1 rounded-md p-1 print:!hidden">
-          <Tab v-slot="{ selected }" as="template" @click="interactiveMap?.loadInteractiveMap(true)">
+          <Tab
+            v-slot="{ selected }"
+            as="template"
+            @click="
+              () => {
+                selectedMap = 'roomfinder';
+                interactiveMap?.loadInteractiveMap(true);
+              }
+            "
+          >
             <button
               type="button"
               class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
@@ -198,15 +225,20 @@ onMounted(() => {
               {{ t("map.interactive") }}
             </button>
           </Tab>
-          <Tab v-slot="{ selected }" as="template" :disabled="!state.data.maps.roomfinder?.available">
+          <Tab
+            v-slot="{ selected }"
+            as="template"
+            :disabled="!data.maps.roomfinder?.available"
+            @click="selectedMap = 'roomfinder'"
+          >
             <button
               type="button"
               class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
               :class="{
                 'text-zinc-900 bg-zinc-300 shadow': selected,
                 'text-zinc-800 bg-zinc-300/5': !selected,
-                'hover:text-zinc-900 hover:bg-zinc-500/20': state.data.maps.roomfinder?.available,
-                '!text-zinc-400 cursor-not-allowed': !state.data.maps.roomfinder?.available,
+                'hover:text-zinc-900 hover:bg-zinc-500/20': data.maps.roomfinder?.available,
+                '!text-zinc-400 cursor-not-allowed': !data.maps.roomfinder?.available,
               }"
             >
               {{ t("map.roomfinder") }}
@@ -216,12 +248,12 @@ onMounted(() => {
       </TabGroup>
       <!-- Map container -->
 
-      <DetailsInfoSection />
+      <DetailsInfoSection v-model:shown_image="shownImage" v-model:slideshow_open="slideshowOpen" :data="data" />
     </div>
 
-    <DetailsBuildingOverviewSection :buildings="state.data?.sections?.buildings_overview" />
-    <DetailsRoomOverviewSection :rooms="state.data?.sections?.rooms_overview" />
-    <DetailsSources />
+    <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview" />
+    <DetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
+    <DetailsSources :coords="data.coords" :sources="data.sources" :shown_image="shownImage" />
   </div>
   <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
     <Spinner class="h-8 w-8" />
