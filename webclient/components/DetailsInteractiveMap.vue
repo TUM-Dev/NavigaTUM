@@ -1,29 +1,25 @@
 <script setup lang="ts">
 import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
 import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
-import { MapSelections, useDetailsStore } from "../stores/details";
 import { nextTick, ref } from "vue";
 import { FloorControl } from "../modules/FloorControl";
 import { webglSupport } from "../composables/webglSupport";
 import { useI18n } from "vue-i18n";
+import type { components } from "../api_types";
 
+const props = defineProps<{ data: DetailsResponse }>();
+defineExpose({ loadInteractiveMap });
 const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
-const state = useDetailsStore();
 const { t } = useI18n({ useScope: "local" });
+
 const initialLoaded = ref(false);
 
-defineExpose({
-  loadInteractiveMap,
-});
+type DetailsResponse = components["schemas"]["DetailsResponse"];
 
-function loadInteractiveMap(fromUi = false) {
+function loadInteractiveMap(fromUi = false, previoslyOnInteractiveMap = false) {
   if (!webglSupport) return;
-
-  const fromMap = state.map.selected;
-
-  state.map.selected = MapSelections.interactive;
 
   const doMapUpdate = function () {
     // The map might or might not be initialized depending on the type
@@ -40,11 +36,11 @@ function loadInteractiveMap(fromUi = false) {
       }
     }
     marker.value = new Marker({ element: createMarker() });
-    const coords = state.data?.coords;
+    const coords = props.data.coords;
     if (coords !== undefined && map.value !== undefined)
       marker.value.setLngLat([coords.lon, coords.lat]).addTo(map.value as Map);
 
-    const overlays = state.data?.maps?.overlays;
+    const overlays = props.data.maps?.overlays;
     if (overlays) floorControl.value.updateFloors(overlays);
     else floorControl.value.resetFloors();
 
@@ -54,10 +50,10 @@ function loadInteractiveMap(fromUi = false) {
     };
 
     if (coords !== undefined) {
-      if (fromMap === MapSelections.interactive) {
+      if (previoslyOnInteractiveMap) {
         map.value?.flyTo({
           center: [coords.lon, coords.lat],
-          zoom: defaultZooms[state.data?.type || "undefined"] || 16,
+          zoom: defaultZooms[props.data.type || "undefined"] || 16,
           speed: 1,
           maxDuration: 2000,
         });
@@ -75,7 +71,7 @@ function loadInteractiveMap(fromUi = false) {
   // To have an animation when the roomfinder is opened some time later,
   // the cursor is set to 'zero' while the interactive map is displayed.
   if (fromUi) {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "auto" });
   }
 }
 
@@ -262,11 +258,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 </script>
 
 <template>
-  <div
-    id="interactive-map-container"
-    class="mb-2.5 aspect-4/3 print:!hidden"
-    :class="{ hidden: state.map.selected !== MapSelections.interactive, errormessage: !webglSupport }"
-  >
+  <div id="interactive-map-container" class="mb-2.5 aspect-4/3 print:!hidden" :class="{ errormessage: !webglSupport }">
     <div>
       <div v-if="webglSupport" id="interactive-map" class="loading" />
       <template v-else>
@@ -295,6 +287,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 /* --- Interactive map display --- */
 #interactive-map-container {
   /* --- User location dot --- */
+
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
     @apply bg-tumBlue-500;
@@ -306,8 +299,10 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
     background-color: $container-loading-bg;
     position: relative;
   }
+
   &.errormessage {
     @apply bg-red-300;
+
     & div {
       @apply bg-red-300 border-0 p-1 text-red-950;
     }
@@ -355,9 +350,11 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
     left: -12px;
   }
 }
+
 .maplibregl-control-container {
   @apply print:!hidden;
 }
+
 .maplibregl-ctrl-group.floor-ctrl {
   max-width: 100%;
   display: none;
@@ -408,6 +405,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   }
 
   /* vertical is default layout */
+
   & > .horizontal-oc {
     display: none;
   }

@@ -1,20 +1,26 @@
 <script setup lang="ts">
-import { useDetailsStore } from "../stores/details";
 import DetailsImageSlideshowModal from "../components/DetailsImageSlideshowModal.vue";
 import DetailsPropertyTable from "../components/DetailsPropertyTable.vue";
 import Toast from "../components/Toast.vue";
 import { useI18n } from "vue-i18n";
+import type { components } from "../api_types";
 
-const state = useDetailsStore();
+type DetailsResponse = components["schemas"]["DetailsResponse"];
+type ImageInfo = components["schemas"]["ImageInfo"];
+
+defineProps<{ data: DetailsResponse }>();
+
+const shownImage = defineModel<ImageInfo>("shown_image");
+const slideshowOpen = defineModel<boolean>("slideshow_open", { required: true });
 const { t } = useI18n({ useScope: "local" });
 const appURL = import.meta.env.VITE_APP_URL;
 </script>
 
 <template>
   <!-- Information section (on mobile) -->
-  <div v-if="state.data?.props?.computed" class="col-5 col-sm-12 column mt-4 block lg:hidden">
+  <div v-if="data.props?.computed" class="col-5 col-sm-12 column mt-4 block lg:hidden">
     <h2 class="text-zinc-800 pb-3 text-lg font-semibold">{{ t("info_title") }}</h2>
-    <DetailsPropertyTable />
+    <DetailsPropertyTable :props="data.props" />
   </div>
 
   <!-- Informationen card (desktop) -->
@@ -22,39 +28,35 @@ const appURL = import.meta.env.VITE_APP_URL;
        as long as only little information is there -->
   <div class="hidden lg:block">
     <div class="bg-white border-zinc-200 max-w-sm rounded-lg border shadow-md shadow-zinc-500/5 dark:bg-zinc-100">
-      <button
-        v-if="state.image.shown_image"
-        type="button"
-        class="focusable rounded-t-lg"
-        @click="state.showImageSlideshow(true)"
-      >
+      <button v-if="shownImage" type="button" class="focusable rounded-t-lg" @click="slideshowOpen = true">
         <img
           :alt="t('image_alt')"
-          :src="`${appURL}/cdn/header/${state.image.shown_image.name}`"
+          :src="`${appURL}/cdn/header/${shownImage.name}`"
           class="bg-zinc-100 block h-auto w-full max-w-full rounded-t-lg"
         />
       </button>
       <div class="px-5 py-3">
         <h2 class="sr-only">{{ t("info_title") }}</h2>
-        <DetailsPropertyTable />
+        <DetailsPropertyTable v-if="data" :props="data.props" />
         <div class="mt-3 grid gap-2">
+          <Toast v-if="data.coords.accuracy === 'building'" level="warning" :msg="t('msg.inaccurate_only_building')" />
           <Toast
-            v-if="state.data?.coords.accuracy === 'building'"
-            level="warning"
-            :msg="t('msg.inaccurate_only_building')"
-          />
-          <Toast
-            v-if="state.data?.type === 'room' && state.data?.maps?.overlays?.default === null"
+            v-if="data.type === 'room' && data.maps?.overlays?.default === null"
             level="warning"
             :msg="t('msg.no_floor_overlay')"
           />
-          <Toast v-if="state.data?.props?.comment" :msg="state.data.props.comment" />
+          <Toast v-if="data.props?.comment" :msg="data.props.comment" />
         </div>
       </div>
     </div>
     <!-- <button class="btn btn-link">Mehr Infos</button> -->
   </div>
-  <DetailsImageSlideshowModal v-if="state.image.slideshow_open" />
+  <DetailsImageSlideshowModal
+    v-if="slideshow_open && data.imgs !== undefined"
+    v-model:shown_image="shownImage"
+    v-model:slideshow_open="slideshowOpen"
+    :imgs="data.imgs"
+  />
 </template>
 
 <i18n lang="yaml">

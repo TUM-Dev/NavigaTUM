@@ -1,47 +1,49 @@
 <script setup lang="ts">
 import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import { useDetailsStore } from "../stores/details";
+import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
 import { useI18n } from "vue-i18n";
 import Modal from "../components/Modal.vue";
 import Btn from "../components/Btn.vue";
 import { computed } from "vue";
+import type { components } from "../api_types";
 
-const state = useDetailsStore();
+type ImageInfo = components["schemas"]["ImageInfo"];
+const props = defineProps<{ imgs: readonly ImageInfo[] }>();
 const { t } = useI18n({ useScope: "local" });
 const appURL = import.meta.env.VITE_APP_URL;
+
+const shownImage = defineModel<ImageInfo>("shown_image");
+const slideshowOpen = defineModel<boolean>("slideshow_open", { required: true });
 
 type OnSlideData = {
   currentSlideIndex: number;
   prevSlideIndex: number;
   slidesCount: number;
 };
+
 function onSlide({ currentSlideIndex }: OnSlideData): void {
   // if-statement just to make ts happy
-  if (state.data?.imgs) state.image.shown_image = state.data?.imgs[currentSlideIndex];
+  if (props.imgs) shownImage.value = props.imgs[currentSlideIndex];
 }
+
 interface SubTitle {
   title: string;
   url?: string | null;
   text: string;
 }
+
 const subtitles = computed<SubTitle[]>(() => {
-  if (!state.image.shown_image) return [];
+  if (!shownImage.value) return [];
   return [
-    { title: t("source"), ...state.image.shown_image.source },
-    { title: t("license"), ...state.image.shown_image.license },
-    { title: t("author"), ...state.image.shown_image.author },
+    { title: t("source"), ...shownImage.value.source },
+    { title: t("license"), ...shownImage.value.license },
+    { title: t("author"), ...shownImage.value.author },
   ];
 });
 </script>
 
 <template>
-  <Modal
-    v-if="state.data?.imgs"
-    v-model="state.image.slideshow_open"
-    :title="t('header')"
-    :classes="{ modal: '!min-w-[60vw]' }"
-  >
+  <Modal v-model="slideshowOpen" :title="t('header')" :classes="{ modal: '!min-w-[60vw]' }">
     <Carousel
       :items-to-show="1.15"
       snap-align="center"
@@ -49,7 +51,7 @@ const subtitles = computed<SubTitle[]>(() => {
       :pause-autoplay-on-hover="true"
       @slide-end="onSlide"
     >
-      <Slide v-for="img in state.data.imgs" :key="img.name">
+      <Slide v-for="img in imgs" :key="img.name">
         <div itemscope itemtype="http://schema.org/ImageObject" class="px-2">
           <img
             itemprop="contentUrl"
@@ -69,7 +71,7 @@ const subtitles = computed<SubTitle[]>(() => {
         <Pagination />
       </template>
     </Carousel>
-    <div v-if="state.image.shown_image" class="pt-5">
+    <div v-if="shownImage" class="pt-5">
       <div class="grid min-h-20 auto-cols-auto grid-cols-5 gap-5 text-center">
         <div
           v-for="(sub, i) in subtitles"
