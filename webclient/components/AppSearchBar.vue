@@ -1,20 +1,19 @@
 <script setup lang="ts">
+import type { SectionFacet } from "../modules/autocomplete";
 import { extractFacets } from "../modules/autocomplete";
 import { useRouter } from "vue-router";
-import { useGlobalStore } from "../stores/global";
 import { useI18n } from "vue-i18n";
 import { useFetch } from "../composables/fetch";
 import { computed, onMounted, reactive, ref } from "vue";
-import type { SectionFacet } from "../modules/autocomplete";
+import { BuildingOffice2Icon, BuildingOfficeIcon, MagnifyingGlassIcon, MapPinIcon } from "@heroicons/vue/24/outline";
+import { ChevronDownIcon } from "@heroicons/vue/16/solid";
+import Btn from "../components/Btn.vue";
 import type { components } from "../api_types";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
-import { MapPinIcon, MagnifyingGlassIcon, BuildingOfficeIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
-import { ChevronDownIcon } from "@heroicons/vue/16/solid";
-import Btn from "../components/Btn.vue";
+const searchBarFocused = defineModel<boolean>("searchBarFocused", { required: true });
 const { t, locale } = useI18n({ useScope: "local" });
-const global = useGlobalStore();
 const keep_focus = ref(false);
 const query = ref("");
 const autocomplete = reactive({ sections: [] as SectionFacet[], highlighted: null as string | null });
@@ -38,7 +37,7 @@ const visibleElements = computed<string[]>(() => {
 });
 
 function searchFocus(): void {
-  global.focusSearchBar();
+  searchBarFocused.value = true;
   autocomplete.highlighted = null;
 }
 
@@ -47,11 +46,11 @@ function searchBlur(): void {
     window.setTimeout(() => {
       // This is relevant if the call is delayed and focused has
       // already been disabled e.g. when clicking on an entry.
-      if (global.search_focused) document.getElementById("search")?.focus();
+      if (searchBarFocused.value) document.getElementById("search")?.focus();
     }, 0);
     keep_focus.value = false;
   } else {
-    global.unfocusSearchBar();
+    searchBarFocused.value = false;
   }
 }
 
@@ -59,7 +58,7 @@ function searchGo(cleanQuery: boolean): void {
   if (query.value.length === 0) return;
 
   router.push(`/search?q=${query.value}`);
-  global.unfocusSearchBar();
+  searchBarFocused.value = false;
   if (cleanQuery) {
     query.value = "";
     autocomplete.sections = [];
@@ -72,7 +71,7 @@ function searchGoTo(id: string, cleanQuery: boolean): void {
   // if navigation is aborted for some reason (e.g. the new
   // url is the same or there is a loop in redirects)
   router.push(`/view/${id}`);
-  global.unfocusSearchBar();
+  searchBarFocused.value = false;
   if (cleanQuery) {
     query.value = "";
     autocomplete.sections = [];
@@ -180,7 +179,7 @@ onMounted(() => {
   </div>
   <!-- Autocomplete -->
   <div
-    v-if="global.search_focused && autocomplete.sections.length !== 0"
+    v-if="searchBarFocused && autocomplete.sections.length !== 0"
     class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 -ms-2 me-3 mt-16 flex max-h-[calc(100vh-75px)] max-w-xl flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30"
   >
     <ul v-for="s in autocomplete.sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
@@ -226,7 +225,8 @@ onMounted(() => {
                 <span class="line-clamp-1" v-html="e.name" />
               </div>
               <small>
-                {{ e.subtext }}<template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
+                {{ e.subtext }}
+                <template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
               </small>
             </div>
           </RouterLink>
