@@ -18,7 +18,7 @@ const initialLoaded = ref(false);
 
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
-function loadInteractiveMap(fromUi = false, previoslyOnInteractiveMap = false) {
+function loadInteractiveMap(fromUi = false) {
   if (!webglSupport) return;
 
   const doMapUpdate = function () {
@@ -37,8 +37,7 @@ function loadInteractiveMap(fromUi = false, previoslyOnInteractiveMap = false) {
     }
     marker.value = new Marker({ element: createMarker() });
     const coords = props.data.coords;
-    if (coords !== undefined && map.value !== undefined)
-      marker.value.setLngLat([coords.lon, coords.lat]).addTo(map.value as Map);
+    if (map.value !== undefined) marker.value.setLngLat([coords.lon, coords.lat]).addTo(map.value as Map);
 
     const overlays = props.data.maps?.overlays;
     if (overlays) floorControl.value.updateFloors(overlays);
@@ -49,19 +48,12 @@ function loadInteractiveMap(fromUi = false, previoslyOnInteractiveMap = false) {
       room: 18,
     };
 
-    if (coords !== undefined) {
-      if (previoslyOnInteractiveMap) {
-        map.value?.flyTo({
-          center: [coords.lon, coords.lat],
-          zoom: defaultZooms[props.data.type || "undefined"] || 16,
-          speed: 1,
-          maxDuration: 2000,
-        });
-      } else {
-        map.value?.setZoom(16);
-        map.value?.setCenter([coords.lon, coords.lat]);
-      }
-    }
+    map.value?.flyTo({
+      center: [coords.lon, coords.lat],
+      zoom: defaultZooms[props.data.type || "undefined"] || 16,
+      speed: 1,
+      maxDuration: 2000,
+    });
   };
 
   // The map element should be visible when initializing

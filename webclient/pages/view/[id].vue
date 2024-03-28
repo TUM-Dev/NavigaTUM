@@ -88,8 +88,7 @@ function tryToLoadMap() {
    * @return {boolean} Whether the loading was successful
    */
   if (document.getElementById("interactive-map") !== null) {
-    const previoslyOnInteractiveMap = false
-    if ( === "interactive") interactiveMap.value?.loadInteractiveMap(false,previoslyOnInteractiveMap);
+    if (selectedMap.value === "interactive") interactiveMap.value?.loadInteractiveMap(false);
     // scrolling to the top after navigation
     window.scrollTo({ top: 0, behavior: "auto" });
     return true;
