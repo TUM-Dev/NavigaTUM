@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Footer from "./components/AppFooter.vue";
+import AppFooter from "./components/AppFooter.vue";
 import { useGlobalStore } from "./stores/global";
 import FeedbackModal from "./components/feedback/FeedbackModal.vue";
 import AppSearchBar from "./components/AppSearchBar.vue";
@@ -25,6 +25,6 @@ const searchBarFocused = ref(false);
     </div>
   </div>
 
-  <Footer />
+  <AppFooter />
   <FeedbackModal v-if="global.feedback.open" />
 </template>
