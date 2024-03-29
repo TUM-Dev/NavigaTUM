@@ -50,8 +50,8 @@ devDependencies:
     specifier: 4.0.0
     version: 4.0.0(vue-i18n@9.10.2)
   '@rushstack/eslint-patch':
-    specifier: 1.10.0
-    version: 1.10.0
+    specifier: 1.10.1
+    version: 1.10.1
   '@types/node':
     specifier: ^20.11.27
     version: 20.11.30
@@ -789,8 +789,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@rushstack/eslint-patch@1.10.0:
-    resolution: {integrity: sha512-ih6xH1dOGBTP/RNc/QbnVLLa/s80SkXydI7tnyq+a2eIdd7gDsmSpD1Jz7T1oCa+GIsVTyQCR3cW0tlYB97iFg==}
+  /@rushstack/eslint-patch@1.10.1:
+    resolution: {integrity: sha512-S3Kq8e7LqxkA9s7HKLqXGTGck1uwis5vAXan3FnU5yw1Ec5hsSGnq4s/UCaSqABPOnOTg7zASLyst7+ohgWexg==}
     dev: true
 
   /@swagger-api/apidom-ast@0.98.0:
@@ -866,6 +866,7 @@ packages:
 
   /@swagger-api/apidom-ns-json-schema-draft-4@0.98.0:
     resolution: {integrity: sha512-NgHyZ8a/Voeg4YzlWCX1zIidqFFA5236bjSs0g/DJAFDxi28jSs35OJKOXZz65T2LXIzdYytes9O/VyyxvHH5Q==}
+    requiresBuild: true
     dependencies:
       '@babel/runtime-corejs3': 7.24.1
       '@swagger-api/apidom-ast': 0.98.0
