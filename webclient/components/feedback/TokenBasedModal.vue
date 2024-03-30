@@ -1,27 +1,21 @@
 <script setup lang="ts">
-import { useGlobalStore } from "../../stores/global";
-import { ref } from "vue";
-import { useI18n } from "vue-i18n";
-import { useFeedbackToken } from "../../composables/feedbackToken";
-import Modal from "../Modal.vue";
-import Toast from "../Toast.vue";
-import Btn from "../Btn.vue";
-import Checkbox from "../../components/Checkbox.vue";
-import Spinner from "../../components/Spinner.vue";
+import { useFeedbackToken } from "~/composables/feedbackToken";
+import { useFeedback } from "~/composables/feedback";
 
 const props = defineProps<{
   data: { [index: string]: string | boolean | number };
 }>();
 
+const runtimeConfig = useRuntimeConfig();
 const { t } = useI18n({ useScope: "local" });
-const global = useGlobalStore();
 const loading = ref(false);
 const successUrl = ref("");
 const { error, token } = useFeedbackToken(t);
 const privacyChecked = ref(false);
+const feedback = useFeedback();
 
 function closeForm() {
-  global.feedback.open = false;
+  feedback.value.open = false;
   successUrl.value = "";
   error.blockSend = false;
   error.message = "";
@@ -33,12 +27,13 @@ enum SubmissionStatus {
   SERVER_ERROR = 500,
   FORBIDDEN = 403,
 }
+
 function _send() {
   // data is a `Window` which cannot be cloned by `structuredClone`, but can be by JSON.
   const data = JSON.parse(JSON.stringify(props.data));
   data.privacy_checked = privacyChecked.value;
   data.token = token.value?.token;
-  fetch(`/api/feedback/feedback`, {
+  fetch(`${runtimeConfig.public.apiURL}/api/feedback/feedback`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -87,11 +82,11 @@ function sendForm() {
   }
 
   // validate the foreign form
-  if (global.feedback.data.subject.length < 3) {
+  if (feedback.value.data.subject.length < 3) {
     error.message = t("error.form.too_short_subject");
     return;
   }
-  if (global.feedback.data.body.length < 10) {
+  if (feedback.value.data.body.length < 10) {
     error.message = t("error.form.too_short_body");
     return;
   }
@@ -100,14 +95,13 @@ function sendForm() {
   // Token may only be used after a short delay.
   const MINIMUM_DELAY_MS = 10_000;
   const timeSinceTokenCreationInMs = Date.now() - token.value.created_at;
-  if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS)
-    window.setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
+  if (timeSinceTokenCreationInMs < MINIMUM_DELAY_MS) setTimeout(_send, MINIMUM_DELAY_MS - timeSinceTokenCreationInMs);
   else _send();
 }
 </script>
 
 <template>
-  <Modal v-if="!successUrl" v-model="global.feedback.open" :title="t('title')" @close="closeForm">
+  <Modal v-if="!successUrl" v-model="feedback.open" :title="t('title')" @close="closeForm">
     <Toast v-if="error.message" class="mb-4" :msg="error.message" level="error" />
 
     <div class="flex flex-col gap-1">
@@ -151,12 +145,12 @@ function sendForm() {
             <p>
               <span>
                 {{ t("public.objection_instruction") }}
-                <RouterLink
+                <NuxtLink
                   tabindex="1"
                   to="/about/impressum"
                   class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline"
                 >
-                  {{ t("public.imprint") }} </RouterLink
+                  {{ t("public.imprint") }} </NuxtLink
                 >.
               </span>
               {{ t("public.question_contact.pre") }}
@@ -184,7 +178,10 @@ function sendForm() {
         v-bind="{ disabled: loading || error.blockSend }"
         @click="sendForm"
       >
-        <template v-if="loading"><Spinner class="my-auto h-4 w-4"></Spinner> {{ t("sending...") }}</template>
+        <template v-if="loading">
+          <Spinner class="my-auto h-4 w-4"></Spinner>
+          {{ t("sending...") }}
+        </template>
         <template v-else-if="error.blockSend">{{ t("try_again_later") }}</template>
         <template v-else>{{ t("send") }}</template>
       </Btn>
@@ -193,7 +190,7 @@ function sendForm() {
       </Btn>
     </div>
   </Modal>
-  <Modal v-if="successUrl" v-model="global.feedback.open" :title="t('thank_you')" @close="closeForm">
+  <Modal v-if="successUrl" v-model="feedback.open" :title="t('thank_you')" @close="closeForm">
     <slot name="success" :success-url="successUrl" />
 
     <Btn size="md" variant="primary" @click="closeForm">OK</Btn>

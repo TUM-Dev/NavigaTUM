@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import { useGlobalStore } from "../stores/global";
-import { useRoute } from "vue-router";
-import { useI18n } from "vue-i18n";
 const route = useRoute();
 import { ArrowRightIcon } from "@heroicons/vue/24/outline";
-import Btn from "../components/Btn.vue";
-const global = useGlobalStore();
+
+const feedback = useFeedback();
 const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
   <div class="mx-auto max-w-xl pt-4">
-    <img class="transpar" src="../assets/404_navigatum.svg" :alt="t('img_alt')" />
+    <img src="../assets/404_navigatum.svg" :alt="t('img_alt')" />
     <div class="flex flex-col items-center gap-1 p-5">
       <h5 class="text-slate-800 text-lg">{{ t("header") }}</h5>
       <p class="text-md text-slate-600">{{ t("description") }}</p>
@@ -21,8 +18,22 @@ const { t } = useI18n({ useScope: "local" });
         <Btn to="/" variant="primary">
           {{ t("go_home") }}
         </Btn>
-        <Btn variant="linkButton" @click="global.openFeedback('bug', `404 on \`${route.fullPath}\``, t('got_here'))">
-          {{ t("call_to_action") }} <ArrowRightIcon class="mt-0.5 h-4 w-4" />
+        <Btn
+          variant="linkButton"
+          @click="
+            () => {
+              feedback.open = true;
+              feedback.data = {
+                category: 'bug',
+                subject: `404 on \`${route.fullPath}\``,
+                body: t('got_here'),
+                deletion_requested: false,
+              };
+            }
+          "
+        >
+          {{ t("call_to_action") }}
+          <ArrowRightIcon class="mt-0.5 h-4 w-4" />
         </Btn>
       </div>
     </div>

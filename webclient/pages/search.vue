@@ -1,31 +1,17 @@
 <script setup lang="ts">
-import { useFetch } from "../composables/fetch";
-import { computed } from "vue";
-import { setDescription, setTitle } from "../composables/common";
-import type { SectionFacet } from "../modules/autocomplete";
-import { extractFacets } from "../modules/autocomplete";
-import { useGlobalStore } from "../stores/global";
-import { useI18n } from "vue-i18n";
-import { useRoute } from "vue-router";
-
-import type { components } from "../api_types";
+import type { SectionFacet } from "~/composables/autocomplete";
+import { extractFacets } from "~/composables/autocomplete";
+import type { components } from "~/api_types";
 import { ChevronDownIcon } from "@heroicons/vue/16/solid";
-import { MapPinIcon, MagnifyingGlassIcon, BuildingOfficeIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
-import Toast from "../components/Toast.vue";
-import ManyChangesToast from "../components/ManyChangesToast.vue";
+import { BuildingOffice2Icon, BuildingOfficeIcon, MagnifyingGlassIcon, MapPinIcon } from "@heroicons/vue/24/outline";
+
 type SearchResponse = components["schemas"]["SearchResponse"];
 
 const { t, locale } = useI18n({ useScope: "local" });
-const global = useGlobalStore();
 const route = useRoute();
+const runtimeConfig = useRuntimeConfig();
+const feedback = useFeedback();
 
-const sections = computed<SectionFacet[] | null>(() => {
-  if (data.value === null) return null;
-  // Currently borrowing this functionality from autocomplete.
-  // In the future it is planned that this search results page
-  // has a different format.
-  return extractFacets(data.value, t("sections.rooms"), t("sections.buildings"));
-});
 const apiUrl = computed(() => {
   const q = route.query.q;
   const params = new URLSearchParams();
@@ -37,17 +23,21 @@ const apiUrl = computed(() => {
   params.append("limit_all", "60");
   params.append("lang", locale.value);
 
-  return `/api/search?${params.toString()}`;
+  return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
-const { data } = useFetch<SearchResponse>(apiUrl, () => {
-  setTitle(`${t("search_for")} "${route.query.q}"`);
-  setDescription(genDescription());
+const { data } = useFetch<SearchResponse>(apiUrl, {});
+const sections = computed<SectionFacet[] | null>(() => {
+  if (data.value === null) return null;
+  // Currently borrowing this functionality from autocomplete.
+  // In the future it is planned that this search results page
+  // has a different format.
+  return extractFacets(data.value, t("sections.rooms"), t("sections.buildings"));
 });
-
-function genDescription(): string {
+const description = computed(() => {
+  if (data.value === null) return "";
   let sectionsDescr = "";
   let estimatedTotalHits = 0;
-  data.value?.sections.forEach((section) => {
+  data.value.sections.forEach((section) => {
     if (section.estimatedTotalHits) {
       let facetStr;
       if (section.facet === "sites_buildings") {
@@ -65,14 +55,19 @@ function genDescription(): string {
   if (estimatedTotalHits === 0) sectionsDescr = t("sections.no_buildings_rooms_found");
   else sectionsDescr += t("sections.were_found");
   return sectionsDescr;
-}
+});
+const title = computed(() => `${t("search_for")} "${route.query.q}"`);
+useSeoMeta({
+  title: title,
+  ogTitle: title,
+  description: description,
+  ogDescription: description,
+  ogImage: "https://nav.tum.de/navigatum-card.png",
+  twitterCard: "summary",
+});
 </script>
 
 <template>
-  <div class="-mb-1 flex flex-col gap-4 pt-5">
-    <Toast v-if="global.error_message" :msg="global.error_message" level="error" />
-    <ManyChangesToast />
-  </div>
   <div v-if="data" class="flex flex-col gap-5 pt-5">
     <small class="text-zinc-500">
       {{ t("runtime") }}: {{ data.time_ms }}ms –
@@ -81,7 +76,12 @@ function genDescription(): string {
         type="button"
         class="focusable text-tumBlue-600 visited:text-tumBlue-600 hover:text-tumBlue-500"
         :aria-label="t('feedback.open')"
-        @click="global.openFeedback('search')"
+        @click="
+          () => {
+            feedback.open = true;
+            feedback.data = { category: 'search', subject: '', body: '', deletion_requested: false };
+          }
+        "
       >
         {{ t("feedback.give") }}
       </button>
@@ -92,7 +92,7 @@ function genDescription(): string {
         <h2 class="text-md text-zinc-500 font-semibold">{{ s.name }}</h2>
         <ul class="flex flex-col gap-3">
           <li v-for="e in s.entries" :key="e.id" class="focusable rounded-sm border hover:bg-tumBlue-50">
-            <RouterLink :to="'/view/' + e.id" class="flex gap-3 p-4">
+            <NuxtLink :to="'/view/' + e.id" class="flex gap-3 p-4">
               <div class="my-auto min-w-11">
                 <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 p-2">
                   <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
@@ -110,7 +110,8 @@ function genDescription(): string {
                   <span class="line-clamp-1" v-html="e.name" />
                 </div>
                 <small>
-                  {{ e.subtext }}<template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
+                  {{ e.subtext }}
+                  <template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
                 </small>
               </div>
               <!-- <div class="tile-action">
@@ -118,7 +119,7 @@ function genDescription(): string {
                 <EllipsisVerticalIcon class="h-4 w-4"
               </button>
             </div> -->
-            </RouterLink>
+            </NuxtLink>
           </li>
         </ul>
         <p v-if="s.estimatedTotalHits > 20" class="text-zinc-500 text-sm">

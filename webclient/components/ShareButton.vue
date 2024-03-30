@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useClipboard, useShare } from "@vueuse/core";
 import type { UseShareOptions } from "@vueuse/core";
-import type { components } from "../api_types";
-import { useRoute } from "vue-router";
-import { useI18n } from "vue-i18n";
-import { ShareIcon, ClipboardIcon, ClipboardDocumentCheckIcon } from "@heroicons/vue/24/outline";
-import Modal from "../components/Modal.vue";
-import Btn from "../components/Btn.vue";
+import { useClipboard, useShare } from "@vueuse/core";
+import type { components } from "~/api_types";
+import { ClipboardDocumentCheckIcon, ClipboardIcon, ShareIcon } from "@heroicons/vue/24/outline";
 
 const props = defineProps<{
   readonly coords: components["schemas"]["Coordinate"];
@@ -37,13 +32,13 @@ const shareOptions = computed<UseShareOptions>(() => ({
       <div class="flex flex-col gap-2">
         <h3 class="text-md text-zinc-600 font-semibold">{{ t("open_in") }}</h3>
         <Btn variant="link" :to="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
-          >Google Maps</Btn
-        >
+          >Google Maps
+        </Btn>
         <Btn
           variant="link"
           :to="`https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lon}#map=17/${coords.lat}/${coords.lon}&layers=T`"
-          >OpenStreetMap</Btn
-        >
+          >OpenStreetMap
+        </Btn>
         <Btn variant="link" :to="`geo:${coords.lat},${coords.lon}`">
           {{ t("other_app") }}
         </Btn>

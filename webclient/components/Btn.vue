@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed } from "vue";
-
 export interface Props {
   type?: "submit" | "reset" | "button";
   size?: "sm" | "md" | "lg" | string;
@@ -61,7 +59,7 @@ const sizeClasses = computed(() => {
   >
     <slot />
   </a>
-  <RouterLink
+  <NuxtLink
     v-else-if="props.to.length"
     :to="props.to"
     :aria-label="ariaLabel"
@@ -71,7 +69,7 @@ const sizeClasses = computed(() => {
     @click="emit('click')"
   >
     <slot />
-  </RouterLink>
+  </NuxtLink>
   <button
     v-else
     :aria-label="ariaLabel"

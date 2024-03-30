@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { useToggle } from "@vueuse/core";
-import type { components } from "../api_types";
-import { useI18n } from "vue-i18n";
-import Btn from "../components/Btn.vue";
-import { ChevronRightIcon, ChevronDownIcon, ChevronUpIcon, BuildingOffice2Icon } from "@heroicons/vue/24/outline";
+import type { components } from "~/api_types";
+import { BuildingOffice2Icon, ChevronDownIcon, ChevronRightIcon, ChevronUpIcon } from "@heroicons/vue/24/outline";
+
 type BuildingsOverview = components["schemas"]["BuildingsOverview"];
 
 const props = defineProps<{
@@ -12,7 +11,7 @@ const props = defineProps<{
 
 const [buildingsExpanded, toggleBuildingsExpanded] = useToggle(false);
 const { t } = useI18n({ useScope: "local" });
-const appURL = import.meta.env.VITE_APP_URL;
+const runtimeConfig = useRuntimeConfig();
 </script>
 
 <template>
@@ -21,7 +20,7 @@ const appURL = import.meta.env.VITE_APP_URL;
     <!--  <a class="no-underline" href="#">Übersichtskarte <ArrowRightIcon class="w-4 h-4" /> -->
     <div class="text-zinc-600 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">
-        <RouterLink
+        <NuxtLink
           v-if="i < props.buildings.n_visible || buildingsExpanded"
           :to="'/view/' + b.id"
           class="focusable border-zinc-200 flex flex-row items-center justify-between rounded-sm border border-solid p-3.5 !no-underline hover:bg-zinc-100"
@@ -32,7 +31,7 @@ const appURL = import.meta.env.VITE_APP_URL;
               <img
                 class="aspect-square h-11 w-11 rounded-full"
                 :alt="t('thumbnail_preview')"
-                :src="`${appURL}/cdn/thumb/${b.thumb}`"
+                :src="`${runtimeConfig.public.apiURL}/cdn/thumb/${b.thumb}`"
               />
             </figure>
             <div v-else class="text-white bg-tumBlue-500 min-w-11 rounded-full p-2">
@@ -44,7 +43,7 @@ const appURL = import.meta.env.VITE_APP_URL;
             </div>
           </div>
           <ChevronRightIcon class="h-4 w-4" />
-        </RouterLink>
+        </NuxtLink>
       </template>
     </div>
     <div v-if="props.buildings.n_visible < props.buildings.entries.length" class="mt-2">
@@ -53,8 +52,14 @@ const appURL = import.meta.env.VITE_APP_URL;
         :aria-label="buildingsExpanded ? t('show_less_buildings') : t('show_more_buildings')"
         @click="toggleBuildingsExpanded()"
       >
-        <template v-if="buildingsExpanded"><ChevronUpIcon class="mt-0.5 h-4 w-4" /> {{ t("less") }}</template>
-        <template v-else><ChevronDownIcon class="mt-0.5 h-4 w-4" /> {{ t("more") }}</template>
+        <template v-if="buildingsExpanded">
+          <ChevronUpIcon class="mt-0.5 h-4 w-4" />
+          {{ t("less") }}
+        </template>
+        <template v-else>
+          <ChevronDownIcon class="mt-0.5 h-4 w-4" />
+          {{ t("more") }}
+        </template>
       </Btn>
     </div>
   </section>

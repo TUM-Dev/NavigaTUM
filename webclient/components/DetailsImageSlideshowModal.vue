@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
-import { useI18n } from "vue-i18n";
-import Modal from "../components/Modal.vue";
-import Btn from "../components/Btn.vue";
-import { computed } from "vue";
-import type { components } from "../api_types";
+import type { components } from "~/api_types";
 
 type ImageInfo = components["schemas"]["ImageInfo"];
 const props = defineProps<{ imgs: readonly ImageInfo[] }>();
 const { t } = useI18n({ useScope: "local" });
-const appURL = import.meta.env.VITE_APP_URL;
+const runtimeConfig = useRuntimeConfig();
 
 const shownImage = defineModel<ImageInfo>("shown_image");
 const slideshowOpen = defineModel<boolean>("slideshow_open", { required: true });
@@ -56,8 +52,8 @@ const subtitles = computed<SubTitle[]>(() => {
           <img
             itemprop="contentUrl"
             :alt="t('image_alt')"
-            :src="`${appURL}/cdn/lg/${img.name}`"
-            :srcset="`${appURL}/cdn/sm/${img.name} 1024w,${appURL}/cdn/md/${img.name} 1920w,${appURL}/cdn/lg/${img.name} 3860w`"
+            :src="`${runtimeConfig.public.apiURL}/cdn/lg/${img.name}`"
+            :srcset="`${runtimeConfig.public.apiURL}/cdn/sm/${img.name} 1024w,${runtimeConfig.public.apiURL}/cdn/md/${img.name} 1920w,${runtimeConfig.public.apiURL}/cdn/lg/${img.name} 3860w`"
             class="max-h-2/3 w-full rounded sm:max-h-[30rem]"
           />
           <span v-if="img.license.url" class="hidden" itemprop="license"> {{ img.license.url }}</span>

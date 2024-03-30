@@ -12,6 +12,8 @@ dist
 dist-ssr
 coverage
 *.local
+.nuxt
+.output
 
 # Editor directories and files
 .vscode/*

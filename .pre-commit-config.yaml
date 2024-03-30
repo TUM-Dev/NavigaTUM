@@ -9,6 +9,7 @@ repos:
           - --allow-multiple-documents
         exclude: "(data/data_format_geo-entry.yaml)|(deployment/k3s/.*)|(webclient/pnpm-lock.yaml)"
       - id: check-json
+        exclude: "(webclient/tsconfig.json)"
       - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
       - id: check-case-conflict
@@ -57,8 +58,8 @@ repos:
     rev: 1.7.7
     hooks:
       - id: bandit
-        args: ["-c", "pyproject.toml"]
-        additional_dependencies: ["bandit[toml]"]
+        args: [ "-c", "pyproject.toml" ]
+        additional_dependencies: [ "bandit[toml]" ]
   # markdown
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.9.2

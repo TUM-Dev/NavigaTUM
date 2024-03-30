@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import Btn from "../components/Btn.vue";
-import Toast from "../components/Toast.vue";
-import { useGlobalStore } from "../stores/global";
-import { useI18n } from "vue-i18n";
-const global = useGlobalStore();
+import { useFeedback } from "~/composables/feedback";
+
 const { t } = useI18n({ useScope: "local" });
+const feedback = useFeedback();
 </script>
 
 <template>
@@ -14,7 +12,17 @@ const { t } = useI18n({ useScope: "local" });
       variant="link"
       size="ms-0 rounded-sm text-start pt-1.5"
       :aria-label="t('toast.open')"
-      @click="global.openFeedback('general', t('toast.feedback_subject'), t('toast.feedback_body'))"
+      @click="
+        () => {
+          feedback.open = true;
+          feedback.data = {
+            category: 'general',
+            subject: t('toast.feedback_subject'),
+            body: t('toast.feedback_body'),
+            deletion_requested: false,
+          };
+        }
+      "
     >
       {{ t("toast.call_to_action") }}
     </Btn>

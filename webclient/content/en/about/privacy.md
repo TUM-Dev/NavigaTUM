@@ -4,7 +4,8 @@
 
 ### Name and contact details of the person responsible
 
-The responsible person within the meaning of the data protection laws, in particular the EU General Data Protection Regulation (DSGVO), is:
+The responsible person within the meaning of the data protection laws, in particular the EU General Data Protection
+Regulation (DSGVO), is:
 
 Frank Elsinga representing ["OpenSource @ TUM e.V."](https://tum.dev).
 
@@ -29,9 +30,10 @@ E-mail: beauftragter(at)datenschutz.tum.de
 
 The feedback form is used on a purely voluntary basis.
 The processing is based on Art. 6 para. 1 lit. a DSGVO.
-In order to use the feedback form, the [Tearms of Service and GitHub Privacy Policy](https://docs.github.com/en/github/site-policy) must be agreed to.
+In order to use the feedback form,
+the [Tearms of Service and GitHub Privacy Policy](https://docs.github.com/en/github/site-policy) must be agreed to.
 Please note that data may be transferred outside the European Union.
-For non-public communication, please refer to the contact option via the [Imprint](/about/imprint).
+For non-public communication, please refer to the contact option via the [Imprint](/en/about/imprint).
 
 ### Recipients of personal data
 
@@ -47,9 +49,12 @@ E-mail: lrzpost(at)lrz.de
 www.lrz.de
 ```
 
-If necessary, your data will be transmitted to the competent supervisory and auditing authorities for the exercise of the respective control rights.
+If necessary, your data will be transmitted to the competent supervisory and auditing authorities for the exercise of
+the respective control rights.
 
-In the event of electronic transmission, data may be forwarded to the State Office for Information Security in order to prevent threats to information technology security and processed there on the basis of Art. 12 et seq. of the Bavarian E-Government Act.
+In the event of electronic transmission, data may be forwarded to the State Office for Information Security in order to
+prevent threats to information technology security and processed there on the basis of Art. 12 et seq. of the Bavarian
+E-Government Act.
 
 ### Duration of storage of personal data
 
@@ -59,7 +64,8 @@ The data voluntarily provided by a user will not be technically deleted unless t
 
 In addition, a user can have his or her comment deleted by us at any time.
 To do so, please write an e-mail to us (navigatum (at-symbol) tum.de) and provide the link to your comment.
-In addition, you can also contact the data protection officer listed below and/or the person responsible for data protection.
+In addition, you can also contact the data protection officer listed below and/or the person responsible for data
+protection.
 
 ## Your rights
 
@@ -68,11 +74,16 @@ If we process your personal data, you have the following rights as a data subjec
 - You have the right to information about the data stored about you (Art. 15 DSGVO).
 - If incorrect personal data is processed, you have the right to have it corrected (Art. 16 DSGVO).
 - If the legal requirements are met, you can request the deletion or restriction of processing (Art. 17 and 18 DSGVO).
-- If you have consented to the processing or if there is a contract for data processing and the data processing is carried out with the help of automated procedures, you may have the right to data portability (Art. 20 DSGVO).
-- If you have consented to the processing and the processing is based on this consent, you can revoke the consent at any time for the future.
-  The lawfulness of the data processing carried out on the basis of the consent until the revocation is not affected by this.
+- If you have consented to the processing or if there is a contract for data processing and the data processing is
+  carried out with the help of automated procedures, you may have the right to data portability (Art. 20 DSGVO).
+- If you have consented to the processing and the processing is based on this consent, you can revoke the consent at any
+  time for the future.
+  The lawfulness of the data processing carried out on the basis of the consent until the revocation is not affected by
+  this.
 
-You have the right to object to the processing of your data at any time on grounds relating to your particular situation, if the processing is carried out exclusively on the basis of Art. 6(1)(e) or (f) DSGVO (Art. 21(1) sentence 1 DSGVO).
+You have the right to object to the processing of your data at any time on grounds relating to your particular
+situation, if the processing is carried out exclusively on the basis of Art. 6(1)(e) or (f) DSGVO (Art. 21(1) sentence 1
+DSGVO).
 
 ### Right of complaint to the supervisory authority
 
@@ -90,18 +101,22 @@ https://www.datenschutz-bayern.de/
 
 ## Changes to our data protection policy
 
-We reserve the right to adapt this data protection declaration so that it always complies with the current legal requirements or in order to implement changes to our services in the data protection declaration, e.g. when introducing new services. The new data protection statement will then apply to your next visit.
+We reserve the right to adapt this data protection declaration so that it always complies with the current legal
+requirements or in order to implement changes to our services in the data protection declaration, e.g. when introducing
+new services. The new data protection statement will then apply to your next visit.
 
 ## Questions to the data protection officer
 
-If you have any questions about data protection, please write us an e-mail or contact the person responsible for data protection in our organisation directly.
+If you have any questions about data protection, please write us an e-mail or contact the person responsible for data
+protection in our organisation directly.
 You can find this person under the contact options mentioned in the imprint.
 
 ## B. Information about the website
 
 ### Further information
 
-For more detailed information on the processing of your data and your rights, you can contact us using the contact details given above (at the beginning of A.).
+For more detailed information on the processing of your data and your rights, you can contact us using the contact
+details given above (at the beginning of A.).
 
 ## Information on the Internet presence
 
@@ -123,7 +138,8 @@ www.lrz.de
 ### Logging
 
 When you call up this or other Internet pages, you transmit data to our web server via your Internet browser.
-The following data is temporarily recorded in a log file during an ongoing connection for communication between your internet browser and our web server:
+The following data is temporarily recorded in a log file during an ongoing connection for communication between your
+internet browser and our web server:
 
 - Date and time of the request
 - Amount of time the request took
@@ -137,10 +153,13 @@ The following data is temporarily recorded in a log file during an ongoing conne
 
 The data in this log file is processed as follows:
 
-- The log entries are continuously evaluated automatically in order to detect attacks on the web servers and to be able to react accordingly.
-- In individual cases, i.e. in the case of reported malfunctions, errors and security incidents, a manual analysis is carried out.
+- The log entries are continuously evaluated automatically in order to detect attacks on the web servers and to be able
+  to react accordingly.
+- In individual cases, i.e. in the case of reported malfunctions, errors and security incidents, a manual analysis is
+  carried out.
 
-Since no information is logged that can be clearly traced back to individuals, it is not possible to draw conclusions about individual persons.
+Since no information is logged that can be clearly traced back to individuals, it is not possible to draw conclusions
+about individual persons.
 
 Log entries are automatically deleted after a maximum of 2 weeks.
 
@@ -155,7 +174,8 @@ This function can be switched off by you through the settings of your Internet b
 
 ## SSL encryption
 
-To protect the security of your data during transmission, we use state-of-the-art encryption procedures (e.g. SSL) via HTTPS.
+To protect the security of your data during transmission, we use state-of-the-art encryption procedures (e.g. SSL) via
+HTTPS.
 
 ## Search queries
 
@@ -165,16 +185,19 @@ The caching period is a maximum of one week.
 
 ## Anonymous statistics
 
-In order to recognise problems and to further improve the offer, anonymous statistics are collected when using the services.
+In order to recognise problems and to further improve the offer, anonymous statistics are collected when using the
+services.
 These do not allow any traceability to the persons using the services.
 
 ### Cookies
 
 Like many other websites, we also use so-called "cookies".
-Cookies are small text files that are stored on your end device (laptop, tablet, smartphone or similar) when you visit our website.
+Cookies are small text files that are stored on your end device (laptop, tablet, smartphone or similar) when you visit
+our website.
 
 You can delete individual cookies or the entire cookie inventory.
-In addition, you will receive information and instructions on how to delete these cookies or block their storage in advance.
+In addition, you will receive information and instructions on how to delete these cookies or block their storage in
+advance.
 Depending on the provider of your browser, you will find the necessary information under the following links:
 
 - Mozilla Firefox: <https://support.mozilla.org/de/kb/cookies-loeschen-daten-von-websites-entfernen>
@@ -210,14 +233,18 @@ In the browser, the storage period is one year.
 
 ### Feedback
 
-When contacting us via a feedback form, the user's details are processed for the purpose of handling the contact enquiry and its processing pursuant to Art. 6 Para. 1 lit. b) DSGVO.
+When contacting us via a feedback form, the user's details are processed for the purpose of handling the contact enquiry
+and its processing pursuant to Art. 6 Para. 1 lit. b) DSGVO.
 A traceability to the person is only possible insofar as personal data is contained in the sent text.
-In addition to the data provided by the user, the room about which feedback was given, the date and the time of the feedback creation are also sent.
-It is also stored whether the user wishes the transmitted data to be deleted after the feedback processing has been completed.
+In addition to the data provided by the user, the room about which feedback was given, the date and the time of the
+feedback creation are also sent.
+It is also stored whether the user wishes the transmitted data to be deleted after the feedback processing has been
+completed.
 
 #### Recipient
 
-The transmitted feedback is stored publicly accessible on [GitHub](https://github.com/TUM-Dev/navigatum/issues) as part of our commitment to transparency.
+The transmitted feedback is stored publicly accessible on [GitHub](https://github.com/TUM-Dev/navigatum/issues) as part
+of our commitment to transparency.
 This means that they are not technically limited to one group of people.
 The user is presented with an issue link to track the processing of the feedback.
 If the user has requested immediate deletion, this function can no longer be technically provided.

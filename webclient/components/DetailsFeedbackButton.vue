@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { useGlobalStore } from "../stores/global";
-import { useRoute } from "vue-router";
-import { useI18n } from "vue-i18n";
 import { FlagIcon } from "@heroicons/vue/24/outline";
+import { useFeedback } from "~/composables/feedback";
 
 const route = useRoute();
-const global = useGlobalStore();
+const feedback = useFeedback();
 const { t } = useI18n({ useScope: "local" });
 </script>
 
@@ -15,7 +13,17 @@ const { t } = useI18n({ useScope: "local" });
     class="focusable rounded-sm"
     :title="t('feedback')"
     data-cy="open-feedback-details"
-    @click="global.openFeedback('entry', `[${route.params.id}]: `)"
+    @click="
+      () => {
+        feedback.open = true;
+        feedback.data = {
+          category: 'entry',
+          subject: `[${route.params.id}]: `,
+          body: '',
+          deletion_requested: false,
+        };
+      }
+    "
   >
     <FlagIcon class="text-tumBlue-600 h-4 w-4 hover:text-tumBlue-900" />
   </button>

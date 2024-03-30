@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import type { components } from "../api_types";
-import { useI18n } from "vue-i18n";
-import { onMounted, watch } from "vue";
+import type { components } from "~/api_types";
 import { useInterval } from "@vueuse/core";
+
 type RoomfinderMapEntry = components["schemas"]["RoomfinderMapEntry"];
 
 const props = defineProps<{
@@ -11,7 +10,7 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n({ useScope: "local" });
-const appURL = import.meta.env.VITE_APP_URL;
+const runtimeConfig = useRuntimeConfig();
 
 // count will increase every 150ms
 const counter = useInterval(150);
@@ -73,10 +72,11 @@ function getContext(): CanvasRenderingContext2D | null {
   const canvas = document.getElementById(props.id) as HTMLCanvasElement;
   return canvas?.getContext("2d");
 }
+
 function draw() {
   const ctx = getContext();
   if (ctx == null) return;
-  const mapURL = new URL(`${appURL}/cdn/maps/roomfinder/${props.map.file}`, import.meta.url);
+  const mapURL = new URL(`${runtimeConfig.public.apiURL}/cdn/maps/roomfinder/${props.map.file}`, import.meta.url);
   const mapSprite = new Image();
   mapSprite.src = mapURL.href;
 
@@ -92,6 +92,7 @@ function draw() {
     ctx.fillText(txt, props.map.width - 5, props.map.height - 5);
   });
 }
+
 watch(props, draw);
 onMounted(draw);
 </script>
@@ -104,7 +105,7 @@ onMounted(draw);
       'max-w-2xl': map.height <= map.width,
     }"
   >
-    <canvas :id="props.id" class="w-full" :width="map.width" :height="map.height"> </canvas>
+    <canvas :id="props.id" class="w-full" :width="map.width" :height="map.height"></canvas>
   </div>
 </template>
 

@@ -1,24 +1,15 @@
 <script setup lang="ts">
-import ShareButton from "../../components/ShareButton.vue";
-import DetailsInteractiveMap from "../../components/DetailsInteractiveMap.vue";
-import DetailsRoomOverviewSection from "../../components/DetailsRoomOverviewSection.vue";
-import DetailsBuildingOverviewSection from "../../components/DetailsBuildingOverviewSection.vue";
-import DetailsInfoSection from "../../components/DetailsInfoSection.vue";
-import DetailsSources from "../../components/DetailsSources.vue";
-import DetailsFeedbackButton from "../../components/DetailsFeedbackButton.vue";
-import DetailsRoomfinderMap from "../../components/DetailsRoomfinderMap.vue";
-import { useI18n } from "vue-i18n";
-import { setDescription, setTitle } from "../../composables/common";
 import { useClipboard } from "@vueuse/core";
-import { computed, nextTick, onMounted, ref, shallowRef, watchEffect } from "vue";
-import { useFetch } from "../../composables/fetch";
-import { useRoute, useRouter } from "vue-router";
-import type { components } from "../../api_types";
-import Toast from "../../components/Toast.vue";
+import type { components } from "~/api_types";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import { CalendarDaysIcon, ClipboardDocumentCheckIcon, LinkIcon } from "@heroicons/vue/24/outline";
-import BreadcrumbList from "../../components/BreadcrumbList.vue";
-import Spinner from "../../components/Spinner.vue";
+import type { DetailsFeedbackButton, DetailsInteractiveMap, DetailsRoomfinderMap } from "#components";
+
+definePageMeta({
+  validate(route) {
+    return /(view|campus|site|building|room|poi)/.test(route.params.view as string);
+  },
+});
 
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 type ImageInfo = components["schemas"]["ImageInfo"];
@@ -26,59 +17,68 @@ type ImageInfo = components["schemas"]["ImageInfo"];
 const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const router = useRouter();
-const data = shallowRef<DetailsResponse | null>(null);
 const shownImage = ref<ImageInfo | undefined>(undefined);
-const slideshowOpen = ref(false);
 
+const slideshowOpen = ref(false);
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
-const appURL = import.meta.env.VITE_APP_URL;
-const selectedMap = ref<"interactive" | "roomfinder">("interactive");
 
-function loadData(d: DetailsResponse) {
-  if (route.fullPath !== d.redirect_url) router.replace({ path: d.redirect_url });
-  data.value = d;
-  // --- Additional data ---
-  slideshowOpen.value = false;
-  setTitle(d.name);
-  setDescription(genDescription(d));
-  selectedMap.value = d.maps.default;
-  // --- Images ---
-  if (d.imgs && d.imgs.length > 0) {
-    shownImage.value = d.imgs[0];
-  } else {
-    shownImage.value = undefined;
-  }
-  tryToLoadMap();
-}
+const selectedMap = ref<"interactive" | "roomfinder">("interactive");
+const runtimeConfig = useRuntimeConfig();
+const url = computed(() => `${runtimeConfig.public.apiURL}/api/get/${route.params.id}?lang=${locale.value}`);
+const { data, error } = useFetch<DetailsResponse, string>(url, { key: "details" });
 
 watchEffect(() => {
   if (route.params.id === "root") {
     router.replace({ path: "/" });
     return;
   }
-  useFetch<DetailsResponse>(`/api/get/${route.params.id}?lang=${locale.value}`, loadData, () => {
-    router.push({
-      name: "404",
-      // preserve current path and remove the first char to avoid the target URL starting with `//`
-      params: { catchAll: route.path.substring(1).split("/") },
-      query: route.query,
-      hash: route.hash,
+});
+watch(error, () => {
+  if (error.value) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: error.value,
     });
-  });
+  }
+});
+watchEffect(() => {
+  if (!data.value) return;
+  if (route.fullPath !== data.value.redirect_url) router.replace({ path: data.value.redirect_url });
+  // --- Additional data ---
+  slideshowOpen.value = false;
+  console.log(data.value.maps);
+  selectedMap.value = data.value.maps.default;
+  // --- Images ---
+  if (data.value.imgs && data.value.imgs.length > 0) {
+    shownImage.value = data.value.imgs[0];
+  } else {
+    shownImage.value = undefined;
+  }
+  tryToLoadMap();
 });
 
-function genDescription(d: DetailsResponse) {
+const description = computed(() => {
+  if (data.value === null) return "";
   const detailsFor = t("details_for");
-  let description = `${detailsFor} ${d.type_common_name} ${d.name}`;
-  if (d.props.computed) {
+  let description = `${detailsFor} ${data.value.type_common_name} ${data.value.name}`;
+  if (data.value.props.computed) {
     description += ":";
-    d.props.computed.forEach((prop) => {
+    data.value.props.computed.forEach((prop) => {
       description += `\n- ${prop.name}: ${prop.text}`;
     });
   }
   return description;
-}
+});
+const title = computed(() => data.value?.name || route.params.id + " - Navigatum");
+useSeoMeta({
+  title: title,
+  ogTitle: title,
+  description: description,
+  ogDescription: description,
+  ogImage: `https://nav.tum.de/api/preview/${route.params.id}`,
+  twitterCard: "summary_large_image",
+});
 
 // --- Loading components ---
 function tryToLoadMap() {
@@ -110,7 +110,7 @@ onMounted(() => {
     function pollMap() {
       if (!tryToLoadMap()) {
         console.info(`'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`);
-        window.setTimeout(pollMap, timeoutInMs);
+        setTimeout(pollMap, timeoutInMs);
         timeoutInMs *= 1.5;
       }
     }
@@ -129,13 +129,17 @@ onMounted(() => {
       class="focusable !-mx-5 block lg:hidden print:!hidden"
       @click="slideshowOpen = !!data.imgs"
     >
-      <img :alt="t('image_alt')" :src="`${appURL}/cdn/header/${shownImage.name}`" class="block w-full" />
+      <img
+        :alt="t('image_alt')"
+        :src="`${runtimeConfig.public.apiURL}/cdn/header/${shownImage.name}`"
+        class="block w-full"
+      />
     </button>
 
     <!-- Entry header / title -->
     <div>
       <BreadcrumbList
-        :items="data.parent_names.map((n, i) => ({ name: n, to: '/view/' + data?.parents[i] }))"
+        :items="data.parent_names.map((n, i) => ({ name: n, to: i > 0 ? '/view/' + data?.parents[i] : '/' }))"
         class="pb-3 pt-6"
       />
       <div class="group flex flex-row gap-2">
@@ -165,7 +169,9 @@ onMounted(() => {
             >
               <CalendarDaysIcon class="text-tumBlue-600 mt-0.5 h-4 w-4" />
             </a>
-            <ShareButton :coords="data.coords" :name="data.name" />
+            <ClientOnly>
+              <ShareButton :coords="data.coords" :name="data.name" />
+            </ClientOnly>
             <DetailsFeedbackButton ref="feedbackButton" />
             <!-- <button class="btn btn-link btn-action btn-sm"
                   :title="t('header.favorites')">
@@ -190,15 +196,19 @@ onMounted(() => {
         </div>
         <TabPanels>
           <TabPanel :unmount="false">
-            <DetailsInteractiveMap ref="interactiveMap" :data="data" />
+            <ClientOnly>
+              <DetailsInteractiveMap ref="interactiveMap" :data="data" />
+            </ClientOnly>
           </TabPanel>
           <TabPanel :unmount="false">
-            <DetailsRoomfinderMap
-              v-if="data.maps.roomfinder?.available"
-              ref="roomfinderMap"
-              :available="data.maps.roomfinder.available"
-              :default-map-id="data.maps.roomfinder.default"
-            />
+            <ClientOnly>
+              <DetailsRoomfinderMap
+                v-if="data.maps.roomfinder?.available"
+                ref="roomfinderMap"
+                :available="data.maps.roomfinder.available"
+                :default-map-id="data.maps.roomfinder.default"
+              />
+            </ClientOnly>
           </TabPanel>
         </TabPanels>
         <TabList class="bg-zinc-100 flex space-x-1 rounded-md p-1 print:!hidden">
@@ -251,7 +261,9 @@ onMounted(() => {
     </div>
 
     <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview" />
-    <DetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
+    <ClientOnly>
+      <DetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
+    </ClientOnly>
     <DetailsSources :coords="data.coords" :sources="data.sources" :shown_image="shownImage" />
   </div>
   <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">

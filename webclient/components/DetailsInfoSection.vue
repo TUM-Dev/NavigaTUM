@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import DetailsImageSlideshowModal from "../components/DetailsImageSlideshowModal.vue";
-import DetailsPropertyTable from "../components/DetailsPropertyTable.vue";
-import Toast from "../components/Toast.vue";
-import { useI18n } from "vue-i18n";
-import type { components } from "../api_types";
+import type { components } from "~/api_types";
 
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 type ImageInfo = components["schemas"]["ImageInfo"];
@@ -13,7 +9,7 @@ defineProps<{ data: DetailsResponse }>();
 const shownImage = defineModel<ImageInfo>("shown_image");
 const slideshowOpen = defineModel<boolean>("slideshow_open", { required: true });
 const { t } = useI18n({ useScope: "local" });
-const appURL = import.meta.env.VITE_APP_URL;
+const runtimeConfig = useRuntimeConfig();
 </script>
 
 <template>
@@ -31,7 +27,7 @@ const appURL = import.meta.env.VITE_APP_URL;
       <button v-if="shownImage" type="button" class="focusable rounded-t-lg" @click="slideshowOpen = true">
         <img
           :alt="t('image_alt')"
-          :src="`${appURL}/cdn/header/${shownImage.name}`"
+          :src="`${runtimeConfig.public.apiURL}/cdn/header/${shownImage.name}`"
           class="bg-zinc-100 block h-auto w-full max-w-full rounded-t-lg"
         />
       </button>

@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 import { CheckIcon, ChevronUpDownIcon, FunnelIcon, MagnifyingGlassIcon, MapPinIcon } from "@heroicons/vue/24/outline";
-import type { components } from "../api_types";
-import { useI18n } from "vue-i18n";
-import Btn from "../components/Btn.vue";
+import type { components } from "~/api_types";
 import { useVirtualList } from "@vueuse/core";
 
 type RoomsOverview = components["schemas"]["RoomsOverview"];

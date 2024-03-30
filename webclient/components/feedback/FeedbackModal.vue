@@ -1,22 +1,18 @@
 <script setup lang="ts">
-import { useGlobalStore } from "../../stores/global";
-import { ref } from "vue";
-import { useI18n } from "vue-i18n";
-import TokenBasedModal from "./TokenBasedModal.vue";
-import Checkbox from "../Checkbox.vue";
+import { useFeedback } from "~/composables/feedback";
 
 const { t } = useI18n({ useScope: "local" });
-const global = useGlobalStore();
 const deleteIssueRequested = ref(false);
+const feedback = useFeedback();
 </script>
 
 <template>
-  <TokenBasedModal :data="global.feedback.data">
+  <TokenBasedModal :data="feedback.data">
     <template #modal>
       <label class="text-zinc-600 text-sm font-semibold" for="feedback-subject"> {{ t("subject") }}</label>
       <div class="text-zinc-600 flex flex-row gap-2 pb-3">
         <select
-          v-model="global.feedback.data.category"
+          v-model="feedback.data.category"
           class="focusable bg-zinc-200 border-zinc-400 rounded border px-2 py-1"
           :aria-label="t('category')"
         >
@@ -27,7 +23,7 @@ const deleteIssueRequested = ref(false);
           <option value="entry">{{ t("type.entry") }}</option>
         </select>
         <input
-          v-model="global.feedback.data.subject"
+          v-model="feedback.data.subject"
           class="focusable bg-zinc-200 border-zinc-400 flex-grow rounded border px-2 py-1"
           type="text"
           :placeholder="t('subject')"
@@ -39,7 +35,7 @@ const deleteIssueRequested = ref(false);
           {{ t("message") }}
         </label>
         <textarea
-          v-model="global.feedback.data.body"
+          v-model="feedback.data.body"
           class="focusable bg-zinc-200 border-zinc-400 rounded border px-2 py-1"
           :placeholder="t('message')"
           rows="6"
@@ -54,7 +50,7 @@ const deleteIssueRequested = ref(false);
               search: t("helptext.search"),
               entry: t("helptext.entry"),
               other: t("helptext.other"), // This is only here to make the linter happy, backend uses "other" as a fallback if the category is not known
-            }[global.feedback.data.category]
+            }[feedback.data.category]
           }}
         </p>
       </div>

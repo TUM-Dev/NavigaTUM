@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
 import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
-import { nextTick, ref } from "vue";
-import { FloorControl } from "../modules/FloorControl";
-import { webglSupport } from "../composables/webglSupport";
-import { useI18n } from "vue-i18n";
-import type { components } from "../api_types";
+import { FloorControl } from "~/composables/FloorControl";
+import { webglSupport } from "~/composables/webglSupport";
+import type { components } from "~/api_types";
 
 const props = defineProps<{ data: DetailsResponse }>();
 defineExpose({ loadInteractiveMap });
@@ -13,6 +11,7 @@ const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
 const { t } = useI18n({ useScope: "local" });
+const runtimeConfig = useRuntimeConfig();
 
 const initialLoaded = ref(false);
 
@@ -96,7 +95,7 @@ function initMap(containerId: string) {
 
     // preview of the following style is available at
     // https://nav.tum.de/maps/
-    style: `${import.meta.env.VITE_APP_URL}/maps/styles/osm-liberty/style.json`,
+    style: `${runtimeConfig.public.apiURL}/maps/styles/osm-liberty/style.json`,
 
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible
@@ -180,7 +179,7 @@ function initMap(containerId: string) {
   }
 
   floorControl.value.on("floor-changed", (args: FloorChangedEvent) => {
-    const url = args.file ? `${import.meta.env.VITE_APP_URL}/cdn/maps/overlay/${args.file}` : null;
+    const url = args.file ? `${runtimeConfig.public.apiURL}/cdn/maps/overlay/${args.file}` : null;
     setOverlayImage(url, args.coords);
   });
   map.addControl(floorControl.value, "bottom-left");
@@ -327,7 +326,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   padding: 0;
 
   &.marker-pin {
-    background-image: url(/assets/map/marker_pin.webp);
+    background-image: url(~/assets/map/marker_pin.webp);
     width: 25px;
     height: 36px;
     top: -33px;
@@ -335,7 +334,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   }
 
   &.marker-shadow {
-    background-image: url(/assets/map/marker_pin-shadow.webp);
+    background-image: url(~/assets/map/marker_pin-shadow.webp);
     width: 38px;
     height: 24px;
     top: -20px;

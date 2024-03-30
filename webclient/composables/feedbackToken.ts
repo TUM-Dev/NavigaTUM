@@ -1,7 +1,6 @@
 import { reactive } from "vue";
-import type { components } from "../api_types";
+import type { components } from "~/api_types";
 import { useLocalStorage } from "@vueuse/core";
-import { useI18n } from "vue-i18n";
 
 type TokenResponse = components["schemas"]["TokenResponse"];
 
@@ -36,8 +35,9 @@ export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
   // Token are renewed much before being invalid on the server.
   const MS_PER_HOUR = 3600000;
   const TOKEN_VALIDITY_FRONTEND_HOURS = 6;
+  const runtimeConfig = useRuntimeConfig();
   if (token.value === null || Date.now() - token.value.created_at > TOKEN_VALIDITY_FRONTEND_HOURS * MS_PER_HOUR) {
-    fetch(`${import.meta.env.VITE_APP_URL}/api/feedback/get_token`, { method: "POST" })
+    fetch(`${runtimeConfig.public.apiURL}/api/feedback/get_token`, { method: "POST" })
       .then((r) => {
         if (r.status === TokenStatus.SUCCESSFULLY_CREATED) {
           r.json()

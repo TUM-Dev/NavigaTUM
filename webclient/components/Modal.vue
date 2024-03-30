@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, watch } from "vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
-import { useI18n } from "vue-i18n";
 
 export interface Props {
   title: string;

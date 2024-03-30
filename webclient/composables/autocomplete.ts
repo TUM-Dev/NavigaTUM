@@ -1,4 +1,5 @@
-import type { components } from "../api_types";
+import type { components } from "~/api_types";
+
 type SearchResponse = components["schemas"]["SearchResponse"];
 type RoomEntry = components["schemas"]["RoomEntry"];
 type SitesBuildingsEntry = components["schemas"]["SitesBuildingsEntry"];

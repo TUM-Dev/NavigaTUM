@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
-import type { components } from "../api_types";
+import type { components } from "~/api_types";
 
 type ImageInfo = components["schemas"]["ImageInfo"];
 type Coordinate = components["schemas"]["Coordinate"];

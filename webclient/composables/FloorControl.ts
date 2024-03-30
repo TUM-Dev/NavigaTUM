@@ -1,11 +1,13 @@
-import { Evented } from "maplibre-gl";
 import type { IControl, Map } from "maplibre-gl";
-import type { components } from "../api_types";
+import { Evented } from "maplibre-gl";
+import type { components } from "~/api_types";
+
 type OverlayMapEntry = components["schemas"]["OverlayMapEntry"];
 type OverlayMap = {
   readonly default: number | null;
   readonly available: readonly OverlayMapEntry[];
 };
+
 // In reality, this extends maplibregl.Control, but this is apparently not working
 export class FloorControl extends Evented implements IControl {
   private readonly container: HTMLDivElement;
@@ -66,6 +68,7 @@ export class FloorControl extends Evented implements IControl {
     this.container.classList.remove("visible");
     this.fire("floor-changed", { file: null, coords: undefined });
   }
+
   public updateFloors(overlays: OverlayMap): void {
     // `floors` is null or a list of floors with data,
     // `visibleId` is the id of the visible floor.

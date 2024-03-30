@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import TinyModal from "../components/TinyModal.vue";
 import { ArrowTopRightOnSquareIcon, InformationCircleIcon } from "@heroicons/vue/24/outline";
-import { useI18n } from "vue-i18n";
-import Btn from "../components/Btn.vue";
-import type { components } from "../api_types";
+import type { components } from "~/api_types";
 
 type Props = components["schemas"]["Props"];
 

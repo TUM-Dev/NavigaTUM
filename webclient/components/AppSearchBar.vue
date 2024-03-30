@@ -1,14 +1,8 @@
 <script setup lang="ts">
-import type { SectionFacet } from "../modules/autocomplete";
-import { extractFacets } from "../modules/autocomplete";
-import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
-import { useFetch } from "../composables/fetch";
-import { computed, onMounted, reactive, ref } from "vue";
+import { extractFacets } from "~/composables/autocomplete";
 import { BuildingOffice2Icon, BuildingOfficeIcon, MagnifyingGlassIcon, MapPinIcon } from "@heroicons/vue/24/outline";
 import { ChevronDownIcon } from "@heroicons/vue/16/solid";
-import Btn from "../components/Btn.vue";
-import type { components } from "../api_types";
+import type { components } from "~/api_types";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
@@ -16,19 +10,13 @@ const searchBarFocused = defineModel<boolean>("searchBarFocused", { required: tr
 const { t, locale } = useI18n({ useScope: "local" });
 const keep_focus = ref(false);
 const query = ref("");
-const autocomplete = reactive({ sections: [] as SectionFacet[], highlighted: null as string | null });
-// As a simple measure against out-of-order responses
-// to the autocompletion, we count queries and make sure
-// that late results will not overwrite the currently
-// visible results.
-const queryCounter = ref(0);
-const latestUsedQueryId = ref(-1);
+const highlighted = ref<string | null>(null);
 const router = useRouter();
 
 const visibleElements = computed<string[]>(() => {
   const visible: string[] = [];
 
-  autocomplete.sections.forEach((section) => {
+  sections.value.forEach((section) => {
     section.entries.forEach((entry, index: number) => {
       if (section.facet !== "sites_buildings" || section.n_visible > index || section.expanded) visible.push(entry.id);
     });
@@ -38,12 +26,12 @@ const visibleElements = computed<string[]>(() => {
 
 function searchFocus(): void {
   searchBarFocused.value = true;
-  autocomplete.highlighted = null;
+  highlighted.value = null;
 }
 
 function searchBlur(): void {
   if (keep_focus.value) {
-    window.setTimeout(() => {
+    setTimeout(() => {
       // This is relevant if the call is delayed and focused has
       // already been disabled e.g. when clicking on an entry.
       if (searchBarFocused.value) document.getElementById("search")?.focus();
@@ -61,7 +49,6 @@ function searchGo(cleanQuery: boolean): void {
   searchBarFocused.value = false;
   if (cleanQuery) {
     query.value = "";
-    autocomplete.sections = [];
   }
   document.getElementById("search")?.blur();
 }
@@ -74,7 +61,6 @@ function searchGoTo(id: string, cleanQuery: boolean): void {
   searchBarFocused.value = false;
   if (cleanQuery) {
     query.value = "";
-    autocomplete.sections = [];
   }
   document.getElementById("search")?.blur();
 }
@@ -87,27 +73,27 @@ function onKeyDown(e: KeyboardEvent): void {
       break;
 
     case "ArrowDown":
-      index = visibleElements.value.indexOf(autocomplete.highlighted || "");
+      index = visibleElements.value.indexOf(highlighted.value || "");
       if (index === -1 && visibleElements.value.length > 0) {
-        autocomplete.highlighted = visibleElements.value[0];
+        highlighted.value = visibleElements.value[0];
       } else if (index >= 0 && index < visibleElements.value.length - 1) {
-        autocomplete.highlighted = visibleElements.value[index + 1];
+        highlighted.value = visibleElements.value[index + 1];
       }
       e.preventDefault();
       break;
 
     case "ArrowUp":
-      index = visibleElements.value.indexOf(autocomplete.highlighted || "");
+      index = visibleElements.value.indexOf(highlighted.value || "");
       if (index === 0) {
-        autocomplete.highlighted = null;
+        highlighted.value = null;
       } else if (index > 0) {
-        autocomplete.highlighted = visibleElements.value[index - 1];
+        highlighted.value = visibleElements.value[index - 1];
       }
       e.preventDefault();
       break;
 
     case "Enter":
-      if (autocomplete.highlighted !== null) searchGoTo(autocomplete.highlighted, true);
+      if (highlighted.value !== null) searchGoTo(highlighted.value, true);
       else searchGo(false);
       break;
     default:
@@ -115,36 +101,19 @@ function onKeyDown(e: KeyboardEvent): void {
   }
 }
 
-function onInput() {
-  autocomplete.highlighted = null;
-
-  if (query.value.length === 0) {
-    autocomplete.sections = [];
-  } else {
-    const queryId = queryCounter.value;
-    queryCounter.value += 1;
-    useFetch<SearchResponse>(`/api/search?q=${encodeURIComponent(query.value)}&lang=${locale.value}`, (d) => {
-      // Data will be cached anyway in case the user hits backspace,
-      // but we need to discard the data here if it arrived out of order.
-      if (queryId > latestUsedQueryId.value) {
-        latestUsedQueryId.value = queryId;
-        autocomplete.sections = extractFacets(d, t("sections.rooms"), t("sections.buildings"));
-      }
-    });
-  }
-}
-
-onMounted(() => {
-  window.addEventListener("keydown", (e) => {
-    if (
-      (e.key === "s" || e.key === "/") &&
-      document.activeElement?.tagName !== "INPUT" &&
-      document.activeElement?.tagName !== "TEXTAREA"
-    ) {
-      e.preventDefault();
-      document.getElementById("search")?.focus();
-    }
-  });
+const runtimeConfig = useRuntimeConfig();
+const url = computed(
+  () => `${runtimeConfig.public.apiURL}/api/search?q=${encodeURIComponent(query.value)}&lang=${locale.value}`,
+);
+const { data, error, refresh } = await useFetch<SearchResponse>(url, {});
+const sections = computed(() => {
+  console.log(url.value);
+  if (data.value === null) return [];
+  return extractFacets(data.value, t("sections.rooms"), t("sections.buildings"));
+});
+// a bit crude way of doing retries, but likely fine
+watchEffect(() => {
+  if (query.value.length && error.value !== null) setTimeout(refresh, 500);
 });
 </script>
 
@@ -162,7 +131,6 @@ onMounted(() => {
         :placeholder="t('input.placeholder')"
         autocomplete="off"
         :aria-label="t('input.aria-searchlabel')"
-        @input="onInput"
         @focus="searchFocus"
         @blur="searchBlur"
         @keydown="onKeyDown"
@@ -179,10 +147,10 @@ onMounted(() => {
   </div>
   <!-- Autocomplete -->
   <div
-    v-if="searchBarFocused && autocomplete.sections.length !== 0"
+    v-if="searchBarFocused && query.length !== 0 && sections.length !== 0"
     class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 -ms-2 me-3 mt-16 flex max-h-[calc(100vh-75px)] max-w-xl flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30"
   >
-    <ul v-for="s in autocomplete.sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
+    <ul v-for="s in sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
       <div class="flex items-center">
         <span class="text-md text-zinc-800 me-4 flex-shrink">{{ s.name }}</span>
         <div class="border-zinc-800 flex-grow border-t"></div>
@@ -198,15 +166,15 @@ onMounted(() => {
           v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded"
           class="bg-zinc-50 border-zinc-200 rounded-sm border hover:bg-tumBlue-100"
         >
-          <RouterLink
+          <NuxtLink
             :class="{
-              'bg-tumBlue-200': e.id === autocomplete.highlighted,
+              'bg-tumBlue-200': e.id === highlighted,
             }"
             :to="'/view/' + e.id"
             class="flex gap-3 px-4 py-3"
             @click.exact.prevent="searchGoTo(e.id, false)"
             @mousedown="keep_focus = true"
-            @mouseover="autocomplete.highlighted = null"
+            @mouseover="highlighted = null"
           >
             <div class="my-auto min-w-11">
               <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 p-2">
@@ -229,7 +197,7 @@ onMounted(() => {
                 <template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
               </small>
             </div>
-          </RouterLink>
+          </NuxtLink>
           <!-- <div class="menu-badge">
               <label class="label label-primary">2</label>
             </div> -->
@@ -261,7 +229,7 @@ onMounted(() => {
 
       <li class="divider" data-content="Veranstaltungen" />
       <li class="menu-item">
-        <RouterLink to="/event/">
+        <NuxtLink to="/event/">
           <div class="tile">
             <div class="tile-icon">
               <ClockIcon class="h-4 w-4" />
@@ -273,7 +241,7 @@ onMounted(() => {
               <small class="tile-subtitle text-gray"> Übung mit 4 Gruppen </small>
             </div>
           </div>
-        </RouterLink>
+        </NuxtLink>
         <div class="menu-badge" style="display: none">
           <label class="label label-primary">frei</label>
         </div>

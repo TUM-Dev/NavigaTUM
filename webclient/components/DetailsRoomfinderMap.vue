@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
-import Modal from "../components/Modal.vue";
-import RoomfinderImageLocation from "../components/RoomfinderImageLocation.vue";
-import { computed, onBeforeMount, ref } from "vue";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
-import type { components } from "../api_types";
+import type { components } from "~/api_types";
 
 type RoomfinderMapEntry = components["schemas"]["RoomfinderMapEntry"];
 
