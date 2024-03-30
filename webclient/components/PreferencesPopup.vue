@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-import { AdjustmentsHorizontalIcon, MoonIcon, SunIcon } from "@heroicons/vue/24/outline";
+import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/outline";
+import { ComputerDesktopIcon, MoonIcon, SunIcon } from "@heroicons/vue/16/solid";
+import SelectionOption from "~/components/SelectionOption.vue";
 
 const colorMode = useColorMode();
 const { t } = useI18n({ useScope: "local" });
@@ -34,24 +36,25 @@ watchEffect(() => router.push(switchLocalePath(locale.value)));
           {{ t("preferences") }}
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
-          <SelectionSwitch
-            v-model="colorMode.preference"
-            label="Theme"
-            :values="['dark', 'light']"
-            :current="colorMode.value"
-          >
-            <template #option1>
-              <MoonIcon class="h-3.5 w-3.5" />
-            </template>
-            <template #option2>
-              <SunIcon class="h-3.5 w-3.5" />
-            </template>
+          <SelectionSwitch v-model="colorMode.preference" label="Theme" :current="colorMode.value">
+            <SelectionOption value="dark">
+              <MoonIcon class="h-4 w-4 mb-0.5" />
+              dark
+            </SelectionOption>
+            <SelectionOption value="light">
+              <SunIcon class="h-4 w-4" />
+              light
+            </SelectionOption>
+            <SelectionOption value="system">
+              <ComputerDesktopIcon class="h-4 w-4" />
+              system
+            </SelectionOption>
           </SelectionSwitch>
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
-          <SelectionSwitch v-model="locale" :label="t('language')" :values="['de', 'en']" :current="locale">
-            <template #option1><span class="text-xs">de</span></template>
-            <template #option2><span class="text-xs">en</span></template>
+          <SelectionSwitch v-model="locale" :label="t('language')" :current="locale">
+            <SelectionOption value="de">de</SelectionOption>
+            <SelectionOption value="en">en</SelectionOption>
           </SelectionSwitch>
         </MenuItem>
       </MenuItems>
