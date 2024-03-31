@@ -4,7 +4,10 @@ use meilisearch_sdk::tasks::Task;
 use meilisearch_sdk::Client;
 use serde_json::Value;
 use std::collections::HashMap;
+use std::io;
 use std::time::Duration;
+use serde::Deserialize;
+use serde::Serialize;
 
 const TIMEOUT: Option<Duration> = Some(Duration::from_secs(20));
 const POLLING_RATE: Option<Duration> = Some(Duration::from_millis(50));
@@ -43,12 +46,29 @@ async fn wait_for_healthy(client: &Client) {
     }
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+struct Embedder {
+    source: String,
+    model: String,
+    #[serde(rename = "documentTemplate")]
+    document_template: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Embedders {
+    default: Embedder,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct EmbedderSettings {
+    embedders: Embedders,
+}
 pub(crate) async fn setup_meilisearch() -> Result<(), crate::BoxedError> {
     info!("setting up meilisearch");
     let start = std::time::Instant::now();
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
     info!("connecting to Meilisearch at {ms_url}", ms_url = ms_url);
-    let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
+    let client = Client::new(&ms_url, std::env::var("MEILI_MASTER_KEY").ok());
     info!("waiting for Meilisearch to be healthy");
     wait_for_healthy(&client).await;
     info!("Meilisearch is healthy");
@@ -101,7 +121,36 @@ pub(crate) async fn setup_meilisearch() -> Result<(), crate::BoxedError> {
     if let Task::Failed { content } = res {
         panic!("Failed to add documents to Meilisearch: {content:#?}");
     }
+    meilisearch_sdk::ExperimentalFeatures::new(&client)
+        .set_vector_store(true)
+        .update()
+        .await?;
 
+    let req_client = reqwest::Client::new();
+    let embedding_settings = EmbedderSettings {
+        embedders: Embedders {
+            default: Embedder {
+                source: "huggingFace".to_string(),
+                model: "BAAI/bge-base-en-v1.5".to_string(),
+                document_template: "A room titled '{{doc.name}}' with type '{{doc.type_common_name}}' used as '{{doc.usage}}'".to_string(),
+            }
+        }
+    };
+    let url = format!("{ms_url}/indexes/issues/settings");
+    let res = req_client
+        .patch(url)
+        .json(&embedding_settings)
+        .send()
+        .await?;
+    if res.status() != 202 {
+        return Err(io::Error::other(format!(
+            "Failed to enable embedding because {code}: {text}",
+            code = res.status(),
+            text = res.text().await?
+        ))
+            .into());
+    }
+    
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let documents = reqwest::get(format!("{cdn_url}/search_data.json"))
         .await?
