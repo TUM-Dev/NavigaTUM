@@ -228,6 +228,6 @@ volumes:
         driver: local
 
 networks:
-    networks:
+    navigatum:
     traefik_traefik:
         external: true
