@@ -11,7 +11,7 @@ defineProps<{ value: T }>();
       class="relative cursor-pointer select-none py-2 pl-4 pr-4"
       :class="[active ? 'text-tumBlue-900 bg-tumBlue-100' : 'text-zinc-900']"
     >
-      <span class="flex flex-row gap-1.5 text-sm truncate" :class="[selected ? 'font-medium' : 'font-normal']">
+      <span class="flex flex-row gap-1.5 truncate text-sm" :class="[selected ? 'font-bold' : 'font-normal']">
         <slot />
       </span>
       <span v-if="selected" class="text-tumBlue-600 absolute inset-y-0 right-0 flex items-center pr-3">

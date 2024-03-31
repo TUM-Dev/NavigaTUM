@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/outline";
-import { ComputerDesktopIcon, MoonIcon, SunIcon } from "@heroicons/vue/16/solid";
+import { ComputerDesktopIcon, MoonIcon, SunIcon } from "@heroicons/vue/20/solid";
 import SelectionOption from "~/components/SelectionOption.vue";
 
 const colorMode = useColorMode();
@@ -36,18 +36,18 @@ watchEffect(() => router.push(switchLocalePath(locale.value)));
           {{ t("preferences") }}
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
-          <SelectionSwitch v-model="colorMode.preference" label="Theme" :current="colorMode.value">
+          <SelectionSwitch v-model="colorMode.preference" label="Theme" :current="colorMode.preference">
+            <SelectionOption value="system">
+              <ComputerDesktopIcon class="mt-0.5 h-4 w-4" />
+              system
+            </SelectionOption>
             <SelectionOption value="dark">
-              <MoonIcon class="h-4 w-4 mb-0.5" />
+              <MoonIcon class="mb-0.5 h-4 w-4" />
               dark
             </SelectionOption>
             <SelectionOption value="light">
               <SunIcon class="h-4 w-4" />
               light
-            </SelectionOption>
-            <SelectionOption value="system">
-              <ComputerDesktopIcon class="h-4 w-4" />
-              system
             </SelectionOption>
           </SelectionSwitch>
         </MenuItem>
