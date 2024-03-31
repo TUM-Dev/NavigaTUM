@@ -281,7 +281,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    @apply bg-tumBlue-500;
+    @apply bg-blue-500;
   }
 
   > div {

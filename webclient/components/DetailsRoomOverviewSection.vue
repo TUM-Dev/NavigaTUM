@@ -79,9 +79,9 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
             >
               <div
                 class="flex flex-row justify-start gap-3 px-3 py-2"
-                :class="[active ? 'text-tumBlue-900 bg-tumBlue-100' : 'text-zinc-900']"
+                :class="[active ? 'text-blue-900 bg-blue-100' : 'text-zinc-900']"
               >
-                <span v-if="selected" class="text-tumBlue-600 my-auto">
+                <span v-if="selected" class="text-blue-600 my-auto">
                   <CheckIcon class="h-5 w-5" />
                 </span>
                 <div class="flex flex-grow flex-row justify-between gap-3">
@@ -91,7 +91,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
                   >
                     {{ t("any_usage") }}
                   </span>
-                  <span class="bg-tumBlue-300 rounded-md px-2 py-1 text-sm text-tumBlue-950"
+                  <span class="bg-blue-300 rounded-md px-2 py-1 text-sm text-blue-950"
                     >{{ t("rooms", combined_list.length) }}
                   </span>
                 </div>
@@ -107,9 +107,9 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
             >
               <div
                 class="flex flex-row justify-start gap-3 px-3 py-2"
-                :class="[active ? 'text-tumBlue-900 bg-tumBlue-100' : 'text-zinc-900']"
+                :class="[active ? 'text-blue-900 bg-blue-100' : 'text-zinc-900']"
               >
-                <span v-if="selected" class="text-tumBlue-600 my-auto">
+                <span v-if="selected" class="text-blue-600 my-auto">
                   <CheckIcon class="h-5 w-5" />
                 </span>
                 <div class="flex flex-grow flex-row justify-between gap-3">
@@ -119,7 +119,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
                   >
                     {{ usage.name }}
                   </span>
-                  <span class="bg-tumBlue-300 rounded-md px-2 py-1 text-sm text-tumBlue-950"
+                  <span class="bg-blue-300 rounded-md px-2 py-1 text-sm text-blue-950"
                     >{{ t("rooms", usage.count) }}
                   </span>
                 </div>
@@ -152,7 +152,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
               v-for="(room, index) in list"
               :key="index"
               :href="`/view/${room.data.id}`"
-              class="flex h-[36px] max-h-[36px] min-h-[36px] flex-row gap-2 p-1.5 px-3 hover:text-white hover:bg-tumBlue-500"
+              class="flex h-[36px] max-h-[36px] min-h-[36px] flex-row gap-2 p-1.5 px-3 hover:text-white hover:bg-blue-500"
             >
               <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" />
               {{ room.data.name }}

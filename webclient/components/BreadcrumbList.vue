@@ -19,11 +19,11 @@ const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), { c
           typeof="WebPage"
           class="focusable rounded-sm hover:underline"
           :class="{
-            'visited:text-tumBlue-500': i > 0,
+            'visited:text-blue-500': i > 0,
             'visited:text-zinc-500': i === 0,
-            'hover:text-tumBlue-600': i > 0,
+            'hover:text-blue-600': i > 0,
             'hover:text-zinc-600': i === 0,
-            'text-tumBlue-500': i > 0,
+            'text-blue-500': i > 0,
             'text-zinc-500': i === 0,
           }"
         >

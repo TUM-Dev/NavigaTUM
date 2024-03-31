@@ -54,12 +54,12 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
               >
                 <li
                   class="relative cursor-pointer select-none py-2 pl-10 pr-4"
-                  :class="[active ? 'text-tumBlue-900 bg-tumBlue-100' : 'text-zinc-900']"
+                  :class="[active ? 'text-blue-900 bg-blue-100' : 'text-zinc-900']"
                 >
                   <span class="block truncate" :class="[selected ? 'font-medium' : 'font-normal']">
                     1:{{ map.scale }}, {{ map.name }}
                   </span>
-                  <span v-if="selected" class="text-tumBlue-600 absolute inset-y-0 left-0 flex items-center pl-3">
+                  <span v-if="selected" class="text-blue-600 absolute inset-y-0 left-0 flex items-center pl-3">
                     <CheckIcon class="h-5 w-5" />
                   </span>
                 </li>

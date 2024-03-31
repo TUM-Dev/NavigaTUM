@@ -17,7 +17,7 @@ const selectedValue = defineModel<T>({ required: true });
     <Listbox v-model="selectedValue">
       <div class="relative mt-1">
         <ListboxButton
-          class="bg-zinc-200 border-zinc-400 relative w-full cursor-pointer rounded-lg border py-2 pl-3 pr-10 text-left shadow-md focus-visible:border-tumBlue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-tumBlue-300 sm:text-sm"
+          class="bg-zinc-200 border-zinc-400 relative w-full cursor-pointer rounded-lg border py-2 pl-3 pr-10 text-left shadow-md focus-visible:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm"
         >
           <span class="text-zinc-600 block truncate">{{ current }}</span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2">

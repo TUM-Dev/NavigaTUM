@@ -23,7 +23,7 @@ const { t } = useI18n({ useScope: "local" });
       <ul v-if="props.links" class="flex flex-col gap-1.5">
         <li v-for="link in props.links" :key="link.text">
           <Btn
-            size="text-md gap-2.5 px-3 py-1.5 rounded leading-snug print:!text-tumBlue-500"
+            size="text-md gap-2.5 px-3 py-1.5 rounded leading-snug print:!text-blue-500"
             variant="secondary"
             :to="link.url"
           >

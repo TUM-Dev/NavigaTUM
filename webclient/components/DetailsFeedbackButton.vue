@@ -25,7 +25,7 @@ const { t } = useI18n({ useScope: "local" });
       }
     "
   >
-    <FlagIcon class="text-tumBlue-600 h-4 w-4 hover:text-tumBlue-900" />
+    <FlagIcon class="text-blue-600 h-4 w-4 hover:text-blue-900" />
   </button>
 </template>
 

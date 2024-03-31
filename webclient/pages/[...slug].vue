@@ -10,8 +10,8 @@ const { t } = useI18n({ useScope: "local" });
   <div class="mx-auto max-w-xl pt-4">
     <img src="../assets/404_navigatum.svg" :alt="t('img_alt')" />
     <div class="flex flex-col items-center gap-1 p-5">
-      <h5 class="text-slate-800 text-lg">{{ t("header") }}</h5>
-      <p class="text-md text-slate-600">{{ t("description") }}</p>
+      <h5 class="text-zinc-800 text-lg">{{ t("header") }}</h5>
+      <p class="text-md text-zinc-600">{{ t("description") }}</p>
     </div>
     <div class="flex flex-row items-center justify-evenly">
       <div class="flex flex-row gap-4">

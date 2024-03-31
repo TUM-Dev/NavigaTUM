@@ -167,7 +167,7 @@ onMounted(() => {
               class="focusable rounded-sm"
               :title="t('header.calendar')"
             >
-              <CalendarDaysIcon class="text-tumBlue-600 mt-0.5 h-4 w-4" />
+              <CalendarDaysIcon class="text-blue-600 mt-0.5 h-4 w-4" />
             </a>
             <ClientOnly>
               <ShareButton :coords="data.coords" :name="data.name" />

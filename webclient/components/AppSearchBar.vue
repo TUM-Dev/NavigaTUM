@@ -120,7 +120,7 @@ watchEffect(() => {
 <template>
   <div class="flex flex-row">
     <div
-      class="bg-zinc-200 border-zinc-400 flex flex-grow flex-row rounded-s-sm border px-2.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-tumBlue-600"
+      class="bg-zinc-200 border-zinc-400 flex flex-grow flex-row rounded-s-sm border px-2.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-blue-600"
     >
       <MagnifyingGlassIcon class="text-zinc-800 my-auto h-4 w-4" />
       <input
@@ -138,7 +138,7 @@ watchEffect(() => {
     </div>
     <button
       type="button"
-      class="text-white bg-tumBlue-500 rounded-e-sm px-3 py-1 text-xs font-semibold shadow-sm hover:bg-tumBlue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-tumBlue-600"
+      class="text-white bg-blue-500 rounded-e-sm px-3 py-1 text-xs font-semibold shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-600"
       :aria-label="t('input.aria-actionlabel')"
       @click="searchGo(false)"
     >
@@ -164,11 +164,11 @@ watchEffect(() => {
       <template v-for="(e, i) in s.entries" :key="e.id">
         <li
           v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded"
-          class="bg-zinc-50 border-zinc-200 rounded-sm border hover:bg-tumBlue-100"
+          class="bg-zinc-50 border-zinc-200 rounded-sm border hover:bg-blue-100"
         >
           <NuxtLink
             :class="{
-              'bg-tumBlue-200': e.id === highlighted,
+              'bg-blue-200': e.id === highlighted,
             }"
             :to="'/view/' + e.id"
             class="flex gap-3 px-4 py-3"
@@ -181,7 +181,7 @@ watchEffect(() => {
                 <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
                 <MapPinIcon v-else class="h-6 w-6" />
               </div>
-              <div v-else class="text-white bg-tumBlue-500 rounded-full p-2">
+              <div v-else class="text-white bg-blue-500 rounded-full p-2">
                 <BuildingOfficeIcon v-if="e.type === 'building'" class="mx-auto h-6 w-6" />
                 <BuildingOffice2Icon v-else class="mx-auto h-6 w-6" />
               </div>
@@ -238,7 +238,7 @@ watchEffect(() => {
               <span class="tile-title">
                 Advanced Practical Course Games Engineering: Building Information Modeling (IN7106)
               </span>
-              <small class="tile-subtitle text-gray"> Übung mit 4 Gruppen </small>
+              <small class="tile-subtitle text-zinc"> Übung mit 4 Gruppen </small>
             </div>
           </div>
         </NuxtLink>

@@ -22,13 +22,13 @@ const variantClasses = computed(() => {
     case "action":
       return "";
     case "primary":
-      return "bg-tumBlue-500 visited:text-tumBlue-50 text-tumBlue-50 hover:bg-tumBlue-600 hover:text-white";
+      return "bg-blue-500 visited:text-blue-50 text-blue-50 hover:bg-blue-600 hover:text-white";
     case "secondary":
       return "bg-zinc-500 visited:text-zinc-50 text-zinc-50 hover:bg-zinc-600 hover:text-white";
     case "linkButton":
-      return "bg-transparent visited:text-tumBlue-600 text-tumBlue-600 hover:bg-tumBlue-900/10 dark:hover:bg-tumBlue-50/20 hover:text-tumBlue-500";
+      return "bg-transparent visited:text-blue-600 text-blue-600 hover:bg-blue-900/10 dark:hover:bg-blue-50/20 hover:text-blue-500";
     case "link":
-      return "bg-transparent visited:text-tumBlue-600 text-tumBlue-600 hover:underline";
+      return "bg-transparent visited:text-blue-600 text-blue-600 hover:underline";
     default:
       return props.variant;
   }

@@ -34,7 +34,7 @@ const runtimeConfig = useRuntimeConfig();
                 :src="`${runtimeConfig.public.apiURL}/cdn/thumb/${b.thumb}`"
               />
             </figure>
-            <div v-else class="text-white bg-tumBlue-500 min-w-11 rounded-full p-2">
+            <div v-else class="text-white bg-blue-500 min-w-11 rounded-full p-2">
               <BuildingOffice2Icon class="mx-auto h-7 w-7" />
             </div>
             <div class="flex flex-col justify-evenly">

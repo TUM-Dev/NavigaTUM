@@ -44,7 +44,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             v-if="site.id"
             :to="'/view/' + site.id"
             :aria-label="t('show_details_for_campus', [site.name])"
-            class="focusable text-zinc-700 flex grow-0 flex-row justify-between rounded !no-underline hover:text-tumBlue-500"
+            class="focusable text-zinc-700 flex grow-0 flex-row justify-between rounded !no-underline hover:text-blue-500"
           >
             <span class="text-md font-semibold">{{ site.name }}</span>
             <ArrowRightIcon v-if="site.id" class="my-auto hidden h-6 w-6 md:block" />
@@ -57,7 +57,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             :key="c.id"
             :to="'/view/' + c.id"
             :aria-label="t('show_details_for_building', [c.name])"
-            class="focusable text-tumBlue-600 flex flex-row justify-between rounded !no-underline hover:text-tumBlue-500"
+            class="focusable text-blue-600 flex flex-row justify-between rounded !no-underline hover:text-blue-500"
           >
             <div class="flex flex-row gap-2">
               <MapPinIcon class="h-4 w-5" />

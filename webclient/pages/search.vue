@@ -74,7 +74,7 @@ useSeoMeta({
       <button
         data-cy="open-feedback-search"
         type="button"
-        class="focusable text-tumBlue-600 visited:text-tumBlue-600 hover:text-tumBlue-500"
+        class="focusable text-blue-600 visited:text-blue-600 hover:text-blue-500"
         :aria-label="t('feedback.open')"
         @click="
           () => {
@@ -91,14 +91,14 @@ useSeoMeta({
       <section class="flex flex-col gap-2">
         <h2 class="text-md text-zinc-500 font-semibold">{{ s.name }}</h2>
         <ul class="flex flex-col gap-3">
-          <li v-for="e in s.entries" :key="e.id" class="focusable rounded-sm border hover:bg-tumBlue-50">
+          <li v-for="e in s.entries" :key="e.id" class="focusable rounded-sm border hover:bg-blue-50">
             <NuxtLink :to="'/view/' + e.id" class="flex gap-3 p-4">
               <div class="my-auto min-w-11">
                 <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 p-2">
                   <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
                   <MapPinIcon v-else class="h-6 w-6" />
                 </div>
-                <div v-else class="text-white bg-tumBlue-500 rounded-full p-2">
+                <div v-else class="text-white bg-blue-500 rounded-full p-2">
                   <BuildingOfficeIcon v-if="e.type === 'building'" class="mx-auto h-6 w-6" />
                   <BuildingOffice2Icon v-else class="mx-auto h-6 w-6" />
                 </div>

@@ -113,7 +113,7 @@ function sendForm() {
               {{ t("public.agreement.pre") }}
               <a
                 tabindex="1"
-                class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline"
+                class="text-blue-600 visited:text-blue-600 hover:underline"
                 href="https://github.com/TUM-Dev/navigatum/issues"
                 target="_blank"
               >
@@ -128,7 +128,7 @@ function sendForm() {
                 >{{ t("public.disclaimer.pre") }}
                 <a
                   tabindex="1"
-                  class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline"
+                  class="text-blue-600 visited:text-blue-600 hover:underline"
                   href="https://docs.github.com/en/github/site-policy"
                   target="_blank"
                 >
@@ -148,7 +148,7 @@ function sendForm() {
                 <NuxtLink
                   tabindex="1"
                   to="/about/impressum"
-                  class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline"
+                  class="text-blue-600 visited:text-blue-600 hover:underline"
                 >
                   {{ t("public.imprint") }} </NuxtLink
                 >.
@@ -156,7 +156,7 @@ function sendForm() {
               {{ t("public.question_contact.pre") }}
               (<a
                 tabindex="1"
-                class="text-tumBlue-600 visited:text-tumBlue-600 hover:underline"
+                class="text-blue-600 visited:text-blue-600 hover:underline"
                 href="https://datenschutz.tum.de"
                 target="_blank"
                 >datenschutz.tum.de</a
@@ -172,8 +172,8 @@ function sendForm() {
         variant="primary"
         size="md"
         :class="{
-          '!text-tumBlue-900 !bg-tumBlue-200 cursor-progress': loading,
-          '!text-tumBlue-50 !bg-tumBlue-300 cursor-not-allowed': error.blockSend,
+          '!text-blue-900 !bg-blue-200 cursor-progress': loading,
+          '!text-blue-50 !bg-blue-300 cursor-not-allowed': error.blockSend,
         }"
         v-bind="{ disabled: loading || error.blockSend }"
         @click="sendForm"
