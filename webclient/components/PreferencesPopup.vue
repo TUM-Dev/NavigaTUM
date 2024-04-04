@@ -17,6 +17,7 @@ watchEffect(() => router.push(switchLocalePath(locale.value)));
   <Menu as="div">
     <div>
       <MenuButton
+        id="preferences"
         class="focusable relative flex rounded-full bg-transparent p-2 text-sm ring-2 ring-white ring-opacity-0 hover:bg-zinc-100/10 hover:ring-opacity-20 focus:outline-none focus:ring-opacity-100"
       >
         <span class="absolute -inset-1.5" />
