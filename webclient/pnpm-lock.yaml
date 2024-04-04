@@ -42,8 +42,8 @@ dependencies:
     specifier: 4.3.0
     version: 4.3.0(vue@3.4.21)
   vue3-carousel:
-    specifier: 0.3.1
-    version: 0.3.1(vue@3.4.21)
+    specifier: 0.3.3
+    version: 0.3.3(vue@3.4.21)
 
 devDependencies:
   '@intlify/unplugin-vue-i18n':
@@ -5180,8 +5180,8 @@ packages:
       typescript: 5.4.3
     dev: true
 
-  /vue3-carousel@0.3.1(vue@3.4.21):
-    resolution: {integrity: sha512-86vUkNPBzL2PVuR9w6hUsI90ccFjLp+K8cSFpRTISf+SjUQY3fMHc5CFF5MUL62v1xYYm27zEBmQupO9VQx9Kw==}
+  /vue3-carousel@0.3.3(vue@3.4.21):
+    resolution: {integrity: sha512-VsuOBE4LG9lxAiYGR9U7ps4RyJ4oFQGzk79/49ybvoxzNpahPAVWIDHKK3a1lOv0CSplFq6u4FvaFLZ8x3FgWg==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
