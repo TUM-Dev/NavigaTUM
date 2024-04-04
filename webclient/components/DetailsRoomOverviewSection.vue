@@ -68,7 +68,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
           leave-to-class="opacity-0"
         >
           <ListboxOptions
-            class="bg-zinc-200 absolute !m-0 mt-1 max-h-60 w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            class="ring-black/5 bg-zinc-200 absolute !m-0 mt-1 max-h-60 w-full overflow-auto rounded-md text-base shadow-lg ring-1 focus:outline-none sm:text-sm"
           >
             <ListboxOption
               v-slot="{ active, selected }"

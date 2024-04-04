@@ -43,7 +43,7 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
             leave-to-class="opacity-0"
           >
             <ListboxOptions
-              class="bg-white absolute mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+              class="ring-black/5 bg-white absolute mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 focus:outline-none sm:text-sm"
             >
               <ListboxOption
                 v-for="(map, i) in available"
