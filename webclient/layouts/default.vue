@@ -38,6 +38,6 @@ useHead({
 
   <AppFooter :class="searchBarFocused ? 'opacity-70' : ''" />
   <ClientOnly>
-    <FeedbackModal v-if="feedback.open" />
+    <LazyFeedbackModal v-if="feedback.open" />
   </ClientOnly>
 </template>
