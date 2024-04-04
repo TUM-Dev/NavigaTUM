@@ -9,6 +9,7 @@ definePageMeta({
   validate(route) {
     return /(view|campus|site|building|room|poi)/.test(route.params.view as string);
   },
+  layout: "details",
 });
 
 type DetailsResponse = components["schemas"]["DetailsResponse"];
@@ -42,12 +43,11 @@ watch(error, () => {
     });
   }
 });
-watchEffect(() => {
+watch([data, route], () => {
   if (!data.value) return;
   if (route.fullPath !== data.value.redirect_url) router.replace({ path: data.value.redirect_url });
   // --- Additional data ---
   slideshowOpen.value = false;
-  console.log(data.value.maps);
   selectedMap.value = data.value.maps.default;
   // --- Images ---
   if (data.value.imgs && data.value.imgs.length > 0) {
@@ -126,7 +126,7 @@ onMounted(() => {
     <button
       v-if="shownImage"
       type="button"
-      class="focusable !-mx-5 block lg:hidden print:!hidden"
+      class="focusable block lg:hidden print:!hidden"
       @click="slideshowOpen = !!data.imgs"
     >
       <img
@@ -137,7 +137,7 @@ onMounted(() => {
     </button>
 
     <!-- Entry header / title -->
-    <div>
+    <div class="px-5">
       <BreadcrumbList
         :items="data.parent_names.map((n, i) => ({ name: n, to: i > 0 ? '/view/' + data?.parents[i] : '/' }))"
         class="pb-3 pt-6"
@@ -184,7 +184,7 @@ onMounted(() => {
     </div>
 
     <!-- First info section (map + infocard) -->
-    <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-5 px-5 lg:grid-cols-3">
       <TabGroup class="col-span-1 lg:col-span-2" as="div" manual>
         <div class="mb-3 grid gap-2 lg:hidden">
           <Toast
@@ -195,14 +195,14 @@ onMounted(() => {
           <Toast v-if="data.props.comment" :msg="data.props.comment" />
         </div>
         <TabPanels>
-          <TabPanel :unmount="false">
+          <TabPanel id="interactiveMapPanel" :unmount="false">
             <ClientOnly>
               <DetailsInteractiveMap ref="interactiveMap" :data="data" />
             </ClientOnly>
           </TabPanel>
-          <TabPanel :unmount="false">
+          <TabPanel id="roomfinderMapPanel" :unmount="false">
             <ClientOnly>
-              <DetailsRoomfinderMap
+              <LazyDetailsRoomfinderMap
                 v-if="data.maps.roomfinder?.available"
                 ref="roomfinderMap"
                 :available="data.maps.roomfinder.available"
@@ -262,7 +262,7 @@ onMounted(() => {
 
     <DetailsBuildingOverviewSection :buildings="data.sections?.buildings_overview" />
     <ClientOnly>
-      <DetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
+      <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
     </ClientOnly>
     <DetailsSources :coords="data.coords" :sources="data.sources" :shown_image="shownImage" />
   </div>

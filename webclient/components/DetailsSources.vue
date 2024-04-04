@@ -15,7 +15,7 @@ const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
-  <section>
+  <section class="px-5">
     <h2 class="text-md text-zinc-800 font-semibold">{{ t("title") }}</h2>
     <div class="text-zinc-600 text-sm">
       <p>

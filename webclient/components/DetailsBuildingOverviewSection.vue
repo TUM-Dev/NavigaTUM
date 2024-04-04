@@ -15,7 +15,7 @@ const runtimeConfig = useRuntimeConfig();
 </script>
 
 <template>
-  <section v-if="props.buildings" class="print:!hidden">
+  <section v-if="props.buildings" class="px-5 print:!hidden">
     <h2 class="text-zinc-800 pb-3 text-lg font-semibold">{{ t("title") }}</h2>
     <!--  <a class="no-underline" href="#">Übersichtskarte <ArrowRightIcon class="w-4 h-4" /> -->
     <div class="text-zinc-600 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
