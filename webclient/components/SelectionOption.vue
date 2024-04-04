@@ -1,8 +1,8 @@
-<script setup lang="ts" generic="T extends string | boolean">
+<script setup lang="ts">
 import { CheckIcon } from "@heroicons/vue/24/outline";
 import { ListboxOption } from "@headlessui/vue";
 
-defineProps<{ value: T }>();
+defineProps<{ value: string }>();
 </script>
 
 <template>

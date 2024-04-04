@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T extends string | boolean">
+<script setup lang="ts">
 import { Listbox, ListboxButton, ListboxOptions } from "@headlessui/vue";
 import { ChevronUpDownIcon } from "@heroicons/vue/24/outline";
 
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), { label: "" });
-const selectedValue = defineModel<T>({ required: true });
+const selectedValue = defineModel<string>({ required: true });
 </script>
 
 <template>
