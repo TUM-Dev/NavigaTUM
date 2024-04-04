@@ -4,6 +4,6 @@ const runtimeConfig = useRuntimeConfig();
 
 <template>
   <ClientOnly>
-    <SwaggerUI :url="`${runtimeConfig.public.apiURL}/cdn/openapi.yaml`" />
+    <SwaggerUI :url="`${runtimeConfig.public.cdnURL}/cdn/openapi.yaml`" />
   </ClientOnly>
 </template>

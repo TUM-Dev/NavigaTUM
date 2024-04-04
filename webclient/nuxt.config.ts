@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiURL: "https://nav.tum.de",
+      cdnURL: "https://nav.tum.de",
+      feedbackURL: "https://nav.tum.de",
+      mapsURL: "https://nav.tum.de",
     },
   },
   modules: ["@nuxtjs/i18n", "@nuxtjs/tailwindcss", "@nuxtjs/color-mode", "@vueuse/nuxt", "@nuxt/content"],

@@ -131,7 +131,7 @@ onMounted(() => {
     >
       <img
         :alt="t('image_alt')"
-        :src="`${runtimeConfig.public.apiURL}/cdn/header/${shownImage.name}`"
+        :src="`${runtimeConfig.public.cdnURL}/cdn/header/${shownImage.name}`"
         class="block w-full"
       />
     </button>

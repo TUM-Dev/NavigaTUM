@@ -37,7 +37,7 @@ export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
   const TOKEN_VALIDITY_FRONTEND_HOURS = 6;
   const runtimeConfig = useRuntimeConfig();
   if (token.value === null || Date.now() - token.value.created_at > TOKEN_VALIDITY_FRONTEND_HOURS * MS_PER_HOUR) {
-    fetch(`${runtimeConfig.public.apiURL}/api/feedback/get_token`, { method: "POST" })
+    fetch(`${runtimeConfig.public.feedbackURL}/api/feedback/get_token`, { method: "POST" })
       .then((r) => {
         if (r.status === TokenStatus.SUCCESSFULLY_CREATED) {
           r.json()

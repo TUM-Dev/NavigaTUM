@@ -52,8 +52,8 @@ const subtitles = computed<SubTitle[]>(() => {
           <img
             itemprop="contentUrl"
             :alt="t('image_alt')"
-            :src="`${runtimeConfig.public.apiURL}/cdn/lg/${img.name}`"
-            :srcset="`${runtimeConfig.public.apiURL}/cdn/sm/${img.name} 1024w,${runtimeConfig.public.apiURL}/cdn/md/${img.name} 1920w,${runtimeConfig.public.apiURL}/cdn/lg/${img.name} 3860w`"
+            :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${img.name}`"
+            :srcset="`${runtimeConfig.public.cdnURL}/cdn/sm/${img.name} 1024w,${runtimeConfig.public.cdnURL}/cdn/md/${img.name} 1920w,${runtimeConfig.public.cdnURL}/cdn/lg/${img.name} 3860w`"
             class="max-h-2/3 w-full rounded sm:max-h-[30rem]"
           />
           <span v-if="img.license.url" class="hidden" itemprop="license"> {{ img.license.url }}</span>

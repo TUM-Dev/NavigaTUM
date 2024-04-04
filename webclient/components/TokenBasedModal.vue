@@ -33,7 +33,7 @@ function _send() {
   const data = JSON.parse(JSON.stringify(props.data));
   data.privacy_checked = privacyChecked.value;
   data.token = token.value?.token;
-  fetch(`${runtimeConfig.public.apiURL}/api/feedback/feedback`, {
+  fetch(`${runtimeConfig.public.feedbackURL}/api/feedback/feedback`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

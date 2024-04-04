@@ -31,7 +31,7 @@ const runtimeConfig = useRuntimeConfig();
               <img
                 class="aspect-square h-11 w-11 rounded-full"
                 :alt="t('thumbnail_preview')"
-                :src="`${runtimeConfig.public.apiURL}/cdn/thumb/${b.thumb}`"
+                :src="`${runtimeConfig.public.cdnURL}/cdn/thumb/${b.thumb}`"
               />
             </figure>
             <div v-else class="text-white bg-blue-500 min-w-11 rounded-full p-2">

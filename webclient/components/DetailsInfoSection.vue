@@ -27,7 +27,7 @@ const runtimeConfig = useRuntimeConfig();
       <button v-if="shownImage" type="button" class="focusable rounded-t-lg" @click="slideshowOpen = true">
         <img
           :alt="t('image_alt')"
-          :src="`${runtimeConfig.public.apiURL}/cdn/header/${shownImage.name}`"
+          :src="`${runtimeConfig.public.cdnURL}/cdn/header/${shownImage.name}`"
           class="bg-zinc-100 block h-auto w-full max-w-full rounded-t-lg"
         />
       </button>
