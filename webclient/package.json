@@ -45,7 +45,7 @@
     "stylelint-scss": "6.2.1",
     "tailwindcss": "3.4.3",
     "typescript": "5.4.3",
-    "vue-tsc": "2.0.7"
+    "vue-tsc": "1.8.27"
   },
   "type": "module",
   "packageManager": "pnpm@8.15.5+sha256.4b4efa12490e5055d59b9b9fc9438b7d581a6b7af3b5675eb5c5f447cee1a589"
