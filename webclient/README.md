@@ -31,7 +31,7 @@ pnpm install
 
 Ensure that _NavigaTUM-server_ is running in the background.
 By default, the webclient will connect to the server on `https://nav.tum.de`.  
-If you want to connect to a local version instead, change `VITE_APP_URL` in [`env/.env`](./env/.env) to `http://localhost:3003`.
+If you want to connect to a local version instead, change the environemnt variable `NUXT_PUBLIC_{API,CDN,FEEDBACK,MAPS}_URL` to the appropriate value.
 
 To get a local server running, please:
 
@@ -73,52 +73,34 @@ pnpm run lint
 pnpm run format
 ```
 
-## Build files & Serving release build
-
-We create a lot of index HTML files in the build process.
-Each of those files are similar but differ in some aspects.  
-If you serve the release build with a webserver (such as Nginx) you need to select the correct files based on the request URL and headers.
-
-```plain
-<theme>.html
-   ↑
-   └── The page theme. Either "light" or "dark" at the moment.
-       It should be selected based on the "theme" Cookie ("light" by default).
-```
-
-The language-selector is working in development and this differentialtion is only happening in the build.  
-For the theme we can not do so for some reason (If you know of a better way, hit us up).  
-To test a different theme, you can change `theme='...'` [here](./index.html). Values are `light` and `dark`.
-
 ## Architecture
 
-The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/).  
-For state management we use [pinia](https://pinia.vuejs.org/).
-Our CSS framework is currently being migrated from [Spectre.css](https://picturepan2.github.io/spectre/) to [Tailwind](https://tailwindcss.com/). (if you're interested in helping out, please contact us ^^)
+The NavigaTUM webclient is made as a nuxt3 server side rendered application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/).
+Our CSS framework is [Tailwind](https://tailwindcss.com/).
 
 ### Directory structure (only the important parts)
 
 ```plain
 webclient
-├── public/         # 🠔 Static assets such as icons, which cannot get inlined
-├── api_types/  # 🠔 code generated via openapi.yaml for typechecking reasons
-├── assets/     # 🠔 Static assets such as icons
-│   ├── md/                 # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
-│   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
-│   └── logos               # 🠔 The Logos used by the app
-├── components/ # 🠔 Vue components, which are used in views.
-├── pages/      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
-├── router.ts   # 🠔 The routes of our app. This is where the views are loaded.
-├── App.vue     # 🠔 Main view
-├── main.ts     # 🠔 Inialization of Vue.js. This is the entrypoint of our app, from which App.vue and associated views/components are loaded
-├── vite.config.ts  # 🠔 Build configuration
-└── package.json    # 🠔 Node package definition and dependencies
+├── public/        # 🠔 Static assets such as icons, which cannot get inlined
+├── api_types/     # 🠔 code generated via openapi.yaml for typechecking reasons
+├── content/       # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
+├── assets/        # 🠔 Static assets such as icons
+│   ├── main.scss  # 🠔 Sass CSS code for all non-view parts
+│   └── logos      # 🠔 The Logos used by the app
+├── components/    # 🠔 Vue components, which are used in views.
+├── pages/         # 🠔 The pages are parts of App.vue, which are loaded based their file names.
+├── nuxt.config.ts # 🠔 core configuration of nuxt
+└── package.json   # 🠔 Node package definition and dependencies
 ```
 
 Note that new views are automatically included in the build, but they are not routed.  
 To add a new view, you need to add a new route in `router.ts`.
 
 ## Testing
+
+> [!NOTE]
+> cypress is currently temporarily disabled to help in the nuxt transition
 
 For this part of the project, the tests consist mainly of hot-path e2e tests and tests of critical components.
 PRs improving the coverage are very likely to be accepted.

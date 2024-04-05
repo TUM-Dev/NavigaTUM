@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
-import Modal from "../components/Modal.vue";
-import RoomfinderImageLocation from "../components/RoomfinderImageLocation.vue";
-import { computed, onBeforeMount, ref } from "vue";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
-import type { components } from "../api_types";
+import type { components } from "~/api_types";
 
 type RoomfinderMapEntry = components["schemas"]["RoomfinderMapEntry"];
 
@@ -47,7 +43,7 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
             leave-to-class="opacity-0"
           >
             <ListboxOptions
-              class="bg-white absolute mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+              class="ring-black/5 bg-white absolute mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 focus:outline-none sm:text-sm"
             >
               <ListboxOption
                 v-for="(map, i) in available"
@@ -58,12 +54,12 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
               >
                 <li
                   class="relative cursor-pointer select-none py-2 pl-10 pr-4"
-                  :class="[active ? 'text-tumBlue-900 bg-tumBlue-100' : 'text-zinc-900']"
+                  :class="[active ? 'text-blue-900 bg-blue-100' : 'text-zinc-900']"
                 >
                   <span class="block truncate" :class="[selected ? 'font-medium' : 'font-normal']">
                     1:{{ map.scale }}, {{ map.name }}
                   </span>
-                  <span v-if="selected" class="text-tumBlue-600 absolute inset-y-0 left-0 flex items-center pl-3">
+                  <span v-if="selected" class="text-blue-600 absolute inset-y-0 left-0 flex items-center pl-3">
                     <CheckIcon class="h-5 w-5" />
                   </span>
                 </li>

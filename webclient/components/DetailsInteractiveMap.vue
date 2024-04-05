@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
 import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
-import { nextTick, ref } from "vue";
-import { FloorControl } from "../modules/FloorControl";
-import { webglSupport } from "../composables/webglSupport";
-import { useI18n } from "vue-i18n";
-import type { components } from "../api_types";
+import { FloorControl } from "~/composables/FloorControl";
+import { webglSupport } from "~/composables/webglSupport";
+import type { components } from "~/api_types";
 
 const props = defineProps<{ data: DetailsResponse }>();
 defineExpose({ loadInteractiveMap });
@@ -13,6 +11,7 @@ const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
 const { t } = useI18n({ useScope: "local" });
+const runtimeConfig = useRuntimeConfig();
 
 const initialLoaded = ref(false);
 
@@ -96,7 +95,7 @@ function initMap(containerId: string) {
 
     // preview of the following style is available at
     // https://nav.tum.de/maps/
-    style: `${import.meta.env.VITE_APP_URL}/maps/styles/osm-liberty/style.json`,
+    style: `${runtimeConfig.public.mapsURL}/maps/styles/osm-liberty/style.json`,
 
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible
@@ -180,7 +179,7 @@ function initMap(containerId: string) {
   }
 
   floorControl.value.on("floor-changed", (args: FloorChangedEvent) => {
-    const url = args.file ? `${import.meta.env.VITE_APP_URL}/cdn/maps/overlay/${args.file}` : null;
+    const url = args.file ? `${runtimeConfig.public.cdnURL}/cdn/maps/overlay/${args.file}` : null;
     setOverlayImage(url, args.coords);
   });
   map.addControl(floorControl.value, "bottom-left");
@@ -250,25 +249,30 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 </script>
 
 <template>
-  <div id="interactive-map-container" class="mb-2.5 aspect-4/3 print:!hidden" :class="{ errormessage: !webglSupport }">
-    <div>
-      <div v-if="webglSupport" id="interactive-map" class="loading" />
-      <template v-else>
-        {{ t("no_webgl.no_browser_support") }}
-        {{ t("no_webgl.explain_webgl") }} <br />
-        {{ t("no_webgl.please_try") }}:
-        <ol>
-          <li>
-            {{ t("no_webgl.upgrade_browser") }}
-            {{ t("no_webgl.visit_official_website_to_upgrade_browser") }}
-          </li>
-          <li>
-            {{ t("no_webgl.try_different_browser") }}
-            {{ t("no_webgl.known_good_browsers") }}
-            {{ t("no_webgl.try_different_browser2") }}
-          </li>
-        </ol>
-      </template>
+  <div
+    id="interactive-map-container"
+    class="mb-2.5 aspect-4/3 print:!hidden"
+    :class="{
+      'dark:bg-black bg-white border-zinc-300 border': webglSupport,
+      'bg-red-300 text-red-950': !webglSupport,
+    }"
+  >
+    <div v-if="webglSupport" id="interactive-map" class="absolute !h-full !w-full" />
+    <div v-else class="relative">
+      {{ t("no_webgl.no_browser_support") }}
+      {{ t("no_webgl.explain_webgl") }} <br />
+      {{ t("no_webgl.please_try") }}:
+      <ol>
+        <li>
+          {{ t("no_webgl.upgrade_browser") }}
+          {{ t("no_webgl.visit_official_website_to_upgrade_browser") }}
+        </li>
+        <li>
+          {{ t("no_webgl.try_different_browser") }}
+          {{ t("no_webgl.known_good_browsers") }}
+          {{ t("no_webgl.try_different_browser2") }}
+        </li>
+      </ol>
     </div>
   </div>
 </template>
@@ -282,22 +286,11 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 
   .maplibregl-user-location-dot,
   .maplibregl-user-location-dot::before {
-    @apply bg-tumBlue-500;
+    @apply bg-blue-500;
   }
 
   > div {
     padding-bottom: 75%; /* 4:3 aspect ratio */
-    border: 1px solid $border-light;
-    background-color: $container-loading-bg;
-    position: relative;
-  }
-
-  &.errormessage {
-    @apply bg-red-300;
-
-    & div {
-      @apply bg-red-300 border-0 p-1 text-red-950;
-    }
   }
 
   &.maximize {
@@ -315,19 +308,13 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   }
 }
 
-#interactive-map {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-
 .marker {
   position: absolute;
   pointer-events: none;
   padding: 0;
 
   &.marker-pin {
-    background-image: url(/assets/map/marker_pin.webp);
+    background-image: url(~/assets/map/marker_pin.webp);
     width: 25px;
     height: 36px;
     top: -33px;
@@ -335,16 +322,12 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
   }
 
   &.marker-shadow {
-    background-image: url(/assets/map/marker_pin-shadow.webp);
+    background-image: url(~/assets/map/marker_pin-shadow.webp);
     width: 38px;
     height: 24px;
     top: -20px;
     left: -12px;
   }
-}
-
-.maplibregl-control-container {
-  @apply print:!hidden;
 }
 
 .maplibregl-ctrl-group.floor-ctrl {

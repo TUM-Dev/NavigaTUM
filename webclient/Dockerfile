@@ -12,15 +12,19 @@ ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 ARG GIT_COMMIT_MESSAGE
 ENV GIT_COMMIT_MESSAGE=${GIT_COMMIT_MESSAGE}
-RUN npm run build-only
-RUN gzip --force --keep --recursive ./dist
+RUN NITRO_PRESET=deno-server pnpm run build
 
 
-FROM nginx:1.25 as production-stage
-COPY nginx.conf /etc/nginx/nginx.conf
-RUN mkdir /app && apt update && apt upgrade -y
-COPY --from=build-stage /app/dist /app
+FROM denoland/deno:alpine as production-stage
+RUN apk update --no-progress --quiet && apk add curl --no-progress --quiet
 
+COPY --from=build-stage /app/.output /app/.output
+COPY --from=build-stage /app/node_modules /app/node_modules
+COPY --from=build-stage /app/.nuxt /app/.nuxt
+
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=3000
 EXPOSE 3000
+
 HEALTHCHECK CMD curl --fail localhost:3000/health || exit 1
-CMD sh -c "sed -i 's|TILESERVER_URL|${TILESERVER_URL}|g' /etc/nginx/nginx.conf && sed -i 's|CDN_URL|${CDN_URL}|g' /etc/nginx/nginx.conf && sed -i 's|MAIN_API_URL|${MAIN_API_URL}|g' /etc/nginx/nginx.conf && sed -i 's|FEEDBACK_API_URL|${FEEDBACK_API_URL}|g' /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+CMD deno run --unstable --allow-net --allow-read --allow-env /app/.output/server/index.mjs
