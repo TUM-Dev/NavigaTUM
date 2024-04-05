@@ -38,7 +38,7 @@ watchEffect(() => {
   if (error.value) {
     router.push({
       path: "/404",
-      query: {...route.query, path:route.path},
+      query: { ...route.query, path: route.path },
       hash: route.hash,
     });
   }
