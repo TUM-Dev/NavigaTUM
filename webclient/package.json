@@ -21,8 +21,8 @@
     "@vueuse/nuxt": "10.9.0",
     "maplibre-gl": "4.1.2",
     "nightwind": "1.1.13",
-    "nuxt": "3.10.3",
-    "swagger-ui": "5.11.10",
+    "nuxt": "3.11.2",
+    "swagger-ui": "5.13.0",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "vue": "3.4.21",
     "vue-router": "4.3.0",
@@ -49,5 +49,5 @@
     "vue-tsc": "1.8.27"
   },
   "type": "module",
-  "packageManager": "pnpm@8.15.5+sha256.4b4efa12490e5055d59b9b9fc9438b7d581a6b7af3b5675eb5c5f447cee1a589"
+  "packageManager": "pnpm@8.15.6"
 }
