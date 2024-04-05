@@ -23,6 +23,7 @@ const feedback = useFeedback();
           <option value="entry">{{ t("type.entry") }}</option>
         </select>
         <input
+          id="feedback-subject"
           v-model="feedback.data.subject"
           class="focusable bg-zinc-200 border-zinc-400 flex-grow rounded border px-2 py-1"
           type="text"
@@ -35,6 +36,7 @@ const feedback = useFeedback();
           {{ t("message") }}
         </label>
         <textarea
+          id="feedback-body"
           v-model="feedback.data.body"
           class="focusable bg-zinc-200 border-zinc-400 rounded border px-2 py-1"
           :placeholder="t('message')"

@@ -27,7 +27,7 @@ const shareOptions = computed<UseShareOptions>(() => ({
   <button type="button" :title="t('external_link')" class="focusable rounded-sm" @click="modalOpen = true">
     <ShareIcon class="text-blue-600 h-4 w-4 hover:text-blue-900" />
   </button>
-  <Modal v-model="modalOpen" :title="t('share')">
+  <LazyModal v-model="modalOpen" :title="t('share')">
     <div class="flex flex-col gap-5">
       <div class="flex flex-col gap-2">
         <h3 class="text-md text-zinc-600 font-semibold">{{ t("open_in") }}</h3>
@@ -56,7 +56,7 @@ const shareOptions = computed<UseShareOptions>(() => ({
         </Btn>
       </div>
     </div>
-  </Modal>
+  </LazyModal>
 </template>
 
 <i18n lang="yaml">
