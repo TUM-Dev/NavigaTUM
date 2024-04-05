@@ -5,11 +5,10 @@ services:
         ports:
             - "3000:3000"
         environment:
-            TILESERVER_URL: http://tileserver:8080
-            CDN_URL: http://data:3002
-            MAIN_API_URL: http://main-api:3003
-            FEEDBACK_API_URL: http://feedback-api:3004
-            VITE_APP_URL: http://localhost:3000
+            NUXT_PUBLIC_MAPS_URL: http://tileserver:8080
+            NUXT_PUBLIC_CDN_URL: http://data:3002
+            NUXT_PUBLIC_API_URL: http://main-api:3003
+            NUXT_PUBLIC_FEEDBACK_URL: http://feedback-api:3004
         depends_on:
             tileserver:
                 condition: service_healthy
