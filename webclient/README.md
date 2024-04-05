@@ -99,7 +99,8 @@ To add a new view, you need to add a new route in `router.ts`.
 
 ## Testing
 
-**cypress is currently temporarily disabled to help in the nuxt transition**
+> [!NOTE]
+> cypress is currently temporarily disabled to help in the nuxt transition
 
 For this part of the project, the tests consist mainly of hot-path e2e tests and tests of critical components.
 PRs improving the coverage are very likely to be accepted.
