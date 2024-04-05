@@ -120,4 +120,8 @@ export default defineNuxtConfig({
     "/en/room/**": { swr: 3600 },
     "/en/poi/**": { swr: 3600 },
   },
+  typescript: {
+    typeCheck: true,
+    strict: true,
+  },
 });
