@@ -91,8 +91,8 @@ useSeoMeta({
       <section class="flex flex-col gap-2">
         <h2 class="text-md text-zinc-500 font-semibold">{{ s.name }}</h2>
         <ul class="flex flex-col gap-3">
-          <li v-for="e in s.entries" :key="e.id" class="focusable rounded-sm border hover:bg-blue-50">
-            <NuxtLink :to="'/view/' + e.id" class="flex gap-3 p-4">
+          <li v-for="e in s.entries" :key="e.id" class="bg-zinc-50 border-zinc-200 rounded-sm border hover:bg-blue-100">
+            <NuxtLink :to="'/view/' + e.id" class="focusable flex gap-3 p-4">
               <div class="my-auto min-w-11">
                 <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 p-2">
                   <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />

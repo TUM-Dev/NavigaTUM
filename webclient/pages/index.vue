@@ -60,7 +60,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             class="focusable text-blue-600 flex flex-row justify-between rounded !no-underline hover:text-blue-500"
           >
             <div class="flex flex-row gap-2">
-              <MapPinIcon class="h-4 w-5" />
+              <MapPinIcon class="my-auto h-4 w-5" />
               <span>{{ c.name }}</span>
             </div>
             <ChevronRightIcon class="my-auto hidden h-4 w-4 sm:block" />
