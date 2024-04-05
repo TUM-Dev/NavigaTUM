@@ -31,6 +31,7 @@ spec:
           port: 8080
       middlewares:
         - name: stripprefix
+        - name: compress
         - name: cache-2-months
     - kind: Rule
       match: Host(`{{ $.Values.url }}`) && PathPrefix(`/cdn/`)
