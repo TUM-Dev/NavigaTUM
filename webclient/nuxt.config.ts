@@ -66,7 +66,7 @@ export default defineNuxtConfig({
 "@context": "https://schema.org",
 "@type": "Organization",
 "url": "https://nav.tum.de/",
-"logo": "https://nav.tum.de/org_logo.svg"
+"logo": "https://nav.tum.de/logos/org_logo.svg"
 }`,
           type: "application/ld+json",
         },
