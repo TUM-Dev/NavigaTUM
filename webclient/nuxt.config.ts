@@ -8,7 +8,14 @@ export default defineNuxtConfig({
       mapsURL: "https://nav.tum.de",
     },
   },
-  modules: ["@nuxtjs/i18n", "@nuxtjs/tailwindcss", "@nuxtjs/color-mode", "@vueuse/nuxt", "@nuxt/content"],
+  modules: [
+    "@nuxtjs/i18n",
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/color-mode",
+    "@vueuse/nuxt",
+    "@nuxt/content",
+    "@nuxtjs/partytown",
+  ],
   app: {
     head: {
       bodyAttrs: { class: "bg-zinc-50" },
@@ -62,6 +69,13 @@ export default defineNuxtConfig({
 "logo": "https://nav.tum.de/org_logo.svg"
 }`,
           type: "application/ld+json",
+        },
+        { innerHTML: "window.$plausible = [];" },
+        {
+          src: "https://analytics.nav.tum.sexy/js/plausible.js",
+          defer: true,
+          type: "text/partytown",
+          "data-domain": "nav.tum.de",
         },
       ],
     },
@@ -123,5 +137,8 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
     strict: true,
+  },
+  partytown: {
+    forward: ["$plausible", "$plausible.push"],
   },
 });
