@@ -158,7 +158,7 @@ watchEffect(() => {
       <!--
     <li class="search-comment filter">
       Suche einschränken auf:
-      <a class="bt btn-link btn-sm">Räume</a>
+      <NuxtLink class="bt btn-link btn-sm">Räume</NuxtLink>
     </li> -->
 
       <template v-for="(e, i) in s.entries" :key="e.id">
