@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 import { CheckIcon, ChevronUpDownIcon, FunnelIcon, MagnifyingGlassIcon, MapPinIcon } from "@heroicons/vue/24/outline";
-import type { components } from "../api_types";
-import { useI18n } from "vue-i18n";
-import Btn from "../components/Btn.vue";
+import type { components } from "~/api_types";
 import { useVirtualList } from "@vueuse/core";
 
 type RoomsOverview = components["schemas"]["RoomsOverview"];
@@ -48,7 +45,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
 <template>
   <div
     v-if="props.rooms?.usages"
-    class="bg-white border-zinc-300 flex flex-col gap-3 rounded border p-4 dark:bg-zinc-100 print:!hidden"
+    class="flex flex-col gap-3 p-4 md:bg-white md:border-zinc-300 md:dark:bg-zinc-100 md:mx-5 md:rounded md:border print:!hidden"
   >
     <p class="text-zinc-800 text-lg font-semibold">{{ t("title") }}</p>
     <div class="flex flex-col gap-2">
@@ -71,7 +68,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
           leave-to-class="opacity-0"
         >
           <ListboxOptions
-            class="bg-zinc-200 absolute !m-0 mt-1 max-h-60 w-full overflow-auto rounded-md text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            class="ring-black/5 bg-zinc-200 absolute !m-0 mt-1 max-h-60 w-full overflow-auto rounded-md text-base shadow-lg ring-1 focus:outline-none sm:text-sm"
           >
             <ListboxOption
               v-slot="{ active, selected }"
@@ -82,9 +79,9 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
             >
               <div
                 class="flex flex-row justify-start gap-3 px-3 py-2"
-                :class="[active ? 'text-tumBlue-900 bg-tumBlue-100' : 'text-zinc-900']"
+                :class="[active ? 'text-blue-900 bg-blue-100' : 'text-zinc-900']"
               >
-                <span v-if="selected" class="text-tumBlue-600 my-auto">
+                <span v-if="selected" class="text-blue-600 my-auto">
                   <CheckIcon class="h-5 w-5" />
                 </span>
                 <div class="flex flex-grow flex-row justify-between gap-3">
@@ -94,7 +91,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
                   >
                     {{ t("any_usage") }}
                   </span>
-                  <span class="bg-tumBlue-300 rounded-md px-2 py-1 text-sm text-tumBlue-950"
+                  <span class="bg-blue-300 rounded-md px-2 py-1 text-sm text-blue-950"
                     >{{ t("rooms", combined_list.length) }}
                   </span>
                 </div>
@@ -110,9 +107,9 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
             >
               <div
                 class="flex flex-row justify-start gap-3 px-3 py-2"
-                :class="[active ? 'text-tumBlue-900 bg-tumBlue-100' : 'text-zinc-900']"
+                :class="[active ? 'text-blue-900 bg-blue-100' : 'text-zinc-900']"
               >
-                <span v-if="selected" class="text-tumBlue-600 my-auto">
+                <span v-if="selected" class="text-blue-600 my-auto">
                   <CheckIcon class="h-5 w-5" />
                 </span>
                 <div class="flex flex-grow flex-row justify-between gap-3">
@@ -122,7 +119,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
                   >
                     {{ usage.name }}
                   </span>
-                  <span class="bg-tumBlue-300 rounded-md px-2 py-1 text-sm text-tumBlue-950"
+                  <span class="bg-blue-300 rounded-md px-2 py-1 text-sm text-blue-950"
                     >{{ t("rooms", usage.count) }}
                   </span>
                 </div>
@@ -155,7 +152,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
               v-for="(room, index) in list"
               :key="index"
               :href="`/view/${room.data.id}`"
-              class="flex h-[36px] max-h-[36px] min-h-[36px] flex-row gap-2 p-1.5 px-3 hover:text-white hover:bg-tumBlue-500"
+              class="flex h-[36px] max-h-[36px] min-h-[36px] flex-row gap-2 p-1.5 px-3 hover:text-white hover:bg-blue-500"
             >
               <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" />
               {{ room.data.name }}

@@ -1,4 +1,5 @@
-node_modules/*
-dist/*
-cdn/*
-.vscode/*
+node_modules
+dist
+cdn
+.output
+.nuxt

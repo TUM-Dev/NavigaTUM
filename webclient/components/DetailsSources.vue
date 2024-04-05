@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
-import type { components } from "../api_types";
+import type { components } from "~/api_types";
 
 type ImageInfo = components["schemas"]["ImageInfo"];
 type Coordinate = components["schemas"]["Coordinate"];
@@ -16,7 +15,7 @@ const { t } = useI18n({ useScope: "local" });
 </script>
 
 <template>
-  <section>
+  <section class="px-5">
     <h2 class="text-md text-zinc-800 font-semibold">{{ t("title") }}</h2>
     <div class="text-zinc-600 text-sm">
       <p>

@@ -1,4 +1,5 @@
-import type { components } from "../api_types";
+import type { components } from "~/api_types";
+
 type SearchResponse = components["schemas"]["SearchResponse"];
 type RoomEntry = components["schemas"]["RoomEntry"];
 type SitesBuildingsEntry = components["schemas"]["SitesBuildingsEntry"];
@@ -8,7 +9,7 @@ function _allowHighlighting(text: string): string {
   // first place), but for extra redundancy we sanitise this anyway.
   // It is not done by Vue, as we use `v-html`-Tag to include it in the frontend.
   const opt = new Option(text).innerHTML;
-  return opt.replaceAll("\x19", "<b class='text-tumBlue-500'>").replaceAll("\x17", "</b>");
+  return opt.replaceAll("\x19", "<b class='text-blue-500'>").replaceAll("\x17", "</b>");
 }
 
 export type SectionFacet = RoomFacet | SiteBuildingFacet;
