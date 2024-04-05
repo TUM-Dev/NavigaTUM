@@ -141,4 +141,5 @@ export default defineNuxtConfig({
   partytown: {
     forward: ["$plausible", "$plausible.push"],
   },
+  sourcemap: true,
 });
