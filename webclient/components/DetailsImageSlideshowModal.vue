@@ -17,9 +17,10 @@ type OnSlideData = {
   slidesCount: number;
 };
 
-function onSlide({ currentSlideIndex }: OnSlideData): void {
-  // if-statement just to make ts happy
-  if (props.imgs) shownImage.value = props.imgs[currentSlideIndex];
+function onSlide(slide:unknown): void {
+  // destructured here to make ts happy
+  const { currentSlideIndex } = slide as OnSlideData;
+  shownImage.value = props.imgs[currentSlideIndex];
 }
 
 interface SubTitle {
