@@ -2,14 +2,15 @@ services:
     webclient:
         image: ghcr.io/tum-dev/navigatum-webclient:main
         restart: unless-stopped
-        networks:
-            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-webclient.entrypoints=webs"
             - "traefik.http.routers.navigatum-webclient.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-webclient.rule=Host(`nav.tum.de`)"
             - "traefik.http.services.navigatum-webclient.loadbalancer.server.port=3000"
+        networks:
+            - traefik_traefik
+            - navigatum
         expose:
             - "3000"
         environment:
@@ -44,14 +45,17 @@ services:
     tileserver-srv-src: # needed for simpler initialisation of dev environments
         image: nginx:1.25
         restart: unless-stopped
-        networks:
-            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-tileserver-srv.entrypoints=webs"
             - "traefik.http.routers.navigatum-tileserver-srv.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-tileserver-srv.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
             - "traefik.http.services.navigatum-tileserver-srv.loadbalancer.server.port=80"
+        networks:
+            - traefik_traefik
+            - navigatum
+        expose:
+            - 80
         volumes:
             - tileserver-src:/usr/share/nginx/html/maps/vol:ro
         depends_on:
@@ -67,8 +71,6 @@ services:
     tileserver:
         image: maptiler/tileserver-gl:latest
         restart: unless-stopped
-        networks:
-            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-tileserver.entrypoints=webs"
@@ -77,14 +79,17 @@ services:
             - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-stripprefix@docker"
             - "traefik.http.middlewares.navigatum-stripprefix.stripprefix.prefixes=/maps"
             - "traefik.http.services.navigatum-tileserver.loadbalancer.server.port=8080"
+        networks:
+            - traefik_traefik
+            - navigatum
+        expose:
+            - "8080"
         command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
         tmpfs:
             - /tmp
         volumes:
             - tileserver-src:/data/:ro
         read_only: true
-        expose:
-            - "8080"
         depends_on:
             tileserver-init-config:
                 condition: service_completed_successfully
@@ -94,31 +99,33 @@ services:
     data:
         image: ghcr.io/tum-dev/navigatum-data:main
         restart: unless-stopped
-        networks:
-            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-data.entrypoints=webs"
             - "traefik.http.routers.navigatum-data.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-data.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
             - "traefik.http.services.navigatum-data.loadbalancer.server.port=3002"
+        networks:
+            - traefik_traefik
+            - navigatum
         expose:
             - "3002"
     # server
     main-api:
         image: ghcr.io/tum-dev/navigatum-server:main
         restart: unless-stopped
-        networks:
-            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-main-api.entrypoints=webs"
             - "traefik.http.routers.navigatum-main-api.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
             - "traefik.http.services.navigatum-main-api.loadbalancer.server.port=3003"
-        command: /bin/navigatum-main-api
+        networks:
+            - traefik_traefik
+            - navigatum
         expose:
             - "3003"
+        command: /bin/navigatum-main-api
         volumes:
             -   type: tmpfs
                 target: /home/navigatum/.cache
@@ -144,6 +151,8 @@ services:
     meilisearch:
         image: getmeili/meilisearch:v1.7.4
         restart: unless-stopped
+        networks:
+            - navigatum
         expose:
             - "7700"
         healthcheck:
@@ -154,17 +163,18 @@ services:
     feedback-api:
         image: ghcr.io/tum-dev/navigatum-server:main
         restart: unless-stopped
-        networks:
-            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-feedback-api.entrypoints=webs"
             - "traefik.http.routers.navigatum-feedback-api.tls.certresolver=leacme"
             - "traefik.http.routers.navigatum-feedback-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/feedback`)"
             - "traefik.http.services.navigatum-feedback-api.loadbalancer.server.port=3004"
-        command: /bin/navigatum-feedback
+        networks:
+            - traefik_traefik
+            - navigatum
         expose:
             - "3004"
+        command: /bin/navigatum-feedback
         healthcheck:
             test: wget -q --spider http://localhost:3004/api/feedback/status
             retries: 5
@@ -177,10 +187,12 @@ services:
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_DB: ${POSTGRES_DB}
-        volumes:
-            - postgres-data:/var/lib/postgresql/data
+        networks:
+            - navigatum
         expose:
             - "5432"
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
         healthcheck:
             test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
             retries: 5
@@ -189,8 +201,6 @@ services:
     redirect:
         image: traefik/whoami
         restart: unless-stopped
-        networks:
-            - traefik_traefik
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.navigatum-redirect-unsecure.entrypoints=web"
@@ -208,6 +218,8 @@ services:
             - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.regex=^(https?://.*)nav.tum.(app|sexy)/(.*)$$"
             - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.replacement=$${1}nav.tum.de/$${3}"
             - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.permanent=true"
+        networks:
+            - traefik_traefik
 
 volumes:
     tileserver-src:
@@ -216,5 +228,6 @@ volumes:
         driver: local
 
 networks:
+    navigatum:
     traefik_traefik:
         external: true

@@ -25,7 +25,7 @@
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "vue": "3.4.21",
     "vue-router": "4.3.0",
-    "vue3-carousel": "0.3.1"
+    "vue3-carousel": "0.3.3"
   },
   "devDependencies": {
     "@nuxtjs/i18n": "8.2.0",
@@ -41,7 +41,7 @@
     "postcss": "8.4.38",
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "0.5.13",
-    "sass": "1.72.0",
+    "sass": "1.74.1",
     "stylelint-scss": "6.2.1",
     "tailwindcss": "3.4.3",
     "typescript": "5.4.3",
