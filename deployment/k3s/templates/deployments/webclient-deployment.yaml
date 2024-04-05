@@ -43,10 +43,10 @@ spec:
               value: http://feedback-svc.navigatum.svc.cluster.local:3004
           resources:
             requests:
-              cpu: 5m
-              memory: 20Mi
+              cpu: 50m
+              memory: 500Mi
             limits:
-              memory: 20Mi
+              memory: 500Mi
           livenessProbe:
             httpGet:
               path: /health
