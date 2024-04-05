@@ -17,7 +17,7 @@ type OnSlideData = {
   slidesCount: number;
 };
 
-function onSlide(slide:unknown): void {
+function onSlide(slide: unknown): void {
   // destructured here to make ts happy
   const { currentSlideIndex } = slide as OnSlideData;
   shownImage.value = props.imgs[currentSlideIndex];

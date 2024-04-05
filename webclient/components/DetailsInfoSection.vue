@@ -47,12 +47,14 @@ const runtimeConfig = useRuntimeConfig();
     </div>
     <!-- <button class="btn btn-link">Mehr Infos</button> -->
   </div>
-  <DetailsImageSlideshowModal
-    v-if="slideshow_open && data.imgs !== undefined"
-    v-model:shown_image="shownImage"
-    v-model:slideshow_open="slideshowOpen"
-    :imgs="data.imgs"
-  />
+  <ClientOnly>
+    <LazyDetailsImageSlideshowModal
+      v-if="slideshow_open && data.imgs !== undefined"
+      v-model:shown_image="shownImage"
+      v-model:slideshow_open="slideshowOpen"
+      :imgs="data.imgs"
+    />
+  </ClientOnly>
 </template>
 
 <i18n lang="yaml">

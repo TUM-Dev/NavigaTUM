@@ -32,7 +32,6 @@ const { data, error } = useFetch<DetailsResponse, string>(url, { key: "details" 
 watchEffect(() => {
   if (route.params.id === "root") {
     router.replace({ path: "/" });
-    return;
   }
 });
 watch(error, () => {
