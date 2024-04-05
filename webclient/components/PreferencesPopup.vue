@@ -22,7 +22,7 @@ watchEffect(() => router.push(switchLocalePath(locale.value)));
       >
         <span class="absolute -inset-1.5" />
         <span class="sr-only">Open preferences menu</span>
-        <AdjustmentsHorizontalIcon class="text-black h-6 w-6" />
+        <AdjustmentsHorizontalIcon class="text-zinc-900 h-6 w-6" />
       </MenuButton>
     </div>
     <Transition

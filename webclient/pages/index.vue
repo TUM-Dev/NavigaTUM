@@ -30,7 +30,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
   </div>
   <div class="flex flex-col justify-between gap-3 pt-8">
     <div class="text-zinc-600 !text-lg font-semibold">{{ t("sites") }}</div>
-    <!-- <a href="#" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</a> -->
+    <!-- <NuxtLink to="#" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</NuxtLink> -->
   </div>
   <div v-if="data" class="mt-5">
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">

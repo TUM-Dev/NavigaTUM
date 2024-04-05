@@ -61,7 +61,7 @@ const feedback = useFeedback();
       <p>{{ t("success.thank_you") }}</p>
       <p>
         {{ t("success.response_at") }}
-        <a id="feedback-success-url" tabindex="1" class="btn-link" :href="successUrl">{{ t("success.this_issue") }}</a>
+        <Btn variant="linkButton" :href="successUrl">{{ t("success.this_issue") }}</Btn>
       </p>
     </template>
   </TokenBasedModal>
