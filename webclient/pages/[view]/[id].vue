@@ -34,11 +34,12 @@ watchEffect(() => {
     router.replace({ path: "/" });
   }
 });
-watch(error, () => {
+watchEffect(() => {
   if (error.value) {
-    throw createError({
-      statusCode: 404,
-      statusMessage: error.value,
+    router.push({
+      path: "/404",
+      query: {...route.query, path:route.path},
+      hash: route.hash,
     });
   }
 });
