@@ -14,10 +14,10 @@ services:
         expose:
             - "3000"
         environment:
-            TILESERVER_URL: http://tileserver:8080
-            CDN_URL: http://data:3002
-            MAIN_API_URL: http://main-api:3003
-            FEEDBACK_API_URL: http://feedback-api:3004
+            NUXT_PUBLIC_MAPS_URL: https://nav.tum.de
+            NUXT_PUBLIC_CDN_URL: https://nav.tum.de
+            NUXT_PUBLIC_API_URL: https://nav.tum.de
+            NUXT_PUBLIC_FEEDBACK_URL: https://nav.tum.de
         depends_on:
             tileserver:
                 condition: service_healthy
