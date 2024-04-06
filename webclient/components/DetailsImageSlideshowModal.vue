@@ -41,33 +41,34 @@ const subtitles = computed<SubTitle[]>(() => {
 
 <template>
   <LazyModal v-model="slideshowOpen" :title="t('header')" :classes="{ modal: '!min-w-[60vw]' }">
-    <Carousel
-      :items-to-show="1.15"
-      snap-align="center"
-      :autoplay="10_000"
-      :pause-autoplay-on-hover="true"
-      @slide-end="onSlide"
-    >
-      <Slide v-for="img in imgs" :key="img.name">
-        <div itemscope itemtype="http://schema.org/ImageObject" class="px-2">
-          <img
-            itemprop="contentUrl"
-            :alt="t('image_alt')"
-            :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${img.name}`"
-            :srcset="`${runtimeConfig.public.cdnURL}/cdn/sm/${img.name} 1024w,${runtimeConfig.public.cdnURL}/cdn/md/${img.name} 1920w,${runtimeConfig.public.cdnURL}/cdn/lg/${img.name} 3860w`"
-            class="max-h-2/3 w-full rounded sm:max-h-[30rem]"
-          />
-          <span v-if="img.license.url" class="hidden" itemprop="license"> {{ img.license.url }}</span>
-          <span v-else class="hidden" itemprop="license"> img.license.text</span>
-          <span v-if="img.license.url" class="hidden" itemprop="author"> {{ img.author.url }}</span>
-          <span v-else class="hidden" itemprop="author"> img.author.text</span>
-        </div>
-      </Slide>
-      <template #addons>
-        <Navigation />
-        <Pagination />
-      </template>
-    </Carousel>
+    <div class="-mx-6 -mt-3">
+      <Carousel
+        :items-to-show="1.1"
+        snap-align="center"
+        :autoplay="10_000"
+        :pause-autoplay-on-hover="true"
+        @slide-end="onSlide"
+      >
+        <Slide v-for="img in imgs" :key="img.name">
+          <div itemscope itemtype="http://schema.org/ImageObject" class="px-2">
+            <NuxtImg
+              itemprop="contentUrl"
+              :alt="t('image_alt')"
+              :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${img.name}`"
+              class="max-h-2/3 w-full rounded sm:max-h-[30rem]"
+            />
+            <span v-if="img.license.url" class="hidden" itemprop="license"> {{ img.license.url }}</span>
+            <span v-else class="hidden" itemprop="license"> img.license.text</span>
+            <span v-if="img.license.url" class="hidden" itemprop="author"> {{ img.author.url }}</span>
+            <span v-else class="hidden" itemprop="author"> img.author.text</span>
+          </div>
+        </Slide>
+        <template #addons>
+          <Navigation />
+          <Pagination />
+        </template>
+      </Carousel>
+    </div>
     <div v-if="shownImage" class="pt-5">
       <div class="grid min-h-20 auto-cols-auto grid-cols-5 gap-5 text-center">
         <div
