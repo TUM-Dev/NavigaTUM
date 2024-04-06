@@ -18,16 +18,18 @@ type ImageInfo = components["schemas"]["ImageInfo"];
 const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const router = useRouter();
-const shownImage = ref<ImageInfo | undefined>(undefined);
 
+const runtimeConfig = useRuntimeConfig();
+const url = computed(() => `${runtimeConfig.public.apiURL}/api/get/${route.params.id}?lang=${locale.value}`);
+const { data, error } = useFetch<DetailsResponse, string>(url, { key: "details" });
+
+const shownImage = ref<ImageInfo | undefined>(data.value?.imgs ? data.value.imgs[0] : undefined);
 const slideshowOpen = ref(false);
+
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 
 const selectedMap = ref<"interactive" | "roomfinder">("interactive");
-const runtimeConfig = useRuntimeConfig();
-const url = computed(() => `${runtimeConfig.public.apiURL}/api/get/${route.params.id}?lang=${locale.value}`);
-const { data, error } = useFetch<DetailsResponse, string>(url, { key: "details" });
 
 watchEffect(() => {
   if (route.params.id === "root") {
@@ -46,15 +48,14 @@ watchEffect(() => {
 watch([data, route], () => {
   if (!data.value) return;
   if (route.fullPath !== data.value.redirect_url) router.replace({ path: data.value.redirect_url });
+});
+watch([data], () => {
+  if (!data.value) return;
   // --- Additional data ---
   slideshowOpen.value = false;
   selectedMap.value = data.value.maps.default;
   // --- Images ---
-  if (data.value.imgs && data.value.imgs.length > 0) {
-    shownImage.value = data.value.imgs[0];
-  } else {
-    shownImage.value = undefined;
-  }
+  shownImage.value = data.value.imgs ? data.value.imgs[0] : undefined;
   tryToLoadMap();
 });
 
