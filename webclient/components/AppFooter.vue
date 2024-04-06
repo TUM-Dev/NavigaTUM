@@ -61,6 +61,7 @@ const navigation = computed(() => [
               :src="`/logos/tum_${colorMode.value === 'dark' ? 'dark' : 'light'}_${locale}.svg`"
               width="200"
               height="80"
+              loading="lazy"
               aria-hidden="true"
             />
           </p>

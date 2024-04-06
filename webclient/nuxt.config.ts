@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@nuxt/content",
     "@nuxtjs/partytown",
+    "@nuxt/image",
   ],
   app: {
     head: {
@@ -142,4 +143,12 @@ export default defineNuxtConfig({
     forward: ["$plausible", "$plausible.push"],
   },
   sourcemap: true,
+  image: {
+    domains: ["nav.tum.de"],
+  },
+  build: {
+    transpile: [
+      "sharp", // sharp somehow has problems when not transpiled causing "module not transpiled" errors
+    ],
+  },
 });

@@ -124,15 +124,19 @@ onMounted(() => {
   <div v-if="data" class="flex flex-col gap-5">
     <!-- Header image (on mobile) -->
     <button
-      v-if="shownImage"
+      v-if="data.imgs"
       type="button"
       class="focusable block lg:hidden print:!hidden"
-      @click="slideshowOpen = !!data.imgs"
+      @click="slideshowOpen = true"
     >
-      <img
+      <NuxtImg
+        width="256"
+        height="105"
         :alt="t('image_alt')"
-        :src="`${runtimeConfig.public.cdnURL}/cdn/header/${shownImage.name}`"
+        :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
+        densities="x1 x2 x3 x4"
         class="block w-full"
+        placeholder
       />
     </button>
 

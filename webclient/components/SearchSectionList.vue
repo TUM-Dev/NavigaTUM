@@ -5,13 +5,12 @@ type SearchResponse = components["schemas"]["SearchResponse"];
 import { extractFacets, type SectionFacet } from "~/composables/autocomplete";
 import type { components } from "~/api_types";
 
-const route = useRoute();
 const props = defineProps<{
   data: SearchResponse;
-  query_limit_buildings: number;
-  query_limit_rooms: number;
+  queryLimitBuildings: number;
+  queryLimitRooms: number;
 }>();
-
+const route = useRoute();
 const { t } = useI18n({ useScope: "local" });
 const sections = computed<SectionFacet[]>(() => {
   // Currently borrowing this functionality from autocomplete.
@@ -62,8 +61,8 @@ const sections = computed<SectionFacet[]>(() => {
         <NuxtLink
           :to="
             s.facet === 'rooms'
-              ? `/search?q=${route.query.q}&limit_buildings=${query_limit_buildings}&limit_rooms=${query_limit_rooms + 50}`
-              : `/search?q=${route.query.q}&limit_buildings=${query_limit_buildings + 20}&limit_rooms=${query_limit_rooms}`
+              ? `/search?q=${route.query.q}&limit_buildings=${queryLimitBuildings}&limit_rooms=${queryLimitRooms + 50}`
+              : `/search?q=${route.query.q}&limit_buildings=${queryLimitBuildings + 20}&limit_rooms=${queryLimitRooms}`
           "
           class="focusable text-blue-500 rounded-sm visited:text-blue-500 hover:text-blue-600 hover:underline"
           >{{ t("view_more") }}</NuxtLink

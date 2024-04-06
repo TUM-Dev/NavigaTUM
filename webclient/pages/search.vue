@@ -84,8 +84,8 @@ useSeoMeta({
     <ClientOnly>
       <SearchSectionList
         :data="data"
-        :query_limit_buildings="query_limit_buildings"
-        :query_limit_rooms="query_limit_rooms"
+        :query-limit-buildings="query_limit_buildings"
+        :query-limit-rooms="query_limit_rooms"
       />
     </ClientOnly>
   </div>
