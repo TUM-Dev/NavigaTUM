@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import type { BackgroundLayerSpecification, Coordinates, ImageSource } from "maplibre-gl";
-import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
+import {
+  AttributionControl,
+  FullscreenControl,
+  GeolocateControl,
+  Map,
+  Marker,
+  NavigationControl,
+  prewarm,
+} from "maplibre-gl";
 import { FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
 import type { components } from "~/api_types";
@@ -19,6 +27,7 @@ type DetailsResponse = components["schemas"]["DetailsResponse"];
 
 function loadInteractiveMap(fromUi = false) {
   if (!webglSupport) return;
+  prewarm();
 
   const doMapUpdate = function () {
     // The map might or might not be initialized depending on the type
@@ -81,6 +90,7 @@ function createMarker(hueRotation = 0) {
 }
 
 function initMap(containerId: string) {
+  prewarm();
   const map = new Map({
     container: containerId,
 
