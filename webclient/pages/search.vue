@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import type { SectionFacet } from "~/composables/autocomplete";
-import { extractFacets } from "~/composables/autocomplete";
 import type { components } from "~/api_types";
-import { ChevronDownIcon } from "@heroicons/vue/16/solid";
-import { BuildingOffice2Icon, BuildingOfficeIcon, MagnifyingGlassIcon, MapPinIcon } from "@heroicons/vue/24/outline";
+import SearchSectionList from "~/components/SearchSectionList.vue";
+import type { LocationQueryValue } from "vue-router";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
@@ -11,28 +9,25 @@ const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const feedback = useFeedback();
-
+function firstOrDefault(value: LocationQueryValue | LocationQueryValue[], defaultValue: string): string {
+  if (Array.isArray(value)) return value[0] ?? defaultValue;
+  return value ?? defaultValue;
+}
+const query_q = computed<string>(() => firstOrDefault(route.query.q, ""));
+const query_limit_buildings = computed<number>(() => parseInt(firstOrDefault(route.query.limit_buildings, "10")));
+const query_limit_rooms = computed<number>(() => parseInt(firstOrDefault(route.query.limit_rooms, "50")));
+const query_limit_all = computed<number>(() => query_limit_rooms.value + query_limit_rooms.value);
 const apiUrl = computed(() => {
-  const q = route.query.q;
   const params = new URLSearchParams();
-  if (typeof q === "string") {
-    params.append("q", q);
-  }
-  params.append("limit_buildings", "10");
-  params.append("limit_rooms", "50");
-  params.append("limit_all", "60");
+  params.append("q", query_q.value);
+  params.append("limit_buildings", query_limit_buildings.value.toString());
+  params.append("limit_rooms", query_limit_rooms.value.toString());
+  params.append("limit_all", query_limit_all.value.toString());
   params.append("lang", locale.value);
 
   return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
 const { data } = useFetch<SearchResponse>(apiUrl, {});
-const sections = computed<SectionFacet[] | null>(() => {
-  if (data.value === null) return null;
-  // Currently borrowing this functionality from autocomplete.
-  // In the future it is planned that this search results page
-  // has a different format.
-  return extractFacets(data.value, t("sections.rooms"), t("sections.buildings"));
-});
 const description = computed(() => {
   if (data.value === null) return "";
   let sectionsDescr = "";
@@ -86,50 +81,13 @@ useSeoMeta({
         {{ t("feedback.give") }}
       </button>
     </small>
-
-    <template v-for="s in sections" :key="s.type">
-      <section class="flex flex-col gap-2">
-        <h2 class="text-md text-zinc-500 font-semibold">{{ s.name }}</h2>
-        <ul class="flex flex-col gap-3">
-          <li v-for="e in s.entries" :key="e.id" class="bg-zinc-50 border-zinc-200 rounded-sm border hover:bg-blue-100">
-            <NuxtLink :to="'/view/' + e.id" class="focusable flex gap-3 p-4">
-              <div class="my-auto min-w-11">
-                <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 p-2">
-                  <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
-                  <MapPinIcon v-else class="h-6 w-6" />
-                </div>
-                <div v-else class="text-white bg-blue-500 rounded-full p-2">
-                  <BuildingOfficeIcon v-if="e.type === 'building'" class="mx-auto h-6 w-6" />
-                  <BuildingOffice2Icon v-else class="mx-auto h-6 w-6" />
-                </div>
-              </div>
-              <div class="text-zinc-600 flex flex-col gap-0.5">
-                <div class="flex flex-row">
-                  <span v-if="e.parsed_id" v-html="e.parsed_id" />
-                  <ChevronDownIcon v-if="e.parsed_id" class="h-4 w-4" />
-                  <span class="line-clamp-1" v-html="e.name" />
-                </div>
-                <small>
-                  {{ e.subtext }}
-                  <template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
-                </small>
-              </div>
-              <!-- <div class="tile-action">
-              <button class="btn btn-link">
-                <EllipsisVerticalIcon class="h-4 w-4"
-              </button>
-            </div> -->
-            </NuxtLink>
-          </li>
-        </ul>
-        <p v-if="s.estimatedTotalHits > 20" class="text-zinc-500 text-sm">
-          {{ t("approx_results", s.estimatedTotalHits) }}
-        </p>
-        <p v-else class="text-zinc-500 text-sm">
-          {{ t("results", s.estimatedTotalHits) }}
-        </p>
-      </section>
-    </template>
+    <ClientOnly>
+      <SearchSectionList
+        :data="data"
+        :query_limit_buildings="query_limit_buildings"
+        :query_limit_rooms="query_limit_rooms"
+      />
+    </ClientOnly>
   </div>
 </template>
 
@@ -147,9 +105,6 @@ de:
     open: Feedback-Formular für Rückmeldungen zur Suchanfrage geben
   runtime: Laufzeit
   search_for: Suche nach
-  thumbnail_alt: Vorschaubild für das besagte Gebäude
-  approx_results: ca. {count} Ergebnisse, bitte grenze die Suche weiter ein
-  results: 1 Ergebnis | {count} Ergebnisse
 en:
   sections:
     buildings: Buildings / Sites
@@ -163,7 +118,4 @@ en:
     open: Open the feedback-form for feedback about the search
   runtime: Runtime
   search_for: Search for
-  thumbnail_alt: Thumbnail for said building
-  approx_results: approx. {count} results, please narrow the search further
-  results: 1 result | {count} results
 </i18n>
