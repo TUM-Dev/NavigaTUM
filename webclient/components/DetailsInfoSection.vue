@@ -25,9 +25,9 @@ const runtimeConfig = useRuntimeConfig();
   <div class="hidden lg:block">
     <div class="bg-white border-zinc-200 max-w-sm rounded-lg border shadow-md shadow-zinc-500/5 dark:bg-zinc-100">
       <button v-if="shownImage" type="button" class="focusable rounded-t-lg" @click="slideshowOpen = true">
-        <img
+        <NuxtImg
           :alt="t('image_alt')"
-          :src="`${runtimeConfig.public.cdnURL}/cdn/header/${shownImage.name}`"
+          :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${shownImage.name}`"
           class="bg-zinc-100 block h-auto w-full max-w-full rounded-t-lg"
         />
       </button>
