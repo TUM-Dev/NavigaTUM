@@ -19,7 +19,9 @@ useHead({
 
 <template>
   <AppNavHeader>
-    <AppSearchBar v-model:searchBarFocused="searchBarFocused" />
+    <ClientOnly>
+      <AppSearchBar v-model:searchBarFocused="searchBarFocused" />
+    </ClientOnly>
   </AppNavHeader>
 
   <!-- Page content container -->
