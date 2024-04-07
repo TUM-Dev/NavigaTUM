@@ -132,9 +132,19 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
         <span class="absolute inset-y-0 left-0 flex items-center pl-2">
           <MagnifyingGlassIcon class="text-zinc-600 h-4 w-4" aria-hidden="true" />
         </span>
-        <input
+        <textarea
           id="search-input"
           v-model="search"
+          :title="t('search')"
+          :aria-label="t('search_rooms_of_building')"
+          rows="1"
+          aria-autocomplete="both"
+          aria-haspopup="false"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          maxlength="2048"
+          type="text"
           class="focusable text-zinc-800 bg-zinc-200 w-full flex-grow rounded-sm py-2 ps-8 font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal"
           :placeholder="t('search')"
         />
@@ -191,6 +201,7 @@ de:
   results: 1 Ergebnis | {count} Ergebnisse
   rooms: 1 Raum | {count} Räume
   title: Räume
+  search_rooms_of_building: durchsucht Räume des Gebäudes
 en:
   any_usage: any usage
   filter_by_usage: filter by usage
@@ -200,4 +211,5 @@ en:
   results: "{count} result | {count} results"
   rooms: 1 room | {count} rooms
   title: Rooms
+  search_rooms_of_building: searches rooms of the building
 </i18n>

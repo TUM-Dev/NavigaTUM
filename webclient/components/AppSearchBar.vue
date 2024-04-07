@@ -9,9 +9,10 @@ type SearchResponse = components["schemas"]["SearchResponse"];
 const searchBarFocused = defineModel<boolean>("searchBarFocused", { required: true });
 const { t, locale } = useI18n({ useScope: "local" });
 const keep_focus = ref(false);
-const query = ref("");
-const highlighted = ref<string | null>(null);
 const router = useRouter();
+const route = useRoute();
+const query = ref(Array.isArray(route.query.q) ? route.query.q[0] ?? "" : route.query.q ?? "");
+const highlighted = ref<string | null>(null);
 
 const visibleElements = computed<string[]>(() => {
   const visible: string[] = [];
@@ -118,18 +119,26 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="flex flex-row">
+  <form action="/search" autocomplete="off" method="GET" role="search" class="flex flex-row" @submit="searchGo(false)">
     <div
       class="bg-zinc-200 border-zinc-400 flex flex-grow flex-row rounded-s-sm border px-2.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-blue-600"
     >
       <MagnifyingGlassIcon class="text-zinc-800 my-auto h-4 w-4" />
-      <input
+      <textarea
         id="search"
         v-model="query"
+        rows="1"
+        :title="t('input.aria-searchlabel')"
+        aria-autocomplete="both"
+        aria-haspopup="false"
+        autocapitalize="off"
+        autocomplete="off"
+        spellcheck="false"
+        maxlength="2048"
+        name="q"
         type="text"
         class="text-zinc-800 flex-grow bg-transparent px-3 py-2.5 font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal focus:outline-0"
         :placeholder="t('input.placeholder')"
-        autocomplete="off"
         :aria-label="t('input.aria-searchlabel')"
         @focus="searchFocus"
         @blur="searchBlur"
@@ -137,17 +146,17 @@ watchEffect(() => {
       />
     </div>
     <button
-      type="button"
+      type="submit"
       class="text-white bg-blue-500 rounded-e-sm px-3 py-1 text-xs font-semibold shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue-600"
       :aria-label="t('input.aria-actionlabel')"
-      @click="searchGo(false)"
     >
       {{ t("input.action") }}
     </button>
-  </div>
+  </form>
   <!-- Autocomplete -->
   <div
     v-if="searchBarFocused && query.length !== 0 && sections.length !== 0"
+    id="search-results-sections"
     class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 -ms-2 me-3 mt-16 flex max-h-[calc(100vh-75px)] max-w-xl flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30"
   >
     <ul v-for="s in sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
