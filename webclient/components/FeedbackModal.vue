@@ -38,7 +38,7 @@ const feedback = useFeedback();
         <textarea
           id="feedback-body"
           v-model="feedback.data.body"
-          class="focusable bg-zinc-200 border-zinc-400 rounded border px-2 py-1"
+          class="focusable bg-zinc-200 border-zinc-400 resize-y rounded border px-2 py-1"
           :placeholder="t('message')"
           rows="6"
         >

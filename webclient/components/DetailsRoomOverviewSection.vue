@@ -145,7 +145,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
           spellcheck="false"
           maxlength="2048"
           type="text"
-          class="focusable text-zinc-800 bg-zinc-200 w-full flex-grow rounded-sm py-2 ps-8 font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal"
+          class="focusable text-zinc-800 bg-zinc-200 w-full flex-grow resize-none rounded-sm py-2 ps-8 font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal"
           :placeholder="t('search')"
         />
       </div>
