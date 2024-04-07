@@ -132,9 +132,10 @@ def _extract_sitemap_data(new_data: list, old_data: list, old_sitemaps: Simplifi
         # For buildings etc. that are always >= 10_000, we just subtract 500
         # to get some kind of relative measure.
         if entry["type"] == "room":
-            priority = min((entry["ranking_factors"]["rank_combined"] + 100) / 10000, 1.0)
+            priority = (entry["ranking_factors"]["rank_combined"] + 100) / 10000
         else:
-            priority = min((entry["ranking_factors"]["rank_combined"] - 500) / 10000, 1.0)
+            priority = (entry["ranking_factors"]["rank_combined"] - 500) / 10000
+        priority = max(min(priority, 1.0), 0.0)
 
         sitemaps[sitemap_name].append(
             {
