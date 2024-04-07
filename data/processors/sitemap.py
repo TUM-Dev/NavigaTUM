@@ -188,7 +188,7 @@ def _write_sitemap_xml(fname: Path, sitemap: list[SitemapEntry]) -> None:
         loc = ET.SubElement(url, "loc")
         loc.text = sitemap_entry["url"]
         lastmod = ET.SubElement(url, "lastmod")
-        lastmod.text = sitemap_entry["lastmod"].isoformat(timespec="seconds") + "Z"
+        lastmod.text = sitemap_entry["lastmod"].isoformat(timespec="seconds")
         priority = ET.SubElement(url, "priority")
         priority.text = str(round(sitemap_entry["priority"], 2))
 
