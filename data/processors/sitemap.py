@@ -207,7 +207,7 @@ def _write_sitemapindex_xml(fname: Path, sitemaps: Sitemaps) -> None:
         loc.text = f"https://nav.tum.de/cdn/sitemap-data-{name}.xml"
         if lastmod_dates := {site["lastmod"] for site in sitemap if "lastmod" in site}:
             lastmod = ET.SubElement(sitemap_el, "lastmod")
-            lastmod.text = max(lastmod_dates).isoformat(timespec="seconds") + "Z"
+            lastmod.text = max(lastmod_dates).isoformat(timespec="seconds")
 
     # Because sitemaps cannot be hierarchical, we have to include the
     # webclient sitemap here as well.
@@ -218,7 +218,7 @@ def _write_sitemapindex_xml(fname: Path, sitemaps: Sitemaps) -> None:
     sitemap = _download_online_sitemap(web_sitemap_url)
     if lastmod_dates := set(sitemap.values()):
         lastmod = ET.SubElement(sitemap_el, "lastmod")
-        lastmod.text = max(lastmod_dates).isoformat(timespec="seconds") + "Z"
+        lastmod.text = max(lastmod_dates).isoformat(timespec="seconds")
 
     root = ET.ElementTree(sitemapindex)
     root.write(fname, encoding="utf-8", xml_declaration=True)
