@@ -1,4 +1,4 @@
-FROM node:21 as build-stage
+FROM node:21-alpine3.19 as build-stage
 WORKDIR /app
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -12,19 +12,23 @@ ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 ARG GIT_COMMIT_MESSAGE
 ENV GIT_COMMIT_MESSAGE=${GIT_COMMIT_MESSAGE}
-RUN NITRO_PRESET=deno-server pnpm run build
+ENV NITRO_SHUTDOWN=true
+ENV NITRO_PRESET=node-cluster
+RUN pnpm run build
 
 
-FROM denoland/deno:alpine as production-stage
+FROM node:21-alpine3.19 as production-stage
 RUN apk update --no-progress --quiet && apk add curl --no-progress --quiet
 
 COPY --from=build-stage /app/.output /app/.output
 COPY --from=build-stage /app/node_modules /app/node_modules
 COPY --from=build-stage /app/.nuxt /app/.nuxt
 
-ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=3000
 EXPOSE 3000
+ENV NITRO_PORT=3000
+ENV NITRO_HOST=0.0.0.0
+ENV NITRO_SHUTDOWN=true
+ENV NITRO_PRESET=node-cluster
 
 HEALTHCHECK CMD curl --fail localhost:3000/health || exit 1
-CMD deno run --unstable --allow-net --allow-read --allow-env /app/.output/server/index.mjs
+CMD node /app/.output/server/index.mjs
