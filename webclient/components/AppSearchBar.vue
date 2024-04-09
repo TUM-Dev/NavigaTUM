@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { extractFacets } from "~/composables/autocomplete";
-import { BuildingOffice2Icon, BuildingOfficeIcon, MagnifyingGlassIcon, MapPinIcon } from "@heroicons/vue/24/outline";
-import { ChevronDownIcon } from "@heroicons/vue/16/solid";
+import { MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
 import type { components } from "~/api_types";
+import SearchResultItem from "~/components/SearchResultItem.vue";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
@@ -13,14 +12,17 @@ const router = useRouter();
 const route = useRoute();
 const query = ref(Array.isArray(route.query.q) ? route.query.q[0] ?? "" : route.query.q ?? "");
 const highlighted = ref<string | null>(null);
+const sites_buildings_expanded = ref<boolean>(false);
 
 const visibleElements = computed<string[]>(() => {
-  const visible: string[] = [];
+  if (!data.value) return [];
 
-  sections.value.forEach((section) => {
-    section.entries.forEach((entry, index: number) => {
-      if (section.facet !== "sites_buildings" || section.n_visible > index || section.expanded) visible.push(entry.id);
-    });
+  const visible: string[] = [];
+  data.value.sections.forEach((section) => {
+    if (section.facet === "sites_buildings") {
+      const max_sites_buildings = sites_buildings_expanded.value ? Infinity : section.n_visible;
+      visible.push(...section.entries.slice(0, max_sites_buildings).map((e) => e.id));
+    } else visible.push(...section.entries.map((e) => e.id));
   });
   return visible;
 });
@@ -107,11 +109,6 @@ const url = computed(
   () => `${runtimeConfig.public.apiURL}/api/search?q=${encodeURIComponent(query.value)}&lang=${locale.value}`,
 );
 const { data, error, refresh } = await useFetch<SearchResponse>(url, {});
-const sections = computed(() => {
-  console.log(url.value);
-  if (data.value === null) return [];
-  return extractFacets(data.value, t("sections.rooms"), t("sections.buildings"));
-});
 // a bit crude way of doing retries, but likely fine
 watchEffect(() => {
   if (query.value.length && error.value !== null) setTimeout(refresh, 500);
@@ -154,82 +151,51 @@ watchEffect(() => {
     </button>
   </form>
   <!-- Autocomplete -->
-  <div
-    v-if="searchBarFocused && query.length !== 0 && sections.length !== 0"
-    id="search-results-sections"
-    class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 -ms-2 me-3 mt-16 flex max-h-[calc(100vh-75px)] max-w-xl flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30"
-  >
-    <ul v-for="s in sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
-      <div class="flex items-center">
-        <span class="text-md text-zinc-800 me-4 flex-shrink">{{ s.name }}</span>
-        <div class="border-zinc-800 flex-grow border-t"></div>
-      </div>
+  <ClientOnly>
+    <div
+      v-if="searchBarFocused && data && query.length !== 0"
+      class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 -ms-2 me-3 mt-16 flex max-h-[calc(100vh-75px)] max-w-xl flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30"
+    >
       <!--
     <li class="search-comment filter">
       Suche einschränken auf:
       <NuxtLink class="bt btn-link btn-sm">Räume</NuxtLink>
     </li> -->
+      <ul v-for="s in data.sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
+        <div class="flex items-center">
+          <span class="text-md text-zinc-800 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
+          <div class="border-zinc-800 flex-grow border-t"></div>
+        </div>
 
-      <template v-for="(e, i) in s.entries" :key="e.id">
-        <li
-          v-if="s.facet === 'rooms' || i < s.n_visible || s.expanded"
-          class="bg-zinc-50 border-zinc-200 rounded-sm border hover:bg-blue-100"
-        >
-          <NuxtLink
-            :class="{
-              'bg-blue-200': e.id === highlighted,
-            }"
-            :to="'/view/' + e.id"
-            class="flex gap-3 px-4 py-3"
-            @click.exact.prevent="searchGoTo(e.id, false)"
+        <template v-for="(e, i) in s.entries" :key="e.id">
+          <SearchResultItem
+            v-if="i < s.n_visible"
+            :highlighted="e.id === highlighted"
+            :item="e"
+            @click="searchGoTo(e.id, false)"
             @mousedown="keep_focus = true"
             @mouseover="highlighted = null"
           >
-            <div class="my-auto min-w-11">
-              <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 p-2">
-                <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
-                <MapPinIcon v-else class="h-6 w-6" />
-              </div>
-              <div v-else class="text-white bg-blue-500 rounded-full p-2">
-                <BuildingOfficeIcon v-if="e.type === 'building'" class="mx-auto h-6 w-6" />
-                <BuildingOffice2Icon v-else class="mx-auto h-6 w-6" />
-              </div>
-            </div>
-            <div class="text-zinc-600 flex flex-col gap-0.5">
-              <div class="flex flex-row">
-                <span v-if="e.parsed_id" v-html="e.parsed_id" />
-                <ChevronDownIcon v-if="e.parsed_id" class="h-4 w-4" />
-                <span class="line-clamp-1" v-html="e.name" />
-              </div>
-              <small>
-                {{ e.subtext }}
-                <template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
-              </small>
-            </div>
-          </NuxtLink>
-          <!-- <div class="menu-badge">
-              <label class="label label-primary">2</label>
-            </div> -->
+          </SearchResultItem>
+        </template>
+        <li class="-mt-2">
+          <Btn
+            v-if="s.facet === 'sites_buildings' && !sites_buildings_expanded && s.n_visible < s.entries.length"
+            variant="linkButton"
+            size="sm"
+            @mousedown="keep_focus = true"
+            @click="sites_buildings_expanded = true"
+          >
+            {{ t("show_hidden", s.entries.length - s.n_visible) }}
+          </Btn>
+          <span class="text-zinc-400 text-sm">
+            {{
+              s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
+            }}
+          </span>
         </li>
-      </template>
-      <li class="-mt-2">
-        <Btn
-          v-if="s.facet === 'sites_buildings' && !s.expanded && s.n_visible < s.entries.length"
-          variant="linkButton"
-          size="sm"
-          @mousedown="keep_focus = true"
-          @click="s.expanded = true"
-        >
-          {{ t("show_hidden", s.entries.length - s.n_visible) }}
-        </Btn>
-        <span class="text-zinc-400 text-sm">
-          {{
-            s.estimatedTotalHits > 20 ? t("approx_results", s.estimatedTotalHits) : t("results", s.estimatedTotalHits)
-          }}
-        </span>
-      </li>
 
-      <!--
+        <!--
       <li class="search-comment actions">
         <Btn size="sm"><ChevronRightIcon class="h-4 w-4" /> in Gebäude Suchen</Btn>
         <Btn size="sm"><MapPinIcon class="h-4 w-4" /> Hörsäle</Btn>
@@ -255,8 +221,9 @@ watchEffect(() => {
           <label class="label label-primary">frei</label>
         </div>
       </li> -->
-    </ul>
-  </div>
+      </ul>
+    </div>
+  </ClientOnly>
 </template>
 
 <i18n lang="yaml">
@@ -268,7 +235,7 @@ de:
     action: Go
   show_hidden: +{count} ausgeblendet
   sections:
-    buildings: Gebäude / Standorte
+    sites_buildings: Gebäude / Standorte
     rooms: Räume
   results: 1 Ergebnis | {count} Ergebnisse
   approx_results: ca. {count} Ergebnisse
@@ -280,7 +247,7 @@ en:
     action: Go
   show_hidden: +{count} hidden
   sections:
-    buildings: Buildings / Sites
+    sites_buildings: Buildings / Sites
     rooms: Rooms
   results: 1 result | {count} results
   approx_results: approx. {count} results
