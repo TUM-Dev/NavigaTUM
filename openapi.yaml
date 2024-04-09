@@ -207,6 +207,7 @@ paths:
                             name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
                             subtext: Maschinenwesen (MW)
                             subtext_bold: 0350@5503
+                        n_visible: 5
                         estimatedTotalHits: 3655
                     time_ms: 16
                 nothing:
@@ -214,9 +215,11 @@ paths:
                     sections:
                       - facet: sites_buildings
                         entries: []
+                        n_visible: 0
                         estimatedTotalHits: 0
                       - facet: rooms
                         entries: []
+                        n_visible: 0
                         estimatedTotalHits: 0
                     time_ms: 6
                 interims-2:
@@ -252,6 +255,7 @@ paths:
                             name: 5416.EG.010 (IT/Audio)
                             subtext: 'Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude'
                             subtext_bold: 010@5416
+                        n_visible: 4
                         estimatedTotalHits: 23
                     time_ms: 23
         '400':
@@ -1661,7 +1665,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RoomEntry'
+        n_visible:
+          description: |
+            A recommendation how many of the entries should be displayed by default.  
+            The number is usually from 0-20.  
+            More results might be displayed when clicking "expand".  
+            If this field is not present, then all entries are displayed.
+          type: integer
+          format: int64
+          example: 20
+          minimum: 0
       required:
+        - n_visible
         - estimatedTotalHits
         - facet
         - entries
@@ -1694,6 +1709,7 @@ components:
           example: 6
           minimum: 0
       required:
+        - n_visible
         - estimatedTotalHits
         - facet
         - entries
@@ -1850,7 +1866,7 @@ components:
             If this field is not present, then all entries are displayed.
           type: integer
           format: int64
-          example: 6
+          example: 5
           minimum: 0
       required:
         - entries

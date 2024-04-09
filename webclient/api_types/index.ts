@@ -407,6 +407,16 @@ export type components = {
        */
       readonly estimatedTotalHits: number;
       readonly entries: readonly components["schemas"]["RoomEntry"][];
+      /**
+       * Format: int64
+       * @description A recommendation how many of the entries should be displayed by default.
+       * The number is usually from 0-20.
+       * More results might be displayed when clicking "expand".
+       * If this field is not present, then all entries are displayed.
+       *
+       * @example 20
+       */
+      readonly n_visible: number;
     };
     readonly SitesBuildings: {
       /**
@@ -430,7 +440,7 @@ export type components = {
        *
        * @example 6
        */
-      readonly n_visible?: number;
+      readonly n_visible: number;
     };
     readonly RoomEntry: components["schemas"]["SitesBuildingsEntry"] & {
       /** @description Subtext to show below the search (by default in bold and after the non-bold subtext). Usually contains the arch-id of the room, which is another common room id format, and supports highlighting. */
@@ -508,7 +518,7 @@ export type components = {
        * More results might be displayed when clicking "expand".
        * If this field is not present, then all entries are displayed.
        *
-       * @example 6
+       * @example 5
        */
       readonly n_visible: number;
     };
