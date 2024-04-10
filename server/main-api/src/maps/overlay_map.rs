@@ -15,7 +15,7 @@ impl OverlayMapTask {
             "campus" => 14,
             "area" | "site" => 15,
             "building" | "joined_building" => 16,
-            "virtual_room" | "room" => 17,
+            "virtual_room" | "room" | "poi" => 17,
             _ => {
                 warn!("map generation encountered an type for {entry:?}. Assuming it to be a building");
                 16
