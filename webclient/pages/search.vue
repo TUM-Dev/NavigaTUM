@@ -24,6 +24,8 @@ const apiUrl = computed(() => {
   params.append("limit_rooms", query_limit_rooms.value.toString());
   params.append("limit_all", query_limit_all.value.toString());
   params.append("lang", locale.value);
+  params.append("pre_highlight", "<b class='text-blue'>");
+  params.append("post_highlight", "</b>");
 
   return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });

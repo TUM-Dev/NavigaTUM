@@ -105,9 +105,15 @@ function onKeyDown(e: KeyboardEvent): void {
 }
 
 const runtimeConfig = useRuntimeConfig();
-const url = computed(
-  () => `${runtimeConfig.public.apiURL}/api/search?q=${encodeURIComponent(query.value)}&lang=${locale.value}`,
-);
+const url = computed(() => {
+  const params = new URLSearchParams();
+  params.append("q", query.value);
+  params.append("lang", locale.value);
+  params.append("pre_highlight", "<b class='text-blue'>");
+  params.append("post_highlight", "</b>");
+
+  return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
+});
 const { data, error, refresh } = await useFetch<SearchResponse>(url, {});
 // a bit crude way of doing retries, but likely fine
 watchEffect(() => {
@@ -172,7 +178,7 @@ watchEffect(() => {
             v-if="i < s.n_visible"
             :highlighted="e.id === highlighted"
             :item="e"
-            @click="searchGoTo(e.id, false)"
+            @click="searchBarFocused = false"
             @mousedown="keep_focus = true"
             @mouseover="highlighted = null"
           >

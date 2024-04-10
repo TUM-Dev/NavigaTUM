@@ -20,12 +20,10 @@ type RoomEntry = components["schemas"]["RoomEntry"];
 <template>
   <li class="bg-zinc-50 border-zinc-200 rounded-sm border hover:bg-blue-100">
     <NuxtLink
-      :class="{
-        'bg-blue-200': highlighted,
-      }"
+      :class="{ 'bg-blue-200': highlighted }"
       :to="'/view/' + item.id"
-      class="flex gap-3 px-4 py-3"
-      @click.exact.prevent="() => emit('click')"
+      class="focusable flex gap-3 px-4 py-3"
+      @click="() => emit('click')"
       @mousedown="() => emit('mousedown')"
       @mouseover="() => emit('mouseover')"
     >
