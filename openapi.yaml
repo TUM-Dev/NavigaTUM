@@ -1714,18 +1714,37 @@ components:
         - facet
         - entries
     RoomEntry:
-      allOf:
-        - $ref: '#/components/schemas/SitesBuildingsEntry'
-        - type: object
-          required:
-            - subtext_bold
-          properties:
-            subtext_bold:
-              description: 'Subtext to show below the search (by default in bold and after the non-bold subtext). Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.'
-              type: string
-            parsed_id:
-              description: 'This is an optional feature, that is only supported for some rooms. It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used. See the image below for an example. It will be cropped to a maximum length to not take too much space in UIs. Supports highlighting.'
-              type: string
+      type: object
+      properties:
+        id:
+          description: The id of the room
+          type: string
+        type:
+          description: the type of the room
+          type: string
+          example: room
+          enum:
+            - room
+            - virtual_room
+            - poi # unclear if this should be here
+        name:
+          description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
+          type: string
+        subtext:
+          description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
+          type: string
+        subtext_bold:
+          description: 'Subtext to show below the search (by default in bold and after the non-bold subtext). Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.'
+          type: string
+        parsed_id:
+          description: 'This is an optional feature, that is only supported for some rooms. It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used. See the image below for an example. It will be cropped to a maximum length to not take too much space in UIs. Supports highlighting.'
+          type: string
+      required:
+        - id
+        - type
+        - name
+        - subtext
+        - subtext_bold
     SitesBuildingsEntry:
       type: object
       properties:
@@ -1733,8 +1752,15 @@ components:
           description: The id of the room
           type: string
         type:
-          description: the type of the room/site/building
+          description: the type of the site/building
           type: string
+          example: campus
+          enum:
+            - campus
+            - building
+            - area
+            - site
+            - joined_building
         name:
           description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
           type: string
