@@ -68,9 +68,7 @@ pnpm run format
 From the folder of this README, run:
 
 ```sh
-npx openapi-typescript ../openapi.yaml --output ./api_types/index.ts --export-type --immutable-types --support-array-length
-pnpm run lint
-pnpm run format
+pnpm run type-refresh
 ```
 
 ## Architecture

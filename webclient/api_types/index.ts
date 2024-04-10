@@ -407,6 +407,16 @@ export type components = {
        */
       readonly estimatedTotalHits: number;
       readonly entries: readonly components["schemas"]["RoomEntry"][];
+      /**
+       * Format: int64
+       * @description A recommendation how many of the entries should be displayed by default.
+       * The number is usually from 0-20.
+       * More results might be displayed when clicking "expand".
+       * If this field is not present, then all entries are displayed.
+       *
+       * @example 20
+       */
+      readonly n_visible: number;
     };
     readonly SitesBuildings: {
       /**
@@ -430,9 +440,21 @@ export type components = {
        *
        * @example 6
        */
-      readonly n_visible?: number;
+      readonly n_visible: number;
     };
-    readonly RoomEntry: components["schemas"]["SitesBuildingsEntry"] & {
+    readonly RoomEntry: {
+      /** @description The id of the room */
+      readonly id: string;
+      /**
+       * @description the type of the room
+       * @example room
+       * @enum {string}
+       */
+      readonly type: "room" | "virtual_room" | "poi";
+      /** @description Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted. */
+      readonly name: string;
+      /** @description Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted. */
+      readonly subtext: string;
       /** @description Subtext to show below the search (by default in bold and after the non-bold subtext). Usually contains the arch-id of the room, which is another common room id format, and supports highlighting. */
       readonly subtext_bold: string;
       /** @description This is an optional feature, that is only supported for some rooms. It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used. See the image below for an example. It will be cropped to a maximum length to not take too much space in UIs. Supports highlighting. */
@@ -441,8 +463,12 @@ export type components = {
     readonly SitesBuildingsEntry: {
       /** @description The id of the room */
       readonly id: string;
-      /** @description the type of the room/site/building */
-      readonly type: string;
+      /**
+       * @description the type of the site/building
+       * @example campus
+       * @enum {string}
+       */
+      readonly type: "campus" | "building" | "area" | "site" | "joined_building";
       /** @description Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted. */
       readonly name: string;
       /** @description Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted. */
@@ -508,7 +534,7 @@ export type components = {
        * More results might be displayed when clicking "expand".
        * If this field is not present, then all entries are displayed.
        *
-       * @example 6
+       * @example 5
        */
       readonly n_visible: number;
     };

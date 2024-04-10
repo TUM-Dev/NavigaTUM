@@ -16,8 +16,7 @@ use serde::Serialize;
 pub struct SearchResultsSection {
     facet: String,
     entries: Vec<ResultEntry>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    n_visible: Option<usize>,
+    n_visible: usize,
     #[serde(rename = "estimatedTotalHits")]
     estimated_total_hits: usize,
 }
@@ -63,7 +62,7 @@ pub async fn do_geoentry_search(
                 .for_each(|r| visitor.visit(r));
 
             match section_buildings.n_visible {
-                Some(0) => vec![section_rooms, section_buildings],
+                0 => vec![section_rooms, section_buildings],
                 _ => vec![section_buildings, section_rooms],
             }
         }
