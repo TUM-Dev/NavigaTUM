@@ -1726,7 +1726,7 @@ components:
           enum:
             - room
             - virtual_room
-            - poi # unclear if this should be here
+            - poi
         name:
           description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
           type: string
