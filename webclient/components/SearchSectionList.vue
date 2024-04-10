@@ -1,60 +1,27 @@
 <script setup lang="ts">
-import { BuildingOffice2Icon, BuildingOfficeIcon, MagnifyingGlassIcon, MapPinIcon } from "@heroicons/vue/24/outline";
-import { ChevronDownIcon } from "@heroicons/vue/16/solid";
 type SearchResponse = components["schemas"]["SearchResponse"];
-import { extractFacets, type SectionFacet } from "~/composables/autocomplete";
 import type { components } from "~/api_types";
+import SearchResultItem from "~/components/SearchResultItem.vue";
 
-const props = defineProps<{
+defineProps<{
   data: SearchResponse;
   queryLimitBuildings: number;
   queryLimitRooms: number;
 }>();
 const route = useRoute();
+const router = useRouter();
 const { t } = useI18n({ useScope: "local" });
-const sections = computed<SectionFacet[]>(() => {
-  // Currently borrowing this functionality from autocomplete.
-  // In the future it is planned that this search results page
-  // has a different format.
-  return extractFacets(props.data, t("sections.rooms"), t("sections.buildings"));
-});
 </script>
 
 <template>
-  <div v-for="s in sections" :key="s.facet">
+  <div v-for="s in data.sections" :key="s.facet">
     <section class="flex flex-col gap-2">
-      <h2 class="text-md text-zinc-500 font-semibold">{{ s.name }}</h2>
+      <h2 class="text-md text-zinc-500 font-semibold">{{ t(`sections.${s.facet}`) }}</h2>
       <ul class="flex flex-col gap-3">
-        <li v-for="e in s.entries" :key="e.id" class="bg-zinc-50 border-zinc-200 rounded-sm border hover:bg-blue-100">
-          <NuxtLink :to="'/view/' + e.id" class="focusable flex gap-3 p-4">
-            <div class="my-auto min-w-11">
-              <div v-if="e.type === 'room' || e.type === 'virtual_room'" class="text-zinc-900 p-2">
-                <MagnifyingGlassIcon v-if="e.parsed_id" class="h-6 w-6" />
-                <MapPinIcon v-else class="h-6 w-6" />
-              </div>
-              <div v-else class="text-white bg-blue-500 rounded-full p-2">
-                <BuildingOfficeIcon v-if="e.type === 'building'" class="mx-auto h-6 w-6" />
-                <BuildingOffice2Icon v-else class="mx-auto h-6 w-6" />
-              </div>
-            </div>
-            <div class="text-zinc-600 flex flex-col gap-0.5">
-              <div class="flex flex-row">
-                <span v-if="e.parsed_id" v-html="e.parsed_id" />
-                <ChevronDownIcon v-if="e.parsed_id" class="h-4 w-4" />
-                <span class="line-clamp-1" v-html="e.name" />
-              </div>
-              <small>
-                {{ e.subtext }}
-                <template v-if="e.subtext_bold">, <b v-html="e.subtext_bold"></b></template>
-              </small>
-            </div>
-            <!-- <div class="tile-action">
-          <button class="btn btn-link">
-            <EllipsisVerticalIcon class="h-4 w-4"
-          </button>
-        </div> -->
-          </NuxtLink>
-        </li>
+        <template v-for="(e, i) in s.entries" :key="e.id">
+          <SearchResultItem v-if="i < s.n_visible" :highlighted="false" :item="e" @click="router.push(`/view/${e.id}`)">
+          </SearchResultItem>
+        </template>
       </ul>
       <p v-if="s.estimatedTotalHits > 10" class="text-zinc-500 text-sm">
         {{ t("approx_results", s.estimatedTotalHits) }}
@@ -78,14 +45,14 @@ const sections = computed<SectionFacet[]>(() => {
 <i18n lang="yaml">
 de:
   sections:
-    buildings: Gebäude / Standorte
+    sites_buildings: Gebäude / Standorte
     rooms: Räume
   view_more: mehr anzeigen
   approx_results: ca. {count} Ergebnisse, bitte grenze die Suche weiter ein
   results: 1 Ergebnis | {count} Ergebnisse
 en:
   sections:
-    buildings: Buildings / Sites
+    sites_buildings: Buildings / Sites
     rooms: Rooms
   view_more: view more
   approx_results: approx. {count} results, please narrow the search further
