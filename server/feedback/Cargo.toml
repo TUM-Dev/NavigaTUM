@@ -27,7 +27,7 @@ rustls.workspace = true
 
 rand = "0.8.5"
 regex = "1.10.4"
-octocrab = { version = "0.37.0", default-features = false, features = ["rustls", "rustls-webpki-tokio", "retry", "default-client"] }
+octocrab = { version = "0.38.0", default-features = false, features = ["rustls", "rustls-webpki-tokio", "retry", "default-client"] }
 
 # web
 jsonwebtoken = { version = "9.3.0", default-features = false, features = [] }
