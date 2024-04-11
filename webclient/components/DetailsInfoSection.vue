@@ -29,6 +29,8 @@ const runtimeConfig = useRuntimeConfig();
           :alt="t('image_alt')"
           :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${shownImage.name}`"
           class="bg-zinc-100 block h-auto w-full max-w-full rounded-t-lg"
+          preload
+          placeholder
         />
       </button>
       <div class="px-5 py-3">
