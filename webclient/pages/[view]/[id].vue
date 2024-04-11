@@ -137,6 +137,7 @@ onMounted(() => {
         :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
         densities="x1 x2 x3 x4"
         class="block w-full"
+        preload
         placeholder
       />
     </button>
