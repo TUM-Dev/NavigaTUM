@@ -116,6 +116,12 @@ export default defineNuxtConfig({
     fallback: "light",
   },
   content: {},
+  nitro: {
+    compressPublicAssets: {
+      gzip: true,
+      brotli: true,
+    },
+  },
   routeRules: {
     "/": { prerender: true },
     "/about/**": { prerender: true },
