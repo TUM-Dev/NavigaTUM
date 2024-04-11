@@ -18,8 +18,8 @@ dependencies:
     specifier: 1.5.0
     version: 1.5.0(rollup@4.13.2)
   '@nuxtjs/color-mode':
-    specifier: 3.3.3
-    version: 3.3.3(rollup@4.13.2)
+    specifier: 3.4.0
+    version: 3.4.0(rollup@4.13.2)
   '@nuxtjs/partytown':
     specifier: 1.5.0
     version: 1.5.0(rollup@4.13.2)
@@ -42,8 +42,8 @@ dependencies:
     specifier: 0.33.3
     version: 0.33.3
   swagger-ui:
-    specifier: 5.15.0
-    version: 5.15.0
+    specifier: 5.15.1
+    version: 5.15.1
   swaggerdark:
     specifier: github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3
     version: github.com/octycs/SwaggerDark/f02d394c8ff698cdd93e09c2188b058d2d686ca3
@@ -1699,7 +1699,7 @@ packages:
       hash-sum: 2.0.0
       ignore: 5.3.1
       jiti: 1.21.0
-      knitwork: 1.0.0
+      knitwork: 1.1.0
       mlly: 1.6.1
       pathe: 1.1.2
       pkg-types: 1.0.3
@@ -1871,11 +1871,13 @@ packages:
       - vue-tsc
     dev: false
 
-  /@nuxtjs/color-mode@3.3.3(rollup@4.13.2):
-    resolution: {integrity: sha512-t6QM/tj1d/53xQ9JznNVIaqIfQWhjHRzNt5VqTxNeAJWG0HCdiHVezkUTMahPUgUbEJnBrtCoquUYwpyFhNF+Q==}
+  /@nuxtjs/color-mode@3.4.0(rollup@4.13.2):
+    resolution: {integrity: sha512-rS51nG3zW8ksOwNubIP3BPQ+vBL0r2M6td1kkB/VaR1e1uVtNfWlBPfZjb604bgNCE2AeRNqaI0CrxkfnQ6h6Q==}
     dependencies:
-      '@nuxt/kit': 3.11.1(rollup@4.13.2)
+      '@nuxt/kit': 3.11.2(rollup@4.13.2)
       pathe: 1.1.2
+      pkg-types: 1.0.3
+      semver: 7.6.0
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -1918,7 +1920,7 @@ packages:
   /@nuxtjs/mdc@0.6.1(rollup@4.13.2):
     resolution: {integrity: sha512-zS5QK7DZ/SBrjqQX1DOy7GnxKy+wbj2+LvooefOWmQqHfLTAqJLVIjuv/BmKnQWiRCq19+uysys3iY42EoY5/A==}
     dependencies:
-      '@nuxt/kit': 3.11.1(rollup@4.13.2)
+      '@nuxt/kit': 3.11.2(rollup@4.13.2)
       '@shikijs/transformers': 1.2.1
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.3
@@ -6859,6 +6861,7 @@ packages:
 
   /knitwork@1.0.0:
     resolution: {integrity: sha512-dWl0Dbjm6Xm+kDxhPQJsCBTxrJzuGl0aP9rhr+TG8D3l+GL90N8O8lYUi7dTSAN2uuDqCtNgb6aEuQH5wsiV8Q==}
+    dev: false
 
   /knitwork@1.1.0:
     resolution: {integrity: sha512-oHnmiBUVHz1V+URE77PNot2lv3QiYU2zQf1JjOVkMt3YDKGbu8NAFr+c4mcNOhdsGrB/VpVbRwPwhiXrPhxQbw==}
@@ -10540,8 +10543,8 @@ packages:
       - debug
     dev: false
 
-  /swagger-ui@5.15.0:
-    resolution: {integrity: sha512-s5mHCpiKZUbPEM1cQhPoqWLYfksNr2ol6eN3UwTfDeqQruuqxSrH2Xz4T/D1abnZHNKUxY+ADgbA10NAuBg2RA==}
+  /swagger-ui@5.15.1:
+    resolution: {integrity: sha512-XABHvYHp/JpCyaLFbm2dzbOhcQ3TYPDBmICMAjlgy2Ngdng9tN4sc8/rJLPBOqTF7hobqUVlYDL2FuMT5NdmpQ==}
     requiresBuild: true
     dependencies:
       '@babel/runtime-corejs3': 7.24.4
@@ -11273,7 +11276,7 @@ packages:
   /unwasm@0.3.8:
     resolution: {integrity: sha512-nIJQXxGl/gTUp5dZkSc8jbxAqSOa9Vv4jjSZXNI6OK0JXdvW3SQUHR+KY66rjI0W//km59jivGgd5TCvBUWsnA==}
     dependencies:
-      knitwork: 1.0.0
+      knitwork: 1.1.0
       magic-string: 0.30.8
       mlly: 1.6.1
       pathe: 1.1.2
