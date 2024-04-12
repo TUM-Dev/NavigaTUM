@@ -31,6 +31,8 @@ const runtimeConfig = useRuntimeConfig();
           class="bg-zinc-100 block h-auto w-full max-w-full rounded-t-lg"
           preload
           placeholder
+          sizes="500px sm:200px md:300px md:400px"
+          densities="x1 x2"
         />
       </button>
       <div class="px-5 py-3">

@@ -135,10 +135,11 @@ onMounted(() => {
         height="105"
         :alt="t('image_alt')"
         :src="`${runtimeConfig.public.cdnURL}/cdn/lg/${data.imgs[0].name}`"
-        densities="x1 x2 x3 x4"
+        sizes="1024px sm:256px md:512px"
+        densities="x1 x2"
         class="block w-full"
         preload
-        placeholder
+        :placeholder="[256, 105]"
       />
     </button>
 
