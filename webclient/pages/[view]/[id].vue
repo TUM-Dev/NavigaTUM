@@ -125,7 +125,7 @@ onMounted(() => {
   <div v-if="data" class="flex flex-col gap-5">
     <!-- Header image (on mobile) -->
     <button
-      v-if="data.imgs"
+      v-if="data.imgs?.length"
       type="button"
       class="focusable block lg:hidden print:!hidden"
       @click="slideshowOpen = true"
