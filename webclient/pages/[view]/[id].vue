@@ -23,7 +23,7 @@ const runtimeConfig = useRuntimeConfig();
 const url = computed(() => `${runtimeConfig.public.apiURL}/api/get/${route.params.id}?lang=${locale.value}`);
 const { data, error } = useFetch<DetailsResponse, string>(url, { key: "details" });
 
-const shownImage = ref<ImageInfo | undefined>(data.value?.imgs ? data.value.imgs[0] : undefined);
+const shownImage = ref<ImageInfo | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
 const slideshowOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
@@ -55,7 +55,7 @@ watch([data], () => {
   slideshowOpen.value = false;
   selectedMap.value = data.value.maps.default;
   // --- Images ---
-  shownImage.value = data.value.imgs ? data.value.imgs[0] : undefined;
+  shownImage.value = data.value.imgs?.length ? data.value.imgs[0] : undefined;
   tryToLoadMap();
 });
 
