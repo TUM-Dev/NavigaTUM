@@ -13,7 +13,7 @@
     "format": "prettier --plugin=prettier-plugin-tailwindcss --write ."
   },
   "dependencies": {
-    "@headlessui/vue": "1.7.19",
+    "@headlessui/vue": "1.7.20",
     "@heroicons/vue": "2.1.3",
     "@nuxt/content": "2.12.1",
     "@nuxt/image": "1.5.0",
@@ -25,9 +25,9 @@
     "nightwind": "1.1.13",
     "nuxt": "3.11.2",
     "sharp": "0.33.3",
-    "swagger-ui": "5.15.1",
+    "swagger-ui": "5.15.2",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
-    "vue": "3.4.21",
+    "vue": "3.4.22",
     "vue-router": "4.3.0",
     "vue3-carousel": "0.3.3"
   },
