@@ -31,7 +31,7 @@ octocrab = { version = "0.38.0", default-features = false, features = ["rustls",
 
 # web
 jsonwebtoken = { version = "9.3.0", default-features = false, features = [] }
-chrono = { version = "0.4.37", default-features = false, features = [] }
+chrono = { version = "0.4.38", default-features = false, features = [] }
 actix-governor = { version = "0.5.0", features = ["logger"] }
 
 # proposing feedback
