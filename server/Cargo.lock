@@ -2217,7 +2217,7 @@ dependencies = [
  "pretty_assertions",
  "rand",
  "regex",
- "rustls 0.23.4",
+ "rustls 0.23.5",
  "serde",
  "serde_json",
  "serde_yaml",
@@ -2246,8 +2246,8 @@ dependencies = [
  "oauth2",
  "pretty_assertions",
  "regex",
- "reqwest 0.12.3",
- "rustls 0.23.4",
+ "reqwest 0.12.4",
+ "rustls 0.23.5",
  "serde",
  "serde_json",
  "serde_yaml",
@@ -3023,9 +3023,9 @@ dependencies = [
 
 [[package]]
 name = "reqwest"
-version = "0.12.3"
+version = "0.12.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3e6cc1e89e689536eb5aeede61520e874df5a4707df811cd5da4aa5fbb2aae19"
+checksum = "566cafdd92868e0939d3fb961bd0dc25fcfaaed179291093b3d43e6b3150ea10"
 dependencies = [
  "async-compression",
  "base64 0.22.0",
@@ -3199,9 +3199,9 @@ dependencies = [
 
 [[package]]
 name = "rustls"
-version = "0.23.4"
+version = "0.23.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8c4d6d8ad9f2492485e13453acbb291dd08f64441b6609c491f1c2cd2c6b4fe1"
+checksum = "afabcee0551bd1aa3e18e5adbf2c0544722014b899adb31bd186ec638d3da97e"
 dependencies = [
  "once_cell",
  "ring",
