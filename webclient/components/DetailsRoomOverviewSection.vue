@@ -128,7 +128,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
           </ListboxOptions>
         </Transition>
       </Listbox>
-      <div class="border-zinc-400 flex shrink z-0 w-full border">
+      <div class="border-zinc-400 z-0 flex w-full shrink border">
         <span class="absolute inset-y-0 left-0 flex items-center pl-2">
           <MagnifyingGlassIcon class="text-zinc-600 h-4 w-4" aria-hidden="true" />
         </span>
