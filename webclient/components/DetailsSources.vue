@@ -8,7 +8,7 @@ type DataSources = components["schemas"]["DataSources"];
 defineProps<{
   coords: Coordinate;
   sources: DataSources;
-  shownImage?: ImageInfo;
+  image?: ImageInfo;
 }>();
 
 const { t } = useI18n({ useScope: "local" });
@@ -30,22 +30,22 @@ const { t } = useI18n({ useScope: "local" });
           ({{ t("base.patched") }})
         </span>
       </p>
-      <p v-if="shownImage">
+      <p v-if="image">
         {{ t("header_img") }}:
-        <span>{{ shownImage.author.text }}</span>
-        <span v-if="shownImage.source">
+        <span>{{ image.author.text }}</span>
+        <span v-if="image.source">
           •
-          <a v-if="shownImage.source.url" :href="shownImage.source.url" target="_blank">
-            {{ shownImage.source.text }}
+          <a v-if="image.source.url" :href="image.source.url" target="_blank">
+            {{ image.source.text }}
           </a>
-          <template v-else>{{ shownImage.source.text }}</template>
+          <template v-else>{{ image.source.text }}</template>
         </span>
-        <span v-if="shownImage.license">
+        <span v-if="image.license">
           •
-          <a v-if="shownImage.license.url" :href="shownImage.license.url" target="_blank">
-            {{ shownImage.license.text }}
+          <a v-if="image.license.url" :href="image.license.url" target="_blank">
+            {{ image.license.text }}
           </a>
-          <template v-else>{{ shownImage.license.text }}</template>
+          <template v-else>{{ image.license.text }}</template>
         </span>
       </p>
       <p>

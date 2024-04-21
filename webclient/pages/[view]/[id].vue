@@ -271,7 +271,11 @@ onMounted(() => {
     <ClientOnly>
       <LazyDetailsRoomOverviewSection :rooms="data.sections?.rooms_overview" />
     </ClientOnly>
-    <DetailsSources :coords="data.coords" :sources="data.sources" :shown_image="shownImage" />
+    <DetailsSources
+      :coords="data.coords"
+      :sources="data.sources"
+      :image="data.imgs?.length ? data.imgs[0] : undefined"
+    />
   </div>
   <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
     <Spinner class="h-8 w-8" />
