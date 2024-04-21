@@ -31,7 +31,7 @@ watchEffect(() => router.push(switchLocalePath(locale.value)));
       leave-to-class="transform opacity-0 scale-95"
     >
       <MenuItems
-        class="ring-black bg-white absolute -right-1 top-20 z-10 w-48 origin-top-right rounded-md py-5 shadow-lg ring-1 ring-opacity-5 dark:bg-zinc-100 focus:outline-none"
+        class="ring-black bg-white absolute -right-1 top-20 z-10 w-48 origin-top-right rounded-sm py-5 shadow-lg ring-1 ring-opacity-5 dark:bg-zinc-100 focus:outline-none"
       >
         <MenuItem as="div" class="text-zinc-400 block px-4 pb-2 text-xs font-semibold">
           {{ t("preferences") }}
