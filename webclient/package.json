@@ -10,7 +10,7 @@
     "type-check": "nuxt typecheck",
     "type-refresh": "openapi-typescript ../openapi.yaml --output ./api_types/index.ts --export-type --immutable-types --support-array-length && npm run format && npm run lint",
     "lint": "eslint . --ext .vue,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --plugin=prettier-plugin-tailwindcss --write ."
+    "format": "prettier --plugin=prettier-plugin-tailwindcss --end-of-line crlf --write ."
   },
   "dependencies": {
     "@headlessui/vue": "1.7.20",
