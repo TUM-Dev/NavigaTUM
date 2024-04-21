@@ -124,9 +124,9 @@ watchEffect(() => {
 <template>
   <form action="/search" autocomplete="off" method="GET" role="search" class="flex flex-row" @submit="searchGo(false)">
     <div
-      class="bg-zinc-200 border-zinc-400 flex flex-grow flex-row rounded-s-sm border px-2.5 focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-blue-600"
+      class="bg-zinc-200 border-zinc-400 flex flex-grow flex-row rounded-s-sm border focus-within:outline focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-blue-600"
     >
-      <MagnifyingGlassIcon class="text-zinc-800 my-auto h-4 w-4" />
+      <MagnifyingGlassIcon class="text-zinc-800 my-auto h-6 w-6 ps-2" />
       <textarea
         id="search"
         v-model="query"
@@ -140,7 +140,7 @@ watchEffect(() => {
         maxlength="2048"
         name="q"
         type="text"
-        class="text-zinc-800 flex-grow resize-none bg-transparent px-3 py-2.5 font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal focus:outline-0"
+        class="text-zinc-800 flex-grow resize-none bg-transparent py-2.5 pe-5 ps-3 font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal focus:outline-0"
         :placeholder="t('input.placeholder')"
         :aria-label="t('input.aria-searchlabel')"
         @focus="searchFocus"
