@@ -34,7 +34,7 @@ services:
             tileserver-init-sprites:
                 condition: service_completed_successfully
     tileserver-srv-src: # needed for simpler initialisation of dev environments
-        image: nginx:1.25
+        image: nginx:1.26
         restart: on-failure
         volumes:
             - tileserver-src:/usr/share/nginx/html/maps/vol:ro
