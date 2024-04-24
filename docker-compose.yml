@@ -43,7 +43,7 @@ services:
             tileserver-init-sprites:
                 condition: service_completed_successfully
     tileserver-srv-src: # needed for simpler initialisation of dev environments
-        image: nginx:1.25
+        image: nginx:1.26
         restart: unless-stopped
         labels:
             - "traefik.enable=true"
