@@ -29,6 +29,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r data/requirements.txt -r requirements-dev.txt -r server/main-api/test/requirements.txt
       - name: Download data
+        continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
         run: |
           rm results/*.json
           export PYTHONPATH=$PYTHONPATH:.
