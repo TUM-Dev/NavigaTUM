@@ -1,4 +1,4 @@
-name: Linting
+name: Update data from upstream
 
 on:
   #schedule:
