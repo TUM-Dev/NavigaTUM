@@ -26,8 +26,8 @@
   "TUARL02": {
     "code": "TUARL02",
     "id": 15140,
-    "name": "Chair of Visual Arts (Prof. Haase)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Visual Arts (Prof. Haase)"
+    "name": "Chair of Visual Arts (Fogelberg komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Visual Arts (Fogelberg komm.)"
   },
   "TUARL04": {
     "code": "TUARL04",
@@ -68,8 +68,8 @@
   "TUARL12": {
     "code": "TUARL12",
     "id": 15213,
-    "name": "Chair of Urban Architecture (Prof. Fink)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Urban Architecture (Prof. Fink)"
+    "name": "Chair of Urban Architecture (Chevroulet/Maciver-Ek komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Urban Architecture (Chevroulet/Maciver-Ek komm.)"
   },
   "TUARL15": {
     "code": "TUARL15",
@@ -98,8 +98,8 @@
   "TUARL22": {
     "code": "TUARL22",
     "id": 15234,
-    "name": "Chair of Urban Development (Prof. Thierstein)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Urban Development (Prof. Thierstein)"
+    "name": "Chair of Urban Development (Prof. Boucsein komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Urban Development (Prof. Boucsein komm.)"
   },
   "TUARL23": {
     "code": "TUARL23",
@@ -998,7 +998,7 @@
   "TUEDS27": {
     "code": "TUEDS27",
     "id": 48758,
-    "name": "Chair of Kognitions- und Entwicklungspsychologie (Prof. Ruggeri)",
+    "name": "Associate Professorship of Kognitions- und Entwicklungspsychologie (Prof. Ruggeri)",
     "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Kognitions- und Entwicklungspsychologie (Prof. Ruggeri)"
   },
   "TUEDS28": {
@@ -1322,8 +1322,8 @@
   "TUEIMMK": {
     "code": "TUEIMMK",
     "id": 15368,
-    "name": "Chair of Human-Machine Communication (Prof. Rigoll)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Human-Machine Communication (Prof. Rigoll)"
+    "name": "Chair of Human-Machine Communication (Prof. Hemmert komm.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Human-Machine Communication (Prof. Hemmert komm.)"
   },
   "TUEIMML": {
     "code": "TUEIMML",
@@ -1670,8 +1670,8 @@
   "TUINF12": {
     "code": "TUINF12",
     "id": 24661,
-    "name": "Informatics 16 - Associate Professorship of Augmented Reality (Prof. Klinker)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 16 - Associate Professorship of Augmented Reality (Prof. Klinker)"
+    "name": "Informatics 16 - Associate Professorship of Augmented Reality (N.N.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 16 - Associate Professorship of Augmented Reality (N.N.)"
   },
   "TUINF14": {
     "code": "TUINF14",
@@ -1802,8 +1802,8 @@
   "TUINH04": {
     "code": "TUINH04",
     "id": 53357,
-    "name": "Computational Mathematics (Prof. Anzt)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Computational Mathematics (Prof. Anzt)"
+    "name": "Informatics Heilbronn 4 - Chair of Computational Mathematics (Prof. Anzt)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics Heilbronn 4 - Chair of Computational Mathematics (Prof. Anzt)"
   },
   "TUINH05": {
     "code": "TUINH05",
@@ -1940,8 +1940,8 @@
   "TUINI21": {
     "code": "TUINI21",
     "id": 24670,
-    "name": "Informatics 21 - Chair of Logic and Verification (Prof. Nipkow)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 21 - Chair of Logic and Verification (Prof. Nipkow)"
+    "name": "Informatics 21 - Chair of Logic and Verification (N.N.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 21 - Chair of Logic and Verification (N.N.)"
   },
   "TUINI22": {
     "code": "TUINI22",
@@ -2048,8 +2048,8 @@
   "TULREAV": {
     "code": "TULREAV",
     "id": 51257,
-    "name": "Assistant Professorship of eAviation (N.N.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/eAviation (N.N.)"
+    "name": "Assistant Professorship of eAviation (Prof. Daoud komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/eAviation (Prof. Daoud komm.)"
   },
   "TULRESP": {
     "code": "TULRESP",
@@ -2066,8 +2066,8 @@
   "TULRFPF": {
     "code": "TULRFPF",
     "id": 15105,
-    "name": "Associate Professorship of Photogrammetry and Remote Sensing (Prof. Holst komm.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Photogrammetry and Remote Sensing (Prof. Holst komm.)"
+    "name": "Associate Professorship of Photogrammetry and Remote Sensing (Prof. Jutzi komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Photogrammetry and Remote Sensing (Prof. Jutzi komm.)"
   },
   "TULRFSD": {
     "code": "TULRFSD",
@@ -2276,7 +2276,7 @@
   "TUMAF22": {
     "code": "TUMAF22",
     "id": 44804,
-    "name": "Assistant Professorship of Risk and Insurance (Prof. Scherer)",
+    "name": "Associate Professorship of Risk and Insurance (Prof. Scherer)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Risk and Insurance (Prof. Scherer)"
   },
   "TUMAF23": {
@@ -2630,14 +2630,14 @@
   "TUMEAU0": {
     "code": "TUMEAU0",
     "id": 26541,
-    "name": "Department of Ophthalmology",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Ophthalmology"
+    "name": "Department of Ophthalmology (Prof. Charbel Issa)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Ophthalmology (Prof. Charbel Issa)"
   },
   "TUMEAU1": {
     "code": "TUMEAU1",
     "id": 15995,
-    "name": "Chair of Ophtalmology (Prof. Maier komm.)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Ophthalmology/Ophtalmology (Prof. Maier komm.)"
+    "name": "Chair of Ophtalmology (Prof. Charbel Issa)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Ophthalmology (Prof. Charbel Issa)/Ophtalmology (Prof. Charbel Issa)"
   },
   "TUMEBB0": {
     "code": "TUMEBB0",
@@ -2690,8 +2690,8 @@
   "TUMECH3": {
     "code": "TUMECH3",
     "id": 15921,
-    "name": "Associate Professorship of Surgical Clinic Department Vascular Surgery (Prof. Eckstein )",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Vascular and Endovascular Surgery (Prof. Eckstein)/Surgical Clinic Department Vascular Surgery (Prof. Eckstein )"
+    "name": "Chair of Vascular and Endovascular Surgery (Prof. Branzan)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Vascular and Endovascular Surgery (Prof. Branzan)/Vascular and Endovascular Surgery (Prof. Branzan)"
   },
   "TUMECH7": {
     "code": "TUMECH7",
@@ -2918,14 +2918,14 @@
   "TUMEGC0": {
     "code": "TUMEGC0",
     "id": 44684,
-    "name": "Clinic and Polyclinic for Vascular and Endovascular Surgery (Prof. Eckstein)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Vascular and Endovascular Surgery (Prof. Eckstein)"
+    "name": "Clinic and Polyclinic for Vascular and Endovascular Surgery (Prof. Branzan)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Vascular and Endovascular Surgery (Prof. Branzan)"
   },
   "TUMEGC1": {
     "code": "TUMEGC1",
     "id": 45512,
     "name": "Associate Professorship of Vaskul\u00e4re Biologie (Prof. Maegdefessel)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Vascular and Endovascular Surgery (Prof. Eckstein)/Vaskul\u00e4re Biologie (Prof. Maegdefessel)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Vascular and Endovascular Surgery (Prof. Branzan)/Vaskul\u00e4re Biologie (Prof. Maegdefessel)"
   },
   "TUMEGE0": {
     "code": "TUMEGE0",
@@ -4904,7 +4904,7 @@
   "TUPOL03": {
     "code": "TUPOL03",
     "id": 47837,
-    "name": "Assistant Professorship of Policy Analysis (Prof. Wurster)",
+    "name": "Associate Professorship of Policy Analysis (Prof. Wurster)",
     "path": "TUM/Schools/Social Sciences and Technology/Departments/Governance/Policy Analysis (Prof. Wurster)"
   },
   "TUPOL04": {
@@ -5168,8 +5168,8 @@
   "TURM000": {
     "code": "TURM000",
     "id": 49055,
-    "name": "Munich Institute of Robotics and Machine Intelligence (MIRMI)",
-    "path": "TUM/Integrative Research Institutes/Munich Institute of Robotics and Machine Intelligence (MIRMI)"
+    "name": "Munich Institute of Robotics and Machine Intelligence (MIRMI) - The AI Mission Institute (AIM)",
+    "path": "TUM/Integrative Research Institutes/Munich Institute of Robotics and Machine Intelligence (MIRMI) - The AI Mission Institute (AIM)"
   },
   "TUS1000": {
     "code": "TUS1000",
@@ -5312,8 +5312,8 @@
   "TUS1304": {
     "code": "TUS1304",
     "id": 54517,
-    "name": "Chair of Informatics Heilbronn 6 - Assistant Professorship of Data Analytics and Statistics (Prof. Piribauer)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics Heilbronn 6 - Assistant Professorship of Data Analytics and Statistics (Prof. Piribauer)"
+    "name": "Chair of Informatics Heilbronn 6 - Assistant Professorship of Data Analytics and Statistics (Prof. Fraser)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics Heilbronn 6 - Assistant Professorship of Data Analytics and Statistics (Prof. Fraser)"
   },
   "TUS1305": {
     "code": "TUS1305",
@@ -5372,14 +5372,14 @@
   "TUS1314": {
     "code": "TUS1314",
     "id": 55937,
-    "name": "Chair of Software Engineering & AI (Prof. Chen)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software Engineering & AI (Prof. Chen)"
+    "name": "Chair of Informatics Heilbronn 11 - Chair of Software Engineering & AI (Prof. Chen)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics Heilbronn 11 - Chair of Software Engineering & AI (Prof. Chen)"
   },
   "TUS1315": {
     "code": "TUS1315",
     "id": 55938,
-    "name": "Associate Professorship of Intelligent Robotics (Prof. B\u00e4uml)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Intelligent Robotics (Prof. B\u00e4uml)"
+    "name": "Informatics 39 -  Associate Professorship of Intelligent Robotics (Prof. B\u00e4uml)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatics 39 -  Associate Professorship of Intelligent Robotics (Prof. B\u00e4uml)"
   },
   "TUS1316": {
     "code": "TUS1316",
@@ -6107,6 +6107,12 @@
     "name": "TUM Food and Agro Center for Innovation and Technology (FACIT)",
     "path": "TUM/Schools/Life Sciences/TUM Food and Agro Center for Innovation and Technology (FACIT)"
   },
+  "TUS4F8S": {
+    "code": "TUS4F8S",
+    "id": 56057,
+    "name": "Associate Professorship of Food Biopolymer Systems (Prof. Scherf)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Food Biopolymer Systems (Prof. Scherf)"
+  },
   "TUS4F9C": {
     "code": "TUS4F9C",
     "id": 52259,
@@ -6311,6 +6317,12 @@
     "name": "Ethics Commission not-med.",
     "path": "TUM/Schools/Medicine and Health/Ethics Commissions/Ethics Commission not-med."
   },
+  "TUS5GF0": {
+    "code": "TUS5GF0",
+    "id": 55457,
+    "name": "Managing Directors School Office",
+    "path": "TUM/Schools/Medicine and Health/School Office/Managing Directors"
+  },
   "TUS5LMU": {
     "code": "TUS5LMU",
     "id": 55466,
@@ -6328,6 +6340,12 @@
     "id": 55465,
     "name": "Weitere Lehrst\u00fchle und Professuren Preclinical Medicine",
     "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Weitere Lehrst\u00fchle und Professuren Preclinical Medicine"
+  },
+  "TUS5OR3": {
+    "code": "TUS5OR3",
+    "id": 56117,
+    "name": "Associate Professorship of Machine intelligence in orthopaedics (Prof. Roth)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Orthopedics and Sports Orthopedics (Prof. von Eisenhart-Rothe)/Machine intelligence in orthopaedics (Prof. Roth)"
   },
   "TUS5OTD": {
     "code": "TUS5OTD",
@@ -6484,6 +6502,12 @@
     "id": 52428,
     "name": "Department of Operations and Technology",
     "path": "TUM/Schools/Management/Departments/Operations and Technology"
+  },
+  "TUS6DSF": {
+    "code": "TUS6DSF",
+    "id": 56097,
+    "name": "Assistant Professorship of Data Science in Finance (Prof. Resin komm.)",
+    "path": "TUM/Schools/Management/Departments/Finance and Accounting/Data Science in Finance (Prof. Resin komm.)"
   },
   "TUS6H14": {
     "code": "TUS6H14",
@@ -6872,8 +6896,8 @@
   "TUSPL09": {
     "code": "TUSPL09",
     "id": 42297,
-    "name": "Chair of Training Science and Computer Science in Sports (Prof. Lames)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Training Science and Computer Science in Sports (Prof. Lames)"
+    "name": "Chair of Training Science and Computer Science in Sports (N.N.)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Training Science and Computer Science in Sports (N.N.)"
   },
   "TUSPL10": {
     "code": "TUSPL10",
@@ -7383,7 +7407,7 @@
     "code": "TUWIH04",
     "id": 49380,
     "name": "Assistant Professorship of Organizational Behavior and Human Resources (Reinwald) (TUM Campus Heilbronn)",
-    "path": "TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Organizational Behavior and Human Resources (Reinwald) (TUM Campus Heilbronn)"
+    "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Organizational Behavior and Human Resources (Reinwald) (TUM Campus Heilbronn)"
   },
   "TUWIH05": {
     "code": "TUWIH05",
@@ -7522,12 +7546,6 @@
     "id": 25178,
     "name": "Chair of Plant Systems Biology (Prof. Schwechheimer)",
     "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Plant Systems Biology (Prof. Schwechheimer)"
-  },
-  "TUWZA2F": {
-    "code": "TUWZA2F",
-    "id": 15680,
-    "name": "Regional Office for Agricultural Engineering Weihenstephan (BE)",
-    "path": "TUM/Schools/Life Sciences/Regional Office for Agricultural Engineering Weihenstephan (BE)"
   },
   "TUWZA2G": {
     "code": "TUWZA2G",
@@ -11675,6 +11693,12 @@
     "name": "Former Munich Center for Technology in Society (MCTS)",
     "path": "TUM/Integrative Research Institutes/Former Munich Center for Technology in Society (MCTS)"
   },
+  "TUZEMDI": {
+    "code": "TUZEMDI",
+    "id": 56077,
+    "name": "Munich Design Institute (MDI)",
+    "path": "TUM/Integrative Research Institutes/Munich Design Institute (MDI)"
+  },
   "TUZEMSE": {
     "code": "TUZEMSE",
     "id": 43589,
@@ -12538,6 +12562,12 @@
     "id": 46997,
     "name": "Risk prevention",
     "path": "TUM/Functional Units/Health, Safety, Radiation Protection (HR6)/Risk prevention"
+  },
+  "TUZVGHB": {
+    "code": "TUZVGHB",
+    "id": 56037,
+    "name": "Staff Unit Office TUM Campus Heilbronn",
+    "path": "TUM/Central Administration/Office TUM Campus Heilbronn"
   },
   "TUZVGTI": {
     "code": "TUZVGTI",
