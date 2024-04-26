@@ -110,7 +110,7 @@ def scrape_rooms() -> None:
 
     logging.info("Scraping the rooms of tumonline")
     room_index = {}
-    for building in tqdm(buildings, desc="Downloading the roomlist per building", unit="building")):
+    for building in tqdm(buildings, desc="Downloading the roomlist per building", unit="building"):
         b_rooms = _retrieve_roomlist(
             f_type="building",
             f_name="pGebaeude",
@@ -128,7 +128,7 @@ def scrape_rooms() -> None:
     usage_ids = list(range(1, 301))   # Observed: usage ids go up to 223, the limit below is for safety
     for usage_id in tqdm(usage_ids, desc="Extend the rooms by their usage", unit="usage"):
         if len(rooms) >= len(room_index):
-            break;
+            break
         u_rooms = _retrieve_roomlist(f_type="usage", f_name="pVerwendung", f_value=usage_id, area_id=0)
         for room in u_rooms:
             roomcode = room["roomcode"]
