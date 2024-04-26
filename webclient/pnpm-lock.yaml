@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@headlessui/vue':
-        specifier: 1.7.20
-        version: 1.7.20(vue@3.4.25(typescript@5.4.5))
+        specifier: 1.7.21
+        version: 1.7.21(vue@3.4.25(typescript@5.4.5))
       '@heroicons/vue':
         specifier: 2.1.3
         version: 2.1.3(vue@3.4.25(typescript@5.4.5))
@@ -545,8 +545,8 @@ packages:
   '@floating-ui/utils@0.2.1':
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
 
-  '@headlessui/vue@1.7.20':
-    resolution: {integrity: sha512-y83833wFo/+0FOrblgESiuvGwcHnfu8T2XQHb3iVA9GVSUVs3VLptp2bXlF5IR4IFD3Klr+jQEfreF6bSJNdOA==}
+  '@headlessui/vue@1.7.21':
+    resolution: {integrity: sha512-95cPFP5X9luB8/+smPENFv0ruaotT6epFnqK9EKldX2YpNkYM/qkN44oFoqQo+higlCAxDK5Pkg2E3FuD1Anyg==}
     engines: {node: '>=10'}
     peerDependencies:
       vue: ^3.2.0
@@ -6516,7 +6516,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.1': {}
 
-  '@headlessui/vue@1.7.20(vue@3.4.25(typescript@5.4.5))':
+  '@headlessui/vue@1.7.21(vue@3.4.25(typescript@5.4.5))':
     dependencies:
       '@tanstack/vue-virtual': 3.2.0(vue@3.4.25(typescript@5.4.5))
       vue: 3.4.25(typescript@5.4.5)
