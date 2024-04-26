@@ -26,7 +26,7 @@ serde.workspace = true
 serde_json.workspace = true
 rustls.workspace = true
 
-cached = { version = "0.49.3", features = ["default", "async", "tokio", "disk_store"] }
+cached = { version = "0.50.0", features = ["default", "async", "tokio", "disk_store"] }
 futures = "0.3.30"
 unicode-truncate = "0.2.0"
 
