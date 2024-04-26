@@ -145,6 +145,11 @@
     "name": "0512 (Z12) Garagen, Arcisstr.   21"
   },
   {
+    "area_id": 23,
+    "filter_id": 3309,
+    "name": "0597 Vorplatz Audi-Max, Arcisstr.   21"
+  },
+  {
     "area_id": 22,
     "filter_id": 1037,
     "name": "1501 Chirurgische Klinik, Ismaninger Str.   22"
@@ -161,23 +166,8 @@
   },
   {
     "area_id": 22,
-    "filter_id": 1773,
-    "name": "1523 IMSE, Rechenzentrum (RZ), Ismaningerstr.   22"
-  },
-  {
-    "area_id": 22,
-    "filter_id": 1026,
-    "name": "1531 Trogerstr. 4/Einsteinstr. 65, Trogerstr.4/Einsteinstr.65 4/65"
-  },
-  {
-    "area_id": 22,
     "filter_id": 1769,
     "name": "1533 Trogerstr. 8, Pers.Rar-Sch.beh., Trogerstr.    8"
-  },
-  {
-    "area_id": 22,
-    "filter_id": 1770,
-    "name": "1535 Trogerstr. 12, Trogerstr.   12"
   },
   {
     "area_id": 22,
@@ -251,18 +241,8 @@
   },
   {
     "area_id": 29,
-    "filter_id": 1689,
-    "name": "1720 Grillparzerstr. 16-18 (AM), Grillparzerstr. 16_18"
-  },
-  {
-    "area_id": 29,
     "filter_id": 2309,
     "name": "1724 Prinzregentenstr. 68 (AM) MRI, Prinzregentenstra\u00dfe   68"
-  },
-  {
-    "area_id": 29,
-    "filter_id": 1774,
-    "name": "1725 Inst. Allgem. Medizin, Orleanstr. 47 (AM, Orleanstr.   47"
   },
   {
     "area_id": 29,
@@ -433,6 +413,31 @@
     "area_id": 18,
     "filter_id": 1039,
     "name": "2354 (SZ) Regattaanlage Oberschlei\u00dfheim (AM), Regattaanlage Oberschlei\u00dfheim"
+  },
+  {
+    "area_id": 18,
+    "filter_id": 3274,
+    "name": "2364 Wetterschutzhaus / WSH 1, Connollystr.   32"
+  },
+  {
+    "area_id": 18,
+    "filter_id": 3271,
+    "name": "2365 Wetterschutzhaus / WSH 2, Connollystr.   32"
+  },
+  {
+    "area_id": 18,
+    "filter_id": 3270,
+    "name": "2367 Wetterschutzhaus / WSH 4, Connollystr.   32"
+  },
+  {
+    "area_id": 18,
+    "filter_id": 3269,
+    "name": "2368 Wetterschutzhaus / WSH 5, Connollystr.   32"
+  },
+  {
+    "area_id": 18,
+    "filter_id": 3272,
+    "name": "2369 Wetterschutzhaus / WSH 6, Connollystr.   32"
   },
   {
     "area_id": 17,

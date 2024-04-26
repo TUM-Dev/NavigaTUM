@@ -26,8 +26,8 @@
   "TUARL02": {
     "code": "TUARL02",
     "id": 15140,
-    "name": "Lehrstuhl f\u00fcr Bildende Kunst  (Prof. Haase)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Bildende Kunst  (Prof. Haase)"
+    "name": "Lehrstuhl f\u00fcr Bildende Kunst  (Fogelberg komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Bildende Kunst  (Fogelberg komm.)"
   },
   "TUARL04": {
     "code": "TUARL04",
@@ -68,8 +68,8 @@
   "TUARL12": {
     "code": "TUARL12",
     "id": 15213,
-    "name": "Lehrstuhl f\u00fcr St\u00e4dtische Architektur (Prof. Fink)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/St\u00e4dtische Architektur (Prof. Fink)"
+    "name": "Lehrstuhl f\u00fcr St\u00e4dtische Architektur (Chevroulet/Maciver-Ek komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/St\u00e4dtische Architektur (Chevroulet/Maciver-Ek komm.)"
   },
   "TUARL15": {
     "code": "TUARL15",
@@ -98,8 +98,8 @@
   "TUARL22": {
     "code": "TUARL22",
     "id": 15234,
-    "name": "Lehrstuhl f\u00fcr Raumentwicklung (Prof. Thierstein)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Raumentwicklung (Prof. Thierstein)"
+    "name": "Lehrstuhl f\u00fcr Raumentwicklung (Prof. Boucsein komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Raumentwicklung (Prof. Boucsein komm.)"
   },
   "TUARL23": {
     "code": "TUARL23",
@@ -998,7 +998,7 @@
   "TUEDS27": {
     "code": "TUEDS27",
     "id": 48758,
-    "name": "Lehrstuhl f\u00fcr Kognitions- und Entwicklungspsychologie (Prof. Ruggeri)",
+    "name": "Professur f\u00fcr Kognitions- und Entwicklungspsychologie (Prof. Ruggeri)",
     "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Kognitions- und Entwicklungspsychologie (Prof. Ruggeri)"
   },
   "TUEDS28": {
@@ -1322,8 +1322,8 @@
   "TUEIMMK": {
     "code": "TUEIMMK",
     "id": 15368,
-    "name": "Lehrstuhl f\u00fcr Mensch - Maschine - Kommunikation (Prof. Rigoll)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Mensch - Maschine - Kommunikation (Prof. Rigoll)"
+    "name": "Lehrstuhl f\u00fcr Mensch - Maschine - Kommunikation (Prof. Hemmert komm.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Mensch - Maschine - Kommunikation (Prof. Hemmert komm.)"
   },
   "TUEIMML": {
     "code": "TUEIMML",
@@ -1670,8 +1670,8 @@
   "TUINF12": {
     "code": "TUINF12",
     "id": 24661,
-    "name": "Informatik 16 - Professur f\u00fcr Erweiterte Realit\u00e4t - (Prof. Klinker)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 16 - Professur f\u00fcr Erweiterte Realit\u00e4t - (Prof. Klinker)"
+    "name": "Informatik 16 - Professur f\u00fcr Erweiterte Realit\u00e4t - (N.N.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 16 - Professur f\u00fcr Erweiterte Realit\u00e4t - (N.N.)"
   },
   "TUINF14": {
     "code": "TUINF14",
@@ -1802,8 +1802,8 @@
   "TUINH04": {
     "code": "TUINH04",
     "id": 53357,
-    "name": "Computational Mathematics (Prof. Anzt)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Computational Mathematics (Prof. Anzt)"
+    "name": "Informatik Heilbronn 4 - Lehrstuhl f\u00fcr Computational Mathematics (Prof. Anzt)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 4 - Lehrstuhl f\u00fcr Computational Mathematics (Prof. Anzt)"
   },
   "TUINH05": {
     "code": "TUINH05",
@@ -1940,8 +1940,8 @@
   "TUINI21": {
     "code": "TUINI21",
     "id": 24670,
-    "name": "Informatik 21 - Lehrstuhl f\u00fcr Logik und Verifikation (Prof. Nipkow)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 21 - Lehrstuhl f\u00fcr Logik und Verifikation (Prof. Nipkow)"
+    "name": "Informatik 21 - Lehrstuhl f\u00fcr Logik und Verifikation (N.N.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 21 - Lehrstuhl f\u00fcr Logik und Verifikation (N.N.)"
   },
   "TUINI22": {
     "code": "TUINI22",
@@ -2048,8 +2048,8 @@
   "TULREAV": {
     "code": "TULREAV",
     "id": 51257,
-    "name": "Professur f\u00fcr eAviation (N.N.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/eAviation (N.N.)"
+    "name": "Professur f\u00fcr eAviation (Prof. Daoud komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/eAviation (Prof. Daoud komm.)"
   },
   "TULRESP": {
     "code": "TULRESP",
@@ -2066,8 +2066,8 @@
   "TULRFPF": {
     "code": "TULRFPF",
     "id": 15105,
-    "name": "Professur f\u00fcr Photogrammetrie und Fernerkundung (Prof. Holst komm.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Photogrammetrie und Fernerkundung (Prof. Holst komm.)"
+    "name": "Professur f\u00fcr Photogrammetrie und Fernerkundung (Prof. Jutzi komm.)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Photogrammetrie und Fernerkundung (Prof. Jutzi komm.)"
   },
   "TULRFSD": {
     "code": "TULRFSD",
@@ -2630,14 +2630,14 @@
   "TUMEAU0": {
     "code": "TUMEAU0",
     "id": 26541,
-    "name": "Klinik und Poliklinik f\u00fcr Augenheilkunde (Prof. Maier komm.)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik f\u00fcr Augenheilkunde (Prof. Maier komm.)"
+    "name": "Klinik und Poliklinik f\u00fcr Augenheilkunde (Prof. Charbel Issa)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik f\u00fcr Augenheilkunde (Prof. Charbel Issa)"
   },
   "TUMEAU1": {
     "code": "TUMEAU1",
     "id": 15995,
-    "name": "Lehrstuhl f\u00fcr Augenheilkunde (Prof. Maier komm.)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik f\u00fcr Augenheilkunde (Prof. Maier komm.)/Augenheilkunde (Prof. Maier komm.)"
+    "name": "Lehrstuhl f\u00fcr Augenheilkunde (Prof. Charbel Issa)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinik und Poliklinik f\u00fcr Augenheilkunde (Prof. Charbel Issa)/Augenheilkunde (Prof. Charbel Issa)"
   },
   "TUMEBB0": {
     "code": "TUMEBB0",
@@ -5168,8 +5168,8 @@
   "TURM000": {
     "code": "TURM000",
     "id": 49055,
-    "name": "Munich Institute of Robotics and Machine Intelligence (MIRMI)",
-    "path": "TUM/Integrative Research Institutes/Munich Institute of Robotics and Machine Intelligence (MIRMI)"
+    "name": "Munich Institute of Robotics and Machine Intelligence (MIRMI) - The AI Mission Institute (AIM)",
+    "path": "TUM/Integrative Research Institutes/Munich Institute of Robotics and Machine Intelligence (MIRMI) - The AI Mission Institute (AIM)"
   },
   "TUS1000": {
     "code": "TUS1000",
@@ -5312,8 +5312,8 @@
   "TUS1304": {
     "code": "TUS1304",
     "id": 54517,
-    "name": "Informatik Heilbronn 6 - Professur f\u00fcr Data Analytics & Statistics (Prof. Piribauer)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 6 - Professur f\u00fcr Data Analytics & Statistics (Prof. Piribauer)"
+    "name": "Informatik Heilbronn 6 - Professur f\u00fcr Data Analytics & Statistics (Prof. Fraser)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 6 - Professur f\u00fcr Data Analytics & Statistics (Prof. Fraser)"
   },
   "TUS1305": {
     "code": "TUS1305",
@@ -5372,14 +5372,14 @@
   "TUS1314": {
     "code": "TUS1314",
     "id": 55937,
-    "name": "Lehrstuhl f\u00fcr Software Engineering & AI (Prof. Chen)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software Engineering & AI (Prof. Chen)"
+    "name": "Informatik Heilbronn 11 - Lehrstuhl f\u00fcr Software Engineering & AI (Prof. Chen)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 11 - Lehrstuhl f\u00fcr Software Engineering & AI (Prof. Chen)"
   },
   "TUS1315": {
     "code": "TUS1315",
     "id": 55938,
-    "name": "Professur f\u00fcr Intelligente Robotik (Prof. B\u00e4uml)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Intelligente Robotik (Prof. B\u00e4uml)"
+    "name": "Informatik 39 - Professur f\u00fcr Intelligente Robotik (Prof. B\u00e4uml)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 39 - Professur f\u00fcr Intelligente Robotik (Prof. B\u00e4uml)"
   },
   "TUS1316": {
     "code": "TUS1316",
@@ -6107,6 +6107,12 @@
     "name": "TUM Food and Agro Center for Innovation and Technology (FACIT)",
     "path": "TUM/Schools/Life Sciences/TUM Food and Agro Center for Innovation and Technology (FACIT)"
   },
+  "TUS4F8S": {
+    "code": "TUS4F8S",
+    "id": 56057,
+    "name": "Professur f\u00fcr Food Biopolymer Systems (Prof. Scherf)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Food Biopolymer Systems (Prof. Scherf)"
+  },
   "TUS4F9C": {
     "code": "TUS4F9C",
     "id": 52259,
@@ -6484,6 +6490,12 @@
     "id": 52428,
     "name": "Department Operations and Technology",
     "path": "TUM/Schools/Management/Departments/Operations and Technology"
+  },
+  "TUS6DSF": {
+    "code": "TUS6DSF",
+    "id": 56097,
+    "name": "Professur f\u00fcr Data Science in Finance (Prof. Resin komm.)",
+    "path": "TUM/Schools/Management/Departments/Finance and Accounting/Data Science in Finance (Prof. Resin komm.)"
   },
   "TUS6H14": {
     "code": "TUS6H14",
@@ -6872,8 +6884,8 @@
   "TUSPL09": {
     "code": "TUSPL09",
     "id": 42297,
-    "name": "Lehrstuhl f\u00fcr Trainingswissenschaft und Sportinformatik (Prof. Lames)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Trainingswissenschaft und Sportinformatik (Prof. Lames)"
+    "name": "Lehrstuhl f\u00fcr Trainingswissenschaft und Sportinformatik (N.N.)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Health and Sport Sciences/Trainingswissenschaft und Sportinformatik (N.N.)"
   },
   "TUSPL10": {
     "code": "TUSPL10",
@@ -7383,7 +7395,7 @@
     "code": "TUWIH04",
     "id": 49380,
     "name": "Professur f\u00fcr Organizational Behavior and Human Resources (Reinwald) (TUM Campus Heilbronn)",
-    "path": "TUM/Schools/Management/Departments/Marketing, Strategy and Leadership/Organizational Behavior and Human Resources (Reinwald) (TUM Campus Heilbronn)"
+    "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Organizational Behavior and Human Resources (Reinwald) (TUM Campus Heilbronn)"
   },
   "TUWIH05": {
     "code": "TUWIH05",
@@ -7522,12 +7534,6 @@
     "id": 25178,
     "name": "Lehrstuhl f\u00fcr Systembiologie der Pflanzen (Prof. Schwechheimer)",
     "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Systembiologie der Pflanzen (Prof. Schwechheimer)"
-  },
-  "TUWZA2F": {
-    "code": "TUWZA2F",
-    "id": 15680,
-    "name": "Landesanstalt f\u00fcr Landtechnik Weihenstephan (BE)",
-    "path": "TUM/Schools/Life Sciences/Landesanstalt f\u00fcr Landtechnik Weihenstephan (BE)"
   },
   "TUWZA2G": {
     "code": "TUWZA2G",
@@ -11675,6 +11681,12 @@
     "name": "Ehemaliges Munich Center for Technology in Society (MCTS)",
     "path": "TUM/Integrative Research Institutes/Ehemaliges Munich Center for Technology in Society (MCTS)"
   },
+  "TUZEMDI": {
+    "code": "TUZEMDI",
+    "id": 56077,
+    "name": "Munich Design Institute (MDI)",
+    "path": "TUM/Integrative Research Institutes/Munich Design Institute (MDI)"
+  },
   "TUZEMSE": {
     "code": "TUZEMSE",
     "id": 43589,
@@ -12538,6 +12550,12 @@
     "id": 46997,
     "name": "Gefahrgut",
     "path": "TUM/Hochschulreferate/Gesundheit, Sicherheit, Strahlenschutz/Gefahrgut"
+  },
+  "TUZVGHB": {
+    "code": "TUZVGHB",
+    "id": 56037,
+    "name": "Gesch\u00e4ftsstelle TUM Campus Heilbronn",
+    "path": "TUM/Zentrale Verwaltung/Gesch\u00e4ftsstelle TUM Campus Heilbronn"
   },
   "TUZVGTI": {
     "code": "TUZVGTI",
