@@ -189,6 +189,10 @@ zentralgelaende:
 #"0512":  # Garagen (Z12)
 # not on OSM
 
+"0597":
+    osm: [ "node/390320112" ] # osm is only an artwork
+    coords: { lat: 48.1489079, lon: 11.5673019 }
+
 # Missing coords:
 #mri
 #biederstein
@@ -521,6 +525,18 @@ heilbronn:
 2311: # Kletterfelsen
     # These are actually the coordinates of the newly built one
     coords: { lat: 48.18232, lon: 11.54485 }
+
+# coordinates for 2364-2369 absolutely unknown. unclear where they are => adress is taken as the coordinate
+"2364":
+    coords: { lat: 48.1797454, lon: 11.5464106 }
+"2365":
+    coords: { lat: 48.1797454, lon: 11.5464106 }
+"2367":
+    coords: { lat: 48.1797454, lon: 11.5464106 }
+"2368":
+    coords: { lat: 48.1797454, lon: 11.5464106 }
+"2369":
+    coords: { lat: 48.1797454, lon: 11.5464106 }
 
 2803:
     coords: { lat: 48.13140, lon: 11.58564 }

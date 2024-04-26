@@ -63,6 +63,7 @@
       0510:Verwaltungsbau (Z10):
       0511:Elektro/Werkstatt/Lösungsmittel (Z11):
       0512:Garagen (Z12):
+      0597:Vorplatz Audi-Max:
   15,17:Klinikum rechts der Isar (MRI)|MRI:mri[site]
     1501:Chirurgische Klinik (Bau 501):
     1502:Radiologie, Orthopädie, Sportorthopädie, klinische Toxikologie (Bau 502):
@@ -171,6 +172,11 @@
       2941:Campus D, Georg-Brauchle-Ring 60/62:
   2353:Eislaufstadion Ost (Olympia):
   2354:Regattaanlage Oberschleißheim (Olympia):
+  -2364:Wetterschutzhaus / WSH 1:
+  -2365:Wetterschutzhaus / WSH 2:
+  -2367:Wetterschutzhaus / WSH 4:
+  -2368:Wetterschutzhaus / WSH 5:
+  -2369:Wetterschutzhaus / WSH 6:
   240:Holzforschung:holzforschung[site]
     2401:Altbau Winzererstr. 45:
     2402:Neubau Winzererstr. 45:
