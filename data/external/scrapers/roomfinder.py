@@ -18,7 +18,6 @@ from utils import convert_to_webp
 
 ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192"
 
-
 def _sanitise_building(building: dict):
     for _map in building["maps"]:
         _map[1] = f"rf{_map[1]}"
@@ -235,8 +234,8 @@ def _download_maps(used_maps):
                 "south": latlonbox[3].text,
                 "rotation": latlonbox[4].text,
             }
+        f_path.unlink()
     return maps
-
 
 def _download_map(_map_id: str, e_id: str, e_type: Literal["room", "building"]) -> Path | None:
     filepath = CACHE_PATH / "maps" / "roomfinder" / "kmz" / f"{_map_id}.kmz"
