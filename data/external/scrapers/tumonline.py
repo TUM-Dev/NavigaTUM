@@ -110,7 +110,7 @@ def scrape_rooms() -> None:
 
     logging.info("Scraping the rooms of tumonline")
     room_index = {}
-    for building in buildings:
+    for building in tqdm(buildings, desc="Downloading the roomlist per building", unit="building")):
         b_rooms = _retrieve_roomlist(
             f_type="building",
             f_name="pGebaeude",
@@ -125,8 +125,10 @@ def scrape_rooms() -> None:
     # Only a few usage types are named in the filter, however with their id it's also possible
     # to filter for other usage types. That's why we try them out.
     rooms = []
-    usage_id = 1  # Observed: usage ids go up to 223, the limit below is for safety
-    while usage_id <= 300 and len(rooms) < len(room_index):
+    usage_ids = list(range(1, 301))   # Observed: usage ids go up to 223, the limit below is for safety
+    for usage_id in tqdm(usage_ids, desc="Extend the rooms by their usage", unit="usage"):
+        if len(rooms) >= len(room_index):
+            break;
         u_rooms = _retrieve_roomlist(f_type="usage", f_name="pVerwendung", f_value=usage_id, area_id=0)
         for room in u_rooms:
             roomcode = room["roomcode"]
@@ -264,25 +266,21 @@ def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id: int = 0)
     """Retrieve all rooms from the TUMonline room search list (multipage)"""
     scraped_rooms = ParsedRoomsList(rooms=[], num_pages=1, current_page=0)
 
-    with tqdm(desc=f"Searching Rooms for {f_type} {f_value}", total=scraped_rooms.num_pages, leave=False) as prog:
-        while scraped_rooms.current_page < scraped_rooms.num_pages:
-            search_params = {
-                "pStart": len(scraped_rooms.rooms) + 1,  # 1 + current_page * 30,
-                "pSuchbegriff": "",
-                "pGebaeudebereich": area_id,  # 0 for all areas
-                "pGebaeude": 0,
-                "pVerwendung": 0,
-                "pVerwalter": 1,
-                f_name: f_value,
-            }
-            req = requests.post(f"{TUMONLINE_URL}/wbSuche.raumSuche", data=search_params, timeout=30)
-            rooms_list = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
-            scraped_rooms = scraped_rooms.merge(rooms_list)
+    while scraped_rooms.current_page < scraped_rooms.num_pages:
+        search_params = {
+            "pStart": len(scraped_rooms.rooms) + 1,  # 1 + current_page * 30,
+            "pSuchbegriff": "",
+            "pGebaeudebereich": area_id,  # 0 for all areas
+            "pGebaeude": 0,
+            "pVerwendung": 0,
+            "pVerwalter": 1,
+            f_name: f_value,
+        }
+        req = requests.post(f"{TUMONLINE_URL}/wbSuche.raumSuche", data=search_params, timeout=30)
+        rooms_list = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
+        scraped_rooms = scraped_rooms.merge(rooms_list)
 
-            if prog.total != rooms_list.num_pages:
-                prog.reset(rooms_list.num_pages)
-            prog.update(1)
-            maybe_sleep(1.5)
+        maybe_sleep(1.5)
     return scraped_rooms.rooms
 
 
