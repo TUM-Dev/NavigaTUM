@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useFeedback } from "~/composables/feedback";
-import ManyChangesToast from "~/components/ManyChangesToast.vue";
 
 const searchBarFocused = ref(false);
 const feedback = useFeedback();
@@ -29,9 +28,6 @@ useHead({
     :class="{ 'opacity-70': searchBarFocused }"
   >
     <div class="mx-5">
-      <div class="-mb-1 flex flex-col gap-4 pt-5">
-        <ManyChangesToast />
-      </div>
       <slot />
     </div>
   </div>
