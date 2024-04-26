@@ -225,6 +225,13 @@
   },
   {
     "address": "Arcisstr. 21",
+    "building_code": "0597",
+    "building_id": 3309,
+    "building_name": "Vorplatz Audi-Max",
+    "building_short": null
+  },
+  {
+    "address": "Arcisstr. 21",
     "building_code": "0598",
     "building_id": 2669,
     "building_name": "Interim Tento HS Stammgel\u00e4nde",
@@ -760,6 +767,41 @@
     "building_code": "2361",
     "building_id": null,
     "building_name": "Umkleide-Werkstatt-Container C2",
+    "building_short": null
+  },
+  {
+    "address": "Connollystr. 32",
+    "building_code": "2364",
+    "building_id": 3274,
+    "building_name": "Wetterschutzhaus / WSH 1",
+    "building_short": null
+  },
+  {
+    "address": "Connollystr. 32",
+    "building_code": "2365",
+    "building_id": 3271,
+    "building_name": "Wetterschutzhaus / WSH 2",
+    "building_short": null
+  },
+  {
+    "address": "Connollystr. 32",
+    "building_code": "2367",
+    "building_id": 3270,
+    "building_name": "Wetterschutzhaus / WSH 4",
+    "building_short": null
+  },
+  {
+    "address": "Connollystr. 32",
+    "building_code": "2368",
+    "building_id": 3269,
+    "building_name": "Wetterschutzhaus / WSH 5",
+    "building_short": null
+  },
+  {
+    "address": "Connollystr. 32",
+    "building_code": "2369",
+    "building_id": 3272,
+    "building_name": "Wetterschutzhaus / WSH 6",
     "building_short": null
   },
   {
