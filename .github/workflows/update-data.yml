@@ -35,6 +35,8 @@ jobs:
           export PYTHONPATH=$PYTHONPATH:..
           python3 main.py
           ls -lah results
+        env:
+          TQDM_MININTERVAL: 10
         working-directory: data/external
       - name: Fix linting errors
         continue-on-error: true
