@@ -36,7 +36,7 @@ jobs:
           python3 main.py
           ls -lah results
         env:
-          TQDM_MININTERVAL: 10
+          TQDM_MININTERVAL: 100
         working-directory: data/external
       - name: Fix linting errors
         continue-on-error: true
