@@ -125,7 +125,7 @@ def scrape_rooms() -> None:
     # Only a few usage types are named in the filter, however with their id it's also possible
     # to filter for other usage types. That's why we try them out.
     rooms = []
-    usage_ids = list(range(1, 301))   # Observed: usage ids go up to 223, the limit below is for safety
+    usage_ids = list(range(1, 301))  # Observed: usage ids go up to 223, the limit below is for safety
     for usage_id in tqdm(usage_ids, desc="Extend the rooms by their usage", unit="usage"):
         if len(rooms) >= len(room_index):
             break
