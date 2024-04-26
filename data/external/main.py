@@ -23,15 +23,15 @@ if __name__ == "__main__":
     tumonline.scrape_buildings()
     nat.scrape_buildings()
 
-    #roomfinder.scrape_rooms()
-    #tumonline.scrape_rooms()
+    roomfinder.scrape_rooms()
+    tumonline.scrape_rooms()
     nat.scrape_rooms()
 
-    #tumonline.scrape_usages()
+    tumonline.scrape_usages()
 
-    #roomfinder.scrape_maps()
+    roomfinder.scrape_maps()
 
-    #public_transport.scrape_stations()
+    public_transport.scrape_stations()
 
-    #tumonline.scrape_orgs(lang="de")
-    #tumonline.scrape_orgs(lang="en")
+    tumonline.scrape_orgs(lang="de")
+    tumonline.scrape_orgs(lang="en")
