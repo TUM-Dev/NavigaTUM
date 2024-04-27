@@ -128,10 +128,8 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
           </ListboxOptions>
         </Transition>
       </Listbox>
-      <div class="border-zinc-400 z-0 flex w-full shrink border">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-          <MagnifyingGlassIcon class="text-zinc-600 h-4 w-4" aria-hidden="true" />
-        </span>
+      <div class="bg-zinc-200 border-zinc-400 z-0 flex w-full shrink items-center border">
+        <MagnifyingGlassIcon class="text-zinc-600 h-4 w-6 pl-2" aria-hidden="true" />
         <textarea
           id="search-input"
           v-model="search"
@@ -145,7 +143,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
           spellcheck="false"
           maxlength="2048"
           type="text"
-          class="focusable text-zinc-800 bg-zinc-200 w-full flex-grow resize-none rounded-sm py-2 ps-8 font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal"
+          class="focusable text-zinc-800 bg-zinc-200 w-full flex-grow resize-none rounded-sm py-2 ps-6 font-semibold placeholder:text-zinc-800 focus-within:placeholder:text-zinc-500 placeholder:font-normal"
           :placeholder="t('search')"
         />
       </div>
