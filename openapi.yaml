@@ -16,7 +16,7 @@ info:
     All functionality is also available via an API.
 
     *Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments.*
-  termsOfService: 'https://nav.tum.de/about/privacy'
+  termsOfService: 'https://nav.tum.de/en/about/privacy'
   contact:
     name: TUM-Dev
     url: 'https://www.tum.app/'
