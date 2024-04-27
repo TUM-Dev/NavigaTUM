@@ -28,7 +28,7 @@ rustls.workspace = true
 
 cached = { version = "0.50.0", features = ["default", "async", "tokio", "disk_store"] }
 futures = "0.3.30"
-unicode-truncate = "0.2.0"
+unicode-truncate = "1.0.0"
 
 # setup
 serde_yaml = "0.9"
