@@ -17,6 +17,8 @@ repos:
       - id: debug-statements
       - id: end-of-file-fixer
       - id: mixed-line-ending
+        args:
+          - --fix=lf
       - id: requirements-txt-fixer
   # only api
   - repo: local
