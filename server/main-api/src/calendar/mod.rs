@@ -29,7 +29,9 @@ pub async fn calendar_handler(
     web::Query(args): web::Query<QueryArguments>,
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
-    let id = params.into_inner();
+    let id = params
+        .into_inner()
+        .replace(|c: char| c.is_whitespace() || c.is_control(), "");
     let location = match get_location(&data.db, &id).await {
         Err(e) => {
             error!("could not refetch due to {e:?}");
