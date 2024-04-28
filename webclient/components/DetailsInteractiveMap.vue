@@ -259,7 +259,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
     <div v-if="webglSupport" id="interactive-map" class="absolute !h-full !w-full" />
     <div v-else class="relative">
       {{ t("no_webgl.no_browser_support") }}
-      {{ t("no_webgl.explain_webgl") }} <br >
+      {{ t("no_webgl.explain_webgl") }} <br />
       {{ t("no_webgl.please_try") }}:
       <ol>
         <li>
