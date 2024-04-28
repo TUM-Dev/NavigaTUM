@@ -9,6 +9,7 @@ from collections.abc import Iterator
 from pathlib import Path
 from typing import Literal, TypedDict
 
+import requests
 import utm
 from defusedxml import ElementTree as ET
 from tqdm import tqdm
@@ -203,7 +204,7 @@ def _download_maps(used_maps):
         # Download as file
         url = f"{ROOMFINDER_API_URL}/getMapImage?m_id={_map[1].removeprefix('rf')}"
         filepath = CACHE_PATH / "maps" / "roomfinder" / f"{_map[1]}.gif"
-        _download_file(url, filepath, quiet=True)
+        _download_file(url, filepath)
         convert_to_webp(filepath)
 
         map_data = {
@@ -244,9 +245,15 @@ def _download_map(_map_id: str, e_id: str, e_type: Literal["room", "building"]) 
     if e_type == "room":
         base_url = "https://portal.mytum.de/campus/roomfinder/getRoomPlacemark"
         url = f"{base_url}?roomid={urllib.parse.quote_plus(e_id)}&mapid={_map_id.removeprefix('rf')}"
-        return _download_file(url, filepath, quiet=True)
+        try:
+            _download_file(url, filepath)
+        except requests.exceptions.RequestException:
+            return None
     if e_type == "building":
         base_url = "https://portal.mytum.de/campus/roomfinder/getBuildingPlacemark"
         url = f"{base_url}?b_id={e_id}&mapid={_map_id.removeprefix('rf')}"
-        return _download_file(url, filepath, quiet=True)
+        try:
+            _download_file(url, filepath)
+        except requests.exceptions.RequestException:
+            return None
     raise RuntimeError(f"Unknown entity type: {e_type}")
