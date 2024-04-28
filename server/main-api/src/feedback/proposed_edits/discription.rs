@@ -1,6 +1,7 @@
-use crate::proposed_edits::AppliableEdit;
 use std::collections::HashMap;
 use std::path::Path;
+
+use super::AppliableEdit;
 
 #[derive(Default)]
 pub struct Description {
@@ -37,7 +38,6 @@ impl Description {
 
 #[cfg(test)]
 mod test_discription {
-    use crate::proposed_edits::AppliableEdit;
     use std::collections::HashMap;
     use std::path::Path;
 

@@ -1,10 +1,10 @@
-use crate::github;
+use actix_web::post;
 use actix_web::web::{Data, Json};
 use actix_web::HttpResponse;
-
-use crate::tokens::RecordedTokens;
-use actix_web::post;
 use serde::Deserialize;
+
+use super::github;
+use super::tokens::RecordedTokens;
 
 #[derive(Deserialize)]
 pub struct FeedbackPostData {
@@ -16,7 +16,7 @@ pub struct FeedbackPostData {
     deletion_requested: bool,
 }
 
-#[post("/api/feedback/feedback")]
+#[post("/feedback")]
 pub async fn send_feedback(
     recorded_tokens: Data<RecordedTokens>,
     req_data: Json<FeedbackPostData>,
