@@ -23,7 +23,9 @@ jobs:
       - name: setup uv
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - name: Install dependencies
-        run: uv pip install -r data/requirements.txt
+        run: |
+          uv venv
+          uv pip install -r data/requirements.txt
       - run: pytest data
   #type-check:
   #  runs-on: ubuntu-latest
@@ -36,7 +38,9 @@ jobs:
   #    - name: setup uv
   #      run: curl -LsSf https://astral.sh/uv/install.sh | sh
   #    - name: Install dependencies
-  #      run: uv pip install -r data/requirements.txt -r requirements-dev.txt
+  #      run: |
+  #        uv venv
+  #        uv pip install -r data/requirements.txt -r requirements-dev.txt
   #    - name: Run mypy
   #      run: mypy --strict data
   data-build:
