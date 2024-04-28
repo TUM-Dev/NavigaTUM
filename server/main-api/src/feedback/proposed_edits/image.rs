@@ -9,7 +9,7 @@ use log::error;
 use serde::Deserialize;
 use serde::Serialize;
 
-use crate::proposed_edits::AppliableEdit;
+use super::AppliableEdit;
 
 #[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq)]
 pub struct Source {

@@ -1,13 +1,15 @@
-use crate::github;
-use crate::proposed_edits::coordinate::Coordinate;
-use crate::proposed_edits::image::Image;
-use crate::proposed_edits::tmp_repo::TempRepo;
-use crate::tokens::RecordedTokens;
+use std::collections::HashMap;
+use std::path::Path;
+
 use actix_web::web::{Data, Json};
 use actix_web::{post, HttpResponse};
 use serde::Deserialize;
-use std::collections::HashMap;
-use std::path::Path;
+
+use super::github;
+use super::proposed_edits::coordinate::Coordinate;
+use super::proposed_edits::image::Image;
+use super::proposed_edits::tmp_repo::TempRepo;
+use super::tokens::RecordedTokens;
 
 mod coordinate;
 mod discription;
@@ -81,7 +83,7 @@ impl EditRequest {
     }
 }
 
-#[post("/api/feedback/propose_edit")]
+#[post("/propose_edit")]
 pub async fn propose_edits(
     recorded_tokens: Data<RecordedTokens>,
     req_data: Json<EditRequest>,

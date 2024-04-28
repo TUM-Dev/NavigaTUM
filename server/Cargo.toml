@@ -1,29 +1,7 @@
 [workspace]
-members = ["feedback", "main-api"]
+members = ["main-api"]
 resolver = "2"
 
 [profile.release]
 strip = true
 lto = "thin"
-
-[workspace.dependencies]
-# logging/obeservability
-log = "0.4.21"
-structured-logger = "1.0.3"
-actix-web-prom = { version = "0.8.0", default-features = false, features = [] }
-
-# runtime + webserver
-tokio = { version = "1.37", features = ["full"] }
-actix-web = { version = "4.5.1", default-features = false, features = ["macros", "compress-gzip", "cookies", "http2"] }
-actix-cors = "0.7.0"
-rustls = { version = "0.23.5", default-features = false, features = ["ring"] } # the aws' fips complient libary has weird bingen issues which require deeper looking into
-
-#serialisation
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-
-# testing
-pretty_assertions = "1.4.0"
-
-# images
-image = { version = "0.25.1", default-features = false, features = ["jpeg", "png", "webp"] }

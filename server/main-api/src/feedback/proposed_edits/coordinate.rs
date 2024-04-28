@@ -3,7 +3,7 @@ use std::path::{Path, PathBuf};
 
 use serde::Deserialize;
 
-use crate::proposed_edits::AppliableEdit;
+use super::AppliableEdit;
 
 struct CoordinateFile {
     path: PathBuf,
