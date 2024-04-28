@@ -1,10 +1,6 @@
 # Server
 
-Our server is architected in different microservices, each of which is responsible for a specific task.
+Our server is architected as a single monolith (with low coupling, chill).
+The reason behind this is that we are a very small team (=not multiple ones, mostly singe devs) and limt ourselves to the necessary components.
 
-- [main-api](/server/main-api): The main API server, which serves the API endpoints
-- [feedback](/server/feedback): The feedback microservice, which allows users to submit feedback  
-  This is separated from the server because:
-  - it has virtually no shared dependencies (natural faultline)
-  - this way, we can deploy the feedback-API independently of the main server (both in time, scaling and reliability)
-  - security: this way, we can increase our isolation and protect the GitHub token better ;)
+Please see the [main-api](/server/main-api) for the main API server, which serves the API endpoints
