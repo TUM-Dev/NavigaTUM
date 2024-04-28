@@ -15,11 +15,8 @@ ENV     RUSTFLAGS="-C target-feature=-crt-static"
 # (probably cached) first run of the image build => only dependencies
 COPY    ./Cargo.* ./
 COPY    main-api/Cargo.* ./main-api/
-COPY    feedback/Cargo.* ./feedback/
-RUN     mkdir ./main-api/src/ ./main-api/src/setup/ ./feedback/src/
-RUN     echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/setup/mod.rs
-RUN     echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/main.rs
-RUN     echo "fn main() { println!(\"Hello, world!\");}" > ./feedback/src/main.rs
+RUN     mkdir -p ./main-api/src/ \
+     && echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/main.rs
 
 RUN     cargo build --release --workspace \
      && rm -fr target/release/deps/navigatum*
@@ -27,7 +24,6 @@ RUN     cargo build --release --workspace \
 # second run of the image build (including our code)
 COPY    .sqlx .sqlx
 
-COPY    feedback/src ./feedback/src
 COPY    main-api/src ./main-api/src
 COPY    main-api/migrations ./main-api/migrations
 RUN     cargo build --release --workspace
@@ -54,13 +50,5 @@ USER    navigatum
 
 ENTRYPOINT ["tini", "--"]
 
-# Healthchecks and exopsing ports is ommited from the dockerfile, as this
-# - is done by the kubernetes deployment
-# - is not needed for local development
-# - would prevent us merging the different servers into one dockerfile
-
-# These are coomands that can be chosen to run
-# - a respective server or
-# - an admin task
-# CMD     /bin/navigatum-feedback
+HEALTHCHECK CMD curl --fail localhost:3003/api/status || exit 1
 CMD     /bin/navigatum-main-api

@@ -9,7 +9,7 @@
     "postinstall": "nuxt prepare",
     "type-check": "nuxt typecheck",
     "type-refresh": "openapi-typescript ../openapi.yaml --output ./api_types/index.ts --export-type --immutable-types --support-array-length && npm run format && npm run lint",
-    "lint": "eslint . --ext .vue,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "lint": "eslint . --fix --ignore-pattern '.nuxt|node_modules|.output' ",
     "format": "prettier --plugin=prettier-plugin-tailwindcss --end-of-line lf --write ."
   },
   "dependencies": {
@@ -32,16 +32,14 @@
     "vue3-carousel": "0.3.3"
   },
   "devDependencies": {
+    "@nuxt/eslint": "0.3.10",
     "@nuxtjs/i18n": "8.3.1",
     "@nuxtjs/tailwindcss": "6.12.0",
     "@types/node": "20.12.7",
     "@types/swagger-ui": "3.52.4",
-    "@vue/eslint-config-prettier": "9.0.0",
-    "@vue/eslint-config-typescript": "13.0.0",
     "@vue/tsconfig": "0.5.1",
     "autoprefixer": "10.4.19",
-    "eslint": "8.57.0",
-    "eslint-plugin-vue": "9.25.0",
+    "eslint": "9.1.1",
     "openapi-typescript": "6.7.5",
     "postcss": "8.4.38",
     "prettier": "3.2.5",

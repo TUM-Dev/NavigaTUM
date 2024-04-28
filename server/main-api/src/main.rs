@@ -13,6 +13,7 @@ use structured_logger::Builder;
 
 mod calendar;
 mod details;
+mod feedback;
 mod maps;
 mod models;
 mod search;
@@ -56,7 +57,7 @@ fn connection_string() -> String {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), crate::BoxedError> {
+async fn main() -> Result<(), BoxedError> {
     Builder::with_level("info")
         .with_target_writer("*", new_writer(tokio::io::stdout()))
         .init();
@@ -96,6 +97,7 @@ async fn main() -> Result<(), crate::BoxedError> {
             .service(health_status_handler)
             .service(calendar::calendar_handler)
             .service(web::scope("/api/preview").configure(maps::configure))
+            .service(web::scope("/api/feedback").configure(feedback::configure))
             .service(details::get_handler)
             .service(search::search_handler)
     })

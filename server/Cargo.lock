@@ -2218,50 +2218,29 @@ dependencies = [
 ]
 
 [[package]]
-name = "navigatum-feedback"
-version = "1.0.0"
-dependencies = [
- "actix-cors",
- "actix-governor",
- "actix-web",
- "actix-web-prom",
- "base64 0.22.0",
- "chrono",
- "image",
- "jsonwebtoken",
- "log",
- "octocrab",
- "pretty_assertions",
- "rand",
- "regex",
- "rustls 0.23.5",
- "serde",
- "serde_json",
- "serde_yaml",
- "structured-logger",
- "tempfile",
- "tokio",
-]
-
-[[package]]
 name = "navigatum-main-api"
 version = "1.0.0"
 dependencies = [
  "ab_glyph",
  "actix-cors",
+ "actix-governor",
  "actix-web",
  "actix-web-prom",
+ "base64 0.22.0",
  "cached",
  "chrono",
  "futures",
  "image",
  "imageproc",
+ "jsonwebtoken",
  "lazy_static",
  "log",
  "logos",
  "meilisearch-sdk",
  "oauth2",
+ "octocrab",
  "pretty_assertions",
+ "rand",
  "regex",
  "reqwest 0.12.4",
  "rustls 0.23.5",
@@ -2270,6 +2249,7 @@ dependencies = [
  "serde_yaml",
  "sqlx",
  "structured-logger",
+ "tempfile",
  "tokio",
  "unicode-truncate",
 ]

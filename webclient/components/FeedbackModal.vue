@@ -41,8 +41,7 @@ const feedback = useFeedback();
           class="focusable bg-zinc-200 border-zinc-400 resize-y rounded border px-2 py-1"
           :placeholder="t('message')"
           rows="6"
-        >
-        </textarea>
+        />
         <p class="text-zinc-500 text-xs">
           {{
             {

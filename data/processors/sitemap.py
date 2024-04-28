@@ -5,8 +5,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Literal, TypedDict
 
+import backoff
 import requests
 from defusedxml import ElementTree as defusedET
+
 from utils import DEBUG_MODE
 
 OLD_DATA_URL = "https://nav.tum.de/cdn/api_data.json"
@@ -48,7 +50,11 @@ def generate_sitemap() -> None:
     # sitemaps name. In case there aren't, we assume this sitemap is new,
     # and all entries will be marked as changed
     old_sitemaps = _download_online_sitemaps()
-    old_data = _download_old_data()
+    try:
+        old_data = _download_old_data()
+    except requests.exceptions.RequestException as error:
+        logging.warning(f"Could not download online data because of {error}. Assuming all entries are new.")
+        old_data = []
 
     sitemaps: Sitemaps = _extract_sitemap_data(new_data, old_data, old_sitemaps)
 
@@ -58,20 +64,17 @@ def generate_sitemap() -> None:
     _write_sitemapindex_xml(OUTPUT_DIR / "sitemap.xml", sitemaps)
 
 
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def _download_old_data() -> list:
     """Download the currently online data from the server"""
-    try:
-        req = requests.get(OLD_DATA_URL, headers={"Accept-Encoding": "gzip"}, timeout=120)
-        if req.status_code != 200:
-            logging.warning(f"Could not download online data because of {req.status_code=}. Assuming all are new")
-            return []
-        old_data = req.json()
-        if isinstance(old_data, dict):
-            old_data = list(old_data.values())
-        return old_data
-    except requests.exceptions.RequestException as error:
-        logging.warning(f"Could not download online data because of {error}. Assuming all entries are new.")
+    req = requests.get(OLD_DATA_URL, headers={"Accept-Encoding": "gzip"}, timeout=120)
+    if req.status_code != 200:
+        logging.warning(f"Could not download online data because of {req.status_code=}. Assuming all are new")
         return []
+    old_data = req.json()
+    if isinstance(old_data, dict):
+        old_data = list(old_data.values())
+    return old_data
 
 
 def _extract_sitemap_data(new_data: list, old_data: list, old_sitemaps: SimplifiedSitemaps) -> Sitemaps:

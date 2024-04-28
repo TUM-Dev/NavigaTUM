@@ -27,8 +27,7 @@ function loadInteractiveMap(fromUi = false) {
       if (document.getElementById("interactive-map")?.classList.contains("maplibregl-map")) {
         marker.value?.remove();
       } else {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore recursive calls are not supported by ts
+        // @ts-expect-error recursive calls are not supported by ts
         map.value = initMap("interactive-map");
 
         document.getElementById("interactive-map")?.classList.remove("loading");

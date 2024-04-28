@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: web
-  namespace: {{ $.Values.namespace }}
+  namespace: { { $.Values.namespace } }
 spec:
   replicas: 1
   revisionHistoryLimit: 0
@@ -24,7 +24,7 @@ spec:
         app.kubernetes.io/part-of: navigatum
         app.kubernetes.io/name: web
     spec:
-      priorityClassName: {{ $.Values.url }}
+      priorityClassName: { { $.Values.url } }
       containers:
         - name: webclient
           image: "ghcr.io/tum-dev/navigatum-webclient:{{ $.Values.tag }}"
@@ -39,8 +39,6 @@ spec:
               value: http://cdn-svc.navigatum.svc.cluster.local:3002
             - name: MAIN_API_URL
               value: http://api-svc.navigatum.svc.cluster.local:3003
-            - name: FEEDBACK_API_URL
-              value: http://feedback-svc.navigatum.svc.cluster.local:3004
           resources:
             requests:
               cpu: 50m
@@ -63,9 +61,9 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-              - ALL
+                - ALL
               add:
-              - CHOWN
-              - DAC_OVERRIDE
-              - SETGID
-              - SETUID
+                - CHOWN
+                - DAC_OVERRIDE
+                - SETGID
+                - SETUID

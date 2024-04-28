@@ -15,23 +15,25 @@ name = "navigatum-main-api"
 path = "src/main.rs"
 
 [dependencies]
-# shared
-log.workspace = true
-structured-logger.workspace = true
-tokio.workspace = true
-actix-web.workspace = true
-actix-cors.workspace = true
-actix-web-prom.workspace = true
-serde.workspace = true
-serde_json.workspace = true
-rustls.workspace = true
+# logging/obeservability
+log = "0.4.21"
+structured-logger = "1.0.3"
+actix-web-prom = { version = "0.8.0", default-features = false, features = [] }
+
+#serialisation
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+
+# runtime + webserver
+tokio = { version = "1.37", features = ["full"] }
+actix-web = { version = "4.5.1", default-features = false, features = ["macros", "compress-gzip", "cookies", "http2"] }
+actix-cors = "0.7.0"
+rustls = { version = "0.23.5", default-features = false, features = ["ring"] } # the aws' fips complient libary has weird bingen issues which require deeper looking into
 
 cached = { version = "0.50.0", features = ["default", "async", "tokio", "disk_store"] }
 futures = "0.3.30"
 unicode-truncate = "1.0.0"
-
-# setup
-serde_yaml = "0.9"
 
 # database
 sqlx = { version = "0.7.4", features = ["postgres", "runtime-tokio-rustls", "migrate", "macros", "chrono"] }
@@ -47,13 +49,24 @@ oauth2 = { version = "4.4.2", default-features = false, features = ["rustls-tls"
 reqwest = { version = "0.12.4", default-features = false, features = ["rustls-tls", "http2", "charset", "json", "gzip", "hickory-dns"] }
 
 # image production
-image.workspace = true
+image = { version = "0.25.1", default-features = false, features = ["jpeg", "png", "webp"] }
 imageproc = "0.24.0"
 ab_glyph = "0.2.25"
 lazy_static = "1.4.0"
 
+rand = "0.8.5"
+octocrab = { version = "0.38.0", default-features = false, features = ["rustls", "rustls-webpki-tokio", "retry", "default-client"] }
+
+# auth/security
+jsonwebtoken = { version = "9.3.0", default-features = false, features = [] }
+actix-governor = { version = "0.5.0", features = ["logger"] }
+
+# proposing feedback
+tempfile = "3.10.1"
+base64 = "0.22.0"
+
 [dev-dependencies]
-pretty_assertions.workspace = true
+pretty_assertions = "1.4.0"
 
 [features]
 skip_db_setup = []

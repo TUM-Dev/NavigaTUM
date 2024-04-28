@@ -179,7 +179,7 @@ function sendForm() {
         @click="sendForm"
       >
         <template v-if="loading">
-          <Spinner class="my-auto h-4 w-4"></Spinner>
+          <Spinner class="my-auto h-4 w-4" />
           {{ t("sending...") }}
         </template>
         <template v-else-if="error.blockSend">{{ t("try_again_later") }}</template>
