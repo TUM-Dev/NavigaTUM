@@ -41,8 +41,6 @@ mod test_discription {
     use std::collections::HashMap;
     use std::path::Path;
 
-    use crate::proposed_edits::AppliableEdit;
-
     use super::*;
 
     #[test]
