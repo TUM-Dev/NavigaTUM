@@ -120,7 +120,9 @@ pub async fn maps_handler(
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
     let start_time = Instant::now();
-    let id = params.into_inner();
+    let id = params
+        .into_inner()
+        .replace(|c: char| c.is_whitespace() || c.is_control(), "");
     let data = match get_localised_data(&data.db, &id, args.should_use_english()).await {
         Ok(data) => data,
         Err(e) => {
@@ -130,11 +132,10 @@ pub async fn maps_handler(
     let img = construct_image_from_data(data)
         .await
         .unwrap_or_else(load_default_image);
-    let res = HttpResponse::Ok().content_type("image/png").body(img);
 
     debug!(
-        "Preview Generation for {id} took {:?}",
-        start_time.elapsed()
+        "Preview Generation for {id} took {elapsed:?}",
+        elapsed = start_time.elapsed()
     );
-    res
+    HttpResponse::Ok().content_type("image/png").body(img)
 }
