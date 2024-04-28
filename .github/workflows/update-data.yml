@@ -22,12 +22,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: setup uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - name: Install python dependencies
-        run: |
-          uv venv
-          uv pip install -r data/requirements.txt -r requirements-dev.txt
+        run: pip install -r data/requirements.txt -r requirements-dev.txt
       - name: Download data
         continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
         run: |
