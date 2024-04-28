@@ -54,13 +54,5 @@ USER    navigatum
 
 ENTRYPOINT ["tini", "--"]
 
-# Healthchecks and exopsing ports is ommited from the dockerfile, as this
-# - is done by the kubernetes deployment
-# - is not needed for local development
-# - would prevent us merging the different servers into one dockerfile
-
-# These are coomands that can be chosen to run
-# - a respective server or
-# - an admin task
-# CMD     /bin/navigatum-feedback
+HEALTHCHECK CMD curl --fail localhost:3003/api/status || exit 1
 CMD     /bin/navigatum-main-api
