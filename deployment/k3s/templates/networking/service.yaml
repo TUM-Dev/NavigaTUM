@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: api
-  namespace: {{ $.Values.namespace }}
+  namespace: { { $.Values.namespace } }
 spec:
   type: ClusterIP
   selector:
@@ -19,29 +19,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: feedback-svc
-  labels:
-    app.kubernetes.io/part-of: navigatum
-    app.kubernetes.io/name: feedback
-  namespace: {{ $.Values.namespace }}
-spec:
-  type: ClusterIP
-  selector:
-    app.kubernetes.io/part-of: navigatum
-    app.kubernetes.io/name: feedback
-  ports:
-    - name: http
-      port: 3004
-      targetPort: 3004
----
-apiVersion: v1
-kind: Service
-metadata:
   name: maps-svc
   labels:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: maps
-  namespace: {{ $.Values.namespace }}
+  namespace: { { $.Values.namespace } }
 spec:
   type: ClusterIP
   selector:
@@ -62,7 +44,7 @@ metadata:
   labels:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: cdn
-  namespace: {{ $.Values.namespace }}
+  namespace: { { $.Values.namespace } }
 spec:
   type: ClusterIP
   selector:
@@ -80,7 +62,7 @@ metadata:
   labels:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: web
-  namespace: {{ $.Values.namespace }}
+  namespace: { { $.Values.namespace } }
 spec:
   type: ClusterIP
   selector:
@@ -90,7 +72,7 @@ spec:
     - name: http
       port: 3000
       targetPort: 3000
-{{- if eq "nav.tum.de" $.Values.url }}
+  { { - if eq "nav.tum.de" $.Values.url } }
 ---
 apiVersion: v1
 kind: Service
@@ -99,7 +81,7 @@ metadata:
   labels:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: postgres
-  namespace: {{ $.Values.namespace }}
+  namespace: { { $.Values.namespace } }
 spec:
   type: ClusterIP
   selector:
@@ -109,4 +91,4 @@ spec:
     - name: postgres
       port: 5432
       targetPort: 5432
-  {{ end }}
+  { { end } }

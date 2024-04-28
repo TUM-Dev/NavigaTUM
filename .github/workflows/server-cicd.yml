@@ -60,12 +60,3 @@ jobs:
     permissions:
       contents: read
       packages: write
-  feedback-deployment:
-    uses: ./.github/workflows/_restart-argocd.yml
-    if: ${{ github.ref }} == 'refs/heads/main'
-    needs:
-      - server-build
-    with:
-      deployment: feedback
-    secrets:
-      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}

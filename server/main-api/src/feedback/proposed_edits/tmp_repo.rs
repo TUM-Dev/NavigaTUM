@@ -1,8 +1,8 @@
-use crate::proposed_edits::EditRequest;
 use log::{debug, info};
 use tokio::process::Command;
 
-use crate::proposed_edits::discription::Description;
+use super::discription::Description;
+use super::EditRequest;
 
 pub struct TempRepo {
     dir: tempfile::TempDir,
@@ -110,8 +110,9 @@ impl TempRepo {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use std::fs;
+
+    use super::*;
 
     const GIT_URL: &str = "https://github.com/CommanderStorm/dotfiles.git";
     #[tokio::test]
