@@ -53,6 +53,9 @@ importers:
       vue-router:
         specifier: 4.4.0
         version: 4.4.0(vue@3.4.31(typescript@5.4.5))
+      vue-simple-calendar:
+        specifier: 7.1.0
+        version: 7.1.0(typescript@5.4.5)
       vue3-carousel:
         specifier: 0.3.3
         version: 0.3.3(vue@3.4.31(typescript@5.4.5))
@@ -6361,6 +6364,9 @@ packages:
     resolution: {integrity: sha512-HB+t2p611aIZraV2aPSRNXf0Z/oLZFrlygJm+sZbdJaW6lcFqEDQwnzUBXn+DApw+/QzDU/I9TeWx9izEjTmsA==}
     peerDependencies:
       vue: ^3.2.0
+
+  vue-simple-calendar@7.1.0:
+    resolution: {integrity: sha512-WNbvRVGQQJlStaLPvvpe2ZsB/E1n8eFgUh4hD931ljp2czPA8xT81i4jGD5+jKZT1OHDFpON5mNn0KwO2QC9rA==}
 
   vue-template-compiler@2.7.16:
     resolution: {integrity: sha512-AYbUWAJHLGGQM7+cNTELw+KsOG9nl2CnSv467WobS5Cv9uk3wFcnr1Etsz2sEIHEZvw1U+o9mRlEO6QbZvUPGQ==}
@@ -14581,6 +14587,12 @@ snapshots:
     dependencies:
       '@vue/devtools-api': 6.6.1
       vue: 3.4.31(typescript@5.4.5)
+
+  vue-simple-calendar@7.1.0(typescript@5.4.5):
+    dependencies:
+      vue: 3.4.31(typescript@5.4.5)
+    transitivePeerDependencies:
+      - typescript
 
   vue-template-compiler@2.7.16:
     dependencies:

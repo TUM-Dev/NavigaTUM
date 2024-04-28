@@ -19,6 +19,7 @@ const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const router = useRouter();
 
+const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
 const url = computed(() => `${runtimeConfig.public.apiURL}/api/get/${route.params.id}?lang=${locale.value}`);
 const { data, error } = useFetch<DetailsResponse, string>(url, {
@@ -173,15 +174,18 @@ onMounted(() => {
         <div class="flex grow place-items-center justify-between">
           <span class="text-zinc-500 mt-0.5 text-sm">{{ data.type_common_name }}</span>
           <div class="flex flex-row place-items-center gap-3">
-            <a
+            <button
               v-if="data.props?.calendar_url"
-              :href="data.props.calendar_url"
-              target="_blank"
+              type="button"
               class="focusable rounded-sm"
               :title="t('header.calendar')"
+              @click="
+                calendar.open = true;
+                calendar.showing = [route.params.id.toString()];
+              "
             >
               <CalendarDaysIcon class="text-blue-600 mt-0.5 h-4 w-4" />
-            </a>
+            </button>
             <ClientOnly>
               <ShareButton :coords="data.coords" :name="data.name" />
             </ClientOnly>
@@ -287,6 +291,9 @@ onMounted(() => {
     <Spinner class="h-8 w-8" />
     {{ t("Loading data...") }}
   </div>
+  <ClientOnly>
+    <LazyCalendarModal v-if="calendar.open" />
+  </ClientOnly>
 </template>
 
 <i18n lang="yaml">

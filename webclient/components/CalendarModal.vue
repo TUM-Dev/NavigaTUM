@@ -1,170 +1,183 @@
 <script setup lang="ts">
+// @ts-expect-error
 import { CalendarView, CalendarViewHeader } from "vue-simple-calendar";
-import { ref, computed, watch } from "vue";
-import type { ICalendarItem } from "vue-simple-calendar/dist/src/ICalendarItem";
+// @ts-expect-error
+import type { ICalendarItem } from "vue-simple-calendar/dist/src/ICalendarItem.d.ts";
 
-import { useGlobalStore } from "@/stores/global";
-import { useRoute } from "vue-router";
 import type { components } from "@/api_types";
-type CalendarResponse = components["schemas"]["CalendarResponse"];
 import "/node_modules/vue-simple-calendar/dist/style.css";
 import "/node_modules/vue-simple-calendar/dist/css/gcal.css";
-import { useFetch } from "@/composables/fetch";
 
-const global = useGlobalStore();
+type CalendarResponse = components["schemas"]["CalendarResponse"];
+
 const showDate = ref(new Date());
 
-const tumonlineCalendarUrl = ref("https://campus.tum.de/tumonline");
-const last_sync = ref("xx.xx.xxxx xx:xx");
-const events = ref<ICalendarItem[]>([]);
+const calendar = useCalendar();
+const { t, locale } = useI18n({ useScope: "local" });
 
-const route = useRoute();
-
-const start = computed(() => {
+const start_after = computed(() => {
   const start = new Date(showDate.value);
   start.setDate(start.getDate() - 60);
-  return start.toISOString().replace("Z", "");
+  return start.toISOString();
 });
-
-const end = computed(() => {
+const end_before = computed(() => {
   const start = new Date(showDate.value);
   start.setDate(start.getDate() + 60);
-  return start.toISOString().replace("Z", "");
+  return start.toISOString();
 });
-// called when the view is loaded
-update();
-// called when the view navigates to another view, but not when its initially loaded
-watch(() => showDate.value, update);
-watch(() => route.params.id, update);
 
-function update() {
-  useFetch<CalendarResponse>(
-    `https://nav.tum.de/api/calendar/${route.params.id}?start=${start.value}&end=${end.value}`,
-    (d) => {
-      tumonlineCalendarUrl.value = d.calendar_url;
-      last_sync.value = new Date(d.last_sync).toLocaleString("de-DE", { timeStyle: "short", dateStyle: "short" });
-      events.value = d.events.map((e) => ({
-        id: e.id.toString(),
-        title: e.title,
-        startDate: new Date(e.start),
-        endDate: new Date(e.end),
-        classes: [e.entry_type],
-      }));
-    }
-  );
-}
+const runtimeConfig = useRuntimeConfig();
+const url = computed(() => {
+  const params = new URLSearchParams();
+  params.append("start_after", start_after.value);
+  params.append("end_before", end_before.value);
+
+  return `${runtimeConfig.public.apiURL}/api/calendar/${calendar.value.showing[0]}?${params.toString()}`;
+});
+const { data, status, error } = useFetch<CalendarResponse>(url, { key: "calendar", dedupe: "defer", deep: false });
+const earliest_last_sync = computed<string | null>(() => {
+  if (!data.value) return null;
+  return Object.values(data.value)
+    .map((d) => new Date(d.location.last_calendar_scrape_at))
+    .reduce((d1, d2) => (d1 < d2 ? d1 : d2))
+    .toLocaleString(locale.value, { timeStyle: "short", dateStyle: "short" });
+});
+const events = computed<ICalendarItem[]>(() => {
+  if (!data.value) return [];
+  return data.value.events.map((e) => ({
+    id: e.id.toString(),
+    title: e.title,
+    startDate: new Date(e.start),
+    endDate: new Date(e.end),
+    classes: [e.entry_type],
+  }));
+});
+
 function setShowDate(d: Date) {
   showDate.value = d;
 }
 </script>
+
 <template>
-  <div class="modal modal-lg active" id="calendar-modal">
-    <a @click="global.calendar.open = false" class="modal-overlay" aria-label="Close"></a>
-    <div class="modal-container">
-      <div class="modal-header">
-        <a
-          @click="global.calendar.open = false"
-          class="btn btn-clear float-right"
-          v-bind:aria-label="$t('calendar.modal.close')"
-        ></a>
-        <div class="modal-title h5">{{ $t("calendar.modal.title") }}</div>
+  <LazyModal v-model="calendar.open" :title="t('title')">
+    <Toast v-if="error" level="error">
+      <p class="text-md font-bold">{{ t("error.header") }}</p>
+      <p class="text-sm">
+        {{ t("error.reason") }}:<br />
+        <code
+          class="text-red-900 bg-red-200 mb-1 mt-2 inline-flex max-w-full items-center space-x-2 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs dark:bg-red-50/20"
+        >
+          {{ error }}
+        </code>
+      </p>
+      <p class="text-sm">
+        {{ t("error.call_to_action") }}
+      </p>
+    </Toast>
+    <div v-else>
+      <CalendarView
+        v-if="data"
+        :items="events"
+        :show-date="showDate"
+        :show-times="true"
+        :time-format-options="{ hour: '2-digit', minute: '2-digit', hour12: false }"
+        :starting-day-of-week="1"
+        item-top="2.5em"
+        class="theme-gcal flex grow flex-col"
+      >
+        <template #header="{ headerProps }">
+          <CalendarViewHeader :header-props="headerProps" @input="setShowDate" />
+        </template>
+      </CalendarView>
+      <div v-else-if="status === 'pending'" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
+        <Spinner class="h-8 w-8" />
+        {{ t("Loading data...") }}
       </div>
-      <div class="modal-body">
-        <div class="modal-body">
-          <CalendarView
-            id="calendar-view"
-            :items="events"
-            :show-date="showDate"
-            :showTimes="true"
-            :timeFormatOptions="{ hour: '2-digit', minute: '2-digit', hour12: false }"
-            :startingDayOfWeek="1"
-            :itemTop="'2.5em'"
-            class="theme-gcal"
-          >
-            <template #header="{ headerProps }">
-              <CalendarViewHeader :header-props="headerProps" @input="setShowDate" />
-            </template>
-          </CalendarView>
-        </div>
-      </div>
-      <div class="modal-footer">
-        {{ $t("calendar.modal.footer.disclaimer") }} <br />
-        {{ $t("calendar.modal.footer.please_check") }}
-        <a v-bind:href="tumonlineCalendarUrl">{{ $t("calendar.modal.footer.official_calendar") }}</a
-        >. {{ $t("calendar.modal.footer.last_sync") }}: {{ last_sync }}
+
+      <div class="pt-2 text-xs">
+        {{ t("footer.disclaimer") }} <br />
+        {{ t("footer.please_check") }}
+        <template v-if="earliest_last_sync !== null">
+          <br />
+          {{ t("footer.last_sync", [earliest_last_sync]) }}
+        </template>
       </div>
     </div>
-  </div>
+  </LazyModal>
 </template>
-<style lang="scss">
-@import "../assets/variables";
 
-#calendar-modal {
-  .modal-container {
-    position: relative;
-    height: auto;
-    max-width: 97.5vw;
-    max-height: 90vh;
-    .modal-body {
-      padding: 0;
-      height: 40rem;
-      #calendar-view {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-      }
-    }
-  }
-  .startTime,
-  .endTime {
-    color: white;
-    font-size: 0.5rem;
-  }
+<style lang="postcss" scoped>
+.startTime,
+.endTime {
+  @apply text-white text-[0.5rem];
+}
 
-  .cv-day.today .cv-day-number {
-    margin-top: 0.1em !important;
-    background-color: $primary-color !important;
-    color: $light-color !important;
-  }
+.cv-day.today .cv-day-number {
+  @apply text-white mt-[0.1em] bg-[#0065bd];
+}
+.dark .cv-day.today .cv-day-number {
+  @apply bg-[#59b2ff] text-[#17181a];
+}
+.cv-day-number,
+.periodLabel,
+.currentPeriod,
+.cv-header-day {
+  @apply text-zinc-900;
+}
+.currentPeriod {
+  @apply bg-transparent;
+}
+.cv-item {
+  @apply pb-4 pt-[0.1em];
+}
+.past.cv-item {
+  @apply brightness-[1.3] grayscale-[0.55];
+}
 
-  .cv-day-number,
-  .periodLabel {
-    color: $body-font-color !important;
-  }
-  .currentPeriod {
-    color: $body-font-color !important;
-    background-color: transparent !important;
-  }
-  .cv-header-day {
-    color: $body-font-color !important;
-  }
+/* colors */
+.barred {
+  @apply text-red-900 bg-red-100 border-red-300;
+}
 
-  .cv-item {
-    padding-bottom: 1rem !important;
-  }
-  .cv-item {
-    padding-bottom: 0.1em !important;
-    padding-top: 0.1em !important;
-  }
-  .past.cv-item {
-    filter: brightness(1.3) grayscale(0.55);
-  }
+.lecture {
+  @apply text-blue-900 bg-blue-100 border-blue-300;
+}
 
-  // colors
-  .barred {
-    background-color: $error-color;
-  }
-  .lecture {
-    background-color: $secondary-color;
-  }
-  .exercise {
-    background-color: #d99208;
-  }
-  .exam {
-    background-color: #b55ca5;
-  }
-  .other {
-    background-color: var(--event-color-graphite);
-  }
+.exercise {
+  @apply text-orange-900 bg-orange-100 border-orange-300;
+}
+.exam {
+  @apply text-fuchsia-pink-900 bg-fuchsia-pink-100 border-fuchsia-pink-300;
+}
+
+.other {
+  @apply text-zinc-900 bg-zinc-100 border-zinc-300;
 }
 </style>
+
+<i18n lang="yaml">
+de:
+  title: Kalendar
+  close: Schließen
+  Loading data...: Lädt daten...
+  error:
+    header: Beim Versuch, den Kalender anzuzeigen, ist ein Fehler aufgetreten
+    reason: Der Grund für diesen Fehler ist
+    call_to_action: Wenn dieses Problem weiterhin besteht, kontaktieren Sie uns bitte über das Feedback-Formular am Ende der Seite.
+  footer:
+    disclaimer: Stündlich aktualisiert und identische Termine zusammengefasst.
+    please_check: Im Zweifelsfall prüfe bitte den offiziellen TUMonline-Kalender.
+    last_sync: Stand {0}
+en:
+  title: Calendar
+  close: Close
+  Loading data...: Loading data...
+  error:
+    header: Got an error trying to display calendar
+    reason: Reason for this error is
+    call_to_action: If this issue persists, please contact us via the feedback form at the bottom of the page
+  footer:
+    disclaimer: Updated hourly and identical events are merged.
+    please_check: If in doubt, please check the official calendar on TUMonline
+    last_sync: Updated {0}
+</i18n>
