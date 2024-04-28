@@ -29,7 +29,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
     {{ t("Loading data...") }}
   </div>
   <div class="flex flex-col justify-between gap-3 pt-8">
-    <div class="text-zinc-600 !text-lg font-semibold">{{ t("sites") }}</div>
+    <h1 class="text-zinc-600 !text-lg font-semibold">{{ t("sites") }}</h1>
     <!-- <NuxtLink to="#" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</NuxtLink> -->
   </div>
   <div v-if="data" class="mt-5">
@@ -46,10 +46,10 @@ const openPanels = ref<(boolean | undefined)[]>([]);
             :aria-label="t('show_details_for_campus', [site.name])"
             class="focusable text-zinc-700 flex grow-0 flex-row justify-between rounded !no-underline hover:text-blue-500"
           >
-            <span class="text-md font-semibold">{{ site.name }}</span>
+            <h2 class="text-md font-semibold">{{ site.name }}</h2>
             <ArrowRightIcon v-if="site.id" class="my-auto hidden h-6 w-6 md:block" />
           </NuxtLink>
-          <div v-else class="text-md text-zinc-700 font-semibold">{{ site.name }}</div>
+          <h2 v-else class="text-md text-zinc-700 font-semibold">{{ site.name }}</h2>
         </div>
         <div class="flex flex-col gap-3">
           <NuxtLink
