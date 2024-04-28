@@ -25,7 +25,10 @@ jobs:
       - name: Install dependencies
         run: |
           uv venv
+          source .venv/bin/activate
           uv pip install -r data/requirements.txt -r requirements-dev.txt
+          deactivate
+          source .venv/bin/activate
           pip install pytest
       - run: pytest data
   #type-check:
