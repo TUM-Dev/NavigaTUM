@@ -170,7 +170,7 @@ watchEffect(() => {
       <ul v-for="s in data.sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
         <div class="flex items-center">
           <span class="text-md text-zinc-800 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
-          <div class="border-zinc-800 flex-grow border-t"></div>
+          <div class="border-zinc-800 flex-grow border-t" />
         </div>
 
         <template v-for="(e, i) in s.entries" :key="e.id">
@@ -181,8 +181,7 @@ watchEffect(() => {
             @click="searchBarFocused = false"
             @mousedown="keep_focus = true"
             @mouseover="highlighted = null"
-          >
-          </SearchResultItem>
+          />
         </template>
         <li class="-mt-2">
           <Btn
