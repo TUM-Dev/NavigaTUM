@@ -25,6 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv venv
+          source .venv/bin/activate
           uv pip install -r data/requirements.txt -r requirements-dev.txt
       - run: pytest data
   #type-check:
@@ -40,6 +41,7 @@ jobs:
   #    - name: Install dependencies
   #      run: |
   #        uv venv
+  #        source .venv/bin/activate
   #        uv pip install -r data/requirements.txt -r requirements-dev.txt
   #    - name: Run mypy
   #      run: mypy --strict data
