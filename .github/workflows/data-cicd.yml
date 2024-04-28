@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv venv
-          uv pip install -r data/requirements.txt
+          uv pip install -r data/requirements.txt -r requirements-dev.txt
       - run: pytest data
   #type-check:
   #  runs-on: ubuntu-latest

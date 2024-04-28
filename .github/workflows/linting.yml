@@ -30,7 +30,7 @@ jobs:
       - name: Install python dependencies
         run: |
           uv venv
-          uv pip install -r data/requirements.txt -r requirements-dev.txt -r server/main-api/test/requirements.txt
+          uv pip install -r data/requirements.txt -r requirements-dev.txt
       - name: Run pre-commit
         continue-on-error: ${{ github.ref == 'refs/heads/main' }}
         uses: pre-commit/action@v3.0.1
