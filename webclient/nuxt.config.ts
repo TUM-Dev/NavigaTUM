@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     },
   },
   modules: [
+    "@nuxt/eslint",
     "@nuxtjs/i18n",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/color-mode",
@@ -157,4 +158,5 @@ export default defineNuxtConfig({
       "sharp", // sharp somehow has problems when not transpiled causing "module not transpiled" errors
     ],
   },
+  eslint: {},
 });

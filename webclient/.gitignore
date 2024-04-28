@@ -24,8 +24,3 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-/cdn/
-
-# lockfiles
-pnpm-lock.yaml
-package-lock.json

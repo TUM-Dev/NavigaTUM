@@ -27,8 +27,7 @@ function loadInteractiveMap(fromUi = false) {
       if (document.getElementById("interactive-map")?.classList.contains("maplibregl-map")) {
         marker.value?.remove();
       } else {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore recursive calls are not supported by ts
+        // @ts-expect-error recursive calls are not supported by ts
         map.value = initMap("interactive-map");
 
         document.getElementById("interactive-map")?.classList.remove("loading");
@@ -260,7 +259,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
     <div v-if="webglSupport" id="interactive-map" class="absolute !h-full !w-full" />
     <div v-else class="relative">
       {{ t("no_webgl.no_browser_support") }}
-      {{ t("no_webgl.explain_webgl") }} <br />
+      {{ t("no_webgl.explain_webgl") }} <br >
       {{ t("no_webgl.please_try") }}:
       <ol>
         <li>

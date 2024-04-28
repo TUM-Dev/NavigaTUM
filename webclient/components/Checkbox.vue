@@ -11,7 +11,7 @@ const model = defineModel<boolean>();
         v-model="model"
         type="checkbox"
         class="focusable bg-zinc-100 border-zinc-300 z-40 min-h-4 min-w-4 accent-blue-400"
-      />
+      >
     </div>
     <div class="ps-1">
       <label :for="id" class="text-zinc-900 z-30 text-sm font-medium">
