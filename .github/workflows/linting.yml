@@ -28,7 +28,9 @@ jobs:
       - name: setup uv
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - name: Install python dependencies
-        run: uv pip install -r data/requirements.txt -r requirements-dev.txt -r server/main-api/test/requirements.txt
+        run: |
+          uv venv
+          uv pip install -r data/requirements.txt -r requirements-dev.txt -r server/main-api/test/requirements.txt
       - name: Run pre-commit
         continue-on-error: ${{ github.ref == 'refs/heads/main' }}
         uses: pre-commit/action@v3.0.1
