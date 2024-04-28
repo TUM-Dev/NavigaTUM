@@ -11,9 +11,10 @@ pub async fn get_handler(
     web::Query(args): web::Query<utils::LangQueryArgs>,
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
-    let Some((probable_id, redirect_url)) =
-        get_alias_and_redirect(&data.db, &params.into_inner()).await
-    else {
+    let id = params
+        .into_inner()
+        .replace(|c: char| c.is_whitespace() || c.is_control(), "");
+    let Some((probable_id, redirect_url)) = get_alias_and_redirect(&data.db, &id).await else {
         return HttpResponse::NotFound().body("Not found");
     };
     let result = if args.should_use_english() {
