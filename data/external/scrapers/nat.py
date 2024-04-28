@@ -4,16 +4,19 @@ import logging
 from multiprocessing.pool import ThreadPool
 from pathlib import Path
 
+import backoff
 import requests
-from external.scraping_utils import _download_file, CACHE_PATH
 from tqdm import tqdm
 from tqdm.contrib.concurrent import thread_map
+
+from external.scraping_utils import _download_file, CACHE_PATH
 from utils import TranslatableStr as _
 
 NAT_API_URL = "https://api.srv.nat.tum.de/api/v1/rom"
 NAT_CACHE_DIR = CACHE_PATH / "nat"
 
 
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def scrape_buildings():
     """Retrieve the buildings as in the NAT roomfinder."""
     logging.info("Scraping the buildings of the NAT")
@@ -183,8 +186,9 @@ def _download_and_merge_room(base):
     """Download the room information and merge it with the base information."""
     room_code = base["room_code"]
     target_filepath = NAT_CACHE_DIR / f"room_{room_code}.json"
-    downloaded_file = _download_file(f"{NAT_API_URL}/{room_code}", target_filepath, quiet=True)
-    if not downloaded_file:
+    try:
+        downloaded_file = _download_file(f"{NAT_API_URL}/{room_code}", target_filepath)
+    except requests.exceptions.RequestException:
         return None
     content = json.loads(downloaded_file.read_text(encoding="utf-8"))
     for useless_key in ["events_end", "events_start"]:
@@ -230,13 +234,12 @@ def _get_base_room_infos():
 
 
 def _try_download_room_base_info(start: int, batch: int) -> tuple[tuple[int, int], Path | None]:
-    downloaded_file = _download_file(
-        f"{NAT_API_URL}/?limit={batch}&offset={start}",
-        NAT_CACHE_DIR / f"rooms_base_{start}_to_{start + batch - 1 }.json",
-        quiet=True,
-        quiet_errors=True,
-    )
-    return (start, batch), downloaded_file
+    try:
+        url = f"{NAT_API_URL}/?limit={batch}&offset={start}"
+        file_path = NAT_CACHE_DIR / f"rooms_base_{start}_to_{start + batch - 1}.json"
+        return (start, batch), _download_file(url, file_path)
+    except requests.exceptions.RequestException:
+        return (start, batch), None
 
 
 def _report_undownloadable(undownloadable: list[int]) -> None:

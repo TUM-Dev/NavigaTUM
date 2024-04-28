@@ -1,7 +1,7 @@
 <script setup lang="ts">
-type SearchResponse = components["schemas"]["SearchResponse"];
 import type { components } from "~/api_types";
 import SearchResultItem from "~/components/SearchResultItem.vue";
+type SearchResponse = components["schemas"]["SearchResponse"];
 
 defineProps<{
   data: SearchResponse;
@@ -19,8 +19,12 @@ const { t } = useI18n({ useScope: "local" });
       <h2 class="text-md text-zinc-500 font-semibold">{{ t(`sections.${s.facet}`) }}</h2>
       <ul class="flex flex-col gap-3">
         <template v-for="(e, i) in s.entries" :key="e.id">
-          <SearchResultItem v-if="i < s.n_visible" :highlighted="false" :item="e" @click="router.push(`/view/${e.id}`)">
-          </SearchResultItem>
+          <SearchResultItem
+            v-if="i < s.n_visible"
+            :highlighted="false"
+            :item="e"
+            @click="router.push(`/view/${e.id}`)"
+          />
         </template>
       </ul>
       <p v-if="s.estimatedTotalHits > 10" class="text-zinc-500 text-sm">

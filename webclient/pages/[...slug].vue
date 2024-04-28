@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const route = useRoute();
 import { ArrowRightIcon } from "@heroicons/vue/24/outline";
+const route = useRoute();
 
 const feedback = useFeedback();
 const { t } = useI18n({ useScope: "local" });

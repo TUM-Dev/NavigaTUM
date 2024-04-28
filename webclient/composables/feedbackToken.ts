@@ -27,7 +27,7 @@ export function useFeedbackToken(t: ReturnType<typeof useI18n>["t"]): {
 
   // legacy migration function TODO: remove only after 31.09.2023, to give our users time to migrate to the new token format
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+  // @ts-expect-error
   if (token.value?.expiry) {
     token.value = null;
   }

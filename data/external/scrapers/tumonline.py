@@ -8,6 +8,7 @@ import re
 import typing
 from pathlib import Path
 
+import backoff
 import requests
 from bs4 import BeautifulSoup, element
 from defusedxml import ElementTree as ET
@@ -193,6 +194,7 @@ def scrape_usages() -> None:
         json.dump(usages, file, indent=2, sort_keys=True)
 
 
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
     """
     Retrieve all organisations in TUMonline, that may operate rooms.
@@ -261,6 +263,12 @@ class ParsedRoomsList(typing.NamedTuple):
         )
 
 
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
+def _tumonline_roomsearch(search_params) -> ParsedRoomsList:
+    req = requests.post(f"{TUMONLINE_URL}/wbSuche.raumSuche", data=search_params, timeout=30)
+    return _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
+
+
 @functools.cache
 def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id: int = 0) -> list[ParsedRoom]:
     """Retrieve all rooms from the TUMonline room search list (multipage)"""
@@ -276,8 +284,7 @@ def _retrieve_roomlist(f_type: str, f_name: str, f_value: int, area_id: int = 0)
             "pVerwalter": 1,
             f_name: f_value,
         }
-        req = requests.post(f"{TUMONLINE_URL}/wbSuche.raumSuche", data=search_params, timeout=30)
-        rooms_list = _parse_rooms_list(BeautifulSoup(req.text, "lxml"))
+        rooms_list = _tumonline_roomsearch(search_params)
         scraped_rooms = scraped_rooms.merge(rooms_list)
 
         maybe_sleep(1.5)
@@ -412,6 +419,7 @@ def _get_roomsearch_xml(url: str, params: dict[str, str | int], cache_fname: str
     return BeautifulSoup(elem.text, "lxml")
 
 
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def _get_xml(url: str, params: dict[str, str | int], cache_fname: str) -> ET:
     cache_path = CACHE_PATH / cache_fname
     if cache_path.exists():
@@ -425,6 +433,7 @@ def _get_xml(url: str, params: dict[str, str | int], cache_fname: str) -> ET:
     return ET.fromstring(req.text)
 
 
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def _get_html(url: str, cached_xml_file: Path) -> BeautifulSoup:
     if cached_xml_file.exists():
         with open(cached_xml_file, encoding="utf-8") as file:

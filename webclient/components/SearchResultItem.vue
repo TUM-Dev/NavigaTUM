@@ -53,8 +53,8 @@ type RoomEntry = components["schemas"]["RoomEntry"];
         <small>
           {{ item.subtext }}
           <template v-if="item.type === 'room' || item.type === 'virtual_room' || item.type === 'poi'"
-            >, <b v-html="item.subtext_bold"></b
-          ></template>
+            >, <b v-html="item.subtext_bold"
+          /></template>
         </small>
       </div>
     </NuxtLink>

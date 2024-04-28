@@ -105,7 +105,7 @@ onMounted(draw);
       'max-w-2xl': map.height <= map.width,
     }"
   >
-    <canvas :id="props.id" class="w-full" :width="map.width" :height="map.height"></canvas>
+    <canvas :id="props.id" class="w-full" :width="map.width" :height="map.height" />
   </div>
 </template>
 
