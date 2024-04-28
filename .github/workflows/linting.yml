@@ -18,7 +18,8 @@ jobs:
           version: 9
           package_json_file: webclient/package.json
           run_install: |
-            - args: [--frozen-lockfile, --strict-peer-dependencies]
+            - cwd: webclient
+              args: [--frozen-lockfile, --strict-peer-dependencies]
             - args: [--global, openapi-format]
       - name: Setup Python
         uses: actions/setup-python@v5
