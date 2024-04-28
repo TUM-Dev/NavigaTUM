@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const route = useRoute();
 import { ArrowRightIcon } from "@heroicons/vue/24/outline";
+const route = useRoute();
 
 const feedback = useFeedback();
 const { t } = useI18n({ useScope: "local" });
@@ -8,7 +8,7 @@ const { t } = useI18n({ useScope: "local" });
 
 <template>
   <div class="mx-auto max-w-xl pt-4">
-    <img src="../assets/404_navigatum.svg" :alt="t('img_alt')" />
+    <img src="../assets/404_navigatum.svg" :alt="t('img_alt')" >
     <div class="flex flex-col items-center gap-1 p-5">
       <h5 class="text-zinc-800 text-lg">{{ t("header") }}</h5>
       <p class="text-md text-zinc-600">{{ t("description") }}</p>

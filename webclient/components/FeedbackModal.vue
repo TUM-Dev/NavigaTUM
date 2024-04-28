@@ -28,7 +28,7 @@ const feedback = useFeedback();
           class="focusable bg-zinc-200 border-zinc-400 flex-grow rounded border px-2 py-1"
           type="text"
           :placeholder="t('subject')"
-        />
+        >
       </div>
 
       <div class="flex flex-col pb-5">
@@ -41,8 +41,7 @@ const feedback = useFeedback();
           class="focusable bg-zinc-200 border-zinc-400 resize-y rounded border px-2 py-1"
           :placeholder="t('message')"
           rows="6"
-        >
-        </textarea>
+        />
         <p class="text-zinc-500 text-xs">
           {{
             {
