@@ -13,13 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v3
         with:
-          cache: 'npm'
-          cache-dependency-path: 'webclient/package.json'
-      - run: npm install --prefix webclient
-      - run: npm run lint --prefix webclient
-      #- run: npm run type-check --prefix webclient
+          version: 9
+          package_json_file: webclient/package.json
+          run_install: |
+            - args: [--frozen-lockfile, --strict-peer-dependencies]
+            - args: [--global, openapi-format]
+      - run: pnpm run lint
+        working-directory: webclient
+      - run: pnpm run type-check
+        working-directory: webclient
   webclient-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:

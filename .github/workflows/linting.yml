@@ -13,14 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v3
         with:
-          cache: 'npm'
-          cache-dependency-path: 'webclient/package.json'
-      - name: Install node dependencies
-        run: |
-          npm install -g openapi-format
-          npm install --prefix webclient
+          version: 9
+          package_json_file: webclient/package.json
+          run_install: |
+            - args: [--frozen-lockfile, --strict-peer-dependencies]
+            - args: [--global, openapi-format]
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
