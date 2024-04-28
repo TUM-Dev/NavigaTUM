@@ -25,13 +25,9 @@ jobs:
       - name: setup uv
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - name: Install python dependencies
-        # activating and deactiviating because of https://stackoverflow.com/questions/35045038/how-do-i-use-pytest-with-virtualenv
         run: |
           uv venv
-          source .venv/bin/activate
           uv pip install -r data/requirements.txt -r requirements-dev.txt
-          deactivate
-          source .venv/bin/activate
       - name: Download data
         continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
         run: |
