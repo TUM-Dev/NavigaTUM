@@ -36,7 +36,7 @@ const runtimeConfig = useRuntimeConfig();
         />
       </button>
       <div class="px-5 py-3">
-        <h2 class="sr-only">{{ t("info_title") }}</h2>
+        <span class="sr-only">{{ t("info_title") }}</span>
         <DetailsPropertyTable v-if="data" :props="data.props" />
         <div class="mt-3 grid gap-2">
           <Toast v-if="data.coords.accuracy === 'building'" level="warning" :msg="t('msg.inaccurate_only_building')" />
