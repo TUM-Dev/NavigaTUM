@@ -20,16 +20,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: setup uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh
       - name: Install dependencies
-        run: |
-          uv venv
-          source .venv/bin/activate
-          uv pip install -r data/requirements.txt -r requirements-dev.txt
-          deactivate
-          source .venv/bin/activate
-          pip install pytest
+        run: pip install -r data/requirements.txt -r requirements-dev.txt
       - run: pytest data
   #type-check:
   #  runs-on: ubuntu-latest
@@ -39,12 +31,8 @@ jobs:
   #      uses: actions/setup-python@v5
   #      with:
   #        python-version: ${{ matrix.python-version }}
-  #    - name: setup uv
-  #      run: curl -LsSf https://astral.sh/uv/install.sh | sh
   #    - name: Install dependencies
-  #      run: |
-  #        uv venv
-  #        uv pip install -r data/requirements.txt -r requirements-dev.txt
+  #      run: pip install -r data/requirements.txt -r requirements-dev.txt
   #    - name: Run mypy
   #      run: mypy --strict data
   data-build:
