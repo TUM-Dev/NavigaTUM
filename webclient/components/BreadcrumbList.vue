@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), { c
         >
           <span property="name">{{ item.name }}</span>
         </NuxtLink>
-        <meta property="position" :content="`${i + 1}`" >
+        <meta property="position" :content="`${i + 1}`" />
       </li>
     </template>
   </ol>

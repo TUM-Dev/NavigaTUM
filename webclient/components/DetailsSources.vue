@@ -26,7 +26,7 @@ const { t } = useI18n({ useScope: "local" });
           <template v-if="i < sources.base.length - 1"> • </template>
         </span>
         <span v-if="sources.patched">
-          <br >
+          <br />
           ({{ t("base.patched") }})
         </span>
       </p>
