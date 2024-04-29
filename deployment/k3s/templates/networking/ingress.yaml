@@ -4,7 +4,7 @@ metadata:
   name: ingress
   labels:
     app.kubernetes.io/part-of: navigatum
-  namespace: { { $.Values.namespace } }
+  namespace: {{ $.Values.namespace }}
 spec:
   entryPoints:
     - websecure
@@ -48,7 +48,7 @@ spec:
       middlewares:
         - name: nav-tum-de-redirect
   tls:
-    secretName: { { $.Values.url } }
+    secretName: {{ $.Values.url }}
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -56,7 +56,7 @@ metadata:
   name: ingress-http
   labels:
     app.kubernetes.io/part-of: navigatum
-  namespace: { { $.Values.namespace } }
+  namespace: {{ $.Values.namespace }}
 spec:
   entryPoints:
     - web
