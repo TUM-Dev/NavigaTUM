@@ -30,8 +30,8 @@
 - { target: "5510.02.001",  query: "MW2001"             } # splitting nessesary
 - { target: "5508.02.801",  query: "1801 maschinen"     }
 - { target: "5503.EG.337",  query: "Raum 0337 mw"       }
-- { target: "5510.EG.001",  query: "niemann"            }
-- { target: "5510.EG.001",  query: "mw g niemann"       }
+- { target: "5510.EG.001",  query: "niemann"            } # old name before the NS renamings was "MW 0001, Gustav-Niemann-Hörsaal", changed in Q1 24
+- { target: "5510.EG.001",  query: "mw g niemann"       } # old name before the NS renamings was "MW 0001, Gustav-Niemann-Hörsaal", changed in Q1 24
 - { target: "5402.01.220J", query: "CH22209"            }
 - { target: "5101.EG.502",  query: "pyhsik hs 2"        }
 - { target: "5101.EG.501",  query: "mössbauer"          }

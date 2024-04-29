@@ -157,7 +157,7 @@ zentralgelaende:
 
 "0501": # Hauptgebäude (Z1)
     osm: [ "way/10053349" ]
-"0502": # Bestelmeyer Süd (Z2)
+"0502": # Zentralgebäude 2 (Z2)
     osm: [ "way/50300147" ]
 "0503": # Thierschbau (Z3)
     osm: [ "way/61408163" ]
@@ -167,7 +167,7 @@ zentralgelaende:
     osm: [ "way/50299584" ]
 "0506": # Theresianum (Z6)
     osm: [ "way/61408162" ]
-"0507": # Bestelmeyer Nord (Z7)
+"0507": # Zentralgebäude 7 (Z7)
     osm: [ "way/31095009", "way/42918168" ] # Last building is somewhere inside, not certain
 "0508": # Heizkraftwerk, Dieter-Thoma-Labor (Z8)
     osm: [ "way/31095013", "way/264566973" ] # Last is Dieter-Thoma-Labor

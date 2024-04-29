@@ -199,7 +199,7 @@ paths:
                             subtext_bold: 1250@5502
                           - id: 5502.EG.250
                             type: room
-                            name: 5502.EG.250 (Ludwig-Prandtl-Hörsaal)
+                            name: 5502.EG.250 (Hörsaal)
                             subtext: Maschinenwesen (MW)
                             subtext_bold: 0250@5502
                           - id: 5503.EG.350
