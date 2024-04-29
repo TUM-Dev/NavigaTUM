@@ -72,7 +72,7 @@ spec:
     - name: http
       port: 3000
       targetPort: 3000
-  {{ - if eq "nav.tum.de" $.Values.url }}
+  {{- if eq "nav.tum.de" $.Values.url }}
 ---
 apiVersion: v1
 kind: Service
