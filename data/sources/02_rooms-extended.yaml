@@ -253,17 +253,6 @@
       en: Office
     din_277: NF2.1
     din_277_desc: Büroräume
-"5504.EG.450":
-  name: Rechnerhalle
-"5508.02.801":  # ID is probably wrong in TUMonline, but we need to use it for compatibility
-  name: Ernst-Schmidt-Hörsaal
-  props:
-    comment:
-      de: Dieser Hörsaal ist in TUMonline 5508.02.801 statt 5508.01.801, obwohl der Hörsaal im 1. Stock ist. Aus Konsistenzgründen übernehmen wir diese ID.
-      en: This lecture hall is 5508.02.801 in TUMonline instead of 5508.01.801, although the lecture hall is on the 1st floor. For consistency, we also use this ID.
-  generators:
-    floors:
-      floor_patch: "01"
 #ikom switched offices
 "5510.EG.026C":
   name: IKOM-Besprechungsraum
