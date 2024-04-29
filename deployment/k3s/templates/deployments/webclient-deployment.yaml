@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: web
-  namespace: { { $.Values.namespace } }
+  namespace: {{ $.Values.namespace }}
 spec:
   replicas: 1
   revisionHistoryLimit: 0
@@ -24,7 +24,7 @@ spec:
         app.kubernetes.io/part-of: navigatum
         app.kubernetes.io/name: web
     spec:
-      priorityClassName: { { $.Values.url } }
+      priorityClassName: {{ $.Values.url }}
       containers:
         - name: webclient
           image: "ghcr.io/tum-dev/navigatum-webclient:{{ $.Values.tag }}"
