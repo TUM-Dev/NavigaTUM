@@ -78,7 +78,7 @@ impl Coordinate {
                 let Range { start, end } = f.matches();
                 end - start
             })
-            .expect("No matching file found");
+            .expect("No matching file found, which is impossible");
         best_match.path
     }
 }
