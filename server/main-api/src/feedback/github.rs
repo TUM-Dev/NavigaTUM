@@ -3,15 +3,14 @@ use log::error;
 use octocrab::Octocrab;
 use regex::Regex;
 
-fn github_token() -> Result<String,()> {
-    match std::env::var("GITHUB_TOKEN"){
-        Ok(token)=> Ok(token.trim().to_string()),
-        Err(e)=>{
+fn github_token() -> Result<String, ()> {
+    match std::env::var("GITHUB_TOKEN") {
+        Ok(token) => Ok(token.trim().to_string()),
+        Err(e) => {
             format!("GITHUB_TOKEN has to be set for feedback: {e:?}");
             Err(())
-        },
+        }
     }
-        
 }
 
 pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> HttpResponse {
@@ -23,8 +22,10 @@ pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> 
             .content_type("text/plain")
             .body("Subject or body missing or too short");
     }
-    let Ok(personal_token)=github_token() else {
-        return HttpResponse::InternalServerError().content_type("text/plain").body("Failed to create issue");
+    let Ok(personal_token) = github_token() else {
+        return HttpResponse::InternalServerError()
+            .content_type("text/plain")
+            .body("Failed to create issue");
     };
     let octocrab = match Octocrab::builder().personal_token(personal_token).build() {
         Err(e) => {
@@ -61,7 +62,7 @@ pub async fn open_pr(
     description: &str,
     labels: Vec<String>,
 ) -> HttpResponse {
-    let Ok(personal_token)=github_token() else {
+    let Ok(personal_token) = github_token() else {
         return HttpResponse::InternalServerError()
             .content_type("text/plain")
             .body("Failed to create a pull request");
