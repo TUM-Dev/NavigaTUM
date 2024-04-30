@@ -348,6 +348,7 @@ paths:
                     area: DetailsResponse
                     site: DetailsResponse
                     campus: DetailsResponse
+                    poi: DetailsResponse
                 oneOf:
                   - $ref: '#/components/schemas/RootResponse'
                   - $ref: '#/components/schemas/DetailsResponse'
