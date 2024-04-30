@@ -3,10 +3,10 @@ use std::{env, io};
 use cached::instant::Instant;
 use chrono::{DateTime, Utc};
 use log::{debug, error, info, warn};
-use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
 use oauth2::basic::{BasicClient, BasicTokenResponse};
 use oauth2::reqwest::async_http_client;
 use oauth2::url::Url;
+use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
 use sqlx::PgPool;
 
 use crate::calendar::fetch::CalendarEntryFetcher;
