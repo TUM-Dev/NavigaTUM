@@ -1,12 +1,12 @@
-use std::env;
+use std::{env, io};
 
 use cached::instant::Instant;
 use chrono::{DateTime, Utc};
 use log::{debug, error, info, warn};
+use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
 use oauth2::basic::{BasicClient, BasicTokenResponse};
 use oauth2::reqwest::async_http_client;
 use oauth2::url::Url;
-use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
 use sqlx::PgPool;
 
 use crate::calendar::fetch::CalendarEntryFetcher;
@@ -109,10 +109,16 @@ impl APIRequestor {
         Ok(())
     }
     async fn fetch_oauth_token(&self) -> Result<BasicTokenResponse, crate::BoxedError> {
-        let client_id = env::var("TUMONLINE_OAUTH_CLIENT_ID").expect(
-            "please configure the environment variable TUMONLINE_OAUTH_CLIENT_ID to use this endpoint",
-        );
-        let client_secret = env::var("TUMONLINE_OAUTH_CLIENT_SECRET").expect("please configure the environment variable TUMONLINE_OAUTH_CLIENT_SECRET to use this endpoint");
+        let client_id = env::var("TUMONLINE_OAUTH_CLIENT_ID")
+        .map_err(|e| {
+            error!("TUMONLINE_OAUTH_CLIENT_ID needs to be set: {e:?}");
+            io::Error::other("please configure the environment variable TUMONLINE_OAUTH_CLIENT_ID to use this endpoint")
+        })?;
+        let client_secret = env::var("TUMONLINE_OAUTH_CLIENT_SECRET")
+            .map_err(|e| {
+                error!("TUMONLINE_OAUTH_CLIENT_SECRET needs to be set: {e:?}");
+                io::Error::other("please configure the environment variable TUMONLINE_OAUTH_CLIENT_SECRET to use this endpoint")
+            })?;
 
         // for urls see https://review.campus.tum.de/RSYSTEM/co/public/sec/auth/realms/CAMPUSonline/.well-known/openid-configuration
         let auth_url = Url::parse("https://review.campus.tum.de/RSYSTEM/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/auth")?;

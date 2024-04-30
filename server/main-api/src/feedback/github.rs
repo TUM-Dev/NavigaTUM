@@ -1,14 +1,17 @@
 use actix_web::HttpResponse;
-
 use log::error;
 use octocrab::Octocrab;
 use regex::Regex;
 
-fn github_token() -> String {
-    std::env::var("GITHUB_TOKEN")
-        .expect("GITHUB_TOKEN to be set")
-        .trim()
-        .to_string()
+fn github_token() -> Result<String,()> {
+    match std::env::var("GITHUB_TOKEN"){
+        Ok(token)=> Ok(token.trim().to_string()),
+        Err(e)=>{
+            format!("GITHUB_TOKEN has to be set for feedback: {e:?}");
+            Err(())
+        },
+    }
+        
 }
 
 pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> HttpResponse {
@@ -20,8 +23,10 @@ pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> 
             .content_type("text/plain")
             .body("Subject or body missing or too short");
     }
-
-    let octocrab = match Octocrab::builder().personal_token(github_token()).build() {
+    let Ok(personal_token)=github_token() else {
+        return HttpResponse::InternalServerError().content_type("text/plain").body("Failed to create issue");
+    };
+    let octocrab = match Octocrab::builder().personal_token(personal_token).build() {
         Err(e) => {
             error!("Could not create Octocrab instance: {e:?}");
             return HttpResponse::InternalServerError().body("Failed to create issue");
@@ -56,7 +61,12 @@ pub async fn open_pr(
     description: &str,
     labels: Vec<String>,
 ) -> HttpResponse {
-    let octocrab = match Octocrab::builder().personal_token(github_token()).build() {
+    let Ok(personal_token)=github_token() else {
+        return HttpResponse::InternalServerError()
+            .content_type("text/plain")
+            .body("Failed to create a pull request");
+    };
+    let octocrab = match Octocrab::builder().personal_token(personal_token).build() {
         Err(e) => {
             error!("Could not create Octocrab instance: {e:?}");
             return HttpResponse::InternalServerError().body("Failed to create a pull request");
@@ -121,8 +131,9 @@ fn clean_feedback_data(s: &str, len: usize) -> String {
 
 #[cfg(test)]
 mod description_tests {
-    use super::*;
     use pretty_assertions::assert_eq;
+
+    use super::*;
 
     #[test]
     fn newlines_whitespace() {
