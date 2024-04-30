@@ -246,14 +246,14 @@ def _download_map(_map_id: str, e_id: str, e_type: Literal["room", "building"]) 
         base_url = "https://portal.mytum.de/campus/roomfinder/getRoomPlacemark"
         url = f"{base_url}?roomid={urllib.parse.quote_plus(e_id)}&mapid={_map_id.removeprefix('rf')}"
         try:
-            _download_file(url, filepath)
+            return _download_file(url, filepath)
         except requests.exceptions.RequestException:
             return None
     if e_type == "building":
         base_url = "https://portal.mytum.de/campus/roomfinder/getBuildingPlacemark"
         url = f"{base_url}?b_id={e_id}&mapid={_map_id.removeprefix('rf')}"
         try:
-            _download_file(url, filepath)
+            return _download_file(url, filepath)
         except requests.exceptions.RequestException:
             return None
     raise RuntimeError(f"Unknown entity type: {e_type}")
