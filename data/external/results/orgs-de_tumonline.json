@@ -1503,7 +1503,7 @@
     "code": "TUGSCRE",
     "id": 45991,
     "name": "Graduiertenschule Campus for Research Excellence and Technological Enterprise (TUM CREATE)",
-    "path": "TUM/TUM Graduate School/Thematische Graduiertenzentren (TGCs)/Campus for Research Excellence and Technological Enterprise (TUM CREATE)"
+    "path": "TUM/TUM Graduate School/Graduiertenzentren/Campus for Research Excellence and Technological Enterprise (TUM CREATE)"
   },
   "TUGSEDU": {
     "code": "TUGSEDU",
@@ -1577,6 +1577,12 @@
     "name": "Graduate Center of Engineering and Design",
     "path": "TUM/TUM Graduate School/Graduiertenzentren/Graduate Center of Engineering and Design"
   },
+  "TUGSSMH": {
+    "code": "TUGSSMH",
+    "id": 56137,
+    "name": "Graduate Center of Medicine and Health",
+    "path": "TUM/TUM Graduate School/Graduiertenzentren/Graduate Center of Medicine and Health"
+  },
   "TUGSSNA": {
     "code": "TUGSSNA",
     "id": 54158,
@@ -1588,12 +1594,6 @@
     "id": 19710,
     "name": "International Graduate School of Science and Engineering (IGSSE)",
     "path": "TUM/TUM Graduate School/Graduiertenzentren/International Graduate School of Science and Engineering (IGSSE)"
-  },
-  "TUGSTGC": {
-    "code": "TUGSTGC",
-    "id": 44002,
-    "name": "Thematische Graduiertenzentren (TGCs)",
-    "path": "TUM/TUM Graduate School/Thematische Graduiertenzentren (TGCs)"
   },
   "TUGSTGS": {
     "code": "TUGSTGS",
