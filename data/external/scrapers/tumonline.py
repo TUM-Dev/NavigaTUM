@@ -147,7 +147,7 @@ def scrape_rooms() -> None:
             rooms.append(room_index[roomcode])
         usage_id += 1
 
-    rooms = sorted(rooms, key=lambda r: (r["list_index"], r["roomcode"]))
+    rooms = sorted(rooms, key=lambda r: (r["roomcode"],r["list_index"]))
     with open(CACHE_PATH / "rooms_tumonline.json", "w", encoding="utf-8") as file:
         json.dump(rooms, file, indent=2, sort_keys=True)
 
