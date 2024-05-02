@@ -96,12 +96,6 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: 0.5.14
         version: 0.5.14(prettier@3.2.5)
-      sass:
-        specifier: 1.76.0
-        version: 1.76.0
-      stylelint-scss:
-        specifier: 6.2.1
-        version: 6.2.1(stylelint@16.3.1(typescript@5.4.5))
       tailwindcss:
         specifier: 3.4.3
         version: 3.4.3
@@ -3723,9 +3717,6 @@ packages:
   knitwork@1.1.0:
     resolution: {integrity: sha512-oHnmiBUVHz1V+URE77PNot2lv3QiYU2zQf1JjOVkMt3YDKGbu8NAFr+c4mcNOhdsGrB/VpVbRwPwhiXrPhxQbw==}
 
-  known-css-properties@0.29.0:
-    resolution: {integrity: sha512-Ne7wqW7/9Cz54PDt4I3tcV+hAyat8ypyOGzYRJQfdxnnjeWsTxt1cy8pjvvKeI5kfXuyvULyeeAvwvvtAX3ayQ==}
-
   known-css-properties@0.30.0:
     resolution: {integrity: sha512-VSWXYUnsPu9+WYKkfmJyLKtIvaRJi1kXUqVmBACORXZQxT5oZDsoZ2vQP+bQFDnWtpI/4eq3MLoRMjI2fnLzTQ==}
 
@@ -4659,9 +4650,6 @@ packages:
       ts-node:
         optional: true
 
-  postcss-media-query-parser@0.2.3:
-    resolution: {integrity: sha512-3sOlxmbKcSHMjlUXQZKQ06jOswE7oVkXPxmZdoB1r5l0q6gTFTQSHxNxOrCccElbW7dxNytifNEo8qidX2Vsig==}
-
   postcss-merge-longhand@6.0.5:
     resolution: {integrity: sha512-5LOiordeTfi64QhICp07nzzuTDjNSO8g5Ksdibt44d+uvIIAE1oZdRn8y/W5ZtYgRH/lnLDlvi9F8btZcVzu3w==}
     engines: {node: ^14 || ^16 || >=18.0}
@@ -5581,12 +5569,6 @@ packages:
     engines: {node: ^14 || ^16 || >=18.0}
     peerDependencies:
       postcss: ^8.4.31
-
-  stylelint-scss@6.2.1:
-    resolution: {integrity: sha512-ZoGLbVb1keZYRVGQlhB8G6sZOoNqw61whzzzGFWp05N12ErqLFfBv3JPrXiMLZaW98sBS7K/vUQhRnvUj4vwdw==}
-    engines: {node: '>=18.12.0'}
-    peerDependencies:
-      stylelint: ^16.0.2
 
   stylelint@16.3.1:
     resolution: {integrity: sha512-/JOwQnBvxEKOT2RtNgGpBVXnCSMBgKOL2k7w0K52htwCyJls4+cHvc4YZgXlVoAZS9QJd2DgYAiRnja96pTgxw==}
@@ -6647,13 +6629,16 @@ snapshots:
   '@csstools/css-parser-algorithms@2.6.1(@csstools/css-tokenizer@2.2.4)':
     dependencies:
       '@csstools/css-tokenizer': 2.2.4
+    optional: true
 
-  '@csstools/css-tokenizer@2.2.4': {}
+  '@csstools/css-tokenizer@2.2.4':
+    optional: true
 
   '@csstools/media-query-list-parser@2.1.9(@csstools/css-parser-algorithms@2.6.1(@csstools/css-tokenizer@2.2.4))(@csstools/css-tokenizer@2.2.4)':
     dependencies:
       '@csstools/css-parser-algorithms': 2.6.1(@csstools/css-tokenizer@2.2.4)
       '@csstools/css-tokenizer': 2.2.4
+    optional: true
 
   '@csstools/selector-resolve-nested@1.1.0(postcss-selector-parser@6.0.16)':
     dependencies:
@@ -6663,7 +6648,8 @@ snapshots:
     dependencies:
       postcss-selector-parser: 6.0.16
 
-  '@dual-bundle/import-meta-resolve@4.0.0': {}
+  '@dual-bundle/import-meta-resolve@4.0.0':
+    optional: true
 
   '@emnapi/runtime@1.1.1':
     dependencies:
@@ -9126,6 +9112,7 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
       uri-js: 4.4.1
+    optional: true
 
   ansi-colors@4.1.3: {}
 
@@ -9220,7 +9207,8 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
-  astral-regex@2.0.0: {}
+  astral-regex@2.0.0:
+    optional: true
 
   async-sema@3.1.1: {}
 
@@ -9262,7 +9250,8 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  balanced-match@2.0.0: {}
+  balanced-match@2.0.0:
+    optional: true
 
   bare-events@2.2.2:
     optional: true
@@ -9611,6 +9600,7 @@ snapshots:
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.4.5
+    optional: true
 
   crc-32@1.2.2: {}
 
@@ -9637,7 +9627,8 @@ snapshots:
     dependencies:
       postcss: 8.4.38
 
-  css-functions-list@3.2.1: {}
+  css-functions-list@3.2.1:
+    optional: true
 
   css-select@5.1.0:
     dependencies:
@@ -10208,7 +10199,8 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fastest-levenshtein@1.0.16: {}
+  fastest-levenshtein@1.0.16:
+    optional: true
 
   fastq@1.17.1:
     dependencies:
@@ -10428,6 +10420,7 @@ snapshots:
   global-modules@2.0.0:
     dependencies:
       global-prefix: 3.0.0
+    optional: true
 
   global-prefix@3.0.0:
     dependencies:
@@ -10463,7 +10456,8 @@ snapshots:
       slash: 5.1.0
       unicorn-magic: 0.1.0
 
-  globjoin@0.1.4: {}
+  globjoin@0.1.4:
+    optional: true
 
   gopd@1.0.1:
     dependencies:
@@ -10685,7 +10679,8 @@ snapshots:
 
   immutable@3.8.2: {}
 
-  immutable@4.3.5: {}
+  immutable@4.3.5:
+    optional: true
 
   import-fresh@3.3.0:
     dependencies:
@@ -10937,7 +10932,8 @@ snapshots:
 
   json-schema-traverse@0.4.1: {}
 
-  json-schema-traverse@1.0.0: {}
+  json-schema-traverse@1.0.0:
+    optional: true
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
@@ -10995,9 +10991,8 @@ snapshots:
 
   knitwork@1.1.0: {}
 
-  known-css-properties@0.29.0: {}
-
-  known-css-properties@0.30.0: {}
+  known-css-properties@0.30.0:
+    optional: true
 
   koa-compose@4.1.0: {}
 
@@ -11127,7 +11122,8 @@ snapshots:
 
   lodash.merge@4.6.2: {}
 
-  lodash.truncate@4.4.2: {}
+  lodash.truncate@4.4.2:
+    optional: true
 
   lodash.uniq@4.5.0: {}
 
@@ -11223,7 +11219,8 @@ snapshots:
 
   markdown-table@3.0.3: {}
 
-  mathml-tag-names@2.1.3: {}
+  mathml-tag-names@2.1.3:
+    optional: true
 
   mdast-util-find-and-replace@3.0.1:
     dependencies:
@@ -11346,7 +11343,8 @@ snapshots:
 
   media-typer@0.3.0: {}
 
-  meow@13.2.0: {}
+  meow@13.2.0:
+    optional: true
 
   merge-stream@2.0.0: {}
 
@@ -12372,8 +12370,6 @@ snapshots:
     optionalDependencies:
       postcss: 8.4.38
 
-  postcss-media-query-parser@0.2.3: {}
-
   postcss-merge-longhand@6.0.5(postcss@8.4.38):
     dependencies:
       postcss: 8.4.38
@@ -12486,11 +12482,13 @@ snapshots:
       postcss: 8.4.38
       postcss-value-parser: 4.2.0
 
-  postcss-resolve-nested-selector@0.1.1: {}
+  postcss-resolve-nested-selector@0.1.1:
+    optional: true
 
   postcss-safe-parser@7.0.0(postcss@8.4.38):
     dependencies:
       postcss: 8.4.38
+    optional: true
 
   postcss-selector-parser@6.0.16:
     dependencies:
@@ -12889,7 +12887,8 @@ snapshots:
 
   require-directory@2.1.1: {}
 
-  require-from-string@2.0.2: {}
+  require-from-string@2.0.2:
+    optional: true
 
   requires-port@1.0.0: {}
 
@@ -12982,6 +12981,7 @@ snapshots:
       chokidar: 3.6.0
       immutable: 4.3.5
       source-map-js: 1.2.0
+    optional: true
 
   scheduler@0.23.0:
     dependencies:
@@ -13188,6 +13188,7 @@ snapshots:
       ansi-styles: 4.3.0
       astral-regex: 2.0.0
       is-fullwidth-code-point: 3.0.0
+    optional: true
 
   slugify@1.6.6: {}
 
@@ -13366,15 +13367,6 @@ snapshots:
       postcss: 8.4.38
       postcss-selector-parser: 6.0.16
 
-  stylelint-scss@6.2.1(stylelint@16.3.1(typescript@5.4.5)):
-    dependencies:
-      known-css-properties: 0.29.0
-      postcss-media-query-parser: 0.2.3
-      postcss-resolve-nested-selector: 0.1.1
-      postcss-selector-parser: 6.0.16
-      postcss-value-parser: 4.2.0
-      stylelint: 16.3.1(typescript@5.4.5)
-
   stylelint@16.3.1(typescript@5.4.5):
     dependencies:
       '@csstools/css-parser-algorithms': 2.6.1(@csstools/css-tokenizer@2.2.4)
@@ -13419,6 +13411,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
       - typescript
+    optional: true
 
   sucrase@3.35.0:
     dependencies:
@@ -13448,6 +13441,7 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
       supports-color: 7.2.0
+    optional: true
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
@@ -13539,6 +13533,7 @@ snapshots:
       slice-ansi: 4.0.0
       string-width: 4.2.3
       strip-ansi: 6.0.1
+    optional: true
 
   tailwind-config-viewer@2.0.1(tailwindcss@3.4.3):
     dependencies:
@@ -14276,6 +14271,7 @@ snapshots:
     dependencies:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
+    optional: true
 
   ws@8.11.0: {}
 
