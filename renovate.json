@@ -14,12 +14,17 @@
       "groupName": "devDependencies"
     },
     {
-      "matchPackagePatterns": ["ruff", "cypress", "pretty_assertions"],
+      "matchPackagePatterns": ["pytest", "cypress", "pretty_assertions"],
       "groupName": "testing",
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["eslint", "prettier", "ruff", "pretty_assertions", "pre-commit", "mypy", "sourcery", "@types/.*", "types-.*"],
+      "matchPackagePatterns": ["serde", "base64"],
+      "groupName": "rust-stable",
+      "automerge": true
+    },
+    {
+      "matchPackagePatterns": ["eslint", "prettier", "ruff", "pretty_assertions", "pre-commit", "mypy", "sourcery", "@types/.*", "types-.*", "scss"],
       "groupName": "linting",
       "automerge": true
     },
