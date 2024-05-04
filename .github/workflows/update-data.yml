@@ -33,6 +33,8 @@ jobs:
           ls -lah results
         env:
           TQDM_MININTERVAL: 100
+          CONNECTUM_OAUTH_CLIENT_ID: ${{ secrets.CONECTUM_OAUTH_CLIENT_ID }}
+          CONNECTUM_OAUTH_CLIENT_SECRET: ${{ secrets.CONECTUM_OAUTH_CLIENT_SECRET }}
         working-directory: data/external
       - name: Fix linting errors
         continue-on-error: true

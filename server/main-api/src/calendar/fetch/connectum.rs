@@ -42,7 +42,7 @@ impl CalendarEntryFetcher for APIRequestor {
             .secret()
             .clone();
         let url = format!(
-            "https://review.campus.tum.de/RSYSTEM/co/connectum/api/rooms/{tumonline_id}/calendars"
+            "https://campus.tum.de/tumonline/co/connectum/api/rooms/{tumonline_id}/calendars"
         );
 
         let events: Vec<Event> = self
@@ -109,20 +109,20 @@ impl APIRequestor {
         Ok(())
     }
     async fn fetch_oauth_token(&self) -> Result<BasicTokenResponse, crate::BoxedError> {
-        let client_id = env::var("TUMONLINE_OAUTH_CLIENT_ID")
+        let client_id = env::var("CONNECTUM_OAUTH_CLIENT_ID")
         .map_err(|e| {
-            error!("TUMONLINE_OAUTH_CLIENT_ID needs to be set: {e:?}");
-            io::Error::other("please configure the environment variable TUMONLINE_OAUTH_CLIENT_ID to use this endpoint")
+            error!("CONNECTUM_OAUTH_CLIENT_ID needs to be set: {e:?}");
+            io::Error::other("please configure the environment variable CONNECTUM_OAUTH_CLIENT_ID to use this endpoint")
         })?;
-        let client_secret = env::var("TUMONLINE_OAUTH_CLIENT_SECRET")
+        let client_secret = env::var("CONNECTUM_OAUTH_CLIENT_SECRET")
             .map_err(|e| {
-                error!("TUMONLINE_OAUTH_CLIENT_SECRET needs to be set: {e:?}");
-                io::Error::other("please configure the environment variable TUMONLINE_OAUTH_CLIENT_SECRET to use this endpoint")
+                error!("CONNECTUM_OAUTH_CLIENT_SECRET needs to be set: {e:?}");
+                io::Error::other("please configure the environment variable CONNECTUM_OAUTH_CLIENT_SECRET to use this endpoint")
             })?;
 
-        // for urls see https://review.campus.tum.de/RSYSTEM/co/public/sec/auth/realms/CAMPUSonline/.well-known/openid-configuration
-        let auth_url = Url::parse("https://review.campus.tum.de/RSYSTEM/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/auth")?;
-        let token_url = Url::parse("https://review.campus.tum.de/RSYSTEM/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/token")?;
+        // for urls see https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline/.well-known/openid-configuration
+        let auth_url = Url::parse("https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/auth")?;
+        let token_url = Url::parse("https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/token")?;
 
         let token = BasicClient::new(
             ClientId::new(client_id),

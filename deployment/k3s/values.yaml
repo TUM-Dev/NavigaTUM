@@ -2,6 +2,8 @@ namespace: navigatum
 tag: main
 url: nav.tum.de
 server:
+  CONNECTUM_OAUTH_CLIENT_SECRET: ""
+  CONNECTUM_OAUTH_CLIENT_ID: ""
   MEILI_MASTER_KEY: ""
   GITHUB_TOKEN: ""
   JWT_KEY: ""

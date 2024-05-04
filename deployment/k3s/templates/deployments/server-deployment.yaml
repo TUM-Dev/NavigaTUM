@@ -81,14 +81,14 @@ spec:
         - name: mieli-search
           image: {{ $.Values.mielisearch.image.repository }}:{{ $.Values.mielisearch.image.tag }}
           imagePullPolicy: IfNotPresent
-          {{ if $.Values.server.MEILI_MASTER_KEY }}
           envFrom:
             - secretRef:
-                name: server-api-keys # MEILI_MASTER_KEY
+                name: server-api-keys # GITHUB_TOKEN, JWT_KEY, CONNECTUM_OAUTH_CLIENT_{SECRET,ID}
+            - secretRef:
+                name: server-search-key # MEILI_MASTER_KEY
           env:
             - name: MEILI_ENV
               value: production
-          {{ end }}
           ports:
             - containerPort: 7700
               name: http
@@ -117,7 +117,20 @@ spec:
               port: http
             periodSeconds: 10
             failureThreshold: 2
-  {{ if $.Values.server.MEILI_MASTER_KEY }}
+{{ if $.Values.server.MEILI_MASTER_KEY }}
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: server-search-key
+  namespace: {{ $.Values.namespace }}
+  labels:
+    app.kubernetes.io/part-of: navigatum
+    app.kubernetes.io/name: api
+data:
+  MEILI_MASTER_KEY: {{ $.Values.server.MEILI_MASTER_KEY }}
+{{ end }}
 ---
 apiVersion: v1
 kind: Secret
@@ -129,7 +142,8 @@ metadata:
     app.kubernetes.io/part-of: navigatum
     app.kubernetes.io/name: api
 data:
-  {{ if $.Values.server.MEILI_MASTER_KEY }}
   MEILI_MASTER_KEY: {{ $.Values.server.MEILI_MASTER_KEY }}
-  {{ end }}
-  {{ end }}
+  GITHUB_TOKEN: {{ $.Values.server.GITHUB_TOKEN }}
+  JWT_KEY: {{ $.Values.server.JWT_KEY }}
+  CONNECTUM_OAUTH_CLIENT_SECRET: {{ $.Values.server.CONNECTUM_OAUTH_CLIENT_SECRET }}
+  CONNECTUM_OAUTH_CLIENT_ID: {{ $.Values.server.CONNECTUM_OAUTH_CLIENT_ID }}
