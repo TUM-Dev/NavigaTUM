@@ -4,7 +4,6 @@ from external.models.common import PydanticConfiguration, RESULTS
 
 
 class Address(PydanticConfiguration):
-    floor: str
     place: str
     street: str
     zip_code: int
@@ -18,11 +17,14 @@ class Seats(PydanticConfiguration):
 
 # pylint: disable-next=too-many-instance-attributes
 class Room(PydanticConfiguration):
+    alt_name: str
     address: Address
     seats: Seats
+    floor_type: str
+    floor_level: str
+    tumonline_id: int
     area_id: int
     building_id: int
-    floor_type: str
     main_operator_id: int
     usage_id: int
     arch_name: str | None = None
@@ -37,15 +39,16 @@ class Room(PydanticConfiguration):
 
 
 class Building(PydanticConfiguration):
+    address: Address
     area_id: int
     filter_id: int
     name: str
 
     @classmethod
-    def load_all(cls) -> list["Building"]:
+    def load_all(cls) -> dict[str, "Building"]:
         """Load all tumonline.Building's"""
         with open(RESULTS / "buildings_tumonline.json", encoding="utf-8") as file:
-            return [cls.model_validate(item) for item in json.load(file)]
+            return {key: cls.model_validate(item) for key, item in json.load(file).items()}
 
 
 class Organisation(PydanticConfiguration):

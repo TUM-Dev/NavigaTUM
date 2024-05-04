@@ -42,8 +42,18 @@ def scrape_buildings() -> None:
     """Retrieve the buildings as in TUMonline"""
     logging.info("Downloading the buildings of tumonline")
 
+    def _sanitise_building_value(val: dict) -> dict:
+        val.pop("building_id")  # is already included as keys to the dict
+        val["tumonline_id"] = val.pop("nr")
+        val["address"] = {
+            "place": val.pop("address_place"),
+            "street": val.pop("address_street"),
+            "zip_code": val.pop("address_zip_code"),
+        }
+        return val
+
     buildings = requests.get(f"{CONNECTUM_URL}/api/rooms/buildings", headers=OAUTH_HEADERS, timeout=30).json()
-    buildings = sorted(buildings, key=lambda b: (b["name"], b["area_id"]))
+    buildings = {r["building_id"]: _sanitise_building_value(r) for r in buildings}
     with open(CACHE_PATH / "buildings_tumonline.json", "w", encoding="utf-8") as file:
         json.dump(buildings, file, indent=2, sort_keys=True)
 
@@ -54,14 +64,14 @@ def scrape_rooms() -> None:
     logging.info("Downloading the rooms of tumonline")
 
     def _sanitise_room_value(val: dict) -> dict:
-        val.pop("nr")  # tumonline id for this room, not really relevant in our context
+        val["tumonline_id"] = val.pop("nr")  # tumonline id for this room, not really relevant in our context
         val.pop("room_code")
         val["address"] = {
-            "floor": val.pop("address_floor"),
             "place": val.pop("address_place"),
             "street": _clean_spaces(val.pop("address_street")),  # no clue why some streets have more/fewer spaces
             "zip_code": int(val.pop("address_zip_code")),
         }
+        val["floor_level"] = val.pop("address_floor")
         val["seats"] = {
             "sitting": val.pop("seats", None),
             "wheelchair": val.pop("wheelchair_seats", None),
