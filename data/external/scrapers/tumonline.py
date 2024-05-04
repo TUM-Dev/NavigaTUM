@@ -5,9 +5,10 @@ import typing
 
 import backoff
 import requests
-from external.scraping_utils import CACHE_PATH
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
+
+from external.scraping_utils import CACHE_PATH
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
 CONNECTUM_URL = f"{TUMONLINE_URL}/co/connectum"
@@ -15,13 +16,15 @@ CONNECTUM_URL = f"{TUMONLINE_URL}/co/connectum"
 
 def _generate_oauth_headers() -> dict[typing.Literal["Authorization"], str]:
     """
-    generates the OAuth token and packs it into a header form for easier consumption.
+    Generate the OAuth token and packs it into a header form for easier consumption.
+
     This is safe, because the token is valid for 300s and no downloading will take more than this amount.
     """
     token_url = f"{TUMONLINE_URL}/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/token"
-    oauth_client_id = "TUZEITM-NavigaTUM"
-    oauth_client_secret = os.environ.get("OAUTH_CLIENT_SECRET")
-    assert oauth_client_secret is not None, "requests to connectum need OAUTH_CLIENT_SECRET specified"
+    oauth_client_id = os.environ.get("CONNECTUM_OAUTH_CLIENT_ID")
+    assert oauth_client_id is not None, "requests to connectum need CONNECTUM_OAUTH_CLIENT_ID specified"
+    oauth_client_secret = os.environ.get("CONNECTUM_OAUTH_CLIENT_SECRET")
+    assert oauth_client_secret is not None, "requests to connectum need CONNECTUM_OAUTH_CLIENT_SECRET specified"
 
     oauth_client = BackendApplicationClient(client_id=oauth_client_id)
     oauth_session = OAuth2Session(client=oauth_client)
@@ -39,7 +42,7 @@ def scrape_buildings() -> None:
     """Retrieve the buildings as in TUMonline"""
     logging.info("Downloading the buildings of tumonline")
 
-    buildings = requests.get(f"{CONNECTUM_URL}/api/buildings", headers=OAUTH_HEADERS, timeout=30).json()
+    buildings = requests.get(f"{CONNECTUM_URL}/api/rooms/buildings", headers=OAUTH_HEADERS, timeout=30).json()
     buildings = sorted(buildings, key=lambda b: (b["name"], b["area_id"]))
     with open(CACHE_PATH / "buildings_tumonline.json", "w", encoding="utf-8") as file:
         json.dump(buildings, file, indent=2, sort_keys=True)
