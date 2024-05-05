@@ -9,8 +9,6 @@ import backoff
 import requests
 from defusedxml import ElementTree as defusedET
 
-from utils import DEBUG_MODE
-
 OLD_DATA_URL = "https://nav.tum.de/cdn/api_data.json"
 
 
@@ -35,9 +33,6 @@ OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
 def generate_sitemap() -> None:
     """Generate a sitemap that diffs changes since to the currently online data"""
-    if DEBUG_MODE:
-        logging.info("Skipping sitemap generation in Dev Mode (GIT_COMMIT_SHA is unset)")
-        return
 
     # Load exported data. This function is intentionally not using the data object
     # directly, but re-parsing the output file instead, because the export not
