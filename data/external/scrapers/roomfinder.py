@@ -54,7 +54,7 @@ def scrape_buildings() -> None:
             building["maps"] = proxy.getBuildingMaps(building["b_id"])
             building["default_map"] = proxy.getBuildingDefaultMap(building["b_id"]) or None
             _sanitise_building(building)
-            maybe_sleep(0.05)
+            maybe_sleep(0.01)
 
     buildings = sorted(buildings, key=lambda m: m["b_id"])
     with open(CACHE_PATH / "buildings_roomfinder.json", "w", encoding="utf-8") as file:
@@ -105,7 +105,7 @@ def scrape_rooms() -> None:
             room["maps"] = proxy.getRoomMaps(room_id)
             room["default_map"] = proxy.getDefaultMap(room_id)
             rooms.append(_sanitise_room(room))
-            maybe_sleep(0.05)
+            maybe_sleep(0.01)
 
     rooms = sorted(rooms, key=lambda r: (r["b_id"], r["r_id"]))
     with open(CACHE_PATH / "rooms_roomfinder.json", "w", encoding="utf-8") as file:
@@ -161,7 +161,7 @@ def _guess_queries(rooms: set[str], n_rooms: int) -> Iterator[str]:
             for guess in itertools.product(superset, repeat=string_lenght):
                 if len(rooms) >= n_rooms:
                     return
-                maybe_sleep(0.05)
+                maybe_sleep(0.01)
                 yield "".join(guess)
 
 
