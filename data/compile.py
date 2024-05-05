@@ -18,7 +18,7 @@ from processors import (
     structure,
     tumonline,
 )
-from utils import DEBUG_MODE, setup_logging
+from utils import DEV_MODE, setup_logging
 
 
 # pylint: disable=too-many-locals,too-many-statements
@@ -130,7 +130,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    setup_logging(level=logging.DEBUG if DEBUG_MODE else logging.INFO)
+    setup_logging(level=logging.DEBUG if DEV_MODE else logging.INFO)
 
     # Pillow prints all imported modules to the debug stream
     logging.getLogger("PIL").setLevel(logging.INFO)

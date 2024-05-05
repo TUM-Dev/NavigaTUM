@@ -15,7 +15,7 @@ TRANSLATION_BUFFER_PATH = Path(__file__).parent / "translations.yaml"
 with open(TRANSLATION_BUFFER_PATH, encoding="utf-8") as yaml_file:
     TRANSLATION_BUFFER = yaml.load(yaml_file)
 
-DEBUG_MODE = "GIT_COMMIT_SHA" not in os.environ
+DEV_MODE = "GIT_COMMIT_SHA" not in os.environ
 
 
 class TranslatableStr(dict):
