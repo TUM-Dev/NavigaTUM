@@ -2,22 +2,22 @@ patches:
   # TODO Store old values before replacement, so they can also be found when searched for.
   #      (e.g. 2605.EG.149)
   # The following are known errors in the TUMonline arch_names (detected as duplicates)
-  - {if_roomcode: "4131\\.EG\\.005", arch_name: "EG05@4131", alt_name: "EG05, Treppe"}
+  - {if_room_code: "4131\\.EG\\.005", arch_name: "EG05@4131", alt_name: "EG05, Treppe"}
   # There are inconsistencies with arch_name in building 0305: Some roomnames don't have a
   # usually prepended "S"
-  - {if_roomcode: "0305\\.01\\.512",  arch_name: "S1512@0305"}
-  - {if_roomcode: "0305\\.01\\.529A", arch_name: "S1529A@0305"}
-  - {if_roomcode: "0305\\.02\\.512",  arch_name: "S2512@0305"}
-  - {if_roomcode: "0305\\.02\\.529A", arch_name: "S2529A@0305"}
-  - {if_roomcode: "0305\\.03\\.512",  arch_name: "S3512@0305"}
-  - {if_roomcode: "0305\\.03\\.529A", arch_name: "S3529A@0305"}
-  - {if_roomcode: "0305\\.03\\.543",  arch_name: "S3543@0305"}
+  - {if_room_code: "0305\\.01\\.512",  arch_name: "S1512@0305"}
+  - {if_room_code: "0305\\.01\\.529A", arch_name: "S1529A@0305"}
+  - {if_room_code: "0305\\.02\\.512",  arch_name: "S2512@0305"}
+  - {if_room_code: "0305\\.02\\.529A", arch_name: "S2529A@0305"}
+  - {if_room_code: "0305\\.03\\.512",  arch_name: "S3512@0305"}
+  - {if_room_code: "0305\\.03\\.529A", arch_name: "S3529A@0305"}
+  - {if_room_code: "0305\\.03\\.543",  arch_name: "S3543@0305"}
   # The "Theresianum Foyer, 0604" is an exception not formatted in the common alt_name format
-  - {if_roomcode: "0506\\.EG\\.604", alt_name: "Foyer"}
+  - {if_room_code: "0506\\.EG\\.604", alt_name: "Foyer"}
   # 
-  - {if_roomcode: "0206\\.DG\\.[0-3][0-9]{2}", __delete: true}
+  - {if_room_code: "0206\\.DG\\.[0-3][0-9]{2}", __delete: true}
   # arch_name is accidentally in a different building
-  - {if_roomcode: "5606\\.03\\.055", arch_name: "03.06.055@5606"}
+  - {if_room_code: "5606\\.03\\.055", arch_name: "03.06.055@5606"}
 
 # Handling of arch_name duplicates
 duplicates:

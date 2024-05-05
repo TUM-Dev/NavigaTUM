@@ -22,12 +22,8 @@ def extract_tumonline_props(data: dict[str, dict[str, Any]]) -> None:
                 ),
                 "id": entry["tumonline_data"]["operator_id"],
             }
-        if entry.get("tumonline_data", {}).get("room_link", None):
-            room_url: str = entry["tumonline_data"]["room_link"]
-            entry["props"]["tumonline_room_nr"] = int(room_url.removeprefix("wbRaum.editRaum?pRaumNr="))
-        elif entry.get("tumonline_data", {}).get("address_link", None):
-            adress_url: str = entry["tumonline_data"]["address_link"]
-            entry["props"]["tumonline_room_nr"] = int(adress_url.removeprefix("ris.einzelraum?raumkey="))
+        if tumonline_id := entry.get("tumonline_data", {}).get("tumonline_id", None):
+            entry["props"]["tumonline_room_nr"] = tumonline_id
 
 
 def compute_floor_prop(data: dict[str, Any]) -> None:
@@ -228,7 +224,7 @@ def _append_if_present(
     key: str,
     human_name: TranslatableStr,
 ) -> None:
-    if key in props:
+    if key in props and props[key] is not None:
         computed_results.append({human_name: str(props[key])})
 
 

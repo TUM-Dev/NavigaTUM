@@ -66,6 +66,7 @@ def export_for_search(data: dict, path: str) -> None:
         if coords := entry.get("coords"):
             geo["_geo"] = {"lat": coords["lat"], "lng": coords["lon"]}
         parent_building_names = extract_parent_building_names(data, entry["parents"], building_parents_index)
+        address = entry.get("tumonline_data", {}).get("address", {})
         export.append(
             {
                 # MeiliSearch requires an id without "."
@@ -90,7 +91,7 @@ def export_for_search(data: dict, path: str) -> None:
                 # For all other parents, only the ids and their keywords (TODO) are searchable
                 "parent_keywords": [maybe_slugify(value) for value in parent_building_names + entry["parents"][1:]],
                 "campus": maybe_slugify(campus_name),
-                "address": entry.get("tumonline_data", {}).get("address", None),
+                "address": address.get("street", None) if isinstance(address, dict) else address.street,
                 "usage": maybe_slugify(entry.get("usage", {}).get("name", None)),
                 "rank": int(entry["ranking_factors"]["rank_combined"]),
                 **geo,
