@@ -36,21 +36,29 @@ if __name__ == "__main__":
     setup_logging(level=logging.INFO)
     ensure_is_empty(CACHE_PATH)
 
+    print("::group::downloading TUMonline information")
     tumonline.scrape_buildings()
     tumonline.scrape_rooms()
     tumonline.scrape_usages()
     tumonline.scrape_orgs(lang="de")
     tumonline.scrape_orgs(lang="en")
+    print("::endgroup::")
 
+    print("::group::downloading NAT information")
     os.makedirs(CACHE_PATH / "nat", exist_ok=True)
     nat.scrape_buildings()
     nat.scrape_rooms()
+    print("::endgroup::")
 
+    print("::group::downloading public_transport information")
+    os.makedirs(CACHE_PATH / "public_transport", exist_ok=True)
+    public_transport.scrape_stations()
+    print("::endgroup::")
+
+    print("::group::downloading MyTUM information")
     os.makedirs(CACHE_PATH / "maps" / "roomfinder", exist_ok=True)
     os.makedirs(CACHE_PATH / "maps" / "roomfinder" / "kmz", exist_ok=True)
     roomfinder.scrape_buildings()
     roomfinder.scrape_rooms()
     roomfinder.scrape_maps()
-
-    os.makedirs(CACHE_PATH / "public_transport", exist_ok=True)
-    public_transport.scrape_stations()
+    print("::endgroup::")
