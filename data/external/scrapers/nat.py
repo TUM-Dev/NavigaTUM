@@ -10,7 +10,7 @@ from tqdm import tqdm
 from tqdm.contrib.concurrent import thread_map
 
 from external.scraping_utils import _download_file, CACHE_PATH
-from utils import TranslatableStr as _
+from utils import TranslatableStr as _, setup_logging
 
 NAT_API_URL = "https://api.srv.nat.tum.de/api/v1/rom"
 NAT_CACHE_DIR = CACHE_PATH / "nat"
@@ -269,3 +269,10 @@ def _join_room_hits():
         with open(file_path, encoding="utf-8") as file:
             total_hits.extend(json.load(file)["hits"])
     return total_hits
+
+
+if __name__ == "__main__":
+    setup_logging(level=logging.INFO)
+    NAT_CACHE_DIR.mkdir(exist_ok=True)
+    scrape_buildings()
+    scrape_rooms()

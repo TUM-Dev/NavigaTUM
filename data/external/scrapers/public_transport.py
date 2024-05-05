@@ -4,6 +4,7 @@ import logging
 from zipfile import ZipFile
 
 from external.scraping_utils import _download_file, CACHE_PATH
+from utils import setup_logging
 
 MVV_OPENDATA_URL = "https://www.mvv-muenchen.de/fileadmin/mediapool/02-Fahrplanauskunft/03-Downloads/openData"
 MVV_GTFS_URL = f"{MVV_OPENDATA_URL}/mvv_gtfs.zip"
@@ -118,3 +119,9 @@ def scrape_stations() -> None:
     stations = sorted(stations.values(), key=lambda x: x["lat"])
     with open(CACHE_PATH / "public_transport.json", "w", encoding="utf-8") as file:
         json.dump(stations, file, indent=2, sort_keys=True)
+
+
+if __name__ == "__main__":
+    setup_logging(level=logging.INFO)
+    PUBLIC_TRANSPORT_CACHE_PATH.mkdir(exist_ok=True)
+    scrape_stations()
