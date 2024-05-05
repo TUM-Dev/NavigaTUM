@@ -6,6 +6,7 @@ pub struct Location {
     pub name: String,
     pub last_calendar_scrape_at: Option<DateTime<Utc>>,
     pub tumonline_room_nr: Option<i32>,
+    pub calendar_url: Option<String>,
     pub r#type: String,
     pub type_common_name: String,
     pub lat: f64,
