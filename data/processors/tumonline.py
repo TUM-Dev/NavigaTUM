@@ -5,6 +5,7 @@ from typing import Any
 
 import pydantic
 import yaml
+
 from external.models import tumonline
 from processors.merge import recursively_merge
 from processors.patch import apply_roomcode_patch
@@ -25,13 +26,12 @@ def merge_tumonline_buildings(data: dict[str, dict[str, Any]]) -> None:
     This will not overwrite the existing data, but act directly on the provided data.
     """
     error = False
-    for building in tumonline.Building.load_all():
+    for b_id, building in tumonline.Building.load_all().items():
         # Normalize the building name (sometimes has more than one space)
         b_name = " ".join(building.name.split()).strip()
 
         # Extract the building id
         try:
-            b_id = b_name.split(" ", 2)[0]
             if int(b_id) <= 0 or int(b_id) > 9999:
                 logging.error(f"Invalid building id '{b_id}' for building '{b_name}', expected it to be in 1..9999")
                 error = True
@@ -108,15 +108,13 @@ def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
         r_data = {
             "id": room_code,
             "type": "room",
-            "name": f"{room['roomcode']} ({room['alt_name']})",
+            "name": f"{room_code} ({room.alt_name})",
             "parents": data[b_id]["parents"] + [b_id],
             "tumonline_data": {
                 "roomcode": room_code,
                 "arch_name": room.arch_name,
                 "alt_name": room.alt_name,
                 "address": room.address,
-                "address_link": room.address_link,
-                "plz_place": room.plz_place,
                 "operator": org_id_to_code.get(room.main_operator_id),
                 "operator_id": room.main_operator_id,
                 "operator_name": _(
@@ -129,20 +127,16 @@ def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
                         InactiveOrg(name=f"Inactive Organisation ({room.main_operator_id})"),
                     ).name,
                 ),
-                "room_link": room.room_link,
-                "calendar": room.calendar,
-                "b_filter_id": room.b_filter_id,
-                "b_area_id": room.b_area_id,
-                "usage": room.usage,
+                "calendar": room.calendar_resource_nr,
+                "usage": room.usage_id,
             },
             "props": {
                 "ids": {
-                    "roomcode": room.room_code,
+                    "roomcode": room_code,
                 },
                 "address": {
                     "street": room.address.street,
-                    "place": room.address.place,
-                    "zip_code": room.address.zip_code,
+                    "plz_place": f"{room.address.zip_code} {room.address.place}",
                     "source": "tumonline",  # TODO: Wrong is only source is not set up to here
                 },
                 "stats": {
@@ -157,13 +151,12 @@ def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
             r_data["props"]["ids"]["arch_name"] = room.arch_name
         room.seats.model_dump()
         # Usage
-        if room.usage in usages_lookup:
-            tumonline_usage = usages_lookup[room.usage]
-            parts = tumonline_usage.din_277.split(" - ")
+        if room.usage_id in usages_lookup:
+            tumonline_usage = usages_lookup[room.usage_id]
             r_data["usage"] = {
                 "name": _(tumonline_usage.name),
-                "din_277": parts[0],
-                "din_277_desc": parts[1],
+                "din_277": tumonline_usage.din277_id,
+                "din_277_desc": tumonline_usage.din277_name,
             }
         else:
             logging.error(f"Unknown usage for room '{room['roomcode']}': Id '{room['usage']}'")
@@ -179,7 +172,7 @@ def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
         data[r_data["id"]].setdefault("sources", {}).setdefault("base", []).append(
             {
                 "name": "TUMonline",
-                "url": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/{room['room_link']}",
+                "url": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/{room.tumonline_id}",
             },
         )
         if room.patched:
@@ -210,16 +203,20 @@ def _clean_tumonline_rooms():
 
     apply_roomcode_patch(rooms, patches["patches"])
 
-    used_arch_names: dict[str, str] = {}
+    used_arch_names: dict[str, tuple[str, str, str]] = {}
     used_roomcode_levels = {}
     invalid_rooms: list[str] = []
     for room_code, room in rooms.items():
+        if not room.arch_name or not room.alt_name:
+            logging.warning(f"ignoring {room_code} as it has {room.arch_name=}, {room.alt_name=}")
+            invalid_rooms.append(room_code)
+            continue
         # Validate the room_code
-        roomcode_parts: tuple[str, str, str] = room.room_code.split(".")
+        roomcode_parts: tuple[str, str, str] = room_code.split(".")
         if len(roomcode_parts) != 3:
             logging.warning(f"Invalid roomcode: Not three '.'-separated parts: {room['roomcode']}")
             invalid_rooms.append(room_code)
-        if len(set(room.room_code) - ALLOWED_ROOMCODE_CHARS) > 0:
+        if len(set(room_code) - ALLOWED_ROOMCODE_CHARS) > 0:
             logging.warning(
                 f"Invalid character(s) in roomcode '{room['roomcode']}': "
                 f"{set(room['roomcode']) - ALLOWED_ROOMCODE_CHARS}",
@@ -227,7 +224,7 @@ def _clean_tumonline_rooms():
             invalid_rooms.append(room_code)
 
         if roomcode_parts[1] not in used_roomcode_levels:
-            used_roomcode_levels[roomcode_parts[1]] = room.room_code
+            used_roomcode_levels[roomcode_parts[1]] = room_code
 
         # Validate the arch_name.
         arch_name_parts: tuple[str, str] = room.arch_name.split("@")
@@ -254,7 +251,7 @@ def _clean_tumonline_rooms():
 def _infer_arch_name(
     room: tumonline.Room,
     arch_name_parts: tuple[str, str],
-    used_arch_names: dict[str, str],
+    used_arch_names: dict[str, tuple[str, str, str]],
     roomcode_parts: tuple[str, str, str],
     rooms: dict[str, tumonline.Room],
 ) -> None:
@@ -266,7 +263,7 @@ def _infer_arch_name(
         return
 
     # THIS SECTION MIGHT CHANGE THE ARCH_NAME as well
-    _maybe_set_alt_name(arch_name_parts, room)
+    _maybe_set_alt_name(".".join(roomcode_parts), arch_name_parts, room)
 
     # Check for arch_name and roomcode suffix mismatch:
     if (
@@ -286,11 +283,11 @@ def _infer_arch_name(
 
     # Check for duplicate uses of arch names
     if room.arch_name not in used_arch_names:
-        used_arch_names[room.arch_name] = room.room_code
+        used_arch_names[room.arch_name] = roomcode_parts
         return
 
     r1_parts = roomcode_parts
-    r2_parts = used_arch_names[room.arch_name].split(".")
+    r2_parts = used_arch_names[room.arch_name]
     if r1_parts[0] == r2_parts[0] and r1_parts[2] == r2_parts[2]:
         return
 
@@ -307,13 +304,13 @@ def _infer_arch_name(
         if len(r1_parts[2]) > len(r2_parts[2]):
             room.arch_name = arch_name_parts[0] + r1_parts[2][min_len:].lower() + "@" + arch_name_parts[1]
         else:
-            looked_up_r2 = rooms[used_arch_names[room.arch_name]]
+            looked_up_r2 = rooms[".".join(used_arch_names[room.arch_name])]
             looked_up_r2["arch_name"] = arch_name_parts[0] + r2_parts[2][min_len:].lower() + "@" + arch_name_parts[1]
-            used_arch_names[room.arch_name] = room.room_code
+            used_arch_names[room.arch_name] = roomcode_parts
         room.patched = True
 
 
-def _maybe_set_alt_name(arch_name_parts: tuple[str, str], room: tumonline.Room) -> None:
+def _maybe_set_alt_name(room_code: str, arch_name_parts: tuple[str, str], room: tumonline.Room) -> None:
     """
     Deduces the alt_name from the roomname
 
@@ -358,7 +355,7 @@ def _maybe_set_alt_name(arch_name_parts: tuple[str, str], room: tumonline.Room) 
         room.patched = True
     else:
         logging.debug(
-            f"(alt_name / arch_name mismatch): {alt_parts[0]=} {arch_name_parts[0]=} {room['roomcode']=}",
+            f"(alt_name / arch_name mismatch): {alt_parts[0]=} {arch_name_parts[0]=} {room_code=}",
         )
 
 

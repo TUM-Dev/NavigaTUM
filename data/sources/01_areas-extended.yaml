@@ -51,9 +51,9 @@ stammgelaende:
     osm: [ "way/144291476" ]
     props:
         address:
-            street: "Arcisstraße 21"
-            plz_place: "80333 München"
-            source: "navigatum"
+            street: Arcisstraße 21
+            plz_place: 80333 München
+            source: navigatum
 
 # --- Nordgelände ---
 nordgelaende:
@@ -232,8 +232,8 @@ zentralgelaende:
     osm: [ "way/17974341" ]
     props:
         address:
-            street: "Schellingstr. 4"
-            plz_place: "80799 München"
+            street: Schellingstr. 4
+            plz_place: 80799 München
             source: "navigatum"
 
 1003: # Arnold-Sommerfeld-Zentrum
@@ -518,9 +518,9 @@ heilbronn:
     osm: [ "relation/3634165" ]
     props:
         address:
-            street: "Lothstr. 17"
-            plz_place: "80335 München"
-            source: "navigatum"
+            street: Lothstr. 17
+            plz_place: 80335 München
+            source: navigatum
 
 2311: # Kletterfelsen
     # These are actually the coordinates of the newly built one

@@ -91,8 +91,8 @@ def export_for_search(data: dict, path: str) -> None:
                 # For all other parents, only the ids and their keywords (TODO) are searchable
                 "parent_keywords": [maybe_slugify(value) for value in parent_building_names + entry["parents"][1:]],
                 "campus": maybe_slugify(campus_name),
-                "address": address.get("street", None),
-                "place": address.get("place", None),
+                "address": address.get("street", None) if isinstance(address, dict) else address.street,
+                "place": address.get("place", None) if isinstance(address, dict) else address.place,
                 "usage": maybe_slugify(entry.get("usage", {}).get("name", None)),
                 "rank": int(entry["ranking_factors"]["rank_combined"]),
                 **geo,

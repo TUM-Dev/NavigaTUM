@@ -17,7 +17,6 @@ class Seats(PydanticConfiguration):
 
 # pylint: disable-next=too-many-instance-attributes
 class Room(PydanticConfiguration):
-    alt_name: str
     address: Address
     seats: Seats
     floor_type: str
@@ -27,6 +26,7 @@ class Room(PydanticConfiguration):
     building_id: int
     main_operator_id: int
     usage_id: int
+    alt_name: str | None = None
     arch_name: str | None = None
     calendar_resource_nr: int | None = None
     patched: bool = False
@@ -41,8 +41,9 @@ class Room(PydanticConfiguration):
 class Building(PydanticConfiguration):
     address: Address
     area_id: int
-    filter_id: int
     name: str
+    tumonline_id: int
+    filter_id: int | None = None
 
     @classmethod
     def load_all(cls) -> dict[str, "Building"]:

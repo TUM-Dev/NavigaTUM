@@ -1,6 +1,7 @@
 from typing import Literal
 
 import pytest
+
 from external.models import nat, public_transport, roomfinder, tumonline
 
 

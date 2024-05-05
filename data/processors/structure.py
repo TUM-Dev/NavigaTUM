@@ -68,11 +68,9 @@ def infer_addresses(data: dict[str, dict[str, Any]]) -> None:
                 child = data[child_id]
 
                 address = child.get("props", {}).get("address", {})
-                street, zip_code, place = (
-                    address.get("street", None),
-                    address.get("zip_code", None),
-                    address.get("place", None),
-                )
+                street = address.get("street", None)
+                zip_code = address.get("zip_code", None)
+                place = address.get("place", None)
 
                 if street is not None and zip_code is not None and place is not None:
                     child_addresses.add((street, zip_code, place))
@@ -83,8 +81,7 @@ def infer_addresses(data: dict[str, dict[str, Any]]) -> None:
                     "address",
                     {
                         "street": street,
-                        "zip_code": zip_code,
-                        "place": place,
+                        "plz_place": f"{zip_code} {place}",
                         "source": "inferred",
                     },
                 )
