@@ -53,8 +53,6 @@ class Building(PydanticConfiguration):
 
 
 class Organisation(PydanticConfiguration):
-    # pylint: disable-next=invalid-name
-    id: int
     code: str
     name: str
     path: str
@@ -63,12 +61,10 @@ class Organisation(PydanticConfiguration):
     def load_all_for(cls, lang: str) -> dict[int, "Organisation"]:
         """Load all tumonline.Organisation's for a specific language"""
         with open(RESULTS / f"orgs-{lang}_tumonline.json", encoding="utf-8") as file:
-            return {key: cls.model_validate(item) for key, item in json.load(file).items()}
+            return {int(key): cls.model_validate(item) for key, item in json.load(file).items()}
 
 
 class Usage(PydanticConfiguration):
-    # pylint: disable-next=invalid-name
-    id: int
     din277_id: str
     din277_name: str
     name: str
@@ -77,4 +73,4 @@ class Usage(PydanticConfiguration):
     def load_all(cls) -> dict[int, "Usage"]:
         """Load all tumonline.Usage's"""
         with open(RESULTS / "usages_tumonline.json", encoding="utf-8") as file:
-            return {item["id"]: cls.model_validate(item) for item in json.load(file)}
+            return {int(key): cls.model_validate(item) for key, item in json.load(file).items()}

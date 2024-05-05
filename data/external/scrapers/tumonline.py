@@ -96,7 +96,7 @@ def scrape_usages() -> None:
     logging.info("Downloading the usage types of tumonline")
 
     usages = requests.get(f"{CONNECTUM_URL}/api/rooms/usages", headers=OAUTH_HEADERS, timeout=30).json()
-    usages = sorted(usages, key=lambda usage: usage["id"])
+    usages = {u.pop("id"): u for u in usages}
     with open(CACHE_PATH / "usages_tumonline.json", "w", encoding="utf-8") as file:
         json.dump(usages, file, indent=2, sort_keys=True)
 
@@ -122,8 +122,7 @@ def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
     for resource in req.json()["resource"]:
         search_organisation = resource["content"]["organisationSearchDto"]
         if designation := search_organisation.get("designation"):
-            orgs[designation] = {
-                "id": search_organisation["id"],
+            orgs[search_organisation["id"]] = {
                 "code": designation,
                 "name": search_organisation["name"],
                 "path": search_organisation["orgPath"],

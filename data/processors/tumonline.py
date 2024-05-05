@@ -3,7 +3,6 @@ import string
 from pathlib import Path
 from typing import Any
 
-import pydantic
 import yaml
 
 from external.models import tumonline
@@ -76,12 +75,6 @@ def merge_tumonline_buildings(data: dict[str, dict[str, Any]]) -> None:
         raise RuntimeError("One or more errors, aborting")
 
 
-@pydantic.dataclasses.dataclass
-# pylint: disable=too-few-public-methods
-class InactiveOrg:
-    name: str
-
-
 # pylint: disable=too-many-locals
 def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
     """
@@ -104,7 +97,7 @@ def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
             missing_buildings[b_id] += 1
             continue
 
-        org_id_to_code = {org.id: org.code for org in orgs_de.values()}
+        org_id_to_code = {key: org.code for key, org in orgs_de.items()}
         r_data = {
             "id": room_code,
             "type": "room",
@@ -118,15 +111,11 @@ def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
                 "operator": org_id_to_code.get(room.main_operator_id),
                 "operator_id": room.main_operator_id,
                 "operator_name": _(
-                    orgs_de.get(
-                        room.main_operator_id,
-                        InactiveOrg(name=f"Inaktive Organisation ({room.main_operator_id})"),
-                    ).name,
-                    orgs_en.get(
-                        room.main_operator_id,
-                        InactiveOrg(name=f"Inactive Organisation ({room.main_operator_id})"),
-                    ).name,
-                ),
+                    orgs_de[room.main_operator_id].name,
+                    orgs_en[room.main_operator_id].name,
+                )
+                if room.main_operator_id in orgs_de
+                else None,
                 "calendar": room.calendar_resource_nr,
                 "usage": room.usage_id,
             },
