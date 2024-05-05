@@ -24,12 +24,28 @@ jobs:
           python-version: '3.12'
       - name: Install python dependencies
         run: pip install -r data/requirements.txt -r requirements-dev.txt
-      - name: Download data
+      - run: rm -rf data/external/results/*
+      - name: Download public_transport data
         continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
         run: |
-          export PYTHONPATH=$PYTHONPATH:..
-          python3 main.py
-          ls -lah results
+          PYTHONPATH=$PYTHONPATH:.. python3 scrapers/public_transport.py
+        working-directory: data/external
+      - name: Download NAT data
+        continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
+        run: |
+          PYTHONPATH=$PYTHONPATH:.. python3 scrapers/nat.py
+        working-directory: data/external
+      - name: Download tumonline data
+        continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
+        run: PYTHONPATH=$PYTHONPATH:.. python3 scrapers/tumonline.py
+        env:
+          CONNECTUM_OAUTH_CLIENT_ID: ${{ secrets.CONECTUM_OAUTH_CLIENT_ID }}
+          CONNECTUM_OAUTH_CLIENT_SECRET: ${{ secrets.CONECTUM_OAUTH_CLIENT_SECRET }}
+        working-directory: data/external
+      - name: Download mytum data
+        continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
+        run: |
+          PYTHONPATH=$PYTHONPATH:.. python3 scrapers/roomfinder.py
           sed -i 's/Bestelmeyer S\u00fcd/Zentralgeb\u00e4ude 2/g' results/buildings_roomfinder.json
           sed -i 's/Bestelmeyer Nord/Zentralgeb\u00e4ude 7/g' results/buildings_roomfinder.json
           sed -i 's/Bestelmeyer S\u00fcd/Zentralgeb\u00e4ude 2/g' results/maps_roomfinder.json
@@ -38,8 +54,6 @@ jobs:
           sed -i 's/Bestelmeyer Nord/Zentralgeb\u00e4ude 7/g' results/rooms_roomfinder.json
         env:
           TQDM_MININTERVAL: 100
-          CONNECTUM_OAUTH_CLIENT_ID: ${{ secrets.CONECTUM_OAUTH_CLIENT_ID }}
-          CONNECTUM_OAUTH_CLIENT_SECRET: ${{ secrets.CONECTUM_OAUTH_CLIENT_SECRET }}
         working-directory: data/external
       - continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
         run: ls -lah data/external/results

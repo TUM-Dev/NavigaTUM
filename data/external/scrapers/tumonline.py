@@ -9,6 +9,7 @@ from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
 
 from external.scraping_utils import CACHE_PATH
+from utils import setup_logging
 
 TUMONLINE_URL = "https://campus.tum.de/tumonline"
 CONNECTUM_URL = f"{TUMONLINE_URL}/co/connectum"
@@ -130,3 +131,12 @@ def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
 
     with open(CACHE_PATH / f"orgs-{lang}_tumonline.json", "w", encoding="utf-8") as file:
         json.dump(orgs, file, indent=2, sort_keys=True)
+
+
+if __name__ == "__main__":
+    setup_logging(level=logging.INFO)
+    scrape_buildings()
+    scrape_rooms()
+    scrape_usages()
+    scrape_orgs(lang="de")
+    scrape_orgs(lang="en")

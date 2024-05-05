@@ -1,6 +1,7 @@
 import itertools
 import json
 import logging
+import os
 import string
 import urllib.parse
 import xmlrpc.client  # nosec: B411
@@ -15,7 +16,7 @@ from defusedxml import ElementTree as ET
 from tqdm import tqdm
 
 from external.scraping_utils import _download_file, CACHE_PATH, maybe_sleep
-from utils import convert_to_webp
+from utils import convert_to_webp, setup_logging
 
 ROOMFINDER_API_URL = "http://roomfinder.ze.tum.de:8192"
 
@@ -257,3 +258,12 @@ def _download_map(_map_id: str, e_id: str, e_type: Literal["room", "building"]) 
         except requests.exceptions.RequestException:
             return None
     raise RuntimeError(f"Unknown entity type: {e_type}")
+
+
+if __name__ == "__main__":
+    setup_logging(level=logging.INFO)
+    os.makedirs(CACHE_PATH / "maps" / "roomfinder", exist_ok=True)
+    os.makedirs(CACHE_PATH / "maps" / "roomfinder" / "kmz", exist_ok=True)
+    scrape_buildings()
+    scrape_rooms()
+    scrape_maps()
