@@ -17,8 +17,9 @@ path = "src/main.rs"
 [dependencies]
 # logging/obeservability
 log = "0.4.21"
-structured-logger = "1.0.3"
 actix-web-prom = { version = "0.8.0", default-features = false, features = [] }
+env_logger = "0.11.3" # used in dev
+structured-logger = "1.0.3" # used in prod
 
 #serialisation
 serde = { version = "1.0.200", features = ["derive"] }
