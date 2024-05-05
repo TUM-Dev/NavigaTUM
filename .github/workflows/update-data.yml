@@ -27,7 +27,6 @@ jobs:
       - name: Download data
         continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
         run: |
-          rm results/*.json
           export PYTHONPATH=$PYTHONPATH:..
           python3 main.py
           ls -lah results
