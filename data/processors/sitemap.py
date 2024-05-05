@@ -33,7 +33,6 @@ OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
 def generate_sitemap() -> None:
     """Generate a sitemap that diffs changes since to the currently online data"""
-
     # Load exported data. This function is intentionally not using the data object
     # directly, but re-parsing the output file instead, because the export not
     # export all fields. This way we're also guaranteed to have the same types
