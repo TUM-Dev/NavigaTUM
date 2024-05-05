@@ -1,5 +1,5 @@
 {
-  "101": {
+  "0101": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Theresienstr. 90",
@@ -9,7 +9,7 @@
     "name": "(N1) H\u00f6rs\u00e4le (U-Trakt)",
     "tumonline_id": 561
   },
-  "102": {
+  "0102": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Theresienstr. 90",
@@ -19,7 +19,7 @@
     "name": "(N2) Hochvolthaus",
     "tumonline_id": 562
   },
-  "103": {
+  "0103": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Theresienstr. 90",
@@ -29,7 +29,7 @@
     "name": "(N3) El.Masch./Ger\u00e4te",
     "tumonline_id": 563
   },
-  "104": {
+  "0104": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Theresienstr. 90",
@@ -39,7 +39,7 @@
     "name": "(N4) Elektro Physik",
     "tumonline_id": 564
   },
-  "105": {
+  "0105": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Theresienstr. 90",
@@ -49,7 +49,7 @@
     "name": "(N5) Elektrotechnik",
     "tumonline_id": 565
   },
-  "106": {
+  "0106": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Theresienstr. 90",
@@ -59,7 +59,7 @@
     "name": "(N6) Materialpr\u00fcfamt",
     "tumonline_id": 566
   },
-  "108": {
+  "0108": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Theresienstr. 90",
@@ -69,7 +69,7 @@
     "name": "(N8) Verf\u00fcgungsgeb\u00e4ude",
     "tumonline_id": 567
   },
-  "109": {
+  "0109": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Theresienstr. 90",
@@ -79,7 +79,7 @@
     "name": "(N9) Reflexionsarmer Raum",
     "tumonline_id": 1849
   },
-  "201": {
+  "0201": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Gabelsbergerstr. 43",
@@ -89,7 +89,7 @@
     "name": "(S1) Gabelsbergerstr. 43, StudiTUM",
     "tumonline_id": 568
   },
-  "202": {
+  "0202": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Gabelsbergerstr. 39",
@@ -99,7 +99,7 @@
     "name": "(S2) Gabelsbergerstr. 39",
     "tumonline_id": 569
   },
-  "203": {
+  "0203": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Gabelsbergerstr. 45",
@@ -109,7 +109,7 @@
     "name": "(S3) Gabelsbergerstr. 45",
     "tumonline_id": 570
   },
-  "204": {
+  "0204": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Gabelsbergerstr. 49",
@@ -119,7 +119,7 @@
     "name": "(S4) Gabelsbergerstr. 49",
     "tumonline_id": 571
   },
-  "205": {
+  "0205": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 19",
@@ -129,7 +129,7 @@
     "name": "(S5) Arcisstr. 19",
     "tumonline_id": 572
   },
-  "206": {
+  "0206": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 17",
@@ -139,7 +139,7 @@
     "name": "(S6) Mensa Arcisstra\u00dfe 17",
     "tumonline_id": 573
   },
-  "305": {
+  "0305": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Barerstr. 21",
@@ -149,7 +149,7 @@
     "name": "(S\u00fcdost 5) Block D (ehem. LRZ)",
     "tumonline_id": 574
   },
-  "401": {
+  "0401": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Richard-Wagner-Str. 18",
@@ -159,7 +159,7 @@
     "name": "(SW1) Richard-Wagner-Str. 18",
     "tumonline_id": 575
   },
-  "403": {
+  "0403": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Richard-Wagner-Str. 14",
@@ -169,7 +169,7 @@
     "name": "(SW3) Friedrich Schiedel-Kindergarten (L",
     "tumonline_id": 576
   },
-  "501": {
+  "0501": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",
@@ -179,7 +179,7 @@
     "name": "(Z1) Institutsbau",
     "tumonline_id": 577
   },
-  "502": {
+  "0502": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",
@@ -189,7 +189,7 @@
     "name": "(Z2) Zentralgeb\u00e4ude 2",
     "tumonline_id": 578
   },
-  "503": {
+  "0503": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",
@@ -199,7 +199,7 @@
     "name": "(Z3) Thierschbau",
     "tumonline_id": 579
   },
-  "504": {
+  "0504": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",
@@ -209,7 +209,7 @@
     "name": "(Z4) Landwirtschaftsbau",
     "tumonline_id": 580
   },
-  "505": {
+  "0505": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",
@@ -219,7 +219,7 @@
     "name": "(Z5) Wirtschaftswissenschaften",
     "tumonline_id": 581
   },
-  "506": {
+  "0506": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",
@@ -229,7 +229,7 @@
     "name": "(Z6) Theresianum",
     "tumonline_id": 582
   },
-  "507": {
+  "0507": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",
@@ -239,7 +239,7 @@
     "name": "(Z7) Zentralgeb\u00e4ude 7",
     "tumonline_id": 583
   },
-  "508": {
+  "0508": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",
@@ -249,7 +249,7 @@
     "name": "(Z8) W\u00e4rmekraftwerk/Hydr.-Inst.",
     "tumonline_id": 584
   },
-  "509": {
+  "0509": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",
@@ -259,7 +259,7 @@
     "name": "(Z9) Neubau Innenhof",
     "tumonline_id": 585
   },
-  "510": {
+  "0510": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",
@@ -269,7 +269,7 @@
     "name": "(Z10) Verwaltungsbau",
     "tumonline_id": 586
   },
-  "511": {
+  "0511": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",
@@ -279,7 +279,7 @@
     "name": "(Z11) Elektro/Werkstatt/L\u00f6sungsmittel-Bu",
     "tumonline_id": 587
   },
-  "512": {
+  "0512": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",
@@ -289,7 +289,7 @@
     "name": "(Z12) Garagen",
     "tumonline_id": 588
   },
-  "597": {
+  "0597": {
     "address": {
       "place": "M\u00fcnchen",
       "street": "Arcisstr. 21",

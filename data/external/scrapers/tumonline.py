@@ -43,7 +43,6 @@ def scrape_buildings() -> None:
     logging.info("Downloading the buildings of tumonline")
 
     def _sanitise_building_value(val: dict) -> dict:
-        val.pop("building_id")  # is already included as keys to the dict
         val["tumonline_id"] = val.pop("nr")
         val["address"] = {
             "place": val.pop("address_place"),
@@ -53,7 +52,7 @@ def scrape_buildings() -> None:
         return val
 
     buildings = requests.get(f"{CONNECTUM_URL}/api/rooms/buildings", headers=OAUTH_HEADERS, timeout=30).json()
-    buildings = {r["building_id"]: _sanitise_building_value(r) for r in buildings}
+    buildings = {f"{r.pop('building_id'):04d}": _sanitise_building_value(r) for r in buildings}
     with open(CACHE_PATH / "buildings_tumonline.json", "w", encoding="utf-8") as file:
         json.dump(buildings, file, indent=2, sort_keys=True)
 
