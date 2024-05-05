@@ -21,7 +21,7 @@
     "@nuxtjs/partytown": "1.5.0",
     "@vueuse/core": "10.9.0",
     "@vueuse/nuxt": "10.9.0",
-    "maplibre-gl": "4.1.3",
+    "maplibre-gl": "4.2.0",
     "nightwind": "1.1.13",
     "nuxt": "3.11.2",
     "sharp": "0.33.3",
