@@ -5,3 +5,8 @@ resolver = "2"
 [profile.release]
 strip = true
 lto = "thin"
+
+# Enable max optimizations for dependencies, but not for our code
+# nessesary to get acceptable performance out of the image processing code
+[profile.dev.package."*"]
+opt-level = 3
