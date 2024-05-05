@@ -31,6 +31,12 @@ jobs:
           export PYTHONPATH=$PYTHONPATH:..
           python3 main.py
           ls -lah results
+          sed -i 's/Bestelmeyer S\u00fcd/Zentralgeb\u00e4ude 2/g' results/buildings_roomfinder.json
+          sed -i 's/Bestelmeyer Nord/Zentralgeb\u00e4ude 7/g' results/buildings_roomfinder.json
+          sed -i 's/Bestelmeyer S\u00fcd/Zentralgeb\u00e4ude 2/g' results/maps_roomfinder.json
+          sed -i 's/Bestelmeyer Nord/Zentralgeb\u00e4ude 7/g' results/maps_roomfinder.json
+          sed -i 's/Bestelmeyer S\u00fcd/Zentralgeb\u00e4ude 2/g' results/rooms_roomfinder.json
+          sed -i 's/Bestelmeyer Nord/Zentralgeb\u00e4ude 7/g' results/rooms_roomfinder.json
         env:
           TQDM_MININTERVAL: 100
           CONNECTUM_OAUTH_CLIENT_ID: ${{ secrets.CONECTUM_OAUTH_CLIENT_ID }}
