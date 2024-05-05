@@ -2,14 +2,12 @@ use std::collections::HashMap;
 use std::error::Error;
 
 use actix_cors::Cors;
-use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
+use actix_web::{App, get, HttpResponse, HttpServer, middleware, web};
 use actix_web_prom::PrometheusMetricsBuilder;
 use log::{debug, error, info};
+use sqlx::PgPool;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
-use sqlx::PgPool;
-use structured_logger::async_json::new_writer;
-use structured_logger::Builder;
 
 mod calendar;
 mod details;
@@ -56,11 +54,25 @@ fn connection_string() -> String {
     format!("postgres://{username}:{password}@{url}/{db}")
 }
 
+fn setup_logging() {
+    #[cfg(debug_assertions)]
+    {
+        let env = env_logger::Env::default()
+            .default_filter_or("trace");
+        env_logger::Builder::from_env(env).init();
+    }
+    #[cfg(not(debug_assertions))]
+    structured_logger::Builder::with_level("info")
+        .with_target_writer(
+            "*",
+            structured_logger::async_json::new_writer(tokio::io::stdout()),
+        )
+        .init();
+}
+
 #[tokio::main]
 async fn main() -> Result<(), BoxedError> {
-    Builder::with_level("info")
-        .with_target_writer("*", new_writer(tokio::io::stdout()))
-        .init();
+    setup_logging();
     let uri = connection_string();
     let pool = PgPoolOptions::new().connect(&uri).await?;
     #[cfg(not(feature = "skip_db_setup"))]
