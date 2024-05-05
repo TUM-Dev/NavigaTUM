@@ -44,14 +44,7 @@ jobs:
         working-directory: data/external
       - name: Download mytum data
         continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
-        run: |
-          PYTHONPATH=$PYTHONPATH:.. python3 scrapers/roomfinder.py
-          sed -i 's/Bestelmeyer S\u00fcd/Zentralgeb\u00e4ude 2/g' results/buildings_roomfinder.json
-          sed -i 's/Bestelmeyer Nord/Zentralgeb\u00e4ude 7/g' results/buildings_roomfinder.json
-          sed -i 's/Bestelmeyer S\u00fcd/Zentralgeb\u00e4ude 2/g' results/maps_roomfinder.json
-          sed -i 's/Bestelmeyer Nord/Zentralgeb\u00e4ude 7/g' results/maps_roomfinder.json
-          sed -i 's/Bestelmeyer S\u00fcd/Zentralgeb\u00e4ude 2/g' results/rooms_roomfinder.json
-          sed -i 's/Bestelmeyer Nord/Zentralgeb\u00e4ude 7/g' results/rooms_roomfinder.json
+        run: PYTHONPATH=$PYTHONPATH:.. python3 scrapers/roomfinder.py
         env:
           TQDM_MININTERVAL: 100
         working-directory: data/external
