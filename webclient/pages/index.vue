@@ -1,14 +1,87 @@
 <script setup lang="ts">
-import type { components } from "~/api_types";
 import { MapPinIcon } from "@heroicons/vue/24/outline";
 import { ArrowRightIcon, ChevronDownIcon, ChevronRightIcon, ChevronUpIcon } from "@heroicons/vue/24/solid";
+import type { components } from "~/api_types";
 
-type RootResponse = components["schemas"]["RootResponse"];
+/**
+ * @description This is a list of all sites, that are available in the system.
+ * It is sorted by the number of rooms in the site, descending.
+ * The first entry is the site with the most importance
+ */
+type SitesOverview = readonly (components["schemas"]["ChildEntry"] & {
+  /**
+   * Format: int64
+   * @description A recommendation how many of the entries should be displayed by default.
+   * The number is usually from 0-5.
+   * More results might be displayed when clicking "expand".
+   * If this field is not present, then all entries are displayed.
+   *
+   * @example 6
+   */
+  readonly n_visible: number;
+  /**
+   * @description A select list of buildings, that are in this site.
+   * Derived from the areatree.
+   */
+  readonly children: readonly components["schemas"]["ChildEntry"][];
+})[];
 
-const { t, locale } = useI18n({ useScope: "local" });
-const runtimeConfig = useRuntimeConfig();
-const url = computed<string>(() => `${runtimeConfig.public.apiURL}/api/get/root?lang=${locale.value}`);
-const { data, pending } = await useFetch<RootResponse>(url, { pick: ["sites_overview"] });
+const { t } = useI18n({ useScope: "local" });
+const sites_overview: SitesOverview = [
+  {
+    children: [
+      { id: "mi", name: "Mathematik / Informatik" },
+      { id: "mw", name: "Maschinenwesen" },
+      { id: "physik", name: "Physik" },
+      { id: "chemie", name: "Chemie" },
+      { id: "garching-interims", name: "Interimshörsäle" },
+      { id: "5532", name: "StudiTUM Garching" },
+    ],
+    id: "garching",
+    n_visible: 4,
+    name: "Garching Forschungszentrum",
+  },
+  {
+    children: [
+      { id: "zentralgelaende", name: "Zentralgelände" },
+      { id: "nordgelaende", name: "Nordgelände" },
+      { id: "suedgelaende", name: "Südgelände" },
+      { id: "suedwestgelaende", name: "Südwestgelände" },
+      { id: "0201", name: "StudiTUM Innenstadt" },
+      { id: "2910", name: "RiWa 1 (HfP, Governance)" },
+    ],
+    id: "stammgelaende",
+    n_visible: 3,
+    name: "Stammgelände",
+  },
+  {
+    children: [
+      { id: "wzw-berg", name: "Gebiet 4100 Berg" },
+      { id: "wzw-mitte", name: "Gebiet 4200 Mitte" },
+      { id: "wzw-nord", name: "Gebiet 4300 Nord" },
+      { id: "duernast", name: "Dürnast (Versuchsstation)" },
+      { id: "roggenstein", name: "Roggenstein (Versuchsstation)" },
+      { id: "thalhausen", name: "Thalhausen (Versuchsstation)" },
+      { id: "veitshof", name: "Veitshof (Stallungen)" },
+      { id: "viehhausen", name: "Viehhausen (Versuchsstation)" },
+    ],
+    id: "wzw",
+    n_visible: 3,
+    name: "Weihenstephan (Freising)",
+  },
+  {
+    children: [
+      { id: "mri", name: "MRI Klinikum rechts der Isar" },
+      { id: "olympiapark", name: "Campus im Olympiapark" },
+      { id: "cs", name: "Campus Straubing" },
+      { id: "garching-hochbrueck", name: "Garching Hochbrück" },
+      { id: "taufkirchen-ottobrunn", name: "Taufkirchen / Ottobrunn" },
+    ],
+    id: "others",
+    n_visible: 5,
+    name: t("sites_overview.others"),
+  },
+];
 
 const title = computed(() => t("sites") + " - NavigaTUM");
 useSeoMeta({
@@ -24,24 +97,20 @@ const openPanels = ref<(boolean | undefined)[]>([]);
 </script>
 
 <template>
-  <div v-if="pending" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
-    <Spinner class="h-8 w-8" />
-    {{ t("Loading data...") }}
-  </div>
   <div class="flex flex-col justify-between gap-3 pt-8">
     <h1 class="text-zinc-600 !text-lg font-semibold">{{ t("sites") }}</h1>
     <!-- <NuxtLink to="#" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</NuxtLink> -->
   </div>
-  <div v-if="data" class="mt-5">
+  <div class="mt-5">
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
       <div
-        v-for="(site, siteIndex) in data.sites_overview"
+        v-for="(site, siteIndex) in sites_overview"
         :key="site.id"
         class="border-zinc-200 flex flex-col gap-4 rounded-lg border-2 p-5"
       >
         <div>
           <NuxtLink
-            v-if="site.id"
+            v-if="site.id !== 'others'"
             :to="'/view/' + site.id"
             :aria-label="t('show_details_for_campus', [site.name])"
             class="focusable text-zinc-700 flex grow-0 flex-row justify-between rounded !no-underline hover:text-blue-500"
@@ -94,10 +163,11 @@ de:
   more_aria: mehr Gebäude anzeigen
   overview_map: Übersichtskarte
   sites: Standorte
-  "Loading data...": Lädt daten...
   show_details_for_campus: show the details for the campus '{0}'
   show_details_for_building: show the details for the building '{0}'
   description: Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden.
+  sites_overview:
+    others: Sonstige
 en:
   less: less
   less_aria: show more buildings
@@ -105,8 +175,9 @@ en:
   more_aria: show more buildings
   overview_map: Overview Map
   sites: Sites
-  "Loading data...": Loading data...
   show_details_for_campus: show the details for the campus '{0}'
   show_details_for_building: show the details for the building '{0}'
   description: Find rooms, buildings and other places at TUM with excellence. A modern alternative to RoomFinder, developed by students.
+  sites_overview:
+    others: Others
 </i18n>

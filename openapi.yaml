@@ -305,9 +305,6 @@ paths:
             '5304':
               summary: A normal building
               value: '5304'
-            root:
-              summary: The root entry of the NavigaTUM-data
-              value: root
             garching:
               summary: The garching campus
               value: garching
@@ -338,20 +335,7 @@ paths:
           content:
             application/json:
               schema:
-                discriminator:
-                  propertyName: type
-                  mapping:
-                    root: RootResponse
-                    room: DetailsResponse
-                    building: DetailsResponse
-                    joined_building: DetailsResponse
-                    area: DetailsResponse
-                    site: DetailsResponse
-                    campus: DetailsResponse
-                    poi: DetailsResponse
-                oneOf:
-                  - $ref: '#/components/schemas/RootResponse'
-                  - $ref: '#/components/schemas/DetailsResponse'
+                $ref: '#/components/schemas/DetailsResponse'
               examples:
                 mi-hs-1:
                   value:
@@ -867,9 +851,6 @@ paths:
             '5304':
               summary: A normal building
               value: '5304'
-            root:
-              summary: The root entry of the NavigaTUM-data
-              value: root
             garching:
               summary: The garching campus
               value: garching
@@ -1818,53 +1799,111 @@ components:
         - sections
         - time_ms
     DetailsResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseDetailsResponse'
-        - type: object
+      type: object
+      properties:
+        id:
+          description: 'The id, that was requested'
+          type: string
+        type:
+          description: The type of the entry
+          type: string
+          enum:
+            - room
+            - building
+            - joined_building
+            - area
+            - site
+            - campus
+            - poi
+        type_common_name:
+          description: The type of the entry in a human-readable form
+          type: string
+        name:
+          description: The name of the entry in a human-readable form
+          type: string
+          example: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
+        aliases:
+          description: |
+            A list of alternative ids for this entry.  
+
+            Not to be confused with
+            - `id` which is the unique identifier or
+            - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
+          type: array
+          items:
+            type: string
+            example: 26503@5406
+        parents:
+          type: array
+          items:
+            type: string
+            description: The ids of the parents. They are ordered as they would appear in a Breadcrumb menu. See parent_names for their actual ids.
+          examples:
+            - root
+            - garching
+        parent_names:
+          type: array
+          items:
+            type: string
+            description: The ids of the parents. They are ordered as they would appear in a Breadcrumb menu. See parents for their actual ids.
+          examples:
+            - Standorte
+            - Garching Forschungszentrum
+          minItems: 1
+          uniqueItems: true
+        props:
+          $ref: '#/components/schemas/Props'
+        imgs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageInfo'
+        ranking_factors:
+          $ref: '#/components/schemas/RankingFactors'
+        sources:
+          $ref: '#/components/schemas/DataSources'
+        redirect_url:
+          description: |
+            The url, this item should be displayed at.
+            Present on both redirects and normal entries, to allow for the common /view/:id path
+          type: string
+          example: /room/5602.EG.001
+        coords:
+          $ref: '#/components/schemas/Coordinate'
+        maps:
+          $ref: '#/components/schemas/Maps'
+        sections:
+          type: object
           properties:
-            id:
-              description: 'The id, that was requested'
-              type: string
-            type:
-              description: The type of the entry
-              type: string
-              enum:
-                - room
-                - building
-                - joined_building
-                - area
-                - site
-                - campus
-                - poi
-            coords:
-              $ref: '#/components/schemas/Coordinate'
-            maps:
-              $ref: '#/components/schemas/Maps'
-            sections:
-              type: object
-              properties:
-                buildings_overview:
-                  $ref: '#/components/schemas/BuildingsOverview'
-                rooms_overview:
-                  $ref: '#/components/schemas/RoomsOverview'
-                featured_overview:
-                  $ref: '#/components/schemas/FeaturedOverview'
-            poi:
-              type: object
-              properties:
-                mvg:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Station'
-                  minItems: 1
-                  uniqueItems: true
-              required:
-                - mvg
+            buildings_overview:
+              $ref: '#/components/schemas/BuildingsOverview'
+            rooms_overview:
+              $ref: '#/components/schemas/RoomsOverview'
+            featured_overview:
+              $ref: '#/components/schemas/FeaturedOverview'
+        poi:
+          type: object
+          properties:
+            mvg:
+              type: array
+              items:
+                $ref: '#/components/schemas/Station'
+              minItems: 1
+              uniqueItems: true
           required:
-            - id
-            - type
-            - coords
-            - maps
+            - mvg
+      required:
+        - id
+        - type
+        - coords
+        - maps
+        - type_common_name
+        - name
+        - parents
+        - parent_names
+        - props
+        - ranking_factors
+        - sources
+        - redirect_url
     BuildingsOverview:
       type: object
       properties:
@@ -1960,122 +1999,6 @@ components:
       required:
         - id
         - name
-    SitesOverview:
-      description: |
-        This is a list of all sites, that are available in the system.
-        It is sorted by the number of rooms in the site, descending.
-        The first entry is the site with the most importance
-      type: array
-      items:
-        allOf:
-          - $ref: '#/components/schemas/ChildEntry'
-          - type: object
-            properties:
-              n_visible:
-                description: |
-                  A recommendation how many of the entries should be displayed by default.  
-                  The number is usually from 0-5.  
-                  More results might be displayed when clicking "expand".  
-                  If this field is not present, then all entries are displayed.
-                type: integer
-                format: int64
-                example: 6
-                minimum: 0
-              children:
-                description: |
-                  A select list of buildings, that are in this site.
-                  Derived from the areatree.
-                type: array
-                items:
-                  $ref: '#/components/schemas/ChildEntry'
-            required:
-              - n_visible
-              - children
-    RootResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseDetailsResponse'
-        - type: object
-          properties:
-            id:
-              description: 'The id, that was requested'
-              type: string
-              enum:
-                - root
-            type:
-              description: The type of the entry
-              type: string
-              enum:
-                - root
-            sites_overview:
-              $ref: '#/components/schemas/SitesOverview'
-          required:
-            - id
-            - type
-            - sites_overview
-    BaseDetailsResponse:
-      type: object
-      properties:
-        type_common_name:
-          description: The type of the entry in a human-readable form
-          type: string
-        name:
-          description: The name of the entry in a human-readable form
-          type: string
-          example: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
-        aliases:
-          description: |
-            A list of alternative ids for this entry.  
-
-            Not to be confused with
-            - `id` which is the unique identifier or
-            - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
-          type: array
-          items:
-            type: string
-            example: 26503@5406
-        parents:
-          type: array
-          items:
-            type: string
-            description: The ids of the parents. They are ordered as they would appear in a Breadcrumb menu. See parent_names for their actual ids.
-          examples:
-            - root
-            - garching
-        parent_names:
-          type: array
-          items:
-            type: string
-            description: The ids of the parents. They are ordered as they would appear in a Breadcrumb menu. See parents for their actual ids.
-          examples:
-            - Standorte
-            - Garching Forschungszentrum
-          minItems: 1
-          uniqueItems: true
-        props:
-          $ref: '#/components/schemas/Props'
-        imgs:
-          type: array
-          items:
-            $ref: '#/components/schemas/ImageInfo'
-        ranking_factors:
-          $ref: '#/components/schemas/RankingFactors'
-        sources:
-          $ref: '#/components/schemas/DataSources'
-        redirect_url:
-          description: |
-            The url, this item should be displayed at.
-            Present on both redirects and normal entries, to allow for the common /view/:id path
-          type: string
-          example: /room/5602.EG.001
-      required:
-        - type_common_name
-        - name
-        - parents
-        - parent_names
-        - props
-        - ranking_factors
-        - sources
-        - redirect_url
     CalendarResponse:
       type: object
       properties:
