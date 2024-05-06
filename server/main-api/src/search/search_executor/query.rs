@@ -1,7 +1,7 @@
+use meilisearch_sdk::client::Client;
 use meilisearch_sdk::errors::Error;
 use meilisearch_sdk::indexes::Index;
 use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
-use meilisearch_sdk::Client;
 use serde::Deserialize;
 
 use crate::search::search_executor::parser::{Filter, ParsedQuery, TextToken};
@@ -67,7 +67,7 @@ impl GeoEntryQuery {
         let q_default = self.prompt_for_querying();
         let ms_url =
             std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
-        let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
+        let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok())?;
         let entries = client.index("entries");
 
         // due to lifetime shenanigans this is added here (I can't make it move down to the other statements)
@@ -129,7 +129,10 @@ impl GeoEntryQuery {
             .join(" ")
     }
 
-    fn common_query<'b: 'a, 'a>(&'b self, entries: &'a Index) -> SearchQuery<'a> {
+    fn common_query<'b: 'a, 'a>(
+        &'b self,
+        entries: &'a Index,
+    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         SearchQuery::new(entries)
             .with_facets(Selectors::Some(&["facet"]))
             .with_highlight_pre_tag(&self.highlighting.0)
@@ -138,7 +141,11 @@ impl GeoEntryQuery {
             .build()
     }
 
-    fn merged_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a> {
+    fn merged_query<'a>(
+        &'a self,
+        entries: &'a Index,
+        query: &'a str,
+    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         let mut s = self
             .common_query(entries)
             .with_query(query)
@@ -150,7 +157,11 @@ impl GeoEntryQuery {
         s
     }
 
-    fn buildings_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a> {
+    fn buildings_query<'a>(
+        &'a self,
+        entries: &'a Index,
+        query: &'a str,
+    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         self.common_query(entries)
             .with_query(query)
             .with_limit(2 * self.args.limit_buildings) // we might do reordering later
@@ -158,7 +169,11 @@ impl GeoEntryQuery {
             .build()
     }
 
-    fn rooms_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a> {
+    fn rooms_query<'a>(
+        &'a self,
+        entries: &'a Index,
+        query: &'a str,
+    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         self.common_query(entries)
             .with_query(query)
             .with_limit(self.args.limit_rooms)
