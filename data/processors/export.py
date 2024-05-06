@@ -53,6 +53,8 @@ def export_for_search(data: dict, path: str) -> None:
         campus_name = None
         if entry["type"] not in {"campus", "site"}:
             for parent in entry["parents"]:
+                if parent == "root":
+                    continue
                 if data[parent]["type"] in {"campus", "site"}:
                     campus = data[parent]
                     campus_name = campus.get("short_name", campus["name"])
