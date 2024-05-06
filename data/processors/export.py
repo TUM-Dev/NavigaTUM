@@ -5,6 +5,7 @@ from typing import Any
 
 from external.models.common import PydanticConfiguration
 from utils import TranslatableStr
+from utils import TranslatableStr as _
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
 SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9-äöüß.]+")
@@ -42,21 +43,21 @@ def export_for_search(data: dict, path: str) -> None:
     """Export a subset of the data for the /search api"""
     export = []
     for _id, entry in data.items():
-        # Currently, the "root" entry is excluded from search
-        if _id == "root":
-            continue
-
         building_parents_index = len(entry["parents"])
         if entry["type"] in {"room", "virtual_room"}:
             for i, parent in enumerate(entry["parents"]):
+                if parent == "root":
+                    continue
                 if data[parent]["type"] in {"building", "joined_building"}:
                     building_parents_index = i
                     break
 
         # The 'campus name' is the campus of site of this building or room
         campus_name = None
-        if entry["type"] not in {"root", "campus", "site"}:
+        if entry["type"] not in {"campus", "site"}:
             for parent in entry["parents"]:
+                if parent == "root":
+                    continue
                 if data[parent]["type"] in {"campus", "site"}:
                     campus = data[parent]
                     campus_name = campus.get("short_name", campus["name"])
@@ -124,8 +125,7 @@ def export_for_api(data: dict, path: str) -> None:
     """Add some more information about parents to the data and export for the /get/:id api"""
     export_data = []
     for _id, entry in data.items():
-        if entry["type"] != "root":
-            entry.setdefault("maps", {})["default"] = "interactive"
+        entry.setdefault("maps", {})["default"] = "interactive"
 
         entry["aliases"] = []
         if arch_name := extract_arch_name(entry):
@@ -139,8 +139,9 @@ def export_for_api(data: dict, path: str) -> None:
 
 def extract_exported_item(data, entry):
     """Extract the item that will be finally exported to the api"""
+    parent_names = [data[p]["name"] if not p == "root" else _("Standorte", "Sites") for p in entry["parents"]]
     result = {
-        "parent_names": [data[p]["name"] for p in entry["parents"]],
+        "parent_names": parent_names,
         **entry,
     }
     if "children" in result:
