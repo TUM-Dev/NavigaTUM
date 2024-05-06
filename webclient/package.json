@@ -49,5 +49,5 @@
     "vue-tsc": "1.8.27"
   },
   "type": "module",
-  "packageManager": "pnpm@9.0.6"
+  "packageManager": "pnpm@9.1.0"
 }
