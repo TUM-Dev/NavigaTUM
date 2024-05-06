@@ -128,9 +128,9 @@ watchEffect(() => {
     >
       <MagnifyingGlassIcon class="text-zinc-800 my-auto h-6 w-6 ps-2" />
       <textarea
-        cols="1"
         id="search"
         v-model="query"
+        cols="1"
         rows="1"
         :title="t('input.aria-searchlabel')"
         aria-autocomplete="both"
