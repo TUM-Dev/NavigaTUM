@@ -97,10 +97,6 @@ const openPanels = ref<(boolean | undefined)[]>([]);
 </script>
 
 <template>
-  <div class="text-zinc-900 flex flex-col items-center gap-5 py-32">
-    <Spinner class="h-8 w-8" />
-    {{ t("Loading data...") }}
-  </div>
   <div class="flex flex-col justify-between gap-3 pt-8">
     <h1 class="text-zinc-600 !text-lg font-semibold">{{ t("sites") }}</h1>
     <!-- <NuxtLink to="#" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</NuxtLink> -->
@@ -167,7 +163,6 @@ de:
   more_aria: mehr Gebäude anzeigen
   overview_map: Übersichtskarte
   sites: Standorte
-  "Loading data...": Lädt daten...
   show_details_for_campus: show the details for the campus '{0}'
   show_details_for_building: show the details for the building '{0}'
   description: Finde Räume, Gebäude und andere Orte an der TUM mit Exzellenz. Eine moderne Alternative zum RoomFinder, entwickelt von Studierenden.
@@ -180,7 +175,6 @@ en:
   more_aria: show more buildings
   overview_map: Overview Map
   sites: Sites
-  "Loading data...": Loading data...
   show_details_for_campus: show the details for the campus '{0}'
   show_details_for_building: show the details for the building '{0}'
   description: Find rooms, buildings and other places at TUM with excellence. A modern alternative to RoomFinder, developed by students.
