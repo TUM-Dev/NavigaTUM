@@ -30,8 +30,8 @@ pub async fn get_handler(
         Ok(d) => match d {
             None => HttpResponse::NotFound().body("Not found"),
             Some(d) => {
-                let mut response_json = d.clone();
-                // We don not want to serialise this data at any point in the server.
+                let mut response_json = serde_json::to_string(&d).unwrap();
+                // We don't want to serialise this data at any point in the server.
                 // This just flows through the server, but adding redirect_url to the response is necessary
                 response_json.pop(); // remove last }
                 response_json.push_str(&format!(",\"redirect_url\":\"{redirect_url}\"}}",));

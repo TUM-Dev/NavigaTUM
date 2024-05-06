@@ -14,7 +14,6 @@ alter table de drop column type_common_name;
 alter table de add column type_common_name TEXT NOT NULL GENERATED ALWAYS AS (CAST (data->>'type_common_name' AS TEXT)) STORED;
 alter table de drop column type;
 alter table de add column type TEXT NOT NULL GENERATED ALWAYS AS (CAST (data->>'type' AS TEXT)) STORED;
-alter table de drop column calendar_url;
 alter table de add column calendar_url TEXT GENERATED ALWAYS AS (CAST (data->'props'->>'calendar_url' AS TEXT)) STORED;
 
 alter table en alter column data type json using data::json;
@@ -28,5 +27,4 @@ alter table en drop column type_common_name;
 alter table en add column type_common_name TEXT NOT NULL GENERATED ALWAYS AS (CAST (data->>'type_common_name' AS TEXT)) STORED;
 alter table en drop column type;
 alter table en add column type TEXT NOT NULL GENERATED ALWAYS AS (CAST (data->>'type' AS TEXT)) STORED;
-alter table en drop column calendar_url;
 alter table en add column calendar_url TEXT GENERATED ALWAYS AS (CAST (data->'props'->>'calendar_url' AS TEXT)) STORED;

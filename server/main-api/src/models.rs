@@ -1,4 +1,5 @@
 use chrono::{DateTime, Utc};
+use serde_json::Value;
 
 #[derive(Debug, Clone)]
 pub struct Location {
@@ -11,7 +12,7 @@ pub struct Location {
     pub type_common_name: String,
     pub lat: f64,
     pub lon: f64,
-    pub data: String,
+    pub data: Value,
 }
 
 #[derive(Debug, Clone)]

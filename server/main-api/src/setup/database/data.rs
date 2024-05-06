@@ -4,11 +4,10 @@ use std::time::Instant;
 use log::info;
 use serde_json::Value;
 
-
 struct DelocalisedValues {
     key: String,
-    de: HashMap<String, Value>,
-    en: HashMap<String, Value>,
+    de: Value,
+    en: Value,
 }
 
 impl From<HashMap<String, Value>> for DelocalisedValues {
@@ -63,15 +62,21 @@ impl DelocalisedValues {
         self,
         tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
     ) -> Result<(), sqlx::Error> {
-        let data = serde_json::to_string(&self.de).unwrap();
-        sqlx::query!(r#"INSERT INTO de(key,data)VALUES ($1,$2)"#, self.key, data)
-            .execute(&mut **tx)
-            .await?;
+        sqlx::query!(
+            r#"INSERT INTO de(key,data)VALUES ($1,$2)"#,
+            self.key,
+            self.de
+        )
+        .execute(&mut **tx)
+        .await?;
 
-        let data = serde_json::to_string(&self.en).unwrap();
-        sqlx::query!(r#"INSERT INTO en(key,data)VALUES ($1,$2)"#, self.key, data)
-            .execute(&mut **tx)
-            .await?;
+        sqlx::query!(
+            r#"INSERT INTO en(key,data)VALUES ($1,$2)"#,
+            self.key,
+            self.en
+        )
+        .execute(&mut **tx)
+        .await?;
 
         Ok(())
     }

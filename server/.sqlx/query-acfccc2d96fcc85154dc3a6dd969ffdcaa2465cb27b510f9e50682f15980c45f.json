@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO de(key,data)VALUES ($1,$2)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Json"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "acfccc2d96fcc85154dc3a6dd969ffdcaa2465cb27b510f9e50682f15980c45f"
+}
