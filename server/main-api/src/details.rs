@@ -1,4 +1,4 @@
-use actix_web::{get, web, HttpResponse};
+use actix_web::{get, HttpResponse, web};
 use log::error;
 use sqlx::PgPool;
 
@@ -85,7 +85,6 @@ async fn get_alias_and_redirect(conn: &PgPool, query: &str) -> Option<(String, S
 
 fn extract_redirect_exact_match(type_: &str, key: &str) -> String {
     match type_ {
-        "root" => String::new(),
         "campus" => format!("/campus/{key}"),
         "site" | "area" => format!("/site/{key}"),
         "building" | "joined_building" => format!("/building/{key}"),

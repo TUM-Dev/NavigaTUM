@@ -42,10 +42,6 @@ def export_for_search(data: dict, path: str) -> None:
     """Export a subset of the data for the /search api"""
     export = []
     for _id, entry in data.items():
-        # Currently, the "root" entry is excluded from search
-        if _id == "root":
-            continue
-
         building_parents_index = len(entry["parents"])
         if entry["type"] in {"room", "virtual_room"}:
             for i, parent in enumerate(entry["parents"]):
@@ -55,7 +51,7 @@ def export_for_search(data: dict, path: str) -> None:
 
         # The 'campus name' is the campus of site of this building or room
         campus_name = None
-        if entry["type"] not in {"root", "campus", "site"}:
+        if entry["type"] not in {"campus", "site"}:
             for parent in entry["parents"]:
                 if data[parent]["type"] in {"campus", "site"}:
                     campus = data[parent]
@@ -124,8 +120,7 @@ def export_for_api(data: dict, path: str) -> None:
     """Add some more information about parents to the data and export for the /get/:id api"""
     export_data = []
     for _id, entry in data.items():
-        if entry["type"] != "root":
-            entry.setdefault("maps", {})["default"] = "interactive"
+        entry.setdefault("maps", {})["default"] = "interactive"
 
         entry["aliases"] = []
         if arch_name := extract_arch_name(entry):
