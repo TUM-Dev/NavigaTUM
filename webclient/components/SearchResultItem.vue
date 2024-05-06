@@ -43,8 +43,8 @@ type RoomEntry = components["schemas"]["RoomEntry"];
       <div class="text-zinc-600 flex flex-col gap-0.5">
         <div class="flex flex-col">
           <div
-            class="flex flex-row"
             v-if="(item.type === 'room' || item.type === 'virtual_room' || item.type === 'poi') && item.parsed_id"
+            class="flex flex-row"
           >
             <ChevronDownIcon class="mt-0.5 h-4 w-4" />
             <span v-html="item.parsed_id" />
