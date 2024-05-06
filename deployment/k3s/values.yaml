@@ -10,7 +10,7 @@ server:
 mielisearch:
   image:
     repository: 'getmeili/meilisearch'
-    tag: v1.7.6
+    tag: v1.8.0
 calendar:
   scrape_tasks:
     - name: refresh-calendar-slow # takes ~6m to complete
