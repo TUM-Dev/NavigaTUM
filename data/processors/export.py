@@ -45,6 +45,8 @@ def export_for_search(data: dict, path: str) -> None:
         building_parents_index = len(entry["parents"])
         if entry["type"] in {"room", "virtual_room"}:
             for i, parent in enumerate(entry["parents"]):
+                if parent == "root":
+                    continue
                 if data[parent]["type"] in {"building", "joined_building"}:
                     building_parents_index = i
                     break
