@@ -104,6 +104,7 @@ def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
             "name": f"{room_code} ({room.alt_name})",
             "parents": data[b_id]["parents"] + [b_id],
             "tumonline_data": {
+                "tumonline_id": room.tumonline_id,
                 "roomcode": room_code,
                 "arch_name": room.arch_name,
                 "alt_name": room.alt_name,
@@ -150,9 +151,6 @@ def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
         else:
             logging.error(f"Unknown usage for room '{room['roomcode']}': Id '{room['usage']}'")
             continue
-
-        if "extended" in room:
-            r_data["tumonline_data"]["extended"] = room.extended
 
         # TUMonline data does not overwrite the existing data when merged
         recursively_merge(data, {r_data["id"]: r_data}, overwrite=False)
