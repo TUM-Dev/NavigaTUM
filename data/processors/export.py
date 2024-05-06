@@ -5,6 +5,7 @@ from typing import Any
 
 from external.models.common import PydanticConfiguration
 from utils import TranslatableStr
+from utils import TranslatableStr as _
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
 SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9-äöüß.]+")
@@ -138,8 +139,9 @@ def export_for_api(data: dict, path: str) -> None:
 
 def extract_exported_item(data, entry):
     """Extract the item that will be finally exported to the api"""
+    parent_names = [data[p]["name"] if not p == "root" else _("Standorte","Sites") for p in entry["parents"]]
     result = {
-        "parent_names": [data[p]["name"] for p in entry["parents"]],
+        "parent_names": parent_names,
         **entry,
     }
     if "children" in result:
