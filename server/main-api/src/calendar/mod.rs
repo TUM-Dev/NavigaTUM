@@ -1,4 +1,4 @@
-use actix_web::{get, HttpResponse, web};
+use actix_web::{get, web, HttpResponse};
 use chrono::{DateTime, Utc};
 use log::error;
 use serde::Deserialize;
@@ -45,7 +45,7 @@ pub async fn calendar_handler(
         }
         Ok(Some(loc)) => loc,
     };
-    let Some(calendar_url)=location.calendar_url else {
+    let Some(calendar_url) = location.calendar_url else {
         return HttpResponse::NotFound()
             .content_type("text/plain")
             .body("Room does not have a calendar");
