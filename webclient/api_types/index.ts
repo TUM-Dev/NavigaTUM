@@ -495,7 +495,7 @@ export type components = {
        */
       readonly time_ms: number;
     };
-    readonly DetailsResponse: components["schemas"]["BaseDetailsResponse"] & {
+    readonly DetailsResponse: {
       /** @description The id, that was requested */
       readonly id: string;
       /**
@@ -503,6 +503,34 @@ export type components = {
        * @enum {string}
        */
       readonly type: "room" | "building" | "joined_building" | "area" | "site" | "campus" | "poi";
+      /** @description The type of the entry in a human-readable form */
+      readonly type_common_name: string;
+      /**
+       * @description The name of the entry in a human-readable form
+       * @example 5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)
+       */
+      readonly name: string;
+      /**
+       * @description A list of alternative ids for this entry.
+       *
+       * Not to be confused with
+       * - `id` which is the unique identifier or
+       * - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
+       */
+      readonly aliases?: readonly string[];
+      readonly parents: readonly string[];
+      readonly parent_names: readonly [string, ...string[]];
+      readonly props: components["schemas"]["Props"];
+      readonly imgs?: readonly components["schemas"]["ImageInfo"][];
+      readonly ranking_factors: components["schemas"]["RankingFactors"];
+      readonly sources: components["schemas"]["DataSources"];
+      /**
+       * @description The url, this item should be displayed at.
+       * Present on both redirects and normal entries, to allow for the common /view/:id path
+       *
+       * @example /room/5602.EG.001
+       */
+      readonly redirect_url: string;
       readonly coords: components["schemas"]["Coordinate"];
       readonly maps: components["schemas"]["Maps"];
       readonly sections?: {
@@ -578,71 +606,6 @@ export type components = {
        * @example Mathematik / Informatik
        */
       readonly name: string;
-    };
-    /**
-     * @description This is a list of all sites, that are available in the system.
-     * It is sorted by the number of rooms in the site, descending.
-     * The first entry is the site with the most importance
-     */
-    readonly SitesOverview: readonly (components["schemas"]["ChildEntry"] & {
-      /**
-       * Format: int64
-       * @description A recommendation how many of the entries should be displayed by default.
-       * The number is usually from 0-5.
-       * More results might be displayed when clicking "expand".
-       * If this field is not present, then all entries are displayed.
-       *
-       * @example 6
-       */
-      readonly n_visible: number;
-      /**
-       * @description A select list of buildings, that are in this site.
-       * Derived from the areatree.
-       */
-      readonly children: readonly components["schemas"]["ChildEntry"][];
-    })[];
-    readonly RootResponse: components["schemas"]["BaseDetailsResponse"] & {
-      /**
-       * @description The id, that was requested
-       * @enum {string}
-       */
-      readonly id: "root";
-      /**
-       * @description The type of the entry
-       * @enum {string}
-       */
-      readonly type: "root";
-      readonly sites_overview: components["schemas"]["SitesOverview"];
-    };
-    readonly BaseDetailsResponse: {
-      /** @description The type of the entry in a human-readable form */
-      readonly type_common_name: string;
-      /**
-       * @description The name of the entry in a human-readable form
-       * @example 5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)
-       */
-      readonly name: string;
-      /**
-       * @description A list of alternative ids for this entry.
-       *
-       * Not to be confused with
-       * - `id` which is the unique identifier or
-       * - `visual-id` which is an alternative identifier for the entry (only displayed in the URL).
-       */
-      readonly aliases?: readonly string[];
-      readonly parents: readonly string[];
-      readonly parent_names: readonly [string, ...string[]];
-      readonly props: components["schemas"]["Props"];
-      readonly imgs?: readonly components["schemas"]["ImageInfo"][];
-      readonly ranking_factors: components["schemas"]["RankingFactors"];
-      readonly sources: components["schemas"]["DataSources"];
-      /**
-       * @description The url, this item should be displayed at.
-       * Present on both redirects and normal entries, to allow for the common /view/:id path
-       *
-       * @example /room/5602.EG.001
-       */
-      readonly redirect_url: string;
     };
     readonly CalendarResponse: {
       /** @description The entries of the requested */
@@ -958,7 +921,7 @@ export type operations = {
       /** @description More data about the requested building/room */
       200: {
         content: {
-          readonly "application/json": components["schemas"]["RootResponse"] | components["schemas"]["DetailsResponse"];
+          readonly "application/json": components["schemas"]["DetailsResponse"];
         };
       };
       /** @description Invalid input */

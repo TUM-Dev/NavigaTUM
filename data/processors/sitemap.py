@@ -83,8 +83,6 @@ def _extract_sitemap_data(new_data: list, old_data: list, old_sitemaps: Simplifi
     # so it's unlikely that we'll hit this limit without adding a lot of
     # data. But for the case that a new type of entry is introduced, the
     # sitemap is split into one for rooms and one for the rest.
-    # Note that the root element is not included, because it just redirects
-    # to the main page.
     sitemaps: Sitemaps = {
         "room": [],
         "other": [],
@@ -93,9 +91,6 @@ def _extract_sitemap_data(new_data: list, old_data: list, old_sitemaps: Simplifi
     new_data_dict = {entry["id"]: entry for entry in new_data}
     changed_count = 0
     for _id, entry in new_data_dict.items():
-        if entry["type"] == "root":
-            continue
-
         sitemap_name: Literal["room"] | Literal["other"] = entry["type"] if entry["type"] in sitemaps else "other"
 
         # Just copied from the webclient.
