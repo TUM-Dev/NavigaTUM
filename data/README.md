@@ -141,8 +141,6 @@ Any rights in individual contents of the database are licensed under the Databas
 
 > [!WARNING]
 > The images in `sources/img/` are subject to their own licensing terms, which are stated in the file `sources/img/img-sources.yaml`.
-
-> [!WARNING]
 > The compiled database may contain contents from external sources (i.e. all files in `external/`) that do have different license terms.
 
 ---
