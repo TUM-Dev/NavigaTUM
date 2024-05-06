@@ -139,7 +139,7 @@ def export_for_api(data: dict, path: str) -> None:
 
 def extract_exported_item(data, entry):
     """Extract the item that will be finally exported to the api"""
-    parent_names = [data[p]["name"] if not p == "root" else _("Standorte","Sites") for p in entry["parents"]]
+    parent_names = [data[p]["name"] if not p == "root" else _("Standorte", "Sites") for p in entry["parents"]]
     result = {
         "parent_names": parent_names,
         **entry,
