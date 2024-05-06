@@ -146,7 +146,7 @@ services:
       db:
         condition: service_healthy
   meilisearch:
-    image: getmeili/meilisearch:v1.7.6
+    image: getmeili/meilisearch:v1.8.0
     restart: unless-stopped
     networks:
       - navigatum
