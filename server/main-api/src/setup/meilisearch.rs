@@ -1,10 +1,11 @@
-use log::{error, info};
-use meilisearch_sdk::settings::Settings;
-use meilisearch_sdk::tasks::Task;
-use meilisearch_sdk::Client;
-use serde_json::Value;
 use std::collections::HashMap;
 use std::time::Duration;
+
+use log::{error, info};
+use meilisearch_sdk::client::Client;
+use meilisearch_sdk::settings::Settings;
+use meilisearch_sdk::tasks::Task;
+use serde_json::Value;
 
 const TIMEOUT: Option<Duration> = Some(Duration::from_secs(20));
 const POLLING_RATE: Option<Duration> = Some(Duration::from_millis(50));
@@ -48,7 +49,7 @@ pub(crate) async fn setup_meilisearch() -> Result<(), crate::BoxedError> {
     let start = std::time::Instant::now();
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
     info!("connecting to Meilisearch at {ms_url}", ms_url = ms_url);
-    let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
+    let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok())?;
     info!("waiting for Meilisearch to be healthy");
     wait_for_healthy(&client).await;
     info!("Meilisearch is healthy");

@@ -4,8 +4,8 @@ use meilisearch_sdk::indexes::Index;
 use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
 use serde::Deserialize;
 
-use crate::search::SanitisedSearchQueryArgs;
 use crate::search::search_executor::parser::{Filter, ParsedQuery, TextToken};
+use crate::search::SanitisedSearchQueryArgs;
 
 #[derive(Deserialize, Default, Clone, Debug)]
 #[allow(dead_code)]
@@ -129,7 +129,10 @@ impl GeoEntryQuery {
             .join(" ")
     }
 
-    fn common_query<'b: 'a, 'a>(&'b self, entries: &'a Index) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
+    fn common_query<'b: 'a, 'a>(
+        &'b self,
+        entries: &'a Index,
+    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         SearchQuery::new(entries)
             .with_facets(Selectors::Some(&["facet"]))
             .with_highlight_pre_tag(&self.highlighting.0)
@@ -138,7 +141,11 @@ impl GeoEntryQuery {
             .build()
     }
 
-    fn merged_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
+    fn merged_query<'a>(
+        &'a self,
+        entries: &'a Index,
+        query: &'a str,
+    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         let mut s = self
             .common_query(entries)
             .with_query(query)
@@ -150,7 +157,11 @@ impl GeoEntryQuery {
         s
     }
 
-    fn buildings_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
+    fn buildings_query<'a>(
+        &'a self,
+        entries: &'a Index,
+        query: &'a str,
+    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         self.common_query(entries)
             .with_query(query)
             .with_limit(2 * self.args.limit_buildings) // we might do reordering later
@@ -158,7 +169,11 @@ impl GeoEntryQuery {
             .build()
     }
 
-    fn rooms_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
+    fn rooms_query<'a>(
+        &'a self,
+        entries: &'a Index,
+        query: &'a str,
+    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         self.common_query(entries)
             .with_query(query)
             .with_limit(self.args.limit_rooms)
