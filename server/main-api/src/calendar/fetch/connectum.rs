@@ -98,6 +98,13 @@ impl APIRequestor {
             }
         }
         sqlx::query!(
+            "UPDATE en SET last_calendar_scrape_at = $1 WHERE key=$2",
+            last_sync,
+            id
+        )
+        .execute(&self.pool)
+        .await?;
+        sqlx::query!(
             "UPDATE de SET last_calendar_scrape_at = $1 WHERE key=$2",
             last_sync,
             id
