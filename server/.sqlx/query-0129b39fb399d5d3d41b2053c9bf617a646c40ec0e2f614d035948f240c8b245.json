@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO en(key,data)VALUES ($1,$2)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Json"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "0129b39fb399d5d3d41b2053c9bf617a646c40ec0e2f614d035948f240c8b245"
+}

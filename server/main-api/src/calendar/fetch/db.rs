@@ -1,6 +1,7 @@
-use crate::calendar::fetch::CalendarEntryFetcher;
 use chrono::{DateTime, Utc};
 use sqlx::PgPool;
+
+use crate::calendar::fetch::CalendarEntryFetcher;
 
 pub(super) struct DbRequestor {
     pool: PgPool,

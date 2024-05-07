@@ -57,7 +57,7 @@ fn connection_string() -> String {
 fn setup_logging() {
     #[cfg(debug_assertions)]
     {
-        let env = env_logger::Env::default().default_filter_or("trace");
+        let env = env_logger::Env::default().default_filter_or("debug");
         env_logger::Builder::from_env(env).init();
     }
     #[cfg(not(debug_assertions))]
@@ -72,12 +72,19 @@ fn setup_logging() {
 #[tokio::main]
 async fn main() -> Result<(), BoxedError> {
     setup_logging();
-    let uri = connection_string();
-    let pool = PgPoolOptions::new().connect(&uri).await?;
-    #[cfg(not(feature = "skip_db_setup"))]
-    setup::database::setup_database(&pool).await?;
-    #[cfg(not(feature = "skip_ms_setup"))]
-    setup::meilisearch::setup_meilisearch().await?;
+    #[cfg(any(not(feature = "skip_ms_setup"), not(feature = "skip_db_setup")))]
+    let setup_database = tokio::spawn(async move {
+        #[cfg(not(feature = "skip_db_setup"))]
+        {
+            let pool = PgPoolOptions::new()
+                .connect(&connection_string())
+                .await
+                .unwrap();
+            setup::database::setup_database(&pool).await.unwrap();
+        }
+        #[cfg(not(feature = "skip_ms_setup"))]
+        setup::meilisearch::setup_meilisearch().await.unwrap();
+    });
 
     debug!("setting up metrics");
     let labels = HashMap::from([(
@@ -91,6 +98,7 @@ async fn main() -> Result<(), BoxedError> {
         .unwrap();
 
     info!("running the server");
+    let pool = PgPoolOptions::new().connect(&connection_string()).await?;
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
@@ -115,5 +123,7 @@ async fn main() -> Result<(), BoxedError> {
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?
     .run()
     .await?;
+    #[cfg(any(not(feature = "skip_ms_setup"), not(feature = "skip_db_setup")))]
+    setup_database.await?;
     Ok(())
 }

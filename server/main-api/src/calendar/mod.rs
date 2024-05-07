@@ -45,10 +45,11 @@ pub async fn calendar_handler(
         }
         Ok(Some(loc)) => loc,
     };
-    let calendar_url = format!(
-        "https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr={id}",
-        id = 0
-    ); // TODO: room.tumonline_calendar_id
+    let Some(calendar_url) = location.calendar_url else {
+        return HttpResponse::NotFound()
+            .content_type("text/plain")
+            .body("Room does not have a calendar");
+    };
     let fetching_strategy =
         fetch::StrategyExecutor::new(&data.db, &id, &args.start_after, &args.end_before);
     match fetching_strategy

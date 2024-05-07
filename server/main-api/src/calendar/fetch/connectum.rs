@@ -78,12 +78,12 @@ impl APIRequestor {
     async fn store(
         &self,
         events: &[Event],
-        last_sync: &DateTime<Utc>,
+        last_calendar_scrape_at: &DateTime<Utc>,
         id: &str,
     ) -> Result<(), crate::BoxedError> {
         // insert into db
         let mut tx = self.pool.begin().await?;
-        if let Err(e) = self.delete_events(id, &mut tx).await {
+        if let Err(e) = self.delete_events(&mut tx, id).await {
             error!("could not delete existing events because {e:?}");
             tx.rollback().await?;
             return Err(e.into());
@@ -97,13 +97,14 @@ impl APIRequestor {
                 );
             }
         }
-        sqlx::query!(
-            "UPDATE de SET last_calendar_scrape_at = $1 WHERE key=$2",
-            last_sync,
-            id
-        )
-        .execute(&self.pool)
-        .await?;
+        if let Err(e) = self
+            .update_last_calendar_scrape_at(&mut tx, id, last_calendar_scrape_at)
+            .await
+        {
+            error!("could not update last_calendar_scrape_at because {e:?}");
+            tx.rollback().await?;
+            return Err(e.into());
+        }
         tx.commit().await?;
         debug!("finished inserting into the db for {id}");
         Ok(())
@@ -138,11 +139,32 @@ impl APIRequestor {
     }
     async fn delete_events(
         &self,
-        id: &str,
         tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+        id: &str,
     ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
         sqlx::query!(r#"DELETE FROM calendar WHERE room_code = $1"#, id)
             .execute(&mut **tx)
             .await
+    }
+    async fn update_last_calendar_scrape_at(
+        &self,
+        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+        id: &str,
+        last_calendar_scrape_at: &DateTime<Utc>,
+    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
+        sqlx::query!(
+            "UPDATE en SET last_calendar_scrape_at = $1 WHERE key=$2",
+            last_calendar_scrape_at,
+            id
+        )
+        .execute(&mut **tx)
+        .await?;
+        sqlx::query!(
+            "UPDATE de SET last_calendar_scrape_at = $1 WHERE key=$2",
+            last_calendar_scrape_at,
+            id
+        )
+        .execute(&mut **tx)
+        .await
     }
 }
