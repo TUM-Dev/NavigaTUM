@@ -1169,16 +1169,6 @@
     "name": "TUM CS SG20 (AM)",
     "tumonline_id": 1525
   },
-  "2930": {
-    "address": {
-      "place": "Straubing",
-      "street": "Rentamtsberg 1",
-      "zip_code": 94315
-    },
-    "area_id": 50,
-    "name": "TUM CS H\u00f6rsaal Rentamtsberg 1 (AM)",
-    "tumonline_id": 2250
-  },
   "2940": {
     "address": {
       "place": "M\u00fcnchen",
