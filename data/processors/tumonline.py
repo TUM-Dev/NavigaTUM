@@ -307,7 +307,7 @@ def _maybe_set_alt_name(room_code: str, arch_name_parts: tuple[str, str], room: 
     As far as we observed so far, if the room has no arch_name it also doesn't have any roomname in the alt_name.
     Also, if there are no comma-separated parts, the roomname is usually not in the alt_name.
     """
-    alt_parts = [_clean_spaces(s) for s in room.alt_name.split(",")]
+    alt_parts = room.alt_name.split(",")
     if len(alt_parts) < 2:
         return
     if alt_parts[0].lower() == arch_name_parts[0].lower():
@@ -344,8 +344,3 @@ def _maybe_set_alt_name(room_code: str, arch_name_parts: tuple[str, str], room: 
         logging.debug(
             f"(alt_name / arch_name mismatch): {alt_parts[0]=} {arch_name_parts[0]=} {room_code=}",
         )
-
-
-def _clean_spaces(_string: str) -> str:
-    """Remove leading and trailing spaces as well as duplicate spaces in-between"""
-    return " ".join(_string.split())

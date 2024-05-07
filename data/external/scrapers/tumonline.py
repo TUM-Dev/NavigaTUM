@@ -68,9 +68,11 @@ def scrape_rooms() -> None:
         val.pop("room_code")
         val["address"] = {
             "place": val.pop("address_place"),
-            "street": _clean_spaces(val.pop("address_street")),  # no clue why some streets have more/fewer spaces
-            "zip_code": int(val.pop("address_zip_code")),
+            "street": val.pop("address_street"),
+            "zip_code": val.pop("address_zip_code"),
         }
+        if "alt_name" in val:
+            val["alt_name"] = _clean_spaces(val["alt_name"])
         val["floor_level"] = val.pop("address_floor")
         val["seats"] = {
             "sitting": val.pop("seats", None),
