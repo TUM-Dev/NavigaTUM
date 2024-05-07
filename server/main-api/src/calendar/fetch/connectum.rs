@@ -157,14 +157,14 @@ impl APIRequestor {
             last_calendar_scrape_at,
             id
         )
-        .execute(&self.pool)
+        .execute(&mut **tx)
         .await?;
         sqlx::query!(
             "UPDATE de SET last_calendar_scrape_at = $1 WHERE key=$2",
             last_calendar_scrape_at,
             id
         )
-        .execute(&self.pool)
+        .execute(&mut **tx)
         .await
     }
 }
