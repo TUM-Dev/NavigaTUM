@@ -10,7 +10,8 @@ def extract_tumonline_props(data: dict[str, dict[str, Any]]) -> None:
     """Extract some of the TUMonline data and provides it as `prop`."""
     for entry in data.values():
         if entry.get("tumonline_data", {}).get("calendar", None):
-            calendar_url = f"https://campus.tum.de/tumonline/{entry['tumonline_data']['calendar']}"
+            calendar_resource_id = entry["tumonline_data"]["calendar"]
+            calendar_url = f"https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=0&cRes={calendar_resource_id}"
             entry["props"]["calendar_url"] = calendar_url
         if entry.get("tumonline_data", {}).get("operator", None):
             entry["props"]["operator"] = {
