@@ -10,43 +10,48 @@
       },
       {
         "ordinal": 1,
-        "name": "name",
-        "type_info": "Text"
+        "name": "data",
+        "type_info": "Json"
       },
       {
         "ordinal": 2,
-        "name": "tumonline_room_nr",
-        "type_info": "Int4"
+        "name": "last_calendar_scrape_at",
+        "type_info": "Timestamptz"
       },
       {
         "ordinal": 3,
-        "name": "type",
-        "type_info": "Text"
-      },
-      {
-        "ordinal": 4,
-        "name": "type_common_name",
-        "type_info": "Text"
-      },
-      {
-        "ordinal": 5,
         "name": "lat",
         "type_info": "Float8"
       },
       {
-        "ordinal": 6,
+        "ordinal": 4,
         "name": "lon",
         "type_info": "Float8"
       },
       {
+        "ordinal": 5,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "type_common_name",
+        "type_info": "Text"
+      },
+      {
         "ordinal": 7,
-        "name": "data",
+        "name": "type",
         "type_info": "Text"
       },
       {
         "ordinal": 8,
-        "name": "last_calendar_scrape_at",
-        "type_info": "Timestamptz"
+        "name": "calendar_url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "tumonline_room_nr",
+        "type_info": "Int4"
       }
     ],
     "parameters": {
@@ -63,6 +68,7 @@
       false,
       false,
       false,
+      true,
       true
     ]
   },
