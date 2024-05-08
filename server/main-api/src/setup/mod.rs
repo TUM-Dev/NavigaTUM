@@ -1,5 +1,5 @@
 #[cfg(not(feature = "skip_db_setup"))]
-pub(crate) mod database;
+pub mod database;
 
 #[cfg(not(feature = "skip_ms_setup"))]
-pub(crate) mod meilisearch;
+pub mod meilisearch;

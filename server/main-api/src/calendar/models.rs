@@ -30,7 +30,7 @@ pub(super) struct Event {
 }
 
 impl Event {
-    pub(crate) async fn store(
+    pub async fn store(
         &self,
         tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
     ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {

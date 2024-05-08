@@ -12,7 +12,7 @@ pub struct Filter {
     usages: HashSet<String>,
 }
 impl Filter {
-    pub(crate) fn as_meilisearch_filters(&self) -> String {
+    pub fn as_meilisearch_filters(&self) -> String {
         let mut filters = vec![];
         if !self.parents.is_empty() {
             let parents: Vec<&str> = self.parents.iter().map(String::as_str).collect();
@@ -38,7 +38,7 @@ pub struct Sorting {
 }
 
 impl Sorting {
-    pub(crate) fn as_meilisearch_sorting(&self) -> Vec<String> {
+    pub fn as_meilisearch_sorting(&self) -> Vec<String> {
         self.location
             .iter()
             .map(|s| format!("_geoPoint({s}):asc"))
@@ -60,7 +60,7 @@ pub struct ParsedQuery {
 }
 
 impl ParsedQuery {
-    pub(crate) fn relevant_enough_for_room_highligting(&self) -> bool {
+    pub fn relevant_enough_for_room_highligting(&self) -> bool {
         if self.tokens.len() == 1 {
             return true;
         }

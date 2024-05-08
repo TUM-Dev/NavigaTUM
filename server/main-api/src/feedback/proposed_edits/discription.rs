@@ -10,12 +10,12 @@ pub struct Description {
 }
 
 impl Description {
-    pub(crate) fn add_context(&mut self, additional_context: &str) {
+    pub fn add_context(&mut self, additional_context: &str) {
         if !additional_context.is_empty() {
             self.body += &format!("Additional context: {additional_context}\n");
         }
     }
-    pub(crate) fn appply_set<T: AppliableEdit>(
+    pub fn appply_set<T: AppliableEdit>(
         &mut self,
         category_name: &'static str,
         set: HashMap<String, T>,
