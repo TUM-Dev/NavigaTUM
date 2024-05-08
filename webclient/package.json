@@ -13,7 +13,7 @@
     "format": "prettier --plugin=prettier-plugin-tailwindcss --end-of-line lf --write ."
   },
   "dependencies": {
-    "@headlessui/vue": "1.7.21",
+    "@headlessui/vue": "1.7.22",
     "@heroicons/vue": "2.1.3",
     "@nuxt/content": "2.12.1",
     "@nuxt/image": "1.7.0",
