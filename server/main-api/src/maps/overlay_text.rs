@@ -12,7 +12,7 @@ lazy_static! {
 }
 const SCALE: PxScale = PxScale { x: 35.0, y: 35.0 };
 
-pub(crate) struct OverlayText {
+pub struct OverlayText {
     x: i32,
     y: i32,
     text: String,

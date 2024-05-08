@@ -82,7 +82,7 @@ impl DelocalisedValues {
     }
 }
 
-pub(crate) async fn load_all_to_db(
+pub async fn load_all_to_db(
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
 ) -> Result<(), crate::BoxedError> {
     let start = Instant::now();

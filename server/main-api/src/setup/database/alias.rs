@@ -1,6 +1,7 @@
+use std::time::Instant;
+
 use log::info;
 use serde::Deserialize;
-use std::time::Instant;
 
 #[derive(Debug)]
 struct Alias {
@@ -102,7 +103,7 @@ impl Alias {
     }
 }
 
-pub(crate) async fn load_all_to_db(
+pub async fn load_all_to_db(
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
 ) -> Result<(), crate::BoxedError> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());

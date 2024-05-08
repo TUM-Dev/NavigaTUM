@@ -1,9 +1,9 @@
+use log::info;
+
 mod alias;
 mod data;
 
-use log::info;
-
-pub(crate) async fn setup_database(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
+pub async fn setup_database(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
     info!("setting up the database");
     sqlx::migrate!("./migrations").run(pool).await?;
     info!("migrations complete");

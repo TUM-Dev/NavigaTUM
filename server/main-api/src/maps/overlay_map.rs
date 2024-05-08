@@ -1,12 +1,13 @@
-use crate::maps::fetch_tile::FetchTileTask;
-use crate::models::Location;
 use futures::{stream::FuturesUnordered, StreamExt};
 use log::warn;
 
-pub(crate) struct OverlayMapTask {
-    pub(crate) x: f64,
-    pub(crate) y: f64,
-    pub(crate) z: u32,
+use crate::maps::fetch_tile::FetchTileTask;
+use crate::models::Location;
+
+pub struct OverlayMapTask {
+    pub x: f64,
+    pub y: f64,
+    pub z: u32,
 }
 
 impl OverlayMapTask {
@@ -103,8 +104,9 @@ fn is_in_range(x_pixels: u32, y_pixels: u32, x_index: u32, y_index: u32) -> bool
 
 #[cfg(test)]
 mod overlay_tests {
-    use super::*;
     use pretty_assertions::assert_eq;
+
+    use super::*;
 
     #[test]
     fn test_lat_lon_z_to_xyz() {

@@ -26,7 +26,7 @@ impl Display for TileLocation {
 }
 
 #[derive(Debug)]
-pub(crate) struct FetchTileTask {
+pub struct FetchTileTask {
     location: TileLocation,
     index: (u32, u32),
 }
@@ -72,7 +72,7 @@ impl FetchTileTask {
         }
     }
 
-    pub(crate) fn offset_by(self, x_offset: i32, y_offset: i32) -> Self {
+    pub fn offset_by(self, x_offset: i32, y_offset: i32) -> Self {
         Self {
             location: TileLocation {
                 x: zoom_aware_offset(self.location.z, self.location.x, x_offset),
