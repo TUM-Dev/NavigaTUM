@@ -30,8 +30,6 @@ impl CalendarEntryFetcher for APIRequestor {
         start_after: &DateTime<Utc>,
         end_before: &DateTime<Utc>,
     ) -> Result<super::CalendarEntries, crate::BoxedError> {
-        let tumonline_id = id.replace('.', "");
-
         let sync_start = Utc::now();
         let start = Instant::now();
         // Make OAuth2 secured request
@@ -41,9 +39,7 @@ impl CalendarEntryFetcher for APIRequestor {
             .access_token()
             .secret()
             .clone();
-        let url = format!(
-            "https://campus.tum.de/tumonline/co/connectum/api/rooms/{tumonline_id}/calendars"
-        );
+        let url = format!("https://campus.tum.de/tumonline/co/connectum/api/rooms/{id}/calendars");
 
         let events: Vec<Event> = self
             .client
