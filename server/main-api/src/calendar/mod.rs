@@ -4,16 +4,12 @@ use log::error;
 use serde::Deserialize;
 use sqlx::PgPool;
 
+use crate::calendar::models::Event;
 use crate::models::Location;
 
-mod fetch;
+mod connectum;
 mod models;
-
-async fn get_location(pool: &PgPool, id: &str) -> Result<Option<Location>, sqlx::Error> {
-    sqlx::query_as!(Location, "SELECT * FROM de WHERE key = $1", id)
-        .fetch_optional(pool)
-        .await
-}
+pub mod refresh;
 
 #[derive(Deserialize, Debug)]
 pub struct QueryArguments {
@@ -36,7 +32,7 @@ pub async fn calendar_handler(
         Err(e) => {
             error!("could not refetch due to {e:?}");
             return HttpResponse::InternalServerError()
-                .body("could not get calendar entrys, please try again later");
+                .body("could not get calendar entries, please try again later");
         }
         Ok(None) => {
             return HttpResponse::NotFound()
@@ -50,17 +46,37 @@ pub async fn calendar_handler(
             .content_type("text/plain")
             .body("Room does not have a calendar");
     };
-    let fetching_strategy =
-        fetch::StrategyExecutor::new(&data.db, &id, &args.start_after, &args.end_before);
-    match fetching_strategy
-        .exec_with_retrying(&location.last_calendar_scrape_at)
-        .await
-    {
-        Ok((last_sync, events)) => HttpResponse::Ok().json(models::Events {
+    match get_from_db(&data.db, &id, &args.start_after, &args.end_before).await {
+        Ok(events) => HttpResponse::Ok().json(models::Events {
             events,
-            last_sync,
+            last_sync: location.last_calendar_scrape_at.unwrap(),
             calendar_url,
         }),
-        Err(resp) => resp,
+        Err(e) => {
+            error!("could not get entries from the db for {id} because {e:?}");
+            HttpResponse::InternalServerError()
+                .body("could not get calendar entries, please try again later")
+        }
     }
+}
+
+async fn get_location(pool: &PgPool, id: &str) -> Result<Option<Location>, sqlx::Error> {
+    sqlx::query_as!(Location, "SELECT * FROM de WHERE key = $1", id)
+        .fetch_optional(pool)
+        .await
+}
+
+async fn get_from_db(
+    pool: &PgPool,
+    id: &str,
+    start_after: &DateTime<Utc>,
+    end_before: &DateTime<Utc>,
+) -> Result<Vec<Event>, crate::BoxedError> {
+    let events = sqlx::query_as!(Event, r#"SELECT id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type AS "entry_type!:crate::calendar::models::EventType",detailed_entry_type
+            FROM calendar
+            WHERE room_code = $1 AND start_at >= $2 AND end_at <= $3"#,
+            id, start_after, end_before)
+        .fetch_all(pool)
+        .await?;
+    Ok(events)
 }
