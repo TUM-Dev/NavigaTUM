@@ -29,7 +29,11 @@ def _generate_oauth_headers() -> dict[typing.Literal["Authorization"], str]:
 
     oauth_client = BackendApplicationClient(client_id=oauth_client_id)
     oauth_session = OAuth2Session(client=oauth_client)
-    token = oauth_session.fetch_token(token_url=token_url, client_id=oauth_client_id, client_secret=oauth_client_secret)
+    token = oauth_session.fetch_token(
+        token_url=token_url,
+        client_id=oauth_client_id.strip(),
+        client_secret=oauth_client_secret.strip(),
+    )
     assert token is not None
 
     return {"Authorization": f"Bearer {token['access_token']}"}

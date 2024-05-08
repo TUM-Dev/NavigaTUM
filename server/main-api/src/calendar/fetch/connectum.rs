@@ -111,15 +111,17 @@ impl APIRequestor {
     }
     async fn fetch_oauth_token(&self) -> Result<BasicTokenResponse, crate::BoxedError> {
         let client_id = env::var("CONNECTUM_OAUTH_CLIENT_ID")
-        .map_err(|e| {
-            error!("CONNECTUM_OAUTH_CLIENT_ID needs to be set: {e:?}");
-            io::Error::other("please configure the environment variable CONNECTUM_OAUTH_CLIENT_ID to use this endpoint")
-        })?;
+            .map_err(|e| {
+                error!("CONNECTUM_OAUTH_CLIENT_ID needs to be set: {e:?}");
+                io::Error::other("please configure the environment variable CONNECTUM_OAUTH_CLIENT_ID to use this endpoint")
+            })?
+            .trim().into();
         let client_secret = env::var("CONNECTUM_OAUTH_CLIENT_SECRET")
             .map_err(|e| {
                 error!("CONNECTUM_OAUTH_CLIENT_SECRET needs to be set: {e:?}");
                 io::Error::other("please configure the environment variable CONNECTUM_OAUTH_CLIENT_SECRET to use this endpoint")
-            })?;
+            })?
+            .trim().into();
 
         // for urls see https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline/.well-known/openid-configuration
         let auth_url = Url::parse("https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/auth")?;
