@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::error::Error;
+use std::time::Duration;
 
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
@@ -57,7 +58,8 @@ fn connection_string() -> String {
 fn setup_logging() {
     #[cfg(debug_assertions)]
     {
-        let env = env_logger::Env::default().default_filter_or("debug");
+        let env = env_logger::Env::default()
+            .default_filter_or("debug,hyper=info,rustls=info,h2=info,sqlx=info");
         env_logger::Builder::from_env(env).init();
     }
     #[cfg(not(debug_assertions))]
@@ -84,6 +86,15 @@ async fn main() -> Result<(), BoxedError> {
         }
         #[cfg(not(feature = "skip_ms_setup"))]
         setup::meilisearch::setup_meilisearch().await.unwrap();
+    });
+    let refresh_calendar = tokio::spawn(async move {
+        // we give the setup a bit of time to finish
+        tokio::time::sleep(Duration::from_secs_f32(2.5 * 60.0)).await;
+        let pool = PgPoolOptions::new()
+            .connect(&connection_string())
+            .await
+            .unwrap();
+        calendar::refresh::refresh_entries_hourly(&pool).await
     });
 
     debug!("setting up metrics");
@@ -125,5 +136,6 @@ async fn main() -> Result<(), BoxedError> {
     .await?;
     #[cfg(any(not(feature = "skip_ms_setup"), not(feature = "skip_db_setup")))]
     setup_database.await?;
+    refresh_calendar.abort();
     Ok(())
 }
