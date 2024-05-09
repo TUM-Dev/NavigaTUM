@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 use std::error::Error;
-use std::time::Duration;
 
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
@@ -88,8 +87,9 @@ async fn main() -> Result<(), BoxedError> {
         setup::meilisearch::setup().await.unwrap();
     });
     let refresh_calendar = tokio::spawn(async move {
+        #[cfg(any(not(feature = "skip_ms_setup"), not(feature = "skip_db_setup")))]
         // we give the setup a bit of time to finish
-        tokio::time::sleep(Duration::from_secs_f32(2.5 * 60.0)).await;
+        tokio::time::sleep(std::time::Duration::from_secs_f32(2.0)).await;
         let pool = PgPoolOptions::new()
             .connect(&connection_string())
             .await
