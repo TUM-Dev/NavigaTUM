@@ -41,6 +41,10 @@ pub async fn calendar_handler(
         }
         Ok(Some(loc)) => loc,
     };
+    let Some(last_sync) = location.last_calendar_scrape_at else {
+        return HttpResponse::ServiceUnavailable()
+          .body("This calendar entry is currently in the process of being scraped, please try again later");
+    };
     let Some(calendar_url) = location.calendar_url else {
         return HttpResponse::NotFound()
             .content_type("text/plain")
@@ -49,7 +53,7 @@ pub async fn calendar_handler(
     match get_from_db(&data.db, &id, &args.start_after, &args.end_before).await {
         Ok(events) => HttpResponse::Ok().json(models::Events {
             events,
-            last_sync: location.last_calendar_scrape_at.unwrap(),
+            last_sync,
             calendar_url,
         }),
         Err(e) => {
