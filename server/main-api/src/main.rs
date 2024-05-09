@@ -94,7 +94,7 @@ async fn main() -> Result<(), BoxedError> {
             .connect(&connection_string())
             .await
             .unwrap();
-        calendar::refresh::entries_hourly(&pool).await;
+        calendar::refresh::all_entries(&pool).await;
     });
 
     debug!("setting up metrics");
