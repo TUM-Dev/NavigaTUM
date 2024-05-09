@@ -58,7 +58,7 @@ fn setup_logging() {
     #[cfg(debug_assertions)]
     {
         let env = env_logger::Env::default()
-            .default_filter_or("debug,hyper=info,rustls=info,h2=info,sqlx=info");
+            .default_filter_or("debug,hyper=info,rustls=info,h2=info,sqlx=info,hickory_resolver=info,hickory_proto=info");
         env_logger::Builder::from_env(env).init();
     }
     #[cfg(not(debug_assertions))]
