@@ -34,7 +34,7 @@ pub struct FetchTileTask {
 fn zoom_aware_offset(zoom: u32, value: u32, offset: i32) -> u32 {
     // if we go over the edge of the world, we want to pop in on the other side
     let possible_tiles: i64 = (4_i64).pow(zoom);
-    let offset_value = value as i64 + offset as i64;
+    let offset_value = i64::from(value) + i64::from(offset);
     if offset_value < 0 {
         return (possible_tiles + offset_value) as u32;
     }
