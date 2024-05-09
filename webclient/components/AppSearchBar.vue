@@ -114,7 +114,7 @@ const url = computed(() => {
 
   return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
-const { data, error, refresh } = await useFetch<SearchResponse>(url, {});
+const { data, error, refresh } = await useFetch<SearchResponse>(url, { key: "search", dedupe: "defer", deep: false });
 // a bit crude way of doing retries, but likely fine
 watchEffect(() => {
   if (query.value.length && error.value !== null) setTimeout(refresh, 500);

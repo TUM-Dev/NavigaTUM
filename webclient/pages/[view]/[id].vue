@@ -21,7 +21,7 @@ const router = useRouter();
 
 const runtimeConfig = useRuntimeConfig();
 const url = computed(() => `${runtimeConfig.public.apiURL}/api/get/${route.params.id}?lang=${locale.value}`);
-const { data, error } = useFetch<DetailsResponse, string>(url, { key: "details" });
+const { data, error } = useFetch<DetailsResponse, string>(url, { key: "details", dedupe: "defer", deep: false });
 
 const shownImage = ref<ImageInfo | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);
 const slideshowOpen = ref(false);
