@@ -44,7 +44,7 @@ async fn wait_for_healthy(client: &Client) {
     }
 }
 
-pub async fn setup_meilisearch() -> Result<(), crate::BoxedError> {
+pub async fn setup() -> Result<(), crate::BoxedError> {
     info!("setting up meilisearch");
     let start = std::time::Instant::now();
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());

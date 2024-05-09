@@ -82,10 +82,10 @@ async fn main() -> Result<(), BoxedError> {
                 .connect(&connection_string())
                 .await
                 .unwrap();
-            setup::database::setup_database(&pool).await.unwrap();
+            setup::database::setup(&pool).await.unwrap();
         }
         #[cfg(not(feature = "skip_ms_setup"))]
-        setup::meilisearch::setup_meilisearch().await.unwrap();
+        setup::meilisearch::setup().await.unwrap();
     });
     let refresh_calendar = tokio::spawn(async move {
         // we give the setup a bit of time to finish
@@ -94,7 +94,7 @@ async fn main() -> Result<(), BoxedError> {
             .connect(&connection_string())
             .await
             .unwrap();
-        calendar::refresh::refresh_entries_hourly(&pool).await
+        calendar::refresh::entries_hourly(&pool).await;
     });
 
     debug!("setting up metrics");

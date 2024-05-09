@@ -10,7 +10,7 @@ use crate::calendar::connectum::APIRequestor;
 struct LocationKey {
     key: String,
 }
-pub async fn refresh_entries_hourly(pool: &PgPool) {
+pub async fn entries_hourly(pool: &PgPool) {
     let one_hour = Duration::from_secs(60 * 60);
     let mut interval = tokio::time::interval(one_hour);
     let api = APIRequestor::from(pool);
@@ -31,7 +31,7 @@ pub async fn refresh_entries_hourly(pool: &PgPool) {
         };
         for LocationKey { key } in ids {
             if let Err(e) = api.refresh(&key).await {
-                error!("Could not download calendar for {key} because {e:?}")
+                error!("Could not download calendar for {key} because {e:?}");
             }
         }
         interval.tick().await;
