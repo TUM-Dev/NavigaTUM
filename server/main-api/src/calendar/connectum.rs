@@ -15,7 +15,7 @@ use crate::calendar::models::Event;
 pub(in crate::calendar) struct APIRequestor {
     client: reqwest::Client,
     pool: PgPool,
-    oauth_token: Option<BasicTokenResponse>,
+    oauth_token: Option<(Instant, BasicTokenResponse)>,
 }
 
 impl From<&PgPool> for APIRequestor {
@@ -68,28 +68,26 @@ impl APIRequestor {
         self.store(&events, &sync_start, id).await?;
         Ok(())
     }
+    fn should_refresh_token(&self) -> bool {
+        if let Some((start, token)) = &self.oauth_token {
+            if let Some(expires_in) = token.expires_in() {
+                return expires_in - start.elapsed() < Duration::from_secs(10);
+            }
+        }
+        true
+    }
     async fn try_unwrap_or_refresh_token(&mut self) -> Result<String, crate::BoxedError> {
-        match &self.oauth_token {
-            None => {
-                debug!("oauth token not present");
-                self.oauth_token = Some(Self::fetch_new_oauth_token().await?);
-            }
-            Some(token) => {
-                let expires_in = token.expires_in();
-                debug!("oauth expires in {expires_in:?}");
-                if !expires_in.is_some_and(|e| e > Duration::from_secs(10)) {
-                    self.oauth_token = Some(Self::fetch_new_oauth_token().await?);
-                }
-            }
-        };
+        if self.should_refresh_token() {
+            self.oauth_token = Some(Self::fetch_new_oauth_token().await?);
+        }
 
-        Ok(self
+        let at = self
             .oauth_token
             .as_ref()
             .expect("the token has been set in the last step")
-            .access_token()
-            .secret()
-            .clone())
+            .1
+            .access_token();
+        Ok(at.secret().clone())
     }
 }
 
@@ -136,7 +134,7 @@ impl APIRequestor {
         Ok(())
     }
 
-    async fn fetch_new_oauth_token() -> Result<BasicTokenResponse, crate::BoxedError> {
+    async fn fetch_new_oauth_token() -> Result<(Instant, BasicTokenResponse), crate::BoxedError> {
         let client_id = env::var("CONNECTUM_OAUTH_CLIENT_ID")
             .map_err(|e| {
                 error!("CONNECTUM_OAUTH_CLIENT_ID needs to be set: {e:?}");
@@ -164,7 +162,7 @@ impl APIRequestor {
         .add_scope(Scope::new("connectum-rooms.read".into()))
         .request_async(async_http_client)
         .await;
-        Ok(token?)
+        Ok((Instant::now(), token?))
     }
     async fn delete_events(
         &self,
