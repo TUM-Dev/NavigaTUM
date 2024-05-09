@@ -107,14 +107,21 @@ impl APIRequestor {
             tx.rollback().await?;
             return Err(e.into());
         }
-        for (i, event) in events.iter().enumerate() {
+        let mut failed: Option<(usize, sqlx::Error)> = None;
+        for event in events.iter() {
             // conflicts cannot occur because all values for said room were dropped
             if let Err(e) = event.store(&mut tx).await {
-                warn!(
-                    "ignoring insert {event:?} ({i}/{total}) because {e:?}",
-                    total = events.len()
-                );
+                failed = match failed {
+                    Some((i, e0)) => Some((i + 1, e0)),
+                    None => Some((1, e)),
+                };
             }
+        }
+        if let Some((cnt, e)) = failed {
+            warn!(
+                "{cnt}/{total} events could not be inserted because of {e:?}",
+                total = events.len()
+            );
         }
         if let Err(e) = self
             .update_last_calendar_scrape_at(&mut tx, id, last_calendar_scrape_at)
