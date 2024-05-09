@@ -37,7 +37,7 @@ futures = "0.3.30"
 unicode-truncate = "1.0.0"
 
 # database
-sqlx = { version = "0.7.4", features = ["postgres", "runtime-tokio-rustls", "migrate", "macros", "chrono"] }
+sqlx = { version = "0.7.4", features = ["postgres", "runtime-tokio", "tls-rustls", "migrate", "macros", "chrono"] }
 chrono = { version = "0.4.38", default-features = false, features = ["serde"] }
 
 # search
@@ -47,7 +47,7 @@ regex = "1.10.4"
 
 # web access
 oauth2 = { version = "4.4.2", default-features = false, features = ["rustls-tls", "reqwest"] }
-reqwest = { version = "0.12.4", default-features = false, features = ["rustls-tls", "http2", "charset", "json", "gzip", "hickory-dns"] }
+reqwest = { version = "0.12.4", default-features = false, features = ["rustls-tls", "http2", "charset", "json", "gzip", "hickory-dns", "zstd", "brotli", "deflate"] }
 
 # image production
 image = { version = "0.25.1", default-features = false, features = ["jpeg", "png", "webp"] }

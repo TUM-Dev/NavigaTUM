@@ -1,3 +1,4 @@
+use std::time::Duration;
 use std::{env, io};
 
 use cached::instant::Instant;
@@ -14,34 +15,40 @@ use crate::calendar::models::Event;
 pub(in crate::calendar) struct APIRequestor {
     client: reqwest::Client,
     pool: PgPool,
+    oauth_token: Option<BasicTokenResponse>,
 }
 
 impl From<&PgPool> for APIRequestor {
     fn from(pool: &PgPool) -> Self {
+        let keep_alive = Duration::from_secs(2);
+        let client = reqwest::Client::builder()
+            .tcp_keepalive(keep_alive)
+            .http2_keep_alive_while_idle(true)
+            .http2_keep_alive_interval(keep_alive)
+            .gzip(true)
+            .zstd(true)
+            .brotli(true)
+            .deflate(true)
+            .build()
+            .expect("the request client builder is correctly configured");
         Self {
-            client: reqwest::Client::new(),
+            client,
             pool: pool.clone(),
+            oauth_token: None,
         }
     }
 }
 
 impl APIRequestor {
-    pub(crate) async fn refresh(&self, id: &str) -> Result<(), crate::BoxedError> {
+    pub(crate) async fn refresh(&mut self, id: &str) -> Result<(), crate::BoxedError> {
         let sync_start = Utc::now();
+        let token = self.try_unwrap_or_refresh_token().await?;
         let start = Instant::now();
-        // Make OAuth2 secured request
-        let oauth_token = self
-            .fetch_oauth_token()
-            .await?
-            .access_token()
-            .secret()
-            .clone();
-
         let url = format!("https://campus.tum.de/tumonline/co/connectum/api/rooms/{id}/calendars");
         let events: Vec<Event> = self
             .client
             .get(url)
-            .bearer_auth(oauth_token)
+            .bearer_auth(token)
             .send()
             .await?
             .json()
@@ -60,6 +67,29 @@ impl APIRequestor {
             .collect::<Vec<Event>>();
         self.store(&events, &sync_start, id).await?;
         Ok(())
+    }
+    async fn try_unwrap_or_refresh_token(&mut self) -> Result<String, crate::BoxedError> {
+        match &self.oauth_token {
+            None => {
+                debug!("oauth token not present");
+                self.oauth_token = Some(Self::fetch_new_oauth_token().await?);
+            }
+            Some(token) => {
+                let expires_in = token.expires_in();
+                debug!("oauth expires in {expires_in:?}");
+                if !expires_in.is_some_and(|e| e > Duration::from_secs(10)) {
+                    self.oauth_token = Some(Self::fetch_new_oauth_token().await?);
+                }
+            }
+        };
+
+        Ok(self
+            .oauth_token
+            .as_ref()
+            .expect("the token has been set in the last step")
+            .access_token()
+            .secret()
+            .clone())
     }
 }
 
@@ -98,7 +128,8 @@ impl APIRequestor {
         debug!("finished inserting into the db for {id}");
         Ok(())
     }
-    async fn fetch_oauth_token(&self) -> Result<BasicTokenResponse, crate::BoxedError> {
+
+    async fn fetch_new_oauth_token() -> Result<BasicTokenResponse, crate::BoxedError> {
         let client_id = env::var("CONNECTUM_OAUTH_CLIENT_ID")
             .map_err(|e| {
                 error!("CONNECTUM_OAUTH_CLIENT_ID needs to be set: {e:?}");
@@ -126,7 +157,7 @@ impl APIRequestor {
         .add_scope(Scope::new("connectum-rooms.read".into()))
         .request_async(async_http_client)
         .await;
-        Ok(token?) // not directly returned for typing issues
+        Ok(token?)
     }
     async fn delete_events(
         &self,
