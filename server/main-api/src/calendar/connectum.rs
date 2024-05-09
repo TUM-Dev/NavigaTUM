@@ -1,7 +1,6 @@
-use std::time::Duration;
+use std::time::{Duration, Instant};
 use std::{env, io};
 
-use cached::instant::Instant;
 use chrono::{DateTime, Utc};
 use log::{debug, error, warn};
 use oauth2::basic::{BasicClient, BasicTokenResponse};
@@ -54,7 +53,7 @@ impl APIRequestor {
             .json()
             .await?;
         debug!(
-            "finished fetching for {id}: {cnt} calendar events in {elapsed:?}",
+            "finished fetching for {cnt} calendar events of {id} in {elapsed:?}",
             cnt = events.len(),
             elapsed = start.elapsed()
         );
@@ -98,6 +97,7 @@ impl APIRequestor {
         last_calendar_scrape_at: &DateTime<Utc>,
         id: &str,
     ) -> Result<(), crate::BoxedError> {
+        let start = Instant::now();
         // insert into db
         let mut tx = self.pool.begin().await?;
         if let Err(e) = self.delete_events(&mut tx, id).await {
@@ -130,7 +130,10 @@ impl APIRequestor {
             return Err(e.into());
         }
         tx.commit().await?;
-        debug!("finished inserting into the db for {id}");
+        debug!(
+            "finished inserting into the db for {id} in {elapsed:?}",
+            elapsed = start.elapsed()
+        );
         Ok(())
     }
 

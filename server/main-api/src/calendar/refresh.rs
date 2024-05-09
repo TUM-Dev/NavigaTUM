@@ -44,14 +44,13 @@ LIMIT 20"#)
             }
         };
         let len = ids.len();
-        debug!("Downloading {len} calendars");
         for LocationKey { key } in ids {
             if let Err(e) = api.refresh(&key).await {
                 error!("Could not download calendar for {key} because {e:?}");
             }
         }
         debug!(
-            "Downloading {len} calendars took {elapsed:?}",
+            "Downloaded {len} room-calendars took {elapsed:?}",
             elapsed = start.elapsed()
         );
         interval.tick().await;
