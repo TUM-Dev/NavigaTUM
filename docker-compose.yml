@@ -10,7 +10,6 @@ services:
       - "traefik.http.services.navigatum-webclient.loadbalancer.server.port=3000"
     networks:
       - traefik_traefik
-      - navigatum
     expose:
       - "3000"
     environment:
@@ -50,7 +49,6 @@ services:
       - "traefik.http.services.navigatum-tileserver-srv.loadbalancer.server.port=80"
     networks:
       - traefik_traefik
-      - navigatum
     expose:
       - 80
     volumes:
@@ -80,7 +78,6 @@ services:
       - "traefik.http.services.navigatum-tileserver.loadbalancer.server.port=8080"
     networks:
       - traefik_traefik
-      - navigatum
     expose:
       - "8080"
     command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
@@ -106,7 +103,6 @@ services:
       - "traefik.http.services.navigatum-data.loadbalancer.server.port=3002"
     networks:
       - traefik_traefik
-      - navigatum
     expose:
       - "3002"
   # server
@@ -121,7 +117,6 @@ services:
       - "traefik.http.services.navigatum-main-api.loadbalancer.server.port=3003"
     networks:
       - traefik_traefik
-      - navigatum
     expose:
       - "3003"
     command: /bin/navigatum-main-api
@@ -146,7 +141,7 @@ services:
     image: getmeili/meilisearch:v1.8.0
     restart: unless-stopped
     networks:
-      - navigatum
+      - traefik_traefik
     expose:
       - "7700"
     healthcheck:
@@ -163,7 +158,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
     networks:
-      - navigatum
+      - traefik_traefik
     expose:
       - "5432"
     volumes:
@@ -181,6 +176,5 @@ volumes:
     driver: local
 
 networks:
-  navigatum:
   traefik_traefik:
     external: true
