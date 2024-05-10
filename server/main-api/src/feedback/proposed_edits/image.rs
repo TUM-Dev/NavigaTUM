@@ -130,8 +130,10 @@ impl AppliableEdit for Image {
 }
 
 #[cfg(test)]
-mod image_tests {
+mod tests {
     use std::fs;
+
+    use pretty_assertions::assert_eq;
 
     use super::*;
 

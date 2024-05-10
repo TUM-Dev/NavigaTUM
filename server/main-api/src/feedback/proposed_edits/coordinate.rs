@@ -35,25 +35,6 @@ impl CoordinateFile {
     }
 }
 
-#[cfg(test)]
-mod test_coordinate_file {
-    use super::*;
-
-    #[test]
-    fn test_matches() {
-        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/0-100.json"));
-        assert_eq!(file.matches(), 0..100);
-        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/42.json"));
-        assert_eq!(file.matches(), 42..42);
-        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/0-100_abc.json"));
-        assert_eq!(file.matches(), 0..100);
-        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/42_abc.json"));
-        assert_eq!(file.matches(), 42..42);
-        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/rest.yaml"));
-        assert_eq!(file.matches(), 0..99999);
-    }
-}
-
 #[derive(Deserialize, Clone, Default)]
 pub struct Coordinate {
     lat: f64,
@@ -126,7 +107,7 @@ impl AppliableEdit for Coordinate {
 }
 
 #[cfg(test)]
-mod test_coordinate {
+mod tests {
     use std::fs;
 
     use pretty_assertions::assert_eq;
@@ -143,6 +124,20 @@ mod test_coordinate {
         fs::write(coord_dir.join("101-102.yaml"), "").unwrap();
         fs::write(coord_dir.join("rest.yaml"), "").unwrap();
         (dir, coord_dir.join("rest.yaml"))
+    }
+
+    #[test]
+    fn test_matches() {
+        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/0-100.json"));
+        std::assert_eq!(file.matches(), 0..100);
+        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/42.json"));
+        std::assert_eq!(file.matches(), 42..42);
+        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/0-100_abc.json"));
+        std::assert_eq!(file.matches(), 0..100);
+        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/42_abc.json"));
+        std::assert_eq!(file.matches(), 42..42);
+        let file = CoordinateFile::from(PathBuf::from("data/sources/coordinate/rest.yaml"));
+        std::assert_eq!(file.matches(), 0..99999);
     }
 
     #[test]
