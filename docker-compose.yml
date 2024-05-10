@@ -6,7 +6,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-webclient.entrypoints=webs"
       - "traefik.http.routers.navigatum-webclient.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-webclient.rule=Host(`nav.tum.app`)"
+      - "traefik.http.routers.navigatum-webclient.rule=Host(`nav.tum.de`)"
       - "traefik.http.services.navigatum-webclient.loadbalancer.server.port=3000"
     networks:
       - traefik_traefik
@@ -14,9 +14,9 @@ services:
     expose:
       - "3000"
     environment:
-      NUXT_PUBLIC_MAPS_URL: https://nav.tum.app
-      NUXT_PUBLIC_CDN_URL: https://nav.tum.app
-      NUXT_PUBLIC_API_URL: https://nav.tum.app
+      NUXT_PUBLIC_MAPS_URL: https://nav.tum.de
+      NUXT_PUBLIC_CDN_URL: https://nav.tum.de
+      NUXT_PUBLIC_API_URL: https://nav.tum.de
     depends_on:
       tileserver:
         condition: service_healthy
@@ -46,7 +46,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-tileserver-srv.entrypoints=webs"
       - "traefik.http.routers.navigatum-tileserver-srv.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-tileserver-srv.rule=Host(`nav.tum.app`) && PathPrefix(`/maps/vol/`)"
+      - "traefik.http.routers.navigatum-tileserver-srv.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
       - "traefik.http.services.navigatum-tileserver-srv.loadbalancer.server.port=80"
     networks:
       - traefik_traefik
@@ -72,7 +72,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-tileserver.entrypoints=webs"
       - "traefik.http.routers.navigatum-tileserver.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-tileserver.rule=Host(`nav.tum.app`) && PathPrefix(`/maps/`)"
+      - "traefik.http.routers.navigatum-tileserver.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
       - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-stripprefix@docker, navigatum-compress@docker, navigatum-compress@docker, navigatum-cache-2m@docker"
       - "traefik.http.middlewares.navigatum-stripprefix.stripprefix.prefixes=/maps"
       - "traefik.http.middlewares.navigatum-compress.compress=true"
@@ -83,7 +83,7 @@ services:
       - navigatum
     expose:
       - "8080"
-    command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.app/maps/
+    command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
     tmpfs:
       - /tmp
     volumes:
@@ -102,7 +102,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-data.entrypoints=webs"
       - "traefik.http.routers.navigatum-data.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-data.rule=Host(`nav.tum.app`) && PathPrefix(`/cdn/`)"
+      - "traefik.http.routers.navigatum-data.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
       - "traefik.http.services.navigatum-data.loadbalancer.server.port=3002"
     networks:
       - traefik_traefik
@@ -117,7 +117,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-main-api.entrypoints=webs"
       - "traefik.http.routers.navigatum-main-api.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.app`) && PathPrefix(`/api/`)"
+      - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
       - "traefik.http.services.navigatum-main-api.loadbalancer.server.port=3003"
     networks:
       - traefik_traefik
@@ -179,7 +179,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-redirect-unsecure.entrypoints=web"
-      - "traefik.http.routers.navigatum-redirect-unsecure.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.app`) || Host(`nav.tum.app`)"
+      - "traefik.http.routers.navigatum-redirect-unsecure.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`) || Host(`nav.tum.app`) || Host(`nav.tum.de`)"
       - "traefik.http.routers.navigatum-redirect-unsecure.middlewares=navigatum-webs-redirectscheme"
       - "traefik.http.middlewares.navigatum-webs-redirectscheme.redirectscheme.scheme=https"
       - "traefik.http.middlewares.navigatum-webs-redirectscheme.redirectscheme.permanent=true"
@@ -187,11 +187,11 @@ services:
 
       - "traefik.http.routers.navigatum-redirect.entrypoints=webs"
       - "traefik.http.routers.navigatum-redirect.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-redirect.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.app`)"
+      - "traefik.http.routers.navigatum-redirect.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`) || Host(`nav.tum.app`)"
       - "traefik.http.routers.navigatum-redirect.middlewares=navigatum-redirectregex@docker"
       - "traefik.http.routers.navigatum-redirect.service=noop@internal"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.regex=^(https?://.*)nav.tum.(app|sexy)/(.*)$$"
-      - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.replacement=$${1}nav.tum.app/$${3}"
+      - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.replacement=$${1}nav.tum.de/$${3}"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.permanent=true"
     networks:
       - traefik_traefik
