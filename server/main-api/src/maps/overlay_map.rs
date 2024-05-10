@@ -103,7 +103,7 @@ fn is_in_range(x_pixels: u32, y_pixels: u32, x_index: u32, y_index: u32) -> bool
 }
 
 #[cfg(test)]
-mod overlay_tests {
+mod tests {
     use pretty_assertions::assert_eq;
 
     use super::*;

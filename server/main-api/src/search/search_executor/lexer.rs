@@ -66,7 +66,9 @@ pub enum Token {
 }
 
 #[cfg(test)]
-mod tokenizer_tests {
+mod tests {
+    use pretty_assertions::assert_eq;
+
     use super::*;
 
     #[test]

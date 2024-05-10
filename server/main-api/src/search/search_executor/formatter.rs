@@ -145,7 +145,9 @@ fn unicode_split_at(search: &str, width: usize) -> (&str, &str) {
 }
 
 #[cfg(test)]
-mod postprocessing_tests {
+mod tests {
+    use pretty_assertions::assert_eq;
+
     use super::*;
 
     #[test]

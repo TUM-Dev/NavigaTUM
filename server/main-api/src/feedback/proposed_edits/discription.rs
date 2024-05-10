@@ -37,9 +37,11 @@ impl Description {
 }
 
 #[cfg(test)]
-mod test_discription {
+mod tests {
     use std::collections::HashMap;
     use std::path::Path;
+
+    use pretty_assertions::assert_eq;
 
     use super::*;
 

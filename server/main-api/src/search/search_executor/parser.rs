@@ -107,7 +107,9 @@ impl From<&str> for ParsedQuery {
 }
 
 #[cfg(test)]
-mod parser_tests {
+mod tests {
+    use pretty_assertions::assert_eq;
+
     use super::*;
 
     #[test]

@@ -131,7 +131,7 @@ fn clean_feedback_data(s: &str, len: usize) -> String {
 }
 
 #[cfg(test)]
-mod description_tests {
+mod tests {
     use pretty_assertions::assert_eq;
 
     use super::*;
