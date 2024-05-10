@@ -1,6 +1,5 @@
 # NavigaTUM
 
-[![Deployment Status](https://argocd.nav.tum.sexy/api/badge?name=navigatum-prod)](https://argocd.nav.tum.sexy/applications/navigatum-prod)
 [![Website Uptime over 30 days](https://nav-monitoring.mm.rbg.tum.de/api/badge/5/uptime/720?label=Website%20Uptime/30&labelSuffix=d)](https://nav-monitoring.mm.rbg.tum.de/status/navigatum)
 [![API Uptime over 30 days](https://nav-monitoring.mm.rbg.tum.de/api/badge/2/uptime/720?label=API%20Uptime/30&labelSuffix=d)](https://nav-monitoring.mm.rbg.tum.de/status/navigatum)
 [![CDN Uptime over 30 days](https://nav-monitoring.mm.rbg.tum.de/api/badge/1/uptime/720?label=CDN%20Uptime/30&labelSuffix=d)](https://nav-monitoring.mm.rbg.tum.de/status/navigatum)
