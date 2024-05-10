@@ -15,7 +15,6 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "@vueuse/nuxt",
     "@nuxt/content",
-    "@nuxtjs/partytown",
     "@nuxt/image",
   ],
   app: {
@@ -73,12 +72,6 @@ export default defineNuxtConfig({
           type: "application/ld+json",
         },
         { innerHTML: "window.$plausible = [];" },
-        {
-          src: "https://analytics.nav.tum.sexy/js/plausible.js",
-          defer: true,
-          type: "text/partytown",
-          "data-domain": "nav.tum.de",
-        },
       ],
     },
   },
@@ -145,9 +138,6 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
     strict: true,
-  },
-  partytown: {
-    forward: ["$plausible", "$plausible.push"],
   },
   sourcemap: true,
   image: {
