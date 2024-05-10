@@ -15,23 +15,28 @@ services:
         condition: service_healthy
       main-api:
         condition: service_healthy
-      feedback-api:
-        condition: service_healthy
   # maps
-  tileserver-init-sprites:
-    image: alpine:latest
-    command: sh -c "mkdir -p /data/sprites/ && rm -f /data/sprites/* && wget -P /data/sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
-    volumes:
-      - tileserver-src:/data
   tileserver-init-config:
     image: alpine:latest
-    command: sh -c "apk update --no-progress --quiet && apk add rsync --no-progress --quiet && rsync /to_data/ /data/"
+    command:
+      - /bin/sh
+      - -c
+      - |
+        rm -f /data/*.json
+        cp /map/*.json /data/
+        
+        rm -fr /data/sprites/
+        mkdir -p /data/sprites/
+        cp /map/sprites/* /data/sprites/
+        
+        rm -fr /data/styles/
+        mkdir -p /data/styles/
+        cp /map/styles/* /data/styles/
+        
+        mkdir -p /data/fonts/
     volumes:
       - tileserver-src:/data
-      - ./deployment/k3s/files/:/to_data/:ro
-    depends_on:
-      tileserver-init-sprites:
-        condition: service_completed_successfully
+      - ./map/:/map/:ro
   tileserver-srv-src: # needed for simpler initialisation of dev environments
     image: nginx:1.26
     restart: on-failure
@@ -39,8 +44,6 @@ services:
       - tileserver-src:/usr/share/nginx/html/maps/vol:ro
     depends_on:
       tileserver-init-config:
-        condition: service_completed_successfully
-      tileserver-init-sprites:
         condition: service_completed_successfully
     healthcheck:
       test: service nginx status || exit 1
@@ -60,8 +63,6 @@ services:
       - "8080:8080"
     depends_on:
       tileserver-init-config:
-        condition: service_completed_successfully
-      tileserver-init-sprites:
         condition: service_completed_successfully
   # cdn
   data:

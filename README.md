@@ -7,16 +7,17 @@
 NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de).
 Feel free to contribute, we are open to new people 😄.
 
-_Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments._
+> [!NOTE]
+> Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments.
 
-Features/Roadmap:
+## Features/Roadmap
 
 - [x] 🗺️ Interactive/static maps to look up the position of rooms or buildings
 - [x] 🔍 Fast and typo-tolerant search
 - [x] 💾 Support for different room code formats as well as generic names
 - [x] 🤖 All functionality is also available via an open and well documented API
 - [x] 🗘 Automatically update the data from upstream datasources
-- [ ] 🗨️ Allow sudents/staff to easily submit feedback and data patches
+- [ ] 🗨️ Allow students/staff to easily submit feedback and data patches
 - [ ] 🏫 Generate maps from CAD data sources
 - [ ] 🚶🏻 Generate turn by turn navigation advice for navigating end to end
 
@@ -33,7 +34,7 @@ You can consume our API Documentation in two ways:
 
 - Head over to [our Website](https://nav.tum.de/api) and look at the interactive documentation
 - We also describe our API in an [OpenAPI 3.0](https://de.wikipedia.org/wiki/OpenAPI) compliant file.  
-  You can find it [here](./openapi.yaml).  
+  You can find it [here](openapi.yaml).  
   Using this Specification you can generate your own client to access the API in the language of your choice.
   To do this head over to
   the [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml)
@@ -84,11 +85,11 @@ ready-made docker images to run the server locally:
 > Because we have a tileserver, running the following command is required once.
 >
 > ```bash
-> docker run -it --rm -v navigatum_tileserver-src:/data ubuntu:latest sh -c "apt -qq update && apt -qq install wget -y && wget --progress=bar:force:noscroll --timestamping --directory-prefix=/data --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
+> docker run -it --rm -v tileserver-src:/data ubuntu:latest sh -c "apt -qq update && apt -qq install wget -y && wget --progress=bar:force:noscroll --timestamping --directory-prefix=/data --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
 > ```
 
 ```bash
-docker compose -f docker-compose.dev.yml up --build
+docker compose -f docker-compose.local.yml up --build
 ```
 
 Else you can follow the steps in the [server documentation](server/README.md).

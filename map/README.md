@@ -44,7 +44,7 @@ This may be one optimisation point in the future.
 From the root of the repository, run:
 
 ```bash
-docker compose -f docker-compose.dev.yml up --build
+docker compose -f docker-compose.local.yml up --build
 ```
 
 ### Edit the style
@@ -80,3 +80,13 @@ docker run -it --rm -p 8888:8888 maputnik/editor
 | Step 1                                                                                         | Step 2                                                                                              |
 |------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | ![Where in Maputnik to click to import a style](/resources/documentation/maputnik-import1.png) | ![Where in Maputnik to click then to import a style](/resources/documentation/maputnik-import2.png) |
+
+### Sprites
+
+We get our sprites from [maputnik/osm-liberty](https://github.com/maputnik/osm-liberty) via
+
+```
+export TILE_SPRITES_URL=https://raw.githubusercontent.com/maputnik/osm-liberty/gh-pages/sprites
+rm sprites/*
+wget -P sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png
+```
