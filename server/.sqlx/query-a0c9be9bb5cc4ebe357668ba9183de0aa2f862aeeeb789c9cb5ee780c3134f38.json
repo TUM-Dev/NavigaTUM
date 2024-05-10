@@ -1,0 +1,20 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\nWITH ENTRIES_TO_SCRAPE AS (SELECT KEY,\n                                  CASE WHEN last_calendar_scrape_at IS NULL THEN 100 ELSE 1 END          AS priority,\n                                  CAST(data -> 'ranking_factors' ->> 'rank_combined' AS INTEGER)         AS rank_combined,\n                                  (LAST_CALENDAR_SCRAPE_AT < DATE_SUBTRACT(NOW(), '30 minutes'::INTERVAL, 'Europe/Berlin')\n                                      OR LAST_CALENDAR_SCRAPE_AT IS NULL)                                AS would_need_scraping,\n                                  EXTRACT(EPOCH FROM (NOW() - LAST_CALENDAR_SCRAPE_AT))                  AS seconds_ago,\n                                  CALENDAR_URL IS NOT NULL                                               AS can_be_scraped\n                           FROM de)\n\nSELECT key\nFROM entries_to_scrape\nWHERE would_need_scraping AND can_be_scraped\n-- priority: has this ever been scraped? => give a good bonus\n-- rank_combined: \"how important is this room?\" (range 1..1k)\n-- seconds_ago: \"how long since we last scraped it?\" (range null,30*60/3=600..)\nORDER BY priority * rank_combined + priority * coalesce(seconds_ago/6,1) DESC\nLIMIT 30",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "key",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "a0c9be9bb5cc4ebe357668ba9183de0aa2f862aeeeb789c9cb5ee780c3134f38"
+}

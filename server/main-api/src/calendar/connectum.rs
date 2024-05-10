@@ -39,15 +39,14 @@ impl From<&PgPool> for APIRequestor {
 }
 
 impl APIRequestor {
-    pub(crate) async fn refresh(&mut self, id: &str) -> Result<(), crate::BoxedError> {
+    pub(crate) async fn refresh(&self, id: String) -> Result<(), crate::BoxedError> {
         let sync_start = Utc::now();
-        let token = self.try_unwrap_or_refresh_token().await?;
         let start = Instant::now();
         let url = format!("https://campus.tum.de/tumonline/co/connectum/api/rooms/{id}/calendars");
         let events: Vec<Event> = self
             .client
             .get(url)
-            .bearer_auth(token)
+            .bearer_auth(self.unwrap_token())
             .send()
             .await?
             .json()
@@ -60,22 +59,22 @@ impl APIRequestor {
         let events = events
             .into_iter()
             .map(|mut e| {
-                e.room_code = id.into();
+                e.room_code.clone_from(&id);
                 e
             })
             .collect::<Vec<Event>>();
-        self.store(&events, &sync_start, id).await?;
+        self.store(&events, &sync_start, &id).await?;
         Ok(())
     }
     fn should_refresh_token(&self) -> bool {
         if let Some((start, token)) = &self.oauth_token {
             if let Some(expires_in) = token.expires_in() {
-                return expires_in - start.elapsed() < Duration::from_secs(10);
+                return expires_in - start.elapsed() < Duration::from_secs(60);
             }
         }
         true
     }
-    async fn try_unwrap_or_refresh_token(&mut self) -> Result<String, crate::BoxedError> {
+    pub(crate) async fn try_refresh_token(&mut self) -> Result<String, crate::BoxedError> {
         if self.should_refresh_token() {
             self.oauth_token = Some(Self::fetch_new_oauth_token().await?);
         }
@@ -87,6 +86,15 @@ impl APIRequestor {
             .1
             .access_token();
         Ok(at.secret().clone())
+    }
+    fn unwrap_token(&self) -> String {
+        self.oauth_token
+            .as_ref()
+            .expect("the token has been set in the last step")
+            .1
+            .access_token()
+            .secret()
+            .clone()
     }
 }
 
