@@ -179,7 +179,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-redirect-unsecure.entrypoints=web"
-      - "traefik.http.routers.navigatum-redirect-unsecure.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`) || Host(`nav.tum.app`) || Host(`nav.tum.de`)"
+      - "traefik.http.routers.navigatum-redirect-unsecure.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`) || Host(`nav.tum.de`)"
       - "traefik.http.routers.navigatum-redirect-unsecure.middlewares=navigatum-webs-redirectscheme"
       - "traefik.http.middlewares.navigatum-webs-redirectscheme.redirectscheme.scheme=https"
       - "traefik.http.middlewares.navigatum-webs-redirectscheme.redirectscheme.permanent=true"
@@ -187,7 +187,7 @@ services:
 
       - "traefik.http.routers.navigatum-redirect.entrypoints=webs"
       - "traefik.http.routers.navigatum-redirect.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-redirect.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`) || Host(`nav.tum.app`)"
+      - "traefik.http.routers.navigatum-redirect.rule=Host(`nav.tum.sexy`) || Host(`www.nav.tum.de`)"
       - "traefik.http.routers.navigatum-redirect.middlewares=navigatum-redirectregex@docker"
       - "traefik.http.routers.navigatum-redirect.service=noop@internal"
       - "traefik.http.middlewares.navigatum-redirectregex.redirectregex.regex=^(https?://.*)nav.tum.(app|sexy)/(.*)$$"
