@@ -1,15 +1,17 @@
+use unicode_truncate::UnicodeTruncateStr;
+
 use crate::search::search_executor::parser::{ParsedQuery, TextToken};
 use crate::search::search_executor::query::MSHit;
 use crate::search::search_executor::ResultEntry;
-use unicode_truncate::UnicodeTruncateStr;
+use crate::search::Highlighting;
 
 pub(super) struct RoomVisitor {
     parsed_input: ParsedQuery,
-    highlighting: (String, String),
+    highlighting: Highlighting,
 }
 
 impl RoomVisitor {
-    pub(super) const fn from(parsed_input: ParsedQuery, highlighting: (String, String)) -> Self {
+    pub(super) const fn from(parsed_input: ParsedQuery, highlighting: Highlighting) -> Self {
         Self {
             parsed_input,
             highlighting,
@@ -45,10 +47,10 @@ impl RoomVisitor {
                 let split_arch_id = unicode_split_at(arch_id, t0.chars().count());
                 Some(format!(
                     "{}{} {}{}{}",
-                    self.highlighting.0,
+                    self.highlighting.pre,
                     t0.to_uppercase(),
                     split_arch_id.0,
-                    self.highlighting.1,
+                    self.highlighting.post,
                     split_arch_id.1,
                 ))
             }
@@ -71,9 +73,9 @@ impl RoomVisitor {
                 Some(format!(
                     "{}{}{}{}{}",
                     prefix.unwrap_or_default(),
-                    self.highlighting.0,
+                    self.highlighting.pre,
                     parsed_aid.0,
-                    self.highlighting.1,
+                    self.highlighting.post,
                     parsed_aid.1,
                 ))
             }

@@ -5,7 +5,7 @@ use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
 use serde::Deserialize;
 
 use crate::search::search_executor::parser::{Filter, ParsedQuery, TextToken};
-use crate::search::SanitisedSearchQueryArgs;
+use crate::search::{Highlighting, Limits};
 
 #[derive(Deserialize, Default, Clone, Debug)]
 #[allow(dead_code)]
@@ -43,18 +43,14 @@ impl GeoEntryFilters {
 
 pub(super) struct GeoEntryQuery {
     parsed_input: ParsedQuery,
-    args: SanitisedSearchQueryArgs,
-    highlighting: (String, String),
+    args: Limits,
+    highlighting: Highlighting,
     filters: GeoEntryFilters,
     sorting: Vec<String>,
 }
 
 impl GeoEntryQuery {
-    pub fn from(
-        parsed_input: &ParsedQuery,
-        args: &SanitisedSearchQueryArgs,
-        highlighting: &(String, String),
-    ) -> Self {
+    pub fn from(parsed_input: &ParsedQuery, args: &Limits, highlighting: &Highlighting) -> Self {
         Self {
             parsed_input: parsed_input.clone(),
             args: *args,
@@ -135,8 +131,8 @@ impl GeoEntryQuery {
     ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         SearchQuery::new(entries)
             .with_facets(Selectors::Some(&["facet"]))
-            .with_highlight_pre_tag(&self.highlighting.0)
-            .with_highlight_post_tag(&self.highlighting.1)
+            .with_highlight_pre_tag(&self.highlighting.pre)
+            .with_highlight_post_tag(&self.highlighting.post)
             .with_attributes_to_highlight(Selectors::Some(&["name"]))
             .build()
     }
@@ -149,7 +145,7 @@ impl GeoEntryQuery {
         let mut s = self
             .common_query(entries)
             .with_query(query)
-            .with_limit(self.args.limit_all)
+            .with_limit(self.args.total_count)
             .build();
         if !self.filters.default.is_empty() {
             s = s.with_filter(&self.filters.default).build();
@@ -164,7 +160,7 @@ impl GeoEntryQuery {
     ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         self.common_query(entries)
             .with_query(query)
-            .with_limit(2 * self.args.limit_buildings) // we might do reordering later
+            .with_limit(2 * self.args.buildings_count) // we might do reordering later
             .with_filter(&self.filters.buildings)
             .build()
     }
@@ -176,7 +172,7 @@ impl GeoEntryQuery {
     ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         self.common_query(entries)
             .with_query(query)
-            .with_limit(self.args.limit_rooms)
+            .with_limit(self.args.rooms_count)
             .with_filter(&self.filters.rooms)
             .build()
     }

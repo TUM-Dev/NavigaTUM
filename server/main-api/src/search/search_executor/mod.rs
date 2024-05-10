@@ -1,6 +1,10 @@
-use super::SanitisedSearchQueryArgs;
-use cached::proc_macro::cached;
 use log::error;
+use serde::Serialize;
+
+use crate::search::search_executor::parser::ParsedQuery;
+use crate::search::search_executor::query::MSHit;
+
+use super::{Highlighting, Limits};
 
 mod formatter;
 mod lexer;
@@ -8,12 +12,8 @@ mod merger;
 mod parser;
 mod query;
 
-use crate::search::search_executor::parser::ParsedQuery;
-use crate::search::search_executor::query::MSHit;
-use serde::Serialize;
-
 #[derive(Serialize, Debug, Clone)]
-pub struct SearchResultsSection {
+pub struct ResultsSection {
     facet: String,
     entries: Vec<ResultEntry>,
     n_visible: usize,
@@ -35,22 +35,20 @@ struct ResultEntry {
     parsed_id: Option<String>,
 }
 
-// size=1 ~= 0.1Mi
-#[cached(size = 200)]
 pub async fn do_geoentry_search(
     q: String,
-    highlighting: (String, String),
-    args: SanitisedSearchQueryArgs,
-) -> Vec<SearchResultsSection> {
+    highlighting: Highlighting,
+    limits: Limits,
+) -> Vec<ResultsSection> {
     let parsed_input = ParsedQuery::from(q.as_str());
 
-    match query::GeoEntryQuery::from(&parsed_input, &args, &highlighting)
+    match query::GeoEntryQuery::from(&parsed_input, &limits, &highlighting)
         .execute()
         .await
     {
         Ok(response) => {
             let (section_buildings, mut section_rooms) = merger::merge_search_results(
-                &args,
+                &limits,
                 response.results.first().unwrap(),
                 response.results.get(1).unwrap(),
                 response.results.get(2).unwrap(),
