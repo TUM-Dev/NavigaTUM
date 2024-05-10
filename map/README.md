@@ -28,12 +28,28 @@ this.
 
 From the root of the repository, run:
 
-```bash
-docker run -it -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --area=bavaria --languages=de,en --Xmx10g --storage=mmap
-```
+- <details><summary>[~minutes] Only <b>Germany</b></summary>
+  
+  ```bash
+  docker run -it -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=germany --Xmx10g --storage=mmap
+  ```
 
-For `planet`, you might want to increase the `--Xmx` parameter to 20GB. For 128GB of RAM or more you will want to
-use `--storage=ram` instead of `--storage=mmap`.
+  </details>
+
+- <details><summary>[~hours] <b>Planet</b> with approx 128GB of RAM</summary>
+  
+  ```bash
+  docker run -it -e JAVA_TOOL_OPTIONS="-Xmx100g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=planet --bounds=world --Xmx100g --nodemap-type=sparsearray --nodemap-storage=ram
+  ```
+
+  </details>
+- <details><summary>[~a day] <b>Planet</b> with lower amounts of RAM (slower)</summary>
+  
+  ```bash
+  docker run -it -e JAVA_TOOL_OPTIONS="-Xmx20g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=planet --bounds=world --Xmx20g --nodemap-type=array --storage=mmap
+  ```
+
+  </details>
 
 ### Serve the tileset
 
