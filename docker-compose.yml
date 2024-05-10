@@ -17,15 +17,12 @@ services:
       NUXT_PUBLIC_MAPS_URL: https://nav.tum.app
       NUXT_PUBLIC_CDN_URL: https://nav.tum.app
       NUXT_PUBLIC_API_URL: https://nav.tum.app
-      NUXT_PUBLIC_FEEDBACK_URL: https://nav.tum.app
     depends_on:
       tileserver:
         condition: service_healthy
       data:
         condition: service_healthy
       main-api:
-        condition: service_healthy
-      feedback-api:
         condition: service_healthy
   # maps
   tileserver-init-sprites:
