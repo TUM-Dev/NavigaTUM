@@ -46,21 +46,3 @@ jobs:
     permissions:
       contents: read
       packages: write
-  data-deployment-1:
-    uses: ./.github/workflows/_restart-argocd.yml
-    if: ${{ github.ref }} == 'refs/heads/main'
-    needs:
-      - data-build
-    with:
-      deployment: data
-    secrets:
-      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
-  data-deployment-2: # we need to restart the server, as otherwise it will not serve the new data
-    uses: ./.github/workflows/_restart-argocd.yml
-    if: ${{ github.ref }} == 'refs/heads/main'
-    needs:
-      - data-deployment-1
-    with:
-      deployment: server
-    secrets:
-      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
