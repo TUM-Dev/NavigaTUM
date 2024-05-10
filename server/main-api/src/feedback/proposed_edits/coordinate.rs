@@ -9,10 +9,13 @@ struct CoordinateFile {
     path: PathBuf,
 }
 
-impl CoordinateFile {
-    const fn from(path: PathBuf) -> Self {
+impl From<PathBuf> for CoordinateFile {
+    fn from(path: PathBuf) -> Self {
         Self { path }
     }
+}
+
+impl CoordinateFile {
     fn matches(&self) -> Range<u32> {
         let name = self.path.file_name().unwrap().to_str().unwrap();
         let prefix = name

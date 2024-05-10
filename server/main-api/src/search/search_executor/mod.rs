@@ -42,7 +42,7 @@ pub async fn do_geoentry_search(
 ) -> Vec<ResultsSection> {
     let parsed_input = ParsedQuery::from(q.as_str());
 
-    match query::GeoEntryQuery::from(&parsed_input, &limits, &highlighting)
+    match query::GeoEntryQuery::from((&parsed_input, &limits, &highlighting))
         .execute()
         .await
     {
@@ -53,7 +53,7 @@ pub async fn do_geoentry_search(
                 response.results.get(1).unwrap(),
                 response.results.get(2).unwrap(),
             );
-            let visitor = formatter::RoomVisitor::from(parsed_input, highlighting);
+            let visitor = formatter::RoomVisitor::from((parsed_input, highlighting));
             section_rooms
                 .entries
                 .iter_mut()

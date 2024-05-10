@@ -10,13 +10,16 @@ pub(super) struct RoomVisitor {
     highlighting: Highlighting,
 }
 
-impl RoomVisitor {
-    pub(super) const fn from(parsed_input: ParsedQuery, highlighting: Highlighting) -> Self {
+impl From<(ParsedQuery, Highlighting)> for RoomVisitor {
+    fn from((parsed_input, highlighting): (ParsedQuery, Highlighting)) -> Self {
         Self {
             parsed_input,
             highlighting,
         }
     }
+}
+
+impl RoomVisitor {
     pub(super) fn visit(&self, item: &mut ResultEntry) {
         item.parsed_id = self.parse_room_formats(&item.hit);
         item.subtext = Self::generate_subtext(&item.hit);
