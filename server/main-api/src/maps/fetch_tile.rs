@@ -31,52 +31,36 @@ pub struct FetchTileTask {
     index: (u32, u32),
 }
 
-fn zoom_aware_offset(zoom: u32, value: u32, offset: i32) -> u32 {
-    // if we go over the edge of the world, we want to pop in on the other side
-    let possible_tiles: i64 = (4_i64).pow(zoom);
-    let offset_value = i64::from(value) + i64::from(offset);
-    if offset_value < 0 {
-        return (possible_tiles + offset_value) as u32;
-    }
-    (offset_value % possible_tiles) as u32
-}
-
-#[cfg(test)]
-mod tests {
-    use pretty_assertions::assert_eq;
-
-    use super::*;
-
-    #[test]
-    fn test_zoom_aware_offset() {
-        // 1 tile at zoom 0
-        assert_eq!(zoom_aware_offset(0, 0, 0), 0);
-        assert_eq!(zoom_aware_offset(0, 0, 1), 0);
-        // 4 tiles at zoom 1
-        assert_eq!(zoom_aware_offset(1, 0, 0), 0);
-        assert_eq!(zoom_aware_offset(1, 0, 1), 1);
-        assert_eq!(zoom_aware_offset(1, 0, 4), 0);
-        assert_eq!(zoom_aware_offset(1, 0, 5), 1);
-    }
-}
-
-impl FetchTileTask {
-    pub fn from(order: &OverlayMapTask) -> Self {
+impl From<&OverlayMapTask> for FetchTileTask {
+    fn from(overlay: &OverlayMapTask) -> Self {
         Self {
             location: TileLocation {
-                x: order.x as u32,
-                y: order.y as u32,
-                z: order.z,
+                x: overlay.x as u32,
+                y: overlay.y as u32,
+                z: overlay.z,
             },
             index: (0, 0),
         }
     }
+}
 
+impl FetchTileTask {
+    /// if we go over the edge of the world, we want to pop in on the other side
+    /// unsure if this edge-case is worth covering in more depth
+    /// occurs because we naively take the covered tiles without taking the wrapping into account
+    fn offset_zoom_aware(zoom: u32, value: u32, offset: i32) -> u32 {
+        let possible_tiles: i64 = (4_i64).pow(zoom);
+        let offset_value = i64::from(value) + i64::from(offset);
+        if offset_value < 0 {
+            return (possible_tiles + offset_value) as u32;
+        }
+        (offset_value % possible_tiles) as u32
+    }
     pub fn offset_by(self, x_offset: i32, y_offset: i32) -> Self {
         Self {
             location: TileLocation {
-                x: zoom_aware_offset(self.location.z, self.location.x, x_offset),
-                y: zoom_aware_offset(self.location.z, self.location.y, y_offset),
+                x: Self::offset_zoom_aware(self.location.z, self.location.x, x_offset),
+                y: Self::offset_zoom_aware(self.location.z, self.location.y, y_offset),
                 z: self.location.z,
             },
             ..self
@@ -136,4 +120,31 @@ async fn download_map_image(location: TileLocation) -> Result<Vec<u8>, BoxedErro
         tokio::time::sleep(wait_time).await;
     }
     Err(format!("Got only short Responses from {url}").into())
+}
+
+#[cfg(test)]
+mod tests {
+    use pretty_assertions::assert_eq;
+
+    use super::*;
+
+    #[test]
+    /// Zoom 0 has 1 tile
+    fn test_zoom_aware_offset_z0() {
+        assert_eq!(FetchTileTask::offset_zoom_aware(0, 0, -1), 0);
+        assert_eq!(FetchTileTask::offset_zoom_aware(0, 0, 0), 0);
+        assert_eq!(FetchTileTask::offset_zoom_aware(0, 0, 1), 0);
+    }
+
+    #[test]
+    /// Zoom 1 has 4 tiles
+    fn test_zoom_aware_offset_z1() {
+        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, -1), 3);
+        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, 0), 0);
+        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, 1), 1);
+        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, 2), 2);
+        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, 3), 3);
+        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, 4), 0);
+        assert_eq!(FetchTileTask::offset_zoom_aware(1, 0, 5), 1);
+    }
 }
