@@ -1,37 +1,38 @@
-use crate::search::search_executor::query::MSHit;
 use meilisearch_sdk::search::{SearchResult, SearchResults};
 
+use crate::search::search_executor::query::MSHit;
+
 pub(super) fn merge_search_results(
-    args: &super::SanitisedSearchQueryArgs,
-    res_merged: &SearchResults<MSHit>,
-    res_buildings: &SearchResults<MSHit>,
-    res_rooms: &SearchResults<MSHit>,
-) -> (super::SearchResultsSection, super::SearchResultsSection) {
+    limits: &super::Limits,
+    merged_results: &SearchResults<MSHit>,
+    buildings_results: &SearchResults<MSHit>,
+    rooms_results: &SearchResults<MSHit>,
+) -> (super::ResultsSection, super::ResultsSection) {
     // First look up which buildings did match even with a closed query.
     // We can consider them more relevant.
     // TODO: This has to be implemented. closed_matching_buildings is not used further down in this function.
     let mut closed_matching_buildings = Vec::<String>::new();
-    for hit in &res_buildings.hits {
+    for hit in &buildings_results.hits {
         closed_matching_buildings.push(hit.result.id.clone());
     }
 
-    let mut section_buildings = super::SearchResultsSection {
+    let mut section_buildings = super::ResultsSection {
         facet: "sites_buildings".to_string(),
         entries: Vec::new(),
         n_visible: 0,
-        estimated_total_hits: res_buildings.estimated_total_hits.unwrap_or(0),
+        estimated_total_hits: buildings_results.estimated_total_hits.unwrap_or(0),
     };
-    let mut section_rooms = super::SearchResultsSection {
+    let mut section_rooms = super::ResultsSection {
         facet: "rooms".to_string(),
         entries: Vec::new(),
         n_visible: 0,
-        estimated_total_hits: res_rooms.estimated_total_hits.unwrap_or(0),
+        estimated_total_hits: rooms_results.estimated_total_hits.unwrap_or(0),
     };
 
     // TODO: Collapse joined buildings
     // let mut observed_joined_buildings = Vec::<String>::new();
     let mut observed_ids = Vec::<String>::new();
-    for hits in [&res_merged.hits, &res_rooms.hits] {
+    for hits in [&merged_results.hits, &rooms_results.hits] {
         for hit in hits {
             // Prevent duplicates from being added to the results
             if observed_ids.contains(&hit.result.id) {
@@ -45,7 +46,7 @@ pub(super) fn merge_search_results(
             } else {
                 section_buildings.n_visible
             };
-            if section_rooms.entries.len() + current_buildings_cnt >= args.limit_all {
+            if section_rooms.entries.len() + current_buildings_cnt >= limits.total_count {
                 break;
             }
             let formatted_name =
@@ -54,7 +55,7 @@ pub(super) fn merge_search_results(
             let hit = hit.result.clone();
             match hit.r#type.as_str() {
                 "campus" | "site" | "area" | "building" | "joined_building" => {
-                    if section_buildings.entries.len() < args.limit_buildings {
+                    if section_buildings.entries.len() < limits.buildings_count {
                         section_buildings.entries.push(super::ResultEntry {
                             hit: hit.clone(),
                             id: hit.id.to_string(),
@@ -67,7 +68,7 @@ pub(super) fn merge_search_results(
                     }
                 }
                 "room" | "virtual_room" => {
-                    if section_rooms.entries.len() < args.limit_rooms {
+                    if section_rooms.entries.len() < limits.rooms_count {
                         section_rooms.entries.push(super::ResultEntry {
                             hit: hit.clone(),
                             id: hit.id.to_string(),
