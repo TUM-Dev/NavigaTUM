@@ -26,9 +26,17 @@ If you really need a tileset and can't meet these requirements, shoot us a messa
 Generating `europe` takes 3h10m on a modern laptop with 32GB RAM and an SSD. The following commands are optimised for
 this.
 
-From the root of the repository, run:
+From the root of the repository, run either (depending on your waiting tolerance and avaliable RAM):
 
-- <details><summary>[~minutes] Only <b>Germany</b></summary>
+- <details><summary>[~minutes] Only <b>Germany</b> with approx 64GB of RAM</summary>
+  
+  ```bash
+  docker run -it -e JAVA_TOOL_OPTIONS="-Xmx54g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=germany --Xmx10g  --Xmx54g --nodemap-type=sparsearray --nodemap-storage=ram
+  ```
+
+  </details>
+
+- <details><summary>[~1 hour] Only <b>Germany</b> with lower RAM</summary>
   
   ```bash
   docker run -it -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=germany --Xmx10g --storage=mmap
@@ -36,14 +44,14 @@ From the root of the repository, run:
 
   </details>
 
-- <details><summary>[~hours] <b>Planet</b> with approx 128GB of RAM</summary>
+- <details><summary>[~3 hours] <b>Planet</b> with approx 128GB of RAM</summary>
   
   ```bash
   docker run -it -e JAVA_TOOL_OPTIONS="-Xmx100g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=planet --bounds=world --Xmx100g --nodemap-type=sparsearray --nodemap-storage=ram
   ```
 
   </details>
-- <details><summary>[~a day] <b>Planet</b> with lower amounts of RAM (slower)</summary>
+- <details><summary>[~24 hours] <b>Planet</b> with lower amounts of RAM (slower)</summary>
   
   ```bash
   docker run -it -e JAVA_TOOL_OPTIONS="-Xmx20g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=planet --bounds=world --Xmx20g --nodemap-type=array --storage=mmap
