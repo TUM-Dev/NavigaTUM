@@ -73,27 +73,15 @@ fn setup_logging() {
 #[tokio::main]
 async fn main() -> Result<(), BoxedError> {
     setup_logging();
-    #[cfg(any(not(feature = "skip_ms_setup"), not(feature = "skip_db_setup")))]
-    let setup_database = tokio::spawn(async move {
-        #[cfg(not(feature = "skip_db_setup"))]
-        {
-            let pool = PgPoolOptions::new()
-                .connect(&connection_string())
-                .await
-                .unwrap();
-            setup::database::setup(&pool).await.unwrap();
-        }
-        #[cfg(not(feature = "skip_ms_setup"))]
-        setup::meilisearch::setup().await.unwrap();
-    });
-    let refresh_calendar = tokio::spawn(async move {
-        #[cfg(any(not(feature = "skip_ms_setup"), not(feature = "skip_db_setup")))]
-        // we give the setup a bit of time to finish
-        tokio::time::sleep(std::time::Duration::from_secs_f32(2.0)).await;
+    let maintenance_thread = tokio::spawn(async move {
         let pool = PgPoolOptions::new()
             .connect(&connection_string())
             .await
             .unwrap();
+        #[cfg(not(feature = "skip_db_setup"))]
+        setup::database::setup(&pool).await.unwrap();
+        #[cfg(not(feature = "skip_ms_setup"))]
+        setup::meilisearch::setup().await.unwrap();
         calendar::refresh::all_entries(&pool).await;
     });
 
@@ -134,8 +122,6 @@ async fn main() -> Result<(), BoxedError> {
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?
     .run()
     .await?;
-    #[cfg(any(not(feature = "skip_ms_setup"), not(feature = "skip_db_setup")))]
-    setup_database.await?;
-    refresh_calendar.abort();
+    maintenance_thread.abort();
     Ok(())
 }
