@@ -27,13 +27,21 @@ services:
   tileserver-init-config:
     image: alpine:latest
     command:
-      - /bin/bash
+      - /bin/sh
       - -c
       - |
-        mkdir -p /data/sprites/
         rm -f /data/*.json
-        rm -f /data/style/*
+        cp /map/*.json /data/
+        
+        rm -fr /data/sprites/
+        mkdir -p /data/sprites/
         cp /map/sprites/* /data/sprites/
+        
+        rm -fr /data/styles/
+        mkdir -p /data/styles/
+        cp /map/styles/* /data/styles/
+        
+        mkdir -p /data/fonts/
     volumes:
       - tileserver-src:/data
       - ./map/:/map/:ro
