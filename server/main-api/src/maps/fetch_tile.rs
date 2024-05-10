@@ -1,6 +1,6 @@
-use std::fmt;
 use std::fmt::Display;
 use std::time::Duration;
+use std::{fmt, io};
 
 use cached::proc_macro::io_cached;
 use log::{error, warn};
@@ -118,17 +118,21 @@ async fn download_map_image(location: TileLocation) -> Result<Vec<u8>, BoxedErro
         z = location.z
     );
     for i in 1..5 {
-        let res = reqwest::get(&url).await?.bytes().await?;
+        let response = reqwest::get(&url).await?;
+        let status = response.status();
+        if status.as_u16() == 400 {
+            error!("could not find {location:?} at {url} with {status:?}");
+            return Err(io::Error::other("could not find requested tile").into());
+        }
+        let bytes = response.bytes().await?;
         // wait with exponential backoff
-        if res.len() > 500 {
-            return Ok(res.into());
+        let size = bytes.len();
+        if size > 500 {
+            return Ok(bytes.into());
         }
         let wait_time_ms = 1.5_f32.powi(i).round() as u64;
         let wait_time = Duration::from_millis(wait_time_ms);
-        warn!(
-            "retrying tileserver-request in {wait_time:?} because it is only {request_len}B",
-            request_len = res.len()
-        );
+        warn!("retrying {url} in {wait_time:?} because response({status:?}) is only {size}B");
         tokio::time::sleep(wait_time).await;
     }
     Err(format!("Got only short Responses from {url}").into())
