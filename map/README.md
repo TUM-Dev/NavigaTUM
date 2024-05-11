@@ -54,7 +54,7 @@ From the root of the repository, run either (depending on your waiting tolerance
 - <details><summary>[~24 hours] <b>Planet</b> with lower amounts of RAM (slower)</summary>
   
   ```bash
-  docker run -it -e JAVA_TOOL_OPTIONS="-Xmx20g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=planet --bounds=world --Xmx20g --nodemap-type=array --storage=mmap
+  docker run -it -e JAVA_TOOL_OPTIONS="-Xmx25g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=planet --bounds=world --Xmx25g --nodemap-type=array --storage=mmap
   ```
 
   </details>
