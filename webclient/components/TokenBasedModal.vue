@@ -109,33 +109,33 @@ function sendForm() {
       <div>
         <Checkbox id="privacy-checked" v-model="privacyChecked">
           <template #default>
-            <p class="font-bold">
-              {{ t("public.agreement.pre") }}
-              <a
-                tabindex="1"
-                class="text-blue-600 visited:text-blue-600 hover:underline"
-                href="https://github.com/TUM-Dev/navigatum/issues"
-                target="_blank"
-              >
-                {{ t("public.github_project_issues") }}
-              </a>
-              {{ t("public.agreement.post") }}
-            </p>
-          </template>
-          <template #helptext>
-            <p>
-              <span
-                >{{ t("public.disclaimer.pre") }}
+            <i18n-t tag="p" keypath="public.agreement" class="font-bold">
+              <template #github_project_issues>
                 <a
                   tabindex="1"
                   class="text-blue-600 visited:text-blue-600 hover:underline"
-                  href="https://docs.github.com/en/github/site-policy"
+                  href="https://github.com/TUM-Dev/navigatum/issues"
                   target="_blank"
                 >
-                  {{ t("public.github_site_policy") }}
+                  {{ t("public.github_project_issues") }}
                 </a>
-                {{ t("public.disclaimer.post") }}
-              </span>
+              </template>
+            </i18n-t>
+          </template>
+          <template #helptext>
+            <p>
+              <i18n-t tag="span">
+                <template #github_site_policy>
+                  <a
+                    tabindex="1"
+                    class="text-blue-600 visited:text-blue-600 hover:underline"
+                    href="https://docs.github.com/en/github/site-policy"
+                    target="_blank"
+                  >
+                    {{ t("public.github_site_policy") }}
+                  </a>
+                </template>
+              </i18n-t>
               {{ t("public.processing_based_on_gdpr") }}
             </p>
             <p>
@@ -143,24 +143,30 @@ function sendForm() {
               {{ t("public.right_of_appeal") }}
             </p>
             <p>
-              <span>
-                {{ t("public.objection_instruction") }}
-                <NuxtLink
-                  tabindex="1"
-                  to="/about/impressum"
-                  class="text-blue-600 visited:text-blue-600 hover:underline"
-                >
-                  {{ t("public.imprint") }} </NuxtLink
-                >.
-              </span>
-              {{ t("public.question_contact.pre") }}
-              (<a
-                tabindex="1"
-                class="text-blue-600 visited:text-blue-600 hover:underline"
-                href="https://datenschutz.tum.de"
-                target="_blank"
-                >datenschutz.tum.de</a
-              >){{ t("public.question_contact.post") }}
+              <i18n-t keypath="public.objection_instruction" tag="span">
+                <template #imprint>
+                  <NuxtLink
+                    tabindex="1"
+                    to="/about/impressum"
+                    class="text-blue-600 visited:text-blue-600 hover:underline"
+                  >
+                    {{ t("public.imprint") }}
+                  </NuxtLink>
+                </template>
+              </i18n-t>
+
+              <i18n-t keypath="public.question_contact">
+                <template #datenschutz>
+                  <a
+                    tabindex="1"
+                    class="text-blue-600 visited:text-blue-600 hover:underline"
+                    href="https://datenschutz.tum.de"
+                    target="_blank"
+                  >
+                    datenschutz.tum.de
+                  </a>
+                </template>
+              </i18n-t>
             </p>
           </template>
         </Checkbox>
@@ -217,20 +223,14 @@ de:
     send_unexpected_status: Unerwarteter Status Code
     server_error: Server Fehler
   public:
-    agreement:
-      pre: Meine Feedback Daten (Betreff und Nachricht) dürfen anonym, aber öffentlich zugänglich auf der
-      post: gespeichert werden.
-    disclaimer:
-      pre: Mit der Nutzung dieses Feedbackformulars stimmst du explizit den
-      post: sowie einer möglichen Übertragung der Daten außerhalb der Europäischen Union zu.
+    agreement: Meine Feedback Daten (Betreff und Nachricht) dürfen anonym, aber öffentlich zugänglich auf der {github_project_issues} gespeichert werden.
+    disclaimer: Mit der Nutzung dieses Feedbackformulars stimmst du explizit den {github_site_policy} sowie einer möglichen Übertragung der Daten außerhalb der Europäischen Union zu.
     github_project_issues: GitHub Projektseite
     github_site_policy: Nutzungsbedingungen und Datenschutzbestimmungen von GitHub
     imprint: Impressum gelisteten Kontaktmöglichkeiten
-    objection_instruction: Falls du dies ablehnst, schreibe uns bitte über navigatum (at-symbol) tum.de, oder eine der anderen in unserem
+    objection_instruction: Falls du dies ablehnst, schreibe uns bitte über navigatum (at-symbol) tum.de, oder eine der anderen Optionen aus unserem {imprint}.
     processing_based_on_gdpr: Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
-    question_contact:
-      pre: Bei Fragen kannst du dich gerne an uns (navigatum (at-symbol) tum.de) oder an unseren Datenschutzbeauftragten
-      post: wenden.
+    question_contact: Bei Fragen kannst du dich gerne an uns (navigatum (at-symbol) tum.de) oder an unseren Datenschutzbeauftragten ({datenschutz}) wenden.
     right_of_appeal: Es besteht zudem ein Beschwerderecht beim Bayerischen Landesbeauftragten für den Datenschutz.
     right_to_information: Unter den gesetzlichen Voraussetzungen und einem vorhandenen Personenbezug der Daten besteht ein Recht auf Auskunft, sowie auf Berichtigung oder Löschung oder auf Einschränkung der Verarbeitung oder eines Widerspruchsrechts gegen die Verarbeitung sowie des Rechts auf Datenübertragbarkeit.
   sending: Wird gesendet
@@ -256,20 +256,14 @@ en:
     server_error: Server Error
     send_unexpected_status: Unexpected status code
   public:
-    agreement:
-      pre: My feedback data (subject and message) may be stored anonymously but publicly accessible on the
-      post: .
-    disclaimer:
-      pre: By using this feedback form, you explicitly agree to the
-      post: as well as a possible transfer of the data outside the European Union.
+    agreement: My feedback data (subject and message) may be stored anonymously but publicly accessible on the {github_project_issues}.
+    disclaimer: By using this feedback form, you explicitly agree to the {github_site_policy} as well as a possible transfer of the data outside the European Union.
     github_project_issues: GitHub project page
     github_site_policy: terms of use and privacy policy of GitHub
     imprint: contact options listed in our imprint
-    objection_instruction: If you object to this, please write to us via navigatum (at-symbol) tum.de, or one of the other
+    objection_instruction: If you object to this, please write to us via navigatum (at-symbol) tum.de, or one of the other other options from the {imprint}.
     processing_based_on_gdpr: The processing is based on Art. 6 para. 1 lit. a DSGVO.
-    question_contact:
-      pre: If you have any questions, please feel free to contact us (navigatum (at-symbol) tum.de) or our data protection officer
-      post: .
+    question_contact: If you have any questions, please feel free to contact us (navigatum (at-symbol) tum.de) or our data protection officer ({datenschutz}).
     right_of_appeal: There is also a right of appeal to the Bavarian State Commissioner for Data Protection.
     right_to_information: Under the legal conditions and an existing personal reference of the data, there is a right to information, as well as to correction or deletion or to restriction of processing or a right to object to processing as well as the right to data portability.
   sending: Sending
