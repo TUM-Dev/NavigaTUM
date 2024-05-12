@@ -105,6 +105,11 @@ docker run -it --rm -p 8888:8888 maputnik/editor
 |------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | ![Where in Maputnik to click to import a style](/resources/documentation/maputnik-import1.png) | ![Where in Maputnik to click then to import a style](/resources/documentation/maputnik-import2.png) |
 
+### Fonts
+
+You will need special fonts ([Roboto](https://fonts.google.com/specimen/Roboto) and [Roboto Condensed](https://fonts.google.com/specimen/Roboto+Condensed)) to run the tileserver.
+To do so, please download the font files from google fonts (linked above), convert them via https://maplibre.org/font-maker/ and upload them to the `fonts/` directory of the tileserver
+
 ### Sprites
 
 We get our sprites from [maputnik/osm-liberty](https://github.com/maputnik/osm-liberty) via
