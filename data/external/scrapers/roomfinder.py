@@ -35,8 +35,9 @@ def _sanitise_building(building: dict):
         building["lat"], building["lon"] = 48.14903, 11.56735
     else:
         building["lat"], building["lon"] = _utm_to_latlon(easting, northing, zone_number)
-    building["b_name"].replace("Bestelmeyer Nord", "Zentralgebäude 7")  # TUM changed names in denazification initative
-    building["b_name"].replace("Bestelmeyer Süd", "Zentralgebäude 2")  # TODO: Remove if MyTUM does fix this..
+    # TODO: Remove if MyTUM does fix this.. TUM changed names in denazification initative
+    building["b_name"] = building["b_name"].replace("Bestelmeyer Nord", "Zentralgebäude 7")
+    building["b_name"] = building["b_name"].replace("Bestelmeyer Süd", "Zentralgebäude 2")
 
 
 def scrape_buildings() -> None:
@@ -89,8 +90,12 @@ def _sanitise_room(room: dict) -> dict:
         easting=room.pop("utm_easting"),
         northing=room.pop("utm_northing"),
     )
-    room["b_name"].replace("Bestelmeyer Nord", "Zentralgebäude 7")  # TUM changed names in denazification initative
-    room["b_name"].replace("Bestelmeyer Süd", "Zentralgebäude 2")  # TODO: Remove if MyTUM does fix this..
+    # TODO: Remove if MyTUM does fix this.. TUM changed names in denazification initative
+    room["b_name"] = room["b_name"].replace("Bestelmeyer Nord", "Zentralgebäude 7")
+    room["b_name"] = room["b_name"].replace("Bestelmeyer Süd", "Zentralgebäude 2")
+    room["r_alias"] = room["r_alias"].replace("Gustav-Niemann-", "")
+    room["r_alias"] = room["r_alias"].replace("EINGANGSHALLE FOYER BESTELMEYER", "")
+
     return room
 
 
@@ -212,8 +217,9 @@ def _download_maps(used_maps):
         _download_file(url, filepath)
         convert_to_webp(filepath)
 
-        _map[2].replace("Bestelmeyer Nord", "Zentralgebäude 7")  # TUM changed names in denazification initative
-        _map[2].replace("Bestelmeyer Süd", "Zentralgebäude 2")  # TODO: Remove if MyTUM does fix this..
+        # TODO: Remove if MyTUM does fix this.. TUM changed names in denazification initative
+        _map[2] = _map[2].replace("Bestelmeyer Nord", "Zentralgebäude 7")
+        _map[2] = _map[2].replace("Bestelmeyer Süd", "Zentralgebäude 2")
         map_data = {
             "scale": _map[0],
             "id": _map[1],

@@ -102,6 +102,7 @@ def export_for_search(data: dict, path: str) -> None:
     # the data contains translations, currently we don't allow these in the search api
     export = unlocalise(export)
 
+    _make_sure_is_safe(export)
     with open(path, "w", encoding="utf-8") as file:
         json.dump(export, file)
 
@@ -121,6 +122,38 @@ def extract_arch_name(entry: dict) -> str | None:
     return entry.get("tumonline_data", {}).get("arch_name", None)
 
 
+def _make_sure_is_safe(obj: object):
+    """
+    :param obj: obj to be checked
+    :raises RuntimeError: If any of the specified names (removed_names) are found in the content of the file.
+
+    This method checks if any of the specified names in removed_names are present in its content
+    """
+    removed_names = ["bestelmeyer", "gustav niemann", "prandtl", "messerschmidt"]
+    allowed_variation = "prandtl str"
+    if isinstance(obj, str):
+        content = obj.lower().replace("  ", " ").replace("-", " ")
+        for name in removed_names:
+            if name in content and allowed_variation not in content:
+                raise RuntimeError(
+                    f"{name} was purposely renamed due to NS context. "
+                    "Please make sure it is not included"
+                )
+    elif isinstance(obj, dict):
+        for key, val in obj.items():
+            _make_sure_is_safe(key)
+            _make_sure_is_safe(val)
+    elif isinstance(obj, list) or isinstance(obj, tuple):
+        for entry in obj:
+            _make_sure_is_safe(entry)
+    elif isinstance(obj, PydanticConfiguration):
+        return _make_sure_is_safe(obj.model_dump())
+    elif isinstance(obj, bool) or isinstance(obj, int) or isinstance(obj, float) or obj is None:
+        pass
+    else:
+        raise ValueError(f"unhandled type: {str(type(obj))}")
+
+
 def export_for_api(data: dict, path: str) -> None:
     """Add some more information about parents to the data and export for the /get/:id api"""
     export_data = []
@@ -133,6 +166,7 @@ def export_for_api(data: dict, path: str) -> None:
 
         export_data.append(extract_exported_item(data, entry))
 
+    _make_sure_is_safe(export_data)
     with open(path, "w", encoding="utf-8") as file:
         json.dump(export_data, file, cls=EnhancedJSONEncoder)
 
