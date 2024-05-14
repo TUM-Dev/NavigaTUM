@@ -68,6 +68,5 @@ jobs:
             
             [ 1 ]: https://github.com/peter-evans/create-pull-request
           assignees: CommanderStorm
-          reviewers: CommanderStorm
           branch: chore/data-update
           delete-branch: true
