@@ -136,8 +136,7 @@ def _make_sure_is_safe(obj: object):
         for name in removed_names:
             if name in content and allowed_variation not in content:
                 raise RuntimeError(
-                    f"{name} was purposely renamed due to NS context. "
-                    "Please make sure it is not included"
+                    f"{name} was purposely renamed due to NS context. Please make sure it is not included"
                 )
     elif isinstance(obj, dict):
         for key, val in obj.items():
@@ -151,7 +150,7 @@ def _make_sure_is_safe(obj: object):
     elif isinstance(obj, bool) or isinstance(obj, int) or isinstance(obj, float) or obj is None:
         pass
     else:
-        raise ValueError(f"unhandled type: {str(type(obj))}")
+        raise ValueError(f"unhandled type: {type(obj)}")
 
 
 def export_for_api(data: dict, path: str) -> None:
