@@ -51,6 +51,8 @@ jobs:
         id: push
         uses: docker/build-push-action@v5
         with:
+          provenance: mode=max
+          sbom: true
           context: ${{ inputs.context }}
           push: true
           file: "${{ inputs.context }}/${{ inputs.dockerfile }}"
