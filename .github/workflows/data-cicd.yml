@@ -44,5 +44,7 @@ jobs:
       context: ./data
       dockerfile: Dockerfile
     permissions:
+      id-token: write
       contents: read
       packages: write
+      attestations: write

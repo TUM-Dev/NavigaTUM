@@ -24,8 +24,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
       contents: read
       packages: write
+      attestations: write
     outputs:
       tags: ${{ steps.meta.outputs.tags }}
     steps:
