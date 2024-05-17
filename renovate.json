@@ -19,7 +19,7 @@
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["serde", "base64"],
+      "matchPackagePatterns": ["serde", "base64", "rustls"],
       "groupName": "rust-stable",
       "automerge": true
     },
