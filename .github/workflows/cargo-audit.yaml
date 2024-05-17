@@ -1,14 +1,19 @@
 name: Security audit
 on:
+  schedule:
+    - cron: '40 7 * * *'
   push:
     paths: 
       - '**/Cargo.toml'
       - '**/Cargo.lock'
+  workflow_dispatch:
+
 jobs:
   security_audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: mv server/* .
       - uses: rustsec/audit-check@v1.4.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
