@@ -1217,26 +1217,6 @@ paths:
           description: Service Unavailable
       tags:
         - health
-  /api/feedback/status:
-    get:
-      operationId: feedback-health
-      summary: feedback-API healthcheck
-      description: |
-        If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
-      responses:
-        '200':
-          description: Ok
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: |
-                  healthy
-                  source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
-        '503':
-          description: Service Unavailable
-      tags:
-        - health
   /cdn/health:
     get:
       operationId: cdn-health
