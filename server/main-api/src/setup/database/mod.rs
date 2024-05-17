@@ -17,9 +17,7 @@ async fn load_data(
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
 ) -> Result<(), crate::BoxedError> {
     info!("deleting old data");
-    sqlx::query!("DELETE FROM aliases")
-        .execute(&mut **tx)
-        .await?;
+    sqlx::query!("DELETE FROM aliases").execute(&mut **tx).await?;
     sqlx::query!("DELETE FROM en").execute(&mut **tx).await?;
     sqlx::query!("DELETE FROM de").execute(&mut **tx).await?;
 
