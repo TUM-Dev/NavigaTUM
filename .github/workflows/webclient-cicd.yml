@@ -1,4 +1,4 @@
-9.1.1name: Webclient CI/CD
+name: Webclient CI/CD
 
 on:
   pull_request:
