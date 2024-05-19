@@ -51,7 +51,7 @@ reqwest = { version = "0.12.4", default-features = false, features = ["rustls-tl
 
 # image production
 image = { version = "0.25.1", default-features = false, features = ["jpeg", "png", "webp"] }
-imageproc = "0.24.0"
+imageproc = "0.25.0"
 ab_glyph = "0.2.25"
 lazy_static = "1.4.0"
 
