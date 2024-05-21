@@ -117,13 +117,6 @@ export type paths = {
      */
     get: operations["api-health"];
   };
-  "/api/feedback/status": {
-    /**
-     * feedback-API healthcheck
-     * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
-     */
-    get: operations["feedback-health"];
-  };
   "/cdn/health": {
     /**
      * CDN healthcheck
@@ -1308,24 +1301,6 @@ export type operations = {
    * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
    */
   "api-health": {
-    responses: {
-      /** @description Ok */
-      200: {
-        content: {
-          readonly "text/plain": string;
-        };
-      };
-      /** @description Service Unavailable */
-      503: {
-        content: never;
-      };
-    };
-  };
-  /**
-   * feedback-API healthcheck
-   * @description If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
-   */
-  "feedback-health": {
     responses: {
       /** @description Ok */
       200: {

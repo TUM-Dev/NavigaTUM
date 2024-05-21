@@ -109,7 +109,7 @@ function sendForm() {
       <div>
         <Checkbox id="privacy-checked" v-model="privacyChecked">
           <template #default>
-            <i18n-t tag="p" keypath="public.agreement" class="font-bold">
+            <I18nT tag="p" keypath="public.agreement" class="font-bold">
               <template #github_project_issues>
                 <a
                   tabindex="1"
@@ -120,11 +120,11 @@ function sendForm() {
                   {{ t("public.github_project_issues") }}
                 </a>
               </template>
-            </i18n-t>
+            </I18nT>
           </template>
           <template #helptext>
             <p>
-              <i18n-t tag="span">
+              <I18nT tag="span">
                 <template #github_site_policy>
                   <a
                     tabindex="1"
@@ -135,7 +135,7 @@ function sendForm() {
                     {{ t("public.github_site_policy") }}
                   </a>
                 </template>
-              </i18n-t>
+              </I18nT>
               {{ t("public.processing_based_on_gdpr") }}
             </p>
             <p>
@@ -143,7 +143,7 @@ function sendForm() {
               {{ t("public.right_of_appeal") }}
             </p>
             <p>
-              <i18n-t keypath="public.objection_instruction" tag="span">
+              <I18nT keypath="public.objection_instruction" tag="span">
                 <template #imprint>
                   <NuxtLink
                     tabindex="1"
@@ -153,9 +153,9 @@ function sendForm() {
                     {{ t("public.imprint") }}
                   </NuxtLink>
                 </template>
-              </i18n-t>
+              </I18nT>
 
-              <i18n-t keypath="public.question_contact">
+              <I18nT keypath="public.question_contact">
                 <template #datenschutz>
                   <a
                     tabindex="1"
@@ -166,7 +166,7 @@ function sendForm() {
                     datenschutz.tum.de
                   </a>
                 </template>
-              </i18n-t>
+              </I18nT>
             </p>
           </template>
         </Checkbox>
