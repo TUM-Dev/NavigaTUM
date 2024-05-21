@@ -32,6 +32,11 @@
       "matchPackagePatterns": ["vue-tsc"],
       "groupName": "temporary-debump",
       "automerge": true
-    }
+    },
+    {
+      "matchPackagePatterns": ["pnpm"],
+      "groupName": "pnpm-needs-github-actions-match",
+      "automerge": true
+    },
   ]
 }
