@@ -21,6 +21,7 @@ jobs:
             - cwd: webclient
               args: [--frozen-lockfile, --strict-peer-dependencies]
             - args: [--global, openapi-format]
+      - run: pnpm run type-refresh
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
