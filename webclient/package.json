@@ -24,7 +24,7 @@
     "nightwind": "1.1.13",
     "nuxt": "3.11.2",
     "sharp": "0.33.4",
-    "swagger-ui": "5.17.10",
+    "swagger-ui": "5.17.12",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "vue": "3.4.27",
     "vue-router": "4.3.2",
