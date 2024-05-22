@@ -1,4 +1,4 @@
-9.1.1name: Update data from upstream
+name: Update data from upstream
 
 on:
   schedule:
