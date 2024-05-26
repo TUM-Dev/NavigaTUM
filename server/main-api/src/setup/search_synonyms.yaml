@@ -131,6 +131,8 @@ FSMPI: [ Fachschaft MPI, Fachschaft MPIC, MPI, MPIC, FSMPIC ]
 FSMPIC: [ Fachschaft MPI, Fachschaft MPIC, MPI, MPIC, FSMPI ]
 AStA: [ SV, StuVe, Studentische Vertretung ]
 Studentische Vertretung: [ SV, StuVe, AStA ]
+Student Council: [ FS, Fachschaft ]
+Fachbereich: [ FS, Fachschaft ]
 StuVe: [ SV, Studentische Vertretung, AStA ]
 
 # renamings due to NS-context, renamed in Q1-2024 => remove in Q3-2024
