@@ -117,6 +117,66 @@
       en: Office
     din_277: NF2.1
     din_277_desc: Büroräume
+0505.03.577A:
+  name:
+    en: Student Council TUM SOM (Meeting room)
+    de: Fachschaft TUM SOM (Konferenzraum)
+  props:
+    links:
+      - text:
+          de: Schreib uns doch
+          en: Contat us
+        url: https://tum-som.com/contact
+      - text: Events
+        url: https://tum-som.com/events/
+0505.03.574:
+  name:
+    en: Student Council TUM SOM (Office / Help Desk)
+    de: Fachschaft TUM SOM (Büro / Help Desk)
+  props:
+    links:
+      - text:
+          de: Schreib uns doch
+          en: Contat us
+        url: https://tum-som.com/contact
+      - text: Events
+        url: https://tum-som.com/events/
+0505.03.576A:
+  name:
+    en: Student Council TUM SOM (Office / Warehouse)
+    de: Fachschaft TUM SOM (Büro / Lager)
+  props:
+    links:
+      - text:
+          de: Schreib uns doch
+          en: Contat us
+        url: https://tum-som.com/contact
+      - text: Events
+        url: https://tum-som.com/events/
+0505.03.529A:
+  name:
+    en: Student Council TUM SOM (Tea kitchen)
+    de: Fachschaft TUM SOM (Teeküche)
+  props:
+    links:
+      - text:
+          de: Schreib uns doch
+          en: Contat us
+        url: https://tum-som.com/contact
+      - text: Events
+        url: https://tum-som.com/events/
+0505.03.572:
+  name:
+    en: TUM Speaker Series (Office)
+    de: TUM Speaker Series (Büro)
+  props:
+    links:
+      - text:
+          de: Schreib uns doch
+          en: Contat us
+        url: https://tum-som.com/contact
+      - text: Events
+        url: https://tum-som.com/events/
 "0509.EG.980":
   name: Audimax, Werner-von-Siemens-Hörsaal
   ranking_factors:
