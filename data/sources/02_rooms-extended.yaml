@@ -118,9 +118,8 @@
     din_277: NF2.1
     din_277_desc: Büroräume
 0505.03.577A:
-  name:
-    en: Student Council TUM SOM (Meeting room)
-    de: Fachschaft TUM SOM (Konferenzraum)
+  name: Fachschaft TUM SOM (Konferenzraum)
+  short_name: FS SOM
   props:
     links:
       - text:
@@ -130,9 +129,8 @@
       - text: Events
         url: https://tum-som.com/events/
 0505.03.574:
-  name:
-    en: Student Council TUM SOM (Office / Help Desk)
-    de: Fachschaft TUM SOM (Büro / Help Desk)
+  name: Fachschaft TUM SOM (Büro / Help Desk)
+  short_name: FS SOM
   props:
     links:
       - text:
@@ -142,9 +140,7 @@
       - text: Events
         url: https://tum-som.com/events/
 0505.03.576A:
-  name:
-    en: Student Council TUM SOM (Office / Warehouse)
-    de: Fachschaft TUM SOM (Büro / Lager)
+  name: Fachschaft TUM SOM (Büro / Lager)
   props:
     links:
       - text:
@@ -154,9 +150,8 @@
       - text: Events
         url: https://tum-som.com/events/
 0505.03.529A:
-  name:
-    en: Student Council TUM SOM (Tea kitchen)
-    de: Fachschaft TUM SOM (Teeküche)
+  name: Fachschaft TUM SOM (Teeküche)
+  short_name: FS SOM
   props:
     links:
       - text:
@@ -166,9 +161,8 @@
       - text: Events
         url: https://tum-som.com/events/
 0505.03.572:
-  name:
-    en: TUM Speaker Series (Office)
-    de: TUM Speaker Series (Büro)
+  name: TUM Speaker Series (Büro)
+  short_name: FS SOM
   props:
     links:
       - text:
