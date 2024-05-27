@@ -124,10 +124,10 @@ def extract_arch_name(entry: dict) -> str | None:
 
 def _make_sure_is_safe(obj: object):
     """
+    This method checks if any of the specified names in removed_names are present in its content
+
     :param obj: obj to be checked
     :raises RuntimeError: If any of the specified names (removed_names) are found in the content of the file.
-
-    This method checks if any of the specified names in removed_names are present in its content
     """
     removed_names = ["bestelmeyer", "gustav niemann", "prandtl", "messerschmidt"]
     allowed_variation = "prandtl str"
