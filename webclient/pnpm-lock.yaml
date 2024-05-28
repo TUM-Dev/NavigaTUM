@@ -42,8 +42,8 @@ importers:
         specifier: 0.33.4
         version: 0.33.4
       swagger-ui:
-        specifier: 5.17.13
-        version: 5.17.13(ramda@0.30.0)
+        specifier: 5.17.14
+        version: 5.17.14(ramda@0.30.0)
       swaggerdark:
         specifier: github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3
         version: https://codeload.github.com/octycs/SwaggerDark/tar.gz/f02d394c8ff698cdd93e09c2188b058d2d686ca3
@@ -5625,8 +5625,8 @@ packages:
   swagger-client@3.28.1:
     resolution: {integrity: sha512-tt3/54GTImgOLrjzl83FZ+koJ7Kq6uuyBNS7mTpZeUQsBi2a/4IvqPcfY2qKhf7CFrbv6lzPm+MmSudrxU8J5g==}
 
-  swagger-ui@5.17.13:
-    resolution: {integrity: sha512-nTZv/I4X0cBDC9kQPDbCQiZuv/eT3aKPllFKEP0W5jOM4nNGusSy/F7oIEz2g/335cvCh6Mt/DxpsdCiXKvK4A==}
+  swagger-ui@5.17.14:
+    resolution: {integrity: sha512-z9pOymwowrgkoMKNsRSN6QjOyYrMAnc4iohEebnS/ELT5jjdB13Lu4f3Bl4+o2Mw5B6QOyo4vibr/A/Vb7UbMQ==}
 
   swaggerdark@https://codeload.github.com/octycs/SwaggerDark/tar.gz/f02d394c8ff698cdd93e09c2188b058d2d686ca3:
     resolution: {tarball: https://codeload.github.com/octycs/SwaggerDark/tar.gz/f02d394c8ff698cdd93e09c2188b058d2d686ca3}
@@ -13524,7 +13524,7 @@ snapshots:
       - debug
       - ramda
 
-  swagger-ui@5.17.13(ramda@0.30.0):
+  swagger-ui@5.17.14(ramda@0.30.0):
     dependencies:
       '@babel/runtime-corejs3': 7.24.5
       '@braintree/sanitize-url': 7.0.2
