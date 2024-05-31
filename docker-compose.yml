@@ -46,7 +46,7 @@ services:
       - tileserver-src:/data
       - ./map/:/map/:ro
   tileserver-srv-src: # needed for simpler initialisation of dev environments
-    image: nginx:1.26
+    image: nginx:1.27
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
