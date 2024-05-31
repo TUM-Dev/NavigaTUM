@@ -43,7 +43,7 @@
       "matchUpdateTypes": ["minor","patch"],
       "matchPackagePatterns": ["pnpm"],
       "groupName": "pnpm-ignore-non-major",
-      "enable": false
+      "enabled": false
     }
   ]
 }
