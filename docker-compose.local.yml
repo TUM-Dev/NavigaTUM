@@ -38,7 +38,7 @@ services:
       - tileserver-src:/data
       - ./map/:/map/:ro
   tileserver-srv-src: # needed for simpler initialisation of dev environments
-    image: nginx:1.26
+    image: nginx:1.27
     restart: on-failure
     volumes:
       - tileserver-src:/usr/share/nginx/html/maps/vol:ro
