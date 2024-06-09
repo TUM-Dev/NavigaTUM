@@ -102,7 +102,7 @@ async fn main() -> Result<(), BoxedError> {
         let cors = Cors::default()
             .allow_any_origin()
             .allow_any_header()
-            .allowed_methods(vec!["GET"])
+            .allowed_methods(vec!["GET", "POST"])
             .max_age(3600);
 
         App::new()
