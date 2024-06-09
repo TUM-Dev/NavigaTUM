@@ -1,7 +1,9 @@
 use std::io::Cursor;
 
+use actix_web::http::header::LOCATION;
 use actix_web::{get, web, HttpResponse};
 use image::Rgba;
+
 use log::{debug, error, warn};
 use sqlx::PgPool;
 use tokio::time::Instant;
@@ -10,6 +12,7 @@ use unicode_truncate::UnicodeTruncateStr;
 use crate::maps::overlay_map::OverlayMapTask;
 use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
 use crate::models::Location;
+use crate::models::LocationKeyAlias;
 use crate::utils;
 
 mod fetch_tile;
@@ -113,6 +116,27 @@ fn load_default_image() -> Vec<u8> {
     w.into_inner()
 }
 
+async fn get_possible_redirect_url(conn: &PgPool, query: &str) -> Option<String> {
+    let result = sqlx::query_as!(
+        LocationKeyAlias,
+        r#"
+        SELECT key, visible_id, type
+        FROM aliases
+        WHERE alias = $1 OR key = $1
+        LIMIT 1"#,
+        query
+    )
+    .fetch_one(conn)
+    .await;
+    match result {
+        Ok(d) => Some(format!("https://nav.tum.de/api/preview/{key}", key = d.key)),
+        Err(e) => {
+            error!("Error requesting alias for {query}: {e:?}");
+            None
+        }
+    }
+}
+
 #[get("/{id}")]
 pub async fn maps_handler(
     params: web::Path<String>,
@@ -123,10 +147,15 @@ pub async fn maps_handler(
     let id = params
         .into_inner()
         .replace(|c: char| c.is_whitespace() || c.is_control(), "");
+    if let Some(redirect_url) = get_possible_redirect_url(&data.db, &id).await {
+        let mut res = HttpResponse::PermanentRedirect();
+        res.insert_header((LOCATION, redirect_url));
+        return res.finish();
+    }
     let data = match get_localised_data(&data.db, &id, args.should_use_english()).await {
         Ok(data) => data,
         Err(e) => {
-            return e;
+            return e.into();
         }
     };
     let img = construct_image_from_data(data)
@@ -137,5 +166,8 @@ pub async fn maps_handler(
         "Preview Generation for {id} took {elapsed:?}",
         elapsed = start_time.elapsed()
     );
-    HttpResponse::Ok().content_type("image/png").body(img)
+    HttpResponse::Ok()
+        .content_type("image/png")
+        .body(img)
+        .into()
 }
