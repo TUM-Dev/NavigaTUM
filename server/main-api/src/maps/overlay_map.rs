@@ -1,5 +1,6 @@
 use futures::{stream::FuturesUnordered, StreamExt};
 use log::warn;
+use std::ops::Range;
 
 use crate::maps::fetch_tile::FetchTileTask;
 use crate::models::Location;
@@ -9,6 +10,8 @@ pub struct OverlayMapTask {
     pub y: f64,
     pub z: u32,
 }
+
+const POSSIBLE_INDEX_RANGE: Range<u32> = 0..7;
 
 impl OverlayMapTask {
     pub fn with(entry: &Location) -> Self {
@@ -27,26 +30,28 @@ impl OverlayMapTask {
     }
     pub async fn draw_onto(&self, img: &mut image::RgbaImage) -> bool {
         // coordinate system is centered around the center of the image
-        // around this center there is a 5*3 grid of tiles
-        // -----------------------------------------
-        // | -2/ 1 | -1/ 1 |  0/ 1 |  1/ 1 |  2/ 1 |
-        // | -2/ 0 | -1/ 0 |   x   |  1/ 0 |  2/ 0 |
-        // | -2/-1 | -1/-1 |  0/-1 |  1/-1 |  2/-1 |
-        // -----------------------------------------
-        // we can now filter for "is on the 1200*630 image" and append them to a work queue
+        // around this center there is a 5*5 grid of tiles
+        // -------------------------------
+        // | -1 /  1 |  0 /  1 |  1 /  1 |
+        // | -1 /  0 |    x    |  1 /  0 |
+        // | -1 / -1 |  0 / -1 |  1 / -1 |
+        // -------------------------------
+        // we can now filter for "is on the image" and append them to a work queue
 
         let x_pixels = (512.0 * (self.x - self.x.floor())) as u32;
         let y_pixels = (512.0 * (self.y - self.y.floor())) as u32;
-        let (x_img_coords, y_img_coords) = center_to_top_left_coordinates(x_pixels, y_pixels);
-        // the queue can have 3...4*2 entries, because 630-125=505=> max.2 Tiles and 1200=> max 4 tiles
+        let (x_img_coords, y_img_coords) = center_to_top_left_coordinates(img, x_pixels, y_pixels);
+        // is_in_range is quite cheap => we over-check this one to cope with different image formats
         let mut work_queue = FuturesUnordered::new();
-        for x_index in 0..5 {
-            for y_index in 0..3 {
-                if is_in_range(x_img_coords, y_img_coords, x_index, y_index) {
+        for index_x in POSSIBLE_INDEX_RANGE.clone() {
+            for index_y in POSSIBLE_INDEX_RANGE.clone() {
+                if is_on_image(img, (x_img_coords, y_img_coords), (index_x, index_y)) {
+                    let offset_x = (index_x as i32) - ((POSSIBLE_INDEX_RANGE.end / 2) as i32);
+                    let offset_y = (index_y as i32) - ((POSSIBLE_INDEX_RANGE.end / 2) as i32);
                     work_queue.push(
                         FetchTileTask::from(self)
-                            .offset_by((x_index as i32) - 2, (y_index as i32) - 1)
-                            .with_index(x_index, y_index)
+                            .offset_by(offset_x, offset_y)
+                            .with_index(index_x, index_y)
                             .fulfill(),
                     );
                 }
@@ -65,15 +70,6 @@ impl OverlayMapTask {
                 }
             }
         }
-
-        // add the location pin image to the center
-        let pin = image::load_from_memory(include_bytes!("static/pin.webp")).unwrap();
-        image::imageops::overlay(
-            img,
-            &pin,
-            1200 / 2 - i64::from(pin.width()) / 2,
-            (630 - 125) / 2 - i64::from(pin.height()),
-        );
         true
     }
 }
@@ -86,19 +82,28 @@ fn lat_lon_z_to_xyz(lat_deg: f64, lon_deg: f64, zoom: u32) -> (f64, f64, u32) {
     (xtile, ytile, zoom)
 }
 
-fn center_to_top_left_coordinates(x_pixels: u32, y_pixels: u32) -> (u32, u32) {
-    // the center coordniates are usefull for orienting ourselves in one tile,
-    // but for drawing them, top left is better
-    let y_to_img_border = 512 + y_pixels;
-    let y_img_coords = y_to_img_border - (630 - 125) / 2;
-    let x_to_img_border = 512 * 2 + x_pixels;
-    let x_img_coords = x_to_img_border - 1200 / 2;
+/// The center coordinates are usefully for orienting ourselves in one tile
+/// For drawing them, top left is better
+fn center_to_top_left_coordinates(
+    img: &image::RgbaImage,
+    x_pixels: u32,
+    y_pixels: u32,
+) -> (u32, u32) {
+    let y_to_img_border = 512 * (POSSIBLE_INDEX_RANGE.end / 2) + y_pixels;
+    let y_img_coords = y_to_img_border - (img.height() - 125) / 2;
+    let x_to_img_border = 512 * (POSSIBLE_INDEX_RANGE.end / 2) + x_pixels;
+    let x_img_coords = x_to_img_border - img.width() / 2;
     (x_img_coords, y_img_coords)
 }
 
-fn is_in_range(x_pixels: u32, y_pixels: u32, x_index: u32, y_index: u32) -> bool {
-    let x_in_range = x_pixels <= (x_index + 1) * 512 && x_pixels + 1200 >= x_index * 512;
-    let y_in_range = y_pixels <= (y_index + 1) * 512 && y_pixels + (630 - 125) >= y_index * 512;
+fn is_on_image(
+    img: &image::RgbaImage,
+    (x_pixel, y_pixel): (u32, u32),
+    (x_index, y_index): (u32, u32),
+) -> bool {
+    let x_in_range = (x_index + 1) * 512 >= x_pixel && x_index * 512 <= x_pixel + img.width();
+    let y_in_range =
+        (y_index + 1) * 512 >= y_pixel && y_index * 512 <= y_pixel + (img.height() - 125);
     x_in_range && y_in_range
 }
 
@@ -137,12 +142,16 @@ mod tests {
         expected_x: (u32, u32),
         expected_y: (u32, u32),
     ) {
+        let img = image::RgbaImage::new(600, 200);
         for x in 0..10 {
             for y in 0..10 {
                 let (x_min, x_max) = expected_x;
                 let (y_min, y_max) = expected_y;
                 let expected_result = x <= x_max && x >= x_min && y <= y_max && y >= y_min;
-                assert_eq!(is_in_range(x_pixels, y_pixels, x, y), expected_result);
+                assert_eq!(
+                    is_on_image(&img, (x_pixels, y_pixels), (x, y)),
+                    expected_result
+                );
             }
         }
     }

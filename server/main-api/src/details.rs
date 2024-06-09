@@ -1,5 +1,6 @@
 use actix_web::{get, web, HttpResponse};
 use log::error;
+use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
 
 use crate::models::LocationKeyAlias;
@@ -76,6 +77,7 @@ async fn get_alias_and_redirect(conn: &PgPool, query: &str) -> Option<(String, S
             };
             Some((d[0].key.clone(), redirect_url))
         }
+        Err(RowNotFound) => None,
         Err(e) => {
             error!("Error requesting alias for {query}: {e:?}");
             None

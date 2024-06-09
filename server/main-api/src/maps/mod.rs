@@ -2,9 +2,10 @@ use std::io::Cursor;
 
 use actix_web::http::header::LOCATION;
 use actix_web::{get, web, HttpResponse};
-use image::Rgba;
+use image::{ImageBuffer, Rgba};
 
 use log::{debug, error, warn};
+use serde::Deserialize;
 use sqlx::PgPool;
 use tokio::time::Instant;
 use unicode_truncate::UnicodeTruncateStr;
@@ -58,19 +59,34 @@ async fn get_localised_data(
     }
 }
 
-async fn construct_image_from_data(data: Location) -> Option<Vec<u8>> {
+async fn construct_image_from_data(data: Location, format: PreviewFormat) -> Option<Vec<u8>> {
     let start_time = Instant::now();
-    let mut img = image::RgbaImage::new(1200, 630);
+    let mut img = match format {
+        PreviewFormat::OpenGraph => image::RgbaImage::new(1200, 630),
+        PreviewFormat::Square => image::RgbaImage::new(1200, 1200),
+    };
 
     // add the map
     if !OverlayMapTask::with(&data).draw_onto(&mut img).await {
         return None;
     }
     debug!("map draw {:?}", start_time.elapsed());
+    draw_pin(&mut img);
 
     draw_bottom(&data, &mut img);
     debug!("overlay finish {:?}", start_time.elapsed());
     Some(wrap_image_in_response(&img))
+}
+
+/// add the location pin image to the center
+fn draw_pin(img: &mut ImageBuffer<Rgba<u8>, Vec<u8>>) {
+    let pin = image::load_from_memory(include_bytes!("static/pin.png")).unwrap();
+    image::imageops::overlay(
+        img,
+        &pin,
+        (img.width() as i64) / 2 - i64::from(pin.width()) / 2,
+        ((img.height() as i64) - 125) / 2 - i64::from(pin.height()),
+    );
 }
 
 fn wrap_image_in_response(img: &image::RgbaImage) -> Vec<u8> {
@@ -78,12 +94,12 @@ fn wrap_image_in_response(img: &image::RgbaImage) -> Vec<u8> {
     img.write_to(&mut w, image::ImageFormat::Png).unwrap();
     w.into_inner()
 }
-
+const WHITE_PIXEL: Rgba<u8> = Rgba([255, 255, 255, 255]);
 fn draw_bottom(data: &Location, img: &mut image::RgbaImage) {
     // draw background white
-    for x in 0..1200 {
-        for y in 630 - 125..630 {
-            img.put_pixel(x, y, Rgba([255, 255, 255, 255]));
+    for x in 0..img.width() {
+        for y in img.height() - 125..img.height() {
+            img.put_pixel(x, y, WHITE_PIXEL);
         }
     }
     // add our logo so the bottom
@@ -92,7 +108,7 @@ fn draw_bottom(data: &Location, img: &mut image::RgbaImage) {
         img,
         &logo,
         15,
-        630 - (125 / 2) - (i64::from(logo.height()) / 2) + 9,
+        img.height() as i64 - (125 / 2) - (i64::from(logo.height()) / 2) + 9,
     );
     let name = if data.name.chars().count() >= 45 {
         format!("{}...", data.name.unicode_truncate(45).0)
@@ -122,7 +138,7 @@ async fn get_possible_redirect_url(conn: &PgPool, query: &str) -> Option<String>
         r#"
         SELECT key, visible_id, type
         FROM aliases
-        WHERE alias = $1 OR key = $1
+        WHERE alias = $1 AND key <> alias
         LIMIT 1"#,
         query
     )
@@ -137,10 +153,27 @@ async fn get_possible_redirect_url(conn: &PgPool, query: &str) -> Option<String>
     }
 }
 
+#[derive(Deserialize, Default, Debug, Copy, Clone)]
+#[serde(rename_all = "snake_case")]
+enum PreviewFormat {
+    #[default]
+    OpenGraph,
+    Square,
+}
+
+#[derive(Deserialize, Default, Debug)]
+#[serde(rename_all = "snake_case")]
+#[serde(default)]
+struct QueryArgs {
+    #[serde(flatten)]
+    lang: utils::LangQueryArgs,
+    format: PreviewFormat,
+}
+
 #[get("/{id}")]
 pub async fn maps_handler(
     params: web::Path<String>,
-    web::Query(args): web::Query<utils::LangQueryArgs>,
+    web::Query(args): web::Query<QueryArgs>,
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
     let start_time = Instant::now();
@@ -152,13 +185,13 @@ pub async fn maps_handler(
         res.insert_header((LOCATION, redirect_url));
         return res.finish();
     }
-    let data = match get_localised_data(&data.db, &id, args.should_use_english()).await {
+    let data = match get_localised_data(&data.db, &id, args.lang.should_use_english()).await {
         Ok(data) => data,
         Err(e) => {
-            return e.into();
+            return e;
         }
     };
-    let img = construct_image_from_data(data)
+    let img = construct_image_from_data(data, args.format)
         .await
         .unwrap_or_else(load_default_image);
 
@@ -169,5 +202,4 @@ pub async fn maps_handler(
     HttpResponse::Ok()
         .content_type("image/png")
         .body(img)
-        .into()
 }
