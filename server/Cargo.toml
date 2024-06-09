@@ -6,7 +6,13 @@ resolver = "2"
 strip = true
 lto = "thin"
 
-# Enable max optimizations for dependencies, but not for our code
+# Enable max optimizations for some dependencies, but not for our code
 # nessesary to get acceptable performance out of the image processing code
-[profile.dev.package."*"]
+[profile.dev.package.image]
+opt-level = 3
+
+[profile.dev.package.imageproc]
+opt-level = 3
+
+[profile.dev.package.ab_glyph]
 opt-level = 3

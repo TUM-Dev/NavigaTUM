@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n        SELECT key, visible_id, type\n        FROM aliases\n        WHERE alias = $1 OR key = $1\n        LIMIT 1",
+  "query": "\n        SELECT key, visible_id, type\n        FROM aliases\n        WHERE alias = $1 AND key <> alias\n        LIMIT 1",
   "describe": {
     "columns": [
       {
@@ -30,5 +30,5 @@
       false
     ]
   },
-  "hash": "ac0c4c7f53ab4b463efbd65489063e8eab53f8270085dc4b9f04daa600649585"
+  "hash": "e2c20ca8f6c7924335e607304f6849a24a29fad1ce6d6041ee8a0aa91c6ff375"
 }
