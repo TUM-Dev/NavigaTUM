@@ -1,3 +1,4 @@
+use std::fmt::{Display, Formatter};
 use std::io::Cursor;
 
 use actix_web::http::header::LOCATION;
@@ -5,7 +6,7 @@ use actix_web::{get, web, HttpResponse};
 use image::{ImageBuffer, Rgba};
 
 use log::{debug, error, warn};
-use serde::Deserialize;
+use serde::{Deserialize, Serializer};
 use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
 use tokio::time::Instant;
@@ -133,7 +134,7 @@ fn load_default_image() -> Vec<u8> {
     w.into_inner()
 }
 
-async fn get_possible_redirect_url(conn: &PgPool, query: &str) -> Option<String> {
+async fn get_possible_redirect_url(conn: &PgPool, query: &str, args: &QueryArgs) -> Option<String> {
     let result = sqlx::query_as!(
         LocationKeyAlias,
         r#"
@@ -146,7 +147,12 @@ async fn get_possible_redirect_url(conn: &PgPool, query: &str) -> Option<String>
     .fetch_one(conn)
     .await;
     match result {
-        Ok(d) => Some(format!("https://nav.tum.de/api/preview/{key}", key = d.key)),
+        Ok(d) => Some(format!(
+            "https://nav.tum.de/api/preview/{key}?lang={lang}&format={format}",
+            key = d.key,
+            lang = args.lang.serialise(),
+            format = args.format.serialise()
+        )),
         Err(RowNotFound) => None,
         Err(e) => {
             error!("Error requesting alias for {query}: {e:?}");
@@ -161,6 +167,14 @@ enum PreviewFormat {
     #[default]
     OpenGraph,
     Square,
+}
+impl PreviewFormat {
+    fn serialise(&self) -> String {
+        match self {
+            PreviewFormat::OpenGraph => "open_graph".to_string(),
+            PreviewFormat::Square => "square".to_string(),
+        }
+    }
 }
 
 #[derive(Deserialize, Default, Debug)]
@@ -182,7 +196,7 @@ pub async fn maps_handler(
     let id = params
         .into_inner()
         .replace(|c: char| c.is_whitespace() || c.is_control(), "");
-    if let Some(redirect_url) = get_possible_redirect_url(&data.db, &id).await {
+    if let Some(redirect_url) = get_possible_redirect_url(&data.db, &id, &args).await {
         let mut res = HttpResponse::PermanentRedirect();
         res.insert_header((LOCATION, redirect_url));
         return res.finish();
