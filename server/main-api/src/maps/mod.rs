@@ -201,7 +201,5 @@ pub async fn maps_handler(
         "Preview Generation for {id} took {elapsed:?}",
         elapsed = start_time.elapsed()
     );
-    HttpResponse::Ok()
-        .content_type("image/png")
-        .body(img)
+    HttpResponse::Ok().content_type("image/png").body(img)
 }
