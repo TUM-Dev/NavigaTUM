@@ -142,7 +142,7 @@ mod tests {
         expected_x: (u32, u32),
         expected_y: (u32, u32),
     ) {
-        let img = image::RgbaImage::new(600, 200);
+        let img = image::RgbaImage::new(1200, 630);
         for x in 0..10 {
             for y in 0..10 {
                 let (x_min, x_max) = expected_x;
