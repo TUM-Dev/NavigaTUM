@@ -6,6 +6,7 @@ use image::{ImageBuffer, Rgba};
 
 use log::{debug, error, warn};
 use serde::Deserialize;
+use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
 use tokio::time::Instant;
 use unicode_truncate::UnicodeTruncateStr;
@@ -146,6 +147,7 @@ async fn get_possible_redirect_url(conn: &PgPool, query: &str) -> Option<String>
     .await;
     match result {
         Ok(d) => Some(format!("https://nav.tum.de/api/preview/{key}", key = d.key)),
+        Err(RowNotFound) => None,
         Err(e) => {
             error!("Error requesting alias for {query}: {e:?}");
             None
