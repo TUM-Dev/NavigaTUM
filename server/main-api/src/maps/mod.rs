@@ -1,4 +1,3 @@
-use std::fmt::{Display, Formatter};
 use std::io::Cursor;
 
 use actix_web::http::header::LOCATION;
@@ -6,7 +5,7 @@ use actix_web::{get, web, HttpResponse};
 use image::{ImageBuffer, Rgba};
 
 use log::{debug, error, warn};
-use serde::{Deserialize, Serializer};
+use serde::Deserialize;
 use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
 use tokio::time::Instant;
