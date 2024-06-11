@@ -3286,7 +3286,7 @@
       "zip_code": 85748
     },
     "area_id": 35,
-    "name": "Physik II Messbunker",
+    "name": "Physik II Messbunker UGL",
     "tumonline_id": 781
   },
   "5109": {
@@ -3358,16 +3358,6 @@
     "area_id": 35,
     "name": "Atlashalle LMU",
     "tumonline_id": 874
-  },
-  "5122": {
-    "address": {
-      "place": "Garching b. M\u00fcnchen",
-      "street": "Am Coulombwall 6",
-      "zip_code": 85748
-    },
-    "area_id": 35,
-    "name": "Neb.Geb\u00e4ude Beschleunigerbereich LMU (Ab",
-    "tumonline_id": 930
   },
   "5123": {
     "address": {
@@ -3576,7 +3566,7 @@
       "zip_code": 85748
     },
     "area_id": 30,
-    "name": "Mensa",
+    "name": "Mensa (Altbau)",
     "tumonline_id": 816
   },
   "5304": {

@@ -150,7 +150,7 @@
     "address": "Arcisstr. 21",
     "building_code": "0502",
     "building_id": 578,
-    "building_name": "Zentralgeb\u00e4ude 2",
+    "building_name": "Bestelmeyer S\u00fcd",
     "building_short": null
   },
   {
@@ -185,7 +185,7 @@
     "address": "Arcisstr. 21",
     "building_code": "0507",
     "building_id": 583,
-    "building_name": "Zentralgeb\u00e4ude 7",
+    "building_name": "Bestelmeyer Nord",
     "building_short": null
   },
   {
@@ -1032,7 +1032,7 @@
     "address": "Petersgasse 18",
     "building_code": "2927",
     "building_id": 878,
-    "building_name": "TUM CS PG18 (AM)\n",
+    "building_name": "TUM CS PG18 (AM), Petersgasse 18\n",
     "building_short": null
   },
   {
@@ -1046,14 +1046,14 @@
     "address": "Schulgasse 20",
     "building_code": "2929",
     "building_id": 1525,
-    "building_name": "TUM CS SG20 (AM)\n",
+    "building_name": "TUM CS SG20 (AM), Schulgasse 20\n",
     "building_short": null
   },
   {
     "address": "Rentamtsberg 1",
     "building_code": "2930",
     "building_id": 2250,
-    "building_name": "TUM CS H\u00f6rsaal Rentamtsberg 1\n",
+    "building_name": "TUM CS H\u00f6rsaal Rentamtsberg 1 (AM), Rentamtsberg 1\n",
     "building_short": null
   },
   {
@@ -1291,42 +1291,42 @@
     "address": "Schulgasse 16",
     "building_code": "3501",
     "building_id": 877,
-    "building_name": "TUM CS SG16\n",
+    "building_name": "TUM CS SG16, Schulgasse 16",
     "building_short": null
   },
   {
     "address": "Schulgasse 22",
     "building_code": "3502",
     "building_id": 1729,
-    "building_name": "TUM CS SG22 (AM)\n",
+    "building_name": "TUM CS SG22 (AM), Schulgasse 22",
     "building_short": null
   },
   {
     "address": "Petersgasse 5",
     "building_code": "3503",
     "building_id": 2130,
-    "building_name": "TUM CS PG05 (AM)",
+    "building_name": "TUM CS PG05, Petersgasse 5",
     "building_short": null
   },
   {
     "address": null,
     "building_code": "3504",
     "building_id": 2249,
-    "building_name": "TUM CS SG22a\n",
+    "building_name": "TUM CS SG22a, Schulgasse 22a",
     "building_short": null
   },
   {
     "address": "Uferstra\u00dfe 53",
     "building_code": "3505",
     "building_id": 2649,
-    "building_name": "TUMCS H\u00f6rsaal und Forschungsgeb\u00e4ude f\u00fcr",
+    "building_name": "TUM CS H\u00f6rsaal und Forschungsgeb\u00e4ude, Uferstra\u00dfe 53",
     "building_short": null
   },
   {
     "address": null,
     "building_code": "3515",
     "building_id": 2389,
-    "building_name": "TUM CS Essigberg 3 (AM)\n",
+    "building_name": "TUM CS Essigberg 3 (AM), Am Essigberg 3\n",
     "building_short": null
   },
   {
@@ -3895,7 +3895,7 @@
     "address": "Lise-Meitner-Str. 9-11",
     "building_code": "9377",
     "building_id": 2890,
-    "building_name": "Lise-Meitner-Stra\u00dfe (AM)",
+    "building_name": "Lise-Meitner-Stra\u00dfe 9-11",
     "building_short": null
   },
   {
