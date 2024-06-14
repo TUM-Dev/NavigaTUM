@@ -87,8 +87,9 @@ docker compose -f docker-compose.local.yml up --build
 ```
 
 > [!NOTE]
-> Because we have a tileserver, running the following command is required once.
->
+> While most of the setup is simple, we need to download data (only Oberbayern is needed) for the initial setup. This takes 1-2 minutes.
+> Please first bring up a [postgis](https://postgis.net/) instance (for example via `docker compose -f docker-compose.local.yml up --build`) and then run:
+> 
 > ```bash
 > wget -O data.pbf https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf
 > docker run -it -v $(pwd):/data -e PGPASSWORD=CHANGE_ME --network="host" iboates/osm2pgsql:latest osm2pgsql --create --slim --database postgres --user     postgres --host 127.0.0.1 --port 5432 /data/data.pbf --hstore --hstore-add-index --hstore-column raw
