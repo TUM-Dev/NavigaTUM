@@ -76,7 +76,7 @@ services:
       - "traefik.http.routers.navigatum-tileserver.entrypoints=webs"
       - "traefik.http.routers.navigatum-tileserver.tls.certresolver=leacme"
       - "traefik.http.routers.navigatum-tileserver.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
-      - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-stripprefix@docker, navigatum-compress@docker, navigatum-compress@docker, navigatum-cache-2m@docker"
+      - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-stripprefix@docker, navigatum-compress@docker, navigatum-cache-2m@docker"
       - "traefik.http.middlewares.navigatum-stripprefix.stripprefix.prefixes=/maps"
       - "traefik.http.middlewares.navigatum-compress.compress=true"
       - "traefik.http.middlewares.navigatum-cache-2m.headers.customrequestheaders.Cache-Control=public, max-age=5184000"
@@ -116,7 +116,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-main-api.entrypoints=webs"
       - "traefik.http.routers.navigatum-main-api.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && PathPrefix(`/api/`)"
+      - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && (PathPrefix(`/api/get/`) || Path(`/api/search`) || Path(`/api/status`) || PathPrefix(`/api/preview/`) || PathPrefix(`/api/feedback/`))"
       - "traefik.http.services.navigatum-main-api.loadbalancer.server.port=3003"
     networks:
       - traefik_traefik
