@@ -16,10 +16,12 @@ struct LocationKey {
     key: String,
 }
 pub async fn all_entries(pool: &PgPool) {
-    let client_id_invalid = std::env::var("CONNECTUM_OAUTH_CLIENT_ID").is_err();
-    let client_secret_invalid = std::env::var("CONNECTUM_OAUTH_CLIENT_SECRET").is_err();
-    if client_id_invalid || client_secret_invalid {
-        error!("Please make sure that CONNECTUM_OAUTH_CLIENT_ID and CONNECTUM_OAUTH_CLIENT_SECRET are valid to use calendar features");
+    if let Err(e) = std::env::var("CONNECTUM_OAUTH_CLIENT_ID") {
+        error!("Please make sure that CONNECTUM_OAUTH_CLIENT_ID are valid to use calendar features: {e:?}");
+        return;
+    }
+    if let Err(e) = std::env::var("CONNECTUM_OAUTH_CLIENT_SECRET") {
+        error!("Please make sure that CONNECTUM_OAUTH_CLIENT_SECRET is valid to use calendar features: {e:?}");
         return;
     }
 
