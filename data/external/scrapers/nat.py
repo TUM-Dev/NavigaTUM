@@ -24,8 +24,8 @@ def scrape_buildings():
 
     # TODO: Remove if NAT does fix this.. TUM changed names in denazification initative
     for building in buildings:
-        building["building_name"].replace("Bestelmeyer Süd", "Zentralgebäude 2")
-        building["building_name"].replace("Bestelmeyer Nord", "Zentralgebäude 7")
+        building["building_name"] = building["building_name"].replace("Bestelmeyer Süd", "Zentralgebäude 2")
+        building["building_name"] = building["building_name"].replace("Bestelmeyer Nord", "Zentralgebäude 7")
 
     with open(CACHE_PATH / "buildings_nat.json", "w", encoding="utf-8") as file:
         json.dump(buildings, file, indent=2, sort_keys=True)
