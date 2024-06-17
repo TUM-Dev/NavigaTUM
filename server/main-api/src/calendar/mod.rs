@@ -65,7 +65,7 @@ pub async fn calendar_handler(
 }
 
 async fn get_location(pool: &PgPool, id: &str) -> Result<Option<Location>, sqlx::Error> {
-    sqlx::query_as!(Location, "SELECT * FROM de WHERE key = $1", id)
+    sqlx::query_as!(Location, "SELECT name,last_calendar_scrape_at,calendar_url,type,type_common_name,lat,lon FROM de WHERE key = $1", id)
         .fetch_optional(pool)
         .await
 }
