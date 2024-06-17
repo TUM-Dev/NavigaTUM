@@ -83,6 +83,9 @@ class SearchResult(TypedDict):
 def _sanitise_room(room: dict) -> dict:
     for _map in room["maps"]:
         _map[1] = f"rf{_map[1]}"
+        # TODO: Remove if MyTUM does fix this.. TUM changed names in denazification initative
+        _map[3] = _map[3].replace("Bestelmeyer Nord", "Zentralgebäude 7")
+        _map[3] = _map[3].replace("Bestelmeyer Süd", "Zentralgebäude 2")
     if default_map := room["default_map"]:
         default_map[1] = f"rf{default_map[1]}"
     room["lat"], room["lon"] = _utm_to_latlon(
@@ -95,6 +98,9 @@ def _sanitise_room(room: dict) -> dict:
     room["b_name"] = room["b_name"].replace("Bestelmeyer Süd", "Zentralgebäude 2")
     room["r_alias"] = room["r_alias"].replace("Gustav-Niemann-", "")
     room["r_alias"] = room["r_alias"].replace("EINGANGSHALLE FOYER BESTELMEYER", "")
+    for _map in room["maps"]:
+        _map[3] = _map[3].replace("Bestelmeyer Nord", "Zentralgebäude 7")
+        _map[3] = _map[3].replace("Bestelmeyer Süd", "Zentralgebäude 2")
 
     return room
 
