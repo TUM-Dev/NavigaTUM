@@ -124,7 +124,7 @@ function sendForm() {
           </template>
           <template #helptext>
             <p>
-              <I18nT tag="span">
+              <I18nT tag="span" keypath="public.disclaimer">
                 <template #github_site_policy>
                   <a
                     tabindex="1"
