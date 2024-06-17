@@ -1687,7 +1687,7 @@
   "16114": {
     "code": "TUMENW1",
     "name": "Hertie Senior Research Professorship in Neuroscience (Prof. Konnerth)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Neuroscience (Prof. Konnerth)/Hertie Senior Research Professorship in Neuroscience (Prof. Konnerth)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Neuroscience (Prof. Misgeld komm.)/Hertie Senior Research Professorship in Neuroscience (Prof. Konnerth)"
   },
   "16121": {
     "code": "TUSPZ01",
@@ -2246,7 +2246,7 @@
   },
   "21604": {
     "code": "TUPHT65",
-    "name": "Associate Professorship of Theoretische Elementarteilchenphysik (Prof. Ibarra)",
+    "name": "Chair of Theoretische Elementarteilchenphysik (Prof. Ibarra)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Theoretische Elementarteilchenphysik (Prof. Ibarra)"
   },
   "21615": {
@@ -2696,7 +2696,7 @@
   },
   "26848": {
     "code": "TUZEIA0",
-    "name": "Other Institution Abteilungen",
+    "name": "Other Institution ZIEL-Mitglieder",
     "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution"
   },
   "26864": {
@@ -2706,12 +2706,12 @@
   },
   "26866": {
     "code": "TUZEIA3",
-    "name": "Area Biofunktionalit\u00e4t (Prof. Haller)",
+    "name": "Area ZIEL-Prof. Haller (LS)",
     "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
   },
   "26867": {
     "code": "TUZEIA4",
-    "name": "Area Klinische Ern\u00e4hrungsmedizin (Prof. Hauner)",
+    "name": "Area ZIEL-Prof. Hauner (MH)",
     "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
   },
   "26868": {
@@ -2719,14 +2719,9 @@
     "name": "Area Mikrobiologie (Prof. Scherer)",
     "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
   },
-  "26869": {
-    "code": "TUZEIA6",
-    "name": "Area Physiologie (N.N.)",
-    "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
-  },
   "26871": {
     "code": "TUZEIA8",
-    "name": "Area Molekulare Ern\u00e4hrungsmedizin (Prof. Klingenspor)",
+    "name": "Area ZIEL-Prof. Klingenspor (LS)",
     "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
   },
   "26884": {
@@ -2736,8 +2731,8 @@
   },
   "27382": {
     "code": "TUMENW0",
-    "name": "Institute of Neuroscience (Prof. Konnerth)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Neuroscience (Prof. Konnerth)"
+    "name": "Institute of Neuroscience (Prof. Misgeld komm.)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Neuroscience (Prof. Misgeld komm.)"
   },
   "27418": {
     "code": "TUMEBB1",
@@ -4194,20 +4189,10 @@
     "name": "Student initiatives",
     "path": "TUM/Institutions close to the University/Student initiatives"
   },
-  "45432": {
-    "code": "TUGSFSG",
-    "name": "Graduate center Sport and Health Sciences (FGZ-SP)",
-    "path": "TUM/TUM Graduate School/Graduate Centers/Graduate center Sport and Health Sciences (FGZ-SP)"
-  },
   "45434": {
     "code": "TUGSEDU",
     "name": "Graduate Center of Social Sciences and Technology",
     "path": "TUM/TUM Graduate School/Graduate Centers/Graduate Center of Social Sciences and Technology"
-  },
-  "45438": {
-    "code": "TUGSFME",
-    "name": "Fakult\u00e4tsgraduiertenzentrum Medizin / Medical Graduate Center",
-    "path": "TUM/TUM Graduate School/Graduate Centers/Fakult\u00e4tsgraduiertenzentrum Medizin / Medical Graduate Center"
   },
   "45439": {
     "code": "TUMEGZ0",
@@ -4245,9 +4230,9 @@
     "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Weitere Lehrst\u00fchle und Professuren Clinical Medicine/Neuroproteomik (DZNE) (Prof. Lichtenthaler)"
   },
   "45512": {
-    "code": "TUMEGC1",
+    "code": "TUS5VM1",
     "name": "Associate Professorship of Vaskul\u00e4re Biologie (Prof. Maegdefessel)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Vascular and Endovascular Surgery (Prof. Branzan)/Vaskul\u00e4re Biologie (Prof. Maegdefessel)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Molecular Vascular Medicine  (Prof. Maegdefessel)/Vaskul\u00e4re Biologie (Prof. Maegdefessel)"
   },
   "45531": {
     "code": "TUPEETU",
@@ -5629,11 +5614,6 @@
     "name": "Associate Professorship of Accounting (Prof. Stich) (TUM Campus Heilbronn)",
     "path": "TUM/Schools/Management/Departments/Finance and Accounting/Accounting (Prof. Stich) (TUM Campus Heilbronn)"
   },
-  "49380": {
-    "code": "TUWIH04",
-    "name": "Assistant Professorship of Organizational Behavior and Human Resources (Reinwald) (TUM Campus Heilbronn)",
-    "path": "TUM/Schools/Management/Departments/Innovation and Entrepreneurship/Organizational Behavior and Human Resources (Reinwald) (TUM Campus Heilbronn)"
-  },
   "49381": {
     "code": "TUWIH05",
     "name": "Associate Professorship of Strategic Management (Prof. Li) (TUM Campus Heilbronn)",
@@ -5728,11 +5708,6 @@
     "code": "TUEILSE",
     "name": "Chair of Circuit Design (Prof. Brederlow)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Circuit Design (Prof. Brederlow)"
-  },
-  "49697": {
-    "code": "TUWIH06",
-    "name": "Assistant Professorship of Financial Accounting (N.N.) (TUM Campus Heilbronn)",
-    "path": "TUM/Schools/Management/Departments/Finance and Accounting/Financial Accounting (N.N.) (TUM Campus Heilbronn)"
   },
   "49717": {
     "code": "TUINF21",
@@ -5996,7 +5971,7 @@
   },
   "50457": {
     "code": "TUMWLBA",
-    "name": "Assistant Professorship of Laser-based Additive Manufacturing (Prof. Wudy)",
+    "name": "Associate Professorship of Laser-based Additive Manufacturing (Prof. Wudy)",
     "path": "TUM/Schools/Engineering and Design/Departments/Mechanical Engineering/Laser-based Additive Manufacturing (Prof. Wudy)"
   },
   "50477": {
@@ -6012,7 +5987,7 @@
   "50498": {
     "code": "TUMENW3",
     "name": "Assistant Professorship of Brain Circuit Function and Dysfunction (Prof. Portugues Peters)",
-    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Neuroscience (Prof. Konnerth)/Brain Circuit Function and Dysfunction (Prof. Portugues Peters)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Preclinical Medicine/Neuroscience (Prof. Misgeld komm.)/Brain Circuit Function and Dysfunction (Prof. Portugues Peters)"
   },
   "50499": {
     "code": "TULRFSV",
@@ -6161,8 +6136,8 @@
   },
   "51137": {
     "code": "TUINF31",
-    "name": "Informatics 15 - Assistant Professorship of Machine Learning of 3D Scene Geometry (Prof. Dai)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 15 - Assistant Professorship of Machine Learning of 3D Scene Geometry (Prof. Dai)"
+    "name": "Informatics 15 - Associate Professorship of 3D Artificial Intelligence (Prof. Dai)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics 15 - Associate Professorship of 3D Artificial Intelligence (Prof. Dai)"
   },
   "51157": {
     "code": "TUINI31",
@@ -6477,7 +6452,7 @@
   "51753": {
     "code": "TUXB40D",
     "name": "Academic Programs Food Chemistry",
-    "path": "TUM/Schools/Life Sciences/Academic Program Administration/Nutrition Sciences/Food Chemistry"
+    "path": "TUM/Schools/Life Sciences/Academic Program Administration/Food Chemistry and Sustainable Food/Food Chemistry"
   },
   "51754": {
     "code": "TUXB40E",
@@ -6567,7 +6542,7 @@
   "51789": {
     "code": "TUXS40I",
     "name": "Degree Program M.Sc. Food Chemistry",
-    "path": "TUM/Schools/Life Sciences/Academic Program Administration/Nutrition Sciences/Food Chemistry/M.Sc. Food Chemistry"
+    "path": "TUM/Schools/Life Sciences/Academic Program Administration/Food Chemistry and Sustainable Food/Food Chemistry/M.Sc. Food Chemistry"
   },
   "51790": {
     "code": "TUXS40J",
@@ -9389,11 +9364,6 @@
     "name": "Room Management (CIT) School Services (CIT)",
     "path": "TUM/Schools/Computation, Information and Technology/School Office/School Services (CIT)/Room Management (CIT)"
   },
-  "54182": {
-    "code": "TUS1120",
-    "name": "Internal Services (CIT) School Services (CIT)",
-    "path": "TUM/Schools/Computation, Information and Technology/School Office/School Services (CIT)/Internal Services (CIT)"
-  },
   "54183": {
     "code": "TUS1130",
     "name": "IT Operations (CIT) School Services (CIT)",
@@ -9571,13 +9541,13 @@
   },
   "54517": {
     "code": "TUS1304",
-    "name": "Chair of Informatics Heilbronn 6 - Assistant Professorship of Data Analytics and Statistics (Prof. Fraser)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics Heilbronn 6 - Assistant Professorship of Data Analytics and Statistics (Prof. Fraser)"
+    "name": "Informatics Heilbronn 6 - Chair of Data Analytics and Statistics (Prof. Fraser)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics Heilbronn 6 - Chair of Data Analytics and Statistics (Prof. Fraser)"
   },
   "54537": {
     "code": "TUS1CHN",
-    "name": "Center TUM Campus Heilbronn (CIT) of the TUM School of Computation, Information and Technology",
-    "path": "TUM/Schools/Computation, Information and Technology/Center TUM Campus Heilbronn (CIT)"
+    "name": "School Office Heilbronn - School Office",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/School Office Heilbronn"
   },
   "54557": {
     "code": "TUS3005",
@@ -9686,7 +9656,7 @@
   },
   "54599": {
     "code": "TUMERO6",
-    "name": "Assistant Professorship of Experimental Magnetic Resonance Imaging (Prof. Karampinos)",
+    "name": "Associate Professorship of Experimental Magnetic Resonance Imaging (Prof. Karampinos)",
     "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiology (Prof. Makowski)/Experimental Magnetic Resonance Imaging (Prof. Karampinos)"
   },
   "54600": {
@@ -10482,7 +10452,7 @@
   "55417": {
     "code": "TUZVSOP",
     "name": "Special projects",
-    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Special projects"
+    "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Resource Planning/Special projects"
   },
   "55437": {
     "code": "TUS1310",
@@ -10496,23 +10466,23 @@
   },
   "55457": {
     "code": "TUS5GF0",
-    "name": "Managing Directors School Office",
-    "path": "TUM/Schools/Medicine and Health/School Office/Managing Directors"
+    "name": "Managing Directors (MH) School Office",
+    "path": "TUM/Schools/Medicine and Health/School Office/Managing Directors (MH)"
   },
   "55458": {
     "code": "TUS5OTD",
-    "name": "Dean`s Office School Office",
-    "path": "TUM/Schools/Medicine and Health/School Office/Dean`s Office"
+    "name": "Dean's Office (MH) School Office",
+    "path": "TUM/Schools/Medicine and Health/School Office/Dean's Office (MH)"
   },
   "55459": {
     "code": "TUS5SAA",
-    "name": "School and Academic Affairs School Office",
-    "path": "TUM/Schools/Medicine and Health/School Office/School and Academic Affairs"
+    "name": "School and Academic Affairs (MH) School Office",
+    "path": "TUM/Schools/Medicine and Health/School Office/School and Academic Affairs (MH)"
   },
   "55460": {
     "code": "TUS5STO",
-    "name": "Student Office School Office",
-    "path": "TUM/Schools/Medicine and Health/School Office/Student Office"
+    "name": "Student Office (MH) School Office",
+    "path": "TUM/Schools/Medicine and Health/School Office/Student Office (MH)"
   },
   "55461": {
     "code": "TUS5EK0",
@@ -10582,7 +10552,7 @@
   "55558": {
     "code": "TUXS416",
     "name": "Degree Program M.Sc. Sustainable Food (GIST TUM Asia)",
-    "path": "TUM/Schools/Life Sciences/Academic Program Administration/Nutrition Sciences/Life Sciences Nutrition/Degree Program"
+    "path": "TUM/Schools/Life Sciences/Academic Program Administration/Food Chemistry and Sustainable Food/Sustainable Food/Degree Program"
   },
   "55577": {
     "code": "TUS4C1B",
@@ -10761,8 +10731,8 @@
   },
   "55938": {
     "code": "TUS1315",
-    "name": "Informatics 39 -  Associate Professorship of Intelligent Robotics (Prof. B\u00e4uml)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatics 39 -  Associate Professorship of Intelligent Robotics (Prof. B\u00e4uml)"
+    "name": "Informatics 39 -  Associate Professorship of Learning AI for Dextrous Robots (Prof. B\u00e4uml)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatics 39 -  Associate Professorship of Learning AI for Dextrous Robots (Prof. B\u00e4uml)"
   },
   "55957": {
     "code": "TUXS113",
@@ -10808,5 +10778,85 @@
     "code": "TUGSSMH",
     "name": "Graduate Center of Medicine and Health",
     "path": "TUM/TUM Graduate School/Graduate Centers/Graduate Center of Medicine and Health"
+  },
+  "56177": {
+    "code": "TUZEI13",
+    "name": "Area ZIEL-Prof. Schloter (LS)",
+    "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
+  },
+  "56178": {
+    "code": "TUZEI10",
+    "name": "Area ZIEL-Prof. Gerner (LS)",
+    "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
+  },
+  "56179": {
+    "code": "TUZEI14",
+    "name": "Area ZIEL-Prof. Uhlenhaut (LS)",
+    "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
+  },
+  "56180": {
+    "code": "TUZEI11",
+    "name": "Area ZIEL-Prof. Hofmann/Prof. Dawid (LS)",
+    "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
+  },
+  "56181": {
+    "code": "TUZEI12",
+    "name": "Area ZIEL-Prof. Schirmer (LS)",
+    "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
+  },
+  "56182": {
+    "code": "TUZEIA9",
+    "name": "Area ZIEL-Prof. Br\u00fcck (NAT)",
+    "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
+  },
+  "56197": {
+    "code": "TUXB40Z",
+    "name": "Academic Programs Food Chemistry and Sustainable Food",
+    "path": "TUM/Schools/Life Sciences/Academic Program Administration/Food Chemistry and Sustainable Food"
+  },
+  "56198": {
+    "code": "TUXB410",
+    "name": "Academic Programs Sustainable Food",
+    "path": "TUM/Schools/Life Sciences/Academic Program Administration/Food Chemistry and Sustainable Food/Sustainable Food"
+  },
+  "56217": {
+    "code": "TUS5VM0",
+    "name": "Institute of Molecular Vascular Medicine  (Prof. Maegdefessel)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Molecular Vascular Medicine  (Prof. Maegdefessel)"
+  },
+  "56237": {
+    "code": "TUS3009",
+    "name": "Chair of AI-based Materials Science (Prof. Rinke)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Physics/AI-based Materials Science (Prof. Rinke)"
+  },
+  "56238": {
+    "code": "TUS7SUE",
+    "name": "Chair of Sustainable Urban Environments (Prof. Rademacher)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Sustainable Urban Environments (Prof. Rademacher)"
+  },
+  "56257": {
+    "code": "TUS5ST4",
+    "name": "Associate Professorship of AI for Image-Guided Diagnosis and Therapy (Prof. Wiestler)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Radiooncology and Radiation Therapy  (Prof. Combs)/AI for Image-Guided Diagnosis and Therapy (Prof. Wiestler)"
+  },
+  "56258": {
+    "code": "TUS1317",
+    "name": "Associate Professorship of Chip-based Magnetic Sensor Technology (Prof. Becherer)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Chip-based Magnetic Sensor Technology (Prof. Becherer)"
+  },
+  "56259": {
+    "code": "TUS6HNG",
+    "name": "School Office Heilbronn (MGT) - School Office",
+    "path": "TUM/Schools/Management/School Office/School Office Heilbronn (MGT)"
+  },
+  "56277": {
+    "code": "TUZEI15",
+    "name": "Area AG Public Health Nutrition",
+    "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Research Groups/Area"
+  },
+  "56278": {
+    "code": "TUZEI16",
+    "name": "Area AG Westernization of Diet and the Gut",
+    "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Research Groups/Area"
   }
 }
