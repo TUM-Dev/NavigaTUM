@@ -35,11 +35,11 @@ async fn get_localised_data(
     should_use_english: bool,
 ) -> Result<Location, HttpResponse> {
     let result = if should_use_english {
-        sqlx::query_as!(Location, "SELECT * FROM en WHERE key = $1", id)
+        sqlx::query_as!(Location, "SELECT name,last_calendar_scrape_at,calendar_url,type,type_common_name,lat,lon FROM en WHERE key = $1", id)
             .fetch_all(conn)
             .await
     } else {
-        sqlx::query_as!(Location, "SELECT * FROM de WHERE key = $1", id)
+        sqlx::query_as!(Location, "SELECT name,last_calendar_scrape_at,calendar_url,type,type_common_name,lat,lon FROM de WHERE key = $1", id)
             .fetch_all(conn)
             .await
     };
