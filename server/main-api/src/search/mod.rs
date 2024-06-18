@@ -2,6 +2,7 @@ use std::time::Instant;
 
 use actix_web::{get, web, HttpResponse};
 use cached::proc_macro::cached;
+use log::{debug, error};
 use serde::{Deserialize, Serialize};
 use unicode_truncate::UnicodeTruncateStr;
 
@@ -83,9 +84,12 @@ pub async fn search_handler(web::Query(args): web::Query<SearchQueryArgs>) -> Ht
     let limits = Limits::from(&args);
     let highlighting = Highlighting::from(&args);
     let q = args.q;
+    debug!("searching for {q} with a limit of {limits:?} and highlighting of {highlighting:?}");
     let results_sections = cached_geoentry_search(q, highlighting, limits).await;
+    debug!("searching returned {results_sections:?}");
 
     if results_sections.len() != 2 {
+        error!("searching returned {len} sections, but expected 2", len=results_sections.len());
         return HttpResponse::InternalServerError().body("Internal error");
     }
     let search_results = SearchResults {
