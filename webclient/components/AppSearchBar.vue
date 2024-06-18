@@ -117,7 +117,7 @@ const url = computed(() => {
 const { data, error, refresh } = await useFetch<SearchResponse>(url, { key: "search", dedupe: "defer", deep: false });
 // a bit crude way of doing retries, but likely fine
 watchEffect(() => {
-  if (query.value.length && error.value !== null) setTimeout(refresh, 500);
+  if (query.value.length && error.value !== null) setTimeout(refresh, 5000);
 });
 </script>
 
