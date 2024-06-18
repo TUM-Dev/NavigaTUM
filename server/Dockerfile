@@ -6,11 +6,11 @@ FROM    rust:1.79-alpine AS compiler
 # - musl-dev is needed for musl to compile the binary
 # - openssl is needed for https://github.com/meilisearch/meilisearch-rust to compile the binary, as their http-libraryy won't support tls until v2.0 https://github.com/sagebind/isahc/issues/199
 #   I somehow could not get openssl to cooperate => we are contibuing with libpq-dev
-RUN     apk add -q --update-cache --no-cache musl-dev libpq-dev
+RUN     apk add -q --update-cache --no-cache musl-dev libpq-dev mold
 
 WORKDIR /compiler
 ENV     USER=root
-ENV     RUSTFLAGS="-C target-feature=-crt-static"
+ENV     RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-fuse-ld=mold"
 
 # (probably cached) first run of the image build => only dependencies
 COPY    ./Cargo.* ./
