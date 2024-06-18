@@ -8,6 +8,18 @@ export default withNuxt(
       },
     },
     rules: {
+      "vue/html-self-closing": [
+        "error",
+        {
+          html: {
+            void: "always",
+            normal: "always",
+            component: "always",
+          },
+          svg: "always",
+          math: "always",
+        },
+      ],
       "vue/no-multiple-template-root": "off",
       "vue/no-v-html": "off",
       "vue/block-lang": [
