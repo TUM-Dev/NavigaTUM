@@ -89,7 +89,10 @@ pub async fn search_handler(web::Query(args): web::Query<SearchQueryArgs>) -> Ht
     debug!("searching returned {results_sections:?}");
 
     if results_sections.len() != 2 {
-        error!("searching returned {len} sections, but expected 2", len=results_sections.len());
+        error!(
+            "searching returned {len} sections, but expected 2",
+            len = results_sections.len()
+        );
         return HttpResponse::InternalServerError().body("Internal error");
     }
     let search_results = SearchResults {
