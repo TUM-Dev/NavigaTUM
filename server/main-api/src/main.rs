@@ -57,15 +57,14 @@ fn connection_string() -> String {
 fn setup_logging() {
     #[cfg(debug_assertions)]
     {
-        let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_|"debug".to_string());
+        let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_| "debug".to_string());
         let filter = format!("{log_level},hyper=info,rustls=info,h2=info,sqlx=info,hickory_resolver=info,hickory_proto=info");
-        let env = env_logger::Env::default()
-            .default_filter_or(&filter);
+        let env = env_logger::Env::default().default_filter_or(&filter);
         env_logger::Builder::from_env(env).init();
     }
     #[cfg(not(debug_assertions))]
     {
-        let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_|"info".to_string());
+        let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_| "info".to_string());
         structured_logger::Builder::with_level(&log_level)
             .with_target_writer(
                 "*",
