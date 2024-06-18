@@ -89,6 +89,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_URL: db:5432
+      CONNECTUM_OAUTH_CLIENT_ID: ${CONNECTUM_OAUTH_CLIENT_ID}
+      CONNECTUM_OAUTH_CLIENT_SECRET: ${CONNECTUM_OAUTH_CLIENT_SECRET}
     depends_on:
       meilisearch:
         condition: service_healthy
