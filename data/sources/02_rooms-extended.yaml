@@ -60,6 +60,14 @@
       en: WC
     din_277: NF7.1
     din_277_desc: Sanitärräume
+"0201.01.004":
+  name: Besprechungsraum Studentische Vertretung / SV
+  props:
+    links:
+      - text:
+          de: Weitere Informationen
+          en: More informations
+        url: https://www.sv.tum.de/
 "0201.02.005":
   name: WC
   usage:
@@ -84,6 +92,8 @@
           de: Weitere Informationen
           en: More informations
         url: https://www.sv.tum.de/
+  ranking_factors:
+    rank_custom: 150
 "0206.EG.003":
   name: Besprechungsraum Studentische Vertretung / SV
   props:
@@ -92,6 +102,8 @@
           de: Weitere Informationen
           en: More informations
         url: https://www.sv.tum.de/
+  ranking_factors:
+    rank_custom: 150
 "2907.01.130":
   name: Fachschaft Lehrertum/Lehramt/Educational Sciences
   short_name: Lehramt
@@ -189,7 +201,13 @@
 # ========================== Garching =============================
 # === Studitum Garching ===
 "5532.01.105":
-  name: AStA Besprechungsraum
+  name: Besprechungsraum Studentische Vertretung / SV
+  props:
+    links:
+      - text:
+          de: Weitere Informationen
+          en: More informations
+        url: https://www.sv.tum.de/
 "5532.02.211": # in reality this is labeled as a ladies room, TUMonline has this as a WC
   name: WC-Damen
   usage:
