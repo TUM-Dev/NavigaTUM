@@ -2,6 +2,7 @@ use chrono::{DateTime, Utc};
 
 #[derive(Debug, Clone)]
 pub struct Location {
+    pub key: String,
     pub name: String,
     pub last_calendar_scrape_at: Option<DateTime<Utc>>,
     pub calendar_url: Option<String>,
