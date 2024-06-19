@@ -123,9 +123,6 @@ services:
     expose:
       - "3003"
     command: /bin/navigatum-main-api
-    volumes:
-      - type: tmpfs
-        target: /home/navigatum/.cache
     user: 1000:3000
     environment:
       MIELI_URL: http://meilisearch:7700
