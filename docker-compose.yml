@@ -173,6 +173,29 @@ services:
       retries: 5
       interval: 10s
       start_period: 10s
+  redirect-domain:
+    image: "traefik/whoami:latest"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navigatum-redirect-domain.entrypoints=webs"
+      - "traefik.http.routers.navigatum-redirect-domain.tls.certresolver=leacme"
+      - "traefik.http.routers.navigatum-redirect-domain.rule=Host(`www.nav.tum.de`) || Host(`nav.tum.sexy`)"
+      - "traefik.http.routers.navigatum-redirect-domain.middlewares=navigatum-redirect-to-domain@docker"
+      - "traefik.http.middlewares.navigatum-redirect-to-domain.redirectregex.regex=^https://(www.)?nav.tum.(de|sexy)/(.*)"
+      - "traefik.http.middlewares.navigatum-redirect-to-domain.redirectregex.replacement=https://nav.tum.de/$${3}"
+      - "traefik.http.middlewares.navigatum-redirect-to-domain.redirectregex.permanent=true"
+      - "traefik.http.services.navigatum-redirect-domain.loadbalancer.server.port=80"
+  redirect-https:
+    image: "traefik/whoami:latest"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navigatum-redirect-https.entrypoints=web"
+      - "traefik.http.routers.navigatum-redirect-https.rule=Host(`nav.tum.de`) || Host(`www.nav.tum.de`) || Host(`nav.tum.sexy`)"
+      - "traefik.http.routers.navigatum-redirect-https.middlewares=navigatum-redirect-to-https@docker"
+      - "traefik.http.middlewares.navigatum-redirect-to-https.redirectregex.regex=^https?://(www.)?nav.tum.(de|sexy)/(.*)"
+      - "traefik.http.middlewares.navigatum-redirect-to-https.redirectregex.replacement=https://nav.tum.de/$${3}"
+      - "traefik.http.middlewares.navigatum-redirect-to-https.redirectregex.permanent=true"
+      - "traefik.http.services.navigatum-redirect-https.loadbalancer.server.port=80"
 
 volumes:
   tileserver-src:
