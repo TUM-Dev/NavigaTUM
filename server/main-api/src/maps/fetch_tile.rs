@@ -2,7 +2,6 @@ use std::fmt::Display;
 use std::time::Duration;
 use std::{fmt, io};
 
-use cached::proc_macro::io_cached;
 use log::{error, warn};
 
 use crate::maps::overlay_map::OverlayMapTask;
@@ -93,7 +92,6 @@ impl FetchTileTask {
     }
 }
 
-#[io_cached(disk = true, map_error = r##"|e| format!("{e:?}")"##)]
 async fn download_map_image(location: TileLocation) -> Result<Vec<u8>, BoxedError> {
     let url = format!(
         "https://nav.tum.de/maps/styles/osm-liberty/{z}/{x}/{y}@2x.png",

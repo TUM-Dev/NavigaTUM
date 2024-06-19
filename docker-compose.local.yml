@@ -77,9 +77,6 @@ services:
     command: /bin/navigatum-main-api
     ports:
       - "3003:3003"
-    volumes:
-      - type: tmpfs
-        target: /home/navigatum/.cache
     user: 1000:3000
     environment:
       MIELI_URL: http://meilisearch:7700
