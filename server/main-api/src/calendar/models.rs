@@ -1,7 +1,7 @@
-use std::collections::HashMap;
+use crate::models::Location;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use crate::models::Location;
+use std::collections::HashMap;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub(super) struct EventsCollection {
@@ -31,7 +31,6 @@ impl From<Location> for CalendarLocation {
         }
     }
 }
-
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub(super) struct LocationEvents {
