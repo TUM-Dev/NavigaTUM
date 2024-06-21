@@ -15,7 +15,7 @@
   "dependencies": {
     "@headlessui/vue": "1.7.22",
     "@heroicons/vue": "2.1.4",
-    "@nuxt/content": "2.12.1",
+    "@nuxt/content": "2.13.0",
     "@nuxt/image": "1.7.0",
     "@nuxtjs/color-mode": "3.4.1",
     "@vueuse/core": "10.11.0",
@@ -27,7 +27,7 @@
     "swagger-ui": "5.17.14",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "vue": "3.4.29",
-    "vue-router": "4.3.3",
+    "vue-router": "4.4.0",
     "vue3-carousel": "0.3.3"
   },
   "devDependencies": {
