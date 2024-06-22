@@ -10,6 +10,11 @@
   },
   "packageRules": [
     {
+      "matchUpdateTypes": ["major"],
+      "groupName": "major-release",
+      "automerge": false
+    },
+    {
       "matchDepTypes": ["devDependencies"],
       "groupName": "devDependencies"
     },
@@ -31,12 +36,6 @@
     {
       "matchPackagePatterns": ["vue-tsc"],
       "groupName": "temporary-debump",
-      "automerge": true
-    },
-    {
-      "matchUpdateTypes": ["major"],
-      "matchPackagePatterns": ["pnpm"],
-      "groupName": "pnpm-needs-github-actions-match",
       "automerge": true
     },
     {
