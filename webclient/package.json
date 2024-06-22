@@ -8,7 +8,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "type-check": "nuxt typecheck",
-    "type-refresh": "openapi-typescript ../openapi.yaml --output ./api_types/index.ts --export-type --immutable --array-length && npm run format && npm run lint",
+    "type-refresh": "openapi-typescript ../openapi.yaml --output ./api_types/index.ts --export-type --immutable-types --support-array-length && npm run format && npm run lint",
     "lint": "eslint . --fix --ignore-pattern '.nuxt|node_modules|.output' ",
     "format": "prettier --plugin=prettier-plugin-tailwindcss --end-of-line lf --write ."
   },
