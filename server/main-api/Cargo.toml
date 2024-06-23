@@ -69,6 +69,8 @@ time = "0.3.36"
 
 [dev-dependencies]
 pretty_assertions = "1.4.0"
+testcontainers = "0.18.0"
+testcontainers-modules = {version =  "0.6.1",features = ["postgres"] }
 
 [features]
 skip_db_setup = []

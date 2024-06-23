@@ -5,6 +5,7 @@ use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
 use log::{debug, error, info};
+use meilisearch_sdk::client::Client;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
 use sqlx::PgPool;
@@ -54,23 +55,25 @@ fn connection_string() -> String {
     format!("postgres://{username}:{password}@{url}/{db}")
 }
 
-fn setup_logging() {
-    #[cfg(debug_assertions)]
+pub fn setup_logging() {
+    #[cfg(any(debug_assertions, test))]
     {
         let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_| "debug".to_string());
         let filter = format!("{log_level},hyper=info,rustls=info,h2=info,sqlx=info,hickory_resolver=info,hickory_proto=info");
         let env = env_logger::Env::default().default_filter_or(&filter);
-        env_logger::Builder::from_env(env).init();
+        let _ = env_logger::Builder::from_env(env)
+            .is_test(cfg!(test))
+            .try_init();
     }
-    #[cfg(not(debug_assertions))]
+    #[cfg(not(any(debug_assertions, test)))]
     {
         let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_| "info".to_string());
-        structured_logger::Builder::with_level(&log_level)
+        let _ = structured_logger::Builder::with_level(&log_level)
             .with_target_writer(
                 "*",
                 structured_logger::async_json::new_writer(tokio::io::stdout()),
             )
-            .init();
+            .try_init();
     }
 }
 
@@ -83,9 +86,18 @@ async fn main() -> Result<(), BoxedError> {
             .await
             .unwrap();
         #[cfg(not(feature = "skip_db_setup"))]
-        setup::database::setup(&pool).await.unwrap();
+        {
+            setup::database::setup(&pool).await.unwrap();
+            setup::database::load_data(&pool).await.unwrap();
+        }
         #[cfg(not(feature = "skip_ms_setup"))]
-        setup::meilisearch::setup().await.unwrap();
+        {
+            let ms_url =
+                std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
+            let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()).unwrap();
+            setup::meilisearch::setup(&client).await.unwrap();
+            setup::meilisearch::load_data(&client).await.unwrap();
+        }
         calendar::refresh::all_entries(&pool).await;
     });
 
@@ -102,6 +114,7 @@ async fn main() -> Result<(), BoxedError> {
 
     info!("running the server");
     let pool = PgPoolOptions::new().connect(&connection_string()).await?;
+    let shutdown_pool_clone = pool.clone();
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
@@ -127,5 +140,6 @@ async fn main() -> Result<(), BoxedError> {
     .run()
     .await?;
     maintenance_thread.abort();
+    shutdown_pool_clone.close().await;
     Ok(())
 }
