@@ -115,7 +115,7 @@ pub async fn load_all_to_db(
     let set_aliase = raw_aliase
         .into_iter()
         .map(AliasIterator::from)
-        .flat_map(|alias| alias.into_iter());
+        .flat_map(IntoIterator::into_iter);
     for task in set_aliase {
         task.store(tx).await?;
     }

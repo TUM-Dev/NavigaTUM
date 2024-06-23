@@ -15,10 +15,10 @@ pub struct LangQueryArgs {
 }
 
 impl LangQueryArgs {
-    pub fn should_use_english(&self) -> bool {
+    pub fn should_use_english(self) -> bool {
         self.lang == LanguageOptions::En
     }
-    pub fn serialise(&self) -> String {
+    pub fn serialise(self) -> String {
         match self.lang {
             LanguageOptions::En => "en".to_string(),
             LanguageOptions::De => "de".to_string(),

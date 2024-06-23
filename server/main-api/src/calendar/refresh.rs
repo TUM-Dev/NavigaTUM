@@ -72,7 +72,7 @@ LIMIT 30"#)
                 error!("Could not download calendar because {e:?}");
             }
             if let Some(id) = ids.pop() {
-                work_queue.push(api.refresh(id.key))
+                work_queue.push(api.refresh(id.key));
             }
         }
         debug!(
