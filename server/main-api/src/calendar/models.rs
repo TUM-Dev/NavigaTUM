@@ -1,14 +1,44 @@
+use crate::models::Location;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
-#[derive(Serialize, Deserialize, Debug)]
-pub(super) struct Events {
-    pub(super) events: Vec<Event>,
-    pub(super) last_sync: DateTime<Utc>,
-    pub(super) calendar_url: String,
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub(super) struct EventsCollection {
+    pub(super) events: HashMap<String, LocationEvents>,
+    pub(super) max_last_sync: DateTime<Utc>,
 }
 
-#[derive(Serialize, Deserialize, Debug, sqlx::Type)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub(super) struct CalendarLocation {
+    pub key: String,
+    pub name: String,
+    pub last_calendar_scrape_at: Option<DateTime<Utc>>,
+    pub calendar_url: Option<String>,
+    pub type_common_name: String,
+    pub r#type: String,
+}
+
+impl From<Location> for CalendarLocation {
+    fn from(loc: Location) -> Self {
+        Self {
+            key: loc.key,
+            name: loc.name,
+            last_calendar_scrape_at: loc.last_calendar_scrape_at,
+            calendar_url: loc.calendar_url,
+            type_common_name: loc.type_common_name,
+            r#type: loc.r#type,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub(super) struct LocationEvents {
+    pub(super) events: Vec<Event>,
+    pub(super) location: CalendarLocation,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, sqlx::Type)]
 pub(super) struct Event {
     pub(super) id: i32,
     /// e.g. 5121.EG.003

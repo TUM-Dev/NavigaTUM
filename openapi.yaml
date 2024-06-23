@@ -1,21 +1,7 @@
 openapi: 3.1.0
 info:
   title: NavigaTUM
-  description: |
-    Navigating around TUM with excellence – An API to search for rooms,
-    buildings and other places
-
-    NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute.
-
-    Features:
-
-    - Interactive or static maps to lookup the position of rooms or buildings
-    - Fast and typo-tolerant search
-    - Support for different room code formats as well as generic names
-
-    All functionality is also available via an API.
-
-    *Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments.*
+  description: "Navigating around TUM with excellence – An API to search for rooms,\nbuildings and other places\n\nNavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute.\n\n- [x] \U0001F5FA️ Interactive/static maps to look up the position of rooms or buildings\n- [x] \U0001F50D Fast and typo-tolerant search\n- [x] \U0001F4BE Support for different room code formats as well as generic names\n- [x] \U0001F916 All functionality is also available via an open and well documented API\n- [x] \U0001F5D8 Automatically update the data from upstream datasources\n- [ ] \U0001F5E8️ Allow students/staff to easily submit feedback and data patches\n- [ ] \U0001F3EB Generate maps from CAD data sources\n- [ ] \U0001F6B6\U0001F3FB Generate turn by turn navigation advice for navigating end to end\n\nIf you'd like to help out or join us in this adventure, we would love to talk to you.\n\nAll functionality is also available via an API.\n\n*Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments.*\n"
   termsOfService: 'https://nav.tum.de/en/about/privacy'
   contact:
     name: TUM-Dev
@@ -61,22 +47,22 @@ paths:
           schema:
             type: string
           examples:
-            '5304':
-              summary: A 'misspelled' (according to tumonline) lecture-hall
+            mi hs1:
+              summary: \'misspelled\' (according to tumonline) lecture-hall
               value: mi hs1
-            garching:
-              summary: A misspelled campus
+            sfarching:
+              summary: misspelled campus garching
               value: sfarching
-            fsmpi:
-              summary: A regular room
+            5606.EG.036:
+              summary: regular room (fsmpic)
               value: 5606.EG.036
             interims:
-              summary: Lecture halls
+              summary: \'interims\' Lecture halls
               value: interims
-            sv:
-              summary: common name
+            AStA:
+              summary: common name synonyms for SV
               value: AStA
-            none:
+            all:
               summary: All rooms
               value: ''
         - name: limit_buildings
@@ -124,7 +110,7 @@ paths:
               summary: 'The default value (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).'
               value: /u0019
             em:
-              summary: A good alternative default value
+              summary: good alternative default value
               value: <em>
             ais-highlight:
               summary: Another good alternative
@@ -144,7 +130,7 @@ paths:
               summary: 'The default value (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).'
               value: /u0017
             em:
-              summary: A good alternative default value
+              summary: good alternative default value
               value: </em>
             ais-highlight:
               summary: Another good alternative
@@ -303,33 +289,33 @@ paths:
           schema:
             type: string
           examples:
+            '1543':
+              summary: virtual room (humangenetik)
+              value: '1543'
             '5304':
-              summary: A normal building
+              summary: normal building
               value: '5304'
             garching:
-              summary: The garching campus
+              summary: garching campus
               value: garching
             mri:
-              summary: The MRI campus
-              value: garching
+              summary: MRI campus
+              value: mri
             mi:
-              summary: 'A large, (custom named) building'
+              summary: large building (mi)
               value: mi
             mw:
-              summary: 'An other large, (custom named) building'
+              summary: other large building (mw)
               value: mw
-            fsmpi:
-              summary: A regular room
+            5606.EG.036:
+              summary: regular room (fsmpic)
               value: 5606.EG.036
-            rechnerhalle:
-              summary: A room with custom props added
+            5605.EG.011:
+              summary: room with custom props (rechnerhalle-mi)
               value: 5605.EG.011
-            tb-chemie:
-              summary: A virtual room
+            5401.01.100A:
+              summary: virtual room (tb-chemie)
               value: 5401.01.100A
-            humangenetik:
-              summary: A virtual room
-              value: Gebäude 1543
       responses:
         '200':
           description: More data about the requested building/room
@@ -721,82 +707,52 @@ paths:
                   - Not found
       tags:
         - core
-  '/api/calendar/{id}':
+  /api/calendar:
     get:
       operationId: calendar
       summary: Retrieve Calendar Entries
       description: |
-        Retrieves calendar entries for a specific `id` within the requested time span. 
+        Retrieves calendar entries for specific `ids` within the requested time span. 
         The time span is defined by the `start_after` and `end_before` query parameters.
         Ensure to provide valid date-time formats for these parameters.
 
         If successful, returns additional entries in the requested time span.
-      parameters:
-        - name: start_after
-          in: query
-          description: The first allowed time the calendar would like to display
-          required: true
-          schema:
-            type: string
-            format: date-time
-          examples:
-            use_tz:
-              summary: how timezones are defined
-              value: '2039-01-19T03:14:07+01:00'
-            utc:
-              summary: how utc is defined
-              value: '2042-01-07T00:00:00 UTC'
-        - name: end_before
-          in: query
-          description: The last allowed time the calendar would like to display
-          required: true
-          schema:
-            type: string
-            format: date-time
-          examples:
-            use_tz:
-              summary: how timezones are defined
-              value: '2039-01-19T03:14:07+01:00'
-            utc:
-              summary: how utc is defined
-              value: '2042-01-07T00:00:00 UTC'
-        - name: id
-          in: path
-          description: string you want to search for
-          required: true
-          schema:
-            type: string
-          examples:
-            '5304':
-              summary: A normal building
-              value: '5304'
-            root:
-              summary: The root entry of the NavigaTUM-data
-              value: root
-            garching:
-              summary: The garching campus
-              value: garching
-            mri:
-              summary: The MRI campus
-              value: garching
-            mi:
-              summary: 'A large, (custom named) building'
-              value: mi
-            mw:
-              summary: 'An other large, (custom named) building'
-              value: mw
-            fsmpi:
-              summary: A regular room
-              value: 5606.EG.036
-            rechnerhalle:
-              summary: A room with custom props added
-              value: 5605.EG.011
-            tb-chemie:
-              summary: A virtual room
-              value: 5401.01.100A
-            humangenetik:
-              summary: A virtual room
-              value: '1543'
+      requestBody:
+        description: null
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                start_after:
+                  description: The first allowed time the calendar would like to display
+                  type: string
+                  format: date-time
+                  examples:
+                    - '2039-01-19T03:14:07+01:00'
+                    - '2042-01-07T00:00:00 UTC'
+                end_before:
+                  description: The last allowed time the calendar would like to display
+                  type: string
+                  format: date-time
+                  examples:
+                    - '2039-01-19T03:14:07+01:00'
+                    - '2042-01-07T00:00:00 UTC'
+                ids:
+                  description: ids you want the calendars for
+                  type: array
+                  items:
+                    type: string
+                    examples:
+                      - 5605.EG.011
+                      - 5510.02.001
+                      - 5606.EG.036
+                      - '5304'
+              required:
+                - ids
+                - end_before
+                - start_after
       responses:
         '200':
           description: More entries of the calendar in the requested time span
@@ -852,33 +808,33 @@ paths:
           schema:
             type: string
           examples:
+            '1543':
+              summary: virtual room (humangenetik)
+              value: '1543'
             '5304':
-              summary: A normal building
+              summary: normal building
               value: '5304'
             garching:
-              summary: The garching campus
+              summary: garching campus
               value: garching
             mri:
-              summary: The MRI campus
-              value: garching
+              summary: MRI campus
+              value: mri
             mi:
-              summary: 'A large, (custom named) building'
+              summary: large building (mi)
               value: mi
             mw:
-              summary: 'An other large, (custom named) building'
+              summary: other large building (mw)
               value: mw
-            fsmpi:
-              summary: A regular room
+            5606.EG.036:
+              summary: regular room (fsmpic)
               value: 5606.EG.036
-            rechnerhalle:
-              summary: A room with custom props added
+            5605.EG.011:
+              summary: room with custom props (rechnerhalle-mi)
               value: 5605.EG.011
-            tb-chemie:
-              summary: A virtual room
+            5401.01.100A:
+              summary: virtual room (tb-chemie)
               value: 5401.01.100A
-            humangenetik:
-              summary: A virtual room
-              value: '1543'
       responses:
         '200':
           description: More data about the requested building/room
@@ -1103,18 +1059,33 @@ paths:
           schema:
             type: string
           examples:
+            '1543':
+              summary: virtual room (humangenetik)
+              value: '1543'
             '5304':
-              summary: A normal building
+              summary: normal building
               value: '5304'
             garching:
-              summary: A campus
+              summary: garching campus
               value: garching
+            mri:
+              summary: MRI campus
+              value: mri
             mi:
-              summary: 'A large, (custom named) building'
+              summary: large building (mi)
               value: mi
-            fsmpi:
-              summary: A regular room
+            mw:
+              summary: other large building (mw)
+              value: mw
+            5606.EG.036:
+              summary: regular room (fsmpic)
               value: 5606.EG.036
+            5605.EG.011:
+              summary: room with custom props (rechnerhalle-mi)
+              value: 5605.EG.011
+            5401.01.100A:
+              summary: virtual room (tb-chemie)
+              value: 5401.01.100A
         - name: counter
           in: path
           description: counter of the image you want.
@@ -1846,9 +1817,19 @@ components:
             - site
             - campus
             - poi
+          examples:
+            - room
+            - building
+            - joined_building
+            - area
+            - site
+            - campus
+            - poi
         type_common_name:
           description: The type of the entry in a human-readable form
           type: string
+          examples:
+            - Serverraum
         name:
           description: The name of the entry in a human-readable form
           type: string
@@ -2042,30 +2023,73 @@ components:
       required:
         - id
         - name
-    CalendarResponse:
+    CalendarLocation:
       type: object
       properties:
-        events:
-          description: The entries of the requested
-          type: array
-          items:
-            $ref: '#/components/schemas/CalendarEntry'
-        last_sync:
-          description: When the last sync with TUMonline happened.
+        name:
+          description: The name of the entry in a human-readable form
           type: string
-          format: date-time
           examples:
-            - '2018-01-01T00:00:00'
+            - '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
+            - 5121.EG.003 (Computerraum)
+        last_calendar_scrape_at:
+          description: the last time the calendar was scraped for this room
+          type: string
+          examples:
+            - '2039-01-19T03:14:07+01:00'
+            - '2042-01-07T00:00:00 UTC'
         calendar_url:
-          description: 'Link to the same calendar, but in TUMonline'
+          description: A link to the calendar of the room
           type: string
           examples:
-            - 'https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr=12543'
-          pattern: 'https:\/\/campus\.tum\.de\/tumonline\/wbKalender\.wbRessource\?pResNr=[0-9]+'
+            - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J'
+            - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
+        type_common_name:
+          description: The type of the entry in a human-readable form
+          type: string
+          examples:
+            - Serverraum
+        type:
+          description: The type of the entry
+          type: string
+          enum:
+            - room
+            - building
+            - joined_building
+            - area
+            - site
+            - campus
+            - poi
+          examples:
+            - room
+            - building
+            - joined_building
+            - area
+            - site
+            - campus
+            - poi
       required:
-        - events
-        - last_sync
+        - name
+        - last_calendar_scrape_at
         - calendar_url
+        - type_common_name
+        - type
+    CalendarResponse:
+      description: room-code to calendar entry's record
+      type: object
+      additionalProperties:
+        type: object
+        properties:
+          events:
+            description: The entries of the requested
+            type: array
+            items:
+              $ref: '#/components/schemas/CalendarEntry'
+          location:
+            $ref: '#/components/schemas/CalendarLocation'
+        required:
+          - events
+          - location
     CalendarEntry:
       type: object
       properties:

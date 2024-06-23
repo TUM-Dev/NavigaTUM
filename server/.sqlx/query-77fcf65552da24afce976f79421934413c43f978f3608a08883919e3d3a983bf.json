@@ -1,40 +1,45 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT name,last_calendar_scrape_at,calendar_url,type,type_common_name,lat,lon FROM de WHERE key = $1",
+  "query": "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name,lat,lon FROM de WHERE key = $1",
   "describe": {
     "columns": [
       {
         "ordinal": 0,
-        "name": "name",
+        "name": "key",
         "type_info": "Text"
       },
       {
         "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
         "name": "last_calendar_scrape_at",
         "type_info": "Timestamptz"
       },
       {
-        "ordinal": 2,
+        "ordinal": 3,
         "name": "calendar_url",
         "type_info": "Text"
       },
       {
-        "ordinal": 3,
+        "ordinal": 4,
         "name": "type",
         "type_info": "Text"
       },
       {
-        "ordinal": 4,
+        "ordinal": 5,
         "name": "type_common_name",
         "type_info": "Text"
       },
       {
-        "ordinal": 5,
+        "ordinal": 6,
         "name": "lat",
         "type_info": "Float8"
       },
       {
-        "ordinal": 6,
+        "ordinal": 7,
         "name": "lon",
         "type_info": "Float8"
       }
@@ -46,6 +51,7 @@
     },
     "nullable": [
       false,
+      false,
       true,
       true,
       false,
@@ -54,5 +60,5 @@
       false
     ]
   },
-  "hash": "c7501ce05d89b1453354acf8113b766a50309ca0b3dfb34b523468c5d13a4409"
+  "hash": "77fcf65552da24afce976f79421934413c43f978f3608a08883919e3d3a983bf"
 }

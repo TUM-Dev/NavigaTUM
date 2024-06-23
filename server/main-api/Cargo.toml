@@ -34,7 +34,8 @@ rustls = { version = "0.23.5", default-features = false, features = ["ring"] } #
 
 cached = { version = "0.51.1", features = ["default", "async", "tokio", "disk_store"] }
 futures = "0.3.30"
-unicode-truncate = "1.0.0"
+# temporarily forked until https://github.com/Aetf/unicode-truncate/issues/16 is resolved
+unicode-truncate = { git = "https://github.com/CommanderStorm/unicode-truncate.git", rev = "5cc7798"}
 
 # database
 sqlx = { version = "0.7.4", features = ["postgres", "runtime-tokio", "tls-rustls", "migrate", "macros", "chrono"] }
@@ -66,10 +67,11 @@ actix-governor = { version = "0.5.0", features = ["logger"] }
 tempfile = "3.10.1"
 base64 = "0.22.1"
 time = "0.3.36"
+testcontainers-modules = { version = "0.6.1", features = ["postgres"] }
 
 [dev-dependencies]
 pretty_assertions = "1.4.0"
-testcontainers = "0.18.0"
+testcontainers = { version = "0.18.0", features = ["watchdog"] }
 testcontainers-modules = {version =  "0.6.1",features = ["postgres"] }
 
 [features]
