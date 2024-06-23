@@ -141,28 +141,17 @@ export type components = {
     readonly Props: {
       /** @description The operator of the room */
       readonly operator?: {
-        /**
-         * @description The designation code of the operator
-         * @example TUS7000
-         */
+        /** @description The designation code of the operator */
         readonly code?: string;
         /**
          * @description The full name of the operator (localized). Null for organisations that
          * are no longer active (e.g. id=38698), but where the operator has not been
          * updated in TUMonline.
-         *
-         * @example TUM School of Social Sciences and Technology
          */
         readonly name?: string | null;
-        /**
-         * @description A link to the operator
-         * @example https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901
-         */
+        /** @description A link to the operator */
         readonly url?: string;
-        /**
-         * @description The id of the operator
-         * @example 51901
-         */
+        /** @description The id of the operator */
         readonly id?: number;
       };
       readonly computed: readonly components["schemas"]["ComputedProp"][];
@@ -177,16 +166,11 @@ export type components = {
       readonly calendar_url?: string;
     };
     readonly ComputedProp: {
-      /** @example Raumkennung */
       readonly name: string;
-      /** @example 5602.EG.001 */
       readonly text: string;
       readonly extra?: {
-        /** @example Genauere Angaben */
         readonly header?: string;
-        /** @example für Prüfungen: 102 in eng, 71 in weit, 49 in corona */
         readonly body: string;
-        /** @example data based on a Survey of chimneysweeps */
         readonly footer?: string;
       };
     };
@@ -197,10 +181,7 @@ export type components = {
     };
     /** @description The information you need to request Images from the /cdn/{size}/{id}_{counter}.webp endpoint */
     readonly ImageInfo: {
-      /**
-       * @description The name of the image file. consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
-       * @example mi_0.webp
-       */
+      /** @description The name of the image file. consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0 */
       readonly name: string;
       readonly author: components["schemas"]["PossibleURLRef"];
       readonly source: components["schemas"]["PossibleURLRef"];
@@ -247,24 +228,20 @@ export type components = {
       /**
        * Format: double
        * @description The latitude
-       * @example 48.26244490906312
        */
       readonly lat: number;
       /**
        * Format: double
        * @description The latitude
-       * @example 48.26244490906312
        */
       readonly lon: number;
       /**
        * @description The source of the Coordinates
-       * @example roomfinder
        * @enum {string}
        */
       readonly source: "roomfinder" | "navigatum" | "inferred";
       /**
        * @description How accurate the coordinate is. Only present, if it is limited to a degree (e.g. we only know the building)
-       * @example building
        * @enum {string}
        */
       readonly accuracy?: "building";
@@ -286,70 +263,46 @@ export type components = {
          * null:
          * - We suggest, you dont show a map by default.
          * - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
-         *
-         * @example 0
          */
         readonly default: number | null;
         readonly available: readonly components["schemas"]["OverlayMapEntry"][];
       } | null;
     };
     readonly RoomfinderMap: {
-      /**
-       * @description The id of the map, that should be shown as a default
-       * @example rf142
-       */
+      /** @description The id of the map, that should be shown as a default */
       readonly default: string;
       readonly available: readonly components["schemas"]["RoomfinderMapEntry"][];
     };
     readonly RoomfinderMapEntry: {
-      /**
-       * @description The human-readable name of the map
-       * @example FMI Übersicht
-       */
+      /** @description The human-readable name of the map */
       readonly name: string;
-      /**
-       * @description The machine-readable name of the map
-       * @example rf142
-       */
+      /** @description The machine-readable name of the map */
       readonly id: string;
-      /**
-       * @description Scale of the map. 2000 means 1:2000.
-       * @example 2000
-       */
+      /** @description Scale of the map. 2000 means 1:2000. */
       readonly scale: string;
       /**
        * Format: int32
        * @description Map image x dimensions
-       * @example 461
        */
       readonly height: number;
       /**
        * Format: int32
        * @description Map image y dimensions
-       * @example 639
        */
       readonly width: number;
       /**
        * Format: int32
        * @description x Position on map
-       * @example 499
        */
       readonly x: number;
       /**
        * Format: int32
        * @description y Position on map image
-       * @example 189
        */
       readonly y: number;
-      /**
-       * @description Where the map was imported from
-       * @example Roomfinder
-       */
+      /** @description Where the map was imported from */
       readonly source: string;
-      /**
-       * @description Where the map is stored
-       * @example rf93.webp
-       */
+      /** @description Where the map is stored */
       readonly file: string;
     };
     readonly OverlayMapEntry: {
@@ -357,27 +310,17 @@ export type components = {
        * @description The machine-readable floor-id of the map.
        * Should start with 0 for the ground level (defined by the main entrance) and increase or decrease.
        * It is not guaranteed that numbers are consecutive or that `1` corresponds to level `01`, because buildings sometimes have more complicated layouts. They are however always in the correct (physical) order.
-       *
-       * @example 0
        */
       readonly id: number;
       /**
        * @description Floor of the Map.
        * Should be used for display to the user in selectors.
        * Matches the floor part of the TUMonline roomcode.
-       *
-       * @example EG
        */
       readonly floor: string;
-      /**
-       * @description The human-readable name of the map
-       * @example MI Gebäude (EG)
-       */
+      /** @description The human-readable name of the map */
       readonly name: string;
-      /**
-       * @description The filename of the map
-       * @example webp/rf95.webp
-       */
+      /** @description The filename of the map */
       readonly file: string;
       /** @description Coordinates are four [lon, lat] pairs, for the top left, top right, bottom right, bottom left image corners. */
       readonly coordinates: readonly [
@@ -390,7 +333,6 @@ export type components = {
     readonly Rooms: {
       /**
        * @description These indicate the type of item this represents
-       * @example rooms
        * @enum {string}
        */
       readonly facet: "rooms";
@@ -406,15 +348,12 @@ export type components = {
        * The number is usually from 0-20.
        * More results might be displayed when clicking "expand".
        * If this field is not present, then all entries are displayed.
-       *
-       * @example 20
        */
       readonly n_visible: number;
     };
     readonly SitesBuildings: {
       /**
        * @description These indicate the type of item this represents
-       * @example sites_buildings
        * @enum {string}
        */
       readonly facet: "sites_buildings";
@@ -430,8 +369,6 @@ export type components = {
        * The number is usually from 0-5.
        * More results might be displayed when clicking "expand".
        * If this field is not present, then all entries are displayed.
-       *
-       * @example 6
        */
       readonly n_visible: number;
     };
@@ -440,7 +377,6 @@ export type components = {
       readonly id: string;
       /**
        * @description the type of the room
-       * @example room
        * @enum {string}
        */
       readonly type: "room" | "virtual_room" | "poi";
@@ -458,7 +394,6 @@ export type components = {
       readonly id: string;
       /**
        * @description the type of the site/building
-       * @example campus
        * @enum {string}
        */
       readonly type: "campus" | "building" | "area" | "site" | "joined_building";
@@ -483,8 +418,6 @@ export type components = {
        * @description Time the search took in the server side, not including network delay
        * Maximum as timeout. other timeouts (browser, your client) may be smaller
        * Expected average is 10..50 for uncached, regular requests
-       *
-       * @example 42
        */
       readonly time_ms: number;
     };
@@ -498,10 +431,7 @@ export type components = {
       readonly type: "room" | "building" | "joined_building" | "area" | "site" | "campus" | "poi";
       /** @description The type of the entry in a human-readable form */
       readonly type_common_name: string;
-      /**
-       * @description The name of the entry in a human-readable form
-       * @example 5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)
-       */
+      /** @description The name of the entry in a human-readable form */
       readonly name: string;
       /**
        * @description A list of alternative ids for this entry.
@@ -520,8 +450,6 @@ export type components = {
       /**
        * @description The url, this item should be displayed at.
        * Present on both redirects and normal entries, to allow for the common /view/:id path
-       *
-       * @example /room/5602.EG.001
        */
       readonly redirect_url: string;
       readonly coords: components["schemas"]["Coordinate"];
@@ -537,15 +465,9 @@ export type components = {
     };
     readonly BuildingsOverview: {
       readonly entries: readonly (components["schemas"]["ChildEntry"] & {
-        /**
-         * @description What should be displayed below this Building
-         * @example Gebäudekomplex mit 512 Räumen
-         */
+        /** @description What should be displayed below this Building */
         readonly subtext: string;
-        /**
-         * @description The thumbnail for the building
-         * @example mi_0.webp
-         */
+        /** @description The thumbnail for the building */
         readonly thumb?: string;
       })[];
       /**
@@ -554,50 +476,30 @@ export type components = {
        * The number is usually from 0-5.
        * More results might be displayed when clicking "expand".
        * If this field is not present, then all entries are displayed.
-       *
-       * @example 5
        */
       readonly n_visible: number;
     };
     readonly RoomsOverview: {
       readonly usages?: readonly {
-        /**
-         * @description Category Name
-         * @example Büro
-         */
+        /** @description Category Name */
         readonly name: string;
-        /**
-         * @description How many children this category has
-         * @example 126
-         */
+        /** @description How many children this category has */
         readonly count: number;
         readonly children: readonly components["schemas"]["ChildEntry"][];
       }[];
     };
     readonly FeaturedOverview: {
       readonly entries: readonly (components["schemas"]["ChildEntry"] & {
-        /**
-         * @description What should be displayed below this Building
-         * @example Gebäudekomplex mit 512 Räumen
-         */
+        /** @description What should be displayed below this Building */
         readonly subtext: string;
-        /**
-         * @description The thumbnail for the building
-         * @example mi_0.webp
-         */
+        /** @description The thumbnail for the building */
         readonly image_url: string;
       })[];
     };
     readonly ChildEntry: {
-      /**
-       * @description The id of the entry
-       * @example mi
-       */
+      /** @description The id of the entry */
       readonly id: string;
-      /**
-       * @description Human display name
-       * @example Mathematik / Informatik
-       */
+      /** @description Human display name */
       readonly name: string;
     };
     readonly CalendarResponse: {
@@ -606,37 +508,27 @@ export type components = {
       /**
        * Format: date-time
        * @description When the last sync with TUMonline happened.
-       * @example 2018-01-01T00:00:00
        */
       readonly last_sync: string;
-      /**
-       * @description Link to the same calendar, but in TUMonline
-       * @example https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr=12543
-       */
+      /** @description Link to the same calendar, but in TUMonline */
       readonly calendar_url: string;
     };
     readonly CalendarEntry: {
       /**
        * Format: int32
        * @description The id of the calendar entry used in TUMonline internally
-       * @example 42
        */
       readonly id: number;
-      /**
-       * @description The title of the Entry
-       * @example Quantenteleportation
-       */
+      /** @description The title of the Entry */
       readonly title: string;
       /**
        * Format: date-time
        * @description The start of the entry
-       * @example 2018-01-01T00:00:00
        */
       readonly start: string;
       /**
        * Format: date-time
        * @description The end of the entry
-       * @example 2018-01-01T00:00:00
        */
       readonly end: string;
       /**
@@ -644,10 +536,7 @@ export type components = {
        * @enum {string}
        */
       readonly entry_type: "lecture" | "exercise" | "exam" | "barred" | "other";
-      /**
-       * @description For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)
-       * @example Vorlesung mit Zentralübung
-       */
+      /** @description For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?) */
       readonly detailed_entry_type: string;
     };
     /** @description Where we got our data from, should be displayed at the bottom of any page containing this data */
@@ -659,15 +548,9 @@ export type components = {
       readonly patched?: boolean;
       /** @description What is the basis of the data we have */
       readonly base: readonly {
-        /**
-         * @description The name of the provider
-         * @example NavigaTUM
-         */
+        /** @description The name of the provider */
         readonly name: string;
-        /**
-         * @description The url of the provider
-         * @example https://nav.tum.de
-         */
+        /** @description The url of the provider */
         readonly url?: string;
       }[];
     };
@@ -737,8 +620,6 @@ export type components = {
       /**
        * @description Additional context for the edit.
        * Will be displayed in the discription field of the PR
-       *
-       * @example I have a picture of the room, please add it to the roomfinder
        */
       readonly additional_context: string;
     };
@@ -746,39 +627,24 @@ export type components = {
       /**
        * @description The category of the feedback.
        * Enum attribute is softly enforced: Any value not listed below will be replaced by "other"
-       * @example bug
        * @enum {string}
        */
       readonly category: "bug" | "feature" | "search" | "entry" | "general" | "other";
-      /**
-       * @description The subject/title of the feedback
-       * @example A catchy title
-       */
+      /** @description The subject/title of the feedback */
       readonly subject: string;
-      /**
-       * @description The body/description of the feedback
-       * @example A clear description what happened where and how we should improve it
-       */
+      /** @description The body/description of the feedback */
       readonly body: string;
       /**
        * @description Whether the user has requested to delete the issue.
        * If the user has requested to delete the issue, we will delete it from GitHub after processing it
        * If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
-       *
-       * @example true
        */
       readonly deletion_requested: boolean;
     };
     readonly TokenRequest: {
-      /**
-       * @description The JWT token, that can be used to generate feedback
-       * @example eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
-       */
+      /** @description The JWT token, that can be used to generate feedback */
       readonly token: string;
-      /**
-       * @description Whether the user has checked the privacy-checkbox. We are posting the feedback publicly on GitHub (not a EU-Company). You have to also include such a checkmark.
-       * @example true
-       */
+      /** @description Whether the user has checked the privacy-checkbox. We are posting the feedback publicly on GitHub (not a EU-Company). You have to also include such a checkmark. */
       readonly privacy_checked: boolean;
     };
     readonly Station: {
@@ -1221,10 +1087,7 @@ export type operations = {
         size: "lg" | "md" | "sm" | "thumb" | "header";
         /** @description id of the recource you want an image for */
         id: string;
-        /**
-         * @description counter of the image you want.
-         * @example 0
-         */
+        /** @description counter of the image you want. */
         counter: number;
       };
     };
