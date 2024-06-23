@@ -266,9 +266,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                examples:
-                  - Not found
                 enum:
+                  - Not found
+                examples:
                   - Not found
         '414':
           description: The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..
@@ -715,9 +715,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                examples:
-                  - Not found
                 enum:
+                  - Not found
+                examples:
                   - Not found
       tags:
         - core
@@ -810,9 +810,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                examples:
-                  - Not found
                 enum:
+                  - Not found
+                examples:
                   - Not found
         '503':
           description: 'Not Ready, please retry later'
@@ -820,9 +820,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                examples:
-                  - Waiting for first sync with TUMonline
                 enum:
+                  - Waiting for first sync with TUMonline
+                examples:
                   - Waiting for first sync with TUMonline
       tags:
         - core
@@ -890,9 +890,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                examples:
-                  - Not found
                 enum:
+                  - Not found
+                examples:
                   - Not found
       tags:
         - maps
@@ -1122,11 +1122,11 @@ paths:
           schema:
             type: integer
             format: int32
-            minimum: 0
             examples:
               - 0
               - 1
               - 2
+            minimum: 0
       responses:
         '200':
           description: The image you requested
@@ -1143,9 +1143,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                examples:
-                  - Not found
                 enum:
+                  - Not found
+                examples:
                   - Not found
         '414':
           description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
@@ -1201,9 +1201,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                examples:
-                  - Not found
                 enum:
+                  - Not found
+                examples:
                   - Not found
         '414':
           description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
@@ -1464,20 +1464,20 @@ components:
         source:
           description: The source of the Coordinates
           type: string
-          examples:
+          enum:
             - roomfinder
             - navigatum
             - inferred
-          enum:
+          examples:
             - roomfinder
             - navigatum
             - inferred
         accuracy:
           description: 'How accurate the coordinate is. Only present, if it is limited to a degree (e.g. we only know the building)'
           type: string
-          examples:
-            - building
           enum:
+            - building
+          examples:
             - building
       required:
         - lat
@@ -1659,9 +1659,9 @@ components:
         facet:
           description: These indicate the type of item this represents
           type: string
-          examples:
-            - rooms
           enum:
+            - rooms
+          examples:
             - rooms
         estimatedTotalHits:
           description: The estimated (not exact) number of hits for that query
@@ -1694,9 +1694,9 @@ components:
         facet:
           description: These indicate the type of item this represents
           type: string
-          examples:
-            - sites_buildings
           enum:
+            - sites_buildings
+          examples:
             - sites_buildings
         estimatedTotalHits:
           description: The estimated (not exact) number of hits for that query
@@ -1732,12 +1732,12 @@ components:
         type:
           description: the type of the room
           type: string
-          examples:
-            - room
           enum:
             - room
             - virtual_room
             - poi
+          examples:
+            - room
         name:
           description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
           type: string
@@ -1765,14 +1765,14 @@ components:
         type:
           description: the type of the site/building
           type: string
-          examples:
-            - campus
           enum:
             - campus
             - building
             - area
             - site
             - joined_building
+          examples:
+            - campus
         name:
           description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
           type: string
@@ -2253,8 +2253,6 @@ components:
                 The category of the feedback.  
                 Enum attribute is softly enforced: Any value not listed below will be replaced by "other"
               type: string
-              examples:
-                - bug
               enum:
                 - bug
                 - feature
@@ -2262,6 +2260,8 @@ components:
                 - entry
                 - general
                 - other
+              examples:
+                - bug
             subject:
               description: The subject/title of the feedback
               type: string
