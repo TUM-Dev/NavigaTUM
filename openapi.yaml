@@ -266,7 +266,8 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Not found
+                examples:
+                  - Not found
                 enum:
                   - Not found
         '414':
@@ -714,7 +715,8 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Not found
+                examples:
+                  - Not found
                 enum:
                   - Not found
       tags:
@@ -808,7 +810,8 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Not found
+                examples:
+                  - Not found
                 enum:
                   - Not found
         '503':
@@ -817,7 +820,8 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Waiting for first sync with TUMonline
+                examples:
+                  - Waiting for first sync with TUMonline
                 enum:
                   - Waiting for first sync with TUMonline
       tags:
@@ -886,7 +890,8 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Not found
+                examples:
+                  - Not found
                 enum:
                   - Not found
       tags:
@@ -954,7 +959,8 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: 'https://github.com/TUM-Dev/navigatum/issues/9'
+                examples:
+                  - 'https://github.com/TUM-Dev/navigatum/issues/9'
         '400':
           description: If not all fields in the body are present as defined above
         '403':
@@ -1020,7 +1026,8 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: 'https://github.com/TUM-Dev/navigatum/issues/9'
+                examples:
+                  - 'https://github.com/TUM-Dev/navigatum/issues/9'
         '400':
           description: If not all fields in the body are present as defined above
         '403':
@@ -1116,7 +1123,10 @@ paths:
             type: integer
             format: int32
             minimum: 0
-          example: 0
+            examples:
+              - 0
+              - 1
+              - 2
       responses:
         '200':
           description: The image you requested
@@ -1133,7 +1143,8 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Not found
+                examples:
+                  - Not found
                 enum:
                   - Not found
         '414':
@@ -1190,7 +1201,8 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Not found
+                examples:
+                  - Not found
                 enum:
                   - Not found
         '414':
@@ -1210,9 +1222,10 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: |
-                  healthy
-                  source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
+                examples:
+                  - |
+                    healthy
+                    source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
         '503':
           description: Service Unavailable
       tags:
@@ -1268,7 +1281,8 @@ components:
             code:
               description: The designation code of the operator
               type: string
-              example: TUS7000
+              examples:
+                - TUS7000
             name:
               description: |
                 The full name of the operator (localized). Null for organisations that
@@ -1277,15 +1291,18 @@ components:
               type:
                 - string
                 - 'null'
-              example: TUM School of Social Sciences and Technology
+              examples:
+                - TUM School of Social Sciences and Technology
             url:
               description: A link to the operator
               type: string
-              example: 'https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901'
+              examples:
+                - 'https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901'
             id:
               description: The id of the operator
               type: integer
-              example: 51901
+              examples:
+                - 51901
         computed:
           type: array
           items:
@@ -1313,22 +1330,27 @@ components:
       properties:
         name:
           type: string
-          example: Raumkennung
+          examples:
+            - Raumkennung
         text:
           type: string
-          example: 5602.EG.001
+          examples:
+            - 5602.EG.001
         extra:
           type: object
           properties:
             header:
               type: string
-              example: Genauere Angaben
+              examples:
+                - Genauere Angaben
             body:
               type: string
-              example: 'für Prüfungen: 102 in eng, 71 in weit, 49 in corona'
+              examples:
+                - 'für Prüfungen: 102 in eng, 71 in weit, 49 in corona'
             footer:
               type: string
-              example: data based on a Survey of chimneysweeps
+              examples:
+                - data based on a Survey of chimneysweeps
           required:
             - body
       required:
@@ -1352,7 +1374,8 @@ components:
         name:
           description: 'The name of the image file. consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0'
           type: string
-          example: mi_0.webp
+          examples:
+            - mi_0.webp
         author:
           $ref: '#/components/schemas/PossibleURLRef'
         source:
@@ -1426,20 +1449,25 @@ components:
           description: The latitude
           type: number
           format: double
-          example: 48.26244490906312
+          examples:
+            - 48.26244490906312
           maximum: 90
           minimum: -90
         lon:
           description: The latitude
           type: number
           format: double
-          example: 48.26244490906312
+          examples:
+            - 48.26244490906312
           maximum: 180
           minimum: -180
         source:
           description: The source of the Coordinates
           type: string
-          example: roomfinder
+          examples:
+            - roomfinder
+            - navigatum
+            - inferred
           enum:
             - roomfinder
             - navigatum
@@ -1447,7 +1475,8 @@ components:
         accuracy:
           description: 'How accurate the coordinate is. Only present, if it is limited to a degree (e.g. we only know the building)'
           type: string
-          example: building
+          examples:
+            - building
           enum:
             - building
       required:
@@ -1485,7 +1514,8 @@ components:
               type:
                 - integer
                 - 'null'
-              example: 0
+              examples:
+                - 0
             available:
               type: array
               items:
@@ -1501,7 +1531,8 @@ components:
         default:
           description: 'The id of the map, that should be shown as a default'
           type: string
-          example: rf142
+          examples:
+            - rf142
         available:
           type: array
           items:
@@ -1515,48 +1546,57 @@ components:
         name:
           description: The human-readable name of the map
           type: string
-          example: FMI Übersicht
+          examples:
+            - FMI Übersicht
         id:
           description: The machine-readable name of the map
           type: string
-          example: rf142
+          examples:
+            - rf142
         scale:
           description: 'Scale of the map. 2000 means 1:2000.'
           type: string
-          example: '2000'
+          examples:
+            - '2000'
           pattern: '[0-9]+'
         height:
           description: Map image x dimensions
           type: integer
           format: int32
-          example: 461
+          examples:
+            - 461
           minimum: 0
         width:
           description: Map image y dimensions
           type: integer
           format: int32
-          example: 639
+          examples:
+            - 639
           minimum: 0
         x:
           description: x Position on map
           type: integer
           format: int32
-          example: 499
+          examples:
+            - 499
           minimum: 0
         'y':
           description: y Position on map image
           type: integer
           format: int32
-          example: 189
+          examples:
+            - 189
           minimum: 0
         source:
           description: Where the map was imported from
           type: string
-          example: Roomfinder
+          examples:
+            - Roomfinder
         file:
           description: Where the map is stored
           type: string
-          example: rf93.webp
+          examples:
+            - rf93.webp
       required:
         - name
         - id
@@ -1576,22 +1616,26 @@ components:
             Should start with 0 for the ground level (defined by the main entrance) and increase or decrease.
             It is not guaranteed that numbers are consecutive or that `1` corresponds to level `01`, because buildings sometimes have more complicated layouts. They are however always in the correct (physical) order.
           type: integer
-          example: 0
+          examples:
+            - 0
         floor:
           description: |
             Floor of the Map.
             Should be used for display to the user in selectors.  
             Matches the floor part of the TUMonline roomcode.
           type: string
-          example: EG
+          examples:
+            - EG
         name:
           description: The human-readable name of the map
           type: string
-          example: MI Gebäude (EG)
+          examples:
+            - MI Gebäude (EG)
         file:
           description: The filename of the map
           type: string
-          example: webp/rf95.webp
+          examples:
+            - webp/rf95.webp
         coordinates:
           description: 'Coordinates are four [lon, lat] pairs, for the top left, top right, bottom right, bottom left image corners.'
           type: array
@@ -1615,7 +1659,8 @@ components:
         facet:
           description: These indicate the type of item this represents
           type: string
-          example: rooms
+          examples:
+            - rooms
           enum:
             - rooms
         estimatedTotalHits:
@@ -1635,7 +1680,8 @@ components:
             If this field is not present, then all entries are displayed.
           type: integer
           format: int64
-          example: 20
+          examples:
+            - 20
           minimum: 0
       required:
         - n_visible
@@ -1648,7 +1694,8 @@ components:
         facet:
           description: These indicate the type of item this represents
           type: string
-          example: sites_buildings
+          examples:
+            - sites_buildings
           enum:
             - sites_buildings
         estimatedTotalHits:
@@ -1668,7 +1715,8 @@ components:
             If this field is not present, then all entries are displayed.
           type: integer
           format: int64
-          example: 6
+          examples:
+            - 6
           minimum: 0
       required:
         - n_visible
@@ -1684,7 +1732,8 @@ components:
         type:
           description: the type of the room
           type: string
-          example: room
+          examples:
+            - room
           enum:
             - room
             - virtual_room
@@ -1716,7 +1765,8 @@ components:
         type:
           description: the type of the site/building
           type: string
-          example: campus
+          examples:
+            - campus
           enum:
             - campus
             - building
@@ -1772,7 +1822,8 @@ components:
             Expected average is 10..50 for uncached, regular requests
           type: integer
           format: int32
-          example: 42
+          examples:
+            - 42
           maximum: 75000
           minimum: 0
       required:
@@ -1801,7 +1852,8 @@ components:
         name:
           description: The name of the entry in a human-readable form
           type: string
-          example: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
+          examples:
+            - '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
         aliases:
           description: |
             A list of alternative ids for this entry.  
@@ -1812,7 +1864,8 @@ components:
           type: array
           items:
             type: string
-            example: 26503@5406
+            examples:
+              - 26503@5406
         parents:
           type: array
           items:
@@ -1846,7 +1899,8 @@ components:
             The url, this item should be displayed at.
             Present on both redirects and normal entries, to allow for the common /view/:id path
           type: string
-          example: /room/5602.EG.001
+          examples:
+            - /room/5602.EG.001
         coords:
           $ref: '#/components/schemas/Coordinate'
         maps:
@@ -1897,11 +1951,13 @@ components:
                   subtext:
                     description: What should be displayed below this Building
                     type: string
-                    example: Gebäudekomplex mit 512 Räumen
+                    examples:
+                      - Gebäudekomplex mit 512 Räumen
                   thumb:
                     description: The thumbnail for the building
                     type: string
-                    example: mi_0.webp
+                    examples:
+                      - mi_0.webp
                 required:
                   - subtext
         n_visible:
@@ -1912,7 +1968,8 @@ components:
             If this field is not present, then all entries are displayed.
           type: integer
           format: int64
-          example: 5
+          examples:
+            - 5
           minimum: 0
       required:
         - entries
@@ -1928,11 +1985,13 @@ components:
               name:
                 description: Category Name
                 type: string
-                example: Büro
+                examples:
+                  - Büro
               count:
                 description: How many children this category has
                 type: integer
-                example: 126
+                examples:
+                  - 126
                 minimum: 0
               children:
                 type: array
@@ -1955,11 +2014,13 @@ components:
                   subtext:
                     description: What should be displayed below this Building
                     type: string
-                    example: Gebäudekomplex mit 512 Räumen
+                    examples:
+                      - Gebäudekomplex mit 512 Räumen
                   image_url:
                     description: The thumbnail for the building
                     type: string
-                    example: mi_0.webp
+                    examples:
+                      - mi_0.webp
                 required:
                   - subtext
                   - image_url
@@ -1971,11 +2032,13 @@ components:
         id:
           description: The id of the entry
           type: string
-          example: mi
+          examples:
+            - mi
         name:
           description: Human display name
           type: string
-          example: Mathematik / Informatik
+          examples:
+            - Mathematik / Informatik
       required:
         - id
         - name
@@ -1991,11 +2054,13 @@ components:
           description: When the last sync with TUMonline happened.
           type: string
           format: date-time
-          example: '2018-01-01T00:00:00'
+          examples:
+            - '2018-01-01T00:00:00'
         calendar_url:
           description: 'Link to the same calendar, but in TUMonline'
           type: string
-          example: 'https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr=12543'
+          examples:
+            - 'https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr=12543'
           pattern: 'https:\/\/campus\.tum\.de\/tumonline\/wbKalender\.wbRessource\?pResNr=[0-9]+'
       required:
         - events
@@ -2008,21 +2073,25 @@ components:
           description: The id of the calendar entry used in TUMonline internally
           type: integer
           format: int32
-          example: 42
+          examples:
+            - 42
         title:
           description: The title of the Entry
           type: string
-          example: Quantenteleportation
+          examples:
+            - Quantenteleportation
         start:
           description: The start of the entry
           type: string
           format: date-time
-          example: '2018-01-01T00:00:00'
+          examples:
+            - '2018-01-01T00:00:00'
         end:
           description: The end of the entry
           type: string
           format: date-time
-          example: '2018-01-01T00:00:00'
+          examples:
+            - '2018-01-01T00:00:00'
         entry_type:
           description: What this calendar entry means. Each of these should be displayed in a different color
           type: string
@@ -2035,7 +2104,8 @@ components:
         detailed_entry_type:
           description: 'For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)'
           type: string
-          example: Vorlesung mit Zentralübung
+          examples:
+            - Vorlesung mit Zentralübung
       required:
         - id
         - title
@@ -2062,11 +2132,13 @@ components:
               name:
                 description: The name of the provider
                 type: string
-                example: NavigaTUM
+                examples:
+                  - NavigaTUM
               url:
                 description: The url of the provider
                 type: string
-                example: 'https://nav.tum.de'
+                examples:
+                  - 'https://nav.tum.de'
             required:
               - name
       required:
@@ -2166,7 +2238,8 @@ components:
                 Additional context for the edit.  
                 Will be displayed in the discription field of the PR
               type: string
-              example: 'I have a picture of the room, please add it to the roomfinder'
+              examples:
+                - 'I have a picture of the room, please add it to the roomfinder'
           required:
             - edits
             - additional_context
@@ -2180,7 +2253,8 @@ components:
                 The category of the feedback.  
                 Enum attribute is softly enforced: Any value not listed below will be replaced by "other"
               type: string
-              example: bug
+              examples:
+                - bug
               enum:
                 - bug
                 - feature
@@ -2191,13 +2265,15 @@ components:
             subject:
               description: The subject/title of the feedback
               type: string
-              example: A catchy title
+              examples:
+                - A catchy title
               maxLength: 512
               minLength: 4
             body:
               description: The body/description of the feedback
               type: string
-              example: A clear description what happened where and how we should improve it
+              examples:
+                - A clear description what happened where and how we should improve it
               maxLength: 1048576
               minLength: 4
             deletion_requested:
@@ -2206,7 +2282,8 @@ components:
                 If the user has requested to delete the issue, we will delete it from GitHub after processing it
                 If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
               type: boolean
-              example: true
+              examples:
+                - true
           required:
             - category
             - subject
@@ -2218,11 +2295,13 @@ components:
         token:
           description: 'The JWT token, that can be used to generate feedback'
           type: string
-          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+          examples:
+            - eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
         privacy_checked:
           description: Whether the user has checked the privacy-checkbox. We are posting the feedback publicly on GitHub (not a EU-Company). You have to also include such a checkmark.
           type: boolean
-          example: true
+          examples:
+            - true
       required:
         - token
         - privacy_checked
