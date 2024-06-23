@@ -1,26 +1,7 @@
 openapi: 3.1.0
 info:
   title: NavigaTUM
-  description: |
-    Navigating around TUM with excellence – An API to search for rooms,
-    buildings and other places
-
-    NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute.
-
-    - [x] 🗺️ Interactive/static maps to look up the position of rooms or buildings
-    - [x] 🔍 Fast and typo-tolerant search
-    - [x] 💾 Support for different room code formats as well as generic names
-    - [x] 🤖 All functionality is also available via an open and well documented API
-    - [x] 🗘 Automatically update the data from upstream datasources
-    - [ ] 🗨️ Allow students/staff to easily submit feedback and data patches
-    - [ ] 🏫 Generate maps from CAD data sources
-    - [ ] 🚶🏻 Generate turn by turn navigation advice for navigating end to end
-    
-    If you'd like to help out or join us in this adventure, we would love to talk to you.
-
-    All functionality is also available via an API.
-
-    *Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments.*
+  description: "Navigating around TUM with excellence – An API to search for rooms,\nbuildings and other places\n\nNavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute.\n\n- [x] \U0001F5FA️ Interactive/static maps to look up the position of rooms or buildings\n- [x] \U0001F50D Fast and typo-tolerant search\n- [x] \U0001F4BE Support for different room code formats as well as generic names\n- [x] \U0001F916 All functionality is also available via an open and well documented API\n- [x] \U0001F5D8 Automatically update the data from upstream datasources\n- [ ] \U0001F5E8️ Allow students/staff to easily submit feedback and data patches\n- [ ] \U0001F3EB Generate maps from CAD data sources\n- [ ] \U0001F6B6\U0001F3FB Generate turn by turn navigation advice for navigating end to end\n\nIf you'd like to help out or join us in this adventure, we would love to talk to you.\n\nAll functionality is also available via an API.\n\n*Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments.*\n"
   termsOfService: 'https://nav.tum.de/en/about/privacy'
   contact:
     name: TUM-Dev
@@ -308,6 +289,9 @@ paths:
           schema:
             type: string
           examples:
+            '1543':
+              summary: virtual room (humangenetik)
+              value: '1543'
             '5304':
               summary: normal building
               value: '5304'
@@ -332,9 +316,6 @@ paths:
             5401.01.100A:
               summary: virtual room (tb-chemie)
               value: 5401.01.100A
-            '1543':
-              summary: virtual room (humangenetik)
-              value: '1543'
       responses:
         '200':
           description: More data about the requested building/room
@@ -726,7 +707,7 @@ paths:
                   - Not found
       tags:
         - core
-  '/api/calendar':
+  /api/calendar:
     get:
       operationId: calendar
       summary: Retrieve Calendar Entries
@@ -737,7 +718,7 @@ paths:
 
         If successful, returns additional entries in the requested time span.
       requestBody:
-        description:
+        description: null
         required: true
         content:
           application/json:
@@ -827,6 +808,9 @@ paths:
           schema:
             type: string
           examples:
+            '1543':
+              summary: virtual room (humangenetik)
+              value: '1543'
             '5304':
               summary: normal building
               value: '5304'
@@ -851,9 +835,6 @@ paths:
             5401.01.100A:
               summary: virtual room (tb-chemie)
               value: 5401.01.100A
-            '1543':
-              summary: virtual room (humangenetik)
-              value: '1543'
       responses:
         '200':
           description: More data about the requested building/room
@@ -1078,6 +1059,9 @@ paths:
           schema:
             type: string
           examples:
+            '1543':
+              summary: virtual room (humangenetik)
+              value: '1543'
             '5304':
               summary: normal building
               value: '5304'
@@ -1102,9 +1086,6 @@ paths:
             5401.01.100A:
               summary: virtual room (tb-chemie)
               value: 5401.01.100A
-            '1543':
-              summary: virtual room (humangenetik)
-              value: '1543'
         - name: counter
           in: path
           description: counter of the image you want.
@@ -1848,7 +1829,7 @@ components:
           description: The type of the entry in a human-readable form
           type: string
           examples:
-            - "Serverraum"
+            - Serverraum
         name:
           description: The name of the entry in a human-readable form
           type: string
@@ -2050,7 +2031,7 @@ components:
           type: string
           examples:
             - '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
-            - '5121.EG.003 (Computerraum)'
+            - 5121.EG.003 (Computerraum)
         last_calendar_scrape_at:
           description: the last time the calendar was scraped for this room
           type: string
@@ -2067,7 +2048,7 @@ components:
           description: The type of the entry in a human-readable form
           type: string
           examples:
-            - "Serverraum"
+            - Serverraum
         type:
           description: The type of the entry
           type: string
@@ -2094,8 +2075,8 @@ components:
         - type_common_name
         - type
     CalendarResponse:
-      type: object
       description: room-code to calendar entry's record
+      type: object
       additionalProperties:
         type: object
         properties:
