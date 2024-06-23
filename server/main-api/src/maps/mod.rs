@@ -1,7 +1,7 @@
 use std::io::Cursor;
 
-use actix_web::{get, HttpResponse, web};
 use actix_web::http::header::LOCATION;
+use actix_web::{get, web, HttpResponse};
 use image::{ImageBuffer, Rgba};
 use log::{debug, error, warn};
 use serde::Deserialize;
@@ -11,7 +11,7 @@ use tokio::time::Instant;
 use unicode_truncate::UnicodeTruncateStr;
 
 use crate::maps::overlay_map::OverlayMapTask;
-use crate::maps::overlay_text::{CANTARELL_BOLD, CANTARELL_REGULAR, OverlayText};
+use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
 use crate::models::Location;
 use crate::models::LocationKeyAlias;
 use crate::utils;
