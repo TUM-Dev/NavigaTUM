@@ -61,19 +61,19 @@ pub fn setup_logging() {
         let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_| "debug".to_string());
         let filter = format!("{log_level},hyper=info,rustls=info,h2=info,sqlx=info,hickory_resolver=info,hickory_proto=info");
         let env = env_logger::Env::default().default_filter_or(&filter);
-        env_logger::Builder::from_env(env)
+        let _ = env_logger::Builder::from_env(env)
             .is_test(cfg!(test))
-            .init();
+            .try_init();
     }
     #[cfg(not(any(debug_assertions, test)))]
     {
         let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_| "info".to_string());
-        structured_logger::Builder::with_level(&log_level)
+        let _ = structured_logger::Builder::with_level(&log_level)
             .with_target_writer(
                 "*",
                 structured_logger::async_json::new_writer(tokio::io::stdout()),
             )
-            .init();
+            .try_init();
     }
 }
 
