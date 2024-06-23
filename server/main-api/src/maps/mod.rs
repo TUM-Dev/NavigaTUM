@@ -1,9 +1,8 @@
 use std::io::Cursor;
 
+use actix_web::{get, HttpResponse, web};
 use actix_web::http::header::LOCATION;
-use actix_web::{get, web, HttpResponse};
 use image::{ImageBuffer, Rgba};
-
 use log::{debug, error, warn};
 use serde::Deserialize;
 use sqlx::Error::RowNotFound;
@@ -12,7 +11,7 @@ use tokio::time::Instant;
 use unicode_truncate::UnicodeTruncateStr;
 
 use crate::maps::overlay_map::OverlayMapTask;
-use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
+use crate::maps::overlay_text::{CANTARELL_BOLD, CANTARELL_REGULAR, OverlayText};
 use crate::models::Location;
 use crate::models::LocationKeyAlias;
 use crate::utils;
@@ -168,7 +167,7 @@ enum PreviewFormat {
     Square,
 }
 impl PreviewFormat {
-    fn serialise(&self) -> String {
+    fn serialise(self) -> String {
         match self {
             PreviewFormat::OpenGraph => "open_graph".to_string(),
             PreviewFormat::Square => "square".to_string(),
