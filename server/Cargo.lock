@@ -4771,8 +4771,7 @@ checksum = "d4c87d22b6e3f4a18d4d40ef354e97c90fcb14dd91d7dc0aa9d8a1172ebf7202"
 [[package]]
 name = "unicode-truncate"
 version = "1.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5a5fbabedabe362c618c714dbefda9927b5afc8e2a8102f47f081089a9019226"
+source = "git+https://github.com/CommanderStorm/unicode-truncate.git?rev=5cc7798#5cc7798610e31b2738bfabb145f28926c405d411"
 dependencies = [
  "itertools",
  "unicode-width",
