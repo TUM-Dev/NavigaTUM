@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use actix_web::{get, web, HttpResponse};
+use actix_web::{get, HttpResponse, web};
 use chrono::{DateTime, Utc};
 use log::error;
 use serde::{Deserialize, Serialize};
@@ -129,15 +129,15 @@ async fn get_from_db(
 
 #[cfg(test)]
 mod tests {
+    use actix_web::App;
     use actix_web::http::header::ContentType;
     use actix_web::test;
-    use actix_web::App;
     use lazy_static::lazy_static;
     use pretty_assertions::assert_eq;
     use serde_json::Value;
 
-    use crate::setup::tests::PostgresTestContainer;
     use crate::AppData;
+    use crate::setup::tests::PostgresTestContainer;
 
     use super::*;
 
@@ -252,7 +252,7 @@ mod tests {
         let (locations, events) = sample_data();
         for (key, data) in locations {
             for lang in ["de", "en"] {
-                let query =format!("INSERT INTO {lang}(key,data,last_calendar_scrape_at) VALUES ('{key}','{data}','{now_rfc3339}')");
+                let query = format!("INSERT INTO {lang}(key,data,last_calendar_scrape_at) VALUES ('{key}','{data}','{now_rfc3339}')");
                 sqlx::query(&query).execute(&mut *tx).await.unwrap();
             }
         }

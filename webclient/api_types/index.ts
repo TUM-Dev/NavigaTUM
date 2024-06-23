@@ -29,10 +29,10 @@ export type paths = {
      */
     get: operations["details"];
   };
-  "/api/calendar/{id}": {
+  "/api/calendar": {
     /**
      * Retrieve Calendar Entries
-     * @description Retrieves calendar entries for a specific `id` within the requested time span.
+     * @description Retrieves calendar entries for specific `ids` within the requested time span.
      * The time span is defined by the `start_after` and `end_before` query parameters.
      * Ensure to provide valid date-time formats for these parameters.
      *
@@ -502,16 +502,28 @@ export type components = {
       /** @description Human display name */
       readonly name: string;
     };
-    readonly CalendarResponse: {
-      /** @description The entries of the requested */
-      readonly events: readonly components["schemas"]["CalendarEntry"][];
-      /**
-       * Format: date-time
-       * @description When the last sync with TUMonline happened.
-       */
-      readonly last_sync: string;
-      /** @description Link to the same calendar, but in TUMonline */
+    readonly CalendarLocation: {
+      /** @description The name of the entry in a human-readable form */
+      readonly name: string;
+      /** @description the last time the calendar was scraped for this room */
+      readonly last_calendar_scrape_at: string;
+      /** @description A link to the calendar of the room */
       readonly calendar_url: string;
+      /** @description The type of the entry in a human-readable form */
+      readonly type_common_name: string;
+      /**
+       * @description The type of the entry
+       * @enum {string}
+       */
+      readonly type: "room" | "building" | "joined_building" | "area" | "site" | "campus" | "poi";
+    };
+    /** @description room-code to calendar entry's record */
+    readonly CalendarResponse: {
+      [key: string]: {
+        /** @description The entries of the requested */
+        readonly events: readonly components["schemas"]["CalendarEntry"][];
+        readonly location: components["schemas"]["CalendarLocation"];
+      };
     };
     readonly CalendarEntry: {
       /**
@@ -793,23 +805,30 @@ export type operations = {
   };
   /**
    * Retrieve Calendar Entries
-   * @description Retrieves calendar entries for a specific `id` within the requested time span.
+   * @description Retrieves calendar entries for specific `ids` within the requested time span.
    * The time span is defined by the `start_after` and `end_before` query parameters.
    * Ensure to provide valid date-time formats for these parameters.
    *
    * If successful, returns additional entries in the requested time span.
    */
   calendar: {
-    parameters: {
-      query: {
-        /** @description The first allowed time the calendar would like to display */
-        start_after: string;
-        /** @description The last allowed time the calendar would like to display */
-        end_before: string;
-      };
-      path: {
-        /** @description string you want to search for */
-        id: string;
+    /** @description null */
+    readonly requestBody: {
+      readonly content: {
+        readonly "application/json": {
+          /**
+           * Format: date-time
+           * @description The first allowed time the calendar would like to display
+           */
+          readonly start_after: string;
+          /**
+           * Format: date-time
+           * @description The last allowed time the calendar would like to display
+           */
+          readonly end_before: string;
+          /** @description ids you want the calendars for */
+          readonly ids: readonly string[];
+        };
       };
     };
     responses: {
