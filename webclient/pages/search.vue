@@ -29,7 +29,13 @@ const apiUrl = computed(() => {
 
   return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
-const { data } = useFetch<SearchResponse>(apiUrl, { key: "search", dedupe: "defer", deep: false });
+const { data } = useFetch<SearchResponse>(apiUrl, {
+  key: "search",
+  dedupe: "defer",
+  deep: false,
+  retry: 120,
+  retryDelay: 5000,
+});
 const description = computed(() => {
   if (data.value === null) return "";
   let sectionsDescr = "";
