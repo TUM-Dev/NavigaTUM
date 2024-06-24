@@ -85,11 +85,6 @@ async fn main() -> Result<(), BoxedError> {
             .connect(&connection_string())
             .await
             .unwrap();
-        #[cfg(not(feature = "skip_db_setup"))]
-        {
-            setup::database::setup(&pool).await.unwrap();
-            setup::database::load_data(&pool).await.unwrap();
-        }
         #[cfg(not(feature = "skip_ms_setup"))]
         {
             let ms_url =
@@ -97,6 +92,11 @@ async fn main() -> Result<(), BoxedError> {
             let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()).unwrap();
             setup::meilisearch::setup(&client).await.unwrap();
             setup::meilisearch::load_data(&client).await.unwrap();
+        }
+        #[cfg(not(feature = "skip_db_setup"))]
+        {
+            setup::database::setup(&pool).await.unwrap();
+            setup::database::load_data(&pool).await.unwrap();
         }
         calendar::refresh::all_entries(&pool).await;
     });
