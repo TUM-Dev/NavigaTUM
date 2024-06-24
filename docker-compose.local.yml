@@ -88,6 +88,8 @@ services:
       POSTGRES_URL: db:5432
       CONNECTUM_OAUTH_CLIENT_ID: ${CONNECTUM_OAUTH_CLIENT_ID}
       CONNECTUM_OAUTH_CLIENT_SECRET: ${CONNECTUM_OAUTH_CLIENT_SECRET}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      JWT_KEY: ${JWT_KEY}
     depends_on:
       meilisearch:
         condition: service_healthy
