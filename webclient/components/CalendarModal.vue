@@ -1,17 +1,22 @@
 <script setup lang="ts">
-// @ts-expect-error
+// @ts-expect-error vue-simple-calendar does not provide types
 import { CalendarView, CalendarViewHeader } from "vue-simple-calendar";
-// @ts-expect-error
+import { PlusCircleIcon } from "@heroicons/vue/24/outline";
+import { useFeedback } from "~/composables/feedback";
+import { useCalendar } from "~/composables/calendar";
+// @ts-expect-error vue-simple-calendar does not provide types
 import type { ICalendarItem } from "vue-simple-calendar/dist/src/ICalendarItem.d.ts";
 
-import type { components } from "@/api_types";
+import type { components, operations } from "@/api_types";
 import "/node_modules/vue-simple-calendar/dist/style.css";
 import "/node_modules/vue-simple-calendar/dist/css/gcal.css";
+import SearchResultItem from "~/components/SearchResultItem.vue";
 
 type CalendarResponse = components["schemas"]["CalendarResponse"];
+type CalendarBody = operations["calendar"]["requestBody"]["content"]["application/json"];
 
+const feedback = useFeedback();
 const showDate = ref(new Date());
-
 const calendar = useCalendar();
 const { t, locale } = useI18n({ useScope: "local" });
 
@@ -27,14 +32,21 @@ const end_before = computed(() => {
 });
 
 const runtimeConfig = useRuntimeConfig();
-const url = computed(() => {
-  const params = new URLSearchParams();
-  params.append("start_after", start_after.value);
-  params.append("end_before", end_before.value);
-
-  return `${runtimeConfig.public.apiURL}/api/calendar/${calendar.value.showing[0]}?${params.toString()}`;
+const url = computed(() => `${runtimeConfig.public.apiURL}/api/calendar`);
+const body = computed<CalendarBody>(() => ({
+  start_after: start_after.value,
+  end_before: end_before.value,
+  ids: calendar.value.showing,
+}));
+const { data, error } = useFetch<CalendarResponse>(url, {
+  method: "POST",
+  key: "calendar",
+  dedupe: "defer",
+  deep: false,
+  body: body,
+  retry: 120,
+  retryDelay: 5000,
 });
-const { data, status, error } = useFetch<CalendarResponse>(url, { key: "calendar", dedupe: "defer", deep: false });
 const earliest_last_sync = computed<string | null>(() => {
   if (!data.value) return null;
   return Object.values(data.value)
@@ -44,13 +56,20 @@ const earliest_last_sync = computed<string | null>(() => {
 });
 const events = computed<ICalendarItem[]>(() => {
   if (!data.value) return [];
-  return data.value.events.map((e) => ({
-    id: e.id.toString(),
-    title: e.title,
-    startDate: new Date(e.start),
-    endDate: new Date(e.end),
-    classes: [e.entry_type],
-  }));
+  const items = [];
+  const show_room_names = !!Object.keys(data.value).length;
+  for (const [k, v] of Object.entries(data.value)) {
+    items.push(
+      ...v.events.map((e) => ({
+        id: e.id.toString(),
+        title: show_room_names ? k + " " + e.title : e.title,
+        startDate: new Date(e.start),
+        endDate: new Date(e.end),
+        classes: [e.entry_type],
+      })),
+    );
+  }
+  return items;
 });
 
 function setShowDate(d: Date) {
@@ -70,13 +89,47 @@ function setShowDate(d: Date) {
           {{ error }}
         </code>
       </p>
-      <p class="text-sm">
-        {{ t("error.call_to_action") }}
-      </p>
+      <I18nT class="text-sm" tag="p" keypath="error.call_to_action">
+        <template #feedbackForm>
+          <button
+            type="button"
+            class="text-blue-600 bg-transparent visited:text-blue-600 hover:underline"
+            :aria-label="t('error.feedback-open')"
+            @click="
+              () => {
+                feedback.open = true;
+                feedback.data = { category: 'general', subject: '', body: '', deletion_requested: false };
+              }
+            "
+          >
+            {{ t("error.feedback-form") }}
+          </button>
+        </template>
+      </I18nT>
     </Toast>
-    <div v-else>
+    <div v-else-if="data">
+      <ul v-if="calendar.showing.length" class="border-gray-900/5 mb-6 flex gap-2 overflow-x-scroll">
+        <li v-for="(key, i) in calendar.showing" :key="key">
+          <SearchResultItem
+            :highlighted="i != 0"
+            :item="{
+              id: key,
+              name: data[key].location.name,
+              subtext: data[key].location.type_common_name,
+              subtext_bold: t('number_of_events', data[key].events.length),
+              type: data[key].location.type,
+            }"
+          />
+        </li>
+        <li
+          class="bg-zinc-50 border-zinc-200 min-w-14 rounded-sm border hover:bg-blue-100 flex align-middle justify-items-center object-center justify-self-center place-items-center items-center content-center justify-center origin-center"
+        >
+          <button type="button" class="focusable">
+            <PlusCircleIcon class="mx-auto my-auto h-5 w-5" />
+          </button>
+        </li>
+      </ul>
       <CalendarView
-        v-if="data"
         :items="events"
         :show-date="showDate"
         :show-times="true"
@@ -89,10 +142,6 @@ function setShowDate(d: Date) {
           <CalendarViewHeader :header-props="headerProps" @input="setShowDate" />
         </template>
       </CalendarView>
-      <div v-else-if="status === 'pending'" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
-        <Spinner class="h-8 w-8" />
-        {{ t("Loading data...") }}
-      </div>
 
       <div class="pt-2 text-xs">
         {{ t("footer.disclaimer") }} <br />
@@ -102,6 +151,10 @@ function setShowDate(d: Date) {
           {{ t("footer.last_sync", [earliest_last_sync]) }}
         </template>
       </div>
+    </div>
+    <div v-else class="text-zinc-900 flex flex-col items-center gap-5 py-32">
+      <Spinner class="h-8 w-8" />
+      {{ t("Loading data...") }}
     </div>
   </LazyModal>
 </template>
@@ -160,10 +213,13 @@ de:
   title: Kalendar
   close: Schließen
   Loading data...: Lädt daten...
+  number_of_events: ein Event pro Quartal | {count} Events pro Quartal
   error:
     header: Beim Versuch, den Kalender anzuzeigen, ist ein Fehler aufgetreten
     reason: Der Grund für diesen Fehler ist
-    call_to_action: Wenn dieses Problem weiterhin besteht, kontaktieren Sie uns bitte über das Feedback-Formular am Ende der Seite.
+    call_to_action: Wenn dieses Problem weiterhin besteht, kontaktieren Sie uns bitte über das {feedbackForm}.
+    feedback-form: Feedback-Formular
+    feedback-open: Feedback-Formular öffnen
   footer:
     disclaimer: Stündlich aktualisiert und identische Termine zusammengefasst.
     please_check: Im Zweifelsfall prüfe bitte den offiziellen TUMonline-Kalender.
@@ -175,7 +231,10 @@ en:
   error:
     header: Got an error trying to display calendar
     reason: Reason for this error is
-    call_to_action: If this issue persists, please contact us via the feedback form at the bottom of the page
+    call_to_action: If this issue persists, please contact us via the {feedbackForm}.
+    feedback-form: feedback form
+    feedback-open: open the feedback form
+  number_of_events: ein event per quarter | {count} events per quarter
   footer:
     disclaimer: Updated hourly and identical events are merged.
     please_check: If in doubt, please check the official calendar on TUMonline

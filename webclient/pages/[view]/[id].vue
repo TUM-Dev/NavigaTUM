@@ -292,7 +292,7 @@ onMounted(() => {
     {{ t("Loading data...") }}
   </div>
   <ClientOnly>
-    <LazyCalendarModal v-if="calendar.open" />
+    <CalendarModal v-if="calendar.open" />
   </ClientOnly>
 </template>
 
