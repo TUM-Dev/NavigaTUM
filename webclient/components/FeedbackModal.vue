@@ -61,10 +61,11 @@ const feedback = useFeedback();
     </template>
     <template #success="{ successUrl }">
       <p>{{ t("success.thank_you") }}</p>
-      <p>
-        {{ t("success.response_at") }}
-        <Btn variant="linkButton" :href="successUrl">{{ t("success.this_issue") }}</Btn>
-      </p>
+      <I18nT tag="p" keypath="success.response_at">
+        <template #this_issue>
+          <Btn variant="link" :href="successUrl">{{ t("success.this_issue") }}</Btn>
+        </template>
+      </I18nT>
     </template>
   </TokenBasedModal>
 </template>
@@ -83,7 +84,7 @@ de:
   message: Nachricht
   subject: Betreff
   success:
-    response_at: Antwort auf dein Feedback findest du auf
+    response_at: Antwort auf dein Feedback findest du auf {this_issue}
     thank_you: Vielen Dank für dein Feedback! Wir werden es schnellstmöglich bearbeiten.
     this_issue: diesem GitHub Issue
   type:
@@ -105,7 +106,7 @@ en:
   message: Message
   subject: Subject
   success:
-    response_at: You can see our response at
+    response_at: You can see our response at {this_issue}
     thank_you: Thank you for giving your feedback. We will work on this as soon as possible.
     this_issue: this GitHub issue
   type:
