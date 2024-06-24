@@ -12,6 +12,7 @@ const feedback = useFeedback();
       <label class="text-zinc-600 text-sm font-semibold" for="feedback-subject"> {{ t("subject") }}</label>
       <div class="text-zinc-600 flex flex-row gap-2 pb-3">
         <select
+          id="feedback-category"
           v-model="feedback.data.category"
           class="focusable bg-zinc-200 border-zinc-400 rounded border px-2 py-1"
           :aria-label="t('category')"
