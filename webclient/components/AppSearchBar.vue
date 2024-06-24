@@ -114,10 +114,12 @@ const url = computed(() => {
 
   return `${runtimeConfig.public.apiURL}/api/search?${params.toString()}`;
 });
-const { data, error, refresh } = await useFetch<SearchResponse>(url, { key: "search", dedupe: "defer", deep: false });
-// a bit crude way of doing retries, but likely fine
-watchEffect(() => {
-  if (query.value.length && error.value !== null) setTimeout(refresh, 5000);
+const { data, error } = await useFetch<SearchResponse>(url, {
+  key: "search",
+  dedupe: "defer",
+  deep: false,
+  retry: 120,
+  retryDelay: 5000,
 });
 </script>
 
@@ -168,6 +170,18 @@ watchEffect(() => {
       Suche einschränken auf:
       <NuxtLink class="bt btn-link btn-sm">Räume</NuxtLink>
     </li> -->
+      <Toast v-if="error" id="search-error" level="error">
+        <p class="text-md font-bold">{{ t("error.header") }}</p>
+        <p class="text-sm">
+          {{ t("error.reason") }}:<br />
+          <code
+            class="text-red-900 bg-red-200 mb-1 mt-2 inline-flex max-w-full items-center space-x-2 overflow-auto rounded-md px-4 py-3 text-left font-mono text-xs dark:bg-red-50/20"
+          >
+            {{ error }}
+          </code>
+        </p>
+        <p class="text-sm">{{ t("error.call_to_action") }}</p>
+      </Toast>
       <ul v-for="s in data.sections" v-cloak :key="s.facet" class="flex flex-col gap-2">
         <div class="flex items-center">
           <span class="text-md text-zinc-800 me-4 flex-shrink">{{ t(`sections.${s.facet}`) }}</span>
