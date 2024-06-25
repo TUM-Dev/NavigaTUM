@@ -21,8 +21,8 @@ importers:
         specifier: 1.7.0
         version: 1.7.0(ioredis@5.3.2)(rollup@4.13.2)
       '@nuxtjs/color-mode':
-        specifier: 3.4.1
-        version: 3.4.1(rollup@4.13.2)
+        specifier: 3.4.2
+        version: 3.4.2(magicast@0.3.4)(rollup@4.13.2)
       '@vueuse/core':
         specifier: 10.11.0
         version: 10.11.0(vue@3.4.30(typescript@5.4.5))
@@ -1210,8 +1210,8 @@ packages:
     peerDependencies:
       vue: ^3.3.4
 
-  '@nuxtjs/color-mode@3.4.1':
-    resolution: {integrity: sha512-vZgJqDstxInGw3RGSWbLoCLXtU1mvh1LLeuEA/X3a++DYA4ifwSbNoiSiOyb9qZHFEwz1Xr99H71sXV4IhOaEg==}
+  '@nuxtjs/color-mode@3.4.2':
+    resolution: {integrity: sha512-6A+lDP8R6fFXc1Ip5tDepKq9MJW6oxbRlz1plvW52yacnpeDFXv5S5rDS0ax31AuSFUPlgzHymFSdjcylBwZ6w==}
 
   '@nuxtjs/i18n@8.3.1':
     resolution: {integrity: sha512-VHnnjFTTep2oC5++61WY06y4c/h943NyHQh1CRUJQvjsdbGSMX3WQjMGk+X05a3pyPFN70aq0YbgtsEoEoTEjQ==}
@@ -8007,13 +8007,14 @@ snapshots:
       - vti
       - vue-tsc
 
-  '@nuxtjs/color-mode@3.4.1(rollup@4.13.2)':
+  '@nuxtjs/color-mode@3.4.2(magicast@0.3.4)(rollup@4.13.2)':
     dependencies:
-      '@nuxt/kit': 3.11.2(rollup@4.13.2)
+      '@nuxt/kit': 3.12.2(magicast@0.3.4)(rollup@4.13.2)
       pathe: 1.1.2
       pkg-types: 1.1.1
-      semver: 7.6.0
+      semver: 7.6.2
     transitivePeerDependencies:
+      - magicast
       - rollup
       - supports-color
 
