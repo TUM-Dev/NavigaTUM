@@ -2161,8 +2161,8 @@
   },
   "20807": {
     "code": "TUMAF13",
-    "name": "Professur f\u00fcr Analysis und ihre Anwendungen (Prof. Warzel)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Analysis und ihre Anwendungen (Prof. Warzel)"
+    "name": "Lehrstuhl f\u00fcr Mathematische Quantenphysik  (Prof. Warzel)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Mathematische Quantenphysik  (Prof. Warzel)"
   },
   "20816": {
     "code": "TUMAF10",
@@ -6716,8 +6716,8 @@
   },
   "51947": {
     "code": "TUXS203",
-    "name": "Studiengang Austauschprogramm Luft- und Raumfahrt",
-    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Aerospace/Austauschprogramm Luft- und Raumfahrt"
+    "name": "Studiengang Austauschprogramm Luft- und Raumfahrt (auslaufend)",
+    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Aerospace/Studieng\u00e4nge auslaufend/Austauschprogramm Luft- und Raumfahrt (auslaufend)"
   },
   "51948": {
     "code": "TUXS200",
@@ -6771,8 +6771,8 @@
   },
   "51958": {
     "code": "TUXS21K",
-    "name": "Studiengang Austauschprogramm Maschinenwesen",
-    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Austauschprogramm Maschinenwesen"
+    "name": "Studiengang Austauschprogramm Maschinenwesen (auslaufend)",
+    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Studieng\u00e4nge auslaufend/Austauschprogramm Maschinenwesen (auslaufend)"
   },
   "51959": {
     "code": "TUXS21L",
@@ -6781,8 +6781,8 @@
   },
   "51960": {
     "code": "TUXS21M",
-    "name": "Studiengang Praktikum Maschinenwesen",
-    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Praktikum Maschinenwesen"
+    "name": "Studiengang Praktikum Maschinenwesen (auslaufend)",
+    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Studieng\u00e4nge auslaufend/Praktikum Maschinenwesen (auslaufend)"
   },
   "51961": {
     "code": "TUXS21C",
@@ -6951,8 +6951,8 @@
   },
   "52011": {
     "code": "TUXS204",
-    "name": "Studiengang Praktikum Luft- und Raumfahrt",
-    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Aerospace/Praktikum Luft- und Raumfahrt"
+    "name": "Studiengang Praktikum Luft- und Raumfahrt (auslaufend)",
+    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Aerospace/Studieng\u00e4nge auslaufend/Praktikum Luft- und Raumfahrt (auslaufend)"
   },
   "52012": {
     "code": "TUXS20V",
@@ -8046,8 +8046,8 @@
   },
   "52718": {
     "code": "TUINH01",
-    "name": "Informatik Heilbronn 1 - Professur f\u00fcr Efficient Algorithms (Prof. Luttenberger)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 1 - Professur f\u00fcr Efficient Algorithms (Prof. Luttenberger)"
+    "name": "Informatik Heilbronn 1 - Lehrstuhl f\u00fcr Efficient Algorithms (Prof. Kobourov)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 1 - Lehrstuhl f\u00fcr Efficient Algorithms (Prof. Kobourov)"
   },
   "52719": {
     "code": "TUINH02",
@@ -10858,5 +10858,30 @@
     "code": "TUZEI16",
     "name": "AG Westernization of Diet and the Gut",
     "path": "TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut f\u00fcr Ern\u00e4hrungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/Arbeitsgruppen/AG Westernization of Diet and the Gut"
+  },
+  "56317": {
+    "code": "TUXS238",
+    "name": "Studiengang Austauschprogramm Aerospace",
+    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Aerospace/Austauschprogramm Aerospace"
+  },
+  "56318": {
+    "code": "TUXS239",
+    "name": "Studiengang Austauschprogramm Aerospace (Praktikum)",
+    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Aerospace/Austauschprogramm Aerospace (Praktikum)"
+  },
+  "56319": {
+    "code": "TUXS240",
+    "name": "Studiengang Austauschprogramm Maschinenwesen",
+    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Austauschprogramm Maschinenwesen"
+  },
+  "56320": {
+    "code": "TUXS241",
+    "name": "Studiengang Austauschprogramm Maschinenwesen (Praktikum)",
+    "path": "TUM/Schools/Engineering and Design/Studienorganisation/Mechanical Engineering/Austauschprogramm Maschinenwesen (Praktikum)"
+  },
+  "56337": {
+    "code": "TUZEI17",
+    "name": "ZIEL - externe Mitglieder",
+    "path": "TUM/Wissenschaftliche Zentralinstitute/Zentralinstitut f\u00fcr Ern\u00e4hrungs- und Lebensmittelforschung (ZIEL) - Institute for Food & Health/ZIEL-Mitglieder/ZIEL - externe Mitglieder"
   }
 }

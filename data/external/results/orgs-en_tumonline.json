@@ -371,8 +371,8 @@
   },
   "14828": {
     "code": "TUEDS02",
-    "name": "Chair of Education Science (Prof. Wittmann)",
-    "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Education Science (Prof. Wittmann)"
+    "name": "Chair of Vocational Education (Prof. Wittmann)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Vocational Education (Prof. Wittmann)"
   },
   "14830": {
     "code": "TUWIS04",
@@ -2161,8 +2161,8 @@
   },
   "20807": {
     "code": "TUMAF13",
-    "name": "Associate Professorship of Analysis and its applications (Prof. Warzel)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Analysis and its applications (Prof. Warzel)"
+    "name": "Chair of Mathematical Quantum Physics (Prof. Warzel)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Mathematical Quantum Physics (Prof. Warzel)"
   },
   "20816": {
     "code": "TUMAF10",
@@ -6717,7 +6717,7 @@
   "51947": {
     "code": "TUXS203",
     "name": "Degree Program Exchange Program Aerospace",
-    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Exchange Program Aerospace"
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Study Program to expire/Exchange Program Aerospace"
   },
   "51948": {
     "code": "TUXS200",
@@ -6772,7 +6772,7 @@
   "51958": {
     "code": "TUXS21K",
     "name": "Degree Program Exchange program Mechanical Engineering",
-    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Exchange program Mechanical Engineering"
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Study program to expire/Exchange program Mechanical Engineering"
   },
   "51959": {
     "code": "TUXS21L",
@@ -6782,7 +6782,7 @@
   "51960": {
     "code": "TUXS21M",
     "name": "Degree Program Internships Mechanical Engineering",
-    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Internships Mechanical Engineering"
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Study program to expire/Internships Mechanical Engineering"
   },
   "51961": {
     "code": "TUXS21C",
@@ -6952,7 +6952,7 @@
   "52011": {
     "code": "TUXS204",
     "name": "Degree Program Internship Aerospace",
-    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Internship Aerospace"
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Study Program to expire/Internship Aerospace"
   },
   "52012": {
     "code": "TUXS20V",
@@ -8046,8 +8046,8 @@
   },
   "52718": {
     "code": "TUINH01",
-    "name": "Informatics Heilbronn 1 - Assistant Professorship of Efficient Algorithms (Prof. Luttenberger)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics Heilbronn 1 - Assistant Professorship of Efficient Algorithms (Prof. Luttenberger)"
+    "name": "Informatics Heilbronn 1 - Chair of Efficient Algorithms (Prof. Kobourov)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatics Heilbronn 1 - Chair of Efficient Algorithms (Prof. Kobourov)"
   },
   "52719": {
     "code": "TUINH02",
@@ -10741,7 +10741,7 @@
   },
   "55997": {
     "code": "TUS1316",
-    "name": "Associate Professorship of Physics-enhanced Machine Learning (Prof. Dietrich)",
+    "name": "Assistant Professorship of Physics-enhanced Machine Learning (Prof. Dietrich)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physics-enhanced Machine Learning (Prof. Dietrich)"
   },
   "56017": {
@@ -10858,5 +10858,30 @@
     "code": "TUZEI16",
     "name": "Area AG Westernization of Diet and the Gut",
     "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Research Groups/Area"
+  },
+  "56317": {
+    "code": "TUXS238",
+    "name": "Degree Program Austauschprogramm Aerospace",
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Degree Program"
+  },
+  "56318": {
+    "code": "TUXS239",
+    "name": "Degree Program Austauschprogramm Aerospace (Praktikum)",
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Aerospace/Degree Program"
+  },
+  "56319": {
+    "code": "TUXS240",
+    "name": "Degree Program Austauschprogramm Maschinenwesen",
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Degree Program"
+  },
+  "56320": {
+    "code": "TUXS241",
+    "name": "Degree Program Austauschprogramm Maschinenwesen (Praktikum)",
+    "path": "TUM/Schools/Engineering and Design/Academic Program Administration/Mechanical Engineering/Degree Program"
+  },
+  "56337": {
+    "code": "TUZEI17",
+    "name": "Area ZIEL - externe Mitglieder",
+    "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
   }
 }
