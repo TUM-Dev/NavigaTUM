@@ -163,7 +163,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
   <ClientOnly>
     <div
       v-if="searchBarFocused && data && query.length !== 0"
-      class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 -ms-2 me-3 mt-16 flex max-h-[calc(100vh-80px)] max-w-xl flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30"
+      class="shadow-4xl bg-zinc-50 border-zinc-200 absolute top-3 md:-ms-2 md:me-3 mt-16 flex max-h-[calc(100vh-80px)] max-w-xl flex-col gap-4 overflow-auto rounded border p-3.5 shadow-zinc-700/30"
     >
       <!--
     <li class="search-comment filter">
