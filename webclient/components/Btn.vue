@@ -67,8 +67,8 @@ const sizeClasses = computed(() => {
     :type="props.type"
     v-bind="{ disabled: disabled }"
     :class="`focusable flex flex-row gap-1 ${variantClasses} ${sizeClasses}`"
-    @click="emit('click')"
     prefetch
+    @click="emit('click')"
   >
     <slot />
   </NuxtLink>
