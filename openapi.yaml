@@ -708,7 +708,7 @@ paths:
       tags:
         - core
   /api/calendar:
-    get:
+    post:
       operationId: calendar
       summary: Retrieve Calendar Entries
       description: |
