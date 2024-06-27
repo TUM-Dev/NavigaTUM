@@ -111,14 +111,15 @@ function sendForm() {
           <template #default>
             <I18nT tag="p" keypath="public.agreement" class="font-bold">
               <template #github_project_issues>
-                <a
+                <NuxtLink
                   tabindex="1"
                   class="text-blue-600 visited:text-blue-600 hover:underline"
                   href="https://github.com/TUM-Dev/navigatum/issues"
                   target="_blank"
+                  external
                 >
                   {{ t("public.github_project_issues") }}
-                </a>
+                </NuxtLink>
               </template>
             </I18nT>
           </template>
@@ -126,14 +127,15 @@ function sendForm() {
             <p>
               <I18nT tag="span" keypath="public.disclaimer">
                 <template #github_site_policy>
-                  <a
+                  <NuxtLink
                     tabindex="1"
                     class="text-blue-600 visited:text-blue-600 hover:underline"
                     href="https://docs.github.com/en/github/site-policy"
                     target="_blank"
+                    external
                   >
                     {{ t("public.github_site_policy") }}
-                  </a>
+                  </NuxtLink>
                 </template>
               </I18nT>
               {{ t("public.processing_based_on_gdpr") }}
@@ -157,14 +159,15 @@ function sendForm() {
 
               <I18nT keypath="public.question_contact">
                 <template #datenschutz>
-                  <a
+                  <NuxtLink
                     tabindex="1"
                     class="text-blue-600 visited:text-blue-600 hover:underline"
                     href="https://datenschutz.tum.de"
                     target="_blank"
+                    external
                   >
                     datenschutz.tum.de
-                  </a>
+                  </NuxtLink>
                 </template>
               </I18nT>
             </p>

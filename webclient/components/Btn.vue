@@ -48,7 +48,7 @@ const sizeClasses = computed(() => {
 </script>
 
 <template>
-  <a
+  <NuxtLink
     v-if="props.to.length && !disabled && (props.to.startsWith('http') || props.to.startsWith('geo:'))"
     :href="props.to"
     :aria-label="ariaLabel"
@@ -56,9 +56,10 @@ const sizeClasses = computed(() => {
     v-bind="{ disabled: disabled }"
     :class="`focusable flex flex-row gap-1 ${variantClasses} ${sizeClasses} `"
     target="_blank"
+    external
   >
     <slot />
-  </a>
+  </NuxtLink>
   <NuxtLink
     v-else-if="props.to.length"
     :to="props.to"
@@ -67,6 +68,7 @@ const sizeClasses = computed(() => {
     v-bind="{ disabled: disabled }"
     :class="`focusable flex flex-row gap-1 ${variantClasses} ${sizeClasses}`"
     @click="emit('click')"
+    prefetch
   >
     <slot />
   </NuxtLink>
