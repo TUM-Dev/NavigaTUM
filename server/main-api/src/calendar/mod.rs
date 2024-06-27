@@ -282,7 +282,7 @@ mod tests {
         // -- send requests and assert response --
         {
             // missing required query parameters
-            let req = test::TestRequest::get()
+            let req = test::TestRequest::post()
                 .uri("/api/calendar")
                 .insert_header(ContentType::json())
                 .to_request();
@@ -301,7 +301,7 @@ mod tests {
                 start_after: Utc::now(),
                 ids: vec![],
             };
-            let req = test::TestRequest::get()
+            let req = test::TestRequest::post()
                 .uri("/api/calendar")
                 .set_json(args)
                 .insert_header(ContentType::json())
@@ -316,7 +316,7 @@ mod tests {
                 start_after: Utc::now(),
                 ids: (0..10_000).map(|i| i.to_string()).collect(),
             };
-            let req = test::TestRequest::get()
+            let req = test::TestRequest::post()
                 .uri("/api/calendar")
                 .set_json(args)
                 .insert_header(ContentType::json())
@@ -331,7 +331,7 @@ mod tests {
                 start_after: Utc::now(),
                 ids: vec!["5121.EG.002".into()],
             };
-            let req = test::TestRequest::get()
+            let req = test::TestRequest::post()
                 .uri("/api/calendar")
                 .set_json(args)
                 .insert_header(ContentType::json())
@@ -346,7 +346,7 @@ mod tests {
                 end_before: *TIME_2020,
                 ids: vec!["5121.EG.003".into()],
             };
-            let req = test::TestRequest::get()
+            let req = test::TestRequest::post()
                 .uri("/api/calendar")
                 .set_json(args)
                 .insert_header(ContentType::json())
@@ -397,7 +397,7 @@ mod tests {
                 end_before: *TIME_2014,
                 ids: vec!["5121.EG.003".into(), "5121.EG.001".into()],
             };
-            let req = test::TestRequest::get()
+            let req = test::TestRequest::post()
                 .uri("/api/calendar")
                 .set_json(args)
                 .insert_header(ContentType::json())
