@@ -20,7 +20,7 @@
     "@nuxtjs/color-mode": "3.4.2",
     "@vueuse/core": "10.11.0",
     "@vueuse/nuxt": "10.11.0",
-    "maplibre-gl": "4.4.1",
+    "maplibre-gl": "4.5.0",
     "nightwind": "1.1.13",
     "nuxt": "3.12.2",
     "sharp": "0.33.4",
