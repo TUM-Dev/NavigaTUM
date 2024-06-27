@@ -38,7 +38,7 @@ export type paths = {
      *
      * If successful, returns additional entries in the requested time span.
      */
-    get: operations["calendar"];
+    post: operations["calendar"];
   };
   "/api/preview/{id}": {
     /**
