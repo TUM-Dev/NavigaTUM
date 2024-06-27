@@ -39,7 +39,7 @@ impl Arguments {
     }
 }
 
-#[get("/api/calendar")]
+#[post("/api/calendar")]
 pub async fn calendar_handler(
     web::Json(args): web::Json<Arguments>,
     data: web::Data<crate::AppData>,
