@@ -22,7 +22,7 @@ type RoomEntry = components["schemas"]["RoomEntry"];
     <NuxtLink
       :class="{ 'bg-blue-200': highlighted }"
       :to="'/view/' + item.id"
-      class="focusable flex gap-1 md:gap-3 ps-2 md:ps-4 md:pe-4 py-3"
+      class="focusable flex gap-1 px-2 py-3 md:gap-3 md:px-4"
       @click="() => emit('click')"
       @mousedown="() => emit('mousedown')"
       @mouseover="() => emit('mouseover')"
@@ -47,8 +47,8 @@ type RoomEntry = components["schemas"]["RoomEntry"];
             class="flex flex-row items-center"
           >
             <span class="text-zinc-900 shrink-0" v-html="item.parsed_id" />
-            <ChevronRightIcon class="text-zinc-400 shrink-0 h-4 w-4" />
-            <span class="line-clamp-1 text-sm text-zinc-400 shrink" v-html="item.name" />
+            <ChevronRightIcon class="text-zinc-400 h-4 w-4 shrink-0" />
+            <span class="text-zinc-400 line-clamp-1 shrink text-sm" v-html="item.name" />
           </div>
           <span v-else class="line-clamp-1" v-html="item.name" />
         </div>
