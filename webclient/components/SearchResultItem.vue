@@ -53,8 +53,8 @@ type RoomEntry = components["schemas"]["RoomEntry"];
           <span v-else class="line-clamp-1" v-html="item.name" />
         </div>
         <small>
-          {{ item.subtext }}
-          <template v-if="item.type === 'room' || item.type === 'virtual_room' || item.type === 'poi'"
+          {{ item.subtext
+          }}<template v-if="item.type === 'room' || item.type === 'virtual_room' || item.type === 'poi'"
             >, <b v-html="item.subtext_bold"
           /></template>
         </small>
