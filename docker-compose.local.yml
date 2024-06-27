@@ -79,6 +79,7 @@ services:
       - "3003:3003"
     user: 1000:3000
     environment:
+      LOG_LEVEL: ${LOG_LEVEL-debug}
       MIELI_URL: http://meilisearch:7700
       TILESERVER_URL: http://tileserver:8080
       CDN_URL: http://data:3002/cdn

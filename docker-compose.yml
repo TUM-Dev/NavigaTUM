@@ -125,6 +125,7 @@ services:
     command: /bin/navigatum-main-api
     user: 1000:3000
     environment:
+      LOG_LEVEL: ${LOG_LEVEL-info}
       MIELI_URL: http://meilisearch:7700
       TILESERVER_URL: http://tileserver:8080
       CDN_URL: http://data:3002/cdn
