@@ -39,7 +39,7 @@ def unlocalise(value: str | list[Any] | dict[str, Any]) -> Any:
     raise ValueError(f"Unhandled type {type(value)}")
 
 
-def export_for_search(data: dict, path: str) -> None:
+def export_for_search(data: dict) -> None:
     """Export a subset of the data for the /search api"""
     export = []
     for _id, entry in data.items():
@@ -103,7 +103,7 @@ def export_for_search(data: dict, path: str) -> None:
     export = unlocalise(export)
 
     _make_sure_is_safe(export)
-    with open(path, "w", encoding="utf-8") as file:
+    with open("output/search_data.json", "w", encoding="utf-8") as file:
         json.dump(export, file)
 
 
@@ -153,17 +153,16 @@ def _make_sure_is_safe(obj: object):
         raise ValueError(f"unhandled type: {type(obj)}")
 
 
-def export_for_status(data: dict, path: str) -> None:
+def export_for_status(data: dict) -> None:
     """Generate hashes for the contents of data"""
-    export_data = []
-    for _id, entry in data.items():
-        hashed_entry = hash(json.dumps(entry, sort_keys=True, cls=EnhancedJSONEncoder))
-        export_data.append((_id, hashed_entry))
-    with open(path, "w", encoding="utf-8") as file:
+    with open("output/api_data.json", encoding="utf-8") as file:
+        export_data = json.load(file)
+    export_data = [(k, d["hash"]) for k, d in export_data.items()]
+    with open("output/status_data.json", "w", encoding="utf-8") as file:
         json.dump(export_data, file)
 
 
-def export_for_api(data: dict, path: str) -> None:
+def export_for_api(data: dict) -> None:
     """Add some more information about parents to the data and export for the /get/:id api"""
     export_data = []
     for _id, entry in data.items():
@@ -176,7 +175,7 @@ def export_for_api(data: dict, path: str) -> None:
         export_data.append(extract_exported_item(data, entry))
 
     _make_sure_is_safe(export_data)
-    with open(path, "w", encoding="utf-8") as file:
+    with open("output/api_data.json", "w", encoding="utf-8") as file:
         json.dump(export_data, file, cls=EnhancedJSONEncoder)
 
 
@@ -198,6 +197,7 @@ def extract_exported_item(data, entry):
         to_delete = [e for e in result["props"].keys() if e not in prop_keys_to_keep]
         for k in to_delete:
             del result["props"][k]
+    result["hash"] = hash(json.dumps(result, sort_keys=True, cls=EnhancedJSONEncoder))
     return result
 
 
