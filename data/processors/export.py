@@ -157,10 +157,10 @@ def export_for_status(data: dict, path: str) -> None:
     """Generate hashes for the contents of data"""
     export_data = []
     for _id, entry in data.items():
-        hashed_entry = hash(json.dumps(entry, sort_keys=True))
+        hashed_entry = hash(json.dumps(entry, sort_keys=True, cls=EnhancedJSONEncoder))
         export_data.append((_id, hashed_entry))
     with open(path, "w", encoding="utf-8") as file:
-        json.dump(export_data, file, cls=EnhancedJSONEncoder)
+        json.dump(export_data, file)
 
 
 def export_for_api(data: dict, path: str) -> None:
