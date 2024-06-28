@@ -124,9 +124,9 @@ def main() -> None:
     # leaving it here and thus having it delivered by the other apis leads to bad ergonomics
     # => we construct the frontpage "manually" with the most popular buildings
     data.pop("root")
-    export.export_for_search(data, "output/search_data.json")
-    export.export_for_api(data, "output/api_data.json")
-    export.export_for_status(data, "output/status_data.json")
+    export.export_for_search(data)
+    export.export_for_api(data)
+    export.export_for_status(data)
     sitemap.generate_sitemap()  # only for deployments
 
     resizer.join(timeout=60 * 4)
