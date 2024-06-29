@@ -344,3 +344,4 @@ def _maybe_set_alt_name(room_code: str, arch_name_parts: tuple[str, str], room: 
         logging.debug(
             f"(alt_name / arch_name mismatch): {alt_parts[0]=} {arch_name_parts[0]=} {room_code=}",
         )
+    room.alt_name = room.alt_name.strip()

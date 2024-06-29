@@ -76,7 +76,7 @@ def scrape_rooms() -> None:
             "zip_code": val.pop("address_zip_code"),
         }
         if "alt_name" in val:
-            val["alt_name"] = _clean_spaces(val["alt_name"])
+            val["alt_name"] = _clean_spaces(val["alt_name"]).replace(" ( ", " (")
         val["floor_level"] = val.pop("address_floor")
         val["seats"] = {
             "sitting": val.pop("seats", None),
