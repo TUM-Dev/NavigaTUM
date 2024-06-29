@@ -1,18 +1,32 @@
 use std::collections::HashMap;
 use std::time::Instant;
 
-use log::info;
+use log::debug;
 use serde_json::Value;
 
-struct DelocalisedValues {
+pub(super) struct DelocalisedValues {
     key: String,
+    hash: i64,
     de: Value,
     en: Value,
 }
 
 impl From<HashMap<String, Value>> for DelocalisedValues {
     fn from(value: HashMap<String, Value>) -> Self {
+        let key = value
+            .get("id")
+            .expect("an ID should always exist")
+            .as_str()
+            .expect("the id should be a valid string")
+            .to_string();
+        let hash = value
+            .get("hash")
+            .expect("a hash should always exist")
+            .as_i64()
+            .expect("a hash should be a valid i64");
         Self {
+            key,
+            hash,
             de: value
                 .clone()
                 .into_iter()
@@ -23,13 +37,6 @@ impl From<HashMap<String, Value>> for DelocalisedValues {
                 .into_iter()
                 .map(|(k, v)| (k, Self::delocalise(v.clone(), "en")))
                 .collect(),
-            key: value
-                .clone()
-                .get("id")
-                .unwrap()
-                .as_str()
-                .unwrap()
-                .to_string(),
         }
     }
 }
@@ -63,17 +70,27 @@ impl DelocalisedValues {
         tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
     ) -> Result<(), sqlx::Error> {
         sqlx::query!(
-            r#"INSERT INTO de(key,data)VALUES ($1,$2)"#,
+            r#"
+            INSERT INTO de(key,data,hash)
+            VALUES ($1,$2,$3)
+            ON CONFLICT (key) DO UPDATE
+            SET data = EXCLUDED.data,
+                hash = EXCLUDED.hash"#,
             self.key,
-            self.de
+            self.de,
+            self.hash,
         )
         .execute(&mut **tx)
         .await?;
 
         sqlx::query!(
-            r#"INSERT INTO en(key,data)VALUES ($1,$2)"#,
+            r#"
+            INSERT INTO en(key,data)
+            VALUES ($1,$2)
+            ON CONFLICT (key) DO UPDATE
+            SET data = EXCLUDED.data"#,
             self.key,
-            self.en
+            self.en,
         )
         .execute(&mut **tx)
         .await?;
@@ -82,9 +99,9 @@ impl DelocalisedValues {
     }
 }
 
-pub async fn load_all_to_db(
-    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-) -> Result<(), crate::BoxedError> {
+pub async fn download_updates(
+    keys_which_need_updating: &[String],
+) -> Result<Vec<DelocalisedValues>, crate::BoxedError> {
     let start = Instant::now();
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
@@ -92,13 +109,36 @@ pub async fn load_all_to_db(
         .json::<Vec<HashMap<String, Value>>>()
         .await?
         .into_iter()
-        .map(DelocalisedValues::from);
-    info!("downloaded data in {elapsed:?}", elapsed = start.elapsed());
+        .map(DelocalisedValues::from)
+        .filter(|d| keys_which_need_updating.contains(&d.key))
+        .collect::<Vec<DelocalisedValues>>();
+    debug!("downloaded data in {elapsed:?}", elapsed = start.elapsed());
+    Ok(tasks)
+}
+
+pub(super) async fn load_all_to_db(
+    tasks: Vec<DelocalisedValues>,
+    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+) -> Result<(), crate::BoxedError> {
     let start = Instant::now();
-    for task in tasks {
+    for task in tasks.into_iter() {
         task.store(tx).await?;
     }
-    info!("loaded data in {elapsed:?}", elapsed = start.elapsed());
+    debug!("loaded data in {elapsed:?}", elapsed = start.elapsed());
 
     Ok(())
+}
+
+pub async fn download_status() -> Result<Vec<(String, i64)>, crate::BoxedError> {
+    let start = Instant::now();
+    let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
+    let tasks = reqwest::get(format!("{cdn_url}/status_data.json"))
+        .await?
+        .json::<Vec<(String, i64)>>()
+        .await?;
+    debug!(
+        "downloaded current status in {elapsed:?}",
+        elapsed = start.elapsed()
+    );
+    Ok(tasks)
 }
