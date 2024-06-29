@@ -1,0 +1,23 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\nSELECT de.key\nFROM de, (SELECT * FROM UNNEST($1::text[], $2::int8[])) as expected(key,hash)\nWHERE de.key = expected.key and de.hash != expected.hash\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "key",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "TextArray",
+        "Int8Array"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "213693b327a922e452caf987d332f3c6c177016c63bef328525829f02fc74538"
+}

@@ -1,0 +1,35 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO calendar (id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type,detailed_entry_type)\n            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)\n            ON CONFLICT (id) DO UPDATE SET\n             room_code = EXCLUDED.room_code,\n             start_at = EXCLUDED.start_at,\n             end_at = EXCLUDED.end_at,\n             stp_title_de = EXCLUDED.stp_title_de,\n             stp_title_en = EXCLUDED.stp_title_en,\n             stp_type = EXCLUDED.stp_type,\n             entry_type = EXCLUDED.entry_type,\n             detailed_entry_type = EXCLUDED.detailed_entry_type",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Int4",
+        "Varchar",
+        "Timestamptz",
+        "Timestamptz",
+        "Text",
+        "Text",
+        "Text",
+        {
+          "Custom": {
+            "name": "eventtype",
+            "kind": {
+              "Enum": [
+                "lecture",
+                "exercise",
+                "exam",
+                "barred",
+                "other"
+              ]
+            }
+          }
+        },
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "1ffddd843ece79fa10cfb98c2e8aff2842cad45867c3a72f807ae08c1b10cb37"
+}

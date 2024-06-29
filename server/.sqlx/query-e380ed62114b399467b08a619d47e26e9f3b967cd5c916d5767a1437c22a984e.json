@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            INSERT INTO de(key,data,hash)\n            VALUES ($1,$2,$3)\n            ON CONFLICT (key) DO UPDATE\n            SET data = EXCLUDED.data,\n                hash = EXCLUDED.hash",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Jsonb",
+        "Int8"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "e380ed62114b399467b08a619d47e26e9f3b967cd5c916d5767a1437c22a984e"
+}
