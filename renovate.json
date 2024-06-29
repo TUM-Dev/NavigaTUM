@@ -19,7 +19,7 @@
       "groupName": "devDependencies"
     },
     {
-      "matchPackagePatterns": ["pytest", "cypress", "pretty_assertions"],
+      "matchPackagePatterns": ["pytest", "cypress", "pretty_assertions", "testcontainers_modules", "testcontainers"],
       "groupName": "testing",
       "automerge": true
     },
