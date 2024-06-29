@@ -126,7 +126,7 @@ def main() -> None:
     data.pop("root")
     export.export_for_search(data)
     export.export_for_api(data)
-    export.export_for_status(data)
+    export.export_for_status()
     sitemap.generate_sitemap()  # only for deployments
 
     resizer.join(timeout=60 * 4)
