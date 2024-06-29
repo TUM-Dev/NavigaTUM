@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\nSELECT de.key\nFROM de\nWHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) as expected2(key) where de.key=expected2.key)\n",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "key",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "TextArray"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "bcd73ce5d9d43948f0f568e0dee1b806e8fd88ce1c6ada7e52f96ee8cac6b471"
+}

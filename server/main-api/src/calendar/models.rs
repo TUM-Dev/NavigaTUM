@@ -68,14 +68,14 @@ impl Event {
             r#"INSERT INTO calendar (id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type,detailed_entry_type)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             ON CONFLICT (id) DO UPDATE SET
-             room_code = $2,
-             start_at = $3,
-             end_at = $4,
-             stp_title_de = $5,
-             stp_title_en = $6,
-             stp_type = $7,
-             entry_type = $8,
-             detailed_entry_type = $9"#,
+             room_code = EXCLUDED.room_code,
+             start_at = EXCLUDED.start_at,
+             end_at = EXCLUDED.end_at,
+             stp_title_de = EXCLUDED.stp_title_de,
+             stp_title_en = EXCLUDED.stp_title_en,
+             stp_type = EXCLUDED.stp_type,
+             entry_type = EXCLUDED.entry_type,
+             detailed_entry_type = EXCLUDED.detailed_entry_type"#,
             self.id,
             self.room_code,
             self.start_at,

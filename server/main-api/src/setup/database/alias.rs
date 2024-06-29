@@ -1,10 +1,10 @@
 use std::time::Instant;
 
-use log::info;
+use log::debug;
 use serde::Deserialize;
 
 #[derive(Debug)]
-struct Alias {
+pub(super) struct Alias {
     alias: String,
     key: String,    // the key is the id of the entry
     r#type: String, // what we display in the url
@@ -90,9 +90,9 @@ impl Alias {
             r#"INSERT INTO aliases (alias, key, type, visible_id)
             VALUES ($1, $2, $3, $4)
             ON CONFLICT (alias,key) DO UPDATE SET
-             key = $2,
-             type = $3,
-             visible_id = $4"#,
+             key = EXCLUDED.key,
+             type = EXCLUDED.type,
+             visible_id = EXCLUDED.visible_id"#,
             self.alias,
             self.key,
             self.r#type,
@@ -102,24 +102,29 @@ impl Alias {
         .await
     }
 }
-
-pub async fn load_all_to_db(
-    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-) -> Result<(), crate::BoxedError> {
+pub async fn download_updates(
+    keys_which_need_updating: &[String],
+) -> Result<Vec<Alias>, crate::BoxedError> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let raw_aliase = reqwest::get(format!("{cdn_url}/api_data.json"))
+    Ok(reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?
         .json::<Vec<AliasData>>()
-        .await?;
-    let start = Instant::now();
-    let set_aliase = raw_aliase
+        .await?
         .into_iter()
+        .filter(|d| keys_which_need_updating.is_empty() || keys_which_need_updating.contains(&d.id))
         .map(AliasIterator::from)
-        .flat_map(IntoIterator::into_iter);
-    for task in set_aliase {
+        .flat_map(IntoIterator::into_iter)
+        .collect::<Vec<Alias>>())
+}
+pub async fn load_all_to_db(
+    aliases: Vec<Alias>,
+    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+) -> Result<(), crate::BoxedError> {
+    let start = Instant::now();
+    for task in aliases {
         task.store(tx).await?;
     }
-    info!("loaded aliases in {elapsed:?}", elapsed = start.elapsed());
+    debug!("loaded aliases in {elapsed:?}", elapsed = start.elapsed());
 
     Ok(())
 }
