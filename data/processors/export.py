@@ -153,11 +153,11 @@ def _make_sure_is_safe(obj: object):
         raise ValueError(f"unhandled type: {type(obj)}")
 
 
-def export_for_status(data: dict) -> None:
+def export_for_status() -> None:
     """Generate hashes for the contents of data"""
     with open("output/api_data.json", encoding="utf-8") as file:
         export_data = json.load(file)
-    export_data = [(k, d["hash"]) for k, d in export_data.items()]
+    export_data = [(d["id"], d["hash"]) for d in export_data]
     with open("output/status_data.json", "w", encoding="utf-8") as file:
         json.dump(export_data, file)
 
