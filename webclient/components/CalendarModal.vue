@@ -89,7 +89,7 @@ Thanks`,
             </I18nT>
           </Toast>
           <CalendarRoomSelector :data="locations" />
-          <Calendar
+          <CalendarFull
             v-model:earliest_last_sync="earliest_last_sync"
             v-model:locations="locations"
             :showing="calendar.showing"
