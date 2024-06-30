@@ -94,14 +94,14 @@ Thanks`,
             v-model:locations="locations"
             :showing="calendar.showing"
           />
-          <div class="pt-2 text-xs">
+          <p class="pt-2 text-xs">
             {{ t("footer.disclaimer") }} <br />
             {{ t("footer.please_check") }}
             <template v-if="earliest_last_sync !== null">
               <br />
               {{ t("footer.last_sync", [earliest_last_sync]) }}
             </template>
-          </div>
+          </p>
         </div>
       </template>
     </NuxtErrorBoundary>
