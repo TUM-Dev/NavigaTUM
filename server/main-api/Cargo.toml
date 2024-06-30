@@ -67,12 +67,12 @@ actix-governor = { version = "0.5.0", features = ["logger"] }
 tempfile = "3.10.1"
 base64 = "0.22.1"
 time = "0.3.36"
-testcontainers-modules = { version = "0.6.1", features = ["postgres"] }
+testcontainers-modules = { version = "0.7.0", features = ["postgres"] }
 
 [dev-dependencies]
 pretty_assertions = "1.4.0"
 testcontainers = { version = "0.19.0", features = ["watchdog"] }
-testcontainers-modules = {version =  "0.6.1",features = ["postgres"] }
+testcontainers-modules = {version =  "0.7.0",features = ["postgres"] }
 
 [features]
 skip_db_setup = []
