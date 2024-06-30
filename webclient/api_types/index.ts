@@ -531,18 +531,20 @@ export type components = {
        * @description The id of the calendar entry used in TUMonline internally
        */
       readonly id: number;
-      /** @description The title of the Entry */
-      readonly title: string;
+      /** @description The german title of the Entry */
+      readonly stp_title_de: string;
+      /** @description The english title of the Entry */
+      readonly stp_title_en: string;
       /**
        * Format: date-time
        * @description The start of the entry
        */
-      readonly start: string;
+      readonly start_at: string;
       /**
        * Format: date-time
        * @description The end of the entry
        */
-      readonly end: string;
+      readonly end_at: string;
       /**
        * @description What this calendar entry means. Each of these should be displayed in a different color
        * @enum {string}
