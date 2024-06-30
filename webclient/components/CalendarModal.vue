@@ -108,7 +108,7 @@ function setShowDate(d: Date) {
       </I18nT>
     </Toast>
     <div v-else-if="data">
-      <ul v-if="calendar.showing.length" class="border-gray-900/5 mb-6 flex gap-2 overflow-x-scroll">
+      <ul v-if="calendar.showing.length" class="border-gray-900/5 mb-6 flex gap-2 overflow-x-auto">
         <li v-for="(key, i) in calendar.showing" :key="key">
           <SearchResultItem
             :highlighted="i != 0"
