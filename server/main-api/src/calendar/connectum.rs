@@ -1,12 +1,12 @@
-use std::time::{Duration, Instant};
 use std::{env, io};
+use std::time::{Duration, Instant};
 
 use chrono::{DateTime, Utc};
 use log::{debug, error, warn};
+use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
 use oauth2::basic::{BasicClient, BasicTokenResponse};
 use oauth2::reqwest::async_http_client;
 use oauth2::url::Url;
-use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
 use sqlx::PgPool;
 
 use crate::calendar::models::Event;
@@ -69,7 +69,7 @@ impl APIRequestor {
     fn should_refresh_token(&self) -> bool {
         if let Some((start, token)) = &self.oauth_token {
             if let Some(expires_in) = token.expires_in() {
-                return expires_in - start.elapsed() < Duration::from_secs(60);
+                return start.elapsed() < expires_in + Duration::from_secs(60);
             }
         }
         true
