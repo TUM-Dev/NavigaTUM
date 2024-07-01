@@ -69,7 +69,8 @@ impl APIRequestor {
     fn should_refresh_token(&self) -> bool {
         if let Some((start, token)) = &self.oauth_token {
             if let Some(expires_in) = token.expires_in() {
-                return expires_in - start.elapsed() < Duration::from_secs(60);
+                return (expires_in < start.elapsed())
+                    || (expires_in - start.elapsed() < Duration::from_secs(60));
             }
         }
         true

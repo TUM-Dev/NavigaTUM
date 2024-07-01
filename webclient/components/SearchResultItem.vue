@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import {
-  BuildingOffice2Icon,
-  BuildingOfficeIcon,
-  MagnifyingGlassIcon,
-  MapPinIcon,
-} from "@heroicons/vue/24/outline/index.js";
 import { ChevronRightIcon } from "@heroicons/vue/16/solid/index.js";
 import type { components } from "~/api_types/index.js";
+import PreviewIcon from "~/components/PreviewIcon.vue";
 
 defineProps<{
   item: SitesBuildingsEntry | RoomEntry;
@@ -27,19 +22,7 @@ type RoomEntry = components["schemas"]["RoomEntry"];
       @mousedown="() => emit('mousedown')"
       @mouseover="() => emit('mouseover')"
     >
-      <div class="my-auto min-w-9 md:min-w-11">
-        <div
-          v-if="item.type === 'room' || item.type === 'virtual_room' || item.type === 'poi'"
-          class="text-zinc-900 p-2"
-        >
-          <MagnifyingGlassIcon v-if="item.parsed_id" class="h-5 w-5 md:h-6 md:w-6" />
-          <MapPinIcon v-else class="h-5 w-5 md:h-6 md:w-6" />
-        </div>
-        <div v-else class="text-white bg-blue-500 rounded-full p-2">
-          <BuildingOfficeIcon v-if="item.type === 'building'" class="mx-auto h-5 w-5 md:h-6 md:w-6" />
-          <BuildingOffice2Icon v-else class="mx-auto h-5 w-5 md:h-6 md:w-6" />
-        </div>
-      </div>
+      <PreviewIcon :item="{ type: item.type, parsed_id: undefined }" />
       <div class="text-zinc-600 flex flex-col gap-0.5">
         <div class="flex flex-col">
           <div

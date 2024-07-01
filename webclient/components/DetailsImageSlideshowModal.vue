@@ -40,7 +40,7 @@ const subtitles = computed<SubTitle[]>(() => {
 </script>
 
 <template>
-  <LazyModal v-model="slideshowOpen" :title="t('header')" :classes="{ modal: '!min-w-[60vw]' }">
+  <LazyModal v-model="slideshowOpen" :title="t('header')" class="!min-w-[60vw]">
     <div class="-mx-6 -mt-3">
       <Carousel
         :items-to-show="1.1"
