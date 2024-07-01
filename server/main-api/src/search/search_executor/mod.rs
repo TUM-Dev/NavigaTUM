@@ -1,7 +1,7 @@
 use serde::Serialize;
 use tracing::error;
 
-use crate::limited_vec::LimitedVec;
+use crate::limited::vec::LimitedVec;
 use crate::search::search_executor::parser::ParsedQuery;
 use crate::search::search_executor::query::MSHit;
 

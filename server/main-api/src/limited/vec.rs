@@ -1,26 +1,33 @@
-use core::fmt::Formatter;
+use serde::{Deserialize, Serialize};
 use std::fmt;
+use std::vec::IntoIter;
 
-enum OrMore<T> {
-    Value(T),
-    More,
-}
+use crate::limited::OrMore;
 
-impl<T: fmt::Debug> fmt::Debug for OrMore<T> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
-        match self {
-            OrMore::Value(t) => fmt::Debug::fmt(t, f),
-            OrMore::More => write!(f, "..."),
-        }
+#[derive(Serialize, Deserialize, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct LimitedVec<T>(pub Vec<T>);
+
+impl<T> AsRef<[T]> for LimitedVec<T> {
+    fn as_ref(&self) -> &[T] {
+        &self.0
     }
 }
 
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub struct LimitedVec<T>(pub Vec<T>);
+impl<T> IntoIterator for LimitedVec<T> {
+    type Item = T;
+    type IntoIter = IntoIter<T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
 
 impl<T> LimitedVec<T> {
     pub fn is_empty(&self) -> bool {
         self.0.is_empty()
+    }
+    pub fn len(&self) -> usize {
+        self.0.len()
     }
 }
 

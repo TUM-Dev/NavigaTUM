@@ -1,6 +1,6 @@
 use tracing::{debug, debug_span, info, info_span};
 
-use crate::limited_vec::LimitedVec;
+use crate::limited::vec::LimitedVec;
 
 mod alias;
 mod data;
@@ -25,28 +25,28 @@ pub async fn load_data(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
         .map(|(_, h)| h)
         .collect::<LimitedVec<i64>>();
     {
-        let _ = info_span!("deleting old data");
+        let _ = info_span!("deleting old data").enter();
         let mut tx = pool.begin().await?;
         cleanup_deleted(&new_keys, &mut tx).await?;
         tx.commit().await?;
     }
     let keys_which_need_updating = {
-        let _ = debug_span!("finding changed data");
+        let _ = debug_span!("finding changed data").enter();
         find_keys_which_need_updating(pool, &new_keys, &new_hashes).await?
     };
     if !keys_which_need_updating.is_empty() {
-        let _ = info_span!("loading changed data");
-        let data = data::download_updates(&keys_which_need_updating).await?.0;
+        let _ = info_span!("loading changed data").enter();
+        let data = data::download_updates(&keys_which_need_updating).await?;
         let mut tx = pool.begin().await?;
         data::load_all_to_db(data, &mut tx).await?;
         tx.commit().await?;
     }
 
     if !keys_which_need_updating.is_empty() {
-        let _ = info_span!("loading new aliases");
-        let aliases = alias::download_updates(&keys_which_need_updating).await?.0;
+        let _ = info_span!("loading new aliases").enter();
+        let aliases = alias::download_updates(&keys_which_need_updating).await?;
         let mut tx = pool.begin().await?;
-        alias::load_all_to_db(LimitedVec(aliases), &mut tx).await?;
+        alias::load_all_to_db(aliases, &mut tx).await?;
         tx.commit().await?;
     }
     Ok(())
@@ -58,8 +58,6 @@ async fn find_keys_which_need_updating(
     keys: &LimitedVec<String>,
     hashes: &LimitedVec<i64>,
 ) -> Result<LimitedVec<String>, crate::BoxedError> {
-    let keys = &keys.0;
-    let hashes = &hashes.0;
     let number_of_keys = sqlx::query_scalar!("SELECT COUNT(*) FROM de")
         .fetch_one(pool)
         .await?;
@@ -68,19 +66,19 @@ async fn find_keys_which_need_updating(
             "all {updated_cnt} keys need upating",
             updated_cnt = keys.len()
         );
-        return Ok(LimitedVec(keys.to_vec()));
+        return Ok(keys.clone());
     }
 
     let mut keys_which_need_updating = {
-        let _ = debug_span!("keys_which_need_updating");
+        let _ = debug_span!("keys_which_need_updating").enter();
         let keys_which_need_updating = sqlx::query_scalar!(
             r#"
 SELECT de.key
 FROM de, (SELECT * FROM UNNEST($1::text[], $2::int8[])) as expected(key,hash)
 WHERE de.key = expected.key and de.hash != expected.hash
 "#,
-            keys,
-            hashes
+            keys.as_ref(),
+            hashes.as_ref(),
         )
         .fetch_all(pool)
         .await?;
@@ -92,14 +90,14 @@ WHERE de.key = expected.key and de.hash != expected.hash
     };
 
     let mut keys_which_need_removing = {
-        let _ = debug_span!("keys_which_need_removing");
+        let _ = debug_span!("keys_which_need_removing").enter();
         let keys_which_need_removing = sqlx::query_scalar!(
             r#"
 SELECT de.key
 FROM de
 WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) as expected2(key) where de.key=expected2.key)
 "#,
-            keys
+            keys.as_ref()
         )
         .fetch_all(pool)
         .await?;

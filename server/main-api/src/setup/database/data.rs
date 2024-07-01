@@ -1,18 +1,25 @@
 use std::collections::HashMap;
+use std::fmt;
 use std::hash::{Hash, Hasher};
-use std::time::Instant;
 
 use serde_json::Value;
-use tracing::debug;
 
-use crate::limited_vec::LimitedVec;
+use crate::limited::vec::LimitedVec;
 
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub(super) struct DelocalisedValues {
     key: String,
     hash: i64,
     de: Value,
     en: Value,
+}
+impl fmt::Debug for DelocalisedValues {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("DelocalisedValues")
+            .field("key", &self.key)
+            .field("hash", &self.hash)
+            .finish()
+    }
 }
 
 impl PartialEq<Self> for DelocalisedValues {
@@ -119,7 +126,6 @@ impl DelocalisedValues {
 pub async fn download_updates(
     keys_which_need_updating: &LimitedVec<String>,
 ) -> Result<LimitedVec<DelocalisedValues>, crate::BoxedError> {
-    let start = Instant::now();
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?
@@ -128,21 +134,17 @@ pub async fn download_updates(
         .into_iter()
         .map(DelocalisedValues::from)
         .filter(|d| keys_which_need_updating.0.contains(&d.key))
-        .collect::<Vec<DelocalisedValues>>();
-    debug!("downloaded data in {elapsed:?}", elapsed = start.elapsed());
-    Ok(LimitedVec(tasks))
+        .collect::<LimitedVec<DelocalisedValues>>();
+    Ok(tasks)
 }
-#[tracing::instrument]
+#[tracing::instrument(skip(tx))]
 pub(super) async fn load_all_to_db(
-    tasks: Vec<DelocalisedValues>,
+    tasks: LimitedVec<DelocalisedValues>,
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
 ) -> Result<(), crate::BoxedError> {
-    let start = Instant::now();
     for task in tasks.into_iter() {
         task.store(tx).await?;
     }
-    debug!("loaded data in {elapsed:?}", elapsed = start.elapsed());
-
     Ok(())
 }
 #[tracing::instrument]

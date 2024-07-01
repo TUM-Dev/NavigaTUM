@@ -83,7 +83,7 @@ impl APIRequestor {
         }
         true
     }
-    #[tracing::instrument]
+    #[tracing::instrument(ret(level = tracing::Level::TRACE))]
     pub(crate) async fn try_refresh_token(&mut self) -> Result<String, crate::BoxedError> {
         if self.should_refresh_token() {
             self.oauth_token = Some(Self::fetch_new_oauth_token().await?);
@@ -155,7 +155,7 @@ impl APIRequestor {
         Ok(())
     }
 
-    #[tracing::instrument]
+    #[tracing::instrument(ret(level = tracing::Level::TRACE))]
     async fn fetch_new_oauth_token() -> Result<(Instant, BasicTokenResponse), crate::BoxedError> {
         let client_id = env::var("CONNECTUM_OAUTH_CLIENT_ID")
             .map_err(|e| {
@@ -186,7 +186,7 @@ impl APIRequestor {
         .await;
         Ok((Instant::now(), token?))
     }
-    #[tracing::instrument]
+    #[tracing::instrument(skip(tx))]
     async fn delete_events(
         &self,
         tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
@@ -196,7 +196,7 @@ impl APIRequestor {
             .execute(&mut **tx)
             .await
     }
-    #[tracing::instrument]
+    #[tracing::instrument(skip(tx))]
     async fn update_last_calendar_scrape_at(
         &self,
         tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,

@@ -7,7 +7,8 @@ use sqlx::PgPool;
 use tracing::error;
 
 use crate::calendar::models::{CalendarLocation, Event, LocationEvents};
-use crate::limited_vec::LimitedVec;
+use crate::limited::hash_map::LimitedHashMap;
+use crate::limited::vec::LimitedVec;
 
 mod connectum;
 mod models;
@@ -106,13 +107,13 @@ async fn get_locations(
     }
 }
 
-#[tracing::instrument(skip(pool))]
+#[tracing::instrument(skip(pool),ret(level = tracing::Level::TRACE))]
 async fn get_from_db(
     pool: &PgPool,
     locations: &[CalendarLocation],
     start_after: &DateTime<Utc>,
     end_before: &DateTime<Utc>,
-) -> Result<HashMap<String, LocationEvents>, crate::BoxedError> {
+) -> Result<LimitedHashMap<String, LocationEvents>, crate::BoxedError> {
     let mut located_events: HashMap<String, LocationEvents> = HashMap::new();
     for location in locations {
         let events = sqlx::query_as!(Event, r#"SELECT id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type AS "entry_type!:crate::calendar::models::EventType",detailed_entry_type
@@ -127,7 +128,7 @@ async fn get_from_db(
             },
         );
     }
-    Ok(located_events)
+    Ok(LimitedHashMap(located_events))
 }
 
 #[cfg(test)]

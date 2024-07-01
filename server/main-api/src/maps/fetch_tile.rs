@@ -4,7 +4,7 @@ use std::{fmt, io};
 
 use tracing::{error, warn};
 
-use crate::limited_vec::LimitedVec;
+use crate::limited::vec::LimitedVec;
 use crate::maps::overlay_map::OverlayMapTask;
 use crate::BoxedError;
 

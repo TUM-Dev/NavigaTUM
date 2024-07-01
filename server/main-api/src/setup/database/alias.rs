@@ -1,9 +1,6 @@
-use std::time::Instant;
-
 use serde::Deserialize;
-use tracing::debug;
 
-use crate::limited_vec::LimitedVec;
+use crate::limited::vec::LimitedVec;
 
 #[derive(Debug)]
 pub(super) struct Alias {
@@ -108,14 +105,15 @@ impl Alias {
 pub async fn download_updates(
     keys_which_need_updating: &LimitedVec<String>,
 ) -> Result<LimitedVec<Alias>, crate::BoxedError> {
-    let keys_which_need_updating = &keys_which_need_updating.0;
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let aliase = reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?
         .json::<Vec<AliasData>>()
         .await?
         .into_iter()
-        .filter(|d| keys_which_need_updating.is_empty() || keys_which_need_updating.contains(&d.id))
+        .filter(|d| {
+            keys_which_need_updating.is_empty() || keys_which_need_updating.0.contains(&d.id)
+        })
         .map(AliasIterator::from);
     Ok(LimitedVec(
         aliase
@@ -128,11 +126,8 @@ pub async fn load_all_to_db(
     aliases: LimitedVec<Alias>,
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
 ) -> Result<(), crate::BoxedError> {
-    let start = Instant::now();
-    for task in aliases.0 {
+    for task in aliases {
         task.store(tx).await?;
     }
-    debug!("loaded aliases in {elapsed:?}", elapsed = start.elapsed());
-
     Ok(())
 }
