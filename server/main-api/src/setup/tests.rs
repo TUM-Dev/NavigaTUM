@@ -1,9 +1,9 @@
 use meilisearch_sdk::client::Client;
-use sqlx::{Pool, Postgres};
 use sqlx::postgres::PgPoolOptions;
-use testcontainers_modules::{postgres, testcontainers::runners::AsyncRunner};
-use testcontainers_modules::testcontainers::{ContainerAsync, GenericImage, ImageExt};
+use sqlx::{Pool, Postgres};
 use testcontainers_modules::testcontainers::core::{ContainerPort, WaitFor};
+use testcontainers_modules::testcontainers::{ContainerAsync, GenericImage, ImageExt};
+use testcontainers_modules::{postgres, testcontainers::runners::AsyncRunner};
 
 #[cfg(not(feature = "skip_db_setup"))]
 pub struct PostgresTestContainer {
