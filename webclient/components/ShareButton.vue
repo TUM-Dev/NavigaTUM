@@ -25,7 +25,13 @@ const shareOptions = computed<UseShareOptions>(() => ({
 </script>
 
 <template>
-  <button type="button" :title="t('external_link')" class="focusable rounded-sm" @click="modalOpen = true">
+  <button
+    type="button"
+    :title="t('external_link')"
+    :aria-label="t('sharing_options')"
+    class="focusable rounded-sm"
+    @click="modalOpen = true"
+  >
     <ShareIcon class="text-blue-600 h-4 w-4 hover:text-blue-900" />
   </button>
   <LazyModal v-model="modalOpen" :title="t('share')">
@@ -67,6 +73,7 @@ de:
   open_in: Öffnen in
   other_app: Andere App ...
   external_link: Externe Links
+  sharing_options: Externe Links und optionen diese seite zu teilen
   share: Teilen
   share_link: Teilen mit ...
 en:
@@ -75,6 +82,7 @@ en:
   open_in: Open in
   other_app: Other app ...
   external_link: External links
+  sharing_options: External links and options to share this page
   share: Share
   share_link: Share with ...
 </i18n>
