@@ -1,8 +1,8 @@
 use actix_web::HttpResponse;
 use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
-use log::error;
 use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
+use tracing::error;
 
 #[derive(Default)]
 pub struct RecordedTokens(Mutex<Vec<TokenRecord>>);

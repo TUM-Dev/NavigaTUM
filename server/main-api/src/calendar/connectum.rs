@@ -2,12 +2,12 @@ use std::time::{Duration, Instant};
 use std::{env, io};
 
 use chrono::{DateTime, Utc};
-use log::{debug, error, warn};
 use oauth2::basic::{BasicClient, BasicTokenResponse};
 use oauth2::reqwest::async_http_client;
 use oauth2::url::Url;
 use oauth2::{AuthUrl, ClientId, ClientSecret, Scope, TokenResponse, TokenUrl};
 use sqlx::PgPool;
+use tracing::{debug, error, warn};
 
 use crate::calendar::models::Event;
 
