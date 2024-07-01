@@ -1,5 +1,5 @@
-use log::error;
 use serde::Serialize;
+use tracing::error;
 
 use crate::search::search_executor::parser::ParsedQuery;
 use crate::search::search_executor::query::MSHit;

@@ -4,6 +4,7 @@ use std::path::Path;
 use actix_web::web::{Data, Json};
 use actix_web::{post, HttpResponse};
 use serde::Deserialize;
+use tracing::error;
 
 use super::github;
 use super::proposed_edits::coordinate::Coordinate;
@@ -128,7 +129,7 @@ pub async fn propose_edits(
             .await
         }
         Err(e) => {
-            log::error!("Error while applying changes: {e}", e = e);
+            error!("Error while applying changes: {e}", e = e);
             HttpResponse::InternalServerError().finish()
         }
     }

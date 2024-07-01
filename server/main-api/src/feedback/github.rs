@@ -1,7 +1,7 @@
 use actix_web::HttpResponse;
-use log::error;
 use octocrab::Octocrab;
 use regex::Regex;
+use tracing::error;
 
 fn github_token() -> Result<String, ()> {
     match std::env::var("GITHUB_TOKEN") {

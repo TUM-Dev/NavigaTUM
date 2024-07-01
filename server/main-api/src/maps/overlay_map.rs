@@ -1,6 +1,6 @@
 use futures::{stream::FuturesUnordered, StreamExt};
-use log::warn;
 use std::ops::Range;
+use tracing::warn;
 
 use crate::maps::fetch_tile::FetchTileTask;
 use crate::models::Location;

@@ -1,11 +1,11 @@
 use std::collections::HashMap;
 use std::time::Duration;
 
-use log::{debug, error, info};
 use meilisearch_sdk::client::Client;
 use meilisearch_sdk::settings::Settings;
 use meilisearch_sdk::tasks::Task;
 use serde_json::Value;
+use tracing::{debug, error, info};
 
 const TIMEOUT: Option<Duration> = Some(Duration::from_secs(20));
 const POLLING_RATE: Option<Duration> = Some(Duration::from_millis(50));

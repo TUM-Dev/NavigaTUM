@@ -5,9 +5,9 @@ use std::path::{Path, PathBuf};
 
 use base64::prelude::BASE64_STANDARD;
 use base64::Engine;
-use log::error;
 use serde::Deserialize;
 use serde::Serialize;
+use tracing::error;
 
 use super::AppliableEdit;
 

@@ -1,14 +1,16 @@
+use std::borrow::Cow;
 use std::collections::HashMap;
 use std::error::Error;
 
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
-use log::{debug, error, info};
 use meilisearch_sdk::client::Client;
+use sentry::SessionMode;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
 use sqlx::PgPool;
+use tracing::{debug, error, info};
 
 mod calendar;
 mod details;
@@ -30,9 +32,9 @@ pub struct AppData {
 
 #[get("/api/status")]
 async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
-    let github_link = match std::env::var("GIT_COMMIT_SHA") {
-        Ok(hash) => format!("https://github.com/TUM-Dev/navigatum/tree/{hash}"),
-        Err(_) => "unknown commit hash, probably running in development".to_string(),
+    let github_link = match option_env!("GIT_COMMIT_SHA") {
+        Some(hash) => format!("https://github.com/TUM-Dev/navigatum/tree/{hash}"),
+        None => "unknown commit hash, probably running in development".to_string(),
     };
     return match data.db.execute("SELECT 1").await {
         Ok(_) => HttpResponse::Ok()
@@ -56,35 +58,56 @@ fn connection_string() -> String {
 }
 
 pub fn setup_logging() {
-    #[cfg(any(debug_assertions, test))]
-    {
-        let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_| "debug".to_string());
-        let filter = format!("{log_level},hyper=info,rustls=info,h2=info,sqlx=info,hickory_resolver=info,hickory_proto=info");
-        let env = env_logger::Env::default().default_filter_or(&filter);
-        let _ = env_logger::Builder::from_env(env)
-            .is_test(cfg!(test))
-            .try_init();
-    }
-    #[cfg(not(any(debug_assertions, test)))]
-    {
-        let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_| "info".to_string());
-        let _ = structured_logger::Builder::with_level(&log_level)
-            .with_target_writer(
-                "*",
-                structured_logger::async_json::new_writer(tokio::io::stdout()),
-            )
-            .try_init();
-    }
+    use tracing_subscriber::filter::EnvFilter;
+    use tracing_subscriber::fmt::Layer;
+    use tracing_subscriber::prelude::*;
+    let default_level = if cfg!(any(debug_assertions, test)) {
+        "debug"
+    } else {
+        "info"
+    };
+    let log_level = std::env::var("LOG_LEVEL").unwrap_or_else(|_| default_level.to_string());
+    // these overrides exist to filter away stuff I don't think we should ever care about
+    let filter = format!("{log_level},hyper=info,rustls=info,h2=info,sqlx=info,hickory_resolver=info,hickory_proto=info");
+
+    let filter = EnvFilter::builder().parse_lossy(filter);
+
+    let registry = tracing_subscriber::registry()
+        .with(filter)
+        .with(sentry::integrations::tracing::layer())
+        .with(cfg!(not(any(debug_assertions, test))).then(|| Layer::default().json()))
+        .with(cfg!(any(debug_assertions, test)).then(|| Layer::default().pretty()));
+    tracing::subscriber::set_global_default(registry).unwrap();
 }
 
-#[tokio::main]
-async fn main() -> Result<(), BoxedError> {
+fn main() -> Result<(), BoxedError> {
     setup_logging();
+    let release = match option_env!("GIT_COMMIT_SHA") {
+        Some(s) => Some(Cow::Borrowed(s)),
+        None => sentry::release_name!(),
+    };
+    let _guard = sentry::init((
+        "https://8f2054d6294447a1b573ea4badb76778@sentry.mm.rbg.tum.de/8",
+        sentry::ClientOptions {
+            release,
+            traces_sample_rate: 1.0,
+            session_mode: SessionMode::Request,
+            auto_session_tracking: true,
+            ..Default::default()
+        },
+    ));
+    std::env::set_var("RUST_BACKTRACE", "1");
+
+    actix_web::rt::System::new().block_on(async { run().await })?;
+    Ok(())
+}
+/// we split main and run because otherwise sentry could not be properly instrumented
+async fn run() -> Result<(), BoxedError> {
     let maintenance_thread = tokio::spawn(async move {
         let pool = PgPoolOptions::new()
             .connect(&connection_string())
             .await
-            .unwrap();
+            .expect("make sure that postgres is running in the background");
         #[cfg(not(feature = "skip_ms_setup"))]
         {
             let ms_url =
@@ -104,17 +127,21 @@ async fn main() -> Result<(), BoxedError> {
     debug!("setting up metrics");
     let labels = HashMap::from([(
         "revision".to_string(),
-        std::env::var("GIT_COMMIT_SHA").unwrap_or_else(|_| "development".to_string()),
+        option_env!("GIT_COMMIT_SHA")
+            .unwrap_or_else(|| "development")
+            .to_string(),
     )]);
     let prometheus = PrometheusMetricsBuilder::new("navigatum_mainapi")
         .endpoint("/api/main/metrics")
         .const_labels(labels)
         .build()
         .unwrap();
-
-    info!("running the server");
-    let pool = PgPoolOptions::new().connect(&connection_string()).await?;
+    let pool = PgPoolOptions::new()
+        .connect(&connection_string())
+        .await
+        .expect("make sure that postgres is running in the background");
     let shutdown_pool_clone = pool.clone();
+    info!("running the server");
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
@@ -127,6 +154,7 @@ async fn main() -> Result<(), BoxedError> {
             .wrap(cors)
             .wrap(middleware::Logger::default().exclude("/api/status"))
             .wrap(middleware::Compress::default())
+            .wrap(sentry_actix::Sentry::new())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .app_data(web::Data::new(AppData { db: pool.clone() }))
             .service(health_status_handler)

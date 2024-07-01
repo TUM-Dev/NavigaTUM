@@ -2,7 +2,7 @@ use std::fmt::Display;
 use std::time::Duration;
 use std::{fmt, io};
 
-use log::{error, warn};
+use tracing::{error, warn};
 
 use crate::maps::overlay_map::OverlayMapTask;
 use crate::BoxedError;

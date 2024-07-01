@@ -3,9 +3,9 @@ use std::time::Duration;
 use cached::instant::Instant;
 use futures::stream::FuturesUnordered;
 use futures::StreamExt;
-use log::{debug, error};
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
+use tracing::{debug, error};
 
 use crate::calendar::connectum::APIRequestor;
 
@@ -64,7 +64,9 @@ LIMIT 30"#)
         // this uses a FuturesUnordered which refills itsself to be able to work effectively with lagging tasks
         let mut work_queue = FuturesUnordered::new();
         for _ in 0..NUMBER_OF_CONCURRENT_SCRAPES {
-            work_queue.push(api.refresh(ids.pop().unwrap().key));
+            if let Some(id) = ids.pop() {
+                work_queue.push(api.refresh(id.key));
+            }
         }
 
         while let Some(res) = work_queue.next().await {
