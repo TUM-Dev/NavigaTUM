@@ -34,7 +34,7 @@ struct ResultEntry {
     #[serde(skip_serializing_if = "Option::is_none")]
     parsed_id: Option<String>,
 }
-
+#[tracing::instrument]
 pub async fn do_geoentry_search(
     q: String,
     highlighting: Highlighting,

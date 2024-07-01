@@ -24,7 +24,7 @@ impl Display for TileLocation {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Hash, Copy, Clone)]
 pub struct FetchTileTask {
     location: TileLocation,
     index: (u32, u32),
@@ -74,6 +74,7 @@ impl FetchTileTask {
     }
 
     // type and create are specified, because a custom conversion is needed
+    #[tracing::instrument]
     pub async fn fulfill(self) -> Option<((u32, u32), image::DynamicImage)> {
         let raw_tile = download_map_image(self.location).await;
         match raw_tile {
@@ -92,6 +93,7 @@ impl FetchTileTask {
     }
 }
 
+#[tracing::instrument]
 async fn download_map_image(location: TileLocation) -> Result<Vec<u8>, BoxedError> {
     let url = format!(
         "https://nav.tum.de/maps/styles/osm-liberty/{z}/{x}/{y}@2x.png",

@@ -102,6 +102,7 @@ impl Alias {
         .await
     }
 }
+#[tracing::instrument]
 pub async fn download_updates(
     keys_which_need_updating: &[String],
 ) -> Result<Vec<Alias>, crate::BoxedError> {
@@ -116,6 +117,7 @@ pub async fn download_updates(
         .flat_map(IntoIterator::into_iter)
         .collect::<Vec<Alias>>())
 }
+#[tracing::instrument]
 pub async fn load_all_to_db(
     aliases: Vec<Alias>,
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,

@@ -38,7 +38,7 @@ impl CoordinateFile {
     }
 }
 
-#[derive(Deserialize, Clone, Default)]
+#[derive(Deserialize, Debug, Clone, Copy, Default, PartialEq)]
 pub struct Coordinate {
     lat: f64,
     lon: f64,

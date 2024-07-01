@@ -1,14 +1,29 @@
 use std::collections::HashMap;
+use std::hash::{Hash, Hasher};
 use std::time::Instant;
 
 use serde_json::Value;
 use tracing::debug;
 
+#[derive(Clone, Debug)]
 pub(super) struct DelocalisedValues {
     key: String,
     hash: i64,
     de: Value,
     en: Value,
+}
+
+impl PartialEq<Self> for DelocalisedValues {
+    fn eq(&self, other: &Self) -> bool {
+        self.hash == other.hash
+    }
+}
+impl Eq for DelocalisedValues {}
+
+impl Hash for DelocalisedValues {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        state.write_i64(self.hash);
+    }
 }
 
 impl From<HashMap<String, Value>> for DelocalisedValues {
@@ -98,7 +113,7 @@ impl DelocalisedValues {
         Ok(())
     }
 }
-
+#[tracing::instrument]
 pub async fn download_updates(
     keys_which_need_updating: &[String],
 ) -> Result<Vec<DelocalisedValues>, crate::BoxedError> {
@@ -115,7 +130,7 @@ pub async fn download_updates(
     debug!("downloaded data in {elapsed:?}", elapsed = start.elapsed());
     Ok(tasks)
 }
-
+#[tracing::instrument]
 pub(super) async fn load_all_to_db(
     tasks: Vec<DelocalisedValues>,
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
@@ -128,7 +143,7 @@ pub(super) async fn load_all_to_db(
 
     Ok(())
 }
-
+#[tracing::instrument]
 pub async fn download_status() -> Result<Vec<(String, i64)>, crate::BoxedError> {
     let start = Instant::now();
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());

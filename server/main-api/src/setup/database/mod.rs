@@ -5,12 +5,14 @@ use tracing::{debug, info};
 mod alias;
 mod data;
 
+#[tracing::instrument(skip(pool))]
 pub async fn setup(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
     info!("setting up the database");
     sqlx::migrate!("./migrations").run(pool).await?;
     info!("migrations complete");
     Ok(())
 }
+#[tracing::instrument(skip(pool))]
 pub async fn load_data(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
     let status = data::download_status().await?;
     let new_keys = status
@@ -50,6 +52,7 @@ pub async fn load_data(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
     Ok(())
 }
 
+#[tracing::instrument(skip(pool))]
 async fn find_keys_which_need_updating(
     pool: &sqlx::PgPool,
     keys: &[String],
@@ -95,6 +98,7 @@ WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) as expected2(key) where de.ke
     Ok(keys_which_need_updating)
 }
 
+#[tracing::instrument(skip(tx))]
 async fn cleanup_deleted(
     keys: &[String],
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,

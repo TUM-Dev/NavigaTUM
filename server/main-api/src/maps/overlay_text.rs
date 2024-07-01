@@ -1,3 +1,6 @@
+use std::fmt;
+use std::fmt::Formatter;
+
 use ab_glyph::{FontArc, PxScale};
 use image::Rgba;
 use imageproc::definitions::HasBlack;
@@ -19,6 +22,16 @@ pub struct OverlayText {
     font: &'static FontArc,
 }
 
+impl fmt::Debug for OverlayText {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        f.debug_struct("OverlayText")
+            .field("x", &self.x)
+            .field("y", &self.y)
+            .field("text", &self.text)
+            .finish()
+    }
+}
+
 impl OverlayText {
     pub fn with(text: &str, font: &'static FontArc) -> Self {
         Self {
@@ -32,6 +45,8 @@ impl OverlayText {
     pub fn at(self, x: i32, y: i32) -> Self {
         Self { x, y, ..self }
     }
+
+    #[tracing::instrument(skip(img))]
     pub fn draw_onto(self, img: &mut image::RgbaImage) {
         let (w, _) = text_size(SCALE, self.font, &self.text);
         draw_text_mut(

@@ -91,6 +91,7 @@ fn validate_locations(ids: &[String], locations: &[CalendarLocation]) -> Result<
     Ok(())
 }
 
+#[tracing::instrument(skip(pool))]
 async fn get_locations(
     pool: &PgPool,
     ids: &[String],
@@ -104,6 +105,7 @@ async fn get_locations(
     }
 }
 
+#[tracing::instrument(skip(pool))]
 async fn get_from_db(
     pool: &PgPool,
     locations: &[CalendarLocation],

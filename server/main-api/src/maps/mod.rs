@@ -28,18 +28,19 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
     }
 }
 
+#[tracing::instrument(skip(pool))]
 async fn get_localised_data(
-    conn: &PgPool,
+    pool: &PgPool,
     id: &str,
     should_use_english: bool,
 ) -> Result<Location, HttpResponse> {
     let result = if should_use_english {
         sqlx::query_as!(Location, "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name,lat,lon FROM en WHERE key = $1", id)
-            .fetch_all(conn)
+            .fetch_all(pool)
             .await
     } else {
         sqlx::query_as!(Location, "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name,lat,lon FROM de WHERE key = $1", id)
-            .fetch_all(conn)
+            .fetch_all(pool)
             .await
     };
 
@@ -59,6 +60,7 @@ async fn get_localised_data(
     }
 }
 
+#[tracing::instrument]
 async fn construct_image_from_data(data: Location, format: PreviewFormat) -> Option<Vec<u8>> {
     let start_time = Instant::now();
     let mut img = match format {
@@ -132,7 +134,8 @@ fn load_default_image() -> Vec<u8> {
     w.into_inner()
 }
 
-async fn get_possible_redirect_url(conn: &PgPool, query: &str, args: &QueryArgs) -> Option<String> {
+#[tracing::instrument(skip(pool))]
+async fn get_possible_redirect_url(pool: &PgPool, query: &str, args: &QueryArgs) -> Option<String> {
     let result = sqlx::query_as!(
         LocationKeyAlias,
         r#"
@@ -142,7 +145,7 @@ async fn get_possible_redirect_url(conn: &PgPool, query: &str, args: &QueryArgs)
         LIMIT 1"#,
         query
     )
-    .fetch_one(conn)
+    .fetch_one(pool)
     .await;
     match result {
         Ok(d) => Some(format!(

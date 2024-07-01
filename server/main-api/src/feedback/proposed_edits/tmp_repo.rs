@@ -4,11 +4,13 @@ use tracing::{debug, info};
 use super::discription::Description;
 use super::EditRequest;
 
+#[derive(Debug)]
 pub struct TempRepo {
     dir: tempfile::TempDir,
     branch_name: String,
 }
 impl TempRepo {
+    #[tracing::instrument]
     pub async fn clone_and_checkout(
         url: &'static str,
         branch_name: &str,
@@ -48,6 +50,7 @@ impl TempRepo {
         }
     }
 
+    #[tracing::instrument]
     pub fn apply_and_gen_description(&self, edits: &EditRequest) -> Description {
         let mut description = Description::default();
         description.add_context(&edits.additional_context);
@@ -60,6 +63,7 @@ impl TempRepo {
         description
     }
 
+    #[tracing::instrument]
     pub async fn commit(&self, title: &str) -> Result<(), crate::BoxedError> {
         let out = Command::new("git")
             .current_dir(&self.dir)
@@ -82,6 +86,7 @@ impl TempRepo {
             _ => Err(format!("git commit failed with output: {out:?}").into()),
         }
     }
+    #[tracing::instrument]
     pub async fn push(&self) -> Result<(), crate::BoxedError> {
         let out = Command::new("git")
             .current_dir(&self.dir)

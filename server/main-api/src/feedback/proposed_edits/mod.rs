@@ -17,7 +17,7 @@ mod discription;
 mod image;
 mod tmp_repo;
 
-#[derive(Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone)]
 struct Edit {
     coordinate: Option<Coordinate>,
     image: Option<Image>,
@@ -26,7 +26,7 @@ pub trait AppliableEdit {
     fn apply(&self, key: &str, base_dir: &Path) -> String;
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct EditRequest {
     token: String,
     edits: HashMap<String, Edit>,
@@ -36,6 +36,7 @@ pub struct EditRequest {
 
 const GIT_URL: &str = "git@github.com:TUM-Dev/NavigaTUM.git";
 impl EditRequest {
+    #[tracing::instrument]
     async fn apply_changes_and_generate_description(
         &self,
         branch_name: &str,
