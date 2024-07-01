@@ -92,6 +92,7 @@ fn main() -> Result<(), BoxedError> {
             release,
             traces_sample_rate: 1.0,
             session_mode: SessionMode::Request,
+            auto_session_tracking: true,
             ..Default::default()
         },
     ));
