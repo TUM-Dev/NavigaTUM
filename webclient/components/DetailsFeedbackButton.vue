@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FlagIcon } from "@heroicons/vue/24/outline";
+import { FlagIcon } from "@heroicons/vue/16/solid";
 import { useFeedback } from "~/composables/feedback";
 
 const route = useRoute();

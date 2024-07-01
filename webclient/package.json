@@ -13,6 +13,9 @@
     "format": "prettier --plugin=prettier-plugin-tailwindcss --end-of-line lf --write ."
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.14",
+    "@fullcalendar/daygrid": "^6.1.14",
+    "@fullcalendar/vue3": "^6.1.14",
     "@headlessui/vue": "1.7.22",
     "@heroicons/vue": "2.1.4",
     "@nuxt/content": "2.13.0",

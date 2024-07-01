@@ -4,19 +4,11 @@ import { XMarkIcon } from "@heroicons/vue/24/outline";
 export interface Props {
   title: string;
   disableClose?: boolean;
-  classes?: {
-    background?: string;
-    close?: string;
-    modal?: string;
-  };
+  class?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  classes: () => ({
-    background: "",
-    close: "",
-    modal: "",
-  }),
+  class: "",
 });
 const emit = defineEmits(["close"]);
 const isOpen = defineModel<boolean>({ required: true });
@@ -60,13 +52,9 @@ function close() {
       <div
         v-if="isOpen"
         class="fixed inset-0 z-50 flex h-screen w-full items-center justify-center backdrop-blur-sm backdrop-brightness-95"
-        :class="props.classes.background"
         @click.self="close"
       >
-        <div
-          class="relative flex max-h-screen w-full max-w-2xl flex-col rounded-md shadow-2xl"
-          :class="props.classes.modal"
-        >
+        <div class="relative flex max-h-screen w-full max-w-2xl flex-col rounded-md shadow-2xl" :class="props.class">
           <div class="bg-zinc-200 flex w-full flex-row justify-between rounded-t-md p-5">
             <h2 v-if="props.title" class="text-zinc-800 text-lg font-semibold">{{ props.title }}</h2>
             <button
@@ -74,7 +62,6 @@ function close() {
               type="button"
               :aria-label="t('close')"
               class="focusable text-zinc-800 mx-4 my-2 text-xl"
-              :class="props.classes.close"
               @click.prevent="close"
             >
               <XMarkIcon class="h-4 w-4" />

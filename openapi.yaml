@@ -2099,18 +2099,23 @@ components:
           format: int32
           examples:
             - 42
-        title:
-          description: The title of the Entry
+        stp_title_de:
+          description: The german title of the Entry
           type: string
           examples:
             - Quantenteleportation
-        start:
+        stp_title_en:
+          description: The english title of the Entry
+          type: string
+          examples:
+            - Quantenteleportation
+        start_at:
           description: The start of the entry
           type: string
           format: date-time
           examples:
             - '2018-01-01T00:00:00'
-        end:
+        end_at:
           description: The end of the entry
           type: string
           format: date-time
@@ -2132,9 +2137,10 @@ components:
             - Vorlesung mit Zentralübung
       required:
         - id
-        - title
-        - start
-        - end
+        - stp_title_de
+        - stp_title_en
+        - start_at
+        - end_at
         - entry_type
         - detailed_entry_type
     DataSources:

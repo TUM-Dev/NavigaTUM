@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import { current, inherit, orange, red, transparent, white, zinc } from "tailwindcss/colors";
+import { current, green, inherit, orange, red, transparent, white, zinc } from "tailwindcss/colors";
 
 export default <Partial<Config>>{
   darkMode: "class",
@@ -12,6 +12,21 @@ export default <Partial<Config>>{
       white,
       zinc,
       orange,
+      green,
+      "fuchsia-pink": {
+        "50": "#faf5fa",
+        "100": "#f7ecf6",
+        "200": "#f1d9f0",
+        "300": "#e6bbe2",
+        "400": "#d591cf",
+        "500": "#c56fb9",
+        DEFAULT: "#b55ca5",
+        "600": "#b55ca5",
+        "700": "#973f85",
+        "800": "#7d376d",
+        "900": "#6a315d",
+        "950": "#3f1837",
+      },
       red,
       blue: {
         50: "#f3f6fc",

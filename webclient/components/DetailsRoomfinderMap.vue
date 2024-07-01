@@ -73,7 +73,7 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
       </button>
     </div>
 
-    <LazyModal v-model="modalOpen" :title="t('modal.header')" :classes="{ modal: 'items-baseline' }">
+    <LazyModal v-model="modalOpen" :title="t('modal.header')" class="items-baseline">
       <RoomfinderImageLocation id="rf_modal_image" :map="selectedMap" />
     </LazyModal>
   </template>
