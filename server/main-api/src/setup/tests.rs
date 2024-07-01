@@ -1,9 +1,9 @@
 use meilisearch_sdk::client::Client;
-use sqlx::postgres::PgPoolOptions;
 use sqlx::{Pool, Postgres};
-use testcontainers_modules::testcontainers::core::{ContainerPort, WaitFor};
-use testcontainers_modules::testcontainers::{ContainerAsync, GenericImage, ImageExt};
+use sqlx::postgres::PgPoolOptions;
 use testcontainers_modules::{postgres, testcontainers::runners::AsyncRunner};
+use testcontainers_modules::testcontainers::{ContainerAsync, GenericImage, ImageExt};
+use testcontainers_modules::testcontainers::core::{ContainerPort, WaitFor};
 
 #[cfg(not(feature = "skip_db_setup"))]
 pub struct PostgresTestContainer {
@@ -71,17 +71,17 @@ impl MeiliSearchTestContainer {
 }
 
 #[tokio::test]
+#[tracing_test::traced_test]
 #[cfg(not(feature = "skip_db_setup"))]
 async fn test_db_setup() {
-    crate::setup_logging();
     let pg = PostgresTestContainer::new().await;
     crate::setup::database::load_data(&pg.pool).await.unwrap();
 }
 
 #[tokio::test]
+#[tracing_test::traced_test]
 #[cfg(not(feature = "skip_ms_setup"))]
 async fn test_meilisearch_setup() {
-    crate::setup_logging();
     let ms = MeiliSearchTestContainer::new().await;
     crate::setup::meilisearch::load_data(&ms.client)
         .await
