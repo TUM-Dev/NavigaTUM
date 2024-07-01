@@ -15,6 +15,7 @@ use tracing::{debug, error, info};
 mod calendar;
 mod details;
 mod feedback;
+mod limited_vec;
 mod maps;
 mod models;
 mod search;

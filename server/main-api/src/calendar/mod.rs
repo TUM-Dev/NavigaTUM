@@ -7,6 +7,7 @@ use sqlx::PgPool;
 use tracing::error;
 
 use crate::calendar::models::{CalendarLocation, Event, LocationEvents};
+use crate::limited_vec::LimitedVec;
 
 mod connectum;
 mod models;
@@ -49,7 +50,7 @@ pub async fn calendar_handler(
         Err(e) => return e,
     };
     let locations = match get_locations(&data.db, &ids).await {
-        Ok(l) => l,
+        Ok(l) => l.0,
         Err(e) => return e,
     };
     if let Err(e) = validate_locations(&ids, &locations) {
@@ -95,13 +96,13 @@ fn validate_locations(ids: &[String], locations: &[CalendarLocation]) -> Result<
 async fn get_locations(
     pool: &PgPool,
     ids: &[String],
-) -> Result<Vec<CalendarLocation>, HttpResponse> {
+) -> Result<LimitedVec<CalendarLocation>, HttpResponse> {
     match sqlx::query_as!(CalendarLocation, "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name FROM de WHERE key = ANY($1::text[])", ids).fetch_all(pool).await {
         Err(e) => {
             error!("could not refetch due to {e:?}");
             Err(HttpResponse::InternalServerError().body("could not get calendar entries, please try again later"))
         }
-        Ok(locations) => Ok(locations),
+        Ok(locations) => Ok(LimitedVec(locations)),
     }
 }
 

@@ -5,6 +5,8 @@ use std::time::Instant;
 use serde_json::Value;
 use tracing::debug;
 
+use crate::limited_vec::LimitedVec;
+
 #[derive(Clone, Debug)]
 pub(super) struct DelocalisedValues {
     key: String,
@@ -115,8 +117,8 @@ impl DelocalisedValues {
 }
 #[tracing::instrument]
 pub async fn download_updates(
-    keys_which_need_updating: &[String],
-) -> Result<Vec<DelocalisedValues>, crate::BoxedError> {
+    keys_which_need_updating: &LimitedVec<String>,
+) -> Result<LimitedVec<DelocalisedValues>, crate::BoxedError> {
     let start = Instant::now();
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
@@ -125,10 +127,10 @@ pub async fn download_updates(
         .await?
         .into_iter()
         .map(DelocalisedValues::from)
-        .filter(|d| keys_which_need_updating.contains(&d.key))
+        .filter(|d| keys_which_need_updating.0.contains(&d.key))
         .collect::<Vec<DelocalisedValues>>();
     debug!("downloaded data in {elapsed:?}", elapsed = start.elapsed());
-    Ok(tasks)
+    Ok(LimitedVec(tasks))
 }
 #[tracing::instrument]
 pub(super) async fn load_all_to_db(
@@ -144,16 +146,11 @@ pub(super) async fn load_all_to_db(
     Ok(())
 }
 #[tracing::instrument]
-pub async fn download_status() -> Result<Vec<(String, i64)>, crate::BoxedError> {
-    let start = Instant::now();
+pub async fn download_status() -> Result<LimitedVec<(String, i64)>, crate::BoxedError> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let tasks = reqwest::get(format!("{cdn_url}/status_data.json"))
         .await?
         .json::<Vec<(String, i64)>>()
         .await?;
-    debug!(
-        "downloaded current status in {elapsed:?}",
-        elapsed = start.elapsed()
-    );
-    Ok(tasks)
+    Ok(LimitedVec(tasks))
 }

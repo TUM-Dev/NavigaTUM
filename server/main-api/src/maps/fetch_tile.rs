@@ -4,6 +4,7 @@ use std::{fmt, io};
 
 use tracing::{error, warn};
 
+use crate::limited_vec::LimitedVec;
 use crate::maps::overlay_map::OverlayMapTask;
 use crate::BoxedError;
 
@@ -78,7 +79,7 @@ impl FetchTileTask {
     pub async fn fulfill(self) -> Option<((u32, u32), image::DynamicImage)> {
         let raw_tile = download_map_image(self.location).await;
         match raw_tile {
-            Ok(bytes) => match image::load_from_memory(&bytes) {
+            Ok(bytes) => match image::load_from_memory(&bytes.0) {
                 Ok(img) => Some((self.index, img)),
                 Err(e) => {
                     error!("Error while parsing image: {e:#?} for {self:?}");
@@ -94,7 +95,7 @@ impl FetchTileTask {
 }
 
 #[tracing::instrument]
-async fn download_map_image(location: TileLocation) -> Result<Vec<u8>, BoxedError> {
+async fn download_map_image(location: TileLocation) -> Result<LimitedVec<u8>, BoxedError> {
     let url = format!(
         "https://nav.tum.de/maps/styles/osm-liberty/{z}/{x}/{y}@2x.png",
         x = location.x,
@@ -112,7 +113,7 @@ async fn download_map_image(location: TileLocation) -> Result<Vec<u8>, BoxedErro
         // wait with exponential backoff
         let size = bytes.len();
         if size > 500 {
-            return Ok(bytes.into());
+            return Ok(LimitedVec(bytes.into()));
         }
         let wait_time_ms = 1.5_f32.powi(i).round() as u64;
         let wait_time = Duration::from_millis(wait_time_ms);
