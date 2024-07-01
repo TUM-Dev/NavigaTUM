@@ -11,7 +11,6 @@ use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
 use sqlx::PgPool;
 use tracing::{debug, error, info};
-use tracing_subscriber::fmt::Layer;
 
 mod calendar;
 mod details;
@@ -60,6 +59,7 @@ fn connection_string() -> String {
 
 pub fn setup_logging() {
     use tracing_subscriber::filter::EnvFilter;
+    use tracing_subscriber::fmt::Layer;
     use tracing_subscriber::prelude::*;
     let default_level = if cfg!(any(debug_assertions, test)) {
         "debug"
@@ -74,6 +74,7 @@ pub fn setup_logging() {
 
     let registry = tracing_subscriber::registry()
         .with(filter)
+        .with(sentry::integrations::tracing::layer())
         .with(cfg!(not(any(debug_assertions, test))).then(|| Layer::default().json()))
         .with(cfg!(any(debug_assertions, test)).then(|| Layer::default().pretty()));
     tracing::subscriber::set_global_default(registry).unwrap();
