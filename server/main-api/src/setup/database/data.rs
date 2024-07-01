@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 use std::time::Instant;
 
-use log::debug;
 use serde_json::Value;
+use tracing::debug;
 
 pub(super) struct DelocalisedValues {
     key: String,

@@ -2,9 +2,9 @@ use std::collections::HashMap;
 
 use actix_web::{post, web, HttpResponse};
 use chrono::{DateTime, Utc};
-use log::error;
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
+use tracing::error;
 
 use crate::calendar::models::{CalendarLocation, Event, LocationEvents};
 

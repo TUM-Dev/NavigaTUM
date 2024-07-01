@@ -1,6 +1,6 @@
 use std::time::Instant;
 
-use log::{debug, info};
+use tracing::{debug, info};
 
 mod alias;
 mod data;
@@ -56,6 +56,17 @@ async fn find_keys_which_need_updating(
     hashes: &[i64],
 ) -> Result<Vec<String>, crate::BoxedError> {
     let start = Instant::now();
+    let number_of_keys = sqlx::query_scalar!("SELECT COUNT(*) FROM de")
+        .fetch_one(pool)
+        .await?;
+    if number_of_keys == Some(0) {
+        debug!(
+            "all {updated_cnt} keys need upating",
+            updated_cnt = keys.len()
+        );
+        return Ok(keys.to_vec());
+    }
+
     let mut keys_which_need_updating = sqlx::query_scalar!(
         r#"
 SELECT de.key
@@ -92,6 +103,9 @@ async fn cleanup_deleted(
         .execute(&mut **tx)
         .await?;
     sqlx::query!("DELETE FROM en WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE en.key = expected.key)", keys)
+        .execute(&mut **tx)
+        .await?;
+    sqlx::query!("DELETE FROM calendar WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE calendar.room_code = expected.key)", keys)
         .execute(&mut **tx)
         .await?;
     sqlx::query!("DELETE FROM de WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE de.key = expected.key)", keys)

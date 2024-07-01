@@ -1,7 +1,7 @@
 use std::time::Instant;
 
-use log::debug;
 use serde::Deserialize;
+use tracing::debug;
 
 #[derive(Debug)]
 pub(super) struct Alias {

@@ -2,8 +2,8 @@ use std::time::Instant;
 
 use actix_web::{get, web, HttpResponse};
 use cached::proc_macro::cached;
-use log::{debug, error};
 use serde::{Deserialize, Serialize};
+use tracing::{debug, error};
 use unicode_truncate::UnicodeTruncateStr;
 
 mod search_executor;

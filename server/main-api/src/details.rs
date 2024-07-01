@@ -1,7 +1,7 @@
 use actix_web::{get, web, HttpResponse};
-use log::error;
 use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
+use tracing::error;
 
 use crate::models::LocationKeyAlias;
 use crate::utils;

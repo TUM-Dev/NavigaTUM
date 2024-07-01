@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
-use log::warn;
 use logos::Logos;
+use tracing::warn;
 
 use crate::search::search_executor::lexer::Token;
 
