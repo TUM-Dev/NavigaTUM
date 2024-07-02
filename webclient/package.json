@@ -25,7 +25,7 @@
     "@vueuse/nuxt": "10.11.0",
     "maplibre-gl": "4.5.0",
     "nightwind": "1.1.13",
-    "nuxt": "3.12.2",
+    "nuxt": "3.12.3",
     "sharp": "0.33.4",
     "swagger-ui": "5.17.14",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
