@@ -1,6 +1,7 @@
 use std::borrow::Cow;
 use std::collections::HashMap;
 use std::error::Error;
+use std::sync::Arc;
 
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
@@ -9,7 +10,8 @@ use meilisearch_sdk::client::Client;
 use sentry::SessionMode;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
-use sqlx::PgPool;
+use sqlx::{PgPool, Pool, Postgres};
+use tokio::sync::RwLock;
 use tracing::{debug, debug_span, error, info};
 use tracing_actix_web::TracingLogger;
 
@@ -27,9 +29,25 @@ type BoxedError = Box<dyn Error + Send + Sync>;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct AppData {
-    db: PgPool,
+    /// shared [sqlx::PgPool] to connect to postgres
+    pool: PgPool,
+    /// necessary, as otherwise we could return empty results during initialisation
+    meilisearch_initialised: Arc<RwLock<()>>,
+}
+
+impl AppData {
+    async fn new() -> Self {
+        let pool = PgPoolOptions::new()
+            .connect(&connection_string())
+            .await
+            .expect("make sure that postgres is running in the background");
+        AppData {
+            pool,
+            meilisearch_initialised: Arc::new(Default::default()),
+        }
+    }
 }
 
 #[get("/api/status")]
@@ -38,7 +56,7 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
         Some(hash) => format!("https://github.com/TUM-Dev/navigatum/tree/{hash}"),
         None => "unknown commit hash, probably running in development".to_string(),
     };
-    return match data.db.execute("SELECT 1").await {
+    return match data.pool.execute("SELECT 1").await {
         Ok(_) => HttpResponse::Ok()
             .content_type("text/plain")
             .body(format!("healthy\nsource_code: {github_link}")),
@@ -103,13 +121,10 @@ fn main() -> Result<(), BoxedError> {
     actix_web::rt::System::new().block_on(async { run().await })?;
     Ok(())
 }
-async fn run_maintenance_work() {
-    let pool = PgPoolOptions::new()
-        .connect(&connection_string())
-        .await
-        .expect("make sure that postgres is running in the background");
+async fn run_maintenance_work(pool: Pool<Postgres>, meilisearch_initalised: Arc<RwLock<()>>) {
     if std::env::var("SKIP_MS_SETUP") != Ok("true".to_string()) {
         let _ = debug_span!("updating meilisearch data").enter();
+        let _ = meilisearch_initalised.write().await;
         let ms_url =
             std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
         let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()).unwrap();
@@ -130,7 +145,11 @@ async fn run_maintenance_work() {
 
 /// we split main and run because otherwise sentry could not be properly instrumented
 async fn run() -> Result<(), BoxedError> {
-    let maintenance_thread = tokio::spawn(run_maintenance_work());
+    let data = AppData::new().await;
+    let maintenance_thread = tokio::spawn(run_maintenance_work(
+        data.pool.clone(),
+        data.meilisearch_initialised.clone(),
+    ));
 
     debug!("setting up metrics");
     let labels = HashMap::from([(
@@ -140,15 +159,11 @@ async fn run() -> Result<(), BoxedError> {
             .to_string(),
     )]);
     let prometheus = PrometheusMetricsBuilder::new("navigatum_mainapi")
-        .endpoint("/api/main/metrics")
+        .endpoint("/api/metrics")
         .const_labels(labels)
         .build()
         .unwrap();
-    let pool = PgPoolOptions::new()
-        .connect(&connection_string())
-        .await
-        .expect("make sure that postgres is running in the background");
-    let shutdown_pool_clone = pool.clone();
+    let shutdown_pool_clone = data.pool.clone();
     info!("running the server");
     HttpServer::new(move || {
         let cors = Cors::default()
@@ -164,7 +179,7 @@ async fn run() -> Result<(), BoxedError> {
             .wrap(middleware::Compress::default())
             .wrap(sentry_actix::Sentry::new())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
-            .app_data(web::Data::new(AppData { db: pool.clone() }))
+            .app_data(web::Data::new(data.clone()))
             .service(health_status_handler)
             .service(calendar::calendar_handler)
             .service(web::scope("/api/preview").configure(maps::configure))
