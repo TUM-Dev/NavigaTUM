@@ -16,10 +16,12 @@ impl<K: Eq + Hash, V> From<HashMap<K, V>> for LimitedHashMap<K, V> {
 }
 
 const LIMIT: usize = 3;
-impl<K: fmt::Debug + Eq + Hash +Clone+Ord, V: fmt::Debug+Clone> fmt::Debug for LimitedHashMap<K, V> {
+impl<K: fmt::Debug + Eq + Hash + Clone + Ord, V: fmt::Debug + Clone> fmt::Debug
+    for LimitedHashMap<K, V>
+{
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let mut collection = self.0.clone().into_iter().collect::<Vec<(K,V)>>();
-        collection.sort_unstable_by(|(k1,_),(k2,_)|k1.cmp(k2));
+        let mut collection = self.0.clone().into_iter().collect::<Vec<(K, V)>>();
+        collection.sort_unstable_by(|(k1, _), (k2, _)| k1.cmp(k2));
         if self.0.len() <= LIMIT {
             f.debug_map().entries(collection).finish()
         } else {
@@ -28,8 +30,8 @@ impl<K: fmt::Debug + Eq + Hash +Clone+Ord, V: fmt::Debug+Clone> fmt::Debug for L
                     collection
                         .into_iter()
                         .take(LIMIT)
-                        .map(|(k,v)|(OrMore::Value(k),OrMore::Value(v)))
-                        .chain([(OrMore::More,OrMore::More)])  
+                        .map(|(k, v)| (OrMore::Value(k), OrMore::Value(v)))
+                        .chain([(OrMore::More, OrMore::More)]),
                 )
                 .finish()
         }
