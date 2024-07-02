@@ -7,6 +7,8 @@ use sqlx::PgPool;
 use tracing::error;
 
 use crate::calendar::models::{CalendarLocation, Event, LocationEvents};
+use crate::limited::hash_map::LimitedHashMap;
+use crate::limited::vec::LimitedVec;
 
 mod connectum;
 mod models;
@@ -49,7 +51,7 @@ pub async fn calendar_handler(
         Err(e) => return e,
     };
     let locations = match get_locations(&data.db, &ids).await {
-        Ok(l) => l,
+        Ok(l) => l.0,
         Err(e) => return e,
     };
     if let Err(e) = validate_locations(&ids, &locations) {
@@ -91,25 +93,27 @@ fn validate_locations(ids: &[String], locations: &[CalendarLocation]) -> Result<
     Ok(())
 }
 
+#[tracing::instrument(skip(pool))]
 async fn get_locations(
     pool: &PgPool,
     ids: &[String],
-) -> Result<Vec<CalendarLocation>, HttpResponse> {
+) -> Result<LimitedVec<CalendarLocation>, HttpResponse> {
     match sqlx::query_as!(CalendarLocation, "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name FROM de WHERE key = ANY($1::text[])", ids).fetch_all(pool).await {
         Err(e) => {
             error!("could not refetch due to {e:?}");
             Err(HttpResponse::InternalServerError().body("could not get calendar entries, please try again later"))
         }
-        Ok(locations) => Ok(locations),
+        Ok(locations) => Ok(LimitedVec(locations)),
     }
 }
 
+#[tracing::instrument(skip(pool),ret(level = tracing::Level::TRACE))]
 async fn get_from_db(
     pool: &PgPool,
     locations: &[CalendarLocation],
     start_after: &DateTime<Utc>,
     end_before: &DateTime<Utc>,
-) -> Result<HashMap<String, LocationEvents>, crate::BoxedError> {
+) -> Result<LimitedHashMap<String, LocationEvents>, crate::BoxedError> {
     let mut located_events: HashMap<String, LocationEvents> = HashMap::new();
     for location in locations {
         let events = sqlx::query_as!(Event, r#"SELECT id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type AS "entry_type!:crate::calendar::models::EventType",detailed_entry_type
@@ -124,7 +128,7 @@ async fn get_from_db(
             },
         );
     }
-    Ok(located_events)
+    Ok(LimitedHashMap(located_events))
 }
 
 #[cfg(test)]

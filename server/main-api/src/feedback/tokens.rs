@@ -1,3 +1,5 @@
+use std::fmt;
+
 use actix_web::HttpResponse;
 use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
 use serde::{Deserialize, Serialize};
@@ -6,6 +8,13 @@ use tracing::error;
 
 #[derive(Default)]
 pub struct RecordedTokens(Mutex<Vec<TokenRecord>>);
+
+impl fmt::Debug for RecordedTokens {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        //fields purposely omitted
+        f.debug_struct("RecordedTokens").finish()
+    }
+}
 
 pub struct TokenRecord {
     kid: u64,
@@ -43,6 +52,7 @@ impl Claims {
 }
 
 impl RecordedTokens {
+    #[tracing::instrument(skip(token))]
     pub async fn validate(&self, token: &str) -> Option<HttpResponse> {
         if !able_to_process_feedback() {
             return Some(

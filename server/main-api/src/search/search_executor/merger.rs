@@ -2,6 +2,7 @@ use meilisearch_sdk::search::{SearchResult, SearchResults};
 
 use crate::search::search_executor::query::MSHit;
 
+#[tracing::instrument(skip(merged_results, buildings_results, rooms_results))]
 pub(super) fn merge_search_results(
     limits: &super::Limits,
     merged_results: &SearchResults<MSHit>,

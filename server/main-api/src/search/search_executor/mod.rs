@@ -1,6 +1,7 @@
 use serde::Serialize;
 use tracing::error;
 
+use crate::limited::vec::LimitedVec;
 use crate::search::search_executor::parser::ParsedQuery;
 use crate::search::search_executor::query::MSHit;
 
@@ -34,12 +35,12 @@ struct ResultEntry {
     #[serde(skip_serializing_if = "Option::is_none")]
     parsed_id: Option<String>,
 }
-
+#[tracing::instrument]
 pub async fn do_geoentry_search(
     q: String,
     highlighting: Highlighting,
     limits: Limits,
-) -> Vec<ResultsSection> {
+) -> LimitedVec<ResultsSection> {
     let parsed_input = ParsedQuery::from(q.as_str());
 
     match query::GeoEntryQuery::from((&parsed_input, &limits, &highlighting))
@@ -60,14 +61,14 @@ pub async fn do_geoentry_search(
                 .for_each(|r| visitor.visit(r));
 
             match section_buildings.n_visible {
-                0 => vec![section_rooms, section_buildings],
-                _ => vec![section_buildings, section_rooms],
+                0 => LimitedVec(vec![section_rooms, section_buildings]),
+                _ => LimitedVec(vec![section_buildings, section_rooms]),
             }
         }
         Err(e) => {
             // error should be serde_json::error
             error!("Error searching for results: {e:?}");
-            vec![]
+            LimitedVec(vec![])
         }
     }
 }

@@ -18,7 +18,7 @@ impl Synonyms {
         serde_yaml::from_str(include_str!("search_synonyms.yaml"))
     }
 }
-
+#[tracing::instrument(skip(client))]
 async fn wait_for_healthy(client: &Client) {
     let mut counter = 0;
     loop {
@@ -43,7 +43,7 @@ async fn wait_for_healthy(client: &Client) {
         tokio::time::sleep(Duration::from_secs(1)).await;
     }
 }
-
+#[tracing::instrument(skip(client))]
 pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
     debug!("waiting for Meilisearch to be healthy");
     wait_for_healthy(client).await;
@@ -99,7 +99,7 @@ pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
     }
     Ok(())
 }
-
+#[tracing::instrument(skip(client))]
 pub async fn load_data(client: &Client) -> Result<(), crate::BoxedError> {
     let start = std::time::Instant::now();
     let entries = client.index("entries");

@@ -1,13 +1,7 @@
-use crate::models::Location;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub(super) struct EventsCollection {
-    pub(super) events: HashMap<String, LocationEvents>,
-    pub(super) max_last_sync: DateTime<Utc>,
-}
+use crate::models::Location;
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub(super) struct CalendarLocation {

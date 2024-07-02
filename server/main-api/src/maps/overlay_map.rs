@@ -1,5 +1,7 @@
-use futures::{stream::FuturesUnordered, StreamExt};
+use std::fmt;
 use std::ops::Range;
+
+use futures::{stream::FuturesUnordered, StreamExt};
 use tracing::warn;
 
 use crate::maps::fetch_tile::FetchTileTask;
@@ -9,6 +11,16 @@ pub struct OverlayMapTask {
     pub x: f64,
     pub y: f64,
     pub z: u32,
+}
+
+impl fmt::Debug for OverlayMapTask {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_tuple("OverlayMapTask")
+            .field(&self.x)
+            .field(&self.y)
+            .field(&self.z)
+            .finish()
+    }
 }
 
 const POSSIBLE_INDEX_RANGE: Range<u32> = 0..7;
@@ -28,6 +40,7 @@ impl OverlayMapTask {
         let (x, y, z) = lat_lon_z_to_xyz(entry.lat, entry.lon, zoom);
         Self { x, y, z }
     }
+    #[tracing::instrument(skip(img))]
     pub async fn draw_onto(&self, img: &mut image::RgbaImage) -> bool {
         // coordinate system is centered around the center of the image
         // around this center there is a 5*5 grid of tiles

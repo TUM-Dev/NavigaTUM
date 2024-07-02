@@ -11,6 +11,7 @@ pub(super) struct RoomVisitor {
 }
 
 impl From<(ParsedQuery, Highlighting)> for RoomVisitor {
+    #[tracing::instrument]
     fn from((parsed_input, highlighting): (ParsedQuery, Highlighting)) -> Self {
         Self {
             parsed_input,

@@ -6,6 +6,8 @@ use actix_web::{post, HttpResponse};
 use serde::Deserialize;
 use tracing::error;
 
+use crate::limited::hash_map::LimitedHashMap;
+
 use super::github;
 use super::proposed_edits::coordinate::Coordinate;
 use super::proposed_edits::image::Image;
@@ -17,7 +19,7 @@ mod discription;
 mod image;
 mod tmp_repo;
 
-#[derive(Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone)]
 struct Edit {
     coordinate: Option<Coordinate>,
     image: Option<Image>,
@@ -26,16 +28,17 @@ pub trait AppliableEdit {
     fn apply(&self, key: &str, base_dir: &Path) -> String;
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct EditRequest {
     token: String,
-    edits: HashMap<String, Edit>,
+    edits: LimitedHashMap<String, Edit>,
     additional_context: String,
     privacy_checked: bool,
 }
 
 const GIT_URL: &str = "git@github.com:TUM-Dev/NavigaTUM.git";
 impl EditRequest {
+    #[tracing::instrument]
     async fn apply_changes_and_generate_description(
         &self,
         branch_name: &str,
@@ -48,6 +51,7 @@ impl EditRequest {
     }
     fn edits_for<T: AppliableEdit>(&self, extractor: fn(Edit) -> Option<T>) -> HashMap<String, T> {
         self.edits
+            .0
             .clone()
             .into_iter()
             .filter_map(|(k, edit)| extractor(edit).map(|coord| (k, coord)))
@@ -57,10 +61,15 @@ impl EditRequest {
     fn extract_labels(&self) -> Vec<String> {
         let mut labels = vec!["webform".to_string()];
 
-        if self.edits.iter().any(|(_, edit)| edit.coordinate.is_none()) {
+        if self
+            .edits
+            .0
+            .iter()
+            .any(|(_, edit)| edit.coordinate.is_none())
+        {
             labels.push("coordinate".to_string());
         }
-        if self.edits.iter().any(|(_, edit)| edit.image.is_none()) {
+        if self.edits.0.iter().any(|(_, edit)| edit.image.is_none()) {
             labels.push("image".to_string());
         }
         labels
@@ -100,12 +109,12 @@ pub async fn propose_edits(
             .content_type("text/plain")
             .body("Using this endpoint without accepting the privacy policy is not allowed");
     };
-    if req_data.edits.is_empty() {
+    if req_data.edits.0.is_empty() {
         return HttpResponse::UnprocessableEntity()
             .content_type("text/plain")
             .body("Not enough edits provided");
     };
-    if req_data.edits.len() > 500 {
+    if req_data.edits.0.len() > 500 {
         return HttpResponse::InsufficientStorage()
             .content_type("text/plain")
             .body("Too many edits provided");

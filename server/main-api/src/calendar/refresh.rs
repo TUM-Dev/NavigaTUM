@@ -15,6 +15,8 @@ const NUMBER_OF_CONCURRENT_SCRAPES: usize = 3;
 struct LocationKey {
     key: String,
 }
+
+#[tracing::instrument(skip(pool))]
 pub async fn all_entries(pool: &PgPool) {
     if let Err(e) = std::env::var("CONNECTUM_OAUTH_CLIENT_ID") {
         error!("Please make sure that CONNECTUM_OAUTH_CLIENT_ID are valid to use calendar features: {e:?}");

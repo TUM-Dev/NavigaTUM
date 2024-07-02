@@ -50,7 +50,8 @@ pub async fn get_handler(
     }
 }
 
-async fn get_alias_and_redirect(conn: &PgPool, query: &str) -> Option<(String, String)> {
+#[tracing::instrument(skip(pool))]
+async fn get_alias_and_redirect(pool: &PgPool, query: &str) -> Option<(String, String)> {
     let result = sqlx::query_as!(
         LocationKeyAlias,
         r#"
@@ -59,7 +60,7 @@ async fn get_alias_and_redirect(conn: &PgPool, query: &str) -> Option<(String, S
         WHERE alias = $1 OR key = $1 "#,
         query
     )
-    .fetch_all(conn)
+    .fetch_all(pool)
     .await;
     match result {
         Ok(d) => {

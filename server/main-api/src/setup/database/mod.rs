@@ -1,39 +1,41 @@
-use std::time::Instant;
+use tracing::{debug, debug_span, info, info_span};
 
-use tracing::{debug, info};
+use crate::limited::vec::LimitedVec;
 
 mod alias;
 mod data;
 
+#[tracing::instrument(skip(pool))]
 pub async fn setup(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
     info!("setting up the database");
     sqlx::migrate!("./migrations").run(pool).await?;
     info!("migrations complete");
     Ok(())
 }
+#[tracing::instrument(skip(pool))]
 pub async fn load_data(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
-    let status = data::download_status().await?;
+    let status = data::download_status().await?.0;
     let new_keys = status
         .clone()
         .into_iter()
         .map(|(k, _)| k)
-        .collect::<Vec<String>>();
-    let new_hashes = status.into_iter().map(|(_, h)| h).collect::<Vec<i64>>();
-    info!("deleting old data");
+        .collect::<LimitedVec<String>>();
+    let new_hashes = status
+        .into_iter()
+        .map(|(_, h)| h)
+        .collect::<LimitedVec<i64>>();
     {
-        let start = Instant::now();
+        let _ = info_span!("deleting old data").enter();
         let mut tx = pool.begin().await?;
         cleanup_deleted(&new_keys, &mut tx).await?;
         tx.commit().await?;
-        debug!("deleted old data in {elapsed:?}", elapsed = start.elapsed());
     }
-
-    debug!("finding changed data");
-    let keys_which_need_updating =
-        find_keys_which_need_updating(pool, &new_keys, &new_hashes).await?;
-
+    let keys_which_need_updating = {
+        let _ = debug_span!("finding changed data").enter();
+        find_keys_which_need_updating(pool, &new_keys, &new_hashes).await?
+    };
     if !keys_which_need_updating.is_empty() {
-        info!("loading changed {} data", keys_which_need_updating.len());
+        let _ = info_span!("loading changed data").enter();
         let data = data::download_updates(&keys_which_need_updating).await?;
         let mut tx = pool.begin().await?;
         data::load_all_to_db(data, &mut tx).await?;
@@ -41,7 +43,7 @@ pub async fn load_data(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
     }
 
     if !keys_which_need_updating.is_empty() {
-        info!("loading new aliases");
+        let _ = info_span!("loading new aliases").enter();
         let aliases = alias::download_updates(&keys_which_need_updating).await?;
         let mut tx = pool.begin().await?;
         alias::load_all_to_db(aliases, &mut tx).await?;
@@ -50,12 +52,12 @@ pub async fn load_data(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
     Ok(())
 }
 
+#[tracing::instrument(skip(pool))]
 async fn find_keys_which_need_updating(
     pool: &sqlx::PgPool,
-    keys: &[String],
-    hashes: &[i64],
-) -> Result<Vec<String>, crate::BoxedError> {
-    let start = Instant::now();
+    keys: &LimitedVec<String>,
+    hashes: &LimitedVec<i64>,
+) -> Result<LimitedVec<String>, crate::BoxedError> {
     let number_of_keys = sqlx::query_scalar!("SELECT COUNT(*) FROM de")
         .fetch_one(pool)
         .await?;
@@ -64,41 +66,57 @@ async fn find_keys_which_need_updating(
             "all {updated_cnt} keys need upating",
             updated_cnt = keys.len()
         );
-        return Ok(keys.to_vec());
+        return Ok(keys.clone());
     }
 
-    let mut keys_which_need_updating = sqlx::query_scalar!(
-        r#"
+    let mut keys_which_need_updating = {
+        let _ = debug_span!("keys_which_need_updating").enter();
+        let keys_which_need_updating = sqlx::query_scalar!(
+            r#"
 SELECT de.key
 FROM de, (SELECT * FROM UNNEST($1::text[], $2::int8[])) as expected(key,hash)
 WHERE de.key = expected.key and de.hash != expected.hash
 "#,
-        keys,
-        hashes
-    )
-    .fetch_all(pool)
-    .await?;
-    debug!("find_keys_which_need_updating (update) took {elapsed:?} and yielded {updated_cnt} updated items", elapsed = start.elapsed(), updated_cnt=keys_which_need_updating.len());
+            keys.as_ref(),
+            hashes.as_ref(),
+        )
+        .fetch_all(pool)
+        .await?;
+        debug!(
+            "{updated_cnt} updated items",
+            updated_cnt = keys_which_need_updating.len()
+        );
+        keys_which_need_updating
+    };
 
-    let mut keys_which_need_removing = sqlx::query_scalar!(
-        r#"
+    let mut keys_which_need_removing = {
+        let _ = debug_span!("keys_which_need_removing").enter();
+        let keys_which_need_removing = sqlx::query_scalar!(
+            r#"
 SELECT de.key
 FROM de
 WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) as expected2(key) where de.key=expected2.key)
 "#,
-        keys
-    )
-    .fetch_all(pool)
-    .await?;
-    debug!("find_keys_which_need_updating (update+delete) took {elapsed:?} and yielded {deleted_cnt} deleted items", elapsed = start.elapsed(), deleted_cnt=keys_which_need_removing.len());
+            keys.as_ref()
+        )
+        .fetch_all(pool)
+        .await?;
+        debug!(
+            "{deleted_cnt} deleted items",
+            deleted_cnt = keys_which_need_removing.len()
+        );
+        keys_which_need_removing
+    };
     keys_which_need_updating.append(&mut keys_which_need_removing);
-    Ok(keys_which_need_updating)
+    Ok(LimitedVec(keys_which_need_updating))
 }
 
+#[tracing::instrument(skip(tx))]
 async fn cleanup_deleted(
-    keys: &[String],
+    keys: &LimitedVec<String>,
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
 ) -> Result<(), crate::BoxedError> {
+    let keys = &keys.0;
     sqlx::query!("DELETE FROM aliases WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE aliases.key = expected.key)", keys)
         .execute(&mut **tx)
         .await?;
