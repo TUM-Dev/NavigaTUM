@@ -75,7 +75,7 @@ impl FetchTileTask {
     }
 
     // type and create are specified, because a custom conversion is needed
-    #[tracing::instrument]
+    #[tracing::instrument(ret(level = tracing::Level::TRACE))]
     pub async fn fulfill(self) -> Option<((u32, u32), image::DynamicImage)> {
         let raw_tile = download_map_image(self.location).await;
         match raw_tile {
