@@ -11,6 +11,7 @@ use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
 use sqlx::PgPool;
 use tracing::{debug, error, info};
+use tracing_actix_web::TracingLogger;
 
 mod calendar;
 mod details;
@@ -153,7 +154,7 @@ async fn run() -> Result<(), BoxedError> {
         App::new()
             .wrap(prometheus.clone())
             .wrap(cors)
-            .wrap(middleware::Logger::default().exclude("/api/status"))
+            .wrap(TracingLogger::default())
             .wrap(middleware::Compress::default())
             .wrap(sentry_actix::Sentry::new())
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
