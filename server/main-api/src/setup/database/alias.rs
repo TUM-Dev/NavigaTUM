@@ -121,7 +121,7 @@ pub async fn download_updates(
             .collect::<Vec<Alias>>(),
     ))
 }
-#[tracing::instrument]
+#[tracing::instrument(skip(tx))]
 pub async fn load_all_to_db(
     aliases: LimitedVec<Alias>,
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
