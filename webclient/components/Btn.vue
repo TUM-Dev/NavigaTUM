@@ -50,7 +50,7 @@ const sizeClasses = computed(() => {
 <template>
   <NuxtLink
     v-if="props.to.length && !disabled && (props.to.startsWith('http') || props.to.startsWith('geo:'))"
-    :href="props.to"
+    :to="props.to"
     :aria-label="ariaLabel"
     :type="props.type"
     v-bind="{ disabled: disabled }"
