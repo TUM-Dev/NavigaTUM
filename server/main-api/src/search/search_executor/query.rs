@@ -65,7 +65,7 @@ impl From<(&ParsedQuery, &Limits, &Highlighting)> for GeoEntryQuery {
 }
 
 impl GeoEntryQuery {
-    #[tracing::instrument]
+    #[tracing::instrument(ret(level = tracing::Level::TRACE))]
     pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
         let q_default = self.prompt_for_querying();
         let ms_url =
