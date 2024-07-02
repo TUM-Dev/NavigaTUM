@@ -31,7 +31,7 @@ const apiUrl = computed(() => {
 });
 const { data } = useFetch<SearchResponse>(apiUrl, {
   key: "search",
-  dedupe: "defer",
+  dedupe: "cancel",
   deep: false,
   retry: 120,
   retryDelay: 5000,
