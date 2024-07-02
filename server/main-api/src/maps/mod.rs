@@ -10,6 +10,7 @@ use tokio::time::Instant;
 use tracing::{debug, error, warn};
 use unicode_truncate::UnicodeTruncateStr;
 
+use crate::limited::vec::LimitedVec;
 use crate::maps::overlay_map::OverlayMapTask;
 use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
 use crate::models::Location;
@@ -28,18 +29,19 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
     }
 }
 
+#[tracing::instrument(skip(pool))]
 async fn get_localised_data(
-    conn: &PgPool,
+    pool: &PgPool,
     id: &str,
     should_use_english: bool,
 ) -> Result<Location, HttpResponse> {
     let result = if should_use_english {
         sqlx::query_as!(Location, "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name,lat,lon FROM en WHERE key = $1", id)
-            .fetch_all(conn)
+            .fetch_all(pool)
             .await
     } else {
         sqlx::query_as!(Location, "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name,lat,lon FROM de WHERE key = $1", id)
-            .fetch_all(conn)
+            .fetch_all(pool)
             .await
     };
 
@@ -59,7 +61,11 @@ async fn get_localised_data(
     }
 }
 
-async fn construct_image_from_data(data: Location, format: PreviewFormat) -> Option<Vec<u8>> {
+#[tracing::instrument]
+async fn construct_image_from_data(
+    data: Location,
+    format: PreviewFormat,
+) -> Option<LimitedVec<u8>> {
     let start_time = Instant::now();
     let mut img = match format {
         PreviewFormat::OpenGraph => image::RgbaImage::new(1200, 630),
@@ -89,10 +95,10 @@ fn draw_pin(img: &mut ImageBuffer<Rgba<u8>, Vec<u8>>) {
     );
 }
 
-fn wrap_image_in_response(img: &image::RgbaImage) -> Vec<u8> {
+fn wrap_image_in_response(img: &image::RgbaImage) -> LimitedVec<u8> {
     let mut w = Cursor::new(Vec::new());
     img.write_to(&mut w, image::ImageFormat::Png).unwrap();
-    w.into_inner()
+    LimitedVec(w.into_inner())
 }
 const WHITE_PIXEL: Rgba<u8> = Rgba([255, 255, 255, 255]);
 fn draw_bottom(data: &Location, img: &mut image::RgbaImage) {
@@ -123,16 +129,17 @@ fn draw_bottom(data: &Location, img: &mut image::RgbaImage) {
         .draw_onto(img);
 }
 
-fn load_default_image() -> Vec<u8> {
+fn load_default_image() -> LimitedVec<u8> {
     warn!("Loading default preview image, as map rendering failed. Check the connection to the tileserver");
     let img = image::load_from_memory(include_bytes!("static/logo-card.png")).unwrap();
     // encode the image as PNG
     let mut w = Cursor::new(Vec::new());
     img.write_to(&mut w, image::ImageFormat::Png).unwrap();
-    w.into_inner()
+    LimitedVec(w.into_inner())
 }
 
-async fn get_possible_redirect_url(conn: &PgPool, query: &str, args: &QueryArgs) -> Option<String> {
+#[tracing::instrument(skip(pool))]
+async fn get_possible_redirect_url(pool: &PgPool, query: &str, args: &QueryArgs) -> Option<String> {
     let result = sqlx::query_as!(
         LocationKeyAlias,
         r#"
@@ -142,7 +149,7 @@ async fn get_possible_redirect_url(conn: &PgPool, query: &str, args: &QueryArgs)
         LIMIT 1"#,
         query
     )
-    .fetch_one(conn)
+    .fetch_one(pool)
     .await;
     match result {
         Ok(d) => Some(format!(
@@ -213,5 +220,5 @@ pub async fn maps_handler(
         "Preview Generation for {id} took {elapsed:?}",
         elapsed = start_time.elapsed()
     );
-    HttpResponse::Ok().content_type("image/png").body(img)
+    HttpResponse::Ok().content_type("image/png").body(img.0)
 }

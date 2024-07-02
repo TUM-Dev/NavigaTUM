@@ -109,7 +109,9 @@ async fn cached_geoentry_search(
     highlighting: Highlighting,
     limits: Limits,
 ) -> Vec<search_executor::ResultsSection> {
-    search_executor::do_geoentry_search(q, highlighting, limits).await
+    search_executor::do_geoentry_search(q, highlighting, limits)
+        .await
+        .0
 }
 
 #[cfg(test)]

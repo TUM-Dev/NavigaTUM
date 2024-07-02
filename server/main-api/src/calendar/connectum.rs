@@ -1,5 +1,5 @@
 use std::time::{Duration, Instant};
-use std::{env, io};
+use std::{env, fmt, io};
 
 use chrono::{DateTime, Utc};
 use oauth2::basic::{BasicClient, BasicTokenResponse};
@@ -15,6 +15,13 @@ pub(in crate::calendar) struct APIRequestor {
     client: reqwest::Client,
     pool: PgPool,
     oauth_token: Option<(Instant, BasicTokenResponse)>,
+}
+impl fmt::Debug for APIRequestor {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("APIRequestor")
+            .field("oauth_token", &self.oauth_token.clone().map(|(i, _)| i))
+            .finish()
+    }
 }
 
 impl From<&PgPool> for APIRequestor {
@@ -39,6 +46,7 @@ impl From<&PgPool> for APIRequestor {
 }
 
 impl APIRequestor {
+    #[tracing::instrument]
     pub(crate) async fn refresh(&self, id: String) -> Result<(), crate::BoxedError> {
         let sync_start = Utc::now();
         let start = Instant::now();
@@ -75,6 +83,7 @@ impl APIRequestor {
         }
         true
     }
+    #[tracing::instrument(ret(level = tracing::Level::TRACE))]
     pub(crate) async fn try_refresh_token(&mut self) -> Result<String, crate::BoxedError> {
         if self.should_refresh_token() {
             self.oauth_token = Some(Self::fetch_new_oauth_token().await?);
@@ -146,6 +155,7 @@ impl APIRequestor {
         Ok(())
     }
 
+    #[tracing::instrument(ret(level = tracing::Level::TRACE))]
     async fn fetch_new_oauth_token() -> Result<(Instant, BasicTokenResponse), crate::BoxedError> {
         let client_id = env::var("CONNECTUM_OAUTH_CLIENT_ID")
             .map_err(|e| {
@@ -176,6 +186,7 @@ impl APIRequestor {
         .await;
         Ok((Instant::now(), token?))
     }
+    #[tracing::instrument(skip(tx))]
     async fn delete_events(
         &self,
         tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
@@ -185,6 +196,7 @@ impl APIRequestor {
             .execute(&mut **tx)
             .await
     }
+    #[tracing::instrument(skip(tx))]
     async fn update_last_calendar_scrape_at(
         &self,
         tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,

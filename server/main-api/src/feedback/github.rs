@@ -13,6 +13,7 @@ fn github_token() -> Result<String, ()> {
     }
 }
 
+#[tracing::instrument]
 pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> HttpResponse {
     let title = clean_feedback_data(title, 512);
     let description = clean_feedback_data(description, 1024 * 1024);
@@ -56,6 +57,7 @@ pub async fn open_issue(title: &str, description: &str, labels: Vec<String>) -> 
     };
 }
 
+#[tracing::instrument]
 pub async fn open_pr(
     branch: String,
     title: &str,

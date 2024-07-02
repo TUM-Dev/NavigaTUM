@@ -24,6 +24,7 @@ pub(super) struct MSHit {
     rank: i32,
 }
 
+#[derive(Debug)]
 struct GeoEntryFilters {
     default: String,
     rooms: String,
@@ -42,6 +43,7 @@ impl From<&Filter> for GeoEntryFilters {
     }
 }
 
+#[derive(Debug)]
 pub(super) struct GeoEntryQuery {
     parsed_input: ParsedQuery,
     limits: Limits,
@@ -63,6 +65,7 @@ impl From<(&ParsedQuery, &Limits, &Highlighting)> for GeoEntryQuery {
 }
 
 impl GeoEntryQuery {
+    #[tracing::instrument(ret(level = tracing::Level::TRACE))]
     pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
         let q_default = self.prompt_for_querying();
         let ms_url =
