@@ -3,14 +3,14 @@ use std::collections::HashMap;
 use std::error::Error;
 
 use actix_cors::Cors;
-use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
+use actix_web::{App, get, HttpResponse, HttpServer, middleware, web};
 use actix_web_prom::PrometheusMetricsBuilder;
 use meilisearch_sdk::client::Client;
 use sentry::SessionMode;
+use sqlx::PgPool;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
-use sqlx::PgPool;
-use tracing::{debug, error, info};
+use tracing::{debug, debug_span, error, info};
 use tracing_actix_web::TracingLogger;
 
 mod calendar;
@@ -103,28 +103,34 @@ fn main() -> Result<(), BoxedError> {
     actix_web::rt::System::new().block_on(async { run().await })?;
     Ok(())
 }
+async fn run_maintenance_work() {
+    let pool = PgPoolOptions::new()
+        .connect(&connection_string())
+        .await
+        .expect("make sure that postgres is running in the background");
+    if std::env::var("SKIP_MS_SETUP") != Ok("true".to_string()) {
+        let _ = debug_span!("updating meilisearch data").enter();
+        let ms_url =
+            std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
+        let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()).unwrap();
+        setup::meilisearch::setup(&client).await.unwrap();
+        setup::meilisearch::load_data(&client).await.unwrap();
+    } else {
+        info!("skipping the database setup as SKIP_MS_SETUP=true");
+    }
+    if std::env::var("SKIP_DB_SETUP") != Ok("true".to_string()) {
+        let _ = debug_span!("updating postgres data").enter();
+        setup::database::setup(&pool).await.unwrap();
+        setup::database::load_data(&pool).await.unwrap();
+    } else {
+        info!("skipping the database setup as SKIP_DB_SETUP=true");
+    }
+    calendar::refresh::all_entries(&pool).await;
+}
+
 /// we split main and run because otherwise sentry could not be properly instrumented
 async fn run() -> Result<(), BoxedError> {
-    let maintenance_thread = tokio::spawn(async move {
-        let pool = PgPoolOptions::new()
-            .connect(&connection_string())
-            .await
-            .expect("make sure that postgres is running in the background");
-        #[cfg(not(feature = "skip_ms_setup"))]
-        {
-            let ms_url =
-                std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
-            let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()).unwrap();
-            setup::meilisearch::setup(&client).await.unwrap();
-            setup::meilisearch::load_data(&client).await.unwrap();
-        }
-        #[cfg(not(feature = "skip_db_setup"))]
-        {
-            setup::database::setup(&pool).await.unwrap();
-            setup::database::load_data(&pool).await.unwrap();
-        }
-        calendar::refresh::all_entries(&pool).await;
-    });
+    let maintenance_thread = tokio::spawn(run_maintenance_work());
 
     debug!("setting up metrics");
     let labels = HashMap::from([(
