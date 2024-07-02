@@ -73,9 +73,5 @@ time = "0.3.36"
 [dev-dependencies]
 pretty_assertions = "1.4.0"
 testcontainers = { version = "0.19.0", features = ["watchdog"] }
-testcontainers-modules = {version =  "0.7.0",features = ["postgres"] }
+testcontainers-modules = {version =  "0.7.1",features = ["postgres","meilisearch"] }
 tracing-test = "0.2.5"
-
-[features]
-skip_db_setup = []
-skip_ms_setup = []
