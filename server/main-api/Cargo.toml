@@ -19,6 +19,7 @@ path = "src/main.rs"
 actix-web-prom = { version = "0.8.0", default-features = false, features = [] }
 tracing-subscriber = { version = "0.3.18",features = ["env-filter", "json", "fmt"]}
 tracing = "0.1.40"
+tracing-actix-web = "0.7.11"
 sentry = { version = "0.34.0", features = ["tracing","metrics","backtrace","contexts","debug-images","panic","reqwest","rustls"] }
 sentry-actix = "0.34.0"
 
