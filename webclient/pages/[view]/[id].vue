@@ -25,7 +25,7 @@ const runtimeConfig = useRuntimeConfig();
 const url = computed(() => `${runtimeConfig.public.apiURL}/api/get/${route.params.id}?lang=${locale.value}`);
 const { data, error } = useFetch<DetailsResponse, string>(url, {
   key: "details",
-  dedupe: "defer",
+  dedupe: "cancel",
   deep: false,
   retry: 120,
   retryDelay: 5000,
