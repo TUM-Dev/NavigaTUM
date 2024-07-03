@@ -5,14 +5,14 @@ use std::sync::Arc;
 
 use actix_cors::Cors;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
-use actix_web_prom::PrometheusMetricsBuilder;
+use actix_web_prom::{PrometheusMetrics, PrometheusMetricsBuilder};
 use meilisearch_sdk::client::Client;
 use sentry::SessionMode;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
 use sqlx::{PgPool, Pool, Postgres};
-use tokio::sync::RwLock;
-use tracing::{debug, debug_span, error, info};
+use tokio::sync::{Barrier, RwLock};
+use tracing::{debug_span, error, info};
 use tracing_actix_web::TracingLogger;
 
 mod calendar;
@@ -121,10 +121,15 @@ fn main() -> Result<(), BoxedError> {
     actix_web::rt::System::new().block_on(async { run().await })?;
     Ok(())
 }
-async fn run_maintenance_work(pool: Pool<Postgres>, meilisearch_initalised: Arc<RwLock<()>>) {
+async fn run_maintenance_work(
+    pool: Pool<Postgres>,
+    meilisearch_initalised: Arc<RwLock<()>>,
+    initalisation_started: Arc<Barrier>,
+) {
     if std::env::var("SKIP_MS_SETUP") != Ok("true".to_string()) {
         let _ = debug_span!("updating meilisearch data").enter();
         let _ = meilisearch_initalised.write().await;
+        initalisation_started.wait().await;
         let ms_url =
             std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
         let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()).unwrap();
@@ -132,6 +137,7 @@ async fn run_maintenance_work(pool: Pool<Postgres>, meilisearch_initalised: Arc<
         setup::meilisearch::load_data(&client).await.unwrap();
     } else {
         info!("skipping the database setup as SKIP_MS_SETUP=true");
+        initalisation_started.wait().await;
     }
     if std::env::var("SKIP_DB_SETUP") != Ok("true".to_string()) {
         let _ = debug_span!("updating postgres data").enter();
@@ -146,24 +152,18 @@ async fn run_maintenance_work(pool: Pool<Postgres>, meilisearch_initalised: Arc<
 /// we split main and run because otherwise sentry could not be properly instrumented
 async fn run() -> Result<(), BoxedError> {
     let data = AppData::new().await;
+
+    // without this barrier an external client might race the RWLock for meilisearch_initialised and gain the read lock before it is allowed
+    let initialisation_started = Arc::new(Barrier::new(2));
     let maintenance_thread = tokio::spawn(run_maintenance_work(
         data.pool.clone(),
         data.meilisearch_initialised.clone(),
+        initialisation_started.clone(),
     ));
 
-    debug!("setting up metrics");
-    let labels = HashMap::from([(
-        "revision".to_string(),
-        option_env!("GIT_COMMIT_SHA")
-            .unwrap_or_else(|| "development")
-            .to_string(),
-    )]);
-    let prometheus = PrometheusMetricsBuilder::new("navigatum_mainapi")
-        .endpoint("/api/metrics")
-        .const_labels(labels)
-        .build()
-        .unwrap();
+    let prometheus = build_metrics().expect("specified metrics are valid");
     let shutdown_pool_clone = data.pool.clone();
+    initialisation_started.wait().await;
     info!("running the server");
     HttpServer::new(move || {
         let cors = Cors::default()
@@ -193,4 +193,18 @@ async fn run() -> Result<(), BoxedError> {
     maintenance_thread.abort();
     shutdown_pool_clone.close().await;
     Ok(())
+}
+
+#[tracing::instrument]
+fn build_metrics() -> Result<PrometheusMetrics, BoxedError> {
+    let labels = HashMap::from([(
+        "revision".to_string(),
+        option_env!("GIT_COMMIT_SHA")
+            .unwrap_or_else(|| "development")
+            .to_string(),
+    )]);
+    PrometheusMetricsBuilder::new("navigatum_api")
+        .endpoint("/api/metrics")
+        .const_labels(labels)
+        .build()
 }

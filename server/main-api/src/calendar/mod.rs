@@ -133,6 +133,8 @@ async fn get_from_db(
 
 #[cfg(test)]
 mod tests {
+    use std::sync::Arc;
+
     use actix_web::http::header::ContentType;
     use actix_web::test;
     use actix_web::App;
@@ -279,6 +281,7 @@ mod tests {
             App::new()
                 .app_data(web::Data::new(AppData {
                     pool: pg.pool.clone(),
+                    meilisearch_initialised: Arc::new(Default::default()),
                 }))
                 .service(calendar_handler),
         )
