@@ -50,14 +50,14 @@ pub async fn calendar_handler(
         Ok(ids) => ids,
         Err(e) => return e,
     };
-    let locations = match get_locations(&data.db, &ids).await {
+    let locations = match get_locations(&data.pool, &ids).await {
         Ok(l) => l.0,
         Err(e) => return e,
     };
     if let Err(e) = validate_locations(&ids, &locations) {
         return e;
     }
-    match get_from_db(&data.db, &locations, &args.start_after, &args.end_before).await {
+    match get_from_db(&data.pool, &locations, &args.start_after, &args.end_before).await {
         Ok(events) => HttpResponse::Ok().json(events),
         Err(e) => {
             error!("could not get entries from the db for {ids:?} because {e:?}");
@@ -133,6 +133,8 @@ async fn get_from_db(
 
 #[cfg(test)]
 mod tests {
+    use std::sync::Arc;
+
     use actix_web::http::header::ContentType;
     use actix_web::test;
     use actix_web::App;
@@ -278,7 +280,8 @@ mod tests {
         let app = test::init_service(
             App::new()
                 .app_data(web::Data::new(AppData {
-                    db: pg.pool.clone(),
+                    pool: pg.pool.clone(),
+                    meilisearch_initialised: Arc::new(Default::default()),
                 }))
                 .service(calendar_handler),
         )
