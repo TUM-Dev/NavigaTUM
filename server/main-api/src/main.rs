@@ -3,13 +3,13 @@ use std::collections::HashMap;
 use std::error::Error;
 
 use actix_cors::Cors;
-use actix_web::{App, get, HttpResponse, HttpServer, middleware, web};
+use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
 use actix_web_prom::PrometheusMetricsBuilder;
 use meilisearch_sdk::client::Client;
 use sentry::SessionMode;
-use sqlx::PgPool;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::prelude::*;
+use sqlx::PgPool;
 use tracing::{debug, debug_span, error, info};
 use tracing_actix_web::TracingLogger;
 
