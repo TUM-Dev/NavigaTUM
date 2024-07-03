@@ -1,5 +1,6 @@
 use std::time::Instant;
 
+use crate::AppData;
 use actix_web::{get, web, HttpResponse};
 use cached::proc_macro::cached;
 use serde::{Deserialize, Serialize};
@@ -78,8 +79,12 @@ impl From<&SearchQueryArgs> for Highlighting {
     }
 }
 #[get("/api/search")]
-pub async fn search_handler(web::Query(args): web::Query<SearchQueryArgs>) -> HttpResponse {
+pub async fn search_handler(
+    data: web::Data<AppData>,
+    web::Query(args): web::Query<SearchQueryArgs>,
+) -> HttpResponse {
     let start_time = Instant::now();
+    let _ = data.meilisearch_initialised.read().await; // otherwise we could return empty results during initialisation
 
     let limits = Limits::from(&args);
     let highlighting = Highlighting::from(&args);

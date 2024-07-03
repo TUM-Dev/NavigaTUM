@@ -15,16 +15,16 @@ pub async fn get_handler(
     let id = params
         .into_inner()
         .replace(|c: char| c.is_whitespace() || c.is_control(), "");
-    let Some((probable_id, redirect_url)) = get_alias_and_redirect(&data.db, &id).await else {
+    let Some((probable_id, redirect_url)) = get_alias_and_redirect(&data.pool, &id).await else {
         return HttpResponse::NotFound().body("Not found");
     };
     let result = if args.should_use_english() {
         sqlx::query_scalar!("SELECT data FROM en WHERE key = $1", probable_id)
-            .fetch_optional(&data.db)
+            .fetch_optional(&data.pool)
             .await
     } else {
         sqlx::query_scalar!("SELECT data FROM de WHERE key = $1", probable_id)
-            .fetch_optional(&data.db)
+            .fetch_optional(&data.pool)
             .await
     };
     match result {
