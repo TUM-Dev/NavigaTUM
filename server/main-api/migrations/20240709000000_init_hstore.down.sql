@@ -1,0 +1,1 @@
+create extension IF NOT EXISTS hstore

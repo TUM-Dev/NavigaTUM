@@ -102,8 +102,11 @@ services:
       PGPASSWORD: ${POSTGRES_PASSWORD}
     command:
       - replication
-      - ..
-      - profit
+      - update
+      - --database postgres
+      - --username postgres
+      - --host db
+      - --port 5432
     depends_on:
       db:
         condition: service_healthy

@@ -91,7 +91,8 @@ docker compose -f docker-compose.local.yml up --build
 >
 > ```bash
 > wget -O data.pbf https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf
-> docker run -v $(pwd):/data -e PGPASSWORD=CHANGE_ME --network="host" iboates/osm2pgsql:latest osm2pgsql -d postgres -U postgres -H 127.0.0.1 -P 5432 /data/data.pbf
+> docker run -it -v $(pwd):/data -e PGPASSWORD=CHANGE_ME --network="host" iboates/osm2pgsql:latest osm2pgsql --create --slim --database postgres --user     postgres --host 127.0.0.1 --port 5432 /data/data.pbf --hstore --hstore-add-index --hstore-column raw
+> docker run -it -v $(pwd):/data -e PGPASSWORD=CHANGE_ME --network="host" iboates/osm2pgsql:latest replication init          --database postgres --username postgres --host localhost --port 5432
 > ```
 
 Else you can follow the steps in the [server documentation](server/README.md).
