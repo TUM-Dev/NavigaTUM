@@ -96,6 +96,17 @@ services:
         condition: service_healthy
       db:
         condition: service_healthy
+  osm2pgsql:
+    image: iboates/osm2pgsql:latest
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    command:
+      - replication
+      - ..
+      - profit
+    depends_on:
+      db:
+        condition: service_healthy
   meilisearch:
     image: getmeili/meilisearch:v1.9.0
     restart: unless-stopped
@@ -107,7 +118,7 @@ services:
       interval: 10s
       start_period: 10s
   db:
-    image: postgres:16
+    image: postgis/postgis:16-3.4
     restart: unless-stopped
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
