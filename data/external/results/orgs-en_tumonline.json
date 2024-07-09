@@ -2684,11 +2684,6 @@
     "name": "Central Service Institutions     Teilbibliothek Physik",
     "path": "TUM/Central Service Institutions/University Libraries/Site Garching/Central Service Institutions"
   },
-  "26826": {
-    "code": "TUZEIGF",
-    "name": "ZIEL Management",
-    "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/ZIEL Management"
-  },
   "26827": {
     "code": "TUZEIVE",
     "name": "ZIEL Administration Office",
@@ -10876,7 +10871,162 @@
   },
   "56337": {
     "code": "TUZEI17",
-    "name": "Area ZIEL - externe Mitglieder",
+    "name": "Area ZIEL-externe Mitglieder",
     "path": "TUM/Corporate Research Centers/ZIEL - Institute f\u00fcr Food & Health/Other Institution/Area"
+  },
+  "56357": {
+    "code": "TUXOC00",
+    "name": "Academic Program Administration TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration"
+  },
+  "56358": {
+    "code": "TUXBC00",
+    "name": "Academic Programs Bio\u00f6konomie",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Bio\u00f6konomie"
+  },
+  "56359": {
+    "code": "TUXBC01",
+    "name": "Academic Programs Biomassetechnologie",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Biomassetechnologie"
+  },
+  "56360": {
+    "code": "TUXBC02",
+    "name": "Academic Programs Chemische Biotechnologie",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Chemische Biotechnologie"
+  },
+  "56361": {
+    "code": "TUXBC03",
+    "name": "Academic Programs Technologie Biogener Rohstoffe",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Technologie Biogener Rohstoffe"
+  },
+  "56362": {
+    "code": "TUXBC04",
+    "name": "Academic Programs Biogene Werkstoffe",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Biogene Werkstoffe"
+  },
+  "56363": {
+    "code": "TUXBC05",
+    "name": "Academic Programs Nachwachsende Rohstoffe",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Nachwachsende Rohstoffe"
+  },
+  "56364": {
+    "code": "TUXBC06",
+    "name": "Academic Programs Promotionsprogramme",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Promotionsprogramme"
+  },
+  "56365": {
+    "code": "TUXBC07",
+    "name": "Academic Programs Austauschprogramme",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Austauschprogramme"
+  },
+  "56366": {
+    "code": "TUXBC08",
+    "name": "Academic Programs Studienkolleg",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Studienkolleg"
+  },
+  "56367": {
+    "code": "TUXBC09",
+    "name": "Academic Programs Archiv",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Archiv"
+  },
+  "56368": {
+    "code": "TUXSC00",
+    "name": "Degree Program B.Sc. Bioeconomy",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Bio\u00f6konomie/B.Sc. Bioeconomy"
+  },
+  "56369": {
+    "code": "TUXSC01",
+    "name": "Degree Program B.Sc. Bio\u00f6konomie",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Bio\u00f6konomie/B.Sc. Bio\u00f6konomie"
+  },
+  "56370": {
+    "code": "TUXSC02",
+    "name": "Degree Program M.Sc. Bioeconomy",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Bio\u00f6konomie/M.Sc. Bioeconomy"
+  },
+  "56371": {
+    "code": "TUXSC03",
+    "name": "Degree Program M.Sc. Biomassetechnologie",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Biomassetechnologie/M.Sc. Biomassetechnologie"
+  },
+  "56372": {
+    "code": "TUXSC04",
+    "name": "Degree Program M.Sc. Biomass Technology",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Biomassetechnologie/M.Sc. Biomass Technology"
+  },
+  "56373": {
+    "code": "TUXSC05",
+    "name": "Degree Program B.Sc. Chemische Biotechnologie",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Chemische Biotechnologie/B.Sc. Chemische Biotechnologie"
+  },
+  "56374": {
+    "code": "TUXSC06",
+    "name": "Degree Program M.Sc. Chemical Biotechnology",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Chemische Biotechnologie/M.Sc. Chemical Biotechnology"
+  },
+  "56375": {
+    "code": "TUXSC07",
+    "name": "Degree Program B.Sc. Technologie Biogener Rohstoffe",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Technologie Biogener Rohstoffe/B.Sc. Technologie Biogener Rohstoffe"
+  },
+  "56376": {
+    "code": "TUXSC08",
+    "name": "Degree Program M.Sc. Technology of Biogenic Resources",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Technologie Biogener Rohstoffe/M.Sc. Technology of Biogenic Resources"
+  },
+  "56377": {
+    "code": "TUXSC09",
+    "name": "Degree Program B.Sc. Biogene Werkstoffe",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Biogene Werkstoffe/B.Sc. Biogene Werkstoffe"
+  },
+  "56378": {
+    "code": "TUXSC0A",
+    "name": "Degree Program B.Sc. Nachwachsende Rohstoffe",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Nachwachsende Rohstoffe/B.Sc. Nachwachsende Rohstoffe"
+  },
+  "56379": {
+    "code": "TUXSC0B",
+    "name": "Degree Program M.Sc. Nachwachsende Rohstoffe",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Nachwachsende Rohstoffe/M.Sc. Nachwachsende Rohstoffe"
+  },
+  "56380": {
+    "code": "TUXSC0C",
+    "name": "Degree Program TUM Campus Straubing (Promotionsstudium)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Promotionsprogramme/TUM Campus Straubing (Promotionsstudium)"
+  },
+  "56381": {
+    "code": "TUXSC0D",
+    "name": "Degree Program TUM Campus Straubing (Austauschprogram)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Austauschprogramme/TUM Campus Straubing (Austauschprogram)"
+  },
+  "56382": {
+    "code": "TUXSC0E",
+    "name": "Degree Program TUM Campus Straubing (Praktikum)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Austauschprogramme/TUM Campus Straubing (Praktikum)"
+  },
+  "56383": {
+    "code": "TUXSC0F",
+    "name": "Degree Program Chemische Biotechnologie",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Studienkolleg/Chemische Biotechnologie"
+  },
+  "56384": {
+    "code": "TUXSC0G",
+    "name": "Degree Program Nachwachsende Rohstoffe",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Studienkolleg/Nachwachsende Rohstoffe"
+  },
+  "56385": {
+    "code": "TUXSC0H",
+    "name": "Degree Program Bioeconomy",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Studienkolleg/Bioeconomy"
+  },
+  "56386": {
+    "code": "TUXSC0I",
+    "name": "Degree Program Bio\u00f6konomie",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Academic Program Administration/Studienkolleg/Bio\u00f6konomie"
+  },
+  "56399": {
+    "code": "TUS4F7E",
+    "name": "Chair of Food Texture Engineering (Prof. Guldin)",
+    "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/Food Texture Engineering (Prof. Guldin)"
   }
 }
