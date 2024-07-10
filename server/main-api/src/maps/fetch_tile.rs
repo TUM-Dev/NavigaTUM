@@ -82,7 +82,7 @@ impl FetchTileTask {
             Ok(bytes) => match image::load_from_memory(&bytes.0) {
                 Ok(img) => Some((self.index, img)),
                 Err(e) => {
-                    error!("Error while parsing image: {e:#?} for {self:?}");
+                    error!("Error while parsing image: {e:?} for {self:?}");
                     None
                 }
             },

@@ -10,6 +10,7 @@ use sqlx::PgPool;
 use tracing::{debug, error, warn};
 
 use crate::calendar::models::Event;
+use crate::limited::vec::LimitedVec;
 
 pub(in crate::calendar) struct APIRequestor {
     client: reqwest::Client,
@@ -49,7 +50,6 @@ impl APIRequestor {
     #[tracing::instrument]
     pub(crate) async fn refresh(&self, id: String) -> Result<(), crate::BoxedError> {
         let sync_start = Utc::now();
-        let start = Instant::now();
         let url = format!("https://campus.tum.de/tumonline/co/connectum/api/rooms/{id}/calendars");
         let events: Vec<Event> = self
             .client
@@ -60,9 +60,8 @@ impl APIRequestor {
             .json()
             .await?;
         debug!(
-            "finished fetching for {cnt} calendar events of {id} in {elapsed:?}",
+            "finished fetching for {cnt} calendar events of {id}",
             cnt = events.len(),
-            elapsed = start.elapsed()
         );
         let events = events
             .into_iter()
@@ -70,8 +69,8 @@ impl APIRequestor {
                 e.room_code.clone_from(&id);
                 e
             })
-            .collect::<Vec<Event>>();
-        self.store(&events, &sync_start, &id).await?;
+            .collect::<LimitedVec<Event>>();
+        self.store(events, &sync_start, &id).await?;
         Ok(())
     }
     fn should_refresh_token(&self) -> bool {
@@ -109,13 +108,13 @@ impl APIRequestor {
 }
 
 impl APIRequestor {
+    #[tracing::instrument]
     async fn store(
         &self,
-        events: &[Event],
+        events: LimitedVec<Event>,
         last_calendar_scrape_at: &DateTime<Utc>,
         id: &str,
     ) -> Result<(), crate::BoxedError> {
-        let start = Instant::now();
         // insert into db
         let mut tx = self.pool.begin().await?;
         if let Err(e) = self.delete_events(&mut tx, id).await {
@@ -124,7 +123,7 @@ impl APIRequestor {
             return Err(e.into());
         }
         let mut failed: Option<(usize, sqlx::Error)> = None;
-        for event in events {
+        for event in events.0.iter() {
             // conflicts cannot occur because all values for said room were dropped
             if let Err(e) = event.store(&mut tx).await {
                 failed = match failed {
@@ -148,10 +147,7 @@ impl APIRequestor {
             return Err(e.into());
         }
         tx.commit().await?;
-        debug!(
-            "finished inserting into the db for {id} in {elapsed:?}",
-            elapsed = start.elapsed()
-        );
+        debug!("finished inserting into the db for {id}");
         Ok(())
     }
 

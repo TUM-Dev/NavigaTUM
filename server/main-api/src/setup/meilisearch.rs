@@ -95,13 +95,12 @@ pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
         .wait_for_completion(client, POLLING_RATE, TIMEOUT)
         .await?;
     if let Task::Failed { content } = res {
-        panic!("Failed to add settings to Meilisearch: {content:#?}");
+        panic!("Failed to add settings to Meilisearch: {content:?}");
     }
     Ok(())
 }
 #[tracing::instrument(skip(client))]
 pub async fn load_data(client: &Client) -> Result<(), crate::BoxedError> {
-    let start = std::time::Instant::now();
     let entries = client.index("entries");
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let documents = reqwest::get(format!("{cdn_url}/search_data.json"))
@@ -114,13 +113,9 @@ pub async fn load_data(client: &Client) -> Result<(), crate::BoxedError> {
         .wait_for_completion(client, POLLING_RATE, TIMEOUT)
         .await?;
     if let Task::Failed { content } = res {
-        panic!("Failed to add documents to Meilisearch: {content:#?}");
+        panic!("Failed to add documents to Meilisearch: {content:?}");
     }
 
-    info!(
-        "{cnt} documents added in {elapsed:?}",
-        elapsed = start.elapsed(),
-        cnt = documents.len()
-    );
+    info!("{cnt} documents added", cnt = documents.len());
     Ok(())
 }
