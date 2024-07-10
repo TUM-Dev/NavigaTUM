@@ -116,7 +116,7 @@ async fn get_from_db(
 ) -> Result<LimitedHashMap<String, LocationEvents>, crate::BoxedError> {
     let mut located_events: HashMap<String, LocationEvents> = HashMap::new();
     for location in locations {
-        let events = sqlx::query_as!(Event, r#"SELECT id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type AS "entry_type!:crate::calendar::models::EventType",detailed_entry_type
+        let events = sqlx::query_as!(Event, r#"SELECT id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type,detailed_entry_type
             FROM calendar
             WHERE room_code = $1 AND start_at >= $2 AND end_at <= $3"#,
             location.key, start_after, end_before).fetch_all(pool).await?;
@@ -202,7 +202,7 @@ mod tests {
                     stp_title_de: "Quantenteleportation".into(),
                     stp_title_en: "Quantum teleportation".into(),
                     stp_type: "Vorlesung mit Zentralübung".into(),
-                    entry_type: models::EventType::Lecture,
+                    entry_type: models::EventType::Lecture.to_string(),
                     detailed_entry_type: "Abhaltung".into(),
                 },
                 Event {
@@ -213,7 +213,7 @@ mod tests {
                     stp_title_de: "Quantenteleportation 2".into(),
                     stp_title_en: "Quantum teleportation 2".into(),
                     stp_type: "Vorlesung mit Zentralübung".into(),
-                    entry_type: models::EventType::Lecture,
+                    entry_type: models::EventType::Lecture.to_string(),
                     detailed_entry_type: "Abhaltung".into(),
                 },
                 Event {
@@ -224,7 +224,7 @@ mod tests {
                     stp_title_de: "Wartung".into(),
                     stp_title_en: "maintenance".into(),
                     stp_type: "Vorlesung mit Zentralübung".into(),
-                    entry_type: models::EventType::Barred,
+                    entry_type: models::EventType::Barred.to_string(),
                     detailed_entry_type: "Abhaltung".into(),
                 },
                 Event {
@@ -235,7 +235,7 @@ mod tests {
                     stp_title_de: "Quantenteleportation 3".into(),
                     stp_title_en: "Quantum teleportation 3".into(),
                     stp_type: "Vorlesung".into(),
-                    entry_type: models::EventType::Other,
+                    entry_type: models::EventType::Other.to_string(),
                     detailed_entry_type: "Abhaltung".into(),
                 },
                 Event {
@@ -246,7 +246,7 @@ mod tests {
                     stp_title_de: "Quantenteleportation 3".into(),
                     stp_title_en: "Quantum teleportation 3".into(),
                     stp_type: "Vorlesung".into(),
-                    entry_type: models::EventType::Exam,
+                    entry_type: models::EventType::Exam.to_string(),
                     detailed_entry_type: "Abhaltung".into(),
                 },
             ],

@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
@@ -48,7 +50,8 @@ pub(super) struct Event {
     /// e.g. Vorlesung mit Zentralübung
     pub(super) stp_type: String,
     /// e.g. lecture
-    pub(super) entry_type: EventType,
+    /// in reality this is a [EventType]
+    pub(super) entry_type: String,
     /// e.g. Abhaltung
     pub(super) detailed_entry_type: String,
 }
@@ -77,7 +80,7 @@ impl Event {
             self.stp_title_de,
             self.stp_title_en,
             self.stp_type,
-            self.entry_type.clone() as EventType, // see https://github.com/launchbadge/sqlx/issues/1004 => our type is not possible (?)
+            self.entry_type,
             self.detailed_entry_type,
         ).execute(&mut **tx).await
     }
@@ -93,4 +96,11 @@ pub enum EventType {
     Exam,
     Barred,
     Other,
+}
+
+impl Display for EventType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let str = serde_json::to_string(self).map_err(|_| std::fmt::Error)?;
+        f.write_str(&str)
+    }
 }
