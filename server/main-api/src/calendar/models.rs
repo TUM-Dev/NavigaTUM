@@ -100,7 +100,9 @@ pub enum EventType {
 
 impl Display for EventType {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let str = serde_json::to_string(self).map_err(|_| std::fmt::Error)?;
-        f.write_str(&str)
+        let mut str = serde_json::to_string(self).map_err(|_| std::fmt::Error)?;
+        let _ = str.remove(0);
+        let _ = str.remove(str.len() - 1);
+        write!(f, "{str}")
     }
 }
