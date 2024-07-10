@@ -21,8 +21,8 @@ importers:
         specifier: 1.7.22
         version: 1.7.22(vue@3.4.31(typescript@5.4.5))
       '@heroicons/vue':
-        specifier: 2.1.4
-        version: 2.1.4(vue@3.4.31(typescript@5.4.5))
+        specifier: 2.1.5
+        version: 2.1.5(vue@3.4.31(typescript@5.4.5))
       '@nuxt/content':
         specifier: 2.13.1
         version: 2.13.1(ioredis@5.4.1)(magicast@0.3.4)(nuxt@3.12.3(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.10)(encoding@0.1.13)(eslint@9.6.0)(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.3)(rollup@4.18.0)(terser@5.30.0)(typescript@5.4.5)(vite@5.3.2(@types/node@20.14.10)(terser@5.30.0))(vue-tsc@1.8.27(typescript@5.4.5)))(rollup@4.18.0)(vue@3.4.31(typescript@5.4.5))
@@ -841,8 +841,8 @@ packages:
     peerDependencies:
       vue: ^3.2.0
 
-  '@heroicons/vue@2.1.4':
-    resolution: {integrity: sha512-wykVSZ/fqEG49lIeHgFGT9TCvBw9THuRTtA/sPp7FVk3iBob/HcmitMcLDwtXOW82TXb38HeLRl1/pcElPeSdg==}
+  '@heroicons/vue@2.1.5':
+    resolution: {integrity: sha512-IpqR72sFqFs55kyKfFS7tN+Ww6odFNeH/7UxycIOrlVYfj4WUGAdzQtLBnJspucSeqWFQsKM0g0YrgU655BEfA==}
     peerDependencies:
       vue: '>= 3'
 
@@ -6989,7 +6989,7 @@ snapshots:
       '@tanstack/vue-virtual': 3.2.0(vue@3.4.31(typescript@5.4.5))
       vue: 3.4.31(typescript@5.4.5)
 
-  '@heroicons/vue@2.1.4(vue@3.4.31(typescript@5.4.5))':
+  '@heroicons/vue@2.1.5(vue@3.4.31(typescript@5.4.5))':
     dependencies:
       vue: 3.4.31(typescript@5.4.5)
 
