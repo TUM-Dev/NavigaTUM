@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type AS \"entry_type!:crate::calendar::models::EventType\",detailed_entry_type\n            FROM calendar\n            WHERE room_code = $1 AND start_at >= $2 AND end_at <= $3",
+  "query": "SELECT id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type,detailed_entry_type\n            FROM calendar\n            WHERE room_code = $1 AND start_at >= $2 AND end_at <= $3",
   "describe": {
     "columns": [
       {
@@ -40,21 +40,8 @@
       },
       {
         "ordinal": 7,
-        "name": "entry_type!:crate::calendar::models::EventType",
-        "type_info": {
-          "Custom": {
-            "name": "eventtype",
-            "kind": {
-              "Enum": [
-                "lecture",
-                "exercise",
-                "exam",
-                "barred",
-                "other"
-              ]
-            }
-          }
-        }
+        "name": "entry_type",
+        "type_info": "Text"
       },
       {
         "ordinal": 8,
@@ -81,5 +68,5 @@
       false
     ]
   },
-  "hash": "d2978b1b6a3b39bedda8e40cc2e53f91b262d8c42e7a6886ce25a14975c87f70"
+  "hash": "bc0955e2d7a86890ddbe05808ef57645c4b7413815693ebe3db92a62f2909dab"
 }

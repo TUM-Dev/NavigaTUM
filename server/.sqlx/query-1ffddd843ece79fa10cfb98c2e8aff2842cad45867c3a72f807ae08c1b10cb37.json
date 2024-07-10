@@ -12,20 +12,7 @@
         "Text",
         "Text",
         "Text",
-        {
-          "Custom": {
-            "name": "eventtype",
-            "kind": {
-              "Enum": [
-                "lecture",
-                "exercise",
-                "exam",
-                "barred",
-                "other"
-              ]
-            }
-          }
-        },
+        "Text",
         "Text"
       ]
     },

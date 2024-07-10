@@ -40,7 +40,8 @@ futures = "0.3.30"
 unicode-truncate = { git = "https://github.com/CommanderStorm/unicode-truncate.git", rev = "5cc7798"}
 
 # database
-sqlx = { version = "0.7.4", features = ["postgres", "runtime-tokio", "tls-rustls", "migrate", "macros", "chrono"] }
+# v0.8 needs https://github.com/launchbadge/sqlx/issues/3316 is resolved first
+sqlx = { version = "0.7.4", features = ["postgres", "runtime-tokio", "tls-rustls", "migrate", "macros", "chrono", "json"] }
 chrono = { version = "0.4.38", default-features = false, features = ["serde"] }
 
 # search
