@@ -13,20 +13,8 @@ pub struct OverlayMapTask {
     pub z: u32,
 }
 
-impl fmt::Debug for OverlayMapTask {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple("OverlayMapTask")
-            .field(&self.x)
-            .field(&self.y)
-            .field(&self.z)
-            .finish()
-    }
-}
-
-const POSSIBLE_INDEX_RANGE: Range<u32> = 0..7;
-
-impl OverlayMapTask {
-    pub fn with(entry: &Location) -> Self {
+impl From<&Location> for OverlayMapTask {
+    fn from(entry: &Location) -> Self {
         let zoom = match entry.r#type.as_str() {
             "campus" => 14,
             "area" | "site" => 15,
@@ -40,6 +28,21 @@ impl OverlayMapTask {
         let (x, y, z) = lat_lon_z_to_xyz(entry.lat, entry.lon, zoom);
         Self { x, y, z }
     }
+}
+
+impl fmt::Debug for OverlayMapTask {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_tuple("OverlayMapTask")
+            .field(&self.x)
+            .field(&self.y)
+            .field(&self.z)
+            .finish()
+    }
+}
+
+const POSSIBLE_INDEX_RANGE: Range<u32> = 0..7;
+
+impl OverlayMapTask {
     #[tracing::instrument(skip(img))]
     pub async fn draw_onto(&self, img: &mut image::RgbaImage) -> bool {
         // coordinate system is centered around the center of the image

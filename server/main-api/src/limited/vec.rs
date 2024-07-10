@@ -1,6 +1,7 @@
-use serde::{Deserialize, Serialize};
 use std::fmt;
 use std::vec::IntoIter;
+
+use serde::{Deserialize, Serialize};
 
 use crate::limited::OrMore;
 
@@ -28,6 +29,9 @@ impl<T> LimitedVec<T> {
     }
     pub fn len(&self) -> usize {
         self.0.len()
+    }
+    pub fn pop(&mut self) -> Option<T> {
+        self.0.pop()
     }
 }
 

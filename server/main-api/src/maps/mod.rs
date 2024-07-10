@@ -6,8 +6,7 @@ use image::{ImageBuffer, Rgba};
 use serde::Deserialize;
 use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
-use tokio::time::Instant;
-use tracing::{debug, error, warn};
+use tracing::{error, warn};
 use unicode_truncate::UnicodeTruncateStr;
 
 use crate::limited::vec::LimitedVec;
@@ -66,25 +65,23 @@ async fn construct_image_from_data(
     data: Location,
     format: PreviewFormat,
 ) -> Option<LimitedVec<u8>> {
-    let start_time = Instant::now();
     let mut img = match format {
         PreviewFormat::OpenGraph => image::RgbaImage::new(1200, 630),
         PreviewFormat::Square => image::RgbaImage::new(1200, 1200),
     };
 
     // add the map
-    if !OverlayMapTask::with(&data).draw_onto(&mut img).await {
+    if !OverlayMapTask::from(&data).draw_onto(&mut img).await {
         return None;
     }
-    debug!("map draw {:?}", start_time.elapsed());
     draw_pin(&mut img);
 
     draw_bottom(&data, &mut img);
-    debug!("overlay finish {:?}", start_time.elapsed());
     Some(wrap_image_in_response(&img))
 }
 
 /// add the location pin image to the center
+#[tracing::instrument(skip(img),level = tracing::Level::DEBUG, )]
 fn draw_pin(img: &mut ImageBuffer<Rgba<u8>, Vec<u8>>) {
     let pin = image::load_from_memory(include_bytes!("static/pin.png")).unwrap();
     image::imageops::overlay(
@@ -101,6 +98,8 @@ fn wrap_image_in_response(img: &image::RgbaImage) -> LimitedVec<u8> {
     LimitedVec(w.into_inner())
 }
 const WHITE_PIXEL: Rgba<u8> = Rgba([255, 255, 255, 255]);
+
+#[tracing::instrument(skip(img),level = tracing::Level::DEBUG)]
 fn draw_bottom(data: &Location, img: &mut image::RgbaImage) {
     // draw background white
     for x in 0..img.width() {
@@ -197,7 +196,6 @@ pub async fn maps_handler(
     web::Query(args): web::Query<QueryArgs>,
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
-    let start_time = Instant::now();
     let id = params
         .into_inner()
         .replace(|c: char| c.is_whitespace() || c.is_control(), "");
@@ -215,10 +213,5 @@ pub async fn maps_handler(
     let img = construct_image_from_data(data, args.format)
         .await
         .unwrap_or_else(load_default_image);
-
-    debug!(
-        "Preview Generation for {id} took {elapsed:?}",
-        elapsed = start_time.elapsed()
-    );
     HttpResponse::Ok().content_type("image/png").body(img.0)
 }
