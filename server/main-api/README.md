@@ -37,7 +37,7 @@ MeiliSearch provides an interactive interface at <http://localhost:7700>.
 To set up the Postgres, run the following command:
 
 ```bash
-docker run -it --rm -e POSTGRES_PASSWORD=password -p 5432:5432 postgres:latest
+docker run -it --rm -e POSTGRES_PASSWORD=CHANGE_ME -p 5432:5432 postgres:latest
 ```
 
 ### Starting the server
@@ -82,8 +82,8 @@ To get compiletime guarantees for our queries, we use sqlx.
 To add/edit a query, you will need to run the following command:
 
 ```bash
-cargo sqlx migrate run --database-url postgres://postgres:password@localhost:5432/postgres
-cargo sqlx prepare --database-url postgres://postgres:password@localhost:5432/postgres --workspace
+cargo sqlx migrate run --database-url postgres://postgres:CHANGE_ME@localhost:5432/postgres
+cargo sqlx prepare --database-url postgres://postgres:CHANGE_ME@localhost:5432/postgres --workspace
 ```
 
 ### How to Set up the tileserver (needed for the `preview` endpoint)
