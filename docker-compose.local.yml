@@ -103,8 +103,8 @@ services:
     command:
       - replication
       - update
-      - --database postgres
-      - --username postgres
+      - --database ${POSTGRES_DB}
+      - --username ${POSTGRES_USER}
       - --host db
       - --port 5432
     depends_on:

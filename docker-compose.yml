@@ -146,6 +146,13 @@ services:
     image: iboates/osm2pgsql:latest
     environment:
       PGPASSWORD: ${POSTGRES_PASSWORD}
+    command:
+      - replication
+      - update
+      - --database ${POSTGRES_DB}
+      - --username ${POSTGRES_USER}
+      - --host db
+      - --port 5432
     depends_on:
       db:
         condition: service_healthy
