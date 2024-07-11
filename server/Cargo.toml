@@ -3,8 +3,8 @@ members = ["main-api"]
 resolver = "2"
 
 [profile.release]
-strip = true
-lto = "thin"
+strip = false
+lto = false
 
 # Enable max optimizations for some dependencies, but not for our code
 # nessesary to get acceptable performance out of the image processing code
