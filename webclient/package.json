@@ -43,12 +43,12 @@
     "autoprefixer": "10.4.19",
     "eslint": "9.6.0",
     "openapi-typescript": "6.7.6",
-    "postcss": "8.4.38",
+    "postcss": "8.4.39",
     "prettier": "3.3.2",
     "prettier-plugin-tailwindcss": "0.6.5",
     "tailwindcss": "3.4.4",
-    "typescript": "5.4.5",
-    "vue-tsc": "1.8.27"
+    "typescript": "5.5.3",
+    "vue-tsc": "2.0.26"
   },
   "type": "module",
   "packageManager": "pnpm@9.1.3"
