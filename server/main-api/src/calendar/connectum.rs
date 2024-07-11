@@ -27,7 +27,7 @@ impl fmt::Debug for APIRequestor {
 
 impl From<&PgPool> for APIRequestor {
     fn from(pool: &PgPool) -> Self {
-        let keep_alive = Duration::from_secs(2);
+        let keep_alive = Duration::from_secs(30);
         let client = reqwest::Client::builder()
             .tcp_keepalive(keep_alive)
             .http2_keep_alive_while_idle(true)
