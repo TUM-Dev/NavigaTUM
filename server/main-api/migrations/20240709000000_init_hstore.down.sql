@@ -1,1 +1,2 @@
-create extension IF NOT EXISTS hstore
+-- Add down migration script here
+DROP EXTENSION IF EXISTS hstore

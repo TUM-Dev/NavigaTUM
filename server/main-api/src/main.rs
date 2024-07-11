@@ -56,7 +56,7 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
         Some(hash) => format!("https://github.com/TUM-Dev/navigatum/tree/{hash}"),
         None => "unknown commit hash, probably running in development".to_string(),
     };
-    return match data.pool.execute("SELECT 1").await {
+    match data.pool.execute("SELECT 1").await {
         Ok(_) => HttpResponse::Ok()
             .content_type("text/plain")
             .body(format!("healthy\nsource_code: {github_link}")),
@@ -66,7 +66,7 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
                 .content_type("text/plain")
                 .body(format!("unhealthy\nsource_code: {github_link}"))
         }
-    };
+    }
 }
 
 fn connection_string() -> String {
