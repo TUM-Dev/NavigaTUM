@@ -31,7 +31,7 @@ const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
 #[derive(Clone, Debug)]
 pub struct AppData {
-    /// shared [sqlx::PgPool] to connect to postgres
+    /// shared [sqlx::PgPool] to connect to postgis
     pool: PgPool,
     /// necessary, as otherwise we could return empty results during initialisation
     meilisearch_initialised: Arc<RwLock<()>>,
@@ -42,7 +42,7 @@ impl AppData {
         let pool = PgPoolOptions::new()
             .connect(&connection_string())
             .await
-            .expect("make sure that postgres is running in the background");
+            .expect("make sure that postgis is running in the background");
         AppData {
             pool,
             meilisearch_initialised: Arc::new(Default::default()),
@@ -56,7 +56,7 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
         Some(hash) => format!("https://github.com/TUM-Dev/navigatum/tree/{hash}"),
         None => "unknown commit hash, probably running in development".to_string(),
     };
-    return match data.pool.execute("SELECT 1").await {
+    match data.pool.execute("SELECT 1").await {
         Ok(_) => HttpResponse::Ok()
             .content_type("text/plain")
             .body(format!("healthy\nsource_code: {github_link}")),
@@ -66,7 +66,7 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
                 .content_type("text/plain")
                 .body(format!("unhealthy\nsource_code: {github_link}"))
         }
-    };
+    }
 }
 
 fn connection_string() -> String {
@@ -140,7 +140,7 @@ async fn run_maintenance_work(
         initalisation_started.wait().await;
     }
     if std::env::var("SKIP_DB_SETUP") != Ok("true".to_string()) {
-        let _ = debug_span!("updating postgres data").enter();
+        let _ = debug_span!("updating postgis data").enter();
         setup::database::setup(&pool).await.unwrap();
         setup::database::load_data(&pool).await.unwrap();
     } else {

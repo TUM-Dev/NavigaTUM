@@ -127,6 +127,7 @@ services:
     environment:
       LOG_LEVEL: ${LOG_LEVEL-info}
       MIELI_URL: http://meilisearch:7700
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       TILESERVER_URL: http://tileserver:8080
       CDN_URL: http://data:3002/cdn
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -142,6 +143,20 @@ services:
         condition: service_healthy
       db:
         condition: service_healthy
+  osm2pgsql:
+    image: iboates/osm2pgsql:latest
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    command:
+      - replication
+      - update
+      - --database ${POSTGRES_DB}
+      - --username ${POSTGRES_USER}
+      - --host db
+      - --port 5432
+    depends_on:
+      db:
+        condition: service_healthy
   meilisearch:
     image: getmeili/meilisearch:v1.9.0
     restart: unless-stopped
@@ -149,13 +164,16 @@ services:
       - traefik_traefik
     expose:
       - "7700"
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      MEILI_ENV: production
     healthcheck:
       test: wget -q --spider http://localhost:7700/health
       retries: 5
       interval: 10s
       start_period: 10s
   db:
-    image: postgres:16
+    image: postgis/postgis:16-3.4
     restart: unless-stopped
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
@@ -167,7 +185,7 @@ services:
     expose:
       - "5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgis-data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
@@ -200,7 +218,7 @@ services:
 volumes:
   tileserver-src:
     driver: local
-  postgres-data:
+  postgis-data:
     driver: local
 
 networks:

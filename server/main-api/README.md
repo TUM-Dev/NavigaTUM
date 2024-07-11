@@ -37,7 +37,7 @@ MeiliSearch provides an interactive interface at <http://localhost:7700>.
 To set up the Postgres, run the following command:
 
 ```bash
-docker run -it --rm -e POSTGRES_PASSWORD=CHANGE_ME -p 5432:5432 postgres:latest
+docker run -it --rm -e POSTGRES_PASSWORD=CHANGE_ME -p 5432:5432 postgis/postgis:latest
 ```
 
 ### Starting the server

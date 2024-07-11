@@ -40,7 +40,8 @@ You can consume our API Documentation in two ways:
   the [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/TUM-Dev/navigatum/main/openapi.yaml)
   or other similar [OpenAPI tools](https://openapi.tools/).
 
-Note: The API is still under development, and we are open to Issues, Feature Requests or Pull Requests.
+> [!NOTE]
+> The API is still under development, and we are open to Issues, Feature Requests or Pull Requests.
 
 ## Getting started
 
@@ -81,16 +82,18 @@ If you want to work on the webclient only (and not server or data), you don't ne
 You can instead either use the public API (see the [webclient documentation](webclient/README.md#Testing)) or use our
 ready-made docker images to run the server locally:
 
+```bash
+docker compose -f docker-compose.local.yml up --build
+```
+
 > [!NOTE]
 > Because we have a tileserver, running the following command is required once.
 >
 > ```bash
-> docker run -it --rm -v tileserver-src:/data ubuntu:latest sh -c "apt -qq update && apt -qq install wget -y && wget --progress=bar:force:noscroll --timestamping --directory-prefix=/data --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
+> wget -O data.pbf https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf
+> docker run -it -v $(pwd):/data -e PGPASSWORD=CHANGE_ME --network="host" iboates/osm2pgsql:latest osm2pgsql --create --slim --database postgres --user     postgres --host 127.0.0.1 --port 5432 /data/data.pbf --hstore --hstore-add-index --hstore-column raw
+> docker run -it -v $(pwd):/data -e PGPASSWORD=CHANGE_ME --network="host" iboates/osm2pgsql:latest replication init          --database postgres --username postgres --host localhost --port 5432
 > ```
-
-```bash
-docker compose -f docker-compose.local.yml up --build
-```
 
 Else you can follow the steps in the [server documentation](server/README.md).
 
