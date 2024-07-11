@@ -30,6 +30,7 @@ services:
     environment:
       LOG_LEVEL: ${LOG_LEVEL-debug}
       MIELI_URL: http://meilisearch:7700
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       TILESERVER_URL: https://nav.tum.de/maps
       CDN_URL: http://data:3002/cdn
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -42,7 +43,7 @@ services:
       JWT_KEY: ${JWT_KEY}
     depends_on:
       meilisearch:
-        condition: service_healthy
+        condition: service_started
       db:
         condition: service_healthy
   osm2pgsql:
@@ -64,8 +65,11 @@ services:
     restart: unless-stopped
     ports:
       - "7700:7700"
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      MEILI_ENV: development
     healthcheck:
-      test: wget -q --spider http://localhost:7700/health
+      test: curl --fail http://localhost:7700/health || exit 1
       retries: 5
       interval: 10s
       start_period: 10s
