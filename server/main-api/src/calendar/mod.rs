@@ -271,7 +271,7 @@ mod tests {
 
     #[actix_web::test]
     async fn test_index_get() {
-        // setup + load data into postgres
+        // setup + load data into postgis
         let pg = PostgresTestContainer::new().await;
         let now = Utc::now();
         let now = now.to_rfc3339_opts(chrono::SecondsFormat::Secs, true); // throwing away accuracy for simpler testing

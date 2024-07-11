@@ -5,65 +5,14 @@ services:
     ports:
       - "3000:3000"
     environment:
-      NUXT_PUBLIC_MAPS_URL: http://tileserver:8080
+      NUXT_PUBLIC_MAPS_URL: https://nav.tum.de/maps
       NUXT_PUBLIC_CDN_URL: http://data:3002
       NUXT_PUBLIC_API_URL: http://main-api:3003
     depends_on:
-      tileserver:
-        condition: service_healthy
       data:
         condition: service_healthy
       main-api:
         condition: service_healthy
-  # maps
-  tileserver-init-config:
-    image: alpine:latest
-    command:
-      - /bin/sh
-      - -c
-      - |
-        rm -f /data/*.json
-        cp /map/*.json /data/
-        
-        rm -fr /data/sprites/
-        mkdir -p /data/sprites/
-        cp /map/sprites/* /data/sprites/
-        
-        rm -fr /data/styles/
-        mkdir -p /data/styles/
-        cp /map/styles/* /data/styles/
-        
-        mkdir -p /data/fonts/
-    volumes:
-      - tileserver-src:/data
-      - ./map/:/map/:ro
-  tileserver-srv-src: # needed for simpler initialisation of dev environments
-    image: nginx:1.27
-    restart: on-failure
-    volumes:
-      - tileserver-src:/usr/share/nginx/html/maps/vol:ro
-    depends_on:
-      tileserver-init-config:
-        condition: service_completed_successfully
-    healthcheck:
-      test: service nginx status || exit 1
-      retries: 2
-      interval: 10s
-      start_period: 10s
-  tileserver:
-    image: maptiler/tileserver-gl:v4.12.0
-    restart: unless-stopped
-    command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
-    tmpfs:
-      - /tmp
-    volumes:
-      - tileserver-src:/data/
-    read_only: true
-    ports:
-      - "8080:8080"
-    depends_on:
-      tileserver-init-config:
-        condition: service_completed_successfully
   # cdn
   data:
     restart: unless-stopped
@@ -81,7 +30,8 @@ services:
     environment:
       LOG_LEVEL: ${LOG_LEVEL-debug}
       MIELI_URL: http://meilisearch:7700
-      TILESERVER_URL: http://tileserver:8080
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      TILESERVER_URL: https://nav.tum.de/maps
       CDN_URL: http://data:3002/cdn
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -93,7 +43,21 @@ services:
       JWT_KEY: ${JWT_KEY}
     depends_on:
       meilisearch:
+        condition: service_started
+      db:
         condition: service_healthy
+  osm2pgsql:
+    image: iboates/osm2pgsql:latest
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    command:
+      - replication
+      - update
+      - --database ${POSTGRES_DB}
+      - --username ${POSTGRES_USER}
+      - --host db
+      - --port 5432
+    depends_on:
       db:
         condition: service_healthy
   meilisearch:
@@ -101,13 +65,16 @@ services:
     restart: unless-stopped
     ports:
       - "7700:7700"
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      MEILI_ENV: development
     healthcheck:
-      test: wget -q --spider http://localhost:7700/health
+      test: curl --fail http://localhost:7700/health || exit 1
       retries: 5
       interval: 10s
       start_period: 10s
   db:
-    image: postgres:16
+    image: postgis/postgis:16-3.4
     restart: unless-stopped
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
@@ -121,7 +88,3 @@ services:
       retries: 5
       interval: 10s
       start_period: 10s
-
-volumes:
-  tileserver-src:
-    driver: local
