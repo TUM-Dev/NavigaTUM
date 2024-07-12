@@ -16,6 +16,7 @@ const { locale } = useI18n({ useScope: "local" });
 
 const earliest_last_sync = defineModel<string | null>("earliest_last_sync");
 const locations = defineModel<Map<string, CalendarLocation>>("locations");
+
 async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
   const body: CalendarBody = {
     start_after: arg.startStr,
@@ -49,6 +50,7 @@ async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
   }
   return items;
 }
+
 function extractInfos(data: CalendarResponse): void {
   earliest_last_sync.value = Object.values(data)
     .map((d) => new Date(d.location.last_calendar_scrape_at))
@@ -86,15 +88,11 @@ const calendarOptions: CalendarOptions = {
   <div class="flex max-h-[700px] min-h-[700px] grow flex-col">
     <FullCalendar :options="calendarOptions">
       <template #eventContent="arg">
-        <b>{{ arg.timeText }}</b>
-        <i class="ps-1">{{ arg.event.title }}</i>
+        <div class="overflow-x-auto">
+          <b>{{ arg.timeText }}</b>
+          <i class="ps-1">{{ arg.event.title }}</i>
+        </div>
       </template>
     </FullCalendar>
   </div>
 </template>
-
-<style lang="postcss" scoped>
-.fc-daygrid-event-harness {
-  @apply overflow-x-auto;
-}
-</style>
