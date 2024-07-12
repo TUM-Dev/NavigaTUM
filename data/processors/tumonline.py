@@ -159,7 +159,7 @@ def merge_tumonline_rooms(data: dict[str, dict[str, Any]]) -> None:
         data[r_data["id"]].setdefault("sources", {}).setdefault("base", []).append(
             {
                 "name": "TUMonline",
-                "url": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/{room.tumonline_id}",
+                "url": f"https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/wbRaum.editRaum?pRaumNr={room.tumonline_id}",
             },
         )
         if room.patched:
