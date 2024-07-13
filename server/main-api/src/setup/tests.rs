@@ -1,8 +1,10 @@
+use std::time::Duration;
 use meilisearch_sdk::client::Client;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::{Pool, Postgres};
 use testcontainers_modules::testcontainers::{ContainerAsync, ImageExt};
 use testcontainers_modules::{meilisearch, postgres, testcontainers::runners::AsyncRunner};
+use tracing::error;
 
 pub struct PostgresTestContainer {
     _container: ContainerAsync<postgres::Postgres>,
@@ -65,13 +67,16 @@ impl MeiliSearchTestContainer {
 
 #[tokio::test]
 #[tracing_test::traced_test]
-#[cfg(not(feature = "skip_db_setup"))]
 async fn test_db_setup() {
     let pg = PostgresTestContainer::new().await;
     let res = crate::setup::database::load_data(&pg.pool).await;
     match res {
         Ok(()) => (), // sometimes connecting to the db fails... retrying this is realistic
-        Err(e) => crate::setup::database::load_data(&pg.pool).await.unwrap(),
+        Err(e) => {
+            error!("failed to load db because {e:?}. Retrying once");
+            tokio::time::sleep(Duration::from_secs(2)).await;
+            crate::setup::database::load_data(&pg.pool).await.unwrap()
+        }
     }
 }
 
