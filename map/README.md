@@ -79,8 +79,8 @@ You can use it to edit the style and see the changes live.
 
 > [!NOTE]
 > Maputnik is not fully compatible with tileserver-gl
-> Maputnik expects the data on an url, tileserver-gl expects it to be a file.
-> For maputnik to accept the file, you need to do the following:
+> Maputnik expects the data on urls, tileserver-gl expects it to be files.
+> For maputnik to accept the files, you need to do the following:
 
 ```diff
 "openmaptiles": {
@@ -88,6 +88,15 @@ You can use it to edit the style and see the changes live.
 -   "url": "mbtiles://output.mbtiles"
 +   "url": "https://nav.tum.de/maps/data/openmaptiles.json"
 },
+```
+
+```diff
+   },
+-  "sprite": "{style}",
+-  "glyphs": "{fontstack}/{range}.pbf",
++  "sprite": "https://nav.tum.de/maps/styles/{style}/sprite",
++  "glyphs": "https://nav.tum.de/maps/fonts/{fontstack}/{range}.pbf",
+   "layers": [
 ```
 
 To edit the style you thus need to run maputnik and tileserver-gl at the same time.
