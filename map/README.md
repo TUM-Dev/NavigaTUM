@@ -94,7 +94,7 @@ You can use it to edit the style and see the changes live.
    },
 -  "sprite": "{style}",
 -  "glyphs": "{fontstack}/{range}.pbf",
-+  "sprite": "https://nav.tum.de/maps/styles/{style}/sprite",
++  "sprite": "https://nav.tum.de/maps/styles/osm-liberty/sprite",
 +  "glyphs": "https://nav.tum.de/maps/fonts/{fontstack}/{range}.pbf",
    "layers": [
 ```
