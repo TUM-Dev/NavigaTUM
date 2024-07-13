@@ -10,7 +10,7 @@ const { t, locale } = useI18n({ useScope: "local" });
 const keep_focus = ref(false);
 const router = useRouter();
 const route = useRoute();
-const query = ref(Array.isArray(route.query.q) ? route.query.q[0] ?? "" : route.query.q ?? "");
+const query = ref(Array.isArray(route.query.q) ? (route.query.q[0] ?? "") : (route.query.q ?? ""));
 const highlighted = ref<string | null>(null);
 const sites_buildings_expanded = ref<boolean>(false);
 
