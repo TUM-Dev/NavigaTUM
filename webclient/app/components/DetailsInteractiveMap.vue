@@ -6,6 +6,7 @@ import { webglSupport } from "~/composables/webglSupport";
 // @ts-expect-error library does not provide proper types
 import type { MaplibreMapWithIndoor } from "map-gl-indoor";
 import type { components } from "~/api_types";
+import { indoorLayers } from "~/composables/indoorLayer";
 
 const props = defineProps<{ data: DetailsResponse }>();
 const map = ref<MaplibreMapWithIndoor | undefined>(undefined);
@@ -168,30 +169,7 @@ async function initMap(containerId: string) {
 
   // Retrieve the geojson from the path and add the map
   const geojson = await (await fetch("/example.geojson")).json();
-  const layers = [
-    {
-      filter: ["filter-==", "indoor", "room"],
-      id: "indoor-rooms",
-      type: "fill",
-      source: "indoor",
-      paint: {
-        "fill-color": "#FF0000",
-        "fill-opacity": 0.5,
-      },
-    },
-    {
-      filter: ["filter-==", "indoor", "area"],
-      id: "indoor-areas",
-      type: "fill",
-      source: "indoor",
-      paint: {
-        "fill-color": "#0000FF",
-        "fill-opacity": 0.5,
-      },
-    },
-  ];
-
-  const indoorMap = IndoorMap.fromGeojson(geojson, { layers, showFeaturesWithEmptyLevel: true });
+  const indoorMap = IndoorMap.fromGeojson(geojson, { indoorLayers, showFeaturesWithEmptyLevel: true });
   await map.indoor.addMap(indoorMap);
 
   // Add the specific control
