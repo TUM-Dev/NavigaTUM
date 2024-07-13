@@ -41,12 +41,12 @@
           "base": 1.5,
           "stops": [
             [
-              0,
-              0.6
+              4,
+              0.7
             ],
             [
               6,
-              0.1
+              0
             ]
           ]
         }
@@ -3090,7 +3090,7 @@
       "source": "openmaptiles",
       "source-layer": "building",
       "minzoom": 13,
-      "maxzoom": 14.5,
+      "maxzoom": 24,
       "paint": {
         "fill-color": "rgba(152, 198, 234, 1)",
         "fill-outline-color": {
@@ -3115,9 +3115,22 @@
             [
               14,
               1
+            ],
+            [
+              14.5,
+              0
+            ],
+            [
+              16.8,
+              0
+            ],
+            [
+              17,
+              1
             ]
           ]
-        }
+        },
+        "fill-antialias": true
       }
     },
     {
@@ -3126,6 +3139,7 @@
       "source": "openmaptiles",
       "source-layer": "building",
       "minzoom": 13.5,
+      "maxzoom": 17.5,
       "paint": {
         "fill-extrusion-height": {
           "property": "render_height",
@@ -3144,6 +3158,18 @@
             [
               14,
               0.8
+            ],
+            [
+              16.8,
+              0.8
+            ],
+            [
+              17,
+              0.1
+            ],
+            [
+              17.1,
+              0
             ]
           ]
         },
@@ -3540,6 +3566,7 @@
       "type": "symbol",
       "source": "openmaptiles",
       "source-layer": "transportation_name",
+      "maxzoom": 24,
       "filter": [
         "all"
       ],
@@ -3617,7 +3644,8 @@
         ],
         "text-rotation-alignment": "viewport",
         "text-size": 10,
-        "icon-size": 0.8
+        "icon-size": 0.8,
+        "visibility": "visible"
       }
     },
     {
@@ -3827,6 +3855,7 @@
       "type": "symbol",
       "source": "openmaptiles",
       "source-layer": "place",
+      "minzoom": 0,
       "maxzoom": 6,
       "filter": [
         "all",
@@ -3866,6 +3895,7 @@
       "type": "symbol",
       "source": "openmaptiles",
       "source-layer": "place",
+      "minzoom": 2.5,
       "filter": [
         "all",
         [
@@ -3911,6 +3941,7 @@
       "type": "symbol",
       "source": "openmaptiles",
       "source-layer": "place",
+      "minzoom": 2,
       "filter": [
         "all",
         [
@@ -3956,6 +3987,7 @@
       "type": "symbol",
       "source": "openmaptiles",
       "source-layer": "place",
+      "minzoom": 1,
       "filter": [
         "all",
         [
