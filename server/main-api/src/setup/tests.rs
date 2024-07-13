@@ -1,7 +1,7 @@
-use std::time::Duration;
 use meilisearch_sdk::client::Client;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::{Pool, Postgres};
+use std::time::Duration;
 use testcontainers_modules::testcontainers::{ContainerAsync, ImageExt};
 use testcontainers_modules::{meilisearch, postgres, testcontainers::runners::AsyncRunner};
 use tracing::error;
