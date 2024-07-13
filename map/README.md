@@ -86,7 +86,7 @@ You can use it to edit the style and see the changes live.
 "openmaptiles": {
   "type": "vector",
 -   "url": "mbtiles://output.mbtiles"
-+   "url": "http://localhost:7770/data/openmaptiles.json"
++   "url": "https://nav.tum.de/maps/data/openmaptiles.json"
 },
 ```
 
