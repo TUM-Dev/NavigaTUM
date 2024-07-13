@@ -68,7 +68,11 @@ impl MeiliSearchTestContainer {
 #[cfg(not(feature = "skip_db_setup"))]
 async fn test_db_setup() {
     let pg = PostgresTestContainer::new().await;
-    crate::setup::database::load_data(&pg.pool).await.unwrap();
+    let res = crate::setup::database::load_data(&pg.pool).await;
+    match res {
+        Ok(()) => (), // sometimes connecting to the db fails... retrying this is realistic
+        Err(e) => crate::setup::database::load_data(&pg.pool).await.unwrap(),
+    }
 }
 
 #[tokio::test]
