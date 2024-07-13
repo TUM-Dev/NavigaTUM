@@ -7,7 +7,7 @@ fn github_token() -> Result<String, ()> {
     match std::env::var("GITHUB_TOKEN") {
         Ok(token) => Ok(token.trim().to_string()),
         Err(e) => {
-            format!("GITHUB_TOKEN has to be set for feedback: {e:?}");
+            error!("GITHUB_TOKEN has to be set for feedback: {e:?}");
             Err(())
         }
     }
