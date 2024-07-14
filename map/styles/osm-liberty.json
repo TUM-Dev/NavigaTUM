@@ -21,7 +21,7 @@
     }
   },
   "sprite": "{style}",
-  "glyphs": "{fontstack}/{range}.pbf",
+  "glyphs": "https://nav.tum.de/tiles/font/{fontstack}/{range}",
   "layers": [
     {
       "id": "background",
