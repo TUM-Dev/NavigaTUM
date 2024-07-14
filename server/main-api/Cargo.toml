@@ -17,10 +17,11 @@ path = "src/main.rs"
 [dependencies]
 # logging/obeservability
 actix-web-prom = { version = "0.8.0", default-features = false, features = [] }
-tracing-subscriber = { version = "0.3.18",features = ["env-filter", "json", "fmt"]}
+tracing-subscriber = { version = "0.3.18", features = ["env-filter", "json", "fmt"] }
 tracing = "0.1.40"
+tracing-log = { version = "0.2.0", features = ["std", "log-tracer", "interest-cache"] }
 tracing-actix-web = "0.7.11"
-sentry = { version = "0.34.0", features = ["tracing","metrics","backtrace","contexts","debug-images","panic","reqwest","rustls"] }
+sentry = { version = "0.34.0", features = ["tracing", "metrics", "backtrace", "contexts", "debug-images", "panic", "reqwest", "rustls"] }
 sentry-actix = "0.34.0"
 
 #serialisation
@@ -37,7 +38,7 @@ rustls = { version = "0.23.5", default-features = false, features = ["ring"] } #
 cached = { version = "0.52.0", features = ["default", "async", "tokio", "disk_store"] }
 futures = "0.3.30"
 # temporarily forked until https://github.com/Aetf/unicode-truncate/issues/16 is resolved
-unicode-truncate = { git = "https://github.com/CommanderStorm/unicode-truncate.git", rev = "5cc7798"}
+unicode-truncate = { git = "https://github.com/CommanderStorm/unicode-truncate.git", rev = "5cc7798" }
 
 # database
 # v0.8 needs https://github.com/launchbadge/sqlx/issues/3316 is resolved first
@@ -74,5 +75,5 @@ time = "0.3.36"
 [dev-dependencies]
 pretty_assertions = "1.4.0"
 testcontainers = { version = "0.20.0", features = ["watchdog"] }
-testcontainers-modules = {version =  "0.8.0",features = ["postgres","meilisearch"] }
+testcontainers-modules = { version = "0.8.0", features = ["postgres", "meilisearch"] }
 tracing-test = "0.2.5"

@@ -92,6 +92,11 @@ pub fn setup_logging() {
 
     let filter = EnvFilter::builder().parse_lossy(filter);
 
+    tracing_log::LogTracer::builder()
+        .with_interest_cache(tracing_log::InterestCacheConfig::default())
+        .init()
+        .expect("the global logger to only be set once");
+
     let registry = tracing_subscriber::registry()
         .with(filter)
         .with(sentry::integrations::tracing::layer())
