@@ -99,10 +99,6 @@ services:
     image: ghcr.io/maplibre/martin:v0.14.2
     restart: unless-stopped
     command:
-      - --listen-addresses
-      - 0.0.0.0:3001
-      - --base-path
-      - /
       - --config
       - /map/config.yaml
     ports:
@@ -116,4 +112,4 @@ services:
       martin-init-config:
         condition: service_completed_successfully
     volumes:
-      - ./map/martin/:/map/:rw
+      - ./map/martin/:/map/:ro

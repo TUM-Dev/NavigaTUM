@@ -143,20 +143,6 @@ services:
         condition: service_healthy
       db:
         condition: service_healthy
-  osm2pgsql:
-    image: iboates/osm2pgsql:latest
-    environment:
-      PGPASSWORD: ${POSTGRES_PASSWORD}
-    command:
-      - replication
-      - update
-      - --database ${POSTGRES_DB}
-      - --username ${POSTGRES_USER}
-      - --host db
-      - --port 5432
-    depends_on:
-      db:
-        condition: service_healthy
   meilisearch:
     image: getmeili/meilisearch:v1.9.0
     restart: unless-stopped
@@ -191,6 +177,53 @@ services:
       retries: 5
       interval: 10s
       start_period: 10s
+  osm2pgsql:
+    image: iboates/osm2pgsql:latest
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    command:
+      - replication
+      - update
+      - --database ${POSTGRES_DB}
+      - --username ${POSTGRES_USER}
+      - --host db
+      - --port 5432
+    depends_on:
+      db:
+        condition: service_healthy
+  martin-init-config:
+    image: alpine:latest
+    command:
+      - /bin/sh
+      - /map/martin/setup.sh
+    volumes:
+      - ./map/:/map/
+  martin:
+    image: ghcr.io/maplibre/martin:v0.14.2
+    restart: unless-stopped
+    command:
+      - --config
+      - /map/config.yaml
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navigatum-main-api.entrypoints=webs"
+      - "traefik.http.routers.navigatum-main-api.tls.certresolver=leacme"
+      - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && PathPrefix(`/tiles`)"
+      - "traefik.http.services.navigatum-main-api.loadbalancer.server.port=3001"
+    networks:
+      - traefik_traefik
+    expose:
+      - "3001"
+    environment:
+      - BASE_PATH=/tiles/
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+    depends_on:
+      db:
+        condition: service_healthy
+      martin-init-config:
+        condition: service_completed_successfully
+    volumes:
+      - ./map/martin/:/map/:ro
   redirect-domain:
     image: "traefik/whoami:latest"
     labels:
