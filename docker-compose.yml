@@ -206,10 +206,10 @@ services:
       - /map/config.yaml
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.navigatum-main-api.entrypoints=webs"
-      - "traefik.http.routers.navigatum-main-api.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && PathPrefix(`/tiles`)"
-      - "traefik.http.services.navigatum-main-api.loadbalancer.server.port=3001"
+      - "traefik.http.routers.navigatum-martin.entrypoints=webs"
+      - "traefik.http.routers.navigatum-martin.tls.certresolver=leacme"
+      - "traefik.http.routers.navigatum-martin.rule=Host(`nav.tum.de`) && PathPrefix(`/tiles`)"
+      - "traefik.http.services.navigatum-martin.loadbalancer.server.port=3001"
     networks:
       - traefik_traefik
     expose:
@@ -230,7 +230,7 @@ services:
       interval: 1s
       start_period: 1s
   redirect-domain:
-    image: "traefik/whoami:latest"
+    image: traefik/whoami:latest
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-redirect-domain.entrypoints=webs"
