@@ -113,3 +113,8 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./map/martin/:/map/:ro
+    healthcheck:
+      test: wget --spider http://localhost:3001/health || exit 1
+      retries: 10
+      interval: 1s
+      start_period: 1s
