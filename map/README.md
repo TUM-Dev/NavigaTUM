@@ -93,10 +93,8 @@ You can use it to edit the style and see the changes live.
 ```diff
    },
 -  "sprite": "{style}",
--  "glyphs": "{fontstack}/{range}.pbf",
 +  "sprite": "https://nav.tum.de/maps/styles/osm-liberty/sprite",
-+  "glyphs": "https://nav.tum.de/maps/fonts/{fontstack}/{range}.pbf",
-   "layers": [
+   "glyphs": "https://nav.tum.de/tiles/font/{fontstack}/{range}",
 ```
 
 To edit the style you thus need to run maputnik and tileserver-gl at the same time.
