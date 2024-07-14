@@ -16,3 +16,7 @@ opt-level = 3
 
 [profile.dev.package.ab_glyph]
 opt-level = 3
+
+# https://github.com/launchbadge/sqlx?tab=readme-ov-file#compile-time-verification
+[profile.dev.package.sqlx-macros]
+opt-level = 3
