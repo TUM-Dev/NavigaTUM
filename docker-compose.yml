@@ -76,8 +76,8 @@ services:
       - "traefik.http.routers.navigatum-tileserver.entrypoints=webs"
       - "traefik.http.routers.navigatum-tileserver.tls.certresolver=leacme"
       - "traefik.http.routers.navigatum-tileserver.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
-      - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-stripprefix@docker, navigatum-compress@docker, navigatum-cache-2m@docker"
-      - "traefik.http.middlewares.navigatum-stripprefix.stripprefix.prefixes=/maps"
+      - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-maps-stripprefix@docker, navigatum-compress@docker, navigatum-cache-2m@docker"
+      - "traefik.http.middlewares.navigatum-maps-stripprefix.prefixes=/maps"
       - "traefik.http.middlewares.navigatum-compress.compress=true"
       - "traefik.http.middlewares.navigatum-cache-2m.headers.customrequestheaders.Cache-Control=public, max-age=5184000"
       - "traefik.http.services.navigatum-tileserver.loadbalancer.server.port=8080"
@@ -209,6 +209,8 @@ services:
       - "traefik.http.routers.navigatum-martin.entrypoints=webs"
       - "traefik.http.routers.navigatum-martin.tls.certresolver=leacme"
       - "traefik.http.routers.navigatum-martin.rule=Host(`nav.tum.de`) && PathPrefix(`/tiles`)"
+      - "traefik.http.routers.navigatum-martin.middlewares=navigatum-tiles-stripprefix@docker"
+      - "traefik.http.middlewares.navigatum-tiles-stripprefix.stripprefix.prefixes=/tiles"
       - "traefik.http.services.navigatum-martin.loadbalancer.server.port=3001"
     networks:
       - traefik_traefik
