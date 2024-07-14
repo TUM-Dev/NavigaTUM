@@ -29,7 +29,7 @@ this.
 From the root of the repository, run either (depending on your waiting tolerance and avaliable RAM):
 
 - <details><summary>[~minutes] Only <b>Germany</b> with approx 64GB of RAM</summary>
-  
+
   ```bash
   docker run -it -e JAVA_TOOL_OPTIONS="-Xmx54g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=germany --Xmx10g  --Xmx54g --nodemap-type=sparsearray --nodemap-storage=ram
   ```
@@ -37,7 +37,7 @@ From the root of the repository, run either (depending on your waiting tolerance
   </details>
 
 - <details><summary>[~1 hour] Only <b>Germany</b> with lower RAM</summary>
-  
+
   ```bash
   docker run -it -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=germany --Xmx10g --storage=mmap
   ```
@@ -45,14 +45,14 @@ From the root of the repository, run either (depending on your waiting tolerance
   </details>
 
 - <details><summary>[~3 hours] <b>Planet</b> with approx 128GB of RAM</summary>
-  
+
   ```bash
   docker run -it -e JAVA_TOOL_OPTIONS="-Xmx100g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=planet --bounds=world --Xmx100g --nodemap-type=sparsearray --nodemap-storage=ram
   ```
 
   </details>
 - <details><summary>[~24 hours] <b>Planet</b> with lower amounts of RAM (slower)</summary>
-  
+
   ```bash
   docker run -it -e JAVA_TOOL_OPTIONS="-Xmx25g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=planet --bounds=world --Xmx25g --nodemap-type=array --storage=mmap
   ```
@@ -114,17 +114,11 @@ docker run -it --rm -p 8888:8888 maputnik/editor
 |------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | ![Where in Maputnik to click to import a style](/resources/documentation/maputnik-import1.png) | ![Where in Maputnik to click then to import a style](/resources/documentation/maputnik-import2.png) |
 
-### Fonts
+### Fonts + Sprites
 
-You will need special fonts ([Roboto](https://fonts.google.com/specimen/Roboto) and [Roboto Condensed](https://fonts.google.com/specimen/Roboto+Condensed)) to run the tileserver.
-To do so, please download the font files from google fonts (linked above), convert them via https://maplibre.org/font-maker/ and upload them to the `fonts/` directory of the tileserver
+Due to licencing reasons, we cannot directly include the fonts and sprites we use in the project.
+You can download them via
 
-### Sprites
-
-We get our sprites from [maputnik/osm-liberty](https://github.com/maputnik/osm-liberty) via
-
-```
-export TILE_SPRITES_URL=https://raw.githubusercontent.com/maputnik/osm-liberty/gh-pages/sprites
-rm sprites/*
-wget -P sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png
+```bash
+sh ./martin/setup.sh
 ```
