@@ -36,14 +36,9 @@ If you want to connect to a local version instead, change the environemnt variab
 To get a local server running, please:
 
 - either via following the [guide to local development](../server/README.md), or
-- via [docker](https://docs.docker.com/)  
-   _docker isolates the network, but we want these two containers to communicate to each other without being as brittle as IPs._  
-   _Naming the `navigatum-mieli-search` container `search` makes us able to connect to it via <`http://search:7700`> from the server_
-
+- via [docker](https://docs.docker.com/) by commenting out the webclient from the docker-compose-file and running   
   ```bash
-  docker network create navigatum-net
-  docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
-  docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main /bin/navigatum-main-api
+  docker compose -f docker-compose.local.yml up --build
   ```
 
 ```sh
