@@ -13,6 +13,7 @@ services:
     expose:
       - "3000"
     environment:
+      TZ: Europe/Berlin
       NUXT_PUBLIC_MAPS_URL: https://nav.tum.de
       NUXT_PUBLIC_CDN_URL: https://nav.tum.de
       NUXT_PUBLIC_API_URL: https://nav.tum.de
@@ -45,6 +46,8 @@ services:
     volumes:
       - tileserver-src:/data
       - ./map/:/map/:ro
+    environment:
+      TZ: Europe/Berlin
   tileserver-srv-src: # needed for simpler initialisation of dev environments
     image: nginx:1.27
     restart: unless-stopped
@@ -60,6 +63,8 @@ services:
       - 80
     volumes:
       - tileserver-src:/usr/share/nginx/html/maps/vol:ro
+    environment:
+      TZ: Europe/Berlin
     depends_on:
       tileserver-init-config:
         condition: service_completed_successfully
@@ -86,6 +91,8 @@ services:
     expose:
       - "8080"
     command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
+    environment:
+      TZ: Europe/Berlin
     tmpfs:
       - /tmp
     volumes:
@@ -106,6 +113,8 @@ services:
       - "traefik.http.services.navigatum-data.loadbalancer.server.port=3002"
     networks:
       - traefik_traefik
+    environment:
+      TZ: Europe/Berlin
     expose:
       - "3002"
   # server
@@ -125,6 +134,7 @@ services:
     command: /bin/navigatum-main-api
     user: 1000:3000
     environment:
+      TZ: Europe/Berlin
       LOG_LEVEL: ${LOG_LEVEL-info}
       MIELI_URL: http://meilisearch:7700
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
@@ -151,6 +161,7 @@ services:
     expose:
       - "7700"
     environment:
+      TZ: Europe/Berlin
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       MEILI_ENV: production
     healthcheck:
@@ -162,6 +173,7 @@ services:
     image: postgis/postgis:16-3.4
     restart: unless-stopped
     environment:
+      TZ: Europe/Berlin
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -180,6 +192,7 @@ services:
   osm2pgsql:
     image: iboates/osm2pgsql:latest
     environment:
+      TZ: Europe/Berlin
       PGPASSWORD: ${POSTGRES_PASSWORD}
     command:
       - replication
@@ -196,6 +209,8 @@ services:
     command:
       - /bin/sh
       - /map/martin/setup.sh
+    environment:
+      TZ: Europe/Berlin
     volumes:
       - ./map/:/map/
   martin:
@@ -217,9 +232,10 @@ services:
     expose:
       - "3001"
     environment:
-      - BASE_PATH=/tiles/
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
-      - RUST_LOG=debug
+      TZ: Europe/Berlin
+      BASE_PATH: /tiles/
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      RUST_LOG: debug
     depends_on:
       db:
         condition: service_healthy
@@ -244,6 +260,8 @@ services:
       - "traefik.http.middlewares.navigatum-redirect-to-domain.redirectregex.replacement=https://nav.tum.de/$${3}"
       - "traefik.http.middlewares.navigatum-redirect-to-domain.redirectregex.permanent=true"
       - "traefik.http.services.navigatum-redirect-domain.loadbalancer.server.port=80"
+    environment:
+      TZ: Europe/Berlin
     healthcheck:
       test: ["CMD", "/whoami", "--help"] # I know that this is not usefull. There does not exists a executable in that image that can call /health
       retries: 2
