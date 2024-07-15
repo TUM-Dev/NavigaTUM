@@ -187,10 +187,24 @@ impl APIRequestor {
         &self,
         tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
         id: &str,
-    ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
-        sqlx::query!(r#"DELETE FROM calendar WHERE room_code = $1"#, id)
-            .execute(&mut **tx)
-            .await
+    ) -> Result<(), sqlx::Error> {
+        loop {
+            // deliberately somewhat low to not have too long blocking segments
+            let res = sqlx::query!(r#"
+                        WITH rows_to_delete AS (
+                            SELECT id
+                            FROM calendar WHERE room_code = $1
+                            LIMIT 1000
+                        )
+                        
+                        DELETE FROM calendar
+                        WHERE id IN (SELECT id FROM rows_to_delete);"#, id)
+                .execute(&mut **tx)
+                .await?;
+            if res.rows_affected() == 0 {
+                return Ok(());
+            }
+        }
     }
     #[tracing::instrument(skip(tx))]
     async fn update_last_calendar_scrape_at(

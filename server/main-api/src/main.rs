@@ -40,6 +40,7 @@ pub struct AppData {
 impl AppData {
     async fn new() -> Self {
         let pool = PgPoolOptions::new()
+            .min_connections(2)
             .connect(&connection_string())
             .await
             .expect("make sure that postgis is running in the background");
