@@ -219,6 +219,7 @@ services:
     environment:
       - BASE_PATH=/tiles/
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      - RUST_LOG=debug
     depends_on:
       db:
         condition: service_healthy
