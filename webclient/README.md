@@ -36,7 +36,7 @@ If you want to connect to a local version instead, change the environemnt variab
 To get a local server running, please:
 
 - either via following the [guide to local development](../server/README.md), or
-- via [docker](https://docs.docker.com/) by commenting out the webclient from the docker-compose-file and running   
+- via [docker](https://docs.docker.com/) by commenting out the webclient from the docker-compose-file and running
   ```bash
   docker compose -f docker-compose.local.yml up --build
   ```

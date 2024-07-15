@@ -190,7 +190,8 @@ impl APIRequestor {
     ) -> Result<(), sqlx::Error> {
         loop {
             // deliberately somewhat low to not have too long blocking segments
-            let res = sqlx::query!(r#"
+            let res = sqlx::query!(
+                r#"
                         WITH rows_to_delete AS (
                             SELECT id
                             FROM calendar WHERE room_code = $1
@@ -198,9 +199,11 @@ impl APIRequestor {
                         )
                         
                         DELETE FROM calendar
-                        WHERE id IN (SELECT id FROM rows_to_delete);"#, id)
-                .execute(&mut **tx)
-                .await?;
+                        WHERE id IN (SELECT id FROM rows_to_delete);"#,
+                id
+            )
+            .execute(&mut **tx)
+            .await?;
             if res.rows_affected() == 0 {
                 return Ok(());
             }
