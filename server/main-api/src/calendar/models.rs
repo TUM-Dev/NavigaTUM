@@ -1,7 +1,6 @@
-use std::fmt::Display;
-
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Duration, Utc};
 use serde::{Deserialize, Serialize};
+use std::fmt::Display;
 
 use crate::models::Location;
 
@@ -75,8 +74,8 @@ impl Event {
              detailed_entry_type = EXCLUDED.detailed_entry_type"#,
             self.id,
             self.room_code,
-            self.start_at,
-            self.end_at,
+            self.start_at + Duration::hours(1),
+            self.end_at + Duration::hours(1),
             self.stp_title_de,
             self.stp_title_en,
             self.stp_type,
