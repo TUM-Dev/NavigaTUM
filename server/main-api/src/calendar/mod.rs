@@ -161,7 +161,7 @@ mod tests {
                 .unwrap()
                 .to_utc();
         static ref TIME_2014: DateTime<Utc> =
-            DateTime::parse_from_rfc3339("2014-01-01T00:00:00-00:00")
+            DateTime::parse_from_rfc3339("2014-01-01T01:00:00-00:00")
                 .unwrap()
                 .to_utc();
         static ref TIME_2016: DateTime<Utc> =
@@ -366,7 +366,7 @@ mod tests {
                     "id": 1,
                     "room_code": "5121.EG.003",
                     "start_at": "2012-01-01T00:00:00Z",
-                    "end_at": "2014-01-01T00:00:00Z",
+                    "end_at": "2014-01-01T01:00:00Z",
                     "stp_title_de": "Quantenteleportation",
                     "stp_title_en": "Quantum teleportation",
                     "stp_type": "Vorlesung mit Zentralübung",
@@ -376,7 +376,7 @@ mod tests {
                   {
                     "id": 2,
                     "room_code": "5121.EG.003",
-                    "start_at": "2014-01-01T00:00:00Z",
+                    "start_at": "2014-01-01T01:00:00Z",
                     "end_at": "2016-01-01T00:00:00Z",
                     "stp_title_de": "Quantenteleportation 2",
                     "stp_title_en": "Quantum teleportation 2",
@@ -426,7 +426,7 @@ mod tests {
                     "events": [
                         {
                             "detailed_entry_type": "Abhaltung",
-                            "end_at": "2014-01-01T00:00:00Z",
+                            "end_at": "2014-01-01T01:00:00Z",
                             "entry_type": "lecture",
                             "id": 1,
                             "room_code": "5121.EG.003",
