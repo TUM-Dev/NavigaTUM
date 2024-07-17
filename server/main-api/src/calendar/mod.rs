@@ -161,7 +161,7 @@ mod tests {
                 .unwrap()
                 .to_utc();
         static ref TIME_2014: DateTime<Utc> =
-            DateTime::parse_from_rfc3339("2014-01-01T01:00:00-00:00")
+            DateTime::parse_from_rfc3339("2014-01-01T00:00:00-00:00")
                 .unwrap()
                 .to_utc();
         static ref TIME_2016: DateTime<Utc> =
