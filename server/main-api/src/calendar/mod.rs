@@ -365,7 +365,7 @@ mod tests {
                   {
                     "id": 1,
                     "room_code": "5121.EG.003",
-                    "start_at": "2012-01-01T00:00:00Z",
+                    "start_at": "2012-01-01T01:00:00Z",
                     "end_at": "2014-01-01T01:00:00Z",
                     "stp_title_de": "Quantenteleportation",
                     "stp_title_en": "Quantum teleportation",
@@ -377,7 +377,7 @@ mod tests {
                     "id": 2,
                     "room_code": "5121.EG.003",
                     "start_at": "2014-01-01T01:00:00Z",
-                    "end_at": "2016-01-01T00:00:00Z",
+                    "end_at": "2016-01-01T01:00:00Z",
                     "stp_title_de": "Quantenteleportation 2",
                     "stp_title_en": "Quantum teleportation 2",
                     "stp_type": "Vorlesung mit Zentralübung",
