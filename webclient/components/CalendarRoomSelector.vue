@@ -13,6 +13,7 @@ const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
 
 type DetailsResponse = components["schemas"]["DetailsResponse"];
+
 async function addLocation() {
   let location: string = "";
   while (!location) {
@@ -49,10 +50,6 @@ async function addLocation() {
 
 <template>
   <ul v-if="calendar.showing.length" class="mb-6 flex gap-2 overflow-x-auto">
-    <li v-if="data.size === 0" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
-      <Spinner class="h-8 w-8" />
-      {{ t("Loading data...") }}
-    </li>
     <li
       v-for="[key, location] in data.entries()"
       :key="key"
@@ -71,7 +68,8 @@ async function addLocation() {
         </small>
         <small>
           <Btn :to="location.calendar_url" variant="link" size="text-xs font-semibold rounded-md">
-            <CalendarIcon class="mb-0.5 h-4 w-4" /> {{ t("view_in_tumonline") }}
+            <CalendarIcon class="mb-0.5 h-4 w-4" />
+            {{ t("view_in_tumonline") }}
           </Btn>
         </small>
       </div>
@@ -112,7 +110,6 @@ de:
     error_already_exists: |-
       Der Ort ist bereits im Kalender eingetragen.
       Möchtest du es mit einer anderen ID erneut versuchen?
-  Loading data...: Lädt daten...
 en:
   add_location: add additional location to the calendar
   view_in_tumonline: View in TUMonline
@@ -133,5 +130,4 @@ en:
     error_already_exists: |-
       Location is already in the calendar.
       Want to retry with a different id?
-  Loading data...: Loading data...
 </i18n>
