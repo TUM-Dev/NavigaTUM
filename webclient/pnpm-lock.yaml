@@ -9,14 +9,20 @@ importers:
   .:
     dependencies:
       '@fullcalendar/core':
-        specifier: ^6.1.14
+        specifier: 6.1.15
         version: 6.1.15
       '@fullcalendar/daygrid':
-        specifier: ^6.1.14
+        specifier: 6.1.15
+        version: 6.1.15(@fullcalendar/core@6.1.15)
+      '@fullcalendar/list':
+        specifier: 6.1.15
+        version: 6.1.15(@fullcalendar/core@6.1.15)
+      '@fullcalendar/timegrid':
+        specifier: 6.1.15
         version: 6.1.15(@fullcalendar/core@6.1.15)
       '@fullcalendar/vue3':
-        specifier: ^6.1.14
-        version: 6.1.15(@fullcalendar/core@6.1.15)(vue@3.4.33(typescript@5.5.3))
+        specifier: 6.1.15
+        version: 6.1.15(@fullcalendar/core@6.1.15)(vue@3.4.32(typescript@5.5.3))
       '@headlessui/vue':
         specifier: 1.7.22
         version: 1.7.22(vue@3.4.33(typescript@5.5.3))
@@ -821,6 +827,16 @@ packages:
 
   '@fullcalendar/daygrid@6.1.15':
     resolution: {integrity: sha512-j8tL0HhfiVsdtOCLfzK2J0RtSkiad3BYYemwQKq512cx6btz6ZZ2RNc/hVnIxluuWFyvx5sXZwoeTJsFSFTEFA==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.15
+
+  '@fullcalendar/list@6.1.15':
+    resolution: {integrity: sha512-U1bce04tYDwkFnuVImJSy2XalYIIQr6YusOWRPM/5ivHcJh67Gm8CIMSWpi3KdRSNKFkqBxLPkfZGBMaOcJYug==}
+    peerDependencies:
+      '@fullcalendar/core': ~6.1.15
+
+  '@fullcalendar/timegrid@6.1.15':
+    resolution: {integrity: sha512-61ORr3A148RtxQ2FNG7JKvacyA/TEVZ7z6I+3E9Oeu3dqTf6M928bFcpehRTIK6zIA6Yifs7BeWHgOE9dFnpbw==}
     peerDependencies:
       '@fullcalendar/core': ~6.1.15
 
@@ -6943,7 +6959,16 @@ snapshots:
     dependencies:
       '@fullcalendar/core': 6.1.15
 
-  '@fullcalendar/vue3@6.1.15(@fullcalendar/core@6.1.15)(vue@3.4.33(typescript@5.5.3))':
+  '@fullcalendar/list@6.1.15(@fullcalendar/core@6.1.15)':
+    dependencies:
+      '@fullcalendar/core': 6.1.15
+
+  '@fullcalendar/timegrid@6.1.15(@fullcalendar/core@6.1.15)':
+    dependencies:
+      '@fullcalendar/core': 6.1.15
+      '@fullcalendar/daygrid': 6.1.15(@fullcalendar/core@6.1.15)
+
+  '@fullcalendar/vue3@6.1.15(@fullcalendar/core@6.1.15)(vue@3.4.32(typescript@5.5.3))':
     dependencies:
       '@fullcalendar/core': 6.1.15
       vue: 3.4.33(typescript@5.5.3)
