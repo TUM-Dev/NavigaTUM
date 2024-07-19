@@ -94,7 +94,7 @@ const calendarOptions: CalendarOptions = {
         <NuxtLink
           :to="`https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/!wbTermin.wbEdit?pTerminNr=${arg.event.id}`"
           external
-          class="flex overflow-x-auto gap-1 overflow-y-auto"
+          class="flex gap-1 overflow-x-auto overflow-y-auto"
         >
           <span class="font-normal not-italic">{{ arg.timeText }}</span>
           <span class="font-medium not-italic">{{ arg.event.title }}</span>
