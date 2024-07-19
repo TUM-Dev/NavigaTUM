@@ -294,8 +294,8 @@ mod tests {
                 .insert_header(ContentType::json())
                 .to_request();
             let (_, resp) = test::call_service(&app, req).await.into_parts();
-            
-            let (status,actual) = run_testcase(resp).await;
+
+            let (status, actual) = run_testcase(resp).await;
             assert_eq!(status, 400);
             insta::assert_snapshot!(actual, @r###""Json deserialize error: EOF while parsing a value at line 1 column 0""###);
         }
@@ -312,8 +312,8 @@ mod tests {
                 .insert_header(ContentType::json())
                 .to_request();
             let (_, resp) = test::call_service(&app, req).await.into_parts();
-            
-            let (status,actual) = run_testcase(resp).await;
+
+            let (status, actual) = run_testcase(resp).await;
             assert_eq!(status, 400);
             insta::assert_snapshot!(actual, @r###""No id requested""###);
         }
@@ -331,7 +331,7 @@ mod tests {
                 .to_request();
             let (_, resp) = test::call_service(&app, req).await.into_parts();
 
-            let (status,actual) = run_testcase(resp).await;
+            let (status, actual) = run_testcase(resp).await;
             assert_eq!(status, 400);
             insta::assert_snapshot!(actual, @r###""Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message""###);
         }
@@ -348,8 +348,8 @@ mod tests {
                 .insert_header(ContentType::json())
                 .to_request();
             let (_, resp) = test::call_service(&app, req).await.into_parts();
-            
-            let (status,actual) = run_testcase(resp).await;
+
+            let (status, actual) = run_testcase(resp).await;
             assert_eq!(status, 404);
             insta::assert_snapshot!(actual, @r###""Room 5121.EG.002/None does not have a calendar""###);
         }
@@ -366,8 +366,8 @@ mod tests {
                 .insert_header(ContentType::json())
                 .to_request();
             let (_, resp) = test::call_service(&app, req).await.into_parts();
-            
-            let (status,actual) = run_testcase(resp).await;
+
+            let (status, actual) = run_testcase(resp).await;
             assert_eq!(status, 200);
             insta::assert_yaml_snapshot!(actual);
         }
@@ -384,8 +384,8 @@ mod tests {
                 .insert_header(ContentType::json())
                 .to_request();
             let (_, resp) = test::call_service(&app, req).await.into_parts();
-            
-            let (status,actual) = run_testcase(resp).await;
+
+            let (status, actual) = run_testcase(resp).await;
             assert_eq!(status, 200);
             insta::assert_yaml_snapshot!(actual);
         }
@@ -397,8 +397,11 @@ mod tests {
         let body_bytes = actix_web::body::to_bytes(body_box).await.unwrap();
         let body_text = String::from_utf8(body_bytes.into_iter().collect()).unwrap();
         // if the expected value cleanly deserializes into json, we should compare using this
-        let body=if let Ok(actual)=serde_json::from_str::<Value>(&body_text) { actual }
-        else { Value::String(body_text) };
-        (actual_status,body)
+        let body = if let Ok(actual) = serde_json::from_str::<Value>(&body_text) {
+            actual
+        } else {
+            Value::String(body_text)
+        };
+        (actual_status, body)
     }
 }

@@ -1,0 +1,6 @@
+- target: mi-bib
+  query: mathe bib
+  comment: target is hallucinated as it currently does not exist
+- target: tb-arcisstraße
+  query: tb innenstadt
+  comment: target is hallucinated as it currently does not exist

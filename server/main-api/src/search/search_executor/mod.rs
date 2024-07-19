@@ -72,3 +72,35 @@ pub async fn do_geoentry_search(
         }
     }
 }
+
+#[cfg(test)]
+mod test{
+
+    use pretty_assertions::assert_eq;
+
+    use super::*;
+
+    #[derive(serde::Deserialize)]
+    struct TestQuery {
+        target:String,
+        query:String  ,
+        among:Option<usize>,
+    }
+
+    impl TestQuery {
+        fn load_good() -> Vec<Self> {
+            serde_yaml::from_str(include_str!("test-queries.good.yaml")).unwrap()
+        }
+        fn load_bad() -> Vec<Self> {
+            serde_yaml::from_str(include_str!("test-queries.bad.yaml")).unwrap()
+        }
+    }
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_good_queries() {
+        let highlighting = Highlighting::default();
+        for query in TestQuery::load_good(){
+            let actual = do_geoentry_search(query.query, ).await.0;
+        }
+    }
+}
