@@ -26,8 +26,8 @@
 - { target: "5602.EG.001",  query: "mi hs 1"            }
 - { target: "5508.02.801",  query: "MW 1801"            }
 - { target: "5508.02.801",  query: "MW1801"             } # splitting necessary
-- { target: "5510.EG.001",  query: "MW0001"             } # splitting nessesary
-- { target: "5510.02.001",  query: "MW2001"             } # splitting nessesary
+- { target: "5510.EG.001",  query: "MW0001"             } # splitting necessary
+- { target: "5510.02.001",  query: "MW2001"             } # splitting necessary
 - { target: "5508.02.801",  query: "1801 maschinen"     }
 - { target: "5503.EG.337",  query: "Raum 0337 mw"       }
 - { target: "5510.EG.001",  query: "niemann"            } # old name before the NS renamings was "MW 0001, Gustav-Niemann-Hörsaal", changed in Q1 24
@@ -61,8 +61,8 @@
 - { target: "0101.02.119",  query: "2119", among: 4     }  # The architects name is a N2119. There are other rooms which are actually named "2119", which means 4 is the best case.
 - { target: "5606.EG.011", query: "MI HS3"              }  # This should match this Lecture hall and not the HS 1, just because both are in the Bolzmanstr. *3* 4 is the best case.
 - { target: "5606.EG.011", query: "MI HS 3"             }
-- { target: "0104.01.406", query: "N1406" } # Architects names should be matachable literally
-- { target: "0104.U1.406", query: "N-1406" } # Architects names should be matachable literally
+- { target: "0104.01.406", query: "N1406" } # Architects names should be matchable literally
+- { target: "0104.U1.406", query: "N-1406" } # Architects names should be matchable literally
 # other queries
 #- {target: , query: "mathe bib"     }
 #- {target: , query: "tb innenstadt" }
