@@ -187,9 +187,7 @@ onMounted(() => {
             >
               <CalendarDaysIcon class="text-blue-600 mt-0.5 h-4 w-4" />
             </button>
-            <ClientOnly>
-              <ShareButton :coords="data.coords" :name="data.name" />
-            </ClientOnly>
+            <ShareButton :coords="data.coords" :name="data.name" />
             <DetailsFeedbackButton ref="feedbackButton" />
             <!-- <button class="btn btn-link btn-action btn-sm"
                   :title="t('header.favorites')">
