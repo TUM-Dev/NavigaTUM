@@ -19,6 +19,29 @@ const { locale } = useI18n({ useScope: "local" });
 const earliest_last_sync = defineModel<string | null>("earliest_last_sync");
 const locations = defineModel<Map<string, CalendarLocation>>("locations");
 
+interface Color {
+  backgroundColor: string;
+  borderColor: string;
+  textColor: string;
+}
+
+function colorForType(entry_type: "lecture" | "exercise" | "exam" | "barred" | "other"): Color | Record<string, never> {
+  switch (entry_type) {
+    case "lecture":
+      return { backgroundColor: "#93bae6", borderColor: "#3070b3", textColor: "#13243e" };
+    case "exercise":
+      return { backgroundColor: "#e6bbe2", borderColor: "#c56fb9", textColor: "#3f1837" };
+    case "exam":
+      return { backgroundColor: "#fdba74", borderColor: "#f97316", textColor: "#431407" };
+    case "other":
+      return { backgroundColor: "#d4d4d8", borderColor: "#71717a", textColor: "#09090b" };
+    case "barred":
+      return { backgroundColor: "#fca5a5", borderColor: "#ef4444", textColor: "#450a0a" };
+    default:
+      return {};
+  }
+}
+
 async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
   const body: CalendarBody = {
     start_after: arg.startStr,
@@ -40,12 +63,13 @@ async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
     items.push(
       ...v.events.map((e) => {
         const title = locale.value == "de" ? e.stp_title_de : e.stp_title_en;
+        const color = colorForType(e.entry_type);
         return {
           id: e.id.toString(),
           title: show_room_names ? `${k} ${title}` : title,
           start: new Date(e.start_at),
           end: new Date(e.end_at),
-          classes: [e.entry_type],
+          ...color,
         };
       }),
     );
