@@ -29,9 +29,9 @@ function colorForType(entry_type: "lecture" | "exercise" | "exam" | "barred" | "
   switch (entry_type) {
     case "lecture":
       return { backgroundColor: "#93bae6", borderColor: "#3070b3", textColor: "#13243e" };
-    case "exercise":
-      return { backgroundColor: "#e6bbe2", borderColor: "#c56fb9", textColor: "#3f1837" };
     case "exam":
+      return { backgroundColor: "#e6bbe2", borderColor: "#c56fb9", textColor: "#3f1837" };
+    case "exercise":
       return { backgroundColor: "#fdba74", borderColor: "#f97316", textColor: "#431407" };
     case "other":
       return { backgroundColor: "#d4d4d8", borderColor: "#71717a", textColor: "#09090b" };
