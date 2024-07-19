@@ -123,7 +123,7 @@ const calendarOptions: CalendarOptions = {
         >
           <template v-if="arg.view.type == 'timeGridWeek'">
             <span class="font-medium">{{ arg.event.title }}</span>
-            <span class="font-normal text-zinc-700"
+            <span class="text-zinc-700 font-normal"
               >{{ arg.timeText }} - {{ arg.event.end.toLocaleTimeString(locale, { timeStyle: "short" }) }}</span
             >
           </template>
