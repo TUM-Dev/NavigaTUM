@@ -88,20 +88,26 @@ Thanks`,
               </template>
             </I18nT>
           </Toast>
-          <CalendarRoomSelector :data="locations" />
-          <CalendarFull
-            v-model:earliest_last_sync="earliest_last_sync"
-            v-model:locations="locations"
-            :showing="calendar.showing"
-          />
-          <p class="pt-2 text-xs">
-            {{ t("footer.disclaimer") }} <br />
-            {{ t("footer.please_check") }}
-            <template v-if="earliest_last_sync !== null">
-              <br />
-              {{ t("footer.last_sync", [earliest_last_sync]) }}
-            </template>
-          </p>
+          <div v-if="locations.size === 0" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
+            <Spinner class="h-8 w-8" />
+            {{ t("Loading data...") }}
+          </div>
+          <div :class="{ '!invisible': locations.size === 0 }">
+            <CalendarRoomSelector :data="locations" />
+            <CalendarFull
+              v-model:earliest_last_sync="earliest_last_sync"
+              v-model:locations="locations"
+              :showing="calendar.showing"
+            />
+            <p class="pt-2 text-xs">
+              {{ t("footer.disclaimer") }} <br />
+              {{ t("footer.please_check") }}
+              <template v-if="earliest_last_sync !== null">
+                <br />
+                {{ t("footer.last_sync", [earliest_last_sync]) }}
+              </template>
+            </p>
+          </div>
         </div>
       </template>
     </NuxtErrorBoundary>
@@ -123,6 +129,7 @@ de:
     please_check: Im Zweifelsfall prüfe bitte den offiziellen TUMonline-Kalender.
     last_sync: Stand {0}
   call_for_feedback: Diese Funktion ist neu. Wenn du Feedback dazu hast, nutze doch bitte das {feedbackForm}.
+  Loading data...: Loading data...
 en:
   title: Calendar
   close: Close
@@ -137,4 +144,5 @@ en:
     please_check: If in doubt, please check the official calendar on TUMonline
     last_sync: Updated {0}
   call_for_feedback: This feature is new. If you have some feedback about it, feel free to use the {feedbackForm}.
+  Loading data...: Lädt daten...
 </i18n>

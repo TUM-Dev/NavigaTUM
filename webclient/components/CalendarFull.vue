@@ -119,11 +119,26 @@ const calendarOptions: CalendarOptions = {
           :to="`https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/!wbTermin.wbEdit?pTerminNr=${arg.event.id}`"
           external
           class="flex gap-1 overflow-x-auto overflow-y-auto"
+          :class="arg.view.type == 'timeGridWeek' ? 'flex-col' : 'flex-row'"
         >
-          <span class="font-normal not-italic">{{ arg.timeText }}</span>
-          <span class="font-medium not-italic">{{ arg.event.title }}</span>
+          <template v-if="arg.view.type == 'timeGridWeek'">
+            <span class="font-medium">{{ arg.event.title }}</span>
+            <span class="font-normal text-zinc-700"
+              >{{ arg.timeText }} - {{ arg.event.end.toLocaleTimeString(locale, { timeStyle: "short" }) }}</span
+            >
+          </template>
+          <template v-else>
+            <span class="font-normal">{{ arg.timeText }} ({{ arg.event.start - arg.event.end }})</span>
+            <span class="font-medium">{{ arg.event.title }}</span>
+          </template>
         </NuxtLink>
       </template>
     </FullCalendar>
   </div>
 </template>
+
+<style lang="postcss">
+.fc-event-main {
+  @apply flex;
+}
+</style>
