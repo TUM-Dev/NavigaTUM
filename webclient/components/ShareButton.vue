@@ -17,11 +17,12 @@ const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ sourc
 const { share, isSupported: shareIsSupported } = useShare();
 
 const modalOpen = ref(false);
-const shareOptions = () => ({
-  title: props.name,
-  text: document.title,
-  url: clipboardSource.value,
-});
+const shareOptions = () =>
+  ({
+    title: props.name,
+    text: document.title,
+    url: clipboardSource.value,
+  }) as UseShareOptions;
 </script>
 
 <template>
