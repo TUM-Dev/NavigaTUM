@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { components } from "~/api_types";
 import SearchResultItem from "~/components/SearchResultItem.vue";
+
 type SearchResponse = components["schemas"]["SearchResponse"];
 
 defineProps<{
@@ -36,8 +37,8 @@ const { t } = useI18n({ useScope: "local" });
               : `/search?q=${route.query.q}&limit_buildings=${queryLimitBuildings + 20}&limit_rooms=${queryLimitRooms}`
           "
           class="focusable text-blue-500 rounded-sm visited:text-blue-500 hover:text-blue-600 hover:underline"
-          >{{ t("view_more") }}</NuxtLink
-        >
+          >{{ t("view_more") }}
+        </NuxtLink>
       </p>
       <p v-else class="text-zinc-500 text-sm">
         {{ t("results", s.estimatedTotalHits) }}

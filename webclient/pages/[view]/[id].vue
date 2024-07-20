@@ -158,7 +158,12 @@ onMounted(() => {
     <!-- Entry header / title -->
     <div class="px-5">
       <BreadcrumbList
-        :items="data.parent_names.map((n, i) => ({ name: n, to: i > 0 ? '/view/' + data?.parents[i] : '/' }))"
+        :items="
+          data.parent_names.map((n, i) => ({
+            name: n,
+            to: i > 0 ? '/view/' + data?.parents[i] : '/',
+          }))
+        "
         class="pb-3 pt-6"
       />
       <div class="group flex flex-row gap-2">

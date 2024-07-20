@@ -9,10 +9,12 @@ const { t, locale } = useI18n({ useScope: "local" });
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const feedback = useFeedback();
+
 function firstOrDefault(value: LocationQueryValue | LocationQueryValue[], defaultValue: string): string {
   if (Array.isArray(value)) return value[0] ?? defaultValue;
   return value ?? defaultValue;
 }
+
 const query_q = computed<string>(() => firstOrDefault(route.query.q, ""));
 const query_limit_buildings = computed<number>(() => parseInt(firstOrDefault(route.query.limit_buildings, "10")));
 const query_limit_rooms = computed<number>(() => parseInt(firstOrDefault(route.query.limit_rooms, "50")));
@@ -82,7 +84,12 @@ useSeoMeta({
         @click="
           () => {
             feedback.open = true;
-            feedback.data = { category: 'search', subject: '', body: '', deletion_requested: false };
+            feedback.data = {
+              category: 'search',
+              subject: '',
+              body: '',
+              deletion_requested: false,
+            };
           }
         "
       >

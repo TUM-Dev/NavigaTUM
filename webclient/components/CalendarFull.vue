@@ -81,7 +81,10 @@ function extractInfos(data: CalendarResponse): void {
   earliest_last_sync.value = Object.values(data)
     .map((d) => new Date(d.location.last_calendar_scrape_at))
     .reduce((d1, d2) => (d1 < d2 ? d1 : d2))
-    .toLocaleString(locale.value, { timeStyle: "short", dateStyle: "short" });
+    .toLocaleString(locale.value, {
+      timeStyle: "short",
+      dateStyle: "short",
+    });
   const tempLocationMap = new Map<string, CalendarLocation>();
   for (const [key, v] of Object.entries(data)) {
     tempLocationMap.set(key, v.location);

@@ -10,7 +10,13 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n({ useScope: "local" });
-const breakpoints = useBreakpoints({ xs: 0, sm: 601, md: 841, lg: 961, xl: 1281 });
+const breakpoints = useBreakpoints({
+  xs: 0,
+  sm: 601,
+  md: 841,
+  lg: 961,
+  xl: 1281,
+});
 const showPopoverInstead = breakpoints.greaterOrEqual("md");
 const modalOpen = ref(false);
 </script>
