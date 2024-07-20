@@ -69,13 +69,14 @@ impl MeiliSearchTestContainer {
 #[tracing_test::traced_test]
 async fn test_db_setup() {
     let pg = PostgresTestContainer::new().await;
-    let res = crate::setup::database::load_data(&pg.pool).await;
-    match res {
-        Ok(()) => (), // sometimes connecting to the db fails... retrying this is realistic
-        Err(e) => {
-            error!("failed to load db because {e:?}. Retrying once");
-            tokio::time::sleep(Duration::from_secs(2)).await;
-            crate::setup::database::load_data(&pg.pool).await.unwrap()
+    for i in 0..20 {
+        let res = crate::setup::database::load_data(&pg.pool).await;
+        if let Err(e) = res {
+            error!("failed to load db because {e:?}. Retrying for 20s");
+            tokio::time::sleep(Duration::from_secs(1)).await;
+        } else {
+            info!("successfully initalised the db in try {i}");
+            break
         }
     }
 }
