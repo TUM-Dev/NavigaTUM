@@ -76,7 +76,7 @@ async fn test_db_setup() {
             tokio::time::sleep(Duration::from_secs(1)).await;
         } else {
             info!("successfully initalised the db in try {i}");
-            break
+            break;
         }
     }
 }
