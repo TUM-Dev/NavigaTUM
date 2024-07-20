@@ -1,6 +1,3 @@
-use std::collections::HashMap;
-use std::time::Duration;
-
 use meilisearch_sdk::client::Client;
 use meilisearch_sdk::settings::Settings;
 use meilisearch_sdk::tasks::Task;
@@ -121,7 +118,7 @@ pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
     if let Task::Failed { content } = res {
         panic!("Failed to add settings to Meilisearch: {content:?}");
     }
-    meilisearch_sdk::ExperimentalFeatures::new(&client)
+    meilisearch_sdk::features::ExperimentalFeatures::new(&client)
         .set_vector_store(true)
         .update()
         .await?;
