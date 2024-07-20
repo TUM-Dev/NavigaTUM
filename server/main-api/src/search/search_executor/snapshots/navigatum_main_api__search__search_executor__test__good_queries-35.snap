@@ -1,0 +1,64 @@
+---
+source: main-api/src/search/search_executor/mod.rs
+description: Architects names should be matchable literally
+expression: actual
+info: "'N1406' should get '0104.01.406' in 1 results # Architects names should be matchable literally"
+---
+- facet: rooms
+  entries:
+    - id: 0104.01.406
+      type: room
+      name: 0104.01.406 ( Studentenarb. m. DV)
+      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext_bold: N1406@0104
+    - id: 0101.Z1.062B
+      type: room
+      name: "0101.Z1.062B ( N1 ZG,  Studentische Arbeitsplätze)"
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1062BZG@0101
+    - id: 0104.02.406
+      type: room
+      name: 0104.02.406 ( Studentencomputerraum 1)
+      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext_bold: N2406@0104
+    - id: 0104.01.416
+      type: room
+      name: 0104.01.416 ( Kopierer)
+      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext_bold: N1416@0104
+    - id: 0104.U1.406
+      type: room
+      name: 0104.U1.406 ( Physikal. Versuchslabor)
+      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext_bold: N-1406@0104
+    - id: 5112.EG.106N
+      type: room
+      name: 5112.EG.106N ( Labor)
+      subtext: "garching, Walter-Schottky-Institut (WSI)"
+      subtext_bold: N106@5112
+    - id: 0101.Z1.006
+      type: room
+      name: 0101.Z1.006 ( Sozialraum)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1006ZG@0101
+    - id: 0101.Z1.046
+      type: room
+      name: 0101.Z1.046 ( WC-Herren)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1046ZG@0101
+    - id: 0101.Z1.046A
+      type: room
+      name: 0101.Z1.046A ( WC-Vorraum Herren)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1046AZG@0101
+    - id: 0103.01.306
+      type: room
+      name: 0103.01.306 ( Büro)
+      subtext: "stammgelände, E-Technik El. Maschinen / Geräte (N3)"
+      subtext_bold: N1306@0103
+  n_visible: 10
+  estimatedTotalHits: 552
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 0

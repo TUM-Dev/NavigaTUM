@@ -1,0 +1,85 @@
+# "org"/poi queries
+- target: mi-bib
+  query: mathe bib
+  comment: target is hallucinated as it currently does not exist
+- target: tb-arcisstraße
+  query: tb innenstadt
+  comment: target is hallucinated as it currently does not exist
+# building queries
+- target: '5620'
+  query: interims I
+- target: '0201'
+  query: Studitum Arcisstr
+  comment: 'Note: It is not really in Arcisstr., just close'
+- target: '2906'
+  query: Karlsstr. 47
+  comment: uses 'str.' instead of 'straße'
+# room queries
+- target: 5602.EG.001
+  query: mi hs 1
+- target: 5510.EG.001
+  query: niemann
+  comment: >-
+    old name before the NS renamings was 'MW 0001, Gustav-Niemann-Hörsaal',
+    changed in Q1 24
+- target: 5510.EG.001
+  query: mw g niemann
+  comment: >-
+    old name before the NS renamings was 'MW 0001, Gustav-Niemann-Hörsaal',
+    changed in Q1 24
+- target: 5402.01.220J
+  query: CH22209
+- target: 5602.EG.001
+  query: f abuer
+  comment: typo with short word and at first letter
+- target: 0501.EG.144
+  query: ssz
+  comment: >-
+    main room called 'service desk', only all 114abc.. subrooms have 'ssz' in
+    the name
+- target: 0501.EG.136
+  query: Immathalle
+- target: 2903.02.209
+  query: Augustenstraße 44; Raum 209; 2.OG
+  comment: Copy/paste from real search
+- target: 5604.EG.038
+  query: praktikumsraum mi
+  among: 2
+  comment: 'there are two basic lab course rooms, this is one of them'
+- target: 5604.EG.036
+  query: physik labor mi
+  among: 3
+  comment: "'5604.02.033' is a valid result before the two lab course rooms"
+- target: 0104.U1.403
+  query: n1403
+  among: 2
+  comment: "This is 'N-1403@0104', but 'N1403@0104' can be before this"
+- target: 5101.EG.257
+  query: fachschaft pyhsik
+  comment: typo + it's 'Fachschaftsbüro' in the data
+- target: 2910.EG.003
+  query: H.0003
+  comment: >-
+    H.003 is the correct room, but people have problems remembering how many
+    zeroes are in the room number
+- target: 2910.EG.003
+  query: H.03
+  comment: >-
+    H.003 is the correct room, but people have problems remembering how many
+    zeroes are in the room number
+- target: 2910.EG.003
+  query: H.3
+  comment: >-
+    H.003 is the correct room, but people have problems remembering how many
+    zeroes are in the room number
+- target: 0101.02.119
+  query: '2119'
+  among: 4
+  comment: >-
+    The architects name is a N2119. There are other rooms which are actually
+    named '2119', which means 4 is the best case.
+- target: 5606.EG.011
+  query: MI HS3
+  comment: >-
+    This should match this Lecture hall and not the HS 1, just because both are
+    in the Bolzmanstr. *3* 4 is the best case.

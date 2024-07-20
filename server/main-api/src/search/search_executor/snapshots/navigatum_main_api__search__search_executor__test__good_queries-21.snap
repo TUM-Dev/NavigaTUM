@@ -1,0 +1,64 @@
+---
+source: main-api/src/search/search_executor/mod.rs
+description: ""
+expression: actual
+info: "'pyhsik hs 2' should get '5101.EG.502' in 1 results"
+---
+- facet: rooms
+  entries:
+    - id: 5101.EG.502
+      type: room
+      name: "5101.EG.502 ( \u0019Physik\u0017 \u0019Hörsaal\u0017 \u00192\u0017)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2502@5101
+    - id: 5101.EG.503
+      type: room
+      name: "5101.EG.503 ( \u0019Physik\u0017 \u0019Hörsaal\u0017 3)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2503@5101
+    - id: 5101.EG.501
+      type: room
+      name: "5101.EG.501 ( Rudolf-Mößbauer-\u0019Hörsaal\u0017)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2501@5101
+    - id: 0102.U1.216D
+      type: room
+      name: "0102.U1.\u00192\u001716D ( Versuchsraum \u0019HS\u0017/NS)"
+      subtext: "stammgelände, Hochvolthaus (N2)"
+      subtext_bold: N-1216D@0102
+    - id: 0102.U1.216E
+      type: room
+      name: "0102.U1.\u00192\u001716E ( Versuchsraum \u0019HS\u0017/NS)"
+      subtext: "stammgelände, Hochvolthaus (N2)"
+      subtext_bold: N-1216E@0102
+    - id: 0102.U1.216F
+      type: room
+      name: "0102.U1.\u00192\u001716F ( Versuchsraum \u0019HS\u0017/NS)"
+      subtext: "stammgelände, Hochvolthaus (N2)"
+      subtext_bold: N-1216F@0102
+    - id: 0102.U1.216G
+      type: room
+      name: "0102.U1.\u00192\u001716G ( Versuchsraum \u0019HS\u0017/NS)"
+      subtext: "stammgelände, Hochvolthaus (N2)"
+      subtext_bold: N-1216G@0102
+    - id: 5101.EG.501A
+      type: room
+      name: "5101.EG.501A ( Projektorraum \u0019HS\u0017 PH 1)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2501A@5101
+    - id: 0502.01.202
+      type: room
+      name: "0502.01.\u00192\u001702 ( Vorbereitung Carl von Linde-\u0019Hörsaal\u0017)"
+      subtext: "stammgelände, Zentralgebäude 2 (Z2)"
+      subtext_bold: 1202@0502
+    - id: 5123.EG.019
+      type: room
+      name: "5123.EG.019 ( LMU \u0019Hörsaal\u0017 im \u0019Physik\u0017 Werkstattgebäude)"
+      subtext: "garching, LMU Physik Werkstattgebäude"
+      subtext_bold: 019@5123
+  n_visible: 10
+  estimatedTotalHits: 1000
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 28

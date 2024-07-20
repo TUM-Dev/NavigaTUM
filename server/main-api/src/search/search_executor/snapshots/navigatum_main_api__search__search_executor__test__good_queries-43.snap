@@ -1,0 +1,64 @@
+---
+source: main-api/src/search/search_executor/mod.rs
+description: "there are two basic lab course rooms, this is one of them"
+expression: actual
+info: praktikumsraum mi should get 5604.EG.038
+---
+- facet: rooms
+  entries:
+    - id: 5605.01.012
+      type: room
+      name: "5605.01.012 ( \u0019Praktikumsraum\u0017)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 01.05.012@5605
+    - id: 5605.01.013
+      type: room
+      name: "5605.01.013 ( \u0019Praktikumsraum\u0017)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 01.05.013@5605
+    - id: 5605.02.014
+      type: room
+      name: "5605.02.014 ( \u0019Praktikumsraum\u0017)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 02.05.014@5605
+    - id: 5605.02.033
+      type: room
+      name: "5605.02.033 ( \u0019Praktikumsraum\u0017)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 02.05.033@5605
+    - id: 5605.03.012
+      type: room
+      name: "5605.03.012 ( \u0019Praktikumsraum\u0017)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 03.05.012@5605
+    - id: 5605.03.014
+      type: room
+      name: "5605.03.014 ( \u0019Praktikumsraum\u0017)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 03.05.014@5605
+    - id: 5605.03.057
+      type: room
+      name: "5605.03.057 ( \u0019Praktikumsraum\u0017)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 03.05.057@5605
+    - id: 5607.01.012
+      type: room
+      name: "5607.01.012 ( \u0019Praktikumsraum\u0017)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 01.07.012@5607
+    - id: 5608.01.011
+      type: room
+      name: "5608.01.011 ( \u0019Praktikumsraum\u0017)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 01.08.011@5608
+    - id: 5608.01.020
+      type: room
+      name: "5608.01.020 ( \u0019Praktikumsraum\u0017)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 01.08.020@5608
+  n_visible: 10
+  estimatedTotalHits: 209
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 0

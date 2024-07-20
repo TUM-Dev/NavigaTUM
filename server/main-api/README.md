@@ -121,6 +121,15 @@ some fuzzing-goals are automatically tested in our CI.
 You can exchange `--base-url=http://localhost:3003` to `--base-url=https://nav.tum.de` for the full public API, or
 restrict your scope using an option like `--endpoint=/api/search`.
 
+### Approval tests
+
+Some of our tests are approval tests.
+Please install [insta](https://insta.rs/docs/quickstart/) to have a working environment.
+
+You can then run `cargo insta test` instead of `cargo test` to review the needed changes.
+If you don't want to do this, using the version we provide via CI is fine, but the DX is way better with the correct
+tooling.
+
 ## License
 
 This program is free software: you can redistribute it and/or modify

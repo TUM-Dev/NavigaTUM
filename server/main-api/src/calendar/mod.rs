@@ -294,12 +294,10 @@ mod tests {
                 .insert_header(ContentType::json())
                 .to_request();
             let (_, resp) = test::call_service(&app, req).await.into_parts();
-            run_testcase(
-                resp,
-                400,
-                "Json deserialize error: EOF while parsing a value at line 1 column 0",
-            )
-            .await;
+
+            let (status, actual) = run_testcase(resp).await;
+            assert_eq!(status, 400);
+            insta::assert_snapshot!(actual, @r###""Json deserialize error: EOF while parsing a value at line 1 column 0""###);
         }
         {
             // missing required query parameters
@@ -314,7 +312,10 @@ mod tests {
                 .insert_header(ContentType::json())
                 .to_request();
             let (_, resp) = test::call_service(&app, req).await.into_parts();
-            run_testcase(resp, 400, "No id requested").await;
+
+            let (status, actual) = run_testcase(resp).await;
+            assert_eq!(status, 400);
+            insta::assert_snapshot!(actual, @r###""No id requested""###);
         }
         {
             // way too many parameters
@@ -329,7 +330,10 @@ mod tests {
                 .insert_header(ContentType::json())
                 .to_request();
             let (_, resp) = test::call_service(&app, req).await.into_parts();
-            run_testcase(resp, 400, "Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message").await;
+
+            let (status, actual) = run_testcase(resp).await;
+            assert_eq!(status, 400);
+            insta::assert_snapshot!(actual, @r###""Too many ids to query. We suspect that users don't need this. If you need this limit increased, please send us a message""###);
         }
         {
             // room without a calendar
@@ -344,7 +348,10 @@ mod tests {
                 .insert_header(ContentType::json())
                 .to_request();
             let (_, resp) = test::call_service(&app, req).await.into_parts();
-            run_testcase(resp, 404, "Room 5121.EG.002/None does not have a calendar").await;
+
+            let (status, actual) = run_testcase(resp).await;
+            assert_eq!(status, 404);
+            insta::assert_snapshot!(actual, @r###""Room 5121.EG.002/None does not have a calendar""###);
         }
         {
             // show all entries of 5121.EG.003
@@ -359,43 +366,10 @@ mod tests {
                 .insert_header(ContentType::json())
                 .to_request();
             let (_, resp) = test::call_service(&app, req).await.into_parts();
-            let expected = serde_json::json!({
-              "5121.EG.003": {
-                "events": [
-                  {
-                    "id": 1,
-                    "room_code": "5121.EG.003",
-                    "start_at": "2012-01-01T01:00:00Z",
-                    "end_at": "2014-01-01T01:00:00Z",
-                    "stp_title_de": "Quantenteleportation",
-                    "stp_title_en": "Quantum teleportation",
-                    "stp_type": "Vorlesung mit Zentralübung",
-                    "entry_type": "lecture",
-                    "detailed_entry_type": "Abhaltung"
-                  },
-                  {
-                    "id": 2,
-                    "room_code": "5121.EG.003",
-                    "start_at": "2014-01-01T01:00:00Z",
-                    "end_at": "2016-01-01T01:00:00Z",
-                    "stp_title_de": "Quantenteleportation 2",
-                    "stp_title_en": "Quantum teleportation 2",
-                    "stp_type": "Vorlesung mit Zentralübung",
-                    "entry_type": "lecture",
-                    "detailed_entry_type": "Abhaltung"
-                  }
-                ],
-                "location": {
-                  "key": "5121.EG.003",
-                  "name": "5121.EG.003 (Computerraum)",
-                  "last_calendar_scrape_at": now,
-                  "calendar_url": "https://campus.tum.de/3",
-                  "type_common_name": "Serverraum",
-                  "type": "room"
-                }
-              }
-            });
-            run_testcase(resp, 200, &expected.to_string()).await;
+
+            let (status, actual) = run_testcase(resp).await;
+            assert_eq!(status, 200);
+            insta::assert_yaml_snapshot!(actual, {".**.last_calendar_scrape_at" => "[last_calendar_scrape_at]"});
         }
         {
             // show both rooms, but a limited timeframe
@@ -410,46 +384,24 @@ mod tests {
                 .insert_header(ContentType::json())
                 .to_request();
             let (_, resp) = test::call_service(&app, req).await.into_parts();
-            let expected = serde_json::json!({
-                "5121.EG.001": {
-                    "events": [],
-                    "location": {
-                        "calendar_url": "https://campus.tum.de/1",
-                        "key": "5121.EG.001",
-                        "last_calendar_scrape_at": now,
-                        "name": "5121.EG.001 (Montage- und Versuchshalle)",
-                        "type": "room",
-                        "type_common_name": "Versuchshalle",
-                    },
-                },
-                "5121.EG.003": {
-                    "events": [],
-                    "location": {
-                        "calendar_url": "https://campus.tum.de/3",
-                        "key": "5121.EG.003",
-                        "last_calendar_scrape_at": now,
-                        "name": "5121.EG.003 (Computerraum)",
-                        "type": "room",
-                        "type_common_name": "Serverraum",
-                    },
-                },
-            });
-            run_testcase(resp, 200, &expected.to_string()).await;
+
+            let (status, actual) = run_testcase(resp).await;
+            assert_eq!(status, 200);
+            insta::assert_yaml_snapshot!(actual, {".**.last_calendar_scrape_at" => "[last_calendar_scrape_at]"});
         }
     }
 
-    async fn run_testcase(resp: HttpResponse, expected_status: u16, expected_body: &str) {
+    async fn run_testcase(resp: HttpResponse) -> (u16, Value) {
         let actual_status = resp.status().as_u16();
         let body_box = resp.into_body();
         let body_bytes = actix_web::body::to_bytes(body_box).await.unwrap();
         let body_text = String::from_utf8(body_bytes.into_iter().collect()).unwrap();
         // if the expected value cleanly deserializes into json, we should compare using this
-        if let Ok(expected_value) = serde_json::from_str::<Value>(expected_body) {
-            let actual_value = serde_json::from_str::<Value>(&body_text).unwrap();
-            assert_eq!(actual_value, expected_value);
+        let body = if let Ok(actual) = serde_json::from_str::<Value>(&body_text) {
+            actual
         } else {
-            assert_eq!(body_text, expected_body);
-        }
-        assert_eq!(actual_status, expected_status);
+            Value::String(body_text)
+        };
+        (actual_status, body)
     }
 }
