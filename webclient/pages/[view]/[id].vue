@@ -37,8 +37,12 @@ const slideshowOpen = ref(false);
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
 
-const selectedMap = ref<"interactive" | "roomfinder">("interactive");
-
+const selectedMap = computed<"interactive" | "plans">(() => {
+  const map = route.query.map;
+  if (!map) return "interactive";
+  if (Array.isArray(map)) return map[0] === "plans" ? "plans" : "interactive";
+  return map === "plans" ? "plans" : "interactive";
+});
 watchEffect(() => {
   if (route.params.id === "root") {
     router.replace({ path: "/" });
@@ -61,7 +65,7 @@ watch([data], () => {
   if (!data.value) return;
   // --- Additional data ---
   slideshowOpen.value = false;
-  selectedMap.value = data.value.maps.default;
+  route.query.map = data.value.maps.default;
   // --- Images ---
   shownImage.value = data.value.imgs?.length ? data.value.imgs[0] : undefined;
   tryToLoadMap();
@@ -92,7 +96,7 @@ useSeoMeta({
 // --- Loading components ---
 function tryToLoadMap() {
   /**
-   * Try to load the entry map (interactive or roomfinder). It requires the map container
+   * Try to load the entry map (interactive or plans). It requires the map container
    * element to be loaded in DOM.
    * @return {boolean} Whether the loading was successful
    */
@@ -108,7 +112,7 @@ function tryToLoadMap() {
 // following variables are bound to ref objects
 const feedbackButton = ref<InstanceType<typeof DetailsFeedbackButton> | null>(null);
 const interactiveMap = ref<InstanceType<typeof DetailsInteractiveMap> | null>(null);
-const roomfinderMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>(null);
+const plansMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>(null);
 onMounted(() => {
   nextTick(() => {
     // Even though 'mounted' is called there is no guarantee apparently,
@@ -216,11 +220,11 @@ onMounted(() => {
               <DetailsInteractiveMap ref="interactiveMap" :data="data" />
             </ClientOnly>
           </TabPanel>
-          <TabPanel id="roomfinderMapPanel" :unmount="false">
+          <TabPanel id="plansMapPanel" :unmount="false">
             <ClientOnly>
               <LazyDetailsRoomfinderMap
                 v-if="data.maps.roomfinder?.available"
-                ref="roomfinderMap"
+                ref="plansMap"
                 :available="data.maps.roomfinder.available"
                 :default-map-id="data.maps.roomfinder.default"
               />
@@ -233,7 +237,7 @@ onMounted(() => {
             as="template"
             @click="
               () => {
-                selectedMap = 'roomfinder';
+                route.query.map = 'plans';
                 interactiveMap?.loadInteractiveMap(true);
               }
             "
@@ -254,7 +258,7 @@ onMounted(() => {
             v-slot="{ selected }"
             as="template"
             :disabled="!data.maps.roomfinder?.available"
-            @click="selectedMap = 'roomfinder'"
+            @click="route.query.map = 'plans'"
           >
             <button
               type="button"
@@ -266,7 +270,7 @@ onMounted(() => {
                 '!text-zinc-400 cursor-not-allowed': !data.maps.roomfinder?.available,
               }"
             >
-              {{ t("map.roomfinder") }}
+              {{ t("map.plans") }}
             </button>
           </Tab>
         </TabList>
@@ -301,7 +305,7 @@ de:
   details_for: Details für
   map:
     interactive: Interaktive Karte
-    roomfinder: Lagepläne
+    plans: Lagepläne
   no_floor_overlay: Für den angezeigten Raum gibt es leider keine Indoor Karte.
   header:
     calendar: Kalender öffnen
@@ -313,7 +317,7 @@ en:
   details_for: Details for
   map:
     interactive: Interactive Map
-    roomfinder: Site Plans
+    plans: Site Plans
   no_floor_overlay: There is unfortunately no indoor map for the displayed room.
   header:
     calendar: Open calendar

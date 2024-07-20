@@ -86,7 +86,7 @@ de:
   modal:
     header: Lageplan
 en:
-  img_alt: Hand-drawn roomfinder map image
+  img_alt: Hand-drawn location map optimised for printing
   open_detailed_modal: Ein größeres Popup der Karte anzeigen
   modal:
     header: Site Plan
