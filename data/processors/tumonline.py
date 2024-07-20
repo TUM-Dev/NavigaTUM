@@ -311,7 +311,7 @@ def _maybe_set_alt_name(room_code: str, arch_name_parts: tuple[str, str], room: 
     if len(alt_parts) < 2:
         return
     if alt_parts[0].lower() == arch_name_parts[0].lower():
-        room.alt_name = ", ".join(alt_parts[1:])
+        room.alt_name = ", ".join(alt_parts[1:]).strip()
         return
     # The most common mismatch is if the roomname in the alt_name is like "L516" and the arch_name starts with "L 516".
     # In this case we change the arch_name to the format without a space
