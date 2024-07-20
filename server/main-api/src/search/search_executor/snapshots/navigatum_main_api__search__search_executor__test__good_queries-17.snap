@@ -13,7 +13,7 @@ info: "'MW0001' should get '5510.EG.001' in 1 results # splitting necessary"
       subtext_bold: 0001@5510
     - id: 5519.EG.001
       type: room
-      name: 5519.EG.001 ( Versuchsfläche I)
+      name: 5519.EG.001 (Versuchsfläche I)
       subtext: "garching, Maschinenwesen (MW)"
       subtext_bold: 0001@5519
     - id: 5510.02.001
@@ -38,7 +38,7 @@ info: "'MW0001' should get '5510.EG.001' in 1 results # splitting necessary"
       subtext_bold: 0350@5503
     - id: 5506.EG.608M
       type: room
-      name: 5506.EG.608M ( Otto-Lilienthal-Hörsaal)
+      name: 5506.EG.608M (Otto-Lilienthal-Hörsaal)
       subtext: "garching, Maschinenwesen (MW)"
       subtext_bold: 0608M@5506
     - id: 5508.02.801
@@ -48,12 +48,12 @@ info: "'MW0001' should get '5510.EG.001' in 1 results # splitting necessary"
       subtext_bold: 1801@5508
     - id: 5539.EG.001A
       type: room
-      name: "5539.EG.001A ( Hörsaal 1A,  \"Zelt\")"
+      name: "5539.EG.001A (Hörsaal 1A,  \"Zelt\")"
       subtext: "garching, Interims III"
       subtext_bold: 0.001A@5539
     - id: 5539.EG.001B
       type: room
-      name: "5539.EG.001B ( Hörsaal 1B,  \"Zelt\")"
+      name: "5539.EG.001B (Hörsaal 1B,  \"Zelt\")"
       subtext: "garching, Interims III"
       subtext_bold: 0.001B@5539
   n_visible: 10

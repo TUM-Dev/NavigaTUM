@@ -24,37 +24,37 @@ info: "'Physik Container' should get '5140' in 1 results"
   entries:
     - id: 5140.01.201
       type: room
-      name: 5140.01.201 ( Tutorraum)
+      name: 5140.01.201 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3201@5140
     - id: 5140.01.202
       type: room
-      name: 5140.01.202 ( Tutorraum)
+      name: 5140.01.202 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3202@5140
     - id: 5140.01.203
       type: room
-      name: 5140.01.203 ( Tutorraum)
+      name: 5140.01.203 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3203@5140
     - id: 5140.01.204
       type: room
-      name: 5140.01.204 ( CIP-Raum)
+      name: 5140.01.204 (CIP-Raum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3204@5140
     - id: 5140.01.205
       type: room
-      name: 5140.01.205 ( CIP-Raum)
+      name: 5140.01.205 (CIP-Raum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3205@5140
     - id: 5140.01.206
       type: room
-      name: 5140.01.206 ( CIP-Raum)
+      name: 5140.01.206 (CIP-Raum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3206@5140
     - id: 5140.01.207
       type: room
-      name: 5140.01.207 ( CIP-Raum)
+      name: 5140.01.207 (CIP-Raum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3207@5140
   n_visible: 7

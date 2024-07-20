@@ -8,54 +8,54 @@ info: "'03.08.011' should get '5608.03.011' in 1 results"
   entries:
     - id: 5608.03.011
       type: room
-      name: "5608.\u001903\u0017.\u0019011\u0017 ( Seminarraum (M1/M7))"
+      name: "5608.\u001903\u0017.\u0019011\u0017 (Seminarraum (M1/M7))"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 03.08.011@5608
       parsed_id: "MI \u001903.08.011\u0017"
     - id: 5608.03.011A
       type: room
-      name: "5608.\u001903\u0017.\u0019011\u0017A ( Balkon)"
+      name: "5608.\u001903\u0017.\u0019011\u0017A (Balkon)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 03.08.011A@5608
       parsed_id: "MI \u001903.08.011\u0017A"
     - id: 8102.03.108
       type: room
-      name: "8102.\u001903\u0017.108 ( Hörsaal)"
+      name: "8102.\u001903\u0017.108 (Hörsaal)"
       subtext: "garching-hochbrück, Business Campus 2"
       subtext_bold: BC2 3.1.08@8102
     - id: 5608.03.033A
       type: room
-      name: "5608.\u001903\u0017.033A ( Kopierer)"
+      name: "5608.\u001903\u0017.033A (Kopierer)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 03.08.033A@5608
     - id: 2410.03.308
       type: room
-      name: "2410.\u001903\u0017.308 ( WC-Damen)"
+      name: "2410.\u001903\u0017.308 (WC-Damen)"
       subtext: "Heßstraße 134, Munich School of Robotics and Machine Intelligence"
       subtext_bold: 03.08@2410
     - id: 5608.03.015
       type: room
-      name: "5608.\u001903\u0017.015 ( WC-Herren)"
+      name: "5608.\u001903\u0017.015 (WC-Herren)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 03.08.015@5608
     - id: 5608.03.016
       type: room
-      name: "5608.\u001903\u0017.016 ( Beh.-WC / Wickeltisch)"
+      name: "5608.\u001903\u0017.016 (Beh.-WC / Wickeltisch)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 03.08.016@5608
     - id: 5608.03.017A
       type: room
-      name: "5608.\u001903\u0017.017A ( Putzraum)"
+      name: "5608.\u001903\u0017.017A (Putzraum)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 03.08.017A@5608
     - id: 5608.03.021
       type: room
-      name: "5608.\u001903\u0017.021 ( Büro)"
+      name: "5608.\u001903\u0017.021 (Büro)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 03.08.021@5608
     - id: 5608.03.022
       type: room
-      name: "5608.\u001903\u0017.022 ( Besprechungsraum)"
+      name: "5608.\u001903\u0017.022 (Besprechungsraum)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 03.08.022@5608
   n_visible: 10

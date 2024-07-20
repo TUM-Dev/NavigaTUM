@@ -8,7 +8,7 @@ info: "'fachschaft pyhsik' should get '5101.EG.257' in 1 results # typo + it's '
   entries:
     - id: 0104.EG.413
       type: room
-      name: "0104.EG.413 ( Elektroniklabor \u0019Fachschaft\u0017 EI)"
+      name: "0104.EG.413 (Elektroniklabor \u0019Fachschaft\u0017 EI)"
       subtext: "stammgelände, E-Technik Elektrophysik (N4)"
       subtext_bold: N0413@0104
     - id: 5101.EG.257
@@ -43,17 +43,17 @@ info: "'fachschaft pyhsik' should get '5101.EG.257' in 1 results # typo + it's '
       subtext_bold: 00.06.039@5606
     - id: 2333.01.103
       type: room
-      name: "2333.01.103 ( \u0019Fachschaft\u0017 Sport)"
+      name: "2333.01.103 (\u0019Fachschaft\u0017 Sport)"
       subtext: "campus-im-olympiapark-sz, CiO/SG Hallen Ost"
       subtext_bold: 01.2333.103@2333
     - id: 9377.01.130
       type: room
-      name: "9377.01.130 ( Projektraum \u0019Fachschaft\u0017)"
+      name: "9377.01.130 (Projektraum \u0019Fachschaft\u0017)"
       subtext: "taufkirchen-ottobr., Lise-Meitner-Straße 9-11"
       subtext_bold: 01.130@9377
     - id: 0504.EG.424
       type: room
-      name: "0504.EG.424 ( Arbeitsraum/Studenten/\u0019Fachschaft\u0017)"
+      name: "0504.EG.424 (Arbeitsraum/Studenten/\u0019Fachschaft\u0017)"
       subtext: "stammgelände, Landwirtschaftsbau (Z4)"
       subtext_bold: 0424@0504
   n_visible: 10

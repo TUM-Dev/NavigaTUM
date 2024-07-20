@@ -8,53 +8,53 @@ info: "'H.3' should get '2910.EG.003' in 1 results # H.003 is the correct room, 
   entries:
     - id: 5212.01.028
       type: room
-      name: 5212.01.028 ( Gemeinschaftsraum)
+      name: 5212.01.028 (Gemeinschaftsraum)
       subtext: "garching, RCM Radiochemie München"
       subtext_bold: H.1.028@5212
     - id: 5212.01.030
       type: room
-      name: 5212.01.030 ( Gemeinschaftsraum)
+      name: 5212.01.030 (Gemeinschaftsraum)
       subtext: "garching, RCM Radiochemie München"
       subtext_bold: H.1.030@5212
     - id: 5212.02.028
       type: room
-      name: 5212.02.028 ( Gemeinschaftsraum)
+      name: 5212.02.028 (Gemeinschaftsraum)
       subtext: "garching, RCM Radiochemie München"
       subtext_bold: H.2.028@5212
     - id: 5212.02.030
       type: room
-      name: 5212.02.030 ( Gemeinschaftsraum)
+      name: 5212.02.030 (Gemeinschaftsraum)
       subtext: "garching, RCM Radiochemie München"
       subtext_bold: H.2.030@5212
     - id: 5212.EG.006
       type: room
-      name: 5212.EG.006 ( Seminar 1)
+      name: 5212.EG.006 (Seminar 1)
       subtext: "garching, RCM Radiochemie München"
       subtext_bold: H.0.006@5212
     - id: 4124.U1.001A
       type: room
-      name: 4124.U1.001A ( Praktikum (Hinterer Raumteil))
+      name: 4124.U1.001A (Praktikum (Hinterer Raumteil))
       subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
       subtext_bold: P/1.01 H@4124
     - id: 5212.EG.007
       type: room
-      name: "5212.EG.007 ( Wischtest,  freig.)"
+      name: "5212.EG.007 (Wischtest,  freig.)"
       subtext: "garching, RCM Radiochemie München"
       subtext_bold: H.0.007@5212
     - id: 5212.EG.603
       type: room
-      name: 5212.EG.603 ( Pers. Dekont./Dusche)
+      name: 5212.EG.603 (Pers. Dekont./Dusche)
       subtext: "garching, RCM Radiochemie München"
       subtext_bold: H.0.603@5212
     - id: 2910.03.301
       type: room
-      name: "2910.03.\u00193\u001701 ( Büro)"
+      name: "2910.03.\u00193\u001701 (Büro)"
       subtext: "stammgelände, RiWa 1 (HfP/GOV)"
       subtext_bold: H.301@2910
       parsed_id: "\u0019H.3\u001701 RiWa 1 (HfP/GOV)"
     - id: 2910.03.302
       type: room
-      name: "2910.03.\u00193\u001702 ( Büro)"
+      name: "2910.03.\u00193\u001702 (Büro)"
       subtext: "stammgelände, RiWa 1 (HfP/GOV)"
       subtext_bold: H.302@2910
       parsed_id: "\u0019H.3\u001702 RiWa 1 (HfP/GOV)"

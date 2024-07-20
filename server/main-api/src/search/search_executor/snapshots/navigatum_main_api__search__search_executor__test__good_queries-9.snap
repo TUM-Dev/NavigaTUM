@@ -20,42 +20,42 @@ info: "'znn' should get '5115' in 1 results"
   entries:
     - id: 5115.EG.001
       type: room
-      name: 5115.EG.001 ( Seminarraum)
+      name: 5115.EG.001 (Seminarraum)
       subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
       subtext_bold: 0.001@5115
     - id: 5115.01.008
       type: room
-      name: 5115.01.008 ( Kopierraum)
+      name: 5115.01.008 (Kopierraum)
       subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
       subtext_bold: 1.008@5115
     - id: 5115.01.011
       type: room
-      name: 5115.01.011 ( Chemie Labor)
+      name: 5115.01.011 (Chemie Labor)
       subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
       subtext_bold: 1.011@5115
     - id: 5115.01.011A
       type: room
-      name: 5115.01.011A ( Chemie Labor)
+      name: 5115.01.011A (Chemie Labor)
       subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
       subtext_bold: 1.011A@5115
     - id: 5115.01.019
       type: room
-      name: 5115.01.019 ( Spektroskopie)
+      name: 5115.01.019 (Spektroskopie)
       subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
       subtext_bold: 1.019@5115
     - id: 5115.01.020
       type: room
-      name: 5115.01.020 ( Spektroskopie)
+      name: 5115.01.020 (Spektroskopie)
       subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
       subtext_bold: 1.020@5115
     - id: 5115.01.021
       type: room
-      name: 5115.01.021 ( Spektroskopie)
+      name: 5115.01.021 (Spektroskopie)
       subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
       subtext_bold: 1.021@5115
     - id: 5115.01.022
       type: room
-      name: 5115.01.022 ( Technik)
+      name: 5115.01.022 (Technik)
       subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
       subtext_bold: 1.022@5115
   n_visible: 8

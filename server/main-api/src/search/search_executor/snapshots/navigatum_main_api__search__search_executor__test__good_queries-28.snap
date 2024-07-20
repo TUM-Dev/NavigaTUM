@@ -8,18 +8,18 @@ info: "'0092@5433' should get '5433.EG.092' in 1 results"
   entries:
     - id: 5433.EG.092
       type: room
-      name: "\u00195433\u0017.EG.092 ( Flur/Eingang)"
+      name: "\u00195433\u0017.EG.092 (Flur/Eingang)"
       subtext: "garching, Entrepreneurship Research Institute"
       subtext_bold: 0092@5433
       parsed_id: "\u00190092@5433\u0017"
     - id: 5622.EG.092
       type: room
-      name: 5622.EG.092 ( Sportflächen Garching)
+      name: 5622.EG.092 (Sportflächen Garching)
       subtext: "garching, Sportanlage Garching / Dusch Container"
       subtext_bold: 0092@5622
     - id: 5532.EG.092
       type: room
-      name: 5532.EG.092 ( ELT.-Schacht)
+      name: 5532.EG.092 (ELT.-Schacht)
       subtext: "garching, StudiTUM"
       subtext_bold: 0.092@5532
   n_visible: 3
