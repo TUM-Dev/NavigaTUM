@@ -92,7 +92,7 @@ function extractInfos(data: CalendarResponse): void {
 const calendarOptions: CalendarOptions = {
   plugins: [timeGridPlugin, dayGridPlugin, listPlugin],
   initialView: "timeGridWeek",
-  weekends: false,
+  weekends: true,
   events: fetchEvents,
   headerToolbar: {
     left: "prev,next",
