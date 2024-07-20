@@ -16,47 +16,47 @@ info: "'neue Mensa' should get '5304' in 1 results"
   entries:
     - id: 5304.01.101
       type: room
-      name: 5304.01.101 ( Speisesaal)
+      name: 5304.01.101 (Speisesaal)
       subtext: "garching, (Neue) Mensa Garching"
       subtext_bold: 1.101@5304
     - id: 5304.01.102
       type: room
-      name: 5304.01.102 ( Vor-/Verteilerbereich)
+      name: 5304.01.102 (Vor-/Verteilerbereich)
       subtext: "garching, (Neue) Mensa Garching"
       subtext_bold: 1.102@5304
     - id: 5304.01.103
       type: room
-      name: 5304.01.103 ( Free Flow)
+      name: 5304.01.103 (Free Flow)
       subtext: "garching, (Neue) Mensa Garching"
       subtext_bold: 1.103@5304
     - id: 5304.01.104
       type: room
-      name: 5304.01.104 ( Produktionsküche)
+      name: 5304.01.104 (Produktionsküche)
       subtext: "garching, (Neue) Mensa Garching"
       subtext_bold: 1.104@5304
     - id: 5304.01.201
       type: room
-      name: 5304.01.201 ( Geschirrspüle)
+      name: 5304.01.201 (Geschirrspüle)
       subtext: "garching, (Neue) Mensa Garching"
       subtext_bold: 1.201@5304
     - id: 5304.01.203
       type: room
-      name: 5304.01.203 ( Küchenchef)
+      name: 5304.01.203 (Küchenchef)
       subtext: "garching, (Neue) Mensa Garching"
       subtext_bold: 1.203@5304
     - id: 5304.01.301
       type: room
-      name: 5304.01.301 ( Geschirrspüle)
+      name: 5304.01.301 (Geschirrspüle)
       subtext: "garching, (Neue) Mensa Garching"
       subtext_bold: 1.301@5304
     - id: 5304.01.302
       type: room
-      name: 5304.01.302 ( Schwarzgeschirrspüle)
+      name: 5304.01.302 (Schwarzgeschirrspüle)
       subtext: "garching, (Neue) Mensa Garching"
       subtext_bold: 1.302@5304
     - id: 5304.01.307
       type: room
-      name: 5304.01.307 ( Putzraum)
+      name: 5304.01.307 (Putzraum)
       subtext: "garching, (Neue) Mensa Garching"
       subtext_bold: 1.307@5304
   n_visible: 9

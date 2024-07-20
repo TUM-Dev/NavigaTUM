@@ -8,28 +8,28 @@ info: "'C.3202' should get '5140.01.202' in 1 results"
   entries:
     - id: 5140.01.202
       type: room
-      name: 5140.01.202 ( Tutorraum)
+      name: 5140.01.202 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3202@5140
       parsed_id: "\u0019C.3202\u0017 Physik I Container"
     - id: 1551.01.051
       type: room
-      name: "1551.01.051 ( Hörsaal \u0019C\u0017)"
+      name: "1551.01.051 (Hörsaal \u0019C\u0017)"
       subtext: "mri, A1-Hörsäle, Mensa (Bau 551)"
       subtext_bold: 51.1.51@1551
     - id: 1551.EG.051
       type: room
-      name: "1551.EG.051 ( Hörsaal \u0019C\u0017)"
+      name: "1551.EG.051 (Hörsaal \u0019C\u0017)"
       subtext: "mri, A1-Hörsäle, Mensa (Bau 551)"
       subtext_bold: 51.0.51@1551
     - id: 1910.EG.050C
       type: room
-      name: 1910.EG.050C ( Hörsaal)
+      name: 1910.EG.050C (Hörsaal)
       subtext: "campus-heilbronn, Bildungscampus C, Weipertstr. 8-10"
       subtext_bold: C.0.50@1910
     - id: 5140.01.201
       type: room
-      name: 5140.01.201 ( Tutorraum)
+      name: 5140.01.201 (Tutorraum)
       subtext: "garching, Physik I Container"
       subtext_bold: C.3201@5140
   n_visible: 5

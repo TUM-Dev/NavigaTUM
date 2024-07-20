@@ -52,7 +52,7 @@ info: "'mw g niemann' should get '5510.EG.001' in 1 results # old name before th
       subtext_bold: 0350@5503
     - id: 5506.EG.608M
       type: room
-      name: 5506.EG.608M ( Otto-Lilienthal-Hörsaal)
+      name: 5506.EG.608M (Otto-Lilienthal-Hörsaal)
       subtext: "garching, Maschinenwesen (MW)"
       subtext_bold: 0608M@5506
   n_visible: 5

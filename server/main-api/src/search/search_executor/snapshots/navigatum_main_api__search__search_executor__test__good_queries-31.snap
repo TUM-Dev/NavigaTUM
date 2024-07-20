@@ -18,37 +18,37 @@ info: "'audimax' should get '0509.EG.980' in 1 results"
       subtext_bold: Audimax@8120
     - id: 0509.02.986
       type: room
-      name: "0509.02.986 ( \u0019Audimax\u0017 Galerie)"
+      name: "0509.02.986 (\u0019Audimax\u0017 Galerie)"
       subtext: "stammgelände, Wienandsbau (Z9)"
       subtext_bold: 1986@0509
     - id: 0509.01.921
       type: room
-      name: 0509.01.921 ( Studentenarb. m. DV (HKW))
+      name: 0509.01.921 (Studentenarb. m. DV (HKW))
       subtext: "stammgelände, Wienandsbau (Z9)"
       subtext_bold: Z921@0509
     - id: 0509.01.922
       type: room
-      name: 0509.01.922 ( Studentenarb. m. DV (HKW))
+      name: 0509.01.922 (Studentenarb. m. DV (HKW))
       subtext: "stammgelände, Wienandsbau (Z9)"
       subtext_bold: Z922@0509
     - id: 0509.01.923
       type: room
-      name: 0509.01.923 ( Studentenarb. m. DV (HKW))
+      name: 0509.01.923 (Studentenarb. m. DV (HKW))
       subtext: "stammgelände, Wienandsbau (Z9)"
       subtext_bold: Z923@0509
     - id: 0509.01.995
       type: room
-      name: 0509.01.995 ( Seminarraum m. Vorbereitung)
+      name: 0509.01.995 (Seminarraum m. Vorbereitung)
       subtext: "stammgelände, Wienandsbau (Z9)"
       subtext_bold: Z995@0509
     - id: 0509.02.903
       type: room
-      name: 0509.02.903 ( Übung-DV)
+      name: 0509.02.903 (Übung-DV)
       subtext: "stammgelände, Wienandsbau (Z9)"
       subtext_bold: 1903@0509
     - id: 0509.02.919
       type: room
-      name: 0509.02.919 ( Studentenarb. m. DV)
+      name: 0509.02.919 (Studentenarb. m. DV)
       subtext: "stammgelände, Wienandsbau (Z9)"
       subtext_bold: 1919@0509
   n_visible: 9

@@ -8,13 +8,13 @@ info: "'2119' should get '0101.02.119' in 4 results # The architects name is a N
   entries:
     - id: 5101.EG.119
       type: room
-      name: 5101.EG.119 ( Physiklabor (einfach))
+      name: 5101.EG.119 (Physiklabor (einfach))
       subtext: "garching, Physik I"
       subtext_bold: 2119@5101
       parsed_id: "PH \u00192119\u0017"
     - id: 5413.01.119
       type: room
-      name: 5413.01.119 ( Kopierer)
+      name: 5413.01.119 (Kopierer)
       subtext: "garching, BNMRZ Bayerisches NMR-Zentrum"
       subtext_bold: 2119@5413
       parsed_id: "\u00192119\u0017 BNMRZ B…MR-Zentrum"

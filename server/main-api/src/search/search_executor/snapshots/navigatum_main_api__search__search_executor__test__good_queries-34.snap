@@ -8,32 +8,32 @@ info: "'MI HS 3' should get '5606.EG.011' in 1 results"
   entries:
     - id: 5606.EG.011
       type: room
-      name: "5606.EG.011 ( \u0019MI\u0017 \u0019Hörsaal\u0017 \u00193\u0017)"
+      name: "5606.EG.011 (\u0019MI\u0017 \u0019Hörsaal\u0017 \u00193\u0017)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.06.011@5606
     - id: 5602.EG.001
       type: room
-      name: "5602.EG.001 ( \u0019MI\u0017 \u0019HS\u0017 1,  Friedrich L. Bauer \u0019Hörsaal\u0017)"
+      name: "5602.EG.001 (\u0019MI\u0017 \u0019HS\u0017 1,  Friedrich L. Bauer \u0019Hörsaal\u0017)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.02.001@5602
     - id: 5604.EG.011
       type: room
-      name: "5604.EG.011 ( \u0019MI\u0017 \u0019Hörsaal\u0017 2)"
+      name: "5604.EG.011 (\u0019MI\u0017 \u0019Hörsaal\u0017 2)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.04.011@5604
     - id: 5602.EG.002
       type: room
-      name: "5602.EG.002 ( \u0019MI\u0017 \u0019Hörsaal\u0017 Regieraum)"
+      name: "5602.EG.002 (\u0019MI\u0017 \u0019Hörsaal\u0017 Regieraum)"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.02.002@5602
     - id: 5602.U1.001
       type: room
-      name: 5602.U1.001 ( Technikraum)
+      name: 5602.U1.001 (Technikraum)
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: "-1.02.001@5602"
     - id: 5602.U1.004
       type: room
-      name: 5602.U1.004 ( Treppe im Freien)
+      name: 5602.U1.004 (Treppe im Freien)
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: "-1.02.004@5602"
   n_visible: 6

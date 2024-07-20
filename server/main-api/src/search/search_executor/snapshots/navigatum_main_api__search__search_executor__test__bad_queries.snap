@@ -2,58 +2,58 @@
 source: main-api/src/search/search_executor/mod.rs
 description: target is hallucinated as it currently does not exist
 expression: actual
-info: "mathe bib should get mi-bib in 1 # target is hallucinated as it currently does not exist"
+info: "'mathe bib' should get 'mi-bib' in 1 results # target is hallucinated as it currently does not exist"
 ---
 - facet: rooms
   entries:
     - id: 5603.01.011
       type: room
-      name: 5603.01.011 ( Gruppenarbeitsraum)
+      name: 5603.01.011 (Gruppenarbeitsraum)
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.011@5603
     - id: 5603.01.031B
       type: room
-      name: 5603.01.031B ( Einzelarbeitsraum)
+      name: 5603.01.031B (Einzelarbeitsraum)
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.031B@5603
     - id: 5603.01.032
       type: room
-      name: 5603.01.032 ( Gruppenarbeitsraum)
+      name: 5603.01.032 (Gruppenarbeitsraum)
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.032@5603
     - id: 5603.01.033A
       type: room
-      name: 5603.01.033A ( Einzelarbeitsraum)
+      name: 5603.01.033A (Einzelarbeitsraum)
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.033A@5603
     - id: 5603.01.033B
       type: room
-      name: 5603.01.033B ( Einzelarbeitsraum)
+      name: 5603.01.033B (Einzelarbeitsraum)
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.033B@5603
     - id: 5603.01.035A
       type: room
-      name: 5603.01.035A ( Einzelarbeitsraum)
+      name: 5603.01.035A (Einzelarbeitsraum)
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.035A@5603
     - id: 5603.01.035B
       type: room
-      name: 5603.01.035B ( Einzelarbeitsraum)
+      name: 5603.01.035B (Einzelarbeitsraum)
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.035B@5603
     - id: 5603.01.036
       type: room
-      name: 5603.01.036 ( Gruppenarbeitsraum)
+      name: 5603.01.036 (Gruppenarbeitsraum)
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.036@5603
     - id: 5603.01.037A
       type: room
-      name: 5603.01.037A ( Einzelarbeitsraum)
+      name: 5603.01.037A (Einzelarbeitsraum)
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.037A@5603
     - id: 5603.01.037B
       type: room
-      name: 5603.01.037B ( Einzelarbeitsraum)
+      name: 5603.01.037B (Einzelarbeitsraum)
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.037B@5603
   n_visible: 10
