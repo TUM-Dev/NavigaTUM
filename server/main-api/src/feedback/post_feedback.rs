@@ -32,26 +32,17 @@ pub async fn send_feedback(
             .content_type("text/plain")
             .body("Using this endpoint without accepting the privacy policy is not allowed");
     };
-    let (title_category, labels) = parse_request(&req_data);
+    let labels = parse_labels(&req_data);
 
     github::open_issue(
-        &format!("[{title_category}] {subject}", subject = req_data.subject),
+        &format!("{subject}", subject = req_data.subject),
         &req_data.body,
         labels,
     )
     .await
 }
 
-fn parse_request(req_data: &Json<FeedbackPostData>) -> (&str, Vec<String>) {
-    let title_category = match req_data.category.as_str() {
-        "general" => "General",
-        "bug" => "Bug",
-        "feature" => "Feature",
-        "search" => "Search",
-        "entry" => "Entry",
-        _ => "Form",
-    };
-
+fn parse_labels(req_data: &Json<FeedbackPostData>) -> Vec<String> {
     let mut labels = vec!["webform".to_string()];
     if req_data.deletion_requested {
         labels.push("delete-after-processing".to_string());
@@ -62,5 +53,5 @@ fn parse_request(req_data: &Json<FeedbackPostData>) -> (&str, Vec<String>) {
         }
         _ => {}
     };
-    (title_category, labels)
+    labels
 }
