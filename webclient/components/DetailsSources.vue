@@ -21,7 +21,7 @@ const { t } = useI18n({ useScope: "local" });
       <p>
         {{ t("base.title") }}:
         <span v-for="(e, i) in sources.base" :key="e.name">
-          <NuxtLink v-if="e.url" :href="e.url" external>{{ e.name }}</NuxtLink>
+          <NuxtLink v-if="e.url" :to="e.url" external>{{ e.name }}</NuxtLink>
           <template v-else>{{ e.name }}</template>
           <template v-if="i < sources.base.length - 1"> • </template>
         </span>
@@ -35,14 +35,14 @@ const { t } = useI18n({ useScope: "local" });
         <span>{{ image.author.text }}</span>
         <span v-if="image.source">
           •
-          <NuxtLink v-if="image.source.url" :href="image.source.url" target="_blank" external>
+          <NuxtLink v-if="image.source.url" :to="image.source.url" target="_blank" external>
             {{ image.source.text }}
           </NuxtLink>
           <template v-else>{{ image.source.text }}</template>
         </span>
         <span v-if="image.license">
           •
-          <NuxtLink v-if="image.license.url" :href="image.license.url" target="_blank" external>
+          <NuxtLink v-if="image.license.url" :to="image.license.url" target="_blank" external>
             {{ image.license.text }}
           </NuxtLink>
           <template v-else>{{ image.license.text }}</template>
