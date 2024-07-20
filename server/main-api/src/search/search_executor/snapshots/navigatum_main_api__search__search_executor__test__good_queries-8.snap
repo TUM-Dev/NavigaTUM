@@ -1,61 +1,61 @@
 ---
 source: main-api/src/search/search_executor/mod.rs
-description: "Note: It is not really in Arcisstr., just close"
+description: ""
 expression: actual
-info: Studitum Arcisstr should get 0201
+info: "'Physik Container' should get '5140' in 1 results"
 ---
 - facet: sites_buildings
   entries:
-    - id: "5532"
+    - id: "5140"
       type: building
-      name: "\u0019StudiTUM\u0017 Garching"
+      name: "\u0019Physik\u0017 I \u0019Container\u0017"
       subtext: Gebäude
-    - id: "0201"
+    - id: "5124"
       type: building
-      name: "\u0019StudiTUM\u0017 Innenstadt (S1)"
+      name: "WSI \u0019Container\u0017"
       subtext: Gebäude
-    - id: "4113"
+    - id: "5160"
       type: building
-      name: "\u0019StudiTUM\u0017 Weihenstephan"
+      name: "UCN-Testanlage (\u0019Container\u0017)"
       subtext: Gebäude
   n_visible: 3
-  estimatedTotalHits: 3
+  estimatedTotalHits: 28
 - facet: rooms
   entries:
-    - id: 4113.01.105
+    - id: 5140.01.201
       type: room
-      name: 4113.01.105 ( Hörsaal 4 (WZWH04))
-      subtext: "weihenstephan, StudiTUM"
-      subtext_bold: O1 5@4113
-    - id: 0201.01.001
+      name: 5140.01.201 ( Tutorraum)
+      subtext: "garching, Physik I Container"
+      subtext_bold: C.3201@5140
+    - id: 5140.01.202
       type: room
-      name: 0201.01.001 ( Stillarbeitsraum)
-      subtext: "stammgelände, StudiTUM"
-      subtext_bold: 1.01@0201
-    - id: 0201.01.002
+      name: 5140.01.202 ( Tutorraum)
+      subtext: "garching, Physik I Container"
+      subtext_bold: C.3202@5140
+    - id: 5140.01.203
       type: room
-      name: 0201.01.002 ( Einzelarbeitsraum)
-      subtext: "stammgelände, StudiTUM"
-      subtext_bold: 1.02@0201
-    - id: 0201.01.003
+      name: 5140.01.203 ( Tutorraum)
+      subtext: "garching, Physik I Container"
+      subtext_bold: C.3203@5140
+    - id: 5140.01.204
       type: room
-      name: 0201.01.003 ( Einzelarbeitsraum)
-      subtext: "stammgelände, StudiTUM"
-      subtext_bold: 1.03@0201
-    - id: 0201.01.007
+      name: 5140.01.204 ( CIP-Raum)
+      subtext: "garching, Physik I Container"
+      subtext_bold: C.3204@5140
+    - id: 5140.01.205
       type: room
-      name: 0201.01.007 ( Gruppenarbeitsraum)
-      subtext: "stammgelände, StudiTUM"
-      subtext_bold: 1.07@0201
-    - id: 0201.01.008
+      name: 5140.01.205 ( CIP-Raum)
+      subtext: "garching, Physik I Container"
+      subtext_bold: C.3205@5140
+    - id: 5140.01.206
       type: room
-      name: 0201.01.008 ( Einzelarbeitsraum)
-      subtext: "stammgelände, StudiTUM"
-      subtext_bold: 1.08@0201
-    - id: 0201.02.001
+      name: 5140.01.206 ( CIP-Raum)
+      subtext: "garching, Physik I Container"
+      subtext_bold: C.3206@5140
+    - id: 5140.01.207
       type: room
-      name: 0201.02.001 ( Stillarbeitsraum)
-      subtext: "stammgelände, StudiTUM"
-      subtext_bold: 2.01@0201
+      name: 5140.01.207 ( CIP-Raum)
+      subtext: "garching, Physik I Container"
+      subtext_bold: C.3207@5140
   n_visible: 7
-  estimatedTotalHits: 229
+  estimatedTotalHits: 1000

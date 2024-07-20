@@ -36,7 +36,7 @@ struct ResultEntry {
     #[serde(skip_serializing_if = "Option::is_none")]
     parsed_id: Option<String>,
 }
-#[tracing::instrument]
+#[tracing::instrument(skip(client))]
 pub async fn do_geoentry_search(
     client: &Client,
     q: String,
@@ -116,7 +116,7 @@ mod test {
         fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
             write!(
                 f,
-                "{query} should get {target} in {among}",
+                "'{query}' should get '{target}' in {among} results",
                 query = self.query,
                 target = self.target,
                 among = self.among.unwrap_or(1),
@@ -138,7 +138,8 @@ mod test {
             let actual = query.search(&ms.client).await;
             assert!(
                 query.actual_matches_among(&actual),
-                "{query}\nSince it can't, please move it to .bad list, actual={actual:?}"
+                "{query}\n\
+                Since it can't, please move it to .bad list"
             );
 
             insta::with_settings!({
@@ -161,7 +162,8 @@ mod test {
             let actual = query.search(&ms.client).await;
             assert!(
                 !query.actual_matches_among(&actual),
-                "{query}\nSince it can't, please move it to .bad list, actual={actual:?}"
+                "{query}\n\
+                Since it can, please move it to .good list"
             );
 
             insta::with_settings!({

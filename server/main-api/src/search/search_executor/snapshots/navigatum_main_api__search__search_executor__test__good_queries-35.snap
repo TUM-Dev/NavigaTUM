@@ -1,63 +1,63 @@
 ---
 source: main-api/src/search/search_executor/mod.rs
-description: ""
+description: Architects names should be matchable literally
 expression: actual
-info: 0026m@5510 should get 5510.EG.026M
+info: "'N1406' should get '0104.01.406' in 1 results # Architects names should be matchable literally"
 ---
 - facet: rooms
   entries:
-    - id: 5510.EG.026M
+    - id: 0104.01.406
       type: room
-      name: "\u00195510\u0017.EG.\u0019026M\u0017 (School Office Finanzen)"
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: MW 0026M@5510
-    - id: 5510.EG.006M
+      name: 0104.01.406 ( Studentenarb. m. DV)
+      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext_bold: N1406@0104
+    - id: 0101.Z1.062B
       type: room
-      name: "\u00195510\u0017.EG.\u0019006M\u0017 ( WC-Herren)"
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0006M@5510
-    - id: 5510.EG.026A
+      name: "0101.Z1.062B ( N1 ZG,  Studentische Arbeitsplätze)"
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1062BZG@0101
+    - id: 0104.02.406
       type: room
-      name: "\u00195510\u0017.EG.026A (Leitung Study & Teaching, Studienfachberatung)"
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0026A@5510
-    - id: 5510.EG.026C
+      name: 0104.02.406 ( Studentencomputerraum 1)
+      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext_bold: N2406@0104
+    - id: 0104.01.416
       type: room
-      name: "\u00195510\u0017.EG.026C (IKOM-Besprechungsraum)"
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0026C@5510
-    - id: 5510.EG.026B
+      name: 0104.01.416 ( Kopierer)
+      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext_bold: N1416@0104
+    - id: 0104.U1.406
       type: room
-      name: "\u00195510\u0017.EG.026B ( Studienbüro)"
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0026B@5510
-    - id: 5510.EG.026N
+      name: 0104.U1.406 ( Physikal. Versuchslabor)
+      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext_bold: N-1406@0104
+    - id: 5112.EG.106N
       type: room
-      name: "\u00195510\u0017.EG.026N (Study and Teaching Qualitätsmanagement)"
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: MW 0026N@5510
-    - id: 5510.EG.029M
+      name: 5112.EG.106N ( Labor)
+      subtext: "garching, Walter-Schottky-Institut (WSI)"
+      subtext_bold: N106@5112
+    - id: 0101.Z1.006
       type: room
-      name: "\u00195510\u0017.EG.029M ( Werkstatt)"
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0029M@5510
-    - id: 5510.EG.028M
+      name: 0101.Z1.006 ( Sozialraum)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1006ZG@0101
+    - id: 0101.Z1.046
       type: room
-      name: "\u00195510\u0017.EG.028M ( Flur)"
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0028M@5510
-    - id: 5531.EG.026
+      name: 0101.Z1.046 ( WC-Herren)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1046ZG@0101
+    - id: 0101.Z1.046A
       type: room
-      name: 5531.EG.026 ( Beh.-WC / Personal)
-      subtext: "garching, Ingeborg Ortner-Kinderhaus"
-      subtext_bold: 0026@5531
-    - id: 5501.EG.126M
+      name: 0101.Z1.046A ( WC-Vorraum Herren)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1046AZG@0101
+    - id: 0103.01.306
       type: room
-      name: 5501.EG.126M ( Elektroverteiler)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0126M@5501
+      name: 0103.01.306 ( Büro)
+      subtext: "stammgelände, E-Technik El. Maschinen / Geräte (N3)"
+      subtext_bold: N1306@0103
   n_visible: 10
-  estimatedTotalHits: 15
+  estimatedTotalHits: 552
 - facet: sites_buildings
   entries: []
   n_visible: 0

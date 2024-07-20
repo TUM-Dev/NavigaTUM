@@ -1,3 +1,4 @@
+use std::fmt::{Debug, Formatter};
 use meilisearch_sdk::client::Client;
 use meilisearch_sdk::errors::Error;
 use meilisearch_sdk::indexes::Index;
@@ -24,11 +25,25 @@ pub(super) struct MSHit {
     rank: i32,
 }
 
-#[derive(Debug)]
 struct GeoEntryFilters {
     default: String,
     rooms: String,
     buildings: String,
+}
+impl Debug for GeoEntryFilters{
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut base =f.debug_struct("GeoEntryFilters");
+        if !self.default.is_empty() {
+            base.field("default", &self.default);
+        }
+        if !self.rooms.is_empty() {
+            base.field("rooms", &self.rooms);
+        }
+        if !self.buildings.is_empty() {
+            base.field("buildings", &self.buildings);
+        }
+        base.finish()
+    }
 }
 
 impl From<&Filter> for GeoEntryFilters {
@@ -43,7 +58,6 @@ impl From<&Filter> for GeoEntryFilters {
     }
 }
 
-#[derive(Debug)]
 pub(super) struct GeoEntryQuery {
     client: Client,
     parsed_input: ParsedQuery,
@@ -51,6 +65,18 @@ pub(super) struct GeoEntryQuery {
     highlighting: Highlighting,
     filters: GeoEntryFilters,
     sorting: Vec<String>,
+}
+
+impl Debug for GeoEntryQuery{
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("GeoEntryQuery")
+            .field("parsed_input",&self.parsed_input)
+            .field("limits",&self.limits)
+            .field("highlighting",&self.highlighting)
+            .field("filters",&self.filters)
+            .field("sorting",&self.sorting)
+            .finish()
+    }
 }
 
 impl From<(&Client, &ParsedQuery, &Limits, &Highlighting)> for GeoEntryQuery {

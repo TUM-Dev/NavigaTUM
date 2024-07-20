@@ -1,64 +1,64 @@
 ---
 source: main-api/src/search/search_executor/mod.rs
-description: "uses 'str.' instead of 'straße'"
+description: ""
 expression: actual
-info: Karlsstr. 47 should get 2906
+info: "'5604.00.011' should get '5604.EG.011' in 1 results"
 ---
 - facet: rooms
   entries:
-    - id: 2906.01.025
+    - id: 5604.EG.011
       type: room
-      name: 2906.01.025 ( Karlstraße-Seminarraum)
-      subtext: Karlstraße 45/47
-      subtext_bold: 1025@2906
-    - id: 2906.02.026
+      name: "\u00195604\u0017.EG.\u0019011\u0017 ( MI Hörsaal 2)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.011@5604
+    - id: 5604.EG.034
       type: room
-      name: 2906.02.026 ( Karlstraße-Seminarraum)
-      subtext: Karlstraße 45/47
-      subtext_bold: 2026@2906
-    - id: 2906.03.001
+      name: "\u00195604\u0017.EG.034 ( Demonstrationspraktikum)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.034@5604
+    - id: 5604.EG.036
       type: room
-      name: 2906.03.001 ( Seminarraum)
-      subtext: Karlstraße 45/47
-      subtext_bold: 3001@2906
-    - id: 2906.05.001
+      name: "\u00195604\u0017.EG.036 ( Praktikumsraum-Physik)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.036@5604
+    - id: 5604.EG.038
       type: room
-      name: 2906.05.001 ( Unterrichtsraum)
-      subtext: Karlstraße 45/47
-      subtext_bold: 5001@2906
-    - id: 2906.DG.009
+      name: "\u00195604\u0017.EG.038 ( Praktikumsraum-Physik)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.038@5604
+    - id: 5604.EG.015
       type: room
-      name: 2906.DG.009 ( Seminarraum)
-      subtext: Karlstraße 45/47
-      subtext_bold: 6009@2906
-    - id: 2906.02.001
+      name: "\u00195604\u0017.EG.015 ( WC-Herren)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.015@5604
+    - id: 5604.EG.016A
       type: room
-      name: 2906.02.001 ( Bibliothek)
-      subtext: Karlstraße 45/47
-      subtext_bold: 2001@2906
-    - id: 2906.01.001
+      name: "\u00195604\u0017.EG.016A ( Putzraum)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.016A@5604
+    - id: 5604.EG.019
       type: room
-      name: 2906.01.001 ( Büro/EDV-Raum)
-      subtext: Karlstraße 45/47
-      subtext_bold: 1001@2906
-    - id: 2906.01.002
+      name: "\u00195604\u0017.EG.019 ( WC-Damen)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.019@5604
+    - id: 5604.EG.013
       type: room
-      name: 2906.01.002 ( Büro)
-      subtext: Karlstraße 45/47
-      subtext_bold: 1002@2906
-    - id: 2906.01.003
+      name: "\u00195604\u0017.EG.013 ( Abstellraum)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.013@5604
+    - id: 5604.EG.016B
       type: room
-      name: 2906.01.003 ( Büro)
-      subtext: Karlstraße 45/47
-      subtext_bold: 1003@2906
-    - id: 2906.01.004
+      name: "\u00195604\u0017.EG.016B ( Heizung/Brauchwassererwärmung)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.016B@5604
+    - id: 5604.EG.018
       type: room
-      name: 2906.01.004 ( Büro)
-      subtext: Karlstraße 45/47
-      subtext_bold: 1004@2906
+      name: "\u00195604\u0017.EG.018 ( Heizung/Brauchwassererwärmung)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.018@5604
   n_visible: 10
-  estimatedTotalHits: 204
+  estimatedTotalHits: 150
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: 1

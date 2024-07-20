@@ -1,64 +1,65 @@
 ---
 source: main-api/src/search/search_executor/mod.rs
-description: ""
+description: A search for the Architects name should return the correct room
 expression: actual
-info: 5604.00.011 should get 5604.EG.011
+info: "'00.01.001' should get '5601.EG.001' in 1 results # A search for the Architects name should return the correct room"
 ---
 - facet: rooms
   entries:
-    - id: 5604.EG.011
+    - id: 5601.EG.001
       type: room
-      name: "\u00195604\u0017.EG.\u0019011\u0017 ( MI Hörsaal 2)"
+      name: "5601.EG.\u0019001\u0017 ( Magistrale)"
       subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.011@5604
-    - id: 5604.EG.034
+      subtext_bold: 00.01.001@5601
+      parsed_id: "MI \u001900.01.001\u0017"
+    - id: 5510.EG.001
       type: room
-      name: "\u00195604\u0017.EG.034 ( Demonstrationspraktikum)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.034@5604
-    - id: 5604.EG.036
+      name: "5510.EG.\u0019001\u0017 (Hörsaal)"
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0001@5510
+    - id: 3902.EG.001
       type: room
-      name: "\u00195604\u0017.EG.036 ( Praktikumsraum-Physik)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.036@5604
-    - id: 5604.EG.038
+      name: "3902.EG.\u0019001\u0017 ( Unterricht 2)"
+      subtext: "zhs-wassersportplatz-starnberg, Seglerheim"
+      subtext_bold: 0001@3902
+    - id: 5414.EG.001
       type: room
-      name: "\u00195604\u0017.EG.038 ( Praktikumsraum-Physik)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.038@5604
-    - id: 5604.EG.015
+      name: "5414.EG.\u0019001\u0017 ( ZEI-Seminarraum)"
+      subtext: "garching, Zentrum für Energie und Information (ZEI)"
+      subtext_bold: 0001@5414
+    - id: 5433.EG.001
       type: room
-      name: "\u00195604\u0017.EG.015 ( WC-Herren)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.015@5604
-    - id: 5604.EG.016A
+      name: "5433.EG.\u0019001\u0017 ( Seminarraum 1)"
+      subtext: "garching, Entrepreneurship Research Institute"
+      subtext_bold: 0001@5433
+    - id: 7910.EG.001
       type: room
-      name: "\u00195604\u0017.EG.016A ( Putzraum)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.016A@5604
-    - id: 5604.EG.019
+      name: "7910.EG.\u0019001\u0017 ( Messkabine & Messtationen)"
+      subtext: Oskar-von-Miller-Turm (Meteo-Mast)
+      subtext_bold: 0001@7910
+    - id: 0205.EG.001
       type: room
-      name: "\u00195604\u0017.EG.019 ( WC-Damen)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.019@5604
-    - id: 5604.EG.013
+      name: "0205.EG.\u0019001\u0017 ( Büro)"
+      subtext: "stammgelände, Arcisstr. 19 (S5)"
+      subtext_bold: 0001@0205
+    - id: 0401.EG.001
       type: room
-      name: "\u00195604\u0017.EG.013 ( Abstellraum)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.013@5604
-    - id: 5604.EG.016B
+      name: "0401.EG.\u0019001\u0017 ( WC-Damen)"
+      subtext: "stammgelände, Richard-Wagner-Str. 18 (SW1)"
+      subtext_bold: 0001@0401
+    - id: 5116.EG.001
       type: room
-      name: "\u00195604\u0017.EG.016B ( Heizung/Brauchwassererwärmung)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.016B@5604
-    - id: 5604.EG.018
+      name: "5116.EG.\u0019001\u0017 ( Trafostation)"
+      subtext: "garching, Trafostation des ZNN"
+      subtext_bold: 0001@5116
+    - id: 5125.EG.001
       type: room
-      name: "\u00195604\u0017.EG.018 ( Heizung/Brauchwassererwärmung)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 00.04.018@5604
+      name: "5125.EG.\u0019001\u0017 ( BMZ)"
+      subtext: "garching, Laboratory for Extreme Photonics (LEX), LMU"
+      subtext_bold: 0001@5125
   n_visible: 10
-  estimatedTotalHits: 150
+  estimatedTotalHits: 1000
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 1
+  estimatedTotalHits: 0

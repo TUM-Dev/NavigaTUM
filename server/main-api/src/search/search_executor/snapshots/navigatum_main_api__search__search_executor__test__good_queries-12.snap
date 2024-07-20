@@ -1,60 +1,64 @@
 ---
 source: main-api/src/search/search_executor/mod.rs
-description: ""
+description: MI Magistrale
 expression: actual
-info: ZIEL should get wzw-ziel
+info: "'5601.EG.001' should get '5601.EG.001' in 1 results # MI Magistrale"
 ---
-- facet: sites_buildings
-  entries:
-    - id: wzw-ziel
-      type: area
-      name: "\u0019ZIEL\u0017 – Institute for Food & Health"
-      subtext: Gebiet / Gruppe von Gebäuden
-    - id: "4224"
-      type: building
-      name: "\u0019ZIEL\u0017 IV - Biowissenschaften"
-      subtext: Gebäude
-    - id: "4124"
-      type: building
-      name: "\u0019ZIEL\u0017 II – Molekulare Biowissenschaften"
-      subtext: Gebäude
-    - id: "4126"
-      type: building
-      name: "\u0019ZIEL\u0017 I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
-      subtext: Gebäude
-  n_visible: 4
-  estimatedTotalHits: 3
 - facet: rooms
   entries:
-    - id: 4124.U1.104
+    - id: 5601.EG.001
       type: room
-      name: 4124.U1.104 ( Seminarraum 23 /Übungsraum (WZWS23))
-      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
-      subtext_bold: U/1.04@4124
-    - id: 4126.01.609B
+      name: "\u00195601\u0017.\u0019EG\u0017.\u0019001\u0017 ( Magistrale)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.001@5601
+    - id: 5601.EG.010
       type: room
-      name: 4126.01.609B ( Seminarraum 14 (WZWS14))
-      subtext: "weihenstephan, ZIEL I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
-      subtext_bold: O.09 a/b@4126
-    - id: 4126.U1.610B
+      name: "\u00195601\u0017.\u0019EG\u0017.010 ( Pforte)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.010@5601
+    - id: 5601.EG.002
       type: room
-      name: 4126.U1.610B ( Seminarraum (gem. Nutzung 1124302030;11243)
-      subtext: "weihenstephan, ZIEL I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
-      subtext_bold: U 10/2@4126
-    - id: 4224.01.148
+      name: "\u00195601\u0017.\u0019EG\u0017.002 ( Gang,  Weg im Freien)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.002@5601
+    - id: 5601.EG.003
       type: room
-      name: 4224.01.148 ( Seminarraum 51 (WZWS51))
-      subtext: "weihenstephan, ZIEL IV - Biowissenschaften"
-      subtext_bold: 1.48@4224
-    - id: 4224.02.234
+      name: "\u00195601\u0017.\u0019EG\u0017.003 ( Windfang)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.003@5601
+    - id: 5601.EG.004
       type: room
-      name: 4224.02.234 ( Seminarraum 52 (WZWS52) (gem. Nutzung))
-      subtext: "weihenstephan, ZIEL IV - Biowissenschaften"
-      subtext_bold: 2.34@4224
-    - id: 4224.02.298
+      name: "\u00195601\u0017.\u0019EG\u0017.004 ( Gang,  Weg im Freien)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.004@5601
+    - id: 5601.EG.005
       type: room
-      name: 4224.02.298 ( Seminarraum 53 (WZWS53))
-      subtext: "weihenstephan, ZIEL IV - Biowissenschaften"
-      subtext_bold: 2.98@4224
-  n_visible: 6
-  estimatedTotalHits: 708
+      name: "\u00195601\u0017.\u0019EG\u0017.005 ( Windfang)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.005@5601
+    - id: 5601.EG.008
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.008 ( Gang,  Weg im Freien)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.008@5601
+    - id: 5601.EG.009
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.009 ( Windfang)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.009@5601
+    - id: 5601.EG.011
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.011 ( Windfang)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.011@5601
+    - id: 5601.EG.012
+      type: room
+      name: "\u00195601\u0017.\u0019EG\u0017.012 ( Gang,  Weg im Freien)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.012@5601
+  n_visible: 10
+  estimatedTotalHits: 57
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 1

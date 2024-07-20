@@ -1,3 +1,4 @@
+use std::fmt::{Debug, Formatter};
 use std::time::Instant;
 
 use crate::AppData;
@@ -63,10 +64,17 @@ impl From<&SearchQueryArgs> for Limits {
     }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Clone, Eq, PartialEq, Hash)]
 pub struct Highlighting {
     pub pre: String,
     pub post: String,
+}
+impl Debug for Highlighting{
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let pre=&self.pre;
+        let post=&self.post;
+        write!(f, "{pre}..{post}")
+    }
 }
 
 impl Default for Highlighting {

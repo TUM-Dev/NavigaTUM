@@ -2,26 +2,18 @@
 source: main-api/src/search/search_executor/mod.rs
 description: "H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
 expression: actual
-info: "'H.003' should get '2910.EG.003' in 1 results # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
+info: "'H.0003' should get '2910.EG.003' in 1 results # H.003 is the correct room, but people have problems remembering how many zeroes are in the room number"
 ---
+- facet: sites_buildings
+  entries:
+    - id: "2910"
+      type: building
+      name: "Richard-Wagner-Str. 1 / Haus B + Haus \u0019H\u0017, Hochschule für Politik (HfP)/ Department of Governance (GOV)"
+      subtext: Gebäude
+  n_visible: 1
+  estimatedTotalHits: 1
 - facet: rooms
   entries:
-    - id: 2910.EG.003
-      type: room
-      name: "2910.EG.\u0019003\u0017 ( Seminarraum)"
-      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
-      subtext_bold: H.003@2910
-      parsed_id: "\u0019H.003\u0017 RiWa 1 (HfP/GOV)"
-    - id: 5212.EG.003
-      type: room
-      name: "5212.EG.\u0019003\u0017 ( Post/Annahme)"
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: H.0.003@5212
-    - id: 5212.U1.003
-      type: room
-      name: "5212.U1.\u0019003\u0017 ( Kälte)"
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: H.-1.003@5212
     - id: 2910.01.101
       type: room
       name: 2910.01.101 ( Gruppenarbeitsraum)
@@ -52,13 +44,20 @@ info: "'H.003' should get '2910.EG.003' in 1 results # H.003 is the correct room
       name: 2910.EG.001 ( Seminarraum)
       subtext: "stammgelände, RiWa 1 (HfP/GOV)"
       subtext_bold: H.001@2910
+    - id: 2910.EG.002
+      type: room
+      name: 2910.EG.002 ( Seminarraum)
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.002@2910
+    - id: 2910.EG.003
+      type: room
+      name: 2910.EG.003 ( Seminarraum)
+      subtext: "stammgelände, RiWa 1 (HfP/GOV)"
+      subtext_bold: H.003@2910
+    - id: 5212.01.028
+      type: room
+      name: 5212.01.028 ( Gemeinschaftsraum)
+      subtext: "garching, RCM Radiochemie München"
+      subtext_bold: H.1.028@5212
   n_visible: 9
   estimatedTotalHits: 412
-- facet: sites_buildings
-  entries:
-    - id: "2910"
-      type: building
-      name: "Richard-Wagner-Str. 1 / Haus B + Haus \u0019H\u0017, Hochschule für Politik (HfP)/ Department of Governance (GOV)"
-      subtext: Gebäude
-  n_visible: 0
-  estimatedTotalHits: 1

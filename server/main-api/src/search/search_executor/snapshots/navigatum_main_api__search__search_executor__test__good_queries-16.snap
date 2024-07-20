@@ -1,63 +1,61 @@
 ---
 source: main-api/src/search/search_executor/mod.rs
-description: ""
+description: splitting necessary
 expression: actual
-info: 03.08.011 should get 5608.03.011
+info: "'MW1801' should get '5508.02.801' in 1 results # splitting necessary"
 ---
 - facet: rooms
   entries:
-    - id: 5608.03.011
+    - id: 5508.02.801
       type: room
-      name: "5608.\u001903\u0017.\u0019011\u0017 ( Seminarraum (M1/M7))"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.011@5608
-      parsed_id: "MI \u001903.08.011\u0017"
-    - id: 5608.03.011A
+      name: 5508.02.801 (Hörsaal)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 1801@5508
+    - id: 5510.02.001
       type: room
-      name: "5608.\u001903\u0017.\u0019011\u0017A ( Balkon)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.011A@5608
-      parsed_id: "MI \u001903.08.011\u0017A"
-    - id: 8102.03.108
+      name: "5510.02.001 (\u0019MW\u0017 2001 Rudolf-Diesel-Hörsaal)"
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 2001@5510
+    - id: 5502.01.250
       type: room
-      name: "8102.\u001903\u0017.108 ( Hörsaal)"
-      subtext: "garching-hochbrück, Business Campus 2"
-      subtext_bold: BC2 3.1.08@8102
-    - id: 5608.03.033A
+      name: 5502.01.250 (Hörsaal)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 1250@5502
+    - id: 5502.EG.250
       type: room
-      name: "5608.\u001903\u0017.033A ( Kopierer)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.033A@5608
-    - id: 2410.03.308
+      name: 5502.EG.250 (Hörsaal)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0250@5502
+    - id: 5503.EG.350
       type: room
-      name: "2410.\u001903\u0017.308 ( WC-Damen)"
-      subtext: "Heßstraße 134, Munich School of Robotics and Machine Intelligence"
-      subtext_bold: 03.08@2410
-    - id: 5608.03.015
+      name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0350@5503
+    - id: 5506.EG.608M
       type: room
-      name: "5608.\u001903\u0017.015 ( WC-Herren)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.015@5608
-    - id: 5608.03.016
+      name: 5506.EG.608M ( Otto-Lilienthal-Hörsaal)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0608M@5506
+    - id: 5510.EG.001
       type: room
-      name: "5608.\u001903\u0017.016 ( Beh.-WC / Wickeltisch)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.016@5608
-    - id: 5608.03.017A
+      name: 5510.EG.001 (Hörsaal)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0001@5510
+    - id: 5539.EG.001A
       type: room
-      name: "5608.\u001903\u0017.017A ( Putzraum)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.017A@5608
-    - id: 5608.03.021
+      name: "5539.EG.001A ( Hörsaal 1A,  \"Zelt\")"
+      subtext: "garching, Interims III"
+      subtext_bold: 0.001A@5539
+    - id: 5539.EG.001B
       type: room
-      name: "5608.\u001903\u0017.021 ( Büro)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.021@5608
-    - id: 5608.03.022
+      name: "5539.EG.001B ( Hörsaal 1B,  \"Zelt\")"
+      subtext: "garching, Interims III"
+      subtext_bold: 0.001B@5539
+    - id: 5539.EG.002
       type: room
-      name: "5608.\u001903\u0017.022 ( Besprechungsraum)"
-      subtext: "garching, Mathe/Info (MI)"
-      subtext_bold: 03.08.022@5608
+      name: "5539.EG.002 ( Hörsaal 2,  \"Zelt\")"
+      subtext: "garching, Interims III"
+      subtext_bold: 0.002@5539
   n_visible: 10
   estimatedTotalHits: 1000
 - facet: sites_buildings

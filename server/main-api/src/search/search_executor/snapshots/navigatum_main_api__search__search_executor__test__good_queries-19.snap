@@ -1,8 +1,8 @@
 ---
 source: main-api/src/search/search_executor/mod.rs
-description: splitting necessary
+description: ""
 expression: actual
-info: MW1801 should get 5508.02.801
+info: "'1801 maschinen' should get '5508.02.801' in 1 results"
 ---
 - facet: rooms
   entries:
@@ -11,53 +11,55 @@ info: MW1801 should get 5508.02.801
       name: 5508.02.801 (Hörsaal)
       subtext: "garching, Maschinenwesen (MW)"
       subtext_bold: 1801@5508
-    - id: 5510.02.001
+      parsed_id: "MW \u00191801\u0017"
+    - id: 0508.01.801
       type: room
-      name: "5510.02.001 (\u0019MW\u0017 2001 Rudolf-Diesel-Hörsaal)"
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 2001@5510
-    - id: 5502.01.250
+      name: 0508.01.801 ( Wasch.-/Putzraum)
+      subtext: "stammgelände, Heizkraftwerk (Z8)"
+      subtext_bold: 1801@0508
+      parsed_id: "\u00191801\u0017 Heizkraftwerk (Z8)"
+    - id: 0106.U1.801
       type: room
-      name: 5502.01.250 (Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 1250@5502
-    - id: 5502.EG.250
+      name: 0106.U1.801 ( Archiv)
+      subtext: "stammgelände, Materialprüfamt (N6)"
+      subtext_bold: N-1801@0106
+    - id: 2332.01.217
       type: room
-      name: 5502.EG.250 (Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0250@5502
-    - id: 5503.EG.350
+      name: "2332.01.217 ( (32.\u00191\u0017.\u0019801\u0017) Büro)"
+      subtext: "campus-im-olympiapark-sz, CiO/SG Institute Ost"
+      subtext_bold: 01.2332.217@2332
+    - id: 5115.01.801
       type: room
-      name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0350@5503
-    - id: 5506.EG.608M
+      name: 5115.01.801 ( Treppe Nord)
+      subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
+      subtext_bold: 1.801@5115
+    - id: 5301.01.801
       type: room
-      name: 5506.EG.608M ( Otto-Lilienthal-Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0608M@5506
-    - id: 5510.EG.001
+      name: 5301.01.801 ( Treppenhaus)
+      subtext: "garching, Institute for Advanced Study (IAS)"
+      subtext_bold: 1.801@5301
+    - id: 5212.01.801
       type: room
-      name: 5510.EG.001 (Hörsaal)
-      subtext: "garching, Maschinenwesen (MW)"
-      subtext_bold: 0001@5510
-    - id: 5539.EG.001A
+      name: 5212.01.801 ( Treppenhaus West)
+      subtext: "garching, RCM Radiochemie München"
+      subtext_bold: H.1.801@5212
+    - id: 5212.01.801L
       type: room
-      name: "5539.EG.001A ( Hörsaal 1A,  \"Zelt\")"
-      subtext: "garching, Interims III"
-      subtext_bold: 0.001A@5539
-    - id: 5539.EG.001B
+      name: 5212.01.801L ( Aufzug)
+      subtext: "garching, RCM Radiochemie München"
+      subtext_bold: L.1.801@5212
+    - id: 5212.U1.801
       type: room
-      name: "5539.EG.001B ( Hörsaal 1B,  \"Zelt\")"
-      subtext: "garching, Interims III"
-      subtext_bold: 0.001B@5539
-    - id: 5539.EG.002
+      name: 5212.U1.801 ( Treppenhaus West)
+      subtext: "garching, RCM Radiochemie München"
+      subtext_bold: H.-1.801@5212
+    - id: 5212.U1.801L
       type: room
-      name: "5539.EG.002 ( Hörsaal 2,  \"Zelt\")"
-      subtext: "garching, Interims III"
-      subtext_bold: 0.002@5539
+      name: 5212.U1.801L ( Aufzug)
+      subtext: "garching, RCM Radiochemie München"
+      subtext_bold: L.-1.801@5212
   n_visible: 10
-  estimatedTotalHits: 1000
+  estimatedTotalHits: 10
 - facet: sites_buildings
   entries: []
   n_visible: 0
