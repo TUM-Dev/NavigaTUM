@@ -32,12 +32,11 @@ pub async fn send_feedback(
             .content_type("text/plain")
             .body("Using this endpoint without accepting the privacy policy is not allowed");
     };
-    let labels = parse_labels(&req_data);
 
     github::open_issue(
-        &format!("{subject}", subject = req_data.subject),
+        &req_data.subject,
         &req_data.body,
-        labels,
+        parse_labels(&req_data),
     )
     .await
 }
