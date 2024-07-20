@@ -69,10 +69,10 @@ pub struct Highlighting {
     pub pre: String,
     pub post: String,
 }
-impl Debug for Highlighting{
+impl Debug for Highlighting {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let pre=&self.pre;
-        let post=&self.post;
+        let pre = &self.pre;
+        let post = &self.post;
         write!(f, "{pre}..{post}")
     }
 }

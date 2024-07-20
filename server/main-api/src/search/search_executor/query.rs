@@ -1,9 +1,9 @@
-use std::fmt::{Debug, Formatter};
 use meilisearch_sdk::client::Client;
 use meilisearch_sdk::errors::Error;
 use meilisearch_sdk::indexes::Index;
 use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
 use serde::Deserialize;
+use std::fmt::{Debug, Formatter};
 
 use crate::search::search_executor::parser::{Filter, ParsedQuery, TextToken};
 use crate::search::{Highlighting, Limits};
@@ -30,9 +30,9 @@ struct GeoEntryFilters {
     rooms: String,
     buildings: String,
 }
-impl Debug for GeoEntryFilters{
+impl Debug for GeoEntryFilters {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let mut base =f.debug_struct("GeoEntryFilters");
+        let mut base = f.debug_struct("GeoEntryFilters");
         if !self.default.is_empty() {
             base.field("default", &self.default);
         }
@@ -67,14 +67,14 @@ pub(super) struct GeoEntryQuery {
     sorting: Vec<String>,
 }
 
-impl Debug for GeoEntryQuery{
+impl Debug for GeoEntryQuery {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("GeoEntryQuery")
-            .field("parsed_input",&self.parsed_input)
-            .field("limits",&self.limits)
-            .field("highlighting",&self.highlighting)
-            .field("filters",&self.filters)
-            .field("sorting",&self.sorting)
+            .field("parsed_input", &self.parsed_input)
+            .field("limits", &self.limits)
+            .field("highlighting", &self.highlighting)
+            .field("filters", &self.filters)
+            .field("sorting", &self.sorting)
             .finish()
     }
 }
