@@ -76,6 +76,7 @@ pub async fn do_geoentry_search(
 #[cfg(test)]
 mod test {
     use super::*;
+    use std::fmt::{Display, Formatter};
 
     #[derive(serde::Deserialize)]
     struct TestQuery {
@@ -97,25 +98,43 @@ mod test {
             let mut acceptable_range = actual.iter().flat_map(|r| r.entries.clone()).take(among);
             acceptable_range.any(|r| r.id == self.target)
         }
+        async fn search(&self) -> Vec<ResultsSection> {
+            do_geoentry_search(
+                self.query.clone(),
+                Highlighting::default(),
+                Limits::default(),
+            )
+            .await
+            .0
+        }
+    }
+    impl Display for TestQuery {
+        fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+            write!(
+                f,
+                "{query} should get {target} in {among}",
+                query = self.query,
+                target = self.target,
+                among = self.among.unwrap_or(1),
+            )?;
+            if let Some(comment) = &self.comment {
+                write!(f, " # {comment}")?;
+            }
+            Ok(())
+        }
     }
     #[tokio::test]
     #[tracing_test::traced_test]
     async fn test_good_queries() {
-        let highlighting = Highlighting::default();
-        let limits = Limits::default();
         for query in TestQuery::load_good() {
-            let info = format!(
-                "{query} should get {target}",
-                query = query.query,
-                target = query.target
+            let actual = query.search().await;
+            assert!(
+                query.actual_matches_among(&actual),
+                "{query}\nSince it can't, please move it to .bad list, actual={actual:?}"
             );
-            let actual = do_geoentry_search(query.query.clone(), highlighting.clone(), limits)
-                .await
-                .0;
-            assert!(query.actual_matches_among(&actual), "{query} should get {target}. Since it can't, please move it to .bad list, actual={actual:?}", query=query.query, target=query.target);
 
             insta::with_settings!({
-                info => &info,
+                info => &format!("{query}"),
                 description => query.comment.unwrap_or_default(),
             }, {
                         insta::assert_yaml_snapshot!(actual);
@@ -126,21 +145,15 @@ mod test {
     #[tokio::test]
     #[tracing_test::traced_test]
     async fn test_bad_queries() {
-        let highlighting = Highlighting::default();
-        let limits = Limits::default();
-        for query in TestQuery::load_bad() {
-            let info = format!(
-                "{query} should get {target}",
-                query = query.query,
-                target = query.target
+          for query in TestQuery::load_bad() {
+            let actual = query.search().await;
+            assert!(
+                !query.actual_matches_among(&actual),
+                "{query}\nSince it can't, please move it to .bad list, actual={actual:?}"
             );
-            let actual = do_geoentry_search(query.query.clone(), highlighting.clone(), limits)
-                .await
-                .0;
-            assert!(query.actual_matches_among(&actual), "{query} should not be able to get {target}. Since it can't, please move it to .good list, actual={actual:?}", query=query.query, target=query.target);
 
             insta::with_settings!({
-                info => &info,
+                info => &format!("{query}"),
                 description => query.comment.unwrap_or_default(),
             }, {
                 insta::assert_yaml_snapshot!(actual);
