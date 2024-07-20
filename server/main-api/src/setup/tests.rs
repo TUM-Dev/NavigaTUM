@@ -4,7 +4,7 @@ use sqlx::{Pool, Postgres};
 use std::time::Duration;
 use testcontainers_modules::testcontainers::{ContainerAsync, ImageExt};
 use testcontainers_modules::{meilisearch, postgres, testcontainers::runners::AsyncRunner};
-use tracing::error;
+use tracing::{error, info};
 
 pub struct PostgresTestContainer {
     _container: ContainerAsync<postgres::Postgres>,
