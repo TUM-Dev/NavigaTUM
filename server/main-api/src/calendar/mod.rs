@@ -369,7 +369,7 @@ mod tests {
 
             let (status, actual) = run_testcase(resp).await;
             assert_eq!(status, 200);
-            insta::assert_yaml_snapshot!(actual);
+            insta::assert_yaml_snapshot!(actual, {".**.last_calendar_scrape_at" => "[last_calendar_scrape_at]"});
         }
         {
             // show both rooms, but a limited timeframe
@@ -387,7 +387,7 @@ mod tests {
 
             let (status, actual) = run_testcase(resp).await;
             assert_eq!(status, 200);
-            insta::assert_yaml_snapshot!(actual);
+            insta::assert_yaml_snapshot!(actual, {".**.last_calendar_scrape_at" => "[last_calendar_scrape_at]"});
         }
     }
 

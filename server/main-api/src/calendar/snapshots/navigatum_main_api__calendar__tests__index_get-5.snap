@@ -25,7 +25,7 @@ expression: actual
   location:
     calendar_url: "https://campus.tum.de/3"
     key: 5121.EG.003
-    last_calendar_scrape_at: "2024-07-19T23:44:03Z"
+    last_calendar_scrape_at: "[last_calendar_scrape_at]"
     name: 5121.EG.003 (Computerraum)
     type: room
     type_common_name: Serverraum
