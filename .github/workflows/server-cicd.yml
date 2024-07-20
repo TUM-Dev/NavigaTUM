@@ -29,7 +29,9 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-      - run: cargo test --workspace
+      - name: Setup | install insta
+        run: curl -LsSf https://insta.rs/install.sh | sh
+      - run: cargo insta test --workspace
         working-directory: server
   linting:
     runs-on: ubuntu-latest

@@ -1,0 +1,62 @@
+---
+source: main-api/src/search/search_executor/mod.rs
+description: "Should give the 'new' mensa"
+expression: actual
+info: "'Mensa Garching' should get '5304' in 1 results # Should give the 'new' mensa"
+---
+- facet: sites_buildings
+  entries:
+    - id: "5304"
+      type: building
+      name: "(Neue) \u0019Mensa\u0017 \u0019Garching\u0017"
+      subtext: Gebäude
+    - id: "5302"
+      type: building
+      name: "(Alte) \u0019Mensa\u0017 \u0019Garching\u0017"
+      subtext: Gebäude
+  n_visible: 2
+  estimatedTotalHits: 5
+- facet: rooms
+  entries:
+    - id: 5302.01.022
+      type: room
+      name: 5302.01.022 ( Seminarraum 2)
+      subtext: "garching, (Alte) Mensa Garching"
+      subtext_bold: 01.022.I@5302
+    - id: 5302.01.023
+      type: room
+      name: 5302.01.023 ( Seminarraum 1)
+      subtext: "garching, (Alte) Mensa Garching"
+      subtext_bold: 01.023.I@5302
+    - id: 5302.01.038
+      type: room
+      name: 5302.01.038 ( Bibliothek)
+      subtext: "garching, (Alte) Mensa Garching"
+      subtext_bold: 01.037.J@5302
+    - id: 5302.01.016
+      type: room
+      name: 5302.01.016 ( Kopierer)
+      subtext: "garching, (Alte) Mensa Garching"
+      subtext_bold: 01.016.H@5302
+    - id: 5302.01.030
+      type: room
+      name: 5302.01.030 ( Kopierer)
+      subtext: "garching, (Alte) Mensa Garching"
+      subtext_bold: 01.030.I@5302
+    - id: 5302.01.043
+      type: room
+      name: 5302.01.043 ( Kopierer)
+      subtext: "garching, (Alte) Mensa Garching"
+      subtext_bold: 01.043.K@5302
+    - id: 5302.01.054
+      type: room
+      name: 5302.01.054 ( Kopierer)
+      subtext: "garching, (Alte) Mensa Garching"
+      subtext_bold: 01.054.L@5302
+    - id: 5302.EG.016A
+      type: room
+      name: 5302.EG.016A ( Prüfhalle Staubzone)
+      subtext: "garching, (Alte) Mensa Garching"
+      subtext_bold: 00.016.A@5302
+  n_visible: 8
+  estimatedTotalHits: 927

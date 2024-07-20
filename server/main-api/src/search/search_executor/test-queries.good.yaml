@@ -1,0 +1,92 @@
+# These test queries are intended to provide a consistent benchmark
+# for search performance. They are however not (all) real world queries.
+
+# site/area/campus queries
+- target: garching-hochbrueck
+  query: hochbrück
+- target: wzw
+  query: wzw
+# building queries
+- target: '5301'
+  query: '5301'
+- target: garching-interims
+  query: interims
+- target: '5416'
+  query: Interims 2
+- target: '5304'
+  query: Mensa Garching
+  comment: Should give the 'new' mensa
+- target: '5304'
+  query: neue Mensa
+- target: '5140'
+  query: Physik Container
+- target: '5115'
+  query: znn
+- target: wzw-ziel
+  query: ZIEL
+# room queries
+- target: 5604.EG.011
+  query: 5604.00.011
+- target: 5601.EG.001
+  query: 5601.EG.001
+  comment: MI Magistrale
+- target: 5601.EG.001
+  query: 00.01.001
+  comment: A search for the Architects name should return the correct room
+- target: 5608.03.011
+  query: 03.08.011
+- target: 5508.02.801
+  query: MW 1801
+- target: 5508.02.801
+  query: MW1801
+  comment: splitting necessary
+- target: 5510.EG.001
+  query: MW0001
+  comment: splitting necessary
+- target: 5510.02.001
+  query: MW2001
+  comment: splitting necessary
+- target: 5508.02.801
+  query: 1801 maschinen
+- target: 5503.EG.337
+  query: Raum 0337 mw
+- target: 5101.EG.502
+  query: pyhsik hs 2
+- target: 5101.EG.501
+  query: mössbauer
+- target: 5101.EG.342
+  query: 342 Physik
+- target: 5101.EG.503
+  query: '2503'
+  comment: 'lecture hall, should be preferred over other rooms'
+- target: 5111.01.116
+  query: '1116'
+  comment: 'seminar room, should be preferred over other rooms'
+- target: 5140.01.202
+  query: C.3202
+- target: 5115.01.010
+  query: 1010 znn
+  comment: Not sure about target here
+- target: 5433.EG.092
+  query: 0092@5433
+- target: 5510.EG.026M
+  query: 0026m@5510
+- target: 5123.EG.019
+  query: 019 lmu
+- target: 0509.EG.980
+  query: audimax
+- target: 0502.01.229
+  query: 1229 seminarraum
+- target: 2910.EG.003
+  query: H.003
+  comment: >-
+    H.003 is the correct room, but people have problems remembering how many
+    zeroes are in the room number
+- target: 5606.EG.011
+  query: MI HS 3
+- target: 0104.01.406
+  query: N1406
+  comment: Architects names should be matchable literally
+- target: 0104.U1.406
+  query: N-1406
+  comment: Architects names should be matchable literally

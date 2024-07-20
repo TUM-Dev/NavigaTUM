@@ -1,3 +1,4 @@
+use meilisearch_sdk::client::Client;
 use serde::Serialize;
 use tracing::error;
 
@@ -35,15 +36,16 @@ struct ResultEntry {
     #[serde(skip_serializing_if = "Option::is_none")]
     parsed_id: Option<String>,
 }
-#[tracing::instrument]
+#[tracing::instrument(skip(client))]
 pub async fn do_geoentry_search(
+    client: &Client,
     q: String,
     highlighting: Highlighting,
     limits: Limits,
 ) -> LimitedVec<ResultsSection> {
     let parsed_input = ParsedQuery::from(q.as_str());
 
-    match query::GeoEntryQuery::from((&parsed_input, &limits, &highlighting))
+    match query::GeoEntryQuery::from((client, &parsed_input, &limits, &highlighting))
         .execute()
         .await
     {
@@ -69,6 +71,107 @@ pub async fn do_geoentry_search(
             // error should be serde_json::error
             error!("Error searching for results: {e:?}");
             LimitedVec(vec![])
+        }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use crate::setup::tests::MeiliSearchTestContainer;
+    use std::fmt::{Display, Formatter};
+
+    #[derive(serde::Deserialize)]
+    struct TestQuery {
+        target: String,
+        query: String,
+        among: Option<usize>,
+        comment: Option<String>,
+    }
+
+    impl TestQuery {
+        fn load_good() -> Vec<Self> {
+            serde_yaml::from_str(include_str!("test-queries.good.yaml")).unwrap()
+        }
+        fn load_bad() -> Vec<Self> {
+            serde_yaml::from_str(include_str!("test-queries.bad.yaml")).unwrap()
+        }
+        fn actual_matches_among(&self, actual: &[ResultsSection]) -> bool {
+            let among = self.among.unwrap_or(1);
+            let mut acceptable_range = actual.iter().flat_map(|r| r.entries.clone()).take(among);
+            acceptable_range.any(|r| r.id == self.target)
+        }
+        async fn search(&self, client: &Client) -> Vec<ResultsSection> {
+            do_geoentry_search(
+                client,
+                self.query.clone(),
+                Highlighting::default(),
+                Limits::default(),
+            )
+            .await
+            .0
+        }
+    }
+    impl Display for TestQuery {
+        fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+            write!(
+                f,
+                "'{query}' should get '{target}' in {among} results",
+                query = self.query,
+                target = self.target,
+                among = self.among.unwrap_or(1),
+            )?;
+            if let Some(comment) = &self.comment {
+                write!(f, " # {comment}")?;
+            }
+            Ok(())
+        }
+    }
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_good_queries() {
+        let ms = MeiliSearchTestContainer::new().await;
+        crate::setup::meilisearch::load_data(&ms.client)
+            .await
+            .unwrap();
+        for query in TestQuery::load_good() {
+            let actual = query.search(&ms.client).await;
+            assert!(
+                query.actual_matches_among(&actual),
+                "{query}\n\
+                Since it can't, please move it to .bad list"
+            );
+
+            insta::with_settings!({
+                info => &format!("{query}"),
+                description => query.comment.unwrap_or_default(),
+            }, {
+                        insta::assert_yaml_snapshot!(actual);
+            });
+        }
+    }
+
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_bad_queries() {
+        let ms = MeiliSearchTestContainer::new().await;
+        crate::setup::meilisearch::load_data(&ms.client)
+            .await
+            .unwrap();
+        for query in TestQuery::load_bad() {
+            let actual = query.search(&ms.client).await;
+            assert!(
+                !query.actual_matches_among(&actual),
+                "{query}\n\
+                Since it can, please move it to .good list"
+            );
+
+            insta::with_settings!({
+                info => &format!("{query}"),
+                description => query.comment.unwrap_or_default(),
+            }, {
+                insta::assert_yaml_snapshot!(actual);
+            });
         }
     }
 }

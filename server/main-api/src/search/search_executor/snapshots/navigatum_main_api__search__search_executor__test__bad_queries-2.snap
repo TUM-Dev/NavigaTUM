@@ -1,0 +1,62 @@
+---
+source: main-api/src/search/search_executor/mod.rs
+description: target is hallucinated as it currently does not exist
+expression: actual
+info: "tb innenstadt should get tb-arcisstraße in 1 # target is hallucinated as it currently does not exist"
+---
+- facet: sites_buildings
+  entries:
+    - id: "4220"
+      type: building
+      name: "\u0019Teilbibliothek\u0017 Weihenstephan, Pressestelle Datenverarbeitung"
+      subtext: Gebäude
+    - id: "5401"
+      type: building
+      name: "\u0019Teilbibliothek\u0017 Chemie, Hörsaal (CH1, dunkelgrün)"
+      subtext: Gebäudeteil
+  n_visible: 2
+  estimatedTotalHits: 2
+- facet: rooms
+  entries:
+    - id: 5401.01.101K
+      type: room
+      name: 5401.01.101K (Hans-Fischer-Hörsaal)
+      subtext: "garching, Chemie"
+      subtext_bold: 21010@5401
+    - id: 4220.01.001
+      type: room
+      name: 4220.01.001 ( Einzelarbeitsraum)
+      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
+      subtext_bold: OG R 01@4220
+    - id: 4220.01.002
+      type: room
+      name: 4220.01.002 ( Einzelarbeitsraum)
+      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
+      subtext_bold: OG R 02@4220
+    - id: 4220.01.003
+      type: room
+      name: 4220.01.003 ( Einzelarbeitsraum)
+      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
+      subtext_bold: OG R 03@4220
+    - id: 4220.01.004
+      type: room
+      name: 4220.01.004 ( Einzelarbeitsraum)
+      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
+      subtext_bold: OG R 04@4220
+    - id: 4220.01.005
+      type: room
+      name: 4220.01.005 ( Einzelarbeitsraum)
+      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
+      subtext_bold: OG R 05@4220
+    - id: 4220.01.006
+      type: room
+      name: 4220.01.006 ( Einzelarbeitsraum)
+      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
+      subtext_bold: OG R 06@4220
+    - id: 4220.01.007
+      type: room
+      name: 4220.01.007 ( Einzelarbeitsraum)
+      subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
+      subtext_bold: OG R 07@4220
+  n_visible: 8
+  estimatedTotalHits: 392

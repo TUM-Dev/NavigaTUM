@@ -1,8 +1,10 @@
+use std::fmt::{Debug, Formatter};
 use std::time::Instant;
 
 use crate::AppData;
 use actix_web::{get, web, HttpResponse};
 use cached::proc_macro::cached;
+use meilisearch_sdk::client::Client;
 use serde::{Deserialize, Serialize};
 use tracing::{debug, error};
 use unicode_truncate::UnicodeTruncateStr;
@@ -33,6 +35,15 @@ pub struct Limits {
     pub rooms_count: usize,
     pub total_count: usize,
 }
+impl Default for Limits {
+    fn default() -> Self {
+        Self {
+            total_count: 10,
+            buildings_count: 5,
+            rooms_count: 10,
+        }
+    }
+}
 
 impl From<&SearchQueryArgs> for Limits {
     fn from(args: &SearchQueryArgs) -> Self {
@@ -53,12 +64,27 @@ impl From<&SearchQueryArgs> for Limits {
     }
 }
 
-#[derive(Debug, Default, Clone, Eq, PartialEq, Hash)]
+#[derive(Clone, Eq, PartialEq, Hash)]
 pub struct Highlighting {
     pub pre: String,
     pub post: String,
 }
+impl Debug for Highlighting {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let pre = &self.pre;
+        let post = &self.post;
+        write!(f, "{pre}..{post}")
+    }
+}
 
+impl Default for Highlighting {
+    fn default() -> Self {
+        Self {
+            pre: "\u{0019}".to_string(),
+            post: "\u{0017}".to_string(),
+        }
+    }
+}
 impl From<&SearchQueryArgs> for Highlighting {
     fn from(args: &SearchQueryArgs) -> Self {
         let (pre, post) = (
@@ -114,9 +140,19 @@ async fn cached_geoentry_search(
     highlighting: Highlighting,
     limits: Limits,
 ) -> Vec<search_executor::ResultsSection> {
-    search_executor::do_geoentry_search(q, highlighting, limits)
-        .await
-        .0
+    let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
+    let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
+    match client {
+        Ok(client) => {
+            search_executor::do_geoentry_search(&client, q, highlighting, limits)
+                .await
+                .0
+        }
+        Err(e) => {
+            error!("Cannot connect to meilisearch because {e:?}");
+            vec![]
+        }
+    }
 }
 
 #[cfg(test)]
