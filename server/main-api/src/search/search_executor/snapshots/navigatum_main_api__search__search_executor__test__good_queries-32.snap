@@ -1,0 +1,47 @@
+---
+source: main-api/src/search/search_executor/mod.rs
+description: ""
+expression: actual
+info: "'1229 seminarraum' should get '0502.01.229' in 1 results"
+---
+- facet: rooms
+  entries:
+    - id: 0502.01.229
+      type: room
+      name: "0502.01.229 ( \u0019Seminarraum\u0017)"
+      subtext: "stammgelände, Zentralgebäude 2 (Z2)"
+      subtext_bold: 1229@0502
+      parsed_id: "\u00191229\u0017 Zentralgebäude 2 (Z2)"
+    - id: 5101.U1.229
+      type: room
+      name: 5101.U1.229 ( Büro)
+      subtext: "garching, Physik I"
+      subtext_bold: 1229@5101
+      parsed_id: "PH \u00191229\u0017"
+    - id: 5502.01.229
+      type: room
+      name: 5502.01.229 ( Büro)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 1229@5502
+      parsed_id: "MW \u00191229\u0017"
+    - id: 0502.U1.229
+      type: room
+      name: 0502.U1.229 ( Werkstatt)
+      subtext: "stammgelände, Zentralgebäude 2 (Z2)"
+      subtext_bold: "-1229@0502"
+    - id: 0102.U1.229
+      type: room
+      name: 0102.U1.229 ( Stromversorgung)
+      subtext: "stammgelände, Hochvolthaus (N2)"
+      subtext_bold: N-1229@0102
+    - id: 2334.01.224
+      type: room
+      name: "2334.01.224 ( (34.\u00191\u0017.\u0019229\u0017) Büro)"
+      subtext: "campus-im-olympiapark-sz, CiO/SG Institute West, Bibliothek"
+      subtext_bold: 01.2334.224@2334
+  n_visible: 6
+  estimatedTotalHits: 6
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 0

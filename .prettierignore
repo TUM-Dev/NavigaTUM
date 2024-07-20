@@ -6,5 +6,4 @@ data/sources/15_patches-rooms_tumonline.yaml
 data/sources/45_custom-maps.yaml
 data/sources/46_overlay-maps.yaml
 data/sources/img/img-sources.yaml
-server/main-api/test/test-queries.yaml
 deployment/k3s

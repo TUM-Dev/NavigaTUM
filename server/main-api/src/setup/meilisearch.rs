@@ -1,13 +1,16 @@
-use log::{error, info};
+use std::collections::HashMap;
+use std::time::Duration;
+
+use meilisearch_sdk::client::Client;
 use meilisearch_sdk::settings::Settings;
 use meilisearch_sdk::tasks::Task;
-use meilisearch_sdk::Client;
 use serde_json::Value;
 use std::collections::HashMap;
 use std::io;
 use std::time::Duration;
 use serde::Deserialize;
 use serde::Serialize;
+use tracing::{debug, error, info};
 
 const TIMEOUT: Option<Duration> = Some(Duration::from_secs(20));
 const POLLING_RATE: Option<Duration> = Some(Duration::from_millis(50));
@@ -20,7 +23,7 @@ impl Synonyms {
         serde_yaml::from_str(include_str!("search_synonyms.yaml"))
     }
 }
-
+#[tracing::instrument(skip(client))]
 async fn wait_for_healthy(client: &Client) {
     let mut counter = 0;
     loop {
@@ -63,20 +66,17 @@ struct Embedders {
 struct EmbedderSettings {
     embedders: Embedders,
 }
-pub(crate) async fn setup_meilisearch() -> Result<(), crate::BoxedError> {
-    info!("setting up meilisearch");
-    let start = std::time::Instant::now();
-    let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
-    info!("connecting to Meilisearch at {ms_url}", ms_url = ms_url);
-    let client = Client::new(&ms_url, std::env::var("MEILI_MASTER_KEY").ok());
-    info!("waiting for Meilisearch to be healthy");
-    wait_for_healthy(&client).await;
+
+#[tracing::instrument(skip(client))]
+pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
+    debug!("waiting for Meilisearch to be healthy");
+    wait_for_healthy(client).await;
     info!("Meilisearch is healthy");
 
     client
         .create_index("entries", Some("ms_id"))
         .await?
-        .wait_for_completion(&client, POLLING_RATE, TIMEOUT)
+        .wait_for_completion(client, POLLING_RATE, TIMEOUT)
         .await?;
     let entries = client.index("entries");
 
@@ -107,18 +107,19 @@ pub(crate) async fn setup_meilisearch() -> Result<(), crate::BoxedError> {
             "type_common_name",
             "parent_building_names",
             "parent_keywords",
-            "address",
             "usage",
+            "address",
+            "operator_name",
         ])
         .with_synonyms(Synonyms::try_load()?.0);
 
     let res = entries
         .set_settings(&settings)
         .await?
-        .wait_for_completion(&client, POLLING_RATE, TIMEOUT)
+        .wait_for_completion(client, POLLING_RATE, TIMEOUT)
         .await?;
     if let Task::Failed { content } = res {
-        panic!("Failed to add documents to Meilisearch: {content:#?}");
+        panic!("Failed to add settings to Meilisearch: {content:?}");
     }
     meilisearch_sdk::ExperimentalFeatures::new(&client)
         .set_vector_store(true)
@@ -150,6 +151,12 @@ pub(crate) async fn setup_meilisearch() -> Result<(), crate::BoxedError> {
             .into());
     }
     
+    Ok(())
+}
+
+#[tracing::instrument(skip(client))]
+pub async fn load_data(client: &Client) -> Result<(), crate::BoxedError> {
+    let entries = client.index("entries");
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let documents = reqwest::get(format!("{cdn_url}/search_data.json"))
         .await?
@@ -158,16 +165,12 @@ pub(crate) async fn setup_meilisearch() -> Result<(), crate::BoxedError> {
     let res = entries
         .add_documents(&documents, Some("ms_id"))
         .await?
-        .wait_for_completion(&client, POLLING_RATE, TIMEOUT)
+        .wait_for_completion(client, POLLING_RATE, TIMEOUT)
         .await?;
     if let Task::Failed { content } = res {
-        panic!("Failed to add documents to Meilisearch: {content:#?}");
+        panic!("Failed to add documents to Meilisearch: {content:?}");
     }
 
-    info!(
-        "{cnt} documents added in {elapsed:?}",
-        elapsed = start.elapsed(),
-        cnt = documents.len()
-    );
+    info!("{cnt} documents added", cnt = documents.len());
     Ok(())
 }

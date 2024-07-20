@@ -35,7 +35,7 @@ To get started with docker, you can follow the [official tutorial](https://docs.
 
 #### Python3
 
-The data processing scripts are written in python, and they implicitly depend on a recent version of python (~3.10).
+The data processing scripts are written in python, and they implicitly depend on a recent version of python (~3.12).
 If you don't meet this requirement, head over to the [python website](https://www.python.org/downloads/) and download
 the latest version.
 
@@ -44,7 +44,7 @@ the latest version.
 #### Python3
 
 The server does have some scripts, which are written in python, and they implicitly depend on a recent version of
-python (>=3.10).
+python (>=3.12).
 If you don't meet this requirement, head over to the [python website](https://www.python.org/downloads/) and download
 the latest version.
 
@@ -79,4 +79,5 @@ Setting NodeJS up is a bit more complicated than setting up python/rust, but it 
 
 - On linux, you can get it through your favorite package manager.
   You normally should need to install `nodejs` and `pnpm`.
-- On WSL, use [this guide](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl) and [this guide](https://pnpm.io/installation)
+- On WSL, use [this guide](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl)
+  and [this guide](https://pnpm.io/installation)

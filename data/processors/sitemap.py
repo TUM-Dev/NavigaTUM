@@ -5,9 +5,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Literal, TypedDict
 
+import backoff
 import requests
 from defusedxml import ElementTree as defusedET
-from utils import DEBUG_MODE
 
 OLD_DATA_URL = "https://nav.tum.de/cdn/api_data.json"
 
@@ -33,11 +33,6 @@ OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
 def generate_sitemap() -> None:
     """Generate a sitemap that diffs changes since to the currently online data"""
-
-    if DEBUG_MODE:
-        logging.info("Skipping sitemap generation in Dev Mode (GIT_COMMIT_SHA is unset)")
-        return
-
     # Load exported data. This function is intentionally not using the data object
     # directly, but re-parsing the output file instead, because the export not
     # export all fields. This way we're also guaranteed to have the same types
@@ -49,7 +44,11 @@ def generate_sitemap() -> None:
     # sitemaps name. In case there aren't, we assume this sitemap is new,
     # and all entries will be marked as changed
     old_sitemaps = _download_online_sitemaps()
-    old_data = _download_old_data()
+    try:
+        old_data = _download_old_data()
+    except requests.exceptions.RequestException as error:
+        logging.warning(f"Could not download online data because of {error}. Assuming all entries are new.")
+        old_data = []
 
     sitemaps: Sitemaps = _extract_sitemap_data(new_data, old_data, old_sitemaps)
 
@@ -59,36 +58,31 @@ def generate_sitemap() -> None:
     _write_sitemapindex_xml(OUTPUT_DIR / "sitemap.xml", sitemaps)
 
 
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def _download_old_data() -> list:
     """Download the currently online data from the server"""
-    try:
-        req = requests.get(OLD_DATA_URL, headers={"Accept-Encoding": "gzip"}, timeout=120)
-        if req.status_code != 200:
-            logging.warning(f"Could not download online data because of {req.status_code=}. Assuming all are new")
-            return []
-        old_data = req.json()
-        if isinstance(old_data, dict):
-            old_data = list(old_data.values())
-        return old_data
-    except requests.exceptions.RequestException as error:
-        logging.warning(f"Could not download online data because of {error}. Assuming all entries are new.")
+    req = requests.get(OLD_DATA_URL, headers={"Accept-Encoding": "gzip"}, timeout=120)
+    if req.status_code != 200:
+        logging.warning(f"Could not download online data because of {req.status_code=}. Assuming all are new")
         return []
+    old_data = req.json()
+    if isinstance(old_data, dict):
+        old_data = list(old_data.values())
+    return old_data
 
 
 def _extract_sitemap_data(new_data: list, old_data: list, old_sitemaps: SimplifiedSitemaps) -> Sitemaps:
     """
     Extract sitemap data.
+
     Lastmod is set to the current time if the entry is modified (indicated via comparing newdata vs olddata),
     or to the last modification time of the online sitemap if the entry is not modified.
     """
-
     # Each sitemap has a limit of 50MB uncompressed or 50000 entries
     # (that means 1KB per site). We have currently about 33000 entries,
     # so it's unlikely that we'll hit this limit without adding a lot of
     # data. But for the case that a new type of entry is introduced, the
     # sitemap is split into one for rooms and one for the rest.
-    # Note that the root element is not included, because it just redirects
-    # to the main page.
     sitemaps: Sitemaps = {
         "room": [],
         "other": [],
@@ -97,13 +91,11 @@ def _extract_sitemap_data(new_data: list, old_data: list, old_sitemaps: Simplifi
     new_data_dict = {entry["id"]: entry for entry in new_data}
     changed_count = 0
     for _id, entry in new_data_dict.items():
-        if entry["type"] == "root":
-            continue
-
         sitemap_name: Literal["room"] | Literal["other"] = entry["type"] if entry["type"] in sitemaps else "other"
 
-        # Just copied from the webclient. The webclient doesn't care about
-        # the prefix – if it is wrong it'll be corrected (without a redirect).
+        # Just copied from the webclient.
+        # The webclient doesn't care about the prefix.
+        # If the prefix is wrong it'll be corrected (without a redirect).
         # However, this way search engines can already index the final URL.
         url_type_name = {
             "campus": "campus",
@@ -132,9 +124,10 @@ def _extract_sitemap_data(new_data: list, old_data: list, old_sitemaps: Simplifi
         # For buildings etc. that are always >= 10_000, we just subtract 500
         # to get some kind of relative measure.
         if entry["type"] == "room":
-            priority = min((entry["ranking_factors"]["rank_combined"] + 100) / 10000, 1.0)
+            priority = (entry["ranking_factors"]["rank_combined"] + 100) / 10000
         else:
-            priority = min((entry["ranking_factors"]["rank_combined"] - 500) / 10000, 1.0)
+            priority = (entry["ranking_factors"]["rank_combined"] - 500) / 10000
+        priority = max(min(priority, 1.0), 0.0)
 
         sitemaps[sitemap_name].append(
             {
@@ -167,7 +160,7 @@ def _download_online_sitemap(url: str) -> dict[str, datetime]:
         logging.warning(f"Failed to download sitemap '{url}': Status code {req.status_code}")
         return {}
 
-    xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"  # noqa: FS003
+    xmlns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
     sitemap = {}
     root = defusedET.fromstring(req.text)
     for child in root.iter(f"{xmlns}url"):
@@ -188,7 +181,7 @@ def _write_sitemap_xml(fname: Path, sitemap: list[SitemapEntry]) -> None:
         loc = ET.SubElement(url, "loc")
         loc.text = sitemap_entry["url"]
         lastmod = ET.SubElement(url, "lastmod")
-        lastmod.text = sitemap_entry["lastmod"].isoformat(timespec="seconds") + "Z"
+        lastmod.text = sitemap_entry["lastmod"].isoformat(timespec="seconds")
         priority = ET.SubElement(url, "priority")
         priority.text = str(round(sitemap_entry["priority"], 2))
 
@@ -206,7 +199,7 @@ def _write_sitemapindex_xml(fname: Path, sitemaps: Sitemaps) -> None:
         loc.text = f"https://nav.tum.de/cdn/sitemap-data-{name}.xml"
         if lastmod_dates := {site["lastmod"] for site in sitemap if "lastmod" in site}:
             lastmod = ET.SubElement(sitemap_el, "lastmod")
-            lastmod.text = max(lastmod_dates).isoformat(timespec="seconds") + "Z"
+            lastmod.text = max(lastmod_dates).isoformat(timespec="seconds")
 
     # Because sitemaps cannot be hierarchical, we have to include the
     # webclient sitemap here as well.
@@ -217,7 +210,7 @@ def _write_sitemapindex_xml(fname: Path, sitemaps: Sitemaps) -> None:
     sitemap = _download_online_sitemap(web_sitemap_url)
     if lastmod_dates := set(sitemap.values()):
         lastmod = ET.SubElement(sitemap_el, "lastmod")
-        lastmod.text = max(lastmod_dates).isoformat(timespec="seconds") + "Z"
+        lastmod.text = max(lastmod_dates).isoformat(timespec="seconds")
 
     root = ET.ElementTree(sitemapindex)
     root.write(fname, encoding="utf-8", xml_declaration=True)

@@ -35,6 +35,7 @@ class NATBuilding:
 def merge_nat_buildings(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the buildings in the NAT Roomfinder with the existing data.
+
     This may overwrite existing data, if they have patched some fields.
     """
     buildings = nat.Building.load_all()
@@ -99,10 +100,10 @@ def _merge_building(data: dict, building: NATBuilding) -> None:
 def merge_nat_rooms(_data):
     """
     Merge the rooms in the NAT Roomfinder with the existing data.
+
     This will not overwrite the existing data, but act directly on the provided data.
     """
-
-    _rooms = nat.Room.load_all()  # noqa: F841
+    _rooms = nat.Room.load_all()
 
     # TODO: implement the merging of NAT rooms
     logging.warning("Merging NAT rooms is not yet implemented")

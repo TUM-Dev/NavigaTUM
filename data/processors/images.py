@@ -9,12 +9,13 @@ from pathlib import Path
 from typing import Any, NamedTuple, TypeVar
 
 import pydantic
-import utils
 import yaml
-from external.models.common import PydanticConfiguration
 from PIL import Image
 from pydantic import Field
 from pydantic.networks import HttpUrl
+
+import utils
+from external.models.common import PydanticConfiguration
 
 
 class UrlStr(PydanticConfiguration):
@@ -64,9 +65,7 @@ TARGET_IMAGE_QUALITY = 80
 
 
 def add_img(data: dict[str, dict[str, Any]]) -> None:
-    """
-    Automatically add processed images to the 'img' property.
-    """
+    """Automatically add processed images to the 'img' property."""
     with open(IMAGE_BASE / "img-sources.yaml", encoding="utf-8") as file:
         img_sources = yaml.safe_load(file.read())
 
@@ -99,7 +98,7 @@ def add_img(data: dict[str, dict[str, Any]]) -> None:
 
 
 def parse_image_filename(image_name: str) -> tuple[str, int]:
-    """parse the filename of an image to get the id and index"""
+    """Parse the filename of an image to get the id and index"""
     if ".webp" not in image_name:
         raise RuntimeError(f"Missing webp for '{image_name}'")
     parts = image_name.replace(".webp", "").split("_")
@@ -139,6 +138,7 @@ class Resizer:
     def resize_to_fixed_size(self, target: Path, fixed_size: tuple[int, int], offset: int) -> None:
         """
         Generate an image with fixed_size pixels for the given image.
+
         An offset can be used, to translate the image across the longer axis.
         """
         width, height = self.img.size
@@ -220,9 +220,6 @@ def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: dict[st
 
 def _get_hash_lut() -> dict[str, str]:
     """Get a lookup table for the hash of the image files content and offset if present"""
-    if not DEV_MODE:
-        return {}
-    logging.info("Since GIT_COMMIT_SHA is unset, we assume this is acting in In Dev mode.")
     logging.info("Only files, with sha256(file-content)_sha256(offset) not present in the .hash_lut.json will be used")
     if HASH_LUT.is_file():
         with open(HASH_LUT, encoding="utf-8") as file:
@@ -255,6 +252,7 @@ def _gen_file_hash(img_path: Path, offsets: ImageOffset) -> str:
 def resize_and_crop() -> None:
     """
     Resize and crop the images for the given data to the desired resolutions.
+
     This will overwrite any existing thumbs/header-small's.
     """
     logging.info(f"convert {IMAGE_BASE} to webp")
@@ -268,13 +266,12 @@ def resize_and_crop() -> None:
         for img_path in IMAGE_SOURCE.glob("*.webp"):
             _id, _index = parse_image_filename(img_path.name)
             offsets = _extract_offsets(_id, _index, img_path, img_sources)
+            actual_hash = _gen_file_hash(img_path, offsets)
+            if actual_hash == expected_hashes_lut.get(img_path.name, ""):
+                continue  # skip this image, since it (and its offsets) have not changed
             if DEV_MODE:
-                actual_hash = _gen_file_hash(img_path, offsets)
-                if actual_hash == expected_hashes_lut.get(img_path.name, ""):
-                    continue  # skip this image, since it (and its offsets) have not changed
                 logging.debug(f"Image '{img_path.name}' has changed, resizing and cropping...")
             executor.submit(_refresh_for_all_resolutions, RefreshResolutionOrder(img_path, offsets))
-    if DEV_MODE:
-        _save_hash_lut(img_sources)
-        resize_and_crop_time = time.time() - start_time
-        logging.info(f"Resize and crop took {resize_and_crop_time:.2f}s")
+    _save_hash_lut(img_sources)
+    resize_and_crop_time = time.time() - start_time
+    logging.info(f"Resize and crop took {resize_and_crop_time:.2f}s")

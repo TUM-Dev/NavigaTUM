@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                        WITH rows_to_delete AS (\n                            SELECT id\n                            FROM calendar WHERE room_code = $1\n                            LIMIT 1000\n                        )\n                        \n                        DELETE FROM calendar\n                        WHERE id IN (SELECT id FROM rows_to_delete);",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "064abe062d039025429a814407c21e4c984144695bc3b0c2d5be6993126dbc1c"
+}

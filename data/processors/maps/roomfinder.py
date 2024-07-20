@@ -2,10 +2,9 @@ import hashlib
 import logging
 import math
 import os.path
-import typing
 from collections import abc
 from pathlib import Path
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from external.models import roomfinder
 from external.models.common import PydanticConfiguration
@@ -19,9 +18,7 @@ CUSTOM_RF_DIR = SOURCES_PATH / "img" / "maps" / "roomfinder"
 
 
 def assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
-    """
-    Assign roomfinder maps to all entries if there are none yet specified.
-    """
+    """Assign roomfinder maps to all entries if there are none yet specified."""
     maps_list = _deduplicate_maps(roomfinder.Map.load_all())
     custom_maps = CustomBuildingMap.load_all()
 
@@ -106,9 +103,7 @@ def _extract_available_maps(
     custom_maps: dict[MapKey, roomfinder.Map],
     maps_list: list[roomfinder.Map],
 ) -> list[roomfinder.Map]:
-    """
-    Extracts all available maps for the given entry.
-    """
+    """Extract all available maps for the given entry."""
     available_maps: list[roomfinder.Map] = []
     for (b_id, floor), _map in custom_maps.items():
         if (
@@ -121,7 +116,7 @@ def _extract_available_maps(
     available_maps += maps_list
 
     def _sort_key(_map: roomfinder.Map) -> tuple[int, float]:
-        """sort by scale and area"""
+        """Sort by scale and area"""
         scale = int(_map.scale)
         coords = _map.latlonbox
         area = abs(coords.east - coords.west) * abs(coords.north - coords.south)
@@ -132,7 +127,8 @@ def _extract_available_maps(
 
 def _merge_str(s_1: str, s_2: str) -> str:
     """
-    Merges two strings. The Result is of the format common_prefix s1/s2 common_suffix.
+    Merge two strings. The Result is of the format common_prefix s1/s2 common_suffix.
+
     Example: "Thierschbau 5. OG" and "Thierschbau 6. OG" -> "Thierschbau 5/6. OG"
     """
     if s_1.strip() == s_2.strip():
@@ -154,11 +150,11 @@ def _merge_str(s_1: str, s_2: str) -> str:
     return f"{prefix}({common.strip()}){suffix}"
 
 
-MergeMap = TypeVar("MergeMap", bound=Union[dict[str, Any], typing.Type[PydanticConfiguration]])
+MergeMap = TypeVar("MergeMap", bound=dict[str, Any] | type[PydanticConfiguration])
 
 
 def _merge_maps(map1: MergeMap, map2: MergeMap) -> MergeMap:
-    """Merges two Maps into one merged map"""
+    """Merge two Maps into one merged map"""
     result_map = {}
     if isinstance(map1, PydanticConfiguration):
         return map1.__class__.model_validate(_merge_maps(map1.model_dump(), map2.model_dump()))
@@ -204,7 +200,6 @@ def _deduplicate_maps(maps_list: list[roomfinder.Map]) -> list[roomfinder.Map]:
 
 def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """Generate the map information for the Roomfinder maps."""
-
     map_assignment_data = _generate_assignment_data()
 
     for entry in data.values():
@@ -222,6 +217,8 @@ def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
 
 def _calc_xy_of_coords_on_map(coords: Coordinate, map_data: roomfinder.Map) -> tuple[int, int]:
     """
+    Calculate the x and y coordinates on a map.
+
     For the map regions used we can assume that the lat/lon graticule is
     rectangular within that map. It is however not square (roughly 2:3 aspect),
     so for simplicity we first map it into the cartesian pixel coordinate
@@ -249,7 +246,7 @@ def _calc_xy_of_coords_on_map(coords: Coordinate, map_data: roomfinder.Map) -> t
 
 
 def assign_default_roomfinder_map(data: dict[str, dict[str, Any]]) -> None:
-    """Selects map with the lowest scale as default"""
+    """Select map with the lowest scale as default"""
     for entry in data.values():
         if rf_maps := entry.get("maps", {}).get("roomfinder"):
             rf_maps.setdefault("default", None)
@@ -287,7 +284,7 @@ def _entry_is_not_on_map(
 
 
 def remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
-    """Removes maps from entries, that do not cover said coordinates"""
+    """Remove maps from entries, that do not cover said coordinates"""
     map_assignment_data = _generate_assignment_data()
     for _id, entry in data.items():
         if entry["type"] == "root":

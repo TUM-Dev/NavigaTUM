@@ -4,20 +4,20 @@
     <priority>0.90</priority>
   </url>
   <url>
-    <loc>https://nav.tum.de/about/datenschutz</loc>
-    <priority>0.10</priority>
-  </url>
-  <url>
-    <loc>https://nav.tum.de/about/privacy</loc>
-    <priority>0.10</priority>
-  </url>
-  <url>
     <loc>https://nav.tum.de/ueber-uns</loc>
     <priority>0.10</priority>
   </url>
   <url>
-    <loc>https://nav.tum.de/about/about-us</loc>
+    <loc>https://nav.tum.de/en/about/about-us</loc>
     <priority>0.10</priority>
+  </url>
+  <url>
+    <loc>https://nav.tum.de/about/datenschutz</loc>
+    <priority>0.05</priority>
+  </url>
+  <url>
+    <loc>https://nav.tum.de/en/about/privacy</loc>
+    <priority>0.05</priority>
   </url>
   <url>
     <loc>https://nav.tum.de/api</loc>

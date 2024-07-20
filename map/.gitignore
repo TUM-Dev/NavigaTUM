@@ -3,3 +3,5 @@ tile_weights.tsv.gz
 sources/
 tmp/
 data/
+martin/fonts/
+martin/sprites/

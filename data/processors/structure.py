@@ -6,8 +6,8 @@ from utils import TranslatableStr as _
 
 def add_children_properties(data: dict[str, dict[str, Any]]) -> None:
     """
-    Add the "children" and "children_flat" properties to every object
-    using the "parents" property.
+    Add the "children" and "children_flat" properties to every object using the "parents" property.
+
     This operates on the data dict directly without creating a copy.
     """
     for _id, entry in data.items():
@@ -20,6 +20,7 @@ def add_children_properties(data: dict[str, dict[str, Any]]) -> None:
 def add_stats(data: dict[str, dict[str, Any]]) -> None:
     """
     Calculate structural statistics for each entry (number of children etc).
+
     This requires the children property.
     """
     for _id, entry in data.items():
@@ -58,31 +59,29 @@ def add_stats(data: dict[str, dict[str, Any]]) -> None:
 
 
 def infer_addresses(data: dict[str, dict[str, Any]]) -> None:
-    """
-    Infer addresses from children.
-    """
+    """Infer addresses from children."""
     for _id, entry in data.items():
         if entry.get("props", {}).get("address", None) is None and (children_flat := entry.get("children_flat")):
-            child_addresses = set()
+            child_addresses: set[tuple[str, int, str]] = set()
 
             for child_id in children_flat:
                 child = data[child_id]
 
-                street, plz_place = (
-                    child.get("props", {}).get("address", {}).get("street", None),
-                    child.get("props", {}).get("address", {}).get("plz_place", None),
-                )
+                address = child.get("props", {}).get("address", {})
+                street = address.get("street", None)
+                zip_code = address.get("zip_code", None)
+                place = address.get("place", None)
 
-                if street is not None and plz_place is not None:
-                    child_addresses.add((street, plz_place))
+                if street is not None and zip_code is not None and place is not None:
+                    child_addresses.add((street, zip_code, place))
 
             if len(child_addresses) == 1:
-                street, plz_place = child_addresses.pop()
+                street, zip_code, place = child_addresses.pop()
                 entry.setdefault("props").setdefault(
                     "address",
                     {
                         "street": street,
-                        "plz_place": plz_place,
+                        "plz_place": f"{zip_code} {place}",
                         "source": "inferred",
                     },
                 )
@@ -102,8 +101,7 @@ TYPE_COMMON_NAME_BY_TYPE = {
 
 
 def infer_type_common_name(data: dict[str, dict[str, Any]]) -> None:
-    """This function infers the type_common_name property for each entry via the type property."""
-
+    """Infer the type_common_name property for each entry via the type property."""
     for _data in data.values():
         building_inside_joined_building = (
             _data["type"] == "building" and data[_data["parents"][-1]]["type"] == "joined_building"

@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE en SET last_calendar_scrape_at = $1 WHERE key=$2",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Timestamptz",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "7a7a91b71318cae47f5aafceb365860cfad2fc568d61ce6648ca1ba7770db617"
+}

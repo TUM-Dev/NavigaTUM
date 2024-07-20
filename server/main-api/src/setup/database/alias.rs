@@ -1,9 +1,9 @@
-use log::info;
 use serde::Deserialize;
-use std::time::Instant;
+
+use crate::limited::vec::LimitedVec;
 
 #[derive(Debug)]
-struct Alias {
+pub(super) struct Alias {
     alias: String,
     key: String,    // the key is the id of the entry
     r#type: String, // what we display in the url
@@ -89,9 +89,9 @@ impl Alias {
             r#"INSERT INTO aliases (alias, key, type, visible_id)
             VALUES ($1, $2, $3, $4)
             ON CONFLICT (alias,key) DO UPDATE SET
-             key = $2,
-             type = $3,
-             visible_id = $4"#,
+             key = EXCLUDED.key,
+             type = EXCLUDED.type,
+             visible_id = EXCLUDED.visible_id"#,
             self.alias,
             self.key,
             self.r#type,
@@ -101,24 +101,33 @@ impl Alias {
         .await
     }
 }
-
-pub(crate) async fn load_all_to_db(
-    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-) -> Result<(), crate::BoxedError> {
+#[tracing::instrument]
+pub async fn download_updates(
+    keys_which_need_updating: &LimitedVec<String>,
+) -> Result<LimitedVec<Alias>, crate::BoxedError> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let raw_aliase = reqwest::get(format!("{cdn_url}/api_data.json"))
+    let aliase = reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?
         .json::<Vec<AliasData>>()
-        .await?;
-    let start = Instant::now();
-    let set_aliase = raw_aliase
+        .await?
         .into_iter()
-        .map(AliasIterator::from)
-        .flat_map(|alias| alias.into_iter());
-    for task in set_aliase {
+        .filter(|d| {
+            keys_which_need_updating.is_empty() || keys_which_need_updating.0.contains(&d.id)
+        })
+        .map(AliasIterator::from);
+    Ok(LimitedVec(
+        aliase
+            .flat_map(IntoIterator::into_iter)
+            .collect::<Vec<Alias>>(),
+    ))
+}
+#[tracing::instrument(skip(tx))]
+pub async fn load_all_to_db(
+    aliases: LimitedVec<Alias>,
+    tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
+) -> Result<(), crate::BoxedError> {
+    for task in aliases {
         task.store(tx).await?;
     }
-    info!("loaded aliases in {elapsed:?}", elapsed = start.elapsed());
-
     Ok(())
 }

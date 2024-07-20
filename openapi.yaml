@@ -1,22 +1,8 @@
 openapi: 3.1.0
 info:
   title: NavigaTUM
-  description: |
-    Navigating around TUM with excellence – An API to search for rooms,
-    buildings and other places
-
-    NavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute.
-
-    Features:
-
-    - Interactive or static maps to lookup the position of rooms or buildings
-    - Fast and typo-tolerant search
-    - Support for different room code formats as well as generic names
-
-    All functionality is also available via an API.
-
-    *Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments.*
-  termsOfService: 'https://nav.tum.de/about/privacy'
+  description: "Navigating around TUM with excellence – An API to search for rooms,\nbuildings and other places\n\nNavigaTUM is a tool developed by students for students, to help you get around at [TUM](https://tum.de). Feel free to contribute.\n\n- [x] \U0001F5FA️ Interactive/static maps to look up the position of rooms or buildings\n- [x] \U0001F50D Fast and typo-tolerant search\n- [x] \U0001F4BE Support for different room code formats as well as generic names\n- [x] \U0001F916 All functionality is also available via an open and well documented API\n- [x] \U0001F5D8 Automatically update the data from upstream datasources\n- [ ] \U0001F5E8️ Allow students/staff to easily submit feedback and data patches\n- [ ] \U0001F3EB Generate maps from CAD data sources\n- [ ] \U0001F6B6\U0001F3FB Generate turn by turn navigation advice for navigating end to end\n\nIf you'd like to help out or join us in this adventure, we would love to talk to you.\n\nAll functionality is also available via an API.\n\n*Note: Not all buildings in NavigaTUM are owned by TUM, but are instead being used by TUM departments.*\n"
+  termsOfService: 'https://nav.tum.de/en/about/privacy'
   contact:
     name: TUM-Dev
     url: 'https://www.tum.app/'
@@ -61,22 +47,22 @@ paths:
           schema:
             type: string
           examples:
-            '5304':
-              summary: A 'misspelled' (according to tumonline) lecture-hall
+            mi hs1:
+              summary: \'misspelled\' (according to tumonline) lecture-hall
               value: mi hs1
-            garching:
-              summary: A misspelled campus
+            sfarching:
+              summary: misspelled campus garching
               value: sfarching
-            fsmpi:
-              summary: A regular room
+            5606.EG.036:
+              summary: regular room (fsmpic)
               value: 5606.EG.036
             interims:
-              summary: Lecture halls
+              summary: \'interims\' Lecture halls
               value: interims
-            sv:
-              summary: common name
+            AStA:
+              summary: common name synonyms for SV
               value: AStA
-            none:
+            all:
               summary: All rooms
               value: ''
         - name: limit_buildings
@@ -124,7 +110,7 @@ paths:
               summary: 'The default value (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).'
               value: /u0019
             em:
-              summary: A good alternative default value
+              summary: good alternative default value
               value: <em>
             ais-highlight:
               summary: Another good alternative
@@ -144,7 +130,7 @@ paths:
               summary: 'The default value (See [Wikipedia](https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Modified_C0_control_code_sets)).'
               value: /u0017
             em:
-              summary: A good alternative default value
+              summary: good alternative default value
               value: </em>
             ais-highlight:
               summary: Another good alternative
@@ -199,7 +185,7 @@ paths:
                             subtext_bold: 1250@5502
                           - id: 5502.EG.250
                             type: room
-                            name: 5502.EG.250 (Ludwig-Prandtl-Hörsaal)
+                            name: 5502.EG.250 (Hörsaal)
                             subtext: Maschinenwesen (MW)
                             subtext_bold: 0250@5502
                           - id: 5503.EG.350
@@ -207,6 +193,7 @@ paths:
                             name: 5503.EG.350 (Egbert-von-Hoyer-Hörsaal)
                             subtext: Maschinenwesen (MW)
                             subtext_bold: 0350@5503
+                        n_visible: 5
                         estimatedTotalHits: 3655
                     time_ms: 16
                 nothing:
@@ -214,9 +201,11 @@ paths:
                     sections:
                       - facet: sites_buildings
                         entries: []
+                        n_visible: 0
                         estimatedTotalHits: 0
                       - facet: rooms
                         entries: []
+                        n_visible: 0
                         estimatedTotalHits: 0
                     time_ms: 6
                 interims-2:
@@ -252,6 +241,7 @@ paths:
                             name: 5416.EG.010 (IT/Audio)
                             subtext: 'Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude'
                             subtext_bold: 010@5416
+                        n_visible: 4
                         estimatedTotalHits: 23
                     time_ms: 23
         '400':
@@ -262,8 +252,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Not found
                 enum:
+                  - Not found
+                examples:
                   - Not found
         '414':
           description: The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..
@@ -298,55 +289,40 @@ paths:
           schema:
             type: string
           examples:
+            '1543':
+              summary: virtual room (humangenetik)
+              value: '1543'
             '5304':
-              summary: A normal building
+              summary: normal building
               value: '5304'
-            root:
-              summary: The root entry of the NavigaTUM-data
-              value: root
             garching:
-              summary: The garching campus
+              summary: garching campus
               value: garching
             mri:
-              summary: The MRI campus
-              value: garching
+              summary: MRI campus
+              value: mri
             mi:
-              summary: 'A large, (custom named) building'
+              summary: large building (mi)
               value: mi
             mw:
-              summary: 'An other large, (custom named) building'
+              summary: other large building (mw)
               value: mw
-            fsmpi:
-              summary: A regular room
+            5606.EG.036:
+              summary: regular room (fsmpic)
               value: 5606.EG.036
-            rechnerhalle:
-              summary: A room with custom props added
+            5605.EG.011:
+              summary: room with custom props (rechnerhalle-mi)
               value: 5605.EG.011
-            tb-chemie:
-              summary: A virtual room
+            5401.01.100A:
+              summary: virtual room (tb-chemie)
               value: 5401.01.100A
-            humangenetik:
-              summary: A virtual room
-              value: Gebäude 1543
       responses:
         '200':
           description: More data about the requested building/room
           content:
             application/json:
               schema:
-                discriminator:
-                  propertyName: type
-                  mapping:
-                    root: RootResponse
-                    room: DetailsResponse
-                    building: DetailsResponse
-                    joined_building: DetailsResponse
-                    area: DetailsResponse
-                    site: DetailsResponse
-                    campus: DetailsResponse
-                oneOf:
-                  - $ref: '#/components/schemas/RootResponse'
-                  - $ref: '#/components/schemas/DetailsResponse'
+                $ref: '#/components/schemas/DetailsResponse'
               examples:
                 mi-hs-1:
                   value:
@@ -725,87 +701,58 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Not found
                 enum:
+                  - Not found
+                examples:
                   - Not found
       tags:
         - core
-  '/api/calendar/{id}':
-    get:
+  /api/calendar:
+    post:
       operationId: calendar
       summary: Retrieve Calendar Entries
       description: |
-        Retrieves calendar entries for a specific `id` within the requested time span. 
+        Retrieves calendar entries for specific `ids` within the requested time span. 
         The time span is defined by the `start_after` and `end_before` query parameters.
         Ensure to provide valid date-time formats for these parameters.
 
         If successful, returns additional entries in the requested time span.
-      parameters:
-        - name: start_after
-          in: query
-          description: The first allowed time the calendar would like to display
-          required: true
-          schema:
-            type: string
-            format: date-time
-          examples:
-            use_tz:
-              summary: how timezones are defined
-              value: '2039-01-19T03:14:07+01:00'
-            utc:
-              summary: how utc is defined
-              value: '2042-01-07T00:00:00 UTC'
-        - name: end_before
-          in: query
-          description: The last allowed time the calendar would like to display
-          required: true
-          schema:
-            type: string
-            format: date-time
-          examples:
-            use_tz:
-              summary: how timezones are defined
-              value: '2039-01-19T03:14:07+01:00'
-            utc:
-              summary: how utc is defined
-              value: '2042-01-07T00:00:00 UTC'
-        - name: id
-          in: path
-          description: string you want to search for
-          required: true
-          schema:
-            type: string
-          examples:
-            '5304':
-              summary: A normal building
-              value: '5304'
-            root:
-              summary: The root entry of the NavigaTUM-data
-              value: root
-            garching:
-              summary: The garching campus
-              value: garching
-            mri:
-              summary: The MRI campus
-              value: garching
-            mi:
-              summary: 'A large, (custom named) building'
-              value: mi
-            mw:
-              summary: 'An other large, (custom named) building'
-              value: mw
-            fsmpi:
-              summary: A regular room
-              value: 5606.EG.036
-            rechnerhalle:
-              summary: A room with custom props added
-              value: 5605.EG.011
-            tb-chemie:
-              summary: A virtual room
-              value: 5401.01.100A
-            humangenetik:
-              summary: A virtual room
-              value: '1543'
+      requestBody:
+        description: null
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                start_after:
+                  description: The first allowed time the calendar would like to display
+                  type: string
+                  format: date-time
+                  examples:
+                    - '2039-01-19T03:14:07+01:00'
+                    - '2042-01-07T00:00:00 UTC'
+                end_before:
+                  description: The last allowed time the calendar would like to display
+                  type: string
+                  format: date-time
+                  examples:
+                    - '2039-01-19T03:14:07+01:00'
+                    - '2042-01-07T00:00:00 UTC'
+                ids:
+                  description: ids you want the calendars for
+                  type: array
+                  items:
+                    type: string
+                    examples:
+                      - 5605.EG.011
+                      - 5510.02.001
+                      - 5606.EG.036
+                      - '5304'
+              required:
+                - ids
+                - end_before
+                - start_after
       responses:
         '200':
           description: More entries of the calendar in the requested time span
@@ -819,8 +766,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Not found
                 enum:
+                  - Not found
+                examples:
                   - Not found
         '503':
           description: 'Not Ready, please retry later'
@@ -828,8 +776,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Waiting for first sync with TUMonline
                 enum:
+                  - Waiting for first sync with TUMonline
+                examples:
                   - Waiting for first sync with TUMonline
       tags:
         - core
@@ -859,36 +808,33 @@ paths:
           schema:
             type: string
           examples:
+            '1543':
+              summary: virtual room (humangenetik)
+              value: '1543'
             '5304':
-              summary: A normal building
+              summary: normal building
               value: '5304'
-            root:
-              summary: The root entry of the NavigaTUM-data
-              value: root
             garching:
-              summary: The garching campus
+              summary: garching campus
               value: garching
             mri:
-              summary: The MRI campus
-              value: garching
+              summary: MRI campus
+              value: mri
             mi:
-              summary: 'A large, (custom named) building'
+              summary: large building (mi)
               value: mi
             mw:
-              summary: 'An other large, (custom named) building'
+              summary: other large building (mw)
               value: mw
-            fsmpi:
-              summary: A regular room
+            5606.EG.036:
+              summary: regular room (fsmpic)
               value: 5606.EG.036
-            rechnerhalle:
-              summary: A room with custom props added
+            5605.EG.011:
+              summary: room with custom props (rechnerhalle-mi)
               value: 5605.EG.011
-            tb-chemie:
-              summary: A virtual room
+            5401.01.100A:
+              summary: virtual room (tb-chemie)
               value: 5401.01.100A
-            humangenetik:
-              summary: A virtual room
-              value: '1543'
       responses:
         '200':
           description: More data about the requested building/room
@@ -900,8 +846,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Not found
                 enum:
+                  - Not found
+                examples:
                   - Not found
       tags:
         - maps
@@ -968,7 +915,8 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: 'https://github.com/TUM-Dev/navigatum/issues/9'
+                examples:
+                  - 'https://github.com/TUM-Dev/navigatum/issues/9'
         '400':
           description: If not all fields in the body are present as defined above
         '403':
@@ -1034,7 +982,8 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: 'https://github.com/TUM-Dev/navigatum/issues/9'
+                examples:
+                  - 'https://github.com/TUM-Dev/navigatum/issues/9'
         '400':
           description: If not all fields in the body are present as defined above
         '403':
@@ -1110,18 +1059,33 @@ paths:
           schema:
             type: string
           examples:
+            '1543':
+              summary: virtual room (humangenetik)
+              value: '1543'
             '5304':
-              summary: A normal building
+              summary: normal building
               value: '5304'
             garching:
-              summary: A campus
+              summary: garching campus
               value: garching
+            mri:
+              summary: MRI campus
+              value: mri
             mi:
-              summary: 'A large, (custom named) building'
+              summary: large building (mi)
               value: mi
-            fsmpi:
-              summary: A regular room
+            mw:
+              summary: other large building (mw)
+              value: mw
+            5606.EG.036:
+              summary: regular room (fsmpic)
               value: 5606.EG.036
+            5605.EG.011:
+              summary: room with custom props (rechnerhalle-mi)
+              value: 5605.EG.011
+            5401.01.100A:
+              summary: virtual room (tb-chemie)
+              value: 5401.01.100A
         - name: counter
           in: path
           description: counter of the image you want.
@@ -1129,8 +1093,11 @@ paths:
           schema:
             type: integer
             format: int32
+            examples:
+              - 0
+              - 1
+              - 2
             minimum: 0
-          example: 0
       responses:
         '200':
           description: The image you requested
@@ -1147,8 +1114,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Not found
                 enum:
+                  - Not found
+                examples:
                   - Not found
         '414':
           description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
@@ -1204,8 +1172,9 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Not found
                 enum:
+                  - Not found
+                examples:
                   - Not found
         '414':
           description: 'The uri you are trying to request is unreasonably long. neither ids, nor any other parameter has more than 30 chars..'
@@ -1224,29 +1193,10 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: |
-                  healthy
-                  source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
-        '503':
-          description: Service Unavailable
-      tags:
-        - health
-  /api/feedback/status:
-    get:
-      operationId: feedback-health
-      summary: feedback-API healthcheck
-      description: |
-        If this endpoint does not return 200, the API is experiencing a catastrophic outage. Should never happen.
-      responses:
-        '200':
-          description: Ok
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: |
-                  healthy
-                  source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
+                examples:
+                  - |
+                    healthy
+                    source code: https://github.com/TUM-Dev/navigatum/tree/8a0fb71819ac88c8af35683cfb46291f0d0c9b0a
         '503':
           description: Service Unavailable
       tags:
@@ -1302,7 +1252,8 @@ components:
             code:
               description: The designation code of the operator
               type: string
-              example: TUS7000
+              examples:
+                - TUS7000
             name:
               description: |
                 The full name of the operator (localized). Null for organisations that
@@ -1311,15 +1262,18 @@ components:
               type:
                 - string
                 - 'null'
-              example: TUM School of Social Sciences and Technology
+              examples:
+                - TUM School of Social Sciences and Technology
             url:
               description: A link to the operator
               type: string
-              example: 'https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901'
+              examples:
+                - 'https://campus.tum.de/tumonline/webnav.navigate_to?corg=51901'
             id:
               description: The id of the operator
               type: integer
-              example: 51901
+              examples:
+                - 51901
         computed:
           type: array
           items:
@@ -1347,22 +1301,27 @@ components:
       properties:
         name:
           type: string
-          example: Raumkennung
+          examples:
+            - Raumkennung
         text:
           type: string
-          example: 5602.EG.001
+          examples:
+            - 5602.EG.001
         extra:
           type: object
           properties:
             header:
               type: string
-              example: Genauere Angaben
+              examples:
+                - Genauere Angaben
             body:
               type: string
-              example: 'für Prüfungen: 102 in eng, 71 in weit, 49 in corona'
+              examples:
+                - 'für Prüfungen: 102 in eng, 71 in weit, 49 in corona'
             footer:
               type: string
-              example: data based on a Survey of chimneysweeps
+              examples:
+                - data based on a Survey of chimneysweeps
           required:
             - body
       required:
@@ -1386,7 +1345,8 @@ components:
         name:
           description: 'The name of the image file. consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0'
           type: string
-          example: mi_0.webp
+          examples:
+            - mi_0.webp
         author:
           $ref: '#/components/schemas/PossibleURLRef'
         source:
@@ -1460,29 +1420,35 @@ components:
           description: The latitude
           type: number
           format: double
-          example: 48.26244490906312
+          examples:
+            - 48.26244490906312
           maximum: 90
           minimum: -90
         lon:
           description: The latitude
           type: number
           format: double
-          example: 48.26244490906312
+          examples:
+            - 48.26244490906312
           maximum: 180
           minimum: -180
         source:
           description: The source of the Coordinates
           type: string
-          example: roomfinder
           enum:
+            - roomfinder
+            - navigatum
+            - inferred
+          examples:
             - roomfinder
             - navigatum
             - inferred
         accuracy:
           description: 'How accurate the coordinate is. Only present, if it is limited to a degree (e.g. we only know the building)'
           type: string
-          example: building
           enum:
+            - building
+          examples:
             - building
       required:
         - lat
@@ -1519,7 +1485,8 @@ components:
               type:
                 - integer
                 - 'null'
-              example: 0
+              examples:
+                - 0
             available:
               type: array
               items:
@@ -1535,7 +1502,8 @@ components:
         default:
           description: 'The id of the map, that should be shown as a default'
           type: string
-          example: rf142
+          examples:
+            - rf142
         available:
           type: array
           items:
@@ -1549,48 +1517,57 @@ components:
         name:
           description: The human-readable name of the map
           type: string
-          example: FMI Übersicht
+          examples:
+            - FMI Übersicht
         id:
           description: The machine-readable name of the map
           type: string
-          example: rf142
+          examples:
+            - rf142
         scale:
           description: 'Scale of the map. 2000 means 1:2000.'
           type: string
-          example: '2000'
+          examples:
+            - '2000'
           pattern: '[0-9]+'
         height:
           description: Map image x dimensions
           type: integer
           format: int32
-          example: 461
+          examples:
+            - 461
           minimum: 0
         width:
           description: Map image y dimensions
           type: integer
           format: int32
-          example: 639
+          examples:
+            - 639
           minimum: 0
         x:
           description: x Position on map
           type: integer
           format: int32
-          example: 499
+          examples:
+            - 499
           minimum: 0
         'y':
           description: y Position on map image
           type: integer
           format: int32
-          example: 189
+          examples:
+            - 189
           minimum: 0
         source:
           description: Where the map was imported from
           type: string
-          example: Roomfinder
+          examples:
+            - Roomfinder
         file:
           description: Where the map is stored
           type: string
-          example: rf93.webp
+          examples:
+            - rf93.webp
       required:
         - name
         - id
@@ -1610,22 +1587,26 @@ components:
             Should start with 0 for the ground level (defined by the main entrance) and increase or decrease.
             It is not guaranteed that numbers are consecutive or that `1` corresponds to level `01`, because buildings sometimes have more complicated layouts. They are however always in the correct (physical) order.
           type: integer
-          example: 0
+          examples:
+            - 0
         floor:
           description: |
             Floor of the Map.
             Should be used for display to the user in selectors.  
             Matches the floor part of the TUMonline roomcode.
           type: string
-          example: EG
+          examples:
+            - EG
         name:
           description: The human-readable name of the map
           type: string
-          example: MI Gebäude (EG)
+          examples:
+            - MI Gebäude (EG)
         file:
           description: The filename of the map
           type: string
-          example: webp/rf95.webp
+          examples:
+            - webp/rf95.webp
         coordinates:
           description: 'Coordinates are four [lon, lat] pairs, for the top left, top right, bottom right, bottom left image corners.'
           type: array
@@ -1649,8 +1630,9 @@ components:
         facet:
           description: These indicate the type of item this represents
           type: string
-          example: rooms
           enum:
+            - rooms
+          examples:
             - rooms
         estimatedTotalHits:
           description: The estimated (not exact) number of hits for that query
@@ -1661,7 +1643,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RoomEntry'
+        n_visible:
+          description: |
+            A recommendation how many of the entries should be displayed by default.  
+            The number is usually from 0-20.  
+            More results might be displayed when clicking "expand".  
+            If this field is not present, then all entries are displayed.
+          type: integer
+          format: int64
+          examples:
+            - 20
+          minimum: 0
       required:
+        - n_visible
         - estimatedTotalHits
         - facet
         - entries
@@ -1671,8 +1665,9 @@ components:
         facet:
           description: These indicate the type of item this represents
           type: string
-          example: sites_buildings
           enum:
+            - sites_buildings
+          examples:
             - sites_buildings
         estimatedTotalHits:
           description: The estimated (not exact) number of hits for that query
@@ -1691,25 +1686,47 @@ components:
             If this field is not present, then all entries are displayed.
           type: integer
           format: int64
-          example: 6
+          examples:
+            - 6
           minimum: 0
       required:
+        - n_visible
         - estimatedTotalHits
         - facet
         - entries
     RoomEntry:
-      allOf:
-        - $ref: '#/components/schemas/SitesBuildingsEntry'
-        - type: object
-          required:
-            - subtext_bold
-          properties:
-            subtext_bold:
-              description: 'Subtext to show below the search (by default in bold and after the non-bold subtext). Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.'
-              type: string
-            parsed_id:
-              description: 'This is an optional feature, that is only supported for some rooms. It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used. See the image below for an example. It will be cropped to a maximum length to not take too much space in UIs. Supports highlighting.'
-              type: string
+      type: object
+      properties:
+        id:
+          description: The id of the room
+          type: string
+        type:
+          description: the type of the room
+          type: string
+          enum:
+            - room
+            - virtual_room
+            - poi
+          examples:
+            - room
+        name:
+          description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
+          type: string
+        subtext:
+          description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
+          type: string
+        subtext_bold:
+          description: 'Subtext to show below the search (by default in bold and after the non-bold subtext). Usually contains the arch-id of the room, which is another common room id format, and supports highlighting.'
+          type: string
+        parsed_id:
+          description: 'This is an optional feature, that is only supported for some rooms. It might be displayed instead or before the name, to show that a different room id format has matched, that was probably used. See the image below for an example. It will be cropped to a maximum length to not take too much space in UIs. Supports highlighting.'
+          type: string
+      required:
+        - id
+        - type
+        - name
+        - subtext
+        - subtext_bold
     SitesBuildingsEntry:
       type: object
       properties:
@@ -1717,8 +1734,16 @@ components:
           description: The id of the room
           type: string
         type:
-          description: the type of the room/site/building
+          description: the type of the site/building
           type: string
+          enum:
+            - campus
+            - building
+            - area
+            - site
+            - joined_building
+          examples:
+            - campus
         name:
           description: Subtext to show below the search result. Usually contains the context of where this rooms is located in. Currently not highlighted.
           type: string
@@ -1768,217 +1793,48 @@ components:
             Expected average is 10..50 for uncached, regular requests
           type: integer
           format: int32
-          example: 42
+          examples:
+            - 42
           maximum: 75000
           minimum: 0
       required:
         - sections
         - time_ms
     DetailsResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseDetailsResponse'
-        - type: object
-          properties:
-            id:
-              description: 'The id, that was requested'
-              type: string
-            type:
-              description: The type of the entry
-              type: string
-              enum:
-                - room
-                - building
-                - joined_building
-                - area
-                - site
-                - campus
-                - poi
-            coords:
-              $ref: '#/components/schemas/Coordinate'
-            maps:
-              $ref: '#/components/schemas/Maps'
-            sections:
-              type: object
-              properties:
-                buildings_overview:
-                  $ref: '#/components/schemas/BuildingsOverview'
-                rooms_overview:
-                  $ref: '#/components/schemas/RoomsOverview'
-                featured_overview:
-                  $ref: '#/components/schemas/FeaturedOverview'
-            poi:
-              type: object
-              properties:
-                mvg:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Station'
-                  minItems: 1
-                  uniqueItems: true
-              required:
-                - mvg
-          required:
-            - id
-            - type
-            - coords
-            - maps
-    BuildingsOverview:
-      type: object
-      properties:
-        entries:
-          type: array
-          items:
-            allOf:
-              - $ref: '#/components/schemas/ChildEntry'
-              - type: object
-                properties:
-                  subtext:
-                    description: What should be displayed below this Building
-                    type: string
-                    example: Gebäudekomplex mit 512 Räumen
-                  thumb:
-                    description: The thumbnail for the building
-                    type: string
-                    example: mi_0.webp
-                required:
-                  - subtext
-        n_visible:
-          description: |
-            A recommendation how many of the entries should be displayed by default.  
-            The number is usually from 0-5.  
-            More results might be displayed when clicking "expand".  
-            If this field is not present, then all entries are displayed.
-          type: integer
-          format: int64
-          example: 6
-          minimum: 0
-      required:
-        - entries
-        - n_visible
-    RoomsOverview:
-      type: object
-      properties:
-        usages:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                description: Category Name
-                type: string
-                example: Büro
-              count:
-                description: How many children this category has
-                type: integer
-                example: 126
-                minimum: 0
-              children:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ChildEntry'
-            required:
-              - children
-              - count
-              - name
-    FeaturedOverview:
-      type: object
-      properties:
-        entries:
-          type: array
-          items:
-            allOf:
-              - $ref: '#/components/schemas/ChildEntry'
-              - type: object
-                properties:
-                  subtext:
-                    description: What should be displayed below this Building
-                    type: string
-                    example: Gebäudekomplex mit 512 Räumen
-                  image_url:
-                    description: The thumbnail for the building
-                    type: string
-                    example: mi_0.webp
-                required:
-                  - subtext
-                  - image_url
-      required:
-        - entries
-    ChildEntry:
       type: object
       properties:
         id:
-          description: The id of the entry
+          description: 'The id, that was requested'
           type: string
-          example: mi
-        name:
-          description: Human display name
+        type:
+          description: The type of the entry
           type: string
-          example: Mathematik / Informatik
-      required:
-        - id
-        - name
-    SitesOverview:
-      description: |
-        This is a list of all sites, that are available in the system.
-        It is sorted by the number of rooms in the site, descending.
-        The first entry is the site with the most importance
-      type: array
-      items:
-        allOf:
-          - $ref: '#/components/schemas/ChildEntry'
-          - type: object
-            properties:
-              n_visible:
-                description: |
-                  A recommendation how many of the entries should be displayed by default.  
-                  The number is usually from 0-5.  
-                  More results might be displayed when clicking "expand".  
-                  If this field is not present, then all entries are displayed.
-                type: integer
-                format: int64
-                example: 6
-                minimum: 0
-              children:
-                description: |
-                  A select list of buildings, that are in this site.
-                  Derived from the areatree.
-                type: array
-                items:
-                  $ref: '#/components/schemas/ChildEntry'
-            required:
-              - n_visible
-              - children
-    RootResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseDetailsResponse'
-        - type: object
-          properties:
-            id:
-              description: 'The id, that was requested'
-              type: string
-              enum:
-                - root
-            type:
-              description: The type of the entry
-              type: string
-              enum:
-                - root
-            sites_overview:
-              $ref: '#/components/schemas/SitesOverview'
-          required:
-            - id
-            - type
-            - sites_overview
-    BaseDetailsResponse:
-      type: object
-      properties:
+          enum:
+            - room
+            - building
+            - joined_building
+            - area
+            - site
+            - campus
+            - poi
+          examples:
+            - room
+            - building
+            - joined_building
+            - area
+            - site
+            - campus
+            - poi
         type_common_name:
           description: The type of the entry in a human-readable form
           type: string
+          examples:
+            - Serverraum
         name:
           description: The name of the entry in a human-readable form
           type: string
-          example: '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
+          examples:
+            - '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
         aliases:
           description: |
             A list of alternative ids for this entry.  
@@ -1989,7 +1845,8 @@ components:
           type: array
           items:
             type: string
-            example: 26503@5406
+            examples:
+              - 26503@5406
         parents:
           type: array
           items:
@@ -2017,40 +1874,43 @@ components:
         ranking_factors:
           $ref: '#/components/schemas/RankingFactors'
         sources:
-          description: 'Where we got our data from, should be displayed at the bottom of any page containing this data'
-          type: object
-          properties:
-            patched:
-              description: |
-                Was this entry patched by us? (e.g. to fix a typo in the name/...)
-                If so, we should not display the source, as it is not the original source.
-              type: boolean
-            base:
-              description: What is the basis of the data we have
-              type: array
-              items:
-                type: object
-                minProperties: 1
-                properties:
-                  name:
-                    description: The name of the provider
-                    type: string
-                    example: NavigaTUM
-                  url:
-                    description: The url of the provider
-                    type: string
-                    example: 'https://nav.tum.de'
-                required:
-                  - name
-          required:
-            - base
+          $ref: '#/components/schemas/DataSources'
         redirect_url:
           description: |
             The url, this item should be displayed at.
             Present on both redirects and normal entries, to allow for the common /view/:id path
           type: string
-          example: /room/5602.EG.001
+          examples:
+            - /room/5602.EG.001
+        coords:
+          $ref: '#/components/schemas/Coordinate'
+        maps:
+          $ref: '#/components/schemas/Maps'
+        sections:
+          type: object
+          properties:
+            buildings_overview:
+              $ref: '#/components/schemas/BuildingsOverview'
+            rooms_overview:
+              $ref: '#/components/schemas/RoomsOverview'
+            featured_overview:
+              $ref: '#/components/schemas/FeaturedOverview'
+        poi:
+          type: object
+          properties:
+            mvg:
+              type: array
+              items:
+                $ref: '#/components/schemas/Station'
+              minItems: 1
+              uniqueItems: true
+          required:
+            - mvg
       required:
+        - id
+        - type
+        - coords
+        - maps
         - type_common_name
         - name
         - parents
@@ -2059,28 +1919,177 @@ components:
         - ranking_factors
         - sources
         - redirect_url
-    CalendarResponse:
+    BuildingsOverview:
       type: object
       properties:
-        events:
-          description: The entries of the requested
+        entries:
           type: array
           items:
-            $ref: '#/components/schemas/CalendarEntry'
-        last_sync:
-          description: When the last sync with TUMonline happened.
-          type: string
-          format: date-time
-          example: '2018-01-01T00:00:00'
-        calendar_url:
-          description: 'Link to the same calendar, but in TUMonline'
-          type: string
-          example: 'https://campus.tum.de/tumonline/wbKalender.wbRessource?pResNr=12543'
-          pattern: 'https:\/\/campus\.tum\.de\/tumonline\/wbKalender\.wbRessource\?pResNr=[0-9]+'
+            allOf:
+              - $ref: '#/components/schemas/ChildEntry'
+              - type: object
+                properties:
+                  subtext:
+                    description: What should be displayed below this Building
+                    type: string
+                    examples:
+                      - Gebäudekomplex mit 512 Räumen
+                  thumb:
+                    description: The thumbnail for the building
+                    type: string
+                    examples:
+                      - mi_0.webp
+                required:
+                  - subtext
+        n_visible:
+          description: |
+            A recommendation how many of the entries should be displayed by default.  
+            The number is usually from 0-5.  
+            More results might be displayed when clicking "expand".  
+            If this field is not present, then all entries are displayed.
+          type: integer
+          format: int64
+          examples:
+            - 5
+          minimum: 0
       required:
-        - events
-        - last_sync
+        - entries
+        - n_visible
+    RoomsOverview:
+      type: object
+      properties:
+        usages:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                description: Category Name
+                type: string
+                examples:
+                  - Büro
+              count:
+                description: How many children this category has
+                type: integer
+                examples:
+                  - 126
+                minimum: 0
+              children:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChildEntry'
+            required:
+              - children
+              - count
+              - name
+    FeaturedOverview:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/ChildEntry'
+              - type: object
+                properties:
+                  subtext:
+                    description: What should be displayed below this Building
+                    type: string
+                    examples:
+                      - Gebäudekomplex mit 512 Räumen
+                  image_url:
+                    description: The thumbnail for the building
+                    type: string
+                    examples:
+                      - mi_0.webp
+                required:
+                  - subtext
+                  - image_url
+      required:
+        - entries
+    ChildEntry:
+      type: object
+      properties:
+        id:
+          description: The id of the entry
+          type: string
+          examples:
+            - mi
+        name:
+          description: Human display name
+          type: string
+          examples:
+            - Mathematik / Informatik
+      required:
+        - id
+        - name
+    CalendarLocation:
+      type: object
+      properties:
+        name:
+          description: The name of the entry in a human-readable form
+          type: string
+          examples:
+            - '5602.EG.001 (MI HS 1, Friedrich L. Bauer Hörsaal)'
+            - 5121.EG.003 (Computerraum)
+        last_calendar_scrape_at:
+          description: the last time the calendar was scraped for this room
+          type: string
+          examples:
+            - '2039-01-19T03:14:07+01:00'
+            - '2042-01-07T00:00:00 UTC'
+        calendar_url:
+          description: A link to the calendar of the room
+          type: string
+          examples:
+            - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J'
+            - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
+        type_common_name:
+          description: The type of the entry in a human-readable form
+          type: string
+          examples:
+            - Serverraum
+        type:
+          description: The type of the entry
+          type: string
+          enum:
+            - room
+            - building
+            - joined_building
+            - area
+            - site
+            - campus
+            - poi
+          examples:
+            - room
+            - building
+            - joined_building
+            - area
+            - site
+            - campus
+            - poi
+      required:
+        - name
+        - last_calendar_scrape_at
         - calendar_url
+        - type_common_name
+        - type
+    CalendarResponse:
+      description: room-code to calendar entry's record
+      type: object
+      additionalProperties:
+        type: object
+        properties:
+          events:
+            description: The entries of the requested
+            type: array
+            items:
+              $ref: '#/components/schemas/CalendarEntry'
+          location:
+            $ref: '#/components/schemas/CalendarLocation'
+        required:
+          - events
+          - location
     CalendarEntry:
       type: object
       properties:
@@ -2088,21 +2097,30 @@ components:
           description: The id of the calendar entry used in TUMonline internally
           type: integer
           format: int32
-          example: 42
-        title:
-          description: The title of the Entry
+          examples:
+            - 42
+        stp_title_de:
+          description: The german title of the Entry
           type: string
-          example: Quantenteleportation
-        start:
+          examples:
+            - Quantenteleportation
+        stp_title_en:
+          description: The english title of the Entry
+          type: string
+          examples:
+            - Quantenteleportation
+        start_at:
           description: The start of the entry
           type: string
           format: date-time
-          example: '2018-01-01T00:00:00'
-        end:
+          examples:
+            - '2018-01-01T00:00:00'
+        end_at:
           description: The end of the entry
           type: string
           format: date-time
-          example: '2018-01-01T00:00:00'
+          examples:
+            - '2018-01-01T00:00:00'
         entry_type:
           description: What this calendar entry means. Each of these should be displayed in a different color
           type: string
@@ -2115,14 +2133,46 @@ components:
         detailed_entry_type:
           description: 'For some Entrys, we do have more information (what kind of a `lecture` is it? What kind of an other `entry` is it?)'
           type: string
-          example: Vorlesung mit Zentralübung
+          examples:
+            - Vorlesung mit Zentralübung
       required:
         - id
-        - title
-        - start
-        - end
+        - stp_title_de
+        - stp_title_en
+        - start_at
+        - end_at
         - entry_type
         - detailed_entry_type
+    DataSources:
+      description: 'Where we got our data from, should be displayed at the bottom of any page containing this data'
+      type: object
+      properties:
+        patched:
+          description: |
+            Was this entry patched by us? (e.g. to fix a typo in the name/...)
+            If so, we should not display the source, as it is not the original source.
+          type: boolean
+        base:
+          description: What is the basis of the data we have
+          type: array
+          items:
+            type: object
+            minProperties: 1
+            properties:
+              name:
+                description: The name of the provider
+                type: string
+                examples:
+                  - NavigaTUM
+              url:
+                description: The url of the provider
+                type: string
+                examples:
+                  - 'https://nav.tum.de'
+            required:
+              - name
+      required:
+        - base
     RankingFactors:
       type: object
       properties:
@@ -2218,7 +2268,8 @@ components:
                 Additional context for the edit.  
                 Will be displayed in the discription field of the PR
               type: string
-              example: 'I have a picture of the room, please add it to the roomfinder'
+              examples:
+                - 'I have a picture of the room, please add it to the roomfinder'
           required:
             - edits
             - additional_context
@@ -2232,7 +2283,6 @@ components:
                 The category of the feedback.  
                 Enum attribute is softly enforced: Any value not listed below will be replaced by "other"
               type: string
-              example: bug
               enum:
                 - bug
                 - feature
@@ -2240,16 +2290,20 @@ components:
                 - entry
                 - general
                 - other
+              examples:
+                - bug
             subject:
               description: The subject/title of the feedback
               type: string
-              example: A catchy title
+              examples:
+                - A catchy title
               maxLength: 512
               minLength: 4
             body:
               description: The body/description of the feedback
               type: string
-              example: A clear description what happened where and how we should improve it
+              examples:
+                - A clear description what happened where and how we should improve it
               maxLength: 1048576
               minLength: 4
             deletion_requested:
@@ -2258,7 +2312,8 @@ components:
                 If the user has requested to delete the issue, we will delete it from GitHub after processing it
                 If the user has not requested to delete the issue, we will not delete it from GitHub and it will remain as a closed issue.
               type: boolean
-              example: true
+              examples:
+                - true
           required:
             - category
             - subject
@@ -2270,11 +2325,13 @@ components:
         token:
           description: 'The JWT token, that can be used to generate feedback'
           type: string
-          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
+          examples:
+            - eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Njk2MzczODEsImlhdCI6MTY2OTU5NDE4MSwibmJmIjoxNjY5NTk0MTkxLCJraWQiOjE1ODU0MTUyODk5MzI0MjU0Mzg2fQ.sN0WwXzsGhjOVaqWPe-Fl5x-gwZvh28MMUM-74MoNj4
         privacy_checked:
           description: Whether the user has checked the privacy-checkbox. We are posting the feedback publicly on GitHub (not a EU-Company). You have to also include such a checkmark.
           type: boolean
-          example: true
+          examples:
+            - true
       required:
         - token
         - privacy_checked

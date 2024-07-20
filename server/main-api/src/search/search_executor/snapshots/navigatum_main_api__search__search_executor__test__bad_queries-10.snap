@@ -1,0 +1,62 @@
+---
+source: main-api/src/search/search_executor/mod.rs
+description: typo with short word and at first letter
+expression: actual
+info: "'f abuer' should get '5602.EG.001' in 1 results # typo with short word and at first letter"
+---
+- facet: rooms
+  entries:
+    - id: 2805.EG.005
+      type: room
+      name: 2805.EG.005 ( Büro)
+      subtext: "Dachau, Karl-Benz-Straße"
+      subtext_bold: 1.F.1@2805
+    - id: 2805.EG.011
+      type: room
+      name: 2805.EG.011 ( Technik/fensterlos)
+      subtext: "Dachau, Karl-Benz-Straße"
+      subtext_bold: 2.F.2@2805
+    - id: 2805.EG.030
+      type: room
+      name: 2805.EG.030 ( Flur-Nord)
+      subtext: "Dachau, Karl-Benz-Straße"
+      subtext_bold: F-NORD@2805
+    - id: 0508.EG.806
+      type: room
+      name: "0508.EG.806 ( Gruppenraum \u0019f\u0017. Praktika)"
+      subtext: "stammgelände, Heizkraftwerk (Z8)"
+      subtext_bold: 0806@0508
+    - id: 2913.01.110
+      type: room
+      name: 2913.01.110 ( Seminarraum)
+      subtext: "stammgelände, Brienner Forum Haus F (AM)"
+      subtext_bold: F.1.10@2913
+    - id: 2913.01.111
+      type: room
+      name: 2913.01.111 ( Seminarraum)
+      subtext: "stammgelände, Brienner Forum Haus F (AM)"
+      subtext_bold: F.1.11@2913
+    - id: 2913.01.112
+      type: room
+      name: 2913.01.112 ( Seminarraum)
+      subtext: "stammgelände, Brienner Forum Haus F (AM)"
+      subtext_bold: F.1.12@2913
+    - id: 5407.EG.651E
+      type: room
+      name: "5407.EG.651E ( Phys.Messr.\u0019f\u0017.instr.Analytik)"
+      subtext: "garching, Chemie"
+      subtext_bold: 16515@5407
+  n_visible: 8
+  estimatedTotalHits: 130
+- facet: sites_buildings
+  entries:
+    - id: "2913"
+      type: building
+      name: "Brienner Forum Haus \u0019F\u0017 (AM)"
+      subtext: Gebäude
+    - id: "2607"
+      type: building
+      name: "Fahrzeughalle (BL. \u0019F\u0017)"
+      subtext: Gebäude
+  n_visible: 0
+  estimatedTotalHits: 2

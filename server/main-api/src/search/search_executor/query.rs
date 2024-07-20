@@ -1,10 +1,12 @@
-use crate::search::search_executor::parser::{Filter, ParsedQuery, TextToken};
-use crate::search::SanitisedSearchQueryArgs;
+use meilisearch_sdk::client::Client;
 use meilisearch_sdk::errors::Error;
 use meilisearch_sdk::indexes::Index;
 use meilisearch_sdk::search::{MultiSearchResponse, SearchQuery, Selectors};
-use meilisearch_sdk::Client;
 use serde::Deserialize;
+use std::fmt::{Debug, Formatter};
+
+use crate::search::search_executor::parser::{Filter, ParsedQuery, TextToken};
+use crate::search::{Highlighting, Limits};
 
 #[derive(Deserialize, Default, Clone, Debug)]
 #[allow(dead_code)]
@@ -28,7 +30,23 @@ struct GeoEntryFilters {
     rooms: String,
     buildings: String,
 }
-impl GeoEntryFilters {
+impl Debug for GeoEntryFilters {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut base = f.debug_struct("GeoEntryFilters");
+        if !self.default.is_empty() {
+            base.field("default", &self.default);
+        }
+        if !self.rooms.is_empty() {
+            base.field("rooms", &self.rooms);
+        }
+        if !self.buildings.is_empty() {
+            base.field("buildings", &self.buildings);
+        }
+        base.finish()
+    }
+}
+
+impl From<&Filter> for GeoEntryFilters {
     fn from(filters: &Filter) -> Self {
         let ms_filter = filters.as_meilisearch_filters();
         let separator = if ms_filter.is_empty() { " " } else { " AND " };
@@ -41,40 +59,58 @@ impl GeoEntryFilters {
 }
 
 pub(super) struct GeoEntryQuery {
+    client: Client,
     parsed_input: ParsedQuery,
-    args: SanitisedSearchQueryArgs,
-    highlighting: (String, String),
+    limits: Limits,
+    highlighting: Highlighting,
     filters: GeoEntryFilters,
     sorting: Vec<String>,
 }
 
-impl GeoEntryQuery {
-    pub fn from(
-        parsed_input: &ParsedQuery,
-        args: &SanitisedSearchQueryArgs,
-        highlighting: &(String, String),
+impl Debug for GeoEntryQuery {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("GeoEntryQuery")
+            .field("parsed_input", &self.parsed_input)
+            .field("limits", &self.limits)
+            .field("highlighting", &self.highlighting)
+            .field("filters", &self.filters)
+            .field("sorting", &self.sorting)
+            .finish()
+    }
+}
+
+impl From<(&Client, &ParsedQuery, &Limits, &Highlighting)> for GeoEntryQuery {
+    fn from(
+        (client, parsed_input, limits, highlighting): (
+            &Client,
+            &ParsedQuery,
+            &Limits,
+            &Highlighting,
+        ),
     ) -> Self {
         Self {
+            client: client.clone(),
             parsed_input: parsed_input.clone(),
-            args: *args,
+            limits: *limits,
             highlighting: highlighting.clone(),
             filters: GeoEntryFilters::from(&parsed_input.filters),
             sorting: parsed_input.sorting.as_meilisearch_sorting(),
         }
     }
+}
+
+impl GeoEntryQuery {
+    #[tracing::instrument(ret(level = tracing::Level::TRACE))]
     pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
         let q_default = self.prompt_for_querying();
-        let ms_url =
-            std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
-        let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
-        let entries = client.index("entries");
+        let entries = self.client.index("entries");
 
         // due to lifetime shenanigans this is added here (I can't make it move down to the other statements)
         // If you can make it, please propose a PR, I know that this is really hacky ^^
         let sorting = self
             .sorting
             .iter()
-            .map(|s| s.as_str())
+            .map(String::as_str)
             .collect::<Vec<&str>>();
 
         // Currently ranking is designed to put buildings at the top if they equally
@@ -82,7 +118,7 @@ impl GeoEntryQuery {
         // for all entries and only rooms, search matching (and relevant) buildings can be
         // expected to be at the top of the merged search. However sometimes a lot of
         // buildings will be hidden (e.g. building parts), so the extra room search ....
-        client
+        self.client
             .multi_search()
             .with_search_query(
                 self.merged_query(&entries, &q_default)
@@ -128,39 +164,54 @@ impl GeoEntryQuery {
             .join(" ")
     }
 
-    fn common_query<'b: 'a, 'a>(&'b self, entries: &'a Index) -> SearchQuery<'a> {
+    fn common_query<'b: 'a, 'a>(
+        &'b self,
+        entries: &'a Index,
+    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         SearchQuery::new(entries)
             .with_facets(Selectors::Some(&["facet"]))
-            .with_highlight_pre_tag(&self.highlighting.0)
-            .with_highlight_post_tag(&self.highlighting.1)
+            .with_highlight_pre_tag(&self.highlighting.pre)
+            .with_highlight_post_tag(&self.highlighting.post)
             .with_attributes_to_highlight(Selectors::Some(&["name"]))
             .build()
     }
 
-    fn merged_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a> {
+    fn merged_query<'a>(
+        &'a self,
+        entries: &'a Index,
+        query: &'a str,
+    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         let mut s = self
             .common_query(entries)
             .with_query(query)
-            .with_limit(self.args.limit_all)
+            .with_limit(self.limits.total_count)
             .build();
         if !self.filters.default.is_empty() {
-            s.with_filter(&self.filters.default).build();
+            s = s.with_filter(&self.filters.default).build();
         }
         s
     }
 
-    fn buildings_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a> {
+    fn buildings_query<'a>(
+        &'a self,
+        entries: &'a Index,
+        query: &'a str,
+    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         self.common_query(entries)
             .with_query(query)
-            .with_limit(2 * self.args.limit_buildings) // we might do reordering later
+            .with_limit(2 * self.limits.buildings_count) // we might do reordering later
             .with_filter(&self.filters.buildings)
             .build()
     }
 
-    fn rooms_query<'a>(&'a self, entries: &'a Index, query: &'a str) -> SearchQuery<'a> {
+    fn rooms_query<'a>(
+        &'a self,
+        entries: &'a Index,
+        query: &'a str,
+    ) -> SearchQuery<'a, meilisearch_sdk::DefaultHttpClient> {
         self.common_query(entries)
             .with_query(query)
-            .with_limit(self.args.limit_rooms)
+            .with_limit(self.limits.rooms_count)
             .with_filter(&self.filters.rooms)
             .build()
     }

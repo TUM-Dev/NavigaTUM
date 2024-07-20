@@ -1,0 +1,64 @@
+---
+source: main-api/src/search/search_executor/mod.rs
+description: ""
+expression: actual
+info: "'0026m@5510' should get '5510.EG.026M' in 1 results"
+---
+- facet: rooms
+  entries:
+    - id: 5510.EG.026M
+      type: room
+      name: "\u00195510\u0017.EG.\u0019026M\u0017 (School Office Finanzen)"
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: MW 0026M@5510
+    - id: 5510.EG.006M
+      type: room
+      name: "\u00195510\u0017.EG.\u0019006M\u0017 ( WC-Herren)"
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0006M@5510
+    - id: 5510.EG.026A
+      type: room
+      name: "\u00195510\u0017.EG.026A (Leitung Study & Teaching, Studienfachberatung)"
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0026A@5510
+    - id: 5510.EG.026C
+      type: room
+      name: "\u00195510\u0017.EG.026C (IKOM-Besprechungsraum)"
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0026C@5510
+    - id: 5510.EG.026B
+      type: room
+      name: "\u00195510\u0017.EG.026B ( Studienbüro)"
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0026B@5510
+    - id: 5510.EG.026N
+      type: room
+      name: "\u00195510\u0017.EG.026N (Study and Teaching Qualitätsmanagement)"
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: MW 0026N@5510
+    - id: 5510.EG.029M
+      type: room
+      name: "\u00195510\u0017.EG.029M ( Werkstatt)"
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0029M@5510
+    - id: 5510.EG.028M
+      type: room
+      name: "\u00195510\u0017.EG.028M ( Flur)"
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0028M@5510
+    - id: 5531.EG.026
+      type: room
+      name: 5531.EG.026 ( Beh.-WC / Personal)
+      subtext: "garching, Ingeborg Ortner-Kinderhaus"
+      subtext_bold: 0026@5531
+    - id: 5501.EG.126M
+      type: room
+      name: 5501.EG.126M ( Elektroverteiler)
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0126M@5501
+  n_visible: 10
+  estimatedTotalHits: 15
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 0

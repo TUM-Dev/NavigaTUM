@@ -15,46 +15,66 @@ name = "navigatum-main-api"
 path = "src/main.rs"
 
 [dependencies]
-# shared
-log.workspace = true
-structured-logger.workspace = true
-tokio.workspace = true
-actix-web.workspace = true
-actix-cors.workspace = true
-actix-web-prom.workspace = true
-serde.workspace = true
-serde_json.workspace = true
+# logging/obeservability
+actix-web-prom = { version = "0.8.0", default-features = false, features = [] }
+tracing-subscriber = { version = "0.3.18", features = ["env-filter", "json", "fmt"] }
+tracing = "0.1.40"
+tracing-log = { version = "0.2.0", features = ["std", "log-tracer", "interest-cache"] }
+tracing-actix-web = "0.7.11"
+sentry = { version = "0.34.0", features = ["tracing", "metrics", "backtrace", "contexts", "debug-images", "panic", "reqwest", "rustls"] }
+sentry-actix = "0.34.0"
 
-cached = { version = "0.48.1", features = ["default", "async", "tokio"] }
+#serialisation
+serde = { version = "1.0.200", features = ["derive"] }
+serde_json = { version = "1.0.116", features = ["raw_value"] }
+serde_yaml = "0.9.34"
+
+# runtime + webserver
+tokio = { version = "1.37", features = ["full"] }
+actix-web = { version = "4.5.1", default-features = false, features = ["macros", "compress-gzip", "compress-zstd", "compress-brotli", "cookies", "http2"] }
+actix-cors = "0.7.0"
+rustls = { version = "0.23.5", default-features = false, features = ["ring"] } # the aws' fips complient libary has weird bingen issues which require deeper looking into
+
+cached = { version = "0.53.0", features = ["default", "async", "tokio", "disk_store"] }
 futures = "0.3.30"
-unicode-truncate = "0.2.0"
-
-# setup
-serde_yaml = "0.9"
+# temporarily forked until https://github.com/Aetf/unicode-truncate/issues/16 is resolved
+unicode-truncate = { git = "https://github.com/CommanderStorm/unicode-truncate.git", rev = "5cc7798" }
 
 # database
-sqlx = { version = "0.7.3", features = ["postgres", "runtime-tokio-rustls", "migrate", "macros", "chrono"] }
-chrono = { version = "0.4.34", default-features = false, features = ["serde"] }
+# v0.8 needs https://github.com/launchbadge/sqlx/issues/3316 is resolved first
+sqlx = { version = "0.7.4", features = ["postgres", "runtime-tokio", "tls-rustls", "migrate", "macros", "chrono", "json"] }
+chrono = { version = "0.4.38", default-features = false, features = ["serde"] }
 
 # search
-meilisearch-sdk = "0.24.3"
+meilisearch-sdk = "0.27.0"
 logos = "0.14.0"
-regex = "1.10.3"
+regex = "1.10.4"
 
 # web access
 oauth2 = { version = "4.4.2", default-features = false, features = ["rustls-tls", "reqwest"] }
-rustls = "0.22.2"
-reqwest = { version = "0.11.24", default-features = false, features = ["tokio-rustls", "rustls-tls-webpki-roots", "rustls", "webpki-roots", "json", "gzip"] }
+reqwest = { version = "0.12.4", default-features = false, features = ["rustls-tls", "http2", "charset", "json", "gzip", "hickory-dns", "zstd", "brotli", "deflate"] }
 
 # image production
-image = "0.24.8"
-imageproc = "0.23.0"
-rusttype = "0.9.3"
+image = { version = "0.25.1", default-features = false, features = ["jpeg", "png", "webp"] }
+imageproc = "0.25.0"
+ab_glyph = "0.2.25"
 lazy_static = "1.4.0"
 
-[dev-dependencies]
-pretty_assertions.workspace = true
+rand = "0.8.5"
+octocrab = { version = "0.38.0", default-features = false, features = ["rustls", "rustls-webpki-tokio", "retry", "default-client"] }
 
-[features]
-skip_db_setup = []
-skip_ms_setup = []
+# auth/security
+jsonwebtoken = { version = "9.3.0", default-features = false, features = [] }
+actix-governor = { version = "0.5.0", features = ["logger"] }
+
+# proposing feedback
+tempfile = "3.10.1"
+base64 = "0.22.1"
+time = "0.3.36"
+
+[dev-dependencies]
+insta = { version = "1.39.0", features = ["yaml", "json", "redactions"] }
+pretty_assertions = "1.4.0"
+testcontainers = { version = "0.20.0", features = ["watchdog"] }
+testcontainers-modules = { version = "0.8.0", features = ["postgres", "meilisearch"] }
+tracing-test = "0.2.5"

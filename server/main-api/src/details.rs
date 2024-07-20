@@ -1,8 +1,10 @@
+use actix_web::{get, web, HttpResponse};
+use sqlx::Error::RowNotFound;
+use sqlx::PgPool;
+use tracing::error;
+
 use crate::models::LocationKeyAlias;
 use crate::utils;
-use actix_web::{get, web, HttpResponse};
-use log::error;
-use sqlx::PgPool;
 
 #[get("/api/get/{id}")]
 pub async fn get_handler(
@@ -10,29 +12,27 @@ pub async fn get_handler(
     web::Query(args): web::Query<utils::LangQueryArgs>,
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
-    let (probable_id, redirect_url) =
-        match get_alias_and_redirect(&data.db, &params.into_inner()).await {
-            Some(alias_and_redirect) => alias_and_redirect,
-            None => return HttpResponse::NotFound().body("Not found"),
-        };
-    let result = match args.should_use_english() {
-        true => {
-            sqlx::query_scalar!("SELECT data FROM en WHERE key = $1", probable_id)
-                .fetch_optional(&data.db)
-                .await
-        }
-        false => {
-            sqlx::query_scalar!("SELECT data FROM de WHERE key = $1", probable_id)
-                .fetch_optional(&data.db)
-                .await
-        }
+    let id = params
+        .into_inner()
+        .replace(|c: char| c.is_whitespace() || c.is_control(), "");
+    let Some((probable_id, redirect_url)) = get_alias_and_redirect(&data.pool, &id).await else {
+        return HttpResponse::NotFound().body("Not found");
+    };
+    let result = if args.should_use_english() {
+        sqlx::query_scalar!("SELECT data FROM en WHERE key = $1", probable_id)
+            .fetch_optional(&data.pool)
+            .await
+    } else {
+        sqlx::query_scalar!("SELECT data FROM de WHERE key = $1", probable_id)
+            .fetch_optional(&data.pool)
+            .await
     };
     match result {
         Ok(d) => match d {
             None => HttpResponse::NotFound().body("Not found"),
             Some(d) => {
-                let mut response_json = d.clone();
-                // We don not want to serialise this data at any point in the server.
+                let mut response_json = serde_json::to_string(&d).unwrap();
+                // We don't want to serialise this data at any point in the server.
                 // This just flows through the server, but adding redirect_url to the response is necessary
                 response_json.pop(); // remove last }
                 response_json.push_str(&format!(",\"redirect_url\":\"{redirect_url}\"}}",));
@@ -50,7 +50,8 @@ pub async fn get_handler(
     }
 }
 
-async fn get_alias_and_redirect(conn: &PgPool, query: &str) -> Option<(String, String)> {
+#[tracing::instrument(skip(pool))]
+async fn get_alias_and_redirect(pool: &PgPool, query: &str) -> Option<(String, String)> {
     let result = sqlx::query_as!(
         LocationKeyAlias,
         r#"
@@ -59,7 +60,7 @@ async fn get_alias_and_redirect(conn: &PgPool, query: &str) -> Option<(String, S
         WHERE alias = $1 OR key = $1 "#,
         query
     )
-    .fetch_all(conn)
+    .fetch_all(pool)
     .await;
     match result {
         Ok(d) => {
@@ -77,6 +78,7 @@ async fn get_alias_and_redirect(conn: &PgPool, query: &str) -> Option<(String, S
             };
             Some((d[0].key.clone(), redirect_url))
         }
+        Err(RowNotFound) => None,
         Err(e) => {
             error!("Error requesting alias for {query}: {e:?}");
             None
@@ -86,7 +88,6 @@ async fn get_alias_and_redirect(conn: &PgPool, query: &str) -> Option<(String, S
 
 fn extract_redirect_exact_match(type_: &str, key: &str) -> String {
     match type_ {
-        "root" => String::new(),
         "campus" => format!("/campus/{key}"),
         "site" | "area" => format!("/site/{key}"),
         "building" | "joined_building" => format!("/building/{key}"),

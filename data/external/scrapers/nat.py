@@ -4,31 +4,35 @@ import logging
 from multiprocessing.pool import ThreadPool
 from pathlib import Path
 
+import backoff
 import requests
-from external.scraping_utils import _download_file, CACHE_PATH
 from tqdm import tqdm
 from tqdm.contrib.concurrent import thread_map
-from utils import TranslatableStr as _
+
+from external.scraping_utils import _download_file, CACHE_PATH
+from utils import TranslatableStr as _, setup_logging
 
 NAT_API_URL = "https://api.srv.nat.tum.de/api/v1/rom"
 NAT_CACHE_DIR = CACHE_PATH / "nat"
 
 
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
 def scrape_buildings():
-    """
-    Retrieve the buildings as in the NAT roomfinder.
-    """
+    """Retrieve the buildings as in the NAT roomfinder."""
     logging.info("Scraping the buildings of the NAT")
     buildings = requests.get(f"{NAT_API_URL}/building", timeout=30).json()
+
+    # TODO: Remove if NAT does fix this.. TUM changed names in denazification initative
+    for building in buildings:
+        building["building_name"] = building["building_name"].replace("Bestelmeyer Süd", "Zentralgebäude 2")
+        building["building_name"] = building["building_name"].replace("Bestelmeyer Nord", "Zentralgebäude 7")
 
     with open(CACHE_PATH / "buildings_nat.json", "w", encoding="utf-8") as file:
         json.dump(buildings, file, indent=2, sort_keys=True)
 
 
 def scrape_rooms() -> None:
-    """
-    Retrieve the rooms as in the NAT roomfinder.
-    """
+    """Retrieve the rooms as in the NAT roomfinder."""
     logging.info("Scraping the rooms of the NAT")
     base_info = _get_base_room_infos()
     rooms = {}
@@ -46,9 +50,7 @@ def scrape_rooms() -> None:
 
 
 def _extract_orgs(rooms: dict) -> None:
-    """
-    Extract the organisations from the room information.
-    """
+    """Extract the organisations from the room information."""
     logging.info("Extracting orgs from the rooms")
     orgs = {}
     for room in rooms.values():
@@ -69,9 +71,7 @@ def _extract_orgs(rooms: dict) -> None:
 
 
 def _extract_campus(rooms: dict) -> None:
-    """
-    Extract the organisations from the room information.
-    """
+    """Extract the organisations from the room information."""
     logging.info("Extracting orgs from the rooms")
     campi = {}
     for room in rooms.values():
@@ -93,7 +93,8 @@ def _extract_campus(rooms: dict) -> None:
 def _extract_translations(item: dict) -> None:
     """
     De-Inline the translations of keys into dicts.
-    E.g. {"key": "A", "key_en": "B"} will be transformed into {"key": {"de": "A", "en": "B"}}
+
+    Example: {"key": "A", "key_en": "B"} will be transformed into {"key": {"de": "A", "en": "B"}}
     """
     translatable_keys: list[tuple[str, str]] = [(k.removesuffix("_en"), k) for k in item if k.endswith("_en")]
     for key, key_en in translatable_keys:
@@ -103,9 +104,7 @@ def _extract_translations(item: dict) -> None:
 
 
 def _extract_translation_recursive(item):
-    """
-    De-Inline the translations of keys into dicts, recursively for all dicts in dicts or lists.
-    """
+    """De-Inline the translations of keys into dicts, recursively for all dicts in dicts or lists."""
     if isinstance(item, dict):
         for sub_item in item.values():
             _extract_translation_recursive(sub_item)
@@ -118,6 +117,7 @@ def _extract_translation_recursive(item):
 def _sanitise_room(room: dict) -> dict:
     """
     Sanitise the room information.
+
     After this step:
     - fields are converted to our naming and partially our layout
     - all fields, which are supposed to be translatable are converted to our format and maybe manually translated
@@ -178,9 +178,7 @@ def _extract_coords(room):
 
 
 def _merge(content, base):
-    """
-    Merge the base information into the room content
-    """
+    """Merge the base information into the room content"""
     for key, value in base.items():
         if key not in content or content[key] is None:
             content[key] = value
@@ -190,13 +188,12 @@ def _merge(content, base):
 
 
 def _download_and_merge_room(base):
-    """
-    Download the room information and merge it with the base information.
-    """
+    """Download the room information and merge it with the base information."""
     room_code = base["room_code"]
     target_filepath = NAT_CACHE_DIR / f"room_{room_code}.json"
-    downloaded_file = _download_file(f"{NAT_API_URL}/{room_code}", target_filepath, quiet=True)
-    if not downloaded_file:
+    try:
+        downloaded_file = _download_file(f"{NAT_API_URL}/{room_code}", target_filepath)
+    except requests.exceptions.RequestException:
         return None
     content = json.loads(downloaded_file.read_text(encoding="utf-8"))
     for useless_key in ["events_end", "events_start"]:
@@ -209,6 +206,8 @@ def _download_and_merge_room(base):
 
 def _get_base_room_infos():
     """
+    Download the base room information
+
     The API is a bit buggy and some rooms are throwing 500 errors
     => we need to do with binary search workaround
     """
@@ -236,23 +235,20 @@ def _get_base_room_infos():
     total_hits = _join_room_hits()
     if undownloadable:  # down here to make sure, that tqdm has flushed the output
         _report_undownloadable(undownloadable)
-    return total_hits  # noqa: R504
+    return total_hits
 
 
 def _try_download_room_base_info(start: int, batch: int) -> tuple[tuple[int, int], Path | None]:
-    downloaded_file = _download_file(
-        f"{NAT_API_URL}/?limit={batch}&offset={start}",
-        NAT_CACHE_DIR / f"rooms_base_{start}_to_{start + batch - 1 }.json",
-        quiet=True,
-        quiet_errors=True,
-    )
-    return (start, batch), downloaded_file
+    try:
+        url = f"{NAT_API_URL}/?limit={batch}&offset={start}"
+        file_path = NAT_CACHE_DIR / f"rooms_base_{start}_to_{start + batch - 1}.json"
+        return (start, batch), _download_file(url, file_path)
+    except requests.exceptions.RequestException:
+        return (start, batch), None
 
 
 def _report_undownloadable(undownloadable: list[int]) -> None:
-    """
-    Report the undownloadable rooms in a range based format
-    """
+    """Report the undownloadable rooms in a range based format"""
     undownloadable.sort()
 
     logging.warning("The following spans could not be downloaded:")
@@ -270,9 +266,7 @@ def _report_undownloadable(undownloadable: list[int]) -> None:
 
 
 def _join_room_hits():
-    """
-    Join the hits (which are chunked until this point) into one single index to run requests for
-    """
+    """Join the hits (which are chunked until this point) into one single index to run requests for"""
     total_hits = []
     for file_path in NAT_CACHE_DIR.iterdir():
         if not file_path.name.startswith("rooms_base_"):
@@ -280,3 +274,10 @@ def _join_room_hits():
         with open(file_path, encoding="utf-8") as file:
             total_hits.extend(json.load(file)["hits"])
     return total_hits
+
+
+if __name__ == "__main__":
+    setup_logging(level=logging.INFO)
+    NAT_CACHE_DIR.mkdir(exist_ok=True)
+    scrape_buildings()
+    scrape_rooms()

@@ -2,66 +2,39 @@ name: Webclient CI/CD
 
 on:
   pull_request:
-    branches: [main]
-    types: [opened, reopened, synchronize]
+    branches: [ main ]
+    types: [ opened, reopened, synchronize ]
   push:
-    branches: [main]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  webclient-e2e-test:
-    strategy:
-      matrix:
-        browser:
-          - chrome
-          - firefox
-    runs-on: ubuntu-latest
-    container:
-      image: cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
-      options: --user 1001
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-      - uses: pnpm/action-setup@v3.0.0
-        with:
-          version: 8
-          package_json_file: webclient/package.json
-      - name: Cypress run
-        uses: cypress-io/github-action@v5
-        with:
-          start: npm run dev
-          wait-on: "http://localhost:3000"
-          browser: ${{ matrix.browser }}
-          working-directory: webclient
   webclient-linting:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v3
         with:
-          cache: 'npm'
-          cache-dependency-path: 'webclient/package.json'
-      - run: npm install --prefix webclient
-      - run: npm run lint --prefix webclient
-      #- run: npm run type-check --prefix webclient
+          version: 9.5.0
+          package_json_file: webclient/package.json
+          run_install: |
+            - cwd: webclient
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+            - args: [--global, openapi-format]
+      - run: pnpm run lint
+        working-directory: webclient
+      - run: pnpm run type-check
+        working-directory: webclient
   webclient-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
       - webclient-linting
-      - webclient-e2e-test
     with:
       image_suffix: webclient
       context: ./webclient
       dockerfile: Dockerfile
     permissions:
+      id-token: write
       contents: read
       packages: write
-  webclient-deployment:
-    uses: ./.github/workflows/_restart-argocd.yml
-    if: ${{ github.ref }} == 'refs/heads/main'
-    needs:
-      - webclient-build
-    with:
-      deployment: webclient
-    secrets:
-      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+      attestations: write

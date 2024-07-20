@@ -3,7 +3,6 @@ import re
 from pathlib import Path
 from typing import Any
 
-import utm
 import yaml
 from external.models import roomfinder
 
@@ -14,6 +13,7 @@ SOURCES = BASE / "sources"
 def merge_roomfinder_buildings(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the buildings in Roomfinder with the existing data.
+
     This will not overwrite the existing data, but act directly on the provided data.
     """
     with open(SOURCES / "10_patches-roomfinder-buildings.yaml", encoding="utf-8") as file:
@@ -65,8 +65,14 @@ def merge_roomfinder_buildings(data: dict[str, dict[str, Any]]) -> None:
             },
         )
 
-        if building.utm_zone:
-            b_data.setdefault("coords", _get_roomfinder_coords(building))
+        b_data.setdefault(
+            "coords",
+            {
+                "lat": building.lat,
+                "lon": building.lon,
+                "source": "roomfinder",
+            },
+        )
         if building.maps:
             b_data.setdefault("maps", {})["roomfinder"] = _get_roomfinder_maps(building)
 
@@ -79,9 +85,9 @@ def merge_roomfinder_buildings(data: dict[str, dict[str, Any]]) -> None:
 def merge_roomfinder_rooms(data: dict[str, dict[str, Any]]) -> None:
     """
     Merge the rooms in Roomfinder with the existing data.
+
     This will not overwrite the existing data, but act directly on the provided data.
     """
-
     with open(SOURCES / "16_roomfinder-merge-patches.yaml", encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
@@ -128,8 +134,14 @@ def merge_roomfinder_rooms(data: dict[str, dict[str, Any]]) -> None:
             "r_level": room.r_level,
         }
 
-        if room.utm_zone:
-            r_data.setdefault("coords", _get_roomfinder_coords(room))
+        r_data.setdefault(
+            "coords",
+            {
+                "lat": room.lat,
+                "lon": room.lon,
+                "source": "roomfinder",
+            },
+        )
         if room.maps:
             r_data.setdefault("maps", {})["roomfinder"] = _get_roomfinder_maps(room)
 
@@ -140,23 +152,6 @@ def merge_roomfinder_rooms(data: dict[str, dict[str, Any]]) -> None:
                 "url": f"https://portal.mytum.de/displayRoomMap?roomid={room.r_id}&disable_decoration=yes",
             },
         )
-
-
-def _get_roomfinder_coords(obj: roomfinder.Building | roomfinder.Room) -> dict[str, str | float]:
-    """Get the coordinates from a roomfinder object (room or building)"""
-    # UTM zone is either 32 or 33, corresponding to zones "32U" and "33U"
-    # TODO: Map image boundaries also included "33T". It could maybe be possible to guess
-    #       whether it is "U" or "T" based on the northing (which is always the distance
-    #       to the equator).
-    if obj.utm_zone not in {32, 33}:
-        logging.error(f"Unexpected UTM zone '{obj.utm_zone}'")
-    lat, lon = utm.to_latlon(obj.utm_easting, obj.utm_northing, int(obj.utm_zone), "U")
-
-    return {
-        "lat": lat,
-        "lon": lon,
-        "source": "roomfinder",
-    }
 
 
 def _get_roomfinder_maps(obj: roomfinder.Building | roomfinder.Room):

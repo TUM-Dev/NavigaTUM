@@ -1,14 +1,39 @@
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Duration, Utc};
 use serde::{Deserialize, Serialize};
+use std::fmt::Display;
 
-#[derive(Serialize, Deserialize, Debug)]
-pub(super) struct Events {
-    pub(super) events: Vec<Event>,
-    pub(super) last_sync: DateTime<Utc>,
-    pub(super) calendar_url: String,
+use crate::models::Location;
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub(super) struct CalendarLocation {
+    pub key: String,
+    pub name: String,
+    pub last_calendar_scrape_at: Option<DateTime<Utc>>,
+    pub calendar_url: Option<String>,
+    pub type_common_name: String,
+    pub r#type: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, sqlx::Type)]
+impl From<Location> for CalendarLocation {
+    fn from(loc: Location) -> Self {
+        Self {
+            key: loc.key,
+            name: loc.name,
+            last_calendar_scrape_at: loc.last_calendar_scrape_at,
+            calendar_url: loc.calendar_url,
+            type_common_name: loc.type_common_name,
+            r#type: loc.r#type,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub(super) struct LocationEvents {
+    pub(super) events: Vec<Event>,
+    pub(super) location: CalendarLocation,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, sqlx::Type)]
 pub(super) struct Event {
     pub(super) id: i32,
     /// e.g. 5121.EG.003
@@ -24,13 +49,14 @@ pub(super) struct Event {
     /// e.g. Vorlesung mit Zentralübung
     pub(super) stp_type: String,
     /// e.g. lecture
-    pub(super) entry_type: EventType,
+    /// in reality this is a [EventType]
+    pub(super) entry_type: String,
     /// e.g. Abhaltung
     pub(super) detailed_entry_type: String,
 }
 
 impl Event {
-    pub(crate) async fn store(
+    pub async fn store(
         &self,
         tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
     ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
@@ -38,22 +64,22 @@ impl Event {
             r#"INSERT INTO calendar (id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type,detailed_entry_type)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             ON CONFLICT (id) DO UPDATE SET
-             room_code = $2,
-             start_at = $3,
-             end_at = $4,
-             stp_title_de = $5,
-             stp_title_en = $6,
-             stp_type = $7,
-             entry_type = $8,
-             detailed_entry_type = $9"#,
+             room_code = EXCLUDED.room_code,
+             start_at = EXCLUDED.start_at,
+             end_at = EXCLUDED.end_at,
+             stp_title_de = EXCLUDED.stp_title_de,
+             stp_title_en = EXCLUDED.stp_title_en,
+             stp_type = EXCLUDED.stp_type,
+             entry_type = EXCLUDED.entry_type,
+             detailed_entry_type = EXCLUDED.detailed_entry_type"#,
             self.id,
             self.room_code,
-            self.start_at,
-            self.end_at,
+            self.start_at + Duration::hours(1),
+            self.end_at + Duration::hours(1),
             self.stp_title_de,
             self.stp_title_en,
             self.stp_type,
-            self.entry_type.clone() as EventType, // see https://github.com/launchbadge/sqlx/issues/1004 => our type is not possible (?)
+            self.entry_type,
             self.detailed_entry_type,
         ).execute(&mut **tx).await
     }
@@ -69,4 +95,13 @@ pub enum EventType {
     Exam,
     Barred,
     Other,
+}
+
+impl Display for EventType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut str = serde_json::to_string(self).map_err(|_| std::fmt::Error)?;
+        let _ = str.remove(0);
+        let _ = str.remove(str.len() - 1);
+        write!(f, "{str}")
+    }
 }

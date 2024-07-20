@@ -1,0 +1,64 @@
+---
+source: main-api/src/search/search_executor/mod.rs
+description: ""
+expression: actual
+info: "'5604.00.011' should get '5604.EG.011' in 1 results"
+---
+- facet: rooms
+  entries:
+    - id: 5604.EG.011
+      type: room
+      name: "\u00195604\u0017.EG.\u0019011\u0017 ( MI Hörsaal 2)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.011@5604
+    - id: 5604.EG.034
+      type: room
+      name: "\u00195604\u0017.EG.034 ( Demonstrationspraktikum)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.034@5604
+    - id: 5604.EG.036
+      type: room
+      name: "\u00195604\u0017.EG.036 ( Praktikumsraum-Physik)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.036@5604
+    - id: 5604.EG.038
+      type: room
+      name: "\u00195604\u0017.EG.038 ( Praktikumsraum-Physik)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.038@5604
+    - id: 5604.EG.015
+      type: room
+      name: "\u00195604\u0017.EG.015 ( WC-Herren)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.015@5604
+    - id: 5604.EG.016A
+      type: room
+      name: "\u00195604\u0017.EG.016A ( Putzraum)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.016A@5604
+    - id: 5604.EG.019
+      type: room
+      name: "\u00195604\u0017.EG.019 ( WC-Damen)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.019@5604
+    - id: 5604.EG.013
+      type: room
+      name: "\u00195604\u0017.EG.013 ( Abstellraum)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.013@5604
+    - id: 5604.EG.016B
+      type: room
+      name: "\u00195604\u0017.EG.016B ( Heizung/Brauchwassererwärmung)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.016B@5604
+    - id: 5604.EG.018
+      type: room
+      name: "\u00195604\u0017.EG.018 ( Heizung/Brauchwassererwärmung)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.04.018@5604
+  n_visible: 10
+  estimatedTotalHits: 150
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 1

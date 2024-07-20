@@ -1,15 +1,22 @@
 services:
   webclient:
-    image: ghcr.io/tum-dev/navigatum-webclient:latest
-    restart: always
-    build: ./webclient
-    ports:
-      - "3000:3000"
+    image: ghcr.io/tum-dev/navigatum-webclient:main
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navigatum-webclient.entrypoints=webs"
+      - "traefik.http.routers.navigatum-webclient.tls.certresolver=leacme"
+      - "traefik.http.routers.navigatum-webclient.rule=Host(`nav.tum.de`)"
+      - "traefik.http.services.navigatum-webclient.loadbalancer.server.port=3000"
+    networks:
+      - traefik_traefik
+    expose:
+      - "3000"
     environment:
-      TILESERVER_URL: http://tileserver:3001
-      CDN_URL: http://data:3002
-      MAIN_API_URL: http://main-api:3003
-      FEEDBACK_API_URL: http://feedback-api:3004
+      TZ: Europe/Berlin
+      NUXT_PUBLIC_MAPS_URL: https://nav.tum.de
+      NUXT_PUBLIC_CDN_URL: https://nav.tum.de
+      NUXT_PUBLIC_API_URL: https://nav.tum.de
     depends_on:
       tileserver:
         condition: service_healthy
@@ -17,123 +24,256 @@ services:
         condition: service_healthy
       main-api:
         condition: service_healthy
-      feedback-api:
-        condition: service_healthy
   # maps
-  tileserver-init-sprites:
+  tileserver-init-config:
     image: alpine:latest
-    restart: on-failure
     command:
-      - sh
+      - /bin/sh
       - -c
-      - "mkdir -p /sprites/ && rm -f /sprites/* && wget -P /sprites ${TILE_SPRITES_URL}/osm-liberty.json ${TILE_SPRITES_URL}/osm-liberty@2x.json ${TILE_SPRITES_URL}/osm-liberty.png ${TILE_SPRITES_URL}/osm-liberty@2x.png"
+      - |
+        rm -f /data/*.json
+        cp /map/*.json /data/
+        
+        rm -fr /data/sprites/
+        mkdir -p /data/sprites/
+        cp /map/sprites/* /data/sprites/
+        
+        rm -fr /data/styles/
+        mkdir -p /data/styles/
+        cp /map/styles/* /data/styles/
+        
+        mkdir -p /data/fonts/
     volumes:
-      - tileserver-sprites:/sprites
-  tileserver-init-src:
-    image: ubuntu:latest
-    restart: on-failure
-    command: sh -c "apt update && apt install wget -y && wget --timestamping --directory-prefix=/map --compression=auto --continue --tries=5  https://nav.tum.de/maps/vol/output.mbtiles"
+      - tileserver-src:/data
+      - ./map/:/map/:ro
+    environment:
+      TZ: Europe/Berlin
+  tileserver-srv-src: # needed for simpler initialisation of dev environments
+    image: nginx:1.27
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navigatum-tileserver-srv.entrypoints=webs"
+      - "traefik.http.routers.navigatum-tileserver-srv.tls.certresolver=leacme"
+      - "traefik.http.routers.navigatum-tileserver-srv.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
+      - "traefik.http.services.navigatum-tileserver-srv.loadbalancer.server.port=80"
+    networks:
+      - traefik_traefik
+    expose:
+      - 80
     volumes:
-      - ./map:/map
+      - tileserver-src:/usr/share/nginx/html/maps/vol:ro
+    environment:
+      TZ: Europe/Berlin
+    depends_on:
+      tileserver-init-config:
+        condition: service_completed_successfully
+    healthcheck:
+      test: service nginx status || exit 1
+      retries: 2
+      interval: 10s
+      start_period: 10s
   tileserver:
-    image: maptiler/tileserver-gl:latest
-    restart: always
+    image: maptiler/tileserver-gl:v4.12.0
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navigatum-tileserver.entrypoints=webs"
+      - "traefik.http.routers.navigatum-tileserver.tls.certresolver=leacme"
+      - "traefik.http.routers.navigatum-tileserver.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/`)"
+      - "traefik.http.routers.navigatum-tileserver.middlewares=navigatum-maps-stripprefix@docker, navigatum-compress@docker, navigatum-cache-2m@docker"
+      - "traefik.http.middlewares.navigatum-maps-stripprefix.stripprefix.prefixes=/maps"
+      - "traefik.http.middlewares.navigatum-compress.compress=true"
+      - "traefik.http.middlewares.navigatum-cache-2m.headers.customrequestheaders.Cache-Control=public, max-age=5184000"
+      - "traefik.http.services.navigatum-tileserver.loadbalancer.server.port=8080"
+    networks:
+      - traefik_traefik
+    expose:
+      - "8080"
     command: /usr/src/app/docker-entrypoint.sh --public_url=https://nav.tum.de/maps/
+    environment:
+      TZ: Europe/Berlin
     tmpfs:
       - /tmp
     volumes:
-      - ./deployment/k3s/files/osm-liberty.json:/data/styles/osm-liberty.json:ro
-      - ./deployment/k3s/files/config.json:/data/config.json:ro
-      - tileserver-sprites:/data/sprites:ro
-      - tileserver-fonts:/data/fonts:ro
-      - ./map/output.mbtiles:/data/output.mbtiles:ro
+      - tileserver-src:/data/:ro
     read_only: true
-    ports:
-      - "3001:8080"
     depends_on:
-      tileserver-init-sprites:
-        condition: service_completed_successfully
-      tileserver-init-src:
+      tileserver-init-config:
         condition: service_completed_successfully
   # cdn
   data:
-    image: ghcr.io/tum-dev/navigatum-cdn:latest
-    restart: always
-    build: ./data
-    ports:
-      - "3002:3002"
+    image: ghcr.io/tum-dev/navigatum-data:main
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navigatum-data.entrypoints=webs"
+      - "traefik.http.routers.navigatum-data.tls.certresolver=leacme"
+      - "traefik.http.routers.navigatum-data.rule=Host(`nav.tum.de`) && PathPrefix(`/cdn/`)"
+      - "traefik.http.services.navigatum-data.loadbalancer.server.port=3002"
+    networks:
+      - traefik_traefik
+    environment:
+      TZ: Europe/Berlin
+    expose:
+      - "3002"
   # server
   main-api:
-    image: ghcr.io/tum-dev/navigatum-main-api:latest
-    restart: always
-    build: ./server
+    image: ghcr.io/tum-dev/navigatum-server:main
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navigatum-main-api.entrypoints=webs"
+      - "traefik.http.routers.navigatum-main-api.tls.certresolver=leacme"
+      - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && (PathPrefix(`/api/get/`) || Path(`/api/search`) || Path(`/api/status`) || PathPrefix(`/api/preview/`) || PathPrefix(`/api/feedback/`) || Path(`/api/calendar`))"
+      - "traefik.http.services.navigatum-main-api.loadbalancer.server.port=3003"
+    networks:
+      - traefik_traefik
+    expose:
+      - "3003"
     command: /bin/navigatum-main-api
-    ports:
-      - "3003:3003"
-    volumes:
-      - type: tmpfs
-        target: /home/navigatum/.cache
     user: 1000:3000
     environment:
+      TZ: Europe/Berlin
+      LOG_LEVEL: ${LOG_LEVEL-info}
       MIELI_URL: http://meilisearch:7700
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      TILESERVER_URL: http://tileserver:8080
+      CDN_URL: http://data:3002/cdn
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_URL: db:5432
+      CONNECTUM_OAUTH_CLIENT_ID: ${CONNECTUM_OAUTH_CLIENT_ID}
+      CONNECTUM_OAUTH_CLIENT_SECRET: ${CONNECTUM_OAUTH_CLIENT_SECRET}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      JWT_KEY: ${JWT_KEY}
     depends_on:
       meilisearch:
         condition: service_healthy
       db:
         condition: service_healthy
-    healthcheck:
-      test: wget -q --spider http://localhost:3003/api/status
-      retries: 5
-      interval: 10s
-      start_period: 60s
   meilisearch:
-    image: getmeili/meilisearch:v1.6.2
-    restart: always
+    image: getmeili/meilisearch:v1.9.0
+    restart: unless-stopped
+    networks:
+      - traefik_traefik
+    expose:
+      - "7700"
+    environment:
+      TZ: Europe/Berlin
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      MEILI_ENV: production
     healthcheck:
       test: wget -q --spider http://localhost:7700/health
       retries: 5
       interval: 10s
       start_period: 10s
-  feedback-api:
-    image: ghcr.io/tum-dev/navigatum-server:latest
-    restart: always
-    build: ./server
-    command: /bin/navigatum-feedback
-    ports:
-      - "3004:3004"
-    healthcheck:
-      test: wget -q --spider http://localhost:3004/api/feedback/status
-      retries: 5
-      start_period: 10s
   db:
-    image: postgres:16
+    image: postgis/postgis:16-3.4
     restart: unless-stopped
     environment:
+      TZ: Europe/Berlin
       PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - traefik_traefik
+    expose:
+      - "5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+      - postgis-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
       interval: 10s
       start_period: 10s
-
+  osm2pgsql:
+    image: iboates/osm2pgsql:latest
+    environment:
+      TZ: Europe/Berlin
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    command:
+      - replication
+      - update
+      - --database ${POSTGRES_DB}
+      - --username ${POSTGRES_USER}
+      - --host db
+      - --port 5432
+    depends_on:
+      db:
+        condition: service_healthy
+  martin-init-config:
+    image: alpine:latest
+    command:
+      - /bin/sh
+      - /map/martin/setup.sh
+    environment:
+      TZ: Europe/Berlin
+    volumes:
+      - ./map/:/map/
+  martin:
+    image: ghcr.io/maplibre/martin:v0.14.2
+    restart: unless-stopped
+    command:
+      - --config
+      - /map/config.yaml
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navigatum-martin.entrypoints=webs"
+      - "traefik.http.routers.navigatum-martin.tls.certresolver=leacme"
+      - "traefik.http.routers.navigatum-martin.rule=Host(`nav.tum.de`) && PathPrefix(`/tiles`)"
+      - "traefik.http.routers.navigatum-martin.middlewares=navigatum-tiles-stripprefix@docker"
+      - "traefik.http.middlewares.navigatum-tiles-stripprefix.stripprefix.prefixes=/tiles"
+      - "traefik.http.services.navigatum-martin.loadbalancer.server.port=3001"
+    networks:
+      - traefik_traefik
+    expose:
+      - "3001"
+    environment:
+      TZ: Europe/Berlin
+      BASE_PATH: /tiles/
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      RUST_LOG: debug
+    depends_on:
+      db:
+        condition: service_healthy
+      martin-init-config:
+        condition: service_completed_successfully
+    volumes:
+      - ./map/martin/:/map/:ro
+    healthcheck:
+      test: wget --spider http://localhost:3001/health || exit 1
+      retries: 10
+      interval: 1s
+      start_period: 1s
+  redirect-domain:
+    image: traefik/whoami:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navigatum-redirect-domain.entrypoints=webs"
+      - "traefik.http.routers.navigatum-redirect-domain.tls.certresolver=leacme"
+      - "traefik.http.routers.navigatum-redirect-domain.rule=Host(`www.nav.tum.de`) || Host(`nav.tum.sexy`)"
+      - "traefik.http.routers.navigatum-redirect-domain.middlewares=navigatum-redirect-to-domain@docker"
+      - "traefik.http.middlewares.navigatum-redirect-to-domain.redirectregex.regex=^https://(www.)?nav.tum.(de|sexy)/(.*)"
+      - "traefik.http.middlewares.navigatum-redirect-to-domain.redirectregex.replacement=https://nav.tum.de/$${3}"
+      - "traefik.http.middlewares.navigatum-redirect-to-domain.redirectregex.permanent=true"
+      - "traefik.http.services.navigatum-redirect-domain.loadbalancer.server.port=80"
+    environment:
+      TZ: Europe/Berlin
+    healthcheck:
+      test: ["CMD", "/whoami", "--help"] # I know that this is not usefull. There does not exists a executable in that image that can call /health
+      retries: 2
+      interval: 10s
+      start_period: 10s
 
 volumes:
-  db-data:
+  tileserver-src:
     driver: local
-  tileserver-sprites:
+  postgis-data:
     driver: local
-  tileserver-fonts:
-    driver: local
-  postgres-data:
-    driver: local
+
+networks:
+  traefik_traefik:
+    external: true

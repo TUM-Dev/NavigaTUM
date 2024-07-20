@@ -1,4 +1,4 @@
-# NavigaTUM Data Repository
+# Data-Pipeline
 
 This folder contains:
 
@@ -8,9 +8,10 @@ This folder contains:
 
 The code to retrieve external data, as well as externally retrieved data is located under `external`.
 
-⚠️ A lot of this code is more a work in progress than finished. Especially features such as POIs, custom maps or other data types such as events are drafted but not yet fully implemented.
-
-Also, new external data might break the scripts from time to time, as either rooms or buildings are removed, the external data has errors or we make assumptions here that turn out to be wrong.
+> [!WARNING]
+> A lot of this code is more a work in progress than finished. Especially features such as POIs, custom maps or other data types such as events are drafted but not yet fully implemented.
+>
+> New external data might break the scripts from time to time, as either rooms or buildings are removed, the external data has errors or we make assumptions here that turn out to be wrong.
 
 ## Getting started
 
@@ -34,30 +35,26 @@ pip install -r data/requirements.txt -r requirements-dev.txt
 
 ## Getting external data
 
+> [!TIP]
+> The latest scraped data is already included in the `external/results` directory,
+> you do not need to run the scraping yourself and can skip to the next step
+
 External data (and the scrapers) are stored in the `external/` subdirectory.
 
-The latest scraped data is already included in this directory, you do not need to run the scraping yourself and can skip to the next step.
+You can run a scraper from `external/scraper/`.
+All newer scrapers are pretty quick => no shenanigans like commenting out lines are needed.
 
-However, if you want to update the scraped data, open `external/main.py` and comment out all
-steps depending on what specific data you want to scrape (Note that some steps depend on previous
-steps. In this case, the downloader will automatically run these as well).
-
-Then, start scraping with:
+You can scrape with:
 
 ```bash
 cd external
 export PYTHONPATH=$PYTHONPATH:..
-python3 main.py
-```
-
-The data will be stored in the `cache` subdirectory as json files. To force a redownload, delete them.
-
-As a last step, move the `.json` files from the cache directory into the external directory, so that
-it contains the most recent scraped results, and then go back:
-
-```bash
-mv cache/buildings* cache/rooms* cache/maps* cache/usages* .
-cd ..
+python3 nat.py
+python3 public_transport.py
+python3 roomfinder.py
+export CONNECTUM_OAUTH_CLIENT_ID=GIVEN_OUT_AS_NEEDED
+export CONNECTUM_OAUTH_CLIENT_SECRET=GIVEN_OUT_AS_NEEDED
+python3 tumonline.py
 ```
 
 ### Compiling the data
@@ -72,23 +69,23 @@ The exported datasets will be stored in `output/` as JSON files.
 
 ```bash
 data
-├── external/    # 🠔 This is the sub-repository containing externally retrieved data
-├── output/      # 🠔 Here the final, compiled datasets will be stored
-├── processors/  # 🠔 Processing code
-├── sources/     # 🠔 Custom data and patches
+├── external/
+│   ├── output/   # 🠔 Here the final, compiled datasets will be stored
+│   └── scrapers/ # how we download
+├── processors/   # Processing code
+├── sources/      # Custom data and patches
 │   ├── img/
 │   └── <custom data>
-├── compile.py           # 🠔 The main script
-└── data-format_*.yaml   # 🠔 Data format specification
+└── compile.py           # The main script to compile the datasources into our data representation
 ```
 
 Deployment related there are also these files:
 
 ```bash
 data
-├── Dockerfile # 🠔 Main dockerfile, in the deployment this is sometimes called the cdn
-├── ngnix.conf # 🠔 ngnix cofigureation file used by above Dockerfile
-└── requirements.txt # 🠔 python dependencys
+├── Dockerfile       # Main dockerfile, in the deployment this is sometimes called the cdn
+├── ngnix.conf       # nginx configuration file used by above Dockerfile
+└── requirements.txt # python dependency's
 ```
 
 ### How the data looks like
@@ -142,9 +139,9 @@ Details about the formatting are given at the head of the file.
 The source data (i.e. all files located in `sources/` that are not images) is made available under the Open Database License: <https://opendatacommons.org/licenses/odbl/1.0/>.
 Any rights in individual contents of the database are licensed under the Database Contents License: <http://opendatacommons.org/licenses/dbcl/1.0/>.
 
-The images in `sources/img/` are subject to their own licensing terms, which are stated in the file `sources/img/img-sources.yaml`.
-
-_Please note that the compiled database may contain contents from external sources (i.e. all files in `external`) that do have different license terms._
+> [!WARNING]
+> The images in `sources/img/` are subject to their own licensing terms, which are stated in the file `sources/img/img-sources.yaml`.
+> The compiled database may contain contents from external sources (i.e. all files in `external/`) that do have different license terms.
 
 ---
 

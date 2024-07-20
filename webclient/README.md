@@ -29,21 +29,17 @@ pnpm install
 
 ## Run
 
-Ensure that _NavigaTUM-server_ is running in the background:
+Ensure that _NavigaTUM-server_ is running in the background.
+By default, the webclient will connect to the server on `https://nav.tum.de`.  
+If you want to connect to a local version instead, change the environemnt variable `NUXT_PUBLIC_{API,CDN,FEEDBACK,MAPS}_URL` to the appropriate value.
+
+To get a local server running, please:
 
 - either via following the [guide to local development](../server/README.md), or
-- via [docker](https://docs.docker.com/)  
-   _docker isolates the network, but we want these two containers to communicate to each other without being as brittle as IPs._  
-   _Naming the `navigatum-mieli-search` container `search` makes us able to connect to it via <`http://search:7700`> from the server_
-
+- via [docker](https://docs.docker.com/) by commenting out the webclient from the docker-compose-file and running
   ```bash
-  docker network create navigatum-net
-  docker run -it --rm -p 7700:7700 --name search --network navigatum-net ghcr.io/tum-dev/navigatum-mieli-search:main
-  docker run -it --rm -p 8080:8080 --network navigatum-net -e MIELI_SEARCH_ADDR=search ghcr.io/tum-dev/navigatum-server:main /bin/navigatum-main-api
+  docker compose -f docker-compose.local.yml up --build
   ```
-
-By default, the webclient will connect to the server on `http://localhost:8080`.  
-If you want to connect to the public API instead, change `VITE_APP_URL` in [`env/.env`](./env/.env) to `https://nav.tum.de`.
 
 ```sh
 pnpm run dev
@@ -67,116 +63,45 @@ pnpm run format
 From the folder of this README, run:
 
 ```sh
-npx openapi-typescript ../openapi.yaml --output ./src/api_types/index.ts --export-type --immutable-types --support-array-length
-pnpm run lint
-pnpm run format
+pnpm run type-refresh
 ```
-
-## Build files & Serving release build
-
-We create a lot of index HTML files in the build process.
-Each of those files are similar but differ in some aspects.  
-If you serve the release build with a webserver (such as Nginx) you need to select the correct files based on the request URL and headers.
-
-```plain
-<theme>.html
-   ↑
-   └── The page theme. Either "light" or "dark" at the moment.
-       It should be selected based on the "theme" Cookie ("light" by default).
-```
-
-The language-selector is working in development and this differentialtion is only happening in the build.  
-For the theme we can not do so for some reason (If you know of a better way, hit us up).  
-To test a different theme, you can change `$theme` [here](./src/assets/variables.scss) and `theme='...'` [here](./index.html). Values are `light` and `dark`.
 
 ## Architecture
 
-The NavigaTUM webclient is made as a single-page application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/).  
-For state management we use [pinia](https://pinia.vuejs.org/).
-Our CSS framework is currently being migrated from [Spectre.css](https://picturepan2.github.io/spectre/) to [Tailwind](https://tailwindcss.com/). (if you're interested in helping out, please contact us ^^)
+The NavigaTUM webclient is made as a nuxt3 server side rendered application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/).
+Our CSS framework is [Tailwind](https://tailwindcss.com/).
 
 ### Directory structure (only the important parts)
 
 ```plain
 webclient
-├── public/         # 🠔 Static assets such as icons, which cannot get inlined
-├── src/
-│   ├── api_types/  # 🠔 code generated via openapi.yaml for typechecking reasons
-│   ├── assets/     # 🠔 Static assets such as icons
-│   │   ├── md/                 # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
-│   │   ├── variables.scss      # 🠔 Include-script for Spectre.CSS
-│   │   ├── main.scss           # 🠔 Sass CSS code for all non-view parts
-│   │   ├── spectre-all.scss    # 🠔 Include-script for Spectre.CSS
-│   │   └── logos               # 🠔 The Logos used by the app
-│   ├── components/ # 🠔 Vue components, which are used in views.
-│   ├── pages/      # 🠔 The views are parts of App.vue, which are loaded dynamically based on our routes.
-│   ├── router.ts   # 🠔 The routes of our app. This is where the views are loaded.
-│   ├── App.vue     # 🠔 Main view
-│   └── main.ts     # 🠔 Inialization of Vue.js. This is the entrypoint of our app, from which App.vue and associated views/components are loaded
-├── vite.config.ts  # 🠔 Build configuration
-└── package.json    # 🠔 Node package definition and dependencies
+├── public/        # 🠔 Static assets such as icons, which cannot get inlined
+├── api_types/     # 🠔 code generated via openapi.yaml for typechecking reasons
+├── content/       # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
+├── assets/        # 🠔 Static assets such as icons
+│   ├── main.scss  # 🠔 Sass CSS code for all non-view parts
+│   └── logos      # 🠔 The Logos used by the app
+├── components/    # 🠔 Vue components, which are used in views.
+├── pages/         # 🠔 The pages are parts of App.vue, which are loaded based their file names.
+├── nuxt.config.ts # 🠔 core configuration of nuxt
+└── package.json   # 🠔 Node package definition and dependencies
 ```
 
 Note that new views are automatically included in the build, but they are not routed.  
-To add a new view, you need to add a new route in `src/router.ts`.
+To add a new view, you need to add a new route in `router.ts`.
 
 ## Testing
+
+> [!NOTE]
+> cypress is currently temporarily disabled to help in the nuxt transition
 
 For this part of the project, the tests consist mainly of hot-path e2e tests and tests of critical components.
 PRs improving the coverage are very likely to be accepted.
 The reason behind these tests is that they fundamentally increase the future productivity by allowing faster review cycles.
 
-### Running Tests
-
-There are a few ways of running cypress
-
-#### e2e tests
-
-For running e2e tests, it is assumed, that you
-
-- are on a normal machine (not a mac)
-- have [Chrome](https://www.google.com/intl/de/chrome/) + [Firefox Developer Edition](https://www.mozilla.org/de/firefox/developer/) installed.
-- have the webclient running on `http://localhost:3000` (i.e. `npm run dev`)
-
-The interface for interacting with cypress can be opened via
-
-```bash
-pnpm run cy:open
-```
-
-##### Running headless
-
-```bash
-pnpm run test
-```
-
-There are also some subtargets preconfigured like `cy:run:chrome` and `cy:run:firefox`, but likely for debugging you want the second mode.
-
-#### component tests
-
-```bash
-pnpm run test:components
-```
-
-Currently, these are not run in CI, as I could not get cypress to behave in [#892](https://github.com/TUM-Dev/NavigaTUM/pull/892)
-
-#### Running headed
-
-### Writing Tests
-
-Our Cypress test suite is located in the cypress directory, organized into different files and folders based on the features and components being tested.
-Each test file follows the naming convention `<name>.spec.ts`.
-
-Cypress provides a comprehensive API for interacting with and asserting against elements on the web page.
-You can find detailed documentation and examples in the official Cypress documentation: <https://docs.cypress.io>
-
-When writing new tests, please ensure to follow our established conventions and guidelines to maintain consistency across the codebase.
-Additionally, make sure to write descriptive test cases that cover different scenarios and edge cases to thoroughly validate the functionality of our frontend.
-
 ### Continuous Integration
 
-We have integrated Cypress tests into our CI/CD pipeline to ensure that all changes to the frontend are thoroughly tested before deployment.
-Every push and pull request triggers a build that runs the Cypress tests automatically.
+Every push and pull request triggers a build that runs linting issues (cypress is currently temporarily disabled to help in the nuxt transition).
 This helps us catch any regressions or issues early in the development process.
 
 ### Reporting Issues

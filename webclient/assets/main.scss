@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* v-cloak is set until vue loaded */
+[v-cloak] {
+  display: none;
+}
+
+.focusable {
+  @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus-visible:outline-0;
+}
+
+/* see https://www.youtube.com/watch?v=cH8VbLM1958 why this is here */
+* {
+  min-width: 0;
+}

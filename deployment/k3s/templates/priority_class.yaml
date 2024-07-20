@@ -1,7 +1,0 @@
-apiVersion: scheduling.k8s.io/v1
-kind: PriorityClass
-metadata:
-  name: {{ $.Values.url }}
-value: {{ if eq "nav.tum.de" $.Values.url }}1000{{ else }}-1000{{ end }}
-globalDefault: false
-description: This priority class should be used for {{ $.Values.url }}.

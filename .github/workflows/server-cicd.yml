@@ -2,10 +2,10 @@ name: Server CI/CD
 
 on:
   pull_request:
-    branches: [main]
-    types: [opened, reopened, synchronize]
+    branches: [ main ]
+    types: [ opened, reopened, synchronize ]
   push:
-    branches: [main]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
       - name: Setup | Checkout
         uses: actions/checkout@v4
       - name: Setup | Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1.8.0
+        uses: actions-rust-lang/setup-rust-toolchain@v1.9.0
         with:
           toolchain: stable
           components: clippy
@@ -29,7 +29,9 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-      - run: cargo test --workspace
+      - name: Setup | install insta
+        run: curl -LsSf https://insta.rs/install.sh | sh
+      - run: cargo insta test --workspace
         working-directory: server
   linting:
     runs-on: ubuntu-latest
@@ -37,7 +39,7 @@ jobs:
       - name: Setup | Checkout
         uses: actions/checkout@v4
       - name: Setup | Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1.8.0
+        uses: actions-rust-lang/setup-rust-toolchain@v1.9.0
         with:
           toolchain: stable
           cache: false
@@ -58,14 +60,7 @@ jobs:
       context: ./server
       dockerfile: Dockerfile
     permissions:
+      id-token: write
       contents: read
       packages: write
-  feedback-deployment:
-    uses: ./.github/workflows/_restart-argocd.yml
-    if: ${{ github.ref }} == 'refs/heads/main'
-    needs:
-      - server-build
-    with:
-      deployment: feedback
-    secrets:
-      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+      attestations: write

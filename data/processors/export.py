@@ -1,10 +1,11 @@
 import json
 import re
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 from external.models.common import PydanticConfiguration
 from utils import TranslatableStr
+from utils import TranslatableStr as _
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
 SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9-äöüß.]+")
@@ -22,9 +23,9 @@ def maybe_slugify(value: str | None | TranslatableStr) -> str | None:
     return SLUGIFY_REGEX.sub("-", value.lower()).strip("-")
 
 
-def unlocalise(value: Union[str, list[Any], dict[str, Any]]) -> Any:
+def unlocalise(value: str | list[Any] | dict[str, Any]) -> Any:
     """Recursively unlocalise a dictionary"""
-    if isinstance(value, (bool, float, int, str)) or value is None:
+    if isinstance(value, bool | float | int | str) or value is None:
         return value
     if isinstance(value, list):
         return [unlocalise(v) for v in value]
@@ -38,25 +39,25 @@ def unlocalise(value: Union[str, list[Any], dict[str, Any]]) -> Any:
     raise ValueError(f"Unhandled type {type(value)}")
 
 
-def export_for_search(data: dict, path: str) -> None:
-    """export a subset of the data for the /search api"""
+def export_for_search(data: dict) -> None:
+    """Export a subset of the data for the /search api"""
     export = []
     for _id, entry in data.items():
-        # Currently, the "root" entry is excluded from search
-        if _id == "root":
-            continue
-
         building_parents_index = len(entry["parents"])
         if entry["type"] in {"room", "virtual_room"}:
             for i, parent in enumerate(entry["parents"]):
+                if parent == "root":
+                    continue
                 if data[parent]["type"] in {"building", "joined_building"}:
                     building_parents_index = i
                     break
 
         # The 'campus name' is the campus of site of this building or room
         campus_name = None
-        if entry["type"] not in {"root", "campus", "site"}:
+        if entry["type"] not in {"campus", "site"}:
             for parent in entry["parents"]:
+                if parent == "root":
+                    continue
                 if data[parent]["type"] in {"campus", "site"}:
                     campus = data[parent]
                     campus_name = campus.get("short_name", campus["name"])
@@ -66,6 +67,7 @@ def export_for_search(data: dict, path: str) -> None:
         if coords := entry.get("coords"):
             geo["_geo"] = {"lat": coords["lat"], "lng": coords["lon"]}
         parent_building_names = extract_parent_building_names(data, entry["parents"], building_parents_index)
+        address = entry.get("tumonline_data", {}).get("address", {})
         export.append(
             {
                 # MeiliSearch requires an id without "."
@@ -85,11 +87,12 @@ def export_for_search(data: dict, path: str) -> None:
                     "room": "room",
                     "virtual_room": "room",
                 }.get(entry["type"]),
+                "operator_name": entry["props"].get("operator", {}).get("name", None),
                 "parent_building_names": parent_building_names,
                 # For all other parents, only the ids and their keywords (TODO) are searchable
                 "parent_keywords": [maybe_slugify(value) for value in parent_building_names + entry["parents"][1:]],
                 "campus": maybe_slugify(campus_name),
-                "address": entry.get("tumonline_data", {}).get("address", None),
+                "address": address.get("street", None) if isinstance(address, dict) else address.street,
                 "usage": maybe_slugify(entry.get("usage", {}).get("name", None)),
                 "rank": int(entry["ranking_factors"]["rank_combined"]),
                 **geo,
@@ -99,7 +102,8 @@ def export_for_search(data: dict, path: str) -> None:
     # the data contains translations, currently we don't allow these in the search api
     export = unlocalise(export)
 
-    with open(path, "w", encoding="utf-8") as file:
+    _make_sure_is_safe(export)
+    with open("output/search_data.json", "w", encoding="utf-8") as file:
         json.dump(export, file)
 
 
@@ -118,12 +122,51 @@ def extract_arch_name(entry: dict) -> str | None:
     return entry.get("tumonline_data", {}).get("arch_name", None)
 
 
-def export_for_api(data: dict, path: str) -> None:
+def _make_sure_is_safe(obj: object):
+    """
+    Check if any of the specified names in removed_names are present
+
+    :param obj: obj to be checked
+    :raises RuntimeError: If any of the specified names (removed_names) are found in the content of the file.
+    """
+    removed_names = ["bestelmeyer", "gustav niemann", "prandtl", "messerschmidt"]
+    allowed_variation = "prandtl str"
+    if isinstance(obj, str):
+        content = obj.lower().replace("  ", " ").replace("-", " ")
+        for name in removed_names:
+            if name in content and allowed_variation not in content:
+                raise RuntimeError(
+                    f"{name} was purposely renamed due to NS context. Please make sure it is not included"
+                )
+    elif isinstance(obj, dict):
+        for key, val in obj.items():
+            _make_sure_is_safe(key)
+            _make_sure_is_safe(val)
+    elif isinstance(obj, list) or isinstance(obj, tuple):
+        for entry in obj:
+            _make_sure_is_safe(entry)
+    elif isinstance(obj, PydanticConfiguration):
+        return _make_sure_is_safe(obj.model_dump())
+    elif isinstance(obj, bool) or isinstance(obj, int) or isinstance(obj, float) or obj is None:
+        pass
+    else:
+        raise ValueError(f"unhandled type: {type(obj)}")
+
+
+def export_for_status() -> None:
+    """Generate hashes for the contents of data"""
+    with open("output/api_data.json", encoding="utf-8") as file:
+        export_data = json.load(file)
+    export_data = [(d["id"], d["hash"]) for d in export_data]
+    with open("output/status_data.json", "w", encoding="utf-8") as file:
+        json.dump(export_data, file)
+
+
+def export_for_api(data: dict) -> None:
     """Add some more information about parents to the data and export for the /get/:id api"""
     export_data = []
     for _id, entry in data.items():
-        if entry["type"] != "root":
-            entry.setdefault("maps", {})["default"] = "interactive"
+        entry.setdefault("maps", {})["default"] = "interactive"
 
         entry["aliases"] = []
         if arch_name := extract_arch_name(entry):
@@ -131,14 +174,16 @@ def export_for_api(data: dict, path: str) -> None:
 
         export_data.append(extract_exported_item(data, entry))
 
-    with open(path, "w", encoding="utf-8") as file:
+    _make_sure_is_safe(export_data)
+    with open("output/api_data.json", "w", encoding="utf-8") as file:
         json.dump(export_data, file, cls=EnhancedJSONEncoder)
 
 
 def extract_exported_item(data, entry):
     """Extract the item that will be finally exported to the api"""
+    parent_names = [data[p]["name"] if not p == "root" else _("Standorte", "Sites") for p in entry["parents"]]
     result = {
-        "parent_names": [data[p]["name"] for p in entry["parents"]],
+        "parent_names": parent_names,
         **entry,
     }
     if "children" in result:
@@ -152,6 +197,7 @@ def extract_exported_item(data, entry):
         to_delete = [e for e in result["props"].keys() if e not in prop_keys_to_keep]
         for k in to_delete:
             del result["props"][k]
+    result["hash"] = hash(json.dumps(result, sort_keys=True, cls=EnhancedJSONEncoder))
     return result
 
 

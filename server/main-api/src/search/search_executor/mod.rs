@@ -1,6 +1,12 @@
-use super::SanitisedSearchQueryArgs;
-use cached::proc_macro::cached;
-use log::error;
+use meilisearch_sdk::client::Client;
+use serde::Serialize;
+use tracing::error;
+
+use crate::limited::vec::LimitedVec;
+use crate::search::search_executor::parser::ParsedQuery;
+use crate::search::search_executor::query::MSHit;
+
+use super::{Highlighting, Limits};
 
 mod formatter;
 mod lexer;
@@ -8,16 +14,11 @@ mod merger;
 mod parser;
 mod query;
 
-use crate::search::search_executor::parser::ParsedQuery;
-use crate::search::search_executor::query::MSHit;
-use serde::Serialize;
-
 #[derive(Serialize, Debug, Clone)]
-pub struct SearchResultsSection {
+pub struct ResultsSection {
     facet: String,
     entries: Vec<ResultEntry>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    n_visible: Option<usize>,
+    n_visible: usize,
     #[serde(rename = "estimatedTotalHits")]
     estimated_total_hits: usize,
 }
@@ -35,42 +36,142 @@ struct ResultEntry {
     #[serde(skip_serializing_if = "Option::is_none")]
     parsed_id: Option<String>,
 }
-
-// size=1 ~= 0.1Mi
-#[cached(size = 200)]
+#[tracing::instrument(skip(client))]
 pub async fn do_geoentry_search(
+    client: &Client,
     q: String,
-    highlighting: (String, String),
-    args: SanitisedSearchQueryArgs,
-) -> Vec<SearchResultsSection> {
+    highlighting: Highlighting,
+    limits: Limits,
+) -> LimitedVec<ResultsSection> {
     let parsed_input = ParsedQuery::from(q.as_str());
 
-    match query::GeoEntryQuery::from(&parsed_input, &args, &highlighting)
+    match query::GeoEntryQuery::from((client, &parsed_input, &limits, &highlighting))
         .execute()
         .await
     {
         Ok(response) => {
             let (section_buildings, mut section_rooms) = merger::merge_search_results(
-                &args,
+                &limits,
                 response.results.first().unwrap(),
                 response.results.get(1).unwrap(),
                 response.results.get(2).unwrap(),
             );
-            let visitor = formatter::RoomVisitor::from(parsed_input, highlighting);
+            let visitor = formatter::RoomVisitor::from((parsed_input, highlighting));
             section_rooms
                 .entries
                 .iter_mut()
                 .for_each(|r| visitor.visit(r));
 
             match section_buildings.n_visible {
-                Some(0) => vec![section_rooms, section_buildings],
-                _ => vec![section_buildings, section_rooms],
+                0 => LimitedVec(vec![section_rooms, section_buildings]),
+                _ => LimitedVec(vec![section_buildings, section_rooms]),
             }
         }
         Err(e) => {
             // error should be serde_json::error
             error!("Error searching for results: {e:?}");
-            vec![]
+            LimitedVec(vec![])
+        }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use crate::setup::tests::MeiliSearchTestContainer;
+    use std::fmt::{Display, Formatter};
+
+    #[derive(serde::Deserialize)]
+    struct TestQuery {
+        target: String,
+        query: String,
+        among: Option<usize>,
+        comment: Option<String>,
+    }
+
+    impl TestQuery {
+        fn load_good() -> Vec<Self> {
+            serde_yaml::from_str(include_str!("test-queries.good.yaml")).unwrap()
+        }
+        fn load_bad() -> Vec<Self> {
+            serde_yaml::from_str(include_str!("test-queries.bad.yaml")).unwrap()
+        }
+        fn actual_matches_among(&self, actual: &[ResultsSection]) -> bool {
+            let among = self.among.unwrap_or(1);
+            let mut acceptable_range = actual.iter().flat_map(|r| r.entries.clone()).take(among);
+            acceptable_range.any(|r| r.id == self.target)
+        }
+        async fn search(&self, client: &Client) -> Vec<ResultsSection> {
+            do_geoentry_search(
+                client,
+                self.query.clone(),
+                Highlighting::default(),
+                Limits::default(),
+            )
+            .await
+            .0
+        }
+    }
+    impl Display for TestQuery {
+        fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+            write!(
+                f,
+                "'{query}' should get '{target}' in {among} results",
+                query = self.query,
+                target = self.target,
+                among = self.among.unwrap_or(1),
+            )?;
+            if let Some(comment) = &self.comment {
+                write!(f, " # {comment}")?;
+            }
+            Ok(())
+        }
+    }
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_good_queries() {
+        let ms = MeiliSearchTestContainer::new().await;
+        crate::setup::meilisearch::load_data(&ms.client)
+            .await
+            .unwrap();
+        for query in TestQuery::load_good() {
+            let actual = query.search(&ms.client).await;
+            assert!(
+                query.actual_matches_among(&actual),
+                "{query}\n\
+                Since it can't, please move it to .bad list"
+            );
+
+            insta::with_settings!({
+                info => &format!("{query}"),
+                description => query.comment.unwrap_or_default(),
+            }, {
+                        insta::assert_yaml_snapshot!(actual);
+            });
+        }
+    }
+
+    #[tokio::test]
+    #[tracing_test::traced_test]
+    async fn test_bad_queries() {
+        let ms = MeiliSearchTestContainer::new().await;
+        crate::setup::meilisearch::load_data(&ms.client)
+            .await
+            .unwrap();
+        for query in TestQuery::load_bad() {
+            let actual = query.search(&ms.client).await;
+            assert!(
+                !query.actual_matches_among(&actual),
+                "{query}\n\
+                Since it can, please move it to .good list"
+            );
+
+            insta::with_settings!({
+                info => &format!("{query}"),
+                description => query.comment.unwrap_or_default(),
+            }, {
+                insta::assert_yaml_snapshot!(actual);
+            });
         }
     }
 }

@@ -18,12 +18,12 @@ from processors import (
     structure,
     tumonline,
 )
-from utils import DEBUG_MODE, setup_logging
+from utils import DEV_MODE, setup_logging
 
 
 # pylint: disable=too-many-locals,too-many-statements
 def main() -> None:
-    """Main function"""
+    """Process data and generate output."""
     # start other thread to resize images
     logging.info("-- (Parallel) Convert, resize and crop the images for different resolutions and formats")
     resizer = Process(target=images.resize_and_crop)
@@ -120,8 +120,13 @@ def main() -> None:
     search.add_ranking_combined(data)
 
     logging.info("-- 100 Export and generate Sitemap")
-    export.export_for_search(data, "output/search_data.json")
-    export.export_for_api(data, "output/api_data.json")
+    # the root entry is somewhat arbitrary
+    # leaving it here and thus having it delivered by the other apis leads to bad ergonomics
+    # => we construct the frontpage "manually" with the most popular buildings
+    data.pop("root")
+    export.export_for_search(data)
+    export.export_for_api(data)
+    export.export_for_status()
     sitemap.generate_sitemap()  # only for deployments
 
     resizer.join(timeout=60 * 4)
@@ -130,7 +135,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    setup_logging(level=logging.DEBUG if DEBUG_MODE else logging.INFO)
+    setup_logging(level=logging.DEBUG if DEV_MODE else logging.INFO)
 
     # Pillow prints all imported modules to the debug stream
     logging.getLogger("PIL").setLevel(logging.INFO)

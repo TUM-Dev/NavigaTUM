@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM aliases WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE aliases.key = expected.key)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "TextArray"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "6eccbb21f50abb3aeb2fb43e9bc0d5edb9ca81cbc24948b4a69e83e1a2b9c802"
+}

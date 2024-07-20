@@ -1,22 +1,34 @@
-FROM node:21 as build-stage
+FROM node:21-alpine3.19 as build-stage
 WORKDIR /app
-RUN apt-get update &&  \
-    apt-get install rsync -y --no-install-recommends
-COPY package*.json ./
-RUN npm install
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 COPY . .
 ARG GIT_COMMIT_SHA
 ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 ARG GIT_COMMIT_MESSAGE
 ENV GIT_COMMIT_MESSAGE=${GIT_COMMIT_MESSAGE}
-RUN sh build.sh
+ENV NITRO_SHUTDOWN=true
+ENV NITRO_PRESET=node-cluster
+RUN pnpm run build
 
-FROM nginx:1.25 as production-stage
-COPY nginx.conf /etc/nginx/nginx.conf
-RUN mkdir /app && apt update && apt upgrade -y
-COPY --from=build-stage /dist /app
+
+FROM node:21-alpine3.19 as production-stage
+RUN apk update --no-progress --quiet && apk add curl --no-progress --quiet
+
+COPY --from=build-stage /app/.output /app/.output
+COPY --from=build-stage /app/node_modules /app/node_modules
+COPY --from=build-stage /app/.nuxt /app/.nuxt
 
 EXPOSE 3000
+ENV NITRO_PORT=3000
+ENV NITRO_HOST=0.0.0.0
+ENV NITRO_SHUTDOWN=true
+ENV NITRO_PRESET=node-cluster
+
 HEALTHCHECK CMD curl --fail localhost:3000/health || exit 1
-CMD sh -c "sed -i 's|TILESERVER_URL|${TILESERVER_URL}|g' /etc/nginx/nginx.conf && sed -i 's|CDN_URL|${CDN_URL}|g' /etc/nginx/nginx.conf && sed -i 's|MAIN_API_URL|${MAIN_API_URL}|g' /etc/nginx/nginx.conf && sed -i 's|FEEDBACK_API_URL|${FEEDBACK_API_URL}|g' /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+CMD node /app/.output/server/index.mjs

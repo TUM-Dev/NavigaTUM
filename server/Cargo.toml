@@ -1,25 +1,27 @@
 [workspace]
-members = ["feedback", "main-api"]
+members = ["main-api"]
 resolver = "2"
 
 [profile.release]
-strip = true
-lto = "thin"
+strip = false
+lto = false
 
-[workspace.dependencies]
-# logging/obeservability
-log = "0.4.20"
-structured-logger = "1.0.3"
-actix-web-prom = { version = "0.8.0", default-features = false, features = [] }
+# Enable max optimizations for some dependencies, but not for our code
+# nessesary to get acceptable performance out of the image processing code
+[profile.dev.package.image]
+opt-level = 3
 
-# runtime + webserver
-tokio = { version = "1.36", features = ["full"] }
-actix-web = { version = "4.5.1", default-features = false, features = ["macros","compress-gzip","cookies","http2"] }
-actix-cors = "0.7.0"
+[profile.dev.package.imageproc]
+opt-level = 3
 
-#serialisation
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+[profile.dev.package.ab_glyph]
+opt-level = 3
 
-# testing
-pretty_assertions = "1.4.0"
+# https://github.com/launchbadge/sqlx?tab=readme-ov-file#compile-time-verification
+[profile.dev.package.sqlx-macros]
+opt-level = 3
+
+# https://insta.rs/docs/quickstart/
+[profile.dev.package]
+insta.opt-level = 3
+similar.opt-level = 3

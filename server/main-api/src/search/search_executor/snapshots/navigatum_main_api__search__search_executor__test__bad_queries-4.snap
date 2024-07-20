@@ -1,0 +1,61 @@
+---
+source: main-api/src/search/search_executor/mod.rs
+description: "Note: It is not really in Arcisstr., just close"
+expression: actual
+info: "'Studitum Arcisstr' should get '0201' in 1 results # Note: It is not really in Arcisstr., just close"
+---
+- facet: sites_buildings
+  entries:
+    - id: "5532"
+      type: building
+      name: "\u0019StudiTUM\u0017 Garching"
+      subtext: Gebäude
+    - id: "0201"
+      type: building
+      name: "\u0019StudiTUM\u0017 Innenstadt (S1)"
+      subtext: Gebäude
+    - id: "4113"
+      type: building
+      name: "\u0019StudiTUM\u0017 Weihenstephan"
+      subtext: Gebäude
+  n_visible: 3
+  estimatedTotalHits: 3
+- facet: rooms
+  entries:
+    - id: 4113.01.105
+      type: room
+      name: 4113.01.105 ( Hörsaal 4 (WZWH04))
+      subtext: "weihenstephan, StudiTUM"
+      subtext_bold: O1 5@4113
+    - id: 0201.01.001
+      type: room
+      name: 0201.01.001 ( Stillarbeitsraum)
+      subtext: "stammgelände, StudiTUM"
+      subtext_bold: 1.01@0201
+    - id: 0201.01.002
+      type: room
+      name: 0201.01.002 ( Einzelarbeitsraum)
+      subtext: "stammgelände, StudiTUM"
+      subtext_bold: 1.02@0201
+    - id: 0201.01.003
+      type: room
+      name: 0201.01.003 ( Einzelarbeitsraum)
+      subtext: "stammgelände, StudiTUM"
+      subtext_bold: 1.03@0201
+    - id: 0201.01.007
+      type: room
+      name: 0201.01.007 ( Gruppenarbeitsraum)
+      subtext: "stammgelände, StudiTUM"
+      subtext_bold: 1.07@0201
+    - id: 0201.01.008
+      type: room
+      name: 0201.01.008 ( Einzelarbeitsraum)
+      subtext: "stammgelände, StudiTUM"
+      subtext_bold: 1.08@0201
+    - id: 0201.02.001
+      type: room
+      name: 0201.02.001 ( Stillarbeitsraum)
+      subtext: "stammgelände, StudiTUM"
+      subtext_bold: 2.01@0201
+  n_visible: 7
+  estimatedTotalHits: 229

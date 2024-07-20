@@ -48,19 +48,22 @@
       2903:Haus Soller Augustenstr. 44-46:
       2910:Richard-Wagner-Str. 1 / Haus B + Haus H, Hochschule für Politik (HfP)/ Department of Governance (GOV)|RiWa 1 (HfP/GOV):2910,riwa1
       2911:Richard-Wagner-Str. 3 / Haus C, TUM Sprachenzentrum:2911,riwa3
+      2912:Brienner Forum Haus E (AM):
+      2913:Brienner Forum Haus F (AM):
     05:Zentralgelände:zentralgelaende
       0501:Hauptgebäude (Z1):
-      0502:Bestelmeyer Süd (Z2):
+      0502:Zentralgebäude 2 (Z2):
       0503:Thierschbau (Z3):
       0504:Landwirtschaftsbau (Z4):
       0505:Wirtschaftswissenschaften (Z5):
       0506:Theresianum (Z6):
-      0507:Bestelmeyer Nord (Z7):
+      0507:Zentralgebäude 7 (Z7):
       0508:Heizkraftwerk, Dieter-Thoma-Labor (Z8)|Heizkraftwerk (Z8):
       0509:Wienandsbau, E-Technik / Audimax (Z9)|Wienandsbau (Z9):
       0510:Verwaltungsbau (Z10):
       0511:Elektro/Werkstatt/Lösungsmittel (Z11):
       0512:Garagen (Z12):
+      0597:Vorplatz Audi-Max:
   15,17:Klinikum rechts der Isar (MRI)|MRI:mri[site]
     1501:Chirurgische Klinik (Bau 501):
     1502:Radiologie, Orthopädie, Sportorthopädie, klinische Toxikologie (Bau 502):
@@ -132,6 +135,7 @@
     1902:Bildungscampus L, Gebäude 9, TUM Tower:
     1910:Bildungscampus C, Weipertstr. 8-10:
     1915:Bildungscampus/Etzelstr.38, Etzelstr. 38:
+    1998:Interim, Bildungscampus 3:
     1999:Containerburg CB, Weipertstr. 8-10:
   21:Kapuzinerhölzl, Motorenlabor, Lehrstuhl für Verbrennungskraftmaschinen:kapuzinerhoelzl[site]
     2103:Werkstattgebäude:
@@ -168,6 +172,11 @@
       2941:Campus D, Georg-Brauchle-Ring 60/62:
   2353:Eislaufstadion Ost (Olympia):
   2354:Regattaanlage Oberschleißheim (Olympia):
+  -2364:Wetterschutzhaus / WSH 1:
+  -2365:Wetterschutzhaus / WSH 2:
+  -2367:Wetterschutzhaus / WSH 4:
+  -2368:Wetterschutzhaus / WSH 5:
+  -2369:Wetterschutzhaus / WSH 6:
   240:Holzforschung:holzforschung[site]
     2401:Altbau Winzererstr. 45:
     2402:Neubau Winzererstr. 45:
@@ -565,9 +574,10 @@
       5612:Finger 12 (BT12):
       5613:Finger 13 (BT13):
     -5622:Sportanlage Garching / Dusch Container:
-    5701:Munich Institute of Biomedical Engineering, MIBE (ehem. IMETUM, ZIMT, MSB)|Munich Institute of Biomedical Engineering:
+    5701:Munich Institute of Biomedical Engineering, MIBE (ehem. IMETUM, ZIMT, MSB)|MIBE:
     5801:Leibnitz-Rechenzenturm (LRZ):
-    5901:Elektro- und Informationstechnik (EI, ZEITlab):5901,ei-garching[building]
+    5901:Elektro- und Informationstechnik (EI, ZEITlab):5901,ei-garching
+    5932:Siemens Technology Center (STC):5932,siemens-garching
     812:Galileo Garching|Galileo:galileo[joined_building]
       8120:Conference Center:
       8121:Courtyard Hotel:
@@ -594,7 +604,7 @@
   7:Garching Forschungszentrum (außerhalb):garching-extra
     7894:Newton:
     7895:Pascal Halle:
-    7896:Freisinger Landstraße 50 (Prandtl):
+    7896:Freisinger Landstraße 50 (MW Halle):
     7910:Oskar-von-Miller-Turm (Meteo-Mast):
   810,811:Garching Hochbrück:garching-hochbrueck[site]
     8101:Business Campus Garching (BC1), Parkring 11-13|Business Campus 1:8101,bc1

@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 import yaml
 from processors.areatree.models import AreatreeBuidling
@@ -9,12 +9,13 @@ from utils import TranslatableStr
 def load_yaml(path: str) -> Any:
     """
     Merge yaml data at path on top of the given data.
+
     This operates on the data dict directly without creating a copy.
     """
 
-    def add_translatable_str(value: Union[str, list[Any], dict[str, Any]]) -> Any:
+    def add_translatable_str(value: str | list[Any] | dict[str, Any]) -> Any:
         """Recursively change all {de: ..., en:...] to a TranslatableStr"""
-        if isinstance(value, (bool, float, int, str)) or value is None:
+        if isinstance(value, bool | float | int | str) or value is None:
             return value
         if isinstance(value, list):
             return [add_translatable_str(v) for v in value]
@@ -46,7 +47,8 @@ def load_yaml(path: str) -> Any:
 def add_coordinates(data: dict, path: str) -> None:
     """
     Merge coordinates from yaml files placed at path on top of the given data.
-    (Merging happens in alphanumeric order, so later files would overwrite earlier files)
+
+    Merging happens in alphanumeric order, so later files would overwrite earlier files.
     This operates on the data dict directly without creating a copy.
     """
     for file in sorted(Path(path).iterdir()):
@@ -62,6 +64,7 @@ B = TypeVar("B")
 def recursively_merge(dict_a: dict | A, dict_b: dict | B, overwrite: bool = True) -> dict | A | B:
     """
     Recursively merge dict b on dict a (b overwrites a).
+
     Returns b if any of a or b is not a dict.
     This operates on `dict_a` directly without creating a copy.
     """
@@ -78,17 +81,13 @@ def recursively_merge(dict_a: dict | A, dict_b: dict | B, overwrite: bool = True
 
 
 def patch_areas(data: dict[str, AreatreeBuidling], path: str) -> dict[str, dict[str, Any]]:
-    """
-    Merge areas from the yaml file at path on top of the given data.
-    """
+    """Merge areas from the yaml file at path on top of the given data."""
     yaml_data = load_yaml(path)
     return recursively_merge(data, yaml_data)
 
 
 def patch_rooms(data: dict[str, dict[str, Any]], path: str) -> dict[str, dict[str, Any]]:
-    """
-    Merge rooms from the yaml file at path on top of the given data.
-    """
+    """Merge rooms from the yaml file at path on top of the given data."""
     yaml_data = load_yaml(path)
     # make sure that the room id is in the name
     for key, value in yaml_data.items():

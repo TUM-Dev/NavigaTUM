@@ -1,20 +1,26 @@
+use unicode_truncate::UnicodeTruncateStr;
+
 use crate::search::search_executor::parser::{ParsedQuery, TextToken};
 use crate::search::search_executor::query::MSHit;
 use crate::search::search_executor::ResultEntry;
-use unicode_truncate::UnicodeTruncateStr;
+use crate::search::Highlighting;
 
 pub(super) struct RoomVisitor {
     parsed_input: ParsedQuery,
-    highlighting: (String, String),
+    highlighting: Highlighting,
 }
 
-impl RoomVisitor {
-    pub(super) const fn from(parsed_input: ParsedQuery, highlighting: (String, String)) -> Self {
+impl From<(ParsedQuery, Highlighting)> for RoomVisitor {
+    #[tracing::instrument]
+    fn from((parsed_input, highlighting): (ParsedQuery, Highlighting)) -> Self {
         Self {
             parsed_input,
             highlighting,
         }
     }
+}
+
+impl RoomVisitor {
     pub(super) fn visit(&self, item: &mut ResultEntry) {
         item.parsed_id = self.parse_room_formats(&item.hit);
         item.subtext = Self::generate_subtext(&item.hit);
@@ -45,10 +51,10 @@ impl RoomVisitor {
                 let split_arch_id = unicode_split_at(arch_id, t0.chars().count());
                 Some(format!(
                     "{}{} {}{}{}",
-                    self.highlighting.0,
+                    self.highlighting.pre,
                     t0.to_uppercase(),
                     split_arch_id.0,
-                    self.highlighting.1,
+                    self.highlighting.post,
                     split_arch_id.1,
                 ))
             }
@@ -71,9 +77,9 @@ impl RoomVisitor {
                 Some(format!(
                     "{}{}{}{}{}",
                     prefix.unwrap_or_default(),
-                    self.highlighting.0,
+                    self.highlighting.pre,
                     parsed_aid.0,
-                    self.highlighting.1,
+                    self.highlighting.post,
                     parsed_aid.1,
                 ))
             }
@@ -145,7 +151,9 @@ fn unicode_split_at(search: &str, width: usize) -> (&str, &str) {
 }
 
 #[cfg(test)]
-mod postprocessing_tests {
+mod tests {
+    use pretty_assertions::assert_eq;
+
     use super::*;
 
     #[test]
