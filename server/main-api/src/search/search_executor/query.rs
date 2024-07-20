@@ -45,6 +45,7 @@ impl From<&Filter> for GeoEntryFilters {
 
 #[derive(Debug)]
 pub(super) struct GeoEntryQuery {
+    client: Client,
     parsed_input: ParsedQuery,
     limits: Limits,
     highlighting: Highlighting,
@@ -52,9 +53,17 @@ pub(super) struct GeoEntryQuery {
     sorting: Vec<String>,
 }
 
-impl From<(&ParsedQuery, &Limits, &Highlighting)> for GeoEntryQuery {
-    fn from((parsed_input, limits, highlighting): (&ParsedQuery, &Limits, &Highlighting)) -> Self {
+impl From<(&Client, &ParsedQuery, &Limits, &Highlighting)> for GeoEntryQuery {
+    fn from(
+        (client, parsed_input, limits, highlighting): (
+            &Client,
+            &ParsedQuery,
+            &Limits,
+            &Highlighting,
+        ),
+    ) -> Self {
         Self {
+            client: client.clone(),
             parsed_input: parsed_input.clone(),
             limits: *limits,
             highlighting: highlighting.clone(),
@@ -68,10 +77,7 @@ impl GeoEntryQuery {
     #[tracing::instrument(ret(level = tracing::Level::TRACE))]
     pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
         let q_default = self.prompt_for_querying();
-        let ms_url =
-            std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
-        let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok())?;
-        let entries = client.index("entries");
+        let entries = self.client.index("entries");
 
         // due to lifetime shenanigans this is added here (I can't make it move down to the other statements)
         // If you can make it, please propose a PR, I know that this is really hacky ^^
@@ -86,7 +92,7 @@ impl GeoEntryQuery {
         // for all entries and only rooms, search matching (and relevant) buildings can be
         // expected to be at the top of the merged search. However sometimes a lot of
         // buildings will be hidden (e.g. building parts), so the extra room search ....
-        client
+        self.client
             .multi_search()
             .with_search_query(
                 self.merged_query(&entries, &q_default)

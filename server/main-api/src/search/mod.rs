@@ -3,6 +3,7 @@ use std::time::Instant;
 use crate::AppData;
 use actix_web::{get, web, HttpResponse};
 use cached::proc_macro::cached;
+use meilisearch_sdk::client::Client;
 use serde::{Deserialize, Serialize};
 use tracing::{debug, error};
 use unicode_truncate::UnicodeTruncateStr;
@@ -131,9 +132,19 @@ async fn cached_geoentry_search(
     highlighting: Highlighting,
     limits: Limits,
 ) -> Vec<search_executor::ResultsSection> {
-    search_executor::do_geoentry_search(q, highlighting, limits)
-        .await
-        .0
+    let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
+    let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
+    match client {
+        Ok(client) => {
+            search_executor::do_geoentry_search(&client, q, highlighting, limits)
+                .await
+                .0
+        }
+        Err(e) => {
+            error!("Cannot connect to meilisearch because {e:?}");
+            vec![]
+        }
+    }
 }
 
 #[cfg(test)]

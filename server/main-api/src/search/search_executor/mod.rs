@@ -1,3 +1,4 @@
+use meilisearch_sdk::client::Client;
 use serde::Serialize;
 use tracing::error;
 
@@ -37,13 +38,14 @@ struct ResultEntry {
 }
 #[tracing::instrument]
 pub async fn do_geoentry_search(
+    client: &Client,
     q: String,
     highlighting: Highlighting,
     limits: Limits,
 ) -> LimitedVec<ResultsSection> {
     let parsed_input = ParsedQuery::from(q.as_str());
 
-    match query::GeoEntryQuery::from((&parsed_input, &limits, &highlighting))
+    match query::GeoEntryQuery::from((client, &parsed_input, &limits, &highlighting))
         .execute()
         .await
     {
@@ -76,6 +78,7 @@ pub async fn do_geoentry_search(
 #[cfg(test)]
 mod test {
     use super::*;
+    use crate::setup::tests::MeiliSearchTestContainer;
     use std::fmt::{Display, Formatter};
 
     #[derive(serde::Deserialize)]
@@ -98,8 +101,9 @@ mod test {
             let mut acceptable_range = actual.iter().flat_map(|r| r.entries.clone()).take(among);
             acceptable_range.any(|r| r.id == self.target)
         }
-        async fn search(&self) -> Vec<ResultsSection> {
+        async fn search(&self, client: &Client) -> Vec<ResultsSection> {
             do_geoentry_search(
+                client,
                 self.query.clone(),
                 Highlighting::default(),
                 Limits::default(),
@@ -126,8 +130,12 @@ mod test {
     #[tokio::test]
     #[tracing_test::traced_test]
     async fn test_good_queries() {
+        let ms = MeiliSearchTestContainer::new().await;
+        crate::setup::meilisearch::load_data(&ms.client)
+            .await
+            .unwrap();
         for query in TestQuery::load_good() {
-            let actual = query.search().await;
+            let actual = query.search(&ms.client).await;
             assert!(
                 query.actual_matches_among(&actual),
                 "{query}\nSince it can't, please move it to .bad list, actual={actual:?}"
@@ -145,8 +153,12 @@ mod test {
     #[tokio::test]
     #[tracing_test::traced_test]
     async fn test_bad_queries() {
-          for query in TestQuery::load_bad() {
-            let actual = query.search().await;
+        let ms = MeiliSearchTestContainer::new().await;
+        crate::setup::meilisearch::load_data(&ms.client)
+            .await
+            .unwrap();
+        for query in TestQuery::load_bad() {
+            let actual = query.search(&ms.client).await;
             assert!(
                 !query.actual_matches_among(&actual),
                 "{query}\nSince it can't, please move it to .bad list, actual={actual:?}"
