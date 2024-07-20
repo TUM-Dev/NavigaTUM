@@ -33,12 +33,7 @@ pub async fn send_feedback(
             .body("Using this endpoint without accepting the privacy policy is not allowed");
     };
 
-    github::open_issue(
-        &req_data.subject,
-        &req_data.body,
-        parse_labels(&req_data),
-    )
-    .await
+    github::open_issue(&req_data.subject, &req_data.body, parse_labels(&req_data)).await
 }
 
 fn parse_labels(req_data: &Json<FeedbackPostData>) -> Vec<String> {
