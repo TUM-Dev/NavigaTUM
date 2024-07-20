@@ -114,7 +114,7 @@ function sendForm() {
                 <NuxtLink
                   tabindex="1"
                   class="text-blue-600 visited:text-blue-600 hover:underline"
-                  href="https://github.com/TUM-Dev/navigatum/issues"
+                  to="https://github.com/TUM-Dev/navigatum/issues"
                   target="_blank"
                   external
                 >
@@ -130,7 +130,7 @@ function sendForm() {
                   <NuxtLink
                     tabindex="1"
                     class="text-blue-600 visited:text-blue-600 hover:underline"
-                    href="https://docs.github.com/en/github/site-policy"
+                    to="https://docs.github.com/en/github/site-policy"
                     target="_blank"
                     external
                   >
@@ -162,12 +162,10 @@ function sendForm() {
                   <NuxtLink
                     tabindex="1"
                     class="text-blue-600 visited:text-blue-600 hover:underline"
-                    href="https://datenschutz.tum.de"
+                    to="https://datenschutz.tum.de"
                     target="_blank"
                     external
-                  >
-                    datenschutz.tum.de
-                  </NuxtLink>
+                  >datenschutz.tum.de</NuxtLink>
                 </template>
               </I18nT>
             </p>
