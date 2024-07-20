@@ -1,0 +1,14 @@
+---
+source: main-api/src/search/search_executor/mod.rs
+description: "old name before the NS renamings was 'MW 0001, Gustav-Niemann-Hörsaal', changed in Q1 24"
+expression: actual
+info: niemann should get 5510.EG.001
+---
+- facet: rooms
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 0
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 0

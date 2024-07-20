@@ -7,7 +7,7 @@ expression: actual
   location:
     calendar_url: "https://campus.tum.de/1"
     key: 5121.EG.001
-    last_calendar_scrape_at: "2024-07-19T23:03:55Z"
+    last_calendar_scrape_at: "2024-07-19T23:44:03Z"
     name: 5121.EG.001 (Montage- und Versuchshalle)
     type: room
     type_common_name: Versuchshalle
@@ -16,7 +16,7 @@ expression: actual
   location:
     calendar_url: "https://campus.tum.de/3"
     key: 5121.EG.003
-    last_calendar_scrape_at: "2024-07-19T23:03:55Z"
+    last_calendar_scrape_at: "2024-07-19T23:44:03Z"
     name: 5121.EG.003 (Computerraum)
     type: room
     type_common_name: Serverraum

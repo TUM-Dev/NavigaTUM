@@ -33,6 +33,15 @@ pub struct Limits {
     pub rooms_count: usize,
     pub total_count: usize,
 }
+impl Default for Limits {
+    fn default() -> Self {
+        Self {
+            total_count: 10,
+            buildings_count: 5,
+            rooms_count: 10,
+        }
+    }
+}
 
 impl From<&SearchQueryArgs> for Limits {
     fn from(args: &SearchQueryArgs) -> Self {
@@ -53,12 +62,20 @@ impl From<&SearchQueryArgs> for Limits {
     }
 }
 
-#[derive(Debug, Default, Clone, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub struct Highlighting {
     pub pre: String,
     pub post: String,
 }
 
+impl Default for Highlighting {
+    fn default() -> Self {
+        Self {
+            pre: "\u{0019}".to_string(),
+            post: "\u{0017}".to_string(),
+        }
+    }
+}
 impl From<&SearchQueryArgs> for Highlighting {
     fn from(args: &SearchQueryArgs) -> Self {
         let (pre, post) = (
