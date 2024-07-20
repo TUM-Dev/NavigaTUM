@@ -63,7 +63,7 @@ const feedback = useFeedback();
       <p>{{ t("success.thank_you") }}</p>
       <I18nT tag="p" keypath="success.response_at">
         <template #this_issue>
-          <Btn variant="link" :href="successUrl">{{ t("success.this_issue") }}</Btn>
+          <Btn variant="link" :to="successUrl">{{ t("success.this_issue") }}</Btn>
         </template>
       </I18nT>
     </template>
