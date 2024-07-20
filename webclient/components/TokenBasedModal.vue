@@ -156,7 +156,7 @@ function sendForm() {
                   </NuxtLink>
                 </template>
               </I18nT>
-
+              <br />
               <I18nT keypath="public.question_contact">
                 <template #datenschutz>
                   <NuxtLink
@@ -165,8 +165,8 @@ function sendForm() {
                     to="https://datenschutz.tum.de"
                     target="_blank"
                     external
-                    >datenschutz.tum.de</NuxtLink
-                  >
+                    >datenschutz.tum.de
+                  </NuxtLink>
                 </template>
               </I18nT>
             </p>
