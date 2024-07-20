@@ -26,7 +26,6 @@ const url = computed(() => `${runtimeConfig.public.apiURL}/api/get/${route.param
 const { data, error } = useFetch<DetailsResponse, string>(url, {
   key: "details",
   dedupe: "cancel",
-  deep: false,
   retry: 120,
   retryDelay: 5000,
 });
