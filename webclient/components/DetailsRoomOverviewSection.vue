@@ -31,7 +31,10 @@ const selectedRooms = computed<SelectedRoomGroup>(() => {
     return { rooms: combined_list.value, label: t("any_usage") };
   }
   const rooms_usgage = props.rooms?.usages || [];
-  return { rooms: rooms_usgage[selectedUsage.value].children, label: rooms_usgage[selectedUsage.value].name };
+  return {
+    rooms: rooms_usgage[selectedUsage.value].children,
+    label: rooms_usgage[selectedUsage.value].name,
+  };
 });
 const filteredList = computed<ChildEntry[]>(() => {
   const search_term = new RegExp(`.*${search.value}.*`, "i"); // i ^= case-insensitive

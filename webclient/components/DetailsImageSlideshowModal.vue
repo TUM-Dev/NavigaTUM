@@ -9,7 +9,9 @@ const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
 
 const shownImage = defineModel<ImageInfo>("shown_image");
-const slideshowOpen = defineModel<boolean>("slideshow_open", { required: true });
+const slideshowOpen = defineModel<boolean>("slideshow_open", {
+  required: true,
+});
 
 type OnSlideData = {
   currentSlideIndex: number;
@@ -83,7 +85,9 @@ const subtitles = computed<SubTitle[]>(() => {
             'col-span-5 md:col-span-3': i % 3 === 1,
           }"
         >
-          <h6 class="text-zinc-600 text-sm font-semibold">{{ sub.title }}</h6>
+          <h6 class="text-zinc-600 text-sm font-semibold">
+            {{ sub.title }}
+          </h6>
           <div class="wrap- text-zinc-600 text-sm" :class="[i % 3 == 1 ? 'text-xs' : '']">
             <Btn v-if="sub.url" variant="link" size="-ps-1 !inline" :to="sub.url">
               {{ sub.text }}

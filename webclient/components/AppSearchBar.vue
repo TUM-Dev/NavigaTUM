@@ -5,7 +5,9 @@ import SearchResultItem from "~/components/SearchResultItem.vue";
 
 type SearchResponse = components["schemas"]["SearchResponse"];
 
-const searchBarFocused = defineModel<boolean>("searchBarFocused", { required: true });
+const searchBarFocused = defineModel<boolean>("searchBarFocused", {
+  required: true,
+});
 const { t, locale } = useI18n({ useScope: "local" });
 const keep_focus = ref(false);
 const router = useRouter();

@@ -5,7 +5,10 @@ import type { components } from "~/api_types";
 
 type RoomfinderMapEntry = components["schemas"]["RoomfinderMapEntry"];
 
-const props = defineProps<{ available: readonly RoomfinderMapEntry[]; defaultMapId: string }>();
+const props = defineProps<{
+  available: readonly RoomfinderMapEntry[];
+  defaultMapId: string;
+}>();
 const { t } = useI18n({ useScope: "local" });
 
 const modalOpen = ref(false);

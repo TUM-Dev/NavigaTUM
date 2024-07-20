@@ -44,7 +44,12 @@ const navigation = computed(() => [
             @click="
               () => {
                 feedback.open = true;
-                feedback.data = { category: 'general', subject: '', body: '', deletion_requested: false };
+                feedback.data = {
+                  category: 'general',
+                  subject: '',
+                  body: '',
+                  deletion_requested: false,
+                };
               }
             "
           >

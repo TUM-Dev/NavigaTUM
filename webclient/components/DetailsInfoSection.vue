@@ -7,7 +7,9 @@ type ImageInfo = components["schemas"]["ImageInfo"];
 defineProps<{ data: DetailsResponse }>();
 
 const shownImage = defineModel<ImageInfo>("shown_image");
-const slideshowOpen = defineModel<boolean>("slideshow_open", { required: true });
+const slideshowOpen = defineModel<boolean>("slideshow_open", {
+  required: true,
+});
 const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
 </script>
@@ -15,7 +17,9 @@ const runtimeConfig = useRuntimeConfig();
 <template>
   <!-- Information section (on mobile) -->
   <div v-if="data.props?.computed" class="col-5 col-sm-12 column mt-4 block lg:hidden">
-    <h2 class="text-zinc-800 pb-3 text-lg font-semibold">{{ t("info_title") }}</h2>
+    <h2 class="text-zinc-800 pb-3 text-lg font-semibold">
+      {{ t("info_title") }}
+    </h2>
     <DetailsPropertyTable :props="data.props" />
   </div>
 
