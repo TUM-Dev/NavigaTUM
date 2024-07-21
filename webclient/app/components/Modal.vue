@@ -14,7 +14,7 @@ const emit = defineEmits(["close"]);
 const isOpen = defineModel<boolean>({ required: true });
 
 const { t } = useI18n({ useScope: "local" });
-watch(props, () => {
+watchEffect(() => {
   if (isOpen.value) {
     return document.querySelector("body")?.classList.add("overflow-y-hidden");
   } else {
