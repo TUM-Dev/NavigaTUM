@@ -4,7 +4,7 @@ import type { components } from "~/api_types";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import { CalendarDaysIcon } from "@heroicons/vue/16/solid";
 import { ClipboardDocumentCheckIcon, LinkIcon } from "@heroicons/vue/20/solid";
-import type { DetailsFeedbackButton, DetailsInteractiveMap, DetailsRoomfinderMap } from "#components";
+import type { DetailsFeedbackButton, DetailsInteractiveMap } from "#components";
 import { useRouteQuery } from "@vueuse/router";
 
 definePageMeta({
@@ -91,11 +91,6 @@ useSeoMeta({
   ogImage: `https://nav.tum.de/api/preview/${route.params.id}`,
   twitterCard: "summary_large_image",
 });
-
-// following variables are bound to ref objects
-const feedbackButton = ref<InstanceType<typeof DetailsFeedbackButton> | null>(null);
-const interactiveMap = ref<InstanceType<typeof DetailsInteractiveMap> | null>(null);
-const plansMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>(null);
 </script>
 
 <template>
@@ -154,15 +149,12 @@ const plansMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>(null);
               type="button"
               class="focusable rounded-sm"
               :title="t('header.calendar')"
-              @click="
-                calendar.open = true;
-                calendar.showing = [route.params.id?.toString() ?? '404'];
-              "
+              @click="calendar = [...new Set([...calendar, route.params.id?.toString() ?? '404'])]"
             >
               <CalendarDaysIcon class="text-blue-600 mt-0.5 h-4 w-4" />
             </button>
             <ShareButton :coords="data.coords" :name="data.name" />
-            <DetailsFeedbackButton ref="feedbackButton" />
+            <DetailsFeedbackButton />
             <!-- <button class="btn btn-link btn-action btn-sm"
                   :title="t('header.favorites')">
             <BookmarkIcon class="w-4 h-4" v-if="bookmarked" />
@@ -193,14 +185,13 @@ const plansMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>(null);
         <TabPanels>
           <TabPanel id="interactiveMapPanel" :tab-index="0" :unmount="false">
             <ClientOnly>
-              <DetailsInteractiveMap ref="interactiveMap" :data="data" />
+              <DetailsInteractiveMap :data="data" />
             </ClientOnly>
           </TabPanel>
           <TabPanel id="plansMapPanel" :tab-index="1">
             <ClientOnly>
               <LazyDetailsRoomfinderMap
                 v-if="data.maps.roomfinder?.available"
-                ref="plansMap"
                 :available="data.maps.roomfinder.available"
                 :default-map-id="data.maps.roomfinder.default"
               />
@@ -257,7 +248,7 @@ const plansMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>(null);
     {{ t("Loading data...") }}
   </div>
   <ClientOnly>
-    <LazyCalendarModal v-if="calendar.open" />
+    <LazyCalendarModal v-if="calendar.length" />
   </ClientOnly>
 </template>
 
