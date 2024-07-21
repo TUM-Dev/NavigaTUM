@@ -14,7 +14,7 @@ const { t } = useI18n({ useScope: "local" });
 const modalOpen = ref(false);
 onBeforeMount(() => {
   for (let index = 0; index < props.available.length; index++) {
-    if (props.available[index].id === props.defaultMapId) {
+    if (props.available[index]?.id === props.defaultMapId) {
       selected_index.value = index;
       return;
     }

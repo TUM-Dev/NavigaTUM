@@ -49,7 +49,7 @@ watch(counter, () => {
     size + outerBorder * 2,
   );
   // inner
-  ctx.fillStyle = animationColors[counter.value % animationColors.length];
+  ctx.fillStyle = animationColors[counter.value % animationColors.length] ?? "#ffffff";
   ctx?.fillRect(props.map.x - size / 2, props.map.y - size / 2, size, size);
   // stripes
   ctx.setLineDash([1, 2]);

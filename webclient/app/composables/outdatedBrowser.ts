@@ -6,23 +6,24 @@ type BrowserInfo = {
 
 function extractBrowserInfo(): BrowserInfo {
   const ua = navigator.userAgent;
-  let tem;
   let M = ua.match(/(opera|chrome|safari|firefox(?=\/))\/?\s*(\d+)/i) || [];
 
   if (M[1] === "Chrome") {
-    tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
-    if (tem != null) {
-      return { name: tem[1].replace("OPR", "Opera") as BrowserName, version: +tem[2] };
+    let operaOrEdge = ua.match(/\b(OPR|Edge)\/(\d+)/);
+    if (operaOrEdge != null) {
+      const name = (operaOrEdge[1]?.replace("OPR", "Opera") ?? "Edge") as BrowserName;
+      return { name, version: +(operaOrEdge[2] ?? 0) };
     }
   }
 
-  M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, "-?"];
+  let match = M[2] ? [M[1], M[2]] : ["Netscape", navigator.appVersion];
 
-  if ((tem = ua.match(/version\/(\d+)/i)) != null) {
-    M.splice(1, 1, tem[1]);
+  const versionOveride = ua.match(/version\/(\d+)/i);
+  if (versionOveride != null) {
+    match[1] = versionOveride[1] ?? "0";
   }
 
-  return { name: M[0] as BrowserName, version: +M[1] };
+  return { name: match[0] as BrowserName, version: +(match[1] ?? 0) };
 }
 
 function isSupportedBrowser(browserName: BrowserName, browserVersion: number) {
