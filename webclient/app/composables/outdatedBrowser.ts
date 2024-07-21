@@ -6,17 +6,17 @@ type BrowserInfo = {
 
 function extractBrowserInfo(): BrowserInfo {
   const ua = navigator.userAgent;
-  let M = ua.match(/(opera|chrome|safari|firefox(?=\/))\/?\s*(\d+)/i) || [];
+  const M = ua.match(/(opera|chrome|safari|firefox(?=\/))\/?\s*(\d+)/i) || [];
 
   if (M[1] === "Chrome") {
-    let operaOrEdge = ua.match(/\b(OPR|Edge)\/(\d+)/);
+    const operaOrEdge = ua.match(/\b(OPR|Edge)\/(\d+)/);
     if (operaOrEdge != null) {
       const name = (operaOrEdge[1]?.replace("OPR", "Opera") ?? "Edge") as BrowserName;
       return { name, version: +(operaOrEdge[2] ?? 0) };
     }
   }
 
-  let match = M[2] ? [M[1], M[2]] : ["Netscape", navigator.appVersion];
+  const match = M[2] ? [M[1], M[2]] : ["Netscape", navigator.appVersion];
 
   const versionOveride = ua.match(/version\/(\d+)/i);
   if (versionOveride != null) {
