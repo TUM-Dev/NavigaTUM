@@ -13,7 +13,7 @@ const keep_focus = ref(false);
 const router = useRouter();
 const route = useRoute();
 const query = ref(Array.isArray(route.query.q) ? (route.query.q[0] ?? "") : (route.query.q ?? ""));
-const highlighted = ref<string | null>(null);
+const highlighted = ref<string | undefined>(undefined);
 const sites_buildings_expanded = ref<boolean>(false);
 
 const visibleElements = computed<string[]>(() => {
@@ -31,7 +31,7 @@ const visibleElements = computed<string[]>(() => {
 
 function searchFocus(): void {
   searchBarFocused.value = true;
-  highlighted.value = null;
+  highlighted.value = undefined;
 }
 
 function searchBlur(): void {
@@ -90,7 +90,7 @@ function onKeyDown(e: KeyboardEvent): void {
     case "ArrowUp":
       index = visibleElements.value.indexOf(highlighted.value || "");
       if (index === 0) {
-        highlighted.value = null;
+        highlighted.value = undefined;
       } else if (index > 0) {
         highlighted.value = visibleElements.value[index - 1];
       }
@@ -98,7 +98,7 @@ function onKeyDown(e: KeyboardEvent): void {
       break;
 
     case "Enter":
-      if (highlighted.value !== null) searchGoTo(highlighted.value, true);
+      if (highlighted.value !== undefined) searchGoTo(highlighted.value, true);
       else searchGo(false);
       break;
     default:
@@ -196,7 +196,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
             :item="e"
             @click="searchBarFocused = false"
             @mousedown="keep_focus = true"
-            @mouseover="highlighted = null"
+            @mouseover="highlighted = undefined"
           />
         </template>
         <li class="-mt-2">

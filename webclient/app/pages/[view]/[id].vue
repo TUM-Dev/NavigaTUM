@@ -71,7 +71,7 @@ watch([data], () => {
 });
 
 const description = computed(() => {
-  if (data.value === null) return "";
+  if (data.value === undefined) return "";
   const detailsFor = t("details_for");
   let description = `${detailsFor} ${data.value.type_common_name} ${data.value.name}`;
   if (data.value.props.computed) {
@@ -136,7 +136,7 @@ onMounted(() => {
   <div v-if="data" class="flex flex-col gap-5">
     <!-- Header image (on mobile) -->
     <button
-      v-if="data.imgs?.length"
+      v-if="data.imgs?.length && data.imgs[0]"
       type="button"
       class="focusable block lg:hidden print:!hidden"
       @click="slideshowOpen = true"
@@ -190,7 +190,7 @@ onMounted(() => {
               :title="t('header.calendar')"
               @click="
                 calendar.open = true;
-                calendar.showing = [route.params.id.toString()];
+                calendar.showing = [route.params.id?.toString() ?? '404'];
               "
             >
               <CalendarDaysIcon class="text-blue-600 mt-0.5 h-4 w-4" />

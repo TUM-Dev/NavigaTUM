@@ -10,7 +10,7 @@ const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const feedback = useFeedback();
 
-function firstOrDefault(value: LocationQueryValue | LocationQueryValue[], defaultValue: string): string {
+function firstOrDefault(value: LocationQueryValue | LocationQueryValue[] | undefined, defaultValue: string): string {
   if (Array.isArray(value)) return value[0] ?? defaultValue;
   return value ?? defaultValue;
 }
@@ -38,7 +38,7 @@ const { data } = useFetch<SearchResponse>(apiUrl, {
   retryDelay: 5000,
 });
 const description = computed(() => {
-  if (data.value === null) return "";
+  if (!data.value) return "";
   let sectionsDescr = "";
   let estimatedTotalHits = 0;
   data.value.sections.forEach((section) => {

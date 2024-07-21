@@ -32,8 +32,8 @@ const selectedRooms = computed<SelectedRoomGroup>(() => {
   }
   const rooms_usgage = props.rooms?.usages || [];
   return {
-    rooms: rooms_usgage[selectedUsage.value].children,
-    label: rooms_usgage[selectedUsage.value].name,
+    rooms: rooms_usgage[selectedUsage.value]?.children ?? [],
+    label: rooms_usgage[selectedUsage.value]?.name ?? "usage-out-of-range",
   };
 });
 const filteredList = computed<ChildEntry[]>(() => {

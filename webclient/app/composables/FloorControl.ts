@@ -80,10 +80,10 @@ export class FloorControl extends Evented implements IControl {
         if (allFloors) {
           // floorlist is reversed, so we need to reverse the index
           const indexInFloorList = allFloors.length - i - 1;
-          this._setActiveFloor(indexInFloorList, allFloors[i].floor);
+          this._setActiveFloor(indexInFloorList, allFloors[i]?.floor ?? "EG");
           this.fire("floor-changed", {
-            file: allFloors[i].file,
-            coords: allFloors[i].coordinates,
+            file: allFloors[i]?.file,
+            coords: allFloors[i]?.coordinates,
           });
         } else {
           this._setActiveFloor(i, "∅");
@@ -109,10 +109,10 @@ export class FloorControl extends Evented implements IControl {
       this._setActiveFloor(this.floor_list.children.length, "∅");
       this.fire("floor-changed", { file: null, coords: undefined });
     } else {
-      this._setActiveFloor(visibleI, overlays.available[visibleI].floor);
+      this._setActiveFloor(visibleI, overlays.available[visibleI]?.floor ?? "EG");
       this.fire("floor-changed", {
-        file: overlays.available[visibleI].file,
-        coords: overlays.available[visibleI].coordinates,
+        file: overlays.available[visibleI]?.file,
+        coords: overlays.available[visibleI]?.coordinates,
       });
     }
 
@@ -159,8 +159,8 @@ export class FloorControl extends Evented implements IControl {
 
   private _setActiveFloor(floorListI: number, name: string): void {
     for (let i = 0; i < this.floor_list.children.length; i++) {
-      if (i === floorListI) this.floor_list.children[i].classList.add("active");
-      else this.floor_list.children[i].classList.remove("active");
+      if (i === floorListI) this.floor_list.children[i]?.classList.add("active");
+      else this.floor_list.children[i]?.classList.remove("active");
     }
     const vertical = document.getElementById("vertical-oc-text") as HTMLSpanElement;
     vertical.innerText = name;
