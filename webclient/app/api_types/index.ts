@@ -532,9 +532,9 @@ export type components = {
        */
       readonly id: number;
       /** @description The german title of the Entry */
-      readonly stp_title_de: string;
+      readonly title_de: string;
       /** @description The english title of the Entry */
-      readonly stp_title_en: string;
+      readonly title_en: string;
       /**
        * Format: date-time
        * @description The start of the entry

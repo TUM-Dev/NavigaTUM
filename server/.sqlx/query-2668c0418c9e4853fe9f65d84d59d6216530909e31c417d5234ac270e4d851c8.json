@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "SELECT id,room_code,start_at,end_at,stp_title_de,stp_title_en,stp_type,entry_type,detailed_entry_type\n            FROM calendar\n            WHERE room_code = $1 AND start_at >= $2 AND end_at <= $3",
+  "query": "SELECT id,room_code,start_at,end_at,title_de,title_en,stp_type,entry_type,detailed_entry_type\n            FROM calendar\n            WHERE room_code = $1 AND start_at >= $2 AND end_at <= $3",
   "describe": {
     "columns": [
       {
@@ -25,12 +25,12 @@
       },
       {
         "ordinal": 4,
-        "name": "stp_title_de",
+        "name": "title_de",
         "type_info": "Text"
       },
       {
         "ordinal": 5,
-        "name": "stp_title_en",
+        "name": "title_en",
         "type_info": "Text"
       },
       {
@@ -63,10 +63,10 @@
       false,
       false,
       false,
-      false,
+      true,
       false,
       false
     ]
   },
-  "hash": "bc0955e2d7a86890ddbe05808ef57645c4b7413815693ebe3db92a62f2909dab"
+  "hash": "2668c0418c9e4853fe9f65d84d59d6216530909e31c417d5234ac270e4d851c8"
 }

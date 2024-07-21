@@ -65,7 +65,7 @@ async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
   for (const [k, v] of Object.entries(data)) {
     items.push(
       ...v.events.map((e) => {
-        const title = locale.value == "de" ? e.stp_title_de : e.stp_title_en;
+        const title = locale.value == "de" ? e.title_de : e.title_en;
         const color = colorForType(e.entry_type);
         return {
           id: e.id.toString(),
