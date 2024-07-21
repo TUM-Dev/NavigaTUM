@@ -6,7 +6,6 @@ import { webglSupport } from "~/composables/webglSupport";
 import type { components } from "~/api_types";
 
 const props = defineProps<{ data: DetailsResponse }>();
-defineExpose({ loadInteractiveMap });
 const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
@@ -17,7 +16,7 @@ const initialLoaded = ref(false);
 
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 
-function loadInteractiveMap(fromUi = false) {
+function loadInteractiveMap() {
   if (!webglSupport) return;
 
   const doMapUpdate = function () {
@@ -57,12 +56,6 @@ function loadInteractiveMap(fromUi = false) {
   // The map element should be visible when initializing
   if (!document.querySelector("#interactive-map .maplibregl-canvas")) nextTick(doMapUpdate);
   else doMapUpdate();
-
-  // To have an animation when the roomfinder is opened some time later,
-  // the cursor is set to 'zero' while the interactive map is displayed.
-  if (fromUi) {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }
 }
 
 function createMarker(hueRotation = 0) {
@@ -245,6 +238,30 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
     }
   }
 }
+
+// --- Loading components ---
+onMounted(() => {
+  nextTick(() => {
+    // Even though 'mounted' is called there is no guarantee apparently,
+    // that we can reference the map by ID in the DOM yet. For this reason we
+    // try to poll now (Not the best solution probably)
+    let timeoutInMs = 25;
+
+    function pollMap() {
+      const canLoadMap = document.getElementById("interactive-map") !== null;
+      if (canLoadMap) {
+        loadInteractiveMap();
+        window.scrollTo({ top: 0, behavior: "auto" });
+      } else {
+        console.info(`'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`);
+        setTimeout(pollMap, timeoutInMs);
+        timeoutInMs *= 1.5;
+      }
+    }
+
+    pollMap();
+  });
+});
 </script>
 
 <template>

@@ -35,13 +35,15 @@ const slideshowOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
+import { useRouteQuery } from "@vueuse/router";
 
-const selectedMap = computed<"interactive" | "plans">(() => {
-  const map = route.query.map;
-  if (!map) return "interactive";
-  if (Array.isArray(map)) return map[0] === "plans" ? "plans" : "interactive";
-  return map === "plans" ? "plans" : "interactive";
+const selectedMap = useRouteQuery<"interactive" | "plans">("map", "interactive", {
+  mode: "replace",
+  route,
+  router,
+  transform: (val) => (val === "plans" ? "plans" : "interactive"),
 });
+
 watchEffect(() => {
   if (route.params.id === "root") {
     router.replace({ path: "/" });
@@ -64,10 +66,8 @@ watch([data], () => {
   if (!data.value) return;
   // --- Additional data ---
   slideshowOpen.value = false;
-  route.query.map = data.value.maps.default;
   // --- Images ---
   shownImage.value = data.value.imgs?.length ? data.value.imgs[0] : undefined;
-  tryToLoadMap();
 });
 
 const description = computed(() => {
@@ -92,44 +92,10 @@ useSeoMeta({
   twitterCard: "summary_large_image",
 });
 
-// --- Loading components ---
-function tryToLoadMap() {
-  /**
-   * Try to load the entry map (interactive or plans). It requires the map container
-   * element to be loaded in DOM.
-   * @return {boolean} Whether the loading was successful
-   */
-  if (document.getElementById("interactive-map") !== null) {
-    if (selectedMap.value === "interactive") interactiveMap.value?.loadInteractiveMap(false);
-    // scrolling to the top after navigation
-    window.scrollTo({ top: 0, behavior: "auto" });
-    return true;
-  }
-  return false;
-}
-
 // following variables are bound to ref objects
 const feedbackButton = ref<InstanceType<typeof DetailsFeedbackButton> | null>(null);
 const interactiveMap = ref<InstanceType<typeof DetailsInteractiveMap> | null>(null);
 const plansMap = ref<InstanceType<typeof DetailsRoomfinderMap> | null>(null);
-onMounted(() => {
-  nextTick(() => {
-    // Even though 'mounted' is called there is no guarantee apparently,
-    // that we can reference the map by ID in the DOM yet. For this reason we
-    // try to poll now (Not the best solution probably)
-    let timeoutInMs = 25;
-
-    function pollMap() {
-      if (!tryToLoadMap()) {
-        console.info(`'mounted' called, but page is not mounted yet. Retrying map-load in ${timeoutInMs}ms`);
-        setTimeout(pollMap, timeoutInMs);
-        timeoutInMs *= 1.5;
-      }
-    }
-
-    pollMap();
-  });
-});
 </script>
 
 <template>
@@ -209,7 +175,13 @@ onMounted(() => {
 
     <!-- First info section (map + infocard) -->
     <div class="grid grid-cols-1 gap-5 px-5 lg:grid-cols-3">
-      <TabGroup class="col-span-1 lg:col-span-2" as="div" manual>
+      <TabGroup
+        class="col-span-1 lg:col-span-2"
+        as="div"
+        :selected-index="selectedMap === 'interactive' ? 0 : 1"
+        :default-index="selectedMap === 'interactive' ? 0 : 1"
+        @change="(index) => (selectedMap = index === 0 ? 'interactive' : 'plans')"
+      >
         <div class="mb-3 grid gap-2 lg:hidden">
           <Toast
             v-if="data.type === 'room' && data.maps?.overlays?.default === null"
@@ -219,12 +191,12 @@ onMounted(() => {
           <Toast v-if="data.props.comment" :msg="data.props.comment" />
         </div>
         <TabPanels>
-          <TabPanel id="interactiveMapPanel" :unmount="false">
+          <TabPanel id="interactiveMapPanel" :tab-index="0" :unmount="false">
             <ClientOnly>
               <DetailsInteractiveMap ref="interactiveMap" :data="data" />
             </ClientOnly>
           </TabPanel>
-          <TabPanel id="plansMapPanel" :unmount="false">
+          <TabPanel id="plansMapPanel" :tab-index="1">
             <ClientOnly>
               <LazyDetailsRoomfinderMap
                 v-if="data.maps.roomfinder?.available"
@@ -236,21 +208,12 @@ onMounted(() => {
           </TabPanel>
         </TabPanels>
         <TabList class="bg-zinc-100 flex space-x-1 rounded-md p-1 print:!hidden">
-          <Tab
-            v-slot="{ selected }"
-            as="template"
-            @click="
-              () => {
-                route.query.map = 'plans';
-                interactiveMap?.loadInteractiveMap(true);
-              }
-            "
-          >
+          <Tab :tab-index="0" as="template" @click="selectedMap = 'interactive'">
             <button
               type="button"
               class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
               :class="[
-                selected
+                selectedMap === 'interactive'
                   ? 'text-zinc-900 bg-zinc-300 shadow'
                   : 'text-zinc-800 bg-zinc-300/5 hover:text-zinc-900 hover:bg-zinc-500/20',
               ]"
@@ -258,18 +221,13 @@ onMounted(() => {
               {{ t("map.interactive") }}
             </button>
           </Tab>
-          <Tab
-            v-slot="{ selected }"
-            as="template"
-            :disabled="!data.maps.roomfinder?.available"
-            @click="route.query.map = 'plans'"
-          >
+          <Tab :tab-index="1" as="template" :disabled="!data.maps.roomfinder?.available" @click="selectedMap = 'plans'">
             <button
               type="button"
               class="focusable w-full rounded-md py-2.5 text-sm font-medium leading-5"
               :class="{
-                'text-zinc-900 bg-zinc-300 shadow': selected,
-                'text-zinc-800 bg-zinc-300/5': !selected,
+                'text-zinc-900 bg-zinc-300 shadow': selectedMap === 'plans',
+                'text-zinc-800 bg-zinc-300/5': selectedMap !== 'plans',
                 'hover:text-zinc-900 hover:bg-zinc-500/20': data.maps.roomfinder?.available,
                 '!text-zinc-400 cursor-not-allowed': !data.maps.roomfinder?.available,
               }"
@@ -299,7 +257,7 @@ onMounted(() => {
     {{ t("Loading data...") }}
   </div>
   <ClientOnly>
-    <CalendarModal v-if="calendar.open" />
+    <LazyCalendarModal v-if="calendar.open" />
   </ClientOnly>
 </template>
 
