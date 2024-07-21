@@ -28,11 +28,11 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
 
 <template>
   <template v-if="available">
-    <div>
+    <div class="flex gap-2 flex-col pb-3">
       <Listbox v-model="selected_index">
         <div class="relative mt-1">
           <ListboxButton
-            class="focusable bg-white relative w-full cursor-pointer rounded-lg py-2 pl-3 pr-10 text-left shadow-md sm:text-sm"
+            class="focusable bg-zinc-100 text-zinc-900 relative w-full cursor-pointer rounded-lg py-2 pl-3 pr-10 text-left shadow-md sm:text-sm"
           >
             <span class="block truncate">1:{{ selectedMap.scale }}, {{ selectedMap.name }}</span>
             <span class="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -46,7 +46,7 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
             leave-to-class="opacity-0"
           >
             <ListboxOptions
-              class="ring-black/5 bg-white absolute mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 focus:outline-none sm:text-sm"
+              class="ring-black/5 bg-zinc-100 text-zinc-900 absolute mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg ring-1 focus:outline-none sm:text-sm"
             >
               <ListboxOption
                 v-for="(map, i) in available"
