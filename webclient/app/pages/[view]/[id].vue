@@ -27,8 +27,9 @@ const url = computed(() => `${runtimeConfig.public.apiURL}/api/get/${route.param
 const { data, error } = useFetch<DetailsResponse, string>(url, {
   key: "details",
   dedupe: "cancel",
+  credentials: "omit",
   retry: 120,
-  retryDelay: 5000,
+  retryDelay: 1000,
 });
 
 const shownImage = ref<ImageInfo | undefined>(data.value?.imgs?.length ? data.value.imgs[0] : undefined);

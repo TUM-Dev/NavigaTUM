@@ -119,8 +119,9 @@ const url = computed(() => {
 const { data, error } = await useFetch<SearchResponse>(url, {
   key: "search",
   dedupe: "cancel",
+  credentials: "omit",
   retry: 120,
-  retryDelay: 5000,
+  retryDelay: 1000,
 });
 </script>
 
