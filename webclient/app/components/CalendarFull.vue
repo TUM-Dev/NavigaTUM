@@ -53,9 +53,9 @@ async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
   const data = await $fetch<CalendarResponse>(url, {
     method: "POST",
     body: body,
-    retry: 120,
-    retryDelay: 5000,
     credentials: "omit",
+    retry: 120,
+    retryDelay: 1000,
     headers: { "Content-Type": "application/json" },
   });
   extractInfos(data);
