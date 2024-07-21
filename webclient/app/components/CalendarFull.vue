@@ -13,6 +13,7 @@ type CalendarBody = operations["calendar"]["requestBody"]["content"]["applicatio
 type CalendarLocation = components["schemas"]["CalendarLocation"];
 
 const props = defineProps<{ showing: readonly string[] }>();
+defineExpose({ refetchEvents });
 const runtimeConfig = useRuntimeConfig();
 const { locale } = useI18n({ useScope: "local" });
 
@@ -51,9 +52,11 @@ async function fetchEvents(arg: EventSourceFuncArg): Promise<EventInput[]> {
   const url = `${runtimeConfig.public.apiURL}/api/calendar`;
   const data = await $fetch<CalendarResponse>(url, {
     method: "POST",
-    body: JSON.stringify(body),
+    body: body,
     retry: 120,
     retryDelay: 5000,
+    credentials: "omit",
+    headers: { "Content-Type": "application/json" },
   });
   extractInfos(data);
 
@@ -112,6 +115,18 @@ const calendarOptions: CalendarOptions = {
     meridiem: false,
   },
 };
+
+const fullCalendarRef = ref<InstanceType<typeof FullCalendar> | null>(null);
+
+function refetchEvents() {
+  const api = fullCalendarRef.value?.getApi();
+  if (api) {
+    console.debug("Re-Fetching events");
+    api.refetchEvents();
+  } else {
+    nextTick(refetchEvents);
+  }
+}
 </script>
 
 <template>

@@ -3,53 +3,59 @@ import { PlusCircleIcon } from "@heroicons/vue/24/outline";
 import { CalendarIcon } from "@heroicons/vue/16/solid";
 import type { components } from "~/api_types";
 import PreviewIcon from "~/components/PreviewIcon.vue";
+import { useCalendar } from "~/composables/calendar";
 
+type DetailsResponse = components["schemas"]["DetailsResponse"];
 type CalendarLocation = components["schemas"]["CalendarLocation"];
+
 defineProps<{
   readonly data: Map<string, CalendarLocation>;
 }>();
-const calendar = useCalendar();
+const emit = defineEmits(["change"]);
+
 const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
-
-type DetailsResponse = components["schemas"]["DetailsResponse"];
+const calendar = useCalendar();
 
 async function addLocation() {
-  let location: string = "";
-  while (!location) {
-    location = window.prompt(t("prompt.initial")) || "";
+  let selectedLocation: string = "";
+  while (!selectedLocation) {
+    selectedLocation = window.prompt(t("prompt.initial")) || "";
     try {
-      const result = await fetch(`${runtimeConfig.public.apiURL}/api/get/${location}`);
+      const result = await fetch(`${runtimeConfig.public.apiURL}/api/get/${selectedLocation}`);
       if (!result.ok) {
-        const userWantsToRetry = window.confirm(t("prompt.error_not_ok", [location]));
+        const userWantsToRetry = window.confirm(t("prompt.error_not_ok", [selectedLocation]));
         if (!userWantsToRetry) return;
-        location = "";
+        selectedLocation = "";
         continue;
       }
       const res = (await result.json()) as DetailsResponse;
       if (!res.props.calendar_url) {
-        const userWantsToRetry = window.confirm(t("prompt.error_not_calendar", [location]));
+        const userWantsToRetry = window.confirm(t("prompt.error_not_calendar", [selectedLocation]));
         if (!userWantsToRetry) return;
-        location = "";
+        selectedLocation = "";
         continue;
       }
     } catch (e) {
       window.alert("Failed because " + e);
-      location = "";
+      selectedLocation = "";
       continue;
     }
-    if (calendar.value.showing.find((k) => k == location)) {
-      const userWantsToRetry = window.confirm(t("prompt.error_already_exists", [location]));
+    if (calendar.value.find((k) => k == selectedLocation)) {
+      const userWantsToRetry = window.confirm(t("prompt.error_already_exists", [selectedLocation]));
       if (!userWantsToRetry) return;
-      location = "";
+      selectedLocation = "";
     }
   }
-  calendar.value.showing.push(location);
+  calendar.value = [...calendar.value, selectedLocation];
+  emit("change");
+  // todo: debug why this is not syncinc apropriately, quite a crude hack
+  setTimeout(() => location.reload(), 500);
 }
 </script>
 
 <template>
-  <ul v-if="calendar.showing.length" class="mb-6 flex gap-2 overflow-x-auto">
+  <ul v-if="calendar.length" class="mb-6 flex gap-2 overflow-x-auto">
     <li
       v-for="[key, location] in data.entries()"
       :key="key"

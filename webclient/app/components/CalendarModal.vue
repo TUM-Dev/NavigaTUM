@@ -2,6 +2,7 @@
 import { useFeedback } from "~/composables/feedback";
 import { useCalendar } from "~/composables/calendar";
 import type { components } from "~/api_types";
+import type { CalendarFull } from "#components";
 
 type CalendarLocation = components["schemas"]["CalendarLocation"];
 
@@ -11,10 +12,17 @@ const { t } = useI18n({ useScope: "local" });
 // all the below are updated by the calendar
 const earliest_last_sync = ref<string | null>(null);
 const locations = ref<Map<string, CalendarLocation>>(new Map());
+const modalOpen = ref(!!calendar.value.length);
+watchEffect(() => {
+  if (!!calendar.value.length && !modalOpen.value) {
+    modalOpen.value = true;
+  }
+});
+const fullCalendarRef = ref<InstanceType<typeof CalendarFull> | null>(null);
 </script>
 
 <template>
-  <Modal v-model="calendar.open" :title="t('title')" class="!min-w-[90vw]">
+  <Modal v-model="modalOpen" :title="t('title')" class="!min-w-[90vw]">
     <NuxtErrorBoundary>
       <template #error="{ error }">
         <Toast level="error">
@@ -39,7 +47,7 @@ const locations = ref<Map<string, CalendarLocation>>(new Map());
                     feedback.data = {
                       category: 'bug',
                       subject: 'calendar error',
-                      body: `While viewing the calendar for ${JSON.stringify(calendar.showing)}
+                      body: `While viewing the calendar for ${JSON.stringify(calendar)}
 I got this error:
 \`\`\`
 ${error}
@@ -74,7 +82,7 @@ I also did PLEASE_INSERT_IF_YOU_DID_SOMETHING_SPECIAL_BEFOREHAND`,
                         category: 'general',
                         subject: 'calendar feedback',
                         body: `Dear OpenSource@TUM,
-The calendar for ${JSON.stringify(calendar.showing)} can be improved by
+The calendar for ${JSON.stringify(calendar)} can be improved by
 -
 
 Thanks`,
@@ -93,11 +101,12 @@ Thanks`,
             {{ t("Loading data...") }}
           </div>
           <div :class="{ '!invisible': locations.size === 0 }">
-            <CalendarRoomSelector :data="locations" />
+            <CalendarRoomSelector :data="locations" @change="fullCalendarRef?.refetchEvents()" />
             <CalendarFull
+              ref="calendarFullRef"
               v-model:earliest_last_sync="earliest_last_sync"
               v-model:locations="locations"
-              :showing="calendar.showing"
+              :showing="calendar"
             />
             <p class="pt-2 text-xs">
               {{ t("footer.disclaimer") }} <br />
