@@ -2099,12 +2099,12 @@ components:
           format: int32
           examples:
             - 42
-        stp_title_de:
+        title_de:
           description: The german title of the Entry
           type: string
           examples:
             - Quantenteleportation
-        stp_title_en:
+        title_en:
           description: The english title of the Entry
           type: string
           examples:
@@ -2137,8 +2137,8 @@ components:
             - Vorlesung mit Zentralübung
       required:
         - id
-        - stp_title_de
-        - stp_title_en
+        - title_de
+        - title_en
         - start_at
         - end_at
         - entry_type
