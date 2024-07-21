@@ -14,7 +14,7 @@ const locations = ref<Map<string, CalendarLocation>>(new Map());
 </script>
 
 <template>
-  <LazyModal v-model="calendar.open" :title="t('title')" class="!min-w-[90vw]">
+  <Modal v-model="calendar.open" :title="t('title')" class="!min-w-[90vw]">
     <NuxtErrorBoundary>
       <template #error="{ error }">
         <Toast level="error">
@@ -111,7 +111,7 @@ Thanks`,
         </div>
       </template>
     </NuxtErrorBoundary>
-  </LazyModal>
+  </Modal>
 </template>
 
 <i18n lang="yaml">

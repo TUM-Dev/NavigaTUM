@@ -101,7 +101,7 @@ function sendForm() {
 </script>
 
 <template>
-  <LazyModal v-if="!successUrl" v-model="feedback.open" :title="t('title')" @close="closeForm">
+  <Modal v-if="!successUrl" v-model="feedback.open" :title="t('title')" @close="closeForm">
     <Toast v-if="error.message" class="mb-4" :msg="error.message" level="error" />
 
     <div class="flex flex-col gap-1">
@@ -197,12 +197,12 @@ function sendForm() {
         {{ t("cancel") }}
       </Btn>
     </div>
-  </LazyModal>
-  <LazyModal v-if="successUrl" v-model="feedback.open" :title="t('thank_you')" @close="closeForm">
+  </Modal>
+  <Modal v-if="successUrl" v-model="feedback.open" :title="t('thank_you')" @close="closeForm">
     <slot name="success" :success-url="successUrl" />
 
     <Btn size="md" variant="primary" @click="closeForm">OK</Btn>
-  </LazyModal>
+  </Modal>
 </template>
 
 <i18n lang="yaml">

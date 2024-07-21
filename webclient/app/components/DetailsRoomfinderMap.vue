@@ -72,13 +72,17 @@ const selectedMap = computed<RoomfinderMapEntry>(() => {
         </div>
       </Listbox>
       <button type="button" :aria-label="t('open_detailed_modal')" @click="modalOpen = true">
-        <RoomfinderImageLocation id="rf_outer_image" :map="selectedMap" />
+        <ClientOnly>
+          <RoomfinderImageLocation id="rf_outer_image" :map="selectedMap" />
+        </ClientOnly>
       </button>
     </div>
 
-    <LazyModal v-model="modalOpen" :title="t('modal.header')" class="items-baseline">
-      <RoomfinderImageLocation id="rf_modal_image" :map="selectedMap" />
-    </LazyModal>
+    <ClientOnly>
+      <LazyModal v-model="modalOpen" :title="t('modal.header')" class="items-baseline">
+        <LazyRoomfinderImageLocation id="rf_modal_image" :map="selectedMap" />
+      </LazyModal>
+    </ClientOnly>
   </template>
 </template>
 

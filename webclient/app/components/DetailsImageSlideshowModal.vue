@@ -42,7 +42,7 @@ const subtitles = computed<SubTitle[]>(() => {
 </script>
 
 <template>
-  <LazyModal v-model="slideshowOpen" :title="t('header')" class="!min-w-[60vw]">
+  <Modal v-model="slideshowOpen" :title="t('header')" class="!min-w-[60vw]">
     <div class="-mx-6 -mt-3">
       <Carousel
         :items-to-show="1.1"
@@ -97,7 +97,7 @@ const subtitles = computed<SubTitle[]>(() => {
         </div>
       </div>
     </div>
-  </LazyModal>
+  </Modal>
 </template>
 
 <i18n lang="yaml">
