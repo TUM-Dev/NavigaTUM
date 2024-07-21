@@ -5,6 +5,7 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import { CalendarDaysIcon } from "@heroicons/vue/16/solid";
 import { ClipboardDocumentCheckIcon, LinkIcon } from "@heroicons/vue/20/solid";
 import type { DetailsFeedbackButton, DetailsInteractiveMap, DetailsRoomfinderMap } from "#components";
+import { useRouteQuery } from "@vueuse/router";
 
 definePageMeta({
   validate(route) {
@@ -35,7 +36,6 @@ const slideshowOpen = ref(false);
 
 const clipboardSource = computed(() => `https://nav.tum.de${route.fullPath}`);
 const { copy, copied, isSupported: clipboardIsSupported } = useClipboard({ source: clipboardSource });
-import { useRouteQuery } from "@vueuse/router";
 
 const selectedMap = useRouteQuery<"interactive" | "plans">("map", "interactive", {
   mode: "replace",
