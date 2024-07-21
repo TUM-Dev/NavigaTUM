@@ -35,36 +35,38 @@ const shareOptions = () =>
   >
     <ShareIcon class="text-blue-600 h-4 w-4 hover:text-blue-900" />
   </button>
-  <LazyModal v-model="modalOpen" :title="t('share')">
-    <div class="flex flex-col gap-5">
-      <div class="flex flex-col gap-2">
-        <h3 class="text-md text-zinc-600 font-semibold">{{ t("open_in") }}</h3>
-        <Btn variant="link" :to="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
-          >Google Maps
-        </Btn>
-        <Btn
-          variant="link"
-          :to="`https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lon}#map=17/${coords.lat}/${coords.lon}&layers=T`"
-          >OpenStreetMap
-        </Btn>
-        <Btn variant="link" :to="`geo:${coords.lat},${coords.lon}`">
-          {{ t("other_app") }}
-        </Btn>
+  <ClientOnly>
+    <LazyModal v-model="modalOpen" :title="t('share')">
+      <div class="flex flex-col gap-5">
+        <div class="flex flex-col gap-2">
+          <h3 class="text-md text-zinc-600 font-semibold">{{ t("open_in") }}</h3>
+          <Btn variant="link" :to="`https://www.google.com/maps/search/?api=1&query=${coords.lat}%2C${coords.lon}`"
+            >Google Maps
+          </Btn>
+          <Btn
+            variant="link"
+            :to="`https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lon}#map=17/${coords.lat}/${coords.lon}&layers=T`"
+            >OpenStreetMap
+          </Btn>
+          <Btn variant="link" :to="`geo:${coords.lat},${coords.lon}`">
+            {{ t("other_app") }}
+          </Btn>
+        </div>
+        <div class="flex flex-col gap-2">
+          <h3 class="text-md text-zinc-600 font-semibold">{{ t("share") }}</h3>
+          <Btn v-if="shareIsSupported" variant="primary" @click="share(shareOptions)">
+            <ShareIcon v-if="copied" class="my-auto h-4 w-4" />
+            {{ t("share_link") }}
+          </Btn>
+          <Btn v-if="clipboardIsSupported" variant="primary" @click="copy()">
+            <ClipboardDocumentCheckIcon v-if="copied" class="my-auto h-4 w-4" />
+            <ClipboardIcon v-else class="my-auto h-4 w-4" />
+            {{ copied ? t("copied") : t("copy_link") }}
+          </Btn>
+        </div>
       </div>
-      <div class="flex flex-col gap-2">
-        <h3 class="text-md text-zinc-600 font-semibold">{{ t("share") }}</h3>
-        <Btn v-if="shareIsSupported" variant="primary" @click="share(shareOptions)">
-          <ShareIcon v-if="copied" class="my-auto h-4 w-4" />
-          {{ t("share_link") }}
-        </Btn>
-        <Btn v-if="clipboardIsSupported" variant="primary" @click="copy()">
-          <ClipboardDocumentCheckIcon v-if="copied" class="my-auto h-4 w-4" />
-          <ClipboardIcon v-else class="my-auto h-4 w-4" />
-          {{ copied ? t("copied") : t("copy_link") }}
-        </Btn>
-      </div>
-    </div>
-  </LazyModal>
+    </LazyModal>
+  </ClientOnly>
 </template>
 
 <i18n lang="yaml">

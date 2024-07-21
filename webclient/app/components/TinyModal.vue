@@ -42,10 +42,12 @@ const modalOpen = ref(false);
     <a class="cursor-pointer" :aria-label="t('show_more_information')" @click="() => (modalOpen = true)">
       <slot name="icon" />
     </a>
-    <LazyModal v-model="modalOpen" :title="props.content.title || ''">
-      <p v-if="props.content.body">{{ props.content.body }}</p>
-      <p v-if="props.content.footer">{{ props.content.footer }}</p>
-    </LazyModal>
+    <ClientOnly>
+      <LazyModal v-model="modalOpen" :title="props.content.title || ''">
+        <p v-if="props.content.body">{{ props.content.body }}</p>
+        <p v-if="props.content.footer">{{ props.content.footer }}</p>
+      </LazyModal>
+    </ClientOnly>
   </template>
 </template>
 
