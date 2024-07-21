@@ -176,7 +176,8 @@ async fn run() -> Result<(), BoxedError> {
             .allow_any_origin()
             .allow_any_header()
             .allowed_methods(vec!["GET", "POST"])
-            .max_age(3600);
+            .max_age(3600)
+            .send_wildcard();
 
         App::new()
             .wrap(prometheus.clone())
