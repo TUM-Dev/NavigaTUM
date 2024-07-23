@@ -24,7 +24,8 @@ jobs:
           python-version: '3.12'
       - name: Install python dependencies
         run: pip install -r data/requirements.txt -r requirements-dev.txt
-      - run: rm -rf data/external/results/*
+      - run: rm data/external/results/*tumonline.json
+      - run: rm data/external/results/*nat.json
       - name: Download public_transport data
         continue-on-error: true # a PR deleting all data will be created if this fails => fail obvious
         run: |
