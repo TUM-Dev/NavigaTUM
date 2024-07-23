@@ -48,7 +48,7 @@ de:
   got_here: "Ich habe diesen Fehler so gefunden:\r\n1. ..."
   header: Die angeforderte Seite wurde nicht gefunden.
   img_alt: Illustration einer männlichen Person, die auf großen '404'-Buchstaben sitzt und einer weiblichen person vor dem TUM Hauptgebäude
-  go_home: Zurück gehen
+  go_home: Home
   call_to_action: Feedback geben
 en:
   open_feedback: Open the feedback-form
@@ -56,6 +56,6 @@ en:
   got_here: "I have found the error by:\r\n1. ..."
   header: The requested website could not to be found.
   img_alt: illustration of a female and male person sitting on large '404'-letters in front of the tum main building
-  go_home: Go back home
+  go_home: Go home
   call_to_action: Give Feedback
 </i18n>
