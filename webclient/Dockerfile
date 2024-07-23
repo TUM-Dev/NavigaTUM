@@ -1,3 +1,6 @@
+# https://docs.docker.com/build/attestations/sbom/#scan-build-context
+ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
+
 FROM node:21-alpine3.19 as build-stage
 WORKDIR /app
 ENV PNPM_HOME="/pnpm"
