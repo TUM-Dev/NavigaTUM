@@ -51,18 +51,28 @@ impl APIRequestor {
     pub(crate) async fn refresh(&self, id: String) -> Result<(), crate::BoxedError> {
         let sync_start = Utc::now();
         let url = format!("https://campus.tum.de/tumonline/co/connectum/api/rooms/{id}/calendars");
-        let events: Vec<Event> = self
+        let events = self
             .client
-            .get(url)
+            .get(&url)
             .bearer_auth(self.unwrap_token())
             .send()
             .await?
-            .json()
-            .await?;
-        debug!(
-            "finished fetching for {cnt} calendar events of {id}",
-            cnt = events.len(),
-        );
+            .json::<Vec<Event>>()
+            .await;
+        let events = match events {
+            Ok(events) => {
+                debug!(
+                    "finished fetching for {cnt} calendar events of {id}",
+                    cnt = events.len(),
+                );
+                events
+            }
+            Err(e) => {
+                warn!("cannot download {url} because {e:?}");
+                return Err(e.into());
+            }
+        };
+
         let events = events
             .into_iter()
             .map(|mut e| {
