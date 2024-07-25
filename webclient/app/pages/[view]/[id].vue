@@ -52,7 +52,7 @@ watchEffect(() => {
 });
 watchEffect(() => {
   if (error.value) {
-    router.push({
+    router.replace({
       path: "/404",
       query: { ...route.query, path: route.path },
       hash: route.hash,
