@@ -40,7 +40,7 @@
     "@nuxt/eslint": "0.4.0",
     "@nuxtjs/i18n": "8.3.2",
     "@nuxtjs/tailwindcss": "6.12.1",
-    "@types/node": "20.14.12",
+    "@types/node": "20.14.13",
     "@types/swagger-ui": "3.52.4",
     "@vue/tsconfig": "0.5.1",
     "autoprefixer": "10.4.19",
