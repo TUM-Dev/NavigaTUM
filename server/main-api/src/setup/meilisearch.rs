@@ -45,7 +45,7 @@ async fn wait_for_healthy(client: &Client) {
 }
 
 #[tracing::instrument(skip(client))]
-pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
+pub async fn setup(client: &Client, vector_search: bool) -> Result<(), crate::BoxedError> {
     debug!("waiting for Meilisearch to be healthy");
     wait_for_healthy(client).await;
     info!("Meilisearch is healthy");
@@ -67,7 +67,7 @@ pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
         ..Default::default()
     });
 
-    let settings = Settings::new()
+    let mut settings = Settings::new()
         .with_filterable_attributes([
             "facet",
             "parent_keywords",
@@ -98,15 +98,18 @@ pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
             "address",
             "operator_name",
         ])
-        .with_synonyms(Synonyms::try_load()?.0)
-        .with_embedders(HashMap::from([
+        .with_synonyms(Synonyms::try_load()?.0);
+
+    if vector_search {
+        settings=settings.with_embedders(HashMap::from([
             ("default",en_embedder),
-        ]));
+        ]))
+    }
 
     let res = entries
         .set_settings(&settings)
         .await?
-        .wait_for_completion(client, POLLING_RATE, TIMEOUT_SETUP)
+        .wait_for_completion(client, POLLING_RATE, if vector_search { TIMEOUT_SETUP } else { TIMEOUT })
         .await?;
     if let Task::Failed { content } = res {
         panic!("Failed to add settings to Meilisearch: {content:?}");
@@ -116,7 +119,7 @@ pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
 }
 
 #[tracing::instrument(skip(client))]
-pub async fn load_data(client: &Client) -> Result<(), crate::BoxedError> {
+pub async fn load_data(client: &Client, vector_search:bool) -> Result<(), crate::BoxedError> {
     let entries = client.index("entries");
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let documents = reqwest::get(format!("{cdn_url}/search_data.json"))
@@ -126,7 +129,7 @@ pub async fn load_data(client: &Client) -> Result<(), crate::BoxedError> {
     let res = entries
         .add_documents(&documents, Some("ms_id"))
         .await?
-        .wait_for_completion(client, POLLING_RATE, TIMEOUT_SETUP)
+        .wait_for_completion(client, POLLING_RATE, if vector_search { TIMEOUT_SETUP } else { TIMEOUT })
         .await?;
     if let Task::Failed { content } = res {
         panic!("Failed to add documents to Meilisearch: {content:?}");
