@@ -4,7 +4,6 @@ from math import acos, cos, radians, sin
 from pathlib import Path
 from typing import Any, Union
 
-import numba
 from PIL import Image
 from ruamel.yaml import YAML
 
@@ -119,10 +118,9 @@ def setup_logging(level: int = logging.INFO) -> None:
 EARTH_RADIUS_METERS: int = 6_371_000
 
 
-@numba.njit(cache=True, fastmath=True)
 def distance_via_great_circle(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """
-    Calculate the approximate distance in meters betweeen two points using the great circle approach
+    Calculate the approximate distance in meters between two points using the great circle approach
 
     Basic idea from https://blog.petehouston.com/calculate-distance-of-two-locations-on-earth/
     """

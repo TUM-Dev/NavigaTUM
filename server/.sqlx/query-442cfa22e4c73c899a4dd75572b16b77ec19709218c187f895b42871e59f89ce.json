@@ -1,0 +1,18 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO transportation_stations(parent,id,name,coordinate)VALUES ($1,$2,$3,POINT($4,$5))",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Text",
+        "Text",
+        "Float8",
+        "Float8"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "442cfa22e4c73c899a4dd75572b16b77ec19709218c187f895b42871e59f89ce"
+}

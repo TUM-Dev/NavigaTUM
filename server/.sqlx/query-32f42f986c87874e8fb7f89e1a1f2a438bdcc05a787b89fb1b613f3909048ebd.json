@@ -1,0 +1,12 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM transportation_stations WHERE 1=1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": []
+  },
+  "hash": "32f42f986c87874e8fb7f89e1a1f2a438bdcc05a787b89fb1b613f3909048ebd"
+}
