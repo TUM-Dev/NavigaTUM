@@ -7,8 +7,8 @@ FROM    rust:1.80-alpine AS compiler
 # this is not an issue since we copy the generated binary to a more minimal envornment
 # Descriptions:
 # - musl-dev is needed for musl to compile the binary
-# - openssl is needed for https://github.com/meilisearch/meilisearch-rust to compile the binary, as their http-libraryy won't support tls until v2.0 https://github.com/sagebind/isahc/issues/199
-#   I somehow could not get openssl to cooperate => we are contibuing with libpq-dev
+# - mold is used to link faster
+# - I somehow could not get openssl to cooperate => we are contibuing with libpq-dev
 RUN     apk add -q --update-cache --no-cache musl-dev libpq-dev mold
 
 WORKDIR /compiler

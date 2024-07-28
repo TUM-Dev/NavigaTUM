@@ -23,7 +23,7 @@ const router = useRouter();
 
 const calendar = useCalendar();
 const runtimeConfig = useRuntimeConfig();
-const url = computed(() => `${runtimeConfig.public.apiURL}/api/get/${route.params.id}?lang=${locale.value}`);
+const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/${route.params.id}?lang=${locale.value}`);
 const { data, error } = useFetch<DetailsResponse, string>(url, {
   key: "details",
   dedupe: "cancel",
@@ -89,7 +89,7 @@ useSeoMeta({
   ogTitle: title,
   description: description,
   ogDescription: description,
-  ogImage: `https://nav.tum.de/api/preview/${route.params.id}`,
+  ogImage: `https://nav.tum.de/api/locations/${route.params.id}/preview`,
   twitterCard: "summary_large_image",
 });
 </script>

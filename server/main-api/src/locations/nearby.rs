@@ -20,7 +20,7 @@ struct NearbyResponse {
     public_transport: Vec<Transportation>,
 }
 
-#[get("/api/location/{id}/nearby")]
+#[get("/{id}/nearby")]
 pub async fn nearby_handler(
     params: web::Path<String>,
     data: web::Data<crate::AppData>,
