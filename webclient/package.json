@@ -37,7 +37,7 @@
     "vue3-carousel": "0.3.3"
   },
   "devDependencies": {
-    "@nuxt/eslint": "0.3.13",
+    "@nuxt/eslint": "0.4.0",
     "@nuxtjs/i18n": "8.3.2",
     "@nuxtjs/tailwindcss": "6.12.1",
     "@types/node": "20.14.12",
