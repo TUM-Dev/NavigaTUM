@@ -22,7 +22,7 @@ services:
         condition: service_healthy
       data:
         condition: service_healthy
-      main-api:
+      server:
         condition: service_healthy
   # maps
   tileserver-init-config:
@@ -117,21 +117,20 @@ services:
       TZ: Europe/Berlin
     expose:
       - "3002"
-  # server
-  main-api:
+  server:
     image: ghcr.io/tum-dev/navigatum-server:main
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.navigatum-main-api.entrypoints=webs"
-      - "traefik.http.routers.navigatum-main-api.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && (PathPrefix(`/api/locations/`) || Path(`/api/search`) || PathPrefix(`/api/feedback/`) || Path(`/api/calendar`) || Path(`/api/status`) || Path(`/api/metrics`))"
-      - "traefik.http.services.navigatum-main-api.loadbalancer.server.port=3003"
+      - "traefik.http.routers.navigatum-server.entrypoints=webs"
+      - "traefik.http.routers.navigatum-server.tls.certresolver=leacme"
+      - "traefik.http.routers.navigatum-server.rule=Host(`nav.tum.de`) && (PathPrefix(`/api/locations/`) || PathPrefix(`/api/get/`) || PathPrefix(`/api/preview/`) || Path(`/api/search`) || PathPrefix(`/api/feedback/`) || Path(`/api/calendar`) || Path(`/api/status`) || Path(`/api/metrics`))"
+      - "traefik.http.services.navigatum-server.loadbalancer.server.port=3003"
     networks:
       - traefik_traefik
     expose:
       - "3003"
-    command: /bin/navigatum-main-api
+    command: /bin/navigatum-server
     user: 1000:3000
     environment:
       TZ: Europe/Berlin
