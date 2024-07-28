@@ -1,11 +1,14 @@
-FROM    rust:1.79-alpine AS compiler
+# https://docs.docker.com/build/attestations/sbom/#scan-build-context
+ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
+
+FROM    rust:1.80-alpine AS compiler
 
 # to ache the build this line inludes all the dependencys all servers need
 # this is not an issue since we copy the generated binary to a more minimal envornment
 # Descriptions:
 # - musl-dev is needed for musl to compile the binary
-# - openssl is needed for https://github.com/meilisearch/meilisearch-rust to compile the binary, as their http-libraryy won't support tls until v2.0 https://github.com/sagebind/isahc/issues/199
-#   I somehow could not get openssl to cooperate => we are contibuing with libpq-dev
+# - mold is used to link faster
+# - I somehow could not get openssl to cooperate => we are contibuing with libpq-dev
 RUN     apk add -q --update-cache --no-cache musl-dev libpq-dev mold
 
 WORKDIR /compiler
@@ -51,4 +54,4 @@ USER    navigatum
 ENTRYPOINT ["tini", "--"]
 
 HEALTHCHECK CMD curl --fail localhost:3003/api/status || exit 1
-CMD     /bin/navigatum-main-api
+CMD     /bin/navigatum-server

@@ -4,7 +4,8 @@ use std::error::Error;
 use std::sync::Arc;
 
 use actix_cors::Cors;
-use actix_web::{get, middleware, web, App, HttpResponse, HttpServer};
+use actix_web::web::Redirect;
+use actix_web::{get, middleware, web, App, HttpResponse, HttpServer, Responder};
 use actix_web_prom::{PrometheusMetrics, PrometheusMetricsBuilder};
 use meilisearch_sdk::client::Client;
 use sentry::SessionMode;
@@ -16,14 +17,14 @@ use tracing::{debug_span, error, info};
 use tracing_actix_web::TracingLogger;
 
 mod calendar;
-mod details;
 mod feedback;
 mod limited;
+mod localisation;
+mod locations;
 mod maps;
 mod models;
 mod search;
 mod setup;
-mod utils;
 
 type BoxedError = Box<dyn Error + Send + Sync>;
 
@@ -68,6 +69,16 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
                 .body(format!("unhealthy\nsource_code: {github_link}"))
         }
     }
+}
+#[get("/api/get/{id}")]
+async fn details_redirect(params: web::Path<String>) -> impl Responder {
+    let id = params.into_inner();
+    Redirect::to(format!("https://nav.tum.de/locations/{id}")).permanent()
+}
+#[get("/api/preview/{id}")]
+async fn preview_redirect(params: web::Path<String>) -> impl Responder {
+    let id = params.into_inner();
+    Redirect::to(format!("https://nav.tum.de/locations/{id}/preview")).permanent()
 }
 
 fn connection_string() -> String {
@@ -149,6 +160,7 @@ async fn run_maintenance_work(
         let _ = debug_span!("updating postgis data").enter();
         setup::database::setup(&pool).await.unwrap();
         setup::database::load_data(&pool).await.unwrap();
+        setup::transportation::setup(&pool).await.unwrap();
     } else {
         info!("skipping the database setup as SKIP_DB_SETUP=true");
     }
@@ -176,7 +188,8 @@ async fn run() -> Result<(), BoxedError> {
             .allow_any_origin()
             .allow_any_header()
             .allowed_methods(vec!["GET", "POST"])
-            .max_age(3600);
+            .max_age(3600)
+            .send_wildcard();
 
         App::new()
             .wrap(prometheus.clone())
@@ -188,10 +201,11 @@ async fn run() -> Result<(), BoxedError> {
             .app_data(web::Data::new(data.clone()))
             .service(health_status_handler)
             .service(calendar::calendar_handler)
-            .service(web::scope("/api/preview").configure(maps::configure))
-            .service(web::scope("/api/feedback").configure(feedback::configure))
-            .service(details::get_handler)
             .service(search::search_handler)
+            .service(web::scope("/api/feedback").configure(feedback::configure))
+            .service(web::scope("/api/locations").configure(locations::configure))
+            .service(details_redirect)
+            .service(preview_redirect)
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?
     .run()

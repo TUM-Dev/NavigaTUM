@@ -4116,8 +4116,18 @@
       "zip_code": 85748
     },
     "area_id": 57,
-    "name": "Siemens Science Center Garching",
+    "name": "Siemens Technology Center (STC)",
     "tumonline_id": 3169
+  },
+  "5933": {
+    "address": {
+      "place": "Garching b. M\u00fcnchen",
+      "street": "Friedrich-Ludwig-Bauer-Str. 5",
+      "zip_code": 85748
+    },
+    "area_id": 57,
+    "name": "SAP Labs Munich (AM)",
+    "tumonline_id": 3229
   },
   "6101": {
     "address": {

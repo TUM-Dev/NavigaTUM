@@ -260,7 +260,57 @@ paths:
           description: The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..
       tags:
         - core
-  '/api/get/{id}':
+  '/api/locations/{id}/nearby':
+    get:
+      operationId: nearby
+      summary: Get the nearby items
+      description: |
+        Shows nearby POIs like public transport stations
+      parameters:
+        - name: id
+          in: path
+          description: string you want to search for
+          required: true
+          schema:
+            type: string
+          examples:
+            '1543':
+              summary: virtual room (humangenetik)
+              value: '1543'
+            '5304':
+              summary: normal building
+              value: '5304'
+            garching:
+              summary: garching campus
+              value: garching
+            mri:
+              summary: MRI campus
+              value: mri
+            mi:
+              summary: large building (mi)
+              value: mi
+            mw:
+              summary: other large building (mw)
+              value: mw
+            5606.EG.036:
+              summary: regular room (fsmpic)
+              value: 5606.EG.036
+            5605.EG.011:
+              summary: room with custom props (rechnerhalle-mi)
+              value: 5605.EG.011
+            5401.01.100A:
+              summary: virtual room (tb-chemie)
+              value: 5401.01.100A
+      responses:
+        '200':
+          description: More data about the requested building/room
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NearbyLocationsResponse'
+              examples:
+                mi-hs-1: null
+  '/api/locations/{id}':
     get:
       operationId: details
       summary: Get entry-details
@@ -782,7 +832,7 @@ paths:
                   - Waiting for first sync with TUMonline
       tags:
         - core
-  '/api/preview/{id}':
+  '/api/locations/{id}/preview':
     get:
       operationId: previews
       summary: Get a entry-preview
@@ -1028,7 +1078,7 @@ paths:
       operationId: img_cdn
       summary: Get title images
       description: |
-        This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
+        This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
         You HAVE to get the proper attribution from that endpoint and use it.
       parameters:
         - name: size
@@ -1127,7 +1177,7 @@ paths:
       operationId: maps_cdn
       summary: Get title images
       description: |
-        This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
+        This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
         You HAVE to get the proper attribution from that endpoint and use it.
       parameters:
         - name: source
@@ -1800,6 +1850,16 @@ components:
       required:
         - sections
         - time_ms
+    NearbyLocationsResponse:
+      type: object
+      properties:
+        public_transport:
+          type: array
+          items:
+            $ref: '#/components/schemas/Station'
+          maxItems: 50
+      required:
+        - public_transport
     DetailsResponse:
       type: object
       properties:
@@ -1895,17 +1955,6 @@ components:
               $ref: '#/components/schemas/RoomsOverview'
             featured_overview:
               $ref: '#/components/schemas/FeaturedOverview'
-        poi:
-          type: object
-          properties:
-            mvg:
-              type: array
-              items:
-                $ref: '#/components/schemas/Station'
-              minItems: 1
-              uniqueItems: true
-          required:
-            - mvg
       required:
         - id
         - type
@@ -2099,12 +2148,12 @@ components:
           format: int32
           examples:
             - 42
-        stp_title_de:
+        title_de:
           description: The german title of the Entry
           type: string
           examples:
             - Quantenteleportation
-        stp_title_en:
+        title_en:
           description: The english title of the Entry
           type: string
           examples:
@@ -2137,8 +2186,8 @@ components:
             - Vorlesung mit Zentralübung
       required:
         - id
-        - stp_title_de
-        - stp_title_en
+        - title_de
+        - title_en
         - start_at
         - end_at
         - entry_type
@@ -2338,12 +2387,16 @@ components:
     Station:
       type: object
       properties:
+        id:
+          type: string
+        parent_id:
+          type: string
+        parent_name:
+          type: string
         distance:
           type: number
           format: double
           exclusiveMinimum: 0
-        station_id:
-          type: string
         name:
           type: string
         lat:
@@ -2352,33 +2405,13 @@ components:
         lon:
           type: number
           format: double
-        sub_stations:
-          type: array
-          items:
-            type: object
-            properties:
-              station_id:
-                type: string
-              name:
-                type: string
-              lat:
-                type: number
-                format: double
-              lon:
-                type: number
-                format: double
-            required:
-              - station_id
-              - name
-              - lat
-              - lon
       required:
+        - parent_id
         - distance
-        - station_id
+        - id
         - name
         - lat
         - lon
-        - sub_stations
       x-examples:
         Example 1:
           distance: 264.3434461761658
@@ -2397,15 +2430,13 @@ components:
               lon: 11.5240016913201
 tags:
   - name: core
-    description: the API to access/search for room information
-  - name: maps
-    description: Maps related functionality
+    description: API to access/search for location information
   - name: cdn
     description: Images for some of the rooms
   - name: feedback
-    description: the API to access/search for room information
+    description: APIs to give feedback
   - name: health
-    description: These endpoints are used to check the health of our components
+    description: endpoints used to check the health of our components
 externalDocs:
   description: Visit our Github Page for more in-depth documentation
   url: 'https://github.com/TUM-Dev/navigatum'

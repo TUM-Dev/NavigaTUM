@@ -10,7 +10,6 @@ from processors import (
     merge,
     nat,
     poi,
-    public_transport,
     roomfinder,
     search,
     sections,
@@ -109,9 +108,6 @@ def main() -> None:
     logging.info("-- 81 Generate overview sections")
     sections.generate_buildings_overview(data)
     sections.generate_rooms_overview(data)
-
-    logging.info("-- 82 Generate public transport")
-    public_transport.add_nearby_public_transport(data)
 
     logging.info("-- 90 Search: Build base ranking")
     search.add_ranking_base(data)

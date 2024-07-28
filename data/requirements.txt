@@ -2,7 +2,6 @@ backoff==2.2.1
 beautifulsoup4==4.12.3
 defusedxml==0.7.1
 lxml==5.2.2
-numba==0.60.0
 Pillow==10.4.0
 pydantic==2.8.2
 pyyaml==6.0.1

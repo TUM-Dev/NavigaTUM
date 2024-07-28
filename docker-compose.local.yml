@@ -8,11 +8,11 @@ services:
       TZ: Europe/Berlin
       NUXT_PUBLIC_MAPS_URL: https://nav.tum.de/maps
       NUXT_PUBLIC_CDN_URL: http://data:3002
-      NUXT_PUBLIC_API_URL: http://main-api:3003
+      NUXT_PUBLIC_API_URL: http://api:3003
     depends_on:
       data:
         condition: service_healthy
-      main-api:
+      api:
         condition: service_healthy
   # cdn
   data:
@@ -22,11 +22,10 @@ services:
       TZ: Europe/Berlin
     ports:
       - "3002:3002"
-  # server
-  main-api:
+  api:
     restart: unless-stopped
     build: ./server
-    command: /bin/navigatum-main-api
+    command: /bin/navigatum-server
     ports:
       - "3003:3003"
     user: 1000:3000

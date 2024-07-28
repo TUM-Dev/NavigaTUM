@@ -44,7 +44,5 @@ jobs:
             PR comes from [this Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
             
             [ 1 ]: https://github.com/peter-evans/create-pull-request
-          assignees: CommanderStorm
-          reviewers: CommanderStorm
           branch: chore/formatting-fixes
           delete-branch: true
