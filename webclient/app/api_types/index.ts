@@ -17,7 +17,7 @@ export type paths = {
      */
     get: operations["search"];
   };
-  "/api/location/{id}/nearby": {
+  "/api/locations/{id}/nearby": {
     /**
      * Get the nearby items
      * @description Shows nearby POIs like public transport stations
