@@ -4,8 +4,8 @@ use std::error::Error;
 use std::sync::Arc;
 
 use actix_cors::Cors;
-use actix_web::{get, middleware, web, App, HttpResponse, HttpServer, Responder};
 use actix_web::web::Redirect;
+use actix_web::{get, middleware, web, App, HttpResponse, HttpServer, Responder};
 use actix_web_prom::{PrometheusMetrics, PrometheusMetricsBuilder};
 use meilisearch_sdk::client::Client;
 use sentry::SessionMode;
@@ -19,12 +19,12 @@ use tracing_actix_web::TracingLogger;
 mod calendar;
 mod feedback;
 mod limited;
+mod localisation;
+mod locations;
 mod maps;
 mod models;
 mod search;
 mod setup;
-mod localisation;
-mod locations;
 
 type BoxedError = Box<dyn Error + Send + Sync>;
 

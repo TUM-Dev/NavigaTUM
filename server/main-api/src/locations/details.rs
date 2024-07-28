@@ -3,8 +3,8 @@ use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
 use tracing::error;
 
-use crate::models::LocationKeyAlias;
 use crate::localisation;
+use crate::models::LocationKeyAlias;
 
 #[get("/{id}")]
 pub async fn get_handler(

@@ -10,11 +10,11 @@ use tracing::{error, warn};
 use unicode_truncate::UnicodeTruncateStr;
 
 use crate::limited::vec::LimitedVec;
+use crate::localisation;
 use crate::maps::overlay_map::OverlayMapTask;
 use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
 use crate::models::Location;
 use crate::models::LocationKeyAlias;
-use crate::localisation;
 
 #[tracing::instrument(skip(pool))]
 async fn get_localised_data(
@@ -136,8 +136,8 @@ async fn get_possible_redirect_url(pool: &PgPool, query: &str, args: &QueryArgs)
         LIMIT 1"#,
         query
     )
-        .fetch_one(pool)
-        .await;
+    .fetch_one(pool)
+    .await;
     match result {
         Ok(d) => Some(format!(
             "https://nav.tum.de/api/locations/{key}/preview?lang={lang}&format={format}",
