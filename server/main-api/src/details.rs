@@ -4,12 +4,12 @@ use sqlx::PgPool;
 use tracing::error;
 
 use crate::models::LocationKeyAlias;
-use crate::utils;
+use crate::localisation;
 
 #[get("/api/get/{id}")]
 pub async fn get_handler(
     params: web::Path<String>,
-    web::Query(args): web::Query<utils::LangQueryArgs>,
+    web::Query(args): web::Query<localisation::LangQueryArgs>,
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
     let id = params

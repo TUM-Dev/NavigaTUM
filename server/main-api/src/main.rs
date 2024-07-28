@@ -24,7 +24,7 @@ mod models;
 mod nearby;
 mod search;
 mod setup;
-mod utils;
+mod localisation;
 
 type BoxedError = Box<dyn Error + Send + Sync>;
 

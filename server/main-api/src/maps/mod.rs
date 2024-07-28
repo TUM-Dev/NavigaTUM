@@ -14,7 +14,7 @@ use crate::maps::overlay_map::OverlayMapTask;
 use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
 use crate::models::Location;
 use crate::models::LocationKeyAlias;
-use crate::utils;
+use crate::localisation;
 
 mod fetch_tile;
 mod overlay_map;
@@ -186,7 +186,7 @@ impl PreviewFormat {
 #[serde(default)]
 struct QueryArgs {
     #[serde(flatten)]
-    lang: utils::LangQueryArgs,
+    lang: localisation::LangQueryArgs,
     format: PreviewFormat,
 }
 
