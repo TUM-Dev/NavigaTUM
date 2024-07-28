@@ -17,6 +17,13 @@ export type paths = {
      */
     get: operations["search"];
   };
+  "/api/location/{id}/nearby": {
+    /**
+     * Get the nearby items
+     * @description Shows nearby POIs like public transport stations
+     */
+    get: operations["nearby"];
+  };
   "/api/get/{id}": {
     /**
      * Get entry-details
@@ -421,6 +428,9 @@ export type components = {
        */
       readonly time_ms: number;
     };
+    readonly NearbyLocationsResponse: {
+      readonly public_transport: readonly components["schemas"]["Station"][];
+    };
     readonly DetailsResponse: {
       /** @description The id, that was requested */
       readonly id: string;
@@ -458,9 +468,6 @@ export type components = {
         readonly buildings_overview?: components["schemas"]["BuildingsOverview"];
         readonly rooms_overview?: components["schemas"]["RoomsOverview"];
         readonly featured_overview?: components["schemas"]["FeaturedOverview"];
-      };
-      readonly poi?: {
-        readonly mvg: readonly [components["schemas"]["Station"], ...components["schemas"]["Station"][]];
       };
     };
     readonly BuildingsOverview: {
@@ -662,22 +669,16 @@ export type components = {
       readonly privacy_checked: boolean;
     };
     readonly Station: {
+      readonly id: string;
+      readonly parent_id: string;
+      readonly parent_name?: string;
       /** Format: double */
       readonly distance: number;
-      readonly station_id: string;
       readonly name: string;
       /** Format: double */
       readonly lat: number;
       /** Format: double */
       readonly lon: number;
-      readonly sub_stations: readonly {
-        readonly station_id: string;
-        readonly name: string;
-        /** Format: double */
-        readonly lat: number;
-        /** Format: double */
-        readonly lon: number;
-      }[];
     };
   };
   responses: never;
@@ -767,6 +768,26 @@ export type operations = {
       /** @description The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars.. */
       414: {
         content: never;
+      };
+    };
+  };
+  /**
+   * Get the nearby items
+   * @description Shows nearby POIs like public transport stations
+   */
+  nearby: {
+    parameters: {
+      path: {
+        /** @description string you want to search for */
+        id: string;
+      };
+    };
+    responses: {
+      /** @description More data about the requested building/room */
+      200: {
+        content: {
+          readonly "application/json": components["schemas"]["NearbyLocationsResponse"];
+        };
       };
     };
   };

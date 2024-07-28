@@ -21,6 +21,7 @@ mod feedback;
 mod limited;
 mod maps;
 mod models;
+mod nearby;
 mod search;
 mod setup;
 mod utils;
@@ -149,6 +150,7 @@ async fn run_maintenance_work(
         let _ = debug_span!("updating postgis data").enter();
         setup::database::setup(&pool).await.unwrap();
         setup::database::load_data(&pool).await.unwrap();
+        setup::transportation::setup(&pool).await.unwrap();
     } else {
         info!("skipping the database setup as SKIP_DB_SETUP=true");
     }
@@ -193,6 +195,7 @@ async fn run() -> Result<(), BoxedError> {
             .service(web::scope("/api/feedback").configure(feedback::configure))
             .service(details::get_handler)
             .service(search::search_handler)
+            .service(nearby::nearby_handler)
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?
     .run()
