@@ -1,5 +1,5 @@
 [package]
-name = "navigatum-main-api"
+name = "navigatum-server"
 version = "1.0.0"
 authors = ["Markus A <ge75sig@mytum.de>", "Frank Elsinga <frank@elsinga.de>"]
 edition = "2021"
@@ -8,10 +8,10 @@ repository = "https://github.com/TUM-Dev/navigatum"
 readme = "README.md"
 license = "GPL-3.0"
 keywords = ["website", "navigation", "api-rest", "tum"]
-default-run = "navigatum-main-api"
+default-run = "navigatum-server"
 
 [[bin]]
-name = "navigatum-main-api"
+name = "navigatum-server"
 path = "src/main.rs"
 
 [dependencies]
