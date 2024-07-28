@@ -50,6 +50,11 @@ pub async fn setup(client: &Client, vector_search: bool) -> Result<(), crate::Bo
     wait_for_healthy(client).await;
     info!("Meilisearch is healthy");
 
+    meilisearch_sdk::features::ExperimentalFeatures::new(client)
+        .set_vector_store(true)
+        .update()
+        .await?;
+
     client
         .create_index("entries", Some("ms_id"))
         .await?
