@@ -173,7 +173,7 @@ impl GeoEntryQuery {
             .with_highlight_pre_tag(&self.highlighting.pre)
             .with_highlight_post_tag(&self.highlighting.post)
             .with_attributes_to_highlight(Selectors::Some(&["name"]))
-            .with_hybrid("en", 0.1)
+            .with_hybrid("default", 0.1)
             .build()
     }
 

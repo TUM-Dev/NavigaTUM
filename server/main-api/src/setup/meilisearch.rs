@@ -7,6 +7,7 @@ use std::time::Duration;
 use tracing::{debug, error, info};
 
 const TIMEOUT: Option<Duration> = Some(Duration::from_secs(20));
+const TIMEOUT_SETUP: Option<Duration> = Some(Duration::from_secs(10*60));
 const POLLING_RATE: Option<Duration> = Some(Duration::from_millis(50));
 
 #[derive(serde::Deserialize)]
@@ -60,8 +61,8 @@ pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
         document_template: Some("A room titled '{{doc.name}}' with type '{{doc.type_common_name}}' used as '{{doc.usage}}'".to_string()),
         ..Default::default()
     });
-    let de_embedder =Embedder::HuggingFace(HuggingFaceEmbedderSettings{
-        model: Some("dbmdz/bert-base-german-cased".to_string()),
+    let _de_embedder=Embedder::HuggingFace(HuggingFaceEmbedderSettings{
+        model: Some("google-bert/bert-base-german-cased".to_string()),
         document_template: Some("Ein Raum '{{doc.name}}' vom typ '{{doc.type_common_name}}' benutzt als '{{doc.usage}}'".to_string()),
         ..Default::default()
     });
@@ -99,22 +100,17 @@ pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
         ])
         .with_synonyms(Synonyms::try_load()?.0)
         .with_embedders(HashMap::from([
-            ("en",en_embedder),
-            ("de",de_embedder),
+            ("default",en_embedder),
         ]));
 
     let res = entries
         .set_settings(&settings)
         .await?
-        .wait_for_completion(client, POLLING_RATE, TIMEOUT)
+        .wait_for_completion(client, POLLING_RATE, TIMEOUT_SETUP)
         .await?;
     if let Task::Failed { content } = res {
         panic!("Failed to add settings to Meilisearch: {content:?}");
     }
-    meilisearch_sdk::features::ExperimentalFeatures::new(client)
-        .set_vector_store(true)
-        .update()
-        .await?;
 
     Ok(())
 }
@@ -130,7 +126,7 @@ pub async fn load_data(client: &Client) -> Result<(), crate::BoxedError> {
     let res = entries
         .add_documents(&documents, Some("ms_id"))
         .await?
-        .wait_for_completion(client, POLLING_RATE, TIMEOUT)
+        .wait_for_completion(client, POLLING_RATE, TIMEOUT_SETUP)
         .await?;
     if let Task::Failed { content } = res {
         panic!("Failed to add documents to Meilisearch: {content:?}");
