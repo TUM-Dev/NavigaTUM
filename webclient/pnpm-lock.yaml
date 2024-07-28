@@ -79,8 +79,8 @@ importers:
         specifier: 0.4.0
         version: 0.4.0(eslint@9.8.0)(magicast@0.3.4)(rollup@4.18.0)(typescript@5.5.4)(vite@5.3.4(@types/node@20.14.13)(terser@5.30.0))
       '@nuxtjs/i18n':
-        specifier: 8.3.2
-        version: 8.3.2(magicast@0.3.4)(rollup@4.18.0)(vue@3.4.34(typescript@5.5.4))
+        specifier: 8.3.3
+        version: 8.3.3(magicast@0.3.4)(rollup@4.18.0)(vue@3.4.34(typescript@5.5.4))
       '@nuxtjs/tailwindcss':
         specifier: 6.12.1
         version: 6.12.1(magicast@0.3.4)(rollup@4.18.0)
@@ -1244,8 +1244,8 @@ packages:
   '@nuxtjs/color-mode@3.4.2':
     resolution: {integrity: sha512-6A+lDP8R6fFXc1Ip5tDepKq9MJW6oxbRlz1plvW52yacnpeDFXv5S5rDS0ax31AuSFUPlgzHymFSdjcylBwZ6w==}
 
-  '@nuxtjs/i18n@8.3.2':
-    resolution: {integrity: sha512-bRzYE5ql0EqxBvt81/t/n2txGCG9E0sq7EJH/RZBd5pNOlnMmxpqJdWhh5NX3Cc/jyVrXFGF9WAoQ/H+/dcepQ==}
+  '@nuxtjs/i18n@8.3.3':
+    resolution: {integrity: sha512-R/Q7GgBf9sVKlB4Mz/2KPhlZwO7nm+YcADcJcBDGfQVoNZjGg2muDCkCXSqpqIjkm264QcERFoPP42aBR+SlgA==}
     engines: {node: ^14.16.0 || >=16.11.0}
 
   '@nuxtjs/mdc@0.8.3':
@@ -7067,7 +7067,7 @@ snapshots:
       pathe: 1.1.2
       picocolors: 1.0.1
       source-map-js: 1.2.0
-      unplugin: 1.11.0
+      unplugin: 1.12.0
     optionalDependencies:
       vue-i18n: 9.11.0(vue@3.4.34(typescript@5.5.4))
     transitivePeerDependencies:
@@ -7461,7 +7461,7 @@ snapshots:
       pkg-types: 1.0.3
       scule: 1.3.0
       semver: 7.6.3
-      ufo: 1.5.3
+      ufo: 1.5.4
       unctx: 2.3.1
       unimport: 3.9.0(rollup@4.18.0)
       untyped: 1.4.2
@@ -7677,7 +7677,7 @@ snapshots:
       strip-literal: 2.1.0
       ufo: 1.5.4
       unenv: 1.10.0
-      unplugin: 1.11.0
+      unplugin: 1.12.0
       vite: 5.3.4(@types/node@20.14.13)(terser@5.30.0)
       vite-node: 2.0.3(@types/node@20.14.13)(terser@5.30.0)
       vite-plugin-checker: 0.7.2(eslint@9.8.0)(optionator@0.9.3)(typescript@5.5.4)(vite@5.3.4(@types/node@20.14.13)(terser@5.30.0))(vue-tsc@2.0.29(typescript@5.5.4))
@@ -7716,7 +7716,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@nuxtjs/i18n@8.3.2(magicast@0.3.4)(rollup@4.18.0)(vue@3.4.34(typescript@5.5.4))':
+  '@nuxtjs/i18n@8.3.3(magicast@0.3.4)(rollup@4.18.0)(vue@3.4.34(typescript@5.5.4))':
     dependencies:
       '@intlify/h3': 0.5.0
       '@intlify/shared': 9.11.0
@@ -7737,7 +7737,7 @@ snapshots:
       scule: 1.3.0
       sucrase: 3.35.0
       ufo: 1.5.4
-      unplugin: 1.11.0
+      unplugin: 1.12.0
       vue-i18n: 9.11.0(vue@3.4.34(typescript@5.5.4))
       vue-router: 4.4.0(vue@3.4.34(typescript@5.5.4))
     transitivePeerDependencies:
@@ -8731,7 +8731,7 @@ snapshots:
       debug: 4.3.5
       globby: 11.1.0
       is-glob: 4.0.3
-      minimatch: 9.0.4
+      minimatch: 9.0.5
       semver: 7.6.3
       ts-api-utils: 1.3.0(typescript@5.5.4)
     optionalDependencies:
@@ -8746,7 +8746,7 @@ snapshots:
       debug: 4.3.5
       globby: 11.1.0
       is-glob: 4.0.3
-      minimatch: 9.0.4
+      minimatch: 9.0.5
       semver: 7.6.3
       ts-api-utils: 1.3.0(typescript@5.5.4)
     optionalDependencies:
@@ -10400,7 +10400,7 @@ snapshots:
     dependencies:
       foreground-child: 3.1.1
       jackspeak: 2.3.6
-      minimatch: 9.0.4
+      minimatch: 9.0.5
       minipass: 7.0.4
       path-scurry: 1.10.2
 
@@ -13529,7 +13529,7 @@ snapshots:
       pkg-types: 1.1.3
       scule: 1.3.0
       strip-literal: 2.1.0
-      unplugin: 1.11.0
+      unplugin: 1.12.0
     transitivePeerDependencies:
       - rollup
 
@@ -13600,7 +13600,7 @@ snapshots:
       mlly: 1.7.1
       pathe: 1.1.2
       scule: 1.3.0
-      unplugin: 1.11.0
+      unplugin: 1.12.0
       yaml: 2.4.5
     optionalDependencies:
       vue-router: 4.4.0(vue@3.4.34(typescript@5.5.4))
@@ -13666,7 +13666,7 @@ snapshots:
       mlly: 1.7.1
       pathe: 1.1.2
       pkg-types: 1.1.3
-      unplugin: 1.11.0
+      unplugin: 1.12.0
 
   update-browserslist-db@1.0.13(browserslist@4.23.0):
     dependencies:
