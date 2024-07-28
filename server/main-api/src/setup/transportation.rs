@@ -66,7 +66,7 @@ pub async fn setup(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
     let mut tx = pool.begin().await?;
     clean(&mut tx).await?;
     for transportation in transportations {
-        if transportation.name.is_empty() { 
+        if transportation.name.is_empty() {
             continue;
         }
         transportation.store(&mut tx).await?;
