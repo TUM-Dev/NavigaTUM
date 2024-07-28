@@ -6,7 +6,7 @@ use tracing::error;
 use crate::models::LocationKeyAlias;
 use crate::localisation;
 
-#[get("/api/get/{id}")]
+#[get("/{id}")]
 pub async fn get_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<localisation::LangQueryArgs>,

@@ -125,7 +125,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-main-api.entrypoints=webs"
       - "traefik.http.routers.navigatum-main-api.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && (PathPrefix(`/api/get/`) || PathPrefix(`/api/locations/`) || Path(`/api/search`) || PathPrefix(`/api/preview/`) || PathPrefix(`/api/feedback/`) || Path(`/api/calendar`) || Path(`/api/status`) || Path(`/api/metrics`))"
+      - "traefik.http.routers.navigatum-main-api.rule=Host(`nav.tum.de`) && (PathPrefix(`/api/locations/`) || Path(`/api/search`) || PathPrefix(`/api/feedback/`) || Path(`/api/calendar`) || Path(`/api/status`) || Path(`/api/metrics`))"
       - "traefik.http.services.navigatum-main-api.loadbalancer.server.port=3003"
     networks:
       - traefik_traefik

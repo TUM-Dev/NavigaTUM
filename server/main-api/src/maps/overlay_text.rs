@@ -9,9 +9,9 @@ use lazy_static::lazy_static;
 
 lazy_static! {
     pub static ref CANTARELL_BOLD: FontArc =
-        FontArc::try_from_slice(include_bytes!("static/font/Cantarell-Bold.ttf")).unwrap();
+        FontArc::try_from_slice(include_bytes!("font/Cantarell-Bold.ttf")).unwrap();
     pub static ref CANTARELL_REGULAR: FontArc =
-        FontArc::try_from_slice(include_bytes!("static/font/Cantarell-Regular.ttf")).unwrap();
+        FontArc::try_from_slice(include_bytes!("font/Cantarell-Regular.ttf")).unwrap();
 }
 const SCALE: PxScale = PxScale { x: 35.0, y: 35.0 };
 

@@ -163,7 +163,7 @@ def export_for_status() -> None:
 
 
 def export_for_api(data: dict) -> None:
-    """Add some more information about parents to the data and export for the /get/:id api"""
+    """Add some more information about parents to the data and export for the /locations/:id api"""
     export_data = []
     for _id, entry in data.items():
         entry.setdefault("maps", {})["default"] = "interactive"

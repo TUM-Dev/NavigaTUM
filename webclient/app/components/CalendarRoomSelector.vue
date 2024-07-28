@@ -22,7 +22,7 @@ async function addLocation() {
   while (!selectedLocation) {
     selectedLocation = window.prompt(t("prompt.initial")) || "";
     try {
-      const result = await fetch(`${runtimeConfig.public.apiURL}/api/get/${selectedLocation}`);
+      const result = await fetch(`${runtimeConfig.public.apiURL}/api/locations/${selectedLocation}`);
       if (!result.ok) {
         const userWantsToRetry = window.confirm(t("prompt.error_not_ok", [selectedLocation]));
         if (!userWantsToRetry) return;

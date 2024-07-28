@@ -310,7 +310,7 @@ paths:
                 $ref: '#/components/schemas/NearbyLocationsResponse'
               examples:
                 mi-hs-1: null
-  '/api/get/{id}':
+  '/api/locations/{id}':
     get:
       operationId: details
       summary: Get entry-details
@@ -832,7 +832,7 @@ paths:
                   - Waiting for first sync with TUMonline
       tags:
         - core
-  '/api/preview/{id}':
+  '/api/locations/{id}/preview':
     get:
       operationId: previews
       summary: Get a entry-preview
@@ -1078,7 +1078,7 @@ paths:
       operationId: img_cdn
       summary: Get title images
       description: |
-        This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
+        This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
         You HAVE to get the proper attribution from that endpoint and use it.
       parameters:
         - name: size
@@ -1177,7 +1177,7 @@ paths:
       operationId: maps_cdn
       summary: Get title images
       description: |
-        This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
+        This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
         You HAVE to get the proper attribution from that endpoint and use it.
       parameters:
         - name: source
@@ -2430,15 +2430,13 @@ components:
               lon: 11.5240016913201
 tags:
   - name: core
-    description: the API to access/search for room information
-  - name: maps
-    description: Maps related functionality
+    description: API to access/search for location information
   - name: cdn
     description: Images for some of the rooms
   - name: feedback
-    description: the API to access/search for room information
+    description: APIs to give feedback
   - name: health
-    description: These endpoints are used to check the health of our components
+    description: endpoints used to check the health of our components
 externalDocs:
   description: Visit our Github Page for more in-depth documentation
   url: 'https://github.com/TUM-Dev/navigatum'

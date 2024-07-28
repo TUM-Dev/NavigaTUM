@@ -24,7 +24,7 @@ export type paths = {
      */
     get: operations["nearby"];
   };
-  "/api/get/{id}": {
+  "/api/locations/{id}": {
     /**
      * Get entry-details
      * @description This returns the full data available for the entry (room/building).
@@ -47,7 +47,7 @@ export type paths = {
      */
     post: operations["calendar"];
   };
-  "/api/preview/{id}": {
+  "/api/locations/{id}/preview": {
     /**
      * Get a entry-preview
      * @description This returns a 1200x630px preview for the location (room/building/..).
@@ -104,7 +104,7 @@ export type paths = {
   "/cdn/{size}/{id}_{counter}.webp": {
     /**
      * Get title images
-     * @description This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
+     * @description This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
      * You HAVE to get the proper attribution from that endpoint and use it.
      */
     get: operations["img_cdn"];
@@ -112,7 +112,7 @@ export type paths = {
   "/cdn/maps/{source}/{id}.webp": {
     /**
      * Get title images
-     * @description This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
+     * @description This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
      * You HAVE to get the proper attribution from that endpoint and use it.
      */
     get: operations["maps_cdn"];
@@ -1109,7 +1109,7 @@ export type operations = {
   };
   /**
    * Get title images
-   * @description This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
+   * @description This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
    * You HAVE to get the proper attribution from that endpoint and use it.
    */
   img_cdn: {
@@ -1162,7 +1162,7 @@ export type operations = {
   };
   /**
    * Get title images
-   * @description This endpoint is designed to fetch the images, that are described by the `/api/get/{id}`-endpoint.
+   * @description This endpoint is designed to fetch the images, that are described by the `/api/locations/{id}`-endpoint.
    * You HAVE to get the proper attribution from that endpoint and use it.
    */
   maps_cdn: {
