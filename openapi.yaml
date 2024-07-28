@@ -309,7 +309,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NearbyLocationsResponse'
               examples:
-                mi-hs-1:
+                mi-hs-1: null
   '/api/get/{id}':
     get:
       operationId: details
