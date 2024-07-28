@@ -1,12 +1,9 @@
 use meilisearch_sdk::client::Client;
-use meilisearch_sdk::settings::Settings;
+use meilisearch_sdk::settings::{Embedder, HuggingFaceEmbedderSettings, Settings};
 use meilisearch_sdk::tasks::Task;
 use serde_json::Value;
 use std::collections::HashMap;
-use std::io;
 use std::time::Duration;
-use serde::Deserialize;
-use serde::Serialize;
 use tracing::{debug, error, info};
 
 const TIMEOUT: Option<Duration> = Some(Duration::from_secs(20));
@@ -46,24 +43,6 @@ async fn wait_for_healthy(client: &Client) {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-struct Embedder {
-    source: String,
-    model: String,
-    #[serde(rename = "documentTemplate")]
-    document_template: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Embedders {
-    default: Embedder,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct EmbedderSettings {
-    embedders: Embedders,
-}
-
 #[tracing::instrument(skip(client))]
 pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
     debug!("waiting for Meilisearch to be healthy");
@@ -76,6 +55,16 @@ pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
         .wait_for_completion(client, POLLING_RATE, TIMEOUT)
         .await?;
     let entries = client.index("entries");
+    let en_embedder =Embedder::HuggingFace(HuggingFaceEmbedderSettings{
+        model: Some("BAAI/bge-base-en-v1.5".to_string()),
+        document_template: Some("A room titled '{{doc.name}}' with type '{{doc.type_common_name}}' used as '{{doc.usage}}'".to_string()),
+        ..Default::default()
+    });
+    let de_embedder =Embedder::HuggingFace(HuggingFaceEmbedderSettings{
+        model: Some("dbmdz/bert-base-german-cased".to_string()),
+        document_template: Some("Ein Raum '{{doc.name}}' vom typ '{{doc.type_common_name}}' benutzt als '{{doc.usage}}'".to_string()),
+        ..Default::default()
+    });
 
     let settings = Settings::new()
         .with_filterable_attributes([
@@ -108,7 +97,11 @@ pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
             "address",
             "operator_name",
         ])
-        .with_synonyms(Synonyms::try_load()?.0);
+        .with_synonyms(Synonyms::try_load()?.0)
+        .with_embedders(HashMap::from([
+            ("en",en_embedder),
+            ("de",de_embedder),
+        ]));
 
     let res = entries
         .set_settings(&settings)
@@ -118,36 +111,11 @@ pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
     if let Task::Failed { content } = res {
         panic!("Failed to add settings to Meilisearch: {content:?}");
     }
-    meilisearch_sdk::features::ExperimentalFeatures::new(&client)
+    meilisearch_sdk::features::ExperimentalFeatures::new(client)
         .set_vector_store(true)
         .update()
         .await?;
 
-    let req_client = reqwest::Client::new();
-    let embedding_settings = EmbedderSettings {
-        embedders: Embedders {
-            default: Embedder {
-                source: "huggingFace".to_string(),
-                model: "BAAI/bge-base-en-v1.5".to_string(),
-                document_template: "A room titled '{{doc.name}}' with type '{{doc.type_common_name}}' used as '{{doc.usage}}'".to_string(),
-            }
-        }
-    };
-    let url = format!("{ms_url}/indexes/issues/settings");
-    let res = req_client
-        .patch(url)
-        .json(&embedding_settings)
-        .send()
-        .await?;
-    if res.status() != 202 {
-        return Err(io::Error::other(format!(
-            "Failed to enable embedding because {code}: {text}",
-            code = res.status(),
-            text = res.text().await?
-        ))
-            .into());
-    }
-    
     Ok(())
 }
 
