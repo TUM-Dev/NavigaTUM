@@ -164,7 +164,7 @@ def export_for_status() -> None:
     with open("output/status_data.json", "w", encoding="utf-8") as file:
         json.dump(export_json_data, file)
 
-    export_polars_data = [{'id': d["id"], 'hash': d["hash"]} for d in export_data]
+    export_polars_data = [{"id": d["id"], "hash": d["hash"]} for d in export_data]
     df = pl.DataFrame(export_polars_data)
     df.write_parquet("output/status_data.parquet", use_pyarrow=True, compression_level=22)
 
