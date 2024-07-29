@@ -57,7 +57,9 @@ impl MeiliSearchTestContainer {
         );
 
         let client = Client::new(meili_url.clone(), None::<String>).unwrap();
-        super::meilisearch::setup(&client, vector_search).await.unwrap();
+        super::meilisearch::setup(&client, vector_search)
+            .await
+            .unwrap();
         Self {
             _container: container,
             client,
