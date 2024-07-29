@@ -2,6 +2,7 @@ import json
 import re
 from pathlib import Path
 from typing import Any
+import polars as pl
 
 from external.models.common import PydanticConfiguration
 from utils import TranslatableStr
@@ -105,6 +106,8 @@ def export_for_search(data: dict) -> None:
     _make_sure_is_safe(export)
     with open("output/search_data.json", "w", encoding="utf-8") as file:
         json.dump(export, file)
+    df = pl.read_json("output/search_data.json")
+    df.write_parquet("output/search_data.parquet", use_pyarrow=True, compression_level=22)
 
 
 def extract_parent_building_names(data: dict, parents: list[str], building_parents_index: int) -> list[str]:
@@ -160,6 +163,8 @@ def export_for_status() -> None:
     export_data = [(d["id"], d["hash"]) for d in export_data]
     with open("output/status_data.json", "w", encoding="utf-8") as file:
         json.dump(export_data, file)
+    df = pl.read_json("output/status_data.json")
+    df.write_parquet("output/status_data.parquet", use_pyarrow=True, compression_level=22)
 
 
 def export_for_api(data: dict) -> None:
@@ -177,6 +182,8 @@ def export_for_api(data: dict) -> None:
     _make_sure_is_safe(export_data)
     with open("output/api_data.json", "w", encoding="utf-8") as file:
         json.dump(export_data, file, cls=EnhancedJSONEncoder)
+    df = pl.read_json("output/api_data.json")
+    df.write_parquet("output/api_data.parquet", use_pyarrow=True, compression_level=22)
 
 
 def extract_exported_item(data, entry):
