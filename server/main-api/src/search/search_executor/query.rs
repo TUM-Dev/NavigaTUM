@@ -173,6 +173,7 @@ impl GeoEntryQuery {
             .with_highlight_pre_tag(&self.highlighting.pre)
             .with_highlight_post_tag(&self.highlighting.post)
             .with_attributes_to_highlight(Selectors::Some(&["name"]))
+            .with_hybrid("default", 0.1)
             .build()
     }
 
@@ -201,6 +202,7 @@ impl GeoEntryQuery {
             .with_query(query)
             .with_limit(2 * self.limits.buildings_count) // we might do reordering later
             .with_filter(&self.filters.buildings)
+            .with_hybrid("default", 0.1)
             .build()
     }
 

@@ -2307,8 +2307,7 @@ dependencies = [
 [[package]]
 name = "meilisearch-index-setting-macro"
 version = "0.27.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "54abc57ee746d0f8c2a40ca900af67cbf022b0e4be3d2ff806939322b5f3bc39"
+source = "git+https://github.com/CommanderStorm/meilisearch-rust.git?branch=vector-search-embedder#77399a2f493ba81f06b51fe6f382b618ddc876a5"
 dependencies = [
  "convert_case 0.6.0",
  "proc-macro2",
@@ -2320,8 +2319,7 @@ dependencies = [
 [[package]]
 name = "meilisearch-sdk"
 version = "0.27.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e8d5ded866ed900150a707bd923f2d178ff64a0981d2306c823e8d8003d95ef2"
+source = "git+https://github.com/CommanderStorm/meilisearch-rust.git?branch=vector-search-embedder#77399a2f493ba81f06b51fe6f382b618ddc876a5"
 dependencies = [
  "async-trait",
  "bytes",
