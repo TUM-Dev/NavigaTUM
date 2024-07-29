@@ -160,10 +160,12 @@ def export_for_status() -> None:
     """Generate hashes for the contents of data"""
     with open("output/api_data.json", encoding="utf-8") as file:
         export_data = json.load(file)
-    export_data = [(d["id"], d["hash"]) for d in export_data]
+    export_json_data = [(d["id"], d["hash"]) for d in export_data]
     with open("output/status_data.json", "w", encoding="utf-8") as file:
-        json.dump(export_data, file)
-    df = pl.read_json("output/status_data.json")
+        json.dump(export_json_data, file)
+
+    export_polars_data = [{'id': d["id"], 'hash': d["hash"]} for d in export_data]
+    df = pl.DataFrame(export_polars_data)
     df.write_parquet("output/status_data.parquet", use_pyarrow=True, compression_level=22)
 
 

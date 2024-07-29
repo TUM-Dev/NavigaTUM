@@ -16,8 +16,12 @@ COPY *.py ./
 COPY translations.yaml translations.yaml
 RUN mkdir output \
     && python3 compile.py \
+    && test -f "./output/status_data.json" \
+    && test -f "./output/status_data.parquet" \
     && test -f "./output/search_data.json" \
+    && test -f "./output/search_data.parquet" \
     && test -f "./output/api_data.json" \
+    && test -f "./output/api_data.parquet" \
     && cp -r sources/img/* output
 COPY output/openapi.yaml output/openapi.yaml
 
