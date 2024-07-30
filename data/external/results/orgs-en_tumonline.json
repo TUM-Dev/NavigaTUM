@@ -10516,8 +10516,8 @@
   },
   "55517": {
     "code": "TUS7SFZ",
-    "name": "Sch\u00fclerforschungszentrum Miesbach",
-    "path": "TUM/Schools/Social Sciences and Technology/Sch\u00fclerforschungszentrum Miesbach"
+    "name": "Sch\u00fclerforschungszentrum Oberland",
+    "path": "TUM/Schools/Social Sciences and Technology/Sch\u00fclerforschungszentrum Oberland"
   },
   "55518": {
     "code": "TUZEBAC",
@@ -11033,5 +11033,15 @@
     "code": "TUCSP17",
     "name": "Associate Professorship of Optimization and Sustainable Decision Making (Prof. Thielen)",
     "path": "TUM/Integrative Research Institutes/TUM Campus Straubing for Biotechnology and Sustainability (TUMCS)/Chairs and Professorships/Optimization and Sustainable Decision Making (Prof. Thielen)"
+  },
+  "56437": {
+    "code": "TUXB70S",
+    "name": "Academic Programs Data & Society",
+    "path": "TUM/Schools/Social Sciences and Technology/Academic Program Administration/Context teaching/Academic Programs"
+  },
+  "56438": {
+    "code": "TUXS72B",
+    "name": "Degree Program M.Sc. Data & Society",
+    "path": "TUM/Schools/Social Sciences and Technology/Academic Program Administration/Context teaching/Academic Programs/Degree Program"
   }
 }

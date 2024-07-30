@@ -1001,8 +1001,8 @@
   },
   "15441": {
     "code": "TUINI16",
-    "name": "Informatik 16 - Lehrstuhl f\u00fcr Anwendungen in der Medizin (Prof. Navab)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 16 - Lehrstuhl f\u00fcr Anwendungen in der Medizin (Prof. Navab)"
+    "name": "Informatik 16 - Lehrstuhl f\u00fcr Informatikanwendungen in der Medizin (Prof. Navab)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 16 - Lehrstuhl f\u00fcr Informatikanwendungen in der Medizin (Prof. Navab)"
   },
   "15442": {
     "code": "TUINI17",
@@ -10516,8 +10516,8 @@
   },
   "55517": {
     "code": "TUS7SFZ",
-    "name": "Sch\u00fclerforschungszentrum Miesbach",
-    "path": "TUM/Schools/Social Sciences and Technology/Sch\u00fclerforschungszentrum Miesbach"
+    "name": "Sch\u00fclerforschungszentrum Oberland",
+    "path": "TUM/Schools/Social Sciences and Technology/Sch\u00fclerforschungszentrum Oberland"
   },
   "55518": {
     "code": "TUZEBAC",
@@ -11033,5 +11033,15 @@
     "code": "TUCSP17",
     "name": "Professur f\u00fcr Optimization and Sustainable Decision Making (Prof. Thielen)",
     "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/Lehrst\u00fchle und Professuren/Optimization and Sustainable Decision Making (Prof. Thielen)"
+  },
+  "56437": {
+    "code": "TUXB70S",
+    "name": "Studiengangsb\u00fcndel Data & Society",
+    "path": "TUM/Schools/Social Sciences and Technology/Studienorganisation/Kontextlehre/Data & Society"
+  },
+  "56438": {
+    "code": "TUXS72B",
+    "name": "Studiengang M.Sc. Data & Society",
+    "path": "TUM/Schools/Social Sciences and Technology/Studienorganisation/Kontextlehre/Data & Society/M.Sc. Data & Society"
   }
 }
