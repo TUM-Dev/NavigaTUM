@@ -393,7 +393,7 @@
       4612:Probemaststall:
       4613:Elterntierstall:
       4614:Futtergang:
-      4615:Strohlager:
+      4615:Animal Research Center Thalhausen (ARC T):4615,arc-t
       4616:Güllebehälter:
       4620:Versuchsfelder:
     4800:Halle Achering:
@@ -520,8 +520,8 @@
       -5268:RCM-BMA/ELA-Container:
       5272:WMI Bayerische Akademie der Wissenschaft:
     5301:Institute for Advanced Study (IAS):
-    5302:(Alte) Mensa Garching:
-    5304:(Neue) Mensa Garching:
+    5302:Centrum Baustoffe und Materialprüfung (CBM):5302,cbm
+    5304:Mensa Garching:
     5305:Modulbau NDB 2, Lichtenbergstr. 2c:
     :Chemie:chemie[joined_building]
       5401:Teilbibliothek Chemie, Hörsaal (CH1, dunkelgrün):
