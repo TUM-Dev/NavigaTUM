@@ -898,14 +898,10 @@ frm-2:
 5268:
     coords: { lat: 48.26501, lon: 11.67426 }
 
-5302: # Alte Mensa
-    ranking_factors:
-        rank_custom: -5
-
 5305:
     coords: { lat: 48.26700052343523, lon: 11.671869485689989 }
 
-5304: # Neue Mensa
+5304: # Mensa Garching
     coords: { lat: 48.26799, lon: 11.67216 }
     props:
         links:
