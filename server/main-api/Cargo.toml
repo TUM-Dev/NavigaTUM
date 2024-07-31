@@ -59,7 +59,7 @@ ab_glyph = "0.2.25"
 lazy_static = "1.4.0"
 
 rand = "0.8.5"
-octocrab = { version = "0.38.0", default-features = false, features = ["rustls", "rustls-webpki-tokio", "retry", "default-client"] }
+octocrab = { version = "0.39.0", default-features = false, features = ["rustls", "rustls-webpki-tokio", "retry", "default-client"] }
 
 # auth/security
 jsonwebtoken = { version = "9.3.0", default-features = false, features = [] }
