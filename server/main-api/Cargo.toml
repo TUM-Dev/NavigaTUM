@@ -73,6 +73,6 @@ time = "0.3.36"
 [dev-dependencies]
 insta = { version = "1.39.0", features = ["yaml", "json", "redactions"] }
 pretty_assertions = "1.4.0"
-testcontainers = { version = "0.20.0", features = ["watchdog"] }
-testcontainers-modules = { version = "0.8.0", features = ["postgres", "meilisearch"] }
+testcontainers = { version = "0.21.0", features = ["watchdog"] }
+testcontainers-modules = { version = "0.9.0", features = ["postgres", "meilisearch"] }
 tracing-test = "0.2.5"
