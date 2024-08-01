@@ -152,3 +152,7 @@ StuVe: [ SV, Studentische Vertretung, AStA ]
 "Prandtl": ["MW Halle (AM)", "MW 0250"]
 "Prandtl (AM": ["MW Halle (AM)"]
 "Prandtl (AM)": ["MW Halle (AM)"]
+
+# since the new mensa is not not new anymore, differentiating this is not usefull
+# some people might still refer to it this way
+"neue Mensa": ["Mensa Garching"]
