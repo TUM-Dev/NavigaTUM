@@ -1,12 +1,12 @@
+use crate::limited::vec::LimitedVec;
+use polars::prelude::ParquetReader;
+use polars::prelude::*;
+use serde_json::Value;
 use std::collections::HashMap;
 use std::fmt;
 use std::hash::{Hash, Hasher};
 use std::io::Write;
-use polars::prelude::ParquetReader;
-use serde_json::Value;
 use tempfile::tempfile;
-use crate::limited::vec::LimitedVec;
-use polars::prelude::*;
 
 #[derive(Clone)]
 pub(super) struct DelocalisedValues {
@@ -136,13 +136,13 @@ pub async fn download_updates() -> Result<LimitedVec<DelocalisedValues>, crate::
     file.write_all(&body)?;
     let df = ParquetReader::new(&mut file).finish().unwrap();
     let mut vals = Vec::<DelocalisedValues>::new();
-    let col_names=df.get_column_names().clone();
+    let col_names = df.get_column_names().clone();
     for index in 0..df.get_columns()[0].len() {
-        let row=df.get_row(index)?;
-        let mut hm=HashMap::new();
-        for (i,a) in row.0.into_iter().enumerate(){
-            let v=serde_json::to_value(a)?;
-            hm.insert(col_names[i].to_string(),v);
+        let row = df.get_row(index)?;
+        let mut hm = HashMap::new();
+        for (i, a) in row.0.into_iter().enumerate() {
+            let v = serde_json::to_value(a)?;
+            hm.insert(col_names[i].to_string(), v);
         }
         vals.push(DelocalisedValues::from(hm));
     }
@@ -169,11 +169,15 @@ pub async fn download_status() -> Result<LimitedVec<(String, i64)>, crate::Boxed
     let mut file = tempfile()?;
     file.write_all(&body)?;
     let df = ParquetReader::new(&mut file).finish().unwrap();
-    let id_col=Vec::from(df.column("id")?.str()?);
-    let hash_col=Vec::from(df.column("id")?.i64()?);
-    let tasks=id_col.into_iter().zip(hash_col).flat_map(|(id,hash)| match (id,hash) {
-        (Some(id),Some(hash))=>Some((id.to_string(),hash)),
-        _=>None,
-    }).collect();
+    let id_col = Vec::from(df.column("id")?.str()?);
+    let hash_col = Vec::from(df.column("id")?.i64()?);
+    let tasks = id_col
+        .into_iter()
+        .zip(hash_col)
+        .flat_map(|(id, hash)| match (id, hash) {
+            (Some(id), Some(hash)) => Some((id.to_string(), hash)),
+            _ => None,
+        })
+        .collect();
     Ok(LimitedVec(tasks))
 }

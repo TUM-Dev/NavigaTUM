@@ -1,6 +1,6 @@
-use std::io::Write;
 use crate::limited::vec::LimitedVec;
 use polars::prelude::*;
+use std::io::Write;
 use tempfile::tempfile;
 
 #[derive(Debug)]
@@ -40,26 +40,32 @@ pub async fn download_updates() -> Result<LimitedVec<Alias>, crate::BoxedError> 
         .error_for_status()?
         .bytes()
         .await?;
-    let mut aliase=Vec::<Alias>::new();
+    let mut aliase = Vec::<Alias>::new();
     let mut file = tempfile()?;
     file.write_all(&body)?;
     let df = ParquetReader::new(&mut file)
-        .with_columns(Some(vec!["id".to_string(),"type".to_string(),"visible_id".to_string(),"aliases".to_string()]))
-        .finish().unwrap();
-    let id_col=df.column("id")?.str()?;
-    let type_col=df.column("type")?.str()?;
-    let visible_id_col=df.column("visible_id")?.str()?;
-    for index in 0..id_col.len(){
+        .with_columns(Some(vec![
+            "id".to_string(),
+            "type".to_string(),
+            "visible_id".to_string(),
+            "aliases".to_string(),
+        ]))
+        .finish()
+        .unwrap();
+    let id_col = df.column("id")?.str()?;
+    let type_col = df.column("type")?.str()?;
+    let visible_id_col = df.column("visible_id")?.str()?;
+    for index in 0..id_col.len() {
         let id = id_col.get(index).unwrap();
         let r#type = type_col.get(index).unwrap();
-        let visible_id=visible_id_col.get(index).unwrap();
-        aliase.push(Alias{
+        let visible_id = visible_id_col.get(index).unwrap();
+        aliase.push(Alias {
             alias: id.to_string(),
             key: id.to_string(),
             r#type: r#type.to_string(),
             visible_id: visible_id.to_string(),
         });
-        aliase.push(Alias{
+        aliase.push(Alias {
             alias: visible_id.to_string(),
             key: id.to_string(),
             r#type: r#type.to_string(),
@@ -67,17 +73,17 @@ pub async fn download_updates() -> Result<LimitedVec<Alias>, crate::BoxedError> 
         });
     }
 
-    let df_expanded=df.explode(["aliases"])?;
-    let id_col=df_expanded.column("id")?.str()?;
-    let type_col=df_expanded.column("type")?.str()?;
-    let visible_id_col=df_expanded.column("visible_id")?.str()?;
-    let aliases_col=df_expanded.column("aliases")?.str()?;
-    for index in 0..id_col.len(){
+    let df_expanded = df.explode(["aliases"])?;
+    let id_col = df_expanded.column("id")?.str()?;
+    let type_col = df_expanded.column("type")?.str()?;
+    let visible_id_col = df_expanded.column("visible_id")?.str()?;
+    let aliases_col = df_expanded.column("aliases")?.str()?;
+    for index in 0..id_col.len() {
         let alias = aliases_col.get(index).unwrap();
         let id = id_col.get(index).unwrap();
         let r#type = type_col.get(index).unwrap();
-        let visible_id=visible_id_col.get(index).unwrap();
-        aliase.push(Alias{
+        let visible_id = visible_id_col.get(index).unwrap();
+        aliase.push(Alias {
             alias: alias.to_string(),
             key: id.to_string(),
             r#type: r#type.to_string(),
