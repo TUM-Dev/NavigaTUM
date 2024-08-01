@@ -7,6 +7,31 @@
     source:
       text: NavigaTUM Team
       url: https://nav.tum.de
+4213.01.318: # baywa coworking space
+  0:
+    author: Frank Elsinga
+    license:
+      text: CC0 1.0
+      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
+    source:
+      text: NavigaTUM Team
+      url: https://nav.tum.de
+  1:
+    author: Frank Elsinga
+    license:
+      text: CC0 1.0
+      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
+    source:
+      text: NavigaTUM Team
+      url: https://nav.tum.de
+  2:
+    author: Frank Elsinga
+    license:
+      text: CC0 1.0
+      url: https://creativecommons.org/publicdomain/zero/1.0/deed.en
+    source:
+      text: NavigaTUM Team
+      url: https://nav.tum.de
 0101.01.195:
   0:
     author: MaxEmanuel
