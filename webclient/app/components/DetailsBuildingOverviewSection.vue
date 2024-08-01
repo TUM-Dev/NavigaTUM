@@ -33,7 +33,7 @@ const runtimeConfig = useRuntimeConfig();
                 height="64px"
                 class="aspect-square h-11 w-11 rounded-full"
                 :alt="t('thumbnail_preview')"
-                densities="x1 x2 x3 x4"
+                densities="x1 x2"
                 :src="`${runtimeConfig.public.cdnURL}/cdn/thumb/${b.thumb}`"
               />
             </figure>
