@@ -32,8 +32,8 @@
     "sharp": "0.33.4",
     "swagger-ui": "5.17.14",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
-    "vue": "3.4.34",
-    "vue-router": "4.4.0",
+    "vue": "3.4.35",
+    "vue-router": "4.4.2",
     "vue3-carousel": "0.3.3"
   },
   "devDependencies": {
