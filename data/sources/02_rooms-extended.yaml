@@ -204,6 +204,13 @@
   comment:
     de: Dieser Raum hat zwei Türen 1954 und 1952
     en: This room has two doors 1954 and 1952
+"4213.01.318": # baywa coworking space
+  props:
+    links:
+      - text:
+          de: Weitere Informationen
+          en: More informations
+        url: https://www.tcf.tum.de/facit/baywa-co-working-space/angebot/"
 
 # ========================== Garching =============================
 # === Studitum Garching ===
