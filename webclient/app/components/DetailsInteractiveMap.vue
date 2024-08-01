@@ -26,7 +26,6 @@ function loadInteractiveMap() {
       if (document.getElementById("interactive-map")?.classList.contains("maplibregl-map")) {
         marker.value?.remove();
       } else {
-        // @ts-expect-error recursive calls are not supported by ts
         map.value = initMap("interactive-map");
 
         document.getElementById("interactive-map")?.classList.remove("loading");
@@ -34,6 +33,7 @@ function loadInteractiveMap() {
     }
     marker.value = new Marker({ element: createMarker() });
     const coords = props.data.coords;
+    // @ts-expect-error somehow this is too deep for typescript
     if (map.value !== undefined) marker.value.setLngLat([coords.lon, coords.lat]).addTo(map.value as Map);
 
     const overlays = props.data.maps?.overlays;
