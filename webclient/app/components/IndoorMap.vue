@@ -179,7 +179,7 @@ async function initMap(containerId: string) {
   const indoorOptions = {
     beforeLayerId: "poi_z16",
     layers: indoorLayers,
-    showFeaturesWithEmptyLevel: true,
+    showFeaturesWithEmptyLevel: false,
   } as IndoorMapOptions;
   const indoorMap = IndoorMap.fromGeojson(geojson, indoorOptions);
   await map.indoor.addMap(indoorMap);
