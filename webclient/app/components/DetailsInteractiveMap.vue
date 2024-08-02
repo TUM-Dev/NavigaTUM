@@ -9,7 +9,6 @@ const props = defineProps<{ data: DetailsResponse }>();
 const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
-const { t } = useI18n({ useScope: "local" });
 const runtimeConfig = useRuntimeConfig();
 
 const initialLoaded = ref(false);
