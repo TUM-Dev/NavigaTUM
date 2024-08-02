@@ -16,9 +16,9 @@ const { data } = useFetch<DetailsResponse, string>(url, {
 <template>
   <Suspense>
     <IndoorMap v-if="data" :data="data" />
-    <NuxtLoadingIndicator v-else />
+    <Spinner v-else class="h-8 w-8" />
     <template #fallback>
-      <NuxtLoadingIndicator />
+      <Spinner class="h-8 w-8" />
     </template>
   </Suspense>
 </template>

@@ -34,7 +34,8 @@ function loadInteractiveMap() {
     const coords = props.data.coords;
     if (map.value !== undefined) {
       // @ts-expect-error somehow this is too deep for typescript
-      marker.value.setLngLat([coords.lon, coords.lat]).addTo(map.value as Map);
+      marker.value.setLngLat([coords.lon, coords.lat]);
+      marker.value.addTo(map.value as Map);
     }
 
     const overlays = props.data.maps?.overlays;

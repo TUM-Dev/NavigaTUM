@@ -40,8 +40,8 @@ async function loadInteractiveMap() {
     marker.value = new Marker({ element: createMarker() });
     const coords = props.data.coords;
     if (map.value !== undefined) {
-      // @ts-expect-error somehow this is too deep for typescript
-      marker.value.setLngLat([coords.lon, coords.lat]).addTo(map.value as MaplibreMapWithIndoor);
+      marker.value.setLngLat([coords.lon, coords.lat]);
+      marker.value.addTo(map.value as MaplibreMapWithIndoor);
     }
 
     const defaultZooms: { [index: string]: number | undefined } = {
