@@ -77,6 +77,8 @@ function createMarker(hueRotation = 0) {
 function initMap(containerId: string) {
   const map = new Map({
     container: containerId,
+    // to make sure that users can share urls
+    hash: true,
 
     // create the gl context with MSAA antialiasing, so custom layers are antialiasing.
     // slower, but prettier and therefore worth it for our use case
