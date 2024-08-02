@@ -1,9 +1,9 @@
 export const indoorLayers = [
   {
-    filter: ["filter-==", "indoor", "room"],
     id: "indoor-rooms",
     type: "fill",
     source: "indoor",
+    filter: ["==", "indoor", "room"],
     paint: {
       "fill-color": "#e0e0e0",
       "fill-opacity": 0.5,
@@ -30,10 +30,10 @@ export const indoorLayers = [
     },
   },
   {
-    filter: ["filter-==", "indoor", "corridor"],
     id: "indoor-corridors",
     type: "fill",
     source: "indoor",
+    filter: ["==", "indoor", "corridor"],
     paint: {
       "fill-color": "#8dd1fc",
       "fill-opacity": 0.5,
@@ -43,10 +43,10 @@ export const indoorLayers = [
     },
   },
   {
-    filter: ["filter-==", "indoor", "area"],
     id: "indoor-areas",
     type: "fill",
     source: "indoor",
+    filter: ["==", "indoor", "area"],
     paint: {
       "fill-color": "#ff0084",
       "fill-outline-color": "#000",
@@ -63,7 +63,7 @@ export const indoorLayers = [
     },
   },
   {
-    filter: ["filter-==", "indoor", "wall"],
+    filter: ["==", "indoor", "wall"],
     id: "indoor-walls",
     type: "fill",
     source: "indoor",
@@ -73,10 +73,10 @@ export const indoorLayers = [
     },
   },
   {
-    filter: ["filter-==", "indoor", "door"],
     id: "indoor-doors",
     type: "fill",
     source: "indoor",
+    filter: ["==", "indoor", "door"],
     paint: {
       "fill-color": "#00ffcc",
       "fill-opacity": 0.5,
