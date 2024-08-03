@@ -1,10 +1,8 @@
 <script setup lang="ts">
-// @ts-expect-error library does not provide proper types
-import { addIndoorTo, IndoorControl, IndoorMap } from "map-gl-indoor";
+import { addIndoorTo, IndoorControl, IndoorMap } from "maplibre-gl-indoor";
 import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
 import { webglSupport } from "~/composables/webglSupport";
-// @ts-expect-error library does not provide proper types
-import type { MaplibreMapWithIndoor, IndoorMapOptions } from "map-gl-indoor";
+import type { MaplibreMapWithIndoor, IndoorMapOptions } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 import { indoorLayers } from "~/composables/indoorLayer";
 
@@ -255,35 +253,6 @@ async function initMap(containerId: string) {
     height: 24px;
     top: -20px;
     left: -12px;
-  }
-}
-
-/* mapboxgl is intentional due to map-gl-indoor */
-.maplibregl-ctrl-bottom-left .mapboxgl-ctrl {
-  margin-left: 10px;
-  margin-bottom: 10px;
-  pointer-events: auto;
-
-  &.mapboxgl-ctrl-group {
-    background: #fff;
-    border-radius: 4px;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-
-    button {
-      background-color: transparent;
-      border: 0;
-      box-sizing: border-box;
-      cursor: pointer;
-      display: block;
-      height: 29px;
-      outline: none;
-      padding: 0;
-      width: 29px;
-    }
-  }
-
-  .mapboxgl-ctrl-group:empty {
-    box-shadow: none;
   }
 }
 </style>
