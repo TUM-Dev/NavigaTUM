@@ -48,7 +48,7 @@ async function loadInteractiveMap() {
     };
 
     map.value?.flyTo({
-      center: [8.3909479, 49.0332499],
+      center: [2.3596569, 48.8765734],
       zoom: defaultZooms[props.data.type || "undefined"] || 16,
       speed: 1,
       maxDuration: 2000,
@@ -173,7 +173,9 @@ async function initMap(containerId: string) {
   addIndoorTo(map);
 
   // Retrieve the geojson from the path and add the map
-  const geojson = await (await fetch("/example.geojson")).json();
+  const geojson = await (
+    await fetch("https://github.com/map-gl-indoor/map-gl-indoor/raw/main/examples/maps/gare-de-l-est.geojson")
+  ).json();
   const indoorOptions = {
     beforeLayerId: "poi_z16",
     layers: indoorLayers,
