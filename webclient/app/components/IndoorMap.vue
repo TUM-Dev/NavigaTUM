@@ -175,14 +175,7 @@ async function initMap(containerId: string) {
   addIndoorTo(map);
 
   // Retrieve the geojson from the path and add the map
-  const req = await fetch(
-    "https://github.com/map-gl-indoor/map-gl-indoor/raw/main/examples/maps/gare-de-l-est.geojson",
-    {
-      credentials: "omit",
-      mode: "no-cors",
-    },
-  );
-  const geojson: FeatureCollection = await req.json();
+  const geojson: FeatureCollection = await (await fetch("/gare-de-l-est.geojson")).json();
   const indoorOptions = {
     beforeLayerId: "poi_z16",
     layers: indoorLayers,
