@@ -5,6 +5,7 @@ import { webglSupport } from "~/composables/webglSupport";
 import type { MaplibreMapWithIndoor, IndoorMapOptions } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 import { indoorLayers } from "~/composables/indoorLayer";
+import type { FeatureCollection } from "geojson";
 
 const props = defineProps<{ data: DetailsResponse }>();
 const map = ref<MaplibreMapWithIndoor | undefined>(undefined);
@@ -174,9 +175,14 @@ async function initMap(containerId: string) {
   addIndoorTo(map);
 
   // Retrieve the geojson from the path and add the map
-  const geojson = await (
-    await fetch("https://github.com/map-gl-indoor/map-gl-indoor/raw/main/examples/maps/gare-de-l-est.geojson")
-  ).json();
+  const req = await fetch(
+    "https://github.com/map-gl-indoor/map-gl-indoor/raw/main/examples/maps/gare-de-l-est.geojson",
+    {
+      credentials: "omit",
+      mode: "no-cors",
+    },
+  );
+  const geojson: FeatureCollection = await req.json();
   const indoorOptions = {
     beforeLayerId: "poi_z16",
     layers: indoorLayers,
