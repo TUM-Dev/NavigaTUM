@@ -125,28 +125,19 @@ impl DelocalisedValues {
     }
 }
 #[tracing::instrument]
-pub async fn download_updates() -> Result<LimitedVec<DelocalisedValues>, crate::BoxedError> {
+pub async fn download_updates(
+    keys_which_need_updating: &LimitedVec<String>,
+) -> Result<LimitedVec<DelocalisedValues>, crate::BoxedError> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let body = reqwest::get(format!("{cdn_url}/api_data.parquet"))
+    let tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?
-        .error_for_status()?
-        .bytes()
-        .await?;
-    let mut file = tempfile()?;
-    file.write_all(&body)?;
-    let df = ParquetReader::new(&mut file).finish().unwrap();
-    let mut vals = Vec::<DelocalisedValues>::new();
-    let col_names = df.get_column_names().clone();
-    for index in 0..df.get_columns()[0].len() {
-        let row = df.get_row(index)?;
-        let mut hm = HashMap::new();
-        for (i, a) in row.0.into_iter().enumerate() {
-            let v = serde_json::to_value(a)?;
-            hm.insert(col_names[i].to_string(), v);
-        }
-        vals.push(DelocalisedValues::from(hm));
-    }
-    Ok(LimitedVec(vals))
+        .json::<Vec<HashMap<String, Value>>>()
+        .await?
+        .into_iter()
+        .map(DelocalisedValues::from)
+        .filter(|d| keys_which_need_updating.0.contains(&d.key))
+        .collect::<LimitedVec<DelocalisedValues>>();
+    Ok(tasks)
 }
 #[tracing::instrument(skip(tx))]
 pub(super) async fn load_all_to_db(
@@ -159,7 +150,7 @@ pub(super) async fn load_all_to_db(
     Ok(())
 }
 #[tracing::instrument]
-pub async fn download_status() -> Result<LimitedVec<(String, i64)>, crate::BoxedError> {
+pub async fn download_status() -> Result<(LimitedVec<String>,LimitedVec<i64>), crate::BoxedError> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = reqwest::get(format!("{cdn_url}/status_data.parquet"))
         .await?
@@ -170,14 +161,8 @@ pub async fn download_status() -> Result<LimitedVec<(String, i64)>, crate::Boxed
     file.write_all(&body)?;
     let df = ParquetReader::new(&mut file).finish().unwrap();
     let id_col = Vec::from(df.column("id")?.str()?);
-    let hash_col = Vec::from(df.column("id")?.i64()?);
-    let tasks = id_col
-        .into_iter()
-        .zip(hash_col)
-        .flat_map(|(id, hash)| match (id, hash) {
-            (Some(id), Some(hash)) => Some((id.to_string(), hash)),
-            _ => None,
-        })
-        .collect();
-    Ok(LimitedVec(tasks))
+    let id_col=id_col.into_iter().filter_map(|s| s.map(String::from)).collect();
+    let hash_col = Vec::from(df.column("hash")?.i64()?);
+    let hash_col = hash_col.into_iter().flatten().collect();
+    Ok((LimitedVec(id_col), LimitedVec(hash_col)))
 }
