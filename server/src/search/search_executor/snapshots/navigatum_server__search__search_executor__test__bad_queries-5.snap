@@ -1,0 +1,64 @@
+---
+source: src/search/search_executor/mod.rs
+description: "uses 'str.' instead of 'straße'"
+expression: actual
+info: "'Karlsstr. 47' should get '2906' in 1 results # uses 'str.' instead of 'straße'"
+---
+- facet: rooms
+  entries:
+    - id: 2906.01.025
+      type: room
+      name: 2906.01.025 (Karlstraße-Seminarraum)
+      subtext: Karlstraße 45/47
+      subtext_bold: 1025@2906
+    - id: 2906.02.026
+      type: room
+      name: 2906.02.026 (Karlstraße-Seminarraum)
+      subtext: Karlstraße 45/47
+      subtext_bold: 2026@2906
+    - id: 2906.03.001
+      type: room
+      name: 2906.03.001 (Seminarraum)
+      subtext: Karlstraße 45/47
+      subtext_bold: 3001@2906
+    - id: 2906.05.001
+      type: room
+      name: 2906.05.001 (Unterrichtsraum)
+      subtext: Karlstraße 45/47
+      subtext_bold: 5001@2906
+    - id: 2906.DG.009
+      type: room
+      name: 2906.DG.009 (Seminarraum)
+      subtext: Karlstraße 45/47
+      subtext_bold: 6009@2906
+    - id: 2906.02.001
+      type: room
+      name: 2906.02.001 (Bibliothek)
+      subtext: Karlstraße 45/47
+      subtext_bold: 2001@2906
+    - id: 2906.01.001
+      type: room
+      name: 2906.01.001 (Büro/EDV-Raum)
+      subtext: Karlstraße 45/47
+      subtext_bold: 1001@2906
+    - id: 2906.01.002
+      type: room
+      name: 2906.01.002 (Büro)
+      subtext: Karlstraße 45/47
+      subtext_bold: 1002@2906
+    - id: 2906.01.003
+      type: room
+      name: 2906.01.003 (Büro)
+      subtext: Karlstraße 45/47
+      subtext_bold: 1003@2906
+    - id: 2906.01.004
+      type: room
+      name: 2906.01.004 (Büro)
+      subtext: Karlstraße 45/47
+      subtext_bold: 1004@2906
+  n_visible: 10
+  estimatedTotalHits: 204
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 0

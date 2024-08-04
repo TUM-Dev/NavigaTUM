@@ -4,10 +4,7 @@ This Project details how to deploy NavigaTUM
 The documentation for the specific sub-services can be found in the respective directories:
 
 - [Data](../data/README.md)
-- Backend-Servers
-  - [API Server](../server/main-api/README.md)
-  - [Feedback](../server/feedback/README.md)
-  - [Calendar](../server/calendar/README.md)
+- [Backend-Server](../server/README.md)
 - [Website](../webclient/README.md)
 - [Maps](../map/README.md)
 

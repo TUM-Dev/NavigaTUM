@@ -16,20 +16,19 @@ ENV     USER=root
 ENV     RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-fuse-ld=mold"
 
 # (probably cached) first run of the image build => only dependencies
-COPY    ./Cargo.* ./
-COPY    main-api/Cargo.* ./main-api/
-RUN     mkdir -p ./main-api/src/ \
-     && echo "fn main() { println!(\"Hello, world!\");}" > ./main-api/src/main.rs
+COPY    Cargo.* ./
+RUN     mkdir -p ./src/ \
+     && echo "fn main() { println!(\"Hello, world!\");}" > ./src/main.rs
 
-RUN     cargo build --release --workspace \
+RUN     cargo build --release \
      && rm -fr target/release/deps/navigatum*
 
 # second run of the image build (including our code)
 COPY    .sqlx .sqlx
 
-COPY    main-api/src ./main-api/src
-COPY    main-api/migrations ./main-api/migrations
-RUN     cargo build --release --workspace
+COPY    src src
+COPY    migrations migrations
+RUN     cargo build --release
 
 
 # RUN

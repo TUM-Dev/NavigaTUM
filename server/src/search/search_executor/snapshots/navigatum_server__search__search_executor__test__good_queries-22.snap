@@ -1,0 +1,19 @@
+---
+source: src/search/search_executor/mod.rs
+description: ""
+expression: actual
+info: "'mössbauer' should get '5101.EG.501' in 1 results"
+---
+- facet: rooms
+  entries:
+    - id: 5101.EG.501
+      type: room
+      name: "5101.EG.501 (Rudolf-\u0019Mößbauer\u0017-Hörsaal)"
+      subtext: "garching, Physik I"
+      subtext_bold: 2501@5101
+  n_visible: 1
+  estimatedTotalHits: 1
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 0

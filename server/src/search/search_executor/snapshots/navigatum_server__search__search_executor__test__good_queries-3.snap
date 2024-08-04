@@ -1,0 +1,63 @@
+---
+source: src/search/search_executor/mod.rs
+description: ""
+expression: actual
+info: "'5301' should get '5301' in 1 results"
+---
+- facet: sites_buildings
+  entries:
+    - id: "5301"
+      type: building
+      name: Institute for Advanced Study (IAS)
+      subtext: Gebäude
+  n_visible: 1
+  estimatedTotalHits: 1
+- facet: rooms
+  entries:
+    - id: 5301.EG.001
+      type: room
+      name: "\u00195301\u0017.EG.001 (Auditorium)"
+      subtext: "garching, Institute for Advanced Study (IAS)"
+      subtext_bold: 0.001@5301
+    - id: 5301.02.022
+      type: room
+      name: "\u00195301\u0017.02.022 (Zeitschriften/Lesesaal)"
+      subtext: "garching, Institute for Advanced Study (IAS)"
+      subtext_bold: 2.022@5301
+    - id: 5301.01.033
+      type: room
+      name: "\u00195301\u0017.01.033 (Drucker)"
+      subtext: "garching, Institute for Advanced Study (IAS)"
+      subtext_bold: 1.033@5301
+    - id: 5301.02.033
+      type: room
+      name: "\u00195301\u0017.02.033 (Drucker)"
+      subtext: "garching, Institute for Advanced Study (IAS)"
+      subtext_bold: 2.033@5301
+    - id: 5301.03.033
+      type: room
+      name: "\u00195301\u0017.03.033 (Drucker)"
+      subtext: "garching, Institute for Advanced Study (IAS)"
+      subtext_bold: 3.033@5301
+    - id: 5301.01.001
+      type: room
+      name: "\u00195301\u0017.01.001 (Großraumbüro)"
+      subtext: "garching, Institute for Advanced Study (IAS)"
+      subtext_bold: 1.001@5301
+    - id: 5301.01.004
+      type: room
+      name: "\u00195301\u0017.01.004 (Büro)"
+      subtext: "garching, Institute for Advanced Study (IAS)"
+      subtext_bold: 1.004@5301
+    - id: 5301.01.005
+      type: room
+      name: "\u00195301\u0017.01.005 (Büro)"
+      subtext: "garching, Institute for Advanced Study (IAS)"
+      subtext_bold: 1.005@5301
+    - id: 5301.01.006
+      type: room
+      name: "\u00195301\u0017.01.006 (Büro)"
+      subtext: "garching, Institute for Advanced Study (IAS)"
+      subtext_bold: 1.006@5301
+  n_visible: 9
+  estimatedTotalHits: 147
