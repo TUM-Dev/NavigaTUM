@@ -28,7 +28,7 @@
     "@vueuse/router": "10.11.0",
     "geojson": "0.5.0",
     "maplibre-gl": "4.5.1",
-    "maplibre-gl-indoor": "0.0.6",
+    "maplibre-gl-indoor": "0.0.7",
     "nightwind": "1.1.13",
     "nuxt": "3.12.4",
     "sharp": "0.33.4",
