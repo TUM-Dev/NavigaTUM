@@ -5,7 +5,7 @@
         <NuxtLink class="my-auto hidden lg:block print:!block" to="/">
           <img alt="Navigatum Logo" class="pt-2" width="201" height="32" src="~/assets/logos/navigatum.svg" />
         </NuxtLink>
-        <div class="my-auto max-w-lg flex-grow lg:col-span-3 print:!hidden">
+        <div class="my-auto max-w-xl flex-grow lg:col-span-3 print:!hidden">
           <slot />
         </div>
         <div class="relative my-auto flex-shrink-0 xl:absolute xl:right-5 xl:top-3 print:!hidden">
