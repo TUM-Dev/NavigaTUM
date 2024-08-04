@@ -5,7 +5,7 @@ export const indoorLayers: LayerSpecification[] = [
     id: "indoor-areas",
     type: "fill",
     source: "indoor",
-    filter: ["==", "indoor", "area"],
+    filter: ["==", ["get", "indoor"], "area"],
     paint: {
       "fill-color": "#ff0084",
       "fill-outline-color": "#000",
@@ -17,7 +17,7 @@ export const indoorLayers: LayerSpecification[] = [
     id: "indoor-corridors",
     type: "fill",
     source: "indoor",
-    filter: ["==", "indoor", "corridor"],
+    filter: ["==", ["get", "indoor"], "corridor"],
     paint: {
       "fill-color": "#8dd1fc",
       "fill-opacity": 0.5,
@@ -29,7 +29,7 @@ export const indoorLayers: LayerSpecification[] = [
     id: "indoor-rooms",
     type: "fill",
     source: "indoor",
-    filter: ["==", "indoor", "room"],
+    filter: ["==", ["get", "indoor"], "room"],
     paint: {
       "fill-color": "#e0e0e0",
       "fill-opacity": 0.5,
@@ -38,7 +38,7 @@ export const indoorLayers: LayerSpecification[] = [
     },
   },
   {
-    filter: ["==", "indoor", "wall"],
+    filter: ["==", ["get", "indoor"], "wall"],
     id: "indoor-walls",
     type: "fill",
     source: "indoor",
@@ -51,7 +51,7 @@ export const indoorLayers: LayerSpecification[] = [
     id: "indoor-doors",
     type: "fill",
     source: "indoor",
-    filter: ["==", "indoor", "door"],
+    filter: ["==", ["get", "indoor"], "door"],
     paint: {
       "fill-color": "#00ffcc",
       "fill-opacity": 0.5,
@@ -61,7 +61,7 @@ export const indoorLayers: LayerSpecification[] = [
     id: "indoor-roomnames",
     type: "symbol",
     source: "indoor",
-    filter: ["==", "indoor", "area"],
+    filter: ["==", ["get", "indoor"], "area"],
     layout: {
       "text-field":
         "eval(" +
@@ -81,7 +81,7 @@ export const indoorLayers: LayerSpecification[] = [
     id: "indoor-areanames",
     type: "symbol",
     source: "indoor",
-    filter: ["==", "indoor", "area"],
+    filter: ["==", ["get", "indoor"], "area"],
     layout: {
       "text-field":
         "eval(" +
