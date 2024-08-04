@@ -1,6 +1,7 @@
-use serde::Deserialize;
-
 use crate::limited::vec::LimitedVec;
+use polars::prelude::*;
+use std::io::Write;
+use tempfile::tempfile;
 
 #[derive(Debug)]
 pub(super) struct Alias {
@@ -8,76 +9,6 @@ pub(super) struct Alias {
     key: String,    // the key is the id of the entry
     r#type: String, // what we display in the url
     visible_id: String,
-}
-
-#[derive(Debug, Deserialize)]
-struct AliasData {
-    id: String,
-    visible_id: Option<String>,
-    aliases: Vec<String>,
-    r#type: String, // what we display in the url
-}
-struct AliasIterator {
-    data: AliasData,
-    state: AliasIteratorState,
-}
-#[derive(Debug, Default, Copy, Clone, PartialEq, Eq)]
-enum AliasIteratorState {
-    #[default]
-    Key,
-    VisibleId,
-    Alias(usize),
-    Done,
-}
-impl AliasIteratorState {
-    fn next_state(&mut self) -> Self {
-        match self {
-            Self::Key => Self::VisibleId,
-            Self::VisibleId => Self::Alias(0),
-            Self::Alias(i) => Self::Alias(*i + 1),
-            Self::Done => Self::Done,
-        }
-    }
-}
-
-impl From<AliasData> for AliasIterator {
-    fn from(alias_data: AliasData) -> Self {
-        Self {
-            data: alias_data,
-            state: AliasIteratorState::default(),
-        }
-    }
-}
-impl Iterator for AliasIterator {
-    type Item = Alias;
-    fn next(&mut self) -> Option<Self::Item> {
-        use AliasIteratorState as State;
-        let visible_id = self.data.visible_id.clone().unwrap_or(self.data.id.clone());
-        let alias_len = self.data.aliases.len();
-        let state = self.state;
-        self.state = self.state.next_state();
-        match state {
-            State::Key => Some(Alias {
-                alias: self.data.id.clone(),
-                key: self.data.id.clone(),
-                r#type: self.data.r#type.clone(),
-                visible_id,
-            }),
-            State::VisibleId => Some(Alias {
-                alias: visible_id.clone(),
-                key: self.data.id.clone(),
-                r#type: self.data.r#type.clone(),
-                visible_id,
-            }),
-            State::Alias(index) if index < alias_len => Some(Alias {
-                alias: self.data.aliases[index].clone(),
-                key: self.data.id.clone(),
-                r#type: self.data.r#type.clone(),
-                visible_id,
-            }),
-            State::Alias(_) | State::Done => None,
-        }
-    }
 }
 
 impl Alias {
@@ -102,24 +33,74 @@ impl Alias {
     }
 }
 #[tracing::instrument]
-pub async fn download_updates(
-    keys_which_need_updating: &LimitedVec<String>,
-) -> Result<LimitedVec<Alias>, crate::BoxedError> {
+pub async fn download_updates() -> Result<LimitedVec<Alias>, crate::BoxedError> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let aliase = reqwest::get(format!("{cdn_url}/api_data.json"))
+    let body = reqwest::get(format!("{cdn_url}/api_data.parquet"))
         .await?
-        .json::<Vec<AliasData>>()
-        .await?
-        .into_iter()
-        .filter(|d| {
-            keys_which_need_updating.is_empty() || keys_which_need_updating.0.contains(&d.id)
-        })
-        .map(AliasIterator::from);
-    Ok(LimitedVec(
-        aliase
-            .flat_map(IntoIterator::into_iter)
-            .collect::<Vec<Alias>>(),
-    ))
+        .error_for_status()?
+        .bytes()
+        .await?;
+    let mut aliase = Vec::<Alias>::new();
+    let mut file = tempfile()?;
+    file.write_all(&body)?;
+    let df = ParquetReader::new(&mut file)
+        .with_columns(Some(vec![
+            "id".to_string(),
+            "type".to_string(),
+            "visible_id".to_string(),
+            "aliases".to_string(),
+        ]))
+        .finish()
+        .unwrap();
+    let id_col = df.column("id")?.str()?;
+    let type_col = df.column("type")?.str()?;
+    let visible_id_col = df.column("visible_id")?.str()?;
+    for index in 0..id_col.len() {
+        let id = id_col.get(index).unwrap();
+        let r#type = type_col.get(index).unwrap();
+        let visible_id = visible_id_col.get(index);
+        let visible_id = match visible_id {
+            Some(v) => v.to_string(),
+            None => id.to_string(),
+        };
+        aliase.push(Alias {
+            alias: id.to_string(),
+            key: id.to_string(),
+            r#type: r#type.to_string(),
+            visible_id: visible_id.clone(),
+        });
+        aliase.push(Alias {
+            alias: visible_id.clone(),
+            key: id.to_string(),
+            r#type: r#type.to_string(),
+            visible_id: visible_id.clone(),
+        });
+    }
+
+    let df_expanded = df.explode(["aliases"])?;
+    let mask = df_expanded.column("aliases")?.is_not_null();
+    let df_expanded = df_expanded.filter(&mask)?;
+    let id_col = df_expanded.column("id")?.str()?;
+    let type_col = df_expanded.column("type")?.str()?;
+    let visible_id_col = df_expanded.column("visible_id")?.str()?;
+    let aliases_col = df_expanded.column("aliases")?.str()?;
+    for index in 0..id_col.len() {
+        let alias = aliases_col.get(index).unwrap();
+        let id = id_col.get(index).unwrap();
+        let r#type = type_col.get(index).unwrap();
+        let visible_id = visible_id_col.get(index);
+        let visible_id = match visible_id {
+            Some(v) => v.to_string(),
+            None => id.to_string(),
+        };
+        aliase.push(Alias {
+            alias: alias.to_string(),
+            key: id.to_string(),
+            r#type: r#type.to_string(),
+            visible_id,
+        });
+    }
+    Ok(LimitedVec(aliase))
 }
 #[tracing::instrument(skip(tx))]
 pub async fn load_all_to_db(

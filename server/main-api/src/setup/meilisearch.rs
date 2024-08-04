@@ -105,6 +105,7 @@ pub async fn load_data(client: &Client) -> Result<(), crate::BoxedError> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let documents = reqwest::get(format!("{cdn_url}/search_data.json"))
         .await?
+        .error_for_status()?
         .json::<Vec<Value>>()
         .await?;
     let res = entries
