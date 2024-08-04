@@ -4,7 +4,6 @@ import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, N
 import { webglSupport } from "~/composables/webglSupport";
 import type { MaplibreMapWithIndoor, IndoorMapOptions } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
-import { indoorLayers } from "~/composables/indoorLayer";
 import type { FeatureCollection } from "geojson";
 
 const props = defineProps<{ data: DetailsResponse }>();
@@ -177,8 +176,6 @@ async function initMap(containerId: string) {
   // Retrieve the geojson from the path and add the map
   const geojson: FeatureCollection = await (await fetch("/gare-de-l-est.geojson")).json();
   const indoorOptions = {
-    beforeLayerId: "poi_z16",
-    layers: indoorLayers,
     showFeaturesWithEmptyLevel: false,
   } as IndoorMapOptions;
   const indoorMap = IndoorMap.fromGeojson(geojson, indoorOptions);
