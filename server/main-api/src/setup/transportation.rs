@@ -54,7 +54,11 @@ impl DBStation {
 #[tracing::instrument(skip(pool))]
 pub async fn setup(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
     let url = "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/main/data/external/results/public_transport.json";
-    let transportations: Vec<Station> = reqwest::get(url).await?.json().await?;
+    let transportations = reqwest::get(url)
+        .await?
+        .error_for_status()?
+        .json::<Vec<Station>>()
+        .await?;
     let transportations = transportations.into_iter().flat_map(|s| {
         let id = s.station.station_id.clone();
         let mut stations = vec![DBStation::from_station(s.station, None)];

@@ -69,6 +69,8 @@ actix-governor = { version = "0.5.0", features = ["logger"] }
 tempfile = "3.10.1"
 base64 = "0.22.1"
 time = "0.3.36"
+polars = { version = "0.41.3", features = ["parquet", "dtype-struct"] }
+#polars = { git = "https://github.com/CommanderStorm/polars.git", branch = "serialisation-experiment", features = ["parquet", "serde", "dtype-full"] }
 
 [dev-dependencies]
 insta = { version = "1.39.0", features = ["yaml", "json", "redactions"] }

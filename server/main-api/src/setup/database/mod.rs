@@ -14,16 +14,7 @@ pub async fn setup(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
 }
 #[tracing::instrument(skip(pool))]
 pub async fn load_data(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
-    let status = data::download_status().await?.0;
-    let new_keys = status
-        .clone()
-        .into_iter()
-        .map(|(k, _)| k)
-        .collect::<LimitedVec<String>>();
-    let new_hashes = status
-        .into_iter()
-        .map(|(_, h)| h)
-        .collect::<LimitedVec<i64>>();
+    let (new_keys, new_hashes) = data::download_status().await?;
     {
         let _ = info_span!("deleting old data").enter();
         let mut tx = pool.begin().await?;
@@ -39,10 +30,8 @@ pub async fn load_data(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
         data::load_all_to_db(data, &mut tx).await?;
         tx.commit().await?;
     }
-
-    if !keys_which_need_updating.is_empty() {
-        let _ = info_span!("loading new aliases").enter();
-        let aliases = alias::download_updates(&keys_which_need_updating).await?;
+    {
+        let aliases = alias::download_updates().await?;
         let mut tx = pool.begin().await?;
         alias::load_all_to_db(aliases, &mut tx).await?;
         tx.commit().await?;

@@ -1,10 +1,12 @@
+use crate::limited::vec::LimitedVec;
+use polars::prelude::ParquetReader;
+use polars::prelude::*;
+use serde_json::Value;
 use std::collections::HashMap;
 use std::fmt;
 use std::hash::{Hash, Hasher};
-
-use serde_json::Value;
-
-use crate::limited::vec::LimitedVec;
+use std::io::Write;
+use tempfile::tempfile;
 
 #[derive(Clone)]
 pub(super) struct DelocalisedValues {
@@ -148,11 +150,22 @@ pub(super) async fn load_all_to_db(
     Ok(())
 }
 #[tracing::instrument]
-pub async fn download_status() -> Result<LimitedVec<(String, i64)>, crate::BoxedError> {
+pub async fn download_status() -> Result<(LimitedVec<String>, LimitedVec<i64>), crate::BoxedError> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
-    let tasks = reqwest::get(format!("{cdn_url}/status_data.json"))
+    let body = reqwest::get(format!("{cdn_url}/status_data.parquet"))
         .await?
-        .json::<Vec<(String, i64)>>()
+        .error_for_status()?
+        .bytes()
         .await?;
-    Ok(LimitedVec(tasks))
+    let mut file = tempfile()?;
+    file.write_all(&body)?;
+    let df = ParquetReader::new(&mut file).finish().unwrap();
+    let id_col = Vec::from(df.column("id")?.str()?);
+    let id_col = id_col
+        .into_iter()
+        .filter_map(|s| s.map(String::from))
+        .collect();
+    let hash_col = Vec::from(df.column("hash")?.i64()?);
+    let hash_col = hash_col.into_iter().flatten().collect();
+    Ok((LimitedVec(id_col), LimitedVec(hash_col)))
 }
