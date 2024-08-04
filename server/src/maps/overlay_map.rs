@@ -5,29 +5,11 @@ use futures::{stream::FuturesUnordered, StreamExt};
 use tracing::warn;
 
 use crate::maps::fetch_tile::FetchTileTask;
-use crate::models::Location;
 
 pub struct OverlayMapTask {
     pub x: f64,
     pub y: f64,
     pub z: u32,
-}
-
-impl From<&Location> for OverlayMapTask {
-    fn from(entry: &Location) -> Self {
-        let zoom = match entry.r#type.as_str() {
-            "campus" => 14,
-            "area" | "site" => 15,
-            "building" | "joined_building" => 16,
-            "virtual_room" | "room" | "poi" => 17,
-            _ => {
-                warn!("map generation encountered an type for {entry:?}. Assuming it to be a building");
-                16
-            }
-        };
-        let (x, y, z) = lat_lon_z_to_xyz(entry.lat, entry.lon, zoom);
-        Self { x, y, z }
-    }
 }
 
 impl fmt::Debug for OverlayMapTask {
@@ -43,6 +25,21 @@ impl fmt::Debug for OverlayMapTask {
 const POSSIBLE_INDEX_RANGE: Range<u32> = 0..7;
 
 impl OverlayMapTask {
+    pub fn new(r#type: &str, lat: f64, lon: f64) -> Self {
+        let zoom = match r#type {
+            "campus" => 14,
+            "area" | "site" => 15,
+            "building" | "joined_building" => 16,
+            "virtual_room" | "room" | "poi" => 17,
+            entry => {
+                warn!("map generation encountered an type for {entry:?}. Assuming it to be a building");
+                16
+            }
+        };
+        let (x, y, z) = lat_lon_z_to_xyz(lat, lon, zoom);
+        Self { x, y, z }
+    }
+
     #[tracing::instrument(skip(img))]
     pub async fn draw_onto(&self, img: &mut image::RgbaImage) -> bool {
         // coordinate system is centered around the center of the image
