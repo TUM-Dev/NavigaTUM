@@ -301,7 +301,7 @@ onMounted(() => {
 
   &.maximize {
     position: absolute;
-    top: -10px;
+    top: 60px;
     left: 0;
     width: 100%;
     height: calc(100vh - 60px);
