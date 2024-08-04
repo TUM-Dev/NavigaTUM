@@ -1,0 +1,64 @@
+---
+source: src/search/search_executor/mod.rs
+description: "This is 'N-1403@0104', but 'N1403@0104' can be before this"
+expression: actual
+info: "'n1403' should get '0104.U1.403' in 2 results # This is 'N-1403@0104', but 'N1403@0104' can be before this"
+---
+- facet: rooms
+  entries:
+    - id: 0104.01.403
+      type: room
+      name: 0104.01.403 (Büro)
+      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext_bold: N1403@0104
+    - id: 0102.01.203
+      type: room
+      name: 0102.01.203 (Hörsaal-eben m.exp.-Bühne)
+      subtext: "stammgelände, Hochvolthaus (N2)"
+      subtext_bold: N1203@0102
+    - id: 0101.Z1.003
+      type: room
+      name: 0101.Z1.003 (Studentenarbeitsraum)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1003ZG@0101
+    - id: 0101.Z1.039
+      type: room
+      name: 0101.Z1.039 (Seminarraum)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1039ZG@0101
+    - id: 0104.01.406
+      type: room
+      name: 0104.01.406 (Studentenarb. m. DV)
+      subtext: "stammgelände, E-Technik Elektrophysik (N4)"
+      subtext_bold: N1406@0104
+    - id: 0108.01.803
+      type: room
+      name: 0108.01.803 (Gruppenraum)
+      subtext: "stammgelände, E-Technik Verfügungsgebäude (N8)"
+      subtext_bold: N1803@0108
+    - id: 0101.Z1.031
+      type: room
+      name: 0101.Z1.031 (Bibliotheksraum einf.)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1031ZG@0101
+    - id: 5112.EG.103N
+      type: room
+      name: 5112.EG.103N (Labor)
+      subtext: "garching, Walter-Schottky-Institut (WSI)"
+      subtext_bold: N103@5112
+    - id: 0101.Z1.030
+      type: room
+      name: 0101.Z1.030 (Besprechungsraum)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1030ZG@0101
+    - id: 0101.Z1.032
+      type: room
+      name: 0101.Z1.032 (Büro)
+      subtext: "stammgelände, U-Trakt (N1)"
+      subtext_bold: N1032ZG@0101
+  n_visible: 10
+  estimatedTotalHits: 552
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 0

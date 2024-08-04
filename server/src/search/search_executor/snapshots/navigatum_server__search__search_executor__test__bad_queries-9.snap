@@ -1,0 +1,14 @@
+---
+source: src/search/search_executor/mod.rs
+description: ""
+expression: actual
+info: "'CH22209' should get '5402.01.220J' in 1 results"
+---
+- facet: rooms
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 0
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 0

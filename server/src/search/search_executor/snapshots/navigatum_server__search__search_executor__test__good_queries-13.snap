@@ -1,0 +1,65 @@
+---
+source: src/search/search_executor/mod.rs
+description: A search for the Architects name should return the correct room
+expression: actual
+info: "'00.01.001' should get '5601.EG.001' in 1 results # A search for the Architects name should return the correct room"
+---
+- facet: rooms
+  entries:
+    - id: 5601.EG.001
+      type: room
+      name: "5601.EG.\u0019001\u0017 (Magistrale)"
+      subtext: "garching, Mathe/Info (MI)"
+      subtext_bold: 00.01.001@5601
+      parsed_id: "MI \u001900.01.001\u0017"
+    - id: 5510.EG.001
+      type: room
+      name: "5510.EG.\u0019001\u0017 (Hörsaal)"
+      subtext: "garching, Maschinenwesen (MW)"
+      subtext_bold: 0001@5510
+    - id: 3902.EG.001
+      type: room
+      name: "3902.EG.\u0019001\u0017 (Unterricht 2)"
+      subtext: "zhs-wassersportplatz-starnberg, Seglerheim"
+      subtext_bold: 0001@3902
+    - id: 5414.EG.001
+      type: room
+      name: "5414.EG.\u0019001\u0017 (ZEI-Seminarraum)"
+      subtext: "garching, Zentrum für Energie und Information (ZEI)"
+      subtext_bold: 0001@5414
+    - id: 5433.EG.001
+      type: room
+      name: "5433.EG.\u0019001\u0017 (Seminarraum 1)"
+      subtext: "garching, Entrepreneurship Research Institute"
+      subtext_bold: 0001@5433
+    - id: 7910.EG.001
+      type: room
+      name: "7910.EG.\u0019001\u0017 (Messkabine & Messtationen)"
+      subtext: Oskar-von-Miller-Turm (Meteo-Mast)
+      subtext_bold: 0001@7910
+    - id: 0205.EG.001
+      type: room
+      name: "0205.EG.\u0019001\u0017 (Büro)"
+      subtext: "stammgelände, Arcisstr. 19 (S5)"
+      subtext_bold: 0001@0205
+    - id: 0401.EG.001
+      type: room
+      name: "0401.EG.\u0019001\u0017 (WC-Damen)"
+      subtext: "stammgelände, Richard-Wagner-Str. 18 (SW1)"
+      subtext_bold: 0001@0401
+    - id: 5116.EG.001
+      type: room
+      name: "5116.EG.\u0019001\u0017 (Trafostation)"
+      subtext: "garching, Trafostation des ZNN"
+      subtext_bold: 0001@5116
+    - id: 5125.EG.001
+      type: room
+      name: "5125.EG.\u0019001\u0017 (BMZ)"
+      subtext: "garching, Laboratory for Extreme Photonics (LEX), LMU"
+      subtext_bold: 0001@5125
+  n_visible: 10
+  estimatedTotalHits: 1000
+- facet: sites_buildings
+  entries: []
+  n_visible: 0
+  estimatedTotalHits: 0

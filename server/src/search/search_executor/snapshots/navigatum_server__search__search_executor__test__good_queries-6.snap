@@ -1,0 +1,63 @@
+---
+source: src/search/search_executor/mod.rs
+description: "Should give the 'new' mensa"
+expression: actual
+info: "'Mensa Garching' should get '5304' in 1 results # Should give the 'new' mensa"
+---
+- facet: sites_buildings
+  entries:
+    - id: "5304"
+      type: building
+      name: "\u0019Mensa\u0017 \u0019Garching\u0017"
+      subtext: Gebäude
+  n_visible: 1
+  estimatedTotalHits: 4
+- facet: rooms
+  entries:
+    - id: 5304.01.101
+      type: room
+      name: 5304.01.101 (Speisesaal)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.101@5304
+    - id: 5304.01.102
+      type: room
+      name: 5304.01.102 (Vor-/Verteilerbereich)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.102@5304
+    - id: 5304.01.103
+      type: room
+      name: 5304.01.103 (Free Flow)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.103@5304
+    - id: 5304.01.104
+      type: room
+      name: 5304.01.104 (Produktionsküche)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.104@5304
+    - id: 5304.01.201
+      type: room
+      name: 5304.01.201 (Geschirrspüle)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.201@5304
+    - id: 5304.01.203
+      type: room
+      name: 5304.01.203 (Küchenchef)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.203@5304
+    - id: 5304.01.301
+      type: room
+      name: 5304.01.301 (Geschirrspüle)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.301@5304
+    - id: 5304.01.302
+      type: room
+      name: 5304.01.302 (Schwarzgeschirrspüle)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.302@5304
+    - id: 5304.01.307
+      type: room
+      name: 5304.01.307 (Putzraum)
+      subtext: "garching, Mensa Garching"
+      subtext_bold: 1.307@5304
+  n_visible: 9
+  estimatedTotalHits: 674
