@@ -13,8 +13,16 @@ use crate::limited::vec::LimitedVec;
 use crate::localisation;
 use crate::maps::overlay_map::OverlayMapTask;
 use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
-use crate::models::Location;
 use crate::models::LocationKeyAlias;
+
+#[derive(Debug)]
+struct Location {
+    name: String,
+    r#type: String,
+    type_common_name: String,
+    lat: f64,
+    lon: f64,
+}
 
 #[tracing::instrument(skip(pool))]
 async fn get_localised_data(
@@ -23,21 +31,29 @@ async fn get_localised_data(
     should_use_english: bool,
 ) -> Result<Location, HttpResponse> {
     let result = if should_use_english {
-        sqlx::query_as!(Location, "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name,lat,lon FROM en WHERE key = $1", id)
-            .fetch_all(pool)
-            .await
+        sqlx::query_as!(
+            Location,
+            "SELECT type,lat,lon,name,type_common_name FROM en WHERE key = $1",
+            id
+        )
+        .fetch_all(pool)
+        .await
     } else {
-        sqlx::query_as!(Location, "SELECT key,name,last_calendar_scrape_at,calendar_url,type,type_common_name,lat,lon FROM de WHERE key = $1", id)
-            .fetch_all(pool)
-            .await
+        sqlx::query_as!(
+            Location,
+            "SELECT type,lat,lon,name,type_common_name FROM de WHERE key = $1",
+            id
+        )
+        .fetch_all(pool)
+        .await
     };
 
     match result {
-        Ok(r) => match r.len() {
-            0 => Err(HttpResponse::NotFound()
+        Ok(mut r) => match r.pop() {
+            None => Err(HttpResponse::NotFound()
                 .content_type("text/plain")
                 .body("Not found")),
-            _ => Ok(r[0].clone()),
+            Some(item) => Ok(item),
         },
         Err(e) => {
             error!("Error preparing statement: {e:?}");
@@ -59,7 +75,10 @@ async fn construct_image_from_data(
     };
 
     // add the map
-    if !OverlayMapTask::from(&data).draw_onto(&mut img).await {
+    if !OverlayMapTask::new(&data.r#type, data.lat, data.lon)
+        .draw_onto(&mut img)
+        .await
+    {
         return None;
     }
     draw_pin(&mut img);
