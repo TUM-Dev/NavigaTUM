@@ -58,22 +58,28 @@ pub async fn download_updates() -> Result<LimitedVec<Alias>, crate::BoxedError> 
     for index in 0..id_col.len() {
         let id = id_col.get(index).unwrap();
         let r#type = type_col.get(index).unwrap();
-        let visible_id = visible_id_col.get(index).unwrap();
+        let visible_id = visible_id_col.get(index);
+        let visible_id = match visible_id {
+            Some(v) => v.to_string(),
+            None => id.to_string(),
+        };
         aliase.push(Alias {
             alias: id.to_string(),
             key: id.to_string(),
             r#type: r#type.to_string(),
-            visible_id: visible_id.to_string(),
+            visible_id: visible_id.clone(),
         });
         aliase.push(Alias {
-            alias: visible_id.to_string(),
+            alias: visible_id.clone(),
             key: id.to_string(),
             r#type: r#type.to_string(),
-            visible_id: visible_id.to_string(),
+            visible_id: visible_id.clone(),
         });
     }
 
     let df_expanded = df.explode(["aliases"])?;
+    let mask = df_expanded.column("aliases")?.is_not_null();
+    let df_expanded = df_expanded.filter(&mask)?;
     let id_col = df_expanded.column("id")?.str()?;
     let type_col = df_expanded.column("type")?.str()?;
     let visible_id_col = df_expanded.column("visible_id")?.str()?;
@@ -82,12 +88,16 @@ pub async fn download_updates() -> Result<LimitedVec<Alias>, crate::BoxedError> 
         let alias = aliases_col.get(index).unwrap();
         let id = id_col.get(index).unwrap();
         let r#type = type_col.get(index).unwrap();
-        let visible_id = visible_id_col.get(index).unwrap();
+        let visible_id = visible_id_col.get(index);
+        let visible_id = match visible_id {
+            Some(v) => v.to_string(),
+            None => id.to_string(),
+        };
         aliase.push(Alias {
             alias: alias.to_string(),
             key: id.to_string(),
             r#type: r#type.to_string(),
-            visible_id: visible_id.to_string(),
+            visible_id,
         });
     }
     Ok(LimitedVec(aliase))

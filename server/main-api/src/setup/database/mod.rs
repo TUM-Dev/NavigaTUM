@@ -14,7 +14,7 @@ pub async fn setup(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
 }
 #[tracing::instrument(skip(pool))]
 pub async fn load_data(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
-    let (new_keys,new_hashes) = data::download_status().await?;
+    let (new_keys, new_hashes) = data::download_status().await?;
     {
         let _ = info_span!("deleting old data").enter();
         let mut tx = pool.begin().await?;

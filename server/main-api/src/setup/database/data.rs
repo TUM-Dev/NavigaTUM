@@ -150,7 +150,7 @@ pub(super) async fn load_all_to_db(
     Ok(())
 }
 #[tracing::instrument]
-pub async fn download_status() -> Result<(LimitedVec<String>,LimitedVec<i64>), crate::BoxedError> {
+pub async fn download_status() -> Result<(LimitedVec<String>, LimitedVec<i64>), crate::BoxedError> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = reqwest::get(format!("{cdn_url}/status_data.parquet"))
         .await?
@@ -161,7 +161,10 @@ pub async fn download_status() -> Result<(LimitedVec<String>,LimitedVec<i64>), c
     file.write_all(&body)?;
     let df = ParquetReader::new(&mut file).finish().unwrap();
     let id_col = Vec::from(df.column("id")?.str()?);
-    let id_col=id_col.into_iter().filter_map(|s| s.map(String::from)).collect();
+    let id_col = id_col
+        .into_iter()
+        .filter_map(|s| s.map(String::from))
+        .collect();
     let hash_col = Vec::from(df.column("hash")?.i64()?);
     let hash_col = hash_col.into_iter().flatten().collect();
     Ok((LimitedVec(id_col), LimitedVec(hash_col)))
