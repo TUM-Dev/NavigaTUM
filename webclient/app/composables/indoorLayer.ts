@@ -38,10 +38,10 @@ export const indoorLayers: LayerSpecification[] = [
     },
   },
   {
-    filter: ["==", ["get", "indoor"], "wall"],
     id: "indoor-walls",
     type: "fill",
     source: "indoor",
+    filter: ["==", ["get", "indoor"], "wall"],
     paint: {
       "fill-color": "#000",
       "fill-opacity": 0.5,
