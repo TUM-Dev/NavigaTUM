@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import nightwind from "nightwind";
 import { current, green, inherit, orange, red, transparent, white, zinc } from "tailwindcss/colors";
 
 export default <Partial<Config>>{
@@ -49,5 +50,5 @@ export default <Partial<Config>>{
       },
     },
   },
-  plugins: [require("nightwind")],
+  plugins: [nightwind],
 };
