@@ -11043,5 +11043,15 @@
     "code": "TUXS72B",
     "name": "Degree Program M.Sc. Data & Society",
     "path": "TUM/Schools/Social Sciences and Technology/Academic Program Administration/Context teaching/Academic Programs/Degree Program"
+  },
+  "56457": {
+    "code": "TUS5KC3",
+    "name": "Assistant Professorship of Systems Immune Oncology (Prof. Frede)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Clinical Chemistry and Pathobiochemistry (Prof. Ruland)/Systems Immune Oncology (Prof. Frede)"
+  },
+  "56458": {
+    "code": "TUS3010",
+    "name": "Assistant Professorship of Nanoscale Microscopy and Spectroscopy of Energy Materials (Prof. Eichhorn)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Nanoscale Microscopy and Spectroscopy of Energy Materials (Prof. Eichhorn)"
   }
 }
