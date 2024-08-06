@@ -6,7 +6,7 @@ Pillow==10.4.0
 polars==1.4.1
 pyarrow==17.0.0
 pydantic==2.8.2
-pyyaml==6.0.1
+pyyaml==6.0.2
 requests==2.32.3
 requests-oauthlib==2.0.0
 ruamel.yaml==0.18.6
