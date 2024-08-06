@@ -8,7 +8,7 @@ use std::fmt::{Debug, Formatter};
 use crate::search::search_executor::parser::{Filter, ParsedQuery, TextToken};
 use crate::search::{Highlighting, Limits};
 
-#[derive(Deserialize, Default, Clone, Debug)]
+#[derive(Deserialize, Default, Clone)]
 #[allow(dead_code)]
 pub(super) struct MSHit {
     ms_id: String,
@@ -23,6 +23,14 @@ pub(super) struct MSHit {
     address: Option<String>,
     usage: Option<String>,
     rank: i32,
+}
+impl Debug for MSHit {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut base = f.debug_struct("MSHit");
+        base.field("id", &self.id);
+        base.field("name", &self.name);
+        base.finish()
+    }
 }
 
 struct GeoEntryFilters {
