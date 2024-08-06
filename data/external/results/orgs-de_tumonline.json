@@ -11043,5 +11043,15 @@
     "code": "TUXS72B",
     "name": "Studiengang M.Sc. Data & Society",
     "path": "TUM/Schools/Social Sciences and Technology/Studienorganisation/Kontextlehre/Data & Society/M.Sc. Data & Society"
+  },
+  "56457": {
+    "code": "TUS5KC3",
+    "name": "Professur f\u00fcr Systems Immune Oncology (Prof. Frede)",
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Klinische Chemie und Pathobiochemie (Prof. Ruland)/Systems Immune Oncology (Prof. Frede)"
+  },
+  "56458": {
+    "code": "TUS3010",
+    "name": "Professur f\u00fcr Nanoscale Microscopy and Spectroscopy of Energy Materials (Prof. Eichhorn)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Nanoscale Microscopy and Spectroscopy of Energy Materials (Prof. Eichhorn)"
   }
 }
