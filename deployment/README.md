@@ -11,66 +11,43 @@ The documentation for the specific sub-services can be found in the respective d
 ## General description
 
 The current physical infrastructure is as follows:
-![Infrastructure diagram](../resources/deployment/GlobalLayout.png)
 
-On each of the servers we run a k3s cluster in a High-Availability-Deployment with embedded etcd as a Datastore.
-The k3s cluster is managed by ansible.
-The ansible playbook is located in `deployment/ansible/` and is called `site.yml`.
+```
+         public                         admins                     devs on github      
+                                                                                       
+           │                               │                            │
+           ▼                               ▼                            ▼              
+┌───────────────────────┐   ┌──────────────────────────┐   ┌──────────────────────────┐
+│                       │   │                          │   │                          │
+│  tumzitm-navigatum-1  │   │     tumzitm-navigatum-2  │   │   tumzitm-navigatum-3    │
+│                       │   │                          │   │                          │
+└──────────┬────────────┘   └──────────────▲───────────┘   └────────────┬─────────────┘
+           │                               │                            │             
+           └─────────────►─────────────────┴──────────────◄─────────────┘              
+                                       metrics, logs                                   
+```
+
+On each of the servers we run a docker cluster configured via ansible.
+The deployment script is located at `TUM-Dev/d9s`.
+We intentionally are not running kubernetes, as we never need to scale above 0.1 CPUs in active deployment.
+We are confindent that even if we were to add more universitys, more load would not exceed the capacity of one server.
 
 On every of these nodes we run the following supporting services:
 
 - [traefik](https://traefik.io/) as a reverse proxy
-- [cert-manager](https://cert-manager.io/) to manage the https-certificate via [Let's Encrypt](https://letsencrypt.org/)
-- [prometeus](https://prometheus.io/), [allertmanager](https://prometheus.io/docs/alerting/latest/alertmanager/)
-  and [grafana](https://grafana.com/) for monitoring purposes
-- [argocd](https://argo-cd.readthedocs.io/) to manage the deployments
-- [uptime-kuma](https://github.com/louislam/uptime-kuma) to monitor the uptime of the services
+- [`prometeus`](https://prometheus.io/), [`alertmanager`](https://prometheus.io/docs/alerting/latest/alertmanager/), [`loki`](https://grafana.com/),
+  and [`grafana`](https://grafana.com/),  [uptime-kuma](https://github.com/louislam/uptime-kuma) for monitoring purposes
+- [watchtower](https://containrrr.dev/watchtower/) to update our deployments
 
-The general request-Flowchart is the following:  
-![Flowchart, on how the requests are routed](../resources/deployment/Flowchart.png)
+We run the following components at these paths:
+
+- `/` [webclient](../webclient) written in [`Vue`]/[`nuxt-4`](https://nuxt.dev)
+- `/api/` [server](../server) written in [`Rust`](https://nuxt.dev)/[`actix-web`](https://nuxt.dev)
+- `/tiles/` [`marvin`] tiles from OSM
+- `/map/` [`tileserver-gl`] rendering tiles from OSM
+  slated to be removed in favor of `/tiles/`
+- `/cdn` nginx server serving the static files we need
+  slated to be folded into the `server`-startup
 
 The project is layed out in this sense:  
 ![deployment diagram, of how the different components interact](../resources/deployment/Deployment_Overview.png)
-
-### Environment Based Deployment
-
-We have two different kinds of environments:
-
-- staging
-- production
-
-The differences between the two is, that production has some extra secrets and more resource allocation.
-Namely:
-
-- we don't publish our `GITHUB_TOKEN` to git. (used to pass feedback from the webclient to github)
-- we don't publish the `JWT_KEY` to git. (used to generate tokens to ratelimt feedback creation)
-- we don't publish the `MEILI_MASTER_KEY` to git. (used as aditional layer of network hardening between the webclient
-  and the server)
-- we don't publish the `CONNECTUM_OAUTH_CLIENT_{SECRET,ID}` to git. (used to connect to the calendar and possibly
-  further apis in the future)
-
-Deployment happen automatically on push to main, or on push to a PR.
-For PRs we only execute this deployment request, if the autor is a member of the `@TUM-Dev/navigatum`-group or a member
-authorises this PR to run actions.
-The reasoning is, that we don't want strangers to be able to fork our project, change the deployment to something
-malicious and make us deploy it.
-
-### ansible
-
-We use [ansible](https://www.ansible.com/) to deploy the k3s cluster.
-As an additional dependency you need to `ansible-galaxy collection install kubernetes.core`
-
-The ansible playbook is located in `deployment/ansible/` and is called `site.yml`.
-
-It is split into these roles:
-
-- `common` which sets up a basic linux system with basic hardening
-- `k8s` which deploys the HA-k3s cluster
-- `k8s-components` which deploys the supporting infrastructure components in kubernetes
-
-The whole playbook is idempotent, so you can run it multiple times without any problems.
-To run it, you need can execute the following command:
-
-```bash
-ansible-playbook -i deployment/ansible/hosts.ini -k deployment/ansible/site.yml
-```
