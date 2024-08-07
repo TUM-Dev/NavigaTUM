@@ -34,7 +34,7 @@ class Room(PydanticConfiguration):
     @classmethod
     def load_all(cls) -> dict[str, "Room"]:
         """Load all tumonline.Room's"""
-        with (RESULTS_PATH/ "rooms_tumonline.json").open(encoding="utf-8") as file:
+        with (RESULTS_PATH / "rooms_tumonline.json").open(encoding="utf-8") as file:
             return {key: cls.model_validate(item) for key, item in json.load(file).items()}
 
 
@@ -48,7 +48,7 @@ class Building(PydanticConfiguration):
     @classmethod
     def load_all(cls) -> dict[str, "Building"]:
         """Load all tumonline.Building's"""
-        with (RESULTS_PATH/ "buildings_tumonline.json").open(encoding="utf-8") as file:
+        with (RESULTS_PATH / "buildings_tumonline.json").open(encoding="utf-8") as file:
             return {key: cls.model_validate(item) for key, item in json.load(file).items()}
 
 
@@ -60,7 +60,7 @@ class Organisation(PydanticConfiguration):
     @classmethod
     def load_all_for(cls, lang: str) -> dict[int, "Organisation"]:
         """Load all tumonline.Organisation's for a specific language"""
-        with (RESULTS_PATH/ f"orgs-{lang}_tumonline.json").open(encoding="utf-8") as file:
+        with (RESULTS_PATH / f"orgs-{lang}_tumonline.json").open(encoding="utf-8") as file:
             return {int(key): cls.model_validate(item) for key, item in json.load(file).items()}
 
 
@@ -72,5 +72,5 @@ class Usage(PydanticConfiguration):
     @classmethod
     def load_all(cls) -> dict[int, "Usage"]:
         """Load all tumonline.Usage's"""
-        with (RESULTS_PATH/ "usages_tumonline.json").open(encoding="utf-8") as file:
+        with (RESULTS_PATH / "usages_tumonline.json").open(encoding="utf-8") as file:
             return {int(key): cls.model_validate(item) for key, item in json.load(file).items()}
