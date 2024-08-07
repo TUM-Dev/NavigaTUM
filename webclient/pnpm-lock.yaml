@@ -93,6 +93,9 @@ importers:
       '@types/geojson':
         specifier: 7946.0.14
         version: 7946.0.14
+      '@types/nightwind':
+        specifier: ^1.0.0
+        version: 1.0.0
       '@types/node':
         specifier: 20.14.14
         version: 20.14.14
@@ -1875,6 +1878,9 @@ packages:
 
   '@types/ms@0.7.34':
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
+
+  '@types/nightwind@1.0.0':
+    resolution: {integrity: sha512-+ps5oWemzNNJ8KvprdXomxVKwDggmxJAH/Id5FCT+PGOdETKl8sLl279gUdZtiVHLY9W8rvtkmQ6VlsYMfZSkg==}
 
   '@types/node@20.14.14':
     resolution: {integrity: sha512-d64f00982fS9YoOgJkAMolK7MN8Iq3TDdVjchbYHdEmjth/DHowx82GnoA+tVUAN+7vxfYUgAzi+JXbKNd2SDQ==}
@@ -8863,6 +8869,12 @@ snapshots:
       '@types/unist': 3.0.2
 
   '@types/ms@0.7.34': {}
+
+  '@types/nightwind@1.0.0':
+    dependencies:
+      tailwindcss: 3.4.8
+    transitivePeerDependencies:
+      - ts-node
 
   '@types/node@20.14.14':
     dependencies:
