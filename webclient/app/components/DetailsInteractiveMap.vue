@@ -100,7 +100,8 @@ function initMap(containerId: string) {
   });
 
   map.on("click", (e) => {
-    if (e.type == "contextmenu") {
+    if (e.type === "contextmenu" || e.type === "dblclick") {
+      console.log(`got click ${+e} for ${props.data.id}: ${e.lngLat}`);
       navigator.clipboard.writeText(`${props.data.id}: ${e.lngLat}`);
     }
   });
