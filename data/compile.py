@@ -4,6 +4,7 @@ from multiprocessing import Process
 import processors.areatree.process as areatree
 import processors.maps.process as maps
 from processors import (
+    aliases,
     coords,
     export,
     images,
@@ -114,6 +115,9 @@ def main() -> None:
 
     logging.info("-- 97 Search: Get combined ranking")
     search.add_ranking_combined(data)
+
+    logging.info("-- 98 Aliases: extract aliases")
+    aliases.add_aliases(data)
 
     logging.info("-- 100 Export and generate Sitemap")
     # the root entry is somewhat arbitrary
