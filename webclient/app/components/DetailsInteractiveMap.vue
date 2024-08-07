@@ -99,7 +99,7 @@ function initMap(containerId: string) {
     attributionControl: false,
   });
 
-  map.on("click", "overlay-src", (e) => {
+  map.on("click", "overlay-layer", (e) => {
     if (e.type === "contextmenu" || e.type === "dblclick") {
       console.log(`got click ${+e} for ${props.data.id}: ${e.lngLat}`);
       navigator.clipboard.writeText(`${props.data.id}: ${e.lngLat}`);
