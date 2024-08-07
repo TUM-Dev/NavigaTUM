@@ -58,7 +58,7 @@ class Map(PydanticConfiguration):
     @classmethod
     def load_all(cls) -> list["Map"]:
         """Load all nat.Map's"""
-        with (RESULTS_PATH/ "maps_roomfinder.json").open(encoding="utf-8") as file:
+        with (RESULTS_PATH / "maps_roomfinder.json").open(encoding="utf-8") as file:
             return [
                 cls(file=f"{item['id']}.webp", **item) for item in json.load(file) if item["id"] != "rf9"
             ]  # rf9 is the world map
@@ -93,5 +93,5 @@ class Room(PydanticConfiguration):
     @classmethod
     def load_all(cls) -> list["Room"]:
         """Load all nat.Room's"""
-        with (RESULTS_PATH/ "rooms_roomfinder.json").open(encoding="utf-8") as file:
+        with (RESULTS_PATH / "rooms_roomfinder.json").open(encoding="utf-8") as file:
             return [cls.model_validate(item) for item in json.load(file)]
