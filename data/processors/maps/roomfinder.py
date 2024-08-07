@@ -12,9 +12,9 @@ from processors.maps.models import Coordinate, CustomBuildingMap, MapKey
 
 BASE = Path(__file__).parent.parent.parent
 RESULTS_PATH = BASE / "external" / "results"
-RF_MAPS_PATH = RESULTS_PATH / "maps" / "roomfinder"
+RF_MAPS_PATH = BASE / "sources" / "img" / "maps" / "roomfinder"
 SOURCES_PATH = BASE / "sources"
-CUSTOM_RF_DIR = SOURCES_PATH / "img" / "maps" / "roomfinder"
+CUSTOM_RF_DIR = SOURCES_PATH / "img" / "maps" / "site_plans"
 
 
 def assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
