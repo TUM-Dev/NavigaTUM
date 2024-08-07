@@ -42,7 +42,7 @@ impl EditRequest {
     async fn apply_changes_and_generate_description(
         &self,
         branch_name: &str,
-    ) -> Result<String, crate::BoxedError> {
+    ) -> anyhow::Result<String> {
         let repo = TempRepo::clone_and_checkout(GIT_URL, branch_name).await?;
         let desc = repo.apply_and_gen_description(self);
         repo.commit(&desc.title).await?;

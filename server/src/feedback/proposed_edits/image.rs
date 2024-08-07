@@ -58,7 +58,7 @@ impl Image {
             }
         }
     }
-    fn save_metadata(&self, key: &str, image_dir: &Path) -> Result<(), crate::BoxedError> {
+    fn save_metadata(&self, key: &str, image_dir: &Path) -> anyhow::Result<()> {
         let file = File::open(image_dir.join("img-sources.yaml"))?;
         let mut image_sources =
             serde_yaml::from_reader::<_, BTreeMap<String, BTreeMap<u32, Source>>>(file)?;
@@ -81,7 +81,7 @@ impl Image {
             + 1;
         image_dir.join(format!("{key}_{next_free_slot}.webp"))
     }
-    fn save_content(&self, target: &Path) -> Result<(), crate::BoxedError> {
+    fn save_content(&self, target: &Path) -> anyhow::Result<()> {
         let bytes = BASE64_STANDARD.decode(&self.content)?;
         let image = image::load_from_memory(&bytes)?;
 

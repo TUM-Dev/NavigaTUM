@@ -18,9 +18,7 @@ struct LocationKey {
 }
 
 #[tracing::instrument(skip(pool))]
-async fn entries_which_need_scraping(
-    pool: &PgPool,
-) -> Result<LimitedVec<LocationKey>, crate::BoxedError> {
+async fn entries_which_need_scraping(pool: &PgPool) -> anyhow::Result<LimitedVec<LocationKey>> {
     let res = sqlx::query_as!(LocationKey,r#"
 WITH ENTRIES_TO_SCRAPE AS (SELECT KEY,
                                   CASE WHEN last_calendar_scrape_at IS NULL THEN 100 ELSE 1 END          AS priority,
