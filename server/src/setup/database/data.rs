@@ -127,7 +127,7 @@ impl DelocalisedValues {
 #[tracing::instrument]
 pub async fn download_updates(
     keys_which_need_updating: &LimitedVec<String>,
-) -> Result<LimitedVec<DelocalisedValues>, crate::BoxedError> {
+) -> anyhow::Result<LimitedVec<DelocalisedValues>> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let tasks = reqwest::get(format!("{cdn_url}/api_data.json"))
         .await?
@@ -143,14 +143,14 @@ pub async fn download_updates(
 pub(super) async fn load_all_to_db(
     tasks: LimitedVec<DelocalisedValues>,
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-) -> Result<(), crate::BoxedError> {
+) -> anyhow::Result<()> {
     for task in tasks.into_iter() {
         task.store(tx).await?;
     }
     Ok(())
 }
 #[tracing::instrument]
-pub async fn download_status() -> Result<(LimitedVec<String>, LimitedVec<i64>), crate::BoxedError> {
+pub async fn download_status() -> anyhow::Result<(LimitedVec<String>, LimitedVec<i64>)> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = reqwest::get(format!("{cdn_url}/status_data.parquet"))
         .await?

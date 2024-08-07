@@ -70,6 +70,7 @@ tempfile = "3.10.1"
 base64 = "0.22.1"
 time = "0.3.36"
 polars = { version = "0.41.3", features = ["parquet", "dtype-struct"] }
+anyhow = { version = "1.0.86", features = ["backtrace"] }
 #polars = { git = "https://github.com/CommanderStorm/polars.git", branch = "serialisation-experiment", features = ["parquet", "serde", "dtype-full"] }
 
 [dev-dependencies]

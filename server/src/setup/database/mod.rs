@@ -6,14 +6,14 @@ mod alias;
 mod data;
 
 #[tracing::instrument(skip(pool))]
-pub async fn setup(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
+pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
     info!("setting up the database");
     sqlx::migrate!("./migrations").run(pool).await?;
     info!("migrations complete");
     Ok(())
 }
 #[tracing::instrument(skip(pool))]
-pub async fn load_data(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
+pub async fn load_data(pool: &sqlx::PgPool) -> anyhow::Result<()> {
     let (new_keys, new_hashes) = data::download_status().await?;
     {
         let _ = info_span!("deleting old data").enter();
@@ -44,7 +44,7 @@ async fn find_keys_which_need_updating(
     pool: &sqlx::PgPool,
     keys: &LimitedVec<String>,
     hashes: &LimitedVec<i64>,
-) -> Result<LimitedVec<String>, crate::BoxedError> {
+) -> anyhow::Result<LimitedVec<String>> {
     let number_of_keys = sqlx::query_scalar!("SELECT COUNT(*) FROM de")
         .fetch_one(pool)
         .await?;
@@ -102,7 +102,7 @@ WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) as expected2(key) where de.ke
 async fn cleanup_deleted(
     keys: &LimitedVec<String>,
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-) -> Result<(), crate::BoxedError> {
+) -> anyhow::Result<()> {
     let keys = &keys.0;
     sqlx::query!("DELETE FROM aliases WHERE NOT EXISTS (SELECT * FROM UNNEST($1::text[]) AS expected(key) WHERE aliases.key = expected.key)", keys)
         .execute(&mut **tx)

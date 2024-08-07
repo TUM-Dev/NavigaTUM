@@ -52,7 +52,7 @@ impl DBStation {
 }
 
 #[tracing::instrument(skip(pool))]
-pub async fn setup(pool: &sqlx::PgPool) -> Result<(), crate::BoxedError> {
+pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
     let url = "https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/main/data/external/results/public_transport.json";
     let transportations = reqwest::get(url)
         .await?

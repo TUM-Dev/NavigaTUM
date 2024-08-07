@@ -44,7 +44,7 @@ async fn wait_for_healthy(client: &Client) {
     }
 }
 #[tracing::instrument(skip(client))]
-pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
+pub async fn setup(client: &Client) -> anyhow::Result<()> {
     debug!("waiting for Meilisearch to be healthy");
     wait_for_healthy(client).await;
     info!("Meilisearch is healthy");
@@ -100,7 +100,7 @@ pub async fn setup(client: &Client) -> Result<(), crate::BoxedError> {
     Ok(())
 }
 #[tracing::instrument(skip(client))]
-pub async fn load_data(client: &Client) -> Result<(), crate::BoxedError> {
+pub async fn load_data(client: &Client) -> anyhow::Result<()> {
     let entries = client.index("entries");
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let documents = reqwest::get(format!("{cdn_url}/search_data.json"))

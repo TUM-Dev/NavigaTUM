@@ -1,6 +1,5 @@
 use std::borrow::Cow;
 use std::collections::HashMap;
-use std::error::Error;
 use std::sync::Arc;
 
 use actix_cors::Cors;
@@ -25,8 +24,6 @@ mod maps;
 mod models;
 mod search;
 mod setup;
-
-type BoxedError = Box<dyn Error + Send + Sync>;
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
 
@@ -117,7 +114,7 @@ pub fn setup_logging() {
     tracing::subscriber::set_global_default(registry).unwrap();
 }
 
-fn main() -> Result<(), BoxedError> {
+fn main() -> anyhow::Result<()> {
     setup_logging();
     let release = match option_env!("GIT_COMMIT_SHA") {
         Some(s) => Some(Cow::Borrowed(s)),
@@ -168,7 +165,7 @@ async fn run_maintenance_work(
 }
 
 /// we split main and run because otherwise sentry could not be properly instrumented
-async fn run() -> Result<(), BoxedError> {
+async fn run() -> anyhow::Result<()> {
     let data = AppData::new().await;
 
     // without this barrier an external client might race the RWLock for meilisearch_initialised and gain the read lock before it is allowed
@@ -179,7 +176,7 @@ async fn run() -> Result<(), BoxedError> {
         initialisation_started.clone(),
     ));
 
-    let prometheus = build_metrics().expect("specified metrics are valid");
+    let prometheus = build_metrics();
     let shutdown_pool_clone = data.pool.clone();
     initialisation_started.wait().await;
     info!("running the server");
@@ -216,7 +213,7 @@ async fn run() -> Result<(), BoxedError> {
 }
 
 #[tracing::instrument]
-fn build_metrics() -> Result<PrometheusMetrics, BoxedError> {
+fn build_metrics() -> PrometheusMetrics {
     let labels = HashMap::from([(
         "revision".to_string(),
         option_env!("GIT_COMMIT_SHA")
@@ -227,4 +224,5 @@ fn build_metrics() -> Result<PrometheusMetrics, BoxedError> {
         .endpoint("/api/metrics")
         .const_labels(labels)
         .build()
+        .expect("specified metrics are valid")
 }

@@ -113,7 +113,7 @@ async fn get_from_db(
     locations: &[CalendarLocation],
     start_after: &DateTime<Utc>,
     end_before: &DateTime<Utc>,
-) -> Result<LimitedHashMap<String, LocationEvents>, crate::BoxedError> {
+) -> anyhow::Result<LimitedHashMap<String, LocationEvents>> {
     let mut located_events: HashMap<String, LocationEvents> = HashMap::new();
     for location in locations {
         let events = sqlx::query_as!(Event, r#"SELECT id,room_code,start_at,end_at,title_de,title_en,stp_type,entry_type,detailed_entry_type
