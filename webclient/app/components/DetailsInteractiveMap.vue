@@ -106,14 +106,6 @@ function initMap(containerId: string) {
   map.on("load", () => {
     initialLoaded.value = true;
 
-    // event handler needs to be registered post-load otherwise it is silently ignored
-    map.on("click", "overlay-layer", (e) => {
-      if (e.type === "contextmenu" || e.type === "dblclick") {
-        console.log(`got click ${+e} for ${props.data.id}: ${e.lngLat}`);
-        navigator.clipboard.writeText(`${props.data.id}: ${e.lngLat}`);
-      }
-    });
-
     // controls
     map.addControl(new NavigationControl({}), "top-left");
 
@@ -210,7 +202,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
 
   if (imgUrl === null) {
     // Hide overlay
-    if (map.value?.getLayer("overlay-layer")) map.value?.setLayoutProperty("overlay-layer", "visibility", "none");
+    if (map.value?.getLayer("overlay")) map.value?.setLayoutProperty("overlay", "visibility", "none");
     if (map.value?.getLayer("overlay-bg")) map.value?.setLayoutProperty("overlay-bg", "visibility", "none");
   } else {
     const source = map.value?.getSource("overlay") as ImageSource | undefined;
@@ -221,13 +213,21 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
           url: imgUrl,
           coordinates: coords,
         });
+
+      // event handler needs to be registered post-load otherwise it is silently ignored
+      map.value?.on("click", "overlay", (e) => {
+        if (e.type === "contextmenu" || e.type === "dblclick") {
+          console.log(`got click ${+e} for ${props.data.id}: ${e.lngLat}`);
+          navigator.clipboard.writeText(`${props.data.id}: ${e.lngLat}`);
+        }
+      });
     } else
       source.updateImage({
         url: imgUrl,
         coordinates: coords,
       });
 
-    const layer = map.value?.getLayer("overlay-layer") as BackgroundLayerSpecification | undefined;
+    const layer = map.value?.getLayer("overlay") as BackgroundLayerSpecification | undefined;
     if (!layer) {
       map.value?.addLayer({
         id: "overlay-bg",
@@ -238,7 +238,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
         },
       });
       map.value?.addLayer({
-        id: "overlay-layer",
+        id: "overlay",
         type: "raster",
         source: "overlay",
         paint: {
@@ -246,7 +246,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
         },
       });
     } else {
-      map.value?.setLayoutProperty("overlay-layer", "visibility", "visible");
+      map.value?.setLayoutProperty("overlay", "visibility", "visible");
       map.value?.setLayoutProperty("overlay-bg", "visibility", "visible");
     }
   }
