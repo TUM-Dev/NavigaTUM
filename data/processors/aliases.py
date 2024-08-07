@@ -13,5 +13,5 @@ def add_aliases(data: dict[str, dict[str, Any]]) -> None:
     for _id, entry in data.items():
         entry["aliases"] = []
         if arch_name := extract_arch_name(entry):
-            entry["arch_name"] = (arch_name,)
+            entry["arch_name"] = arch_name
             entry["aliases"].append(arch_name)
