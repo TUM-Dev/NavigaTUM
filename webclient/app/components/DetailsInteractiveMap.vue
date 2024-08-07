@@ -5,7 +5,7 @@ import { FloorControl } from "~/composables/FloorControl";
 import { webglSupport } from "~/composables/webglSupport";
 import type { components } from "~/api_types";
 
-const props = defineProps<{ data: DetailsResponse }>();
+const props = defineProps<{ data: DetailsResponse; debugMode: boolean }>();
 const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const floorControl = ref<FloorControl>(new FloorControl());
@@ -98,6 +98,15 @@ function initMap(containerId: string) {
 
     attributionControl: false,
   });
+  if (props.debugMode) {
+    const coords = props.data.coords;
+    const debugMarker = new Marker({ draggable: true }).setLngLat([coords.lon, coords.lat]).addTo(map);
+
+    debugMarker.on("dragend", () => {
+      console.log(`debug marker ${props.data.id}: ${debugMarker.getLngLat()}`);
+      navigator.clipboard.writeText(`${props.data.id}: ${debugMarker.getLngLat()}`);
+    });
+  }
 
   // Each source / style change causes the map to get
   // into "loading" state, so map.loaded() is not reliable
@@ -213,14 +222,6 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
           url: imgUrl,
           coordinates: coords,
         });
-
-      // event handler needs to be registered post-load otherwise it is silently ignored
-      map.value?.on("click", "overlay", (e) => {
-        if (e.type === "contextmenu" || e.type === "dblclick") {
-          console.log(`got click ${+e} for ${props.data.id}: ${e.lngLat}`);
-          navigator.clipboard.writeText(`${props.data.id}: ${e.lngLat}`);
-        }
-      });
     } else
       source.updateImage({
         url: imgUrl,
