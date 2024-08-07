@@ -43,6 +43,7 @@
     "@nuxtjs/i18n": "8.3.3",
     "@nuxtjs/tailwindcss": "6.12.1",
     "@types/geojson": "7946.0.14",
+    "@types/nightwind": "1.0.0",
     "@types/node": "20.14.14",
     "@types/swagger-ui": "3.52.4",
     "@vue/tsconfig": "0.5.1",
