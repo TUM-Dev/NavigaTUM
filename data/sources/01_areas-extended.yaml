@@ -526,7 +526,7 @@ heilbronn:
     # These are actually the coordinates of the newly built one
     coords: { lat: 48.18232, lon: 11.54485 }
 
-# coordinates for 2364-2369 absolutely unknown. unclear where they are => adress is taken as the coordinate
+# coordinates for 2364-2369 absolutely unknown. unclear where they are => address is taken as the coordinate
 "2364":
     coords: { lat: 48.1797454, lon: 11.5464106 }
 "2365":
