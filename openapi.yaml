@@ -1909,7 +1909,7 @@ components:
           type: array
           items:
             type: string
-            description: The ids of the parents. They are ordered as they would appear in a Breadcrumb menu. See parent_names for their actual ids.
+            description: The ids of the parents. They are ordered as they would appear in a Breadcrumb menu. See parent_names for their human names.
           examples:
             - root
             - garching
