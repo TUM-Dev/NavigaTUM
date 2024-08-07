@@ -20,7 +20,7 @@ def _download_file(url: str, target_cache_file: Path) -> Path | None:
     # url parameter does not allow path traversal, because we build it further up in the callstack
     with requests.get(url, stream=True, timeout=10) as r:
         r.raise_for_status()
-        with open(target_cache_file, "wb") as f:
+        with target_cache_file.open("wb") as f:
             for chunk in r.iter_content(chunk_size=8192):
                 f.write(chunk)
     return target_cache_file

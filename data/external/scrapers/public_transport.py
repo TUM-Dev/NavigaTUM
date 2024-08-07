@@ -17,7 +17,7 @@ def _load_bus_stations(stations: dict) -> None:
     _download_file(MVV_GTFS_URL, PUBLIC_TRANSPORT_CACHE_PATH / "fahrplandaten.zip")
     with ZipFile(PUBLIC_TRANSPORT_CACHE_PATH / "fahrplandaten.zip") as file_zip:
         file_zip.extract("stops.txt", PUBLIC_TRANSPORT_CACHE_PATH)
-    with open(PUBLIC_TRANSPORT_CACHE_PATH / "stops.txt", encoding="utf-8") as file:
+    with (PUBLIC_TRANSPORT_CACHE_PATH / "stops.txt").open(encoding="utf-8") as file:
         lines = list(csv.DictReader(file, delimiter=","))
     repeat_later = []  # when parent station is not already in dict
     for line in lines:
@@ -58,7 +58,7 @@ def _load_bus_stations(stations: dict) -> None:
 def _load_train_stations(stations: dict) -> None:
     """Load the bus stations from the MVV_HST_REPORT data and add them to stations dict"""
     _download_file(MVV_HST_REPORT_URL, PUBLIC_TRANSPORT_CACHE_PATH / "train_stations.csv")
-    with open(PUBLIC_TRANSPORT_CACHE_PATH / "train_stations.csv", encoding="utf-8") as file:
+    with (PUBLIC_TRANSPORT_CACHE_PATH / "train_stations.csv").open(encoding="utf-8") as file:
         lines = list(csv.DictReader(file, delimiter=";"))
     repeat_later = []  # when parent station is not already in dict
     ignored_stations_no_id = 0
@@ -117,7 +117,7 @@ def scrape_stations() -> None:
         for sub in station["sub_stations"]:
             del sub["parent"]
     stations = sorted(stations.values(), key=lambda x: x["lat"])
-    with open(CACHE_PATH / "public_transport.json", "w", encoding="utf-8") as file:
+    with (CACHE_PATH / "public_transport.json").open("w", encoding="utf-8") as file:
         json.dump(stations, file, indent=2, sort_keys=True)
 
 

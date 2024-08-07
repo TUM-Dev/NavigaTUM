@@ -44,7 +44,7 @@ class ImageSource(PydanticConfiguration):
     @classmethod
     def load_all(cls: TImageSource) -> dict[str, list[TImageSource]]:
         """Load the image sources from the img-sources.yaml file"""
-        with open(IMAGE_BASE / "img-sources.yaml", encoding="utf-8") as file:
+        with (IMAGE_BASE_PATH / "img-sources.yaml").open(encoding="utf-8") as file:
             raw: dict[str, dict[int, dict]] = yaml.safe_load(file.read())
             image_sources = {k: [ImageSource(**v) for v in vs.values()] for k, vs in raw.items()}
         for key in image_sources:
@@ -56,9 +56,9 @@ class ImageSource(PydanticConfiguration):
         return image_sources
 
 
-IMAGE_BASE = Path(__file__).parent.parent / "sources" / "img"
-IMAGE_SOURCE = IMAGE_BASE / "lg"
-HASH_LUT = Path(IMAGE_BASE / ".hash_lut.json")
+IMAGE_BASE_PATH = Path(__file__).parent.parent / "sources" / "img"
+IMAGE_SOURCE_PATH = IMAGE_BASE_PATH / "lg"
+HASH_LUT_FILE_PATH = Path(IMAGE_BASE_PATH / ".hash_lut.json")
 
 DEV_MODE = "GIT_COMMIT_SHA" not in os.environ
 TARGET_IMAGE_QUALITY = 80
@@ -66,11 +66,11 @@ TARGET_IMAGE_QUALITY = 80
 
 def add_img(data: dict[str, dict[str, Any]]) -> None:
     """Automatically add processed images to the 'img' property."""
-    with open(IMAGE_BASE / "img-sources.yaml", encoding="utf-8") as file:
+    with (IMAGE_BASE_PATH / "img-sources.yaml").open(encoding="utf-8") as file:
         img_sources = yaml.safe_load(file.read())
 
     # Check that all images have source information (to make sure it was not forgotten)
-    for image_path in IMAGE_SOURCE.iterdir():
+    for image_path in IMAGE_SOURCE_PATH.iterdir():
         _id, _index = parse_image_filename(image_path.name)
 
         if _id not in img_sources or _index not in img_sources[_id]:
@@ -83,7 +83,7 @@ def add_img(data: dict[str, dict[str, Any]]) -> None:
             continue
 
         img_data = []
-        for image_path in IMAGE_SOURCE.iterdir():
+        for image_path in IMAGE_SOURCE_PATH.iterdir():
             if image_path.name.startswith(f"{_id}_"):
                 source_info = _add_source_info(image_path.name, _source_data)
                 if not source_info:
@@ -198,13 +198,15 @@ class RefreshResolutionOrder(NamedTuple):
 
 def _refresh_for_all_resolutions(order: RefreshResolutionOrder) -> None:
     """Refresh an image for all resolutions"""
+    for img_size in ["sm", "md", "lg", "thumb", "header"]:
+        (IMAGE_BASE_PATH / img_size).mkdir(exist_ok=True)
     try:
         resizer = Resizer(order.source)
-        resizer.resize_to_max_size(IMAGE_BASE / "sm" / order.source.name, 1024)
-        resizer.resize_to_max_size(IMAGE_BASE / "md" / order.source.name, 1920)
-        resizer.resize_to_max_size(IMAGE_BASE / "lg" / order.source.name, 3840)
-        resizer.resize_to_fixed_size(IMAGE_BASE / "thumb" / order.source.name, (256, 256), order.offsets.thumb)
-        resizer.resize_to_fixed_size(IMAGE_BASE / "header" / order.source.name, (512, 210), order.offsets.header)
+        resizer.resize_to_max_size(IMAGE_BASE_PATH / "sm" / order.source.name, 1024)
+        resizer.resize_to_max_size(IMAGE_BASE_PATH / "md" / order.source.name, 1920)
+        resizer.resize_to_max_size(IMAGE_BASE_PATH / "lg" / order.source.name, 3840)
+        resizer.resize_to_fixed_size(IMAGE_BASE_PATH / "thumb" / order.source.name, (256, 256), order.offsets.thumb)
+        resizer.resize_to_fixed_size(IMAGE_BASE_PATH / "header" / order.source.name, (512, 210), order.offsets.header)
     # pylint: disable-next=broad-exception-caught
     except Exception as error:
         logging.error(error)  # otherwise we would not see if an error occurs
@@ -221,8 +223,8 @@ def _extract_offsets(_id: str, _index: int, img_path: Path, img_sources: dict[st
 def _get_hash_lut() -> dict[str, str]:
     """Get a lookup table for the hash of the image files content and offset if present"""
     logging.info("Only files, with sha256(file-content)_sha256(offset) not present in the .hash_lut.json will be used")
-    if HASH_LUT.is_file():
-        with open(HASH_LUT, encoding="utf-8") as file:
+    if HASH_LUT_FILE_PATH.is_file():
+        with HASH_LUT_FILE_PATH.open(encoding="utf-8") as file:
             return json.load(file)  # type: ignore
     return {}
 
@@ -230,17 +232,17 @@ def _get_hash_lut() -> dict[str, str]:
 def _save_hash_lut(img_sources: dict[str, list[ImageSource]]) -> None:
     """Save the current image status to the .hash_lut.json file"""
     hashes_lut = {}
-    for img_path in IMAGE_SOURCE.glob("*.webp"):
+    for img_path in IMAGE_SOURCE_PATH.glob("*.webp"):
         _id, _index = parse_image_filename(img_path.name)
         offsets = _extract_offsets(_id, _index, img_path, img_sources)
         hashes_lut[img_path.name] = _gen_file_hash(img_path, offsets)
-    with open(HASH_LUT, "w+", encoding="utf-8") as file:
+    with HASH_LUT_FILE_PATH.open("w+", encoding="utf-8") as file:
         json.dump(hashes_lut, file, sort_keys=True, indent=2)
 
 
 def _gen_file_hash(img_path: Path, offsets: ImageOffset) -> str:
     """Generate a hash-string for the given image file and given offsets."""
-    with open(img_path, "rb") as file:
+    with img_path.open("rb") as file:
         # pylint: disable-next=unexpected-keyword-arg
         file_hash = hashlib.sha256(file.read(), usedforsecurity=False).hexdigest()
         json_offsets = json.dumps({"thumb": offsets.thumb, "header": offsets.header}, sort_keys=True).encode("utf-8")
@@ -255,15 +257,15 @@ def resize_and_crop() -> None:
 
     This will overwrite any existing thumbs/header-small's.
     """
-    logging.info(f"convert {IMAGE_BASE} to webp")
-    utils.convert_to_webp(IMAGE_BASE)
+    logging.info(f"convert {IMAGE_BASE_PATH} to webp")
+    utils.convert_to_webp(IMAGE_BASE_PATH)
 
     # in DEV, we can save some time by not resizing the images, if they have not changed
     expected_hashes_lut = _get_hash_lut()
     start_time = time.time()
     img_sources = ImageSource.load_all()
     with ThreadPoolExecutor() as executor:
-        for img_path in IMAGE_SOURCE.glob("*.webp"):
+        for img_path in IMAGE_SOURCE_PATH.glob("*.webp"):
             _id, _index = parse_image_filename(img_path.name)
             offsets = _extract_offsets(_id, _index, img_path, img_sources)
             actual_hash = _gen_file_hash(img_path, offsets)

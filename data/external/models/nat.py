@@ -1,6 +1,6 @@
 import json
 
-from external.models.common import PydanticConfiguration, RESULTS, TranslatableStr
+from external.models.common import PydanticConfiguration, RESULTS_PATH, TranslatableStr
 
 
 class Building(PydanticConfiguration):
@@ -13,7 +13,8 @@ class Building(PydanticConfiguration):
     @classmethod
     def load_all(cls) -> list["Building"]:
         """Load all nat.Building's"""
-        with open(RESULTS / "buildings_nat.json", encoding="utf-8") as file:
+        target = RESULTS_PATH / "buildings_nat.json"
+        with target.open(encoding="utf-8") as file:
             return [cls.model_validate(item) for item in json.load(file)]
 
 
@@ -24,7 +25,8 @@ class Campus(PydanticConfiguration):
     @classmethod
     def load_all(cls) -> dict[str, "Campus"]:
         """Load all nat.Campus's"""
-        with open(RESULTS / "campus_nat.json", encoding="utf-8") as file:
+        target = RESULTS_PATH / "campus_nat.json"
+        with target.open(encoding="utf-8") as file:
             return {key: cls.model_validate(item) for key, item in json.load(file).items()}
 
 
@@ -82,7 +84,8 @@ class Room(PydanticConfiguration):
     @classmethod
     def load_all(cls) -> dict[str, "Room"]:
         """Load all nat.Room's"""
-        with open(RESULTS / "rooms_nat.json", encoding="utf-8") as file:
+        target = RESULTS_PATH / "rooms_nat.json"
+        with target.open(encoding="utf-8") as file:
             return {key: cls.model_validate(item) for key, item in json.load(file).items()}
 
 
@@ -103,5 +106,6 @@ class Organisation(PydanticConfiguration):
     @classmethod
     def load_all(cls) -> dict[str, "Organisation"]:
         """Load all nat.Organisation's"""
-        with open(RESULTS / "orgs_nat.json", encoding="utf-8") as file:
+        target = RESULTS_PATH / "orgs_nat.json"
+        with target.open(encoding="utf-8") as file:
             return {key: cls.model_validate(item) for key, item in json.load(file).items()}

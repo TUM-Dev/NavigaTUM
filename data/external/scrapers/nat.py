@@ -13,7 +13,7 @@ from external.scraping_utils import _download_file, CACHE_PATH
 from utils import TranslatableStr as _, setup_logging
 
 NAT_API_URL = "https://api.srv.nat.tum.de/api/v1/rom"
-NAT_CACHE_DIR = CACHE_PATH / "nat"
+NAT_CACHE_DIR_PATH = CACHE_PATH / "nat"
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)
@@ -27,7 +27,7 @@ def scrape_buildings():
         building["building_name"] = building["building_name"].replace("Bestelmeyer Süd", "Zentralgebäude 2")
         building["building_name"] = building["building_name"].replace("Bestelmeyer Nord", "Zentralgebäude 7")
 
-    with open(CACHE_PATH / "buildings_nat.json", "w", encoding="utf-8") as file:
+    with (CACHE_PATH / "buildings_nat.json").open("w", encoding="utf-8") as file:
         json.dump(buildings, file, indent=2, sort_keys=True)
 
 
@@ -45,7 +45,7 @@ def scrape_rooms() -> None:
     _extract_orgs(rooms)
     _extract_campus(rooms)
 
-    with open(CACHE_PATH / "rooms_nat.json", "w", encoding="utf-8") as file:
+    with (CACHE_PATH / "rooms_nat.json").open("w", encoding="utf-8") as file:
         json.dump(rooms, file, indent=2, sort_keys=True)
 
 
@@ -66,7 +66,7 @@ def _extract_orgs(rooms: dict) -> None:
             room["org_id"] = org_id
             orgs[org_id] = org
 
-    with open(CACHE_PATH / "orgs_nat.json", "w", encoding="utf-8") as file:
+    with (CACHE_PATH / "orgs_nat.json").open("w", encoding="utf-8") as file:
         json.dump(orgs, file, indent=2, sort_keys=True)
 
 
@@ -86,7 +86,7 @@ def _extract_campus(rooms: dict) -> None:
             campus_id = None
         room["campus_id"] = campus_id
 
-    with open(CACHE_PATH / "campus_nat.json", "w", encoding="utf-8") as file:
+    with (CACHE_PATH / "campus_nat.json").open("w", encoding="utf-8") as file:
         json.dump(campi, file, indent=2, sort_keys=True)
 
 
@@ -190,7 +190,7 @@ def _merge(content, base):
 def _download_and_merge_room(base):
     """Download the room information and merge it with the base information."""
     room_code = base["room_code"]
-    target_filepath = NAT_CACHE_DIR / f"room_{room_code}.json"
+    target_filepath = NAT_CACHE_DIR_PATH / f"room_{room_code}.json"
     try:
         downloaded_file = _download_file(f"{NAT_API_URL}/{room_code}", target_filepath)
     except requests.exceptions.RequestException:
@@ -241,7 +241,7 @@ def _get_base_room_infos():
 def _try_download_room_base_info(start: int, batch: int) -> tuple[tuple[int, int], Path | None]:
     try:
         url = f"{NAT_API_URL}/?limit={batch}&offset={start}"
-        file_path = NAT_CACHE_DIR / f"rooms_base_{start}_to_{start + batch - 1}.json"
+        file_path = NAT_CACHE_DIR_PATH / f"rooms_base_{start}_to_{start + batch - 1}.json"
         return (start, batch), _download_file(url, file_path)
     except requests.exceptions.RequestException:
         return (start, batch), None
@@ -268,16 +268,16 @@ def _report_undownloadable(undownloadable: list[int]) -> None:
 def _join_room_hits():
     """Join the hits (which are chunked until this point) into one single index to run requests for"""
     total_hits = []
-    for file_path in NAT_CACHE_DIR.iterdir():
+    for file_path in NAT_CACHE_DIR_PATH.iterdir():
         if not file_path.name.startswith("rooms_base_"):
             continue
-        with open(file_path, encoding="utf-8") as file:
+        with file_path.open(encoding="utf-8") as file:
             total_hits.extend(json.load(file)["hits"])
     return total_hits
 
 
 if __name__ == "__main__":
     setup_logging(level=logging.INFO)
-    NAT_CACHE_DIR.mkdir(exist_ok=True)
+    NAT_CACHE_DIR_PATH.mkdir(exist_ok=True)
     scrape_buildings()
     scrape_rooms()

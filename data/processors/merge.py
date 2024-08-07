@@ -5,8 +5,11 @@ import yaml
 from processors.areatree.models import AreatreeBuidling
 from utils import TranslatableStr
 
+BASE_PATH = Path(__file__).parent.parent
+SOURCES_PATH = BASE_PATH / "sources"
 
-def load_yaml(path: str) -> Any:
+
+def load_yaml(path: Path) -> Any:
     """
     Merge yaml data at path on top of the given data.
 
@@ -27,7 +30,7 @@ def load_yaml(path: str) -> Any:
             return {k: add_translatable_str(v) for k, v in value.items()}
         raise ValueError(f"Unhandled type {type(value)}")
 
-    with open(path, encoding="utf-8") as file:
+    with path.open(encoding="utf-8") as file:
         yaml_data = yaml.safe_load(file.read())
     yaml_data = add_translatable_str(yaml_data)
 
@@ -80,15 +83,17 @@ def recursively_merge(dict_a: dict | A, dict_b: dict | B, overwrite: bool = True
     return dict_a
 
 
-def patch_areas(data: dict[str, AreatreeBuidling], path: str) -> dict[str, dict[str, Any]]:
+def patch_areas(data: dict[str, AreatreeBuidling]) -> dict[str, dict[str, Any]]:
     """Merge areas from the yaml file at path on top of the given data."""
-    yaml_data = load_yaml(path)
+    areas_extended = SOURCES_PATH / "01_areas-extended.yaml"
+    yaml_data = load_yaml(areas_extended)
     return recursively_merge(data, yaml_data)
 
 
-def patch_rooms(data: dict[str, dict[str, Any]], path: str) -> dict[str, dict[str, Any]]:
+def patch_rooms(data: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
     """Merge rooms from the yaml file at path on top of the given data."""
-    yaml_data = load_yaml(path)
+    rooms_extended = SOURCES_PATH / "02_rooms-extended.yaml"
+    yaml_data = load_yaml(rooms_extended)
     # make sure that the room id is in the name
     for key, value in yaml_data.items():
         if "name" in value and key not in value["name"]:

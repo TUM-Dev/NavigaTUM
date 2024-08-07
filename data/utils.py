@@ -11,7 +11,7 @@ yaml = YAML(typ="rt")
 
 TRANSLATION_BUFFER_PATH = Path(__file__).parent / "translations.yaml"
 
-with open(TRANSLATION_BUFFER_PATH, encoding="utf-8") as yaml_file:
+with TRANSLATION_BUFFER_PATH.open(encoding="utf-8") as yaml_file:
     TRANSLATION_BUFFER = yaml.load(yaml_file)
 
 DEV_MODE = "GIT_COMMIT_SHA" not in os.environ
@@ -43,7 +43,7 @@ class TranslatableStr(dict):
             else:
                 en_message = message
                 TRANSLATION_BUFFER[message] = ""
-                with open(TRANSLATION_BUFFER_PATH, "w", encoding="utf-8") as file:
+                with TRANSLATION_BUFFER_PATH.open("w", encoding="utf-8") as file:
                     yaml.dump(TRANSLATION_BUFFER, file)
         super().__init__(en=en_message, de=message)
 
