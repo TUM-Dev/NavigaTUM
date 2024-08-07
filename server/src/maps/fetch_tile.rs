@@ -6,7 +6,6 @@ use tracing::{error, warn};
 
 use crate::limited::vec::LimitedVec;
 use crate::maps::overlay_map::OverlayMapTask;
-use crate::BoxedError;
 
 #[derive(Hash, Debug, Copy, Clone)]
 struct TileLocation {
@@ -95,7 +94,7 @@ impl FetchTileTask {
 }
 
 #[tracing::instrument]
-async fn download_map_image(location: TileLocation) -> Result<LimitedVec<u8>, BoxedError> {
+async fn download_map_image(location: TileLocation) -> anyhow::Result<LimitedVec<u8>> {
     let url = format!(
         "https://nav.tum.de/maps/styles/osm-liberty/{z}/{x}/{y}@2x.png",
         x = location.x,
@@ -120,7 +119,7 @@ async fn download_map_image(location: TileLocation) -> Result<LimitedVec<u8>, Bo
         warn!("retrying {url} in {wait_time:?} because response({status:?}) is only {size}B");
         tokio::time::sleep(wait_time).await;
     }
-    Err(format!("Got only short Responses from {url}").into())
+    Err(anyhow::anyhow!("Got only short Responses from {url}"))
 }
 
 #[cfg(test)]

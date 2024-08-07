@@ -48,7 +48,7 @@ impl From<&PgPool> for APIRequestor {
 
 impl APIRequestor {
     #[tracing::instrument]
-    pub(crate) async fn refresh(&self, id: String) -> Result<(), crate::BoxedError> {
+    pub(crate) async fn refresh(&self, id: String) -> anyhow::Result<()> {
         let sync_start = Utc::now();
         let url = format!("https://campus.tum.de/tumonline/co/connectum/api/rooms/{id}/calendars");
         let events = self
@@ -93,7 +93,7 @@ impl APIRequestor {
         true
     }
     #[tracing::instrument(ret(level = tracing::Level::TRACE))]
-    pub(crate) async fn try_refresh_token(&mut self) -> Result<String, crate::BoxedError> {
+    pub(crate) async fn try_refresh_token(&mut self) -> anyhow::Result<String> {
         if self.should_refresh_token() {
             self.oauth_token = Some(Self::fetch_new_oauth_token().await?);
         }
@@ -124,7 +124,7 @@ impl APIRequestor {
         events: LimitedVec<Event>,
         last_calendar_scrape_at: &DateTime<Utc>,
         id: &str,
-    ) -> Result<(), crate::BoxedError> {
+    ) -> anyhow::Result<()> {
         // insert into db
         let mut tx = self.pool.begin().await?;
         if let Err(e) = self.delete_events(&mut tx, id).await {
@@ -162,7 +162,7 @@ impl APIRequestor {
     }
 
     #[tracing::instrument(ret(level = tracing::Level::TRACE))]
-    async fn fetch_new_oauth_token() -> Result<(Instant, BasicTokenResponse), crate::BoxedError> {
+    async fn fetch_new_oauth_token() -> anyhow::Result<(Instant, BasicTokenResponse)> {
         let client_id = env::var("CONNECTUM_OAUTH_CLIENT_ID")
             .map_err(|e| {
                 error!("CONNECTUM_OAUTH_CLIENT_ID needs to be set: {e:?}");

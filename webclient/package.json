@@ -34,8 +34,8 @@
     "sharp": "0.33.4",
     "swagger-ui": "5.17.14",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
-    "vue": "3.4.35",
-    "vue-router": "4.4.2",
+    "vue": "3.4.36",
+    "vue-router": "4.4.3",
     "vue3-carousel": "0.3.3"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "postcss": "8.4.41",
     "prettier": "3.3.3",
     "prettier-plugin-tailwindcss": "0.6.5",
-    "tailwindcss": "3.4.7",
+    "tailwindcss": "3.4.8",
     "typescript": "5.5.4",
     "vue-tsc": "2.0.29"
   },

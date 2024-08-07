@@ -11,10 +11,7 @@ pub struct TempRepo {
 }
 impl TempRepo {
     #[tracing::instrument]
-    pub async fn clone_and_checkout(
-        url: &'static str,
-        branch_name: &str,
-    ) -> Result<Self, crate::BoxedError> {
+    pub async fn clone_and_checkout(url: &'static str, branch_name: &str) -> anyhow::Result<Self> {
         let dir = tempfile::tempdir()?;
 
         info!("Cloning {url} into {dir:?}");
@@ -28,7 +25,7 @@ impl TempRepo {
             .await?;
         debug!("commit output: {out:?}");
         if out.status.code() != Some(0) {
-            return Err(format!("git status failed with output: {out:?}").into());
+            anyhow::bail!("git status failed with output: {out:?}");
         }
 
         // checkout + create branch
@@ -46,7 +43,7 @@ impl TempRepo {
                 dir,
                 branch_name: branch_name.to_string(),
             }),
-            _ => Err(format!("git commit failed with output: {out:?}").into()),
+            _ => anyhow::bail!("git commit failed with output: {out:?}"),
         }
     }
 
@@ -64,7 +61,7 @@ impl TempRepo {
     }
 
     #[tracing::instrument]
-    pub async fn commit(&self, title: &str) -> Result<(), crate::BoxedError> {
+    pub async fn commit(&self, title: &str) -> anyhow::Result<()> {
         let out = Command::new("git")
             .current_dir(&self.dir)
             .arg("add")
@@ -83,11 +80,11 @@ impl TempRepo {
         debug!("commit output: {out:?}");
         match out.status.code() {
             Some(0) => Ok(()),
-            _ => Err(format!("git commit failed with output: {out:?}").into()),
+            _ => anyhow::bail!("git commit failed with output: {out:?}"),
         }
     }
     #[tracing::instrument]
-    pub async fn push(&self) -> Result<(), crate::BoxedError> {
+    pub async fn push(&self) -> anyhow::Result<()> {
         let out = Command::new("git")
             .current_dir(&self.dir)
             .arg("status")
@@ -95,7 +92,7 @@ impl TempRepo {
             .await?;
         debug!("git status: {out:?}");
         if out.status.code() != Some(0) {
-            return Err(format!("git status failed with output: {out:?}").into());
+            anyhow::bail!("git status failed with output: {out:?}");
         }
         let out = Command::new("git")
             .current_dir(&self.dir)
@@ -108,7 +105,7 @@ impl TempRepo {
         debug!("git push: {out:?}");
         match out.status.code() {
             Some(0) => Ok(()),
-            _ => Err(format!("git push failed with output: {out:?}").into()),
+            _ => anyhow::bail!("git push failed with output: {out:?}"),
         }
     }
 }

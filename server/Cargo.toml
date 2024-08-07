@@ -24,6 +24,9 @@ tracing-actix-web = "0.7.11"
 sentry = { version = "0.34.0", features = ["tracing", "metrics", "backtrace", "contexts", "debug-images", "panic", "reqwest", "rustls"] }
 sentry-actix = "0.34.0"
 
+# errors 
+anyhow = { version = "1.0.86", features = ["backtrace"] }
+
 #serialisation
 serde = { version = "1.0.200", features = ["derive"] }
 serde_json = { version = "1.0.116", features = ["raw_value"] }

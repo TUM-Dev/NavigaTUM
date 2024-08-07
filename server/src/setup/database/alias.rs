@@ -33,7 +33,7 @@ impl Alias {
     }
 }
 #[tracing::instrument]
-pub async fn download_updates() -> Result<LimitedVec<Alias>, crate::BoxedError> {
+pub async fn download_updates() -> anyhow::Result<LimitedVec<Alias>> {
     let cdn_url = std::env::var("CDN_URL").unwrap_or_else(|_| "https://nav.tum.de/cdn".to_string());
     let body = reqwest::get(format!("{cdn_url}/api_data.parquet"))
         .await?
@@ -106,7 +106,7 @@ pub async fn download_updates() -> Result<LimitedVec<Alias>, crate::BoxedError> 
 pub async fn load_all_to_db(
     aliases: LimitedVec<Alias>,
     tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-) -> Result<(), crate::BoxedError> {
+) -> anyhow::Result<()> {
     for task in aliases {
         task.store(tx).await?;
     }

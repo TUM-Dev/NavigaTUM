@@ -76,7 +76,7 @@ def export_for_search(data: dict) -> None:
                 "ms_id": _id.replace(".", "-"),
                 "id": _id,  # not searchable
                 "name": entry["name"],
-                "arch_name": extract_arch_name(entry),
+                "arch_name": entry.get("arch_name"),
                 "type": entry["type"],
                 "type_common_name": entry["type_common_name"],
                 "facet": {
@@ -116,13 +116,6 @@ def extract_parent_building_names(data: dict, parents: list[str], building_paren
     short_names = [data[p]["short_name"] for p in parents[building_parents_index:] if "short_name" in data[p]]
     long_names = [data[p]["name"] for p in parents[building_parents_index:]]
     return short_names + long_names
-
-
-def extract_arch_name(entry: dict) -> str | None:
-    """Extract the arch name from the entry"""
-    if entry["type"] == "building":
-        return f"@{entry['id']}"
-    return entry.get("tumonline_data", {}).get("arch_name", None)
 
 
 def _make_sure_is_safe(obj: object):
@@ -174,11 +167,6 @@ def export_for_api(data: dict) -> None:
     export_data = []
     for _id, entry in data.items():
         entry.setdefault("maps", {})["default"] = "interactive"
-
-        entry["aliases"] = []
-        if arch_name := extract_arch_name(entry):
-            entry["aliases"].append(arch_name)
-
         export_data.append(extract_exported_item(data, entry))
 
     _make_sure_is_safe(export_data)
