@@ -99,19 +99,20 @@ function initMap(containerId: string) {
     attributionControl: false,
   });
 
-  map.on("click", "overlay-layer", (e) => {
-    if (e.type === "contextmenu" || e.type === "dblclick") {
-      console.log(`got click ${+e} for ${props.data.id}: ${e.lngLat}`);
-      navigator.clipboard.writeText(`${props.data.id}: ${e.lngLat}`);
-    }
-  });
-
   // Each source / style change causes the map to get
   // into "loading" state, so map.loaded() is not reliable
   // enough to know whether just the initial loading has
   // succeeded.
   map.on("load", () => {
     initialLoaded.value = true;
+
+    // event handler needs to be registered post-load otherwise it is silently ignored
+    map.on("click", "overlay-layer", (e) => {
+      if (e.type === "contextmenu" || e.type === "dblclick") {
+        console.log(`got click ${+e} for ${props.data.id}: ${e.lngLat}`);
+        navigator.clipboard.writeText(`${props.data.id}: ${e.lngLat}`);
+      }
+    });
 
     // controls
     map.addControl(new NavigationControl({}), "top-left");
