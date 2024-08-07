@@ -94,7 +94,7 @@ importers:
         specifier: 7946.0.14
         version: 7946.0.14
       '@types/nightwind':
-        specifier: ^1.0.0
+        specifier: 1.0.0
         version: 1.0.0
       '@types/node':
         specifier: 20.14.14
