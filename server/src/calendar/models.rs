@@ -2,8 +2,6 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::fmt::Display;
 
-use crate::models::Location;
-
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub(super) struct CalendarLocation {
     pub key: String,
@@ -13,20 +11,6 @@ pub(super) struct CalendarLocation {
     pub type_common_name: String,
     pub r#type: String,
 }
-
-impl From<Location> for CalendarLocation {
-    fn from(loc: Location) -> Self {
-        Self {
-            key: loc.key,
-            name: loc.name,
-            last_calendar_scrape_at: loc.last_calendar_scrape_at,
-            calendar_url: loc.calendar_url,
-            type_common_name: loc.type_common_name,
-            r#type: loc.r#type,
-        }
-    }
-}
-
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub(super) struct LocationEvents {
     pub(super) events: Vec<Event>,
