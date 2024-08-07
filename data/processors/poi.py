@@ -1,12 +1,17 @@
+from pathlib import Path
 from typing import Any
 
 from processors import merge
 from utils import TranslatableStr as _
 
+BASE_PATH = Path(__file__).parent.parent
+SOURCES_PATH = BASE_PATH / "sources"
+
 
 def merge_poi(data: dict[str, dict[str, Any]]) -> None:
     """Merge POIs from `sources/21_pois.yaml` into the data"""
-    poi_data = merge.load_yaml("sources/21_pois.yaml")
+    pois_path = SOURCES_PATH / "21_pois.yaml"
+    poi_data = merge.load_yaml(pois_path)
 
     for _id, poi in poi_data.items():
         if _id in data:

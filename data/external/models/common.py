@@ -14,7 +14,7 @@ class PydanticConfiguration(BaseModel):
     )
 
 
-RESULTS = Path(__file__).parent.parent / "results"
+RESULTS_PATH = Path(__file__).parent.parent / "results"
 
 
 class TranslatableStr(PydanticConfiguration):

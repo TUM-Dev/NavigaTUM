@@ -14,8 +14,8 @@ ALLOWED_ROOMCODE_CHARS = set(string.ascii_letters) | set(string.digits) | {".", 
 OPERATOR_STRIP_CHARS = "[ ]"
 OPERATOR_WEBNAV_LINK_PREFIX = "webnav.navigate_to?corg="
 
-BASE = Path(__file__).parent.parent
-SOURCES = BASE / "sources"
+BASE_PATH = Path(__file__).parent.parent
+SOURCES_PATH = BASE_PATH / "sources"
 
 
 def merge_tumonline_buildings(data: dict[str, dict[str, Any]]) -> None:
@@ -185,7 +185,7 @@ def _clean_tumonline_rooms():
     """
     rooms = tumonline.Room.load_all()
 
-    with open(SOURCES / "15_patches-rooms_tumonline.yaml", encoding="utf-8") as file:
+    with (SOURCES_PATH / "15_patches-rooms_tumonline.yaml").open(encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
     apply_roomcode_patch(rooms, patches["patches"])

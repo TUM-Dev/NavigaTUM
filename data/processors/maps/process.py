@@ -7,7 +7,7 @@ from processors.maps.roomfinder import (
     assign_default_roomfinder_map,
     assign_roomfinder_maps,
     build_roomfinder_maps,
-    CUSTOM_RF_DIR,
+    CUSTOM_RF_DIR_PATH,
     remove_non_covering_maps,
 )
 
@@ -23,7 +23,7 @@ def add_overlay_maps(data: dict[str, dict[str, Any]]) -> None:
 
 def add_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """Add roomfinder maps to entries"""
-    utils.convert_to_webp(CUSTOM_RF_DIR)
+    utils.convert_to_webp(CUSTOM_RF_DIR_PATH)
 
     assign_roomfinder_maps(data)
     remove_non_covering_maps(data)

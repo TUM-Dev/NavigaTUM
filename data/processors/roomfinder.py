@@ -6,8 +6,8 @@ from typing import Any
 import yaml
 from external.models import roomfinder
 
-BASE = Path(__file__).parent.parent
-SOURCES = BASE / "sources"
+BASE_PATH = Path(__file__).parent.parent
+SOURCES_PATH = BASE_PATH / "sources"
 
 
 def merge_roomfinder_buildings(data: dict[str, dict[str, Any]]) -> None:
@@ -16,7 +16,7 @@ def merge_roomfinder_buildings(data: dict[str, dict[str, Any]]) -> None:
 
     This will not overwrite the existing data, but act directly on the provided data.
     """
-    with open(SOURCES / "10_patches-roomfinder-buildings.yaml", encoding="utf-8") as file:
+    with (SOURCES_PATH / "10_patches-roomfinder-buildings.yaml").open(encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
     error = False
@@ -88,7 +88,7 @@ def merge_roomfinder_rooms(data: dict[str, dict[str, Any]]) -> None:
 
     This will not overwrite the existing data, but act directly on the provided data.
     """
-    with open(SOURCES / "16_roomfinder-merge-patches.yaml", encoding="utf-8") as file:
+    with (SOURCES_PATH / "16_roomfinder-merge-patches.yaml").open(encoding="utf-8") as file:
         patches = yaml.safe_load(file.read())
 
     # It is significantly faster to first generate a lookup to the rooms in the

@@ -6,10 +6,10 @@ from external.models import roomfinder
 from external.models.common import PydanticConfiguration
 from PIL import Image
 
-BASE = Path(__file__).parent.parent.parent
-EXTERNAL_RESULTS_PATH = BASE / "external" / "results"
-SOURCES_PATH = BASE / "sources"
-CUSTOM_RF_DIR_PATH = SOURCES_PATH / "img" / "maps" / "roomfinder"
+BASE_PATH = Path(__file__).parent.parent.parent
+RF_MAPS_PATH = BASE_PATH / "sources" / "img" / "maps" / "roomfinder"
+SOURCES_PATH = BASE_PATH / "sources"
+CUSTOM_RF_DIR_PATH = SOURCES_PATH / "img" / "maps" / "site_plans"
 
 
 class OverlayMap(PydanticConfiguration):
@@ -32,7 +32,7 @@ class Overlay(PydanticConfiguration):
     @classmethod
     def load_all(cls) -> dict[str, "Overlay"]:
         """Load all nat.Room's"""
-        with open(SOURCES_PATH / "46_overlay-maps.yaml", encoding="utf-8") as file:
+        with (SOURCES_PATH / "46_overlay-maps.yaml").open(encoding="utf-8") as file:
             return {_map["props"]["parent"]: cls.model_validate(_map) for _map in yaml.safe_load(file.read())}
 
 
@@ -80,7 +80,7 @@ class CustomBuildingMap(PydanticConfiguration):
     @classmethod
     def load_all_raw(cls) -> list["CustomBuildingMap"]:
         """Load all nat.Room's"""
-        with open(SOURCES_PATH / "45_custom-maps.yaml", encoding="utf-8") as file:
+        with (SOURCES_PATH / "45_custom-maps.yaml").open(encoding="utf-8") as file:
             return [cls.model_validate(_map) for _map in yaml.safe_load(file.read())]
 
     def as_roomfinder_maps(self) -> dict[MapKey, roomfinder.Map]:

@@ -58,7 +58,7 @@ def scrape_buildings() -> None:
 
     buildings = requests.get(f"{CONNECTUM_URL}/api/rooms/buildings", headers=OAUTH_HEADERS, timeout=30).json()
     buildings = {f"{r.pop('building_id'):04d}": _sanitise_building_value(r) for r in buildings}
-    with open(CACHE_PATH / "buildings_tumonline.json", "w", encoding="utf-8") as file:
+    with (CACHE_PATH / "buildings_tumonline.json").open("w", encoding="utf-8") as file:
         json.dump(buildings, file, indent=2, sort_keys=True)
 
 
@@ -88,7 +88,7 @@ def scrape_rooms() -> None:
     rooms = requests.get(f"{CONNECTUM_URL}/api/rooms", headers=OAUTH_HEADERS, timeout=30).json()
     rooms = {r["room_code"]: _sanitise_room_value(r) for r in rooms}
 
-    with open(CACHE_PATH / "rooms_tumonline.json", "w", encoding="utf-8") as file:
+    with (CACHE_PATH / "rooms_tumonline.json").open("w", encoding="utf-8") as file:
         json.dump(rooms, file, indent=2, sort_keys=True)
 
 
@@ -104,7 +104,7 @@ def scrape_usages() -> None:
 
     usages = requests.get(f"{CONNECTUM_URL}/api/rooms/usages", headers=OAUTH_HEADERS, timeout=30).json()
     usages = {u.pop("id"): u for u in usages}
-    with open(CACHE_PATH / "usages_tumonline.json", "w", encoding="utf-8") as file:
+    with (CACHE_PATH / "usages_tumonline.json").open("w", encoding="utf-8") as file:
         json.dump(usages, file, indent=2, sort_keys=True)
 
 
@@ -135,7 +135,7 @@ def scrape_orgs(lang: typing.Literal["de", "en"]) -> None:
                 "path": search_organisation["orgPath"],
             }
 
-    with open(CACHE_PATH / f"orgs-{lang}_tumonline.json", "w", encoding="utf-8") as file:
+    with (CACHE_PATH / f"orgs-{lang}_tumonline.json").open("w", encoding="utf-8") as file:
         json.dump(orgs, file, indent=2, sort_keys=True)
 
 

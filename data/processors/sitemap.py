@@ -28,7 +28,7 @@ class SimplifiedSitemaps(TypedDict):
     other: dict[str, datetime]
 
 
-OUTPUT_DIR = Path(__file__).parent.parent / "output"
+OUTPUT_DIR_PATH = Path(__file__).parent.parent / "output"
 
 
 def generate_sitemap() -> None:
@@ -37,7 +37,7 @@ def generate_sitemap() -> None:
     # directly, but re-parsing the output file instead, because the export not
     # export all fields. This way we're also guaranteed to have the same types
     # (and not e.g. numpy floats).
-    with open(OUTPUT_DIR / "api_data.json", encoding="utf-8") as file:
+    with (OUTPUT_DIR_PATH / "api_data.json").open(encoding="utf-8") as file:
         new_data: list = json.load(file)
 
     # Look whether there are currently online sitemaps for the provided
@@ -53,9 +53,9 @@ def generate_sitemap() -> None:
     sitemaps: Sitemaps = _extract_sitemap_data(new_data, old_data, old_sitemaps)
 
     for name, sitemap in sitemaps.items():
-        _write_sitemap_xml(OUTPUT_DIR / f"sitemap-data-{name}.xml", sitemap)
+        _write_sitemap_xml(OUTPUT_DIR_PATH / f"sitemap-data-{name}.xml", sitemap)
 
-    _write_sitemapindex_xml(OUTPUT_DIR / "sitemap.xml", sitemaps)
+    _write_sitemapindex_xml(OUTPUT_DIR_PATH / "sitemap.xml", sitemaps)
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException)

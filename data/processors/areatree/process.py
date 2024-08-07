@@ -36,7 +36,7 @@ def _areatree_lines() -> Iterator[str]:
     - comment lines and
     - comments in lines
     """
-    with open(AREATREE_FILE, encoding="utf-8") as file:
+    with AREATREE_FILE.open(encoding="utf-8") as file:
         for line in file:
             line_without_comments = line.split("#")[0]
             if line_without_comments_and_whitespace := line_without_comments.rstrip():

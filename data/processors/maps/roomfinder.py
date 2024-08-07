@@ -10,11 +10,11 @@ from external.models import roomfinder
 from external.models.common import PydanticConfiguration
 from processors.maps.models import Coordinate, CustomBuildingMap, MapKey
 
-BASE = Path(__file__).parent.parent.parent
-RESULTS_PATH = BASE / "external" / "results"
-RF_MAPS_PATH = BASE / "sources" / "img" / "maps" / "roomfinder"
-SOURCES_PATH = BASE / "sources"
-CUSTOM_RF_DIR = SOURCES_PATH / "img" / "maps" / "site_plans"
+BASE_PATH = Path(__file__).parent.parent.parent
+RESULTS_PATH = BASE_PATH / "external" / "results"
+RF_MAPS_PATH = BASE_PATH / "sources" / "img" / "maps" / "roomfinder"
+SOURCES_PATH = BASE_PATH / "sources"
+CUSTOM_RF_DIR_PATH = SOURCES_PATH / "img" / "maps" / "site_plans"
 
 
 def assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:

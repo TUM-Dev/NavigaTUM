@@ -34,10 +34,10 @@ def main() -> None:
     data = areatree.read_areatree()
 
     logging.info("-- 01 areas extendend")
-    data = merge.patch_areas(data, "sources/01_areas-extended.yaml")
+    data = merge.patch_areas(data)
 
     logging.info("-- 02 rooms extendend")
-    data = merge.patch_rooms(data, "sources/02_rooms-extended.yaml")
+    data = merge.patch_rooms(data)
 
     # Add source information for these entries, which are up to here
     # always declared by navigatum

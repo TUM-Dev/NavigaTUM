@@ -7,10 +7,10 @@ from typing import Any
 import yaml
 from external.models import nat
 
-BASE = Path(__file__).parent.parent
-SOURCES = BASE / "sources"
+BASE_PATH = Path(__file__).parent.parent
+SOURCES_PATH = BASE_PATH / "sources"
 
-with open(SOURCES / "12_nat_excluded_buildings.yaml", encoding="utf-8") as excluded_buildings_raw:
+with (SOURCES_PATH / "12_nat_excluded_buildings.yaml").open(encoding="utf-8") as excluded_buildings_raw:
     EXCLUDED_BUILDINGS = set(yaml.safe_load(excluded_buildings_raw.read()))
 
 

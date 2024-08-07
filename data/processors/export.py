@@ -8,7 +8,8 @@ from external.models.common import PydanticConfiguration
 from utils import TranslatableStr
 from utils import TranslatableStr as _
 
-OUTPUT_DIR = Path(__file__).parent.parent / "output"
+OUTPUT_DIR_PATH = Path(__file__).parent.parent / "output"
+OUTPUT_DIR_PATH.mkdir(exist_ok=True)
 SLUGIFY_REGEX = re.compile(r"[^a-zA-Z0-9-äöüß.]+")
 
 
@@ -104,10 +105,10 @@ def export_for_search(data: dict) -> None:
     export = unlocalise(export)
 
     _make_sure_is_safe(export)
-    with open("output/search_data.json", "w", encoding="utf-8") as file:
+    with (OUTPUT_DIR_PATH / "search_data.json").open("w+", encoding="UTF-8") as file:
         json.dump(export, file)
-    df = pl.read_json("output/search_data.json")
-    df.write_parquet("output/search_data.parquet", use_pyarrow=True, compression_level=22)
+    df = pl.read_json(OUTPUT_DIR_PATH / "search_data.json")
+    df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=22)
 
 
 def extract_parent_building_names(data: dict, parents: list[str], building_parents_index: int) -> list[str]:
@@ -151,15 +152,15 @@ def _make_sure_is_safe(obj: object):
 
 def export_for_status() -> None:
     """Generate hashes for the contents of data"""
-    with open("output/api_data.json", encoding="utf-8") as file:
+    with (OUTPUT_DIR_PATH / "api_data.json").open(encoding="utf-8") as file:
         export_data = json.load(file)
     export_json_data = [(d["id"], d["hash"]) for d in export_data]
-    with open("output/status_data.json", "w", encoding="utf-8") as file:
+    with (OUTPUT_DIR_PATH / "status_data.json").open("w", encoding="utf-8") as file:
         json.dump(export_json_data, file)
 
     export_polars_data = [{"id": d["id"], "hash": d["hash"]} for d in export_data]
     df = pl.DataFrame(export_polars_data)
-    df.write_parquet("output/status_data.parquet", use_pyarrow=True, compression_level=22)
+    df.write_parquet(OUTPUT_DIR_PATH / "status_data.parquet", use_pyarrow=True, compression_level=22)
 
 
 def export_for_api(data: dict) -> None:
@@ -170,10 +171,10 @@ def export_for_api(data: dict) -> None:
         export_data.append(extract_exported_item(data, entry))
 
     _make_sure_is_safe(export_data)
-    with open("output/api_data.json", "w", encoding="utf-8") as file:
+    with (OUTPUT_DIR_PATH / "api_data.json").open("w", encoding="utf-8") as file:
         json.dump(export_data, file, cls=EnhancedJSONEncoder)
-    df = pl.read_json("output/api_data.json")
-    df.write_parquet("output/api_data.parquet", use_pyarrow=True, compression_level=22)
+    df = pl.read_json(OUTPUT_DIR_PATH / "api_data.json")
+    df.write_parquet(OUTPUT_DIR_PATH / "api_data.parquet", use_pyarrow=True, compression_level=22)
 
 
 def extract_exported_item(data, entry):
