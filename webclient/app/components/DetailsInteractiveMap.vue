@@ -99,7 +99,7 @@ function initMap(containerId: string) {
     attributionControl: false,
   });
 
-  map.on("click", (e) => {
+  map.on("click", "overlay-src", (e) => {
     if (e.type === "contextmenu" || e.type === "dblclick") {
       console.log(`got click ${+e} for ${props.data.id}: ${e.lngLat}`);
       navigator.clipboard.writeText(`${props.data.id}: ${e.lngLat}`);
@@ -212,10 +212,10 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
     if (map.value?.getLayer("overlay-layer")) map.value?.setLayoutProperty("overlay-layer", "visibility", "none");
     if (map.value?.getLayer("overlay-bg")) map.value?.setLayoutProperty("overlay-bg", "visibility", "none");
   } else {
-    const source = map.value?.getSource("overlay-src") as ImageSource | undefined;
+    const source = map.value?.getSource("overlay") as ImageSource | undefined;
     if (source === undefined) {
       if (coords !== undefined)
-        map.value?.addSource("overlay-src", {
+        map.value?.addSource("overlay", {
           type: "image",
           url: imgUrl,
           coordinates: coords,
@@ -239,7 +239,7 @@ function setOverlayImage(imgUrl: string | null, coords: Coordinates | undefined)
       map.value?.addLayer({
         id: "overlay-layer",
         type: "raster",
-        source: "overlay-src",
+        source: "overlay",
         paint: {
           "raster-fade-duration": 0,
         },
