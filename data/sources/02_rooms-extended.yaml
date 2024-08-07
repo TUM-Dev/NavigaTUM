@@ -8,6 +8,14 @@
       en: Office
     din_277: NF2.1
     din_277_desc: Büroräume
+"0104.U1.403A":
+  name: Büro
+  usage: # previously: Heizung
+    name:
+      de: Büro
+      en: Office
+    din_277: NF2.1
+    din_277_desc: Büroräume
 # StudiTUM Innenstadt switched to only-unisex toilets
 # previous WC-Damen:
 "0201.EG.004":
