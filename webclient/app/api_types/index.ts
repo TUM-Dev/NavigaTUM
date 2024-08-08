@@ -1169,7 +1169,7 @@ export type operations = {
     parameters: {
       path: {
         /** @description source of the resource you want */
-        source: "overlay" | "roomfinder";
+        source: "overlays" | "site_plans";
         /** @description id of the map you want */
         id: string;
       };

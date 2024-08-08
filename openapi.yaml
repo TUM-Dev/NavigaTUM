@@ -1185,8 +1185,8 @@ paths:
           schema:
             type: string
             enum:
-              - overlay
-              - roomfinder
+              - overlays
+              - site_plans
         - name: id
           in: path
           description: id of the map you want

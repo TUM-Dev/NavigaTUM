@@ -7,9 +7,8 @@ from external.models.common import PydanticConfiguration
 from PIL import Image
 
 BASE_PATH = Path(__file__).parent.parent.parent
-RF_MAPS_PATH = BASE_PATH / "sources" / "img" / "maps" / "roomfinder"
+SITE_PLANS_PATH = BASE_PATH / "sources" / "img" / "maps" / "site_plans"
 SOURCES_PATH = BASE_PATH / "sources"
-CUSTOM_RF_DIR_PATH = SOURCES_PATH / "img" / "maps" / "site_plans"
 
 
 class OverlayMap(PydanticConfiguration):
@@ -69,7 +68,7 @@ class CustomMapItem(PydanticConfiguration):
 
     def dimensions(self) -> ImageDimensions:
         """Get the dimensions of the image"""
-        with Image.open(CUSTOM_RF_DIR_PATH / self.file) as img:
+        with Image.open(SITE_PLANS_PATH / self.file) as img:
             return {"width": img.width, "height": img.height}
 
 
