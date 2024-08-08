@@ -29,13 +29,11 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-      - name: Setup | install insta
-        run: curl -LsSf https://insta.rs/install.sh | sh
-      - run: cargo insta test -- --no-run --locked
+      - run: cargo test --no-run --locked
         working-directory: server
         env:
           CARGO_INCREMENTAL: 0
-      - run: cargo insta test -- --nocapture --quiet
+      - run: cargo test -- --nocapture --quiet
         working-directory: server
         env:
           CARGO_INCREMENTAL: 0
