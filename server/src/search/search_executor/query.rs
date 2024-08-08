@@ -77,13 +77,15 @@ pub(super) struct GeoEntryQuery {
 
 impl Debug for GeoEntryQuery {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("GeoEntryQuery")
-            .field("parsed_input", &self.parsed_input)
+        let mut base = f.debug_struct("GeoEntryQuery");
+        base.field("parsed_input", &self.parsed_input)
             .field("limits", &self.limits)
             .field("highlighting", &self.highlighting)
-            .field("filters", &self.filters)
-            .field("sorting", &self.sorting)
-            .finish()
+            .field("filters", &self.filters);
+        if !self.sorting.is_empty() {
+            base.field("sorting", &self.sorting);
+        }
+        base.finish()
     }
 }
 

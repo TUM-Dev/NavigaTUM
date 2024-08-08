@@ -28,13 +28,23 @@ pub struct SearchResults {
     time_ms: u128,
 }
 
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Hash)]
+#[derive(Copy, Clone, Eq, PartialEq, Hash)]
 /// Limit per facet
 pub struct Limits {
     pub buildings_count: usize,
     pub rooms_count: usize,
     pub total_count: usize,
 }
+impl Debug for Limits {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Limits")
+            .field("building", &self.buildings_count)
+            .field("rooms", &self.rooms_count)
+            .field("total", &self.total_count)
+            .finish()
+    }
+}
+
 impl Default for Limits {
     fn default() -> Self {
         Self {
