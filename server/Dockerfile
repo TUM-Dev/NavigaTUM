@@ -16,34 +16,50 @@ ENV     USER=root
 ENV     RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-fuse-ld=mold"
 # since our builds are from-scratch, we don't need incremental compliation here
 ENV     CARGO_INCREMENTAL=0
+# added in the build
+ARG     GIT_COMMIT_SHA=development
+ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+# possible values "release"|"debug"
+ARG     PROFILE=release
+ENV     PROFILE=${PROFILE}
 
 # (probably cached) first run of the image build => only dependencies
 COPY    Cargo.* ./
 RUN     mkdir -p ./src/ \
-     && echo "fn main() { println!(\"Hello, world!\");}" > ./src/main.rs
-
-RUN     cargo build --release \
-     && rm -fr target/release/deps/navigatum*
+     && echo "fn main() { println!(\"Hello, world!\");}" > ./src/main.rs \
+     && if [ $PROFILE == "release" ]; then \
+          cargo build --release; \
+        else \
+          cargo build; \
+        fi \
+     && rm -fr target/${PROFILE}/deps/navigatum*
 
 # second run of the image build (including our code)
 COPY    .sqlx .sqlx
 
 COPY    src src
 COPY    migrations migrations
-RUN     cargo build --release
+RUN     if [ $PROFILE == "release" ]; then \
+          cargo build --release; \
+        else \
+          cargo build; \
+        fi
 
 
 # RUN
 FROM alpine:3.20 AS production-stage
 
-ARG     GIT_COMMIT_SHA
+ARG     GIT_COMMIT_SHA=development
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
+# possible values "release"|"debug"
+ARG     PROFILE=release
+ENV     PROFILE=${PROFILE}
 
 RUN     apk update --quiet \
      && apk add -q --no-cache libgcc tini curl libpq-dev
 
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
-COPY    --from=compiler /compiler/target/release/navigatum-* /bin/
+COPY    --from=compiler /compiler/target/${PROFILE}/navigatum-* /bin/
 
 # after this point, we don't need the root user anymore
 RUN    adduser -D navigatum \

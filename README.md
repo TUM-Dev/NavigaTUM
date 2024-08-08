@@ -79,16 +79,16 @@ docker compose -f docker-compose.local.yml up --build
 ```
 
 > [!NOTE]
-> While most of the setup is simple, we need to download data (only Oberbayern is needed) for the initial setup. This
+> While most of the setup is simple, we need to download data for
+> the initial setup. Downloading Oberbayern as the smallest osm-region offered by [geofabrik](https://geofabrik.de)
 > takes 1-2 minutes.
-> Please first bring up a [postgis](https://postgis.net/) instance (for example
-> via `docker compose -f docker-compose.local.yml up --build`) and then run:
+> We also need to run an incremental compilation for our server.
+> The first compilation will be slow, afterward this will only take a bit of time.
+> The local builds also run in `PROFILE=debug` to improve build-times.
 >
-> ```bash
-> wget -O data.pbf https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf
-> docker run -it -v $(pwd):/data -e PGPASSWORD=CHANGE_ME --network="host" iboates/osm2pgsql:latest osm2pgsql --create --slim --database postgres --user     postgres --host 127.0.0.1 --port 5432 /data/data.pbf --hstore --hstore-add-index --hstore-column raw
-> docker run -it -v $(pwd):/data -e PGPASSWORD=CHANGE_ME --network="host" iboates/osm2pgsql:latest replication init          --database postgres --username postgres --host localhost --port 5432
-> ```
+> Not beating around the bush: Complation times for the [`server`](./server) are a problem, but we are confident that
+> these can be resolved via upstream language improvements such as
+> [polonius](https://blog.rust-lang.org/inside-rust/2023/10/06/polonius-update.html), [cranelift](https://github.com/rust-lang/rustc_codegen_cranelift), [paralell-frontend](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html),....
 
 Else you can follow the steps in the [server documentation](server/README.md).
 
