@@ -14,19 +14,22 @@ COPY external/ external/
 COPY processors/ processors/
 COPY *.py ./
 COPY translations.yaml translations.yaml
-RUN mkdir output \
-    && python3 compile.py \
+
+RUN mkdir "output"
+COPY output/openapi.yaml output/openapi.yaml
+
+RUN python3 compile.py \
+    && test -f "./output/openapi.yaml" \
     && test -f "./output/status_data.json" \
     && test -f "./output/status_data.parquet" \
     && test -f "./output/search_data.json" \
     && test -f "./output/search_data.parquet" \
     && test -f "./output/api_data.json" \
-    && test -f "./output/api_data.parquet" \
-    && cp -r sources/img/* output \
-    && cp -r output/img/site_plans output/img/roomfinder \
-    && cp -r output/img/overlays output/img/overlay
+    && test -f "./output/api_data.parquet"
+RUN cp -r sources/img/* output \
+    && cp -r output/maps/site_plans output/maps/roomfinder \
+    && cp -r output/maps/overlays output/maps/overlay
 # last renaming is to remain backwards compatible
-COPY output/openapi.yaml output/openapi.yaml
 
 # compress data (only using gzip, because brotli on ngnix is a royal pain)
 RUN gzip --force --keep --recursive output/
