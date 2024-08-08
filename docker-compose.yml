@@ -183,12 +183,75 @@ services:
       - "5432"
     volumes:
       - postgis-data:/var/lib/postgresql/data
+      - ./resources/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
       interval: 10s
       start_period: 10s
-  osm2pgsql:
+  osm-download-data:
+    image: alpine:latest
+    command:
+      - wget
+      - -c
+      - -O
+      - data.pbf
+      - https://download.geofabrik.de/europe/germany-latest.osm.pbf
+    working_dir: /data
+    volumes:
+      - ./map/data/:/data/:rw
+  osm2pgsql-init:
+    image: iboates/osm2pgsql:latest
+    environment:
+      TZ: Europe/Berlin
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    command:
+      - osm2pgsql
+      - --create
+      - --slim
+      - --database
+      - ${POSTGRES_DB}
+      - --user
+      - ${POSTGRES_USER}
+      - --host
+      - db
+      - --port
+      - "5432"
+      - data.pbf
+      - --hstore
+      - --hstore-add-index
+      - --hstore-column
+      - raw
+    working_dir: /data
+    volumes:
+      - ./map/data/:/data/:ro
+    depends_on:
+      osm-download-data:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+  osm2pgsql-replication-init:
+    image: iboates/osm2pgsql:latest
+    environment:
+      TZ: Europe/Berlin
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    command:
+      - replication
+      - init
+      - --database
+      - ${POSTGRES_DB}
+      - --username
+      - ${POSTGRES_USER}
+      - --host
+      - db
+      - --port
+      - "5432"
+    depends_on:
+      osm2pgsql-init:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+  osm2pgsql-replication:
     image: iboates/osm2pgsql:latest
     environment:
       TZ: Europe/Berlin
@@ -196,13 +259,17 @@ services:
     command:
       - replication
       - update
-      - --database ${POSTGRES_DB}
-      - --username ${POSTGRES_USER}
-      - --host db
-      - --port 5432
+      - --database
+      - ${POSTGRES_DB}
+      - --username
+      - ${POSTGRES_USER}
+      - --host
+      - db
+      - --port
+      - "5432"
     depends_on:
-      db:
-        condition: service_healthy
+      osm2pgsql-replication-init:
+        condition: service_completed_successfully
   martin-init-config:
     image: alpine:latest
     command:
@@ -239,6 +306,8 @@ services:
       db:
         condition: service_healthy
       martin-init-config:
+        condition: service_completed_successfully
+      osm2pgsql-init:
         condition: service_completed_successfully
     volumes:
       - ./map/martin/:/map/:ro
