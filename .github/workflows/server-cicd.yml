@@ -17,8 +17,8 @@ jobs:
       - name: Setup | Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1.9.0
         with:
-          toolchain: stable
-          components: clippy
+          toolchain: nightly
+          components: rustc-codegen-cranelift-preview
           cache: false
       - name: Setup | Rust-Cache
         uses: Swatinem/rust-cache@v2
@@ -29,11 +29,11 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-      - run: cargo test --no-run --locked
+      - run: CARGO_PROFILE_DEV_CODEGEN_BACKEND=cranelift cargo +nightly test --no-run --locked -Zcodegen-backend
         working-directory: server
         env:
           CARGO_INCREMENTAL: 0
-      - run: cargo test -- --nocapture --quiet
+      - run: CARGO_PROFILE_DEV_CODEGEN_BACKEND=cranelift cargo +nightly test -Zcodegen-backend -- --nocapture --quiet
         working-directory: server
         env:
           CARGO_INCREMENTAL: 0
