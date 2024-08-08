@@ -32,7 +32,6 @@ jobs:
       tags: ${{ steps.meta.outputs.tags }}
     steps:
       - uses: actions/checkout@v4
-      - run: cp openapi.yaml data/output
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:

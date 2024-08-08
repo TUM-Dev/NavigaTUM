@@ -15,8 +15,7 @@ COPY processors/ processors/
 COPY *.py ./
 COPY translations.yaml translations.yaml
 
-RUN mkdir "output"
-COPY output/openapi.yaml output/openapi.yaml
+COPY output output
 
 RUN python3 compile.py \
     && test -f "./output/openapi.yaml" \
