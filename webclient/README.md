@@ -6,20 +6,22 @@ This folder contains the JavaScript based webclient for NavigaTUM.
 
 ### Prerequisites
 
-For getting started, there are some system dependencys which you will need.
-Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of our project.
+For getting started, there are some system dependencies which you will need.
+Please follow the [system dependencies docs](/resources/documentation/Dependencys.md) before trying to run this part of
+our project.
 
 ### Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-Most modern IDEs (like PyCharm) should work as well and have a Plugin.
+[Zed](https://zed.dev/) comes with a profile for all our languages out of the box.
+Most modern IDEs (like the PyCharm+RustRover+WebStorm combination) should work as well.
 
 ## Dependencies
 
 ### Prerequisites
 
 For getting started, there are some system dependencys which you will need.
-Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of our project.
+Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of
+our project.
 
 ### Installing Dependency's
 
@@ -31,7 +33,8 @@ pnpm install
 
 Ensure that _NavigaTUM-server_ is running in the background.
 By default, the webclient will connect to the server on `https://nav.tum.de`.  
-If you want to connect to a local version instead, change the environemnt variable `NUXT_PUBLIC_{API,CDN,FEEDBACK,MAPS}_URL` to the appropriate value.
+If you want to connect to a local version instead, change the environemnt
+variable `NUXT_PUBLIC_{API,CDN,FEEDBACK,MAPS}_URL` to the appropriate value.
 
 To get a local server running, please:
 
@@ -68,7 +71,8 @@ pnpm run type-refresh
 
 ## Architecture
 
-The NavigaTUM webclient is made as a nuxt3 server side rendered application based on [Vue.js](https://vuejs.org/) and [Vue Router](https://router.vuejs.org/).
+The NavigaTUM webclient is made as a nuxt3 server side rendered application based on [Vue.js](https://vuejs.org/)
+and [Vue Router](https://router.vuejs.org/).
 Our CSS framework is [Tailwind](https://tailwindcss.com/).
 
 ### Directory structure (only the important parts)
@@ -97,14 +101,17 @@ To add a new view, you need to add a new route in `router.ts`.
 
 For this part of the project, the tests consist mainly of hot-path e2e tests and tests of critical components.
 PRs improving the coverage are very likely to be accepted.
-The reason behind these tests is that they fundamentally increase the future productivity by allowing faster review cycles.
+The reason behind these tests is that they fundamentally increase the future productivity by allowing faster review
+cycles.
 
 ### Continuous Integration
 
-Every push and pull request triggers a build that runs linting issues (cypress is currently temporarily disabled to help in the nuxt transition).
+Every push and pull request triggers a build that runs linting issues (cypress is currently temporarily disabled to help
+in the nuxt transition).
 This helps us catch any regressions or issues early in the development process.
 
 ### Reporting Issues
 
-If you encounter any problems while running the Cypress tests or have suggestions for improving the testing framework, please open an issue/pull request on this repository.
+If you encounter any problems while running the Cypress tests or have suggestions for improving the testing framework,
+please open an issue/pull request on this repository.
 We appreciate your feedback and contributions.
