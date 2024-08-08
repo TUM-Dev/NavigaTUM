@@ -4,7 +4,10 @@ import { current, green, inherit, orange, red, transparent, white, zinc } from "
 
 export default <Partial<Config>>{
   darkMode: "class",
-  content: ["./**/*.{vue,js,ts,jsx,tsx}"],
+  content: {
+    relative: true,
+    files: ["./app/**/*.{vue}"],
+  },
   theme: {
     colors: {
       inherit,
