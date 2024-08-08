@@ -1,5 +1,5 @@
 use std::time::{Duration, Instant};
-use std::{env, fmt, io};
+use std::{env, fmt};
 
 use chrono::{DateTime, Utc};
 use oauth2::basic::{BasicClient, BasicTokenResponse};
@@ -34,8 +34,6 @@ impl From<&PgPool> for APIRequestor {
             .http2_keep_alive_interval(keep_alive)
             .gzip(true)
             .zstd(true)
-            .brotli(true)
-            .deflate(true)
             .build()
             .expect("the request client builder is correctly configured");
         Self {
@@ -164,17 +162,19 @@ impl APIRequestor {
     #[tracing::instrument(ret(level = tracing::Level::TRACE))]
     async fn fetch_new_oauth_token() -> anyhow::Result<(Instant, BasicTokenResponse)> {
         let client_id = env::var("CONNECTUM_OAUTH_CLIENT_ID")
-            .map_err(|e| {
-                error!("CONNECTUM_OAUTH_CLIENT_ID needs to be set: {e:?}");
-                io::Error::other("please configure the environment variable CONNECTUM_OAUTH_CLIENT_ID to use this endpoint")
-            })?
-            .trim().into();
+            .map_err(|e| anyhow::anyhow!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_ID to use this endpoint: {e:?}"))?
+            .trim()
+            .to_string();
+        if client_id.is_empty() {
+            anyhow::bail!("environment variable CONNECTUM_OAUTH_CLIENT_ID is present, but empty. It is necessary to use this endpoint")
+        }
         let client_secret = env::var("CONNECTUM_OAUTH_CLIENT_SECRET")
-            .map_err(|e| {
-                error!("CONNECTUM_OAUTH_CLIENT_SECRET needs to be set: {e:?}");
-                io::Error::other("please configure the environment variable CONNECTUM_OAUTH_CLIENT_SECRET to use this endpoint")
-            })?
-            .trim().into();
+            .map_err(|e| anyhow::anyhow!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_SECRET to use this endpoint: {e:?}"))?
+            .trim()
+            .to_string();
+        if client_secret.is_empty() {
+            anyhow::bail!("environment variable CONNECTUM_OAUTH_CLIENT_ID is present, but empty. It is necessary to use this endpoint")
+        }
 
         // for urls see https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline/.well-known/openid-configuration
         let auth_url = Url::parse("https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/auth")?;
