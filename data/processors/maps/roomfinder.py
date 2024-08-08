@@ -12,9 +12,8 @@ from processors.maps.models import Coordinate, CustomBuildingMap, MapKey
 
 BASE_PATH = Path(__file__).parent.parent.parent
 RESULTS_PATH = BASE_PATH / "external" / "results"
-RF_MAPS_PATH = BASE_PATH / "sources" / "img" / "maps" / "roomfinder"
+SITE_PLANS_PATH = BASE_PATH / "sources" / "img" / "maps" / "site_plans"
 SOURCES_PATH = BASE_PATH / "sources"
-CUSTOM_RF_DIR_PATH = SOURCES_PATH / "img" / "maps" / "site_plans"
 
 
 def assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
@@ -180,7 +179,7 @@ def _deduplicate_maps(maps_list: list[roomfinder.Map]) -> list[roomfinder.Map]:
     """Remove content 1:1 duplicates from the maps_list"""
     content_to_filename_dict: dict[str, str] = {}
     file_renaming_table: dict[str, str] = {}
-    for filename in RF_MAPS_PATH.glob("*.webp"):
+    for filename in SITE_PLANS_PATH.glob("*.webp"):
         file_hash = hashlib.sha256(filename.read_bytes(), usedforsecurity=False).hexdigest()
         _id = filename.with_suffix("").name
         if file_hash in content_to_filename_dict:

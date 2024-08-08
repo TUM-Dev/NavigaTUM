@@ -76,7 +76,7 @@ function getContext(): CanvasRenderingContext2D | null {
 function draw() {
   const ctx = getContext();
   if (ctx == null) return;
-  const mapURL = new URL(`${runtimeConfig.public.cdnURL}/cdn/maps/roomfinder/${props.map.file}`, import.meta.url);
+  const mapURL = new URL(`${runtimeConfig.public.cdnURL}/cdn/maps/site_plans/${props.map.file}`, import.meta.url);
   const mapSprite = new Image();
   mapSprite.src = mapURL.href;
 

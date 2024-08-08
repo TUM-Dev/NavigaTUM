@@ -185,7 +185,7 @@ function initMap(containerId: string) {
   }
 
   floorControl.value.on("floor-changed", (args: FloorChangedEvent) => {
-    const url = args.file ? `${runtimeConfig.public.cdnURL}/cdn/maps/overlay/${args.file}` : null;
+    const url = args.file ? `${runtimeConfig.public.cdnURL}/cdn/maps/overlays/${args.file}` : null;
     setOverlayImage(url, args.coords);
   });
   map.addControl(floorControl.value, "bottom-left");

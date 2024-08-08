@@ -22,11 +22,11 @@ RUN mkdir output \
     && test -f "./output/search_data.parquet" \
     && test -f "./output/api_data.json" \
     && test -f "./output/api_data.parquet" \
-    && cp -r sources/img/* output
+    && cp -r sources/img/* output \
+    && cp -r output/img/site_plans output/img/roomfinder \
+    && cp -r output/img/overlays output/img/overlay
+# last renaming is to remain backwards compatible
 COPY output/openapi.yaml output/openapi.yaml
-
-# put all data into the cdn folder
-COPY external/results/maps/roomfinder output/maps/roomfinder
 
 # compress data (only using gzip, because brotli on ngnix is a royal pain)
 RUN gzip --force --keep --recursive output/
