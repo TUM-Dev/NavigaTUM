@@ -1,4 +1,4 @@
-FROM python:3.12-bullseye as build-stage
+FROM python:3.12-bullseye AS build-stage
 WORKDIR /app
 
 ARG GIT_COMMIT_SHA
@@ -31,7 +31,7 @@ COPY output/openapi.yaml output/openapi.yaml
 # compress data (only using gzip, because brotli on ngnix is a royal pain)
 RUN gzip --force --keep --recursive output/
 
-FROM nginx:1.27 as production-stage
+FROM nginx:1.27 AS production-stage
 RUN mkdir /cdn
 COPY --from=build-stage /app/output /cdn
 COPY nginx.conf /etc/nginx/nginx.conf
