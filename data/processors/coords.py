@@ -139,7 +139,7 @@ def validate_coords(input_data):
         )
 
         if distance_to_parent > MAX_DISTANCE_METERS_FROM_PARENT:
-            logging.warning(
+            raise RuntimeError(
                 f"{iid} {coords} is {distance_to_parent}m away from its parent {parent_id} {parent_coords}. "
                 "Please recheck if the coordinate makes sense",
             )
