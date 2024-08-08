@@ -33,7 +33,6 @@ impl From<&PgPool> for APIRequestor {
             .http2_keep_alive_while_idle(true)
             .http2_keep_alive_interval(keep_alive)
             .gzip(true)
-            .zstd(true)
             .build()
             .expect("the request client builder is correctly configured");
         Self {

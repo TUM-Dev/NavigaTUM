@@ -34,16 +34,16 @@ serde_yaml = "0.9.34"
 
 # runtime + webserver
 tokio = { version = "1.37", default-features = false, features = ["rt-multi-thread", "time", "sync", "process"] }
-actix-web = { version = "4.5.1", default-features = false, features = ["macros", "compress-gzip", "compress-zstd", "compress-brotli", "cookies", "http2"] }
+actix-web = { version = "4.5.1", default-features = false, features = ["compress-brotli", "compress-gzip", "compress-zstd", "cookies", "http2", "macros"] }
 actix-cors = "0.7.0"
 rustls = { version = "0.23.5", default-features = false, features = ["ring"] } # the aws' fips complient libary has weird bingen issues which require deeper looking into
 
-cached = { version = "0.53.0", features = ["default", "async", "tokio", "disk_store"] }
+cached = { version = "0.53.0", features = ["default", "async", "disk_store"] }
 futures = "0.3.30"
 unicode-truncate = "1.1.0"
 
 # database
-sqlx = { version = "0.8.0", features = ["postgres", "runtime-tokio", "tls-rustls", "migrate", "macros", "chrono", "json"] }
+sqlx = { version = "0.8.0", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
 chrono = { version = "0.4.38", default-features = false, features = ["serde"] }
 
 # search
@@ -53,7 +53,7 @@ regex = "1.10.4"
 
 # web access
 oauth2 = { version = "4.4.2", default-features = false, features = ["rustls-tls", "reqwest"] }
-reqwest = { version = "0.12.4", default-features = false, features = ["rustls-tls", "http2", "json", "gzip", "hickory-dns", "zstd"] }
+reqwest = { version = "0.12.4", default-features = false, features = ["gzip", "hickory-dns", "http2", "json", "rustls-tls"] }
 
 # image production
 image = { version = "0.25.1", default-features = false, features = ["jpeg", "png", "webp"] }
@@ -62,7 +62,7 @@ ab_glyph = { version = "0.2.25", default-features = false }
 lazy_static = "1.4.0"
 
 rand = "0.8.5"
-octocrab = { version = "0.39.0", default-features = false, features = ["rustls", "rustls-webpki-tokio", "retry", "default-client"] }
+octocrab = { version = "0.39.0", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio"] }
 
 # auth/security
 jsonwebtoken = { version = "9.3.0", default-features = false, features = [] }
@@ -72,14 +72,14 @@ actix-governor = { version = "0.5.0", features = ["logger"] }
 tempfile = "3.10.1"
 base64 = "0.22.1"
 time = "0.3.36"
-polars = { version = "0.41.3", features = ["parquet", "dtype-struct"] }
+polars = { version = "0.41.3", features = ["dtype-struct", "parquet"] }
 #polars = { git = "https://github.com/CommanderStorm/polars.git", branch = "serialisation-experiment", features = ["parquet", "serde", "dtype-full"] }
 
 [dev-dependencies]
-insta = { version = "1.39.0", features = ["yaml", "json", "redactions"] }
+insta = { version = "1.39.0", features = ["json", "redactions", "yaml"] }
 pretty_assertions = "1.4.0"
 testcontainers = { version = "0.21.0", features = ["watchdog"] }
-testcontainers-modules = { version = "0.9.0", features = ["postgres", "meilisearch"] }
+testcontainers-modules = { version = "0.9.0", features = ["meilisearch", "postgres"] }
 tracing-test = "0.2.5"
 
 
@@ -109,5 +109,5 @@ similar.opt-level = 3
 
 [package.metadata.cargo-machete]
 ignored = [
-  "rustls", # we need to configure between ring and aws crypto library
+    "rustls", # we need to configure between ring and aws crypto library
 ]
