@@ -103,8 +103,9 @@ function initMap(containerId: string) {
     const debugMarker = new Marker({ draggable: true }).setLngLat([coords.lon, coords.lat]).addTo(map);
 
     debugMarker.on("dragend", () => {
-      console.log(`debug marker ${props.data.id}: ${JSON.stringify(debugMarker.getLngLat())}`);
-      navigator.clipboard.writeText(`${props.data.id}: ${JSON.stringify(debugMarker.getLngLat())}`);
+      const lngLat = debugMarker.getLngLat();
+      console.log(`debug marker "${props.data.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`);
+      navigator.clipboard.writeText(`"${props.data.id}": { lat: ${lngLat.lat}, lon: ${lngLat.lng} }`);
     });
   }
 
