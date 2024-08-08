@@ -31,8 +31,14 @@ jobs:
           git config --global user.name "github-actions[bot]"
       - name: Setup | install insta
         run: curl -LsSf https://insta.rs/install.sh | sh
-      - run: cargo insta test
+      - run: cargo insta test -- --no-run --locked
         working-directory: server
+        env:
+          CARGO_INCREMENTAL: 0
+      - run: cargo insta test -- --nocapture --quiet
+        working-directory: server
+        env:
+          CARGO_INCREMENTAL: 0
   linting:
     runs-on: ubuntu-latest
     steps:
@@ -50,6 +56,8 @@ jobs:
             server
       - run: cargo clippy
         working-directory: server
+        env:
+          CARGO_INCREMENTAL: 0
   server-build:
     uses: ./.github/workflows/_docker-build.yml
     needs:
