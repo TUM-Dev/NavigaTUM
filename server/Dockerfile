@@ -14,6 +14,8 @@ RUN     apk add -q --update-cache --no-cache musl-dev libpq-dev mold
 WORKDIR /compiler
 ENV     USER=root
 ENV     RUSTFLAGS="-C target-feature=-crt-static -C link-arg=-fuse-ld=mold"
+# since our builds are from-scratch, we don't need incremental compliation here
+ENV     CARGO_INCREMENTAL=0
 
 # (probably cached) first run of the image build => only dependencies
 COPY    Cargo.* ./
