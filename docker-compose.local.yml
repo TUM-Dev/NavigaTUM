@@ -24,7 +24,11 @@ services:
       - "3002:3002"
   api:
     restart: unless-stopped
-    build: ./server
+    build:
+      args:
+        PROFILE: debug
+      context: server
+      dockerfile: Dockerfile
     command: /bin/navigatum-server
     ports:
       - "3003:3003"
