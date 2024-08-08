@@ -1,7 +1,7 @@
 # https://docs.docker.com/build/attestations/sbom/#scan-build-context
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
-FROM node:21-alpine3.19 as build-stage
+FROM node:21-alpine3.19 AS build-stage
 WORKDIR /app
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -20,7 +20,7 @@ ENV NITRO_PRESET=node-cluster
 RUN pnpm run build
 
 
-FROM node:21-alpine3.19 as production-stage
+FROM node:21-alpine3.19 AS production-stage
 RUN apk update --no-progress --quiet && apk add curl --no-progress --quiet
 
 COPY --from=build-stage /app/.output /app/.output
