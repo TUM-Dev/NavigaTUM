@@ -60,8 +60,8 @@ services:
       MEILI_ENV: development
     healthcheck:
       test: curl --fail http://localhost:7700/health || exit 1
-      retries: 5
-      interval: 10s
+      retries: 2
+      interval: 600s
       start_period: 10s
   db:
     image: postgis/postgis:16-3.4
