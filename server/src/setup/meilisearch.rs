@@ -8,7 +8,7 @@ use serde_json::Value;
 use tracing::{debug, error, info};
 
 const TIMEOUT: Option<Duration> = Some(Duration::from_secs(20));
-const POLLING_RATE: Option<Duration> = Some(Duration::from_millis(50));
+const POLLING_RATE: Option<Duration> = Some(Duration::from_millis(250));
 
 #[derive(serde::Deserialize)]
 struct Synonyms(HashMap<String, Vec<String>>);
