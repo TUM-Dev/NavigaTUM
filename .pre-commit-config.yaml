@@ -25,9 +25,9 @@ repos:
     hooks:
       - id: openapi-format
         name: openapi-format
-        entry: openapi-format ./openapi.yaml --output
+        entry: openapi-format ./data/output/openapi.yaml --output
         language: system
-        files: "openapi.yaml"
+        files: "data/output/openapi.yaml"
   # only server
   - repo: local
     hooks:
