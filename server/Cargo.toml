@@ -33,7 +33,7 @@ serde_json = { version = "1.0.116", features = ["raw_value"] }
 serde_yaml = "0.9.34"
 
 # runtime + webserver
-tokio = { version = "1.37", features = ["full"] }
+tokio = { version = "1.37", default-features = false, features = ["rt-multi-thread", "time", "sync", "process"] }
 actix-web = { version = "4.5.1", default-features = false, features = ["macros", "compress-gzip", "compress-zstd", "compress-brotli", "cookies", "http2"] }
 actix-cors = "0.7.0"
 rustls = { version = "0.23.5", default-features = false, features = ["ring"] } # the aws' fips complient libary has weird bingen issues which require deeper looking into
@@ -53,12 +53,12 @@ regex = "1.10.4"
 
 # web access
 oauth2 = { version = "4.4.2", default-features = false, features = ["rustls-tls", "reqwest"] }
-reqwest = { version = "0.12.4", default-features = false, features = ["rustls-tls", "http2", "charset", "json", "gzip", "hickory-dns", "zstd", "brotli", "deflate"] }
+reqwest = { version = "0.12.4", default-features = false, features = ["rustls-tls", "http2", "json", "gzip", "hickory-dns", "zstd"] }
 
 # image production
 image = { version = "0.25.1", default-features = false, features = ["jpeg", "png", "webp"] }
 imageproc = "0.25.0"
-ab_glyph = "0.2.25"
+ab_glyph = { version = "0.2.25", default-features = false }
 lazy_static = "1.4.0"
 
 rand = "0.8.5"
@@ -106,3 +106,8 @@ opt-level = 3
 [profile.dev.package]
 insta.opt-level = 3
 similar.opt-level = 3
+
+[package.metadata.cargo-machete]
+ignored = [
+  "rustls", # we need to configure between ring and aws crypto library
+]
