@@ -1,3 +1,4 @@
+use std::env;
 use std::time::Duration;
 
 use futures::stream::FuturesUnordered;
@@ -44,12 +45,20 @@ LIMIT 30"#)
 
 #[tracing::instrument(skip(pool))]
 pub async fn all_entries(pool: &PgPool) {
-    if let Err(e) = std::env::var("CONNECTUM_OAUTH_CLIENT_ID") {
-        error!("Please make sure that CONNECTUM_OAUTH_CLIENT_ID are valid to use calendar features: {e:?}");
+    let client_id_invalid = match env::var("CONNECTUM_OAUTH_CLIENT_ID") {
+        Err(_) => true,
+        Ok(s) => s.trim().is_empty(),
+    };
+    if client_id_invalid {
+        error!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_ID, nessesary to refresh all calendars");
         return;
     }
-    if let Err(e) = std::env::var("CONNECTUM_OAUTH_CLIENT_SECRET") {
-        error!("Please make sure that CONNECTUM_OAUTH_CLIENT_SECRET is valid to use calendar features: {e:?}");
+    let client_secret_invalid = match env::var("CONNECTUM_OAUTH_CLIENT_SECRET") {
+        Err(_) => true,
+        Ok(s) => s.trim().is_empty(),
+    };
+    if client_secret_invalid {
+        error!("cannot get environment variable CONNECTUM_OAUTH_CLIENT_SECRET, nessesary to refresh all calendars");
         return;
     }
 
