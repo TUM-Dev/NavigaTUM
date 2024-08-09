@@ -531,6 +531,8 @@ heilbronn:
     coords: { lat: 48.1797454, lon: 11.5464106 }
 "2365":
     coords: { lat: 48.1797454, lon: 11.5464106 }
+"2366": # Connollystr. 32
+    coords: { lat: 48.17933209493668, lon: 11.544660448432824 }
 "2367":
     coords: { lat: 48.1797454, lon: 11.5464106 }
 "2368":
@@ -569,6 +571,12 @@ heilbronn:
     coords: { lat: 48.14111, lon: 11.58044 }
     osm: [ "node/4921250903" ]
 
+"3508": #Albrechtgasse 28
+    coords: { lat: 48.883558713826815, lon: 12.572355144897983 }
+"3509": # Albrechtgasse 34
+    coords: { lat: 48.884398346486286, lon: 12.572125157107354 }
+"3510": # Fürstenstraße 11
+    coords: { lat: 48.88449009185628, lon: 12.572506952526691 }
 3537: # Entwicklungsgenetik
     # Building 35.37 (https://www.helmholtz-munich.de/en/idg/)
     coords: { lat: 48.22310, lon: 11.59418 }
@@ -854,9 +862,15 @@ physik-main:
                     use_as: "01"
                     name: { de: "Obere Ebene, Zugang über Brücke", en: "Upper floor, access over bridge" }
 
+5117: # Paula-Hahn-Weinheimerstr. 1
+    coords: { lat: 48.26771330477636, lon: 11.676628724658922 }
+
 5126: # CALA
     coords: { lat: 48.26929, lon: 11.67459 }
     osm: [ "way/308082257" ]
+
+5128: # Am Coulombwall 3A
+    coords: { lat: 48.26922644587703, lon: 11.678323243773276 }
 
 mll:
     coords: { lat: 48.26839, lon: 11.67818 }
@@ -866,6 +880,9 @@ frm-2:
 
 5131:
     coords: { lat: 48.26729, lon: 11.67379 }
+
+5132: # Boltzmannstr. 12
+    coords: { lat: 48.267710644466064, lon: 11.673301148052238 }
 
 5142:
     coords: { lat: 48.26772, lon: 11.67775 }
@@ -979,6 +996,9 @@ mw:
                 url:
                     de: "https://www.sv.tum.de/sv/studitum/"
                     en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
+
+"5537": # Interims-Zelt-TUMshop
+    coords: { lat: 48.26588952502939, lon: 11.671188165684898 }
 
 mi:
     coords: { lat: 48.26252, lon: 11.66808 }
