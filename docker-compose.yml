@@ -193,7 +193,6 @@ services:
     image: alpine:latest
     command:
       - wget
-      - -c
       - -O
       - data.pbf
       - https://download.geofabrik.de/europe/germany-latest.osm.pbf
