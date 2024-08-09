@@ -123,57 +123,6 @@ def _extract_available_maps(
     return sorted(available_maps, key=_sort_key)
 
 
-def _merge_str(s_1: str, s_2: str) -> str:
-    """
-    Merge two strings. The Result is of the format common_prefix s1/s2 common_suffix.
-
-    Example: "Thierschbau 5. OG" and "Thierschbau 6. OG" -> "Thierschbau 5/6. OG"
-    """
-    if s_1.strip() == s_2.strip():
-        return s_1.strip()
-    prefix = os.path.commonprefix((s_1, s_2))
-    suffix = os.path.commonprefix((s_1[::-1], s_2[::-1]))[::-1]
-    s_1 = s_1.removeprefix(prefix).removesuffix(suffix)
-    s_2 = s_2.removeprefix(prefix).removesuffix(suffix)
-    if s_1 and s_2:
-        return f"{prefix}{s_1}/{s_2}{suffix}"
-    # special case: one string is a pre/postfix of the other
-    common = s_1 or s_2
-    while common.endswith(" "):
-        common = common.removesuffix(" ")
-        suffix = f" {suffix}"
-    while common.startswith(" "):
-        common = common.removeprefix(" ")
-        prefix = f"{prefix} "
-    return f"{prefix}({common.strip()}){suffix}"
-
-
-MergeMap = TypeVar("MergeMap", bound=dict[str, Any] | type[PydanticConfiguration])
-
-
-def _merge_maps(map1: MergeMap, map2: MergeMap) -> MergeMap:
-    """Merge two Maps into one merged map"""
-    result_map = {}
-    if isinstance(map1, PydanticConfiguration):
-        return map1.__class__.model_validate(_merge_maps(map1.model_dump(), map2.model_dump()))
-
-    for key in map1:
-        if key == "id":
-            result_map["id"] = map1["id"]
-        elif isinstance(map1[key], abc.Mapping):
-            result_map[key] = _merge_maps(map1[key], map2[key])
-        elif isinstance(map1[key], str):
-            result_map[key] = _merge_str(map1[key], map2[key])
-        elif isinstance(map1[key], int):
-            result_map[key] = int((map1[key] + map2[key]) / 2)
-        elif isinstance(map1[key], float):
-            result_map[key] = (map1[key] + map2[key]) / 2
-        else:
-            value = map1[key]
-            raise NotImplementedError(f"{key=} ({value=}, {type(value)=}) without a merge-operation defined")
-    return result_map
-
-
 def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """Generate the map information for the Roomfinder maps."""
     map_assignment_data = _generate_assignment_data()
@@ -187,6 +136,7 @@ def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
                 entry_map["y"] = y_on_map
 
                 # set source and filepath so that they are available for all maps
+                # custom maps have the source already set
                 entry_map.setdefault("source", "Roomfinder")
                 entry_map.setdefault("file", f"{entry_map['id']}.webp")
 
@@ -262,16 +212,14 @@ def remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
     for _id, entry in data.items():
         if entry["type"] == "root":
             continue
-        if "roomfinder" not in entry["maps"]:
-            continue
-        rf_maps = entry["maps"]["roomfinder"]
-        to_be_deleted = [
-            _map
-            for _map in rf_maps["available"]
-            if _entry_is_not_on_map(entry["coords"], _map["id"], _map["width"], _map["height"], map_assignment_data)
-        ]
-        for _map in to_be_deleted:
-            rf_maps["available"].remove(_map)
-        if not rf_maps["available"]:
-            # no availible roomfinder maps don't carry any meaning and are deleted
-            del entry["maps"]["roomfinder"]
+        if rf_maps := entry["maps"].get("roomfinder"):
+            to_be_deleted = [
+                _map
+                for _map in rf_maps["available"]
+                if _entry_is_not_on_map(entry["coords"], _map["id"], _map["width"], _map["height"], map_assignment_data)
+            ]
+            for _map in to_be_deleted:
+                rf_maps["available"].remove(_map)
+            if not rf_maps["available"]:
+                # no available roomfinder maps don't carry any meaning and are deleted
+                del entry["maps"]["roomfinder"]
