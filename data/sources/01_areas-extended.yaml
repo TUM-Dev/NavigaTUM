@@ -997,9 +997,6 @@ mw:
                     de: "https://www.sv.tum.de/sv/studitum/"
                     en: "https://www.sv.tum.de/en/sv/das-machen-wir/projekte/studitum-houses-of-students/"
 
-"5537": # Interims-Zelt-TUMshop
-    coords: { lat: 48.26588952502939, lon: 11.671188165684898 }
-
 mi:
     coords: { lat: 48.26252, lon: 11.66808 }
     props:
