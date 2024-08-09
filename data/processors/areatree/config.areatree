@@ -170,6 +170,7 @@
     :Institutsgebäude Sportmedizin, Uptown München:uptown-muenchen[joined_building]
       2940:Campus C, Georg-Brauchle-Ring 56/58:
       2941:Campus D, Georg-Brauchle-Ring 60/62:
+    2366:Connollystr. 32:
   2353:Eislaufstadion Ost (Olympia):
   2354:Regattaanlage Oberschleißheim (Olympia):
   -2364:Wetterschutzhaus / WSH 1:
@@ -215,6 +216,9 @@
     3503:Petersgasse 5 (PG 05):
     3504:Schulgasse 22a (SG 22a):
     3505:Hörsaal und Forschungsgebäude (Uferstraße 53):
+    3508:Albrechtgasse 28:
+    3509:Albrechtgasse 34:
+    3510:Fürstenstraße 11:
     3515:Am Essigberg 3:
     3537:Entwicklungsgenetik:
   3035:Helmholtz Biologikum:
@@ -458,6 +462,7 @@
       5112:Walter-Schottky-Institut (WSI):
       5115:Zentrum für Nanotechnologie & -materialien (ZNN):
       5116:Trafostation des ZNN:
+      5117:Paula-Hahn-Weinheimerstr. 1:
       :Maier-Leibnitz-Laboratorium (MLL), TUM & LMU:mll
         5120:Beschleuniger:
         5121:Atlashalle:
@@ -466,8 +471,10 @@
       5124:WSI Container:
       5125:Laboratory for Extreme Photonics (LEX), LMU:
       5126:CALA (LMU, Centre for Advanced Laser Applications):
+      5128:Am Coulombwall 3A:
       5130:Telefonzentrale:
       5131:FRM-Poststelle:
+      5132:Boltzmannstr. 12:
       5140:Physik I Container:
       5142:Parkhaus P1:
       -5143:Versorgungsstation:
@@ -587,6 +594,7 @@
       8124:Galileo Büro, Walther-von-Dyck-Strasse 14:
     :Interimshörsäle:garching-interims
       5416:Interimshörsäle II, Jürgen Manchot-Hörsaalgebäude|Interims II:5416,interims-ii
+      -5537:Interims-Zelt-TUMshop: # building which no longer exists
       5539:Interims-Tentomax MW|Interims III:5539,interims-iii
       5620:Interimshörsäle I|Interims I:5620,interims-i
   6:Garching Forschungszentrum (süd-west):garching-sued-west[site]
