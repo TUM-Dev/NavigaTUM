@@ -176,13 +176,6 @@ def _get_roomfinder_maps(obj: roomfinder.Building | roomfinder.Room):
     if not obj.default_map:
         return maps
 
-    # If the default map is the world map, this is usually
-    # the only map available. As we don't include the world
-    # map into the available maps, return empty data here
-    if obj.default_map.is_world_map:
-        maps["available"].clear()
-        return maps
-
     maps["default"] = default = obj.default_map.map_id
 
     # sometimes the default map is not in the available maps.

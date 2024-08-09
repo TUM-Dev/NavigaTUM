@@ -250,9 +250,6 @@ def _entry_is_not_on_map(
     height: int,
     map_assignment_data: dict[str, roomfinder.Map],
 ) -> bool:
-    # The world map (id rf9) is currently excluded, because it would need a different projection treatment.
-    if map_id == "rf9":
-        return True
     x_on_map, y_on_map = _calc_xy_of_coords_on_map(coords, map_assignment_data[map_id])
     x_invalid = x_on_map < 0 or width <= x_on_map
     y_invalid = y_on_map < 0 or height <= y_on_map
