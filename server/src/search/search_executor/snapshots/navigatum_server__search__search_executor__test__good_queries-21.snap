@@ -61,4 +61,4 @@ info: "'pyhsik hs 2' should get '5101.EG.502' in 1 results"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 28
+  estimatedTotalHits: 31

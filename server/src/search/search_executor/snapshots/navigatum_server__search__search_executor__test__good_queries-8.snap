@@ -19,7 +19,7 @@ info: "'Physik Container' should get '5140' in 1 results"
       name: "UCN-Testanlage (\u0019Container\u0017)"
       subtext: Gebäude
   n_visible: 3
-  estimatedTotalHits: 28
+  estimatedTotalHits: 31
 - facet: rooms
   entries:
     - id: 5140.01.201

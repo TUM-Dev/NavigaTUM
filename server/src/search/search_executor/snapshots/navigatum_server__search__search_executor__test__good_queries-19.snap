@@ -28,11 +28,21 @@ info: "'1801 maschinen' should get '5508.02.801' in 1 results"
       name: "2332.01.217 ((32.\u00191\u0017.\u0019801\u0017) Büro)"
       subtext: "campus-im-olympiapark-sz, CiO/SG Institute Ost"
       subtext_bold: 01.2332.217@2332
+    - id: 5132.U1.801
+      type: room
+      name: 5132.U1.801 (Technik)
+      subtext: "garching, Boltzmannstr. 12"
+      subtext_bold: "-1.801@5132"
     - id: 5115.01.801
       type: room
       name: 5115.01.801 (Treppe Nord)
       subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
       subtext_bold: 1.801@5115
+    - id: 5128.U1.801
+      type: room
+      name: 5128.U1.801 (Aufzug / Unterfahrt)
+      subtext: "garching, Am Coulombwall 3A"
+      subtext_bold: "-1.801@5128"
     - id: 5301.01.801
       type: room
       name: 5301.01.801 (Treppenhaus)
@@ -48,18 +58,8 @@ info: "'1801 maschinen' should get '5508.02.801' in 1 results"
       name: 5212.01.801L (Aufzug)
       subtext: "garching, RCM Radiochemie München"
       subtext_bold: L.1.801@5212
-    - id: 5212.U1.801
-      type: room
-      name: 5212.U1.801 (Treppenhaus West)
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: H.-1.801@5212
-    - id: 5212.U1.801L
-      type: room
-      name: 5212.U1.801L (Aufzug)
-      subtext: "garching, RCM Radiochemie München"
-      subtext_bold: L.-1.801@5212
   n_visible: 10
-  estimatedTotalHits: 10
+  estimatedTotalHits: 12
 - facet: sites_buildings
   entries: []
   n_visible: 0

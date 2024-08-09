@@ -57,7 +57,7 @@ info: "'n1403' should get '0104.U1.403' in 2 results # This is 'N-1403@0104', bu
       subtext: "stammgelände, U-Trakt (N1)"
       subtext_bold: N1032ZG@0101
   n_visible: 10
-  estimatedTotalHits: 552
+  estimatedTotalHits: 558
 - facet: sites_buildings
   entries: []
   n_visible: 0

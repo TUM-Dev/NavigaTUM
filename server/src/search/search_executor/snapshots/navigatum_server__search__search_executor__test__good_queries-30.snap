@@ -57,7 +57,7 @@ info: "'019 lmu' should get '5123.EG.019' in 1 results"
       subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
       subtext_bold: OG R 19@4220
   n_visible: 10
-  estimatedTotalHits: 199
+  estimatedTotalHits: 209
 - facet: sites_buildings
   entries: []
   n_visible: 0
