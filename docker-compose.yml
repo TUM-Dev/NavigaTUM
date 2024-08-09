@@ -202,6 +202,8 @@ services:
       - ./map/data/:/data/:rw
   osm2pgsql-init:
     image: iboates/osm2pgsql:latest
+    networks:
+      - traefik_traefik
     environment:
       TZ: Europe/Berlin
       PGPASSWORD: ${POSTGRES_PASSWORD}
@@ -232,6 +234,8 @@ services:
         condition: service_healthy
   osm2pgsql-replication-init:
     image: iboates/osm2pgsql:latest
+    networks:
+      - traefik_traefik
     environment:
       TZ: Europe/Berlin
       PGPASSWORD: ${POSTGRES_PASSWORD}
@@ -253,6 +257,8 @@ services:
         condition: service_healthy
   osm2pgsql-replication:
     image: iboates/osm2pgsql:latest
+    networks:
+      - traefik_traefik
     environment:
       TZ: Europe/Berlin
       PGPASSWORD: ${POSTGRES_PASSWORD}
