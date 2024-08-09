@@ -63,7 +63,7 @@ info: "'1010 znn' should get '5115.01.010' in 1 results # Not sure about target 
       subtext_bold: 1010@5414
       parsed_id: "\u00191010\u0017 Zentrum…tion (ZEI)"
   n_visible: 10
-  estimatedTotalHits: 15
+  estimatedTotalHits: 18
 - facet: sites_buildings
   entries: []
   n_visible: 0

@@ -53,7 +53,7 @@ info: "'N-1406' should get '0104.U1.406' in 1 results # Architects names should 
       subtext: TUM FZ Friedrich N. Schwarz Berchtesgaden
       subtext_bold: EG-06@9201
   n_visible: 9
-  estimatedTotalHits: 552
+  estimatedTotalHits: 558
 - facet: sites_buildings
   entries:
     - id: "9201"
