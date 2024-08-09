@@ -11,11 +11,6 @@ class RfMap(typing.NamedTuple):
     width: int
     height: int
 
-    @property
-    def is_world_map(self) -> bool:
-        """Check if this is the world map"""
-        return self.map_id == "rf9"
-
 
 # pylint: disable-next=too-many-instance-attributes
 class Building(PydanticConfiguration):
@@ -59,9 +54,7 @@ class Map(PydanticConfiguration):
     def load_all(cls) -> list["Map"]:
         """Load all nat.Map's"""
         with (RESULTS_PATH / "maps_roomfinder.json").open(encoding="utf-8") as file:
-            return [
-                cls(file=f"{item['id']}.webp", **item) for item in json.load(file) if item["id"] != "rf9"
-            ]  # rf9 is the world map
+            return [cls(file=f"{item['id']}.webp", **item) for item in json.load(file)]
 
 
 class RoomMetadata(PydanticConfiguration):
@@ -94,4 +87,4 @@ class Room(PydanticConfiguration):
     def load_all(cls) -> list["Room"]:
         """Load all nat.Room's"""
         with (RESULTS_PATH / "rooms_roomfinder.json").open(encoding="utf-8") as file:
-            return [cls.model_validate(item) for item in json.load(file)]
+            return [cls.model_validate(item) for item in json.load(file) if item]
