@@ -966,20 +966,6 @@
     "width": 665
   },
   {
-    "desc": "M\u00fcnchner S\u00fcden",
-    "height": 633,
-    "id": "rf169",
-    "latlonbox": {
-      "east": "11.6187586284",
-      "north": "48.1593483872",
-      "rotation": "2.93098878501e-14",
-      "south": "47.75753844",
-      "west": "11.2541909508"
-    },
-    "scale": "500000",
-    "width": 387
-  },
-  {
     "desc": "Thierschbau Zwischengeschoss",
     "height": 298,
     "id": "rf17",
@@ -992,34 +978,6 @@
     },
     "scale": "1200",
     "width": 386
-  },
-  {
-    "desc": "M\u00fcnchner S\u00fcden",
-    "height": 633,
-    "id": "rf170",
-    "latlonbox": {
-      "east": "11.6187586284",
-      "north": "48.1593483872",
-      "rotation": "2.93098878501e-14",
-      "south": "47.75753844",
-      "west": "11.2541909508"
-    },
-    "scale": "500000",
-    "width": 387
-  },
-  {
-    "desc": "M\u00fcnchner S\u00fcden",
-    "height": 633,
-    "id": "rf171",
-    "latlonbox": {
-      "east": "11.6187586284",
-      "north": "48.1593483872",
-      "rotation": "2.93098878501e-14",
-      "south": "47.75753844",
-      "west": "11.2541909508"
-    },
-    "scale": "500000",
-    "width": 387
   },
   {
     "desc": "Physik II Garching EG",
@@ -1584,7 +1542,7 @@
   {
     "desc": "Thierschbau 6. OG",
     "height": 298,
-    "id": "rf21",
+    "id": "rf20",
     "latlonbox": {
       "east": "11.5673200711",
       "north": "48.1488534693",
@@ -1696,7 +1654,7 @@
   {
     "desc": "Thierschbau 7. OG",
     "height": 298,
-    "id": "rf22",
+    "id": "rf20",
     "latlonbox": {
       "east": "11.5673200711",
       "north": "48.1488534693",
@@ -2830,7 +2788,7 @@
   {
     "desc": "FMI Garching BT02 EG",
     "height": 487,
-    "id": "rf87",
+    "id": "rf86",
     "latlonbox": {
       "east": "11.669435922",
       "north": "48.2628024724",

@@ -1,4 +1,3 @@
-import hashlib
 import logging
 import math
 import os.path
@@ -18,7 +17,7 @@ SOURCES_PATH = BASE_PATH / "sources"
 
 def assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """Assign roomfinder maps to all entries if there are none yet specified."""
-    maps_list = _deduplicate_maps(roomfinder.Map.load_all())
+    maps_list = roomfinder.Map.load_all()
     custom_maps = CustomBuildingMap.load_all()
 
     # further data about each map, only used for map-assignment
@@ -175,28 +174,6 @@ def _merge_maps(map1: MergeMap, map2: MergeMap) -> MergeMap:
     return result_map
 
 
-def _deduplicate_maps(maps_list: list[roomfinder.Map]) -> list[roomfinder.Map]:
-    """Remove content 1:1 duplicates from the maps_list"""
-    content_to_filename_dict: dict[str, str] = {}
-    file_renaming_table: dict[str, str] = {}
-    for filename in SITE_PLANS_PATH.glob("*.webp"):
-        file_hash = hashlib.sha256(filename.read_bytes(), usedforsecurity=False).hexdigest()
-        _id = filename.with_suffix("").name
-        if file_hash in content_to_filename_dict:
-            file_renaming_table[_id] = content_to_filename_dict[file_hash]
-        else:
-            content_to_filename_dict[file_hash] = _id
-    # we merge the maps into the first occurrence of said map.
-    filtered_map: dict[str, roomfinder.Map] = {_map.id: _map for _map in maps_list}
-    for _map in maps_list:
-        if _map.id in file_renaming_table:
-            map1 = filtered_map.pop(_map.id)
-            map2 = filtered_map[file_renaming_table[_map.id]]
-            if filtered_map[file_renaming_table[_map.id]] != map1:
-                filtered_map[file_renaming_table[_map.id]] = _merge_maps(map1, map2)
-    return list(filtered_map.values())
-
-
 def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     """Generate the map information for the Roomfinder maps."""
     map_assignment_data = _generate_assignment_data()
@@ -268,15 +245,15 @@ def _generate_assignment_data() -> dict[str, roomfinder.Map]:
 
 def _entry_is_not_on_map(
     coords: Coordinate,
-    _id: str,
+    map_id: str,
     width: int,
     height: int,
     map_assignment_data: dict[str, roomfinder.Map],
 ) -> bool:
     # The world map (id rf9) is currently excluded, because it would need a different projection treatment.
-    if _id == "rf9":
+    if map_id == "rf9":
         return True
-    x_on_map, y_on_map = _calc_xy_of_coords_on_map(coords, map_assignment_data[_id])
+    x_on_map, y_on_map = _calc_xy_of_coords_on_map(coords, map_assignment_data[map_id])
     x_invalid = x_on_map < 0 or width <= x_on_map
     y_invalid = y_on_map < 0 or height <= y_on_map
     return x_invalid or y_invalid

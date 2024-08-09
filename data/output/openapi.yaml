@@ -422,14 +422,14 @@ paths:
                       roomfinder:
                         available:
                           - scale: '500'
-                            id: rf87
+                            id: rf86
                             name: FMI Garching BT02 EG
                             width: 399
                             height: 487
                             x: 234
                             'y': 286
                             source: Roomfinder
-                            file: rf87.webp
+                            file: rf86.webp
                           - scale: '2000'
                             id: rf142
                             name: FMI Übersicht
@@ -466,7 +466,7 @@ paths:
                             'y': 167
                             source: Roomfinder
                             file: rf156.webp
-                        default: rf87
+                        default: rf86
                       overlays:
                         available:
                           - id: -1
