@@ -6,7 +6,7 @@ export default <Partial<Config>>{
   darkMode: "class",
   content: {
     relative: true,
-    files: ["./app/**/*.{vue}"],
+    files: ["./app/**/*.vue"],
   },
   theme: {
     colors: {
