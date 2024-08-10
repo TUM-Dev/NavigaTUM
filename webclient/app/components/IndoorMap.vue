@@ -74,7 +74,7 @@ function createMarker(hueRotation = 0): HTMLDivElement {
   return markerDiv;
 }
 
-async function initMap(containerId: string) {
+async function initMap(containerId: string): Promise<MaplibreMapWithIndoor> {
   const map = new Map({
     container: containerId,
     // to make sure that users can share urls
