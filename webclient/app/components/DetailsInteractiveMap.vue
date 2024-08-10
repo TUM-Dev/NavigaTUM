@@ -25,6 +25,7 @@ function loadInteractiveMap() {
       if (document.getElementById("interactive-map")?.classList.contains("maplibregl-map")) {
         marker.value?.remove();
       } else {
+        // @ts-expect-error somehow this is too deep for typescript
         map.value = initMap("interactive-map");
 
         document.getElementById("interactive-map")?.classList.remove("loading");
@@ -33,7 +34,6 @@ function loadInteractiveMap() {
     marker.value = new Marker({ element: createMarker() });
     const coords = props.data.coords;
     if (map.value !== undefined) {
-      // @ts-expect-error somehow this is too deep for typescript
       marker.value.setLngLat([coords.lon, coords.lat]);
       marker.value.addTo(map.value as Map);
     }
@@ -74,7 +74,7 @@ function createMarker(hueRotation = 0) {
   return markerDiv;
 }
 
-function initMap(containerId: string) {
+function initMap(containerId: string): Map {
   const map = new Map({
     container: containerId,
     // to make sure that users can share urls
