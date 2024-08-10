@@ -191,14 +191,10 @@ services:
       start_period: 10s
   osm-download-data:
     image: alpine:latest
-    command:
-      - wget
-      - -O
-      - data.pbf
-      - https://download.geofabrik.de/europe/germany-latest.osm.pbf
-    working_dir: /data
+    command: apk --update add wget && wget --continue --timestamping https://download.geofabrik.de/europe/germany-latest.osm.pbf
+    working_dir: /map/data
     volumes:
-      - ./map/data/:/data/:rw
+      - ./map/data/:/map/data/:rw
   osm2pgsql-init:
     image: iboates/osm2pgsql:latest
     networks:
@@ -220,7 +216,7 @@ services:
       - db
       - --port
       - "5432"
-      - /map/data/data.pbf
+      - /map/data/germany-latest.osm.pbf
       - --output=flex
       - --style
       - /map/osm2pgsql/style.lua
