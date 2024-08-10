@@ -104,6 +104,8 @@ services:
       - osm2pgsql
       - --create
       - --slim
+      - --cache
+      - "200"
       - --database
       - ${POSTGRES_DB}
       - --user

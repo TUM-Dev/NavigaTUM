@@ -210,6 +210,8 @@ services:
       - osm2pgsql
       - --create
       - --slim
+      - --cache
+      - "4096" # cache size in MB, maybe underspeced
       - --database
       - ${POSTGRES_DB}
       - --user
