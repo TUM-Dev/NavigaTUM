@@ -211,7 +211,7 @@ services:
       - --create
       - --slim
       - --cache
-      - "4096" # cache size in MB, maybe underspeced
+      - "4096" # cache size in MB, maybe too low for optimum
       - --database
       - ${POSTGRES_DB}
       - --user
@@ -220,14 +220,13 @@ services:
       - db
       - --port
       - "5432"
-      - data.pbf
-      - --hstore
-      - --hstore-add-index
-      - --hstore-column
-      - raw
-    working_dir: /data
+      - /map/data/data.pbf
+      - --output=flex
+      - --style
+      - /map/osm2pgsql/style.lua
     volumes:
-      - ./map/data/:/data/:ro
+      - ./map/data/:/map/data/:ro
+      - ./map/osm2pgsql/:/map/osm2pgsql/:ro
     depends_on:
       osm-download-data:
         condition: service_completed_successfully
@@ -256,6 +255,8 @@ services:
         condition: service_completed_successfully
       db:
         condition: service_healthy
+    volumes:
+      - ./map/osm2pgsql/:/map/osm2pgsql/:ro
   osm2pgsql-replication:
     image: iboates/osm2pgsql:latest
     networks:
@@ -277,6 +278,8 @@ services:
     depends_on:
       osm2pgsql-replication-init:
         condition: service_completed_successfully
+    volumes:
+      - ./map/osm2pgsql/:/map/osm2pgsql/:ro
   martin-init-config:
     image: alpine:latest
     command:
