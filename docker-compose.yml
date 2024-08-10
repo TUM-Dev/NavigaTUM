@@ -313,7 +313,7 @@ services:
       martin-init-config:
         condition: service_completed_successfully
       osm2pgsql-init:
-        condition: service_completed_successfully
+        condition: service_started
     volumes:
       - ./map/martin/:/map/:ro
     healthcheck:
