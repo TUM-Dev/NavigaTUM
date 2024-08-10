@@ -308,7 +308,7 @@ services:
       TZ: Europe/Berlin
       BASE_PATH: /tiles/
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
-      RUST_LOG: debug
+      RUST_LOG: info
     depends_on:
       db:
         condition: service_healthy
