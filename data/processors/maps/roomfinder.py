@@ -176,16 +176,13 @@ def assign_default_roomfinder_map(data: dict[str, dict[str, Any]]) -> None:
     for entry in data.values():
         if rf_maps := entry.get("maps", {}).get("roomfinder"):
             rf_maps.setdefault("default", None)
-            if not rf_maps.get("available", None):
-                continue
+            if available_maps := rf_maps.get("available", None):
+                default_map = available_maps[0]
+                for _map in available_maps:
+                    if int(_map["scale"]) < int(default_map["scale"]):
+                        default_map = _map
 
-            available_maps = rf_maps["available"]
-            default_map = available_maps[0]
-            for _map in available_maps:
-                if int(_map["scale"]) < int(default_map["scale"]):
-                    default_map = _map
-
-            rf_maps["default"] = default_map["id"]
+                rf_maps["default"] = default_map["id"]
 
 
 def _generate_assignment_data() -> dict[str, roomfinder.Map]:
