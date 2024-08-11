@@ -39,6 +39,11 @@
       "automerge": true
     },
     {
+      "matchPackagePatterns": ["maplibre-gl", "maplibre-gl-indoor"],
+      "groupName": "maplibre",
+      "automerge": false
+    },
+    {
       "matchUpdateTypes": ["minor","patch"],
       "matchPackagePatterns": ["pnpm"],
       "groupName": "pnpm-ignore-non-major",
