@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any
 
 from external.models import roomfinder
-from external.models.roomfinder import LatLonBox, Coordinate
+from external.models.roomfinder import Coordinate, LatLonBox
 from processors.maps.models import CustomBuildingMap, MapKey
 
 BASE_PATH = Path(__file__).parent.parent.parent
@@ -42,12 +42,11 @@ def assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
         if entry["type"] in {"site", "campus", "area", "joined_building", "building"} and "children" in entry:
             for _map in available_maps:
                 for child in entry["children"]:
-                    if _entry_is_not_on_map(
-                            data[child]["coords"],
-                            _map.id,
-                            _map.width,
-                            _map.height,
-                            map_assignment_data,
+                    coords = data[child]["coords"]
+                    assign_map = map_assignment_data[_map.id]
+                    if (
+                        _calc_xy_of_coords_on_map(coords, assign_map.latlonbox, assign_map.width, assign_map.width)
+                        is None
                     ):
                         available_maps.remove(_map)
                         break
@@ -95,18 +94,18 @@ def _set_maps_from_parent(data: dict[str, dict[str, Any]], entry: dict[str, Any]
 
 
 def _extract_available_maps(
-        entry: dict[str, Any],
-        custom_maps: dict[MapKey, roomfinder.Map],
-        maps_list: list[roomfinder.Map],
+    entry: dict[str, Any],
+    custom_maps: dict[MapKey, roomfinder.Map],
+    maps_list: list[roomfinder.Map],
 ) -> list[roomfinder.Map]:
     """Extract all available maps for the given entry."""
     available_maps: list[roomfinder.Map] = []
     for (b_id, floor), _map in custom_maps.items():
         if (
-                entry["type"] == "room"
-                and b_id in entry["parents"]
-                and "tumonline_data" in entry
-                and f".{floor}." in entry["tumonline_data"]["roomcode"]
+            entry["type"] == "room"
+            and b_id in entry["parents"]
+            and "tumonline_data" in entry
+            and f".{floor}." in entry["tumonline_data"]["roomcode"]
         ):
             available_maps.append(_map)
     available_maps += maps_list
@@ -129,9 +128,11 @@ def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
         if len(entry.get("maps", {}).get("roomfinder", {}).get("available", [])) > 0:
             for entry_map in entry["maps"]["roomfinder"]["available"]:
                 assign_map = map_assignment_data[entry_map["id"]]
-                x_on_map, y_on_map = _calc_xy_of_coords_on_map(
+                assignment = _calc_xy_of_coords_on_map(
                     entry["coords"], assign_map.latlonbox, assign_map.width, assign_map.width
                 )
+                assert assignment is not None, "Map should have been removed in a previous step"
+                x_on_map, y_on_map = assignment
 
                 entry_map["x"] = x_on_map
                 entry_map["y"] = y_on_map
@@ -143,7 +144,7 @@ def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
 
 
 def _calc_xy_of_coords_on_map(
-        coords: Coordinate, map_latlonbox: LatLonBox, map_width: int, map_height: int
+    coords: Coordinate, map_latlonbox: LatLonBox, map_width: int, map_height: int
 ) -> tuple[int, int] | None:
     """
     Calculate the x and y coordinates on a map.
@@ -198,20 +199,6 @@ def _generate_assignment_data() -> dict[str, roomfinder.Map]:
     return {_map.id: _map for _map in roomfinder.Map.load_all() + list(CustomBuildingMap.load_all().values())}
 
 
-def _entry_is_not_on_map(
-        coords: Coordinate,
-        map_id: str,
-        width: int,
-        height: int,
-        map_assignment_data: dict[str, roomfinder.Map],
-) -> bool:
-    assign_map = map_assignment_data[map_id]
-    x_on_map, y_on_map = _calc_xy_of_coords_on_map(coords, assign_map.latlonbox, assign_map.width, assign_map.width)
-    x_invalid = x_on_map < 0 or width <= x_on_map
-    y_invalid = y_on_map < 0 or height <= y_on_map
-    return x_invalid or y_invalid
-
-
 def remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
     """Remove maps from entries, that do not cover said coordinates"""
     map_assignment_data = _generate_assignment_data()
@@ -219,11 +206,14 @@ def remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
         if entry["type"] == "root":
             continue
         if rf_maps := entry["maps"].get("roomfinder"):
-            to_be_deleted = [
-                _map
-                for _map in rf_maps["available"]
-                if _entry_is_not_on_map(entry["coords"], _map["id"], _map["width"], _map["height"], map_assignment_data)
-            ]
+            to_be_deleted = []
+            for _map in rf_maps["available"]:
+                assigned = map_assignment_data[_map["id"]]
+                if (
+                    _calc_xy_of_coords_on_map(entry["coords"], assigned.latlonbox, _map["width"], _map["height"])
+                    is None
+                ):
+                    to_be_deleted.append(_map)
             for _map in to_be_deleted:
                 rf_maps["available"].remove(_map)
             if not rf_maps["available"]:
