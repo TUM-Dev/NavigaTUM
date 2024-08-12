@@ -9,7 +9,7 @@ FROM    rust:1.80-alpine AS compiler
 # - musl-dev is needed for musl to compile the binary
 # - mold is used to link faster
 # - I somehow could not get openssl to cooperate => we are contibuing with libpq-dev
-RUN     apk add -q --update-cache --no-cache musl-dev libpq-dev mold
+RUN     apk --update add -q --update-cache --no-cache musl-dev libpq-dev mold
 
 WORKDIR /compiler
 ENV     USER=root

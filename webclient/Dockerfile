@@ -27,7 +27,8 @@ RUN pnpm run build
 
 
 FROM node:21-alpine3.19 AS production-stage
-RUN apk update --no-progress --quiet && apk add curl --no-progress --quiet
+RUN apk update --no-progress --quiet && \
+    apk add --no-cache --no-progress --quiet curl
 
 COPY --from=build-stage /app/.output /app/.output
 COPY --from=build-stage /app/node_modules /app/node_modules
