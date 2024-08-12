@@ -188,10 +188,11 @@ services:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
       interval: 10s
-      start_period: 10s
+      start_interval: 20s
+      start_period: 20s
   osm-download-data:
     image: alpine:latest
-    command: apk --update add wget && wget --continue --timestamping https://download.geofabrik.de/europe/germany-latest.osm.pbf
+    command: apk --update --quiet add wget && wget --continue --timestamping https://download.geofabrik.de/europe/germany-latest.osm.pbf
     working_dir: /map/data
     volumes:
       - ./map/data/:/map/data/:rw
