@@ -7,6 +7,7 @@ from utils import TranslatableStr
 
 BASE_PATH = Path(__file__).parent.parent
 SOURCES_PATH = BASE_PATH / "sources"
+COORDINATES_PATH = SOURCES_PATH / "coordinates"
 
 
 def load_yaml(path: Path) -> Any:
@@ -47,14 +48,14 @@ def load_yaml(path: Path) -> Any:
     return yaml_data
 
 
-def add_coordinates(data: dict, path: str) -> None:
+def add_coordinates(data: dict) -> None:
     """
     Merge coordinates from yaml files placed at path on top of the given data.
 
     Merging happens in alphanumeric order, so later files would overwrite earlier files.
     This operates on the data dict directly without creating a copy.
     """
-    for file in sorted(Path(path).iterdir()):
+    for file in sorted(COORDINATES_PATH.iterdir()):
         yaml_data = load_yaml(file)
 
         recursively_merge(data, {_id: {"coords": val} for _id, val in yaml_data.items()})

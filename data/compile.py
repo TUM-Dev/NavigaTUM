@@ -88,7 +88,7 @@ def main() -> None:
     structure.infer_type_common_name(data)
 
     logging.info("-- 40 Coordinates")
-    merge.add_coordinates(data, "sources/coordinates/")
+    merge.add_coordinates(data)
     coords.add_and_check_coords(data)
 
     logging.info("-- 45 Roomfinder maps")
