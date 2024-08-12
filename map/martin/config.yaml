@@ -8,7 +8,7 @@ fonts:
 postgres:
   connection_string: $DATABASE_URL
   auto_publish: false
-  tables: {}
+  tables:
 #    addrfeat:
 #      schema: tiger
 #      table: addrfeat
@@ -231,6 +231,34 @@ postgres:
 #        vtdst00: varchar
 #        zcta5ce: varchar
 #        zcta5ce00: varchar
+    indoor_nodes:
+      schema: public
+      table: indoor_nodes
+      srid: 3857
+      geometry_column: geom
+      geometry_type: POINT
+      properties:
+        node_id: int8
+        tags: jsonb
+    indoor_polygons:
+      schema: public
+      table: indoor_polygons
+      srid: 3857
+      geometry_column: geom
+      geometry_type: GEOMETRY
+      properties:
+        area_id: int8
+        tags: jsonb
+        type: text
+    indoor_ways:
+      schema: public
+      table: indoor_ways
+      srid: 3857
+      geometry_column: geom
+      geometry_type: LINESTRING
+      properties:
+        tags: jsonb
+        way_id: int8
 #    place:
 #      schema: tiger
 #      table: place
