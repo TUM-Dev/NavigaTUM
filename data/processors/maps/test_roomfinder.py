@@ -68,9 +68,9 @@ def test_coords_to_xy_off_map() -> None:
             assign_map.height,
         )
         if (abs(lat) <= 100) and (abs(lon) <= 100):
-            assert (actual is not None)
+            assert actual is not None
         else:
-            assert (actual is None)
+            assert actual is None
 
 
 @pytest.mark.parametrize(
@@ -82,6 +82,5 @@ def test_coords_to_xy_off_map() -> None:
 def test_coords_to_xy_translation_rotation(item: ExpectedCoordinate) -> None:
     """Test if xy coordinates translate and rotate correctly"""
     assert (
-            _calc_xy_of_coords_on_map(item.coordinate, item.map.latlonbox, item.map.width,
-                                      item.map.height) == item.expected
+        _calc_xy_of_coords_on_map(item.coordinate, item.map.latlonbox, item.map.width, item.map.height) == item.expected
     )
