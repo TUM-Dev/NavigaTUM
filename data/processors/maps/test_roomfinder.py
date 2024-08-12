@@ -31,13 +31,19 @@ def default_map(rotate: int = 0) -> roomfinder.Map:
 def test_coords_to_xy_center_rotation(rotation: int) -> None:
     """Test if xy coordinates are assigned correctly"""
     print(f"{rotation}° rotated around the center")
-    assert _calc_xy_of_coords_on_map(Coordinate(lat=0, lon=0), default_map(rotate=rotation)) == (50, 50)
+    assign_map = default_map(rotate=rotation)
+    assert _calc_xy_of_coords_on_map(
+        Coordinate(lat=0, lon=0), assign_map.latlonbox, assign_map.width, assign_map.height
+    ) == (50, 50)
 
 
 @pytest.mark.parametrize("lat,lon", itertools.product(range(-10, 10), range(-10, 10)))
 def test_coords_to_xy_translation(lon, lat) -> None:
     """Test if xy coordinates translate correctly"""
-    actual_x, actual_y = _calc_xy_of_coords_on_map(Coordinate(lon=lon, lat=lat), default_map())
+    assign_map = default_map()
+    actual_x, actual_y = _calc_xy_of_coords_on_map(
+        Coordinate(lon=lon, lat=lat), assign_map.latlonbox, assign_map.width, assign_map.height
+    )
     expected_x = (lon + 100) / 200 * 100
     expected_y = 100.0 - (lat + 100) / 200 * 100
     assert expected_x - 0.6 < actual_x < expected_x + 0.6
@@ -58,4 +64,6 @@ class ExpectedCoordinate(typing.NamedTuple):
 )
 def test_coords_to_xy_translation_rotation(item: ExpectedCoordinate) -> None:
     """Test if xy coordinates translate and rotate correctly"""
-    assert _calc_xy_of_coords_on_map(item.coordinate, item.map) == item.expected
+    assert (
+        _calc_xy_of_coords_on_map(item.coordinate, item.map.latlonbox, item.map.width, item.map.height) == item.expected
+    )

@@ -7,6 +7,7 @@ from typing import Any, TypeVar
 
 from external.models import roomfinder
 from external.models.common import PydanticConfiguration
+from external.models.roomfinder import LatLonBox
 from processors.maps.models import Coordinate, CustomBuildingMap, MapKey
 
 BASE_PATH = Path(__file__).parent.parent.parent
@@ -130,7 +131,10 @@ def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
     for entry in data.values():
         if len(entry.get("maps", {}).get("roomfinder", {}).get("available", [])) > 0:
             for entry_map in entry["maps"]["roomfinder"]["available"]:
-                x_on_map, y_on_map = _calc_xy_of_coords_on_map(entry["coords"], map_assignment_data[entry_map["id"]])
+                assign_map = map_assignment_data[entry_map["id"]]
+                x_on_map, y_on_map = _calc_xy_of_coords_on_map(
+                    entry["coords"], assign_map.latlonbox, assign_map.width, assign_map.width
+                )
 
                 entry_map["x"] = x_on_map
                 entry_map["y"] = y_on_map
@@ -141,7 +145,9 @@ def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
                 entry_map.setdefault("file", f"{entry_map['id']}.webp")
 
 
-def _calc_xy_of_coords_on_map(coords: Coordinate, map_data: roomfinder.Map) -> tuple[int, int]:
+def _calc_xy_of_coords_on_map(
+    coords: Coordinate, map_latlonbox: LatLonBox, map_width: int, map_height: int
+) -> tuple[int, int]:
     """
     Calculate the x and y coordinates on a map.
 
@@ -151,20 +157,19 @@ def _calc_xy_of_coords_on_map(coords: Coordinate, map_data: roomfinder.Map) -> t
     system of the image and then apply the rotation.
     Note: x corresponds to longitude, y to latitude
     """
-    box = map_data.latlonbox
-    box_delta_x = abs(box.west - box.east)
-    box_delta_y = abs(box.north - box.south)
+    box_delta_x = abs(map_latlonbox.west - map_latlonbox.east)
+    box_delta_y = abs(map_latlonbox.north - map_latlonbox.south)
 
-    rel_x = abs(box.west - coords["lon"]) / box_delta_x
-    rel_y = abs(box.north - coords["lat"]) / box_delta_y
+    rel_x = abs(map_latlonbox.west - coords["lon"]) / box_delta_x
+    rel_y = abs(map_latlonbox.north - coords["lat"]) / box_delta_y
 
-    x0_on_map = rel_x * map_data.width
-    y0_on_map = rel_y * map_data.height
+    x0_on_map = rel_x * map_width
+    y0_on_map = rel_y * map_height
 
-    center_x = map_data.width / 2
-    center_y = map_data.height / 2
+    center_x = map_width / 2
+    center_y = map_height / 2
 
-    angle = math.radians(box.rotation)
+    angle = math.radians(map_latlonbox.rotation)
 
     float_ix = center_x + (x0_on_map - center_x) * math.cos(angle) - (y0_on_map - center_y) * math.sin(angle)
     float_iy = center_y + (x0_on_map - center_x) * math.sin(angle) + (y0_on_map - center_y) * math.cos(angle)
@@ -197,7 +202,8 @@ def _entry_is_not_on_map(
     height: int,
     map_assignment_data: dict[str, roomfinder.Map],
 ) -> bool:
-    x_on_map, y_on_map = _calc_xy_of_coords_on_map(coords, map_assignment_data[map_id])
+    assign_map = map_assignment_data[map_id]
+    x_on_map, y_on_map = _calc_xy_of_coords_on_map(coords, assign_map.latlonbox, assign_map.width, assign_map.width)
     x_invalid = x_on_map < 0 or width <= x_on_map
     y_invalid = y_on_map < 0 or height <= y_on_map
     return x_invalid or y_invalid
