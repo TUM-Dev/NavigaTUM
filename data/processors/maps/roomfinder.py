@@ -1,14 +1,11 @@
 import logging
 import math
-import os.path
-from collections import abc
 from pathlib import Path
-from typing import Any, TypeVar
+from typing import Any
 
 from external.models import roomfinder
-from external.models.common import PydanticConfiguration
-from external.models.roomfinder import LatLonBox
-from processors.maps.models import Coordinate, CustomBuildingMap, MapKey
+from external.models.roomfinder import LatLonBox, Coordinate
+from processors.maps.models import CustomBuildingMap, MapKey
 
 BASE_PATH = Path(__file__).parent.parent.parent
 RESULTS_PATH = BASE_PATH / "external" / "results"
@@ -46,11 +43,11 @@ def assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
             for _map in available_maps:
                 for child in entry["children"]:
                     if _entry_is_not_on_map(
-                        data[child]["coords"],
-                        _map.id,
-                        _map.width,
-                        _map.height,
-                        map_assignment_data,
+                            data[child]["coords"],
+                            _map.id,
+                            _map.width,
+                            _map.height,
+                            map_assignment_data,
                     ):
                         available_maps.remove(_map)
                         break
@@ -98,18 +95,18 @@ def _set_maps_from_parent(data: dict[str, dict[str, Any]], entry: dict[str, Any]
 
 
 def _extract_available_maps(
-    entry: dict[str, Any],
-    custom_maps: dict[MapKey, roomfinder.Map],
-    maps_list: list[roomfinder.Map],
+        entry: dict[str, Any],
+        custom_maps: dict[MapKey, roomfinder.Map],
+        maps_list: list[roomfinder.Map],
 ) -> list[roomfinder.Map]:
     """Extract all available maps for the given entry."""
     available_maps: list[roomfinder.Map] = []
     for (b_id, floor), _map in custom_maps.items():
         if (
-            entry["type"] == "room"
-            and b_id in entry["parents"]
-            and "tumonline_data" in entry
-            and f".{floor}." in entry["tumonline_data"]["roomcode"]
+                entry["type"] == "room"
+                and b_id in entry["parents"]
+                and "tumonline_data" in entry
+                and f".{floor}." in entry["tumonline_data"]["roomcode"]
         ):
             available_maps.append(_map)
     available_maps += maps_list
@@ -146,8 +143,8 @@ def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
 
 
 def _calc_xy_of_coords_on_map(
-    coords: Coordinate, map_latlonbox: LatLonBox, map_width: int, map_height: int
-) -> tuple[int, int]:
+        coords: Coordinate, map_latlonbox: LatLonBox, map_width: int, map_height: int
+) -> tuple[int, int] | None:
     """
     Calculate the x and y coordinates on a map.
 
@@ -157,6 +154,9 @@ def _calc_xy_of_coords_on_map(
     system of the image and then apply the rotation.
     Note: x corresponds to longitude, y to latitude
     """
+    if coords not in map_latlonbox:
+        return None
+
     box_delta_x = abs(map_latlonbox.west - map_latlonbox.east)
     box_delta_y = abs(map_latlonbox.north - map_latlonbox.south)
 
@@ -173,7 +173,10 @@ def _calc_xy_of_coords_on_map(
 
     float_ix = center_x + (x0_on_map - center_x) * math.cos(angle) - (y0_on_map - center_y) * math.sin(angle)
     float_iy = center_y + (x0_on_map - center_x) * math.sin(angle) + (y0_on_map - center_y) * math.cos(angle)
-    return round(float_ix), round(float_iy)
+
+    x_valid = 0 <= float_ix <= map_width
+    y_valid = 0 <= float_iy <= map_height
+    return (round(float_ix), round(float_iy)) if x_valid and y_valid else None
 
 
 def assign_default_roomfinder_map(data: dict[str, dict[str, Any]]) -> None:
@@ -196,11 +199,11 @@ def _generate_assignment_data() -> dict[str, roomfinder.Map]:
 
 
 def _entry_is_not_on_map(
-    coords: Coordinate,
-    map_id: str,
-    width: int,
-    height: int,
-    map_assignment_data: dict[str, roomfinder.Map],
+        coords: Coordinate,
+        map_id: str,
+        width: int,
+        height: int,
+        map_assignment_data: dict[str, roomfinder.Map],
 ) -> bool:
     assign_map = map_assignment_data[map_id]
     x_on_map, y_on_map = _calc_xy_of_coords_on_map(coords, assign_map.latlonbox, assign_map.width, assign_map.width)

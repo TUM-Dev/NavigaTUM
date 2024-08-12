@@ -3,7 +3,7 @@ import typing
 
 import pytest
 from external.models import roomfinder
-from processors.maps.models import Coordinate
+from external.models.roomfinder import Coordinate
 from processors.maps.roomfinder import _calc_xy_of_coords_on_map
 
 
@@ -56,6 +56,23 @@ class ExpectedCoordinate(typing.NamedTuple):
     expected: tuple[int, int]
 
 
+# purposely not parameterised for better performance
+def test_coords_to_xy_off_map() -> None:
+    """Test if xy coordinates translate correctly"""
+    assign_map = default_map()
+    for lat, lon in itertools.product(range(-200, 200), range(-200, 200)):
+        actual = _calc_xy_of_coords_on_map(
+            Coordinate(lon=lon, lat=lat),
+            assign_map.latlonbox,
+            assign_map.width,
+            assign_map.height,
+        )
+        if (abs(lat) <= 100) and (abs(lon) <= 100):
+            assert (actual is not None)
+        else:
+            assert (actual is None)
+
+
 @pytest.mark.parametrize(
     "item",
     [
@@ -65,5 +82,6 @@ class ExpectedCoordinate(typing.NamedTuple):
 def test_coords_to_xy_translation_rotation(item: ExpectedCoordinate) -> None:
     """Test if xy coordinates translate and rotate correctly"""
     assert (
-        _calc_xy_of_coords_on_map(item.coordinate, item.map.latlonbox, item.map.width, item.map.height) == item.expected
+            _calc_xy_of_coords_on_map(item.coordinate, item.map.latlonbox, item.map.width,
+                                      item.map.height) == item.expected
     )
