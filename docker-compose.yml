@@ -188,7 +188,8 @@ services:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
       interval: 10s
-      start_interval: 20s
+      # requires docker v25 to be available for ubuntu
+      # start_interval: 20s
       start_period: 20s
   osm-download-data:
     image: alpine:latest
