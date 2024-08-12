@@ -84,17 +84,14 @@ services:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
       interval: 10s
-      start_period: 10s
+      start_interval: 20s
+      start_period: 20s
   osm-download-data:
     image: alpine:latest
-    command:
-      - wget
-      - -O
-      - data.pbf
-      - https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf
-    working_dir: /data
+    command: apk --update --quiet add wget && wget --continue --timestamping https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf
+    working_dir: /map/data
     volumes:
-      - ./map/data/:/data/:rw
+      - ./map/data/:/map/data/:rw
   osm2pgsql-init:
     image: iboates/osm2pgsql:latest
     environment:
@@ -114,14 +111,13 @@ services:
       - db
       - --port
       - "5432"
-      - data.pbf
-      - --hstore
-      - --hstore-add-index
-      - --hstore-column
-      - raw
-    working_dir: /data
+      - /map/data/oberbayern-latest.osm.pbf
+      - --output=flex
+      - --style
+      - /map/osm2pgsql/style.lua
     volumes:
-      - ./map/data/:/data/:ro
+      - ./map/data/:/map/data/:ro
+      - ./map/osm2pgsql/:/map/osm2pgsql/:ro
     depends_on:
       osm-download-data:
         condition: service_completed_successfully
@@ -148,6 +144,8 @@ services:
         condition: service_completed_successfully
       db:
         condition: service_healthy
+    volumes:
+      - ./map/osm2pgsql/:/map/osm2pgsql/:ro
   osm2pgsql-replication:
     image: iboates/osm2pgsql:latest
     environment:
@@ -167,6 +165,8 @@ services:
     depends_on:
       osm2pgsql-replication-init:
         condition: service_completed_successfully
+    volumes:
+      - ./map/osm2pgsql/:/map/osm2pgsql/:ro
   martin-init-config:
     image: alpine:latest
     command:
