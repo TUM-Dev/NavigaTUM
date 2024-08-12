@@ -40,11 +40,6 @@ class MapKey(typing.NamedTuple):
     floor: str
 
 
-class Coordinate(typing.TypedDict):
-    lat: float
-    lon: float
-
-
 class CustomMapProps(PydanticConfiguration):
     scale: str
     north: float
