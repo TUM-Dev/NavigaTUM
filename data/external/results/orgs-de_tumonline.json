@@ -1407,7 +1407,7 @@
   "15739": {
     "code": "TUMEEO0",
     "name": "Institut f\u00fcr Experimentelle Onkologie und Therapieforschung (Knolle komm.)",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Medizin/Institute/Experimentelle Onkologie und Therapieforschung (Knolle komm.)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Experimentelle Onkologie und Therapieforschung (Knolle komm.)"
   },
   "15740": {
     "code": "TUMEMI0",
@@ -1437,7 +1437,7 @@
   "15745": {
     "code": "TUMEBB0",
     "name": "Institut f\u00fcr Biologische Bildgebung",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Medizin/Institute/Biologische Bildgebung"
+    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Medizin/Biologische Bildgebung"
   },
   "15747": {
     "code": "TUMETU0",
@@ -1627,7 +1627,7 @@
   "16049": {
     "code": "TUMEEO1",
     "name": "Lehrstuhl f\u00fcr Experimentelle Onkologie und Therapieforschung (Prof. Knolle komm.)",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige Fakult\u00e4t f\u00fcr Medizin/Institute/Experimentelle Onkologie und Therapieforschung (Knolle komm.)/Experimentelle Onkologie und Therapieforschung (Prof. Knolle komm.)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Experimentelle Onkologie und Therapieforschung (Knolle komm.)/Experimentelle Onkologie und Therapieforschung (Prof. Knolle komm.)"
   },
   "16053": {
     "code": "TUMEMI1",
@@ -5263,11 +5263,6 @@
     "code": "TUZV14Z",
     "name": "Versorgungsnetze",
     "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik/Versorgungsnetze"
-  },
-  "48637": {
-    "code": "TUPHEHP",
-    "name": "Lehrstuhl f\u00fcr Experimentelle Halbleiterphysik (Prof. Sharp komm.)",
-    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Experimentelle Halbleiterphysik (Prof. Sharp komm.)"
   },
   "48657": {
     "code": "TUMETBB",
