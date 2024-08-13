@@ -26,7 +26,7 @@ If you really need a tileset and can't meet these requirements, shoot us a messa
 Generating `europe` takes 3h10m on a modern laptop with 32GB RAM and an SSD. The following commands are optimised for
 this.
 
-From the root of the repository, run either (depending on your waiting tolerance and avaliable RAM):
+From the root of the repository, run either (depending on your waiting tolerance and available RAM):
 
 - <details><summary>[~minutes] Only <b>Germany</b> with approx 64GB of RAM</summary>
 
@@ -110,7 +110,7 @@ docker run -it --rm -p 8888:8888 maputnik/editor
 > After exporting the edited style don't forget to revert the change to the vector url 😉
 
 | Step 1                                                                                         | Step 2                                                                                              |
-| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | ![Where in Maputnik to click to import a style](/resources/documentation/maputnik-import1.png) | ![Where in Maputnik to click then to import a style](/resources/documentation/maputnik-import2.png) |
 
 ### Fonts + Sprites
