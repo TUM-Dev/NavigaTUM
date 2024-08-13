@@ -1407,7 +1407,7 @@
   "15739": {
     "code": "TUMEEO0",
     "name": "Institute of Experimental Oncology and Therapeutic Research (Knolle komm.)",
-    "path": "TUM/Academic department/Medicine/Institutes/Experimental Oncology and Therapeutic Research (Knolle komm.)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Experimental Oncology and Therapeutic Research (Knolle komm.)"
   },
   "15740": {
     "code": "TUMEMI0",
@@ -1437,7 +1437,7 @@
   "15745": {
     "code": "TUMEBB0",
     "name": "Institute of Biological Imaging",
-    "path": "TUM/Academic department/Medicine/Institutes/Biological Imaging"
+    "path": "TUM/Academic department/Medicine/Biological Imaging"
   },
   "15747": {
     "code": "TUMETU0",
@@ -1627,7 +1627,7 @@
   "16049": {
     "code": "TUMEEO1",
     "name": "Chair of Experimental Oncology and Therapy Research (Prof. Knolle komm.)",
-    "path": "TUM/Academic department/Medicine/Institutes/Experimental Oncology and Therapeutic Research (Knolle komm.)/Experimental Oncology and Therapy Research (Prof. Knolle komm.)"
+    "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Experimental Oncology and Therapeutic Research (Knolle komm.)/Experimental Oncology and Therapy Research (Prof. Knolle komm.)"
   },
   "16053": {
     "code": "TUMEMI1",
@@ -5263,11 +5263,6 @@
     "code": "TUZV14Z",
     "name": "Versorgungsnetze",
     "path": "TUM/Central Administration/Real Estate Management (Central department 4)/Zentrale Technik/Versorgungsnetze"
-  },
-  "48637": {
-    "code": "TUPHEHP",
-    "name": "Chair of Experimental Semiconductor Physics (Prof. Sharp komm.)",
-    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Experimental Semiconductor Physics (Prof. Sharp komm.)"
   },
   "48657": {
     "code": "TUMETBB",
