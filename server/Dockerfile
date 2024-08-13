@@ -9,7 +9,7 @@ FROM    rust:1.80-alpine AS compiler
 # - musl-dev is needed for musl to compile the binary
 # - mold is used to link faster
 # - I somehow could not get openssl to cooperate => we are contibuing with libpq-dev
-RUN     apk --update add -q --update-cache --no-cache musl-dev libpq-dev mold
+RUN     apk --update add --quiet --update-cache --no-cache musl-dev libpq-dev mold
 
 WORKDIR /compiler
 ENV     USER=root
@@ -56,7 +56,7 @@ ARG     PROFILE=release
 ENV     PROFILE=${PROFILE}
 
 RUN     apk update --quiet \
-     && apk add -q --no-cache libgcc tini curl libpq-dev
+     && apk add --quiet --no-cache libgcc tini curl libpq-dev
 
 # add `navigatum-*` to the `/bin` so we can run it from anywhere and it's easy to find.
 COPY    --from=compiler /compiler/target/${PROFILE}/navigatum-* /bin/
