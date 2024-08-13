@@ -835,7 +835,6 @@ export type operations = {
    * If successful, returns additional entries in the requested time span.
    */
   calendar: {
-    /** @description null */
     readonly requestBody: {
       readonly content: {
         readonly "application/json": {

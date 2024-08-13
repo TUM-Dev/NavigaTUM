@@ -259,7 +259,7 @@ paths:
         '414':
           description: The uri you are trying to request is unreasonably long. Search querys dont have thousands of chars..
       tags:
-        - core
+        - locations
   '/api/locations/{id}/nearby':
     get:
       operationId: nearby
@@ -308,6 +308,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NearbyLocationsResponse'
+      tags:
+        - locations
   '/api/locations/{id}':
     get:
       operationId: details
@@ -754,7 +756,7 @@ paths:
                 examples:
                   - Not found
       tags:
-        - core
+        - locations
   /api/calendar:
     post:
       operationId: calendar
@@ -766,7 +768,6 @@ paths:
 
         If successful, returns additional entries in the requested time span.
       requestBody:
-        description: null
         required: true
         content:
           application/json:
@@ -2427,14 +2428,18 @@ components:
               lat: 48.2528223347355
               lon: 11.5240016913201
 tags:
-  - name: core
-    description: API to access/search for location information
+  - name: calendar
+    description: APIs to access calendar-data
   - name: cdn
     description: Images for some of the rooms
   - name: feedback
     description: APIs to give feedback
   - name: health
     description: endpoints used to check the health of our components
+  - name: locations
+    description: API to access/search for location information
+  - name: maps
+    description: APIs to access map-data
 externalDocs:
   description: Visit our Github Page for more in-depth documentation
   url: 'https://github.com/TUM-Dev/navigatum'
