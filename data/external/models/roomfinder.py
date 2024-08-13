@@ -31,29 +31,12 @@ class Building(PydanticConfiguration):
             return [cls.model_validate(item) for item in json.load(file)]
 
 
-class Coordinate(typing.TypedDict):
-    lat: float
-    lon: float
-
-
 class LatLonBox(PydanticConfiguration):
     north: float
     south: float
     east: float
     west: float
     rotation: float
-
-    def __contains__(self, item: Coordinate):
-        """
-        Check if the given item is within the specified boundaries.
-
-        @param item: The item to check.
-        @return: True if the item is within the boundaries, False otherwise.
-        """
-        assert self.south < self.north
-        assert self.west < self.east
-        lat, lon = item["lat"], item["lon"]
-        return self.south <= lon <= self.north and self.west <= lat <= self.east
 
 
 class Map(PydanticConfiguration):

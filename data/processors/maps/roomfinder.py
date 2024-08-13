@@ -1,11 +1,14 @@
 import logging
 import math
+import os.path
+from collections import abc
 from pathlib import Path
-from typing import Any
+from typing import Any, TypeVar
 
 from external.models import roomfinder
-from external.models.roomfinder import Coordinate, LatLonBox
-from processors.maps.models import CustomBuildingMap, MapKey
+from external.models.common import PydanticConfiguration
+from external.models.roomfinder import LatLonBox
+from processors.maps.models import Coordinate, CustomBuildingMap, MapKey
 
 BASE_PATH = Path(__file__).parent.parent.parent
 RESULTS_PATH = BASE_PATH / "external" / "results"
@@ -42,11 +45,12 @@ def assign_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
         if entry["type"] in {"site", "campus", "area", "joined_building", "building"} and "children" in entry:
             for _map in available_maps:
                 for child in entry["children"]:
-                    coords = data[child]["coords"]
-                    assign_map = map_assignment_data[_map.id]
-                    if (
-                        _calc_xy_of_coords_on_map(coords, assign_map.latlonbox, assign_map.width, assign_map.width)
-                        is None
+                    if _entry_is_not_on_map(
+                        data[child]["coords"],
+                        _map.id,
+                        _map.width,
+                        _map.height,
+                        map_assignment_data,
                     ):
                         available_maps.remove(_map)
                         break
@@ -128,11 +132,9 @@ def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
         if len(entry.get("maps", {}).get("roomfinder", {}).get("available", [])) > 0:
             for entry_map in entry["maps"]["roomfinder"]["available"]:
                 assign_map = map_assignment_data[entry_map["id"]]
-                assignment = _calc_xy_of_coords_on_map(
+                x_on_map, y_on_map = _calc_xy_of_coords_on_map(
                     entry["coords"], assign_map.latlonbox, assign_map.width, assign_map.width
                 )
-                assert assignment is not None, "Map should have been removed in a previous step"
-                x_on_map, y_on_map = assignment
 
                 entry_map["x"] = x_on_map
                 entry_map["y"] = y_on_map
@@ -145,7 +147,7 @@ def build_roomfinder_maps(data: dict[str, dict[str, Any]]) -> None:
 
 def _calc_xy_of_coords_on_map(
     coords: Coordinate, map_latlonbox: LatLonBox, map_width: int, map_height: int
-) -> tuple[int, int] | None:
+) -> tuple[int, int]:
     """
     Calculate the x and y coordinates on a map.
 
@@ -155,9 +157,6 @@ def _calc_xy_of_coords_on_map(
     system of the image and then apply the rotation.
     Note: x corresponds to longitude, y to latitude
     """
-    if coords not in map_latlonbox:
-        return None
-
     box_delta_x = abs(map_latlonbox.west - map_latlonbox.east)
     box_delta_y = abs(map_latlonbox.north - map_latlonbox.south)
 
@@ -174,10 +173,7 @@ def _calc_xy_of_coords_on_map(
 
     float_ix = center_x + (x0_on_map - center_x) * math.cos(angle) - (y0_on_map - center_y) * math.sin(angle)
     float_iy = center_y + (x0_on_map - center_x) * math.sin(angle) + (y0_on_map - center_y) * math.cos(angle)
-
-    x_valid = 0 <= float_ix <= map_width
-    y_valid = 0 <= float_iy <= map_height
-    return (round(float_ix), round(float_iy)) if x_valid and y_valid else None
+    return round(float_ix), round(float_iy)
 
 
 def assign_default_roomfinder_map(data: dict[str, dict[str, Any]]) -> None:
@@ -199,6 +195,20 @@ def _generate_assignment_data() -> dict[str, roomfinder.Map]:
     return {_map.id: _map for _map in roomfinder.Map.load_all() + list(CustomBuildingMap.load_all().values())}
 
 
+def _entry_is_not_on_map(
+    coords: Coordinate,
+    map_id: str,
+    width: int,
+    height: int,
+    map_assignment_data: dict[str, roomfinder.Map],
+) -> bool:
+    assign_map = map_assignment_data[map_id]
+    x_on_map, y_on_map = _calc_xy_of_coords_on_map(coords, assign_map.latlonbox, assign_map.width, assign_map.width)
+    x_invalid = x_on_map < 0 or width <= x_on_map
+    y_invalid = y_on_map < 0 or height <= y_on_map
+    return x_invalid or y_invalid
+
+
 def remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
     """Remove maps from entries, that do not cover said coordinates"""
     map_assignment_data = _generate_assignment_data()
@@ -206,14 +216,11 @@ def remove_non_covering_maps(data: dict[str, dict[str, Any]]) -> None:
         if entry["type"] == "root":
             continue
         if rf_maps := entry["maps"].get("roomfinder"):
-            to_be_deleted = []
-            for _map in rf_maps["available"]:
-                assigned = map_assignment_data[_map["id"]]
-                if (
-                    _calc_xy_of_coords_on_map(entry["coords"], assigned.latlonbox, _map["width"], _map["height"])
-                    is None
-                ):
-                    to_be_deleted.append(_map)
+            to_be_deleted = [
+                _map
+                for _map in rf_maps["available"]
+                if _entry_is_not_on_map(entry["coords"], _map["id"], _map["width"], _map["height"], map_assignment_data)
+            ]
             for _map in to_be_deleted:
                 rf_maps["available"].remove(_map)
             if not rf_maps["available"]:
