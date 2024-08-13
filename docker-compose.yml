@@ -164,7 +164,7 @@ services:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       MEILI_ENV: production
     healthcheck:
-      test: wget -q --spider http://localhost:7700/health
+      test: wget --quiet --spider http://localhost:7700/health
       retries: 5
       interval: 10s
       start_period: 10s
@@ -193,7 +193,7 @@ services:
       start_period: 20s
   osm-download-data:
     image: alpine:latest
-    command: apk --update --quiet add wget && wget --continue --timestamping https://download.geofabrik.de/europe/germany-latest.osm.pbf
+    command: sh -c "apk --update add --quiet wget && wget --continue --timestamping https://download.geofabrik.de/europe/germany-latest.osm.pbf"
     working_dir: /map/data
     volumes:
       - ./map/data/:/map/data/:rw
