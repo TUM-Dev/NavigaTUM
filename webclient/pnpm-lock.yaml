@@ -54,8 +54,8 @@ importers:
         specifier: 4.5.2
         version: 4.5.2
       maplibre-gl-indoor:
-        specifier: 0.0.8
-        version: 0.0.8
+        specifier: 0.0.9
+        version: 0.0.9
       nightwind:
         specifier: 1.1.13
         version: 1.1.13(tailwindcss@3.4.10)
@@ -4080,8 +4080,8 @@ packages:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
 
-  maplibre-gl-indoor@0.0.8:
-    resolution: {integrity: sha512-Otlq510xy36laEIiWG0eK9/LIveeUf4Whl5LyqcQcg0yDgoTlSQg+h2fsdY2PZAWHdm0MORdbDUJkl8ROW1CEQ==}
+  maplibre-gl-indoor@0.0.9:
+    resolution: {integrity: sha512-7Hk9rQZA7Jyc6dbZkoFYje0grqr9KAbparOzjF8LofDuq8IitkixzmWeYBV62Nd9vcSqKqX9/dgX81NOkQshhg==}
 
   maplibre-gl@4.5.2:
     resolution: {integrity: sha512-vlWL9EY2bSGg5FAt0mKPfYqlfX15uLW5D3kKv4Xjn54nIVn01MKdfUJMAVIr+8fXVqfSX6c095Iy5XnV+T76kQ==}
@@ -11322,7 +11322,7 @@ snapshots:
     dependencies:
       semver: 6.3.1
 
-  maplibre-gl-indoor@0.0.8:
+  maplibre-gl-indoor@0.0.9:
     dependencies:
       '@turf/bbox': 7.1.0
       '@turf/destination': 7.1.0
