@@ -1,15 +1,13 @@
 use meilisearch_sdk::client::Client;
-use sqlx::postgres::PgPoolOptions;
-use sqlx::{Pool, Postgres};
-use std::time::Duration;
 use testcontainers_modules::testcontainers::{ContainerAsync, ImageExt};
-use testcontainers_modules::{meilisearch, postgres, testcontainers::runners::AsyncRunner};
-use tracing::{error, info};
+use testcontainers_modules::{meilisearch, testcontainers::runners::AsyncRunner};
 
+#[cfg(feature = "test-with-geodata")]
 pub struct PostgresTestContainer {
-    _container: ContainerAsync<postgres::Postgres>,
-    pub pool: Pool<Postgres>,
+    _container: ContainerAsync<testcontainers_modules::postgres::Postgres>,
+    pub pool: sqlx::Pool<sqlx::Postgres>,
 }
+#[cfg(feature = "test-with-geodata")]
 
 impl PostgresTestContainer {
     /// Create a postgres instance for testing against
@@ -25,10 +23,8 @@ impl PostgresTestContainer {
             host = container.get_host().await.unwrap(),
             port = container.get_host_port_ipv4(5432).await.unwrap(),
         );
-        let pool = PgPoolOptions::new()
-            .connect(&connection_string)
-            .await
-            .unwrap();
+        let pool = sqlx::postgres::PgPoolOptions;
+        ::new().connect(&connection_string).await.unwrap();
         crate::setup::database::setup(&pool).await.unwrap();
         Self {
             _container: container,
@@ -65,22 +61,25 @@ impl MeiliSearchTestContainer {
     }
 }
 
+#[cfg(feature = "test-with-geodata")]
 #[tokio::test]
+#[ignore]
 #[tracing_test::traced_test]
 async fn test_db_setup() {
     let pg = PostgresTestContainer::new().await;
     for i in 0..20 {
         let res = crate::setup::database::load_data(&pg.pool).await;
         if let Err(e) = res {
-            error!("failed to load db because {e:?}. Retrying for 20s");
-            tokio::time::sleep(Duration::from_secs(1)).await;
+            tracing::error!("failed to load db because {e:?}. Retrying for 20s");
+            tokio::time::sleep(std::time::Duration::from_secs(1)).await;
         } else {
-            info!("successfully initalised the db in try {i}");
+            tracing::info!("successfully initalised the db in try {i}");
             break;
         }
     }
 }
 
+#[cfg(feature = "test-with-geodata")]
 #[tokio::test]
 #[tracing_test::traced_test]
 async fn test_meilisearch_setup() {

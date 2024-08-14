@@ -111,3 +111,6 @@ similar.opt-level = 3
 ignored = [
     "rustls", # we need to configure between ring and aws crypto library
 ]
+
+[features]
+test-with-geodata = []
