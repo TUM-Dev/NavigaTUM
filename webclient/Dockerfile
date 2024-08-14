@@ -42,4 +42,4 @@ ENV NITRO_SHUTDOWN=true
 ENV NITRO_PRESET=node-cluster
 
 HEALTHCHECK CMD curl --fail localhost:3000/health || exit 1
-CMD node /app/.output/server/index.mjs
+CMD ["node", "/app/.output/server/index.mjs"]
