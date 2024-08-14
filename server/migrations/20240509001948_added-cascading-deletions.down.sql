@@ -1,9 +1,9 @@
 -- Add down migration script here
-alter table en drop constraint en_key_fkey;
-alter table en add foreign key (key) references de;
+ALTER TABLE en DROP CONSTRAINT en_key_fkey;
+ALTER TABLE en ADD FOREIGN KEY (key) REFERENCES de;
 
-alter table calendar drop constraint calendar_room_code_fkey;
-alter table calendar add foreign key (room_code) references en;
+ALTER TABLE calendar DROP CONSTRAINT calendar_room_code_fkey;
+ALTER TABLE calendar ADD FOREIGN KEY (room_code) REFERENCES en;
 
-alter table aliases drop constraint aliases_key_fkey;
-alter table aliases add foreign key (key) references de;
+ALTER TABLE aliases DROP CONSTRAINT aliases_key_fkey;
+ALTER TABLE aliases ADD FOREIGN KEY (key) REFERENCES de;

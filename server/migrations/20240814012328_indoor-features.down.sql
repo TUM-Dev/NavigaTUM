@@ -1,3 +1,2 @@
 -- Add down migration script here
-
-drop materialized view if exists indoor_features cascade;
+DROP materialized VIEW IF EXISTS indoor_features CASCADE;

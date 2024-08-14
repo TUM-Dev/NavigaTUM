@@ -1,43 +1,43 @@
 -- Add down migration script here
 -- was never used
-create table rooms
+CREATE TABLE rooms
 (
-    key                   text primary key            not null,
-    tumonline_org_id      integer                     not null,
-    tumonline_calendar_id integer                     not null,
-    tumonline_room_id     integer                     not null,
-    last_scrape           timestamp without time zone not null
+    key                   TEXT PRIMARY KEY            NOT NULL,
+    tumonline_org_id      INTEGER                     NOT NULL,
+    tumonline_calendar_id INTEGER                     NOT NULL,
+    tumonline_room_id     INTEGER                     NOT NULL,
+    last_scrape           TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
 
 -- migrating to
 DROP TABLE en;
-create table en
+CREATE TABLE en
 (
-    key                     text             not null
-        primary key
-        references de,
-    name                    text             not null,
-    tumonline_room_nr       integer,
-    type                    text             not null,
-    type_common_name        text             not null,
-    lat                     double precision not null,
-    lon                     double precision not null,
-    data                    text             not null,
-    last_calendar_scrape_at timestamp with time zone
+    key                     TEXT             NOT NULL
+        PRIMARY KEY
+        REFERENCES de,
+    name                    TEXT             NOT NULL,
+    tumonline_room_nr       INTEGER,
+    type                    TEXT             NOT NULL,
+    type_common_name        TEXT             NOT NULL,
+    lat                     double precision NOT NULL,
+    lon                     double precision NOT NULL,
+    data                    TEXT             NOT NULL,
+    last_calendar_scrape_at TIMESTAMP WITH TIME ZONE
 );
-comment on column en.last_calendar_scrape_at is 'the last time the calendar was scraped for this room';
+COMMENT ON COLUMN en.last_calendar_scrape_at IS 'the last time the calendar was scraped for this room';
 
 DROP TABLE de;
-create table de
+CREATE TABLE de
 (
-    key                     text             not null primary key,
-    name                    text             not null,
-    tumonline_room_nr       integer,
-    type                    text             not null,
-    type_common_name        text             not null,
-    lat                     double precision not null,
-    lon                     double precision not null,
-    data                    text             not null,
-    last_calendar_scrape_at timestamp with time zone
+    key                     TEXT             NOT NULL PRIMARY KEY,
+    name                    TEXT             NOT NULL,
+    tumonline_room_nr       INTEGER,
+    type                    TEXT             NOT NULL,
+    type_common_name        TEXT             NOT NULL,
+    lat                     double precision NOT NULL,
+    lon                     double precision NOT NULL,
+    data                    TEXT             NOT NULL,
+    last_calendar_scrape_at TIMESTAMP WITH TIME ZONE
 );
-comment on column de.last_calendar_scrape_at is 'the last time the calendar was scraped for this room';
+COMMENT ON COLUMN de.last_calendar_scrape_at IS 'the last time the calendar was scraped for this room';

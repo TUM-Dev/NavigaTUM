@@ -1,9 +1,9 @@
 -- Your SQL goes here
 CREATE TABLE calendar (
     key                     VARCHAR(30) NOT NULL,
-    dtstart                 timestamp NOT NULL,
-    dtend                   timestamp NOT NULL,
-    dtstamp                 timestamp NOT NULL,
+    dtstart                 TIMESTAMP NOT NULL,
+    dtend                   TIMESTAMP NOT NULL,
+    dtstamp                 TIMESTAMP NOT NULL,
     event_id                INTEGER NOT NULL,
     event_title             TEXT NOT NULL,
     single_event_id         INTEGER UNIQUE PRIMARY KEY NOT NULL,

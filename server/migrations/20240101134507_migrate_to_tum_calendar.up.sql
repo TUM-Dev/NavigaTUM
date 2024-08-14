@@ -6,7 +6,7 @@ CREATE TYPE EventType AS ENUM ('lecture','exercise','exam','barred','other');
 CREATE TABLE calendar
 (
     id                  INTEGER UNIQUE PRIMARY KEY NOT NULL,
-    room_code           VARCHAR(30)                NOT NULL references en,
+    room_code           VARCHAR(30)                NOT NULL REFERENCES en,
     start_at            TIMESTAMPTZ                NOT NULL,
     end_at              TIMESTAMPTZ                NOT NULL,
     stp_title_de        TEXT                       NOT NULL,

@@ -1,3 +1,3 @@
 -- Add down migration script here
-alter table de drop column last_calendar_scrape_at;
-alter table en drop column last_calendar_scrape_at;
+ALTER TABLE de DROP COLUMN last_calendar_scrape_at;
+ALTER TABLE en DROP COLUMN last_calendar_scrape_at;
