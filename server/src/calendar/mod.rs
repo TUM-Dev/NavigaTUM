@@ -131,8 +131,8 @@ async fn get_from_db(
     Ok(LimitedHashMap(located_events))
 }
 
-#[cfg(test)]
-mod tests {
+#[cfg(all(feature = "test-with-geodata", test))]
+mod db_tests {
     use std::sync::Arc;
 
     use actix_web::http::header::ContentType;
