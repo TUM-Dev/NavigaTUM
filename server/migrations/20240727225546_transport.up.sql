@@ -6,10 +6,10 @@ CREATE TABLE transportation_stations
     name           TEXT                    NOT NULL,
     coordinate     Point                   NOT NULL
 );
-alter table transportation_stations
-    add constraint transportation_stations_transportation_stations_station_id_fk
-        foreign key (parent) references transportation_stations
-            on update cascade on delete set null;
+ALTER TABLE transportation_stations
+    ADD CONSTRAINT transportation_stations_transportation_stations_station_id_fk
+        FOREIGN KEY (parent) REFERENCES transportation_stations
+            ON UPDATE CASCADE ON DELETE SET NULL;
 CREATE INDEX transportation_stations_loc_idx
     ON transportation_stations
         USING GIST (coordinate);
