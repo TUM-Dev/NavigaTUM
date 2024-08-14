@@ -57,8 +57,8 @@ info: "'fachschaft pyhsik' should get '5101.EG.257' in 1 results # typo + it's '
       subtext: "stammgelände, Landwirtschaftsbau (Z4)"
       subtext_bold: 0424@0504
   n_visible: 10
-  estimatedTotalHits: 37
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

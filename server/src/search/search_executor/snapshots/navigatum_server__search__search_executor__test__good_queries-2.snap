@@ -27,7 +27,7 @@ info: "'wzw' should get 'wzw' in 1 results"
       name: Gebiet 4300 Nord / Hochfeld
       subtext: Gebiet / Gruppe von Gebäuden
   n_visible: 5
-  estimatedTotalHits: 170
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 4101.01.129
@@ -56,4 +56,4 @@ info: "'wzw' should get 'wzw' in 1 results"
       subtext: "weihenstephan, BLQ Lebensmittelsicherheit"
       subtext_bold: 106@4108
   n_visible: 5
-  estimatedTotalHits: 1000
+  estimatedTotalHits: "[estimatedTotalHits]"

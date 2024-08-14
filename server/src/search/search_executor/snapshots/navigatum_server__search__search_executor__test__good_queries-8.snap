@@ -19,7 +19,7 @@ info: "'Physik Container' should get '5140' in 1 results"
       name: "UCN-Testanlage (\u0019Container\u0017)"
       subtext: Gebäude
   n_visible: 3
-  estimatedTotalHits: 31
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 5140.01.201
@@ -58,4 +58,4 @@ info: "'Physik Container' should get '5140' in 1 results"
       subtext: "garching, Physik I Container"
       subtext_bold: C.3207@5140
   n_visible: 7
-  estimatedTotalHits: 1000
+  estimatedTotalHits: "[estimatedTotalHits]"

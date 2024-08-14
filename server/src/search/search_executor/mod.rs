@@ -142,11 +142,12 @@ mod test {
                 Since it can't, please move it to .bad list"
             );
 
+            // redacting estimatedTotalHits is because this can change quite easily and without a good reason
             insta::with_settings!({
                 info => &format!("{query}"),
                 description => query.comment.unwrap_or_default(),
             }, {
-                        insta::assert_yaml_snapshot!(actual);
+                insta::assert_yaml_snapshot!(actual, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
             });
         }
     }
@@ -166,11 +167,12 @@ mod test {
                 Since it can, please move it to .good list"
             );
 
+            // redacting estimatedTotalHits is because this can change quite easily and without a good reason
             insta::with_settings!({
                 info => &format!("{query}"),
                 description => query.comment.unwrap_or_default(),
             }, {
-                insta::assert_yaml_snapshot!(actual);
+                insta::assert_yaml_snapshot!(actual, { ".**.estimatedTotalHits" => "[estimatedTotalHits]"});
             });
         }
     }

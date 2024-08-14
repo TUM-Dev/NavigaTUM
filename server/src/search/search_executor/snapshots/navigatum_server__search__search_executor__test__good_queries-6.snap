@@ -11,7 +11,7 @@ info: "'Mensa Garching' should get '5304' in 1 results # Should give the 'new' m
       name: "\u0019Mensa\u0017 \u0019Garching\u0017"
       subtext: Gebäude
   n_visible: 1
-  estimatedTotalHits: 4
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 5304.01.101
@@ -60,4 +60,4 @@ info: "'Mensa Garching' should get '5304' in 1 results # Should give the 'new' m
       subtext: "garching, Mensa Garching"
       subtext_bold: 1.307@5304
   n_visible: 9
-  estimatedTotalHits: 674
+  estimatedTotalHits: "[estimatedTotalHits]"

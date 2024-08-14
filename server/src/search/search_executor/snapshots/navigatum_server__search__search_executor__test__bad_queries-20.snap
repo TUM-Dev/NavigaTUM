@@ -59,8 +59,8 @@ info: "'H.3' should get '2910.EG.003' in 1 results # H.003 is the correct room, 
       subtext_bold: H.302@2910
       parsed_id: "\u0019H.3\u001702 RiWa 1 (HfP/GOV)"
   n_visible: 10
-  estimatedTotalHits: 413
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 1
+  estimatedTotalHits: "[estimatedTotalHits]"

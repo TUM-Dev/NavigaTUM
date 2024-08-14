@@ -33,7 +33,7 @@ info: "'C.3202' should get '5140.01.202' in 1 results"
       subtext: "garching, Physik I Container"
       subtext_bold: C.3201@5140
   n_visible: 5
-  estimatedTotalHits: 297
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries:
     - id: "2940"
@@ -57,4 +57,4 @@ info: "'C.3202' should get '5140.01.202' in 1 results"
       name: "Airbus Standort 76.\u0019C\u0017"
       subtext: Gebäude
   n_visible: 0
-  estimatedTotalHits: 5
+  estimatedTotalHits: "[estimatedTotalHits]"

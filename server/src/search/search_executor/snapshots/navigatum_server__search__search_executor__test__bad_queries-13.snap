@@ -7,8 +7,8 @@ info: "'Augustenstraße 44; Raum 209; 2.OG' should get '2903.02.209' in 1 result
 - facet: rooms
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

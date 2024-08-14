@@ -11,7 +11,7 @@ info: "'H.0003' should get '2910.EG.003' in 1 results # H.003 is the correct roo
       name: "Richard-Wagner-Str. 1 / Haus B + Haus \u0019H\u0017, Hochschule für Politik (HfP)/ Department of Governance (GOV)"
       subtext: Gebäude
   n_visible: 1
-  estimatedTotalHits: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 2910.01.101
@@ -60,4 +60,4 @@ info: "'H.0003' should get '2910.EG.003' in 1 results # H.003 is the correct roo
       subtext: "garching, RCM Radiochemie München"
       subtext_bold: H.1.028@5212
   n_visible: 9
-  estimatedTotalHits: 412
+  estimatedTotalHits: "[estimatedTotalHits]"

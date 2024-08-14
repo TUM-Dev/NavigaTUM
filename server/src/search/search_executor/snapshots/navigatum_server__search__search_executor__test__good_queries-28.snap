@@ -23,8 +23,8 @@ info: "'0092@5433' should get '5433.EG.092' in 1 results"
       subtext: "garching, StudiTUM"
       subtext_bold: 0.092@5532
   n_visible: 3
-  estimatedTotalHits: 3
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

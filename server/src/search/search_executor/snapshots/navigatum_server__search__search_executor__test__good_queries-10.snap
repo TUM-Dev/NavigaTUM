@@ -23,7 +23,7 @@ info: "'ZIEL' should get 'wzw-ziel' in 1 results"
       name: "\u0019ZIEL\u0017 I – Zentralinstitut für Ernährungs- und Lebensmittelforschung, Geschäftsstelle und Akademie"
       subtext: Gebäude
   n_visible: 4
-  estimatedTotalHits: 3
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 4124.U1.104
@@ -57,4 +57,4 @@ info: "'ZIEL' should get 'wzw-ziel' in 1 results"
       subtext: "weihenstephan, ZIEL IV - Biowissenschaften"
       subtext_bold: 2.98@4224
   n_visible: 6
-  estimatedTotalHits: 707
+  estimatedTotalHits: "[estimatedTotalHits]"

@@ -27,7 +27,7 @@ info: "'MI HS3' should get '5606.EG.011' in 1 results # This should match this L
       name: Finger 09 (BT09)
       subtext: Gebäudeteil
   n_visible: 5
-  estimatedTotalHits: 14
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 5606.EG.011
@@ -56,4 +56,4 @@ info: "'MI HS3' should get '5606.EG.011' in 1 results # This should match this L
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: "-1.02.001@5602"
   n_visible: 5
-  estimatedTotalHits: 1000
+  estimatedTotalHits: "[estimatedTotalHits]"
