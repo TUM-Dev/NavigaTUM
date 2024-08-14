@@ -10,7 +10,7 @@ pub async fn fetch_indoor_maps_inside_of(
     pool: &PgPool,
     geom: Geometry,
 ) -> anyhow::Result<Vec<i64>> {
-    let filtered_groups = sqlx::query("SELECT group_id from indoor_features where ST_Contains(convex_hull::geometry, $1::geometry)")
+    let filtered_groups = sqlx::query("SELECT group_id from indoor_features where ST_Intersects(convex_hull::geometry, $1::geometry)")
         .bind(geozero::wkb::Encode(geom))
         .fetch_all(pool)
         .await?;
