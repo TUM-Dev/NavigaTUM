@@ -32,12 +32,6 @@ pub async fn fetch_indoor_map(pool: &PgPool, id: i64) -> anyhow::Result<Geometry
 
     Ok(value.geometry.unwrap())
 }
-
-#[derive(Deserialize)]
-struct Arguments {
-    bbox: geo::Rect,
-}
-
 #[get("/api/maps/indoor/{id}")]
 pub async fn get_indoor_map(
     params: web::Path<i64>,
@@ -62,12 +56,37 @@ struct RemoteMap {
     url: Url,
 }
 
+#[derive(Deserialize)]
+struct Arguments {
+    bbox: String,
+}
+impl Arguments{
+    fn validate_bbox(&self) -> Result<geo::Rect<f64>, HttpResponse> {
+        let bbox: Vec<f64> = self
+            .bbox
+            .split(",")
+            .filter_map(|s| s.parse().ok())
+            .collect();
+        if bbox.len() != 4 {
+            return Err(HttpResponse::BadRequest().body("the bbox-parameter needs 4 floading point numbers with"));
+        }
+        Ok(geo::Rect::new(
+            geo::Coord::from((bbox[0], bbox[1])),
+            geo::Coord::from((bbox[2], bbox[3])),
+        ))
+    }
+}
+
 #[get("/api/maps/indoor")]
 pub async fn list_indoor_maps(
     web::Query(args): web::Query<Arguments>,
     data: web::Data<crate::AppData>,
 ) -> HttpResponse {
-    let maps = fetch_indoor_maps_inside_of(&data.pool, args.bbox.into()).await;
+    let bbox = match args.validate_bbox() {
+        Ok(bbox) => bbox,
+        Err(e) => return e,
+    };
+    let maps = fetch_indoor_maps_inside_of(&data.pool, bbox.into()).await;
     let maps = match maps {
         Ok(m) => m,
         Err(e) => {
