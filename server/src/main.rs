@@ -198,6 +198,8 @@ async fn run() -> anyhow::Result<()> {
             .app_data(web::Data::new(data.clone()))
             .service(health_status_handler)
             .service(calendar::calendar_handler)
+            .service(maps::indoor::list_indoor_maps)
+            .service(maps::indoor::get_indoor_map)
             .service(search::search_handler)
             .service(web::scope("/api/feedback").configure(feedback::configure))
             .service(web::scope("/api/locations").configure(locations::configure))
