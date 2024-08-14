@@ -75,6 +75,11 @@ time = "0.3.36"
 polars = { version = "0.41.3", features = ["dtype-struct", "parquet"] }
 #polars = { git = "https://github.com/CommanderStorm/polars.git", branch = "serialisation-experiment", features = ["parquet", "serde", "dtype-full"] }
 
+# geodata
+geo = "0.28.0"
+geozero = { version = "0.13.0", features = ["with-postgis-sqlx", "with-geojson"] }
+geo-types = "0.7.13"
+
 [dev-dependencies]
 insta = { version = "1.39.0", features = ["json", "redactions", "yaml"] }
 pretty_assertions = "1.4.0"
@@ -111,3 +116,8 @@ similar.opt-level = 3
 ignored = [
     "rustls", # we need to configure between ring and aws crypto library
 ]
+
+[patch.crates-io]
+# needs release after 0.13
+# https://github.com/georust/geozero/tags
+geozero = { git = "https://github.com/georust/geozero.git", rev = "f8ab4363b0660cd84a58212039651fd68c3a8567" }
