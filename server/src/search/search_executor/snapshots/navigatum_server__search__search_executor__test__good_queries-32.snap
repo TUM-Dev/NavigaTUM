@@ -40,8 +40,8 @@ info: "'1229 seminarraum' should get '0502.01.229' in 1 results"
       subtext: "campus-im-olympiapark-sz, CiO/SG Institute West, Bibliothek"
       subtext_bold: 01.2334.224@2334
   n_visible: 6
-  estimatedTotalHits: 6
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

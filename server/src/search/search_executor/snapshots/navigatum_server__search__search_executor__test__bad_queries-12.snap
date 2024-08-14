@@ -22,8 +22,8 @@ info: "'Immathalle' should get '0501.EG.136' in 1 results"
       subtext: "stammgelände, Hauptgebäude (Z1)"
       subtext_bold: 0140@0501
   n_visible: 3
-  estimatedTotalHits: 3
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

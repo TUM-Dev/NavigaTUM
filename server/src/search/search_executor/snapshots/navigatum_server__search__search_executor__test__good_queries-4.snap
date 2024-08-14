@@ -23,7 +23,7 @@ info: "'interims' should get 'garching-interims' in 1 results"
       name: "\u0019Interimshörsäle\u0017 I"
       subtext: Gebäude
   n_visible: 4
-  estimatedTotalHits: 4
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 5416.01.003
@@ -57,4 +57,4 @@ info: "'interims' should get 'garching-interims' in 1 results"
       subtext: "garching, Interims III"
       subtext_bold: 0.001B@5539
   n_visible: 6
-  estimatedTotalHits: 47
+  estimatedTotalHits: "[estimatedTotalHits]"

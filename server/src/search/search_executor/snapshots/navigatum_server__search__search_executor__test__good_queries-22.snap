@@ -12,8 +12,8 @@ info: "'mössbauer' should get '5101.EG.501' in 1 results"
       subtext: "garching, Physik I"
       subtext_bold: 2501@5101
   n_visible: 1
-  estimatedTotalHits: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

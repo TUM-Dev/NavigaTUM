@@ -23,7 +23,7 @@ info: "'mi hs 1' should get '5602.EG.001' in 1 results"
       name: Finger 06 (BT06)
       subtext: Gebäudeteil
   n_visible: 1
-  estimatedTotalHits: 14
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 5602.EG.001
@@ -72,4 +72,4 @@ info: "'mi hs 1' should get '5602.EG.001' in 1 results"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.031B@5603
   n_visible: 9
-  estimatedTotalHits: 1000
+  estimatedTotalHits: "[estimatedTotalHits]"

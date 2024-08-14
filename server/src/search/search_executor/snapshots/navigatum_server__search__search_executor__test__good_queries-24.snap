@@ -53,9 +53,14 @@ info: "'2503' should get '5101.EG.503' in 1 results # lecture hall, should be pr
       name: 5115.02.503 (Elt.)
       subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
       subtext_bold: 2.503@5115
-  n_visible: 8
-  estimatedTotalHits: 8
+    - id: 5117.EG.503
+      type: room
+      name: 5117.EG.503 (Fluchttreppe N-W)
+      subtext: "garching, Paula-Hahn-Weinheimerstr. 1"
+      subtext_bold: 2.503@5117
+  n_visible: 9
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

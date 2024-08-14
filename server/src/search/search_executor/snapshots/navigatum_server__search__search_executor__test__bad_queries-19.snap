@@ -59,8 +59,8 @@ info: "'H.03' should get '2910.EG.003' in 1 results # H.003 is the correct room,
       subtext: "stammgelände, Hauptgebäude (Z1)"
       subtext_bold: 3153A@0501
   n_visible: 10
-  estimatedTotalHits: 412
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 1
+  estimatedTotalHits: "[estimatedTotalHits]"

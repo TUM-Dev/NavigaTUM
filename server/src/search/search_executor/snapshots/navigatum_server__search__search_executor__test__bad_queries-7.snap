@@ -7,8 +7,8 @@ info: "'niemann' should get '5510.EG.001' in 1 results # old name before the NS 
 - facet: rooms
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

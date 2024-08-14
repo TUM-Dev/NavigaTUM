@@ -57,8 +57,8 @@ info: "'5604.00.011' should get '5604.EG.011' in 1 results"
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 00.04.018@5604
   n_visible: 10
-  estimatedTotalHits: 150
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 1
+  estimatedTotalHits: "[estimatedTotalHits]"

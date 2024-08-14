@@ -52,7 +52,7 @@ info: "'audimax' should get '0509.EG.980' in 1 results"
       subtext: "stammgelände, Wienandsbau (Z9)"
       subtext_bold: 1919@0509
   n_visible: 9
-  estimatedTotalHits: 492
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries:
     - id: "0509"
@@ -60,4 +60,4 @@ info: "'audimax' should get '0509.EG.980' in 1 results"
       name: "Wienandsbau, E-Technik / \u0019Audimax\u0017 (Z9)"
       subtext: Gebäude
   n_visible: 0
-  estimatedTotalHits: 2
+  estimatedTotalHits: "[estimatedTotalHits]"

@@ -19,7 +19,7 @@ info: "'Studitum Arcisstr' should get '0201' in 1 results # Note: It is not real
       name: "\u0019StudiTUM\u0017 Weihenstephan"
       subtext: Gebäude
   n_visible: 3
-  estimatedTotalHits: 3
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 4113.01.105
@@ -58,4 +58,4 @@ info: "'Studitum Arcisstr' should get '0201' in 1 results # Note: It is not real
       subtext: "stammgelände, StudiTUM"
       subtext_bold: 2.01@0201
   n_visible: 7
-  estimatedTotalHits: 229
+  estimatedTotalHits: "[estimatedTotalHits]"

@@ -27,7 +27,7 @@ info: "'mw g niemann' should get '5510.EG.001' in 1 results # old name before th
       name: "Gebäudeteil 4, Institut für Verfahrenstechnik"
       subtext: Gebäudeteil
   n_visible: 5
-  estimatedTotalHits: 19
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 5510.02.001
@@ -56,4 +56,4 @@ info: "'mw g niemann' should get '5510.EG.001' in 1 results # old name before th
       subtext: "garching, Maschinenwesen (MW)"
       subtext_bold: 0608M@5506
   n_visible: 5
-  estimatedTotalHits: 1000
+  estimatedTotalHits: "[estimatedTotalHits]"

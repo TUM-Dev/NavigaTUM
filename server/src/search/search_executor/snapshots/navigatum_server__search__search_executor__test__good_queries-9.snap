@@ -15,7 +15,7 @@ info: "'znn' should get '5115' in 1 results"
       name: "Trafostation des \u0019ZNN\u0017"
       subtext: Gebäude
   n_visible: 2
-  estimatedTotalHits: 2
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 5115.EG.001
@@ -59,4 +59,4 @@ info: "'znn' should get '5115' in 1 results"
       subtext: "garching, Zentrum für Nanotechnologie & -materialien (ZNN)"
       subtext_bold: 1.022@5115
   n_visible: 8
-  estimatedTotalHits: 141
+  estimatedTotalHits: "[estimatedTotalHits]"

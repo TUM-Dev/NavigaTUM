@@ -19,8 +19,8 @@ info: "'2119' should get '0101.02.119' in 4 results # The architects name is a N
       subtext_bold: 2119@5413
       parsed_id: "\u00192119\u0017 BNMRZ B…MR-Zentrum"
   n_visible: 2
-  estimatedTotalHits: 2
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

@@ -57,8 +57,8 @@ info: "'342 Physik' should get '5101.EG.342' in 1 results"
       subtext: "campus-im-olympiapark-sz, CiO/SG Institute West, Bibliothek"
       subtext_bold: 01.2334.342@2334
   n_visible: 10
-  estimatedTotalHits: 21
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

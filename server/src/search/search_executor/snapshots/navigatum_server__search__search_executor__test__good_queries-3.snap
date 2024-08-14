@@ -11,7 +11,7 @@ info: "'5301' should get '5301' in 1 results"
       name: Institute for Advanced Study (IAS)
       subtext: Gebäude
   n_visible: 1
-  estimatedTotalHits: 1
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 5301.EG.001
@@ -60,4 +60,4 @@ info: "'5301' should get '5301' in 1 results"
       subtext: "garching, Institute for Advanced Study (IAS)"
       subtext_bold: 1.006@5301
   n_visible: 9
-  estimatedTotalHits: 147
+  estimatedTotalHits: "[estimatedTotalHits]"

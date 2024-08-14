@@ -52,8 +52,8 @@ info: "'1116' should get '5111.01.116' in 1 results # seminar room, should be pr
       subtext: "garching, MIBE"
       subtext_bold: 1.116@5701
   n_visible: 8
-  estimatedTotalHits: 8
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

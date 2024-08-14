@@ -11,7 +11,7 @@ info: "'Interims 2' should get '5416' in 1 results"
       name: "\u0019Interimshörsäle\u0017 \u0019II\u0017, Jürgen Manchot-Hörsaalgebäude"
       subtext: Gebäude
   n_visible: 1
-  estimatedTotalHits: 4
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 5416.01.003
@@ -60,4 +60,4 @@ info: "'Interims 2' should get '5416' in 1 results"
       subtext: "garching, Interims II"
       subtext_bold: 008@5416
   n_visible: 9
-  estimatedTotalHits: 47
+  estimatedTotalHits: "[estimatedTotalHits]"

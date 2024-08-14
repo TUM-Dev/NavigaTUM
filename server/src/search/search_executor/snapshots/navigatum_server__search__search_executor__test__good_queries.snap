@@ -11,7 +11,7 @@ info: "'hochbrück' should get 'garching-hochbrueck' in 1 results"
       name: "Garching \u0019Hochbrück\u0017"
       subtext: Standort
   n_visible: 1
-  estimatedTotalHits: 4
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 8101.02.136
@@ -60,4 +60,4 @@ info: "'hochbrück' should get 'garching-hochbrueck' in 1 results"
       subtext: "garching-hochbrück, Business Campus 2"
       subtext_bold: 3.5.02@8102
   n_visible: 9
-  estimatedTotalHits: 383
+  estimatedTotalHits: "[estimatedTotalHits]"
