@@ -58,7 +58,7 @@ importers:
         version: 0.0.8
       nightwind:
         specifier: 1.1.13
-        version: 1.1.13(tailwindcss@3.4.9)
+        version: 1.1.13(tailwindcss@3.4.10)
       nuxt:
         specifier: 3.12.4
         version: 3.12.4(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.15)(encoding@0.1.13)(eslint@9.9.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.3)(rollup@4.18.0)(terser@5.30.0)(typescript@5.5.4)(vite@5.3.4(@types/node@20.14.15)(terser@5.30.0))(vue-tsc@2.0.29(typescript@5.5.4))
@@ -124,8 +124,8 @@ importers:
         specifier: 0.6.6
         version: 0.6.6(prettier@3.3.3)
       tailwindcss:
-        specifier: 3.4.9
-        version: 3.4.9
+        specifier: 3.4.10
+        version: 3.4.10
       typescript:
         specifier: 5.5.4
         version: 5.5.4
@@ -5726,8 +5726,8 @@ packages:
     peerDependencies:
       tailwindcss: 1 || 2 || 2.0.1-compat || 3
 
-  tailwindcss@3.4.9:
-    resolution: {integrity: sha512-1SEOvRr6sSdV5IDf9iC+NU4dhwdqzF4zKKq3sAbasUWHEM6lsMhX+eNN5gkPx1BvLFEnZQEUFbXnGj8Qlp83Pg==}
+  tailwindcss@3.4.10:
+    resolution: {integrity: sha512-KWZkVPm7yJRhdu4SRSl9d4AK2wM3a50UsvgHZO7xY77NQr2V+fIrEuoDGQcbvswWvFGbS2f6e+jC/6WJm1Dl0w==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -7883,8 +7883,8 @@ snapshots:
       pathe: 1.1.2
       postcss: 8.4.41
       postcss-nesting: 12.1.5(postcss@8.4.41)
-      tailwind-config-viewer: 2.0.4(tailwindcss@3.4.9)
-      tailwindcss: 3.4.9
+      tailwind-config-viewer: 2.0.4(tailwindcss@3.4.10)
+      tailwindcss: 3.4.10
       ufo: 1.5.3
       unctx: 2.3.1
     transitivePeerDependencies:
@@ -8757,7 +8757,7 @@ snapshots:
 
   '@types/nightwind@1.0.0':
     dependencies:
-      tailwindcss: 3.4.9
+      tailwindcss: 3.4.10
     transitivePeerDependencies:
       - ts-node
 
@@ -11793,9 +11793,9 @@ snapshots:
 
   negotiator@0.6.3: {}
 
-  nightwind@1.1.13(tailwindcss@3.4.9):
+  nightwind@1.1.13(tailwindcss@3.4.10):
     dependencies:
-      tailwindcss: 3.4.9
+      tailwindcss: 3.4.10
 
   nitropack@2.9.7(@opentelemetry/api@1.9.0)(encoding@0.1.13)(magicast@0.3.4):
     dependencies:
@@ -13459,7 +13459,7 @@ snapshots:
 
   system-architecture@0.1.0: {}
 
-  tailwind-config-viewer@2.0.4(tailwindcss@3.4.9):
+  tailwind-config-viewer@2.0.4(tailwindcss@3.4.10):
     dependencies:
       '@koa/router': 12.0.1
       commander: 6.2.1
@@ -13469,11 +13469,11 @@ snapshots:
       open: 7.4.2
       portfinder: 1.0.32
       replace-in-file: 6.3.5
-      tailwindcss: 3.4.9
+      tailwindcss: 3.4.10
     transitivePeerDependencies:
       - supports-color
 
-  tailwindcss@3.4.9:
+  tailwindcss@3.4.10:
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2
