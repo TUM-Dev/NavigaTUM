@@ -8,11 +8,11 @@ services:
       TZ: Europe/Berlin
       NUXT_PUBLIC_MAPS_URL: https://nav.tum.de/maps
       NUXT_PUBLIC_CDN_URL: http://data:3002
-      NUXT_PUBLIC_API_URL: http://api:3003
+      NUXT_PUBLIC_API_URL: http://server:3003
     depends_on:
       data:
         condition: service_healthy
-      api:
+      server:
         condition: service_healthy
   # cdn
   data:
@@ -22,7 +22,7 @@ services:
       TZ: Europe/Berlin
     ports:
       - "3002:3002"
-  api:
+  server:
     restart: unless-stopped
     build:
       args:
@@ -50,7 +50,9 @@ services:
       JWT_KEY: ${JWT_KEY}
     depends_on:
       meilisearch:
-        condition: service_started
+        condition: service_healthy
+      osm2pgsql-init:
+        condition: service_completed_successfully
       db:
         condition: service_healthy
   meilisearch:

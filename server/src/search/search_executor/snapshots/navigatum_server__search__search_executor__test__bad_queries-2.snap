@@ -15,7 +15,7 @@ info: "'tb innenstadt' should get 'tb-arcisstraße' in 1 results # target is hal
       name: "\u0019Teilbibliothek\u0017 Chemie, Hörsaal (CH1, dunkelgrün)"
       subtext: Gebäudeteil
   n_visible: 2
-  estimatedTotalHits: 2
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: rooms
   entries:
     - id: 5401.01.101K
@@ -59,4 +59,4 @@ info: "'tb innenstadt' should get 'tb-arcisstraße' in 1 results # target is hal
       subtext: "weihenstephan, Teilbibliothek Weihenstephan, Pressestelle Datenverarbeitung"
       subtext_bold: OG R 07@4220
   n_visible: 8
-  estimatedTotalHits: 392
+  estimatedTotalHits: "[estimatedTotalHits]"

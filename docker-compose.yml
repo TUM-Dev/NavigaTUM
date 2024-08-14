@@ -150,6 +150,8 @@ services:
     depends_on:
       meilisearch:
         condition: service_healthy
+      osm2pgsql-init:
+        condition: service_started
       db:
         condition: service_healthy
   meilisearch:

@@ -57,8 +57,8 @@ info: "'N1406' should get '0104.01.406' in 1 results # Architects names should b
       subtext: "stammgelände, E-Technik El. Maschinen / Geräte (N3)"
       subtext_bold: N1306@0103
   n_visible: 10
-  estimatedTotalHits: 558
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

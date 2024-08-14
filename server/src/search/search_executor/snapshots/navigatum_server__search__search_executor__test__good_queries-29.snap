@@ -57,8 +57,8 @@ info: "'0026m@5510' should get '5510.EG.026M' in 1 results"
       subtext: "garching, Maschinenwesen (MW)"
       subtext_bold: 0126M@5501
   n_visible: 10
-  estimatedTotalHits: 15
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

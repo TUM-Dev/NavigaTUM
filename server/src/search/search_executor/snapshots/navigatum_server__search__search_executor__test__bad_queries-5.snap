@@ -57,8 +57,8 @@ info: "'Karlsstr. 47' should get '2906' in 1 results # uses 'str.' instead of 's
       subtext: Karlstraße 45/47
       subtext_bold: 1004@2906
   n_visible: 10
-  estimatedTotalHits: 204
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

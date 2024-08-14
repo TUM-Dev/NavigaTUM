@@ -47,7 +47,7 @@ info: "'f abuer' should get '5602.EG.001' in 1 results # typo with short word an
       subtext: "garching, Chemie"
       subtext_bold: 16515@5407
   n_visible: 8
-  estimatedTotalHits: 130
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries:
     - id: "2913"
@@ -59,4 +59,4 @@ info: "'f abuer' should get '5602.EG.001' in 1 results # typo with short word an
       name: "Fahrzeughalle (BL. \u0019F\u0017)"
       subtext: Gebäude
   n_visible: 0
-  estimatedTotalHits: 2
+  estimatedTotalHits: "[estimatedTotalHits]"

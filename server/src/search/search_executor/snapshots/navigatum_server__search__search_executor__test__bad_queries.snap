@@ -57,8 +57,8 @@ info: "'mathe bib' should get 'mi-bib' in 1 results # target is hallucinated as 
       subtext: "garching, Mathe/Info (MI)"
       subtext_bold: 01.03.037B@5603
   n_visible: 10
-  estimatedTotalHits: 1000
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"

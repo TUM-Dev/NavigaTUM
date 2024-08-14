@@ -59,8 +59,8 @@ info: "'1801 maschinen' should get '5508.02.801' in 1 results"
       subtext: "garching, RCM Radiochemie München"
       subtext_bold: L.1.801@5212
   n_visible: 10
-  estimatedTotalHits: 12
+  estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
   entries: []
   n_visible: 0
-  estimatedTotalHits: 0
+  estimatedTotalHits: "[estimatedTotalHits]"
