@@ -1,4 +1,4 @@
-use actix_web::{post, web, HttpResponse};
+use actix_web::{get, web, HttpResponse};
 use geo_types::Geometry;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
