@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { addIndoorTo, IndoorControl, IndoorMap } from "maplibre-gl-indoor";
+import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
 import { webglSupport } from "~/composables/webglSupport";
 import type { MaplibreMapWithIndoor, IndoorMapOptions } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
-import type { FeatureCollection } from "geojson";
 
 const props = defineProps<{ data: DetailsResponse }>();
 const map = ref<MaplibreMapWithIndoor | undefined>(undefined);
@@ -170,8 +169,6 @@ async function initMap(containerId: string): Promise<MaplibreMapWithIndoor> {
     map.addControl(attrib);
     attrib._toggleAttribution();
   });
-
-  addIndoorTo(map);
 
   const indoorOptions = { showFeaturesWithEmptyLevel: false } as IndoorMapOptions;
   MapServerHandler.manage(`${runtimeConfig.public.apiURL}/api/maps/indoor`, map, indoorOptions);
