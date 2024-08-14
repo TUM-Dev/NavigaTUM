@@ -76,9 +76,9 @@ polars = { version = "0.41.3", features = ["dtype-struct", "parquet"] }
 #polars = { git = "https://github.com/CommanderStorm/polars.git", branch = "serialisation-experiment", features = ["parquet", "serde", "dtype-full"] }
 
 # geodata
-geo = "0.28.0"
-geozero = { version = "0.13.0", features = ["with-postgis-sqlx", "with-geojson"] }
-geo-types = "0.7.13"
+geo = { version = "0.28.0", features = ["use-serde"], default-features = false }
+geozero = { version = "0.13.0", features = ["with-postgis-sqlx", "with-geojson", "with-wkt", "with-geo", "with-geojson", ], default-features = false }
+geo-types = { version = "0.7.13", default-features = false }
 
 [dev-dependencies]
 insta = { version = "1.39.0", features = ["json", "redactions", "yaml"] }
