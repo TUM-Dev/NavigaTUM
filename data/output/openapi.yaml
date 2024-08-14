@@ -1339,8 +1339,10 @@ components:
       type: object
       properties:
         name:
+          description: name of the map
           type: string
-        path:
+        url:
+          description: where the indoor geojson is located at
           type: string
       required:
         - name
