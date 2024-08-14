@@ -173,13 +173,8 @@ async function initMap(containerId: string): Promise<MaplibreMapWithIndoor> {
 
   addIndoorTo(map);
 
-  // Retrieve the geojson from the path and add the map
-  const geojson: FeatureCollection = await (await fetch("/gare-de-l-est.geojson")).json();
-  const indoorOptions = {
-    showFeaturesWithEmptyLevel: false,
-  } as IndoorMapOptions;
-  const indoorMap = IndoorMap.fromGeojson(geojson, indoorOptions);
-  await map.indoor.addMap(indoorMap);
+  const indoorOptions = { showFeaturesWithEmptyLevel: false } as IndoorMapOptions;
+  MapServerHandler.manage(`${runtimeConfig.public.apiURL}/api/maps/indoor`, map, indoorOptions);
 
   // Add the specific control
   map.addControl(new IndoorControl(), "bottom-left");
