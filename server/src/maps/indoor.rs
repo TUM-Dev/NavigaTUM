@@ -38,7 +38,7 @@ struct Arguments {
     bbox: geo::Rect,
 }
 
-#[post("/api/maps/indoor/{id}")]
+#[get("/api/maps/indoor/{id}")]
 pub async fn get_indoor_map(
     params: web::Path<i64>,
     data: web::Data<crate::AppData>,
@@ -62,7 +62,7 @@ struct RemoteMap {
     url: Url,
 }
 
-#[post("/api/maps/indoor")]
+#[get("/api/maps/indoor")]
 pub async fn list_indoor_maps(
     web::Query(args): web::Query<Arguments>,
     data: web::Data<crate::AppData>,
