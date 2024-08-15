@@ -85,11 +85,11 @@ export default defineNuxtConfig({
     locales: [
       {
         code: "en",
-        iso: "en-US",
+        language: "en-US",
       },
       {
         code: "de",
-        iso: "de-DE",
+        language: "de-DE",
       },
     ],
     defaultLocale: "de",
