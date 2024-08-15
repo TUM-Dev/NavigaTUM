@@ -60,7 +60,7 @@ struct RemoteMap {
 struct Arguments {
     bbox: String,
 }
-impl Arguments{
+impl Arguments {
     fn validate_bbox(&self) -> Result<geo::Rect<f64>, HttpResponse> {
         let bbox: Vec<f64> = self
             .bbox
@@ -68,7 +68,8 @@ impl Arguments{
             .filter_map(|s| s.parse().ok())
             .collect();
         if bbox.len() != 4 {
-            return Err(HttpResponse::BadRequest().body("the bbox-parameter needs 4 floading point numbers with"));
+            return Err(HttpResponse::BadRequest()
+                .body("the bbox-parameter needs 4 floading point numbers with"));
         }
         Ok(geo::Rect::new(
             geo::Coord::from((bbox[0], bbox[1])),
