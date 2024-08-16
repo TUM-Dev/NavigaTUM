@@ -76,8 +76,8 @@ impl Arguments {
                 .body("the bbox-parameter needs 4 floading point numbers with"));
         }
         Ok(geo::Rect::new(
-            geo::Coord::from((bbox[0], bbox[1])),
-            geo::Coord::from((bbox[2], bbox[3])),
+            geo::Coord::from((bbox[1], bbox[0])),
+            geo::Coord::from((bbox[3], bbox[2])),
         ))
     }
 }
