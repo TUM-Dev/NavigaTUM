@@ -3,7 +3,7 @@ use geo_types::Geometry;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
 use sqlx::{PgPool, Row};
-use tracing::{error, info};
+use tracing::error;
 
 #[tracing::instrument(skip(pool))]
 pub async fn fetch_indoor_maps_inside_of(
@@ -27,14 +27,14 @@ pub async fn fetch_indoor_maps_inside_of(
     Ok(filtered_group_ids)
 }
 #[tracing::instrument(skip(pool))]
-pub async fn fetch_indoor_map(pool: &PgPool, id: i64) -> anyhow::Result<Geometry> {
+pub async fn fetch_indoor_map(pool: &PgPool, id: i64) -> anyhow::Result<serde_json::Value> {
     let row = sqlx::query("SELECT features from indoor_features where group_id = $1")
         .bind(id)
         .fetch_one(pool)
         .await?;
-    let value: geozero::wkb::Decode<Geometry> = row.get(0);
+    let value: serde_json::Value = row.get(0);
 
-    Ok(value.geometry.unwrap())
+    Ok(value)
 }
 #[get("/api/maps/indoor/{id}")]
 pub async fn get_indoor_map(
@@ -43,15 +43,13 @@ pub async fn get_indoor_map(
 ) -> HttpResponse {
     let id = params.into_inner();
     let map = fetch_indoor_map(&data.pool, id).await;
-    let geometry = match map {
-        Ok(g) => g,
+    match map {
+        Ok(geometry) => HttpResponse::Ok().json(geometry),
         Err(err) => {
             error!("Failed to fetch indoor map {id} because {err:?}");
-            return HttpResponse::InternalServerError().finish();
+            HttpResponse::InternalServerError().finish()
         }
-    };
-    info!("fetched {geometry:?}");
-    HttpResponse::Ok().finish()
+    }
 }
 
 #[derive(Serialize)]
