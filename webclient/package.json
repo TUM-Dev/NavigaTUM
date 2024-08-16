@@ -27,7 +27,7 @@
     "@vueuse/nuxt": "10.11.1",
     "@vueuse/router": "10.11.1",
     "maplibre-gl": "4.5.2",
-    "maplibre-gl-indoor": "0.0.10",
+    "maplibre-gl-indoor": "0.0.11",
     "nightwind": "1.1.13",
     "nuxt": "3.12.4",
     "sharp": "0.33.4",
