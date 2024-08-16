@@ -47,7 +47,7 @@ async function loadInteractiveMap() {
     };
 
     map.value?.flyTo({
-      center: [2.3596569, 48.8765734],
+      center: [11.670099, 48.266921],
       zoom: defaultZooms[props.data.type || "undefined"] || 16,
       speed: 1,
       maxDuration: 2000,
