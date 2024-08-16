@@ -11,10 +11,10 @@ with geometry(gid, geom, tags) AS (SELECT way_id AS gid, geom, tags
                                    SELECT node_id AS gid, geom, tags
                                    FROM indoor_nodes),
      geometry_in_lat_lon(gid, geom, tags) AS (SELECT gid, ST_Transform(geom, 4326), tags FROM geometry),
-     -- clustered to within about ~2m of non-overlapping distance
+     -- clustered to within about ~20m of non-overlapping distance
      clustered_geometry(gid, group_id, geom, tags)
          AS (SELECT gid,
-                    ST_ClusterWithinWin(geom, 0.00001) OVER () AS group_id,
+                    ST_ClusterWithinWin(geom, 0.0001) OVER () AS group_id,
                     geom,
                     tags
              FROM geometry_in_lat_lon),
