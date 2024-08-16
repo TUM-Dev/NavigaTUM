@@ -138,6 +138,8 @@ export default defineNuxtConfig({
     "/en/building/**": { swr: 3600 },
     "/en/room/**": { swr: 3600 },
     "/en/poi/**": { swr: 3600 },
+    "/next": { ssr: false },
+    "/en/next": { ssr: false },
   },
   typescript: {
     typeCheck: true,
