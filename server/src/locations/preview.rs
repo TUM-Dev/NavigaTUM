@@ -12,7 +12,7 @@ use unicode_truncate::UnicodeTruncateStr;
 use crate::limited::vec::LimitedVec;
 use crate::localisation;
 use crate::maps::overlay_map::OverlayMapTask;
-use crate::maps::overlay_text::{OverlayText, CANTARELL_BOLD, CANTARELL_REGULAR};
+use crate::maps::overlay_text::{cantarell_bold, cantarell_regular, OverlayText};
 use crate::models::LocationKeyAlias;
 
 #[derive(Debug)]
@@ -127,10 +127,10 @@ fn draw_bottom(data: &Location, img: &mut image::RgbaImage) {
     } else {
         data.name.clone()
     };
-    OverlayText::with(&name, &CANTARELL_BOLD)
+    OverlayText::with(&name, cantarell_bold())
         .at(10, 125 - 10)
         .draw_onto(img);
-    OverlayText::with(&data.type_common_name, &CANTARELL_REGULAR)
+    OverlayText::with(&data.type_common_name, cantarell_regular())
         .at(10, 125 - 50)
         .draw_onto(img);
 }

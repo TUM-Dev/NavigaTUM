@@ -138,7 +138,7 @@ mod db_tests {
     use actix_web::http::header::ContentType;
     use actix_web::test;
     use actix_web::App;
-    use lazy_static::lazy_static;
+    use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
     use pretty_assertions::assert_eq;
     use serde_json::Value;
 
@@ -147,36 +147,28 @@ mod db_tests {
 
     use super::*;
 
-    lazy_static! {
-        static ref TIME_Y2K: DateTime<Utc> =
-            DateTime::parse_from_rfc3339("2000-01-01T00:00:00-00:00")
-                .unwrap()
-                .to_utc();
-        static ref TIME_2010: DateTime<Utc> =
-            DateTime::parse_from_rfc3339("2010-01-01T00:00:00-00:00")
-                .unwrap()
-                .to_utc();
-        static ref TIME_2012: DateTime<Utc> =
-            DateTime::parse_from_rfc3339("2012-01-01T00:00:00-00:00")
-                .unwrap()
-                .to_utc();
-        static ref TIME_2014: DateTime<Utc> =
-            DateTime::parse_from_rfc3339("2014-01-01T00:00:00-00:00")
-                .unwrap()
-                .to_utc();
-        static ref TIME_2016: DateTime<Utc> =
-            DateTime::parse_from_rfc3339("2016-01-01T00:00:00-00:00")
-                .unwrap()
-                .to_utc();
-        static ref TIME_2018: DateTime<Utc> =
-            DateTime::parse_from_rfc3339("2018-01-01T00:00:00-00:00")
-                .unwrap()
-                .to_utc();
-        static ref TIME_2020: DateTime<Utc> =
-            DateTime::parse_from_rfc3339("2020-01-01T00:00:00-00:00")
-                .unwrap()
-                .to_utc();
+    /// Workaround because [`Option::unwrap()`] is not (yet) available in const context.
+    /// See https://github.com/rust-lang/rust/issues/67441 for further context
+    const fn unwrap<T: Copy>(opt: Option<T>) -> T {
+        match opt {
+            Some(val) => val,
+            None => panic!("unwrapped None"),
+        }
     }
+    const fn datetime_from_ymd(year: i32, month: u32, day: u32) -> DateTime<Utc> {
+        let date = unwrap(NaiveDate::from_ymd_opt(year, month, day));
+        let time = unwrap(NaiveTime::from_num_seconds_from_midnight_opt(0, 0));
+        let naive_datetime = NaiveDateTime::new(date, time);
+        DateTime::from_naive_utc_and_offset(naive_datetime, Utc)
+    }
+    const TIME_Y2K: DateTime<Utc> = datetime_from_ymd(2000, 1, 1);
+    const TIME_2010: DateTime<Utc> = datetime_from_ymd(2010, 1, 1);
+    const TIME_2012: DateTime<Utc> = datetime_from_ymd(2012, 1, 1);
+    const TIME_2014: DateTime<Utc> = datetime_from_ymd(2014, 1, 1);
+    const TIME_2016: DateTime<Utc> = datetime_from_ymd(2016, 1, 1);
+    const TIME_2018: DateTime<Utc> = datetime_from_ymd(2018, 1, 1);
+    const TIME_2020: DateTime<Utc> = datetime_from_ymd(2020, 1, 1);
+
     fn sample_data() -> (Vec<(String, Value)>, Vec<Event>) {
         (
             vec![
@@ -197,8 +189,8 @@ mod db_tests {
                 Event {
                     id: 1,
                     room_code: "5121.EG.003".into(),
-                    start_at: *TIME_2012,
-                    end_at: *TIME_2014,
+                    start_at: TIME_2012.clone(),
+                    end_at: TIME_2014.clone(),
                     title_de: "Quantenteleportation".into(),
                     title_en: "Quantum teleportation".into(),
                     stp_type: Some("Vorlesung mit Zentralübung".into()),
@@ -208,8 +200,8 @@ mod db_tests {
                 Event {
                     id: 2,
                     room_code: "5121.EG.003".into(),
-                    start_at: *TIME_2014,
-                    end_at: *TIME_2016,
+                    start_at: TIME_2014.clone(),
+                    end_at: TIME_2016.clone(),
                     title_de: "Quantenteleportation 2".into(),
                     title_en: "Quantum teleportation 2".into(),
                     stp_type: Some("Vorlesung mit Zentralübung".into()),
@@ -219,8 +211,8 @@ mod db_tests {
                 Event {
                     id: 3,
                     room_code: "5121.EG.001".into(),
-                    start_at: *TIME_2014,
-                    end_at: *TIME_2016,
+                    start_at: TIME_2014.clone(),
+                    end_at: TIME_2016.clone(),
                     title_de: "Wartung".into(),
                     title_en: "maintenance".into(),
                     stp_type: Some("Vorlesung mit Zentralübung".into()),
@@ -230,8 +222,8 @@ mod db_tests {
                 Event {
                     id: 4,
                     room_code: "5121.EG.001".into(),
-                    start_at: *TIME_Y2K,
-                    end_at: *TIME_2020,
+                    start_at: TIME_Y2K.clone(),
+                    end_at: TIME_2020.clone(),
                     title_de: "Quantenteleportation 3".into(),
                     title_en: "Quantum teleportation 3".into(),
                     stp_type: Some("Vorlesung".into()),
@@ -241,8 +233,8 @@ mod db_tests {
                 Event {
                     id: 5,
                     room_code: "5121.EG.001".into(),
-                    start_at: *TIME_Y2K,
-                    end_at: *TIME_2010,
+                    start_at: TIME_Y2K.clone(),
+                    end_at: TIME_2010.clone(),
                     title_de: "Quantenteleportation 3".into(),
                     title_en: "Quantum teleportation 3".into(),
                     stp_type: Some("Vorlesung".into()),
@@ -356,8 +348,8 @@ mod db_tests {
         {
             // show all entries of 5121.EG.003
             let args = Arguments {
-                start_after: *TIME_Y2K,
-                end_before: *TIME_2020,
+                start_after: TIME_Y2K.clone(),
+                end_before: TIME_2020.clone(),
                 ids: vec!["5121.EG.003".into()],
             };
             let req = test::TestRequest::post()

@@ -59,7 +59,6 @@ reqwest = { version = "0.12.4", default-features = false, features = ["gzip", "h
 image = { version = "0.25.1", default-features = false, features = ["jpeg", "png", "webp"] }
 imageproc = "0.25.0"
 ab_glyph = { version = "0.2.25", default-features = false }
-lazy_static = "1.4.0"
 
 rand = "0.8.5"
 octocrab = { version = "0.39.0", default-features = false, features = ["default-client", "retry", "rustls", "rustls-webpki-tokio"] }
