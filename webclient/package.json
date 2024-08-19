@@ -38,7 +38,7 @@
     "vue3-carousel": "0.3.3"
   },
   "devDependencies": {
-    "@nuxt/eslint": "0.5.0",
+    "@nuxt/eslint": "0.5.1",
     "@nuxtjs/i18n": "8.4.0",
     "@nuxtjs/tailwindcss": "6.12.1",
     "@types/geojson": "7946.0.14",
