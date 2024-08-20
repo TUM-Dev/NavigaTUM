@@ -70,9 +70,7 @@ actix-governor = { version = "0.5.0", features = ["logger"] }
 # proposing feedback
 tempfile = "3.10.1"
 base64 = "0.22.1"
-time = "0.3.36"
-polars = { version = "0.42.0", features = ["dtype-struct", "parquet"] }
-#polars = { git = "https://github.com/CommanderStorm/polars.git", branch = "serialisation-experiment", features = ["parquet", "serde", "dtype-full"] }
+polars = { version = "0.42.0", features = ["dtype-struct", "dtype-date", "dtype-datetime", "dtype-duration", "parquet"], default-features = false }
 
 # geodata
 geo = { version = "0.28.0", features = ["use-serde"], default-features = false }
