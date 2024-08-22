@@ -145,7 +145,10 @@ export default defineNuxtConfig({
     typeCheck: true,
     strict: true,
   },
-  sourcemap: true,
+  sourcemap: {
+    server: false,
+    client: true,
+  },
   image: {
     domains: ["nav.tum.de"],
   },
