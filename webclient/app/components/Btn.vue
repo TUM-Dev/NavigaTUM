@@ -67,7 +67,7 @@ const sizeClasses = computed(() => {
     :type="props.type"
     v-bind="{ disabled: disabled }"
     :class="`focusable flex flex-row gap-1 ${variantClasses} ${sizeClasses}`"
-    prefetch
+    prefetch-on="interaction"
     @click="emit('click')"
   >
     <slot />
