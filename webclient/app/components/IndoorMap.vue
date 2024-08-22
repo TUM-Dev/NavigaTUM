@@ -2,11 +2,11 @@
 import { IndoorControl, MapServerHandler } from "maplibre-gl-indoor";
 import { AttributionControl, FullscreenControl, GeolocateControl, Map, Marker, NavigationControl } from "maplibre-gl";
 import { webglSupport } from "~/composables/webglSupport";
-import type { MaplibreMapWithIndoor, IndoorMapOptions } from "maplibre-gl-indoor";
+import type { IndoorMapOptions } from "maplibre-gl-indoor";
 import type { components } from "~/api_types";
 
 const props = defineProps<{ data: DetailsResponse }>();
-const map = ref<MaplibreMapWithIndoor | undefined>(undefined);
+const map = ref<Map | undefined>(undefined);
 const marker = ref<Marker | undefined>(undefined);
 const runtimeConfig = useRuntimeConfig();
 
@@ -38,7 +38,7 @@ async function loadInteractiveMap() {
     const coords = props.data.coords;
     if (map.value !== undefined) {
       marker.value.setLngLat([coords.lon, coords.lat]);
-      marker.value.addTo(map.value as MaplibreMapWithIndoor);
+      marker.value.addTo(map.value as Map);
     }
 
     const defaultZooms: { [index: string]: number | undefined } = {
@@ -73,7 +73,7 @@ function createMarker(hueRotation = 0): HTMLDivElement {
   return markerDiv;
 }
 
-async function initMap(containerId: string): Promise<MaplibreMapWithIndoor> {
+async function initMap(containerId: string): Promise<Map> {
   const map = new Map({
     container: containerId,
     // to make sure that users can share urls
@@ -97,7 +97,7 @@ async function initMap(containerId: string): Promise<MaplibreMapWithIndoor> {
 
     // done manually, to have more control over when it is extended
     attributionControl: false,
-  }) as MaplibreMapWithIndoor;
+  });
 
   // Each source / style change causes the map to get
   // into "loading" state, so map.loaded() is not reliable
@@ -171,10 +171,11 @@ async function initMap(containerId: string): Promise<MaplibreMapWithIndoor> {
   });
 
   const indoorOptions = { showFeaturesWithEmptyLevel: false } as IndoorMapOptions;
-  MapServerHandler.manage(`${runtimeConfig.public.apiURL}/api/maps/indoor`, map, indoorOptions);
+  // @ts-expect-error: somehow ts does not like multiple versi 
+  const mapServerHandler = MapServerHandler.manage(`${runtimeConfig.public.apiURL}/api/maps/indoor`, map, indoorOptions);
 
   // Add the specific control
-  map.addControl(new IndoorControl(), "bottom-left");
+  mapServerHandler.map.addControl(new IndoorControl(), "bottom-left");
 
   return map;
 }
