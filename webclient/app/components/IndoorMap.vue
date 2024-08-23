@@ -171,8 +171,12 @@ async function initMap(containerId: string): Promise<Map> {
   });
 
   const indoorOptions = { showFeaturesWithEmptyLevel: false } as IndoorMapOptions;
-  // @ts-expect-error: somehow ts does not like multiple versi 
-  const mapServerHandler = MapServerHandler.manage(`${runtimeConfig.public.apiURL}/api/maps/indoor`, map, indoorOptions);
+  // @ts-expect-error: somehow ts does not like multiple versi
+  const mapServerHandler = MapServerHandler.manage(
+    `${runtimeConfig.public.apiURL}/api/maps/indoor`,
+    map,
+    indoorOptions,
+  );
 
   // Add the specific control
   mapServerHandler.map.addControl(new IndoorControl(), "bottom-left");
