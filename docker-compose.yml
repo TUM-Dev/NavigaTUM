@@ -195,7 +195,7 @@ services:
       start_period: 20s
   osm-download-data:
     image: alpine:latest
-    command: sh -c "apk --update add --quiet wget && wget https://download.geofabrik.de/europe/germany-latest.osm.pbf -o nul"
+    command: sh -c "apk --update add --quiet wget && wget https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf -o nul"
     working_dir: /map/data
     volumes:
       - ./map/data/:/map/data/:rw
@@ -220,7 +220,7 @@ services:
       - db
       - --port
       - "5432"
-      - /map/data/germany-latest.osm.pbf
+      - /map/data/oberbayern-latest.osm.pbf
       - --output=flex
       - --style
       - /map/osm2pgsql/style.lua
