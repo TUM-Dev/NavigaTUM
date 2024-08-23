@@ -1,4 +1,7 @@
 -- Add up migration script here
+-- indoor features v1 was removed as that version hard-depended on geodata being loaded.
+-- indoor features v2 does not make this assumption
+
 DROP materialized VIEW IF EXISTS indoor_features CASCADE;
 CREATE TABLE indoor_features
 (
