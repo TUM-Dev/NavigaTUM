@@ -131,7 +131,7 @@ async fn get_from_db(
     Ok(LimitedHashMap(located_events))
 }
 
-#[cfg(all(feature = "test-with-geodata", test))]
+#[cfg(test)]
 mod db_tests {
     use std::sync::Arc;
 
@@ -166,7 +166,6 @@ mod db_tests {
     const TIME_2012: DateTime<Utc> = datetime_from_ymd(2012, 1, 1);
     const TIME_2014: DateTime<Utc> = datetime_from_ymd(2014, 1, 1);
     const TIME_2016: DateTime<Utc> = datetime_from_ymd(2016, 1, 1);
-    const TIME_2018: DateTime<Utc> = datetime_from_ymd(2018, 1, 1);
     const TIME_2020: DateTime<Utc> = datetime_from_ymd(2020, 1, 1);
 
     fn sample_data() -> (Vec<(String, Value)>, Vec<Event>) {
@@ -366,8 +365,8 @@ mod db_tests {
         {
             // show both rooms, but a limited timeframe
             let args = Arguments {
-                start_after: *TIME_2012,
-                end_before: *TIME_2014,
+                start_after: TIME_2012.clone(),
+                end_before: TIME_2014.clone(),
                 ids: vec!["5121.EG.003".into(), "5121.EG.001".into()],
             };
             let req = test::TestRequest::post()

@@ -118,6 +118,3 @@ ignored = [
 # needs release after 0.13
 # https://github.com/georust/geozero/tags
 geozero = { git = "https://github.com/georust/geozero.git", rev = "f8ab4363b0660cd84a58212039651fd68c3a8567" }
-
-[features]
-test-with-geodata = []

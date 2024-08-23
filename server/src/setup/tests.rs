@@ -2,17 +2,15 @@ use meilisearch_sdk::client::Client;
 use testcontainers_modules::testcontainers::{ContainerAsync, ImageExt};
 use testcontainers_modules::{meilisearch, testcontainers::runners::AsyncRunner};
 
-#[cfg(feature = "test-with-geodata")]
 pub struct PostgresTestContainer {
     _container: ContainerAsync<testcontainers_modules::postgres::Postgres>,
     pub pool: sqlx::Pool<sqlx::Postgres>,
 }
-#[cfg(feature = "test-with-geodata")]
 
 impl PostgresTestContainer {
     /// Create a postgres instance for testing against
     pub async fn new() -> Self {
-        let container = postgres::Postgres::default()
+        let container = testcontainers_modules::postgres::Postgres::default()
             .with_tag("16-3.4")
             .with_name("postgis/postgis")
             .start()
@@ -23,8 +21,10 @@ impl PostgresTestContainer {
             host = container.get_host().await.unwrap(),
             port = container.get_host_port_ipv4(5432).await.unwrap(),
         );
-        let pool = sqlx::postgres::PgPoolOptions;
-        ::new().connect(&connection_string).await.unwrap();
+        let pool = sqlx::postgres::PgPoolOptions::new()
+            .connect(&connection_string)
+            .await
+            .unwrap();
         crate::setup::database::setup(&pool).await.unwrap();
         Self {
             _container: container,
@@ -61,9 +61,7 @@ impl MeiliSearchTestContainer {
     }
 }
 
-#[cfg(feature = "test-with-geodata")]
 #[tokio::test]
-#[ignore]
 #[tracing_test::traced_test]
 async fn test_db_setup() {
     let pg = PostgresTestContainer::new().await;
@@ -79,7 +77,6 @@ async fn test_db_setup() {
     }
 }
 
-#[cfg(feature = "test-with-geodata")]
 #[tokio::test]
 #[tracing_test::traced_test]
 async fn test_meilisearch_setup() {
