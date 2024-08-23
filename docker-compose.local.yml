@@ -65,9 +65,9 @@ services:
       MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       MEILI_ENV: development
     healthcheck:
-      test: curl --fail http://localhost:7700/health || exit 1
-      retries: 2
-      interval: 600s
+      test: wget --quiet --spider http://localhost:7700/health
+      retries: 5
+      interval: 10s
       start_period: 10s
   db:
     image: postgis/postgis:16-3.4
@@ -86,11 +86,12 @@ services:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
       interval: 10s
-      start_interval: 20s
+      # requires docker v25 to be available for ubuntu
+      # start_interval: 20s
       start_period: 20s
   osm-download-data:
     image: alpine:latest
-    command: sh -c "apk --update add --quiet wget && wget  https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf"
+    command: sh -c "apk --update add --quiet wget && wget https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf"
     working_dir: /map/data
     volumes:
       - ./map/data/:/map/data/:rw
