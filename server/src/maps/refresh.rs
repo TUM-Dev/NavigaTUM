@@ -1,6 +1,22 @@
--- Add up migration script here
-CREATE MATERIALIZED VIEW indoor_features AS
-with geometry(gid, geom, tags) AS (SELECT way_id AS gid, geom, tags
+use sqlx::PgPool;
+
+pub async fn repopulate_indoor_features(pool: &PgPool) -> sqlx::Result<()> {
+    sqlx::query!(r#"
+    with max_version(max_import_version) as (SELECT MAX(import_version) from indoor_features i2),
+         groups_with_outdated_version(group_id, import_version) as (SELECT group_id, import_version
+                                                                from indoor_features,
+                                                                     max_version
+                                                                where import_version < max_import_version)
+
+    DELETE
+    FROM indoor_features
+    where group_id in (select group_id from groups_with_outdated_version)
+      and import_version in (select distinct import_version from groups_with_outdated_version);"#)
+        .execute(pool)
+        .await?;
+    sqlx::query!(r#"
+    WITH max_version(max_import_version) AS (SELECT MAX(import_version) FROM indoor_features i2),
+     geometry(gid, geom, tags) AS (SELECT way_id AS gid, geom, tags
                                    FROM indoor_ways
                                    UNION
                                    DISTINCT
@@ -33,8 +49,11 @@ with geometry(gid, geom, tags) AS (SELECT way_id AS gid, geom, tags
                                                            FROM clustered_features
                                                            GROUP BY group_id
                                                            ORDER BY group_id)
-SELECT group_id, features, convex_hull
-FROM grouped_features;
 
-CREATE index indoor_features_hull_idx ON indoor_features USING GIST (convex_hull);
-CREATE UNIQUE index indoor_features_group_idx ON indoor_features(group_id);
+INSERT
+INTO indoor_features(group_id, features, convex_hull, import_version)
+SELECT group_id, features, convex_hull, COALESCE(max_import_version,-1) + 1
+FROM grouped_features, max_version
+"#).execute(pool).await?;
+    Ok(())
+}
