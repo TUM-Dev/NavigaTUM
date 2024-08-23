@@ -1,6 +1,6 @@
 use sqlx::PgPool;
 
-pub async fn repopulate_indoor_features(pool:&PgPool)->sqlx::Result<()>{
+pub async fn repopulate_indoor_features(pool: &PgPool) -> sqlx::Result<()> {
     sqlx::query!(r#"
     with max_version(max_import_version) as (SELECT MAX(import_version) from indoor_features i2),
          groups_with_outdated_version(group_id, import_version) as (SELECT group_id, import_version

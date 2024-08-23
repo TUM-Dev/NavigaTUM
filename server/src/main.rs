@@ -161,7 +161,9 @@ async fn run_maintenance_work(
     } else {
         info!("skipping the database setup as SKIP_DB_SETUP=true");
     }
-    maps::refresh::repopulate_indoor_features(&pool).await.unwrap();
+    maps::refresh::repopulate_indoor_features(&pool)
+        .await
+        .unwrap();
     calendar::refresh::all_entries(&pool).await;
 }
 

@@ -2,12 +2,10 @@ use meilisearch_sdk::client::Client;
 use testcontainers_modules::testcontainers::{ContainerAsync, ImageExt};
 use testcontainers_modules::{meilisearch, testcontainers::runners::AsyncRunner};
 
-#[cfg(feature = "test-with-geodata")]
 pub struct PostgresTestContainer {
     _container: ContainerAsync<testcontainers_modules::postgres::Postgres>,
     pub pool: sqlx::Pool<sqlx::Postgres>,
 }
-#[cfg(feature = "test-with-geodata")]
 
 impl PostgresTestContainer {
     /// Create a postgres instance for testing against
@@ -61,7 +59,6 @@ impl MeiliSearchTestContainer {
     }
 }
 
-#[cfg(feature = "test-with-geodata")]
 #[tokio::test]
 #[ignore]
 #[tracing_test::traced_test]
@@ -79,7 +76,6 @@ async fn test_db_setup() {
     }
 }
 
-#[cfg(feature = "test-with-geodata")]
 #[tokio::test]
 #[tracing_test::traced_test]
 async fn test_meilisearch_setup() {

@@ -131,7 +131,7 @@ async fn get_from_db(
     Ok(LimitedHashMap(located_events))
 }
 
-#[cfg(all(feature = "test-with-geodata", test))]
+#[cfg(test)]
 mod db_tests {
     use std::sync::Arc;
 

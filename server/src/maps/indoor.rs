@@ -10,7 +10,8 @@ pub async fn fetch_indoor_maps_inside_of(
     pool: &PgPool,
     geom: Geometry,
 ) -> anyhow::Result<Vec<i64>> {
-    let filtered_groups = sqlx::query(r#"
+    let filtered_groups = sqlx::query(
+        r#"
         with max_version(max_import_version) as (SELECT MAX(import_version) from indoor_features i2)
 
         SELECT group_id
@@ -32,13 +33,15 @@ pub async fn fetch_indoor_maps_inside_of(
 }
 #[tracing::instrument(skip(pool))]
 pub async fn fetch_indoor_map(pool: &PgPool, id: i64) -> anyhow::Result<serde_json::Value> {
-    let row = sqlx::query(r#"
+    let row = sqlx::query(
+        r#"
     SELECT features
     FROM indoor_features
-    WHERE group_id = $1"#)
-        .bind(id)
-        .fetch_one(pool)
-        .await?;
+    WHERE group_id = $1"#,
+    )
+    .bind(id)
+    .fetch_one(pool)
+    .await?;
     let value: serde_json::Value = row.get(0);
 
     Ok(value)
