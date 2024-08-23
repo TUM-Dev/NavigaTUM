@@ -22,7 +22,9 @@ impl PostgresTestContainer {
             port = container.get_host_port_ipv4(5432).await.unwrap(),
         );
         let pool = sqlx::postgres::PgPoolOptions::new()
-            .connect(&connection_string).await.unwrap();
+            .connect(&connection_string)
+            .await
+            .unwrap();
         crate::setup::database::setup(&pool).await.unwrap();
         Self {
             _container: container,
@@ -60,7 +62,6 @@ impl MeiliSearchTestContainer {
 }
 
 #[tokio::test]
-#[ignore]
 #[tracing_test::traced_test]
 async fn test_db_setup() {
     let pg = PostgresTestContainer::new().await;
