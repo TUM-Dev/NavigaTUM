@@ -1028,7 +1028,11 @@ export type operations = {
   "list-indoor-maps": {
     parameters: {
       query: {
-        /** @description Bounding box according to https://datatracker.ietf.org/doc/html/rfc7946#section-5 */
+        /**
+         * @description Requires the bbox to be 4 floating point numbers of format y,x,y,x
+         *
+         * Bounding box according to https://datatracker.ietf.org/doc/html/rfc7946#section-5
+         */
         bbox: string;
       };
     };
