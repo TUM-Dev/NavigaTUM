@@ -10,7 +10,7 @@ pub struct PostgresTestContainer {
 impl PostgresTestContainer {
     /// Create a postgres instance for testing against
     pub async fn new() -> Self {
-        let container = postgres::Postgres::default()
+        let container = testcontainers_modules::postgres::Postgres::default()
             .with_tag("16-3.4")
             .with_name("postgis/postgis")
             .start()
@@ -21,8 +21,8 @@ impl PostgresTestContainer {
             host = container.get_host().await.unwrap(),
             port = container.get_host_port_ipv4(5432).await.unwrap(),
         );
-        let pool = sqlx::postgres::PgPoolOptions;
-        ::new().connect(&connection_string).await.unwrap();
+        let pool = sqlx::postgres::PgPoolOptions::new()
+            .connect(&connection_string).await.unwrap();
         crate::setup::database::setup(&pool).await.unwrap();
         Self {
             _container: container,
