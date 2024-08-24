@@ -1,3 +1,4 @@
+use actix_web::http::header::{CacheControl, CacheDirective};
 use actix_web::{get, web, HttpResponse};
 use geo_types::Geometry;
 use reqwest::Url;
@@ -55,7 +56,12 @@ pub async fn get_indoor_map(
     let id = params.into_inner();
     let map = fetch_indoor_map(&data.pool, id).await;
     match map {
-        Ok(geometry) => HttpResponse::Ok().json(geometry),
+        Ok(geometry) => HttpResponse::Ok()
+            .insert_header(CacheControl(vec![
+                CacheDirective::MaxAge(2 * 24 * 60 * 60), // valid for 2d
+                CacheDirective::Public,
+            ]))
+            .json(geometry),
         Err(err) => {
             error!("Failed to fetch indoor map {id} because {err:?}");
             HttpResponse::InternalServerError().finish()

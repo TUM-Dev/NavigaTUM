@@ -1,6 +1,6 @@
 use std::io::Cursor;
 
-use actix_web::http::header::LOCATION;
+use actix_web::http::header::{CacheControl, CacheDirective, LOCATION};
 use actix_web::{get, web, HttpResponse};
 use image::{ImageBuffer, Rgba};
 use serde::Deserialize;
@@ -220,5 +220,11 @@ pub async fn maps_handler(
     let img = construct_image_from_data(data, args.format)
         .await
         .unwrap_or_else(load_default_image);
-    HttpResponse::Ok().content_type("image/png").body(img.0)
+    HttpResponse::Ok()
+        .content_type("image/png")
+        .insert_header(CacheControl(vec![
+            CacheDirective::MaxAge(2 * 24 * 60 * 60), // valid for 2d
+            CacheDirective::Public,
+        ]))
+        .body(img.0)
 }

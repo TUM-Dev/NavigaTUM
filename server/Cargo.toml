@@ -76,6 +76,7 @@ polars = { version = "0.42.0", features = ["dtype-struct", "dtype-date", "dtype-
 geo = { version = "0.28.0", features = ["use-serde"], default-features = false }
 geozero = { version = "0.13.0", features = ["with-postgis-sqlx", "with-geo"], default-features = false }
 geo-types = { version = "0.7.13", default-features = false }
+actix-middleware-etag = "0.4.1"
 
 [dev-dependencies]
 insta = { version = "1.39.0", features = ["json", "redactions", "yaml"] }

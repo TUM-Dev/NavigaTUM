@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 use actix_cors::Cors;
+use actix_middleware_etag::Etag;
 use actix_web::web::Redirect;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer, Responder};
 use actix_web_prom::{PrometheusMetrics, PrometheusMetricsBuilder};
@@ -192,6 +193,7 @@ async fn run() -> anyhow::Result<()> {
             .send_wildcard();
 
         App::new()
+            .wrap(Etag)
             .wrap(prometheus.clone())
             .wrap(cors)
             .wrap(TracingLogger::default())
