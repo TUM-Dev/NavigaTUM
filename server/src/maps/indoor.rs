@@ -12,13 +12,14 @@ pub async fn fetch_indoor_maps_inside_of(
 ) -> anyhow::Result<Vec<i64>> {
     let filtered_groups = sqlx::query(
         r#"
-        with max_version(max_import_version) as (SELECT MAX(import_version) from indoor_features i2)
+WITH max_version(max_import_version) as (SELECT MAX(import_version) from indoor_features i2)
 
-        SELECT group_id
-        FROM indoor_features,
-             max_version
-        WHERE ST_Intersects(convex_hull::geometry, ST_SetSRID($1::geometry, 4326))
-          AND import_version = max_import_version"#,
+SELECT group_id
+FROM indoor_features,
+     max_version
+WHERE ST_Intersects(convex_hull::geometry, ST_SetSRID($1::geometry, 4326))
+  AND import_version = max_import_version
+ORDER BY ST_Distance(convex_hull::geometry, ST_SetSRID($1::geometry, 4326))"#,
     )
     .bind(geozero::wkb::Encode(geom))
     .fetch_all(pool)
