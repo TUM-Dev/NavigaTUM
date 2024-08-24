@@ -52,7 +52,7 @@ pub async fn repopulate_indoor_features(pool: &PgPool) -> sqlx::Result<()> {
 
 INSERT
 INTO indoor_features(group_id, features, convex_hull, import_version)
-SELECT group_id, features, convex_hull, COALESCE(max_import_version,-1) + 1
+SELECT group_id, jsonb_build_object('type', 'FeatureCollection','features', features), convex_hull, COALESCE(max_import_version,-1) + 1
 FROM grouped_features, max_version
 "#).execute(pool).await?;
     Ok(())
