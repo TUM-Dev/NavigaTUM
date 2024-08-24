@@ -9,6 +9,7 @@ use tracing::error;
 use crate::calendar::models::{CalendarLocation, Event, LocationEvents};
 use crate::limited::hash_map::LimitedHashMap;
 use crate::limited::vec::LimitedVec;
+use actix_web::http::header::{CacheControl, CacheDirective};
 
 mod connectum;
 mod models;
@@ -58,7 +59,12 @@ pub async fn calendar_handler(
         return e;
     }
     match get_from_db(&data.pool, &locations, &args.start_after, &args.end_before).await {
-        Ok(events) => HttpResponse::Ok().json(events),
+        Ok(events) => HttpResponse::Ok()
+            .insert_header(CacheControl(vec![
+                CacheDirective::MaxAge(60 * 60), // valid for 1h
+                CacheDirective::Public,
+            ]))
+            .json(events),
         Err(e) => {
             error!("could not get entries from the db for {ids:?} because {e:?}");
             HttpResponse::InternalServerError()

@@ -1,3 +1,4 @@
+use actix_web::http::header::{CacheControl, CacheDirective};
 use actix_web::{get, web, HttpResponse};
 use serde::{Deserialize, Serialize};
 use tracing::error;
@@ -52,12 +53,17 @@ LIMIT 50"#,
     .fetch_all(&data.pool)
     .await;
     match transportation {
-        Ok(public_transport) => HttpResponse::Ok().json(NearbyResponse { public_transport }),
+        Ok(public_transport) => HttpResponse::Ok()
+            .insert_header(CacheControl(vec![
+                CacheDirective::MaxAge(2 * 24 * 60 * 60), // valid for 2d
+                CacheDirective::Public,
+            ]))
+            .json(NearbyResponse { public_transport }),
         Err(e) => {
             error!("Could not get nearby pois because: {e:?}");
-            return HttpResponse::InternalServerError()
+            HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body("Internal Server Error");
+                .body("Internal Server Error")
         }
     }
 }

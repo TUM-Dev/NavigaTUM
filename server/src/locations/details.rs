@@ -1,3 +1,4 @@
+use actix_web::http::header::{CacheControl, CacheDirective};
 use actix_web::{get, web, HttpResponse};
 use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
@@ -37,6 +38,10 @@ pub async fn get_handler(
                 response_json.pop(); // remove last }
                 response_json.push_str(&format!(",\"redirect_url\":\"{redirect_url}\"}}",));
                 HttpResponse::Ok()
+                    .insert_header(CacheControl(vec![
+                        CacheDirective::MaxAge(24 * 60 * 60), // valid for 1d
+                        CacheDirective::Public,
+                    ]))
                     .content_type("application/json")
                     .body(response_json)
             }

@@ -2,6 +2,7 @@ use std::fmt::{Debug, Formatter};
 use std::time::Instant;
 
 use crate::AppData;
+use actix_web::http::header::{CacheControl, CacheDirective};
 use actix_web::{get, web, HttpResponse};
 use cached::proc_macro::cached;
 use meilisearch_sdk::client::Client;
@@ -140,7 +141,12 @@ pub async fn search_handler(
         sections: results_sections,
         time_ms: start_time.elapsed().as_millis(),
     };
-    HttpResponse::Ok().json(search_results)
+    HttpResponse::Ok()
+        .insert_header(CacheControl(vec![
+            CacheDirective::MaxAge(2 * 24 * 60 * 60), // valid for 2d
+            CacheDirective::Public,
+        ]))
+        .json(search_results)
 }
 
 // size=1 ~= 0.1Mi
