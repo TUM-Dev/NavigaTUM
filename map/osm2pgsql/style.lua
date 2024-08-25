@@ -93,7 +93,7 @@ function osm2pgsql.process_node(object)
         return
     end
      -- pois should not need layers. Using them is likely a bug
-    tags.layer = nil
+    object.tags.layer = nil
 
     tables.indoor_nodes:insert({
         tags = object.tags,
