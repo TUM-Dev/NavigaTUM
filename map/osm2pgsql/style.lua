@@ -60,6 +60,32 @@ function osm2pgsql.process_node(object)
     if object.tags.indoor == nil and object.tags.level == nil then
        return
     end
+    if object.tags.level == nil then
+        if object.tags.layer ~= nil then
+            -- usually, this is something which is wrongly tagged or if we use the layer, it has the same effect
+            object.tags.level = object.tags.layer
+        else
+           object.tags.level = '0'
+        end
+        object.tags.layer = nil -- pois should not need layers
+    end
+    if object.tags.indoor == nil then
+        -- need to infer indoor tag
+        if object.tags.room ~= nil then
+            object.tags.indoor = 'room'
+        else
+            object.tags.indoor = 'yes'
+        end
+    end
+
+    -- why the fuck are there so many objects with just the layer set, nothing else
+    if object.tags.indoor == nil and object.tags.level ~= nil and #(object.tags) == 1 then
+        return
+    end
+    -- why do people like mapping clocks so much??
+    if object.tags.amenity == 'clock' then
+        return
+    end
 
     tables.indoor_nodes:insert({
         tags = object.tags,
