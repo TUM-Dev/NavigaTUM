@@ -1,6 +1,17 @@
 use sqlx::PgPool;
+use std::time::Duration;
 
-pub async fn repopulate_indoor_features(pool: &PgPool) -> sqlx::Result<()> {
+const SECONDS_PER_HOUR: u64 = 60 * 60;
+pub async fn all_entries(pool: &PgPool) {
+    let mut interval = tokio::time::interval(Duration::from_secs(SECONDS_PER_HOUR)); //
+    loop {
+        if let Ok(()) = repopulate_indoor_features(pool).await {
+            interval.tick().await;
+        }
+    }
+}
+
+async fn repopulate_indoor_features(pool: &PgPool) -> sqlx::Result<()> {
     sqlx::query!(r#"
     with max_version(max_import_version) as (SELECT MAX(import_version) from indoor_features i2),
          groups_with_outdated_version(group_id, import_version) as (SELECT group_id, import_version
