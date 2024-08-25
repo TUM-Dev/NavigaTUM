@@ -43,6 +43,42 @@ local function clean_tags(tags)
     tags.source = nil
     tags['source:ref'] = nil
 
+    -- clean up the indoor tags
+    if tags.indoor == nil and tags.level == nil then
+       return true
+    end
+    if tags.level == nil then
+        if tags.layer ~= nil then
+            -- usually, this is something which is wrongly tagged or if we use the layer, it has the same effect
+            tags.level = tags.layer
+        else
+           tags.level = '0'
+        end
+    end
+    if tags.indoor == nil then
+        -- need to infer indoor tag
+        if tags.inside ~= nil then
+            tags.indoor = tags.inside
+        elseif tags.room ~= nil then
+            tags.indoor = 'room'
+        elseif tags.area ~= nil then
+            tags.indoor = 'area'
+        else
+            tags.indoor = 'yes'
+        end
+    end
+    tags.inside = nil -- used to infer indoor, but nothing else
+
+    -- why are there so many objects with just the layer set, nothing else
+    if tags.indoor == nil and tags.level ~= nil and #(tags) == 1 then
+        return true
+    end
+    -- why do people like mapping clocks so much??
+    -- they are not usefully for us (or likely anybody)
+    if tags.amenity == 'clock' then
+        return true
+    end
+
     return next(tags) == nil
 end
 
@@ -56,36 +92,8 @@ function osm2pgsql.process_node(object)
     if clean_tags(object.tags) then
         return
     end
-
-    if object.tags.indoor == nil and object.tags.level == nil then
-       return
-    end
-    if object.tags.level == nil then
-        if object.tags.layer ~= nil then
-            -- usually, this is something which is wrongly tagged or if we use the layer, it has the same effect
-            object.tags.level = object.tags.layer
-            object.tags.layer = nil -- pois should not need layers
-        else
-           object.tags.level = '0'
-        end
-    end
-    if object.tags.indoor == nil then
-        -- need to infer indoor tag
-        if object.tags.room ~= nil then
-            object.tags.indoor = 'room'
-        else
-            object.tags.indoor = 'yes'
-        end
-    end
-
-    -- why the fuck are there so many objects with just the layer set, nothing else
-    if object.tags.indoor == nil and object.tags.level ~= nil and #(object.tags) == 1 then
-        return
-    end
-    -- why do people like mapping clocks so much??
-    if object.tags.amenity == 'clock' then
-        return
-    end
+     -- pois should not need layers. Using them is likely a bug
+    tags.layer = nil
 
     tables.indoor_nodes:insert({
         tags = object.tags,
@@ -102,10 +110,6 @@ function osm2pgsql.process_way(object)
 
     if clean_tags(object.tags) then
         return
-    end
-
-    if object.tags.indoor == nil and object.tags.level == nil then
-       return
     end
 
     -- Very simple check to decide whether a way is a polygon or not, in a
@@ -133,10 +137,6 @@ function osm2pgsql.process_relation(object)
 
     if clean_tags(object.tags) then
         return
-    end
-
-    if object.tags.indoor == nil and object.tags.level == nil then
-       return
     end
 
     -- Store multipolygons and boundaries as polygons
