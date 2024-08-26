@@ -287,6 +287,9 @@
       en: WC
     din_277: NF7.1
     din_277_desc: Sanitärräume
+"5611.02.034":
+  name: Tutor # typo, previously Toutor
+
 
 # === Chemie ===
 "5401.01.101I":
