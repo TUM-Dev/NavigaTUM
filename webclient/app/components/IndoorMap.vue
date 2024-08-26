@@ -92,7 +92,7 @@ async function initMap(containerId: string): Promise<Map> {
     // https://nav.tum.de/maps/
     style: `${runtimeConfig.public.mapsURL}/maps/styles/osm-liberty/style.json`,
 
-    center: [11.5748, 48.14], // Approx Munich
+    center: [11.670028798993783, 48.26684628456347], // Approx Garching
     zoom: 11, // Zoomed out so that the whole city is visible
 
     // done manually, to have more control over when it is extended

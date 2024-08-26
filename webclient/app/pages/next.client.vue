@@ -3,7 +3,7 @@ import type { components } from "~/api_types";
 
 type DetailsResponse = components["schemas"]["DetailsResponse"];
 const runtimeConfig = useRuntimeConfig();
-const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/5532.01.105?lang=de`);
+const url = computed(() => `${runtimeConfig.public.apiURL}/api/locations/5532.EG.002?lang=de`);
 const { data } = useFetch<DetailsResponse, string>(url, {
   key: "details",
   dedupe: "cancel",
