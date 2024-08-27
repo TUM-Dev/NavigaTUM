@@ -68,4 +68,4 @@ function SantiseLevel(level)
     return formatted
 end
 
-return {SantiseLevel = SantiseLevel}
+return SantiseLevel

@@ -2,7 +2,7 @@
 -- lua ./map/osm2pgsql/test.lua
 
 inspect = require("inspect")
-SantiseLevel = require(".map.osm2pgsql.levels").SantiseLevel
+SantiseLevel = require(".map.osm2pgsql.levels")
 
 local function test(testname, fn)
     print("--", testname, "--")

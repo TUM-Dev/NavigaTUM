@@ -1,6 +1,6 @@
 -- See https://github.com/osm2pgsql-dev/osm2pgsql/tree/master/flex-config
 -- for configuration examples
-SantiseLevel = require(".map.osm2pgsql.levels").SantiseLevel
+SantiseLevel = require(".map.osm2pgsql.levels")
 
 -- For debugging
 -- inspect = require('inspect')
@@ -224,7 +224,7 @@ function osm2pgsql.process_node(object)
     end
     -- pois should not need layers. Using them is likely a bug
     object.tags.layer = nil
-    for _, level in SantiseLevel(object.tags.level) do
+    for _, level in ipairs(SantiseLevel(object.tags.level)) do
         object.tags.level = level
         tables.indoor_nodes:insert(
             {
@@ -246,7 +246,7 @@ function osm2pgsql.process_way(object)
         return
     end
 
-    for _, level in SantiseLevel(object.tags.level) do
+    for _, level in ipairs(SantiseLevel(object.tags.level)) do
         object.tags.level = level
         -- Very simple check to decide whether a way is a polygon or not, in a
         -- real stylesheet we'd have to also look at the tags...
@@ -282,7 +282,7 @@ function osm2pgsql.process_relation(object)
 
     -- Store multipolygons and boundaries as polygons
     if object.tags.type == "multipolygon" or object.tags.type == "boundary" then
-        for _, level in SantiseLevel(object.tags.level) do
+        for _, level in ipairs(SantiseLevel(object.tags.level)) do
             object.tags.level = level
             tables.indoor_polygons:insert(
                 {
