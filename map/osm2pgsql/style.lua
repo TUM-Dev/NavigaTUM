@@ -1,35 +1,47 @@
 -- See https://github.com/osm2pgsql-dev/osm2pgsql/tree/master/flex-config
 -- for configuration examples
-SantiseLevel = require('.map.osm2pgsql.levels') .SantiseLevel
+SantiseLevel = require(".map.osm2pgsql.levels").SantiseLevel
 
 -- For debugging
 -- inspect = require('inspect')
 -- print(inspect(object))
 
-print('osm2pgsql version: ' .. osm2pgsql.version)
+print("osm2pgsql version: " .. osm2pgsql.version)
 
 local tables = {}
-tables.indoor_nodes = osm2pgsql.define_node_table('indoor_nodes', {
-    { column = 'tags', type = 'jsonb' },
-    { column = 'geom',    type = 'point', not_null = true },
-})
-tables.indoor_ways = osm2pgsql.define_way_table('indoor_ways', {
-    { column = 'tags', type = 'jsonb' },
-    { column = 'geom', type = 'linestring', not_null = true },
-})
-tables.indoor_polygons = osm2pgsql.define_area_table('indoor_polygons', {
-    { column = 'type', type = 'text' },
-    { column = 'tags', type = 'jsonb' },
-    -- The type of the `geom` column is `geometry`, because we need to store
-    -- polygons AND multipolygons
-    { column = 'geom', type = 'geometry', not_null = true },
-})
+tables.indoor_nodes =
+    osm2pgsql.define_node_table(
+    "indoor_nodes",
+    {
+        {column = "tags", type = "jsonb"},
+        {column = "geom", type = "point", not_null = true}
+    }
+)
+tables.indoor_ways =
+    osm2pgsql.define_way_table(
+    "indoor_ways",
+    {
+        {column = "tags", type = "jsonb"},
+        {column = "geom", type = "linestring", not_null = true}
+    }
+)
+tables.indoor_polygons =
+    osm2pgsql.define_area_table(
+    "indoor_polygons",
+    {
+        {column = "type", type = "text"},
+        {column = "tags", type = "jsonb"},
+        -- The type of the `geom` column is `geometry`, because we need to store
+        -- polygons AND multipolygons
+        {column = "geom", type = "geometry", not_null = true}
+    }
+)
 
 -- Debug output: Show definition of tables
 for name, dtable in pairs(tables) do
     print("\ntable '" .. name .. "':")
     print("  name='" .. dtable:name() .. "'")
---    print("  columns=" .. inspect(dtable:columns()))
+    --    print("  columns=" .. inspect(dtable:columns()))
 end
 
 -- These tag keys are generally regarded as useless for most rendering. Most
@@ -41,139 +53,119 @@ end
 -- delete the corresponding lines.
 local delete_keys = {
     -- "mapper" keys
-    'attribution',
-    'comment',
-    'created_by',
-    'fixme',
-    'note',
-    'note:*',
-    'odbl',
-    'odbl:note',
-    'source',
-    'source:*',
-    'source_ref',
-
+    "attribution",
+    "comment",
+    "created_by",
+    "fixme",
+    "note",
+    "note:*",
+    "odbl",
+    "odbl:note",
+    "source",
+    "source:*",
+    "source_ref",
     -- "import" keys
 
     -- Corine Land Cover (CLC) (Europe)
-    'CLC:*',
-
+    "CLC:*",
     -- Geobase (CA)
-    'geobase:*',
+    "geobase:*",
     -- CanVec (CA)
-    'canvec:*',
-
+    "canvec:*",
     -- osak (DK)
-    'osak:*',
+    "osak:*",
     -- kms (DK)
-    'kms:*',
-
+    "kms:*",
     -- ngbe (ES)
     -- See also note:es and source:file above
-    'ngbe:*',
-
+    "ngbe:*",
     -- Friuli Venezia Giulia (IT)
-    'it:fvg:*',
-
+    "it:fvg:*",
     -- KSJ2 (JA)
     -- See also note:ja and source_ref above
-    'KSJ2:*',
+    "KSJ2:*",
     -- Yahoo/ALPS (JA)
-    'yh:*',
-
+    "yh:*",
     -- LINZ (NZ)
-    'LINZ2OSM:*',
-    'linz2osm:*',
-    'LINZ:*',
-    'ref:linz:*',
-
+    "LINZ2OSM:*",
+    "linz2osm:*",
+    "LINZ:*",
+    "ref:linz:*",
     -- WroclawGIS (PL)
-    'WroclawGIS:*',
+    "WroclawGIS:*",
     -- Naptan (UK)
-    'naptan:*',
-
+    "naptan:*",
     -- TIGER (US)
-    'tiger:*',
+    "tiger:*",
     -- GNIS (US)
-    'gnis:*',
+    "gnis:*",
     -- National Hydrography Dataset (US)
-    'NHD:*',
-    'nhd:*',
+    "NHD:*",
+    "nhd:*",
     -- mvdgis (Montevideo, UY)
-    'mvdgis:*',
-
+    "mvdgis:*",
     -- EUROSHA (Various countries)
-    'project:eurosha_2012',
-
+    "project:eurosha_2012",
     -- UrbIS (Brussels, BE)
-    'ref:UrbIS',
-
+    "ref:UrbIS",
     -- NHN (CA)
-    'accuracy:meters',
-    'sub_sea:type',
-    'waterway:type',
+    "accuracy:meters",
+    "sub_sea:type",
+    "waterway:type",
     -- StatsCan (CA)
-    'statscan:rbuid',
-
+    "statscan:rbuid",
     -- RUIAN (CZ)
-    'ref:ruian:addr',
-    'ref:ruian',
-    'building:ruian:type',
+    "ref:ruian:addr",
+    "ref:ruian",
+    "building:ruian:type",
     -- DIBAVOD (CZ)
-    'dibavod:id',
+    "dibavod:id",
     -- UIR-ADR (CZ)
-    'uir_adr:ADRESA_KOD',
-
+    "uir_adr:ADRESA_KOD",
     -- GST (DK)
-    'gst:feat_id',
-
+    "gst:feat_id",
     -- Maa-amet (EE)
-    'maaamet:ETAK',
+    "maaamet:ETAK",
     -- FANTOIR (FR)
-    'ref:FR:FANTOIR',
-
+    "ref:FR:FANTOIR",
     -- 3dshapes (NL)
-    '3dshapes:ggmodelk',
+    "3dshapes:ggmodelk",
     -- AND (NL)
-    'AND_nosr_r',
-
+    "AND_nosr_r",
     -- OPPDATERIN (NO)
-    'OPPDATERIN',
+    "OPPDATERIN",
     -- Various imports (PL)
-    'addr:city:simc',
-    'addr:street:sym_ul',
-    'building:usage:pl',
-    'building:use:pl',
+    "addr:city:simc",
+    "addr:street:sym_ul",
+    "building:usage:pl",
+    "building:use:pl",
     -- TERYT (PL)
-    'teryt:simc',
-
+    "teryt:simc",
     -- RABA (SK)
-    'raba:id',
+    "raba:id",
     -- DCGIS (Washington DC, US)
-    'dcgis:gis_id',
+    "dcgis:gis_id",
     -- Building Identification Number (New York, US)
-    'nycdoitt:bin',
+    "nycdoitt:bin",
     -- Chicago Building Inport (US)
-    'chicago:building_id',
+    "chicago:building_id",
     -- Louisville, Kentucky/Building Outlines Import (US)
-    'lojic:bgnum',
+    "lojic:bgnum",
     -- MassGIS (Massachusetts, US)
-    'massgis:way_id',
+    "massgis:way_id",
     -- Los Angeles County building ID (US)
-    'lacounty:*',
+    "lacounty:*",
     -- Address import from Bundesamt für Eich- und Vermessungswesen (AT)
-    'at_bev:addr_date',
-
+    "at_bev:addr_date",
     -- misc
-    'import',
-    'import_uuid',
-    'OBJTYPE',
-    'SK53_bulk:load',
-    'mml:class'
+    "import",
+    "import_uuid",
+    "OBJTYPE",
+    "SK53_bulk:load",
+    "mml:class"
 }
 
 local clean_useless_tags = osm2pgsql.make_clean_tags_func(delete_keys)
-
 
 -- Helper function to remove some of the tags we usually are not interested in.
 -- Returns true if there are no tags left.
@@ -183,14 +175,14 @@ local function clean_tags(tags)
     end
     -- clean up the indoor tags
     if tags.indoor == nil and tags.level == nil then
-       return true
+        return true
     end
     if tags.level == nil then
         if tags.layer ~= nil then
             -- usually, this is something which is wrongly tagged or if we use the layer, it has the same effect
             tags.level = tags.layer
         else
-           tags.level = '0'
+            tags.level = "0"
         end
     end
     if tags.indoor == nil then
@@ -198,11 +190,11 @@ local function clean_tags(tags)
         if tags.inside ~= nil then
             tags.indoor = tags.inside
         elseif tags.room ~= nil then
-            tags.indoor = 'room'
+            tags.indoor = "room"
         elseif tags.area ~= nil then
-            tags.indoor = 'area'
+            tags.indoor = "area"
         else
-            tags.indoor = 'yes'
+            tags.indoor = "yes"
         end
     end
     tags.inside = nil -- used to infer indoor, but nothing else
@@ -213,7 +205,7 @@ local function clean_tags(tags)
     end
     -- why do people like mapping clocks so much??
     -- they are not usefully for us (or likely anybody)
-    if tags.amenity == 'clock' then
+    if tags.amenity == "clock" then
         return true
     end
 
@@ -230,14 +222,16 @@ function osm2pgsql.process_node(object)
     if clean_tags(object.tags) then
         return
     end
-     -- pois should not need layers. Using them is likely a bug
+    -- pois should not need layers. Using them is likely a bug
     object.tags.layer = nil
-    for _,level in SantiseLevel(object.tags.level) do
-      object.tags.level=level
-      tables.indoor_nodes:insert({
-          tags = object.tags,
-          geom = object:as_point()
-      })
+    for _, level in SantiseLevel(object.tags.level) do
+        object.tags.level = level
+        tables.indoor_nodes:insert(
+            {
+                tags = object.tags,
+                geom = object:as_point()
+            }
+        )
     end
 end
 
@@ -252,22 +246,26 @@ function osm2pgsql.process_way(object)
         return
     end
 
-    for _,level in SantiseLevel(object.tags.level) do
-      object.tags.level=level
-      -- Very simple check to decide whether a way is a polygon or not, in a
-      -- real stylesheet we'd have to also look at the tags...
-      if object.is_closed then
-          tables.indoor_polygons:insert({
-              type = object.type,
-              tags = object.tags,
-              geom = object:as_polygon()
-          })
-      else
-          tables.indoor_ways:insert({
-              tags = object.tags,
-              geom = object:as_linestring()
-          })
-      end
+    for _, level in SantiseLevel(object.tags.level) do
+        object.tags.level = level
+        -- Very simple check to decide whether a way is a polygon or not, in a
+        -- real stylesheet we'd have to also look at the tags...
+        if object.is_closed then
+            tables.indoor_polygons:insert(
+                {
+                    type = object.type,
+                    tags = object.tags,
+                    geom = object:as_polygon()
+                }
+            )
+        else
+            tables.indoor_ways:insert(
+                {
+                    tags = object.tags,
+                    geom = object:as_linestring()
+                }
+            )
+        end
     end
 end
 
@@ -283,14 +281,16 @@ function osm2pgsql.process_relation(object)
     end
 
     -- Store multipolygons and boundaries as polygons
-    if object.tags.type == 'multipolygon' or object.tags.type == 'boundary' then
-       for _,level in SantiseLevel(object.tags.level) do
-         object.tags.level=level
-         tables.indoor_polygons:insert({
-          type = object.type,
-          tags = object.tags,
-          geom = object:as_multipolygon()
-         })
-      end
+    if object.tags.type == "multipolygon" or object.tags.type == "boundary" then
+        for _, level in SantiseLevel(object.tags.level) do
+            object.tags.level = level
+            tables.indoor_polygons:insert(
+                {
+                    type = object.type,
+                    tags = object.tags,
+                    geom = object:as_multipolygon()
+                }
+            )
+        end
     end
 end
