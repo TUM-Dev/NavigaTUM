@@ -241,8 +241,11 @@ end
 function osm2pgsql.process_way(object)
     --  Uncomment next line to look at the object data:
     --  print(inspect(object))
-
-    if clean_tags(object.tags) then
+    if object.tags.building != nil then
+        tags.indoor = nil
+        tags.level = nil
+        tags.inside = nil
+    elseif clean_tags(object.tags) then
         return
     end
 
