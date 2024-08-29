@@ -51,8 +51,8 @@ importers:
         specifier: 4.6.0
         version: 4.6.0
       maplibre-gl-indoor:
-        specifier: 0.0.15
-        version: 0.0.15
+        specifier: 0.0.16
+        version: 0.0.16
       nightwind:
         specifier: 1.1.13
         version: 1.1.13(tailwindcss@3.4.10)
@@ -4088,8 +4088,8 @@ packages:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
 
-  maplibre-gl-indoor@0.0.15:
-    resolution: {integrity: sha512-L++uWbQSkbHNLALjm65aTCritFtlsKdgcRGIgsUTThCtIZtk1825GcQczfbewwmJLBXEW2WkLkAunOQq/QVCUA==}
+  maplibre-gl-indoor@0.0.16:
+    resolution: {integrity: sha512-L+CruZ/O7SUtKGI3sll9Bgw9Za6F3imBhhv6RoTTFx6CjGlEGdkEwthbGb0ZYUuCPnXHuFODkqzL94SqnVAw4w==}
 
   maplibre-gl@4.6.0:
     resolution: {integrity: sha512-zobZK+fE+XM+7K81fk5pSBYWZlTGjGT0P96y2fR4DV2ry35ZBfAd0uWNatll69EgYeE+uOhN1MvEk+z1PCuyOQ==}
@@ -9398,7 +9398,7 @@ snapshots:
 
   autolinker@3.16.2:
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.7.0
 
   autoprefixer@10.4.20(postcss@8.4.41):
     dependencies:
@@ -11300,7 +11300,7 @@ snapshots:
     dependencies:
       semver: 6.3.1
 
-  maplibre-gl-indoor@0.0.15:
+  maplibre-gl-indoor@0.0.16:
     dependencies:
       '@turf/bbox': 7.1.0
       '@turf/destination': 7.1.0
@@ -13602,7 +13602,8 @@ snapshots:
 
   ts-toolbelt@9.6.0: {}
 
-  tslib@2.6.3: {}
+  tslib@2.6.3:
+    optional: true
 
   tslib@2.7.0: {}
 
