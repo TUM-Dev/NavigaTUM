@@ -2750,7 +2750,7 @@ dependencies = [
  "serde_yaml",
  "sqlx",
  "tempfile",
- "testcontainers",
+ "testcontainers 0.22.0",
  "testcontainers-modules",
  "tokio",
  "tracing",
@@ -5029,7 +5029,7 @@ version = "0.8.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "38d1e02fca405f6280643174a50c942219f0bbf4dbf7d480f1dd864d6f211ae5"
 dependencies = [
- "heck 0.4.1",
+ "heck 0.5.0",
  "proc-macro2",
  "quote",
  "syn 2.0.75",
@@ -5535,7 +5535,6 @@ dependencies = [
  "bollard",
  "bollard-stubs",
  "bytes",
- "conquer-once",
  "dirs",
  "docker_credential",
  "either",
@@ -5545,6 +5544,35 @@ dependencies = [
  "parse-display",
  "pin-project-lite",
  "reqwest 0.12.7",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "thiserror",
+ "tokio",
+ "tokio-stream",
+ "tokio-util",
+ "url",
+]
+
+[[package]]
+name = "testcontainers"
+version = "0.22.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2ef8374cea2c164699681ecc39316c3e1d953831a7a5721e36c7736d974e15fa"
+dependencies = [
+ "async-trait",
+ "bollard",
+ "bollard-stubs",
+ "bytes",
+ "conquer-once",
+ "dirs",
+ "docker_credential",
+ "either",
+ "futures",
+ "log",
+ "memchr",
+ "parse-display",
+ "pin-project-lite",
  "serde",
  "serde_json",
  "serde_with",
@@ -5562,7 +5590,7 @@ version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "868e8e818fe37b8ed4c21ac72185206b48e8767b5ad3836d7ec0e5c9386e19a2"
 dependencies = [
- "testcontainers",
+ "testcontainers 0.21.1",
 ]
 
 [[package]]
