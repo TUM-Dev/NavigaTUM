@@ -26,10 +26,10 @@ pub(super) struct MSHit {
 }
 impl Debug for MSHit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let mut base = f.debug_struct("MSHit");
-        base.field("id", &self.id);
-        base.field("name", &self.name);
-        base.finish()
+        f.debug_struct("MSHit")
+            .field("id", &self.id)
+            .field("name", &self.name)
+            .finish()
     }
 }
 

@@ -113,7 +113,7 @@ async fn get_locations(
     }
 }
 
-#[tracing::instrument(skip(pool),ret(level = tracing::Level::TRACE))]
+#[tracing::instrument(skip(pool))]
 async fn get_from_db(
     pool: &PgPool,
     locations: &[CalendarLocation],
@@ -130,7 +130,7 @@ async fn get_from_db(
             location.key.clone(),
             LocationEvents {
                 location: location.clone(),
-                events,
+                events: events.into(),
             },
         );
     }
