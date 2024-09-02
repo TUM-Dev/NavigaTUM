@@ -24,17 +24,17 @@ SELECT DISTINCT
 from de;
 
 CREATE MATERIALIZED VIEW operators_de AS
-SELECT DISTINCT data -> 'props' -> 'operator' ->> 'id'   as id,
-                data -> 'props' -> 'operator' ->> 'url'  as url,
-                data -> 'props' -> 'operator' ->> 'code' as code,
-                data -> 'props' -> 'operator' ->> 'name' as name
+SELECT DISTINCT (data -> 'props' -> 'operator' ->> 'id')::integer  as id,
+                data -> 'props' -> 'operator' ->> 'url'            as url,
+                data -> 'props' -> 'operator' ->> 'code'           as code,
+                data -> 'props' -> 'operator' ->> 'name'           as name
 from de;
 
 CREATE MATERIALIZED VIEW operators_en AS
-SELECT DISTINCT data -> 'props' -> 'operator' ->> 'id'   as id,
-                data -> 'props' -> 'operator' ->> 'url'  as url,
-                data -> 'props' -> 'operator' ->> 'code' as code,
-                data -> 'props' -> 'operator' ->> 'name' as name
+SELECT DISTINCT (data -> 'props' -> 'operator' ->> 'id')::integer   as id,
+                data -> 'props' -> 'operator' ->> 'url'             as url,
+                data -> 'props' -> 'operator' ->> 'code'            as code,
+                data -> 'props' -> 'operator' ->> 'name'            as name
 from en;
 
 CREATE MATERIALIZED VIEW usage AS
