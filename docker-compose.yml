@@ -74,7 +74,7 @@ services:
       interval: 10s
       start_period: 10s
   tileserver:
-    image: maptiler/tileserver-gl:v4.13.3
+    image: maptiler/tileserver-gl:v5.0.0
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
