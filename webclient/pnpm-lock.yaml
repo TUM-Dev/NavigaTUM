@@ -55,7 +55,7 @@ importers:
         version: 0.0.16
       nightwind:
         specifier: 1.1.13
-        version: 1.1.13(tailwindcss@3.4.10)
+        version: 1.1.13(tailwindcss@3.4.11)
       nuxt:
         specifier: 3.13.0
         version: 3.13.0(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(encoding@0.1.13)(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.3)(rollup@4.18.0)(terser@5.30.0)(typescript@5.6.2)(vite@5.4.2(@types/node@20.16.5)(terser@5.30.0))(vue-tsc@2.1.6(typescript@5.6.2))
@@ -121,8 +121,8 @@ importers:
         specifier: 0.6.6
         version: 0.6.6(prettier@3.3.3)
       tailwindcss:
-        specifier: 3.4.10
-        version: 3.4.10
+        specifier: 3.4.11
+        version: 3.4.11
       typescript:
         specifier: 5.6.2
         version: 5.6.2
@@ -5736,8 +5736,8 @@ packages:
     peerDependencies:
       tailwindcss: 1 || 2 || 2.0.1-compat || 3
 
-  tailwindcss@3.4.10:
-    resolution: {integrity: sha512-KWZkVPm7yJRhdu4SRSl9d4AK2wM3a50UsvgHZO7xY77NQr2V+fIrEuoDGQcbvswWvFGbS2f6e+jC/6WJm1Dl0w==}
+  tailwindcss@3.4.11:
+    resolution: {integrity: sha512-qhEuBcLemjSJk5ajccN9xJFtM/h0AVCPaA6C92jNP+M2J8kX+eMJHI7R2HFKUvvAsMpcfLILMCFYSeDwpMmlUg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -6389,11 +6389,6 @@ packages:
   yaml-eslint-parser@1.2.2:
     resolution: {integrity: sha512-pEwzfsKbTrB8G3xc/sN7aw1v6A6c/pKxLAkjclnAyo5g5qOh6eL9WGu0o3cSDQZKrTNk4KL4lQSwZW+nBkANEg==}
     engines: {node: ^14.17.0 || >=16.0.0}
-
-  yaml@2.4.5:
-    resolution: {integrity: sha512-aBx2bnqDzVOyNKfsysjA2ms5ZlnjSAW2eG3/L5G/CSujfjLJTJsEw1bGw8kCf04KodQWk1pxlGnZ56CRxiawmg==}
-    engines: {node: '>= 14'}
-    hasBin: true
 
   yaml@2.5.0:
     resolution: {integrity: sha512-2wWLbGbYDiSqqIKoPjar3MPgB94ErzCtrNE1FdqGuaO0pi2JGjmE8aW8TDZwzU7vuxcGRdL/4gPQwQ7hD5AMSw==}
@@ -7942,8 +7937,8 @@ snapshots:
       pathe: 1.1.2
       postcss: 8.4.45
       postcss-nesting: 12.1.5(postcss@8.4.45)
-      tailwind-config-viewer: 2.0.4(tailwindcss@3.4.10)
-      tailwindcss: 3.4.10
+      tailwind-config-viewer: 2.0.4(tailwindcss@3.4.11)
+      tailwindcss: 3.4.11
       ufo: 1.5.3
       unctx: 2.3.1
     transitivePeerDependencies:
@@ -8822,7 +8817,7 @@ snapshots:
 
   '@types/nightwind@1.0.0':
     dependencies:
-      tailwindcss: 3.4.10
+      tailwindcss: 3.4.11
     transitivePeerDependencies:
       - ts-node
 
@@ -11824,9 +11819,9 @@ snapshots:
 
   negotiator@0.6.3: {}
 
-  nightwind@1.1.13(tailwindcss@3.4.10):
+  nightwind@1.1.13(tailwindcss@3.4.11):
     dependencies:
-      tailwindcss: 3.4.10
+      tailwindcss: 3.4.11
 
   nitropack@2.9.7(@opentelemetry/api@1.9.0)(encoding@0.1.13)(magicast@0.3.4):
     dependencies:
@@ -12382,7 +12377,7 @@ snapshots:
   postcss-load-config@4.0.2(postcss@8.4.45):
     dependencies:
       lilconfig: 3.1.2
-      yaml: 2.4.5
+      yaml: 2.5.0
     optionalDependencies:
       postcss: 8.4.45
 
@@ -12428,7 +12423,7 @@ snapshots:
   postcss-nested@6.0.1(postcss@8.4.45):
     dependencies:
       postcss: 8.4.45
-      postcss-selector-parser: 6.1.0
+      postcss-selector-parser: 6.1.2
 
   postcss-nesting@12.1.5(postcss@8.4.45):
     dependencies:
@@ -13483,7 +13478,7 @@ snapshots:
 
   system-architecture@0.1.0: {}
 
-  tailwind-config-viewer@2.0.4(tailwindcss@3.4.10):
+  tailwind-config-viewer@2.0.4(tailwindcss@3.4.11):
     dependencies:
       '@koa/router': 12.0.1
       commander: 6.2.1
@@ -13493,11 +13488,11 @@ snapshots:
       open: 7.4.2
       portfinder: 1.0.32
       replace-in-file: 6.3.5
-      tailwindcss: 3.4.10
+      tailwindcss: 3.4.11
     transitivePeerDependencies:
       - supports-color
 
-  tailwindcss@3.4.10:
+  tailwindcss@3.4.11:
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2
@@ -13518,7 +13513,7 @@ snapshots:
       postcss-js: 4.0.1(postcss@8.4.45)
       postcss-load-config: 4.0.2(postcss@8.4.45)
       postcss-nested: 6.0.1(postcss@8.4.45)
-      postcss-selector-parser: 6.1.0
+      postcss-selector-parser: 6.1.2
       resolve: 1.22.8
       sucrase: 3.35.0
     transitivePeerDependencies:
@@ -14204,8 +14199,6 @@ snapshots:
       eslint-visitor-keys: 3.4.3
       lodash: 4.17.21
       yaml: 2.5.0
-
-  yaml@2.4.5: {}
 
   yaml@2.5.0: {}
 
