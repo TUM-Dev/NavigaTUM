@@ -1,7 +1,7 @@
+use crate::limited::vec::LimitedVec;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use std::fmt::{Display, Debug, Formatter};
-use crate::limited::vec::LimitedVec;
+use std::fmt::{Debug, Display, Formatter};
 
 #[derive(Serialize, Deserialize, Clone)]
 pub(super) struct CalendarLocation {
@@ -13,14 +13,13 @@ pub(super) struct CalendarLocation {
     pub r#type: String,
 }
 
-impl Debug for CalendarLocation{
+impl Debug for CalendarLocation {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let mut base= f.debug_struct("CalendarLocation");
-            base.field("building", &self.key)
-            .field("name", &self.name);
-            if let Some(from)=&self.last_calendar_scrape_at{
-                base.field("from", from);   
-            }
+        let mut base = f.debug_struct("CalendarLocation");
+        base.field("building", &self.key).field("name", &self.name);
+        if let Some(from) = &self.last_calendar_scrape_at {
+            base.field("from", from);
+        }
         base.finish()
     }
 }
