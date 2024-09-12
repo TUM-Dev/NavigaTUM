@@ -18,7 +18,7 @@
     "@fullcalendar/list": "6.1.15",
     "@fullcalendar/timegrid": "6.1.15",
     "@fullcalendar/vue3": "6.1.15",
-    "@headlessui/vue": "1.7.22",
+    "@headlessui/vue": "1.7.23",
     "@heroicons/vue": "2.1.5",
     "@nuxt/content": "2.13.2",
     "@nuxt/image": "1.8.0",
@@ -33,8 +33,8 @@
     "sharp": "0.33.5",
     "swagger-ui": "5.17.14",
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
-    "vue": "3.4.38",
-    "vue-router": "4.4.3",
+    "vue": "3.5.4",
+    "vue-router": "4.4.4",
     "vue3-carousel": "0.3.3"
   },
   "devDependencies": {
