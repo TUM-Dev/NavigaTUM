@@ -34,7 +34,7 @@
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["vue-tsc"],
+      "matchPackagePatterns": ["nuxt"],
       "groupName": "temporary-debump",
       "automerge": true
     },
