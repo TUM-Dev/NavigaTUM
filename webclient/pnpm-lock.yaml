@@ -46,7 +46,7 @@ importers:
         version: 11.0.3(magicast@0.3.4)(nuxt@3.13.0(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(encoding@0.1.13)(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.3)(rollup@4.18.0)(terser@5.30.0)(typescript@5.6.2)(vite@5.4.2(@types/node@20.16.5)(terser@5.30.0))(vue-tsc@2.1.6(typescript@5.6.2)))(rollup@4.18.0)(vue@3.5.4(typescript@5.6.2))
       '@vueuse/router':
         specifier: 11.0.3
-        version: 11.0.3(vue-router@4.4.4(vue@3.5.4(typescript@5.6.2)))(vue@3.5.4(typescript@5.6.2))
+        version: 11.0.3(vue-router@4.4.5(vue@3.5.4(typescript@5.6.2)))(vue@3.5.4(typescript@5.6.2))
       maplibre-gl:
         specifier: 4.7.0
         version: 4.7.0
@@ -72,8 +72,8 @@ importers:
         specifier: 3.5.4
         version: 3.5.4(typescript@5.6.2)
       vue-router:
-        specifier: 4.4.4
-        version: 4.4.4(vue@3.5.4(typescript@5.6.2))
+        specifier: 4.4.5
+        version: 4.4.5(vue@3.5.4(typescript@5.6.2))
       vue3-carousel:
         specifier: 0.3.3
         version: 0.3.3(vue@3.5.4(typescript@5.6.2))
@@ -6242,8 +6242,8 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  vue-router@4.4.4:
-    resolution: {integrity: sha512-3MlnDqwRwZwCQVbtVfpsU+nrNymNjnXSsQtXName5925NVC1+326VVfYH9vSrA0N13teGEo8z5x7gbRnGjCDiQ==}
+  vue-router@4.4.5:
+    resolution: {integrity: sha512-4fKZygS8cH1yCyuabAXGUAsyi1b2/o/OKgu/RUb+znIYOxPRxdkytJEx+0wGcpBE1pX6vUgh5jwWOKRGvuA/7Q==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -7865,7 +7865,7 @@ snapshots:
       ufo: 1.5.4
       unplugin: 1.12.2
       vue-i18n: 9.11.0(vue@3.5.4(typescript@5.6.2))
-      vue-router: 4.4.4(vue@3.5.4(typescript@5.6.2))
+      vue-router: 4.4.5(vue@3.5.4(typescript@5.6.2))
     transitivePeerDependencies:
       - magicast
       - petite-vue-i18n
@@ -9297,11 +9297,11 @@ snapshots:
       - supports-color
       - vue
 
-  '@vueuse/router@11.0.3(vue-router@4.4.4(vue@3.5.4(typescript@5.6.2)))(vue@3.5.4(typescript@5.6.2))':
+  '@vueuse/router@11.0.3(vue-router@4.4.5(vue@3.5.4(typescript@5.6.2)))(vue@3.5.4(typescript@5.6.2))':
     dependencies:
       '@vueuse/shared': 11.0.3(vue@3.5.4(typescript@5.6.2))
       vue-demi: 0.14.10(vue@3.5.4(typescript@5.6.2))
-      vue-router: 4.4.4(vue@3.5.4(typescript@5.6.2))
+      vue-router: 4.4.5(vue@3.5.4(typescript@5.6.2))
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -12017,13 +12017,13 @@ snapshots:
       unenv: 1.10.0
       unimport: 3.11.0(rollup@4.18.0)
       unplugin: 1.12.2
-      unplugin-vue-router: 0.10.7(rollup@4.18.0)(vue-router@4.4.4(vue@3.5.4(typescript@5.6.2)))(vue@3.5.4(typescript@5.6.2))
+      unplugin-vue-router: 0.10.7(rollup@4.18.0)(vue-router@4.4.5(vue@3.5.4(typescript@5.6.2)))(vue@3.5.4(typescript@5.6.2))
       unstorage: 1.10.2(ioredis@5.4.1)
       untyped: 1.4.2
       vue: 3.5.4(typescript@5.6.2)
       vue-bundle-renderer: 2.1.0
       vue-devtools-stub: 0.1.0
-      vue-router: 4.4.4(vue@3.5.4(typescript@5.6.2))
+      vue-router: 4.4.5(vue@3.5.4(typescript@5.6.2))
     optionalDependencies:
       '@parcel/watcher': 2.4.1
       '@types/node': 20.16.5
@@ -13785,7 +13785,7 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  unplugin-vue-router@0.10.7(rollup@4.18.0)(vue-router@4.4.4(vue@3.5.4(typescript@5.6.2)))(vue@3.5.4(typescript@5.6.2)):
+  unplugin-vue-router@0.10.7(rollup@4.18.0)(vue-router@4.4.5(vue@3.5.4(typescript@5.6.2)))(vue@3.5.4(typescript@5.6.2)):
     dependencies:
       '@babel/types': 7.25.4
       '@rollup/pluginutils': 5.1.0(rollup@4.18.0)
@@ -13802,7 +13802,7 @@ snapshots:
       unplugin: 1.12.2
       yaml: 2.5.0
     optionalDependencies:
-      vue-router: 4.4.4(vue@3.5.4(typescript@5.6.2))
+      vue-router: 4.4.5(vue@3.5.4(typescript@5.6.2))
     transitivePeerDependencies:
       - rollup
       - vue
@@ -14059,7 +14059,7 @@ snapshots:
       '@vue/devtools-api': 6.6.3
       vue: 3.5.4(typescript@5.6.2)
 
-  vue-router@4.4.4(vue@3.5.4(typescript@5.6.2)):
+  vue-router@4.4.5(vue@3.5.4(typescript@5.6.2)):
     dependencies:
       '@vue/devtools-api': 6.6.4
       vue: 3.5.4(typescript@5.6.2)
