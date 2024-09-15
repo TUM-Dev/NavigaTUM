@@ -122,9 +122,7 @@
     de: Unter dieser Treppe existiert ein WC, dessen Raumnummer und designierung (men/women/unisex) unklar ist
     en: Under this staircase there is a toilet whose room number and designation (men/women/unisex) is unclear
 "0503.EG.347": # previously: Seminarraum
-  name:
-    de: Archiv
-    en: Archive
+  name: Archiv
   usage:
     name:
       de: Archiv
