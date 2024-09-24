@@ -90,7 +90,7 @@ async function initMap(containerId: string): Promise<Map> {
 
     // preview of the following style is available at
     // https://nav.tum.de/maps/
-    style: `${runtimeConfig.public.mapsURL}/maps/styles/osm-liberty/style.json`,
+    style: `${runtimeConfig.public.mapsURL}/maps/styles/navigatum-basemap/style.json`,
 
     center: [11.670028798993783, 48.26684628456347], // Approx Garching
     zoom: 11, // Zoomed out so that the whole city is visible

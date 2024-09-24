@@ -7,14 +7,24 @@
       "styles": "styles",
       "mbtiles": ""
     },
-    "domains": ["nav.tum.de", "localhost:8080", "127.0.0.1:8080"],
+    "domains": [
+      "nav.tum.de",
+      "localhost:8080",
+      "127.0.0.1:8080"
+    ],
     "formatQuality": {
       "jpeg": 80,
       "webp": 90
     },
     "maxScaleFactor": 2,
-    "minRendererPoolSizes": [2, 4],
-    "maxRendererPoolSizes": [2, 4],
+    "minRendererPoolSizes": [
+      2,
+      4
+    ],
+    "maxRendererPoolSizes": [
+      2,
+      4
+    ],
     "maxSize": 2048,
     "pbfAlias": "pbf",
     "serveAllFonts": true,
@@ -23,8 +33,8 @@
     "tileMargin": 0
   },
   "styles": {
-    "osm-liberty": {
-      "style": "osm-liberty.json",
+    "navigatum-basemap": {
+      "style": "navigatum-basemap.json",
       "serve_rendered": true,
       "serve_data": true,
       "tilejson": {
