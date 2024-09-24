@@ -2,7 +2,7 @@ cache_size_mb: 100
 listen_addresses: 0.0.0.0:3001
 base_path: $BASE_PATH
 sprites:
-  - /map/sprites
+  - /map/sprites/maki
 fonts:
   - /map/fonts
 postgres:
