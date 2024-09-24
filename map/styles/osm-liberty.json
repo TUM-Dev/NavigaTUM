@@ -20,7 +20,7 @@
       "type": "raster"
     }
   },
-  "sprite": "{style}",
+  "sprite": "https://nav.tum.de/tiles/sprite/sprites",
   "glyphs": "https://nav.tum.de/tiles/font/{fontstack}/{range}",
   "layers": [
     {
@@ -2657,7 +2657,24 @@
       ],
       "layout": {
         "icon-image": "arrow",
-        "symbol-placement": "line"
+        "symbol-placement": "line",
+        "icon-optional": true,
+        "icon-size": {
+          "base": 1,
+          "stops": [
+            [
+              15.5,
+              0
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        }
+      },
+      "paint": {
+        "icon-opacity": 0.5
       }
     },
     {
@@ -3960,12 +3977,8 @@
       ],
       "layout": {
         "icon-image": [
-          "concat",
-          [
-            "get",
-            "class"
-          ],
-          "_11"
+          "get",
+          "class"
         ],
         "text-anchor": "top",
         "text-field": [
@@ -4027,12 +4040,8 @@
       ],
       "layout": {
         "icon-image": [
-          "concat",
-          [
-            "get",
-            "class"
-          ],
-          "_11"
+          "get",
+          "class"
         ],
         "text-anchor": "top",
         "text-field": [
@@ -4093,12 +4102,8 @@
       ],
       "layout": {
         "icon-image": [
-          "concat",
-          [
-            "get",
-            "class"
-          ],
-          "_11"
+          "get",
+          "class"
         ],
         "text-anchor": "top",
         "text-field": [
@@ -4147,12 +4152,8 @@
       ],
       "layout": {
         "icon-image": [
-          "concat",
-          [
-            "get",
-            "class"
-          ],
-          "_11"
+          "get",
+          "class"
         ],
         "text-anchor": "left",
         "text-field": [
