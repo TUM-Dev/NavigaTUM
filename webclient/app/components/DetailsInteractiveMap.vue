@@ -91,7 +91,7 @@ function initMap(containerId: string): Map {
 
     // preview of the following style is available at
     // https://nav.tum.de/maps/
-    style: `${runtimeConfig.public.mapsURL}/maps/styles/osm-liberty/style.json`,
+    style: `${runtimeConfig.public.mapsURL}/maps/styles/navigatum-basemap/style.json`,
 
     center: [11.5748, 48.14], // Approx Munich
     zoom: 11, // Zoomed out so that the whole city is visible

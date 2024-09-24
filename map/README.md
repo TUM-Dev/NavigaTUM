@@ -91,13 +91,6 @@ You can use it to edit the style and see the changes live.
 },
 ```
 
-```diff
-   },
--  "sprite": "{style}",
-+  "sprite": "https://nav.tum.de/maps/styles/osm-liberty/sprite",
-   "glyphs": "https://nav.tum.de/tiles/font/{fontstack}/{range}",
-```
-
 To edit the style you thus need to run maputnik and tileserver-gl at the same time.
 Change the style to the version maputnik expects.
 You cannot preview the style in tileserver-gl, but you can see the changes in maputnik.
