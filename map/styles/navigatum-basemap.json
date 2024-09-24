@@ -9,7 +9,7 @@
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "mbtiles://output.mbtiles"
+      "url": "https://nav.tum.de/tiles/openmaptiles"
     },
     "natural_earth_shaded_relief": {
       "maxzoom": 6,
