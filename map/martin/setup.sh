@@ -14,5 +14,5 @@ wget --quiet -O /tmp/sprites_maki.zip https://github.com/mapbox/maki/zipball/mai
 unzip -q /tmp/sprites_maki.zip -d /tmp/sprites/
 rm /tmp/sprites_maki.zip
 mkdir $(dirname "$0")/sprites/
-mv /tmp/sprites/mapbox-maki-*/icons/* $(dirname "$0")/sprites/
+mv /tmp/sprites/mapbox-maki-*/icons/* $(dirname "$0")/sprites/maki/
 rm -fr /tmp/sprites/
