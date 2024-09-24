@@ -11,7 +11,7 @@ const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
 pub fn configure(cfg: &mut web::ServiceConfig) {
     let feedback_ratelimit = GovernorConfigBuilder::default()
         .key_extractor(GlobalKeyExtractor)
-        .per_second(SECONDS_PER_DAY / 300) // replenish new token every .. seconds
+        .seconds_per_request(SECONDS_PER_DAY / 300) // replenish new token every .. seconds
         .burst_size(50)
         .finish()
         .expect("Invalid configuration of the governor");
