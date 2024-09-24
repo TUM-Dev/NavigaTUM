@@ -321,6 +321,7 @@ services:
         condition: service_started
     volumes:
       - ./map/martin/:/map/:ro
+      - tileserver-src:/data:ro
     healthcheck:
       test: wget --spider http://localhost:3001/health || exit 1
       retries: 10
