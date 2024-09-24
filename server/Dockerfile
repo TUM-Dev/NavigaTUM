@@ -71,4 +71,4 @@ USER    navigatum
 ENTRYPOINT ["tini", "--"]
 
 HEALTHCHECK CMD curl --fail localhost:3003/api/status || exit 1
-CMD     /bin/navigatum-server
+CMD     ["/bin/navigatum-server"]
