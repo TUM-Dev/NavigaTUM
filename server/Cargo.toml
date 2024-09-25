@@ -81,8 +81,8 @@ actix-middleware-etag = "0.4.1"
 [dev-dependencies]
 insta = { version = "1.39.0", features = ["json", "redactions", "yaml"] }
 pretty_assertions = "1.4.0"
-testcontainers = { version = "0.22.0", features = ["watchdog"] }
-testcontainers-modules = { version = "0.10.0", features = ["meilisearch", "postgres"] }
+testcontainers = { version = "0.23.0", features = ["watchdog"] }
+testcontainers-modules = { version = "0.11.0", features = ["meilisearch", "postgres"] }
 tracing-test = "0.2.5"
 
 
