@@ -2,7 +2,9 @@ cache_size_mb: 100
 listen_addresses: 0.0.0.0:3001
 base_path: $BASE_PATH
 sprites:
-  - /map/sprites/maki
+  paths:
+    - /map/sprites/maki
+  make_sdf: true
 fonts:
   - /map/fonts
 mbtiles:
