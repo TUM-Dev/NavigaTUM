@@ -74,7 +74,7 @@ polars = { version = "0.43.0", features = ["dtype-struct", "dtype-date", "dtype-
 
 # geodata
 geo = { version = "0.28.0", features = ["use-serde"], default-features = false }
-geozero = { version = "0.13.0", features = ["with-postgis-sqlx", "with-geo"], default-features = false }
+geozero = { version = "0.14.0", features = ["with-postgis-sqlx", "with-geo"], default-features = false }
 geo-types = { version = "0.7.13", default-features = false }
 actix-middleware-etag = "0.4.1"
 
@@ -114,8 +114,3 @@ similar.opt-level = 3
 ignored = [
     "rustls", # we need to configure between ring and aws crypto library
 ]
-
-[patch.crates-io]
-# needs release after 0.13
-# https://github.com/georust/geozero/tags
-geozero = { git = "https://github.com/georust/geozero.git", rev = "f8ab4363b0660cd84a58212039651fd68c3a8567" }
