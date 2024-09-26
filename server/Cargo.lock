@@ -6776,8 +6776,3 @@ checksum = "16099418600b4d8f028622f73ff6e3deaabdff330fb9a2a131dea781ee8b0768"
 dependencies = [
  "zune-core",
 ]
-
-[[patch.unused]]
-name = "geozero"
-version = "0.13.0"
-source = "git+https://github.com/georust/geozero.git?rev=f8ab4363b0660cd84a58212039651fd68c3a8567#f8ab4363b0660cd84a58212039651fd68c3a8567"
