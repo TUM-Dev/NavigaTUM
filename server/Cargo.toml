@@ -114,8 +114,3 @@ similar.opt-level = 3
 ignored = [
     "rustls", # we need to configure between ring and aws crypto library
 ]
-
-[patch.crates-io]
-# needs release after 0.13
-# https://github.com/georust/geozero/tags
-geozero = { git = "https://github.com/georust/geozero.git", rev = "f8ab4363b0660cd84a58212039651fd68c3a8567" }
