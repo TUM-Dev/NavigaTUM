@@ -3,6 +3,7 @@ listen_addresses: 0.0.0.0:3001
 base_path: $BASE_PATH
 sprites:
   - /map/sprites/maki
+  - /map/sprites/navigatum
 fonts:
   - /map/fonts
 mbtiles:

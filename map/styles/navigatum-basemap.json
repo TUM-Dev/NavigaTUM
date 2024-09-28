@@ -20,7 +20,7 @@
       "type": "raster"
     }
   },
-  "sprite": "https://nav.tum.de/tiles/sprite/maki",
+  "sprite": "https://nav.tum.de/tiles/sprite/maki,navigatum",
   "glyphs": "https://nav.tum.de/tiles/font/{fontstack}/{range}",
   "layers": [
     {

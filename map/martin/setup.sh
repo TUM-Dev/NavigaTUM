@@ -3,7 +3,7 @@
 set -o errexit
 
 echo -- cleanup --
-rm -rf "$(dirname "$0")/fonts" "$(dirname "$0")/sprites" /tmp/sprites
+rm -rf "$(dirname "$0")/fonts" "$(dirname "$0")/sprites/maki" /tmp/sprites
 
 echo -- fonts --
 wget --quiet -O /tmp/roboto-android.zip https://github.com/googlefonts/roboto/releases/download/v2.138/roboto-android.zip
