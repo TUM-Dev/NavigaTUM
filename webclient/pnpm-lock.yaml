@@ -51,8 +51,8 @@ importers:
         specifier: 4.7.1
         version: 4.7.1
       maplibre-gl-indoor:
-        specifier: 0.0.18
-        version: 0.0.18
+        specifier: 0.0.19
+        version: 0.0.19
       nightwind:
         specifier: 1.1.13
         version: 1.1.13(tailwindcss@3.4.13)
@@ -4157,8 +4157,8 @@ packages:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
 
-  maplibre-gl-indoor@0.0.18:
-    resolution: {integrity: sha512-1u36UF8PBRqrSx9qoHyOxQShK+2/aFy88Oaaf1Jf3TG2yBNXbxzh315hXx2HFf9xK9RHgCGssv+CX9MvHROp0Q==}
+  maplibre-gl-indoor@0.0.19:
+    resolution: {integrity: sha512-DY0bLNsRooGXu6g0Gphl8ndzwlKWxONrZwTYFw9+X5iwiG0m2EORq0aZcj3ZC2xreSUpEDoCotsCO5RoSYaysw==}
 
   maplibre-gl@4.7.1:
     resolution: {integrity: sha512-lgL7XpIwsgICiL82ITplfS7IGwrB1OJIw/pCvprDp2dhmSSEBgmPzYRvwYYYvJGJD7fxUv1Tvpih4nZ6VrLuaA==}
@@ -5899,9 +5899,6 @@ packages:
   ts-toolbelt@9.6.0:
     resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
 
-  tslib@2.6.3:
-    resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
-
   tslib@2.7.0:
     resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
 
@@ -6747,7 +6744,7 @@ snapshots:
 
   '@emnapi/runtime@1.2.0':
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.7.0
     optional: true
 
   '@es-joy/jsdoccomment@0.48.0':
@@ -11459,7 +11456,7 @@ snapshots:
     dependencies:
       semver: 6.3.1
 
-  maplibre-gl-indoor@0.0.18:
+  maplibre-gl-indoor@0.0.19:
     dependencies:
       '@turf/bbox': 7.1.0
       '@turf/destination': 7.1.0
@@ -13747,9 +13744,6 @@ snapshots:
   ts-mixer@6.0.4: {}
 
   ts-toolbelt@9.6.0: {}
-
-  tslib@2.6.3:
-    optional: true
 
   tslib@2.7.0: {}
 
