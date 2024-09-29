@@ -70,7 +70,7 @@ services:
       interval: 10s
       start_period: 10s
   db:
-    image: postgis/postgis:16-3.4
+    image: postgis/postgis:17-3.4
     restart: unless-stopped
     environment:
       TZ: Europe/Berlin
