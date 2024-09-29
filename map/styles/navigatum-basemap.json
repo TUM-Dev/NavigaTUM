@@ -3671,9 +3671,9 @@
           1,
           14.5,
           0,
-          16.8,
+          16.4,
           0,
-          17,
+          16.5,
           1
         ],
         "fill-antialias": true
@@ -3685,7 +3685,7 @@
       "source": "openmaptiles",
       "source-layer": "building",
       "minzoom": 13.5,
-      "maxzoom": 17.5,
+      "maxzoom": 16.5,
       "paint": {
         "fill-extrusion-height": [
           "get",
@@ -3707,11 +3707,11 @@
           0,
           14,
           0.8,
-          16.8,
+          16.4,
           0.8,
-          17,
+          16.5,
           0.1,
-          17.1,
+          16.6,
           0
         ],
         "fill-extrusion-color": [
