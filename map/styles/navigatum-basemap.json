@@ -164,6 +164,22 @@
         "fill-opacity": 0.8
       }
     },
+   {
+      "id": "landuse_pitch",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "landuse",
+      "filter": ["==", "class", "pitch"],
+      "paint": {"fill-color": "#DEE3CD"}
+    },
+    {
+      "id": "landuse_track",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "landuse",
+      "filter": ["==", "class", "track"],
+      "paint": {"fill-color": "#DEE3CD"}
+    },
     {
       "id": "landuse_cemetery",
       "type": "fill",
@@ -2646,7 +2662,7 @@
       "type": "symbol",
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 15,
+      "minzoom": 16,
       "filter": [
         "==",
         [
@@ -2682,7 +2698,7 @@
       "type": "symbol",
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 15,
+      "minzoom": 16,
       "filter": [
         "==",
         [
@@ -2695,6 +2711,20 @@
         "icon-image": "arrow",
         "symbol-placement": "line",
         "icon-rotate": 180
+        "icon-optional": true,
+        "icon-size": {
+          "base": 1,
+          "stops": [
+            [
+              15.5,
+              0
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -3977,8 +4007,11 @@
       ],
       "layout": {
         "icon-image": [
-          "get",
-          "class"
+          "match",
+          ["get", "subclass"],
+          ["florist", "furniture", "soccer", "tennis"],
+          ["get", "subclass"],
+          ["get", "class"]
         ],
         "text-anchor": "top",
         "text-field": [
@@ -4040,8 +4073,11 @@
       ],
       "layout": {
         "icon-image": [
-          "get",
-          "class"
+          "match",
+          ["get", "subclass"],
+          ["florist", "furniture", "soccer", "tennis"],
+          ["get", "subclass"],
+          ["get", "class"]
         ],
         "text-anchor": "top",
         "text-field": [
@@ -4102,8 +4138,11 @@
       ],
       "layout": {
         "icon-image": [
-          "get",
-          "class"
+          "match",
+          ["get", "subclass"],
+          ["florist", "furniture", "soccer", "tennis"],
+          ["get", "subclass"],
+          ["get", "class"]
         ],
         "text-anchor": "top",
         "text-field": [
@@ -4235,12 +4274,13 @@
       "source-layer": "transportation_name",
       "minzoom": 7,
       "filter": [
-        "<=",
+        "all",
+        ["<=", ["get", "ref_length"], 6],
         [
-          "get",
-          "ref_length"
-        ],
-        6
+          "!=",
+          ["get", "subclass"],
+          ["literal", "junction"]
+        ]
       ],
       "layout": {
         "icon-image": [
