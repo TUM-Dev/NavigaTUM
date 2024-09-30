@@ -164,21 +164,33 @@
         "fill-opacity": 0.8
       }
     },
-   {
+    {
       "id": "landuse_pitch",
       "type": "fill",
       "source": "openmaptiles",
       "source-layer": "landuse",
-      "filter": ["==", "class", "pitch"],
-      "paint": {"fill-color": "#DEE3CD"}
+      "filter": [
+        "==",
+        "class",
+        "pitch"
+      ],
+      "paint": {
+        "fill-color": "#DEE3CD"
+      }
     },
     {
       "id": "landuse_track",
       "type": "fill",
       "source": "openmaptiles",
       "source-layer": "landuse",
-      "filter": ["==", "class", "track"],
-      "paint": {"fill-color": "#DEE3CD"}
+      "filter": [
+        "==",
+        "class",
+        "track"
+      ],
+      "paint": {
+        "fill-color": "#DEE3CD"
+      }
     },
     {
       "id": "landuse_cemetery",
@@ -2710,7 +2722,7 @@
       "layout": {
         "icon-image": "arrow",
         "symbol-placement": "line",
-        "icon-rotate": 180
+        "icon-rotate": 180,
         "icon-optional": true,
         "icon-size": {
           "base": 1,
@@ -4008,10 +4020,24 @@
       "layout": {
         "icon-image": [
           "match",
-          ["get", "subclass"],
-          ["florist", "furniture", "soccer", "tennis"],
-          ["get", "subclass"],
-          ["get", "class"]
+          [
+            "get",
+            "subclass"
+          ],
+          [
+            "florist",
+            "furniture",
+            "soccer",
+            "tennis"
+          ],
+          [
+            "get",
+            "subclass"
+          ],
+          [
+            "get",
+            "class"
+          ]
         ],
         "text-anchor": "top",
         "text-field": [
@@ -4074,10 +4100,24 @@
       "layout": {
         "icon-image": [
           "match",
-          ["get", "subclass"],
-          ["florist", "furniture", "soccer", "tennis"],
-          ["get", "subclass"],
-          ["get", "class"]
+          [
+            "get",
+            "subclass"
+          ],
+          [
+            "florist",
+            "furniture",
+            "soccer",
+            "tennis"
+          ],
+          [
+            "get",
+            "subclass"
+          ],
+          [
+            "get",
+            "class"
+          ]
         ],
         "text-anchor": "top",
         "text-field": [
@@ -4139,10 +4179,24 @@
       "layout": {
         "icon-image": [
           "match",
-          ["get", "subclass"],
-          ["florist", "furniture", "soccer", "tennis"],
-          ["get", "subclass"],
-          ["get", "class"]
+          [
+            "get",
+            "subclass"
+          ],
+          [
+            "florist",
+            "furniture",
+            "soccer",
+            "tennis"
+          ],
+          [
+            "get",
+            "subclass"
+          ],
+          [
+            "get",
+            "class"
+          ]
         ],
         "text-anchor": "top",
         "text-field": [
@@ -4275,11 +4329,24 @@
       "minzoom": 7,
       "filter": [
         "all",
-        ["<=", ["get", "ref_length"], 6],
+        [
+          "<=",
+          [
+            "get",
+            "ref_length"
+          ],
+          6
+        ],
         [
           "!=",
-          ["get", "subclass"],
-          ["literal", "junction"]
+          [
+            "get",
+            "subclass"
+          ],
+          [
+            "literal",
+            "junction"
+          ]
         ]
       ],
       "layout": {
