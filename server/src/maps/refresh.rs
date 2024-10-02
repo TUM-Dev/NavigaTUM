@@ -45,13 +45,15 @@ async fn repopulate_indoor_features(pool: &PgPool) -> sqlx::Result<()> {
                     geom,
                     tags
              FROM geometry_in_lat_lon),
-     clustered_features(group_id, features) AS (SELECT group_id,
+     clustered_features(group_id, features, geom) AS (SELECT group_id,
                                                        jsonb_build_object(
                                                                'type', 'Feature',
                                                                'id', gid,
                                                                'geometry', ST_AsGeoJSON(geom)::jsonb,
                                                                'properties', tags
-                                                       ),
+                                                       ) || CASE WHEN tags->>'highway'='steps'
+                                                        THEN '{"lineMetrics":true}'::jsonb
+                                                        ELSE '{}'::jsonb END,
                                                        geom
                                                 FROM clustered_geometry),
      grouped_features(group_id, features, convex_hull) AS (SELECT group_id,
