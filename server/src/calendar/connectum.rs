@@ -65,7 +65,8 @@ impl APIRequestor {
                 events
             }
             Err(e) => {
-                warn!("cannot download {url} because {e:?}");
+                // TODO: this measure is to temporarily make the log usefully again until CO accepts my fix
+                debug!("cannot download {url} because {e:?}");
                 return Err(e.into());
             }
         };
