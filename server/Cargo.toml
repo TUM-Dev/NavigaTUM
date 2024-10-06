@@ -36,7 +36,7 @@ serde_yaml = "0.9.34"
 tokio = { version = "1.39", default-features = false, features = ["rt-multi-thread", "time", "sync", "process"] }
 actix-web = { version = "4.9.0", default-features = false, features = ["compress-brotli", "compress-gzip", "compress-zstd", "cookies", "http2", "macros"] }
 actix-cors = "0.7.0"
-rustls = { version = "0.23.12", default-features = false, features = ["ring"] } # the aws' fips complient libary has weird bingen issues which require deeper looking into
+rustls = "0.23.14"
 
 cached = { version = "0.53.1", features = ["default", "async", "disk_store"] }
 futures = "0.3.30"
@@ -109,8 +109,3 @@ opt-level = 3
 [profile.dev.package]
 insta.opt-level = 3
 similar.opt-level = 3
-
-[package.metadata.cargo-machete]
-ignored = [
-    "rustls", # we need to configure between ring and aws crypto library
-]
