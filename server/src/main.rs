@@ -117,6 +117,9 @@ pub fn setup_logging() {
 
 fn main() -> anyhow::Result<()> {
     setup_logging();
+    rustls::crypto::aws_lc_rs::default_provider()
+        .install_default()
+        .expect("no provider was set as default beforehand");
     let release = match option_env!("GIT_COMMIT_SHA") {
         Some(s) => Some(Cow::Borrowed(s)),
         None => sentry::release_name!(),

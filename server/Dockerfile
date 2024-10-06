@@ -8,8 +8,9 @@ FROM    rust:1.81-alpine AS compiler
 # Descriptions:
 # - musl-dev is needed for musl to compile the binary
 # - mold is used to link faster
-# - I somehow could not get openssl to cooperate => we are contibuing with libpq-dev
-RUN     apk --update add --quiet --update-cache --no-cache musl-dev libpq-dev mold
+# - I somehow could not get openssl to cooperate => we are continuing with libpq-dev
+# - clang is needed for rustls to use the aws' fips complient library
+RUN     apk --update add --quiet --update-cache --no-cache musl-dev libpq-dev mold clang
 
 WORKDIR /compiler
 ENV     USER=root
