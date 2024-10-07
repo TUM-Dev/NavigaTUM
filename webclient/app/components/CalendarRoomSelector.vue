@@ -68,7 +68,7 @@ async function addLocation() {
         }"
       />
       <div class="text-zinc-600 flex flex-col gap-1">
-        <NuxtLink class="line-clamp-1 hover:underline" :to="'/view/' + key">{{ location.name }}</NuxtLink>
+        <NuxtLinkLocale class="line-clamp-1 hover:underline" :to="'/view/' + key">{{ location.name }}</NuxtLinkLocale>
         <small>
           {{ location.type_common_name }}
         </small>

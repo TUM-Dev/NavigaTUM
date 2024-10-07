@@ -147,13 +147,13 @@ function sendForm() {
             <p>
               <I18nT keypath="public.objection_instruction" tag="span">
                 <template #imprint>
-                  <NuxtLink
+                  <NuxtLinkLocale
                     tabindex="1"
                     to="/about/impressum"
                     class="text-blue-600 visited:text-blue-600 hover:underline"
                   >
                     {{ t("public.imprint") }}
-                  </NuxtLink>
+                  </NuxtLinkLocale>
                 </template>
               </I18nT>
               <br />
