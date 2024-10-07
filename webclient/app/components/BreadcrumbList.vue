@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), { c
     <template v-for="(item, i) in props.items" :key="item.to">
       <span v-if="i > 0" aria-hidden="true" class="text-zinc-500">/</span>
       <li property="itemListElement" typeof="ListItem">
-        <NuxtLink
+        <NuxtLinkLocale
           :to="item.to"
           property="item"
           typeof="WebPage"
@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<{ items: Item[]; class?: string }>(), { c
           }"
         >
           <span property="name">{{ item.name }}</span>
-        </NuxtLink>
+        </NuxtLinkLocale>
         <meta property="position" :content="`${i + 1}`" />
       </li>
     </template>

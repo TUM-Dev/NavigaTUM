@@ -9,9 +9,10 @@ const searchBarFocused = defineModel<boolean>("searchBarFocused", {
   required: true,
 });
 const { t, locale } = useI18n({ useScope: "local" });
-const keep_focus = ref(false);
+const localePath = useLocalePath();
 const router = useRouter();
 const route = useRoute();
+const keep_focus = ref(false);
 const query = ref(Array.isArray(route.query.q) ? (route.query.q[0] ?? "") : (route.query.q ?? ""));
 const highlighted = ref<string | undefined>(undefined);
 const sites_buildings_expanded = ref<boolean>(false);
@@ -50,7 +51,7 @@ function searchBlur(): void {
 function searchGo(cleanQuery: boolean): void {
   if (query.value.length === 0) return;
 
-  router.push(`/search?q=${query.value}`);
+  router.push(localePath(`/search?q=${query.value}`));
   searchBarFocused.value = false;
   if (cleanQuery) {
     query.value = "";
@@ -62,7 +63,7 @@ function searchGoTo(id: string, cleanQuery: boolean): void {
   // Catch is necessary because vue-router throws an error
   // if navigation is aborted for some reason (e.g. the new
   // url is the same or there is a loop in redirects)
-  router.push(`/view/${id}`);
+  router.push(localePath(`/view/${id}`));
   searchBarFocused.value = false;
   if (cleanQuery) {
     query.value = "";
@@ -170,7 +171,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
       <!--
     <li class="search-comment filter">
       Suche einschränken auf:
-      <NuxtLink class="bt btn-link btn-sm">Räume</NuxtLink>
+      <NuxtLinkLocale class="bt btn-link btn-sm">Räume</NuxtLinkLocale>
     </li> -->
       <Toast v-if="error" id="search-error" level="error">
         <p class="text-md font-bold">{{ t("error.header") }}</p>
@@ -226,7 +227,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
 
       <li class="divider" data-content="Veranstaltungen" />
       <li class="menu-item">
-        <NuxtLink to="/event/">
+        <NuxtLinkLocale :to="/event/">
           <div class="tile">
             <div class="tile-icon">
               <ClockIcon class="h-4 w-4" />
@@ -238,7 +239,7 @@ const { data, error } = await useFetch<SearchResponse>(url, {
               <small class="tile-subtitle text-zinc"> Übung mit 4 Gruppen </small>
             </div>
           </div>
-        </NuxtLink>
+        </NuxtLinkLocale>
         <div class="menu-badge" style="display: none">
           <label class="label label-primary">frei</label>
         </div>

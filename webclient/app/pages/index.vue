@@ -27,6 +27,7 @@ type SitesOverview = readonly (components["schemas"]["ChildEntry"] & {
 })[];
 
 const { t } = useI18n({ useScope: "local" });
+const localePath = useLocalePath();
 const sites_overview: SitesOverview = [
   {
     children: [
@@ -99,7 +100,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
 <template>
   <div class="flex flex-col justify-between gap-3 pt-8">
     <h1 class="text-zinc-600 !text-lg font-semibold">{{ t("sites") }}</h1>
-    <!-- <NuxtLink to="#" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</NuxtLink> -->
+    <!-- <NuxtLink :to="localePath('#')" class="flex flex-row"><MapPinIcon class="h-4 w-4" /> {{ t("overview_map") }}</NuxtLink> -->
   </div>
   <div class="mt-5">
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -111,7 +112,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
         <div>
           <NuxtLink
             v-if="site.id !== 'others'"
-            :to="'/view/' + site.id"
+            :to="localePath('/view/' + site.id)"
             :aria-label="t('show_details_for_campus', [site.name])"
             class="focusable text-zinc-700 flex grow-0 flex-row justify-between rounded !no-underline hover:text-blue-500"
           >
@@ -124,7 +125,7 @@ const openPanels = ref<(boolean | undefined)[]>([]);
           <NuxtLink
             v-for="c in site.children.slice(0, openPanels[siteIndex] ? site.children.length : site.n_visible)"
             :key="c.id"
-            :to="'/view/' + c.id"
+            :to="localePath('/view/' + c.id)"
             :aria-label="t('show_details_for_building', [c.name])"
             class="focusable text-blue-600 flex flex-row justify-between rounded !no-underline hover:text-blue-500"
           >

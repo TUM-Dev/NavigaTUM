@@ -159,7 +159,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
       >
         <ul v-bind="wrapperProps">
           <li>
-            <NuxtLink
+            <NuxtLinkLocale
               v-for="(room, index) in list"
               :key="index"
               :to="`/view/${room.data.id}`"
@@ -168,7 +168,7 @@ const { list, containerProps, wrapperProps } = useVirtualList<ChildEntry>(filter
             >
               <MapPinIcon class="my-auto h-4 w-4" aria-hidden="true" />
               {{ room.data.name }}
-            </NuxtLink>
+            </NuxtLinkLocale>
           </li>
         </ul>
       </div>

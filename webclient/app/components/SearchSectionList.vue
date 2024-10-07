@@ -9,9 +9,10 @@ defineProps<{
   queryLimitBuildings: number;
   queryLimitRooms: number;
 }>();
-const route = useRoute();
-const router = useRouter();
 const { t } = useI18n({ useScope: "local" });
+const localePath = useLocalePath();
+const router = useRouter();
+const route = useRoute();
 </script>
 
 <template>
@@ -24,13 +25,13 @@ const { t } = useI18n({ useScope: "local" });
             v-if="i < s.n_visible"
             :highlighted="false"
             :item="e"
-            @click="router.push(`/view/${e.id}`)"
+            @click="router.push(localePath(`/view/${e.id}`))"
           />
         </template>
       </ul>
       <p v-if="s.estimatedTotalHits > 10" class="text-zinc-500 text-sm">
         {{ t("approx_results", s.estimatedTotalHits) }}
-        <NuxtLink
+        <NuxtLinkLocale
           :to="
             s.facet === 'rooms'
               ? `/search?q=${route.query.q}&limit_buildings=${queryLimitBuildings}&limit_rooms=${queryLimitRooms + 50}`
@@ -38,7 +39,7 @@ const { t } = useI18n({ useScope: "local" });
           "
           class="focusable text-blue-500 rounded-sm visited:text-blue-500 hover:text-blue-600 hover:underline"
           >{{ t("view_more") }}
-        </NuxtLink>
+        </NuxtLinkLocale>
       </p>
       <p v-else class="text-zinc-500 text-sm">
         {{ t("results", s.estimatedTotalHits) }}
