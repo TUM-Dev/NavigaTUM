@@ -176,9 +176,9 @@ impl APIRequestor {
             anyhow::bail!("environment variable CONNECTUM_OAUTH_CLIENT_ID is present, but empty. It is necessary to use this endpoint")
         }
 
-        // for urls see https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline/.well-known/openid-configuration
-        let auth_url = Url::parse("https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/auth")?;
-        let token_url = Url::parse("https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/token")?;
+        // for urls see https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline_SP/.well-known/openid-configuration
+        let auth_url = Url::parse("https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline_SP/protocol/openid-connect/auth")?;
+        let token_url = Url::parse("https://campus.tum.de/tumonline/co/public/sec/auth/realms/CAMPUSonline_SP/protocol/openid-connect/token")?;
 
         let token = BasicClient::new(
             ClientId::new(client_id),
