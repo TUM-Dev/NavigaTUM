@@ -17,10 +17,10 @@ const runtimeConfig = useRuntimeConfig();
 <template>
   <section v-if="props.buildings" class="px-5 print:!hidden">
     <h2 class="text-zinc-800 pb-3 text-lg font-semibold">{{ t("title") }}</h2>
-    <!--  <NuxtLink class="no-underline" to="#">Übersichtskarte <ArrowRightIcon class="w-4 h-4" /></NuxtLink> -->
+    <!--  <NuxtLinkLocale class="no-underline" to="#">Übersichtskarte <ArrowRightIcon class="w-4 h-4" /></NuxtLinkLocale> -->
     <div class="text-zinc-600 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
       <template v-for="(b, i) in props.buildings.entries" :key="b.id">
-        <NuxtLink
+        <NuxtLinkLocale
           v-if="i < props.buildings.n_visible || buildingsExpanded"
           :to="'/view/' + b.id"
           class="focusable border-zinc-200 flex flex-row items-center justify-between rounded-sm border border-solid p-3.5 !no-underline hover:bg-zinc-100"
@@ -46,7 +46,7 @@ const runtimeConfig = useRuntimeConfig();
             </div>
           </div>
           <ChevronRightIcon class="h-4 w-4" />
-        </NuxtLink>
+        </NuxtLinkLocale>
       </template>
     </div>
     <div v-if="props.buildings.n_visible < props.buildings.entries.length" class="mt-2">

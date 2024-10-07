@@ -60,7 +60,7 @@ const sizeClasses = computed(() => {
   >
     <slot />
   </NuxtLink>
-  <NuxtLink
+  <NuxtLinkLocale
     v-else-if="props.to.length"
     :to="props.to"
     :aria-label="ariaLabel"
@@ -71,7 +71,7 @@ const sizeClasses = computed(() => {
     @click="emit('click')"
   >
     <slot />
-  </NuxtLink>
+  </NuxtLinkLocale>
   <button
     v-else
     :aria-label="ariaLabel"

@@ -14,7 +14,7 @@ type RoomEntry = components["schemas"]["RoomEntry"];
 
 <template>
   <li class="bg-zinc-50 border-zinc-200 rounded-sm border hover:bg-blue-100">
-    <NuxtLink
+    <NuxtLinkLocale
       :class="{ 'bg-blue-200': highlighted }"
       :to="'/view/' + item.id"
       class="focusable flex gap-1 px-2 py-3 md:gap-3 md:px-4"
@@ -36,13 +36,13 @@ type RoomEntry = components["schemas"]["RoomEntry"];
           <span v-else class="line-clamp-1" v-html="item.name" />
         </div>
         <small>
-          {{ item.subtext
-          }}<template v-if="item.type === 'room' || item.type === 'virtual_room' || item.type === 'poi'"
+          {{ item.subtext }}
+          <template v-if="item.type === 'room' || item.type === 'virtual_room' || item.type === 'poi'"
             >, <b v-html="item.subtext_bold"
           /></template>
         </small>
       </div>
-    </NuxtLink>
+    </NuxtLinkLocale>
     <!-- <div class="menu-badge"><label class="label label-primary">2</label></div> -->
   </li>
 </template>
