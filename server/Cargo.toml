@@ -48,7 +48,7 @@ chrono = { version = "0.4.38", default-features = false, features = ["serde"] }
 
 # search
 # IFF (open for 4 Months now) meilisearch merges my PR, change back to the main release
-meilisearch = { git = "https://github.com/commanderstorm/meilisearch-rust.git", branch = "vector-search-embedder" }
+meilisearch-sdk = { git = "https://github.com/commanderstorm/meilisearch-rust.git", branch = "vector-search-embedder" }
 logos = "0.14.1"
 regex = "1.10.6"
 

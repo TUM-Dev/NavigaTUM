@@ -1,5 +1,5 @@
 use meilisearch_sdk::client::Client;
-use meilisearch_sdk::settings::{Embedder, HuggingFaceEmbedderSettings, Settings};
+use meilisearch_sdk::settings::{Embedder, OllamaEmbedderSettings, Settings};
 use meilisearch_sdk::tasks::Task;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -66,15 +66,11 @@ pub async fn setup(client: &Client, vector_search: bool) -> anyhow::Result<()> {
         .wait_for_completion(client, POLLING_RATE, TIMEOUT)
         .await?;
     let entries = client.index("entries");
-    let en_embedder =Embedder::HuggingFace(HuggingFaceEmbedderSettings{
-        model: Some("BAAI/bge-base-en-v1.5".to_string()),
+    let en_embedder = Embedder::Ollama(OllamaEmbedderSettings{
+        api_key: None,
+        url: match std::env::var("MEILI_OLLAMA_URL").ok(){ None=>None,Some(s) if s.trim().is_empty()=> None,Some(s)=>Some(s)},
+        model: "mxbai-embed-large".to_string(),
         document_template: Some("A room titled '{{doc.name}}' with type '{{doc.type_common_name}}' used as '{{doc.usage}}'".to_string()),
-        ..Default::default()
-    });
-    let _de_embedder=Embedder::HuggingFace(HuggingFaceEmbedderSettings{
-        model: Some("google-bert/bert-base-german-cased".to_string()),
-        document_template: Some("Ein Raum '{{doc.name}}' vom typ '{{doc.type_common_name}}' benutzt als '{{doc.usage}}'".to_string()),
-        ..Default::default()
     });
 
     let mut settings = Settings::new()
