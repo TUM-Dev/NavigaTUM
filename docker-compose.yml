@@ -329,6 +329,7 @@ services:
       start_period: 1s
   redirect-domain:
     image: traefik/whoami:latest
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-redirect-domain.entrypoints=webs"
