@@ -27,6 +27,12 @@ export default defineNuxtConfig({
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
       link: [
+        {
+          rel: "search",
+          title: "searchTitle",
+          type: "application/opensearchdescription+xml",
+          href: "/opensearchdescription.xml",
+        },
         { rel: "apple-touch-icon", sizes: "180x180", href: "/favicons/apple-touch-icon.png" },
         { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicons/favicon-32x32.png" },
         { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicons/favicon-16x16.png" },

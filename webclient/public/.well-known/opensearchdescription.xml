@@ -1,0 +1,9 @@
+<OpenSearchDescription>
+    <ShortName>NavigaTUM</ShortName>
+    <Description>
+        Search for rooms, buildings and other places at the university
+    </Description>
+    <Url type="text/html" template="https://nav.tum.de/search?q={searchTerms}"/>
+    <Url type="application/json" rel="suggestions" template="https://nav.tum.de/api/search?q={searchTerms}"/>
+    <Image width="32" height="32">https://nav.tum.de/favicon.ico</Image>
+</OpenSearchDescription>
