@@ -62,6 +62,7 @@ pub enum Token {
     UsageFilter(String),
 
     #[regex("type: ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "type:")), priority = 3)]
+    #[regex("typ: ?[a-zA-Z0-9-äöüß.]+", | lex | slugify(remove_prefix(lex, "typ:")), priority = 3)]
     TypeFilter(String),
 }
 
