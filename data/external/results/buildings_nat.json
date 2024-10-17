@@ -469,10 +469,24 @@
     "building_short": null
   },
   {
+    "address": "Edisonstr. 3",
+    "building_code": "1912",
+    "building_id": 3449,
+    "building_name": "Edisonstr.3",
+    "building_short": null
+  },
+  {
     "address": "Etzelstr. 38",
     "building_code": "1915",
     "building_id": 3191,
     "building_name": "Bildungscampus/Etzelstr.38",
+    "building_short": null
+  },
+  {
+    "address": "Berliner Platz 12",
+    "building_code": "1920",
+    "building_id": 3389,
+    "building_name": "Bildungscampus K3",
     "building_short": null
   },
   {
@@ -609,7 +623,7 @@
     "building_short": null
   },
   {
-    "address": "Connollystr. 32",
+    "address": "Kolehmainenweg 7",
     "building_code": "2309",
     "building_id": 607,
     "building_name": "(SZ) Tennis Geb\u00e4ude",
@@ -644,7 +658,7 @@
     "building_short": null
   },
   {
-    "address": "Connollystr. 32",
+    "address": "Am Olympiacampus 13",
     "building_code": "2315",
     "building_id": 612,
     "building_name": "(SZ) Pr\u00e4ventionszentrum",
@@ -686,7 +700,7 @@
     "building_short": null
   },
   {
-    "address": "Connollystr. 32",
+    "address": "Am Olympiacampus 11",
     "building_code": "2330",
     "building_id": 2749,
     "building_name": "CiO/SG Seminarr\u00e4ume",
@@ -3476,6 +3490,13 @@
     "building_code": "5510",
     "building_id": 842,
     "building_name": "MW Bibliothek u. Verwaltung",
+    "building_short": null
+  },
+  {
+    "address": "Boltzmannstr. 15",
+    "building_code": "5512",
+    "building_id": 3409,
+    "building_name": "Au\u00dfenfl\u00e4chen MW",
     "building_short": null
   },
   {

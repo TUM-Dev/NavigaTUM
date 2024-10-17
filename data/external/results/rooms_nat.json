@@ -743,7 +743,7 @@
       "de": "Eine Doppelsteckdose beim Beamer",
       "en": "One double socket at the beamer"
     },
-    "streaming": null,
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
     "teaching": true
   },
   "0501.02.100": {
@@ -818,7 +818,7 @@
       "de": "Drei Doppelsteckdosen an der R\u00fcckwand (Fensterseite) und je zwei bei den Tafeln",
       "en": "Three double sockets at the back wall (window side) and two each at the blackboards"
     },
-    "streaming": null,
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
     "teaching": true
   },
   "0502.01.200": {
@@ -901,7 +901,7 @@
       "de": "Einzelne (insgesamt 10) Steckdosen im Bereich der Sitzreihen",
       "en": "Single (10 in total) sockets in the area of the rows of seats"
     },
-    "streaming": null,
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
     "teaching": true
   },
   "0502.01.260": {
@@ -1144,7 +1144,7 @@
       "de": "Einzelne (insgesamt vier Doppelsteckdosen) im Bereich der Sitzreihen unten",
       "en": "Single (total of four double sockets) in the area of the rows of seats at the bottom"
     },
-    "streaming": null,
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
     "teaching": true
   },
   "0503.02.370": {
@@ -1832,7 +1832,18 @@
           },
           "maptype_id": 5
         },
-        "url": "https://www.nat.tum.de/fileadmin/w00bzl/nat/wir/orga/pv/seating/plan/0506.EG.602.pdf"
+        "url": "https://www.nat.tum.de/fileadmin/w00bzl/nat/wir/orga/pv/seating/plan/0506.EG.602_2.pdf"
+      },
+      {
+        "map_id": 229,
+        "maptype": {
+          "maptype": {
+            "de": "Sitzplan f\u00fcr Pr\u00fcfungen",
+            "en": "Seating Plan for Exams"
+          },
+          "maptype_id": 5
+        },
+        "url": "https://www.nat.tum.de/fileadmin/w00bzl/nat/wir/orga/pv/seating/plan/0506.EG.602_1.pdf"
       },
       {
         "map_id": 60,
@@ -1843,7 +1854,7 @@
           },
           "maptype_id": 6
         },
-        "url": "https://www.nat.tum.de/fileadmin/w00bzl/nat/wir/orga/pv/seating/corona/0506.EG.602.pdf"
+        "url": "https://www.nat.tum.de/fileadmin/w00bzl/nat/wir/orga/pv/seating/plan/0506.EG.602_3.pdf"
       }
     ],
     "number": "602",
@@ -1860,7 +1871,7 @@
     "schedule_url": null,
     "seatings": [
       {
-        "seat_count": 44,
+        "seat_count": 52,
         "seating": {
           "de": "Pr\u00fcfungen (eng)",
           "en": "Exams (dense)"
@@ -1868,7 +1879,7 @@
         "seating_id": 1
       },
       {
-        "seat_count": 28,
+        "seat_count": 34,
         "seating": {
           "de": "Pr\u00fcfungen (weit)",
           "en": "Exams (wide)"
@@ -1876,7 +1887,7 @@
         "seating_id": 2
       },
       {
-        "seat_count": 56,
+        "seat_count": 28,
         "seating": {
           "de": "Pandemie",
           "en": "Pandemic"
@@ -1904,6 +1915,17 @@
     "id": "0506.EG.606",
     "maps": [
       {
+        "map_id": 230,
+        "maptype": {
+          "maptype": {
+            "de": "Sitzplan f\u00fcr Pr\u00fcfungen",
+            "en": "Seating Plan for Exams"
+          },
+          "maptype_id": 5
+        },
+        "url": "https://www.nat.tum.de/fileadmin/w00bzl/nat/wir/orga/pv/seating/plan/0506.EG.606_1.pdf"
+      },
+      {
         "map_id": 61,
         "maptype": {
           "maptype": {
@@ -1912,7 +1934,7 @@
           },
           "maptype_id": 5
         },
-        "url": "https://www.nat.tum.de/fileadmin/w00bzl/nat/wir/orga/pv/seating/plan/0506.EG.606.pdf"
+        "url": "https://www.nat.tum.de/fileadmin/w00bzl/nat/wir/orga/pv/seating/plan/0506.EG.606_2.pdf"
       },
       {
         "map_id": 62,
@@ -1923,7 +1945,7 @@
           },
           "maptype_id": 6
         },
-        "url": "https://www.nat.tum.de/fileadmin/w00bzl/nat/wir/orga/pv/seating/corona/0506.EG.606.pdf"
+        "url": "https://www.nat.tum.de/fileadmin/w00bzl/nat/wir/orga/pv/seating/corona/0506.EG.606_3.pdf"
       }
     ],
     "number": "606",
@@ -1940,7 +1962,7 @@
     "schedule_url": null,
     "seatings": [
       {
-        "seat_count": 44,
+        "seat_count": 52,
         "seating": {
           "de": "Pr\u00fcfungen (eng)",
           "en": "Exams (dense)"
@@ -1948,7 +1970,7 @@
         "seating_id": 1
       },
       {
-        "seat_count": 28,
+        "seat_count": 34,
         "seating": {
           "de": "Pr\u00fcfungen (weit)",
           "en": "Exams (wide)"
@@ -2110,7 +2132,7 @@
     ],
     "seats": 108,
     "steckdosen": null,
-    "streaming": null,
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
     "teaching": true
   },
   "0507.02.770": {
@@ -2190,7 +2212,7 @@
     ],
     "seats": 188,
     "steckdosen": null,
-    "streaming": null,
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
     "teaching": true
   },
   "0507.03.750": {
@@ -2431,7 +2453,7 @@
       "de": "Es sind im vorderen Bereich jeweils an den Au\u00dfenseiten in den Reihen bis 1, 3, 5, 7, 9 Dreifachsteckdosen vorhanden",
       "en": "There are triple sockets in the front area on the outer sides of each row up to 1, 3, 5, 7, 9."
     },
-    "streaming": null,
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
     "teaching": true
   },
   "4101.01.129": {
@@ -2511,11 +2533,11 @@
     ],
     "seats": 144,
     "steckdosen": null,
-    "streaming": null,
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
     "teaching": true
   },
   "4102.01.038": {
-    "area": 152.35,
+    "area": 145.68,
     "building_code": "4102",
     "campus_id": "3",
     "coordinates": {
@@ -2568,7 +2590,7 @@
     "teaching": true
   },
   "4102.01.040": {
-    "area": 118.93,
+    "area": 112.93,
     "building_code": "4102",
     "campus_id": "3",
     "coordinates": {
@@ -2621,7 +2643,7 @@
     "teaching": true
   },
   "4102.01.043": {
-    "area": 77.23,
+    "area": 73.94,
     "building_code": "4102",
     "campus_id": "3",
     "coordinates": {
@@ -2674,7 +2696,7 @@
     "teaching": true
   },
   "4102.EG.034": {
-    "area": 116.0,
+    "area": 113.51,
     "building_code": "4102",
     "campus_id": "3",
     "coordinates": {
@@ -2754,7 +2776,7 @@
     "teaching": true
   },
   "4102.EG.036": {
-    "area": 150.0,
+    "area": 148.49,
     "building_code": "4102",
     "campus_id": "3",
     "coordinates": {
@@ -3928,7 +3950,7 @@
     ],
     "seats": 130,
     "steckdosen": null,
-    "streaming": null,
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
     "teaching": true
   },
   "4318.EG.002": {
@@ -5137,7 +5159,7 @@
       "de": "Steckdosen in Bodentanks von jedem Platz aus erreichbar",
       "en": "Sockets in floor tanks accessible from each seat"
     },
-    "streaming": null,
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
     "teaching": true
   },
   "5502.EG.234": {
@@ -5349,7 +5371,7 @@
       "de": "Steckdosen in Bodentanks von jedem Platz aus erreichbar",
       "en": "Sockets in floor tanks accessible from each seat"
     },
-    "streaming": null,
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
     "teaching": true
   },
   "5503.EG.350": {
@@ -5595,7 +5617,7 @@
     ],
     "seats": 894,
     "steckdosen": null,
-    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>, <a href=\"https://wiki.rbg.tum.de/Informatik/Benutzerwiki/H%c3%b6rsaalausstattung\" target=\"_blank\">Streaming \u00fcber RBG</a>",
     "teaching": true
   },
   "5510.EG.001": {
@@ -5675,7 +5697,7 @@
     ],
     "seats": 700,
     "steckdosen": null,
-    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>, <a href=\"https://wiki.rbg.tum.de/Informatik/Benutzerwiki/H%c3%b6rsaalausstattung\" target=\"_blank\">Streaming \u00fcber RBG</a>",
     "teaching": true
   },
   "5530.EG.003": {
@@ -6231,7 +6253,10 @@
       "de": "Steckdose an jedem dritten Platz",
       "en": "Socket at every third seat"
     },
-    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>, <a href=\"https://wiki.rbg.tum.de/Informatik/Benutzerwiki/H%c3%b6rsaalausstattung\" target=\"_blank\">Streaming \u00fcber RBG</a>",
+    "streaming": {
+      "de": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>, <a href=\"https://wiki.rbg.tum.de/Informatik/Benutzerwiki/H%c3%b6rsaalausstattung\" target=\"_blank\">Streaming \u00fcber RBG</a>",
+      "en": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>, <a href=\"https://wiki.rbg.tum.de/Informatik/Benutzerwiki/H%c3%b6rsaalausstattung\" target=\"_blank\">Streaming via RBG</a>"
+    },
     "teaching": true
   },
   "5620.01.102": {
@@ -6318,6 +6343,47 @@
       "en": "Socket at every third seat"
     },
     "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>, <a href=\"https://wiki.rbg.tum.de/Informatik/Benutzerwiki/H%c3%b6rsaalausstattung\" target=\"_blank\">Streaming \u00fcber RBG</a>",
+    "teaching": true
+  },
+  "5701.EG.026": {
+    "area": 119.99,
+    "building_code": "5701",
+    "campus_id": "2",
+    "coordinates": {
+      "lat": 11.669906038294956,
+      "lon": 11.669906038294956,
+      "source": "NAT"
+    },
+    "description": "E.126, H\u00f6rsaal IMETUM",
+    "eexam": null,
+    "floor": "EG",
+    "id": "5701.EG.026",
+    "maps": [],
+    "number": "E.126",
+    "org_id": 19701,
+    "purpose": {
+      "de": "H\u00f6rsaal",
+      "en": "Lecture hall"
+    },
+    "purpose_id": 20,
+    "ressource_id": 18436,
+    "room_id": 58485,
+    "room_identifier": null,
+    "room_short": "MIBE E.126",
+    "schedule_url": null,
+    "seatings": [
+      {
+        "seat_count": 10,
+        "seating": {
+          "de": "Pandemie",
+          "en": "Pandemic"
+        },
+        "seating_id": 3
+      }
+    ],
+    "seats": 80,
+    "steckdosen": null,
+    "streaming": "<a href=\"https://wiki.tum.de/x/AIYBLg\" target=\"_blank\">USB.H\u00f6rsaal.Webcam</a>",
     "teaching": true
   },
   "5901.EG.051": {
