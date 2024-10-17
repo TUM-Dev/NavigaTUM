@@ -21,7 +21,7 @@ def _generate_oauth_headers() -> dict[typing.Literal["Authorization"], str]:
 
     This is safe, because the token is valid for 300s and no downloading will take more than this amount.
     """
-    token_url = f"{TUMONLINE_URL}/co/public/sec/auth/realms/CAMPUSonline/protocol/openid-connect/token"
+    token_url = f"{TUMONLINE_URL}/co/public/sec/auth/realms/CAMPUSonline_SP/protocol/openid-connect/token"
     oauth_client_id = os.environ.get("CONNECTUM_OAUTH_CLIENT_ID")
     assert oauth_client_id is not None, "requests to connectum need CONNECTUM_OAUTH_CLIENT_ID specified"
     oauth_client_secret = os.environ.get("CONNECTUM_OAUTH_CLIENT_SECRET")
