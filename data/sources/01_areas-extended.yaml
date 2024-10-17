@@ -511,10 +511,8 @@ heilbronn:
 1920:
   coords: { lat: 49.14614775592658, lon: 9.220833988729073 }
 
-1998: # Interim, Bildungscampus 3
+1998: # Bildungscampus K3
     coords: { lat: 49.146680868726946, lon: 9.218137968390192 }
-1999:
-    coords: { lat: 49.15206894787071, lon: 9.215827629945748 }
 
 # ========= Others in Munich and around =========
 2202:
