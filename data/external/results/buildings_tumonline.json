@@ -529,6 +529,16 @@
     "name": "Bildungscampus C",
     "tumonline_id": 3189
   },
+  "1912": {
+    "address": {
+      "place": "Heilbronn",
+      "street": "Edisonstr. 3",
+      "zip_code": 74076
+    },
+    "area_id": 243,
+    "name": "Edisonstr.3",
+    "tumonline_id": 3449
+  },
   "1915": {
     "address": {
       "place": "Heilbronn",
@@ -539,6 +549,16 @@
     "name": "Bildungscampus/Etzelstr.38",
     "tumonline_id": 3191
   },
+  "1920": {
+    "address": {
+      "place": "Heilbronn",
+      "street": "Berliner Platz 12",
+      "zip_code": 74072
+    },
+    "area_id": 243,
+    "name": "Bildungscampus K3",
+    "tumonline_id": 3389
+  },
   "1998": {
     "address": {
       "place": "Heilbronn",
@@ -548,16 +568,6 @@
     "area_id": 243,
     "name": "Interim, Bildungscampus 3",
     "tumonline_id": 3289
-  },
-  "1999": {
-    "address": {
-      "place": "Heilbronn",
-      "street": "Weipertstr. 8-10",
-      "zip_code": 74076
-    },
-    "area_id": 243,
-    "name": "Containerburg CB",
-    "tumonline_id": 3190
   },
   "2103": {
     "address": {
@@ -632,7 +642,7 @@
   "2309": {
     "address": {
       "place": "M\u00fcnchen",
-      "street": "Connollystr. 32",
+      "street": "Kolehmainenweg 7",
       "zip_code": 80809
     },
     "area_id": 18,
@@ -642,7 +652,7 @@
   "2310": {
     "address": {
       "place": "M\u00fcnchen",
-      "street": "Connollystr. 32",
+      "street": "Kolehmainenweg 7",
       "zip_code": 80809
     },
     "area_id": 18,
@@ -659,20 +669,10 @@
     "name": "(SZ) Sport-, Aussenanlagen/Teil-Umbau",
     "tumonline_id": 610
   },
-  "2313": {
-    "address": {
-      "place": "M\u00fcnchen",
-      "street": "Connollystr. 32",
-      "zip_code": 80809
-    },
-    "area_id": 18,
-    "name": "(SZ) Wetterschutzhaus",
-    "tumonline_id": 611
-  },
   "2315": {
     "address": {
       "place": "M\u00fcnchen",
-      "street": "Connollystr. 32",
+      "street": "Am Olympiacampus 13",
       "zip_code": 80809
     },
     "area_id": 18,
@@ -732,7 +732,7 @@
   "2330": {
     "address": {
       "place": "M\u00fcnchen",
-      "street": "Connollystr. 32",
+      "street": "Am Olympiacampus 11",
       "zip_code": 80809
     },
     "area_id": 18,
@@ -742,7 +742,7 @@
   "2331": {
     "address": {
       "place": "M\u00fcnchen",
-      "street": "Connollystr. 32",
+      "street": "Am Olympiacampus 11",
       "zip_code": 80809
     },
     "area_id": 18,
@@ -752,7 +752,7 @@
   "2332": {
     "address": {
       "place": "M\u00fcnchen",
-      "street": "Connollystr. 32",
+      "street": "Am Olympiacampus 11",
       "zip_code": 80809
     },
     "area_id": 18,
@@ -762,7 +762,7 @@
   "2333": {
     "address": {
       "place": "M\u00fcnchen",
-      "street": "Connollystr. 32",
+      "street": "Am Olympiacampus 11",
       "zip_code": 80809
     },
     "area_id": 18,
@@ -772,7 +772,7 @@
   "2334": {
     "address": {
       "place": "M\u00fcnchen",
-      "street": "Connollystr. 32",
+      "street": "Am Olympiacampus 11",
       "zip_code": 80809
     },
     "area_id": 18,
@@ -3828,6 +3828,16 @@
     "area_id": 34,
     "name": "H\u00f6rsaal, Bibliothek u. Verwaltungsgeb\u00e4ud",
     "tumonline_id": 842
+  },
+  "5512": {
+    "address": {
+      "place": "Garching b. M\u00fcnchen",
+      "street": "Boltzmannstr. 15",
+      "zip_code": 85748
+    },
+    "area_id": 34,
+    "name": "Au\u00dfenfl\u00e4chen MW",
+    "tumonline_id": 3409
   },
   "5513": {
     "address": {
