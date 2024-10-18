@@ -503,13 +503,16 @@ heilbronn:
 
 1910:
     coords: { lat: 49.15203640405564, lon: 9.215772773105478 }
+1912:
+    coords: { lat: 49.14991790304142, lon: 9.214257130268168 }
 
 1915:
     coords: { lat: 49.153491683965264, lon: 9.215594950464627 }
-1998: # Interim, Bildungscampus 3
+1920:
+  coords: { lat: 49.14614775592658, lon: 9.220833988729073 }
+
+1998: # Bildungscampus K3
     coords: { lat: 49.146680868726946, lon: 9.218137968390192 }
-1999:
-    coords: { lat: 49.15206894787071, lon: 9.215827629945748 }
 
 # ========= Others in Munich and around =========
 2202:
@@ -973,6 +976,8 @@ mw:
         "way/539911567",
         "way/539911566",
     ] # Windtunnel (connecting building and tunnel itself)
+5512:
+    coords: { lat: 48.26562, lon: 11.66921 } # cordinate of parent building. No idea what this is...
 
 5519:
     coords: { lat: 48.26427, lon: 11.66876 }
