@@ -21,11 +21,6 @@ info: "'physik labor mi' should get '5604.EG.036' in 3 results # '5604.02.033' i
       name: "5501.01.108 (\u0019Mi\u0017krotechniklabor)"
       subtext: "garching, Maschinenwesen (MW)"
       subtext_bold: 1108@5501
-    - id: 2806.03.302
-      type: room
-      name: "2806.03.302 (\u0019Mi\u0017kroskopie)"
-      subtext: Werkstattgebäude National Museum (Nutzung)
-      subtext_bold: 3.302@2806
     - id: 4224.01.136
       type: room
       name: "4224.01.136 (\u0019Mi\u0017kroskopie)"
@@ -56,6 +51,11 @@ info: "'physik labor mi' should get '5604.EG.036' in 3 results # '5604.02.033' i
       name: "4124.EG.320 (L1 \u0019Mi\u0017kroorganismen)"
       subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
       subtext_bold: E/3.20@4124
+    - id: 4124.EG.321
+      type: room
+      name: "4124.EG.321 (L1 \u0019Mi\u0017kroorganismen)"
+      subtext: "weihenstephan, ZIEL II – Molekulare Biowissenschaften"
+      subtext_bold: E/3.21@4124
   n_visible: 10
   estimatedTotalHits: "[estimatedTotalHits]"
 - facet: sites_buildings
