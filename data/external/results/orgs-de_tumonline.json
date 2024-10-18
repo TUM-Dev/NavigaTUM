@@ -416,8 +416,8 @@
   },
   "14934": {
     "code": "TUBVSTA",
-    "name": "Lehrstuhl f\u00fcr Statik (Prof. Bletzinger)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Statik (Prof. Bletzinger)"
+    "name": "Lehrstuhl f\u00fcr Statik und Dynamik (Prof. W\u00fcchner)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Statik und Dynamik (Prof. W\u00fcchner)"
   },
   "14935": {
     "code": "TUBVBMA",
@@ -911,8 +911,8 @@
   },
   "15405": {
     "code": "TUEIMST",
-    "name": "Lehrstuhl f\u00fcr Messsystem- und Sensortechnik (Prof. Koch)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Messsystem- und Sensortechnik (Prof. Koch)"
+    "name": "Lehrstuhl f\u00fcr Messsystem- und Sensortechnik (N.N.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Messsystem- und Sensortechnik (N.N.)"
   },
   "15415": {
     "code": "TUINDEK",
@@ -1834,20 +1834,10 @@
     "name": "Partnerschaftliche Einrichtungen",
     "path": "TUM/Partnerschaftliche Einrichtungen"
   },
-  "16338": {
-    "code": "TUPESBW",
-    "name": "Bayerische Staatsbrauerei Weihenstephan (Wirtschaftsbetrieb)",
-    "path": "TUM/Partnerschaftliche Einrichtungen/Bayerische Staatsbrauerei Weihenstephan (Wirtschaftsbetrieb)"
-  },
   "16340": {
     "code": "TUPEZAE",
     "name": "Bayerisches Zentrum f\u00fcr Angewandte Energieforschung e.V. (ZAE)",
     "path": "TUM/Partnerschaftliche Einrichtungen/Bayerisches Zentrum f\u00fcr Angewandte Energieforschung e.V. (ZAE)"
-  },
-  "16341": {
-    "code": "TUPEGRS",
-    "name": "Gesellschaft f\u00fcr Anlagen- und Reaktorsicherheit (GRS) mbH",
-    "path": "TUM/Partnerschaftliche Einrichtungen/Gesellschaft f\u00fcr Anlagen- und Reaktorsicherheit (GRS) mbH"
   },
   "16342": {
     "code": "TUPECNS",
@@ -1888,21 +1878,6 @@
     "code": "TUPEIST",
     "name": "TUM Asia",
     "path": "TUM/Partnerschaftliche Einrichtungen/TUM Asia"
-  },
-  "16350": {
-    "code": "TUPEGTG",
-    "name": "GATE Garchinger Technologie- und Gr\u00fcnderzentrum GmbH",
-    "path": "TUM/Partnerschaftliche Einrichtungen/GATE Garchinger Technologie- und Gr\u00fcnderzentrum GmbH"
-  },
-  "16351": {
-    "code": "TUPEISR",
-    "name": "ISaR Institute for Safety and Reliability GmbH",
-    "path": "TUM/Partnerschaftliche Einrichtungen/ISaR Institute for Safety and Reliability GmbH"
-  },
-  "16352": {
-    "code": "TUPEVHB",
-    "name": "Virtuelle Hochschule Bayern (vhb)",
-    "path": "TUM/Partnerschaftliche Einrichtungen/Virtuelle Hochschule Bayern (vhb)"
   },
   "16353": {
     "code": "TUPEBM2",
@@ -2211,8 +2186,8 @@
   },
   "21538": {
     "code": "TUPHE60",
-    "name": "Professur f\u00fcr Experimentalphysik - Astroteilchenphysik (Prof. Oberauer)",
-    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Experimentalphysik - Astroteilchenphysik (Prof. Oberauer)"
+    "name": "Professur f\u00fcr Experimentalphysik - Astroteilchenphysik (N.N.)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Physics/Experimentalphysik - Astroteilchenphysik (N.N.)"
   },
   "21543": {
     "code": "TUPHE57",
@@ -3189,11 +3164,6 @@
     "name": "Campus M\u00fcnchen FU Hagen",
     "path": "TUM/Partnerschaftliche Einrichtungen/Campus M\u00fcnchen FU Hagen"
   },
-  "39686": {
-    "code": "TUPEHM0",
-    "name": "Hochschule f\u00fcr Angewandte Wissenschaften - FH M\u00fcnchen",
-    "path": "TUM/Partnerschaftliche Einrichtungen/Hochschule f\u00fcr Angewandte Wissenschaften - FH M\u00fcnchen"
-  },
   "39687": {
     "code": "TUPESWM",
     "name": "Studentenwerk M\u00fcnchen",
@@ -3223,11 +3193,6 @@
     "code": "TUPEUTM",
     "name": "UnternehmerTUM GmbH",
     "path": "TUM/Partnerschaftliche Einrichtungen/UnternehmerTUM GmbH"
-  },
-  "40142": {
-    "code": "TUPEVWA",
-    "name": "Verwaltungs- und Wirtschaftsakademie (VWA)",
-    "path": "TUM/Partnerschaftliche Einrichtungen/Verwaltungs- und Wirtschaftsakademie (VWA)"
   },
   "40494": {
     "code": "TUCHAC9",
@@ -3283,11 +3248,6 @@
     "code": "TUGSTGS",
     "name": "Management Office",
     "path": "TUM/TUM Graduate School/Management Office"
-  },
-  "41346": {
-    "code": "TUPEFOR",
-    "name": "fortiss GmbH",
-    "path": "TUM/Partnerschaftliche Einrichtungen/fortiss GmbH"
   },
   "41681": {
     "code": "TUZVR7W",
@@ -3714,20 +3674,10 @@
     "name": "Hochschule Weihenstephan-Triesdorf",
     "path": "TUM/Partnerschaftliche Einrichtungen/Hochschule Weihenstephan-Triesdorf"
   },
-  "44041": {
-    "code": "TUPELFL",
-    "name": "Bayerische Landesanstalt f\u00fcr Landwirtschaft (LfL)",
-    "path": "TUM/Partnerschaftliche Einrichtungen/Bayerische Landesanstalt f\u00fcr Landwirtschaft (LfL)"
-  },
   "44042": {
     "code": "TUPELWF",
     "name": "Bayerische Landesanstalt f\u00fcr Wald und Forstwirtschaft (LWF)",
     "path": "TUM/Partnerschaftliche Einrichtungen/Bayerische Landesanstalt f\u00fcr Wald und Forstwirtschaft (LWF)"
-  },
-  "44043": {
-    "code": "TUPEDWD",
-    "name": "Deutscher Wetterdienst - Au\u00dfenstelle Weihenstephan",
-    "path": "TUM/Partnerschaftliche Einrichtungen/Deutscher Wetterdienst - Au\u00dfenstelle Weihenstephan"
   },
   "44044": {
     "code": "TUPEHZM",
@@ -3773,11 +3723,6 @@
     "code": "TUZEITH",
     "name": "IT-Support",
     "path": "TUM/Zentrale Serviceeinrichtungen/IT-Servicezentrum (ITSZ)/IT-Support"
-  },
-  "44168": {
-    "code": "TUPEASL",
-    "name": "Institut f\u00fcr St\u00e4dtebau und Wohnungswesen der Deutschen Akademie f\u00fcr St\u00e4dtebau und Landesplanung (DASL)",
-    "path": "TUM/Partnerschaftliche Einrichtungen/Institut f\u00fcr St\u00e4dtebau und Wohnungswesen der Deutschen Akademie f\u00fcr St\u00e4dtebau und Landesplanung (DASL)"
   },
   "44187": {
     "code": "TUSPL11",
@@ -3828,11 +3773,6 @@
     "code": "TUBVCMS",
     "name": "Lehrstuhl f\u00fcr Computergest\u00fctzte Modellierung und Simulation (Prof. Borrmann)",
     "path": "TUM/Schools/Engineering and Design/Departments/Civil and Environmental Engineering/Computergest\u00fctzte Modellierung und Simulation (Prof. Borrmann)"
-  },
-  "44385": {
-    "code": "TUPEMAS",
-    "name": "Munich Aerospace",
-    "path": "TUM/Partnerschaftliche Einrichtungen/Munich Aerospace"
   },
   "44404": {
     "code": "TUMAM15",
@@ -4164,11 +4104,6 @@
     "name": "Professur f\u00fcr Data-driven Materials Modeling (Prof. Koutsourelakis)",
     "path": "TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Data-driven Materials Modeling (Prof. Koutsourelakis)"
   },
-  "45371": {
-    "code": "TUPEUBM",
-    "name": "Universit\u00e4t der Bundeswehr M\u00fcnchen",
-    "path": "TUM/Partnerschaftliche Einrichtungen/Universit\u00e4t der Bundeswehr M\u00fcnchen"
-  },
   "45391": {
     "code": "TUZEFAM",
     "name": "TUM Familienservice",
@@ -4223,11 +4158,6 @@
     "code": "TUS5VM1",
     "name": "Professur f\u00fcr Vaskul\u00e4re Biologie (Prof. Maegdefessel)",
     "path": "TUM/Schools/Medicine and Health/Departments/Clinical Medicine/Molekulare Vaskul\u00e4re Medizin (Prof. Maegdefessel)/Vaskul\u00e4re Biologie (Prof. Maegdefessel)"
-  },
-  "45531": {
-    "code": "TUPEETU",
-    "name": "EuroTech Universities",
-    "path": "TUM/Partnerschaftliche Einrichtungen/EuroTech Universities"
   },
   "45532": {
     "code": "TUPETUG",
@@ -4864,11 +4794,6 @@
     "name": "Ombudsb\u00fcro",
     "path": "TUM/Hochschulpr\u00e4sidium/TUM Compliance Office/Ombudsb\u00fcro"
   },
-  "47977": {
-    "code": "TUPEGEE",
-    "name": "GE Healthcare Global Research Europe",
-    "path": "TUM/Partnerschaftliche Einrichtungen/GE Healthcare Global Research Europe"
-  },
   "47997": {
     "code": "TUWZC1N",
     "name": "Professur f\u00fcr Computational Neuroscience (Prof. Gjorgjieva)",
@@ -5471,8 +5396,8 @@
   },
   "49077": {
     "code": "TUEIRSI",
-    "name": "Lehrstuhl f\u00fcr Robotik und Systemintelligenz (Prof. Haddadin)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Robotik und Systemintelligenz (Prof. Haddadin)"
+    "name": "Lehrstuhl f\u00fcr Robotik und Systemintelligenz (Prof. Haddadin/Prof. K\u00f6nig komm.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Robotik und Systemintelligenz (Prof. Haddadin/Prof. K\u00f6nig komm.)"
   },
   "49099": {
     "code": "TUCSREK",
@@ -5536,7 +5461,7 @@
   },
   "49218": {
     "code": "TUCHOCL",
-    "name": "Professur f\u00fcr Neurobiological Engineering (Prof. Westmeyer)",
+    "name": "Lehrstuhl f\u00fcr Neurobiological Engineering (Prof. Westmeyer)",
     "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Neurobiological Engineering (Prof. Westmeyer)"
   },
   "49277": {
@@ -7896,12 +7821,12 @@
   },
   "52432": {
     "code": "TUS7VTD",
-    "name": "Prodekanin Talent Management und Diversity der TUM School of Social Sciences and Technology",
+    "name": "Prodekan/in Talent Management und Diversity der TUM School of Social Sciences and Technology",
     "path": "TUM/Schools/Social Sciences and Technology/Prodekane/Talent Management und Diversity"
   },
   "52433": {
     "code": "TUS7VIO",
-    "name": "Prodekanin Informationsmanagement der TUM School of Social Sciences and Technology",
+    "name": "Prodekan/in Informationsmanagement der TUM School of Social Sciences and Technology",
     "path": "TUM/Schools/Social Sciences and Technology/Prodekane/Informationsmanagement"
   },
   "52434": {
@@ -8022,7 +7947,7 @@
   "52697": {
     "code": "TUEINEN",
     "name": "Professur f\u00fcr Neuroengineering Materials (Prof. Kozielski)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Neuroengineering Materials (Prof. Kozielski)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Neuroengineering Materials (Prof. Kozielski)"
   },
   "52717": {
     "code": "TUCHACH",
@@ -8036,8 +7961,8 @@
   },
   "52719": {
     "code": "TUINH02",
-    "name": "Informatik Heilbronn 2 - Professur f\u00fcr Computer Architecture & Operating Systems (Prof. Trinitis)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik Heilbronn 2 - Professur f\u00fcr Computer Architecture & Operating Systems (Prof. Trinitis)"
+    "name": "Informatik Heilbronn 2 - Professur f\u00fcr Computer Architecture & Operating Systems (Prof. Trinitis komm.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik Heilbronn 2 - Professur f\u00fcr Computer Architecture & Operating Systems (Prof. Trinitis komm.)"
   },
   "52720": {
     "code": "TUINH03",
@@ -8613,11 +8538,6 @@
     "code": "TUPRV11",
     "name": "Vizepr\u00e4sidentin Global Communication & Public Engagement",
     "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Global Communication & Public Engagement"
-  },
-  "53397": {
-    "code": "TUPEERG",
-    "name": "TUMint\u00b7Energy Research GmbH",
-    "path": "TUM/Partnerschaftliche Einrichtungen/TUMint\u00b7Energy Research GmbH"
   },
   "53417": {
     "code": "TUXS60O",
@@ -11048,5 +10968,120 @@
     "code": "TUS3010",
     "name": "Professur f\u00fcr Nanoscale Microscopy and Spectroscopy of Energy Materials (Prof. Eichhorn)",
     "path": "TUM/Schools/Natural Sciences/Departments/Physics/Nanoscale Microscopy and Spectroscopy of Energy Materials (Prof. Eichhorn)"
+  },
+  "56477": {
+    "code": "TUCSP18",
+    "name": "Professur f\u00fcr Partikel- und Fasertechnologie f\u00fcr biobasierte Materialien (Prof. Fang)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/Lehrst\u00fchle und Professuren/Partikel- und Fasertechnologie f\u00fcr biobasierte Materialien (Prof. Fang)"
+  },
+  "56497": {
+    "code": "TUS7PHS",
+    "name": "Lehrstuhl f\u00fcr Philosophy and History of Science (Prof. Leonelli)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Philosophy and History of Science (Prof. Leonelli)"
+  },
+  "56517": {
+    "code": "TUXS114",
+    "name": "Studiengang M.Sc. Microelectronics and Chip Design",
+    "path": "TUM/Schools/Computation, Information and Technology/Studienorganisation/Elektrotechnik und Informationstechnik/M.Sc. Microelectronics and Chip Design"
+  },
+  "56518": {
+    "code": "TUPEX06",
+    "name": "TUM Emeriti",
+    "path": "TUM/Partnerschaftliche Einrichtungen/Weitere Personen/TUM Emeriti"
+  },
+  "56537": {
+    "code": "TUS4Z6P",
+    "name": "Professur f\u00fcr Zellbiologie der Pflanzen (Prof. Gronnier)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Zellbiologie der Pflanzen (Prof. Gronnier)"
+  },
+  "56538": {
+    "code": "TUS4T9P",
+    "name": "Professur f\u00fcr Tree Growth and Wood Physiology (Prof. Peters)",
+    "path": "TUM/Schools/Life Sciences/Departments/Life Science Systems/Tree Growth and Wood Physiology (Prof. Peters)"
+  },
+  "56539": {
+    "code": "TUS4B3T",
+    "name": "Professur f\u00fcr Biopharmaceutical Technology (Prof.Svilenov)",
+    "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/Biopharmaceutical Technology (Prof.Svilenov)"
+  },
+  "56557": {
+    "code": "TUS2SAM",
+    "name": "Professur f\u00fcr Simulation of Additive Manufacturing Processes (Prof. Meier)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Engineering Physics and Computation/Simulation of Additive Manufacturing Processes (Prof. Meier)"
+  },
+  "56577": {
+    "code": "TUS3011",
+    "name": "Professur f\u00fcr Catalytic Interfaces for Sustainable Chemical Energy Carriers (Prof. H\u00fclsey)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Chemistry/Catalytic Interfaces for Sustainable Chemical Energy Carriers (Prof. H\u00fclsey)"
+  },
+  "56578": {
+    "code": "TUVBEXP",
+    "name": "Exportkontrollbeauftragte/r",
+    "path": "TUM/Beauftragte und Vertretungen/Exportkontrollbeauftragte/r"
+  },
+  "56597": {
+    "code": "TUS1154",
+    "name": "Stabstelle Digital and Sustainable Transformation (CIT) Dean's Office und Stabsstellen (CIT)",
+    "path": "TUM/Schools/Computation, Information and Technology/School Office/Dean's Office und Stabsstellen (CIT)/Stabstelle Digital and Sustainable Transformation (CIT)"
+  },
+  "56617": {
+    "code": "TUS7EME",
+    "name": "Lehrstuhl f\u00fcr Educational Monitoring and Effectiveness (Prof. Greiff)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Educational Sciences/Educational Monitoring and Effectiveness (Prof. Greiff)"
+  },
+  "56637": {
+    "code": "TUS1RDP",
+    "name": "Datenschutzbevollm\u00e4chtigte/r der TUM School of Computation, Information and Technology",
+    "path": "TUM/Schools/Computation, Information and Technology/Beauftragte/Datenschutzbevollm\u00e4chtigte/r"
+  },
+  "56657": {
+    "code": "TUPRV13",
+    "name": "Vizepr\u00e4sident Campus Heilbronn",
+    "path": "TUM/Hochschulpr\u00e4sidium/Vizepr\u00e4sidenten und Kanzler/Campus Heilbronn"
+  },
+  "56658": {
+    "code": "TUS1318",
+    "name": "Professur f\u00fcr Applied Algebra (Prof. Weger)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Applied Algebra (Prof. Weger)"
+  },
+  "56659": {
+    "code": "TUS1319",
+    "name": "Lehrstuhl f\u00fcr Intelligent Bio-Robotic Systems (Prof. Masia)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Intelligent Bio-Robotic Systems (Prof. Masia)"
+  },
+  "56660": {
+    "code": "TUS1320",
+    "name": "Lehrstuhl f\u00fcr Informationsinfrastrukturen (Prof. Sunyaev)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informationsinfrastrukturen (Prof. Sunyaev)"
+  },
+  "56661": {
+    "code": "TUS1321",
+    "name": "Professur f\u00fcr Sensors and Wearables for Healthcare (Prof. Dincer)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Sensors and Wearables for Healthcare (Prof. Dincer)"
+  },
+  "56677": {
+    "code": "TUS3012",
+    "name": "Lehrstuhl f\u00fcr Translational Redox Biology (Prof. Conrad)",
+    "path": "TUM/Schools/Natural Sciences/Departments/Bioscience/Translational Redox Biology (Prof. Conrad)"
+  },
+  "56697": {
+    "code": "TUS4T1E",
+    "name": "Lehrstuhl f\u00fcr Translationale Ern\u00e4hrungsmedizin (Prof. Bartelt)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Translationale Ern\u00e4hrungsmedizin (Prof. Bartelt)"
+  },
+  "56698": {
+    "code": "TUS4I9M",
+    "name": "Lehrstuhl f\u00fcr Intestinal Microbiome (Prof. Stecher-Letsch)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Intestinal Microbiome (Prof. Stecher-Letsch)"
+  },
+  "56699": {
+    "code": "TUS4W5F",
+    "name": "Professur f\u00fcr Wood Science and Functionalization (Prof. Eder)",
+    "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/Wood Science and Functionalization (Prof. Eder)"
+  },
+  "56717": {
+    "code": "TUS4P7G",
+    "name": "Professur f\u00fcr Pflanzengenetik (Prof. Yu)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Pflanzengenetik (Prof. Yu)"
   }
 }

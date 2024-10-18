@@ -130,6 +130,8 @@ def _sanitise_room(room: dict) -> dict:
         room["building"]["campus"]["campus_id"] = campus_id
     if isinstance(room["steckdosen"], str):
         room["steckdosen"] = _(room["steckdosen"].rstrip("."))
+    if room["steckdosen"] is None:
+        room.pop("steckdosen")
     room["campus"] = room["building"].pop("campus")
 
     # bauarbeiten is a str, indicating if something is wrong on in the room
@@ -161,6 +163,21 @@ def _sanitise_room(room: dict) -> dict:
     ]
     for field_name in fields_with_no_information:
         room.pop(field_name)
+    if streaming := room.pop("streaming", None):
+        if streaming is not None:
+            if isinstance(streaming, dict):
+                streaming = streaming.get("de", streaming["en"])
+            if not isinstance(streaming, str):
+                raise RuntimeError("invalid type for streaming: " + type(streaming))
+            streaming_webcam = "USB.Hörsaal.Webcam" in streaming or "Kamera mit Hörsaal-Ton über USB" == streaming
+            streaming_tumlive = "RBG" in streaming
+            if streaming_webcam:
+                room["streaming_webcam"] = True
+            elif streaming_tumlive:
+                room["streaming_tumlive"] = True
+            else:
+                raise RuntimeError(f"new streaming '{streaming}'")
+
     return room
 
 

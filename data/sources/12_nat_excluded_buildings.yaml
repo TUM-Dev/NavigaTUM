@@ -1,5 +1,6 @@
 # 'Building' 0000 contains some buildings and places not in TUMonline as rooms
 - "0000"
+- "1999" # not our building anymore
 # Teared down and replaced by 2330-2334 most likely
 - "2301"
 - "2302"
@@ -9,6 +10,7 @@
 - "2306"
 - "2307"
 - "2308"
+- "2313" # was removed
 # Unclear, but probably no longer existing or in use by TUM
 - "2360" # Pfortencontainer C1
 - "2361" # Umkleide-Werkstatt-Container C2
