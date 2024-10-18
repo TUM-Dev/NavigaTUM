@@ -1,7 +1,7 @@
 # https://docs.docker.com/build/attestations/sbom/#scan-build-context
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
-FROM    rust:1.81-alpine AS compiler
+FROM    rust:1.82-alpine AS compiler
 
 # to ache the build this line inludes all the dependencys all servers need
 # this is not an issue since we copy the generated binary to a more minimal envornment
