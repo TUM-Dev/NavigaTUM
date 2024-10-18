@@ -67,8 +67,6 @@ class Room(PydanticConfiguration):
     schedule_url: str | None
     seatings: list[SeatingPlan]
     seats: int | None
-    steckdosen: TranslatableStr | None
-    streaming: str | None
     teaching: bool
     # semi-random sets of ids
     # pylint: disable-next=invalid-name
@@ -79,7 +77,10 @@ class Room(PydanticConfiguration):
     room_identifier: str | None
     campus_id: str | None
     building_code: str
+    steckdosen: TranslatableStr | None = None
     org_id: int | None = None
+    streaming_webcam: bool = False
+    streaming_tumlive: bool = False
 
     @classmethod
     def load_all(cls) -> dict[str, "Room"]:
