@@ -1,5 +1,6 @@
 use actix_web::http::header::{CacheControl, CacheDirective};
 use actix_web::{get, web, HttpResponse};
+use serde::{Deserialize, Serialize};
 use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
 use tracing::error;
@@ -32,18 +33,14 @@ pub async fn get_handler(
         Ok(d) => match d {
             None => HttpResponse::NotFound().body("Not found"),
             Some(d) => {
-                let mut response_json = serde_json::to_string(&d).unwrap();
-                // We don't want to serialise this data at any point in the server.
-                // This just flows through the server, but adding redirect_url to the response is necessary
-                response_json.pop(); // remove last }
-                response_json.push_str(&format!(",\"redirect_url\":\"{redirect_url}\"}}",));
+                let mut res: LocationDetailsResponse = serde_json::from_value(d).unwrap();
+                res.redirect_url = redirect_url;
                 HttpResponse::Ok()
                     .insert_header(CacheControl(vec![
                         CacheDirective::MaxAge(24 * 60 * 60), // valid for 1d
                         CacheDirective::Public,
                     ]))
-                    .content_type("application/json")
-                    .body(response_json)
+                    .json(res)
             }
         },
         Err(e) => {
@@ -53,6 +50,335 @@ pub async fn get_handler(
                 .body("Internal Server Error")
         }
     }
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+struct Operator {
+    id: String,
+    url: String,
+    code: String,
+    name: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Default)]
+#[serde(rename_all = "snake_case")]
+enum LocationType {
+    #[default]
+    Room,
+    Building,
+    JoinedBuilding,
+    Area,
+    Site,
+    Campus,
+    Poi,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct LocationDetailsResponse {
+    /// The id, that was requested
+    id: String,
+    /// The type of the entry
+    r#type: LocationType,
+    /// The type of the entry in a human-readable form
+    type_common_name: String,
+    /// The name of the entry in a human-readable form
+    name: String,
+    /// A list of alternative ids for this entry.
+    ///
+    /// Not to be confused with
+    /// - [`id`] which is the unique identifier or
+    /// - [`visual-id`] which is an alternative identifier for the entry (only displayed in the URL).
+    aliases: Vec<String>,
+    /// The ids of the parents.
+    /// They are ordered as they would appear in a Breadcrumb menu.
+    /// See [`parent_names`] for their human names.
+    parents: Vec<String>,
+    /// The ids of the parents. They are ordered as they would appear in a Breadcrumb menu.
+    /// See [`parents`] for their actual ids.
+    parent_names: Vec<String>,
+    /// Data for the info-card table
+    props: Props,
+    /// The information you need to request Images from the /cdn/{size}/{id}_{counter}.webp endpoint
+    imgs: Vec<ImageInfo>,
+    ranking_factors: RankingFactors,
+    /// Where we got our data from, should be displayed at the bottom of any page containing this data
+    sources: Sources,
+    /// The url, this item should be displayed at. Present on both redirects and normal entries, to allow for the common /view/:id path
+    redirect_url: String,
+    coords: Coordinate,
+    maps: Maps,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    sections: Option<Sections>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct Sections {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    buildings_overview: Option<BuildingsOverview>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    rooms_overview: Option<RoomsOverview>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    featured_overview: Option<FeaturedOverview>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct BuildingsOverviewItem {
+    /// The id of the entry
+    id: String,
+    /// Human display name
+    name: String,
+    /// What should be displayed below this Building
+    subtext: String,
+    /// The thumbnail for the building
+    thumb: Option<String>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct FeaturedOverviewItem {
+    /// The id of the entry
+    id: String,
+    /// Human display name
+    name: String,
+    /// What should be displayed below this Building
+    subtext: String,
+    /// The thumbnail for the building
+    image_url: String,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct BuildingsOverview {
+    entries: Vec<BuildingsOverviewItem>,
+    n_visible: u32,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct RoomsOverviewUsageChild {
+    id: String,
+    name: String,
+}
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct RoomsOverviewUsage {
+    name: String,
+    count: u32,
+    children: Vec<RoomsOverviewUsageChild>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct RoomsOverview {
+    usages: Vec<RoomsOverviewUsage>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct FeaturedOverview {
+    entries: Vec<FeaturedOverviewItem>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct Maps {
+    default: DefaultMaps,
+    roomfinder: Option<RoomfinderMap>,
+    /// [`None`] would mean no overlay maps are displayed by default.
+    /// For rooms you should add a warning that no floor map is available for this room
+    overlays: Option<OverlayMaps>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct RoomfinderMap {
+    /// The id of the map, that should be shown as a default
+    /// Example: `rf142`
+    default: String,
+    available: Vec<RoomfinderMapEntry>,
+}
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct RoomfinderMapEntry {
+    /// human-readable name of the map
+    name: String,
+    /// machine-readable name of the map
+    id: String,
+    /// Scale of the map. 2000 means 1:2000
+    scale: String,
+    /// Map image y dimensions
+    height: i32,
+    /// Map image y dimensions
+    width: i32,
+    /// x Position on map image
+    x: i32,
+    /// y Position on map image
+    y: i32,
+    /// Where the map was imported from
+    source: String,
+    /// Where the map is stored
+    file: String,
+}
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct OverlayMaps {
+    /// The floor-id of the map, that should be shown as a default.  
+    /// null means:
+    /// - We suggest, you don't show a map by default.
+    /// - This is only the case for buildings or other such entities and not for rooms, if we know where they are and a map exists
+    default: Option<i32>,
+    available: Vec<OverlayMapEntry>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct OverlayMapEntry {
+    /// machine-readable floor-id of the map.
+    /// Should start with 0 for the ground level (defined by the main entrance) and increase or decrease.
+    /// It is not guaranteed that numbers are consecutive or that `1` corresponds to level `01`, because buildings sometimes have more complicated layouts. They are however always in the correct (physical) order.
+    id: i32,
+    /// Floor of the Map.
+    /// Should be used for display to the user in selectors.
+    /// Matches the floor part of the TUMonline roomcode.
+    floor: String,
+    /// human-readable name of the map
+    name: String,
+    /// filename of the map
+    file: String,
+    /// Coordinates are four `[lon, lat]` pairs, for the top left, top right, bottom right, bottom left image corners.
+    coordinates: [(f32, f32); 4],
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+enum DefaultMaps {
+    #[default]
+    Interactive,
+    Roomfinder,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct ExtraComputedProp {
+    /// example: `Genauere Angaben`
+    #[serde(skip_serializing_if = "Option::is_none")]
+    header: Option<String>,
+    /// example: `for exams: 102 in tight, 71 in wide, 49 in corona`
+    body: String,
+    /// example: `data based on a Survey of chimneysweeps`
+    #[serde(skip_serializing_if = "Option::is_none")]
+    footer: Option<String>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct ComputedProps {
+    /// example: `Raumkennung`
+    name: String,
+    /// example: `5602.EG.001`
+    text: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    extra: Option<ExtraComputedProp>,
+}
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct Props {
+    /// The operator of the room
+    operator: Option<Operator>,
+    computed: ComputedProps,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    links: Vec<PossibleURLRef>,
+    /// A comment to show to an entry.
+    /// It is used in the rare cases, where some aspect about the rooom/.. or its translation are misleading.
+    /// An example of a room with a comment is `MW1801`.
+    #[serde(skip_serializing_if = "String::is_empty")]
+    comment: String,
+    /// link to the calendar of the room
+    /// examples:
+    /// - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J'
+    /// - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
+    #[serde(skip_serializing_if = "String::is_empty")]
+    calendar_url: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Source {
+    /// name of the provider
+    name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    /// url of the provider
+    url: Option<String>,
+}
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct Sources {
+    /// Was this entry patched by us? (e.g. to fix a typo in the name/...)
+    /// If so, we should not display the source, as it is not the original source.
+    patched: bool,
+    /// What is the basis of the data we have
+    base: Vec<Source>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct ImageInfo {
+    /// The name of the image file. consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
+    name: String,
+    author: PossibleURLRef,
+    source: PossibleURLRef,
+    license: PossibleURLRef,
+    meta: Option<ImageMetadata>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct PossibleURLRef {
+    text: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    url: Option<String>,
+}
+
+/// Additional data about the images.
+/// Does not have to be displayed.
+/// All fields are optional.
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct ImageMetadata {
+    ///optional date description
+    date: String,
+    ///optional location description
+    location: String,
+    ///optional coordinates in lat,lon
+    geo: String,
+    /// optional in contrast to source this points to the image itself.
+    /// You should not use this to request the images, as they are not scaled.
+    image_url: String,
+    /// optional caption
+    caption: String,
+    /// optional headline
+    headline: String,
+    ///  optional the event this image was taken at
+    event: String,
+    /// optional the event this image is about
+    faculty: String,
+    ///optional the building this image is about
+    building: String,
+    ///  optional the department this image is about
+    department: String,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct RankingFactors {
+    rank_combined: u32,
+    rank_type: u32,
+    rank_usage: u32,
+    rank_boost: Option<u32>,
+    rank_custom: Option<u32>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct Coordinate {
+    lat: f64,
+    lon: f64,
+    source: CoordinateSource,
+    accuracy: Option<CoordinateAccuracy>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+#[serde(rename_all = "snake_case")]
+enum CoordinateAccuracy {
+    #[default]
+    Buiding,
+}
+
+#[derive(Serialize, Deserialize, Debug, Default)]
+#[serde(rename_all = "snake_case")]
+enum CoordinateSource {
+    Roomfinder,
+    #[default]
+    Navigatum,
+    Inferred,
 }
 
 #[tracing::instrument(skip(pool))]
