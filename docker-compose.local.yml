@@ -98,7 +98,7 @@ services:
   gtfs-download-data:
     image: alpine:latest
     ## aah, MVV, warum machst du so sachen???
-    command: sh -c "apk --update add --quiet wget && wget https://www.opendata-oepnv.de/dataset/17065229-c3fd-46d7-84a9-aae55aadbf40/resource/927d0830-2a40-4702-acc6-f5716352b666/download/gtfs_mvv_mitshape_240814.zip && unzip -d mvv mvv*.zip && rm *.zip"
+    command: sh -c "apk --update add --quiet wget && wget https://www.opendata-oepnv.de/dataset/17065229-c3fd-46d7-84a9-aae55aadbf40/resource/927d0830-2a40-4702-acc6-f5716352b666/download/gtfs_mvv_mitshape_240814.zip && unzip -d mvv gtfs_mvv*.zip && rm *.zip"
     working_dir: /gtfs_feeds
     volumes:
       - ./map/gtfs_feeds/:/gtfs_feeds/:rw
