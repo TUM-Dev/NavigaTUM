@@ -89,27 +89,21 @@ services:
       # requires docker v25 to be available for ubuntu
       # start_interval: 20s
       start_period: 20s
-  osm-download-data:
+  download-data:
     image: alpine:latest
-    command: sh -c "apk --update add --quiet wget && wget https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf"
+    command: sh /map/download.sh europe/germany/bayern/oberbayern
     environment:
       TZ: Europe/Berlin
-    working_dir: /map/data
+    working_dir: /map
     volumes:
       - ./map/data/:/map/data/:rw
-  gtfs-download-data:
-    image: alpine:latest
-    ## aah, MVV, warum machst du so sachen???
-    command: sh -c "apk --update add --quiet wget && wget https://www.opendata-oepnv.de/dataset/17065229-c3fd-46d7-84a9-aae55aadbf40/resource/927d0830-2a40-4702-acc6-f5716352b666/download/gtfs_mvv_mitshape_240814.zip && unzip -d mvv gtfs_mvv*.zip && rm *.zip"
-    environment:
-      TZ: Europe/Berlin
-    working_dir: /gtfs_feeds
-    volumes:
-      - ./map/gtfs_feeds/:/gtfs_feeds/:rw
+      - ./map/gtfs_feeds/:/map/gtfs_feeds/:rw
+      - ./map/download.sh:/map/download.sh:ro
   valhalla-build:
     image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest
     volumes:
       - ./map/data/:/custom_files:rw
+      - ./map/download.sh:/local/bin:ro
       - ./map/gtfs_feeds:/gtfs_feeds:rw
     environment:
       TZ: Europe/Berlin
@@ -120,9 +114,7 @@ services:
       use_default_speeds_config: True
       serve_tiles: False
     depends_on:
-      osm-download-data:
-        condition: service_completed_successfully
-      gtfs-download-data:
+      download-data:
         condition: service_completed_successfully
   valhalla:
     image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest
@@ -170,7 +162,7 @@ services:
       - ./map/data/:/map/data/:ro
       - ./map/osm2pgsql/:/map/osm2pgsql/:ro
     depends_on:
-      osm-download-data:
+      download-data:
         condition: service_completed_successfully
       db:
         condition: service_healthy
