@@ -68,7 +68,6 @@ services:
       test: wget --quiet --spider http://localhost:7700/health
       retries: 5
       interval: 10s
-      start_interval: 1s
       start_period: 10s
   db:
     image: postgis/postgis:17-3.4
@@ -87,7 +86,8 @@ services:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
       interval: 10s
-      start_interval: 1s
+      # requires docker v25 to be available for ubuntu
+      # start_interval: 20s
       start_period: 20s
   download-data:
     image: alpine:latest
@@ -133,10 +133,9 @@ services:
     read_only: true
     healthcheck:
       test: curl --fail -s http://localhost:8002/status || exit 1
-      interval: 30s
-      start_interval: 1s
-      start_period: 5s
+      interval: 60s
       retries: 2
+      start_period: 5s
       timeout: 1s
   osm2pgsql-init:
     image: iboates/osm2pgsql:latest
@@ -247,6 +246,5 @@ services:
     healthcheck:
       test: wget --spider http://localhost:3001/health || exit 1
       retries: 10
-      interval: 10s
-      start_interval: 1s
+      interval: 1s
       start_period: 1s
