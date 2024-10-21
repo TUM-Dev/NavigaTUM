@@ -196,6 +196,8 @@ services:
   osm-download-data:
     image: alpine:latest
     command: sh -c "apk --update add --quiet wget && wget https://download.geofabrik.de/europe/germany/bayern/oberbayern-latest.osm.pbf -o nul"
+    environment:
+      TZ: Europe/Berlin
     working_dir: /map/data
     volumes:
       - ./map/data/:/map/data/:rw
@@ -203,6 +205,8 @@ services:
     image: alpine:latest
     ## aah, MVV, warum machst du so sachen???
     command: sh -c "apk --update add --quiet wget && wget https://www.opendata-oepnv.de/dataset/17065229-c3fd-46d7-84a9-aae55aadbf40/resource/927d0830-2a40-4702-acc6-f5716352b666/download/gtfs_mvv_mitshape_240814.zip && unzip -d mvv gtfs_mvv*.zip && rm *.zip"
+    environment:
+      TZ: Europe/Berlin
     working_dir: /gtfs_feeds
     volumes:
       - ./map/gtfs_feeds/:/gtfs_feeds/:rw
@@ -212,6 +216,7 @@ services:
       - ./map/data/:/custom_files:rw
       - ./map/gtfs_feeds:/gtfs_feeds:rw
     environment:
+      TZ: Europe/Berlin
       build_elevation: True
       build_admins: Force
       build_time_zones: Force
@@ -234,6 +239,8 @@ services:
       - "traefik.http.routers.navigatum-valhalla.middlewares=navigatum-valhalla-stripprefix@docker"
       - "traefik.http.middlewares.navigatum-valhalla-stripprefix.stripprefix.prefixes=/valhalla"
       - "traefik.http.services.navigatum-valhalla.loadbalancer.server.port=8002"
+    environment:
+      TZ: Europe/Berlin
     expose:
       - 8002
     depends_on:
