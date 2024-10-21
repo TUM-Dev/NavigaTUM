@@ -216,6 +216,7 @@ services:
       build_transit: True
       use_default_speeds_config: True
       serve_tiles: False
+      server_threads: 3 # we don't want to gobble up all the CPU and have 2 cores/4 threads
     depends_on:
       download-data:
         condition: service_completed_successfully
