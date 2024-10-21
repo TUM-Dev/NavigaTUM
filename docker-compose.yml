@@ -72,6 +72,7 @@ services:
       test: service nginx status || exit 1
       retries: 2
       interval: 10s
+      start_interval: 1s
       start_period: 10s
   tileserver:
     image: maptiler/tileserver-gl:v5.0.0
@@ -169,6 +170,7 @@ services:
       test: wget --quiet --spider http://localhost:7700/health
       retries: 5
       interval: 10s
+      start_interval: 1s
       start_period: 10s
   db:
     image: postgis/postgis:17-3.4
@@ -190,8 +192,7 @@ services:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       retries: 5
       interval: 10s
-      # requires docker v25 to be available for ubuntu
-      # start_interval: 20s
+      start_interval: 1s
       start_period: 20s
   download-data:
     image: alpine:latest
@@ -234,7 +235,7 @@ services:
     environment:
       TZ: Europe/Berlin
     expose:
-      - 8002
+      - "8002"
     depends_on:
       valhalla-build:
         condition: service_completed_successfully
@@ -246,8 +247,9 @@ services:
     healthcheck:
       test: curl --fail -s http://localhost:8002/status || exit 1
       interval: 60s
-      retries: 2
+      start_interval: 1s
       start_period: 5s
+      retries: 2
       timeout: 1s
   osm2pgsql-init:
     image: iboates/osm2pgsql:latest
@@ -375,8 +377,9 @@ services:
     healthcheck:
       test: wget --spider http://localhost:3001/health || exit 1
       retries: 10
-      interval: 1s
-      start_period: 1s
+      interval: 30s
+      start_interval: 1s
+      start_period: 10s
   redirect-domain:
     image: traefik/whoami:latest
     restart: unless-stopped
@@ -396,6 +399,7 @@ services:
       test: ["CMD", "/whoami", "--help"] # I know that this is not usefull. There does not exists a executable in that image that can call /health
       retries: 2
       interval: 10s
+      start_interval: 1s
       start_period: 10s
 
 volumes:
