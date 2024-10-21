@@ -227,7 +227,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.navigatum-valhalla.entrypoints=webs"
       - "traefik.http.routers.navigatum-valhalla.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-valhalla.rule=Host(`nav.tum.de`) && (Path(`/valhalla`) || Path(`/valhalla/status`))"
+      - "traefik.http.routers.navigatum-valhalla.rule=Host(`nav.tum.de`) && PathPrefix(`/valhalla`)"
       - "traefik.http.routers.navigatum-valhalla.middlewares=navigatum-valhalla-stripprefix@docker"
       - "traefik.http.middlewares.navigatum-valhalla-stripprefix.stripprefix.prefixes=/valhalla"
       - "traefik.http.services.navigatum-valhalla.loadbalancer.server.port=8002"
