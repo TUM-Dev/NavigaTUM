@@ -239,6 +239,8 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./map/data/:/custom_files:rw
+    tmpfs:
+      - /tmp
     read_only: true
     healthcheck:
       test: curl --fail -s http://localhost:8002/status || exit 1
