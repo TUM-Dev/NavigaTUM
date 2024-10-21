@@ -133,9 +133,9 @@ services:
     read_only: true
     healthcheck:
       test: curl --fail -s http://localhost:8002/status || exit 1
-      interval: 1s
-      retries: 10
-      start_period: 2s
+      interval: 60s
+      retries: 2
+      start_period: 5s
       timeout: 1s
   osm2pgsql-init:
     image: iboates/osm2pgsql:latest
