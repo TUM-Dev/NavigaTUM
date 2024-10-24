@@ -1046,8 +1046,8 @@
   },
   "15560": {
     "code": "TUWZU7Z",
-    "name": "Lehrstuhl f\u00fcr Entwicklungsgenetik (Prof. Wurst)",
-    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Entwicklungsgenetik (Prof. Wurst)"
+    "name": "Lehrstuhl f\u00fcr Entwicklungsgenetik (N.N.)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Entwicklungsgenetik (N.N.)"
   },
   "15561": {
     "code": "TUWZQ7Y",
@@ -1261,8 +1261,8 @@
   },
   "15674": {
     "code": "TUWZA8Q",
-    "name": "Lehrstuhl f\u00fcr Tierern\u00e4hrung (Prof. Windisch)",
-    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Tierern\u00e4hrung (Prof. Windisch)"
+    "name": "Lehrstuhl f\u00fcr Tierern\u00e4hrung (N.N)",
+    "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Tierern\u00e4hrung (N.N)"
   },
   "15681": {
     "code": "TUWZA2G",
@@ -2326,8 +2326,8 @@
   },
   "24648": {
     "code": "TUINF03",
-    "name": "Informatik 7 - Professur f\u00fcr Formale Methoden der Softwarezuverl\u00e4ssigkeit (Prof. Kret\u00ednsk\u00fd)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 7 - Professur f\u00fcr Formale Methoden der Softwarezuverl\u00e4ssigkeit (Prof. Kret\u00ednsk\u00fd)"
+    "name": "Informatik 7 - Professur f\u00fcr Formale Methoden der Softwarezuverl\u00e4ssigkeit (Prof. Ayikudi Ramachandrakumar komm.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 7 - Professur f\u00fcr Formale Methoden der Softwarezuverl\u00e4ssigkeit (Prof. Ayikudi Ramachandrakumar komm.)"
   },
   "24654": {
     "code": "TUINF04",
@@ -2356,8 +2356,8 @@
   },
   "24670": {
     "code": "TUINI21",
-    "name": "Informatik 21 - Lehrstuhl f\u00fcr Logik und Verifikation (N.N.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 21 - Lehrstuhl f\u00fcr Logik und Verifikation (N.N.)"
+    "name": "Informatik 21 - Lehrstuhl f\u00fcr Logik und Verifikation (Prof. Bruse komm.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 21 - Lehrstuhl f\u00fcr Logik und Verifikation (Prof. Bruse komm.)"
   },
   "24671": {
     "code": "TUINF14",
@@ -3273,11 +3273,6 @@
     "code": "TUMAM14",
     "name": "Lehrstuhl f\u00fcr Wahrscheinlichkeitstheorie (Prof. Gantert)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Mathematics/Wahrscheinlichkeitstheorie (Prof. Gantert)"
-  },
-  "41924": {
-    "code": "TUEDFVW",
-    "name": "Fakult\u00e4tsverwaltung Ehemalige TUM School of Education",
-    "path": "TUM/Fakult\u00e4ten/Ehemalige TUM School of Education/Fakult\u00e4tsverwaltung"
   },
   "41947": {
     "code": "TUEDS13",
@@ -4788,11 +4783,6 @@
     "code": "TUZVSCH",
     "name": "Stabsstelle Diversity & Equal Opportunities",
     "path": "TUM/Zentrale Verwaltung/Diversity & Equal Opportunities"
-  },
-  "47959": {
-    "code": "TUZEGOM",
-    "name": "Ombudsb\u00fcro",
-    "path": "TUM/Hochschulpr\u00e4sidium/TUM Compliance Office/Ombudsb\u00fcro"
   },
   "47997": {
     "code": "TUWZC1N",
@@ -9041,8 +9031,8 @@
   },
   "53997": {
     "code": "TUINI34",
-    "name": "Informatik 34 - Lehrstuhl f\u00fcr IT Service Management, Development and Operations (Prof. Weber)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 34 - Lehrstuhl f\u00fcr IT Service Management, Development and Operations (Prof. Weber)"
+    "name": "Informatik 34 - Lehrstuhl f\u00fcr Information System Development and Operation (Prof. Weber)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 34 - Lehrstuhl f\u00fcr Information System Development and Operation (Prof. Weber)"
   },
   "54017": {
     "code": "TUS2IPD",
@@ -10646,8 +10636,8 @@
   },
   "55997": {
     "code": "TUS1316",
-    "name": "Professur f\u00fcr Physics-enhanced Machine Learning (Prof. Dietrich)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Professur f\u00fcr Physics-enhanced Machine Learning (Prof. Dietrich)"
+    "name": "Physics-enhanced Machine Learning (Prof. Dietrich)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physics-enhanced Machine Learning (Prof. Dietrich)"
   },
   "56017": {
     "code": "TUXS72A",
@@ -10941,8 +10931,8 @@
   },
   "56399": {
     "code": "TUS4F7E",
-    "name": "Lehrstuhl f\u00fcr Food Texture Engineering (Prof. Guldin)",
-    "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/Food Texture Engineering (Prof. Guldin)"
+    "name": "Lehrstuhl f\u00fcr Complex Soft Matter (Prof. Guldin)",
+    "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/Complex Soft Matter (Prof. Guldin)"
   },
   "56417": {
     "code": "TUCSP17",
@@ -11083,5 +11073,10 @@
     "code": "TUS4P7G",
     "name": "Professur f\u00fcr Pflanzengenetik (Prof. Yu)",
     "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Pflanzengenetik (Prof. Yu)"
+  },
+  "56737": {
+    "code": "TUS1322",
+    "name": "Professur f\u00fcr Applied Education Technologies (Prof. Krusche)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Applied Education Technologies (Prof. Krusche)"
   }
 }
