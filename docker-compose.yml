@@ -233,6 +233,8 @@ services:
       - "traefik.http.services.navigatum-valhalla.loadbalancer.server.port=8002"
     environment:
       TZ: Europe/Berlin
+    networks:
+      - traefik_traefik
     expose:
       - 8002
     depends_on:
