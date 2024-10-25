@@ -77,6 +77,7 @@ geo = { version = "0.28.0", features = ["use-serde"], default-features = false }
 geozero = { version = "0.14.0", features = ["with-postgis-sqlx", "with-geo"], default-features = false }
 geo-types = { version = "0.7.13", default-features = false }
 actix-middleware-etag = "0.4.1"
+valhalla-client = "0.1.1"
 
 [dev-dependencies]
 insta = { version = "1.39.0", features = ["json", "redactions", "yaml"] }
