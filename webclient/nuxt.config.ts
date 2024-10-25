@@ -1,4 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import wasm from "vite-plugin-wasm";
+import topLevelAwait from "vite-plugin-top-level-await";
+
 export default defineNuxtConfig({
   compatibilityDate: "2024-07-21",
   future: {
@@ -10,7 +13,11 @@ export default defineNuxtConfig({
       cdnURL: "https://nav.tum.de",
       feedbackURL: "https://nav.tum.de",
       mapsURL: "https://nav.tum.de",
+      valhallaURL: "https://nav.tum.de/valhalla",
     },
+  },
+  vite: {
+    plugins: [wasm(), topLevelAwait()],
   },
   modules: [
     "@nuxt/eslint",
