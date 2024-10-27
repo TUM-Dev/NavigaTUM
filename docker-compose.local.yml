@@ -222,7 +222,7 @@ services:
     volumes:
       - ./map/:/map/
   martin:
-    image: ghcr.io/maplibre/martin:v0.14.2
+    image: ghcr.io/maplibre/martin:main # TODO: just to see sdf images in action.. don't keep this on permanently
     restart: unless-stopped
     command:
       - --config
