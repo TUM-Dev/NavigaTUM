@@ -49,6 +49,11 @@
       "automerge": true
     },
     {
+      "matchPackagePatterns": ["polars"],
+      "groupName": "temporary-debump3",
+      "automerge": true
+    },
+    {
       "matchPackagePatterns": ["maplibre-gl", "maplibre-gl-indoor"],
       "groupName": "maplibre",
       "automerge": false
