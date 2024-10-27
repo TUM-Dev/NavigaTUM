@@ -107,7 +107,7 @@ def export_for_search(data: dict) -> None:
     _make_sure_is_safe(export)
     with (OUTPUT_DIR_PATH / "search_data.json").open("w+", encoding="UTF-8") as file:
         json.dump(export, file)
-    df = pl.read_json(OUTPUT_DIR_PATH / "search_data.json")
+    df = pl.read_json(OUTPUT_DIR_PATH / "search_data.json", infer_schema_length=500)
     df.write_parquet(OUTPUT_DIR_PATH / "search_data.parquet", use_pyarrow=True, compression_level=22)
 
 
