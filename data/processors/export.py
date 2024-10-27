@@ -173,7 +173,7 @@ def export_for_api(data: dict) -> None:
     _make_sure_is_safe(export_data)
     with (OUTPUT_DIR_PATH / "api_data.json").open("w", encoding="utf-8") as file:
         json.dump(export_data, file, cls=EnhancedJSONEncoder)
-    df = pl.read_json(OUTPUT_DIR_PATH / "api_data.json", infer_schema_length=4096)
+    df = pl.read_json(OUTPUT_DIR_PATH / "api_data.json", infer_schema_length=16384)
     df.write_parquet(OUTPUT_DIR_PATH / "api_data.parquet", use_pyarrow=True, compression_level=22)
 
 
