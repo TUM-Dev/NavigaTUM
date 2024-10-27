@@ -28,7 +28,7 @@ this.
 
 From the root of the repository, run either (depending on your waiting tolerance and available RAM):
 
-- <details><summary>[~minutes] Only <b>Germany</b> with approx 64GB of RAM</summary>
+- <details><summary>[fast => ~minutes] Only <b>Germany</b> with approx 64GB of RAM</summary>
 
   ```bash
   docker run -it -e JAVA_TOOL_OPTIONS="-Xmx54g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=germany --Xmx10g  --Xmx54g --nodemap-type=sparsearray --nodemap-storage=ram
@@ -36,7 +36,7 @@ From the root of the repository, run either (depending on your waiting tolerance
 
   </details>
 
-- <details><summary>[~1 hour] Only <b>Germany</b> with lower RAM</summary>
+- <details><summary>[slower => ~1 hour] Only <b>Germany</b> with lower RAM (click to expand)</summary>
 
   ```bash
   docker run -it -e JAVA_TOOL_OPTIONS="-Xmx10g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=germany --Xmx10g --storage=mmap
@@ -44,7 +44,7 @@ From the root of the repository, run either (depending on your waiting tolerance
 
   </details>
 
-- <details><summary>[~3 hours] <b>Planet</b> with approx 128GB of RAM</summary>
+- <details><summary>[slow => ~3 hours] <b>Planet</b> with approx 128GB of RAM (click to expand)</summary>
 
   ```bash
   docker run -it -e JAVA_TOOL_OPTIONS="-Xmx100g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=planet --bounds=world --Xmx100g --nodemap-type=sparsearray --nodemap-storage=ram
@@ -52,7 +52,7 @@ From the root of the repository, run either (depending on your waiting tolerance
 
   </details>
 
-- <details><summary>[~24 hours] <b>Planet</b> with lower amounts of RAM (slower)</summary>
+- <details><summary>[slowest => ~24 hours] <b>Planet</b> with lower amounts of RAM (click to expand)</summary>
 
   ```bash
   docker run -it -e JAVA_TOOL_OPTIONS="-Xmx25g" -v "$(pwd)/map":/data ghcr.io/onthegomap/planetiler:latest --download --download-threads=10 --download-chunk-size-mb=1000 --fetch-wikidata --languages=de,en --area=planet --bounds=world --Xmx25g --nodemap-type=array --storage=mmap
@@ -63,7 +63,7 @@ From the root of the repository, run either (depending on your waiting tolerance
 ### Serve the tileset
 
 After generating `output.mbtiles` you can serve it with a tileserver.
-We use [tileserver-gl](https://github.com/maptiler/tileserver-gl) for this, but there are other ones out there.
+We use [martin](https://github.com/maplibre/martin) for this, but there are other ones out there.
 This may be one optimisation point in the future.
 
 From the root of the repository, run:
@@ -78,35 +78,22 @@ For editing the style we use [Maputnik](https://github.com/maputnik/editor).
 It is a web-based editor for Maplibre styles.
 You can use it to edit the style and see the changes live.
 
-> [!NOTE]
-> Maputnik is not fully compatible with tileserver-gl
-> Maputnik expects the data on urls, tileserver-gl expects it to be files.
-> For maputnik to accept the files, you need to do the following:
-
-```diff
-"openmaptiles": {
-  "type": "vector",
--   "url": "mbtiles://output.mbtiles"
-+   "url": "https://nav.tum.de/maps/data/openmaptiles.json"
-},
-```
-
-To edit the style you thus need to run maputnik and tileserver-gl at the same time.
+To edit the style you thus need to run maputnik and martin at the same time.
 Change the style to the version maputnik expects.
-You cannot preview the style in tileserver-gl, but you can see the changes in maputnik.
+You cannot preview the style in martin (see [martin#1120](https://github.com/maplibre/martin/issues/1120)), but you can see the changes in maputnik.
 
-```bash
-docker run -it --rm -p 8888:8888 maputnik/editor
-```
-
-> [!WARNING]
-> After exporting the edited style don't forget to revert the change to the vector url 😉
+To run maputnik, you can either
+- use the [instance hosted on github](https://maputnik.github.io/)
+- run the same code via
+  ```bash
+  docker run -it --rm --pull always -p 8888:8888 maputnik/editor:latest
+  ```
 
 | Step 1                                                                                         | Step 2                                                                                              |
 |------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | ![Where in Maputnik to click to import a style](/resources/documentation/maputnik-import1.png) | ![Where in Maputnik to click then to import a style](/resources/documentation/maputnik-import2.png) |
 
-### Fonts + Sprites
+### Fonts + Sprites for martin
 
 Due to licencing reasons, we cannot directly include the fonts and sprites we use in the project.
 You can download them via
@@ -114,3 +101,6 @@ You can download them via
 ```bash
 sh ./martin/setup.sh
 ```
+
+> [!TIP]
+> This is already automatically configured in the docker compose file. No need to do extra work
