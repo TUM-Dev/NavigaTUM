@@ -17,6 +17,16 @@ tables.indoor_nodes =
         {column = "geom", type = "point", not_null = true}
     }
 )
+tables.recreational_nodes =
+    osm2pgsql.define_node_table(
+    "recreational_nodes",
+    {
+        {column = "natural", type = "text" },
+        {column = "amenity", type = "text" },
+        {column = "leisure", type = "text" },
+        {column = "geom", type = "point", not_null = true}
+    }
+)
 tables.indoor_ways =
     osm2pgsql.define_way_table(
     "indoor_ways",
@@ -229,6 +239,16 @@ function osm2pgsql.process_node(object)
         tables.indoor_nodes:insert(
             {
                 tags = object.tags,
+                geom = object:as_point()
+            }
+        )
+    end
+    if object.tags.natural == 'tree' or object.tags.amenity == 'bench' or object.tags.amenity == 'lounger' or object.tags.leisure == 'picnic_table' then
+        tables.recreational_nodes:insert(
+            {
+                natural = object.tags.natural,
+                amenity = object.tags.amenity,
+                leisure = object.tags.leisure,
                 geom = object:as_point()
             }
         )
