@@ -2228,7 +2228,7 @@
       "layout": {
         "icon-image": "gate",
         "text-anchor": "left",
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0.9, 0],
@@ -2255,7 +2255,7 @@
       "layout": {
         "icon-image": "gate",
         "text-anchor": "left",
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0.9, 0],
@@ -2283,7 +2283,7 @@
       "layout": {
         "icon-image": "fire-station",
         "text-anchor": "left",
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0.9, 0],
@@ -2310,7 +2310,7 @@
       "layout": {
         "icon-image": ["get", "class"],
         "text-anchor": "left",
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0.9, 0],
@@ -2343,7 +2343,7 @@
       "layout": {
         "icon-image": ["get", "class"],
         "text-anchor": "left",
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0.9, 0],
@@ -2428,7 +2428,7 @@
         false
       ],
       "layout": {
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-letter-spacing": 0.1,
         "text-max-width": 9,
@@ -2456,7 +2456,7 @@
       "source-layer": "place",
       "filter": ["==", ["get", "class"], "village"],
       "layout": {
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Regular"],
         "text-max-width": 8,
         "text-size": [
@@ -2484,7 +2484,7 @@
       "layout": {
         "icon-image": ["step", ["zoom"], "dot_9", 8, ""],
         "text-anchor": "bottom",
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Regular"],
         "text-max-width": 8,
         "text-offset": [0, 0],
@@ -2514,7 +2514,7 @@
       "layout": {
         "icon-image": ["step", ["zoom"], "dot_9", 8, ""],
         "text-anchor": "bottom",
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Medium"],
         "text-max-width": 8,
         "text-offset": [0, 0],
@@ -2545,7 +2545,7 @@
       "maxzoom": 6,
       "filter": ["==", ["get", "class"], "state"],
       "layout": {
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-size": ["interpolate", ["linear"], ["zoom"], 4, 11, 6, 15],
         "text-transform": "uppercase"
@@ -2568,7 +2568,7 @@
         ["==", ["get", "class"], "country"]
       ],
       "layout": {
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 6.25,
         "text-size": ["interpolate", ["linear"], ["zoom"], 3, 11, 7, 17],
@@ -2593,7 +2593,7 @@
         ["==", ["get", "class"], "country"]
       ],
       "layout": {
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 6.25,
         "text-size": ["interpolate", ["linear"], ["zoom"], 2, 11, 5, 17],
@@ -2618,7 +2618,7 @@
         ["==", ["get", "class"], "country"]
       ],
       "layout": {
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 6.25,
         "text-size": ["interpolate", ["linear"], ["zoom"], 1, 11, 4, 17],
@@ -2639,7 +2639,7 @@
       "maxzoom": 1,
       "filter": ["==", ["get", "class"], "continent"],
       "layout": {
-        "text-field": ["to-string", ["get", "name:en"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-size": 13,
         "text-transform": "uppercase",
