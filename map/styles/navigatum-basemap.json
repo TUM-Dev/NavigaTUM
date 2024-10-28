@@ -25,7 +25,7 @@
       "type": "raster"
     }
   },
-  "sprite": "https://nav.tum.de/tiles/sprite/maki,navigatum",
+  "sprite": "https://nav.tum.de/tiles/sdf_sprite/maki,navigatum",
   "glyphs": "https://nav.tum.de/tiles/font/{fontstack}/{range}",
   "layers": [
     {
