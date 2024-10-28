@@ -1861,7 +1861,6 @@
       "source": "nav",
       "source-layer": "building",
       "minzoom": 13,
-      "maxzoom": 24,
       "paint": {
         "fill-color": "rgba(152, 198, 234, 1)",
         "fill-outline-color": [
@@ -2035,7 +2034,26 @@
         [
           "match",
           ["get", "class"],
-          ["airport", "bus", "rail", "parking"],
+          [
+            "airport",
+            "bus",
+            "rail",
+            "aerialway",
+            "parking",
+            "entrance",
+            "park",
+            "fire_station",
+            "gate",
+            "restaurant",
+            "fast_food",
+            "grocery",
+            "ice_cream",
+            "cafe",
+            "alcohol_shop",
+            "bar",
+            "beer",
+            "college"
+          ],
           false,
           true
         ]
@@ -2077,7 +2095,26 @@
         [
           "match",
           ["get", "class"],
-          ["airport", "bus", "rail", "parking"],
+          [
+            "airport",
+            "bus",
+            "rail",
+            "aerialway",
+            "parking",
+            "entrance",
+            "park",
+            "fire_station",
+            "gate",
+            "restaurant",
+            "fast_food",
+            "grocery",
+            "ice_cream",
+            "cafe",
+            "alcohol_shop",
+            "bar",
+            "beer",
+            "college"
+          ],
           false,
           true
         ]
@@ -2119,7 +2156,26 @@
         [
           "match",
           ["get", "class"],
-          ["airport", "bus", "rail", "parking"],
+          [
+            "airport",
+            "bus",
+            "rail",
+            "aerialway",
+            "parking",
+            "entrance",
+            "park",
+            "fire_station",
+            "gate",
+            "restaurant",
+            "fast_food",
+            "grocery",
+            "ice_cream",
+            "cafe",
+            "alcohol_shop",
+            "bar",
+            "beer",
+            "college"
+          ],
           false,
           true
         ]
@@ -2145,6 +2201,103 @@
         "text-halo-blur": 0.5,
         "text-halo-color": "#ffffff",
         "text-halo-width": 1
+      }
+    },
+    {
+      "id": "poi_food",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "poi",
+      "minzoom": 16,
+      "filter": [
+        "match",
+        ["get", "class"],
+        [
+          "restaurant",
+          "fast_food",
+          "grocery",
+          "ice_cream",
+          "cafe",
+          "alcohol_shop",
+          "bar",
+          "beer"
+        ],
+        true,
+        false
+      ],
+      "layout": {
+        "icon-image": "gate",
+        "text-anchor": "left",
+        "text-field": ["to-string", ["get", "name_en"]],
+        "text-font": ["Roboto Condensed Italic"],
+        "text-max-width": 9,
+        "text-offset": [0.9, 0],
+        "text-size": 14
+      },
+      "paint": {
+        "text-color": "#d97200",
+        "text-halo-color": "#ffffff",
+        "icon-color": "#d97200",
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-width": 2,
+        "icon-halo-blur": 1,
+        "text-halo-width": 1,
+        "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "poi_gate",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "poi",
+      "minzoom": 17,
+      "filter": ["==", ["get", "class"], "gate"],
+      "layout": {
+        "icon-image": "gate",
+        "text-anchor": "left",
+        "text-field": ["to-string", ["get", "name_en"]],
+        "text-font": ["Roboto Condensed Italic"],
+        "text-max-width": 9,
+        "text-offset": [0.9, 0],
+        "text-size": 14,
+        "icon-optional": true
+      },
+      "paint": {
+        "text-color": "rgba(159, 159, 159, 1)",
+        "text-halo-color": "#ffffff",
+        "icon-color": "rgba(159, 159, 159, 1)",
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-width": 1,
+        "icon-halo-blur": 0,
+        "text-halo-blur": 2,
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "poi_fire_department",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "poi",
+      "minzoom": 15,
+      "filter": ["==", ["get", "class"], "fire_station"],
+      "layout": {
+        "icon-image": "fire-station",
+        "text-anchor": "left",
+        "text-field": ["to-string", ["get", "name_en"]],
+        "text-font": ["Roboto Condensed Italic"],
+        "text-max-width": 9,
+        "text-offset": [0.9, 0],
+        "text-size": 14
+      },
+      "paint": {
+        "text-color": "#ba3827",
+        "text-halo-color": "#ffffff",
+        "icon-color": "#ba3827",
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-width": 1,
+        "icon-halo-blur": 0,
+        "text-halo-blur": 2,
+        "text-halo-width": 2
       }
     },
     {
@@ -2183,7 +2336,7 @@
       "filter": [
         "match",
         ["get", "class"],
-        ["airport", "bus", "rail"],
+        ["airport", "bus", "rail", "aerialway"],
         true,
         false
       ],
@@ -2194,7 +2347,8 @@
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0.9, 0],
-        "text-size": 14
+        "text-size": 14,
+        "icon-allow-overlap": true
       },
       "paint": {
         "text-color": "rgba(0, 109, 255, 1)",
@@ -2212,7 +2366,6 @@
       "type": "symbol",
       "source": "nav",
       "source-layer": "transportation_name",
-      "maxzoom": 24,
       "filter": ["all"],
       "layout": {
         "symbol-placement": "line",
