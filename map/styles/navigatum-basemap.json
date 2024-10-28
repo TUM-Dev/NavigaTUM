@@ -1991,7 +1991,7 @@
       "source-layer": "waterway",
       "filter": ["==", ["geometry-type"], "LineString"],
       "layout": {
-        "text-field": ["to-string", ["get", "name"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Regular"],
         "text-max-width": 5,
         "text-size": 12,
@@ -2010,7 +2010,7 @@
       "source-layer": "water_name",
       "filter": ["==", ["geometry-type"], "Point"],
       "layout": {
-        "text-field": ["to-string", ["get", "name"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Regular"],
         "text-max-width": 5,
         "text-size": 12
@@ -2067,7 +2067,7 @@
           ["get", "class"]
         ],
         "text-anchor": "top",
-        "text-field": ["to-string", ["get", "name"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0, 0.6],
@@ -2128,7 +2128,7 @@
           ["get", "class"]
         ],
         "text-anchor": "top",
-        "text-field": ["to-string", ["get", "name"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0, 0.6],
@@ -2189,7 +2189,7 @@
           ["get", "class"]
         ],
         "text-anchor": "top",
-        "text-field": ["to-string", ["get", "name"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0, 0.6],
@@ -2370,7 +2370,7 @@
       "layout": {
         "symbol-placement": "line",
         "text-anchor": "center",
-        "text-field": ["to-string", ["get", "name"]],
+        "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Regular"],
         "text-offset": [0, 0.15],
         "text-size": ["interpolate", ["linear"], ["zoom"], 13, 12, 14, 13],
