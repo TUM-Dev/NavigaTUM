@@ -828,14 +828,6 @@
       }
     },
     {
-      "id": "road_area_pattern",
-      "type": "fill",
-      "source": "nav",
-      "source-layer": "transportation",
-      "filter": ["==", ["geometry-type"], "Polygon"],
-      "paint": {"fill-pattern": "pedestrian_polygon"}
-    },
-    {
       "id": "road_motorway_link_casing",
       "type": "line",
       "source": "nav",
@@ -2247,7 +2239,8 @@
       "filter": [
         "all",
         ["<=", ["get", "ref_length"], 6],
-        ["!=", ["get", "subclass"], ["literal", "junction"]]
+        ["!=", ["get", "subclass"], ["literal", "junction"]],
+        ["!=", ["get", "class"], ["literal", "path"]]
       ],
       "layout": {
         "icon-image": ["concat", "default_", ["get", "ref_length"]],
@@ -2261,6 +2254,12 @@
         "text-size": 10,
         "icon-size": 0.8,
         "visibility": "visible"
+      },
+      "paint": {
+        "icon-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-color": "#000",
+        "icon-halo-blur": 2,
+        "icon-halo-width": 4
       }
     },
     {
