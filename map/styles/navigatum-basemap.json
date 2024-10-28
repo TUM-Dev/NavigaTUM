@@ -7,14 +7,19 @@
     "openmaptiles:version": "3.x"
   },
   "sources": {
+    "recreational": {
+      "type": "vector",
+      "url": "https://nav.tum.de/tiles/recreational_nodes",
+      "minzoom": 17
+    },
     "nav": {
       "type": "vector",
-      "url": "https://nav.tum.de/tiles/openmaptiles,recreational_nodes"
+      "url": "https://nav.tum.de/tiles/openmaptiles"
     },
     "natural_earth_shaded_relief": {
       "maxzoom": 6,
       "tileSize": 256,
-      "nav": [
+      "tiles": [
         "https://nav.tum.de/cdn/natural_earth_2_shaded_relief.raster/{z}/{x}/{y}.png"
       ],
       "type": "raster"
