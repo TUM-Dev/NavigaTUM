@@ -100,8 +100,9 @@ export default defineNuxtConfig({
     ],
     defaultLocale: "de",
     detectBrowserLanguage: {
+      useCookie: true,
       cookieKey: "lang",
-      cookieCrossOrigin: true,
+      cookieCrossOrigin: false,
       redirectOn: "root", // only redirect if somebody visits / to have better SEO
     },
   },
