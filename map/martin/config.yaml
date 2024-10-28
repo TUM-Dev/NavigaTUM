@@ -247,6 +247,7 @@ postgres:
         tags: jsonb
     recreational_nodes:
       schema: public
+      minzoom: 17
       table: recreational_nodes
       srid: 3857
       geometry_column: geom
