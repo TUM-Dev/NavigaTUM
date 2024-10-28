@@ -245,6 +245,17 @@ postgres:
       properties:
         node_id: int8
         tags: jsonb
+    recreational_nodes:
+      schema: public
+      table: recreational_nodes
+      srid: 3857
+      geometry_column: geom
+      geometry_type: POINT
+      properties:
+        node_id: int8
+        natural: text
+        amenity: text
+        leisure: text
     indoor_polygons:
       schema: public
       table: indoor_polygons
