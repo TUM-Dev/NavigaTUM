@@ -10096,8 +10096,8 @@
   },
   "55174": {
     "code": "TUXS519",
-    "name": "Degree Program Wissenschaftliche Grundlagen des Sports, Studienkolleg",
-    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Wissenschaftliche Grundlagen des Sports, Studienkolleg"
+    "name": "Degree Program Sportwissenschaft, Austausch (Practical Project Students)",
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/SG Archiv/Sportwissenschaft, Austausch (Practical Project Students)"
   },
   "55175": {
     "code": "TUXS51A",
@@ -11073,5 +11073,20 @@
     "code": "TUS1322",
     "name": "Assistant Professorship of Applied Education Technologies (Prof. Krusche)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Applied Education Technologies (Prof. Krusche)"
+  },
+  "56777": {
+    "code": "TUXS51T",
+    "name": "Degree Program Medizin (Klinisch), Austausch (Practical Project Students)",
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/ME Archiv/Medizin (Klinisch), Austausch (Practical Project Students)"
+  },
+  "56778": {
+    "code": "TUXS51U",
+    "name": "Degree Program Medizin (Klinisch), Austausch (nicht studienbeitragspflichtig)",
+    "path": "TUM/Schools/Medicine and Health/Academic Program Administration/ME Archiv/Medizin (Klinisch), Austausch (nicht studienbeitragspflichtig)"
+  },
+  "56779": {
+    "code": "TUPREXP",
+    "name": "Export Control",
+    "path": "TUM/TUM Board of Management/Export Control"
   }
 }
