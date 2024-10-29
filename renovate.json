@@ -44,11 +44,6 @@
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["python", "pyarrow"],
-      "groupName": "temporary-debump2",
-      "automerge": true
-    },
-    {
       "matchPackagePatterns": ["polars"],
       "groupName": "temporary-debump3",
       "automerge": true
