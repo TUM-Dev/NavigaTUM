@@ -1,7 +1,7 @@
 # https://docs.docker.com/build/attestations/sbom/#scan-build-context
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
-FROM node:21-alpine3.19 AS build-stage
+FROM node:22-alpine3.20 AS build-stage
 WORKDIR /app
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -26,7 +26,7 @@ COPY app app
 RUN pnpm run build
 
 
-FROM node:21-alpine3.19 AS production-stage
+FROM node:22-alpine3.20 AS production-stage
 RUN apk update --no-progress --quiet && \
     apk add --no-cache --no-progress --quiet curl
 
