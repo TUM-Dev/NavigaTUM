@@ -7,7 +7,7 @@ use meilisearch_sdk::tasks::Task;
 use serde_json::Value;
 use tracing::{debug, error, info};
 
-const TIMEOUT: Option<Duration> = Some(Duration::from_secs(20));
+const TIMEOUT: Option<Duration> = Some(Duration::from_secs(60));
 const POLLING_RATE: Option<Duration> = Some(Duration::from_millis(250));
 
 #[derive(serde::Deserialize)]
