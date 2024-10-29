@@ -44,7 +44,7 @@
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["python"],
+      "matchPackagePatterns": ["python", "pyarrow"],
       "groupName": "temporary-debump2",
       "automerge": true
     },
