@@ -89,6 +89,12 @@ To run maputnik, you can either
   docker run -it --rm --pull always -p 8888:8888 maputnik/editor:latest
   ```
 
+Our style can be found here and can either be loaded from the url in maputnik or uploaded into maputnik manually:
+```
+https://github.com/TUM-Dev/NavigaTUM/raw/refs/heads/main/map/styles/navigatum-basemap.json
+```
+
+
 | Step 1                                                                                         | Step 2                                                                                              |
 |------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | ![Where in Maputnik to click to import a style](/resources/documentation/maputnik-import1.png) | ![Where in Maputnik to click then to import a style](/resources/documentation/maputnik-import2.png) |
