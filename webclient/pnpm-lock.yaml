@@ -93,9 +93,6 @@ importers:
       '@types/nightwind':
         specifier: 1.0.0
         version: 1.0.0
-      '@types/node':
-        specifier: 20.17.1
-        version: 20.17.1
       '@types/swagger-ui':
         specifier: 3.52.4
         version: 3.52.4
