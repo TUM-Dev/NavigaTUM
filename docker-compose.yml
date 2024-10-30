@@ -17,13 +17,6 @@ services:
       NUXT_PUBLIC_MAPS_URL: https://nav.tum.de
       NUXT_PUBLIC_CDN_URL: https://nav.tum.de
       NUXT_PUBLIC_API_URL: https://nav.tum.de
-    depends_on:
-      tileserver:
-        condition: service_healthy
-      data:
-        condition: service_healthy
-      server:
-        condition: service_healthy
   # maps
   tileserver-init-config:
     image: alpine:latest
