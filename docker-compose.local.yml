@@ -9,11 +9,6 @@ services:
       NUXT_PUBLIC_MAPS_URL: https://nav.tum.de/maps
       NUXT_PUBLIC_CDN_URL: http://data:3002
       NUXT_PUBLIC_API_URL: http://server:3003
-    depends_on:
-      data:
-        condition: service_healthy
-      server:
-        condition: service_healthy
   # cdn
   data:
     restart: unless-stopped
