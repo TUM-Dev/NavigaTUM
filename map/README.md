@@ -7,7 +7,30 @@ This folder contains the static maps tileserver and vector tiles server for Navi
 As a basis of generating images it is important to have a tileset (`output.mbtiles`) and a stile.
 The style is a JSON file that defines how the map should look like.
 The tileset is a sqlite database that contains the map data.
-A tileserver takes these two components and produces a variety of formats (png, webp, json, etc.) for the frontend.
+A tileserver takes these two components and produces a variety of formats ([MVT](https://github.com/mapbox/vector-tile-spec), png, webp, json, etc.) for the frontend.
+
+### Edit the style
+
+You cannot currently not preview the style in  our tileserver martin (see [martin#1120](https://github.com/maplibre/martin/issues/1120)).
+Therefore, for editing the style we use [Maputnik](https://github.com/maputnik/editor).
+It is a web-based editor for Maplibre styles.
+You can use it to edit the style and see the changes live.
+
+To run maputnik, you can either
+- use the [instance hosted on github](https://maputnik.github.io/)
+- as an alternative, you can run
+  ```bash
+  docker run -it --rm --pull always -p 8888:8888 maputnik/editor:latest
+  ```
+
+Our style can be found here and can either be "Load[ed] from Url" or uploaded into maputnik manually:
+```
+https://github.com/TUM-Dev/NavigaTUM/raw/refs/heads/main/map/styles/navigatum-basemap.json
+```
+
+| Step 1                                                                                         | Step 2                                                                                              |
+|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| ![Where in Maputnik to click to import a style](/resources/documentation/maputnik-import1.png) | ![Where in Maputnik to click then to import a style](/resources/documentation/maputnik-import2.png) |
 
 ### generate your own tileset
 
@@ -71,33 +94,6 @@ From the root of the repository, run:
 ```bash
 docker compose -f docker-compose.local.yml up --build
 ```
-
-### Edit the style
-
-For editing the style we use [Maputnik](https://github.com/maputnik/editor).
-It is a web-based editor for Maplibre styles.
-You can use it to edit the style and see the changes live.
-
-To edit the style you thus need to run maputnik and martin at the same time.
-Change the style to the version maputnik expects.
-You cannot preview the style in martin (see [martin#1120](https://github.com/maplibre/martin/issues/1120)), but you can see the changes in maputnik.
-
-To run maputnik, you can either
-- use the [instance hosted on github](https://maputnik.github.io/)
-- run the same code via
-  ```bash
-  docker run -it --rm --pull always -p 8888:8888 maputnik/editor:latest
-  ```
-
-Our style can be found here and can either be loaded from the url in maputnik or uploaded into maputnik manually:
-```
-https://github.com/TUM-Dev/NavigaTUM/raw/refs/heads/main/map/styles/navigatum-basemap.json
-```
-
-
-| Step 1                                                                                         | Step 2                                                                                              |
-|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| ![Where in Maputnik to click to import a style](/resources/documentation/maputnik-import1.png) | ![Where in Maputnik to click then to import a style](/resources/documentation/maputnik-import2.png) |
 
 ### Fonts + Sprites for martin
 
