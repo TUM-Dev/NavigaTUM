@@ -14,7 +14,9 @@ pub async fn setup(pool: &sqlx::PgPool) -> anyhow::Result<()> {
 }
 #[tracing::instrument(skip(pool))]
 pub async fn load_data(pool: &sqlx::PgPool) -> anyhow::Result<()> {
+    debug!("starting to download the status");
     let (new_keys, new_hashes) = data::download_status().await?;
+    debug!("loaded new keys/hashes successfully");
     {
         let _ = info_span!("deleting old data").enter();
         let mut tx = pool.begin().await?;
