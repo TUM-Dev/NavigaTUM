@@ -239,6 +239,7 @@ struct OverlayMapEntry {
 }
 
 #[derive(Deserialize, Serialize, Debug, Default)]
+#[serde(rename_all = "snake_case")]
 enum DefaultMaps {
     #[default]
     Interactive,
@@ -369,15 +370,15 @@ struct Coordinate {
 #[serde(rename_all = "snake_case")]
 enum CoordinateAccuracy {
     #[default]
-    Buiding,
+    Building,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default)]
 #[serde(rename_all = "snake_case")]
 enum CoordinateSource {
-    Roomfinder,
     #[default]
     Navigatum,
+    Roomfinder,
     Inferred,
 }
 
@@ -438,36 +439,26 @@ mod tests {
     use super::*;
     use crate::{setup::tests::PostgresTestContainer, AppData};
 
-    /// Allows tesing if a modification has changed the output of the details API
+    /// Allows testing if a modification has changed the output of the details API
     ///
     /// The testcase can be executed via running the following command on main
     /// ```bash
-    /// INSTA_OUTPUT=none INSTA_UPDATE=always DATABASE_URL=postgres://postgres:CHANGE_ME@localhost:5432 cargo test -p navigatum-server test_get_handler_unchanged -- --nocapture --include-ignored
+    /// INSTA_OUTPUT=none INSTA_UPDATE=always DATABASE_URL=postgres://postgres:CHANGE_ME@localhost:5432 cargo test --package navigatum-server test_get_handler_unchanged -- --nocapture --include-ignored
     /// ```
     ///
     /// And then running this command on the change
     /// ```bash
-    /// DATABASE_URL=postgres://postgres:CHANGE_ME@localhost:5432 cargo insta --review -- -p navigatum-server test_get_handler_unchanged --nocapture --include-ignored
+    /// DATABASE_URL=postgres://postgres:CHANGE_ME@localhost:5432 cargo insta test --review --package navigatum-server -- test_get_handler_unchanged --nocapture --include-ignored
     /// ```
     ///
-    /// This is a ..bit.. slow, due to using a [`tokio::task::LocalSet`].
+    /// This is a *bit* *slow, due to using a [`tokio::task::LocalSet`].
     /// Using multiple cores for this might be possible, but optimising this testcase from 10m is currently not worth it
     #[ignore]
     #[actix_web::test]
     #[tracing_test::traced_test]
     async fn test_get_handler_unchanged() {
-        // setup + load data into postgis
         let pg = PostgresTestContainer::new().await;
-        for i in 0..20 {
-            let res = crate::setup::database::load_data(&pg.pool).await;
-            if let Err(e) = res {
-                error!("failed to load db because {e:?}. Retrying for 20s");
-                tokio::time::sleep(std::time::Duration::from_secs(1)).await;
-            } else {
-                info!("successfully initalised the db in try {i}");
-                break;
-            }
-        }
+        pg.load_data_retrying().await;
 
         let keys: Vec<String> = sqlx::query_scalar!("SELECT key FROM de")
             .fetch_all(&pg.pool)
