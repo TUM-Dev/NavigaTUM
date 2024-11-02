@@ -311,7 +311,7 @@ export type components = {
       readonly meta?: components["schemas"]["ImageMetadata"];
     };
     /**
-     * @description Aditional data about the images. Does not have to be displayed.
+     * @description Additional data about the images. Does not have to be displayed.
      * All fields are optional.
      */
     readonly ImageMetadata: {

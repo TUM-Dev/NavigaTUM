@@ -52,7 +52,7 @@ async fn find_keys_which_need_updating(
         .await?;
     if number_of_keys == Some(0) {
         debug!(
-            "all {updated_cnt} keys need upating",
+            "all {updated_cnt} keys need updating",
             updated_cnt = keys.len()
         );
         return Ok(keys.clone());
