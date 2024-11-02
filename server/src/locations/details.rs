@@ -34,7 +34,7 @@ pub async fn get_handler(
             None => HttpResponse::NotFound().body("Not found"),
             Some(d) => {
                 let mut res: LocationDetailsResponse = serde_json::from_value(d).unwrap();
-                res.redirect_url = redirect_url;
+                res.redirect_url = Some(redirect_url);
                 HttpResponse::Ok()
                     .insert_header(CacheControl(vec![
                         CacheDirective::MaxAge(24 * 60 * 60), // valid for 1d
@@ -104,7 +104,7 @@ struct LocationDetailsResponse {
     /// Where we got our data from, should be displayed at the bottom of any page containing this data
     sources: Sources,
     /// The url, this item should be displayed at. Present on both redirects and normal entries, to allow for the common /view/:id path
-    redirect_url: String,
+    redirect_url: Option<String>,
     coords: Coordinate,
     maps: Maps,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -451,7 +451,7 @@ mod tests {
     /// DATABASE_URL=postgres://postgres:CHANGE_ME@localhost:5432 cargo insta test --review --package navigatum-server -- test_get_handler_unchanged --nocapture --include-ignored
     /// ```
     ///
-    /// This is a *bit* *slow, due to using a [`tokio::task::LocalSet`].
+    /// This is a *bit* slow, due to using a [`tokio::task::LocalSet`].
     /// Using multiple cores for this might be possible, but optimising this testcase from 10m is currently not worth it
     #[ignore]
     #[actix_web::test]
