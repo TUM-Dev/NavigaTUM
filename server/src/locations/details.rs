@@ -123,9 +123,6 @@ struct LocationDetailsResponse {
     maps: Maps,
     #[serde(skip_serializing_if = "Option::is_none")]
     sections: Option<Sections>,
-    /// TODO: document in openapi
-    #[serde(skip_serializing_if = "Option::is_none")]
-    comment: Option<String>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default)]
