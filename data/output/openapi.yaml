@@ -1713,7 +1713,7 @@ components:
         - license
     ImageMetadata:
       description: |
-        Aditional data about the images. Does not have to be displayed.
+        Additional data about the images. Does not have to be displayed.
         All fields are optional.
       type: object
       properties:
