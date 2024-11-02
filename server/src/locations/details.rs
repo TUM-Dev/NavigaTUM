@@ -92,6 +92,14 @@ struct Usage {
     name: String,
 }
 
+
+#[derive(Deserialize, Serialize, Debug)]
+#[serde(untagged)]
+enum VecOrItem<T>{
+    Array(Vec<T>),
+    Item(T),
+}
+
 #[derive(Deserialize, Serialize, Debug, Default)]
 struct LocationDetailsResponse {
     /// The id, that was requested
@@ -102,9 +110,9 @@ struct LocationDetailsResponse {
     type_common_name: String,
     /// The name of the entry in a human-readable form
     name: String,
-    /// TODO: document in openapi
-    #[serde(skip_serializing_if = "String::is_empty", default = "String::new")]
-    b_prefix: String,
+    /// TODO: document in openapi ... AAAAAA WTF???
+    #[serde(skip_serializing_if = "Option::is_none")]
+    b_prefix: Option<VecOrItem<String>>,
     /// TODO: document in openapi
     #[serde(skip_serializing_if = "String::is_empty", default = "String::new")]
     arch_name: String,
@@ -166,6 +174,9 @@ struct LocationDetailsResponse {
     /// TODO: document in openapi
     #[serde(skip_serializing_if = "Option::is_none")]
     comment: Option<String>,
+    /// TODO: WHY does this exist??? This is stupid.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    generate_rooms_overview:Option<String>, 
 }
 
 #[derive(Deserialize, Serialize, Debug, Default)]
