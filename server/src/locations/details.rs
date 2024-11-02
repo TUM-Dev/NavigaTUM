@@ -302,9 +302,6 @@ struct Props {
     /// - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
     #[serde(skip_serializing_if = "Option::is_none")]
     calendar_url: Option<String>,
-    /// TODO: document in openapi
-    #[serde(skip_serializing_if = "Option::is_none")]
-    tumonline_room_nr: Option<u32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
