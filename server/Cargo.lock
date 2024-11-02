@@ -1642,9 +1642,9 @@ dependencies = [
 
 [[package]]
 name = "geo"
-version = "0.29.0"
+version = "0.29.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "81d088357a9cc60cec8253b3578f6834b4a3aa20edb55f5d1c030c36d8143f11"
+checksum = "8798f09c0fb3625cf216569408e151a1884c3a028a0b533b7c223ae8f695c89a"
 dependencies = [
  "float_next_after",
  "geo-types",
@@ -2201,7 +2201,6 @@ dependencies = [
  "i_key_sort",
  "i_shape",
  "i_tree",
- "rayon",
 ]
 
 [[package]]
