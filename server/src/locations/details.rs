@@ -3,7 +3,6 @@ use actix_web::{get, web, HttpResponse};
 use serde::{Deserialize, Serialize};
 use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
-use std::collections::HashMap;
 use tracing::error;
 
 use crate::localisation;
