@@ -1,6 +1,7 @@
 use meilisearch_sdk::client::Client;
 use testcontainers_modules::testcontainers::{ContainerAsync, ImageExt};
 use testcontainers_modules::{meilisearch, testcontainers::runners::AsyncRunner};
+use tracing::{error, info};
 
 pub struct PostgresTestContainer {
     _container: ContainerAsync<testcontainers_modules::postgres::Postgres>,
@@ -30,6 +31,20 @@ impl PostgresTestContainer {
             _container: container,
             pool,
         }
+    }
+    pub async fn load_data_retrying(&self) {
+        for i in 0..20 {
+            let res = crate::setup::database::load_data(&self.pool).await;
+            if let Err(e) = res {
+                error!("failed to load db because {e:?}. Retrying for 20s");
+                tokio::time::sleep(std::time::Duration::from_secs(1)).await;
+            } else {
+                info!("successfully initalised the db in try {i}");
+                return;
+            }
+        }
+
+        panic!("could not initialise db after 20s")
     }
 }
 
@@ -65,16 +80,7 @@ impl MeiliSearchTestContainer {
 #[tracing_test::traced_test]
 async fn test_db_setup() {
     let pg = PostgresTestContainer::new().await;
-    for i in 0..20 {
-        let res = crate::setup::database::load_data(&pg.pool).await;
-        if let Err(e) = res {
-            tracing::error!("failed to load db because {e:?}. Retrying for 20s");
-            tokio::time::sleep(std::time::Duration::from_secs(1)).await;
-        } else {
-            tracing::info!("successfully initalised the db in try {i}");
-            break;
-        }
-    }
+    pg.load_data_retrying().await;
 }
 
 #[tokio::test]

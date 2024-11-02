@@ -280,7 +280,7 @@ export type components = {
       readonly links?: readonly components["schemas"]["LinkProp"][];
       /**
        * @description A comment to show to an entry.
-       * It is used in the rare cases, where some aspect about the rooom/.. or its translation are misleading.
+       * It is used in the rare cases, where some aspect about the room/.. or its translation are misleading.
        * An example of a room with a comment is MW1801.
        */
       readonly comment?: string;

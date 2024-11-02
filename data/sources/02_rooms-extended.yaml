@@ -118,9 +118,10 @@
 "0501.05.131":
   name: Vorhoelzer-Forum Dachterasse
 "0502.EG.221":
-  comment:
-    de: Unter dieser Treppe existiert ein WC, dessen Raumnummer und designierung (men/women/unisex) unklar ist
-    en: Under this staircase there is a toilet whose room number and designation (men/women/unisex) is unclear
+  props:
+    comment:
+      de: Unter dieser Treppe existiert ein WC, dessen Raumnummer und designierung (men/women/unisex) unklar ist
+      en: Under this staircase there is a toilet whose room number and designation (men/women/unisex) is unclear
 "0503.EG.347": # previously: Seminarraum
   name: Archiv
   usage:
@@ -206,13 +207,15 @@
 "0509.02.953A":
   name: Think Tank / Teeküche
   arch_name: 1951
-  comment:
-    de: Dieser Raum hat auch die Architektennummer 1953A
-    en: This room also has the architect number 1953A
+  props:
+    comment:
+      de: Dieser Raum hat auch die Architektennummer 1953A
+      en: This room also has the architect number 1953A
 "0509.02.952":
-  comment:
-    de: Dieser Raum hat zwei Türen 1954 und 1952
-    en: This room has two doors 1954 and 1952
+  props:
+    comment:
+      de: Dieser Raum hat zwei Türen 1954 und 1952
+      en: This room has two doors 1954 and 1952
 "4213.01.318": # baywa coworking space
   props:
     links:
