@@ -110,30 +110,6 @@ struct LocationDetailsResponse {
     type_common_name: String,
     /// The name of the entry in a human-readable form
     name: String,
-    /// TODO: document in openapi ... AAAAAA WTF???
-    #[serde(skip_serializing_if = "Option::is_none")]
-    b_prefix: Option<VecOrItem<String>>,
-    /// TODO: document in openapi
-    #[serde(skip_serializing_if = "String::is_empty", default = "String::new")]
-    arch_name: String,
-    /// TODO: document in openapi
-    hash: i64,
-    #[serde(skip_serializing_if = "Vec::is_empty", default = "Vec::new")]
-    osm: Vec<String>,
-    /// TODO: document in openapi
-    #[serde(skip_serializing_if = "Option::is_none")]
-    usage: Option<Usage>,
-    /// The short name if there exists
-    /// Example: `LMU` for the `Ludwig-Maximilians-Universität`
-    /// TODO: document in openapi
-    #[serde(skip_serializing_if = "Option::is_none")]
-    short_name: Option<String>,
-    /// TODO: document in openapi
-    #[serde(skip_serializing_if = "Option::is_none")]
-    visible_id: Option<String>,
-    /// TODO: document in openapi
-    #[serde(skip_serializing_if = "Option::is_none")]
-    data_quality: Option<DataQuality>,
     /// A list of alternative ids for this entry.
     ///
     /// Not to be confused with
@@ -153,9 +129,6 @@ struct LocationDetailsResponse {
     /// TODO: Sometimes missing, sometimes not.. so weird..
     #[serde(skip_serializing_if = "Option::is_none")]
     imgs: Option<Vec<ImageInfo>>,
-    /// TODO: remove here and in the data backend, not in openapi
-    #[serde(skip_serializing_if = "Option::is_none")]
-    image_comments: Option<HashMap<String, String>>,
     ranking_factors: RankingFactors,
     /// Where we got our data from, should be displayed at the bottom of any page containing this data
     sources: Sources,
@@ -165,18 +138,9 @@ struct LocationDetailsResponse {
     maps: Maps,
     #[serde(skip_serializing_if = "Option::is_none")]
     sections: Option<Sections>,
-    /// TODO: WHY does this exist??? This is stupid.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    generators: Option<Generators>,
-    /// TODO: document in openapi
-    #[serde(skip_serializing_if = "Option::is_none")]
-    external_data: Option<ExternalData>,
     /// TODO: document in openapi
     #[serde(skip_serializing_if = "Option::is_none")]
     comment: Option<String>,
-    /// TODO: WHY does this exist??? This is stupid.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    generate_rooms_overview:Option<String>, 
 }
 
 #[derive(Deserialize, Serialize, Debug, Default)]
