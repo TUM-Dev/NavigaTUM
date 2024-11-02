@@ -86,21 +86,6 @@ enum LocationType {
 }
 
 #[derive(Deserialize, Serialize, Debug, Default)]
-struct Usage {
-    din_277: String,
-    din_277_desc: String,
-    name: String,
-}
-
-
-#[derive(Deserialize, Serialize, Debug)]
-#[serde(untagged)]
-enum VecOrItem<T>{
-    Array(Vec<T>),
-    Item(T),
-}
-
-#[derive(Deserialize, Serialize, Debug, Default)]
 struct LocationDetailsResponse {
     /// The id, that was requested
     id: String,
@@ -143,35 +128,6 @@ struct LocationDetailsResponse {
     comment: Option<String>,
 }
 
-#[derive(Deserialize, Serialize, Debug, Default)]
-struct ExternalData {
-    website: String,
-}
-
-#[derive(Deserialize, Serialize, Debug, Default)]
-struct DataQuality {
-    areatree_uncertain: bool,
-}
-
-#[derive(Deserialize, Serialize, Debug, Default)]
-struct FloorPatch {
-    #[serde(skip_serializing_if = "Option::is_none")]
-    id: Option<i32>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    name: Option<String>,
-    use_as: String,
-}
-#[derive(Deserialize, Serialize, Debug, Default)]
-struct Floors {
-    floor_patches: HashMap<String, FloorPatch>,
-}
-#[derive(Deserialize, Serialize, Debug, Default)]
-struct Generators {
-    #[serde(skip_serializing_if = "Option::is_none")]
-    buildings_overview: Option<BuildingsOverview>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    floors: Option<Floors>,
-}
 #[derive(Deserialize, Serialize, Debug, Default)]
 struct Sections {
     #[serde(skip_serializing_if = "Option::is_none")]
