@@ -32,7 +32,7 @@ impl PostgresTestContainer {
             pool,
         }
     }
-    pub async fn load_data_retrying(&self){
+    pub async fn load_data_retrying(&self) {
         for i in 0..20 {
             let res = crate::setup::database::load_data(&self.pool).await;
             if let Err(e) = res {

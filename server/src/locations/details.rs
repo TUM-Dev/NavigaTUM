@@ -3,6 +3,7 @@ use actix_web::{get, web, HttpResponse};
 use serde::{Deserialize, Serialize};
 use sqlx::Error::RowNotFound;
 use sqlx::PgPool;
+use std::collections::HashMap;
 use tracing::error;
 
 use crate::localisation;
@@ -30,19 +31,30 @@ pub async fn get_handler(
             .await
     };
     match result {
-        Ok(d) => match d {
-            None => HttpResponse::NotFound().body("Not found"),
-            Some(d) => {
-                let mut res: LocationDetailsResponse = serde_json::from_value(d).unwrap();
-                res.redirect_url = Some(redirect_url);
-                HttpResponse::Ok()
-                    .insert_header(CacheControl(vec![
-                        CacheDirective::MaxAge(24 * 60 * 60), // valid for 1d
-                        CacheDirective::Public,
-                    ]))
-                    .json(res)
+        Ok(d) => {
+            if let Some(d) = d {
+                let res = serde_json::from_value::<LocationDetailsResponse>(d);
+                match res {
+                    Err(e) => {
+                        error!("cannot serialise {id} because {e:?}");
+                        HttpResponse::InternalServerError()
+                            .content_type("text/plain")
+                            .body("Internal Server Error")
+                    }
+                    Ok(mut res) => {
+                        res.redirect_url = Some(redirect_url);
+                        HttpResponse::Ok()
+                            .insert_header(CacheControl(vec![
+                                CacheDirective::MaxAge(24 * 60 * 60), // valid for 1d
+                                CacheDirective::Public,
+                            ]))
+                            .json(res)
+                    }
+                }
+            } else {
+                HttpResponse::NotFound().body("Not found")
             }
-        },
+        }
         Err(e) => {
             error!("Error requesting details for {probable_id}: {e:?}");
             HttpResponse::InternalServerError()
@@ -54,7 +66,7 @@ pub async fn get_handler(
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 struct Operator {
-    id: String,
+    id: u32,
     url: String,
     code: String,
     name: String,
@@ -74,6 +86,13 @@ enum LocationType {
 }
 
 #[derive(Deserialize, Serialize, Debug, Default)]
+struct Usage {
+    din_277: String,
+    din_277_desc: String,
+    name: String,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
 struct LocationDetailsResponse {
     /// The id, that was requested
     id: String,
@@ -83,6 +102,30 @@ struct LocationDetailsResponse {
     type_common_name: String,
     /// The name of the entry in a human-readable form
     name: String,
+    /// TODO: document in openapi
+    #[serde(skip_serializing_if = "String::is_empty", default = "String::new")]
+    b_prefix: String,
+    /// TODO: document in openapi
+    #[serde(skip_serializing_if = "String::is_empty", default = "String::new")]
+    arch_name: String,
+    /// TODO: document in openapi
+    hash: i64,
+    #[serde(skip_serializing_if = "Vec::is_empty", default = "Vec::new")]
+    osm: Vec<String>,
+    /// TODO: document in openapi
+    #[serde(skip_serializing_if = "Option::is_none")]
+    usage: Option<Usage>,
+    /// The short name if there exists
+    /// Example: `LMU` for the `Ludwig-Maximilians-Universität`
+    /// TODO: document in openapi
+    #[serde(skip_serializing_if = "Option::is_none")]
+    short_name: Option<String>,
+    /// TODO: document in openapi
+    #[serde(skip_serializing_if = "Option::is_none")]
+    visible_id: Option<String>,
+    /// TODO: document in openapi
+    #[serde(skip_serializing_if = "Option::is_none")]
+    data_quality: Option<DataQuality>,
     /// A list of alternative ids for this entry.
     ///
     /// Not to be confused with
@@ -99,7 +142,12 @@ struct LocationDetailsResponse {
     /// Data for the info-card table
     props: Props,
     /// The information you need to request Images from the /cdn/{size}/{id}_{counter}.webp endpoint
-    imgs: Vec<ImageInfo>,
+    /// TODO: Sometimes missing, sometimes not.. so weird..
+    #[serde(skip_serializing_if = "Option::is_none")]
+    imgs: Option<Vec<ImageInfo>>,
+    /// TODO: remove here and in the data backend, not in openapi
+    #[serde(skip_serializing_if = "Option::is_none")]
+    image_comments: Option<HashMap<String, String>>,
     ranking_factors: RankingFactors,
     /// Where we got our data from, should be displayed at the bottom of any page containing this data
     sources: Sources,
@@ -109,8 +157,46 @@ struct LocationDetailsResponse {
     maps: Maps,
     #[serde(skip_serializing_if = "Option::is_none")]
     sections: Option<Sections>,
+    /// TODO: WHY does this exist??? This is stupid.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    generators: Option<Generators>,
+    /// TODO: document in openapi
+    #[serde(skip_serializing_if = "Option::is_none")]
+    external_data: Option<ExternalData>,
+    /// TODO: document in openapi
+    #[serde(skip_serializing_if = "Option::is_none")]
+    comment: Option<String>,
 }
 
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct ExternalData {
+    website: String,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct DataQuality {
+    areatree_uncertain: bool,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct FloorPatch {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    id: Option<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    name: Option<String>,
+    use_as: String,
+}
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct Floors {
+    floor_patches: HashMap<String, FloorPatch>,
+}
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct Generators {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    buildings_overview: Option<BuildingsOverview>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    floors: Option<Floors>,
+}
 #[derive(Deserialize, Serialize, Debug, Default)]
 struct Sections {
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -176,9 +262,11 @@ struct FeaturedOverview {
 #[derive(Deserialize, Serialize, Debug, Default)]
 struct Maps {
     default: DefaultMaps,
+    #[serde(skip_serializing_if = "Option::is_none")]
     roomfinder: Option<RoomfinderMap>,
     /// [`None`] would mean no overlay maps are displayed by default.
-    /// For rooms you should add a warning that no floor map is available for this room
+    /// For rooms, you should add a warning that no floor map is available for this room
+    #[serde(skip_serializing_if = "Option::is_none")]
     overlays: Option<OverlayMaps>,
 }
 
@@ -235,7 +323,7 @@ struct OverlayMapEntry {
     /// filename of the map
     file: String,
     /// Coordinates are four `[lon, lat]` pairs, for the top left, top right, bottom right, bottom left image corners.
-    coordinates: [(f32, f32); 4],
+    coordinates: [(f64, f64); 4],
 }
 
 #[derive(Deserialize, Serialize, Debug, Default)]
@@ -259,7 +347,7 @@ struct ExtraComputedProp {
 }
 
 #[derive(Deserialize, Serialize, Debug, Default)]
-struct ComputedProps {
+struct ComputedProp {
     /// example: `Raumkennung`
     name: String,
     /// example: `5602.EG.001`
@@ -270,36 +358,41 @@ struct ComputedProps {
 #[derive(Deserialize, Serialize, Debug, Default)]
 struct Props {
     /// The operator of the room
+    #[serde(skip_serializing_if = "Option::is_none")]
     operator: Option<Operator>,
-    computed: ComputedProps,
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    computed: Vec<ComputedProp>,
+    #[serde(skip_serializing_if = "Vec::is_empty", default = "Vec::new")]
     links: Vec<PossibleURLRef>,
     /// A comment to show to an entry.
-    /// It is used in the rare cases, where some aspect about the rooom/.. or its translation are misleading.
+    /// It is used in the rare cases, where some aspect about the room/.. or its translation are misleading.
     /// An example of a room with a comment is `MW1801`.
-    #[serde(skip_serializing_if = "String::is_empty")]
+    #[serde(skip_serializing_if = "String::is_empty", default = "String::new")]
     comment: String,
     /// link to the calendar of the room
     /// examples:
     /// - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12543&cReadonly=J'
     /// - 'https://campus.tum.de/tumonline/tvKalender.wSicht?cOrg=19691&cRes=12559&cReadonly=J'
-    #[serde(skip_serializing_if = "String::is_empty")]
-    calendar_url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    calendar_url: Option<String>,
+    /// TODO: document in openapi
+    #[serde(skip_serializing_if = "Option::is_none")]
+    tumonline_room_nr: Option<u32>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Source {
     /// name of the provider
     name: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     /// url of the provider
+    #[serde(skip_serializing_if = "Option::is_none")]
     url: Option<String>,
 }
 #[derive(Deserialize, Serialize, Debug, Default)]
 struct Sources {
     /// Was this entry patched by us? (e.g. to fix a typo in the name/...)
     /// If so, we should not display the source, as it is not the original source.
-    patched: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    patched: Option<bool>, // default = false
     /// What is the basis of the data we have
     base: Vec<Source>,
 }
@@ -308,9 +401,10 @@ struct Sources {
 struct ImageInfo {
     /// The name of the image file. consists of {building_id}_{image_id}.webp, where image_id is a counter starting at 0
     name: String,
-    author: PossibleURLRef,
+    author: URLRef,
     source: PossibleURLRef,
     license: PossibleURLRef,
+    #[serde(skip_serializing_if = "Option::is_none")]
     meta: Option<ImageMetadata>,
 }
 
@@ -321,32 +415,48 @@ struct PossibleURLRef {
     url: Option<String>,
 }
 
+#[derive(Deserialize, Serialize, Debug, Default)]
+struct URLRef {
+    text: String,
+    url: Option<String>,
+}
+
 /// Additional data about the images.
 /// Does not have to be displayed.
 /// All fields are optional.
 #[derive(Deserialize, Serialize, Debug, Default)]
 struct ImageMetadata {
     ///optional date description
-    date: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    date: Option<String>,
     ///optional location description
-    location: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    location: Option<String>,
     ///optional coordinates in lat,lon
-    geo: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    geo: Option<String>,
     /// optional in contrast to source this points to the image itself.
     /// You should not use this to request the images, as they are not scaled.
-    image_url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    image_url: Option<String>,
     /// optional caption
-    caption: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    caption: Option<String>,
     /// optional headline
-    headline: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    headline: Option<String>,
     ///  optional the event this image was taken at
-    event: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    event: Option<String>,
     /// optional the event this image is about
-    faculty: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    faculty: Option<String>,
     ///optional the building this image is about
-    building: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    building: Option<String>,
     ///  optional the department this image is about
-    department: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    department: Option<String>,
 }
 
 #[derive(Deserialize, Serialize, Debug, Default)]
@@ -354,7 +464,9 @@ struct RankingFactors {
     rank_combined: u32,
     rank_type: u32,
     rank_usage: u32,
+    #[serde(skip_serializing_if = "Option::is_none")]
     rank_boost: Option<u32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     rank_custom: Option<u32>,
 }
 
@@ -363,6 +475,7 @@ struct Coordinate {
     lat: f64,
     lon: f64,
     source: CoordinateSource,
+    #[serde(skip_serializing_if = "Option::is_none")]
     accuracy: Option<CoordinateAccuracy>,
 }
 
@@ -481,7 +594,7 @@ mod tests {
             info!(
                 "processed {resolved_cnt}/{all_keys_len} <=> {percentage}%",
                 percentage = 100_f32 * (resolved_cnt as f32) / (all_keys_len as f32)
-            )
+            );
         }
     }
 
@@ -510,7 +623,7 @@ mod tests {
         settings.set_sort_maps(true);
         settings.set_snapshot_path("location_get_handler");
         settings.bind(|| {
-            insta::assert_json_snapshot!(key.clone(), body_value);
+            insta::assert_json_snapshot!(key.clone(), body_value, {".hash" => 0});
         });
     }
 }
