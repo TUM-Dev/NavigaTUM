@@ -1,6 +1,6 @@
-use std::fmt::{Debug, Formatter};
 use meilisearch_sdk::client::Client;
 use serde::Serialize;
+use std::fmt::{Debug, Formatter};
 use tracing::error;
 
 use crate::limited::vec::LimitedVec;
@@ -28,16 +28,15 @@ impl Debug for ResultsSection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let mut base = f.debug_set();
         for i in 0..=3 {
-            if let Some(e)=self.entries.get(i) {
+            if let Some(e) = self.entries.get(i) {
                 base.entry(e);
-            }   
+            }
         }
-        if self.entries.len() > 3 { 
+        if self.entries.len() > 3 {
             base.entry(&"...");
         }
         base.finish()
     }
-    
 }
 
 #[derive(Serialize, Default, Debug, Clone)]
