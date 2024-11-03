@@ -963,10 +963,7 @@
         ["match", ["get", "class"], ["secondary", "tertiary"], true, false],
         ["!=", ["get", "ramp"], 1]
       ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
-      },
+      "layout": {"line-cap": "round", "line-join": "round"},
       "paint": {
         "line-color": "#e9ac77",
         "line-width": [
@@ -1074,8 +1071,17 @@
       "source": "nav",
       "source-layer": "transportation",
       "minzoom": 15,
-      "filter": ["==", ["get", "class"], "path"],
-      "layout": {"line-cap": "round", "line-join": "round"},
+      "filter": [
+        "all",
+        ["==", ["get", "class"], "path"],
+        ["!=", ["get", "subclass"], "platform"],
+        ["!=", ["get", "subclass"], "steps"]
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
       "paint": {
         "line-color": "#fff",
         "line-width": [
@@ -2053,190 +2059,286 @@
       }
     },
     {
-      "id": "poi_z16",
+      "id": "poi_gate",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "poi",
+      "minzoom": 17,
+      "filter": ["match", ["get", "class"], ["gate", "tail_gate"], true, false],
+      "layout": {
+        "icon-image": "gate",
+        "text-anchor": "left",
+        "text-field": ["to-string", ["get", "name_de"]],
+        "text-font": ["Roboto Condensed Italic"],
+        "text-max-width": 9,
+        "text-offset": [0.9, 0],
+        "text-size": 14,
+        "icon-optional": true
+      },
+      "paint": {
+        "text-color": "rgba(159, 159, 159, 1)",
+        "text-halo-color": "#ffffff",
+        "icon-color": "rgba(159, 159, 159, 1)",
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-width": 1,
+        "text-halo-blur": 1,
+        "icon-halo-width": 2,
+        "icon-halo-blur": 1
+      }
+    },
+    {
+      "id": "poi_office",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "poi",
+      "minzoom": 18,
+      "filter": ["match", ["get", "class"], ["office", "college"], true, false],
+      "layout": {
+        "text-anchor": "left",
+        "text-field": ["to-string", ["get", "name_de"]],
+        "text-font": ["Roboto Condensed Italic"],
+        "text-max-width": 9,
+        "text-offset": [0.9, 0],
+        "text-size": 14
+      },
+      "paint": {
+        "text-color": "rgba(20, 39, 87, 1)",
+        "text-halo-color": "#ffffff",
+        "icon-color": [
+          "match",
+          ["get", "name"],
+          ["der tu film"],
+          ["literal", "rgba(20, 39, 87, 1)"],
+          ["literal", "rgba(0, 0, 0, 1)"]
+        ],
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-width": 1,
+        "text-halo-blur": 1,
+        "icon-halo-width": 2,
+        "icon-halo-blur": 1
+      }
+    },
+    {
+      "id": "poi_fuel",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "poi",
+      "minzoom": 16,
+      "filter": ["match", ["get", "class"], ["fuel"], true, false],
+      "layout": {
+        "text-anchor": "left",
+        "text-field": "",
+        "text-font": ["Roboto Condensed Italic"],
+        "text-max-width": 9,
+        "text-offset": [0.9, 0],
+        "text-size": 14,
+        "icon-allow-overlap": false,
+        "icon-ignore-placement": false,
+        "icon-image": [
+          "match",
+          ["get", "subclass"],
+          ["charging_station"],
+          ["literal", "charging-station"],
+          ["get", "subclass"]
+        ]
+      },
+      "paint": {
+        "text-color": "#4898FF",
+        "text-halo-color": "#fff",
+        "icon-color": "#4898FF",
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-blur": 1,
+        "text-halo-width": 1,
+        "icon-halo-width": 2,
+        "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "poi_parking",
       "type": "symbol",
       "source": "nav",
       "source-layer": "poi",
       "minzoom": 16,
       "filter": [
-        "all",
-        ["==", ["geometry-type"], "Point"],
-        [">=", ["get", "rank"], 20],
-        [
-          "match",
-          ["get", "class"],
-          [
-            "airport",
-            "bus",
-            "railway",
-            "rail",
-            "bicycle_rental",
-            "aerialway",
-            "parking",
-            "entrance",
-            "park",
-            "fire_station",
-            "gate",
-            "restaurant",
-            "fast_food",
-            "grocery",
-            "ice_cream",
-            "cafe",
-            "alcohol_shop",
-            "bar",
-            "beer",
-            "college",
-            "cycle_barrier"
-          ],
-          false,
-          true
-        ]
+        "match",
+        ["get", "class"],
+        ["bicycle_rental", "parking", "bicycle_parking", "motorcycle_parking"],
+        true,
+        false
       ],
       "layout": {
         "icon-image": [
           "match",
-          ["get", "subclass"],
-          ["florist", "furniture", "soccer", "tennis"],
-          ["get", "subclass"],
-          ["get", "class"]
+          ["get", "class"],
+          ["bicycle_rental"],
+          ["literal", "bicycle-share"],
+          ["bicycle_parking"],
+          ["literal", "bicycle"],
+          ["literal", "parking"]
         ],
-        "text-anchor": "top",
+        "text-anchor": "left",
         "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
-        "text-offset": [0, 0.6],
-        "text-size": 12
+        "text-offset": [0.9, 0],
+        "text-size": 14,
+        "icon-allow-overlap": false,
+        "icon-ignore-placement": false,
+        "icon-size": 1.2
       },
       "paint": {
-        "text-color": "#191919",
-        "text-halo-blur": 0.5,
-        "text-halo-color": "#ffffff",
-        "text-halo-width": 1
+        "text-color": "#4898FF",
+        "text-halo-color": "#fff",
+        "icon-color": "#4898FF",
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-blur": 1,
+        "text-halo-width": 1,
+        "icon-halo-width": 2,
+        "text-halo-blur": 1
       }
     },
     {
-      "id": "poi_z15",
+      "id": "poi_kinder",
       "type": "symbol",
       "source": "nav",
       "source-layer": "poi",
-      "minzoom": 15,
-      "filter": [
-        "all",
-        ["==", ["geometry-type"], "Point"],
-        [">=", ["get", "rank"], 7],
-        ["<", ["get", "rank"], 20],
-        [
-          "match",
-          ["get", "class"],
-          [
-            "airport",
-            "bus",
-            "railway",
-            "rail",
-            "bicycle_rental",
-            "aerialway",
-            "parking",
-            "entrance",
-            "park",
-            "fire_station",
-            "gate",
-            "restaurant",
-            "fast_food",
-            "grocery",
-            "ice_cream",
-            "cafe",
-            "alcohol_shop",
-            "bar",
-            "beer",
-            "college",
-            "cycle_barrier"
-          ],
-          false,
-          true
-        ]
-      ],
+      "minzoom": 16,
+      "filter": ["match", ["get", "class"], ["school"], true, false],
+      "layout": {
+        "text-anchor": "left",
+        "text-field": ["to-string", ["get", "name_de"]],
+        "text-font": ["Roboto Condensed Italic"],
+        "text-max-width": 9,
+        "text-offset": [0.9, 0],
+        "text-size": 14,
+        "icon-image": "school"
+      },
+      "paint": {
+        "text-color": "#725A51",
+        "text-halo-color": "#ffffff",
+        "icon-color": "#725A51",
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-width": 2,
+        "icon-halo-blur": 1,
+        "text-halo-width": 1,
+        "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "poi_sports",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "poi",
+      "minzoom": 16,
+      "filter": ["match", ["get", "class"], ["pitch", "climbing"], true, false],
       "layout": {
         "icon-image": [
           "match",
           ["get", "subclass"],
-          ["florist", "furniture", "soccer", "tennis"],
-          ["get", "subclass"],
-          ["get", "class"]
+          ["table_tennis"],
+          ["literal", "table-tennis"],
+          ["beachvolleyball"],
+          ["literal", "volleyball"],
+          ["american_football"],
+          ["literal", "american-football"],
+          ["climbing"],
+          ["literal", "mountain"],
+          ["multi"],
+          ["literal", "pitch"],
+          ["get", "subclass"]
         ],
-        "text-anchor": "top",
+        "text-anchor": "left",
         "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
-        "text-offset": [0, 0.6],
-        "text-size": 12
+        "text-offset": [0.9, 0],
+        "text-size": 14
       },
       "paint": {
-        "text-color": "#191919",
-        "text-halo-blur": 0.5,
+        "text-color": "#77A723",
         "text-halo-color": "#ffffff",
-        "text-halo-width": 1
+        "icon-color": "#77A723",
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-width": 2,
+        "icon-halo-blur": 1,
+        "text-halo-width": 1,
+        "text-halo-blur": 1
       }
     },
     {
-      "id": "poi_z14",
+      "id": "poi_amenity",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "poi",
+      "minzoom": 17,
+      "filter": [
+        "match",
+        ["get", "class"],
+        [
+          "lodging",
+          "shop",
+          "atm",
+          "museum",
+          "post",
+          "recycling",
+          "bank",
+          "cinema",
+          "theatre"
+        ],
+        true,
+        false
+      ],
+      "layout": {
+        "icon-image": [
+          "match",
+          ["get", "class"],
+          ["atm"],
+          ["literal", "bank"],
+          ["get", "class"]
+        ],
+        "text-anchor": "left",
+        "text-field": ["to-string", ["get", "name_de"]],
+        "text-font": ["Roboto Condensed Italic"],
+        "text-max-width": 9,
+        "text-offset": [0.9, 0],
+        "text-size": 14
+      },
+      "paint": {
+        "text-color": "#725A51",
+        "text-halo-color": "#ffffff",
+        "icon-color": "#725A51",
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-width": 2,
+        "icon-halo-blur": 1,
+        "text-halo-width": 1,
+        "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "poi_tu_film",
       "type": "symbol",
       "source": "nav",
       "source-layer": "poi",
       "minzoom": 14,
-      "filter": [
-        "all",
-        ["==", ["geometry-type"], "Point"],
-        [">=", ["get", "rank"], 1],
-        ["<", ["get", "rank"], 7],
-        [
-          "match",
-          ["get", "class"],
-          [
-            "airport",
-            "railway",
-            "aerialway",
-            "bus",
-            "bicycle_rental",
-            "parking",
-            "entrance",
-            "park",
-            "fire_station",
-            "gate",
-            "restaurant",
-            "fast_food",
-            "grocery",
-            "ice_cream",
-            "cafe",
-            "alcohol_shop",
-            "bar",
-            "beer",
-            "college",
-            "cycle_barrier"
-          ],
-          false,
-          true
-        ]
-      ],
+      "filter": ["match", ["get", "name"], ["der tu film"], true, false],
       "layout": {
-        "icon-image": [
-          "match",
-          ["get", "subclass"],
-          ["florist", "furniture", "soccer", "tennis"],
-          ["get", "subclass"],
-          ["get", "class"]
-        ],
-        "text-anchor": "top",
+        "text-anchor": "left",
         "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
-        "text-offset": [0, 0.6],
-        "text-size": 12
+        "text-offset": [0.9, 0],
+        "text-size": 14,
+        "icon-image": "cinema"
       },
       "paint": {
-        "text-color": "#191919",
-        "text-halo-blur": 0.5,
-        "text-halo-color": "#ffffff",
-        "text-halo-width": 1
+        "text-color": "rgba(102, 96, 190, 1.0)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-color": "rgba(102, 96, 190, 1.0)",
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-width": 2,
+        "icon-halo-blur": 1,
+        "text-halo-width": 1,
+        "text-halo-blur": 1
       }
     },
     {
@@ -2256,13 +2358,20 @@
           "cafe",
           "alcohol_shop",
           "bar",
-          "beer"
+          "beer",
+          "bakery"
         ],
         true,
         false
       ],
       "layout": {
-        "icon-image": "gate",
+        "icon-image": [
+          "match",
+          ["get", "subclass"],
+          ["fast_food"],
+          ["literal", "fast-food"],
+          ["get", "class"]
+        ],
         "text-anchor": "left",
         "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
@@ -2271,9 +2380,9 @@
         "text-size": 14
       },
       "paint": {
-        "text-color": "#d97200",
+        "text-color": "#D97201",
         "text-halo-color": "#ffffff",
-        "icon-color": "#d97200",
+        "icon-color": "#D97201",
         "icon-halo-color": "rgba(255, 255, 255, 1)",
         "icon-halo-width": 2,
         "icon-halo-blur": 1,
@@ -2282,42 +2391,53 @@
       }
     },
     {
-      "id": "poi_gate",
+      "id": "poi_library",
       "type": "symbol",
       "source": "nav",
       "source-layer": "poi",
-      "minzoom": 17,
-      "filter": ["==", ["get", "class"], "gate"],
+      "minzoom": 16,
+      "filter": ["match", ["get", "class"], ["library"], true, false],
       "layout": {
-        "icon-image": "gate",
         "text-anchor": "left",
         "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
         "text-max-width": 9,
         "text-offset": [0.9, 0],
         "text-size": 14,
-        "icon-optional": true
+        "icon-image": "library"
       },
       "paint": {
-        "text-color": "rgba(159, 159, 159, 1)",
         "text-halo-color": "#ffffff",
-        "icon-color": "rgba(159, 159, 159, 1)",
+        "icon-color": "rgba(20, 39, 87, 1)",
         "icon-halo-color": "rgba(255, 255, 255, 1)",
-        "icon-halo-width": 1,
-        "icon-halo-blur": 0,
-        "text-halo-blur": 2,
-        "text-halo-width": 2
+        "icon-halo-width": 2,
+        "icon-halo-blur": 1,
+        "text-halo-width": 1,
+        "text-halo-blur": 1,
+        "text-color": "rgba(20, 39, 87, 1)"
       }
     },
     {
-      "id": "poi_fire_department",
+      "id": "poi_emergency",
       "type": "symbol",
       "source": "nav",
       "source-layer": "poi",
       "minzoom": 15,
-      "filter": ["==", ["get", "class"], "fire_station"],
+      "filter": [
+        "match",
+        ["get", "class"],
+        ["fire_station", "hospital"],
+        true,
+        false
+      ],
       "layout": {
-        "icon-image": "fire-station",
+        "icon-image": [
+          "match",
+          ["get", "class"],
+          ["fire_station"],
+          ["literal", "fire-station"],
+          ["get", "class"]
+        ],
         "text-anchor": "left",
         "text-field": ["to-string", ["get", "name_de"]],
         "text-font": ["Roboto Condensed Italic"],
@@ -2326,56 +2446,14 @@
         "text-size": 14
       },
       "paint": {
-        "text-color": "#ba3827",
+        "text-color": "#BA3827",
         "text-halo-color": "#ffffff",
-        "icon-color": "#ba3827",
+        "icon-color": "#BA3827",
         "icon-halo-color": "rgba(255, 255, 255, 1)",
-        "icon-halo-width": 1,
-        "icon-halo-blur": 0,
-        "text-halo-blur": 2,
-        "text-halo-width": 2
-      }
-    },
-    {
-      "id": "poi_parking",
-      "type": "symbol",
-      "source": "nav",
-      "source-layer": "poi",
-      "minzoom": 16,
-      "filter": [
-        "match",
-        ["get", "class"],
-        ["bicycle_rental", "parking"],
-        true,
-        false
-      ],
-      "layout": {
-        "icon-image": [
-          "case",
-          ["==", ["get", "class"], "bicycle_rental"],
-          ["literal", "bicycle-share"],
-          ["literal", "parking"]
-        ],
-        "text-anchor": "left",
-        "text-field": ["to-string", ["get", "name_de"]],
-        "text-font": ["Roboto Condensed Italic"],
-        "text-max-width": 9,
-        "text-offset": [0.9, 0],
-        "text-size": 14,
-        "icon-allow-overlap": false,
-        "icon-ignore-placement": false,
-        "icon-size": 1.2
-      },
-      "paint": {
-        "text-color": "#006DFF",
-        "text-halo-color": "#fff",
-        "icon-color": "rgba(0, 109, 255, 1)",
-        "icon-halo-color": "rgba(255, 255, 255, 1)",
-        "icon-halo-blur": 1,
         "text-halo-width": 1,
-        "text-halo-blur": 2,
+        "text-halo-blur": 1,
         "icon-halo-width": 2,
-        "icon-opacity": 0.8
+        "icon-halo-blur": 1
       }
     },
     {
@@ -2400,15 +2478,15 @@
         "text-color": "rgba(0, 109, 255, 1)",
         "text-halo-color": "#ffffff",
         "text-halo-width": 1,
-        "text-halo-blur": 0.5,
         "icon-color": "rgba(0, 109, 255, 1)",
         "icon-halo-color": "rgba(255, 255, 255, 1)",
         "icon-halo-blur": 1,
-        "icon-halo-width": 4
+        "icon-halo-width": 2,
+        "text-halo-blur": 1
       }
     },
     {
-      "id": "poi_transit-important",
+      "id": "poi_transit_important",
       "type": "symbol",
       "source": "nav",
       "source-layer": "poi",
@@ -2422,9 +2500,14 @@
       ],
       "layout": {
         "icon-image": [
-          "case",
-          ["==", ["get", "class"], "railway"],
-          ["literal", "rail"],
+          "match",
+          ["get", "subclass"],
+          ["subway"],
+          ["literal", "u-bahn"],
+          ["station"],
+          ["literal", "s-bahn"],
+          ["tram_stop"],
+          ["literal", "rail-light"],
           ["get", "class"]
         ],
         "text-anchor": "left",
@@ -2438,12 +2521,12 @@
       "paint": {
         "text-color": "rgba(0, 109, 255, 1)",
         "text-halo-color": "#ffffff",
-        "text-halo-width": 1,
-        "text-halo-blur": 0.5,
         "icon-color": "rgba(0, 109, 255, 1)",
         "icon-halo-color": "rgba(255, 255, 255, 1)",
         "icon-halo-blur": 1,
-        "icon-halo-width": 4
+        "icon-halo-width": 2,
+        "text-halo-blur": 1,
+        "text-halo-width": 1
       }
     },
     {
