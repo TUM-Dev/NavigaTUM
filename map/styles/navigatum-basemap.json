@@ -521,7 +521,8 @@
         "all",
         ["==", ["geometry-type"], "LineString"],
         ["==", ["get", "brunnel"], "tunnel"],
-        ["match", ["get", "class"], ["path", "pedestrian"], true, false]
+        ["match", ["get", "class"], ["path", "pedestrian"], true, false],
+        ["!", ["has", "level"]]
       ],
       "paint": {
         "line-color": "hsl(0,0%,100%)",
@@ -1075,7 +1076,8 @@
         "all",
         ["==", ["get", "class"], "path"],
         ["!=", ["get", "subclass"], "platform"],
-        ["!=", ["get", "subclass"], "steps"]
+        ["!=", ["get", "subclass"], "steps"],
+        ["!", ["has", "level"]]
       ],
       "layout": {
         "line-cap": "round",
@@ -1358,11 +1360,8 @@
       "type": "line",
       "source": "nav",
       "source-layer": "transportation",
-      "filter": [
-        "all",
-        ["match", ["get", "brunnel"], ["bridge", "tunnel"], false, true],
-        ["==", ["get", "class"], "transit"]
-      ],
+      "minzoom": 17,
+      "filter": ["all", ["==", ["get", "class"], "platform"], ["has", "level"]],
       "paint": {
         "line-color": "#bbb",
         "line-dasharray": [0.2, 8],
@@ -1913,8 +1912,10 @@
           "interpolate",
           ["linear"],
           ["zoom"],
-          12,
+          13,
           0,
+          13.5,
+          1,
           14,
           1,
           14.5,
@@ -2087,6 +2088,70 @@
       }
     },
     {
+      "id": "poi_parking",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "poi",
+      "minzoom": 16,
+      "filter": [
+        "match",
+        ["get", "class"],
+        ["bicycle_rental", "parking", "bicycle_parking", "motorcycle_parking"],
+        true,
+        false
+      ],
+      "layout": {
+        "icon-image": [
+          "match",
+          ["get", "class"],
+          ["bicycle_rental"],
+          ["literal", "bicycle-share"],
+          ["bicycle_parking"],
+          ["literal", "bicycle"],
+          ["literal", "parking"]
+        ],
+        "text-anchor": "left",
+        "text-field": ["to-string", ["get", "name_de"]],
+        "text-font": ["Roboto Condensed Italic"],
+        "text-max-width": 9,
+        "text-offset": [0.9, 0],
+        "text-size": 14,
+        "icon-allow-overlap": false,
+        "icon-ignore-placement": false,
+        "icon-size": 1.2
+      },
+      "paint": {
+        "text-color": "#4898FF",
+        "text-halo-color": "#fff",
+        "icon-color": "#4898FF",
+        "icon-halo-color": "rgba(255, 255, 255, 1)",
+        "icon-halo-blur": 1,
+        "text-halo-width": 1,
+        "icon-halo-width": 2,
+        "text-halo-blur": 1,
+        "icon-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          16.5,
+          0,
+          17,
+          [
+            "min",
+            [
+              "/",
+              ["-", ["literal", 100], ["number", ["get", "rank"]]],
+              ["literal", 70]
+            ],
+            ["literal", 1]
+          ],
+          20,
+          1
+        ],
+        "text-opacity": 1
+      }
+    },
+    {
       "id": "poi_office",
       "type": "symbol",
       "source": "nav",
@@ -2154,56 +2219,12 @@
       }
     },
     {
-      "id": "poi_parking",
+      "id": "poi_children",
       "type": "symbol",
       "source": "nav",
       "source-layer": "poi",
       "minzoom": 16,
-      "filter": [
-        "match",
-        ["get", "class"],
-        ["bicycle_rental", "parking", "bicycle_parking", "motorcycle_parking"],
-        true,
-        false
-      ],
-      "layout": {
-        "icon-image": [
-          "match",
-          ["get", "class"],
-          ["bicycle_rental"],
-          ["literal", "bicycle-share"],
-          ["bicycle_parking"],
-          ["literal", "bicycle"],
-          ["literal", "parking"]
-        ],
-        "text-anchor": "left",
-        "text-field": ["to-string", ["get", "name_de"]],
-        "text-font": ["Roboto Condensed Italic"],
-        "text-max-width": 9,
-        "text-offset": [0.9, 0],
-        "text-size": 14,
-        "icon-allow-overlap": false,
-        "icon-ignore-placement": false,
-        "icon-size": 1.2
-      },
-      "paint": {
-        "text-color": "#4898FF",
-        "text-halo-color": "#fff",
-        "icon-color": "#4898FF",
-        "icon-halo-color": "rgba(255, 255, 255, 1)",
-        "icon-halo-blur": 1,
-        "text-halo-width": 1,
-        "icon-halo-width": 2,
-        "text-halo-blur": 1
-      }
-    },
-    {
-      "id": "poi_kinder",
-      "type": "symbol",
-      "source": "nav",
-      "source-layer": "poi",
-      "minzoom": 16,
-      "filter": ["match", ["get", "class"], ["school"], true, false],
+      "filter": ["==", ["get", "class"], "school"],
       "layout": {
         "text-anchor": "left",
         "text-field": ["to-string", ["get", "name_de"]],
@@ -2492,11 +2513,15 @@
       "source-layer": "poi",
       "minzoom": 13,
       "filter": [
-        "match",
-        ["get", "class"],
-        ["airport", "rail", "railway"],
-        true,
-        false
+        "all",
+        [
+          "match",
+          ["get", "class"],
+          ["airport", "rail", "railway"],
+          true,
+          false
+        ],
+        ["!=", ["get", "subclass"], "halt"]
       ],
       "layout": {
         "icon-image": [
@@ -2516,17 +2541,35 @@
         "text-max-width": 9,
         "text-offset": [0.9, 0],
         "text-size": 14,
-        "icon-allow-overlap": true
+        "icon-allow-overlap": false,
+        "text-allow-overlap": false,
+        "text-ignore-placement": false
       },
       "paint": {
-        "text-color": "rgba(0, 109, 255, 1)",
+        "text-color": [
+          "match",
+          ["get", "subclass"],
+          ["subway"],
+          ["literal", "#086ab1"],
+          ["station"],
+          ["literal", "#00894d"],
+          ["literal", "rgba(0, 109, 255, 1)"]
+        ],
         "text-halo-color": "#ffffff",
-        "icon-color": "rgba(0, 109, 255, 1)",
+        "icon-color": [
+          "match",
+          ["get", "subclass"],
+          ["subway"],
+          ["literal", "#086ab1"],
+          ["station"],
+          ["literal", "#00894d"],
+          ["literal", "rgba(0, 109, 255, 1)"]
+        ],
         "icon-halo-color": "rgba(255, 255, 255, 1)",
-        "icon-halo-blur": 1,
-        "icon-halo-width": 2,
         "text-halo-blur": 1,
-        "text-halo-width": 1
+        "text-halo-width": 1,
+        "icon-halo-blur": 1,
+        "icon-halo-width": 4
       }
     },
     {
@@ -2586,6 +2629,7 @@
       "type": "symbol",
       "source": "nav",
       "source-layer": "place",
+      "maxzoom": 14,
       "filter": [
         "match",
         ["get", "class"],
@@ -2707,8 +2751,8 @@
       "type": "symbol",
       "source": "nav",
       "source-layer": "place",
-      "minzoom": 0,
-      "maxzoom": 6,
+      "minzoom": 4,
+      "maxzoom": 7,
       "filter": ["==", ["get", "class"], "state"],
       "layout": {
         "text-field": ["to-string", ["get", "name_de"]],
@@ -2816,6 +2860,19 @@
         "text-halo-color": "rgba(255,255,255,0.7)",
         "text-halo-width": 1
       }
+    },
+    {
+      "id": "platform",
+      "type": "fill",
+      "source": "nav",
+      "source-layer": "transportation",
+      "minzoom": 17,
+      "filter": [
+        "all",
+        ["==", "subclass", "platform"],
+        ["==", "class", "path"]
+      ],
+      "paint": {"fill-color": "rgba(143, 139, 139, 0.2)"}
     }
   ],
   "id": "navigatum-basemap"
