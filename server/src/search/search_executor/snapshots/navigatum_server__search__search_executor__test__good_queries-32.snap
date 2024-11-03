@@ -36,7 +36,7 @@ info: "'1229 seminarraum' should get '0502.01.229' in 1 results"
       subtext_bold: N-1229@0102
     - id: 2334.01.224
       type: room
-      name: "2334.01.224 ((34.\u00191\u0017.\u0019229\u0017) Büro)"
+      name: "2334.01.224 ((34.\u00191\u0017.\u0019229\u0017) Hilfskraft)"
       subtext: "campus-im-olympiapark-sz, CiO/SG Institute West, Bibliothek"
       subtext_bold: 01.2334.224@2334
   n_visible: 6
