@@ -1,11 +1,11 @@
-use std::collections::HashSet;
-
 use logos::Logos;
+use std::collections::HashSet;
+use std::fmt::{Debug, Formatter};
 use tracing::warn;
 
 use crate::search::search_executor::lexer::Token;
 
-#[derive(Debug, Clone, Default, PartialEq, Eq)]
+#[derive(Clone, Default, PartialEq, Eq)]
 pub struct Filter {
     parents: HashSet<String>,
     types: HashSet<String>,
@@ -30,6 +30,25 @@ impl Filter {
         }
         filters.join(" AND ")
     }
+    pub fn is_empty(&self) -> bool {
+        self.parents.is_empty() && self.types.is_empty() && self.usages.is_empty()
+    }
+}
+
+impl Debug for Filter {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut base = f.debug_struct("Filter");
+        if !self.parents.is_empty() {
+            base.field("parents", &self.parents);
+        }
+        if !self.types.is_empty() {
+            base.field("types", &self.parents);
+        }
+        if !self.usages.is_empty() {
+            base.field("usages", &self.parents);
+        }
+        base.finish()
+    }
 }
 
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
@@ -44,6 +63,9 @@ impl Sorting {
             .map(|s| format!("_geoPoint({s}):asc"))
             .collect()
     }
+    pub fn is_empty(&self) -> bool {
+        self.location.is_empty()
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -52,11 +74,25 @@ pub enum TextToken {
     SplittableText((String, String)),
 }
 
-#[derive(Debug, Clone, Default, PartialEq, Eq)]
+#[derive(Clone, Default, PartialEq, Eq)]
 pub struct ParsedQuery {
     pub tokens: Vec<TextToken>,
     pub filters: Filter,
     pub sorting: Sorting,
+}
+
+impl Debug for ParsedQuery {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut base = f.debug_struct("ParsedQuery");
+        base.field("tokens", &self.tokens);
+        if !self.filters.is_empty() {
+            base.field("from", &self.filters);
+        }
+        if !self.sorting.is_empty() {
+            base.field("from", &self.sorting);
+        }
+        base.finish()
+    }
 }
 
 impl ParsedQuery {
