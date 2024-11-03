@@ -1,3 +1,4 @@
+use std::fmt::{Debug, Formatter};
 use meilisearch_sdk::client::Client;
 use serde::Serialize;
 use tracing::error;
@@ -14,13 +15,29 @@ mod merger;
 mod parser;
 mod query;
 
-#[derive(Serialize, Debug, Clone)]
+#[derive(Serialize, Clone)]
 pub struct ResultsSection {
-    facet: String,
+    pub(crate) facet: String,
     entries: Vec<ResultEntry>,
     n_visible: usize,
     #[serde(rename = "estimatedTotalHits")]
     estimated_total_hits: usize,
+}
+
+impl Debug for ResultsSection {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut base = f.debug_set();
+        for i in 0..=3 {
+            if let Some(e)=self.entries.get(i) {
+                base.entry(e);
+            }   
+        }
+        if self.entries.len() > 3 { 
+            base.entry(&"...");
+        }
+        base.finish()
+    }
+    
 }
 
 #[derive(Serialize, Default, Debug, Clone)]

@@ -23,10 +23,21 @@ pub struct SearchQueryArgs {
 }
 
 /// Returned search results by this
-#[derive(Serialize, Debug)]
+#[derive(Serialize)]
 pub struct SearchResults {
     sections: Vec<search_executor::ResultsSection>,
     time_ms: u128,
+}
+
+impl Debug for SearchResults {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let mut base = f.debug_struct("SearchResults");
+        base.field("time_ms", &self.time_ms);
+        for section in self.sections.iter() {
+            base.field(&section.facet, section);
+        }
+        base.finish()
+    }
 }
 
 #[derive(Copy, Clone, Eq, PartialEq, Hash)]
