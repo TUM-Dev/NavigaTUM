@@ -110,7 +110,6 @@ impl From<(&Client, &ParsedQuery, &Limits, &Highlighting)> for GeoEntryQuery {
 }
 
 impl GeoEntryQuery {
-    #[tracing::instrument(ret(level = tracing::Level::TRACE))]
     pub async fn execute(self) -> Result<MultiSearchResponse<MSHit>, Error> {
         let q_default = self.prompt_for_querying();
         let entries = self.client.index("entries");
