@@ -10,7 +10,7 @@ rm -rf ./gtfs_feeds/*
 mkdir --parents gtfs_feeds
 mkdir --parents data/transit_tiles
 
-echo -- download dependencys --
+echo -- download dependencies --
 if command -v apk > /dev/null 2>&1
 then
   apk --update add --quiet wget

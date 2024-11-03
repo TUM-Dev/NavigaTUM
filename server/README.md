@@ -6,8 +6,8 @@ This folder contains the main backend server for NavigaTUM.
 
 ### Prerequisites
 
-For getting started, there are some system dependencys which you will need.
-Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of
+For getting started, there are some system dependencies which you will need.
+Please follow the [system dependencies docs](/resources/documentation/Dependencies.md) before trying to run this part of
 our project.
 
 ### Additional dependency
@@ -21,7 +21,7 @@ endpoint is a non-essential part of the project.
 
 #### How to Set up the Databases
 
-At the beginning of the main api we set up both meilisearch and the database.
+At the beginning of the main API we set up both meilisearch and the database.
 This will ensure that the sqlite database and meilisearch index is created.
 
 This requires meilisearch to be online.
