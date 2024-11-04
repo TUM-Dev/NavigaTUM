@@ -123,8 +123,9 @@ data
 
 ## Compilation process
 
-The data compilation is made of individual processing steps, where each step adds new or modifies the current data. The
-basic structure of the data, however, stays the same from the beginning on and is specified in `data-format_*.yaml`.
+The data compilation is made of individual processing steps, where each step adds new or modifies the current data.
+The final structure of the data, is specified in `data-format_*.yaml`.
+Some work is underway to ensure that this format is actually being followed via simplifying the data backend and migrating the database server from managing a json blob to "real" tables. This is not done yet.
 
 - **Step 00**: The first step reads the base root node, areas, buildings, etc. from the
   `sources/00_areatree` file and creates an object collection (python dictionary)
