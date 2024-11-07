@@ -932,92 +932,92 @@
   "15426": {
     "code": "TUINI01",
     "name": "Informatik 1 - Lehrstuhl f\u00fcr Distributed Systems and Operating Systems (Prof. Bhatotia)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 1 - Lehrstuhl f\u00fcr Distributed Systems and Operating Systems (Prof. Bhatotia)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Distributed Systems and Operating Systems (Prof. Bhatotia)"
   },
   "15427": {
     "code": "TUINI02",
     "name": "Informatik 2 - Lehrstuhl f\u00fcr Sprachen und Beschreibungsstrukturen in der Informatik (Prof. Seidl)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 2 - Lehrstuhl f\u00fcr Sprachen und Beschreibungsstrukturen in der Informatik (Prof. Seidl)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Sprachen und Beschreibungsstrukturen in der Informatik (Prof. Seidl)"
   },
   "15428": {
     "code": "TUINI03",
     "name": "Informatik 3 - Lehrstuhl f\u00fcr Datenbanksysteme (Prof. Kemper)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 3 - Lehrstuhl f\u00fcr Datenbanksysteme (Prof. Kemper)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Datenbanksysteme (Prof. Kemper)"
   },
   "15430": {
     "code": "TUINI05",
     "name": "Informatik 5 - Lehrstuhl f\u00fcr Scientific Computing (Prof. Bungartz)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 5 - Lehrstuhl f\u00fcr Scientific Computing (Prof. Bungartz)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Scientific Computing (Prof. Bungartz)"
   },
   "15431": {
     "code": "TUINI06",
     "name": "Informatik 6 - Lehrstuhl f\u00fcr Robotik, K\u00fcnstliche Intelligenz und Echtzeitsysteme (Prof. Knoll)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 6 - Lehrstuhl f\u00fcr Robotik, K\u00fcnstliche Intelligenz und Echtzeitsysteme (Prof. Knoll)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Robotik, K\u00fcnstliche Intelligenz und Echtzeitsysteme (Prof. Knoll)"
   },
   "15432": {
     "code": "TUINI07",
     "name": "Informatik 7 - Lehrstuhl f\u00fcr Theoretische Informatik (Prof. Esparza)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 7 - Lehrstuhl f\u00fcr Theoretische Informatik (Prof. Esparza)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Theoretische Informatik (Prof. Esparza)"
   },
   "15433": {
     "code": "TUINI08",
     "name": "Informatik 8 - Lehrstuhl f\u00fcr Netzarchitekturen und Netzdienste (Prof. Carle)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 8 - Lehrstuhl f\u00fcr Netzarchitekturen und Netzdienste (Prof. Carle)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Netzarchitekturen und Netzdienste (Prof. Carle)"
   },
   "15434": {
     "code": "TUINI09",
     "name": "Informatik 9 - Lehrstuhl f\u00fcr Computer Vision and Artificial Intelligence (Prof. Cremers)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 9 - Lehrstuhl f\u00fcr Computer Vision and Artificial Intelligence (Prof. Cremers)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Computer Vision and Artificial Intelligence (Prof. Cremers)"
   },
   "15435": {
     "code": "TUINI10",
     "name": "Informatik 10 - Lehrstuhl f\u00fcr Rechnerarchitektur & Parallele Systeme (Prof. Schulz)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 10 - Lehrstuhl f\u00fcr Rechnerarchitektur & Parallele Systeme (Prof. Schulz)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Rechnerarchitektur & Parallele Systeme (Prof. Schulz)"
   },
   "15436": {
     "code": "TUINI11",
     "name": "Informatik 11 - Lehrstuhl f\u00fcr Angewandte Informatik / Kooperative Systeme (N.N.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 11 - Lehrstuhl f\u00fcr Angewandte Informatik / Kooperative Systeme (N.N.)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Angewandte Informatik / Kooperative Systeme (N.N.)"
   },
   "15437": {
     "code": "TUINI12",
     "name": "Informatik 12 - Lehrstuhl f\u00fcr Bioinformatik (Prof. Rost)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 12 - Lehrstuhl f\u00fcr Bioinformatik (Prof. Rost)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Bioinformatik (Prof. Rost)"
   },
   "15438": {
     "code": "TUINI13",
     "name": "Informatik 13 - Lehrstuhl f\u00fcr Decentralized Information Systems and Data Management (Prof. Leis)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 13 - Lehrstuhl f\u00fcr Decentralized Information Systems and Data Management (Prof. Leis)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Decentralized Information Systems and Data Management (Prof. Leis)"
   },
   "15439": {
     "code": "TUINI14",
     "name": "Informatik 14 - Lehrstuhl f\u00fcr Effiziente Algorithmen (N.N.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 14 - Lehrstuhl f\u00fcr Effiziente Algorithmen (N.N.)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Effiziente Algorithmen (N.N.)"
   },
   "15440": {
     "code": "TUINI15",
     "name": "Informatik 15 - Lehrstuhl f\u00fcr Grafik und Visualisierung (Prof. Westermann)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 15 - Lehrstuhl f\u00fcr Grafik und Visualisierung (Prof. Westermann)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Grafik und Visualisierung (Prof. Westermann)"
   },
   "15441": {
     "code": "TUINI16",
     "name": "Informatik 16 - Lehrstuhl f\u00fcr Informatikanwendungen in der Medizin (Prof. Navab)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 16 - Lehrstuhl f\u00fcr Informatikanwendungen in der Medizin (Prof. Navab)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatikanwendungen in der Medizin (Prof. Navab)"
   },
   "15442": {
     "code": "TUINI17",
     "name": "Informatik 17 - Lehrstuhl f\u00fcr Wirtschaftsinformatik und Gesch\u00e4ftsprozessmanagement (Prof. Rinderle-Ma)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 17 - Lehrstuhl f\u00fcr Wirtschaftsinformatik und Gesch\u00e4ftsprozessmanagement (Prof. Rinderle-Ma)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Wirtschaftsinformatik und Gesch\u00e4ftsprozessmanagement (Prof. Rinderle-Ma)"
   },
   "15443": {
     "code": "TUINI18",
     "name": "Informatik 18 - Lehrstuhl f\u00fcr Decision Sciences & Systems (Prof. Bichler)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 18 - Lehrstuhl f\u00fcr Decision Sciences & Systems (Prof. Bichler)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Decision Sciences & Systems (Prof. Bichler)"
   },
   "15444": {
     "code": "TUINI19",
     "name": "Informatik 19 - Lehrstuhl f\u00fcr Software Engineering for Business Information Systems (Prof. Matthes)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 19 - Lehrstuhl f\u00fcr Software Engineering for Business Information Systems (Prof. Matthes)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software Engineering for Business Information Systems (Prof. Matthes)"
   },
   "15453": {
     "code": "TUS4OTD",
@@ -2317,22 +2317,22 @@
   "24633": {
     "code": "TUINF01",
     "name": "Informatik 13 - Professur f\u00fcr Vernetzte Rechensysteme - (N.N.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 13 - Professur f\u00fcr Vernetzte Rechensysteme - (N.N.)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Vernetzte Rechensysteme - (N.N.)"
   },
   "24642": {
     "code": "TUINF02",
     "name": "Informatik 11 - Professur f\u00fcr Programmierung und Anwendung verteilter Systeme - (N.N.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 11 - Professur f\u00fcr Programmierung und Anwendung verteilter Systeme - (N.N.)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Programmierung und Anwendung verteilter Systeme - (N.N.)"
   },
   "24648": {
     "code": "TUINF03",
     "name": "Informatik 7 - Professur f\u00fcr Formale Methoden der Softwarezuverl\u00e4ssigkeit (Prof. Ayikudi Ramachandrakumar komm.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 7 - Professur f\u00fcr Formale Methoden der Softwarezuverl\u00e4ssigkeit (Prof. Ayikudi Ramachandrakumar komm.)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Formale Methoden der Softwarezuverl\u00e4ssigkeit (Prof. Ayikudi Ramachandrakumar komm.)"
   },
   "24654": {
     "code": "TUINF04",
     "name": "Informatik 10 - Professur f\u00fcr Architektur paralleler und verteilter Systeme - (Prof. Gerndt)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 10 - Professur f\u00fcr Architektur paralleler und verteilter Systeme - (Prof. Gerndt)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Architektur paralleler und verteilter Systeme - (Prof. Gerndt)"
   },
   "24659": {
     "code": "TUEDS10",
@@ -2342,22 +2342,22 @@
   "24661": {
     "code": "TUINF12",
     "name": "Informatik 16 - Professur f\u00fcr Erweiterte Realit\u00e4t - (N.N.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 16 - Professur f\u00fcr Erweiterte Realit\u00e4t - (N.N.)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Erweiterte Realit\u00e4t - (N.N.)"
   },
   "24668": {
     "code": "TUINF05",
     "name": "Informatik 25 - Lehrstuhl f\u00fcr Data Science and Engineering (Prof. Neumann)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 25 - Lehrstuhl f\u00fcr Data Science and Engineering (Prof. Neumann)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Data Science and Engineering (Prof. Neumann)"
   },
   "24669": {
     "code": "TUINF07",
     "name": "Informatik 29 - Lehrstuhl f\u00fcr Computational Molecular Medicine (Prof. Gagneur)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 29 - Lehrstuhl f\u00fcr Computational Molecular Medicine (Prof. Gagneur)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Computational Molecular Medicine (Prof. Gagneur)"
   },
   "24670": {
     "code": "TUINI21",
     "name": "Informatik 21 - Lehrstuhl f\u00fcr Logik und Verifikation (Prof. Bruse komm.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 21 - Lehrstuhl f\u00fcr Logik und Verifikation (Prof. Bruse komm.)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Logik und Verifikation (Prof. Bruse komm.)"
   },
   "24671": {
     "code": "TUINF14",
@@ -2367,17 +2367,17 @@
   "24672": {
     "code": "TUINF10",
     "name": "Informatik 14 - Professur f\u00fcr Theoretische Informatik - (Prof. R\u00e4cke)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 14 - Professur f\u00fcr Theoretische Informatik - (Prof. R\u00e4cke)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Theoretische Informatik - (Prof. R\u00e4cke)"
   },
   "24673": {
     "code": "TUINF15",
     "name": "Informatik 6 - Professur f\u00fcr Cyber Physical Systems (Prof. Althoff)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 6 - Professur f\u00fcr Cyber Physical Systems (Prof. Althoff)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Cyber Physical Systems (Prof. Althoff)"
   },
   "24674": {
     "code": "TUINF11",
     "name": "Informatik 6 - Professur f\u00fcr Informatik mit Schwerpunkt Telerobotik und Sensordatenfusion (Prof. Burschka)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 6 - Professur f\u00fcr Informatik mit Schwerpunkt Telerobotik und Sensordatenfusion (Prof. Burschka)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik mit Schwerpunkt Telerobotik und Sensordatenfusion (Prof. Burschka)"
   },
   "24777": {
     "code": "TUWZA1A",
@@ -2406,13 +2406,13 @@
   },
   "25918": {
     "code": "TUZV141",
-    "name": "Baumanagement Garching",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Baumanagement Garching"
+    "name": "Baumanagement Garching (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Baumanagement Garching (ZA 4)"
   },
   "25925": {
     "code": "TUZV142",
-    "name": "Geb\u00e4udemanagement Garching",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching"
+    "name": "Geb\u00e4udemanagement Garching (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)"
   },
   "25930": {
     "code": "TUZVR15",
@@ -2481,48 +2481,48 @@
   },
   "26050": {
     "code": "TUZVR40",
-    "name": "Ressourcenplanung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung"
+    "name": "Ressourcenplanung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)"
   },
   "26055": {
     "code": "TUZVR42",
-    "name": "Baumanagement M\u00fcnchen",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Baumanagement M\u00fcnchen"
+    "name": "Baumanagement M\u00fcnchen (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Baumanagement M\u00fcnchen (ZA 4)"
   },
   "26059": {
     "code": "TUZVR43",
-    "name": "Baumanagement",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Baumanagement M\u00fcnchen/Baumanagement"
+    "name": "Baumanagement (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Baumanagement M\u00fcnchen (ZA 4)/Baumanagement (ZA 4)"
   },
   "26064": {
     "code": "TUZVR44",
-    "name": "Geb\u00e4udemanagement M\u00fcnchen",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen"
+    "name": "Geb\u00e4udemanagement M\u00fcnchen (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)"
   },
   "26069": {
     "code": "TUZV440",
-    "name": "Energiemonitoring, Contracting",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik/Energie- und Medienversorgung/Energiemonitoring, Contracting"
+    "name": "Energiemonitoring, Contracting (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Energie- und Medienversorgung (ZA 4)/Energiemonitoring, Contracting (ZA 4)"
   },
   "26073": {
     "code": "TUZV441",
-    "name": "Anlagentechnik M\u00fcnchen",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Anlagentechnik M\u00fcnchen"
+    "name": "Anlagentechnik M\u00fcnchen (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Anlagentechnik M\u00fcnchen (ZA 4)"
   },
   "26077": {
     "code": "TUZV442",
-    "name": "Elektrotechnik M\u00fcnchen",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Elektrotechnik M\u00fcnchen"
+    "name": "Elektrotechnik M\u00fcnchen (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Elektrotechnik M\u00fcnchen (ZA 4)"
   },
   "26081": {
     "code": "TUZV443",
-    "name": "Infrastruktur M\u00fcnchen",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Infrastruktur M\u00fcnchen"
+    "name": "Infrastruktur M\u00fcnchen (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Infrastruktur M\u00fcnchen (ZA 4)"
   },
   "26089": {
     "code": "TUZV445",
-    "name": "Fl\u00e4chen- und Raummanagement",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung/Vergaberecht und Fl\u00e4chenmanagement/Fl\u00e4chen- und Raummanagement"
+    "name": "Fl\u00e4chen- und Raummanagement (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Vergaberecht und Fl\u00e4chenmanagement (ZA 4)/Fl\u00e4chen- und Raummanagement (ZA 4)"
   },
   "26122": {
     "code": "TUZVR71",
@@ -2546,38 +2546,38 @@
   },
   "26175": {
     "code": "TUZVR84",
-    "name": "Geb\u00e4udemanagement Weihenstephan",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan"
+    "name": "Geb\u00e4udemanagement Weihenstephan (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)"
   },
   "26217": {
     "code": "TUZV841",
-    "name": "Anlagentechnik Weihenstephan",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Anlagentechnik Weihenstephan"
+    "name": "Anlagentechnik Weihenstephan (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Anlagentechnik Weihenstephan (ZA 4)"
   },
   "26221": {
     "code": "TUZV842",
-    "name": "Elektrotechnik Weihenstephan",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Elektrotechnik Weihenstephan"
+    "name": "Elektrotechnik Weihenstephan (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Elektrotechnik Weihenstephan (ZA 4)"
   },
   "26225": {
     "code": "TUZV843",
-    "name": "Umwelttechnik und Entsorgung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik/Entsorgung und Umwelt/Umwelttechnik und Entsorgung"
+    "name": "Umwelttechnik und Entsorgung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Entsorgung und Umwelt (ZA 4)/Umwelttechnik und Entsorgung (ZA 4)"
   },
   "26229": {
     "code": "TUZV844",
-    "name": "Infrastruktur Weihenstephan",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Infrastruktur Weihenstephan"
+    "name": "Infrastruktur Weihenstephan (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)"
   },
   "26233": {
     "code": "TUZV845",
-    "name": "Betriebshof, Hausverwaltung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Infrastruktur Weihenstephan/Betriebshof, Hausverwaltung"
+    "name": "Betriebshof, Hausverwaltung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Betriebshof, Hausverwaltung (ZA 4)"
   },
   "26237": {
     "code": "TUZV846",
-    "name": "Dienstbetrieb",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Dienstbetrieb"
+    "name": "Dienstbetrieb (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Dienstbetrieb (ZA 4)"
   },
   "26519": {
     "code": "TUMEGY0",
@@ -2857,7 +2857,7 @@
   "30697": {
     "code": "TUINI20",
     "name": "Informatik 20 - Lehrstuhl f\u00fcr Sicherheit in der Informatik (Prof. Eckert)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 20 - Lehrstuhl f\u00fcr Sicherheit in der Informatik (Prof. Eckert)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Sicherheit in der Informatik (Prof. Eckert)"
   },
   "31224": {
     "code": "TUCSVRW",
@@ -2961,113 +2961,113 @@
   },
   "37555": {
     "code": "TUZV44A",
-    "name": "Technisches B\u00fcro Maschinenwesen",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Anlagentechnik M\u00fcnchen/Technisches B\u00fcro Maschinenwesen"
+    "name": "Technisches B\u00fcro Maschinenwesen (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Anlagentechnik M\u00fcnchen (ZA 4)/Technisches B\u00fcro Maschinenwesen (ZA 4)"
   },
   "37569": {
     "code": "TUZV44B",
-    "name": "Werkstatt Regel- und F\u00f6rdertechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Elektrotechnik M\u00fcnchen/Werkstatt Regel- und F\u00f6rdertechnik"
+    "name": "Werkstatt Regel- und F\u00f6rdertechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Elektrotechnik M\u00fcnchen (ZA 4)/Werkstatt Regel- und F\u00f6rdertechnik (ZA 4)"
   },
   "37584": {
     "code": "TUZV44C",
-    "name": "Werkstatt Heizung - Klima - Sanit\u00e4r",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Anlagentechnik M\u00fcnchen/Werkstatt Heizung - Klima - Sanit\u00e4r"
+    "name": "Werkstatt Heizung - Klima - Sanit\u00e4r (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Anlagentechnik M\u00fcnchen (ZA 4)/Werkstatt Heizung - Klima - Sanit\u00e4r (ZA 4)"
   },
   "37585": {
     "code": "TUZV44D",
-    "name": "Werkstatt Schreinerei und Schlosserei",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Anlagentechnik M\u00fcnchen/Werkstatt Schreinerei und Schlosserei"
+    "name": "Werkstatt Schreinerei und Schlosserei (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Anlagentechnik M\u00fcnchen (ZA 4)/Werkstatt Schreinerei und Schlosserei (ZA 4)"
   },
   "37586": {
     "code": "TUZV44E",
-    "name": "Werkstatt Pasing Heizungs- und Klimatechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Anlagentechnik M\u00fcnchen/Werkstatt Pasing Heizungs- und Klimatechnik"
+    "name": "Werkstatt Pasing Heizungs- und Klimatechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Anlagentechnik M\u00fcnchen (ZA 4)/Werkstatt Pasing Heizungs- und Klimatechnik (ZA 4)"
   },
   "37622": {
     "code": "TUZV44G",
-    "name": "Technisches B\u00fcro Elektrotechnik, H\u00f6rsaaltechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Elektrotechnik M\u00fcnchen/Technisches B\u00fcro Elektrotechnik, H\u00f6rsaaltechnik"
+    "name": "Technisches B\u00fcro Elektrotechnik, H\u00f6rsaaltechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Elektrotechnik M\u00fcnchen (ZA 4)/Technisches B\u00fcro Elektrotechnik, H\u00f6rsaaltechnik (ZA 4)"
   },
   "37623": {
     "code": "TUZV44H",
-    "name": "Technisches B\u00fcro Fernmelde-, BMA- und ELA-Technik einschl. Telefonabrechnung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Elektrotechnik M\u00fcnchen/Technisches B\u00fcro Fernmelde-, BMA- und ELA-Technik einschl. Telefonabrechnung"
+    "name": "Technisches B\u00fcro Fernmelde-, BMA- und ELA-Technik einschl. Telefonabrechnung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Elektrotechnik M\u00fcnchen (ZA 4)/Technisches B\u00fcro Fernmelde-, BMA- und ELA-Technik einschl. Telefonabrechnung (ZA 4)"
   },
   "37668": {
     "code": "TUZV44J",
-    "name": "Werkstatt Elektrotechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Elektrotechnik M\u00fcnchen/Werkstatt Elektrotechnik"
+    "name": "Werkstatt Elektrotechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Elektrotechnik M\u00fcnchen (ZA 4)/Werkstatt Elektrotechnik (ZA 4)"
   },
   "37796": {
     "code": "TUZV44K",
-    "name": "Werkstatt H\u00f6rsaaltechnik, Medientechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Elektrotechnik M\u00fcnchen/Werkstatt H\u00f6rsaaltechnik, Medientechnik"
+    "name": "Werkstatt H\u00f6rsaaltechnik, Medientechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Elektrotechnik M\u00fcnchen (ZA 4)/Werkstatt H\u00f6rsaaltechnik, Medientechnik (ZA 4)"
   },
   "37801": {
     "code": "TUZV44L",
-    "name": "Werkstatt Fernmelde-, BMA- und ELA-Technik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Elektrotechnik M\u00fcnchen/Werkstatt Fernmelde-, BMA- und ELA-Technik"
+    "name": "Werkstatt Fernmelde-, BMA- und ELA-Technik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Elektrotechnik M\u00fcnchen (ZA 4)/Werkstatt Fernmelde-, BMA- und ELA-Technik (ZA 4)"
   },
   "37984": {
     "code": "TUZV44M",
-    "name": "Poststelle, Kurierdienst",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Infrastruktur M\u00fcnchen/Poststelle, Kurierdienst"
+    "name": "Poststelle, Kurierdienst (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Infrastruktur M\u00fcnchen (ZA 4)/Poststelle, Kurierdienst (ZA 4)"
   },
   "37985": {
     "code": "TUZV44N",
-    "name": "Posteinlauf Verwaltung, Registratur",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Infrastruktur M\u00fcnchen/Posteinlauf Verwaltung, Registratur"
+    "name": "Posteinlauf Verwaltung, Registratur (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Infrastruktur M\u00fcnchen (ZA 4)/Posteinlauf Verwaltung, Registratur (ZA 4)"
   },
   "37986": {
     "code": "TUZV44O",
-    "name": "Dienstfahrzeuge",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Infrastruktur M\u00fcnchen/Dienstfahrzeuge"
+    "name": "Dienstfahrzeuge (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Infrastruktur M\u00fcnchen (ZA 4)/Dienstfahrzeuge (ZA 4)"
   },
   "37988": {
     "code": "TUZV44Q",
-    "name": "Bewachung, Vermittlung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Infrastruktur M\u00fcnchen/Bewachung, Vermittlung"
+    "name": "Bewachung, Vermittlung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Infrastruktur M\u00fcnchen (ZA 4)/Bewachung, Vermittlung (ZA 4)"
   },
   "37989": {
     "code": "TUZV44R",
-    "name": "Reinigung, Pflege der Au\u00dfenanlagen, Ausschreibungen",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Infrastruktur M\u00fcnchen/Reinigung, Pflege der Au\u00dfenanlagen, Ausschreibungen"
+    "name": "Reinigung, Pflege der Au\u00dfenanlagen, Ausschreibungen (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Infrastruktur M\u00fcnchen (ZA 4)/Reinigung, Pflege der Au\u00dfenanlagen, Ausschreibungen (ZA 4)"
   },
   "37990": {
     "code": "TUZV44S",
-    "name": "Schl\u00fcsselverwaltung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Infrastruktur M\u00fcnchen/Schl\u00fcsselverwaltung"
+    "name": "Schl\u00fcsselverwaltung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Infrastruktur M\u00fcnchen (ZA 4)/Schl\u00fcsselverwaltung (ZA 4)"
   },
   "37992": {
     "code": "TUZV44U",
-    "name": "Hausmeisterdienste",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Infrastruktur M\u00fcnchen/Hausmeisterdienste"
+    "name": "Hausmeisterdienste (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Infrastruktur M\u00fcnchen (ZA 4)/Hausmeisterdienste (ZA 4)"
   },
   "38003": {
     "code": "TUZV44V",
-    "name": "Hausmeisterdienste am TUM CiO",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Campus im Olympiapark/Hausmeisterdienste am TUM CiO"
+    "name": "Hausmeisterdienste am TUM CiO (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Campus im Olympiapark (ZA 4)/Hausmeisterdienste am TUM CiO (ZA 4)"
   },
   "38004": {
     "code": "TUZV44W",
-    "name": "Werkstatt Elektrotechnik am TUM CiO",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Campus im Olympiapark/Werkstatt Elektrotechnik am TUM CiO"
+    "name": "Werkstatt Elektrotechnik am TUM CiO (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Campus im Olympiapark (ZA 4)/Werkstatt Elektrotechnik am TUM CiO (ZA 4)"
   },
   "38006": {
     "code": "TUZV44Y",
-    "name": "Wassersportplatz Starnberg",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Infrastruktur M\u00fcnchen/Wassersportplatz Starnberg"
+    "name": "Wassersportplatz Starnberg (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Infrastruktur M\u00fcnchen (ZA 4)/Wassersportplatz Starnberg (ZA 4)"
   },
   "38010": {
     "code": "TUZV45A",
-    "name": "H\u00f6rsaalvergabe",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung/Vergaberecht und Fl\u00e4chenmanagement/Fl\u00e4chen- und Raummanagement/H\u00f6rsaalvergabe"
+    "name": "H\u00f6rsaalvergabe (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Vergaberecht und Fl\u00e4chenmanagement (ZA 4)/Fl\u00e4chen- und Raummanagement (ZA 4)/H\u00f6rsaalvergabe (ZA 4)"
   },
   "38011": {
     "code": "TUZV45B",
-    "name": "Externe An- und Vermietung, Veranstaltungen einschl. TUM CiO",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung/Vergaberecht und Fl\u00e4chenmanagement/Fl\u00e4chen- und Raummanagement/Externe An- und Vermietung, Veranstaltungen einschl. TUM CiO"
+    "name": "Externe An- und Vermietung, Veranstaltungen einschl. TUM CiO (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Vergaberecht und Fl\u00e4chenmanagement (ZA 4)/Fl\u00e4chen- und Raummanagement (ZA 4)/Externe An- und Vermietung, Veranstaltungen einschl. TUM CiO (ZA 4)"
   },
   "38136": {
     "code": "TUWIB17",
@@ -3076,73 +3076,73 @@
   },
   "38369": {
     "code": "TUZV847",
-    "name": "Bauwerkst\u00e4tte",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Anlagentechnik Weihenstephan/Bauwerkst\u00e4tte"
+    "name": "Bauwerkst\u00e4tte (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Anlagentechnik Weihenstephan (ZA 4)/Bauwerkst\u00e4tte (ZA 4)"
   },
   "38540": {
     "code": "TUZV14C",
-    "name": "Heizkraftwerke mit Leitwarte",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik/Energie- und Medienversorgung/Heizkraftwerke mit Leitwarte"
+    "name": "Heizkraftwerke mit Leitwarte (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Energie- und Medienversorgung (ZA 4)/Heizkraftwerke mit Leitwarte (ZA 4)"
   },
   "38541": {
     "code": "TUZV14D",
-    "name": "Anlagentechnik Garching",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Anlagentechnik Garching"
+    "name": "Anlagentechnik Garching (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Anlagentechnik Garching (ZA 4)"
   },
   "38542": {
     "code": "TUZV14E",
-    "name": "Elektrotechnik Garching",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Elektrotechnik Garching"
+    "name": "Elektrotechnik Garching (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Elektrotechnik Garching (ZA 4)"
   },
   "38543": {
     "code": "TUZV14F",
-    "name": "Umwelt / Abfallentsorgung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik/Entsorgung und Umwelt/Umwelt / Abfallentsorgung"
+    "name": "Umwelt / Abfallentsorgung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Entsorgung und Umwelt (ZA 4)/Umwelt / Abfallentsorgung (ZA 4)"
   },
   "38577": {
     "code": "TUZV14G",
-    "name": "Infrastrukturelles FM Poststelle",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Infrastruktur Garching/Infrastrukturelles FM Poststelle"
+    "name": "Infrastrukturelles FM Poststelle (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Infrastruktur Garching (ZA 4)/Infrastrukturelles FM Poststelle (ZA 4)"
   },
   "38579": {
     "code": "TUZV14I",
-    "name": "Technisches B\u00fcro Maschinentechnische Anlagen",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Anlagentechnik Garching/Technisches B\u00fcro Maschinentechnische Anlagen"
+    "name": "Technisches B\u00fcro Maschinentechnische Anlagen (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Anlagentechnik Garching (ZA 4)/Technisches B\u00fcro Maschinentechnische Anlagen (ZA 4)"
   },
   "38580": {
     "code": "TUZV14J",
-    "name": "Werkstatt Heizungs- und Klimatechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Anlagentechnik Garching/Werkstatt Heizungs- und Klimatechnik"
+    "name": "Werkstatt Heizungs- und Klimatechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Anlagentechnik Garching (ZA 4)/Werkstatt Heizungs- und Klimatechnik (ZA 4)"
   },
   "38581": {
     "code": "TUZV14K",
-    "name": "Werkstatt Sanit\u00e4r- und K\u00e4ltetechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Anlagentechnik Garching/Werkstatt Sanit\u00e4r- und K\u00e4ltetechnik"
+    "name": "Werkstatt Sanit\u00e4r- und K\u00e4ltetechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Anlagentechnik Garching (ZA 4)/Werkstatt Sanit\u00e4r- und K\u00e4ltetechnik (ZA 4)"
   },
   "38582": {
     "code": "TUZV14L",
-    "name": "Werkstatt Schlosser/Schreiner/Hausmeister",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Anlagentechnik Garching/Werkstatt Schlosser/Schreiner/Hausmeister"
+    "name": "Werkstatt Schlosser/Schreiner/Hausmeister (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Anlagentechnik Garching (ZA 4)/Werkstatt Schlosser/Schreiner/Hausmeister (ZA 4)"
   },
   "38596": {
     "code": "TUZV14N",
-    "name": "Technisches B\u00fcro, H\u00f6rsaaltechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Elektrotechnik Garching/Technisches B\u00fcro, H\u00f6rsaaltechnik"
+    "name": "Technisches B\u00fcro, H\u00f6rsaaltechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Elektrotechnik Garching (ZA 4)/Technisches B\u00fcro, H\u00f6rsaaltechnik (ZA 4)"
   },
   "38597": {
     "code": "TUZV14O",
-    "name": "Werkstatt Elektrotechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Elektrotechnik Garching/Werkstatt Elektrotechnik"
+    "name": "Werkstatt Elektrotechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Elektrotechnik Garching (ZA 4)/Werkstatt Elektrotechnik (ZA 4)"
   },
   "38598": {
     "code": "TUZV14P",
-    "name": "Werkstatt Fernmeldetechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Elektrotechnik Garching/Werkstatt Fernmeldetechnik"
+    "name": "Werkstatt Fernmeldetechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Elektrotechnik Garching (ZA 4)/Werkstatt Fernmeldetechnik (ZA 4)"
   },
   "38599": {
     "code": "TUZV14Q",
-    "name": "Geb\u00e4udeleittechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Elektrotechnik Garching/Geb\u00e4udeleittechnik"
+    "name": "Geb\u00e4udeleittechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Elektrotechnik Garching (ZA 4)/Geb\u00e4udeleittechnik (ZA 4)"
   },
   "39071": {
     "code": "TUWZM1A",
@@ -3246,8 +3246,8 @@
   },
   "41267": {
     "code": "TUGSTGS",
-    "name": "Management Office",
-    "path": "TUM/TUM Graduate School/Management Office"
+    "name": "Management Office (GS)",
+    "path": "TUM/TUM Graduate School/Management Office (GS)"
   },
   "41681": {
     "code": "TUZVR7W",
@@ -3487,7 +3487,7 @@
   "43448": {
     "code": "TUINF17",
     "name": "Informatik 18 - Professur f\u00fcr Algorithmische Spieltheorie (Prof. Brandt)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 18 - Professur f\u00fcr Algorithmische Spieltheorie (Prof. Brandt)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Algorithmische Spieltheorie (Prof. Brandt)"
   },
   "43449": {
     "code": "TUWIB18",
@@ -3627,7 +3627,7 @@
   "44006": {
     "code": "TUINF16",
     "name": "Informatik 5 - Professur f\u00fcr Hardware-nahe Algorithmik und Software f\u00fcr H\u00f6chstleistungsrechnen (Prof. Bader)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 5 - Professur f\u00fcr Hardware-nahe Algorithmik und Software f\u00fcr H\u00f6chstleistungsrechnen (Prof. Bader)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Hardware-nahe Algorithmik und Software f\u00fcr H\u00f6chstleistungsrechnen (Prof. Bader)"
   },
   "44008": {
     "code": "TUINFRW",
@@ -3756,8 +3756,8 @@
   },
   "44344": {
     "code": "TUZV44F",
-    "name": "Umz\u00fcge, Beschilderungen",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Geb\u00e4udemanagement M\u00fcnchen/Infrastruktur M\u00fcnchen/Umz\u00fcge, Beschilderungen"
+    "name": "Umz\u00fcge, Beschilderungen (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Geb\u00e4udemanagement M\u00fcnchen (ZA 4)/Infrastruktur M\u00fcnchen (ZA 4)/Umz\u00fcge, Beschilderungen (ZA 4)"
   },
   "44364": {
     "code": "TUCHRC3",
@@ -4016,8 +4016,8 @@
   },
   "45070": {
     "code": "TUZV848",
-    "name": "Werkfeuerwehr Weihenstephan",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Werkfeuerwehr Weihenstephan"
+    "name": "Werkfeuerwehr Weihenstephan (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Werkfeuerwehr Weihenstephan (ZA 4)"
   },
   "45071": {
     "code": "TUMWPTM",
@@ -4047,7 +4047,7 @@
   "45151": {
     "code": "TUINI22",
     "name": "Informatik 4 - Lehrstuhl f\u00fcr Software & Systems Engineering (Prof. Pretschner)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 4 - Lehrstuhl f\u00fcr Software & Systems Engineering (Prof. Pretschner)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software & Systems Engineering (Prof. Pretschner)"
   },
   "45170": {
     "code": "TUWIB26",
@@ -4306,8 +4306,8 @@
   },
   "45971": {
     "code": "TUZVR87",
-    "name": "Baumanagement Weihenstephan",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Baumanagement Weihenstephan"
+    "name": "Baumanagement Weihenstephan (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Baumanagement Weihenstephan (ZA 4)"
   },
   "45991": {
     "code": "TUGSCRE",
@@ -4332,7 +4332,7 @@
   "46091": {
     "code": "TUINI23",
     "name": "Informatik 23 - Lehrstuhl f\u00fcr Sensorbasierte Robotersysteme und intelligente Assistenzsysteme (Prof. Albu-Sch\u00e4ffer)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 23 - Lehrstuhl f\u00fcr Sensorbasierte Robotersysteme und intelligente Assistenzsysteme (Prof. Albu-Sch\u00e4ffer)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Sensorbasierte Robotersysteme und intelligente Assistenzsysteme (Prof. Albu-Sch\u00e4ffer)"
   },
   "46135": {
     "code": "TUZEIAK",
@@ -4397,12 +4397,12 @@
   "46356": {
     "code": "TUINF08",
     "name": "Informatik 15 - Professur f\u00fcr Physik-basierte Simulation (Prof. Thuerey)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 15 - Professur f\u00fcr Physik-basierte Simulation (Prof. Thuerey)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physik-basierte Simulation (Prof. Thuerey)"
   },
   "46357": {
     "code": "TUINL14",
     "name": "Informatik 14 - Lehrstuhl f\u00fcr Algorithmen und Komplexit\u00e4t (Prof. Albers)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 14 - Lehrstuhl f\u00fcr Algorithmen und Komplexit\u00e4t (Prof. Albers)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Algorithmen und Komplexit\u00e4t (Prof. Albers)"
   },
   "46415": {
     "code": "TUEISNE",
@@ -4456,8 +4456,8 @@
   },
   "46757": {
     "code": "TUZV14R",
-    "name": "Werkstatt MSR-Technik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Anlagentechnik Garching/Werkstatt MSR-Technik"
+    "name": "Werkstatt MSR-Technik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Anlagentechnik Garching (ZA 4)/Werkstatt MSR-Technik (ZA 4)"
   },
   "46777": {
     "code": "TUWZI5A",
@@ -4607,7 +4607,7 @@
   "47337": {
     "code": "TUINI24",
     "name": "Informatik 11 - Lehrstuhl f\u00fcr Connected Mobility (Prof. Ott)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 11 - Lehrstuhl f\u00fcr Connected Mobility (Prof. Ott)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Connected Mobility (Prof. Ott)"
   },
   "47357": {
     "code": "TUCHOCG",
@@ -4797,7 +4797,7 @@
   "48037": {
     "code": "TUINF18",
     "name": "Informatik 26 - Lehrstuhl f\u00fcr Data Analytics and Machine Learning (Prof. G\u00fcnnemann)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 26 - Lehrstuhl f\u00fcr Data Analytics and Machine Learning (Prof. G\u00fcnnemann)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Data Analytics and Machine Learning (Prof. G\u00fcnnemann)"
   },
   "48038": {
     "code": "TUEIESI",
@@ -4902,7 +4902,7 @@
   "48238": {
     "code": "TUINICT",
     "name": "Informatik 24 - Professur f\u00fcr Cyber Trust (Prof. Grossklags)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 24 - Professur f\u00fcr Cyber Trust (Prof. Grossklags)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Cyber Trust (Prof. Grossklags)"
   },
   "48257": {
     "code": "TUARL32",
@@ -4912,7 +4912,7 @@
   "48258": {
     "code": "TUINF19",
     "name": "Informatik 28 - Lehrstuhl f\u00fcr Visual Computing (Prof. Nie\u00dfner)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 28 - Lehrstuhl f\u00fcr Visual Computing (Prof. Nie\u00dfner)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Visual Computing (Prof. Nie\u00dfner)"
   },
   "48277": {
     "code": "TUMEVI4",
@@ -4921,128 +4921,128 @@
   },
   "48297": {
     "code": "TUZVRBE",
-    "name": "Bauliche Entwicklungsplanung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Baumanagement M\u00fcnchen/Bauliche Entwicklungsplanung"
+    "name": "Bauliche Entwicklungsplanung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Baumanagement M\u00fcnchen (ZA 4)/Bauliche Entwicklungsplanung (ZA 4)"
   },
   "48298": {
     "code": "TUZV453",
-    "name": "Infrastruktur Garching",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Infrastruktur Garching"
+    "name": "Infrastruktur Garching (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Infrastruktur Garching (ZA 4)"
   },
   "48302": {
     "code": "TUZV45D",
-    "name": "Zeiterfassung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Infrastruktur Garching/Zeiterfassung"
+    "name": "Zeiterfassung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Infrastruktur Garching (ZA 4)/Zeiterfassung (ZA 4)"
   },
   "48303": {
     "code": "TUZV45E",
-    "name": "Kaufm\u00e4nnisches FM",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Infrastruktur Garching/Kaufm\u00e4nnisches FM"
+    "name": "Kaufm\u00e4nnisches FM (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Infrastruktur Garching (ZA 4)/Kaufm\u00e4nnisches FM (ZA 4)"
   },
   "48304": {
     "code": "TUZV45F",
-    "name": "Technisches FM",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Infrastruktur Garching/Technisches FM"
+    "name": "Technisches FM (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Infrastruktur Garching (ZA 4)/Technisches FM (ZA 4)"
   },
   "48305": {
     "code": "TUZV45G",
-    "name": "Infrastrukturelles FM",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Infrastruktur Garching/Infrastrukturelles FM"
+    "name": "Infrastrukturelles FM (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Infrastruktur Garching (ZA 4)/Infrastrukturelles FM (ZA 4)"
   },
   "48306": {
     "code": "TUZV45H",
-    "name": "Infrastrukturelles FM Geb\u00e4udereinigung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching/Geb\u00e4udemanagement Garching/Infrastruktur Garching/Infrastrukturelles FM Geb\u00e4udereinigung"
+    "name": "Infrastrukturelles FM Geb\u00e4udereinigung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)/Geb\u00e4udemanagement Garching (ZA 4)/Infrastruktur Garching (ZA 4)/Infrastrukturelles FM Geb\u00e4udereinigung (ZA 4)"
   },
   "48307": {
     "code": "TUZV46A",
-    "name": "Technisches B\u00fcro Maschinentechnische Anlagen",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Anlagentechnik Weihenstephan/Technisches B\u00fcro Maschinentechnische Anlagen"
+    "name": "Technisches B\u00fcro Maschinentechnische Anlagen (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Anlagentechnik Weihenstephan (ZA 4)/Technisches B\u00fcro Maschinentechnische Anlagen (ZA 4)"
   },
   "48308": {
     "code": "TUZV46B",
-    "name": "Werkstatt Heizung und L\u00fcftung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Anlagentechnik Weihenstephan/Werkstatt Heizung und L\u00fcftung"
+    "name": "Werkstatt Heizung und L\u00fcftung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Anlagentechnik Weihenstephan (ZA 4)/Werkstatt Heizung und L\u00fcftung (ZA 4)"
   },
   "48309": {
     "code": "TUZV46C",
-    "name": "Werkstatt Sanit\u00e4r",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Anlagentechnik Weihenstephan/Werkstatt Sanit\u00e4r"
+    "name": "Werkstatt Sanit\u00e4r (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Anlagentechnik Weihenstephan (ZA 4)/Werkstatt Sanit\u00e4r (ZA 4)"
   },
   "48310": {
     "code": "TUZV46D",
-    "name": "Werkstatt K\u00e4ltetechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Anlagentechnik Weihenstephan/Werkstatt K\u00e4ltetechnik"
+    "name": "Werkstatt K\u00e4ltetechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Anlagentechnik Weihenstephan (ZA 4)/Werkstatt K\u00e4ltetechnik (ZA 4)"
   },
   "48311": {
     "code": "TUZV46E",
-    "name": "Technisches B\u00fcro Elektrotechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Elektrotechnik Weihenstephan/Technisches B\u00fcro Elektrotechnik"
+    "name": "Technisches B\u00fcro Elektrotechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Elektrotechnik Weihenstephan (ZA 4)/Technisches B\u00fcro Elektrotechnik (ZA 4)"
   },
   "48312": {
     "code": "TUZV46F",
-    "name": "Werkstatt Starkstromtechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Elektrotechnik Weihenstephan/Werkstatt Starkstromtechnik"
+    "name": "Werkstatt Starkstromtechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Elektrotechnik Weihenstephan (ZA 4)/Werkstatt Starkstromtechnik (ZA 4)"
   },
   "48313": {
     "code": "TUZV46G",
-    "name": "Werkstatt Mess- und Regelungstechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Elektrotechnik Weihenstephan/Werkstatt Mess- und Regelungstechnik"
+    "name": "Werkstatt Mess- und Regelungstechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Elektrotechnik Weihenstephan (ZA 4)/Werkstatt Mess- und Regelungstechnik (ZA 4)"
   },
   "48314": {
     "code": "TUZV46H",
-    "name": "Telefonzentrale",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Elektrotechnik Weihenstephan/Telefonzentrale"
+    "name": "Telefonzentrale (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Elektrotechnik Weihenstephan (ZA 4)/Telefonzentrale (ZA 4)"
   },
   "48315": {
     "code": "TUZV46I",
-    "name": "Schl\u00fcsselverwaltung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Infrastruktur Weihenstephan/Infrastrukturelles Geb\u00e4udemanagement/Schl\u00fcsselverwaltung"
+    "name": "Schl\u00fcsselverwaltung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Infrastrukturelles Geb\u00e4udemanagement (ZA 4)/Schl\u00fcsselverwaltung (ZA 4)"
   },
   "48316": {
     "code": "TUZV46J",
-    "name": "Reinigung und Bewachung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Infrastruktur Weihenstephan/Infrastrukturelles Geb\u00e4udemanagement/Reinigung und Bewachung"
+    "name": "Reinigung und Bewachung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Infrastrukturelles Geb\u00e4udemanagement (ZA 4)/Reinigung und Bewachung (ZA 4)"
   },
   "48317": {
     "code": "TUZV46K",
-    "name": "Raumbestandsverwaltung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung/Vergaberecht und Fl\u00e4chenmanagement/Raumbestandsverwaltung"
+    "name": "Raumbestandsverwaltung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Vergaberecht und Fl\u00e4chenmanagement (ZA 4)/Raumbestandsverwaltung (ZA 4)"
   },
   "48318": {
     "code": "TUZV46L",
-    "name": "Betriebshof, Hausverwaltung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Infrastruktur Weihenstephan/Betriebshof, Hausverwaltung/Betriebshof, Hausverwaltung"
+    "name": "Betriebshof, Hausverwaltung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Betriebshof, Hausverwaltung (ZA 4)/Betriebshof, Hausverwaltung (ZA 4)"
   },
   "48319": {
     "code": "TUZV46M",
-    "name": "Dienstfahrzeuge und Drucklufttechnik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Anlagentechnik Weihenstephan/Dienstfahrzeuge und Drucklufttechnik"
+    "name": "Dienstfahrzeuge und Drucklufttechnik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Anlagentechnik Weihenstephan (ZA 4)/Dienstfahrzeuge und Drucklufttechnik (ZA 4)"
   },
   "48320": {
     "code": "TUZV46N",
-    "name": "Poststelle",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Infrastruktur Weihenstephan/Infrastrukturelles Geb\u00e4udemanagement/Poststelle"
+    "name": "Poststelle (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Infrastrukturelles Geb\u00e4udemanagement (ZA 4)/Poststelle (ZA 4)"
   },
   "48321": {
     "code": "TUZV46O",
-    "name": "Registratur",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Infrastruktur Weihenstephan/Infrastrukturelles Geb\u00e4udemanagement/Registratur"
+    "name": "Registratur (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Infrastrukturelles Geb\u00e4udemanagement (ZA 4)/Registratur (ZA 4)"
   },
   "48322": {
     "code": "TUZV46P",
-    "name": "Archiv",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Infrastruktur Weihenstephan/Infrastrukturelles Geb\u00e4udemanagement/Archiv"
+    "name": "Archiv (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Infrastrukturelles Geb\u00e4udemanagement (ZA 4)/Archiv (ZA 4)"
   },
   "48323": {
     "code": "TUZV46Q",
-    "name": "H\u00f6rsaalvermietung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Dienstbetrieb/H\u00f6rsaalvermietung"
+    "name": "H\u00f6rsaalvermietung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Dienstbetrieb (ZA 4)/H\u00f6rsaalvermietung (ZA 4)"
   },
   "48324": {
     "code": "TUZV40A",
-    "name": "Controlling und Reporting",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung/Controlling und Reporting"
+    "name": "Controlling und Reporting (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Controlling und Reporting (ZA 4)"
   },
   "48337": {
     "code": "TUZV350",
@@ -5081,8 +5081,8 @@
   },
   "48417": {
     "code": "TUZV454",
-    "name": "Abfallentsorgung/Umwelt",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik/Entsorgung und Umwelt/Abfallentsorgung/Umwelt"
+    "name": "Abfallentsorgung/Umwelt (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Entsorgung und Umwelt (ZA 4)/Abfallentsorgung/Umwelt (ZA 4)"
   },
   "48437": {
     "code": "TUEIHCR",
@@ -5176,8 +5176,8 @@
   },
   "48622": {
     "code": "TUZV14Z",
-    "name": "Versorgungsnetze",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik/Versorgungsnetze"
+    "name": "Versorgungsnetze (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Versorgungsnetze (ZA 4)"
   },
   "48657": {
     "code": "TUMETBB",
@@ -5282,7 +5282,7 @@
   "48977": {
     "code": "TUINF20",
     "name": "Informatik 9 - Professur f\u00fcr Dynamic Vision and Learning (N.N.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 9 - Professur f\u00fcr Dynamic Vision and Learning (N.N.)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Dynamic Vision and Learning (N.N.)"
   },
   "49037": {
     "code": "TUZEIOA",
@@ -5586,8 +5586,8 @@
   },
   "49618": {
     "code": "TUZVSEU",
-    "name": "Entsorgung und Umwelt",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik/Entsorgung und Umwelt"
+    "name": "Entsorgung und Umwelt (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Entsorgung und Umwelt (ZA 4)"
   },
   "49637": {
     "code": "TUWZLPT",
@@ -5612,7 +5612,7 @@
   "49717": {
     "code": "TUINF21",
     "name": "Informatik 1 - Professur f\u00fcr Digital Health (N.N.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 1 - Professur f\u00fcr Digital Health (N.N.)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Digital Health (N.N.)"
   },
   "49737": {
     "code": "TUPRB03",
@@ -5802,12 +5802,12 @@
   "50238": {
     "code": "TUINF22",
     "name": "Informatik 5 - Professur f\u00fcr Quantum Computing (Prof. Mendl)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 5 - Professur f\u00fcr Quantum Computing (Prof. Mendl)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Quantum Computing (Prof. Mendl)"
   },
   "50239": {
     "code": "TUINF23",
     "name": "Informatik 7 - Professur f\u00fcr Theoretical Foundations of Artificial Intelligence (Prof. Ghoshdastidar)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 7 - Professur f\u00fcr Theoretical Foundations of Artificial Intelligence (Prof. Ghoshdastidar)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Theoretical Foundations of Artificial Intelligence (Prof. Ghoshdastidar)"
   },
   "50240": {
     "code": "TUWZA2B",
@@ -5882,7 +5882,7 @@
   "50478": {
     "code": "TUINF24",
     "name": "Informatik 3 - Professur f\u00fcr Database Systems (Prof. Giceva)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 3 - Professur f\u00fcr Database Systems (Prof. Giceva)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Database Systems (Prof. Giceva)"
   },
   "50498": {
     "code": "TUMENW3",
@@ -6037,12 +6037,12 @@
   "51137": {
     "code": "TUINF31",
     "name": "Informatik 15 - Professur f\u00fcr 3D Artificial Intelligence (Prof. Dai)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 15 - Professur f\u00fcr 3D Artificial Intelligence (Prof. Dai)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/3D Artificial Intelligence (Prof. Dai)"
   },
   "51157": {
     "code": "TUINI31",
     "name": "Informatik 31 - Lehrstuhl f\u00fcr Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment der TUM School of Medicine and Health und TUM School of Computation, Information and Technology)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 31 - Lehrstuhl f\u00fcr Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment der TUM School of Medicine and Health und TUM School of Computation, Information and Technology)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Artificial Intelligence in Healthcare and Medicine (Prof. R\u00fcckert) (Joint Appointment der TUM School of Medicine and Health und TUM School of Computation, Information and Technology)"
   },
   "51177": {
     "code": "TUMEIS2",
@@ -6177,7 +6177,7 @@
   "51359": {
     "code": "TUINF26",
     "name": "Informatik 16 - Professur f\u00fcr Healthcare and Rehabilitation Robotics (Prof. Piazza)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 16 - Professur f\u00fcr Healthcare and Rehabilitation Robotics (Prof. Piazza)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Healthcare and Rehabilitation Robotics (Prof. Piazza)"
   },
   "51378": {
     "code": "TUS2RGE",
@@ -6207,7 +6207,7 @@
   "51419": {
     "code": "TUINF27",
     "name": "Informatik 19 - Professur f\u00fcr Legal Tech (Prof. Grabmair)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 19 - Professur f\u00fcr Legal Tech (Prof. Grabmair)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Legal Tech (Prof. Grabmair)"
   },
   "51457": {
     "code": "TUZEGNI",
@@ -6222,7 +6222,7 @@
   "51497": {
     "code": "TUINF28",
     "name": "Informatik 9 - Professur f\u00fcr Machine Learning for Robotics (Prof. Leutenegger)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 9 - Professur f\u00fcr Machine Learning for Robotics (Prof. Leutenegger)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Machine Learning for Robotics (Prof. Leutenegger)"
   },
   "51517": {
     "code": "TUS4C2M",
@@ -6532,7 +6532,7 @@
   "51857": {
     "code": "TUINI32",
     "name": "Informatik 32 - Lehrstuhl f\u00fcr Computational Imaging and AI in Medicine (Prof. Schnabel)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 32 - Lehrstuhl f\u00fcr Computational Imaging and AI in Medicine (Prof. Schnabel)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Computational Imaging and AI in Medicine (Prof. Schnabel)"
   },
   "51897": {
     "code": "TUS1000",
@@ -7947,17 +7947,17 @@
   "52718": {
     "code": "TUINH01",
     "name": "Informatik Heilbronn 1 - Lehrstuhl f\u00fcr Efficient Algorithms (Prof. Kobourov)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 1 - Lehrstuhl f\u00fcr Efficient Algorithms (Prof. Kobourov)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Efficient Algorithms (Prof. Kobourov)"
   },
   "52719": {
     "code": "TUINH02",
     "name": "Informatik Heilbronn 2 - Professur f\u00fcr Computer Architecture & Operating Systems (Prof. Trinitis komm.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik Heilbronn 2 - Professur f\u00fcr Computer Architecture & Operating Systems (Prof. Trinitis komm.)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Computer Architecture & Operating Systems (Prof. Trinitis komm.)"
   },
   "52720": {
     "code": "TUINH03",
     "name": "Informatik Heilbronn 3 - Lehrstuhl f\u00fcr Software Engineering (Prof. Wagner)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 3 - Lehrstuhl f\u00fcr Software Engineering (Prof. Wagner)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software Engineering (Prof. Wagner)"
   },
   "52737": {
     "code": "TUS7RES",
@@ -8167,7 +8167,7 @@
   "53017": {
     "code": "TUINF33",
     "name": "Informatik 24 - Professur f\u00fcr Ethics in Systems Design and Machine Learning (Prof. Kilbertus)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 24 - Professur f\u00fcr Ethics in Systems Design and Machine Learning (Prof. Kilbertus)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Ethics in Systems Design and Machine Learning (Prof. Kilbertus)"
   },
   "53018": {
     "code": "TUXB300",
@@ -8507,7 +8507,7 @@
   "53357": {
     "code": "TUINH04",
     "name": "Informatik Heilbronn 4 - Lehrstuhl f\u00fcr Computational Mathematics (Prof. Anzt)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 4 - Lehrstuhl f\u00fcr Computational Mathematics (Prof. Anzt)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Computational Mathematics (Prof. Anzt)"
   },
   "53358": {
     "code": "TUS4N7M",
@@ -8552,7 +8552,7 @@
   "53517": {
     "code": "TUINI33",
     "name": "Informatik 33 - Lehrstuhl f\u00fcr Engineering robuster kognitiver Systeme (Prof. Trapp)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 33 - Lehrstuhl f\u00fcr Engineering robuster kognitiver Systeme (Prof. Trapp)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Engineering robuster kognitiver Systeme (Prof. Trapp)"
   },
   "53537": {
     "code": "TUGSSED",
@@ -8847,17 +8847,17 @@
   "53797": {
     "code": "TUINI35",
     "name": "Informatik 35 - Lehrstuhl f\u00fcr Perception for Intelligent Systems (Prof. Lilienthal)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 35 - Lehrstuhl f\u00fcr Perception for Intelligent Systems (Prof. Lilienthal)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Perception for Intelligent Systems (Prof. Lilienthal)"
   },
   "53817": {
     "code": "TUINH05",
     "name": "Informatik Heilbronn 5 - Professur f\u00fcr Data Engineering (Prof. Acosta Deibe)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 5 - Professur f\u00fcr Data Engineering (Prof. Acosta Deibe)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Data Engineering (Prof. Acosta Deibe)"
   },
   "53818": {
     "code": "TUINH09",
     "name": "Informatik Heilbronn 9 - Professur f\u00fcr Distributed Systems and Security (Prof. G\u00fcnther komm.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik Heilbronn 9 - Professur f\u00fcr Distributed Systems and Security (Prof. G\u00fcnther komm.)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Distributed Systems and Security (Prof. G\u00fcnther komm.)"
   },
   "53837": {
     "code": "TUPHEQN",
@@ -9027,7 +9027,7 @@
   "53997": {
     "code": "TUINI34",
     "name": "Informatik 34 - Lehrstuhl f\u00fcr Information System Development and Operation (Prof. Weber)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 34 - Lehrstuhl f\u00fcr Information System Development and Operation (Prof. Weber)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Information System Development and Operation (Prof. Weber)"
   },
   "54017": {
     "code": "TUS2IPD",
@@ -9342,7 +9342,7 @@
   "54319": {
     "code": "TUS1300",
     "name": "Informatik 18 - Professur f\u00fcr Decision Analytics (Prof. Etesami)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 18 - Professur f\u00fcr Decision Analytics (Prof. Etesami)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Decision Analytics (Prof. Etesami)"
   },
   "54320": {
     "code": "TUS3003",
@@ -9412,17 +9412,17 @@
   "54457": {
     "code": "TUS1302",
     "name": "Informatik 4 - Professur f\u00fcr Software Engineering f\u00fcr datenintensive Anwendungen (Prof. Stocco)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 4 - Professur f\u00fcr Software Engineering f\u00fcr datenintensive Anwendungen (Prof. Stocco)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software Engineering f\u00fcr datenintensive Anwendungen (Prof. Stocco)"
   },
   "54458": {
     "code": "TUS1303",
     "name": "Informatik Heilbronn 7 - Professur f\u00fcr Information Systems (Prof. Pufahl)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 7 - Professur f\u00fcr Information Systems (Prof. Pufahl)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Information Systems (Prof. Pufahl)"
   },
   "54477": {
     "code": "TUS1301",
     "name": "Informatik 36 - Professur f\u00fcr Algorithmisches Maschinelles Lernen & Erkl\u00e4rbare KI (Prof. Bauer)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik 36 - Professur f\u00fcr Algorithmisches Maschinelles Lernen & Erkl\u00e4rbare KI (Prof. Bauer)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Algorithmisches Maschinelles Lernen & Erkl\u00e4rbare KI (Prof. Bauer)"
   },
   "54497": {
     "code": "TUXS112",
@@ -9432,7 +9432,7 @@
   "54517": {
     "code": "TUS1304",
     "name": "Informatik Heilbronn 6 - Lehrstuhl f\u00fcr Data Analytics & Statistics (Prof. Fraser)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 6 - Lehrstuhl f\u00fcr Data Analytics & Statistics (Prof. Fraser)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Data Analytics & Statistics (Prof. Fraser)"
   },
   "54537": {
     "code": "TUS1CHN",
@@ -9707,7 +9707,7 @@
   "54817": {
     "code": "TUS1307",
     "name": "Informatik Heilbronn 8 - Professur f\u00fcr Cyber-Physical Systems (Prof. Alanwar)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik Heilbronn 8 - Professur f\u00fcr Cyber-Physical Systems (Prof. Alanwar)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Cyber-Physical Systems (Prof. Alanwar)"
   },
   "54818": {
     "code": "TUS3006",
@@ -10231,58 +10231,58 @@
   },
   "55297": {
     "code": "TUZVZTE",
-    "name": "Zentrale Technik",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik"
+    "name": "Zentrale Technik (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)"
   },
   "55298": {
     "code": "TUZVMUC",
-    "name": "Standort M\u00fcnchen",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen"
+    "name": "Standort M\u00fcnchen (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)"
   },
   "55299": {
     "code": "TUZVGAR",
-    "name": "Standort Garching",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching"
+    "name": "Standort Garching (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Garching (ZA 4)"
   },
   "55300": {
     "code": "TUZVWHS",
-    "name": "Standort Weihenstephan",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan"
+    "name": "Standort Weihenstephan (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)"
   },
   "55301": {
     "code": "TUZVCIO",
-    "name": "Campus im Olympiapark",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen/Campus im Olympiapark"
+    "name": "Campus im Olympiapark (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort M\u00fcnchen (ZA 4)/Campus im Olympiapark (ZA 4)"
   },
   "55302": {
     "code": "TUZVVUF",
-    "name": "Vergaberecht und Fl\u00e4chenmanagement",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung/Vergaberecht und Fl\u00e4chenmanagement"
+    "name": "Vergaberecht und Fl\u00e4chenmanagement (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Vergaberecht und Fl\u00e4chenmanagement (ZA 4)"
   },
   "55303": {
     "code": "TUZVPUD",
-    "name": "Prozesse und Digitalisierung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung/Prozesse und Digitalisierung"
+    "name": "Prozesse und Digitalisierung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Prozesse und Digitalisierung (ZA 4)"
   },
   "55304": {
     "code": "TUZVPUS",
-    "name": "Personal und Stellen",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung/Personal und Stellen"
+    "name": "Personal und Stellen (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Personal und Stellen (ZA 4)"
   },
   "55305": {
     "code": "TUZVIGM",
-    "name": "Infrastrukturelles Geb\u00e4udemanagement",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Geb\u00e4udemanagement Weihenstephan/Infrastruktur Weihenstephan/Infrastrukturelles Geb\u00e4udemanagement"
+    "name": "Infrastrukturelles Geb\u00e4udemanagement (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Geb\u00e4udemanagement Weihenstephan (ZA 4)/Infrastruktur Weihenstephan (ZA 4)/Infrastrukturelles Geb\u00e4udemanagement (ZA 4)"
   },
   "55306": {
     "code": "TUZVEUM",
-    "name": "Energie- und Medienversorgung",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik/Energie- und Medienversorgung"
+    "name": "Energie- und Medienversorgung (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Zentrale Technik (ZA 4)/Energie- und Medienversorgung (ZA 4)"
   },
   "55307": {
     "code": "TUZVTPL",
-    "name": "Technische Projektsteuerung Life Sciences",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan/Technische Projektsteuerung Life Sciences"
+    "name": "Technische Projektsteuerung Life Sciences (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Standort Weihenstephan (ZA 4)/Technische Projektsteuerung Life Sciences (ZA 4)"
   },
   "55317": {
     "code": "TUS4P9N",
@@ -10341,8 +10341,8 @@
   },
   "55417": {
     "code": "TUZVSOP",
-    "name": "Sonderprojekte",
-    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung/Sonderprojekte"
+    "name": "Sonderprojekte (ZA 4)",
+    "path": "TUM/Zentrale Verwaltung/Immobilien (ZA 4)/Ressourcenplanung (ZA 4)/Sonderprojekte (ZA 4)"
   },
   "55437": {
     "code": "TUS1310",
@@ -10617,12 +10617,12 @@
   "55937": {
     "code": "TUS1314",
     "name": "Informatik Heilbronn 11 - Lehrstuhl f\u00fcr Software Engineering & AI (Prof. Chen)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Informatik Heilbronn 11 - Lehrstuhl f\u00fcr Software Engineering & AI (Prof. Chen)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Software Engineering & AI (Prof. Chen)"
   },
   "55938": {
     "code": "TUS1315",
     "name": "Informatik 39 - Professur f\u00fcr Learning AI for Dextrous Robots (Prof. B\u00e4uml)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Informatik 39 - Professur f\u00fcr Learning AI for Dextrous Robots (Prof. B\u00e4uml)"
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Engineering/Learning AI for Dextrous Robots (Prof. B\u00e4uml)"
   },
   "55957": {
     "code": "TUXS113",
@@ -10631,7 +10631,7 @@
   },
   "55997": {
     "code": "TUS1316",
-    "name": "Physics-enhanced Machine Learning (Prof. Dietrich)",
+    "name": "Professur f\u00fcr Physics-enhanced Machine Learning (Prof. Dietrich)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Physics-enhanced Machine Learning (Prof. Dietrich)"
   },
   "56017": {
@@ -11088,5 +11088,40 @@
     "code": "TUPREXP",
     "name": "Exportkontrolle",
     "path": "TUM/Hochschulpr\u00e4sidium/Exportkontrolle"
+  },
+  "56818": {
+    "code": "TUCSMNR",
+    "name": "HSWT-Professur f\u00fcr Marketing und Management Nachwachsender Rohstoffe (Prof. Menrad)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/HSWT - Professuren/Marketing und Management Nachwachsender Rohstoffe (Prof. Menrad)"
+  },
+  "56819": {
+    "code": "TUCSOAC",
+    "name": "HSWT-Professur f\u00fcr Organisch-Analytische Chemie (Prof. Riepl)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/HSWT - Professuren/Organisch-Analytische Chemie (Prof. Riepl)"
+  },
+  "56820": {
+    "code": "TUCSEDE",
+    "name": "HSWT-Professur f\u00fcr Umwelt- und Entwicklungs\u00f6konomie (Prof. Fa\u00dfe)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/HSWT - Professuren/Umwelt- und Entwicklungs\u00f6konomie (Prof. Fa\u00dfe)"
+  },
+  "56821": {
+    "code": "TUCSSBE",
+    "name": "HSWT-Professur f\u00fcr Nachhaltige Betriebswirtschaft (Prof. R\u00f6der)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/HSWT - Professuren/Nachhaltige Betriebswirtschaft (Prof. R\u00f6der)"
+  },
+  "56822": {
+    "code": "TUCSENT",
+    "name": "HSWT-Professur f\u00fcr Energietechnik (Prof. Kainz)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/HSWT - Professuren/Energietechnik (Prof. Kainz)"
+  },
+  "56823": {
+    "code": "TUCSBIT",
+    "name": "HSWT-Professur f\u00fcr Bioinformatik (Prof. Grimm)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/HSWT - Professuren/Bioinformatik (Prof. Grimm)"
+  },
+  "56824": {
+    "code": "TUCSGTH",
+    "name": "HSWT-Professur f\u00fcr Geothermie (Prof. Vienken)",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/HSWT - Professuren/Geothermie (Prof. Vienken)"
   }
 }
