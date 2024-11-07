@@ -64,13 +64,13 @@ cd Navigatum
 ### Data Processing
 
 In case you do not want to work on the data processing, you can instead
-download the latest compiled files via running the server.
+download the latest compiled files by running the server.
 
-Else you can follow the steps in the [data documentation](data/README.md).
+Otherwise, you can follow the steps in the [data documentation](data/README.md).
 
 ### Server
 
-If you want to work on the webclient only (and not server or data), you don't need to set up the server.
+If you want to work only on the webclient (and not server or data), you don't need to set up the server.
 You can instead either use the public API (see the [webclient documentation](webclient/README.md#Testing)) or use our
 ready-made docker images to run the server locally:
 
@@ -90,7 +90,7 @@ docker compose -f docker-compose.local.yml up --build
 > these can be resolved via upstream language improvements such as
 > [polonius](https://blog.rust-lang.org/inside-rust/2023/10/06/polonius-update.html), [cranelift](https://github.com/rust-lang/rustc_codegen_cranelift), [paralell-frontend](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html),....
 
-Else you can follow the steps in the [server documentation](server/README.md).
+Otherwise, you can follow the steps in the [server documentation](server/README.md).
 
 ### Webclient
 

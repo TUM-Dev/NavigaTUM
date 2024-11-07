@@ -1,6 +1,6 @@
-# Dependencys
+# Dependencies
 
-Our project has a few system-level-dependencies, which are generally usefully and a few which are only used for some
+Our project has a few system-level-dependencies, which are generally useful and a few which are only used for some
 parts of the project.
 If you get stuck or have any questions, feel free to contact us. We are happy to help.
 
@@ -8,9 +8,9 @@ If you get stuck or have any questions, feel free to contact us. We are happy to
 
 ### OS
 
-We recommend using a Linux based OS, as we have not tested the project on Windows or Mac.
+We recommend using a Linux-based OS, as we have not tested the project on Windows or Mac.
 ("There be dragons", but we will try to improve this part if you show us where we fail)
-If you are using Windows, use [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to run Linux on Windows.
+If you are using Windows, use [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) to run Linux on Windows.
 
 Please make sure that your OS is up-to-date, before we start. (Trust me, this has fucked over multiple people...)
 On Ubuntu this is as easy as running `sudo apt update && sudo apt upgrade`.
@@ -66,6 +66,7 @@ To install Rust, you can use [rustup](https://rustup.rs/).
 
 The server uses OpenSSL to verify TLS certificates.
 
+On Debian-based systems like Ubuntu, you can install it with:
 ```bash
 sudo apt-get install build-essential pkg-config openssl libssl-dev
 ```
@@ -75,9 +76,9 @@ sudo apt-get install build-essential pkg-config openssl libssl-dev
 #### NodeJS
 
 We use NodeJS for the webclient.
-Setting NodeJS up is a bit more complicated than setting up python/rust, but it is still pretty easy.
+Setting up NodeJS is a bit more complicated than setting up python/rust, but it is still pretty easy.
 
-- On linux, you can get it through your favorite package manager.
+- On Linux, you can get it through your favorite package manager.
   You normally should need to install `nodejs` and `pnpm`.
 - On WSL, use [this guide](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl)
   and [this guide](https://pnpm.io/installation)
