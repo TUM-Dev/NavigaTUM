@@ -1,4 +1,5 @@
 import logging
+import typing
 from typing import Any
 
 from utils import TranslatableStr as _
@@ -58,30 +59,36 @@ def add_stats(data: dict[str, dict[str, Any]]) -> None:
             stats["n_buildings"] = n_buildings
 
 
+class AddressTuple(typing.NamedTuple):
+    street: str
+    plz_place: str
+
+
 def infer_addresses(data: dict[str, dict[str, Any]]) -> None:
     """Infer addresses from children."""
     for _id, entry in data.items():
         if entry.get("props", {}).get("address", None) is None and (children_flat := entry.get("children_flat")):
-            child_addresses: set[tuple[str, int, str]] = set()
+            child_addresses: set[AddressTuple] = set()
 
             for child_id in children_flat:
                 child = data[child_id]
 
                 address = child.get("props", {}).get("address", {})
-                street = address.get("street", None)
-                zip_code = address.get("zip_code", None)
-                place = address.get("place", None)
+                street: str | None = address.get("street", None)
+                plz_place: str | None = address.get("plz_place", None)
+                if (zip_code := address.get("zip_code", None)) and (place := address.get("place", None)):
+                    plz_place = f"{zip_code} {place}"
 
-                if street is not None and zip_code is not None and place is not None:
-                    child_addresses.add((street, zip_code, place))
+                if street is not None and plz_place is not None:
+                    child_addresses.add(AddressTuple(street, plz_place))
 
             if len(child_addresses) == 1:
-                street, zip_code, place = child_addresses.pop()
+                address = child_addresses.pop()
                 entry.setdefault("props").setdefault(
                     "address",
                     {
-                        "street": street,
-                        "plz_place": f"{zip_code} {place}",
+                        "street": address.street,
+                        "plz_place": address.plz_place,
                         "source": "inferred",
                     },
                 )
