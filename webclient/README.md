@@ -1,13 +1,13 @@
 # Webclient
 
-This folder contains the JavaScript based webclient for NavigaTUM.
+This folder contains the JavaScript-based webclient for NavigaTUM.
 
 ## Getting started
 
 ### Prerequisites
 
 For getting started, there are some system dependencies which you will need.
-Please follow the [system dependencies docs](/resources/documentation/Dependencys.md) before trying to run this part of
+Please follow the [system dependencies docs](/resources/documentation/Dependencies.md) before trying to run this part of
 our project.
 
 ### Recommended IDE Setup
@@ -17,15 +17,9 @@ Most modern IDEs (like the PyCharm+RustRover+WebStorm combination) should work a
 
 ## Dependencies
 
-### Prerequisites
+### Installing Dependencies
 
-For getting started, there are some system dependencys which you will need.
-Please follow the [system dependencys docs](/resources/documentation/Dependencys.md) before trying to run this part of
-our project.
-
-### Installing Dependency's
-
-```bash
+```sh
 pnpm install
 ```
 
@@ -36,11 +30,11 @@ By default, the webclient will connect to the server on `https://nav.tum.de`.
 If you want to connect to a local version instead, change the environemnt
 variable `NUXT_PUBLIC_{API,CDN,FEEDBACK,MAPS}_URL` to the appropriate value.
 
-To get a local server running, please:
+To get a local server running, you can do so:
 
 - either via following the [guide to local development](../server/README.md), or
 - via [docker](https://docs.docker.com/) by commenting out the webclient from the docker-compose-file and running
-  ```bash
+  ```sh
   docker compose -f docker-compose.local.yml up --build
   ```
 

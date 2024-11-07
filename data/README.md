@@ -6,7 +6,7 @@ This folder contains:
 - Custom data inserted into the datasets
 - Custom patches applied on the source data
 
-The code to retrieve external data, as well as externally retrieved data is located under `external`.
+The code to retrieve external data as well as externally retrieved data is located under `external`.
 
 > [!WARNING]
 > A lot of this code is more a work-in-progress than finished.
@@ -22,12 +22,12 @@ The code to retrieve external data, as well as externally retrieved data is loca
 ### Prerequisites
 
 For getting started, there are some system dependencies which you will need.
-Please follow the [system dependencies docs](/resources/documentation/Dependencys.md) before trying to run this part of
+Please follow the [system dependencies docs](/resources/documentation/Dependencies.md) before trying to run this part of
 our project.
 
 ### Dependencies
 
-Since data needs some python dependency's, you will need to install them first.
+Since data needs some python dependencies, you will need to install them first.
 We recommend doing this in a virtual environment.
 
 From the root of the project, run:
@@ -123,10 +123,11 @@ data
 
 ## Compilation process
 
-The data compilation is made of indiviual processing steps, where each step adds new or modifies the current data. The
-basic structure of the data however stays the same from the beginning on and is specified in `data-format_*.yaml`.
+The data compilation is made of individual processing steps, where each step adds new or modifies the current data.
+The final structure of the data, is specified in `data-format_*.yaml`.
+Some work is underway to ensure that this format is actually being followed via simplifying the data backend and migrating the database server from managing a json blob to "real" tables. This is not done yet.
 
-- **Step 00**: The first step reads the base root node, areas, buildings etc. from the
+- **Step 00**: The first step reads the base root node, areas, buildings, etc. from the
   `sources/00_areatree` file and creates an object collection (python dictionary)
   with the data format as mentioned above.
 - **Steps 01-29**: Within these steps, new rooms or POIs might be added, however no

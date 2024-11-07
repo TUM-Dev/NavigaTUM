@@ -3,7 +3,7 @@ ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
 FROM    rust:1.82-alpine AS compiler
 
-# to ache the build this line inludes all the dependencys all servers need
+# to ache the build this line inludes all the dependencies all servers need
 # this is not an issue since we copy the generated binary to a more minimal envornment
 # Descriptions:
 # - musl-dev is needed for musl to compile the binary

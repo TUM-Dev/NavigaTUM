@@ -4,14 +4,14 @@ This folder contains the static maps tileserver and vector tiles server for Navi
 
 ## Getting started
 
-As a basis of generating images it is important to have a tileset (`output.mbtiles`) and a stile.
+As a basis of generating images it is important to have a tileset (`output.mbtiles`) and a style.
 The style is a JSON file that defines how the map should look like.
 The tileset is a sqlite database that contains the map data.
 A tileserver takes these two components and produces a variety of formats ([MVT](https://github.com/mapbox/vector-tile-spec), png, webp, json, etc.) for the frontend.
 
 ### Edit the style
 
-You cannot currently not preview the style in  our tileserver martin (see [martin#1120](https://github.com/maplibre/martin/issues/1120)).
+You cannot currently preview the style in our tileserver martin (see [martin#1120](https://github.com/maplibre/martin/issues/1120)).
 Therefore, for editing the style we use [Maputnik](https://github.com/maputnik/editor).
 It is a web-based editor for Maplibre styles.
 You can use it to edit the style and see the changes live.
@@ -25,7 +25,7 @@ To run maputnik, you can either
 
 Our style can be found here and can either be "Load[ed] from Url" or uploaded into maputnik manually:
 ```
-https://github.com/TUM-Dev/NavigaTUM/raw/refs/heads/main/map/styles/navigatum-basemap.json
+https://raw.githubusercontent.com/TUM-Dev/NavigaTUM/refs/heads/main/map/styles/navigatum-basemap.json
 ```
 
 | Step 1                                                                                         | Step 2                                                                                              |
@@ -35,13 +35,13 @@ https://github.com/TUM-Dev/NavigaTUM/raw/refs/heads/main/map/styles/navigatum-ba
 ### generate your own tileset
 
 Sadly tilesets are really large (`germany` is ~10GB, `planet` ~90GB).
-Because of limited badwith and storage space we can't provide a tileset for everyone.
+Because of limited bandwith and storage space we can't provide a tileset for everyone.
 You can generate your own tileset from [OpenStreetMap Data](https://osmdata.openstreetmap.de/)
 via [planettiler](https://github.com/onthegomap/planetiler) or other equivalent tools.
 
 From our experience the best way to generate a tileset is to
-use [planettiler](https://github.com/onthegomap/planetiler), as their perofrmance is by far (other competitors are not
-even close by our tests) the best, and they can work in resourece constreained environments.
+use [planettiler](https://github.com/onthegomap/planetiler), as their performance is by far (other competitors are not
+even close by our tests) the best, and they can work in resource constrained environments.
 
 From a resource perspective, you need about 2x the size of the tileset as free space on your disk and above 10GB in free
 RAM.  
