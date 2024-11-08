@@ -1,7 +1,7 @@
 # https://docs.docker.com/build/attestations/sbom/#scan-build-context
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 
-FROM node:22-alpine3.20 AS build-stage
+FROM node:23-alpine3.20 AS build-stage
 WORKDIR /app
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -16,7 +16,7 @@ ARG GIT_COMMIT_MESSAGE
 ENV GIT_COMMIT_MESSAGE=${GIT_COMMIT_MESSAGE}
 ENV NODE_ENV=production
 ENV NITRO_SHUTDOWN=true
-ENV NITRO_PRESET=node-cluster
+ENV NITRO_PRESET=node_cluster
 
 COPY tsconfig.json .
 COPY ./*.ts .
@@ -26,7 +26,7 @@ COPY app app
 RUN pnpm run build
 
 
-FROM node:22-alpine3.20 AS production-stage
+FROM node:23-alpine3.20 AS production-stage
 RUN apk update --no-progress --quiet && \
     apk add --no-cache --no-progress --quiet curl
 
@@ -39,7 +39,7 @@ ENV NODE_ENV=production
 ENV NITRO_PORT=3000
 ENV NITRO_HOST=0.0.0.0
 ENV NITRO_SHUTDOWN=true
-ENV NITRO_PRESET=node-cluster
+ENV NITRO_PRESET=node_cluster
 
 HEALTHCHECK CMD curl --fail localhost:3000/health || exit 1
 CMD ["node", "/app/.output/server/index.mjs"]
