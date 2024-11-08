@@ -10,7 +10,6 @@ const searchBarFocused = defineModel<boolean>("searchBarFocused", {
 });
 const { t, locale } = useI18n({ useScope: "local" });
 const localePath = useLocalePath();
-const router = useRouter();
 const route = useRoute();
 const keep_focus = ref(false);
 const query = ref(Array.isArray(route.query.q) ? (route.query.q[0] ?? "") : (route.query.q ?? ""));
@@ -48,10 +47,10 @@ function searchBlur(): void {
   }
 }
 
-function searchGo(cleanQuery: boolean): void {
+async function searchGo(cleanQuery: boolean): Promise<void> {
   if (query.value.length === 0) return;
 
-  router.push(localePath(`/search?q=${query.value}`));
+  await navigateTo(localePath(`/search?q=${query.value}`));
   searchBarFocused.value = false;
   if (cleanQuery) {
     query.value = "";
@@ -59,11 +58,8 @@ function searchGo(cleanQuery: boolean): void {
   document.getElementById("search")?.blur();
 }
 
-function searchGoTo(id: string, cleanQuery: boolean): void {
-  // Catch is necessary because vue-router throws an error
-  // if navigation is aborted for some reason (e.g. the new
-  // url is the same or there is a loop in redirects)
-  router.push(localePath(`/view/${id}`));
+async function searchGoTo(id: string, cleanQuery: boolean): Promise<void> {
+  await navigateTo(localePath(`/view/${id}`));
   searchBarFocused.value = false;
   if (cleanQuery) {
     query.value = "";
