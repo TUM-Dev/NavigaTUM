@@ -16,7 +16,7 @@ ARG GIT_COMMIT_MESSAGE
 ENV GIT_COMMIT_MESSAGE=${GIT_COMMIT_MESSAGE}
 ENV NODE_ENV=production
 ENV NITRO_SHUTDOWN=true
-ENV NITRO_PRESET=node_cluster
+ENV NITRO_PRESET=node-server
 
 COPY tsconfig.json .
 COPY ./*.ts .
@@ -39,7 +39,7 @@ ENV NODE_ENV=production
 ENV NITRO_PORT=3000
 ENV NITRO_HOST=0.0.0.0
 ENV NITRO_SHUTDOWN=true
-ENV NITRO_PRESET=node_cluster
+ENV NITRO_PRESET=node-server
 
 HEALTHCHECK CMD curl --fail localhost:3000/health || exit 1
 CMD ["node", "/app/.output/server/index.mjs"]
