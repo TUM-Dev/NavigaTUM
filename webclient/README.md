@@ -77,16 +77,12 @@ webclient
 ├── api_types/     # 🠔 code generated via openapi.yaml for typechecking reasons
 ├── content/       # 🠔 Static pages written in markdown. Served at `/about/<filename>`.
 ├── assets/        # 🠔 Static assets such as icons
-│   ├── main.scss  # 🠔 Sass CSS code for all non-view parts
 │   └── logos      # 🠔 The Logos used by the app
 ├── components/    # 🠔 Vue components, which are used in views.
 ├── pages/         # 🠔 The pages are parts of App.vue, which are loaded based their file names.
 ├── nuxt.config.ts # 🠔 core configuration of nuxt
 └── package.json   # 🠔 Node package definition and dependencies
 ```
-
-Note that new views are automatically included in the build, but they are not routed.  
-To add a new view, you need to add a new route in `router.ts`.
 
 ## Testing
 
