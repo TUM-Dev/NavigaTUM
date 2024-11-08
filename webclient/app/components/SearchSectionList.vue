@@ -10,8 +10,6 @@ defineProps<{
   queryLimitRooms: number;
 }>();
 const { t } = useI18n({ useScope: "local" });
-const localePath = useLocalePath();
-const router = useRouter();
 const route = useRoute();
 </script>
 
@@ -19,15 +17,8 @@ const route = useRoute();
   <div v-for="s in data.sections" :key="s.facet">
     <section class="flex flex-col gap-2">
       <h2 class="text-md text-zinc-500 font-semibold">{{ t(`sections.${s.facet}`) }}</h2>
-      <ul class="flex flex-col gap-3">
-        <template v-for="(e, i) in s.entries" :key="e.id">
-          <SearchResultItem
-            v-if="i < s.n_visible"
-            :highlighted="false"
-            :item="e"
-            @click="router.push(localePath(`/view/${e.id}`))"
-          />
-        </template>
+      <ul v-for="(e, i) in s.entries" :key="e.id" class="flex flex-col gap-3">
+        <SearchResultItem v-if="i < s.n_visible" :highlighted="false" :item="e" />
       </ul>
       <p v-if="s.estimatedTotalHits > 10" class="text-zinc-500 text-sm">
         {{ t("approx_results", s.estimatedTotalHits) }}

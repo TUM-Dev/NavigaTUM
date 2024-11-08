@@ -8,9 +8,11 @@ const colorMode = useColorMode();
 const { t } = useI18n({ useScope: "local" });
 
 const { locale } = useI18n();
-const router = useRouter();
 const switchLocalePath = useSwitchLocalePath();
-watchEffect(() => router.push(switchLocalePath(locale.value)));
+
+async function updateLocale(value: string) {
+  await navigateTo(switchLocalePath(value));
+}
 </script>
 
 <template>
@@ -37,7 +39,7 @@ watchEffect(() => router.push(switchLocalePath(locale.value)));
           {{ t("preferences") }}
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
-          <SelectionSwitch v-model="colorMode.preference" label="Theme" :current="colorMode.preference">
+          <SelectionSwitch v-model="colorMode.preference" label="Theme">
             <SelectionOption value="system">
               <ComputerDesktopIcon class="mt-0.5 h-4 w-4" />
               system
@@ -53,7 +55,7 @@ watchEffect(() => router.push(switchLocalePath(locale.value)));
           </SelectionSwitch>
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
-          <SelectionSwitch v-model="locale" :label="t('language')" :current="locale">
+          <SelectionSwitch v-model="locale" :label="t('language')" @update:model-value="updateLocale">
             <SelectionOption value="de">de</SelectionOption>
             <SelectionOption value="en">en</SelectionOption>
           </SelectionSwitch>

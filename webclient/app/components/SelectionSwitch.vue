@@ -4,22 +4,21 @@ import { ChevronUpDownIcon } from "@heroicons/vue/24/outline";
 
 interface Props {
   label?: string;
-  current: string;
 }
 
 const props = withDefaults(defineProps<Props>(), { label: "" });
-const selectedValue = defineModel<string>({ required: true });
+const model = defineModel<string>({ required: true });
 </script>
 
 <template>
   <div class="flex flex-col">
     <span class="text-sm font-semibold">{{ props.label }}</span>
-    <Listbox v-model="selectedValue">
+    <Listbox v-model="model">
       <div class="relative mt-1">
         <ListboxButton
           class="bg-zinc-200 border-zinc-400 relative w-full cursor-pointer rounded-md border py-2 pl-3 pr-10 text-left shadow-md focus-visible:border-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm"
         >
-          <span class="text-zinc-600 block truncate">{{ current }}</span>
+          <span class="text-zinc-600 block truncate">{{ model }}</span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon class="text-zinc-600 h-5 w-5" aria-hidden="true" />
           </span>

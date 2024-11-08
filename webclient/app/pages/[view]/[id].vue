@@ -18,6 +18,7 @@ type DetailsResponse = components["schemas"]["DetailsResponse"];
 type ImageInfo = components["schemas"]["ImageInfo"];
 
 const { t, locale } = useI18n({ useScope: "local" });
+const localePath = useLocalePath();
 const route = useRoute();
 const router = useRouter();
 
@@ -45,23 +46,27 @@ const selectedMap = useRouteQuery<"interactive" | "plans">("map", "interactive",
   transform: (val) => (val === "plans" ? "plans" : "interactive"),
 });
 
-watchEffect(() => {
+watchEffect(async () => {
   if (route.params.id === "root") {
-    router.replace({ path: "/" });
+    await navigateTo({ path: localePath("/"), replace: true });
   }
 });
-watchEffect(() => {
+watchEffect(async () => {
   if (error.value) {
-    router.replace({
+    await navigateTo({
       path: "/404",
       query: { ...route.query, path: route.path },
       hash: route.hash,
+      replace: true,
     });
   }
 });
-watch([data, route], () => {
+watch([data, route], async () => {
   if (!data.value) return;
-  if (route.fullPath !== data.value.redirect_url) router.replace({ path: data.value.redirect_url });
+  const redirectPath = localePath(data.value.redirect_url);
+  if (route.path !== redirectPath) {
+    await navigateTo({ path: redirectPath, query: route.query, replace: true });
+  }
 });
 watch([data], () => {
   if (!data.value) return;
