@@ -41,31 +41,6 @@ services:
       - ./map/:/map/:ro
     environment:
       TZ: Europe/Berlin
-  tileserver-srv-src: # needed for simpler initialisation of dev environments
-    image: nginx:1.27
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.navigatum-tileserver-srv.entrypoints=webs"
-      - "traefik.http.routers.navigatum-tileserver-srv.tls.certresolver=leacme"
-      - "traefik.http.routers.navigatum-tileserver-srv.rule=Host(`nav.tum.de`) && PathPrefix(`/maps/vol/`)"
-      - "traefik.http.services.navigatum-tileserver-srv.loadbalancer.server.port=80"
-    networks:
-      - traefik_traefik
-    expose:
-      - 80
-    volumes:
-      - tileserver-src:/usr/share/nginx/html/maps/vol:ro
-    environment:
-      TZ: Europe/Berlin
-    depends_on:
-      tileserver-init-config:
-        condition: service_completed_successfully
-    healthcheck:
-      test: service nginx status || exit 1
-      retries: 2
-      interval: 10s
-      start_period: 10s
   tileserver:
     image: maptiler/tileserver-gl:v5.0.0
     restart: unless-stopped
