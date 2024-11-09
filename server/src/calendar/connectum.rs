@@ -19,9 +19,11 @@ pub(in crate::calendar) struct APIRequestor {
 }
 impl fmt::Debug for APIRequestor {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_struct("APIRequestor")
-            .field("oauth_token", &self.oauth_token.clone().map(|(i, _)| i))
-            .finish()
+        let mut base = f.debug_struct("APIRequestor");
+        if let Some((i, _)) = &self.oauth_token {
+            base.field("last_token_requested", &i.elapsed());
+        }
+        base.finish()
     }
 }
 
