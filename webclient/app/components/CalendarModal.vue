@@ -68,34 +68,6 @@ I also did PLEASE_INSERT_IF_YOU_DID_SOMETHING_SPECIAL_BEFOREHAND`,
       </template>
       <template #default>
         <div>
-          <Toast level="info" class="mb-3">
-            <I18nT class="text-sm" tag="p" keypath="call_for_feedback">
-              <template #feedbackForm>
-                <button
-                  type="button"
-                  class="text-blue-600 bg-transparent visited:text-blue-600 hover:underline"
-                  :aria-label="t('error.feedback-open')"
-                  @click="
-                    () => {
-                      feedback.open = true;
-                      feedback.data = {
-                        category: 'general',
-                        subject: 'calendar feedback',
-                        body: `Dear OpenSource@TUM,
-The calendar for ${JSON.stringify(calendar)} can be improved by
--
-
-Thanks`,
-                        deletion_requested: false,
-                      };
-                    }
-                  "
-                >
-                  {{ t("error.feedback-form") }}
-                </button>
-              </template>
-            </I18nT>
-          </Toast>
           <div v-if="locations.size === 0" class="text-zinc-900 flex flex-col items-center gap-5 py-32">
             <Spinner class="h-8 w-8" />
             {{ t("Loading data...") }}
@@ -137,7 +109,6 @@ de:
     disclaimer: Stündlich aktualisiert und identische Termine zusammengefasst.
     please_check: Im Zweifelsfall prüfe bitte den offiziellen TUMonline-Kalender.
     last_sync: Stand {0}
-  call_for_feedback: Diese Funktion ist neu. Wenn du Feedback dazu hast, nutze doch bitte das {feedbackForm}.
   Loading data...: Loading data...
 en:
   title: Calendar
@@ -152,6 +123,5 @@ en:
     disclaimer: Updated hourly and identical events are merged.
     please_check: If in doubt, please check the official calendar on TUMonline
     last_sync: Updated {0}
-  call_for_feedback: This feature is new. If you have some feedback about it, feel free to use the {feedbackForm}.
   Loading data...: Lädt daten...
 </i18n>
