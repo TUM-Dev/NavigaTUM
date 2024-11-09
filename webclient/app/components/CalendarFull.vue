@@ -146,7 +146,7 @@ function refetchEvents() {
             >
           </template>
           <template v-else>
-            <span class="font-normal">{{ arg.timeText }}</span>
+            <span class="font-normal opacity-70">{{ arg.timeText }}</span>
             <span class="font-medium">{{ arg.event.title }}</span>
           </template>
         </NuxtLink>
