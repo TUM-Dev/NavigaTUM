@@ -1,9 +1,10 @@
 use std::env;
+use std::fmt::{Debug, Formatter};
 use std::time::Duration;
 
 use futures::stream::FuturesUnordered;
 use futures::StreamExt;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, Serializer};
 use sqlx::PgPool;
 use tokio::time::sleep;
 use tracing::{debug, error};
@@ -13,9 +14,15 @@ use crate::limited::vec::LimitedVec;
 
 const NUMBER_OF_CONCURRENT_SCRAPES: usize = 3;
 
-#[derive(Serialize, Deserialize, Debug, sqlx::Type)]
+#[derive(Serialize, Deserialize, sqlx::Type)]
 struct LocationKey {
     key: String,
+}
+
+impl Debug for LocationKey {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.serialize_str(&self.key)
+    }
 }
 
 #[tracing::instrument(skip(pool))]
