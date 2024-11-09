@@ -30,7 +30,7 @@ pub(super) struct LocationEvents {
     pub(super) location: CalendarLocation,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone)]
 pub(super) struct Event {
     pub(super) id: i32,
     /// e.g. 5121.EG.003
@@ -50,6 +50,20 @@ pub(super) struct Event {
     pub(super) entry_type: String,
     /// e.g. Abhaltung
     pub(super) detailed_entry_type: String,
+}
+impl Debug for Event {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let duration = (self.end_at - self.start_at).num_minutes();
+        f.debug_tuple("Event")
+            .field(&format!(
+                "{start} ({duration_h}h{duration_min:?}m): {title}",
+                start = self.start_at.naive_local(),
+                duration_min = duration % 60,
+                duration_h = duration / 60,
+                title = self.title_de
+            ))
+            .finish()
+    }
 }
 
 impl Event {
