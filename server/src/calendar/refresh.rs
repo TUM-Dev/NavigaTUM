@@ -104,7 +104,7 @@ async fn request_events(api: &mut APIRequestor, mut ids: LimitedVec<LocationKey>
         }
     }
 
-    while let Some(_) = work_queue.next().await {
+    while work_queue.next().await.is_some() {
         if let Some(id) = ids.pop() {
             work_queue.push(api.refresh(id.key));
         }
