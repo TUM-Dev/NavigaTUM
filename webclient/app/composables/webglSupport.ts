@@ -1,4 +1,5 @@
 function supportsWebgl(): boolean {
+  if (import.meta.server) return false;
   try {
     const canvas = document.createElement("canvas");
     return !!window.WebGLRenderingContext && !!(canvas.getContext("webgl") || canvas.getContext("experimental-webgl"));
