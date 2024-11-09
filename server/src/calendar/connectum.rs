@@ -66,7 +66,11 @@ impl APIRequestor {
             }
             Err(e) => {
                 // TODO: this measure is to temporarily make the log usefully again until CO accepts my fix
-                debug!("cannot download {url} because {e:?}");
+                if e.to_string() == *"error decoding response body" {
+                    debug!("Cannot download calendar because of https://gitlab.campusonline.community/tum/connectum/-/issues/118")
+                } else {
+                    error!("Could not download calendar because {e:?}");
+                }
                 return Err(e.into());
             }
         };
