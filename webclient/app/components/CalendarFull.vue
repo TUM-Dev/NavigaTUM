@@ -103,12 +103,17 @@ const calendarOptions: CalendarOptions = {
   headerToolbar: {
     left: "prev,next",
     center: "title",
-    right: "dayGridMonth,timeGridWeek,timeGridDay,list",
+    right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
   },
   locale: locale.value == "de" ? deLocale : enLocale,
   height: 700,
   // like '14:30'
-  displayEventEnd: false,
+  views: {
+    dayGridMonth: { displayEventEnd: false },
+    timeGridDay: { displayEventEnd: false },
+    timeGridWeek: { displayEventEnd: false },
+    list: { displayEventEnd: true },
+  },
   eventTimeFormat: {
     hour: "2-digit",
     minute: "2-digit",
@@ -137,16 +142,19 @@ function refetchEvents() {
           :to="`https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/pl/ui/$ctx/!wbTermin.wbEdit?pTerminNr=${arg.event.id}`"
           external
           class="flex gap-1 overflow-x-auto overflow-y-auto"
-          :class="arg.view.type == 'timeGridWeek' ? 'flex-col' : 'flex-row'"
+          :class="['listWeek', 'timeGridWeek', 'timeGridDay'].includes(arg.view.type) ? 'flex-col' : 'flex-row'"
         >
-          <template v-if="arg.view.type == 'timeGridWeek'">
+          <template v-if="arg.view.type == 'timeGridWeek' || arg.view.type == 'timeGridDay'">
             <span class="font-medium">{{ arg.event.title }}</span>
             <span class="font-normal opacity-70"
-              >{{ arg.timeText }} - {{ arg.event.end.toLocaleTimeString(locale, { timeStyle: "short" }) }}</span
+              >{{ arg.timeText }} - {{ arg.event.end.toLocaleTimeString("de", { timeStyle: "short" }) }}</span
             >
           </template>
+          <template v-else-if="arg.view.type == 'listWeek'">
+            <span class="font-medium">{{ arg.event.title }}</span>
+          </template>
           <template v-else>
-            <span class="font-normal opacity-70">{{ arg.timeText }}</span>
+            <span class="font-normal opacity-80">{{ arg.timeText }}</span>
             <span class="font-medium">{{ arg.event.title }}</span>
           </template>
         </NuxtLink>
@@ -158,5 +166,10 @@ function refetchEvents() {
 <style lang="postcss">
 .fc-event-main {
   @apply flex;
+}
+
+.fc-list-day-side-text,
+.fc-list-day-text {
+  @apply text-zinc-900 dark:text-zinc-100;
 }
 </style>
