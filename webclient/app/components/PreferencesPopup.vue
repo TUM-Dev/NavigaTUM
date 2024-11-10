@@ -10,7 +10,7 @@ const { t } = useI18n({ useScope: "local" });
 const { locale } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
-async function updateLocale(value: string) {
+async function updateLocale(value: "de" | "en") {
   await navigateTo(switchLocalePath(value));
 }
 </script>
@@ -55,7 +55,11 @@ async function updateLocale(value: string) {
           </SelectionSwitch>
         </MenuItem>
         <MenuItem as="div" class="text-md text-zinc-500 block px-4 py-1 font-semibold">
-          <SelectionSwitch v-model="locale" :label="t('language')" @update:model-value="updateLocale">
+          <SelectionSwitch
+            v-model="locale"
+            :label="t('language')"
+            @update:model-value="(value) => updateLocale(value as 'de' | 'en')"
+          >
             <SelectionOption value="de">de</SelectionOption>
             <SelectionOption value="en">en</SelectionOption>
           </SelectionSwitch>
