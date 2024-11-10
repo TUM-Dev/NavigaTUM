@@ -40,7 +40,7 @@ rustls = "0.23.14"
 
 cached = { version = "0.54.0", features = ["default", "async", "disk_store"] }
 futures = "0.3.30"
-unicode-truncate = "1.1.0"
+unicode-truncate = "2.0.0"
 
 # database
 sqlx = { version = "0.8.0", features = ['chrono', 'json', 'macros', 'migrate', 'postgres', 'runtime-tokio', 'tls-rustls'], default-features = false }
