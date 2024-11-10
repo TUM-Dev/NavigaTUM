@@ -4,10 +4,7 @@ import { useFeedback } from "~/composables/feedback";
 const searchBarFocused = ref(false);
 const feedback = useFeedback();
 
-const i18nHead = useLocaleHead({
-  addDirAttribute: true,
-  addSeoAttributes: true,
-});
+const i18nHead = useLocaleHead({ dir: true, seo: true });
 useHead({
   htmlAttrs: {
     lang: i18nHead.value.htmlAttrs!.lang,
