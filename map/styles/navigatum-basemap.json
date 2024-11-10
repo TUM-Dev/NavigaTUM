@@ -808,6 +808,7 @@
       "type": "line",
       "source": "nav",
       "source-layer": "transportation",
+      "minzoom": 17,
       "filter": [
         "all",
         ["==", ["get", "brunnel"], "tunnel"],
@@ -1067,6 +1068,40 @@
       }
     },
     {
+      "id": "road_path_steps",
+      "type": "line",
+      "source": "nav",
+      "source-layer": "transportation",
+      "minzoom": 15,
+      "filter": [
+        "all",
+        ["==", ["get", "class"], "path"],
+        ["==", ["get", "subclass"], "steps"],
+        ["!", ["has", "level"]]
+      ],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "bevel",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.2],
+          ["zoom"],
+          15.5,
+          0,
+          16,
+          2,
+          20,
+          7.5
+        ],
+        "line-opacity": 0.8,
+        "line-dasharray": [1, 0.7]
+      }
+    },
+    {
       "id": "road_path",
       "type": "line",
       "source": "nav",
@@ -1097,7 +1132,7 @@
           20,
           7.5
         ],
-        "line-opacity": 0.8
+        "line-opacity": 0.6
       }
     },
     {
@@ -1899,15 +1934,6 @@
       "minzoom": 12,
       "paint": {
         "fill-color": "rgba(152, 198, 234, 1)",
-        "fill-outline-color": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          13,
-          "hsla(35,6%,79%,0.32)",
-          14,
-          "hsl(35,6%,79%)"
-        ],
         "fill-opacity": [
           "interpolate",
           ["linear"],
@@ -1925,7 +1951,16 @@
           16.5,
           1
         ],
-        "fill-antialias": true
+        "fill-antialias": true,
+        "fill-outline-color": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          13,
+          "hsla(35,6%,79%,0.32)",
+          14,
+          "hsl(35,6%,79%)"
+        ]
       }
     },
     {
@@ -2148,7 +2183,25 @@
           20,
           1
         ],
-        "text-opacity": 1
+        "text-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          16.5,
+          0,
+          17,
+          [
+            "min",
+            [
+              "/",
+              ["-", ["literal", 100], ["number", ["get", "rank"]]],
+              ["literal", 70]
+            ],
+            ["literal", 1]
+          ],
+          20,
+          1
+        ]
       }
     },
     {
@@ -2866,13 +2919,16 @@
       "type": "fill",
       "source": "nav",
       "source-layer": "transportation",
-      "minzoom": 17,
+      "minzoom": 16,
       "filter": [
         "all",
         ["==", "subclass", "platform"],
         ["==", "class", "path"]
       ],
-      "paint": {"fill-color": "rgba(143, 139, 139, 0.2)"}
+      "paint": {
+        "fill-color": "rgba(143, 139, 139, 0.2)",
+        "fill-opacity": {"stops": [[16, 0], [18, 1]]}
+      }
     }
   ],
   "id": "navigatum-basemap"
