@@ -7,12 +7,10 @@
     "openmaptiles:version": "3.x"
   },
   "sources": {
-    "recreational": {
+    "nav": {
       "type": "vector",
-      "url": "https://nav.tum.de/tiles/recreational_nodes",
-      "minzoom": 17
+      "url": "https://nav.tum.de/tiles/openmaptiles,recreational_nodes"
     },
-    "nav": {"type": "vector", "url": "https://nav.tum.de/tiles/openmaptiles"},
     "natural_earth_shaded_relief": {
       "maxzoom": 6,
       "tileSize": 256,
@@ -116,7 +114,7 @@
     {
       "id": "landcover_trees",
       "type": "circle",
-      "source": "recreational",
+      "source": "nav",
       "source-layer": "recreational_nodes",
       "minzoom": 17,
       "filter": ["==", ["get", "natural"], "tree"],
@@ -2222,7 +2220,7 @@
     {
       "id": "poi_rest_areas",
       "type": "symbol",
-      "source": "recreational",
+      "source": "nav",
       "source-layer": "recreational_nodes",
       "minzoom": 18,
       "filter": [
