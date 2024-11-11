@@ -179,7 +179,7 @@ local clean_useless_tags = osm2pgsql.make_clean_tags_func(delete_keys)
 
 -- Helper function to remove some of the tags we usually are not interested in.
 -- Returns true if there are no tags left.
-local function clean_tags(tags)
+local function clean_tags_indoor(tags)
     if clean_useless_tags(tags) then
         return true
     end
@@ -229,7 +229,18 @@ function osm2pgsql.process_node(object)
     --  Uncomment next line to look at the object data:
     --  print(inspect(object))
 
-    if clean_tags(object.tags) then
+    if object.tags.natural == 'tree' or object.tags.amenity == 'bench' or object.tags.amenity == 'lounger' or object.tags.leisure == 'picnic_table' then
+        tables.recreational_nodes:insert(
+            {
+                natural = object.tags.natural,
+                amenity = object.tags.amenity,
+                leisure = object.tags.leisure,
+                geom = object:as_point()
+            }
+        )
+    end
+
+    if clean_tags_indoor(object.tags) then
         return
     end
     -- pois should not need layers. Using them is likely a bug
@@ -239,16 +250,6 @@ function osm2pgsql.process_node(object)
         tables.indoor_nodes:insert(
             {
                 tags = object.tags,
-                geom = object:as_point()
-            }
-        )
-    end
-    if object.tags.natural == 'tree' or object.tags.amenity == 'bench' or object.tags.amenity == 'lounger' or object.tags.leisure == 'picnic_table' then
-        tables.recreational_nodes:insert(
-            {
-                natural = object.tags.natural,
-                amenity = object.tags.amenity,
-                leisure = object.tags.leisure,
                 geom = object:as_point()
             }
         )
@@ -265,7 +266,7 @@ function osm2pgsql.process_way(object)
         object.tags.indoor = nil
         object.tags.level = nil
         object.tags.inside = nil
-    elseif clean_tags(object.tags) then
+    elseif clean_tags_indoor(object.tags) then
         return
     end
 
@@ -299,7 +300,7 @@ function osm2pgsql.process_relation(object)
     --  Uncomment next line to look at the object data:
     --  print(inspect(object))
 
-    if clean_tags(object.tags) then
+    if clean_tags_indoor(object.tags) then
         return
     end
 
