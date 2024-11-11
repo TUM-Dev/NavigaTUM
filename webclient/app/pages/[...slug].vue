@@ -48,7 +48,7 @@ de:
   got_here: "Ich habe diesen Fehler so gefunden:\r\n1. ..."
   header: Die angeforderte Seite wurde nicht gefunden.
   img_alt: Illustration einer männlichen Person, die auf großen '404'-Buchstaben sitzt und einer weiblichen person vor dem TUM Hauptgebäude
-  go_home: Home
+  go_home: Zur Startseite
   call_to_action: Feedback geben
 en:
   open_feedback: Open the feedback-form
