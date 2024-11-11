@@ -120,7 +120,22 @@
       "source-layer": "recreational_nodes",
       "minzoom": 17,
       "filter": ["==", ["get", "natural"], "tree"],
-      "paint": {"circle-color": "rgba(92, 134, 64, 0.79)", "circle-radius": 10}
+      "paint": {
+        "circle-color": "rgba(94, 180, 100, 0.61)",
+        "circle-radius": {
+          "stops": [
+            [17, 5],
+            [18, 15],
+            [19, 30],
+            [20, 60],
+            [21, 120],
+            [22, 240],
+            [23, 480]
+          ]
+        },
+        "circle-opacity": {"stops": [[17, 0.1], [18, 0.3], [19, 0.4]]},
+        "circle-blur": 0.4
+      }
     },
     {
       "id": "landuse_residential",
@@ -2202,6 +2217,37 @@
           20,
           1
         ]
+      }
+    },
+    {
+      "id": "poi_rest_areas",
+      "type": "symbol",
+      "source": "recreational",
+      "source-layer": "recreational_nodes",
+      "minzoom": 17,
+      "filter": [
+        "any",
+        ["in", "amenity", "bench", "lounger"],
+        ["==", "leisure", "picnic_table"]
+      ],
+      "layout": {
+        "icon-image": [
+          "match",
+          ["get", "ameinty"],
+          ["bench"],
+          ["literal", "temaki-bench"],
+          ["lounger"],
+          ["literal", "temaki-tree-and-bench"],
+          ["literal", "highway-rest-area"]
+        ],
+        "icon-optional": true
+      },
+      "paint": {
+        "icon-color": "#725A51",
+        "icon-halo-color": "#fff",
+        "icon-halo-width": 2,
+        "icon-halo-blur": 1,
+        "icon-opacity": {"stops": [[17, 0], [18, 1]]}
       }
     },
     {
