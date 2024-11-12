@@ -157,21 +157,64 @@
       "source": "nav",
       "source-layer": "recreational_nodes",
       "minzoom": 17,
-      "filter": ["==", ["get", "natural"], "tree"],
+      "filter": [
+        "==",
+        [
+          "get",
+          "natural"
+        ],
+        "tree"
+      ],
       "paint": {
         "circle-color": "rgba(94, 180, 100, 0.61)",
         "circle-radius": {
           "stops": [
-            [17, 5],
-            [18, 15],
-            [19, 30],
-            [20, 60],
-            [21, 120],
-            [22, 240],
-            [23, 480]
+            [
+              17,
+              5
+            ],
+            [
+              18,
+              15
+            ],
+            [
+              19,
+              30
+            ],
+            [
+              20,
+              60
+            ],
+            [
+              21,
+              120
+            ],
+            [
+              22,
+              240
+            ],
+            [
+              23,
+              480
+            ]
           ]
         },
-        "circle-opacity": {"stops": [[17, 0.1], [18, 0.3], [19, 0.4]]},
+        "circle-opacity": {
+          "stops": [
+            [
+              17,
+              0.1
+            ],
+            [
+              18,
+              0.3
+            ],
+            [
+              19,
+              0.4
+            ]
+          ]
+        },
         "circle-blur": 0.4
       }
     },
@@ -1564,6 +1607,142 @@
       }
     },
     {
+      "id": "road_major_rail_hatching",
+      "type": "line",
+      "source": "nav",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        [
+          "match",
+          [
+            "get",
+            "brunnel"
+          ],
+          [
+            "bridge",
+            "tunnel"
+          ],
+          false,
+          true
+        ],
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "rail"
+        ]
+      ],
+      "paint": {
+        "line-color": "#bbb",
+        "line-dasharray": [
+          0.2,
+          8
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.4
+          ],
+          [
+            "zoom"
+          ],
+          14.5,
+          0,
+          15,
+          3,
+          20,
+          8
+        ]
+      }
+    },
+    {
+      "id": "road_major_rail",
+      "type": "line",
+      "source": "nav",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        [
+          "match",
+          [
+            "get",
+            "brunnel"
+          ],
+          [
+            "bridge",
+            "tunnel"
+          ],
+          false,
+          true
+        ],
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "rail"
+        ]
+      ],
+      "paint": {
+        "line-color": "#bbb",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            1.4
+          ],
+          [
+            "zoom"
+          ],
+          14,
+          0.4,
+          15,
+          0.75,
+          20,
+          2
+        ]
+      }
+    },
+    {
+      "id": "road_bridge_bg",
+      "type": "fill",
+      "source": "nav",
+      "source-layer": "transportation",
+      "minzoom": 15,
+      "filter": [
+        "all",
+        [
+          "==",
+          [
+            "get",
+            "brunnel"
+          ],
+          "bridge"
+        ]
+      ],
+      "paint": {
+        "fill-color": "rgba(207, 207, 207, 1)",
+        "fill-antialias": true,
+        "fill-opacity": {
+          "stops": [
+            [
+              15,
+              0
+            ],
+            [
+              16,
+              0.8
+            ]
+          ]
+        }
+      }
+    },
+    {
       "id": "road_motorway_link_casing",
       "type": "line",
       "source": "nav",
@@ -2104,9 +2283,29 @@
       "minzoom": 15,
       "filter": [
         "all",
-        ["==", ["get", "class"], "path"],
-        ["==", ["get", "subclass"], "steps"],
-        ["!", ["has", "level"]]
+        [
+          "==",
+          [
+            "get",
+            "class"
+          ],
+          "path"
+        ],
+        [
+          "==",
+          [
+            "get",
+            "subclass"
+          ],
+          "steps"
+        ],
+        [
+          "!",
+          [
+            "has",
+            "level"
+          ]
+        ]
       ],
       "layout": {
         "line-cap": "butt",
@@ -2117,8 +2316,13 @@
         "line-color": "rgba(255, 255, 255, 1)",
         "line-width": [
           "interpolate",
-          ["exponential", 1.2],
-          ["zoom"],
+          [
+            "exponential",
+            1.2
+          ],
+          [
+            "zoom"
+          ],
           15.5,
           0,
           16,
@@ -2127,7 +2331,10 @@
           7.5
         ],
         "line-opacity": 0.8,
-        "line-dasharray": [1, 0.7]
+        "line-dasharray": [
+          1,
+          0.7
+        ]
       }
     },
     {
@@ -2577,108 +2784,6 @@
           1,
           20,
           18
-        ]
-      }
-    },
-    {
-      "id": "road_major_rail",
-      "type": "line",
-      "source": "nav",
-      "source-layer": "transportation",
-      "filter": [
-        "all",
-        [
-          "match",
-          [
-            "get",
-            "brunnel"
-          ],
-          [
-            "bridge",
-            "tunnel"
-          ],
-          false,
-          true
-        ],
-        [
-          "==",
-          [
-            "get",
-            "class"
-          ],
-          "rail"
-        ]
-      ],
-      "paint": {
-        "line-color": "#bbb",
-        "line-width": [
-          "interpolate",
-          [
-            "exponential",
-            1.4
-          ],
-          [
-            "zoom"
-          ],
-          14,
-          0.4,
-          15,
-          0.75,
-          20,
-          2
-        ]
-      }
-    },
-    {
-      "id": "road_major_rail_hatching",
-      "type": "line",
-      "source": "nav",
-      "source-layer": "transportation",
-      "filter": [
-        "all",
-        [
-          "match",
-          [
-            "get",
-            "brunnel"
-          ],
-          [
-            "bridge",
-            "tunnel"
-          ],
-          false,
-          true
-        ],
-        [
-          "==",
-          [
-            "get",
-            "class"
-          ],
-          "rail"
-        ]
-      ],
-      "paint": {
-        "line-color": "#bbb",
-        "line-dasharray": [
-          0.2,
-          8
-        ],
-        "line-width": [
-          "interpolate",
-          [
-            "exponential",
-            1.4
-          ],
-          [
-            "zoom"
-          ],
-          14.5,
-          0,
-          15,
-          3,
-          20,
-          8
         ]
       }
     },
@@ -3817,8 +3922,12 @@
         "fill-antialias": true,
         "fill-outline-color": [
           "interpolate",
-          ["linear"],
-          ["zoom"],
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
           13,
           "hsla(35,6%,79%,0.32)",
           14,
@@ -4167,7 +4276,13 @@
           "bicycle_parking",
           "motorcycle_parking"
         ],
-        true,
+        [
+          "!",
+          [
+            "has",
+            "level"
+          ]
+        ],
         false
       ],
       "layout": {
@@ -4270,8 +4385,12 @@
         ],
         "text-opacity": [
           "interpolate",
-          ["linear"],
-          ["zoom"],
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
           16.5,
           0,
           17,
@@ -4279,10 +4398,29 @@
             "min",
             [
               "/",
-              ["-", ["literal", 100], ["number", ["get", "rank"]]],
-              ["literal", 70]
+              [
+                "-",
+                [
+                  "literal",
+                  100
+                ],
+                [
+                  "number",
+                  [
+                    "get",
+                    "rank"
+                  ]
+                ]
+              ],
+              [
+                "literal",
+                70
+              ]
             ],
-            ["literal", 1]
+            [
+              "literal",
+              1
+            ]
           ],
           20,
           1
@@ -4297,19 +4435,44 @@
       "minzoom": 18,
       "filter": [
         "any",
-        ["in", "amenity", "bench", "lounger"],
-        ["==", "leisure", "picnic_table"]
+        [
+          "in",
+          "amenity",
+          "bench",
+          "lounger"
+        ],
+        [
+          "==",
+          "leisure",
+          "picnic_table"
+        ]
       ],
       "layout": {
         "icon-optional": true,
         "icon-image": [
           "match",
-          ["get", "amenity"],
-          ["bench"],
-          ["literal", "temaki-bench"],
-          ["lounger"],
-          ["literal", "temaki-tree-and-bench"],
-          ["literal", "highway-rest-area"]
+          [
+            "get",
+            "amenity"
+          ],
+          [
+            "bench"
+          ],
+          [
+            "literal",
+            "temaki-bench"
+          ],
+          [
+            "lounger"
+          ],
+          [
+            "literal",
+            "temaki-tree-and-bench"
+          ],
+          [
+            "literal",
+            "highway-rest-area"
+          ]
         ]
       },
       "paint": {
@@ -4317,7 +4480,18 @@
         "icon-halo-color": "#fff",
         "icon-halo-width": 2,
         "icon-halo-blur": 1,
-        "icon-opacity": {"stops": [[18, 0], [19, 1]]}
+        "icon-opacity": {
+          "stops": [
+            [
+              18,
+              0
+            ],
+            [
+              19,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -4336,7 +4510,13 @@
           "office",
           "college"
         ],
-        true,
+        [
+          "!",
+          [
+            "has",
+            "level"
+          ]
+        ],
         false
       ],
       "layout": {
@@ -4611,7 +4791,13 @@
           "cinema",
           "theatre"
         ],
-        true,
+        [
+          "!",
+          [
+            "has",
+            "level"
+          ]
+        ],
         false
       ],
       "layout": {
@@ -4734,7 +4920,13 @@
           "beer",
           "bakery"
         ],
-        true,
+        [
+          "!",
+          [
+            "has",
+            "level"
+          ]
+        ],
         false
       ],
       "layout": {
@@ -4800,7 +4992,13 @@
         [
           "library"
         ],
-        true,
+        [
+          "!",
+          [
+            "has",
+            "level"
+          ]
+        ],
         false
       ],
       "layout": {
@@ -4935,7 +5133,12 @@
         ],
         "text-size": 14,
         "icon-allow-overlap": false,
-        "icon-optional": true
+        "icon-optional": true,
+        "icon-size": 1.3,
+        "icon-offset": [
+          -2,
+          -1
+        ]
       },
       "paint": {
         "text-color": "#085d6f",
@@ -4949,11 +5152,11 @@
       }
     },
     {
-      "id": "poi_transit_important",
+      "id": "poi_transit_tram",
       "type": "symbol",
       "source": "nav",
       "source-layer": "poi",
-      "minzoom": 13,
+      "minzoom": 15,
       "filter": [
         "all",
         [
@@ -4971,12 +5174,73 @@
           false
         ],
         [
-          "!=",
+          "==",
           [
             "get",
             "subclass"
           ],
-          "halt"
+          "tram_stop"
+        ]
+      ],
+      "layout": {
+        "text-anchor": "left",
+        "text-field": [
+          "to-string",
+          [
+            "get",
+            "name_de"
+          ]
+        ],
+        "text-font": [
+          "Roboto Condensed Italic"
+        ],
+        "text-max-width": 9,
+        "text-offset": [
+          0.9,
+          0
+        ],
+        "text-size": 14,
+        "icon-allow-overlap": false,
+        "text-allow-overlap": false,
+        "text-ignore-placement": false,
+        "icon-image": "tram-munich",
+        "icon-size": 1.2,
+        "icon-offset": [
+          -2,
+          0
+        ]
+      },
+      "paint": {
+        "text-color": "#d92727",
+        "text-halo-color": "#fff",
+        "icon-color": "#d92727",
+        "icon-halo-color": "#fff",
+        "text-halo-blur": 1,
+        "text-halo-width": 1,
+        "icon-halo-blur": 1,
+        "icon-halo-width": 4
+      }
+    },
+    {
+      "id": "poi_transit_important",
+      "type": "symbol",
+      "source": "nav",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": [
+        "all",
+        [
+          "in",
+          "class",
+          "airport",
+          "rail",
+          "railway"
+        ],
+        [
+          "!in",
+          "subclass",
+          "halt",
+          "tram_stop"
         ]
       ],
       "layout": {
@@ -4999,13 +5263,6 @@
           [
             "literal",
             "s-bahn-munich"
-          ],
-          [
-            "tram_stop"
-          ],
-          [
-            "literal",
-            "tram-munich"
           ],
           [
             "get",
@@ -5031,7 +5288,12 @@
         "text-size": 14,
         "icon-allow-overlap": false,
         "text-allow-overlap": false,
-        "text-ignore-placement": false
+        "text-ignore-placement": false,
+        "icon-offset": [
+          -2,
+          0
+        ],
+        "icon-size": 1.4
       },
       "paint": {
         "text-color": [
@@ -5053,13 +5315,6 @@
           [
             "literal",
             "#00894d"
-          ],
-          [
-            "tram_stop"
-          ],
-          [
-            "literal",
-            "#d92727"
           ],
           [
             "literal",
@@ -5096,7 +5351,7 @@
         "text-halo-blur": 1,
         "text-halo-width": 1,
         "icon-halo-blur": 1,
-        "icon-halo-width": 4
+        "icon-halo-width": 5
       }
     },
     {
@@ -5741,7 +5996,18 @@
       ],
       "paint": {
         "fill-color": "rgba(143, 139, 139, 0.2)",
-        "fill-opacity": {"stops": [[16, 0], [18, 1]]}
+        "fill-opacity": {
+          "stops": [
+            [
+              16,
+              0
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        }
       }
     }
   ],
