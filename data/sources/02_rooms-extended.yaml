@@ -224,6 +224,22 @@
           en: More informations
         url: https://www.tcf.tum.de/facit/baywa-co-working-space/angebot/"
 
+# LAI -> LAT in response to TUM#2024111210008878
+4219.EG.040: # LAI -> LAT
+  name: Masterstudierende und Doktoranden LAT
+4219.EG.044: # LAI -> LAT
+  name: Sekretariat LAT
+4219.EG.045: # LAI -> LAT
+  name: Professor LAT
+4219.EG.046: # LAI -> LAT
+  name: Konferenzraum LAT
+4219.EG.048: # LAI -> LAT
+  name: Doktoranden LAT
+4219.EG.041: # LAI -> LAT
+  name: Wissenschaftliche Mitarbeiter LAT
+4219.EG.047: # LAI -> LAT
+  name: Büro Mitarbeiter LAT
+
 # ========================== Garching =============================
 # === Studitum Garching ===
 "5532.01.105":
