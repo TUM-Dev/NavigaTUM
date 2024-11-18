@@ -1,0 +1,21 @@
+# Parser settings.
+cff-version: 1.2.0
+message: Please cite this crate using these information.
+
+# Version information.
+date-released: 2024-11-13
+version: 4.5.21
+
+# Project information.
+abstract: Navigating around TUM with excellence – A website and API to search for rooms, buildings and other places
+authors:
+  - alias: CommanderStorm
+    family-names: Elsinga
+    given-names: Frank
+  - name: The NavigaTUM Community
+license:
+  - GPL-3.0
+repository-artifact:  https://nav.tum.de
+repository-code: https://github.com/TUM-Dev/navigatum
+title: NavigaTUM
+url: https://nav.tum.de
