@@ -16,15 +16,16 @@ struct Cli {
     floor_name: Option<String>,
     ///  floor level to assign to most of the structure
     floor_level: i8,
-    /// Turn debugging information on
+    /// Increase the verbosity. Can be Repeated multiple times
     #[arg(short, long, action = clap::ArgAction::Count)]
     verbose: u8,
     /// path to the file to read
-    path: std::path::PathBuf,
+    path: PathBuf,
 }
 
 fn main() -> anyhow::Result<()> {
     human_panic::setup_panic!();
+
     let args = Cli::try_parse()?;
     telemetry::setup_logging(args.verbose);
     debug!("got args: {args:?}");

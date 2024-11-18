@@ -2,6 +2,12 @@
 name = "cad2osm"
 version = "0.1.0"
 edition = "2021"
+authors = ["Frank Elsinga <frank@elsinga.de>"]
+description = "Convert Ifc CAD files to osm for simpler importing"
+repository = "https://github.com/TUM-Dev/navigatum"
+readme = "README.md"
+license = "GPL-3.0"
+keywords = ["osm", "ifc", "cad"]
 
 [dependencies]
 anyhow = { version = "1.0.93", features = ["backtrace"] }
