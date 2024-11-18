@@ -1,0 +1,15 @@
+[package]
+name = "cad2osm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { version = "1.0.93", features = ["backtrace"] }
+clap = { version = "4.5.21", features = ["env", "derive"] }
+human-panic = "2.0.2"
+ifc_rs = "0.1.0-alpha.7"
+
+# telemetry
+tracing = { version = "0.1.40", features = ["log"] }
+tracing-log = { version = "0.2.0", features = ["interest-cache"] }
+tracing-subscriber = { version = "0.3.18", features = ["env-filter", "json", "fmt", "chrono"] }
