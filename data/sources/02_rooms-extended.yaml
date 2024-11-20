@@ -309,6 +309,8 @@
     din_277_desc: Sanitärräume
 "5611.02.034":
   name: Tutor # typo, previously Toutor
+5612.03.018:
+  name: Graduate Center CIT # previously Rechnerraum
 
 
 # === Chemie ===
