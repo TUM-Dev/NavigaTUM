@@ -49,7 +49,7 @@ info: "'019 lmu' should get '5123.EG.019' in 1 results"
     - id: 1713.U2.019
       type: room
       name: "1713.U2.\u0019019\u0017 (Intensiv)"
-      subtext: "mri, Nigerstr. 3, Bau 713, TUM MeDiCAL, Studiendekanat im Lern- und Trainingszentrum (LUTZ)"
+      subtext: "mri, Nigerstr. 3, Student Office (Bau 713)"
       subtext_bold: 713.02.19@1713
     - id: 4220.01.019
       type: room
