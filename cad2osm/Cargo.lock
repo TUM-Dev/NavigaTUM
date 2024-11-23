@@ -355,9 +355,9 @@ dependencies = [
 
 [[package]]
 name = "ifc_rs"
-version = "0.1.0-alpha.7"
+version = "0.1.0-alpha.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a98169014f3b48185d0fc06e6326e94761141f03510882b90a43d6977644f58a"
+checksum = "3eb545e88489bd671ac5193fab343a4673a2d970186691a94d59f5e4af822cbb"
 dependencies = [
  "anyhow",
  "bevy_math",
@@ -374,9 +374,9 @@ dependencies = [
 
 [[package]]
 name = "ifc_rs_verify_derive"
-version = "0.1.0-alpha.7"
+version = "0.1.0-alpha.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c07415a25a0336eb92d88f407a5567c6e3aa2cdb9dca5d3d42f100e0be1428ad"
+checksum = "9d9af3cde7490018c681ec0f7869bd9b403ccd8476bad68daa4311ed726ad249"
 dependencies = [
  "proc-macro2",
  "quote",

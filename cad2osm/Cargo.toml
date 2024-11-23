@@ -13,7 +13,7 @@ keywords = ["osm", "ifc", "cad"]
 anyhow = { version = "1.0.93", features = ["backtrace"] }
 clap = { version = "4.5.21", features = ["env", "derive"] }
 human-panic = "2.0.2"
-ifc_rs = "0.1.0-alpha.7"
+ifc_rs = "0.1.0-alpha.8"
 
 # telemetry
 tracing = { version = "0.1.40", features = ["log"] }
