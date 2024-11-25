@@ -5,7 +5,7 @@ set -o errexit
 cd "$(dirname "$0")"
 
 echo "-- cleanup $(dirname "$0") --"
-rm     ./data/*.osm.pbf
+rm -f  ./data/*.osm.pbf
 rm -rf ./gtfs_feeds/*
 mkdir --parents gtfs_feeds
 mkdir --parents data/transit_tiles
