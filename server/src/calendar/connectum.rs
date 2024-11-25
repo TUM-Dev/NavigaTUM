@@ -49,6 +49,13 @@ impl APIRequestor {
     #[tracing::instrument]
     pub(crate) async fn refresh(&self, id: String) -> anyhow::Result<()> {
         let sync_start = Utc::now();
+        if let Err(e) = self
+            .update_last_calendar_scrape_at(&self.pool, &id, &sync_start)
+            .await
+        {
+            error!("could not update last_calendar_scrape_at because {e:?}");
+            return Err(e.into());
+        }
         let url = format!("https://campus.tum.de/tumonline/co/connectum/api/rooms/{id}/calendars");
         let events = self
             .client
@@ -152,14 +159,6 @@ impl APIRequestor {
                 total = events.len()
             );
         }
-        if let Err(e) = self
-            .update_last_calendar_scrape_at(&mut tx, id, last_calendar_scrape_at)
-            .await
-        {
-            error!("could not update last_calendar_scrape_at because {e:?}");
-            tx.rollback().await?;
-            return Err(e.into());
-        }
         tx.commit().await?;
         debug!("finished inserting into the db for {id}");
         Ok(())
@@ -225,26 +224,26 @@ impl APIRequestor {
             }
         }
     }
-    #[tracing::instrument(skip(tx))]
+    #[tracing::instrument(skip(pool))]
     async fn update_last_calendar_scrape_at(
-        &self,
-        tx: &mut sqlx::Transaction<'_, sqlx::Postgres>,
-        id: &str,
-        last_calendar_scrape_at: &DateTime<Utc>,
+        &self, 
+        pool: &PgPool, 
+        id: &str, 
+        scrape_at: &DateTime<Utc>, 
     ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
         sqlx::query!(
             "UPDATE en SET last_calendar_scrape_at = $1 WHERE key=$2",
-            last_calendar_scrape_at,
+            scrape_at,
             id
         )
-        .execute(&mut **tx)
+        .execute(pool)
         .await?;
         sqlx::query!(
             "UPDATE de SET last_calendar_scrape_at = $1 WHERE key=$2",
-            last_calendar_scrape_at,
+            scrape_at,
             id
         )
-        .execute(&mut **tx)
+        .execute(pool)
         .await
     }
 }
