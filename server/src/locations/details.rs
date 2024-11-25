@@ -497,7 +497,7 @@ mod tests {
         let pg = PostgresTestContainer::new().await;
         pg.load_data_retrying().await;
 
-        let keys: Vec<String> = sqlx::query_scalar!("SELECT key FROM de")
+        let keys: Vec<String> = sqlx::query_scalar("SELECT key FROM de")
             .fetch_all(&pg.pool)
             .await
             .unwrap();
