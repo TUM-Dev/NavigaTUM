@@ -226,10 +226,10 @@ impl APIRequestor {
     }
     #[tracing::instrument(skip(pool))]
     async fn update_last_calendar_scrape_at(
-        &self, 
-        pool: &PgPool, 
-        id: &str, 
-        scrape_at: &DateTime<Utc>, 
+        &self,
+        pool: &PgPool,
+        id: &str,
+        scrape_at: &DateTime<Utc>,
     ) -> Result<sqlx::postgres::PgQueryResult, sqlx::Error> {
         sqlx::query!(
             "UPDATE en SET last_calendar_scrape_at = $1 WHERE key=$2",
