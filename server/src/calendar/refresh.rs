@@ -29,9 +29,9 @@ impl Debug for LocationKey {
 async fn entries_which_need_scraping(pool: &PgPool) -> anyhow::Result<LimitedVec<LocationKey>> {
     let res = sqlx::query_as!(LocationKey,r#"
 WITH ENTRIES_TO_SCRAPE AS (SELECT KEY,
-                                  CASE WHEN last_calendar_scrape_at IS NULL THEN 100 ELSE 1 END          AS priority,
+                                  CASE WHEN last_calendar_scrape_at IS NULL THEN 100 ELSE 1 END          AS boost_if_never_scraped,
                                   CAST(data -> 'ranking_factors' ->> 'rank_combined' AS INTEGER)         AS rank_combined,
-                                  (LAST_CALENDAR_SCRAPE_AT < DATE_SUBTRACT(NOW(), '30 minutes'::INTERVAL, 'Europe/Berlin')
+                                  (LAST_CALENDAR_SCRAPE_AT < DATE_SUBTRACT(NOW(), '60 minutes'::INTERVAL, 'Europe/Berlin')
                                       OR LAST_CALENDAR_SCRAPE_AT IS NULL)                                AS would_need_scraping,
                                   EXTRACT(EPOCH FROM (NOW() - LAST_CALENDAR_SCRAPE_AT))                  AS seconds_ago,
                                   CALENDAR_URL IS NOT NULL                                               AS can_be_scraped
@@ -40,10 +40,10 @@ WITH ENTRIES_TO_SCRAPE AS (SELECT KEY,
 SELECT key
 FROM entries_to_scrape
 WHERE would_need_scraping AND can_be_scraped
--- priority: has this ever been scraped? => give a good bonus
+-- boost_if_never_scraped: has this ever been scraped? => give a good bonus
 -- rank_combined: "how important is this room?" (range 1..1k)
 -- seconds_ago: "how long since we last scraped it?" (range null,30*60/3=600..)
-ORDER BY priority * rank_combined + priority * coalesce(seconds_ago/6,1) DESC
+ORDER BY boost_if_never_scraped * rank_combined * coalesce(seconds_ago/6,1) DESC
 LIMIT 30"#)
         .fetch_all(pool)
         .await?;
