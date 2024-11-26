@@ -94,11 +94,11 @@ services:
       - ./map/data/:/map/data/:rw
       - ./map/gtfs_feeds/:/map/gtfs_feeds/:rw
       - ./map/download.sh:/map/download.sh:ro
+      - ./map/valhalla.json:/map/valhalla.json:ro
   valhalla-build:
     image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest
     volumes:
       - ./map/data/:/custom_files:rw
-      - ./map/download.sh:/local/bin:ro
       - ./map/gtfs_feeds:/gtfs_feeds:rw
     environment:
       TZ: Europe/Berlin
