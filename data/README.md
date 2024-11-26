@@ -152,7 +152,7 @@ Some work is underway to ensure that this format is actually being followed via 
 
 #### Step 00 Areatree
 
-The starting point is the data defined in the "areatree" (in `sources/00_areatree`).
+The starting point is the data defined in the "areatree" (in `processors/areatree/config.areatree`).
 It (currently) has a custom data format to be human & machine-readable while taking only minimal space.
 Details about the formatting are given at the head of the file.
 
