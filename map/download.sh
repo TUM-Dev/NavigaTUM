@@ -34,3 +34,6 @@ wget --tries=5 https://www.opendata-oepnv.de/dataset/17065229-c3fd-46d7-84a9-aae
 unzip -q -d mvv mvv.zip
 rm mvv.zip
 cd .. || exit 1
+
+echo -- copy valhalla config --
+cp --force valhalla.json data/
