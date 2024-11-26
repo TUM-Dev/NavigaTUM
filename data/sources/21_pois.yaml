@@ -14,7 +14,7 @@ parabelrutsche:
 
 # === Validierungsautomaten ===
 validierungsautomat-1:
-  parent: "5101"
+  parent: "5101.EG.917"
   name: "Validierungsautomat 1 (Physik)"
   usage: { name: "Validierungsautomat" }
   props:
@@ -22,7 +22,7 @@ validierungsautomat-1:
       - { text: "Status", url: "https://campus.tum.de/valistatus/" }
 
 validierungsautomat-2:
-  parent: "5501"
+  parent: "5501.EG.199A"
   name: "Validierungsautomat 2 (MW)"
   usage: { name: "Validierungsautomat" }
   props:
@@ -49,7 +49,7 @@ validierungsautomat-4:
       - { text: "Status", url: "https://campus.tum.de/valistatus/" }
 
 validierungsautomat-5:
-  parent: "5606"
+  parent: "5601.EG.001"
   name: "Validierungsautomat 5 (MI)"
   usage: { name: "Validierungsautomat" }
   props:
@@ -65,7 +65,7 @@ validierungsautomat-6:
       - { text: "Status", url: "https://campus.tum.de/valistatus/" }
 
 validierungsautomat-7:
-  parent: "5606"
+  parent: "5601.EG.001"
   name: "Validierungsautomat 7 (MI)"
   usage: { name: "Validierungsautomat" }
   props:
@@ -73,7 +73,7 @@ validierungsautomat-7:
       - { text: "Status", url: "https://campus.tum.de/valistatus/" }
 
 validierungsautomat-8:
-  parent: "5501"
+  parent: "5501.EG.199A"
   name: "Validierungsautomat 8 (MW)"
   usage: { name: "Validierungsautomat" }
   props:
