@@ -5413,52 +5413,23 @@
       "minzoom": 7,
       "filter": [
         "all",
+        ["<=", ["get", "ref_length"], 6],
         [
-          "<=",
-          [
-            "get",
-            "ref_length"
-          ],
-          6
+          "!=",
+          ["get", "subclass"],
+          ["literal", "junction"]
         ],
         [
           "!=",
-          [
-            "get",
-            "subclass"
-          ],
-          [
-            "literal",
-            "junction"
-          ]
-        ],
-        [
-          "!=",
-          [
-            "get",
-            "class"
-          ],
-          [
-            "literal",
-            "path"
-          ]
+          ["get", "class"],
+          ["literal", "path"]
         ]
       ],
       "layout": {
-        "icon-image": [
-          "concat",
-          "default_",
-          [
-            "get",
-            "ref_length"
-          ]
-        ],
         "icon-rotation-alignment": "viewport",
         "symbol-placement": [
           "step",
-          [
-            "zoom"
-          ],
+          ["zoom"],
           "point",
           11,
           "line"
@@ -5466,27 +5437,45 @@
         "symbol-spacing": 500,
         "text-field": [
           "to-string",
-          [
-            "get",
-            "ref"
-          ]
+          ["get", "ref"]
         ],
-        "text-font": [
-          "Roboto Regular"
-        ],
-        "text-offset": [
-          0,
-          0.1
-        ],
+        "text-font": ["Roboto Regular"],
+        "text-offset": [0, 0.1],
         "text-rotation-alignment": "viewport",
         "text-size": 10,
-        "icon-size": 0.8
+        "icon-text-fit": "both",
+        "icon-size": 1.4,
+        "icon-anchor": "center",
+        "icon-padding": ["literal", [3]],
+        "icon-offset": [0, -0.5],
+        "icon-image": "rounded_rectangle"
       },
       "paint": {
-        "icon-color": "#fff",
-        "icon-halo-color": "#000",
-        "icon-halo-blur": 2,
-        "icon-halo-width": 4
+        "icon-color": [
+          "match",
+          ["slice", ["get", "ref"], 0, 1],
+          "A",
+          "#0841bf",
+          "B",
+          "#e6c100",
+          "#008000"
+        ],
+        "icon-halo-color": [
+          "match",
+          ["slice", ["get", "ref"], 0, 1],
+          "B",
+          "gray",
+          "white"
+        ],
+        "text-color": [
+          "match",
+          ["slice", ["get", "ref"], 0, 1],
+          "B",
+          "black",
+          "white"
+        ],
+        "icon-halo-width": 4,
+        "icon-halo-blur": 1
       }
     },
     {
@@ -6011,5 +6000,62 @@
       }
     }
   ],
-  "id": "navigatum-basemap"
+  "layout": {
+    "icon-image": [
+      "match",
+      ["slice", ["get", "ref"], 0, 1],
+      "A",
+      "rounded_rombos",
+      ["literal", "rounded_rectangle"]
+    ],
+    "icon-rotation-alignment": "viewport",
+    "symbol-placement": [
+      "step",
+      ["zoom"],
+      "point",
+      11,
+      "line"
+    ],
+    "symbol-spacing": 500,
+    "text-field": [
+      "to-string",
+      ["get", "ref"]
+    ],
+    "text-font": ["Roboto Regular"],
+    "text-offset": [0, 0.1],
+    "text-rotation-alignment": "viewport",
+    "text-size": 10,
+    "icon-text-fit": "both",
+    "icon-size": 1.4,
+    "icon-anchor": "center",
+    "icon-padding": ["literal", [3]],
+    "icon-offset": [0, -0.5]
+  },
+  "paint": {
+    "icon-color": [
+      "match",
+      ["slice", ["get", "ref"], 0, 1],
+      "A",
+      "#0841bf",
+      "B",
+      "#e6c100",
+      "#008000"
+    ],
+    "icon-halo-color": [
+      "match",
+      ["slice", ["get", "ref"], 0, 1],
+      "A",
+      "black",
+      "black"
+    ],
+    "text-color": [
+      "match",
+      ["slice", ["get", "ref"], 0, 1],
+      "A",
+      "white",
+      "black"
+    ],
+    "icon-halo-width": 3,
+    "icon-halo-blur": 0
+  }
 }
