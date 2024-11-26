@@ -24,6 +24,7 @@ tables.recreational_nodes =
         {column = "natural", type = "text" },
         {column = "amenity", type = "text" },
         {column = "leisure", type = "text" },
+        {column = "man_made", type = "text" },
         {column = "geom", type = "point", not_null = true}
     }
 )
@@ -229,12 +230,19 @@ function osm2pgsql.process_node(object)
     --  Uncomment next line to look at the object data:
     --  print(inspect(object))
 
-    if object.tags.natural == 'tree' or object.tags.amenity == 'bench' or object.tags.amenity == 'lounger' or object.tags.leisure == 'picnic_table' then
+    if object.tags.natural == 'tree' or
+       object.tags.amenity == 'bench' or
+       object.tags.amenity == 'lounger' or
+       object.tags.leisure == 'picnic_table' or
+       object.tags.man_made == 'maypole' or
+       object.tags.man_made == 'mast' or
+       object.tags.man_made == 'water_tap' then
         tables.recreational_nodes:insert(
             {
                 natural = object.tags.natural,
                 amenity = object.tags.amenity,
                 leisure = object.tags.leisure,
+                man_made = object.tags.man_made,
                 geom = object:as_point()
             }
         )
@@ -305,7 +313,8 @@ function osm2pgsql.process_relation(object)
     end
 
     -- Store multipolygons and boundaries as polygons
-    if object.tags.type == "multipolygon" or object.tags.type == "boundary" then
+    if object.tags.type == "multipolygon" or
+       object.tags.type == "boundary" then
         for _, level in ipairs(SantiseLevel(object.tags.level)) do
             object.tags.level = level
             tables.indoor_polygons:insert(
