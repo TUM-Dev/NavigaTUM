@@ -741,8 +741,8 @@
   },
   "15309": {
     "code": "TULRLRT",
-    "name": "Lehrstuhl f\u00fcr Raumfahrttechnik (Prof. Holzapfel komm.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Raumfahrttechnik (Prof. Holzapfel komm.)"
+    "name": "Lehrstuhl f\u00fcr Astrodynamik (Prof. Romano)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Aerospace and Geodesy/Astrodynamik (Prof. Romano)"
   },
   "15315": {
     "code": "TUMWLTD",
@@ -911,8 +911,8 @@
   },
   "15405": {
     "code": "TUEIMST",
-    "name": "Lehrstuhl f\u00fcr Messsystem- und Sensortechnik (N.N.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Messsystem- und Sensortechnik (N.N.)"
+    "name": "Lehrstuhl f\u00fcr Messsystem- und Sensortechnik (Prof. Chen komm.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Electrical Engineering/Messsystem- und Sensortechnik (Prof. Chen komm.)"
   },
   "15415": {
     "code": "TUINDEK",
@@ -2341,8 +2341,8 @@
   },
   "24661": {
     "code": "TUINF12",
-    "name": "Informatik 16 - Professur f\u00fcr Erweiterte Realit\u00e4t - (N.N.)",
-    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Erweiterte Realit\u00e4t - (N.N.)"
+    "name": "Informatik 16 - Professur f\u00fcr Erweiterte Realit\u00e4t (Prof. Plecher komm.)",
+    "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Erweiterte Realit\u00e4t (Prof. Plecher komm.)"
   },
   "24668": {
     "code": "TUINF05",
@@ -11123,5 +11123,20 @@
     "code": "TUCSGTH",
     "name": "HSWT-Professur f\u00fcr Geothermie (Prof. Vienken)",
     "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/HSWT - Professuren/Geothermie (Prof. Vienken)"
+  },
+  "56837": {
+    "code": "TUPECLC",
+    "name": "EIT Food CLC Central GmbH",
+    "path": "TUM/Partnerschaftliche Einrichtungen/EIT Food CLC Central GmbH"
+  },
+  "56857": {
+    "code": "TUXSC0J",
+    "name": "Studiengang M.Sc. Sustainable Energy and Processes",
+    "path": "TUM/Integrative Research Institutes/TUM Campus Straubing f\u00fcr Biotechnologie und Nachhaltigkeit (TUMCS)/Studienorganisation/Technologie Biogener Rohstoffe/M.Sc. Sustainable Energy and Processes"
+  },
+  "56858": {
+    "code": "TUS7SCC",
+    "name": "Professur f\u00fcr Science and Crisis Communication (Prof. Walter)",
+    "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Science and Crisis Communication (Prof. Walter)"
   }
 }
