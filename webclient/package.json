@@ -35,7 +35,7 @@
     "swaggerdark": "github:octycs/SwaggerDark#f02d394c8ff698cdd93e09c2188b058d2d686ca3",
     "vue": "3.5.13",
     "vue-router": "4.5.0",
-    "vue3-carousel": "0.8.0"
+    "vue3-carousel": "0.8.1"
   },
   "devDependencies": {
     "@nuxt/eslint": "0.6.1",
