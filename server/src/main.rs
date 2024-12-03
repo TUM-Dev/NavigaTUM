@@ -3,8 +3,8 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 use actix_cors::Cors;
+use actix_governor::{GlobalKeyExtractor, GovernorConfigBuilder};
 use actix_middleware_etag::Etag;
-use actix_web::web::Redirect;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer, Responder};
 use actix_web_prom::{PrometheusMetrics, PrometheusMetricsBuilder};
 use meilisearch_sdk::client::Client;
@@ -17,6 +17,7 @@ use tracing::{debug_span, error, info};
 use tracing_actix_web::TracingLogger;
 
 mod calendar;
+mod docs;
 mod feedback;
 mod limited;
 mod localisation;
@@ -25,8 +26,11 @@ mod maps;
 mod models;
 mod search;
 mod setup;
+use utoipa_actix_web::{scope, AppExt};
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
+
+const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
 
 #[derive(Clone, Debug)]
 pub struct AppData {
@@ -50,6 +54,16 @@ impl AppData {
     }
 }
 
+/// API healthcheck
+///
+/// If this endpoint does not return 200, the API is experiencing a catastrophic outage.
+/// **Should never happen.**
+#[utoipa::path(
+    responses(
+        (status = 200, description = "API is **healthy**", body = String, content_type = "text/plain", example="healthy\nsource_code: https://github.com/TUM-Dev/navigatum/tree/{hash}"),
+        (status = 503, description = "API is **NOT healthy**", body = String, content_type = "text/plain", example="unhealthy\nsource_code: https://github.com/TUM-Dev/navigatum/tree/{hash}"),
+    )
+)]
 #[get("/api/status")]
 async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
     let github_link = match option_env!("GIT_COMMIT_SHA") {
@@ -68,15 +82,18 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
         }
     }
 }
-#[get("/api/get/{id}")]
-async fn details_redirect(params: web::Path<String>) -> impl Responder {
-    let id = params.into_inner();
-    Redirect::to(format!("https://nav.tum.de/locations/{id}")).permanent()
-}
-#[get("/api/preview/{id}")]
-async fn preview_redirect(params: web::Path<String>) -> impl Responder {
-    let id = params.into_inner();
-    Redirect::to(format!("https://nav.tum.de/locations/{id}/preview")).permanent()
+
+/// Openapi service definition
+///
+/// Usefull for consuming in external openapi tooling
+#[utoipa::path(
+    responses(
+        (status = 200, description = "The openapi definition", content_type="application/json")
+    )
+)]
+#[get("/api/openapi.json")]
+async fn openapi_doc(openapi: web::Data<utoipa::openapi::OpenApi>) -> impl Responder {
+    HttpResponse::Ok().json(openapi)
 }
 
 fn connection_string() -> String {
@@ -188,6 +205,15 @@ async fn run() -> anyhow::Result<()> {
     let prometheus = build_metrics();
     let shutdown_pool_clone = data.pool.clone();
     initialisation_started.wait().await;
+    // feedback specific initialisation
+    let feedback_ratelimit = GovernorConfigBuilder::default()
+        .key_extractor(GlobalKeyExtractor)
+        .seconds_per_request(SECONDS_PER_DAY / 300) // replenish new token every .. seconds
+        .burst_size(50)
+        .finish()
+        .expect("Invalid configuration of the governor");
+    let recorded_tokens = web::Data::new(crate::feedback::tokens::RecordedTokens::default());
+
     info!("running the server");
     HttpServer::new(move || {
         let cors = Cors::default()
@@ -197,24 +223,35 @@ async fn run() -> anyhow::Result<()> {
             .max_age(3600)
             .send_wildcard();
 
-        App::new()
-            .wrap(Etag)
-            .wrap(prometheus.clone())
-            .wrap(cors)
-            .wrap(TracingLogger::default())
-            .wrap(middleware::Compress::default())
-            .wrap(sentry_actix::Sentry::new())
-            .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
-            .app_data(web::Data::new(data.clone()))
-            .service(health_status_handler)
-            .service(calendar::calendar_handler)
-            .service(maps::indoor::list_indoor_maps)
-            .service(maps::indoor::get_indoor_map)
-            .service(search::search_handler)
-            .service(web::scope("/api/feedback").configure(feedback::configure))
-            .service(web::scope("/api/locations").configure(locations::configure))
-            .service(details_redirect)
-            .service(preview_redirect)
+        docs::add_openapi_docs(
+            App::new()
+                .wrap(Etag)
+                .wrap(prometheus.clone())
+                .wrap(cors)
+                .wrap(TracingLogger::default())
+                .wrap(middleware::Compress::default())
+                .wrap(sentry_actix::Sentry::new())
+                .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
+                .app_data(web::Data::new(data.clone()))
+                .into_utoipa_app()
+                .app_data(recorded_tokens.clone())
+                .service(health_status_handler)
+                .service(calendar::calendar_handler)
+                .service(maps::indoor::list_indoor_maps)
+                .service(maps::indoor::get_indoor_map)
+                .service(search::search_handler)
+                .service(locations::details::get_handler)
+                .service(locations::nearby::nearby_handler)
+                .service(locations::preview::maps_handler)
+                .service(feedback::post_feedback::send_feedback)
+                .service(feedback::proposed_edits::propose_edits)
+                .service(
+                    scope("/api/feedback/get_token")
+                        .wrap(actix_governor::Governor::new(&feedback_ratelimit))
+                        .service(feedback::tokens::get_token),
+                )
+                .service(openapi_doc),
+        )
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?
     .run()
