@@ -11,7 +11,7 @@ use tracing::error;
 
 use super::AppliableEdit;
 
-#[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
 pub struct Source {
     author: String,
     license: Property,
@@ -21,21 +21,21 @@ pub struct Source {
     #[serde(skip_serializing_if = "Option::is_none")]
     meta: Option<BTreeMap<String, String>>,
 }
-#[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
 struct Property {
     text: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     url: Option<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
 pub struct Offsets {
     #[serde(skip_serializing_if = "Option::is_none")]
     header: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     thumb: Option<i32>,
 }
-#[derive(Debug, Deserialize, Clone, Eq, PartialEq)]
+#[derive(Debug, Deserialize, Clone, Eq, PartialEq, utoipa::ToSchema)]
 pub struct Image {
     content: String,
     metadata: Source,

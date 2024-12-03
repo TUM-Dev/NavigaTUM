@@ -197,7 +197,12 @@ struct QueryArgs {
     format: PreviewFormat,
 }
 
-#[get("/{id}/preview")]
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
+#[get("/api/locations/{id}/preview")]
 pub async fn maps_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<QueryArgs>,

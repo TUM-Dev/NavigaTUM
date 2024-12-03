@@ -6,7 +6,7 @@ use serde::Deserialize;
 use super::github;
 use super::tokens::RecordedTokens;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, utoipa::ToSchema)]
 pub struct FeedbackPostData {
     token: String,
     category: String,
@@ -16,7 +16,13 @@ pub struct FeedbackPostData {
     deletion_requested: bool,
 }
 
-#[post("/feedback")]
+/// Get Pet by id
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
+#[post("/api/feedback/feedback")]
 pub async fn send_feedback(
     recorded_tokens: Data<RecordedTokens>,
     req_data: Json<FeedbackPostData>,

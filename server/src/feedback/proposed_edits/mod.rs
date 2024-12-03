@@ -19,7 +19,7 @@ mod discription;
 mod image;
 mod tmp_repo;
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, utoipa::ToSchema)]
 struct Edit {
     coordinate: Option<Coordinate>,
     image: Option<Image>,
@@ -28,7 +28,7 @@ pub trait AppliableEdit {
     fn apply(&self, key: &str, base_dir: &Path) -> String;
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, utoipa::ToSchema)]
 pub struct EditRequest {
     token: String,
     edits: LimitedHashMap<String, Edit>,
@@ -93,7 +93,13 @@ impl EditRequest {
     }
 }
 
-#[post("/propose_edit")]
+/// Get Pet by id
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
+#[post("/api/feedback/propose_edit")]
 pub async fn propose_edits(
     recorded_tokens: Data<RecordedTokens>,
     req_data: Json<EditRequest>,

@@ -15,7 +15,7 @@ mod connectum;
 mod models;
 pub mod refresh;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, utoipa::ToSchema)]
 pub struct Arguments {
     ids: Vec<String>,
     /// eg. 2039-01-19T03:14:07+1
@@ -42,6 +42,12 @@ impl Arguments {
     }
 }
 
+/// Get Pet by id
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
 #[post("/api/calendar")]
 pub async fn calendar_handler(
     web::Json(args): web::Json<Arguments>,

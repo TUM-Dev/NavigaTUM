@@ -38,7 +38,7 @@ impl CoordinateFile {
     }
 }
 
-#[derive(Deserialize, Debug, Clone, Copy, Default, PartialEq)]
+#[derive(Deserialize, Debug, Clone, Copy, Default, PartialEq, utoipa::ToSchema)]
 pub struct Coordinate {
     lat: f64,
     lon: f64,

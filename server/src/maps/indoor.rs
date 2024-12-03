@@ -48,6 +48,13 @@ pub async fn fetch_indoor_map(pool: &PgPool, id: i64) -> anyhow::Result<serde_js
 
     Ok(value)
 }
+
+/// Get Pet by id
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
 #[get("/api/maps/indoor/{id}")]
 pub async fn get_indoor_map(
     params: web::Path<i64>,
@@ -97,6 +104,12 @@ impl Arguments {
     }
 }
 
+/// Get Pet by id
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
 #[get("/api/maps/indoor")]
 pub async fn list_indoor_maps(
     web::Query(args): web::Query<Arguments>,

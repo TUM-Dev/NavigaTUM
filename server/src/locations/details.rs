@@ -8,7 +8,12 @@ use tracing::error;
 use crate::localisation;
 use crate::models::LocationKeyAlias;
 
-#[get("/{id}")]
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
+#[get("/api/locations/{id}")]
 pub async fn get_handler(
     params: web::Path<String>,
     web::Query(args): web::Query<localisation::LangQueryArgs>,

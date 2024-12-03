@@ -21,7 +21,12 @@ struct NearbyResponse {
     public_transport: Vec<Transportation>,
 }
 
-#[get("/{id}/nearby")]
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
+#[get("/api/locations/{id}/nearby")]
 pub async fn nearby_handler(
     params: web::Path<String>,
     data: web::Data<crate::AppData>,

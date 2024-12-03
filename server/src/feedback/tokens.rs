@@ -1,6 +1,6 @@
 use std::fmt;
 
-use actix_web::HttpResponse;
+use actix_web::{post, HttpResponse};
 use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
 use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
@@ -114,6 +114,13 @@ struct Token {
     token: String,
 }
 
+/// Get Pet by id
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
+#[post("")]
 pub async fn get_token() -> HttpResponse {
     if !able_to_process_feedback() {
         return HttpResponse::ServiceUnavailable()

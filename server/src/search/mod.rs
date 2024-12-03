@@ -12,7 +12,7 @@ use unicode_truncate::UnicodeTruncateStr;
 
 mod search_executor;
 
-#[derive(Deserialize, Debug, Default)]
+#[derive(Deserialize, Debug, Default, utoipa::ToSchema)]
 pub struct SearchQueryArgs {
     q: String,
     limit_buildings: Option<usize>,
@@ -126,6 +126,13 @@ impl From<&SearchQueryArgs> for Highlighting {
         Self { pre, post }
     }
 }
+
+/// Get Pet by id
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
 #[get("/api/search")]
 pub async fn search_handler(
     data: web::Data<AppData>,

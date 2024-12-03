@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::sync::Arc;
 
 use actix_cors::Cors;
+use actix_governor::{GlobalKeyExtractor, GovernorConfigBuilder};
 use actix_middleware_etag::Etag;
 use actix_web::web::Redirect;
 use actix_web::{get, middleware, web, App, HttpResponse, HttpServer, Responder};
@@ -25,8 +26,11 @@ mod maps;
 mod models;
 mod search;
 mod setup;
+use utoipa_actix_web::{scope, AppExt};
 
 const MAX_JSON_PAYLOAD: usize = 1024 * 1024; // 1 MB
+
+const SECONDS_PER_DAY: u64 = 60 * 60 * 24;
 
 #[derive(Clone, Debug)]
 pub struct AppData {
@@ -50,6 +54,13 @@ impl AppData {
     }
 }
 
+
+/// Get Pet by id
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
 #[get("/api/status")]
 async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
     let github_link = match option_env!("GIT_COMMIT_SHA") {
@@ -68,15 +79,38 @@ async fn health_status_handler(data: web::Data<AppData>) -> HttpResponse {
         }
     }
 }
+
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
 #[get("/api/get/{id}")]
 async fn details_redirect(params: web::Path<String>) -> impl Responder {
     let id = params.into_inner();
     Redirect::to(format!("https://nav.tum.de/locations/{id}")).permanent()
 }
+
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
 #[get("/api/preview/{id}")]
 async fn preview_redirect(params: web::Path<String>) -> impl Responder {
     let id = params.into_inner();
     Redirect::to(format!("https://nav.tum.de/locations/{id}/preview")).permanent()
+}
+
+
+#[utoipa::path(
+    responses(
+        (status = 200, description = "Pet found from database")
+    )
+)]
+#[get("/api/openapi.json")]
+async fn openapi_doc(openapi: web::Data<utoipa::openapi::OpenApi>)->impl Responder {
+    HttpResponse::Ok().content_type("application/json").json(openapi)
 }
 
 fn connection_string() -> String {
@@ -188,6 +222,15 @@ async fn run() -> anyhow::Result<()> {
     let prometheus = build_metrics();
     let shutdown_pool_clone = data.pool.clone();
     initialisation_started.wait().await;
+    // feedback specific initialisation
+    let feedback_ratelimit = GovernorConfigBuilder::default()
+        .key_extractor(GlobalKeyExtractor)
+        .seconds_per_request(SECONDS_PER_DAY / 300) // replenish new token every .. seconds
+        .burst_size(50)
+        .finish()
+        .expect("Invalid configuration of the governor");
+    let recorded_tokens = web::Data::new(crate::feedback::tokens::RecordedTokens::default());
+
     info!("running the server");
     HttpServer::new(move || {
         let cors = Cors::default()
@@ -197,13 +240,14 @@ async fn run() -> anyhow::Result<()> {
             .max_age(3600)
             .send_wildcard();
 
-        App::new()
+        let (app,api)=App::new()
             .wrap(Etag)
             .wrap(prometheus.clone())
             .wrap(cors)
             .wrap(TracingLogger::default())
             .wrap(middleware::Compress::default())
             .wrap(sentry_actix::Sentry::new())
+            .into_utoipa_app()
             .app_data(web::JsonConfig::default().limit(MAX_JSON_PAYLOAD))
             .app_data(web::Data::new(data.clone()))
             .service(health_status_handler)
@@ -211,10 +255,23 @@ async fn run() -> anyhow::Result<()> {
             .service(maps::indoor::list_indoor_maps)
             .service(maps::indoor::get_indoor_map)
             .service(search::search_handler)
-            .service(web::scope("/api/feedback").configure(feedback::configure))
-            .service(web::scope("/api/locations").configure(locations::configure))
+            .service(locations::details::get_handler)
+            .service(locations::nearby::nearby_handler)
+            .service(locations::preview::maps_handler)
+            .app_data(recorded_tokens.clone())
+            .service(feedback::post_feedback::send_feedback)
+            .service(feedback::proposed_edits::propose_edits)
+            .service(
+                scope("/api/feedback/get_token")
+                    .wrap(actix_governor::Governor::new(&feedback_ratelimit))
+                    .service(feedback::tokens::get_token),
+            )
             .service(details_redirect)
             .service(preview_redirect)
+            .service(openapi_doc)
+            .split_for_parts();
+        app
+            .app_data(web::Data::new(api.clone()))
     })
     .bind(std::env::var("BIND_ADDRESS").unwrap_or_else(|_| "0.0.0.0:3003".to_string()))?
     .run()
