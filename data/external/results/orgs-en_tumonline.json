@@ -556,8 +556,8 @@
   },
   "15140": {
     "code": "TUARL02",
-    "name": "Chair of Visual Arts (Fogelberg komm.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Visual Arts (Fogelberg komm.)"
+    "name": "Associate Professorship of Arts in Architecture (Prof. Erlund)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Arts in Architecture (Prof. Erlund)"
   },
   "15142": {
     "code": "TUARL04",
@@ -1078,11 +1078,6 @@
     "code": "TUWZX6V",
     "name": "Chair of Bioanalytics (Prof. K\u00fcster)",
     "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Bioanalytics (Prof. K\u00fcster)"
-  },
-  "15574": {
-    "code": "TUWZT3U",
-    "name": "Chair of General Food Technology (N.N.)",
-    "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/General Food Technology (N.N.)"
   },
   "15575": {
     "code": "TUWZT6Y",
@@ -2073,11 +2068,6 @@
     "code": "TUPRAES",
     "name": "President",
     "path": "TUM/TUM Board of Management/President"
-  },
-  "20212": {
-    "code": "TUPRBE4",
-    "name": "Delegate officer for Network of Schools",
-    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for Network of Schools"
   },
   "20226": {
     "code": "TUPRVP1",
@@ -3239,11 +3229,6 @@
     "name": "Munich Dual Career Office",
     "path": "TUM/TUM Board of Management/Faculty Recruiting, Career Advancement and Dual Career/Munich Dual Career Office"
   },
-  "41264": {
-    "code": "TUPRBE5",
-    "name": "Delegate officer for the scientific exchange with France",
-    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for the scientific exchange with France"
-  },
   "41267": {
     "code": "TUGSTGS",
     "name": "Management Office (GS)",
@@ -4281,8 +4266,8 @@
   },
   "45872": {
     "code": "TUPRBE7",
-    "name": "Delegate officer for brand policy and corporate design",
-    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for brand policy and corporate design"
+    "name": "Delegate officer for Brand Policy and Corporate Design",
+    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for Brand Policy and Corporate Design"
   },
   "45891": {
     "code": "TUWZP3C",
@@ -5054,21 +5039,6 @@
     "name": "Financial accounting Campus Weihenstephan",
     "path": "TUM/Central Administration/Finance (Central department 3)/Financial accounting (department 35)/Financial accounting Campus Weihenstephan"
   },
-  "48339": {
-    "code": "TUZV370",
-    "name": "Units Zahlstelle Campus M\u00fcnchen",
-    "path": "TUM/Central Administration/Finance (Central department 3)/Paying office (department 37)/Units"
-  },
-  "48340": {
-    "code": "TUZV371",
-    "name": "Units Zahlstelle Campus Garching",
-    "path": "TUM/Central Administration/Finance (Central department 3)/Paying office (department 37)/Units"
-  },
-  "48341": {
-    "code": "TUZV372",
-    "name": "Units Zahlstelle Campus Weihenstephan",
-    "path": "TUM/Central Administration/Finance (Central department 3)/Paying office (department 37)/Units"
-  },
   "48377": {
     "code": "TUPHEQT",
     "name": "Assistant Professorship of Quantum Technologies (Prof. Poot)",
@@ -5246,13 +5216,8 @@
   },
   "48857": {
     "code": "TUPRB01",
-    "name": "Delegate officer for fundraising",
-    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for fundraising"
-  },
-  "48858": {
-    "code": "TUPRB02",
-    "name": "Delegate officer for the strategic alliances EuroTech and GlobalTech",
-    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for the strategic alliances EuroTech and GlobalTech"
+    "name": "Delegate officer for Philanthropy and Engagement",
+    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for Philanthropy and Engagement"
   },
   "48859": {
     "code": "TUZELSB",
@@ -5614,11 +5579,6 @@
     "name": "Informatics 1 - Assistant Professorship of Digital Health (N.N.)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Digital Health (N.N.)"
   },
-  "49737": {
-    "code": "TUPRB03",
-    "name": "Delegate officer for Entrepreneurship",
-    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for Entrepreneurship"
-  },
   "49757": {
     "code": "TUZEICF",
     "name": "Core Facility Gnotobiology",
@@ -5641,7 +5601,7 @@
   },
   "49837": {
     "code": "TUARL36",
-    "name": "Assistant Professorship of Digital Fabrication (Prof. D\u00f6rfler)",
+    "name": "Associate Professorship of Digital Fabrication (Prof. D\u00f6rfler)",
     "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Digital Fabrication (Prof. D\u00f6rfler)"
   },
   "49857": {
@@ -11138,5 +11098,30 @@
     "code": "TUS7SCC",
     "name": "Assistant Professorship of Science and Crisis Communication (Prof. Walter)",
     "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Science and Crisis Communication (Prof. Walter)"
+  },
+  "56877": {
+    "code": "TUPRB05",
+    "name": "Delegate officer for Image and Presidential Events",
+    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for Image and Presidential Events"
+  },
+  "56878": {
+    "code": "TUPRB06",
+    "name": "Delegate officer for TUM Senior Excellence Faculty",
+    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for TUM Senior Excellence Faculty"
+  },
+  "56879": {
+    "code": "TUPRB07",
+    "name": "Delegate officer for TUM Asia Faculty",
+    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for TUM Asia Faculty"
+  },
+  "56880": {
+    "code": "TUPRB08",
+    "name": "Delegate officer for TUM Student Research Centers",
+    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Representatives of the President/Delegate officer for TUM Student Research Centers"
+  },
+  "56881": {
+    "code": "TUPRB09",
+    "name": "Delegate officer for Fundraising",
+    "path": "TUM/TUM Board of Management/Delegate Officers of the President/Delegate officer for Fundraising"
   }
 }

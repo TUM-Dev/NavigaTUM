@@ -556,8 +556,8 @@
   },
   "15140": {
     "code": "TUARL02",
-    "name": "Lehrstuhl f\u00fcr Bildende Kunst  (Fogelberg komm.)",
-    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Bildende Kunst  (Fogelberg komm.)"
+    "name": "Professur f\u00fcr Kunst in der Architektur (Prof. Erlund)",
+    "path": "TUM/Schools/Engineering and Design/Departments/Architecture/Kunst in der Architektur (Prof. Erlund)"
   },
   "15142": {
     "code": "TUARL04",
@@ -1078,11 +1078,6 @@
     "code": "TUWZX6V",
     "name": "Lehrstuhl f\u00fcr Proteomik und Bioanalytik (Prof. K\u00fcster)",
     "path": "TUM/Schools/Life Sciences/Departments/Molecular Life Sciences/Proteomik und Bioanalytik (Prof. K\u00fcster)"
-  },
-  "15574": {
-    "code": "TUWZT3U",
-    "name": "Lehrstuhl f\u00fcr Allgemeine Lebensmitteltechnologie (N.N.)",
-    "path": "TUM/Schools/Life Sciences/Departments/Life Science Engineering/Allgemeine Lebensmitteltechnologie (N.N.)"
   },
   "15575": {
     "code": "TUWZT6Y",
@@ -2074,11 +2069,6 @@
     "name": "Pr\u00e4sident",
     "path": "TUM/Hochschulpr\u00e4sidium/Pr\u00e4sident"
   },
-  "20212": {
-    "code": "TUPRBE4",
-    "name": "Beauftragter f\u00fcr Schulnetzwerke",
-    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte des Pr\u00e4sidenten/Pers\u00f6nliche Beauftragte des Pr\u00e4sidenten/Beauftragter f\u00fcr Schulnetzwerke"
-  },
   "20226": {
     "code": "TUPRVP1",
     "name": "Gesch\u00e4ftsf\u00fchrender Vizepr\u00e4sident f\u00fcr Studium & Lehre",
@@ -2846,8 +2836,8 @@
   },
   "30374": {
     "code": "TUVBFBA",
-    "name": "Beauftragte f\u00fcr die Gleichstellung von Frauen in Wissenschaft und Kunst",
-    "path": "TUM/Beauftragte und Vertretungen/Beauftragte f\u00fcr die Gleichstellung von Frauen in Wissenschaft und Kunst"
+    "name": "Beauftragter f\u00fcr die Gleichstellung von Frauen in Wissenschaft und Kunst",
+    "path": "TUM/Beauftragte und Vertretungen/Beauftragter f\u00fcr die Gleichstellung von Frauen in Wissenschaft und Kunst"
   },
   "30375": {
     "code": "TUVBDSB",
@@ -3239,11 +3229,6 @@
     "name": "Munich Dual Career Office",
     "path": "TUM/Hochschulpr\u00e4sidium/Berufungen, Karriereaufstieg und Dual Career/Munich Dual Career Office"
   },
-  "41264": {
-    "code": "TUPRBE5",
-    "name": "Beauftragte f\u00fcr die Wissenschaftsbeziehungen mit Frankreich",
-    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte des Pr\u00e4sidenten/Pers\u00f6nliche Beauftragte des Pr\u00e4sidenten/Beauftragte f\u00fcr die Wissenschaftsbeziehungen mit Frankreich"
-  },
   "41267": {
     "code": "TUGSTGS",
     "name": "Management Office (GS)",
@@ -3302,7 +3287,7 @@
   "42357": {
     "code": "TUPREOE",
     "name": "TUM Emeriti of Excellence",
-    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte des Pr\u00e4sidenten/TUM Emeriti of Excellence"
+    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte und Bevollm\u00e4chtigte des Pr\u00e4sidenten/TUM Emeriti of Excellence"
   },
   "42566": {
     "code": "TUZEFCL",
@@ -4282,7 +4267,7 @@
   "45872": {
     "code": "TUPRBE7",
     "name": "Beauftragter f\u00fcr Markenpolitik und Corporate Design",
-    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte des Pr\u00e4sidenten/Pers\u00f6nliche Beauftragte des Pr\u00e4sidenten/Beauftragter f\u00fcr Markenpolitik und Corporate Design"
+    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte und Bevollm\u00e4chtigte des Pr\u00e4sidenten/Beauftragte des Pr\u00e4sidenten/Beauftragter f\u00fcr Markenpolitik und Corporate Design"
   },
   "45891": {
     "code": "TUWZP3C",
@@ -4631,8 +4616,8 @@
   },
   "47437": {
     "code": "TUVBKOR",
-    "name": "Beauftragte/r f\u00fcr Korruptionsvorsorge",
-    "path": "TUM/Beauftragte und Vertretungen/Beauftragte/r f\u00fcr Korruptionsvorsorge"
+    "name": "Beauftragte f\u00fcr Korruptionsvorsorge",
+    "path": "TUM/Beauftragte und Vertretungen/Beauftragter f\u00fcr Korruptionsvorsorge"
   },
   "47457": {
     "code": "TUEDS25",
@@ -5054,21 +5039,6 @@
     "name": "Finanzbuchhaltung Campus Weihenstephan",
     "path": "TUM/Zentrale Verwaltung/Finanzen (ZA 3)/Finanzbuchhaltung (Referat 35)/Finanzbuchhaltung Campus Weihenstephan"
   },
-  "48339": {
-    "code": "TUZV370",
-    "name": "Zahlstelle Campus M\u00fcnchen",
-    "path": "TUM/Zentrale Verwaltung/Finanzen (ZA 3)/Zahlstelle (Referat 37)/Zahlstelle Campus M\u00fcnchen"
-  },
-  "48340": {
-    "code": "TUZV371",
-    "name": "Zahlstelle Campus Garching",
-    "path": "TUM/Zentrale Verwaltung/Finanzen (ZA 3)/Zahlstelle (Referat 37)/Zahlstelle Campus Garching"
-  },
-  "48341": {
-    "code": "TUZV372",
-    "name": "Zahlstelle Campus Weihenstephan",
-    "path": "TUM/Zentrale Verwaltung/Finanzen (ZA 3)/Zahlstelle (Referat 37)/Zahlstelle Campus Weihenstephan"
-  },
   "48377": {
     "code": "TUPHEQT",
     "name": "Professur f\u00fcr Quantum Technologies (Prof. Poot)",
@@ -5246,13 +5216,8 @@
   },
   "48857": {
     "code": "TUPRB01",
-    "name": "Beauftragte f\u00fcr Fundraising",
-    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte des Pr\u00e4sidenten/Pers\u00f6nliche Beauftragte des Pr\u00e4sidenten/Beauftragte f\u00fcr Fundraising"
-  },
-  "48858": {
-    "code": "TUPRB02",
-    "name": "Beauftragte f\u00fcr die strategischen Allianzen EuroTech und Global Tech",
-    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte des Pr\u00e4sidenten/Pers\u00f6nliche Beauftragte des Pr\u00e4sidenten/Beauftragte f\u00fcr die strategischen Allianzen EuroTech und Global Tech"
+    "name": "Beauftragte f\u00fcr Philanthropie und Engagement",
+    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte und Bevollm\u00e4chtigte des Pr\u00e4sidenten/Beauftragte des Pr\u00e4sidenten/Beauftragte f\u00fcr Philanthropie und Engagement"
   },
   "48859": {
     "code": "TUZELSB",
@@ -5613,11 +5578,6 @@
     "code": "TUINF21",
     "name": "Informatik 1 - Professur f\u00fcr Digital Health (N.N.)",
     "path": "TUM/Schools/Computation, Information and Technology/Departments/Computer Science/Digital Health (N.N.)"
-  },
-  "49737": {
-    "code": "TUPRB03",
-    "name": "Beauftragter f\u00fcr Entrepreneurship",
-    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte des Pr\u00e4sidenten/Pers\u00f6nliche Beauftragte des Pr\u00e4sidenten/Beauftragter f\u00fcr Entrepreneurship"
   },
   "49757": {
     "code": "TUZEICF",
@@ -11138,5 +11098,30 @@
     "code": "TUS7SCC",
     "name": "Professur f\u00fcr Science and Crisis Communication (Prof. Walter)",
     "path": "TUM/Schools/Social Sciences and Technology/Departments/Science, Technology and Society/Science and Crisis Communication (Prof. Walter)"
+  },
+  "56877": {
+    "code": "TUPRB05",
+    "name": "Beauftragte f\u00fcr Image und Pr\u00e4sidialevents",
+    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte und Bevollm\u00e4chtigte des Pr\u00e4sidenten/Beauftragte des Pr\u00e4sidenten/Beauftragte f\u00fcr Image und Pr\u00e4sidialevents"
+  },
+  "56878": {
+    "code": "TUPRB06",
+    "name": "Beauftragte f\u00fcr TUM Senior Excellence Faculty",
+    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte und Bevollm\u00e4chtigte des Pr\u00e4sidenten/Beauftragte des Pr\u00e4sidenten/Beauftragte f\u00fcr TUM Senior Excellence Faculty"
+  },
+  "56879": {
+    "code": "TUPRB07",
+    "name": "Beauftragter f\u00fcr TUM Asia Faculty",
+    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte und Bevollm\u00e4chtigte des Pr\u00e4sidenten/Beauftragte des Pr\u00e4sidenten/Beauftragter f\u00fcr TUM Asia Faculty"
+  },
+  "56880": {
+    "code": "TUPRB08",
+    "name": "Beauftragte f\u00fcr TUM Sch\u00fclerforschungszentren",
+    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte und Bevollm\u00e4chtigte des Pr\u00e4sidenten/Beauftragte des Pr\u00e4sidenten/Beauftragte f\u00fcr TUM Sch\u00fclerforschungszentren"
+  },
+  "56881": {
+    "code": "TUPRB09",
+    "name": "Bevollm\u00e4chtigter des Pr\u00e4sidenten f\u00fcr Fundraising",
+    "path": "TUM/Hochschulpr\u00e4sidium/Beauftragte und Bevollm\u00e4chtigte des Pr\u00e4sidenten/Bevollm\u00e4chtigter des Pr\u00e4sidenten f\u00fcr Fundraising"
   }
 }
