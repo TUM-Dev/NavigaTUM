@@ -48,7 +48,7 @@ RUN     if [ $PROFILE == "release" ]; then \
 
 
 # RUN
-FROM alpine:3.20 AS production-stage
+FROM alpine:3.21 AS production-stage
 
 ARG     GIT_COMMIT_SHA=development
 ENV     GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
