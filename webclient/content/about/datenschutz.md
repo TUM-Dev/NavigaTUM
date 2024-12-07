@@ -9,7 +9,7 @@ Verantwortlicher im Sinne der Datenschutzgesetze, insbesondere der EU-Datenschut
 Frank Elsinga in Vertretung für ["OpenSource @ TUM e.V."](https://tum.dev).
 
 ```plain
-Postal address: Boltzmannstr. 3, 85748 Garching b. München, Germany.
+Postanschrift: Boltzmannstr. 3, 85748 Garching b. München, Germany.
 Telephone: 089/289-17052
 E-Mail: navigatum (at-symbol) tum.de
 ```
@@ -32,6 +32,19 @@ Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
 Für die Nutzung des Feedbackformulars muss den [Tearms of Service und den Datenschutzbestimmungen von GitHub](https://docs.github.com/en/github/site-policy) zugestimmt werden.
 Auf die mögliche Übertragung der Daten außerhalb der Europäischen Union wird hingewiesen.
 Für nicht öffentliche Kommunikation wird auf die Kontaktmöglichkeit über das [Impressum](/about/impressum) hingewiesen.
+
+#### Navigation - Standort
+
+Die Nutzung der Navigation erfolgt auf einer rein freiwilligen Basis.
+Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
+Während der Nutzung der Navigation können Nutzer neben Adressen oder Räumen auch ihren momentanen Standort als Startpunkt angeben.
+Dies wird anschließend an unseren Server übertragen und die Route wird an den Nutzer zurückgegeben.
+
+#### Karte - Standort
+
+Die Nutzung der Naigation erfolgt auf einer rein freiwilligen Basis.
+Die Verarbeitung basiert auf Grundlage des Art. 6 Abs.1 lit. a DSGVO.
+Während der Nutzung der Karte können Nutzer ihren eigenen Standort auf der Karte anzeigen lassen.
 
 ### Empfänger von personenbezogenen Daten
 
@@ -60,6 +73,14 @@ Die Daten von einem Nutzer freiwillig bereitgestellten Daten werden technisch ni
 Zudem kann ein Nutzer seinen Kommentar jederzeit durch uns löschen lassen.
 Schreiben Sie dafür bitte eine E-Mail an uns (navigatum (at-symbol) tum.de) und übermitteln den Link zu Ihrem Kommentar.
 Darüber hinaus können Sie sich auch an den unten aufgeführten Datenschutzbeauftragten bzw. die für den Datenschutz zuständige Person werden.
+
+#### Navigation - Standort
+
+Die Daten werden nach der Errechnung der Navigationsroute verworfen und damit nicht gespeichert.
+
+#### Karte - Standort
+
+Die Daten werden nicht an unseren Server übermittelt und damit nicht gespeichert.
 
 ## Ihre Rechte
 
@@ -134,7 +155,7 @@ Die folgenden Daten werden während einer laufenden Verbindung zur Kommunikation
 - Verwendete Webbrowser und verwendetes Betriebssystem
 - Übertragene Datenmenge.
 
-**Insbesondere werden keine IP-Adressen protokolliert.**
+**Insbesondere werden keine IP-Adressen oder Standortdaten protokolliert.**
 
 Die Verarbeitung der Daten in dieser Logdatei geschieht wie folgt:
 
@@ -172,7 +193,7 @@ Diese erlauben keine Rückführung auf die Personen, die die Dienste nutzen.
 ### Cookies
 
 Wie viele andere Webseiten verwenden wir auch sogenannte "Cookies".
-Bei Cookies handelt es sich um kleine Textdateien, die auf Ihrem Endgerät (Laptop, Tablet, Smartphone o.ä.) gespeichert werden, wenn Sie unsere Webseite besuchen.
+Cookies sind kleine Textdateien, die auf Ihrem Endgerät (Laptop, Tablet, Smartphone o.ä.) gespeichert werden, wenn Sie unsere Webseite besuchen.
 
 Sie können Sie einzelne Cookies oder den gesamten Cookie-Bestand löschen.
 Darüber hinaus erhalten Sie Informationen und Anleitungen, wie diese Cookies gelöscht oder deren Speicherung vorab blockiert werden können.
@@ -216,11 +237,34 @@ Eine Rückführung auf die Person ist dabei nur insoweit möglich, wie personenb
 Neben dem vom Nutzer bereitgestellten Daten wird außerdem der Raum, über den Feedback abgegeben wurde, das Datum und die Uhrzeit der Feedbackserstellung gesendet.
 Es wird zudem gespeichert, ob der Nutzer die Löschung der übertragenen Daten nach Beendigung der Feedbackbearbeitung wünscht.
 
-**Empfänger:**  
+**Empfänger:**
 Das übertragene Feedback wird, im Rahmen unserem Commitment zur Transparenz, öffentlich zugänglich auf [Github](https://github.com/TUM-Dev/navigatum/issues) gespeichert.
 Sie sind also technisch nicht auf einen Personenkreis beschränkt.
 Dem Nutzer wird ein Issue-link präsentiert, um die Bearbeitung des Feedbacks nachvollziehen zu können.
 Falls der Nutzer die sofortige Löschung gewünscht hat, kann diese Funktion nicht mehr technisch bereitgestellt werden.
 
-**Bereitstellung vorgeschrieben oder erforderlich:**  
+**Bereitstellung vorgeschrieben oder erforderlich:**
 Die Bereitstellung dieser nicht personenbezogenen Daten erfolgt freiwillig.
+
+#### Navigation - Standort
+
+Im Verlauf der Navigation können Nutzer neben Adressen oder Räumen auch ihren aktuellen Standort als Startpunkt angeben.
+Dies wird anschließend an unseren Server übertragen und die Route wird an den Nutzer zurückgegeben.
+Der Standort wird hierbei nicht gespeichert.
+
+**Empfänger:**
+Während der Errechnung der Navigationsroute hat unser Server Zugriff auf die vom Nutzer gewünschte Route.
+Anschließend werden diese Informationen wieder gelöscht.
+
+**Bereitstellung vorgeschrieben oder erforderlich:**
+Die Bereitstellung dieser personenbezogenen Daten erfolgt freiwillig.
+
+#### Karte - Standort
+
+Während der Nutzung der Karte können Nutzer ihren Standort auf der Karte anzeigen lassen.
+
+**Empfänger:**
+Die Daten werden nicht an Server übermittelt und erfolgt rein lokal.
+
+**Bereitstellung vorgeschrieben oder erforderlich:**
+Es besteht keine Bereitstellung dieser personenbezogenen Daten.
