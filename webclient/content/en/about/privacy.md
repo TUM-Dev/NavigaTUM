@@ -35,6 +35,19 @@ the [Tearms of Service and GitHub Privacy Policy](https://docs.github.com/en/git
 Please note that data may be transferred outside the European Union.
 For non-public communication, please refer to the contact option via the [Imprint](/en/about/imprint).
 
+#### Navigation - Location
+
+Navigation is used on a purely voluntary basis.
+The processing is based on Art. 6 para. 1 lit. a GDPR.
+When using the navigation, users can enter their current location as a starting point in addition to addresses or rooms.
+This is then transmitted to our server and the route is returned to the user.
+
+#### Map - location
+
+The use of navigation is purely voluntary.
+The processing is based on Art. 6 para. 1 lit. a GDPR.
+While using the map, users can have their own location displayed on the map.
+
 ### Recipients of personal data
 
 The technical operation of our data processing systems is carried out by:
@@ -66,6 +79,14 @@ In addition, a user can have his or her comment deleted by us at any time.
 To do so, please write an e-mail to us (navigatum (at-symbol) tum.de) and provide the link to your comment.
 In addition, you can also contact the data protection officer listed below and/or the person responsible for data
 protection.
+
+#### Navigation - Location
+
+The data is discarded after the navigation route has been calculated and is therefore not saved.
+
+#### Map - Location
+
+The data is not transmitted to our server and is therefore not saved.
 
 ## Your rights
 
@@ -149,7 +170,7 @@ internet browser and our web server:
 - web browser and operating system used
 - amount of data transferred.
 
-**In particular, no IP addresses are logged.**
+**In particular, no IP addresses or locations are logged.**
 
 The data in this log file is processed as follows:
 
@@ -252,3 +273,26 @@ If the user has requested immediate deletion, this function can no longer be tec
 #### Provision mandatory or required
 
 The provision of this non-personal data is voluntary.
+
+#### Navigation - Location
+
+During navigation, users can enter their current location as a starting point in addition to addresses or rooms.
+This is then transmitted to our server and the route is returned to the user.
+The location is not saved.
+
+**Receiver:**
+During the calculation of the navigation route, our server has access to the route requested by the user.
+This information is then deleted again.
+
+**Provision prescribed or required:**
+The provision of this personal data is voluntary.
+
+#### Map - Location
+
+While using the map, users can display their location on the map.
+
+**Recipients:**
+The data is not transmitted to servers and is purely local.
+
+**Provision prescribed or required:**
+There is no provision of this personal data.
