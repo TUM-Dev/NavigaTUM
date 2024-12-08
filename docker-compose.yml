@@ -163,7 +163,7 @@ services:
       start_period: 20s
   download-data:
     image: alpine:latest
-    command: sh /map/download.sh europe/germany/bayern/oberbayern
+    command: sh /map/download.sh europe/germany/bayern
     environment:
       TZ: Europe/Berlin
     working_dir: /map
@@ -172,23 +172,6 @@ services:
       - ./map/gtfs_feeds/:/map/gtfs_feeds/:rw
       - ./map/download.sh:/map/download.sh:ro
       - ./map/valhalla.json:/map/valhalla.json:ro
-  valhalla-build:
-    image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest
-    volumes:
-      - ./map/data/:/custom_files:rw
-      - ./map/gtfs_feeds:/gtfs_feeds:rw
-    environment:
-      TZ: Europe/Berlin
-      build_elevation: True
-      build_admins: Force
-      build_time_zones: Force
-      build_transit: True
-      use_default_speeds_config: True
-      serve_tiles: False
-      server_threads: 3 # we don't want to gobble up all the CPU and have 2 cores/4 threads
-    depends_on:
-      download-data:
-        condition: service_completed_successfully
   valhalla:
     image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest
     restart: unless-stopped
@@ -206,9 +189,6 @@ services:
       - traefik_traefik
     expose:
       - 8002
-    depends_on:
-      valhalla-build:
-        condition: service_completed_successfully
     volumes:
       - ./map/data/:/custom_files:rw
     tmpfs:
@@ -220,6 +200,32 @@ services:
       retries: 2
       start_period: 5s
       timeout: 1s
+  nominatim:
+    image: mediagis/nominatim:4.5
+    restart: unless-stopped
+    networks:
+      - traefik_traefik
+    environment:
+      PBF_PATH: /map/data/bayern-latest.osm.pbf
+      REPLICATION_URL: https://download.geofabrik.de/europe/germany/bayern-updates/
+      UPDATE_MODE: continuous
+      IMPORT_WIKIPEDIA: true
+      IMPORT_STYLE: street
+    volumes:
+      - ./map/data/:/map/data/:ro
+    depends_on:
+      download-data:
+        condition: service_completed_successfully
+    expose:
+      - 8080
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.navigatum-nominatim.entrypoints=webs"
+      - "traefik.http.routers.navigatum-nominatim.tls.certresolver=leacme"
+      - "traefik.http.routers.navigatum-nominatim.rule=Host(`nav.tum.de`) && PathPrefix(`/nominatim`)"
+      - "traefik.http.routers.navigatum-nominatim.middlewares=navigatum-nominatim-stripprefix@docker"
+      - "traefik.http.middlewares.navigatum-nominatim-stripprefix.stripprefix.prefixes=/nominatim"
+      - "traefik.http.services.navigatum-nominatim.loadbalancer.server.port=8080"
   osm2pgsql-init:
     image: iboates/osm2pgsql:latest
     networks:

@@ -1,0 +1,48 @@
+services:
+  rebuild-valhalla:
+    image: ghcr.io/onthegomap/planetiler:latest
+    mem_limit: 50G
+    memswap_limit: 50G
+    cpu_shares: 512 # we don't want to gobble up all the CPU
+    pull_policy: always
+    environment:
+      JAVA_TOOL_OPTIONS: -Xmx25g
+    volumes:
+      - /tmp/navigatum/map:/data
+    command:
+      - --download
+      - --download-threads=10
+      - --download-chunk-size-mb=1000
+      - --fetch-wikidata
+      - --languages=de,en
+      - --area=planet
+      - --bounds=world
+      - --Xmx25g
+      - --nodemap-type=array
+      - --storage=mmap
+      - --tile_compression=none
+      - --free_osm_after_read=true
+      - --free_natural_earth_after_read=true
+      - --free_water_polygons_after_read=true
+      - --free_lake_centerlines_after_read=true
+      - --compress_temp=true
+      - --force=true
+  valhalla-build:
+    image: ghcr.io/gis-ops/docker-valhalla/valhalla:latest
+    mem_limit: 50G
+    memswap_limit: 50G
+    cpu_shares: 512 # we don't want to gobble up all the CPU
+    pull_policy: always
+    volumes:
+      - ./tmp/navigatum/navigation/:/custom_files:rw
+      - ./home/frank/gtfs_feeds:/gtfs_feeds:rw
+    environment:
+      TZ: Europe/Berlin
+      tile_urls: https://download.geofabrik.de/europe/germany/bayern-latest.osm.pbf
+      build_elevation: True
+      force_rebuild: True
+      build_admins: Force
+      build_time_zones: Force
+      build_transit: Force
+      use_default_speeds_config: True
+      serve_tiles: False
