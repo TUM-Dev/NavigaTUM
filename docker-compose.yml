@@ -247,7 +247,7 @@ services:
       - db
       - --port
       - "5432"
-      - /map/data/oberbayern-latest.osm.pbf
+      - /map/data/bayern-latest.osm.pbf
       - --output=flex
       - --style
       - /map/osm2pgsql/style.lua
