@@ -79,16 +79,23 @@ docker compose -f docker-compose.local.yml up --build
 ```
 
 > [!NOTE]
-> While most of the setup is simple, we need to download data for
-> the initial setup. Downloading Oberbayern as the smallest osm-region offered by [geofabrik](https://geofabrik.de)
-> takes 1-2 minutes.
 > We also need to run an incremental compilation for our server.
 > The first compilation will be slow, afterward this will only take a bit of time.
 > The local builds also run in `PROFILE=debug` to improve build-times.
 >
-> Not beating around the bush: Complation times for the [`server`](./server) are a problem, but we are confident that
+> Not beating around the bush:
+> Compilation times for the [`server`](./server) are a problem, but we are confident that
 > these can be resolved via upstream language improvements such as
 > [polonius](https://blog.rust-lang.org/inside-rust/2023/10/06/polonius-update.html), [cranelift](https://github.com/rust-lang/rustc_codegen_cranelift), [paralell-frontend](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html),....
+
+
+> [!NOTE]
+> The **local** build will not deploy a full stack and **skips all geodata**.
+> As such, the following services are not deployed as their initialisation work is heavy and likely not relevant:
+> - [valhalla](https://github.com/valhalla/valhalla) (a routing service),
+> - [nominatim](https://nominatim.org/) (for address geocoding)
+> - [planetiler](https://github.com/onthegomap/planetiler) (for generating basemap tiles database of our tileserver)
+> - [martin](https://github.com/maplibre/martin) (as it would not have any data to pull on)
 
 Otherwise, you can follow the steps in the [server documentation](server/README.md).
 
