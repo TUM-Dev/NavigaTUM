@@ -198,7 +198,6 @@ mod tests {
                 ParsedQuery::from(format!("near:{sep}45.32,59.3").as_str()).sorting,
                 Sorting {
                     location: HashSet::from(["45.32,59.3".to_string()]),
-                    ..Default::default()
                 }
             );
         }
@@ -207,7 +206,6 @@ mod tests {
                 ParsedQuery::from(format!("near:{sep}45.3,59.00000003").as_str()).sorting,
                 Sorting {
                     location: HashSet::from(["45.3,59.00000003".to_string()]),
-                    ..Default::default()
                 }
             );
         }
