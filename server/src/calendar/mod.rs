@@ -194,8 +194,8 @@ mod db_tests {
                 Event {
                     id: 1,
                     room_code: "5121.EG.003".into(),
-                    start_at: TIME_2012.clone(),
-                    end_at: TIME_2014.clone(),
+                    start_at: TIME_2012,
+                    end_at: TIME_2014,
                     title_de: "Quantenteleportation".into(),
                     title_en: "Quantum teleportation".into(),
                     stp_type: Some("Vorlesung mit Zentralübung".into()),
@@ -205,8 +205,8 @@ mod db_tests {
                 Event {
                     id: 2,
                     room_code: "5121.EG.003".into(),
-                    start_at: TIME_2014.clone(),
-                    end_at: TIME_2016.clone(),
+                    start_at: TIME_2014,
+                    end_at: TIME_2016,
                     title_de: "Quantenteleportation 2".into(),
                     title_en: "Quantum teleportation 2".into(),
                     stp_type: Some("Vorlesung mit Zentralübung".into()),
@@ -216,8 +216,8 @@ mod db_tests {
                 Event {
                     id: 3,
                     room_code: "5121.EG.001".into(),
-                    start_at: TIME_2014.clone(),
-                    end_at: TIME_2016.clone(),
+                    start_at: TIME_2014,
+                    end_at: TIME_2016,
                     title_de: "Wartung".into(),
                     title_en: "maintenance".into(),
                     stp_type: Some("Vorlesung mit Zentralübung".into()),
@@ -227,8 +227,8 @@ mod db_tests {
                 Event {
                     id: 4,
                     room_code: "5121.EG.001".into(),
-                    start_at: TIME_Y2K.clone(),
-                    end_at: TIME_2020.clone(),
+                    start_at: TIME_Y2K,
+                    end_at: TIME_2020,
                     title_de: "Quantenteleportation 3".into(),
                     title_en: "Quantum teleportation 3".into(),
                     stp_type: Some("Vorlesung".into()),
@@ -238,8 +238,8 @@ mod db_tests {
                 Event {
                     id: 5,
                     room_code: "5121.EG.001".into(),
-                    start_at: TIME_Y2K.clone(),
-                    end_at: TIME_2010.clone(),
+                    start_at: TIME_Y2K,
+                    end_at: TIME_2010,
                     title_de: "Quantenteleportation 3".into(),
                     title_en: "Quantum teleportation 3".into(),
                     stp_type: Some("Vorlesung".into()),
@@ -353,8 +353,8 @@ mod db_tests {
         {
             // show all entries of 5121.EG.003
             let args = Arguments {
-                start_after: TIME_Y2K.clone(),
-                end_before: TIME_2020.clone(),
+                start_after: TIME_Y2K,
+                end_before: TIME_2020,
                 ids: vec!["5121.EG.003".into()],
             };
             let req = test::TestRequest::post()
@@ -371,8 +371,8 @@ mod db_tests {
         {
             // show both rooms, but a limited timeframe
             let args = Arguments {
-                start_after: TIME_2012.clone(),
-                end_before: TIME_2014.clone(),
+                start_after: TIME_2012,
+                end_before: TIME_2014,
                 ids: vec!["5121.EG.003".into(), "5121.EG.001".into()],
             };
             let req = test::TestRequest::post()
