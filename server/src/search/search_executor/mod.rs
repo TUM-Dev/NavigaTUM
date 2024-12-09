@@ -79,25 +79,25 @@ struct NominatimAddressResponse {
 impl NominatimAddressResponse {
     fn serialise(&self) -> String {
         let mut result = Vec::<String>::new();
-        if let Some(state)= self.state.clone() {
+        if let Some(state) = self.state.clone() {
             result.push(state);
         }
-        if let Some(county)=self.county.clone(){
+        if let Some(county) = self.county.clone() {
             result.push(county);
         }
-        if let Some(town)=self.town.clone(){
+        if let Some(town) = self.town.clone() {
             result.push(town);
         }
-        if let Some(suburb)=self.suburb.clone(){
+        if let Some(suburb) = self.suburb.clone() {
             result.push(suburb);
         }
-        if let Some(village)=self.village.clone(){
+        if let Some(village) = self.village.clone() {
             result.push(village);
         }
-        if let Some(hamlet)=self.hamlet.clone(){
+        if let Some(hamlet) = self.hamlet.clone() {
             result.push(hamlet);
         }
-        if let Some(road)=self.road.clone(){
+        if let Some(road) = self.road.clone() {
             result.push(road);
         }
         result.join(", ")
@@ -289,10 +289,10 @@ mod test {
             });
         }
     }
-    
+
     #[test]
-    fn serialize_address(){
-        let response=NominatimAddressResponse{
+    fn serialize_address() {
+        let response = NominatimAddressResponse {
             state: None,
             county: None,
             town: None,

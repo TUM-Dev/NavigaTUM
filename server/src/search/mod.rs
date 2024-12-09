@@ -1,6 +1,7 @@
 use std::fmt::{Debug, Formatter};
 use std::time::Instant;
 
+use crate::search::search_executor::ResultFacet;
 use crate::AppData;
 use actix_web::http::header::{CacheControl, CacheDirective};
 use actix_web::{get, web, HttpResponse};
@@ -10,7 +11,6 @@ use serde::{Deserialize, Serialize};
 use tokio::join;
 use tracing::{debug, error};
 use unicode_truncate::UnicodeTruncateStr;
-use crate::search::search_executor::ResultFacet;
 
 mod search_executor;
 
@@ -38,11 +38,16 @@ impl Debug for SearchResults {
         base.field("time_ms", &self.time_ms);
         for section in self.sections.iter() {
             match section.facet {
-                ResultFacet::SitesBuildings => {base.field("sites_buildings", section);}
-                ResultFacet::Rooms =>  {base.field("rooms", section);}
-                ResultFacet::Addresses =>  {base.field("sites_buildings", section);}
+                ResultFacet::SitesBuildings => {
+                    base.field("sites_buildings", section);
+                }
+                ResultFacet::Rooms => {
+                    base.field("rooms", section);
+                }
+                ResultFacet::Addresses => {
+                    base.field("sites_buildings", section);
+                }
             }
-
         }
         base.finish()
     }
@@ -181,9 +186,9 @@ async fn cached_geoentry_search(
     let Ok(client) = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()) else {
         error!("Failed to create a meilisearch client");
         if search_addresses {
-            return search_executor::address_search(&q).await.0
+            return search_executor::address_search(&q).await.0;
         } else {
-            return vec![]
+            return vec![];
         }
     };
     let geoentry_search = search_executor::do_geoentry_search(&client, &q, highlighting, limits);
