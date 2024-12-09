@@ -1,6 +1,7 @@
 use meilisearch_sdk::search::{SearchResult, SearchResults};
 
 use crate::search::search_executor::query::MSHit;
+use crate::search::search_executor::ResultFacet;
 
 #[tracing::instrument(skip(merged_results, buildings_results, rooms_results))]
 pub(super) fn merge_search_results(
@@ -18,13 +19,13 @@ pub(super) fn merge_search_results(
     }
 
     let mut section_buildings = super::ResultsSection {
-        facet: "sites_buildings".to_string(),
+        facet: ResultFacet::SitesBuildings,
         entries: Vec::new(),
         n_visible: 0,
         estimated_total_hits: buildings_results.estimated_total_hits.unwrap_or(0),
     };
     let mut section_rooms = super::ResultsSection {
-        facet: "rooms".to_string(),
+        facet: ResultFacet::Rooms,
         entries: Vec::new(),
         n_visible: 0,
         estimated_total_hits: rooms_results.estimated_total_hits.unwrap_or(0),

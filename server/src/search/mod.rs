@@ -7,14 +7,17 @@ use actix_web::{get, web, HttpResponse};
 use cached::proc_macro::cached;
 use meilisearch_sdk::client::Client;
 use serde::{Deserialize, Serialize};
+use tokio::join;
 use tracing::{debug, error};
 use unicode_truncate::UnicodeTruncateStr;
+use crate::search::search_executor::ResultFacet;
 
 mod search_executor;
 
 #[derive(Deserialize, Debug, Default)]
 pub struct SearchQueryArgs {
     q: String,
+    search_addresses: Option<bool>,
     limit_buildings: Option<usize>,
     limit_rooms: Option<usize>,
     limit_all: Option<usize>,
@@ -34,7 +37,12 @@ impl Debug for SearchResults {
         let mut base = f.debug_struct("SearchResults");
         base.field("time_ms", &self.time_ms);
         for section in self.sections.iter() {
-            base.field(&section.facet, section);
+            match section.facet {
+                ResultFacet::SitesBuildings => {base.field("sites_buildings", section);}
+                ResultFacet::Rooms =>  {base.field("rooms", section);}
+                ResultFacet::Addresses =>  {base.field("sites_buildings", section);}
+            }
+
         }
         base.finish()
     }
@@ -137,8 +145,9 @@ pub async fn search_handler(
     let limits = Limits::from(&args);
     let highlighting = Highlighting::from(&args);
     let q = args.q;
+    let search_addresses = args.search_addresses.unwrap_or(false);
     debug!("searching for {q} with a limit of {limits:?} and highlighting of {highlighting:?}");
-    let results_sections = cached_geoentry_search(q, highlighting, limits).await;
+    let results_sections = cached_geoentry_search(q, highlighting, limits, search_addresses).await;
     debug!("searching returned {results_sections:?}");
 
     if results_sections.len() != 2 {
@@ -166,19 +175,25 @@ async fn cached_geoentry_search(
     q: String,
     highlighting: Highlighting,
     limits: Limits,
+    search_addresses: bool,
 ) -> Vec<search_executor::ResultsSection> {
     let ms_url = std::env::var("MIELI_URL").unwrap_or_else(|_| "http://localhost:7700".to_string());
-    let client = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok());
-    match client {
-        Ok(client) => {
-            search_executor::do_geoentry_search(&client, q, highlighting, limits)
-                .await
-                .0
+    let Ok(client) = Client::new(ms_url, std::env::var("MEILI_MASTER_KEY").ok()) else {
+        error!("Failed to create a meilisearch client");
+        if search_addresses {
+            return search_executor::address_search(&q).await.0
+        } else {
+            return vec![]
         }
-        Err(e) => {
-            error!("Cannot connect to meilisearch because {e:?}");
-            vec![]
-        }
+    };
+    let geoentry_search = search_executor::do_geoentry_search(&client, &q, highlighting, limits);
+    if search_addresses {
+        let address_search = search_executor::address_search(&q);
+        let (address_search, mut geoentry_search) = join!(address_search, geoentry_search);
+        geoentry_search.0.extend(address_search.0);
+        geoentry_search.0
+    } else {
+        geoentry_search.await.0
     }
 }
 
