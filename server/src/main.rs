@@ -170,7 +170,7 @@ async fn run_maintenance_work(
     set.spawn(async move { maps::refresh::all_entries(&map_pool).await });
     let cal_pool = pool.clone();
     set.spawn(async move { calendar::refresh::all_entries(&cal_pool).await });
-    while set.join_next().await.is_some() {}
+    set.join_all().await;
 }
 
 /// we split main and run because otherwise sentry could not be properly instrumented
